@@ -1,0 +1,31 @@
+<!-- footer start -->
+<if condition="!isset($is_footer) or $is_footer eq 1">
+    <include file="Public/FooterNav" />
+</if>
+<!-- footer end -->
+
+</body>
+</html>
+
+<!-- 类库 -->
+<js href="__PUBLIC__/Common/Lib/jquery/jquery-2.1.0.js" />
+<js href="__PUBLIC__/Common/Lib/assets/js/amazeui.min.js" />
+<js href="__PUBLIC__/Common/Lib/echarts/echarts.min.js" />
+
+<!-- ueditor 编辑器 -->
+<js href="__PUBLIC__/Common/Lib/ueditor/ueditor.config.js" />
+<js href="__PUBLIC__/Common/Lib/ueditor/ueditor.all.js" />
+<js href="__PUBLIC__/Common/Lib/ueditor/lang/zh-cn/zh-cn.js" />
+
+<!-- 颜色选择器 -->
+<js href="__PUBLIC__/Common/Lib/colorpicker/jquery.colorpicker.js" />
+
+<!-- 项目公共 -->
+<js href="__PUBLIC__/Common/Js/Common.js" />
+<js href="__PUBLIC__/Home/{{$default_theme}}/Js/Common.js" />
+
+<!-- 控制器 -->
+<if condition="!empty($module_js)">
+	<js href="__PUBLIC__/{{$module_js}}" />
+</if>
+{{:MyC('home_footer_info')}}

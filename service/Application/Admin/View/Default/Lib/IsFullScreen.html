@@ -1,0 +1,12 @@
+<!-- 是否满屏 开始 -->
+<div class="am-form-group">
+	<label>{{:L('common_view_is_full_screen_text')}}</label>
+	<div>
+		<foreach name="common_is_full_screen_list" item="v">
+			<label class="am-radio-inline m-r-10">
+				<input type="radio" name="is_full_screen" value="{{$v.id}}" <if condition="isset($data['is_full_screen']) and $data['is_full_screen'] eq $v['id']">checked="checked"<else /><if condition="!isset($data['is_full_screen']) and isset($v['checked']) and $v['checked'] eq true">checked="checked"</if></if> data-am-ucheck /> {{$v.name}}
+			</label>
+		</foreach>
+	</div>
+</div>
+<!-- 是否满屏 结束 -->

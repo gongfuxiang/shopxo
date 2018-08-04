@@ -1,0 +1,118 @@
+<view a:if="{{goods != null}}" class="page">
+  <!-- 轮播图片 -->
+  <swiper
+    indicator-dots="{{indicator_dots}}"
+    indicator-color="{{indicator_color}}"
+    indicator-active-color="{{indicator_active_color}}"
+    autoplay="{{autoplay}}"
+    circular="{{circular}}"
+    class="goods-photo bg-white"
+    a:if="{{goods_photo.length > 0}}">
+    <block a:for="{{goods_photo}}">
+      <swiper-item>
+        <image class="swiper-item wh-auto" onTap="goods_photo_view_event" data-index="{{index}}" src="{{item}}" mode="aspectFit" onTap="banner_event" />
+      </swiper-item>
+    </block>
+  </swiper>
+
+  <!-- 基础信息 -->
+  <view class="goods-base bg-white">
+    <view class="oh">
+      <view class="goods-title fl multi-text" style="color:{{goods.title_color}}">{{goods.title}}</view>
+      <view class="goods-share fr tc">
+        <button type="default" size="mini" open-type="share" hover-class="none" onTap="defaultTap">
+          <image src="/images/goods-detail-share-icon.png" mode="scaleToFill" class="dis-block" />
+          <text class="dis-block cr-888">分享</text>
+        </button>
+      </view>
+    </view>
+    <view class="goods-price">
+      <text class="sales-price">￥{{goods.price}}</text>
+      <text a:if="{{goods.original_price > 0}}" class="original-price">￥{{goods.original_price}}</text>
+      <!-- <view class="fr cr-ccc">
+        <text>销量 {{goods.sales_count}}</text>
+      </view> -->
+    </view>
+  </view>
+
+  <!-- 属性导航 -->
+  <view a:if="{{goods_attribute_show.length > 0}}" class="spacing">
+    <view class="goods-attr-show-title bg-white arrow-right cr-666" onTap="good_attribute_nav_event">
+      属性
+    </view>
+  </view>
+
+  <!-- 商品详情 -->
+  <view a:if="{{goods_content_app.length > 0}}" class="goods-detail spacing">
+    <view class="spacing-nav-title">
+      <text class="line"></text>
+      <text class="text-wrapper">简历</text>
+    </view>
+    <view a:for="{{goods_content_app}}" class="goods-detail-app bg-white">
+        <image a:if="{{(item.images || null) != null}}" onTap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto" src="{{item.images}}" mode="widthFix" />
+        <view a:if="{{(item.content || null) != null}}" class="content-items">
+          <view a:for="{{item.content}}" a:for-item="items">{{items}}</view>
+        </view>
+    </view>
+  </view>
+
+  <!-- 底线 -->
+  <import src="/pages/common/bottom_line.axml" />
+  <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
+
+  <!-- 底部操作 -->
+  <view class="goods-buy-nav wh-auto bg-white">
+    <view class="shop fl tc" onTap="shop_event">
+      <image src="/images/goods-detail-home-icon.png" mode="scaleToFill" />
+      <text class="dis-block cr-888">首页</text>
+    </view>
+    <view class="collect fl tc" onTap="goods_favor_event">
+      <image src="{{goods_favor_icon}}" mode="scaleToFill" />
+      <text class="dis-block cr-888">{{goods_favor_text}}</text>
+    </view>
+    <view class="fr">
+      <button class="bg-main" type="default" onTap="buy_submit_event" hover-class="none">立即预约</button>
+    </view>
+  </view>
+
+  <!-- 弹层 -->
+  <view class="goods-popup wh-auto {{popup_status}}" onTap="popup_close_event">
+    <view class="goods-popup-choose bg-white" catchTap>
+      <view class="close tr dis-block oh">
+        <view class="fr" catchTap="popup_close_event">
+          <icon type="clear" size="20" />
+        </view>
+      </view>
+      <view class="goods-popup-content">
+        <!-- 商品属性 -->
+        <view a:if="{{goods_attribute_choose.length > 0}}" class="goods-attr-choose">
+          <view a:for="{{goods_attribute_choose}}" a:for-index="key" a:if="{{item.type == 'choose'}}" class="item br-b">
+            <view class="title">{{item.name}}</view>
+            <view a:if="{{item.find.length > 0}}" class="attribute">
+              <block a:for="{{item.find}}" a:for-index="keys" a:for-item="items">
+                <button a:if="{{temp_attribute_active[key] == keys}}" catchTap="goods_attribute_event" data-key="{{key}}" data-keys="{{keys}}" class="bg-active-main" type="default" size="mini" hover-class="none">{{items.name}}</button>
+                <button a:else catchTap="goods_attribute_event" data-key="{{key}}" data-keys="{{keys}}" type="default" size="mini" hover-class="none">{{items.name}}</button>
+              </block>
+            </view>
+          </view>
+        </view>
+
+        <!-- 购买数量 -->
+        <view class="goods-buy-number oh">
+          <view class="title fl">购买数量</view>
+          <view class="number-content fr tr">
+            <button type="default" size="mini" catchTap="goods_buy_number_event" data-type="0" hover-class="none">﹣</button>
+            <input onBlur="goods_buy_number_blur" class="tc cr-888" type="number" value="{{temp_buy_number}}" />
+            <button type="default" size="mini" catchTap="goods_buy_number_event" data-type="1" hover-class="none">＋</button>
+          </view>
+        </view>
+      </view>
+      <button class="goods-popup-submit bg-main" type="default" catchTap="goods_buy_confirm_event" hover-class="none">确定</button>
+    </view>
+  </view>
+</view>
+
+<view a:if="{{goods == null}}">
+    <import src="/pages/common/nodata.axml" />
+    <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
+</view>

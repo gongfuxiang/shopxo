@@ -1,0 +1,612 @@
+[ 2018-07-16T00:20:23+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000014s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001610s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000574s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.002903s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003572s ]
+
+[ 2018-07-16T00:22:17+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000019s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000361s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000452s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001679s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002231s ]
+
+[ 2018-07-16T00:25:39+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000172s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000241s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000909s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001205s ]
+
+[ 2018-07-16T00:26:31+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000010s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000197s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000243s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000824s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001119s ]
+
+[ 2018-07-16T00:26:47+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000018s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000612s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000457s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.002897s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003488s ]
+
+[ 2018-07-16T00:26:58+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000010s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000211s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000257s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001127s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001450s ]
+
+[ 2018-07-16T00:27:25+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000010s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000227s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000235s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001110s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001403s ]
+
+[ 2018-07-16T00:27:55+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000009s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000200s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000220s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000856s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001129s ]
+
+[ 2018-07-16T00:28:10+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000009s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000175s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000332s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001376s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001789s ]
+
+[ 2018-07-16T00:28:30+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000009s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000187s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000226s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001040s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001320s ]
+
+[ 2018-07-16T00:28:56+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000017s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000249s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000295s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001055s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001415s ]
+
+[ 2018-07-16T00:29:10+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000009s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000179s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000229s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000753s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001029s ]
+
+[ 2018-07-16T00:29:23+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000014s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000294s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000289s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000988s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001362s ]
+
+[ 2018-07-16T00:29:37+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000170s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000215s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000838s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001104s ]
+
+[ 2018-07-16T00:30:08+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000011s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000225s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000253s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000834s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001139s ]
+
+[ 2018-07-16T00:32:02+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000009s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000195s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000231s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001025s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001310s ]
+
+[ 2018-07-16T00:34:48+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000016s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000436s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000296s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000817s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001177s ]
+
+[ 2018-07-16T00:35:19+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000015s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000323s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000558s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001180s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001955s ]
+
+[ 2018-07-16T00:35:52+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000016s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000349s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000420s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001279s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001786s ]
+
+[ 2018-07-16T00:36:10+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000014s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000323s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000407s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001310s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001797s ]
+
+[ 2018-07-16T00:36:31+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000012s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000461s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000373s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.004131s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004632s ]
+
+[ 2018-07-16T00:36:47+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000012s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000431s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000508s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001580s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002159s ]
+
+[ 2018-07-16T00:37:05+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000015s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000617s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002576s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.006568s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.009571s ]
+
+[ 2018-07-16T00:37:37+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000175s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000221s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000836s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001106s ]
+
+[ 2018-07-16T00:38:15+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000717s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000262s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000821s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001143s ]
+
+[ 2018-07-16T00:38:52+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000013s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000300s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000367s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001287s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001723s ]
+
+[ 2018-07-16T00:39:19+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000017s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000426s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000391s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001859s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002329s ]
+
+[ 2018-07-16T00:39:42+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000201s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000251s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000791s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001093s ]
+
+[ 2018-07-16T00:40:36+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000013s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000284s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000386s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000817s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001307s ]
+
+[ 2018-07-16T00:40:54+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000170s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000223s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000900s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001186s ]
+
+[ 2018-07-16T00:41:40+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000012s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000589s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000494s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.002641s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003362s ]
+
+[ 2018-07-16T00:41:51+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000170s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000225s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000730s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000996s ]
+
+[ 2018-07-16T00:42:04+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000016s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000319s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000289s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001818s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002247s ]
+
+[ 2018-07-16T00:43:06+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000180s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000221s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000783s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001049s ]
+
+[ 2018-07-16T00:46:34+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000009s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000186s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000228s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000989s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001275s ]
+
+[ 2018-07-16T00:46:37+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Index&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000155s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000199s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.002087s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002336s ]
+
+[ 2018-07-16T00:46:42+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=GoodsSearch&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000184s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000217s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000717s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000973s ]
+
+[ 2018-07-16T00:46:44+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Index&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000017s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000496s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000619s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001895s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002626s ]
+
+[ 2018-07-16T00:46:46+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=GoodsSearch&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000182s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000213s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000913s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001180s ]
+
+[ 2018-07-16T00:46:47+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Index&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000010s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000200s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000395s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001196s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001726s ]
+
+[ 2018-07-16T00:46:49+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=GoodsSearch&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000164s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000202s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000709s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000949s ]
+
+[ 2018-07-16T00:46:50+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Index&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000011s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000264s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000220s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000745s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001005s ]
+
+[ 2018-07-16T00:46:57+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000177s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000219s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001182s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001503s ]
+
+[ 2018-07-16T00:48:16+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000009s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000227s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000234s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000766s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001050s ]
+
+[ 2018-07-16T00:48:23+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000016s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000365s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000245s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000942s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001253s ]
+
+[ 2018-07-16T00:49:16+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000014s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000327s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000445s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001370s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001914s ]
+
+[ 2018-07-16T00:49:45+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000180s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000229s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000861s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001139s ]
+
+[ 2018-07-16T00:55:02+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000018s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001933s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000894s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.003294s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004300s ]
+
+[ 2018-07-16T00:55:06+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Index&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000170s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000204s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000703s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000944s ]
+
+[ 2018-07-16T00:55:10+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=GoodsSearch&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000027s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000529s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000377s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001952s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002415s ]
+
+[ 2018-07-16T00:56:09+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Index&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000014s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000258s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000249s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000848s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001168s ]
+
+[ 2018-07-16T00:56:11+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=GoodsSearch&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000026s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000432s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000237s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000742s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001023s ]
+
+[ 2018-07-16T00:58:45+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Index&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000018s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001003s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000910s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.005362s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.006433s ]
+
+[ 2018-07-16T00:58:49+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=GoodsSearch&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000018s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000439s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000958s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.002187s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003244s ]
+
+[ 2018-07-16T01:00:47+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Index&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000018s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000569s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000535s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.004298s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004990s ]
+
+[ 2018-07-16T01:00:49+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=GoodsSearch&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000166s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000211s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001399s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001667s ]
+
+[ 2018-07-16T01:00:54+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Index&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000166s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000240s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000793s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001098s ]
+
+[ 2018-07-16T01:00:57+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=GoodsSearch&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000015s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000280s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000241s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000746s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001031s ]
+
+[ 2018-07-16T01:00:58+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Index&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000016s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000868s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000352s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001308s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001766s ]
+
+[ 2018-07-16T01:01:12+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=GoodsSearch&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000010s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000231s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000211s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000727s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000976s ]
+
+[ 2018-07-16T01:01:12+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Index&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000010s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000307s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000270s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000977s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001311s ]
+
+[ 2018-07-16T23:44:58+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Index&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000066s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002634s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001655s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.005988s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.007893s ]
+
+[ 2018-07-16T23:49:56+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=GoodsSearch&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000295s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000245s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.002341s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002660s ]
+
+[ 2018-07-16T23:49:59+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000010s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000304s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000300s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000728s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001110s ]
+
+[ 2018-07-16T23:50:05+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000275s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000281s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001274s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001618s ]
+
+[ 2018-07-16T23:50:37+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Index&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000012s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000334s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001078s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001894s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003138s ]
+
+[ 2018-07-16T23:58:52+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=GoodsSearch&a=Index&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000250s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000222s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001104s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001376s ]
+
+[ 2018-07-16T23:58:54+08:00 ] 127.0.0.1 /project/shop/service/api.php?m=Api&c=Goods&a=Detail&application_client=default&&application=app&application_client_type=alipay&application_user_id=&user_id=0&nickname=&ajax=ajax
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000058s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001215s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001488s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.003444s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005162s ]
+

@@ -1,0 +1,60 @@
+<include file="Public/Header" />
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:U('Admin/Coupon/Save')}}" method="POST" request-type="ajax-url" request-value="{{:U('Admin/Coupon/Index')}}" enctype="multipart/form-data">
+			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
+			<legend>
+				<span class="fs-16">
+					<if condition="empty($data['id'])">
+						{{:L('coupon_add_name')}}
+					<else />
+						{{:L('coupon_edit_name')}}
+					</if>
+				</span>
+				<a href="{{:U('Admin/Coupon/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:L('common_operation_back')}}</a>
+			</legend>
+			<div class="am-form-group">
+				<label>{{:L('coupon_name_text')}}</label>
+				<input type="text" name="name" placeholder="{{:L('coupon_name_text')}}" minlength="2" maxlength="60" data-validation-message="{{:L('coupon_name_format')}}" class="am-radius" <notempty name="data"> value="{{$data.name}}"</notempty> required />
+			</div>
+			<div class="am-form-group">
+				<label>{{:L('coupon_type_text')}}</label>
+				<select name="type" class="am-radius" placeholder="{{:L('coupon_type_format')}}" <if condition="!empty($data)">disabled</if>>
+					<foreach name="common_coupon_type" item="v">
+						<option value="{{$v.id}}" <if condition="isset($data['type']) and $data['type'] eq $v['id']">selected<else /><if condition="!isset($data['type']) and isset($v['checked']) and $v['checked'] eq true">selected</if></if>>{{$v.name}}</option>
+					</foreach>
+				</select>
+			</div>
+			<div class="am-form-group">
+				<label>{{:L('coupon_price_text')}}</label>
+				<input type="text" placeholder="{{:L('coupon_price_text')}}" name="price" pattern="{{:L('common_regex_price')}}" data-validation-message="{{:L('coupon_price_format')}}" class="am-radius" value="<if condition="isset($data['price']) and $data['price'] GT 0.00">{{$data.price}}</if>" required />
+			</div>
+			<div class="am-form-group">
+				<label>{{:L('coupon_use_where_price_text')}}</label>
+				<input type="text" placeholder="{{:L('coupon_use_where_price_text')}}" name="use_where_price" pattern="{{:L('common_regex_price')}}" data-validation-message="{{:L('coupon_use_where_price_format')}}" class="am-radius" value="<if condition="isset($data['use_where_price']) and $data['use_where_price'] GT 0.00">{{$data.use_where_price}}</if>" />
+			</div>
+			<div class="am-form-group">
+				<label>{{:L('coupon_valid_text')}}</label>
+				<div class="twain-date">
+					<input class="Wdate am-radius" type="text" placeholder="{{:L('coupon_valid_text')}}" name="valid_start_time" data-validation-message="{{:L('coupon_valid_start_time_format')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" <notempty name="data"> value="{{$data.valid_start_time}}"</notempty> required />
+					<span>~</span>
+					<input class="Wdate am-radius" type="text" placeholder="{{:L('coupon_valid_text')}}" name="valid_end_time" data-validation-message="{{:L('coupon_valid_end_time_format')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" <notempty name="data"> value="{{$data.valid_end_time}}"</notempty> required />
+				</div>
+			</div>
+			<include file="Lib/Enable" />
+			<div class="am-form-group">
+				<input type="hidden" name="id" <notempty name="data"> value="{{$data.id}}"</notempty>" />
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end -->

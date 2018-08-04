@@ -1,0 +1,10 @@
+<!-- 学生状态 开始 -->
+<div class="am-form-group">
+	<label>{{:L('common_view_student_state_name')}}</label>
+	<select name="state" class="am-radius c-p" data-validation-message="{{:L('common_student_state_format')}}" required>
+		<foreach name="common_student_state_list" item="v">
+			<option value="{{$v.id}}" <if condition="isset($data['state']) and $data['state'] eq $v['id']">selected<else /><if condition="!isset($data['state']) and isset($v['checked']) and $v['checked'] eq true">selected</if></if>>{{$v.name}}</option>
+		</foreach>
+	</select>
+</div>
+<!-- 学生状态 结束 -->

@@ -1,0 +1,231 @@
+<include file="Public/Header" />
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form view-list" action="{{:U('Admin/Order/Index')}}" method="POST">
+			<div class="am-g">
+				<input type="hidden" name="organization_id" <present name="param['organization_id']"> value="{{$param.organization_id}}"</present> />
+				<input type="text" class="am-radius form-keyword" placeholder="{{:L('order_so_keyword_tips')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"</present> />
+				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">{{:L('common_operation_query')}}</button>
+				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
+					{{:L('common_more_screening')}}
+					<input type="checkbox" name="is_more" value="1" id="is_more" <if condition="isset($param['is_more']) and $param['is_more'] eq 1">checked</if> />
+					<i class="am-icon-angle-down"></i>
+				</label>
+
+				<div class="more-where <if condition="!isset($param['is_more']) or $param['is_more'] neq 1">none</if>">
+					<select name="status" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">{{:L('common_order_status_name')}}</option>
+						<foreach name="common_order_admin_status" item="v">
+							<option value="{{$v.id}}" <if condition="isset($param['status']) and $param['status'] eq $v['id']">selected</if>>{{$v.name}}</option>
+						</foreach>
+					</select>
+					<select name="express_id" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">{{:L('common_express_name')}}</option>
+						<foreach name="express_list" item="v">
+							<option value="{{$v.id}}" <if condition="isset($param['express_id']) and $param['express_id'] eq $v['id']">selected</if>>{{$v.name}}</option>
+						</foreach>
+					</select>
+					<select name="pay_status" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">{{:L('common_pay_status_name')}}</option>
+						<foreach name="common_order_pay_status" item="v">
+							<option value="{{$v.id}}" <if condition="isset($param['pay_status']) and $param['pay_status'] eq $v['id']">selected</if>>{{$v.name}}</option>
+						</foreach>
+					</select>
+					<div class="param-date param-where m-l-5">
+						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="{{:L('common_time_start_name')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" <if condition="isset($param['time_start'])">value="{{$param.time_start}}"</if>/>
+						<span>~</span>
+						<input type="text" class="Wdate am-radius m-t-10" placeholder="{{:L('common_time_end_name')}}" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" <if condition="isset($param['time_end'])">value="{{$param.time_end}}"</if>/>
+					</div>
+				</div>
+			</div>
+        </form>
+        <!-- form end -->
+
+		<!-- list start -->
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5">
+			<thead>
+				<tr>
+					<th class="am-hide-sm-only th-goods">{{:L('order_goods_text')}}</th>
+					<th class="am-hide-sm-only th-receive-address">{{:L('order_receive_text')}}</th>
+					<th class="am-hide-sm-only">{{:L('order_express_text')}}</th>
+					<th>{{:L('common_order_status_name')}}</th>
+					<th>{{:L('common_pay_status_name')}}</th>
+					<th>{{:L('order_price_text')}}</th>
+					<th>{{:L('common_more_name')}}</th>
+					<th>{{:L('common_operation_name')}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<if condition="!empty($list)">
+					<foreach name="list" item="v">
+						<tr id="data-list-{{$v.id}}">
+							<td class="am-hide-sm-only">
+								<foreach name="v.goods" item="vs">
+									<div class="goods-item">
+										<div class="base">
+											<a href="javascript:;" target="_blank" title="{{$v.title}}">
+												<img src="{{$image_host}}{{$vs['images']}}" class="am-img-thumbnail am-radius goods-images am-hide-sm-only" />
+											</a>
+											<a href="javascript:;" target="_blank" title="{{$vs.title}}" <if condition="!empty($vs['title_color'])"> style="color:{{$vs.title_color}};" </if> >{{$vs.title}}</a>
+										</div>
+										<div class="other">
+											<span class="fl">{{$vs.attribute}}</span>
+											<span class="fr">{{$vs.price}}x{{$vs.buy_number}}</span>
+										</div>
+									</div>
+								</foreach>
+								<div class="goods-item">{{$v.describe}}</div>
+							</td>
+							<td class="am-hide-sm-only">
+								{{$v.receive_name}}<br />
+								{{$v.receive_tel}}<br />
+								{{$v.receive_province_name}}<br />
+								{{$v.receive_city_name}}<br />
+								{{$v.receive_county_name}}<br />
+								{{$v.receive_address}}
+							</td>
+							<td class="am-hide-sm-only">
+								<if condition="empty($v['express_name'])">
+									<span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span>
+								<else />
+									{{$v.express_name}}<br />{{$v.express_number}}
+								</if>
+							</td>
+							<td>{{$v.status_text}}</td>
+							<td>{{$v.pay_status_text}}</td>
+							<td>
+								订单金额：{{$v.price}}<br />
+								优惠金额：{{$v.preferential_price}}<br />
+								订单总价：{{$v.total_price}}<br />
+								支付金额：{{$v.pay_price}}
+							</td>
+							<td>
+								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> {{:L('common_see_more_name')}}</span>
+								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
+									<div class="am-popup-inner">
+										<div class="am-popup-hd">
+											<h4 class="am-popup-title">{{:L('common_detail_content')}}</h4>
+											<span data-am-modal-close class="am-close">&times;</span>
+										</div>
+										<div class="am-popup-bd">
+											<dl class="dl-content">
+												<dt>{{:L('order_goods_text')}}</dt>
+												<dd>
+													<foreach name="v.goods" item="vs">
+														<div class="goods-item">
+															<div class="base">
+																<a href="javascript:;" target="_blank" title="{{$v.title}}">
+																	<img src="{{$image_host}}{{$vs['images']}}" class="am-img-thumbnail am-radius goods-images am-hide-sm-only" />
+																</a>
+																<a href="javascript:;" target="_blank" title="{{$vs.title}}" <if condition="!empty($vs['title_color'])"> style="color:{{$vs.title_color}};" </if> >{{$vs.title}}</a>
+															</div>
+															<div class="other">
+																<span class="fl">{{$vs.attribute}}</span>
+																<span class="fr">{{$vs.price}}x{{$vs.buy_number}}</span>
+															</div>
+														</div>
+													</foreach>
+													<div class="goods-item">{{$v.describe}}</div>
+												</dd>
+
+												<dt>{{:L('order_receive_text')}}</dt>
+												<dd>
+													<if condition="empty($v['receive_address'])">
+														<span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span>
+													<else />
+														{{$v.receive_name}}<br />
+														{{$v.receive_tel}}<br />
+														{{$v.receive_province_name}}
+														{{$v.receive_city_name}}
+														{{$v.receive_county_name}}
+														{{$v.receive_address}}
+													</if>
+												</dd>
+
+												<dt>{{:L('order_express_text')}}</dt>
+												<dd><if condition="empty($v['express_name'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.express_name}}<br />{{$v.express_number}}</if></dd>
+
+												<dt>{{:L('common_pay_status_name')}}</dt>
+												<dd><if condition="empty($v['pay_status_text'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.pay_status_text}}</if></dd>
+
+												<dt>{{:L('order_user_note_text')}}</dt>
+												<dd><if condition="empty($v['user_note'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.user_note}}</if></dd>
+
+												<dt>{{:L('order_price_text')}}</dt>
+												<dd>
+													<if condition="empty($v['price'])">
+														<span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span>
+													<else />
+														订单金额：{{$v.price}}<br />
+														优惠金额：{{$v.preferential_price}}<br />
+														订单总价：{{$v.total_price}}<br />
+														支付金额：{{$v.pay_price}}
+													</if>
+												</dd>
+
+												<dt>{{:L('common_order_status_name')}}</dt>
+												<dd><if condition="empty($v['status_text'])"><span class="cr-ddd">{{:L('common_not_set_text')}}</span><else />{{$v.status_text}}</if></dd>
+
+												<dt>{{:L('order_confirm_time_text')}}</dt>
+												<dd><if condition="empty($v['confirm_time'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.confirm_time}}</if></dd>
+
+												<dt>{{:L('order_pay_time_text')}}</dt>
+												<dd><if condition="empty($v['pay_time'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.pay_time}}</if></dd>
+
+												<dt>{{:L('order_delivery_time_text')}}</dt>
+												<dd><if condition="empty($v['delivery_time'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.delivery_time}}</if></dd>
+
+												<dt>{{:L('order_success_time_text')}}</dt>
+												<dd><if condition="empty($v['success_time'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.success_time}}</if></dd>
+
+												<dt>{{:L('order_cancel_time_text')}}</dt>
+												<dd><if condition="empty($v['cancel_time'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.cancel_time}}</if></dd>
+
+												<dt>{{:L('common_create_time_name')}}</dt>
+												<dd>{{$v.add_time}}</dd>
+
+												<dt>{{:L('common_upd_time_name')}}</dt>
+												<dd>{{$v.upd_time}}</dd>
+											</dl>
+										</div>
+									</div>
+								</div>
+							</td>
+							<td class="view-operation">
+								<if condition="in_array($v['status'], [0,1])">
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paint-brush submit-ajax" data-url="{{:U('Admin/Order/Cancel')}}" data-id="{{$v.id}}" data-view="reload" data-msg="{{:L('common_cancel_tips')}}"> {{:L('common_operation_cancel')}}</button>
+								</if>
+								<if condition="$v['status'] eq 2">
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o submit-ajax" data-url="{{:U('Admin/Order/Delivery')}}" data-id="{{$v.id}}" data-view="reload" data-msg="{{:L('common_delivery_tips')}}"> {{:L('common_delivery_submit')}}</button>
+								</if>
+								<if condition="$v['status'] eq 3">
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o submit-ajax" data-url="{{:U('Admin/Order/Collect')}}" data-id="{{$v.id}}" data-view="reload" data-msg="{{:L('common_collect_tips')}}"> {{:L('common_collect_submit')}}</button>
+								</if>
+								<if condition="in_array($v['status'], [0,1,5,6])">
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/Order/Delete')}}" data-id="{{$v.id}}"> {{:L('common_operation_delete')}}</button>
+								</if>
+							</td>
+						</tr>
+					</foreach>
+				<else />
+					<tr><td colspan="20" class="table-no">{{:L('common_not_data_tips')}}</td></tr>
+				</if>
+			</tbody>
+		</table>
+		<!-- list end -->
+
+		<!-- page start -->
+		<if condition="!empty($list)">
+			{{$page_html}}
+		</if>
+		<!-- page end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end -->

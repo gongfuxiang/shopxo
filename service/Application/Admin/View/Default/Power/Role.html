@@ -1,0 +1,55 @@
+<include file="Public/Header" />
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+        <!-- operation start -->
+        <div class="am-g">
+            <a href="{{:U('Admin/Power/RoleSaveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:L('common_operation_add')}}</a>
+        </div>
+        <!-- operation end -->
+
+        <!-- list start -->
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 role-list">
+			<thead>
+				<tr>
+					<th>{{:L('common_view_name_title')}}</th>
+					<th>{{:L('common_view_status_title')}}</th>
+					<th class="am-hide-sm-only">{{:L('common_create_time_name')}}</th>
+					<th>{{:L('common_operation_name')}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<if condition="!empty($list)">
+					<foreach name="list" item="v">
+						<tr id="data-list-{{$v.id}}" <if condition="$v['is_enable'] eq 0">class="am-active"</if>>
+							<td>{{$v.name}}</td>
+							<td>
+								<span <if condition="$v['is_enable'] eq 0">class="cr-ccc"</if>>{{:L('common_is_enable_tips')[$v['is_enable']]['name']}}</span>
+							</td>
+							<td class="am-hide-sm-only">{{:date('Y-m-d H:i:s', $v['add_time'])}}</td>
+							<td>
+								<if condition="$v['id'] eq 1">
+									<span class="cr-ccc">{{:L('common_do_not_operate')}}</span>
+								<else />
+									<a href="{{:U('Admin/Power/RoleSaveInfo', array('id'=>$v['id']))}}">
+										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:L('common_operation_edit')}}</button>
+									</a>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/Power/RoleDelete')}}" data-id="{{$v.id}}"> {{:L('common_operation_delete')}}</button>
+								</if>
+							</td>
+						</tr>
+					</foreach>
+				<else />
+					<tr><td colspan="5" class="table-no">{{:L('common_not_data_tips')}}</td></tr>
+				</if>
+			</tbody>
+		</table>
+		<!-- list end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end -->

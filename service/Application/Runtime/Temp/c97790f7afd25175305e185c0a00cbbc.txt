@@ -1,0 +1,1 @@
+a:12:{s:4:"code";s:5:"10000";s:3:"msg";s:7:"Success";s:6:"avatar";s:63:"https://tfs.alipayobjects.com/images/partner/T10d8lXm4dXXXXXXXX";s:4:"city";s:9:"上海市";s:6:"gender";s:1:"m";s:12:"is_certified";s:1:"T";s:20:"is_student_certified";s:1:"F";s:9:"nick_name";s:6:"魔鬼";s:8:"province";s:6:"上海";s:7:"user_id";s:16:"2088502175420842";s:11:"user_status";s:1:"T";s:9:"user_type";s:1:"2";}

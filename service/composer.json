@@ -1,0 +1,18 @@
+{
+    "name": "topthink/thinkphp",
+    "description": "the ThinkPHP Framework",
+    "type": "framework",
+    "keywords": ["framework","thinkphp","ORM"],
+    "homepage": "http://thinkphp.cn/",
+    "license": "Apache2",
+    "authors": [
+        {
+            "name": "liu21st",
+            "email": "liu21st@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "minimum-stability": "dev"
+}

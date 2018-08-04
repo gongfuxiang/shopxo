@@ -1,0 +1,28 @@
+/* 商品列表 */
+.data-list {
+    overflow: hidden;
+}
+.data-list .items {
+    width: calc(50% - 5rpx);
+    margin-bottom: 10rpx;
+    padding-bottom: 20rpx;
+}
+.data-list .items:nth-child(2n) {
+    float: right;
+}
+.data-list .items:nth-child(2n+1) {
+    float: left;
+}
+.data-list .items image {
+    width: 100%;
+    height: 200px !important;
+}
+.data-list .items .base {
+    text-align: left;
+    font-size: 32rpx;
+    padding: 0 15rpx;
+}
+.data-list .items .base,
+.data-list .items .base .price {
+    margin-top: 15rpx;
+}

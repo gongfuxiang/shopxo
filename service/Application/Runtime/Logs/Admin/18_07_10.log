@@ -1,0 +1,1227 @@
+[ 2018-07-10T22:32:06+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Index&a=Index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000011s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000479s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000518s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.002090s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002681s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000619s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000658s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.013420s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.013466s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000297s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000320s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000600s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000641s ]
+
+[ 2018-07-10T22:32:06+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Index&a=Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000009s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000263s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000647s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001776s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002502s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000063s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000108s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.025606s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.025702s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000187s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000215s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000289s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000320s ]
+
+[ 2018-07-10T22:32:14+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Cache&a=Index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000006s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000227s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000228s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.007307s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.007599s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000066s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000119s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.011003s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.011104s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000168s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000204s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000297s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000329s ]
+
+[ 2018-07-10T22:32:24+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Cache&a=TemplateUpdate
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000006s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000216s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000457s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.003596s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004181s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000051s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000108s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.004886s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.004927s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000110s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000129s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000401s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000424s ]
+
+[ 2018-07-10T22:32:25+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Cache&a=Index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000184s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000236s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000971s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001254s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000032s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000062s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.004722s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.004762s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000079s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000120s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000237s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000270s ]
+
+[ 2018-07-10T22:32:27+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Cache&a=TemplateUpdate
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000171s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000223s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001188s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001466s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000023s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000056s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.003432s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.003489s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000100s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000120s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000238s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000260s ]
+
+[ 2018-07-10T22:32:28+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Cache&a=Index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000006s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000155s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000200s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000895s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001135s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000037s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000072s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.008675s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.008727s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000093s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000125s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000284s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000348s ]
+
+[ 2018-07-10T22:32:28+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Cache&a=TemplateUpdate
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000021s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000305s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001438s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001136s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002650s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000023s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000055s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.002942s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.002985s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000084s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000102s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000285s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000327s ]
+
+[ 2018-07-10T22:32:29+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Cache&a=Index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000006s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000167s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000211s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000970s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001223s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000037s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000072s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.005857s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.005892s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000100s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000120s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000250s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000273s ]
+
+[ 2018-07-10T22:32:32+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Cache&a=SiteUpdate
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000006s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000153s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000205s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000893s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001141s ]
+NOTIC: [2] unlink(/data/www/project/shop/service/Application/Runtime/Temp/f90e6acc56ad08949ce1aec020719edd.php): No such file or directory /data/www/project/shop/service/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+NOTIC: [2] unlink(/data/www/project/shop/service/Application/Runtime/Temp/f622a5685983835847bfe0adfc588de9.php): No such file or directory /data/www/project/shop/service/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+NOTIC: [2] unlink(/data/www/project/shop/service/Application/Runtime/Temp/ba422120da646941a1dd43396337d939.php): No such file or directory /data/www/project/shop/service/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+NOTIC: [2] unlink(/data/www/project/shop/service/Application/Runtime/Temp/dfe95d43eb703be27f1875abbf2c375d.php): No such file or directory /data/www/project/shop/service/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+NOTIC: [2] unlink(/data/www/project/shop/service/Application/Runtime/Temp/28df8cde3d2aca2a0252352a0066d702.php): No such file or directory /data/www/project/shop/service/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000025s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000068s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.009522s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.009626s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000243s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000286s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000585s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000655s ]
+
+[ 2018-07-10T22:32:33+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Cache&a=Index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000006s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000165s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000207s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000907s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001157s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000042s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000095s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.010388s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.010449s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000099s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000129s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000267s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000299s ]
+
+[ 2018-07-10T22:32:36+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Index&a=Index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000006s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000152s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000207s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001010s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001270s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000040s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000072s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.007744s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007805s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000085s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000103s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000468s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000519s ]
+
+[ 2018-07-10T22:32:36+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Index&a=Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000009s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000196s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000244s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000966s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001271s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000484s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000776s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.014322s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.014382s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000115s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000142s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000287s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000323s ]
+
+[ 2018-07-10T22:32:44+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Goods&a=Index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000029s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000418s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000253s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001428s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001740s ]
+ERR: 1146:Table 'shop.s_goods_category_join' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `s_goods_category_join`
+ERR: 1146:Table 'shop.s_goods_category_join' doesn't exist
+ [ SQL语句 ] : SELECT `category_id` FROM `s_goods_category_join` WHERE `goods_id` = '4' 
+NOTIC: [2] implode(): Invalid arguments passed /data/www/project/shop/service/ThinkPHP/Library/Think/Db/Driver.class.php 第 578 行.
+ERR: 1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+ [ SQL语句 ] : SELECT `name` FROM `s_goods_category` WHERE `id` IN () 
+NOTIC: [2] implode(): Invalid arguments passed /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 94 行.
+NOTIC: [8] Undefined index: place_origin /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 97 行.
+NOTIC: [8] A non well formed numeric value encountered /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 103 行.
+ERR: 1146:Table 'shop.s_goods_category_join' doesn't exist
+ [ SQL语句 ] : SELECT `category_id` FROM `s_goods_category_join` WHERE `goods_id` = '3' 
+NOTIC: [2] implode(): Invalid arguments passed /data/www/project/shop/service/ThinkPHP/Library/Think/Db/Driver.class.php 第 578 行.
+ERR: 1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+ [ SQL语句 ] : SELECT `name` FROM `s_goods_category` WHERE `id` IN () 
+NOTIC: [2] implode(): Invalid arguments passed /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 94 行.
+NOTIC: [8] Undefined index: place_origin /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 97 行.
+NOTIC: [8] A non well formed numeric value encountered /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 103 行.
+ERR: 1146:Table 'shop.s_goods_category_join' doesn't exist
+ [ SQL语句 ] : SELECT `category_id` FROM `s_goods_category_join` WHERE `goods_id` = '2' 
+NOTIC: [2] implode(): Invalid arguments passed /data/www/project/shop/service/ThinkPHP/Library/Think/Db/Driver.class.php 第 578 行.
+ERR: 1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+ [ SQL语句 ] : SELECT `name` FROM `s_goods_category` WHERE `id` IN () 
+NOTIC: [2] implode(): Invalid arguments passed /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 94 行.
+NOTIC: [8] Undefined index: place_origin /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 97 行.
+NOTIC: [8] A non well formed numeric value encountered /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 103 行.
+ERR: 1146:Table 'shop.s_goods_category_join' doesn't exist
+ [ SQL语句 ] : SELECT `category_id` FROM `s_goods_category_join` WHERE `goods_id` = '1' 
+NOTIC: [2] implode(): Invalid arguments passed /data/www/project/shop/service/ThinkPHP/Library/Think/Db/Driver.class.php 第 578 行.
+ERR: 1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+ [ SQL语句 ] : SELECT `name` FROM `s_goods_category` WHERE `id` IN () 
+NOTIC: [2] implode(): Invalid arguments passed /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 94 行.
+NOTIC: [8] Undefined index: place_origin /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 97 行.
+NOTIC: [8] A non well formed numeric value encountered /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 103 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000120s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000154s ]
+NOTIC: [8] Undefined variable: goods_category_list /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 34 行.
+NOTIC: [8] Undefined variable: common_is_enable_list /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 38 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 73 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 75 行.
+NOTIC: [8] Undefined index: images /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 76 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 78 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 78 行.
+NOTIC: [8] Undefined index: price /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 80 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 82 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 82 行.
+NOTIC: [8] Undefined index: inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 84 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 84 行.
+NOTIC: [8] Undefined index: buy_min_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 85 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 85 行.
+NOTIC: [8] Undefined index: buy_max_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 86 行.
+NOTIC: [8] Undefined index: model /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 87 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 101 行.
+NOTIC: [8] Undefined index: price /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 104 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 107 行.
+NOTIC: [8] Undefined index:  /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 107 行.
+NOTIC: [8] Undefined index: inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 110 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 110 行.
+NOTIC: [8] Undefined index: buy_min_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 113 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 113 行.
+NOTIC: [8] Undefined index: buy_max_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 116 行.
+NOTIC: [8] Undefined index: model /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 119 行.
+NOTIC: [8] Undefined index: give_integral /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 128 行.
+NOTIC: [8] Undefined index: is_deduction_inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 131 行.
+NOTIC: [8] Undefined index:  /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 131 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 73 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 75 行.
+NOTIC: [8] Undefined index: images /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 76 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 78 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 78 行.
+NOTIC: [8] Undefined index: price /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 80 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 82 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 82 行.
+NOTIC: [8] Undefined index: inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 84 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 84 行.
+NOTIC: [8] Undefined index: buy_min_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 85 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 85 行.
+NOTIC: [8] Undefined index: buy_max_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 86 行.
+NOTIC: [8] Undefined index: model /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 87 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 101 行.
+NOTIC: [8] Undefined index: price /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 104 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 107 行.
+NOTIC: [8] Undefined index:  /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 107 行.
+NOTIC: [8] Undefined index: inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 110 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 110 行.
+NOTIC: [8] Undefined index: buy_min_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 113 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 113 行.
+NOTIC: [8] Undefined index: buy_max_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 116 行.
+NOTIC: [8] Undefined index: model /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 119 行.
+NOTIC: [8] Undefined index: give_integral /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 128 行.
+NOTIC: [8] Undefined index: is_deduction_inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 131 行.
+NOTIC: [8] Undefined index:  /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 131 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 73 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 75 行.
+NOTIC: [8] Undefined index: images /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 76 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 78 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 78 行.
+NOTIC: [8] Undefined index: price /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 80 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 82 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 82 行.
+NOTIC: [8] Undefined index: inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 84 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 84 行.
+NOTIC: [8] Undefined index: buy_min_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 85 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 85 行.
+NOTIC: [8] Undefined index: buy_max_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 86 行.
+NOTIC: [8] Undefined index: model /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 87 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 101 行.
+NOTIC: [8] Undefined index: price /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 104 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 107 行.
+NOTIC: [8] Undefined index:  /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 107 行.
+NOTIC: [8] Undefined index: inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 110 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 110 行.
+NOTIC: [8] Undefined index: buy_min_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 113 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 113 行.
+NOTIC: [8] Undefined index: buy_max_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 116 行.
+NOTIC: [8] Undefined index: model /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 119 行.
+NOTIC: [8] Undefined index: give_integral /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 128 行.
+NOTIC: [8] Undefined index: is_deduction_inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 131 行.
+NOTIC: [8] Undefined index:  /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 131 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 73 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 75 行.
+NOTIC: [8] Undefined index: images /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 76 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 78 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 78 行.
+NOTIC: [8] Undefined index: price /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 80 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 82 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 82 行.
+NOTIC: [8] Undefined index: inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 84 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 84 行.
+NOTIC: [8] Undefined index: buy_min_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 85 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 85 行.
+NOTIC: [8] Undefined index: buy_max_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 86 行.
+NOTIC: [8] Undefined index: model /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 87 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 101 行.
+NOTIC: [8] Undefined index: price /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 104 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 107 行.
+NOTIC: [8] Undefined index:  /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 107 行.
+NOTIC: [8] Undefined index: inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 110 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 110 行.
+NOTIC: [8] Undefined index: buy_min_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 113 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 113 行.
+NOTIC: [8] Undefined index: buy_max_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 116 行.
+NOTIC: [8] Undefined index: model /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 119 行.
+NOTIC: [8] Undefined index: give_integral /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 128 行.
+NOTIC: [8] Undefined index: is_deduction_inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 131 行.
+NOTIC: [8] Undefined index:  /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 131 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.025513s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.025558s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000116s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000137s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000506s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000593s ]
+
+[ 2018-07-10T22:32:48+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Goods&a=StatusUpdate
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000175s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000225s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001476s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001759s ]
+
+[ 2018-07-10T22:32:49+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Goods&a=StatusUpdate
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000172s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000217s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001027s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001299s ]
+
+[ 2018-07-10T22:32:50+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Goods&a=StatusUpdate
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000058s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000561s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000228s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001110s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001418s ]
+
+[ 2018-07-10T22:32:53+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Goods&a=SaveInfo&id=4
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000218s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000204s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001026s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001278s ]
+ERR: 1146:Table 'shop.s_goods_photo' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `s_goods_photo`
+ERR: 1146:Table 'shop.s_goods_photo' doesn't exist
+ [ SQL语句 ] : SELECT `id`,`images`,`sort` FROM `s_goods_photo` WHERE `goods_id` = '4' AND `is_show` = 1 ORDER BY sort asc 
+ERR: 1146:Table 'shop.s_goods_content_app' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `s_goods_content_app`
+ERR: 1146:Table 'shop.s_goods_content_app' doesn't exist
+ [ SQL语句 ] : SELECT `id`,`images`,`content`,`sort` FROM `s_goods_content_app` WHERE `goods_id` = '4' ORDER BY sort asc 
+ERR: 1146:Table 'shop.s_goods_attribute_type' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `s_goods_attribute_type`
+ERR: 1146:Table 'shop.s_goods_attribute_type' doesn't exist
+ [ SQL语句 ] : SELECT `id`,`type`,`name`,`sort` FROM `s_goods_attribute_type` WHERE `goods_id` = '4' ORDER BY sort asc 
+ERR: 1146:Table 'shop.s_goods_category_join' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `s_goods_category_join`
+ERR: 1146:Table 'shop.s_goods_category_join' doesn't exist
+ [ SQL语句 ] : SELECT `category_id` FROM `s_goods_category_join` WHERE `goods_id` = '4' 
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000168s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000200s ]
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 62 行.
+NOTIC: [8] Undefined index: model /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 72 行.
+NOTIC: [8] Undefined index: inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 93 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 97 行.
+NOTIC: [8] Undefined index: price /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 101 行.
+NOTIC: [8] Undefined index: give_integral /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 105 行.
+NOTIC: [8] Undefined index: buy_min_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 109 行.
+NOTIC: [8] Undefined index: is_deduction_inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 121 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 125 行.
+NOTIC: [8] Undefined index: content_web /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 206 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.026381s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.026425s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000126s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000149s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000515s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000585s ]
+
+[ 2018-07-10T22:32:54+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Ueditor&a=Index&path_type=Article&action=config&&noCache=1531233174124
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000010s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000473s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000270s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001268s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001604s ]
+
+[ 2018-07-10T22:33:03+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Goods&a=Index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000171s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001067s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.002553s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004005s ]
+ERR: 1146:Table 'shop.s_goods_category_join' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `s_goods_category_join`
+ERR: 1146:Table 'shop.s_goods_category_join' doesn't exist
+ [ SQL语句 ] : SELECT `category_id` FROM `s_goods_category_join` WHERE `goods_id` = '4' 
+NOTIC: [2] implode(): Invalid arguments passed /data/www/project/shop/service/ThinkPHP/Library/Think/Db/Driver.class.php 第 578 行.
+ERR: 1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+ [ SQL语句 ] : SELECT `name` FROM `s_goods_category` WHERE `id` IN () 
+NOTIC: [2] implode(): Invalid arguments passed /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 94 行.
+NOTIC: [8] Undefined index: place_origin /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 97 行.
+NOTIC: [8] A non well formed numeric value encountered /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 103 行.
+ERR: 1146:Table 'shop.s_goods_category_join' doesn't exist
+ [ SQL语句 ] : SELECT `category_id` FROM `s_goods_category_join` WHERE `goods_id` = '3' 
+NOTIC: [2] implode(): Invalid arguments passed /data/www/project/shop/service/ThinkPHP/Library/Think/Db/Driver.class.php 第 578 行.
+ERR: 1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+ [ SQL语句 ] : SELECT `name` FROM `s_goods_category` WHERE `id` IN () 
+NOTIC: [2] implode(): Invalid arguments passed /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 94 行.
+NOTIC: [8] Undefined index: place_origin /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 97 行.
+NOTIC: [8] A non well formed numeric value encountered /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 103 行.
+ERR: 1146:Table 'shop.s_goods_category_join' doesn't exist
+ [ SQL语句 ] : SELECT `category_id` FROM `s_goods_category_join` WHERE `goods_id` = '2' 
+NOTIC: [2] implode(): Invalid arguments passed /data/www/project/shop/service/ThinkPHP/Library/Think/Db/Driver.class.php 第 578 行.
+ERR: 1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+ [ SQL语句 ] : SELECT `name` FROM `s_goods_category` WHERE `id` IN () 
+NOTIC: [2] implode(): Invalid arguments passed /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 94 行.
+NOTIC: [8] Undefined index: place_origin /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 97 行.
+NOTIC: [8] A non well formed numeric value encountered /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 103 行.
+ERR: 1146:Table 'shop.s_goods_category_join' doesn't exist
+ [ SQL语句 ] : SELECT `category_id` FROM `s_goods_category_join` WHERE `goods_id` = '1' 
+NOTIC: [2] implode(): Invalid arguments passed /data/www/project/shop/service/ThinkPHP/Library/Think/Db/Driver.class.php 第 578 行.
+ERR: 1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+ [ SQL语句 ] : SELECT `name` FROM `s_goods_category` WHERE `id` IN () 
+NOTIC: [2] implode(): Invalid arguments passed /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 94 行.
+NOTIC: [8] Undefined index: place_origin /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 97 行.
+NOTIC: [8] A non well formed numeric value encountered /data/www/project/shop/service/Application/Admin/Controller/GoodsController.class.php 第 103 行.
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000084s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000118s ]
+NOTIC: [8] Undefined variable: goods_category_list /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 34 行.
+NOTIC: [8] Undefined variable: common_is_enable_list /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 38 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 73 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 75 行.
+NOTIC: [8] Undefined index: images /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 76 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 78 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 78 行.
+NOTIC: [8] Undefined index: price /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 80 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 82 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 82 行.
+NOTIC: [8] Undefined index: inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 84 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 84 行.
+NOTIC: [8] Undefined index: buy_min_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 85 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 85 行.
+NOTIC: [8] Undefined index: buy_max_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 86 行.
+NOTIC: [8] Undefined index: model /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 87 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 101 行.
+NOTIC: [8] Undefined index: price /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 104 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 107 行.
+NOTIC: [8] Undefined index:  /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 107 行.
+NOTIC: [8] Undefined index: inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 110 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 110 行.
+NOTIC: [8] Undefined index: buy_min_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 113 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 113 行.
+NOTIC: [8] Undefined index: buy_max_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 116 行.
+NOTIC: [8] Undefined index: model /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 119 行.
+NOTIC: [8] Undefined index: give_integral /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 128 行.
+NOTIC: [8] Undefined index: is_deduction_inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 131 行.
+NOTIC: [8] Undefined index:  /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 131 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 73 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 75 行.
+NOTIC: [8] Undefined index: images /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 76 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 78 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 78 行.
+NOTIC: [8] Undefined index: price /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 80 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 82 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 82 行.
+NOTIC: [8] Undefined index: inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 84 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 84 行.
+NOTIC: [8] Undefined index: buy_min_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 85 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 85 行.
+NOTIC: [8] Undefined index: buy_max_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 86 行.
+NOTIC: [8] Undefined index: model /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 87 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 101 行.
+NOTIC: [8] Undefined index: price /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 104 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 107 行.
+NOTIC: [8] Undefined index:  /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 107 行.
+NOTIC: [8] Undefined index: inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 110 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 110 行.
+NOTIC: [8] Undefined index: buy_min_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 113 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 113 行.
+NOTIC: [8] Undefined index: buy_max_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 116 行.
+NOTIC: [8] Undefined index: model /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 119 行.
+NOTIC: [8] Undefined index: give_integral /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 128 行.
+NOTIC: [8] Undefined index: is_deduction_inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 131 行.
+NOTIC: [8] Undefined index:  /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 131 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 73 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 75 行.
+NOTIC: [8] Undefined index: images /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 76 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 78 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 78 行.
+NOTIC: [8] Undefined index: price /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 80 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 82 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 82 行.
+NOTIC: [8] Undefined index: inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 84 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 84 行.
+NOTIC: [8] Undefined index: buy_min_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 85 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 85 行.
+NOTIC: [8] Undefined index: buy_max_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 86 行.
+NOTIC: [8] Undefined index: model /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 87 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 101 行.
+NOTIC: [8] Undefined index: price /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 104 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 107 行.
+NOTIC: [8] Undefined index:  /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 107 行.
+NOTIC: [8] Undefined index: inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 110 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 110 行.
+NOTIC: [8] Undefined index: buy_min_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 113 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 113 行.
+NOTIC: [8] Undefined index: buy_max_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 116 行.
+NOTIC: [8] Undefined index: model /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 119 行.
+NOTIC: [8] Undefined index: give_integral /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 128 行.
+NOTIC: [8] Undefined index: is_deduction_inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 131 行.
+NOTIC: [8] Undefined index:  /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 131 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 73 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 75 行.
+NOTIC: [8] Undefined index: images /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 76 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 78 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 78 行.
+NOTIC: [8] Undefined index: price /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 80 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 82 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 82 行.
+NOTIC: [8] Undefined index: inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 84 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 84 行.
+NOTIC: [8] Undefined index: buy_min_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 85 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 85 行.
+NOTIC: [8] Undefined index: buy_max_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 86 行.
+NOTIC: [8] Undefined index: model /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 87 行.
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 101 行.
+NOTIC: [8] Undefined index: price /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 104 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 107 行.
+NOTIC: [8] Undefined index:  /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 107 行.
+NOTIC: [8] Undefined index: inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 110 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 110 行.
+NOTIC: [8] Undefined index: buy_min_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 113 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 113 行.
+NOTIC: [8] Undefined index: buy_max_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 116 行.
+NOTIC: [8] Undefined index: model /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 119 行.
+NOTIC: [8] Undefined index: give_integral /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 128 行.
+NOTIC: [8] Undefined index: is_deduction_inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 131 行.
+NOTIC: [8] Undefined index:  /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 131 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.015261s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.015299s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000189s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000212s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000379s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000422s ]
+
+[ 2018-07-10T22:33:05+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Goods&a=SaveInfo&id=4
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000173s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000215s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001403s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001699s ]
+ERR: 1146:Table 'shop.s_goods_photo' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `s_goods_photo`
+ERR: 1146:Table 'shop.s_goods_photo' doesn't exist
+ [ SQL语句 ] : SELECT `id`,`images`,`sort` FROM `s_goods_photo` WHERE `goods_id` = '4' AND `is_show` = 1 ORDER BY sort asc 
+ERR: 1146:Table 'shop.s_goods_content_app' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `s_goods_content_app`
+ERR: 1146:Table 'shop.s_goods_content_app' doesn't exist
+ [ SQL语句 ] : SELECT `id`,`images`,`content`,`sort` FROM `s_goods_content_app` WHERE `goods_id` = '4' ORDER BY sort asc 
+ERR: 1146:Table 'shop.s_goods_attribute_type' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `s_goods_attribute_type`
+ERR: 1146:Table 'shop.s_goods_attribute_type' doesn't exist
+ [ SQL语句 ] : SELECT `id`,`type`,`name`,`sort` FROM `s_goods_attribute_type` WHERE `goods_id` = '4' ORDER BY sort asc 
+ERR: 1146:Table 'shop.s_goods_category_join' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `s_goods_category_join`
+ERR: 1146:Table 'shop.s_goods_category_join' doesn't exist
+ [ SQL语句 ] : SELECT `category_id` FROM `s_goods_category_join` WHERE `goods_id` = '4' 
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000184s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000241s ]
+NOTIC: [8] Undefined index: title /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 62 行.
+NOTIC: [8] Undefined index: model /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 72 行.
+NOTIC: [8] Undefined index: inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 93 行.
+NOTIC: [8] Undefined index: inventory_unit /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 97 行.
+NOTIC: [8] Undefined index: price /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 101 行.
+NOTIC: [8] Undefined index: give_integral /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 105 行.
+NOTIC: [8] Undefined index: buy_min_number /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 109 行.
+NOTIC: [8] Undefined index: is_deduction_inventory /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 121 行.
+NOTIC: [8] Undefined index: is_shelves /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 125 行.
+NOTIC: [8] Undefined index: content_web /data/www/project/shop/service/Application/Runtime/Cache/Admin/fb51abaac0c4266b5ee37f9513fdd9f1.php 第 206 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.027192s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.027222s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000096s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000117s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001178s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001227s ]
+
+[ 2018-07-10T22:33:05+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Ueditor&a=Index&path_type=Article&action=config&&noCache=1531233185806
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000015s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000262s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000265s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000933s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001256s ]
+
+[ 2018-07-10T22:35:36+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Index&a=Index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000006s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000227s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000228s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001332s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001610s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000064s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000094s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.008536s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.008576s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000104s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000123s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000504s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000668s ]
+
+[ 2018-07-10T22:35:36+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Index&a=Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000006s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000158s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000206s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000953s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001206s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000035s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000079s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.006457s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.006503s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000100s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000127s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000300s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000332s ]
+
+[ 2018-07-10T23:22:28+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Index&a=Index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000164s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000428s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001190s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001758s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000037s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000065s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.007267s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007306s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000085s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000102s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000467s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000538s ]
+
+[ 2018-07-10T23:22:28+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Index&a=Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000009s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000309s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000390s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001434s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001912s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000065s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000119s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.008420s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.008487s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000142s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000169s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000287s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000318s ]
+
+[ 2018-07-10T23:22:31+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Index&a=Index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000178s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000611s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001447s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002261s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000043s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000075s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.007197s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007229s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000095s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000113s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000482s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000711s ]
+
+[ 2018-07-10T23:22:31+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Index&a=Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000016s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000586s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000227s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000913s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001192s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000041s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000080s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.006208s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.006254s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000105s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000126s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000272s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000297s ]
+
+[ 2018-07-10T23:22:33+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Admin&a=Logout
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000163s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000218s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001966s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002240s ]
+
+[ 2018-07-10T23:22:33+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Admin&a=LoginInfo
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000163s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000232s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.002960s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003278s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000037s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000068s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.005260s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.005291s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000094s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000126s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000226s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000247s ]
+
+[ 2018-07-10T23:22:33+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Admin&a=LoginInfo
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000168s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000213s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000885s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001140s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000062s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000119s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.005491s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.005529s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000116s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000136s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001283s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001330s ]
+
+[ 2018-07-10T23:22:34+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Admin&a=LoginInfo
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000010s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000325s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000218s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000863s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001126s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000037s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000069s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.008273s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.008303s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000092s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000111s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000234s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000255s ]
+
+[ 2018-07-10T23:22:35+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Admin&a=Login
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000161s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000236s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000863s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001138s ]
+NOTIC: [8] Undefined index: validate /data/www/project/shop/service/ThinkPHP/Library/Think/Model.class.php 第 1185 行.
+NOTIC: [8] Undefined index: auto /data/www/project/shop/service/ThinkPHP/Library/Think/Model.class.php 第 1128 行.
+
+[ 2018-07-10T23:22:36+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Index&a=Index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000167s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000218s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000899s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001164s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000040s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000071s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.007197s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007229s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000095s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000112s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000471s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000506s ]
+
+[ 2018-07-10T23:22:36+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Index&a=Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000006s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000161s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000207s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001381s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001640s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000035s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000069s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.004659s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.004695s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000091s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000108s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000236s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000258s ]
+
+[ 2018-07-10T23:22:37+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Index&a=Index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000006s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000153s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000199s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000830s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001067s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000040s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000071s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.007397s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007425s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000087s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000106s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000444s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000475s ]
+
+[ 2018-07-10T23:22:37+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Index&a=Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000182s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000222s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000903s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001171s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000034s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000065s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.004508s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.004550s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000099s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000118s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000245s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000270s ]
+
+[ 2018-07-10T23:22:39+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Goods&a=Index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000008s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000261s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000295s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001376s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001730s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000058s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000090s ]
+NOTIC: [8] Undefined variable: goods_category_list /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 34 行.
+NOTIC: [8] Undefined variable: common_is_enable_list /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 38 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.022124s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.022172s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000201s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000233s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000638s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000691s ]
+
+[ 2018-07-10T23:23:08+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Goods&a=SaveInfo&id=2
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000015s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000345s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000257s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001269s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001586s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000107s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000141s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.016619s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.016659s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000103s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000123s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000486s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000530s ]
+
+[ 2018-07-10T23:23:08+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Ueditor&a=Index&path_type=Article&action=config&&noCache=1531236188710
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000034s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000655s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000298s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000971s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001348s ]
+
+[ 2018-07-10T23:23:50+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Goods&a=Index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000006s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000158s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000209s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000873s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001122s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000128s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000184s ]
+NOTIC: [8] Undefined variable: goods_category_list /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 34 行.
+NOTIC: [8] Undefined variable: common_is_enable_list /data/www/project/shop/service/Application/Runtime/Cache/Admin/76277aa71e2f1b54670b1dc123c55fef.php 第 38 行.
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.011193s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.011231s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000096s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000117s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000448s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000484s ]
+
+[ 2018-07-10T23:23:53+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Goods&a=SaveInfo&id=2
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000010s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000211s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000257s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001425s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001755s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000173s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000254s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.017968s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.018011s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000100s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000120s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000415s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000503s ]
+
+[ 2018-07-10T23:23:53+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Ueditor&a=Index&path_type=Article&action=config&&noCache=1531236233543
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000016s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000410s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000270s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000845s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001180s ]
+
+[ 2018-07-10T23:26:06+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=GoodsCategory&a=Index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000011s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000331s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000269s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.001574s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001956s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000047s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000083s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.007388s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.007425s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000105s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000124s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000358s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000393s ]
+
+[ 2018-07-10T23:26:06+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=GoodsCategory&a=GetNodeSon
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000015s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000340s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000314s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.019457s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.019912s ]
+
+[ 2018-07-10T23:26:14+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Express&a=Index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000159s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000201s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.002315s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002655s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000042s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000072s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.006212s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.006244s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000085s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000103s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000225s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000245s ]
+
+[ 2018-07-10T23:26:14+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Express&a=GetNodeSon
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000010s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000234s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000226s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.002540s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002833s ]
+
+[ 2018-07-10T23:26:15+08:00 ] ::1 /project/shop/service/admin.php?m=Admin&c=Slide&a=Index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000017s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000372s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000219s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.002327s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002681s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000050s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000084s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.017557s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.017611s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000177s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000212s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000843s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000965s ]
+

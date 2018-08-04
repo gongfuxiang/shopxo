@@ -1,0 +1,30 @@
+<div class="admin-sidebar am-offcanvas  am-padding-0" id="admin-offcanvas">
+	<div class="am-offcanvas-bar admin-offcanvas-bar">
+		<ul class="am-list admin-sidebar-list common-left-menu">
+			<li>
+				<a href="javascript:;" data-type="menu" data-url="{{:U('Admin/Index/Init')}}" class="common-left-menu-active"><span class="am-icon-home"></span> {{:L('common_home_text')}}</a>
+			</li>
+			<foreach name="left_menu" item="v">
+				<if condition="empty($v['item'])">
+					<li>
+						<a href="javascript:;" data-type="menu" data-url="{{:U('Admin/'.$v['control'].'/'.$v['action'])}}"><if condition="!empty($v['icon'])"><span class="{{$v.icon}}"></span></if> {{$v.name}}</a>
+					</li>
+				<else />
+					<li class="admin-parent">
+						<a data-type="menu" class="am-cf" data-am-collapse="{target: '#power-menu-{{$v.id}}'}">
+							<if condition="!empty($v['icon'])"><span class="{{$v.icon}}"></span></if> {{$v.name}}
+							<i class="am-icon-angle-down am-fr am-margin-right left-menu-more-ico-rotate"></i>
+						</a>
+						<ul class="am-list am-collapse admin-sidebar-sub" id="power-menu-{{$v.id}}">
+							<foreach name="v.item" item="vs">
+								<li>
+									<a href="javascript:;" data-type="menu" data-url="{{:U('Admin/'.$vs['control'].'/'.$vs['action'])}}"><if condition="!empty($vs['icon'])"><span class="{{$vs.icon}}"></span></if> {{$vs.name}}</a>
+								</li>
+							</foreach>
+						</ul>
+					</li>
+				</if>
+			</foreach>
+		</ul>
+	</div>
+</div>

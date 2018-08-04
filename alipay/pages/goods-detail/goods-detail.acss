@@ -1,0 +1,157 @@
+.goods-photo .swiper-item {
+    height: 65vh !important;
+    display: block;
+}
+
+.goods-attr-show-title {
+    height: 80rpx;
+    line-height: 80rpx;
+    padding: 0 10rpx;
+}
+
+.goods-popup {
+    background: rgba(0, 0, 0, 0.3803921568627451);
+    height: 100vh;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+.goods-popup-choose {
+    width: calc(100% - 20rpx);
+    padding: 20rpx 10rpx;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+}
+.goods-popup .close {
+    margin-right: 10rpx;
+}
+.goods-popup-content {
+    max-height: 50vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.goods-popup-content,
+.goods-popup-submit
+{
+    margin-top: 20rpx;
+}
+.goods-attr-choose .item {
+    margin-bottom: 30rpx;
+    padding-bottom: 30rpx;
+}
+.goods-popup-content .title {
+    font-size: 36rpx;
+}
+.goods-attr-choose .item .attribute button {
+    margin-top: 20rpx;
+    margin-right: 25rpx;
+}
+.goods-attr-choose .item .attribute button {
+    padding: 0 30rpx;
+    background: #eee;
+    color: #666;
+    line-height: 28px;
+    height: 27px;
+}
+.goods-attr-choose .item .attribute  button,
+.goods-popup-submit
+{
+    border-radius: 50rpx;
+    border: 0;
+}
+.goods-popup-submit {
+    height: 85rpx;
+    line-height: 85rpx;
+    font-size: 36rpx;
+}
+.goods-popup .goods-buy-number {
+    margin-bottom: 20rpx;
+}
+.goods-popup .goods-buy-number .title {
+    line-height: 60rpx;
+}
+.goods-popup .number-content button
+{
+    background: #eee;
+    height: 64rpx;
+    line-height: 64rpx;
+    font-weight: bold;
+    color: #666;
+}
+.goods-popup .number-content {
+    width: calc(100% - 200rpx);
+}
+.goods-popup .number-content input {
+    width: 50px;
+    margin: 2rpx 10rpx 0 10rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    border-radius: 2px;
+}
+.goods-popup .number-content button,
+.goods-popup .number-content input
+{
+    border: 1px solid #ddd;
+    padding: 0;
+}
+
+.goods-detail-app .content-items view {
+    padding: 15rpx 10rpx;
+    line-height: 44rpx;
+    font-size: 32rpx;
+}
+
+.goods-buy-nav {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 100rpx;
+}
+.goods-buy-nav .fl {
+    width: calc(25% - 1rpx);
+}
+.goods-buy-nav .fr {
+    width: 50%;
+}
+.goods-buy-nav .fr button {
+    border: 0;
+    border-radius: 0;
+    line-height: 100rpx;
+}
+.goods-buy-nav .fr button,
+.goods-buy-nav .fl
+{
+    height: 100rpx;
+}
+.goods-buy-nav .collect { border-left: 1px solid #e1e1e1; }
+.goods-buy-nav .fl image { width: 25px; height: 25px; margin: 0 auto; }
+
+.goods-base {
+    padding: 15rpx 10rpx;
+}
+.goods-base .goods-price .fr {
+    line-height: 50rpx;
+}
+.goods-base .goods-title {
+    width: calc(100% - 100rpx);
+    font-size: 32rpx;
+    line-height: 44rpx;
+    font-weight: 500;
+}
+.goods-base .goods-share image {
+    width: 50rpx;
+    height: 50rpx;
+}
+.goods-base .goods-share button {
+    height: auto;
+    font-size: 26rpx;
+    border: 0;
+    min-width: initial;
+}
+.goods-base .goods-price {
+    margin-top: 10rpx;
+}
+.page {
+    padding-bottom: 100rpx;
+}

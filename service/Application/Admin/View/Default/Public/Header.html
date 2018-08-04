@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="{{:C('DEFAULT_CHARSET')}}" />
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
+	<title>{{:L('common_site_title')}}</title>
+	<css href="__PUBLIC__/Common/Lib/assets/css/amazeui.css" />
+	<css href="__PUBLIC__/Common/Lib/amazeui-switch/amazeui.switch.css" />
+	<css href="__PUBLIC__/Common/Lib/amazeui-chosen/amazeui.chosen.css" />
+	<css href="__PUBLIC__/Common/Css/Common.css" />
+	<css href="__PUBLIC__/Admin/{{$default_theme}}/Css/Common.css" />
+	<if condition="!empty($module_css)">
+		<css href="__PUBLIC__/{{$module_css}}" />
+	</if>
+</head>
+<body>

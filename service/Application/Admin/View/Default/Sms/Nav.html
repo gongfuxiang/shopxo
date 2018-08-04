@@ -1,0 +1,13 @@
+<ul class="am-nav am-nav-pills table-nav m-b-10">
+	<li <if condition="$nav_type eq 'sms'">class="am-active"</if> data-type="sms">
+		<a href="{{:U('Admin/Sms/Index', ['type'=>'sms'])}}">{{:L('sms_sms_nav_name')}}</a>
+	</li>
+	<li <if condition="$nav_type eq 'message'">class="am-active"</if> data-type="message">
+		<a href="{{:U('Admin/Sms/Index', ['type'=>'message'])}}">{{:L('sms_message_nav_name')}}</a>
+	</li>
+</ul>
+
+<div class="am-alert am-alert-warning am-radius" data-am-alert>
+    <button type="button" class="am-close">&times;</button>
+    <p>{{:L('sms_view_tips')}}</p>
+</div>

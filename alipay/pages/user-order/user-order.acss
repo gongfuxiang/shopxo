@@ -1,0 +1,83 @@
+/*
+    头部搜索框
+*/
+.search-content{
+    height: 120rpx;
+    padding: 25rpx 10rpx;
+    box-sizing: border-box;
+}
+.search-box{
+    border: 1px solid #eee;
+    border-radius: 2rpx;
+    height: 70rpx;
+}
+.search-box .search{
+    width: calc(100% - 111rpx);
+    height: 75rpx;
+    line-height: 75rpx;
+    font-size: 28rpx;
+    box-sizing: border-box;
+    color: #4a4a4a;
+}
+.search-box  .search-btn {
+    width: 100rpx;
+    box-sizing: border-box;
+    margin: 12rpx 0;
+    height: 50rpx;
+    border-left: solid 1px #e3e3e3;
+}
+.search-btn  .search-icon{
+    margin: 8rpx 0;
+}
+/*
+    end 头部搜索框
+*/
+
+/*
+    主体
+*/
+.scroll-box{
+    height: calc(100vh - 120rpx);
+}
+
+.goods-title {
+    line-height: 36rpx;
+}
+.list-item .goods-item:not(:last-child) {
+    border-bottom: 1px dashed #efefef;
+}
+.goods-item {
+    padding: 20rpx 10rpx;
+}
+.goods-title, .goods-attribute {
+    margin-bottom: 10rpx;
+}
+.goods-image {
+    width: 160rpx;
+    height: 160rpx;
+    margin-right: 20rpx;
+}
+.goods-price {
+    position: relative;
+}
+.buy-number {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+.item-base {
+    
+}
+.item-base, .item-describe, .item-operation {
+    padding: 25rpx 10rpx 20rpx 10rpx;
+}
+.submit-cancel {
+    border: 1px solid #f7c3b3;
+    color: #f7c3b3;
+}
+.item-operation button:not(:first-child) {
+    margin-left: 20rpx;
+}
+.item-operation button {
+    padding: 0 35rpx;
+}

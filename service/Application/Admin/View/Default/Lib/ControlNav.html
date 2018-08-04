@@ -1,0 +1,11 @@
+<ul class="am-nav am-nav-pills">
+	<li <if condition="$Think.const.ACTION_NAME eq 'Index'">class="am-active"</if> >
+		<a href="{{:U('Admin/AccessControl/Index')}}" class="am-radius">管理员列表</a>
+	</li>
+	<li <if condition="$Think.const.ACTION_NAME eq 'RoleInfo'">class="am-active"</if> >
+		<a href="{{:U('Admin/AccessControl/RoleInfo')}}" class="am-radius">角色管理</a>
+	</li>
+	<li <if condition="$Think.const.ACTION_NAME eq 'Purview'">class="am-active"</if> >
+		<a href="{{:U('Admin/AccessControl/Purview')}}" class="am-radius">权限控制</a>
+	</li>
+</ul>

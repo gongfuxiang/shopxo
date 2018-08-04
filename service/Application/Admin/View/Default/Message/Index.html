@@ -1,0 +1,114 @@
+<include file="Public/Header" />
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form view-list" action="{{:U('Admin/Message/Index')}}" method="POST">
+			<div class="am-g">
+				<input type="text" class="am-radius form-keyword" placeholder="{{:L('message_so_keyword_tips')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"</present> />
+				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">{{:L('common_operation_query')}}</button>
+				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
+					{{:L('common_more_screening')}}
+					<input type="checkbox" name="is_more" value="1" id="is_more" <if condition="isset($param['is_more']) and $param['is_more'] eq 1">checked</if> />
+					<i class="am-icon-angle-down"></i>
+				</label>
+
+				<div class="more-where <if condition="!isset($param['is_more']) or $param['is_more'] neq 1">none</if>">
+					<select name="gender" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">{{:L('common_view_gender_name')}}</option>
+						<foreach name="common_gender_list" item="v">
+							<option value="{{$v.id}}" <if condition="isset($param['gender']) and $param['gender'] eq $v['id']">selected</if>>{{$v.name}}</option>
+						</foreach>
+					</select>
+					<select name="type" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">{{:L('message_type_name')}}</option>
+						<foreach name="common_message_type_list" item="v">
+							<option value="{{$v.id}}" <if condition="isset($param['type']) and $param['type'] eq $v['id']">selected</if>>{{$v.name}}</option>
+						</foreach>
+					</select>
+					<select name="is_read" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">{{:L('message_is_read_name')}}</option>
+						<foreach name="common_is_read_list" item="v">
+							<option value="{{$v.id}}" <if condition="isset($param['is_read']) and $param['is_read'] eq $v['id']">selected</if>>{{$v.name}}</option>
+						</foreach>
+					</select>
+					<div class="param-date param-where m-l-5">
+						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="{{:L('common_time_start_name')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" <if condition="isset($param['time_start'])">value="{{$param.time_start}}"</if>/>
+						<span>~</span>
+						<input type="text" class="Wdate am-radius m-t-10" placeholder="{{:L('common_time_end_name')}}" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" <if condition="isset($param['time_end'])">value="{{$param.time_end}}"</if>/>
+					</div>
+				</div>
+			</div>
+        </form>
+        <!-- form end -->
+
+		<!-- list start -->
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5">
+			<thead>
+				<tr>
+					<th>{{:L('message_user_name')}}</th>
+					<th>{{:L('message_type_name')}}</th>
+					<th>{{:L('message_title_name')}}</th>
+					<th class="am-hide-sm-only">{{:L('message_detail_name')}}</th>
+					<th class="am-hide-sm-only">{{:L('message_is_read_name')}}</th>
+					<th class="am-hide-sm-only">{{:L('message_add_time_name')}}</th>
+					<th>{{:L('common_operation_name')}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<if condition="!empty($list)">
+					<foreach name="list" item="v">
+						<tr id="data-list-{{$v.id}}">
+							<td>
+								<if condition="!empty($v['username'])">
+									{{$v.username}}
+									<if condition="!empty($v['nickname'])">
+										({{$v.nickname}})
+									</if>
+									<br />
+								</if>
+								<if condition="!empty($v['mobile'])">
+									{{$v.mobile}}<br />
+								</if>
+								{{$v.gender_text}}
+							</td>
+							<td>
+								<if condition="empty($v['type_text'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.type_text}}</if>
+							</td>
+							<td>
+								<if condition="empty($v['title'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.title}}</if>
+							</td>
+							<td class="am-hide-sm-only">
+								<if condition="empty($v['detail'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.detail}}</if>
+							</td>
+							<td class="am-hide-sm-only">
+								<if condition="empty($v['is_read_text'])"><span class="cr-ddd">{{:L('common_not_set_text')}}</span><else />{{$v.is_read_text}}</if>
+							</td>
+							<td class="am-hide-sm-only">
+								<if condition="empty($v['add_time'])"><span class="cr-ddd">{{:L('common_not_set_text')}}</span><else />{{$v.add_time}}</if>
+							</td>
+							<td class="view-operation">
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/Message/Delete')}}" data-id="{{$v.id}}"> {{:L('common_operation_delete')}}</button>
+							</td>
+						</tr>
+					</foreach>
+				<else />
+					<tr><td colspan="7" class="table-no">{{:L('common_not_data_tips')}}</td></tr>
+				</if>
+			</tbody>
+		</table>
+		<!-- list end -->
+
+		<!-- page start -->
+		<if condition="!empty($list)">
+			{{$page_html}}
+		</if>
+		<!-- page end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end -->

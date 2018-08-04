@@ -1,0 +1,12 @@
+<!-- 是否包含头部 开始 -->
+<div class="am-form-group">
+	<label>{{:L('common_view_is_header_text')}}</label>
+	<div>
+		<foreach name="common_is_header_list" item="v">
+			<label class="am-radio-inline m-r-10">
+				<input type="radio" name="is_header" value="{{$v.id}}" <if condition="isset($data['is_header']) and $data['is_header'] eq $v['id']">checked="checked"<else /><if condition="!isset($data['is_header']) and isset($v['checked']) and $v['checked'] eq true">checked="checked"</if></if> data-am-ucheck /> {{$v.name}}
+			</label>
+		</foreach>
+	</div>
+</div>
+<!-- 是否包含头部 结束 -->

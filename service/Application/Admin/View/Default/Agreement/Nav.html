@@ -1,0 +1,8 @@
+<ul class="am-nav am-nav-pills table-nav m-b-10">
+	<li <if condition="$nav_type eq 'kehu'">class="am-active"</if> data-type="kehu">
+		<a href="{{:U('Admin/Agreement/Index', ['type'=>'kehu'])}}">{{:L('agreement_kehu_nav_name')}}</a>
+	</li>
+	<li <if condition="$nav_type eq 'shanghu'">class="am-active"</if> data-type="shanghu">
+		<a href="{{:U('Admin/Agreement/Index', ['type'=>'shanghu'])}}">{{:L('agreement_shanghu_nav_name')}}</a>
+	</li>
+</ul>

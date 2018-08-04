@@ -1,0 +1,256 @@
+<include file="Public/Header" />
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:U('Admin/Goods/Save')}}" method="POST" request-type="ajax-url" request-value="{{:U('Admin/Goods/Index')}}" enctype="multipart/form-data">
+			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
+			<legend>
+				<span class="fs-16">
+					<if condition="empty($data['id'])">
+						{{:L('goods_add_name')}}
+					<else />
+						{{:L('goods_edit_name')}}
+					</if>
+				</span>
+				<a href="{{:U('Admin/Goods/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:L('common_operation_back')}}</a>
+			</legend>
+
+			<nav class="goods-nav">
+				<ul>
+					<li>
+						<a href="#goods-nav-base">{{:L('goods_nav_base_name')}}</a>
+					</li>
+					<li>
+						<a href="#goods-nav-photo">{{:L('goods_nav_photo_name')}}</a>
+					</li>
+					<!-- <li>
+						<a href="#goods-nav-video">{{:L('goods_nav_video_name')}}</a>
+					</li> -->
+					<li>
+						<a href="#goods-nav-attribute">{{:L('goods_nav_attribute_name')}}</a>
+					</li>
+					<li>
+						<a href="#goods-nav-app">{{:L('goods_nav_app_name')}}</a>
+					</li>
+					<li>
+						<a href="#goods-nav-web">{{:L('goods_nav_web_name')}}</a>
+					</li>
+				</ul>
+			</nav>
+
+			<!-- 基础信息 -->
+			<div id="goods-nav-base" class="division-block">
+				<label class="block nav-detail-title">{{:L('goods_nav_base_name')}}</label>
+				<div class="am-form-group">
+					<label>{{:L('goods_title_text')}}</label>
+					<div class="am-input-group am-input-group-sm">
+						<input type="hidden" name="title_color" value="<if condition="!empty($data['title_color'])">{{$data.title_color}}</if>" />
+						<input type="text" name="title" placeholder="{{:L('goods_title_text')}}" minlength="2" maxlength="60" data-validation-message="{{:L('goods_title_format')}}" class="am-form-field am-radius" <notempty name="data"> value="{{$data.title}}" </notempty> <if condition="!empty($data['title_color'])"> style="color:{{$data.title_color}};" </if> required />
+						<span class="am-input-group-btn">
+							<button class="am-btn am-btn-default colorpicker-submit" type="button" data-input-tag="input[name='title']" data-color-tag="input[name='title_color']">
+								<img src="__PUBLIC__/Common/Images/colorpicker.png" />
+							</button>
+						</span>
+					</div>
+				</div>
+				<div class="am-form-group">
+					<label>{{:L('goods_model_text')}}</label>
+					<input type="text" name="model" placeholder="{{:L('goods_model_text')}}" maxlength="30" data-validation-message="{{:L('goods_model_format')}}" class="am-radius" <notempty name="data"> value="{{$data.model}}"</notempty> />
+				</div>
+				<div class="am-form-group">
+					<label>{{:L('goods_category_id_text')}}</label>
+					<br />
+					<select name="category_id" class="am-radius chosen-select c-p" multiple="multiple" data-placeholder="{{:L('common_please_select_choose')}}" data-validation-message="{{:L('goods_category_id_format')}}" required>
+						<if condition="!empty($category_list)">
+							<foreach name="category_list" item="v">
+								<optgroup label="{{$v.name}}">
+									<if condition="!empty($category_list)">
+										<foreach name="v.items" item="vs">
+											<option value="{{$vs.id}}" <if condition="!empty($data['category_ids']) and in_array($vs['id'], $data['category_ids'])">selected</if>>{{$vs.name}}</option>
+										</foreach>
+									</if>
+								</optgroup>
+							</foreach>
+						</if>
+					</select>
+				</div>
+				<div class="am-form-group">
+					<label>{{:L('goods_place_origin_text')}}</label>
+					<br />
+					<select name="place_origin" class="am-radius chosen-select c-p" data-placeholder="{{:L('common_please_select_choose')}}" data-validation-message="{{:L('goods_place_origin_format')}}">
+						<option value="0">{{:L('common_please_select_choose')}}</option>
+						<if condition="!empty($region_province_list)">
+							<foreach name="region_province_list" item="v">
+								<option value="{{$v.id}}" <if condition="!empty($data['place_origin']) and $v['id'] eq $data['place_origin']">selected</if>>{{$v.name}}</option>
+							</foreach>
+						</if>
+					</select>
+				</div>
+				<div class="am-form-group">
+					<label>{{:L('goods_inventory_text')}}</label>
+					<input type="number" name="inventory" placeholder="{{:L('goods_inventory_text')}}" min="1" max="100000000" data-validation-message="{{:L('goods_inventory_format')}}" class="am-radius" <notempty name="data"> value="{{$data.inventory}}"</notempty> required />
+				</div>
+				<div class="am-form-group">
+					<label>{{:L('goods_inventory_unit_text')}}</label>
+					<input type="text" name="inventory_unit" placeholder="{{:L('goods_inventory_unit_text')}}" minlength="1" maxlength="6" data-validation-message="{{:L('goods_inventory_unit_format')}}" class="am-radius" <notempty name="data"> value="{{$data.inventory_unit}}"</notempty> required />
+				</div>
+				<div class="am-form-group">
+					<label>{{:L('goods_original_price_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('goods_price_tips')}}）</span></label>
+					<input type="text" placeholder="{{:L('goods_price_text')}}" name="original_price" pattern="{{:L('common_regex_price')}}" data-validation-message="{{:L('goods_price_format')}}" class="am-radius" <if condition="!empty($data['original_price']) and $data['original_price'] gt 0"> value="{{$data.original_price}}"</if> />
+				</div>
+				<div class="am-form-group">
+					<label>{{:L('goods_price_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('goods_price_tips')}}）</span></label>
+					<input type="text" placeholder="{{:L('goods_price_text')}}" name="price" pattern="{{:L('common_regex_price')}}" data-validation-message="{{:L('goods_price_format')}}" class="am-radius" <present name="data"> value="{{$data.price}}"</present> required />
+				</div>
+				<div class="am-form-group">
+					<label>{{:L('goods_give_integral_text')}}</label>
+					<input type="number" name="give_integral" placeholder="{{:L('goods_give_integral_text')}}" max="100000000" data-validation-message="{{:L('goods_give_integral_format')}}" class="am-radius" value="<empty name="data">0<else />{{$data.give_integral}}</empty>" required />
+				</div>
+				<div class="am-form-group">
+					<label>{{:L('goods_buy_min_number_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('goods_buy_min_number_tips')}}）</span></label>
+					<input type="number" name="buy_min_number" placeholder="{{:L('goods_buy_min_number_text')}}" min="1" max="100000000" data-validation-message="{{:L('goods_buy_min_number_format')}}" class="am-radius" value="<empty name="data">1<else />{{$data.buy_min_number}}</empty>" required />
+				</div>
+				<div class="am-form-group">
+					<label>{{:L('goods_buy_max_number_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('goods_buy_max_number_tips')}}）</span></label>
+					<input type="number" name="buy_max_number" placeholder="{{:L('goods_buy_max_number_text')}}" min="0" max="100000000" data-validation-message="{{:L('goods_buy_max_number_format')}}" class="am-radius" <if condition="!empty($data['buy_max_number'])"> value="{{$data.buy_max_number}}"</if> />
+				</div>
+				<div class="am-form-group">
+					<label class="block">{{:L('goods_is_deduction_inventory_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('goods_is_deduction_inventory_tips')}}）</span></label>
+					<input name="is_deduction_inventory" value="1" type="checkbox" data-off-text="{{:L('common_operation_off_is_text')}}" data-on-text="{{:L('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch <if condition="!empty($data) and $data['is_deduction_inventory'] eq 1">checked="true"</if> />
+				</div>
+				<div class="am-form-group">
+					<label class="block">{{:L('goods_is_shelves_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('goods_is_shelves_tips')}}）</span></label>
+					<input name="is_shelves" value="1" type="checkbox" data-off-text="{{:L('common_operation_off_goods_text')}}" data-on-text="{{:L('common_operation_on_goods_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch <if condition="!empty($data) and $data['is_shelves'] eq 1">checked="true"</if> />
+				</div>
+			</div>
+			<div id="goods-nav-photo" class="division-block">
+				<label class="block nav-detail-title">{{:L('goods_nav_photo_name')}}<span class="fs-12 fw-100 cr-999">（{{:L('goods_images_tips')}}）</span></label>
+				<ul class="plug-images-list" data-max-count="10" data-required="1" data-name="photo_file[]" data-delete-text="{{:L('common_operation_delete')}}" data-format="{{:L('goods_images_format')}}">
+					<if condition="!empty($data['photo'])">
+						<foreach name="data.photo" item="v">
+							<li>
+								<label class="plug-images-add-prohibit">
+									<input type="hidden" name="photo[]" value="{{$v.images}}" />
+									<div class="img-resources">
+										<img src="{{$image_host}}{{$v.images}}" />
+										<button type="button" class="am-btn am-btn-danger am-btn-xs am-btn-block plug-images-delete-submit">{{:L('common_operation_delete')}}</button>
+									</div>
+								</label>
+							</li>
+						</foreach>
+					</if>
+				</ul>
+			</div>
+			<!-- <div id="goods-nav-video" class="division-block">
+				<label class="block nav-detail-title">{{:L('goods_nav_video_name')}}</label>
+				视频
+			</div> -->
+			<div id="goods-nav-attribute" class="division-block">
+				<label class="block nav-detail-title">{{:L('goods_nav_attribute_name')}}</label>
+				<ul class="goods-attribute-items" data-name="attribute" data-attribute-type-name="{{:L('goods_attribute_type_name')}}" data-attribute-type-placeholder="{{:L('goods_attribute_type_placeholder')}}" data-attribute-type-format="{{:L('goods_attribute_type_format')}}" data-attribute-type-type-name="{{:L('goods_attribute_type_type_name')}}" data-attribute-type-type-show="{{:L('goods_attribute_type_type_show')}}" data-attribute-type-type-choose="{{:L('goods_attribute_type_type_choose')}}" data-attribute-type-type-format="{{:L('goods_attribute_type_type_format')}}" data-attribute-add-sub-text="{{:L('goods_attribute_add_sub_text')}}" data-attribute-name="{{:L('goods_attribute_name')}}" data-attribute-placeholder="{{:L('goods_attribute_placeholder')}}" data-attribute-format="{{:L('goods_attribute_format')}}" data-drag-sort-text="{{:L('common_drag_sort_title')}}">
+					<if condition="!empty($data['attribute'])">
+						<foreach name="data.attribute" key="k" item="v">
+							<li class="goods-attribute goods-attribute-{{$v.id}}">
+								<div class="attribute-type am-radius">
+									<i class="am-icon-times-circle am-icon-sm c-p attribute-type-rem-sub"></i>
+									<p class="am-form-group">
+										<span>{{:L('goods_attribute_type_name')}}&nbsp;</span>
+										<input type="text" name="attribute_{{$v.id}}_data_name" class="am-radius" placeholder="{{:L('goods_attribute_type_name')}}" minlength="1" maxlength="10" data-validation-message="{{:L('goods_attribute_type_format')}}" value="{{$v.name}}" required />
+									</p>
+									<p class="am-form-group">
+										<span>{{:L('goods_attribute_type_type_name')}}&nbsp;</span>
+										<span class="am-btn-group attribute-type-se" data-am-button="">
+											<label class="am-btn am-btn-default am-radius am-btn-sm <if condition="$v['type'] eq 'show'">br-sed am-active</if>">
+												<input type="radio" name="attribute_{{$v.id}}_data_type" value="show" data-validation-message="{{:L('goods_attribute_type_type_format')}}" <if condition="$v['type'] eq 'show'">checked</if> required />{{:L('goods_attribute_type_type_show')}}
+											</label>
+											<label class="am-btn am-btn-default am-radius am-btn-sm <if condition="$v['type'] eq 'choose'">br-sed am-active</if>">
+												<input type="radio" name="attribute_{{$v.id}}_data_type" value="choose" data-validation-message="{{:L('goods_attribute_type_type_format')}}" <if condition="$v['type'] eq 'choose'">checked</if> required />{{:L('goods_attribute_type_type_choose')}}
+											</label>
+										</span>
+									</p>
+								</div>
+								<ul class="attribute-items-ul-{{$v.id}}">
+									<if condition="!empty($v['find'])">
+										<foreach name="v.find" item="vs">
+											<li class="attribute">
+											<i class="am-icon-times-circle-o am-icon-sm c-p attribute-rem-sub"></i>
+											<input type="text" name="attribute_{{$v.id}}_find_{{$vs.id}}_name" class="am-radius" placeholder="{{:L('goods_attribute_name')}}" minlength="1" maxlength="10" data-validation-message="{{:L('goods_attribute_format')}}" value="{{$vs.name}}" required />
+											<i class="am-icon-list-ul am-icon-sm c-m drag-sort-submit"> {{:L('common_drag_sort_title')}}</i></li>
+										</foreach>
+									</if>
+								</ul>
+								<i class="am-icon-plus-square-o am-icon-sm attribute-add-sub c-p" name="attribute_{{$v.id}}_find" data-tag=".attribute-items-ul-{{$v.id}}" index="{{:count($v['find'])}}"> {{:L('goods_attribute_add_sub_text')}}</i>
+								<i class="am-icon-list-ul am-icon-sm c-m drag-sort-submit"> {{:L('common_drag_sort_title')}}</i>
+							</li>
+						</foreach>
+					</if>
+				</ul>
+				<label class="am-icon-plus-square am-icon-sm c-p attribute-type-add-sub"> {{:L('goods_attribute_type_add_sub_text')}}</label>
+			</div>
+			<div id="goods-nav-app" class="division-block">
+				<label class="block nav-detail-title">{{:L('goods_nav_app_name')}}</label>
+				<ul class="content-app-items" data-max-count="10" data-required="1" data-images-name="content_app_images" data-content-name="content_app_text" data-images-text="{{:L('goods_content_app_images_text')}}" data-content-text="{{:L('goods_content_app_text_text')}}" data-images-default="{{$image_host}}/Public/Admin/Default/Images/default-images.png" data-delete-text="{{:L('common_operation_delete')}}" data-drag-sort-text="{{:L('common_drag_sort_title')}}" data-select-images-text="{{:L('common_select_images_text')}}" data-select-images-format="{{:L('common_select_images_tips')}}">
+					<if condition="!empty($data['content_app'])">
+						<foreach name="data.content_app" item="v">
+							<li>
+								<div>
+									<div class="am-form-group am-form-file">
+										<label class="block">{{:L('goods_content_app_images_text')}}</label>
+										<button type="button" class="am-btn am-btn-default am-btn-sm am-radius"><i class="am-icon-cloud-upload"></i> {{:L('common_select_images_text')}}</button>
+										<input type="text" name="content_app_images_{{$v.id}}" class="am-radius js-choice-one original-images-url original-images-url-tag-{{$v.id}}" data-choice-one-to=".images-file-tag-{{$v.id}}" data-validation-message="{{:L('common_select_images_tips')}}" readonly="readonly" value="<if condition="!empty($v['images'])">{{$v.images}}</if>" />
+										<input type="file" name="content_app_images_file_{{$v.id}}" data-validation-message="{{:L('common_select_images_tips')}}" accept="image/gif,image/jpeg,image/jpg,image/png" class="js-choice-one images-file-tag-{{$v.id}}" data-choice-one-to=".original-images-url-tag-{{$v.id}}" data-tips-tag="#form-images_url-tips-{{$v.id}}" data-image-tag="#form-img-images_url-{{$v.id}}">
+										<div id="form-images_url-tips-{{$v.id}}" class="m-t-5"></div>
+										<img src="<if condition="!empty($v['images'])">{{$image_host}}{{$v.images}}<else />{{$image_host}}/Public/Admin/Default/Images/default-images.png</if>" id="form-img-images_url-{{$v.id}}" class="block m-t-5 am-img-thumbnail am-radius" height="150" data-default="{{$image_host}}/Public/Admin/Default/Images/default-images.png">
+									</div>
+									<div class="am-form-group fr">
+										<label>{{:L('goods_content_app_text_text')}}</label>
+										<textarea rows="6" name="content_app_text_{{$v.id}}" maxlength="105000" class="am-radius" placeholder="{{:L('goods_content_app_text_text')}}" data-validation-message="{{:L('goods_content_app_text_format')}}"><present name="v">{{$v.content}}</present></textarea>
+									</div>
+								</div>
+								<i class="am-icon-times-circle am-icon-sm c-p content-app-items-rem-sub"> 删除</i><i class="am-icon-list-ul am-icon-sm c-m drag-sort-submit"> {{:L('common_drag_sort_title')}}</i>
+							</li>
+						</foreach>
+					</if>
+				</ul>
+				<label class="am-icon-plus-square am-icon-sm c-p content-app-items-add-sub"> {{:L('goods_content_app_add_sub_text')}}</label>
+			</div>
+			<div id="goods-nav-web" class="division-block">
+				<label class="block nav-detail-title">{{:L('goods_nav_web_name')}}</label>
+				<div class="am-form-group">
+					<textarea class="am-radius am-validate" name="content_web" maxlength="105000" id="editor-tag" data-url="{{:U('Admin/Ueditor/Index', ['path_type'=>'Article'])}}" data-validation-message="{{:L('goods_content_web_format')}}"><notempty name="data">{{$data.content_web}}</notempty></textarea>
+				</div>
+			</div>
+
+			<div class="am-form-group">
+				<input type="hidden" name="id" <notempty name="data"> value="{{$data.id}}"</notempty>" />
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end -->
+
+<!-- 拖拽排序初始化 -->
+<script type="text/javascript">
+$(function()
+{
+	<if condition="!empty($data['attribute'])">
+		<foreach name="data.attribute" item="v">
+			$('ul.attribute-items-ul-{{$v.id}}').dragsort({ dragSelector: 'i.drag-sort-submit', placeHolderTemplate: '<li class="drag-sort-dotted"></li>'});
+		</foreach>
+	</if>
+
+	<if condition="!empty($data['content_app'])">
+		<foreach name="data.content_app" item="v">
+			img_file_upload_show('.images-file-tag-{{$v.id}}');
+		</foreach>
+	</if>
+});
+</script>

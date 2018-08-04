@@ -1,0 +1,38 @@
+/* 头部 */
+.head-box{
+    padding: 30rpx 10rpx;
+    font-size: 24rpx;
+}
+.head-item .portrait{
+    width: 160rpx;
+    height: 160rpx;
+    border-radius: 50%;
+}
+.head-item .item-name{
+    font-size: 30rpx;
+    margin-top: 10rpx;
+}
+
+.head-item .item-icon{
+    width: 30rpx;
+    margin-right: 20rpx;
+}
+
+
+/* 导航列表 */
+.nav-box .nav-item{
+    height: 100rpx;
+    box-sizing: border-box;
+    padding: 30rpx 20rpx;
+}
+.nav-box .nav-item .item-icon{
+    width: 40rpx;
+    vertical-align: middle;
+}
+.nav-box .nav-item .item-name{
+    margin-left: 20rpx;
+}
+.nav-box .nav-item .item-arrow{
+    width: 25rpx;
+}
+.user-notice { margin-top: 20rpx; padding: 0 10rpx 20rpx 10rpx; }

@@ -1,0 +1,46 @@
+<swiper
+  indicator-dots="{{indicator_dots}}"
+  indicator-color="{{indicator_color}}"
+  indicator-active-color="{{indicator_active_color}}"
+  autoplay="{{autoplay}}"
+  circular="{{circular}}"
+  class="banner bg-white spacing-mb"
+  a:if="{{banner_list.length > 0}}">
+  <block a:for="{{banner_list}}">
+    <swiper-item>
+      <image class="wh-auto" src="{{item.images_url}}" mode="widthFix" data-value="{{item.jump_url}}" data-type="{{item.jump_url_type}}" onTap="banner_event" />
+    </swiper-item>
+  </block>
+</swiper>
+
+<view a:if="{{category_list.length > 0}}">
+  <view class="spacing-nav-title">
+    <text class="line"></text>
+    <text class="text-wrapper">网上选人</text>
+  </view>
+  <view class="category-list">
+    <view class="items bg-white" a:for="{{category_list}}">
+      <navigator url="/pages/goods-search/goods-search?category_id={{item.id}}" hover-class="none">
+        <image class="wh-auto" src="{{item.icon}}" mode="aspectFit" />
+        <view class="title tc single-text">{{item.name}}</view>
+      </navigator>
+    </view>
+  </view>
+</view>
+<view a:if="{{category_list.length == 0}}">
+    <import src="/pages/common/nodata.axml" />
+    <template is="nodata" data="{{status: data_list_loding_status}}"></template>
+</view>
+
+<view a:if="{{load_status == 1}}" class="spacing-10">
+  <navigator url="/pages/answer-form/answer-form" hover-class="none" class="bg-white">
+    <image class="wh-auto" mode="widthFix" src="/images/home-consulting-image.jpg" />
+  </navigator>
+</view>
+
+<view a:if="{{load_status == 1}}" class="customer-service" onTap="call_event">
+  <image src="/images/customer-service-icon.png" mode="scaleToFill" />
+</view>
+
+<import src="/pages/common/bottom_line.axml" />
+<template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>

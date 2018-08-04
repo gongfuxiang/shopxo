@@ -1,0 +1,10 @@
+<view class="content">
+  <form onSubmit="formSubmit">
+    <input type="number" placeholder="输入手机号码" maxlength="11" name="mobile" onInput="bind_key_input" class="mobile" />
+    <view class="code clearfix">
+      <input type="number" placeholder="验证码" maxlength="6" name="verify" class="verify" />
+      <button type="default" hover-class="none" size="mini" loading="{{verify_loading}}" disabled="{{verify_disabled}}" onTap="verify_send" class="verify-sub fr {{verify_disabled ? 'sub-disabled' : ''}}">{{verify_submit_text}}</button>
+    </view>
+    <button type="default" formType="submit" hover-class="none" plain loading="{{form_submit_loading}}" disabled="{{form_submit_loading}}" class="submit {{form_submit_loading ? 'my-btn-gray' : 'my-btn-default'}}">确认绑定</button>
+  </form>
+</view>

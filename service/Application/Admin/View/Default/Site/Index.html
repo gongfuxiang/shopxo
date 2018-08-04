@@ -1,0 +1,72 @@
+<include file="Public/Header" />
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:U('Admin/Site/Save')}}" method="POST" request-type="ajax-url" request-value="{{:U('Admin/Site/Index')}}" enctype="multipart/form-data">
+			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
+			<div class="am-form-group">
+				<label>{{$data.common_timezone.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_timezone.describe}}）</span></label>
+				<select name="{{$data.common_timezone.only_tag}}" class="am-radius chosen-select c-p" data-placeholder="{{$data.common_timezone.name}}" data-validation-message="{{$data.common_timezone.error_tips}}" required>
+					<foreach name="site_timezone_list" key="k" item="v">
+						<option value="{{$k}}" <if condition="isset($data['common_timezone']['value']) and $data['common_timezone']['value'] eq $k">selected</if>>{{$v}}</option>
+					</foreach>
+				</select>
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_max_limit_image.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_max_limit_image.describe}}）</span></label>
+				<input type="number" name="{{$data.home_max_limit_image.only_tag}}" placeholder="{{$data.home_max_limit_image.name}}" data-validation-message="{{$data.home_max_limit_image.error_tips}}" class="am-radius" <present name="data"> value="{{$data.home_max_limit_image.value}}"</present> required />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_max_limit_file.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_max_limit_file.describe}}）</span></label>
+				<input type="number" name="{{$data.home_max_limit_file.only_tag}}" placeholder="{{$data.home_max_limit_file.name}}" data-validation-message="{{$data.home_max_limit_file.error_tips}}" class="am-radius" <present name="data"> value="{{$data.home_max_limit_file.value}}"</present> required />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_max_limit_video.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_max_limit_video.describe}}）</span></label>
+				<input type="number" name="{{$data.home_max_limit_video.only_tag}}" placeholder="{{$data.home_max_limit_video.name}}" data-validation-message="{{$data.home_max_limit_video.error_tips}}" class="am-radius" <present name="data"> value="{{$data.home_max_limit_video.value}}"</present> required />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_site_state.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_site_state.describe}}）</span></label>
+				<select name="{{$data.home_site_state.only_tag}}" class="am-radius c-p" data-validation-message="{{$data.home_site_state.error_tips}}" required>
+					<foreach name="site_site_state_list" item="v">
+						<option value="{{$v.value}}" <if condition="isset($data['home_site_state']['value']) and $data['home_site_state']['value'] eq $v['value']">selected</if>>{{$v.name}}</option>
+					</foreach>
+				</select>
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_site_close_reason.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_site_close_reason.describe}}）</span></label>
+				<textarea rows="3" name="{{$data.home_site_close_reason.only_tag}}" class="am-radius" placeholder="{{$data.home_site_close_reason.name}}" data-validation-message="{{$data.home_site_close_reason.error_tips}}"><present name="data">{{$data.home_site_close_reason.value}}</present></textarea>
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_verify_expire_time.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_verify_expire_time.describe}}）</span></label>
+				<input type="number" name="{{$data.common_verify_expire_time.only_tag}}" placeholder="{{$data.common_verify_expire_time.name}}" data-validation-message="{{$data.common_verify_expire_time.error_tips}}" class="am-radius" <present name="data"> value="{{$data.common_verify_expire_time.value}}"</present> required />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_verify_time_interval.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_verify_time_interval.describe}}）</span></label>
+				<input type="number" name="{{$data.common_verify_time_interval.only_tag}}" placeholder="{{$data.common_verify_time_interval.name}}" data-validation-message="{{$data.common_verify_time_interval.error_tips}}" class="am-radius" <present name="data"> value="{{$data.common_verify_time_interval.value}}"</present> required />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_content_max_width.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_content_max_width.describe}}）</span></label>
+				<input type="number" name="{{$data.home_content_max_width.only_tag}}" placeholder="{{$data.home_content_max_width.name}}" data-validation-message="{{$data.home_content_max_width.error_tips}}" class="am-radius" <present name="data"> value="{{$data.home_content_max_width.value}}"</present> required />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_site_icp.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_site_icp.describe}}）</span></label>
+				<input type="text" name="{{$data.home_site_icp.only_tag}}" placeholder="{{$data.home_site_icp.describe}}" data-validation-message="{{$data.home_site_icp.error_tips}}" class="am-radius" <present name="data"> value="{{$data.home_site_icp.value}}"</present> />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_footer_info.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_footer_info.describe}}）</span></label>
+				<textarea rows="6" name="{{$data.home_footer_info.only_tag}}" class="am-radius" placeholder="{{$data.home_footer_info.name}}" data-validation-message="{{$data.home_footer_info.error_tips}}"><present name="data">{{$data.home_footer_info.value}}</present></textarea>
+			</div>
+			<div class="am-form-group">
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end

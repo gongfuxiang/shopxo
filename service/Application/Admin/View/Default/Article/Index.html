@@ -1,0 +1,131 @@
+<include file="Public/Header" />
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form view-list" action="{{:U('Admin/Article/Index')}}" method="POST">
+			<div class="am-g">
+				<input type="text" class="am-radius form-keyword" placeholder="{{:L('article_so_keyword_tips')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"</present> />
+				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">{{:L('common_operation_query')}}</button>
+				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
+					{{:L('common_more_screening')}}
+					<input type="checkbox" name="is_more" value="1" id="is_more" <if condition="isset($param['is_more']) and $param['is_more'] eq 1">checked</if> />
+					<i class="am-icon-angle-down"></i>
+				</label>
+
+				<div class="more-where <if condition="!isset($param['is_more']) or $param['is_more'] neq 1">none</if>">
+					<select  class="am-radius c-p m-t-10 param-where" name="article_category_id">
+						<option value="-1">{{:L('article_category_text')}}</option>
+						<foreach name="article_category_list" item="v">
+							<option value="{{$v.id}}" <if condition="isset($param['article_category_id']) and $param['article_category_id'] eq $v['id']">selected</if>>{{$v.name}}</option>
+						</foreach>
+					</select>
+					<select name="is_enable" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">{{:L('common_view_enable_title')}}</option>
+						<foreach name="common_is_enable_list" item="v">
+							<option value="{{$v.id}}" <if condition="isset($param['is_enable']) and $param['is_enable'] eq $v['id']">selected</if>>{{$v.name}}</option>
+						</foreach>
+					</select>
+					<div class="param-date param-where m-l-5">
+						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="{{:L('common_time_start_name')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" <if condition="isset($param['time_start'])">value="{{$param.time_start}}"</if>/>
+						<span>~</span>
+						<input type="text" class="Wdate am-radius m-t-10" placeholder="{{:L('common_time_end_name')}}" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" <if condition="isset($param['time_end'])">value="{{$param.time_end}}"</if>/>
+					</div>
+				</div>
+			</div>
+        </form>
+        <!-- form end -->
+
+        <!-- operation start -->
+        <div class="am-g m-t-15">
+            <a href="{{:U('Admin/Article/SaveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:L('common_operation_add')}}</a>
+        </div>
+        <!-- operation end -->
+
+		<!-- list start -->
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
+			<thead>
+				<tr>
+					<th>{{:L('article_title_text')}}</th>
+					<th class="am-hide-sm-only">{{:L('article_category_text')}}</th>
+					<th class="am-hide-sm-only">{{:L('common_view_access_count_text')}}</th>
+					<th>{{:L('common_view_status_title')}}</th>
+					<th class="am-hide-sm-only">{{:L('common_create_time_name')}}</th>
+					<th>{{:L('common_more_name')}}</th>
+					<th>{{:L('common_operation_name')}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<if condition="!empty($list)">
+					<foreach name="list" item="v">
+						<tr id="data-list-{{$v.id}}" <if condition="$v['is_enable'] eq 0">class="am-active"</if>>
+							<td  class="td-title">
+								<a href="javascript:;" target="_blank" title="{{$v.title}}" <if condition="!empty($v['title_color'])"> style="color:{{$v.title_color}};" </if> >{{$v.title}}</a>
+							</td>
+							<td class="am-hide-sm-only">{{$v.article_category_name}}</td>
+							<td class="am-hide-sm-only">{{$v.access_count}}</td>
+							<td>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_enable'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Article/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}"></a>
+							</td>
+							<td class="am-hide-sm-only">{{$v.add_time}}</td>
+							<td>
+								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> {{:L('common_see_more_name')}}</span>
+								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
+									<div class="am-popup-inner">
+										<div class="am-popup-hd">
+											<h4 class="am-popup-title">{{:L('common_detail_content')}}</h4>
+											<span data-am-modal-close
+											class="am-close">&times;</span>
+										</div>
+										<div class="am-popup-bd">
+											<dl class="dl-content">
+												<dt>{{:L('article_title_text')}}</dt>
+												<dd>{{$v.title}}</dd>
+
+												<dt>{{:L('article_category_text')}}</dt>
+												<dd>{{$v.article_category_name}}</dd>
+
+												<dt>{{:L('common_view_access_count_text')}}</dt>
+												<dd>{{$v.access_count}}</dd>
+
+												<dt>{{:L('common_view_enable_title')}}</dt>
+												<dd>{{$v.is_enable_text}}</dd>
+
+												<dt>{{:L('common_create_time_name')}}</dt>
+												<dd>{{$v.add_time}}</dd>
+
+												<dt>{{:L('common_upd_time_name')}}</dt>
+												<dd>{{$v.upd_time}}</dd>
+											</dl>
+										</div>
+									</div>
+								</div>
+							</td>
+							<td class="view-operation">
+								<a href="{{:U('Admin/Article/SaveInfo', array('id'=>$v['id']))}}">
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"></button>
+								</a>
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/Article/Delete')}}" data-id="{{$v.id}}"></button>
+							</td>
+						</tr>
+					</foreach>
+				<else />
+					<tr><td colspan="10" class="table-no">{{:L('common_not_data_tips')}}</td></tr>
+				</if>
+			</tbody>
+		</table>
+		<!-- list end -->
+
+		<!-- page start -->
+		<if condition="!empty($list)">
+			{{$page_html}}
+		</if>
+		<!-- page end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end -->
