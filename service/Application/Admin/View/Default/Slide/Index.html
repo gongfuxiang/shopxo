@@ -84,7 +84,7 @@
                                 </if>
                             </td>
                             <td class="am-hide-sm-only">
-                                <a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_enable'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Slide/StateUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}"></a>
+                                <a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_enable'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Slide/StateUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
                             </td>
                             <td>{{$v.add_time_text}}</td>
                             <td class="view-operation">

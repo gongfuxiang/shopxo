@@ -103,11 +103,17 @@ function GetFormVal(element)
 
 	// input 复选框checkboox
 	tmp_all = [];
+	temp_field = '';
 	i = 0;
 	$(element).find('input[type="checkbox"]').each(function(key, tmp)
 	{
 		if(tmp.name != undefined && tmp.name != '')
 		{
+			// name不一样的时候初始化索引值
+			if(temp_field != tmp.name)
+			{
+				i = 0;
+			}
 			if($(this).is(':checked'))
 			{
 				if(tmp_all[tmp.name] == undefined) tmp_all[tmp.name] = [];
@@ -643,6 +649,7 @@ $(function()
 		var id = $tag.data('id');
 		var state = ($tag.data('state') == 1) ? 0 : 1;
 		var url = $tag.data('url');
+		var is_update_status = $tag.data('is-update-status') || 0;
 		if(id == undefined || url == undefined)
 		{
 			Prompt('参数配置有误');
@@ -667,16 +674,22 @@ $(function()
 					{
 						$tag.removeClass('am-success');
 						$tag.addClass('am-default');
-						if($('#data-list-'+id).length > 0)
+						if(is_update_status == 1)
 						{
-							$('#data-list-'+id).addClass('am-active');
+							if($('#data-list-'+id).length > 0)
+							{
+								$('#data-list-'+id).addClass('am-active');
+							}
 						}
 					} else {
 						$tag.removeClass('am-default');
 						$tag.addClass('am-success');
-						if($('#data-list-'+id).length > 0)
+						if(is_update_status == 1)
 						{
-							$('#data-list-'+id).removeClass('am-active');
+							if($('#data-list-'+id).length > 0)
+							{
+								$('#data-list-'+id).removeClass('am-active');
+							}
 						}
 					}
 					$tag.data('state', state);
@@ -972,8 +985,6 @@ $(function()
 		}
 		address += $('#form-address').val();
 
-		console.log(address);
-
 		var map = new BMap.Map("map", {enableMapClick:false});
 		var point = new BMap.Point(116.331398,39.897445);
 		map.centerAndZoom(point,12);
@@ -1056,12 +1067,14 @@ $(function()
         fillcolor:true,
         success:function(o, color)
         {
-            $($('.colorpicker-submit').data('input-tag')).css('color', color);
+        	var style = $('.colorpicker-submit').data('color-style') || 'color';
+            $($('.colorpicker-submit').data('input-tag')).css(style, color);
             $($('.colorpicker-submit').data('color-tag')).val(color);
         },
         reset:function(o)
         {
-            $($('.colorpicker-submit').data('input-tag')).css('color', '');
+        	var style = $('.colorpicker-submit').data('color-style') || 'color';
+            $($('.colorpicker-submit').data('input-tag')).css(style, '');
             $($('.colorpicker-submit').data('color-tag')).val('');
         }
     });

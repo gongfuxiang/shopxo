@@ -11,5 +11,7 @@ return array(
     // 添加/编辑
 	'goods_category_add_name'				=> '分类添加',
 	'goods_category_edit_name'			    => '分类编辑',
+
+    'goods_category_bg_color'               => '背景色',
 );
 ?>

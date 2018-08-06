@@ -69,7 +69,7 @@
 							</td>
 							<td>{{$v.content}}</td>
 							<td>
-								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_show'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Answer/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}"></a>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_show'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Answer/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1"></a>
 							</td>
 							<td class="am-hide-sm-only">{{$v.reply}}</td>
 							<td class="am-hide-sm-only">{{$v.add_time}}</td>

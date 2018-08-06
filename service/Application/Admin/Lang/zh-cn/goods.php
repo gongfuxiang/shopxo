@@ -47,12 +47,12 @@ return array(
 	'goods_buy_max_number_tips'			=>	'单次最大数值 100000000, 小于等于0或空则不限',
 	'goods_buy_max_number_format'		=>	'单次最大购买数量 1~100000000',
 
-	'goods_is_deduction_inventory_text'	=>	'是否扣减库存',
+	'goods_is_deduction_inventory_text'	=>	'扣减库存',
 	'goods_is_deduction_inventory_tips'	=>	'扣除规则根据后台配置->扣除库存规则而定',
-	'goods_is_shelves_text'				=>	'是否上下架',
+	'goods_is_shelves_text'				=>	'上下架',
 	'goods_is_shelves_tips'				=>	'下架后用户不可见',
 
-	'goods_is_home_recommended_text'	=>	'是否首页推荐',
+	'goods_is_home_recommended_text'	=>	'首页推荐',
 	'goods_is_home_recommended_tips'	=>	'推荐后在首页展示',
 
 	'goods_images_text'					=>	'相册',

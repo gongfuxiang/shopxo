@@ -38,6 +38,7 @@ legend {padding-bottom:0.2rem !important; margin-bottom: 1rem; }
 select {height:32px !important;}
 .bk-cr-gray {background:#f3f3f3 !important;}
 .bk-cr-ffd {background:#ffd !important;}
+.bk-cr-white {background-color: #fff;}
 .t-c {text-align:center;}
 .t-l {text-align:left;}
 .t-r {text-align:right;}
@@ -163,4 +164,11 @@ input:hover, select:hover, textarea:hover, .chosen-choices:hover, .chosen-single
     background-color: #ffeee1;
     border-color: #f9e4d3;
     color: #f37b1d;
+}
+
+/**
+ * 颜色选择插件
+ */
+#colorpanel {
+    z-index: 10000;
 }

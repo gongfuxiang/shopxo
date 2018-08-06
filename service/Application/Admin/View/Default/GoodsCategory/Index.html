@@ -30,6 +30,13 @@
 							<img src="<if condition="!empty($data['images_url'])">{{$image_host}}{{$data.images_url}}<else />{{$image_host}}/Public/Admin/Default/Images/default-images.png</if>" id="form-img-images_url" class="block m-t-5 am-img-thumbnail am-radius" width="50" height="50" data-default="<if condition="!empty($data['images_url'])">{{$image_host}}{{$data.images_url}}<else />{{$image_host}}/Public/Admin/Default/Images/default-images.png</if>" />
 						</div>
 						<div class="am-form-group">
+							<label>{{:L('goods_category_bg_color')}}</label>
+							<input type="hidden" name="bg_color" value="" />
+							<button class="am-btn am-btn-default colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color">
+								<img src="__PUBLIC__/Common/Images/colorpicker.png" />
+							</button>
+						</div>
+						<div class="am-form-group">
 							<label>{{:L('common_name_text')}}</label>
 							<input type="text" placeholder="{{:L('common_name_text')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:L('common_name_format')}}" class="am-radius" required />
 						</div>

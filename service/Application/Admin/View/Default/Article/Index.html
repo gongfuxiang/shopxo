@@ -66,7 +66,7 @@
 							<td class="am-hide-sm-only">{{$v.article_category_name}}</td>
 							<td class="am-hide-sm-only">{{$v.access_count}}</td>
 							<td>
-								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_enable'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Article/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}"></a>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_enable'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Article/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
 							</td>
 							<td class="am-hide-sm-only">{{$v.add_time}}</td>
 							<td>

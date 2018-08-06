@@ -64,6 +64,9 @@ class GoodsController extends CommonController
 		// 是否上下架
 		$this->assign('common_goods_is_shelves_list', L('common_goods_is_shelves_list'));
 
+		// 是否首页推荐
+		$this->assign('common_is_text_list', L('common_is_text_list'));
+
 		// 参数
 		$this->assign('param', $param);
 
@@ -138,6 +141,10 @@ class GoodsController extends CommonController
 			if(I('is_shelves', -1) > -1)
 			{
 				$where['is_shelves'] = intval(I('is_shelves', 0));
+			}
+			if(I('is_home_recommended', -1) > -1)
+			{
+				$where['is_home_recommended'] = intval(I('is_home_recommended', 0));
 			}
 
 			// 表达式
@@ -281,8 +288,8 @@ class GoodsController extends CommonController
 			'content_web'				=> $_POST['content_web'],
 			'images'					=> isset($photo['data'][0]) ? $photo['data'][0] : '',
 			'photo_count'				=> count($photo['data']),
+			'is_home_recommended'		=> intval(I('is_home_recommended')),
 		];
-		print_r($_POST);die;
 
 		// 添加/编辑
 		$m = D('Goods');
@@ -574,13 +581,13 @@ class GoodsController extends CommonController
 	}
 
 	/**
-	 * [StatusUpdate 状态更新]
+	 * [StatusShelves 上下架状态更新]
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
 	 * @datetime 2017-01-12T22:23:06+0800
 	 */
-	public function StatusUpdate()
+	public function StatusShelves()
 	{
 		// 参数
 		if(empty($_POST['id']) || !isset($_POST['state']))
@@ -590,6 +597,30 @@ class GoodsController extends CommonController
 
 		// 数据更新
 		if(M('Goods')->where(array('id'=>I('id')))->save(array('is_shelves'=>I('state'))))
+		{
+			$this->ajaxReturn(L('common_operation_edit_success'));
+		} else {
+			$this->ajaxReturn(L('common_operation_edit_error'), -100);
+		}
+	}
+
+	/**
+	 * [StatusHomeRecommended 是否首页推荐状态更新]
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2017-01-12T22:23:06+0800
+	 */
+	public function StatusHomeRecommended()
+	{
+		// 参数
+		if(empty($_POST['id']) || !isset($_POST['state']))
+		{
+			$this->ajaxReturn(L('common_param_error'), -1);
+		}
+
+		// 数据更新
+		if(M('Goods')->where(array('id'=>I('id')))->save(array('is_home_recommended'=>I('state'))))
 		{
 			$this->ajaxReturn(L('common_operation_edit_success'));
 		} else {
