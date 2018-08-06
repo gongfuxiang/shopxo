@@ -44,6 +44,7 @@
 					<th>{{:L('goods_title_text')}}</th>
 					<th>{{:L('goods_price_text')}}</th>
 					<th>{{:L('goods_is_shelves_text')}}</th>
+					<th>{{:L('goods_is_home_recommended_text')}}</th>
 					<th class="am-hide-sm-only">{{:L('goods_inventory_text')}}</th>
 					<th class="am-hide-sm-only">{{:L('goods_model_text')}}</th>
 					<th class="am-hide-sm-only">{{:L('common_create_time_name')}}</th>
@@ -69,6 +70,9 @@
 							</td>
 							<td>
 								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_shelves'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Goods/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_shelves']}}"></a>
+							</td>
+							<td>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_home_recommended'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Goods/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_home_recommended']}}"></a>
 							</td>
 							<td class="am-hide-sm-only">{{$v.inventory}} {{$v.inventory_unit}}</td>
 							<td class="am-hide-sm-only">{{$v.model}}</td>

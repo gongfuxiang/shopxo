@@ -282,6 +282,7 @@ class GoodsController extends CommonController
 			'images'					=> isset($photo['data'][0]) ? $photo['data'][0] : '',
 			'photo_count'				=> count($photo['data']),
 		];
+		print_r($_POST);die;
 
 		// 添加/编辑
 		$m = D('Goods');

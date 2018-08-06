@@ -52,6 +52,9 @@ return array(
 	'goods_is_shelves_text'				=>	'是否上下架',
 	'goods_is_shelves_tips'				=>	'下架后用户不可见',
 
+	'goods_is_home_recommended_text'	=>	'是否首页推荐',
+	'goods_is_home_recommended_tips'	=>	'推荐后在首页展示',
+
 	'goods_images_text'					=>	'相册',
 	'goods_images_tips'					=>	'可拖拽图片进行排序',
 	'goods_images_format'				=>	'请上传相册',

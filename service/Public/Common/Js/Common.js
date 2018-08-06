@@ -739,6 +739,10 @@ $(function()
 	 */
 	$('#tree').on('click', '.tree-submit-add-node', function()
 	{
+		// 清空表单数据
+		tree_form_init();
+
+		// 父节点赋值
 		var id = parseInt($(this).data('id')) || 0;
 		$('#data-save-win').find('input[name="pid"]').val(id);
 	});
@@ -788,6 +792,19 @@ $(function()
 	 */
 	$('.tree-submit-add').on('click', function()
 	{
+		tree_form_init();
+	});
+
+	/**
+	 * 添加窗口初始化
+	 * @author   Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2018-08-06
+	 * @desc    description
+	 */
+	function tree_form_init()
+	{
 		// 更改窗口名称
 		$title = $('#data-save-win').find('.am-popup-title');
 		$title.text($title.data('add-title'));
@@ -824,7 +841,7 @@ $(function()
 				$(icon_tag).attr('src', $(icon_tag).data('default'));
 			}
 		}
-	});
+	}
 
 	/**
 	 * [submit-ajax 公共数据ajax操作]
