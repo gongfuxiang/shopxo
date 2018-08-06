@@ -1,0 +1,10 @@
+*.html.php
+.DS_Store
+.ide
+*.log
+Runtime
+Temp
+temp
+Logs
+logs
+*.lock

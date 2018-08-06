@@ -49,6 +49,9 @@ class ConfigController extends CommonController
 		// 扣除库存规则
 		$this->assign('common_deduction_inventory_rules_list', L('common_deduction_inventory_rules_list'));
 
+		// 是否
+		$this->assign('common_is_text_list', L('common_is_text_list'));
+
 		// 配置信息
 		$data = M('Config')->getField('only_tag,name,describe,value,error_tips');
 		$this->assign('data', $data);

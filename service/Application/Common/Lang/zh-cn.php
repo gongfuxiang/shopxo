@@ -9,12 +9,12 @@
  */
 return array(
 	// 站点信息
-	'common_site_name'					=>	'伯缘家政',
+	'common_site_name'					=>	'ShopXO',
 	'common_site_vice_name'				=>	'后台管理系统',
-	'common_site_title'					=>	'伯缘家政后台管理系统',
+	'common_site_title'					=>	'ShopXO后台管理系统',
 
 	// 应用信息
-	'common_application_name'			=>	'伯缘家政',
+	'common_application_name'			=>	'ShopXO',
 	'common_application_ver'			=>	'v0.0.1',
 	'common_application_website'		=>	'http://boyuan.mei.la/',
 
