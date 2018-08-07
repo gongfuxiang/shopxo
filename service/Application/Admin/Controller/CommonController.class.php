@@ -312,8 +312,10 @@ class CommonController extends Controller
 		// 不实例化的字段
 		$no_all = array(
 			'home_footer_info',
-			'common_agreement_kehu',
-			'common_agreement_shanghu',
+			'home_email_user_reg',
+			'home_email_user_forget_pwd',
+			'home_email_user_email_binding',
+			'home_site_close_reason',
 		);
 
 		// 开始更新数据

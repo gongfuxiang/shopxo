@@ -1,0 +1,58 @@
+<include file="Public/Header" />
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- table nav start -->
+		<include file="Nav" />
+		<!-- table nav end -->
+		
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:U('Admin/Email/Save')}}" method="POST" request-type="ajax-url" request-value="{{:U('Admin/Email/Index', ['type'=>'email'])}}">
+			<div class="am-form-group">
+				<label>{{$data.common_email_smtp_host.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_email_smtp_host.describe}}）</span></label>
+				<input type="text" name="{{$data.common_email_smtp_host.only_tag}}" placeholder="{{$data.common_email_smtp_host.name}}" data-validation-message="{{$data.common_email_smtp_host.error_tips}}" class="am-radius" <present name="data"> value="{{$data.common_email_smtp_host.value}}"</present> />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_email_smtp_port.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_email_smtp_port.describe}}）</span></label>
+				<input type="number" name="{{$data.common_email_smtp_port.only_tag}}" placeholder="{{$data.common_email_smtp_port.name}}" data-validation-message="{{$data.common_email_smtp_port.error_tips}}" class="am-radius" <present name="data"> value="{{$data.common_email_smtp_port.value}}"</present> />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_email_smtp_account.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_email_smtp_account.describe}}）</span></label>
+				<input type="text" name="{{$data.common_email_smtp_account.only_tag}}" placeholder="{{$data.common_email_smtp_account.name}}" data-validation-message="{{$data.common_email_smtp_account.error_tips}}" class="am-radius" <present name="data"> value="{{$data.common_email_smtp_account.value}}"</present> />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_email_smtp_name.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_email_smtp_name.describe}}）</span></label>
+				<input type="text" name="{{$data.common_email_smtp_name.only_tag}}" placeholder="{{$data.common_email_smtp_name.name}}" data-validation-message="{{$data.common_email_smtp_name.error_tips}}" class="am-radius" <present name="data"> value="{{$data.common_email_smtp_name.value}}"</present> />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_email_smtp_pwd.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_email_smtp_pwd.describe}}）</span></label>
+				<input type="password" name="{{$data.common_email_smtp_pwd.only_tag}}" placeholder="{{$data.common_email_smtp_pwd.name}}" data-validation-message="{{$data.common_email_smtp_pwd.error_tips}}" class="am-radius" <present name="data"> value="{{$data.common_email_smtp_pwd.value}}"</present> />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_email_smtp_send_name.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_email_smtp_send_name.describe}}）</span></label>
+				<input type="text" name="{{$data.common_email_smtp_send_name.only_tag}}" placeholder="{{$data.common_email_smtp_send_name.name}}" data-validation-message="{{$data.common_email_smtp_send_name.error_tips}}" class="am-radius" <present name="data"> value="{{$data.common_email_smtp_send_name.value}}"</present> />
+			</div>
+			<div class="am-form-group">
+				<label>{{:L('email_test_email_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('email_test_email_tips')}}）</span></label>
+				<div class="am-input-group am-input-group-sm">
+					<span class='am-form-group'>
+						<input type="text" placeholder="{{:L('email_test_email_text')}}" class="am-radius test-email-value" />
+					</span>
+					<span class="am-input-group-btn">
+						<button class="am-btn am-btn-default am-radius test-email-submit" type="button" data-url="{{:U('Admin/Email/EmailTest')}}">{{:L('common_operation_test')}}</button>
+					</span>
+				</div>
+			</div>
+			<div class="am-form-group">
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end -->

@@ -83,16 +83,16 @@ class SiteController extends CommonController
 
 			// 文件类型
 			list($type, $suffix) = explode('/', $_FILES['home_site_logo_img']['type']);
-			$path = 'Public/Upload/Home/image/';
+			$path = 'Public'.DS.'Upload'.DS.'common'.DS.'images'.DS;
 			if(!is_dir($path))
 			{
 				mkdir(ROOT_PATH.$path, 0777, true);
 			}
-			$filename = 'home_logo.'.$suffix;
+			$filename = date('YmdHis').'_logo.'.$suffix;
 			$home_site_logo = $path.$filename;
 			if(move_uploaded_file($_FILES['home_site_logo_img']['tmp_name'], ROOT_PATH.$home_site_logo))
 			{
-				$_POST['home_site_logo'] = '/'.$home_site_logo;
+				$_POST['home_site_logo'] = DS.$home_site_logo;
 			}
 		}
 

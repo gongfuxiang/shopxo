@@ -1,0 +1,8 @@
+<ul class="am-nav am-nav-pills table-nav m-b-10">
+	<li <if condition="$nav_type eq 'email'">class="am-active"</if> data-type="email">
+		<a href="{{:U('Admin/Email/Index', ['type'=>'email'])}}">{{:L('email_email_nav_name')}}</a>
+	</li>
+	<li <if condition="$nav_type eq 'message'">class="am-active"</if> data-type="message">
+		<a href="{{:U('Admin/Email/Index', ['type'=>'message'])}}">{{:L('email_message_nav_name')}}</a>
+	</li>
+</ul>
