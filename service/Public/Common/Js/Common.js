@@ -520,12 +520,9 @@ function Tree(id, url, level, is_add_node)
  */
 function img_file_upload_show(class_name, show_img, default_images)
 {
-	if((show_img || null) == null)
-	{
-		show_img = $(class_name).data('image-tag') || null;
-	}
 	$(document).on("change", class_name, function(imgFile)
 	{
+		show_img = $(this).data('image-tag') || null;
 		var status = false;
 		if((imgFile.target.value || null) != null)
 		{
@@ -705,6 +702,70 @@ $(function()
 	});
 
 	/**
+	 * 编辑窗口额为参数处理
+	 * @author   Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2018-08-07
+	 * @desc    description
+	 * @param   {[object]}        data [数据]
+	 * @param   {[string]}        type [edit, add]
+	 * @return  {[object]}             [处理后的数据]
+	 */
+	function fun_save_win_additional(data, type)
+	{
+		// 额外处理数据
+		if($('#tree').length > 0)
+		{
+			var additional = $('#tree').data('additional') || null;
+			if(additional != null)
+			{
+				for(var i in additional)
+				{
+					var value = (type == 'add') ? (additional[i]['value'] || '') : (data[additional[i]['field']] || additional[i]['value'] || '');
+					switch(additional[i]['type'])
+					{
+						// 表单
+						case 'input' :
+						case 'select' :
+						case 'textarea' :
+							data[additional[i]['field']] = value;
+							break;
+
+						// 样式处理
+						case 'css' :
+							$(additional[i]['tag']).css(additional[i]['style'], value);
+							break;
+
+						// 文件
+						case 'file' :
+							var $file_tag = $(additional[i]['tag']);
+							if($file_tag.val().length > 0)
+							{
+								$file_tag.after($file_tag.clone().val(''));
+								$file_tag.val('');
+							}
+							break;
+
+						// 属性
+						case 'attr' :
+							$(additional[i]['tag']).attr(additional[i]['style'], value);
+							break;
+
+						// 内容替换
+						case 'html' :
+							$(additional[i]['tag']).html(value);
+							break;
+					}
+				}
+
+			}
+		}
+
+		return data;
+	}
+
+	/**
 	 * [submit-edit 公共编辑]
 	 * @author   Devil
 	 * @blog     http://gong.gg/
@@ -724,23 +785,10 @@ $(function()
 		}
 		
 		// 填充数据
-		var josn = $(this).data('json');
-		FormDataFill(josn, '#'+tag);
+		var data = fun_save_win_additional($(this).data('json'), 'edit');
 
-		// icon图标
-		if($('input[name="file_icon"]').length > 0)
-		{
-			var tips_tag = $('input[name="file_icon"]').data('tips-tag') || null;
-			var icon_tag = $('input[name="file_icon"]').data('image-tag') || null;
-			if(tips_tag != null)
-			{
-				$(tips_tag).html('');
-			}
-			if(icon_tag != null)
-			{
-				$(icon_tag).attr('src', josn.icon_url || $(icon_tag).data('default'));
-			}
-		}
+		// 开始填充数据
+		FormDataFill(data, '#'+tag);
 	});
 
 	/**
@@ -822,8 +870,14 @@ $(function()
 		$title = $('#data-save-win').find('.am-popup-title');
 		$title.text($title.data('add-title'));
 
+		// 填充数据
+		var data = {"id":"", "pid":0, "name":"", "sort":0, "is_enable":1, "icon":""};
+
+		// 额外处理数据
+		data = fun_save_win_additional(data, 'init');
+
 		// 清空表单
-		FormDataFill({"id":"", "pid":0, "name":"", "sort":0, "is_enable":1, "icon":""});
+		FormDataFill(data);
 
 		// 移除菜单禁止状态
 		$('form select[name="pid"]').removeAttr('disabled');
@@ -833,27 +887,6 @@ $(function()
 		{
 			$(this).blur();
 		});
-
-		// icon图标
-		if($('input[name="file_icon"]').length > 0)
-		{
-			var $file_tag = $('input[name="file_icon"]');
-			if($file_tag.val().length > 0)
-			{
-				$file_tag.after($file_tag.clone().val(''));
-				$file_tag.val('');
-			}
-			var tips_tag = $('input[name="file_icon"]').data('tips-tag') || null;
-			var icon_tag = $('input[name="file_icon"]').data('image-tag') || null;
-			if(tips_tag != null)
-			{
-				$(tips_tag).html('');
-			}
-			if(icon_tag != null)
-			{
-				$(icon_tag).attr('src', $(icon_tag).data('default'));
-			}
-		}
 	}
 
 	/**
@@ -1059,6 +1092,14 @@ $(function()
     $(document).on('click', '.original-images-url-delete', function()
     {
     	$($(this).data('input-tag')).val('');
+    	$($(this).data('image-tag')).attr('src', $($(this).data('image-tag')).data('default'));
+    	$($(this).data('tips-tag')).html('');
+    	var $file_tag = $($(this).data('file-tag'));
+		if($file_tag.val().length > 0)
+		{
+			$file_tag.after($file_tag.clone().val(''));
+			$file_tag.val('');
+		}
     });
 
 	// 颜色选择器
@@ -1067,15 +1108,15 @@ $(function()
         fillcolor:true,
         success:function(o, color)
         {
-        	var style = $('.colorpicker-submit').data('color-style') || 'color';
-            $($('.colorpicker-submit').data('input-tag')).css(style, color);
-            $($('.colorpicker-submit').data('color-tag')).val(color);
+        	var style = o.context.dataset.colorStyle || 'color';
+            $(o.context.dataset.inputTag).css(style, color);
+            $(o.context.dataset.colorTag).val(color);
         },
         reset:function(o)
         {
-        	var style = $('.colorpicker-submit').data('color-style') || 'color';
-            $($('.colorpicker-submit').data('input-tag')).css(style, '');
-            $($('.colorpicker-submit').data('color-tag')).val('');
+        	var style = o.context.dataset.colorStyle || 'color';
+            $(o.context.dataset.inputTag).css(style, '');
+            $(o.context.dataset.colorTag).val('');
         }
     });
 

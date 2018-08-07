@@ -60,18 +60,19 @@ class GoodsCategoryController extends CommonController
 		}
 
 		// 获取数据
-		$field = array('id', 'pid', 'icon', 'name', 'sort', 'is_enable');
+		$field = array('id', 'pid', 'icon', 'name', 'sort', 'is_enable', 'bg_color', 'big_images');
 		$data = M('GoodsCategory')->field($field)->where(array('pid'=>intval(I('id', 0))))->select();
 		if(!empty($data))
 		{
 			$image_host = C('IMAGE_HOST');
 			foreach($data as &$v)
 			{
-				$v['is_son']		=	$this->IsExistSon($v['id']);
-				$v['ajax_url']		=	U('Admin/GoodsCategory/GetNodeSon', array('id'=>$v['id']));
-				$v['delete_url']	=	U('Admin/GoodsCategory/Delete');
-				$v['icon_url']		=	empty($v['icon']) ? '' : $image_host.$v['icon'];
-				$v['json']			=	json_encode($v);
+				$v['is_son']			=	$this->IsExistSon($v['id']);
+				$v['ajax_url']			=	U('Admin/GoodsCategory/GetNodeSon', array('id'=>$v['id']));
+				$v['delete_url']		=	U('Admin/GoodsCategory/Delete');
+				$v['icon_url']			=	empty($v['icon']) ? '' : $image_host.$v['icon'];
+				$v['big_images_url']	=	empty($v['big_images']) ? '' : $image_host.$v['big_images'];
+				$v['json']				=	json_encode($v);
 			}
 		}
 		$msg = empty($data) ? L('common_not_data_tips') : L('common_operation_success');
@@ -111,7 +112,7 @@ class GoodsCategoryController extends CommonController
 			$this->error(L('common_unauthorized_access'));
 		}
 
-		// 图片
+		// icon
         if(!empty($_FILES['file_icon']))
         {
             // 文件上传校验
@@ -134,6 +135,32 @@ class GoodsCategoryController extends CommonController
             if(move_uploaded_file($_FILES['file_icon']['tmp_name'], ROOT_PATH.$file_icon))
             {
                 $_POST['icon'] = DS.$file_icon;
+            }
+        }
+
+        // 大图片
+        if(!empty($_FILES['file_big_images']))
+        {
+            // 文件上传校验
+            $error = FileUploadError('file_big_images');
+            if($error !== true)
+            {
+                $this->ajaxReturn($error, -1);
+            }
+
+            // 文件类型
+            list($type, $suffix) = explode('/', $_FILES['file_big_images']['type']);
+            $path = 'Public'.DS.'Upload'.DS.'category'.DS.date('Y').DS.date('m').DS;
+            if(!is_dir($path))
+            {
+                mkdir(ROOT_PATH.$path, 0777, true);
+            }
+            $filename = date('YmdHis').GetNumberCode(6).'.'.$suffix;
+            $file_big_images = $path.$filename;
+
+            if(move_uploaded_file($_FILES['file_big_images']['tmp_name'], ROOT_PATH.$file_big_images))
+            {
+                $_POST['big_images'] = DS.$file_big_images;
             }
         }
 
