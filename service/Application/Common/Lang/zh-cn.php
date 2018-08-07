@@ -278,6 +278,7 @@ return array(
 	'common_order_status_name'			=>	'订单状态',
 	'common_pay_status_name'			=>	'支付状态',
 	'common_express_name'				=>	'快递公司',
+	'common_background_color'           =>	'背景色',
 
 	// 性别
 	'common_gender_list'				=>	array(

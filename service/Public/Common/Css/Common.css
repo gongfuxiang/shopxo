@@ -172,3 +172,14 @@ input:hover, select:hover, textarea:hover, .chosen-choices:hover, .chosen-single
 #colorpanel {
     z-index: 10000;
 }
+button.colorpicker-submit:hover, button.colorpicker-submit:active, button.colorpicker-submit:focus {
+    background-color: #fff;
+}
+button.colorpicker-submit:active {
+    background-image: none;
+    -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.15);
+    box-shadow: inset 0 3px 5px rgba(255, 255, 255, 0.15);
+}
+button.colorpicker-submit img {
+    margin-right: 10px;
+}

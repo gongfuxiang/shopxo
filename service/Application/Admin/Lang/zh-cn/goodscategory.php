@@ -13,6 +13,5 @@ return array(
 	'goods_category_edit_name'			    => '分类编辑',
 
     'goods_category_big_images_text'        => '大图片',
-    'goods_category_bg_color'               => '背景色',
 );
 ?>

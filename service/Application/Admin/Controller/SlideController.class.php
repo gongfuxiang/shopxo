@@ -269,6 +269,7 @@ class SlideController extends CommonController
             $m->images_url      =   I('images_url');
             $m->platform        =   I('platform');
             $m->is_enable       =   intval(I('is_enable'));
+            $m->bg_color        =   I('bg_color');
             $m->add_time        =   time();
 
             // 数据添加
@@ -305,6 +306,7 @@ class SlideController extends CommonController
             $m->images_url      =   I('images_url');
             $m->platform        =   I('platform');
             $m->is_enable       =   intval(I('is_enable'));
+            $m->bg_color        =   I('bg_color');
             $m->upd_time        =   time();
 
             // 更新数据库

@@ -16,5 +16,3 @@
 @media only screen and (max-width: 321px) {
 	.view-operation button { margin: 2px 0px; }
 }
-input[type="file"] { width: 105px !important; height: 32px; margin-top: 27px; overflow:hidden; }
-#original-images-url { display: -webkit-inline-box; width: calc(100% - 110px) !important; }

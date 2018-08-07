@@ -68,7 +68,7 @@
                         <tr id="data-list-{{$v.id}}" <if condition="$v['is_enable'] eq 0">class="am-active"</if>>
                             <td>{{$v.name}}</td>
                             <td>{{$v.platform_text}}</td>
-                            <td>
+                            <td <if condition="!empty($v['bg_color'])">style="background-color:{{$v.bg_color}};"</if>>
                                 <if condition="!empty($v['images_url'])">
                                     <a href="{{$v['images_url']}}" target="_blank">
                                         <img src="{{$v['images_url']}}" class="am-img-thumbnail am-radius" width="100" height="60" />
