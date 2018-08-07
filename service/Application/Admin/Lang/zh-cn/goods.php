@@ -90,5 +90,10 @@ return array(
 
 	'goods_so_keyword_tips'				=>	'标题/型号',
 
+	'goods_category_level_two'			=> '二级',
+	'goods_category_level_three'		=> '三级',
+
+	'goods_home_recommended_images_text'=> '首页推荐图片',
+	'goods_home_recommended_images_tips'=> '留空则取相册第一张图',
 );
 ?>

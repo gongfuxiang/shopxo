@@ -27,7 +27,7 @@
 							<i class="am-icon-trash-o am-icon-sm original-images-url-delete" data-input-tag="input.original-icon-images-url" data-image-tag="#form-img-icon" data-tips-tag="#form-icon-tips" data-file-tag="input.file_icon-tag"></i>
 							<input type="file" name="file_icon" multiple data-validation-message="{{:L('common_select_images_tips')}}" accept="image/gif,image/jpeg,image/jpg,image/png" class="js-choice-one images-file-event file_icon-tag" data-choice-one-to=".original-icon-images-url" data-tips-tag="#form-icon-tips" data-image-tag="#form-img-icon" />
 							<div id="form-icon-tips" class="m-t-5"></div>
-							<img src="<if condition="!empty($data['images_url'])">{{$image_host}}{{$data.images_url}}<else />{{$image_host}}/Public/Admin/Default/Images/default-images.png</if>" id="form-img-icon" class="block m-t-5 am-img-thumbnail am-radius" width="50" height="50" data-default="<if condition="!empty($data['images_url'])">{{$image_host}}{{$data.images_url}}<else />{{$image_host}}/Public/Admin/Default/Images/default-images.png</if>" />
+							<img src="{{$image_host}}/Public/Admin/Default/Images/default-images.png" id="form-img-icon" class="block m-t-5 am-img-thumbnail am-radius" width="50" height="50" data-default="{{$image_host}}/Public/Admin/Default/Images/default-images.png" />
 						</div>
 						<div class="am-form-group">
 							<label>{{:L('common_name_text')}}</label>

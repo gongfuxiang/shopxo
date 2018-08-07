@@ -1091,8 +1091,10 @@ $(function()
     // 图片组合input清除按钮
     $(document).on('click', '.original-images-url-delete', function()
     {
+    	var images = $($(this).data('image-tag')).data('del-default') || $($(this).data('image-tag')).attr('data-default');
     	$($(this).data('input-tag')).val('');
-    	$($(this).data('image-tag')).attr('src', $($(this).data('image-tag')).data('default'));
+    	$($(this).data('image-tag')).attr('src', images);
+    	$($(this).data('image-tag')).attr('data-default', images);
     	$($(this).data('tips-tag')).html('');
     	var $file_tag = $($(this).data('file-tag'));
 		if($file_tag.val().length > 0)

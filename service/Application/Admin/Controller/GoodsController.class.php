@@ -177,13 +177,22 @@ class GoodsController extends CommonController
 		$this->assign('region_province_list', M('Region')->where(['pid'=>0, 'is_enable'=>1])->select());
 
 		// 商品分类
-		$field = 'id,name,icon';
-		$category = M('GoodsCategory')->field($field)->where(['is_enable'=>1, 'pid'=>0])->order('sort asc')->select();
+		$field = 'id,name';
+		$m = M('GoodsCategory');
+		$category = $m->field($field)->where(['is_enable'=>1, 'pid'=>0])->order('sort asc')->select();
 		if(!empty($category))
 		{
 			foreach($category as &$v)
 			{
-				$v['items'] = M('GoodsCategory')->field($field)->where(['is_enable'=>1, 'pid'=>$v['id']])->order('sort asc')->select();
+				$two = $m->field($field)->where(['is_enable'=>1, 'pid'=>$v['id']])->order('sort asc')->select();
+				if(!empty($two))
+				{
+					foreach($two as &$vs)
+					{
+						$vs['items'] = $m->field($field)->where(['is_enable'=>1, 'pid'=>$vs['id']])->order('sort asc')->select();
+					}
+				}
+				$v['items'] = $two;
 			}
 		}
 		$this->assign('category_list', $category);
@@ -270,6 +279,14 @@ class GoodsController extends CommonController
 			$this->ajaxReturn($content_app['msg'], -1);
 		}
 
+		// 集合主图片
+		$images_field = ['file_home_recommended_images'];
+		$images = $this->GetGoodsImagesParams($images_field);
+		if($images['status'] === false)
+		{
+			$this->ajaxReturn($images['msg'], -1);
+		}
+
 		// 基础数据
 		$data = [
 			'title'						=> I('title'),
@@ -289,6 +306,7 @@ class GoodsController extends CommonController
 			'images'					=> isset($photo['data'][0]) ? $photo['data'][0] : '',
 			'photo_count'				=> count($photo['data']),
 			'is_home_recommended'		=> intval(I('is_home_recommended')),
+			'home_recommended_images'	=> empty($images['data']['file_home_recommended_images']) ? '' : $images['data']['file_home_recommended_images'],
 		];
 
 		// 添加/编辑
