@@ -1,0 +1,8 @@
+<ul class="am-nav am-nav-pills table-nav">
+	<li <if condition="$view_type eq 'home'">class="am-active"</if>>
+		<a href="{{:U('Admin/Theme/Index', ['view_type'=>'home'])}}">{{:L('theme_nav_home')}}</a>
+	</li>
+	<li <if condition="$view_type eq 'upload'">class="am-active"</if>>
+		<a href="{{:U('Admin/Theme/Index', ['view_type'=>'upload'])}}">{{:L('theme_nav_upload')}}</a>
+	</li>
+</ul>

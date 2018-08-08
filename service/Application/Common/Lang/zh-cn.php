@@ -433,6 +433,31 @@ return array(
 			1 => array('id' => 1, 'name' => '是'),
 		),
 
+	// 是否新窗口打开
+	'common_is_new_window_open_list'	=>	array(
+			0 => array('id' => 0, 'name' => '否', 'checked' => true),
+			1 => array('id' => 1, 'name' => '是'),
+		),
+
+	// 导航数据类型
+	'common_nav_type_list'				=>	array(
+			'custom'			=>	'自定义',
+			'article_category'	=>	'文章分类',
+			'customview'		=>	'自定义页面',
+		),
+
+	// 是否含头部
+	'common_is_header_list'			=>	array(
+			0 => array('id' => 0, 'name' => '否'),
+			1 => array('id' => 1, 'name' => '是', 'checked' => true),
+		),
+
+	// 是否含尾部
+	'common_is_footer_list'			=>	array(
+			0 => array('id' => 0, 'name' => '否'),
+			1 => array('id' => 1, 'name' => '是', 'checked' => true),
+		),
+
 
 	// 色彩值
 	'common_color_list'					=>	array(

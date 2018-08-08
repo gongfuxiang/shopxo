@@ -646,6 +646,7 @@ $(function()
 		var id = $tag.data('id');
 		var state = ($tag.data('state') == 1) ? 0 : 1;
 		var url = $tag.data('url');
+		var field = $tag.data('field') || '';
 		var is_update_status = $tag.data('is-update-status') || 0;
 		if(id == undefined || url == undefined)
 		{
@@ -659,7 +660,7 @@ $(function()
 			type:'POST',
 			dataType:"json",
 			timeout:10000,
-			data:{"id":id, "state":state},
+			data:{"id":id, "state":state, "field":field},
 			success:function(result)
 			{
 				if(result.code == 0)
