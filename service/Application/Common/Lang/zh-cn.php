@@ -444,6 +444,7 @@ return array(
 			'custom'			=>	'自定义',
 			'article_category'	=>	'文章分类',
 			'customview'		=>	'自定义页面',
+			'goods_category'	=>	'商品分类',
 		),
 
 	// 是否含头部

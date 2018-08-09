@@ -345,13 +345,18 @@ function NavDataDealWith($data)
             switch($v['data_type'])
             {
                 // 文章分类
-                case 'article_class':
-                    $v['url'] = str_replace('admin.php', 'index.php', U('Home/Channel/Index', array('id'=>$v['value'], 'viewid'=>$v['id'])));
+                case 'article_category':
+                    $v['url'] = HomeUrl('Channel', 'Index', ['id'=>$v['value'], 'viewid'=>$v['id']]);
                     break;
 
                 // 自定义页面
                 case 'customview':
-                    $v['url'] = str_replace('admin.php', 'index.php', U('Home/CustomView/Index', array('id'=>$v['value'], 'viewid'=>$v['id'])));
+                    $v['url'] = HomeUrl('CustomView', 'Index', ['id'=>$v['value'], 'viewid'=>$v['id']]);
+                    break;
+
+                // 商品分类
+                case 'goods_category':
+                    $v['url'] = HomeUrl('Goods', 'Index', ['id'=>$v['value'], 'viewid'=>$v['id']]);
                     break;
             }
             $data[$k] = $v;

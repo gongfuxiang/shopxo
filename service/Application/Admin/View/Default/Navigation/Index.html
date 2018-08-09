@@ -9,10 +9,10 @@
 
 		<!-- operation start -->
 		<div class="am-g">
-			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#nav-custom-save-win'}" data-tag="nav-custom-save-win"> {{:L('navheader_custom_operation_add')}}</button>
-			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#nav-article_category-save-win'}" data-tag="nav-article_category-save-win"> {{:L('navheader_article_category_operation_add')}}</button>
-			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#nav-customview-save-win'}" data-tag="nav-customview-save-win"> {{:L('navheader_customview_operation_add')}}</button>
-			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#nav-goods_category-save-win'}" data-tag="nav-goods_category-save-win"> {{:L('navheader_goods_category_operation_add')}}</button>
+			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#nav-custom-save-win'}" data-tag="nav-custom-save-win"> {{:L('navigation_custom_operation_add')}}</button>
+			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#nav-article_category-save-win'}" data-tag="nav-article_category-save-win"> {{:L('navigation_article_category_operation_add')}}</button>
+			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#nav-customview-save-win'}" data-tag="nav-customview-save-win"> {{:L('navigation_customview_operation_add')}}</button>
+			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#nav-goods_category-save-win'}" data-tag="nav-goods_category-save-win"> {{:L('navigation_goods_category_operation_add')}}</button>
 		</div>
 		<!-- operation end -->
 
@@ -20,15 +20,15 @@
 		<div class="am-popup am-radius" id="nav-custom-save-win">
 			<div class="am-popup-inner">
 				<div class="am-popup-hd">
-					<h4 class="am-popup-title" data-add-title="{{:L('navheader_custom_operation_add')}}{{:L('navheader_add_name')}}" data-edit-title="{{:L('navheader_custom_operation_add')}}{{:L('navheader_edit_name')}}">{{:L('navheader_custom_operation_add')}}{{:L('navheader_add_name')}}</h4>
+					<h4 class="am-popup-title" data-add-title="{{:L('navigation_custom_operation_add')}}{{:L('navigation_add_name')}}" data-edit-title="{{:L('navigation_custom_operation_add')}}{{:L('navigation_edit_name')}}">{{:L('navigation_custom_operation_add')}}{{:L('navigation_add_name')}}</h4>
 					<span data-am-modal-close class="am-close">&times;</span>
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation" action="{{:U('Admin/NavHeader/Save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation" action="{{:U('Admin/Navigation/Save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
-							<label>{{:L('navheader_level_text')}}</label>
-							<select  class="am-radius c-p" name="pid" data-validation-message="{{:L('navheader_level_format')}}">
+							<label>{{:L('navigation_level_text')}}</label>
+							<select  class="am-radius c-p" name="pid" data-validation-message="{{:L('navigation_level_format')}}">
 								<option value="0">{{:L('common_select_level_one_choice')}}</option>
 								<foreach name="nav_header_pid_list" item="v">
 									<option value="{{$v.id}}">{{$v.name}}</option>
@@ -36,12 +36,12 @@
 							</select>
 						</div>
 						<div class="am-form-group">
-							<label>{{:L('navheader_name_text')}}</label>
-							<input type="text" placeholder="{{:L('navheader_name_text')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:L('navheader_name_format')}}" class="am-radius" required />
+							<label>{{:L('navigation_name_text')}}</label>
+							<input type="text" placeholder="{{:L('navigation_name_text')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:L('navigation_name_format')}}" class="am-radius" required />
 						</div>
 						<div class="am-form-group">
-							<label>{{:L('navheader_url_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('navheader_url_text_tips')}}）</span></label>
-							<input type="url" placeholder="{{:L('navheader_url_text')}}" name="url"  data-validation-message="{{:L('navheader_url_format')}}" class="am-radius" required />
+							<label>{{:L('navigation_url_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('navigation_url_text_tips')}}）</span></label>
+							<input type="url" placeholder="{{:L('navigation_url_text')}}" name="url"  data-validation-message="{{:L('navigation_url_format')}}" class="am-radius" required />
 						</div>
 						<div class="am-form-group">
 							<label>{{:L('common_view_sort_title')}}</label>
@@ -66,15 +66,15 @@
 		<div class="am-popup am-radius" id="nav-article_category-save-win">
 			<div class="am-popup-inner">
 				<div class="am-popup-hd">
-					<h4 class="am-popup-title" data-add-title="{{:L('navheader_article_category_operation_add')}}{{:L('navheader_add_name')}}" data-edit-title="{{:L('navheader_article_category_operation_add')}}{{:L('navheader_edit_name')}}">{{:L('navheader_article_category_operation_add')}}{{:L('navheader_add_name')}}</h4>
+					<h4 class="am-popup-title" data-add-title="{{:L('navigation_article_category_operation_add')}}{{:L('navigation_add_name')}}" data-edit-title="{{:L('navigation_article_category_operation_add')}}{{:L('navigation_edit_name')}}">{{:L('navigation_article_category_operation_add')}}{{:L('navigation_add_name')}}</h4>
 					<span data-am-modal-close class="am-close">&times;</span>
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation-article_category" action="{{:U('Admin/NavHeader/Save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation-article_category" action="{{:U('Admin/Navigation/Save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
-							<label>{{:L('navheader_level_text')}}</label>
-							<select  class="am-radius c-p chosen-select" name="pid" data-validation-message="{{:L('navheader_level_format')}}">
+							<label>{{:L('navigation_level_text')}}</label>
+							<select  class="am-radius c-p chosen-select" name="pid" data-validation-message="{{:L('navigation_level_format')}}">
 								<option value="0">{{:L('common_select_level_one_choice')}}</option>
 								<foreach name="nav_header_pid_list" item="v">
 									<option value="{{$v.id}}">{{$v.name}}</option>
@@ -82,8 +82,8 @@
 							</select>
 						</div>
 						<div class="am-form-group">
-							<label>{{:L('navheader_article_category_id_text')}}</label>
-							<select  class="am-radius c-p chosen-select" name="value" data-validation-message="{{:L('navheader_article_category_id_format')}}" required>
+							<label>{{:L('navigation_article_category_id_text')}}</label>
+							<select  class="am-radius c-p chosen-select" name="value" data-validation-message="{{:L('navigation_article_category_id_format')}}" required>
 								<option value="">{{:L('common_please_select_choose')}}</option>
 								<foreach name="article_category_list" item="v">
 									<option value="{{$v.id}}">{{$v.name}}</option>
@@ -91,8 +91,8 @@
 							</select>
 						</div>
 						<div class="am-form-group">
-							<label>{{:L('navheader_name_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('navheader_article_category_name_format')}}）</span></label>
-							<input type="text" placeholder="{{:L('navheader_name_text')}}" name="name" maxlength="16" data-validation-message="{{:L('navheader_name_format')}}" class="am-radius" />
+							<label>{{:L('navigation_name_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('navigation_article_category_name_format')}}）</span></label>
+							<input type="text" placeholder="{{:L('navigation_name_text')}}" name="name" maxlength="16" data-validation-message="{{:L('navigation_name_format')}}" class="am-radius" />
 						</div>
 						<div class="am-form-group">
 							<label>{{:L('common_view_sort_title')}}</label>
@@ -117,16 +117,16 @@
 		<div class="am-popup am-radius" id="nav-customview-save-win">
 			<div class="am-popup-inner">
 				<div class="am-popup-hd">
-					<h4 class="am-popup-title" data-add-title="{{:L('navheader_customview_operation_add')}}{{:L('navheader_add_name')}}" data-edit-title="{{:L('navheader_customview_operation_add')}}{{:L('navheader_edit_name')}}">{{:L('navheader_customview_operation_add')}}{{:L('navheader_add_name')}}</h4>
+					<h4 class="am-popup-title" data-add-title="{{:L('navigation_customview_operation_add')}}{{:L('navigation_add_name')}}" data-edit-title="{{:L('navigation_customview_operation_add')}}{{:L('navigation_edit_name')}}">{{:L('navigation_customview_operation_add')}}{{:L('navigation_add_name')}}</h4>
 					<span data-am-modal-close
 					class="am-close">&times;</span>
 					</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation-customview" action="{{:U('Admin/NavHeader/Save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation-customview" action="{{:U('Admin/Navigation/Save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
-							<label>{{:L('navheader_level_text')}}</label>
-							<select  class="am-radius c-p chosen-select" name="pid" data-validation-message="{{:L('navheader_level_format')}}">
+							<label>{{:L('navigation_level_text')}}</label>
+							<select  class="am-radius c-p chosen-select" name="pid" data-validation-message="{{:L('navigation_level_format')}}">
 								<option value="0">{{:L('common_select_level_one_choice')}}</option>
 								<foreach name="nav_header_pid_list" item="v">
 									<option value="{{$v.id}}">{{$v.name}}</option>
@@ -134,8 +134,8 @@
 							</select>
 						</div>
 						<div class="am-form-group">
-							<label>{{:L('navheader_customview_id_text')}}</label>
-							<select  class="am-radius c-p chosen-select" name="value" data-validation-message="{{:L('navheader_customview_id_format')}}" required>
+							<label>{{:L('navigation_customview_id_text')}}</label>
+							<select  class="am-radius c-p chosen-select" name="value" data-validation-message="{{:L('navigation_customview_id_format')}}" required>
 								<option value="">{{:L('common_please_select_choose')}}</option>
 								<foreach name="customview_list" item="v">
 									<option value="{{$v.id}}">{{$v.title}}</option>
@@ -143,8 +143,8 @@
 							</select>
 						</div>
 						<div class="am-form-group">
-							<label>{{:L('navheader_name_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('navheader_customview_name_format')}}）</span></label>
-							<input type="text" placeholder="{{:L('navheader_name_text')}}" name="name" maxlength="16" data-validation-message="{{:L('navheader_name_format')}}" class="am-radius" />
+							<label>{{:L('navigation_name_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('navigation_customview_name_format')}}）</span></label>
+							<input type="text" placeholder="{{:L('navigation_name_text')}}" name="name" maxlength="16" data-validation-message="{{:L('navigation_name_format')}}" class="am-radius" />
 						</div>
 						<div class="am-form-group">
 							<label>{{:L('common_view_sort_title')}}</label>
@@ -169,15 +169,15 @@
 		<div class="am-popup am-radius" id="nav-goods_category-save-win">
 			<div class="am-popup-inner">
 				<div class="am-popup-hd">
-					<h4 class="am-popup-title" data-add-title="{{:L('navheader_goods_category_operation_add')}}{{:L('navheader_add_name')}}" data-edit-title="{{:L('navheader_goods_category_operation_add')}}{{:L('navheader_edit_name')}}">{{:L('navheader_goods_category_operation_add')}}{{:L('navheader_add_name')}}</h4>
+					<h4 class="am-popup-title" data-add-title="{{:L('navigation_goods_category_operation_add')}}{{:L('navigation_add_name')}}" data-edit-title="{{:L('navigation_goods_category_operation_add')}}{{:L('navigation_edit_name')}}">{{:L('navigation_goods_category_operation_add')}}{{:L('navigation_add_name')}}</h4>
 					<span data-am-modal-close class="am-close">&times;</span>
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation-goods_category" action="{{:U('Admin/NavHeader/Save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation-goods_category" action="{{:U('Admin/Navigation/Save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
-							<label>{{:L('navheader_level_text')}}</label>
-							<select  class="am-radius c-p chosen-select" name="pid" data-validation-message="{{:L('navheader_level_format')}}">
+							<label>{{:L('navigation_level_text')}}</label>
+							<select  class="am-radius c-p chosen-select" name="pid" data-validation-message="{{:L('navigation_level_format')}}">
 								<option value="0">{{:L('common_select_level_one_choice')}}</option>
 								<foreach name="nav_header_pid_list" item="v">
 									<option value="{{$v.id}}">{{$v.name}}</option>
@@ -185,8 +185,8 @@
 							</select>
 						</div>
 						<div class="am-form-group">
-							<label>{{:L('navheader_goods_category_id_text')}}</label>
-							<select class="am-radius c-p chosen-select" name="value" data-validation-message="{{:L('navheader_goods_category_id_format')}}" required>
+							<label>{{:L('navigation_goods_category_id_text')}}</label>
+							<select class="am-radius c-p chosen-select" name="value" data-validation-message="{{:L('navigation_goods_category_id_format')}}" required>
 								<option value="">{{:L('common_please_select_choose')}}</option>
 								<foreach name="goods_category_list" item="v">
 									<option value="{{$v.id}}">{{$v.name}}</option>
@@ -194,8 +194,8 @@
 							</select>
 						</div>
 						<div class="am-form-group">
-							<label>{{:L('navheader_name_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('navheader_goods_category_name_format')}}）</span></label>
-							<input type="text" placeholder="{{:L('navheader_name_text')}}" name="name" maxlength="16" data-validation-message="{{:L('navheader_name_format')}}" class="am-radius" />
+							<label>{{:L('navigation_name_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('navigation_goods_category_name_format')}}）</span></label>
+							<input type="text" placeholder="{{:L('navigation_name_text')}}" name="name" maxlength="16" data-validation-message="{{:L('navigation_name_format')}}" class="am-radius" />
 						</div>
 						<div class="am-form-group">
 							<label>{{:L('common_view_sort_title')}}</label>
@@ -220,7 +220,7 @@
 		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
 			<thead>
 				<tr>
-					<th>{{:L('navheader_name_text')}}</th>
+					<th>{{:L('navigation_name_text')}}</th>
 					<th>{{:L('common_nav_type_name')}}</th>
 					<th>{{:L('common_view_status_title')}}</th>
 					<th>{{:L('common_operation_name')}}</th>
@@ -237,11 +237,11 @@
 							</td>
 							<td>{{:L('common_nav_type_list')[$v['data_type']]}}</td>
 							<td>
-								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_show'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/NavHeader/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1"></a>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_show'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Navigation/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1"></a>
 							</td>
 							<td>
 								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit submit-edit" data-am-popover="{content: '{{:L('common_operation_edit')}}', trigger: 'hover focus'}" data-am-modal="{target: '#nav-{{$v.data_type}}-save-win'}" data-json='{{:json_encode($v)}}' data-tag="nav-{{$v.data_type}}-save-win"></button>
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/NavHeader/Delete')}}" data-am-popover="{content: '{{:L('common_operation_delete')}}', trigger: 'hover focus'}" data-id="{{$v.id}}"></button>
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/Navigation/Delete')}}" data-am-popover="{content: '{{:L('common_operation_delete')}}', trigger: 'hover focus'}" data-id="{{$v.id}}"></button>
 							</td>
 						</tr>
 						<if condition="!empty($list)">
@@ -254,11 +254,11 @@
 									</td>
 									<td>{{:L('common_nav_type_list')[$vs['data_type']]}}</td>
 									<td>
-										<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$vs['is_show'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/NavHeader/StatusUpdate')}}" data-id="{{$vs.id}}" data-state="{{$vs['is_show']}}" data-is-update-status="1"></a>
+										<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$vs['is_show'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Navigation/StatusUpdate')}}" data-id="{{$vs.id}}" data-state="{{$vs['is_show']}}" data-is-update-status="1"></a>
 									</td>
 									<td>
 										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit submit-edit" data-am-popover="{content: '{{:L('common_operation_edit')}}', trigger: 'hover focus'}" data-am-modal="{target: '#nav-{{$vs.data_type}}-save-win'}" data-json='{{:json_encode($vs)}}' data-tag="nav-{{$vs.data_type}}-save-win"></button>
-										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/NavHeader/Delete')}}" data-am-popover="{content: '{{:L('common_operation_delete')}}', trigger: 'hover focus'}" data-id="{{$vs.id}}"></button>
+										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/Navigation/Delete')}}" data-am-popover="{content: '{{:L('common_operation_delete')}}', trigger: 'hover focus'}" data-id="{{$vs.id}}"></button>
 									</td>
 								</tr>
 							</foreach>

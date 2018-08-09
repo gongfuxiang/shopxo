@@ -1,8 +1,8 @@
 <ul class="am-nav am-nav-pills table-nav m-b-10">
 	<li <if condition="$nav_type eq 'header'">class="am-active"</if> data-type="header">
-		<a href="{{:U('Admin/NavHeader/Index', ['nav_type'=>'header'])}}">{{:L('navheader_nav_header_name')}}</a>
+		<a href="{{:U('Admin/Navigation/Index', ['nav_type'=>'header'])}}">{{:L('navigation_nav_header_name')}}</a>
 	</li>
 	<li <if condition="$nav_type eq 'footer'">class="am-active"</if> data-type="footer">
-		<a href="{{:U('Admin/NavHeader/Index', ['nav_type'=>'footer'])}}">{{:L('navheader_nav_footer_name')}}</a>
+		<a href="{{:U('Admin/Navigation/Index', ['nav_type'=>'footer'])}}">{{:L('navigation_nav_footer_name')}}</a>
 	</li>
 </ul>

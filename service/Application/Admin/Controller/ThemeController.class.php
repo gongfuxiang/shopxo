@@ -35,6 +35,9 @@ class ThemeController extends CommonController
 		// 静态目录和html目录
 		$this->html_path = 'Application'.DS.'Home'.DS.'View'.DS;
 		$this->static_path = 'Public'.DS.'Home'.DS;
+
+		// 小导航
+		$this->view_type = I('view_type', 'home');
 	}
 
 	/**
@@ -46,12 +49,8 @@ class ThemeController extends CommonController
      */
 	public function Index()
 	{
-		// 导航参数
-		$view_type = I('view_type', 'home');
-		$this->assign('view_type', $view_type);
-
 		// 模板
-		switch($view_type)
+		switch($this->view_type)
 		{
 			// 模板安装
 			case 'upload':
@@ -69,6 +68,9 @@ class ThemeController extends CommonController
 
 				$this->display('Index');
 		}
+
+		// 导航参数
+		$this->assign('view_type', $this->view_type);
 	}
 
 	/**

@@ -149,7 +149,7 @@ class UeditorController extends CommonController
 		}
 
 		/* 生成上传实例对象并完成上传 */
-		$up = new \My\Uploader($field_name, $temp_config, $base64);
+		$up = new \Library\Uploader($field_name, $temp_config, $base64);
 
 		/**
 		 * 得到上传文件所对应的各个参数,数组结构
@@ -292,7 +292,7 @@ class UeditorController extends CommonController
 		$source = isset($_POST[$field_name]) ? $_POST[$field_name] : $_GET[$field_name];
 		foreach($source as $imgUrl)
 		{
-			$item = new \My\Uploader($imgUrl, $temp_config, "remote");
+			$item = new \Library\Uploader($imgUrl, $temp_config, "remote");
 			$info = $item->getFileInfo();
 			array_push($list, array(
 				"state" => $info["state"],

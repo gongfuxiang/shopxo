@@ -69,7 +69,7 @@
 							</td>
 							<td class="am-hide-sm-only">{{$v.describe}}</td>
 							<td>
-								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_enable'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Link/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}"></a>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_enable'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Link/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
 							</td>
 							<td>
 								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit submit-edit" data-am-popover="{content: '{{:L('common_operation_edit')}}', trigger: 'hover focus'}" data-am-modal="{target: '#data-save-win'}" data-json='{{:json_encode($v)}}'></button>

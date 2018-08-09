@@ -243,7 +243,7 @@ class ArticleController extends CommonController
 
 			// 正则匹配文章图片
 			$temp_image		=	$this->MatchContentImage($m->content);
-			$m->image 		=	serialize($temp_image);
+			$m->image 		=	json_encode($temp_image);
 			$m->image_count	=	count($temp_image);
 			
 			// 数据添加
@@ -282,7 +282,7 @@ class ArticleController extends CommonController
 
 			// 正则匹配文章图片
 			$temp_image		=	$this->MatchContentImage($m->content);
-			$m->image 		=	serialize($temp_image);
+			$m->image 		=	json_encode($temp_image);
 			$m->image_count	=	count($temp_image);
 
 			// 数据更新
@@ -310,7 +310,7 @@ class ArticleController extends CommonController
 	{
 		if(!empty($content))
 		{
-			$pattern = '/<img.*?src=[\'|\"](\/Public\/Upload\/Article\/image\/.*?[\.gif|\.jpg|\.jpeg|\.png|\.bmp])[\'|\"].*?[\/]?>/';
+			$pattern = '/<img.*?src=[\'|\"](\/Public\/Upload\/article\/image\/.*?[\.gif|\.jpg|\.jpeg|\.png|\.bmp])[\'|\"].*?[\/]?>/';
 			preg_match_all($pattern, $content, $match);
 			return empty($match[1]) ? array() : $match[1];
 		}
