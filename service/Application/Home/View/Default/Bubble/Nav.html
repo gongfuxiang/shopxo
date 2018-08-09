@@ -1,0 +1,22 @@
+<!-- nav start -->
+<div class="bubble-nav o-h m-b-10">
+	<ul class="am-nav am-nav-pills am-fl">
+		<foreach name="bubble_nav_list" item="v">
+			<if condition="I('type', 'all') eq $v['type']">
+				<li class="am-active" data-type="{{$v.type}}">
+					<a href="javascript:;">{{$v.name}}</a>
+				</li>
+			<else />
+				<li data-type="{{$v.type}}">
+					<a href="{{$v.url}}">{{$v.name}}</a>
+				</li>
+			</if>
+		</foreach>
+	</ul>
+	<div class="am-fr m-r-10">
+		<a href="">
+			<i class="am-icon-repeat c-p submit-repeat" data-am-popover="{content: '{{:L('common_operation_refresh')}}', trigger: 'hover focus'}"></i>
+		</a>
+	</div>
+</div>
+<!-- nav end -->

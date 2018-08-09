@@ -1,0 +1,133 @@
+<include file="Public/Header" />
+
+<!-- header nav start -->
+<include file="Public/HeaderNav" />
+<!-- header nav end -->
+
+<div class="am-cf user-main" <if condition="!empty($max_width_style)">style="{{$max_width_style}}"</if>>
+  <!-- user menu start -->
+  <include file="Public/UserMenu" />
+  <!-- user menu end -->
+
+  <!-- content start -->
+  <div class="user-content">
+    <div class="user-content-body p-10">
+      <include file="Mood" />
+      <include file="Nav" />
+
+      <!-- list start -->
+      <if condition="!empty($data)">
+        <div id="mood-list">
+          <foreach name="data" item="v">
+            <div class="am-panel am-panel-default am-radius list-content data-list-mood-{{$v.id}}">
+              <div class="am-panel-bd">
+                <div class="list-title o-h">
+                  <img src="__PUBLIC__/Common/Images/user-img-sm.gif" class="am-circle am-fl" width="48" height="48" />
+                  <div class="am-fl m-l-10 m-t-5">
+                    <span class="block">
+                      <a href="javascript:;">{{$v.nickname}}</a>
+                    </span>
+                    <span class="block cr-999">{{$v.add_time}}</span>
+                  </div>
+                  <if condition="$v['user_id'] eq $user['id']">
+                    <div class="am-fr">
+                      <i class="am-icon-trash-o c-p cr-999 submit-delete" data-am-popover="{content: '{{:L('common_operation_delete')}}', trigger: 'hover focus'}" data-id="{{$v.id}}" data-url="{{:U('Home/Bubble/MoodDelete')}}" data-list-tag=".data-list-mood-{{$v.id}}"></i>
+                    </div>
+                  </if>
+                </div>
+                <div class="m-t-5">{{$v.content}}</div>
+                <div class="m-t-5 o-h">
+                  <span class="am-fr cr-999">{{$v.comments_count}}</span>
+                  <i class="am-icon-commenting am-icon-sm am-fr m-l-30 c-p cr-999 comments-submit" data-id="{{$v.id}}" data-uid="{{$v.user_id}}"></i>
+                  <span class="am-fr cr-999">{{$v.praise_count}}</span>
+                  <i class="am-icon-thumbs-up am-icon-sm am-fr c-p praise-submit <if condition="$v['is_praise'] eq 'ok'">cr-blue<else />cr-999</if>" data-id="{{$v.id}}" data-uid="{{$v.user_id}}" data-url="{{:U('Home/Bubble/MoodPraise')}}"></i>
+                </div>
+                <if condition="!empty($v['comments'])">
+                  <div class="o-h data-list-mood-{{$v.id}}">
+                    <hr data-am-widget="divider" class="am-divider am-divider-dashed m-t-10 m-b-10" />
+                    <foreach name="v.comments" item="vc">
+                      <div class="o-h m-t-10 am-radius comments-user data-comments-{{$v.id}}-{{$vc.id}}">
+                        <img src="__PUBLIC__/Common/Images/user-img-sm.gif" class="am-circle user-portrait" width="30" height="30" />
+                        <a href="javascript:;">{{$vc.nickname}}</a>
+                        <span class="cr-999">{{$vc.add_time}}</span>
+                        <div class="am-fr comments-item-tools">
+                          <if condition="$vc['user_id'] neq $user['id']">
+                            <span class="c-p cr-999 reply-submit" data-id="{{$v.id}}" data-reply-id="{{$vc.id}}" data-parent-id="{{$vc.id}}" data-nickname="{{$vc.nickname}}">
+                              <i class="am-icon-mail-reply"></i> {{:L('common_operation_reply')}}
+                            </span>
+                          </if>
+                          <if condition="$vc['user_id'] eq $user['id']">
+                            <span class="c-p cr-999 m-l-20 submit-delete" data-id="{{$vc.id}}" data-url="{{:U('Home/Bubble/MoodCommentsDelete')}}" data-list-tag=".data-comments-{{$v.id}}-{{$vc.id}}">
+                              <i class="am-icon-trash-o"></i>{{:L('common_operation_delete')}}
+                            </span>
+                          </if>
+                        </div>
+                        <div>{{$vc.content}}</div>
+                      </div>
+                      <if condition="!empty($vc['item'])">
+                        <foreach name="vc.item" item="vcs">
+                          <div class="o-h m-t-10 am-radius comments-user m-l-30 data-comments-{{$v.id}}-{{$vc.id}} data-comments-{{$v.id}}-{{$vc.id}}-{{$vcs.id}} <if condition="$vcs['reply_id'] gt 0">data-comments-reply-{{$v.id}}-{{$vcs.reply_id}}</if>">
+                            <img src="__PUBLIC__/Common/Images/user-img-sm.gif" class="am-circle user-portrait" width="30" height="30" />
+                            <a href="javascript:;">{{$vcs.nickname}}</a>
+                            <span>{{:L('common_operation_reply')}}</span>
+                            <a href="javascript:;">{{$vcs.reply_nickname}}</a>
+                            <span class="cr-999">{{$vcs.add_time}}</span>
+                            <div class="am-fr comments-item-tools">
+                              <if condition="$vcs['user_id'] neq $user['id']">
+                                <span class="c-p cr-999 reply-submit" data-reply-id="{{$vcs.id}}" data-id="{{$v.id}}" data-parent-id="{{$vc.id}}" data-nickname="{{$vcs.nickname}}">
+                                  <i class="am-icon-mail-reply"></i> {{:L('common_operation_reply')}}
+                                </span>
+                              </if>
+                              <if condition="$vcs['user_id'] eq $user['id']">
+                                <span class="c-p cr-999 m-l-20 submit-delete" data-id="{{$vcs.id}}" data-url="{{:U('Home/Bubble/MoodCommentsDelete')}}" data-list-tag=".data-comments-{{$v.id}}-{{$vc.id}}-{{$vcs.id}}, .data-comments-reply-{{$v.id}}-{{$vcs.id}}">
+                                  <i class="am-icon-trash-o"></i>{{:L('common_operation_delete')}}
+                                </span>
+                              </if>
+                            </div>
+                            <div>{{$vcs.content}}</div>
+                          </div>
+                        </foreach>
+                      </if>
+                    </foreach>
+                  </div>
+                </if>
+              </div>
+            </div>
+          </foreach>
+        </div>
+
+        <!-- page start -->
+        {{$page_html}}
+        <!-- page end -->
+
+        <!-- comments win start -->
+        <div class="am-modal am-modal-prompt" tabindex="-1" id="bubble-comments" data-url="{{:U('Home/Bubble/MoodComments')}}" data-mood-praise-msg="{{:L('bubble_mood_praise_error')}}" data-mood-comments-msg="{{:L('bubble_mood_comments_error')}}">
+          <div class="am-modal-dialog am-radius">
+            <div class="am-modal-hd"></div>
+            <div class="am-modal-bd">
+              <textarea rows="3" minlength="1" maxlength="255" class="am-radius am-modal-prompt-input" placeholder="{{:L('bubble_comments_placeholder')}}" data-validation-message="{{:L('bubble_comments_format')}}"></textarea>
+            </div>
+            <div class="am-modal-footer">
+              <span class="am-modal-btn" data-am-modal-cancel>{{:L('common_operation_cancel')}}</span>
+              <span class="am-modal-btn" data-am-modal-confirm>{{:L('common_operation_comments')}}</span>
+            </div>
+          </div>
+        </div>
+        <!-- comments win end -->
+
+      <else />
+        <include file="Public/NoData" />
+      </if>
+      <!-- list start -->
+    </div>
+  </div>
+  <!-- content end -->
+</div>
+
+<!-- layuot common module start -->
+<include file="Public/CommonModule" />
+<!-- layuot common module end -->
+
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end

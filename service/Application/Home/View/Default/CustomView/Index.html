@@ -1,0 +1,15 @@
+<include file="Public/Header" />
+
+<!-- header nav start -->
+<if condition="!isset($is_header) or $is_header eq 1">
+	<include file="Public/HeaderNav" />
+</if>
+<!-- header nav end -->
+
+<!-- content start -->
+<div class="am-g custom-content <if condition="!isset($data['is_full_screen']) or $data['is_full_screen'] eq 0">p-20</if>" <if condition="!empty($max_width_style)">style="{{$max_width_style}}"</if>>{{$data.content}}</div>
+<!-- content end -->
+
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end -->

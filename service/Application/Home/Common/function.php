@@ -8,4 +8,8 @@
  * @datetime 2016-12-01T21:51:08+0800
  */
 
+function test2()
+{
+	echo 'test2()';
+}
 ?>

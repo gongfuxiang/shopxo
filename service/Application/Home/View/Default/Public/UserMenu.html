@@ -1,0 +1,29 @@
+<div class="user-sidebar am-offcanvas" id="user-offcanvas">
+  <div class="am-offcanvas-bar user-offcanvas-bar">
+    <ul class="am-list user-sidebar-list">
+      <foreach name="user_left_menu" key="k" item="v">
+        <if condition="$v['is_show'] eq 1">
+          <if condition="empty($v['item'])">
+            <li <if condition="(strtolower(CONTROLLER_NAME.ACTION_NAME) eq strtolower($v['control'].$v['action'])) or (isset(L('user_left_menu_hidden_active')[strtolower(CONTROLLER_NAME.ACTION_NAME)]) and strtolower(L('user_left_menu_hidden_active')[strtolower(CONTROLLER_NAME.ACTION_NAME)]) eq strtolower($v['control'].$v['action']))">class="am-active"</if>>
+              <a href="{{:U('Home/'.$v['control'].'/'.$v['action'])}}"><if condition="!empty($v['icon'])"><i class="{{$v.icon}}"></i></if> {{$v.name}}</a>
+            </li>
+          <else />
+            <li>
+              <a class="am-cf fw-700 user-item-parent" data-am-collapse="{target: '#collapse-nav-{{$k}}'}"><if condition="!empty($v['icon'])"><i class="{{$v.icon}}"></i></if> {{$v.name}}<span class="am-icon-angle-down am-fr am-margin-right"></span></a>
+              <ul class="am-list am-collapse user-sidebar-sub am-in" id="collapse-nav-{{$k}}">
+                <foreach name="v.item" item="vs">
+                  <if condition="$vs['is_show'] eq 1">
+                    <li <if condition="(strtolower(CONTROLLER_NAME.ACTION_NAME) eq strtolower($vs['control'].$vs['action'])) or (isset(L('user_left_menu_hidden_active')[strtolower(CONTROLLER_NAME.ACTION_NAME)]) and strtolower(L('user_left_menu_hidden_active')[strtolower(CONTROLLER_NAME.ACTION_NAME)]) eq strtolower($vs['control'].$vs['action']))">class="am-active"</if>>
+                      <a href="{{:U('Home/'.$vs['control'].'/'.$vs['action'])}}" class="am-cf"><if condition="!empty($vs['icon'])"><i class="{{$vs.icon}}"></i></if> {{$vs.name}}</a>
+                    </li>
+                  </if>
+                </foreach>
+              </ul>
+            </li>
+          </if>
+        </if>
+      </foreach>
+    </ul>
+  </div>
+</div>
+<a href="javascript:;" class="am-icon-btn am-icon-th-list am-show-sm-only user-menu" data-am-offcanvas="{target: '#user-offcanvas'}"></a>

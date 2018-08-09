@@ -1,0 +1,49 @@
+<include file="Public/Header" />
+
+<!-- header nav start -->
+<include file="Public/HeaderNav" />
+<!-- header nav end -->
+
+<div class="am-cf user-main" <if condition="!empty($max_width_style)">style="{{$max_width_style}}"</if>>
+	<!-- user menu start -->
+	<include file="Public/UserMenu" />
+	<!-- user menu end -->
+
+	<!-- content start -->
+	<div class="user-content">
+		<div class="user-content-body p-10">
+			<!-- form start -->
+			<form class="am-form form-validation view-save" action="{{:U('Home/Safety/LoginPwdUpdate')}}" method="POST" request-type="ajax-url" request-value="{{:U('Home/Safety/Index')}}">
+				<legend>
+					<span class="fs-16">{{:L('safety_loginpwd_nav_title_text')}}</span>
+					<a href="{{:U('Home/Safety/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:L('common_operation_back')}}</a>
+				</legend>
+				<div class="am-form-group">
+					<label>{{:L('safety_my_loginpwd_text')}}</label>
+					<input type="password" name="my_pwd" placeholder="{{:L('safety_my_loginpwd_text')}}" pattern="{{:L('common_regex_pwd')}}" data-validation-message="{{:L('safety_my_loginpwd_tips')}}" class="am-radius" required />
+				</div>
+				<div class="am-form-group">
+					<label>{{:L('safety_new_loginpwd_text')}}</label>
+					<input type="password" name="new_pwd" placeholder="{{:L('safety_new_loginpwd_text')}}" pattern="{{:L('common_regex_pwd')}}" data-validation-message="{{:L('safety_new_loginpwd_tips')}}" class="am-radius" id="new-loginpwd" required />
+				</div>
+				<div class="am-form-group">
+					<label>{{:L('safety_confirm_new_loginpwd_text')}}</label>
+					<input type="password" name="confirm_new_pwd" placeholder="{{:L('safety_confirm_new_loginpwd_text')}}" pattern="{{:L('common_regex_pwd')}}" data-validation-message="{{:L('safety_confirm_new_loginpwd_tips')}}" class="am-radius" data-equal-to="#new-loginpwd" required />
+				</div>
+				<div class="am-form-group">
+					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
+				</div>
+			</form>
+			<!-- form end -->
+		</div>
+	</div>
+	<!-- content end -->
+</div>
+
+<!-- layuot common module start -->
+<include file="Public/CommonModule" />
+<!-- layuot common module end -->
+
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end -->

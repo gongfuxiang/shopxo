@@ -1,0 +1,47 @@
+<include file="Public/Header" />
+
+<!-- header nav start -->
+<include file="Public/HeaderNav" />
+<!-- header nav end -->
+
+<div class="am-cf user-main" <if condition="!empty($max_width_style)">style="{{$max_width_style}}"</if>>
+	<!-- user menu start -->
+	<include file="Public/UserMenu" />
+	<!-- user menu end -->
+
+	<!-- content start -->
+	<div class="user-content">
+		<div class="user-content-body p-10">
+			<legend>
+				<span class="fs-16">{{:L('personal_save_nav_title_text')}}</span>
+				<a href="{{:U('Home/Personal/SaveInfo')}}" class="fr fs-14 m-t-5"> {{:L('common_operation_edit')}}</a>
+			</legend>
+			<dl class="dl-content">
+				<foreach name="personal_show_list" key="k" item="v">
+					<if condition="isset($user[$k])">
+						<dt>{{$v.name}}</dt>
+						<dd>
+							<if condition="empty($user[$k])">
+								<span class="cr-999">{{:L('common_on_fill_in_the_text')}}</span>
+							<else />
+								{{$user[$k]}}
+							</if>
+							<if condition="isset($v['tips'])">
+								<span class="m-l-30">{{$v.tips}}</span>
+							</if>
+						</dd>
+					</if>
+				</foreach>
+			</dl>
+		</div>
+	</div>
+	<!-- content end -->
+</div>
+
+<!-- layuot common module start -->
+<include file="Public/CommonModule" />
+<!-- layuot common module end -->
+
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end -->

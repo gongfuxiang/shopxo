@@ -1,0 +1,27 @@
+<!-- form start -->
+<form class="am-form form-validation" action="{{:U('Home/Bubble/MoodSave')}}" method="POST" request-type="ajax-reload" request-value="">
+  <div class="am-form-group am-input-group am-input-group-primary m-b-0">
+    <textarea minlength="1" maxlength="168" name="content" class="mood-textarea" placeholder="{{:L('bubble_mood_placeholder')}}" data-validation-message="{{:L('bubble_mood_format')}}"></textarea>
+    <span class="am-input-group-btn">
+      <button class="am-btn am-btn-primary mood-button" type="submit" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_publish')}}</button>
+    </span>
+  </div>
+  <div class="am-panel am-panel-default mood-tools m-t-0">
+    <div class="am-fr tools-visible">
+      <span>{{:L('bubble_visible_text')}}</span>
+      <select name="visible" data-am-selected>
+        <foreach name="common_user_visible_list" item="v">
+          <if condition="isset($v['is_show']) and $v['is_show'] eq 1">
+            <option value="{{$v.value}}">{{$v.name}}</option>
+          </if>
+        </foreach>
+      </select>
+    </div>
+    <span class="am-fr cr-ccc m-l-10 m-r-10">|</span>
+    <label class="c-p am-fr" data-am-popover="{content: '{{:L('bubble_is_sign_hover')}}', trigger: 'hover focus'}">
+      <input type="checkbox" name="is_sign" value="1" class="none" checked />
+      <i class="am-icon-user am-icon-btn am-primary sign-submit"></i>
+    </label>
+  </div>
+</form>
+<!-- form end -->

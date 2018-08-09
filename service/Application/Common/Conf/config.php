@@ -17,10 +17,10 @@ return array(
 	'SHOW_PAGE_TRACE'		=>	false,
 
 	// 允许访问的模块列表
-	'MODULE_ALLOW_LIST'		=>	array('Api', 'Admin'),
+	'MODULE_ALLOW_LIST'		=>	array('Admin', 'Api', 'Home'),
 
 	// 默认模块,暂时默认后端
-	'DEFAULT_MODULE'     	=>	'Api',
+	'DEFAULT_MODULE'     	=>	'Home',
 
 	// 默认控制器名称
 	'DEFAULT_CONTROLLER'	=>	'Index',

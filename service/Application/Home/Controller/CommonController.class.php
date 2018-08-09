@@ -1,6 +1,6 @@
 <?php
 
-namespace Api\Controller;
+namespace Home\Controller;
 use Think\Controller;
 
 /**
@@ -12,17 +12,14 @@ use Think\Controller;
  */
 class CommonController extends Controller
 {
+	// 顶部导航
+	protected $nav_header;
+
+	// 底部导航
+	protected $nav_footer;
+
 	// 用户信息
 	protected $user;
-
-    // 输入参数 post
-    protected $data_post;
-
-    // 输入参数 get
-    protected $data_get;
-
-    // 输入参数 request
-    protected $data_request;
 
 	/**
 	 * [__construt 构造方法]
@@ -39,44 +36,18 @@ class CommonController extends Controller
 		// 配置信息初始化
 		MyConfigInit();
 
-        // 页面初始化
-        $this->ViewInit();
-
-        // 网站状态
-        $this->SiteStstusCheck();
-
 		// 公共数据初始化
 		$this->CommonInit();
 
-        // 输入参数
-        $this->data_post = I('post.');
-        $this->data_get = I('get.');
-        $this->data_request = I('request.');
-	}
+		// 菜单
+		$this->NavInit();
 
-    /**
-     * [SiteStstusCheck 网站状态]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2018-04-18T16:20:58+0800
-     */
-    private function SiteStstusCheck()
-    {
-        if(MyC('home_site_state') != 1)
-        {
-            if(IS_AJAX)
-            {
-                $this->ajaxReturn(Myc('home_site_close_reason'));
-            } else {
-                $this->assign('home_seo_site_title', L('home_site_close_msg'));
-                $this->assign('msg', MyC('home_site_close_reason', L('common_site_maintenance_tips'), true));
-                $this->assign('is_footer', 0);
-                $this->display('/Public/Error');
-                exit;
-            }
-        }
-    }
+		// 视图初始化
+		$this->ViewInit();
+
+		// 站点状态校验
+		$this->SiteStateCheck();
+	}
 
 	/**
 	 * [ajaxReturn 重写ajax返回方法]
@@ -89,7 +60,7 @@ class CommonController extends Controller
 	 * @param    [mixed]        $data [数据]
 	 * @return   [json]               [json数据]
 	 */
-	protected function ajaxReturn($msg = '', $code = -1, $data = '')
+	protected function ajaxReturn($msg = '', $code = 0, $data = '')
 	{
 		// ajax的时候，success和error错误由当前方法接收
 		if(IS_AJAX)
@@ -124,27 +95,11 @@ class CommonController extends Controller
 	 */
 	protected function Is_Login()
 	{
-		$user_id = I('request.user_id');
-		if(empty($user_id))
+		if(empty($_SESSION['user']))
 		{
-			$this->ajaxReturn('请先获取用户授权信息', -1000);
+			$this->error(L('common_login_invalid'), U('Home/User/LoginInfo'));
 		}
 	}
-
-    /**
-     * 站点校验
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-06-15
-     */
-    protected function Is_Merchant()
-    {
-        if(empty($this->merchant))
-        {
-            $this->ajaxReturn('站点资料有误', -2000);
-        }
-    }
 
 	/**
 	 * [CommonInit 公共数据初始化]
@@ -156,46 +111,243 @@ class CommonController extends Controller
 	private function CommonInit()
 	{
 		// 用户数据
-		$user_id = I('request.user_id');
-		if(!empty($user_id))
+		if(!empty($_SESSION['user']))
 		{
-			$this->user = M('User')->where(['is_delete_time'=>0, 'id'=>$user_id])->find();
-
-            // 站点
-            if(!empty($this->user))
-            {
-                $this->merchant = M('Merchant')->where(['is_delete_time'=>0, 'user_id'=>$user_id])->find();
-            }
+			$this->user = I('session.user');
 		}
 	}
 
-    /**
-     * [ViewInit 视图初始化]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-03T12:30:06+0800
-     */
-    public function ViewInit()
-    {
-        // 主题
-        $default_theme = C('DEFAULT_THEME');
-        $this->assign('default_theme', $default_theme);
+	/**
+	 * [ViewInit 视图初始化]
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2016-12-03T12:30:06+0800
+	 */
+	public function ViewInit()
+	{
+		// 主题
+		$default_theme = C('DEFAULT_THEME');
+		$this->assign('default_theme', $default_theme);
 
-        // 控制器静态文件状态css,js
-        $module_css = MODULE_NAME.DS.$default_theme.DS.'Css'.DS.CONTROLLER_NAME.'.css';
-        $this->assign('module_css', file_exists(ROOT_PATH.'Public'.DS.$module_css) ? $module_css : '');
-        $module_js = MODULE_NAME.DS.$default_theme.DS.'Js'.DS.CONTROLLER_NAME.'.js';
-        $this->assign('module_js', file_exists(ROOT_PATH.'Public'.DS.$module_js) ? $module_js : '');
+		// 控制器静态文件状态css,js
+		$module_css = MODULE_NAME.DS.$default_theme.DS.'Css'.DS.CONTROLLER_NAME.'.css';
+		$this->assign('module_css', file_exists(ROOT_PATH.'Public'.DS.$module_css) ? $module_css : '');
+		$module_js = MODULE_NAME.DS.$default_theme.DS.'Js'.DS.CONTROLLER_NAME.'.js';
+		$this->assign('module_js', file_exists(ROOT_PATH.'Public'.DS.$module_js) ? $module_js : '');
 
-        // 页面最大宽度
-        $max_width = MyC('home_content_max_width', 0, true);
-        $max_width_style = ($max_width == 0) ? '' : 'max-width:'.$max_width.'px;';
-        $this->assign('max_width_style', $max_width_style);
+		// 导航
+		$this->assign('nav_header', $this->nav_header);
+		$this->assign('nav_footer', $this->nav_footer);
 
-        // 图片host地址
-        $this->assign('image_host', C('IMAGE_HOST'));
-    }
+		// 当前页面选择导航状态
+		$nav_pid	=	0;
+		$nav_id 	=	0;
+		foreach($this->nav_header as $v)
+		{
+			if(I('viewid') == $v['id'])
+			{
+				$nav_id = $v['id'];
+			}
+			if(!empty($v['item']))
+			{
+				foreach($v['item'] as $vs)
+				{
+					if(I('viewid') == $vs['id'])
+					{
+						$nav_pid = $v['id'];
+						$nav_id = $vs['id'];
+					}
+				}
+			}
+		}
+		$this->assign('nav_pid', $nav_pid);
+		$this->assign('nav_id', $nav_id);
+
+		// 图片host地址
+		$this->assign('image_host', C('IMAGE_HOST'));
+
+		// 标题
+		$this->assign('home_seo_site_title', MyC('home_seo_site_title'));
+
+		// 页面最大宽度
+		$max_width = MyC('home_content_max_width', 0, true);
+		$max_width_style = ($max_width == 0) ? '' : 'max-width:'.$max_width.'px;';
+		$this->assign('max_width_style', $max_width_style);
+
+		// 用户数据
+		$this->assign('user', $this->user);
+
+		// 用户中心菜单
+		$this->assign('user_left_menu', L('user_left_menu'));
+
+		// 用户顶部菜单
+		$this->assign('user_nav_menu', L('user_nav_menu'));
+	}
+
+	/**
+	 * [NavInit 导航初始化]
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2016-12-19T22:41:20+0800
+	 */
+	private function NavInit()
+	{
+		// 读取缓存数据
+		$this->nav_header = S(C('cache_common_home_nav_header_key'));
+		$this->nav_footer = S(C('cache_common_home_nav_footer_key'));
+
+		// 导航模型
+		$m = M('Navigation');
+		$field = array('id', 'pid', 'name', 'url', 'value', 'data_type', 'is_new_window_open');
+
+		// 缓存没数据则从数据库重新读取,顶部菜单
+		if(empty($this->nav_header))
+		{
+			$this->nav_header = NavDataDealWith($m->field($field)->where(array('nav_type'=>'header', 'is_show'=>1, 'pid'=>0))->order('sort')->select());
+			if(!empty($this->nav_header))
+			{
+				foreach($this->nav_header as $k=>$v)
+				{
+					$this->nav_header[$k]['item'] = NavDataDealWith($m->field($field)->where(array('nav_type'=>'header', 'is_show'=>1, 'pid'=>$v['id']))->order('sort')->select());
+				}
+			}
+			S(C('cache_common_home_nav_header_key'), $this->nav_header);
+		}
+
+		// 底部导航
+		if(empty($this->nav_footer))
+		{
+			$this->nav_footer = NavDataDealWith($m->field($field)->where(array('nav_type'=>'footer', 'is_show'=>1))->order('sort')->select());
+			S(C('cache_common_home_nav_footer_key'), $this->nav_footer);
+		}
+	}
+
+	/**
+	 * [GetClassList 获取班级列表,二级]
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2016-12-30T13:26:00+0800
+	 * @return [array] [班级列表]
+	 */
+	protected function GetClassList()
+	{
+		$m = M('Class');
+		$data = $m->field(array('id', 'name'))->where(array('is_enable'=>1, 'pid'=>0))->select();
+		if(!empty($data))
+		{
+			foreach($data as $k=>$v)
+			{
+				$data[$k]['item'] = $m->field(array('id', 'name'))->where(array('is_enable'=>1, 'pid'=>$v['id']))->select();
+			}
+		}
+		return $data;
+	}
+
+	/**
+	 * [GetRoomList 获取教室列表,二级]
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2016-12-30T13:26:00+0800
+	 * @return [array] [班级列表]
+	 */
+	protected function GetRoomList()
+	{
+		$m = M('Room');
+		$data = $m->field(array('id', 'name'))->where(array('is_enable'=>1, 'pid'=>0))->select();
+		if(!empty($data))
+		{
+			foreach($data as $k=>$v)
+			{
+				$data[$k]['item'] = $m->field(array('id', 'name'))->where(array('is_enable'=>1, 'pid'=>$v['id']))->select();
+			}
+		}
+		return $data;
+	}
+
+	/**
+	 * [GetLayoutList 获取布局-模块列表]
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2017-02-22T10:15:40+0800
+	 * @param  [string] $type [布局类型(home, channel, detail)]
+	 * @return [array]        [布局+模块数据]
+	 */
+	protected function GetLayoutList($type = 'home')
+	{
+		// 布局+模块列表
+		$data = M('Layout')->field(array('id', 'value'))->where(array('is_enable'=>1, 'type'=>$type))->order('sort asc, id desc')->select();
+		if(!empty($data))
+		{
+			// 布局模块处理驱动
+			$lay = \My\LayoutModule::SetInstance();
+
+			// 开始处理布局数据
+			foreach($data as $k=>$v)
+			{
+				// 模块
+				$item = M('LayoutModule')->where(array('layout_id'=>$v['id']))->select();
+				if(!empty($item))
+				{
+					foreach($item as $ik=>$iv)
+					{
+						// 获取文章数据
+						$article = LayoutArticleList($lay->GetLayoutMouleWhere($iv), $iv);
+
+						// 模块数据生成
+						$fun = GetViewTitleStyleFun($iv['title_style']);
+						if(method_exists($lay, $fun))
+						{
+							$html = $lay->$fun($article, $iv);
+							$iv = $lay->GetRules();
+						} else {
+							$html = '';
+						}
+
+						// 重新赋值
+						$item[$ik] = $html;
+
+						// 模板赋值
+						$this->assign('data_'.$iv['id'], $article);
+						$this->assign('rules_'.$iv['id'], $iv);
+					}
+				}
+				$data[$k]['item'] = $item;
+			}
+		}
+		return $data;
+	}
+
+	/**
+	 * [GetBrowserSeoTitle 获取浏览器seo标题]
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2017-02-25T14:21:21+0800
+	 * @param    [string]     $title [标题]
+	 * @param    [int]     	  $type  [页面类型 0, 1, 2]
+	 * @return   [string]            [浏览器seo标题]
+	 */
+	protected function GetBrowserSeoTitle($title, $type)
+	{
+		switch($type)
+		{
+			case 0:
+				break;
+
+			case 1:
+				$site_name = MyC('home_site_name');
+				break;
+
+			default:
+				$site_name = MyC('home_seo_site_title');
+		}
+		return empty($title) ? $site_name : $title.' - '.$site_name;
+	}
 
 	/**
 	 * [_empty 空方法操作]
@@ -212,113 +364,104 @@ class CommonController extends Controller
 		$this->display('/Public/Error');
 	}
 
-    /**
-     * [GetSubLatLngSql 根据坐标返回条件]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-02-25T15:47:50+0800
-     * @param [float]       $lng        [经度]
-     * @param [float]       $lat        [纬度]
-     * @param [int]         $distance   [范围(千米)]
-     * @return[sql条件]                 [坐标sql条件]
-     */
-    protected function GetLatLngWhere($lng, $lat, $distance = 3)
-    {
-        if(empty($lng) || empty($lat)) return [];
+	/**
+	 * [SiteStateCheck 站点状态校验]
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2017-02-25T21:43:07+0800
+	 */
+	private function SiteStateCheck()
+	{
+		if(MyC('home_site_state') == 0)
+		{
+			$this->assign('msg', MyC('home_site_close_reason', L('common_site_maintenance_tips'), true));
+			$this->assign('is_footer', 0);
+			$this->display('/Public/Error');
+			exit;
+		}
+	}
 
-        $where = [];
-        $coordinate = ReturnSquarePoint($lng, $lat, $distance);
-        if(!empty($coordinate))
-        {
-            $where[] = [
-                'lat' => [
-                    ['GT', $coordinate['right-bottom']['lat']],
-                    ['LT', $coordinate['left-top']['lat']],
-                ],
-                'lng' => [
-                    ['GT', $coordinate['left-top']['lng']],
-                    ['LT', $coordinate['right-bottom']['lng']],
-                ],
-            ];
-        }
-        return $where;
-    }
+	/**
+	 * [CommonIsImaVerify 是否开启图片验证码校验]
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2017-03-22T15:48:31+0800
+	 * @param    [array] $verify_param [配置参数]
+	 * @return   [object]              [图片验证码类对象]
+	 */
+	protected function CommonIsImaVerify($verify_param)
+	{
+		if(MyC('home_img_verify_state') == 1)
+		{
+			if(empty($_POST['verify']))
+			{
+				$this->ajaxReturn(L('common_param_error'), -10);
+			}
+			$verify = new \My\Verify($verify_param);
+			if(!$verify->CheckExpire())
+			{
+				$this->ajaxReturn(L('common_verify_expire'), -11);
+			}
+			if(!$verify->CheckCorrect(I('verify')))
+			{
+				$this->ajaxReturn(L('common_verify_error'), -12);
+			}
+			return $verify;
+		}
+	}
 
-    /**
-     * 用户钱包操作
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-06-20
-     * @desc    description
-     * @param   [int]          $user_id        [用户id]
-     * @param   [float]        $price          [操作金额]
-     * @param   [string]       $price_type     [金额类型（k可用金额, d冻结金额）]
-     * @param   [string]       $towork         [操作类型（z增加, j减少）]
-     * @param   [string]       $pay_type       [支付类型（0支付宝, 1微信）]
-     * @param   [string]       $monew_type     [金额操作类型（s手动修改, c充值, t提现, x消费, r收入）]
-     * @param   [string]       $remarks        [备注]
-     * @param   [string]       $operation_id   [操作人id（0为系统, 管理员id或用户id）]
-     * @param   [string]       $operating_type [操作用户类型（x系统, a管理员, u用户）]
-     */
-    protected function CommonUserWalletUpdate($user_id, $price, $price_type, $towork, $pay_type, $monew_type, $remarks='', $operation_id=0, $operating_type='x')
-    {
-        // 参数
-        if(empty($user_id) || $price <= 0.00 || !in_array($price_type, ['k', 'd']) || !in_array($towork, ['z', 'j']))
-        {
-            return -1;
-        }
+	/**
+	 * [CommonVerifyEntry 验证码显示]
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2017-03-05T15:10:21+0800
+	 * @param    [string] $type [验证码类型]
+	 */
+	protected function CommonVerifyEntry($type = 'schoolcms')
+	{
+		$param = array(
+				'width' => 100,
+				'height' => 32,
+				'key_prefix' => $type,
+			);
+		$verify = new \My\Verify($param);
+		$verify->Entry();
+	}
 
-        // 模型
-        $wallet_m = M('Wallet');
+	/**
+	 * [UserLoginRecord 用户登录记录]
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2017-03-09T11:37:43+0800
+	 * @param    [int]     $user_id [用户id]
+	 * @return   [boolean]          [记录成功true, 失败false]
+	 */
+	protected function UserLoginRecord($user_id = 0)
+	{
+		if(!empty($user_id))
+		{
+			$field = array('id', 'mobile', 'email', 'nickname', 'gender', 'signature', 'describe', 'birthday', 'add_time', 'upd_time');
+			$user = M('User')->field($field)->find($user_id);
+			if(!empty($user))
+			{
+				// 基础数据处理
+				$user['add_time_text']	=	date('Y-m-d H:i:s', $user['add_time']);
+				$user['upd_time_text']	=	date('Y-m-d H:i:s', $user['upd_time']);
+				$user['gender_text']	=	L('common_gender_list')[$user['gender']]['name'];
+				$user['birthday_text']	=	empty($user['birthday']) ? '' : date('Y-m-d', $user['birthday']);
+				$user['mobile_security']=	empty($user['mobile']) ? '' : substr($user['mobile'], 0, 3).'***'.substr($user['mobile'], -3);
+				$user['email_security']	=	empty($user['email']) ? '' : substr($user['email'], 0, 3).'***'.substr($user['email'], -3);
 
-        // 条件
-        $where = ['user_id' => $user_id];
-
-        // 获取钱包原始数据
-        $wallet_data = $wallet_m->where($where)->find();
-        if(empty($wallet_data))
-        {
-            return -2;
-        }
-
-        // 操作字段
-        $field = ($price_type == 'k') ? 'available' : 'frozen';
-
-        // 操作类型
-        $status = false;
-        switch($towork)
-        {
-            case 'z' :
-                $status = $wallet_m->where($where)->setInc($field, $price);
-                break;
-
-            case 'j' :
-                $status = $wallet_m->where($where)->setDec($field, $price);
-                break;
-        }
-        if($status)
-        {
-            // 日志
-            $log_data = [
-                'wallet_id'     => $wallet_data['id'],
-                'user_id'       => $user_id,
-                'towork'        => $towork,
-                'money_type'    => $price_type,
-                'raw'           => $wallet_data[$field],
-                'new'           => $wallet_m->where($where)->getField($field),
-                'monew'         => $price,
-                'pay_type'      => $pay_type,
-                'monew_type'    => $monew_type,
-                'remarks'       => $remarks,
-                'operation_id'  => $operation_id,
-                'operating_type'=> $operating_type,
-                'add_time'      => time(),
-            ];
-            return (M('WalletLog')->add($log_data) > 0);
-        }
-        return false;
-    }
+				// 存储session
+				$_SESSION['user'] = $user;
+				return !empty($_SESSION['user']);
+			}
+		}
+		return false;
+	}
 }
 ?>

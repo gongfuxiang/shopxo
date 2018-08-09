@@ -124,9 +124,9 @@
 							</td>
 							<td class="view-operation">
 								<a href="{{:U('Admin/CustomView/SaveInfo', array('id'=>$v['id']))}}">
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit" data-am-popover="{content: '{{:L('common_operation_edit')}}', trigger: 'hover focus'}"></button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"></button>
 								</a>
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/CustomView/Delete')}}" data-am-popover="{content: '{{:L('common_operation_delete')}}', trigger: 'hover focus'}" data-id="{{$v.id}}"></button>
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/CustomView/Delete')}}" data-id="{{$v.id}}"></button>
 							</td>
 						</tr>
 					</foreach>

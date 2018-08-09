@@ -1,0 +1,12 @@
+<!-- 是否新窗口打开 开始 -->
+<div class="am-form-group">
+	<label>{{:L('common_view_is_new_window_open_title')}}</label>
+	<div>
+		<foreach name="common_is_new_window_open_list" item="v">
+			<label class="am-radio-inline m-r-10">
+				<input type="radio" name="is_new_window_open" value="{{$v.id}}" <if condition="isset($data['is_new_window_open']) and $data['is_new_window_open'] eq $v['id']">checked="checked"<else /><if condition="!isset($data['is_new_window_open']) and isset($v['checked']) and $v['checked'] eq true">checked="checked"</if></if> data-am-ucheck /> {{$v.name}}
+			</label>
+		</foreach>
+	</div>
+</div>
+<!-- 是否新窗口打开 结束 -->

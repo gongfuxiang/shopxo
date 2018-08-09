@@ -1,0 +1,27 @@
+<include file="Public/Header" />
+
+<!-- header nav start -->
+<include file="Public/HeaderNav" />
+<!-- header nav end -->
+
+<div class="am-cf user-main" <if condition="!empty($max_width_style)">style="{{$max_width_style}}"</if>>
+  <!-- user menu start -->
+  <include file="Public/UserMenu" />
+  <!-- user menu end -->
+
+  <!-- content start -->
+  <div class="user-content">
+    <div class="user-content-body p-10">
+      SchoolCMS
+    </div>
+  </div>
+  <!-- content end -->
+</div>
+
+<!-- layuot common module start -->
+<include file="Public/CommonModule" />
+<!-- layuot common module end -->
+
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end -->

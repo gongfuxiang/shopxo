@@ -1,0 +1,18 @@
+<div class="site-oneself" <if condition="!empty($max_width_style)">style="{{$max_width_style}}"</if>>
+	<!-- link start -->
+	<if condition="!empty($link['layout'])">
+		<div class="layout-100">
+			<div class="my-link o-h">
+				<legend>{{:L('common_view_link_name')}}</legend>
+				<if condition="!empty($link['data'])">
+					<ul>
+						<foreach name="link.data" item="v">
+							<li><a href="{{$v.url}}" <if condition="$v['is_new_window_open'] eq 1">target="_blank"</if> title="{{$v.describe}}">{{$v.name}}</a></li>
+						</foreach>
+					</ul>
+				</if>
+			</div>
+		</div>
+	</if>
+	<!-- link end -->
+</div>

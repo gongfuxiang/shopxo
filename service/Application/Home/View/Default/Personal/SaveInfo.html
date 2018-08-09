@@ -1,0 +1,54 @@
+<include file="Public/Header" />
+
+<!-- header nav start -->
+<include file="Public/HeaderNav" />
+<!-- header nav end -->
+
+<div class="am-cf user-main" <if condition="!empty($max_width_style)">style="{{$max_width_style}}"</if>>
+	<!-- user menu start -->
+	<include file="Public/UserMenu" />
+	<!-- user menu end -->
+
+	<!-- content start -->
+	<div class="user-content">
+		<div class="user-content-body p-10">
+			<!-- form start -->
+			<form class="am-form form-validation view-save" action="{{:U('Home/Personal/Save')}}" method="POST" request-type="ajax-url" request-value="{{:U('Home/Personal/Index')}}">
+				<legend>
+					<span class="fs-16">{{:L('personal_save_nav_title_text')}}</span>
+					<a href="{{:U('Home/Personal/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:L('common_operation_back')}}</a>
+				</legend>
+				<div class="am-form-group">
+					<label>{{:L('personal_nickname_text')}}</label>
+					<input type="text" name="nickname" placeholder="{{:L('personal_nickname_text')}}" minlength="2" maxlength="16" data-validation-message="{{:L('personal_nickname_format')}}" class="am-radius" <present name="data"> value="{{$data.nickname}}"</present> required />
+				</div>
+				<include file="Lib/Gender" />
+				<div class="am-form-group">
+					<label>{{:L('personal_birthday_text')}}</label>
+					<input type="text" name="birthday" class="am-radius" placeholder="{{:L('personal_birthday_text')}}" pattern="{{:L('common_regex_birthday')}}" data-validation-message="{{:L('personal_birthday_format')}}" <notempty name="data"> value="{{$data.birthday_text}}" </notempty> data-am-datepicker="{format: 'yyyy-mm-dd', viewMode: 'years'}" readonly required />
+				</div>
+				<div class="am-form-group">
+					<label>{{:L('personal_signature_text')}}</label>
+					<textarea rows="3" maxlength="168" name="signature" class="am-radius" placeholder="{{:L('personal_signature_text')}}" data-validation-message="{{:L('personal_signature_format')}}"><present name="data">{{$data.signature}}</present></textarea>
+				</div>
+				<div class="am-form-group">
+					<label>{{:L('personal_describe_text')}}</label>
+					<textarea rows="5" maxlength="255" name="describe" class="am-radius" placeholder="{{:L('personal_describe_text')}}" data-validation-message="{{:L('personal_describe_format')}}"><present name="data">{{$data.describe}}</present></textarea>
+				</div>
+				<div class="am-form-group">
+					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
+				</div>
+			</form>
+			<!-- form end -->
+		</div>
+	</div>
+	<!-- content end -->
+</div>
+
+<!-- layuot common module start -->
+<include file="Public/CommonModule" />
+<!-- layuot common module end -->
+
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end -->

@@ -1,0 +1,69 @@
+<include file="Public/Header" />
+
+<!-- header nav start -->
+<include file="Public/HeaderNav" />
+<!-- header nav end -->
+
+<div class="am-cf user-main" <if condition="!empty($max_width_style)">style="{{$max_width_style}}"</if>>
+	<!-- user menu start -->
+	<include file="Public/UserMenu" />
+	<!-- user menu end -->
+
+	<!-- content start -->
+	<div class="user-content">
+		<div class="user-content-body p-10">
+			<!-- form start -->
+			<form class="am-form form-validation view-save" action="{{:U('Home/Safety/AccountsUpdate')}}" method="POST" request-type="ajax-url" request-value="{{:U('Home/Safety/Index')}}">
+				<legend>
+					<span class="fs-16">{{:L('safety_new_email_nav_title')}}</span>
+					<a href="{{:U('Home/Safety/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:L('common_operation_back')}}</a>
+				</legend>
+				<div class="am-form-group">
+					<label>{{:L('common_email_name')}}</label>
+					<input type="email" name="accounts" class="am-radius" id="accounts" placeholder="{{:L('common_email_name')}}" data-validation-message="{{:L('common_email_format_error')}}" required />
+				</div>
+				<label>{{:L('common_verify_text')}}</label>
+				<div class="am-input-group am-input-group-sm am-form-group">
+					<input type="number" name="verify" class="am-radius" placeholder="{{:L('common_verify_text')}}" minlength="6" maxlength="6" data-validation-message="{{:L('common_verify_tips')}}" required />
+					<span class="am-input-group-btn">
+						<button class="am-btn am-btn-default am-radius btn-loading-example verify-submit-new" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:L('common_send_tips')}}'}" data-url="{{:U('Home/Safety/VerifySend')}}" data-verify="{{:MyC('home_img_verify_state')}}" data-text="{{:L('common_get_verify_text')}}" data-send-text="{{:L('common_send_time_tips')}}" data-time="{{:MyC('common_verify_time_interval', 30, true)}}">{{:L('common_get_verify_text')}}</button>
+					</span>
+				</div>
+				<div class="am-form-group">
+					<input type="hidden" name="type" value="email" />
+					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_confirm')}}</button>
+				</div>
+			</form>
+			<!-- form end -->
+
+			<!-- verify win start -->
+			<div class="am-modal am-modal-no-btn" tabindex="-1" id="verify-win">
+				<div class="am-modal-dialog am-radius">
+					<div class="am-modal-hd">
+						<a href="javascript:;" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+					</div>
+					<div class="am-modal-bd o-h">
+						<div class="o-h m-t-15">
+							<input type="text" placeholder="{{:L('common_img_verify_text')}}" maxlength="6" id="verify-img-value" data-validation-message="{{:L('common_img_verify_tips')}}" class="am-form-field am-radius" />
+							<div class="fl">
+								<img src="{{:U('Home/Safety/VerifyEntry')}}" class="am-radius c-p" id="verify-img" onClick='this.src="{{:U('Home/Safety/VerifyEntry')}}"' />
+								<a href="javascript:;" class="fs-12 c-p" onClick="document.getElementById('verify-img').src='{{:U('Home/Safety/VerifyEntry')}}'">{{:L('common_img_verify_submit_text')}}</a>
+							</div>
+						</div>
+						<button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm block m-t-20 btn-loading-example verify-submit-win-new" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:L('common_send_tips')}}'}" data-win="1">{{:L('common_operation_confirm')}}</button>
+					</div>
+				</div>
+			</div>
+			<!-- verify win end -->
+		</div>
+	</div>
+	<!-- content end -->
+</div>
+
+<!-- layuot common module start -->
+<include file="Public/CommonModule" />
+<!-- layuot common module end -->
+
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end -->

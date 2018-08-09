@@ -1,0 +1,25 @@
+<div class="am-topbar-right">
+	<empty name="user">
+		<if condition="MyC('home_user_login_state') eq 1">
+			<a href="{{:U('Home/User/LoginInfo')}}" class="am-btn am-btn-secondary am-topbar-btn am-btn-sm am-radius"><span class="am-icon-user"></span> {{:L('common_login_text')}}</a>
+		</if>
+		<if condition="in_array('sms', MyC('home_user_reg_state'))">
+			<a href="{{:U('Home/User/RegInfo')}}" class="am-btn am-btn-success am-topbar-btn am-btn-sm am-radius user-nav-reg-submit"><span class="am-icon-pencil"></span> {{:L('common_reg_text')}}</a>
+		<elseif condition="in_array('email', MyC('home_user_reg_state'))" />
+			<a href="{{:U('Home/User/EmailRegInfo')}}" class="am-btn am-btn-success am-topbar-btn am-btn-sm am-radius user-nav-reg-submit"><span class="am-icon-pencil"></span> {{:L('common_reg_text')}}</a>
+		</if>
+	<else />
+		<div class="am-dropdown user-header-nav" data-am-dropdown="{boundary: '.am-topbar'}">
+			<button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm am-dropdown-toggle am-radius" data-am-dropdown-toggle><if condition="empty($user['nickname'])">{{:L('common_user_home_text')}}<else />{{$user.nickname}}</if> <span class="am-icon-caret-down"></span></button>
+			<ul class="am-dropdown-content am-radius">
+				<foreach name="user_nav_menu" item="v">
+					<if condition="$v['is_show'] eq 1">
+						<li <if condition="(strtolower(CONTROLLER_NAME.ACTION_NAME) eq strtolower($v['control'].$v['action'])) or (isset(L('user_left_menu_hidden_active')[strtolower(CONTROLLER_NAME.ACTION_NAME)]) and strtolower(L('user_left_menu_hidden_active')[strtolower(CONTROLLER_NAME.ACTION_NAME)]) eq strtolower($v['control'].$v['action']))">class="am-active"</if>>
+							<a href="{{:U('Home/'.$v['control'].'/'.$v['action'])}}"><if condition="!empty($v['icon'])"><i class="{{$v.icon}}"></i></if> {{$v.name}}</a>
+						</li>
+					</if>
+				</foreach>
+			</ul>
+		</div>
+	</empty>
+</div>
