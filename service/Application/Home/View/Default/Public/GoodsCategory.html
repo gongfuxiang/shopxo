@@ -1,0 +1,54 @@
+<!--侧边导航 -->
+<div id="nav" class="navfull">
+    <div class="area clearfix">
+        <div class="category-content" id="guide_2">
+            <div class="category">
+                <ul class="category-list" id="js_climit_li">
+                    <if condition="!empty($goods_category_list)">
+                        <foreach name="goods_category_list" item="v">
+                            <li class="appliance js_toggle relative first">
+                                <div class="category-info">
+                                    <h3 class="category-name b-category-name">
+                                        <i><img src="{{$v.icon}}"></i>
+                                        <a class="ml-22" title="{{$v.name}}">{{$v.name}}</a>
+                                    </h3>
+                                    <em>&gt;</em>
+                                </div>
+                                <div class="menu-item menu-in top">
+                                    <div class="area-in">
+                                        <div class="area-bg">
+                                            <div class="menu-srot">
+                                                <div class="sort-side">
+                                                    <if condition="!empty($v['items'])">
+                                                        <foreach name="v.items" item="vs">
+                                                            <dl class="dl-sort">
+                                                                <dt>
+                                                                    <a title="{{$vs.name}}" href="#">
+                                                                        <span title="{{$vs.name}}">{{$vs.name}}</span>
+                                                                    </a>
+                                                                </dt>
+                                                                <if condition="!empty($vs['items'])">
+                                                                    <foreach name="vs.items" item="vss">
+                                                                        <dd>
+                                                                            <a title="{{$vss.name}}" href="#">
+                                                                                <span>{{$vss.name}}</span>
+                                                                            </a>
+                                                                        </dd>
+                                                                    </foreach>
+                                                                </if>
+                                                            </dl>
+                                                        </foreach>
+                                                    </if>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </li>
+                        </foreach>
+                    </if>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

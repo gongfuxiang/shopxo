@@ -33,11 +33,38 @@ class IndexController extends CommonController
 	 */
 	public function Index()
 	{
-
 		// 首页轮播
 		$this->assign('banner_list', $this->GetHomeBanner());
 
+		// 商品大分类
+		$this->assign('goods_category_list', $this->GetCommonGoodsCategory());
+
+		// 楼层数据
+		$this->assign('goods_floor_list', $this->GetHomeFloorList());
+
 		$this->display('Index');
+	}
+
+	/**
+	 * 获取首页楼层数据
+	 * @author   Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2018-08-10
+	 * @desc    description
+	 */
+	private function GetHomeFloorList()
+	{
+		$data = $this->GetGoodsCategoryList(0);
+		if(!empty($data))
+		{
+			foreach($data as &$v)
+			{
+				$category_all = $this->GetCommonGoodsCategoryItemsIds($v['id']);
+				$v['goods'] = $this->GetCommonGoodsList(['where'=>['gci.category_id'=>['in', $category_all]]]);
+			}
+		}
+		return $data;
 	}
 
 	/**

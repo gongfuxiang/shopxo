@@ -309,13 +309,30 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
 .nav-content {position: absolute;min-height: 100%; width: 200px;background-color: #fff;z-index: 99;text-align: center;right:-165px;border-radius: 5px 0 0 5px;border: 1px solid #999; padding-top:15px;}
 
 
-
 .mp_qrcode img{width:100%;height: auto;}
-
-
-
 
 
 .am-article-title.blog-title{font-size:24px;line-height: 1.15;font-weight: normal;margin: 10px 0px 20px;}
 .blog-content p{margin: 0 0 1.6rem 0;font-size:14px;}
 
+
+/**
+ * 框架覆盖
+ */
+
+/**
+ * 轮播图片
+ */
+.am-slider-a1 .am-control-nav li a.am-active {
+    background-color: #d3374b;
+}
+.am-slider-a1 .am-control-nav li a {
+    width: 15px;
+    height: 15px;
+    background-color: rgba(0, 0, 0, 0.55);
+    -webkit-box-shadow: inset 0 0 3px #fff;
+    box-shadow: inset 0 0 3px #fff;
+}
+.am-slider-a1 .am-control-nav {
+    bottom: 10px;
+}

@@ -102,6 +102,8 @@ text-align: center;float:none}
 .s-buy{display:none;}
 /*楼层*/
 .floodOne, .floodTwo, .floodThree, .floodFour, .floodFive, .floodSix, .floodSeven {background: #fff;}
+.floodFour .list img { height: 125px; }
+
 /*文字说明*/
 .seprate{display: none;}
 .outer-con {position: absolute;top:0px;width:100% ;}
@@ -276,6 +278,7 @@ text-align: center;float:none}
 .outer-con .title ,.recommendation .info h3{font-size: 14px;font-weight: 600;}
 .sub-title {font-size:12px ;color:#666 ;}
 .floodSix .outer-con .title,.floodSeven .outer-con .title {font-size:14px ;}
+.floodFour .list img { height: 180px; }
 
 /*一楼*/
 .floodOne .text-one img{width:96%;margin:60% 2% 2% 2%;}
@@ -482,6 +485,8 @@ top: 11px;text-align: right;}
 .big .outer-con{top:23% !important;}
 .list .outer-con{top:38% !important;width:98% !important;left:2% !important;text-align: center !important;}
 .list .outer-con .title{color: #fff  !important;}
+.floodFour .list img { height: 230px; }
+.floodFour .list { overflow: hidden; }
 
 
 /*小标签*/

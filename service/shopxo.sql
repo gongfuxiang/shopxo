@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : utf-8
 
- Date: 08/09/2018 10:11:33 AM
+ Date: 08/10/2018 18:49:28 PM
 */
 
 SET NAMES utf8mb4;
@@ -40,7 +40,7 @@ CREATE TABLE `s_admin` (
 --  Records of `s_admin`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_admin` VALUES ('1', 'admin', '65e37e9cbdd869a0dc880291fae40e9b', '834364', '13555666622', '0', '318', '1533274543', '1', '1481350313', '1530352163'), ('3', 'testtest', 'b235d41f6e19cd9c6116379aa6871fe5', '520913', '13222333333', '2', '45', '1528882500', '13', '1483947758', '1528777420');
+INSERT INTO `s_admin` VALUES ('1', 'admin', '3e12c633f79f3fe274b6e493e35de6fd', '633605', '13555666622', '0', '320', '1533797495', '1', '1481350313', '1530352163'), ('3', 'testtest', 'b235d41f6e19cd9c6116379aa6871fe5', '520913', '13222333333', '2', '45', '1528882500', '13', '1483947758', '1528777420');
 COMMIT;
 
 -- ----------------------------
@@ -206,7 +206,7 @@ CREATE TABLE `s_custom_view` (
 --  Records of `s_custom_view`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_custom_view` VALUES ('1', '测试自定义页面', '<p><img src=\"/Public/Upload/customview/image/2018/08/09/1533779966550231.jpeg\" title=\"1533779966550231.jpeg\" alt=\"1.jpeg\"/></p><p><span style=\"color: rgb(38, 38, 38); font-family: 微软雅黑, \">秀，身材苗条！</span></p><p><span style=\"color: rgb(38, 38, 38); font-family: 微软雅黑, \"></span></p><p style=\"box-sizing: border-box; margin-top: 0px; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">在欧美的排版业界中，使用 Arial 的作品意即是「不使用 Helvetica 的作品」，会被认為是设计师对字体的使用没有概念或是太容易妥协，基本上我大致也是同意。</p><p style=\"box-sizing: border-box; margin-top: 1.6rem; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \"><br/></p><p style=\"box-sizing: border-box; margin-top: 1.6rem; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">因為 Helvetica 只有 Mac 上才有內建，Windows 用戶除非花錢買，不然是沒有 Helvetica 能用，所以使用 Arial 的設計師往往被看成是不願意對 Typography 花錢，專業素養不到家的人。除了在確保網頁相容性等絕對必需的情況外，幾乎可以說是不應該使用的字體。</p><p><span style=\"color: rgb(38, 38, 38); font-family: 微软雅黑, \"><br/></span></p><p style=\"box-sizing: border-box; margin-top: 0px; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">在欧美的排版业界中，使用 Arial 的作品意即是「不使用 Helvetica 的作品」，会被认為是设计师对字体的使用没有概念或是太容易妥协，基本上我大致也是同意。</p><p style=\"box-sizing: border-box; margin-top: 1.6rem; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">因為 Helvetica 只有 Mac 上才有內建，Windows 用戶除非花錢買，不然是沒有 Helvetica 能用，所以使用 Arial 的設計師往往被看成是不願意對 Typography 花錢，專業素養不到家的人。除了在確保網頁相容性等絕對必需的情況外，幾乎可以說是不應該使用的字體。</p><p><span style=\"color: rgb(38, 38, 38); font-family: 微软雅黑, \"><br/></span></p><p style=\"box-sizing: border-box; margin-top: 0px; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">在欧美的排版业界中，使用 Arial 的作品意即是「不使用 Helvetica 的作品」，会被认為是设计师对字体的使用没有概念或是太容易妥协，基本上我大致也是同意。</p><p style=\"box-sizing: border-box; margin-top: 1.6rem; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">因為 Helvetica 只有 Mac 上才有內建，Windows 用戶除非花錢買，不然是沒有 Helvetica 能用，所以使用 Arial 的設計師往往被看成是不願意對 Typography 花錢，專業素養不到家的人。除了在確保網頁相容性等絕對必需的情況外，幾乎可以說是不應該使用的字體。</p><p><span style=\"color: rgb(38, 38, 38); font-family: 微软雅黑, \"><br/></span></p><p><span style=\"color: rgb(38, 38, 38); font-family: 微软雅黑, \"><br/></span></p><p style=\"box-sizing: border-box; margin-top: 0px; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">在欧美的排版业界中，使用 Arial 的作品意即是「不使用 Helvetica 的作品」，会被认為是设计师对字体的使用没有概念或是太容易妥协，基本上我大致也是同意。</p><p style=\"box-sizing: border-box; margin-top: 1.6rem; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">因為 Helvetica 只有 Mac 上才有內建，Windows 用戶除非花錢買，不然是沒有 Helvetica 能用，所以使用 Arial 的設計師往往被看成是不願意對 Typography 花錢，專業素養不到家的人。除了在確保網頁相容性等絕對必需的情況外，幾乎可以說是不應該使用的字體。</p><p><span style=\"color: rgb(38, 38, 38); font-family: 微软雅黑, \"><br/></span></p><p style=\"box-sizing: border-box; margin-top: 0px; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">在欧美的排版业界中，使用 Arial 的作品意即是「不使用 Helvetica 的作品」，会被认為是设计师对字体的使用没有概念或是太容易妥协，基本上我大致也是同意。</p><p style=\"box-sizing: border-box; margin-top: 1.6rem; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">因為 Helvetica 只有 Mac 上才有內建，Windows 用戶除非花錢買，不然是沒有 Helvetica 能用，所以使用 Arial 的設計師往往被看成是不願意對 Typography 花錢，專業素養不到家的人。除了在確保網頁相容性等絕對必需的情況外，幾乎可以說是不應該使用的字體。</p><p><br/></p>', '1', '1', '1', '1', '[\"\\/Public\\/Upload\\/customview\\/image\\/2018\\/08\\/09\\/1533779966550231.jpeg\"]', '1', '514', '1484965691', '1533779970');
+INSERT INTO `s_custom_view` VALUES ('1', '测试自定义页面', '<p><img src=\"/Public/Upload/customview/image/2018/08/09/1533779966550231.jpeg\" title=\"1533779966550231.jpeg\" alt=\"1.jpeg\"/></p><p><span style=\"color: rgb(38, 38, 38); font-family: 微软雅黑, \">秀，身材苗条！</span></p><p><span style=\"color: rgb(38, 38, 38); font-family: 微软雅黑, \"></span></p><p style=\"box-sizing: border-box; margin-top: 0px; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">在欧美的排版业界中，使用 Arial 的作品意即是「不使用 Helvetica 的作品」，会被认為是设计师对字体的使用没有概念或是太容易妥协，基本上我大致也是同意。</p><p style=\"box-sizing: border-box; margin-top: 1.6rem; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \"><br/></p><p style=\"box-sizing: border-box; margin-top: 1.6rem; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">因為 Helvetica 只有 Mac 上才有內建，Windows 用戶除非花錢買，不然是沒有 Helvetica 能用，所以使用 Arial 的設計師往往被看成是不願意對 Typography 花錢，專業素養不到家的人。除了在確保網頁相容性等絕對必需的情況外，幾乎可以說是不應該使用的字體。</p><p><span style=\"color: rgb(38, 38, 38); font-family: 微软雅黑, \"><br/></span></p><p style=\"box-sizing: border-box; margin-top: 0px; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">在欧美的排版业界中，使用 Arial 的作品意即是「不使用 Helvetica 的作品」，会被认為是设计师对字体的使用没有概念或是太容易妥协，基本上我大致也是同意。</p><p style=\"box-sizing: border-box; margin-top: 1.6rem; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">因為 Helvetica 只有 Mac 上才有內建，Windows 用戶除非花錢買，不然是沒有 Helvetica 能用，所以使用 Arial 的設計師往往被看成是不願意對 Typography 花錢，專業素養不到家的人。除了在確保網頁相容性等絕對必需的情況外，幾乎可以說是不應該使用的字體。</p><p><span style=\"color: rgb(38, 38, 38); font-family: 微软雅黑, \"><br/></span></p><p style=\"box-sizing: border-box; margin-top: 0px; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">在欧美的排版业界中，使用 Arial 的作品意即是「不使用 Helvetica 的作品」，会被认為是设计师对字体的使用没有概念或是太容易妥协，基本上我大致也是同意。</p><p style=\"box-sizing: border-box; margin-top: 1.6rem; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">因為 Helvetica 只有 Mac 上才有內建，Windows 用戶除非花錢買，不然是沒有 Helvetica 能用，所以使用 Arial 的設計師往往被看成是不願意對 Typography 花錢，專業素養不到家的人。除了在確保網頁相容性等絕對必需的情況外，幾乎可以說是不應該使用的字體。</p><p><span style=\"color: rgb(38, 38, 38); font-family: 微软雅黑, \"><br/></span></p><p><span style=\"color: rgb(38, 38, 38); font-family: 微软雅黑, \"><br/></span></p><p style=\"box-sizing: border-box; margin-top: 0px; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">在欧美的排版业界中，使用 Arial 的作品意即是「不使用 Helvetica 的作品」，会被认為是设计师对字体的使用没有概念或是太容易妥协，基本上我大致也是同意。</p><p style=\"box-sizing: border-box; margin-top: 1.6rem; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">因為 Helvetica 只有 Mac 上才有內建，Windows 用戶除非花錢買，不然是沒有 Helvetica 能用，所以使用 Arial 的設計師往往被看成是不願意對 Typography 花錢，專業素養不到家的人。除了在確保網頁相容性等絕對必需的情況外，幾乎可以說是不應該使用的字體。</p><p><span style=\"color: rgb(38, 38, 38); font-family: 微软雅黑, \"><br/></span></p><p style=\"box-sizing: border-box; margin-top: 0px; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">在欧美的排版业界中，使用 Arial 的作品意即是「不使用 Helvetica 的作品」，会被认為是设计师对字体的使用没有概念或是太容易妥协，基本上我大致也是同意。</p><p style=\"box-sizing: border-box; margin-top: 1.6rem; margin-bottom: 1.6rem; color: rgb(51, 51, 51); font-family: \">因為 Helvetica 只有 Mac 上才有內建，Windows 用戶除非花錢買，不然是沒有 Helvetica 能用，所以使用 Arial 的設計師往往被看成是不願意對 Typography 花錢，專業素養不到家的人。除了在確保網頁相容性等絕對必需的情況外，幾乎可以說是不應該使用的字體。</p><p><br/></p>', '1', '1', '1', '1', '[\"\\/Public\\/Upload\\/customview\\/image\\/2018\\/08\\/09\\/1533779966550231.jpeg\"]', '1', '518', '1484965691', '1533779970');
 COMMIT;
 
 -- ----------------------------
@@ -272,7 +272,7 @@ CREATE TABLE `s_goods` (
 --  Records of `s_goods`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_goods` VALUES ('1', '819-印佣', '', '819', '35', '1', '个', '/Public/Upload/goods_photo/compr/2018/08/01/20180801165613923256487.jpg', '8500.00', '0.01', '1', '1', '0', '0', '1', '0', '', '1', '0', '0', '', '0', '1531201588', '1533202148'), ('2', '854--菲佣', '', '菲律宾保姆', '35', '1', '个', '/Public/Upload/goods_photo/compr/2018/08/01/20180801153221713882815.jpg', '8500.00', '8000.00', '0', '1', '0', '1', '1', '1', '', '1', '0', '0', '/Public/Upload/goods_images/compr/2018/08/07/20180807160906551366842.jpg', '0', '1531218445', '1533629346');
+INSERT INTO `s_goods` VALUES ('1', '819-印佣', '', '819', '35', '1', '个', '/Public/Upload/goods_photo/compr/2018/08/01/20180801165613923256487.jpg', '8500.00', '0.01', '1', '1', '0', '0', '1', '0', '', '1', '0', '0', '', '0', '1531201588', '1533202148'), ('2', '优果优选 美国进口车厘子 9.5R 2斤装 （27.5~30mm） 1kg', '', '', '0', '999999', '斤', '/Public/Upload/goods_photo/compr/2018/08/10/20180810184610489690386.jpg', '236.00', '168.00', '0', '1', '0', '1', '1', '1', '<p><img src=\"/project/shopxo/service/Public/Upload/Article/image/2018/08/10/1533897913772724.jpg\"/></p><p><img src=\"/project/shopxo/service/Public/Upload/Article/image/2018/08/10/1533897913752125.jpg\"/></p><p><img src=\"/project/shopxo/service/Public/Upload/Article/image/2018/08/10/1533897913685426.jpg\"/></p><p><img src=\"/project/shopxo/service/Public/Upload/Article/image/2018/08/10/1533897913647955.jpg\"/></p><p><img src=\"/project/shopxo/service/Public/Upload/Article/image/2018/08/10/1533897913505206.jpg\"/></p><p><img src=\"/project/shopxo/service/Public/Upload/Article/image/2018/08/10/1533897913381333.jpg\"/></p><p><img src=\"/project/shopxo/service/Public/Upload/Article/image/2018/08/10/1533897913232247.jpg\"/></p><p><img src=\"/project/shopxo/service/Public/Upload/Article/image/2018/08/10/1533897913195472.jpg\"/></p><p><img src=\"/project/shopxo/service/Public/Upload/Article/image/2018/08/10/1533897913166205.jpg\"/></p><p><br/></p>', '3', '0', '0', '/Public/Upload/goods_images/compr/2018/08/10/20180810184612978674162.jpg', '0', '1531218445', '1533897972');
 COMMIT;
 
 -- ----------------------------
@@ -292,13 +292,6 @@ CREATE TABLE `s_goods_attribute` (
 ) ENGINE=InnoDB AUTO_INCREMENT=801 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='项目具体属性列表';
 
 -- ----------------------------
---  Records of `s_goods_attribute`
--- ----------------------------
-BEGIN;
-INSERT INTO `s_goods_attribute` VALUES ('796', '317', '2', '印度尼西亚保姆', '0', '0'), ('797', '317', '2', '缅甸保姆', '1', '0'), ('798', '318', '2', '1年大专', '0', '0'), ('799', '318', '2', '3年大专', '1', '0'), ('800', '318', '2', '本科生', '2', '0');
-COMMIT;
-
--- ----------------------------
 --  Table structure for `s_goods_attribute_type`
 -- ----------------------------
 DROP TABLE IF EXISTS `s_goods_attribute_type`;
@@ -316,13 +309,6 @@ CREATE TABLE `s_goods_attribute_type` (
 ) ENGINE=InnoDB AUTO_INCREMENT=319 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='项目属性类型';
 
 -- ----------------------------
---  Records of `s_goods_attribute_type`
--- ----------------------------
-BEGIN;
-INSERT INTO `s_goods_attribute_type` VALUES ('317', '2', 'choose', '菲律宾保姆', '0', '1533629346'), ('318', '2', 'choose', '学历', '1', '1533629346');
-COMMIT;
-
--- ----------------------------
 --  Table structure for `s_goods_category`
 -- ----------------------------
 DROP TABLE IF EXISTS `s_goods_category`;
@@ -330,7 +316,9 @@ CREATE TABLE `s_goods_category` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `pid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '父id',
   `icon` char(255) NOT NULL DEFAULT '' COMMENT 'icon图标',
-  `name` char(255) NOT NULL DEFAULT '' COMMENT '名称',
+  `name` char(60) NOT NULL DEFAULT '' COMMENT '名称',
+  `vice_name` char(80) NOT NULL DEFAULT '' COMMENT '副标题',
+  `describe` char(255) NOT NULL DEFAULT '' COMMENT '描述',
   `bg_color` char(30) NOT NULL DEFAULT '' COMMENT 'css背景色值',
   `big_images` char(255) DEFAULT '' COMMENT '大图片',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
@@ -347,7 +335,7 @@ CREATE TABLE `s_goods_category` (
 --  Records of `s_goods_category`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_goods_category` VALUES ('1', '0', '/Public/Upload/category/2018/08/20180807143059426985.jpeg', '菲佣', '#FF00FF', '', '0', '1', '1529042764', '1533624030'), ('2', '0', '/Public/Upload/category/2018/08/20180802171443038319.jpeg', '印佣', '#FF00FF', '', '0', '1', '1529042773', '1533610695'), ('3', '0', '/Public/Upload/category/2018/08/20180802171502159762.jpeg', '缅佣', '', '', '0', '1', '1529042779', '1533201302'), ('4', '1', '', '全能家务', '#990099', '/Public/Upload/category/2018/08/20180807144233879808.jpeg', '0', '1', '1529042822', '1533624153'), ('24', '2', '', '全能家务', '', '', '0', '1', '1533115186', '1533115235'), ('7', '0', '/Public/Upload/category/2018/08/20180802171519504912.jpeg', '新菲佣', '', '', '0', '1', '1530347712', '1533622676'), ('8', '1', '', '打扫卫生', '', '', '0', '1', '1530348781', '1533114849'), ('10', '1', '', '烧菜做饭', '', '', '0', '1', '1533114272', '1533558499'), ('12', '2', '', '家务卫生', '', '', '0', '1', '1533114423', '1533115251'), ('23', '2', '', '烧菜做饭', '', '', '0', '1', '1533115163', '1533115276'), ('13', '1', '', '洗烫衣服', '', '', '0', '1', '1533114758', '0'), ('14', '1', '', '家庭保姆', '', '', '0', '1', '1533114883', '0'), ('15', '1', '', '婴儿护理', '', '', '0', '1', '1533114900', '0'), ('16', '1', '', '上街购物', '', '', '0', '1', '1533114924', '0'), ('17', '1', '', '庭院打扫', '', '', '0', '1', '1533114946', '0'), ('18', '1', '', '照料宠物', '', '', '0', '1', '1533114975', '0'), ('19', '1', '', '辅导功课', '', '', '0', '1', '1533115025', '0'), ('20', '1', '', '看护老人', '', '', '0', '1', '1533115048', '0'), ('21', '1', '', '英语教学', '', '', '0', '1', '1533115070', '0'), ('22', '1', '', '清洗汽车', '', '', '0', '1', '1533115096', '0'), ('25', '2', '', '洗烫衣服', '', '', '0', '1', '1533115354', '0'), ('26', '2', '', '婴儿护理', '', '', '0', '1', '1533115374', '0'), ('27', '2', '', '上街购物', '', '', '0', '1', '1533115398', '0'), ('28', '2', '', '庭院打扫', '', '', '0', '1', '1533115435', '0'), ('29', '2', '', '照料宠物', '', '', '0', '1', '1533115462', '0'), ('30', '2', '', '辅导功课', '', '', '0', '1', '1533115478', '0'), ('31', '2', '', '看护老人', '', '', '0', '1', '1533115499', '0'), ('32', '2', '', '英语教学', '', '', '0', '1', '1533115518', '0'), ('33', '2', '', '清洗汽车', '', '', '0', '1', '1533115539', '0'), ('34', '3', '', '全能家务', '', '', '0', '1', '1533115576', '0'), ('35', '3', '', '家务卫生', '', '', '0', '1', '1533115591', '0'), ('36', '3', '', '烧菜做饭', '', '', '0', '1', '1533115607', '0'), ('37', '3', '', '洗烫衣服', '', '', '0', '1', '1533115622', '0'), ('38', '3', '', '家庭保姆', '', '', '0', '1', '1533115639', '0'), ('39', '3', '', '婴儿护理', '', '', '0', '1', '1533115661', '0'), ('40', '3', '', '上街购物', '', '', '0', '1', '1533115676', '0'), ('41', '3', '', '庭院打扫', '', '', '0', '1', '1533115692', '0'), ('42', '3', '', '照料宠物', '', '', '0', '1', '1533115707', '0'), ('43', '3', '', '辅导功课', '', '', '0', '1', '1533115722', '0'), ('44', '3', '', '看护老人', '', '', '0', '1', '1533115744', '0'), ('45', '3', '', '英语教学', '', '', '0', '1', '1533115761', '0'), ('46', '3', '', '清洗汽车', '', '', '0', '1', '1533115948', '0'), ('47', '2', '', '家庭保姆', '', '', '0', '1', '1533115975', '0'), ('48', '4', '', '三级分类', '', '', '0', '1', '1533558962', '0'), ('49', '4', '', 'ces', '', '', '0', '1', '1533610866', '0'), ('50', '7', '', '22', '#9900CC', '', '0', '1', '1533622584', '0'), ('51', '7', '', '33', '', '', '0', '1', '1533622619', '1533622645');
+INSERT INTO `s_goods_category` VALUES ('1', '0', '/Public/Upload/category/2018/08/20180810150127225333.png', '点心/蛋糕', '每一道甜品都有一个故事', '美食天下之美', '', '/Public/Upload/category/2018/08/20180810150128232300.jpeg', '0', '1', '1529042764', '1533884488'), ('2', '0', '/Public/Upload/category/2018/08/20180810150346902289.png', '饼干/膨化', '酥酥脆脆，回味无穷', '雪之恋和风大福', '', '/Public/Upload/category/2018/08/20180810150346906691.jpeg', '0', '1', '1529042773', '1533884626'), ('3', '0', '/Public/Upload/category/2018/08/20180810150611256829.png', '熟食/肉类', '', '', '', '/Public/Upload/category/2018/08/20180810150611142371.jpeg', '0', '1', '1529042779', '1533884771'), ('4', '1', '', '蛋糕', '', '', '', '', '0', '1', '1529042822', '1533884510'), ('24', '2', '', '全能家务', '', '', '', '', '0', '1', '1533115186', '1533115235'), ('7', '0', '/Public/Upload/category/2018/08/20180810150743818216.png', '坚果/炒货', '', '', '', '/Public/Upload/category/2018/08/20180810150743937063.jpeg', '0', '1', '1530347712', '1533884863'), ('8', '1', '', '点心', '', '', '', '', '0', '1', '1530348781', '1533884522'), ('10', '1', '', '烧菜做饭', '', '', '', '', '0', '1', '1533114272', '1533558499'), ('12', '2', '', '家务卫生', '', '', '', '', '0', '1', '1533114423', '1533115251'), ('23', '2', '', '烧菜做饭', '', '', '', '', '0', '1', '1533115163', '1533115276'), ('13', '1', '', '洗烫衣服', '', '', '', '', '0', '1', '1533114758', '0'), ('14', '1', '', '家庭保姆', '', '', '', '', '0', '1', '1533114883', '0'), ('15', '1', '', '婴儿护理', '', '', '', '', '0', '1', '1533114900', '0'), ('16', '1', '', '上街购物', '', '', '', '', '0', '1', '1533114924', '0'), ('17', '1', '', '庭院打扫', '', '', '', '', '0', '1', '1533114946', '0'), ('18', '1', '', '照料宠物', '', '', '', '', '0', '1', '1533114975', '0'), ('19', '1', '', '辅导功课', '', '', '', '', '0', '1', '1533115025', '0'), ('20', '1', '', '看护老人', '', '', '', '', '0', '1', '1533115048', '0'), ('21', '1', '', '英语教学', '', '', '', '', '0', '1', '1533115070', '0'), ('22', '1', '', '清洗汽车', '', '', '', '', '0', '1', '1533115096', '0'), ('25', '2', '', '洗烫衣服', '', '', '', '', '0', '1', '1533115354', '0'), ('26', '2', '', '婴儿护理', '', '', '', '', '0', '1', '1533115374', '0'), ('27', '2', '', '上街购物', '', '', '', '', '0', '1', '1533115398', '0'), ('28', '2', '', '庭院打扫', '', '', '', '', '0', '1', '1533115435', '0'), ('29', '2', '', '照料宠物', '', '', '', '', '0', '1', '1533115462', '0'), ('30', '2', '', '辅导功课', '', '', '', '', '0', '1', '1533115478', '0'), ('31', '2', '', '看护老人', '', '', '', '', '0', '1', '1533115499', '0'), ('32', '2', '', '英语教学', '', '', '', '', '0', '1', '1533115518', '0'), ('33', '2', '', '清洗汽车', '', '', '', '', '0', '1', '1533115539', '0'), ('34', '3', '', '全能家务', '', '', '', '', '0', '1', '1533115576', '0'), ('35', '3', '', '家务卫生', '', '', '', '', '0', '1', '1533115591', '0'), ('36', '3', '', '烧菜做饭', '', '', '', '', '0', '1', '1533115607', '0'), ('37', '3', '', '洗烫衣服', '', '', '', '', '0', '1', '1533115622', '0'), ('38', '3', '', '家庭保姆', '', '', '', '', '0', '1', '1533115639', '0'), ('39', '3', '', '婴儿护理', '', '', '', '', '0', '1', '1533115661', '0'), ('40', '3', '', '上街购物', '', '', '', '', '0', '1', '1533115676', '0'), ('41', '3', '', '庭院打扫', '', '', '', '', '0', '1', '1533115692', '0'), ('42', '3', '', '照料宠物', '', '', '', '', '0', '1', '1533115707', '0'), ('43', '3', '', '辅导功课', '', '', '', '', '0', '1', '1533115722', '0'), ('44', '3', '', '看护老人', '', '', '', '', '0', '1', '1533115744', '0'), ('45', '3', '', '英语教学', '', '', '', '', '0', '1', '1533115761', '0'), ('46', '3', '', '清洗汽车', '', '', '', '', '0', '1', '1533115948', '0'), ('47', '2', '', '家庭保姆', '', '', '', '', '0', '1', '1533115975', '0'), ('48', '4', '', '蒸蛋糕', '', '', '', '', '0', '1', '1533558962', '1533886178'), ('49', '4', '', '脱水蛋糕', '', '', '', '', '0', '1', '1533610866', '1533886197'), ('50', '8', '', '22', '', '', '#9900CC', '', '0', '1', '1533622584', '0'), ('51', '8', '', '33', '', '', '', '', '0', '1', '1533622619', '1533622645');
 COMMIT;
 
 -- ----------------------------
@@ -362,13 +350,13 @@ CREATE TABLE `s_goods_category_join` (
   PRIMARY KEY (`id`),
   KEY `goods_id` (`goods_id`),
   KEY `category_id` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品分类关联';
+) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品分类关联';
 
 -- ----------------------------
 --  Records of `s_goods_category_join`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_goods_category_join` VALUES ('104', '1', '24', '1533202148'), ('121', '2', '48', '1533629346');
+INSERT INTO `s_goods_category_join` VALUES ('104', '1', '24', '1533202148'), ('122', '2', '4', '1533897972'), ('123', '2', '48', '1533897972'), ('124', '2', '49', '1533897972'), ('125', '2', '8', '1533897972');
 COMMIT;
 
 -- ----------------------------
@@ -385,13 +373,13 @@ CREATE TABLE `s_goods_content_app` (
   PRIMARY KEY (`id`),
   KEY `goods_id` (`goods_id`),
   KEY `sort` (`sort`)
-) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品手机详情';
+) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品手机详情';
 
 -- ----------------------------
 --  Records of `s_goods_content_app`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_goods_content_app` VALUES ('115', '1', '', '姓名：LALLANPARI\r\n编号：819\r\n性别：女\r\n年龄：26\r\n学历：应届毕业生\r\n籍贯：印度\r\n属相：羊\r\n身高：158cm\r\n体重：45kg\r\n语言：英语\r\n工作经验：3年保姆经验\r\n希望薪资：7000-8000\r\n婚姻状况：未婚\r\n主要工作：家务卫生，洗烫衣服，上街购物，照料宠物，英语教学。\r\n语言能力：英语教学\r\n煮菜口味：大众化中餐', '0', '1533202149'), ('116', '1', '/Public/Upload/goods_app/compr/2018/08/01/201808011656132923908961.jpg', '', '1', '1533202149'), ('149', '2', '', '姓名：NCNCY\r\n编号：853\r\n性别：女\r\n年龄：45\r\n学历：2年大专\r\n籍贯：菲律宾\r\n属相：鼠\r\n身高：150cm\r\n体重：53kg\r\n语言：英语\r\n工作经验：8年保姆经验\r\n希望薪资：8500-9000\r\n婚姻状况：已婚 有孩子\r\n主要工作：全能家务。\r\n语言能力：英语教学。', '0', '1533629346'), ('150', '2', '/Public/Upload/goods_app/compr/2018/08/01/2018080116433158755606.jpg', '', '1', '1533629346');
+INSERT INTO `s_goods_content_app` VALUES ('115', '1', '', '姓名：LALLANPARI\r\n编号：819\r\n性别：女\r\n年龄：26\r\n学历：应届毕业生\r\n籍贯：印度\r\n属相：羊\r\n身高：158cm\r\n体重：45kg\r\n语言：英语\r\n工作经验：3年保姆经验\r\n希望薪资：7000-8000\r\n婚姻状况：未婚\r\n主要工作：家务卫生，洗烫衣服，上街购物，照料宠物，英语教学。\r\n语言能力：英语教学\r\n煮菜口味：大众化中餐', '0', '1533202149'), ('116', '1', '/Public/Upload/goods_app/compr/2018/08/01/201808011656132923908961.jpg', '', '1', '1533202149'), ('151', '2', '/Public/Upload/goods_app/compr/2018/08/10/20180810184610397737719.jpg', '', '0', '1533897972'), ('152', '2', '/Public/Upload/goods_app/compr/2018/08/10/201808101846102350867215.jpg', '', '1', '1533897972'), ('153', '2', '/Public/Upload/goods_app/compr/2018/08/10/201808101846106037011362.jpg', '', '2', '1533897972'), ('154', '2', '/Public/Upload/goods_app/compr/2018/08/10/201808101846112268671.jpg', '', '3', '1533897972'), ('155', '2', '/Public/Upload/goods_app/compr/2018/08/10/201808101846111777820834.jpg', '', '4', '1533897972'), ('156', '2', '/Public/Upload/goods_app/compr/2018/08/10/201808101846114022154163.jpg', '', '5', '1533897972'), ('157', '2', '/Public/Upload/goods_app/compr/2018/08/10/20180810184611879081973.jpg', '', '6', '1533897972'), ('158', '2', '/Public/Upload/goods_app/compr/2018/08/10/201808101846110265890213.jpg', '', '7', '1533897972'), ('159', '2', '/Public/Upload/goods_app/compr/2018/08/10/201808101846122561885811.jpg', '', '8', '1533897972');
 COMMIT;
 
 -- ----------------------------
@@ -428,13 +416,13 @@ CREATE TABLE `s_goods_photo` (
   KEY `goods_id` (`goods_id`),
   KEY `is_show` (`is_show`),
   KEY `sort` (`sort`)
-) ENGINE=InnoDB AUTO_INCREMENT=191 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品相册图片';
+) ENGINE=InnoDB AUTO_INCREMENT=194 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品相册图片';
 
 -- ----------------------------
 --  Records of `s_goods_photo`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_goods_photo` VALUES ('173', '1', '/Public/Upload/goods_photo/compr/2018/08/01/20180801165613923256487.jpg', '1', '0', '1533202149'), ('190', '2', '/Public/Upload/goods_photo/compr/2018/08/01/20180801153221713882815.jpg', '1', '0', '1533629346');
+INSERT INTO `s_goods_photo` VALUES ('173', '1', '/Public/Upload/goods_photo/compr/2018/08/01/20180801165613923256487.jpg', '1', '0', '1533202149'), ('191', '2', '/Public/Upload/goods_photo/compr/2018/08/10/20180810184610489690386.jpg', '1', '0', '1533897972'), ('192', '2', '/Public/Upload/goods_photo/compr/2018/08/10/20180810184610355212513.jpg', '1', '1', '1533897972'), ('193', '2', '/Public/Upload/goods_photo/compr/2018/08/10/201808101846108743211495.jpg', '1', '2', '1533897972');
 COMMIT;
 
 -- ----------------------------
@@ -515,7 +503,7 @@ CREATE TABLE `s_navigation` (
 --  Records of `s_navigation`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_navigation` VALUES ('2', '0', '绿色校园', '', '17', 'article_category', 'header', '0', '1', '0', '1486297310', '1533778250'), ('3', '0', '新闻八卦', '', '16', 'article_category', 'header', '0', '1', '0', '1486298744', '1533724003'), ('8', '0', '自定义页面', '', '1', 'customview', 'header', '0', '1', '0', '1486352254', '0'), ('9', '0', '二级菜单', '', '1', 'customview', 'header', '0', '1', '0', '1486352437', '0'), ('10', '9', '自定义页面2', '', '1', 'customview', 'header', '0', '1', '0', '1486352476', '1533710065'), ('12', '0', '底部导航测试', 'http://schoolcms.org/', '0', 'custom', 'footer', '2', '1', '0', '1486353476', '0'), ('13', '0', '客户服务', '', '10', 'article_category', 'footer', '1', '1', '0', '1486353528', '0'), ('14', '0', '龚哥哥的博客', 'http://gong.gg/', '0', 'custom', 'footer', '0', '1', '1', '1486525988', '0'), ('15', '0', '联系我们', 'http://schoolcms.org/', '0', 'custom', 'footer', '0', '1', '0', '1486544708', '0'), ('16', '0', '关于学生', '', '18', 'article_category', 'footer', '0', '1', '0', '1486544740', '0'), ('17', '0', 'ShopXO', 'http://shopxo.net/', '0', 'custom', 'header', '10', '1', '1', '1487923617', '1533779134'), ('19', '2', '333', '', '16', 'article_category', 'header', '0', '1', '0', '1533724819', '0'), ('20', '2', '印佣', '', '2', 'goods_category', 'header', '0', '1', '0', '1533724827', '0'), ('21', '3', '全能家务', '', '4', 'goods_category', 'footer', '0', '1', '0', '1533724839', '0'), ('22', '12', '印佣', '', '2', 'goods_category', 'footer', '0', '1', '0', '1533724903', '0'), ('23', '12', '绿色校园', '', '2', 'goods_category', 'footer', '0', '1', '0', '1533724913', '0');
+INSERT INTO `s_navigation` VALUES ('2', '0', '绿色校园', '', '17', 'article_category', 'header', '0', '1', '0', '1486297310', '1533778250'), ('3', '0', '新闻八卦', '', '16', 'article_category', 'header', '0', '1', '0', '1486298744', '1533724003'), ('8', '0', '自定义页面', '', '1', 'customview', 'header', '0', '1', '0', '1486352254', '0'), ('9', '0', '二级菜单', '', '1', 'customview', 'header', '0', '1', '0', '1486352437', '0'), ('10', '9', '自定义页面2', '', '1', 'customview', 'header', '0', '1', '0', '1486352476', '1533710065'), ('12', '0', '底部导航测试', 'http://schoolcms.org/', '0', 'custom', 'footer', '2', '1', '0', '1486353476', '0'), ('13', '0', '客户服务', '', '10', 'article_category', 'footer', '1', '1', '0', '1486353528', '0'), ('14', '0', '龚哥哥的博客', 'http://gong.gg/', '0', 'custom', 'footer', '0', '1', '1', '1486525988', '0'), ('15', '0', '联系我们', 'http://schoolcms.org/', '0', 'custom', 'footer', '0', '1', '0', '1486544708', '0'), ('16', '0', '关于学生', '', '18', 'article_category', 'footer', '0', '1', '0', '1486544740', '0'), ('17', '0', 'ShopXO', 'http://shopxo.net/', '0', 'custom', 'header', '10', '1', '1', '1487923617', '1533873171'), ('19', '2', '333', '', '16', 'article_category', 'header', '0', '1', '0', '1533724819', '0'), ('20', '2', '印佣', '', '2', 'goods_category', 'header', '0', '1', '0', '1533724827', '0'), ('21', '3', '全能家务', '', '4', 'goods_category', 'footer', '0', '1', '0', '1533724839', '0'), ('22', '12', '印佣', '', '2', 'goods_category', 'footer', '0', '1', '0', '1533724903', '0'), ('23', '12', '绿色校园', '', '2', 'goods_category', 'footer', '0', '1', '0', '1533724913', '0');
 COMMIT;
 
 -- ----------------------------
@@ -768,13 +756,13 @@ CREATE TABLE `s_slide` (
   `upd_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `is_enable` (`is_enable`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='轮播图片';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='轮播图片';
 
 -- ----------------------------
 --  Records of `s_slide`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_slide` VALUES ('4', 'alipay', '1', '/pages/goods-detail/goods-detail?goods_id=1', '/Public/Upload/slide/2018/08/20180802171200374385.jpeg', '测试轮播1', '1', '', '1530364643', '1533201120'), ('5', 'alipay', '0', 'http://gong.gg/', '/Public/Upload/slide/2018/08/20180802171129148946.jpeg', '测试2', '1', '#0066CC', '1530366416', '1533632806');
+INSERT INTO `s_slide` VALUES ('4', 'alipay', '1', '/pages/goods-detail/goods-detail?goods_id=1', '/Public/Upload/slide/2018/08/20180802171200374385.jpeg', '测试轮播1', '1', '', '1530364643', '1533201120'), ('5', 'alipay', '0', 'http://gong.gg/', '/Public/Upload/slide/2018/08/20180802171129148946.jpeg', '测试2', '1', '', '1530366416', '1533866686'), ('6', 'pc', '0', 'http://gong.gg', '/Public/Upload/slide/2018/08/20180810094402044087.jpeg', '浪漫七夕', '1', '#080718', '1533865442', '1533870434'), ('7', 'pc', '0', '', '/Public/Upload/slide/2018/08/20180810095910423687.jpeg', '海洋的未来', '1', '#016bcc', '1533866350', '1533870463'), ('8', 'pc', '0', '', '/Public/Upload/slide/2018/08/20180810100811853567.jpeg', '大闸蟹', '1', '#f2efe6', '1533866891', '1533870837'), ('9', 'pc', '0', '', '/Public/Upload/slide/2018/08/20180810101045451156.jpeg', '情定七夕', '1', '#7ddcf3', '1533867045', '1533870861'), ('10', 'pc', '0', '', '/Public/Upload/slide/2018/08/20180810101106984022.jpeg', '美酒', '1', '#f4bccb', '1533867066', '1533871001'), ('11', 'pc', '0', '', '/Public/Upload/slide/2018/08/20180810101154662873.jpeg', '助力七夕', '1', '#85c8c7', '1533867114', '1533871025'), ('12', 'pc', '0', '', '/Public/Upload/slide/2018/08/20180810101224227323.jpeg', '爱在厨房', '1', '#efc6c4', '1533867144', '1533871038'), ('13', 'pc', '0', '', '/Public/Upload/slide/2018/08/20180810101305611263.jpeg', '预享甜蜜', '1', '#f6f6f4', '1533867185', '1533871055');
 COMMIT;
 
 -- ----------------------------

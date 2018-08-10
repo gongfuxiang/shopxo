@@ -463,5 +463,131 @@ class CommonController extends Controller
 		}
 		return false;
 	}
+
+	/**
+	 * 获取大分类
+	 * @author   Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2018-08-10
+	 * @desc    description
+	 */
+	protected function GetCommonGoodsCategory()
+	{
+		$data = $this->GetGoodsCategoryList(0);
+		if(!empty($data))
+		{
+			$images_host = C('IMAGE_HOST');
+			foreach($data as &$v)
+			{
+				$v['items'] = $this->GetGoodsCategoryList($v['id']);
+				if(!empty($v['items']))
+				{
+					foreach($v['items'] as &$vs)
+					{
+						$vs['items'] = $this->GetGoodsCategoryList($vs['id']);
+					}
+				}
+			}
+		}
+		return $data;
+	}
+
+	/**
+	 * 根据pid获取商品分类列表
+	 * @author   Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2018-08-10
+	 * @desc    description
+	 * @param   integer         $pid [description]
+	 */
+	protected function GetGoodsCategoryList($pid = 0)
+	{
+		$images_host = C('IMAGE_HOST');
+		$field = 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort';
+		$data = M('GoodsCategory')->field($field)->where(['is_enable'=>1, 'pid'=>$pid])->order('sort asc')->select();
+		if(!empty($data))
+		{
+			foreach($data as &$v)
+			{
+				$v['icon'] 			= empty($v['icon']) ? null : $images_host.$v['icon'];
+				$v['big_images'] 	= empty($v['big_images']) ? null : $images_host.$v['big_images'];
+			}
+		}
+		return $data;
+	}
+
+	/**
+	 * 获取商品列表
+	 * @author   Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2018-08-10
+	 * @desc    description
+	 * @param   array           $params [ 输入参数: where, field, is_photo ]
+	 */
+	protected function GetCommonGoodsList($params = [])
+	{
+		$where = empty($params['where']) ? [] : $params['where'];
+		$field = empty($params['field']) ? 'g.*' : $params['field'];
+		$is_photo = (isset($params['is_photo']) && $params['is_photo'] == true) ? true : false;
+		$data = M('Goods')->alias('g')->join(' INNER JOIN __GOODS_CATEGORY_JOIN__ AS gci ON g.id=gci.goods_id') ->field($field)->where($where)->order('g.id desc')->select();
+		if(!empty($data))
+		{
+			$images_host = C('IMAGE_HOST');
+			foreach($data as &$v)
+			{
+				if(isset($v['images']))
+				{
+					$v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
+				}
+				if(isset($v['home_recommended_images']))
+				{
+					$v['home_recommended_images'] = empty($v['home_recommended_images']) ? null : $images_host.$v['home_recommended_images'];
+				}
+
+				// 获取相册
+				if($is_photo && !empty($v['id']))
+				{
+					$v['photo'] = M('GoodsPhoto')->where(['goods_id'=>$v['id'], 'is_show'=>1])->order('sort asc')->getField('images', true);
+					if(!empty($v['photo']))
+					{
+						foreach($v['photo'] as &$vs)
+						{
+							$vs = $images_host.$vs;
+						}
+					}
+				}
+			}
+		}
+		return $data;
+	}
+
+	/**
+	 * 获取商品分类下的所有分类id
+	 * @author   Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2018-08-10
+	 * @desc    description
+	 * @param   [type]          $category_id [商品分类ID]
+	 */
+	protected function GetCommonGoodsCategoryItemsIds($category_id)
+	{
+		$data = M('GoodsCategory')->where(['pid'=>$category_id, 'is_enable'=>1])->getField('id', true);
+		if(!empty($data))
+		{
+			foreach($data as $v)
+			{
+				$temp = $this->GetCommonGoodsCategoryItemsIds($v);
+				if(!empty($temp))
+				{
+					$data = array_merge($data, $temp);
+				}
+			}
+		}
+		return $data;
+	}
 }
 ?>
