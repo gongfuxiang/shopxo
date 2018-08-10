@@ -60,7 +60,7 @@ class GoodsCategoryController extends CommonController
 		}
 
 		// 获取数据
-		$field = array('id', 'pid', 'icon', 'name', 'sort', 'is_enable', 'bg_color', 'big_images');
+		$field = array('id', 'pid', 'icon', 'name', 'sort', 'is_enable', 'bg_color', 'big_images', 'vice_name', 'describe');
 		$data = M('GoodsCategory')->field($field)->where(array('pid'=>intval(I('id', 0))))->select();
 		if(!empty($data))
 		{
@@ -178,6 +178,8 @@ class GoodsCategoryController extends CommonController
 				// 额外数据处理
 				$m->add_time	=	time();
 				$m->name 		=	I('name');
+                $m->vice_name   =   I('vice_name');
+                $m->describe    =   I('describe');
 				
 				// 写入数据库
 				if($m->add())
@@ -194,6 +196,8 @@ class GoodsCategoryController extends CommonController
 				// 额外数据处理
 				$m->name 		=	I('name');
 				$m->upd_time	=	time();
+                $m->vice_name   =   I('vice_name');
+                $m->describe    =   I('describe');
 
 				// 移除 id
 				unset($m->id, $m->pid);

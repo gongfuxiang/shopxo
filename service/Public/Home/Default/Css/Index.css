@@ -350,10 +350,6 @@ text-align: center;float:none}
 /*第一套轮播图布局*/	
 .banner{position: absolute;left:0px;top:180px;z-index:9 ;border-top:2px solid #d2364c;}
 .banner .am-slider .am-slides li{height:360px;}
-.banner .am-slider .am-slides li.banner4{background: #ff9801;}
-.banner .am-slider .am-slides li.banner1{background: #55be59;}
-.banner .am-slider .am-slides li.banner2{background: #f44661;}
-.banner .am-slider .am-slides li.banner3{background: #0f1024;}
 .banner .am-slider .am-slides img{width:800px ;left:50% ;position: absolute;margin-left: -370px;}
 .banner .am-slider-default .am-direction-nav .am-next {right: 50px;}
 
@@ -404,7 +400,7 @@ top: 11px;text-align: right;}
 .category-content .category-info em{ position:absolute; top:8px; right:15px; width: 13px; height: 13px; font: 12px/18px "宋体"; color: #9b9b9b;}
 .category-content .category .hover{ margin-left: -1px; padding-left: 1px;z-index:999;} 
 .category-content .hover .category-info{ border:none; text-decoration:none; background: #fff;  }
-.category-content .menu-item { position: absolute;left: 143px;height:100%; z-index: 11;padding:0 0 0 2px;width:770px;background: #fff; border:none; border-top: 1px solid #bbb\9;}
+.category-content .menu-item { position: absolute;left: 149px;height:100%; z-index: 11;padding:0 0 0 2px;width:770px;background: #fff; border:none; border-top: 1px solid #bbb\9;}
 .category-content .menu-item .area-in{ position: relative;  z-index: 1;  }
 .category-content .menu-item .area-bg{ padding: 10px 0 10px 40px;}
 .shadow-bg{ display: none; position: relative; width: 100%; height: 0; } 
@@ -736,7 +732,7 @@ filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#f8c375',endCo
 #nav .category-content .all-goods {width:180px;}
 .category-content .category{  width:180px;}
 .category-content .category-info {padding-left: 12px;width: 182px;overflow: hidden;}
-.category-content .menu-item {left: 173px;}
+.category-content .menu-item {left: 179px;}
 .category-content .category-list li {height:45px ;}
 
 

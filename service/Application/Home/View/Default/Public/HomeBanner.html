@@ -1,13 +1,17 @@
 <!-- 首页轮播 start -->
 <div class="banner">
-    <div class="am-slider am-slider-default scoll" data-am-flexslider id="demo-slider-0">
+    <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}' >
         <ul class="am-slides">
-            <li class="banner1"><a href="introduction.html"><img src="../images/ad1.jpg" /></a></li>
-            <li class="banner2"><a><img src="../images/ad2.jpg" /></a></li>
-            <li class="banner3"><a><img src="../images/ad3.jpg" /></a></li>
-            <li class="banner4"><a><img src="../images/ad4.jpg" /></a></li>
+            <if condition="!empty($banner_list)">
+                <foreach name="banner_list" item="banner">
+                    <if condition="!empty($banner['images_url'])">
+                        <li <if condition="!empty($banner['bg_color'])">style="background: {{$banner.bg_color}};"</if> title="{{$banner.name}}">
+                            <a href="<if condition="!empty($banner['jump_url'])">{{$banner.jump_url}}<else />javascript:;</if>" target="_blank"><img src="{{$banner.images_url}}" /></a>
+                        </li>
+                    </if>
+                </foreach>
+            </if>
         </ul>
     </div>
-    <div class="clear"></div>   
 </div>
 <!-- 首页轮播 end -->

@@ -16,9 +16,9 @@
             var obj = $(this);
             obj.bind(opts.event,function(){
                 //定位
-                var ttop  = $(this).offset().top;     //控件的定位点高
+                var ttop  = $(this).offset().top;  //控件的定位点高
                 var thei  = $(this).height();  //控件本身的高
-                var tleft = $(this).offset().left+$(this).outerWidth()-232;    //控件的定位点宽
+                var tleft = $(this).offset().left+$(this).outerWidth()-232;  //控件的定位点宽
                 $("#colorpanel").css({
                     top:ttop+thei+16,
                     left:tleft
@@ -35,6 +35,15 @@
                     target.css("color", target.data("color")).val(target.data("value"));
                     $("#colorpanel").hide();
                     opts.reset(obj);
+                });
+
+                $("#_determine").bind("click",function(){
+                    var color = $("#HexColor").val();
+                    target.css("color", color);
+                    $("#colorpanel").hide();
+                    opts.success(obj,color);
+                }).css({
+                    "padding-left":"8px"
                 });
           
                 $("#CT tr td").unbind("click").mouseover(function(){
@@ -76,17 +85,14 @@
             colorTable='<table width=232 border="0" cellspacing="0" cellpadding="0" style="border:1px solid #000;">'
             +'<tr height=30><td colspan=21 bgcolor=#cccccc>'
             +'<table cellpadding="0" cellspacing="1" border="0" style="border-collapse: collapse">'
-            +'<tr><td width="3"><td><input type="text" id="DisColor" size="6" disabled style="border:solid 1px #000000;background-color:#ffff00"></td>'
-            +'<td width="3"><td><input type="text" id="HexColor" size="7" style="border:inset 1px;font-family:Arial;" value="#000000"><a href="javascript:void(0);" id="_cclose">关闭</a> | <a href="javascript:void(0);" id="_creset">清除</a></td></tr></table></td></table>'
+            +'<tr><td width="3"><td><input type="text" id="DisColor" size="3" disabled style="border:solid 1px #000000;background-color:#ffff00"></td>'
+            +'<td width="3"><td><input type="text" id="HexColor" size="7" style="border:inset 1px;font-family:Arial;" value="#000000"><a href="javascript:void(0);" id="_determine">确定</a> | <a href="javascript:void(0);" id="_cclose">关闭</a> | <a href="javascript:void(0);" id="_creset">清除</a></td></tr></table></td></table>'
             +'<table id="CT" border="1" cellspacing="0" cellpadding="0" style="border-collapse: collapse" bordercolor="000000"  style="cursor:pointer;">'
             +colorTable+'</table>';
             $("#colorpanel").html(colorTable);
             $("#_cclose").on('click',function(){
                 $("#colorpanel").hide();
                 return false;
-            }).css({
-                "font-size":"12px",
-                "padding-left":"20px"
             });
         }
         

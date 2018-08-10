@@ -1,15 +1,20 @@
 <!-- 搜索框 start -->
 <div class="nav white">
-    <div class="logo"><img src="../images/logo.png" /></div>
+    <div class="logo">
+        <a href="{{:__MY_URL__}}">
+            <img src="{{$image_host}}{{:MyC('home_site_logo')}}" alt="{{:MyC('home_seo_site_title')}}" />
+        </a>
+    </div>
     <div class="logoBig">
-        <li><img src="../images/logobig.png" /></li>
+        <a href="{{:__MY_URL__}}">
+            <img src="{{$image_host}}{{:MyC('home_site_logo')}}" alt="{{:MyC('home_seo_site_title')}}" />
+        </a>
     </div>
 
     <div class="search-bar pr">
-        <a name="index_none_header_sysc" href="#"></a>
         <form>
-            <input id="searchInput" name="index_none_header_sysc" type="text" placeholder="{{:L('common_so_tips')}}" autocomplete="off">
-            <input id="ai-topsearch" class="submit am-btn" placeholder="{{:L('common_so_tips')}}" index="1" type="submit">
+            <input id="searchInput" name="index_none_header_sysc" type="text" placeholder="{{:L('common_so_tips')}}" autocomplete="off" />
+            <input id="ai-topsearch" class="submit am-btn" placeholder="{{:L('common_so_tips')}}" index="1" type="submit" value="{{:L('common_so_text')}}" />
         </form>
     </div>
 </div>

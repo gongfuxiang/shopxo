@@ -13,5 +13,11 @@ return array(
 	'goods_category_edit_name'			    => '分类编辑',
 
     'goods_category_big_images_text'        => '大图片',
+
+    'goods_category_vice_name_text'         => '副名称',
+    'goods_category_vice_name_format'       => '副名称最大60个字符',
+
+    'goods_category_describe_text'         => '描述',
+    'goods_category_describe_format'       => '描述最大200个字符',
 );
 ?>

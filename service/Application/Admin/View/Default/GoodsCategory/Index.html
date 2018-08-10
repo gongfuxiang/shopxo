@@ -51,6 +51,14 @@
 							<input type="text" placeholder="{{:L('common_name_text')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:L('common_name_format')}}" class="am-radius" required />
 						</div>
 						<div class="am-form-group">
+							<label>{{:L('goods_category_vice_name_text')}}</label>
+							<input type="text" placeholder="{{:L('goods_category_vice_name_text')}}" name="vice_name" minlength="0" maxlength="60" data-validation-message="{{:L('goods_category_vice_name_format')}}" class="am-radius" />
+						</div>
+						<div class="am-form-group">
+							<label>{{:L('goods_category_describe_text')}}</label>
+							<textarea rows="5" name="describe" maxlength="200" class="am-radius" placeholder="{{:L('goods_category_describe_text')}}" data-validation-message="{{:L('goods_category_describe_format')}}"></textarea>
+						</div>
+						<div class="am-form-group">
 							<label>{{:L('common_view_sort_title')}}</label>
 							<input type="number" placeholder="{{:L('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:L('common_sort_error')}}" class="am-radius" value="0" required />
 						</div>
@@ -68,7 +76,7 @@
 		<!-- save win end -->
 
         <!-- list start -->
-		<div id="tree" class="m-t-15" data-rank="3" data-additional='[{"field":"bg_color", "value":"", "type":"input"}, {"field":"bg_color", "value":"", "type":"css", "tag":"button.colorpicker-submit", "style":"background-color"}, {"field":"file_icon", "value":"", "type":"file", "tag":"input.file_icon-tag"}, {"field":"icon", "value":"", "type":"input"}, {"field":"icon_url", "value":"{{$image_host}}/Public/Admin/Default/Images/default-images.png", "type":"attr", "tag":"#form-img-icon", "style":"src"}, {"value":"", "type":"html", "tag":"#form-icon-tips"}, {"field":"file_big_images", "value":"", "type":"file", "tag":"input.file_big_images-tag"}, {"field":"big_images", "value":"", "type":"input"}, {"field":"big_images_url", "value":"{{$image_host}}/Public/Admin/Default/Images/default-images.png", "type":"attr", "tag":"#form-img-big_images", "style":"src"}, {"value":"", "type":"html", "tag":"#form-big_images-tips"}]'>
+		<div id="tree" class="m-t-15" data-rank="3" data-additional='[{"field":"bg_color", "value":"", "type":"input"}, {"field":"bg_color", "value":"", "type":"css", "tag":"button.colorpicker-submit", "style":"background-color"}, {"field":"file_icon", "value":"", "type":"file", "tag":"input.file_icon-tag"}, {"field":"icon", "value":"", "type":"input"}, {"field":"icon_url", "value":"{{$image_host}}/Public/Admin/Default/Images/default-images.png", "type":"attr", "tag":"#form-img-icon", "style":"src"}, {"value":"", "type":"html", "tag":"#form-icon-tips"}, {"field":"file_big_images", "value":"", "type":"file", "tag":"input.file_big_images-tag"}, {"field":"big_images", "value":"", "type":"input"}, {"field":"big_images_url", "value":"{{$image_host}}/Public/Admin/Default/Images/default-images.png", "type":"attr", "tag":"#form-img-big_images", "style":"src"}, {"value":"", "type":"html", "tag":"#form-big_images-tips"}, {"field":"vice_name", "value":"", "type":"input"}, {"field":"describe", "value":"", "type":"textarea"}]'>
 			<div class="m-t-30 t-c">
 				<img src="__PUBLIC__/Common/Images/loading.gif" />
 				<p>{{:L('common_form_loading_tips')}}</p>

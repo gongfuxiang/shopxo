@@ -52,7 +52,7 @@ define('APPLICATION', empty($_REQUEST['application']) ? 'web' : trim($_REQUEST['
 // 请求客户端 [default, ...] 默认default
 define('APPLICATION_CLIENT', empty($_REQUEST['application_client']) ? 'default' : trim($_REQUEST['application_client']));
 
-// 请求客户端 [pc, h5, alipay, wechat] 默认web
-define('APPLICATION_CLIENT_TYPE', empty($_REQUEST['application_client_type']) ? 'web' : trim($_REQUEST['application_client_type']));
+// 请求客户端 [pc, h5, alipay, wechat] 默认pc
+define('APPLICATION_CLIENT_TYPE', empty($_REQUEST['application_client_type']) ? 'pc' : trim($_REQUEST['application_client_type']));
 
 ?>

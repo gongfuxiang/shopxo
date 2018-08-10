@@ -3,11 +3,14 @@
 </div>
 <div class="nav-cont">
 	<ul>
-		<li class="index"><a href="#">首页</a></li>
-        <li class="qc"><a href="#">闪购</a></li>
-        <li class="qc"><a href="#">限时抢</a></li>
-        <li class="qc"><a href="#">团购</a></li>
-        <li class="qc last"><a href="#">大包装</a></li>
+        <li><a href="{{:__MY_URL__}}">{{:L('common_home_text')}}</a></li>
+        <if condition="!empty($nav_header)">
+            <foreach name="nav_header" item="nav">
+                <li>
+                    <a href="{{$nav.url}}" <if condition="$nav['is_new_window_open'] eq 1">target="_blank"</if>>{{$nav.name}}</a>
+                </li>
+            </foreach>
+        </if>
 	</ul>
     <div class="nav-extra">
     	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
