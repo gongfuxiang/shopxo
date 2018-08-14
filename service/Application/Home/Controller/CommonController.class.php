@@ -505,7 +505,7 @@ class CommonController extends Controller
 	protected function GetGoodsCategoryList($pid = 0)
 	{
 		$images_host = C('IMAGE_HOST');
-		$field = 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort';
+		$field = 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended';
 		$data = M('GoodsCategory')->field($field)->where(['is_enable'=>1, 'pid'=>$pid])->order('sort asc')->select();
 		if(!empty($data))
 		{
@@ -532,7 +532,9 @@ class CommonController extends Controller
 		$where = empty($params['where']) ? [] : $params['where'];
 		$field = empty($params['field']) ? 'g.*' : $params['field'];
 		$is_photo = (isset($params['is_photo']) && $params['is_photo'] == true) ? true : false;
-		$data = M('Goods')->alias('g')->join(' INNER JOIN __GOODS_CATEGORY_JOIN__ AS gci ON g.id=gci.goods_id') ->field($field)->where($where)->order('g.id desc')->select();
+		$m = isset($params['m']) ? intval($params['m']) : 0;
+		$n = isset($params['n']) ? intval($params['n']) : 10;
+		$data = M('Goods')->alias('g')->join(' INNER JOIN __GOODS_CATEGORY_JOIN__ AS gci ON g.id=gci.goods_id') ->field($field)->where($where)->group('g.id')->order('g.id desc')->limit($m, $n)->select();
 		if(!empty($data))
 		{
 			$images_host = C('IMAGE_HOST');
@@ -544,7 +546,11 @@ class CommonController extends Controller
 				}
 				if(isset($v['home_recommended_images']))
 				{
-					$v['home_recommended_images'] = empty($v['home_recommended_images']) ? null : $images_host.$v['home_recommended_images'];
+					$v['home_recommended_images'] = empty($v['home_recommended_images']) ? (empty($v['images']) ? null : $v['images']) : $images_host.$v['home_recommended_images'];
+				}
+				if(isset($v['content_web']))
+				{
+					$v['content_web'] = ContentStaticReplace($v['content_web'], 'get');
 				}
 
 				// 获取相册
@@ -584,6 +590,31 @@ class CommonController extends Controller
 				if(!empty($temp))
 				{
 					$data = array_merge($data, $temp);
+				}
+			}
+		}
+		return $data;
+	}
+
+	protected function GetCommonArticleList($params)
+	{
+		$where = empty($params['where']) ? [] : $params['where'];
+		$field = empty($params['field']) ? 'a.*' : $params['field'];
+		$m = isset($params['m']) ? intval($params['m']) : 0;
+		$n = isset($params['n']) ? intval($params['n']) : 10;
+
+		$data = M('Article')->alias('a')->join(' INNER JOIN __ARTICLE_CATEGORY__ AS ac ON a.article_category_id=ac.id') ->field($field)->where($where)->order('a.id desc')->limit($m, $n)->select();
+		if(!empty($data))
+		{
+			foreach($data as &$v)
+			{
+				if(isset($v['content']))
+				{
+					$v['content'] = ContentStaticReplace($v['content'], 'get');
+				}
+				if(isset($v['add_time']))
+				{
+					$v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
 				}
 			}
 		}

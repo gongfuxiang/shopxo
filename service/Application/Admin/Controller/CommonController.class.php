@@ -533,35 +533,38 @@ class CommonController extends Controller
 
 			foreach($data as $field)
 			{
-				$file = $_FILES[$field];
-
-				// 文件上传校验
-				$error = FileUploadError($field);
-				if($error !== true)
+				if(!empty($_FILES[$field]))
 				{
-					return ['status'=>false, 'msg'=>$error];
-				}
-				
-				// 存储图片
-				$temp_all = [
-						'tmp_name'	=>	$file['tmp_name'],
-						'type'		=>	$file['type'],
-					];
-				$original = $images_obj->GetOriginal($temp_all, $root_path.$img_path.'original'.$date);
-				if(!empty($original))
-				{
-					// 根据原图再次生成小图
-					$compr = $images_obj->GetBinaryCompress($root_path.$img_path.'original'.$date.$original, $root_path.$img_path.'compr'.$date, 600);
-					$small = $images_obj->GetBinaryCompress($root_path.$img_path.'original'.$date.$original, $root_path.$img_path.'small'.$date, 100, 100);
+					$file = $_FILES[$field];
 
-					if(!empty($compr))
+					// 文件上传校验
+					$error = FileUploadError($field);
+					if($error !== true)
 					{
-						$result[$field] = DS.$img_path.'compr'.$date.$small;
-					} else {
-						// 如果图片格式有误，则删除原图片
-						$this->ImagesDelete($img_path.'original'.$date.$original);
+						return ['status'=>false, 'msg'=>$error];
 					}
-	 			}
+					
+					// 存储图片
+					$temp_all = [
+							'tmp_name'	=>	$file['tmp_name'],
+							'type'		=>	$file['type'],
+						];
+					$original = $images_obj->GetOriginal($temp_all, $root_path.$img_path.'original'.$date);
+					if(!empty($original))
+					{
+						// 根据原图再次生成小图
+						$compr = $images_obj->GetBinaryCompress($root_path.$img_path.'original'.$date.$original, $root_path.$img_path.'compr'.$date, 600);
+						$small = $images_obj->GetBinaryCompress($root_path.$img_path.'original'.$date.$original, $root_path.$img_path.'small'.$date, 100, 100);
+
+						if(!empty($compr))
+						{
+							$result[$field] = DS.$img_path.'compr'.$date.$small;
+						} else {
+							// 如果图片格式有误，则删除原图片
+							$this->ImagesDelete($img_path.'original'.$date.$original);
+						}
+		 			}
+		 		}
 			}
 		}
 

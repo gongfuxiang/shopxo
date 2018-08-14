@@ -269,14 +269,14 @@ class GoodsController extends CommonController
 		$photo = $this->GetFormGoodsPhotoParams();
 		if($photo['status'] === false)
 		{
-			$this->ajaxReturn($photo['msg'], -1);
+			$this->ajaxReturn($photo['msg'], -2);
 		}
 
 		// 手机端详情
 		$content_app =$this->GetFormGoodsContentAppParams();
 		if($content_app['status'] === false)
 		{
-			$this->ajaxReturn($content_app['msg'], -1);
+			$this->ajaxReturn($content_app['msg'], -3);
 		}
 
 		// 集合主图片
@@ -284,7 +284,7 @@ class GoodsController extends CommonController
 		$images = $this->GetGoodsImagesParams($images_field);
 		if($images['status'] === false)
 		{
-			$this->ajaxReturn($images['msg'], -1);
+			$this->ajaxReturn($images['msg'], -4);
 		}
 
 		// 基础数据

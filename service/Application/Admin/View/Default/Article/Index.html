@@ -27,6 +27,12 @@
 							<option value="{{$v.id}}" <if condition="isset($param['is_enable']) and $param['is_enable'] eq $v['id']">selected</if>>{{$v.name}}</option>
 						</foreach>
 					</select>
+					<select name="is_home_recommended" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">{{:L('article_home_recommended_text')}}</option>
+						<foreach name="common_is_text_list" item="v">
+							<option value="{{$v.id}}" <if condition="isset($param['is_home_recommended']) and $param['is_home_recommended'] eq $v['id']">selected</if>>{{$v.name}}</option>
+						</foreach>
+					</select>
 					<div class="param-date param-where m-l-5">
 						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="{{:L('common_time_start_name')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" <if condition="isset($param['time_start'])">value="{{$param.time_start}}"</if>/>
 						<span>~</span>
@@ -51,7 +57,7 @@
 					<th class="am-hide-sm-only">{{:L('article_category_text')}}</th>
 					<th class="am-hide-sm-only">{{:L('common_view_access_count_text')}}</th>
 					<th>{{:L('common_view_status_title')}}</th>
-					<th class="am-hide-sm-only">{{:L('common_create_time_name')}}</th>
+					<th>{{:L('article_home_recommended_text')}}</th>
 					<th>{{:L('common_more_name')}}</th>
 					<th>{{:L('common_operation_name')}}</th>
 				</tr>
@@ -68,7 +74,9 @@
 							<td>
 								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_enable'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Article/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
 							</td>
-							<td class="am-hide-sm-only">{{$v.add_time}}</td>
+							<td>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_home_recommended'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Article/StatusHomeRecommended')}}" data-id="{{$v.id}}" data-state="{{$v['is_home_recommended']}}"></a>
+							</td>
 							<td>
 								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> {{:L('common_see_more_name')}}</span>
 								<div class="am-popup am-radius" id="my-popup{{$v.id}}">

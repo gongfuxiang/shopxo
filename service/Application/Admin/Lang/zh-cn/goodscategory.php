@@ -17,7 +17,9 @@ return array(
     'goods_category_vice_name_text'         => '副名称',
     'goods_category_vice_name_format'       => '副名称最大60个字符',
 
-    'goods_category_describe_text'         => '描述',
-    'goods_category_describe_format'       => '描述最大200个字符',
+    'goods_category_describe_text'          => '描述',
+    'goods_category_describe_format'        => '描述最大200个字符',
+
+    'goods_category_home_recommended_text'  => '首页推荐',
 );
 ?>

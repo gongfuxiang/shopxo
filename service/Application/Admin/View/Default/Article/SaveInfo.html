@@ -45,6 +45,10 @@
 			    <input name="is_enable" value="1" type="checkbox" data-off-text="{{:L('common_operation_off_is_text')}}" data-on-text="{{:L('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch <if condition="!empty($data) and $data['is_enable'] eq 1">checked="true"</if> />
 			</div>
 			<div class="am-form-group">
+			    <label class="block">{{:L('article_home_recommended_text')}}</label>
+			    <input name="is_home_recommended" value="1" type="checkbox" data-off-text="{{:L('common_operation_off_is_text')}}" data-on-text="{{:L('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch <if condition="!empty($data) and $data['is_home_recommended'] eq 1">checked="true"</if> />
+			</div>
+			<div class="am-form-group">
 				<label>{{:L('article_content_text')}}</label>
 				<textarea class="am-radius am-validate" name="content" rows="5" minlength="50" maxlength="105000" <if condition="!IsMobile()">id="editor-tag" data-url="{{:U('Admin/Ueditor/Index', ['path_type'=>'article'])}}" placeholder="{{:L('article_content_format')}}" <else /> placeholder="{{:L('article_content_format')}}{{:L('article_content_format_mobile')}}" </if> data-validation-message="{{:L('article_content_format')}}" required><notempty name="data">{{$data.content}}</notempty></textarea>
 			</div>

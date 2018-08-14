@@ -41,6 +41,9 @@ class GoodsCategoryController extends CommonController
 	{
 		// 是否启用
 		$this->assign('common_is_enable_list', L('common_is_enable_list'));
+
+        // 是否
+        $this->assign('common_is_text_list', L('common_is_text_list'));
 		$this->display('Index');
 	}
 
@@ -60,7 +63,7 @@ class GoodsCategoryController extends CommonController
 		}
 
 		// 获取数据
-		$field = array('id', 'pid', 'icon', 'name', 'sort', 'is_enable', 'bg_color', 'big_images', 'vice_name', 'describe');
+		$field = array('id', 'pid', 'icon', 'name', 'sort', 'is_enable', 'bg_color', 'big_images', 'vice_name', 'describe', 'is_home_recommended');
 		$data = M('GoodsCategory')->field($field)->where(array('pid'=>intval(I('id', 0))))->select();
 		if(!empty($data))
 		{
@@ -124,7 +127,7 @@ class GoodsCategoryController extends CommonController
 
             // 文件类型
             list($type, $suffix) = explode('/', $_FILES['file_icon']['type']);
-            $path = 'Public'.DS.'Upload'.DS.'category'.DS.date('Y').DS.date('m').DS;
+            $path = 'Public'.DS.'Upload'.DS.'goods_category'.DS.date('Y').DS.date('m').DS;
             if(!is_dir($path))
             {
                 mkdir(ROOT_PATH.$path, 0777, true);
@@ -150,7 +153,7 @@ class GoodsCategoryController extends CommonController
 
             // 文件类型
             list($type, $suffix) = explode('/', $_FILES['file_big_images']['type']);
-            $path = 'Public'.DS.'Upload'.DS.'category'.DS.date('Y').DS.date('m').DS;
+            $path = 'Public'.DS.'Upload'.DS.'goods_category'.DS.date('Y').DS.date('m').DS;
             if(!is_dir($path))
             {
                 mkdir(ROOT_PATH.$path, 0777, true);
@@ -180,6 +183,7 @@ class GoodsCategoryController extends CommonController
 				$m->name 		=	I('name');
                 $m->vice_name   =   I('vice_name');
                 $m->describe    =   I('describe');
+                $m->is_home_recommended = intval(I('is_home_recommended', 0));
 				
 				// 写入数据库
 				if($m->add())
@@ -198,6 +202,7 @@ class GoodsCategoryController extends CommonController
 				$m->upd_time	=	time();
                 $m->vice_name   =   I('vice_name');
                 $m->describe    =   I('describe');
+                $m->is_home_recommended = intval(I('is_home_recommended', 0));
 
 				// 移除 id
 				unset($m->id, $m->pid);

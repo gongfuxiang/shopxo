@@ -22,5 +22,6 @@ return array(
 	'article_category_format'			=>	'请选择文章分类',
 	'article_article_category_id_error'	=>	'文章分类id不存在',
 	'article_so_keyword_tips'			=>	'标题关键字',
+	'article_home_recommended_text' 	=>	'首页推荐',
 );
 ?>
