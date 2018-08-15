@@ -190,10 +190,10 @@
 									<h3>{{$floor.vice_name}}</h3>
 									<div class="today-brands ">
 										<if condition="!empty($floor['items'])">
-	                						<foreach name="floor.items" item="category">
+	                						<foreach name="floor.items" key="key" item="category">
 	                							<if condition="!empty($category['items'])">
-			                						<foreach name="category.items" item="categorys">
-			                							<if condition="$key lt 6 and isset($categorys['is_home_recommended']) and $categorys['is_home_recommended'] eq 1">
+			                						<foreach name="category.items" key="keys" item="categorys">
+			                							<if condition="$key lt 6 and $keys eq 0 and isset($categorys['is_home_recommended']) and $categorys['is_home_recommended'] eq 1">
 															<a href="#">{{$categorys.name}}</a>
 														</if>
 													</foreach>
