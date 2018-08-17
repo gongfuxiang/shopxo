@@ -94,7 +94,6 @@ text-align: center;float:none}
 .s-buy{display:none;}
 /*楼层*/
 .flood {background: #fff;}
-.flood .list img { height: 150px; }
 .outer-con .goods-title {
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;      
