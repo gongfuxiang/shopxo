@@ -563,6 +563,8 @@ $(function()
 	{
 		$('.chosen-select').chosen({
 			inherit_select_classes: true,
+			enable_split_word_search: true,
+			search_contains: true
 		});
 	}
 	// 多选插件 空内容失去焦点验证bug兼容处理

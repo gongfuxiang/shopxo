@@ -1,5 +1,5 @@
 <hr data-am-widget="divider" class="am-divider am-divider-default" />
-<footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{}" <if condition="!empty($max_width_style)">style="{{$max_width_style}}"</if>>
+<footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{}">
 	<div class="footer-nav-list">
 		<foreach name="nav_footer" key="k" item="v">
 			<a href="{{$v.url}}" <if condition="$v['is_new_window_open'] eq 1">target="_blank"</if>>{{$v.name}}</a>
@@ -9,8 +9,8 @@
 		</foreach>
 	</div>
 	<div class="am-footer-miscs">
-		<p>由 <a href="http://shopxo.net/" title="ShopXO" target="_blank" class="">ShopXO</a> 提供技术支持</p>
-		<p>CopyRight©2014-{{:date('Y')}} ShopXO {{:L('common_application_ver')}} Inc.</p>
+		<p>由 <a href="http://shopxo.net/" title="ShopXO电商系统" target="_blank" class="">ShopXO</a> 提供技术支持</p>
+		<p>CopyRight©2016-{{:date('Y')}} ShopXO {{:L('common_application_ver')}} Inc.</p>
 		<p>{{:MyC('home_site_icp')}}</p>
 	</div>
 </footer>
