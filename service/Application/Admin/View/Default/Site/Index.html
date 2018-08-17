@@ -92,6 +92,10 @@
 				<input type="number" name="{{$data.home_content_max_width.only_tag}}" placeholder="{{$data.home_content_max_width.name}}" data-validation-message="{{$data.home_content_max_width.error_tips}}" class="am-radius" <present name="data"> value="{{$data.home_content_max_width.value}}"</present> required />
 			</div>
 			<div class="am-form-group">
+				<label>{{$data.home_static_cache_version.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_static_cache_version.describe}}）</span></label>
+				<input type="text" name="{{$data.home_static_cache_version.only_tag}}" placeholder="{{$data.home_static_cache_version.describe}}" data-validation-message="{{$data.home_static_cache_version.error_tips}}" class="am-radius" <present name="data"> value="{{$data.home_static_cache_version.value}}"</present> />
+			</div>
+			<div class="am-form-group">
 				<label>{{$data.home_site_icp.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_site_icp.describe}}）</span></label>
 				<input type="text" name="{{$data.home_site_icp.only_tag}}" placeholder="{{$data.home_site_icp.describe}}" data-validation-message="{{$data.home_site_icp.error_tips}}" class="am-radius" <present name="data"> value="{{$data.home_site_icp.value}}"</present> />
 			</div>

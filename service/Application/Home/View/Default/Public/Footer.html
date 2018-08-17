@@ -15,24 +15,24 @@
 </html>
 
 <!-- 类库 -->
-<js href="__PUBLIC__/Common/Lib/jquery/jquery-2.1.0.js" />
-<js href="__PUBLIC__/Common/Lib/assets/js/amazeui.min.js" />
-<js href="__PUBLIC__/Common/Lib/echarts/echarts.min.js" />
+<js href="__PUBLIC__/Common/Lib/jquery/jquery-2.1.0.js?v={{:MyC('home_static_cache_version')}}" />
+<js href="__PUBLIC__/Common/Lib/assets/js/amazeui.min.js?v={{:MyC('home_static_cache_version')}}" />
+<js href="__PUBLIC__/Common/Lib/echarts/echarts.min.js?v={{:MyC('home_static_cache_version')}}" />
 
 <!-- ueditor 编辑器 -->
-<js href="__PUBLIC__/Common/Lib/ueditor/ueditor.config.js" />
-<js href="__PUBLIC__/Common/Lib/ueditor/ueditor.all.js" />
-<js href="__PUBLIC__/Common/Lib/ueditor/lang/zh-cn/zh-cn.js" />
+<js href="__PUBLIC__/Common/Lib/ueditor/ueditor.config.js?v={{:MyC('home_static_cache_version')}}" />
+<js href="__PUBLIC__/Common/Lib/ueditor/ueditor.all.js?v={{:MyC('home_static_cache_version')}}" />
+<js href="__PUBLIC__/Common/Lib/ueditor/lang/zh-cn/zh-cn.js?v={{:MyC('home_static_cache_version')}}" />
 
 <!-- 颜色选择器 -->
-<js href="__PUBLIC__/Common/Lib/colorpicker/jquery.colorpicker.js" />
+<js href="__PUBLIC__/Common/Lib/colorpicker/jquery.colorpicker.js?v={{:MyC('home_static_cache_version')}}" />
 
 <!-- 项目公共 -->
-<js href="__PUBLIC__/Common/Js/Common.js" />
-<js href="__PUBLIC__/Home/{{$default_theme}}/Js/Common.js" />
+<js href="__PUBLIC__/Common/Js/Common.js?v={{:MyC('home_static_cache_version')}}" />
+<js href="__PUBLIC__/Home/{{$default_theme}}/Js/Common.js?v={{:MyC('home_static_cache_version')}}" />
 
 <!-- 控制器 -->
 <if condition="!empty($module_js)">
-	<js href="__PUBLIC__/{{$module_js}}" />
+	<js href="__PUBLIC__/{{$module_js}}?v={{:MyC('home_static_cache_version')}}" />
 </if>
 {{:MyC('home_footer_info')}}

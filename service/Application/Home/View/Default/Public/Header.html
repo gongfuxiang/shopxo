@@ -11,11 +11,11 @@
 	<meta name="msapplication-starturl" content="{{:__MY_URL__}}" />
 	<link rel="shortcut icon" type="image/x-icon" href="{{:__MY_URL__}}favicon.ico" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
-	<css href="__PUBLIC__/Common/Lib/assets/css/amazeui.css" />
-	<css href="__PUBLIC__/Common/Css/Common.css" />
-	<css href="__PUBLIC__/Home/{{$default_theme}}/Css/Common.css" />
+	<css href="__PUBLIC__/Common/Lib/assets/css/amazeui.css?v={{:MyC('home_static_cache_version')}}" />
+	<css href="__PUBLIC__/Common/Css/Common.css?v={{:MyC('home_static_cache_version')}}" />
+	<css href="__PUBLIC__/Home/{{$default_theme}}/Css/Common.css?v={{:MyC('home_static_cache_version')}}" />
 	<if condition="!empty($module_css)">
-		<css href="__PUBLIC__/{{$module_css}}" />
+		<css href="__PUBLIC__/{{$module_css}}?v={{:MyC('home_static_cache_version')}}" />
 	</if>
 	<script>
 		var __root__ = '__ROOT__';
