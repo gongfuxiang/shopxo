@@ -232,21 +232,6 @@ text-align: center;float:none}
     .items-nav-title{ padding: 0 10%;}
 }
 
-@media only screen and (min-width: 1000px) {
-    /*位移效果*/
-    .flood .goods-items:hover img{
-        transition: all 0.5s ease 0s;
-        -webkit-transform: all 0.5s ease 0s;
-        transform: translateX(-10px);
-        -webkit-transform: translateX(-10px);
-    }
-    .flood .text-one:hover img {
-        transform: scale(1.1);
-        transition: all 0.5s ease 0s;
-        -webkit-transform: scale(1.1);
-        -webkit-transform: all 1s ease 0s;
-    }
-}
 	   
 @media only screen and (min-width: 1025px) {
     .smallnav,.only-phone{ display:none;}
@@ -420,6 +405,20 @@ text-align: center;float:none}
     #floor8 .list .triangle-topright{width: 0;height: 0;border-top: 30px solid #9c7b36;position: absolute;bottom:0px;border-left: 30px solid #fff}
     #floor9 .list .triangle-topright{width: 0;height: 0;border-top: 30px solid #caa463;position: absolute;bottom:0px;border-left: 30px solid #fff}
     #floor10 .list .triangle-topright{width: 0;height: 0;border-top: 30px solid #f768e8;position: absolute;bottom:0px;border-left: 30px solid #fff}
+
+    /*位移效果*/
+    .flood .goods-items:hover img{
+        transition: all 0.5s ease 0s;
+        -webkit-transform: all 0.5s ease 0s;
+        transform: translateX(-10px);
+        -webkit-transform: translateX(-10px);
+    }
+    .flood .text-one:hover img {
+        transform: scale(1.1);
+        transition: all 0.5s ease 0s;
+        -webkit-transform: scale(1.1);
+        -webkit-transform: all 1s ease 0s;
+    }
 }
 	   
 	   
