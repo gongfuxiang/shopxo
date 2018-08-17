@@ -124,7 +124,7 @@ text-align: center;float:none}
 .flood .text-two img{width:50%;margin:1% 3% 1% 47%;}
 .flood .text-three{border-top: 1px solid #eee;border-left: 1px solid #eee;}
 .flood .text-three img{width:96%;margin:45% 2% 2% 2%;}
-.flood .outer-con {top:7%;left:3% ;}
+.flood .outer-con {padding-top:7%;padding-left:3% ;}
 .flood .text-two .outer-con {width:40%;}
 .list .outer-con .describe {
     color: #fff;
