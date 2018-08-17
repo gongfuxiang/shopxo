@@ -40,7 +40,7 @@ dt + dd {margin-top: 0;}
 
 /*标题*/
 .items-nav-title{text-align: center;width: 100%;overflow: hidden;background:#eee;}
-.items-nav-title h4{font-size: 14px;margin:20px 0px;line-height: 1px;border-left: 100px solid #d2364c;border-right: 100px solid #d2364c;
+.items-nav-title h4{font-size: 14px;margin:20px 0px;line-height: 1px;border-left: 60px solid #d2364c;border-right: 60px solid #d2364c;
 text-align: center;float:none}
 .items-nav-title h3,.items-nav-title .today-brands,.items-nav-title .more{display: none;}
 
