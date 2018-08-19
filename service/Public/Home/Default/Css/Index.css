@@ -32,7 +32,7 @@ dt + dd {margin-top: 0;}
 
 /*走马灯*/
 .marqueen{position: relative;border-top:1px solid #F5F5F5 ;border-bottom: 1px #f5f5f5 solid;overflow: hidden;}
-.marqueen-title{position: absolute;top:8px;left:10px;padding-right:10px;border-right:1px solid #F5F5F5 ;}
+.marqueen-title{position: absolute;left:10px;padding-right:10px;border-right:1px solid #F5F5F5 ; line-height: 30px; height: 30px;}
 .banner-news li,#banner-news li a{height: 30px;line-height:30px; font-size: 12px; overflow: hidden;}
 .banner-news{max-width:1200px; margin:0px auto;margin-left:60px;overflow:hidden;height:30px;width:100%; text-align:left;color:#ffffff;}
 .banner-news li {padding:0px 20px;}
@@ -156,7 +156,6 @@ text-align: center;float:none}
     .items-nav-title{background: #fff;}
     .hmtop{background: #fff;}
     .am-container {padding-left:0px;padding-right:0px ;}
-    .am-container.header{padding-left:21px; padding-right:40px ;}
     .shopMainbg{width:100%;background:#fff;overflow:visible;}
     .slideall{position: relative;}
     .shopNav{margin-top:0px;}
