@@ -21,22 +21,22 @@
 			<!-- 轮播右侧-内容1 -->
 			<div class="am-g am-g-fixed smallnav">
 				<div class="am-u-sm-3">
-					<a href="sort.html"><img src="../images/navsmall.jpg" />
+					<a href="sort.html"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/navsmall.jpg" />
 						<div class="title">商品分类</div>
 					</a>
 				</div>
 				<div class="am-u-sm-3">
-					<a href="#"><img src="../images/huismall.jpg" />
+					<a href="#"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/huismall.jpg" />
 						<div class="title">大聚惠</div>
 					</a>
 				</div>
 				<div class="am-u-sm-3">
-					<a href="#"><img src="../images/mansmall.jpg" />
+					<a href="#"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/mansmall.jpg" />
 						<div class="title">个人中心</div>
 					</a>
 				</div>
 				<div class="am-u-sm-3">
-					<a href="#"><img src="../images/moneysmall.jpg" />
+					<a href="#"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/moneysmall.jpg" />
 						<div class="title">投资理财</div>
 					</a>
 				</div>
@@ -47,7 +47,7 @@
 				<div class="mod-vip">
 					<div class="m-baseinfo">
 						<a href="../person/index.html">
-							<img src="../images/getAvatar.do.jpg">
+							<img src="__PUBLIC__/Home/{{$default_theme}}/Images/getAvatar.do.jpg">
 						</a>
 						<em>
 							Hi,<span class="s-name">小叮当</span>
@@ -90,7 +90,7 @@
 			<!--今日推荐 -->
 			<!-- <div class="am-g am-g-fixed recommendation">
 				<div class="clock am-u-sm-3">
-					<img src="../images/2016.png "></img>
+					<img src="__PUBLIC__/Home/{{$default_theme}}/Images/2016.png "></img>
 					<p>今日<br>推荐</p>
 				</div>
 				<div class="am-u-sm-4 am-u-lg-3 ">
@@ -99,7 +99,7 @@
 						<h4>开年福利篇</h4>
 					</div>
 					<div class="recommendationMain one">
-						<a href="introduction.html"><img src="../images/tj.png "></img></a>
+						<a href="introduction.html"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/tj.png "></img></a>
 					</div>
 				</div>						
 				<div class="am-u-sm-4 am-u-lg-3 ">
@@ -108,7 +108,7 @@
 						<h4>让爱早回家</h4>
 					</div>
 					<div class="recommendationMain two">
-						<img src="../images/tj1.png "></img>
+						<img src="__PUBLIC__/Home/{{$default_theme}}/Images/tj1.png "></img>
 					</div>
 				</div>
 				<div class="am-u-sm-4 am-u-lg-3 ">
@@ -117,7 +117,7 @@
 						<h4>甜甜蜜蜜</h4>
 					</div>
 					<div class="recommendationMain three">
-						<img src="../images/tj2.png "></img>
+						<img src="__PUBLIC__/Home/{{$default_theme}}/Images/tj2.png "></img>
 					</div>
 				</div>
 			</div> -->
@@ -136,7 +136,7 @@
 					<div class="icon-sale one "></div>	
 						<h4>秒杀</h4>							
 					<div class="activityMain ">
-						<img src="../images/activity1.jpg "></img>
+						<img src="__PUBLIC__/Home/{{$default_theme}}/Images/activity1.jpg "></img>
 					</div>
 					<div class="info ">
 						<h3>春节送礼优选</h3>
@@ -147,7 +147,7 @@
 				  <div class="icon-sale two "></div>	
 					<h4>特惠</h4>
 					<div class="activityMain ">
-						<img src="../images/activity2.jpg "></img>
+						<img src="__PUBLIC__/Home/{{$default_theme}}/Images/activity2.jpg "></img>
 					</div>
 					<div class="info ">
 						<h3>春节送礼优选</h3>								
@@ -158,7 +158,7 @@
 					<div class="icon-sale three "></div>
 					<h4>团购</h4>
 					<div class="activityMain ">
-						<img src="../images/activity3.jpg "></img>
+						<img src="__PUBLIC__/Home/{{$default_theme}}/Images/activity3.jpg "></img>
 					</div>
 					<div class="info ">
 						<h3>春节送礼优选</h3>
@@ -169,7 +169,7 @@
 					<div class="icon-sale "></div>
 					<h4>超值</h4>
 					<div class="activityMain ">
-						<img src="../images/activity.jpg "></img>
+						<img src="__PUBLIC__/Home/{{$default_theme}}/Images/activity.jpg "></img>
 					</div>
 					<div class="info ">
 						<h3>春节送礼优选</h3>
@@ -241,88 +241,12 @@
 												<div class="goods-title">{{$goods.title}}</div>	
 												<div class="price">￥{{$goods.price}}</div>
 											</div>
-											<a href="#"><img src="{{$goods.home_recommended_images}}" /></a>
+											<a href="#">
+												<img src="{{$goods.home_recommended_images}}" />
+											</a>
 										</div>
 					                </foreach>
 					            </if>
-								<!-- 
-								<div class="am-u-sm-7 am-u-md-4 text-two sug">
-									<div class="outer-con ">
-										<div class="title ">
-											雪之恋和风大福
-										</div>									
-										<div class="sub-title ">
-											¥13.8
-										</div>
-										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
-									</div>
-									<a href="# "><img src="../images/2.jpg" /></a>
-								</div>
-
-								<div class="am-u-sm-7 am-u-md-4 text-two">
-									<div class="outer-con ">
-										<div class="title ">
-											雪之恋和风大福
-										</div>
-										<div class="sub-title ">
-											¥13.8
-										</div>
-										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
-									</div>
-									<a href="# "><img src="../images/1.jpg" /></a>
-								</div>
-
-								<div class="am-u-sm-3 am-u-md-2 text-three big">
-									<div class="outer-con ">
-										<div class="title ">
-											小优布丁
-										</div>
-										<div class="sub-title ">
-											¥4.8
-										</div>
-										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
-									</div>
-									<a href="# "><img src="../images/5.jpg" /></a>
-								</div>
-
-								<div class="am-u-sm-3 am-u-md-2 text-three sug">
-									<div class="outer-con ">
-										<div class="title ">
-											小优布丁
-										</div>
-										<div class="sub-title ">
-											¥4.8
-										</div>
-										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
-									</div>
-									<a href="# "><img src="../images/3.jpg" /></a>
-								</div>
-
-								<div class="am-u-sm-3 am-u-md-2 text-three ">
-									<div class="outer-con ">
-										<div class="title ">
-											小优布丁
-										</div>
-										<div class="sub-title ">
-											¥4.8
-										</div>
-										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
-									</div>
-									<a href="# "><img src="../images/4.jpg" /></a>
-								</div>
-
-								<div class="am-u-sm-3 am-u-md-2 text-three last big ">
-									<div class="outer-con ">
-										<div class="title ">
-											小优布丁
-										</div>
-										<div class="sub-title ">
-											¥4.8
-										</div>
-										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
-									</div>
-									<a href="# "><img src="../images/5.jpg" /></a>
-								</div> -->
 							</div>
 						</div>
 					</if>
