@@ -184,7 +184,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
            
     .my-cart{ display:none; right:10%; top:20px;}
     .shopNavfloat{ display:block; position:fixed;bottom:0px;left:30px;}
-    .shopMain{margin:0px 40px 0px 5px;} 
+    .shopMain{margin:0px 0px 0px 5px;} 
     .shopCon li{width:20%;padding:10px;}
     .search-bar input { height: 46px;}
     .search-bar {margin:0px auto;}

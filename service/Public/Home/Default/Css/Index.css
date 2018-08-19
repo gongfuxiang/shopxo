@@ -234,7 +234,7 @@ text-align: center;float:none}
 	   
 @media only screen and (min-width: 1025px) {
     .smallnav,.only-phone{ display:none;}
-    .shopNav{padding-top:10px; padding-bottom:5px;margin:0px 40px 10px 0px;}
+    .shopNav{padding-top:10px; padding-bottom:5px;margin:0px 0px 10px 0px;}
     .slideall{margin:0px auto;max-width:1000px ;padding-top: 45px;height:415px ;}
     .am-container { padding-left:0rem;padding-right:0rem;max-width: 1000px;}
     .am-g-fixed{max-width:1000px;}
