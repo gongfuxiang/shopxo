@@ -44,7 +44,7 @@ class IndexController extends CommonController
 		$this->assign('goods_floor_list', $this->GetHomeFloorList($goods_category));
 
 		// 新闻
-		$this->assign('article_list', $this->GetCommonArticleList(['where'=>['a.is_enable'=>1, 'is_home_recommended'=>1], 'field'=>'a.id,a.title,a.title_color,ac.name AS category_name', 'm'=>0, 'n'=>8]));
+		$this->assign('article_list', $this->GetCommonArticleList(['where'=>['a.is_enable'=>1, 'is_home_recommended'=>1], 'field'=>'a.id,a.title,a.title_color,ac.name AS category_name', 'm'=>0, 'n'=>9]));
 
 		$this->display('Index');
 	}
