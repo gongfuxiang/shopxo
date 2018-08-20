@@ -111,6 +111,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
 .header-top { background-color: #eee; }
 .header{ display:none; max-width:1000px; margin:0px auto; font-size:12px;}  
 
+.am-footer { border-top: 2px solid #FF5400; }
 .footer-bd{ display:none}
 .footer{ text-align: center;border-top: 2px solid #F8F8F8 margin-top:20px; padding-top: 5px;margin-bottom:60px ;}
 .footer-hd{ display: block;}
@@ -121,6 +122,12 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
 .navCir li{width: 25%;padding:5px ;background:#fff ;border-top:1px solid #f5f5f5 ;float: left;text-align: center;font-size: 14px;}
 .navCir li i{display: block;font-size: 18px;}
 .navCir li.active a{color:#F03726 ;}
+
+
+@media only screen and (max-width: 640px) 
+{
+    .am-footer { margin-bottom: 45px; }
+}
 
 @media only screen and (min-width: 640px) 
 {
@@ -161,11 +168,11 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
     .nav.white{ position:relative;top:0px;z-index:0;margin-bottom: 5px;}
      #ai-topsearch{ font-size:18px;}
      /*底部*/
-    .footer {text-align:left; display:block;position: relative;margin: 0px auto; padding: 7px 0px 9px;border-top: 2px solid #FF5400; margin-top:20px;}
-    .footer .footer-bd p, .footer .footer-hd p {margin-bottom: 8px;line-height: 27px;border-bottom: 1px solid #DDD; text-align:left;}
-    .footer .footer-hd a { margin: 0px 4px;white-space: nowrap;color: #6C6C6C;}
-    .footer .footer-hd b { margin: 0px 3px;font-weight: 400;color: #DDD;}
-    .footer .footer-bd p{ border-bottom:none;}
+    .am-footer {text-align:center; display:block;position: relative;margin: 0px auto; padding: 7px 0px 9px; margin-top:20px;}
+    .am-footer .footer-bd p, .footer .footer-hd p {margin-bottom: 8px;line-height: 27px;border-bottom: 1px solid #DDD; text-align:left;}
+    .am-footer .footer-hd a { margin: 0px 4px;white-space: nowrap;color: #6C6C6C;}
+    .am-footer .footer-hd b { margin: 0px 3px;font-weight: 400;color: #DDD;}
+    .am-footer .footer-bd p{ border-bottom:none;}
     .footer-bd{ display:block;}
     .bloglist{ margin-top:0px;}
     .shopMain {margin:0px 5px;}
