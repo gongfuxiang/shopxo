@@ -1,19 +1,20 @@
-<div class="long-title">
-	<span class="all-goods">全部分类</span>
-</div>
-<div class="nav-cont">
-	<ul>
-        <li><a href="{{:__MY_URL__}}">{{:L('common_home_text')}}</a></li>
-        <if condition="!empty($nav_header)">
-            <foreach name="nav_header" item="nav">
-                <li>
-                    <a href="{{$nav.url}}" <if condition="$nav['is_new_window_open'] eq 1">target="_blank"</if>>{{$nav.name}}</a>
-                </li>
-            </foreach>
-        </if>
-	</ul>
-    <div class="nav-extra">
-    	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-    	<i class="am-icon-angle-right" style="padding-left: 10px;"></i>
+<div class="shop-nav">
+    <div class="am-container">
+        <div class="nav-cont">
+        	<ul>
+                <li><a href="{{:__MY_URL__}}">{{:L('common_home_text')}}</a></li>
+                <if condition="!empty($nav_header)">
+                    <foreach name="nav_header" item="nav">
+                        <li>
+                            <a href="{{$nav.url}}" <if condition="$nav['is_new_window_open'] eq 1">target="_blank"</if>>{{$nav.name}}</a>
+                        </li>
+                    </foreach>
+                </if>
+        	</ul>
+            <div class="nav-extra">
+            	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
+            	<i class="am-icon-angle-right" style="padding-left: 10px;"></i>
+            </div>
+        </div>
     </div>
 </div>

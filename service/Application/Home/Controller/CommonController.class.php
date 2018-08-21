@@ -183,6 +183,12 @@ class CommonController extends Controller
 
 		// 用户顶部菜单
 		$this->assign('user_nav_menu', L('user_nav_menu'));
+
+		// 商品大分类
+		$this->assign('goods_category_list', $this->GetCommonGoodsCategory());
+
+		// 当前控制器名称
+		$this->assign('controller_name', CONTROLLER_NAME);
 	}
 
 	/**

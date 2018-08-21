@@ -1,258 +1,162 @@
 <include file="Public/Header" />
 
-<div class="hmtop">
-	<!-- header top nav -->
-	<include file="Public/HeaderTopNav" />
+<!-- header top nav -->
+<include file="Public/HeaderTopNav" />
 
-	<!-- search -->
-	<include file="Public/NavSearch" />
+<!-- search -->
+<include file="Public/NavSearch" />
 
-	<!-- banner -->
-	<include file="Public/HomeBanner" />
+<!-- header nav -->
+<include file="Public/HeaderNav" />
 
-	<div class="shopNav">
-		<div class="slideall">
-			<!-- header nav -->
-			<include file="Public/HeaderNav" />
+<!-- banner -->
+<include file="Public/HomeBanner" />
 
-			<!-- goods category -->
-			<include file="Public/GoodsCategory" />
+<!-- goods category -->
+<include file="Public/GoodsCategory" />
 
-			<!-- 轮播右侧-内容1 -->
-			<div class="am-g am-g-fixed smallnav">
-				<div class="am-u-sm-3">
-					<a href="sort.html"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/navsmall.jpg" />
-						<div class="title">商品分类</div>
-					</a>
-				</div>
-				<div class="am-u-sm-3">
-					<a href="#"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/huismall.jpg" />
-						<div class="title">大聚惠</div>
-					</a>
-				</div>
-				<div class="am-u-sm-3">
-					<a href="#"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/mansmall.jpg" />
-						<div class="title">个人中心</div>
-					</a>
-				</div>
-				<div class="am-u-sm-3">
-					<a href="#"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/moneysmall.jpg" />
-						<div class="title">投资理财</div>
-					</a>
-				</div>
-			</div>
-
-			<!--轮播右侧-内容2 -->
-			<div class="marqueen">
-				<div class="mod-vip">
-					<div class="m-baseinfo">
-						<a href="../person/index.html">
-							<img src="__PUBLIC__/Home/{{$default_theme}}/Images/getAvatar.do.jpg">
-						</a>
-						<em>
-							Hi,<span class="s-name">小叮当</span>
-							<a href="#"><p>点击更多优惠活动</p></a>									
-						</em>
-					</div>
-					<div class="member-logout">
-						<a class="am-btn-warning btn" href="login.html">登录</a>
-						<a class="am-btn-warning btn" href="register.html">注册</a>
-					</div>
-					<div class="member-login">
-						<a href="#"><strong>0</strong>待收货</a>
-						<a href="#"><strong>0</strong>待发货</a>
-						<a href="#"><strong>0</strong>待付款</a>
-						<a href="#"><strong>0</strong>待评价</a>
-					</div>
-				</div>
-				<span class="marqueen-title">新闻头条</span>
-				<div class="banner-news">
-					<ul>
-						<if condition="!empty($article_list)">
-                			<foreach name="article_list" item="article">
-								<li>
-									<a target="_blank" href="#">
-										<span>[{{$article.category_name}}]</span>
-										<span <if condition="!empty($article.title_color)">style="color:{{$article.title_color}};"</if> >{{$article.title}}</span>
-									</a>
-								</li>
-							</foreach>
-						</if>
-					</ul>
-				</div>
-			</div>
+<div class="am-container slideall">
+	<!-- 轮播右侧-内容1 -->
+	<div class="am-g am-g-fixed smallnav">
+		<div class="am-u-sm-3">
+			<a href="sort.html"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/navsmall.jpg" />
+				<div class="title">商品分类</div>
+			</a>
+		</div>
+		<div class="am-u-sm-3">
+			<a href="#"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/huismall.jpg" />
+				<div class="title">大聚惠</div>
+			</a>
+		</div>
+		<div class="am-u-sm-3">
+			<a href="#"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/mansmall.jpg" />
+				<div class="title">个人中心</div>
+			</a>
+		</div>
+		<div class="am-u-sm-3">
+			<a href="#"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/moneysmall.jpg" />
+				<div class="title">投资理财</div>
+			</a>
 		</div>
 	</div>
 
-	<!-- 主内容 -->
-	<div class="shopMainbg">
-		<div class="shopMain" id="shopmain">
-			<!--今日推荐 -->
-			<!-- <div class="am-g am-g-fixed recommendation">
-				<div class="clock am-u-sm-3">
-					<img src="__PUBLIC__/Home/{{$default_theme}}/Images/2016.png "></img>
-					<p>今日<br>推荐</p>
-				</div>
-				<div class="am-u-sm-4 am-u-lg-3 ">
-					<div class="info ">
-						<h3>真的有鱼</h3>
-						<h4>开年福利篇</h4>
-					</div>
-					<div class="recommendationMain one">
-						<a href="introduction.html"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/tj.png "></img></a>
-					</div>
-				</div>						
-				<div class="am-u-sm-4 am-u-lg-3 ">
-					<div class="info ">
-						<h3>囤货过冬</h3>
-						<h4>让爱早回家</h4>
-					</div>
-					<div class="recommendationMain two">
-						<img src="__PUBLIC__/Home/{{$default_theme}}/Images/tj1.png "></img>
-					</div>
-				</div>
-				<div class="am-u-sm-4 am-u-lg-3 ">
-					<div class="info ">
-						<h3>浪漫情人节</h3>
-						<h4>甜甜蜜蜜</h4>
-					</div>
-					<div class="recommendationMain three">
-						<img src="__PUBLIC__/Home/{{$default_theme}}/Images/tj2.png "></img>
-					</div>
-				</div>
-			</div> -->
-			
-			<!--热门活动 -->
-			<!-- <div class="am-container activity ">
-				<div class="items-nav-title">
-					<h4>活动</h4>
-					<h3>每期活动 优惠享不停 </h3>
-					<span class="more ">
-                      <a href="# ">全部活动<i class="am-icon-angle-right" style="padding-left:10px ;" ></i></a>
-                </span>
-				</div>
-			  <div class="am-g am-g-fixed ">
-				<div class="am-u-sm-3 ">
-					<div class="icon-sale one "></div>	
-						<h4>秒杀</h4>							
-					<div class="activityMain ">
-						<img src="__PUBLIC__/Home/{{$default_theme}}/Images/activity1.jpg "></img>
-					</div>
-					<div class="info ">
-						<h3>春节送礼优选</h3>
-					</div>														
-				</div>
-				
-				<div class="am-u-sm-3 ">
-				  <div class="icon-sale two "></div>	
-					<h4>特惠</h4>
-					<div class="activityMain ">
-						<img src="__PUBLIC__/Home/{{$default_theme}}/Images/activity2.jpg "></img>
-					</div>
-					<div class="info ">
-						<h3>春节送礼优选</h3>								
-					</div>							
-				</div>						
-				
-				<div class="am-u-sm-3 ">
-					<div class="icon-sale three "></div>
-					<h4>团购</h4>
-					<div class="activityMain ">
-						<img src="__PUBLIC__/Home/{{$default_theme}}/Images/activity3.jpg "></img>
-					</div>
-					<div class="info ">
-						<h3>春节送礼优选</h3>
-					</div>							
-				</div>						
+	<!--轮播右侧-内容2 -->
+	<div class="marqueen">
+		<div class="mod-vip">
+			<div class="m-baseinfo">
+				<a href="../person/index.html">
+					<img src="__PUBLIC__/Home/{{$default_theme}}/Images/getAvatar.do.jpg">
+				</a>
+				<em>
+					Hi,<span class="s-name">小叮当</span>
+					<a href="#"><p>点击更多优惠活动</p></a>									
+				</em>
+			</div>
+			<div class="member-logout">
+				<a class="am-btn-warning btn" href="login.html">登录</a>
+				<a class="am-btn-warning btn" href="register.html">注册</a>
+			</div>
+			<div class="member-login">
+				<a href="#"><strong>0</strong>待收货</a>
+				<a href="#"><strong>0</strong>待发货</a>
+				<a href="#"><strong>0</strong>待付款</a>
+				<a href="#"><strong>0</strong>待评价</a>
+			</div>
+		</div>
+		<span class="marqueen-title">新闻头条</span>
+		<div class="banner-news">
+			<ul>
+				<if condition="!empty($article_list)">
+        			<foreach name="article_list" item="article">
+						<li>
+							<a target="_blank" href="#">
+								<span>[{{$article.category_name}}]</span>
+								<span <if condition="!empty($article.title_color)">style="color:{{$article.title_color}};"</if> >{{$article.title}}</span>
+							</a>
+						</li>
+					</foreach>
+				</if>
+			</ul>
+		</div>
+	</div>
+</div>
 
-				<div class="am-u-sm-3 last ">
-					<div class="icon-sale "></div>
-					<h4>超值</h4>
-					<div class="activityMain ">
-						<img src="__PUBLIC__/Home/{{$default_theme}}/Images/activity.jpg "></img>
-					</div>
-					<div class="info ">
-						<h3>春节送礼优选</h3>
-					</div>													
-				</div>
-
-			  </div>
-        	</div> -->
-
-			<!-- 楼层 -->
-			<if condition="!empty($goods_floor_list)">
-                <foreach name="goods_floor_list" item="floor">
-                	<if condition="isset($floor['is_home_recommended']) and $floor['is_home_recommended'] eq 1">
-						<div id="floor{{$key+1}}">
-							<div class="am-container">
-								<div class="items-nav-title">
-									<h4>{{$floor.name}}</h4>
-									<h3>{{$floor.vice_name}}</h3>
-									<div class="today-brands ">
-										<if condition="!empty($floor['items'])">
-	                						<foreach name="floor.items" key="key" item="category">
-	                							<if condition="!empty($category['items'])">
-			                						<foreach name="category.items" key="keys" item="categorys">
-			                							<if condition="$key lt 6 and $keys eq 0 and isset($categorys['is_home_recommended']) and $categorys['is_home_recommended'] eq 1">
-															<a href="#">{{$categorys.name}}</a>
-														</if>
-													</foreach>
-												</if>
-											</foreach>
-										</if>
-									</div>
-									<span class="more">
-				            			<a href="#">更多<i class="am-icon-angle-right" style="padding-left:10px ;" ></i></a>
-				                	</span>
+<!-- 主内容 -->
+<div class="shopMainbg">
+	<div class="shopMain" id="shopmain">
+		<!-- 楼层 -->
+		<if condition="!empty($goods_floor_list)">
+            <foreach name="goods_floor_list" item="floor">
+            	<if condition="isset($floor['is_home_recommended']) and $floor['is_home_recommended'] eq 1">
+					<div id="floor{{$key+1}}">
+						<div class="am-container">
+							<div class="items-nav-title">
+								<h4>{{$floor.name}}</h4>
+								<h3>{{$floor.vice_name}}</h3>
+								<div class="today-brands ">
+									<if condition="!empty($floor['items'])">
+                						<foreach name="floor.items" key="key" item="category">
+                							<if condition="!empty($category['items'])">
+		                						<foreach name="category.items" key="keys" item="categorys">
+		                							<if condition="$key lt 6 and $keys eq 0 and isset($categorys['is_home_recommended']) and $categorys['is_home_recommended'] eq 1">
+														<a href="#">{{$categorys.name}}</a>
+													</if>
+												</foreach>
+											</if>
+										</foreach>
+									</if>
 								</div>
-							</div>
-							
-							<div class="am-g am-g-fixed flood" <if condition="!empty($floor['bg_color'])">style="background-color:{{$floor.bg_color}};"<else />style="background-color:#eaeaea;"</if>>
-								<div class="am-u-sm-5 am-u-md-4 text-one list" >
-									<div class="word">
-										<if condition="!empty($floor['items'])">
-	                						<foreach name="floor.items" item="category">
-	                							<if condition="$key lt 6 and isset($category['is_home_recommended']) and $category['is_home_recommended'] eq 1">
-													<a class="outer" href="#">
-														<span class="inner">
-															<b class="text">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</b>
-														</span>
-													</a>
-												</if>
-											</foreach>
-										</if>			
-									</div>
-									<a href="#">
-										<div class="outer-con">
-											<div class="describe">{{$floor.describe}}</div>
-										</div>
-										<if condition="!empty($floor['big_images'])">
-					                        <img src="{{$floor.big_images}}" />
-					                    </if>
-									</a>
-									<div class="triangle-topright"></div>
-								</div>
-
-
-								<if condition="!empty($floor.goods)">
-					                <foreach name="floor.goods" item="goods">
-										<div class="goods-items <if condition="in_array($key, [0,1])">am-u-sm-7 am-u-md-4 text-two<else />am-u-sm-6 am-u-md-2 text-three</if>  <if condition="in_array($key, [0,3])">sug</if> <if condition="in_array($key, [2,5])">big</if> <if condition="$key eq 5">last</if>">
-											<div class="outer-con">
-												<div class="goods-title">{{$goods.title}}</div>	
-												<div class="price">￥{{$goods.price}}</div>
-											</div>
-											<a href="#">
-												<img src="{{$goods.home_recommended_images}}" />
-											</a>
-										</div>
-					                </foreach>
-					            </if>
+								<span class="more">
+			            			<a href="#">更多<i class="am-icon-angle-right" style="padding-left:10px ;" ></i></a>
+			                	</span>
 							</div>
 						</div>
-					</if>
-				</foreach>
-			</if>
-		</div>
+						
+						<div class="am-g am-g-fixed flood" <if condition="!empty($floor['bg_color'])">style="background-color:{{$floor.bg_color}};"<else />style="background-color:#eaeaea;"</if>>
+							<div class="am-u-sm-5 am-u-md-4 text-one list" >
+								<div class="word">
+									<if condition="!empty($floor['items'])">
+                						<foreach name="floor.items" item="category">
+                							<if condition="$key lt 6 and isset($category['is_home_recommended']) and $category['is_home_recommended'] eq 1">
+												<a class="outer" href="#">
+													<span class="inner">
+														<b class="text">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</b>
+													</span>
+												</a>
+											</if>
+										</foreach>
+									</if>			
+								</div>
+								<a href="#">
+									<div class="outer-con">
+										<div class="describe">{{$floor.describe}}</div>
+									</div>
+									<if condition="!empty($floor['big_images'])">
+				                        <img src="{{$floor.big_images}}" />
+				                    </if>
+								</a>
+								<div class="triangle-topright"></div>
+							</div>
+
+
+							<if condition="!empty($floor.goods)">
+				                <foreach name="floor.goods" item="goods">
+									<div class="goods-items <if condition="in_array($key, [0,1])">am-u-sm-7 am-u-md-4 text-two<else />am-u-sm-6 am-u-md-2 text-three</if>  <if condition="in_array($key, [0,3])">sug</if> <if condition="in_array($key, [2,5])">big</if> <if condition="$key eq 5">last</if>">
+										<div class="outer-con">
+											<div class="goods-title">{{$goods.title}}</div>	
+											<div class="price">￥{{$goods.price}}</div>
+										</div>
+										<a href="{{:U('/Home/Detail/Index', ['goods_id'=>$v['id']])}}">
+											<img src="{{$goods.home_recommended_images}}" />
+										</a>
+									</div>
+				                </foreach>
+				            </if>
+						</div>
+					</div>
+				</if>
+			</foreach>
+		</if>
 	</div>
 </div>
 

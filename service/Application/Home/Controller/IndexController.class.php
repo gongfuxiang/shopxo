@@ -36,12 +36,8 @@ class IndexController extends CommonController
 		// 首页轮播
 		$this->assign('banner_list', $this->GetHomeBanner());
 
-		// 商品大分类
-		$goods_category = $this->GetCommonGoodsCategory();
-		$this->assign('goods_category_list', $goods_category);
-
 		// 楼层数据
-		$this->assign('goods_floor_list', $this->GetHomeFloorList($goods_category));
+		$this->assign('goods_floor_list', $this->GetHomeFloorList());
 
 		// 新闻
 		$this->assign('article_list', $this->GetCommonArticleList(['where'=>['a.is_enable'=>1, 'is_home_recommended'=>1], 'field'=>'a.id,a.title,a.title_color,ac.name AS category_name', 'm'=>0, 'n'=>9]));
@@ -56,10 +52,11 @@ class IndexController extends CommonController
 	 * @version 1.0.0
 	 * @date    2018-08-10
 	 * @desc    description
-	 * @param   [array] $goods_category  [商品分类]
 	 */
-	private function GetHomeFloorList($goods_category)
+	private function GetHomeFloorList()
 	{
+		// 商品大分类
+		$goods_category = $this->GetCommonGoodsCategory();
 		if(!empty($goods_category))
 		{
 			foreach($goods_category as &$v)

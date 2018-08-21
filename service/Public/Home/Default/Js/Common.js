@@ -30,5 +30,35 @@ $(function()
         ds.scrollTo(0, 0);
         hideReturnTop();
     });
+
+    // 商品分类子级内容显示/隐藏
+    $(".category-content li").hover(function() {
+        console.log(1);
+        $(".category-content .category-list li.first .menu-in").css("display", "none");
+        $(".category-content .category-list li.first").removeClass("hover");
+        $(this).addClass("hover");
+        $(this).children("div.menu-in").css("display", "block");
+    }, function() {
+        $(this).removeClass("hover")
+        $(this).children("div.menu-in").css("display", "none");
+    });
+
+    // 非首页的页面商品分类显示/隐藏
+    $('#goods-category').hover(function()
+    {
+        if($(this).data('controller-name') != 'Index')
+        {
+            if(!$('#goods-category .category-content').is(":visible"))
+            {
+                $('#goods-category .category-content').slideDown(300);
+            }
+            
+        }
+    }).mouseleave(function() {
+        if($(this).data('controller-name') != 'Index')
+        {
+            $('#goods-category .category-content').slideUp(300);
+        }
+    });
     
 });
