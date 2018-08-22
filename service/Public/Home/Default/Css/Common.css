@@ -79,8 +79,8 @@ input.add,input.min{width:15px}
 color: #555555;background:none;border-color:transparent;cursor: default;}
 .am-nav-tabs > li{border-bottom:2px solid  transparent;}
 .am-nav-tabs > li.am-active {border-bottom:2px solid #F03726;}
-.am-tabs-nav li {max-width:216px;height:36px;font-size:16px;line-height:36px ;}
-.am-tabs-nav li a,.am-tabs-nav li.am-active a{cursor: pointer;}
+.am-tabs-nav li {height:36px;font-size:16px;line-height:36px ;}
+.am-tabs-nav li a,.am-tabs-nav li.am-active a, .am-tabs-nav li{cursor: pointer;}
 
 /*选项卡样式*/
 .am-nav-tabs > li.am-active span{color: #E4393C;font-size:16px;}
@@ -186,7 +186,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
     .bloglist{ margin-top:0px;}
     .shopMain {margin:0px 5px;}
     /*选项卡样式*/
-    .am-nav-tabs > li span{font-size:16px;padding:5px 15px ;}
+    .am-nav-tabs > li span{font-size:16px;}
 }
 
 @media only screen and (min-width: 1025px)
@@ -439,4 +439,8 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
 }
 .am-slider-a1 .am-control-nav {
     bottom: 10px;
+}
+.am-slider-a1 {
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }
