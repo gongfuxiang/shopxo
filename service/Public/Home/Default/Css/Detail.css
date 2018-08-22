@@ -239,6 +239,7 @@ width: 62px;line-height:24px;font-size: 12px;display: block;}
 /*介绍*/
 .introduce{width:100%;margin: 0px auto;text-align: center;padding-bottom: 110px;}
 .introduceMain{width:100%;background:#fff ;}
+.introduceMain .am-tab-panel { padding: 0px; }
 .browse{display: none;}
 
 /*产品参数*/

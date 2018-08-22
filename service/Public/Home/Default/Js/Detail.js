@@ -1486,65 +1486,6 @@ $(document).ready(function() {
         })
 
     }
-})
-
-//导航固定
-$(document).ready(function() {
-    var $ww = $(window).width();
-    var dv = $('ul.am-tabs-nav.am-nav.am-nav-tabs'),
-        st;
-
-    if ($ww < 623) {
-
-                var tp =$ww+363;
-                $(window).scroll(function() {
-                    st = Math.max(document.body.scrollTop || document.documentElement.scrollTop);
-                    if (st >= tp) {
-                        if (dv.css('position') != 'fixed') dv.css({
-                            'position': 'fixed',
-                            top: 0,
-                            left: 0,
-                            'z-index': 1000009
-                        });
-
-                    } else if (dv.css('position') != 'static') dv.css({
-                        'position': 'static'
-                    });
-                });
-                //滚动条复位（需要减去固定导航的高度）
-
-                $('.introduceMain ul li').click(function() {
-                    sts = tp;
-                    $(document).scrollTop(sts);
-                });
-       } else {
-
-        dv.attr('otop', dv.offset().top); //存储原来的距离顶部的距离
-        var tp = parseInt(dv.attr('otop'))+36;
-        $(window).scroll(function() {
-            st = Math.max(document.body.scrollTop || document.documentElement.scrollTop);
-            if (st >= tp) {
-             
-                    if (dv.css('position') != 'fixed') dv.css({
-                        'position': 'fixed',
-                        top: 0,
-                        'z-index': 998
-                    });
-
-                //滚动条复位 
-                $('.introduceMain ul li').click(function() {
-                    sts = tp-35;
-                    $(document).scrollTop(sts);
-                });
-
-            } else if (dv.css('position') != 'static') dv.css({
-                'position': 'static'
-            });
-        });
-
-
-
-    }
 });
 
 
