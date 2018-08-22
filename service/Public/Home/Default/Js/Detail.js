@@ -1502,7 +1502,8 @@ $(document).ready(function() {
                     if (st >= tp) {
                         if (dv.css('position') != 'fixed') dv.css({
                             'position': 'fixed',
-                            top: 53,
+                            top: 0,
+                            left: 0,
                             'z-index': 1000009
                         });
 

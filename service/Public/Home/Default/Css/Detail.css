@@ -311,6 +311,7 @@ li.am-comment{ width:100%}
 
 @media only screen and (min-width:640px) 
 {
+
 .listMain{padding-top: 10px;}
 /*导航固定*/
 ul.am-tabs-nav.am-nav.am-nav-tabs {margin-right:10px ;margin-left: 10px;width: auto;}
@@ -462,4 +463,13 @@ ul.am-tabs-nav.am-nav.am-nav-tabs {left:20% ;max-width:960px ;margin-right: 0px;
 
     /*导航固定*/
     ul.am-tabs-nav.am-nav.am-nav-tabs {left:auto;right:auto;width:960px ;}
+}
+
+/* 手机模式下 */
+@media only screen and (max-width:640px)
+{
+    .nav.white { display: none; }
+    body {
+        padding-top: 0px;
+    }
 }
