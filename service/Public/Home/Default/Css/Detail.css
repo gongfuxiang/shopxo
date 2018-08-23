@@ -209,13 +209,13 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 
 
 /*购物车*/
-
-.tb-btn a {margin-right: 0px;float: left;overflow: hidden; position: relative;width:100%; height: 30px; line-height: 30px;background-color: #FFEDED;
+.tb-btn a, .pay li,.pay .pay-opt, .pay span { height: 35px; line-height: 35px; }
+.tb-btn a {margin-right: 0px;float: left;overflow: hidden; position: relative;width:100%; background-color: #FFEDED;
 color:#F03726;font-size: 14px;text-align: center;}
 .tb-btn-basket a {background-color:#F03726;color: #FFF;}
 
-.pay li,.pay .pay-opt{float:left; margin-top:15px;width:33.33% ;height:30px ;}
-.pay span{display:inline-block;width: 50%;float: left;font-size:14px ;background:#fff ;line-height:30px ;cursor: pointer;}
+.pay li,.pay .pay-opt{float:left; width:33.33%; }
+.pay span{display:inline-block;width: 50%;float: left;font-size:14px ;background:#fff ; ;cursor: pointer;}
 
 .tb-detail-hd h1 {padding-bottom:0.4em; line-height: 1;font-size: 14px;font-weight: 600;color: #333; line-height: 20px;}
 

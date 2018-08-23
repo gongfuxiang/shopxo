@@ -1488,6 +1488,54 @@ $(document).ready(function() {
     }
 })
 
+var temp_scroll = 0;
+var scroll_type = -1;
+var location_scroll = 0;
+var nav_status = 1;
+$(window).scroll(function()
+{
+    var scroll = $(document).scrollTop();
+    if(scroll != temp_scroll)
+    {
+        var temp_scroll_type = (scroll > temp_scroll) ? 1 : 0;
+        if(temp_scroll_type != scroll_type)
+        {
+            scroll_type = temp_scroll_type;
+            console.log('不一样了', scroll, temp_scroll, scroll_type, location_scroll)
+
+            
+            location_scroll = scroll;
+            
+        }
+
+        if(scroll_type == 1)
+        {
+            if(nav_status == 1 && scroll > location_scroll+200)
+            {
+                nav_status = 0;
+                console.log('隐藏导航');
+                
+                //if(!$("div.pay").is(":visible"))
+                //{
+                    $("div.pay").slideUp(500);
+                //}
+            }
+        } else {
+            if(nav_status == 0 && scroll < location_scroll-100)
+            {
+                nav_status = 1;
+                console.log('打开导航');
+                
+                    $("div.pay").slideDown(500);
+                
+            }
+        }
+
+
+        temp_scroll = scroll;
+    }
+});
+
 // 小导航
 $(window).resize(function()
 {
@@ -1510,7 +1558,7 @@ function table_nav()
 //             console.log($(document).width(), dv.css('top'));
 //         }
 //     });
-// }
+}
 
 //导航固定
 // $(document).ready(function() {
