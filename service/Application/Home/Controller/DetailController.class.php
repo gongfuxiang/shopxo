@@ -34,7 +34,31 @@ class DetailController extends CommonController
     public function Index()
     {
         $goods_id = I('goods_id');
-        $data = M('Goods')->find($goods);
+        $params = [
+            'where' => [
+                'g.id'    => $goods_id,
+                'g.is_delete_time' => 0,
+            ],
+            'is_photo' => true,
+            'is_attribute' => true,
+        ];
+        $goods = $this->GetCommonGoodsList($params);
+        $this->assign('goods', $goods[0]);
+        $this->assign('home_seo_site_title', $goods[0]['title']);
+
+        // 左侧商品
+        $params = [
+            'where'     => [
+                'g.is_delete_time'=>0,
+                'g.is_shelves'=>1
+            ],
+            'order_by'  => 'access_count desc',
+            'field'     => 'g.id,g.title,g.title_color,g.price,g.images',
+            'n'         => 10,
+        ];
+        $left_goods = $this->GetCommonGoodsList($params);
+        //print_r($left_goods);
+        $this->assign('left_goods', $left_goods);
 
         $this->display('Index');
     }

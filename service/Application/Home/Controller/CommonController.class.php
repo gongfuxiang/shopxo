@@ -538,9 +538,11 @@ class CommonController extends Controller
 		$where = empty($params['where']) ? [] : $params['where'];
 		$field = empty($params['field']) ? 'g.*' : $params['field'];
 		$is_photo = (isset($params['is_photo']) && $params['is_photo'] == true) ? true : false;
+		$is_attribute = (isset($params['is_attribute']) && $params['is_attribute'] == true) ? true : false;
+		$order_by = empty($params['order_by']) ? 'g.id desc' : trim($params['order_by']);
 		$m = isset($params['m']) ? intval($params['m']) : 0;
 		$n = isset($params['n']) ? intval($params['n']) : 10;
-		$data = M('Goods')->alias('g')->join(' INNER JOIN __GOODS_CATEGORY_JOIN__ AS gci ON g.id=gci.goods_id') ->field($field)->where($where)->group('g.id')->order('g.id desc')->limit($m, $n)->select();
+		$data = M('Goods')->alias('g')->join(' INNER JOIN __GOODS_CATEGORY_JOIN__ AS gci ON g.id=gci.goods_id') ->field($field)->where($where)->group('g.id')->order($order_by)->limit($m, $n)->select();
 		if(!empty($data))
 		{
 			$images_host = C('IMAGE_HOST');
@@ -571,10 +573,43 @@ class CommonController extends Controller
 						}
 					}
 				}
+
+				// 获取属性
+				if($is_attribute && !empty($v['id']))
+				{
+					$v['attribute'] = $this->GetGoodsAttribute($v['id']);
+				}
 			}
 		}
 		return $data;
 	}
+
+	/**
+     * 获取商品属性
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-07-10
+     * @desc    description
+     * @param   [int]          $goods_id [商品id]
+     * @return  [array]                  [属性]
+     */
+    protected function GetGoodsAttribute($goods_id)
+    {
+        $result = [];
+        $data = M('GoodsAttributeType')->where(['goods_id'=>$goods_id])->field('id,type,name')->order('sort asc')->select();
+        if(!empty($data))
+        {
+            foreach($data as $v)
+            {
+                $v['find'] = M('GoodsAttribute')->field('id,name')->where(['goods_id'=>$goods_id, 'attribute_type_id'=>$v['id']])->order('sort asc')->select();
+                $result[$v['type']][] = $v;
+            }
+        } else {
+            $data = [];
+        }
+        return $result;
+    }
 
 	/**
 	 * 获取商品分类下的所有分类id
@@ -602,6 +637,15 @@ class CommonController extends Controller
 		return $data;
 	}
 
+	/**
+	 * 获取文章列表
+	 * @author   Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2018-08-23
+	 * @desc    description
+	 * @param   [array]          $params [输入参数]
+	 */
 	protected function GetCommonArticleList($params)
 	{
 		$where = empty($params['where']) ? [] : $params['where'];

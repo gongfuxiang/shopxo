@@ -56,7 +56,7 @@ return array(
 	'goods_is_home_recommended_tips'	=>	'推荐后在首页展示',
 
 	'goods_images_text'					=>	'相册',
-	'goods_images_tips'					=>	'可拖拽图片进行排序',
+	'goods_images_tips'					=>	'可拖拽图片进行排序，建议图片尺寸一致',
 	'goods_images_format'				=>	'请上传相册',
 	'goods_content_web_format'			=>	'电脑端详情内容最多 105000 个字符',
 

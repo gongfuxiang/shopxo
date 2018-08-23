@@ -146,7 +146,7 @@
 											<div class="goods-title">{{$goods.title}}</div>	
 											<div class="price">￥{{$goods.price}}</div>
 										</div>
-										<a href="{{:U('/Home/Detail/Index', ['goods_id'=>$v['id']])}}">
+										<a href="{{:U('/Home/Detail/Index', ['goods_id'=>$goods['id']])}}">
 											<img src="{{$goods.home_recommended_images}}" />
 										</a>
 									</div>

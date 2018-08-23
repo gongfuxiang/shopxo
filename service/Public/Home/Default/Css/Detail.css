@@ -382,17 +382,17 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 /* box */
 .box { width:700px; margin:0px auto; }
 .tb-pic a { display:table-cell; text-align:center; vertical-align:middle; }
-.tb-pic a img {vertical-align:middle; }
+.tb-pic a img {vertical-align:middle;width: 100%; }
 .tb-pic.tb-s40 img{width:100%;}
 .tb-pic a {*display:block;*font-family:Arial;*line-height:1;}
 .tb-thumb {margin:10px 0 0; overflow:hidden; }
-.tb-thumb li {background:none repeat scroll 0 0 transparent; float:left; height:62px; margin:0 6px 0 0; overflow:hidden; padding:1px; }
+.tb-thumb li {background:none repeat scroll 0 0 transparent; float:left; width: 62px; height:62px; margin:0 6px 0 0; overflow:hidden; padding:1px; }
 .tb-s310, .tb-s310 a { height:350px; width:350px; }
 
 .tb-s310 a { *font-size:271px;}
 .tb-s40 a { *font-size:35px;}
-.tb-s40, .tb-s40 a { height:60px; width:60px; }
-.tb-booth { border:1px solid #CDCDCD; position:relative; z-index:1; }
+.tb-s40{ height:60px; width:60px; }
+.tb-booth { border:1px solid #CDCDCD; position:relative; z-index:1;overflow: hidden; }
 .tb-thumb .tb-selected { background:none repeat scroll 0 0 #C30008; height:62px;}
 .tb-thumb .tb-selected div { background-color:#FFFFFF; border:medium none; }
 .tb-thumb li div { border:1px solid #CDCDCD; }
@@ -438,7 +438,7 @@ div.zoomMask { position:absolute; background:url(../images/mask.png)repeat scrol
 .introduceMain{width:80%;float:left;background:#fff ;}
 .browse{display:block; float:left;width:20% ;}
 .browse ul{border:1px solid #D4D4D4 ;width: 90%;}
-.browse ul .mt{background-color: #f7f7f7}
+.browse ul .mt{background-color: #f7f7f7; height: 35px;line-height: 35px;}
 .browse ul li {margin:0px 10px;padding:12px 0px;border-top: 1px dotted #DEDEDE;}
 .browse ul li.first {border-top:none;}
 .browse li img{width:100% ;}

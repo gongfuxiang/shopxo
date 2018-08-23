@@ -18,185 +18,168 @@
     <div class="scoll">
         <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false}' >
             <ul class="am-slides">
-                <li>
-                    <img src="__PUBLIC__/Home/{{$default_theme}}/Images/01.jpg" title="pic" />
-                </li>
-                <li>
-                    <img src="__PUBLIC__/Home/{{$default_theme}}/Images/02.jpg" />
-                </li>
-                <li>
-                    <img src="__PUBLIC__/Home/{{$default_theme}}/Images/03.jpg" />
-                </li>
+                <if condition="!empty($goods.photo)">
+                    <foreach name="goods.photo" item="photo">
+                        <li>
+                            <img src="{{$photo}}" title="{{$goods.title}}" />
+                        </li>
+                    </foreach>
+                </if>
             </ul>
         </div>
     </div>
 
-                <!-- 放大镜 -->
-                <div class="item-inform am-container">
-                    <div class="clearfixLeft" id="clearcontent">
-
-                        <div class="box">
-                            
-
-                            <div class="tb-booth tb-pic tb-s310">
-                                <a href="__PUBLIC__/Home/{{$default_theme}}/Images/01.jpg"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/01_mid.jpg" alt="细节展示放大镜特效" rel="__PUBLIC__/Home/{{$default_theme}}/Images/01.jpg" class="jqzoom" /></a>
-                            </div>
-                            <ul class="tb-thumb" id="thumblist">
-                                <li class="tb-selected">
-                                    <div class="tb-pic tb-s40">
-                                        <a href="javascript:;"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/01_small.jpg" mid="__PUBLIC__/Home/{{$default_theme}}/Images/01_mid.jpg" big="__PUBLIC__/Home/{{$default_theme}}/Images/01.jpg"></a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="tb-pic tb-s40">
-                                        <a href="javascript:;"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/02_small.jpg" mid="__PUBLIC__/Home/{{$default_theme}}/Images/02_mid.jpg" big="__PUBLIC__/Home/{{$default_theme}}/Images/02.jpg"></a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="tb-pic tb-s40">
-                                        <a href="javascript:;"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/03_small.jpg" mid="__PUBLIC__/Home/{{$default_theme}}/Images/03_mid.jpg" big="__PUBLIC__/Home/{{$default_theme}}/Images/03.jpg"></a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="clear"></div>
-                    </div>
-
-                    <div class="clearfixRight">
-
-                        <!--规格属性-->
-                        <!--名称-->
-                        <div class="tb-detail-hd">
-                            <h1>良品铺子 手剥松子218g 坚果炒货 巴西松子</h1>
-                        </div>
-                        <div class="tb-detail-list">
-                            <!--价格-->
-                            <div class="tb-detail-price">
-                                
-                                <li class="price iteminfo_price">
-                                    <dt>原价</dt>
-                                    <dd><em>¥</em><b class="sys_item_mktprice">98.00</b></dd>                                   
-                                </li>
-                                <li class="price iteminfo_mktprice">
-                                    <dt>促销价</dt>
-                                    <dd>
-                                        <em>¥</em>
-                                        <b class="sys_item_price">56.90</b>
-                                    </dd>                                 
-                                </li>
-                            </div>
-
-
-                            <!--销量-->
-                            <ul class="tm-ind-panel">
-                                <li class="tm-ind-item tm-ind-sellCount canClick">
-                                    <div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count">1015</span></div>
-                                </li>
-                                <li class="tm-ind-item tm-ind-sumCount canClick">
-                                    <div class="tm-indcon"><span class="tm-label">浏览次数</span><span class="tm-count">6015</span></div>
-                                </li>
-                                <li class="tm-ind-item tm-ind-reviewCount canClick tm-line3">
-                                    <div class="tm-indcon"><span class="tm-label">累计评价</span><span class="tm-count">640</span></div>
-                                </li>
-                            </ul>
-
-                            <!--各种规格-->
-                            <dl class="iteminfo_parameter sys_item_specpara">
-                                <dt class="theme-login">
-                                    <div class="cart-title">
-                                        <span class="specpara-title">可选规格</span>
-                                        <span class="am-icon-angle-right"></span>
-                                    </div>
-                                </dt>
-                                <dd>
-                                    <!--操作页面-->
-
-                                    <div class="theme-popover-mask"></div>
-
-                                    <div class="theme-popover">
-                                        <div class="theme-span"></div>
-                                        <div class="theme-poptit">
-                                            <a href="javascript:;" title="关闭" class="close">×</a>
-                                        </div>
-                                        <div class="theme-popbod dform">
-                                            <form class="theme-signin" name="loginform" action="" method="post">
-
-                                                <div class="theme-signin-left">
-
-                                                    <div class="theme-options">
-                                                        <div class="cart-title">口味</div>
-                                                        <ul>
-                                                            <li class="sku-line selected">原味<i></i></li>
-                                                            <li class="sku-line">奶油<i></i></li>
-                                                            <li class="sku-line">炭烧<i></i></li>
-                                                            <li class="sku-line">咸香<i></i></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="theme-options">
-                                                        <div class="cart-title">包装</div>
-                                                        <ul>
-                                                            <li class="sku-line selected">手袋单人份<i></i></li>
-                                                            <li class="sku-line">礼盒双人份<i></i></li>
-                                                            <li class="sku-line">全家福礼包<i></i></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="theme-options">
-                                                        <div class="cart-title number">数量</div>
-                                                        <dd>
-                                                            <input id="min" class="am-btn am-btn-default" name="" type="button" value="-" />
-                                                            <input id="text_box" name="" type="text" value="1" style="width:30px;" />
-                                                            <input id="add" class="am-btn am-btn-default" name="" type="button" value="+" />
-                                                            <span id="Stock" class="tb-hidden">库存<span class="stock">1000</span>件</span>
-                                                        </dd>
-
-                                                    </div>
-
-                                                    <div class="btn-op">
-                                                        <div class="btn am-btn am-btn-warning">确认</div>
-                                                        <div class="btn close am-btn am-btn-warning">取消</div>
-                                                    </div>
-                                                </div>
-                                                <div class="theme-signin-right">
-                                                    <div class="img-info">
-                                                        <img src="__PUBLIC__/Home/{{$default_theme}}/Images/songzi.jpg" />
-                                                    </div>
-                                                    <div class="text-info">
-                                                        <span class="J_Price price-now">¥39.00</span>
-                                                        <span id="Stock" class="tb-hidden">库存<span class="stock">1000</span>件</span>
-                                                    </div>
-                                                </div>
-
-                                            </form>
-                                        </div>
-                                    </div>
-
-                                </dd>
-                            </dl>
-                        </div>
-
-                        <div class="pay">
-                            <div class="pay-opt">
-                            <a href="home.html"><span class="am-icon-home am-icon-fw">首页</span></a>
-                            <a><span class="am-icon-heart am-icon-fw">收藏</span></a>
-                            
-                            </div>
-                            <li>
-                                <div class="clearfix tb-btn tb-btn-buy theme-login">
-                                    <a id="LikBuy" title="点此按钮到下一步确认购买信息" href="#">立即购买</a>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="clearfix tb-btn tb-btn-basket theme-login">
-                                    <a id="LikBasket" title="加入购物车" href="#"><i></i>加入购物车</a>
-                                </div>
-                            </li>
-                        </div>
-
-                    </div>
-
+    <!-- 基础信息 -->
+    <div class="item-inform am-container">
+        <!-- pc放大镜 / 左侧 -->
+        <div class="clearfixLeft" id="clearcontent">
+            <div class="box">
+                <div class="tb-booth tb-pic tb-s310">
+                    <if condition="!empty($goods['photo'][0])">
+                        <a href="{{$goods['photo'][0]}}">
+                            <img src="{{$goods['photo'][0]}}" alt="{{$goods.title}}" rel="{{:str_replace('compr', 'original', $goods['photo'][0])}}" class="jqzoom" />
+                        </a>
+                    </if>
                 </div>
-                            
+                <ul class="tb-thumb" id="thumblist">
+                    <if condition="!empty($goods.photo)">
+                        <foreach name="goods.photo" key="photo_key" item="photo">
+                            <li class="<if condition="$photo_key eq 0">tb-selected<else /> tb-pic tb-s40</if>">
+                                <div class="tb-pic tb-s40">
+                                    <a href="javascript:;"><img src="{{$photo}}" mid="{{$photo}}" big="{{:str_replace('compr', 'original', $photo)}}"></a>
+                                </div>
+                            </li>
+                        </foreach>
+                    </if>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 右侧 -->
+        <div class="clearfixRight">
+            <!--规格属性-->
+            <!--名称-->
+            <div class="tb-detail-hd">
+                <h1>{{$goods.title}}</h1>
+            </div>
+            <div class="tb-detail-list">
+                <!--价格-->
+                <div class="tb-detail-price">
+                    <if condition="isset($goods['original_price']) and $goods['original_price'] gt 0">
+                        <li class="price iteminfo_price">
+                            <dt>原价</dt>
+                            <dd>
+                                <b class="sys_item_mktprice">¥ {{$goods.original_price}}</b>
+                            </dd>
+                        </li>
+                    </if>
+                    <li class="price iteminfo_mktprice">
+                        <dt>促销价</dt>
+                        <dd>
+                            <em>¥</em>
+                            <b class="sys_item_price">{{$goods.price}}</b>
+                        </dd>                                 
+                    </li>
+                </div>
+
+                <!--销量-->
+                <ul class="tm-ind-panel">
+                    <li class="tm-ind-item tm-ind-sellCount canClick">
+                        <div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count">{{$goods.sales_count}}</span></div>
+                    </li>
+                    <li class="tm-ind-item tm-ind-sumCount canClick">
+                        <div class="tm-indcon"><span class="tm-label">浏览次数</span><span class="tm-count">{{$goods.access_count}}</span></div>
+                    </li>
+                    <li class="tm-ind-item tm-ind-reviewCount canClick tm-line3">
+                        <div class="tm-indcon"><span class="tm-label">累计评价</span><span class="tm-count">640</span></div>
+                    </li>
+                </ul>
+
+                <!--各种规格-->
+                <dl class="iteminfo_parameter sys_item_specpara">
+                    <dt class="theme-login">
+                        <div class="cart-title">
+                            <span class="specpara-title">可选规格</span>
+                            <span class="am-icon-angle-right"></span>
+                        </div>
+                    </dt>
+                    <dd>
+                    <!--操作页面-->
+                    <div class="theme-popover-mask"></div>
+                    <div class="theme-popover">
+                        <div class="theme-span"></div>
+                        <div class="theme-poptit">
+                            <a href="javascript:;" title="关闭" class="close">×</a>
+                        </div>
+                        <div class="theme-popbod dform">
+                            <form class="theme-signin" name="loginform" action="" method="post">
+                                <div class="theme-signin-left">
+                                    <if condition="!empty($goods['attribute']['choose'])">
+                                        <foreach name="goods.attribute.choose" key="key" item="attribute">
+                                            <div class="theme-options">
+                                                <div class="cart-title">{{$attribute.name}}</div>
+                                                <ul>
+                                                    <if condition="!empty($attribute['find'])">
+                                                        <foreach name="attribute.find" key="keys" item="attr">
+                                                            <li class="sku-line" data-parent-id="{{$attribute.id}}" data-id="{{$attr.id}}">{{$attr.name}}<i></i></li>
+                                                        </foreach>
+                                                    </if>
+                                                </ul>
+                                            </div>
+                                        </foreach>
+                                    </if>
+                                    <div class="theme-options">
+                                        <div class="cart-title number">数量</div>
+                                        <dd>
+                                            <input id="min" class="am-btn am-btn-default" name="" type="button" value="-" />
+                                            <input id="text_box" name="" type="text" value="1" style="width:30px;" />
+                                            <input id="add" class="am-btn am-btn-default" name="" type="button" value="+" />
+                                            <span id="Stock" class="tb-hidden">库存<span class="stock">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
+                                        </dd>
+                                    </div>
+
+                                    <div class="btn-op">
+                                        <div class="btn am-btn am-btn-warning">确认</div>
+                                        <div class="btn close am-btn am-btn-warning">取消</div>
+                                    </div>
+                                </div>
+                                <div class="theme-signin-right">
+                                    <div class="img-info">
+                                        <img src="__PUBLIC__/Home/{{$default_theme}}/Images/songzi.jpg" />
+                                    </div>
+                                    <div class="text-info">
+                                        <span class="J_Price price-now">¥{{$goods.price}}</span>
+                                        <span id="Stock" class="tb-hidden">库存<span class="stock">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                    </dd>
+                </dl>
+            </div>
+
+            <!--手机导航-->
+            <div class="pay">
+                <div class="pay-opt">
+                <a href="home.html"><span class="am-icon-home am-icon-fw">首页</span></a>
+                <a><span class="am-icon-heart am-icon-fw">收藏</span></a>
+                </div>
+                <li>
+                    <div class="clearfix tb-btn tb-btn-buy theme-login">
+                        <a id="LikBuy" title="点此按钮到下一步确认购买信息" href="#">立即购买</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="clearfix tb-btn tb-btn-basket theme-login">
+                        <a id="LikBasket" title="加入购物车" href="#"><i></i>加入购物车</a>
+                    </div>
+                </li>
+            </div>
+        </div>
+    </div>
+
                 <!-- introduce-->
                 <div class="introduce am-container">
                     <div class="browse">
@@ -205,58 +188,21 @@
                                 <div class="mt">            
                                     <h2>看了又看</h2>        
                                 </div>
-                                
-                                  <li class="first">
-                                    <div class="p-img">                    
-                                        <a  href="#"> <img class="" src="__PUBLIC__/Home/{{$default_theme}}/Images/browse1.jpg"> </a>               
-                                    </div>
-                                    <div class="p-name"><a href="#">
-                                        【三只松鼠_开口松子】零食坚果特产炒货东北红松子原味
-                                    </a>
-                                    </div>
-                                    <div class="p-price"><strong>￥35.90</strong></div>
-                                  </li>
-                                  <li>
-                                    <div class="p-img">                    
-                                        <a  href="#"> <img class="" src="__PUBLIC__/Home/{{$default_theme}}/Images/browse1.jpg"> </a>               
-                                    </div>
-                                    <div class="p-name"><a href="#">
-                                        【三只松鼠_开口松子】零食坚果特产炒货东北红松子原味
-                                    </a>
-                                    </div>
-                                    <div class="p-price"><strong>￥35.90</strong></div>
-                                  </li>
-                                  <li>
-                                    <div class="p-img">                    
-                                        <a  href="#"> <img class="" src="__PUBLIC__/Home/{{$default_theme}}/Images/browse1.jpg"> </a>               
-                                    </div>
-                                    <div class="p-name"><a href="#">
-                                        【三只松鼠_开口松子】零食坚果特产炒货东北红松子原味
-                                    </a>
-                                    </div>
-                                    <div class="p-price"><strong>￥35.90</strong></div>
-                                  </li>                               
-                                  <li>
-                                    <div class="p-img">                    
-                                        <a  href="#"> <img class="" src="__PUBLIC__/Home/{{$default_theme}}/Images/browse1.jpg"> </a>               
-                                    </div>
-                                    <div class="p-name"><a href="#">
-                                        【三只松鼠_开口松子】零食坚果特产炒货东北红松子原味
-                                    </a>
-                                    </div>
-                                    <div class="p-price"><strong>￥35.90</strong></div>
-                                  </li>                               
-                                  <li>
-                                    <div class="p-img">                    
-                                        <a  href="#"> <img class="" src="__PUBLIC__/Home/{{$default_theme}}/Images/browse1.jpg"> </a>               
-                                    </div>
-                                    <div class="p-name"><a href="#">
-                                        【三只松鼠_开口松子218g】零食坚果特产炒货东北红松子原味
-                                    </a>
-                                    </div>
-                                    <div class="p-price"><strong>￥35.90</strong></div>
-                                  </li>                               
-                          
+                                <if condition="!empty($left_goods)">
+                                    <foreach name="left_goods" key="key" item="v">
+                                        <li <if condition="$key eq 0">class="first"</if>>
+                                            <div class="p-img">                    
+                                                <a href="{{:U('/Home/Detail/Index', ['goods_id'=>$v['id']])}}">
+                                                    <img alt="{{$v.title}}" src="{{$v.images}}">
+                                                </a>               
+                                            </div>
+                                            <div class="p-name">
+                                                <a href="{{:U('/Home/Detail/Index', ['goods_id'=>$v['id']])}}">{{$v.title}}</a>
+                                            </div>
+                                            <div class="p-price"><strong>￥{{$v.price}}</strong></div>
+                                        </li>
+                                      </foreach>
+                                  </if>
                              </ul>                  
                         </div>
                     </div>
@@ -265,67 +211,54 @@
                             <ul class="am-avg-sm-3 am-tabs-nav am-nav am-nav-tabs" data-am-sticky="{animation: 'slide-top'}">
                                 <li class="am-active">
                                     <a href="javascript:;">
-
-                                        <span class="index-needs-dt-txt">宝贝详情</span></a>
-
-                                </li>
-
-                                <li>
-                                    <a href="javascript:;">
-
-                                        <span class="index-needs-dt-txt">全部评价</span></a>
+                                        <span class="index-needs-dt-txt">宝贝详情</span>
+                                    </a>
 
                                 </li>
 
                                 <li>
                                     <a href="javascript:;">
-
-                                        <span class="index-needs-dt-txt">猜你喜欢</span></a>
+                                        <span class="index-needs-dt-txt">全部评价</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <span class="index-needs-dt-txt">猜你喜欢</span>
+                                    </a>
                                 </li>
                             </ul>
 
                             <div class="am-tabs-bd">
-
                                 <div class="am-tab-panel am-fade am-in am-active">
-                                    <div class="J_Brand">
-
-                                        <div class="attr-list-hd tm-clear">
-                                            <h4>产品参数</h4></div>
-                                        <ul class="detail-attr">
-                                            <li title="">产品类型:&nbsp;烘炒类</li>
-                                            <li title="">原料产地:&nbsp;巴基斯坦</li>
-                                            <li title="">产地:&nbsp;湖北省武汉市</li>
-                                            <li title="">配料表:&nbsp;进口松子、食用盐</li>
-                                            <li title="">产品规格:&nbsp;210g</li>
-                                            <li title="">保质期:&nbsp;180天</li>
-                                            <li title="">产品标准号:&nbsp;GB/T 22165</li>
-                                            <li title="">生产许可证编号：&nbsp;QS4201 1801 0226</li>
-                                            <li title="">储存方法：&nbsp;请放置于常温、阴凉、通风、干燥处保存 </li>
-                                            <li title="">食用方法：&nbsp;开袋去壳即食</li>
-                                        </ul>
-                                        <div class="clear"></div>
-                                    </div>
+                                    <if condition="!empty($goods['attribute'])">
+                                        <div class="J_Brand">
+                                            <div class="attr-list-hd tm-clear">
+                                                <h4>产品参数</h4>
+                                            </div>
+                                            <ul class="detail-attr">
+                                                <if condition="!empty($goods['attribute']['show'])">
+                                                    <foreach name="goods.attribute.show" key="key" item="attribute">
+                                                        <li title="">{{$attribute.name}}:&nbsp;{{:implode(',', array_column($attribute['find'], 'name'))}}</li>
+                                                    </foreach>
+                                                </if>
+                                                <if condition="!empty($goods['attribute']['choose'])">
+                                                    <foreach name="goods.attribute.choose" key="key" item="attribute">
+                                                        <li title="">{{$attribute.name}}:&nbsp;{{:implode(',', array_column($attribute['find'], 'name'))}}</li>
+                                                    </foreach>
+                                                </if>
+                                            </ul>
+                                        </div>
+                                    </if>
 
                                     <div class="details">
                                         <div class="attr-list-hd after-market-hd">
                                             <h4>商品细节</h4>
                                         </div>
-                                        <div class="detail-content">
-                                            <img src="__PUBLIC__/Home/{{$default_theme}}/Images/tw1.jpg" />
-                                            <img src="__PUBLIC__/Home/{{$default_theme}}/Images/tw2.jpg" />
-                                            <img src="__PUBLIC__/Home/{{$default_theme}}/Images/tw3.jpg" />
-                                            <img src="__PUBLIC__/Home/{{$default_theme}}/Images/tw4.jpg" />
-                                            <img src="__PUBLIC__/Home/{{$default_theme}}/Images/tw5.jpg" />
-                                            <img src="__PUBLIC__/Home/{{$default_theme}}/Images/tw6.jpg" />
-                                            <img src="__PUBLIC__/Home/{{$default_theme}}/Images/tw7.jpg" />
-                                        </div>
+                                        <div class="detail-content">{{$goods.content_web}}</div>
                                     </div>
-                                    <div class="clear"></div>
-
                                 </div>
 
                                 <div class="am-tab-panel am-fade">
-                                    
                                     <div class="actor-new">
                                         <div class="rate">                
                                             <strong>100<span>%</span></strong><br> <span>好评度</span>            
