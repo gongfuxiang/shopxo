@@ -465,6 +465,14 @@ ul.am-tabs-nav.am-nav.am-nav-tabs {left:20% ;max-width:960px ;margin-right: 0px;
     ul.am-tabs-nav.am-nav.am-nav-tabs {left:auto;right:auto;width:960px ;}
 }
 
+
+/* 小于1025 */
+@media only screen and (max-width:1025px)
+{
+    ul.am-tabs-nav.am-nav.am-nav-tabs { width:100% !important; left: 0px !important; }
+    .detail { padding: 10px; }
+}
+
 /* 手机模式下 */
 @media only screen and (max-width:640px)
 {
@@ -472,11 +480,5 @@ ul.am-tabs-nav.am-nav.am-nav-tabs {left:20% ;max-width:960px ;margin-right: 0px;
     body {
         padding-top: 0px;
     }
-}
-
-/* 小于1025 */
-@media only screen and (max-width:1025px)
-{
-    ul.am-tabs-nav.am-nav.am-nav-tabs { width:100% !important; left: 0px !important; }
-    .detail { padding: 10px; }
+    .detail { padding: 0px; }
 }
