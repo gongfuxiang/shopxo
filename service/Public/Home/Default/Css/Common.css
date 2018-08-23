@@ -84,7 +84,7 @@ color: #555555;background:none;border-color:transparent;cursor: default;}
 
 /*选项卡样式*/
 .am-nav-tabs > li.am-active span{color: #E4393C;font-size:16px;}
-.am-nav-tabs > li span{font-size:16px;font-weight:700;}
+.am-nav-tabs > li span{font-size:16px;font-weight:500;}
 
 /* 商品分类 */
 #goods-category { position: relative; top: -45px; }
