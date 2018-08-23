@@ -313,12 +313,11 @@ li.am-comment{ width:100%}
 
 @media only screen and (min-width:640px) 
 {
-.am-container { padding: 10px; }
 .listMain{padding-top: 10px;}
 
 /*导航固定*/
 ul.am-tabs-nav.am-nav.am-nav-tabs {margin-right:10px ;margin-left: 10px;width: auto;}
-.scoll{float: left;width: calc(45% - 10px);max-width:360px;padding-right:20px; margin-left: 10px;}
+.scoll{float: left;width: calc(45% - 10px);max-width:360px;padding-right:20px; }
 .clearfixRight{float:left;width:55%;min-height: 270px;}
 .iteminfo_parameter.freight{display: block;margin-top: 10px;margin-bottom:10px ;}
 .iteminfo_parameter.freight dt{margin-left:-70px ;float: left;margin-right:10px ;padding-top:5px ;padding-bottom:20px ;}
@@ -426,7 +425,7 @@ div.zoomMask { position:absolute; background:url(../images/mask.png)repeat scrol
 .shopPromotion.gold{position:absolute;top:0px;padding-left:10px;background: #F7F7F7;overflow: hidden;width:100% ;}
     
 .scoll{display: none;}
-.item-inform{max-width:1000px ;margin:0px auto;background:#fff; margin-top: 20px;}
+.item-inform{max-width:1000px ;margin:0px auto;background:#fff; margin-top: 20px; margin-bottom: 20px;}
 .clearfixLeft{display:block;float: left;width:360px;}
 .clearfixRight{width:calc(100% - 370px);margin-left:10px;}
 .freight{width:400px;float: left;}
@@ -479,4 +478,5 @@ ul.am-tabs-nav.am-nav.am-nav-tabs {left:20% ;max-width:960px ;margin-right: 0px;
 @media only screen and (max-width:1025px)
 {
     ul.am-tabs-nav.am-nav.am-nav-tabs { width:100% !important; left: 0px !important; }
+    .detail { padding: 10px; }
 }

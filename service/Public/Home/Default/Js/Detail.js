@@ -1488,148 +1488,53 @@ $(document).ready(function() {
     }
 })
 
+// 购买导航动画显示/隐藏
 var temp_scroll = 0;
 var scroll_type = -1;
 var location_scroll = 0;
 var nav_status = 1;
 $(window).scroll(function()
 {
-    var scroll = $(document).scrollTop();
-    if(scroll != temp_scroll)
+    if($(window).width() <= 625)
     {
-        var temp_scroll_type = (scroll > temp_scroll) ? 1 : 0;
-        if(temp_scroll_type != scroll_type)
+        var scroll = $(document).scrollTop();
+        if(scroll != temp_scroll)
         {
-            scroll_type = temp_scroll_type;
-            console.log('不一样了', scroll, temp_scroll, scroll_type, location_scroll)
-
-            
-            location_scroll = scroll;
-            
-        }
-
-        if(scroll_type == 1)
-        {
-            if(nav_status == 1 && scroll > location_scroll+200)
+            var temp_scroll_type = (scroll > temp_scroll) ? 1 : 0;
+            if(temp_scroll_type != scroll_type)
             {
-                nav_status = 0;
-                console.log('隐藏导航');
-                
-                //if(!$("div.pay").is(":visible"))
-                //{
-                    $("div.pay").slideUp(500);
-                //}
+                scroll_type = temp_scroll_type;
+                location_scroll = scroll;
             }
-        } else {
-            if(nav_status == 0 && scroll < location_scroll-100)
+
+            if(scroll_type == 1)
             {
-                nav_status = 1;
-                console.log('打开导航');
-                
-                    $("div.pay").slideDown(500);
-                
+                if(nav_status == 1 && scroll > location_scroll+200)
+                {
+                    nav_status = 0;
+                    if(!$("div.pay").is(":animated"))
+                    {
+                        $("div.pay").slideUp(500);
+                    }
+                }
+            } else {
+                if(nav_status == 0 && scroll < location_scroll-100)
+                {
+                    nav_status = 1;
+                    if(!$("div.pay").is(":animated"))
+                    {
+                        $("div.pay").slideDown(500);
+                    }
+                }
             }
+            temp_scroll = scroll;
         }
-
-
-        temp_scroll = scroll;
     }
 });
-
-// 小导航
-$(window).resize(function()
-{
-    table_nav();
-    
-});
-table_nav();
-
-function table_nav()
-{
-//     $(window).scroll(function()
-//     {
-//         if($(window).width() <= 1030)
-//         {
-//             var dv = $('ul.am-tabs-nav.am-nav.am-nav-tabs');
-//             if($(document).width(), dv.css('top') == '0px')
-//             {
-//                 dv.css({'width': '100%'});
-//             }
-//             console.log($(document).width(), dv.css('top'));
-//         }
-//     });
-}
-
-//导航固定
-// $(document).ready(function() {
-//     var $ww = $(window).width();
-//     var dv = $('ul.am-tabs-nav.am-nav.am-nav-tabs'),
-//         st;
-
-//     if ($ww < 623) {
-
-//                 var tp =$ww+363;
-//                 $(window).scroll(function() {
-//                     st = Math.max(document.body.scrollTop || document.documentElement.scrollTop);
-//                     if (st >= tp) {
-//                         if (dv.css('position') != 'fixed') dv.css({
-//                             'position': 'fixed',
-//                             'top': 0,
-//                             'z-index': 1000009,
-//                             'width': '100%'
-//                         });
-
-//                     } else if (dv.css('position') != 'static') dv.css({
-//                         'position': 'static'
-//                     });
-//                 });
-//                 //滚动条复位（需要减去固定导航的高度）
-
-//                 $('.introduceMain ul li').click(function() {
-//                     sts = tp;
-//                     $(document).scrollTop(sts);
-//                 });
-//        } else {
-
-//         dv.attr('otop', dv.offset().top); //存储原来的距离顶部的距离
-//         var tp = parseInt(dv.attr('otop'))+36;
-//         $(window).scroll(function() {
-//             st = Math.max(document.body.scrollTop || document.documentElement.scrollTop);
-//             if (st >= tp) {
-             
-//                     if (dv.css('position') != 'fixed') dv.css({
-//                         'position': 'fixed',
-//                         'top': 0,
-//                         'z-index': 998
-//                     });
-
-//                 //滚动条复位 
-//                 $('.introduceMain ul li').click(function() {
-//                     sts = tp-35;
-//                     $(document).scrollTop(sts);
-//                 });
-
-//             } else if (dv.css('position') != 'static') dv.css({
-//                 'position': 'static'
-//             });
-//         });
-
-
-
-//     }
-// });
 
 
 
 $(document).ready(function() {
-    //优惠券
-    $(".hot span").click(function() {
-        $(".shopPromotion.gold .coupon").toggle();
-    })
-
-
-
-
     //获得文本框对象
     var t = $("#text_box");
     //初始化数量为1,并失效减
