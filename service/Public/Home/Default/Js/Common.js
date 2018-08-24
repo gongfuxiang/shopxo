@@ -60,5 +60,25 @@ $(function()
             $('#goods-category .category-content').slideUp(300);
         }
     });
+
+    // 搜索导航固定
+    $(window).scroll(function()
+    {
+        if($(window).width() <= 625)
+        {
+            var scroll = $(document).scrollTop();
+
+            if($('.nav-search').length > 0)
+            {
+                if(scroll > 40)
+                {
+                    $('.nav-search').css('position','fixed');
+                } else {
+                    $('.nav-search').css('position','relative');
+                }
+            }
+            
+        }
+    });
     
 });

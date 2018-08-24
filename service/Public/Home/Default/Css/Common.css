@@ -91,14 +91,14 @@ color: #555555;background:none;border-color:transparent;cursor: default;}
 .goods-category-s{display: none;}
 
 /*浮动框*/
-.nav.white{position:fixed;top:0;width:100%;z-index:1099; margin:0px auto;background:#fff ;}
-.nav.white .logo{float:left;height:36px;width:95px; margin: 0 auto;margin-top: 10px;}
+.nav-search{top:0;left:0;width:100%;z-index:1099; margin:0px auto;background:#fff; padding-top: 5px;}
+.nav-search .logo{height:36px;width:95px; margin: 0 auto; display: -webkit-inline-box;}
 .logoBig{display:none;}
 .logo img{width:100%}
  
 /*搜索框*/
-.search-bar{height:41px; margin: 8px 5px 0 100px;}
-.search-bar form{border:2px solid #d2364c; max-width:670px;}
+.search-bar{height:36px; width: calc(100% - 103px); display: -webkit-inline-box;}
+.search-bar form{border:2px solid #d2364c; width:100%;}
 .search-bar input{padding-left:5px;height:32px;width:78%;outline:none; font-size:12px; border:none}
 #ai-topsearch { width:20%;height:32px;border:none;float:right;background: #d2364c none repeat scroll 0% 0%;
 color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
@@ -156,25 +156,23 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
     .am-container {padding-left:0px;padding-right:0px ;}
     .shop-nav {position: relative;}
 
-    .nav.white{background: none;}
+    .nav-search{background: none;}
     .header { display:block;height: 35px;}
     .message-l{ float:left;}
     .message-l .topMessage{padding: 0px 6px;height: 35px;line-height: 35px;}
     .message-r {float: right;}
     .message-r .topMessage {float: left;padding: 0px 6px;height: 35px;line-height: 35px;}
   
-    .nav.white .logo{display:none;}  
-    .nav.white .logoBig{ display:block;float:left;height:40px;width:135px; margin:0px auto; margin-left:2%;margin-top: 5px;} 
-    .nav.white .logoBig img{width:100%;}
-    .my-cart { width: 46px;height: 46px;}
-    .search-bar {height: 51px;margin: 10px 50px 10px 120px; padding-left:5%;}
-    #ai-topsearch {height: 46px;}
-    .search-bar input {width: 80%;height:46px;} 
-    .my-cart a{display:block; margin-top:5px}
+    .nav-search .logo{display:none;}  
+    .nav-search .logoBig{ display:block;float:left;height:40px;width:135px; margin:0px auto; margin-left:5px;} 
+    .nav-search .logoBig img{width:100%;}
+    .search-bar {height: 40px; width: calc(100% - 146px);}
+    #ai-topsearch {height: 36px;}
+    .search-bar input {width: 80%;height:36px;} 
     .classified{display:none;}
     .navCir{display:none;}
-    .nav.white{ position:relative;top:0px;z-index:0;margin-bottom: 5px;}
-     #ai-topsearch{ font-size:18px;}
+    .nav-search{ position:relative;top:0px;z-index:0;margin-bottom: 5px;}
+     #ai-topsearch{ font-size:18px;height: 36px;}
      /*底部*/
     .am-footer {text-align:center; display:block;position: relative;margin: 0px auto; padding: 7px 0px 9px; margin-top:20px;}
     .am-footer .footer-bd p, .footer .footer-hd p {margin-bottom: 8px;line-height: 27px;border-bottom: 1px solid #DDD; text-align:left;}
@@ -195,17 +193,14 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
     .shop-nav{margin:0px;border-bottom: 2px solid #d2364c; height: 45px;}
 
     .mui-mbar-tabs{ display:block;}  
-    .nav.white{padding-left:0px; max-width:1000px; margin:0px auto;}
-    .nav.white .logo{display:none;}
-    .nav.white .logoBig { display:block; float:left;height:60px; width:200px; margin-left:0px;margin-top: 15px;}
-    .nav.white .logoBig li{float:left;}
-    .search-bar{height:90px; padding: 20px 70px 0 230px; margin:auto;}
-           
-    .my-cart{ display:none; right:10%; top:20px;}
+    .nav-search{padding-left:0px; max-width:1000px; margin:0px auto;padding: 20px 0;}
+    .nav-search .logo{display:none;}
+    .nav-search .logoBig { display: -webkit-inline-box; float:left;height:60px; width:200px; margin-left:0px;}
+    .search-bar{height:50px; margin:auto;display: -webkit-inline-box;width: calc(66%);padding-left: 8%;}
+    #ai-topsearch {height: 47px;}
     .shopMain{margin:0px 0px 0px 5px;} 
     .shopCon li{width:20%;padding:10px;}
     .search-bar input { height: 46px;}
-    .search-bar {margin:0px auto;}
     .tip{display:block;}
           
           
@@ -296,7 +291,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
        
 
 @media only screen and (min-width: 1260px) {
-    .am-container, .nav.white, .footer, .nav-table {padding-left:0rem;padding-right:0rem;max-width: 1200px;}
+    .am-container, .nav-search, .footer, .nav-table {padding-left:0rem;padding-right:0rem;max-width: 1200px;}
     .footer{margin: auto;}
 
     /*导航*/

@@ -1425,26 +1425,6 @@ window.Modernizr = (function( window, document, undefined ) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //商品规格选择
 $(function() {
     $(".theme-options").each(function() {
@@ -1473,18 +1453,16 @@ $(document).ready(function() {
             $(document.body).css("position", "fixed");
             $('.theme-popover-mask').show();
             $('.theme-popover').slideDown(200);
-
         })
 
         $('.theme-poptit .close,.btn-op .close').click(function() {
             $(document.body).css("position", "static");
-            //                  滚动条复位
+            // 滚动条复位
             $('.theme-signin-left').scrollTop(0);
 
             $('.theme-popover-mask').hide();
             $('.theme-popover').slideUp(200);
         })
-
     }
 })
 
