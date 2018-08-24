@@ -448,9 +448,6 @@ li.am-comment{ width:100%}
 @media only screen and (max-width:640px)
 {
     .nav.white { display: none; }
-    body {
-        padding-top: 0px;
-    }
     .detail { padding: 0px; }
     .detail-title, .tb-detail-price, .detail-attr { padding: 0px 5px; }
     ul.tm-ind-panel li { border-left: 0px; }
