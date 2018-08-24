@@ -171,7 +171,7 @@ ul.am-tabs-nav.am-nav.am-nav-tabs {background: #F5F5F5;}
  .tb-detail-price dd{display: inline-block;}
 
 .iteminfo_parameter a:hover{text-decoration: none;color:initial ;}
-.tb-detail-price dt,.shopPromotion.gold dt{display:inline; width:60px; white-space:nowrap; text-align:right; color:#888;}
+.tm-indcon .tm-label,.tb-detail-price dt,.shopPromotion.gold dt{display:inline; width:60px; white-space:nowrap; text-align:right; color:#888;}
 
 .tb-detail-price li { display: inline-block; }
 .tb-detail-price li:not(:last-child) { margin-right:10px; }
