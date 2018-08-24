@@ -413,6 +413,39 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
 .blog-content p{margin: 0 0 1.6rem 0;font-size:14px;}
 
 /**
+ * 公共
+ */
+/* 导航分割 */
+.spacing-nav-title {
+    position: relative;
+    color: #d2364c;
+    text-align: center;
+    background-color: #ffffff;
+    height: 35px;
+    line-height: 35px;
+}
+.spacing-nav-title .line {
+    display: inline-block;
+    width: 50%;
+    height: 1px;
+    background: #d2364c;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+.spacing-nav-title .text-wrapper {
+    position: relative;
+    display: inline-block;
+    padding: 0 8px;
+    background-color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/**
  * 底部
  */
 .am-footer {
@@ -427,8 +460,8 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
 @media only screen and (max-width:640px)
 {
     .am-container {
-        padding-left: 5px;
-        padding-right: 5px;
+        padding-left: 0px;
+        padding-right: 0px;
     }
 }
 

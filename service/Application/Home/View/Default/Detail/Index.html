@@ -60,7 +60,7 @@
             <!--规格属性-->
             <!--名称-->
             <div class="tb-detail-hd">
-                <h1>{{$goods.title}}</h1>
+                <h1 class="detail-title">{{$goods.title}}</h1>
             </div>
             <div class="tb-detail-list">
                 <!--价格-->
@@ -231,9 +231,10 @@
                             <div class="am-tabs-bd">
                                 <div class="am-tab-panel am-fade am-in am-active">
                                     <if condition="!empty($goods['attribute'])">
-                                        <div class="J_Brand">
-                                            <div class="attr-list-hd tm-clear">
-                                                <h4>产品参数</h4>
+                                        <div class="specifications">
+                                            <div class="spacing-nav-title">
+                                                <span class="line"></span>
+                                                <span class="text-wrapper">产品参数</span>
                                             </div>
                                             <ul class="detail-attr">
                                                 <if condition="!empty($goods['attribute']['show'])">
@@ -251,8 +252,9 @@
                                     </if>
 
                                     <div class="details">
-                                        <div class="attr-list-hd after-market-hd">
-                                            <h4>商品细节</h4>
+                                        <div class="spacing-nav-title">
+                                            <span class="line"></span>
+                                            <span class="text-wrapper">商品细节</span>
                                         </div>
                                         <div class="detail-content">{{$goods.content_web}}</div>
                                     </div>

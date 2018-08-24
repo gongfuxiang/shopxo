@@ -171,7 +171,7 @@ ul.am-tabs-nav.am-nav.am-nav-tabs {background: #F5F5F5;}
  .tb-detail-price dd{display: inline-block;}
 
 .iteminfo_parameter a:hover{text-decoration: none;color:initial ;}
-.iteminfo_parameter dt,.tb-detail-price dt,.shopPromotion.gold dt{display:inline; width:60px; white-space:nowrap; text-align:right; color:#888;}
+.tb-detail-price dt,.shopPromotion.gold dt{display:inline; width:60px; white-space:nowrap; text-align:right; color:#888;}
 
 .tb-detail-price li { display: inline-block; }
 .tb-detail-price li:not(:last-child) { margin-right:10px; }
@@ -187,7 +187,7 @@ ul.am-tabs-nav.am-nav.am-nav-tabs {background: #F5F5F5;}
 
 /*销量*/
 .tm-ind-panel, .iteminfo_parameter { border-bottom: 1px solid #F5F5F5; }
-.tm-ind-panel {padding: 10px 0px;position: relative;overflow: hidden;clear: both;display: flex;}    
+.tm-ind-panel {padding: 10px 5px;position: relative;overflow: hidden;clear: both;display: flex;}    
 .tm-ind-item {float: left;width: 33%;text-align: center;position: relative;left: -1px;border-left: 1px solid #E5DFDA;
 flex: 1 1 0%;line-height: 16px;cursor: pointer;}   
 .tm-ind-panel .tm-count {display: inline-block;line-height: 16px;height: 16px;color: #C40000;font-weight: 700;margin-left: 3px;}    
@@ -201,7 +201,7 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 /*规格*/
 .theme-signin .btn-op.act{display: none;}
 .theme-signin .btn-op.act .btn{width:50%;float: left;}
-.theme-login .cart-title{ width:100%;padding:10px 5px 5px 5px;}
+.theme-login .cart-title{ width:100%;padding:5px;}
 .theme-login .cart-title .am-icon-angle-right{float: right;}
 /*数量*/
 .iteminfo_parameter.munber,.iteminfo_parameter.freight{display:none ;}
@@ -246,13 +246,7 @@ width: 62px;line-height:24px;font-size: 12px;display: block;}
 .browse{display: none;}
 
 /*产品参数*/
-
-.J_BrandAttr.name {color: #666;padding: 8px 20px 10px;height: 40px;line-height: 40px;text-align:left;}
-.attr-list-hd ,.after-market-hd{padding-top:20px;text-align: left;margin-bottom: 10px;}
-.attr-list-hd h4 {height: 30px;border-bottom: 1px solid #F70;font-size: 14px; font-weight: 500;}
-
 ul.detail-attr{overflow: hidden;text-align: left;}
-
 ul.detail-attr li {height: 26px;overflow: hidden;line-height: 26px;vertical-align: top;white-space: nowrap; text-overflow: ellipsis;color: #666;font-size:14px;}
 
 
@@ -482,4 +476,8 @@ ul.am-tabs-nav.am-nav.am-nav-tabs {left:20% ;max-width:960px ;margin-right: 0px;
         padding-top: 0px;
     }
     .detail { padding: 0px; }
+    .detail-title, .tb-detail-price, .detail-attr { padding: 0px 5px; }
+    ul.tm-ind-panel li { border-left: 0px; }
+    ul.tm-ind-panel li:first-child { text-align: left; }
+    ul.tm-ind-panel li:last-child { text-align: right; }
 }
