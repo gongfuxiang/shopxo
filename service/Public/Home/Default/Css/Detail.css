@@ -57,7 +57,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 @media only screen and (min-width:640px) 
  {
 .theme-span{height:0px;background:#fff ;}
-.theme-popover{box-shadow:0 0 10px #666;position:absolute;top:20%;left:20%;width:auto;bottom:auto;border:solid 2px #e4e4e4;border-radius:5px;}
+.theme-popover{box-shadow:0 0 10px #666;position:fixed;top:20%;left:calc(50% - 130px);width:260px;bottom:auto;border:solid 2px #e4e4e4;border-radius:5px;}
 .theme-poptit{display: none;}
 
 
@@ -82,10 +82,11 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .text-info span#Stock {float:left;font-size: 12px;}
 
 /*操作*/
-.btn-op{overflow: hidden;padding:10px ;margin-left:45px ;position: static;}
-.theme-signin .btn {width:auto;float: left;font-size:12px ;padding:5px 15px ;border-radius:0 ;margin-right: 10px;}
+.btn-op{overflow: hidden;padding:10px 20%; position: static;}
+.theme-signin .btn {width:auto; font-size:12px ;padding:5px 15px ;border-radius:0;}
 .btn.close {display:block;float: left;position: static;}
 i.theme-login{display: inline-block;}
+.btn.confirm { float: right; }
 }
 
 @media only screen and (min-width:1025px) 
