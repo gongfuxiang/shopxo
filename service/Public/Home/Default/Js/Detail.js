@@ -1497,7 +1497,7 @@ $(window).scroll(function()
                     }
                 }
             } else {
-                if(nav_status == 0 && scroll < location_scroll-100)
+                if(nav_status == 0 && scroll < location_scroll-50)
                 {
                     nav_status = 1;
                     if(!$buy_nav.is(":animated"))
