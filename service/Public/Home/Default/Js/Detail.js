@@ -1471,6 +1471,7 @@ var temp_scroll = 0;
 var scroll_type = -1;
 var location_scroll = 0;
 var nav_status = 1;
+var $buy_nav= $("div.buy-nav");
 $(window).scroll(function()
 {
     if($(window).width() <= 625)
@@ -1490,18 +1491,18 @@ $(window).scroll(function()
                 if(nav_status == 1 && scroll > location_scroll+200)
                 {
                     nav_status = 0;
-                    if(!$("div.pay").is(":animated"))
+                    if(!$buy_nav.is(":animated"))
                     {
-                        $("div.pay").slideUp(500);
+                        $buy_nav.slideUp(500);
                     }
                 }
             } else {
                 if(nav_status == 0 && scroll < location_scroll-100)
                 {
                     nav_status = 1;
-                    if(!$("div.pay").is(":animated"))
+                    if(!$buy_nav.is(":animated"))
                     {
-                        $("div.pay").slideDown(500);
+                        $buy_nav.slideDown(500);
                     }
                 }
             }
