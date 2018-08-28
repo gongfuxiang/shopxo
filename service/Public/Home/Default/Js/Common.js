@@ -80,5 +80,12 @@ $(function()
             
         }
     });
+    $(window).resize(function()
+    {
+        if($(window).width() > 625)
+        {
+            $('.nav-search').css('position','relative');
+        }
+    });
     
 });
