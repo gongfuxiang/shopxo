@@ -417,6 +417,7 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
     background-color: #ffffff;
     height: 35px;
     line-height: 35px;
+    margin: 20px 0;
 }
 .spacing-nav-title .line {
     display: inline-block;

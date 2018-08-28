@@ -46,7 +46,7 @@ class DetailController extends CommonController
         $this->assign('goods', $goods[0]);
         $this->assign('home_seo_site_title', $goods[0]['title']);
 
-        // 左侧商品
+        // 左侧商品 看了又看
         $params = [
             'where'     => [
                 'g.is_delete_time'=>0,
@@ -57,8 +57,21 @@ class DetailController extends CommonController
             'n'         => 10,
         ];
         $left_goods = $this->GetCommonGoodsList($params);
-        //print_r($left_goods);
         $this->assign('left_goods', $left_goods);
+
+        // 详情tab商品 猜你喜欢
+        $params = [
+            'where'     => [
+                'g.is_delete_time'=>0,
+                'g.is_shelves'=>1,
+                'is_home_recommended'=>1,
+            ],
+            'order_by'  => 'sales_count desc',
+            'field'     => 'g.id,g.title,g.title_color,g.price,g.images,g.home_recommended_images',
+            'n'         => 16,
+        ];
+        $detail_like_goods = $this->GetCommonGoodsList($params);
+        $this->assign('detail_like_goods', $detail_like_goods);
 
         $this->display('Index');
     }

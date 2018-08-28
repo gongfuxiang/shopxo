@@ -38,8 +38,8 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .theme-signin-left{padding-bottom:30px;max-height:250px ;overflow-y: scroll;background: #fff;}
 .theme-options{display: block;overflow: hidden;padding-left: 10px;padding-right:10px ;}
 .theme-signin-left .cart-title{font-size:14px ;font-weight: 600;}
-.theme-signin-left .sku-line{float: left; margin:10px;margin-left:0;border-radius:5px ; background:#f5f5f5 ;padding:5px;}
-.theme-signin-left .sku-line.selected{background:#f50;color: #fff;}
+.theme-signin-left .sku-line{float: left; margin:10px;margin-left:0;border-radius:5px ; background:#f5f5f5 ;padding:0px 8px;}
+.theme-signin-left .sku-line.selected{background:#BE0106;color: #fff;}
 
 .theme-signin .btn{width:100%;font-size: 16px;padding:5px ;}
 .btn-op{position:fixed;left:0;bottom: 0;width:100% ;}
@@ -66,13 +66,13 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .theme-options .cart-title{margin-top:10px ;}
 .theme-options ul{float: left;}
 
-.theme-signin-left .sku-line {background: none;border-radius:0 ;margin:5px;padding:3px;border:2px solid #F5F5F5 ;color:#333 ;}
+.theme-signin-left .sku-line {background: none;border-radius:0 ;margin:5px;padding:0px 8px;border:2px solid #F5F5F5 ;color:#333 ;}
 .theme-signin-left .sku-line.selected {background:none;color:#333;border: 2px solid #BE0106;}
 
 /*选中样式*/
 .sku-line{position: relative;}
 .theme-options li a:hover{ border:2px solid #e4393c; padding:0 5px; text-decoration:none;}
-.theme-options li i{ position:absolute; width:10px; height:10px; font-size:0; line-height:0; right:0px; bottom:0px; background:url(../images/sys_item_selected.gif) no-repeat right bottom; z-index:99; display:none;}
+.theme-options li i{ position:absolute; width:10px; height:10px; font-size:0; line-height:0; right:0px; bottom:0px; background:url(../Images/sys_item_selected.gif) no-repeat right bottom; z-index:99; display:none;}
 .theme-options li.selected a{ border:2px solid #e4393c; padding:0 5px;}
 .theme-options li.selected i{ display:block;} 
 
@@ -90,17 +90,13 @@ i.theme-login{display: inline-block;}
 }
 
 @media only screen and (min-width:1025px) 
- {
- i.theme-login{display: none;}  
-.theme-signin-left{padding-top:15px ;float: left;max-width:none;padding-bottom:0px ;}
-.theme-signin-right{float: left;display:block;overflow: hidden;padding: 10px;}
-.theme-signin-right .img-info,.theme-signin-right .text-info{position: static;}
-.theme-signin-right .img-info img{width:120px;height:120px ;}
- 
-    
+{
+     i.theme-login{display: none;}  
+    .theme-signin-left{padding-top:15px ;float: left;max-width:none;padding-bottom:0px ;}
+    .theme-signin-right{float: left;display:block;overflow: hidden;padding: 10px;}
+    .theme-signin-right .img-info,.theme-signin-right .text-info{position: static;}
+    .theme-signin-right .img-info img{width:120px;height:120px ;}
  }
-
-
 
 dt + dd {
 margin:0px 0px;padding:0px 0px;
@@ -173,7 +169,8 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 /*数量*/
 .iteminfo_parameter.munber,.iteminfo_parameter.freight{display:none ;}
 .iteminfo_parameter.munber dd{margin-left:5px ;}
-#min,#add{width:20px;}
+#min, #add{ width: 35px; height: 25px; outline:none; }
+#text_box { width: 35px; height: 25px; text-align: center; }
 
 
 /*购物车*/
@@ -346,7 +343,7 @@ li.am-comment{ width:100%}
     .tb-thumb .tb-selected div { background-color:#FFFFFF; border:medium none; }
     .tb-thumb li div { border:1px solid #CDCDCD; }
     div.zoomDiv { z-index:999; position:absolute; top:0px; left:0px; width:400px; height:400px; background:#ffffff; border:1px solid #CCCCCC; display:none; text-align:center; overflow:hidden; }
-    div.zoomMask { position:absolute; background:url(../images/mask.png)repeat scroll 0 0 transparent; cursor:move; z-index:1; }
+    div.zoomMask { position:absolute; background:url(../Images/mask.png)repeat scroll 0 0 transparent; cursor:move; z-index:1; }
 
            
      /*价格*/ 
@@ -366,7 +363,7 @@ li.am-comment{ width:100%}
     .theme-options{overflow: visible;padding:0px 0px;}
     .theme-options ul{overflow: hidden;float: none;}
     .theme-signin-left {max-width:100%;margin-bottom: 0;}
-    .theme-signin-left .sku-line{margin: 5px;cursor: pointer;}
+    .theme-signin-left .sku-line{margin: 5px;cursor: pointer; padding: 0px 8px; }
     .theme-signin-left .cart-title{margin-left: -46px;margin-top:10px;font-size:12px ;font-weight: 100;color:#888 ;float: left;}
         
     .scoll{display: none;}

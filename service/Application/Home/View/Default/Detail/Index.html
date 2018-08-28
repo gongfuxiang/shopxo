@@ -131,9 +131,9 @@
                                     <div class="theme-options">
                                         <div class="cart-title number">数量</div>
                                         <dd>
-                                            <input id="min" class="am-btn am-btn-default" name="" type="button" value="-" />
-                                            <input id="text_box" name="" type="text" value="1" style="width:30px;" />
-                                            <input id="add" class="am-btn am-btn-default" name="" type="button" value="+" />
+                                            <button id="min" class="am-btn am-btn-default" type="button">-</button>
+                                            <input id="text_box" name="" type="text" value="1" />
+                                            <button id="add" class="am-btn am-btn-default" type="button">+</button>
                                             <span id="Stock" class="tb-hidden">库存<span class="stock">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
                                         </dd>
                                     </div>
@@ -180,765 +180,108 @@
         </div>
     </div>
 
-                <!-- introduce-->
-                <div class="introduce am-container">
-                    <div class="browse">
-                        <div class="mc"> 
-                             <ul>                       
-                                <div class="mt">            
-                                    <h2>看了又看</h2>        
-                                </div>
-                                <if condition="!empty($left_goods)">
-                                    <foreach name="left_goods" key="key" item="v">
-                                        <li <if condition="$key eq 0">class="first"</if>>
-                                            <div class="p-img">                    
-                                                <a href="{{:U('/Home/Detail/Index', ['goods_id'=>$v['id']])}}">
-                                                    <img alt="{{$v.title}}" src="{{$v.images}}">
-                                                </a>               
-                                            </div>
-                                            <div class="p-name">
-                                                <a href="{{:U('/Home/Detail/Index', ['goods_id'=>$v['id']])}}">{{$v.title}}</a>
-                                            </div>
-                                            <div class="p-price"><strong>￥{{$v.price}}</strong></div>
-                                        </li>
-                                      </foreach>
-                                  </if>
-                             </ul>                  
-                        </div>
+    <!-- 详情/推荐商品-->
+    <div class="introduce am-container">
+        <div class="browse">
+            <div class="mc"> 
+                 <ul>                       
+                    <div class="mt">            
+                        <h2>看了又看</h2>        
                     </div>
-                    <div class="introduce-main">
-                        <div class="am-tabs" data-am-tabs>
-                            <ul class="am-avg-sm-3 am-tabs-nav am-nav am-nav-tabs" data-am-sticky="{animation: 'slide-top'}">
-                                <li class="am-active">
-                                    <a href="javascript:;">
-                                        <span class="index-needs-dt-txt">宝贝详情</span>
-                                    </a>
+                    <if condition="!empty($left_goods)">
+                        <foreach name="left_goods" key="key" item="v">
+                            <li <if condition="$key eq 0">class="first"</if>>
+                                <div class="p-img">                    
+                                    <a href="{{:U('/Home/Detail/Index', ['goods_id'=>$v['id']])}}">
+                                        <img alt="{{$v.title}}" src="{{$v.images}}">
+                                    </a>               
+                                </div>
+                                <div class="p-name">
+                                    <a href="{{:U('/Home/Detail/Index', ['goods_id'=>$v['id']])}}">{{$v.title}}</a>
+                                </div>
+                                <div class="p-price"><strong>￥{{$v.price}}</strong></div>
+                            </li>
+                          </foreach>
+                      </if>
+                 </ul>                  
+            </div>
+        </div>
+        <div class="introduce-main">
+            <div class="am-tabs" data-am-tabs>
+                <ul class="am-avg-sm-2 am-tabs-nav am-nav am-nav-tabs" data-am-sticky="{animation: 'slide-top'}">
+                    <li class="am-active">
+                        <a href="javascript:;">
+                            <span class="index-needs-dt-txt">宝贝详情</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <span class="index-needs-dt-txt">猜你喜欢</span>
+                        </a>
+                    </li>
+                </ul>
 
-                                </li>
-
-                                <li>
-                                    <a href="javascript:;">
-                                        <span class="index-needs-dt-txt">全部评价</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">
-                                        <span class="index-needs-dt-txt">猜你喜欢</span>
-                                    </a>
-                                </li>
-                            </ul>
-
-                            <div class="am-tabs-bd">
-                                <div class="am-tab-panel am-fade am-in am-active">
-                                    <if condition="!empty($goods['attribute'])">
-                                        <div class="specifications">
-                                            <div class="spacing-nav-title">
-                                                <span class="line"></span>
-                                                <span class="text-wrapper">产品参数</span>
-                                            </div>
-                                            <ul class="detail-attr">
-                                                <if condition="!empty($goods['attribute']['show'])">
-                                                    <foreach name="goods.attribute.show" key="key" item="attribute">
-                                                        <li title="">{{$attribute.name}}:&nbsp;{{:implode(',', array_column($attribute['find'], 'name'))}}</li>
-                                                    </foreach>
-                                                </if>
-                                                <if condition="!empty($goods['attribute']['choose'])">
-                                                    <foreach name="goods.attribute.choose" key="key" item="attribute">
-                                                        <li title="">{{$attribute.name}}:&nbsp;{{:implode(',', array_column($attribute['find'], 'name'))}}</li>
-                                                    </foreach>
-                                                </if>
-                                            </ul>
-                                        </div>
+                <div class="am-tabs-bd">
+                    <div class="am-tab-panel am-fade am-in am-active">
+                        <if condition="!empty($goods['attribute'])">
+                            <div class="specifications">
+                                <div class="spacing-nav-title">
+                                    <span class="line"></span>
+                                    <span class="text-wrapper">产品参数</span>
+                                </div>
+                                <ul class="detail-attr">
+                                    <if condition="!empty($goods['attribute']['show'])">
+                                        <foreach name="goods.attribute.show" key="key" item="attribute">
+                                            <li title="">{{$attribute.name}}:&nbsp;{{:implode(',', array_column($attribute['find'], 'name'))}}</li>
+                                        </foreach>
                                     </if>
-
-                                    <div class="details">
-                                        <div class="spacing-nav-title">
-                                            <span class="line"></span>
-                                            <span class="text-wrapper">商品细节</span>
-                                        </div>
-                                        <div class="detail-content">{{$goods.content_web}}</div>
-                                    </div>
-                                </div>
-
-                                <div class="am-tab-panel am-fade">
-                                    <div class="actor-new">
-                                        <div class="rate">                
-                                            <strong>100<span>%</span></strong><br> <span>好评度</span>            
-                                        </div>
-                                        <dl>                    
-                                            <dt>买家印象</dt>                    
-                                            <dd class="p-bfc">
-                                                        <q class="comm-tags"><span>味道不错</span><em>(2177)</em></q>
-                                                        <q class="comm-tags"><span>颗粒饱满</span><em>(1860)</em></q>
-                                                        <q class="comm-tags"><span>口感好</span><em>(1823)</em></q>
-                                                        <q class="comm-tags"><span>商品不错</span><em>(1689)</em></q>
-                                                        <q class="comm-tags"><span>香脆可口</span><em>(1488)</em></q>
-                                                        <q class="comm-tags"><span>个个开口</span><em>(1392)</em></q>
-                                                        <q class="comm-tags"><span>价格便宜</span><em>(1119)</em></q>
-                                                        <q class="comm-tags"><span>特价买的</span><em>(865)</em></q>
-                                                        <q class="comm-tags"><span>皮很薄</span><em>(831)</em></q> 
-                                            </dd>                                           
-                                         </dl> 
-                                    </div>  
-                                    <div class="clear"></div>
-                                    <div class="tb-r-filter-bar">
-                                        <ul class=" tb-taglist am-avg-sm-4">
-                                            <li class="tb-taglist-li tb-taglist-li-current">
-                                                <div class="comment-info">
-                                                    <span>全部评价</span>
-                                                    <span class="tb-tbcr-num">(32)</span>
-                                                </div>
-                                            </li>
-
-                                            <li class="tb-taglist-li tb-taglist-li-1">
-                                                <div class="comment-info">
-                                                    <span>好评</span>
-                                                    <span class="tb-tbcr-num">(32)</span>
-                                                </div>
-                                            </li>
-
-                                            <li class="tb-taglist-li tb-taglist-li-0">
-                                                <div class="comment-info">
-                                                    <span>中评</span>
-                                                    <span class="tb-tbcr-num">(32)</span>
-                                                </div>
-                                            </li>
-
-                                            <li class="tb-taglist-li tb-taglist-li--1">
-                                                <div class="comment-info">
-                                                    <span>差评</span>
-                                                    <span class="tb-tbcr-num">(32)</span>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="clear"></div>
-
-                                    <ul class="am-comments-list am-comments-list-flip">
-                                        <li class="am-comment">
-                                            <!-- 评论容器 -->
-                                            <a href="">
-                                                <img class="am-comment-avatar" src="__PUBLIC__/Home/{{$default_theme}}/Images/hwbn40x40.jpg" />
-                                                <!-- 评论者头像 -->
-                                            </a>
-
-                                            <div class="am-comment-main">
-                                                <!-- 评论内容容器 -->
-                                                <header class="am-comment-hd">
-                                                    <!--<h3 class="am-comment-title">评论标题</h3>-->
-                                                    <div class="am-comment-meta">
-                                                        <!-- 评论元数据 -->
-                                                        <a href="#link-to-user" class="am-comment-author">b***1 (匿名)</a>
-                                                        <!-- 评论者 -->
-                                                        评论于
-                                                        <time datetime="">2015年11月02日 17:46</time>
-                                                    </div>
-                                                </header>
-
-                                                <div class="am-comment-bd">
-                                                    <div class="tb-rev-item " data-id="255776406962">
-                                                        <div class="J_TbcRate_ReviewContent tb-tbcr-content ">
-                                                            摸起来丝滑柔软，不厚，没色差，颜色好看！买这个衣服还接到诈骗电话，我很好奇他们是怎么知道我买了这件衣服，并且还知道我的电话的！
-                                                        </div>
-                                                        <div class="tb-r-act-bar">
-                                                            颜色分类：柠檬黄&nbsp;&nbsp;尺码：S
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <!-- 评论内容 -->
-                                            </div>
-                                        </li>
-                                        <li class="am-comment">
-                                            <!-- 评论容器 -->
-                                            <a href="">
-                                                <img class="am-comment-avatar" src="__PUBLIC__/Home/{{$default_theme}}/Images/hwbn40x40.jpg" />
-                                                <!-- 评论者头像 -->
-                                            </a>
-
-                                            <div class="am-comment-main">
-                                                <!-- 评论内容容器 -->
-                                                <header class="am-comment-hd">
-                                                    <!--<h3 class="am-comment-title">评论标题</h3>-->
-                                                    <div class="am-comment-meta">
-                                                        <!-- 评论元数据 -->
-                                                        <a href="#link-to-user" class="am-comment-author">l***4 (匿名)</a>
-                                                        <!-- 评论者 -->
-                                                        评论于
-                                                        <time datetime="">2015年10月28日 11:33</time>
-                                                    </div>
-                                                </header>
-
-                                                <div class="am-comment-bd">
-                                                    <div class="tb-rev-item " data-id="255095758792">
-                                                        <div class="J_TbcRate_ReviewContent tb-tbcr-content ">
-                                                            没有色差，很暖和……美美的
-                                                        </div>
-                                                        <div class="tb-r-act-bar">
-                                                            颜色分类：蓝调灰&nbsp;&nbsp;尺码：2XL
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <!-- 评论内容 -->
-                                            </div>
-                                        </li>
-                                        <li class="am-comment">
-                                            <!-- 评论容器 -->
-                                            <a href="">
-                                                <img class="am-comment-avatar" src="__PUBLIC__/Home/{{$default_theme}}/Images/hwbn40x40.jpg" />
-                                                <!-- 评论者头像 -->
-                                            </a>
-
-                                            <div class="am-comment-main">
-                                                <!-- 评论内容容器 -->
-                                                <header class="am-comment-hd">
-                                                    <!--<h3 class="am-comment-title">评论标题</h3>-->
-                                                    <div class="am-comment-meta">
-                                                        <!-- 评论元数据 -->
-                                                        <a href="#link-to-user" class="am-comment-author">b***1 (匿名)</a>
-                                                        <!-- 评论者 -->
-                                                        评论于
-                                                        <time datetime="">2015年11月02日 17:46</time>
-                                                    </div>
-                                                </header>
-
-                                                <div class="am-comment-bd">
-                                                    <div class="tb-rev-item " data-id="255776406962">
-                                                        <div class="J_TbcRate_ReviewContent tb-tbcr-content ">
-                                                            摸起来丝滑柔软，不厚，没色差，颜色好看！买这个衣服还接到诈骗电话，我很好奇他们是怎么知道我买了这件衣服，并且还知道我的电话的！
-                                                        </div>
-                                                        <div class="tb-r-act-bar">
-                                                            颜色分类：柠檬黄&nbsp;&nbsp;尺码：S
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <!-- 评论内容 -->
-                                            </div>
-                                        </li>
-                                        <li class="am-comment">
-                                            <!-- 评论容器 -->
-                                            <a href="">
-                                                <img class="am-comment-avatar" src="__PUBLIC__/Home/{{$default_theme}}/Images/hwbn40x40.jpg" />
-                                                <!-- 评论者头像 -->
-                                            </a>
-
-                                            <div class="am-comment-main">
-                                                <!-- 评论内容容器 -->
-                                                <header class="am-comment-hd">
-                                                    <!--<h3 class="am-comment-title">评论标题</h3>-->
-                                                    <div class="am-comment-meta">
-                                                        <!-- 评论元数据 -->
-                                                        <a href="#link-to-user" class="am-comment-author">h***n (匿名)</a>
-                                                        <!-- 评论者 -->
-                                                        评论于
-                                                        <time datetime="">2015年11月25日 12:48</time>
-                                                    </div>
-                                                </header>
-
-                                                <div class="am-comment-bd">
-                                                    <div class="tb-rev-item " data-id="258040417670">
-                                                        <div class="J_TbcRate_ReviewContent tb-tbcr-content ">
-                                                            式样不错，初冬穿
-                                                        </div>
-                                                        <div class="tb-r-act-bar">
-                                                            颜色分类：柠檬黄&nbsp;&nbsp;尺码：L
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- 评论内容 -->
-                                            </div>
-                                        </li>
-
-                                        <li class="am-comment">
-                                            <!-- 评论容器 -->
-                                            <a href="">
-                                                <img class="am-comment-avatar" src="__PUBLIC__/Home/{{$default_theme}}/Images/hwbn40x40.jpg" />
-                                                <!-- 评论者头像 -->
-                                            </a>
-
-                                            <div class="am-comment-main">
-                                                <!-- 评论内容容器 -->
-                                                <header class="am-comment-hd">
-                                                    <!--<h3 class="am-comment-title">评论标题</h3>-->
-                                                    <div class="am-comment-meta">
-                                                        <!-- 评论元数据 -->
-                                                        <a href="#link-to-user" class="am-comment-author">b***1 (匿名)</a>
-                                                        <!-- 评论者 -->
-                                                        评论于
-                                                        <time datetime="">2015年11月02日 17:46</time>
-                                                    </div>
-                                                </header>
-
-                                                <div class="am-comment-bd">
-                                                    <div class="tb-rev-item " data-id="255776406962">
-                                                        <div class="J_TbcRate_ReviewContent tb-tbcr-content ">
-                                                            摸起来丝滑柔软，不厚，没色差，颜色好看！买这个衣服还接到诈骗电话，我很好奇他们是怎么知道我买了这件衣服，并且还知道我的电话的！
-                                                        </div>
-                                                        <div class="tb-r-act-bar">
-                                                            颜色分类：柠檬黄&nbsp;&nbsp;尺码：S
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <!-- 评论内容 -->
-                                            </div>
-                                        </li>
-                                        <li class="am-comment">
-                                            <!-- 评论容器 -->
-                                            <a href="">
-                                                <img class="am-comment-avatar" src="__PUBLIC__/Home/{{$default_theme}}/Images/hwbn40x40.jpg" />
-                                                <!-- 评论者头像 -->
-                                            </a>
-
-                                            <div class="am-comment-main">
-                                                <!-- 评论内容容器 -->
-                                                <header class="am-comment-hd">
-                                                    <!--<h3 class="am-comment-title">评论标题</h3>-->
-                                                    <div class="am-comment-meta">
-                                                        <!-- 评论元数据 -->
-                                                        <a href="#link-to-user" class="am-comment-author">l***4 (匿名)</a>
-                                                        <!-- 评论者 -->
-                                                        评论于
-                                                        <time datetime="">2015年10月28日 11:33</time>
-                                                    </div>
-                                                </header>
-
-                                                <div class="am-comment-bd">
-                                                    <div class="tb-rev-item " data-id="255095758792">
-                                                        <div class="J_TbcRate_ReviewContent tb-tbcr-content ">
-                                                            没有色差，很暖和……美美的
-                                                        </div>
-                                                        <div class="tb-r-act-bar">
-                                                            颜色分类：蓝调灰&nbsp;&nbsp;尺码：2XL
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <!-- 评论内容 -->
-                                            </div>
-                                        </li>
-                                        <li class="am-comment">
-                                            <!-- 评论容器 -->
-                                            <a href="">
-                                                <img class="am-comment-avatar" src="__PUBLIC__/Home/{{$default_theme}}/Images/hwbn40x40.jpg" />
-                                                <!-- 评论者头像 -->
-                                            </a>
-
-                                            <div class="am-comment-main">
-                                                <!-- 评论内容容器 -->
-                                                <header class="am-comment-hd">
-                                                    <!--<h3 class="am-comment-title">评论标题</h3>-->
-                                                    <div class="am-comment-meta">
-                                                        <!-- 评论元数据 -->
-                                                        <a href="#link-to-user" class="am-comment-author">b***1 (匿名)</a>
-                                                        <!-- 评论者 -->
-                                                        评论于
-                                                        <time datetime="">2015年11月02日 17:46</time>
-                                                    </div>
-                                                </header>
-
-                                                <div class="am-comment-bd">
-                                                    <div class="tb-rev-item " data-id="255776406962">
-                                                        <div class="J_TbcRate_ReviewContent tb-tbcr-content ">
-                                                            摸起来丝滑柔软，不厚，没色差，颜色好看！买这个衣服还接到诈骗电话，我很好奇他们是怎么知道我买了这件衣服，并且还知道我的电话的！
-                                                        </div>
-                                                        <div class="tb-r-act-bar">
-                                                            颜色分类：柠檬黄&nbsp;&nbsp;尺码：S
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <!-- 评论内容 -->
-                                            </div>
-                                        </li>
-                                        <li class="am-comment">
-                                            <!-- 评论容器 -->
-                                            <a href="">
-                                                <img class="am-comment-avatar" src="__PUBLIC__/Home/{{$default_theme}}/Images/hwbn40x40.jpg" />
-                                                <!-- 评论者头像 -->
-                                            </a>
-
-                                            <div class="am-comment-main">
-                                                <!-- 评论内容容器 -->
-                                                <header class="am-comment-hd">
-                                                    <!--<h3 class="am-comment-title">评论标题</h3>-->
-                                                    <div class="am-comment-meta">
-                                                        <!-- 评论元数据 -->
-                                                        <a href="#link-to-user" class="am-comment-author">h***n (匿名)</a>
-                                                        <!-- 评论者 -->
-                                                        评论于
-                                                        <time datetime="">2015年11月25日 12:48</time>
-                                                    </div>
-                                                </header>
-
-                                                <div class="am-comment-bd">
-                                                    <div class="tb-rev-item " data-id="258040417670">
-                                                        <div class="J_TbcRate_ReviewContent tb-tbcr-content ">
-                                                            式样不错，初冬穿
-                                                        </div>
-                                                        <div class="tb-r-act-bar">
-                                                            颜色分类：柠檬黄&nbsp;&nbsp;尺码：L
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- 评论内容 -->
-                                            </div>
-                                        </li>
-                                        <li class="am-comment">
-                                            <!-- 评论容器 -->
-                                            <a href="">
-                                                <img class="am-comment-avatar" src="__PUBLIC__/Home/{{$default_theme}}/Images/hwbn40x40.jpg" />
-                                                <!-- 评论者头像 -->
-                                            </a>
-
-                                            <div class="am-comment-main">
-                                                <!-- 评论内容容器 -->
-                                                <header class="am-comment-hd">
-                                                    <!--<h3 class="am-comment-title">评论标题</h3>-->
-                                                    <div class="am-comment-meta">
-                                                        <!-- 评论元数据 -->
-                                                        <a href="#link-to-user" class="am-comment-author">b***1 (匿名)</a>
-                                                        <!-- 评论者 -->
-                                                        评论于
-                                                        <time datetime="">2015年11月02日 17:46</time>
-                                                    </div>
-                                                </header>
-
-                                                <div class="am-comment-bd">
-                                                    <div class="tb-rev-item " data-id="255776406962">
-                                                        <div class="J_TbcRate_ReviewContent tb-tbcr-content ">
-                                                            摸起来丝滑柔软，不厚，没色差，颜色好看！买这个衣服还接到诈骗电话，我很好奇他们是怎么知道我买了这件衣服，并且还知道我的电话的！
-                                                        </div>
-                                                        <div class="tb-r-act-bar">
-                                                            颜色分类：柠檬黄&nbsp;&nbsp;尺码：S
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <!-- 评论内容 -->
-                                            </div>
-                                        </li>
-                                        <li class="am-comment">
-                                            <!-- 评论容器 -->
-                                            <a href="">
-                                                <img class="am-comment-avatar" src="__PUBLIC__/Home/{{$default_theme}}/Images/hwbn40x40.jpg" />
-                                                <!-- 评论者头像 -->
-                                            </a>
-
-                                            <div class="am-comment-main">
-                                                <!-- 评论内容容器 -->
-                                                <header class="am-comment-hd">
-                                                    <!--<h3 class="am-comment-title">评论标题</h3>-->
-                                                    <div class="am-comment-meta">
-                                                        <!-- 评论元数据 -->
-                                                        <a href="#link-to-user" class="am-comment-author">l***4 (匿名)</a>
-                                                        <!-- 评论者 -->
-                                                        评论于
-                                                        <time datetime="">2015年10月28日 11:33</time>
-                                                    </div>
-                                                </header>
-
-                                                <div class="am-comment-bd">
-                                                    <div class="tb-rev-item " data-id="255095758792">
-                                                        <div class="J_TbcRate_ReviewContent tb-tbcr-content ">
-                                                            没有色差，很暖和……美美的
-                                                        </div>
-                                                        <div class="tb-r-act-bar">
-                                                            颜色分类：蓝调灰&nbsp;&nbsp;尺码：2XL
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <!-- 评论内容 -->
-                                            </div>
-                                        </li>
-                                        <li class="am-comment">
-                                            <!-- 评论容器 -->
-                                            <a href="">
-                                                <img class="am-comment-avatar" src="__PUBLIC__/Home/{{$default_theme}}/Images/hwbn40x40.jpg" />
-                                                <!-- 评论者头像 -->
-                                            </a>
-
-                                            <div class="am-comment-main">
-                                                <!-- 评论内容容器 -->
-                                                <header class="am-comment-hd">
-                                                    <!--<h3 class="am-comment-title">评论标题</h3>-->
-                                                    <div class="am-comment-meta">
-                                                        <!-- 评论元数据 -->
-                                                        <a href="#link-to-user" class="am-comment-author">b***1 (匿名)</a>
-                                                        <!-- 评论者 -->
-                                                        评论于
-                                                        <time datetime="">2015年11月02日 17:46</time>
-                                                    </div>
-                                                </header>
-
-                                                <div class="am-comment-bd">
-                                                    <div class="tb-rev-item " data-id="255776406962">
-                                                        <div class="J_TbcRate_ReviewContent tb-tbcr-content ">
-                                                            摸起来丝滑柔软，不厚，没色差，颜色好看！买这个衣服还接到诈骗电话，我很好奇他们是怎么知道我买了这件衣服，并且还知道我的电话的！
-                                                        </div>
-                                                        <div class="tb-r-act-bar">
-                                                            颜色分类：柠檬黄&nbsp;&nbsp;尺码：S
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <!-- 评论内容 -->
-                                            </div>
-                                        </li>
-                                        <li class="am-comment">
-                                            <!-- 评论容器 -->
-                                            <a href="">
-                                                <img class="am-comment-avatar" src="__PUBLIC__/Home/{{$default_theme}}/Images/hwbn40x40.jpg" />
-                                                <!-- 评论者头像 -->
-                                            </a>
-
-                                            <div class="am-comment-main">
-                                                <!-- 评论内容容器 -->
-                                                <header class="am-comment-hd">
-                                                    <!--<h3 class="am-comment-title">评论标题</h3>-->
-                                                    <div class="am-comment-meta">
-                                                        <!-- 评论元数据 -->
-                                                        <a href="#link-to-user" class="am-comment-author">h***n (匿名)</a>
-                                                        <!-- 评论者 -->
-                                                        评论于
-                                                        <time datetime="">2015年11月25日 12:48</time>
-                                                    </div>
-                                                </header>
-
-                                                <div class="am-comment-bd">
-                                                    <div class="tb-rev-item " data-id="258040417670">
-                                                        <div class="J_TbcRate_ReviewContent tb-tbcr-content ">
-                                                            式样不错，初冬穿
-                                                        </div>
-                                                        <div class="tb-r-act-bar">
-                                                            颜色分类：柠檬黄&nbsp;&nbsp;尺码：L
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- 评论内容 -->
-                                            </div>
-                                        </li>
-
-                                    </ul>
-
-                                    <div class="clear"></div>
-
-                                    <!--分页 -->
-                                    <ul class="am-pagination am-pagination-right">
-                                        <li class="am-disabled"><a href="#">&laquo;</a></li>
-                                        <li class="am-active"><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>
-                                        <li><a href="#">5</a></li>
-                                        <li><a href="#">&raquo;</a></li>
-                                    </ul>
-                                    <div class="clear"></div>
-
-                                    <div class="tb-reviewsft">
-                                        <div class="tb-rate-alert type-attention">购买前请查看该商品的 <a href="#" target="_blank">购物保障</a>，明确您的售后保障权益。</div>
-                                    </div>
-
-                                </div>
-
-                                <div class="am-tab-panel am-fade">
-                                    <div class="like">
-                                        <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
-                                            <li>
-                                                <div class="i-pic limit">
-                                                    <img src="__PUBLIC__/Home/{{$default_theme}}/Images/imgsearch1.jpg" />
-                                                    <p>【良品铺子_开口松子】零食坚果特产炒货
-                                                        <span>东北红松子奶油味</span></p>
-                                                    <p class="price fl">
-                                                        <b>¥</b>
-                                                        <strong>298.00</strong>
-                                                    </p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="i-pic limit">
-                                                    <img src="__PUBLIC__/Home/{{$default_theme}}/Images/imgsearch1.jpg" />
-                                                    <p>【良品铺子_开口松子】零食坚果特产炒货
-                                                        <span>东北红松子奶油味</span></p>
-                                                    <p class="price fl">
-                                                        <b>¥</b>
-                                                        <strong>298.00</strong>
-                                                    </p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="i-pic limit">
-                                                    <img src="__PUBLIC__/Home/{{$default_theme}}/Images/imgsearch1.jpg" />
-                                                    <p>【良品铺子_开口松子】零食坚果特产炒货
-                                                        <span>东北红松子奶油味</span></p>
-                                                    <p class="price fl">
-                                                        <b>¥</b>
-                                                        <strong>298.00</strong>
-                                                    </p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="i-pic limit">
-                                                    <img src="__PUBLIC__/Home/{{$default_theme}}/Images/imgsearch1.jpg" />
-                                                    <p>【良品铺子_开口松子】零食坚果特产炒货
-                                                        <span>东北红松子奶油味</span></p>
-                                                    <p class="price fl">
-                                                        <b>¥</b>
-                                                        <strong>298.00</strong>
-                                                    </p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="i-pic limit">
-                                                    <img src="__PUBLIC__/Home/{{$default_theme}}/Images/imgsearch1.jpg" />
-                                                    <p>【良品铺子_开口松子】零食坚果特产炒货
-                                                        <span>东北红松子奶油味</span></p>
-                                                    <p class="price fl">
-                                                        <b>¥</b>
-                                                        <strong>298.00</strong>
-                                                    </p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="i-pic limit">
-                                                    <img src="__PUBLIC__/Home/{{$default_theme}}/Images/imgsearch1.jpg" />
-                                                    <p>【良品铺子_开口松子】零食坚果特产炒货
-                                                        <span>东北红松子奶油味</span></p>
-                                                    <p class="price fl">
-                                                        <b>¥</b>
-                                                        <strong>298.00</strong>
-                                                    </p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="i-pic limit">
-                                                    <img src="__PUBLIC__/Home/{{$default_theme}}/Images/imgsearch1.jpg" />
-                                                    <p>【良品铺子_开口松子】零食坚果特产炒货
-                                                        <span>东北红松子奶油味</span></p>
-                                                    <p class="price fl">
-                                                        <b>¥</b>
-                                                        <strong>298.00</strong>
-                                                    </p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="i-pic limit">
-                                                    <img src="__PUBLIC__/Home/{{$default_theme}}/Images/imgsearch1.jpg" />
-                                                    <p>【良品铺子_开口松子】零食坚果特产炒货
-                                                        <span>东北红松子奶油味</span></p>
-                                                    <p class="price fl">
-                                                        <b>¥</b>
-                                                        <strong>298.00</strong>
-                                                    </p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="i-pic limit">
-                                                    <img src="__PUBLIC__/Home/{{$default_theme}}/Images/imgsearch1.jpg" />
-                                                    <p>【良品铺子_开口松子】零食坚果特产炒货
-                                                        <span>东北红松子奶油味</span></p>
-                                                    <p class="price fl">
-                                                        <b>¥</b>
-                                                        <strong>298.00</strong>
-                                                    </p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="i-pic limit">
-                                                    <img src="__PUBLIC__/Home/{{$default_theme}}/Images/imgsearch1.jpg" />
-                                                    <p>【良品铺子_开口松子】零食坚果特产炒货
-                                                        <span>东北红松子奶油味</span></p>
-                                                    <p class="price fl">
-                                                        <b>¥</b>
-                                                        <strong>298.00</strong>
-                                                    </p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="i-pic limit">
-                                                    <img src="__PUBLIC__/Home/{{$default_theme}}/Images/imgsearch1.jpg" />
-                                                    <p>【良品铺子_开口松子】零食坚果特产炒货
-                                                        <span>东北红松子奶油味</span></p>
-                                                    <p class="price fl">
-                                                        <b>¥</b>
-                                                        <strong>298.00</strong>
-                                                    </p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="i-pic limit">
-                                                    <img src="__PUBLIC__/Home/{{$default_theme}}/Images/imgsearch1.jpg" />
-                                                    <p>【良品铺子_开口松子】零食坚果特产炒货
-                                                        <span>东北红松子奶油味</span></p>
-                                                    <p class="price fl">
-                                                        <b>¥</b>
-                                                        <strong>298.00</strong>
-                                                    </p>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="clear"></div>
-
-                                    <!--分页 -->
-                                    <ul class="am-pagination am-pagination-right">
-                                        <li class="am-disabled"><a href="#">&laquo;</a></li>
-                                        <li class="am-active"><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>
-                                        <li><a href="#">5</a></li>
-                                        <li><a href="#">&raquo;</a></li>
-                                    </ul>
-                                    <div class="clear"></div>
-
-                                </div>
-
+                                    <if condition="!empty($goods['attribute']['choose'])">
+                                        <foreach name="goods.attribute.choose" key="key" item="attribute">
+                                            <li title="">{{$attribute.name}}:&nbsp;{{:implode(',', array_column($attribute['find'], 'name'))}}</li>
+                                        </foreach>
+                                    </if>
+                                </ul>
                             </div>
+                        </if>
 
+                        <div class="details">
+                            <div class="spacing-nav-title">
+                                <span class="line"></span>
+                                <span class="text-wrapper">商品细节</span>
+                            </div>
+                            <div class="detail-content">{{$goods.content_web}}</div>
                         </div>
-
-
                     </div>
 
+                    <div class="am-tab-panel am-fade">
+                        <div class="like">
+                            <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
+                                <if condition="!empty($detail_like_goods)">
+                                    <foreach name="detail_like_goods" key="key" item="v">
+                                        <li>
+                                            <div class="i-pic limit">
+                                                <a href="{{:U('/Home/Detail/Index', ['goods_id'=>$v['id']])}}">
+                                                    <img alt="{{$v.title}}" src="{{$v.home_recommended_images}}" />
+                                                </a>
+                                                <p>{{$v.title}}</p>
+                                                <p class="price fl">
+                                                    <b>¥</b>
+                                                    <strong>{{$v.price}}</strong>
+                                                </p>
+                                            </div>
+                                        </li>
+                                    </foreach>
+                                </if>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-
-
-
-
-
-
+            </div>
+        </div>
+    </div>
 
 </div>
 
 <!-- footer start -->
 <include file="Public/Footer" />
 <!-- footer end -->
-
-
-
-<script type="text/javascript">
-                    $(function() {});
-                    $(window).load(function() {
-                        $('.flexslider').flexslider({
-                            animation: "slide",
-                            start: function(slider) {
-                                $('body').removeClass('loading');
-                            }
-                        });
-                    });
-                </script>
-
-<script type="text/javascript">
-                                $(document).ready(function() {
-                                    $(".jqzoom").imagezoom();
-                                    $("#thumblist li a").click(function() {
-                                        $(this).parents("li").addClass("tb-selected").siblings().removeClass("tb-selected");
-                                        $(".jqzoom").attr('src', $(this).find("img").attr("mid"));
-                                        $(".jqzoom").attr('rel', $(this).find("img").attr("big"));
-                                    });
-                                });
-                            </script>
