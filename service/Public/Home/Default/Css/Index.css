@@ -92,14 +92,6 @@ text-align: center;float:none}
 .s-buy{display:none;}
 /*楼层*/
 .flood {background: #fff;}
-.outer-con .goods-title {
-    -o-text-overflow: ellipsis;
-    text-overflow: ellipsis;      
-    overflow: hidden;
-    white-space: nowrap;
-    max-width: 100%;
-    color: #666;
-}
 .outer-con .price {
     color: #f33f00;
     font-weight: bold;

@@ -440,6 +440,19 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
     font-weight: bold;
 }
 
+/* 文字自动隐藏 */
+.ellipsis {
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;      
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 100%;
+    color: #666;
+}
+
+/* 价格颜色 */
+.price strong {color: #E4393C; font-weight: 600; }
+
 /**
  * 底部
  */
