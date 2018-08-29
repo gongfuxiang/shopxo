@@ -7,22 +7,23 @@ ul, li, ol {list-style: none;}
 .am-container {padding-left:0px;padding-right:0px ;}
 .am-container > .am-g {margin-left: 0px;margin-right:0px ;}
 img{width:100%;}
-.slideall{background:#fff ;}
-.smallnav img,.smallnav a,.am-g.smallnav {border:none;}
+.small-nav img,.small-nav a,.am-g.small-nav {border:none;}
 a:hover {color:#000000;}
 .e-price{color:red; font-size:14px;}
 .method3 img{border:none;}
 .method3 li{border:none;border-left:1px #e8e8e8 solid;border-top:1px #e8e8e8 solid}
 dt + dd {margin-top: 0;}
-.am-slider-default{margin-bottom: 0px;}
-/*轮播图按钮*/
-.am-slider-default .am-control-nav {width: 100%;position: absolute;bottom: 15px;text-align: center;}
-.am-u-sm-3 {text-align:center;}
-.am-control-nav li { float:none;}
-.am-slider-default .am-direction-nav{ opacity: 0;}
+
 /*手机专享*/
-.smallnav{padding:10px 0px; font-size:12px;}
-.smallnav img{max-width:40px;}
+.small-nav {padding:10px 0px; font-size:12px;}
+.small-nav .am-u-sm-3 { text-align: center; margin: 5px 0; }
+.small-nav .nav-icon {max-width: 48px; padding: 8px; margin: 0 auto; border-radius: 50px; background-color: #d2364c; }
+.small-nav .am-u-sm-3:last-child { float: left; }
+.small-nav .mini-nav-title { margin-top: 5px; }
+.small-nav .mini-nav-goods-category { background-color: #FB6E52; }
+.small-nav .mini-nav-cart { background-color: #48CFAE; }
+.small-nav .mini-nav-user { background-color: #49acfa; }
+.small-nav .mini-nav-seconds { background-color: #fa506c; }
 
 #navOpen{padding:0px 0px;}
 .list .word{display: none;}
@@ -131,8 +132,8 @@ text-align: center;float:none}
 /*推荐*/
 .flood li {width: 50%;float: left;text-align: center;}
 @media only screen and (min-width: 480px) {
-    .smallnav img{max-width:60px;}
-    .smallnav{ font-size:14px;}
+    .small-nav img{max-width:60px;}
+    .small-nav{ font-size:14px;}
     .flood li{width:33.3%;}
 
     /*第二套各类活动*/
@@ -220,6 +221,7 @@ text-align: center;float:none}
 	   
 @media only screen and (min-width: 1025px)
 {
+    .small-nav { display:none;}
     .am-g-fixed{max-width:1000px;}
     .flood li{width:20%;} 
     .banner-news{ margin-left: 0px;}

@@ -192,12 +192,12 @@
                         <foreach name="left_goods" key="key" item="v">
                             <li <if condition="$key eq 0">class="first"</if>>
                                 <div class="p-img">                    
-                                    <a href="{{:U('/Home/Goods/Index', ['id'=>$v['id']])}}">
+                                    <a href="{{:$v['goods_url']}}">
                                         <img alt="{{$v.title}}" src="{{$v.images}}">
                                     </a>               
                                 </div>
                                 <div class="p-name">
-                                    <a href="{{:U('/Home/Goods/Index', ['id'=>$v['id']])}}">{{$v.title}}</a>
+                                    <a href="{{:$v['goods_url']}}">{{$v.title}}</a>
                                 </div>
                                 <div class="p-price"><strong>￥{{$v.price}}</strong></div>
                             </li>
@@ -260,7 +260,7 @@
                                     <foreach name="detail_like_goods" key="key" item="v">
                                         <li>
                                             <div class="i-pic limit">
-                                                <a href="{{:U('/Home/Goods/Index', ['id'=>$v['id']])}}">
+                                                <a href="{{:$v['goods_url']}}">
                                                     <img alt="{{$v.title}}" src="{{$v.home_recommended_images}}" />
                                                 </a>
                                                 <p class="ellipsis">{{$v.title}}</p>

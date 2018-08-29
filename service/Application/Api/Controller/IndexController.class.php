@@ -2,6 +2,9 @@
 
 namespace Api\Controller;
 
+use Service\BannerService;
+use Service\GoodsService;
+
 /**
  * 首页
  * @author   Devil
@@ -61,20 +64,10 @@ class IndexController extends CommonController
 		}
 
 		// 轮播图片
-		$banner = M('Slide')->field('jump_url,jump_url_type,images_url,name')->where(['platform'=>APPLICATION_CLIENT_TYPE, 'is_enable'=>1])->select();
-		if(!empty($banner))
-		{
-			$images_host = C('IMAGE_HOST');
-			foreach($banner as &$v)
-			{
-				$v['images_url'] = $images_host.$v['images_url'];
-				$v['jump_url'] = empty($v['jump_url']) ? null : $v['jump_url'];
-			}
-			$result['banner'] = $banner;
-		}
+		$result['banner'] = BannerService::Home();
 
 		// 商品分类
-		$result['category'] = $this->GetGoodsCategoryList();
+		$result['category'] = GoodsService::GoodsCategoryList();
 
 		// 返回数据
 		$this->ajaxReturn(L('common_operation_success'), 0, $result);

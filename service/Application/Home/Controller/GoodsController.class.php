@@ -2,6 +2,8 @@
 
 namespace Home\Controller;
 
+use Service\GoodsService;
+
 /**
  * 商品详情
  * @author   Devil
@@ -42,7 +44,7 @@ class GoodsController extends CommonController
             'is_photo' => true,
             'is_attribute' => true,
         ];
-        $goods = $this->GetCommonGoodsList($params);
+        $goods = GoodsService::GoodsList($params);
         $this->assign('goods', $goods[0]);
         $this->assign('home_seo_site_title', $goods[0]['title']);
 
@@ -56,8 +58,7 @@ class GoodsController extends CommonController
             'field'     => 'g.id,g.title,g.title_color,g.price,g.images',
             'n'         => 10,
         ];
-        $left_goods = $this->GetCommonGoodsList($params);
-        $this->assign('left_goods', $left_goods);
+        $this->assign('left_goods', GoodsService::GoodsList($params));
 
         // 详情tab商品 猜你喜欢
         $params = [
@@ -70,8 +71,7 @@ class GoodsController extends CommonController
             'field'     => 'g.id,g.title,g.title_color,g.price,g.images,g.home_recommended_images',
             'n'         => 16,
         ];
-        $detail_like_goods = $this->GetCommonGoodsList($params);
-        $this->assign('detail_like_goods', $detail_like_goods);
+        $this->assign('detail_like_goods', GoodsService::GoodsList($params));
 
         $this->display('Index');
     }

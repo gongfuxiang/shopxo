@@ -17,25 +17,37 @@
 
 <div class="am-container slideall">
 	<!-- 轮播右侧-内容1 -->
-	<div class="am-g am-g-fixed smallnav">
+	<div class="am-g am-g-fixed small-nav">
 		<div class="am-u-sm-3">
-			<a href="sort.html"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/navsmall.jpg" />
-				<div class="title">商品分类</div>
+			<a href="sort.html">
+				<div class="nav-icon mini-nav-goods-category">
+					<img src="__PUBLIC__/Home/{{$default_theme}}/Images/home-mini-nav-category-icon.png" />
+				</div>
+				<div class="mini-nav-title">分类</div>
 			</a>
 		</div>
 		<div class="am-u-sm-3">
-			<a href="#"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/huismall.jpg" />
-				<div class="title">大聚惠</div>
+			<a href="#">
+				<div class="nav-icon mini-nav-cart">
+					<img src="__PUBLIC__/Home/{{$default_theme}}/Images/home-mini-nav-cart-icon.png" />
+				</div>
+				<div class="mini-nav-title">购物车</div>
 			</a>
 		</div>
 		<div class="am-u-sm-3">
-			<a href="#"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/mansmall.jpg" />
-				<div class="title">个人中心</div>
+			<a href="#">
+				<div class="nav-icon mini-nav-user">
+					<img src="__PUBLIC__/Home/{{$default_theme}}/Images/home-mini-nav-user-icon.png" />
+				</div>
+				<div class="mini-nav-title">我的</div>
 			</a>
 		</div>
 		<div class="am-u-sm-3">
-			<a href="#"><img src="__PUBLIC__/Home/{{$default_theme}}/Images/moneysmall.jpg" />
-				<div class="title">投资理财</div>
+			<a href="#">
+				<div class="nav-icon mini-nav-seconds">
+					<img src="__PUBLIC__/Home/{{$default_theme}}/Images/home-mini-nav-seconds-icon.png" />
+				</div>
+				<div class="mini-nav-title">秒杀</div>
 			</a>
 		</div>
 	</div>
@@ -138,7 +150,6 @@
 								<div class="triangle-topright"></div>
 							</div>
 
-
 							<if condition="!empty($floor.goods)">
 				                <foreach name="floor.goods" item="goods">
 									<div class="goods-items <if condition="in_array($key, [0,1])">am-u-sm-7 am-u-md-4 text-two<else />am-u-sm-6 am-u-md-2 text-three</if>  <if condition="in_array($key, [0,3])">sug</if> <if condition="in_array($key, [2,5])">big</if> <if condition="$key eq 5">last</if>">
@@ -146,7 +157,7 @@
 											<div class="goods-title ellipsis">{{$goods.title}}</div>	
 											<div class="price">￥{{$goods.price}}</div>
 										</div>
-										<a href="{{:U('/Home/Goods/Index', ['id'=>$goods['id']])}}">
+										<a href="{{$goods['goods_url']}}">
 											<img src="{{$goods.home_recommended_images}}" />
 										</a>
 									</div>

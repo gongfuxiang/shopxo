@@ -30,12 +30,10 @@
  * @param   string          $c      [控制器名称]
  * @param   string          $a      [方法名称]
  * @param   array           $params [参数]
- * @param   string          $suffix [后缀名]
- * @param   boolean         $is_url [是否显示域名]
  */
-function HomeUrl($c='Index', $a='Index', $params=[], $suffix='', $is_url=false)
+function HomeUrl($c='Index', $a='Index', $params=[])
 {
-    return str_replace('admin.php', 'index.php', U("Home/{$c}/{$a}", $params, $suffix, $is_url));
+    return str_replace('admin.php', 'index.php', U("Home/{$c}/{$a}", $params));
 }
 
 /**
