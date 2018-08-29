@@ -216,7 +216,7 @@ ul.detail-attr li {height: 26px;overflow: hidden;line-height: 26px;vertical-alig
 
 
 /*详情内容*/
-.detail-content img,.sh .return-process img{width:100%;}
+.detail-content img,.sh .return-process img{ width: 100%; height: auto; }
 
 
 /*评价*/
