@@ -62,10 +62,10 @@
 					<foreach name="list" item="v">
 						<tr id="data-list-{{$v.id}}" <if condition="$v['is_shelves'] eq 0">class="am-active"</if>>
 							<td>
-								<a href="javascript:;" target="_blank" title="{{$v.title}}">
+								<a href="{{$v.goods_url}}" target="_blank" title="{{$v.title}}">
 									<img src="{{$image_host}}{{$v['images']}}" class="am-img-thumbnail am-radius goods-images am-hide-sm-only" />
 								</a>
-								<a href="javascript:;" target="_blank" title="{{$v.title}}" <if condition="!empty($v['title_color'])"> style="color:{{$v.title_color}};" </if> >{{$v.title}}</a>
+								<a href="{{$v.goods_url}}" target="_blank" title="{{$v.title}}" <if condition="!empty($v['title_color'])"> style="color:{{$v.title_color}};" </if> >{{$v.title}}</a>
 							</td>
 							<td>
 								{{$v.price}}

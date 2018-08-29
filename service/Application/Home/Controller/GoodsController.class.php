@@ -9,7 +9,7 @@ namespace Home\Controller;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class DetailController extends CommonController
+class GoodsController extends CommonController
 {
     /**
      * [_initialize 前置操作-继承公共前置方法]
@@ -33,10 +33,10 @@ class DetailController extends CommonController
      */
     public function Index()
     {
-        $goods_id = I('goods_id');
+        $id = I('id');
         $params = [
             'where' => [
-                'g.id'    => $goods_id,
+                'g.id'    => $id,
                 'g.is_delete_time' => 0,
             ],
             'is_photo' => true,

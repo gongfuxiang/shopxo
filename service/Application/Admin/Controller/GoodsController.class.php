@@ -102,6 +102,9 @@ class GoodsController extends CommonController
 				// 产地
 				$v['place_origin_text'] = M('Region')->where(['id'=>$v['place_origin']])->getField('name');
 
+				// 商品url地址
+				$v['goods_url'] = HomeUrl('Goods', 'Index', ['id'=>$v['id']]);
+
 				// 创建时间
 				$v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
 
