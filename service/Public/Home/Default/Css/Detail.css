@@ -30,7 +30,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .theme-signin-right .img-info{position: absolute;top:0;left:10px;background:#fff;border-radius:5px;border:1px solid #f5f5f5;}
 .theme-signin-right .img-info img{margin:5px 5px ;width:80px;height:80px ;}
 .theme-signin-right .text-info{position:absolute;left:110px;top:20px ;}
-.text-info .price-now{display:block;font-size:16px ;color:#f50;}
+.text-info .price-now{display:block;font-size:16px ;color:#C40000;}
 .text-info span#Stock{font-size:14px ;}
 
 /*可选规格*/
