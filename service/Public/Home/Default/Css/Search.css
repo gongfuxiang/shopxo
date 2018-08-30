@@ -1,0 +1,157 @@
+@charset "utf-8";
+/* CSS Document */
+/*通用格式*/
+*, *:after, *:before{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box; }
+/*任何标签、包括它前面、后面生成的内容都不要影响盒子的边框*/
+ul, li, ol {list-style: none;}
+dl,dt,dd{ margin:0px auto; padding:0px;}
+p {margin: 0 0 .3rem 0; font-size:14px; }
+[class*="am-u-"] {padding-left:0rem;padding-right:0rem;}
+.am-thumbnails {margin-left: 0rem;margin-right: 0rem;}
+.am-thumbnail {margin-bottom:0;}
+.am-thumbnails > li {padding: 0 0rem 0.2rem .2rem;}
+img{ width:100%;}
+.price{color: #e4393c;font-weight: 600;}
+
+.theme-popover {z-index: 1009;overflow:visible;background:#fff;}
+.sort-nav a:hover, .sort-nav a:focus { color: #d2364c; }
+
+
+/* select */
+.sort-nav{padding:0px;font-size:12px}
+
+.suggest,.searchAbout{ display:none;}
+.select li {margin: 10px 0 5px 0px;}
+.select dl{zoom:1;position:relative;line-height:24px; margin:10px 0px; }
+.select dl:after{content:" ";display:block;clear:both;height:0;overflow:hidden}
+.select dt{width:80%;margin-left:10%;margin-bottom:5px;position:absolute;cursor: pointer;height:24px;line-height:24px;}
+.select dd{float:left;display:inline;margin:0 0 5px 5px;}
+.select a{display:inline-block;white-space:nowrap;height:24px; line-height:24px;padding:0 10px;text-decoration:none;color:#000;border-radius:2px;}
+.select a:hover{color:#d2364c;}
+.select .selected a{color:#d2364c; border:1px solid #d2364c;}
+ul.pagination{display:none;}
+/*搜索显示*/
+.select-result{display: none;}
+li.select-result dl{padding: 40px 0 5px 0px;} 
+li.select-result dt {left:-30px; top:10px;font-weight:bold;width:50px;}
+
+.select-no{color:#999}
+.select .select-result a{padding-right:20px;background: url("../images/close.png") right 9px no-repeat}
+.select .select-result a:hover{background-position:right -15px}
+.eliminateCriteria{display:none;line-height:21px;margin-top:4px;width:35px;float:right;color:#F00;cursor:pointer;}
+
+
+/*排序*/
+.sort-nav { width:100%; border-bottom: 1px solid #eee; background: #fff; overflow: hidden; }    
+.sort-nav li{ float:left;width:33.33%;height:30px; line-height:30px; text-align:center; padding:0px 0px;}
+.sort-nav li a{font-size:14px;}
+.sort-nav li.big{display:none;}
+.sort-nav li.first {color: #F03726;}
+
+      
+/*筛选条件*/
+.select-list{ float:left;display:inline; left:0;width:33.33%; height:30px;}
+
+.select-list dl dt{left:0px; cursor:pointer; top:-10px;text-align: center;}
+{display:none ;float:left; top:20px; padding-top:5px; z-index:10; left:0px; width:300%;position:absolute;}
+.select-list .dd-conent{display:none ;float:left; top:20px; padding-top:5px; z-index:10; left:0px; width:300%;position:absolute; background:#fff;overflow: hidden;}
+.select-list .dd-conent dd{width:33.33% ;text-align: center;margin-left: 0px;height:25px ;}
+dl#select2 .dd-conent{ left:-100%; right:-100%;}
+dl#select3 .dd-conent{ left:-200%; right:0px;}
+       
+.am-badge{font-size:12px ;padding:0px 0px;background-color: #999999;color: #ffffff;}
+.theme-popover-mask{z-index:5;width: 100%;height: auto;position:fixed ;background:#000 ;top:0;opacity: 0.6;}
+.theme-popover{width: 100%;}
+ 
+/*搜索结果*/
+.i-pic.limit {margin:5px;border: 1px #e8e8e8 solid;overflow: hidden;position: relative;cursor: pointer;}
+.number.fl{position: absolute;bottom:5px;right:5px ;}
+.price.fl{padding: 5px;}
+/*分页*/  
+.am-pagination li{ float:none;}
+
+.search-side{display: none;}
+.limit p.title,.i-pic.check p.title{padding:0px 5px;margin:5px 0px;overflow:hidden;height:18px;line-height:18px ;}
+.search-pages-submit { margin: 10px 0; }
+
+
+
+@media only screen and (min-width: 640px) {
+    /* select */
+    .theme-popover { padding: 0 5px; }
+    .select-list .dd-conent dd{width:auto;text-align: center;margin-left:5px;}
+
+    .select li.select-result{display: none;}
+    .suggest,.searchAbout,ul.pagination{ display:block;}
+    .select .title.font-normal{margin-top:0px;margin-left:0px}
+    .select,.sort-nav{padding:5px 10px;box-shadow: 0px 0px 2px #ccc;margin-top:5px;background: #fff;}
+    .searchAbout{padding:10px;}
+
+    .select-list{width:100%;padding:0px 0px;}
+    .select li{list-style:none;padding:0px 0px 0px 100px;border-top:#eee 1px dashed;float: none;display: block;height: auto;}
+
+    .select-result dl dt{width:100px;}
+
+    .eliminateCriteria{width:80px;float:right;margin-right:20px;}
+
+    .am-badge{font-size:14px ;padding:0px 0px;background: none;color: #000000;}
+
+
+
+    /*排序*/
+    .sort-nav{padding:0px 0px;border-radius: 0px 0px 4px 4px; margin:10px 5px; font-size: 12px;width:auto;overflow: hidden;}
+    .sort-nav li{ display:inline; height:35px; line-height:35px; padding:0px 20px;width:auto;border-right:1px dotted #ddd;}
+    .sort-nav li.big{display:block;border: none;} 
+    .sort-nav li.first{background: #F5F5F5;color: #000;}
+
+
+    /*筛选条件*/
+    .select-list,.select-list dl{width:100%;}
+    .select dl dt{left:-100px;top:10px;}
+    .select-list dl dt{top:5px;}
+    .select dt{width:100px;margin-left:0;text-align:center;color:#666;height:24px;line-height:24px;}
+    .select-list .dd-conent{ display:inline-block;float:left;background: none;width:100%;position: static;}
+    dl#select2 .dd-conent,dl#select3 .dd-conent{ left:0; right:0;}
+
+    /*搜索结果*/
+    li.select-result dl {padding: 10px 0px;}
+
+    .scoll{ margin-top:70px;}
+    .am-slider-default .am-direction-nav a {z-index:0;}
+    span.am-icon-th-list{color:orangered;margin-right:1px ;}
+
+
+
+    /*改写的布局*/   
+    .flood li{width:33.3%;float: left; text-align: center;}
+    .smallnav img{max-width:60px;}
+    .smallnav{ font-size:14px;}
+
+
+    /*文字布局*/
+    .limit p.title,.i-pic.check p.title{padding:0px 10px;overflow:hidden;height:36px;line-height:18px ;}
+    .price.fl{font-size:16px ;}
+
+    .search-pages-submit { display: none; }
+}
+
+@media only screen and (min-width:1025px) {
+    .search{margin: 0px 40px 0px 0px;padding-top:10px ;} 
+    .nav.white{padding-left:0px}
+
+    /*选中效果*/
+    .search-list ul li:hover .i-pic.limit,.search-side li:hover .i-pic.check{box-shadow:0px 12px 12px -10px rgba(0,0,0,.4);}
+}
+
+@media only screen and (max-width: 640px) {
+    .theme-popover { padding: 0; }
+    .data-list li:nth-child(2n) .i-pic.limit { margin-right: 0px; }
+    .data-list li:nth-child(2n+1) .i-pic.limit { margin-left: 0px; }
+    .search-pages { display: none; }
+    .search-pages-submit { display: block; }
+    .eliminateCriteria { margin-top: -28px; }
+}

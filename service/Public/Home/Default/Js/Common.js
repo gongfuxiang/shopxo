@@ -84,6 +84,7 @@ $(function()
     {
         if($(window).width() > 625)
         {
+            // 防止导航浮动
             $('.nav-search').css('position','relative');
         }
     });
