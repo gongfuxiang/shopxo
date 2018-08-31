@@ -50,9 +50,10 @@
 					<th>{{:L('goods_title_text')}}</th>
 					<th>{{:L('goods_price_text')}}</th>
 					<th>{{:L('goods_is_shelves_text')}}</th>
-					<th>{{:L('goods_is_home_recommended_text')}}</th>
+					<th class="am-hide-sm-only">{{:L('goods_is_home_recommended_text')}}</th>
 					<th class="am-hide-sm-only">{{:L('goods_inventory_text')}}</th>
 					<th class="am-hide-sm-only">{{:L('goods_model_text')}}</th>
+					<th class="am-hide-sm-only">{{:L('goods_brand_id_text')}}</th>
 					<th>{{:L('common_more_name')}}</th>
 					<th>{{:L('common_operation_name')}}</th>
 				</tr>
@@ -76,11 +77,12 @@
 							<td>
 								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_shelves'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Goods/StatusShelves')}}" data-id="{{$v.id}}" data-state="{{$v['is_shelves']}}"  data-is-update-status="1"></a>
 							</td>
-							<td>
+							<td class="am-hide-sm-only">
 								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_home_recommended'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Goods/StatusHomeRecommended')}}" data-id="{{$v.id}}" data-state="{{$v['is_home_recommended']}}" data-is-update-status="0"></a>
 							</td>
 							<td class="am-hide-sm-only">{{$v.inventory}} {{$v.inventory_unit}}</td>
 							<td class="am-hide-sm-only">{{$v.model}}</td>
+							<td class="am-hide-sm-only">{{$v.brand_name}}</td>
 							<td>
 								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> {{:L('common_see_more_name')}}</span>
 								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
@@ -117,6 +119,9 @@
 
 												<dt>{{:L('goods_model_text')}}</dt>
 												<dd>{{$v.model}}</dd>
+
+												<dt>{{:L('goods_brand_id_text')}}</dt>
+												<dd>{{$v.brand_name}}</dd>
 
 												<dt>{{:L('goods_place_origin_text')}}</dt>
 												<dd>{{$v.place_origin_text}}</dd>

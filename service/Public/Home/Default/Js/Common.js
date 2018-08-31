@@ -33,7 +33,6 @@ $(function()
 
     // 商品分类子级内容显示/隐藏
     $(".category-content li").hover(function() {
-        console.log(1);
         $(".category-content .category-list li.first .menu-in").css("display", "none");
         $(".category-content .category-list li.first").removeClass("hover");
         $(this).addClass("hover");
@@ -50,7 +49,7 @@ $(function()
         {
             if(!$('#goods-category .category-content').is(":visible"))
             {
-                $('#goods-category .category-content').slideDown(300);
+                $('#goods-category .category-content').slideDown(200);
             }
             
         }

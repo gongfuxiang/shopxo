@@ -95,5 +95,7 @@ return array(
 
 	'goods_home_recommended_images_text'=> '首页推荐图片',
 	'goods_home_recommended_images_tips'=> '留空则取相册第一张图',
+
+	'goods_brand_id_text'				=> '品牌',
 );
 ?>

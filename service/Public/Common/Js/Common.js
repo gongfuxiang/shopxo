@@ -568,9 +568,9 @@ $(function()
 		});
 	}
 	// 多选插件 空内容失去焦点验证bug兼容处理
-	$(document).on('blur', 'ul.chosen-choices .search-field', function()
+	$(document).on('blur', 'ul.chosen-choices .search-field, div.chosen-select .chosen-search', function()
 	{
-		if($('ul.chosen-choices li').length <= 1)
+		if($(this).parent().find('li').length <= 1 || $(this).parent().parent().find('.chosen-default').length >= 1)
 		{
 			$(this).parent().parent().prev().trigger('blur');
 		}

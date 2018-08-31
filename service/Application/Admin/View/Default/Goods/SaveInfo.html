@@ -66,12 +66,30 @@
 						<if condition="!empty($category_list)">
 							<foreach name="category_list" item="v">
 								<optgroup label="{{$v.name}}">
-									<if condition="!empty($category_list)">
+									<if condition="!empty($v['items'])">
 										<foreach name="v.items" item="vs">
 											<option style="padding-left: 30px;" value="{{$vs.id}}" <if condition="!empty($data['category_ids']) and in_array($vs['id'], $data['category_ids'])">selected</if>>{{:L('goods_category_level_two')}}-{{$vs.name}}</option>
 											<foreach name="vs.items" item="vss">
 												<option style="padding-left: 60px;" value="{{$vss.id}}" <if condition="!empty($data['category_ids']) and in_array($vss['id'], $data['category_ids'])">selected</if>>{{:L('goods_category_level_three')}}-{{$vss.name}}</option>
 											</foreach>
+										</foreach>
+									</if>
+								</optgroup>
+							</foreach>
+						</if>
+					</select>
+				</div>
+				<div class="am-form-group">
+					<label>{{:L('goods_brand_id_text')}}</label>
+					<br />
+					<select name="brand_id" class="am-radius chosen-select c-p" data-placeholder="{{:L('common_please_select_choose')}}" data-validation-message="{{:L('goods_category_id_format')}}">
+						<if condition="!empty($brand_list)">
+							<option value="0">{{:L('common_please_select_choose')}}</option>
+							<foreach name="brand_list" item="v">
+								<optgroup label="{{$v.name}}">
+									<if condition="!empty($v['items'])">
+										<foreach name="v.items" item="vs">
+											<option style="padding-left: 30px;" value="{{$vs.id}}" <if condition="isset($data['brand_id']) and $data['brand_id'] eq $vs['id']">selected</if>>{{$vs.name}}</option>
 										</foreach>
 									</if>
 								</optgroup>

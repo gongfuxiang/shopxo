@@ -102,6 +102,9 @@ class GoodsController extends CommonController
 				// 产地
 				$v['place_origin_text'] = M('Region')->where(['id'=>$v['place_origin']])->getField('name');
 
+				// 品牌
+				$v['brand_name'] = empty($v['brand_id']) ? null : M('Brand')->where(['id'=>$v['brand_id']])->getField('name');
+
 				// 商品url地址
 				$v['goods_url'] = HomeUrl('Goods', 'Index', ['id'=>$v['id']]);
 
@@ -199,6 +202,17 @@ class GoodsController extends CommonController
 			}
 		}
 		$this->assign('category_list', $category);
+
+		// 品牌分类
+		$brand_list = M('BrandCategory')->where(['is_enable'=>1])->select();
+		if(!empty($brand_list))
+		{
+			foreach($brand_list as &$v)
+			{
+				$v['items'] = M('Brand')->field('id,name')->where(['is_enable'=>1, ['brand_category_id'=>$v['id']]])->order('sort asc')->select();
+			}
+		}
+		$this->assign('brand_list', $brand_list);
 
 		// 基础数据处理
 		if(!empty($data))
@@ -313,6 +327,7 @@ class GoodsController extends CommonController
 			'photo_count'				=> count($photo['data']),
 			'is_home_recommended'		=> intval(I('is_home_recommended')),
 			'home_recommended_images'	=> empty($images['data']['file_home_recommended_images']) ? trim($_POST['home_recommended_images']) : $images['data']['file_home_recommended_images'],
+			'brand_id'					=> intval(I('brand_id')),
 		];
 
 		// 添加/编辑
