@@ -453,6 +453,9 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
 /* 价格颜色 */
 .price strong {color: #E4393C; font-weight: 600; }
 
+/* 公共错误提示页面 */
+.tips-error { margin-top: 10%; }
+
 /**
  * 底部
  */

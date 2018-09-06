@@ -12,6 +12,26 @@ namespace Service;
 class GoodsService
 {
     /**
+     * 根据id获取一条商品分类
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-08-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function GoodsCategoryRow($params = [])
+    {
+        if(empty($params['id']))
+        {
+            return null;
+        }
+        $field = empty($params['field']) ? 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended' : $params['field'];
+        $data = self::GoodsCategoryDataDealWith([M('GoodsCategory')->field($field)->where(['is_enable'=>1, 'id'=>intval($params['id'])])->find()]);
+        return empty($data[0]) ? null : $data[0];
+    }
+
+    /**
      * 获取大分类
      * @author   Devil
      * @blog    http://gong.gg/
@@ -25,7 +45,6 @@ class GoodsService
         $data = self::GoodsCategoryList(['pid'=>0]);
         if(!empty($data))
         {
-            $images_host = C('IMAGE_HOST');
             foreach($data as &$v)
             {
                 $v['items'] = self::GoodsCategoryList(['pid'=>$v['id']]);
@@ -53,15 +72,38 @@ class GoodsService
     public static function GoodsCategoryList($params = [])
     {
         $pid = isset($params['pid']) ? intval($params['pid']) : 0;
-        $images_host = C('IMAGE_HOST');
         $field = 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended';
         $data = M('GoodsCategory')->field($field)->where(['is_enable'=>1, 'pid'=>$pid])->order('sort asc')->select();
-        if(!empty($data))
+        return self::GoodsCategoryDataDealWith($data);
+    }
+
+    /**
+     * 商品分类数据处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-06
+     * @desc    description
+     * @param   [array]          $data [商品分类数据 二维数组]
+     */
+    private static function GoodsCategoryDataDealWith($data)
+    {
+        if(!empty($data) && is_array($data))
         {
+            $images_host = C('IMAGE_HOST');
             foreach($data as &$v)
             {
-                $v['icon']          = empty($v['icon']) ? null : $images_host.$v['icon'];
-                $v['big_images']    = empty($v['big_images']) ? null : $images_host.$v['big_images'];
+                if(is_array($v))
+                {
+                    if(isset($v['icon']))
+                    {
+                        $v['icon'] = empty($v['icon']) ? null : $images_host.$v['icon'];
+                    }
+                    if(isset($v['big_images']))
+                    {
+                        $v['big_images'] = empty($v['big_images']) ? null : $images_host.$v['big_images'];
+                    }
+                }
             }
         }
         return $data;
@@ -84,8 +126,8 @@ class GoodsService
         {
             foreach($goods_category as &$v)
             {
-                $category_all = self::GoodsCategoryItemsIds($v['id']);
-                $v['goods'] = self::GoodsList(['where'=>['gci.category_id'=>['in', $category_all], 'is_home_recommended'=>1], 'm'=>0, 'n'=>6]);
+                $category_ids = self::GoodsCategoryItemsIds(['category_id'=>$v['id']]);
+                $v['goods'] = self::GoodsList(['where'=>['gci.category_id'=>['in', $category_ids], 'is_home_recommended'=>1], 'm'=>0, 'n'=>6]);
             }
         }
         return $goods_category;

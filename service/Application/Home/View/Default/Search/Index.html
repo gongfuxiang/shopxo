@@ -27,53 +27,59 @@
             </div>
             <ul class="select">
                 <p class="title-tips">
-                    <span class="fl">松子</span>
-                    <span class="total fl">搜索到<strong class="num">997</strong>件相关商品</span>
+                    <span>分类</span>
+                    <strong>复古复古</strong>
+                    <span>筛选结果</span>
                 </p>
                 <li class="select-result">
                     <dl>
                         <dt>已选</dt>
                         <dd class="select-no"></dd>
-                        <p class="eliminateCriteria">清除</p>
+                        <p class="screening-remove-submit">清除</p>
                     </dl>
                 </li>
                 <li class="select-list">
-                    <dl id="select1">
+                    <dl id="screening-brand-dl">
                         <dt class="am-badge am-round">品牌</dt>   
-                    
-                         <div class="dd-conent">                                        
-                            <dd class="select-all selected"><a href="#">全部</a></dd>
-                            <dd><a href="#">百草味</a></dd>
-                            <dd><a href="#">良品铺子</a></dd>
-                            <dd><a href="#">新农哥</a></dd>
-                            <dd><a href="#">楼兰蜜语</a></dd>
-                            <dd><a href="#">口水娃</a></dd>
-                            <dd><a href="#">考拉兄弟</a></dd>
+                         <div class="dd-conent" data-selected-tag="screening-brand">                                        
+                            <dd class="select-all selected"><a href="javascript:;">不限</a></dd>
+                            <if condition="!empty($brand_list)">
+                                <foreach name="brand_list" item="brand">
+                                    <dd><a href="javascript:;" data-value="{{$brand.id}}">{{$brand.name}}</a></dd>
+                                </foreach>
+                            <else />
+                                <span class="not-tips">没有相关品牌</span>
+                            </if>
                          </div>
-        
                     </dl>
                 </li>
                 <li class="select-list">
-                    <dl id="select2">
-                        <dt class="am-badge am-round">种类</dt>
-                        <div class="dd-conent">
-                            <dd class="select-all selected"><a href="#">全部</a></dd>
-                            <dd><a href="#">东北松子</a></dd>
-                            <dd><a href="#">巴西松子</a></dd>
-                            <dd><a href="#">夏威夷果</a></dd>
-                            <dd><a href="#">松子</a></dd>
+                    <dl id="screening-category-dl">
+                        <dt class="am-badge am-round">分类</dt>
+                        <div class="dd-conent" data-selected-tag="screening-category">
+                            <dd class="select-all selected"><a href="javascript:;">不限</a></dd>
+                            <if condition="!empty($category_list)">
+                                <foreach name="category_list" item="category">
+                                    <dd><a href="javascript:;">{{$category.name}}</a></dd>
+                                </foreach>
+                            <else />
+                                <span class="not-tips">没有相关分类</span>
+                            </if>
                         </div>
                     </dl>
                 </li>
                 <li class="select-list">
-                    <dl id="select3">
-                        <dt class="am-badge am-round">选购热点</dt>
-                        <div class="dd-conent">
-                            <dd class="select-all selected"><a href="#">全部</a></dd>
-                            <dd><a href="#">手剥松子</a></dd>
-                            <dd><a href="#">薄壳松子</a></dd>
-                            <dd><a href="#">进口零食</a></dd>
-                            <dd><a href="#">有机零食</a></dd>
+                    <dl id="screening-price-dl">
+                        <dt class="am-badge am-round">价格</dt>
+                        <div class="dd-conent" data-selected-tag="screening-price">
+                            <dd class="select-all selected"><a href="javascript:;">不限</a></dd>
+                            <if condition="!empty($price_list)">
+                                <foreach name="price_list" item="price">
+                                    <dd><a href="javascript:;">{{$price.name}}</a></dd>
+                                </foreach>
+                            <else />
+                                <span class="not-tips">没有相关价格</span>
+                            </if>
                         </div>
                     </dl>
                 </li>

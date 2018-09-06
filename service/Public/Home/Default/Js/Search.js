@@ -1,83 +1,45 @@
 $(function()
 {
-    $("#select1 dd").click(function() {
+    // 筛选操作
+    $(document).on('click', '.select-list dl dd', function()
+    {
         $(this).addClass("selected").siblings().removeClass("selected");
+        var selected_tag_name = $(this).parent('.dd-conent').attr('data-selected-tag');
+        console.log(selected_tag_name)
         if ($(this).hasClass("select-all")) {
-            $("#selectA").remove();
+            $('#'+selected_tag_name).remove();
         } else {
-            var copyThisA = $(this).clone();
-            if ($("#selectA").length > 0) {
-                $("#selectA a").html($(this).text());
+            if ($('#'+selected_tag_name).length > 0) {
+                $('#'+selected_tag_name).find("a").html($(this).text());
             } else {
-                $(".select-result dl").append(copyThisA.attr("id", "selectA"));
-
+                var copy_html = $(this).clone();
+                $(".select-result dl").append(copy_html.attr("id", selected_tag_name));
             }
         }
     });
 
-    $("#select2 dd").click(function() {
-        $(this).addClass("selected").siblings().removeClass("selected");
-        if ($(this).hasClass("select-all")) {
-            $("#selectB").remove();
+    $(document).on('click', '.select-result dl dd', function() {
+        $(this).remove();
+        $('#'+$(this).attr('id')+'-dl').find('.select-all').addClass('selected').siblings().removeClass('selected');
+    });
+
+    $(document).on('click', 'ul.select dd', function() {
+        if ($('.select-result dd').length > 1) {
+            $('.select-no').hide();
+            $('.screening-remove-submit').show();
+            $('.select-result').show();
         } else {
-            var copyThisB = $(this).clone();
-            if ($("#selectB").length > 0) {
-                $("#selectB a").html($(this).text());
-            } else {
-                $(".select-result dl").append(copyThisB.attr("id", "selectB"));
-            }
+            $('.select-no').show();
+            $('.select-result').hide();
         }
     });
 
-    $("#select3 dd").click(function() {
-        $(this).addClass("selected").siblings().removeClass("selected");
-        if ($(this).hasClass("select-all")) {
-            $("#selectC").remove();
-        } else {
-            var copyThisC = $(this).clone();
-            if ($("#selectC").length > 0) {
-                $("#selectC a").html($(this).text());
-            } else {
-                $(".select-result dl").append(copyThisC.attr("id", "selectC"));
-            }
-        }
-    });
-
-    $(document).on("click", "#selectA", function() {
-        $(this).remove();
-        $("#select1 .select-all").addClass("selected").siblings().removeClass("selected");
-    });
-
-    $(document).on("click", "#selectB", function() {
-        $(this).remove();
-        $("#select2 .select-all").addClass("selected").siblings().removeClass("selected");
-    });
-
-    $(document).on("click", "#selectC", function() {
-        $(this).remove();
-        $("#select3 .select-all").addClass("selected").siblings().removeClass("selected");
-    });
-
-    $(document).on("click", ".select dd", function() {
-        if ($(".select-result dd").length > 1) {
-            $(".select-no").hide();
-            $(".eliminateCriteria").show();
-            $(".select-result").show();
-        } else {
-            $(".select-no").show();
-            $(".select-result").hide();
-
-        }
-    });
-
-    $(".eliminateCriteria").on("click", function() {
-        $("#selectA").remove();
-        $("#selectB").remove();
-        $("#selectC").remove();
-        $(".select-all").addClass("selected").siblings().removeClass("selected");
-        $(".eliminateCriteria").hide();
-        $(".select-no").show();
-        $(".select-result").hide();
+    $(".screening-remove-submit").on("click", function() {
+        $('.select-result dd.selected').remove();
+        $('.select-list .select-all').addClass('selected').siblings().removeClass('selected');
+        $(this).hide();
+        $('.select-result .select-no').show();
+        $('.select-result').hide();
 
     });
 
@@ -102,7 +64,7 @@ $(function()
         })
 
 
-        $(document).on("click", ".eliminateCriteria", function() {
+        $(document).on("click", ".screening-remove-submit", function() {
             $(".dd-conent").slideUp(300);
         })
 
