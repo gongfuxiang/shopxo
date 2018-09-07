@@ -13,7 +13,7 @@
                                 <div class="category-info">
                                     <h3 class="category-name b-category-name">
                                         <i><img src="{{$v.icon}}"></i>
-                                        <a href="{{:__MY_URL__}}search.php?category_id={{$v.id}}" class="ml-22" title="{{$v.name}}">{{$v.name}}</a>
+                                        <a href="{{:U('Home/Search/Index', ['category_id'=>$v['id']])}}" class="ml-22" title="{{$v.name}}">{{$v.name}}</a>
                                     </h3>
                                     <em>&gt;</em>
                                 </div>
@@ -26,14 +26,14 @@
                                                         <foreach name="v.items" item="vs">
                                                             <dl class="dl-sort">
                                                                 <dt>
-                                                                    <a href="{{:__MY_URL__}}search.php?category_id={{$vs.id}}" title="{{$vs.name}}">
+                                                                    <a href="{{:U('Home/Search/Index', ['category_id'=>$vs['id']])}}" title="{{$vs.name}}">
                                                                         <span title="{{$vs.name}}">{{$vs.name}}</span>
                                                                     </a>
                                                                 </dt>
                                                                 <if condition="!empty($vs['items'])">
                                                                     <foreach name="vs.items" item="vss">
                                                                         <dd>
-                                                                            <a href="{{:__MY_URL__}}search.php?category_id={{$vss.id}}" title="{{$vss.name}}">
+                                                                            <a href="{{:U('Home/Search/Index', ['category_id'=>$vss['id']])}}" title="{{$vss.name}}">
                                                                                 <span>{{$vss.name}}</span>
                                                                             </a>
                                                                         </dd>

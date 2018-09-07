@@ -456,7 +456,7 @@ function Tree(id, url, level, is_add_node)
 					{
 						html += '<a href="'+result.data[i]['icon_url']+'" target="_blank"><img src="'+result.data[i]['icon_url']+'" width="20" height="20" style="margin-right:5px;" /></a>';
 					}
-					html += '<span>'+result.data[i]['name']+'</span>';
+					html += '<span>'+(result.data[i]['name_alias'] || result.data[i]['name'])+'</span>';
 					html += '</span>';
 
 

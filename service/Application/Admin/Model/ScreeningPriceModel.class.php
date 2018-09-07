@@ -16,6 +16,8 @@ class ScreeningPriceModel extends CommonModel
 	protected $_validate = array(
 		// 添加,编辑
 		array('name', '2,16', '{%common_name_format}', 1, 'length', 3),
+		array('min_price', '1,10', '{%screening_price_min_price_format}', 1, 'length', 3),
+		array('max_price', '1,10', '{%screening_price_max_price_format}', 1, 'length', 3),
 		array('is_enable', array(0,1), '{%common_enable_tips}', 1, 'in', 3),
 		array('sort', 'CheckSort', '{%common_sort_error}', 1, 'function', 3),
 

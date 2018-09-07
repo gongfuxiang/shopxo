@@ -12,8 +12,8 @@
     </div>
 
     <div class="search-bar pr">
-        <form action="search.php">
-            <input id="searchInput" name="keywords" type="text" placeholder="{{:L('common_so_tips')}}" autocomplete="off" />
+        <form action="{{:U('Home/Search/Index')}}" method="POST">
+            <input id="search-input" name="keywords" type="text" placeholder="{{:L('common_so_tips')}}" value="<if condition="!empty($params['keywords'])">{{$params.keywords}}</if>" />
             <input id="ai-topsearch" class="submit am-btn" placeholder="{{:L('common_so_tips')}}" index="1" type="submit" value="{{:L('common_so_text')}}" />
         </form>
     </div>

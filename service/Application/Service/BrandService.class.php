@@ -5,7 +5,7 @@ namespace Service;
 use Service\GoodsService;
 
 /**
- * 品牌
+ * 品牌服务层
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1

@@ -65,6 +65,7 @@ class ScreeningPriceController extends CommonController
 		{
 			foreach($data as $k=>$v)
 			{
+				$alias = '';
 				if(!empty($v['min_price']) && !empty($v['max_price']))
 				{
 					$alias = $v['min_price'].'-'.$v['max_price'];
@@ -77,6 +78,7 @@ class ScreeningPriceController extends CommonController
 				{
 					$alias = $v['min_price'].'以上';
 				}
+				$alias = empty($alias) ? '' : '<span class="mini-tips-text">('.$alias.')</span>';
 				$data[$k]['name_alias'] =	$v['name'].' '.$alias;
 				$data[$k]['is_son']		=	$this->IsExistSon($v['id']);
 				$data[$k]['ajax_url']	=	U('Admin/ScreeningPrice/GetNodeSon', array('id'=>$v['id']));

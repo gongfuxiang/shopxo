@@ -60,7 +60,7 @@ li.select-result dt {left:-26px; top:0;font-weight:bold;width:50px;}
 
 .select-list dl dt{left:0px; cursor:pointer; text-align: center;}
 {display:none ;float:left; top:20px; padding-top:5px; z-index:10; left:0px; width:300%;position:absolute;}
-.select-list .dd-conent{display:none ;float:left; top:30px; z-index:10; left:0px; width:300%;position:absolute; background:#fff;overflow: hidden;}
+.select-list .dd-conent{display:none ;z-index:10; left:0; width:100%;position:fixed; background:#fff;overflow: hidden;}
 .select-list .dd-conent dd{width:33.33% ;text-align: center;margin-left: 0px;height:25px ;}
 dl#select2 .dd-conent{ left:-100%; right:-100%;}
 dl#select3 .dd-conent{ left:-200%; right:0px;}
@@ -135,8 +135,6 @@ dl#select3 .dd-conent{ left:-200%; right:0px;}
     /*文字布局*/
     .limit p.title,.i-pic.check p.title{padding:0px 10px;overflow:hidden;height:36px;line-height:18px ;}
     .price.fl{font-size:16px ;}
-
-    .search-pages-submit { display: none; }
 }
 
 @media only screen and (min-width:1025px) {
@@ -151,8 +149,6 @@ dl#select3 .dd-conent{ left:-200%; right:0px;}
     .theme-popover { padding: 0; }
     .data-list li:nth-child(2n) .i-pic.limit { margin-right: 0px; }
     .data-list li:nth-child(2n+1) .i-pic.limit { margin-left: 0px; }
-    .search-pages { display: none; }
-    .search-pages-submit { display: block; }
     .screening-remove-submit { margin-top: -28px; }
     .select .title-tips { padding: 0 5px; }
 }

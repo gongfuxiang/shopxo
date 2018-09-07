@@ -3,7 +3,7 @@
 namespace Service;
 
 /**
- * 文章
+ * 文章服务层
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
