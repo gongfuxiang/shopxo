@@ -160,6 +160,21 @@ class GoodsService
     }
 
     /**
+     * 获取商品总数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-07
+     * @desc    description
+     * @param   array           $params [输入参数: where, field, is_photo]
+     */
+    public static function GoodsTotal($params = [])
+    {
+        $where = empty($params['where']) ? [] : $params['where'];
+        return (int) M('Goods')->alias('g')->join(' INNER JOIN __GOODS_CATEGORY_JOIN__ AS gci ON g.id=gci.goods_id')->where($where)->count('DISTINCT g.id');
+    }
+
+    /**
      * 获取商品列表
      * @author   Devil
      * @blog    http://gong.gg/
@@ -180,7 +195,7 @@ class GoodsService
 
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
-        $data = M('Goods')->alias('g')->join(' INNER JOIN __GOODS_CATEGORY_JOIN__ AS gci ON g.id=gci.goods_id') ->field($field)->where($where)->group('g.id')->order($order_by)->limit($m, $n)->select();
+        $data = M('Goods')->alias('g')->join(' INNER JOIN __GOODS_CATEGORY_JOIN__ AS gci ON g.id=gci.goods_id')->field($field)->where($where)->group('g.id')->order($order_by)->limit($m, $n)->select();
         if(!empty($data))
         {
             $images_host = C('IMAGE_HOST');

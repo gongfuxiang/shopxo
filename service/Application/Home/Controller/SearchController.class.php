@@ -28,8 +28,14 @@ class SearchController extends CommonController
         // 调用父类前置方法
         parent::_initialize();
 
+        // 品牌id
+        $this->params['brand_id'] = intval(I('brand_id', 0));
+
         // 分类id
         $this->params['category_id'] = intval(I('category_id', 0));
+
+        // 筛选价格id
+        $this->params['screening_price_id'] = intval(I('screening_price_id', 0));
 
         // 搜索关键字
         $this->params['keywords'] = trim(I('keywords'));
@@ -79,7 +85,8 @@ class SearchController extends CommonController
     public function GoodsList()
     {
         $data = SearchService::GoodsList($this->params);
-        $this->ajaxReturn(L('common_operation_success'), 0, $data);
+        $msg = empty($data['data']) ? L('common_not_data_tips') : L('common_operation_success');
+        $this->ajaxReturn($msg, 0, $data);
     }
 }
 ?>

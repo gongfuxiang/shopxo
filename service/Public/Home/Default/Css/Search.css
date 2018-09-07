@@ -142,7 +142,7 @@ dl#select3 .dd-conent{ left:-200%; right:0px;}
     .nav.white{padding-left:0px}
 
     /*选中效果*/
-    .search-list ul li:hover .i-pic.limit,.search-side li:hover .i-pic.check{box-shadow:0px 12px 12px -10px rgba(0,0,0,.4);}
+    .search-list ul li:hover .i-pic.limit,.search-side li:hover .i-pic.check{box-shadow:0px 12px 12px -10px rgba(0,0,0,.4); border: 1px solid #d2364c; }
 }
 
 @media only screen and (max-width: 640px) {

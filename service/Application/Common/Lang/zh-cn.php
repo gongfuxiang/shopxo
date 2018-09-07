@@ -41,7 +41,7 @@ return array(
 	'common_ip_name'					=>	'ip地址',
 	'common_admin_name'					=>	'管理员',
 	'common_not_login_name'				=>	'未登录',
-	'common_not_data_tips'				=>	'没有数据',
+	'common_not_data_tips'				=>	'没有相关数据',
 	'common_create_time_name'			=>	'创建时间',
 	'common_reg_time_name'				=>	'注册时间',
 	'common_upd_time_name'				=>	'更新时间',

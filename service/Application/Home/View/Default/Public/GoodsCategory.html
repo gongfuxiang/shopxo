@@ -1,9 +1,11 @@
 <!-- 商品分类  -->
 <div id="goods-category" class="am-container" data-controller-name="{{$controller_name}}">
     <div class="goods-category-s">
-        <div class="goods-category-title">
-            <span class="all-goods">全部分类</span>
-        </div>
+        <a href="{{:U('Home/Search/Index')}}">
+            <div class="goods-category-title">
+                <span class="all-goods">全部分类</span>
+            </div>
+        </a>
         <div class="category-content" <if condition="isset($controller_name) and $controller_name neq 'Index'">style="display:none;"</if>>
             <div class="category">
                 <ul class="category-list" id="js_climit_li">

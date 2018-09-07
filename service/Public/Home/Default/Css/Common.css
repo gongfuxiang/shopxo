@@ -50,8 +50,9 @@ body{margin:0;
 
    
 a:link,a:visited,a:hover{text-decoration:none; outline:none;}
+a:hover, a:focus { color: #d2364c; }
+
 /*所有超链接不要下划线*/
-    
 *, *:after, *:before{
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
