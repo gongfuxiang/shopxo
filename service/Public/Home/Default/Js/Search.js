@@ -143,7 +143,7 @@ $(function()
             data:data,
             success:function(result)
             {
-                if(result.code == 0 && result.data.data.length > 0)
+                if(result.code == 0)
                 {
                     for(var i in result.data.data)
                     {
@@ -161,6 +161,20 @@ $(function()
                         $('.data-list').append(html);
                     }
                     $('.search-pages-submit').attr('data-page', data.page+1);
+                    $('.search-pages-submit').attr('disabled', (result.data.page_total <= 1));
+                    $('.search-pages-submit').show();
+                    $('.table-no').hide();
+                } else if(result.code == -100) {
+                    if($('.data-list li').length == 0)
+                    {
+                        $('.table-no').show();
+                        $('.search-pages-submit').hide();
+                    } else {
+                        $('.table-no').hide();
+                        $('.search-pages-submit').show();
+                        $('.search-pages-submit').attr('disabled', true);
+                    }
+                    Prompt(result.msg);
                 } else {
                     Prompt(result.msg);
                 }

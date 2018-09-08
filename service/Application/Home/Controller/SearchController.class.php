@@ -85,8 +85,15 @@ class SearchController extends CommonController
     public function GoodsList()
     {
         $data = SearchService::GoodsList($this->params);
-        $msg = empty($data['data']) ? L('common_not_data_tips') : L('common_operation_success');
-        $this->ajaxReturn($msg, 0, $data);
+        if(empty($data['data']))
+        {
+            $msg = L('common_not_data_tips');
+            $code = -100;
+        } else {
+            $msg = L('common_operation_success');
+            $code = 0;
+        }
+        $this->ajaxReturn($msg, $code, $data);
     }
 }
 ?>

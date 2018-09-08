@@ -105,7 +105,10 @@
                 <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-5 data-list"></ul>
             </div>
 
-            <!--分页 -->
+            <!-- 没有数据 -->
+            <div class="table-no" style="display:none;"><i class="am-icon-warning"></i> {{:L('common_not_data_tips')}}</div>
+
+            <!-- 分页 -->
             <button type="button" class="am-btn am-btn-default am-btn-block search-pages-submit" data-url="{{:U('Home/Search/GoodsList')}}">加载更多 <i class="am-icon-angle-double-down"></i></button>
         </div>
     </div>

@@ -1,5 +1,5 @@
 /* 没数据 */
-.table-no {text-align:center;padding-top:30px !important;background:#FFF !important;}
+.table-no {text-align:center;padding-top:30px !important;background:#FFF !important; color: #888; }
 
 /* 公共dl样式 */
 .dl-content dt { float: left; padding-left: 5px; overflow: hidden; clear: left;  
