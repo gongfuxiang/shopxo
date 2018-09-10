@@ -111,7 +111,7 @@
                 							<if condition="!empty($category['items'])">
 		                						<foreach name="category.items" key="keys" item="categorys">
 		                							<if condition="$key lt 6 and $keys eq 0 and isset($categorys['is_home_recommended']) and $categorys['is_home_recommended'] eq 1">
-														<a href="#">{{$categorys.name}}</a>
+														<a href="{{:U('Home/Search/Index', ['category_id'=>$categorys['id']])}}">{{$categorys.name}}</a>
 													</if>
 												</foreach>
 											</if>
@@ -119,7 +119,7 @@
 									</if>
 								</div>
 								<span class="more">
-			            			<a href="#">更多<i class="am-icon-angle-right" style="padding-left:10px ;" ></i></a>
+			            			<a href="{{:U('Home/Search/Index', ['category_id'=>$floor['id']])}}">更多<i class="am-icon-angle-right" style="padding-left:10px ;" ></i></a>
 			                	</span>
 							</div>
 						</div>
@@ -130,7 +130,7 @@
 									<if condition="!empty($floor['items'])">
                 						<foreach name="floor.items" item="category">
                 							<if condition="$key lt 6 and isset($category['is_home_recommended']) and $category['is_home_recommended'] eq 1">
-												<a class="outer" href="#">
+												<a href="{{:U('Home/Search/Index', ['category_id'=>$category['id']])}}" class="outer">
 													<span class="inner">
 														<b class="text">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</b>
 													</span>

@@ -80,7 +80,7 @@ class SearchService
         {
             $category_ids = GoodsService::GoodsCategoryItemsIds(['category_id'=>$params['category_id']]);
             $category_ids[] = $params['category_id'];
-            $where['gci.id'] = ['in', $category_ids];
+            $where['gci.category_id'] = ['in', $category_ids];
         }
 
         // 筛选价格

@@ -144,6 +144,7 @@ $(function()
     {
         // 请求参数处理
         var data = {
+            category_id: $('.search-content').data('category-id') || 0,
             keywords: $('#search-input').val() || '',
             page: page || parseInt($('.search-pages-submit').attr('data-page')) || 1,
             order_by_field: $('.sort-nav li.active').attr('data-field') || 'default',
