@@ -25,7 +25,7 @@ img{ width:100%;}
 /* select */
 .sort-nav{padding:0px;font-size:12px}
 
-.suggest,.searchAbout{ display:none;}
+.suggest{ display:none;}
 .select li { margin: 5px 0px; }
 .select dl{zoom:1;position:relative;line-height:24px; }
 .select dl:after{content:" ";display:block;clear:both;height:0;overflow:hidden}
@@ -85,9 +85,8 @@ dl#select3 .dd-conent{ left:-200%; right:0px;}
     .select-list .dd-conent dd{width:auto;text-align: center;margin-left:5px;}
 
     .select li.select-result{display: none;}
-    .suggest,.searchAbout,ul.pagination{ display:block;}
+    .suggest,ul.pagination{ display:block;}
     .select,.sort-nav{padding:10px 10px 5px 10px;border: 1px solid #eee;margin-top:5px;background: #fff;}
-    .searchAbout{padding:10px;}
 
     .select-list{width:100%;padding:0px 0px;}
     .select li{list-style:none;padding:0px 0px 0px 100px;border-top:#eee 1px dashed;float: none;display: block;height: auto;}
@@ -138,6 +137,9 @@ dl#select3 .dd-conent{ left:-200%; right:0px;}
 @media only screen and (min-width:1025px) {
     .search{margin: 0px 40px 0px 0px;padding-top:10px ;} 
     .nav.white{padding-left:0px}
+    .theme-popover { padding: 0px; margin-top: 10px; }
+    .sort-nav { margin: 10px 0; }
+    .data-list { width: calc(100% + 10px); margin-left: -5px; }
 
     /*选中效果*/
     .search-list ul li:hover .i-pic.limit,.search-side li:hover .i-pic.check{box-shadow:0px 12px 12px -10px rgba(0,0,0,.4); border: 1px solid #d2364c; }
