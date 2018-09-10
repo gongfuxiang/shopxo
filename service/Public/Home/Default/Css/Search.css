@@ -152,6 +152,7 @@ dl#select3 .dd-conent{ left:-200%; right:0px;}
     .screening-remove-submit { margin-top: -28px; }
     .select .title-tips { padding: 0 5px; }
     .sort-nav li { border-bottom: 1px solid #eee; }
+    .select-list .dd-conent { overflow-y: scroll;overflow-x: hidden; }
 }
 
 .not-tips { color: #666; font-size: 12px; text-align: center; display: block; }
