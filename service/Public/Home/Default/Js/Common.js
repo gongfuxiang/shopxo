@@ -49,14 +49,14 @@ $(function()
         {
             if(!$('#goods-category .category-content').is(":visible"))
             {
-                $('#goods-category .category-content').slideDown(200);
+                $('#goods-category .category-content').slideDown(100);
             }
             
         }
     }).mouseleave(function() {
         if($(this).data('controller-name') != 'Index')
         {
-            $('#goods-category .category-content').slideUp(300);
+            $('#goods-category .category-content').slideUp(100);
         }
     });
 
