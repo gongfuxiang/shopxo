@@ -396,7 +396,7 @@ li.am-comment{ width:100%}
     .tb-r-filter-bar li {text-align:left;width:auto ;padding:0px 10px;}
 
     /* 推荐商品 */
-    .like li:nth-of-type(4n) { border-right: 0px; }
+    .like li:nth-of-type(4n) { border-right: 0px !important; }
     .like li:nth-of-type(3n) { border-right: 1px solid #eee; }
     .like li:nth-child(4) { border-top: 0px; }
 }
