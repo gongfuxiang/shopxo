@@ -108,10 +108,20 @@ class SearchService
         // 获取商品列表
         if($result['total'] > 0)
         {
+            // 排序
+            $order_by = '';
+            if(!empty($params['order_by_field']) && !empty($params['order_by_type']) && $params['order_by_field'] != 'default')
+            {
+                $order_by = $params['order_by_field'].' '.$params['order_by_type'];
+            } else {
+                $order_by = 'access_count '.$params['order_by_type'].', sales_count '.$params['order_by_type'];
+            }
+            
+            // 分页计算
             $page = intval(I('page', 1));
             $n = 10;
             $m = intval(($page-1)*$n);
-            $result['data'] = GoodsService::GoodsList(['where'=>$where, 'm'=>$m, 'n'=>$n]);
+            $result['data'] = GoodsService::GoodsList(['where'=>$where, 'm'=>$m, 'n'=>$n, 'order_by'=>$order_by]);
             $result['page_total'] = ceil($result['total']/$n);
         }
         return $result;

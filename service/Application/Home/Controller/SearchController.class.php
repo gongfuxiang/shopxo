@@ -84,6 +84,11 @@ class SearchController extends CommonController
      */
     public function GoodsList()
     {
+        // 参数处理
+        $this->params['order_by_field'] = trim(I('order_by_field', 'default'));
+        $this->params['order_by_type'] = trim(I('order_by_type', 'desc'));
+        
+        // 获取商品列表
         $data = SearchService::GoodsList($this->params);
         if(empty($data['data']))
         {

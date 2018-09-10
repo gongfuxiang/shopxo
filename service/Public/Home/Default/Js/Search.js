@@ -45,6 +45,31 @@ $(function()
         get_goods_list(1);
     });
 
+    // 排序导航
+    $('.sort-nav li').on('click', function()
+    {
+        var type = $(this).attr('data-type');
+        $('.sort-nav li').attr('data-type', 'desc');
+        $('.sort-nav li a i').removeClass('am-icon-long-arrow-up').addClass('am-icon-long-arrow-down');
+
+        if($(this).hasClass('active'))
+        {
+            if(type == 'asc')
+            {
+                $(this).attr('data-type', 'desc');
+                $(this).find('a i').removeClass('am-icon-long-arrow-down').addClass('am-icon-long-arrow-up');
+            } else {
+                $(this).attr('data-type', 'asc');
+                $(this).find('a i').removeClass('am-icon-long-arrow-up').addClass('am-icon-long-arrow-down');
+            }
+        } else {
+            $('.sort-nav li').removeClass('active');
+            $(this).addClass('active');
+            $(this).attr('data-type', 'asc');
+        }
+        get_goods_list(1);
+    });
+
 
     var hh = document.documentElement.clientHeight;
     var ls = document.documentElement.clientWidth;
@@ -65,7 +90,6 @@ $(function()
                 $(".theme-popover").css({"position":"static", "top":0, "padding-top":"0"});
            }
         })
-
 
         $(document).on("click", ".screening-remove-submit", function() {
             $(".dd-conent").slideUp(300);
@@ -122,6 +146,8 @@ $(function()
         var data = {
             keywords: $('#search-input').val() || '',
             page: page || parseInt($('.search-pages-submit').attr('data-page')) || 1,
+            order_by_field: $('.sort-nav li.active').attr('data-field') || 'default',
+            order_by_type: $('.sort-nav li.active').attr('data-type') == 'asc' ? 'desc' : 'asc',
         }
         $('.select-result .selected a').each(function(k, v)
         {
@@ -134,6 +160,11 @@ $(function()
             $('.data-list').html('');
         }
 
+        // 页面提示处理
+        $('.loding-view').show();
+        $('.search-pages-submit').hide();
+        $('.table-no').hide();
+
         // 请求数据
         $.ajax({
             url:$('.search-pages-submit').data('url'),
@@ -143,6 +174,7 @@ $(function()
             data:data,
             success:function(result)
             {
+                $('.loding-view').hide();
                 if(result.code == 0)
                 {
                     for(var i in result.data.data)
@@ -182,6 +214,9 @@ $(function()
             },
             error:function(xhr, type)
             {
+                $('.loding-view').hide();
+                $('.search-pages-submit').hide();
+                $('.table-no').show();
                 Prompt('网络异常出错');
             }
         });

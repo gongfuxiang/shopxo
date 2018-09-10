@@ -88,28 +88,39 @@
         </div>
             <div class="search-content">
                 <ul class="sort-nav" data-am-sticky="{animation: 'slide-top'}">
-                    <li class="first">
-                        <a title="综合">综合排序</a>
+                    <li class="active" data-field="default" data-type="desc">
+                        <a href="javascript:;" title="综合">
+                            <span>综合</span>
+                        </a>
                     </li>
-                    <li>
-                        <a title="销量">销量排序</a>
-                        <i class="am-icon-sort-amount-asc"></i>
+                    <li data-field="sales_count" data-type="desc">
+                        <a href="javascript:;" title="销量">
+                            <span>销量</span>
+                            <i class="am-icon-long-arrow-down"></i>
+                        </a>
                     </li>
-                    <li>
-                        <a title="价格">价格优先</a>
-                        <i class="am-icon-sort-amount-asc"></i>
+                    <li data-field="price" data-type="desc">
+                        <a href="javascript:;" title="价格">
+                            <span>价格</span>
+                            <i class="am-icon-long-arrow-down"></i>
+                        </a>
                     </li>
-                    <li class="big"><a title="评价" href="#">评价为主</a></li>
                 </ul>
                 <div class="clear"></div>
                 <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-5 data-list"></ul>
+            </div>
+
+            <!-- 加载数据 -->
+            <div class="loding-view">
+                <i class="am-icon-spinner am-icon-pulse"></i>
+                <span>加载中...</span>
             </div>
 
             <!-- 没有数据 -->
             <div class="table-no" style="display:none;"><i class="am-icon-warning"></i> {{:L('common_not_data_tips')}}</div>
 
             <!-- 分页 -->
-            <button type="button" class="am-btn am-btn-default am-btn-block search-pages-submit" data-url="{{:U('Home/Search/GoodsList')}}">加载更多 <i class="am-icon-angle-double-down"></i></button>
+            <button type="button" class="am-btn am-btn-default am-btn-block search-pages-submit" data-url="{{:U('Home/Search/GoodsList')}}" style="display:none;">加载更多 <i class="am-icon-angle-double-down"></i></button>
         </div>
     </div>
 </div>
