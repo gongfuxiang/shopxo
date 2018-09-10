@@ -48,6 +48,9 @@ class GoodsController extends CommonController
         $this->assign('goods', $goods[0]);
         $this->assign('home_seo_site_title', $goods[0]['title']);
 
+        // 商品访问统计
+        M('Goods')->where(array('id'=>$id))->setInc('access_count');
+
         // 左侧商品 看了又看
         $params = [
             'where'     => [
