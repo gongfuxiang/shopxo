@@ -184,9 +184,9 @@ class UserController extends CommonController
 			);
 		if(I('type') == 'sms')
 		{
-			$obj = new \My\Sms($verify_param);
+			$obj = new \Library\Sms($verify_param);
 		} else {
-			$obj = new \My\Email($verify_param);
+			$obj = new \Library\Email($verify_param);
 		}
 		// 是否已过期
 		if(!$obj->CheckExpire())
@@ -273,16 +273,16 @@ class UserController extends CommonController
 		}
 
 		// 获取用户账户信息
-		$where = array('mobile' => $accounts, 'email' => $accounts, '_logic' => 'OR');
-		$user = M('User')->field(array('id', 'pwd', 'salt', 'state'))->where($where)->find();
+		$where = array(['mobile' => $accounts, 'email' => $accounts, '_logic' => 'OR'], 'is_delete_time'=>0);
+		$user = M('User')->field(array('id', 'pwd', 'salt', 'status'))->where($where)->find();
 		if(empty($user))
 		{
 			$this->ajaxReturn(L('user_login_accounts_on_exist_error'), -3);
 		}
 		// 用户状态
-		if($user['state'] == 2)
+		if($user['status'] == 2)
 		{
-			$this->ajaxReturn(L('common_user_state_list')[$user['state']]['tips'], -10);
+			$this->ajaxReturn(L('common_user_status_list')[$user['status']]['tips'], -10);
 		}
 
 		// 密码校验
@@ -359,10 +359,10 @@ class UserController extends CommonController
 		$code = GetNumberCode(6);
 		if(I('type') == 'sms')
 		{
-			$obj = new \My\Sms($verify_param);
+			$obj = new \Library\Sms($verify_param);
 			$state = $obj->SendText(I('accounts'), MyC('home_sms_user_reg'), $code);
 		} else {
-			$obj = new \My\Email($verify_param);
+			$obj = new \Library\Email($verify_param);
 			$email_param = array(
 					'email'		=>	I('accounts'),
 					'content'	=>	MyC('home_email_user_reg'),
@@ -476,13 +476,13 @@ class UserController extends CommonController
 		// 手机
 		if($type == 'mobile')
 		{
-			$obj = new \My\Sms($verify_param);
+			$obj = new \Library\Sms($verify_param);
 			$state = $obj->SendText($accounts, MyC('home_sms_user_forget_pwd'), $code);
 
 		// 邮箱
 		} else if($type == 'email')
 		{
-			$obj = new \My\Email($verify_param);
+			$obj = new \Library\Email($verify_param);
 			$email_param = array(
 					'email'		=>	$accounts,
 					'content'	=>	MyC('home_email_user_forget_pwd'),
@@ -544,10 +544,10 @@ class UserController extends CommonController
 			);
 		if($field == 'mobile')
 		{
-			$obj = new \My\Sms($verify_param);
+			$obj = new \Library\Sms($verify_param);
 		} else if($field == 'email')
 		{
-			$obj = new \My\Email($verify_param);
+			$obj = new \Library\Email($verify_param);
 		}
 		// 是否已过期
 		if(!$obj->CheckExpire())

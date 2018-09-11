@@ -9,7 +9,7 @@ del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
 b, u, i, center,
 dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
+fieldset, form, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed, 
 figure, figcaption, footer, header, hgroup, 
@@ -41,13 +41,20 @@ html{width:100%;
 }
 /*text-size-adjust不管屏幕怎么变文字大小不变*/
 
+* { font-size: 14px; }
 body{margin:0;
     padding:0;
     width:100%;
-    font-size:14px;
     font-family: arial,"Lantinghei SC","Microsoft Yahei";  
 }
 
+.am-form select, .am-form textarea, .am-form input[type="text"], .am-form input[type="password"], .am-form input[type="datetime"], .am-form input[type="datetime-local"], .am-form input[type="date"], .am-form input[type="month"], .am-form input[type="time"], .am-form input[type="week"], .am-form input[type="number"], .am-form input[type="email"], .am-form input[type="url"], .am-form input[type="search"], .am-form input[type="tel"], .am-form input[type="color"], .am-form-field {
+    font-size: 14px;
+}
+.am-input-group-sm > .am-input-group-btn > .am-btn {
+    height: 32px;
+    font-size: 14px !important;
+}
    
 a:link,a:visited,a:hover{text-decoration:none; outline:none;}
 a:hover, a:focus { color: #d2364c; }
@@ -207,7 +214,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
           
     /*分类*/
     .goods-category-s {display:block;position: absolute;}
-    .goods-category-s, .goods-category-title { z-index: 10002; }
+    .goods-category-s, .goods-category-title { z-index: 100; }
     .nav-table{max-width:1000px;margin: 0px auto;height: 45px;position: relative;overflow: hidden;}
     .all-goods{font-size: 16px;}
     .goods-category-title{background:#d2364c;color:#fff ;height: 45px;line-height: 45px;display:block;position: absolute;width:150px ;text-align: center;font-size:16px ;top:0px;z-index: 6;cursor: pointer;}
@@ -278,7 +285,6 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
 
     .category-content .menu-item.top{top:0px;}
     .category-content .menu-item.bottom{bottom: -2px;*bottom: -6px;_*bottom: -7px;}
-    .am-dimmer {background:#fff ;}
 
 
     /*导航图标*/
@@ -499,4 +505,54 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
 .am-slider-a1 {
     -webkit-box-shadow: none;
     box-shadow: none;
+}
+
+/**
+ * PC
+ */
+@media only screen and (min-width: 641px) {
+    /**
+     * 图片验证码
+     */
+    #verify-img-value { float: left; width: 50%; margin-right: 5px; }
+}
+
+/**
+ * 手机
+ */
+@media only screen and (max-width: 641px) {
+    /**
+     * 图片验证码
+     */
+    #verify-img-value { margin-bottom: 10px; }
+}
+
+
+/**
+ * 框架覆盖
+ */
+.am-btn-secondary {
+    color: #fff;
+    background-color: #f07c8c;
+    border-color: #f07c8c;
+}
+.am-btn-secondary:hover, .am-btn-secondary:focus {
+    background-color: #e86175;
+}
+.am-btn-secondary:hover, .am-btn-secondary:focus, .am-btn-secondary:active, .am-btn-secondary.am-active, .am-dropdown.am-active .am-btn-secondary.am-dropdown-toggle {
+    color: #fff;
+    border-color: #e86175;
+}
+
+.am-btn-primary {
+    color: #fff;
+    background-color: #d2364c;
+    border-color: #d2364c;
+}
+.am-btn-primary:hover, .am-btn-primary:focus {
+    background-color: #d31e37;
+}
+.am-btn-primary:hover, .am-btn-primary:focus, .am-btn-primary:active, .am-btn-primary.am-active, .am-dropdown.am-active .am-btn-primary.am-dropdown-toggle {
+    color: #fff;
+    border-color: #d31e37;
 }

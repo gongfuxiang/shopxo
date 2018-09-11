@@ -459,6 +459,13 @@ return array(
 			1 => array('id' => 1, 'name' => '是', 'checked' => true),
 		),
 
+	// 用户状态
+	'common_user_status_list'			=>	array(
+			0 => array('id' => 0, 'name' => '正常', 'checked' => true),
+			1 => array('id' => 1, 'name' => '禁止发言', 'tips' => '用户被禁止发言'),
+			2 => array('id' => 2, 'name' => '禁止登录', 'tips' => '用户被禁止登录'),
+		),
+
 
 	// 色彩值
 	'common_color_list'					=>	array(

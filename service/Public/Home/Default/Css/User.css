@@ -1,0 +1,19 @@
+form.form-validation { margin: 30px 0 60px 0; }
+.verify-submit-win { margin-top: 20px; display: block; }
+.reg-switch-tips { font-weight: 100; font-size: 12px; color: #f87689; margin-left: 20px; }
+#verify-win .am-modal-bd .base { overflow: hidden; }
+#verify-win .am-modal-bd .base .verify-tips { font-size: 12px; }
+
+/**
+ * PC
+ */
+@media only screen and (min-width: 641px) {
+
+}
+
+/**
+ * 手机
+ */
+@media only screen and (max-width: 641px) {
+
+}

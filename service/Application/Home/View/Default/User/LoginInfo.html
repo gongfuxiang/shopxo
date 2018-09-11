@@ -1,14 +1,22 @@
 <include file="Public/Header" />
 
-<!-- header nav start -->
+<!-- header top nav -->
+<include file="Public/HeaderTopNav" />
+
+<!-- search -->
+<include file="Public/NavSearch" />
+
+<!-- header nav -->
 <include file="Public/HeaderNav" />
-<!-- header nav end -->
+
+<!-- goods category -->
+<include file="Public/GoodsCategory" />
 
 <!-- conntent start  -->
-<div class="am-g my-content" <if condition="!empty($max_width_style)">style="{{$max_width_style}}"</if>>
+<div class="am-g my-content">
 	<div class="am-u-md-6 am-u-sm-centered">
 		<!-- form start -->
-		<form class="am-form form-validation m-t-30" method="post" action="{{:U('Home/User/Login')}}" request-type="ajax-url" request-value="{{$referer_url}}">
+		<form class="am-form form-validation" method="post" action="{{:U('Home/User/Login')}}" request-type="ajax-url" request-value="{{$referer_url}}">
 			<fieldset>
 				<if condition="in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))">
 					<span class="">{{:L('user_login_on_accounts_text')}}</span>

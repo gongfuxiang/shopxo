@@ -285,7 +285,7 @@ class CommonController extends Controller
 			{
 				$this->ajaxReturn(L('common_param_error'), -10);
 			}
-			$verify = new \My\Verify($verify_param);
+			$verify = new \Library\Verify($verify_param);
 			if(!$verify->CheckExpire())
 			{
 				$this->ajaxReturn(L('common_verify_expire'), -11);
@@ -306,14 +306,14 @@ class CommonController extends Controller
 	 * @datetime 2017-03-05T15:10:21+0800
 	 * @param    [string] $type [验证码类型]
 	 */
-	protected function CommonVerifyEntry($type = 'schoolcms')
+	protected function CommonVerifyEntry($type = 'shopxo')
 	{
 		$param = array(
 				'width' => 100,
 				'height' => 32,
 				'key_prefix' => $type,
 			);
-		$verify = new \My\Verify($param);
+		$verify = new \Library\Verify($param);
 		$verify->Entry();
 	}
 
@@ -330,8 +330,7 @@ class CommonController extends Controller
 	{
 		if(!empty($user_id))
 		{
-			$field = array('id', 'mobile', 'email', 'nickname', 'gender', 'signature', 'describe', 'birthday', 'add_time', 'upd_time');
-			$user = M('User')->field($field)->find($user_id);
+			$user = M('User')->field('*')->find($user_id);
 			if(!empty($user))
 			{
 				// 基础数据处理
@@ -341,6 +340,21 @@ class CommonController extends Controller
 				$user['birthday_text']	=	empty($user['birthday']) ? '' : date('Y-m-d', $user['birthday']);
 				$user['mobile_security']=	empty($user['mobile']) ? '' : substr($user['mobile'], 0, 3).'***'.substr($user['mobile'], -3);
 				$user['email_security']	=	empty($user['email']) ? '' : substr($user['email'], 0, 3).'***'.substr($user['email'], -3);
+
+				// 页面显示名称
+				$user['user_name_view'] = $user['username'];
+				if(empty($user['user_name_view']))
+				{
+					$user['user_name_view'] = $user['nickname'];
+				}
+				if(empty($user['user_name_view']))
+				{
+					$user['user_name_view'] = $user['mobile_security'];
+				}
+				if(empty($user['user_name_view']))
+				{
+					$user['user_name_view'] = $user['email_security'];
+				}
 
 				// 存储session
 				$_SESSION['user'] = $user;

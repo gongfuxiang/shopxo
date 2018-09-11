@@ -4,8 +4,14 @@
         <ul class="message-l">
             <div class="topMessage">
                 <div class="menu-hd">
-                    <a href="#" target="_top" class="h">亲，请登录</a>
-                    <a href="#" target="_top">免费注册</a>
+                    <if condition="empty($user)">
+                        <span>您好，欢迎来到 {{:MyC('home_site_name')}}</span>
+                        [<a href="{{:U('Home/User/LoginInfo')}}">登录</a>]
+                        [<a href="{{:U('Home/User/RegInfo')}}">注册</a>]
+                    <else />
+                        <span>您好 {{$user.user_name_view}}，欢迎来到 {{:MyC('home_site_name')}}</span>
+                        [<a href="{{:U('Home/User/Logout')}}">退出</a>]
+                    </if>
                 </div>
             </div>
         </ul>
