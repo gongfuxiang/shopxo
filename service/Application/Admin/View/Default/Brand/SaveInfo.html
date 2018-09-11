@@ -50,7 +50,7 @@
 			</div>
 			<div class="am-form-group">
 			    <label class="block">{{:L('common_view_enable_title')}}</label>
-			    <input name="is_enable" value="1" type="checkbox" data-off-text="{{:L('common_operation_off_is_text')}}" data-on-text="{{:L('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch <if condition="!empty($data) and $data['is_enable'] eq 1">checked="true"</if> />
+			    <input name="is_enable" value="1" type="checkbox" data-off-text="{{:L('common_operation_off_is_text')}}" data-on-text="{{:L('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch <if condition="(isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])">checked="true"</if> />
 			</div>
 			<div class="am-form-group">
 				<input type="hidden" name="id" <notempty name="data"> value="{{$data.id}}"</notempty> />
