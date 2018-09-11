@@ -64,7 +64,7 @@ dl#select2 .dd-conent{ left:-100%; right:-100%;}
 dl#select3 .dd-conent{ left:-200%; right:0px;}
        
 .am-badge{font-size:12px ;padding:0px 0px;background-color: #999999;color: #ffffff;}
-.theme-popover-mask{z-index:5;width: 100%;height: auto;position:fixed ;background:#000 ;top:0;opacity: 0.6;}
+.theme-popover-mask{z-index:5;width: 100%;height: auto;position:fixed ;background:#000 ;top:0;opacity: 0.6;bottom: 0;}
  
 /*搜索结果*/
 .i-pic.limit {margin:5px;border: 1px #e8e8e8 solid;overflow: hidden;position: relative;cursor: pointer;}
