@@ -80,13 +80,13 @@ $(function()
             $(this).next('div.dd-conent').css('top', ($(this).offset().top+33)+'px')
 
             if ($(this).next('div.dd-conent').css("display") == 'none') {
-                $(".theme-popover-mask").height(hh);
+                $(".theme-popover-mask").show();
                 $(".theme-popover").css({"position":"fixed", "top":0, "padding-top":"46px"});
                 $(this).next('div.dd-conent').slideToggle(300);
                 $('.select div.dd-conent').not($(this).next()).hide();
             } else {
                 $(this).next('div.dd-conent').slideUp(300);
-                $(".theme-popover-mask").height(0);
+                $(".theme-popover-mask").hide();
                 $(".theme-popover").css({"position":"static", "top":0, "padding-top":"0"});
            }
         })
@@ -97,12 +97,12 @@ $(function()
 
         $(document).on("click", ".select dd", function() {
             $(".dd-conent").slideUp(300);
-            $(".theme-popover-mask").height(0);
+            $(".theme-popover-mask").hide();
             $(".theme-popover").css({"position":"static", "top":0, "padding-top":"0"});
         });
         $(document).on("click", ".theme-popover-mask", function() {
             $(".dd-conent").slideUp(300);
-            $(".theme-popover-mask").height(0);
+            $(".theme-popover-mask").hide();
             $(".theme-popover").css({"position":"static", "top":0, "padding-top":"0"});
         });
 
