@@ -105,7 +105,10 @@ $(function()
             $(".theme-popover-mask").hide();
             $(".theme-popover").css({"position":"static", "top":0, "padding-top":"0"});
         });
-
+        $(document).on('click', '.theme-popover-mask', function()
+        {
+            $(".theme-popover-mask").hide();
+        });
     }
 
     // 导航显示/隐藏处理
