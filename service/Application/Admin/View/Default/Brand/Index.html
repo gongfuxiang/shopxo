@@ -24,7 +24,7 @@
                     <select name="brand_category_id" class="am-radius c-p m-t-10 m-l-5 param-where">
                         <option value="">{{:L('brand_category_id_text')}}</option>
                         <foreach name="brand_category" item="v">
-                            <option value="{{$v.value}}" <if condition="isset($param['brand_category_id']) and $param['brand_category_id'] eq $v['value']">selected</if>>{{$v.name}}</option>
+                            <option value="{{$v.id}}" <if condition="isset($param['brand_category_id']) and $param['brand_category_id'] eq $v['id']">selected</if>>{{$v.name}}</option>
                         </foreach>
                     </select>
                     <div class="param-date param-where m-l-5">

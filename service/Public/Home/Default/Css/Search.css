@@ -58,7 +58,7 @@ li.select-result dt {left:-26px; top:0;font-weight:bold;width:50px;}
 
 .select-list dl dt{left:0px; cursor:pointer; text-align: center;}
 {display:none ;float:left; top:20px; padding-top:5px; z-index:10; left:0px; width:300%;position:absolute;}
-.select-list .dd-conent{display:none ;z-index:10; left:0; width:100%;position:fixed; background:#fff;max-height: 100%; padding-bottom: 10px; }
+.select-list .dd-conent{display:none ;z-index:10; left:0; width:100%;position:fixed; background:#fff;max-height: 50%; padding-bottom: 10px; }
 .select-list .dd-conent dd{width:33.33% ;text-align: center;margin-left: 0px;height:25px ;}
 dl#select2 .dd-conent{ left:-100%; right:-100%;}
 dl#select3 .dd-conent{ left:-200%; right:0px;}
