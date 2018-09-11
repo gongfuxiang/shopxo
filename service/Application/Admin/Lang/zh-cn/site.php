@@ -8,7 +8,7 @@
  * @datetime 2016-12-01T21:51:08+0800
  */
 return array(
-	'site_site_logo_text'			=>	'选择网站logo',
+	'site_site_logo_text'			=>	'选择logo',
 	
 	// 站点关闭状态列表
 	'site_site_state_list'			=>	array(

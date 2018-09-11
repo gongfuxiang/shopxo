@@ -116,56 +116,10 @@ class GoodsCategoryController extends CommonController
 		}
 
 		// icon
-        if(!empty($_FILES['file_icon']))
-        {
-            // 文件上传校验
-            $error = FileUploadError('file_icon');
-            if($error !== true)
-            {
-                $this->ajaxReturn($error, -1);
-            }
-
-            // 文件类型
-            list($type, $suffix) = explode('/', $_FILES['file_icon']['type']);
-            $path = 'Public'.DS.'Upload'.DS.'goods_category'.DS.date('Y').DS.date('m').DS;
-            if(!is_dir($path))
-            {
-                mkdir(ROOT_PATH.$path, 0777, true);
-            }
-            $filename = date('YmdHis').GetNumberCode(6).'.'.$suffix;
-            $file_icon = $path.$filename;
-
-            if(move_uploaded_file($_FILES['file_icon']['tmp_name'], ROOT_PATH.$file_icon))
-            {
-                $_POST['icon'] = DS.$file_icon;
-            }
-        }
+        $this->ImagesSave('icon', 'file_icon', 'goods_category');
 
         // 大图片
-        if(!empty($_FILES['file_big_images']))
-        {
-            // 文件上传校验
-            $error = FileUploadError('file_big_images');
-            if($error !== true)
-            {
-                $this->ajaxReturn($error, -1);
-            }
-
-            // 文件类型
-            list($type, $suffix) = explode('/', $_FILES['file_big_images']['type']);
-            $path = 'Public'.DS.'Upload'.DS.'goods_category'.DS.date('Y').DS.date('m').DS;
-            if(!is_dir($path))
-            {
-                mkdir(ROOT_PATH.$path, 0777, true);
-            }
-            $filename = date('YmdHis').GetNumberCode(6).'.'.$suffix;
-            $file_big_images = $path.$filename;
-
-            if(move_uploaded_file($_FILES['file_big_images']['tmp_name'], ROOT_PATH.$file_big_images))
-            {
-                $_POST['big_images'] = DS.$file_big_images;
-            }
-        }
+        $this->ImagesSave('big_images', 'file_big_images', 'goods_category');
 
 		// id为空则表示是新增
 		$m = D('GoodsCategory');

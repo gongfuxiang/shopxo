@@ -241,50 +241,6 @@ class CommonController extends Controller
 	}
 
 	/**
-	 * [GetClassList 获取班级列表,二级]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-30T13:26:00+0800
-	 * @return [array] [班级列表]
-	 */
-	protected function GetClassList()
-	{
-		$m = M('Class');
-		$data = $m->field(array('id', 'name'))->where(array('is_enable'=>1, 'pid'=>0))->select();
-		if(!empty($data))
-		{
-			foreach($data as $k=>$v)
-			{
-				$data[$k]['item'] = $m->field(array('id', 'name'))->where(array('is_enable'=>1, 'pid'=>$v['id']))->select();
-			}
-		}
-		return $data;
-	}
-
-	/**
-	 * [GetRoomList 获取教室列表,二级]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-30T13:26:00+0800
-	 * @return [array] [班级列表]
-	 */
-	protected function GetRoomList()
-	{
-		$m = M('Room');
-		$data = $m->field(array('id', 'name'))->where(array('is_enable'=>1, 'pid'=>0))->select();
-		if(!empty($data))
-		{
-			foreach($data as $k=>$v)
-			{
-				$data[$k]['item'] = $m->field(array('id', 'name'))->where(array('is_enable'=>1, 'pid'=>$v['id']))->select();
-			}
-		}
-		return $data;
-	}
-
-	/**
 	 * [MyConfigSave 配置数据保存]
 	 * @author   Devil
 	 * @blog     http://gong.gg/
@@ -342,236 +298,6 @@ class CommonController extends Controller
 	}
 
 	/**
-	 * 获取属性参数
-	 * @author   Devil
-	 * @blog    http://gong.gg/
-	 * @version 1.0.0
-	 * @date    2018-07-09
-	 * @desc    description
-	 */
-	protected function GetFormGoodsAttributeParams()
-	{
-		$result = [];
-		foreach($_POST as $k=>$v)
-		{
-			if(substr($k, 0, 9) == 'attribute')
-			{
-				// key分解
-				$key = explode('_', $k);
-
-				// 当前key是否是具体属性数据
-				if(in_array('find', $key))
-				{
-					$result[$key[1]][$key[2]][$key[3]][$key[4]] = $v;
-				} else {
-					// 属性类型数据
-					$result[$key[1]][$key[2]][$key[3]] = $v;
-				}
-			}
-		}
-		return ['status'=>true, 'data'=>$result];
-	}
-
-	/**
-	 * 获取app内容
-	 * @author   Devil
-	 * @blog    http://gong.gg/
-	 * @version 1.0.0
-	 * @date    2018-07-09
-	 * @desc    description
-	 */
-	protected function GetFormGoodsContentAppParams()
-	{
-		// 图像类库
-		$images_obj = \Library\Images::Instance(['is_new_name'=>false]);
-
-		// 定义图片目录
-		$root_path = ROOT_PATH;
-		$img_path = 'Public'.DS.'Upload'.DS.'goods_app'.DS;
-		$date = DS.date('Y').DS.date('m').DS.date('d').DS;
-
-		// 开始处理
-		$result = [];
-		$name = 'content_app_';
-		foreach($_POST AS $k=>$v)
-		{
-			if(substr($k, 0, 12) == $name)
-			{
-				$key = explode('_', str_replace($name, '', $k));
-				if(count($key) == 2)
-				{
-					$result[$key[1]][$key[0]] = $v;
-
-					if($key[0] == 'images')
-					{
-						$images_key = $name.$key[0].'_file_'.$key[1];
-						if(isset($_FILES[$images_key]))
-						{
-							// 文件上传校验
-							$error = FileUploadError($images_key);
-							if($error !== true)
-							{
-								return ['status'=>false, 'msg'=>$error];
-							}
-
-							// 存储图片
-							$temp_all = [
-									'tmp_name'	=>	$_FILES[$images_key]['tmp_name'],
-									'type'		=>	$_FILES[$images_key]['type']
-								];
-							$original = $images_obj->GetOriginal($temp_all, $root_path.$img_path.'original'.$date);
-							if(!empty($original))
-							{
-								// 根据原图再次生成小图
-								$compr = $images_obj->GetBinaryCompress($root_path.$img_path.'original'.$date.$original, $root_path.$img_path.'compr'.$date, 600);
-								$small = $images_obj->GetBinaryCompress($root_path.$img_path.'original'.$date.$original, $root_path.$img_path.'small'.$date, 100, 100);
-
-								if(!empty($compr))
-								{
-									$result[$key[1]][$key[0]] = DS.$img_path.'compr'.$date.$small;
-								} else {
-									// 如果图片格式有误，则删除原图片
-									$this->ImagesDelete($img_path.'original'.$date.$original);
-								}
-				 			}
-						}
-					}
-				}
-			}
-		}
-		return ['status'=>true, 'data'=>$result];
-	}
-
-	/**
-	 * 获取商品相册
-	 * @author   Devil
-	 * @blog    http://gong.gg/
-	 * @version 1.0.0
-	 * @date    2018-07-10
-	 * @desc    description
-	 * @return  [array]          [一维数组但图片地址]
-	 */
-	protected function GetFormGoodsPhotoParams()
-	{
-		// 原始图片
-		if(!empty($_POST['photo']) && is_array($_POST['photo']))
-		{
-			$result = $_POST['photo'];
-		} else {
-			$result = [];
-		}
-
-		// 开始处理图片存储
-		$images_name = 'photo_file';
-		if(!empty($_FILES[$images_name]))
-		{
-			// 定义图片目录
-			$root_path = ROOT_PATH;
-			$img_path = 'Public'.DS.'Upload'.DS.'goods_photo'.DS;
-			$date = DS.date('Y').DS.date('m').DS.date('d').DS;
-
-			// 图像类库
-			$images_obj = \Library\Images::Instance(['is_new_name'=>false]);
-			
-			// 图片存储处理
-			for($i=0; $i<count($_FILES[$images_name]['tmp_name']); $i++)
-			{
-				// 文件上传校验
-				$error = FileUploadError($images_name, $i);
-				if($error !== true)
-				{
-					return ['status'=>false, 'msg'=>$error];
-				}
-
-				// 存储图片
-				$temp_all = [
-						'tmp_name'	=>	$_FILES[$images_name]['tmp_name'][$i],
-						'type'		=>	$_FILES[$images_name]['type'][$i],
-					];
-				$original = $images_obj->GetOriginal($temp_all, $root_path.$img_path.'original'.$date);
-				if(!empty($original))
-				{
-					// 根据原图再次生成小图
-					$compr = $images_obj->GetBinaryCompress($root_path.$img_path.'original'.$date.$original, $root_path.$img_path.'compr'.$date, 600);
-					$small = $images_obj->GetBinaryCompress($root_path.$img_path.'original'.$date.$original, $root_path.$img_path.'small'.$date, 100, 100);
-
-					if(!empty($compr))
-					{
-						$result[] = DS.$img_path.'compr'.$date.$small;
-					} else {
-						// 如果图片格式有误，则删除原图片
-						$this->ImagesDelete($img_path.'original'.$date.$original);
-					}
-	 			}
-			}
-		}
-
-		return ['status'=>true, 'data'=>$result];
-	}
-
-	/**
-	 * 商品图片集合处理
-	 * @author   Devil
-	 * @blog    http://gong.gg/
-	 * @version 1.0.0
-	 * @date    2018-08-07
-	 * @desc    description
-	 * @param   [array]          $data [字段列表]
-	 */
-	protected function GetGoodsImagesParams($data)
-	{
-		$result = [];
-		if(!empty($data))
-		{
-			// 定义图片目录
-			$root_path = ROOT_PATH;
-			$img_path = 'Public'.DS.'Upload'.DS.'goods_images'.DS;
-			$date = DS.date('Y').DS.date('m').DS.date('d').DS;
-
-			// 图像类库
-			$images_obj = \Library\Images::Instance(['is_new_name'=>false]);
-
-			foreach($data as $field)
-			{
-				if(!empty($_FILES[$field]))
-				{
-					$file = $_FILES[$field];
-
-					// 文件上传校验
-					$error = FileUploadError($field);
-					if($error !== true)
-					{
-						return ['status'=>false, 'msg'=>$error];
-					}
-					
-					// 存储图片
-					$temp_all = [
-							'tmp_name'	=>	$file['tmp_name'],
-							'type'		=>	$file['type'],
-						];
-					$original = $images_obj->GetOriginal($temp_all, $root_path.$img_path.'original'.$date);
-					if(!empty($original))
-					{
-						// 根据原图再次生成小图
-						$compr = $images_obj->GetBinaryCompress($root_path.$img_path.'original'.$date.$original, $root_path.$img_path.'compr'.$date, 600);
-						$small = $images_obj->GetBinaryCompress($root_path.$img_path.'original'.$date.$original, $root_path.$img_path.'small'.$date, 100, 100);
-
-						if(!empty($compr))
-						{
-							$result[$field] = DS.$img_path.'compr'.$date.$small;
-						} else {
-							// 如果图片格式有误，则删除原图片
-							$this->ImagesDelete($img_path.'original'.$date.$original);
-						}
-		 			}
-		 		}
-			}
-		}
-
-		return ['status'=>true, 'data'=>$result];
-	}
-
-	/**
 	 * 图片删除
 	 * @author   Devil
 	 * @blog    http://gong.gg/
@@ -610,6 +336,44 @@ class CommonController extends Controller
 				$this->ImagesDelete(str_replace(['compr', 'small'], 'small', $img_all[$i]));
 				$this->ImagesDelete(str_replace(['compr', 'small'], 'compr', $img_all[$i]));
 				$this->ImagesDelete(str_replace(['compr', 'small'], 'original', $img_all[$i]));
+			}
+		}
+	}
+
+	/**
+	 * 图片存储
+	 * @author   Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2018-09-11
+	 * @desc    description
+	 * @param   [string]          $field 		[name名称]
+	 * @param   [string]          $post_name 	[file form name名称]
+	 * @param   [string]          $dir   		[存储路径标记]
+	 */
+	protected function ImagesSave($field, $post_name, $dir = 'common')
+	{
+		if(isset($_FILES[$post_name]['error']))
+		{
+			// 文件上传校验
+			$error = FileUploadError($post_name);
+			if($error !== true)
+			{
+				$this->ajaxReturn($error, -1);
+			}
+
+			// 文件类型
+			list($type, $suffix) = explode('/', $_FILES[$post_name]['type']);
+			$path = 'Public'.DS.'Upload'.DS.$dir.DS.'images'.DS;
+			if(!is_dir($path))
+			{
+				mkdir(ROOT_PATH.$path, 0777, true);
+			}
+			$filename = date('YmdHis').'_logo.'.$suffix;
+			$file = $path.$filename;
+			if(move_uploaded_file($_FILES[$post_name]['tmp_name'], ROOT_PATH.$file))
+			{
+				$_POST[$field] = DS.$file;
 			}
 		}
 	}

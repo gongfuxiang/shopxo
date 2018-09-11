@@ -94,30 +94,7 @@ class ExpressController extends CommonController
 		}
 
 		// 图片
-        if(!empty($_FILES['file_icon']))
-        {
-            // 文件上传校验
-            $error = FileUploadError('file_icon');
-            if($error !== true)
-            {
-                $this->ajaxReturn($error, -1);
-            }
-
-            // 文件类型
-            list($type, $suffix) = explode('/', $_FILES['file_icon']['type']);
-            $path = 'Public'.DS.'Upload'.DS.'express'.DS.date('Y').DS.date('m').DS;
-            if(!is_dir($path))
-            {
-                mkdir(ROOT_PATH.$path, 0777, true);
-            }
-            $filename = date('YmdHis').GetNumberCode(6).'.'.$suffix;
-            $file_icon = $path.$filename;
-
-            if(move_uploaded_file($_FILES['file_icon']['tmp_name'], ROOT_PATH.$file_icon))
-            {
-                $_POST['icon'] = DS.$file_icon;
-            }
-        }
+        $this->ImagesSave('icon', 'file_icon', 'express');
 
 		// id为空则表示是新增
 		$m = D('Express');

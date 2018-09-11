@@ -198,30 +198,7 @@ class BrandController extends CommonController
 		}
 
 		// 图片
-        if(!empty($_FILES['file_logo']))
-        {
-            // 文件上传校验
-            $error = FileUploadError('file_logo');
-            if($error !== true)
-            {
-                $this->ajaxReturn($error, -1);
-            }
-
-            // 文件类型
-            list($type, $suffix) = explode('/', $_FILES['file_logo']['type']);
-            $path = 'Public'.DS.'Upload'.DS.'brand'.DS.date('Y').DS.date('m').DS;
-            if(!is_dir($path))
-            {
-                mkdir(ROOT_PATH.$path, 0777, true);
-            }
-            $filename = date('YmdHis').GetNumberCode(6).'.'.$suffix;
-            $file_logo = $path.$filename;
-
-            if(move_uploaded_file($_FILES['file_logo']['tmp_name'], ROOT_PATH.$file_logo))
-            {
-                $_POST['logo'] = DS.$file_logo;
-            }
-        }
+        $this->ImagesSave('logo', 'file_logo', 'brand');
 
 		// id为空则表示是新增
 		$m = D('Brand');

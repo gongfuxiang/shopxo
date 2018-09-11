@@ -114,7 +114,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
 .mui-mbar-tabs{ display:none;}
 
 /* 顶部小导航 */
-.header-top { background-color: #F5F5F5; border-bottom: solid 1px #E5E5E5; }
+.header-top { background-color: #fafafa; border-bottom: solid 1px #f0f0f0; }
 .header-top a, .header-top span { color: #555; }
 .header{ display:none; max-width:1000px; margin:0px auto; font-size:12px;}  
 
@@ -196,7 +196,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
     .mui-mbar-tabs{ display:block;}  
     .nav-search{padding-left:0px; max-width:1000px; margin:0px auto;padding: 20px 0;}
     .nav-search .logo{display:none;}
-    .nav-search .logoBig { display: -webkit-inline-box; float:left;height:60px; width:200px; margin-left:0px;}
+    .nav-search .logoBig { display: -webkit-inline-box; float:left;height:60px; width:230px; margin-left:0px;}
     .search-bar{height:50px; margin:auto;display: -webkit-inline-box;width: calc(66%);padding-left: 8%;}
     #ai-topsearch {height: 47px;}
     .shopMain{margin:0px 0px 0px 5px;} 

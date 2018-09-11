@@ -71,30 +71,9 @@ class SiteController extends CommonController
 	 */
 	public function Save()
 	{
-		// 站点logo
-		if(isset($_FILES['home_site_logo_img']['error']))
-		{
-			// 文件上传校验
-			$error = FileUploadError('home_site_logo_img');
-			if($error !== true)
-			{
-				$this->ajaxReturn($error, -1);
-			}
-
-			// 文件类型
-			list($type, $suffix) = explode('/', $_FILES['home_site_logo_img']['type']);
-			$path = 'Public'.DS.'Upload'.DS.'common'.DS.'images'.DS;
-			if(!is_dir($path))
-			{
-				mkdir(ROOT_PATH.$path, 0777, true);
-			}
-			$filename = date('YmdHis').'_logo.'.$suffix;
-			$home_site_logo = $path.$filename;
-			if(move_uploaded_file($_FILES['home_site_logo_img']['tmp_name'], ROOT_PATH.$home_site_logo))
-			{
-				$_POST['home_site_logo'] = DS.$home_site_logo;
-			}
-		}
+		// logo存储
+		$this->ImagesSave('home_site_logo', 'home_site_logo_img');
+		$this->ImagesSave('home_site_logo_wap', 'home_site_logo_wap_img');
 
 		// 站点状态值处理
 		if(!isset($_POST['home_user_reg_state']))
