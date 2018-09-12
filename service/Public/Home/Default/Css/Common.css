@@ -198,7 +198,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
 @media only screen and (min-width: 1025px)
 {
     .am-container { padding-left:0rem;padding-right:0rem;max-width: 1000px;}
-    .shop-nav{margin:0px;border-bottom: 2px solid #d2364c; height: 50px;}
+    .shop-nav{margin:0px;border-bottom: 2px solid #d2364c; height: 49px;}
 
     .mui-mbar-tabs{ display:block;}  
     .nav-search{padding-left:0px; max-width:1000px; margin:0px auto;padding: 20px 0;}
