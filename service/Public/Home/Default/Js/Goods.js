@@ -96,7 +96,7 @@ $(document).ready(function() {
     //初始化数量为1,并失效减
     $('#min').attr('disabled', true);
     //数量增加操作
-    $("#add").click(function() {
+    $("#add").on('click', function() {
             t.val(parseInt(t.val()) + 1)
             if (parseInt(t.val()) != 1) {
                 $('#min').attr('disabled', false);
@@ -104,7 +104,7 @@ $(document).ready(function() {
 
         });
     //数量减少操作
-    $("#min").click(function() {
+    $("#min").on('click', function() {
         t.val(parseInt(t.val()) - 1);
         if (parseInt(t.val()) == 1) {
             $('#min').attr('disabled', true);

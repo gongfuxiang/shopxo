@@ -130,10 +130,17 @@
                                     <div class="theme-options">
                                         <div class="cart-title number">数量</div>
                                         <dd>
-                                            <button id="min" class="am-btn am-btn-default" type="button">-</button>
+                                            <!-- <button id="min" class="am-btn am-btn-default" type="button">-</button>
                                             <input id="text_box" name="" type="text" value="1" />
                                             <button id="add" class="am-btn am-btn-default" type="button">+</button>
-                                            <span id="Stock" class="tb-hidden">库存<span class="stock">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
+                                            <span id="Stock" class="tb-hidden">库存<span class="stock">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span> -->
+
+                                            <div class="am-input-group am-input-group-sm number-tag">
+                                                <button class="am-input-group-label" id="min" type="button">-</button>
+                                                <input type="text" class="am-form-field" value="1" id="text_box" />
+                                                <button class="am-input-group-label" id="add" type="button">+</button>
+                                            </div>
+                                            <span class="tb-hidden stock-tips">库存<span class="stock">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
                                         </dd>
                                     </div>
 
@@ -147,8 +154,7 @@
                                         <img src="__PUBLIC__/Home/{{$default_theme}}/Images/songzi.jpg" />
                                     </div>
                                     <div class="text-info">
-                                        <span class="J_Price price-now">¥{{$goods.price}}</span>
-                                        <span id="Stock" class="tb-hidden">库存<span class="stock">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
+                                        <span class="price-now">¥{{$goods.price}}</span>
                                     </div>
                                 </div>
 

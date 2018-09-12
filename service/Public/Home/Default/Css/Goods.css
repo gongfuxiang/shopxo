@@ -31,7 +31,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .theme-signin-right .img-info img{margin:5px 5px ;width:80px;height:80px ;}
 .theme-signin-right .text-info{position:absolute;left:110px;top:20px ;}
 .text-info .price-now{display:block;font-size:16px ;color:#C40000;}
-.text-info span#Stock{font-size:14px ;}
+.text-info span.stock-tips{font-size:12px ;}
 
 /*可选规格*/
 .iteminfo_parameter { margin-bottom: 10px; }
@@ -79,7 +79,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
     /*商品信息*/
     .theme-signin-right{display: none;}
     .text-info .price-now{float: left;margin-right:10px ;}
-    .text-info span#Stock {float:left;font-size: 12px;}
+    .text-info span.stock-tips {float:left;font-size: 12px;}
 
     /*操作*/
     .btn-op{overflow: hidden;padding:10px 20%; position: static;}
@@ -169,8 +169,9 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 /*数量*/
 .iteminfo_parameter.munber,.iteminfo_parameter.freight{display:none ;}
 .iteminfo_parameter.munber dd{margin-left:5px ;}
-#min, #add{ width: 35px; height: 25px; outline:none; }
-#text_box { width: 35px; height: 25px; text-align: center; }
+#min, #add{ width: 35px; height: 25px; outline:none; line-height: 23px; padding: 0; cursor: pointer; }
+#text_box { width: 50px; height: 25px; text-align: center; font-size: 16px !important; }
+.theme-popover .am-input-group { display: inline-flex; }
 
 
 /*购物车*/
