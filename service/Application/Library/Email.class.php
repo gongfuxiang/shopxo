@@ -137,17 +137,21 @@ class Email
 		// 邮件正文不支持HTML的备用显示
 		$this->obj->AltBody = strip_tags($param['content']);
 
-		// 发送邮件
-		if($this->obj->Send())
-		{
-			// 是否存在验证码
-			if(!empty($param['code']))
+		try {
+			// 发送邮件
+			if($this->obj->Send())
 			{
-				$this->KindofSession($param['code']);
+				// 是否存在验证码
+				if(!empty($param['code']))
+				{
+					$this->KindofSession($param['code']);
+				}
+				return true;
+			} else {
+				$this->error = $this->obj->ErrorInfo;
 			}
-			return true;
-		} else {
-			$this->error = $this->obj->ErrorInfo;
+		} catch(Exception $e) {
+			$this->error = $e->getMessage();
 		}
 		return false;
 	}
