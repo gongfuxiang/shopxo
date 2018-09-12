@@ -86,6 +86,10 @@ class CommonController extends Controller
 		{
 			$result['msg'] = L('common_operation_error');
 		}
+		ob_start();
+//清除缓冲区中的内容
+ob_clean();
+
 		exit(json_encode($result));
 	}
 
