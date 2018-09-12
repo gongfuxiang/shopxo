@@ -86,6 +86,7 @@ class CommonController extends Controller
 		{
 			$result['msg'] = L('common_operation_error');
 		}
+		ob_clean();
 		exit(json_encode($result));
 	}
 
