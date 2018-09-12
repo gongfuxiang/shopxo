@@ -88,7 +88,7 @@ class CommonController extends Controller
 		}
 		
 		//清除缓冲区中的内容
-		//ob_clean();
+		ob_clean();
 
 		// 输出json
 		header('Content-Type:application/json; charset=utf-8');
