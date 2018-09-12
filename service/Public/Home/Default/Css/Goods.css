@@ -31,7 +31,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .theme-signin-right .img-info img{margin:5px 5px ;width:80px;height:80px ;}
 .theme-signin-right .text-info{position:absolute;left:110px;top:20px ;}
 .text-info .price-now{display:block;font-size:16px ;color:#C40000;}
-.text-info span.stock-tips{font-size:12px ;}
+.stock-tips{font-size:12px ;}
 
 /*可选规格*/
 .iteminfo_parameter { margin-bottom: 10px; }
