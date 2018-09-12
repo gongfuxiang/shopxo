@@ -43,7 +43,7 @@
 			</a>
 		</div>
 		<div class="am-u-sm-3">
-			<a href="#">
+			<a href="<if condition="empty($user)">{{:U('Home/User/LoginInfo')}}<else />{{:U('Home/User/Index')}}</if>">
 				<div class="nav-icon mini-nav-user">
 					<img src="__PUBLIC__/Home/{{$default_theme}}/Images/home-mini-nav-user-icon.png" />
 				</div>
@@ -64,7 +64,7 @@
 						<if condition="!empty($user)">
 							Hi, {{$user.user_name_view}}
 						<else />
-							您好 {{$user.user_name_view}}，欢迎来到 {{:MyC('home_site_name')}}
+							您好，欢迎来到 {{:MyC('home_site_name')}}
 						</if>
 					</span>
 				</em>
@@ -72,12 +72,17 @@
 					<a href="{{:U('Home/User/Logout')}}" class="member-logout">退出</a>
 				</if>
 			</div>
-			<if condition="empty($user)">
+			<if condition="empty($user) and (MyC('home_user_login_state') eq 1 or in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state')))">
 				<div class="member-login">
-					<a class="am-btn-warning btn" href="{{:U('Home/User/LoginInfo')}}">登录</a>
-					<a class="am-btn-warning btn" href="{{:U('Home/User/RegInfo')}}">注册</a>
+					<if condition="MyC('home_user_login_state') eq 1">
+						<a class="am-btn-danger btn" href="{{:U('Home/User/LoginInfo')}}">登录</a>
+					</if>
+					<if condition="in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))">
+						<a class="am-btn-danger btn" href="{{:U('Home/User/RegInfo')}}">注册</a>
+					</if>
 				</div>
-			<else />
+			</if>
+			<if condition="!empty($user)">
 				<div class="member-center">
 					<a href="#"><strong>0</strong>待收货</a>
 					<a href="#"><strong>0</strong>待发货</a>

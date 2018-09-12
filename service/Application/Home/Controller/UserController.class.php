@@ -34,14 +34,11 @@ class UserController extends CommonController
 	private function GetrefererUrl()
 	{
 		// 上一个页面, 空则用户中心
-		if(empty($_SERVER['HTTP_REFERER']))
+		$referer_url = U('Home/User/Index');
+		if(!empty($_SERVER['HTTP_REFERER']))
 		{
-			$referer_url = U('Home/Bubble/Index');
-		} else {
-			if(strpos($_SERVER['HTTP_REFERER'], 'RegInfo') !== false || strpos($_SERVER['HTTP_REFERER'], 'LoginInfo') !== false || strpos($_SERVER['HTTP_REFERER'], 'ForgetPwdInfo') !== false)
+			if(strpos($_SERVER['HTTP_REFERER'], 'RegInfo') === false && strpos($_SERVER['HTTP_REFERER'], 'LoginInfo') === false && strpos($_SERVER['HTTP_REFERER'], 'ForgetPwdInfo') === false)
 			{
-				$referer_url = U('Home/Bubble/Index');
-			} else {
 				$referer_url = $_SERVER['HTTP_REFERER'];
 			}
 		}
@@ -79,6 +76,31 @@ class UserController extends CommonController
 	}
 
 	/**
+	 * [RegInfo 用户注册页面]
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2017-03-02T22:48:35+0800
+	 */
+	public function RegInfo()
+	{
+		$reg_all = MyC('home_user_reg_state');
+		if(!empty($reg_all))
+		{
+			if(empty($this->user))
+			{
+				$this->display('RegInfo');
+			} else {
+				$this->assign('msg', L('common_reg_already_had_tips'));
+				$this->display('/Public/TipsError');
+			}
+		} else {
+			$this->assign('msg', L('common_close_user_reg_tips'));
+			$this->display('/Public/TipsError');
+		}
+	}
+
+	/**
 	 * [EmailRegInfo 用户注册页面-邮箱]
 	 * @author   Devil
 	 * @blog     http://gong.gg/
@@ -104,20 +126,20 @@ class UserController extends CommonController
 	}
 
 	/**
-	 * [RegInfo 用户注册页面-短信]
+	 * [SmsRegInfo 用户注册页面-短信]
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
 	 * @datetime 2017-03-02T22:48:35+0800
 	 */
-	public function RegInfo()
+	public function SmsRegInfo()
 	{
 		if(in_array('sms', MyC('home_user_reg_state')))
 		{
 			if(empty($this->user))
 			{
 				$this->assign('referer_url', $this->GetrefererUrl());
-				$this->display('RegInfo');
+				$this->display('SmsRegInfo');
 			} else {
 				$this->assign('msg', L('common_reg_already_had_tips'));
 				$this->display('/Public/TipsError');
@@ -360,7 +382,7 @@ class UserController extends CommonController
 		if(I('type') == 'sms')
 		{
 			$obj = new \Library\Sms($verify_param);
-			$state = $obj->SendText(I('accounts'), MyC('home_sms_user_reg'), $code);
+			$state = $obj->SendCode(I('accounts'), $code, MyC('home_sms_user_reg'));
 		} else {
 			$obj = new \Library\Email($verify_param);
 			$email_param = array(
@@ -477,7 +499,7 @@ class UserController extends CommonController
 		if($type == 'mobile')
 		{
 			$obj = new \Library\Sms($verify_param);
-			$state = $obj->SendText($accounts, MyC('home_sms_user_forget_pwd'), $code);
+			$state = $obj->SendCode($accounts, $code, MyC('home_sms_user_forget_pwd'));
 
 		// 邮箱
 		} else if($type == 'email')
@@ -486,7 +508,7 @@ class UserController extends CommonController
 			$email_param = array(
 					'email'		=>	$accounts,
 					'content'	=>	MyC('home_email_user_forget_pwd'),
-					'title'		=>	MyC('home_site_name').' - '.L('common_email_send_user_reg_title'),
+					'title'		=>	MyC('home_site_name').' - '.L('common_email_send_user_forget_title'),
 					'code'		=>	$code,
 				);
 			$state = $obj->SendHtml($email_param);

@@ -6,8 +6,12 @@
                 <div class="menu-hd">
                     <if condition="empty($user)">
                         <span>您好，欢迎来到 {{:MyC('home_site_name')}}</span>
-                        [<a href="{{:U('Home/User/LoginInfo')}}">登录</a>]
-                        [<a href="{{:U('Home/User/RegInfo')}}">注册</a>]
+                        <if condition="MyC('home_user_login_state') eq 1">
+                            [<a href="{{:U('Home/User/LoginInfo')}}">登录</a>]
+                        </if>
+                        <if condition="in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))">
+                            [<a href="{{:U('Home/User/RegInfo')}}">注册</a>]
+                        </if>
                     <else />
                         <span>您好 {{$user.user_name_view}}，欢迎来到 {{:MyC('home_site_name')}}</span>
                         [<a href="{{:U('Home/User/Logout')}}">退出</a>]

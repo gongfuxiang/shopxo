@@ -122,7 +122,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
 
 /* 顶部小导航 */
 .header-top { background-color: #fafafa; border-bottom: solid 1px #f0f0f0; }
-.header-top a, .header-top span { color: #555; }
+.header-top a, .header-top span { color: #333; font-size: 12px; }
 .header{ display:none; max-width:1000px; margin:0px auto; font-size:12px;}  
 
 .am-footer { border-top: 2px solid #d2364c; }
@@ -166,11 +166,11 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
     .shop-nav {position: relative;}
 
     .nav-search{background: none;}
-    .header { display:block;height: 35px;}
+    .header { display:block;height: 30px;}
     .message-l{ float:left;}
-    .message-l .topMessage{padding: 0px 6px;height: 35px;line-height: 35px;}
+    .message-l .topMessage, .message-r .topMessage { padding: 0px 6px; height: 30px;line-height: 30px; }
     .message-r {float: right;}
-    .message-r .topMessage {float: left;padding: 0px 6px;height: 35px;line-height: 35px;}
+    .message-r .topMessage {float: left;}
   
     .nav-search .logo{display:none;}  
     .nav-search .logoBig{ display:block;float:left;height:40px;width:135px; margin:0px auto; margin-left:5px;} 
@@ -198,13 +198,13 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
 @media only screen and (min-width: 1025px)
 {
     .am-container { padding-left:0rem;padding-right:0rem;max-width: 1000px;}
-    .shop-nav{margin:0px;border-bottom: 2px solid #d2364c; height: 45px;}
+    .shop-nav{margin:0px;border-bottom: 2px solid #d2364c; height: 50px;}
 
     .mui-mbar-tabs{ display:block;}  
     .nav-search{padding-left:0px; max-width:1000px; margin:0px auto;padding: 20px 0;}
     .nav-search .logo{display:none;}
     .nav-search .logoBig { display: -webkit-inline-box; float:left;height:60px; width:230px; margin-left:0px;}
-    .search-bar{height:50px; margin:auto;display: -webkit-inline-box;width: calc(66%);padding-left: 8%;}
+    .search-bar{height:50px; margin:auto;display: -webkit-inline-box;width: calc(60%);padding-left: 8%;}
     #ai-topsearch {height: 47px;}
     .shopMain{margin:0px 0px 0px 5px;} 
     .shopCon li{width:20%;padding:10px;}
@@ -461,7 +461,7 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
 .price strong {color: #E4393C; font-weight: 600; }
 
 /* 公共错误提示页面 */
-.tips-error { margin-top: 10%; }
+.tips-error { margin: 10% 0; }
 
 /* 页面加载数据 */
 .loding-view { text-align: center; color: #888; padding: 10px 0; }
@@ -543,6 +543,10 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
     color: #fff;
     border-color: #e86175;
 }
+.am-btn-secondary.am-disabled, .am-btn-secondary[disabled], fieldset[disabled] .am-btn-secondary, .am-btn-secondary.am-disabled:hover, .am-btn-secondary[disabled]:hover, fieldset[disabled] .am-btn-secondary:hover, .am-btn-secondary.am-disabled:focus, .am-btn-secondary[disabled]:focus, fieldset[disabled] .am-btn-secondary:focus, .am-btn-secondary.am-disabled:active, .am-btn-secondary[disabled]:active, fieldset[disabled] .am-btn-secondary:active, .am-btn-secondary.am-disabled.am-active, .am-btn-secondary[disabled].am-active, fieldset[disabled] .am-btn-secondary.am-active {
+    background-color: #e86175;
+    border-color: #e86175;
+}
 
 .am-btn-primary {
     color: #fff;
@@ -554,5 +558,10 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
 }
 .am-btn-primary:hover, .am-btn-primary:focus, .am-btn-primary:active, .am-btn-primary.am-active, .am-dropdown.am-active .am-btn-primary.am-dropdown-toggle {
     color: #fff;
+    border-color: #d31e37;
+}
+
+.am-btn-primary.am-disabled, .am-btn-primary[disabled], fieldset[disabled] .am-btn-primary, .am-btn-primary.am-disabled:hover, .am-btn-primary[disabled]:hover, fieldset[disabled] .am-btn-primary:hover, .am-btn-primary.am-disabled:focus, .am-btn-primary[disabled]:focus, fieldset[disabled] .am-btn-primary:focus, .am-btn-primary.am-disabled:active, .am-btn-primary[disabled]:active, fieldset[disabled] .am-btn-primary:active, .am-btn-primary.am-disabled.am-active, .am-btn-primary[disabled].am-active, fieldset[disabled] .am-btn-primary.am-active {
+    background-color: #d31e37;
     border-color: #d31e37;
 }
