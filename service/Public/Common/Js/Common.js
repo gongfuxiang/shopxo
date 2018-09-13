@@ -554,6 +554,38 @@ function img_file_upload_show(class_name, show_img, default_images)
 	});
 }
 
+/**
+ * 弹窗加载
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2018-09-13
+ * @desc    description
+ * @param   {[string]}        url   [加载url]
+ * @param   {[string]}        title [标题]
+ * @param   {[string]}        tag   [指定id标记]
+ */
+function ModalLoad(url, title, tag)
+{
+	tag = tag || 'common-popup-modal';
+	if($('#'+tag).length > 0)
+	{
+		$('#'+tag).remove();
+	}
+
+	var html = '<div class="am-popup popup-iframe" id="'+tag+'">';
+		html += '<div class="am-popup-inner">';
+	    html += '<div class="am-popup-hd">';
+	    html += '<h4 class="am-popup-title">'+(title || '温馨提示')+'</h4>';
+	    html += '<span data-am-modal-close class="am-close">&times;</span>';
+		html += '</div>';
+	    html += '<iframe src="'+url+'"></iframe>';
+		html += '</div>';
+		html += '</div>';
+	$('body').append(html);
+	$('#'+tag).modal();
+}
+
 
 // 公共数据操作
 $(function()

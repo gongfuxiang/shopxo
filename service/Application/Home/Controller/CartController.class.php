@@ -2,8 +2,7 @@
 
 namespace Home\Controller;
 
-use Service\SearchService;
-use Service\BrandService;
+use Service\BuyService;
 
 /**
  * 购物车
@@ -25,6 +24,9 @@ class CartController extends CommonController
     {
         // 调用父类前置方法
         parent::_initialize();
+
+        // 是否登录
+        $this->Is_Login();
     }
     
     /**
@@ -37,6 +39,22 @@ class CartController extends CommonController
     public function Index()
     {
         $this->display('Index');
+    }
+
+    /**
+     * 购物车保存
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-13
+     * @desc    description
+     */
+    public function Save()
+    {
+        $params = $_POST;
+        $params['user'] = $this->user;
+        $ret = BuyService::CartAdd($params);
+        $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }
 }
 ?>

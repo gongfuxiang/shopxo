@@ -1,9 +1,121 @@
+// 规格弹窗PC显示
+function poptit_pc_show()
+{
+    $(document.body).css("position", "static");
+    $('.theme-signin-left').scrollTop(0);
+    $('.theme-popover-mask').hide();
+    $('.theme-popover').slideDown(0);
+}
+// 规格弹窗关闭
+function poptit_close()
+{
+    if($(window).width() < 1010)
+    {
+        $(document.body).css("position", "static");
+        $('.theme-signin-left').scrollTop(0);
+        $('.theme-popover-mask').hide();
+        $('.theme-popover').slideUp(100);
+    }
+}
+
+/**
+ * 购买/加入购物车
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2018-09-13
+ * @desc    description
+ * @param   {[object]}        e [当前标签对象]
+ */
+function CartAdd(e)
+{
+    // 参数
+    var type = e.attr('data-type');
+    console.log(type)
+    var stock = $('#text_box').val();
+    if((stock || 0) <= 0)
+    {
+        Prompt('购买数量有误');
+        return false;
+    }
+
+    // 属性
+    var attr = {};
+    var sku_count = $('.sku-items').length;
+    if(sku_count > 0)
+    {
+        var attr_count = $('.sku-line.selected').length;
+        if(attr_count < sku_count)
+        {
+            Prompt('请选择属性');
+            return false;
+        } else {
+            $('.sku-line.selected').each(function(k, v)
+            {
+                attr[$(this).data('parent-id')] = $(this).data('id');
+            });
+        }
+    }
+
+    // 操作类型
+    switch(type)
+    {
+        // 立即购买
+        case 'buy' :
+            console.log('buy', stock, attr);
+            break;
+
+        // 加入购物车
+        case 'cart' :
+            // 开启进度条
+            $.AMUI.progress.start();
+
+            var $button = e;
+            $button.attr('disabled', true);
+
+            // ajax请求
+            $.ajax({
+                url: e.data('ajax-url'),
+                type: 'post',
+                dataType: "json",
+                timeout: 10000,
+                data: {"goods_id": $('.goods-detail').data('id'), "stock": stock, "attr": attr},
+                success: function(result)
+                {
+                    poptit_close();
+                    $.AMUI.progress.done();
+                    $button.attr('disabled', false);
+
+                    if(result.code == 0)
+                    {
+                        Prompt(result.msg, 'success');
+                    } else {
+                        Prompt(result.msg);
+                    }
+                },
+                error: function(xhr, type)
+                {
+                    poptit_close();
+                    $.AMUI.progress.done();
+                    $button.attr('disabled', false);
+                    Prompt('网络异常错误');
+                }
+            });
+            break;
+
+        // 默认
+        default :
+            Prompt('操作参数配置有误');
+    }
+    return true;
+}
+
 //商品规格选择
 $(function() {
     $(".theme-options").each(function() {
         var i = $(this);
         var p = i.find("ul>li");
-        p.click(function() {
+        p.on('click', function() {
             if (!!$(this).hasClass("selected")) {
                 $(this).removeClass("selected");
 
@@ -17,30 +129,94 @@ $(function() {
 
     // 放大镜初始化
     $(".jqzoom").imagezoom();
-    $("#thumblist li a").click(function() {
+    $("#thumblist li a").on('click', function() {
         $(this).parents("li").addClass("tb-selected").siblings().removeClass("tb-selected");
         $(".jqzoom").attr('src', $(this).find("img").attr("mid"));
         $(".jqzoom").attr('rel', $(this).find("img").attr("big"));
     });
 
     //弹出规格选择
-    var $ww = $(window).width();
-    if ($ww <1025) {
-        $('.theme-login').click(function() {
+    $('.theme-login').on('click', function() {
+        if ($(window).width() < 1010) {
             $(document.body).css("position", "fixed");
             $('.theme-popover-mask').show();
             $('.theme-popover').slideDown(200);
-        })
+        } else {
+            poptit_pc_show();
+        }
+    });
+    $('.theme-poptit .close,.btn-op .close').on('click', function() {
+        poptit_close();
+    });
 
-        $('.theme-poptit .close,.btn-op .close').click(function() {
-            $(document.body).css("position", "static");
-            // 滚动条复位
-            $('.theme-signin-left').scrollTop(0);
+    // 购买
+    $('.buy-submit, .cart-submit').on('click', function()
+    {
+        // 是否登录
+        if(__user_id__ == 0)
+        {
+            ModalLoad($('.goods-detail').data('login-url'), '登录');
+            return false;
+        }
 
-            $('.theme-popover-mask').hide();
-            $('.theme-popover').slideUp(200);
-        })
-    }
+        if($(window).width() >= 1010)
+        {
+            CartAdd($(this));
+        } else {
+            $('.theme-popover .confirm').attr('data-type', $(this).data('type'));
+        }
+    });
+    // 购买 确认
+    $('.theme-popover .confirm').on('click', function()
+    {
+        if($(window).width() < 1010)
+        {
+            CartAdd($(this));
+        }
+    });
+
+    // 收藏
+    $('.favor-submit').on('click', function()
+    {
+        var $this = $(this);
+        // 开启进度条
+        $.AMUI.progress.start();
+
+        // ajax请求
+        $.ajax({
+            url: $(this).data('ajax-url'),
+            type: 'post',
+            dataType: "json",
+            timeout: 10000,
+            data: {"goods_id": $('.goods-detail').data('id')},
+            success: function(result)
+            {
+                poptit_close();
+                $.AMUI.progress.done();
+
+                if(result.code == 0)
+                {
+                    $this.text(' '+result.data.text);
+                    if(result.data.status == 1)
+                    {
+                        $this.addClass('text-active');
+                    } else {
+                        $this.removeClass('text-active');
+                    }
+                    Prompt(result.msg, 'success');
+                } else {
+                    Prompt(result.msg);
+                }
+            },
+            error: function(xhr, type)
+            {
+                poptit_close();
+                $.AMUI.progress.done();
+                Prompt('网络异常错误');
+            }
+        });
+    });
+
 });
 
 // 购买导航动画显示/隐藏
@@ -88,7 +264,17 @@ $(window).scroll(function()
     }
 });
 
-
+// 浏览器窗口实时事件
+$(window).resize(function()
+{
+    // 规格显示/隐藏处理
+    if($(window).width() < 1010)
+    {
+        poptit_close();
+    } else {
+        poptit_pc_show();
+    }
+});
 
 $(document).ready(function() {
     //获得文本框对象
@@ -97,10 +283,18 @@ $(document).ready(function() {
     $('#min').attr('disabled', true);
     //数量增加操作
     $("#add").on('click', function() {
-            t.val(parseInt(t.val()) + 1)
-            if (parseInt(t.val()) != 1) {
+        var stock = parseInt($('.stock-tips .stock').text());
+        var number = parseInt(t.val());
+        if(number < stock)
+        {
+            t.val(number + 1)
+            if (parseInt(t.val()) > 1) {
                 $('#min').attr('disabled', false);
             }
+        } else {
+            $('#add').attr('disabled', true);
+        }
+            
 
         });
     //数量减少操作
@@ -109,7 +303,7 @@ $(document).ready(function() {
         if (parseInt(t.val()) == 1) {
             $('#min').attr('disabled', true);
         }
-
+        $('#add').attr('disabled', false);
     })
 
 });

@@ -19,7 +19,7 @@ strong.total-price-content, .selected-tips strong, .nav-total-price { color: #d2
 .am-table > tbody > tr > td { border-top: 1px solid #F5F5F5; }
 .cart-content table td.base input[type="checkbox"] { float: left; }
 
-.cart-nav { background: #eee; height: 50px; line-height: 50px; padding: 0 5px; }
+.cart-nav { background: #eee; height: 50px; line-height: 50px; padding: 0 0 0 5px; }
 .cart-nav .separate-submit { height: 50px; width: 100px; font-size: 20px; }
 .selected-tips { margin-right: 15px; }
 .cart-nav label { font-weight: 100; }

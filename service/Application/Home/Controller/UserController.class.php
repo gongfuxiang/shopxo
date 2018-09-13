@@ -176,6 +176,35 @@ class UserController extends CommonController
 	}
 
 	/**
+	 * modal弹窗登录
+	 * @author   Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2018-09-13
+	 * @desc    description
+	 */
+	public function ModalLoginInfo()
+	{
+		$this->assign('is_header', 0);
+		$this->assign('is_footer', 0);
+
+		if(MyC('home_user_login_state') == 1)
+		{
+			if(empty($this->user))
+			{
+				$this->assign('referer_url', $this->GetrefererUrl());
+				$this->display('ModalLoginInfo');
+			} else {
+				$this->assign('msg', L('common_login_already_had_tips'));
+				$this->display('/Public/TipsError');
+			}
+		} else {
+			$this->assign('msg', L('common_close_user_login_tips'));
+			$this->display('/Public/TipsError');
+		}
+	}
+
+	/**
 	 * [Reg 用户注册-数据添加]
 	 * @author   Devil
 	 * @blog     http://gong.gg/

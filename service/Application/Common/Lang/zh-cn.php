@@ -200,6 +200,8 @@ return array(
 	'common_confirm_error'				=>	'确认失败',
 	'common_favor_success'				=>	'收藏成功',
 	'common_favor_error'				=>	'收藏失败',
+	'common_join_success'				=>	'加入成功',
+	'common_join_error'					=>	'加入失败',
 	
 	'common_value_not_change'			=>	'数据未改变',
 	'common_gender_tips'				=>	'性别值范围不正确',
@@ -282,6 +284,9 @@ return array(
 	'common_pay_status_name'			=>	'支付状态',
 	'common_express_name'				=>	'快递公司',
 	'common_background_color'           =>	'背景色',
+
+	'common_favor_ok_text'				=>	'已收藏',
+	'common_favor_not_text'				=>	'收藏',
 
 	// 性别
 	'common_gender_list'				=>	array(

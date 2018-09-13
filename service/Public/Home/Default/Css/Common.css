@@ -565,3 +565,5 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
     background-color: #d31e37;
     border-color: #d31e37;
 }
+
+.am-popup-hd .am-popup-title { font-size: 18px; }

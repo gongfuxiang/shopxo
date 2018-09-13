@@ -8,6 +8,43 @@
  * @datetime 2016-12-01T21:51:08+0800
  */
 
+/**
+ * [DataReturn 公共返回数据]
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  0.0.1
+ * @datetime 2016-12-07T22:03:40+0800
+ * @param    [string]       $msg  [提示信息]
+ * @param    [int]          $code [状态码]
+ * @param    [mixed]        $data [数据]
+ * @return   [json]               [json数据]
+ */
+function DataReturn($msg = '', $code = 0, $data = '')
+{
+    // ajax的时候，success和error错误由当前方法接收
+    if(IS_AJAX)
+    {
+        if(isset($msg['info']))
+        {
+            // success模式下code=0, error模式下code参数-1
+            $result = array('msg'=>$msg['info'], 'code'=>-1, 'data'=>'');
+        }
+    }
+    
+    // 默认情况下，手动调用当前方法
+    if(empty($result))
+    {
+        $result = array('msg'=>$msg, 'code'=>$code, 'data'=>$data);
+    }
+
+    // 错误情况下，防止提示信息为空
+    if($result['code'] != 0 && empty($result['msg']))
+    {
+        $result['msg'] = L('common_operation_error');
+    }
+
+    return $result;
+}
 
 /**
  * 生成前台页面url地址

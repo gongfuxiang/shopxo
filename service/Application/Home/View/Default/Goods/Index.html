@@ -12,7 +12,7 @@
 <!-- goods category -->
 <include file="Public/GoodsCategory" />
 
-<div class="detail">
+<div class="goods-detail" data-id="{{$goods.id}}" data-login-url="{{:U('Home/User/ModalLoginInfo')}}">
     <!-- 轮播 -->
     <div class="scoll">
         <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false}' >
@@ -115,7 +115,7 @@
                                 <div class="theme-signin-left">
                                     <if condition="!empty($goods['attribute']['choose'])">
                                         <foreach name="goods.attribute.choose" key="key" item="attribute">
-                                            <div class="theme-options">
+                                            <div class="theme-options sku-items">
                                                 <div class="cart-title">{{$attribute.name}}</div>
                                                 <ul>
                                                     <if condition="!empty($attribute['find'])">
@@ -130,11 +130,6 @@
                                     <div class="theme-options">
                                         <div class="cart-title number">数量</div>
                                         <dd>
-                                            <!-- <button id="min" class="am-btn am-btn-default" type="button">-</button>
-                                            <input id="text_box" name="" type="text" value="1" />
-                                            <button id="add" class="am-btn am-btn-default" type="button">+</button>
-                                            <span id="Stock" class="tb-hidden">库存<span class="stock">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span> -->
-
                                             <div class="am-input-group am-input-group-sm number-tag">
                                                 <button class="am-input-group-label" id="min" type="button">-</button>
                                                 <input type="text" class="am-form-field" value="1" id="text_box" />
@@ -145,7 +140,7 @@
                                     </div>
 
                                     <div class="btn-op">
-                                        <span class="btn am-btn am-btn-default confirm">确认</span>
+                                        <span class="btn am-btn am-btn-default confirm" data-type="cart" data-ajax-url="{{:U('Home/Cart/Save')}}">确认</span>
                                         <span class="btn close am-btn am-btn-danger cancel">取消</span>
                                     </div>
                                 </div>
@@ -157,7 +152,6 @@
                                         <span class="price-now">¥{{$goods.price}}</span>
                                     </div>
                                 </div>
-
                             </form>
                         </div>
                     </div>
@@ -168,17 +162,23 @@
             <!--手机导航-->
             <div class="buy-nav">
                 <div class="buy-nav-opt">
-                <a href="{{:__MY_URL__}}"><span class="am-icon-home am-icon-fw"> 首页</span></a>
-                <a><span class="am-icon-heart am-icon-fw"> 收藏</span></a>
+                    <a href="{{:__MY_URL__}}">
+                        <span class="am-icon-home am-icon-fw"> 首页</span>
+                    </a>
+                    <if condition="isset($goods['is_favor']) and $goods['is_favor'] eq 1">
+                        <span class="am-icon-heart am-icon-fw favor-submit text-active" data-ajax-url="{{:U('Home/Goods/Favor')}}"> 已收藏</span>
+                    <else />
+                        <span class="am-icon-heart am-icon-fw favor-submit" data-ajax-url="{{:U('Home/Goods/Favor')}}"> 收藏</span>
+                    </if>
                 </div>
                 <li>
                     <div class="clearfix tb-btn tb-btn-buy theme-login">
-                        <a id="LikBuy" title="点此按钮到下一步确认购买信息" href="javascript:;">立即购买</a>
+                        <button class="buy-submit" title="点此按钮到下一步确认购买信息" href="javascript:;" data-type="buy" type="button">立即购买</button>
                     </div>
                 </li>
                 <li>
                     <div class="clearfix tb-btn tb-btn-basket theme-login">
-                        <a id="LikBasket" title="加入购物车" href="javascript:;"><i></i>加入购物车</a>
+                        <button class="cart-submit" title="加入购物车" href="javascript:;" data-type="cart" data-ajax-url="{{:U('Home/Cart/Save')}}" type="button"><i></i>加入购物车</button>
                     </div>
                 </li>
             </div>

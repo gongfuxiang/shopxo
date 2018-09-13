@@ -45,6 +45,11 @@ class GoodsController extends CommonController
             'is_attribute' => true,
         ];
         $goods = GoodsService::GoodsList($params);
+
+        // 当前登录用户是否已收藏
+        $ret_favor = GoodsService::IsUserGoodsFavor(['goods_id'=>$id, 'user'=>$this->user]);
+        $goods[0]['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
+
         $this->assign('goods', $goods[0]);
         $this->assign('home_seo_site_title', $goods[0]['title']);
 
@@ -77,6 +82,26 @@ class GoodsController extends CommonController
         $this->assign('detail_like_goods', GoodsService::GoodsList($params));
 
         $this->display('Index');
+    }
+
+    /**
+     * 商品收藏
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-13
+     * @desc    description
+     */
+    public function Favor()
+    {
+        // 是否登录
+        $this->Is_Login();
+
+        // 开始处理
+        $params = $_POST;
+        $params['user'] = $this->user;
+        $ret = GoodsService::GoodsFavor($params);
+        $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }
 }
 ?>

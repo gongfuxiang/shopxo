@@ -20,11 +20,7 @@
 			<fieldset>
 				<if condition="in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))">
 					<span class="">{{:L('user_login_on_accounts_text')}}</span>
-					<if condition="in_array('sms', MyC('home_user_reg_state'))">
-						<a href="{{:U('Home/User/RegInfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">{{:L('user_login_immediately_reg_text')}}</a>
-					<elseif condition="in_array('email', MyC('home_user_reg_state'))" />
-						<a href="{{:U('Home/User/EmailRegInfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">{{:L('user_login_immediately_reg_text')}}</a>
-					</if>
+					<a href="{{:U('Home/User/RegInfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">{{:L('user_login_immediately_reg_text')}}</a>
 					<hr />
 				</if>
 				<label>{{:L('user_login_accounts_text')}}</label>
@@ -37,7 +33,7 @@
 				</div>
 				<p>
 					<button type="submit" class="am-btn am-btn-primary am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '{{:L('common_login_loading_tips')}}'}">{{:L('user_login_submit_text')}}</button>
-					<a href="{{:U('Home/User/ForgetPwdInfo')}}" class="am-fr m-t-5">{{:L('user_reg_forget_pwd_text')}}</a>
+					<a href="{{:U('Home/User/ForgetPwdInfo')}}" class="am-fr">{{:L('user_reg_forget_pwd_text')}}</a>
 				</p>
 			</fieldset>
 		</form>
@@ -46,9 +42,6 @@
 </div>
 <!-- conntent end  -->
 
-<!-- layuot common module start -->
-<include file="Public/CommonModule" />
-<!-- layuot common module end -->
 
 <!-- footer start -->
 <include file="Public/Footer" />

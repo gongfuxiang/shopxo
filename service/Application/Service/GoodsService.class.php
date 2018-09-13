@@ -297,5 +297,95 @@ class GoodsService
         }
         return $result;
     }
+
+    /**
+     * 商品收藏
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-08-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function GoodsFavor($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'goods_id',
+                'error_msg'         => '商品id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user',
+                'error_msg'         => '用户信息有误',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 开始操作
+        $m = M('GoodsFavor');
+        $data = ['goods_id'=>intval($params['goods_id']), 'user_id'=>$params['user']['id']];
+        $temp = $m->where($data)->find();
+        if(empty($temp))
+        {
+            $data['add_time'] = time();
+            if($m->add($data) > 0)
+            {
+                return DataReturn(L('common_favor_success'), 0, ['text'=>L('common_favor_ok_text'), 'status'=>1]);
+            } else {
+                return DataReturn(L('common_favor_error'));
+            }
+        } else {
+            if($m->where($data)->delete() > 0)
+            {
+                return DataReturn(L('common_cancel_success'), 0, ['text'=>L('common_favor_not_text'), 'status'=>0]);
+            } else {
+                return DataReturn(L('common_cancel_error'));
+            }
+        }
+    }
+
+    /**
+     * 用户是否收藏了商品
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-08-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     * @return  [int]                    [1已收藏, 0未收藏]
+     */
+    public static function IsUserGoodsFavor($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'goods_id',
+                'error_msg'         => '商品id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user',
+                'error_msg'         => '用户信息有误',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        $m = M('GoodsFavor');
+        $data = ['goods_id'=>intval($params['goods_id']), 'user_id'=>$params['user']['id']];
+        $temp = $m->where($data)->find();
+        return DataReturn(L('common_operation_success'), 0, empty($temp) ? 0 : 1);
+    }
 }
 ?>
