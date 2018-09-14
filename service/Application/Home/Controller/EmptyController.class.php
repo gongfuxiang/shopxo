@@ -21,7 +21,6 @@ class EmptyController extends CommonController
 	public function Index()
 	{
 		$this->assign('msg', L('common_unauthorized_access'));
-		$this->assign('is_footer', 0);
 		$this->display('/Public/Error');
 	}
 }

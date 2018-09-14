@@ -136,16 +136,22 @@ $(function() {
     });
 
     //弹出规格选择
-    $('.theme-login').on('click', function() {
-        if ($(window).width() < 1010) {
-            $(document.body).css("position", "fixed");
-            $('.theme-popover-mask').show();
-            $('.theme-popover').slideDown(200);
+    $('.buy-event').on('click', function() {
+        if($(window).width() < 1010) {
+            // 是否登录
+            if(__user_id__ != 0)
+            {
+                $(document.body).css("position", "fixed");
+                $('.theme-popover-mask').show();
+                $('.theme-popover').slideDown(200);
+
+                $('.theme-popover .confirm').attr('data-type', $(this).data('type'));
+            }
         } else {
             poptit_pc_show();
         }
     });
-    $('.theme-poptit .close,.btn-op .close').on('click', function() {
+    $('.theme-poptit .close, .btn-op .close').on('click', function() {
         poptit_close();
     });
 
@@ -153,68 +159,70 @@ $(function() {
     $('.buy-submit, .cart-submit').on('click', function()
     {
         // 是否登录
-        if(__user_id__ == 0)
+        if(__user_id__ != 0)
         {
-            ModalLoad($('.goods-detail').data('login-url'), '登录');
-            return false;
-        }
-
-        if($(window).width() >= 1010)
-        {
-            CartAdd($(this));
-        } else {
-            $('.theme-popover .confirm').attr('data-type', $(this).data('type'));
+            if($(window).width() >= 1010)
+            {
+                CartAdd($(this));
+            }
         }
     });
-    // 购买 确认
     $('.theme-popover .confirm').on('click', function()
     {
-        if($(window).width() < 1010)
+        // 是否登录
+        if(__user_id__ != 0)
         {
-            CartAdd($(this));
+            if($(window).width() < 1010)
+            {
+                CartAdd($(this));
+            }
         }
     });
 
     // 收藏
     $('.favor-submit').on('click', function()
     {
-        var $this = $(this);
-        // 开启进度条
-        $.AMUI.progress.start();
+        // 是否登录
+        if(__user_id__ != 0)
+        {
+            var $this = $(this);
+            // 开启进度条
+            $.AMUI.progress.start();
 
-        // ajax请求
-        $.ajax({
-            url: $(this).data('ajax-url'),
-            type: 'post',
-            dataType: "json",
-            timeout: 10000,
-            data: {"goods_id": $('.goods-detail').data('id')},
-            success: function(result)
-            {
-                poptit_close();
-                $.AMUI.progress.done();
-
-                if(result.code == 0)
+            // ajax请求
+            $.ajax({
+                url: $(this).data('ajax-url'),
+                type: 'post',
+                dataType: "json",
+                timeout: 10000,
+                data: {"goods_id": $('.goods-detail').data('id')},
+                success: function(result)
                 {
-                    $this.text(' '+result.data.text);
-                    if(result.data.status == 1)
+                    poptit_close();
+                    $.AMUI.progress.done();
+
+                    if(result.code == 0)
                     {
-                        $this.addClass('text-active');
+                        $this.text(' '+result.data.text);
+                        if(result.data.status == 1)
+                        {
+                            $this.addClass('text-active');
+                        } else {
+                            $this.removeClass('text-active');
+                        }
+                        Prompt(result.msg, 'success');
                     } else {
-                        $this.removeClass('text-active');
+                        Prompt(result.msg);
                     }
-                    Prompt(result.msg, 'success');
-                } else {
-                    Prompt(result.msg);
+                },
+                error: function(xhr, type)
+                {
+                    poptit_close();
+                    $.AMUI.progress.done();
+                    Prompt('网络异常错误');
                 }
-            },
-            error: function(xhr, type)
-            {
-                poptit_close();
-                $.AMUI.progress.done();
-                Prompt('网络异常错误');
-            }
-        });
+            });
+        }
     });
 
 });

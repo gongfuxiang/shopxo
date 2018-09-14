@@ -234,7 +234,6 @@ class CommonController extends Controller
 	protected function _empty($name)
 	{
 		$this->assign('msg', L('common_unauthorized_access'));
-		$this->assign('is_footer', 0);
 		$this->display('/Public/Error');
 	}
 
@@ -249,10 +248,17 @@ class CommonController extends Controller
 	{
 		if(MyC('home_site_state') == 0)
 		{
-			$this->assign('msg', MyC('home_site_close_reason', L('common_site_maintenance_tips'), true));
-			$this->assign('is_footer', 0);
-			$this->display('/Public/Error');
-			exit;
+			// 是否ajax请求
+        	if(IS_AJAX)
+	        {
+	            $this->error(MyC('home_site_close_reason', L('common_site_maintenance_tips')));
+	        } else {
+	        	$this->assign('msg', MyC('home_site_close_reason', L('common_site_maintenance_tips'), true));
+				$this->assign('is_header', 0);
+				$this->assign('is_footer', 0);
+				$this->display('/Public/Error');
+				exit;
+	        }
 		}
 	}
 

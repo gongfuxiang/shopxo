@@ -1,7 +1,7 @@
 <!-- 商品分类  -->
 <div id="goods-category" class="am-container" data-controller-name="{{$controller_name}}">
     <div class="goods-category-s">
-        <a href="{{:U('Home/Search/Index')}}">
+        <a href="{{:U('Home/Category/Index')}}">
             <div class="goods-category-title">
                 <span class="all-goods">全部分类</span>
             </div>
@@ -9,7 +9,7 @@
         <div class="category-content" <if condition="isset($controller_name) and $controller_name neq 'Index'">style="display:none;"</if>>
             <div class="category">
                 <ul class="category-list" id="js_climit_li">
-                    <if condition="!empty($goods_category_list)">
+                    <notempty name="goods_category_list">
                         <foreach name="goods_category_list" item="v">
                             <li class="appliance js_toggle relative first">
                                 <div class="category-info">
@@ -51,7 +51,7 @@
                                 </div> 
                             </li>
                         </foreach>
-                    </if>
+                    </notempty>
                 </ul>
             </div>
         </div>

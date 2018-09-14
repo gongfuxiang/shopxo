@@ -1,10 +1,26 @@
 <include file="Public/Header" />
 
+<notempty name="is_header">
+    <!-- header top nav -->
+    <include file="Public/HeaderTopNav" />
+
+    <!-- search -->
+    <include file="Public/NavSearch" />
+
+    <!-- header nav -->
+    <include file="Public/HeaderNav" />
+
+    <!-- goods category -->
+    <include file="Public/GoodsCategory" />
+</notempty>
+
 <!-- content start -->
-<div class="am-g my-content" <if condition="!empty($max_width_style)">style="{{$max_width_style}}"</if>>
-	<div class="am-panel am-panel-default am-radius my-error">
-		<div class="am-panel-bd">{{$msg}}</div>
-	</div>
+<div class="am-g my-content">
+	<div class="am-u-md-6 am-u-sm-centered">
+        <div class="am-panel am-panel-danger am-radius tips-error">
+            <div class="am-panel-bd">{{$msg}}</div>
+        </div>
+    </div>
 </div>
 <!-- content end -->
 

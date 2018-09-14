@@ -1,7 +1,6 @@
 .goods-detail img { width: 80px; height: 80px; }
-.goods-detail { position: relative; margin-left: 15px; }
+.goods-detail { position: relative; margin-left: 20px; }
 .goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; }
-.goods-title, .goods-attr li, .original-price, .operation a, .wap-number, .selected-tips, .cart-nav a, .total-price-tips, .cart-nav label { font-size: 12px; }
 .goods-title:hover { text-decoration: underline; }
 .goods-base { position: absolute; top: 0; left: 85px; }
 .goods-attr { margin-top: 5px;  }
@@ -10,21 +9,22 @@
 .original-price { color: #9c9c9c; text-decoration: line-through; }
 .line-price { color: #3c3c3c; }
 .line-price, strong.total-price-content, .nav-total-price { font-weight: 700; }
-.number-tag { width: 100px; }
-.number-tag .am-form-field { padding: 3px; height: 25px; text-align: center; font-size: 16px !important; }
-.number-tag .am-input-group-label { line-height: 23px; height: 25px; font-size: 14px !important; padding: 0 10px; }
-.number-tag .am-input-group-label, .cart-nav label { cursor: pointer; }
+.stock-tag { width: 100px; }
+.stock-tag .am-form-field { padding: 3px; height: 25px; text-align: center; font-size: 16px !important; }
+.stock-tag .am-input-group-label { line-height: 23px; height: 25px; font-size: 14px !important; padding: 0 10px; }
+.stock-tag .am-input-group-label, .cart-nav label { cursor: pointer; }
 strong.total-price-content, .selected-tips strong, .nav-total-price { color: #d2364c; font-size: 16px; }
-.operation a { display: block; }
+.am-table { margin-bottom: 10px; }
 .am-table > tbody > tr > td { border-top: 1px solid #F5F5F5; }
 .cart-content table td.base input[type="checkbox"] { float: left; }
 
-.cart-nav { background: #eee; height: 50px; line-height: 50px; padding: 0 0 0 5px; }
-.cart-nav .separate-submit { height: 50px; width: 100px; font-size: 20px; }
+.cart-nav { background: #eee; height: 50px; line-height: 46px; }
+.cart-nav .separate-submit { height: 50px; width: 100px; font-size: 20px; font-weight: 500; }
 .selected-tips { margin-right: 15px; }
-.cart-nav label { font-weight: 100; }
+.cart-nav label { font-weight: 500; margin: 0;  }
 .cart-nav input[type="checkbox"] { vertical-align: inherit; }
-.cart-nav .delete-submit-all { margin-left: 10px; }
+.cart-nav .am-fl { margin-left: 5px; }
+.cart-nav .am-fl a { margin-left: 10px; }
 
 @media only screen and (min-width:640px)  {
     .cart-content table tr .base { width: 30%; }
@@ -38,4 +38,5 @@ strong.total-price-content, .selected-tips strong, .nav-total-price { color: #d2
 @media only screen and (max-width:640px)  {
     .cart-content table tr .base { width: 80%; }
     .selected-tips { display: none; }
+    .am-footer { margin-top: 10px; }
 }

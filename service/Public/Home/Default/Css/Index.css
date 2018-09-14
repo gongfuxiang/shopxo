@@ -201,7 +201,7 @@ text-align: center;float:none}
     /*楼层*/
     .flood {border: 1px solid #eee;border-top: none;}
     .outer-con .describe ,.recommendation .info h3{font-size: 14px;font-weight: 600;}
-
+    .goods-title, .outer-con .price { font-size: 14px; }
 
     /*楼层*/
     .flood .text-one img{width:90%;margin:37% 5% 0% 5%;}
@@ -292,7 +292,7 @@ text-align: center;float:none}
     .list .word{display: block;padding:20px 0 30px 10px;}
     .word .outer {margin: 0 10px 10px 0;float: left;width: 50px;height: 50px;text-align: center;color: #2f2f2f;background-color: #fff;border-radius: 50px;}
     .word .outer  .inner {display: table-cell;vertical-align: middle;width:50px;height:50px;}
-    .word .outer .text {font-weight: 400;display: inline-block; max-width:40px;margin: 0 auto;}
+    .word .outer .text {font-weight: 400;display: inline-block; max-width:35px;margin: 0 auto;}
 
     /*楼层*/
     .flood .text-one,.flood .text-two,.flood .text-three{width:20%;text-align: center;margin: 0px 0px;height:200px ;}

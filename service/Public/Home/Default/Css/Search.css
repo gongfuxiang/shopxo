@@ -8,7 +8,6 @@
 /*任何标签、包括它前面、后面生成的内容都不要影响盒子的边框*/
 ul, li, ol {list-style: none;}
 dl,dt,dd{ margin:0px auto; padding:0px;}
-p {margin: 0 0 .3rem 0; font-size:14px; }
 [class*="am-u-"] {padding-left:0rem;padding-right:0rem;}
 .am-thumbnails {margin-left: 0rem;margin-right: 0rem;}
 .am-thumbnail {margin-bottom:0;}

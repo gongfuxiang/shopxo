@@ -12,7 +12,7 @@
 <!-- goods category -->
 <include file="Public/GoodsCategory" />
 
-<div class="goods-detail" data-id="{{$goods.id}}" data-login-url="{{:U('Home/User/ModalLoginInfo')}}">
+<div class="goods-detail" data-id="{{$goods.id}}">
     <!-- 轮播 -->
     <div class="scoll">
         <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false}' >
@@ -95,92 +95,98 @@
                 </ul>
 
                 <!--各种规格-->
-                <dl class="iteminfo_parameter sys_item_specpara">
-                    <dt class="theme-login">
-                        <div class="cart-title">
-                            <span class="specpara-title">可选规格</span>
-                            <span class="am-icon-angle-right"></span>
-                        </div>
-                    </dt>
-                    <dd>
-                    <!--操作页面-->
-                    <div class="theme-popover-mask"></div>
-                    <div class="theme-popover">
-                        <div class="theme-span"></div>
-                        <div class="theme-poptit">
-                            <a href="javascript:;" title="关闭" class="close am-icon-close am-icon-sm"></a>
-                        </div>
-                        <div class="theme-popbod dform">
-                            <form class="theme-signin" name="loginform" action="" method="post">
-                                <div class="theme-signin-left">
-                                    <if condition="!empty($goods['attribute']['choose'])">
-                                        <foreach name="goods.attribute.choose" key="key" item="attribute">
-                                            <div class="theme-options sku-items">
-                                                <div class="cart-title">{{$attribute.name}}</div>
-                                                <ul>
-                                                    <if condition="!empty($attribute['find'])">
-                                                        <foreach name="attribute.find" key="keys" item="attr">
-                                                            <li class="sku-line" data-parent-id="{{$attribute.id}}" data-id="{{$attr.id}}">{{$attr.name}}<i></i></li>
-                                                        </foreach>
-                                                    </if>
-                                                </ul>
+                <if condition="$goods['is_shelves'] == 1">
+                    <dl class="iteminfo_parameter sys_item_specpara">
+                        <dt class="buy-event login-event" data-type="buy">
+                            <div class="cart-title">
+                                <span class="specpara-title">可选规格</span>
+                                <span class="am-icon-angle-right"></span>
+                            </div>
+                        </dt>
+                        <dd>
+                            <!--操作页面-->
+                            <div class="theme-popover-mask"></div>
+                            <div class="theme-popover">
+                                <div class="theme-span"></div>
+                                <div class="theme-poptit">
+                                    <a href="javascript:;" title="关闭" class="close am-icon-close am-icon-sm"></a>
+                                </div>
+                                <div class="theme-popbod dform">
+                                    <form class="theme-signin" name="loginform" action="" method="post">
+                                        <div class="theme-signin-left">
+                                            <if condition="!empty($goods['attribute']['choose'])">
+                                                <foreach name="goods.attribute.choose" key="key" item="attribute">
+                                                    <div class="theme-options sku-items">
+                                                        <div class="cart-title">{{$attribute.name}}</div>
+                                                        <ul>
+                                                            <notempty name="attribute.find">
+                                                                <foreach name="attribute.find" key="keys" item="attr">
+                                                                    <li class="sku-line" data-parent-id="{{$attribute.id}}" data-id="{{$attr.id}}">{{$attr.name}}<i></i></li>
+                                                                </foreach>
+                                                            </notempty>
+                                                        </ul>
+                                                    </div>
+                                                </foreach>
+                                            </if>
+                                            <div class="theme-options">
+                                                <div class="cart-title number">数量</div>
+                                                <dd>
+                                                    <div class="am-input-group am-input-group-sm number-tag">
+                                                        <button class="am-input-group-label" id="min" type="button">-</button>
+                                                        <input type="text" class="am-form-field" value="1" id="text_box" />
+                                                        <button class="am-input-group-label" id="add" type="button">+</button>
+                                                    </div>
+                                                    <span class="tb-hidden stock-tips">库存<span class="stock">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
+                                                </dd>
                                             </div>
-                                        </foreach>
-                                    </if>
-                                    <div class="theme-options">
-                                        <div class="cart-title number">数量</div>
-                                        <dd>
-                                            <div class="am-input-group am-input-group-sm number-tag">
-                                                <button class="am-input-group-label" id="min" type="button">-</button>
-                                                <input type="text" class="am-form-field" value="1" id="text_box" />
-                                                <button class="am-input-group-label" id="add" type="button">+</button>
-                                            </div>
-                                            <span class="tb-hidden stock-tips">库存<span class="stock">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
-                                        </dd>
-                                    </div>
 
-                                    <div class="btn-op">
-                                        <span class="btn am-btn am-btn-default confirm" data-type="cart" data-ajax-url="{{:U('Home/Cart/Save')}}">确认</span>
-                                        <span class="btn close am-btn am-btn-danger cancel">取消</span>
-                                    </div>
+                                            <div class="btn-op">
+                                                <span class="btn am-btn am-btn-default confirm login-event" data-type="cart" data-ajax-url="{{:U('Home/Cart/Save')}}">确认</span>
+                                                <span class="btn close am-btn am-btn-danger cancel">取消</span>
+                                            </div>
+                                        </div>
+                                        <div class="theme-signin-right">
+                                            <div class="img-info">
+                                                <img src="__PUBLIC__/Home/{{$default_theme}}/Images/songzi.jpg" />
+                                            </div>
+                                            <div class="text-info">
+                                                <span class="price-now">¥{{$goods.price}}</span>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="theme-signin-right">
-                                    <div class="img-info">
-                                        <img src="__PUBLIC__/Home/{{$default_theme}}/Images/songzi.jpg" />
-                                    </div>
-                                    <div class="text-info">
-                                        <span class="price-now">¥{{$goods.price}}</span>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    </dd>
-                </dl>
+                            </div>
+                        </dd>
+                    </dl>
+                </if>
             </div>
 
             <!--手机导航-->
             <div class="buy-nav">
-                <div class="buy-nav-opt">
-                    <a href="{{:__MY_URL__}}">
-                        <span class="am-icon-home am-icon-fw"> 首页</span>
-                    </a>
-                    <if condition="isset($goods['is_favor']) and $goods['is_favor'] eq 1">
-                        <span class="am-icon-heart am-icon-fw favor-submit text-active" data-ajax-url="{{:U('Home/Goods/Favor')}}"> 已收藏</span>
-                    <else />
-                        <span class="am-icon-heart am-icon-fw favor-submit" data-ajax-url="{{:U('Home/Goods/Favor')}}"> 收藏</span>
-                    </if>
-                </div>
-                <li>
-                    <div class="clearfix tb-btn tb-btn-buy theme-login">
-                        <button class="buy-submit" title="点此按钮到下一步确认购买信息" href="javascript:;" data-type="buy" type="button">立即购买</button>
+                <if condition="$goods['is_shelves'] == 1">
+                    <div class="buy-nav-opt">
+                        <a href="{{:__MY_URL__}}">
+                            <span class="am-icon-home am-icon-fw"> 首页</span>
+                        </a>
+                        <if condition="isset($goods['is_favor']) and $goods['is_favor'] eq 1">
+                            <span class="am-icon-heart am-icon-fw login-event favor-submit text-active" data-ajax-url="{{:U('Home/Goods/Favor')}}"> 已收藏</span>
+                        <else />
+                            <span class="am-icon-heart am-icon-fw favor-submit login-event" data-ajax-url="{{:U('Home/Goods/Favor')}}"> 收藏</span>
+                        </if>
                     </div>
-                </li>
-                <li>
-                    <div class="clearfix tb-btn tb-btn-basket theme-login">
-                        <button class="cart-submit" title="加入购物车" href="javascript:;" data-type="cart" data-ajax-url="{{:U('Home/Cart/Save')}}" type="button"><i></i>加入购物车</button>
+                    <div class="submit">
+                        <div class="clearfix tb-btn tb-btn-buy buy-event login-event buy-submit" data-type="buy">
+                            <button title="点此按钮到下一步确认购买信息" href="javascript:;" type="button">立即购买</button>
+                        </div>
                     </div>
-                </li>
+                    <div class="submit">
+                        <div class="clearfix tb-btn tb-btn-basket buy-event login-event cart-submit" data-type="cart"  data-ajax-url="{{:U('Home/Cart/Save')}}">
+                            <button title="加入购物车" href="javascript:;" type="button"><i></i>加入购物车</button>
+                        </div>
+                    </div>
+                <else />
+                    <p class="shelves-tips">商品已下架</p>
+                </if>
             </div>
         </div>
     </div>

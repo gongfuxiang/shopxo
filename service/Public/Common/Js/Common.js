@@ -586,6 +586,35 @@ function ModalLoad(url, title, tag)
 	$('#'+tag).modal();
 }
 
+/**
+ * 价格四舍五入，并且指定保留小数位数
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2018-09-14
+ * @desc    description
+ * @param   {[float]}      value [金额]
+ * @param   {[int]}        pos   [位数 默认2]
+ */
+function FomatFloat(value, pos)
+{
+	pos = pos || 2;
+	var f_x = Math.round(value*Math.pow(10, pos))/Math.pow(10, pos);
+
+	var s_x = f_x.toString();
+	var pos_decimal = s_x.indexOf('.');
+	if(pos_decimal < 0)
+	{
+	  pos_decimal = s_x.length;
+	  s_x += '.';
+	}
+	while (s_x.length <= pos_decimal + 2)
+	{
+	  s_x += '0';
+	}
+	return s_x;
+}
+
 
 // 公共数据操作
 $(function()
@@ -619,45 +648,45 @@ $(function()
 	 */
 	$(document).on('click', '.submit-delete', function()
 	{
-		$('#common-confirm-delete').modal({
-			relatedTarget: this,
+		var id = $(this).data('id');
+		var url = $(this).data('url');
+		var title = $(this).data('title') || '温馨提示';
+		var msg = $(this).data('msg') || '删除后不可恢复、确认操作吗？';
+
+		AMUI.dialog.confirm({
+			title: title,
+			content: msg,
 			onConfirm: function(options)
 			{
-				// 获取参数
-				var $tag = $(this.relatedTarget);
-				var id = $tag.data('id');
-				var url = $tag.data('url');
-				var list_tag = $tag.data('list-tag') || '#data-list-'+id;
-				if(id == undefined || url == undefined)
+				if((id || null) == null || (url || null) == null)
 				{
 					Prompt('参数配置有误');
-					return false;
-				}
-
-				// 请求删除数据
-				$.ajax({
-					url:url,
-					type:'POST',
-					dataType:"json",
-					timeout:10000,
-					data:{"id":id},
-					success:function(result)
-					{
-						if(result.code == 0)
+				} else {
+					// 请求删除数据
+					$.ajax({
+						url:url,
+						type:'POST',
+						dataType:"json",
+						timeout:10000,
+						data:{"id":id},
+						success:function(result)
 						{
-							Prompt(result.msg, 'success');
+							if(result.code == 0)
+							{
+								Prompt(result.msg, 'success');
 
-							// 成功则删除数据列表
-							$(list_tag).remove();
-						} else {
-							Prompt(result.msg);
+								// 成功则删除数据列表
+								$('#data-list-'+id).remove();
+							} else {
+								Prompt(result.msg);
+							}
+						},
+						error:function(xhr, type)
+						{
+							Prompt('网络异常出错');
 						}
-					},
-					error:function(xhr, type)
-					{
-						Prompt('网络异常出错');
-					}
-				});
+					});
+				}
 			},
 			onCancel: function(){}
 		});
@@ -983,7 +1012,7 @@ $(function()
 				});
 			},
 			onCancel: function(){}
-		}); 
+		});
 	});
 
 	// 地区联动

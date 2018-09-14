@@ -19,7 +19,7 @@
 	<!-- 轮播右侧-内容1 -->
 	<div class="am-g am-g-fixed small-nav">
 		<div class="am-u-sm-3">
-			<a href="sort.html">
+			<a href="{{:U('Home/Category/Index')}}">
 				<div class="nav-icon mini-nav-goods-category">
 					<img src="__PUBLIC__/Home/{{$default_theme}}/Images/home-mini-nav-category-icon.png" />
 				</div>
@@ -27,7 +27,7 @@
 			</a>
 		</div>
 		<div class="am-u-sm-3">
-			<a href="{{:U('Home/Cart/Index')}}">
+			<a <if condition="empty($user)">href="javascript:;" class="login-event"<else /> href="{{:U('Home/Cart/Index')}}"</if>>
 				<div class="nav-icon mini-nav-cart">
 					<img src="__PUBLIC__/Home/{{$default_theme}}/Images/home-mini-nav-cart-icon.png" />
 				</div>
@@ -43,7 +43,7 @@
 			</a>
 		</div>
 		<div class="am-u-sm-3">
-			<a href="<if condition="empty($user)">{{:U('Home/User/LoginInfo')}}<else />{{:U('Home/User/Index')}}</if>">
+			<a <if condition="empty($user)">href="javascript:;" class="login-event"<else /> href="{{:U('Home/User/Index')}}"</if>>
 				<div class="nav-icon mini-nav-user">
 					<img src="__PUBLIC__/Home/{{$default_theme}}/Images/home-mini-nav-user-icon.png" />
 				</div>

@@ -87,5 +87,17 @@ $(function()
             $('.nav-search').css('position','relative');
         }
     });
+
+    // 登录事件
+    $('.login-event').on('click', function()
+    {
+        // 是否登录
+        if(__user_id__ == 0)
+        {
+            ModalLoad(__modal_login_url__, '登录');
+            return false;
+        }
+    });
+    
     
 });

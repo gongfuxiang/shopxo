@@ -45,43 +45,48 @@ class GoodsController extends CommonController
             'is_attribute' => true,
         ];
         $goods = GoodsService::GoodsList($params);
+        if(empty($goods[0]) || $goods[0]['is_delete_time'] != 0)
+        {
+            $this->assign('msg', L('common_data_no_exist_error'));
+            $this->display('/Public/TipsError');
+        } else {
+            // 当前登录用户是否已收藏
+            $ret_favor = GoodsService::IsUserGoodsFavor(['goods_id'=>$id, 'user'=>$this->user]);
+            $goods[0]['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
 
-        // 当前登录用户是否已收藏
-        $ret_favor = GoodsService::IsUserGoodsFavor(['goods_id'=>$id, 'user'=>$this->user]);
-        $goods[0]['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
+            $this->assign('goods', $goods[0]);
+            $this->assign('home_seo_site_title', $goods[0]['title']);
 
-        $this->assign('goods', $goods[0]);
-        $this->assign('home_seo_site_title', $goods[0]['title']);
+            // 商品访问统计
+            M('Goods')->where(array('id'=>$id))->setInc('access_count');
 
-        // 商品访问统计
-        M('Goods')->where(array('id'=>$id))->setInc('access_count');
+            // 左侧商品 看了又看
+            $params = [
+                'where'     => [
+                    'g.is_delete_time'=>0,
+                    'g.is_shelves'=>1
+                ],
+                'order_by'  => 'access_count desc',
+                'field'     => 'g.id,g.title,g.title_color,g.price,g.images',
+                'n'         => 10,
+            ];
+            $this->assign('left_goods', GoodsService::GoodsList($params));
 
-        // 左侧商品 看了又看
-        $params = [
-            'where'     => [
-                'g.is_delete_time'=>0,
-                'g.is_shelves'=>1
-            ],
-            'order_by'  => 'access_count desc',
-            'field'     => 'g.id,g.title,g.title_color,g.price,g.images',
-            'n'         => 10,
-        ];
-        $this->assign('left_goods', GoodsService::GoodsList($params));
+            // 详情tab商品 猜你喜欢
+            $params = [
+                'where'     => [
+                    'g.is_delete_time'=>0,
+                    'g.is_shelves'=>1,
+                    'is_home_recommended'=>1,
+                ],
+                'order_by'  => 'sales_count desc',
+                'field'     => 'g.id,g.title,g.title_color,g.price,g.images,g.home_recommended_images',
+                'n'         => 16,
+            ];
+            $this->assign('detail_like_goods', GoodsService::GoodsList($params));
 
-        // 详情tab商品 猜你喜欢
-        $params = [
-            'where'     => [
-                'g.is_delete_time'=>0,
-                'g.is_shelves'=>1,
-                'is_home_recommended'=>1,
-            ],
-            'order_by'  => 'sales_count desc',
-            'field'     => 'g.id,g.title,g.title_color,g.price,g.images,g.home_recommended_images',
-            'n'         => 16,
-        ];
-        $this->assign('detail_like_goods', GoodsService::GoodsList($params));
-
-        $this->display('Index');
+            $this->display('Index');
+        }
     }
 
     /**
