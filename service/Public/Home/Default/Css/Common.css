@@ -523,6 +523,11 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
      * 图片验证码
      */
     #verify-img-value { margin-bottom: 10px; }
+
+    /**
+     * 公共登录窗口
+     */
+    .common-login-modal { height: 350px; top: calc(100% - 350px);}
 }
 
 
