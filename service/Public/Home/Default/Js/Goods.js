@@ -9,7 +9,7 @@ function poptit_pc_show()
 // 规格弹窗关闭
 function poptit_close()
 {
-    if($(window).width() < 1010)
+    if($(window).width() < 1025)
     {
         $(document.body).css("position", "static");
         $('.theme-signin-left').scrollTop(0);
@@ -31,7 +31,6 @@ function CartAdd(e)
 {
     // 参数
     var type = e.attr('data-type');
-    console.log(type)
     var stock = $('#text_box').val();
     if((stock || 0) <= 0)
     {
@@ -62,7 +61,7 @@ function CartAdd(e)
     {
         // 立即购买
         case 'buy' :
-            console.log('buy', stock, attr);
+            alert('buy - stock:'+stock+' , attr:'+ JSON.stringify(attr));
             break;
 
         // 加入购物车
@@ -137,7 +136,7 @@ $(function() {
 
     //弹出规格选择
     $('.buy-event').on('click', function() {
-        if($(window).width() < 1010) {
+        if($(window).width() < 1025) {
             // 是否登录
             if(__user_id__ != 0)
             {
@@ -161,7 +160,7 @@ $(function() {
         // 是否登录
         if(__user_id__ != 0)
         {
-            if($(window).width() >= 1010)
+            if($(window).width() >= 1025)
             {
                 CartAdd($(this));
             }
@@ -172,7 +171,7 @@ $(function() {
         // 是否登录
         if(__user_id__ != 0)
         {
-            if($(window).width() < 1010)
+            if($(window).width() < 1025)
             {
                 CartAdd($(this));
             }
@@ -276,7 +275,7 @@ $(window).scroll(function()
 $(window).resize(function()
 {
     // 规格显示/隐藏处理
-    if($(window).width() < 1010)
+    if($(window).width() < 1025)
     {
         poptit_close();
     } else {
