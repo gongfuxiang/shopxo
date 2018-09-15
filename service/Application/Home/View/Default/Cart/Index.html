@@ -82,17 +82,17 @@
 
         <!-- 导航 -->
         <div class="cart-nav">
-            <div class="am-fl">
+            <div class="am-fl nav-left">
                 <label>
                     <input type="checkbox" value="3" class="select-all-event" />
                     <span>全选</span>
                 </label>
                 <a href="javascript:;" class="submit-ajax" data-url="{{:U('Home/Cart/Delete')}}" data-id="{{$base.ids}}" data-view="reload" data-msg="清空后不可恢复、确认操作吗？">清空</a>
             </div>
-            <div class="am-fr">
-                <span class="selected-tips">已选商品 <strong>0</strong> 件</span>
-                <span class="total-price-tips">合计：</span>
-                <strong class="nav-total-price">￥0.00</strong>
+            <div class="am-fr nav-right">
+                <span class="selected-tips am-fl">已选商品 <strong>0</strong> 件</span>
+                <span class="total-price-tips am-fl">合计：</span>
+                <strong class="nav-total-price am-fl">￥0.00</strong>
                 <button type="button" class="am-btn am-btn-primary separate-submit">结算</button>
             </div>
         </div>

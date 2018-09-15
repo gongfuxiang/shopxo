@@ -512,7 +512,7 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
     /**
      * 公共登录窗口
      */
-    .common-login-modal { max-width: 400px; max-height: 350px; left: calc(50% + 100px); top: calc(50% + 100px); }
+    .common-login-modal { max-width: 400px; max-height: 350px; left: calc(50% - 200px); top: calc(50% - 175px); margin-left: 0; margin-top: 0; }
 }
 
 /**
@@ -530,7 +530,7 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
  * 框架覆盖
  */
 .am-btn-secondary {
-    color: #fff;
+    color: #fff !important;
     background-color: #f07c8c;
     border-color: #f07c8c;
 }
@@ -538,7 +538,7 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
     background-color: #e86175;
 }
 .am-btn-secondary:hover, .am-btn-secondary:focus, .am-btn-secondary:active, .am-btn-secondary.am-active, .am-dropdown.am-active .am-btn-secondary.am-dropdown-toggle {
-    color: #fff;
+    color: #fff !important;
     border-color: #e86175;
 }
 .am-btn-secondary.am-disabled, .am-btn-secondary[disabled], fieldset[disabled] .am-btn-secondary, .am-btn-secondary.am-disabled:hover, .am-btn-secondary[disabled]:hover, fieldset[disabled] .am-btn-secondary:hover, .am-btn-secondary.am-disabled:focus, .am-btn-secondary[disabled]:focus, fieldset[disabled] .am-btn-secondary:focus, .am-btn-secondary.am-disabled:active, .am-btn-secondary[disabled]:active, fieldset[disabled] .am-btn-secondary:active, .am-btn-secondary.am-disabled.am-active, .am-btn-secondary[disabled].am-active, fieldset[disabled] .am-btn-secondary.am-active {
@@ -551,7 +551,7 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
 }
 
 .am-btn-primary {
-    color: #fff;
+    color: #fff !important;
     background-color: #d2364c;
     border-color: #d2364c;
 }
@@ -559,7 +559,7 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
     background-color: #d31e37;
 }
 .am-btn-primary:hover, .am-btn-primary:focus, .am-btn-primary:active, .am-btn-primary.am-active, .am-dropdown.am-active .am-btn-primary.am-dropdown-toggle {
-    color: #fff;
+    color: #fff !important;
     border-color: #d31e37;
 }
 .am-btn-primary.am-disabled, .am-btn-primary[disabled], fieldset[disabled] .am-btn-primary, .am-btn-primary.am-disabled:hover, .am-btn-primary[disabled]:hover, fieldset[disabled] .am-btn-primary:hover, .am-btn-primary.am-disabled:focus, .am-btn-primary[disabled]:focus, fieldset[disabled] .am-btn-primary:focus, .am-btn-primary.am-disabled:active, .am-btn-primary[disabled]:active, fieldset[disabled] .am-btn-primary:active, .am-btn-primary.am-disabled.am-active, .am-btn-primary[disabled].am-active, fieldset[disabled] .am-btn-primary.am-active {

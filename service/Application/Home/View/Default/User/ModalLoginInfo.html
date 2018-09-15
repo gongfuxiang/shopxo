@@ -41,7 +41,12 @@
     {
         if(e.code == 0)
         {
-            parent.location.reload();
+            $.AMUI.progress.done();
+            Prompt(e.msg, 'success');
+            setTimeout(function()
+            {
+                parent.location.reload();
+            }, 1500);
         } else {
             $('form.form-validation').find('button[type="submit"]').button('reset');
             $.AMUI.progress.done();

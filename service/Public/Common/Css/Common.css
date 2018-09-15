@@ -31,10 +31,11 @@
 /**
  * 公共提示信息
  */
-#common-prompt {position:fixed;top:0;left:0;right:0;text-align:center;padding:5px;font-size:14px;z-index:10000;margin-top: 0px;box-shadow: 0 2px 4px rgba(0,0,0,.12), 0 0 6px rgba(0,0,0,.04);border-radius: 2px;}
-@media only screen and (min-width: 641px){
-    #common-prompt { max-width: 280px;margin: 0 auto; }
-}
+#common-prompt {position:fixed;top:0;left:0;right:0;text-align:center;padding:5px;font-size:14px;z-index:10000; border-radius: 2px; width: 260px; margin: 0 auto;}
+#common-prompt.am-alert-danger { background-color: #fef0f0; border-color: #fde2e2; color: #f56c6c; box-shadow: 0 2px 4px #fef1f1, 0 0 6px rgba(0, 0, 0, 0); }
+#common-prompt.am-alert-success { background-color: #f0f9eb; border-color: #e1f3d8; color: #67c23a; box-shadow: 0 2px 4px #efffe5, 0 0 6px rgba(0, 0, 0, 0); }
+#common-prompt p { text-align: left; font-size: 12px; }
+#common-prompt .am-close { line-height: 20px; }
 
 /**
  * iframe
