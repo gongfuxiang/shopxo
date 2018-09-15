@@ -153,7 +153,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
     .message-r .topMessage {float: left;}
   
     .nav-search .logo{display:none;}  
-    .nav-search .logoBig{ display:block;float:left;height:40px;width:135px; margin:0px auto; margin-left:5px;} 
+    .nav-search .logoBig{ display:block;float:left;height:40px;width:135px; margin:0px auto; margin-left:5px; margin-right: 5px;} 
     .nav-search .logoBig img{width:100%;}
     .search-bar {height: 40px; width: calc(100% - 146px);}
     #ai-topsearch {height: 36px;}
@@ -183,7 +183,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
     .mui-mbar-tabs{ display:block;}  
     .nav-search{padding-left:0px; max-width:1000px; margin:0px auto;padding: 20px 0;}
     .nav-search .logo{display:none;}
-    .nav-search .logoBig { display: -webkit-inline-box; float:left;height:60px; width:230px; margin-left:0px;}
+    .nav-search .logoBig { display: -webkit-inline-box; float:left;height:60px; width:230px; margin:0px;}
     .search-bar{height:50px; margin:auto;display: -webkit-inline-box;width: calc(60%);padding-left: 8%;}
     #ai-topsearch {height: 47px;}
     .shopMain{margin:0px 0px 0px 5px;} 
@@ -459,8 +459,11 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
 /**
  * 底部
  */
-.am-footer {
-    font-size: 14px;
+.am-footer, .am-footer-miscs {
+    font-size: 12px !important;
+}
+.am-footer-default a {
+    color: #333;
 }
 
 
@@ -505,6 +508,11 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
      * 图片验证码
      */
     #verify-img-value { float: left; width: 50%; margin-right: 5px; }
+
+    /**
+     * 公共登录窗口
+     */
+    .common-login-modal { max-width: 400px; max-height: 350px; left: calc(50% + 100px); top: calc(50% + 100px); }
 }
 
 /**

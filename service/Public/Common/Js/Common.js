@@ -565,7 +565,7 @@ function img_file_upload_show(class_name, show_img, default_images)
  * @param   {[string]}        title [标题]
  * @param   {[string]}        tag   [指定id标记]
  */
-function ModalLoad(url, title, tag)
+function ModalLoad(url, title, tag, class_tag)
 {
 	tag = tag || 'common-popup-modal';
 	if($('#'+tag).length > 0)
@@ -573,7 +573,7 @@ function ModalLoad(url, title, tag)
 		$('#'+tag).remove();
 	}
 
-	var html = '<div class="am-popup popup-iframe" id="'+tag+'">';
+	var html = '<div class="am-popup popup-iframe '+class_tag+'" id="'+tag+'">';
 		html += '<div class="am-popup-inner">';
 	    html += '<div class="am-popup-hd">';
 	    html += '<h4 class="am-popup-title">'+(title || '温馨提示')+'</h4>';
