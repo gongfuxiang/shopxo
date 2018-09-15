@@ -561,9 +561,10 @@ function img_file_upload_show(class_name, show_img, default_images)
  * @version 1.0.0
  * @date    2018-09-13
  * @desc    description
- * @param   {[string]}        url   [加载url]
- * @param   {[string]}        title [标题]
- * @param   {[string]}        tag   [指定id标记]
+ * @param   {[string]}        url   	[加载url]
+ * @param   {[string]}        title 	[标题]
+ * @param   {[string]}        tag   	[指定id标记]
+ * @param   {[string]}        class_tag [指定class]
  */
 function ModalLoad(url, title, tag, class_tag)
 {
