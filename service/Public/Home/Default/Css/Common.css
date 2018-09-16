@@ -527,7 +527,7 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
     /**
      * 公共登录窗口
      */
-    .common-login-modal { height: 350px; top: calc(100% - 350px);}
+    .common-login-modal { height: 380px; top: calc(100% - 380px);}
 }
 
 
