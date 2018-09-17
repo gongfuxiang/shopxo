@@ -16,7 +16,7 @@ return array(
     'brand_category_id_format'      =>  '请选择品牌分类',
 
     'brand_name_text'               =>  '名称',
-    'brand_name_format'             =>  '名称格式 2~60 个字符',
+    'brand_name_format'             =>  '名称格式 2~30 个字符',
 
     'brand_logo_text'               =>  'LOGO',
     'brand_logo_format'             =>  '请上传LOGO图片',

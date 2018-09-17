@@ -1129,7 +1129,7 @@ $(function()
 	});
 
 	// 图片上传
-    $(document).on('change', '.images-file-event', function()
+    $(document).on('change', '.images-file-event, .file-event', function()
     {
     	// 显示选择的图片名称
         var fileNames = '';

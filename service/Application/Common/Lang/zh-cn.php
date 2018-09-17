@@ -120,8 +120,13 @@ return array(
 	'common_address_format'				=>	'详细地址2~60 个字符',
 	'common_pid_eq_myid_format'			=>	'父级不能是自身节点',
 	'common_user_no_exist_error'		=>	'用户不存在',
-	'common_data_no_exist_error'		=>	'数据不存在或已被删除',
+	'common_data_no_exist_error'		=>	'资源不存在或已被删除',
 	'common_icon_text'              	=> 'icon图标',
+	'common_install_msg'            	=>  '安装进行中、确认操作吗？',
+	'common_uninstall_msg'            	=>  '卸载后不可恢复、确认操作吗？',
+	'common_is_writable_error'			=>	'服务器用户没操作权限',
+	'common_plug_config_error'			=>	'插件配置有误',
+	'common_plug_already_existed_error'	=>	'已存在相同插件',
 
 	'common_operation_name'				=>	'操作',
 	'common_operation_add'				=>	'新增',
@@ -153,6 +158,8 @@ return array(
 	'common_dispose_submit'				=>	'处理',
 	'common_abnormal_submit'			=>	'异常',
 	'common_delivery_submit'			=>	'发货',
+	'common_operation_install'			=>	'安装',
+	'common_operation_uninstall'		=>	'卸载',
 	'common_delivery_tips'				=>	'是否操作发货，操作后不可恢复！',
 	'common_collect_submit'				=>	'收货',
 	'common_collect_tips'				=>	'是否操作收货，操作后不可恢复！',
@@ -173,7 +180,7 @@ return array(
 	'common_operation_edit_success'		=>	'编辑成功',
 	'common_operation_edit_error'		=>	'编辑失败或数据未改变',
 	'common_operation_delete_success'	=>	'删除成功',
-	'common_operation_delete_error'		=>	'删除失败或数据不存在',
+	'common_operation_delete_error'		=>	'删除失败或资源不存在',
 	'common_operation_update_success'	=>	'更新成功',
 	'common_operation_update_error'		=>	'更新失败',
 	'common_operation_cut_success'		=>	'解除成功',
@@ -202,6 +209,10 @@ return array(
 	'common_favor_error'				=>	'收藏失败',
 	'common_join_success'				=>	'加入成功',
 	'common_join_error'					=>	'加入失败',
+	'common_install_success'			=>	'安装成功',
+	'common_install_error'				=>	'安装失败',
+	'common_uninstall_success'			=>	'卸载成功',
+	'common_uninstall_error'			=>	'卸载失败',
 	
 	'common_value_not_change'			=>	'数据未改变',
 	'common_gender_tips'				=>	'性别值范围不正确',
@@ -472,6 +483,13 @@ return array(
 			0 => array('id' => 0, 'name' => '正常', 'checked' => true),
 			1 => array('id' => 1, 'name' => '禁止发言', 'tips' => '用户被禁止发言'),
 			2 => array('id' => 2, 'name' => '禁止登录', 'tips' => '用户被禁止登录'),
+		),
+
+	// 适用终端
+	'common_apply_terminal_list'		=>	array(
+			'pc' => array('value' => 'pc', 'name' => '电脑端'),
+			'wap' => array('value' => 'wap', 'name' => 'WAP手机端'),
+			'app' => array('value' => 'app', 'name' => 'APP手机端'),
 		),
 
 

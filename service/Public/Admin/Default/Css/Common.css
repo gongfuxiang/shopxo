@@ -398,6 +398,7 @@ ul {margin-top:0;}
 .common-left-menu a:hover,.common-left-menu-active {background:#ececec;color:#333 !important;}
 #ifcontent {border:0px;width:100%;overflow-x:hidden;}
 .am-table > tbody > tr > td {vertical-align:inherit;}
+.am-form-file input[type="file"] { margin-top: 0; }
 
 /**
  * excel导入窗口

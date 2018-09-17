@@ -35,15 +35,4 @@ $(function()
 			}
 		}
 	});
-
-	// 模板上传选择名称展示
-	$('input[name="theme"]').on('change', function()
-	{
-		var fileNames = '';
-		$.each(this.files, function()
-		{
-			fileNames += '<span class="am-badge">' + this.name + '</span> ';
-		});
-		$('#form-theme-tips').html(fileNames);
-	});
 });
