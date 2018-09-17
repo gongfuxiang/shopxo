@@ -119,7 +119,6 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
 
 /* 顶部小导航 */
 .header-top { background-color: #fafafa; border-bottom: solid 1px #f0f0f0; }
-.header-top a, .header-top span { color: #333; }
 .header{ display:none; max-width:1000px; margin:0px auto; font-size:12px;}  
 
 .am-footer { border-top: 2px solid #d2364c; }
@@ -512,7 +511,7 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
     /**
      * 公共登录窗口
      */
-    .common-login-modal { max-width: 400px; max-height: 350px; left: calc(50% - 200px); top: calc(50% - 175px); margin-left: 0; margin-top: 0; }
+    .common-login-modal { max-width: 400px; height: 372px; left: calc(50% - 200px); top: calc(50% - 186px); margin-left: 0; margin-top: 0; }
 }
 
 /**

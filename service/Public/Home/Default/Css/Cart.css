@@ -25,7 +25,6 @@ strong.total-price-content, .selected-tips strong, .nav-total-price { color: #d2
 .cart-nav input[type="checkbox"] { vertical-align: inherit; }
 .cart-nav .nav-left { margin-left: 5px; }
 .cart-nav .nav-left a { margin-left: 10px; }
-.cart-nav .nav-total-price { margin-right: 5px; }
 
 @media only screen and (min-width:640px)  {
     .cart-content table tr .base { width: 30%; }
@@ -34,10 +33,11 @@ strong.total-price-content, .selected-tips strong, .nav-total-price { color: #d2
     .cart-content table tr .total-price { width: 20%; }
     .cart-content table tr .operation { width: 15%; }
     .cart-content { margin-top: 20px; }
+    .cart-nav .nav-total-price { margin-right: 5px; }
 }
 
 @media only screen and (max-width:640px)  {
-    .cart-content table tr .base { width: 80%; }
+    .cart-content table tr .base { width: 85%; }
     .selected-tips { display: none; }
     .am-footer { margin-top: 10px; }
 
@@ -45,5 +45,7 @@ strong.total-price-content, .selected-tips strong, .nav-total-price { color: #d2
     .nav-right { width: 70%; }
     .cart-nav, .nav-left, .nav-right { overflow: hidden; }
     .nav-right .nav-total-price { display: block;
-    width: calc(100% - 141px); height: 30px; -o-text-overflow: ellipsis; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+    width: calc(100% - 120px); height: 30px; -o-text-overflow: ellipsis; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+    .cart-nav .separate-submit { float: right; width: 80px; }
+    .wap-base { padding-left: 20px; }
 }

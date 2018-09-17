@@ -138,7 +138,7 @@ text-align: center;float:none}
     /*第二套各类活动*/
     .row li{width: 25%;float: left;}
 }
-.word .outer:hover { background: #f9918f; color: #fff; border: 3px solid #fff; }
+.word .outer:hover { background: #f9918f; color: #fff !important; border: 3px solid #fff; }
 
 
 @media only screen and (min-width: 640px) {
@@ -351,8 +351,8 @@ text-align: center;float:none}
     .m-baseinfo{position: relative;margin-bottom: 10px;}
     .m-baseinfo img.user-avatar {display: block;width: 50px;height: 50px;border-radius: 50px;}
     .m-baseinfo em span {position: absolute;top:15px;left:60px;font-size: 12px;color: #3C3C3C;}
-    .member-login{height: 25px;overflow: hidden;display: block;}
     .member-login .btn{width:95px;margin-right:3px;height: 25px;display: inline-block;line-height: 25px;text-align: center;}
+    .member-login .btn:hover { color: #fff !important; text-decoration: none; }
     .member-login{overflow: hidden;height:25px;text-align: center;}
     .member-logout {  position: absolute; top: 33px; left: 60px; font-size: 12px; color: #f4546b; }
     .member-center { overflow: hidden; }

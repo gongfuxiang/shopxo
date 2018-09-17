@@ -47,13 +47,17 @@
                                 </div>
                             </div>
                             <div class="wap-base am-show-sm-only">
-                                <span class="original-price">￥{{$cart.original_price}}</span>
+                                <if condition="$cart['original_price'] gt 0">
+                                    <span class="original-price">￥{{$cart.original_price}}</span>
+                                </if>
                                 <strong class="total-price-content">￥{{$cart.price}}</strong>
                                 <span class="wap-number">x{{$cart.stock}}</span>
                             </div>
                         </td>
                         <td class="price am-hide-sm-only">
-                            <p class="original-price">￥{{$cart.original_price}}</p>
+                            <if condition="$cart['original_price'] gt 0">
+                                <p class="original-price">￥{{$cart.original_price}}</p>
+                            </if>
                             <p class="line-price">￥{{$cart.price}}</p>
                         </td>
                         <td class="number am-hide-sm-only">
