@@ -29,7 +29,7 @@
 			</div>
 			<div class="am-form-group">
 				<label>{{:L('article_category_text')}}</label>
-				<select name="article_category_id" class="am-radius c-p chosen-select" data-validation-message="{{:L('article_category_format')}}" required>
+				<select name="article_category_id" class="am-radius c-p chosen-select" data-placeholder="{{:L('common_select_can_choose')}}" data-validation-message="{{:L('article_category_format')}}" required>
 					<option value="">{{:L('common_select_can_choose')}}</option>
 					<foreach name="article_category_list" item="v">
 						<option value="{{$v.id}}" <if condition="isset($data['article_category_id']) and $data['article_category_id'] eq $v['id']">selected</if>>{{$v.name}}</option>

@@ -46,7 +46,7 @@
 			</div>
 			<div class="am-form-group">
 				<label>{{:L('common_view_sort_title')}}</label>
-				<input type="number" placeholder="{{:L('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:L('common_sort_error')}}" class="am-radius" value="0" required />
+				<input type="number" placeholder="{{:L('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:L('common_sort_error')}}" class="am-radius" value="<if condition="isset($data['sort'])">{{$data.sort}}<else />0</if>" required />
 			</div>
 			<div class="am-form-group">
 			    <label class="block">{{:L('common_view_enable_title')}}</label>

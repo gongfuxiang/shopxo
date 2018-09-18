@@ -84,12 +84,16 @@ function GetFormVal(element)
 		var name = $(this).parents('select').attr('name');
 		if(name != undefined && name != '')
 		{
-			if($(this).is(':selected'))
+			if($(this).is(':selected') && tmp.value != undefined && tmp.value != '')
 			{
 				// 多选择
 				if($(this).parents('select').attr('multiple') != undefined)
 				{
-					if(tmp_all[name] == undefined) tmp_all[name] = [];
+					if(tmp_all[name] == undefined)
+					{
+						tmp_all[name] = [];
+						i = 0;
+					}
 					tmp_all[name][i] = tmp.value;
 					i++;
 				} else {
@@ -268,6 +272,57 @@ function FromInit(form_name)
 			// 通过验证
 			if(this.isFormValid())
 			{
+				// 多选插件校验
+				if($form.find('.chosen-select'))
+				{
+					var is_success = true;
+					$form.find('select.chosen-select').each(function(k, v)
+					{
+						var required = $(this).attr('required');
+						if(($(this).attr('required') || null) == 'required')
+						{
+							var multiple = $(this).attr('multiple') || null;
+							var minchecked = parseInt($(this).attr('minchecked')) || 0;
+							var maxchecked = parseInt($(this).attr('maxchecked')) || 0;
+							var msg = $(this).attr('data-validation-message');
+							var value = $(this).val();
+							if((value || null) == null && value != '0')
+							{
+								is_success = false;
+								Prompt(msg || '请选择项');
+								$(this).trigger('blur');
+								return false;
+							} else {
+								if(multiple == 'multiple')
+								{
+									var count = value.length;
+									if(minchecked > 0 && count < minchecked)
+									{
+										is_success = false;
+										msg = msg || '至少选择'+minchecked+'项';
+									}
+									if(maxchecked > 0 && count > maxchecked)
+									{
+										is_success = false;
+										msg = msg || '最多选择'+maxchecked+'项';
+									}
+									if(is_success === false)
+									{
+										Prompt(msg);
+										$(this).trigger('blur');
+										$(this).parents('.am-form-group').removeClass('am-form-success').addClass('am-form-error');
+										return false;
+									}
+								}
+							}
+						}
+					});
+					if(is_success === false)
+					{
+						return false;
+					}
+				}
+
 				// button加载
 				var $button = $form.find('button[type="submit"]');
 				$button.button('loading');

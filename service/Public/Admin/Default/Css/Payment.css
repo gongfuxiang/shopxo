@@ -1,18 +1,11 @@
 /**
  * 列表
  */
-.form-keyword { width: 55% !important; display: initial !important; }
-.more-submit input { display: none; }
-.param-where, .param-date input { display: initial !important; }
-@media only screen and (max-width: 641px) {
-	.param-where { width: 100% !important; margin-left: 0px !important; }
-	.param-date input { width: 47% !important; }
-}
-@media only screen and (min-width: 641px) {
-	.param-where { width: 32% !important; float: left; }
-	.param-date input { width: 45% !important; }
-	.param-where:nth-child(1), .param-where:nth-child(4) { margin-left: 0px !important; }
-}
-@media only screen and (max-width: 321px) {
-	.view-operation button { margin: 2px 0px; }
-}
+table.am-table .th-desc { width: 20%; }
+table.am-table .td-desc { font-size: 12px; }
+
+/**
+ * 插件部分
+ */
+.plug-element { border: 1px dotted #FFC107; background: #fffcf2; padding: 10px 10px 0 10px; margin-bottom: 10px; border-radius: 2px; }
+.plug-element .tips { color: #FF9800; margin: 0 0 10px 0; font-size: 12px; }

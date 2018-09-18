@@ -16,7 +16,7 @@
 			</div>
 			<div class="am-form-group">
 				<label>{{:L('payment_apply_terminal_text')}}</label>
-			    <select name="apply_terminal" class="am-radius c-p chosen-select" multiple="multiple" data-placeholder="{{:L('common_select_can_choose')}}" data-validation-message="{{:L('payment_apply_terminal_format')}}" required>
+			    <select name="apply_terminal" class="am-radius c-p chosen-select" multiple="multiple" minchecked="1" data-placeholder="{{:L('common_select_can_choose')}}" data-validation-message="{{:L('payment_apply_terminal_format')}}" required>
 					<foreach name="common_apply_terminal_list" item="v">
 						<option value="{{$v.value}}" <if condition="isset($data['apply_terminal']) and in_array($v['value'], $data['apply_terminal'])">selected</if>>{{$v.name}}</option>
 					</foreach>
@@ -35,25 +35,76 @@
 
 			<!-- plug config start -->
 			<notempty name="data.element">
-				<foreach name="data.element" item="element">
-					<div class="am-form-group am-form-file">
-						<label class="block">{{$element.title}}</label>
-						<switch name="element.element">
-							<case value="input">
-								<if condition="in_array($element['type'], ['radio', 'checkbox']) and !empty($element['element_data'])">
-									input - radio or checkbox
-								<else />
-									<input type="{{$element.type}}" name="{{$element.name}}" value="{{$element.default}}" placeholder="{{$element.placeholder}}" <if condition="isset($element['is_required']) and $element['is_required'] eq 1">required</if> />
-								</if>
-							</case>
-							<case value="select">
-								select
-							</case>
-						</switch>
-					</div>
-				</foreach>
+				<div class="plug-element">
+					<p class="tips">{{:L('payment_plug_element_tips')}}</p>
+					<foreach name="data.element" item="element">
+						<div class="am-form-group">
+							<label class="block">{{$element.title}}</label>
+							<switch name="element.element">
+								<case value="input">
+									<if condition="in_array($element['type'], ['radio', 'checkbox']) and !empty($element['element_data']) and is_array($element['element_data'])">
+										<foreach name="element.element_data" key="element_data_key" item="element_data">
+											<label class="<if condition="isset($element['is_block']) and $element['is_block'] eq 1">am-{{$element.type}}<else />am-{{$element.type}}-inline</if>">
+												<input
+													type="{{$element.type}}"
+													name="plug_{{$element.name}}"
+													value="{{$element_data.value}}"
+													<if condition="(isset($element_data['is_checked']) and $element_data['is_checked'] eq 1) or (isset($data['config'][$element['name']]) and in_array($element_data['value'], explode(',', $data['config'][$element['name']])))">checked</if>
+													<if condition="isset($element['minchecked']) and $element['type'] eq 'checkbox'">minchecked="{{$element.minchecked}}"</if>
+													<if condition="isset($element['maxchecked']) and $element['type'] eq 'checkbox'">maxchecked="{{$element.maxchecked}}"</if>
+													<if condition="isset($element['message'])">data-validation-message="{{$element.message}}"</if>
+													<if condition="$element_data_key eq 0 and isset($element['is_required']) and $element['is_required'] eq 1">required</if>
+													data-am-ucheck />{{$element_data.name}}
+											</label>
+										</foreach>
+									<else />
+										<input
+											type="{{$element.type}}"
+											name="plug_{{$element.name}}"
+											value="<if condition="isset($data['config'][$element['name']])">{{$data['config'][$element['name']]}}<else />{{$element.default}}</if>"
+											<if condition="isset($element['placeholder'])">placeholder="{{$element.placeholder}}"</if>
+											<if condition="isset($element['message'])">data-validation-message="{{$element.message}}"</if>
+											<if condition="isset($element['is_required']) and $element['is_required'] eq 1">required</if>
+											/>
+									</if>
+								</case>
+								<case value="select">
+									<if condition="!empty($element['element_data']) and is_array($element['element_data'])">
+										<select
+											class="chosen-select"
+											name="plug_{{$element.name}}"
+											<if condition="isset($element['message'])">data-validation-message="{{$element.message}}"</if>
+											<if condition="isset($element['placeholder'])">data-placeholder="{{$element.placeholder}}"<else />{{:L('common_select_can_choose')}}</if>
+											<if condition="isset($element['is_multiple']) and $element['is_multiple'] eq 1">
+												multiple
+												<if condition="isset($element['minchecked'])">minchecked="{{$element.minchecked}}"</if>
+												<if condition="isset($element['maxchecked'])">maxchecked="{{$element.maxchecked}}"</if>
+											</if>
+											<if condition="isset($element['is_required']) and $element['is_required'] eq 1">required</if>
+										>
+										<if condition="!isset($element['is_multiple']) or $element['is_multiple'] neq 1">
+											<option value=""><if condition="isset($element['placeholder'])">{{$element.placeholder}}<else />{{:L('common_select_can_choose')}}</if></option>
+										</if>
+											<foreach name="element.element_data" key="element_data_key" item="element_data">
+												<option
+													value="{{$element_data.value}}"
+													<if condition="(isset($element_data['is_selected']) and $element_data['is_selected'] eq 1) or (isset($data['config'][$element['name']]) and in_array($element_data['value'], explode(',', $data['config'][$element['name']])))">selected</if>
+													>{{$element_data.name}}</option>
+											</foreach>
+										</select>
+									</if>
+								</case>
+							</switch>
+						</div>
+					</foreach>
+				</div>
 			</notempty>
 			<!-- plug config end -->
+
+			<div class="am-form-group">
+				<label>{{:L('common_view_sort_title')}}</label>
+				<input type="number" placeholder="{{:L('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:L('common_sort_error')}}" class="am-radius" value="<if condition="isset($data['sort'])">{{$data.sort}}<else />0</if>" required />
+			</div>
 
 			<div class="am-form-group">
 			    <label class="block">{{:L('common_view_enable_title')}}</label>
@@ -72,3 +123,8 @@
 <!-- footer start -->
 <include file="Public/Footer" />
 <!-- footer end -->
+<script>
+$('.select-maxchecked').on('checkedOverflow.selected.amui', function() {
+  Prompt('最多选择' + this.getAttribute('maxchecked') + '项');
+});
+</script>

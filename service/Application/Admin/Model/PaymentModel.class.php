@@ -21,6 +21,7 @@ class PaymentModel extends CommonModel
         array('desc', '0,255', '{%payment_desc_format}', 1, 'length', 3),
         array('apply_terminal', 'require', '{%payment_apply_terminal_format}', 1, '', 3),
 		array('is_enable', array(0,1), '{%common_enable_tips}', 1, 'in', 3),
+        array('sort', 'CheckSort', '{%common_sort_error}', 1, 'function', 3),
 	);
 }
 ?>

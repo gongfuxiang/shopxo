@@ -82,6 +82,7 @@ class PaymentController extends CommonController
                             $temp = $this->DataAnalysis($config);
                             $temp['id'] = date('YmdHis').GetNumberCode(8);
                             $temp['payment'] = $payment;
+                            $temp['apply_terminal'] = implode(',', $temp['apply_terminal']);
 
                             // 获取数据库配置信息
                             $db_config = $db->where(['payment'=>$payment])->find();
@@ -121,7 +122,7 @@ class PaymentController extends CommonController
             'name'          => isset($data['base']['name']) ? htmlentities($data['base']['name']) : $payment,
             'version'       => isset($data['base']['version']) ? htmlentities($data['base']['version']) : '',
             'apply_version' => isset($data['base']['apply_version']) ? htmlentities($data['base']['apply_version']) : '',
-            'desc'          => isset($data['base']['desc']) ? htmlentities($data['base']['desc']) : '',
+            'desc'          => isset($data['base']['desc']) ? $data['base']['desc'] : '',
             'author'        => isset($data['base']['author']) ? htmlentities($data['base']['author']) : '',
             'author_url'    => isset($data['base']['author_url']) ? htmlentities($data['base']['author_url']) : '',
             'element'       => isset($data['element']) ? $data['element'] : [],
@@ -129,7 +130,7 @@ class PaymentController extends CommonController
             'logo'          => '',
             'is_enable'     => 0,
             'is_install'    => 0,
-            'apply_terminal'=> implode(',', array_column(L('common_apply_terminal_list'), 'value')),
+            'apply_terminal'=> array_column(L('common_apply_terminal_list'), 'value'),
             'config'        => '',
         ];
     }
@@ -170,7 +171,8 @@ class PaymentController extends CommonController
         $data = empty($_REQUEST['id']) ? array() : M('Payment')->find(I('id'));
         $data['apply_terminal'] = empty($data['apply_terminal']) ? [] : json_decode($data['apply_terminal'], true);
         $data['element'] = empty($data['element']) ? [] : json_decode($data['element'], true);
-        //print_r($data);
+        $data['config'] = empty($data['config']) ? [] : json_decode($data['config'], true);
+        //print_r($data['config']);
         $this->assign('data', $data);
 
         // 适用平台
@@ -213,6 +215,10 @@ class PaymentController extends CommonController
 			$m->upd_time 			= time();
 			$m->apply_terminal 	    = empty($_POST['apply_terminal']) ? '' : json_encode(explode(',', I('apply_terminal')));
 			$m->name 				= I('name');
+            $m->sort                = intval(I('sort'));
+
+            // 插件配置信息处理
+            $m->config = json_encode($this->GetPlugConfig());
 
 			// 移除 id
 			unset($m->id);
@@ -228,6 +234,26 @@ class PaymentController extends CommonController
             $this->ajaxReturn($m->getError(), -1);
         }
 	}
+
+    /**
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-18
+     * @desc    description
+     */
+    private function GetPlugConfig()
+    {
+        $data = [];
+        foreach($_POST as $k=>$v)
+        {
+            if(substr($k, 0, 5) == 'plug_')
+            {
+                $data[substr($k, 5)] = $v;
+            }
+        }
+        return $data;
+    }
 
 	/**
      * [StatusUpdate 状态更新]
@@ -287,7 +313,7 @@ class PaymentController extends CommonController
             $data = $this->DataAnalysis($config);
             $data['payment'] = $payment;
             $data['element'] = empty($data['element']) ? '' : json_encode($data['element']);
-            $data['apply_terminal'] = empty($data['apply_terminal']) ? '' : json_encode(explode(',', $data['apply_terminal']));
+            $data['apply_terminal'] = empty($data['apply_terminal']) ? '' : json_encode($data['apply_terminal']);
             $data['add_time'] = time();
 
             // 开始安装

@@ -18,7 +18,7 @@
                     <th class="am-hide-sm-only">{{:L('payment_apply_version_text')}}</th>
                     <th>{{:L('payment_apply_terminal_text')}}</th>
                     <th class="am-hide-sm-only">{{:L('payment_author_text')}}</th>
-                    <th class="am-hide-sm-only">{{:L('payment_desc_text')}}</th>
+                    <th class="am-hide-sm-only th-desc">{{:L('payment_desc_text')}}</th>
                     <th>{{:L('common_view_enable_title')}}</th>
                     <th>{{:L('common_operation_name')}}</th>
                 </tr>
@@ -47,7 +47,7 @@
                                     </a>
                                 </if>
                             </td>
-                            <td class="am-hide-sm-only">{{$v.desc}}</td>
+                            <td class="am-hide-sm-only td-desc">{{$v.desc}}</td>
                             <td>
                                 <if condition="$v['is_install'] eq 1">
                                     <a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_enable'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Payment/StatusUpdate')}}" data-id="{{$v.payment}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
