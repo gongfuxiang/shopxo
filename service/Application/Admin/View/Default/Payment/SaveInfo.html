@@ -100,7 +100,7 @@
 										class="am-radius"
 										name="plug_{{$element.name}}"
 										<if condition="isset($element['rows'])">rows="{{$element.rows}}"</if>
-										<if condition="isset($element['maxlength'])">maxlength="{{$element.maxlength}}"</if>
+										<if condition="isset($element['minlength'])">minlength="{{$element.minlength}}"</if>
 										<if condition="isset($element['maxlength'])">maxlength="{{$element.maxlength}}"</if>
 										<if condition="isset($element['placeholder'])">placeholder="{{$element.placeholder}}"</if>
 									><if condition="isset($data['config'][$element['name']])">{{$data['config'][$element['name']]}}<else /><if condition="isset($element['default'])">{{$element.default}}</if></if></textarea>
