@@ -88,6 +88,16 @@ class Alipay
                 'message'       => '请填写测试输入框不需要验证', // 错误提示（is_required=1方可有效）
             ],
             [
+                'element'       => 'textarea',
+                'default'       => '',
+                'name'          => 'rsa_private',
+                'placeholder'   => 'RSA证书',
+                'title'         => 'RSA证书',
+                'minlength'     => 10,
+                //'maxlength'     => 300,  // 不填则不限
+                'rows'          => 6,
+            ],
+            [
                 'element'       => 'input',
                 'type'          => 'checkbox',
                 'element_data'  => [

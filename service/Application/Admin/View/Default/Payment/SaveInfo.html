@@ -59,9 +59,10 @@
 										</foreach>
 									<else />
 										<input
+											class="am-radius"
 											type="{{$element.type}}"
 											name="plug_{{$element.name}}"
-											value="<if condition="isset($data['config'][$element['name']])">{{$data['config'][$element['name']]}}<else />{{$element.default}}</if>"
+											value="<if condition="isset($data['config'][$element['name']])">{{$data['config'][$element['name']]}}<else /><if condition="isset($element['default'])">{{$element.default}}</if></if>"
 											<if condition="isset($element['placeholder'])">placeholder="{{$element.placeholder}}"</if>
 											<if condition="isset($element['message'])">data-validation-message="{{$element.message}}"</if>
 											<if condition="isset($element['is_required']) and $element['is_required'] eq 1">required</if>
@@ -71,7 +72,7 @@
 								<case value="select">
 									<if condition="!empty($element['element_data']) and is_array($element['element_data'])">
 										<select
-											class="chosen-select"
+											class="chosen-select am-radius"
 											name="plug_{{$element.name}}"
 											<if condition="isset($element['message'])">data-validation-message="{{$element.message}}"</if>
 											<if condition="isset($element['placeholder'])">data-placeholder="{{$element.placeholder}}"<else />{{:L('common_select_can_choose')}}</if>
@@ -93,6 +94,16 @@
 											</foreach>
 										</select>
 									</if>
+								</case>
+								<case value="textarea">
+									<textarea
+										class="am-radius"
+										name="plug_{{$element.name}}"
+										<if condition="isset($element['rows'])">rows="{{$element.rows}}"</if>
+										<if condition="isset($element['maxlength'])">maxlength="{{$element.maxlength}}"</if>
+										<if condition="isset($element['maxlength'])">maxlength="{{$element.maxlength}}"</if>
+										<if condition="isset($element['placeholder'])">placeholder="{{$element.placeholder}}"</if>
+									><if condition="isset($data['config'][$element['name']])">{{$data['config'][$element['name']]}}<else /><if condition="isset($element['default'])">{{$element.default}}</if></if></textarea>
 								</case>
 							</switch>
 						</div>
