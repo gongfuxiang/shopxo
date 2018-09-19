@@ -125,8 +125,8 @@ return array(
 	'common_install_msg'            	=>  '安装进行中、确认操作吗？',
 	'common_uninstall_msg'            	=>  '卸载后不可恢复、确认操作吗？',
 	'common_is_writable_error'			=>	'服务器用户没操作权限',
-	'common_plug_config_error'			=>	'插件配置有误',
-	'common_plug_already_existed_error'	=>	'已存在相同插件',
+	'common_plugins_config_error'		=>	'插件配置有误',
+	'common_plugins_already_existed_error'=>	'已存在相同插件',
 
 	'common_operation_name'				=>	'操作',
 	'common_operation_add'				=>	'新增',
@@ -298,6 +298,7 @@ return array(
 
 	'common_favor_ok_text'				=>	'已收藏',
 	'common_favor_not_text'				=>	'收藏',
+	'common_not_install_text'			=>	'未安装',
 
 	// 性别
 	'common_gender_list'				=>	array(

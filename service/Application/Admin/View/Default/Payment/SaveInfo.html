@@ -33,10 +33,10 @@
 				<img src="<if condition="!empty($data['logo'])">{{$image_host}}{{$data.logo}}<else />{{$image_host}}/Public/Admin/Default/Images/default-images.png</if>" id="form-img-logo" class="block m-t-5 am-img-thumbnail am-radius" width="100" data-default="<if condition="!empty($data['logo'])">{{$image_host}}{{$data.logo}}<else />{{$image_host}}/Public/Admin/Default/Images/default-images.png</if>" />
 			</div>
 
-			<!-- plug config start -->
+			<!-- plugins config start -->
 			<notempty name="data.element">
-				<div class="plug-element">
-					<p class="tips">{{:L('payment_plug_element_tips')}}</p>
+				<div class="plugins-element">
+					<p class="tips">{{:L('payment_plugins_element_tips')}}</p>
 					<foreach name="data.element" item="element">
 						<div class="am-form-group">
 							<label class="block">{{$element.title}}</label>
@@ -47,7 +47,7 @@
 											<label class="<if condition="isset($element['is_block']) and $element['is_block'] eq 1">am-{{$element.type}}<else />am-{{$element.type}}-inline</if>">
 												<input
 													type="{{$element.type}}"
-													name="plug_{{$element.name}}"
+													name="plugins_{{$element.name}}"
 													value="{{$element_data.value}}"
 													<if condition="(isset($element_data['is_checked']) and $element_data['is_checked'] eq 1) or (isset($data['config'][$element['name']]) and in_array($element_data['value'], explode(',', $data['config'][$element['name']])))">checked</if>
 													<if condition="isset($element['minchecked']) and $element['type'] eq 'checkbox'">minchecked="{{$element.minchecked}}"</if>
@@ -61,7 +61,7 @@
 										<input
 											class="am-radius"
 											type="{{$element.type}}"
-											name="plug_{{$element.name}}"
+											name="plugins_{{$element.name}}"
 											value="<if condition="isset($data['config'][$element['name']])">{{$data['config'][$element['name']]}}<else /><if condition="isset($element['default'])">{{$element.default}}</if></if>"
 											<if condition="isset($element['placeholder'])">placeholder="{{$element.placeholder}}"</if>
 											<if condition="isset($element['message'])">data-validation-message="{{$element.message}}"</if>
@@ -73,7 +73,7 @@
 									<if condition="!empty($element['element_data']) and is_array($element['element_data'])">
 										<select
 											class="chosen-select am-radius"
-											name="plug_{{$element.name}}"
+											name="plugins_{{$element.name}}"
 											<if condition="isset($element['message'])">data-validation-message="{{$element.message}}"</if>
 											<if condition="isset($element['placeholder'])">data-placeholder="{{$element.placeholder}}"<else />{{:L('common_select_can_choose')}}</if>
 											<if condition="isset($element['is_multiple']) and $element['is_multiple'] eq 1">
@@ -98,11 +98,14 @@
 								<case value="textarea">
 									<textarea
 										class="am-radius"
-										name="plug_{{$element.name}}"
+										name="plugins_{{$element.name}}"
 										<if condition="isset($element['rows'])">rows="{{$element.rows}}"</if>
-										<if condition="isset($element['minlength'])">minlength="{{$element.minlength}}"</if>
-										<if condition="isset($element['maxlength'])">maxlength="{{$element.maxlength}}"</if>
 										<if condition="isset($element['placeholder'])">placeholder="{{$element.placeholder}}"</if>
+										<if condition="isset($element['is_required']) and $element['is_required'] eq 1">
+											<if condition="isset($element['minlength'])">minlength="{{$element.minlength}}"</if>
+											<if condition="isset($element['maxlength'])">maxlength="{{$element.maxlength}}"</if>
+											required
+										</if>
 									><if condition="isset($data['config'][$element['name']])">{{$data['config'][$element['name']]}}<else /><if condition="isset($element['default'])">{{$element.default}}</if></if></textarea>
 								</case>
 							</switch>
@@ -110,7 +113,7 @@
 					</foreach>
 				</div>
 			</notempty>
-			<!-- plug config end -->
+			<!-- plugins config end -->
 
 			<div class="am-form-group">
 				<label>{{:L('common_view_sort_title')}}</label>

@@ -11,7 +11,7 @@ namespace Admin\Controller;
  */
 class PaymentController extends CommonController
 {
-    private $dir;
+    private $payment_dir;
 
 	/**
 	 * [_initialize 前置操作-继承公共前置方法]
@@ -32,7 +32,7 @@ class PaymentController extends CommonController
 		$this->Is_Power();
 
         // 插件目录
-        $this->dir = APP_PATH.'Library'.DS.'Payment'.DS;
+        $this->payment_dir = APP_PATH.'Library'.DS.'Payment'.DS;
 	}
 
 	/**
@@ -44,9 +44,6 @@ class PaymentController extends CommonController
      */
 	public function Index()
 	{
-        // 是否启用
-        $this->assign('common_is_enable_list', L('common_is_enable_list'));
-
         // 数据列表
         $this->assign('list', $this->GetPaymentList());
         $this->display('Index');
@@ -63,11 +60,11 @@ class PaymentController extends CommonController
     private function GetPaymentList()
     {
         $data = [];
-        if(is_dir($this->dir))
+        if(is_dir($this->payment_dir))
         {
             $image_host = C('IMAGE_HOST');
             $db = M('Payment');
-            if($dh = opendir($this->dir))
+            if($dh = opendir($this->payment_dir))
             {
                 while(($temp_file = readdir($dh)) !== false)
                 {
@@ -82,7 +79,6 @@ class PaymentController extends CommonController
                             $temp = $this->DataAnalysis($config);
                             $temp['id'] = date('YmdHis').GetNumberCode(8);
                             $temp['payment'] = $payment;
-                            $temp['apply_terminal'] = implode(',', $temp['apply_terminal']);
 
                             // 获取数据库配置信息
                             $db_config = $db->where(['payment'=>$payment])->find();
@@ -92,7 +88,7 @@ class PaymentController extends CommonController
                                 $temp['id'] = $db_config['id'];
                                 $temp['name'] = $db_config['name'];
                                 $temp['logo'] = empty($db_config['logo']) ? '' : $image_host.$db_config['logo'];
-                                $temp['apply_terminal'] = empty($db_config['apply_terminal']) ? '' : implode(',', json_decode($db_config['apply_terminal'], true));
+                                $temp['apply_terminal'] = empty($db_config['apply_terminal']) ? '' : json_decode($db_config['apply_terminal'], true);
                                 $temp['is_enable'] = $db_config['is_enable'];
                                 $temp['config'] = empty($db_config['config']) ? '' : json_decode($db_config['config'], true);
                             }
@@ -247,9 +243,9 @@ class PaymentController extends CommonController
         $data = [];
         foreach($_POST as $k=>$v)
         {
-            if(substr($k, 0, 5) == 'plug_')
+            if(substr($k, 0, 8) == 'plugins_')
             {
-                $data[substr($k, 5)] = $v;
+                $data[substr($k, 8)] = $v;
             }
         }
         return $data;
@@ -330,7 +326,7 @@ class PaymentController extends CommonController
                 $this->ajaxReturn($m->getError(), -1);
             }
         } else {
-            $this->ajaxReturn(L('common_plug_config_error'), -10);
+            $this->ajaxReturn(L('common_plugins_config_error'), -10);
         }
     }
 
@@ -386,7 +382,7 @@ class PaymentController extends CommonController
         }
 
         // 是否存在
-        $file = $this->dir.I('id').'.class.php';
+        $file = $this->payment_dir.I('id').'.class.php';
         if(!file_exists($file))
         {
             $this->ajaxReturn(L('common_data_no_exist_error'), -2);
@@ -437,13 +433,13 @@ class PaymentController extends CommonController
         }
 
         // 是否已有存在插件
-        if(file_exists($this->dir.$_FILES['file']['name']))
+        if(file_exists($this->payment_dir.$_FILES['file']['name']))
         {
-            $this->ajaxReturn(L('common_plug_already_existed_error'), -3);
+            $this->ajaxReturn(L('common_plugins_already_existed_error'), -3);
         }
 
         // 存储文件
-        if(!move_uploaded_file($_FILES['file']['tmp_name'], $this->dir.$_FILES['file']['name']))
+        if(!move_uploaded_file($_FILES['file']['tmp_name'], $this->payment_dir.$_FILES['file']['name']))
         {
             $this->ajaxReturn(L('common_upload_error'), -100);
         }
@@ -453,7 +449,7 @@ class PaymentController extends CommonController
         $config = $this->GetPaymentConfig($payment);
         if($config === false)
         {
-            @unlink($this->dir.$_FILES['file']['name']);
+            @unlink($this->payment_dir.$_FILES['file']['name']);
             $this->ajaxReturn(L('payment_upload_error'), -10);
         }
         $this->ajaxReturn(L('common_upload_success'));

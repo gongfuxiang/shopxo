@@ -62,7 +62,7 @@
 				<div class="am-form-group">
 					<label>{{:L('goods_category_id_text')}}</label>
 					<br />
-					<select name="category_id" class="am-radius chosen-select c-p" multiple="multiple" data-placeholder="{{:L('common_please_select_choose')}}" data-validation-message="{{:L('goods_category_id_format')}}" required>
+					<select name="category_id" class="am-radius chosen-select c-p" multiple="multiple" minchecked="1" data-placeholder="{{:L('common_please_select_choose')}}" data-validation-message="{{:L('goods_category_id_format')}}" required>
 						<if condition="!empty($category_list)">
 							<foreach name="category_list" item="v">
 								<optgroup label="{{$v.name}}">

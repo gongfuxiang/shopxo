@@ -32,6 +32,6 @@ return array(
     'payment_upload_ps'                =>  'PS：以上条件不满足则无法查看插件',
     'payment_upload_format'            =>  '文件格式有误，必须php文件',
     'payment_upload_error'             =>  '插件编写有误，请参考文档编写',
-    'payment_plug_element_tips'        =>  '该区域为插件配置填写项，请按照插件文档填写相应的值。',
+    'payment_plugins_element_tips'     =>  '该区域为插件配置填写项，请按照插件文档填写相应的值。',
 );
 ?>
