@@ -353,7 +353,7 @@ class CommonController extends Controller
 			{
 				mkdir(ROOT_PATH.$path, 0777, true);
 			}
-			$filename = date('YmdHis').'_logo.'.$suffix;
+			$filename = date('YmdHis').'.'.$suffix;
 			$file = $path.$filename;
 			if(move_uploaded_file($_FILES[$post_name]['tmp_name'], ROOT_PATH.$file))
 			{

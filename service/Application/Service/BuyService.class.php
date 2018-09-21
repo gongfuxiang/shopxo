@@ -2,6 +2,8 @@
 
 namespace Service;
 
+use Service\GoodsService;
+
 /**
  * 购买服务层
  * @author   Devil
@@ -55,24 +57,7 @@ class BuyService
         }
 
         // 属性处理
-        $attr = [];
-        if(!empty($params['attr']) && is_array($params['attr']))
-        {
-            foreach($params['attr'] as $k=>$v)
-            {
-                $attr_type_name = M('GoodsAttributeType')->where(['goods_id'=>$goods_id, 'id'=>$k])->getField('name');
-                $attr_name = M('GoodsAttribute')->where(['goods_id'=>$goods_id, 'id'=>$v])->getField('name');
-                if(!empty($attr_type_name) && !empty($attr_name))
-                {
-                    $attr[] = [
-                        'attr_type_id'     => $k,
-                        'attr_type_name'   => $attr_type_name,
-                        'attr_id'          => $v,
-                        'attr_name'        => $attr_name,
-                    ];
-                }
-            }
-        }
+        $attr = self::GoodsAttrParsing($params);
 
         // 添加购物车
         $data = [
@@ -110,6 +95,38 @@ class BuyService
     }
 
     /**
+     * 商品属性解析
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-21
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    private static function GoodsAttrParsing($params = [])
+    {
+        $data = [];
+        if(!empty($params['attr']) && is_array($params['attr']) && !empty($params['goods_id']))
+        {
+            foreach($params['attr'] as $k=>$v)
+            {
+                $attr_type_name = M('GoodsAttributeType')->where(['goods_id'=>$params['goods_id'], 'id'=>$k])->getField('name');
+                $attr_name = M('GoodsAttribute')->where(['goods_id'=>$params['goods_id'], 'id'=>$v])->getField('name');
+                if(!empty($attr_type_name) && !empty($attr_name))
+                {
+                    $data[] = [
+                        'attr_type_id'     => $k,
+                        'attr_type_name'   => $attr_type_name,
+                        'attr_id'          => $v,
+                        'attr_name'        => $attr_name,
+                    ];
+                }
+            }
+        }
+        return $data;
+    }
+
+    /**
      * 获取购物车列表
      * @author   Devil
      * @blog    http://gong.gg/
@@ -134,10 +151,10 @@ class BuyService
             return DataReturn($ret, -1);
         }
 
-        $where = [
-            'c.user_id'=>$params['user']['id'],
-        ];
-        $field = 'c.*, g.title, g.images, g.original_price, g.price, g.inventory, g.is_shelves, g.is_delete_time';
+        $where = (!empty($params['where']) && is_array($params['where'])) ? $params['where'] : [];
+        $where['c.user_id'] = $params['user']['id'];
+
+        $field = 'c.*, g.title, g.images, g.original_price, g.price, g.inventory, g.inventory_unit, g.is_shelves, g.is_delete_time';
         $data = M('Cart')->alias('c')->join(' __GOODS__ AS g ON g.id=c.goods_id')->where($where)->field($field)->select();
         if(!empty($data) && is_array($data))
         {
@@ -250,6 +267,114 @@ class BuyService
             return DataReturn(L('common_operation_update_success'), 0);
         }
         return DataReturn(L('common_operation_update_error'), -100);
+    }
+
+    /**
+     * 下订单 - 正常购买
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-21
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function BuyGoods($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'stock',
+                'error_msg'         => '购买数量有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'goods_id',
+                'error_msg'         => '商品id有误',
+            ],
+            [
+                'checked_type'      => 'isset',
+                'key_name'          => 'attr',
+                'error_msg'         => '属性参数有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user',
+                'error_msg'         => '用户信息有误',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取商品
+        $p = [
+            'where' => [
+                'g.id'                => intval($params['goods_id']),
+                'g.is_delete_time'    => 0,
+                'g.is_shelves'        => 1,
+            ],
+            'field' => 'g.id, g.id AS goods_id, g.title, g.images, g.original_price, g.price, g.inventory, g.inventory_unit',
+        ];
+        $goods = GoodsService::GoodsList($p);
+        if(empty($goods[0]))
+        {
+            return DataReturn(L('common_data_no_exist_error'), -10);
+        }
+
+        // 数量/小计
+        $goods[0]['stock'] = $params['stock'];
+        $goods[0]['total_price'] = $params['stock']*$goods[0]['price'];
+
+        // 属性
+        if(!empty($params['attr']))
+        {
+            $params['attr'] = json_decode($params['attr'], true);
+        }
+        $goods[0]['attribute'] = self::GoodsAttrParsing($params);
+
+        return DataReturn(L('common_operation_success'), 0, $goods);
+    }
+
+    /**
+     * 下订单 - 购物车
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-21
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function BuyCart($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'ids',
+                'error_msg'         => '购物车id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user',
+                'error_msg'         => '用户信息有误',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取购物车数据
+        $params['where'] = [
+            'g.is_delete_time'  => 0,
+            'g.is_shelves'      => 1,
+            'c.id'              => ['in', explode(',', $params['ids'])],
+        ];
+        return self::CartList($params);
     }
 }
 ?>

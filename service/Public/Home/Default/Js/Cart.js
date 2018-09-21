@@ -5,6 +5,7 @@ $(function()
     {
         var total_stock = 0;
         var total_price = 0.00;
+        var ids = [];
         $('.am-table input[type="checkbox"]').each(function(k, v)
         {
             if($(this).prop('checked'))
@@ -13,11 +14,12 @@ $(function()
                 var price = parseFloat($(this).parents('tr').find('.stock-tag').data('price'));
                 total_stock += stock;
                 total_price += stock*price;
+                ids.push($(this).val());
             }
         });
         $('.cart-nav .selected-tips strong').text(total_stock);
         $('.cart-nav .nav-total-price').text('￥'+FomatFloat(total_price));
-        console.log(total_stock, total_price)
+        $('.cart-nav input[name="ids"]').val(ids.toString() || 0);
     }
 
     // 购物车数量操作
@@ -138,6 +140,21 @@ $(function()
     {
         // 导航固定初始化
         cart_nav_pop();
+    });
+
+    // 结算事件
+    $('.separate-submit').on('click', function()
+    {
+        // 计算选择的商品总数和总价
+        cart_base_total();
+
+        // 获取购物车id
+        var ids = $(this).parents('form').find('input[name="ids"]').val() || 0;
+        if(ids == 0)
+        {
+            Prompt('请选择商品');
+            return false;
+        }
     });
 
 });

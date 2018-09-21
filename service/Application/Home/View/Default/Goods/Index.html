@@ -184,6 +184,15 @@
                             <button title="加入购物车" href="javascript:;" type="button"><i></i>加入购物车</button>
                         </div>
                     </div>
+
+                    <!-- 购买表单 -->
+                    <form action="{{:U('Home/Buy/Index')}}" method="post" class="buy-form">
+                        <input type="hidden" name="goods_id" value="{{$goods.id}}" />
+                        <input type="hidden" name="buy_type" value="goods" />
+                        <input type="hidden" name="stock" value="1" />
+                        <input type="hidden" name="attr" value="" />
+                        <button type="submit"></button>
+                    </form>
                 <else />
                     <p class="shelves-tips">商品已下架</p>
                 </if>
@@ -214,7 +223,7 @@
                             </li>
                           </foreach>
                       </if>
-                 </ul>                  
+                 </ul>
             </div>
         </div>
         <div class="introduce-main">

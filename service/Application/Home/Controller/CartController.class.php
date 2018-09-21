@@ -44,7 +44,7 @@ class CartController extends CommonController
         $base = [
             'total_price'   => empty($cart_list['data']) ? 0 : array_sum(array_column($cart_list['data'], 'total_price')),
             'total_stock'   => empty($cart_list['data']) ? 0 : array_sum(array_column($cart_list['data'], 'stock')),
-            'ids'           =>  empty($cart_list['data']) ? '' : implode(',', array_column($cart_list['data'], 'id')),
+            'ids'           => empty($cart_list['data']) ? '' : implode(',', array_column($cart_list['data'], 'id')),
         ];
         $this->assign('base', $base);
         $this->display('Index');

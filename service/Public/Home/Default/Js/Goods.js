@@ -61,7 +61,10 @@ function CartAdd(e)
     {
         // 立即购买
         case 'buy' :
-            alert('buy - stock:'+stock+' , attr:'+ JSON.stringify(attr));
+            var $form_buy = $('form.buy-form');
+            $form_buy.find('input[name="attr"]').val(JSON.stringify(attr));
+            $form_buy.find('input[name="stock"]').val(stock);
+            $form_buy.find('button[type="submit"]').trigger('click');
             break;
 
         // 加入购物车
