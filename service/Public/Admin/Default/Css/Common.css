@@ -22,8 +22,6 @@
 .c-p {cursor:pointer;}
 .c-m {cursor: move !important;}
 legend {padding-bottom:0.2rem !important; margin-bottom: 1rem; }
-.none {display:none !important;}
-.block {display:block !important;}
 .am-popup-bd {background:#fff;}
 .cr-eee {color:#eee !important;}
 .cr-ccc {color:#ccc !important;}

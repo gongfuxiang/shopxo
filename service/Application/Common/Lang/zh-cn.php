@@ -300,6 +300,14 @@ return array(
 	'common_favor_not_text'				=>	'收藏',
 	'common_not_install_text'			=>	'未安装',
 
+	'common_linkage_province_text'      => '省份',
+    'common_linkage_city_text'          => '城市',
+    'common_linkage_county_text'        => '区/县',
+
+    'common_linkage_province_format'    => '请选择省份',
+    'common_linkage_city_format'        => '请选择城市',
+    'common_linkage_county_format'      => '请选择区/县',
+
 	// 性别
 	'common_gender_list'				=>	array(
 			0 => array('id' => 0, 'name' => '保密', 'checked' => true),

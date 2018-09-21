@@ -1071,21 +1071,14 @@ $(function()
 		});
 	});
 
-	// 地区联动
-	$('.region-linkage select').on('change', function()
+	function RegionNodeData(value, name, next_name)
 	{
-		var temp_name = $(this).attr('name');
-		var find_all = (temp_name == 'province') ? ["city", "county"] : ((temp_name == 'city') ? ["county"] : 'no');
-
-		var name = (temp_name == 'province') ? 'city' : ((temp_name == 'city') ? 'county' : 'no');
-		var v = $(this).val();
-		var $this_next_obj = $('.region-linkage select[name='+name+']');
-		if(name !== 'no')
+		if(value != null)
 		{
 			$.ajax({
-				url:$(this).parent().data('url'),
+				url:$('.region-linkage').data('url'),
 				type:'POST',
-				data:{"pid": v},
+				data:{"pid": value},
 				dataType:'json',
 				success:function(result)
 				{
@@ -1099,26 +1092,53 @@ $(function()
 						}
 
 						/* 下一级数据添加 */
-						$this_next_obj.append(html);
+						$('.region-linkage select[name='+next_name+']').append(html).trigger('chosen:updated');
 					} else {
 						Prompt(result.msg);
 					}
 				}
 			});
+		}
 
-			/* 子级元素数据清空 */
-			if(find_all != 'no')
+		/* 子级元素数据清空 */
+		var child = null;
+		switch(name)
+		{
+			case 'province' :
+				child = ['city', 'county'];
+				break;
+
+			case 'city' :
+				child = ['county'];
+				break;
+		}
+		if(child != null)
+		{
+			for(var i in child)
 			{
-				for(var i in find_all)
-				{
-					var $temp_obj = $('.region-linkage select[name='+find_all[i]+']');
-					var temp_find = $temp_obj.find('option').first().text();
-					var temp_html = '<option value="">'+temp_find+'</option>';
-					$temp_obj.html(temp_html);
-				}
+				var $temp_obj = $('.region-linkage select[name='+child[i]+']');
+				var temp_find = $temp_obj.find('option').first().text();
+				var temp_html = '<option value="">'+temp_find+'</option>';
+				$temp_obj.html(temp_html).trigger('chosen:updated');
 			}
 		}
+	}
+
+	// 地区联动
+	$('.region-linkage select').on('change', function()
+	{
+		var name = $(this).attr('name') || null;
+		var next_name = (name == 'province') ? 'city' : ((name == 'city') ? 'county' : null);
+		var value = $(this).val() || null;
+		if(next_name != null)
+		{
+			RegionNodeData(value, name, next_name);
+		}
 	});
+	if($('.region-linkage select').length > 0)
+	{
+		RegionNodeData(0, 'province', 'province');
+	}
 
 	// 根据字符串地址获取坐标位置
 	$('#map-location-submit').on('click', function()

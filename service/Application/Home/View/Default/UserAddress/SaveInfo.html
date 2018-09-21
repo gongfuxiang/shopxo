@@ -1,0 +1,38 @@
+<include file="Public/Header" />
+
+<!-- conntent start  -->
+<div class="am-g my-content">
+    <!-- form start -->
+    <form class="am-form form-validation" method="post" action="{{:U('Home/User/Login')}}" request-type="ajax-fun" request-value="ViewModalBack">
+        <include file="Lib/RegionLinkage" />
+        
+
+    </form>
+    <!-- form end -->
+</div>
+<!-- conntent end  -->
+
+
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end -->
+
+<script type="text/javascript">
+    // 返回处理
+    function ViewModalBack(e)
+    {
+        if(e.code == 0)
+        {
+            $.AMUI.progress.done();
+            Prompt(e.msg, 'success');
+            setTimeout(function()
+            {
+                parent.location.reload();
+            }, 1500);
+        } else {
+            $('form.form-validation').find('button[type="submit"]').button('reset');
+            $.AMUI.progress.done();
+            Prompt(e.msg);
+        }
+    }
+</script>

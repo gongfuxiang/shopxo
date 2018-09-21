@@ -15,33 +15,12 @@ $(function() {
 
  
  
-// 弹出地址选择
-
-
-    var $ww = $(window).width();
-
-    $('.address-submit').click(function() {
-//                  禁止遮罩层下面的内容滚动
-        $(document.body).css("overflow","hidden");
-    
-        $(this).addClass("selected");
-        $(this).parent().addClass("selected");
-
-                        
-        $('.theme-popover-mask').show();
-        $('.theme-popover-mask').height($(window).height());
-        $('.theme-popover').slideDown(200);                                                                     
-        
-    })
-    
-    $('.theme-poptit .close,.btn-op .close').click(function() {
-
-        $(document.body).css("overflow","visible");
-        $('.address-submit').removeClass("selected");
-        $('.item-props-can').removeClass("selected");                   
-        $('.theme-popover-mask').hide();
-        $('.theme-popover').slideUp(200);
+    // 弹出地址选择
+    $('.address-submit').on('click', function()
+    {
+        ModalLoad($(this).data('url'), '地址管理', 'popup-modal-address', 'common-address-modal');
     });
+
 
     
 }); 
