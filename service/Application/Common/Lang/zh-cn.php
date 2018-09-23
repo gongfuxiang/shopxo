@@ -251,6 +251,7 @@ return array(
 
 	'common_view_gender_name'			=>	'性别',
 	'common_view_enable_title'			=>	'是否启用',
+	'common_view_default_title'			=>	'是否默认',
 	'common_view_name_title'			=>	'名称',
 	'common_view_status_title'			=>	'状态',
 	'common_view_is_show_title'			=>	'是否显示',
@@ -300,10 +301,10 @@ return array(
 	'common_favor_not_text'				=>	'收藏',
 	'common_not_install_text'			=>	'未安装',
 
+	'common_linkage_text'    			=> '省市区',
 	'common_linkage_province_text'      => '省份',
     'common_linkage_city_text'          => '城市',
     'common_linkage_county_text'        => '区/县',
-
     'common_linkage_province_format'    => '请选择省份',
     'common_linkage_city_format'        => '请选择城市',
     'common_linkage_county_format'      => '请选择区/县',

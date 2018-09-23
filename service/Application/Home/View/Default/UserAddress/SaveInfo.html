@@ -4,9 +4,34 @@
 <div class="am-g my-content">
     <!-- form start -->
     <form class="am-form form-validation" method="post" action="{{:U('Home/User/Login')}}" request-type="ajax-fun" request-value="ViewModalBack">
-        <include file="Lib/RegionLinkage" />
-        
+        <div class="am-form-group">
+            <label>{{:L('useraddress_name_text')}}</label>
+            <input type="text" name="name" placeholder="{{:L('useraddress_name_text')}}" minlength="2" maxlength="16" data-validation-message="{{:L('useraddress_name_format')}}" class="am-radius" <present name="data"> value="{{$data.name}}"</present> required />
+        </div>
+        <div class="am-form-group">
+            <label>{{:L('useraddress_tel_text')}}</label>
+            <input type="text" name="tel" placeholder="{{:L('useraddress_tel_text')}}" minlength="6" maxlength="30" data-validation-message="{{:L('useraddress_tel_format')}}" class="am-radius" <present name="data"> value="{{$data.tel}}"</present> required />
+        </div>
 
+        <include file="Lib/RegionLinkage" />
+        <div class="am-form-group">
+            <label>{{:L('useraddress_address_text')}}</label>
+            <input type="text" name="address" class="am-radius" minlength="1" maxlength="80" placeholder="{{:L('useraddress_address_text')}}" data-validation-message="{{:L('useraddress_address_format')}}" <present name="data"> value="{{$data.address}}"</present> required />
+        </div>
+
+        <div class="am-form-group">
+            <label>{{:L('useraddress_alias_text')}}</label>
+            <input type="text" name="alias" placeholder="{{:L('useraddress_alias_text')}}" minlength="0" maxlength="16" data-validation-message="{{:L('useraddress_alias_format')}}" class="am-radius" <present name="data"> value="{{$data.alias}}"</present> />
+        </div>
+        <div class="am-form-group">
+            <label class="block">{{:L('common_view_default_title')}}</label>
+            <input name="is_default" value="1" type="checkbox" data-off-text="{{:L('common_operation_off_is_text')}}" data-on-text="{{:L('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="49" data-am-switch <if condition="isset($data['is_default']) and $data['is_default'] eq 1">checked="true"</if> />
+        </div>
+
+        <div class="am-form-group">
+            <input type="hidden" name="id" <notempty name="data"> value="{{$data.id}}"</notempty> />
+            <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
+        </div>
     </form>
     <!-- form end -->
 </div>

@@ -1,8 +1,4 @@
-@charset "utf-8";
-/* CSS Document */
-
-/*公共*/
-html, body, div, span, applet, object, iframe,
+div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
@@ -22,29 +18,8 @@ time, mark, audio, video {
     vertical-align: baseline;
     font-family: arial,"Lantinghei SC","Microsoft Yahei";  
 }
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section, main {
-    display: block;
-}
-ul,li,ol{ list-style:none;}
-dl,dd{ margin:auto;}
 
-html{width:100%;
-     height:100%;
-    -ms-text-size-adjust:none;
-    -webkit-text-size-adjust:none;
-    -moz-text-size-adjust:none;
-    -o-text-size-adjust:none;
-}
-/*text-size-adjust不管屏幕怎么变文字大小不变*/
-
-*, body, html, .am-btn { font-size: 12px; }
-body{margin:0;
-    padding:0;
-    width:100%;
-    font-family: arial,"Lantinghei SC","Microsoft Yahei";
-}
+*, body, .am-btn { font-size: 12px; }
 
 .am-form select, .am-form textarea, .am-form input[type="text"], .am-form input[type="password"], .am-form input[type="datetime"], .am-form input[type="datetime-local"], .am-form input[type="date"], .am-form input[type="month"], .am-form input[type="time"], .am-form input[type="week"], .am-form input[type="number"], .am-form input[type="email"], .am-form input[type="url"], .am-form input[type="search"], .am-form input[type="tel"], .am-form input[type="color"], .am-form-field {
     font-size: 14px;
