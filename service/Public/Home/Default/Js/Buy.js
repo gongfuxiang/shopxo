@@ -1,24 +1,90 @@
-$(function() {
+var store = $.AMUI.store;
+if(!store.enabled)
+{
+  alert('Local storage is not supported by your browser. Please disable "Private Mode", or upgrade to a modern browser.');
+} else {
+    // 选择缓存key
+    var store_address_key = 'store-buy-address-selected-index';
+    var store_logistics_key = 'store-lbuy-ogistics-selected-index';
+    var store_payment_key = 'store-buy-payment-selected-index';
+}
+
+$(function()
+{
+    // 选中处理
+    if(store.enabled)
+    {
+        // 地址
+        var store_address_value = store.get(store_address_key);
+        if(store_address_value !== undefined)
+        {
+            $('ul.address-list li').eq(store_address_value).addClass('address-default').siblings().removeClass('address-default');
+        }
+        // 快递
+        var store_logistics_value = store.get(store_logistics_key);
+        if(store_logistics_value !== undefined)
+        {
+            $('ul.logistics-list li').eq(store_logistics_value).addClass('selected');
+        }
+        // 快递
+        var store_payment_value = store.get(store_payment_key);
+        if(store_payment_value !== undefined)
+        {
+            $('ul.payment-list li').eq(store_payment_value).addClass('selected');
+        }
+    }
+
     // 地址选择
-    $('ul.address-list li').click(function() {
-        $(this).addClass("address-default").siblings().removeClass("address-default");
+    $('ul.address-list li').click(function()
+    {
+        $(this).addClass('address-default').siblings().removeClass('address-default');
+        store.set(store_address_key, $(this).index());
     });
 
     // 混合列表选择
-    $('.business-item ul li').on('click', function() {
+    $('.business-item ul li').on('click', function()
+    {
+        var type = $(this).parents('.business-item').data('type') || null;
+        var temp_store_key = null;
+        switch(type)
+        {
+            case 'payment' :
+                temp_store_key = store_payment_key;
+                break;
+
+            case 'logistics' :
+                temp_store_key = store_logistics_key;
+                break;
+        }
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
+            if(temp_store_key != null)
+            {
+                store.remove(temp_store_key);
+            }
         } else {
-            $(this).addClass('selected').siblings("li").removeClass('selected');
+            $(this).addClass('selected').siblings('li').removeClass('selected');
+            if(temp_store_key != null)
+            {
+                store.set(temp_store_key, $(this).index());
+            }
         }
     });
 
- 
- 
     // 弹出地址选择
-    $('.address-submit').on('click', function()
+    $('.address-submit-save').on('click', function(e)
     {
         ModalLoad($(this).data('url'), '地址管理', 'popup-modal-address', 'common-address-modal');
+
+        // 阻止事件冒泡
+        e.stopPropagation();
+    });
+
+    // 阻止事件冒泡
+    $('.address-submit-delete').on('click', function(e)
+    {
+        DataDelete($(this));
+        e.stopPropagation();
     });
 
 

@@ -1,7 +1,7 @@
 .hidden { display: none !important;}
 .address-default { display:block !important;}   
 /*地址管理*/
-.concent h3,.business-item h3{border-bottom: 2px solid #e7c3c8; margin-top:15px;}
+.concent h3,.business-item h3{border-bottom: 3px solid #e3e3e3; margin-top:15px;}
 h3 { font-size: 14px;font-weight: 700;}
 .address h3 { border-bottom:none;}
 ul.address-list li{display:none;width:100%;padding:10px;position: relative;min-height:80px;}
@@ -26,7 +26,7 @@ ul.logistics-list li.selected i.icon-active, ul.payment-list li.selected i.icon-
     line-height: 0;
     right: 0px;
     bottom: 0px;
-    background: url(../images/sys_item_selected.gif) no-repeat right bottom;
+    background: url(../Images/sys_item_selected.gif) no-repeat right bottom;
 }
 .business-item ul { padding: 10px 3px 5px 5px;}
 .business-item ul li { float: left; cursor: pointer; padding: 5px; border: 1px solid #eee; }
@@ -132,8 +132,8 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .link-list{margin:0px auto;}
       /*地址管理*/
   .address ul{margin-top:10px ;}
-  ul.address-list li{display:block; width: calc(33% - 5px);height: 150px;float: left;background-image: url(../images/peraddbg.png); background-repeat: no-repeat; background-size: 100% 100%; margin:0 10px 10px 0 ;padding:10px;}
-  ul.address-list li.address-default{background-image: url(../images/peraddressbg.png);}
+  ul.address-list li{display:block; width: calc(33% - 5px);height: 150px;float: left;background-image: url(../Images/peraddbg.png); background-repeat: no-repeat; background-size: 100% 100%; margin:0 10px 10px 0 ;padding:10px;}
+  ul.address-list li.address-default{background-image: url(../Images/peraddressbg.png);}
   ul.address-list li:nth-child(3n) { margin-right: 0; }
   .address-left{ width:100%;position: relative;}
   .th .td-inner{padding-left:0 ;}
@@ -169,7 +169,7 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .address { margin-top: 10px; padding-top: 10px; }
   .address, .buy-message { border-top: 1px solid #eee; }
   .address .control { display: none; }
-  .address-default {background: url(../images/peraddress.png) repeat-x; background-position: bottom; }
+  .address-default {background: url(../Images/peraddress.png) repeat-x; background-position: bottom; }
   ul.address-list li { padding: 0 5px; min-height: 65px; }
 
   .business-item ul li { width: calc(50% - 6px); }

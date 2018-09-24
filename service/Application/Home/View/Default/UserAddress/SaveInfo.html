@@ -3,7 +3,7 @@
 <!-- conntent start  -->
 <div class="am-g my-content">
     <!-- form start -->
-    <form class="am-form form-validation" method="post" action="{{:U('Home/User/Login')}}" request-type="ajax-fun" request-value="ViewModalBack">
+    <form class="am-form form-validation" method="post" action="{{:U('Home/UserAddress/Save')}}" request-type="ajax-fun" request-value="ViewModalBack">
         <div class="am-form-group">
             <label>{{:L('useraddress_name_text')}}</label>
             <input type="text" name="name" placeholder="{{:L('useraddress_name_text')}}" minlength="2" maxlength="16" data-validation-message="{{:L('useraddress_name_format')}}" class="am-radius" <present name="data"> value="{{$data.name}}"</present> required />
@@ -16,8 +16,16 @@
         <include file="Lib/RegionLinkage" />
         <div class="am-form-group">
             <label>{{:L('useraddress_address_text')}}</label>
-            <input type="text" name="address" class="am-radius" minlength="1" maxlength="80" placeholder="{{:L('useraddress_address_text')}}" data-validation-message="{{:L('useraddress_address_format')}}" <present name="data"> value="{{$data.address}}"</present> required />
+            <div class="am-form-group am-input-group am-input-group-sm">
+                <input type="hidden" name="lng" id="form-lng" <notempty name="data"> value="{{$data.lng}}"</notempty> />
+                <input type="hidden" name="lat" id="form-lat" <notempty name="data"> value="{{$data.lat}}"</notempty> />
+                <input type="text" name="address" id="form-address" placeholder="{{:L('useraddress_address_text')}}" minlength="2" maxlength="80" data-validation-message="{{:L('useraddress_address_format')}}" class="am-radius" <notempty name="data"> value="{{$data.address}}"</notempty> required />
+                <span class="am-input-group-btn">
+                    <button class="am-btn am-btn-default am-radius" type="button" id="map-location-submit"><span class="am-icon-map-marker"></span> {{:L('common_location_submit')}}</button>
+                </span>
+            </div>
         </div>
+        <div id="map" data-level="17" class="am-form-group" style="width: 100%; height: 260px;"></div>
 
         <div class="am-form-group">
             <label>{{:L('useraddress_alias_text')}}</label>
@@ -42,22 +50,58 @@
 <include file="Public/Footer" />
 <!-- footer end -->
 
+<!-- map -->
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak={{:MyC('common_baidu_map_ak')}}"></script>
 <script type="text/javascript">
-    // 返回处理
-    function ViewModalBack(e)
+$(function()
+{
+    // 百度地图API功能
+    var map = new BMap.Map("map", {enableMapClick:false});
+    var level = $('#map').data('level') || 16;
+    var point = new BMap.Point(<if condition="!empty($data['lng'])">{{$data['lng']}}<else />116.400244</if>,<if condition="!empty($data['lat'])">{{$data['lat']}}<else />39.92556</if>);
+    map.centerAndZoom(point, level);
+
+    /* 添加控件 */
+    var navigationControl = new BMap.NavigationControl({
+        // 靠左上角位置
+        anchor: BMAP_ANCHOR_TOP_LEFT,
+        // LARGE类型
+        type: BMAP_NAVIGATION_CONTROL_LARGE,
+    });
+    map.addControl(navigationControl);
+
+    /* 创建标注 */
+    var marker = new BMap.Marker(point);  // 创建标注
+    map.addOverlay(marker);              // 将标注添加到地图中
+    marker.enableDragging();           // 可拖拽
+    marker.addEventListener("dragend", function(e) {
+        map.panTo(e.point);
+        $('#form-lng').val(e.point.lng);
+        $('#form-lat').val(e.point.lat);
+    });
+
+    /* 设置版权控件位置 */
+    var cr = new BMap.CopyrightControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT});
+    map.addControl(cr); //添加版权控件
+    var bs = map.getBounds();   //返回地图可视区域
+    cr.addCopyright({id: 1, content: "<div class='map-copy'><span>拖动红色图标直接定位</span></div>", bounds:bs});
+});
+
+// 返回处理
+function ViewModalBack(e)
+{
+    if(e.code == 0)
     {
-        if(e.code == 0)
+        $.AMUI.progress.done();
+        Prompt(e.msg, 'success');
+        setTimeout(function()
         {
-            $.AMUI.progress.done();
-            Prompt(e.msg, 'success');
-            setTimeout(function()
-            {
-                parent.location.reload();
-            }, 1500);
-        } else {
-            $('form.form-validation').find('button[type="submit"]').button('reset');
-            $.AMUI.progress.done();
-            Prompt(e.msg);
-        }
+            parent.location.reload();
+        }, 1500);
+    } else {
+        $('form.form-validation').find('button[type="submit"]').button('reset');
+        $.AMUI.progress.done();
+        Prompt(e.msg);
     }
+}
 </script>

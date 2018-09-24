@@ -671,6 +671,60 @@ function FomatFloat(value, pos)
 	return s_x;
 }
 
+/**
+ * [DataDelete 数据删除]
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @datetime 2018-09-24T08:24:58+0800
+ * @param    {[object]}                 e [当前元素对象]
+ */
+function DataDelete(e)
+{
+	var id = e.data('id');
+	var url = e.data('url');
+	var title = e.data('title') || '温馨提示';
+	var msg = e.data('msg') || '删除后不可恢复、确认操作吗？';
+
+	AMUI.dialog.confirm({
+		title: title,
+		content: msg,
+		onConfirm: function(options)
+		{
+			if((id || null) == null || (url || null) == null)
+			{
+				Prompt('参数配置有误');
+			} else {
+				// 请求删除数据
+				$.ajax({
+					url:url,
+					type:'POST',
+					dataType:"json",
+					timeout:10000,
+					data:{"id":id},
+					success:function(result)
+					{
+						if(result.code == 0)
+						{
+							Prompt(result.msg, 'success');
+
+							// 成功则删除数据列表
+							$('#data-list-'+id).remove();
+						} else {
+							Prompt(result.msg);
+						}
+					},
+					error:function(xhr, type)
+					{
+						Prompt('网络异常出错');
+					}
+				});
+			}
+		},
+		onCancel: function(){}
+	});
+}
+
 
 // 公共数据操作
 $(function()
@@ -704,48 +758,7 @@ $(function()
 	 */
 	$(document).on('click', '.submit-delete', function()
 	{
-		var id = $(this).data('id');
-		var url = $(this).data('url');
-		var title = $(this).data('title') || '温馨提示';
-		var msg = $(this).data('msg') || '删除后不可恢复、确认操作吗？';
-
-		AMUI.dialog.confirm({
-			title: title,
-			content: msg,
-			onConfirm: function(options)
-			{
-				if((id || null) == null || (url || null) == null)
-				{
-					Prompt('参数配置有误');
-				} else {
-					// 请求删除数据
-					$.ajax({
-						url:url,
-						type:'POST',
-						dataType:"json",
-						timeout:10000,
-						data:{"id":id},
-						success:function(result)
-						{
-							if(result.code == 0)
-							{
-								Prompt(result.msg, 'success');
-
-								// 成功则删除数据列表
-								$('#data-list-'+id).remove();
-							} else {
-								Prompt(result.msg);
-							}
-						},
-						error:function(xhr, type)
-						{
-							Prompt('网络异常出错');
-						}
-					});
-				}
-			},
-			onCancel: function(){}
-		});
+		DataDelete($(this));
 	});
 
 	/**
@@ -1071,6 +1084,16 @@ $(function()
 		});
 	});
 
+	/**
+	 * [RegionNodeData 地区联动]
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  1.0.0
+	 * @datetime 2018-09-23T22:00:30+0800
+	 * @param    {[int]}                 value     [数据值]
+	 * @param    {[string]}              name      [当前节点name名称]
+	 * @param    {[string]}              next_name [下一个节点名称（数据渲染节点）]
+	 */
 	function RegionNodeData(value, name, next_name)
 	{
 		if(value != null)
@@ -1086,9 +1109,15 @@ $(function()
 					{
 						/* html拼接 */
 						var html = '';
+						var value = $('.region-linkage select[name='+next_name+']').data('value') || 0;
 						for(var i in result.data)
 						{
-							html += '<option value="'+result.data[i]['id']+'">'+result.data[i]['name']+'</option>';
+							html += '<option value="'+result.data[i]['id']+'"';
+							if(value != 0 && value == result.data[i]['id'])
+							{
+								html += ' selected ';
+							}
+							html += '>'+result.data[i]['name']+'</option>';
 						}
 
 						/* 下一级数据添加 */
@@ -1137,7 +1166,22 @@ $(function()
 	});
 	if($('.region-linkage select').length > 0)
 	{
+		// 省初始化
 		RegionNodeData(0, 'province', 'province');
+
+		// 市初始化
+		var value = $('.region-linkage select[name=province]').data('value') || 0;
+		if(value != 0)
+		{
+			RegionNodeData(value, 'city', 'city');
+		}
+
+		// 区/县初始化
+		var value = $('.region-linkage select[name=city]').data('value') || 0;
+		if(value != 0)
+		{
+			RegionNodeData(value, 'county', 'county');
+		}
 	}
 
 	// 根据字符串地址获取坐标位置
@@ -1160,14 +1204,15 @@ $(function()
 
 		var map = new BMap.Map("map", {enableMapClick:false});
 		var point = new BMap.Point(116.331398,39.897445);
-		map.centerAndZoom(point,12);
+		var level = $('#map').data('level') || 16;
+		map.centerAndZoom(point, level);
 
 		// 创建地址解析器实例
 		var myGeo = new BMap.Geocoder();
 		// 将地址解析结果显示在地图上,并调整地图视野
 		myGeo.getPoint(address, function(point) {
 			if (point) {
-				map.centerAndZoom(point, 16);
+				map.centerAndZoom(point, level);
 				var navigationControl = new BMap.NavigationControl({
 					// 靠左上角位置
 					anchor: BMAP_ANCHOR_TOP_LEFT,
