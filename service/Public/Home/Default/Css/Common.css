@@ -19,6 +19,7 @@ time, mark, audio, video {
     font-family: arial,"Lantinghei SC","Microsoft Yahei";  
 }
 li { list-style-type: none; }
+button { outline: none; }
 
 *, body, .am-btn { font-size: 12px; }
 

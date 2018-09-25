@@ -79,11 +79,31 @@ class BuyController extends CommonController
                 $this->assign('base', $base);
                 $this->assign('goods_list', $ret['data']);
                 
+                $this->assign('params', $params);
                 $this->display('Index');
             } else {
                 $this->assign('msg', isset($ret['msg']) ? $ret['msg'] : L('common_param_error'));
                 $this->display('/Public/TipsError');
             }
+        } else {
+            $this->assign('msg', L('common_unauthorized_access'));
+            $this->display('/Public/TipsError');
+        }
+    }
+
+    /**
+     * 订单添加
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-25
+     * @desc    description
+     */
+    public function Add()
+    {
+        if(IS_POST)
+        {
+            print_r($_POST);
         } else {
             $this->assign('msg', L('common_unauthorized_access'));
             $this->display('/Public/TipsError');

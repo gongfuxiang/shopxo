@@ -42,9 +42,9 @@ ul.logistics-list li img, ul.payment-list li img { width: 36px; height: 36px; }
 .pay-sum{color:#d2364c;margin-left:5px ;}
 .box{float:left;width:70%;height:40px ;line-height:40px ;font-size: 14px;text-align: right;padding-right:10px ;}
 .pay-address{display: none;}
-.nav-buy-submit a{float:left;width:30%;color:#fff ;background:#d2364c ;text-align: center;height:40px ;line-height:40px ;font-size: 14px;}
+.nav-buy .btn-go{float:left;width:30%;color:#fff ;background:#d2364c ;text-align: center;height:40px ;line-height:40px ;font-size: 14px; border: 0; }
 .order-nav{position: fixed; left: 0; bottom: 0;width:100%; }
-.nav-buy-submit a:hover, .nav-buy-submit a:focus { color: #fff !important; text-decoration: none; }
+.nav-buy .btn-go:hover, .nav-buy .btn-go:focus { color: #fff !important; text-decoration: none; }
 
 .link-list h3 { padding: 0 0 5px 5px; }
 ul.address-list, .business-item ul { overflow: hidden; }
@@ -82,15 +82,15 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .memo-input{min-width:280px ;width:80%; }
 
   /*带个人信息的结算*/
-  .box ,.nav-buy-submit a{float:right;width:auto;height:auto;padding:10px 10px;}
+  .box ,.nav-buy .btn-go{float:right;width:auto;height:auto;padding:10px 10px;}
   .pay-address{display:block;} 
   .box{font-size:12px;overflow: hidden;border: 2px solid #de9ba2;}
 
   .order-nav {clear: both;text-align: right;position: relative;margin-top: 10px;border: none;}
   .order-nav .address-confirm .box{position: relative;float: right;z-index: 100;padding-right:2%; padding-bottom:10px;border: 1px solid #f50;font-family: tahoma;display: inline-block;right: 0;background-color: #fff0e8;}
 
-  .nav-buy-submit .go-btn-wrap {width:100%;overflow: hidden;padding-top:10px;margin-bottom: 10px;}
-  .nav-buy-submit .btn-go {display: block;padding: 0 26px;height: 36px;font: 400 18px/36px arial;font-size: 18px;background-color: #d2364c;color: #fff;text-align: center;cursor: pointer;outline: 0; z-index:999;}
+  .nav-buy .go-btn-wrap {width:100%;overflow: hidden;padding-top:10px;margin-bottom: 10px;}
+  .nav-buy .btn-go {display: block;padding: 0 26px;height: 36px;font: 400 18px/36px arial;font-size: 18px;background-color: #d2364c;color: #fff;text-align: center;cursor: pointer;outline: 0; z-index:999;}
   .base-real-pay {line-height: 16px;margin: 0px 0px 10px;position: relative;}
   .base-real-pay .g_price span {font-size: 26px;}
   .price .nav-total-price {color: #d2364c;font: 700 26px tahoma;}

@@ -27,7 +27,7 @@
             <notempty name="user_address_list">
                 <ul class="address-list">
                     <foreach name="user_address_list" item="address">
-                        <li class="<if condition="isset($address['is_default']) and $address['is_default'] eq 1">address-default</if>" id="data-list-{{$address.id}}">
+                        <li class="<if condition="isset($address['is_default']) and $address['is_default'] eq 1">address-default</if>" id="data-list-{{$address.id}}" data-value="{{$address.id}}">
                             <div class="address-left">
                                 <div class="user-base">
                                     <span class="buy-address-detail">   
@@ -72,7 +72,7 @@
 
         <!-- 物流 -->
         <div class="business-item logistics" data-type="logistics">
-            <h3>选择物流方式</h3>
+            <h3>选择快递</h3>
             <notempty name="express_list">
                 <ul class="logistics-list">
                     <foreach name="express_list" item="express">
@@ -93,7 +93,7 @@
 
         <!-- 支付方式 -->
         <div class="business-item payment" data-type="payment">
-            <h3>选择支付方式</h3>
+            <h3>选择支付</h3>
             <notempty name="payment_list">
                 <ul class="payment-list">
                     <foreach name="payment_list" item="payment">
@@ -236,12 +236,18 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="nav-buy-submit">
+                        <form action="{{:U('Home/Buy/Index')}}" method="post" class="nav-buy">
+                            <input type="hidden" name="goods_id" value="<if condition="isset($params['goods_id'])">{{$params.goods_id}}<else />0</if>" />
+                            <input type="hidden" name="buy_type" value="<if condition="isset($params['buy_type'])">{{$params.buy_type}}<else />goods</if>" />
+                            <input type="hidden" name="stock" value="<if condition="isset($params['stock'])">{{$params.stock}}<else />1</if>" />
+                            <input type="hidden" name="attr" value="<if condition="isset($params['attr'])">{{$params.attr}}</if>" />
+                            <input type="hidden" name="address_id" value="0" />
+                            <input type="hidden" name="express_id" value="0" />
+                            <input type="hidden" name="payment_id" value="0" />
                             <div class="go-btn-wrap">
-                                <a href="javascript:;" class="btn-go" title="点击此按钮，提交订单">提交订单</a>
+                                <button type="submit" class="btn-go" title="点击此按钮，提交订单">提交订单</button>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

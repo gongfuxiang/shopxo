@@ -9,7 +9,7 @@
  * @param {[int]} 		time [自动关闭时间（秒）, 默认3秒]
  */
 var temp_time_out;
-function Prompt(msg, type, time)
+function Prompt(msg, type, time, distance, animation_type, location)
 {
 	if(msg != undefined && msg != '')
 	{
@@ -21,8 +21,13 @@ function Prompt(msg, type, time)
 
 		// 提示信息添加
 		$('#common-prompt').remove();
-		if(type == undefined || type == '') type = 'danger';
-		var html = '<div id="common-prompt" class="am-alert am-alert-'+type+' am-animation-slide-top" data-am-alert><button type="button" class="am-close am-close-spin">&times;</button><p>'+msg+'</p></div>';
+		if((type || null) == null) type = 'danger';
+		if((animation_type || null) == null) animation_type = 'top';
+		if((location || null) == null) location = 'top';
+
+		var style = '';
+		if((distance || null) != null) style = 'margin-'+animation_type+':'+distance+'px;';
+		var html = '<div id="common-prompt" class="am-alert am-alert-'+type+' am-animation-slide-'+animation_type+' prompt-'+location+'" style="'+style+'" data-am-alert><button type="button" class="am-close am-close-spin">&times;</button><p>'+msg+'</p></div>';
 		$('body').append(html);
 
 		// 自动关闭提示
@@ -31,6 +36,16 @@ function Prompt(msg, type, time)
 			$('#common-prompt').slideToggle();
 		}, (time || 3)*1000);
 	}
+}
+// 中间提示信息
+function PromptCenter(msg, type, time, distance)
+{
+	Prompt(msg, type, time, distance, 'top', 'center');
+}
+// 底部提示信息
+function PromptBottom(msg, type, time, distance)
+{
+	Prompt(msg, type, time, distance, 'bottom', 'bottom');
 }
 
 /**

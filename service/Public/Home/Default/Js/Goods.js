@@ -34,7 +34,7 @@ function CartAdd(e)
     var stock = $('#text_box').val();
     if((stock || 0) <= 0)
     {
-        Prompt('购买数量有误');
+        PromptCenter('购买数量有误');
         return false;
     }
 
@@ -46,7 +46,7 @@ function CartAdd(e)
         var attr_count = $('.sku-line.selected').length;
         if(attr_count < sku_count)
         {
-            Prompt('请选择属性');
+            PromptCenter('请选择属性');
             return false;
         } else {
             $('.sku-line.selected').each(function(k, v)
@@ -90,9 +90,9 @@ function CartAdd(e)
 
                     if(result.code == 0)
                     {
-                        Prompt(result.msg, 'success');
+                        PromptCenter(result.msg, 'success');
                     } else {
-                        Prompt(result.msg);
+                        PromptCenter(result.msg);
                     }
                 },
                 error: function(xhr, type)
@@ -100,14 +100,14 @@ function CartAdd(e)
                     poptit_close();
                     $.AMUI.progress.done();
                     $button.attr('disabled', false);
-                    Prompt('网络异常错误');
+                    PromptCenter('网络异常错误');
                 }
             });
             break;
 
         // 默认
         default :
-            Prompt('操作参数配置有误');
+            PromptCenter('操作参数配置有误');
     }
     return true;
 }
@@ -212,16 +212,16 @@ $(function() {
                         } else {
                             $this.removeClass('text-active');
                         }
-                        Prompt(result.msg, 'success');
+                        PromptCenter(result.msg, 'success');
                     } else {
-                        Prompt(result.msg);
+                        PromptCenter(result.msg);
                     }
                 },
                 error: function(xhr, type)
                 {
                     poptit_close();
                     $.AMUI.progress.done();
-                    Prompt('网络异常错误');
+                    PromptCenter('网络异常错误');
                 }
             });
         }

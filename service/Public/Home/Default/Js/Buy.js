@@ -121,5 +121,51 @@ $(function()
         e.stopPropagation();
     });
 
+    // 提交订单
+    $('.nav-buy .btn-go').on('click', function()
+    {
+        var msg = '';
+        var status = true;
+        var address_id = $('ul.address-list li.address-default').data('value') || null;
+        if(address_id === null)
+        {
+            status = false;
+            msg = '请选择地址';
+        }
+
+        if(status === true)
+        {
+            var express_id = $('ul.logistics-list li.selected').data('value') || null;
+            if(express_id === null)
+            {
+                status = false;
+                msg = '请选择快递';
+            }
+        }
+
+        if(status === true)
+        {
+            var payment_id = $('ul.payment-list li.selected').data('value') || null;
+            if(payment_id === null)
+            {
+                status = false;
+                msg = '请选择支付';
+            }
+        }
+
+        if(status === false)
+        {
+            if($(window).width() < 640)
+            {
+                PromptBottom(msg, null, null, 50);
+            } else {
+                PromptCenter(msg);
+            }
+            return false;
+        }
+        
+
+        console.log(address_id, express_id, payment_id);
+    });
     
 }); 
