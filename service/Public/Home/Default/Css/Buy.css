@@ -1,19 +1,18 @@
-.hidden { display: none !important;}
-.address-default { display:block !important;}   
-/*地址管理*/
-.concent h3,.business-item h3{border-bottom: 3px solid #e3e3e3; margin-top:15px;}
+ /*地址管理*/
+.order-detail h3,.business-item h3{border-bottom: 3px solid #e3e3e3; margin-top:15px;}
 h3 { font-size: 14px;font-weight: 700;}
 .address h3 { border-bottom:none;}
 ul.address-list li{display:none;width:100%;padding:10px;position: relative;min-height:80px;}
 .address-left{ width:90%;float:left;position: relative;}
-.user.DefaultAddr {font-size: 14px;font-weight: 700;}
+ul.address-list li .user-base {font-size: 14px;font-weight: 700;}
 .address-right{ float:right; margin-right:5px;padding-top:15px ;}   
 .deftip {position: absolute;top: 0px;right: 0px;padding: 0px 2px;text-decoration: none;opacity: 0.7; z-index: 3;background: #CCC none repeat scroll 0% 0%;
 color: #FFF;}
 
 /*地址操作-编辑删除*/
 .new-addr-btn {display:none;font-size: 12px;color: #282828;text-align: right; padding-right:5px ;}
-.new-addr-bar {padding: 0px 5px;vertical-align: top;}   
+.new-addr-bar {padding: 0px 5px;vertical-align: top;}
+.address-default { display:block !important;}  
 
 /*物流*/
 .business-item ul li { border:1px solid transparent ;overflow: hidden; }
@@ -39,29 +38,31 @@ ul.logistics-list li img, ul.payment-list li img { width: 36px; height: 36px; }
 .memo-input{width:calc(100% - 64px);border: 1px solid #ccc;padding: 5px;outline:none;border-radius: 2px;}
 
 /*合计*/
-.buy-point-discharge{font-size:14px ;font-weight: 700;padding:10px 0px;text-align: right;}
-.pay-sum{color:#F64000;margin-left:5px ;}
-
-.pay-confirm.clearfix{width: 100%;}
+.buy-point-discharge{font-size:14px ;font-weight: 700;padding:10px 5px;text-align: right;}
+.pay-sum{color:#d2364c;margin-left:5px ;}
 .box{float:left;width:70%;height:40px ;line-height:40px ;font-size: 14px;text-align: right;padding-right:10px ;}
 .pay-address{display: none;}
-.submitOrder a{float:left;width:30%;color:#fff ;background:#f40 ;text-align: center;height:40px ;line-height:40px ;font-size: 14px;}
-
-.td.td-coupon select, .td.td-bonus select{border-color:#CCC;line-height: 24px;height:24px;margin-top:4px;}
-.coupon-title,.bonus-title{line-height: 24px;height:24px}
-.order-go{position: fixed;bottom: 0;width:100% ;background: #fff;border-top:1px solid #F5F5F5 ;} 
-
-.theme-popover{display: none;}
+.nav-buy-submit a{float:left;width:30%;color:#fff ;background:#d2364c ;text-align: center;height:40px ;line-height:40px ;font-size: 14px;}
+.order-nav{position: fixed; left: 0; bottom: 0;width:100%; }
+.nav-buy-submit a:hover, .nav-buy-submit a:focus { color: #fff !important; text-decoration: none; }
 
 .link-list h3 { padding: 0 0 5px 5px; }
 ul.address-list, .business-item ul { overflow: hidden; }
 
+/**
+ * 手机下选择地址
+ */
+.mobile-address { position: fixed; left: 0; bottom: 0; background-color: #fff; width: 100%; height: 100%; z-index: 1099; padding-top: 0 !important; margin-top: 0 !important; border-top: 0 !important; overflow-y: scroll; overflow-x: hidden; padding-bottom: 28px; }
+.mobile-address .control { margin-bottom: 10px; }
+.mobile-address .control h3 { background-color: #eee; padding: 5px; }
+.mobile-address .control, .mobile-address ul.address-list li, .mobile-address ul.address-list li .new-addr-btn { display: block !important; }
+.mobile-address .control .address-submit-save { position: fixed; left: 0; bottom: 0; width: 100%; z-index: 100; }
+.mobile-address ul.address-list li { border-bottom: 1px solid #eee; padding-top: 5px; }
+.mobile-address ul.address-list li .address-left { width: 100%; }
+.mobile-address ul.address-list li .address-right { display: none; }
+
 @media only screen and (min-width:640px) 
 {
-  .pay-way{float: right;}
-  #payTable .th{border-top: none;}
-  .th .td-inner{padding-left:0px ;}
-  .wp{padding: 0px 10px;background: #F5F5F5;}
   /*地址操作*/
   .address { padding: 0 1px 0 5px; }
   .address .control { margin-bottom: 10px; }
@@ -75,62 +76,29 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .business-item ul li {width:calc(25% - 8px); }
   .business-item ul li:nth-child(4n) { margin-right: 0; }
 
-      
-  /*订单管理*/
-
-  .td.td-info {width: 50%;}   
-  .pay-phone{overflow:visible;padding-bottom:0px;margin-bottom:0px;}
-  .th.th-item,.td.td-amount .amount-wrapper .sl{text-align: center;width: auto;}   
-  .item-content .price-now {line-height:18px ;font-size:12px ;font-weight: 100;}   
-
-  .th.th-item{width:50%;margin-right:0;} 
-  .th.th-price, .td.td-price ,.th.th-sum, .td.td-sum {width: 10%;} 
-  .th.th-amount, .td.td-amount {width:20%;}  
-  .th.th-oplist,.td.td-oplist{width:10%;text-align: center;padding-left:0 ;}    
-      
-   /*文字说明布局*/ 
-  .td.td-amount .phone-title,.td.td-oplist .phone-title{display: none;}    
-  .td.td-oplist .pay-logis,.td.td-amount .sl,.td.td-coupon select,.td.td-bonus select{position: static;}      
-  .td.td-amount .amount-wrapper, .td.td-oplist{padding:0px ; border: none;}
-
    /*留言*/ 
   .buy-message{border:1px solid #eee; overflow: hidden;padding: 10px; margin: 0 5px;}
   .order-extra{border: none;float: left;width: 60%;}
   .memo-input{min-width:280px ;width:80%; }
 
   /*带个人信息的结算*/
-  .box ,.submitOrder a{float:right;width:auto;height:auto;padding:10px 10px;}
+  .box ,.nav-buy-submit a{float:right;width:auto;height:auto;padding:10px 10px;}
   .pay-address{display:block;} 
-  .box{font-size:12px;overflow: hidden;border: 2px solid #f40;}
+  .box{font-size:12px;overflow: hidden;border: 2px solid #de9ba2;}
 
-  .order-go {clear: both;text-align: right;position: relative;margin-top: 10px;border: none;}
-  .order-go .address-confirm .box{position: relative;float: right;z-index: 100;padding-right:2%; padding-bottom:10px;border: 1px solid #f50;font-family: tahoma;display: inline-block;right: 0;background-color: #fff0e8;}
+  .order-nav {clear: both;text-align: right;position: relative;margin-top: 10px;border: none;}
+  .order-nav .address-confirm .box{position: relative;float: right;z-index: 100;padding-right:2%; padding-bottom:10px;border: 1px solid #f50;font-family: tahoma;display: inline-block;right: 0;background-color: #fff0e8;}
 
-  .submitOrder .go-btn-wrap {width:100%;overflow: hidden;padding-top:10px;margin-bottom: 10px;}
-  .submitOrder .btn-go {display: block;padding: 0 26px;height: 36px;font: 400 18px/36px arial;font-size: 18px;background-color: #f50;color: #fff;text-align: center;cursor: pointer;outline: 0; z-index:999;}
-  .realPay {line-height: 16px;margin: 0px 0px 15px;position: relative;}
-  .realPay .g_price span {font-size: 26px;}
-  .price .style-large-bold-red {color: #FF4200;font: 700 26px tahoma;}
-  .order-go .buy-footer-address .buy-line-title {color: #404040;font-weight: 700;}
-  .td.td-coupon select, .td.td-bonus select {margin-top:0 ;}
-
-
-  .theme-popover-mask{z-index:10000000;position:fixed;left:0;top:0;width:100%;height:100%;background:#000;opacity:0.5;filter:alpha(opacity=50);-moz-opacity:0.5;display:none;}
-  .theme-popover{z-index:10000009;position:fixed;bottom:50%;left:50%;width:500px;height:400px;margin-bottom:-200px;margin-left:-250px;display:none;background:#fff;overflow: hidden;}
-  .theme-poptit{padding:12px;position:relative;}
-  .theme-poptit .close:hover{color:#444;}
-
-  .theme-popover .am-form-content.address select{width:32.3333%;margin-right:1%;float: left;}
-  .am-padding { padding: 10px 10px;}
-  hr {margin: 5px 0px;}
-  .am-form-group {margin-bottom: 10px}
-
-
-  .td.td-amount{margin-top: 15px}
+  .nav-buy-submit .go-btn-wrap {width:100%;overflow: hidden;padding-top:10px;margin-bottom: 10px;}
+  .nav-buy-submit .btn-go {display: block;padding: 0 26px;height: 36px;font: 400 18px/36px arial;font-size: 18px;background-color: #d2364c;color: #fff;text-align: center;cursor: pointer;outline: 0; z-index:999;}
+  .base-real-pay {line-height: 16px;margin: 0px 0px 10px;position: relative;}
+  .base-real-pay .g_price span {font-size: 26px;}
+  .price .nav-total-price {color: #d2364c;font: 700 26px tahoma;}
+  .order-nav .buy-footer-address .buy-line-title {color: #404040;font-weight: 700;}
 
 
   .link-list{margin:0px auto;}
-      /*地址管理*/
+  /*地址管理*/
   .address ul{margin-top:10px ;}
   ul.address-list li{display:block; width: calc(33% - 5px);height: 150px;float: left;background-image: url(../Images/peraddbg.png); background-repeat: no-repeat; background-size: 100% 100%; margin:0 10px 10px 0 ;padding:10px;}
   ul.address-list li.address-default{background-image: url(../Images/peraddressbg.png);}
@@ -140,11 +108,7 @@ ul.address-list, .business-item ul { overflow: hidden; }
       
   /*地址操作*/
   .new-addr-btn {display:block;position: absolute;bottom:25px ;right:10px ;}
-  .new-addr-bar {padding: 0px 5px;vertical-align: top;}  
-
-  .td.td-item ,.td.td-info{width: 50%;}
-  .td.td-info{position: absolute;margin-top:0px;}
-  .td.td-info .item-props{text-align: left;padding-top:0px ;}
+  .new-addr-bar {padding: 0px 5px;vertical-align: top;}
   .address-right .am-icon-angle-right { display: none; }
 }
 
@@ -162,19 +126,25 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .business-item ul { padding: 10px 0 0 0; }
   .link-list h3 { padding: 0 0 5px 0; }
   .buy-message { margin: 0; }
+  .buy-point-discharge { padding: 10px 0px; }
 }
 
 @media only screen and (max-width:640px)
 {
-  .address { margin-top: 10px; padding-top: 10px; }
+  .cart-content table tr .base { width: 100%; }
+
+  .address { margin-top: 10px; }
   .address, .buy-message { border-top: 1px solid #eee; }
   .address .control { display: none; }
   .address-default {background: url(../Images/peraddress.png) repeat-x; background-position: bottom; }
-  ul.address-list li { padding: 0 5px; min-height: 65px; }
+  ul.address-list li { padding: 5px; min-height: 60px; overflow: hidden; }
 
   .business-item ul li { width: calc(50% - 6px); }
   .business-item ul li:nth-child(2n) { margin-right: 0; }
   .buy-message { padding-top: 10px; }
+  .pay-confirm em { font-size: 12px; }
+  .pay-confirm .nav-total-price { color: #d2364c; font-weight: 700; }
+  .order-nav { background: #f5f5f5; }
 } 
 
 
@@ -202,10 +172,5 @@ strong.total-price-content { color: #d2364c; font-size: 16px; }
     .cart-content table tr .number { width: 20%; }
     .cart-content table tr .total-price { width: 20%; }
     .cart-content { margin-top: 20px; }
-}
-
-@media only screen and (max-width:640px)  {
-    .cart-content table tr .base { width: 100%; }
-}
-       
+}  
 

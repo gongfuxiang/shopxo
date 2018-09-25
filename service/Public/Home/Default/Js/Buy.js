@@ -34,8 +34,14 @@ $(function()
         }
     }
 
+    // 地址不为空，并且未设置默认，并且没有选择 默认选中第一个
+    if($('ul.address-list li').length > 0 && $('ul.address-list li.address-default').length == 0)
+    {
+        $('ul.address-list li').eq(0).addClass('address-default');
+    }
+
     // 地址选择
-    $('ul.address-list li').click(function()
+    $('ul.address-list li').on('click', function()
     {
         $(this).addClass('address-default').siblings().removeClass('address-default');
         store.set(store_address_key, $(this).index());
@@ -87,6 +93,33 @@ $(function()
         e.stopPropagation();
     });
 
+    
+    // 手机模式下选择地址
+    $('ul.address-list li').on('click', function(e)
+    {
+        if($(window).width() < 640)
+        {
+            if(!$('.address').hasClass('mobile-address'))
+            {
+                $('.address').addClass('mobile-address');
+                $(document.body).css({"overflow": "hidden", "position":"fixed"});
+                e.stopPropagation();
+            }
+        }
+    });
+    $('.address').on('click', 'ul.address-list li', function()
+    {
+        $('.address').removeClass('mobile-address');
+        $(document.body).css({"overflow": "auto", "position":"unset"});
+        $('body').scrollTop(0);
+    });
+
+    // 设为默认地址
+    $('.address-default-submit').on('click', function(e)
+    {
+        ConfirmNetworkAjax($(this));
+        e.stopPropagation();
+    });
 
     
 }); 

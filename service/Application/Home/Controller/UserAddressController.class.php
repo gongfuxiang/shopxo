@@ -115,41 +115,12 @@ class UserAddressController extends CommonController
      * @date    2018-07-18
      * @desc    description
      */
-    public function SetDefault()
+    public function Default()
     {
-        // 请求参数
-        $params = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'address_id',
-                'error_msg'         => '地址ID不能为空',
-            ]
-        ];
-        $ret = params_checked($_POST, $params);
-        if($ret !== true)
-        {
-            $this->ajaxReturn($ret);
-        }
-
-        // 模型
-        $m = M('UserAddress');
-
-        // 开启事务
-        $m->startTrans();
-
-        // 先全部设置为0 再将当前设置为1
-        $all_status = $m->where(['user_id' => $this->user['id']])->save(['is_default'=>0]);
-        $my_status = $m->where(['user_id' => $this->user['id'], 'id'=>$_POST['address_id']])->save(['is_default'=>1]);
-        if($all_status && $my_status)
-        {
-            // 提交事务
-            $m->commit();
-            $this->ajaxReturn(L('common_operation_set_success'), 0);
-        } else {
-            // 回滚事务
-            $m->rollback();
-            $this->ajaxReturn(L('common_operation_delete_error'), -100);
-        }
+        $params = $_POST;
+        $params['user'] = $this->user;
+        $ret = UserService::UserAddressDefault($params);
+        $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }
 }
 ?>

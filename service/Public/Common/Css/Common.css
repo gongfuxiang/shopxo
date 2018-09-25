@@ -49,7 +49,6 @@
  * iframe
  */
 iframe { width: 100%; height: 100%; border: 0; }
-.popup-iframe .am-popup-inner { overflow: hidden; }
 
 
 /**
@@ -69,6 +68,11 @@ iframe { width: 100%; height: 100%; border: 0; }
 
     /* 地址联动 */
     .region-linkage select { width: 33%; display: -webkit-inline-box; }
+
+    /**
+     * 弹窗iframe
+     */
+    .popup-iframe .am-popup-inner { overflow: hidden; }
 }
 
 /**

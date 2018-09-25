@@ -725,6 +725,84 @@ function DataDelete(e)
 	});
 }
 
+/**
+ * [ConfirmNetworkAjax 确认网络请求]
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @datetime 2018-09-24T08:24:58+0800
+ * @param    {[object]}                 e [当前元素对象]
+ */
+function ConfirmNetworkAjax(e)
+{
+	var id = e.data('id');
+	var value = e.data('value') || '';
+	var url = e.data('url');
+	var view = e.data('view') || '';
+	var title = e.data('title') || '温馨提示';
+	var msg = e.data('msg') || '操作后不可恢复、确认操作吗？';
+
+	AMUI.dialog.confirm({
+		title: title,
+		content: msg,
+		onConfirm: function(e)
+		{
+			// ajax
+			$.ajax({
+				url:url,
+				type:'POST',
+				dataType:"json",
+				timeout:10000,
+				data:{id:id, value: value},
+				success:function(result)
+				{
+					if(result.code == 0)
+					{
+						switch(view)
+						{
+							// 成功则删除数据列表
+							case 'delete' :
+								Prompt(result.msg, 'success');
+								$('#data-list-'+id).remove();
+								break;
+
+							// 刷新
+							case 'reload' :
+								Prompt(result.msg, 'success');
+								setTimeout(function()
+								{
+									window.location.reload();
+								}, 1500);
+								break;
+
+							// 回调函数
+							case 'fun' :
+								if(IsExitsFunction(value))
+		                		{
+		                			window[value](result);
+		                		} else {
+		                			Prompt('['+value+']配置方法未定义');
+		                		}
+								break;
+
+							// 默认提示成功
+							default :
+								Prompt(result.msg, 'success');
+						}
+					} else {
+						Prompt(result.msg);
+					}
+				},
+				error:function(xhr, type)
+				{
+					Prompt('网络异常出错');
+				}
+			});
+		},
+		onCancel: function(){}
+	});
+}
+
 
 // 公共数据操作
 $(function()
@@ -1029,59 +1107,12 @@ $(function()
 	 * @version  0.0.1
 	 * @datetime 2016-12-10T14:22:39+0800
 	 * @param    {[int] 	[data-id] 	[数据id]}
-	 * @param    {[int] 	[data-view] [完成操作（delete删除数据, reload刷新页面]}
+	 * @param    {[int] 	[data-view] [完成操作（delete删除数据, reload刷新页面, fun方法回调(data-value)]}
 	 * @param    {[string] 	[data-url] 	[请求地址]}
 	 */
 	$(document).on('click', '.submit-ajax', function()
 	{
-		var id = $(this).data('id');
-		var value = $(this).data('value') || '';
-		var url = $(this).data('url');
-		var view = $(this).data('view') || 'reload';
-		var title = $(this).data('title') || '温馨提示';
-		var msg = $(this).data('msg') || '操作后不可恢复、确认操作吗？';
-
-		AMUI.dialog.confirm({
-			title: title,
-			content: msg,
-			onConfirm: function(e)
-			{
-				// ajax
-				$.ajax({
-					url:url,
-					type:'POST',
-					dataType:"json",
-					timeout:10000,
-					data:{id:id, value: value},
-					success:function(result)
-					{
-						if(result.code == 0)
-						{
-							Prompt(result.msg, 'success');
-
-							if(view == 'delete')
-							{
-								// 成功则删除数据列表
-								$('#data-list-'+id).remove();
-							} else if(view == 'reload')
-							{
-								setTimeout(function()
-								{
-									window.location.reload();
-								}, 1500);
-							}
-						} else {
-							Prompt(result.msg);
-						}
-					},
-					error:function(xhr, type)
-					{
-						Prompt('网络异常出错');
-					}
-				});
-			},
-			onCancel: function(){}
-		});
+		ConfirmNetworkAjax($(this));
 	});
 
 	/**

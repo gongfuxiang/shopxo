@@ -18,6 +18,7 @@ time, mark, audio, video {
     vertical-align: baseline;
     font-family: arial,"Lantinghei SC","Microsoft Yahei";  
 }
+li { list-style-type: none; }
 
 *, body, .am-btn { font-size: 12px; }
 
@@ -71,7 +72,7 @@ color: #555555;background:none;border-color:transparent;cursor: default;}
 .goods-category-s{display: none;}
 
 /*浮动框*/
-.nav-search{top:0;left:0;width:100%;z-index:1099; margin:0px auto;background:#fff; padding-top: 5px; position: relative;}
+.nav-search{top:0;left:0;width:100%;z-index:1060; margin:0px auto;background:#fff; padding-top: 5px; position: relative;}
 .nav-search .logo{height:36px;width:95px; margin: 0 auto; display: -webkit-inline-box;}
 .logoBig{display:none;}
 .logo img{width:100%}
@@ -486,7 +487,7 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
     /**
      * 公共登录窗口
      */
-    .common-login-modal { max-width: 400px; height: 372px; left: calc(50% - 200px); top: calc(50% - 186px); margin-left: 0; margin-top: 0; }
+    .common-login-modal { max-width: 400px; height: 378px; left: calc(50% - 200px); top: calc(50% - 189px); margin-left: 0; margin-top: 0; }
 }
 
 /**

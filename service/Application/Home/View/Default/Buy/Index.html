@@ -13,35 +13,35 @@
 <include file="Public/GoodsCategory" />
 
 <!-- content -->
-<div class="am-container category-list">
+<div class="am-container">
 
     <!-- 地址 -->
     <div class="link-list">
         <div class="address">
             <div class="control">
                 <h3>确认收货地址</h3>
-                <button class="am-btn am-btn-danger am-btn-xs address-submit" type="button" data-url="{{:U('Home/UserAddress/SaveInfo')}}">使用新地址</button>
+                <notempty name="user_address_list">
+                    <button class="am-btn am-btn-danger am-btn-xs address-submit-save" type="button" data-url="{{:U('Home/UserAddress/SaveInfo')}}">使用新地址</button>
+                </notempty>
             </div>
             <notempty name="user_address_list">
                 <ul class="address-list">
                     <foreach name="user_address_list" item="address">
                         <li class="<if condition="isset($address['is_default']) and $address['is_default'] eq 1">address-default</if>" id="data-list-{{$address.id}}">
                             <div class="address-left">
-                                <div class="user DefaultAddr">
+                                <div class="user-base">
                                     <span class="buy-address-detail">   
-                                    <span class="buy-user">{{$address.name}}</span>
-                                    <span class="buy-phone">{{$address.tel}}</span>
+                                        <span class="buy-user">{{$address.name}}</span>
+                                        <span class="buy-phone">{{$address.tel}}</span>
                                     </span>
                                 </div>
-                                <div class="default-address DefaultAddr">
+                                <div>
                                     <span class="buy-line-title buy-line-title-type">收货地址：</span>
                                     <span class="buy--address-detail">
-                                    <span class="province">{{$address.province_name}}</span>
-                                    <span class="city">{{$address.city_name}}</span>
-                                    <span class="dist">{{$address.county_name}}</span>
-                                    <span class="street">{{$address.address}}</span>
-                                    </span>
-
+                                        <span class="province">{{$address.province_name}}</span>
+                                        <span class="city">{{$address.city_name}}</span>
+                                        <span class="dist">{{$address.county_name}}</span>
+                                        <span class="street">{{$address.address}}</span>
                                     </span>
                                 </div>
                                 <if condition="isset($address['is_default']) and $address['is_default'] eq 1">
@@ -49,13 +49,11 @@
                                 </if>
                             </div>
                             <div class="address-right">
-                                <a href="../person/address.html">
-                                    <span class="am-icon-angle-right am-icon-lg"></span>
-                                </a>
+                                <span class="am-icon-angle-right am-icon-lg"></span>
                             </div>
                             <div class="new-addr-btn">
-                                <a href="#" class="hidden">设为默认</a>
-                                <span class="new-addr-bar hidden">|</span>
+                                <a href="javascript:;" class="address-default-submit" data-url="{{:U('Home/UserAddress/Default')}}" data-id="{{$address.id}}">设为默认</a>
+                                <span class="new-addr-bar">|</span>
                                 <a href="javascript:;" class="address-submit-save" data-url="{{:U('Home/UserAddress/SaveInfo', ['id'=>$address['id']])}}">编辑</a>
                                 <span class="new-addr-bar">|</span>
                                 <a href="javascript:;" class="address-submit-delete" data-url="{{:U('Home/UserAddress/Delete')}}" data-id="{{$address.id}}">删除</a>
@@ -64,6 +62,12 @@
                     </foreach>
                 </ul>
             </notempty>
+            <empty name="user_address_list">
+                <div class="table-no">
+                    <i class="am-icon-warning"></i>
+                    {{:L('buy_user_address_not_data_tips')}}
+                    <button class="am-btn am-btn-secondary am-btn-xs address-submit-save" type="button" data-url="{{:U('Home/UserAddress/SaveInfo')}}">使用新地址</button></div>
+            </empty>
         </div>
 
         <!-- 物流 -->
@@ -82,6 +86,9 @@
                     </foreach>
                 </ul>
             </notempty>
+            <empty name="express_list">
+                <div class="table-no"><i class="am-icon-warning"></i> {{:L('buy_express_not_data_tips')}}</div>
+            </empty>
         </div>
 
         <!-- 支付方式 -->
@@ -100,68 +107,76 @@
                     </foreach>
                 </ul>
             </notempty>
+            <empty name="payment_list">
+                <div class="table-no"><i class="am-icon-warning"></i> {{:L('buy_payment_not_data_tips')}}</div>
+            </empty>
         </div>
 
         <!--订单 -->
-        <div class="concent">
-            <div id="payTable">
+        <div class="order-detail">
+            <div class="goods-table">
                 <h3>确认订单信息</h3>
                 <!-- 商品列表 -->
-                <table class="am-table">
-                    <thead>
-                        <tr>
-                            <th>商品信息</th>
-                            <th class="am-hide-sm-only">单价</th>
-                            <th class="am-hide-sm-only">数量</th>
-                            <th class="am-hide-sm-only">金额</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <foreach name="goods_list" item="goods">
-                            <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}">
-                                <td class="base">
-                                    <div class="goods-detail">
-                                        <a href="{{$goods.goods_url}}" target="_blank">
-                                            <img src="{{$goods.images}}">
-                                        </a>
-                                        <div class="goods-base">
-                                            <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
-                                            <notempty name="goods.attribute">
-                                                <ul class="goods-attr">
-                                                    <foreach name="goods.attribute" item="attr">
-                                                        <li>{{$attr.attr_type_name}}：{{$attr.attr_name}}</li>
-                                                    </foreach>
-                                                </ul>
-                                            </notempty>
-                                        </div>
-                                    </div>
-                                    <div class="wap-base am-show-sm-only">
-                                        <if condition="$goods['original_price'] gt 0">
-                                            <span class="original-price">￥{{$goods.original_price}}</span>
-                                        </if>
-                                        <strong class="total-price-content">￥{{$goods.price}}</strong>
-                                        <span class="wap-number">x{{$goods.stock}}</span>
-                                    </div>
-                                </td>
-                                <td class="price am-hide-sm-only">
-                                    <if condition="$goods['original_price'] gt 0">
-                                        <p class="original-price">￥{{$goods.original_price}}</p>
-                                    </if>
-                                    <p class="line-price">￥{{$goods.price}}</p>
-                                </td>
-                                <td class="number am-hide-sm-only">
-                                    {{$goods.stock}} {{$goods.inventory_unit}}
-                                </td>
-                                <td class="total-price am-hide-sm-only">
-                                    <strong class="total-price-content">￥{{$goods.total_price}}</strong>
-                                </td>
+                <notempty name="goods_list">
+                    <table class="am-table">
+                        <thead>
+                            <tr>
+                                <th>商品信息</th>
+                                <th class="am-hide-sm-only">单价</th>
+                                <th class="am-hide-sm-only">数量</th>
+                                <th class="am-hide-sm-only">金额</th>
                             </tr>
-                        </foreach>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <foreach name="goods_list" item="goods">
+                                <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}">
+                                    <td class="base">
+                                        <div class="goods-detail">
+                                            <a href="{{$goods.goods_url}}" target="_blank">
+                                                <img src="{{$goods.images}}">
+                                            </a>
+                                            <div class="goods-base">
+                                                <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
+                                                <notempty name="goods.attribute">
+                                                    <ul class="goods-attr">
+                                                        <foreach name="goods.attribute" item="attr">
+                                                            <li>{{$attr.attr_type_name}}：{{$attr.attr_name}}</li>
+                                                        </foreach>
+                                                    </ul>
+                                                </notempty>
+                                            </div>
+                                        </div>
+                                        <div class="wap-base am-show-sm-only">
+                                            <if condition="$goods['original_price'] gt 0">
+                                                <span class="original-price">￥{{$goods.original_price}}</span>
+                                            </if>
+                                            <strong class="total-price-content">￥{{$goods.price}}</strong>
+                                            <span class="wap-number">x{{$goods.stock}}</span>
+                                        </div>
+                                    </td>
+                                    <td class="price am-hide-sm-only">
+                                        <if condition="$goods['original_price'] gt 0">
+                                            <p class="original-price">￥{{$goods.original_price}}</p>
+                                        </if>
+                                        <p class="line-price">￥{{$goods.price}}</p>
+                                    </td>
+                                    <td class="number am-hide-sm-only">
+                                        {{$goods.stock}} {{$goods.inventory_unit}}
+                                    </td>
+                                    <td class="total-price am-hide-sm-only">
+                                        <strong class="total-price-content">￥{{$goods.total_price}}</strong>
+                                    </td>
+                                </tr>
+                            </foreach>
+                        </tbody>
+                    </table>
+                </notempty>
+                <empty name="goods_list">
+                    <div class="table-no"><i class="am-icon-warning"></i> {{:L('buy_goods_not_data_tips')}}</div>
+                </empty>
 
+                <!-- 留言 -->
                 <div class="buy-message">
-                    <!--留言-->
                     <div class="order-extra">
                         <div class="order-user-info">
                             <div id="holyshit257" class="memo">
@@ -171,22 +186,23 @@
                         </div>
                     </div>
                 </div>
-                <!--含运费小计 -->
-                <div class="buy-point-discharge ">
-                    <p class="price g_price ">
+
+                <!-- 含运费小计 -->
+                <div class="buy-point-discharge">
+                    <p>
                         合计（含运费） <span>¥</span><em class="pay-sum">{{$base.total_price}}</em>
                     </p>
                 </div>
 
-                <!--信息 -->
-                <div class="order-go clearfix">
-                    <div class="pay-confirm clearfix">
+                <!-- 信息 -->
+                <div class="order-nav">
+                    <div class="pay-confirm">
                         <div class="box">
-                            <div tabindex="0" class="realPay">
-                                <em class="t">实付款：</em>
-                                <span class="price g_price">
-                                <span>¥</span>
-                                <em class="style-large-bold-red">{{$base.total_price}}</em>
+                            <div class="base-real-pay">
+                                <em>实付款：</em>
+                                <span class="price">
+                                    <span>¥</span>
+                                    <em class="nav-total-price">{{$base.total_price}}</em>
                                 </span>
                             </div>
 
@@ -221,87 +237,16 @@
                             </div>
                         </div>
 
-                        <div id="holyshit269" class="submitOrder">
+                        <div class="nav-buy-submit">
                             <div class="go-btn-wrap">
-                                <a id="J_Go" href="success.html" class="btn-go" tabindex="0" title="点击此按钮，提交订单">提交订单</a>
+                                <a href="javascript:;" class="btn-go" title="点击此按钮，提交订单">提交订单</a>
                             </div>
                         </div>
-                        <div class="clear"></div>
                     </div>
                 </div>
             </div>
-
-            <div class="clear"></div>
         </div>
     </div>
-
-    <div class="theme-popover-mask"></div>
-    <div class="theme-popover">
-
-        <!--标题 -->
-        <div class="am-cf am-padding">
-            <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">新增地址</strong> / <small>Add address</small></div>
-        </div>
-        <hr/>
-
-        <div class="am-u-md-12">
-            <form class="am-form am-form-horizontal">
-
-                <div class="am-form-group">
-                    <label for="user-name" class="am-form-label">收货人</label>
-                    <div class="am-form-content">
-                        <input type="text" id="user-name" placeholder="收货人">
-                    </div>
-                </div>
-
-                <div class="am-form-group">
-                    <label for="user-phone" class="am-form-label">手机号码</label>
-                    <div class="am-form-content">
-                        <input id="user-phone" placeholder="手机号必填" type="email">
-                    </div>
-                </div>
-
-                <div class="am-form-group">
-                    <label for="user-phone" class="am-form-label">所在地</label>
-                    <div class="am-form-content address">
-                        <select data-am-selected>
-                            <option value="a">浙江省</option>
-                            <option value="b">湖北省</option>
-                        </select>
-                        <select data-am-selected>
-                            <option value="a">温州市</option>
-                            <option value="b">武汉市</option>
-                        </select>
-                        <select data-am-selected>
-                            <option value="a">瑞安区</option>
-                            <option value="b">洪山区</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="am-form-group">
-                    <label for="user-intro" class="am-form-label">详细地址</label>
-                    <div class="am-form-content">
-                        <textarea class="" rows="3" id="user-intro" placeholder="输入详细地址"></textarea>
-                        <small>100字以内写出你的详细地址...</small>
-                    </div>
-                </div>
-
-                <div class="am-form-group theme-poptit">
-                    <div class="am-u-sm-9 am-u-sm-push-3">
-                        <div class="am-btn am-btn-danger">保存</div>
-                        <div class="am-btn am-btn-danger close">取消</div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- <notempty name="goods_category_list">
-          
-    <else />
-        <div class="table-no"><i class="am-icon-warning"></i> {{:L('common_not_data_tips')}}</div>
-    </notempty> -->
 </div>
 
 <!-- footer start -->

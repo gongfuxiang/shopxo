@@ -209,6 +209,8 @@ class UserService
             'lat'           => floatval(I('lat')),
         ];
 
+        $m->startTrans();
+
         // 默认地址处理
         if($is_default == 1)
         {
@@ -222,16 +224,20 @@ class UserService
             $data['add_time'] = time();
             if($m->add($data) > 0)
             {
+                $m->commit();
                 return DataReturn(L('common_operation_add_success'), 0);
             } else {
+                $m->rollback();
                 return DataReturn(L('common_operation_add_error'));
             }
         } else {
             $data['upd_time'] = time();
             if($m->where($where)->save($data))
             {
+                $m->commit();
                 return DataReturn(L('common_operation_update_success'), 0);
             } else {
+                $m->rollback();
                 return DataReturn(L('common_operation_update_error'));
             }
         }
@@ -274,6 +280,57 @@ class UserService
             return DataReturn(L('common_operation_delete_success'), 0);
         } else {
             return DataReturn(L('common_operation_delete_error'), -100);
+        }
+    }
+
+    /**
+     * 用户地址设置默认地址
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-25
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function UserAddressDefault($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '地址id不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user',
+                'error_msg'         => '用户信息有误',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret);
+        }
+
+        // 模型
+        $m = M('UserAddress');
+
+        // 开启事务
+        $m->startTrans();
+
+        // 先全部设置为0 再将当前设置为1
+        $all_status = $m->where(['user_id' => $params['user']['id']])->save(['is_default'=>0]);
+        $my_status = $m->where(['user_id' => $params['user']['id'], 'id'=>$params['id']])->save(['is_default'=>1]);
+        if($all_status && $my_status)
+        {
+            // 提交事务
+            $m->commit();
+            return DataReturn(L('common_operation_set_success'), 0);
+        } else {
+            // 回滚事务
+            $m->rollback();
+            return DataReturn(L('common_operation_set_error'), -100);
         }
     }
 }
