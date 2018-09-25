@@ -212,16 +212,32 @@ $(function() {
                         } else {
                             $this.removeClass('text-active');
                         }
-                        PromptCenter(result.msg, 'success');
+
+                        if($(window).width() < 640)
+                        {
+                            PromptBottom(result.msg, 'success', null, 50);
+                        } else {
+                            PromptCenter(result.msg, 'success');
+                        }
                     } else {
-                        PromptCenter(result.msg);
+                        if($(window).width() < 640)
+                        {
+                            PromptBottom(result.msg, null, null, 50);
+                        } else {
+                            PromptCenter(result.msg);
+                        }
                     }
                 },
                 error: function(xhr, type)
                 {
                     poptit_close();
                     $.AMUI.progress.done();
-                    PromptCenter('网络异常错误');
+                    if($(window).width() < 640)
+                    {
+                        PromptBottom('网络异常错误', null, null, 50);
+                    } else {
+                        PromptCenter('网络异常错误');
+                    }
                 }
             });
         }

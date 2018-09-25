@@ -64,18 +64,18 @@ $(function()
                     $.AMUI.progress.done();
                     if(result.code == 0)
                     {
-                        Prompt(result.msg, 'success');
+                        PromptCenter(result.msg, 'success');
 
                         // 计算选择的商品总数和总价
                         cart_base_total();
                     } else {
-                        Prompt(result.msg);
+                        PromptCenter(result.msg);
                     }
                 },
                 error: function(xhr, type)
                 {
                     $.AMUI.progress.done();
-                    Prompt('网络异常错误');
+                    PromptCenter('网络异常错误');
                 }
             });
         }
@@ -152,7 +152,7 @@ $(function()
         var ids = $(this).parents('form').find('input[name="ids"]').val() || 0;
         if(ids == 0)
         {
-            Prompt('请选择商品');
+            PromptCenter('请选择商品');
             return false;
         }
     });

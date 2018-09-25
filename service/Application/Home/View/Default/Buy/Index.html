@@ -236,16 +236,17 @@
                                 </div>
                             </div>
                         </div>
-                        <form action="{{:U('Home/Buy/Index')}}" method="post" class="nav-buy">
+                        <form class="am-form form-validation nav-buy" action="{{:U('Home/Buy/Add')}}" method="post" class="nav-buy" request-type="ajax-fun" request-value="BuySubmitBack">
                             <input type="hidden" name="goods_id" value="<if condition="isset($params['goods_id'])">{{$params.goods_id}}<else />0</if>" />
                             <input type="hidden" name="buy_type" value="<if condition="isset($params['buy_type'])">{{$params.buy_type}}<else />goods</if>" />
                             <input type="hidden" name="stock" value="<if condition="isset($params['stock'])">{{$params.stock}}<else />1</if>" />
                             <input type="hidden" name="attr" value="<if condition="isset($params['attr'])">{{$params.attr}}</if>" />
+                            <input type="hidden" name="ids" value="<if condition="isset($params['ids'])">{{$params.ids}}</if>" />
                             <input type="hidden" name="address_id" value="0" />
                             <input type="hidden" name="express_id" value="0" />
                             <input type="hidden" name="payment_id" value="0" />
                             <div class="go-btn-wrap">
-                                <button type="submit" class="btn-go" title="点击此按钮，提交订单">提交订单</button>
+                                <button type="submit" class="btn-go btn-loading-example" title="点击此按钮，提交订单" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">提交订单</button>
                             </div>
                         </form>
                     </div>

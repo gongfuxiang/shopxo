@@ -61,8 +61,7 @@ ul.address-list, .business-item ul { overflow: hidden; }
 .mobile-address ul.address-list li .address-left { width: 100%; }
 .mobile-address ul.address-list li .address-right { display: none; }
 
-@media only screen and (min-width:640px) 
-{
+@media only screen and (min-width:640px) {
   /*地址操作*/
   .address { padding: 0 1px 0 5px; }
   .address .control { margin-bottom: 10px; }
@@ -112,8 +111,7 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .address-right .am-icon-angle-right { display: none; }
 }
 
-@media only screen and (min-width:1025px)
-{
+@media only screen and (min-width:1025px) {
   .link-list{ margin:0; }
   ul.address-list li { width: calc(25% - 8px); }
   ul.address-list li:nth-child(4n) { margin-right: 0; }
@@ -129,8 +127,7 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .buy-point-discharge { padding: 10px 0px; }
 }
 
-@media only screen and (max-width:640px)
-{
+@media only screen and (max-width:640px) {
   .cart-content table tr .base { width: 100%; }
 
   .address { margin-top: 10px; }
@@ -166,6 +163,7 @@ strong.total-price-content { color: #d2364c; font-size: 16px; }
 .am-table { margin-bottom: 10px; }
 .am-table > tbody > tr > td { border-top: 1px solid #F5F5F5; }
 .am-table > thead > tr > th { border-bottom: 1px solid #f7f7f7; }
+
 @media only screen and (min-width:640px)  {
     .cart-content table tr .base { width: 40%; }
     .cart-content table tr .price { width: 20%; }

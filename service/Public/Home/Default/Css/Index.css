@@ -218,8 +218,7 @@ text-align: center;float:none}
 }
 
 	   
-@media only screen and (min-width: 1025px)
-{
+@media only screen and (min-width: 1025px) {
     .small-nav { display:none;}
     .am-g-fixed{max-width:1000px;}
     .flood li{width:20%;} 

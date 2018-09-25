@@ -133,7 +133,7 @@
                                                 <dd>
                                                     <div class="am-input-group am-input-group-sm number-tag">
                                                         <button class="am-input-group-label" id="min" type="button">-</button>
-                                                        <input type="text" class="am-form-field" value="1" id="text_box" />
+                                                        <input type="number" class="am-form-field" value="1" id="text_box" min="1" max="{{$goods.inventory}}" />
                                                         <button class="am-input-group-label" id="add" type="button">+</button>
                                                     </div>
                                                     <span class="tb-hidden stock-tips">库存<span class="stock">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>

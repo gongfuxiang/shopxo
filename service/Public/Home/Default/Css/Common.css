@@ -111,13 +111,11 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
 .navCir li.active a{color:#d2364c ;}
 
 
-@media only screen and (max-width: 640px) 
-{
+@media only screen and (max-width: 640px) {
     
 }
 
-@media only screen and (min-width: 640px) 
-{
+@media only screen and (min-width: 640px) {
     .am-container {padding-left:0px;padding-right:0px ;}
     .shop-nav {position: relative;}
 
@@ -151,8 +149,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
     .am-nav-tabs > li span{font-size:16px;}
 }
 
-@media only screen and (min-width: 1025px)
-{
+@media only screen and (min-width: 1025px) {
     .am-container { padding-left:0rem;padding-right:0rem;max-width: 1000px;}
     .shop-nav{margin:0px;border-bottom: 2px solid #d2364c; height: 49px;}
 
@@ -447,8 +444,7 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
  * 框架覆盖
  */
 /* 手机模式下 */
-@media only screen and (max-width:640px)
-{
+@media only screen and (max-width:640px) {
     .am-container {
         padding-left: 0px;
         padding-right: 0px;

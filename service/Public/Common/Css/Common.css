@@ -44,7 +44,7 @@
 #common-prompt.am-alert-success { background-color: #f0f9eb; border-color: #e1f3d8; color: #67c23a; box-shadow: 0 2px 4px #efffe5, 0 0 6px rgba(0, 0, 0, 0); }
 #common-prompt p { text-align: left; font-size: 12px; }
 #common-prompt .am-close { line-height: 20px; }
-#common-prompt.prompt-center { top: 0; margin-top: 25%; }
+#common-prompt.prompt-center { top: calc(50% - 15px); }
 #common-prompt.prompt-top { top: 0; }
 #common-prompt.prompt-bottom { bottom: 0; }
 

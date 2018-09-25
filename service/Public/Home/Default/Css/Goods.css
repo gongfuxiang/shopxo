@@ -11,7 +11,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .buy-event,.item-props-can{cursor: pointer;}
 
 .theme-popover-mask{z-index:1000;position:fixed;left:0;top:0;width:100%;height:100%;background:#333;opacity:0.5;filter:alpha(opacity=50);-moz-opacity:0.5;display:none;}
-.theme-popover{z-index:10000009;position:fixed;bottom:0;left:0;width:100%;display:none;}
+.theme-popover{z-index:1001;position:fixed;bottom:0;left:0;width:100%;display:none;}
 .theme-poptit{padding:12px;position:relative;overflow: hidden;background:#fff ;height:80px ;}
 .theme-poptit .close{float:right;color:#999;padding:5px;margin:-2px -5px -5px;font:bold 14px/14px simsun;text-shadow:0 1px 0 #ddd}
 .theme-poptit .close:hover{color:#444;}
@@ -56,8 +56,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .text-active { color: #cf2915 !important; }
 
 
-@media only screen and (min-width:640px) 
-{
+@media only screen and (min-width:640px) {
     .theme-span{height:0px;background:#fff ;}
     .theme-popover{box-shadow:0 0 10px #666;position:fixed;top:20%;left:calc(50% - 130px);width:260px;bottom:auto;border:solid 6px #d3d3d3;border-radius:3px;}
     .theme-poptit{display: none;}
@@ -95,8 +94,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
     .buy-nav .buy-nav-opt .favor-submit { width: 60px; border: 0; margin-top: 5px; }
 }
 
-@media only screen and (min-width:1025px) 
-{
+@media only screen and (min-width:1025px) {
      i.buy-event{display: none;}  
     .theme-signin-left{padding-top:15px ;float: left;max-width:none;padding-bottom:0px ;}
     .theme-signin-right{float: left;display:block;overflow: hidden;padding: 10px;}
@@ -279,8 +277,7 @@ li.am-comment{ width:100%}
 /* 文字提示 */
 .shelves-tips { color: #FF5722; margin: 5px 0; font-size: 14px; }
 
-@media only screen and (min-width:640px) 
-{
+@media only screen and (min-width:640px) {
     /*导航固定*/
     ul.am-tabs-nav.am-nav.am-nav-tabs {margin-right:10px ;margin-left: 10px;width: auto;}
     .scoll{float: left;width: calc(45% - 10px);max-width:360px;padding-right:20px; }
@@ -333,8 +330,7 @@ li.am-comment{ width:100%}
 }
 
 
-@media only screen and (min-width:1025px) 
-{
+@media only screen and (min-width:1025px) {
     /*放大镜*/
     /* box */
     .box { width:700px; margin:0px auto; }
@@ -408,10 +404,8 @@ li.am-comment{ width:100%}
     .like li:nth-of-type(3n) { border-right: 1px solid #eee; }
     .like li:nth-child(4) { border-top: 0px; }
 }
- 
 
-@media only screen and (min-width:1260px) 
-{     
+@media only screen and (min-width:1260px) {
     .item-inform ,.match,.introduce-main,.am-breadcrumb-slash{max-width: 1200px;}
     .clearfix-left {width: 400px;}
     /*放大镜*/
@@ -424,15 +418,13 @@ li.am-comment{ width:100%}
 
 
 /* 小于1025 */
-@media only screen and (max-width:1025px)
-{
+@media only screen and (max-width:1025px) {
     ul.am-tabs-nav.am-nav.am-nav-tabs { width:100% !important; left: 0px !important; }
     .goods-detail { padding: 10px; }
 }
 
 /* 手机模式下 */
-@media only screen and (max-width:640px)
-{
+@media only screen and (max-width:640px) {
     .nav-search { display: none; }
     .goods-detail { padding: 0px; }
     .detail-title, .tb-detail-price, .detail-attr { padding: 0px 5px; }
