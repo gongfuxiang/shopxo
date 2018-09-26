@@ -36,7 +36,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 /*可选规格*/
 .iteminfo_parameter { margin-bottom: 10px; }
 .theme-signin-left{padding-bottom:30px;max-height:250px ;overflow-y: scroll;background: #fff;}
-.theme-options{display: block;overflow: hidden;padding-left: 10px;padding-right:10px ;}
+.theme-options{display: block;overflow: hidden;padding-left: 10px;padding-right:10px; margin-bottom: 5px;}
 .theme-signin-left .cart-title{font-size:14px ;font-weight: 600;}
 .theme-signin-left .sku-line{float: left; margin:10px;margin-left:0;border-radius:5px ; background:#f5f5f5 ;padding:0px 8px;}
 .theme-signin-left .sku-line.selected{background:#BE0106;color: #fff;}
@@ -50,6 +50,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .am-sticky-placeholder .am-nav-tabs > li span { color: #888; }
 .am-sticky-placeholder .am-nav-tabs > li.am-active span { color: #333; }
 .buy-nav-opt span { font-size: 12px; color: #555; }
+.attr-not-active { border: 1px solid #f03726 !important; box-shadow: 0 0px 3px #ed7f76, 0 0 6px rgba(0, 0, 0, 0); }
 
 /* 购买导航 */
 .buy-nav-opt a { color: #666; }
@@ -183,9 +184,7 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 .tb-btn button {margin-right: 0px;float: left;overflow: hidden; position: relative;width:100%; background-color: #FFEDED;
 color:#F03726;font-size: 14px;text-align: center;border: 0;}
 .tb-btn-basket button {background-color:#F03726;color: #FFF;}
-
 .buy-nav .buy-nav-opt, .buy-nav div.submit { float:left; }
-.buy-nav .buy-nav-opt { width: 40%; }
 .buy-nav div.submit { width: 30%; }
 .buy-nav span{display:inline-block;width: 50%;float: left; ;cursor: pointer; border-top: 1px solid #f5f5f5; border-left: 1px solid #f5f5f5;}
 
@@ -367,7 +366,7 @@ li.am-comment{ width:100%}
     .theme-popover {display: block;position: static;border:none ;box-shadow: none;}
     .theme-poptit,.theme-signin-right,.iteminfo_parameter dt.buy-event,.btn-op{display: none;}
 
-    .theme-options{overflow: visible;padding:0px 0px;}
+    .theme-options{overflow: visible;padding:0px 0px; margin-bottom: 5px;}
     .theme-options ul{overflow: hidden;float: none;}
     .theme-signin-left {max-width:100%;margin-bottom: 0;}
     .theme-signin-left .sku-line{margin: 5px;cursor: pointer; padding: 0px 8px; }
@@ -428,6 +427,7 @@ li.am-comment{ width:100%}
     .nav-search { display: none; }
     .goods-detail { padding: 0px; }
     .detail-title, .tb-detail-price, .detail-attr { padding: 0px 5px; }
+    .buy-nav .buy-nav-opt { width: 40%; }
     ul.tm-ind-panel li { border-left: 0px; }
     ul.tm-ind-panel li:first-child { text-align: left; }
     ul.tm-ind-panel li:last-child { text-align: right; }

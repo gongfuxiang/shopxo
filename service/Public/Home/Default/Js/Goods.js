@@ -46,9 +46,17 @@ function CartAdd(e)
         var attr_count = $('.sku-line.selected').length;
         if(attr_count < sku_count)
         {
+            $('.sku-items').each(function(k, v)
+            {
+                if($(this).find('.sku-line.selected').length == 0)
+                {
+                    $(this).addClass('attr-not-active');
+                }
+            });
             PromptCenter('请选择属性');
             return false;
         } else {
+            $('.iteminfo_parameter .sku-items').removeClass('attr-not-active');
             $('.sku-line.selected').each(function(k, v)
             {
                 attr[$(this).data('parent-id')] = $(this).data('id');
@@ -112,21 +120,20 @@ function CartAdd(e)
     return true;
 }
 
-//商品规格选择
 $(function() {
-    $(".theme-options").each(function() {
-        var i = $(this);
-        var p = i.find("ul>li");
-        p.on('click', function() {
-            if (!!$(this).hasClass("selected")) {
+    // 商品规格选择
+    $(".theme-options").each(function()
+    {
+        $(this).find('ul>li').on('click', function()
+        {
+            if($(this).hasClass("selected"))
+            {
                 $(this).removeClass("selected");
-
             } else {
                 $(this).addClass("selected").siblings("li").removeClass("selected");
-
+                $(this).parents('.sku-items').removeClass('attr-not-active');
             }
-
-        })
+        });
     });
 
     // 放大镜初始化
