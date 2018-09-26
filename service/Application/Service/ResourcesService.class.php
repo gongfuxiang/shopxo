@@ -43,6 +43,7 @@ class ResourcesService
             $images_host = C('IMAGE_HOST');
             foreach($data as &$v)
             {
+                $v['icon_old'] = $v['icon'];
                 $v['icon'] = empty($v['icon']) ? null : $images_host.$v['icon'];
             }
         }
@@ -67,6 +68,7 @@ class ResourcesService
             $images_host = C('IMAGE_HOST');
             foreach($data as &$v)
             {
+                $v['logo_old'] = $v['logo'];
                 $v['logo'] = empty($v['logo']) ? null : $images_host.$v['logo'];
             }
         }

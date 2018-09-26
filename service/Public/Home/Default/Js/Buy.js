@@ -164,8 +164,10 @@ $(function()
             return false;
         }
         
-
-        console.log(address_id, express_id, payment_id);
+        $('form.nav-buy input[name=address_id]').val(address_id);
+        $('form.nav-buy input[name=express_id]').val(express_id);
+        $('form.nav-buy input[name=payment_id]').val(payment_id);
+        $('form.nav-buy input[name=user_note]').val($('.order-user-info input.memo-input').val());
     });
     
 }); 

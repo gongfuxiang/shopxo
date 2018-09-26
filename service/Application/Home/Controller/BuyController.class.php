@@ -43,23 +43,13 @@ class BuyController extends CommonController
     {
         if(IS_POST)
         {
+            // 获取商品列表
             $params = $_POST;
             $params['user'] = $this->user;
-            switch(I('buy_type'))
-            {
-                // 正常购买
-                case 'goods' :
-                    $ret = BuyService::BuyGoods($params);
-                    break;
-
-                // 购物车
-                case 'cart' :
-                    $ret = BuyService::BuyCart($params);
-                    break;
-            }
+            $ret = BuyService::BuyTypeGoodsList($params);
 
             // 商品校验
-            if(isset($ret['code']) && $ret['code'] == 0 && !empty($ret['data']))
+            if(isset($ret['code']) && $ret['code'] == 0)
             {
                 // 用户地址
                 $this->assign('user_address_list', UserService::UserAddressList(['user'=>$this->user])['data']);
@@ -103,7 +93,10 @@ class BuyController extends CommonController
     {
         if(IS_POST)
         {
-            print_r($_POST);
+            $params = $_POST;
+            $params['user'] = $this->user;
+            $ret = BuyService::OrderAdd($params);
+            $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
         } else {
             $this->assign('msg', L('common_unauthorized_access'));
             $this->display('/Public/TipsError');

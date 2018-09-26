@@ -41,7 +41,8 @@ class BrandService
             $images_host = C('IMAGE_HOST');
             foreach($brand as &$v)
             {
-                $v['logo'] = $images_host.$v['logo'];
+                $v['logo_old'] = $v['logo'];
+                $v['logo'] = empty($v['logo']) ? null : $images_host.$v['logo'];
                 $v['website_url'] = empty($v['website_url']) ? null : $v['website_url'];
             }
         }

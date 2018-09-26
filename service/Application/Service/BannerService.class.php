@@ -29,6 +29,7 @@ class BannerService
             $images_host = C('IMAGE_HOST');
             foreach($banner as &$v)
             {
+                $v['images_url_old'] = $v['images_url'];
                 $v['images_url'] = $images_host.$v['images_url'];
                 $v['jump_url'] = empty($v['jump_url']) ? null : $v['jump_url'];
             }

@@ -101,6 +101,7 @@ class GoodsService
                     }
                     if(isset($v['big_images']))
                     {
+                        $v['big_images_old'] = $v['big_images'];
                         $v['big_images'] = empty($v['big_images']) ? null : $images_host.$v['big_images'];
                     }
                 }
@@ -210,12 +211,14 @@ class GoodsService
                 // 商品封面图片
                 if(isset($v['images']))
                 {
+                    $v['images_old'] = $v['images'];
                     $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
                 }
 
                 // 商品首页推荐图片，不存在则使用商品封面图片
                 if(isset($v['home_recommended_images']))
                 {
+                    $v['home_recommended_images_old'] = $v['home_recommended_images'];
                     $v['home_recommended_images'] = empty($v['home_recommended_images']) ? (empty($v['images']) ? null : $v['images']) : $images_host.$v['home_recommended_images'];
                 }
 
