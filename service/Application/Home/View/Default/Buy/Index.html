@@ -260,3 +260,32 @@
 <!-- footer start -->
 <include file="Public/Footer" />
 <!-- footer end -->
+<script type="text/javascript">
+// 提交订单回调
+function BuySubmitBack(e)
+{
+    if(e.code == 0)
+    {
+        $.AMUI.progress.done();
+        if($(window).width() < 640)
+        {
+            PromptBottom(e.msg, 'success', null, 50);
+        } else {
+            PromptCenter(e.msg, 'success');
+        }
+        setTimeout(function()
+        {
+            alert(e.data.id);
+        }, 1500);
+    } else {
+        $('form.form-validation').find('button[type="submit"]').button('reset');
+        $.AMUI.progress.done();
+        if($(window).width() < 640)
+        {
+            PromptBottom(e.msg, null, null, 50);
+        } else {
+            PromptCenter(e.msg);
+        }
+    }
+}
+</script>

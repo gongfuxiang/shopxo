@@ -48,6 +48,7 @@ ul.logistics-list li img, ul.payment-list li img { width: 36px; height: 36px; }
 
 .link-list h3 { padding: 0 0 5px 5px; }
 ul.address-list, .business-item ul { overflow: hidden; }
+.nav-buy .btn-go.am-disabled { background-color: #efa4af; }
 
 /**
  * 手机下选择地址

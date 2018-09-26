@@ -31,7 +31,7 @@ class OrderService
 
         $m = M('Order');
         $where = ['id'=>intval($params['id']), 'user_id' => $this->user['id']];
-        $data = $m->where($where)->field('id,status,total_price')->find();
+        $data = $m->where($where)->field('id,status,total_price,payment_id')->find();
         if(empty($data))
         {
             return DataReturn(L('common_data_no_exist_error'), -1);
@@ -49,13 +49,13 @@ class OrderService
         // 发起支付
         $notify_url = __MY_URL__.'Notify/order.php';
         $pay_data = array(
-            'out_user'      =>  md5($this->user['id']),
-            'order_sn'      =>  $data['id'].GetNumberCode(6),
+            'out_user'      =>  md5($params['user']['id']),
+            'order_sn'      =>  date('YmdHis').$data['id'],
             'name'          =>  '订单支付',
             'total_price'   =>  $data['total_price'],
             'notify_url'    =>  $notify_url,
         );
-        $pay = (new \Library\Alipay())->SoonPay($pay_data, C("alipay_key_secret"));
+        $pay = (new \Library\Payment\Alipay())->Pay($pay_data);
         if(empty($pay))
         {
             return DataReturn('支付接口异常', -1);
