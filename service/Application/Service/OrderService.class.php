@@ -3,6 +3,7 @@
 namespace Service;
 
 use Service\GoodsService;
+use Service\ResourcesService;
 
 /**
  * 订单服务层
@@ -26,11 +27,11 @@ class OrderService
     {
         if(empty($params['id']))
         {
-            return DataReturn('请选择订单', -1);
+            return DataReturn('订单id有误', -1);
         }
 
         $m = M('Order');
-        $where = ['id'=>intval($params['id']), 'user_id' => $this->user['id']];
+        $where = ['id'=>intval($params['id']), 'user_id' => $params['user']['id']];
         $data = $m->where($where)->field('id,status,total_price,payment_id')->find();
         if(empty($data))
         {
@@ -46,6 +47,13 @@ class OrderService
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
+        // 支付方式
+        $payment = ResourcesService::PaymentList(['where'=>['id'=>$data['payment_id']]]);
+        if(empty($payment[0]))
+        {
+            return DataReturn('支付方式有误', -1);
+        }
+
         // 发起支付
         $notify_url = __MY_URL__.'Notify/order.php';
         $pay_data = array(
@@ -55,7 +63,8 @@ class OrderService
             'total_price'   =>  $data['total_price'],
             'notify_url'    =>  $notify_url,
         );
-        $pay = (new \Library\Payment\Alipay())->Pay($pay_data);
+        $pay_name = '\Library\Payment\\'.$payment[0]['payment'];
+        $pay = (new $pay_name($payment[0]['config']))->Pay($pay_data);
         if(empty($pay))
         {
             return DataReturn('支付接口异常', -1);

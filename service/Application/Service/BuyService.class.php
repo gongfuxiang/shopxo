@@ -641,7 +641,12 @@ class BuyService
             default :
                 $msg = L('common_operation_success');
         }
-        return DataReturn($msg, 0, $m->find($order_id));
+
+        $result = [
+            'order'     => $m->find($order_id),
+            'pay_url'   => U('Home/Order/Pay', ['id'=>$order_id]),
+        ];
+        return DataReturn($msg, 0, $result);
     }
 }
 ?>

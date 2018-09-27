@@ -275,7 +275,7 @@ function BuySubmitBack(e)
         }
         setTimeout(function()
         {
-            alert(e.data.id);
+            window.location.href = e.data.pay_url;
         }, 1500);
     } else {
         $('form.form-validation').find('button[type="submit"]').button('reset');

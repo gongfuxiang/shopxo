@@ -186,6 +186,8 @@ class Alipay
     public function Pay($params = [])
     {
         // 编写代码
+        
+        return 'Pay success';
     }
 
     /**
@@ -200,6 +202,8 @@ class Alipay
     public function Respond($params = [])
     {
         // 编写代码
+        
+        return 'Respond success';
     }
 }
 ?>

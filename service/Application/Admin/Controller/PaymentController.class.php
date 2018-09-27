@@ -2,6 +2,8 @@
 
 namespace Admin\Controller;
 
+use Service\ResourcesService;
+
 /**
  * 支付方式管理
  * @author   Devil
@@ -62,8 +64,6 @@ class PaymentController extends CommonController
         $data = [];
         if(is_dir($this->payment_dir))
         {
-            $image_host = C('IMAGE_HOST');
-            $db = M('Payment');
             if($dh = opendir($this->payment_dir))
             {
                 while(($temp_file = readdir($dh)) !== false)
@@ -81,18 +81,17 @@ class PaymentController extends CommonController
                             $temp['payment'] = $payment;
 
                             // 获取数据库配置信息
-                            $db_config = $db->where(['payment'=>$payment])->find();
-                            if(!empty($db_config))
+                            $db_config = ResourcesService::PaymentList(['where'=>['payment'=>$payment]]);
+                            if(!empty($db_config[0]))
                             {
                                 $temp['is_install'] = 1;
-                                $temp['id'] = $db_config['id'];
-                                $temp['name'] = $db_config['name'];
-                                $temp['logo'] = empty($db_config['logo']) ? '' : $image_host.$db_config['logo'];
-                                $temp['apply_terminal'] = empty($db_config['apply_terminal']) ? '' : json_decode($db_config['apply_terminal'], true);
-                                $temp['is_enable'] = $db_config['is_enable'];
-                                $temp['config'] = empty($db_config['config']) ? '' : json_decode($db_config['config'], true);
+                                $temp['id'] = $db_config[0]['id'];
+                                $temp['name'] = $db_config[0]['name'];
+                                $temp['logo'] = $db_config[0]['logo'];
+                                $temp['apply_terminal'] = $db_config[0]['apply_terminal'];
+                                $temp['is_enable'] = $db_config[0]['is_enable'];
+                                $temp['config'] = $db_config[0]['config'];
                             }
-
                             $data[] = $temp;
                         }
                     }
