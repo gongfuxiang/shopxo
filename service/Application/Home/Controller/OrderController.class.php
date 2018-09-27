@@ -40,12 +40,14 @@ class OrderController extends CommonController
     {
         $params = $_REQUEST;
         $params['user'] = $this->user;
-
-        echo '<pre>';
         $ret = OrderService::Pay($params);
-
-
-        print_r($ret);
+        if($ret['code'] == 0)
+        {
+            redirect($ret['data']);
+        } else {
+            $this->assign('msg', $ret['msg']);
+            $this->display('/Public/TipsError');
+        }
     }
 }
 ?>

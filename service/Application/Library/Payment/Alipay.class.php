@@ -13,7 +13,7 @@ namespace Library\Payment;
 class Alipay
 {
     // 插件配置参数
-    private $params;
+    private $config;
 
     /**
      * 构造方法
@@ -26,7 +26,7 @@ class Alipay
      */
     public function __construct($params = [])
     {
-        $this->params = $params;
+        $this->config = $params;
     }
 
     /**
@@ -185,9 +185,197 @@ class Alipay
      */
     public function Pay($params = [])
     {
-        // 编写代码
+        if(IsMobile())
+        {
+            $ret = $this->PayMobile($params);
+        } else {
+            $ret = $this->PayWeb($params);
+        }
+        return $ret;
+    }
+
+    /**
+     * [SoonPayMobile wap手机支付]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-09-28T00:41:09+0800
+     * @param   [array]           $params [输入参数]
+     */
+    private function PayMobile($params = [])
+    {
+        // 获取请求token
+        $ret = $this->GetRequestToken($params);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 拼接wap数据
+        $req_data = '<auth_and_execute_req><request_token>'.$ret['data'].'</request_token></auth_and_execute_req>';
+        $parameter = array(
+            'service'               =>  'alipay.wap.auth.authAndExecute',
+            'format'                =>  'xml',
+            'v'                     =>  '2.0',
+            'partner'               =>  $this->config['key'],
+            'sec_id'                =>  'MD5',
+            'req_data'              =>  $req_data,
+            'request_token'         =>  $ret['data']
+        );
+
+        $param = $this->GetParamSign($parameter);
+        $url = 'http://wappaygw.alipay.com/service/rest.htm?'.$param['urlcode'].'&sign='.md5($param['sign']);
+        return DataReturn('处理成功', 0, $url);
+    }
+
+    /**
+     * [GetRequestToken 获取临时token]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-09-28T00:43:36+0800
+     * @param   [array]           $params [输入参数]
+     */
+    private function GetRequestToken($params = [])
+    {
+        $parameter = array(
+            'service'               =>  'alipay.wap.trade.create.direct',
+            'format'                =>  'xml',
+            'v'                     =>  '2.0',
+            'partner'               =>  $this->config['key'],
+            'req_id'                =>  $params['order_sn'],
+            'sec_id'                =>  'MD5',
+            'req_data'              =>  $this->GetReqData($params),
+            'subject'               =>  $params['name'],
+            'out_trade_no'          =>  $params['order_sn'],
+            'total_fee'             =>  $params['total_price'],
+            'seller_account_name'   =>  $this->config['account'],
+            'call_back_url'         =>  $params['call_back_url'],
+            'notify_url'            =>  $params['notify_url'],
+            'out_user'              =>  $params['out_user'],
+            'merchant_url'          =>  isset($params['merchant_url']) ? $params['merchant_url'] : $params['call_back_url'],
+        );
         
-        return 'Pay success';
+        $param = $this->GetParamSign($parameter);
+        $ret = urldecode(file_get_contents('http://wappaygw.alipay.com/service/rest.htm?'.$param['urlcode'].'&sign='.md5($param['sign'])));
+
+        // 把切割后的字符串数组变成变量与数值组合的数组
+        $para_split = explode('&',$ret);
+        $para_text = [];
+        foreach($para_split as $item)
+        {
+            //获得第一个=字符的位置
+            $npos = strpos($item, '=');
+            //获得字符串长度
+            $nlen = strlen($item);
+            //获得变量名
+            $key = substr($item, 0, $npos);
+            //获得数值
+            $value = substr($item, $npos+1, $nlen-$npos-1);
+            //放入数组中
+            $para_text[$key] = $value;
+        }
+
+        $req = Xml_Array($para_text['res_data']);
+        if(empty($req['request_token']))
+        {
+            return DataReturn('支付宝异常错误', -1);
+        }
+        return DataReturn('处理成功', 0, $req['request_token']);
+    }
+
+    /**
+     * [GetReqData 订单信息拼接]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-09-28T00:46:02+0800
+     * @param   [array]           $params [输入参数]
+     */
+    private function GetReqData($params = [])
+    {
+        return '<direct_trade_create_req>
+                    <subject>'.$params['name'].'</subject>
+                    <out_trade_no>'.$params['order_sn'].'</out_trade_no>
+                    <total_fee>'.$params['total_price'].'</total_fee>
+                    <seller_account_name>'.$this->config['account'].'</seller_account_name>
+                    <call_back_url>'.$params['call_back_url'].'</call_back_url>
+                    <notify_url>'.$params['notify_url'].'</notify_url>
+                    <out_user>'.$params['out_user'].'</out_user>
+                    <merchant_url>'.$params['merchant_url'].'</merchant_url>
+                    <pay_expire>3600</pay_expire>
+                    <agent_id>0</agent_id>
+                </direct_trade_create_req>';
+    }
+
+    /**
+     * [PayWeb PC支付]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-09-28T00:23:04+0800
+     * @param   [array]           $params [输入参数]
+     */
+    private function PayWeb($params = [])
+    {
+        $parameter = array(
+            'service'           => 'create_direct_pay_by_user',
+            'partner'           => $this->config['key'],
+            '_input_charset'    => C('DEFAULT_CHARSET'),
+            'notify_url'        => $params['notify_url'],
+            'return_url'        => $params['call_back_url'],
+
+            /* 业务参数 */
+            'subject'           => $params['name'],
+            'out_trade_no'      => $params['order_sn'],
+            'price'             => $params['total_price'],
+
+            'quantity'          => 1,
+            'payment_type'      => 1,
+
+            /* 物流参数 */
+            'logistics_type'    => 'EXPRESS',
+            'logistics_fee'     => 0,
+            'logistics_payment' => 'BUYER_PAY_AFTER_RECEIVE',
+
+            /* 买卖双方信息 */
+            'seller_email'      => $this->config['account']
+        );
+
+        $param = $this->GetParamSign($parameter);
+        $url = 'https://mapi.alipay.com/gateway.do?'.$param['urlcode'].'&sign='.md5($param['sign']).'&sign_type=MD5';
+        return DataReturn('处理成功', 0, $url);
+    }
+
+    /**
+     * [GetParamSign 签名生成]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-09-28T00:28:07+0800
+     * @param   [array]           $params [输入参数]
+     */
+    private function GetParamSign($params = [])
+    {
+        $urlcode = '';
+        $url  = '';
+        ksort($params);
+
+        foreach($params AS $key => $val)
+        {
+            $urlcode .= "$key=" .urlencode($val). "&";
+            $url  .= "$key=$val&";
+        }
+
+        $result = array(
+            'urlcode'   => substr($urlcode, 0, -1),
+            'url'       => substr($url, 0, -1),
+        );
+        if(!empty($this->config['partner']))
+        {
+            $result['sign'] = $result['url'].$this->config['partner'];
+        }
+        return $result;
     }
 
     /**

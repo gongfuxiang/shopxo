@@ -55,21 +55,21 @@ class OrderService
         }
 
         // 发起支付
-        $notify_url = __MY_URL__.'Notify/order.php';
         $pay_data = array(
-            'out_user'      =>  md5($params['user']['id']),
-            'order_sn'      =>  date('YmdHis').$data['id'],
-            'name'          =>  '订单支付',
-            'total_price'   =>  $data['total_price'],
-            'notify_url'    =>  $notify_url,
+            'out_user'      => md5($params['user']['id']),
+            'order_sn'      => date('YmdHis').$data['id'],
+            'name'          => '订单支付',
+            'total_price'   => $data['total_price'],
+            'notify_url'    => __MY_URL__.'Notify/order.php',
+            'call_back_url' => __MY_URL__.'Respond/order.php',
         );
         $pay_name = '\Library\Payment\\'.$payment[0]['payment'];
-        $pay = (new $pay_name($payment[0]['config']))->Pay($pay_data);
-        if(empty($pay))
+        $ret = (new $pay_name($payment[0]['config']))->Pay($pay_data);
+        if(empty($ret))
         {
             return DataReturn('支付接口异常', -1);
         }
-        return DataReturn(L('common_operation_success'), 0, $pay);
+        return $ret;
     }
 }
 ?>
