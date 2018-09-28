@@ -36,7 +36,6 @@ class OrderNotifyController extends CommonController
     public function Notify()
     {
         $params = $_REQUEST;
-        $params['user'] = $this->user;
         $ret = OrderService::Respond($params);
         if($ret['code'] == 0)
         {
