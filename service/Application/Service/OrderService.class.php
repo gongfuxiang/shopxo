@@ -179,7 +179,7 @@ class OrderService
         if($data['status'] > 1)
         {
             $status_text = L('common_order_user_status')[$data['status']]['name'];
-            return DataReturn('状态不可操作['.$status_text.']', -1);
+            return DataReturn('状态不可操作['.$status_text.']', 0);
         }
 
         // 支付方式
@@ -203,12 +203,12 @@ class OrderService
 
         // 写入支付日志
         $pay_log_data = [
-            'user_id'       => $pay_order['user_id'],
-            'order_id'      => $out_trade_no,
+            'user_id'       => $data['user_id'],
+            'order_id'      => $data['id'],
             'trade_no'      => $ret['data']['trade_no'],
             'user'          => $buyer_email,
             'total_fee'     => $total_amount,
-            'amount'        => $pay_order['total_price'],
+            'amount'        => $data['total_price'],
             'subject'       => $ret['data']['subject'],
             'pay_type'      => 0,
             'business_type' => 0,
@@ -217,8 +217,8 @@ class OrderService
         M('PayLog')->add($pay_log_data);
 
         // 消息通知
-        $detail = '订单支付成功，金额'.PriceBeautify($pay_order['total_price']).'元';
-        CommonMessageAdd('订单支付', $detail, $pay_order['user_id']);
+        $detail = '订单支付成功，金额'.PriceBeautify($data['total_price']).'元';
+        CommonMessageAdd('订单支付', $detail, $data['user_id']);
 
         // 开启事务
         $m->startTrans();
