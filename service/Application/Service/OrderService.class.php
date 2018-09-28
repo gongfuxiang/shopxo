@@ -165,6 +165,7 @@ class OrderService
         $ret = params_checked($params, $p);
         if($ret !== true)
         {
+            file_put_contents('/data/www/project/shopxo/service/gggggg.txt', json_encode($_REQUEST));
             return DataReturn($ret, -1);
         }
 
