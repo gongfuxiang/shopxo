@@ -41,6 +41,7 @@ class OrderNotifyController extends CommonController
         {
             exit('success');
         }
+        file_put_contents('./pppppppp.txt', json_encode($ret));
         exit('error');
     }
 }
