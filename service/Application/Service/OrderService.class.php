@@ -196,7 +196,7 @@ class OrderService
         {
             return $ret;
         }
-        file_put_contents('./rrrrrr.txt', json_encode($ret));
+        file_put_contents('/data/www/project/shopxo/service/rrrrrr.txt', json_encode($ret));
 
         // 兼容web版本支付参数
         $buyer_email = isset($ret['data']['buyer_logon_id']) ? $ret['data']['buyer_logon_id'] : (isset($ret['data']['buyer_email']) ? $ret['data']['buyer_email'] : '');
@@ -215,7 +215,7 @@ class OrderService
             'business_type' => 0,
             'add_time'      => time(),
         ];
-        file_put_contents('./llllll.txt', json_encode($pay_log_data));
+        file_put_contents('/data/www/project/shopxo/service/llllll.txt', json_encode($pay_log_data));
         M('PayLog')->add($pay_log_data);
 
         // 消息通知
@@ -233,7 +233,7 @@ class OrderService
             'pay_time'  => time(),
             'upd_time'  => time(),
         );
-        file_put_contents('./uuuuuu.txt', json_encode($upd_data));
+        file_put_contents('/data/www/project/shopxo/service/uuuuuu.txt', json_encode($upd_data));
         if($m->where(['id'=>$data['id']])->save($upd_data))
         {
             // 提交事务
@@ -246,7 +246,7 @@ class OrderService
         $m->rollback();
 
         // 处理失败
-        return DataReturn('处理失败', -100);
+        return DataReturn('处理失败222', -100);
     }
 
     /**
