@@ -223,8 +223,7 @@ class OrderService
         // 开启事务
         $m->startTrans();
 
-        // 更新支付状态
-        $where = array('id' => $out_trade_no);
+        // 更新订单状态
         $upd_data = array(
             'status'    => 2,
             'pay_status'=> 1,
@@ -232,7 +231,7 @@ class OrderService
             'pay_time'  => time(),
             'upd_time'  => time(),
         );
-        if($m->where($where)->save($upd_data))
+        if($m->where(['id'=>$data['id']])->save($upd_data))
         {
             // 提交事务
             $m->commit();
