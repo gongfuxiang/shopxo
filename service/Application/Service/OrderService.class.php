@@ -172,6 +172,7 @@ class OrderService
         $m = M('Order');
         $where = ['id'=>self::OutTradeNoParsing($params['out_trade_no'])];
         $data = $m->where($where)->field('id,status,total_price,payment_id,user_id,shop_id')->find();
+        file_put_contents('/data/www/project/shopxo/service/dddddd.txt', json_encode($data));
         if(empty($data))
         {
             return DataReturn(L('common_data_no_exist_error'), -1);
