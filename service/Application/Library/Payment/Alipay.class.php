@@ -65,21 +65,21 @@ class Alipay
                 'element'       => 'input',
                 'type'          => 'text',
                 'default'       => '',
-                'name'          => 'key',
-                'placeholder'   => '交易安全校验码 key',
-                'title'         => '交易安全校验码 key',
-                'is_required'   => 1,
-                'message'       => '请填写交易安全校验码 key',
-            ],
-            [
-                'element'       => 'input',
-                'type'          => 'text',
-                'default'       => '',
                 'name'          => 'partner',
                 'placeholder'   => '合作者身份 partner ID',
                 'title'         => '合作者身份 partner ID',
                 'is_required'   => 1,
                 'message'       => '请填写合作者身份 partner ID',
+            ],
+            [
+                'element'       => 'input',
+                'type'          => 'text',
+                'default'       => '',
+                'name'          => 'key',
+                'placeholder'   => '交易安全校验码 key',
+                'title'         => '交易安全校验码 key',
+                'is_required'   => 1,
+                'message'       => '请填写交易安全校验码 key',
             ],
             [
                 'element'       => 'input',  // 表单标签
@@ -217,7 +217,7 @@ class Alipay
             'service'               =>  'alipay.wap.auth.authAndExecute',
             'format'                =>  'xml',
             'v'                     =>  '2.0',
-            'partner'               =>  $this->config['key'],
+            'partner'               =>  $this->config['partner'],
             'sec_id'                =>  'MD5',
             'req_data'              =>  $req_data,
             'request_token'         =>  $ret['data']
@@ -242,7 +242,7 @@ class Alipay
             'service'               =>  'alipay.wap.trade.create.direct',
             'format'                =>  'xml',
             'v'                     =>  '2.0',
-            'partner'               =>  $this->config['key'],
+            'partner'               =>  $this->config['partner'],
             'req_id'                =>  $params['order_sn'],
             'sec_id'                =>  'MD5',
             'req_data'              =>  $this->GetReqData($params),
@@ -320,7 +320,7 @@ class Alipay
     {
         $parameter = array(
             'service'           => 'create_direct_pay_by_user',
-            'partner'           => $this->config['key'],
+            'partner'           => $this->config['partner'],
             '_input_charset'    => C('DEFAULT_CHARSET'),
             'notify_url'        => $params['notify_url'],
             'return_url'        => $params['call_back_url'],
@@ -334,12 +334,12 @@ class Alipay
             'payment_type'      => 1,
 
             /* 物流参数 */
-            'logistics_type'    => 'EXPRESS',
-            'logistics_fee'     => 0,
-            'logistics_payment' => 'BUYER_PAY_AFTER_RECEIVE',
+            // 'logistics_type'    => 'EXPRESS',
+            // 'logistics_fee'     => 0,
+            // 'logistics_payment' => 'BUYER_PAY_AFTER_RECEIVE',
 
             /* 买卖双方信息 */
-            'seller_email'      => $this->config['account']
+            'seller_email'      => $this->config['account'],
         );
 
         $param = $this->GetParamSign($parameter);
@@ -371,9 +371,9 @@ class Alipay
             'urlcode'   => substr($urlcode, 0, -1),
             'url'       => substr($url, 0, -1),
         );
-        if(!empty($this->config['partner']))
+        if(!empty($this->config['key']))
         {
-            $result['sign'] = $result['url'].$this->config['partner'];
+            $result['sign'] = $result['url'].$this->config['key'];
         }
         return $result;
     }
@@ -389,9 +389,48 @@ class Alipay
      */
     public function Respond($params = [])
     {
-        // 编写代码
-        
-        return 'Respond success';
+        if(empty($this->config))
+        {
+            return DataReturn('配置有误', -1);
+        }
+
+        $data = empty($_POST) ? $_GET :  array_merge($_GET, $_POST);
+        ksort($data);
+
+        $sign = '';
+        if(isset($data['sec_id']) && $data['sec_id'] == 'MD5')
+        {
+            $data_xml = json_decode(json_encode((array) simplexml_load_string($data['notify_data'])), true);
+            $data = array_merge($data, $data_xml);
+            $sign = 'service='.$data['service'].'&v='.$data['v'].'&sec_id='.$data['sec_id'].'&notify_data='.$data['notify_data'];
+        } else {
+            foreach($data AS $key=>$val)
+            {
+                if ($key != 'sign' && $key != 'sign_type' && $key != 'code')
+                {
+                    $sign .= "$key=$val&";
+                }
+            }
+            $sign = substr($sign, 0, -1);
+        }
+
+        // 签名校验
+        if(!isset($data['sign']) || md5($sign.$this->config['key']) != $data['sign'])
+        {
+            return DataReturn('签名校验失败', -1);
+        }
+
+        // 支付状态
+        $status = isset($data['trade_status']) ? $data['trade_status'] : $data['result'];
+        switch($status)
+        {
+            case 'TRADE_SUCCESS':
+            case 'TRADE_FINISHED':
+            case 'success':
+                return DataReturn('支付成功', 0, $data);
+                break;
+        }
+        return DataReturn('处理异常错误', -100);
     }
 }
 ?>

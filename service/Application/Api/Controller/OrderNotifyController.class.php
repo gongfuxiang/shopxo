@@ -2,6 +2,8 @@
 
 namespace Api\Controller;
 
+use Service\ResourcesService;
+
 /**
  * 订单支付异步通知
  * @author   Devil
@@ -25,15 +27,18 @@ class OrderNotifyController extends CommonController
     }
 
     /**
-     * [PayNotify 支付异步处理]
+     * [Notify 支付异步处理]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2018-03-04T14:35:38+0800
      */
-    public function PayNotify()
+    public function Notify()
     {
-        $data = (new \Library\Alipay())->Respond(C("alipay_key_secret"));
+        $payment = ResourcesService::PaymentList(['where'=>['id'=>34]]);
+        $ret = (new \Library\Payment\Alipay($payment[0]['config']))->Respond();
+        file_put_contents(ROOT_PATH.'order-pay-notify-'.rand().'.txt', json_encode($ret));
+        die;
         if($data == 'no') exit('error');
 
         // 开始处理支付信息

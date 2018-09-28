@@ -277,6 +277,7 @@ return array(
 	'common_so_tips'					=>	'其实搜索很简单 ^_^!',
 	'common_go_top_text'				=>	'回到顶部',
 	'common_toview_home_text'			=>	'查看首页',
+	'common_go_home_text'				=>	'回到首页',
 	'common_email_send_user_reg_title'	=>	'用户注册',
 	'common_email_send_user_forget_title'=>	'密码找回',
 	'common_layout_slider_more_text'	=>	'了解更多',

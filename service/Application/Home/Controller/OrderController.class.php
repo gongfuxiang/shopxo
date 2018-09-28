@@ -3,6 +3,7 @@
 namespace Home\Controller;
 
 use Service\OrderService;
+use Service\ResourcesService;
 
 /**
  * 订单管理
@@ -30,11 +31,25 @@ class OrderController extends CommonController
     }
 
     /**
-     * [Index 首页]
+     * 订单列表
      * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-02-25T15:30:36+0800
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
+     */
+    public function Index()
+    {
+        $this->display('Index');
+    }
+
+    /**
+     * 订单支付
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
      */
     public function Pay()
     {
@@ -47,6 +62,29 @@ class OrderController extends CommonController
         } else {
             $this->assign('msg', $ret['msg']);
             $this->display('/Public/TipsError');
+        }
+    }
+
+    /**
+     * 支付同步返回处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
+     */
+    public function Respond()
+    {
+        $params = $_REQUEST;
+        $params['user'] = $this->user;
+        $ret = OrderService::Respond($params);
+        if($ret['code'] == 0)
+        {
+            $this->assign('msg', '支付成功');
+            $this->display('/Public/PaySuccess');
+        } else {
+            $this->assign('msg', $ret['msg']);
+            $this->display('/Public/PayError');
         }
     }
 }

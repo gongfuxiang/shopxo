@@ -414,7 +414,14 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
 .price strong {color: #E4393C; font-weight: 600; }
 
 /* 公共错误提示页面 */
-.tips-error { margin: 10% 0; }
+.tips-error, .tips-success { margin: 10% 0; }
+.tips-pay-success, .tips-pay-error { box-shadow: none; text-align: center; }
+.tips-error i.am-icon-times-circle, .tips-success i.am-icon-check-circle { font-size: 32px; }
+.tips-error i.am-icon-times-circle { color: #F44336; }
+.tips-success i.am-icon-check-circle { color: #4CAF50; }
+.tips-error span.msg, .tips-success span.msg { font-size: 22px; margin-left: 10px; }
+.tips-error .tips-nav, .tips-success .tips-nav { margin-top: 20px; }
+.tips-error .tips-nav .am-btn:not(:last-child), .tips-success .tips-nav .am-btn:not(:last-child) { margin-right: 20px; }
 
 /* 页面加载数据 */
 .loding-view { text-align: center; color: #888; padding: 10px 0; }

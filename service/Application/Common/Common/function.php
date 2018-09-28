@@ -70,7 +70,18 @@ function DataReturn($msg = '', $code = 0, $data = '')
  */
 function HomeUrl($c='Index', $a='Index', $params=[])
 {
-    return str_replace('admin.php', 'index.php', U("Home/{$c}/{$a}", $params));
+    $url = U("Home/{$c}/{$a}", $params);
+    $location = stripos($url, '.php');
+    if($location !== false)
+    {
+        $before = substr($url, 0, $location+4);
+        $suffix = substr($before, strrpos($before, '/')+1);
+        if(!empty($suffix))
+        {
+            $url = str_replace($suffix, 'index.php', $url);
+        }
+    }
+    return $url;
 }
 
 /**

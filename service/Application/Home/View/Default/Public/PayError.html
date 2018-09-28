@@ -1,0 +1,34 @@
+<include file="Public/Header" />
+
+<!-- header top nav -->
+<include file="Public/HeaderTopNav" />
+
+<!-- search -->
+<include file="Public/NavSearch" />
+
+<!-- header nav -->
+<include file="Public/HeaderNav" />
+
+<!-- goods category -->
+<include file="Public/GoodsCategory" />
+
+<!-- conntent start  -->
+<div class="am-g my-content">
+    <div class="am-u-md-6 am-u-sm-centered">
+        <div class="am-panel am-radius tips-error tips-pay-error">
+            <div class="am-panel-bd">
+                <i class="am-icon-times-circle am-icon-lg"></i>
+                <span class="msg">{{$msg}}</span>
+                <div class="tips-nav">
+                    <a href="{{:__MY_URL__}}" class="am-btn am-btn-secondary am-radius">{{:L('common_go_home_text')}}</a>
+                    <a href="{{:U('Home/Order/Index')}}" class="am-btn am-btn-primary am-radius">我的订单</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- conntent end  -->
+
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end -->

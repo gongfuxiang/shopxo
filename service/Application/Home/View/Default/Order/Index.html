@@ -1,0 +1,26 @@
+<include file="Public/Header" />
+
+<!-- header top nav -->
+<include file="Public/HeaderTopNav" />
+
+<!-- search -->
+<include file="Public/NavSearch" />
+
+<!-- header nav -->
+<include file="Public/HeaderNav" />
+
+<!-- goods category -->
+<include file="Public/GoodsCategory" />
+
+<!-- content -->
+<div class="am-container category-list">
+    <notempty name="goods_category_list">
+          订单管理
+    <else />
+        <div class="table-no"><i class="am-icon-warning"></i> {{:L('common_not_data_tips')}}</div>
+    </notempty>
+</div>
+
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end -->
