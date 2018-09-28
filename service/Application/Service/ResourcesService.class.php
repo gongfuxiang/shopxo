@@ -79,6 +79,56 @@ class ResourcesService
     }
 
     /**
+     * 获取支付方式列表
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-19
+     * @desc    下订单根据终端自动筛选支付方式
+     * @param   [array]          $params [输入参数]
+     */
+    public static function BuyPaymentList($params = [])
+    {
+        $data = self::PaymentList($params);
+
+        $result = [];
+        if(!empty($data))
+        {
+            foreach($data as $v)
+            {
+                // 根据终端类型筛选
+                switch(APPLICATION)
+                {
+                    // pc, wap
+                    case 'web' :
+                        if(IsMobile())
+                        {
+                            if(in_array('wap', $v['apply_terminal']))
+                            {
+                                $result[] = $v;
+                            }
+                        } else {
+                            if(in_array('pc', $v['apply_terminal']))
+                            {
+                                $result[] = $v;
+                            }
+                        }
+                        break;
+
+                    // app
+                    case 'app' :
+                        if(in_array('app', $v['apply_terminal']))
+                        {
+                            $result[] = $v;
+                        }
+                        break;
+                }
+            }
+        }
+        return $result;
+    }
+
+    /**
      * 获取地区节点数据
      * @author   Devil
      * @blog    http://gong.gg/

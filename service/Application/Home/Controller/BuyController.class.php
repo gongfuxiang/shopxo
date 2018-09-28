@@ -58,7 +58,7 @@ class BuyController extends CommonController
                 $this->assign('express_list', ResourcesService::ExpressList());
 
                 // 支付方式
-                $this->assign('payment_list', ResourcesService::PaymentList());
+                $this->assign('payment_list', ResourcesService::BuyPaymentList());
                 
                 // 商品/基础信息
                 $base = [
