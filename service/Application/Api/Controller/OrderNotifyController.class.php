@@ -2,7 +2,7 @@
 
 namespace Api\Controller;
 
-use Service\ResourcesService;
+use Service\OrderService;
 
 /**
  * 订单支付异步通知
