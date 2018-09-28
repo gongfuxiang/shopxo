@@ -165,7 +165,7 @@ class OrderService
         $ret = params_checked($params, $p);
         if($ret !== true)
         {
-            return $ret;
+            return DataReturn($ret, -1);
         }
 
         // 获取订单信息
