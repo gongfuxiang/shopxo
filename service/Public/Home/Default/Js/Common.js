@@ -99,5 +99,11 @@ $(function()
         }
     });
     
+    // 用户中心菜单
+    $('.user-item-parent').on('click', function()
+    {
+        console.log(1)
+        $(this).find('.am-icon-angle-down').toggleClass('more-icon-rotate');
+    });
     
 });

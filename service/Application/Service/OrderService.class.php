@@ -229,5 +229,116 @@ class OrderService
     {
         return substr($out_trade_no, 14);
     }
+
+    /**
+     * 前端订单列表条件
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function HomeOrderListWhere($params = [])
+    {
+        $where = [
+            'is_delete_time'    => 0,
+        ];
+
+        // 用户id
+        if(!empty($params['user']))
+        {
+            $where['user_id'] = $params['user']['id'];
+        }
+
+        return $where;
+    }
+
+    /**
+     * 订单总数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $where [条件]
+     */
+    public static function OrderTotal($where = [])
+    {
+        return (int) M('Order')->where($where)->count();
+    }
+
+    /**
+     * 订单列表
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function OrderList($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'where',
+                'error_msg'         => '条件不能为空',
+            ],
+            [
+                'checked_type'      => 'is_array',
+                'key_name'          => 'where',
+                'error_msg'         => '条件格式有误',
+            ],
+            [
+                'checked_type'      => 'isset',
+                'key_name'          => 'limit_start',
+                'error_msg'         => '分页起始值有误',
+            ],
+            [
+                'checked_type'      => 'isset',
+                'key_name'          => 'limit_number',
+                'error_msg'         => '分页数量不能为空',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        $limit_start = max(0, intval($params['limit_start']));
+        $limit_number = max(1, intval($params['limit_number']));
+        $order_by = empty($params['$order_by']) ? 'id desc' : I('order_by', '', '', $params);
+
+        // 获取订单
+        $data = M('Order')->where($params['where'])->limit($limit_start, $limit_number)->order($order_by)->select();
+        if(!empty($data))
+        {
+            $detail_m = M('OrderDetail');
+            $detail_field = 'id,goods_id,title,images,original_price,price,attribute,buy_number';
+            $images_host = C('IMAGE_HOST');
+            $total_price = 0;
+            foreach($data as &$v)
+            {
+                $items = $detail_m->where(['order_id'=>$v['id']])->field($detail_field)->select();
+                if(!empty($items))
+                {
+                    foreach($items as &$vs)
+                    {
+                        $vs['images'] = empty($vs['images']) ? null : $images_host.$vs['images'];
+                        $vs['attribute'] = empty($vs['attribute']) ? null : json_decode($vs['attribute'], true);
+                        $vs['goods_url'] = HomeUrl('Goods', 'Index', ['id'=>$vs['goods_id']]);
+                        $total_price += $vs['buy_number']*$vs['price'];
+                    }
+                }
+                $v['items'] = $items;
+                $v['items_count'] = count($items);
+                $v['total_price'] = $total_price;
+            }
+        }
+        return DataReturn('处理成功', 0, $data);
+    }
 }
 ?>

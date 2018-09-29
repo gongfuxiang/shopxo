@@ -40,6 +40,48 @@ class OrderController extends CommonController
      */
     public function Index()
     {
+        // 参数
+        $params = array_merge($_POST, $_GET);
+        $params['user'] = $this->user;
+
+        // 分页
+        $number = 10;
+
+        // 条件
+        $where = OrderService::HomeOrderListWhere($params);
+
+
+        // 获取总数
+        $total = OrderService::OrderTotal($where);
+
+        // 分页
+        $page_params = array(
+                'number'    =>  $number,
+                'total'     =>  $total,
+                'where'     =>  $params,
+                'url'       =>  U('Home/Order/Index'),
+            );
+        $page = new \Library\Page($page_params);
+        $this->assign('page_html', $page->GetPageHtml());
+
+        // 获取列表
+        $data_params = array(
+            'limit_start'   => $page->GetPageStarNumber(),
+            'limit_number'  => $number,
+            'where'         => $where,
+        );
+        $data = OrderService::OrderList($data_params);
+        $this->assign('data_list', $data['data']);
+
+        // 品牌分类
+        // $brand_category = M('BrandCategory')->where(['is_enable'=>1])->field('id,name')->select();
+        // $this->assign('brand_category', $brand_category);
+
+        // 参数
+        $this->assign('params', $params);
+
+        // 数据列表
+        $this->assign('list', $list);
         $this->display('Index');
     }
 

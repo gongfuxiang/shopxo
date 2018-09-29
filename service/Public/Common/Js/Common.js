@@ -352,6 +352,12 @@ function FromInit(form_name)
 				var request_value = $form.attr('request-value');
 				var ajax_all = ['ajax-reload', 'ajax-url', 'ajax-fun'];
 
+				// 不是form表单直接通过
+				if(request_type == 'form')
+				{
+					return true;
+				}
+
 				// 参数校验
 				if(ajax_all.indexOf(request_type) == -1 || action == undefined || action == '' || method == undefined || method == '')
 				{

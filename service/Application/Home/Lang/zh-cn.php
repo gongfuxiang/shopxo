@@ -11,21 +11,21 @@ return array(
 	// 用户中心菜单, is_show = [0禁用, 1启用]
 	'user_left_menu'		=>	array(
 			array(
-					'control'	=>	'Bubble',
+					'control'	=>	'User',
 					'action'	=>	'Index',
-					'name'		=>	'冒泡广场',
+					'name'		=>	'个人中心',
 					'is_show'	=>	1,
-					'icon'		=>	'am-icon-slideshare',
+					'icon'		=>	'am-icon-home',
 				),
 			array(
-					'name'		=>	'学生信息',
+					'name'		=>	'我的交易',
 					'is_show'	=>	1,
-					'icon'		=>	'am-icon-mortar-board fs-12',
+					'icon'		=>	'am-icon-mortar-board',
 					'item'		=>	array(
 							array(
-									'control'	=>	'Student',
+									'control'	=>	'Order',
 									'action'	=>	'Index',
-									'name'		=>	'学生列表',
+									'name'		=>	'订单管理',
 									'is_show'	=>	1,
 									'icon'		=>	'am-icon-th-list',
 								)
@@ -94,7 +94,7 @@ return array(
 					'action'	=>	'Index',
 					'name'		=>	'学生',
 					'is_show'	=>	1,
-					'icon'		=>	'am-icon-mortar-board fs-12 w-14',
+					'icon'		=>	'am-icon-mortar-board',
 				),
 			array(
 					'control'	=>	'Safety',

@@ -1266,6 +1266,12 @@ function params_checked($data, $params)
                 if (!isset($data[$v['key_name']]) || !in_array($data[$v['key_name']], $v['checked_data'])) {
                     return $v['error_msg'];
                 }
+
+            case 'is_array' :
+                if (!isset($data[$v['key_name']]) || !is_array($data[$v['key_name']])) {
+                    return $v['error_msg'];
+                }
+                break;
         }
     }
     return true;

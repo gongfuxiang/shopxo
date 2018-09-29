@@ -48,7 +48,7 @@ a {
   text-decoration: none;
 }
 a:link,a:visited,a:hover{ outline:none;}
-a:hover, a:focus { color: #d2364c !important; text-decoration: underline; }
+a:hover, a:focus { color: #d2364c; text-decoration: underline; }
 
 .spatic{width:100%; height:16px;}
 h5{float: right;color: #666;padding-right:20px;}
@@ -556,3 +556,41 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
 }
 
 .am-popup-hd .am-popup-title { font-size: 18px; }
+
+
+/**
+ * 用户中心布局样式
+ */
+.user-menu {position:fixed;z-index:10;bottom:30px;right:20px;}
+.user-sidebar {width:145px;min-height:100%;float:left;}
+.user-sidebar .am-active {z-index:1600;}
+.user-sidebar .am-active a, .user-sidebar-list li a:hover {background:#fff1f5; text-decoration: none; color: #d2364c; }
+.user-sidebar-list li a {color:#5c5c5c;padding-left:10px;padding: 0.8rem;}
+.user-sidebar-list li:first-child {border-top:none;}
+.user-offcanvas-bar .am-list > li { border: 1px solid #ffe8ef; }
+.user-sidebar-sub {margin-top:0;margin-bottom:0;}
+.user-sidebar-sub li { border-left: 0!important; border-right: 0!important; }
+.user-sidebar-sub li a { padding-left:35px; }
+.user-content {display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;background:#fff;}
+.user-content-body {-webkit-box-flex:1;-webkit-flex:1 0 auto;-ms-flex:1 0 auto;flex:1 0 auto; }
+.user-offcanvas-bar { z-index: 900; }
+@media only screen and (min-width:640px) {
+    .user-sidebar {display:block;position:static;background:none; border-top: 5px solid #f78590;}
+    .user-offcanvas-bar {position:static;width:auto;background:none;-webkit-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0);transform:translate3d(0,0,0);overflow-y:hidden;}
+    .user-offcanvas-bar:after {content:none;}
+    .user-main { padding: 0 5px; }
+    .user-content-body { padding: 0 5px 5px 10px; }
+}
+@media only screen and (min-width: 1025px) {
+    .user-main { padding: 0; }
+}
+@media only screen and (max-width:640px) {
+    .user-sidebar {width:inherit;}
+    .user-offcanvas-bar {background:#f3f3f3;}
+    .user-offcanvas-bar:after {background:#BABABA;}
+    .user-sidebar-list a:hover,.user-sidebar-list a:active {-webkit-transition:background-color .3s ease;-moz-transition:background-color .3s ease;-ms-transition:background-color .3s ease;-o-transition:background-color .3s ease;transition:background-color .3s ease;background:#E4E4E4;}
+    .user-content-body { padding: 0 5px 5px 5px; }
+}
+.user-main { padding-top: 10px; }
+
+.more-icon-rotate {-webkit-transform: rotate(-90deg);transform: rotate(-90deg);-webkit-transition: all 300ms;transition: all 300ms;}
