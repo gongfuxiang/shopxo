@@ -114,22 +114,19 @@ return array(
 
 
 	// 图片host, 数据库图片地址以/Public/...开头
-	'IMAGE_HOST'					=>	substr(__MY_URL__, 0, -1),
+	'IMAGE_HOST'							=>	substr(__MY_URL__, 0, -1),
 
 	// 缓存路径
-	'data_cache_dir'		=> TEMP_PATH,
+	'data_cache_dir'						=> TEMP_PATH,
 
 	// 开启U带域名
-	'url_domain_deploy' 	=>  true,
+	'url_domain_deploy' 					=>  true,
 	
 	// 支付宝appid
-	'alipay_mini_appid'		=> '2018071160553916',
+	'alipay_mini_appid'						=> '2018071160553916',
 
-	// 支付宝密钥
-	'alipay_key_secret'		=>
-	[
-	    'id' 	=> '2088131739974941',
-	    'key' 	=> 'tbhpeal8zsqzxc0b5s6r2jrvzjoo74il',
-	    'name' 	=> 'byjzglm@dingtalk.com',
-	],
+	// 支付业务类型,支付插件根据业务类型自动生成支付入口文件
+	'payment_business_type_all'				=> [
+        ['name' => 'Order', 'desc' => '订单'],
+    ],
 );

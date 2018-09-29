@@ -14,6 +14,7 @@ use Service\ResourcesService;
 class PaymentController extends CommonController
 {
     private $payment_dir;
+    private $payment_business_type_all;
 
 	/**
 	 * [_initialize 前置操作-继承公共前置方法]
@@ -35,6 +36,9 @@ class PaymentController extends CommonController
 
         // 插件目录
         $this->payment_dir = APP_PATH.'Library'.DS.'Payment'.DS;
+
+        // 支付业务类型
+        $this->payment_business_type_all = C('payment_business_type_all');
 	}
 
 	/**
@@ -280,6 +284,28 @@ class PaymentController extends CommonController
     }
 
     /**
+     * [PowerCheck 权限校验]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-09-29T00:01:49+0800
+     */
+    private function PowerCheck()
+    {
+        // 主目录权限
+        if(!is_writable(ROOT_PATH))
+        {
+            $this->ajaxReturn(L('common_is_writable_error').'['.ROOT_PATH.']', -3);
+        }
+
+        // 插件权限
+        if(!is_writable($this->payment_dir))
+        {
+            $this->ajaxReturn(L('common_is_writable_error').'['.$this->payment_dir.']', -3);
+        }
+    }
+
+    /**
      * 安装
      * @author   Devil
      * @blog    http://gong.gg/
@@ -293,6 +319,9 @@ class PaymentController extends CommonController
         {
             $this->error(L('common_unauthorized_access'));
         }
+
+        // 权限
+        $this->PowerCheck();
 
         // 参数
         if(empty($_POST['id']))
@@ -317,6 +346,9 @@ class PaymentController extends CommonController
             {
                 if($m->add($data))
                 {
+                    // 入口文件生成
+                    $this->PaymentEntranceCreated($payment);
+
                     $this->ajaxReturn(L('common_install_success'));
                 } else {
                     $this->ajaxReturn(L('common_install_error'), -100);
@@ -351,8 +383,12 @@ class PaymentController extends CommonController
         }
 
         // 开始卸载
-        if(M('Payment')->where(['payment'=>I('id')])->delete())
+        $payment = I('id');
+        if(M('Payment')->where(['payment'=>$payment])->delete())
         {
+            // 删除入口文件
+            $this->PaymentEntranceDelete($payment);
+
             $this->ajaxReturn(L('common_uninstall_success'));
         } else {
             $this->ajaxReturn(L('common_uninstall_error'), -100);
@@ -374,6 +410,9 @@ class PaymentController extends CommonController
             $this->error(L('common_unauthorized_access'));
         }
 
+        // 权限
+        $this->PowerCheck();
+
         // 参数
         if(empty($_POST['id']))
         {
@@ -381,7 +420,8 @@ class PaymentController extends CommonController
         }
 
         // 是否存在
-        $file = $this->payment_dir.I('id').'.class.php';
+        $payment = I('id');
+        $file = $this->payment_dir.$payment.'.class.php';
         if(!file_exists($file))
         {
             $this->ajaxReturn(L('common_data_no_exist_error'), -2);
@@ -397,6 +437,9 @@ class PaymentController extends CommonController
         {
             $this->ajaxReturn(L('common_operation_delete_error'), -100);
         }
+
+        // 删除入口文件
+        $this->PaymentEntranceDelete($payment);
 
         $this->ajaxReturn(L('common_operation_delete_success'));
     }
@@ -416,6 +459,9 @@ class PaymentController extends CommonController
         {
             $this->error(L('common_unauthorized_access'));
         }
+
+        // 权限
+        $this->PowerCheck();
 
         // 文件上传校验
         $error = FileUploadError('file');
@@ -452,6 +498,99 @@ class PaymentController extends CommonController
             $this->ajaxReturn(L('payment_upload_error'), -10);
         }
         $this->ajaxReturn(L('common_upload_success'));
+    }
+
+    /**
+     * [PaymentEntranceCreated 入口文件创建]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-09-28T23:38:52+0800
+     * @param    [string]        $payment [支付唯一标记]
+     */
+    private function PaymentEntranceCreated($payment)
+    {
+        // 批量创建
+        foreach($this->payment_business_type_all as $v)
+        {
+// 异步
+$notify=<<<php
+<?php
+
+/**
+ * {$v['desc']}支付异步入口
+ */
+
+// 默认绑定模块
+\$_GET['m'] = 'Api';
+\$_GET['c'] = '{$v['name']}Notify';
+\$_GET['a'] = 'Notify';
+
+// 支付模块标记
+define('PAYMENT_TYPE', '{$payment}');
+
+// 引入公共入口文件
+require './core.php';
+
+// 引入ThinkPHP入口文件
+require './ThinkPHP/ThinkPHP.php';
+
+?>
+php;
+
+// 同步
+$respond=<<<php
+<?php
+
+/**
+ * {$v['desc']}支付同步入口
+ */
+
+// 默认绑定模块
+\$_GET['m'] = 'Home';
+\$_GET['c'] = '{$v['name']}';
+\$_GET['a'] = 'Respond';
+
+// 支付模块标记
+define('PAYMENT_TYPE', '{$payment}');
+
+// 引入公共入口文件
+require './core.php';
+
+// 引入ThinkPHP入口文件
+require './ThinkPHP/ThinkPHP.php';
+
+?>
+php;
+            $name = strtolower($v['name']);
+            @file_put_contents(ROOT_PATH.'payment_'.$name.'_'.strtolower($payment).'_notify.php', $notify);
+            @file_put_contents(ROOT_PATH.'payment_'.$name.'_'.strtolower($payment).'_respond.php', $respond);
+        }
+    }
+
+    /**
+     * [PaymentEntranceDelete 入口文件删除]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-09-28T23:38:52+0800
+     * @param    [string]        $payment [支付唯一标记]
+     */
+    private function PaymentEntranceDelete($payment)
+    {
+        $payment = strtolower($payment);
+        foreach($this->payment_business_type_all as $v)
+        {
+            $name = strtolower($v['name']);
+            if(file_exists(ROOT_PATH.'payment_'.$name.'_'.$payment.'_notify.php'))
+            {
+                @unlink(ROOT_PATH.'payment_'.$name.'_'.$payment.'_notify.php');
+            }
+            if(file_exists(ROOT_PATH.'payment_'.$name.'_'.$payment.'_respond.php'))
+            {
+                @unlink(ROOT_PATH.'payment_'.$name.'_'.$payment.'_respond.php');
+            }
+        }
     }
 }
 ?>

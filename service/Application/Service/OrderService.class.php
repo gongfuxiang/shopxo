@@ -69,13 +69,14 @@ class OrderService
         }
 
         // 发起支付
+        $url = __MY_URL__.'payment_order_'.strtolower($payment[0]['payment']);
         $pay_data = array(
             'out_user'      => md5($params['user']['id']),
             'order_sn'      => date('YmdHis').$data['id'],
             'name'          => '订单支付',
             'total_price'   => $data['total_price'],
-            'notify_url'    => __MY_URL__.'notify_order.php',
-            'call_back_url' => __MY_URL__.'respond_order.php',
+            'notify_url'    => $url.'_notify.php',
+            'call_back_url' => $url.'_respond.php',
         );
         $pay_name = '\Library\Payment\\'.$payment[0]['payment'];
         $ret = (new $pay_name($payment[0]['config']))->Pay($pay_data);
@@ -106,11 +107,6 @@ class OrderService
                 'key_name'          => 'user',
                 'error_msg'         => '用户信息有误',
             ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'out_trade_no',
-                'error_msg'         => '支付回调参数缺失[out_trade_no]',
-            ],
         ];
         $ret = params_checked($params, $p);
         if($ret !== true)
@@ -118,28 +114,15 @@ class OrderService
             return DataReturn($ret, -1);
         }
 
-        // 获取订单信息
-        $where = ['id'=>self::OutTradeNoParsing($params['out_trade_no']), 'user_id' => $params['user']['id']];
-        $data = M('Order')->where($where)->field('id,status,payment_id')->find();
-        if(empty($data))
-        {
-            return DataReturn(L('common_data_no_exist_error'), -1);
-        }
-        if($data['status'] > 1)
-        {
-            $status_text = L('common_order_user_status')[$data['status']]['name'];
-            return DataReturn('状态不可操作['.$status_text.']', -1);
-        }
-
         // 支付方式
-        $payment = ResourcesService::PaymentList(['where'=>['id'=>$data['payment_id']]]);
+        $payment = ResourcesService::PaymentList(['where'=>['payment'=>PAYMENT_TYPE]]);
         if(empty($payment[0]))
         {
             return DataReturn('支付方式有误', -1);
         }
 
         // 支付数据校验
-        $pay_name = '\Library\Payment\\'.$payment[0]['payment'];
+        $pay_name = '\Library\Payment\\'.PAYMENT_TYPE;
         return (new $pay_name($payment[0]['config']))->Respond();
     }
 
@@ -154,24 +137,24 @@ class OrderService
      */
     public static function Notify($params = [])
     {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'out_trade_no',
-                'error_msg'         => '支付回调参数缺失[out_trade_no]',
-            ],
-        ];
-        $ret = params_checked($params, $p);
-        if($ret !== true)
+        // 支付方式
+        $payment = ResourcesService::PaymentList(['where'=>['payment'=>PAYMENT_TYPE]]);
+        if(empty($payment[0]))
         {
-            file_put_contents('/data/www/project/shopxo/service/gggggg.txt', json_encode($_REQUEST));
-            return DataReturn($ret, -1);
+            return DataReturn('支付方式有误', -1);
+        }
+
+        // 支付数据校验
+        $pay_name = '\Library\Payment\\'.PAYMENT_TYPE;
+        $ret = (new $pay_name($payment[0]['config']))->Respond();
+        if(!isset($ret['code']) || $ret['code'] != 0)
+        {
+            return $ret;
         }
 
         // 获取订单信息
         $m = M('Order');
-        $where = ['id'=>self::OutTradeNoParsing($params['out_trade_no'])];
+        $where = ['id'=>self::OutTradeNoParsing($ret['data']['out_trade_no'])];
         $data = $m->where($where)->field('id,status,total_price,payment_id,user_id,shop_id')->find();
         file_put_contents('/data/www/project/shopxo/service/dddddd.txt', json_encode($data));
         if(empty($data))
@@ -183,22 +166,6 @@ class OrderService
             $status_text = L('common_order_user_status')[$data['status']]['name'];
             return DataReturn('状态不可操作['.$status_text.']', 0);
         }
-
-        // 支付方式
-        $payment = ResourcesService::PaymentList(['where'=>['id'=>$data['payment_id']]]);
-        if(empty($payment[0]))
-        {
-            return DataReturn('支付方式有误', -1);
-        }
-
-        // 支付数据校验
-        $pay_name = '\Library\Payment\\'.$payment[0]['payment'];
-        $ret = (new $pay_name($payment[0]['config']))->Respond();
-        if(!isset($ret['code']) || $ret['code'] != 0)
-        {
-            return $ret;
-        }
-        file_put_contents('/data/www/project/shopxo/service/rrrrrr.txt', json_encode($ret));
 
         // 兼容web版本支付参数
         $buyer_email = isset($ret['data']['buyer_logon_id']) ? $ret['data']['buyer_logon_id'] : (isset($ret['data']['buyer_email']) ? $ret['data']['buyer_email'] : '');
@@ -217,7 +184,6 @@ class OrderService
             'business_type' => 0,
             'add_time'      => time(),
         ];
-        file_put_contents('/data/www/project/shopxo/service/llllll.txt', json_encode($pay_log_data));
         M('PayLog')->add($pay_log_data);
 
         // 消息通知
@@ -235,7 +201,6 @@ class OrderService
             'pay_time'  => time(),
             'upd_time'  => time(),
         );
-        file_put_contents('/data/www/project/shopxo/service/uuuuuu.txt', json_encode($upd_data));
         if($m->where(['id'=>$data['id']])->save($upd_data))
         {
             // 提交事务
