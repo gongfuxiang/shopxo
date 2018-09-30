@@ -84,10 +84,10 @@
 			</if>
 			<if condition="!empty($user)">
 				<div class="member-center">
-					<a href="#"><strong>0</strong>待收货</a>
-					<a href="#"><strong>0</strong>待发货</a>
-					<a href="#"><strong>0</strong>待付款</a>
-					<a href="#"><strong>0</strong>待评价</a>
+					<a href="{{:U('Home/Order/Index', ['is_more'=>1, 'status'=>1])}}"><strong>0</strong>待付款</a>
+					<a href="{{:U('Home/Order/Index', ['is_more'=>1, 'status'=>2])}}"><strong>0</strong>待发货</a>
+					<a href="{{:U('Home/Order/Index', ['is_more'=>1, 'status'=>3])}}"><strong>0</strong>待收货</a>
+					<a href="{{:U('Home/Order/Index', ['is_more'=>1, 'is_comment_user'=>0])}}"><strong>0</strong>待评价</a>
 				</div>
 			</if>
 		</div>
