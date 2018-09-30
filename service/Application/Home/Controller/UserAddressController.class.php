@@ -115,7 +115,7 @@ class UserAddressController extends CommonController
      * @date    2018-07-18
      * @desc    description
      */
-    public function Default()
+    public function SetDefault()
     {
         $params = $_POST;
         $params['user'] = $this->user;
