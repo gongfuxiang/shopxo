@@ -395,7 +395,7 @@ ul {margin-top:0;}
 .admin-sidebar-list li a {padding:0.6rem 0 0.6rem 1.6rem;}
 .common-left-menu a:hover,.common-left-menu-active {background:#ececec;color:#333 !important;}
 #ifcontent {border:0px;width:100%;overflow-x:hidden;}
-.am-table > tbody > tr > td {vertical-align:inherit;}
+.am-table > tbody > tr > td {vertical-align:top;}
 .am-form-file input[type="file"] { margin-top: 0; }
 
 /**

@@ -17,18 +17,14 @@
     <div class="am-u-md-6 am-u-sm-centered">
         <div class="reg-switch-view">
             <if condition="in_array('sms', MyC('home_user_reg_state'))">
-                <a href="{{:U('Home/User/SmsRegInfo')}}">
-                    <button class="am-btn am-btn-primary"><i class="am-icon-comment-o am-icon-sm"></i> {{:L('common_close_sms_user_reg_text')}}</button>
-                </a>
+                <a href="{{:U('Home/User/SmsRegInfo')}}" class="am-btn am-btn-primary"><i class="am-icon-comment-o am-icon-sm"></i> {{:L('common_close_sms_user_reg_text')}}</a>
             <else />
-                <button class="am-btn am-btn-danger am-disabled" href="javascript:;"><i class="am-icon-comment-o am-icon-sm"></i> {{:L('common_close_sms_user_reg_tips')}}</button>
+                <a class="am-btn am-btn-danger am-disabled" href="javascript:;"><i class="am-icon-comment-o am-icon-sm"></i> {{:L('common_close_sms_user_reg_tips')}}</a>
             </if>
             <if condition="in_array('email', MyC('home_user_reg_state'))">
-                <a href="{{:U('Home/User/EmailRegInfo')}}">
-                    <button class="am-btn am-btn-secondary"><i class="am-icon-envelope-o am-icon-sm"></i> {{:L('common_close_email_user_reg_text')}}</button>
-                </a>
+                <a href="{{:U('Home/User/EmailRegInfo')}}" class="am-btn am-btn-secondary"><i class="am-icon-envelope-o am-icon-sm"></i> {{:L('common_close_email_user_reg_text')}}</a>
             <else />
-                <button class="am-btn am-btn-danger am-disabled" href="javascript:;"><i class="am-icon-envelope-o am-icon-sm"></i> {{:L('common_close_email_user_reg_tips')}}</button>
+                <a class="am-btn am-btn-danger am-disabled" href="javascript:;"><i class="am-icon-envelope-o am-icon-sm"></i> {{:L('common_close_email_user_reg_tips')}}</a>
             </if>
         </div>
     </div>

@@ -202,16 +202,16 @@
 							</td>
 							<td class="view-operation">
 								<if condition="in_array($v['status'], [0,1])">
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paint-brush submit-ajax" data-url="{{:U('Admin/Order/Cancel')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:L('common_cancel_tips')}}"> {{:L('common_operation_cancel')}}</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax" data-url="{{:U('Admin/Order/Cancel')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:L('common_cancel_tips')}}"> {{:L('common_operation_cancel')}}</button>
 								</if>
 								<if condition="$v['status'] eq 2">
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o submit-ajax" data-url="{{:U('Admin/Order/Delivery')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:L('common_delivery_tips')}}"> {{:L('common_delivery_submit')}}</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o am-btn-block submit-ajax" data-url="{{:U('Admin/Order/Delivery')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:L('common_delivery_tips')}}"> {{:L('common_delivery_submit')}}</button>
 								</if>
 								<if condition="$v['status'] eq 3">
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o submit-ajax" data-url="{{:U('Admin/Order/Collect')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:L('common_collect_tips')}}"> {{:L('common_collect_submit')}}</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:U('Admin/Order/Collect')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:L('common_collect_tips')}}"> {{:L('common_collect_submit')}}</button>
 								</if>
 								<if condition="in_array($v['status'], [0,1,5,6])">
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-ajax" data-url="{{:U('Admin/Order/Delete')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="delete" data-msg="{{:L('common_delete_tips')}}"> {{:L('common_operation_delete')}}</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o am-btn-block submit-ajax" data-url="{{:U('Admin/Order/Delete')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="delete" data-msg="{{:L('common_delete_tips')}}"> {{:L('common_operation_delete')}}</button>
 								</if>
 							</td>
 						</tr>

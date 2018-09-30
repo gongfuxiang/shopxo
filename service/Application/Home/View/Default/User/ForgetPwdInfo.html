@@ -19,9 +19,7 @@
 		<form class="am-form form-validation" method="post" action="{{:U('Home/User/ForgetPwd')}}" request-type="ajax-url" request-value="{{:U('Home/User/LoginInfo')}}">
 			<fieldset>
 				<span class="">{{:L('user_reg_there_are_accounts_text')}}</span>
-				<a href="{{:U('Home/User/LoginInfo')}}">
-					<button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius">{{:L('user_reg_login_immediately_text')}}</button>
-				</a>
+				<a href="{{:U('Home/User/LoginInfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">{{:L('user_reg_login_immediately_text')}}</a>
 				<hr />
 				<label>{{:L('user_login_accounts_text')}}</label>
 				<div class="am-form-group">

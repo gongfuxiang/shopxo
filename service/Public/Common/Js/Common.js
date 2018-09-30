@@ -122,20 +122,18 @@ function GetFormVal(element)
 
 	// input 复选框checkboox
 	tmp_all = [];
-	temp_field = '';
 	i = 0;
 	$(element).find('input[type="checkbox"]').each(function(key, tmp)
 	{
 		if(tmp.name != undefined && tmp.name != '')
 		{
-			// name不一样的时候初始化索引值
-			if(temp_field != tmp.name)
-			{
-				i = 0;
-			}
 			if($(this).is(':checked'))
 			{
-				if(tmp_all[tmp.name] == undefined) tmp_all[tmp.name] = [];
+				if(tmp_all[tmp.name] == undefined)
+				{
+					tmp_all[tmp.name] = [];
+					i = 0;
+				}
 				tmp_all[tmp.name][i] = tmp.value;
 				i++;
 			}
