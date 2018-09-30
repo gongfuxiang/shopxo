@@ -320,8 +320,14 @@ class OrderService
             $detail_field = 'id,goods_id,title,images,original_price,price,attribute,buy_number';
             $images_host = C('IMAGE_HOST');
             $total_price = 0;
+            $order_status_list = L('common_order_user_status');
             foreach($data as &$v)
             {
+                // 订单基础
+                $v['status_name'] = $order_status_list[$v['status']]['name'];
+                $v['payment_name'] = '';
+                
+                // 订单详情
                 $items = $detail_m->where(['order_id'=>$v['id']])->field($detail_field)->select();
                 if(!empty($items))
                 {

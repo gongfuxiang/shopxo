@@ -23,11 +23,11 @@
     .so-list .chosen-container, .so-list select { width:217px !important; display: -webkit-inline-box; }
     .thin_sub:hover { color:#F60; }
 
-    .row-content { width:30%; }
+    .row-content { width:35%; }
     .row-price { width:15%; }
-    .row-number { width:15%; }
-    .row-total-price { width:15%; }
-    .row-status { width:15%; }
+    .row-number { width:10%; }
+    .row-total-price { width:20%; }
+    .row-status { width:10%; }
     .row-operate { width:10%; }
 }
 @media only screen and (max-width: 641px){
@@ -39,9 +39,9 @@
     .so-list tr td:last-child { padding-top:0px !important; }
     .chosen-container-single .chosen-search input[type="text"] { width: 100% !important; }
 
-    .row-content { width:40%; }
+    .row-content { width:50%; }
     .row-price { width:30%; }
-    .row-operate { width:10%; }
+    .row-operate { width:20%; }
 }
 
 /**
@@ -62,11 +62,13 @@ table.data-list td { padding:10px; }
 .row-content { min-width:102px; }
 table.data-list tr td+td { text-align:center; }
 .content-checkbox-operate { padding:3px 5px; }
+.submit-pay { margin-top: 5px; }
+.wap-base { padding-top: 3px; }
 
 
 /* 不在进行中 */
 table.data-list { border-left: 1px solid #eee; border-right: 1px solid #eee; }
-table.data-list td.row-number, table.data-list td.row-total-price, table.data-list td.row-status { border-right: 1px solid #eee; }
+table.data-list td.row-number, table.data-list td.row-total-price,  table.data-list td.row-status, table.data-list td.row-operate { border-right: 1px solid #eee; }
 table.data-list td { border-bottom:1px solid #eee; }
 table.data-list .content-hd td { background:#EEE; border-bottom-color:#EEE; }
 table.data-list:hover { box-shadow:0 1px 1px #E4E4E4; background:#FCFCFC; }
@@ -74,7 +76,7 @@ table.data-list:hover { box-shadow:0 1px 1px #E4E4E4; background:#FCFCFC; }
 
 /* 进行中 */
 table.data-ongoing { border-left: 1px solid #daf3ff; border-right: 1px solid #daf3ff; }
-table.data-ongoing td.row-number, table.data-ongoing td.row-total-price, table.data-ongoing td.row-status { border-right: 1px solid #daf3ff; }
+table.data-ongoing td.row-number, table.data-ongoing td.row-total-price, table.data-ongoing td.row-status, table.data-ongoing td.row-operate { border-right: 1px solid #daf3ff; }
 table.data-ongoing td { border-bottom:1px solid #daf3ff; }
 table.data-ongoing .content-hd td { background: #eaf8ff; border-bottom-color:#eaf8ff; }
 table.data-ongoing:hover { box-shadow:0 1px 1px #9AD6F3; background:#F9FDFF; }

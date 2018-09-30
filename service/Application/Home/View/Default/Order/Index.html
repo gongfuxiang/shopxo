@@ -31,11 +31,11 @@
                 </div>
                 <label class="am-fl thin_sub">
                     更多筛选条件
-                    <input type="checkbox" name="so_type" value="1" class="none am-field-valid">
+                    <input type="checkbox" name="so_type" value="1" class="none am-field-valid" <if condition="isset($params['so_type'])">checked</if> />
                     <i class="am-icon-angle-up"></i>
                 </label>
             </div>
-            <table class="so-list none">
+            <table class="so-list <if condition="!isset($params['so_type'])">none</if>">
                 <tbody><tr>
                     <td class="time">
                         <span>时间：</span>
@@ -93,7 +93,9 @@
                 <tr>
                     <td>
                         <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜 索</button>
-                        <a href="{{:U('Home/Order/Index')}}" class="am-btn am-btn-danger am-radius am-btn-sm reset-submit">清除条件</a>
+                        <a href="{{:U('Home/Order/Index')}}">
+                            <button class="am-btn am-btn-warning am-radius am-btn-sm reset-submit">清除条件</button>
+                        </a>
                     </td>
                 </tr>
             </tbody></table>
@@ -145,8 +147,8 @@
                             <if condition="$goods['original_price'] gt 0">
                                 <span class="original-price">￥{{$goods.original_price}}</span>
                             </if>
-                            <strong class="total-price-content">￥{{$goods.price}}</strong>
-                            <span class="wap-number">x{{$goods.stock}}</span>
+                            <strong class="line-price">￥{{$goods.price}}</strong>
+                            <span class="wap-number">x{{$goods.buy_number}}</span>
                         </div>
                     </td>
                     <td class="row-price am-hide-sm-only">
@@ -162,8 +164,21 @@
                         <td class="row-total-price" rowspan="{{$order.items_count}}">
                             <strong class="total-price-content">￥{{$order.total_price}}</strong>
                         </td>
-                        <td class="row-status am-hide-sm-only" rowspan="{{$order.items_count}}"></td>
-                        <td class="row-operate" rowspan="{{$order.items_count}}"></td>
+                        <td class="row-status am-hide-sm-only" rowspan="{{$order.items_count}}">
+                            {{$order.status_name}}
+                        </td>
+                        <td class="row-operate" rowspan="{{$order.items_count}}">
+                            <!-- 0待确认, 1已确认/待支付, 2已支付/待发货, 3已发货/待收货, 4已完成, 5已取消, 6已关闭 -->
+                            <if condition="in_array($order['status'], [0,1])">
+                                <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-cancel" data-url="{{:U('Home/Order/Cancel', ['id'=>$order['id']])}}">取消</button>
+                            </if>
+                            <if condition="in_array($order['status'], [1])">
+                                <a href="{{:U('Home/Order/Pay', ['id'=>$order['id']])}}" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-pay">支付</a>
+                            </if>
+                            <if condition="in_array($order['status'], [3])">
+                                <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-confirm" data-url="{{:U('Home/Order/Cancel', ['id'=>$order['id']])}}">收货</button>
+                            </if>
+                        </td>
                     </if>
                     <!-- <td class="total-price am-hide-sm-only">
                         <strong class="total-price-content">￥{{$goods.total_price}}</strong>
