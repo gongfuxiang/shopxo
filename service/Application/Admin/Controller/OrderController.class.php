@@ -2,6 +2,8 @@
 
 namespace Admin\Controller;
 
+use Service\OrderService;
+
 /**
  * 订单管理
  * @author   Devil
@@ -137,7 +139,15 @@ class OrderController extends CommonController
                 $v['receive_county_name'] = GetRegionName($v['receive_county']);
 
                 // 商品列表
-                $v['goods'] = M('OrderDetail')->where(['order_id'=>$v['id']])->select();;
+                $goods = M('OrderDetail')->where(['order_id'=>$v['id']])->select();
+                if(!empty($goods))
+                {
+                    foreach($goods as &$vs)
+                    {
+                        $vs['attribute'] = empty($vs['attribute']) ? null : json_decode($vs['attribute'], true);
+                    }
+                }
+                $v['goods'] = $goods;
 
                 // 描述
                 $v['describe'] = '共'.count($v['goods']).'件 合计:￥'.$v['total_price'].'元';
@@ -164,6 +174,7 @@ class OrderController extends CommonController
         {
             $like_keyword = array('like', '%'.I('keyword').'%');
             $where[] = array(
+                    'order_no'                  =>  $like_keyword,
                     'receive_name'              =>  $like_keyword,
                     'receive_tel'               =>  $like_keyword,
                     'receive_address'           =>  $like_keyword,
@@ -220,33 +231,14 @@ class OrderController extends CommonController
             $this->error(L('common_unauthorized_access'));
         }
 
-        // 参数处理
-        $id = I('id');
-
-        // 删除数据
-        if(!empty($id))
-        {
-            // 订单模型
-            $m = M('Order');
-
-            // 订单是否存在
-            $data = $m->where(array('id'=>$id))->getField('id');
-            if(empty($data))
-            {
-                $this->ajaxReturn(L('common_data_no_exist_error'), -2);
-            }
-
-            // 删除订单
-            $status = $m->where(array('id'=>$id))->save(['is_delete_time'=>time()]);
-            if($status !== false)
-            {
-                $this->ajaxReturn(L('common_operation_delete_success'));
-            } else {
-                $this->ajaxReturn(L('common_operation_delete_error'), -100);
-            }
-        } else {
-            $this->ajaxReturn(L('common_param_error'), -1);
-        }
+        // 删除操作
+        $params = $_POST;
+        $params['user_id'] = $params['value'];
+        $params['creator'] = $this->admin['id'];
+        $params['creator_name'] = $this->admin['username'];
+        $params['user_type'] = 'admin';
+        $ret = OrderService::OrderDelete($params);
+        $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }
 
     /**
@@ -264,39 +256,13 @@ class OrderController extends CommonController
             $this->error(L('common_unauthorized_access'));
         }
 
-        // 参数处理
-        $id = I('id');
-
-        // 取消数据
-        if(!empty($id))
-        {
-            // 订单模型
-            $m = M('Order');
-
-            // 订单是否存在
-            $data = $m->field('id,status')->find($id);
-            if(empty($data))
-            {
-                $this->ajaxReturn(L('common_data_no_exist_error'), -2);
-            }
-
-            // 状态
-            if(!in_array($data['status'], [0,1]))
-            {
-                $this->ajaxReturn('状态不可操作['.L('common_order_admin_status')[$data['status']]['name'].']', -3);
-            }
-
-            // 取消订单
-            $status = $m->where(array('id'=>$id))->save(['status'=>5, 'upd_time'=>time(), 'cancel_time'=>time()]);
-            if($status !== false)
-            {
-                $this->ajaxReturn(L('common_cancel_success'));
-            } else {
-                $this->ajaxReturn(L('common_cancel_error'), -100);
-            }
-        } else {
-            $this->ajaxReturn(L('common_param_error'), -1);
-        }
+        // 取消操作
+        $params = $_POST;
+        $params['user_id'] = $params['value'];
+        $params['creator'] = $this->admin['id'];
+        $params['creator_name'] = $this->admin['username'];
+        $ret = OrderService::OrderCancel($params);
+        $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }
 
     /**
@@ -364,39 +330,13 @@ class OrderController extends CommonController
             $this->error(L('common_unauthorized_access'));
         }
 
-        // 参数处理
-        $id = I('id');
-
-        // 取消数据
-        if(!empty($id))
-        {
-            // 订单模型
-            $m = M('Order');
-
-            // 订单是否存在
-            $data = $m->field('id,status')->find($id);
-            if(empty($data))
-            {
-                $this->ajaxReturn(L('common_data_no_exist_error'), -2);
-            }
-
-            // 状态
-            if(!in_array($data['status'], [3]))
-            {
-                $this->ajaxReturn('状态不可操作['.L('common_order_admin_status')[$data['status']]['name'].']', -3);
-            }
-
-            // 取消订单
-            $status = $m->where(array('id'=>$id))->save(['status'=>4, 'upd_time'=>time(), 'success_time'=>time()]);
-            if($status !== false)
-            {
-                $this->ajaxReturn(L('common_operation_collect_success'));
-            } else {
-                $this->ajaxReturn(L('common_operation_collect_error'), -100);
-            }
-        } else {
-            $this->ajaxReturn(L('common_param_error'), -1);
-        }
+        // 收货操作
+        $params = $_POST;
+        $params['user_id'] = $params['value'];
+        $params['creator'] = $this->admin['id'];
+        $params['creator_name'] = $this->admin['username'];
+        $ret = OrderService::OrderConfirm($params);
+        $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }
 }
 ?>

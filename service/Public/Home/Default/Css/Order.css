@@ -4,7 +4,6 @@
 .thin_sub { font-weight:100; margin:10px 0px 0px 10px; cursor: pointer; }
 .so-list { width:100%; margin-top: 20px; }
 .so-list * { font-size:1.2rem !important; }
-.so-list span { color:#666; }
 .so-list input { height:28px; display:inline !important; }
 .time input, .so-list .chosen-container { background:#FFF !important; }
 .time input { width:100px !important; }
@@ -53,33 +52,37 @@ table.data-list { margin-top: 10px; }
 table.data-list-success, table.data-list-success td { border:1px solid #daf3ff; }
 table.data-list { background:#FFF; border-radius:2px; -moz-border-radius:2px; -webkit-border-radius:2px; }
 table.data-list * { font-size:12px; }
-table.data-list td { padding:10px; }
-.content-title th { text-align:center; }
+table.data-list td { padding:10px; vertical-align: top; }
+.content-title th, table.data-list tr td+td { text-align:center; }
 
 .content img { width:80px; height:80px; }
 .content p { margin:0px; }
 .content a:hover { color:#F60; }
 .row-content { min-width:102px; }
-table.data-list tr td+td { text-align:center; }
 .content-checkbox-operate { padding:3px 5px; }
 .submit-pay { margin-top: 5px; }
-.wap-base { padding-top: 3px; }
+.wap-base, .base-operate { padding-top: 3px; }
+.base-operate { margin-top: 3px; }
+.content-hd td span { color: #666; }
+.content-hd td span:not(:last-child) { margin-right: 20px; }
 
 
 /* 不在进行中 */
-table.data-list { border-left: 1px solid #eee; border-right: 1px solid #eee; }
+table.data-list { border: 1px solid #eee; }
 table.data-list td.row-number, table.data-list td.row-total-price,  table.data-list td.row-status, table.data-list td.row-operate { border-right: 1px solid #eee; }
 table.data-list td { border-bottom:1px solid #eee; }
-table.data-list .content-hd td { background:#EEE; border-bottom-color:#EEE; }
-table.data-list:hover { box-shadow:0 1px 1px #E4E4E4; background:#FCFCFC; }
+table.data-list .content-hd td { background:#eee; border-bottom-color:#eee; }
+table.data-list:hover { box-shadow:0 1px 1px #E4E4E4; background:#fbfbfb; }
+table.data-list .base-operate { border-top: 1px dashed #eee; }
 
 
 /* 进行中 */
-table.data-ongoing { border-left: 1px solid #daf3ff; border-right: 1px solid #daf3ff; }
-table.data-ongoing td.row-number, table.data-ongoing td.row-total-price, table.data-ongoing td.row-status, table.data-ongoing td.row-operate { border-right: 1px solid #daf3ff; }
-table.data-ongoing td { border-bottom:1px solid #daf3ff; }
-table.data-ongoing .content-hd td { background: #eaf8ff; border-bottom-color:#eaf8ff; }
-table.data-ongoing:hover { box-shadow:0 1px 1px #9AD6F3; background:#F9FDFF; }
+table.data-ongoing { border: 1px solid #fff1f5; }
+table.data-ongoing td.row-number, table.data-ongoing td.row-total-price, table.data-ongoing td.row-status, table.data-ongoing td.row-operate { border-right: 1px solid #fff1f5; }
+table.data-ongoing td { border-bottom:1px solid #fff1f5; }
+table.data-ongoing .content-hd td { background: #fff1f5; border-bottom-color:#fff1f5; }
+table.data-ongoing:hover { box-shadow:0 1px 1px #ffd6e2; background:#fffbfc; }
+table.data-ongoing .base-operate { border-top: 1px dashed #fff1f5; }
 
 
 /**
@@ -97,3 +100,22 @@ table.data-ongoing:hover { box-shadow:0 1px 1px #9AD6F3; background:#F9FDFF; }
 .line-price { color: #3c3c3c; }
 .line-price, strong.total-price-content { font-weight: 700; }
 strong.total-price-content { color: #d2364c; font-size: 16px; }
+
+
+/**
+ * 支付弹窗
+ */
+.business-item h3 { border-bottom: 3px solid #e3e3e3; margin-top:5px; font-size: 14px;font-weight: 700; }
+.business-item ul { padding: 10px 3px 5px 5px; overflow: hidden; }
+.business-item ul li { border:1px solid transparent ;overflow: hidden; float: left; cursor: pointer; padding: 5px; border: 1px solid #eee; margin: 0 10px 10px 0; }
+.business-item ul  li img { width: 36px; height: 36px; }
+.business-item ul li.selected { border-color: #d2364c ; position: relative; }
+.business-item ul li.selected i.icon-active { position: absolute; width: 10px; height: 10px; font-size: 0; line-height: 0; right: 0px; bottom: 0px; background: url(../Images/sys_item_selected.gif) no-repeat right bottom; }
+@media only screen and (min-width:640px) {
+  .business-item ul li {width:calc(33% - 5px); }
+  .business-item ul li:nth-child(3n) { margin-right: 0; }
+}
+@media only screen and (max-width:640px) {
+  .business-item ul li { width: calc(50% - 5px); }
+  .business-item ul li:nth-child(2n) { margin-right: 0; }
+}

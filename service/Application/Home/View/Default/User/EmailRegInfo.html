@@ -19,7 +19,9 @@
 		<form class="am-form form-validation" method="post" action="{{:U('Home/User/Reg')}}" request-type="ajax-url" request-value="{{$referer_url}}">
 			<fieldset>
 				<span class="">{{:L('user_reg_there_are_accounts_text')}}</span>
-				<a href="{{:U('Home/User/LoginInfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">{{:L('user_reg_login_immediately_text')}}</a>
+				<a href="{{:U('Home/User/LoginInfo')}}">
+					<button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius">{{:L('user_reg_login_immediately_text')}}</button>
+				</a>
 				<hr />
 				<label>{{:L('common_email_name')}}
 					<if condition="in_array('sms', MyC('home_user_reg_state'))">

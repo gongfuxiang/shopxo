@@ -761,7 +761,7 @@ function ConfirmNetworkAjax(e)
 	var url = e.data('url');
 	var view = e.data('view') || '';
 	var title = e.data('title') || '温馨提示';
-	var msg = e.data('msg') || '操作后不可恢复、确认操作吗？';
+	var msg = e.data('msg') || '操作后不可恢复、确认继续吗？';
 
 	AMUI.dialog.confirm({
 		title: title,

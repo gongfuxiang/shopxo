@@ -568,6 +568,7 @@ class BuyService
 
         // 订单写入
         $order = [
+            'order_no'              => date('YmdHis').GetNumberCode(6),
             'user_id'               => $params['user']['id'],
             'shop_id'               => $shop_id,
             'receive_address_id'    => $address['data']['id'],
@@ -603,7 +604,7 @@ class BuyService
                     'order_id'          => $order_id,
                     'user_id'           => $params['user']['id'],
                     'shop_id'           => $shop_id,
-                    'goods_id'          => $v['id'],
+                    'goods_id'          => $v['goods_id'],
                     'title'             => $v['title'],
                     'images'            => $v['images_old'],
                     'original_price'    => $v['original_price'],

@@ -84,13 +84,33 @@ class Page
 	 */
 	public function GetPageHtml()
 	{
-		$this->html .= '<ul class="am-pagination am-pagination-centered"><li';
-		$this->html .= ($this->page > 1) ? '' : ' class="am-disabled"';
-		$this->html .= '><a href="'.$this->url.$this->page_start_tag.'page='.($this->page-1).'" class="am-radius">&laquo;</a></li>';
+		$before_disabled .= ($this->page > 1) ? '' : ' class="am-disabled"';
+		$after_disabled = ($this->page > 0 && $this->page < $this->page_total) ? '' : ' class="am-disabled"';
+
+		$this->html .= '<ul class="am-pagination am-pagination-centered">';
+		$this->html .= '<li '.$before_disabled.'>';
+		$this->html .= '<a href="'.$this->url.$this->page_start_tag.'page=1" class="am-radius am-icon-angle-double-left"></a>';
+		$this->html .= '</li>';
+
+		$this->html .= '<li '.$before_disabled.'>';
+		$this->html .= '<a href="'.$this->url.$this->page_start_tag.'page='.($this->page-1).'" class="am-radius am-icon-angle-left"></a>';
+		$this->html .= '</li>';
+
 		$this->html .= $this->GetButtonNumberHtml();
-		$this->html .= '<li';
-		$this->html .= ($this->page > 0 && $this->page < $this->page_total) ? '' : ' class="am-disabled"';
-		$this->html .= '><a href="'.$this->url.$this->page_start_tag.'page='.($this->page+1).'" class="am-radius">&raquo;</a></li></ul>';
+
+		$this->html .= '<li '.$after_disabled.'>';
+		$this->html .= '<a href="'.$this->url.$this->page_start_tag.'page='.($this->page+1).'" class="am-radius am-icon-angle-right"></a>';
+		$this->html .= '</li>';
+
+		$this->html .= '<li '.$after_disabled.'>';
+		$this->html .= '<a href="'.$this->url.$this->page_start_tag.'page='.$this->page_total.'" class="am-radius am-icon-angle-double-right"></a>';
+		$this->html .= '</li>';
+
+		$this->html .= '<div>';
+		$this->html .= '<span>共 '.$this->total.' 条数据</span>';
+		$this->html .= '&nbsp;&nbsp;&nbsp;<span>共 '.$this->page_total.' 页</span>';
+		$this->html .= '</div>';
+		$this->html .= '</ul>';
 
 		return $this->html;
 	}

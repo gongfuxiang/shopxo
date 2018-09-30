@@ -20,7 +20,9 @@
 			<fieldset>
 				<if condition="in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))">
 					<span class="">{{:L('user_login_on_accounts_text')}}</span>
-					<a href="{{:U('Home/User/RegInfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">{{:L('user_login_immediately_reg_text')}}</a>
+					<a href="{{:U('Home/User/RegInfo')}}">
+						<button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius">{{:L('user_login_immediately_reg_text')}}</button>
+					</a>
 					<hr />
 				</if>
 				<label>{{:L('user_login_accounts_text')}}</label>

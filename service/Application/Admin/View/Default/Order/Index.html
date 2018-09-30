@@ -66,13 +66,19 @@
 								<foreach name="v.goods" item="vs">
 									<div class="goods-item">
 										<div class="base">
-											<a href="javascript:;" target="_blank" title="{{$v.title}}">
+											<a href="{{:HomeUrl('Goods', 'Index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$v.title}}">
 												<img src="{{$image_host}}{{$vs['images']}}" class="am-img-thumbnail am-radius goods-images am-hide-sm-only" />
 											</a>
-											<a href="javascript:;" target="_blank" title="{{$vs.title}}" <if condition="!empty($vs['title_color'])"> style="color:{{$vs.title_color}};" </if> >{{$vs.title}}</a>
+											<a href="{{:HomeUrl('Goods', 'Index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}" <if condition="!empty($vs['title_color'])"> style="color:{{$vs.title_color}};" </if> >{{$vs.title}}</a>
 										</div>
 										<div class="other">
-											<span class="fl">{{$vs.attribute}}</span>
+											<span class="fl">
+												<notempty name="vs.attribute">
+													<foreach name="vs.attribute" key="kss" item="vss">
+														{{$vss.attr_type_name}}:{{$vss.attr_name}}<if condition="$kss eq count($vs.attribute)-1">，</if>
+													</foreach>
+												</notempty>
+											</span>
 											<span class="fr">{{$vs.price}}x{{$vs.buy_number}}</span>
 										</div>
 									</div>
@@ -117,10 +123,10 @@
 													<foreach name="v.goods" item="vs">
 														<div class="goods-item">
 															<div class="base">
-																<a href="javascript:;" target="_blank" title="{{$v.title}}">
+																<a href="{{:HomeUrl('Goods', 'Index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$v.title}}">
 																	<img src="{{$image_host}}{{$vs['images']}}" class="am-img-thumbnail am-radius goods-images am-hide-sm-only" />
 																</a>
-																<a href="javascript:;" target="_blank" title="{{$vs.title}}" <if condition="!empty($vs['title_color'])"> style="color:{{$vs.title_color}};" </if> >{{$vs.title}}</a>
+																<a href="{{:HomeUrl('Goods', 'Index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}" <if condition="!empty($vs['title_color'])"> style="color:{{$vs.title_color}};" </if> >{{$vs.title}}</a>
 															</div>
 															<div class="other">
 																<span class="fl">{{$vs.attribute}}</span>
@@ -196,16 +202,16 @@
 							</td>
 							<td class="view-operation">
 								<if condition="in_array($v['status'], [0,1])">
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paint-brush submit-ajax" data-url="{{:U('Admin/Order/Cancel')}}" data-id="{{$v.id}}" data-view="reload" data-msg="{{:L('common_cancel_tips')}}"> {{:L('common_operation_cancel')}}</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paint-brush submit-ajax" data-url="{{:U('Admin/Order/Cancel')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:L('common_cancel_tips')}}"> {{:L('common_operation_cancel')}}</button>
 								</if>
 								<if condition="$v['status'] eq 2">
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o submit-ajax" data-url="{{:U('Admin/Order/Delivery')}}" data-id="{{$v.id}}" data-view="reload" data-msg="{{:L('common_delivery_tips')}}"> {{:L('common_delivery_submit')}}</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o submit-ajax" data-url="{{:U('Admin/Order/Delivery')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:L('common_delivery_tips')}}"> {{:L('common_delivery_submit')}}</button>
 								</if>
 								<if condition="$v['status'] eq 3">
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o submit-ajax" data-url="{{:U('Admin/Order/Collect')}}" data-id="{{$v.id}}" data-view="reload" data-msg="{{:L('common_collect_tips')}}"> {{:L('common_collect_submit')}}</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o submit-ajax" data-url="{{:U('Admin/Order/Collect')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:L('common_collect_tips')}}"> {{:L('common_collect_submit')}}</button>
 								</if>
 								<if condition="in_array($v['status'], [0,1,5,6])">
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/Order/Delete')}}" data-id="{{$v.id}}"> {{:L('common_operation_delete')}}</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-ajax" data-url="{{:U('Admin/Order/Delete')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="delete" data-msg="{{:L('common_delete_tips')}}"> {{:L('common_operation_delete')}}</button>
 								</if>
 							</td>
 						</tr>

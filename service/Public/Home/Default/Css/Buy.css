@@ -14,8 +14,8 @@ color: #FFF;}
 .new-addr-bar {padding: 0px 5px;vertical-align: top;}
 .address-default { display:block !important;}  
 
-/*物流*/
-.business-item ul li { border:1px solid transparent ;overflow: hidden; }
+/* 物流/支付 */
+.business-item ul li { border:1px solid transparent ;overflow: hidden; float: left; cursor: pointer; padding: 5px; border: 1px solid #eee; margin: 0 10px 10px 0; }
 ul.logistics-list li.selected, ul.payment-list li.selected {border-color:#d2364c ;position:relative ;}
 ul.logistics-list li.selected i.icon-active, ul.payment-list li.selected i.icon-active {
     position: absolute;
@@ -28,9 +28,7 @@ ul.logistics-list li.selected i.icon-active, ul.payment-list li.selected i.icon-
     background: url(../Images/sys_item_selected.gif) no-repeat right bottom;
 }
 .business-item ul { padding: 10px 3px 5px 5px;}
-.business-item ul li { float: left; cursor: pointer; padding: 5px; border: 1px solid #eee; }
 ul.logistics-list li img, ul.payment-list li img { width: 36px; height: 36px; }
-.business-item ul li { margin: 0 10px 10px 0; }
 
 /*运费、留言*/
 .buy-message{padding:0px 5px}

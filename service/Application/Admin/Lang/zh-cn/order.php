@@ -8,7 +8,7 @@
  * @datetime 2016-12-01T21:51:08+0800
  */
 return array(
-	'order_so_keyword_tips'			=>	'姓名/手机/地址/快递单号',
+	'order_so_keyword_tips'			=>	'订单号/姓名/手机/地址/快递单号',
 	'order_time_start_text'			=>	'起始时间',
 	'order_time_end_text'			=>	'结束时间',
 

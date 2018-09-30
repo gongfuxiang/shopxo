@@ -335,7 +335,7 @@ class CommonController extends Controller
 				$user['mobile_security']=	empty($user['mobile']) ? '' : substr($user['mobile'], 0, 3).'***'.substr($user['mobile'], -3);
 				$user['email_security']	=	empty($user['email']) ? '' : substr($user['email'], 0, 3).'***'.substr($user['email'], -3);
 
-				// 页面显示名称
+				// 显示名称,根据规则优先展示
 				$user['user_name_view'] = $user['username'];
 				if(empty($user['user_name_view']))
 				{

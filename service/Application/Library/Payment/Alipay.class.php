@@ -243,11 +243,11 @@ class Alipay
             'format'                =>  'xml',
             'v'                     =>  '2.0',
             'partner'               =>  $this->config['partner'],
-            'req_id'                =>  $params['order_sn'],
+            'req_id'                =>  $params['order_no'],
             'sec_id'                =>  'MD5',
             'req_data'              =>  $this->GetReqData($params),
             'subject'               =>  $params['name'],
-            'out_trade_no'          =>  $params['order_sn'],
+            'out_trade_no'          =>  $params['order_no'],
             'total_fee'             =>  $params['total_price'],
             'seller_account_name'   =>  $this->config['account'],
             'call_back_url'         =>  $params['call_back_url'],
@@ -296,7 +296,7 @@ class Alipay
     {
         return '<direct_trade_create_req>
                     <subject>'.$params['name'].'</subject>
-                    <out_trade_no>'.$params['order_sn'].'</out_trade_no>
+                    <out_trade_no>'.$params['order_no'].'</out_trade_no>
                     <total_fee>'.$params['total_price'].'</total_fee>
                     <seller_account_name>'.$this->config['account'].'</seller_account_name>
                     <call_back_url>'.$params['call_back_url'].'</call_back_url>
@@ -327,7 +327,7 @@ class Alipay
 
             /* 业务参数 */
             'subject'           => $params['name'],
-            'out_trade_no'      => $params['order_sn'],
+            'out_trade_no'      => $params['order_no'],
             'price'             => $params['total_price'],
 
             'quantity'          => 1,

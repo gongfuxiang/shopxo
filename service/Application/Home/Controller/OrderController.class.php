@@ -72,10 +72,18 @@ class OrderController extends CommonController
         );
         $data = OrderService::OrderList($data_params);
         $this->assign('data_list', $data['data']);
+        
+        // 发起支付 - 支付方式
+        $this->assign('buy_payment_list', ResourcesService::BuyPaymentList());
 
-        // 品牌分类
-        // $brand_category = M('BrandCategory')->where(['is_enable'=>1])->field('id,name')->select();
-        // $this->assign('brand_category', $brand_category);
+        // 支付方式
+        $this->assign('payment_list', ResourcesService::PaymentList());
+
+        // 订单状态
+        $this->assign('common_order_user_status', L('common_order_user_status'));
+
+        // 支付状态
+        $this->assign('common_order_pay_status', L('common_order_pay_status'));
 
         // 参数
         $this->assign('params', $params);
@@ -129,5 +137,79 @@ class OrderController extends CommonController
             $this->display('/Public/PayError');
         }
     }
+
+    /**
+     * 订单取消
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-30
+     * @desc    description
+     */
+    public function Cancel()
+    {
+        if(IS_POST)
+        {
+            $params = $_POST;
+            $params['user_id'] = $this->user['id'];
+            $params['creator'] = $this->user['id'];
+            $params['creator_name'] = $this->user['user_name_view'];
+            $ret = OrderService::OrderCancel($params);
+            $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
+        } else {
+            $this->assign('msg', L('common_unauthorized_access'));
+            $this->display('/Public/TipsError');
+        }
+    }
+
+    /**
+     * 订单收货
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-30
+     * @desc    description
+     */
+    public function Confirm()
+    {
+        if(IS_POST)
+        {
+            $params = $_POST;
+            $params['user_id'] = $this->user['id'];
+            $params['creator'] = $this->user['id'];
+            $params['creator_name'] = $this->user['user_name_view'];
+            $ret = OrderService::OrderConfirm($params);
+            $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
+        } else {
+            $this->assign('msg', L('common_unauthorized_access'));
+            $this->display('/Public/TipsError');
+        }
+    }
+
+    /**
+     * 订单删除
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-30
+     * @desc    description
+     */
+    public function Delete()
+    {
+        if(IS_POST)
+        {
+            $params = $_POST;
+            $params['user_id'] = $this->user['id'];
+            $params['creator'] = $this->user['id'];
+            $params['creator_name'] = $this->user['user_name_view'];
+            $params['user_type'] = 'user';
+            $ret = OrderService::OrderDelete($params);
+            $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
+        } else {
+            $this->assign('msg', L('common_unauthorized_access'));
+            $this->display('/Public/TipsError');
+        }
+    }
+
 }
 ?>
