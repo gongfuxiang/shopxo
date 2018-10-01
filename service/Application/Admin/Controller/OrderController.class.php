@@ -3,6 +3,7 @@
 namespace Admin\Controller;
 
 use Service\OrderService;
+use Service\ResourcesService;
 
 /**
  * 订单管理
@@ -70,7 +71,7 @@ class OrderController extends CommonController
         $this->assign('common_order_pay_status', L('common_order_pay_status'));
 
         // 快递公司
-        $this->assign('express_list', M('Express')->field('id,name')->where(['is_enable'=>1])->select());
+        $this->assign('express_list', ResourcesService::ExpressList());
 
         // 参数
         $this->assign('param', $param);
@@ -131,7 +132,6 @@ class OrderController extends CommonController
 
                 // 快递公司
                 $v['express_name'] = GetExpressName($v['express_id']);
-                unset($v['express_id']);
 
                 // 收件人地址
                 $v['receive_province_name'] = GetRegionName($v['receive_province']);
@@ -280,39 +280,12 @@ class OrderController extends CommonController
             $this->error(L('common_unauthorized_access'));
         }
 
-        // 参数处理
-        $id = I('id');
-
-        // 取消数据
-        if(!empty($id))
-        {
-            // 订单模型
-            $m = M('Order');
-
-            // 订单是否存在
-            $data = $m->field('id,status')->find($id);
-            if(empty($data))
-            {
-                $this->ajaxReturn(L('common_data_no_exist_error'), -2);
-            }
-
-            // 状态
-            if(!in_array($data['status'], [2]))
-            {
-                $this->ajaxReturn('状态不可操作['.L('common_order_admin_status')[$data['status']]['name'].']', -3);
-            }
-
-            // 取消订单
-            $status = $m->where(array('id'=>$id))->save(['status'=>3, 'upd_time'=>time(), 'delivery_time'=>time()]);
-            if($status !== false)
-            {
-                $this->ajaxReturn(L('common_operation_delivery_success'));
-            } else {
-                $this->ajaxReturn(L('common_operation_delivery_error'), -100);
-            }
-        } else {
-            $this->ajaxReturn(L('common_param_error'), -1);
-        }
+        // 发货操作
+        $params = $_POST;
+        $params['creator'] = $this->admin['id'];
+        $params['creator_name'] = $this->admin['username'];
+        $ret = OrderService::OrderDelivery($params);
+        $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }
 
     /**

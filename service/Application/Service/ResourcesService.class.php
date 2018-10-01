@@ -36,8 +36,12 @@ class ResourcesService
      */
     public static function ExpressList($params = [])
     {
-        $where = ['is_enable'=>1];
-        $data = M('Express')->where($where)->field('id,icon,name,sort')->order('sort asc')->select();
+        $where = [];
+        if(isset($params['is_enable']))
+        {
+            $where['is_enable'] = intval($params['is_enable']);
+        }
+        $data = M('Express')->where($where)->field('id,icon,name,sort,is_enable')->order('sort asc')->select();
         if(!empty($data) && is_array($data))
         {
             $images_host = C('IMAGE_HOST');
@@ -61,7 +65,9 @@ class ResourcesService
      */
     public static function PaymentList($params = [])
     {
-        $where = empty($params['where']) ? ['is_enable'=>1] : $params['where'];
+        $where = empty($params['where']) ? [] : $params['where'];
+        $where['is_enable'] = isset($params['is_enable']) ? intval($params['is_enable']) : 1;
+
         $data = M('Payment')->where($where)->field('id,logo,name,sort,payment,config,apply_terminal,apply_terminal,element,is_enable')->order('sort asc')->select();
         if(!empty($data) && is_array($data))
         {

@@ -23,5 +23,11 @@ return array(
 	'order_delivery_time_text'		=>	'发货时间',
 	'order_cancel_time_text'		=>	'取消时间',
 	'order_success_time_text'		=>	'完成时间',
+
+	'order_delivery_popup_title'	=>	'发货操作',
+	'order_express_not_data_tips'   =>	'没有快递方式',
+	'order_business_express_title'	=>	'选择快递',
+	'order_express_number_text'		=>	'快递单号',
+	'order_express_number_format'	=>	'请填写快递单号',
 );
 ?>

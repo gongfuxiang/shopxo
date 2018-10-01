@@ -100,8 +100,15 @@
 									{{$v.express_name}}<br />{{$v.express_number}}
 								</if>
 							</td>
-							<td>{{$v.status_text}}</td>
-							<td>{{$v.pay_status_text}}</td>
+							<td>
+								<span class="block">{{$v.status_text}}</span>
+								<if condition="$v['user_is_delete_time'] neq 0">
+									<span class="block cr-red fs-12">用户已删除</span>
+								</if>
+							</td>
+							<td>
+								<span class="block">{{$v.pay_status_text}}</span>
+							</td>
 							<td>
 								订单金额：{{$v.price}}<br />
 								优惠金额：{{$v.preferential_price}}<br />
@@ -205,12 +212,12 @@
 									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax" data-url="{{:U('Admin/Order/Cancel')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:L('common_cancel_tips')}}"> {{:L('common_operation_cancel')}}</button>
 								</if>
 								<if condition="$v['status'] eq 2">
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o am-btn-block submit-ajax" data-url="{{:U('Admin/Order/Delivery')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:L('common_delivery_tips')}}"> {{:L('common_delivery_submit')}}</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o am-btn-block submit-delivery" data-url="{{:U('Admin/Order/Delivery')}}" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-express-id="{{$v.express_id}}" data-am-modal="{target: '#order-delivery-popup'}"> {{:L('common_delivery_submit')}}</button>
 								</if>
 								<if condition="$v['status'] eq 3">
 									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:U('Admin/Order/Collect')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:L('common_collect_tips')}}"> {{:L('common_collect_submit')}}</button>
 								</if>
-								<if condition="in_array($v['status'], [0,1,5,6])">
+								<if condition="in_array($v['status'], [5,6])">
 									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o am-btn-block submit-ajax" data-url="{{:U('Admin/Order/Delete')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="delete" data-msg="{{:L('common_delete_tips')}}"> {{:L('common_operation_delete')}}</button>
 								</if>
 							</td>
@@ -222,6 +229,52 @@
 			</tbody>
 		</table>
 		<!-- list end -->
+
+		<!-- 发货弹窗 -->
+		<div class="am-popup" id="order-delivery-popup">
+			<div class="am-popup-inner">
+			<div class="am-popup-hd">
+				<h4 class="am-popup-title">{{:L('order_delivery_popup_title')}}</h4>
+				<span data-am-modal-close class="am-close">&times;</span>
+			</div>
+			<div class="am-popup-bd">
+                <form class="am-form form-validation delivery-form" method="post" action="{{:U('Admin/Order/Delivery')}}" request-type="ajax-reload">
+                    <!-- 支付方式 -->
+                    <div class="business-item">
+                        <h3>{{:L('order_business_express_title')}}</h3>
+                        <notempty name="express_list">
+                            <ul class="express-list" data-type="express">
+                                <foreach name="express_list" item="express">
+                                	<if condition="$express.is_enable eq 1">
+	                                    <li class="express-items-{{$express.id}}" data-value="{{$express.id}}">
+	                                        <notempty name="express.icon">
+	                                            <img src="{{$express.icon}}" />
+	                                        </notempty>
+	                                        <span>{{$express.name}}</span>
+	                                        <i class="icon-active"></i>
+	                                    </li>
+	                                </if>
+                                </foreach>
+                            </ul>
+                        </notempty>
+                        <empty name="express_list">
+                            <div class="table-no"><i class="am-icon-warning"></i> {{:L('order_express_not_data_tips')}}</div>
+                        </empty>
+                    </div>
+
+                    <div class="am-form-group">
+						<label>{{:L('order_express_number_text')}}</label>
+						<input type="text" name="express_number" placeholder="{{:L('order_express_number_text')}}" minlength="1" data-validation-message="{{:L('order_express_number_format')}}" class="am-radius" required />
+                    </div>
+                    <div class="am-form-group">
+                        <input type="hidden" name="id" value="0" />
+                        <input type="hidden" name="express_id" value="0" />
+                        <input type="hidden" name="user_id" value="0" />
+                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_confirm')}}</button>
+                    </div>
+                </form>
+            </div>
+		</div>
 
 		<!-- page start -->
 		<if condition="!empty($list)">

@@ -487,6 +487,80 @@ class OrderService
     }
 
     /**
+     * 订单发货
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-30
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function OrderDelivery($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '订单id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user_id',
+                'error_msg'         => '用户id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'express_id',
+                'error_msg'         => '快递id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'express_number',
+                'error_msg'         => '快递单号有误',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取订单信息
+        $m = M('Order');
+        $where = ['id'=>intval($params['id']), 'user_id'=>$params['user_id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
+        $order = $m->where($where)->field('id,status,user_id')->find();
+        if(empty($order))
+        {
+            return DataReturn(L('common_data_no_exist_error'), -1);
+        }
+        if(!in_array($order['status'], [2]))
+        {
+            $status_text = L('common_order_user_status')[$order['status']]['name'];
+            return DataReturn('状态不可操作['.$status_text.']', -1);
+        }
+
+        $data = [
+            'status'            => 3,
+            'express_id'        => intval($params['express_id']),
+            'express_number'    => I('express_number', '', '', $params),
+            'upd_time'          => time(),
+        ];
+        if($m->where($where)->save($data))
+        {
+            // 用户消息
+            ResourcesService::MessageAdd($order['user_id'], '订单发货', '订单已发货', 1, $order['id']);
+
+            // 订单状态日志
+            $creator = isset($params['creator']) ? intval($params['creator']) : 0;
+            $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
+            self::OrderHistoryAdd($order['id'], $data['status'], $order['status'], '收货', $creator, $creator_name);
+            return DataReturn(L('common_operation_delivery_success'), 0);
+        }
+        return DataReturn(L('common_operation_delivery_error'), -1);
+    }
+
+    /**
      * 订单收货
      * @author   Devil
      * @blog    http://gong.gg/

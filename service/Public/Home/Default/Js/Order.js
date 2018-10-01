@@ -42,8 +42,10 @@ $(function()
     {
         if($(this).hasClass('selected'))
         {
+            $('form.pay-form input[name='+$(this).parent().data('type')+'_id]').val(0);
             $(this).removeClass('selected');
         } else {
+            $('form.pay-form input[name='+$(this).parent().data('type')+'_id]').val($(this).data('value'));
             $(this).addClass('selected').siblings('li').removeClass('selected');
         }
     });
