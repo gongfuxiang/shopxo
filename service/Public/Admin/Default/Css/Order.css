@@ -23,7 +23,8 @@
 .am-table .goods-item { padding: 5px 0; }
 .am-table .goods-item, .am-table .goods-item .base { overflow: hidden; }
 .am-table .goods-item .other .fl { width: 60%; }
-.am-table .goods-item:not(:last-child) { border-bottom: 1px solid #eee; }
+.am-table .goods-item:not(:last-child), .am-table .order-no { border-bottom: 1px solid #eee; }
+.am-table .order-no { font-weight: 700; color: #333;}
 
 
 /**

@@ -12,11 +12,11 @@ return array(
 	'order_time_start_text'			=>	'起始时间',
 	'order_time_end_text'			=>	'结束时间',
 
-	'order_goods_text'				=>	'商品信息',
+	'order_base_text'				=>	'基础信息',
 	'order_receive_text'			=>	'收件信息',
 	'order_express_text'			=>	'快递信息',
 	'order_user_note_text'			=>	'用户备注',
-	'order_price_text'				=>	'订单金额(元)',
+	'order_price_th_text'			=>	'订单金额(元)',
 
 	'order_confirm_time_text'		=>	'确认时间',
 	'order_pay_time_text'			=>	'支付时间',
@@ -29,5 +29,12 @@ return array(
 	'order_business_express_title'	=>	'选择快递',
 	'order_express_number_text'		=>	'快递单号',
 	'order_express_number_format'	=>	'请填写快递单号',
+
+	'order_order_no_text'			=>	'订单号',
+
+	'order_price_text'				=>	'金额',
+	'order_preferential_price_text'	=>	'优惠',
+	'order_total_price_text'		=>	'总价',
+	'order_pay_price_text'			=>	'支付',
 );
 ?>

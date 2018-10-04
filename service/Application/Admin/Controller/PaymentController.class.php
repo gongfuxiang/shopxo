@@ -15,6 +15,7 @@ class PaymentController extends CommonController
 {
     private $payment_dir;
     private $payment_business_type_all;
+    private $cannot_deleted_list;
 
 	/**
 	 * [_initialize 前置操作-继承公共前置方法]
@@ -39,6 +40,9 @@ class PaymentController extends CommonController
 
         // 支付业务类型
         $this->payment_business_type_all = C('payment_business_type_all');
+
+        // 不删除的支付方式
+        $this->cannot_deleted_list = ['DeliveryPayment', 'CashPayment'];
 	}
 
 	/**
@@ -50,8 +54,8 @@ class PaymentController extends CommonController
      */
 	public function Index()
 	{
-        // 数据列表
         $this->assign('list', $this->GetPaymentList());
+        $this->assign('cannot_deleted_list', $this->cannot_deleted_list);
         $this->display('Index');
 	}
 
@@ -93,8 +97,9 @@ class PaymentController extends CommonController
                                 $temp['name'] = $db_config[0]['name'];
                                 $temp['logo'] = $db_config[0]['logo'];
                                 $temp['apply_terminal'] = $db_config[0]['apply_terminal'];
-                                $temp['is_enable'] = $db_config[0]['is_enable'];
                                 $temp['config'] = $db_config[0]['config'];
+                                $temp['is_enable'] = $db_config[0]['is_enable'];
+                                $temp['is_open_user'] = $db_config[0]['is_open_user'];
                             }
                             $data[] = $temp;
                         }
@@ -128,6 +133,7 @@ class PaymentController extends CommonController
 
             'logo'          => '',
             'is_enable'     => 0,
+            'is_open_user'  => 0,
             'is_install'    => 0,
             'apply_terminal'=> array_column(L('common_apply_terminal_list'), 'value'),
             'config'        => '',
@@ -206,6 +212,7 @@ class PaymentController extends CommonController
 
 		// 公共额外数据处理
 		$_POST['is_enable'] = intval(I('is_enable', 0));
+        $_POST['is_open_user'] = intval(I('is_open_user', 0));
 
 		// 编辑
 		if($m->create($_POST, 2))
@@ -273,9 +280,10 @@ class PaymentController extends CommonController
         {
             $this->ajaxReturn(L('common_param_error'), -1);
         }
+        $field = I('field', 'is_enable');
 
         // 数据更新
-        if(M('Payment')->where(array('payment'=>I('id')))->save(array('is_enable'=>I('state'))))
+        if(M('Payment')->where(array('payment'=>I('id')))->save(array($field=>I('state'))))
         {
             $this->ajaxReturn(L('common_operation_edit_success'));
         } else {
@@ -419,8 +427,14 @@ class PaymentController extends CommonController
             $this->ajaxReturn(L('common_param_error'), -1);
         }
 
-        // 是否存在
+        // 是否禁止删除
         $payment = I('id');
+        if(in_array($payment, $this->cannot_deleted_list))
+        {
+            $this->ajaxReturn(L('payment_cannot_deleted_error'), -10);
+        }
+
+        // 是否存在
         $file = $this->payment_dir.$payment.'.class.php';
         if(!file_exists($file))
         {

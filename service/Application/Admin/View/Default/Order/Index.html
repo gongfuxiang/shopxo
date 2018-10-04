@@ -48,12 +48,12 @@
 		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5">
 			<thead>
 				<tr>
-					<th class="am-hide-sm-only th-goods">{{:L('order_goods_text')}}</th>
+					<th class="am-hide-sm-only th-goods">{{:L('order_base_text')}}</th>
 					<th class="am-hide-sm-only th-receive-address">{{:L('order_receive_text')}}</th>
 					<th class="am-hide-sm-only">{{:L('order_express_text')}}</th>
 					<th>{{:L('common_order_status_name')}}</th>
-					<th>{{:L('common_pay_status_name')}}</th>
-					<th>{{:L('order_price_text')}}</th>
+					<th class="am-hide-sm-only">{{:L('common_pay_status_name')}}</th>
+					<th>{{:L('order_price_th_text')}}</th>
 					<th>{{:L('common_more_name')}}</th>
 					<th>{{:L('common_operation_name')}}</th>
 				</tr>
@@ -63,6 +63,7 @@
 					<foreach name="list" item="v">
 						<tr id="data-list-{{$v.id}}">
 							<td class="am-hide-sm-only">
+								<div class="order-no">{{$v.order_no}}</div>
 								<foreach name="v.goods" item="vs">
 									<div class="goods-item">
 										<div class="base">
@@ -106,14 +107,14 @@
 									<span class="block cr-red fs-12">用户已删除</span>
 								</if>
 							</td>
-							<td>
+							<td class="am-hide-sm-only">
 								<span class="block">{{$v.pay_status_text}}</span>
 							</td>
 							<td>
-								订单金额：{{$v.price}}<br />
-								优惠金额：{{$v.preferential_price}}<br />
-								订单总价：{{$v.total_price}}<br />
-								支付金额：{{$v.pay_price}}
+								{{:L('order_price_text')}}：{{$v.price}}<br />
+								{{:L('order_preferential_price_text')}}：{{$v.preferential_price}}<br />
+								{{:L('order_total_price_text')}}：{{$v.total_price}}<br />
+								{{:L('order_pay_price_text')}}：{{$v.pay_price}}
 							</td>
 							<td>
 								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> {{:L('common_see_more_name')}}</span>
@@ -125,7 +126,10 @@
 										</div>
 										<div class="am-popup-bd">
 											<dl class="dl-content">
-												<dt>{{:L('order_goods_text')}}</dt>
+												<dt>{{:L('order_order_no_text')}}</dt>
+												<dd><if condition="empty($v['order_no'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.order_no}}</if></dd>
+
+												<dt>{{:L('order_base_text')}}</dt>
 												<dd>
 													<foreach name="v.goods" item="vs">
 														<div class="goods-item">
@@ -164,23 +168,23 @@
 												<dt>{{:L('common_pay_status_name')}}</dt>
 												<dd><if condition="empty($v['pay_status_text'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.pay_status_text}}</if></dd>
 
+												<dt>{{:L('common_order_status_name')}}</dt>
+												<dd><if condition="empty($v['status_text'])"><span class="cr-ddd">{{:L('common_not_set_text')}}</span><else />{{$v.status_text}}</if></dd>
+
 												<dt>{{:L('order_user_note_text')}}</dt>
 												<dd><if condition="empty($v['user_note'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.user_note}}</if></dd>
 
-												<dt>{{:L('order_price_text')}}</dt>
+												<dt>{{:L('order_price_th_text')}}</dt>
 												<dd>
 													<if condition="empty($v['price'])">
 														<span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span>
 													<else />
-														订单金额：{{$v.price}}<br />
-														优惠金额：{{$v.preferential_price}}<br />
-														订单总价：{{$v.total_price}}<br />
-														支付金额：{{$v.pay_price}}
+														{{:L('order_price_text')}}：{{$v.price}}<br />
+														{{:L('order_preferential_price_text')}}：{{$v.preferential_price}}<br />
+														{{:L('order_total_price_text')}}：{{$v.total_price}}<br />
+														{{:L('order_pay_price_text')}}：{{$v.pay_price}}
 													</if>
 												</dd>
-
-												<dt>{{:L('common_order_status_name')}}</dt>
-												<dd><if condition="empty($v['status_text'])"><span class="cr-ddd">{{:L('common_not_set_text')}}</span><else />{{$v.status_text}}</if></dd>
 
 												<dt>{{:L('order_confirm_time_text')}}</dt>
 												<dd><if condition="empty($v['confirm_time'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.confirm_time}}</if></dd>

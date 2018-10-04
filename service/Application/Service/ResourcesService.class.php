@@ -66,9 +66,16 @@ class ResourcesService
     public static function PaymentList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
-        $where['is_enable'] = isset($params['is_enable']) ? intval($params['is_enable']) : 1;
+        if(isset($params['is_enable']))
+        {
+            $where['is_enable'] = intval($params['is_enable']);
+        }
+        if(isset($params['is_open_user']))
+        {
+            $where['is_open_user'] = intval($params['is_open_user']);
+        }
 
-        $data = M('Payment')->where($where)->field('id,logo,name,sort,payment,config,apply_terminal,apply_terminal,element,is_enable')->order('sort asc')->select();
+        $data = M('Payment')->where($where)->field('id,logo,name,sort,payment,config,apply_terminal,apply_terminal,element,is_enable,is_open_user')->order('sort asc')->select();
         if(!empty($data) && is_array($data))
         {
             $images_host = C('IMAGE_HOST');

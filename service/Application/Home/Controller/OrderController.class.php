@@ -50,7 +50,6 @@ class OrderController extends CommonController
         // 条件
         $where = OrderService::HomeOrderListWhere($params);
 
-
         // 获取总数
         $total = OrderService::OrderTotal($where);
 
@@ -74,7 +73,7 @@ class OrderController extends CommonController
         $this->assign('data_list', $data['data']);
         
         // 发起支付 - 支付方式
-        $this->assign('buy_payment_list', ResourcesService::BuyPaymentList());
+        $this->assign('buy_payment_list', ResourcesService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
 
         // 支付方式
         $this->assign('payment_list', ResourcesService::PaymentList());

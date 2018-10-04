@@ -33,5 +33,8 @@ return array(
     'payment_upload_format'            =>  '文件格式有误，必须php文件',
     'payment_upload_error'             =>  '插件编写有误，请参考文档编写',
     'payment_plugins_element_tips'     =>  '该区域为插件配置填写项，请按照插件文档填写相应的值。',
+
+    'payment_cannot_deleted_error'     =>  '该支付方式禁止删除',
+    'payment_is_open_user_text'        =>  '对用户放开',
 );
 ?>

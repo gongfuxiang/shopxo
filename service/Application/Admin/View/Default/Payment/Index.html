@@ -20,6 +20,7 @@
                     <th class="am-hide-sm-only">{{:L('payment_author_text')}}</th>
                     <th class="am-hide-sm-only th-desc">{{:L('payment_desc_text')}}</th>
                     <th>{{:L('common_view_enable_title')}}</th>
+                    <th>{{:L('payment_is_open_user_text')}}</th>
                     <th>{{:L('common_operation_name')}}</th>
                 </tr>
             </thead>
@@ -72,7 +73,14 @@
                             </td>
                             <td>
                                 <if condition="$v['is_install'] eq 1">
-                                    <a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_enable'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Payment/StatusUpdate')}}" data-id="{{$v.payment}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
+                                    <a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_enable'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Payment/StatusUpdate')}}" data-id="{{$v.payment}}" data-field="is_enable" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
+                                <else />
+                                    <span class="cr-ddd">{{:L('common_not_install_text')}}</span>
+                                </if>
+                            </td>
+                            <td>
+                                <if condition="$v['is_install'] eq 1">
+                                    <a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_open_user'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Payment/StatusUpdate')}}" data-id="{{$v.payment}}" data-field="is_open_user" data-state="{{$v['is_open_user']}}"></a>
                                 <else />
                                     <span class="cr-ddd">{{:L('common_not_install_text')}}</span>
                                 </if>
@@ -81,9 +89,9 @@
                                 <if condition="$v['is_install'] eq 0">
                                     <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-cubes submit-ajax" data-url="{{:U('Admin/Payment/Install')}}" data-id="{{$v.payment}}" data-view="reload" data-msg="{{:L('common_install_msg')}}"> {{:L('common_operation_install')}}</button>
 
-                                    <if condition="$v['is_enable'] eq 0">
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/Payment/Delete')}}" data-id="{{$v.payment}}"> {{:L('common_operation_delete')}}</button>
-                                </if>
+                                    <if condition="!in_array($v['payment'], $cannot_deleted_list)">
+                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/Payment/Delete')}}" data-id="{{$v.payment}}"> {{:L('common_operation_delete')}}</button>
+                                    </if>
                                 <else />
                                     <a href="{{:U('Admin/Payment/SaveInfo', array('id'=>$v['id']))}}">
                                         <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:L('common_operation_edit')}}</button>
