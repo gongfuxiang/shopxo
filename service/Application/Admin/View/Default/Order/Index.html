@@ -215,7 +215,7 @@
 								<if condition="in_array($v['status'], [0,1])">
 									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax" data-url="{{:U('Admin/Order/Cancel')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:L('common_cancel_tips')}}"> {{:L('common_operation_cancel')}}</button>
 									<if condition="in_array($v['status'], [1])">
-                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-btn-block submit-pay" data-id="{{$v.id}}" data-payment-id="{{$v.payment_id}}" data-am-modal="{target: '#order-pay-popup'}">{{:L('common_operation_pay')}}</button>
+                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paypal am-btn-block submit-pay" data-id="{{$v.id}}" data-payment-id="{{$v.payment_id}}" data-am-modal="{target: '#order-pay-popup'}"> {{:L('common_operation_pay')}}</button>
                                     </if>
 								</if>
 								<if condition="$v['status'] eq 2">
