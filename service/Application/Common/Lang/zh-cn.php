@@ -160,6 +160,7 @@ return array(
 	'common_delivery_submit'			=>	'发货',
 	'common_operation_install'			=>	'安装',
 	'common_operation_uninstall'		=>	'卸载',
+	'common_operation_pay'				=>	'支付',
 	'common_delivery_tips'				=>	'是否操作发货，操作后不可恢复！',
 	'common_collect_submit'				=>	'收货',
 	'common_collect_tips'				=>	'是否操作收货，操作后不可恢复！',
@@ -433,9 +434,8 @@ return array(
 		),
 
 	// 支付日志 - 业务类型
-	'common_business_type_list'				=>	array(
-			0 => array('id' => 0, 'name' => '用户购买服务', 'checked' => true),
-			1 => array('id' => 1, 'name' => '寄件支付'),
+	'common_busines_type_list'				=>	array(
+			0 => array('id' => 0, 'name' => '订单', 'checked' => true),
 		),
 
 	// 用户积分 - 操作类型

@@ -577,8 +577,13 @@ require './ThinkPHP/ThinkPHP.php';
 ?>
 php;
             $name = strtolower($v['name']);
-            @file_put_contents(ROOT_PATH.'payment_'.$name.'_'.strtolower($payment).'_notify.php', $notify);
             @file_put_contents(ROOT_PATH.'payment_'.$name.'_'.strtolower($payment).'_respond.php', $respond);
+
+            // 线下支付不生成异步入口文件
+            if(!in_array($payment, C('under_line_list')))
+            {
+                @file_put_contents(ROOT_PATH.'payment_'.$name.'_'.strtolower($payment).'_notify.php', $notify);
+            }
         }
     }
 

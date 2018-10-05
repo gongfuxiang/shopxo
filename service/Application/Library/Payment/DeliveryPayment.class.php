@@ -70,7 +70,10 @@ class DeliveryPayment
      */
     public function Pay($params = [])
     {
-        $url = __MY_URL__.'payment_order_'.strtolower(substr(__CLASS__, strripos(__CLASS__, '\\')+1)).'_respond.php';
+        $url = $params['call_back_url'].'?';
+        $url .= 'out_trade_no='.$params['order_no'];
+        $url .= '&subject='.$params['name'];
+        $url .= '&total_price='.$params['total_price'];
         return DataReturn('处理成功', 0, $url);
     }
 
@@ -85,7 +88,7 @@ class DeliveryPayment
      */
     public function Respond($params = [])
     {
-        return DataReturn('处理成功', 0);
+        return DataReturn('处理成功', 0, $params);
     }
 }
 ?>

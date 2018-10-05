@@ -14,7 +14,7 @@ return array(
 
 	'paylog_user_name'					=>	'用户信息',
 	'paylog_pay_type_name'				=>	'支付类型',
-    'paylog_business_type_name'         =>  '业务类型',
+    'paylog_busines_type_name'          =>  '业务类型',
 	'paylog_order_id_name'				=>	'业务订单id',
 	'paylog_trade_no_name'				=>	'支付平台交易号',
     'paylog_platform_user_name'         =>  '支付平台用户帐号',

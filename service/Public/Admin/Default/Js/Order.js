@@ -24,15 +24,15 @@ $(function()
     {
         if($(this).hasClass('selected'))
         {
-            $('form.delivery-form input[name='+$(this).parent().data('type')+'_id]').val(0);
+            $('form input[name='+$(this).parent().data('type')+'_id]').val(0);
             $(this).removeClass('selected');
         } else {
-            $('form.delivery-form input[name='+$(this).parent().data('type')+'_id]').val($(this).data('value'));
+            $('form input[name='+$(this).parent().data('type')+'_id]').val($(this).data('value'));
             $(this).addClass('selected').siblings('li').removeClass('selected');
         }
     });
 
-    // 发货表单
+    // 发货操作表单
     $('form.delivery-form button[type=submit]').on('click', function()
     {
         var id = $('form.delivery-form input[name=id]').val() || 0;
@@ -48,4 +48,39 @@ $(function()
             return false;
         }
     });
+
+
+    // 支付操作
+    $('.submit-pay').on('click', function()
+    {
+        $('form.pay-form input[name=id]').val($(this).data('id'));
+        var payment_id = $(this).data('payment-id') || 0;
+        if($('.payment-items-'+payment_id).length > 0)
+        {
+            $('form.pay-form input[name=payment_id]').val(payment_id);
+            $('.payment-items-'+payment_id).addClass('selected').siblings('li').removeClass('selected');
+        } else {
+            $('form.pay-form input[name=payment_id]').val(0);
+            $('ul.payment-list li.selected').removeClass('selected');
+        }
+    });
+
+    // 支付操作表单
+    FromInit('form.form-validation-pay');
+    $('form.pay-form button[type=submit]').on('click', function()
+    {
+        var id = $('form.pay-form input[name=id]').val() || 0;
+        if(id == 0)
+        {
+            PromptCenter('订单id有误');
+            return false;
+        }
+        var payment_id = $('form.pay-form input[name=payment_id]').val() || 0;
+        if(payment_id == 0)
+        {
+            PromptCenter('请选择支付方式');
+            return false;
+        }
+    });
+
 });

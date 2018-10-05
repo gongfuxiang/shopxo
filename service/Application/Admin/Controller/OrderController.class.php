@@ -73,6 +73,12 @@ class OrderController extends CommonController
         // 快递公司
         $this->assign('express_list', ResourcesService::ExpressList());
 
+        // 发起支付 - 支付方式
+        $pay_where = [
+            'where' => ['is_enable'=>1, 'is_open_user'=>1, 'payment'=>['in', C('under_line_list')]],
+        ];
+        $this->assign('buy_payment_list', ResourcesService::BuyPaymentList($pay_where));
+
         // 参数
         $this->assign('param', $param);
 
@@ -309,6 +315,23 @@ class OrderController extends CommonController
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
         $ret = OrderService::OrderConfirm($params);
+        $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
+    }
+
+    /**
+     * 订单支付
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
+     */
+    public function Pay()
+    {
+        $params = $_POST;
+        $params['user'] = $this->admin;
+        $params['user']['user_name_view'] = L('common_admin_name').'：'.$this->admin['username'];
+        $ret = OrderService::AdminPay($params);
         $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }
 }

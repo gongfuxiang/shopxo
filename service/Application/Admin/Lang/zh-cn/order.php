@@ -36,5 +36,9 @@ return array(
 	'order_preferential_price_text'	=>	'优惠',
 	'order_total_price_text'		=>	'总价',
 	'order_pay_price_text'			=>	'支付',
+
+	'order_pay_popup_title'			=>	'支付操作',
+	'order_business_pay_title'		=>	'选择支付',
+	'order_payment_not_data_tips'	=>	'没有支付方式',
 );
 ?>

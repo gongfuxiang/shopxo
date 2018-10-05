@@ -129,4 +129,7 @@ return array(
 	'payment_business_type_all'				=> [
         ['name' => 'Order', 'desc' => '订单'],
     ],
+
+    // 线下支付方式
+    'under_line_list'						=> ['CashPayment', 'DeliveryPayment'],
 );
