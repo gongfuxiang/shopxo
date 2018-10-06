@@ -92,7 +92,12 @@ class CommonController extends Controller
 	{
 		if(empty($_SESSION['admin']))
 		{
-			$this->error(L('common_login_invalid'), U('Admin/Admin/LoginInfo'));
+			if(IS_AJAX)
+			{
+				$this->ajaxReturn(L('common_login_invalid'), -400);
+			} else {
+				die('<script type="text/javascript">if(self.frameElement && self.frameElement.tagName == "IFRAME"){parent.location.reload();}else{window.location.href="'.U('Admin/Admin/LoginInfo').'";}</script>');
+			}
 		}
 	}
 

@@ -17,9 +17,9 @@ return array(
     'paylog_busines_type_name'          =>  '业务类型',
 	'paylog_order_id_name'				=>	'业务订单id',
 	'paylog_trade_no_name'				=>	'支付平台交易号',
-    'paylog_platform_user_name'         =>  '支付平台用户帐号',
-    'paylog_total_fee_name'             =>  '支付金额',
-    'paylog_amount_name'                =>  '订单实际金额',
+    'paylog_platform_buyer_user_name'   =>  '支付平台用户帐号',
+    'paylog_pay_price_name'             =>  '支付金额',
+    'paylog_total_price_name'                =>  '订单实际金额',
     'paylog_subject_name'               =>  '订单名称',
 	'paylog_add_time_name'				=>	'支付时间',
 );

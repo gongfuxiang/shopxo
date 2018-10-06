@@ -330,7 +330,7 @@ class OrderController extends CommonController
     {
         $params = $_POST;
         $params['user'] = $this->admin;
-        $params['user']['user_name_view'] = L('common_admin_name').'：'.$this->admin['username'];
+        $params['user']['user_name_view'] = L('common_admin_name').'-'.$this->admin['username'];
         $ret = OrderService::AdminPay($params);
         $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }

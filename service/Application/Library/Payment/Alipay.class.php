@@ -427,10 +427,34 @@ class Alipay
             case 'TRADE_SUCCESS':
             case 'TRADE_FINISHED':
             case 'success':
-                return DataReturn('支付成功', 0, $data);
+                return DataReturn('支付成功', 0, $this->ReturnData($data));
                 break;
         }
         return DataReturn('处理异常错误', -100);
+    }
+
+    /**
+     * [ReturnData 返回数据统一格式]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-10-06T16:54:24+0800
+     * @param    [array]                   $data [返回数据]
+     */
+    private function ReturnData($data)
+    {
+        // 兼容web版本支付参数
+        $buyer_user = isset($data['buyer_logon_id']) ? $data['buyer_logon_id'] : (isset($data['buyer_email']) ? $data['buyer_email'] : '');
+        $pay_price = isset($data['total_amount']) ? $data['total_amount'] : (isset($data['total_fee']) ? $data['total_fee'] : '');
+
+        // 返回数据固定基础参数
+        $data['trade_no']       = $data['trade_no'];        // 支付平台 - 订单号
+        $data['buyer_user']     = $buyer_user;              // 支付平台 - 用户
+        $data['out_trade_no']   = $data['out_trade_no'];    // 本系统发起支付的 - 订单号
+        $data['subject']        = $data['subject'];         // 本系统发起支付的 - 商品名称
+        $data['pay_price']      = $pay_price;               // 本系统发起支付的 - 总价
+
+        return $data;
     }
 }
 ?>

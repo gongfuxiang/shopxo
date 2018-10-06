@@ -52,7 +52,6 @@
 					<th class="am-hide-sm-only th-receive-address">{{:L('order_receive_text')}}</th>
 					<th class="am-hide-sm-only">{{:L('order_express_text')}}</th>
 					<th>{{:L('common_order_status_name')}}</th>
-					<th class="am-hide-sm-only">{{:L('common_pay_status_name')}}</th>
 					<th>{{:L('order_price_th_text')}}</th>
 					<th>{{:L('common_more_name')}}</th>
 					<th>{{:L('common_operation_name')}}</th>
@@ -103,12 +102,17 @@
 							</td>
 							<td>
 								<span class="block">{{$v.status_text}}</span>
-								<if condition="$v['user_is_delete_time'] neq 0">
-									<span class="block cr-red fs-12">用户已删除</span>
+								
+								<if condition="$v['pay_status'] eq 1">
+									<span class="block cr-green fs-12">{{$v.pay_status_text}}</span>
+								<elseif condition="$v['pay_status'] eq 2" />
+									<span class="block cr-yellow fs-12">{{$v.pay_status_text}}</span>
+								<else />
+									<span class="block fs-12">{{$v.pay_status_text}}</span>
 								</if>
-							</td>
-							<td class="am-hide-sm-only">
-								<span class="block">{{$v.pay_status_text}}</span>
+								<if condition="$v['user_is_delete_time'] neq 0">
+									<span class="block cr-red fs-12">{{:L('order_user_is_delete_text')}}</span>
+								</if>
 							</td>
 							<td>
 								{{:L('order_price_text')}}：{{$v.price}}<br />

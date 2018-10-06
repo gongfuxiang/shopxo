@@ -40,5 +40,7 @@ return array(
 	'order_pay_popup_title'			=>	'支付操作',
 	'order_business_pay_title'		=>	'选择支付',
 	'order_payment_not_data_tips'	=>	'没有支付方式',
+
+	'order_user_is_delete_text'		=>	'用户已删除',
 );
 ?>

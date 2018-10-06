@@ -180,9 +180,9 @@ class OrderService
                     'payment'   => $params['payment'],
                     'pay'       => [
                         'trade_no'      => '',
-                        'subject'       => isset($params['params']['subject']) ? $params['params']['subject'] : '',
-                        'buyer_email'   => $params['user']['user_name_view'],
-                        'total_amount'  => $params['order']['total_price'],
+                        'subject'       => isset($params['params']['subject']) ? $params['params']['subject'] : '订单支付',
+                        'buyer_user'    => '用户-'.$params['user']['user_name_view'],
+                        'pay_price'     => $params['order']['total_price'],
                     ],
                 ];
                 return self::OrderPayHandle($pay_params);
@@ -273,10 +273,6 @@ class OrderService
         $where = ['order_no'=>$ret['data']['out_trade_no'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
         $order = M('Order')->where($where)->find();
 
-        // 兼容web版本支付参数
-        $buyer_email = isset($ret['data']['buyer_logon_id']) ? $ret['data']['buyer_logon_id'] : (isset($ret['data']['buyer_email']) ? $ret['data']['buyer_email'] : '');
-        $total_amount = isset($ret['data']['total_amount']) ? $ret['data']['total_amount'] : (isset($ret['data']['total_fee']) ? $ret['data']['total_fee'] : '');
-
         // 支付处理
         $pay_params = [
             'order'     => $order,
@@ -284,8 +280,8 @@ class OrderService
             'pay'       => [
                 'trade_no'      => $ret['data']['trade_no'],
                 'subject'       => $ret['data']['subject'],
-                'buyer_email'   => $buyer_email,
-                'total_amount'  => $total_amount,
+                'buyer_user'    => $ret['data']['buyer_user'],
+                'pay_price'     => $ret['data']['pay_price'],
             ],
         ];
         return self::OrderPayHandle($pay_params);
@@ -319,16 +315,16 @@ class OrderService
         }
 
         // 支付参数
-        $total_amount = isset($params['pay']['total_amount']) ? $params['pay']['total_amount'] : 0;
+        $pay_price = isset($params['pay']['pay_price']) ? $params['pay']['pay_price'] : 0;
 
         // 写入支付日志
         $pay_log_data = [
             'user_id'       => $params['order']['user_id'],
             'order_id'      => $params['order']['id'],
-            'amount'        => $params['order']['total_price'],
+            'total_price'   => $params['order']['total_price'],
             'trade_no'      => isset($params['pay']['trade_no']) ? $params['pay']['trade_no'] : '',
-            'user'          => isset($params['pay']['buyer_email']) ? $params['pay']['buyer_email'] : '',
-            'total_fee'     => $total_amount,
+            'buyer_user'    => isset($params['pay']['buyer_user']) ? $params['pay']['buyer_user'] : '',
+            'pay_price'     => $pay_price,
             'subject'       => isset($params['pay']['subject']) ? $params['pay']['subject'] : '订单支付',
             'payment'       => $params['payment']['payment'],
             'payment_name'  => $params['payment']['name'],
@@ -349,7 +345,7 @@ class OrderService
         $upd_data = array(
             'status'        => 2,
             'pay_status'    => 1,
-            'pay_price'     => $total_amount,
+            'pay_price'     => $pay_price,
             'payment_id'    => $params['payment']['id'],
             'pay_time'      => time(),
             'upd_time'      => time(),
