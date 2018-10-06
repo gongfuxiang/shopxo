@@ -75,10 +75,10 @@
 			<if condition="empty($user) and (MyC('home_user_login_state') eq 1 or in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state')))">
 				<div class="member-login">
 					<if condition="MyC('home_user_login_state') eq 1">
-						<a class="am-btn-danger btn" href="{{:U('Home/User/LoginInfo')}}">登录</a>
+						<a class="am-btn-primary btn" href="{{:U('Home/User/LoginInfo')}}">登录</a>
 					</if>
 					<if condition="in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))">
-						<a class="am-btn-danger btn" href="{{:U('Home/User/RegInfo')}}">注册</a>
+						<a class="am-btn-primary btn" href="{{:U('Home/User/RegInfo')}}">注册</a>
 					</if>
 				</div>
 			</if>
@@ -99,7 +99,7 @@
 						<li>
 							<a target="_blank" href="#">
 								<span>[{{$article.category_name}}]</span>
-								<span <if condition="!empty($article.title_color)">style="color:{{$article.title_color}};"</if> >{{$article.title}}</span>
+								<span <notempty name="article.title_color">style="color:{{$article.title_color}};"</notempty> >{{$article.title}}</span>
 							</a>
 						</li>
 					</foreach>
@@ -171,7 +171,7 @@
 									<div class="goods-items <if condition="in_array($key, [0,1])">am-u-sm-7 am-u-md-4 text-two<else />am-u-sm-6 am-u-md-2 text-three</if>  <if condition="in_array($key, [0,3])">sug</if> <if condition="in_array($key, [2,5])">big</if> <if condition="$key eq 5">last</if>">
 										<div class="outer-con">
 											<div class="goods-title ellipsis">
-												<a href="{{$goods['goods_url']}}">{{$goods.title}}</a>
+												<a href="{{$goods['goods_url']}}" <notempty name="goods.title_color">style="color:{{$goods.title_color}};"</notempty>>{{$goods.title}}</a>
 											</div>
 											<div class="price">￥{{$goods.price}}</div>
 										</div>

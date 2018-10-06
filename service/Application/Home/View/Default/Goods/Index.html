@@ -59,7 +59,7 @@
             <!--规格属性-->
             <!--名称-->
             <div class="tb-detail-hd">
-                <h1 class="detail-title">{{$goods.title}}</h1>
+                <h1 class="detail-title" <notempty name="goods.title_color">style="color:{{$goods.title_color}};"</notempty>>{{$goods.title}}</h1>
             </div>
             <div class="tb-detail-list">
                 <!--价格-->
@@ -217,7 +217,7 @@
                                     </a>               
                                 </div>
                                 <div class="p-name">
-                                    <a href="{{:$v['goods_url']}}">{{$v.title}}</a>
+                                    <a href="{{:$v['goods_url']}}" <notempty name="v.title_color">style="color:{{$v.title_color}};"</notempty>>{{$v.title}}</a>
                                 </div>
                                 <div class="p-price"><strong>￥{{$v.price}}</strong></div>
                             </li>
@@ -273,6 +273,7 @@
                         </div>
                     </div>
 
+                    <!-- 猜你喜欢 -->
                     <div class="am-tab-panel am-fade">
                         <div class="like">
                             <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
@@ -283,7 +284,7 @@
                                                 <a href="{{:$v['goods_url']}}">
                                                     <img alt="{{$v.title}}" src="{{$v.home_recommended_images}}" />
                                                 </a>
-                                                <p class="ellipsis">{{$v.title}}</p>
+                                                <p class="ellipsis" <notempty name="v.title_color">style="color:{{$v.title_color}};"</notempty>>{{$v.title}}</p>
                                                 <p class="price fl">
                                                     <strong>¥{{$v.price}}</strong>
                                                 </p>

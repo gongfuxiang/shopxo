@@ -84,7 +84,12 @@ class CommonController extends Controller
 	{
 		if(empty($_SESSION['user']))
 		{
-			$this->error(L('common_login_invalid'), U('Home/User/LoginInfo'));
+			if(IS_AJAX)
+			{
+				$this->ajaxReturn(L('common_login_invalid'), -400);
+			} else {
+				redirect(U('Home/User/LoginInfo'));
+			}
 		}
 	}
 
