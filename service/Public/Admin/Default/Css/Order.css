@@ -17,7 +17,7 @@
 	.view-operation button { margin: 2px 0px; }
 }
 
-.am-table .th-goods { width: 20%; }
+.am-table .th-goods { width: 30%; }
 .am-table .goods-images { width: 60px; height: 60px; float: left; margin-right: 5px; }
 .am-table .th-receive-address { width: 15%; }
 .am-table .goods-item { padding: 5px 0; }

@@ -84,6 +84,7 @@ class OrderService
         if(isset($ret['code']) && $ret['code'] == 0)
         {
             // 非线上支付处理
+            $params['user']['user_name_view'] = '用户-'.$params['user']['user_name_view'];
             self::OrderPaymentUnderLine([
                 'order'     => $order,
                 'payment'   => $payment[0],
@@ -181,7 +182,7 @@ class OrderService
                     'pay'       => [
                         'trade_no'      => '',
                         'subject'       => isset($params['params']['subject']) ? $params['params']['subject'] : '订单支付',
-                        'buyer_user'    => '用户-'.$params['user']['user_name_view'],
+                        'buyer_user'    => $params['user']['user_name_view'],
                         'pay_price'     => $params['order']['total_price'],
                     ],
                 ];
