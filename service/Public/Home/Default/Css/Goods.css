@@ -15,7 +15,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .theme-poptit{padding:12px;position:relative;overflow: hidden;background:#fff ;height:80px ;}
 .theme-poptit .close{float:right;color:#999;padding:5px;margin:-2px -5px -5px;font:bold 14px/14px simsun;text-shadow:0 1px 0 #ddd}
 .theme-poptit .close:hover{color:#444;}
-.theme-popover .confirm { background-color: #d2364c; border-color: #d2364c; color: #fff; }
+.theme-popover .confirm { background-color: #d2364c; border-color: #d2364c; color: #fff !important; }
 
 /* 轮播 */
 .scoll { margin-bottom: 10px; }

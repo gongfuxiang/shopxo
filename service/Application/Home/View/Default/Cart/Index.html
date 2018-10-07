@@ -21,7 +21,7 @@
                 <tr>
                     <th>商品信息</th>
                     <th class="am-hide-sm-only">单价</th>
-                    <th class="am-hide-sm-only">数量</th>
+                    <th>数量</th>
                     <th class="am-hide-sm-only">金额</th>
                     <th>操作</th>
                 </tr>
@@ -60,10 +60,10 @@
                             </if>
                             <p class="line-price">￥{{$goods.price}}</p>
                         </td>
-                        <td class="number am-hide-sm-only">
+                        <td class="number">
                             <div class="am-input-group am-input-group-sm stock-tag" data-inventory="{{$goods.inventory}}" data-price="{{$goods.price}}" data-ajax-url="{{:U('Home/Cart/Stock')}}">
                                 <span class="am-input-group-label <if condition="$goods['is_shelves'] eq 1 and $goods['is_delete_time'] eq 0">stock-submit</if>" data-type="min">-</span>
-                                <input type="text" class="am-form-field" value="{{$goods.stock}}" <if condition="$goods['is_shelves'] neq 1 or $goods['is_delete_time'] neq 0">disabled</if> />
+                                <input type="number" class="am-form-field" value="{{$goods.stock}}" <if condition="$goods['is_shelves'] neq 1 or $goods['is_delete_time'] neq 0">disabled</if> />
                                 <span class="am-input-group-label <if condition="$goods['is_shelves'] eq 1 and $goods['is_delete_time'] eq 0">stock-submit</if>" data-type="add">+</span>
                             </div>
                             <if condition="$goods['is_shelves'] neq 1">

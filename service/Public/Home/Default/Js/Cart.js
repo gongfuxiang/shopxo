@@ -126,7 +126,7 @@ $(function()
         {
             $('.cart-nav').css({"position":"fixed", "bottom":0, "width":$('.cart-content').width()+"px", "z-index":1000});
         } else {
-            $('.cart-nav').css({"position":"relative", "bottom":0, "z-index":0});
+            $('.cart-nav').css({"position":"relative", "bottom":0, "z-index":0, "width":"100%"});
         }
     }
     cart_nav_pop();
