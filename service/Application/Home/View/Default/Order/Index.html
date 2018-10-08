@@ -41,11 +41,11 @@
                     <td class="time">
                         <span>时间：</span>
                         <span class="am-form-group">
-                            <input type="text" name="time_start" class="am-form-field am-input-sm am-radius Wdate" placeholder="起始时间" value="<notempty name="params.time_start">{{$params.time_start}}</notempty>" data-validation-message="日期格式有误" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" /><i class="am-icon-calendar"></i>
+                            <input type="text" name="time_start" class="am-form-field am-input-sm am-radius Wdate" placeholder="起始时间" value="<notempty name="params.time_start">{{$params.time_start}}</notempty>" data-validation-message="日期格式有误" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" /><i class="am-icon-calendar"></i>
                         </span>
                         <em class="text-grey">~</em>
                         <span class="am-form-group">
-                            <input type="text" name="time_end" class="am-form-field am-input-sm am-radius Wdate" placeholder="结束时间" value="<notempty name="params.time_end">{{$params.time_end}}</notempty>" pattern="^[0-9]{4}-[0-9]{2}-[0-9]{2}$" data-validation-message="日期格式有误" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" /><i class="am-icon-calendar"></i>
+                            <input type="text" name="time_end" class="am-form-field am-input-sm am-radius Wdate" placeholder="结束时间" value="<notempty name="params.time_end">{{$params.time_end}}</notempty>" pattern="^[0-9]{4}-[0-9]{2}-[0-9]{2}$" data-validation-message="日期格式有误" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" /><i class="am-icon-calendar"></i>
                         </span>
                     </td>
                     <td class="price">
