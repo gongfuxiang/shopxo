@@ -387,6 +387,12 @@ class OrderService
             'user_is_delete_time'   => 0,
         ];
 
+        // 订单id
+        if(!empty($params['id']))
+        {
+            $where['id'] = intval($params['id']);
+        }
+
         // 用户id
         if(!empty($params['user']))
         {
@@ -511,12 +517,26 @@ class OrderService
             $detail_field = 'id,goods_id,title,images,original_price,price,attribute,buy_number';
             $images_host = C('IMAGE_HOST');
             $order_status_list = L('common_order_user_status');
+            $order_pay_status = L('common_order_pay_status');
             foreach($data as &$v)
             {
                 // 订单基础
                 $total_price = 0;
-                $v['status_name'] = $order_status_list[$v['status']]['name'];
                 $v['payment_name'] = '';
+
+                // 状态
+                $v['status_name'] = $order_status_list[$v['status']]['name'];
+
+                // 支付状态
+                $v['pay_status_name'] = $order_pay_status[$v['pay_status']]['name'];
+
+                // 快递公司
+                $v['express_name'] = ResourcesService::ExpressName(['express_id'=>$v['express_id']]);
+
+                // 收件人地址
+                $v['receive_province_name'] = ResourcesService::RegionName(['region_id'=>$v['receive_province']]);
+                $v['receive_city_name'] = ResourcesService::RegionName(['region_id'=>$v['receive_city']]);
+                $v['receive_county_name'] = ResourcesService::RegionName(['region_id'=>$v['receive_county']]);
                 
                 // 订单详情
                 $items = $detail_m->where(['order_id'=>$v['id']])->field($detail_field)->select();
@@ -527,7 +547,9 @@ class OrderService
                         $vs['images'] = empty($vs['images']) ? null : $images_host.$vs['images'];
                         $vs['attribute'] = empty($vs['attribute']) ? null : json_decode($vs['attribute'], true);
                         $vs['goods_url'] = HomeUrl('Goods', 'Index', ['id'=>$vs['goods_id']]);
-                        $total_price += $vs['buy_number']*$vs['price'];
+                        $vs['total_price'] = $vs['buy_number']*$vs['price'];
+
+                        $total_price += $vs['total_price'];
                     }
                 }
                 $v['items'] = $items;
@@ -694,6 +716,7 @@ class OrderService
             'status'            => 3,
             'express_id'        => intval($params['express_id']),
             'express_number'    => I('express_number', '', '', $params),
+            'delivery_time'     => time(),
             'upd_time'          => time(),
         ];
         if($m->where($where)->save($data))
@@ -719,7 +742,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function OrderConfirm($params = [])
+    public static function OrderCollect($params = [])
     {
         // 请求参数
         $p = [
@@ -755,8 +778,9 @@ class OrderService
         }
 
         $data = [
-            'status'    => 4,
-            'upd_time'  => time(),
+            'status'        => 4,
+            'collect_time'  => time(),
+            'upd_time'      => time(),
         ];
         if($m->where($where)->save($data))
         {

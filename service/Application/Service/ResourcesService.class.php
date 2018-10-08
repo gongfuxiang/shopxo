@@ -26,6 +26,20 @@ class ResourcesService
     }
 
     /**
+     * 获取地区名称
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-19
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function ExpressName($params = [])
+    {
+        return M('Express')->where(['id'=>intval($params['express_id'])])->getField('name');
+    }
+
+    /**
      * 快递列表
      * @author   Devil
      * @blog    http://gong.gg/

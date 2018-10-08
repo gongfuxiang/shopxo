@@ -93,6 +93,77 @@ class OrderController extends CommonController
     }
 
     /**
+     * 订单详情
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-08
+     * @desc    description
+     */
+    public function Detail()
+    {
+        // 参数
+        $params = array_merge($_POST, $_GET);
+        $params['user'] = $this->user;
+
+        // 条件
+        $where = OrderService::HomeOrderListWhere($params);
+
+        // 获取列表
+        $data_params = array(
+            'limit_start'   => 0,
+            'limit_number'  => 1,
+            'where'         => $where,
+        );
+        $data = OrderService::OrderList($data_params);
+        if(!empty($data['data'][0]))
+        {
+            // 发起支付 - 支付方式
+            $this->assign('buy_payment_list', ResourcesService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
+
+            $this->assign('data', $data['data'][0]);
+            $this->display('Detail');
+        } else {
+            $this->assign('msg', L('common_not_data_tips'));
+            $this->display('/Public/TipsError');
+        } 
+    }
+
+    /**
+     * 评价页面
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-08
+     * @desc    description
+     */
+    public function CommentsInfo()
+    {
+        // 参数
+        $params = array_merge($_POST, $_GET);
+        $params['user'] = $this->user;
+
+        // 条件
+        $where = OrderService::HomeOrderListWhere($params);
+
+        // 获取列表
+        $data_params = array(
+            'limit_start'   => 0,
+            'limit_number'  => 1,
+            'where'         => $where,
+        );
+        $data = OrderService::OrderList($data_params);
+        if(!empty($data['data'][0]))
+        {
+            $this->assign('data', $data['data'][0]);
+            $this->display('CommentsInfo');
+        } else {
+            $this->assign('msg', L('common_not_data_tips'));
+            $this->display('/Public/TipsError');
+        } 
+    }
+
+    /**
      * 订单支付
      * @author   Devil
      * @blog    http://gong.gg/
@@ -169,7 +240,7 @@ class OrderController extends CommonController
      * @date    2018-09-30
      * @desc    description
      */
-    public function Confirm()
+    public function Collect()
     {
         if(IS_POST)
         {
@@ -177,7 +248,7 @@ class OrderController extends CommonController
             $params['user_id'] = $this->user['id'];
             $params['creator'] = $this->user['id'];
             $params['creator_name'] = $this->user['user_name_view'];
-            $ret = OrderService::OrderConfirm($params);
+            $ret = OrderService::OrderCollect($params);
             $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
         } else {
             $this->assign('msg', L('common_unauthorized_access'));

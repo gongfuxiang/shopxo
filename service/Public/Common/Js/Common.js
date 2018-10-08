@@ -702,6 +702,8 @@ function DataDelete(e)
 {
 	var id = e.data('id');
 	var url = e.data('url');
+	var view = e.data('view') || 'delete';
+	var jump = e.data('jump') || null;
 	var title = e.data('title') || '温馨提示';
 	var msg = e.data('msg') || '删除后不可恢复、确认操作吗？';
 
@@ -727,6 +729,49 @@ function DataDelete(e)
 						{
 							Prompt(result.msg, 'success');
 
+							switch(view)
+							{
+								// 成功则删除数据列表
+								case 'delete' :
+									Prompt(result.msg, 'success');
+									$('#data-list-'+id).remove();
+									break;
+
+								// 刷新
+								case 'reload' :
+									Prompt(result.msg, 'success');
+									setTimeout(function()
+									{
+										window.location.reload();
+									}, 1500);
+									break;
+
+								// 回调函数
+								case 'fun' :
+									if(IsExitsFunction(value))
+			                		{
+			                			window[value](result);
+			                		} else {
+			                			Prompt('['+value+']配置方法未定义');
+			                		}
+									break;
+
+								// 跳转
+								case 'jump' :
+									Prompt(result.msg, 'success');
+									if(jump != null)
+									{
+										setTimeout(function()
+										{
+											window.location.href = jump;
+										}, 1500);
+									}
+									break;
+
+								// 默认提示成功
+								default :
+									Prompt(result.msg, 'success');
+							}
 							// 成功则删除数据列表
 							$('#data-list-'+id).remove();
 						} else {

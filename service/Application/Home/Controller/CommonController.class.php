@@ -123,9 +123,12 @@ class CommonController extends Controller
 		$this->assign('default_theme', $default_theme);
 
 		// 控制器静态文件状态css,js
-		$module_css = MODULE_NAME.DS.$default_theme.DS.'Css'.DS.CONTROLLER_NAME.'.css';
+		$module_css = MODULE_NAME.DS.$default_theme.DS.'Css'.DS.CONTROLLER_NAME;
+		$module_css .= file_exists(ROOT_PATH.'Public'.DS.$module_css.'.'.ACTION_NAME.'.css') ? '.'.ACTION_NAME.'.css' : '.css';
 		$this->assign('module_css', file_exists(ROOT_PATH.'Public'.DS.$module_css) ? $module_css : '');
-		$module_js = MODULE_NAME.DS.$default_theme.DS.'Js'.DS.CONTROLLER_NAME.'.js';
+
+		$module_js = MODULE_NAME.DS.$default_theme.DS.'Js'.DS.CONTROLLER_NAME;
+		$module_js .= file_exists(ROOT_PATH.'Public'.DS.$module_js.'.'.ACTION_NAME.'.js') ? '.'.ACTION_NAME.'.js' : '.js';
 		$this->assign('module_js', file_exists(ROOT_PATH.'Public'.DS.$module_js) ? $module_js : '');
 
 		// 导航

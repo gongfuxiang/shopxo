@@ -314,7 +314,7 @@ class OrderController extends CommonController
         $params['user_id'] = $params['value'];
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
-        $ret = OrderService::OrderConfirm($params);
+        $ret = OrderService::OrderCollect($params);
         $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }
 
