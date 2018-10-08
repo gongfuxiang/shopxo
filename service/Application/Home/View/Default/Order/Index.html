@@ -122,7 +122,7 @@
         <!-- 订单列表 -->
         <notempty name="data_list">
             <foreach name="data_list" item="order">
-                <table id="data-list-{{$order.id}}" class="data-list <if condition="$order['status'] eq 1">data-ongoing</if>">
+                <table id="data-list-{{$order.id}}" class="data-list <if condition="$order['status'] ELT 4">data-ongoing</if>">
                     <tr class="content-hd">
                         <td colspan="6">
                             <span class="am-icon-calendar-check-o"> {{:date('Y-m-d', $order['add_time'])}}</span>
