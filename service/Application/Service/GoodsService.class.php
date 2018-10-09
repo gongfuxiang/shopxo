@@ -445,7 +445,7 @@ class GoodsService
      */
     public static function FavorGoodsTotal($where = [])
     {
-        return (int) M('GoodsFavor')->where($where)->count();
+        return (int) M('GoodsFavor')->alias('f')->join('__GOODS__ AS g ON g.id=f.goods_id')->where($where)->count();
     }
 
     /**
@@ -490,54 +490,18 @@ class GoodsService
 
         $limit_start = max(0, intval($params['limit_start']));
         $limit_number = max(1, intval($params['limit_number']));
-        $order_by = empty($params['$order_by']) ? 'id desc' : I('order_by', '', '', $params);
+        $order_by = empty($params['$order_by']) ? 'f.id desc' : I('order_by', '', '', $params);
+        $field = 'f.*, g.title, g.original_price, g.price, g.images';
 
         // 获取订单
-        $data = M('GoodsFavor')->where($params['where'])->limit($limit_start, $limit_number)->order($order_by)->select();
+        $data = M('GoodsFavor')->alias('f')->join('__GOODS__ AS g ON g.id=f.goods_id')->field($field)->where($params['where'])->limit($limit_start, $limit_number)->order($order_by)->select();
         if(!empty($data))
         {
-            $detail_m = M('OrderDetail');
-            $detail_field = 'id,goods_id,title,images,original_price,price,attribute,buy_number';
             $images_host = C('IMAGE_HOST');
-            $order_status_list = L('common_order_user_status');
-            $order_pay_status = L('common_order_pay_status');
             foreach($data as &$v)
             {
-                // 订单基础
-                $total_price = 0;
-                $v['payment_name'] = '';
-
-                // 状态
-                $v['status_name'] = $order_status_list[$v['status']]['name'];
-
-                // 支付状态
-                $v['pay_status_name'] = $order_pay_status[$v['pay_status']]['name'];
-
-                // 快递公司
-                $v['express_name'] = ResourcesService::ExpressName(['express_id'=>$v['express_id']]);
-
-                // 收件人地址
-                $v['receive_province_name'] = ResourcesService::RegionName(['region_id'=>$v['receive_province']]);
-                $v['receive_city_name'] = ResourcesService::RegionName(['region_id'=>$v['receive_city']]);
-                $v['receive_county_name'] = ResourcesService::RegionName(['region_id'=>$v['receive_county']]);
-                
-                // 订单详情
-                $items = $detail_m->where(['order_id'=>$v['id']])->field($detail_field)->select();
-                if(!empty($items))
-                {
-                    foreach($items as &$vs)
-                    {
-                        $vs['images'] = empty($vs['images']) ? null : $images_host.$vs['images'];
-                        $vs['attribute'] = empty($vs['attribute']) ? null : json_decode($vs['attribute'], true);
-                        $vs['goods_url'] = HomeUrl('Goods', 'Index', ['id'=>$vs['goods_id']]);
-                        $vs['total_price'] = $vs['buy_number']*$vs['price'];
-
-                        $total_price += $vs['total_price'];
-                    }
-                }
-                $v['items'] = $items;
-                $v['items_count'] = count($items);
-                $v['total_price'] = $total_price;
+                $v['images_old'] = $v['images'];
+                $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
             }
         }
         return DataReturn('处理成功', 0, $data);
