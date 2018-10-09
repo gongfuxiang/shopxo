@@ -333,5 +333,6 @@ class UserService
             return DataReturn(L('common_operation_set_error'), -100);
         }
     }
+
 }
 ?>

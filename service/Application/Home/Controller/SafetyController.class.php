@@ -231,10 +231,10 @@ class SafetyController extends CommonController
 		$code = GetNumberCode(6);
 		if($type == 'sms')
 		{
-			$obj = new \My\Sms($verify_param);
-			$state = $obj->SendText($accounts, MyC('home_sms_user_mobile_binding'), $code);
+			$obj = new \Library\Sms($verify_param);
+			$state = $obj->SendCode($accounts, $code, MyC('home_sms_user_mobile_binding'));
 		} else {
-			$obj = new \My\Email($verify_param);
+			$obj = new \Library\Email($verify_param);
 			$email_param = array(
 					'email'		=>	$accounts,
 					'content'	=>	MyC('home_email_user_email_binding'),
@@ -313,9 +313,9 @@ class SafetyController extends CommonController
 			);
 		if($type == 'sms')
 		{
-			$obj = new \My\Sms($verify_param);
+			$obj = new \Library\Sms($verify_param);
 		} else {
-			$obj = new \My\Email($verify_param);
+			$obj = new \Library\Email($verify_param);
 		}
 		// 是否已过期
 		if(!$obj->CheckExpire())
@@ -370,9 +370,9 @@ class SafetyController extends CommonController
 			);
 		if($type == 'sms')
 		{
-			$obj = new \My\Sms($verify_param);
+			$obj = new \Library\Sms($verify_param);
 		} else {
-			$obj = new \My\Email($verify_param);
+			$obj = new \Library\Email($verify_param);
 		}
 		// 是否已过期
 		if(!$obj->CheckExpire())

@@ -20,7 +20,7 @@ return array(
 			array(
 					'name'		=>	'我的交易',
 					'is_show'	=>	1,
-					'icon'		=>	'am-icon-mortar-board',
+					'icon'		=>	'am-icon-cube',
 					'item'		=>	array(
 							array(
 									'control'	=>	'Order',
@@ -28,6 +28,20 @@ return array(
 									'name'		=>	'订单管理',
 									'is_show'	=>	1,
 									'icon'		=>	'am-icon-th-list',
+								)
+						)
+				),
+			array(
+					'name'		=>	'我的收藏',
+					'is_show'	=>	1,
+					'icon'		=>	'am-icon-heart',
+					'item'		=>	array(
+							array(
+									'control'	=>	'UserFavor',
+									'action'	=>	'Goods',
+									'name'		=>	'商品收藏',
+									'is_show'	=>	1,
+									'icon'		=>	'am-icon-shopping-basket',
 								)
 						)
 				),
@@ -58,57 +72,6 @@ return array(
 									'icon'		=>	'am-icon-power-off',
 								),
 						)
-				),
-		),
-
-	// 用户中心未显示的菜单active选中映射（小写）
-	'user_left_menu_hidden_active'	=>	array(
-			'studentpolyinfo'		=>	'studentindex',
-			'studentscoreinfo'		=>	'studentindex',
-			'personalsaveinfo'		=>	'Personalindex',
-			'safetyloginpwdinfo'	=>	'safetyindex',
-			'safetymobileinfo'		=>	'safetyindex',
-			'safetynewmobileinfo'	=>	'safetyindex',
-			'safetyemailinfo'		=>	'safetyindex',
-			'safetynewemailinfo'	=>	'safetyindex',
-		),
-
-	// 用户顶部导航
-	'user_nav_menu'			=>	array(
-			array(
-					'control'	=>	'Bubble',
-					'action'	=>	'Index',
-					'name'		=>	'冒泡',
-					'is_show'	=>	1,
-					'icon'		=>	'am-icon-slideshare',
-				),
-			array(
-					'control'	=>	'Personal',
-					'action'	=>	'Index',
-					'name'		=>	'资料',
-					'is_show'	=>	1,
-					'icon'		=>	'am-icon-gear',
-				),
-			array(
-					'control'	=>	'Student',
-					'action'	=>	'Index',
-					'name'		=>	'学生',
-					'is_show'	=>	1,
-					'icon'		=>	'am-icon-mortar-board',
-				),
-			array(
-					'control'	=>	'Safety',
-					'action'	=>	'Index',
-					'name'		=>	'设置',
-					'is_show'	=>	1,
-					'icon'		=>	'am-icon-user-secret',
-				),
-			array(
-					'control'	=>	'User',
-					'action'	=>	'Logout',
-					'name'		=>	'退出',
-					'is_show'	=>	1,
-					'icon'		=>	'am-icon-power-off',
 				),
 		),
 );

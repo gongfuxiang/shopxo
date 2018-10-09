@@ -18,6 +18,10 @@
 				<input type="text" name="{{$data.home_sms_user_forget_pwd.only_tag}}" placeholder="{{$data.home_sms_user_forget_pwd.name}}" data-validation-message="{{$data.home_sms_user_forget_pwd.error_tips}}" class="am-radius" <present name="data"> value="{{$data.home_sms_user_forget_pwd.value}}"</present> />
 			</div>
 			<div class="am-form-group">
+				<label>{{$data.home_sms_user_mobile_binding.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_sms_user_mobile_binding.describe}}）</span></label>
+				<input type="text" name="{{$data.home_sms_user_mobile_binding.only_tag}}" placeholder="{{$data.home_sms_user_mobile_binding.name}}" data-validation-message="{{$data.home_sms_user_mobile_binding.error_tips}}" class="am-radius" <present name="data"> value="{{$data.home_sms_user_mobile_binding.value}}"</present> />
+			</div>
+			<div class="am-form-group">
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
 			</div>
 		</form>

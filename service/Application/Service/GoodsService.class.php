@@ -404,5 +404,143 @@ class GoodsService
     {
         return (int) M('OrderComments')->where(['goods_id'=>intval($goods_id)])->count();
     }
+
+    /**
+     * 前端商品收藏列表条件
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function HomeFavorGoodsListWhere($params = [])
+    {
+        $where = [
+            'g.is_delete_time'  => 0,
+        ];
+
+        // 用户id
+        if(!empty($params['user']))
+        {
+            $where['f.user_id'] = $params['user']['id'];
+        }
+
+        if(!empty($params['keywords']))
+        {
+            $where['g.title'] = array('like', '%'.I('keywords').'%');
+        }
+
+        return $where;
+    }
+
+    /**
+     * 商品收藏总数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $where [条件]
+     */
+    public static function FavorGoodsTotal($where = [])
+    {
+        return (int) M('GoodsFavor')->where($where)->count();
+    }
+
+    /**
+     * 商品收藏列表
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function FavorGoodsList($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'where',
+                'error_msg'         => '条件不能为空',
+            ],
+            [
+                'checked_type'      => 'is_array',
+                'key_name'          => 'where',
+                'error_msg'         => '条件格式有误',
+            ],
+            [
+                'checked_type'      => 'isset',
+                'key_name'          => 'limit_start',
+                'error_msg'         => '分页起始值有误',
+            ],
+            [
+                'checked_type'      => 'isset',
+                'key_name'          => 'limit_number',
+                'error_msg'         => '分页数量不能为空',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        $limit_start = max(0, intval($params['limit_start']));
+        $limit_number = max(1, intval($params['limit_number']));
+        $order_by = empty($params['$order_by']) ? 'id desc' : I('order_by', '', '', $params);
+
+        // 获取订单
+        $data = M('GoodsFavor')->where($params['where'])->limit($limit_start, $limit_number)->order($order_by)->select();
+        if(!empty($data))
+        {
+            $detail_m = M('OrderDetail');
+            $detail_field = 'id,goods_id,title,images,original_price,price,attribute,buy_number';
+            $images_host = C('IMAGE_HOST');
+            $order_status_list = L('common_order_user_status');
+            $order_pay_status = L('common_order_pay_status');
+            foreach($data as &$v)
+            {
+                // 订单基础
+                $total_price = 0;
+                $v['payment_name'] = '';
+
+                // 状态
+                $v['status_name'] = $order_status_list[$v['status']]['name'];
+
+                // 支付状态
+                $v['pay_status_name'] = $order_pay_status[$v['pay_status']]['name'];
+
+                // 快递公司
+                $v['express_name'] = ResourcesService::ExpressName(['express_id'=>$v['express_id']]);
+
+                // 收件人地址
+                $v['receive_province_name'] = ResourcesService::RegionName(['region_id'=>$v['receive_province']]);
+                $v['receive_city_name'] = ResourcesService::RegionName(['region_id'=>$v['receive_city']]);
+                $v['receive_county_name'] = ResourcesService::RegionName(['region_id'=>$v['receive_county']]);
+                
+                // 订单详情
+                $items = $detail_m->where(['order_id'=>$v['id']])->field($detail_field)->select();
+                if(!empty($items))
+                {
+                    foreach($items as &$vs)
+                    {
+                        $vs['images'] = empty($vs['images']) ? null : $images_host.$vs['images'];
+                        $vs['attribute'] = empty($vs['attribute']) ? null : json_decode($vs['attribute'], true);
+                        $vs['goods_url'] = HomeUrl('Goods', 'Index', ['id'=>$vs['goods_id']]);
+                        $vs['total_price'] = $vs['buy_number']*$vs['price'];
+
+                        $total_price += $vs['total_price'];
+                    }
+                }
+                $v['items'] = $items;
+                $v['items_count'] = count($items);
+                $v['total_price'] = $total_price;
+            }
+        }
+        return DataReturn('处理成功', 0, $data);
+    }
 }
 ?>

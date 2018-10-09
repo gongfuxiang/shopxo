@@ -1,17 +1,27 @@
 <include file="Public/Header" />
 
-<!-- header nav start -->
+<!-- header top nav -->
+<include file="Public/HeaderTopNav" />
+
+<!-- search -->
+<include file="Public/NavSearch" />
+
+<!-- header nav -->
 <include file="Public/HeaderNav" />
-<!-- header nav end -->
 
-<div class="am-cf user-main" <if condition="!empty($max_width_style)">style="{{$max_width_style}}"</if>>
-	<!-- user menu start -->
-	<include file="Public/UserMenu" />
-	<!-- user menu end -->
+<!-- goods category -->
+<include file="Public/GoodsCategory" />
 
-	<!-- content start -->
-	<div class="user-content">
-		<div class="user-content-body p-10">
+<!-- content -->
+<div class="am-container user-main">
+
+  <!-- user menu start -->
+  <include file="Public/UserMenu" />
+  <!-- user menu end -->
+
+  <!-- content start -->
+  <div class="user-content">
+    <div class="user-content-body">
 			<foreach name="safety_panel_list" item="v">
 				<section class="am-panel am-panel-default am-radius am-panel-<if condition="empty($data[$v['type']]) and empty($v['msg'])">danger<else />default</if>">
 					<header class="am-panel-hd">

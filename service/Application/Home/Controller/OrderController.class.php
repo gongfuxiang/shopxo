@@ -86,9 +86,6 @@ class OrderController extends CommonController
 
         // 参数
         $this->assign('params', $params);
-
-        // 数据列表
-        $this->assign('list', $list);
         $this->display('Index');
     }
 

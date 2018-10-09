@@ -1,22 +1,32 @@
 <include file="Public/Header" />
 
-<!-- header nav start -->
+<!-- header top nav -->
+<include file="Public/HeaderTopNav" />
+
+<!-- search -->
+<include file="Public/NavSearch" />
+
+<!-- header nav -->
 <include file="Public/HeaderNav" />
-<!-- header nav end -->
 
-<div class="am-cf user-main" <if condition="!empty($max_width_style)">style="{{$max_width_style}}"</if>>
-	<!-- user menu start -->
-	<include file="Public/UserMenu" />
-	<!-- user menu end -->
+<!-- goods category -->
+<include file="Public/GoodsCategory" />
 
-	<!-- content start -->
-	<div class="user-content">
-		<div class="user-content-body p-10">
+<!-- content -->
+<div class="am-container user-main">
+
+  <!-- user menu start -->
+  <include file="Public/UserMenu" />
+  <!-- user menu end -->
+
+  <!-- content start -->
+  <div class="user-content">
+    <div class="user-content-body">
 			<!-- form start -->
 			<form class="am-form form-validation view-save" action="{{:U('Home/Safety/LoginPwdUpdate')}}" method="POST" request-type="ajax-url" request-value="{{:U('Home/Safety/Index')}}">
 				<legend>
-					<span class="fs-16">{{:L('safety_loginpwd_nav_title_text')}}</span>
-					<a href="{{:U('Home/Safety/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:L('common_operation_back')}}</a>
+					<span class="legend-title">{{:L('safety_loginpwd_nav_title_text')}}</span>
+					<a href="{{:U('Home/Safety/Index')}}" class="am-fr am-icon-mail-reply"> {{:L('common_operation_back')}}</a>
 				</legend>
 				<div class="am-form-group">
 					<label>{{:L('safety_my_loginpwd_text')}}</label>
@@ -39,10 +49,6 @@
 	</div>
 	<!-- content end -->
 </div>
-
-<!-- layuot common module start -->
-<include file="Public/CommonModule" />
-<!-- layuot common module end -->
 
 <!-- footer start -->
 <include file="Public/Footer" />
