@@ -112,8 +112,8 @@
                     <th class="row-content">商品</th>
                     <th class="row-price am-hide-sm-only">单价</th>
                     <th class="row-number am-hide-sm-only">数量</th>
-                    <th class="row-total-price">合计</th>
-                    <th class="row-status am-hide-sm-only">状态</th>
+                    <th class="row-total-price am-hide-sm-only">合计</th>
+                    <th class="row-status">状态</th>
                     <th class="row-operate">操作</th>
                 </tr>
             </tbody></table>
@@ -165,10 +165,10 @@
                                 x{{$goods.buy_number}}
                             </td>
                             <if condition="$keys eq 0">
-                                <td class="row-total-price" rowspan="{{$order.items_count}}">
+                                <td class="row-total-price am-hide-sm-only" rowspan="{{$order.items_count}}">
                                     <strong class="total-price-content">￥{{$order.total_price}}</strong>
                                 </td>
-                                <td class="row-status am-hide-sm-only" rowspan="{{$order.items_count}}">
+                                <td class="row-status" rowspan="{{$order.items_count}}">
                                     {{$order.status_name}}
                                     <div class="base-operate">
                                         <a class="block" href="{{:U('Home/Order/Detail', ['id'=>$order['id']])}}" target="_blank">订单详情</a>
