@@ -390,5 +390,19 @@ class GoodsService
         $temp = $m->where($data)->find();
         return DataReturn(L('common_operation_success'), 0, empty($temp) ? 0 : 1);
     }
+
+    /**
+     * 商品评论总数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $where [条件]
+     */
+    public static function GoodsCommentsTotal($goods_id)
+    {
+        return (int) M('OrderComments')->where(['goods_id'=>intval($goods_id)])->count();
+    }
 }
 ?>

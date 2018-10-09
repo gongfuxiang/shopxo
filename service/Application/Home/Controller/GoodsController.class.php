@@ -54,6 +54,9 @@ class GoodsController extends CommonController
             $ret_favor = GoodsService::IsUserGoodsFavor(['goods_id'=>$id, 'user'=>$this->user]);
             $goods[0]['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
 
+            // 商品评价总数
+            $goods[0]['comments_count'] = GoodsService::GoodsCommentsTotal($id);
+
             $this->assign('goods', $goods[0]);
             $this->assign('home_seo_site_title', $goods[0]['title']);
 

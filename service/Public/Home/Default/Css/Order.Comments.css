@@ -1,0 +1,43 @@
+ul.rating {
+    overflow: hidden;
+    margin-bottom: 2px;
+}
+ul.rating li {
+    float: left;
+    margin-right: 10px;
+}
+ul.rating li i.am-icon-star-o {
+    color: #888;
+}
+ul.rating li i.am-icon-star {
+    color: #d13b49;
+}
+
+
+/**
+ * 商品列表
+ */
+.order-goods { margin-top: 20px; }
+.goods-detail img { width: 80px; height: 80px; }
+.goods-detail { position: relative; }
+.goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; }
+.goods-title:hover { text-decoration: underline; }
+.goods-base { position: absolute; top: 0; left: 85px; }
+.goods-attr { margin-top: 5px;  }
+.goods-attr li { color: #888; line-height: 16px; }
+.original-price, .line-price { font-family: Verdana,Tahoma,arial; }
+.original-price { color: #9c9c9c; text-decoration: line-through; }
+.line-price { color: #3c3c3c; }
+.line-price, strong.total-price-content { font-weight: 700; }
+strong.total-price-content { color: #d2364c; font-size: 16px; }
+.am-table { margin-bottom: 10px; }
+.am-table > tbody > tr > td { border-top: 1px solid #F5F5F5; }
+.am-table > thead > tr > th { border-bottom: 1px solid #f7f7f7; }
+
+@media only screen and (min-width:640px)  {
+    .cart-content table tr .base { width: 40%; }
+    .cart-content table tr .price { width: 20%; }
+    .cart-content table tr .number { width: 20%; }
+    .cart-content table tr .total-price { width: 20%; }
+    .cart-content { margin-top: 20px; }
+}  

@@ -67,4 +67,19 @@ $(function()
         }
     });
 
+
+    /**
+     * 评价打分
+     */
+    $('ul.rating li').on('click', function()
+    {
+        $(this).parent().find('li i').removeClass('am-icon-star').addClass('am-icon-star-o');
+        var index = $(this).index();
+        for(var i=0; i<=index; i++)
+        {
+            $(this).parent().find('li').eq(i).find('i').removeClass('am-icon-star-o').addClass('am-icon-star');
+        }
+        $(this).parents('td').find('input.input-rating').val(index+1);
+    });
+
 });

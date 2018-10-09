@@ -137,7 +137,7 @@ class OrderController extends CommonController
      * @date    2018-10-08
      * @desc    description
      */
-    public function CommentsInfo()
+    public function Comments()
     {
         // 参数
         $params = array_merge($_POST, $_GET);
@@ -155,12 +155,35 @@ class OrderController extends CommonController
         $data = OrderService::OrderList($data_params);
         if(!empty($data['data'][0]))
         {
+            $this->assign('referer_url', empty($_SERVER['HTTP_REFERER']) ? U('Home/Order/Index') : $_SERVER['HTTP_REFERER']);
             $this->assign('data', $data['data'][0]);
-            $this->display('CommentsInfo');
+            $this->display('Comments');
         } else {
             $this->assign('msg', L('common_not_data_tips'));
             $this->display('/Public/TipsError');
         } 
+    }
+
+    /**
+     * 评价保存
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-09
+     * @desc    description
+     */
+    public function CommentsSave()
+    {
+        if(IS_POST)
+        {
+            $params = $_POST;
+            $params['user'] = $this->user;
+            $ret = OrderService::Comments($params);
+            $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
+        } else {
+            $this->assign('msg', L('common_unauthorized_access'));
+            $this->display('/Public/TipsError');
+        }
     }
 
     /**

@@ -875,5 +875,116 @@ class OrderService
         return DataReturn(L('common_operation_delete_error'), -1);
     }
 
+    /**
+     * 订单评价
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-09
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function Comments($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '订单id有误',
+            ],
+            [
+                'checked_type'      => 'isset',
+                'key_name'          => 'goods_id',
+                'error_msg'         => '商品id有误',
+            ],
+            [
+                'checked_type'      => 'is_array',
+                'key_name'          => 'goods_id',
+                'error_msg'         => '商品数据格式有误',
+            ],
+            [
+                'checked_type'      => 'isset',
+                'key_name'          => 'rating',
+                'error_msg'         => '评级有误',
+            ],
+            [
+                'checked_type'      => 'is_array',
+                'key_name'          => 'rating',
+                'error_msg'         => '评级数据格式有误',
+            ],
+            [
+                'checked_type'      => 'isset',
+                'key_name'          => 'content',
+                'error_msg'         => '评价内容有误',
+            ],
+            [
+                'checked_type'      => 'is_array',
+                'key_name'          => 'content',
+                'error_msg'         => '评价内容数据格式有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user',
+                'error_msg'         => '用户信息有误',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取订单信息
+        $order_id = intval($params['id']);
+        $order_m = M('Order');
+        $where = ['id'=>$order_id, 'user_id'=>$params['user']['id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
+        $order = $order_m->where($where)->field('id,status,shop_id,user_is_comments')->find();
+        if(empty($order))
+        {
+            return DataReturn(L('common_data_no_exist_error'), -1);
+        }
+        if($order['status'] != 4)
+        {
+            $status_text = L('common_order_user_status')[$order['status']]['name'];
+            return DataReturn('状态不可操作['.$status_text.']', -1);
+        }
+        if($order['user_is_comments'] != 0)
+        {
+            return DataReturn('该订单你已进行过评价', -10);
+        }
+
+        // 处理数据
+        $comments_m = M('OrderComments');
+        $comments_m->startTrans();
+        foreach($params['goods_id'] as $k=>$goods_id)
+        {
+            $data = [
+                'user_id'   => $params['user']['id'],
+                'shop_id'   => $order['shop_id'],
+                'order_id'  => $order_id,
+                'goods_id'  => $goods_id,
+                'content'   => isset($params['content'][$k]) ? htmlspecialchars(trim($params['content'][$k])) : '',
+                'rating'    => isset($params['rating'][$k]) ? intval($params['rating'][$k]) : 0,
+                'add_time'  => time(),
+            ];
+            if($comments_m->add($data) <= 0)
+            {
+                $comments_m->rollback();
+                return DataReturn('评价内容添加失败', -100);
+            }
+        }
+
+        // 订单评价状态更新
+        if(!$order_m->where($where)->save(['user_is_comments'=>time(), 'upd_time'=>time()]))
+        {
+            $comments_m->rollback();
+            return DataReturn('订单更新失败', -101);
+        }
+
+        $comments_m->commit();
+        return DataReturn(L('common_operation_comments_success'), 0);
+    }
+
 }
 ?>
