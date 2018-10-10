@@ -13,7 +13,7 @@
               <ul class="am-list am-collapse user-sidebar-sub am-in" id="collapse-nav-{{$k}}">
                 <foreach name="v.item" item="vs">
                   <if condition="$vs['is_show'] eq 1">
-                    <li data-value="user-left-menu-{{:strtolower($vs['control'].'-'.$vs['action'])}}" class="user-left-menu-{{:strtolower($vs['control'].'-'.$vs['action'])}}">
+                    <li data-value="user-left-menu-{{:strtolower($vs['control'].'-'.$vs['action'])}}" class="user-left-menu-{{:strtolower($vs['control'].'-'.$vs['action'])}} <if condition="strtolower(CONTROLLER_NAME) eq strtolower($vs['control']) and strtolower(CONTROLLER_NAME) neq 'user'">am-active</if>">
                       <a href="{{:U('Home/'.$vs['control'].'/'.$vs['action'])}}" class="am-cf"><if condition="!empty($vs['icon'])"><i class="{{$vs.icon}}"></i></if> {{$vs.name}}</a>
                     </li>
                   </if>

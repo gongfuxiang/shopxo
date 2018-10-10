@@ -5,6 +5,7 @@ namespace Home\Controller;
 use Think\Controller;
 use Service\GoodsService;
 use Service\NavigationService;
+use Service\BuyService;
 
 /**
  * 前台
@@ -139,30 +140,6 @@ class CommonController extends Controller
 		$this->assign('is_header', 1);
 		$this->assign('is_footer', 1);
 
-		// 当前页面选择导航状态
-		$nav_pid	=	0;
-		$nav_id 	=	0;
-		foreach($this->nav_header as $v)
-		{
-			if(I('viewid') == $v['id'])
-			{
-				$nav_id = $v['id'];
-			}
-			if(!empty($v['item']))
-			{
-				foreach($v['item'] as $vs)
-				{
-					if(I('viewid') == $vs['id'])
-					{
-						$nav_pid = $v['id'];
-						$nav_id = $vs['id'];
-					}
-				}
-			}
-		}
-		$this->assign('nav_pid', $nav_pid);
-		$this->assign('nav_id', $nav_id);
-
 		// 图片host地址
 		$this->assign('image_host', C('IMAGE_HOST'));
 
@@ -182,6 +159,9 @@ class CommonController extends Controller
 
 		// 商品大分类
 		$this->assign('goods_category_list', GoodsService::GoodsCategory());
+
+		// 购物车商品总数
+		$this->assign('common_cart_total', BuyService::CartTotal(['user'=>$this->user]));
 
 		// 当前控制器名称
 		$this->assign('controller_name', CONTROLLER_NAME);

@@ -427,6 +427,12 @@ class OrderService
                 $where['status'] = intval(I('status', 0));
             }
 
+            // 评价状态
+            if(I('is_comments', -1) > -1)
+            {
+                $where['user_is_comments'] = (I('is_comments', 0) == 0) ? 0 : ['GT', 0];
+            }
+
             // 时间
             if(!empty($_REQUEST['time_start']))
             {
@@ -984,6 +990,92 @@ class OrderService
 
         $comments_m->commit();
         return DataReturn(L('common_operation_comments_success'), 0);
+    }
+
+    /**
+     * 订单每个状态总数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-10
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function OrderStatusStepTotal($params = [])
+    {
+        // 用户类型
+        $user_type = isset($params['user_type']) ? $params['user_type'] : '';
+
+        // 条件
+        $where = [];
+        $where['is_delete_time'] = 0;
+
+        // 用户类型
+        switch($user_type)
+        {
+            case 'user' :
+                $where['user_is_delete_time'] = 0;
+                break;
+        }
+
+        // 新增用户条件
+        if($user_type == 'user' && !empty($params['user']))
+        {
+            $where['user_id'] = $params['user']['id'];
+        }
+
+        $field = 'COUNT(DISTINCT id) AS count, status';
+        $data = M('Order')->where($where)->field($field)->group('status')->select();
+
+        // 状态数据封装
+        $result = [];
+        $order_status_list = L('common_order_user_status');
+        foreach(L('common_order_user_status') as $v)
+        {
+            $result[$v['id']] = [
+                'name'      => $v['name'],
+                'status'    => $v['id'],
+                'count'     => 0,
+            ];
+        }
+
+        // 数据处理
+        if(!empty($data))
+        {
+            
+            foreach($data as $v)
+            {
+                if(isset($result[$v['status']]))
+                {
+                    $result[$v['status']]['count'] = $v['count'];
+                }
+            }
+            sort($result);
+
+            // 待评价状态站位100
+            if(isset($params['is_comments']) && $params['is_comments'] == 1)
+            {
+                switch($user_type)
+                {
+                    case 'user' :
+                        $where['user_is_comments'] = 0;
+                        break;
+                    case 'admin' :
+                        $where['is_comments'] = 0;
+                        break;
+                    default :
+                        $where['user_is_comments'] = 0;
+                        $where['is_comments'] = 0;
+                }
+                $where['status'] = 4;
+                $result[] = [
+                    'name'      => '待评价',
+                    'status'    => 100,
+                    'count'     => (int) M('Order')->where($where)->count(),
+                ];
+            }
+        }
+        return DataReturn('处理成功', 0, $result);
     }
 
 }

@@ -703,7 +703,7 @@ function DataDelete(e)
 	var id = e.data('id');
 	var url = e.data('url');
 	var view = e.data('view') || 'delete';
-	var jump = e.data('jump') || null;
+	var value = e.data('value') || null;
 	var title = e.data('title') || '温馨提示';
 	var msg = e.data('msg') || '删除后不可恢复、确认操作吗？';
 
@@ -750,6 +750,7 @@ function DataDelete(e)
 								case 'fun' :
 									if(IsExitsFunction(value))
 			                		{
+			                			result['data_id'] = id;
 			                			window[value](result);
 			                		} else {
 			                			Prompt('['+value+']配置方法未定义');
@@ -759,11 +760,11 @@ function DataDelete(e)
 								// 跳转
 								case 'jump' :
 									Prompt(result.msg, 'success');
-									if(jump != null)
+									if(value != null)
 									{
 										setTimeout(function()
 										{
-											window.location.href = jump;
+											window.location.href = value;
 										}, 1500);
 									}
 									break;

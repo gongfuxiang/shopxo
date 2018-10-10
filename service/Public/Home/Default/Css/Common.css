@@ -42,7 +42,9 @@ button { outline: none; }
 .clear{ clear:both} 
 
 img, input {
-    vertical-align: middle;}
+    vertical-align: middle;
+    max-width: 100%;
+}
 a {
   color: #333;
   text-decoration: none;
@@ -177,9 +179,11 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
     .nav-cont li a {font-size: 16px;color: #333;line-height: 36px;margin-left: -1px;padding: 0 25px;text-decoration: none;font-weight: 700;display: inline-block;vertical-align: middle;}
     .nav-cont li a:hover { color:#d2364c; }
 
-    .nav-cont .nav-extra{position: absolute;right:0px ;top:6px;font-size: 16px;color:#fcff00;line-height:33px;height:33px ;width:160px;text-align:center;background: url(../Images/extra.png);cursor: pointer;}
-    .nav-cont .nav-extra i.nav-user{background:#000 ;color:#fff ;width: 33px;height: 33px;border-radius: 33px;position: absolute;left:-28px;z-index: 99;padding: 5px;overflow: hidden;}
-    .nav-cont .nav-extra b{display:block;position: absolute;width: 45px;height: 45px;border-radius:45px;z-index: 1;left: -33px;top: -8px;background: #fff;}
+    .nav-cont .nav-extra{position: absolute;right:0px ;top:6px;font-size: 16px;line-height:33px;height:33px ;width:120px;text-align:center;background: #e1363f;cursor: pointer;}
+    .nav-cont .nav-extra .nav-user{background:#e0313b; width: 33px;height: 33px;border-radius: 33px;position: absolute;left:-28px;z-index: 2;padding: 1px;overflow: hidden;}
+    .nav-cont .nav-extra b{display:block;position: absolute;width: 40px;height: 40px;border-radius:45px;z-index: 1;left: -31px;top: -4px;background: #fff;}
+    .nav-cont .nav-extra .am-icon-angle-right { margin-left: 5px; }
+    .nav-cont .nav-extra * { color:#fcff00; text-decoration: none; }
     b.line{display: block;width:100%;height:2px ;border-bottom:2px solid #d2364c;position: absolute;top:180px;z-index:5;}
 
     /*分类*/
@@ -257,6 +261,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
     /*导航*/
     .goods-category-title {width:180px;}
     .nav-cont {padding-left: 180px;}
+    .nav-cont ul { overflow: hidden; }
 
     /* 分类 */
     #goods-category .category-content{ position:relative; width: 180px; float: left; z-index: 113; top: 45px; }

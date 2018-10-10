@@ -98,6 +98,7 @@ function CartAdd(e)
 
                     if(result.code == 0)
                     {
+                        $('.top-nav-cart-total').text(parseInt(result.data));
                         PromptCenter(result.msg, 'success');
                     } else {
                         PromptCenter(result.msg);

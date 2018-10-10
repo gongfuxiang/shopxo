@@ -81,14 +81,14 @@ class BuyService
             $data['add_time'] = time();
             if($m->add($data) > 0)
             {
-                return DataReturn(L('common_join_success'), 0);
+                return DataReturn(L('common_join_success'), 0, self::CartTotal($params));
             }
         } else {
             $data['upd_time'] = time();
             $data['stock'] += $temp['stock'];
             if($m->where($where)->save($data))
             {
-                return DataReturn(L('common_join_success'), 0);
+                return DataReturn(L('common_join_success'), 0, self::CartTotal($params));
             }
         }
         
@@ -213,7 +213,7 @@ class BuyService
         ];
         if(M('Cart')->where($where)->delete())
         {
-            return DataReturn(L('common_operation_delete_success'), 0);
+            return DataReturn(L('common_operation_delete_success'), 0, self::CartTotal($params));
         }
         return DataReturn(L('common_operation_delete_error'), -100);
     }
@@ -648,6 +648,33 @@ class BuyService
             'pay_url'   => U('Home/Order/Pay', ['id'=>$order_id]),
         ];
         return DataReturn($msg, 0, $result);
+    }
+
+    /**
+     * 购物车总数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function CartTotal($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user',
+                'error_msg'         => '用户信息有误',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return 0;
+        }
+        return (int) M('Cart')->where(['user_id'=>$params['user']['id']])->count();
     }
 }
 ?>

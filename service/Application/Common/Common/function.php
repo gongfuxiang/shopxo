@@ -392,17 +392,17 @@ function NavDataDealWith($data)
             {
                 // 文章分类
                 case 'article_category':
-                    $v['url'] = HomeUrl('Channel', 'Index', ['id'=>$v['value'], 'viewid'=>$v['id']]);
+                    $v['url'] = HomeUrl('Channel', 'Index', ['id'=>$v['value']]);
                     break;
 
                 // 自定义页面
                 case 'customview':
-                    $v['url'] = HomeUrl('CustomView', 'Index', ['id'=>$v['value'], 'viewid'=>$v['id']]);
+                    $v['url'] = HomeUrl('CustomView', 'Index', ['id'=>$v['value']]);
                     break;
 
                 // 商品分类
                 case 'goods_category':
-                    $v['url'] = HomeUrl('Goods', 'Index', ['id'=>$v['value'], 'viewid'=>$v['id']]);
+                    $v['url'] = HomeUrl('Search', 'Index', ['category_id'=>$v['value']]);
                     break;
             }
             $data[$k] = $v;

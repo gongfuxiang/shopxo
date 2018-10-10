@@ -84,6 +84,9 @@ class OrderController extends CommonController
         // 支付状态
         $this->assign('common_order_pay_status', L('common_order_pay_status'));
 
+        // 评价状态
+        $this->assign('common_comments_status_list', L('common_comments_status_list'));
+
         // 参数
         $this->assign('params', $params);
         $this->display('Index');

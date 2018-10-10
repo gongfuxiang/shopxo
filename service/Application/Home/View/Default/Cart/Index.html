@@ -77,7 +77,7 @@
                             <strong class="total-price-content">￥{{$goods.total_price}}</strong>
                         </td>
                         <td class="operation">
-                            <a href="javascript:;" class="submit-delete" data-url="{{:U('Home/Cart/Delete')}}" data-id="{{$goods.id}}">删除</a>
+                            <a href="javascript:;" class="submit-delete" data-url="{{:U('Home/Cart/Delete')}}" data-id="{{$goods.id}}" data-view="fun" data-value="ViewDeleteBack">删除</a>
                         </td>
                     </tr>
                 </foreach>
@@ -127,3 +127,21 @@
 <!-- footer start -->
 <include file="Public/Footer" />
 <!-- footer end -->
+
+<script type="text/javascript">
+    // 返回处理
+    function ViewDeleteBack(e)
+    {
+        if(e.code == 0)
+        {
+            $.AMUI.progress.done();
+            Prompt(e.msg, 'success');
+            $('#data-list-'+e.data_id).remove();
+            $('.top-nav-cart-total').text(parseInt(e.data));
+        } else {
+            $('form.form-validation').find('button[type="submit"]').button('reset');
+            $.AMUI.progress.done();
+            Prompt(e.msg);
+        }
+    }
+</script>

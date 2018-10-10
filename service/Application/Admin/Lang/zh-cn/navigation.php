@@ -44,7 +44,8 @@ return array(
 	'navigation_nav_header_name'				=>	'中间导航',
 	'navigation_nav_footer_name'				=>	'底部导航',
 
-	'goods_category_level_two'			=> '二级',
-	'goods_category_level_three'		=> '三级',
+	'navigation_category_level_one'				=>	'一级',
+	'navigation_category_level_two'				=>	'二级',
+	'navigation_category_level_three'			=>	'三级',
 );
 ?>

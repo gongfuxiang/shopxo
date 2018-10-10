@@ -96,6 +96,17 @@
                                     </notempty>
                                 </select>
                             </td>
+                            <td>
+                                <span>评价：</span>
+                                <select name="is_comments" class="chosen-select" data-placeholder="评价状态...">
+                                    <option value="-1">评价状态...</option>
+                                    <notempty name="common_comments_status_list">
+                                        <foreach name="common_comments_status_list" item="comments">
+                                            <option value="{{$comments.value}}" <if condition="isset($params['is_comments']) and $params['is_comments'] eq $comments['value']">selected</if>>{{$comments.name}}</option>
+                                        </foreach>
+                                    </notempty>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <td>
