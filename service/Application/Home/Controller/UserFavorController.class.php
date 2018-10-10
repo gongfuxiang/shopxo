@@ -24,6 +24,9 @@ class UserFavorController extends CommonController
     {
         // 调用父类前置方法
         parent::_initialize();
+
+        // 是否登录
+        $this->Is_Login();
     }
     
     /**
@@ -71,6 +74,24 @@ class UserFavorController extends CommonController
         // 参数
         $this->assign('params', $params);
         $this->display('Goods');
+    }
+
+    /**
+     * 商品收藏取消
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-13
+     * @desc    description
+     */
+    public function Cancel()
+    {
+        // 开始处理
+        $params = $_POST;
+        $params['goods_id'] = isset($params['id']) ? $params['id'] : 0;
+        $params['user'] = $this->user;
+        $ret = GoodsService::GoodsFavor($params);
+        $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }
 }
 ?>

@@ -28,7 +28,7 @@
 					<form class="am-form form-validation" action="{{:U('Admin/Navigation/Save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
 							<label>{{:L('navigation_level_text')}}</label>
-							<select  class="am-radius c-p" name="pid" data-validation-message="{{:L('navigation_level_format')}}">
+							<select  class="am-radius c-p chosen-select" name="pid" data-validation-message="{{:L('navigation_level_format')}}">
 								<option value="0">{{:L('common_select_level_one_choice')}}</option>
 								<foreach name="nav_header_pid_list" item="v">
 									<option value="{{$v.id}}">{{$v.name}}</option>
@@ -83,7 +83,7 @@
 						</div>
 						<div class="am-form-group">
 							<label>{{:L('navigation_article_category_id_text')}}</label>
-							<select  class="am-radius c-p chosen-select" name="value" data-validation-message="{{:L('navigation_article_category_id_format')}}" required>
+							<select  class="am-radius c-p chosen-select" name="value" data-placeholder="{{:L('common_please_select_choose')}}" data-validation-message="{{:L('navigation_article_category_id_format')}}" required>
 								<option value="">{{:L('common_please_select_choose')}}</option>
 								<foreach name="article_category_list" item="v">
 									<option value="{{$v.id}}">{{$v.name}}</option>
@@ -135,7 +135,7 @@
 						</div>
 						<div class="am-form-group">
 							<label>{{:L('navigation_customview_id_text')}}</label>
-							<select  class="am-radius c-p chosen-select" name="value" data-validation-message="{{:L('navigation_customview_id_format')}}" required>
+							<select  class="am-radius c-p chosen-select" name="value" data-placeholder="{{:L('common_please_select_choose')}}" data-validation-message="{{:L('navigation_customview_id_format')}}" required>
 								<option value="">{{:L('common_please_select_choose')}}</option>
 								<foreach name="customview_list" item="v">
 									<option value="{{$v.id}}">{{$v.title}}</option>
@@ -186,10 +186,19 @@
 						</div>
 						<div class="am-form-group">
 							<label>{{:L('navigation_goods_category_id_text')}}</label>
-							<select class="am-radius c-p chosen-select" name="value" data-validation-message="{{:L('navigation_goods_category_id_format')}}" required>
+							<select class="am-radius c-p chosen-select" name="value" data-placeholder="{{:L('common_please_select_choose')}}" data-validation-message="{{:L('navigation_goods_category_id_format')}}" required>
 								<option value="">{{:L('common_please_select_choose')}}</option>
 								<foreach name="goods_category_list" item="v">
-									<option value="{{$v.id}}">{{$v.name}}</option>
+									<optgroup label="{{$v.name}}">
+										<if condition="!empty($v['items'])">
+											<foreach name="v.items" item="vs">
+												<option style="padding-left: 30px;" value="{{$vs.id}}" <if condition="!empty($data['category_ids']) and in_array($vs['id'], $data['category_ids'])">selected</if>>{{:L('goods_category_level_two')}}-{{$vs.name}}</option>
+												<foreach name="vs.items" item="vss">
+													<option style="padding-left: 60px;" value="{{$vss.id}}" <if condition="!empty($data['category_ids']) and in_array($vss['id'], $data['category_ids'])">selected</if>>{{:L('goods_category_level_three')}}-{{$vss.name}}</option>
+												</foreach>
+											</foreach>
+										</if>
+									</optgroup>
 								</foreach>
 							</select>
 						</div>

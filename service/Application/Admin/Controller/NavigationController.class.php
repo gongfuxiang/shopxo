@@ -54,7 +54,25 @@ class NavigationController extends CommonController
 		$this->assign('article_category_list', M('ArticleCategory')->field(array('id', 'name'))->where(array('is_enable'=>1))->select());
 
 		// 商品分类
-		$this->assign('goods_category_list', M('GoodsCategory')->field(array('id', 'name'))->where(array('is_enable'=>1))->select());
+		$field = 'id,name';
+		$m = M('GoodsCategory');
+		$category = $m->field($field)->where(['is_enable'=>1, 'pid'=>0])->order('sort asc')->select();
+		if(!empty($category))
+		{
+			foreach($category as &$v)
+			{
+				$two = $m->field($field)->where(['is_enable'=>1, 'pid'=>$v['id']])->order('sort asc')->select();
+				if(!empty($two))
+				{
+					foreach($two as &$vs)
+					{
+						$vs['items'] = $m->field($field)->where(['is_enable'=>1, 'pid'=>$vs['id']])->order('sort asc')->select();
+					}
+				}
+				$v['items'] = $two;
+			}
+		}
+		$this->assign('goods_category_list', $category);
 
 		// 自定义页面
 		$this->assign('customview_list', M('CustomView')->field(array('id', 'title'))->where(array('is_enable'=>1))->select());

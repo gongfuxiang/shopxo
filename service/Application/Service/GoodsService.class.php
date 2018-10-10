@@ -502,6 +502,7 @@ class GoodsService
             {
                 $v['images_old'] = $v['images'];
                 $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
+                $v['goods_url'] = HomeUrl('Goods', 'Index', ['id'=>$v['goods_id']]);
             }
         }
         return DataReturn('处理成功', 0, $data);

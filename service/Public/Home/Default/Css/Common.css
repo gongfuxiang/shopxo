@@ -75,7 +75,7 @@ color: #555555;background:none;border-color:transparent;cursor: default;}
 /*浮动框*/
 .nav-search{top:0;left:0;width:100%;z-index:1060; margin:0px auto;background:#fff; padding-top: 5px; position: relative;}
 .nav-search .logo{height:36px;width:95px; margin: 0 auto; display: -webkit-inline-box;}
-.logoBig{display:none;}
+.logo-big{display:none;}
 .logo img{width:100%}
  
 /*搜索框*/
@@ -121,14 +121,14 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
 
     .nav-search{background: none;}
     .header { display:block;height: 30px;}
-    .message-l{ float:left;}
-    .message-l .topMessage, .message-r .topMessage { padding: 0px 6px; height: 30px;line-height: 30px; }
-    .message-r {float: right;}
-    .message-r .topMessage {float: left;}
+    .top-nav-left{ float:left;}
+    .top-nav-left .top-nav-items, .top-nav-right .top-nav-items { padding: 0px 8px; height: 30px; line-height: 30px; }
+    .top-nav-right {float: right;}
+    .top-nav-right .top-nav-items {float: left;}
   
     .nav-search .logo{display:none;}  
-    .nav-search .logoBig{ display:block;float:left;height:40px;width:135px; margin:0px auto; margin-left:5px; margin-right: 5px;} 
-    .nav-search .logoBig img{width:100%;}
+    .nav-search .logo-big{ display:block;float:left;height:40px;width:135px; margin:0px auto; margin-left:5px; margin-right: 5px;} 
+    .nav-search .logo-big img{width:100%;}
     .search-bar {height: 40px; width: calc(100% - 146px);}
     #ai-topsearch {height: 36px;}
     .search-bar input {width: 80%;height:36px;} 
@@ -156,7 +156,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
     .mui-mbar-tabs{ display:block;}  
     .nav-search{padding-left:0px; max-width:1000px; margin:0px auto;padding: 20px 0;}
     .nav-search .logo{display:none;}
-    .nav-search .logoBig { display: -webkit-inline-box; float:left;height:60px; width:230px; margin:0px;}
+    .nav-search .logo-big { display: -webkit-inline-box; float:left;height:60px; width:230px; margin:0px;}
     .search-bar{height:50px; margin:auto;display: -webkit-inline-box;width: calc(60%);padding-left: 8%;}
     #ai-topsearch {height: 47px;}
     .shopMain{margin:0px 0px 0px 5px;} 

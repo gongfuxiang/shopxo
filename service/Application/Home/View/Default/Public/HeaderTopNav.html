@@ -1,8 +1,8 @@
 <!-- 顶部导航条 start -->
 <div class="header-top">
     <div class="am-container header">
-        <ul class="message-l">
-            <div class="topMessage">
+        <ul class="top-nav-left">
+            <div class="top-nav-items">
                 <div class="menu-hd">
                     <if condition="empty($user)">
                         <span>您好，欢迎来到 {{:MyC('home_site_name')}}</span>
@@ -19,13 +19,13 @@
                 </div>
             </div>
         </ul>
-        <ul class="message-r">
-            <div class="topMessage home">
+        <ul class="top-nav-right">
+            <div class="top-nav-items home">
                 <div class="menu-hd">
                     <a href="{{:__MY_URL__}}" target="_top" class="h">商城首页</a>
                 </div>
             </div>
-            <div class="topMessage my-shangcheng">
+            <div class="top-nav-items my-shangcheng">
                 <div class="menu-hd MyShangcheng <if condition="empty($user)">login-event</if>">
                     <a href="<if condition="empty($user)">javascript:;<else />{{:U('Home/User/Index')}}</if>" target="_top">
                         <i class="am-icon-user am-icon-fw"></i>
@@ -33,7 +33,7 @@
                     </a>
                 </div>
             </div>
-            <div class="topMessage mini-cart">
+            <div class="top-nav-items mini-cart">
                 <div class="menu-hd <if condition="empty($user)">login-event</if>">
                     <a id="mc-menu-hd" href="<if condition="empty($user)">javascript:;<else />{{:U('Home/Cart/Index')}}</if>" target="_top">
                         <i class="am-icon-shopping-cart  am-icon-fw"></i>
@@ -42,12 +42,20 @@
                     </a>
                 </div>
             </div>
-            <div class="topMessage favorite">
-                <div class="menu-hd <if condition="empty($user)">login-event</if>">
-                    <a href="<if condition="empty($user)">javascript:;<else />{{:U('Home/Favor/Index')}}</if>" target="_top">
+            <div class="top-nav-items favorite">
+                <div class="am-dropdown menu-hd <if condition="empty($user)">login-event</if>" data-am-dropdown>
+                    <a class="am-dropdown-toggle" href="javascript:;" target="_top" data-am-dropdown-toggle>
                         <i class="am-icon-heart am-icon-fw"></i>
                         <span>收藏夹</span>
+                        <i class="am-icon-caret-down"></i>
                     </a>
+                    <notempty name="user">
+                        <ul class="am-dropdown-content">
+                            <li>
+                                <a href="<if condition="empty($user)">javascript:;<else />{{:U('Home/UserFavor/Goods')}}</if>">商品收藏</a>
+                            </li>
+                        </ul>
+                    </notempty>
                 </div>
             </div>
         </ul>

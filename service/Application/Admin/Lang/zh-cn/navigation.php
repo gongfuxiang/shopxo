@@ -12,7 +12,7 @@ return array(
 	'navigation_add_name'						=>	'导航添加',
 	'navigation_edit_name'						=>	'导航编辑',
 	'navigation_custom_operation_add'			=>	'自定义',
-	'navigation_article_category_operation_add'	=>	'文字分类',
+	'navigation_article_category_operation_add'	=>	'文章分类',
 	'navigation_customview_operation_add'		=>	'自定义',
 	'navigation_goods_category_operation_add'	=>	'商品分类',
 	'navigation_article_category_name_format'	=>	'默认文章分类名称',
@@ -43,5 +43,8 @@ return array(
 	// tab nav
 	'navigation_nav_header_name'				=>	'中间导航',
 	'navigation_nav_footer_name'				=>	'底部导航',
+
+	'goods_category_level_two'			=> '二级',
+	'goods_category_level_three'		=> '三级',
 );
 ?>
