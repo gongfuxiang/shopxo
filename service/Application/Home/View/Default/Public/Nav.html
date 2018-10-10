@@ -1,14 +1,14 @@
-<div class="navCir">
-    <li class="active">
+<div class="mobile-navigation">
+    <li <if condition="strtolower(CONTROLLER_NAME.ACTION_NAME) eq 'indexindex'">class="active"</if>>
         <a href="{{:__MY_URL__}}"><i class="am-icon-home"></i>首页</a>
     </li>
-    <li>
+    <li <if condition="strtolower(CONTROLLER_NAME.ACTION_NAME) eq 'categoryindex'">class="active"</if>>
         <a href="{{:U('Home/Category/Index')}}"><i class="am-icon-list"></i>分类</a>
     </li>
-    <li>
+    <li <if condition="strtolower(CONTROLLER_NAME.ACTION_NAME) eq 'cartindex'">class="active"</if>>
         <a <if condition="empty($user)">href="javascript:;" class="login-event"<else /> href="{{:U('Home/Cart/Index')}}"</if>><i class="am-icon-shopping-basket"></i>购物车</a>
     </li>
-    <li>
+    <li <if condition="strtolower(CONTROLLER_NAME.ACTION_NAME) eq 'userindex'">class="active"</if>>
         <a <if condition="empty($user)">href="javascript:;" class="login-event"<else /> href="{{:U('Home/User/Index')}}"</if>><i class="am-icon-user"></i>我的</a>
     </li>
 </div>

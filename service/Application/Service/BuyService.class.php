@@ -86,6 +86,10 @@ class BuyService
         } else {
             $data['upd_time'] = time();
             $data['stock'] += $temp['stock'];
+            if($data['stock'] > $goods['inventory'])
+            {
+                $data['stock'] = $goods['inventory'];
+            }
             if($m->where($where)->save($data))
             {
                 return DataReturn(L('common_join_success'), 0, self::CartTotal($params));

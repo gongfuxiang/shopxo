@@ -121,10 +121,11 @@ $(function()
     function cart_nav_pop()
     {
         var scroll = $(document).scrollTop();
-        var location = scroll+$(window).height();
+        var location = scroll+$(window).height()-65;
+        var bottom = ($(window).width() < 640) ? '49px' : '0';
         if(location < nav_top)
         {
-            $('.cart-nav').css({"position":"fixed", "bottom":0, "width":$('.cart-content').width()+"px", "z-index":1000});
+            $('.cart-nav').css({"position":"fixed", "bottom":bottom, "width":$('.cart-content').width()+"px", "z-index":1000});
         } else {
             $('.cart-nav').css({"position":"relative", "bottom":0, "z-index":0, "width":"100%"});
         }

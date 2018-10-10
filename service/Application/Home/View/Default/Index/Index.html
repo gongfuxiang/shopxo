@@ -113,89 +113,87 @@
 </div>
 
 <!-- 主内容 -->
-<div class="shopMainbg">
-	<div class="shopMain" id="shopmain">
-		<!-- 楼层 -->
-		<if condition="!empty($goods_floor_list)">
-            <foreach name="goods_floor_list" item="floor">
-            	<if condition="isset($floor['is_home_recommended']) and $floor['is_home_recommended'] eq 1">
-					<div id="floor{{$key+1}}">
-						<div class="am-container">
-							<div class="items-nav-title">
-								<h4>{{$floor.name}}</h4>
-								<h3>{{$floor.vice_name}}</h3>
-								<div class="today-brands ">
-									<if condition="!empty($floor['items'])">
-                						<foreach name="floor.items" key="key" item="category">
-                							<if condition="!empty($category['items'])">
-		                						<foreach name="category.items" key="keys" item="categorys">
-		                							<if condition="$key lt 6 and $keys eq 0 and isset($categorys['is_home_recommended']) and $categorys['is_home_recommended'] eq 1">
-														<a href="{{:U('Home/Search/Index', ['category_id'=>$categorys['id']])}}">{{$categorys.name}}</a>
-													</if>
-												</foreach>
-											</if>
-										</foreach>
-									</if>
-								</div>
-								<span class="more">
-			            			<a href="{{:U('Home/Search/Index', ['category_id'=>$floor['id']])}}">更多<i class="am-icon-angle-right" style="padding-left:10px ;" ></i></a>
-			                	</span>
+<div class="home-floor">
+	<!-- 楼层 -->
+	<if condition="!empty($goods_floor_list)">
+        <foreach name="goods_floor_list" item="floor">
+        	<if condition="isset($floor['is_home_recommended']) and $floor['is_home_recommended'] eq 1">
+				<div id="floor{{$key+1}}">
+					<div class="am-container">
+						<div class="items-nav-title">
+							<h4>{{$floor.name}}</h4>
+							<h3>{{$floor.vice_name}}</h3>
+							<div class="today-brands ">
+								<if condition="!empty($floor['items'])">
+            						<foreach name="floor.items" key="key" item="category">
+            							<if condition="!empty($category['items'])">
+	                						<foreach name="category.items" key="keys" item="categorys">
+	                							<if condition="$key lt 6 and $keys eq 0 and isset($categorys['is_home_recommended']) and $categorys['is_home_recommended'] eq 1">
+													<a href="{{:U('Home/Search/Index', ['category_id'=>$categorys['id']])}}">{{$categorys.name}}</a>
+												</if>
+											</foreach>
+										</if>
+									</foreach>
+								</if>
 							</div>
-						</div>
-						
-						<div class="am-g am-g-fixed flood" <if condition="!empty($floor['bg_color'])">style="background-color:{{$floor.bg_color}};"<else />style="background-color:#eaeaea;"</if>>
-							<div class="am-u-sm-5 am-u-md-4 text-one list" >
-								<div class="word">
-									<if condition="!empty($floor['items'])">
-                						<foreach name="floor.items" item="category">
-                							<if condition="$key lt 6 and isset($category['is_home_recommended']) and $category['is_home_recommended'] eq 1">
-												<a href="{{:U('Home/Search/Index', ['category_id'=>$category['id']])}}" class="outer">
-													<span class="inner">
-														<b class="text">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</b>
-													</span>
-												</a>
-											</if>
-										</foreach>
-									</if>			
-								</div>
-								<a href="{{:U('Home/Search/Index', ['category_id'=>$floor['id']])}}">
-									<div class="outer-con">
-										<div class="describe">{{$floor.describe}}</div>
-									</div>
-									<if condition="!empty($floor['big_images'])">
-				                        <img src="{{$floor.big_images}}" />
-				                    </if>
-								</a>
-								<div class="triangle-topright"></div>
-							</div>
-
-							<if condition="!empty($floor.goods)">
-				                <foreach name="floor.goods" item="goods">
-									<div class="goods-items <if condition="in_array($key, [0,1])">am-u-sm-7 am-u-md-4 text-two<else />am-u-sm-6 am-u-md-2 text-three</if>  <if condition="in_array($key, [0,3])">sug</if> <if condition="in_array($key, [2,5])">big</if> <if condition="$key eq 5">last</if>">
-										<div class="outer-con">
-											<div class="goods-title ellipsis">
-												<a href="{{$goods['goods_url']}}" <notempty name="goods.title_color">style="color:{{$goods.title_color}};"</notempty>>{{$goods.title}}</a>
-											</div>
-											<div class="price">￥{{$goods.price}}</div>
-										</div>
-										<a href="{{$goods['goods_url']}}">
-											<img src="{{$goods.home_recommended_images}}" />
-										</a>
-									</div>
-				                </foreach>
-				            </if>
+							<span class="more">
+		            			<a href="{{:U('Home/Search/Index', ['category_id'=>$floor['id']])}}">更多<i class="am-icon-angle-right" style="padding-left:10px ;" ></i></a>
+		                	</span>
 						</div>
 					</div>
-				</if>
-			</foreach>
-		</if>
-	</div>
-</div>
+					
+					<div class="am-g am-g-fixed flood" <if condition="!empty($floor['bg_color'])">style="background-color:{{$floor.bg_color}};"<else />style="background-color:#eaeaea;"</if>>
+						<div class="am-u-sm-5 am-u-md-4 text-one list" >
+							<div class="word">
+								<if condition="!empty($floor['items'])">
+            						<foreach name="floor.items" item="category">
+            							<if condition="$key lt 6 and isset($category['is_home_recommended']) and $category['is_home_recommended'] eq 1">
+											<a href="{{:U('Home/Search/Index', ['category_id'=>$category['id']])}}" class="outer">
+												<span class="inner">
+													<b class="text">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</b>
+												</span>
+											</a>
+										</if>
+									</foreach>
+								</if>			
+							</div>
+							<a href="{{:U('Home/Search/Index', ['category_id'=>$floor['id']])}}">
+								<div class="outer-con">
+									<div class="describe">{{$floor.describe}}</div>
+								</div>
+								<if condition="!empty($floor['big_images'])">
+			                        <img src="{{$floor.big_images}}" />
+			                    </if>
+							</a>
+							<div class="triangle-topright"></div>
+						</div>
 
-<!-- footer start -->
-<include file="Public/Footer" />
-<!-- footer end -->
+						<if condition="!empty($floor.goods)">
+			                <foreach name="floor.goods" item="goods">
+								<div class="goods-items <if condition="in_array($key, [0,1])">am-u-sm-7 am-u-md-4 text-two<else />am-u-sm-6 am-u-md-2 text-three</if>  <if condition="in_array($key, [0,3])">sug</if> <if condition="in_array($key, [2,5])">big</if> <if condition="$key eq 5">last</if>">
+									<div class="outer-con">
+										<div class="goods-title ellipsis">
+											<a href="{{$goods['goods_url']}}" <notempty name="goods.title_color">style="color:{{$goods.title_color}};"</notempty>>{{$goods.title}}</a>
+										</div>
+										<div class="price">￥{{$goods.price}}</div>
+									</div>
+									<a href="{{$goods['goods_url']}}">
+										<img src="{{$goods.home_recommended_images}}" />
+									</a>
+								</div>
+			                </foreach>
+			            </if>
+					</div>
+				</div>
+			</if>
+		</foreach>
+	</if>
+</div>
 
 <!-- nav start -->
 <include file="Public/Nav" />
 <!-- nav end -->
+
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end -->

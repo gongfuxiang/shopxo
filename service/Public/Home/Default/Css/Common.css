@@ -107,10 +107,11 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
 .tip{ display:none}
 
 
-.navCir{position: fixed;bottom:0px ;width: 100%;z-index: 999;background:#fff ;}
-.navCir li{width: 25%;padding:5px ;background:#fff ;border-top:1px solid #f5f5f5 ;float: left;text-align: center;font-size: 14px;}
-.navCir li i{display: block;font-size: 18px;}
-.navCir li.active a{color:#d2364c ;}
+.mobile-navigation{position: fixed;bottom:0px ;width: 100%;z-index: 999;background:#fff ;}
+.mobile-navigation li{width: 25%;padding:2px ;background:#fff ;border-top:1px solid #f5f5f5 ;float: left;text-align: center;font-size: 12px;}
+.mobile-navigation li a { text-decoration: none; }
+.mobile-navigation li i{display: block;font-size: 16px;}
+.mobile-navigation li.active a{color:#d2364c ;}
 
 
 @media only screen and (max-width: 640px) {
@@ -135,7 +136,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
     #ai-topsearch {height: 36px;}
     .search-bar input {width: 80%;height:36px;} 
     .classified{display:none;}
-    .navCir{display:none;}
+    .mobile-navigation{display:none;}
     .nav-search{ position:relative;top:0px;z-index:0;margin-bottom: 5px;margin-top: 5px;}
      #ai-topsearch{ font-size:18px;height: 36px;}
      /*底部*/
@@ -179,7 +180,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
     .nav-cont li a {font-size: 16px;color: #333;line-height: 36px;margin-left: -1px;padding: 0 25px;text-decoration: none;font-weight: 700;display: inline-block;vertical-align: middle;}
     .nav-cont li a:hover { color:#d2364c; }
 
-    .nav-cont .nav-extra{position: absolute;right:0px ;top:6px;font-size: 16px;line-height:33px;height:33px ;width:120px;text-align:center;background: #e1363f;cursor: pointer;}
+    .nav-cont .nav-extra{position: absolute;right:0px ;top:6px;font-size: 14px;line-height:33px;height:33px ;width:110px;text-align:center;background: #e1363f;cursor: pointer;}
     .nav-cont .nav-extra .nav-user{background:#e0313b; width: 33px;height: 33px;border-radius: 33px;position: absolute;left:-28px;z-index: 2;padding: 1px;overflow: hidden;}
     .nav-cont .nav-extra b{display:block;position: absolute;width: 40px;height: 40px;border-radius:45px;z-index: 1;left: -31px;top: -4px;background: #fff;}
     .nav-cont .nav-extra .am-icon-angle-right { margin-left: 5px; }
@@ -651,7 +652,7 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
 /**
  * 用户中心布局样式
  */
-.user-menu {position:fixed;z-index:10;bottom:30px;right:20px;}
+.user-menu {position:fixed;z-index:10;bottom:70px;right:10px;}
 .user-sidebar {width:145px;min-height:100%;float:left;}
 .user-sidebar .am-active {z-index:1600;}
 .user-sidebar .am-active a, .user-sidebar-list li a:hover {background:#fff1f5; text-decoration: none; color: #d2364c; }
