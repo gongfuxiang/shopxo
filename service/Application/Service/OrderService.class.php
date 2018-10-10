@@ -1051,30 +1051,31 @@ class OrderService
                 }
             }
             sort($result);
-
-            // 待评价状态站位100
-            if(isset($params['is_comments']) && $params['is_comments'] == 1)
-            {
-                switch($user_type)
-                {
-                    case 'user' :
-                        $where['user_is_comments'] = 0;
-                        break;
-                    case 'admin' :
-                        $where['is_comments'] = 0;
-                        break;
-                    default :
-                        $where['user_is_comments'] = 0;
-                        $where['is_comments'] = 0;
-                }
-                $where['status'] = 4;
-                $result[] = [
-                    'name'      => '待评价',
-                    'status'    => 100,
-                    'count'     => (int) M('Order')->where($where)->count(),
-                ];
-            }
         }
+
+        // 待评价状态站位100
+        if(isset($params['is_comments']) && $params['is_comments'] == 1)
+        {
+            switch($user_type)
+            {
+                case 'user' :
+                    $where['user_is_comments'] = 0;
+                    break;
+                case 'admin' :
+                    $where['is_comments'] = 0;
+                    break;
+                default :
+                    $where['user_is_comments'] = 0;
+                    $where['is_comments'] = 0;
+            }
+            $where['status'] = 4;
+            $result[] = [
+                'name'      => '待评价',
+                'status'    => 100,
+                'count'     => (int) M('Order')->where($where)->count(),
+            ];
+        }
+            
         return DataReturn('处理成功', 0, $result);
     }
 
