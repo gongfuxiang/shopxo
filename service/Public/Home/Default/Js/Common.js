@@ -89,18 +89,17 @@ $(function()
     {
         if($(window).width() <= 625)
         {
-            var scroll = $(document).scrollTop();
-
-            if($('.nav-search').length > 0)
+            if($('.nav-search').length > 0 && ($('.nav-search').css('display') || null) == 'block')
             {
-                if(scroll > 40)
+                if($(document).scrollTop() > 0)
                 {
                     $('.nav-search').css('position','fixed');
+                    $('body').css('padding-top','45px');
                 } else {
                     $('.nav-search').css('position','relative');
+                    $('body').css('padding-top','0');
                 }
             }
-            
         }
     });
     $(window).resize(function()
