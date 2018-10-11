@@ -23,11 +23,10 @@ dt + dd {margin-top: 0;}
 .small-nav .mini-nav-cart { background-color: #48CFAE; }
 .small-nav .mini-nav-user { background-color: #49acfa; }
 .small-nav .mini-nav-seconds { background-color: #fa506c; }
+.small-nav a { text-decoration: none !important; }
 
-#navOpen{padding:0px 0px;}
 .list .word{display: none;}
 .last{border-right:0px !important ;}
-.advTip{display: none;}
 
 /*走马灯*/
 .marqueen{position: relative;border-top:1px solid #F5F5F5 ;border-bottom: 1px #f5f5f5 solid;overflow: hidden;}
@@ -35,7 +34,7 @@ dt + dd {margin-top: 0;}
 .banner-news li,#banner-news li a{height: 30px;line-height:30px; font-size: 12px; overflow: hidden;}
 .banner-news{max-width:1200px; margin:0px auto;margin-left:60px;overflow:hidden;height:30px;width:100%; text-align:left;color:#ffffff;}
 .banner-news li {padding:0px 20px;}
-.mod-vip,.advTip{display: none;}
+.mod-vip{display: none;}
 
 /*标题*/
 .items-nav-title{text-align: center;width: 100%;overflow: hidden;background:#eee;}
@@ -52,7 +51,6 @@ text-align: center;float:none}
 .inline{display:inline;}
 .bold{font-weight:700;}
 .am-modal {width: 100%;left:0 ;margin-left:0 ;top:0;background: #fefefe;}
-#meauBack{position: absolute;right:10px;top:0px;font-size:14px ;height:36px;line-height:36px;color:#fff;width:auto;}
 
 
 /*推荐*/
@@ -357,9 +355,6 @@ text-align: center;float:none}
     .member-center { overflow: hidden; }
     .member-center a {float: left;margin-left: -1px;width:50px;text-align: center;border-left: 1px solid #EEE;font-size: 12px; }
     .member-center a strong {height: 18px;display: block;font-size: 14px;color: #F40;}
-        
-    .advTip{display:block;width:100% ;position: absolute;bottom:2px;left:0px}    
-    .advTip img{width:100% ;}  
 
     /*第二套各类活动*/
     .row {padding:0px;position: absolute;left:182px ;bottom:0px ;right:0px ;} 
