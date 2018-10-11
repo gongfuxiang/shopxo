@@ -143,7 +143,7 @@ $(function()
     function cart_nav_pop()
     {
         var scroll = $(document).scrollTop();
-        var location = scroll+$(window).height()-65;
+        var location = scroll+$(window).height()-100;
         var bottom = ($(window).width() < 640) ? '49px' : '0';
         if(location < nav_top)
         {

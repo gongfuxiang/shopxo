@@ -5,6 +5,7 @@ if(!store.enabled)
 } else {
     // 选择缓存key
     var store_address_key = 'store-buy-address-selected-index';
+    var store_use_new_address_status_key = 'store-buy-use-new-address-status-count';
     var store_logistics_key = 'store-lbuy-ogistics-selected-index';
     var store_payment_key = 'store-buy-payment-selected-index';
 }
@@ -14,6 +15,18 @@ $(function()
     // 选中处理
     if(store.enabled)
     {
+        // 是否使用新地址
+        var store_address_use_status = store.get(store_use_new_address_status_key);
+        if(store_address_use_status !== undefined)
+        {
+            // 如果新的地址大于使用新地址标记数量则使用第一个地址
+            if(store_address_use_status < $('ul.address-list li').length)
+            {
+                store.set(store_address_key, 0);
+                store.set(store_use_new_address_status_key, undefined);
+            }
+        }
+
         // 地址
         var store_address_value = store.get(store_address_key);
         if(store_address_value !== undefined)
@@ -84,6 +97,9 @@ $(function()
 
         // 阻止事件冒泡
         e.stopPropagation();
+
+        // 使用新地址标记
+        store.set(store_use_new_address_status_key, $('ul.address-list li').length);
     });
 
     // 阻止事件冒泡

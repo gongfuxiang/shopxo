@@ -388,6 +388,22 @@ class BuyService
     }
 
     /**
+     * 下订单购物车删除
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-10-12T00:42:49+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public static function BuyCartDelete($params = [])
+    {
+        if(isset($params['buy_type']) && $params['buy_type'] == 'cart' && !empty($params['ids']))
+        {
+            M('Cart')->where(['id'=>['in', explode(',', $params['ids'])]])->delete();
+        }
+    }
+
+    /**
      * 根据购买类型获取商品列表
      * @author   Devil
      * @blog    http://gong.gg/
@@ -627,7 +643,12 @@ class BuyService
             $m->rollback();
             return DataReturn('订单添加失败', -1);
         }
+
+        // 订单提交成功
         $m->commit();
+
+        // 删除购物车
+        self::BuyCartDelete($params);
 
         // 获取订单信息
         switch($order['status'])
