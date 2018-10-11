@@ -22,63 +22,85 @@ $(function()
         $('.cart-nav input[name="ids"]').val(ids.toString() || 0);
     }
 
+    /**
+     * 购物车数量更新
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-11
+     * @desc    description
+     * @param   {[object]}        self  [氮气罐对象]
+     * @param   {[int]}           stock [数量]
+     */
+    function CardNumberUpdate(self, stock)
+    {
+        var id = parseInt(self.parents('tr').data('id'));
+        var goods_id = parseInt(self.parents('tr').data('goods-id'));
+        var inventory = parseInt(self.parents('.stock-tag').data('inventory'));
+        var price = parseFloat(self.parents('.stock-tag').data('price'));
+        var type = self.data('type');
+
+        if(stock > inventory)
+        {
+            stock = inventory;
+        }
+        if(stock <= 0)
+        {
+            stock = 1;
+        }
+        self.parents('.stock-tag').find('input').val(stock);
+        var temp_price = FomatFloat(stock*price, 2);
+        self.parents('tr').find('.total-price-content').text('￥'+temp_price);
+
+        // 开启进度条
+        $.AMUI.progress.start();
+
+        // ajax请求
+        $.ajax({
+            url: self.parents('.stock-tag').data('ajax-url'),
+            type: 'post',
+            dataType: "json",
+            timeout: 10000,
+            data: {"id": id, "goods_id": goods_id, "stock": stock},
+            success: function(result)
+            {
+                $.AMUI.progress.done();
+                if(result.code == 0)
+                {
+                    PromptCenter(result.msg, 'success');
+
+                    // 计算选择的商品总数和总价
+                    cart_base_total();
+                } else {
+                    PromptCenter(result.msg);
+                }
+            },
+            error: function(xhr, type)
+            {
+                $.AMUI.progress.done();
+                PromptCenter('网络异常错误');
+            }
+        });
+    }
+
     // 购物车数量操作
     $('.stock-tag .stock-submit').on('click', function()
     {
-        var id = parseInt($(this).parents('tr').data('id'));
-        var goods_id = parseInt($(this).parents('tr').data('goods-id'));
-        var inventory = parseInt($(this).parent().data('inventory'));
-        var price = parseFloat($(this).parent().data('price'));
-        var stock = parseInt($(this).parent().find('input').val());
+        var stock = parseInt($(this).parents('.stock-tag').find('input').val());
         var type = $(this).data('type');
-
         var temp_stock = (type == 'add') ? stock+1 : stock-1;
-        if(temp_stock > inventory)
+        CardNumberUpdate($(this), temp_stock);
+    });
+
+    $('.stock-tag input[type="number"]').on('blur', function()
+    {
+        var stock = $(this).val() || null;
+        if(stock == null)
         {
-            temp_stock = inventory;
+            stock = 1;
         }
-        if(temp_stock <= 0)
-        {
-            temp_stock = 1;
-        }
-        $(this).parent().find('input').val(temp_stock);
-
-        var temp_price = FomatFloat(temp_stock*price, 2);
-        $(this).parents('tr').find('.total-price-content').text('￥'+temp_price);
-
-        // 数量不一样则更新
-        if(stock != temp_stock)
-        {
-            // 开启进度条
-            $.AMUI.progress.start();
-
-            // ajax请求
-            $.ajax({
-                url: $(this).parent().data('ajax-url'),
-                type: 'post',
-                dataType: "json",
-                timeout: 10000,
-                data: {"id": id, "goods_id": goods_id, "stock": temp_stock},
-                success: function(result)
-                {
-                    $.AMUI.progress.done();
-                    if(result.code == 0)
-                    {
-                        PromptCenter(result.msg, 'success');
-
-                        // 计算选择的商品总数和总价
-                        cart_base_total();
-                    } else {
-                        PromptCenter(result.msg);
-                    }
-                },
-                error: function(xhr, type)
-                {
-                    $.AMUI.progress.done();
-                    PromptCenter('网络异常错误');
-                }
-            });
-        }
+        $(this).val(stock);
+        CardNumberUpdate($(this), stock);
     });
 
     // 全选/反选

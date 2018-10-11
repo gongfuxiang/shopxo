@@ -43,8 +43,10 @@ class BuyController extends CommonController
     {
         if(IS_POST)
         {
+            redirect(U('Home/Buy/Index', $_POST));
+        } else {
             // 获取商品列表
-            $params = $_POST;
+            $params = $_GET;
             $params['user'] = $this->user;
             $ret = BuyService::BuyTypeGoodsList($params);
 
@@ -75,9 +77,6 @@ class BuyController extends CommonController
                 $this->assign('msg', isset($ret['msg']) ? $ret['msg'] : L('common_param_error'));
                 $this->display('/Public/TipsError');
             }
-        } else {
-            $this->assign('msg', L('common_unauthorized_access'));
-            $this->display('/Public/TipsError');
         }
     }
 

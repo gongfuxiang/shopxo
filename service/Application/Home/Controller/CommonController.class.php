@@ -161,7 +161,8 @@ class CommonController extends Controller
 		$this->assign('goods_category_list', GoodsService::GoodsCategory());
 
 		// 购物车商品总数
-		$this->assign('common_cart_total', BuyService::CartTotal(['user'=>$this->user]));
+		$common_cart_total = BuyService::CartTotal(['user'=>$this->user]);
+		$this->assign('common_cart_total', ($common_cart_total > 99) ? '99+' : $common_cart_total);
 
 		// 当前控制器名称
 		$this->assign('controller_name', CONTROLLER_NAME);

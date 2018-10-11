@@ -7,6 +7,9 @@
     </li>
     <li <if condition="strtolower(CONTROLLER_NAME.ACTION_NAME) eq 'cartindex'">class="active"</if>>
         <a <if condition="empty($user)">href="javascript:;" class="login-event"<else /> href="{{:U('Home/Cart/Index')}}"</if>><i class="am-icon-shopping-basket"></i>购物车</a>
+        <notempty name="common_cart_total">
+            <span class="am-badge am-badge-danger am-round top-nav-cart-total hot-icon">{{$common_cart_total}}</span>
+        </notempty>
     </li>
     <li <if condition="strtolower(CONTROLLER_NAME.ACTION_NAME) eq 'userindex'">class="active"</if>>
         <a <if condition="empty($user)">href="javascript:;" class="login-event"<else /> href="{{:U('Home/User/Index')}}"</if>><i class="am-icon-user"></i>我的</a>
