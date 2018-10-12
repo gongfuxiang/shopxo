@@ -353,7 +353,7 @@ text-align: center;float:none}
     .member-login{overflow: hidden;height:25px;text-align: center;}
     .member-logout {  position: absolute; top: 33px; left: 60px; font-size: 12px; color: #f4546b; }
     .member-center { overflow: hidden; }
-    .member-center a {float: left;margin-left: -1px;width:50px;text-align: center;border-left: 1px solid #EEE;font-size: 12px; }
+    .member-center a {float: left;margin-left: -1px;width:50px;text-align: center;border-left: 1px solid #EEE;font-size: 12px; text-decoration: none; }
     .member-center a strong {height: 18px;display: block;font-size: 14px;color: #F40;}
 
     /*第二套各类活动*/
