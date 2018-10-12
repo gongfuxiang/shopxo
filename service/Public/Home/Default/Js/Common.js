@@ -17,7 +17,8 @@ function HomeCartNumberTotalUpdate(number)
     var $this = $('.common-cart-total');
     if(number <= 0)
     {
-        $this.text('');
+        $this.text(0);
+        $('.mobile-navigation .common-cart-total').text('');
         $this.removeClass('am-badge am-badge-danger');
     } else {
         $this.text(number);
