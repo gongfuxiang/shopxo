@@ -33,6 +33,9 @@
                                     <notempty name="address.alias">
                                         <span class="am-badge am-badge-danger am-radius">{{$address.alias}}</span>
                                     </notempty>
+                                    <if condition="isset($address['is_default']) and $address['is_default'] eq 1">
+                                        <span class="am-badge am-radius">默认地址</span>
+                                    </if>
                                     <span class="buy-address-detail">   
                                         <span class="buy-user">{{$address.name}}</span>
                                         <span class="buy-phone">{{$address.tel}}</span>
@@ -47,9 +50,6 @@
                                         <span class="street">{{$address.address}}</span>
                                     </span>
                                 </div>
-                                <if condition="isset($address['is_default']) and $address['is_default'] eq 1">
-                                    <span class="deftip">默认地址</span>
-                                </if>
                             </div>
                             <div class="address-right">
                                 <span class="am-icon-angle-right am-icon-lg"></span>

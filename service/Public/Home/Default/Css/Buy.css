@@ -6,8 +6,6 @@ ul.address-list li{display:none;width:100%;padding:10px;position: relative;min-h
 .address-left{ width:90%;float:left;position: relative;}
 ul.address-list li .user-base {font-size: 14px;font-weight: 700;}
 .address-right{ float:right; margin-right:5px;padding-top:15px ;}   
-.deftip {position: absolute;top: 0px;right: 0px;padding: 0px 2px;text-decoration: none;opacity: 0.7; z-index: 3;background: #CCC none repeat scroll 0% 0%;
-color: #FFF;}
 
 /*地址操作-编辑删除*/
 .new-addr-btn {display:none;font-size: 12px;color: #282828;text-align: right; padding-right:5px ;}
