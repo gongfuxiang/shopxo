@@ -1,3 +1,126 @@
+/**
+ * 用户中心
+ */
+.user-base {
+    -webkit-animation: changeBg 20s infinite;
+    -moz-animation: changeBg 20s infinite;
+    animation: changeBg 20s infinite;
+    background-color: #ED5564;
+    background-image: url(../Images/member_top_bg.png);
+    background-size: cover;
+    width: 100%;
+    position: relative;
+    padding: 20px 10px;
+    overflow: hidden;
+}
+.user-base p, .user-base span, .user-base a {
+    color: #fff;
+}
+.user-base a {
+    text-decoration: none;
+}
+.user-base-left, .user-base-right {
+    
+}
+.user-avatar {
+    text-align: center;
+}
+.user-avatar .user-name {
+    font-weight: 500;
+}
+.user-avatar img {
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+}
+.user-avatar .user-name, .order-base {
+    margin-top: 5px;
+}
+
+.user-base-left .items a {
+    color: #f8f8f8;
+}
+
+.user-base-right a:not(:last-child) {
+    margin-right: 15px;
+}
+.user-base-icon {
+    background: rgba(0,0,0,0.1);
+    position: absolute;
+}
+
+
+/**
+ * PC
+ */
+@media only screen and (min-width: 641px) {
+    .user-base-left, .user-avatar, .user-base-left .items {
+        float: left;
+    }
+    .user-base-right {
+        float: right;
+    }
+    .user-base-left .items {
+        margin-left: 15px;
+    }
+    .user-base-left .items a {
+        display: block;
+        line-height: 28px;
+    }
+    .user-base-icon {
+        bottom: 20px;
+        right: 10px;
+    }
+    .user-base-icon li {
+        float: left;
+        padding: 5px 20px;
+        text-align: center;
+    }
+    .user-base-icon li p {
+        font-weight: 500;
+    }
+}
+
+/**
+ * 手机
+ */
 @media only screen and (max-width:640px)  {
-    .am-footer { padding-bottom: 55px; }
+    .am-footer {
+        padding-bottom: 55px;
+    }
+
+    .nav-search {
+        display: none;
+    }
+    .user-main {
+        padding-top: 0;
+    }
+    .user-content-body {
+        padding: 0;
+    }
+    .user-base {
+        text-align: center;
+        height: 210px;
+    }
+    .user-avatar {
+        margin-bottom: 10px;
+    }
+    .user-base-left .items a:not(:last-child) {
+        margin-right: 20px;
+    }
+    .user-base-right {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+    .user-base-icon {
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        padding: 5px 0;
+    }
+    .user-base-icon li {
+        float: left;
+        width: 33.33%;
+    }
 }

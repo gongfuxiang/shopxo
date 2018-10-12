@@ -667,11 +667,11 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
 .user-content-body {-webkit-box-flex:1;-webkit-flex:1 0 auto;-ms-flex:1 0 auto;flex:1 0 auto; }
 .user-offcanvas-bar { z-index: 900; }
 @media only screen and (min-width:640px) {
-    .user-sidebar {display:block;position:static;background:none; border-top: 5px solid #e94353;}
+    .user-sidebar {display:block;position:static;background:none; border-top: 5px solid #ED5564;}
     .user-offcanvas-bar {position:static;width:auto;background:none;-webkit-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0);transform:translate3d(0,0,0);overflow-y:hidden;}
     .user-offcanvas-bar:after {content:none;}
     .user-main { padding: 0 5px; }
-    .user-content-body { padding: 0 5px 5px 10px; }
+    .user-content-body { padding: 0 0 5px 10px; }
 }
 @media only screen and (min-width: 1025px) {
     .user-main { padding: 0; }

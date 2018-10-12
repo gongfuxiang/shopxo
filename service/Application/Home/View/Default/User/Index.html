@@ -26,7 +26,48 @@
     <!-- content start -->
     <div class="user-content">
         <div class="user-content-body">
-            ShopXO
+            <!-- 基础信息 -->
+            <div class="user-base">
+                <div class="user-base-left">
+                    <div class="user-avatar">
+                        <img src="<if condition="!empty($user['avatar'])">{{$user.avatar}}<else />__PUBLIC__/Home/{{$default_theme}}/Images/default-user-avatar.jpg</if>" />
+                        <p class="user-name">{{$user.user_name_view}}</p>
+                    </div>
+                    <div class="items">
+                        <a href="{{:U('Home/Personal/Avatar')}}" class="am-icon-camera-retro"> 修改头像</a>
+                        <a href="{{:U('Home/Personal/SaveInfo')}}" class="am-icon-edit"> 修改资料</a>
+                        <a href="{{:U('Home/UserAddress/Index')}}" class="am-icon-map-marker"> 我的地址</a>
+                    </div>
+                </div>
+                <div class="user-base-right">
+                    <a href="{{:U('Home/Message/Index')}}" class="am-icon-bell-o message"> 消息</a>
+                </div>
+                <ul class="user-base-icon">
+                    <li class="icon-items">
+                        <a href="{{:U('Home/Order/Index')}}">
+                            <p>0</p>
+                            <p>订单总数</p>
+                        </a>
+                    </li>
+                    <li class="icon-items">
+                        <a href="{{:U('Home/UserFavor/Goods')}}">
+                            <p>0</p>
+                            <p>商品收藏</p>
+                        </a>
+                    </li>
+                    <li class="icon-items">
+                        <a href="{{:U('Home/History/Index')}}">
+                            <p>0</p>
+                            <p>我的足迹</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 订单信息 -->
+            <div class="order-base">
+                order
+            </div>
         </div>
     </div>
     <!-- content end -->
