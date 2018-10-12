@@ -36,9 +36,9 @@
                                     <if condition="isset($address['is_default']) and $address['is_default'] eq 1">
                                         <span class="am-badge am-badge-success am-radius">默认</span>
                                     </if>
-                                    <span class="buy-address-detail">   
-                                        <span class="buy-user">{{$address.name}}</span>
-                                        <span class="buy-phone">{{$address.tel}}</span>
+                                    <span class="address-detail">   
+                                        <span class="user">{{$address.name}}</span>
+                                        <span class="phone">{{$address.tel}}</span>
                                     </span>
                                 </div>
                                 <div>
@@ -49,14 +49,14 @@
                                 </div>
                             </div>
                             <div class="address-right">
-                                <span class="am-icon-angle-right am-icon-lg"></span>
+                                <span class="am-icon-angle-right am-icon-md"></span>
                             </div>
-                            <div class="new-addr-btn">
-                                <a href="javascript:;" class="address-default-submit" data-url="{{:U('Home/UserAddress/SetDefault')}}" data-id="{{$address.id}}">设为默认</a>
-                                <span class="new-addr-bar">|</span>
-                                <a href="javascript:;" class="address-submit-save" data-url="{{:U('Home/UserAddress/SaveInfo', ['id'=>$address['id']])}}" data-popup-title="编辑地址">编辑</a>
-                                <span class="new-addr-bar">|</span>
-                                <a href="javascript:;" class="address-submit-delete" data-url="{{:U('Home/UserAddress/Delete')}}" data-id="{{$address.id}}">删除</a>
+                            <div class="address-operation-btn">
+                                <a href="javascript:;" class="am-icon-check-circle-o address-default-submit" data-url="{{:U('Home/UserAddress/SetDefault')}}" data-id="{{$address.id}}" data-view="reload"> 设为默认</a>
+                                <span class="cut">|</span>
+                                <a href="javascript:;" class="am-icon-edit address-submit-save" data-url="{{:U('Home/UserAddress/SaveInfo', ['id'=>$address['id']])}}" data-popup-title="编辑地址"> 编辑</a>
+                                <span class="cut">|</span>
+                                <a href="javascript:;" class="am-icon-trash-o address-submit-delete" data-url="{{:U('Home/UserAddress/Delete')}}" data-id="{{$address.id}}"> 删除</a>
                             </div>
                         </li>
                     </foreach>

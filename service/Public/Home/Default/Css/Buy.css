@@ -3,13 +3,13 @@
 h3 { font-size: 14px;font-weight: 700;}
 .address h3 { border-bottom:none;}
 ul.address-list li{display:none;width:100%;padding:10px;position: relative;min-height:80px;}
-.address-left{ width:90%;float:left;position: relative;}
-ul.address-list li .user-base {font-size: 14px;font-weight: 700;}
+.address-left{ width:calc(100% - 25px);float:left;position: relative;}
+ul.address-list li .user-base {font-size: 14px; font-weight: 700; margin-bottom: 5px; }
 .address-right{ float:right; margin-right:5px;padding-top:15px ;}   
 
 /*地址操作-编辑删除*/
-.new-addr-btn {display:none;font-size: 12px;color: #282828;text-align: right; padding-right:5px ;}
-.new-addr-bar {padding: 0px 5px;vertical-align: top;}
+.address-operation-btn {display:none;font-size: 12px;color: #282828;text-align: right; padding-right:5px ;}
+.address-operation-btn .cut { padding: 0 5px;color: #ccc; vertical-align: top; }
 .address-default { display:block !important;}  
 
 /* 物流/支付 */
@@ -52,7 +52,7 @@ ul.address-list, .business-item ul { overflow: hidden; }
 .mobile-address { position: fixed; left: 0; bottom: 0; background-color: #fff; width: 100%; height: 100%; z-index: 1099; padding-top: 0 !important; margin-top: 0 !important; border-top: 0 !important; overflow-y: scroll; overflow-x: hidden; padding-bottom: 28px; }
 .mobile-address .control { margin-bottom: 10px; }
 .mobile-address .control h3 { background-color: #eee; padding: 5px; }
-.mobile-address .control, .mobile-address ul.address-list li, .mobile-address ul.address-list li .new-addr-btn { display: block !important; }
+.mobile-address .control, .mobile-address ul.address-list li, .mobile-address ul.address-list li .address-operation-btn { display: block !important; }
 .mobile-address .control .address-submit-save { position: fixed; left: 0; bottom: 0; width: 100%; z-index: 100; }
 .mobile-address ul.address-list li { border-bottom: 1px solid #eee; padding-top: 5px; }
 .mobile-address ul.address-list li .address-left { width: 100%; }
@@ -103,8 +103,7 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .th .td-inner{padding-left:0 ;}
       
   /*地址操作*/
-  .new-addr-btn {display:block;position: absolute;bottom:25px ;right:10px ;}
-  .new-addr-bar {padding: 0px 5px;vertical-align: top;}
+  .address-operation-btn {display:block;position: absolute;bottom:25px ;right:10px ;}
   .address-right .am-icon-angle-right { display: none; }
 }
 
@@ -132,6 +131,8 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .address .control { display: none; }
   .address-default {background: url(../Images/peraddress.png) repeat-x; background-position: bottom; }
   ul.address-list li { padding: 5px; min-height: 60px; overflow: hidden; }
+  .address-detail .phone { float: right; }
+  ul.address-list .am-icon-angle-right { color: #888; }
 
   .business-item ul li { width: calc(50% - 6px); }
   .business-item ul li:nth-child(2n) { margin-right: 0; }

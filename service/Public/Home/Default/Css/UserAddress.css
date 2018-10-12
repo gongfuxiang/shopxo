@@ -1,59 +1,60 @@
 /**
  * 地址管理
  */
-ul.address-list {
-    overflow: hidden;
-}
-
-ul.address-list li.address-default {
-    background-image: url(../Images/peraddressbg.png);
-}
-
-ul.address-list li {
-    display: block;
-    width: calc(50% - 5px);
-    height: 130px;
-    float: left;
-    background-image: url(../Images/peraddbg.png);
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    margin: 0 10px 10px 0;
-    padding: 10px;
-    position: relative;
-}
-
 ul.address-list li .user-base {
     font-size: 14px;
     font-weight: 700;
+    margin-bottom: 5px;
 }
-
-.new-addr-btn {
-    position: absolute;
-    bottom: 5px;
-    right: 25px;
-    color: #282828;
-    text-align: right;
+.address-operation-btn .cut {
+    padding: 0 5px;
+    color: #ccc;
 }
-
-ul.address-list li:nth-child(2n) {
-    margin-right: 0;
-}
-
 @media only screen and (min-width: 641px) {
     ul.address-list {
+        overflow: hidden;
         margin-top: 10px;
+    }
+
+    ul.address-list li.address-default {
+        background-image: url(../Images/peraddressbg.png);
+    }
+
+    ul.address-list li {
+        display: block;
+        width: calc(50% - 5px);
+        height: 130px;
+        float: left;
+        background-image: url(../Images/peraddbg.png);
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        margin: 0 10px 10px 0;
+        padding: 10px;
+        position: relative;
+    }
+
+    .address-operation-btn {
+        position: absolute;
+        bottom: 5px;
+        right: 25px;
+        color: #282828;
+        text-align: right;
+    }
+
+    ul.address-list li:nth-child(2n) {
+        margin-right: 0;
     }
 }
 
 @media only screen and (min-width: 1025px) {
     ul.address-list li {
-        width: calc(25% - 8px);
+        width: calc(33.33% - 7px);
     }
     
     ul.address-list li:nth-child(2n) {
         margin-right: 10px;
     }
-    ul.address-list li:nth-child(4n) {
+    ul.address-list li:nth-child(3n) {
         margin-right: 0;
     }
 }
@@ -68,6 +69,27 @@ ul.address-list li:nth-child(2n) {
     }
     .am-footer {
         padding-bottom: 30px;
+    }
+
+    ul.address-list li {
+        padding: 5px 0 28px 5px;
+        position: relative;
+    }
+    ul.address-list li:not(:last-child) {
+        border-bottom: 1px solid #eee;
+    }
+    .address-detail .phone {
+        float: right;
+    }
+    .address-operation-btn {
+        position: absolute;
+        bottom: 5px;
+        right: 0;
+        color: #282828;
+        text-align: right;
+    }
+    .address-operation-btn a {
+        text-decoration: none;
     }
 }
 
