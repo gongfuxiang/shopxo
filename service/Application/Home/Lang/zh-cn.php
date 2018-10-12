@@ -62,7 +62,7 @@ return array(
 									'action'	=>	'Index',
 									'name'		=>	'我的地址',
 									'is_show'	=>	1,
-									'icon'		=>	'am-icon-map-marker',
+									'icon'		=>	'am-icon-street-view',
 								),
 							array(
 									'control'	=>	'Safety',

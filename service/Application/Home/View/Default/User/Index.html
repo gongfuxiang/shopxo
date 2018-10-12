@@ -36,26 +36,26 @@
                     <div class="items">
                         <a href="{{:U('Home/Personal/Avatar')}}" class="am-icon-camera-retro"> 修改头像</a>
                         <a href="{{:U('Home/Personal/SaveInfo')}}" class="am-icon-edit"> 修改资料</a>
-                        <a href="{{:U('Home/UserAddress/Index')}}" class="am-icon-map-marker"> 我的地址</a>
+                        <a href="{{:U('Home/UserAddress/Index')}}" class="am-icon-street-view"> 我的地址</a>
                     </div>
                 </div>
                 <div class="user-base-right">
                     <a href="{{:U('Home/Message/Index')}}" class="am-icon-bell-o message"> 消息</a>
                 </div>
                 <ul class="user-base-icon">
-                    <li class="icon-items">
+                    <li>
                         <a href="{{:U('Home/Order/Index')}}">
                             <p>0</p>
                             <p>订单总数</p>
                         </a>
                     </li>
-                    <li class="icon-items">
+                    <li>
                         <a href="{{:U('Home/UserFavor/Goods')}}">
                             <p>0</p>
                             <p>商品收藏</p>
                         </a>
                     </li>
-                    <li class="icon-items">
+                    <li>
                         <a href="{{:U('Home/History/Index')}}">
                             <p>0</p>
                             <p>我的足迹</p>
@@ -65,9 +65,45 @@
             </div>
 
             <!-- 订单信息 -->
-            <div class="order-base">
-                order
+            <div class="order-nav">
+                <a href="{{:U('Home/Order/Index')}}">
+                    <span class="nav-name">
+                        <i class="order-icon"></i>
+                        我的订单
+                    </span>
+                    <span class="am-fr icon-tips">
+                        查看全部订单
+                        <i class="am-icon-angle-right"></i>
+                    </span>
+                </a>
             </div>
+            <ul class="order-base">
+                <li>
+                    <a href="{{:U('Home/Order/Index')}}">
+                        <i class="icon-1"></i>
+                        <p>待付款</p>
+                        <span class="am-badge am-badge-danger am-round">6</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{:U('Home/Order/Index')}}">
+                        <i class="icon-2"></i>
+                        <p>待发货</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{:U('Home/Order/Index')}}">
+                        <i class="icon-3"></i>
+                        <p>待收货</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{:U('Home/Order/Index')}}">
+                        <i class="icon-100"></i>
+                        <p>待付款</p>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
     <!-- content end -->
