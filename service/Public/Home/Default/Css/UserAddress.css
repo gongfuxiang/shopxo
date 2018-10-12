@@ -13,7 +13,7 @@ ul.address-list li.address-default {
 ul.address-list li {
     display: block;
     width: calc(50% - 5px);
-    height: 150px;
+    height: 138px;
     float: left;
     background-image: url(../Images/peraddbg.png);
     background-repeat: no-repeat;
@@ -30,7 +30,7 @@ ul.address-list li .user-base {
 
 .new-addr-btn {
     position: absolute;
-    bottom: 10px;
+    bottom: 5px;
     right: 25px;
     color: #282828;
     text-align: right;
