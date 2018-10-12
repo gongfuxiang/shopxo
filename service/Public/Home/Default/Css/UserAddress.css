@@ -12,7 +12,7 @@ ul.address-list li.address-default {
 ul.address-list li {
     display: block;
     width: calc(50% - 5px);
-    height: 138px;
+    height: 130px;
     float: left;
     background-image: url(../Images/peraddbg.png);
     background-repeat: no-repeat;

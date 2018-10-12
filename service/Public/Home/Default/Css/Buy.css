@@ -96,7 +96,7 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .link-list{margin:0px auto;}
   /*地址管理*/
   .address ul{margin-top:10px ;}
-  ul.address-list li{display:block; width: calc(33% - 5px);height: 150px;float: left;background-image: url(../Images/peraddbg.png); background-repeat: no-repeat; background-size: 100% 100%; margin:0 10px 10px 0 ;padding:10px;}
+  ul.address-list li{display:block; width: calc(33% - 5px);height: 130px;float: left;background-image: url(../Images/peraddbg.png); background-repeat: no-repeat; background-size: 100% 100%; margin:0 10px 10px 0 ;padding:10px;}
   ul.address-list li.address-default{background-image: url(../Images/peraddressbg.png);}
   ul.address-list li:nth-child(3n) { margin-right: 0; }
   .address-left{ width:100%;position: relative;}
