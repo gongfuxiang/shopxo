@@ -93,7 +93,7 @@ $(function()
     // 弹出地址选择
     $('.address-submit-save').on('click', function(e)
     {
-        ModalLoad($(this).data('url'), '地址管理', 'popup-modal-address', 'common-address-modal');
+        ModalLoad($(this).data('url'), $(this).data('popup-title'), 'popup-modal-address', 'common-address-modal');
 
         // 阻止事件冒泡
         e.stopPropagation();

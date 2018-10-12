@@ -2,7 +2,6 @@
 
 namespace Home\Controller;
 
-use Service\BuyService;
 use Service\UserService;
 
 /**
@@ -39,15 +38,9 @@ class UserAddressController extends CommonController
      */
     public function Index()
     {
-        $cart_list = BuyService::CartList(['user'=>$this->user]);
-        $this->assign('cart_list', $cart_list['data']);
+        // 用户地址
+        $this->assign('user_address_list', UserService::UserAddressList(['user'=>$this->user])['data']);
 
-        $base = [
-            'total_price'   => empty($cart_list['data']) ? 0 : array_sum(array_column($cart_list['data'], 'total_price')),
-            'total_stock'   => empty($cart_list['data']) ? 0 : array_sum(array_column($cart_list['data'], 'stock')),
-            'ids'           => empty($cart_list['data']) ? '' : implode(',', array_column($cart_list['data'], 'id')),
-        ];
-        $this->assign('base', $base);
         $this->display('Index');
     }
 

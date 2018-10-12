@@ -1,4 +1,76 @@
-.my-content { padding: 15px 10px; }
-.region-linkage .chosen-select { display: -webkit-inline-box; width: calc(33.3% - 3px) !important; }
-.region-linkage .chosen-select .chosen-single  { width: 100%; }
-#map { width: 100%; height: 250px; }
+/**
+ * 地址管理
+ */
+ul.address-list {
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+ul.address-list li.address-default {
+    background-image: url(../Images/peraddressbg.png);
+}
+
+ul.address-list li {
+    display: block;
+    width: calc(50% - 5px);
+    height: 150px;
+    float: left;
+    background-image: url(../Images/peraddbg.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    margin: 0 10px 10px 0;
+    padding: 10px;
+    position: relative;
+}
+
+ul.address-list li .user-base {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.new-addr-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 25px;
+    color: #282828;
+    text-align: right;
+}
+
+ul.address-list li:nth-child(2n) {
+    margin-right: 0;
+}
+
+@media only screen and (min-width: 1025px) {
+    ul.address-list li {
+        width: calc(25% - 8px);
+    }
+    
+    ul.address-list li:nth-child(2n) {
+        margin-right: 10px;
+    }
+    ul.address-list li:nth-child(4n) {
+        margin-right: 0;
+    }
+}
+
+
+/**
+ * 地址添加/编辑
+ */
+.my-content {
+    padding: 15px 10px;
+}
+
+.region-linkage .chosen-select {
+    display: -webkit-inline-box;
+    width: calc(33.3% - 3px) !important;
+}
+
+.region-linkage .chosen-select .chosen-single {
+    width: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 250px;
+}

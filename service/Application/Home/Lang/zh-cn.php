@@ -58,6 +58,13 @@ return array(
 									'icon'		=>	'am-icon-gear',
 								),
 							array(
+									'control'	=>	'UserAddress',
+									'action'	=>	'Index',
+									'name'		=>	'我的地址',
+									'is_show'	=>	1,
+									'icon'		=>	'am-icon-map-marker',
+								),
+							array(
 									'control'	=>	'Safety',
 									'action'	=>	'Index',
 									'name'		=>	'安全设置',
