@@ -162,14 +162,14 @@ function IsExitsFunction(fun_name)
 }
 
 /**
- * [Get_Tag_Value 根据tag对象获取值]
+ * [GetTagValue 根据tag对象获取值]
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  1.0.0
  * @datetime 2017-10-07T20:53:40+0800
  * @param    {[object]}         tag_obj [tag对象]
  */
-function Get_Tag_Value(tag_obj)
+function GetTagValue(tag_obj)
 {
 	// 默认值
 	var v = null;
@@ -246,8 +246,8 @@ function FromInit(form_name)
 				{
 					validity.valid = true;
 				} else {
-					var v1 = Get_Tag_Value($(validity.field));
-					var v2 = Get_Tag_Value($(tag));
+					var v1 = GetTagValue($(validity.field));
+					var v2 = GetTagValue($(tag));
 					validity.valid = (v1 == null && v2 == null) ? false : true;
 				}
 			}
@@ -587,12 +587,12 @@ function Tree(id, url, level, is_add_node)
 }
 
 /**
- * [img_file_upload_show 图片上传预览]
+ * [ImageFileUploadShow 图片上传预览]
  * @param  {[string]} class_name 		[class名称]
  * @param  {[string]} show_img   		[预览图片id或class]
  * @param  {[string]} default_images    [默认图片]
  */
-function img_file_upload_show(class_name, show_img, default_images)
+function ImageFileUploadShow(class_name, show_img, default_images)
 {
 	$(document).on("change", class_name, function(imgFile)
 	{
@@ -988,7 +988,7 @@ $(function()
 	 * @param   {[string]}        type [edit, add]
 	 * @return  {[object]}             [处理后的数据]
 	 */
-	function fun_save_win_additional(data, type)
+	function FunSaveWinAdditional(data, type)
 	{
 		// 额外处理数据
 		if($('#tree').length > 0)
@@ -1061,7 +1061,7 @@ $(function()
 		}
 		
 		// 填充数据
-		var data = fun_save_win_additional($(this).data('json'), 'edit');
+		var data = FunSaveWinAdditional($(this).data('json'), 'edit');
 
 		// 开始填充数据
 		FormDataFill(data, '#'+tag);
@@ -1077,7 +1077,7 @@ $(function()
 	$('#tree').on('click', '.tree-submit-add-node', function()
 	{
 		// 清空表单数据
-		tree_form_init();
+		TreeFormInit();
 
 		// 父节点赋值
 		var id = parseInt($(this).data('id')) || 0;
@@ -1129,7 +1129,7 @@ $(function()
 	 */
 	$('.tree-submit-add').on('click', function()
 	{
-		tree_form_init();
+		TreeFormInit();
 	});
 
 	/**
@@ -1140,7 +1140,7 @@ $(function()
 	 * @date    2018-08-06
 	 * @desc    description
 	 */
-	function tree_form_init()
+	function TreeFormInit()
 	{
 		// 更改窗口名称
 		$title = $('#data-save-win').find('.am-popup-title');
@@ -1150,7 +1150,7 @@ $(function()
 		var data = {"id":"", "pid":0, "name":"", "sort":0, "is_enable":1, "icon":""};
 
 		// 额外处理数据
-		data = fun_save_win_additional(data, 'init');
+		data = FunSaveWinAdditional(data, 'init');
 
 		// 清空表单
 		FormDataFill(data);
@@ -1366,7 +1366,7 @@ $(function()
     // 图片预览
     if($('.images-file-event').length > 0)
     {
-    	img_file_upload_show('.images-file-event');
+    	ImageFileUploadShow('.images-file-event');
     }
 
     // 图片组合input清除按钮
@@ -1436,12 +1436,12 @@ $(function()
             $(this).parent().removeClass('plug-images-add-tag');
 
             // 继续添加
-            plug_images_list_add('add');
+            PlugImagesListAdd('add');
         }
     });
 
     // 多图片上传 - 继续添加
-    function plug_images_list_add(event)
+    function PlugImagesListAdd(event)
     {
     	var max = $plug_images_list.data('max-count') || 0;
         var count = $plug_images_list.find('li').length;
@@ -1469,7 +1469,7 @@ $(function()
     // 初始化
     if($plug_images_list.length > 0)
     {
-    	plug_images_list_add('init');
+    	PlugImagesListAdd('init');
     }
 
     // 多图片上传 - 点击事件禁止
@@ -1482,7 +1482,7 @@ $(function()
     $(document).on('click', '.plug-images-delete-submit', function()
     {
         $(this).parent().parent().parent().remove();
-        plug_images_list_add('del');
+        PlugImagesListAdd('del');
     });
 
     /* 搜索切换 */

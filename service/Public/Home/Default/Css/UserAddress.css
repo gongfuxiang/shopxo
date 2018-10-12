@@ -3,7 +3,6 @@
  */
 ul.address-list {
     overflow: hidden;
-    margin-top: 10px;
 }
 
 ul.address-list li.address-default {
@@ -40,6 +39,12 @@ ul.address-list li:nth-child(2n) {
     margin-right: 0;
 }
 
+@media only screen and (min-width: 641px) {
+    ul.address-list {
+        margin-top: 10px;
+    }
+}
+
 @media only screen and (min-width: 1025px) {
     ul.address-list li {
         width: calc(25% - 8px);
@@ -50,6 +55,19 @@ ul.address-list li:nth-child(2n) {
     }
     ul.address-list li:nth-child(4n) {
         margin-right: 0;
+    }
+}
+
+@media only screen and (max-width: 641px) {
+    .control .address-submit-save {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        z-index: 2;
+    }
+    .am-footer {
+        padding-bottom: 30px;
     }
 }
 

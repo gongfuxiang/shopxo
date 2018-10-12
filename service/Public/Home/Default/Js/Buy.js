@@ -1,8 +1,5 @@
-var store = $.AMUI.store;
-if(!store.enabled)
+if(store.enabled)
 {
-  alert('Local storage is not supported by your browser. Please disable "Private Mode", or upgrade to a modern browser.');
-} else {
     // 选择缓存key
     var store_address_key = 'store-buy-address-selected-index';
     var store_use_new_address_status_key = 'store-buy-use-new-address-status-count';

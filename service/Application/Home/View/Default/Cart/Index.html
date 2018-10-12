@@ -141,7 +141,7 @@
             $.AMUI.progress.done();
             Prompt(e.msg, 'success');
             $('#data-list-'+e.data_id).remove();
-            $('.top-nav-cart-total').text(parseInt(e.data));
+            HomeCartNumberTotalUpdate(parseInt(e.data));
         } else {
             $('form.form-validation').find('button[type="submit"]').button('reset');
             $.AMUI.progress.done();

@@ -136,7 +136,7 @@ $(function()
         $content_tag.append(html);
         $content_tag.attr('index', index);
         $(this).attr('index', i+1);
-        img_file_upload_show('.images-file-tag-'+index);
+        ImageFileUploadShow('.images-file-tag-'+index);
     });
 
     // 手机详情删除

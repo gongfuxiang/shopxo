@@ -11,6 +11,20 @@ if(!store.enabled)
     var store_user_menu_key = 'store-user-menu-active-key';
 }
 
+// 购物车数量更新
+function HomeCartNumberTotalUpdate(number)
+{
+    var $this = $('.common-cart-total');
+    if(number <= 0)
+    {
+        $this.text('');
+        $this.removeClass('am-badge am-badge-danger');
+    } else {
+        $this.text(number);
+        $this.addClass('am-badge am-badge-danger');
+    }
+}
+
 $(function()
 {
     // 选中处理

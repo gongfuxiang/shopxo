@@ -49,8 +49,7 @@ $(function()
             stock = 1;
         }
         self.parents('.stock-tag').find('input').val(stock);
-        var temp_price = FomatFloat(stock*price, 2);
-        self.parents('tr').find('.total-price-content').text('￥'+temp_price);
+        self.parents('tr').find('.total-price-content').text('￥'+FomatFloat(stock*price, 2));
 
         // 开启进度条
         $.AMUI.progress.start();
@@ -68,6 +67,9 @@ $(function()
                 if(result.code == 0)
                 {
                     PromptCenter(result.msg, 'success');
+
+                    // 数量更新
+                    self.parents('tr').find('.wap-number').text('x'+stock);
 
                     // 计算选择的商品总数和总价
                     cart_base_total();
