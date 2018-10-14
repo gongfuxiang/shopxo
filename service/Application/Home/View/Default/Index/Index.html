@@ -88,13 +88,15 @@
 			</if>
 			<if condition="!empty($user)">
 				<div class="member-center">
-					<foreach name="user_order_status" item="v">
-						<if condition="in_array($v['status'], [1,2,3])">
-							<a href="{{:U('Home/Order/Index', ['is_more'=>1, 'status'=>$v['status']])}}"><strong>{{$v.count}}</strong>{{$v.name}}</a>
-						<elseif condition="in_array($v['status'], [100])" />
-							<a href="{{:U('Home/Order/Index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}"><strong>{{$v.count}}</strong>{{$v.name}}</a>
-						</if>
-					</foreach>
+					<notempty name="user_order_status">
+						<foreach name="user_order_status" item="v">
+							<if condition="in_array($v['status'], [1,2,3])">
+								<a href="{{:U('Home/Order/Index', ['is_more'=>1, 'status'=>$v['status']])}}"><strong>{{$v.count}}</strong>{{$v.name}}</a>
+							<elseif condition="in_array($v['status'], [100])" />
+								<a href="{{:U('Home/Order/Index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}"><strong>{{$v.count}}</strong>{{$v.name}}</a>
+							</if>
+						</foreach>
+					</notempty>
 				</div>
 			</if>
 		</div>

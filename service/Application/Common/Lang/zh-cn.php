@@ -433,8 +433,8 @@ return array(
 			1 => array('id' => 1, 'name' => '微信'),
 		),
 
-	// 支付日志 - 业务类型
-	'common_busines_type_list'				=>	array(
+	// 业务类型
+	'common_business_type_list'				=>	array(
 			0 => array('id' => 0, 'name' => '订单', 'checked' => true),
 		),
 

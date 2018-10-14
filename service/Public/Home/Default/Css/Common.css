@@ -649,6 +649,8 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
 .am-pagination > .am-active > a, .am-pagination > .am-active > a:hover { background-color: #d13b49; border-color: #d13b49; }
 .am-popup-bd { padding: 5px; background: none; }
 
+.am-badge { padding: 0.25em 0.5em;}
+
 
 /**
  * 用户中心布局样式

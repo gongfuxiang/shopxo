@@ -490,7 +490,7 @@ class GoodsService
 
         $limit_start = max(0, intval($params['limit_start']));
         $limit_number = max(1, intval($params['limit_number']));
-        $order_by = empty($params['$order_by']) ? 'f.id desc' : I('order_by', '', '', $params);
+        $order_by = empty($params['order_by']) ? 'f.id desc' : I('order_by', '', '', $params);
         $field = 'f.*, g.title, g.original_price, g.price, g.images';
 
         // 获取订单

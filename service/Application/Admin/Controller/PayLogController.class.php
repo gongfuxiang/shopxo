@@ -70,7 +70,7 @@ class PayLogController extends CommonController
 		$this->assign('common_pay_type_list', $pay_list);
 
 		// 业务类型
-		$this->assign('common_busines_type_list', L('common_busines_type_list'));
+		$this->assign('common_business_type_list', L('common_business_type_list'));
 
 		// 参数
 		$this->assign('param', $param);
@@ -97,11 +97,11 @@ class PayLogController extends CommonController
 		if(!empty($data))
 		{
 			$common_gender_list = L('common_gender_list');
-			$common_busines_type_list = L('common_busines_type_list');
+			$common_business_type_list = L('common_business_type_list');
 			foreach($data as &$v)
 			{
 				// 业务类型
-				$v['busines_type_text'] = $common_busines_type_list[$v['busines_type']]['name'];
+				$v['business_type_text'] = $common_business_type_list[$v['business_type']]['name'];
 
 				// 性别
 				$v['gender_text'] = $common_gender_list[$v['gender']]['name'];
@@ -145,9 +145,9 @@ class PayLogController extends CommonController
 			{
 				$where['p.payment'] = I('pay_type');
 			}
-			if(I('busines_type', -1) > -1)
+			if(I('business_type', -1) > -1)
 			{
-				$where['p.busines_type'] = intval(I('busines_type', 0));
+				$where['p.business_type'] = intval(I('business_type', 0));
 			}
 			if(I('gender', -1) > -1)
 			{

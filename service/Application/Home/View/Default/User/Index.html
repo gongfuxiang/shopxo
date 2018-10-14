@@ -45,13 +45,13 @@
                 <ul class="user-base-icon">
                     <li>
                         <a href="{{:U('Home/Order/Index')}}">
-                            <p>0</p>
+                            <p>{{$user_order_count}}</p>
                             <p>订单总数</p>
                         </a>
                     </li>
                     <li>
                         <a href="{{:U('Home/UserFavor/Goods')}}">
-                            <p>0</p>
+                            <p>{{$user_goods_favor_count}}</p>
                             <p>商品收藏</p>
                         </a>
                     </li>
@@ -77,33 +77,33 @@
                     </span>
                 </a>
             </div>
-            <ul class="order-base">
-                <li>
-                    <a href="{{:U('Home/Order/Index')}}">
-                        <i class="icon-1"></i>
-                        <p>待付款</p>
-                        <span class="am-badge am-badge-danger am-round">6</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{:U('Home/Order/Index')}}">
-                        <i class="icon-2"></i>
-                        <p>待发货</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{:U('Home/Order/Index')}}">
-                        <i class="icon-3"></i>
-                        <p>待收货</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{:U('Home/Order/Index')}}">
-                        <i class="icon-100"></i>
-                        <p>待付款</p>
-                    </a>
-                </li>
-            </ul>
+            <notempty name="user_order_status">
+                <ul class="order-base">
+                    <foreach name="user_order_status" item="v">
+                        <if condition="in_array($v['status'], [1,2,3])">
+                            <li>
+                                <a href="{{:U('Home/Order/Index', ['is_more'=>1, 'status'=>$v['status']])}}">
+                                    <i class="icon-1"></i>
+                                    <p>{{$v.name}}</p>
+                                    <notempty name="v.count">
+                                        <span class="am-badge am-badge-danger am-round">{{$v.count}}</span>
+                                    </notempty>
+                                </a>
+                            </li>
+                        <elseif condition="in_array($v['status'], [100])" />
+                            <li>
+                                <a href="{{:U('Home/Order/Index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}">
+                                    <i class="icon-1"></i>
+                                    <p>{{$v.name}}</p>
+                                    <notempty name="v.count">
+                                        <span class="am-badge am-badge-danger am-round">{{$v.count}}</span>
+                                    </notempty>
+                                </a>
+                            </li>
+                        </if>
+                    </foreach>
+                </ul>
+            </notempty>
         </div>
     </div>
     <!-- content end -->

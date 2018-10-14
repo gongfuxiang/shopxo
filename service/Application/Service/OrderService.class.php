@@ -336,7 +336,7 @@ class OrderService
 
         // 消息通知
         $detail = '订单支付成功，金额'.PriceBeautify($params['order']['total_price']).'元';
-        ResourcesService::MessageAdd($params['order']['user_id'], '订单支付', $detail, 1, $params['order']['id']);
+        MessageService::MessageAdd($params['order']['user_id'], '订单支付', $detail, 1, $params['order']['id']);
 
         // 开启事务
         $m = M('Order');
@@ -387,7 +387,7 @@ class OrderService
             'user_is_delete_time'   => 0,
         ];
 
-        // 订单id
+        // id
         if(!empty($params['id']))
         {
             $where['id'] = intval($params['id']);
@@ -513,7 +513,7 @@ class OrderService
 
         $limit_start = max(0, intval($params['limit_start']));
         $limit_number = max(1, intval($params['limit_number']));
-        $order_by = empty($params['$order_by']) ? 'id desc' : I('order_by', '', '', $params);
+        $order_by = empty($params['order_by']) ? 'id desc' : I('order_by', '', '', $params);
 
         // 获取订单
         $data = M('Order')->where($params['where'])->limit($limit_start, $limit_number)->order($order_by)->select();
@@ -653,7 +653,7 @@ class OrderService
         if($m->where($where)->save($data))
         {
             // 用户消息
-            ResourcesService::MessageAdd($order['user_id'], '订单取消', '订单取消成功', 1, $order['id']);
+            MessageService::MessageAdd($order['user_id'], '订单取消', '订单取消成功', 1, $order['id']);
 
             // 订单状态日志
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
@@ -728,7 +728,7 @@ class OrderService
         if($m->where($where)->save($data))
         {
             // 用户消息
-            ResourcesService::MessageAdd($order['user_id'], '订单发货', '订单已发货', 1, $order['id']);
+            MessageService::MessageAdd($order['user_id'], '订单发货', '订单已发货', 1, $order['id']);
 
             // 订单状态日志
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
@@ -791,7 +791,7 @@ class OrderService
         if($m->where($where)->save($data))
         {
             // 用户消息
-            ResourcesService::MessageAdd($order['user_id'], '订单收货', '订单收货成功', 1, $order['id']);
+            MessageService::MessageAdd($order['user_id'], '订单收货', '订单收货成功', 1, $order['id']);
 
             // 订单状态日志
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
@@ -874,7 +874,7 @@ class OrderService
         if($m->where($where)->save($data))
         {
             // 用户消息
-            ResourcesService::MessageAdd($order['user_id'], '订单删除', '订单删除成功', 1, $order['id']);
+            MessageService::MessageAdd($order['user_id'], '订单删除', '订单删除成功', 1, $order['id']);
 
             return DataReturn(L('common_operation_delete_success'), 0);
         }

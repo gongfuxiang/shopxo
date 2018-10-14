@@ -172,34 +172,5 @@ class ResourcesService
 
         return M('Region')->where($where)->field($field)->order('id asc, sort asc')->select();
     }
-
-    /**
-     * 消息添加
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-21
-     * @desc    description
-     * @param    [int]              $user_id        [用户id]
-     * @param    [string]           $title          [标题]
-     * @param    [string]           $detail         [内容]
-     * @param    [int]              $business_type  [业务类型（0默认, 1订单, ...）]
-     * @param    [int]              $business_id    [业务id]
-     * @param    [int]              $type           [类型（默认0  普通消息）]
-     * @return   [boolean]                          [成功true, 失败false]
-     */
-    public static function MessageAdd($user_id, $title, $detail, $business_type = 0, $business_id = 0, $type = 0)
-    {
-        $data = array(
-            'title'             => $title,
-            'detail'            => $detail,
-            'user_id'           => intval($user_id),
-            'business_type'     => intval($business_type),
-            'business_id'       => intval($business_id),
-            'type'              => intval($type),
-            'add_time'          => time(),
-        );
-        return M('Message')->add($data) > 0;
-    }
 }
 ?>

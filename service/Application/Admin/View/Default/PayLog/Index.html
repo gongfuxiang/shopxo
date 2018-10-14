@@ -29,10 +29,10 @@
 							</if>
 						</foreach>
 					</select>
-					<select name="busines_type" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="-1">{{:L('paylog_busines_type_name')}}</option>
-						<foreach name="common_busines_type_list" item="v">
-							<option value="{{$v.id}}" <if condition="isset($param['busines_type']) and $param['busines_type'] eq $v['id']">selected</if>>{{$v.name}}</option>
+					<select name="business_type" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">{{:L('paylog_business_type_name')}}</option>
+						<foreach name="common_business_type_list" item="v">
+							<option value="{{$v.id}}" <if condition="isset($param['business_type']) and $param['business_type'] eq $v['id']">selected</if>>{{$v.name}}</option>
 						</foreach>
 					</select>
 					<div class="param-date param-where m-l-5">
@@ -51,7 +51,7 @@
 				<tr>
 					<th>{{:L('paylog_user_name')}}</th>
 					<th>{{:L('paylog_pay_type_name')}}</th>
-					<th>{{:L('paylog_busines_type_name')}}</th>
+					<th>{{:L('paylog_business_type_name')}}</th>
 					<th class="am-hide-sm-only">{{:L('paylog_order_id_name')}}</th>
 					<th class="am-hide-sm-only">{{:L('paylog_trade_no_name')}}</th>
 					<th class="am-hide-sm-only">{{:L('paylog_platform_buyer_user_name')}}</th>
@@ -82,7 +82,7 @@
 								<if condition="empty($v['payment_name'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.payment_name}}</if>
 							</td>
 							<td>
-								<if condition="empty($v['busines_type_text'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.busines_type_text}}</if>
+								<if condition="empty($v['business_type_text'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.business_type_text}}</if>
 							</td>
 							<td class="am-hide-sm-only">
 								<if condition="empty($v['order_id'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.order_id}}</if>
