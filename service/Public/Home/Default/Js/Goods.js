@@ -205,7 +205,7 @@ $(function() {
                 type: 'post',
                 dataType: "json",
                 timeout: 10000,
-                data: {"goods_id": $('.goods-detail').data('id')},
+                data: {"id": $('.goods-detail').data('id')},
                 success: function(result)
                 {
                     poptit_close();

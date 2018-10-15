@@ -317,7 +317,7 @@ class GoodsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '删除数据id有误',
+                'error_msg'         => '商品id有误',
             ],
             [
                 'checked_type'      => 'empty',
@@ -333,7 +333,7 @@ class GoodsService
 
         // 开始操作
         $m = M('GoodsFavor');
-        $data = ['id'=>intval($params['id']), 'user_id'=>$params['user']['id']];
+        $data = ['goods_id'=>intval($params['id']), 'user_id'=>$params['user']['id']];
         $temp = $m->where($data)->find();
         if(empty($temp))
         {

@@ -46,7 +46,7 @@
                     <tbody>
                         <notempty name="data_list">
                             <foreach name="data_list" item="v">
-                                <tr id="data-list-{{$v.id}}">
+                                <tr id="data-list-{{$v.goods_id}}">
                                     <td>
                                         <div class="goods-detail">
                                             <a href="{{$v.goods_url}}" target="_blank">
@@ -64,7 +64,7 @@
                                         <p class="line-price">￥{{$v.price}}</p>
                                     </td>
                                     <td>
-                                        <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:U('Home/UserFavor/Cancel')}}" data-id="{{$v.id}}" data-view="reload">取消</button>
+                                        <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:U('Home/UserFavor/Cancel')}}" data-id="{{$v.goods_id}}" data-view="delete">取消</button>
                                     </td>
                                 </tr>
                             </foreach>
