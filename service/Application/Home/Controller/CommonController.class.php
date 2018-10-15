@@ -6,6 +6,7 @@ use Think\Controller;
 use Service\GoodsService;
 use Service\NavigationService;
 use Service\BuyService;
+use Service\MessageService;
 
 /**
  * 前台
@@ -161,8 +162,13 @@ class CommonController extends Controller
 		$this->assign('goods_category_list', GoodsService::GoodsCategory());
 
 		// 购物车商品总数
-		$common_cart_total = BuyService::CartTotal(['user'=>$this->user]);
+		$common_cart_total = BuyService::UserCartTotal(['user'=>$this->user]);
 		$this->assign('common_cart_total', ($common_cart_total > 99) ? '99+' : $common_cart_total);
+
+		// 未读消息总数
+		$params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0];
+		$common_message_total = MessageService::UserMessageTotal($params);
+		$this->assign('common_message_total', ($common_message_total > 99) ? '99+' : $common_message_total);
 
 		// 当前控制器名称
 		$this->assign('controller_name', CONTROLLER_NAME);

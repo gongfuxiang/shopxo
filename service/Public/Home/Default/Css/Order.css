@@ -28,7 +28,7 @@
     .so-list .chosen-container { width:100%; }
     .so-list tr td:last-child { padding-top:0px !important; }
     .chosen-container-single .chosen-search input[type="text"] { width: 100% !important; }
-    .so-list select { width: calc(100% - 40px); display: -webkit-inline-box; }
+    .so-list select { width: calc(100% - 44px); display: -webkit-inline-box; }
 }
 
 /**

@@ -64,12 +64,23 @@
             <div class="top-nav-items top-nav-mini-cart">
                 <div class="menu-hd <if condition="empty($user)">login-event</if>">
                     <a id="mc-menu-hd" href="<if condition="empty($user)">javascript:;<else />{{:U('Home/Cart/Index')}}</if>" target="_top">
-                        <i class="am-icon-shopping-cart  am-icon-fw"></i>
+                        <i class="am-icon-shopping-cart am-icon-fw"></i>
                         <span>购物车</span>
                         <if condition="$common_cart_total gt 0">
                             <strong class="am-badge am-badge-danger am-round common-cart-total">{{$common_cart_total}}</strong>
                         <else />
                             <strong class="common-cart-total am-round">{{$common_cart_total}}</strong>
+                        </if>
+                    </a>
+                </div>
+            </div>
+            <div class="top-nav-items top-nav-mini-cart">
+                <div class="menu-hd <if condition="empty($user)">login-event</if>">
+                    <a id="mc-menu-hd" href="<if condition="empty($user)">javascript:;<else />{{:U('Home/Message/Index')}}</if>" target="_top">
+                        <i class="am-icon-bell am-icon-fw"></i>
+                        <span>消息</span>
+                        <if condition="$common_message_total gt 0">
+                            <strong class="am-badge am-badge-danger am-round common-cart-total">{{$common_message_total}}</strong>
                         </if>
                     </a>
                 </div>

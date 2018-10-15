@@ -424,7 +424,7 @@ return array(
 
 	// 消息类型
 	'common_message_type_list'			=>	array(
-			0 => array('id' => 0, 'name' => '普通通知', 'checked' => true),
+			0 => array('id' => 0, 'name' => '默认', 'checked' => true),
 		),
 
 	// 支付类型
@@ -435,7 +435,8 @@ return array(
 
 	// 业务类型
 	'common_business_type_list'				=>	array(
-			0 => array('id' => 0, 'name' => '订单', 'checked' => true),
+			0 => array('id' => 0, 'name' => '默认', 'checked' => true),
+			1 => array('id' => 1, 'name' => '订单'),
 		),
 
 	// 用户积分 - 操作类型

@@ -1,0 +1,32 @@
+/* 筛选 */
+.thin, .pay-list { overflow:hidden; }
+.thin .so { width:66%; }
+.thin_sub { font-weight:100; margin:10px 0px 0px 10px; cursor: pointer; }
+.so-list { width:100%; margin-top: 20px; }
+.so-list * { font-size:1.2rem !important; }
+.so-list input { height:28px; display:inline !important; }
+.time input, .so-list .chosen-container { background:#FFF !important; }
+.time input { width:100px !important; }
+.time i { position:absolute; margin:4px 0px 0px -15px; }
+.price input { width:101px !important; }
+.time, .time { width:50%; }
+.so-list tr+tr>td:first-child { padding-top:10px; }
+.so-list .chosen-container { border-radius:2px; }
+.text-grey { color: #999; }
+.chosen-container-single .chosen-single, .so-list select { height: 28px; line-height: 28px; width: 100%; }
+.reset-submit { margin-left: 20px; }
+.so-list select { padding: 0 0 0 8px; }
+@media only screen and (min-width: 641px){
+    .so-list .chosen-container, .so-list select { width:217px !important; display: -webkit-inline-box; }
+    .thin_sub:hover { color:#F60; }
+}
+@media only screen and (max-width: 641px){
+    .so-list input { width:40% !important; }
+    .so-list td { width:100%; display:block; }
+    .so-list tr td:last-child { margin-top:10px; }
+    .so-list .chosen-container { width:85%; }
+    .so-list .chosen-container { width:100%; }
+    .so-list tr td:last-child { padding-top:0px !important; }
+    .chosen-container-single .chosen-search input[type="text"] { width: 100% !important; }
+    .so-list select { width: calc(100% - 44px); display: -webkit-inline-box; }
+}

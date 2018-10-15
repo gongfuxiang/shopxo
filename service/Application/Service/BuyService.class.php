@@ -81,7 +81,7 @@ class BuyService
             $data['add_time'] = time();
             if($m->add($data) > 0)
             {
-                return DataReturn(L('common_join_success'), 0, self::CartTotal($params));
+                return DataReturn(L('common_join_success'), 0, self::UserCartTotal($params));
             }
         } else {
             $data['upd_time'] = time();
@@ -92,7 +92,7 @@ class BuyService
             }
             if($m->where($where)->save($data))
             {
-                return DataReturn(L('common_join_success'), 0, self::CartTotal($params));
+                return DataReturn(L('common_join_success'), 0, self::UserCartTotal($params));
             }
         }
         
@@ -217,7 +217,7 @@ class BuyService
         ];
         if(M('Cart')->where($where)->delete())
         {
-            return DataReturn(L('common_operation_delete_success'), 0, self::CartTotal($params));
+            return DataReturn(L('common_operation_delete_success'), 0, self::UserCartTotal($params));
         }
         return DataReturn(L('common_operation_delete_error'), -100);
     }
@@ -686,6 +686,20 @@ class BuyService
      */
     public static function CartTotal($params = [])
     {
+        return (int) M('Cart')->where($where)->count();
+    }
+
+    /**
+     * 用户购物车总数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function UserCartTotal($params = [])
+    {
         // 请求参数
         $p = [
             [
@@ -699,7 +713,7 @@ class BuyService
         {
             return 0;
         }
-        return (int) M('Cart')->where(['user_id'=>$params['user']['id']])->count();
+        return self::CartTotal(['user_id'=>$params['user']['id']]);
     }
 }
 ?>

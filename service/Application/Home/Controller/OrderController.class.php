@@ -48,7 +48,7 @@ class OrderController extends CommonController
         $number = 10;
 
         // 条件
-        $where = OrderService::HomeOrderListWhere($params);
+        $where = OrderService::UserOrderListWhere($params);
 
         // 获取总数
         $total = OrderService::OrderTotal($where);
@@ -107,7 +107,7 @@ class OrderController extends CommonController
         $params['user'] = $this->user;
 
         // 条件
-        $where = OrderService::HomeOrderListWhere($params);
+        $where = OrderService::UserOrderListWhere($params);
 
         // 获取列表
         $data_params = array(
@@ -144,7 +144,7 @@ class OrderController extends CommonController
         $params['user'] = $this->user;
 
         // 条件
-        $where = OrderService::HomeOrderListWhere($params);
+        $where = OrderService::UserOrderListWhere($params);
 
         // 获取列表
         $data_params = array(

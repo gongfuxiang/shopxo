@@ -35,6 +35,7 @@ class MessageService
             'business_type'     => intval($business_type),
             'business_id'       => intval($business_id),
             'type'              => intval($type),
+            'is_read'           => 0,
             'add_time'          => time(),
         );
         return M('Message')->add($data) > 0;
@@ -49,7 +50,7 @@ class MessageService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function HomeMessgeListWhere($params = [])
+    public static function UserMessgeListWhere($params = [])
     {
         $where = [
             'is_delete_time'        => 0,
@@ -70,7 +71,7 @@ class MessageService
 
         if(!empty($params['keywords']))
         {
-            $like_keywords = array('like', '%'.I('keywords').'%');
+            $like_keywords = array('like', '%'.$params['keywords'].'%');
             $where[] = [
                     'title'     => $like_keywords,
                     'detail'    => $like_keywords,
@@ -79,30 +80,30 @@ class MessageService
         }
 
         // 是否更多条件
-        if(I('is_more', 0) == 1)
+        if(isset($params['is_more']) && $params['is_more'] == 1)
         {
             // 等值
-            if(I('business_type', -1) > -1)
+            if(isset($params['business_type']) && $params['business_type'] > -1)
             {
-                $where['business_type'] = intval(I('business_type', 0));
+                $where['business_type'] = intval($params['business_type']);
             }
-            if(I('type', -1) > -1)
+            if(isset($params['type']) && $params['type'] > -1)
             {
-                $where['type'] = intval(I('type', 0));
+                $where['type'] = intval($params['type']);
             }
-            if(I('is_read', -1) > -1)
+            if(isset($params['is_read']) && $params['is_read'] > -1)
             {
-                $where['is_read'] = intval(I('is_read', 0));
+                $where['is_read'] = intval($params['is_read']);
             }
 
             // 时间
-            if(!empty($_REQUEST['time_start']))
+            if(!empty($params['time_start']))
             {
-                $where['add_time'][] = array('gt', strtotime(I('time_start')));
+                $where['add_time'][] = array('gt', strtotime($params['time_start']));
             }
-            if(!empty($_REQUEST['time_end']))
+            if(!empty($params['time_end']))
             {
-                $where['add_time'][] = array('lt', strtotime(I('time_end')));
+                $where['add_time'][] = array('lt', strtotime($params['time_end']));
             }
         }
 
@@ -121,6 +122,33 @@ class MessageService
     public static function MessageTotal($where = [])
     {
         return (int) M('Message')->where($where)->count();
+    }
+
+    /**
+     * 用户消息总数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function UserMessageTotal($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user',
+                'error_msg'         => '用户信息有误',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return 0;
+        }
+        return self::MessageTotal(self::UserMessgeListWhere($params));
     }
 
     /**
@@ -184,9 +212,44 @@ class MessageService
 
                 // 业务类型
                 $v['business_type_name'] = $common_business_type_list[$v['business_type']]['name'];
+
+                // 时间
+                $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                $v['add_time_date'] = date('Y-m-d', $v['add_time']);
             }
         }
         return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
+     * 消息更新未已读
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-15
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function MessageRead($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user',
+                'error_msg'         => '用户信息有误',
+            ]
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 更新用户未读消息为已读
+        $where = ['user_id'=>$params['user']['id'], 'is_read'=>0];
+        $ret = M('Message')->where($where)->save(['is_read'=>1]);
+        return DataReturn('处理成功', 0, $ret);
     }
 }
 ?>

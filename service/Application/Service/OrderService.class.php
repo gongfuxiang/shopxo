@@ -329,7 +329,7 @@ class OrderService
             'subject'       => isset($params['pay']['subject']) ? $params['pay']['subject'] : '订单支付',
             'payment'       => $params['payment']['payment'],
             'payment_name'  => $params['payment']['name'],
-            'business_type' => 0,
+            'business_type' => 1,
             'add_time'      => time(),
         ];
         M('PayLog')->add($pay_log_data);
@@ -380,7 +380,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function HomeOrderListWhere($params = [])
+    public static function UserOrderListWhere($params = [])
     {
         $where = [
             'is_delete_time'        => 0,
@@ -401,7 +401,7 @@ class OrderService
 
         if(!empty($params['keywords']))
         {
-            $like_keywords = array('like', '%'.I('keywords').'%');
+            $like_keywords = array('like', '%'.$params['keywords'].'%');
             $where[] = [
                     'order_no'      => $like_keywords,
                     'receive_name'  => $like_keywords,
@@ -411,46 +411,46 @@ class OrderService
         }
 
         // 是否更多条件
-        if(I('is_more', 0) == 1)
+        if(isset($params['is_more']) && $params['is_more'] == 1)
         {
             // 等值
-            if(I('payment_id', -1) > -1)
+            if(isset($pa['payment_id']) && $params['payment_id'] > -1)
             {
-                $where['payment_id'] = intval(I('payment_id', 0));
+                $where['payment_id'] = intval($params['payment_id']);
             }
-            if(I('pay_status', -1) > -1)
+            if(isset($pa['pay_status']) && $params['pay_status'] > -1)
             {
-                $where['pay_status'] = intval(I('pay_status', 0));
+                $where['pay_status'] = intval($params['pay_status']);
             }
-            if(I('status', -1) > -1)
+            if(isset($pa['status']) && $params['status'] > -1)
             {
-                $where['status'] = intval(I('status', 0));
+                $where['status'] = intval($params['status']);
             }
 
             // 评价状态
-            if(I('is_comments', -1) > -1)
+            if(isset($pa['is_comments']) && $params['is_comments'] > -1)
             {
                 $where['user_is_comments'] = (I('is_comments', 0) == 0) ? 0 : ['GT', 0];
             }
 
             // 时间
-            if(!empty($_REQUEST['time_start']))
+            if(!empty($params['time_start']))
             {
-                $where['add_time'][] = array('gt', strtotime(I('time_start')));
+                $where['add_time'][] = array('gt', strtotime($params['time_start']));
             }
-            if(!empty($_REQUEST['time_end']))
+            if(!empty($params['time_end']))
             {
-                $where['add_time'][] = array('lt', strtotime(I('time_end')));
+                $where['add_time'][] = array('lt', strtotime($params['time_end']));
             }
 
             // 价格
-            if(!empty($_REQUEST['price_start']))
+            if(!empty($params['price_start']))
             {
-                $where['price'][] = array('gt', floatval(I('price_start')));
+                $where['price'][] = array('gt', floatval($params['price_start']));
             }
-            if(!empty($_REQUEST['price_end']))
+            if(!empty($params['price_end']))
             {
-                $where['price'][] = array('lt', floatval(I('price_end')));
+                $where['price'][] = array('lt', floatval($params['price_end']));
             }
         }
 
