@@ -61,7 +61,7 @@ class GoodsController extends CommonController
             $this->assign('home_seo_site_title', $goods[0]['title']);
 
             // 商品访问统计
-            M('Goods')->where(array('id'=>$id))->setInc('access_count');
+            GoodsService::GoodsAccessCountInc(['goods_id'=>$id]);
 
             // 左侧商品 看了又看
             $params = [

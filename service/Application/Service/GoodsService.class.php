@@ -507,5 +507,23 @@ class GoodsService
         }
         return DataReturn('处理成功', 0, $data);
     }
+
+    /**
+     * 商品访问统计加1
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-15
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function GoodsAccessCountInc($params = [])
+    {
+        if(!empty($params['goods_id']))
+        {
+            return M('Goods')->where(array('id'=>intval($params['goods_id'])))->setInc('access_count');
+        }
+        return false;
+    }
 }
 ?>
