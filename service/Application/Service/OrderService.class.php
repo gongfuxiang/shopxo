@@ -414,23 +414,23 @@ class OrderService
         if(isset($params['is_more']) && $params['is_more'] == 1)
         {
             // 等值
-            if(isset($pa['payment_id']) && $params['payment_id'] > -1)
+            if(isset($params['payment_id']) && $params['payment_id'] > -1)
             {
                 $where['payment_id'] = intval($params['payment_id']);
             }
-            if(isset($pa['pay_status']) && $params['pay_status'] > -1)
+            if(isset($params['pay_status']) && $params['pay_status'] > -1)
             {
                 $where['pay_status'] = intval($params['pay_status']);
             }
-            if(isset($pa['status']) && $params['status'] > -1)
+            if(isset($params['status']) && $params['status'] > -1)
             {
                 $where['status'] = intval($params['status']);
             }
 
             // 评价状态
-            if(isset($pa['is_comments']) && $params['is_comments'] > -1)
+            if(isset($params['is_comments']) && $params['is_comments'] > -1)
             {
-                $where['user_is_comments'] = (I('is_comments', 0) == 0) ? 0 : ['GT', 0];
+                $where['user_is_comments'] = ($params['is_comments'] == 0) ? 0 : ['GT', 0];
             }
 
             // 时间
