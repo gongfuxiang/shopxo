@@ -57,13 +57,20 @@ class UserController extends CommonController
 	 */
 	public function Index()
 	{
+		// 登录校验
+		$this->Is_Login();
+		
 		// 订单总数
 		$where = ['user_id'=>$this->user['id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
 		$this->assign('user_order_count', OrderService::OrderTotal($where));
 
 		// 商品收藏总数
 		$where = ['user_id'=>$this->user['id']];
-		$this->assign('user_goods_favor_count', GoodsService::FavorGoodsTotal($where));
+		$this->assign('user_goods_favor_count', GoodsService::GoodsFavorTotal($where));
+
+		// 商品浏览总数
+		$where = ['user_id'=>$this->user['id']];
+		$this->assign('user_goods_browse_count', GoodsService::GoodsBrowseTotal($where));
 
 		// 用户订单状态
 		$user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);

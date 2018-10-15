@@ -63,6 +63,9 @@ class GoodsController extends CommonController
             // 商品访问统计
             GoodsService::GoodsAccessCountInc(['goods_id'=>$id]);
 
+            // 用户商品浏览
+            GoodsService::GoodsBrowseSave(['goods_id'=>$id, 'user'=>$this->user]);
+
             // 左侧商品 看了又看
             $params = [
                 'where'     => [

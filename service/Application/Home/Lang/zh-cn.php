@@ -72,6 +72,20 @@ return array(
 									'icon'		=>	'am-icon-user-secret',
 								),
 							array(
+									'control'	=>	'Message',
+									'action'	=>	'Index',
+									'name'		=>	'我的消息',
+									'is_show'	=>	1,
+									'icon'		=>	'am-icon-bell-o',
+								),
+							array(
+									'control'	=>	'UserGoodsBrowse',
+									'action'	=>	'Index',
+									'name'		=>	'我的足迹',
+									'is_show'	=>	1,
+									'icon'		=>	'am-icon-lastfm',
+								),
+							array(
 									'control'	=>	'User',
 									'action'	=>	'Logout',
 									'name'		=>	'安全退出',

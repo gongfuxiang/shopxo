@@ -414,7 +414,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function HomeFavorGoodsListWhere($params = [])
+    public static function UserGoodsFavorListWhere($params = [])
     {
         $where = [
             'g.is_delete_time'  => 0,
@@ -443,7 +443,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $where [条件]
      */
-    public static function FavorGoodsTotal($where = [])
+    public static function GoodsFavorTotal($where = [])
     {
         return (int) M('GoodsFavor')->alias('f')->join('__GOODS__ AS g ON g.id=f.goods_id')->where($where)->count();
     }
@@ -457,7 +457,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function FavorGoodsList($params = [])
+    public static function GoodsFavorList($params = [])
     {
         // 请求参数
         $p = [
@@ -493,7 +493,7 @@ class GoodsService
         $order_by = empty($params['order_by']) ? 'f.id desc' : I('order_by', '', '', $params);
         $field = 'f.*, g.title, g.original_price, g.price, g.images';
 
-        // 获取订单
+        // 获取数据
         $data = M('GoodsFavor')->alias('f')->join('__GOODS__ AS g ON g.id=f.goods_id')->field($field)->where($params['where'])->limit($limit_start, $limit_number)->order($order_by)->select();
         if(!empty($data))
         {
@@ -524,6 +524,204 @@ class GoodsService
             return M('Goods')->where(array('id'=>intval($params['goods_id'])))->setInc('access_count');
         }
         return false;
+    }
+
+    /**
+     * 商品浏览保存
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-15
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function GoodsBrowseSave($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'goods_id',
+                'error_msg'         => '商品id有误',
+            ],
+            [
+                'checked_type'      => 'is_array',
+                'key_name'          => 'user',
+                'error_msg'         => '用户信息有误',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        $m = M('GoodsBrowse');
+        $where = ['goods_id'=>intval($params['goods_id']), 'user_id'=>$params['user']['id']];
+        $temp = $m->where($where)->find();
+
+        $data = [
+            'goods_id'  => intval($params['goods_id']),
+            'user_id'   => $params['user']['id'],
+            'upd_time'  => time(),
+        ];
+        if(empty($temp))
+        {
+            $data['add_time'] = time();
+            $status = $m->add($data) > 0;
+        } else {
+            $status = $m->where($where)->save($data) !== false;
+        }
+        if($status)
+        {
+            return DataReturn('处理成功', 0);
+        }
+        return DataReturn('处理失败', -100);
+    }
+
+    /**
+     * 前端商品浏览列表条件
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function UserGoodsBrowseListWhere($params = [])
+    {
+        $where = [
+            'g.is_delete_time'  => 0,
+        ];
+
+        // 用户id
+        if(!empty($params['user']))
+        {
+            $where['b.user_id'] = $params['user']['id'];
+        }
+
+        if(!empty($params['keywords']))
+        {
+            $where['g.title'] = array('like', '%'.I('keywords').'%');
+        }
+
+        return $where;
+    }
+
+    /**
+     * 商品浏览总数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $where [条件]
+     */
+    public static function GoodsBrowseTotal($where = [])
+    {
+        return (int) M('GoodsBrowse')->alias('f')->join('__GOODS__ AS g ON g.id=f.goods_id')->where($where)->count();
+    }
+
+    /**
+     * 商品浏览列表
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function GoodsBrowseList($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'where',
+                'error_msg'         => '条件不能为空',
+            ],
+            [
+                'checked_type'      => 'is_array',
+                'key_name'          => 'where',
+                'error_msg'         => '条件格式有误',
+            ],
+            [
+                'checked_type'      => 'isset',
+                'key_name'          => 'limit_start',
+                'error_msg'         => '分页起始值有误',
+            ],
+            [
+                'checked_type'      => 'isset',
+                'key_name'          => 'limit_number',
+                'error_msg'         => '分页数量不能为空',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        $limit_start = max(0, intval($params['limit_start']));
+        $limit_number = max(1, intval($params['limit_number']));
+        $order_by = empty($params['order_by']) ? 'b.id desc' : I('order_by', '', '', $params);
+        $field = 'b.*, g.title, g.original_price, g.price, g.images';
+
+        // 获取数据
+        $data = M('GoodsBrowse')->alias('b')->join('__GOODS__ AS g ON g.id=b.goods_id')->field($field)->where($params['where'])->limit($limit_start, $limit_number)->order($order_by)->select();
+        if(!empty($data))
+        {
+            $images_host = C('IMAGE_HOST');
+            foreach($data as &$v)
+            {
+                $v['images_old'] = $v['images'];
+                $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
+                $v['goods_url'] = HomeUrl('Goods', 'Index', ['id'=>$v['goods_id']]);
+            }
+        }
+        return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
+     * 商品浏览删除
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-14
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function GoodsBrowseDelete($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '删除数据id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user',
+                'error_msg'         => '用户信息有误',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 删除
+        $where = [
+            'id'        => ['in', explode(',', $params['id'])],
+            'user_id'   => $params['user']['id']
+        ];
+        if(M('GoodsBrowse')->where($where)->delete())
+        {
+            return DataReturn(L('common_operation_delete_success'), 0);
+        }
+        return DataReturn(L('common_operation_delete_error'), -100);
     }
 }
 ?>
