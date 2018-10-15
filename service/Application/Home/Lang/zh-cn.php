@@ -18,7 +18,7 @@ return array(
 					'icon'		=>	'am-icon-home',
 				),
 			array(
-					'name'		=>	'我的交易',
+					'name'		=>	'交易管理',
 					'is_show'	=>	1,
 					'icon'		=>	'am-icon-cube',
 					'item'		=>	array(
@@ -28,25 +28,18 @@ return array(
 									'name'		=>	'订单管理',
 									'is_show'	=>	1,
 									'icon'		=>	'am-icon-th-list',
-								)
-						)
-				),
-			array(
-					'name'		=>	'我的收藏',
-					'is_show'	=>	1,
-					'icon'		=>	'am-icon-heart',
-					'item'		=>	array(
+								),
 							array(
 									'control'	=>	'UserFavor',
 									'action'	=>	'Goods',
-									'name'		=>	'商品收藏',
+									'name'		=>	'我的收藏',
 									'is_show'	=>	1,
-									'icon'		=>	'am-icon-shopping-basket',
-								)
+									'icon'		=>	'am-icon-heart-o',
+								),
 						)
 				),
 			array(
-					'name'		=>	'会员信息',
+					'name'		=>	'资料管理',
 					'is_show'	=>	1,
 					'icon'		=>	'am-icon-user',
 					'item'		=>	array(
