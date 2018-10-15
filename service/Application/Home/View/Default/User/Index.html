@@ -83,7 +83,7 @@
                         <if condition="in_array($v['status'], [1,2,3])">
                             <li>
                                 <a href="{{:U('Home/Order/Index', ['is_more'=>1, 'status'=>$v['status']])}}">
-                                    <i class="icon-1"></i>
+                                    <i class="icon-{{$v.status}}"></i>
                                     <p>{{$v.name}}</p>
                                     <notempty name="v.count">
                                         <span class="am-badge am-badge-danger am-round">{{$v.count}}</span>
@@ -93,7 +93,7 @@
                         <elseif condition="in_array($v['status'], [100])" />
                             <li>
                                 <a href="{{:U('Home/Order/Index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}">
-                                    <i class="icon-1"></i>
+                                    <i class="icon-{{$v.status}}"></i>
                                     <p>{{$v.name}}</p>
                                     <notempty name="v.count">
                                         <span class="am-badge am-badge-danger am-round">{{$v.count}}</span>

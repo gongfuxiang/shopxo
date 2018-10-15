@@ -45,26 +45,26 @@
                     </thead>
                     <tbody>
                         <notempty name="data_list">
-                            <foreach name="data_list" item="goods">
-                                <tr id="data-list-{{$goods.goods_id}}">
+                            <foreach name="data_list" item="v">
+                                <tr id="data-list-{{$v.id}}">
                                     <td>
                                         <div class="goods-detail">
-                                            <a href="{{$goods.goods_url}}" target="_blank">
-                                                <img src="{{$goods.images}}">
+                                            <a href="{{$v.goods_url}}" target="_blank">
+                                                <img src="{{$v.images}}">
                                             </a>
                                             <div class="goods-base">
-                                                <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
+                                                <a href="{{$v.goods_url}}" target="_blank" class="goods-title">{{$v.title}}</a>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <if condition="$goods['original_price'] gt 0">
-                                            <p class="original-price">￥{{$goods.original_price}}</p>
+                                        <if condition="$v['original_price'] gt 0">
+                                            <p class="original-price">￥{{$v.original_price}}</p>
                                         </if>
-                                        <p class="line-price">￥{{$goods.price}}</p>
+                                        <p class="line-price">￥{{$v.price}}</p>
                                     </td>
                                     <td>
-                                        <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:U('Home/UserFavor/Cancel')}}" data-id="{{$goods.goods_id}}" data-view="reload">取消</button>
+                                        <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:U('Home/UserFavor/Cancel')}}" data-id="{{$v.id}}" data-view="reload">取消</button>
                                     </td>
                                 </tr>
                             </foreach>

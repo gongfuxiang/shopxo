@@ -88,7 +88,6 @@ class UserFavorController extends CommonController
     {
         // 开始处理
         $params = $_POST;
-        $params['goods_id'] = isset($params['id']) ? $params['id'] : 0;
         $params['user'] = $this->user;
         $ret = GoodsService::GoodsFavor($params);
         $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
