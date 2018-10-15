@@ -27,3 +27,43 @@
   </div>
 </div>
 <a href="javascript:;" class="am-icon-btn am-icon-th-list am-show-sm-only user-menu" data-am-offcanvas="{target: '#user-offcanvas'}"></a>
+
+<!-- 头像修改 -->
+<div class="am-popup common-cropper-popup" id="user-head-popup">
+    <div class="am-popup-inner">
+        <div class="am-popup-hd meila-radius">
+            <h4 class="am-popup-title">头像上传</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd">
+            <form enctype="multipart/form-data" method="post" action="<{$__ROOT__}>index.php?g=Update&c=UserInfo&f=Head">
+                <input type="hidden" name="MAX_FILE_SIZE" value="<{$max_file_size}>" />
+                <div class="cropper-images-view">
+                    <div class="img-container am-fl user-head-img-container">
+                        <img src="__PUBLIC__/Home/{{$default_theme}}/Images/default-user-avatar.jpg" alt="Picture" />
+                    </div>
+                    <div class="img-preview preview-lg am-fl am-radius user-head-img-preview am-hide-sm-only"></div>
+                    <div class="img-preview preview-md am-fl am-radius user-head-img-preview "></div>
+                    <div class="img-preview preview-sm am-fl am-radius user-head-img-preview "></div>
+                    <input type="hidden" name="img_x" id="user-head-img_x" />
+                    <input type="hidden" name="img_y" id="user-head-img_y" />
+                    <input type="hidden" name="img_width" id="user-head-img_width" />
+                    <input type="hidden" name="img_height" id="user-head-img_height" />
+                    <input type="hidden" name="img_rotate" id="user-head-img_rotate" />
+                </div>
+                <div class="submit-operation">
+                    <button type="button" class="am-btn am-btn-default am-fl am-icon-search-plus am-icon-sm am-btn-xs am-radius" data-method="zoom" data-option="0.1"></button>
+                    <div class="am-form-group am-form-file am-fl">
+                        <button type="button" class="am-btn am-btn-default am-btn-sm cropper-input-images-submit">
+                        <i class="am-icon-cloud-upload"></i> 选择图片</button>
+                        <input type="file" name="file" multiple accept="image/gif,image/jpeg,image/jpg,image/png" />
+                    </div>
+                    <button type="button" class="am-btn am-btn-default am-fl am-icon-search-minus am-icon-sm am-btn-xs am-radius" data-method="zoom" data-option="-0.1"></button>
+                </div>
+
+                <button type="submit" class="am-btn am-btn-primary am-btn-sm am-radius head-submit">确认提交</button>
+                <span class="from-text-tips ml-cr-f00 none">请上传图片</span>
+            </form>
+        </div>
+    </div>
+</div>

@@ -150,5 +150,139 @@ $(function()
             store.set(store_user_menu_key, value);
         }
     });
+
+    
+
+
+    var $image = $('.user-head-img-container > img'),
+        $dataX = $('#user-head-img_x'),
+        $dataY = $('#user-head-img_y'),
+        $dataHeight = $('#user-head-img_height'),
+        $dataWidth = $('#user-head-img_width'),
+        $dataRotate = $('#user-head-img_rotate'),
+        options = {
+          // strict: false,
+          // responsive: false,
+          // checkImageOrigin: false
+
+          // modal: false,
+          // guides: false,
+          // highlight: false,
+          // background: false,
+
+          // autoCrop: false,
+          // autoCropArea: 0.5,
+          // dragCrop: false,
+          // movable: false,
+          // resizable: false,
+          // rotatable: false,
+          // zoomable: false,
+          // touchDragZoom: false,
+          // mouseWheelZoom: false,
+
+          // minCanvasWidth: 320,
+          // minCanvasHeight: 180,
+          // minCropBoxWidth: 160,
+          // minCropBoxHeight: 90,
+          // minContainerWidth: 320,
+          // minContainerHeight: 180,
+
+          // build: null,
+          // built: null,
+          // dragstart: null,
+          // dragmove: null,
+          // dragend: null,
+          // zoomin: null,
+          // zoomout: null,
+
+          aspectRatio: 1 / 1,
+          preview: '.user-head-img-preview',
+          crop: function (data) {
+            $dataX.val(Math.round(data.x));
+            $dataY.val(Math.round(data.y));
+            $dataHeight.val(Math.round(data.height));
+            $dataWidth.val(Math.round(data.width));
+            $dataRotate.val(Math.round(data.rotate));
+          }
+        };
+    $image.on({}).cropper(options);
+
+    // Methods
+    $(document.body).on('click', '[data-method]', function () {
+      var data = $(this).data(),
+          $target,
+          result;
+      if (data.method) {
+        data = $.extend({}, data); // Clone a new one
+        if (typeof data.target !== 'undefined') {
+          $target = $(data.target);
+
+          if (typeof data.option === 'undefined') {
+            try {
+              data.option = JSON.parse($target.val());
+            } catch (e) {
+              console.log(e.message);
+            }
+          }
+        }
+
+        result = $image.cropper(data.method, data.option);
+
+        if (data.method === 'getCroppedCanvas') {
+          $('#getCroppedCanvasModal').modal().find('.modal-body').html(result);
+        }
+
+        if ($.isPlainObject(result) && $target) {
+          try {
+            $target.val(JSON.stringify(result));
+          } catch (e) {
+            console.log(e.message);
+          }
+        }
+
+      }
+    }).on('keydown', function (e) {});
+
+
+    // 头像图片上传
+    var $inputimage = $('.common-cropper-popup input[type="file"]'),
+        URL = window.URL || window.webkitURL,
+        blobURL;
+
+    if (URL) {
+      $inputimage.change(function () {
+        var files = this.files,
+            file;
+
+        if (files && files.length) {
+          file = files[0];
+
+          if (/^image\/\w+$/.test(file.type)) {
+            blobURL = URL.createObjectURL(file);
+            $image.one('built.cropper', function () {
+              URL.revokeObjectURL(blobURL); // Revoke when load complete
+            }).cropper('reset', true).cropper('replace', blobURL);
+            //$inputimage.val('');
+          } else {
+            Prompt('Please choose an image file.');
+          }
+        }
+      });
+    } else {
+      $inputimage.parent().remove();
+    }
+
+    // 图片裁剪提交确认
+    $('.common-cropper-popup button[type="submit"]').on('click', function()
+    {
+      var v = $inputimage.val();
+      if(v.length == 0)
+      {
+        $(this).parents('.common-cropper-popup').find('.from-text-tips').removeClass('none');
+        Prompt('请上传图片');
+        return false;
+      }
+    });
+
     
 });

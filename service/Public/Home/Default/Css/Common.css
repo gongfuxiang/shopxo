@@ -689,3 +689,28 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
 
 .more-icon-rotate {-webkit-transform: rotate(-90deg);transform: rotate(-90deg);-webkit-transition: all 300ms;transition: all 300ms;}
 button { outline: none !important;}
+
+
+
+
+/**
+ * 公共头像样式
+ */
+.common-cropper-popup .cropper-images-view,
+.common-cropper-popup .img-preview,
+.common-cropper-popup .submit-operation { overflow:hidden; }
+.common-cropper-popup .img-container { width:200px; height:200px; margin-bottom:5px; }
+.common-cropper-popup .cropper-input-images-submit { width:104px; margin:0px 5px 0px 2px; height: 32px; }
+.common-cropper-popup .preview-lg { width:180px; height:180px; }
+.common-cropper-popup .preview-md { width:100px; height:100px; }
+.common-cropper-popup .preview-sm { width:50px; height:50px; }
+.common-cropper-popup .img-preview { margin-left:20px; border: 1px solid #eee; background-color: #f9f9f9; }
+.common-cropper-popup .cropper-container, .cropper-input-images-submit { border-radius:2px; }
+.common-cropper-popup .am-form-file input[type="file"] { margin-top: 0; }
+@media only screen and (max-width:641px){
+    .common-cropper-popup .img-preview { margin-left:10px; }
+    .common-cropper-popup .preview-md,
+    .common-cropper-popup .preview-sm { margin:0 0 5px 8px; }
+    .common-cropper-popup .preview-md { width:90px; height:90px; }
+    .common-cropper-popup .preview-sm { width:50px; height:50px; }
+}
