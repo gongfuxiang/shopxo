@@ -33,7 +33,9 @@
 						<dd>
 							<if condition="empty($user[$k])">
 								<span class="items-value-empty">{{:L('common_on_fill_in_the_text')}}</span>
-							<else />
+							<elseif condition="$k eq 'avatar'" />
+                                <img src="{{$user[$k]}}" width="50" height="50" />
+                            <else />
 								{{$user[$k]}}
 							</if>
 							<if condition="isset($v['tips'])">

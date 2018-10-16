@@ -310,6 +310,7 @@ return array(
     'common_linkage_province_format'    => '请选择省份',
     'common_linkage_city_format'        => '请选择城市',
     'common_linkage_county_format'      => '请选择区/县',
+    'common_avatar_upload_title'		=> '头像上传',
 
 	// 性别
 	'common_gender_list'				=>	array(

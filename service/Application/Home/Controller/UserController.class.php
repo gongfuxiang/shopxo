@@ -4,6 +4,7 @@ namespace Home\Controller;
 
 use Service\OrderService;
 use Service\GoodsService;
+use Service\UserService;
 
 /**
  * 用户
@@ -297,7 +298,7 @@ class UserController extends CommonController
 				// 清除验证码
 				$obj->Remove();
 
-				if($this->UserLoginRecord($user_id))
+				if(UserService::UserLoginRecord($user_id))
 				{
 					$this->ajaxReturn(L('common_reg_success'));
 				}
@@ -374,7 +375,7 @@ class UserController extends CommonController
 		if(M('User')->where(array('id'=>$user['id']))->save($data) !== false)
 		{
 			// 登录记录
-			if($this->UserLoginRecord($user['id']))
+			if(UserService::UserLoginRecord($user['id']))
 			{
 				$this->ajaxReturn(L('common_login_success'));
 			}
@@ -706,6 +707,18 @@ class UserController extends CommonController
 			unset($_SESSION['user']);
 		}
 		redirect(__MY_URL__);
+	}
+
+	public function UserAvatarUpload()
+	{
+		// 登录校验
+		$this->Is_Login();
+
+		$params = $_POST;
+		$params['user'] = $this->user;
+		$params['img_field'] = 'file';
+		$ret = UserService::UserAvatarUpload($params);
+		$this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
 	}
 }
 ?>

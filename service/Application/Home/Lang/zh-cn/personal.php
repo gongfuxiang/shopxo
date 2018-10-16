@@ -16,6 +16,7 @@ return array(
 
 	// 个人资料展示列表
 	'personal_show_list'	=>	array(
+			'avatar'			=>	array('name' => '头像', 'tips' => '<a href="javascript:;" data-am-modal="{target:\'#user-avatar-popup\'}">修改</a>'),
 			'nickname'			=>	array('name' => '昵称'),
 			'gender_text'		=>	array('name' => '性别'),
 			'birthday_text'		=>	array('name' => '生日'),

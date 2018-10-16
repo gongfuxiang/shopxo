@@ -2,6 +2,8 @@
 
 namespace Home\Controller;
 
+use Service\UserService;
+
 /**
  * 个人资料
  * @author   Devil
@@ -90,7 +92,7 @@ class PersonalController extends CommonController
 			if($m->where(array('id'=>$this->user['id']))->save())
 			{
 				// 更新用户session数据
-				$this->UserLoginRecord($this->user['id']);
+				UserService::UserLoginRecord($this->user['id']);
 
 				$this->ajaxReturn(L('common_operation_edit_success'));
 			} else {

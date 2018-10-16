@@ -43,33 +43,6 @@ $(function()
         }
     }
 
-    //鼠标悬停信息
-    $("#wrap .item").mouseenter(function(){
-        $(this).children(".mp_tooltip").animate({left:-92,queue:true});
-        $(this).children(".mp_tooltip").css("visibility","visible");
-        $(this).children(".ibar_login_box").css("display","block");
-    });
-    $("#wrap .item").mouseleave(function(){
-        $(this).children(".mp_tooltip").css("visibility","hidden");
-        $(this).children(".mp_tooltip").animate({left:-121,queue:true});
-        $(this).children(".ibar_login_box").css("display","none");
-    });
-    $(".quick_toggle li").mouseover(function(){
-        $(this).children(".mp_qrcode").show();
-        $(this).children(".mp_tooltip").animate({left:-92,queue:true});
-        $(this).children(".mp_tooltip").css("visibility","visible");
-    });
-    $(".quick_toggle li").mouseleave(function(){
-        $(this).children(".mp_qrcode").hide();
-        $(this).children(".mp_tooltip").css("visibility","hidden");
-        $(this).children(".mp_tooltip").animate({left:-121,queue:true});        
-    });
-
-    $(".return_top").click(function(){
-        ds.scrollTo(0, 0);
-        hideReturnTop();
-    });
-
     // 商品分类子级内容显示/隐藏
     $(".category-content li").hover(function() {
         $(".category-content .category-list li.first .menu-in").css("display", "none");
@@ -152,14 +125,15 @@ $(function()
     });
 
     
-
-
-    var $image = $('.user-head-img-container > img'),
-        $dataX = $('#user-head-img_x'),
-        $dataY = $('#user-head-img_y'),
-        $dataHeight = $('#user-head-img_height'),
-        $dataWidth = $('#user-head-img_width'),
-        $dataRotate = $('#user-head-img_rotate'),
+    /**
+     * 用户头像上传插件初始化
+     */
+    var $image = $('.user-avatar-img-container > img'),
+        $dataX = $('#user-avatar-img_x'),
+        $dataY = $('#user-avatar-img_y'),
+        $dataHeight = $('#user-avatar-img_height'),
+        $dataWidth = $('#user-avatar-img_width'),
+        $dataRotate = $('#user-avatar-img_rotate'),
         options = {
           // strict: false,
           // responsive: false,
@@ -196,7 +170,7 @@ $(function()
           // zoomout: null,
 
           aspectRatio: 1 / 1,
-          preview: '.user-head-img-preview',
+          preview: '.user-avatar-img-preview',
           crop: function (data) {
             $dataX.val(Math.round(data.x));
             $dataY.val(Math.round(data.y));
@@ -207,8 +181,8 @@ $(function()
         };
     $image.on({}).cropper(options);
 
-    // Methods
-    $(document.body).on('click', '[data-method]', function () {
+    // 缩放操作
+    $(document.body).on('click', '.common-cropper-popup [data-method]', function () {
       var data = $(this).data(),
           $target,
           result;
@@ -221,7 +195,7 @@ $(function()
             try {
               data.option = JSON.parse($target.val());
             } catch (e) {
-              console.log(e.message);
+              Prompt(e.message);
             }
           }
         }
@@ -236,7 +210,7 @@ $(function()
           try {
             $target.val(JSON.stringify(result));
           } catch (e) {
-            console.log(e.message);
+            Prompt(e.message);
           }
         }
 
@@ -245,12 +219,9 @@ $(function()
 
 
     // 头像图片上传
-    var $inputimage = $('.common-cropper-popup input[type="file"]'),
-        URL = window.URL || window.webkitURL,
-        blobURL;
-
+    var URL = window.URL || window.webkitURL, blobURL;
     if (URL) {
-      $inputimage.change(function () {
+      $('.common-cropper-popup input[type="file"]').on('change', function () {
         var files = this.files,
             file;
 
@@ -262,27 +233,19 @@ $(function()
             $image.one('built.cropper', function () {
               URL.revokeObjectURL(blobURL); // Revoke when load complete
             }).cropper('reset', true).cropper('replace', blobURL);
-            //$inputimage.val('');
           } else {
             Prompt('Please choose an image file.');
           }
+        } else {
+          $image.cropper('reset', true).cropper('replace', $image.attr('src'));
         }
       });
-    } else {
-      $inputimage.parent().remove();
     }
 
-    // 图片裁剪提交确认
-    $('.common-cropper-popup button[type="submit"]').on('click', function()
+    // 头像表单初始化
+    if($('form.form-validation-user-avatar').length > 0)
     {
-      var v = $inputimage.val();
-      if(v.length == 0)
-      {
-        $(this).parents('.common-cropper-popup').find('.from-text-tips').removeClass('none');
-        Prompt('请上传图片');
-        return false;
-      }
-    });
-
+      FromInit('form.form-validation-user-avatar');
+    }
     
 });

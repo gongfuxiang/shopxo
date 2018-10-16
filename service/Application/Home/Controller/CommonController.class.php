@@ -303,52 +303,5 @@ class CommonController extends Controller
 		$verify->Entry();
 	}
 
-	/**
-	 * [UserLoginRecord 用户登录记录]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2017-03-09T11:37:43+0800
-	 * @param    [int]     $user_id [用户id]
-	 * @return   [boolean]          [记录成功true, 失败false]
-	 */
-	protected function UserLoginRecord($user_id = 0)
-	{
-		if(!empty($user_id))
-		{
-			$user = M('User')->field('*')->find($user_id);
-			if(!empty($user))
-			{
-				// 基础数据处理
-				$user['add_time_text']	=	date('Y-m-d H:i:s', $user['add_time']);
-				$user['upd_time_text']	=	date('Y-m-d H:i:s', $user['upd_time']);
-				$user['gender_text']	=	L('common_gender_list')[$user['gender']]['name'];
-				$user['birthday_text']	=	empty($user['birthday']) ? '' : date('Y-m-d', $user['birthday']);
-				$user['mobile_security']=	empty($user['mobile']) ? '' : substr($user['mobile'], 0, 3).'***'.substr($user['mobile'], -3);
-				$user['email_security']	=	empty($user['email']) ? '' : substr($user['email'], 0, 3).'***'.substr($user['email'], -3);
-
-				// 显示名称,根据规则优先展示
-				$user['user_name_view'] = $user['username'];
-				if(empty($user['user_name_view']))
-				{
-					$user['user_name_view'] = $user['nickname'];
-				}
-				if(empty($user['user_name_view']))
-				{
-					$user['user_name_view'] = $user['mobile_security'];
-				}
-				if(empty($user['user_name_view']))
-				{
-					$user['user_name_view'] = $user['email_security'];
-				}
-
-				// 存储session
-				$_SESSION['user'] = $user;
-				return !empty($_SESSION['user']);
-			}
-		}
-		return false;
-	}
-
 }
 ?>

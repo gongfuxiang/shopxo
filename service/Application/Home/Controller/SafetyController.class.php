@@ -2,6 +2,8 @@
 
 namespace Home\Controller;
 
+use Service\UserService;
+
 /**
  * 安全
  * @author   Devil
@@ -395,7 +397,7 @@ class SafetyController extends CommonController
 		if(M('User')->where(array('id'=>$this->user['id']))->save($data) !== false)
 		{
 			// 更新用户session数据
-			$this->UserLoginRecord($this->user['id']);
+			UserService::UserLoginRecord($this->user['id']);
 
 			// 校验成功标记
 			unset($_SESSION['safety_'.$type]);

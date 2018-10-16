@@ -707,6 +707,7 @@ button { outline: none !important;}
 .common-cropper-popup .img-preview { margin-left:20px; border: 1px solid #eee; background-color: #f9f9f9; }
 .common-cropper-popup .cropper-container, .cropper-input-images-submit { border-radius:2px; }
 .common-cropper-popup .am-form-file input[type="file"] { margin-top: 0; }
+.common-cropper-popup .am-form-group { width: auto; }
 @media only screen and (max-width:641px){
     .common-cropper-popup .img-preview { margin-left:10px; }
     .common-cropper-popup .preview-md,

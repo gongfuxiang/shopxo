@@ -83,7 +83,7 @@ class UserService
         $ret = params_checked($params, $p);
         if($ret !== true)
         {
-            return DataReturn($ret);
+            return DataReturn($ret, -1);
         }
 
         // 获取用户地址
@@ -184,7 +184,7 @@ class UserService
         $ret = params_checked($params, $p);
         if($ret !== true)
         {
-            return DataReturn($ret);
+            return DataReturn($ret, -1);
         }
 
         $m = M('UserAddress');
@@ -269,7 +269,7 @@ class UserService
         $ret = params_checked($params, $p);
         if($ret !== true)
         {
-            return DataReturn($ret);
+            return DataReturn($ret, -1);
         }
 
         // 软删除数据
@@ -310,7 +310,7 @@ class UserService
         $ret = params_checked($params, $p);
         if($ret !== true)
         {
-            return DataReturn($ret);
+            return DataReturn($ret, -1);
         }
 
         // 模型
@@ -332,6 +332,154 @@ class UserService
             $m->rollback();
             return DataReturn(L('common_operation_set_error'), -100);
         }
+    }
+
+    /**
+     * [UserLoginRecord 用户登录记录]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-03-09T11:37:43+0800
+     * @param    [int]     $user_id [用户id]
+     * @return   [boolean]          [记录成功true, 失败false]
+     */
+    public static function UserLoginRecord($user_id = 0)
+    {
+        if(!empty($user_id))
+        {
+            $user = M('User')->field('*')->find($user_id);
+            if(!empty($user))
+            {
+                // 基础数据处理
+                $user['add_time_text']  =   date('Y-m-d H:i:s', $user['add_time']);
+                $user['upd_time_text']  =   date('Y-m-d H:i:s', $user['upd_time']);
+                $user['gender_text']    =   L('common_gender_list')[$user['gender']]['name'];
+                $user['birthday_text']  =   empty($user['birthday']) ? '' : date('Y-m-d', $user['birthday']);
+                $user['mobile_security']=   empty($user['mobile']) ? '' : substr($user['mobile'], 0, 3).'***'.substr($user['mobile'], -3);
+                $user['email_security'] =   empty($user['email']) ? '' : substr($user['email'], 0, 3).'***'.substr($user['email'], -3);
+
+                // 显示名称,根据规则优先展示
+                $user['user_name_view'] = $user['username'];
+                if(empty($user['user_name_view']))
+                {
+                    $user['user_name_view'] = $user['nickname'];
+                }
+                if(empty($user['user_name_view']))
+                {
+                    $user['user_name_view'] = $user['mobile_security'];
+                }
+                if(empty($user['user_name_view']))
+                {
+                    $user['user_name_view'] = $user['email_security'];
+                }
+
+                // 头像
+                if(!empty($user['avatar']))
+                {
+                    if(substr($user['avatar'], 0, 4) != 'http')
+                    {
+                        $user['avatar'] = C('IMAGE_HOST').$user['avatar'];
+                    }
+                } else {
+                    $user['avatar'] = C('IMAGE_HOST').'/Public/Home/'.C('DEFAULT_THEME').'/Images/default-user-avatar.jpg';
+                }
+
+                // 存储session
+                $_SESSION['user'] = $user;
+                return !empty($_SESSION['user']);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 用户头像更新
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-16
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public function UserAvatarUpload($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'img_width',
+                'error_msg'         => '图片宽度不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'img_height',
+                'error_msg'         => '图片高度不能为空',
+            ],
+            [
+                'checked_type'      => 'isset',
+                'key_name'          => 'img_x',
+                'error_msg'         => '图片裁剪x坐标有误',
+            ],
+            [
+                'checked_type'      => 'isset',
+                'key_name'          => 'img_y',
+                'error_msg'         => '图片裁剪y坐标有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'img_field',
+                'error_msg'         => '图片name字段值不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user',
+                'error_msg'         => '用户信息有误',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 开始处理图片存储
+        // 定义图片目录
+        $root_path = ROOT_PATH;
+        $img_path = 'Public'.DS.'Upload'.DS.'user_avatar'.DS;
+        $date = DS.date('Y').DS.date('m').DS.date('d').DS;
+
+        // 图像类库
+        $images_obj = \Library\Images::Instance(['is_new_name'=>false]);
+
+        // 文件上传校验
+        $error = FileUploadError($params['img_field']);
+        if($error !== true)
+        {
+            return DataReturn($error, -2);
+        }
+
+        $original = $images_obj->GetCompressCut($_FILES[$params['img_field']], $root_path.$img_path.'original'.$date, 800, 800, $params['img_x'], $params['img_y'], $params['img_width'], $params['img_height']);
+        if(!empty($original))
+        {
+            $compr = $images_obj->GetBinaryCompress($root_path.$img_path.'original'.$date.$original, $root_path.$img_path.'compr'.$date, 200, 200);
+            $small = $images_obj->GetBinaryCompress($root_path.$img_path.'original'.$date.$original, $root_path.$img_path.'small'.$date, 50, 50);
+        }
+        if(empty($compr) || empty($small))
+        {
+            return DataReturn('图片有误，请换一张', -3);
+        }
+
+        // 更新用户头像
+        $data = [
+            'avatar'    => DS.$img_path.'compr'.$date.$compr,
+            'upd_time'  => time(),
+        ];
+        if(M('User')->where(['id'=>$params['user']['id']])->save($data))
+        {
+            self::UserLoginRecord($params['user']['id']);
+            return DataReturn('上传成功', 0);
+        }
+        return DataReturn('上传失败', -100);
     }
 
 }
