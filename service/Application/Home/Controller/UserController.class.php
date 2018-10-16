@@ -77,6 +77,24 @@ class UserController extends CommonController
 		$user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
 		$this->assign('user_order_status', $user_order_status['data']);
 
+		// 参数
+        $params = array_merge($_POST, $_GET);
+        $params['user'] = $this->user;
+
+        // 条件
+        $where = OrderService::UserOrderListWhere($params);
+
+        // 获取列表
+        $order_params = array(
+            'limit_start'   => 0,
+            'limit_number'  => 6,
+            'is_items'		=> 0,
+            'where'         => $where,
+        );
+        $order = OrderService::OrderList($order_params);
+        $this->assign('order_list', $order['data']);
+
+
 		$this->display('Index');
 	}
 

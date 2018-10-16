@@ -110,12 +110,60 @@
                     <div class="am-panel am-panel-default">
                         <div class="am-panel-hd"><i></i>交易提醒</div>
                         <div class="am-panel-bd">
-                            <div class="table-no">
-                                <div>
-                                    <i class="am-icon-warning"></i> {{:L('common_not_data_tips')}}
+                            <notempty name="order_list">
+                                <table class="am-table">
+                                    <tbody>
+                                        <foreach name="order_list" item="v">
+                                            <tr id="data-list-{{$v.id}}" data-id="{{$v.id}}" data-goods-id="{{$v.goods_id}}">
+                                                <td class="base">
+                                                    <div class="goods-detail">
+                                                        <a href="{{$v.goods_url}}" target="_blank">
+                                                            <img src="{{$v.images}}" />
+                                                        </a>
+                                                        <div class="goods-base">
+                                                            <a href="{{$v.goods_url}}" target="_blank" class="goods-title">{{$v.title}}</a>
+                                                            <notempty name="goods.attribute">
+                                                                <ul class="goods-attr">
+                                                                    <foreach name="goods.attribute" item="attr">
+                                                                        <li>{{$attr.attr_type_name}}：{{$attr.attr_name}}</li>
+                                                                    </foreach>
+                                                                </ul>
+                                                            </notempty>
+                                                        </div>
+                                                    </div>
+                                                    <div class="wap-base am-show-sm-only">
+                                                        <if condition="$goods['original_price'] gt 0">
+                                                            <span class="original-price">￥{{$v.original_price}}</span>
+                                                        </if>
+                                                        <strong class="total-price-content">￥{{$v.price}}</strong>
+                                                        <span class="wap-number">x{{$v.buy_number}}</span>
+                                                    </div>
+                                                </td>
+                                                <td class="price am-hide-sm-only">
+                                                    <if condition="$goods['original_price'] gt 0">
+                                                        <p class="original-price">￥{{$v.original_price}}</p>
+                                                    </if>
+                                                    <p class="line-price">￥{{$v.price}}</p>
+                                                </td>
+                                                <td class="number am-hide-sm-only">
+                                                    x{{$v.buy_number}}
+                                                </td>
+                                                <td class="total-price am-hide-sm-only">
+                                                    <strong class="total-price-content">￥{{$v.total_price}}</strong>
+                                                </td>
+                                            </tr>
+                                        </foreach>
+                                    </tbody>
+                                </table>
+                            </notempty>
+                            <empty name="order_list">
+                                <div class="table-no">
+                                    <p>
+                                        <i class="am-icon-warning"></i> {{:L('common_not_data_tips')}}
+                                    </p>
+                                    <a href="{{:U('Home/Order/Index')}}" class="am-btn am-btn-default am-radius am-btn-xs">查看全部订单</a>
                                 </div>
-                                <a href="{{:U('Home/Order/Index')}}" class="am-btn am-btn-default am-radius">查看全部订单</a>
-                            </div>
+                            </empty>
                         </div>
                     </div>
                 </div>

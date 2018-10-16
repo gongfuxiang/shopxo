@@ -514,6 +514,7 @@ class OrderService
         $limit_start = max(0, intval($params['limit_start']));
         $limit_number = max(1, intval($params['limit_number']));
         $order_by = empty($params['order_by']) ? 'id desc' : I('order_by', '', '', $params);
+        $is_items = isset($params['is_items']) ? intval($params['is_items']) : 1;
 
         // 获取订单
         $data = M('Order')->where($params['where'])->limit($limit_start, $limit_number)->order($order_by)->select();
@@ -527,7 +528,6 @@ class OrderService
             foreach($data as &$v)
             {
                 // 订单基础
-                $total_price = 0;
                 $v['payment_name'] = '';
 
                 // 状态
@@ -545,22 +545,22 @@ class OrderService
                 $v['receive_county_name'] = ResourcesService::RegionName(['region_id'=>$v['receive_county']]);
                 
                 // 订单详情
-                $items = $detail_m->where(['order_id'=>$v['id']])->field($detail_field)->select();
-                if(!empty($items))
+                if($is_items == 1)
                 {
-                    foreach($items as &$vs)
+                    $items = $detail_m->where(['order_id'=>$v['id']])->field($detail_field)->select();
+                    if(!empty($items))
                     {
-                        $vs['images'] = empty($vs['images']) ? null : $images_host.$vs['images'];
-                        $vs['attribute'] = empty($vs['attribute']) ? null : json_decode($vs['attribute'], true);
-                        $vs['goods_url'] = HomeUrl('Goods', 'Index', ['id'=>$vs['goods_id']]);
-                        $vs['total_price'] = $vs['buy_number']*$vs['price'];
-
-                        $total_price += $vs['total_price'];
+                        foreach($items as &$vs)
+                        {
+                            $vs['images'] = empty($vs['images']) ? null : $images_host.$vs['images'];
+                            $vs['attribute'] = empty($vs['attribute']) ? null : json_decode($vs['attribute'], true);
+                            $vs['goods_url'] = HomeUrl('Goods', 'Index', ['id'=>$vs['goods_id']]);
+                            $vs['total_price'] = $vs['buy_number']*$vs['price'];
+                        }
                     }
+                    $v['items'] = $items;
+                    $v['items_count'] = count($items);
                 }
-                $v['items'] = $items;
-                $v['items_count'] = count($items);
-                $v['total_price'] = $total_price;
             }
         }
         return DataReturn('处理成功', 0, $data);

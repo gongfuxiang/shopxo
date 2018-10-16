@@ -682,9 +682,9 @@ class BuyService
      * @version 1.0.0
      * @date    2018-09-29
      * @desc    description
-     * @param   [array]          $params [输入参数]
+     * @param   [array]          $where [条件]
      */
-    public static function CartTotal($params = [])
+    public static function CartTotal($where = [])
     {
         return (int) M('Cart')->where($where)->count();
     }
