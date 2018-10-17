@@ -18,7 +18,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .theme-popover .confirm { background-color: #d2364c; border-color: #d2364c; color: #fff !important; }
 
 /* 轮播 */
-.scoll { margin-bottom: 10px; }
+.scoll { margin-bottom: 10px; position: relative; }
 
 /*内容布局*/
 .theme-popover .theme-poptit h3,.btn.close,i.buy-event, form.buy-form {display:none}
@@ -174,20 +174,21 @@ ul.am-tabs-nav.am-nav.am-nav-tabs {background: #F5F5F5;}
 .goods-video-submit-close:hover {
     color: #666;
 }
-.goods-video-submit-start {
+
+/* 视频 放大镜 */
+.box .goods-video-submit-start {
     left: 1px;
     bottom: 73px;
     z-index: 2;
     padding: 10px 10px 2px 10px;
 }
-.goods-video-submit-close {
+.box .goods-video-submit-close {
     top: 1px;
     left: 294px;
     z-index: 4;
     padding: 12px;
 }
-.goods-video-container {
-    padding-top: 20%;
+.box .goods-video-container {
     line-height: 32px;
     font-size: 32px;
     color: #f00;
@@ -197,6 +198,32 @@ ul.am-tabs-nav.am-nav.am-nav-tabs {background: #F5F5F5;}
     height: 348px;
     top: 1px;
     left: 1px;
+    z-index: 3;
+}
+
+/* 视频 轮播下 */
+.scoll .goods-video-submit-start {
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+    padding: 10px 10px 2px 10px;
+}
+.scoll .goods-video-submit-close {
+    top: 0;
+    right: 15px;
+    z-index: 4;
+    padding: 12px;
+}
+.scoll .goods-video-container {
+    line-height: 32px;
+    font-size: 32px;
+    color: #f00;
+    background: #fff;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
     z-index: 3;
 }
 
@@ -386,7 +413,6 @@ li.am-comment{ width:100%}
     .tb-thumb li div { border:1px solid #CDCDCD; }
     div.zoomDiv { z-index:999; position:absolute; top:0px; left:0px; width:400px; height:400px; background:#ffffff; border:1px solid #CCCCCC; display:none; text-align:center; overflow:hidden; }
     div.zoomMask { position:absolute; background:url(../Images/mask.png)repeat scroll 0 0 transparent; cursor:move; z-index:1; }
-
            
      /*价格*/ 
     .tb-detail-hd h1 {font-size:18px;}
@@ -448,6 +474,17 @@ li.am-comment{ width:100%}
     .tb-s310, .tb-s310 a ,.tb-s310, .tb-s310 img { height:400px; width:400px;}
     .clearfix-right {width: calc(100% - 420px);margin-left:20px;}
 
+    /* 视频 */
+    .box .goods-video-submit-close {
+        top: 1px;
+        left: 344px;
+        padding: 13px 10px 10px 10px;
+    }
+    .box .goods-video-container {
+        width: 398px;
+        height: 398px;
+    }
+
     /*导航固定*/
     ul.am-tabs-nav.am-nav.am-nav-tabs {left:auto;right:auto;width:960px ;}
 }
@@ -474,4 +511,7 @@ li.am-comment{ width:100%}
     .like li:nth-child(1), .like li:nth-child(2) { border-top: 0px; }
     .shelves-tips { text-align: center; }
     .goods-favor-count { display: none; }
+
+    /* 视频操作 */
+    .scoll .goods-video-submit-close { right: 0; }
 }

@@ -26,6 +26,12 @@
                 </if>
             </ul>
         </div>
+        <!-- 视频操作 -->
+        <i class="am-icon-play-circle-o goods-video-submit-start"></i>
+        <i class="goods-video-submit-close none">&times;</i>
+        <video class="goods-video-container none" src="{{$image_host}}/goods.mp4" controls>
+            your browser does not support the video tag
+        </video>
     </div>
 
     <!-- 基础信息 -->
@@ -51,6 +57,8 @@
                         </foreach>
                     </if>
                 </ul>
+
+                <!-- 视频操作 -->
                 <i class="am-icon-play-circle-o goods-video-submit-start"></i>
                 <i class="goods-video-submit-close none">&times;</i>
                 <video class="goods-video-container none" src="{{$image_host}}/goods.mp4" controls>
