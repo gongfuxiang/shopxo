@@ -45,7 +45,6 @@ $(function()
         }
     });
 
-
     /**
      * 评价打分
      */
@@ -59,5 +58,11 @@ $(function()
         }
         $(this).parents('td').find('input.input-rating').val(index+1);
     });
+
+    // 是否自动开启支付窗口
+    if($('.submit-pay').length > 0 && $('.submit-pay').data('is-auto') == 1)
+    {
+        $('.submit-pay').trigger('click');
+    }
 
 });

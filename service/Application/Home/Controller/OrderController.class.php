@@ -71,9 +71,6 @@ class OrderController extends CommonController
         );
         $data = OrderService::OrderList($data_params);
         $this->assign('data_list', $data['data']);
-        
-        // 发起支付 - 支付方式
-        $this->assign('buy_payment_list', ResourcesService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
 
         // 支付方式
         $this->assign('payment_list', ResourcesService::PaymentList());
@@ -122,6 +119,9 @@ class OrderController extends CommonController
             $this->assign('buy_payment_list', ResourcesService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
 
             $this->assign('data', $data['data'][0]);
+
+            // 参数
+            $this->assign('params', $params);
             $this->display('Detail');
         } else {
             $this->assign('msg', L('common_not_data_tips'));

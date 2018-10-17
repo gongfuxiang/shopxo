@@ -5,6 +5,7 @@ namespace Home\Controller;
 use Service\OrderService;
 use Service\GoodsService;
 use Service\UserService;
+use Service\BuyService;
 
 /**
  * 用户
@@ -77,11 +78,12 @@ class UserController extends CommonController
 		$user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
 		$this->assign('user_order_status', $user_order_status['data']);
 
-		// 获取列表
+		// 获取进行中的订单列表
         $params = array_merge($_POST, $_GET);
         $params['user'] = $this->user;
         $params['is_more'] = 1;
-        $params['status'] = [1,2,3];
+        $params['status'] = [1,2,3,4];
+        $params['is_comments'] = 0;
         $where = OrderService::UserOrderListWhere($params);
         $order_params = array(
             'limit_start'   => 0,
@@ -90,6 +92,10 @@ class UserController extends CommonController
         );
         $order = OrderService::OrderList($order_params);
         $this->assign('order_list', $order['data']);
+
+        // 获取购物车
+        $cart_list = BuyService::CartList(['user'=>$this->user]);
+        $this->assign('cart_list', $cart_list['data']);
 
 
 		$this->display('Index');

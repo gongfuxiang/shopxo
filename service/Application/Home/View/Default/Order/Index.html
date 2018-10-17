@@ -193,7 +193,7 @@
                                             <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-ajax submit-cancel" data-url="{{:U('Home/Order/Cancel')}}" data-id="{{$order.id}}" data-view="reload">取消</button>
                                         </if>
                                         <if condition="in_array($order['status'], [1])">
-                                            <button class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-pay" data-id="{{$order.id}}" data-payment-id="{{$order.payment_id}}" data-am-modal="{target: '#order-pay-popup'}">支付</button>
+                                            <a class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block" href="{{:U('Home/Order/Detail', ['id'=>$order['id'], 'is_pay_auto'=>1])}}" target="_blank">支付</a>
                                         </if>
                                         <if condition="in_array($order['status'], [3])">
                                             <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax submit-confirm" data-url="{{:U('Home/Order/Collect')}}" data-id="{{$order.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？">收货</button>
@@ -217,45 +217,6 @@
             <empty name="data_list">
                 <div class="table-no"><i class="am-icon-warning"></i> {{:L('common_not_data_tips')}}</div>
             </empty>
-
-            <!-- 支付弹窗 -->
-            <div class="am-popup am-radius" id="order-pay-popup">
-                <div class="am-popup-inner">
-                    <div class="am-popup-hd">
-                        <h4 class="am-popup-title">支付</h4>
-                        <span data-am-modal-close class="am-close">&times;</span>
-                    </div>
-                    <div class="am-popup-bd">
-                        <form class="am-form pay-form" method="post" action="{{:U('Home/Order/Pay')}}">
-                            <!-- 支付方式 -->
-                            <div class="business-item">
-                                <h3>选择支付</h3>
-                                <notempty name="buy_payment_list">
-                                    <ul class="payment-list" data-type="payment">
-                                        <foreach name="buy_payment_list" item="payment">
-                                            <li class="payment-items-{{$payment.id}}" data-value="{{$payment.id}}">
-                                                <notempty name="payment.logo">
-                                                    <img src="{{$payment.logo}}" />
-                                                </notempty>
-                                                <span>{{$payment.name}}</span>
-                                                <i class="icon-active"></i>
-                                            </li>
-                                        </foreach>
-                                    </ul>
-                                </notempty>
-                                <empty name="buy_payment_list">
-                                    <div class="table-no"><i class="am-icon-warning"></i> {{:L('order_payment_not_data_tips')}}</div>
-                                </empty>
-                            </div>
-                            <div class="am-form-group">
-                                <input type="hidden" name="id" value="0" />
-                                <input type="hidden" name="payment_id" value="0" />
-                                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">确认支付</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
     <!-- content end -->

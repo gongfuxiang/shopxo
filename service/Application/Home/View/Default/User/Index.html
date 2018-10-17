@@ -35,7 +35,7 @@
                     </div>
                     <div class="items">
                         <a href="javascript:;" class="am-icon-camera-retro" data-am-modal="{target:'#user-avatar-popup'}"> 修改头像</a>
-                        <a href="{{:U('Home/Personal/SaveInfo')}}" class="am-icon-edit"> 修改资料</a>
+                        <a href="{{:U('Home/Personal/Index')}}" class="am-icon-edit"> 修改资料</a>
                         <a href="{{:U('Home/UserAddress/Index')}}" class="am-icon-street-view"> 我的地址</a>
                     </div>
                 </div>
@@ -105,32 +105,52 @@
                 </ul>
             </notempty>
 
+            <!-- 聚合内容 -->
             <div class="am-g various">
+                <!-- 进行中的订单 -->
                 <div class="am-u-md-8">
                     <div class="am-panel am-panel-default">
-                        <div class="am-panel-hd"><i></i>交易提醒</div>
-                        <div class="am-panel-bd">
+                        <div class="am-panel-hd">
+                            <i></i>交易提醒
                             <notempty name="order_list">
-                                <foreach name="order_list" item="v">
-                                    <foreach name="v.items" key="key" item="goods">
+                                <a class="am-fr more-tips" href="{{:U('Home/Order/Index')}}" target="_blank">
+                                    更多 <span class="am-icon-angle-double-right"></span>
+                                </a>
+                            </notempty>
+                        </div>
+                        <div class="am-panel-bd order-list">
+                            <notempty name="order_list">
+                                <foreach name="order_list" item="order">
+                                    <foreach name="order.items" key="key" item="goods">
                                         <if condition="$key eq 0">
                                             <div class="goods-detail">
-                                                <a href="{{$goods.goods_url}}" target="_blank">
+                                                <a href="{{:U('Home/Order/Detail', ['id'=>$order['id']])}}" target="_blank">
                                                     <img src="{{$goods.images}}" />
                                                 </a>
                                                 <div class="goods-base">
-                                                    <a href="{{$goods.goods_url}}" target="_blank" class="goods-title ellipsis">{{$goods.title}}</a>
+                                                    <a href="{{:U('Home/Order/Detail', ['id'=>$order['id']])}}" target="_blank" class="goods-title ellipsis">{{$goods.title}}</a>
                                                     <ul>
                                                         <li>
-                                                            <span>{{$v.add_time_time}}</span>
-                                                            <span class="order-price">￥{{$v.price}}</span>
-                                                            <if condition="$v['items_count'] gt 1">
-                                                                <span class="items-count">{{$v.items_count}}中商品</span>
+                                                            <span>{{$order.add_time_time}}</span>
+                                                            <span class="line-price">￥{{$order.price}}</span>
+                                                        </li>
+                                                        <li>
+                                                            <span>{{$order.status_name}}</span>
+                                                            <if condition="$order['items_count'] gt 1">
+                                                                <span class="items-count">等{{$order.items_count}}种商品</span>
                                                             </if>
                                                         </li>
-                                                        <li>{{$v.status_name}}</li>
                                                     </ul>
                                                 </div>
+                                                <if condition="in_array($order['status'], [1])">
+                                                    <a class="am-btn am-btn-primary am-btn-xs am-radius am-fr order-submit" href="{{:U('Home/Order/Detail', ['id'=>$order['id'], 'is_pay_auto'=>1])}}" target="_blank">支付</a>
+                                                </if>
+                                                <if condition="in_array($order['status'], [3])">
+                                                    <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-fr order-submit submit-ajax submit-confirm" data-url="{{:U('Home/Order/Collect')}}" data-id="{{$order.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？">收货</button>
+                                                </if>
+                                                <if condition="in_array($order['status'], [4]) and $order['user_is_comments'] eq 0">
+                                                    <a href="{{:U('Home/Order/Comments', ['id'=>$order['id']])}}" target="_blank" class="am-btn am-btn-warning am-btn-xs am-radius am-fr order-submit">评价</a>
+                                                </if>
                                             </div>
                                         </if>
                                     </foreach>
@@ -146,10 +166,39 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- 购物车 -->
                 <div class="am-u-md-4">
                     <div class="am-panel am-panel-default">
-                        <div class="am-panel-hd"><i></i>购物车</div>
+                        <div class="am-panel-hd">
+                            <i></i>购物车
+                            <notempty name="cart_list">
+                                <a class="am-fr more-tips" href="{{:U('Home/Cart/Index')}}" target="_blank">
+                                    更多 <span class="am-icon-angle-double-right"></span>
+                                </a>
+                            </notempty>
+                        </div>
                         <div class="am-panel-bd">
+                            <notempty name="cart_list">
+                                <foreach name="cart_list" item="goods">
+                                    <if condition="$key lt 3">
+                                        <div class="goods-detail">
+                                            <a href="{{:U('Home/Goods/Index', ['id'=>$goods['goods_id']])}}" target="_blank">
+                                                <img src="{{$goods.images}}" />
+                                            </a>
+                                            <div class="goods-base">
+                                                <a href="{{:U('Home/Goods/Index', ['id'=>$goods['goods_id']])}}" target="_blank" class="goods-title ellipsis">{{$goods.title}}</a>
+                                                <ul>
+                                                    <li>
+                                                        <span class="line-price">￥{{$goods.price}}</span>
+                                                        <span>x{{$goods.stock}}</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </if>
+                                </foreach>
+                            </notempty>
                             <empty name="cart_list">
                                 <div class="table-no">
                                     <i class="am-icon-opencart am-icon-lg block"></i>
@@ -160,6 +209,8 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- 收藏商品 -->
                 <div class="am-u-md-8">
                     <div class="am-panel am-panel-default">
                         <div class="am-panel-hd"><i></i>商品收藏</div>
@@ -174,6 +225,8 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- 浏览足迹 -->
                 <div class="am-u-md-4">
                     <div class="am-panel am-panel-default">
                         <div class="am-panel-hd"><i></i>我的足迹</div>
@@ -189,8 +242,6 @@
                     </div>
                 </div>
             </div>
-
-            
         </div>
     </div>
     <!-- content end -->
