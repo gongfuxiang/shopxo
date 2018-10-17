@@ -252,6 +252,20 @@ $(function() {
         }
     });
 
+    // 视频
+    $('.goods-video-submit-start').on('click', function()
+    {
+        $('.goods-video-container').removeClass('none').trigger('play');
+        $('.goods-video-submit-close').removeClass('none');
+        $('.goods-video-submit-start').addClass('none');
+    });
+    $('.goods-video-submit-close').on('click', function()
+    {
+        $('.goods-video-container').addClass('none').trigger('pause');
+        $('.goods-video-submit-close').addClass('none');
+        $('.goods-video-submit-start').removeClass('none');
+    });
+
 });
 
 // 购买导航动画显示/隐藏

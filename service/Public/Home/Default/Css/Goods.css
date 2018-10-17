@@ -126,10 +126,8 @@ fieldset legend{margin-left:15px;padding-left:3px;padding-right:3px;color:#333;}
 .am-nav-tabs > li > a { margin-right:0px;}
 .am-nav-tabs > li{border-top: 2px solid transparent;border-bottom:2px solid transparent ;}
 
-
 /*导航固定*/
 ul.am-tabs-nav.am-nav.am-nav-tabs {background: #F5F5F5;}
-
 
 
 /*tab*/
@@ -137,8 +135,6 @@ ul.am-tabs-nav.am-nav.am-nav-tabs {background: #F5F5F5;}
 .tab a{ color:#07c;}
 .tab a:hover{ color:#c00;}
 .tab a.cur{ font-weight:bold;}
-
-
 
 /*商品详细页*/
 /*iteminfo*/
@@ -161,6 +157,48 @@ ul.am-tabs-nav.am-nav.am-nav-tabs {background: #F5F5F5;}
 .goods-qrcode{position: absolute; bottom: 5px; right: 10px; cursor: pointer; color: #666; width: 150px; text-align: right;}
 .goods-qrcode .qrcode-images{display: none; position: absolute; z-index: 2; top: 30px; right: 0;}
 .goods-qrcode:hover .qrcode-images{display: block;}
+
+/* 视频 */
+.goods-video-submit-start,
+.goods-video-submit-close,
+.goods-video-container {
+    position: absolute;
+}
+.goods-video-submit-start,
+.goods-video-submit-close {
+    font-size: 60px;
+    color: #999;
+    cursor: pointer;
+}
+.goods-video-submit-start:hover,
+.goods-video-submit-close:hover {
+    color: #666;
+}
+.goods-video-submit-start {
+    left: 1px;
+    bottom: 73px;
+    z-index: 2;
+    padding: 10px 10px 2px 10px;
+}
+.goods-video-submit-close {
+    top: 1px;
+    left: 294px;
+    z-index: 4;
+    padding: 12px;
+}
+.goods-video-container {
+    padding-top: 20%;
+    line-height: 32px;
+    font-size: 32px;
+    color: #f00;
+    background: #fff;
+    text-align: center;
+    width: 348px;
+    height: 348px;
+    top: 1px;
+    left: 1px;
+    z-index: 3;
+}
 
 /*销量*/
 .tm-ind-panel, .iteminfo_parameter { border-bottom: 1px solid #F5F5F5; }
@@ -327,11 +365,10 @@ li.am-comment{ width:100%}
     .like li:nth-child(1), .like li:nth-child(2), .like li:nth-child(3) { border-top: 0px; }
 }
 
-
 @media only screen and (min-width:1025px) {
     /*放大镜*/
     /* box */
-    .box { width:700px; margin:0px auto; }
+    .box { width:700px; margin:0px auto; position: relative; }
     .tb-pic a { display:table-cell; text-align:center; vertical-align:middle; }
     .tb-pic a img {vertical-align:middle;width: 100%; }
     .tb-pic.tb-s40 img{width:100%;}
