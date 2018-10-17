@@ -422,9 +422,13 @@ class OrderService
             {
                 $where['pay_status'] = intval($params['pay_status']);
             }
-            if(isset($params['status']) && $params['status'] > -1)
+            if(isset($params['status']) && $params['status'] != -1)
             {
-                $where['status'] = intval($params['status']);
+                if(!is_array($params['status']))
+                {
+                    $params['status'] = explode(',', $params['status']);
+                }
+                $where['status'] = ['in', $params['status']];
             }
 
             // 评价状态
@@ -543,6 +547,10 @@ class OrderService
                 $v['receive_province_name'] = ResourcesService::RegionName(['region_id'=>$v['receive_province']]);
                 $v['receive_city_name'] = ResourcesService::RegionName(['region_id'=>$v['receive_city']]);
                 $v['receive_county_name'] = ResourcesService::RegionName(['region_id'=>$v['receive_county']]);
+
+                // 时间
+                $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                $v['add_time_date'] = date('Y-m-d', $v['add_time']);
                 
                 // 订单详情
                 if($is_items == 1)
