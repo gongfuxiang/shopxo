@@ -14,7 +14,7 @@
 .stock-tag .am-input-group-label { line-height: 23px; height: 25px; font-size: 14px !important; padding: 0 10px; }
 .stock-tag .am-input-group-label, .cart-nav label { cursor: pointer; }
 .selected-tips strong, .nav-total-price { font-size: 16px; }
-strong.total-price-content, .selected-tips strong, .nav-total-price { color: #d2364c; }
+strong.total-price-content, .selected-tips strong, .nav-total-price { color: #d2364c; font-family: Verdana,Tahoma,arial; }
 .am-table { margin-bottom: 10px; }
 .am-table > tbody > tr > td { border-top: 1px solid #F5F5F5; }
 .cart-content table td.base input[type="checkbox"] { float: left; }

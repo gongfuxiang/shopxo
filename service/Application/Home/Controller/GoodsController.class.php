@@ -57,6 +57,9 @@ class GoodsController extends CommonController
             // 商品评价总数
             $goods[0]['comments_count'] = GoodsService::GoodsCommentsTotal($id);
 
+            // 商品收藏总数
+            $goods[0]['favor_count'] = GoodsService::GoodsFavorTotal(['goods_id'=>$id]);
+
             $this->assign('goods', $goods[0]);
             $this->assign('home_seo_site_title', $goods[0]['title']);
 

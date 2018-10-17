@@ -97,6 +97,29 @@ class UserController extends CommonController
         $cart_list = BuyService::CartList(['user'=>$this->user]);
         $this->assign('cart_list', $cart_list['data']);
 
+        // 收藏商品
+        $params = array_merge($_POST, $_GET);
+        $params['user'] = $this->user;
+        $where = GoodsService::UserGoodsFavorListWhere($params);
+        $favor_params = array(
+            'limit_start'   => 0,
+            'limit_number'  => 8,
+            'where'         => $where,
+        );
+        $favor = GoodsService::GoodsFavorList($favor_params);
+        $this->assign('goods_favor_list', $favor['data']);
+
+        // 我的足迹
+        $params = array_merge($_POST, $_GET);
+        $params['user'] = $this->user;
+        $where = GoodsService::UserGoodsBrowseListWhere($params);
+        $browse_params = array(
+            'limit_start'   => 0,
+            'limit_number'  => 6,
+            'where'         => $where,
+        );
+        $data = GoodsService::GoodsBrowseList($browse_params);
+        $this->assign('goods_browse_list', $data['data']);
 
 		$this->display('Index');
 	}

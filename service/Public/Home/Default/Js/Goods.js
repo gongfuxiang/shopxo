@@ -213,7 +213,8 @@ $(function() {
 
                     if(result.code == 0)
                     {
-                        $this.text(' '+result.data.text);
+                        $this.find('.goods-favor-text').text(result.data.text);
+                        $this.find('.goods-favor-count').text('('+result.data.count+')');
                         if(result.data.status == 1)
                         {
                             $this.addClass('text-active');

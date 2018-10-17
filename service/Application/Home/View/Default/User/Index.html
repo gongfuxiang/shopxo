@@ -178,7 +178,7 @@
                                 </a>
                             </notempty>
                         </div>
-                        <div class="am-panel-bd">
+                        <div class="am-panel-bd cart-list">
                             <notempty name="cart_list">
                                 <foreach name="cart_list" item="goods">
                                     <if condition="$key lt 3">
@@ -213,8 +213,30 @@
                 <!-- 收藏商品 -->
                 <div class="am-u-md-8">
                     <div class="am-panel am-panel-default">
-                        <div class="am-panel-hd"><i></i>商品收藏</div>
-                        <div class="am-panel-bd">
+                        <div class="am-panel-hd">
+                            <i></i>商品收藏
+                            <notempty name="goods_favor_list">
+                                <a class="am-fr more-tips" href="{{:U('Home/UserFavor/Goods')}}" target="_blank">
+                                    更多 <span class="am-icon-angle-double-right"></span>
+                                </a>
+                            </notempty>
+                        </div>
+                        <div class="am-panel-bd goods-favor-list">
+                            <notempty name="goods_favor_list">
+                                <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-4 am-gallery-overlay" data-am-gallery="{}">
+                                    <foreach name="goods_favor_list" item="goods">
+                                        <li>
+                                            <div class="am-gallery-item">
+                                                <a href="{{:U('Home/Goods/Index', ['id'=>$goods['goods_id']])}}" target="_blank">
+                                                    <img src="{{$goods.images}}" alt="{{$goods.title}}" />
+                                                    <h3 class="am-gallery-title">{{$goods.title}}</h3>
+                                                    <div class="am-gallery-desc line-price">￥{{$goods.price}}</div>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </foreach>
+                                </ul>
+                            </notempty>
                             <empty name="goods_favor_list">
                                 <div class="table-no">
                                     <i class="am-icon-heart-o am-icon-lg block"></i>
@@ -229,9 +251,31 @@
                 <!-- 浏览足迹 -->
                 <div class="am-u-md-4">
                     <div class="am-panel am-panel-default">
-                        <div class="am-panel-hd"><i></i>我的足迹</div>
-                        <div class="am-panel-bd">
-                            <empty name="goods_favor_list">
+                        <div class="am-panel-hd">
+                            <i></i>我的足迹
+                            <notempty name="goods_browse_list">
+                                <a class="am-fr more-tips" href="{{:U('Home/UserGoodsBrowse/Index')}}" target="_blank">
+                                    更多 <span class="am-icon-angle-double-right"></span>
+                                </a>
+                            </notempty>
+                        </div>
+                        <div class="am-panel-bd goods-browse-list">
+                            <notempty name="goods_browse_list">
+                                <ul data-am-widget="gallery" class="am-gallery am-avg-sm-3 am-avg-md-3 am-avg-lg-3 am-gallery-default data-am-gallery="{}">
+                                    <foreach name="goods_browse_list" item="goods">
+                                        <li>
+                                            <div class="am-gallery-item">
+                                                <a href="{{:U('Home/Goods/Index', ['id'=>$goods['goods_id']])}}" target="_blank">
+                                                    <img src="{{$goods.images}}" alt="{{$goods.title}}" class="am-circle" />
+                                                    <h3 class="am-gallery-title">{{$goods.title}}</h3>
+                                                </a>
+                                                <div class="am-gallery-desc line-price">￥{{$goods.price}}</div>
+                                            </div>
+                                        </li>
+                                    </foreach>
+                                </ul>
+                            </notempty>
+                            <empty name="goods_browse_list">
                                 <div class="table-no">
                                     <i class="am-icon-lastfm am-icon-lg block"></i>
                                     <p class="tips-name">您的商品浏览记录为空</p>

@@ -340,14 +340,22 @@ class GoodsService
             $data['add_time'] = time();
             if($m->add($data) > 0)
             {
-                return DataReturn(L('common_favor_success'), 0, ['text'=>L('common_favor_ok_text'), 'status'=>1]);
+                return DataReturn(L('common_favor_success'), 0, [
+                    'text'      => L('common_favor_ok_text'),
+                    'status'    => 1,
+                    'count'     => self::GoodsFavorTotal(['goods_id'=>$data['goods_id']]),
+                ]);
             } else {
                 return DataReturn(L('common_favor_error'));
             }
         } else {
             if($m->where($data)->delete() > 0)
             {
-                return DataReturn(L('common_cancel_success'), 0, ['text'=>L('common_favor_not_text'), 'status'=>0]);
+                return DataReturn(L('common_cancel_success'), 0, [
+                    'text'      => L('common_favor_not_text'),
+                    'status'    => 0,
+                    'count'     => self::GoodsFavorTotal(['goods_id'=>$data['goods_id']]),
+                ]);
             } else {
                 return DataReturn(L('common_cancel_error'));
             }

@@ -97,7 +97,7 @@ table.data-ongoing .base-operate { border-top: 1px dashed #fff1f5; }
 .goods-base { float: left; top: 0; margin-left: 85px; }
 .goods-attr { margin-top: 5px;  }
 .goods-attr li { color: #888; line-height: 16px; }
-.original-price, .line-price { font-family: Verdana,Tahoma,arial; }
+.original-price, .line-price, strong.total-price-content { font-family: Verdana,Tahoma,arial; }
 .original-price { color: #9c9c9c; text-decoration: line-through; }
 .line-price { color: #3c3c3c; }
 .line-price, strong.total-price-content { font-weight: 700; }

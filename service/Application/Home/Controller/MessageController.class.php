@@ -39,6 +39,9 @@ class MessageController extends CommonController
      */
     public function Index()
     {
+        // 消息更新未已读
+        MessageService::MessageRead($params);
+        
         // 参数
         $params = array_merge($_POST, $_GET);
         $params['user'] = $this->user;
@@ -70,9 +73,6 @@ class MessageController extends CommonController
         );
         $data = MessageService::MessageList($data_params);
         $this->assign('data_list', $data['data']);
-
-        // 消息更新未已读
-        MessageService::MessageRead($params);
 
         // 业务类型
         $this->assign('common_business_type_list', L('common_business_type_list'));

@@ -63,7 +63,6 @@ $(function()
             {
                 $('#goods-category .category-content').slideDown(100);
             }
-            
         }
     }).mouseleave(function() {
         if($(this).data('controller-name') != 'Index')

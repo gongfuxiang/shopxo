@@ -65,20 +65,25 @@
                 <!--价格-->
                 <div class="tb-detail-price">
                     <if condition="isset($goods['original_price']) and $goods['original_price'] gt 0">
-                        <li class="price iteminfo_price">
+                        <div class="items price iteminfo_price">
                             <dt>原价</dt>
                             <dd>
                                 <b class="sys_item_mktprice">¥ {{$goods.original_price}}</b>
                             </dd>
-                        </li>
+                        </div>
                     </if>
-                    <li class="price iteminfo_mktprice">
+                    <div class="items price iteminfo_mktprice">
                         <dt>促销价</dt>
                         <dd>
                             <em>¥</em>
                             <b class="sys_item_price">{{$goods.price}}</b>
                         </dd>                                 
-                    </li>
+                    </div>
+                    <div class="goods-qrcode am-hide-sm-only">
+                        <span>手机扫一扫购买</span>
+                        <i class="am-icon-qrcode am-icon-sm"></i>
+                        <img class="qrcode-images am-img-thumbnail" src="{{:U('Home/QrCode/Index', ['content'=>urlencode(U('Home/Goods/Index', ['id'=>$goods['id']], true, true))])}}" />
+                    </div>
                 </div>
 
                 <!--销量-->
@@ -169,9 +174,14 @@
                             <span class="am-icon-home am-icon-fw"> 首页</span>
                         </a>
                         <if condition="isset($goods['is_favor']) and $goods['is_favor'] eq 1">
-                            <span class="am-icon-heart am-icon-fw login-event favor-submit text-active" data-ajax-url="{{:U('Home/Goods/Favor')}}"> 已收藏</span>
+                            <span class="am-icon-heart am-icon-fw login-event favor-submit text-active" data-ajax-url="{{:U('Home/Goods/Favor')}}">
+                                <em class="goods-favor-text">已收藏</em>
+                                <em class="goods-favor-count">({{$goods.favor_count}})</em>
+                            </span>
                         <else />
-                            <span class="am-icon-heart am-icon-fw favor-submit login-event" data-ajax-url="{{:U('Home/Goods/Favor')}}"> 收藏</span>
+                            <span class="am-icon-heart am-icon-fw favor-submit login-event" data-ajax-url="{{:U('Home/Goods/Favor')}}">    <em class="goods-favor-text">收藏</em>
+                                <em class="goods-favor-count">({{$goods.favor_count}})</em>
+                            </span>
                         </if>
                     </div>
                     <div class="submit">
