@@ -178,7 +178,7 @@ ul.am-tabs-nav.am-nav.am-nav-tabs {background: #F5F5F5;}
     z-index: 4;
     width: 50px;
     height: 50px;
-    line-height: 50px;
+    line-height: 48px;
     text-align: center;
     padding: 0;
     border: 2px solid #999;
@@ -217,7 +217,6 @@ ul.am-tabs-nav.am-nav.am-nav-tabs {background: #F5F5F5;}
     padding: 10px 10px 5px 10px;
 }
 .scoll .goods-video-submit-close {
-    top: 10px;
     right: 10px;
 }
 .scoll .goods-video-container {
@@ -396,6 +395,11 @@ li.am-comment{ width:100%}
     /* 推荐商品 */
     .like li:not(:nth-of-type(3n)) { border-right: 1px solid #eee; }
     .like li:nth-child(1), .like li:nth-child(2), .like li:nth-child(3) { border-top: 0px; }
+
+    /* 视频 */
+    .scoll .goods-video-submit-close {
+        top: 10px;
+    }
 }
 
 @media only screen and (min-width:1025px) {
@@ -515,4 +519,7 @@ li.am-comment{ width:100%}
     .like li:nth-child(1), .like li:nth-child(2) { border-top: 0px; }
     .shelves-tips { text-align: center; }
     .goods-favor-count { display: none; }
+
+    /* 视频操作 */
+    .scoll .goods-video-submit-close { bottom: 50px; }
 }
