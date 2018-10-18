@@ -97,5 +97,8 @@ return array(
 	'goods_home_recommended_images_tips'=> '留空则取相册第一张图',
 
 	'goods_brand_id_text'				=> '品牌',
+
+	'goods_video_text'					=> '短视频',
+	'goods_video_tips'					=> '视频比图文更有具带入感，仅支持 mp4 格式',
 );
 ?>

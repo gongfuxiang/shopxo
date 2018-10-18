@@ -629,6 +629,83 @@ function ImageFileUploadShow(class_name, show_img, default_images)
 }
 
 /**
+ * [VideoFileUploadShow 视频上传预览]
+ * @param  {[string]} class_name 		[class名称]
+ * @param  {[string]} show_video   		[预览视频id或class]
+ * @param  {[string]} default_video     [默认视频]
+ */
+function VideoFileUploadShow(class_name, show_video, default_video)
+{
+	$(document).on("change", class_name, function(imgFile)
+	{
+		show_video = $(this).data('video-tag') || null;
+		var status = false;
+		if((imgFile.target.value || null) != null)
+		{
+			var filextension = imgFile.target.value.substring(imgFile.target.value.lastIndexOf("."),imgFile.target.value.length);
+				filextension = filextension.toLowerCase();
+			if(filextension != '.mp4')
+			{
+				Prompt("视频格式错误，请重新上传");
+			} else {
+				if(document.all)
+				{
+					Prompt('ie浏览器不可用');
+					/*imgFile.select();
+					path = document.selection.createRange().text;
+					$(this).parent().parent().find('img').attr('src', '');
+					$(this).parent().parent().find('img').attr('src', path);  //使用滤镜效果  */
+				} else {
+					var url = window.URL.createObjectURL(imgFile.target.files[0]);// FF 7.0以上
+					$(show_video).attr('src', url);
+					status = true;
+				}
+			}
+		}
+		var default_video = $(show_video).data('default') || null;
+		if(status == false && ((default_video || null) != null || default_video != null))
+		{
+			$(show_video).attr('src', default_video || default_video);
+		}
+	});
+}
+
+ 
+// 校验浏览器是否支持视频播放
+function CheckVideo()
+{
+	if(document.createElement('video').canPlayType)
+	{
+		var vid_test = document.createElement("video");
+		var ogg_test = vid_test.canPlayType('video/ogg; codecs="theora, vorbis"');
+		if(!ogg_test)
+		{
+			h264_test = vid_test.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
+			if(!h264_test)
+			{
+				document.getElementById("checkVideoResult").innerHTML = "Sorry. No video support."
+			} else {
+				if(h264_test == "probably")
+				{
+					document.getElementById("checkVideoResult").innerHTML = "Yes! Full support!";
+				} else {
+					document.getElementById("checkVideoResult").innerHTML = "Well. Some support.";
+				}
+			}
+		} else {
+			if(ogg_test == "probably")
+			{
+				document.getElementById("checkVideoResult").innerHTML = "Yes! Full support!";
+			} else {
+				document.getElementById("checkVideoResult").innerHTML = "Well. Some support.";
+			}
+		}
+	} else {
+		document.getElementById("checkVideoResult").innerHTML = "Sorry. No video support."
+	}
+}
+
+/**
  * 弹窗加载
  * @author   Devil
  * @blog    http://gong.gg/
@@ -1367,6 +1444,31 @@ $(function()
     if($('.images-file-event').length > 0)
     {
     	ImageFileUploadShow('.images-file-event');
+    }
+
+    // 视频上传
+    $(document).on('change', '.video-file-event', function()
+    {
+    	// 显示选择的图片名称
+        var fileNames = '';
+        $.each(this.files, function()
+        {
+            fileNames += '<span class="am-badge">' + this.name + '</span> ';
+        });
+        $($(this).data('tips-tag')).html(fileNames);
+
+        // 触发配合显示input地址事件
+        var input_tag = $(this).data('choice-one-to') || null;
+        if(input_tag != null)
+        {
+        	$(input_tag).trigger('blur');
+        }
+    });
+
+    // 视频预览
+    if($('.video-file-event').length > 0)
+    {
+    	VideoFileUploadShow('.video-file-event');
     }
 
     // 图片组合input清除按钮

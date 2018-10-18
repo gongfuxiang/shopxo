@@ -94,6 +94,8 @@ return array(
 	'common_select_file_tips'			=>	'请选择需要上传的文件',
 	'common_select_images_text'			=>	'选择图片',
 	'common_select_images_tips'			=>	'请选择需要上传的图片',
+	'common_select_video_text'			=>	'选择视频',
+	'common_select_video_tips'			=>	'请选择需要上传的视频',
 	'common_unknown_error'				=>	'未知错误',
 	'common_on_fill_in_images'			=>	'暂无图片',
 	'common_unlimited_text'				=> '不限',
