@@ -272,6 +272,9 @@ class GoodsController extends CommonController
 	 */
 	public function Save()
 	{
+		print_r($_POST);
+		print_r($_FILES);
+		die;
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
@@ -305,6 +308,14 @@ class GoodsController extends CommonController
 		if($images['status'] === false)
 		{
 			$this->ajaxReturn($images['msg'], -4);
+		}
+
+		// 视频
+		$video_field = ['file_video'];
+		$video = $this->GetGoodsVideoParams($video_field);
+		if($video['status'] === false)
+		{
+			$this->ajaxReturn($video['msg'], -5);
 		}
 
 		// 基础数据
