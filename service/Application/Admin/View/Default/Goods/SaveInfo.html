@@ -188,11 +188,10 @@
 					<i class="am-icon-trash-o am-icon-sm original-images-url-delete" data-input-tag="input.original-video-images-url" data-video-tag="#form-view-video" data-tips-tag="#form-video-tips" data-file-tag="input.file_video-tag"></i>
 					<input type="file" name="file_video" multiple data-validation-message="{{:L('common_select_images_tips')}}" accept=".mp4" class="js-choice-one video-file-event file_video-tag" data-choice-one-to=".original-video-images-url" data-tips-tag="#form-video-tips" data-video-tag="#form-view-video" />
 					<div id="form-video-tips" class="m-t-5"></div>
-					<video src="<if condition="!empty($data['video'])">{{$image_host}}{{$data.video}}</if>" id="form-view-video" class="block m-t-5 am-img-thumbnail am-radius" width="150" height="150" data-default="<if condition="!empty($data['video'])">{{$image_host}}{{$data.video}}</if>" controls>
+					<video src="<if condition="!empty($data['video'])">{{$image_host}}{{$data.video}}</if>" id="form-view-video" class="block m-t-5 am-img-thumbnail am-radius" width="200" data-default="<if condition="!empty($data['video'])">{{$image_host}}{{$data.video}}</if>" controls>
 						your browser does not support the video tag
 					</video>
 				</div>
-
 			</div>
 			<div id="goods-nav-attribute" class="division-block">
 				<label class="block nav-detail-title">{{:L('goods_nav_attribute_name')}}</label>

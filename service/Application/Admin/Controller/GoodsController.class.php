@@ -437,11 +437,10 @@ class GoodsController extends CommonController
 		if(!empty($data))
 		{
 			// 定义图片目录
-			$root_path = ROOT_PATH;
 			$path = DS.'Public'.DS.'Upload'.DS.'goods_video'.DS.date('Y').DS.date('m').DS.date('d').DS;
 
 			// 类库
-			$file_obj = new \Library\FileUpload(['root_path'=>$root_path, 'path'=>$path]);
+			$file_obj = new \Library\FileUpload(['root_path'=>ROOT_PATH, 'path'=>$path]);
 			foreach($data as $field)
 			{
 				if(!empty($_FILES[$field]))

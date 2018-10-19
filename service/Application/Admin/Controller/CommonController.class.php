@@ -347,25 +347,11 @@ class CommonController extends Controller
 	{
 		if(isset($_FILES[$post_name]['error']))
 		{
-			// 文件上传校验
-			$error = FileUploadError($post_name);
-			if($error !== true)
+			$file_obj = new \Library\FileUpload(['root_path'=>ROOT_PATH, 'path'=>$path]);
+			$ret = $file_obj->Save($post_name);
+			if($ret['status'] === true)
 			{
-				$this->ajaxReturn($error, -1);
-			}
-
-			// 文件类型
-			list($type, $suffix) = explode('/', $_FILES[$post_name]['type']);
-			$path = 'Public'.DS.'Upload'.DS.$dir.DS.'images'.DS;
-			if(!is_dir($path))
-			{
-				mkdir(ROOT_PATH.$path, 0777, true);
-			}
-			$filename = date('YmdHis').'.'.$suffix;
-			$file = $path.$filename;
-			if(move_uploaded_file($_FILES[$post_name]['tmp_name'], ROOT_PATH.$file))
-			{
-				$_POST[$field] = DS.$file;
+				$_POST[$field] = $ret['data']['url'];
 			}
 		}
 	}
