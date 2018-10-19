@@ -272,9 +272,6 @@ class GoodsController extends CommonController
 	 */
 	public function Save()
 	{
-		print_r($_POST);
-		print_r($_FILES);
-		die;
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
@@ -339,6 +336,7 @@ class GoodsController extends CommonController
 			'is_home_recommended'		=> intval(I('is_home_recommended')),
 			'home_recommended_images'	=> empty($images['data']['file_home_recommended_images']) ? trim($_POST['home_recommended_images']) : $images['data']['file_home_recommended_images'],
 			'brand_id'					=> intval(I('brand_id')),
+			'video'						=> empty($video['data']['file_video']['url']) ? trim($_POST['video']) : $video['data']['file_video']['url'],
 		];
 
 		// 添加/编辑
@@ -425,6 +423,42 @@ class GoodsController extends CommonController
 	}
 
 	/**
+	 * 商品短视频
+	 * @author   Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2018-08-07
+	 * @desc    description
+	 * @param   [array]          $data [字段列表]
+	 */
+	private function GetGoodsVideoParams($data)
+	{
+		$result = [];
+		if(!empty($data))
+		{
+			// 定义图片目录
+			$root_path = ROOT_PATH;
+			$path = DS.'Public'.DS.'Upload'.DS.'goods_video'.DS.date('Y').DS.date('m').DS.date('d').DS;
+
+			// 类库
+			$file_obj = new \Library\FileUpload(['root_path'=>$root_path, 'path'=>$path]);
+			foreach($data as $field)
+			{
+				if(!empty($_FILES[$field]))
+				{
+					$ret = $file_obj->Save($field);
+					if($ret['status'] !== true)
+					{
+						return $ret;
+					}
+					$result[$field] = $ret['data'];
+				}
+			}
+		}
+		return ['status'=>true, 'data'=>$result];
+	}
+
+	/**
 	 * 获取属性参数
 	 * @author   Devil
 	 * @blog    http://gong.gg/
@@ -470,7 +504,7 @@ class GoodsController extends CommonController
 
 		// 定义图片目录
 		$root_path = ROOT_PATH;
-		$img_path = 'Public'.DS.'Upload'.DS.'goods_app'.DS;
+		$path = 'Public'.DS.'Upload'.DS.'goods_app'.DS;
 		$date = DS.date('Y').DS.date('m').DS.date('d').DS;
 
 		// 开始处理
@@ -502,19 +536,19 @@ class GoodsController extends CommonController
 									'tmp_name'	=>	$_FILES[$images_key]['tmp_name'],
 									'type'		=>	$_FILES[$images_key]['type']
 								];
-							$original = $images_obj->GetOriginal($temp_all, $root_path.$img_path.'original'.$date);
+							$original = $images_obj->GetOriginal($temp_all, $root_path.$path.'original'.$date);
 							if(!empty($original))
 							{
 								// 根据原图再次生成小图
-								$compr = $images_obj->GetBinaryCompress($root_path.$img_path.'original'.$date.$original, $root_path.$img_path.'compr'.$date, 600);
-								$small = $images_obj->GetBinaryCompress($root_path.$img_path.'original'.$date.$original, $root_path.$img_path.'small'.$date, 100, 100);
+								$compr = $images_obj->GetBinaryCompress($root_path.$path.'original'.$date.$original, $root_path.$path.'compr'.$date, 600);
+								$small = $images_obj->GetBinaryCompress($root_path.$path.'original'.$date.$original, $root_path.$path.'small'.$date, 100, 100);
 
 								if(!empty($compr))
 								{
-									$result[$key[1]][$key[0]] = DS.$img_path.'compr'.$date.$small;
+									$result[$key[1]][$key[0]] = DS.$path.'compr'.$date.$small;
 								} else {
 									// 如果图片格式有误，则删除原图片
-									$this->ImagesDelete($img_path.'original'.$date.$original);
+									$this->ImagesDelete($path.'original'.$date.$original);
 								}
 				 			}
 						}
@@ -550,7 +584,7 @@ class GoodsController extends CommonController
 		{
 			// 定义图片目录
 			$root_path = ROOT_PATH;
-			$img_path = 'Public'.DS.'Upload'.DS.'goods_photo'.DS;
+			$path = 'Public'.DS.'Upload'.DS.'goods_photo'.DS;
 			$date = DS.date('Y').DS.date('m').DS.date('d').DS;
 
 			// 图像类库
@@ -571,19 +605,19 @@ class GoodsController extends CommonController
 						'tmp_name'	=>	$_FILES[$images_name]['tmp_name'][$i],
 						'type'		=>	$_FILES[$images_name]['type'][$i],
 					];
-				$original = $images_obj->GetOriginal($temp_all, $root_path.$img_path.'original'.$date);
+				$original = $images_obj->GetOriginal($temp_all, $root_path.$path.'original'.$date);
 				if(!empty($original))
 				{
 					// 根据原图再次生成小图
-					$compr = $images_obj->GetBinaryCompress($root_path.$img_path.'original'.$date.$original, $root_path.$img_path.'compr'.$date, 600);
-					$small = $images_obj->GetBinaryCompress($root_path.$img_path.'original'.$date.$original, $root_path.$img_path.'small'.$date, 100, 100);
+					$compr = $images_obj->GetBinaryCompress($root_path.$path.'original'.$date.$original, $root_path.$path.'compr'.$date, 600);
+					$small = $images_obj->GetBinaryCompress($root_path.$path.'original'.$date.$original, $root_path.$path.'small'.$date, 100, 100);
 
 					if(!empty($compr))
 					{
-						$result[] = DS.$img_path.'compr'.$date.$small;
+						$result[] = DS.$path.'compr'.$date.$small;
 					} else {
 						// 如果图片格式有误，则删除原图片
-						$this->ImagesDelete($img_path.'original'.$date.$original);
+						$this->ImagesDelete($path.'original'.$date.$original);
 					}
 	 			}
 			}
@@ -608,7 +642,7 @@ class GoodsController extends CommonController
 		{
 			// 定义图片目录
 			$root_path = ROOT_PATH;
-			$img_path = 'Public'.DS.'Upload'.DS.'goods_images'.DS;
+			$path = 'Public'.DS.'Upload'.DS.'goods_images'.DS;
 			$date = DS.date('Y').DS.date('m').DS.date('d').DS;
 
 			// 图像类库
@@ -632,19 +666,19 @@ class GoodsController extends CommonController
 							'tmp_name'	=>	$file['tmp_name'],
 							'type'		=>	$file['type'],
 						];
-					$original = $images_obj->GetOriginal($temp_all, $root_path.$img_path.'original'.$date);
+					$original = $images_obj->GetOriginal($temp_all, $root_path.$path.'original'.$date);
 					if(!empty($original))
 					{
 						// 根据原图再次生成小图
-						$compr = $images_obj->GetBinaryCompress($root_path.$img_path.'original'.$date.$original, $root_path.$img_path.'compr'.$date, 600);
-						$small = $images_obj->GetBinaryCompress($root_path.$img_path.'original'.$date.$original, $root_path.$img_path.'small'.$date, 100, 100);
+						$compr = $images_obj->GetBinaryCompress($root_path.$path.'original'.$date.$original, $root_path.$path.'compr'.$date, 600);
+						$small = $images_obj->GetBinaryCompress($root_path.$path.'original'.$date.$original, $root_path.$path.'small'.$date, 100, 100);
 
 						if(!empty($compr))
 						{
-							$result[$field] = DS.$img_path.'compr'.$date.$small;
+							$result[$field] = DS.$path.'compr'.$date.$small;
 						} else {
 							// 如果图片格式有误，则删除原图片
-							$this->ImagesDelete($img_path.'original'.$date.$original);
+							$this->ImagesDelete($path.'original'.$date.$original);
 						}
 		 			}
 		 		}
