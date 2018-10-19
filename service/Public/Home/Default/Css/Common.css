@@ -171,7 +171,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px ;}
     .goods-category-s, .goods-category-title { z-index: 100; }
     .nav-table{max-width:1000px;margin: 0px auto;height: 45px;position: relative;overflow: hidden;}
     .all-goods{font-size: 16px;}
-    .goods-category-title{background:#d2364c;color:#fff ;height: 40px;line-height: 40px;display:block;position: absolute;width:150px ;text-align: center;font-size:16px ;top:3px;z-index: 6;cursor: pointer;}
+    .goods-category-title{background:#d2364c;color:#fff ;height: 40px;line-height: 44px;display:block;position: absolute;width:150px ;text-align: center;font-size:16px ;top:3px;z-index: 6;cursor: pointer;}
     .nav-cont{position: absolute;padding-left:150px;display:block;width:100% ;top:20px}
     .nav-cont li{float: left;height: 40px;line-height: 40px;}
     .nav-cont li::before{content: '\20';display: inline-block;height: 16px;border-right: 1px solid #d9d9d9;width: 0;vertical-align: middle;margin-left: -1px;}
