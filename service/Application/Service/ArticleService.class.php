@@ -38,11 +38,52 @@ class ArticleService
                 }
                 if(isset($v['add_time']))
                 {
-                    $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                    $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                    $v['add_time_date'] = date('Y-m-d', $v['add_time']);
                 }
             }
         }
         return $data;
+    }
+
+    /**
+     * 获取分类和所有文章
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-19
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function ArticleCategoryList($params = [])
+    {
+        $data = M('ArticleCategory')->field('id,name')->where(['is_enable'=>1])->order('id asc, sort asc')->select();
+        if(!empty($data))
+        {
+            foreach($data as &$v)
+            {
+                $v['items'] = M('Article')->field('id,title,title_color')->where(['article_category_id'=>$v['id'], 'is_enable'=>1])->select();
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * 文章访问统计加1
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-15
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function ArticleAccessCountInc($params = [])
+    {
+        if(!empty($params['id']))
+        {
+            return M('Article')->where(array('id'=>intval($params['id'])))->setInc('access_count');
+        }
+        return false;
     }
 }
 ?>

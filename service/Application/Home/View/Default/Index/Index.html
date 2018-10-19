@@ -60,7 +60,7 @@
 	<div class="marqueen">
 		<div class="mod-vip">
 			<div class="m-baseinfo">
-				<a href="<if condition="!empty($user)">{{:u('Home/User/Index')}}<else />javascript:;</if>">
+				<a href="<if condition="!empty($user)">{{:u('Home/User/Index')}}<else />javascript:;</if>" target="_blank">
 					<img src="<if condition="!empty($user['avatar'])">{{$user.avatar}}<else />__PUBLIC__/Home/{{$default_theme}}/Images/default-user-avatar.jpg</if>" class="user-avatar" />
 				</a>
 				<em>
@@ -91,9 +91,9 @@
 					<notempty name="user_order_status">
 						<foreach name="user_order_status" item="v">
 							<if condition="in_array($v['status'], [1,2,3])">
-								<a href="{{:U('Home/Order/Index', ['is_more'=>1, 'status'=>$v['status']])}}"><strong>{{$v.count}}</strong>{{$v.name}}</a>
+								<a href="{{:U('Home/Order/Index', ['is_more'=>1, 'status'=>$v['status']])}}" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
 							<elseif condition="in_array($v['status'], [100])" />
-								<a href="{{:U('Home/Order/Index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}"><strong>{{$v.count}}</strong>{{$v.name}}</a>
+								<a href="{{:U('Home/Order/Index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
 							</if>
 						</foreach>
 					</notempty>
@@ -106,7 +106,7 @@
 				<if condition="!empty($article_list)">
         			<foreach name="article_list" item="article">
 						<li>
-							<a target="_blank" href="#">
+							<a href="{{:U('Home/Article/Index', ['id'=>$article['id']])}}" target="_blank">
 								<span>[{{$article.category_name}}]</span>
 								<span <notempty name="article.title_color">style="color:{{$article.title_color}};"</notempty> >{{$article.title}}</span>
 							</a>
@@ -135,7 +135,7 @@
             							<if condition="!empty($category['items'])">
 	                						<foreach name="category.items" key="keys" item="categorys">
 	                							<if condition="$key lt 6 and $keys eq 0 and isset($categorys['is_home_recommended']) and $categorys['is_home_recommended'] eq 1">
-													<a href="{{:U('Home/Search/Index', ['category_id'=>$categorys['id']])}}">{{$categorys.name}}</a>
+													<a href="{{:U('Home/Search/Index', ['category_id'=>$categorys['id']])}}" target="_blank">{{$categorys.name}}</a>
 												</if>
 											</foreach>
 										</if>
@@ -143,7 +143,7 @@
 								</if>
 							</div>
 							<span class="more">
-		            			<a href="{{:U('Home/Search/Index', ['category_id'=>$floor['id']])}}">更多<i class="am-icon-angle-right" style="padding-left:10px ;" ></i></a>
+		            			<a href="{{:U('Home/Search/Index', ['category_id'=>$floor['id']])}}" target="_blank">更多 <i class="am-icon-angle-right"></i></a>
 		                	</span>
 						</div>
 					</div>
@@ -154,7 +154,7 @@
 								<if condition="!empty($floor['items'])">
             						<foreach name="floor.items" item="category">
             							<if condition="$key lt 6 and isset($category['is_home_recommended']) and $category['is_home_recommended'] eq 1">
-											<a href="{{:U('Home/Search/Index', ['category_id'=>$category['id']])}}" class="outer">
+											<a href="{{:U('Home/Search/Index', ['category_id'=>$category['id']])}}" class="outer" target="_blank">
 												<span class="inner">
 													<b class="text">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</b>
 												</span>
@@ -163,7 +163,7 @@
 									</foreach>
 								</if>			
 							</div>
-							<a href="{{:U('Home/Search/Index', ['category_id'=>$floor['id']])}}">
+							<a href="{{:U('Home/Search/Index', ['category_id'=>$floor['id']])}}" target="_blank">
 								<div class="outer-con">
 									<div class="describe">{{$floor.describe}}</div>
 								</div>
@@ -179,11 +179,11 @@
 								<div class="goods-items <if condition="in_array($key, [0,1])">am-u-sm-7 am-u-md-4 text-two<else />am-u-sm-6 am-u-md-2 text-three</if>  <if condition="in_array($key, [0,3])">sug</if> <if condition="in_array($key, [2,5])">big</if> <if condition="$key eq 5">last</if>">
 									<div class="outer-con">
 										<div class="goods-title ellipsis">
-											<a href="{{$goods['goods_url']}}" <notempty name="goods.title_color">style="color:{{$goods.title_color}};"</notempty>>{{$goods.title}}</a>
+											<a href="{{$goods['goods_url']}}" target="_blank" <notempty name="goods.title_color">style="color:{{$goods.title_color}};"</notempty>>{{$goods.title}}</a>
 										</div>
 										<div class="price">￥{{$goods.price}}</div>
 									</div>
-									<a href="{{$goods['goods_url']}}">
+									<a href="{{$goods['goods_url']}}" target="_blank">
 										<img src="{{$goods.home_recommended_images}}" />
 									</a>
 								</div>

@@ -46,7 +46,7 @@ class IndexController extends CommonController
 
 		// 新闻
 		$params = [
-			'where' => ['a.is_enable'=>1, 'is_home_recommended'=>1],
+			'where' => ['a.is_enable'=>1, 'a.is_home_recommended'=>1],
 			'field' => 'a.id,a.title,a.title_color,ac.name AS category_name',
 			'm' => 0,
 			'n' => 9,

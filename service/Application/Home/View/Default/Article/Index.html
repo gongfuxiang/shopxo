@@ -1,69 +1,67 @@
 <include file="Public/Header" />
 
-<!-- header nav start -->
+<!-- header top nav -->
+<include file="Public/HeaderTopNav" />
+
+<!-- search -->
+<include file="Public/NavSearch" />
+
+<!-- header nav -->
 <include file="Public/HeaderNav" />
-<!-- header nav end -->
 
-<!-- content start -->
-<div class="am-g my-content" <if condition="!empty($max_width_style)">style="{{$max_width_style}}"</if>>
-	<!-- left start -->
-	<div class="am-u-md-8 article-left m-t-20 p-r-0">
-		<article class="article-main o-h">
-			<h3 class="am-article-title article-title">{{$article.title}}</h3>
-			<h4 class="am-article-meta article-meta">
-				<span>{{:L('article_add_time_text')}}：{{$article.add_time}}</span>
-				<span class="m-l-10">{{:L('article_access_count_text')}}：{{$article.access_count}}</span>
-			</h4>
-			<div class="article-content">{{$article.content}}</div>
-		</article>
-	</div>
-	<!-- left end -->
+<!-- goods category -->
+<include file="Public/GoodsCategory" />
 
-	<!-- right start -->
-	<div class="am-u-md-4 article-right">
-		<!-- layout module start -->
-		<if condition="!empty($data)">
-			<foreach name="data" item="v">
-				<switch name="v.value">
-					<case value="100">
-						<if condition="!empty($v['item'][0])">
-							<div class="layout-{{$v.value}}">{{$v['item'][0]}}</div>
-						</if>
-					</case>
-					<case value="122|123|124|236">
-						<php>list($t1, $t2, $t3) = str_split($v['value']);</php>
-						<ul data-am-widget="gallery" class="am-gallery am-avg-sm-{{$t1}} am-avg-md-{{$t2}} am-avg-lg-{{$t3}} am-gallery-overlay small-banner am-no-layout m-b-5 layout-100-{{$v.value}}" data-am-gallery="{}">
-							<if condition="!empty($v['item'])">
-								<foreach name="v.item" item="vs">
-									<li class="layout-item">
-										<div class="layout-100-{{$v.value}}-item">{{$vs}}</div>
-									</li>
-								</foreach>
-							</if>
-						</ul>
-					</case>
-					<case value="84|48|633|363|336">
-						<php>$t_all = str_split($v['value']);</php>
-						<div class="layout-100-{{$v.value}} o-h">
-							<if condition="!empty($v['item'])">
-								<foreach name="v.item" key="ks" item="vs">
-									<div class="am-u-md-{{$t_all[$ks]}}">{{$vs}}</div>
-								</foreach>
-							</if>
-						</div>
-					</case>
-				</switch>
-			</foreach>
-		</if>
-		<!-- layout module end -->
+<!-- content -->
+<div class="am-container article-content">
+	<!-- 右侧内容 -->
+	<div class="am-u-md-10 am-u-md-push-2 article-right">
+		<div class="am-u-sm-12 article-header">
+			<h1 class="am-article-title">{{$article.title}}</h1>
+			<p class="am-article-meta">
+				<span>{{:L('article_add_time_text')}}：{{$article.add_time_time}}</span>
+				<span>{{:L('article_access_count_text')}}：{{$article.access_count}}</span>
+			</p>
+			<hr class="am-article-divider" />
+		</div>
+		<div class="am-article">{{$article.content}}</div>
 	</div>
-	<!-- right end -->
+
+	<!-- 右侧内容 -->
+	<div class="am-u-md-2 am-u-md-pull-10 article-sidebar">
+		<div class="am-offcanvas" id="article-nav-sidebar">
+			<div class="am-offcanvas-bar am-offcanvas-bar-overlay">
+				<notempty name="category_list">
+					<section data-am-widget="accordion" class="am-accordion am-accordion-gapped" data-am-accordion='{}'>
+						<foreach name="category_list" item="v">
+							<dl class="am-accordion-item <if condition="$article['article_category_id'] eq $v['id']">am-active</if>">
+								<dt class="am-accordion-title">
+									<li class="am-nav-header">{{$v.name}}</li>
+								</dt>
+								<dd class="am-accordion-bd am-collapse <if condition="$article['article_category_id'] eq $v['id']">am-in</if>">
+									<div class="am-accordion-content">
+										<notempty name="v.items">
+											<ul class="am-nav">
+												<foreach name="v.items" item="vs">
+													<li>
+														<a href="{{:U('Home/Article/Index', ['id'=>$vs['id']])}}" <notempty name="vs.title_color">style="color:{{$vs.title_color}};"</notempty> >{{$vs.title}}</a>
+													</li>
+												</foreach>
+											</ul>
+										</notempty>
+									</div>
+								</dd>
+							</dl>
+						</foreach>
+					</section>
+				</notempty>
+			</div>
+		</div>
+	</div>
+	<a href="javascript:;" class="am-icon-btn am-icon-th-list am-show-sm-only article-nav-button" data-am-offcanvas="{target: '#article-nav-sidebar'}">
+		<span class="am-sr-only">侧栏导航</span>
+	</a>
 </div>
-<!-- content end -->
-
-<!-- layuot common module start -->
-<include file="Public/CommonModule" />
-<!-- layuot common module end -->
 
 <!-- footer start -->
 <include file="Public/Footer" />
