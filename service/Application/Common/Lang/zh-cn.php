@@ -476,7 +476,7 @@ return array(
 	// 导航数据类型
 	'common_nav_type_list'				=>	array(
 			'custom'			=>	'自定义',
-			'article_category'	=>	'文章分类',
+			'article'			=>	'文章',
 			'customview'		=>	'自定义页面',
 			'goods_category'	=>	'商品分类',
 		),

@@ -10,219 +10,11 @@
 		<!-- operation start -->
 		<div class="am-g">
 			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#nav-custom-save-win'}" data-tag="nav-custom-save-win"> {{:L('navigation_custom_operation_add')}}</button>
-			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#nav-article_category-save-win'}" data-tag="nav-article_category-save-win"> {{:L('navigation_article_category_operation_add')}}</button>
+			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#nav-article-save-win'}" data-tag="nav-article-save-win"> {{:L('navigation_article_operation_add')}}</button>
 			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#nav-customview-save-win'}" data-tag="nav-customview-save-win"> {{:L('navigation_customview_operation_add')}}</button>
 			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#nav-goods_category-save-win'}" data-tag="nav-goods_category-save-win"> {{:L('navigation_goods_category_operation_add')}}</button>
 		</div>
 		<!-- operation end -->
-
-		<!-- custom save win start -->
-		<div class="am-popup am-radius" id="nav-custom-save-win">
-			<div class="am-popup-inner">
-				<div class="am-popup-hd">
-					<h4 class="am-popup-title" data-add-title="{{:L('navigation_custom_operation_add')}}{{:L('navigation_add_name')}}" data-edit-title="{{:L('navigation_custom_operation_add')}}{{:L('navigation_edit_name')}}">{{:L('navigation_custom_operation_add')}}{{:L('navigation_add_name')}}</h4>
-					<span data-am-modal-close class="am-close">&times;</span>
-				</div>
-				<div class="am-popup-bd">
-					<!-- form start -->
-					<form class="am-form form-validation" action="{{:U('Admin/Navigation/Save')}}" method="POST" request-type="ajax-reload" request-value="">
-						<div class="am-form-group">
-							<label>{{:L('navigation_level_text')}}</label>
-							<select  class="am-radius c-p chosen-select" name="pid" data-validation-message="{{:L('navigation_level_format')}}">
-								<option value="0">{{:L('common_select_level_one_choice')}}</option>
-								<foreach name="nav_header_pid_list" item="v">
-									<option value="{{$v.id}}">{{$v.name}}</option>
-								</foreach>
-							</select>
-						</div>
-						<div class="am-form-group">
-							<label>{{:L('navigation_name_text')}}</label>
-							<input type="text" placeholder="{{:L('navigation_name_text')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:L('navigation_name_format')}}" class="am-radius" required />
-						</div>
-						<div class="am-form-group">
-							<label>{{:L('navigation_url_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('navigation_url_text_tips')}}）</span></label>
-							<input type="url" placeholder="{{:L('navigation_url_text')}}" name="url"  data-validation-message="{{:L('navigation_url_format')}}" class="am-radius" required />
-						</div>
-						<div class="am-form-group">
-							<label>{{:L('common_view_sort_title')}}</label>
-							<input type="number" placeholder="{{:L('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:L('common_sort_error')}}" class="am-radius" value="0" required />
-						</div>
-						<include file="Lib/IsShow" />
-						<include file="Lib/IsNewWindowOpen" />
-						<div class="am-form-group">
-							<input type="hidden" name="id" />
-							<input type="hidden" name="data_type" value="custom" />
-							<input type="hidden" name="nav_type" value="{{$nav_type}}" />
-							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
-						</div>
-					</form>
-					<!-- form end -->
-				</div>
-			</div>
-		</div>
-		<!-- custom save win end -->
-
-		<!-- article_category save win start -->
-		<div class="am-popup am-radius" id="nav-article_category-save-win">
-			<div class="am-popup-inner">
-				<div class="am-popup-hd">
-					<h4 class="am-popup-title" data-add-title="{{:L('navigation_article_category_operation_add')}}{{:L('navigation_add_name')}}" data-edit-title="{{:L('navigation_article_category_operation_add')}}{{:L('navigation_edit_name')}}">{{:L('navigation_article_category_operation_add')}}{{:L('navigation_add_name')}}</h4>
-					<span data-am-modal-close class="am-close">&times;</span>
-				</div>
-				<div class="am-popup-bd">
-					<!-- form start -->
-					<form class="am-form form-validation-article_category" action="{{:U('Admin/Navigation/Save')}}" method="POST" request-type="ajax-reload" request-value="">
-						<div class="am-form-group">
-							<label>{{:L('navigation_level_text')}}</label>
-							<select  class="am-radius c-p chosen-select" name="pid" data-validation-message="{{:L('navigation_level_format')}}">
-								<option value="0">{{:L('common_select_level_one_choice')}}</option>
-								<foreach name="nav_header_pid_list" item="v">
-									<option value="{{$v.id}}">{{$v.name}}</option>
-								</foreach>
-							</select>
-						</div>
-						<div class="am-form-group">
-							<label>{{:L('navigation_article_category_id_text')}}</label>
-							<select  class="am-radius c-p chosen-select" name="value" data-placeholder="{{:L('common_please_select_choose')}}" data-validation-message="{{:L('navigation_article_category_id_format')}}" required>
-								<option value="">{{:L('common_please_select_choose')}}</option>
-								<foreach name="article_category_list" item="v">
-									<option value="{{$v.id}}">{{$v.name}}</option>
-								</foreach>
-							</select>
-						</div>
-						<div class="am-form-group">
-							<label>{{:L('navigation_name_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('navigation_article_category_name_format')}}）</span></label>
-							<input type="text" placeholder="{{:L('navigation_name_text')}}" name="name" maxlength="16" data-validation-message="{{:L('navigation_name_format')}}" class="am-radius" />
-						</div>
-						<div class="am-form-group">
-							<label>{{:L('common_view_sort_title')}}</label>
-							<input type="number" placeholder="{{:L('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:L('common_sort_error')}}" class="am-radius" value="0" required />
-						</div>
-						<include file="Lib/IsShow" />
-						<include file="Lib/IsNewWindowOpen" />
-						<div class="am-form-group">
-							<input type="hidden" name="id" />
-							<input type="hidden" name="data_type" value="article_category" />
-							<input type="hidden" name="nav_type" value="{{$nav_type}}" />
-							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
-						</div>
-					</form>
-					<!-- form end -->
-				</div>
-			</div>
-		</div>
-		<!-- article_category save win end -->
-
-		<!-- customview save win start -->
-		<div class="am-popup am-radius" id="nav-customview-save-win">
-			<div class="am-popup-inner">
-				<div class="am-popup-hd">
-					<h4 class="am-popup-title" data-add-title="{{:L('navigation_customview_operation_add')}}{{:L('navigation_add_name')}}" data-edit-title="{{:L('navigation_customview_operation_add')}}{{:L('navigation_edit_name')}}">{{:L('navigation_customview_operation_add')}}{{:L('navigation_add_name')}}</h4>
-					<span data-am-modal-close
-					class="am-close">&times;</span>
-					</div>
-				<div class="am-popup-bd">
-					<!-- form start -->
-					<form class="am-form form-validation-customview" action="{{:U('Admin/Navigation/Save')}}" method="POST" request-type="ajax-reload" request-value="">
-						<div class="am-form-group">
-							<label>{{:L('navigation_level_text')}}</label>
-							<select  class="am-radius c-p chosen-select" name="pid" data-validation-message="{{:L('navigation_level_format')}}">
-								<option value="0">{{:L('common_select_level_one_choice')}}</option>
-								<foreach name="nav_header_pid_list" item="v">
-									<option value="{{$v.id}}">{{$v.name}}</option>
-								</foreach>
-							</select>
-						</div>
-						<div class="am-form-group">
-							<label>{{:L('navigation_customview_id_text')}}</label>
-							<select  class="am-radius c-p chosen-select" name="value" data-placeholder="{{:L('common_please_select_choose')}}" data-validation-message="{{:L('navigation_customview_id_format')}}" required>
-								<option value="">{{:L('common_please_select_choose')}}</option>
-								<foreach name="customview_list" item="v">
-									<option value="{{$v.id}}">{{$v.title}}</option>
-								</foreach>
-							</select>
-						</div>
-						<div class="am-form-group">
-							<label>{{:L('navigation_name_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('navigation_customview_name_format')}}）</span></label>
-							<input type="text" placeholder="{{:L('navigation_name_text')}}" name="name" maxlength="16" data-validation-message="{{:L('navigation_name_format')}}" class="am-radius" />
-						</div>
-						<div class="am-form-group">
-							<label>{{:L('common_view_sort_title')}}</label>
-							<input type="number" placeholder="{{:L('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:L('common_sort_error')}}" class="am-radius" value="0" required />
-						</div>
-						<include file="Lib/IsShow" />
-						<include file="Lib/IsNewWindowOpen" />
-						<div class="am-form-group">
-							<input type="hidden" name="id" />
-							<input type="hidden" name="data_type" value="customview" />
-							<input type="hidden" name="nav_type" value="{{$nav_type}}" />
-							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
-						</div>
-					</form>
-					<!-- form end -->
-				</div>
-			</div>
-		</div>
-		<!-- customview save win end -->
-
-		<!-- goods_category save win start -->
-		<div class="am-popup am-radius" id="nav-goods_category-save-win">
-			<div class="am-popup-inner">
-				<div class="am-popup-hd">
-					<h4 class="am-popup-title" data-add-title="{{:L('navigation_goods_category_operation_add')}}{{:L('navigation_add_name')}}" data-edit-title="{{:L('navigation_goods_category_operation_add')}}{{:L('navigation_edit_name')}}">{{:L('navigation_goods_category_operation_add')}}{{:L('navigation_add_name')}}</h4>
-					<span data-am-modal-close class="am-close">&times;</span>
-				</div>
-				<div class="am-popup-bd">
-					<!-- form start -->
-					<form class="am-form form-validation-goods_category" action="{{:U('Admin/Navigation/Save')}}" method="POST" request-type="ajax-reload" request-value="">
-						<div class="am-form-group">
-							<label>{{:L('navigation_level_text')}}</label>
-							<select  class="am-radius c-p chosen-select" name="pid" data-validation-message="{{:L('navigation_level_format')}}">
-								<option value="0">{{:L('common_select_level_one_choice')}}</option>
-								<foreach name="nav_header_pid_list" item="v">
-									<option value="{{$v.id}}">{{$v.name}}</option>
-								</foreach>
-							</select>
-						</div>
-						<div class="am-form-group">
-							<label>{{:L('navigation_goods_category_id_text')}}</label>
-							<select class="am-radius c-p chosen-select" name="value" data-placeholder="{{:L('common_please_select_choose')}}" data-validation-message="{{:L('navigation_goods_category_id_format')}}" required>
-								<option value="">{{:L('common_please_select_choose')}}</option>
-								<foreach name="goods_category_list" item="v">
-									<option value="{{$v.id}}" <if condition="!empty($data['category_ids']) and in_array($v['id'], $data['category_ids'])">selected</if>>{{:L('navigation_category_level_one')}} - {{$v.name}}</option>
-									<if condition="!empty($v['items'])">
-										<foreach name="v.items" item="vs">
-											<option style="padding-left: 30px;" value="{{$vs.id}}" <if condition="!empty($data['category_ids']) and in_array($vs['id'], $data['category_ids'])">selected</if>>{{:L('navigation_category_level_two')}} - {{$vs.name}}</option>
-											<foreach name="vs.items" item="vss">
-												<option style="padding-left: 60px;" value="{{$vss.id}}" <if condition="!empty($data['category_ids']) and in_array($vss['id'], $data['category_ids'])">selected</if>>{{:L('navigation_category_level_three')}} - {{$vss.name}}</option>
-											</foreach>
-										</foreach>
-									</if>
-								</foreach>
-							</select>
-						</div>
-						<div class="am-form-group">
-							<label>{{:L('navigation_name_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('navigation_goods_category_name_format')}}）</span></label>
-							<input type="text" placeholder="{{:L('navigation_name_text')}}" name="name" maxlength="16" data-validation-message="{{:L('navigation_name_format')}}" class="am-radius" />
-						</div>
-						<div class="am-form-group">
-							<label>{{:L('common_view_sort_title')}}</label>
-							<input type="number" placeholder="{{:L('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:L('common_sort_error')}}" class="am-radius" value="0" required />
-						</div>
-						<include file="Lib/IsShow" />
-						<include file="Lib/IsNewWindowOpen" />
-						<div class="am-form-group">
-							<input type="hidden" name="id" />
-							<input type="hidden" name="data_type" value="goods_category" />
-							<input type="hidden" name="nav_type" value="{{$nav_type}}" />
-							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
-						</div>
-					</form>
-					<!-- form end -->
-				</div>
-			</div>
-		</div>
-		<!-- goods_category save win end -->
 
 		<!-- list start -->
 		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
@@ -278,6 +70,220 @@
 			</tbody>
 		</table>
 		<!-- list end -->
+
+		<!-- custom save win start -->
+		<div class="am-popup am-radius" id="nav-custom-save-win">
+			<div class="am-popup-inner">
+				<div class="am-popup-hd">
+					<h4 class="am-popup-title" data-add-title="{{:L('navigation_custom_operation_add')}}{{:L('navigation_add_name')}}" data-edit-title="{{:L('navigation_custom_operation_add')}}{{:L('navigation_edit_name')}}">{{:L('navigation_custom_operation_add')}}{{:L('navigation_add_name')}}</h4>
+					<span data-am-modal-close class="am-close">&times;</span>
+				</div>
+				<div class="am-popup-bd">
+					<!-- form start -->
+					<form class="am-form form-validation" action="{{:U('Admin/Navigation/Save')}}" method="POST" request-type="ajax-reload" request-value="">
+						<div class="am-form-group">
+							<label>{{:L('navigation_level_text')}}</label>
+							<select class="am-radius c-p chosen-select" name="pid" data-validation-message="{{:L('navigation_level_format')}}">
+								<option value="0">{{:L('common_select_level_one_choice')}}</option>
+								<foreach name="nav_header_pid_list" item="v">
+									<option value="{{$v.id}}">{{$v.name}}</option>
+								</foreach>
+							</select>
+						</div>
+						<div class="am-form-group">
+							<label>{{:L('navigation_name_text')}}</label>
+							<input type="text" placeholder="{{:L('navigation_name_text')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:L('navigation_name_format')}}" class="am-radius" required />
+						</div>
+						<div class="am-form-group">
+							<label>{{:L('navigation_url_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('navigation_url_text_tips')}}）</span></label>
+							<input type="url" placeholder="{{:L('navigation_url_text')}}" name="url"  data-validation-message="{{:L('navigation_url_format')}}" class="am-radius" required />
+						</div>
+						<div class="am-form-group">
+							<label>{{:L('common_view_sort_title')}}</label>
+							<input type="number" placeholder="{{:L('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:L('common_sort_error')}}" class="am-radius" value="0" required />
+						</div>
+						<include file="Lib/IsShow" />
+						<include file="Lib/IsNewWindowOpen" />
+						<div class="am-form-group">
+							<input type="hidden" name="id" />
+							<input type="hidden" name="data_type" value="custom" />
+							<input type="hidden" name="nav_type" value="{{$nav_type}}" />
+							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
+						</div>
+					</form>
+					<!-- form end -->
+				</div>
+			</div>
+		</div>
+		<!-- custom save win end -->
+
+		<!-- article save win start -->
+		<div class="am-popup am-radius" id="nav-article-save-win">
+			<div class="am-popup-inner">
+				<div class="am-popup-hd">
+					<h4 class="am-popup-title" data-add-title="{{:L('navigation_article_operation_add')}}{{:L('navigation_add_name')}}" data-edit-title="{{:L('navigation_article_operation_add')}}{{:L('navigation_edit_name')}}">{{:L('navigation_article_operation_add')}}{{:L('navigation_add_name')}}</h4>
+					<span data-am-modal-close class="am-close">&times;</span>
+				</div>
+				<div class="am-popup-bd">
+					<!-- form start -->
+					<form class="am-form form-validation-article" action="{{:U('Admin/Navigation/Save')}}" method="POST" request-type="ajax-reload" request-value="">
+						<div class="am-form-group">
+							<label>{{:L('navigation_level_text')}}</label>
+							<select class="am-radius c-p chosen-select" name="pid" data-validation-message="{{:L('navigation_level_format')}}">
+								<option value="0">{{:L('common_select_level_one_choice')}}</option>
+								<foreach name="nav_header_pid_list" item="v">
+									<option value="{{$v.id}}">{{$v.name}}</option>
+								</foreach>
+							</select>
+						</div>
+						<div class="am-form-group">
+							<label>{{:L('navigation_article_id_text')}}</label>
+							<select class="am-radius c-p chosen-select" name="value" data-placeholder="{{:L('common_please_select_choose')}}" data-validation-message="{{:L('navigation_article_id_format')}}" required>
+								<option value="">{{:L('common_please_select_choose')}}</option>
+								<foreach name="article_list" item="v">
+									<optgroup label="{{$v.name}}">
+										<notempty name="v.items">
+											<foreach name="v.items" item="vs">
+												<option value="{{$vs.id}}">{{$vs.title}}</option>
+											</foreach>
+										</notempty>
+									</optgroup>
+								</foreach>
+							</select>
+						</div>
+						<div class="am-form-group">
+							<label>{{:L('navigation_name_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('navigation_article_name_format')}}）</span></label>
+							<input type="text" placeholder="{{:L('navigation_name_text')}}" name="name" maxlength="16" data-validation-message="{{:L('navigation_name_format')}}" class="am-radius" />
+						</div>
+						<div class="am-form-group">
+							<label>{{:L('common_view_sort_title')}}</label>
+							<input type="number" placeholder="{{:L('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:L('common_sort_error')}}" class="am-radius" value="0" required />
+						</div>
+						<include file="Lib/IsShow" />
+						<include file="Lib/IsNewWindowOpen" />
+						<div class="am-form-group">
+							<input type="hidden" name="id" />
+							<input type="hidden" name="data_type" value="article" />
+							<input type="hidden" name="nav_type" value="{{$nav_type}}" />
+							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
+						</div>
+					</form>
+					<!-- form end -->
+				</div>
+			</div>
+		</div>
+		<!-- article save win end -->
+
+		<!-- customview save win start -->
+		<div class="am-popup am-radius" id="nav-customview-save-win">
+			<div class="am-popup-inner">
+				<div class="am-popup-hd">
+					<h4 class="am-popup-title" data-add-title="{{:L('navigation_customview_operation_add')}}{{:L('navigation_add_name')}}" data-edit-title="{{:L('navigation_customview_operation_add')}}{{:L('navigation_edit_name')}}">{{:L('navigation_customview_operation_add')}}{{:L('navigation_add_name')}}</h4>
+					<span data-am-modal-close
+					class="am-close">&times;</span>
+					</div>
+				<div class="am-popup-bd">
+					<!-- form start -->
+					<form class="am-form form-validation-customview" action="{{:U('Admin/Navigation/Save')}}" method="POST" request-type="ajax-reload" request-value="">
+						<div class="am-form-group">
+							<label>{{:L('navigation_level_text')}}</label>
+							<select class="am-radius c-p chosen-select" name="pid" data-validation-message="{{:L('navigation_level_format')}}">
+								<option value="0">{{:L('common_select_level_one_choice')}}</option>
+								<foreach name="nav_header_pid_list" item="v">
+									<option value="{{$v.id}}">{{$v.name}}</option>
+								</foreach>
+							</select>
+						</div>
+						<div class="am-form-group">
+							<label>{{:L('navigation_customview_id_text')}}</label>
+							<select class="am-radius c-p chosen-select" name="value" data-placeholder="{{:L('common_please_select_choose')}}" data-validation-message="{{:L('navigation_customview_id_format')}}" required>
+								<option value="">{{:L('common_please_select_choose')}}</option>
+								<foreach name="customview_list" item="v">
+									<option value="{{$v.id}}">{{$v.title}}</option>
+								</foreach>
+							</select>
+						</div>
+						<div class="am-form-group">
+							<label>{{:L('navigation_name_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('navigation_customview_name_format')}}）</span></label>
+							<input type="text" placeholder="{{:L('navigation_name_text')}}" name="name" maxlength="16" data-validation-message="{{:L('navigation_name_format')}}" class="am-radius" />
+						</div>
+						<div class="am-form-group">
+							<label>{{:L('common_view_sort_title')}}</label>
+							<input type="number" placeholder="{{:L('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:L('common_sort_error')}}" class="am-radius" value="0" required />
+						</div>
+						<include file="Lib/IsShow" />
+						<include file="Lib/IsNewWindowOpen" />
+						<div class="am-form-group">
+							<input type="hidden" name="id" />
+							<input type="hidden" name="data_type" value="customview" />
+							<input type="hidden" name="nav_type" value="{{$nav_type}}" />
+							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
+						</div>
+					</form>
+					<!-- form end -->
+				</div>
+			</div>
+		</div>
+		<!-- customview save win end -->
+
+		<!-- goods_category save win start -->
+		<div class="am-popup am-radius" id="nav-goods_category-save-win">
+			<div class="am-popup-inner">
+				<div class="am-popup-hd">
+					<h4 class="am-popup-title" data-add-title="{{:L('navigation_goods_category_operation_add')}}{{:L('navigation_add_name')}}" data-edit-title="{{:L('navigation_goods_category_operation_add')}}{{:L('navigation_edit_name')}}">{{:L('navigation_goods_category_operation_add')}}{{:L('navigation_add_name')}}</h4>
+					<span data-am-modal-close class="am-close">&times;</span>
+				</div>
+				<div class="am-popup-bd">
+					<!-- form start -->
+					<form class="am-form form-validation-goods_category" action="{{:U('Admin/Navigation/Save')}}" method="POST" request-type="ajax-reload" request-value="">
+						<div class="am-form-group">
+							<label>{{:L('navigation_level_text')}}</label>
+							<select class="am-radius c-p chosen-select" name="pid" data-validation-message="{{:L('navigation_level_format')}}">
+								<option value="0">{{:L('common_select_level_one_choice')}}</option>
+								<foreach name="nav_header_pid_list" item="v">
+									<option value="{{$v.id}}">{{$v.name}}</option>
+								</foreach>
+							</select>
+						</div>
+						<div class="am-form-group">
+							<label>{{:L('navigation_goods_category_id_text')}}</label>
+							<select class="am-radius c-p chosen-select" name="value" data-placeholder="{{:L('common_please_select_choose')}}" data-validation-message="{{:L('navigation_goods_category_id_format')}}" required>
+								<option value="">{{:L('common_please_select_choose')}}</option>
+								<foreach name="goods_category_list" item="v">
+									<option value="{{$v.id}}" <if condition="!empty($data['category_ids']) and in_array($v['id'], $data['category_ids'])">selected</if>>{{:L('navigation_category_level_one')}} - {{$v.name}}</option>
+									<if condition="!empty($v['items'])">
+										<foreach name="v.items" item="vs">
+											<option style="padding-left: 30px;" value="{{$vs.id}}" <if condition="!empty($data['category_ids']) and in_array($vs['id'], $data['category_ids'])">selected</if>>{{:L('navigation_category_level_two')}} - {{$vs.name}}</option>
+											<foreach name="vs.items" item="vss">
+												<option style="padding-left: 60px;" value="{{$vss.id}}" <if condition="!empty($data['category_ids']) and in_array($vss['id'], $data['category_ids'])">selected</if>>{{:L('navigation_category_level_three')}} - {{$vss.name}}</option>
+											</foreach>
+										</foreach>
+									</if>
+								</foreach>
+							</select>
+						</div>
+						<div class="am-form-group">
+							<label>{{:L('navigation_name_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('navigation_goods_category_name_format')}}）</span></label>
+							<input type="text" placeholder="{{:L('navigation_name_text')}}" name="name" maxlength="16" data-validation-message="{{:L('navigation_name_format')}}" class="am-radius" />
+						</div>
+						<div class="am-form-group">
+							<label>{{:L('common_view_sort_title')}}</label>
+							<input type="number" placeholder="{{:L('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:L('common_sort_error')}}" class="am-radius" value="0" required />
+						</div>
+						<include file="Lib/IsShow" />
+						<include file="Lib/IsNewWindowOpen" />
+						<div class="am-form-group">
+							<input type="hidden" name="id" />
+							<input type="hidden" name="data_type" value="goods_category" />
+							<input type="hidden" name="nav_type" value="{{$nav_type}}" />
+							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
+						</div>
+					</form>
+					<!-- form end -->
+				</div>
+			</div>
+		</div>
+		<!-- goods_category save win end -->
 	</div>
 </div>
 <!-- right content end  -->

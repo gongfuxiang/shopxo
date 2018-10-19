@@ -21,7 +21,7 @@ class NavigationModel extends CommonModel
 		array('is_new_window_open', array(0,1), '{%common_new_window_open_tips}', 1, 'in', 5),
 
 		// 文章分类导航
-		array('value', 'CheckArticleCategoryValue', '{%navheader_article_category_id_format}', 1, 'callback', 6),
+		array('value', 'CheckArticleValue', '{%navigation_article_id_format}', 1, 'callback', 6),
 		array('is_show', array(0,1), '{%common_show_tips}', 1, 'in', 6),
 		array('is_new_window_open', array(0,1), '{%common_new_window_open_tips}', 1, 'in', 6),
 
@@ -66,15 +66,15 @@ class NavigationModel extends CommonModel
 	}
 
 	/**
-	 * [CheckArticleCategoryValue 文章分类id校验]
+	 * [CheckArticleValue 文章id校验]
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
 	 * @datetime 2016-12-13T15:12:32+0800
 	 */
-	public function CheckArticleCategoryValue()
+	public function CheckArticleValue()
 	{
-		return ($this->db(0)->table('__ARTICLE_CATEGORY__')->where(array('id'=>I('value')))->count() == 1);
+		return ($this->db(0)->table('__ARTICLE__')->where(array('id'=>I('value')))->count() == 1);
 	}
 
 	/**

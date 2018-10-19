@@ -12,10 +12,10 @@ return array(
 	'navigation_add_name'						=>	'导航添加',
 	'navigation_edit_name'						=>	'导航编辑',
 	'navigation_custom_operation_add'			=>	'自定义',
-	'navigation_article_category_operation_add'	=>	'文章分类',
-	'navigation_customview_operation_add'		=>	'自定义',
+	'navigation_article_operation_add'			=>	'文章',
+	'navigation_customview_operation_add'		=>	'自定义页面',
 	'navigation_goods_category_operation_add'	=>	'商品分类',
-	'navigation_article_category_name_format'	=>	'默认文章分类名称',
+	'navigation_article_name_format'			=>	'默认文章名称',
 	'navigation_customview_name_format'			=>	'默认自定义页面名称',
 	'navigation_goods_category_name_format'		=>	'默认商品分类名称',
 
@@ -28,9 +28,9 @@ return array(
 	'navigation_url_text_tips'					=>	'带http://',
 	'navigation_url_format'						=>	'url格式有误',
 
-	// 文章分类导航
-	'navigation_article_category_id_text'		=>	'文章分类',
-	'navigation_article_category_id_format'		=>	'文章分类选择有误',
+	// 文章导航
+	'navigation_article_id_text'				=>	'文章',
+	'navigation_article_id_format'				=>	'文章选择有误',
 
 	// 自定义页面导航
 	'navigation_customview_id_text'				=>	'自定义页面',

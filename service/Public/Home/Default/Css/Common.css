@@ -438,6 +438,9 @@ background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -23
 .am-footer-default a {
     color: #333;
 }
+.am-footer-default .am-footer-divider {
+    padding: 0 5px;
+}
 
 
 /**

@@ -2,6 +2,8 @@
 
 namespace Admin\Controller;
 
+use Service\ArticleService;
+
 /**
  * 导航管理
  * @author   Devil
@@ -50,8 +52,8 @@ class NavigationController extends CommonController
 		// 一级分类
 		$this->assign('nav_header_pid_list', M('Navigation')->field(array('id', 'name'))->where(array('is_show'=>1, 'pid'=>0, 'nav_type'=>$this->nav_type))->select());
 
-		// 文章分类
-		$this->assign('article_category_list', M('ArticleCategory')->field(array('id', 'name'))->where(array('is_enable'=>1))->select());
+		// 获取分类和文章
+		$this->assign('article_list', ArticleService::ArticleCategoryList());
 
 		// 商品分类
 		$field = 'id,name';
@@ -134,7 +136,7 @@ class NavigationController extends CommonController
 				break;
 
 			// 文章分类导航
-			case 'article_category':
+			case 'article':
 				$this->DataSave(6);
 				break;
 
@@ -172,8 +174,8 @@ class NavigationController extends CommonController
 				switch(I('data_type'))
 				{
 					// 文章分类导航
-					case 'article_category':
-						$temp_name = M('ArticleCategory')->where(array('id'=>I('value')))->getField('name');
+					case 'article':
+						$temp_name = M('Article')->where(array('id'=>I('value')))->getField('title');
 						break;
 
 					// 自定义页面导航

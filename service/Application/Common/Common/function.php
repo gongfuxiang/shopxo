@@ -391,8 +391,8 @@ function NavDataDealWith($data)
             switch($v['data_type'])
             {
                 // 文章分类
-                case 'article_category':
-                    $v['url'] = HomeUrl('Channel', 'Index', ['id'=>$v['value']]);
+                case 'article':
+                    $v['url'] = HomeUrl('Article', 'Index', ['id'=>$v['value']]);
                     break;
 
                 // 自定义页面
