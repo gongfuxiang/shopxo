@@ -150,10 +150,10 @@ $(function()
         if(location < nav_top)
         {
             $('.cart-nav').css({"position":"fixed", "bottom":bottom, "width":$('.cart-content').width()+"px", "z-index":1000});
-            $('body').css({"padding-top":"50px"});
+            $('body').css({"padding-bottom":"50px"});
         } else {
             $('.cart-nav').css({"position":"relative", "bottom":0, "z-index":0, "width":"100%"});
-            $('body').css({"padding-top":"0"});
+            $('body').css({"padding-bottom":"0"});
         }
     }
     cart_nav_pop();
