@@ -224,7 +224,7 @@ text-align: center;float:none}
     .slideall{margin:0px auto;height:360px;position: relative;}
 
     /*第一套轮播图布局*/	
-    .banner{position: absolute;left:0px;top:170px;z-index:9; }
+    .banner{position: absolute;left:0px;z-index:9; }
     .banner .am-slider .am-slides li{height:360px;}
     .banner .am-slider .am-slides img{width:800px ;left:50% ;position: absolute;margin-left: -370px;}
     .banner .am-slider-default .am-direction-nav .am-next {right: 50px;}
