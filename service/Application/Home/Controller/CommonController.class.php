@@ -7,6 +7,7 @@ use Service\GoodsService;
 use Service\NavigationService;
 use Service\BuyService;
 use Service\MessageService;
+use Service\ResourcesService;
 
 /**
  * 前台
@@ -169,6 +170,19 @@ class CommonController extends Controller
 		$params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0];
 		$common_message_total = MessageService::UserMessageTotal($params);
 		$this->assign('common_message_total', ($common_message_total > 99) ? '99+' : $common_message_total);
+
+		// 搜索框下热门关键字
+		$home_search_keywords = [];
+		switch(intval(MyC('home_search_keywords_type', 0)))
+		{
+			case 1 :
+				$home_search_keywords = ResourcesService::SearchKeywordsList();
+				break;
+			case 2 :
+				$home_search_keywords = explode(',', MyC('home_search_keywords'));
+				break;
+		}
+		$this->assign('home_search_keywords', $home_search_keywords);
 
 		// 当前控制器名称
 		$this->assign('controller_name', CONTROLLER_NAME);

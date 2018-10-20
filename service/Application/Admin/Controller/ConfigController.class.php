@@ -52,6 +52,9 @@ class ConfigController extends CommonController
 		// 是否
 		$this->assign('common_is_text_list', L('common_is_text_list'));
 
+		// 热门搜索关键字
+		$this->assign('common_search_keywords_type_list', L('common_search_keywords_type_list'));
+
 		// 配置信息
 		$data = M('Config')->getField('only_tag,name,describe,value,error_tips');
 		$this->assign('data', $data);

@@ -50,6 +50,18 @@
 				<textarea rows="3" name="{{$data.common_user_center_notice.only_tag}}" class="am-radius" placeholder="{{$data.common_user_center_notice.name}}" data-validation-message="{{$data.common_user_center_notice.error_tips}}"><present name="data">{{$data.common_user_center_notice.value}}</present></textarea>
 			</div>
 			<div class="am-form-group">
+				<label>{{$data.home_search_keywords_type.name}}</label>
+				<select name="{{$data.home_search_keywords_type.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_search_keywords_type.error_tips}}">
+					<foreach name="common_search_keywords_type_list" item="v">
+						<option value="{{$v.value}}" <if condition="isset($data['home_search_keywords_type']['value']) and $data['home_search_keywords_type']['value'] eq $v['value']">selected</if>>{{$v.name}}</option>
+					</foreach>
+				</select>
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_search_keywords.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_search_keywords.describe}}）</span></label>
+				<input type="text" name="{{$data.home_search_keywords.only_tag}}" placeholder="{{$data.home_search_keywords.describe}}" data-validation-message="{{$data.home_search_keywords.error_tips}}" class="am-radius" data-am-tagsinput <present name="data"> value="{{$data.home_search_keywords.value}}"</present> />
+			</div>
+			<div class="am-form-group">
 				<label>{{$data.common_baidu_map_ak.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_baidu_map_ak.describe}}）</span></label>
 				<input type="text" name="{{$data.common_baidu_map_ak.only_tag}}" placeholder="{{$data.common_baidu_map_ak.describe}}" data-validation-message="{{$data.common_baidu_map_ak.error_tips}}" class="am-radius" <present name="data"> value="{{$data.common_baidu_map_ak.value}}"</present> />
 			</div>

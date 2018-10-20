@@ -28,13 +28,18 @@
 .chosen-container { width: 100% !important; }
 .chosen-choices, .chosen-single { border-radius: 2px; }
 .chosen-choices li.search-field input[type="text"] { height: 28px !important; }
-.chosen-choices li.search-field input[type="text"]:hover { box-shadow: 0 0 0 #fff !important; }
-.chosen-choices li.search-field input[type="text"]:focus { border-color: #fff; -webkit-box-shadow: inset 0 0 0 0 !important; box-shadow: inset 0 0 0 0 !important; }
+.chosen-choices li.search-field input[type="text"]:hover,
+.am-tagsinput input[type="text"]:hover { box-shadow: 0 0 0 #fff !important; border: 0 !important; }
+.chosen-choices li.search-field input[type="text"]:focus,
+.am-tagsinput input[type="text"]:focus { border-color: #fff; -webkit-box-shadow: inset 0 0 0 0 !important; box-shadow: inset 0 0 0 0 !important; }
 .chosen-choices { padding: 0px 3px !important; min-height: 32px; }
 .chosen-container-single .chosen-single { height: 32px; line-height: 32px; }
 .chosen-container-multi .chosen-choices li.search-field { padding-left: 3px; }
 .chosen-container-single .chosen-single { color: #444 !important; }
 .chosen-container-single .chosen-default { color: #999 !important; }
+.am-tagsinput { display: block; }
+.am-tagsinput { padding: 0 5px 5px 5px; }
+.am-tagsinput .tag { margin-top: 5px; }
 
 /**
  * 公共提示信息

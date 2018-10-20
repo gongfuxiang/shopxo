@@ -513,6 +513,13 @@ return array(
 			1 => array('value' => 1, 'name' => '已评价'),
 		),
 
+	// 搜索框下热门关键字类型
+	'common_search_keywords_type_list'		=>	array(
+			0 => array('value' => 0, 'name' => '关闭'),
+			1 => array('value' => 1, 'name' => '自动'),
+			2 => array('value' => 2, 'name' => '自定义'),
+		),
+
 
 
 	// 色彩值
