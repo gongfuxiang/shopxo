@@ -58,6 +58,9 @@ class SearchController extends CommonController
         {
             $this->redirect('Home/Search/Index', ['keywords'=>$this->params['keywords']]);
         } else {
+            // 搜索记录
+            SearchService::SearchAdd($this->params);
+
             // 品牌列表
             $this->assign('brand_list', BrandService::CategoryBrandList(['category_id'=>$this->params['category_id']]));
 

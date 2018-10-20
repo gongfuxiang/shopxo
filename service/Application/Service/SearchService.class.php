@@ -126,5 +126,31 @@ class SearchService
         }
         return $result;
     }
+
+    /**
+     * [SearchAdd 搜索记录添加]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-10-21T00:37:44+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public static function SearchAdd($params = [])
+    {
+        
+    }
+
+    /**
+     * [SearchKeywordsList 获取热门关键字列表]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-10-20T23:55:06+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public function SearchKeywordsList($params = [])
+    {
+        return ['自动的', '自动2'];
+    }
 }
 ?>

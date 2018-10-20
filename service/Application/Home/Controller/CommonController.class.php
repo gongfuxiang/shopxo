@@ -7,7 +7,7 @@ use Service\GoodsService;
 use Service\NavigationService;
 use Service\BuyService;
 use Service\MessageService;
-use Service\ResourcesService;
+use Service\SearchService;
 
 /**
  * 前台
@@ -176,7 +176,7 @@ class CommonController extends Controller
 		switch(intval(MyC('home_search_keywords_type', 0)))
 		{
 			case 1 :
-				$home_search_keywords = ResourcesService::SearchKeywordsList();
+				$home_search_keywords = SearchService::SearchKeywordsList();
 				break;
 			case 2 :
 				$home_search_keywords = explode(',', MyC('home_search_keywords'));
