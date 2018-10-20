@@ -16,7 +16,7 @@
             <input id="search-input" name="keywords" type="text" placeholder="{{:L('common_so_tips')}}" value="<if condition="!empty($params['keywords'])">{{$params.keywords}}</if>" autocomplete="off" />
             <input id="ai-topsearch" class="submit am-btn" placeholder="{{:L('common_so_tips')}}" index="1" type="submit" value="{{:L('common_so_text')}}" />
             <notempty name="home_search_keywords">
-                <ul class="search-hot-keywords am-hide-sm-only">
+                <ul class="search-hot-keywords">
                     <foreach name="home_search_keywords" item="v">
                         <li><a href="{{:U('Home/Search/Index', ['keywords'=>$v])}}" target="_blank">{{$v}}</a></li>
                     </foreach>

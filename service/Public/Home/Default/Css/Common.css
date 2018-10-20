@@ -87,7 +87,7 @@ color: #555555;background:none;border-color:transparent;cursor: default;}
 #search-input { padding-left: 8px; }
 #ai-topsearch { width:20%;height:32px;border:none;float:right;background: #d2364c none repeat scroll 0% 0%;
 color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px; }
-.search-hot-keywords { margin-top: 5px; height: 16px; overflow: hidden; }
+.search-hot-keywords { margin-top: 5px; height: 16px; overflow: hidden; display: none; }
 .search-hot-keywords li { float: left; }
 .search-hot-keywords li:not(:last-child) { margin-right: 10px; }
 
@@ -163,6 +163,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px; }
     .shopMain{margin:0px 0px 0px 5px;} 
     .shopCon li{width:20%;padding:10px;}
     .tip{display:block;}
+    .search-hot-keywords { display: block; }
           
           
     /*分类*/
