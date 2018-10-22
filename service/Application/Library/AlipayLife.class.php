@@ -34,9 +34,7 @@ class AlipayLife
     public function __construct($params = [])
     {
         $this->params = $params;
-        $this->xml_data = isset($params['biz_content']) ? $this->xmlToArray($params['biz_content']) : '';
-
-        //$this->xml_data = json_decode(json_encode((array) simplexml_load_string($params['biz_content'])), true);
+        $this->xml_data = isset($params['biz_content']) ? $this->XmlToArray($params['biz_content']) : '';
         file_put_contents('./pppppp.php', "<?php\n\rreturn ".var_export($this->xml_data, true).";\n\r?>");
         $this->life_data = isset($this->xml_data['AppId']) ? AlipayLifeService::AppidLifeRow(['appid'=>$this->xml_data['AppId']]) : '';
 
@@ -126,16 +124,12 @@ class AlipayLife
      * @param   [string]          $xmltext [xml数据]
      * @return  [array]                    [属组]
      */
-    public function xmlToArray($xmltext)
+    public function XmlToArray($xmltext)
     {
         $xmltext = iconv("GBK", "UTF-8", urldecode($xmltext));
-        $objectxml = simplexml_load_string($xmltext,'SimpleXMLElement', LIBXML_NOCDATA);
+        $objectxml = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA);
         $xmljson = json_encode($objectxml);
-        return json_decode($xmljson,true);
-
-
-        // libxml_disable_entity_loader(true);
-        // return json_decode(json_encode(simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+        return json_decode($xmljson, true);
     }
 
     /**

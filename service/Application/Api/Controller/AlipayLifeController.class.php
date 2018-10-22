@@ -34,20 +34,15 @@ class AlipayLifeController extends CommonController
      */
     public function Index()
     {
-
-     
-
         // 参数
         $params = $_POST;
-        $obj = new \Library\AlipayLife($params);
         if(empty($params['service']))
         {
             die('service error');
         }
 
         // 类库
-        //$obj = new \Library\AlipayLife($params);
-
+        $obj = new \Library\AlipayLife($params);
         
         // 根据方法处理
         switch($params['service'])
@@ -67,6 +62,5 @@ class AlipayLifeController extends CommonController
                 exit('service error');
         }
     }
-
 }
 ?>
