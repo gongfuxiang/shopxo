@@ -4,9 +4,9 @@
 <div class="content-right">
     <div class="content">
         <!-- form start -->
-        <form class="am-form view-list" action="{{:U('Admin/Brand/Index')}}" method="POST">
+        <form class="am-form view-list" action="{{:U('Admin/AlipayLife/Index')}}" method="POST">
             <div class="am-g">
-                <input type="text" class="am-radius form-keyword" placeholder="{{:L('brand_name_text')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"</present> />
+                <input type="text" class="am-radius form-keyword" placeholder="{{:L('alipay_life_name_text')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"</present> />
                 <button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">{{:L('common_operation_query')}}</button>
                 <label class="fs-12 m-l-5 c-p fw-100 more-submit">
                     {{:L('common_more_screening')}}
@@ -15,16 +15,16 @@
                 </label>
 
                 <div class="more-where <if condition="!isset($param['is_more']) or $param['is_more'] neq 1">none</if>">
-                    <select name="is_enable" class="am-radius c-p m-t-10 m-l-5 param-where">
-                        <option value="-1">{{:L('common_view_enable_title')}}</option>
-                        <foreach name="common_is_enable_list" item="v">
-                            <option value="{{$v.id}}" <if condition="isset($param['is_enable']) and $param['is_enable'] eq $v['id']">selected</if>>{{$v.name}}</option>
+                    <select name="is_shelves" class="am-radius c-p m-t-10 m-l-5 param-where">
+                        <option value="-1">{{:L('alipay_life_is_shelves_text')}}</option>
+                        <foreach name="common_goods_is_shelves_list" item="v">
+                            <option value="{{$v.id}}" <if condition="isset($param['is_shelves']) and $param['is_shelves'] eq $v['id']">selected</if>>{{$v.name}}</option>
                         </foreach>
                     </select>
-                    <select name="brand_category_id" class="am-radius c-p m-t-10 m-l-5 param-where">
-                        <option value="">{{:L('brand_category_id_text')}}</option>
-                        <foreach name="brand_category" item="v">
-                            <option value="{{$v.id}}" <if condition="isset($param['brand_category_id']) and $param['brand_category_id'] eq $v['id']">selected</if>>{{$v.name}}</option>
+                    <select name="alipay_life_category_id" class="am-radius c-p m-t-10 m-l-5 param-where">
+                        <option value="">{{:L('alipay_life_category_id_text')}}</option>
+                        <foreach name="alipay_life_category" item="v">
+                            <option value="{{$v.id}}" <if condition="isset($param['alipay_life_category_id']) and $param['alipay_life_category_id'] eq $v['id']">selected</if>>{{$v.name}}</option>
                         </foreach>
                     </select>
                     <div class="param-date param-where m-l-5">
@@ -39,7 +39,7 @@
 
         <!-- operation start -->
         <div class="am-g m-t-15">
-            <a href="{{:U('Admin/Brand/SaveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:L('common_operation_add')}}</a>
+            <a href="{{:U('Admin/AlipayLife/SaveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:L('common_operation_add')}}</a>
         </div>
         <!-- operation end -->
 
@@ -47,11 +47,11 @@
         <table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
             <thead>
                 <tr>
-                    <th>{{:L('brand_name_text')}}</th>
-                    <th>{{:L('brand_logo_text')}}</th>
-                    <th class="am-hide-sm-only">{{:L('brand_category_id_text')}}</th>
-                    <th class="am-hide-sm-only">{{:L('brand_website_url_text')}}</th>
-                    <th>{{:L('common_view_enable_title')}}</th>
+                    <th>{{:L('alipay_life_name_text')}}</th>
+                    <th class="am-hide-sm-only">{{:L('alipay_life_logo_text')}}</th>
+                    <th>{{:L('alipay_life_appid_text')}}</th>
+                    <th class="am-hide-sm-only category-row">{{:L('alipay_life_category_id_text')}}</th>
+                    <th>{{:L('alipay_life_is_shelves_text')}}</th>
                     <th class="am-hide-sm-only">{{:L('common_create_time_name')}}</th>
                     <th>{{:L('common_operation_name')}}</th>
                 </tr>
@@ -59,9 +59,9 @@
             <tbody>
                 <if condition="!empty($list)">
                     <foreach name="list" item="v">
-                        <tr id="data-list-{{$v.id}}" <if condition="$v['is_enable'] eq 0">class="am-active"</if>>
+                        <tr id="data-list-{{$v.id}}" <if condition="$v['is_shelves'] eq 0">class="am-active"</if>>
                             <td>{{$v.name}}</td>
-                            <td>
+                            <td class="am-hide-sm-only">
                                 <if condition="!empty($v['logo'])">
                                     <a href="{{$v['logo']}}" target="_blank">
                                         <img src="{{$v['logo']}}" class="am-radius" width="100" />
@@ -70,25 +70,18 @@
                                     <span class="cr-ddd">{{:L('common_on_fill_in_images')}}</span>
                                 </if>
                             </td>
-                            <td class="am-hide-sm-only">{{$v.brand_category_text}}</td>
-                            <td class="am-hide-sm-only">
-                                {{$v.website_url}}
-                                <if condition="!empty($v['website_url'])">
-                                    <a href="{{$v.website_url}}" target="_blank">
-                                        <i class="am-icon-external-link"></i>
-                                    </a>
-                                </if>
-                            </td>
+                            <td>{{$v.appid}}</td>
+                            <td class="am-hide-sm-only">{{:implode('，', $v['alipay_life_category_text'])}}</td>
                             <td>
-                                <a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_enable'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Brand/StateUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
+                                <a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_shelves'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/AlipayLife/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_shelves']}}" data-is-update-status="1"></a>
                             </td>
                             <td class="am-hide-sm-only">{{$v.add_time_text}}</td>
                             <td class="view-operation">
-                                <a href="{{:U('Admin/Brand/SaveInfo', array('id'=>$v['id']))}}">
+                                <a href="{{:U('Admin/AlipayLife/SaveInfo', array('id'=>$v['id']))}}">
                                     <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:L('common_operation_edit')}}</button>
                                 </a>
-                                <if condition="$v['is_enable'] eq 0">
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/Brand/Delete')}}" data-id="{{$v.id}}"> {{:L('common_operation_delete')}}</button>
+                                <if condition="$v['is_shelves'] eq 0">
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/AlipayLife/Delete')}}" data-id="{{$v.id}}"> {{:L('common_operation_delete')}}</button>
                                 </if>
                             </td>
                         </tr>

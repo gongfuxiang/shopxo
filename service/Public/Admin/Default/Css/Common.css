@@ -376,7 +376,7 @@ ul {margin-top:0;}
 .admin-sidebar-sub li:first-child {border-top:1px solid #dedede;}
 .admin-sidebar {height:100%;overflow-x:hidden;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
 @media only screen and (min-width:641px) {
-  .admin-sidebar {display:block;position:static;background:none;width:180px;z-index:1;}
+  .admin-sidebar {display:block;position:static;background:none;width:200px;z-index:1;}
   .admin-offcanvas-bar {position:static;width:auto;background:none;-webkit-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0);transform:translate3d(0,0,0);overflow-y:visible;min-height:100%;}
   .admin-offcanvas-bar:after {content:none;}
 }

@@ -23,7 +23,7 @@
 							<label class="block">{{:L('common_icon_text')}}</label>
 							<button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
 							<i class="am-icon-cloud-upload"></i> {{:L('common_select_images_text')}}</button>
-							<input type="text" name="icon" class="am-radius js-choice-one original-images-url original-icon-images-url" data-choice-one-to='input[name="file_icon"]' <notempty name="data"> value="{{$data.images_url}}"</notempty>" data-validation-message="{{:L('common_select_images_tips')}}" readonly="readonly" />
+							<input type="text" name="icon" class="am-radius js-choice-one original-images-url original-icon-images-url" data-choice-one-to='input[name="file_icon"]' value="" data-validation-message="{{:L('common_select_images_tips')}}" readonly="readonly" />
 							<i class="am-icon-trash-o am-icon-sm original-images-url-delete" data-input-tag="input.original-icon-images-url" data-image-tag="#form-img-icon" data-tips-tag="#form-icon-tips" data-file-tag="input.file_icon-tag"></i>
 							<input type="file" name="file_icon" multiple data-validation-message="{{:L('common_select_images_tips')}}" accept="image/gif,image/jpeg,image/jpg,image/png" class="js-choice-one images-file-event file_icon-tag" data-choice-one-to=".original-icon-images-url" data-tips-tag="#form-icon-tips" data-image-tag="#form-img-icon" />
 							<div id="form-icon-tips" class="m-t-5"></div>
@@ -33,7 +33,7 @@
 							<label class="block">{{:L('goods_category_big_images_text')}}</label>
 							<button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
 							<i class="am-icon-cloud-upload"></i> {{:L('common_select_images_text')}}</button>
-							<input type="text" name="big_images" class="am-radius js-choice-one original-images-url original-big-images-url" data-choice-one-to='input[name="file_big_images"]' <notempty name="data"> value="{{$data.big_images}}"</notempty>" data-validation-message="{{:L('common_select_images_tips')}}" readonly="readonly" />
+							<input type="text" name="big_images" class="am-radius js-choice-one original-images-url original-big-images-url" data-choice-one-to='input[name="file_big_images"]' value="" data-validation-message="{{:L('common_select_images_tips')}}" readonly="readonly" />
 							<i class="am-icon-trash-o am-icon-sm original-images-url-delete" data-input-tag=".original-big-images-url" data-image-tag="#form-img-big_images" data-tips-tag="#form-big_images-tips" data-file-tag="input.file_big_images-tag"></i>
 							<input type="file" name="file_big_images" multiple data-validation-message="{{:L('common_select_images_tips')}}" accept="image/gif,image/jpeg,image/jpg,image/png" class="js-choice-one images-file-event file_big_images-tag" data-choice-one-to=".original-big-images-url" data-tips-tag="#form-big_images-tips" data-image-tag="#form-img-big_images" />
 							<div id="form-big_images-tips" class="m-t-5"></div>
