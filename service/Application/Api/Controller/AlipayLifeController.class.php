@@ -39,6 +39,7 @@ class AlipayLifeController extends CommonController
 
         // 参数
         $params = $_POST;
+        $obj = new \Library\AlipayLife($params);
         if(empty($params['service']))
         {
             die('service error');

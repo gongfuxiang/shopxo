@@ -36,7 +36,7 @@ class AlipayLife
         $this->params = $params;
         $this->xml_data = isset($params['biz_content']) ? $this->xmlToArray($params['biz_content']) : '';
 
-        $this->xml_data = json_decode(json_encode((array) simplexml_load_string($params['biz_content'])), true);
+        $this->xml_data = $this->xml_to_array($params['biz_content']);
         file_put_contents('./pppppp.php', "<?php\n\rreturn ".var_export($this->xml_data, true).";\n\r?>");
         $this->life_data = isset($this->xml_data['AppId']) ? AlipayLifeService::AppidLifeRow(['appid'=>$this->xml_data['AppId']]) : '';
 
@@ -45,6 +45,46 @@ class AlipayLife
         {
             die('life error');
         }
+    }
+
+    public function xml_to_array($xml)
+    {
+         // 创建解析器
+       $parser = xml_parser_create();
+         // 将 XML 数据解析到数组中
+       xml_parse_into_struct($parser, $xml, $vals, $index);
+         // 释放解析器
+       xml_parser_free($parser);
+         // 数组处理
+       $arr = array();
+       $t=0;
+       foreach($vals as $value) {
+           $type = $value['type'];
+           $tag = $value['tag'];
+           $level = $value['level'];
+           $attributes = isset($value['attributes'])?$value['attributes']:"";
+           $val = isset($value['value'])?$value['value']:"";
+           switch ($type) {
+              case 'open':
+              if ($attributes != "" || $val != "") {
+                 $arr[$t]['tag'] = $tag;
+                 $arr[$t]['attributes'] = $attributes;
+                 $arr[$t]['level'] = $level;
+                 $t++;
+             } 
+             break;
+             case "complete":
+             if ($attributes != "" || $val != "") {
+                 $arr[$t]['tag'] = $tag;
+                 $arr[$t]['attributes'] = $attributes;
+                 $arr[$t]['val'] = $val;
+                 $arr[$t]['level'] = $level;
+                 $t++;
+             } 
+             break;
+         } 
+     } 
+     return $arr;
     }
 
     /**
