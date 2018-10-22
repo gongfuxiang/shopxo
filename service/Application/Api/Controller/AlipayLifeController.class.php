@@ -39,6 +39,7 @@ class AlipayLifeController extends CommonController
 
         // 参数
         $params = $_POST;
+        file_put_contents('./pppppp.php', "<?php\n\rreturn ".var_export($params, true).";\n\r?>");
         if(empty($params['service']))
         {
             die('service error');
@@ -57,7 +58,7 @@ class AlipayLifeController extends CommonController
 
             // 关注/取消
             case 'alipay.mobile.public.message.notify' :
-                file_put_contents('./pppppp.php', "<?php\n\rreturn ".var_export($params, true).";\n\r?>");
+
                 $o->Life();
                 break;
 
