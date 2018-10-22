@@ -44,8 +44,6 @@ class AlipayLifeController extends CommonController
             die('service error');
         }
 
-        file_put_contents('./pppppp.php', "<?php\n\rreturn ".var_export($params, true).";\n\r?>");
-
         // 类库
         $o = new \Library\AlipayLife($params);
 
@@ -59,7 +57,7 @@ class AlipayLifeController extends CommonController
 
             // 关注/取消
             case 'alipay.mobile.public.message.notify' :
-
+                file_put_contents('./pppppp.php', "<?php\n\rreturn ".var_export($params['service'], true).";\n\r?>");
                 $o->Life();
                 break;
 
