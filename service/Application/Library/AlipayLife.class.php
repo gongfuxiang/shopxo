@@ -34,7 +34,7 @@ class AlipayLife
     public function __construct($params = [])
     {
         $this->params = $params;
-        $this->xml_data = isset($params['biz_content']) ? $this->parseXml($params['biz_content']) : '';
+        $this->xml_data = isset($params['biz_content']) ? $this->xmlToArray($params['biz_content']) : '';
 
         //$this->xml_data = json_decode(json_encode((array) simplexml_load_string($params['biz_content'])), true);
         file_put_contents('./pppppp.php', "<?php\n\rreturn ".var_export($this->xml_data, true).";\n\r?>");
@@ -45,80 +45,6 @@ class AlipayLife
         {
             die('life error');
         }
-    }
-
-    public function parseXml($xmls)
-    {
-        $array = [];
-     
-        foreach ($xmls as $key => $xml) {
-            /** @var SimpleXMLElement $xml */
-            $count = $xml->count();
-     
-            if ($count == 0) {
-                $res = (string) $xml;
-            } else {
-                $res = $this->parseXml($xml);
-            }
-     
-            $array[$key] = $res;
-        }
-     
-        return $array;
-    }
-
-    public  function xmlToArraywww($xml){
-        //考虑到xml文档中可能会包含<![CDATA[]]>标签，第三个参数设置为LIBXML_NOCDATA
-        if (file_exists($xml)) {
-            libxml_disable_entity_loader(false);
-            $xml_string = simplexml_load_file($xml,'SimpleXMLElement', LIBXML_NOCDATA);
-        }else{
-            libxml_disable_entity_loader(true);
-            $xml_string = simplexml_load_string($xml,'SimpleXMLElement', LIBXML_NOCDATA);
-        }
-        //$result = json_decode(json_encode($xml_string),true);
-        return $result;
-    }
-
-
-    public function xml_to_array($xml)
-    {
-         // 创建解析器
-       $parser = xml_parser_create();
-         // 将 XML 数据解析到数组中
-       xml_parse_into_struct($parser, $xml, $vals, $index);
-         // 释放解析器
-       xml_parser_free($parser);
-         // 数组处理
-       $arr = array();
-       $t=0;
-       foreach($vals as $value) {
-           $type = $value['type'];
-           $tag = $value['tag'];
-           $level = $value['level'];
-           $attributes = isset($value['attributes'])?$value['attributes']:"";
-           $val = isset($value['value'])?$value['value']:"";
-           switch ($type) {
-              case 'open':
-              if ($attributes != "" || $val != "") {
-                 $arr[$t]['tag'] = $tag;
-                 $arr[$t]['attributes'] = $attributes;
-                 $arr[$t]['level'] = $level;
-                 $t++;
-             } 
-             break;
-             case "complete":
-             if ($attributes != "" || $val != "") {
-                 $arr[$t]['tag'] = $tag;
-                 $arr[$t]['attributes'] = $attributes;
-                 $arr[$t]['val'] = $val;
-                 $arr[$t]['level'] = $level;
-                 $t++;
-             } 
-             break;
-         } 
-     } 
-     return $arr;
     }
 
     /**
@@ -202,6 +128,11 @@ class AlipayLife
      */
     public function xmlToArray($xmltext)
     {
+        $objectxml = simplexml_load_string($xmltext,'SimpleXMLElement', LIBXML_NOCDATA);
+        $xmljson = json_encode($objectxml);
+        return json_decode($xmljson,true);
+
+
         libxml_disable_entity_loader(true);
         return json_decode(json_encode(simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
     }
