@@ -210,6 +210,7 @@ class AlipayLife
         $status = false;
         if($this->OutRsaVerify($this->ArrayToUrlString($this->params), $this->params['sign']))
         {
+            $userinfo = empty($this->xml_data['UserInfo']) ? '' : json_decode($this->xml_data['UserInfo'], true);
             $data = [
                 'appid'             => $this->xml_data['AppId'],
                 'alipay_open_id'    => $this->xml_data['FromAlipayUserId'],
