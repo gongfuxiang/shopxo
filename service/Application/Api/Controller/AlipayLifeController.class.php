@@ -34,14 +34,21 @@ class AlipayLifeController extends CommonController
      */
     public function Index()
     {
-        file_put_contents('./gggggg.txt', json_encode($_GET));
-        file_put_contents('./pppppp.txt', json_encode($_POST));
-        file_put_contents('./ffffff.txt', urldecode(file_get_contents("php://input")));
-
+        // file_put_contents('./gggggg.txt', json_encode($_GET));
+        // file_put_contents('./pppppp.txt', json_encode($_POST));
+        // file_put_contents('./ffffff.txt', urldecode(file_get_contents("php://input")));
      
 
         // 参数
         $params = $_POST;
+        if(empty($params))
+        {
+            $input = file_get_contents("php://input");
+            if(!empty($input))
+            {
+                $params = iconv("GBK", "UTF-8", urldecode($input));
+            }
+        }
         if(empty($params['service']))
         {
             die('service error');
@@ -56,6 +63,11 @@ class AlipayLifeController extends CommonController
             // 校验
             case 'alipay.service.check' :
                 $o->Check();
+                break;
+
+            // 关注/取消
+            case 'alipay.mobile.public.message.notify' :
+                $o->Life();
                 break;
 
             // 默认

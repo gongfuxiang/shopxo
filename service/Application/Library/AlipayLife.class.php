@@ -45,75 +45,6 @@ class AlipayLife
     }
 
     /**
-     * xml转属组
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-10-22
-     * @desc    description
-     * @param   [string]          $xmltext [xml数据]
-     * @return  [array]                    [属组]
-     */
-    public function xmlToArray($xmltext)
-    {
-        libxml_disable_entity_loader(true);
-        return json_decode(json_encode(simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
-    }
-
-    /**
-     * 属组转url字符串
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-10-22
-     * @desc    description
-     * @param   [array]          $data [输入参数-数组]
-     * @return  [string]               [url字符串]
-     */
-    public function ArrayToUrlString($data)
-    {
-        $ur_lstring = '';
-        ksort($data);
-        foreach($data AS $key=>$val)
-        {
-            if(!in_array($key, ['sign']))
-            {
-                $ur_lstring .= "$key=$val&";
-            }
-        }
-        return substr($ur_lstring, 0, -1);
-    }
-
-    /**
-     * 校验
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-10-22
-     * @desc    description
-     */
-    public function Check()
-    {
-        if($this->OutRsaVerify($this->ArrayToUrlString($this->params), $this->params['sign']))
-        {
-            $response_xml = '<success>true</success><biz_content>'.$this->life_data['rsa_public'].'</biz_content>';
-        } else {
-            $response_xml = '<success>false</success><error_code>VERIFY_FAILED</error_code><biz_content>'.$this->life_data['rsa_public'].'</biz_content>';
-        }
-        $return_xml = '<?xml version="1.0" encoding="GBK"?>
-                <alipay>
-                    <response>
-                        <biz_content>'.$this->life_data['rsa_public'].'</biz_content>
-                        <success>true</success>
-                    </response>
-                    <sign>'.$this->MyRsaSign($response_xml).'</sign>
-                    <sign_type>RSA2</sign_type>
-                </alipay>';
-        die($return_xml);
-    }
-
-
-    /**
      * [MyRsaSign 签名字符串]
      * @author   Devil
      * @blog     http://gong.gg/
@@ -181,5 +112,123 @@ class AlipayLife
         }
         return (isset($verify) && $verify == 1) ? true : false;
     }
+
+    /**
+     * xml转属组
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-22
+     * @desc    description
+     * @param   [string]          $xmltext [xml数据]
+     * @return  [array]                    [属组]
+     */
+    public function xmlToArray($xmltext)
+    {
+        libxml_disable_entity_loader(true);
+        return json_decode(json_encode(simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+    }
+
+    /**
+     * 属组转url字符串
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-22
+     * @desc    description
+     * @param   [array]          $data [输入参数-数组]
+     * @return  [string]               [url字符串]
+     */
+    public function ArrayToUrlString($data)
+    {
+        $ur_lstring = '';
+        ksort($data);
+        foreach($data AS $key=>$val)
+        {
+            if(!in_array($key, ['sign']))
+            {
+                $ur_lstring .= "$key=$val&";
+            }
+        }
+        return substr($ur_lstring, 0, -1);
+    }
+
+    /**
+     * 返回操作状态
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-10-23T01:07:28+0800
+     * @param    boolean                  $status [description]
+     */
+    public function Respond($status = false)
+    {
+        if($status === true)
+        {
+            $response_xml = '<success>true</success><biz_content>'.$this->life_data['rsa_public'].'</biz_content>';
+        } else {
+            $response_xml = '<success>false</success><error_code>VERIFY_FAILED</error_code><biz_content>'.$this->life_data['rsa_public'].'</biz_content>';
+        }
+        $return_xml = '<?xml version="1.0" encoding="GBK"?>
+                <alipay>
+                    <response>
+                        <biz_content>'.$this->life_data['rsa_public'].'</biz_content>
+                        <success>true</success>
+                    </response>
+                    <sign>'.$this->MyRsaSign($response_xml).'</sign>
+                    <sign_type>RSA2</sign_type>
+                </alipay>';
+        die($return_xml);
+    }
+
+    /**
+     * 校验
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-22
+     * @desc    description
+     */
+    public function Check()
+    {
+        $status = $this->OutRsaVerify($this->ArrayToUrlString($this->params), $this->params['sign']);
+        $this->Respond($status);
+    }
+
+    /**
+     * 生活号事件
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-10-23T00:38:21+0800
+     */
+    public function Life()
+    {
+        $status = false;
+        if($this->OutRsaVerify($this->ArrayToUrlString($this->params), $this->params['sign']))
+        {
+            $data = [
+                'appid'             => $this->xml_data['AppId'],
+                'alipay_open_id'    => $this->xml_data['FromAlipayUserId'],
+                'user_id'           => empty($this->xml_data['FromUserId']) ? '' : $this->xml_data['FromUserId'],
+                'logon_id'          => empty($userinfo['logon_id']) ? '' : $userinfo['logon_id'],
+                'user_name'         => empty($user_id['user_name']) ? '' : $user_id['user_name'],
+            ];
+            switch($this->xml_data['EventType'])
+            {
+                // 取消关注
+                case 'unfollow' :
+                    $status = AlipayLifeService::UserUnfollow($data);
+                    break;
+
+                // 关注/进入生活号
+                case 'enter' :
+                    $status = AlipayLifeService::UserEnter($data);
+                    break;
+            }
+        }
+        $this->Respond($status);
+    }
+
 }
 ?>

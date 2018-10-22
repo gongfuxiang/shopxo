@@ -28,5 +28,33 @@ class AlipayLifeService
         }
         return null;
     }
+
+    /**
+     * 用户取消关注生活号
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-08-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function UserUnfollow($params = [])
+    {
+        file_put_contents('./uuuuuu.txt', json_encode($params));
+    }
+
+    /**
+     * 用户关注/进入生活号
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-08-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function UserEnter($params = [])
+    {
+        file_put_contents('./eeeeee.txt', json_encode($params));
+    }
 }
 ?>
