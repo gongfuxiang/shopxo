@@ -36,6 +36,7 @@ class AlipayLifeController extends CommonController
     {
         file_put_contents('./gggggg.txt', json_encode($_GET));
         file_put_contents('./pppppp.txt', json_encode($_POST));
+        file_put_contents('./ffffff.txt', json_encode(file_get_contents("php://input")));
 
      
 
