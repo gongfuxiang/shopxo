@@ -96,17 +96,19 @@ class AlipayLife
     {
         if($this->OutRsaVerify($this->ArrayToUrlString($this->params), $this->params['sign']))
         {
-            die('<?xml version="1.0" encoding="GBK"?>
-                    <alipay>
-                        <response>
-                            <biz_content>'.$this->life_data['rsa_public'].'</biz_content>
-                            <success>true</success>
-                        </response>
-                        <sign>'.$this->MyRsaSign('<biz_content>'.$this->life_data['rsa_public'].'</biz_content><success>true</success>').'</sign>
-                        <sign_type>RSA2</sign_type>
-                    </alipay>');
+            $response_xml = '<success>true</success><biz_content>'.$this->life_data['rsa_public'].'</biz_content>';
+        } else {
+            $response_xml = '<success>false</success><error_code>VERIFY_FAILED</error_code><biz_content>'.$this->life_data['rsa_public'].'</biz_content>';
         }
-        die('check error');
+        die('<?xml version="1.0" encoding="GBK"?>
+                <alipay>
+                    <response>
+                        <biz_content>'.$this->life_data['rsa_public'].'</biz_content>
+                        <success>true</success>
+                    </response>
+                    <sign>'.$this->MyRsaSign($response_xml).'</sign>
+                    <sign_type>RSA2</sign_type>
+                </alipay>');
     }
 
 
