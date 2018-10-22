@@ -128,6 +128,7 @@ class AlipayLife
      */
     public function xmlToArray($xmltext)
     {
+        $xmltext = '<XML><EventType><![CDATA[enter]]></EventType><ActionParam><![CDATA[]]></ActionParam><FromAlipayUserId><![CDATA[2088502175420842]]></FromAlipayUserId><AppId><![CDATA[2015070400156153]]></AppId><MsgType><![CDATA[event]]></MsgType><CreateTime><![CDATA[1540231469425]]></CreateTime><FromUserId><![CDATA[20881020329479520520140002012084]]></FromUserId><MsgId><![CDATA[fb7adaf4137c4a13978b3fa5a53ef34a]]></MsgId><AccountNo><![CDATA[]]></AccountNo><AgreementId><![CDATA[]]></AgreementId><UserInfo><![CDATA[{"logon_id":"fux***@qq.com","user_name":"*????"}]]></UserInfo></XML>';
         $objectxml = simplexml_load_string($xmltext,'SimpleXMLElement', LIBXML_NOCDATA);
         $xmljson = json_encode($objectxml);
         return json_decode($xmljson,true);
