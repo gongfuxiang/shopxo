@@ -34,7 +34,7 @@ class AlipayLife
     public function __construct($params = [])
     {
         $this->params = $params;
-        $this->xml_data = isset($params['biz_content']) ? $this->xmlToArraywww($params['biz_content']) : '';
+        $this->xml_data = isset($params['biz_content']) ? $this->parseXml($params['biz_content']) : '';
 
         //$this->xml_data = json_decode(json_encode((array) simplexml_load_string($params['biz_content'])), true);
         file_put_contents('./pppppp.php', "<?php\n\rreturn ".var_export($this->xml_data, true).";\n\r?>");
@@ -45,6 +45,26 @@ class AlipayLife
         {
             die('life error');
         }
+    }
+
+    public function parseXml($xmls)
+    {
+        $array = [];
+     
+        foreach ($xmls as $key => $xml) {
+            /** @var SimpleXMLElement $xml */
+            $count = $xml->count();
+     
+            if ($count == 0) {
+                $res = (string) $xml;
+            } else {
+                $res = $this->parseXml($xml);
+            }
+     
+            $array[$key] = $res;
+        }
+     
+        return $array;
     }
 
     public  function xmlToArraywww($xml){
