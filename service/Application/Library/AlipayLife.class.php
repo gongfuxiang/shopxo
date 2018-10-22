@@ -128,40 +128,10 @@ class AlipayLife
      */
     private function MyRsaSign($prestr)
     {
-        $res = "-----BEGIN PRIVATE KEY-----\n";
+        $res = "-----BEGIN RSA PRIVATE KEY-----\n";
         $res .= wordwrap($this->life_data['rsa_private'], 64, "\n", true);
-        $res .= "\n-----END PRIVATE KEY-----";
-$res = '-----BEGIN PRIVATE KEY-----
-MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC7EBdtmK19oAsN
-p6+tZUhO94y7Z+Hcvy3en/lYY80RU6oKcve/wR5hlY4tK4EeGklotvtDces9bKfO
-lwnYLXv4PEJVLcmzwn+ICCIkYkHh/zBm48HCoqdwZd2sC03oRincf0rUhB4KYY31
-2Lge3uKAMNESdVatQhzVDo7rgoODxguFZpN/YUwW908qIf22KMhm6+1jHE5SQeaA
-bo3v4gi8o8t1h17R2395PLovXBtdJahK1+YVh3fy/LC3nU3oCUKGH9cBCZQZhOrW
-xb48VeDYysPLJYgRnEZvV0g2GUyBcyrFOuimjfWRdrT29R98289ZWZHfyJP2Vj6f
-plZJXMfdAgMBAAECggEAXXHCYkscj169ZsrXZUTtBBWBRbS1DTKrVUSQqGjibb9f
-d+zKeg2cgZ7V8RaEX2c+OIL/rUdg/cQjZ33nuwetn+lqMWa4FYYZcvitJYO36Y8y
-vJMVnYbnIayhOWpENr2l97HWzaZZ41GsOp1SDInGl8bLCe93pwEZqgyltFv0GoSf
-Nu3trFFxPZgZJalV0t5M7+RchutkHskwrwI9BdnCJs38lh08jHHppQdkgcpyCiCd
-u/b4f+n9z97Op5Va8WY1M+wwqRk76Ias8mqwJXT/+t/sXhqkMv1ylAb89+b3rgiO
-U7KlZMpIAercW/ZRojnDjpY9ViaCxwWPwb/VkPrDgQKBgQDkDuie0DAIDP5C74dP
-j/Z0mapsU9bKlcgC+nowEUaEO7A9cwMVFal0x9p7BKIJsV2b6d1qJGP7rM9YtRMl
-dJQmuxPcHOKPcZR8pGLqFYT2QGKGurohb/o+btGda/SGwJfi6jwQUF0AE+1k+Dj9
-P3hDxHgkj6ZMkHEBtqUj520VTQKBgQDR+1rPPex8zTQgl9uSY0hlXPyYEhpXicNh
-zyet1Su+TV8wdGNUr2YeuDHEu6oiRocBaT8DEwpy9EToe56EK3Ht2AQ76NBSUp9E
-Ol1twocebM42etJSJZGpB1AgP+R/hmUbcBPXEwXdy5XeYnYmpVUcoizzKrnRDxg3
-TRF3kIX00QKBgGc49EMFmefa8a6cOdNiJrvp3YBAhkSVfL0UX/+nohIx7fgyOV/u
-uQ9ZceMiWrEmbWcneAcVx4dfVU4iTzMxy+in3jpPfKBOWVX9FaQ77z2CMNYoaBzA
-UTS29ftZpIjlXRngySTdKurhGh8MVscRVj7eCz8JIc0fx3ZuE9rnYbE1AoGAJoqJ
-L3LBPmL3x2e4IJVii2BW6J6iASFDIGfCc7Cl18chyqYCOV/8UXUjhWWgo6voScUE
-kM7k4xacs0NFZCMJRUuZ81kXK5UIsKA519SVsmrsKqm+gt9sbebuuQyhJxsG4dNf
-gOF3+S7N8kSGRS+hgKDvuS5Fbu7jVfsqUpTPUZECgYAcbq3mqWwExY2Kn0I660Oq
-OFk620pGsSY7gECUQintCZioYemzC1TN9pM6fKnOIYriV4Ou7iswhEfVX+5bwMjH
-2ujmu8KDdpkpdhRoFCw3GUn/PDelQrptaKkKXnOIJe/R8m+TUxYCtECTlKlYS4hT
-st7YhTDz5sQHcXRtveATZQ==
------END PRIVATE KEY-----
-';
-        $pkeyid = openssl_pkey_get_private($res);
-        return openssl_sign($prestr, $sign, $pkeyid, OPENSSL_ALGO_SHA256) ? base64_encode($sign) : null;
+        $res .= "\nEND RSA PRIVATE KEY-----";
+        return openssl_sign($prestr, $sign, $res, OPENSSL_ALGO_SHA256) ? base64_encode($sign) : null;
     }
 
     /**
