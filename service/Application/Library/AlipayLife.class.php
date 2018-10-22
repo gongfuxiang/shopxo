@@ -121,7 +121,6 @@ class AlipayLife
      */
     private function MyRsaSign($prestr)
     {
-        echo $prestr;die;
         $res = "-----BEGIN PRIVATE KEY-----\n";
         $res .= wordwrap($this->life_data['rsa_private'], 64, "\n", true);
         $res .= "\n-----END PRIVATE KEY-----";
