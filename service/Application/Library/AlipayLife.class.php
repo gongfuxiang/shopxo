@@ -33,9 +33,10 @@ class AlipayLife
      */
     public function __construct($params = [])
     {
-        file_put_contents('./pppppp.php', "<?php\n\rreturn ".var_export($params, true).";\n\r?>");
         $this->params = $params;
         $this->xml_data = isset($params['biz_content']) ? $this->xmlToArray($params['biz_content']) : '';
+
+        file_put_contents('./pppppp.php', "<?php\n\rreturn ".var_export($this->xml_data, true).";\n\r?>");
         $this->life_data = isset($this->xml_data['AppId']) ? AlipayLifeService::AppidLifeRow(['appid'=>$this->xml_data['AppId']]) : '';
 
         // 当前生活号是否存在
