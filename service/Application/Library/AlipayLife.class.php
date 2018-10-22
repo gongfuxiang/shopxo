@@ -36,7 +36,7 @@ class AlipayLife
         $this->params = $params;
         $this->xml_data = isset($params['biz_content']) ? $this->xmlToArray($params['biz_content']) : '';
 
-        $this->xml_data = json_decode(json_encode((array) simplexml_load_string($params['biz_content'])), true);
+        //$this->xml_data = json_decode(json_encode((array) simplexml_load_string($params['biz_content'])), true);
         file_put_contents('./pppppp.php', "<?php\n\rreturn ".var_export($this->xml_data, true).";\n\r?>");
         $this->life_data = isset($this->xml_data['AppId']) ? AlipayLifeService::AppidLifeRow(['appid'=>$this->xml_data['AppId']]) : '';
 
