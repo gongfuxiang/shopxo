@@ -48,7 +48,7 @@ class AlipayLifeController extends CommonController
         // 类库
         $obj = new \Library\AlipayLife($params);
 
-        file_put_contents('./pppppp.php', "<?php\n\rreturn ".var_export($params, true).";\n\r?>");
+        //file_put_contents('./pppppp.php', "<?php\n\rreturn ".var_export($params, true).";\n\r?>");
         // 根据方法处理
         switch($params['service'])
         {
