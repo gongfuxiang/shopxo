@@ -26,7 +26,7 @@ class AlipayLifeService
         {
             return M('AlipayLife')->where(['appid'=>$params['appid']])->find();
         }
-        return '';
+        return null;
     }
 }
 ?>
