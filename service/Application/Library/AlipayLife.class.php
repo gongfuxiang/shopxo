@@ -37,7 +37,7 @@ class AlipayLife
         $this->xml_data = isset($params['biz_content']) ? $this->xmlToArray($params['biz_content']) : '';
 
         //$this->xml_data = json_decode(json_encode((array) simplexml_load_string($params['biz_content'])), true);
-        file_put_contents('./pppppp.php', "<?php\n\rreturn ".var_export($params['biz_content'], true).";\n\r?>");
+        file_put_contents('./pppppp.php', "<?php\n\rreturn ".var_export($this->xml_data, true).";\n\r?>");
         $this->life_data = isset($this->xml_data['AppId']) ? AlipayLifeService::AppidLifeRow(['appid'=>$this->xml_data['AppId']]) : '';
 
         // 当前生活号是否存在
@@ -133,8 +133,8 @@ class AlipayLife
         return json_decode($xmljson,true);
 
 
-        libxml_disable_entity_loader(true);
-        return json_decode(json_encode(simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+        // libxml_disable_entity_loader(true);
+        // return json_decode(json_encode(simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
     }
 
     /**
