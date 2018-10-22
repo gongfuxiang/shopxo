@@ -56,7 +56,7 @@ class AlipayLife
             libxml_disable_entity_loader(true);
             $xml_string = simplexml_load_string($xml,'SimpleXMLElement', LIBXML_NOCDATA);
         }
-        $result = json_decode(json_encode($xml_string),true);
+        //$result = json_decode(json_encode($xml_string),true);
         return $result;
     }
 
