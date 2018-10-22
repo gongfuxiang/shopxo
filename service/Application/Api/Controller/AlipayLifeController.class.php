@@ -37,13 +37,7 @@ class AlipayLifeController extends CommonController
         file_put_contents('./gggggg.txt', json_encode($_GET));
         file_put_contents('./pppppp.txt', json_encode($_POST));
 
-        $_POST = json_decode('{
-          "sign": "dAwU23dBoGse5Ky8+675uWVFwBtdjbMa8Eq6vtGzyEZW/GxPjqn+PVmevgamQbtMWhdaSD3XXDwH1re6hBe+CM6IIh2gbXTTCqC5f0iPKn233YqDsR5lQok6FffyjSFPfq0c6dggzIfT49roeOBIelEqWBtAZI1PLA7pE1BV215Z1Kyog5SDm/fpdrRP5jk3vVyI8Aa6HDLfWv1diqBYkW5Y1rQ1R6ahKczkvtv0BDJKeQVGvmZZ6kMVtbk6UbBJjgqa7tD7iMldnqNr682OZTw58DDZ44acs1ClNVo/zGKDJ1Tqojz/1EiCnz8WdXqEhsH8igv9S2akHshBW/UEvQ==", 
-          "charset": "GBK", 
-          "biz_content": "<?xml version=\"1.0\" encoding=\"gbk\"?><XML><AppId><![CDATA[2015070400156153]]></AppId><FromUserId></FromUserId><CreateTime><![CDATA[1540193934274]]></CreateTime><MsgType><![CDATA[event]]></MsgType><EventType><![CDATA[verifygw]]></EventType><ActionParam></ActionParam><AgreementId></AgreementId><AccountNo></AccountNo></XML>", 
-          "sign_type": "RSA2", 
-          "service": "alipay.service.check"
-        }', true);
+     
 
         // 参数
         $params = $_POST;
