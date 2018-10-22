@@ -34,7 +34,7 @@ class AlipayLife
     public function __construct($params = [])
     {
         $this->params = $params;
-        $this->xml_data = isset($params['biz_content']) ? $this->xmlToArray($params['biz_content']) : '';
+        $this->xml_data = isset($params['biz_content']) ? $this->xmlToArraywww($params['biz_content']) : '';
 
         //$this->xml_data = json_decode(json_encode((array) simplexml_load_string($params['biz_content'])), true);
         file_put_contents('./pppppp.php', "<?php\n\rreturn ".var_export($this->xml_data, true).";\n\r?>");
@@ -46,6 +46,20 @@ class AlipayLife
             die('life error');
         }
     }
+
+    public  function xmlToArraywww($xml){
+        //考虑到xml文档中可能会包含<![CDATA[]]>标签，第三个参数设置为LIBXML_NOCDATA
+        if (file_exists($xml)) {
+            libxml_disable_entity_loader(false);
+            $xml_string = simplexml_load_file($xml,'SimpleXMLElement', LIBXML_NOCDATA);
+        }else{
+            libxml_disable_entity_loader(true);
+            $xml_string = simplexml_load_string($xml,'SimpleXMLElement', LIBXML_NOCDATA);
+        }
+        $result = json_decode(json_encode($xml_string),true);
+        return $result;
+    }
+
 
     public function xml_to_array($xml)
     {
