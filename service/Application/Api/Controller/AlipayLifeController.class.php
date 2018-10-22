@@ -37,8 +37,9 @@ class AlipayLifeController extends CommonController
         file_put_contents('./gggggg.txt', json_encode($_GET));
         file_put_contents('./pppppp.txt', json_encode($_POST));
 
+        
         // 参数
-        $params = json_decode($_POST, true);
+        $params = $_POST;
         if(empty($params['service']))
         {
             die('service error');
