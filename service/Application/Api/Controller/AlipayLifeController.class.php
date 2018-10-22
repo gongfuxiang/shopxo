@@ -41,11 +41,12 @@ class AlipayLifeController extends CommonController
 
         // 参数
         $params = $_POST;
+        file_put_contents('./pppppp.txt', $params);
         if(empty($params))
         {
             $input = file_get_contents("php://input");
             file_put_contents('./pppppp.txt', file_get_contents("php://input"));
-            
+
             if(!empty($input))
             {
                 $params = iconv("GBK", "UTF-8", urldecode($input));
