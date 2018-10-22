@@ -34,11 +34,7 @@ class AlipayLifeController extends CommonController
      */
     public function Index()
     {
-        /**
-        file_put_contents('./gggggg.php', "<?php\n\rreturn ".var_export($_GET, true).";\n\r?>");
-        file_put_contents('./pppppp.php', "<?php\n\rreturn ".var_export($_POST, true).";\n\r?>");
-        // file_put_contents('./ffffff.txt', urldecode(file_get_contents("php://input")));
-        **/
+
      
 
         // 参数
