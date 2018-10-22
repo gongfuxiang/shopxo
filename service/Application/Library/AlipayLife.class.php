@@ -216,7 +216,7 @@ class AlipayLife
                 'alipay_open_id'    => $this->xml_data['FromAlipayUserId'],
                 'user_id'           => empty($this->xml_data['FromUserId']) ? '' : $this->xml_data['FromUserId'],
                 'logon_id'          => empty($userinfo['logon_id']) ? '' : $userinfo['logon_id'],
-                'user_name'         => empty($user_id['user_name']) ? '' : $user_id['user_name'],
+                'user_name'         => empty($userinfo['user_name']) ? '' : $userinfo['user_name'],
             ];
             switch($this->xml_data['EventType'])
             {
