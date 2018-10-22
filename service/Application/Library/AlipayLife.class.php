@@ -40,7 +40,6 @@ class AlipayLife
         // 当前生活号是否存在
         if(empty($this->life_data))
         {
-            file_put_contents('./ssssss.txt', 111);
             die('life error');
         }
     }
@@ -97,10 +96,8 @@ class AlipayLife
     {
         if($this->OutRsaVerify($this->ArrayToUrlString($this->params), $this->params['sign']))
         {
-            file_put_contents('./ssssss.txt', 222);
             $response_xml = '<success>true</success><biz_content>'.$this->life_data['rsa_public'].'</biz_content>';
         } else {
-            file_put_contents('./ssssss.txt', 333);
             $response_xml = '<success>false</success><error_code>VERIFY_FAILED</error_code><biz_content>'.$this->life_data['rsa_public'].'</biz_content>';
         }
         $return_xml = '<?xml version="1.0" encoding="GBK"?>
@@ -112,7 +109,6 @@ class AlipayLife
                     <sign>'.$this->MyRsaSign($response_xml).'</sign>
                     <sign_type>RSA2</sign_type>
                 </alipay>';
-                file_put_contents('./ssssss.txt', $return_xml);
         die($return_xml);
     }
 
