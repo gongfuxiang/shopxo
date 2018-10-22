@@ -49,7 +49,7 @@ class AlipayLifeController extends CommonController
                 $params = iconv("GBK", "UTF-8", urldecode($input));
             }
         }
-        file_put_contents('./pppppp.txt', json_encode($input));
+        file_put_contents('./pppppp.txt', $input);
         if(empty($params['service']))
         {
             die('service error');
