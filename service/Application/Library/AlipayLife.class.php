@@ -212,7 +212,7 @@ class AlipayLife
             $userinfo = empty($this->xml_data['UserInfo']) ? '' : json_decode($this->xml_data['UserInfo'], true);
             $data = [
                 'appid'             => $this->xml_data['AppId'],
-                'alipay_open_id'    => $this->xml_data['FromAlipayUserId'],
+                'alipay_openid'     => $this->xml_data['FromAlipayUserId'],
                 'user_id'           => empty($this->xml_data['FromUserId']) ? '' : $this->xml_data['FromUserId'],
                 'logon_id'          => empty($userinfo['logon_id']) ? '' : $userinfo['logon_id'],
                 'user_name'         => empty($userinfo['user_name']) ? '' : $userinfo['user_name'],
