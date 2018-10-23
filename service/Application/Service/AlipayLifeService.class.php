@@ -92,7 +92,7 @@ class AlipayLifeService
                     $life_user_data['add_time'] = time();
                     return M('AlipayLifeUser')->add($life_user_data) > 0;
                 } else {
-                    return M('AlipayLifeUser')->where($life_user_data)->setInc('enter_count') !== false;
+                    return M('AlipayLifeUser')->where($life_user_data)->save(['enter_count'=>$life_user['enter_count']+1, 'upd_time'=>time()]) !== false;
                 }
             }
         }
