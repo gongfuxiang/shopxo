@@ -59,7 +59,7 @@ class AlipayLifeUserController extends CommonController
 		$page = new \Library\Page($page_param);
 
 		// 获取列表
-		$field = 'u.*, au.alipay_life_id';
+		$field = 'u.*, au.alipay_life_id, au.id AS alipay_life_user_id, au.user_id';
 		$list = $this->SetDataHandle($m->alias('au')->where($where)->join('INNER JOIN __USER__ AS u ON u.id=au.user_id')->field($field)->limit($page->GetPageStarNumber(), $number)->order('au.id desc')->select());
 
 		// 性别

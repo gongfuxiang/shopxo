@@ -33,5 +33,6 @@ return array(
 	'alipay_life_user_city_name'				=>	'所在市',
 
 	'alipay_life_user_alipay_life_name_text'	=>	'所属生活号',
+	'alipay_life_user_send_text'				=>	'发消息',
 );
 ?>

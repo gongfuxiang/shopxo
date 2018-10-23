@@ -43,6 +43,7 @@
 					<th class="am-hide-sm-only">{{:L('common_view_gender_name')}}</th>
 					<th class="am-hide-sm-only">{{:L('alipay_life_user_birthday_name')}}</th>
 					<th>{{:L('common_more_name')}}</th>
+					<th>{{:L('common_operation_name')}}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -129,6 +130,11 @@
 										</div>
 									</div>
 								</div>
+							</td>
+							<td>
+								<a href="{{:U('Admin/AlipayLifeMessage/SendInfo', ['user_id'=>$v['user_id'], 'alipay_life_user_id'=>$v['alipay_life_user_id']])}}">
+	                                <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o"> {{:L('alipay_life_user_send_text')}}</button>
+	                            </a>
 							</td>
 						</tr>
 					</foreach>
