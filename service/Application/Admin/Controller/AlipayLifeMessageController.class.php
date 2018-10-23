@@ -183,16 +183,21 @@ class AlipayLifeMessageController extends CommonController
         $this->assign('send_type', empty($alipay_openid) ? 1 : 0);
 
         // 生活号
-        $where = [];
         if(!empty($_GET['alipay_life_id']))
         {
-            $where['id'] = intval(I('alipay_life_id'));
+            $alipay_life_list = M('AlipayLife')->field('id,name')->where(['id'=>intval(I('alipay_life_id'))])->select();
+        } else {
+            $alipay_life_list = [];
         }
-        $alipay_life_list = M('AlipayLife')->field('id,name')->where($where)->select();
         $this->assign('alipay_life_list', $alipay_life_list);
 
         // 生活号分类
-        $alipay_life_category = M('AlipayLifeCategory')->where(['is_enable'=>1])->field('id,name')->select();
+        if(empty($alipay_openid))
+        {
+            $alipay_life_category = M('AlipayLifeCategory')->where(['is_enable'=>1])->field('id,name')->select();
+        } else {
+            $alipay_life_category = [];
+        }
         $this->assign('alipay_life_category', $alipay_life_category);
 
         // 参数
