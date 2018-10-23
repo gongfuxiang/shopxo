@@ -175,18 +175,23 @@ class AlipayLifeMessageController extends CommonController
         $this->assign('alipay_life_message_type_list', L('alipay_life_message_type_list'));
 
         // 单用户发消息用户信息
-        $user = empty($_GET['user_id']) ? '' : M('User')->find(intval(I('user_id')));
-        $this->assign('user', $user);
+        $alipay_openid = empty($_GET['user_id']) ? '' : M('User')->where(['id'=>intval(I('user_id'))])->getField('alipay_openid');
+        $this->assign('alipay_openid', $alipay_openid);
 
         // 消息发送类型
         $this->assign('alipay_life_message_send_type_list', L('alipay_life_message_send_type_list'));
-        $this->assign('send_type', empty($user) ? 1 : 0);
+        $this->assign('send_type', empty($alipay_openid) ? 1 : 0);
 
-        // 生活号消息分类
-        $alipay_life_list = M('AlipayLife')->field('id,name')->select();
+        // 生活号
+        $where = [];
+        if(!empty($_GET['alipay_life_id']))
+        {
+            $where['id'] = intval(I('alipay_life_id'));
+        }
+        $alipay_life_list = M('AlipayLife')->field('id,name')->where($where)->select();
         $this->assign('alipay_life_list', $alipay_life_list);
 
-        // 生活号消息分类
+        // 生活号分类
         $alipay_life_category = M('AlipayLifeCategory')->where(['is_enable'=>1])->field('id,name')->select();
         $this->assign('alipay_life_category', $alipay_life_category);
 

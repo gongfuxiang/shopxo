@@ -35,5 +35,7 @@ return array(
 
     'alipay_life_is_shelves_text'         => '上下架',
     'alipay_life_save_category_error'     => '分类添加失败',
+
+    'alipay_life_user_send_text'          =>  '发消息',
 );
 ?>

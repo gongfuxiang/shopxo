@@ -82,6 +82,10 @@
                                 </a>
                                 <if condition="$v['is_shelves'] eq 0">
                                     <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/AlipayLife/Delete')}}" data-id="{{$v.id}}"> {{:L('common_operation_delete')}}</button>
+                                <else />
+                                    <a href="{{:U('Admin/AlipayLifeMessage/SendInfo', ['alipay_life_id'=>$v['id']])}}">
+                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o"> {{:L('alipay_life_user_send_text')}}</button>
+                                    </a>
                                 </if>
                             </td>
                         </tr>

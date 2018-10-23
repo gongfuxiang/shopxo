@@ -40,6 +40,8 @@
 .am-tagsinput { display: block; }
 .am-tagsinput { padding: 0 5px 5px 5px; }
 .am-tagsinput .tag { margin-top: 5px; }
+.chosen-disabled .chosen-choices, .chosen-disabled .chosen-single { background-color: #ccc; }
+.chosen-disabled .search-choice { background: #d6d6d6 !important; }
 
 /**
  * 公共提示信息
