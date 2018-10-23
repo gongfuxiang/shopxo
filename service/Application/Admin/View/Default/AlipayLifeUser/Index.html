@@ -4,10 +4,10 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form view-list" action="{{:U('Admin/User/Index')}}" method="POST">
+		<form class="am-form view-list" action="{{:U('Admin/AlipayLifeUser/Index')}}" method="POST">
 			<div class="am-g">
 				<input type="hidden" name="organization_id" <present name="param['organization_id']"> value="{{$param.organization_id}}"</present> />
-				<input type="text" class="am-radius form-keyword" placeholder="{{:L('user_so_keyword_tips')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"</present> />
+				<input type="text" class="am-radius form-keyword" placeholder="{{:L('alipay_life_user_so_keyword_tips')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"</present> />
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">{{:L('common_operation_query')}}</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
 					{{:L('common_more_screening')}}
@@ -32,27 +32,17 @@
         </form>
         <!-- form end -->
 
-        <!-- operation start -->
-        <div class="am-g m-t-15">
-            <a href="{{:U('Admin/User/SaveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:L('common_operation_add')}}</a>
-            <if condition="!IsMobile()">
-            	<a href="{{$excel_url}}" class="am-btn am-btn-success am-btn-xs m-l-10 am-icon-file-excel-o am-radius"> {{:L('common_operation_excel_export_name')}}</a>
-            </if>
-        </div>
-        <!-- operation end -->
-
 		<!-- list start -->
 		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5">
 			<thead>
 				<tr>
-					<th>{{:L('user_avatar_name')}}</th>
-					<th>{{:L('user_username_name')}}</th>
+					<th>{{:L('alipay_life_user_avatar_name')}}</th>
+					<th>{{:L('alipay_life_user_username_name')}}</th>
 					<th class="am-hide-sm-only">{{:L('common_mobile_name')}}</th>
-					<th class="am-hide-sm-only">{{:L('user_integral_name')}}</th>
+					<th class="am-hide-sm-only">{{:L('alipay_life_user_alipay_life_name_text')}}</th>
 					<th class="am-hide-sm-only">{{:L('common_view_gender_name')}}</th>
-					<th class="am-hide-sm-only">{{:L('user_birthday_name')}}</th>
+					<th class="am-hide-sm-only">{{:L('alipay_life_user_birthday_name')}}</th>
 					<th>{{:L('common_more_name')}}</th>
-					<th>{{:L('common_operation_name')}}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -73,7 +63,7 @@
 								<if condition="empty($v['mobile'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.mobile}}</if>
 							</td>
 							<td class="am-hide-sm-only">
-								<if condition="empty($v['integral'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.integral}}</if>
+								<if condition="empty($v['alipay_life_name'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.alipay_life_name}}</if>
 							</td>
 							<td class="am-hide-sm-only">
 								<if condition="empty($v['gender_text'])"><span class="cr-ddd">{{:L('common_not_set_text')}}</span><else />{{$v.gender_text}}</if>
@@ -91,10 +81,10 @@
 										</div>
 										<div class="am-popup-bd">
 											<dl class="dl-content">
-												<dt>{{:L('user_username_name')}}</dt>
+												<dt>{{:L('alipay_life_user_username_name')}}</dt>
 												<dd><if condition="empty($v['username'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.username}}</if></dd>
 
-												<dt>{{:L('user_nickname_name')}}</dt>
+												<dt>{{:L('alipay_life_user_nickname_name')}}</dt>
 												<dd><if condition="empty($v['nickname'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.nickname}}</if></dd>
 
 												<dt>{{:L('common_mobile_name')}}</dt>
@@ -106,22 +96,22 @@
 												<dt>{{:L('common_view_gender_name')}}</dt>
 												<dd><if condition="empty($v['gender_text'])"><span class="cr-ddd">{{:L('common_not_set_text')}}</span><else />{{$v.gender_text}}</if></dd>
 
-												<dt>{{:L('user_birthday_name')}}</dt>
+												<dt>{{:L('alipay_life_user_birthday_name')}}</dt>
 												<dd><if condition="empty($v['birthday_text'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.birthday_text}}</if></dd>
 
-												<dt>{{:L('user_province_name')}}</dt>
+												<dt>{{:L('alipay_life_user_province_name')}}</dt>
 												<dd><if condition="empty($v['province'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.province}}</if></dd>
 
-												<dt>{{:L('user_city_name')}}</dt>
+												<dt>{{:L('alipay_life_user_city_name')}}</dt>
 												<dd><if condition="empty($v['city'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.city}}</if></dd>
 
 												<dt>{{:L('common_address_text')}}</dt>
 												<dd><if condition="empty($v['address'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.address}}</if></dd>
 
-												<dt>{{:L('user_integral_name')}}</dt>
+												<dt>{{:L('alipay_life_user_integral_name')}}</dt>
 												<dd><if condition="empty($v['integral'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.integral}}</if></dd>
 
-												<dt>{{:L('user_avatar_name')}}</dt>
+												<dt>{{:L('alipay_life_user_avatar_name')}}</dt>
 												<dd>
 													<if condition="!empty($v['avatar'])">
 														<img src="{{$v['avatar']}}" class="am-img-thumbnail am-radius" width="100" height="100" />
@@ -139,12 +129,6 @@
 										</div>
 									</div>
 								</div>
-							</td>
-							<td class="view-operation">
-								<a href="{{:U('Admin/User/SaveInfo', array_merge($param,array('id'=>$v['id'])))}}">
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:L('common_operation_edit')}}</button>
-								</a>
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/User/Delete')}}" data-id="{{$v.id}}"> {{:L('common_operation_delete')}}</button>
 							</td>
 						</tr>
 					</foreach>

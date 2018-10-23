@@ -225,6 +225,7 @@ class AlipayLife
                     break;
 
                 // 关注/进入生活号
+                case 'follow' :
                 case 'enter' :
                     $status = AlipayLifeService::UserEnter($data);
                     break;
