@@ -59,7 +59,7 @@ class AlipayLifeUserController extends CommonController
 		$page = new \Library\Page($page_param);
 
 		// 获取列表
-		$field = 'u.*, au.alipay_life_id, au.id AS alipay_life_user_id, au.user_id';
+		$field = 'u.*, au.alipay_life_id, au.id AS alipay_life_user_id, au.user_id, au.add_time AS alipay_life_add_time';
 		$list = $this->SetDataHandle($m->alias('au')->where($where)->join('INNER JOIN __USER__ AS u ON u.id=au.user_id')->field($field)->limit($page->GetPageStarNumber(), $number)->order('au.id desc')->select());
 
 		// 性别
@@ -104,6 +104,9 @@ class AlipayLifeUserController extends CommonController
 
 				// 注册时间
 				$v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
+
+				// 关注时间
+				$v['alipay_life_add_time'] = date('Y-m-d H:i:s', $v['alipay_life_add_time']);
 
 				// 更新时间
 				$v['upd_time'] = date('Y-m-d H:i:s', $v['upd_time']);

@@ -48,5 +48,7 @@ return array(
         ),
 
     'alipay_life_message_user_text'         => '给用户发送消息',
+    'alipay_life_message_startup_time_text' => '发送启动时间',
+    'alipay_life_message_success_time_text' => '发送完成时间',
 );
 ?>

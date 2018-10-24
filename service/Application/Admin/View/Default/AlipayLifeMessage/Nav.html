@@ -1,7 +1,7 @@
 <ul class="am-nav am-nav-pills table-nav m-b-10">
     <foreach name="alipay_life_message_type_list" item="v">
         <li <if condition="$nav_type eq $v['value']">class="am-active"</if> data-type="{{$v.value}}">
-            <a href="{{:U('Admin/AlipayLifeMessage/SendInfo', array_merge($params, ['nav_type'=>$v['value']]))}}">{{$v.name}}</a>
+            <a href="{{:U('Admin/AlipayLifeMessage/SaveInfo', array_merge($params, ['nav_type'=>$v['value']]))}}">{{$v.name}}</a>
         </li>
     </foreach>
 </ul>

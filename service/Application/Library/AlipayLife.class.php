@@ -35,12 +35,13 @@ class AlipayLife
     {
         $this->params = $params;
         $this->xml_data = isset($params['biz_content']) ? $this->XmlToArray($params['biz_content']) : '';
-        $this->life_data = isset($this->xml_data['AppId']) ? AlipayLifeService::AppidLifeRow(['appid'=>$this->xml_data['AppId']]) : '';
-
-        // 当前生活号是否存在
-        if(empty($this->life_data))
+        
+        // 生活号
+        if(!empty($params['life_data']))
         {
-            die('life error');
+            $this->life_data = $params['life_data'];
+        } else {
+            $this->life_data = isset($this->xml_data['AppId']) ? AlipayLifeService::AppidLifeRow(['appid'=>$this->xml_data['AppId']]) : '';
         }
     }
 
@@ -57,7 +58,7 @@ class AlipayLife
     {
         $res = "-----BEGIN RSA PRIVATE KEY-----\n";
         $res .= wordwrap($this->life_data['rsa_private'], 64, "\n", true);
-        $res .= "\nEND RSA PRIVATE KEY-----";
+        $res .= "\n-----END RSA PRIVATE KEY-----";
         return openssl_sign($prestr, $sign, $res, OPENSSL_ALGO_SHA256) ? base64_encode($sign) : null;
     }
 
@@ -143,16 +144,16 @@ class AlipayLife
      */
     public function ArrayToUrlString($data)
     {
-        $ur_lstring = '';
+        $url_string = '';
         ksort($data);
         foreach($data AS $key=>$val)
         {
             if(!in_array($key, ['sign']))
             {
-                $ur_lstring .= "$key=$val&";
+                $url_string .= "$key=$val&";
             }
         }
-        return substr($ur_lstring, 0, -1);
+        return substr($url_string, 0, -1);
     }
 
     /**
@@ -184,6 +185,51 @@ class AlipayLife
     }
 
     /**
+     * [HttpRequest 网络请求]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2017-09-25T09:10:46+0800
+     * @param    [string]          $url  [请求url]
+     * @param    [array]           $data [发送数据]
+     * @return   [mixed]                 [请求返回数据]
+     */
+    private function HttpRequest($url, $data)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_FAILONERROR, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        $body_string = '';
+        if(is_array($data) && 0 < count($data))
+        {
+            foreach($data as $k => $v)
+            {
+                $body_string .= $k.'='.urlencode($v).'&';
+            }
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $body_string);
+        }
+        $headers = array('content-type: application/x-www-form-urlencoded;charset=UTF-8');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $reponse = curl_exec($ch);
+        if(curl_errno($ch))
+        {
+            return false;
+        } else {
+            $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if(200 !== $httpStatusCode)
+            {
+                return false;
+            }
+        }
+        curl_close($ch);
+        return json_decode($reponse, true);
+    }
+
+    /**
      * 校验
      * @author   Devil
      * @blog    http://gong.gg/
@@ -193,6 +239,13 @@ class AlipayLife
      */
     public function Check()
     {
+        // 当前生活号是否存在
+        if(empty($this->life_data))
+        {
+            die('life error');
+        }
+
+        // 开始处理
         $status = $this->OutRsaVerify($this->ArrayToUrlString($this->params), $this->params['sign']);
         $this->Respond($status);
     }
@@ -206,6 +259,13 @@ class AlipayLife
      */
     public function Life()
     {
+        // 当前生活号是否存在
+        if(empty($this->life_data))
+        {
+            die('life error');
+        }
+
+        // 开始处理
         $status = false;
         if($this->OutRsaVerify($this->ArrayToUrlString($this->params), $this->params['sign']))
         {
@@ -232,6 +292,102 @@ class AlipayLife
             }
         }
         $this->Respond($status);
+    }
+
+    /**
+     * 单条消息发送
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-24
+     * @desc    description
+     * @param   [array]          $data [输入参数]
+     */
+    public function CustomSend($params = [])
+    {
+        // 参数处理
+        $p = $this->RequestCommonParams();
+        $p['method'] = 'alipay.open.public.message.custom.send';
+        $biz_content = [
+            'to_user_id'    => $params['alipay_openid'],
+            'msg_type'      => ($params['msg_type'] == 0) ? 'text' : 'image-text',
+            'chat'          => 0,
+        ];
+        if($params['msg_type'] == 1)
+        {
+            $biz_content['articles'] = [
+                'title'         => isset($params['title']) ? $params['title'] : '',
+                'desc'          => $params['content'],
+                'image_url'     => $params['out_image_url'],
+                'url'           => $params['url'],
+                'action_name'   => isset($params['action_name']) ? $params['action_name'] : '',
+            ];
+        } else {
+            $biz_content['text'] = ['content'=>$params['content']];
+        }
+        $p['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
+
+        // 生成签名
+        $p['sign'] = $this->MyRsaSign($this->ArrayToUrlString($p));
+
+        $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $p);
+
+        
+        
+        print_r($result);
+        echo "\n\n";
+        print_r($p);
+        die;
+
+    }
+
+    /**
+     * [GetParamSign 生成参数和签名]
+     * @param  [array] $data   [待生成的参数]
+     * @param  [array] $config [配置信息]
+     * @return [array]         [生成好的参数和签名]
+     */
+    private function GetParamSign($data, $config = [])
+    {
+        $param = '';
+        $sign  = '';
+        ksort($data);
+
+        foreach($data AS $key => $val)
+        {
+            $param .= "$key=" .urlencode($val). "&";
+            $sign  .= "$key=$val&";
+        }
+
+        $result = array(
+            'param' =>  substr($param, 0, -1),
+            'value' =>  substr($sign, 0, -1),
+        );
+        if(!empty($config['key']))
+        {
+            $result['sign'] = $result['value'].$config['key'];
+        }
+        return $result;
+    }
+
+    /**
+     * 获取公共参数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-24
+     * @desc    description
+     */
+    private function RequestCommonParams()
+    {
+        return [
+            'app_id'        => $this->life_data['appid'],
+            'format'        => 'JSON',
+            'charset'       => 'utf-8',
+            'sign_type'     => 'RSA2',
+            'timestamp'     => date('Y-m-d H:i:s'),
+            'version'       => '1.0',
+        ];
     }
 
 }

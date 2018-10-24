@@ -2,6 +2,8 @@
 
 namespace Admin\Controller;
 
+use Service\AlipayLifeService;
+
 /**
  * 生活号消息管理
  * @author   Devil
@@ -52,14 +54,14 @@ class AlipayLifeMessageController extends CommonController
         $number = MyC('admin_page_number');
         $page_param = array(
                 'number'    =>  $number,
-                'total'     =>  $m->alias('a')->join('INNER JOIN __ALIPAY_LIFE_CATEGORY_JOIN__ AS cj ON a.id=cj.alipay_life_id')->where($where)->count('DISTINCT a.id'),
+                'total'     =>  $m->where($where)->count(),
                 'where'     =>  $param,
                 'url'       =>  U('Admin/AlipayLifeMessage/Index'),
             );
         $page = new \Library\Page($page_param);
 
         // 获取列表
-        $list = $m->alias('a')->field('a.*')->join('INNER JOIN __ALIPAY_LIFE_CATEGORY_JOIN__ AS cj ON a.id=cj.alipay_life_id')->where($where)->limit($page->GetPageStarNumber(), $number)->order('a.id desc')->group('a.id')->select();
+        $list = $m->where($where)->limit($page->GetPageStarNumber(), $number)->order('id desc')->select();
         $list = $this->SetDataHandle($list);
 
         // 参数
@@ -71,9 +73,11 @@ class AlipayLifeMessageController extends CommonController
         // 发送状态
         $this->assign('common_send_status_list', L('common_send_status_list'));
 
-        // 生活号消息分类
-        $alipay_life_list = M('AlipayLife')->field('id,name')->select();
-        $this->assign('alipay_life_list', $alipay_life_list);
+        // 消息类型
+        $this->assign('alipay_life_message_type_list', L('alipay_life_message_type_list'));
+
+        // 发送类型
+        $this->assign('alipay_life_message_send_type_list', L('alipay_life_message_send_type_list'));
 
         // 数据列表
         $this->assign('list', $list);
@@ -93,21 +97,38 @@ class AlipayLifeMessageController extends CommonController
     {
         if(!empty($data))
         {
-            $common_is_enable_tips = L('common_is_enable_tips');
+            $common_send_status_list = L('common_send_status_list');
+            $alipay_life_message_type_list = L('alipay_life_message_type_list');
+            $alipay_life_message_send_type_list = L('alipay_life_message_send_type_list');
             foreach($data as &$v)
             {
+                // 状态
+                $v['status_name'] = $common_send_status_list[$v['status']]['name'];
+
+                // 消息类型
+                $v['type_name'] = $alipay_life_message_type_list[$v['type']]['name'];
+
+                // 发送状态
+                $v['send_type_name'] = $alipay_life_message_send_type_list[$v['send_type']]['name'];
+
                 // 分类名称
                 $category_all = M('AlipayLifeMessageCategoryJoin')->where(['alipay_life_id'=>$v['id']])->getField('alipay_life_category_id', true);
                 $v['alipay_life_category_text'] = M('AlipayLifeMessageCategory')->where(['id'=>['in', $category_all]])->getField('name', true);
 
-                // logo
-                $v['logo'] =  empty($v['logo']) ? '' : C('IMAGE_HOST').$v['logo'];
+                // image_url
+                $v['image_url'] =  empty($v['image_url']) ? '' : C('IMAGE_HOST').$v['image_url'];
 
-                // 添加时间
-                $v['add_time_text'] = date('Y-m-d H:i:s', $v['add_time']);
+                // 生活号分类
+                $v['category_all'] = empty($v['alipay_life_category_id']) ? '' : M('AlipayLifeCategory')->where(['id'=>['in', json_decode($v['alipay_life_category_id'], true)]])->getField('name', true);
 
-                // 更新时间
-                $v['upd_time_text'] = date('Y-m-d H:i:s', $v['upd_time']);
+                // 生活号
+                $v['alipay_life_name'] = empty($v['alipay_life_id']) ? '' : M('AlipayLife')->where(['id'=>$v['alipay_life_id']])->getField('name');
+
+                // 时间
+                $v['send_startup_time'] = empty($v['send_startup_time']) ? '' : date('Y-m-d H:i:s', $v['send_startup_time']);
+                $v['send_success_time'] = empty($v['send_success_time']) ? '' : date('Y-m-d H:i:s', $v['send_success_time']);
+                $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
             }
         }
         return $data;
@@ -127,42 +148,46 @@ class AlipayLifeMessageController extends CommonController
         // 模糊
         if(!empty($_REQUEST['keyword']))
         {
-            $where['a.name'] = array('like', '%'.I('keyword').'%');
+            $where['title'] = array('like', '%'.I('keyword').'%');
         }
 
         // 是否更多条件
         if(I('is_more', 0) == 1)
         {
-            if(I('is_shelves', -1) > -1)
+            if(I('status', -1) > -1)
             {
-                $where['a.is_shelves'] = intval(I('is_shelves', 0));
+                $where['status'] = intval(I('status', 0));
             }
-            if(I('alipay_life_category_id', -1) > -1)
+            if(I('type', -1) > -1)
             {
-                $where['cj.alipay_life_category_id'] = intval(I('alipay_life_category_id', 0));
+                $where['type'] = intval(I('type', 0));
+            }
+            if(I('send_type', -1) > -1)
+            {
+                $where['send_type'] = intval(I('send_type', 0));
             }
 
             // 表达式
             if(!empty($_REQUEST['time_start']))
             {
-                $where['a.add_time'][] = array('gt', strtotime(I('time_start')));
+                $where['add_time'][] = array('gt', strtotime(I('time_start')));
             }
             if(!empty($_REQUEST['time_end']))
             {
-                $where['a.add_time'][] = array('lt', strtotime(I('time_end')));
+                $where['add_time'][] = array('lt', strtotime(I('time_end')));
             }
         }
         return $where;
     }
 
     /**
-     * [SendInfo 添加/编辑页面]
+     * [SaveInfo 添加/编辑页面]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2016-12-14T21:37:02+0800
      */
-    public function SendInfo()
+    public function SaveInfo()
     {
         // 轮播图片信息
         $data = empty($_REQUEST['id']) ? array() : M('AlipayLifeMessage')->find(I('id'));
@@ -203,7 +228,7 @@ class AlipayLifeMessageController extends CommonController
         // 参数
         $this->assign('params', array_merge($_POST, $_GET));
         $this->assign('nav_type', I('nav_type', 0));
-        $this->display('SendInfo');
+        $this->display('SaveInfo');
     }
 
     /**
@@ -221,95 +246,8 @@ class AlipayLifeMessageController extends CommonController
             $this->error(L('common_unauthorized_access'));
         }
 
-        // 图片
-        $this->ImagesSave('logo', 'file_logo', 'alipay_life');
-
-        // id为空则表示是新增
-        $m = D('AlipayLifeMessage');
-
-        // 公共额外数据处理
-        $_POST['is_shelves'] = intval(I('is_shelves', 0));
-
-        // 开启事务
-        $m->startTrans();
-
-        // 分类
-        $category_m = M('AlipayLifeMessageCategoryJoin');
-        if(empty($_POST['id']))
-        {
-            $type = 1;
-        } else {
-            $type = 2;
-            $category_m->where(['id'=>I('id')])->delete();
-        }
-
-        $status = false;
-        $msg = '';
-        $alipay_life_id = I('id', 0);
-        if($m->create($_POST, $type))
-        {
-            // 额外数据处理
-            $m->upd_time            =   time();
-            $m->name                =   I('name');
-            $m->appid               =   I('appid');
-            $m->rsa_public          =   I('rsa_public');
-            $m->rsa_private         =   I('rsa_private');
-            $m->out_rsa_public      =   I('out_rsa_public');
-
-            if($type == 1)
-            {
-                // 写入数据库
-                $m->add_time = time();
-                $alipay_life_id = $m->add();
-                if($alipay_life_id)
-                {
-                    $status = true;
-                    $msg = L('common_operation_add_success');
-                } else {
-                    $msg = L('common_operation_add_error');
-                }
-            } else {
-                // 更新数据库
-                if($m->where(array('id'=>$alipay_life_id))->save())
-                {
-                    $status = true;
-                    $msg = L('common_operation_edit_success');
-                } else {
-                    $msg = L('common_operation_edit_error');
-                }
-            }
-        } else {
-            $msg = $m->getError();
-        }
-
-        // 分类处理
-        if($status === true)
-        {
-            $count = 0;
-            $all = explode(',', I('alipay_life_category_id'));
-            foreach($all as $v)
-            {
-                if($category_m->add(['alipay_life_id'=>$alipay_life_id, 'alipay_life_category_id'=>$v, 'add_time'=>time()]))
-                {
-                    $count++;
-                }
-            }
-            if($count < count($all))
-            {
-                // 回滚事务
-                $m->rollback();
-
-                $this->ajaxReturn(L('alipay_life_save_category_error'), -10);
-            }
-        } else {
-            // 回滚事务
-            $m->rollback();
-            $this->ajaxReturn($msg, -100);
-        }
-
-        // 回滚事务
-        $m->commit();
-        $this->ajaxReturn($msg, 0);
+        $ret = AlipayLifeService::MessageAdd($_POST);
+        $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }
 
     /**
@@ -321,50 +259,39 @@ class AlipayLifeMessageController extends CommonController
      */
     public function Delete()
     {
+        // 是否ajax请求
         if(!IS_AJAX)
         {
             $this->error(L('common_unauthorized_access'));
         }
 
-        $m = D('AlipayLifeMessage');
-        if($m->create($_POST, 5))
+        // 删除
+        if(M('AlipayLifeMessage')->delete(intval(I('id'))))
         {
-            $id = I('id');
-
-            // 删除
-            if($m->delete($id))
-            {
-                $this->ajaxReturn(L('common_operation_delete_success'));
-            } else {
-                $this->ajaxReturn(L('common_operation_delete_error'), -100);
-            }
+            $this->ajaxReturn(L('common_operation_delete_success'));
         } else {
-            $this->ajaxReturn($m->getError(), -1);
+            $this->ajaxReturn(L('common_operation_delete_error'), -100);
         }
     }
 
     /**
-     * [StatusUpdate 状态更新]
+     * 发送消息
      * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-01-12T22:23:06+0800
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-24
+     * @desc    description
      */
-    public function StatusUpdate()
+    public function Send()
     {
-        // 参数
-        if(empty($_POST['id']) || !isset($_POST['state']))
+        // 是否ajax请求
+        if(!IS_AJAX)
         {
-            $this->ajaxReturn(L('common_param_error'), -1);
+            $this->error(L('common_unauthorized_access'));
         }
 
-        // 数据更新
-        if(M('AlipayLifeMessage')->where(array('id'=>I('id')))->save(array('is_shelves'=>I('state'))))
-        {
-            $this->ajaxReturn(L('common_operation_edit_success'));
-        } else {
-            $this->ajaxReturn(L('common_operation_edit_error'), -100);
-        }
+        $ret = AlipayLifeService::MessageSubmit($_POST);
+        $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }
 }
 ?>

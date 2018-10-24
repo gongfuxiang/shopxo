@@ -38,6 +38,7 @@
 				<tr>
 					<th>{{:L('alipay_life_user_avatar_name')}}</th>
 					<th>{{:L('alipay_life_user_username_name')}}</th>
+					<th>{{:L('alipay_life_user_appid_text')}}</th>
 					<th class="am-hide-sm-only">{{:L('common_mobile_name')}}</th>
 					<th class="am-hide-sm-only">{{:L('alipay_life_user_alipay_life_name_text')}}</th>
 					<th class="am-hide-sm-only">{{:L('common_view_gender_name')}}</th>
@@ -59,6 +60,9 @@
 							</td>
 							<td>
 								<if condition="empty($v['username'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.username}}</if>
+							</td>
+							<td class="am-hide-sm-only">
+								<if condition="empty($v['alipay_openid'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.alipay_openid}}</if>
 							</td>
 							<td class="am-hide-sm-only">
 								<if condition="empty($v['mobile'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.mobile}}</if>
@@ -87,6 +91,9 @@
 
 												<dt>{{:L('alipay_life_user_nickname_name')}}</dt>
 												<dd><if condition="empty($v['nickname'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.nickname}}</if></dd>
+
+												<dt>{{:L('alipay_life_user_appid_text')}}</dt>
+												<dd><if condition="empty($v['alipay_openid'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.alipay_openid}}</if></dd>
 
 												<dt>{{:L('common_mobile_name')}}</dt>
 												<dd><if condition="empty($v['mobile'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.mobile}}</if></dd>
@@ -121,6 +128,9 @@
 													</if>
 												</dd>
 
+												<dt>{{:L('common_focus_time_name')}}</dt>
+												<dd>{{$v.alipay_life_add_time}}</dd>
+
 												<dt>{{:L('common_reg_time_name')}}</dt>
 												<dd>{{$v.add_time}}</dd>
 
@@ -132,7 +142,7 @@
 								</div>
 							</td>
 							<td>
-								<a href="{{:U('Admin/AlipayLifeMessage/SendInfo', ['user_id'=>$v['user_id'], 'alipay_life_user_id'=>$v['alipay_life_user_id']])}}">
+								<a href="{{:U('Admin/AlipayLifeMessage/SaveInfo', ['user_id'=>$v['user_id'], 'alipay_life_user_id'=>$v['alipay_life_user_id']])}}">
 	                                <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o"> {{:L('alipay_life_user_send_text')}}</button>
 	                            </a>
 							</td>

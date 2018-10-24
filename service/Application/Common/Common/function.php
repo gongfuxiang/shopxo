@@ -9,6 +9,32 @@
  */
 
 /**
+ * 异步调用方法
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2018-06-11
+ * @desc    异步运行url地址方法
+ * @param   [string]          $url [url地址 支持get参数]
+ */
+function SyncJob($url)
+{
+    $url_str = str_replace(array('http://', 'https://'), '', $url);
+    $location = strpos($url_str, '/');
+    $host = substr($url_str, 0, $location);
+    header("Content-Type: text/html; charset=utf-8");
+    $fp = fsockopen($host, 80, $errno, $errstr, 3);
+    if($fp)
+    {
+        $out = "GET $url HTTP/1.1\r\n";
+        $out .= "Host: $host\r\n";
+        $out .= "Connection: Close\r\n\r\n";
+        fputs($fp, $out);
+        fclose($fp);
+    }
+}
+
+/**
  * [DataReturn 公共返回数据]
  * @author   Devil
  * @blog     http://gong.gg/
@@ -1266,6 +1292,7 @@ function params_checked($data, $params)
                 if (!isset($data[$v['key_name']]) || !in_array($data[$v['key_name']], $v['checked_data'])) {
                     return $v['error_msg'];
                 }
+                break;
 
             case 'is_array' :
                 if (!isset($data[$v['key_name']]) || !is_array($data[$v['key_name']])) {

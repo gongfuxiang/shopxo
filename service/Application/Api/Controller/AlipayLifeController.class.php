@@ -2,6 +2,8 @@
 
 namespace Api\Controller;
 
+use Service\AlipayLifeService;
+
 /**
  * 支付宝生活号回调处理
  * @author   Devil
@@ -61,6 +63,19 @@ class AlipayLifeController extends CommonController
             default :
                 exit('service error');
         }
+    }
+
+    /**
+     * 消息发送
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-24
+     * @desc    description
+     */
+    public function Send()
+    {
+        AlipayLifeService::MessageSend($_REQUEST);
     }
 }
 ?>
