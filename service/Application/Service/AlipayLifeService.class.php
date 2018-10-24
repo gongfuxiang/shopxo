@@ -355,7 +355,7 @@ class AlipayLifeService
      */
     public static function SyncJobSend($message_id)
     {
-        SyncJob(U('Api/AlipayLife/Send', ['message_id'=>$message_id], true, true));
+        SyncJob(ApiUrl('AlipayLife', 'Send', ['message_id'=>$message_id]));
     }
 
     /**
@@ -371,7 +371,7 @@ class AlipayLifeService
     {
         if(empty($params['message_id']))
         {
-            die('[params_time:'.date('Y-m-d H:i:s'))."][msg:id有误]\n\n";
+            die('[params_time:'.date('Y-m-d H:i:s')."][msg:id有误]\n\n");
         }
 
         // 启动开始
@@ -383,11 +383,11 @@ class AlipayLifeService
         $message = $m->find($params['message_id']);
         if(empty($message))
         {
-            die('[time:'.date('Y-m-d H:i:s'))."][msg:{$params['message_id']}数据不存在]\n\n";
+            die('[time:'.date('Y-m-d H:i:s')."][msg:{$params['message_id']}数据不存在]\n\n");
         }
-        if(!in_array($message['sttaus'], [0,1]))
+        if(!in_array($message['status'], [0,1]))
         {
-            die('[time:'.date('Y-m-d H:i:s'))."][msg:{$message['status']}状态不可操作]\n\n";
+            die('[time:'.date('Y-m-d H:i:s')."][msg:{$message['status']}状态不可操作]\n\n");
         }
 
         // 消息类型
@@ -410,7 +410,7 @@ class AlipayLifeService
             // 生活号
             $life = M('AlipayLife')->find($alipay_life_id);
 
-            // 群发发
+            // 群发
             if($message['send_type'] == 1)
             {
                 die('all');
@@ -423,37 +423,35 @@ class AlipayLifeService
                     $obj = new \Library\AlipayLife(['life_data'=>$life]);
                     foreach($detail as $v)
                     {
+                        // 请求接口处理
                         $message['alipay_openid'] = $v['alipay_openid'];
-                        $obj->CustomSend($message);
-                        //print_r($message);
-                        die;
+                        $ret = $obj->CustomSend($message);
+
+                        // 返回状态更新
+                        $status = (isset($ret['status']) && $ret['status'] == 0) ? 2 : 4;
+                        $detail_m->where(['id'=>$v['id']])->save(['status'=>$status, 'send_time'=>time(), 'upd_time'=>time(), 'send_return_msg'=>$ret['msg']]);
                     }
+                    echo '[count:'.count($detail).']';
                 } else {
-                    $m->where(['id'=>$message['id']])->save(['send_success_time'=>time(), 'status'=>2]);
+                    $status_all = $detail_m->where(['alipay_life_message_id'=>$message['id']])->group('status')->getField('status', true);
+                    if(count($status_all) <= 1)
+                    {
+                        $status = in_array(2, $status_all) ? 2 : 4;
+                    } else {
+                        $status = 3;
+                    }
+                    $m->where(['id'=>$message['id']])->save(['send_success_time'=>time(), 'status'=>$status, 'upd_time'=>time()]);
                     echo '[success_time:'.date('Y-m-d H:i:s')."]\n";
                     echo '[message:'.$params['message_id']."]\n\n";
                 }
             }
         }
-        die('end');
 
-        // 获取详情处理发送消息
-        // $detail_m = M('AlipayLifeMessageDetail');
-        // $detail = $detail_m->where(['alipay_life_message_id'=>$message['id'], 'status'=>0])->limit(100)->select();
-        // if(!empty($detail))
-        // {
-        //     $obj = new \Library\AlipayLife($params);
-        //     foreach($detail as $v)
-        //     {
-        //         $obj->CustomSend($message);
-        //         print_r($message);
-        //         die;
-        //     }
-        // } else {
-        //     $m->where(['id'=>$message['id']])->save(['send_success_time'=>time(), 'status'=>2]);
-        //     echo '[success_time:'.date('Y-m-d H:i:s')."]\n";
-        //     echo '[message:'.$params['message_id']."]\n\n";
-        // }
+        // 继续运行脚本
+        self::SyncJobSend($message['id']);
+
+        // end
+        die('[end_time:'.date('Y-m-d H:i:s')."][msg:处理结束]\n\n");
     }
 }
 ?>

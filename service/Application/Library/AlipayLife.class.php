@@ -295,6 +295,21 @@ class AlipayLife
     }
 
     /**
+     * [SyncRsaVerify 同步返回签名验证]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2017-09-25T13:13:39+0800
+     * @param    [array]                   $data [返回数据]
+     * @param    [boolean]                 $key  [数据key]
+     */
+    private function SyncRsaVerify($data, $key)
+    {
+        $string = json_encode($data[$key], JSON_UNESCAPED_UNICODE);
+        return $this->OutRsaVerify($string, $data['sign']);
+    }
+
+    /**
      * 单条消息发送
      * @author   Devil
      * @blog    http://gong.gg/
@@ -330,15 +345,21 @@ class AlipayLife
         // 生成签名
         $p['sign'] = $this->MyRsaSign($this->ArrayToUrlString($p));
 
+        // 请求接口
         $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $p);
 
-        
-        
-        print_r($result);
-        echo "\n\n";
-        print_r($p);
-        die;
+        // 验证签名
+        if(!$this->SyncRsaVerify($result, 'alipay_open_public_message_custom_send_response'))
+        {
+            return ['status'=>-1, 'msg'=>'签名验证错误'];
+        }
 
+        // 状态
+        if(isset($result['alipay_open_public_message_custom_send_response']['code']) && $result['alipay_open_public_message_custom_send_response']['code'] == 10000)
+        {
+            return ['status'=>0, 'msg'=>'发送成功'];
+        }
+        return ['status'=>-100, 'msg'=>$result['alipay_open_public_message_custom_send_response']['sub_msg'].'['.$result['alipay_open_public_message_custom_send_response']['code'].']'];
     }
 
     /**

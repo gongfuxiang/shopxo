@@ -73,7 +73,7 @@ function DataReturn($msg = '', $code = 0, $data = '')
 }
 
 /**
- * 生成前台页面url地址
+ * 生成接口页面url地址
  * @author   Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
@@ -83,8 +83,24 @@ function DataReturn($msg = '', $code = 0, $data = '')
  * @param   string          $a      [方法名称]
  * @param   array           $params [参数]
  */
+function ApiUrl($c='Index', $a='Index', $params=[])
+{
+    $url = U("Api/{$c}/{$a}", $params, true, true);
+    $location = stripos($url, '.php');
+    if($location !== false)
+    {
+        $before = substr($url, 0, $location+4);
+        $suffix = substr($before, strrpos($before, '/')+1);
+        if(!empty($suffix))
+        {
+            $url = str_replace($suffix, 'api.php', $url);
+        }
+    }
+    return $url;
+}
+
 /**
- * 生成前台页面url地址
+ * 生成前端页面url地址
  * @author   Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
@@ -96,7 +112,7 @@ function DataReturn($msg = '', $code = 0, $data = '')
  */
 function HomeUrl($c='Index', $a='Index', $params=[])
 {
-    $url = U("Home/{$c}/{$a}", $params);
+    $url = U("Home/{$c}/{$a}", $params, true, true);
     $location = stripos($url, '.php');
     if($location !== false)
     {

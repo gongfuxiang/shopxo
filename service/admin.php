@@ -15,10 +15,7 @@
 require './core.php';
 
 // 默认绑定访问Admin模块
-if(empty($_GET['m']))
-{
-	define('BIND_MODULE', 'Admin');
-}
+define('BIND_MODULE', 'Admin');
 
 // 引入ThinkPHP入口文件
 require './ThinkPHP/ThinkPHP.php';

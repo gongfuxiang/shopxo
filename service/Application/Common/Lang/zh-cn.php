@@ -527,7 +527,8 @@ return array(
 			0 => array('value' => 0, 'name' => '未发送'),
 			1 => array('value' => 1, 'name' => '发送中'),
 			2 => array('value' => 2, 'name' => '发送成功'),
-			3 => array('value' => 3, 'name' => '发送失败'),
+			3 => array('value' => 3, 'name' => '部分成功'),
+			4 => array('value' => 4, 'name' => '发送失败'),
 		),
 
 

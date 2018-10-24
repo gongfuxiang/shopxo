@@ -14,12 +14,6 @@
 // 引入公共入口文件
 require './core.php';
 
-// 默认绑定访问Api模块
-if(empty($_GET['m']))
-{
-	define('BIND_MODULE', 'Api');
-}
-
 // 引入ThinkPHP入口文件
 require './ThinkPHP/ThinkPHP.php';
 
