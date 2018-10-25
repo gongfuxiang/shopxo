@@ -168,9 +168,9 @@ class AlipayLife
     {
         if($status === true)
         {
-            $response_xml = '<success>true</success><biz_content>'.$this->life_data['rsa_public'].'</biz_content>';
+            $response_xml = '<biz_content>'.$this->life_data['rsa_public'].'</biz_content><success>true</success>';
         } else {
-            $response_xml = '<success>false</success><error_code>VERIFY_FAILED</error_code><biz_content>'.$this->life_data['rsa_public'].'</biz_content>';
+            $response_xml = '<error_code>VERIFY_FAILED</error_code><biz_content>'.$this->life_data['rsa_public'].'</biz_content><success>false</success>';
         }
         $return_xml = '<?xml version="1.0" encoding="GBK"?>
                 <alipay>
