@@ -267,6 +267,7 @@ class AlipayLife
 
         // 开始处理
         $status = $this->OutRsaVerify($this->ArrayToUrlString($this->params), $this->params['sign']);
+        file_put_contents('./ffffff.txt', json_encode($_POST));
         $this->Respond($status);
     }
 
