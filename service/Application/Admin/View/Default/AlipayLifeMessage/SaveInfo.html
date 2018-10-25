@@ -55,12 +55,10 @@
 				</div>
 			</if>
 
-			<if condition="$nav_type eq 1">
-				<div class="am-form-group">
-					<label>{{:L('alipay_life_message_title_text')}}</label>
-					<input type="text" name="title" placeholder="{{:L('alipay_life_message_title_text')}}" maxlength="80" data-validation-message="{{:L('alipay_life_message_title_format')}}" class="am-radius" />
-				</div>
-			</if>
+			<div class="am-form-group">
+				<label>{{:L('alipay_life_message_title_text')}}</label>
+				<input type="text" name="title" placeholder="{{:L('alipay_life_message_title_text')}}" maxlength="80" data-validation-message="{{:L('alipay_life_message_title_format')}}" class="am-radius" required />
+			</div>
 
 			<div class="am-form-group">
 				<label>{{:L('alipay_life_message_content_text')}}</label>

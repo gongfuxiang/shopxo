@@ -218,7 +218,7 @@ class AlipayLifeController extends CommonController
             $type = 1;
         } else {
             $type = 2;
-            $category_m->where(['id'=>I('id')])->delete();
+            $category_m->where(['alipay_life_id'=>I('id')])->delete();
         }
 
         $status = false;

@@ -347,6 +347,7 @@ class CommonController extends Controller
 	{
 		if(isset($_FILES[$post_name]['error']))
 		{
+			$path = DS.'Public'.DS.'Upload'.DS.$dir.DS.date('Y').DS.date('m').DS.date('d').DS;
 			$file_obj = new \Library\FileUpload(['root_path'=>ROOT_PATH, 'path'=>$path]);
 			$ret = $file_obj->Save($post_name);
 			if($ret['status'] === true)

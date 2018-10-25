@@ -203,16 +203,36 @@ class AlipayLife
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
         $body_string = '';
+        $encode_array = [];
+        $post_multipart = false;
         if(is_array($data) && 0 < count($data))
         {
             foreach($data as $k => $v)
             {
-                $body_string .= $k.'='.urlencode($v).'&';
+                if ('@' != substr($v, 0, 1))
+                {
+                    $body_string .= $k.'='.urlencode($v).'&';
+                    $encode_array[$k] = $v;
+                } else {
+                    $post_multipart = true;
+                    $encode_array[$k] = new \CURLFile(substr($v, 1));
+                }
             }
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $body_string);
         }
-        $headers = array('content-type: application/x-www-form-urlencoded;charset=UTF-8');
+
+        curl_setopt($ch, CURLOPT_POST, true);
+        if($post_multipart === true)
+        {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $encode_array);
+
+            list($s1, $s2) = explode(' ', microtime());
+            $millisecond = (float)sprintf('%.0f', (floatval($s1) + floatval($s2)) * 1000);
+            $headers = array('content-type: multipart/form-data;charset=UTF-8;boundary='.$millisecond);
+        } else {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, substr($body_string, 0, -1));
+            $headers = array('content-type: application/x-www-form-urlencoded;charset=UTF-8');
+        }
+
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         $reponse = curl_exec($ch);
         if(curl_errno($ch))
@@ -310,6 +330,26 @@ class AlipayLife
     }
 
     /**
+     * 获取公共参数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-24
+     * @desc    description
+     */
+    private function RequestCommonParams()
+    {
+        return [
+            'app_id'        => $this->life_data['appid'],
+            'format'        => 'JSON',
+            'charset'       => 'utf-8',
+            'sign_type'     => 'RSA2',
+            'timestamp'     => date('Y-m-d H:i:s'),
+            'version'       => '1.0',
+        ];
+    }
+
+    /**
      * 单条消息发送
      * @author   Devil
      * @blog    http://gong.gg/
@@ -330,7 +370,7 @@ class AlipayLife
         ];
         if($params['msg_type'] == 1)
         {
-            $biz_content['articles'] = [
+            $biz_content['articles'][] = [
                 'title'         => isset($params['title']) ? $params['title'] : '',
                 'desc'          => $params['content'],
                 'image_url'     => $params['out_image_url'],
@@ -363,52 +403,100 @@ class AlipayLife
     }
 
     /**
-     * [GetParamSign 生成参数和签名]
-     * @param  [array] $data   [待生成的参数]
-     * @param  [array] $config [配置信息]
-     * @return [array]         [生成好的参数和签名]
-     */
-    private function GetParamSign($data, $config = [])
-    {
-        $param = '';
-        $sign  = '';
-        ksort($data);
-
-        foreach($data AS $key => $val)
-        {
-            $param .= "$key=" .urlencode($val). "&";
-            $sign  .= "$key=$val&";
-        }
-
-        $result = array(
-            'param' =>  substr($param, 0, -1),
-            'value' =>  substr($sign, 0, -1),
-        );
-        if(!empty($config['key']))
-        {
-            $result['sign'] = $result['value'].$config['key'];
-        }
-        return $result;
-    }
-
-    /**
-     * 获取公共参数
+     * 群发消息发送
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2018-10-24
      * @desc    description
+     * @param   [array]          $data [输入参数]
      */
-    private function RequestCommonParams()
+    public function GroupSend($params = [])
     {
-        return [
-            'app_id'        => $this->life_data['appid'],
-            'format'        => 'JSON',
-            'charset'       => 'utf-8',
-            'sign_type'     => 'RSA2',
-            'timestamp'     => date('Y-m-d H:i:s'),
-            'version'       => '1.0',
+        // 参数处理
+        $p = $this->RequestCommonParams();
+        $p['method'] = 'alipay.open.public.message.total.send';
+        $biz_content = [
+            'msg_type'      => ($params['msg_type'] == 0) ? 'text' : 'image-text',
+            'chat'          => 0,
         ];
+        if($params['msg_type'] == 1)
+        {
+            $biz_content['articles'][] = [
+                'title'         => $params['title'],
+                'desc'          => $params['content'],
+                'image_url'     => $params['out_image_url'],
+                'url'           => $params['url'],
+                'action_name'   => isset($params['action_name']) ? $params['action_name'] : '',
+            ];
+        } else {
+            $biz_content['text'] = [
+                'content'   => $params['content'],
+                'title'     => $params['title'],
+            ];
+        }
+        $p['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
+
+        // 生成签名
+        $p['sign'] = $this->MyRsaSign($this->ArrayToUrlString($p));
+
+        // 请求接口
+        $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $p);
+
+        // 验证签名
+        if(!$this->SyncRsaVerify($result, 'alipay_open_public_message_total_send_response'))
+        {
+            return ['status'=>-1, 'msg'=>'签名验证错误'];
+        }
+
+        // 状态
+        if(isset($result['alipay_open_public_message_total_send_response']['code']) && $result['alipay_open_public_message_total_send_response']['code'] == 10000)
+        {
+            return ['status'=>0, 'msg'=>'发送成功'];
+        }
+        return ['status'=>-100, 'msg'=>$result['alipay_open_public_message_total_send_response']['sub_msg'].'['.$result['alipay_open_public_message_total_send_response']['code'].']'];
+    }
+
+    /**
+     * 图片上传
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-25
+     * @desc    description
+     * @param   [array]          $data [输入参数]
+     */
+    public function UploadImage($params = [])
+    {
+        // 参数校验
+        if(empty($params['file']))
+        {
+            return ['status'=>-1, 'msg'=>'图片地址有误'];
+        }
+
+        // 参数处理
+        $p = $this->RequestCommonParams();
+        $p['method'] = 'alipay.offline.material.image.upload';
+
+        // 图片参数
+        $p['image_type'] = isset($params['image_type']) ? $params['image_type'] : 'jpg';
+        $p['image_name'] = isset($params['image_name']) ? $params['image_name'] : 'image';
+
+        // 生成签名
+        $p['sign'] = $this->MyRsaSign($this->ArrayToUrlString($p));
+
+        // 图片内容不参与签名
+        $p['image_content'] = '@'.$params['file'];
+
+        // 请求接口
+        $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $p);
+
+        // 状态
+        if(isset($result['alipay_offline_material_image_upload_response']['code']) && $result['alipay_offline_material_image_upload_response']['code'] == 10000)
+        {
+            return ['status'=>0, 'msg'=>'上传成功', 'data'=>$result['alipay_offline_material_image_upload_response']['image_url']];
+        }
+        return ['status'=>-100, 'msg'=>$result['alipay_offline_material_image_upload_response']['sub_msg'].'['.$result['alipay_offline_material_image_upload_response']['code'].']', 'data'=>''];
     }
 
 }

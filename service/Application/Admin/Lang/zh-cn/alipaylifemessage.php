@@ -44,7 +44,7 @@ return array(
     'alipay_life_message_send_type_format'  =>  '请选择消息发送类型',
     'alipay_life_message_send_type_list'    => array(
             0 => array('value' => 0, 'name' => '单条'),
-            1 => array('value' => 1, 'name' => '批量'),
+            1 => array('value' => 1, 'name' => '群发'),
         ),
 
     'alipay_life_message_user_text'         => '给用户发送消息',
