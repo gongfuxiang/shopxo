@@ -181,8 +181,6 @@ class AlipayLife
                     <sign>'.$this->MyRsaSign($response_xml).'</sign>
                     <sign_type>RSA2</sign_type>
                 </alipay>';
-
-                file_put_contents('./ffffff.txt', $return_xml);
         die($return_xml);
     }
 
