@@ -181,6 +181,8 @@ class AlipayLife
                     <sign>'.$this->MyRsaSign($response_xml).'</sign>
                     <sign_type>RSA2</sign_type>
                 </alipay>';
+
+                file_put_contents('./ffffff.txt', $return_xml);
         die($return_xml);
     }
 
@@ -267,7 +269,6 @@ class AlipayLife
 
         // 开始处理
         $status = $this->OutRsaVerify($this->ArrayToUrlString($this->params), $this->params['sign']);
-        file_put_contents('./ffffff.txt', json_encode($_POST));
         $this->Respond($status);
     }
 
