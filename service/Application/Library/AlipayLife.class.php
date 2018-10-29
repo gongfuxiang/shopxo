@@ -350,6 +350,84 @@ class AlipayLife
     }
 
     /**
+     * 消息发送
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-24
+     * @desc    description
+     * @param   [array]          $data [输入参数]
+     */
+    public function MessageSend($params = [])
+    {
+        // 参数处理
+        $p = $this->RequestCommonParams();
+        $p['method'] = $params['method'];
+        $biz_content = [
+            'msg_type'      => ($params['msg_type'] == 0) ? 'text' : 'image-text',
+            'chat'          => isset($params['chat']) ? intval($params['chat']) : 0,
+        ];
+
+        // 消息内容
+        if(empty($params['content']) || !is_array($params['content']))
+        {
+            return ['status'=>-1, 'msg'=>'消息内容有误'];
+        }
+
+        // 发送类型 单条
+        if($params['send_type'] == 0)
+        {
+            if(empty($params['alipay_openid']))
+            {
+                return ['status'=>-1, 'msg'=>'指定用户openid不能为空'];
+            }
+            $biz_content['to_user_id'] = $params['alipay_openid'];
+        }
+
+        // 消息类型
+        if($params['msg_type'] == 1)
+        {
+            $biz_content['articles'] = [];
+            foreach($params['content'] as $k=>$v)
+            {
+                if($k < 10)
+                {
+                    $biz_content['articles'][] = [
+                        'title'         => $v['title'],
+                        'desc'          => $v['content'],
+                        'image_url'     => $v['out_image_url'],
+                        'url'           => $v['url'],
+                        'action_name'   => $v['action_name'],
+                    ];
+                }
+            }
+        } else {
+            $biz_content['text'] = ['content'=>$params['content'][0]['content']];
+        }
+        $p['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
+
+        // 生成签名
+        $p['sign'] = $this->MyRsaSign($this->ArrayToUrlString($p));
+
+        // 请求接口
+        $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $p);
+        $key = str_replace('.', '_', $p['method']).'_response';
+
+        // 验证签名
+        if(!$this->SyncRsaVerify($result, $key))
+        {
+            return ['status'=>-1, 'msg'=>'签名验证错误'];
+        }
+
+        // 状态
+        if(isset($result[$key]['code']) && $result[$key]['code'] == 10000)
+        {
+            return ['status'=>0, 'msg'=>'发送成功'];
+        }
+        return ['status'=>-100, 'msg'=>$result[$key]['sub_msg'].'['.$result[$key]['code'].']'];
+    }
+
+    /**
      * 单条消息发送
      * @author   Devil
      * @blog    http://gong.gg/
@@ -360,46 +438,8 @@ class AlipayLife
      */
     public function CustomSend($params = [])
     {
-        // 参数处理
-        $p = $this->RequestCommonParams();
-        $p['method'] = 'alipay.open.public.message.custom.send';
-        $biz_content = [
-            'to_user_id'    => $params['alipay_openid'],
-            'msg_type'      => ($params['msg_type'] == 0) ? 'text' : 'image-text',
-            'chat'          => 0,
-        ];
-        if($params['msg_type'] == 1)
-        {
-            $biz_content['articles'][] = [
-                'title'         => isset($params['title']) ? $params['title'] : '',
-                'desc'          => $params['content'],
-                'image_url'     => $params['out_image_url'],
-                'url'           => $params['url'],
-                'action_name'   => isset($params['action_name']) ? $params['action_name'] : '',
-            ];
-        } else {
-            $biz_content['text'] = ['content'=>$params['content']];
-        }
-        $p['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
-
-        // 生成签名
-        $p['sign'] = $this->MyRsaSign($this->ArrayToUrlString($p));
-
-        // 请求接口
-        $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $p);
-
-        // 验证签名
-        if(!$this->SyncRsaVerify($result, 'alipay_open_public_message_custom_send_response'))
-        {
-            return ['status'=>-1, 'msg'=>'签名验证错误'];
-        }
-
-        // 状态
-        if(isset($result['alipay_open_public_message_custom_send_response']['code']) && $result['alipay_open_public_message_custom_send_response']['code'] == 10000)
-        {
-            return ['status'=>0, 'msg'=>'发送成功'];
-        }
-        return ['status'=>-100, 'msg'=>$result['alipay_open_public_message_custom_send_response']['sub_msg'].'['.$result['alipay_open_public_message_custom_send_response']['code'].']'];
+        $params['method'] = 'alipay.open.public.message.custom.send';
+        return $this->MessageSend($params);
     }
 
     /**
@@ -413,48 +453,8 @@ class AlipayLife
      */
     public function GroupSend($params = [])
     {
-        // 参数处理
-        $p = $this->RequestCommonParams();
-        $p['method'] = 'alipay.open.public.message.total.send';
-        $biz_content = [
-            'msg_type'      => ($params['msg_type'] == 0) ? 'text' : 'image-text',
-            'chat'          => 0,
-        ];
-        if($params['msg_type'] == 1)
-        {
-            $biz_content['articles'][] = [
-                'title'         => $params['title'],
-                'desc'          => $params['content'],
-                'image_url'     => $params['out_image_url'],
-                'url'           => $params['url'],
-                'action_name'   => isset($params['action_name']) ? $params['action_name'] : '',
-            ];
-        } else {
-            $biz_content['text'] = [
-                'content'   => $params['content'],
-                'title'     => $params['title'],
-            ];
-        }
-        $p['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
-
-        // 生成签名
-        $p['sign'] = $this->MyRsaSign($this->ArrayToUrlString($p));
-
-        // 请求接口
-        $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $p);
-
-        // 验证签名
-        if(!$this->SyncRsaVerify($result, 'alipay_open_public_message_total_send_response'))
-        {
-            return ['status'=>-1, 'msg'=>'签名验证错误'];
-        }
-
-        // 状态
-        if(isset($result['alipay_open_public_message_total_send_response']['code']) && $result['alipay_open_public_message_total_send_response']['code'] == 10000)
-        {
-            return ['status'=>0, 'msg'=>'发送成功'];
-        }
-        return ['status'=>-100, 'msg'=>$result['alipay_open_public_message_total_send_response']['sub_msg'].'['.$result['alipay_open_public_message_total_send_response']['code'].']'];
+        $params['method'] = 'alipay.open.public.message.total.send';
+        return $this->MessageSend($params);
     }
 
     /**

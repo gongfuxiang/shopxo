@@ -10,6 +10,7 @@
 return array(
 	// 添加/编辑
 	'alipay_life_message_add_name'          => '生活号消息创建',
+    'alipay_life_message_content_title'     => '生活号消息内容',
 
     'alipay_life_message_life_text'         => '生活号',
     'alipay_life_message_life_format'       => '请选择生活号',
@@ -34,8 +35,9 @@ return array(
 
     'alipay_life_message_keywords_text'     => '标题',
 
-    'alipay_life_message_type_text'         => '消息类型',
-    'alipay_life_message_type_list'         => array(
+    'alipay_life_message_msg_type_text'     => '消息类型',
+    'alipay_life_message_msg_type_format'   => '请选择消息类型',
+    'alipay_life_message_msg_type_list'     => array(
             0 => array('value' => 0, 'name' => '文本'),
             1 => array('value' => 1, 'name' => '图文'),
         ),
@@ -50,5 +52,10 @@ return array(
     'alipay_life_message_user_text'         => '给用户发送消息',
     'alipay_life_message_startup_time_text' => '发送启动时间',
     'alipay_life_message_success_time_text' => '发送完成时间',
+
+    'alipay_life_message_optional_text'     => '可选',
+    'alipay_life_message_selected_text'     => '已选',
+    'alipay_life_message_selected_all_text' => '全选',
+    'alipay_life_message_content_text'      => '内容',
 );
 ?>

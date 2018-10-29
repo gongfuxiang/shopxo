@@ -11,83 +11,86 @@
 				<a href="{{:U('Admin/AlipayLifeMessage/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:L('common_operation_back')}}</a>
 			</legend>
 
-			<!-- table nav start -->
-			<include file="Nav" />
-			<!-- table nav end -->
+			<div class="am-form-group">
+                <label>{{:L('alipay_life_message_msg_type_text')}}</label>
+                <select name="msg_type" class="am-radius c-p chosen-select" data-placeholder="{{:L('common_select_can_choose')}}" data-validation-message="{{:L('alipay_life_message_msg_type_format')}}" required>
+                    <option value="">{{:L('common_select_can_choose')}}</option>
+                    <foreach name="alipay_life_message_msg_type_list" item="v">
+                        <option value="{{$v.value}}" <if condition="isset($data['msg_type']) and $v['value'] eq $data['msg_type']">selected</if>>{{$v.name}}</option>
+                    </foreach>
+                </select>
+            </div>
 
 			<div class="am-form-group">
-				<label>{{:L('alipay_life_message_send_type_text')}}</label>
-			    <select name="send_type" class="am-radius c-p chosen-select" data-placeholder="{{:L('common_select_can_choose')}}" data-validation-message="{{:L('alipay_life_message_send_type_format')}}" disabled required>
-			    	<option value="">{{:L('common_select_can_choose')}}</option>
-					<foreach name="alipay_life_message_send_type_list" item="v">
-						<option value="{{$v.value}}" <if condition="isset($send_type) and $v['value'] eq $send_type">selected</if>>{{$v.name}}</option>
-					</foreach>
-				</select>
-			</div>
-			<if condition="$send_type eq 1">
-				<empty name="params.alipay_life_id">
-					<div class="am-form-group">
-						<label>{{:L('alipay_life_message_category_text')}}</label>
-					    <select name="alipay_life_category_id" class="am-radius c-p chosen-select" multiple="multiple" data-placeholder="{{:L('common_select_can_choose')}}" data-validation-message="{{:L('alipay_life_message_category_format')}}" required>
-							<foreach name="alipay_life_category" item="v">
-								<option value="{{$v.id}}">{{$v.name}}</option>
-							</foreach>
-						</select>
-					</div>
-				</empty>
+                <label>{{:L('alipay_life_message_send_type_text')}}</label>
+                <select name="send_type" class="am-radius c-p chosen-select" data-placeholder="{{:L('common_select_can_choose')}}" data-validation-message="{{:L('alipay_life_message_send_type_format')}}" disabled required>
+                    <option value="">{{:L('common_select_can_choose')}}</option>
+                    <foreach name="alipay_life_message_send_type_list" item="v">
+                        <option value="{{$v.value}}" <if condition="isset($send_type) and $v['value'] eq $send_type">selected</if>>{{$v.name}}</option>
+                    </foreach>
+                </select>
+            </div>
 
-				<notempty name="params.alipay_life_id">
-					<div class="am-form-group">
-						<label>{{:L('alipay_life_message_life_text')}}</label>
-					    <select name="alipay_life_id" class="am-radius c-p chosen-select" data-placeholder="{{:L('common_select_can_choose')}}" data-validation-message="{{:L('alipay_life_message_life_format')}}" <notempty name="params.alipay_life_id">disabled</notempty> required>
-							<foreach name="alipay_life_list" item="v">
-								<option value="{{$v.id}}" <if condition="$params['alipay_life_id'] eq $v['id']">selected</if>>{{$v.name}}</option>
-							</foreach>
-						</select>
-					</div>
-				</notempty>
-			<else />
+			<!-- 单条 -->
+			<if condition="$send_type eq 0">
+				<div class="am-form-group">
+					<label>{{:L('alipay_life_message_life_text')}}</label>
+				    <select name="alipay_life_ids" class="am-radius c-p chosen-select" data-placeholder="{{:L('common_select_can_choose')}}" data-validation-message="{{:L('alipay_life_message_life_format')}}" <empty name="send_type">disabled</empty> required>
+						<foreach name="alipay_life_list" item="v">
+							<option value="{{$v.id}}" <if condition="in_array($v['id'], $alipay_life_ids_all)">selected</if>>{{$v.name}}</option>
+						</foreach>
+					</select>
+				</div>
+
 				<div class="am-form-group">
 					<label>{{:L('alipay_life_message_user_text')}}</label>
-					<input type="hidden" name="user_id" value="{{$params.user_id}}" />
-					<input type="hidden" name="alipay_life_user_id" value="{{$params.alipay_life_user_id}}" />
+					<input type="hidden" name="user_id" value="{{$user_id}}" />
+					<input type="hidden" name="alipay_life_user_id" value="{{$alipay_life_user_id}}" />
 					<input type="text" class="am-radius" value="{{$alipay_openid}}" disabled />
 				</div>
 			</if>
 
-			<div class="am-form-group">
-				<label>{{:L('alipay_life_message_title_text')}}</label>
-				<input type="text" name="title" placeholder="{{:L('alipay_life_message_title_text')}}" maxlength="80" data-validation-message="{{:L('alipay_life_message_title_format')}}" class="am-radius" required />
-			</div>
-
-			<div class="am-form-group">
-				<label>{{:L('alipay_life_message_content_text')}}</label>
-				<textarea rows="5" name="content" class="am-radius" placeholder="{{:L('alipay_life_message_content_text')}}" data-validation-message="{{:L('alipay_life_message_content_format')}}" maxlength="250" required></textarea>
-			</div>
-
-			<if condition="$nav_type eq 1">
-				<div class="am-form-group am-form-file">
-					<label class="block">{{:L('alipay_life_message_image_url_text')}}</label>
-					<button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
-					<i class="am-icon-cloud-upload"></i> {{:L('common_select_images_text')}}</button>
-					<input type="text" name="image_url" class="am-radius js-choice-one original-images-url original-icon-images-url" data-choice-one-to='input[name="file_image_url"]' data-validation-message="{{:L('alipay_life_message_image_url_format')}}" readonly="readonly" required />
-					<input type="file" name="file_image_url" multiple data-validation-message="{{:L('alipay_life_message_image_url_format')}}" accept="image/gif,image/jpeg,image/jpg,image/png" class="js-choice-one images-file-event file_image_url-tag" data-choice-one-to=".original-icon-images-url" data-tips-tag="#form-icon-tips" data-image-tag="#form-img-icon" required />
-					<div id="form-icon-tips" class="m-t-5"></div>
-					<img src="{{$image_host}}/Public/Admin/Default/Images/default-images.png" id="form-img-icon" class="block m-t-5 am-img-thumbnail am-radius" width="100" height="100" data-default="{{$image_host}}/Public/Admin/Default/Images/default-images.png" />
-				</div>
-
-				<div class="am-form-group">
-					<label>{{:L('alipay_life_message_url_text')}}</label>
-					<input type="text" name="url" placeholder="{{:L('alipay_life_message_url_text')}}" data-validation-message="{{:L('alipay_life_message_url_format')}}" class="am-radius" maxlength="255" required />
-				</div>
-
-				<div class="am-form-group">
-					<label>{{:L('alipay_life_message_action_name_text')}}</label>
-					<input type="text" name="action_name" placeholder="{{:L('alipay_life_message_action_name_text')}}" data-validation-message="{{:L('alipay_life_message_action_name_format')}}" class="am-radius" maxlength="60" />
+			<!-- 群发 -->
+			<if condition="$send_type eq 1">
+				<div class="life-container">
+					<label class="block">{{:L('alipay_life_message_life_text')}}</label>
+					<div class="life-form" data-search-url="{{:U('Admin/AlipayLifeMessage/Search')}}">
+					    <select class="am-radius c-p chosen-select life-form-category" data-placeholder="{{:L('common_select_can_choose')}}" data-validation-message="{{:L('alipay_life_message_category_format')}}">
+					    	<option value="">{{:L('common_select_can_choose')}}</option>
+							<foreach name="alipay_life_category" item="v">
+								<option value="{{$v.id}}">{{$v.name}}</option>
+							</foreach>
+						</select>
+						<input type="text" placeholder="{{:L('alipay_life_message_title_text')}}" class="am-radius life-form-keywords" />
+						<button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm search-submit">{{:L('common_so_text')}}</button>
+					</div>
+					<div class="am-form-group life-list">
+						<input type="text" name="alipay_life_ids" value="<notempty name="data.alipay_life_ids">{{:implode(',', json_decode($data['alipay_life_ids'], true))}}</notempty>" data-validation-message="{{:L('alipay_life_message_life_format')}}" required />
+						<div class="life-items am-fl">
+							<div class="title">{{:L('alipay_life_message_optional_text')}}</div>
+							<ul class="life-content am-list ul-left">
+								<div class="table-no">{{:L('common_not_data_tips')}}</div>
+							</ul>
+						</div>
+						<button type="button" class="am-btn am-btn-default am-btn-xs selected-all">{{:L('alipay_life_message_selected_all_text')}} <i class="am-icon-angle-double-right"></i></button>
+						<div class="life-items am-fr">
+							<div class="title">{{:L('alipay_life_message_selected_text')}}</div>
+							<ul class="life-content am-list ul-right">
+								<div class="table-no <notempty name="data">none</notempty>">{{:L('common_not_data_tips')}}</div>
+								<foreach name="alipay_life_list" item="v">
+									<li class="am-animation-slide-bottom items-li-{{$v.id}}">
+										<span class="name" data-value="{{$v.id}}">{{$v.name}}</span>
+										<i class="am-icon-trash-o am-fr"></i>
+									</li>
+								</foreach>
+							</ul>
+						</div>
+					</div>
 				</div>
 			</if>
+
 			<div class="am-form-group">
-				<input type="hidden" name="type" value="{{$nav_type}}" />
+				<input type="hidden" name="id" value="<notempty name="params.id">{{$params.id}}</notempty>" />
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
 			</div>
 		</form>

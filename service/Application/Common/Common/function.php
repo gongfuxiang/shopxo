@@ -17,17 +17,17 @@
  * @desc    异步运行url地址方法
  * @param   [string]          $url [url地址 支持get参数]
  */
-function SyncJob($url)
+function SyncJob($url, $port = 80, $time = 30)
 {
     $url_str = str_replace(array('http://', 'https://'), '', $url);
     $location = strpos($url_str, '/');
     $host = substr($url_str, 0, $location);
-    header("Content-Type: text/html; charset=utf-8");
-    $fp = fsockopen($host, 80, $errno, $errstr, 3);
+    $fp = fsockopen($host, $port, $errno, $errstr, $time);
     if($fp)
     {
-        $out = "GET $url HTTP/1.1\r\n";
-        $out .= "Host: $host\r\n";
+        $out = "GET ".str_replace($host, '', $url_str)." HTTP/1.1\r\n";
+        $out .= "Host: ".$host."\r\n";
+        $out .= "Content-type: application/x-www-form-urlencoded\r\n";
         $out .= "Connection: Close\r\n\r\n";
         fputs($fp, $out);
         fclose($fp);
