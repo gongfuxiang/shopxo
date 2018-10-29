@@ -239,11 +239,6 @@ class AlipayLifeService
             ],
             [
                 'checked_type'      => 'empty',
-                'key_name'          => 'title',
-                'error_msg'         => '消息标题有误',
-            ],
-            [
-                'checked_type'      => 'empty',
                 'key_name'          => 'content',
                 'error_msg'         => '消息内容有误',
             ],

@@ -11,10 +11,12 @@
                 <a href="{{:U('Admin/AlipayLifeMessage/ContentIndex', ['message_id'=>$params['message_id']])}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:L('common_operation_back')}}</a>
             </legend>
 
-            <div class="am-form-group">
-                <label>{{:L('alipay_life_message_title_text')}}</label>
-                <input type="text" name="title" placeholder="{{:L('alipay_life_message_title_text')}}" maxlength="80" data-validation-message="{{:L('alipay_life_message_title_format')}}" class="am-radius" value="<notempty name="data.title">{{$data.title}}</notempty>" required />
-            </div>
+            <if condition="$msg_type eq 1">
+                <div class="am-form-group">
+                    <label>{{:L('alipay_life_message_title_text')}}</label>
+                    <input type="text" name="title" placeholder="{{:L('alipay_life_message_title_text')}}" maxlength="80" data-validation-message="{{:L('alipay_life_message_title_format')}}" class="am-radius" value="<notempty name="data.title">{{$data.title}}</notempty>" required />
+                </div>
+            </if>
 
             <div class="am-form-group">
                 <label>{{:L('alipay_life_message_content_text')}}</label>

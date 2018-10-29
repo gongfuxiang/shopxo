@@ -393,12 +393,39 @@ class AlipayLifeMessageController extends CommonController
         }
 
         // 删除
-        if(M('AlipayLifeMessage')->delete(intval(I('id'))))
+        $id = intval(I('id'));
+        $m = M('AlipayLifeMessage');
+        $m->startTrans();
+        if($m->delete($id) && M('AlipayLifeMessageContent')->where(['alipay_life_message_id'=>$id])->delete())
+        {
+            $m->commit();
+            $this->ajaxReturn(L('common_operation_delete_success'));
+        }
+        $m->rollback();
+        $this->ajaxReturn(L('common_operation_delete_error'), -100);
+    }
+
+    /**
+     * [Delete 生活号消息内容删除]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-25T22:36:12+0800
+     */
+    public function ContentDelete()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            $this->error(L('common_unauthorized_access'));
+        }
+
+        // 删除
+        if(M('AlipayLifeMessageContent')->delete(intval(I('id'))))
         {
             $this->ajaxReturn(L('common_operation_delete_success'));
-        } else {
-            $this->ajaxReturn(L('common_operation_delete_error'), -100);
         }
+        $this->ajaxReturn(L('common_operation_delete_error'), -100);
     }
 
     /**
