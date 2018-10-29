@@ -57,5 +57,6 @@ return array(
     'alipay_life_message_selected_text'     => '已选',
     'alipay_life_message_selected_all_text' => '全选',
     'alipay_life_message_content_text'      => '内容',
+    'alipay_life_message_detail_text'       => '详情',
 );
 ?>

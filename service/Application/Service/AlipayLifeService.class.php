@@ -410,6 +410,25 @@ class AlipayLifeService
             return DataReturn('状态不可操作['.$common_send_status_list[$message['status']]['name'].']', -2);
         }
 
+        // 获取消息内容
+        $content_count = (int) M('AlipayLifeMessageContent')->where(['alipay_life_message_id'=>$message['id']])->count();
+        switch($message['send_type'])
+        {
+            case 0 :
+                if($content_count > 1)
+                {
+                    return DataReturn('消息内容不存在', -1);
+                }
+                break;
+
+            case 1 :
+                if($content_count > 10)
+                {
+                    return DataReturn('群发消息不能超过10条内容', -1);
+                }
+                break;
+        }
+
         // 发送类型
         $data = [];
         if($message['send_type'] == 1)
