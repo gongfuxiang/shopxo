@@ -1315,6 +1315,31 @@ function params_checked($data, $params)
                     return $v['error_msg'];
                 }
                 break;
+
+            case 'length' :
+                if(!is_string($v['checked_data']))
+                {
+                    return '内部调用参数配置有误';
+                }
+                if(!isset($data[$v['key_name']]))
+                {
+                    return $v['error_msg'];
+                }
+                $length = mb_strlen($data[$v['key_name']], 'utf-8');
+                $rule = explode(',', $v['checked_data']);
+                if(count($rule) == 1)
+                {
+                    if($length > intval($rule[0]))
+                    {
+                        return $v['error_msg'];
+                    }
+                } else {
+                    if($length < intval($rule[0]) || $length > intval($rule[1]))
+                    {
+                        return $v['error_msg'];
+                    }
+                }
+                break;
         }
     }
     return true;

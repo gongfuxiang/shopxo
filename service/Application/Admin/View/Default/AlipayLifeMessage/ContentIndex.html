@@ -3,10 +3,12 @@
 <!-- right content start  -->
 <div class="content-right">
     <div class="content">
+        <!-- back nav start -->
         <legend>
             <span class="fs-16">{{:L('alipay_life_message_content_title')}}</span>
             <a href="{{:U('Admin/AlipayLifeMessage/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:L('common_operation_back')}}</a>
         </legend>
+        <!-- back nav end -->
 
         <!-- operation start -->
         <if condition="($msg_type eq 0 and $list_count eq 0) or ($msg_type eq 1 and $list_count lt 10)">
@@ -112,12 +114,6 @@
             </tbody>
         </table>
         <!-- list end -->
-
-        <!-- page start -->
-        <if condition="!empty($list)">
-            {{$page_html}}
-        </if>
-        <!-- page end -->
     </div>
 </div>
 <!-- right content end  -->

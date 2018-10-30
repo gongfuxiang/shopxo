@@ -499,5 +499,151 @@ class AlipayLife
         return ['status'=>-100, 'msg'=>$result['alipay_offline_material_image_upload_response']['sub_msg'].'['.$result['alipay_offline_material_image_upload_response']['code'].']', 'data'=>''];
     }
 
+    /**
+     * 上架生活号
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-30
+     * @desc    description
+     * @param   [array]          $data [输入参数]
+     */
+    public function LifeStatus($params = [])
+    {
+        // 参数处理
+        $p = $this->RequestCommonParams();
+        $p['method'] = $params['method'];
+        $biz_content = [];
+        $p['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
+
+        // 生成签名
+        $p['sign'] = $this->MyRsaSign($this->ArrayToUrlString($p));
+
+        // 请求接口
+        $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $p);
+        $key = str_replace('.', '_', $p['method']).'_response';
+
+        // 验证签名
+        if(!$this->SyncRsaVerify($result, $key))
+        {
+            return ['status'=>-1, 'msg'=>'签名验证错误'];
+        }
+
+        // 状态
+        if(isset($result[$key]['code']) && $result[$key]['code'] == 10000)
+        {
+            return ['status'=>0, 'msg'=>'操作成功'];
+        }
+        return ['status'=>-100, 'msg'=>$result[$key]['sub_msg'].'['.$result[$key]['code'].']'];
+    }
+
+    /**
+     * 上架生活号
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-30
+     * @desc    description
+     * @param   [array]          $data [输入参数]
+     */
+    public function LifeAboard($params = [])
+    {
+        $params['method'] = 'alipay.open.public.life.aboard.apply';
+        return $this->LifeStatus($params);
+    }
+
+    /**
+     * 下架生活号
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-30
+     * @desc    description
+     * @param   [array]          $data [输入参数]
+     */
+    public function LifeDebark($params = [])
+    {
+        $params['method'] = 'alipay.open.public.life.debark.apply';
+        return $this->LifeStatus($params);
+    }
+
+    /**
+     * 菜单发布
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-30
+     * @desc    description
+     * @param   [array]          $data [输入参数]
+     */
+    public function MenuRelease($params = [])
+    {
+        // 参数处理
+        $p = $this->RequestCommonParams();
+        $p['method'] = 'alipay.open.public.menu.modify';
+        $biz_content = [
+            'type'      => ($params['type'] == 1) ? 'icon' : 'text',
+            'button'    => [],
+        ];
+        foreach($params['content'] as $v)
+        {
+            $button = [
+                'name'          => mb_substr($v['name'], 0, 5, 'utf-8'),
+                'action_type'   => $v['action_type'],
+                'action_param'  => $v['action_value'],
+            ];
+
+            // 是否为图标
+            if($params['type'] == 1)
+            {
+                $button['icon'] = $v['out_icon'];
+            }
+
+            // 不为图标并且存在二级
+            if($params['type'] != 1 && !empty($v['items']))
+            {
+                foreach($v['items'] as $vs)
+                {
+                    $button['sub_button'][] = [
+                        'name'          => mb_substr($vs['name'], 0, 5, 'utf-8'),
+                        'action_type'   => $vs['action_type'],
+                        'action_param'  => $vs['action_value'],
+                    ];
+                }
+            }
+            $biz_content['button'][] = $button;
+        }
+        $p['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
+
+        // 生成签名
+        $p['sign'] = $this->MyRsaSign($this->ArrayToUrlString($p));
+
+        // 请求接口
+        $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $p);
+        $key = str_replace('.', '_', $p['method']).'_response';
+
+        // 验证签名
+        if(!$this->SyncRsaVerify($result, $key))
+        {
+            return ['status'=>-1, 'msg'=>'签名验证错误'];
+        }
+
+        // 状态
+        if(isset($result[$key]['code']) && $result[$key]['code'] == 10000)
+        {
+            return ['status'=>0, 'msg'=>'操作成功'];
+        }
+
+        // 错误是否为菜单不存在,则重新调用创建接口
+        if(stripos($result[$key]['sub_code'], 'MENU_MODIFY_NOT_EXIST') !== false)
+        {
+            $params['method'] = 'alipay.open.public.menu.create';
+            return $this->MenuRelease($params);
+        }
+
+        // 失败
+        return ['status'=>-100, 'msg'=>$result[$key]['sub_msg'].'['.$result[$key]['code'].']'];
+    }
+
 }
 ?>

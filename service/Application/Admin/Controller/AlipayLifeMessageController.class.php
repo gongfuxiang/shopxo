@@ -108,7 +108,7 @@ class AlipayLifeMessageController extends CommonController
                 // 消息类型
                 $v['type_name'] = $alipay_life_message_msg_type_list[$v['msg_type']]['name'];
 
-                // 发送状态
+                // 发送类型
                 $v['send_type_name'] = $alipay_life_message_send_type_list[$v['send_type']]['name'];
 
                 // 生活号
@@ -118,8 +118,8 @@ class AlipayLifeMessageController extends CommonController
                 $v['alipay_openid'] = empty($v['user_id']) ? '' :  M('User')->where(['id'=>$v['user_id']])->getField('alipay_openid');
 
                 // 时间
-                $v['send_startup_time'] = empty($v['send_startup_time']) ? '' : date('Y-m-d H:i:s', $v['send_startup_time']);
-                $v['send_success_time'] = empty($v['send_success_time']) ? '' : date('Y-m-d H:i:s', $v['send_success_time']);
+                $v['startup_time'] = empty($v['startup_time']) ? '' : date('Y-m-d H:i:s', $v['startup_time']);
+                $v['success_time'] = empty($v['success_time']) ? '' : date('Y-m-d H:i:s', $v['success_time']);
                 $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
                 $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
             }
@@ -340,6 +340,30 @@ class AlipayLifeMessageController extends CommonController
     }
 
     /**
+     * 消息详情
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-30
+     * @desc    description
+     */
+    public function Detail()
+    {
+        // 参数
+        $params = array_merge($_POST, $_GET);
+
+        // 获取列表
+        $list = AlipayLifeService::MessageDetailList($params);
+
+        // 参数
+        $this->assign('params', $params);
+
+        // 数据列表
+        $this->assign('list', $list);
+        $this->display('Detail');
+    }
+
+    /**
      * [Save 生活号消息保存]
      * @author   Devil
      * @blog     http://gong.gg/
@@ -354,7 +378,7 @@ class AlipayLifeMessageController extends CommonController
             $this->error(L('common_unauthorized_access'));
         }
 
-        $ret = AlipayLifeService::MessageAdd($_POST);
+        $ret = AlipayLifeService::MessageSave($_POST);
         $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }
 
@@ -373,7 +397,7 @@ class AlipayLifeMessageController extends CommonController
             $this->error(L('common_unauthorized_access'));
         }
 
-        $ret = AlipayLifeService::MessageContentAdd($_POST);
+        $ret = AlipayLifeService::MessageContentSave($_POST);
         $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }
 

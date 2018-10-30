@@ -73,9 +73,22 @@ class AlipayLifeController extends CommonController
      * @date    2018-10-24
      * @desc    description
      */
-    public function Send()
+    public function MessageSend()
     {
         AlipayLifeService::MessageSend($_REQUEST);
+    }
+
+    /**
+     * 菜单发布
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-24
+     * @desc    description
+     */
+    public function MenuRelease()
+    {
+        AlipayLifeService::MenuRelease($_REQUEST);
     }
 }
 ?>

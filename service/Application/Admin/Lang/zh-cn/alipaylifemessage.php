@@ -58,5 +58,8 @@ return array(
     'alipay_life_message_selected_all_text' => '全选',
     'alipay_life_message_content_text'      => '内容',
     'alipay_life_message_detail_text'       => '详情',
+
+    'alipay_life_message_send_time_text'    => '发送时间',
+    'alipay_life_message_return_msg_text'   => '发送描述',
 );
 ?>

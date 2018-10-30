@@ -165,6 +165,7 @@ return array(
 	'common_operation_install'			=>	'安装',
 	'common_operation_uninstall'		=>	'卸载',
 	'common_operation_pay'				=>	'支付',
+	'common_operation_release'			=>	'发布',
 	'common_delivery_tips'				=>	'是否操作发货，操作后不可恢复！',
 	'common_collect_submit'				=>	'收货',
 	'common_collect_tips'				=>	'是否操作收货，操作后不可恢复！',
@@ -531,6 +532,29 @@ return array(
 			4 => array('value' => 4, 'name' => '发送失败'),
 		),
 
+	// 发布状态
+	'common_release_status_list'		=>	array(
+			0 => array('value' => 0, 'name' => '未发布'),
+			1 => array('value' => 1, 'name' => '发布中'),
+			2 => array('value' => 2, 'name' => '已发布'),
+			3 => array('value' => 3, 'name' => '部分成功'),
+			4 => array('value' => 4, 'name' => '发布失败'),
+		),
+
+	// 支付宝生活号菜单事件类型
+	'common_alipay_life_menu_action_type_list'	=>	array(
+			0 => array('value' => 0, 'out_value' => 'out', 'name' => '事件型菜单'),
+			1 => array('value' => 1, 'out_value' => 'link', 'name' => '链接型菜单'),
+			2 => array('value' => 2, 'out_value' => 'tel', 'name' => '点击拨打电话'),
+			3 => array('value' => 3, 'out_value' => 'map', 'name' => '点击查看地图'),
+			4 => array('value' => 4, 'out_value' => 'consumption', 'name' => '点击查看用户与生活号'),
+		),
+
+	// 支付宝生活号菜单类型
+	'common_alipay_life_menu_type_list'	=>	array(
+			0 => array('value' => 0, 'name' => '文字'),
+			1 => array('value' => 1, 'name' => '图标+文字'),
+		),
 
 
 	// 色彩值

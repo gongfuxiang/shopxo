@@ -1,0 +1,81 @@
+<include file="Public/Header" />
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:U('Admin/AlipayLifeMenu/ContentSave')}}" method="POST" request-type="ajax-url" request-value="{{:U('Admin/AlipayLifeMenu/ContentIndex', ['menu_id'=>$params['menu_id']])}}" enctype="multipart/form-data">
+            <input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
+            <legend>
+                <span class="fs-16">{{:L('alipay_life_menu_add_name')}}</span>
+                <a href="{{:U('Admin/AlipayLifeMenu/ContentIndex', ['menu_id'=>$params['menu_id']])}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:L('common_operation_back')}}</a>
+            </legend>
+
+            <if condition="$menu['type'] eq 0 and !empty($alipay_life_menu_list)">
+                <div class="am-form-group">
+                    <label>{{:L('alipay_life_menu_pid_text')}}</label>
+                    <select name="pid" class="am-radius c-p chosen-select" data-placeholder="{{:L('common_select_can_choose')}}" data-validation-message="{{:L('alipay_life_menu_pid_format')}}">
+                        <option value="">{{:L('common_select_can_choose')}}</option>
+                        <foreach name="alipay_life_menu_list" item="v">
+                            <option value="{{$v.id}}" <if condition="isset($data['pid']) and $v['id'] eq $data['pid']">selected</if>>{{$v.name}}</option>
+                        </foreach>
+                    </select>
+                </div>
+            </if>
+
+            <div class="am-form-group">
+                <label>{{:L('alipay_life_menu_name_text')}}</label>
+                <input type="text" name="name" placeholder="{{:L('alipay_life_menu_name_text')}}" maxlength="5" data-validation-message="{{:L('alipay_life_menu_name_format')}}" class="am-radius" value="<notempty name="data.name">{{$data.name}}</notempty>" required />
+            </div>
+
+            <div class="am-form-group">
+                <label>{{:L('alipay_life_menu_action_type_text')}}</label>
+                <select name="action_type" class="am-radius c-p chosen-select" data-placeholder="{{:L('common_select_can_choose')}}" data-validation-message="{{:L('alipay_life_menu_action_type_format')}}" required>
+                    <option value="">{{:L('common_select_can_choose')}}</option>
+                    <foreach name="common_alipay_life_menu_action_type_list" item="v">
+                        <option value="{{$v.value}}" <if condition="isset($data['action_type']) and $v['value'] eq $data['action_type']">selected</if>>{{$v.name}}</option>
+                    </foreach>
+                </select>
+            </div>
+
+            <div class="am-form-group">
+                <label>{{:L('alipay_life_menu_action_value_text')}}</label>
+                <input type="text" name="action_value" placeholder="{{:L('alipay_life_menu_action_value_text')}}" maxlength="250" data-validation-message="{{:L('alipay_life_menu_action_value_format')}}" class="am-radius" value="<notempty name="data.action_value">{{$data.action_value}}</notempty>" />
+            </div>
+
+            <if condition="$menu['type'] eq 1">
+                <div class="am-form-group am-form-file">
+                    <label class="block">{{:L('alipay_life_menu_icon_text')}}</label>
+                    <button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
+                    <i class="am-icon-cloud-upload"></i> {{:L('common_select_images_text')}}</button>
+                    <input type="text" name="icon" class="am-radius js-choice-one original-images-url original-icon-images-url" data-choice-one-to='input[name="file_icon"]' data-validation-message="{{:L('alipay_life_menu_icon_format')}}" readonly="readonly" value="<notempty name="data.icon">{{$data.icon}}</notempty>" required />
+                    <input type="file" name="file_icon" multiple data-validation-message="{{:L('alipay_life_menu_icon_format')}}" accept="image/jpeg,image/jpg,image/png" class="js-choice-one images-file-event file_icon-tag" data-choice-one-to=".original-icon-images-url" data-tips-tag="#form-icon-tips" data-image-tag="#form-img-icon" required />
+                    <div id="form-icon-tips" class="m-t-5"></div>
+                    <notempty name="data.icon">
+                        <img src="{{$image_host}}{{$data.icon}}" id="form-img-icon" class="block m-t-5 am-img-thumbnail am-radius" width="100" height="100" data-default="{{$image_host}}/Public/Admin/Default/Images/default-images.png" />
+                    </notempty>
+                    <empty name="data.icon">
+                        <img src="{{$image_host}}/Public/Admin/Default/Images/default-images.png" id="form-img-icon" class="block m-t-5 am-img-thumbnail am-radius" width="100" height="100" data-default="{{$image_host}}/Public/Admin/Default/Images/default-images.png" />
+                    </empty>
+                </div>
+            </if>
+
+            <div class="am-form-group">
+                <label>{{:L('common_view_sort_title')}}</label>
+                <input type="number" placeholder="{{:L('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:L('common_sort_error')}}" class="am-radius" value="<if condition="isset($data['sort'])">{{$data.sort}}<else />0</if>" required />
+            </div>
+
+            <div class="am-form-group">
+                <input type="hidden" name="id" value="{{$data.id}}" />
+                <input type="hidden" name="menu_id" value="{{$params.menu_id}}" />
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end -->

@@ -47,20 +47,15 @@
 
 			<div class="am-form-group">
 				<label>{{:L('alipay_life_rsa_public_text')}}</label>
-				<textarea rows="3" name="rsa_public" class="am-radius" placeholder="{{:L('alipay_life_rsa_public_text')}}" data-validation-message="{{:L('alipay_life_rsa_public_format')}}" required><present name="data">{{$data.rsa_public}}</present></textarea>
+				<textarea rows="5" name="rsa_public" class="am-radius" placeholder="{{:L('alipay_life_rsa_public_text')}}" data-validation-message="{{:L('alipay_life_rsa_public_format')}}" required><present name="data">{{$data.rsa_public}}</present></textarea>
 			</div>
 			<div class="am-form-group">
 				<label>{{:L('alipay_life_rsa_private_text')}}</label>
-				<textarea rows="3" name="rsa_private" class="am-radius" placeholder="{{:L('alipay_life_rsa_private_text')}}" data-validation-message="{{:L('alipay_life_rsa_private_format')}}" required><present name="data">{{$data.rsa_private}}</present></textarea>
+				<textarea rows="5" name="rsa_private" class="am-radius" placeholder="{{:L('alipay_life_rsa_private_text')}}" data-validation-message="{{:L('alipay_life_rsa_private_format')}}" required><present name="data">{{$data.rsa_private}}</present></textarea>
 			</div>
 			<div class="am-form-group">
 				<label>{{:L('alipay_life_out_rsa_public_text')}}</label>
-				<textarea rows="3" name="out_rsa_public" class="am-radius" placeholder="{{:L('alipay_life_out_rsa_public_text')}}" data-validation-message="{{:L('alipay_life_out_rsa_public_format')}}" required><present name="data">{{$data.out_rsa_public}}</present></textarea>
-			</div>
-
-			<div class="am-form-group">
-			    <label class="block">{{:L('alipay_life_is_shelves_text')}}</label>
-			    <input name="is_shelves" value="1" type="checkbox" data-off-text="{{:L('common_operation_off_is_text')}}" data-on-text="{{:L('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch <if condition="(isset($data['is_shelves']) and $data['is_shelves'] eq 1) or !isset($data['is_shelves'])">checked="true"</if> />
+				<textarea rows="5" name="out_rsa_public" class="am-radius" placeholder="{{:L('alipay_life_out_rsa_public_text')}}" data-validation-message="{{:L('alipay_life_out_rsa_public_format')}}" required><present name="data">{{$data.out_rsa_public}}</present></textarea>
 			</div>
 			<div class="am-form-group">
 				<input type="hidden" name="id" <notempty name="data"> value="{{$data.id}}"</notempty> />

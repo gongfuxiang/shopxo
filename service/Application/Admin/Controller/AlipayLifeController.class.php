@@ -2,6 +2,8 @@
 
 namespace Admin\Controller;
 
+use Service\AlipayLifeService;
+
 /**
  * 生活号管理
  * @author   Devil
@@ -205,9 +207,6 @@ class AlipayLifeController extends CommonController
         // id为空则表示是新增
         $m = D('AlipayLife');
 
-        // 公共额外数据处理
-        $_POST['is_shelves'] = intval(I('is_shelves', 0));
-
         // 开启事务
         $m->startTrans();
 
@@ -330,19 +329,21 @@ class AlipayLifeController extends CommonController
      */
     public function StatusUpdate()
     {
-        // 参数
-        if(empty($_POST['id']) || !isset($_POST['state']))
+        // 是否ajax请求
+        if(!IS_AJAX)
         {
-            $this->ajaxReturn(L('common_param_error'), -1);
+            $this->error(L('common_unauthorized_access'));
         }
 
-        // 数据更新
-        if(M('AlipayLife')->where(array('id'=>I('id')))->save(array('is_shelves'=>I('state'))))
+        // 开始处理
+        $params = $_POST;
+        $params['alipay_life_id'] = isset($params['id']) ? $params['id'] : 0;
+        if(isset($params['state']))
         {
-            $this->ajaxReturn(L('common_operation_edit_success'));
-        } else {
-            $this->ajaxReturn(L('common_operation_edit_error'), -100);
+            $params['status'] = $params['state'];
         }
+        $ret = AlipayLifeService::LifeStatus($params);
+        $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }
 }
 ?>
