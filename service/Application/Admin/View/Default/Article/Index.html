@@ -67,12 +67,12 @@
 					<foreach name="list" item="v">
 						<tr id="data-list-{{$v.id}}" <if condition="$v['is_enable'] eq 0">class="am-active"</if>>
 							<td  class="td-title">
-								<a href="javascript:;" target="_blank" title="{{$v.title}}" <if condition="!empty($v['title_color'])"> style="color:{{$v.title_color}};" </if> >{{$v.title}}</a>
+								<a href="{{:HomeUrl('Article', 'Index', ['id'=>$v['id']])}}" target="_blank" title="{{$v.title}}" <if condition="!empty($v['title_color'])"> style="color:{{$v.title_color}};" </if> >{{$v.title}}</a>
 							</td>
 							<td class="am-hide-sm-only">{{$v.article_category_name}}</td>
 							<td class="am-hide-sm-only">{{$v.access_count}}</td>
 							<td>
-								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_enable'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Article/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
+								<a href="{{:HomeUrl('Article', 'Index', ['id'=>$v['id']])}}" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_enable'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Article/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
 							</td>
 							<td>
 								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_home_recommended'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Article/StatusHomeRecommended')}}" data-id="{{$v.id}}" data-state="{{$v['is_home_recommended']}}"></a>

@@ -137,7 +137,24 @@ class SearchService
      */
     public static function SearchAdd($params = [])
     {
+        // 筛选价格
+        $screening_price = '';
+        if(!empty($params['screening_price_id']))
+        {
+            $price = M('ScreeningPrice')->field('min_price,max_price')->where(['is_enable'=>1, 'id'=>intval($params['screening_price_id'])])->find();
+            if(!empty($price))
+            {
+                $screening_price = $price['min_price'].'-'.$price['max_price'];
+            }
+        }
         
+        // 参数
+        $params['screening_price'] = $screening_price;
+        $params['ymd'] = date('Ymd');
+        $params['add_time'] = time();
+
+        // 添加日志
+        M('SearchHistory')->add($params);
     }
 
     /**
@@ -150,7 +167,7 @@ class SearchService
      */
     public function SearchKeywordsList($params = [])
     {
-        return ['自动的', '自动2'];
+        return M('SearchHistory')->where(['keywords'=>['neq', '']])->group('keywords')->limit(10)->getField('keywords', true);
     }
 }
 ?>

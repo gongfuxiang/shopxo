@@ -41,8 +41,11 @@ class SearchController extends CommonController
         $this->params['keywords'] = trim(I('keywords'));
 
         // 排序方式
-        $this->params['order_type'] = I('order_type', 'default');
-        $this->params['order_way'] = I('order_way', 'desc');
+        $this->params['order_by_field'] = I('order_by_field', 'default');
+        $this->params['order_by_type'] = I('order_by_type', 'desc');
+
+        // 用户信息
+        $this->params['user_id'] = isset($this->user['id']) ? $this->user['id'] : 0;
     }
     
     /**
@@ -58,9 +61,6 @@ class SearchController extends CommonController
         {
             $this->redirect('Home/Search/Index', ['keywords'=>$this->params['keywords']]);
         } else {
-            // 搜索记录
-            SearchService::SearchAdd($this->params);
-
             // 品牌列表
             $this->assign('brand_list', BrandService::CategoryBrandList(['category_id'=>$this->params['category_id']]));
 
@@ -86,11 +86,7 @@ class SearchController extends CommonController
      * @desc    description
      */
     public function GoodsList()
-    {
-        // 参数处理
-        $this->params['order_by_field'] = trim(I('order_by_field', 'default'));
-        $this->params['order_by_type'] = trim(I('order_by_type', 'desc'));
-        
+    {        
         // 获取商品列表
         $data = SearchService::GoodsList($this->params);
         if(empty($data['data']))
@@ -101,6 +97,11 @@ class SearchController extends CommonController
             $msg = L('common_operation_success');
             $code = 0;
         }
+
+        // 搜索记录
+        SearchService::SearchAdd($this->params);
+
+        // 返回
         $this->ajaxReturn($msg, $code, $data);
     }
 }

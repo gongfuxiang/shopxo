@@ -123,11 +123,9 @@
                                     <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/AlipayLifeMessage/Delete')}}" data-id="{{$v.id}}"> {{:L('common_operation_delete')}}</button>
                                 </if>
 
-                                <if condition="in_array($v['status'], [2,3])">
-                                    <a href="{{:U('Admin/AlipayLifeMessage/Detail', array('message_id'=>$v['id']))}}">
-                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-align-left"> {{:L('alipay_life_message_detail_text')}}</button>
-                                    </a>
-                                </if>
+                                <a href="{{:U('Admin/AlipayLifeMessage/Detail', array('message_id'=>$v['id']))}}">
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-align-left"> {{:L('alipay_life_message_detail_text')}}</button>
+                                </a>
                             </td>
                         </tr>
                     </foreach>

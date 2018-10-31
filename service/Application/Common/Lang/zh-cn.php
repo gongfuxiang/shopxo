@@ -553,7 +553,7 @@ return array(
 	// 支付宝生活号菜单类型
 	'common_alipay_life_menu_type_list'	=>	array(
 			0 => array('value' => 0, 'name' => '文字'),
-			1 => array('value' => 1, 'name' => '图标+文字'),
+			1 => array('value' => 1, 'name' => '文字+图标'),
 		),
 
 
