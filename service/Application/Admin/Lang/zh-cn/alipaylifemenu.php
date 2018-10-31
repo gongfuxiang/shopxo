@@ -45,6 +45,6 @@ return array(
     'alipay_life_menu_send_time_text'    => '发布时间',
     'alipay_life_menu_return_msg_text'   => '发布描述',
 
-    'alipay_life_menu_tips'              => '1.图标菜单图片必须 60X60 像数大小<br />2.图标菜单建议不超过8个<br /><br />1.底部一级菜单最多4个，如已开启客服按钮则最多3个<br />2.底部二级菜单最多5个',
+    'alipay_life_menu_tips'              => '1.图标菜单图片必须 60X60 像数大小<br />2.图标菜单建议不超过8个<br />3.图标菜单不支持二级<br /><br />1.底部一级菜单最多4个，如已开启客服功能则最多3个<br />2.底部二级菜单最多5个',
 );
 ?>
