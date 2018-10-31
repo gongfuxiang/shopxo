@@ -412,7 +412,7 @@ class AlipayLifeService
             return DataReturn('消息纪录不存在', -1);
         }
         $common_send_status_list = L('common_send_status_list');
-        if($message['status'] != 0)
+        if(!in_array($message['status'], [0,4]))
         {
             return DataReturn('状态不可操作['.$common_send_status_list[$message['status']]['name'].']', -2);
         }
