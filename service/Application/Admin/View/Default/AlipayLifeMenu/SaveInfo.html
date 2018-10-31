@@ -18,7 +18,7 @@
 
             <div class="am-form-group">
                 <label>{{:L('alipay_life_menu_type_text')}}</label>
-                <select name="type" class="am-radius c-p chosen-select" data-placeholder="{{:L('common_select_can_choose')}}" data-validation-message="{{:L('alipay_life_menu_type_format')}}" required>
+                <select name="type" class="am-radius c-p chosen-select" data-placeholder="{{:L('common_select_can_choose')}}" data-validation-message="{{:L('alipay_life_menu_type_format')}}" <if condition="isset($data['status']) and $data['status'] neq 0">disabled</if> required>
                     <option value="">{{:L('common_select_can_choose')}}</option>
                     <foreach name="common_alipay_life_menu_type_list" item="v">
                         <option value="{{$v.value}}" <if condition="isset($data['type']) and $v['value'] eq $data['type']">selected</if>>{{$v.name}}</option>
