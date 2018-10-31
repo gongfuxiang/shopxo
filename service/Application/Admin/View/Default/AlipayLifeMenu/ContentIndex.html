@@ -10,6 +10,13 @@
         </legend>
         <!-- back nav end -->
 
+        <!-- tips start -->
+        <div class="am-alert am-alert-warning am-radius" data-am-alert>
+            <button type="button" class="am-close">&times;</button>
+            <p>{{:L('alipay_life_menu_tips')}}</p>
+        </div>
+        <!-- tips end -->
+
         <!-- operation start -->
         <div class="am-g">
             <a href="{{:U('Admin/AlipayLifeMenu/ContentSaveInfo', ['menu_id'=>$params['menu_id']])}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:L('common_operation_add')}}</a>
