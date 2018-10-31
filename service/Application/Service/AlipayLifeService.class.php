@@ -419,6 +419,11 @@ class AlipayLifeService
 
         // 获取消息内容
         $content_count = (int) M('AlipayLifeMessageContent')->where(['alipay_life_message_id'=>$message['id']])->count();
+        if(empty($content_count))
+        {
+            return DataReturn('消息内容不能为空', -1);
+        }
+
         switch($message['send_type'])
         {
             case 0 :
