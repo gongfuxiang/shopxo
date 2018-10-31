@@ -9,7 +9,7 @@
  */
 return array(
 	// 添加/编辑
-	'alipay_life_menu_add_name'          => '生活号菜单创建',
+	'alipay_life_menu_add_name'          => '生活号菜单创建/编辑',
     'alipay_life_menu_content_title'     => '生活号菜单内容',
 
     'alipay_life_menu_life_text'         => '生活号',
@@ -19,6 +19,7 @@ return array(
     'alipay_life_menu_pid_format'        => '请选择父级',
 
     'alipay_life_menu_name_text'         => '名称',
+    'alipay_life_menu_main_name_format'  => '名称格式 1~30 个字符',
     'alipay_life_menu_name_format'       => '名称格式 1~5 个字符',
 
     'alipay_life_menu_type_text'         => '菜单类型',

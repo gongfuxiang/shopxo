@@ -5,13 +5,13 @@ namespace Admin\Controller;
 use Service\AlipayLifeService;
 
 /**
- * 生活号菜单管理
+ * 生活号批量上下架管理
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class AlipayLifeMenuController extends CommonController
+class AlipayLifeStatusController extends CommonController
 {
     /**
      * [_initialize 前置操作-继承公共前置方法]
@@ -33,7 +33,7 @@ class AlipayLifeMenuController extends CommonController
     }
 
     /**
-     * [Index 生活号菜单列表]
+     * [Index 生活号批量上下架列表]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -45,7 +45,7 @@ class AlipayLifeMenuController extends CommonController
         $params = array_merge($_POST, $_GET);
 
         // 模型对象
-        $m = M('AlipayLifeMenu');
+        $m = M('AlipayLifeStatus');
 
         // 条件
         $where = $this->GetIndexWhere();
@@ -56,7 +56,7 @@ class AlipayLifeMenuController extends CommonController
                 'number'    =>  $number,
                 'total'     =>  $m->where($where)->count(),
                 'where'     =>  $params,
-                'url'       =>  U('Admin/AlipayLifeMenu/Index'),
+                'url'       =>  U('Admin/AlipayLifeStatus/Index'),
             );
         $page = new \Library\Page($page_param);
 
@@ -70,11 +70,11 @@ class AlipayLifeMenuController extends CommonController
         // 分页
         $this->assign('page_html', $page->GetPageHtml());
 
-        // 发布状态
-        $this->assign('common_release_status_list', L('common_release_status_list'));
+        // 处理状态
+        $this->assign('common_handle_status_list', L('common_handle_status_list'));
 
-        // 菜单类型
-        $this->assign('common_alipay_life_menu_type_list', L('common_alipay_life_menu_type_list'));
+        // 上下架
+        $this->assign('common_shelves_select_list', L('common_shelves_select_list'));
 
         // 数据列表
         $this->assign('list', $list);
@@ -94,15 +94,15 @@ class AlipayLifeMenuController extends CommonController
     {
         if(!empty($data))
         {
-            $common_release_status_list = L('common_release_status_list');
-            $common_alipay_life_menu_type_list = L('common_alipay_life_menu_type_list');
+            $common_handle_status_list = L('common_handle_status_list');
+            $common_shelves_select_list = L('common_shelves_select_list');
             foreach($data as &$v)
             {
                 // 状态
-                $v['status_name'] = $common_release_status_list[$v['status']]['name'];
+                $v['status_name'] = $common_handle_status_list[$v['status']]['name'];
 
-                // 类型
-                $v['type_name'] = $common_alipay_life_menu_type_list[$v['type']]['name'];
+                // 上下架
+                $v['is_shelves_name'] = $common_shelves_select_list[$v['is_shelves']]['name'];
 
                 // 生活号
                 $v['alipay_life_all'] = empty($v['alipay_life_ids']) ? '' : M('AlipayLife')->where(['id'=>['in', json_decode($v['alipay_life_ids'], true)]])->getField('name', true);
@@ -141,9 +141,9 @@ class AlipayLifeMenuController extends CommonController
             {
                 $where['status'] = intval(I('status', 0));
             }
-            if(I('type', -1) > -1)
+            if(I('is_shelves', -1) > -1)
             {
-                $where['type'] = intval(I('type', 0));
+                $where['is_shelves'] = intval(I('is_shelves', 0));
             }
 
             // 表达式
@@ -169,11 +169,8 @@ class AlipayLifeMenuController extends CommonController
     public function SaveInfo()
     {
         // 数据
-        $data = empty($_REQUEST['id']) ? array() : M('AlipayLifeMenu')->find(I('id'));
+        $data = empty($_REQUEST['id']) ? array() : M('AlipayLifeStatus')->find(I('id'));
         $this->assign('data', $data);
-
-        // 菜单类型
-        $this->assign('common_alipay_life_menu_type_list', L('common_alipay_life_menu_type_list'));
 
         // 生活号
         $alipay_life_list = [];
@@ -197,108 +194,12 @@ class AlipayLifeMenuController extends CommonController
         $alipay_life_category = M('AlipayLifeCategory')->where(['is_enable'=>1])->field('id,name')->select();
         $this->assign('alipay_life_category', $alipay_life_category);
 
+        // 上下架
+        $this->assign('common_shelves_select_list', L('common_shelves_select_list'));
+
         // 参数
         $this->assign('params', array_merge($_POST, $_GET));
         $this->display('SaveInfo');
-    }
-
-
-    /**
-     * [Index 内容列表]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-06T21:31:53+0800
-     */
-    public function ContentIndex()
-    {
-        // 参数
-        $params = array_merge($_POST, $_GET);
-
-        // 条件
-        $where = ['alipay_life_menu_id' => intval($params['menu_id']), 'pid'=>0];
-
-        // 获取列表
-        $list = $this->SetDataHandleContent(M('AlipayLifeMenuContent')->where($where)->order('sort asc')->select());
-        if(!empty($list))
-        {
-            foreach($list as &$v)
-            {
-                $v['items'] =  $this->SetDataHandleContent(M('AlipayLifeMenuContent')->where(['pid'=>$v['id']])->order('sort asc')->select());
-            }
-        }
-
-        // 主数据
-        $data = empty($_REQUEST['menu_id']) ? array() : M('AlipayLifeMenu')->find(I('menu_id'));
-        $this->assign('data', $data);
-
-        // 参数
-        $this->assign('params', $params);
-
-        // 数据列表
-        $this->assign('list', $list);
-        $this->assign('list_count', count($list));
-        $this->display('ContentIndex');
-    }
-
-    /**
-     * 内容处理
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-10-29
-     * @desc    description
-     * @param    [array]      $data [数据]
-     * @return   [array]            [处理好的数据]
-     */
-    private function SetDataHandleContent($data)
-    {
-        if(!empty($data))
-        {
-            $common_alipay_life_menu_action_type_list = L('common_alipay_life_menu_action_type_list');
-            foreach($data as &$v)
-            {
-                // 事件类型
-                $v['action_type_name'] = $common_alipay_life_menu_action_type_list[$v['action_type']]['name'];
-
-                // 图标
-                $v['icon'] =  empty($v['icon']) ? '' : C('IMAGE_HOST').$v['icon'];
-
-                // 时间
-                $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
-                $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
-            }
-        }
-        return $data;
-    }
-
-    /**
-     * 内容添加/编辑页面
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-10-29
-     * @desc    description
-     */
-    public function ContentSaveInfo()
-    {
-        // 主数据
-        $menu = empty($_REQUEST['menu_id']) ? array() : M('AlipayLifeMenu')->find(I('menu_id'));
-        $this->assign('menu', $menu);
-
-        // 数据
-        $data = empty($_REQUEST['id']) ? array() : M('AlipayLifeMenuContent')->find(I('id'));
-        $this->assign('data', $data);
-
-        // 事件类型
-        $this->assign('common_alipay_life_menu_action_type_list', L('common_alipay_life_menu_action_type_list'));
-
-        // 获取父级分类
-        $this->assign('alipay_life_menu_list', M('AlipayLifeMenuContent')->field('id,name')->where(['pid'=>0, 'alipay_life_menu_id'=>$menu['id']])->select());
-
-        // 参数
-        $this->assign('params', array_merge($_POST, $_GET));
-        $this->display('ContentSaveInfo');
     }
 
     /**
@@ -315,7 +216,7 @@ class AlipayLifeMenuController extends CommonController
         $params = array_merge($_POST, $_GET);
 
         // 获取列表
-        $list = AlipayLifeService::MenuDetailList($params);
+        $list = AlipayLifeService::StatusDetailList($params);
 
         // 参数
         $this->assign('params', $params);
@@ -326,7 +227,7 @@ class AlipayLifeMenuController extends CommonController
     }
 
     /**
-     * [Save 生活号菜单保存]
+     * [Save 生活号批量上下架保存]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -340,31 +241,12 @@ class AlipayLifeMenuController extends CommonController
             $this->error(L('common_unauthorized_access'));
         }
 
-        $ret = AlipayLifeService::MenuSave($_POST);
+        $ret = AlipayLifeService::LifeStatusSave($_POST);
         $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }
 
     /**
-     * [ContentSave 生活号菜单内容保存]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-25T22:36:12+0800
-     */
-    public function ContentSave()
-    {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            $this->error(L('common_unauthorized_access'));
-        }
-
-        $ret = AlipayLifeService::MenuContentSave($_POST);
-        $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
-    }
-
-    /**
-     * [Delete 生活号菜单删除]
+     * [Delete 生活号批量上下架删除]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -379,35 +261,7 @@ class AlipayLifeMenuController extends CommonController
         }
 
         // 删除
-        $id = intval(I('id'));
-        $m = M('AlipayLifeMenu');
-        $m->startTrans();
-        if($m->delete($id) && M('AlipayLifeMenuContent')->where(['alipay_life_message_id'=>$id])->delete())
-        {
-            $m->commit();
-            $this->ajaxReturn(L('common_operation_delete_success'));
-        }
-        $m->rollback();
-        $this->ajaxReturn(L('common_operation_delete_error'), -100);
-    }
-
-    /**
-     * [Delete 生活号菜单内容删除]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-25T22:36:12+0800
-     */
-    public function ContentDelete()
-    {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            $this->error(L('common_unauthorized_access'));
-        }
-
-        // 删除
-        if(M('AlipayLifeMenuContent')->delete(intval(I('id'))))
+        if(M('AlipayLifeStatus')->delete(intval(I('id'))))
         {
             $this->ajaxReturn(L('common_operation_delete_success'));
         }
@@ -415,14 +269,14 @@ class AlipayLifeMenuController extends CommonController
     }
 
     /**
-     * 发送菜单
+     * 提交
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2018-10-24
      * @desc    description
      */
-    public function Release()
+    public function Submit()
     {
         // 是否ajax请求
         if(!IS_AJAX)
@@ -430,7 +284,7 @@ class AlipayLifeMenuController extends CommonController
             $this->error(L('common_unauthorized_access'));
         }
 
-        $ret = AlipayLifeService::MenuSubmit($_POST);
+        $ret = AlipayLifeService::LifeStatusSubmit($_POST);
         $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }
 
@@ -450,7 +304,9 @@ class AlipayLifeMenuController extends CommonController
             $this->error(L('common_unauthorized_access'));
         }
 
-        $ret = AlipayLifeService::AlipayLifeSearch($_POST);
+        $params = $_POST;
+        $params['is_all'] = 1;
+        $ret = AlipayLifeService::AlipayLifeSearch($params);
         $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }
 }

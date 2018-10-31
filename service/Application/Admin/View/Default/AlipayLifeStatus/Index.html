@@ -4,9 +4,9 @@
 <div class="content-right">
     <div class="content">
         <!-- form start -->
-        <form class="am-form view-list" action="{{:U('Admin/AlipayLifeMessage/Index')}}" method="POST">
+        <form class="am-form view-list" action="{{:U('Admin/AlipayLifeStatus/Index')}}" method="POST">
             <div class="am-g">
-                <input type="text" class="am-radius form-keyword" placeholder="{{:L('alipay_life_message_keywords_text')}}" name="keyword" <present name="params['keyword']"> value="{{$params.keyword}}"</present> />
+                <input type="text" class="am-radius form-keyword" placeholder="{{:L('alipay_life_status_name_text')}}" name="keyword" <present name="params['keyword']"> value="{{$params.keyword}}"</present> />
                 <button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">{{:L('common_operation_query')}}</button>
                 <label class="fs-12 m-l-5 c-p fw-100 more-submit">
                     {{:L('common_more_screening')}}
@@ -17,20 +17,14 @@
                 <div class="more-where <if condition="!isset($params['is_more']) or $params['is_more'] neq 1">none</if>">
                     <select name="status" class="am-radius c-p m-t-10 m-l-5 param-where">
                         <option value="-1">{{:L('common_view_status_title')}}</option>
-                        <foreach name="common_send_status_list" item="v">
+                        <foreach name="common_handle_status_list" item="v">
                             <option value="{{$v.value}}" <if condition="isset($params['status']) and $params['status'] eq $v['value']">selected</if>>{{$v.name}}</option>
                         </foreach>
                     </select>
-                    <select name="type" class="am-radius c-p m-t-10 m-l-5 param-where">
-                        <option value="-1">{{:L('alipay_life_message_msg_type_text')}}</option>
-                        <foreach name="alipay_life_message_msg_type_list" item="v">
-                            <option value="{{$v.value}}" <if condition="isset($params['type']) and $params['type'] eq $v['value']">selected</if>>{{$v.name}}</option>
-                        </foreach>
-                    </select>
-                    <select name="send_type" class="am-radius c-p m-t-10 m-l-5 param-where">
-                        <option value="-1">{{:L('alipay_life_message_send_type_text')}}</option>
-                        <foreach name="alipay_life_message_send_type_list" item="v">
-                            <option value="{{$v.value}}" <if condition="isset($params['send_type']) and $params['send_type'] eq $v['value']">selected</if>>{{$v.name}}</option>
+                    <select name="is_shelves" class="am-radius c-p m-t-10 m-l-5 param-where">
+                        <option value="-1">{{:L('alipay_life_status_is_shelves_text')}}</option>
+                        <foreach name="common_shelves_select_list" item="v">
+                            <option value="{{$v.value}}" <if condition="isset($params['is_shelves']) and $params['is_shelves'] eq $v['value']">selected</if>>{{$v.name}}</option>
                         </foreach>
                     </select>
                     <div class="param-date param-where m-l-5">
@@ -45,7 +39,7 @@
 
         <!-- operation start -->
         <div class="am-g m-t-15">
-            <a href="{{:U('Admin/AlipayLifeMessage/SaveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:L('common_operation_add')}}</a>
+            <a href="{{:U('Admin/AlipayLifeStatus/SaveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:L('common_operation_add')}}</a>
         </div>
         <!-- operation end -->
 
@@ -53,8 +47,9 @@
         <table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
             <thead>
                 <tr>
-                    <th>{{:L('alipay_life_message_msg_type_text')}}</th>
-                    <th>{{:L('alipay_life_message_send_type_text')}}</th>
+                    <th>{{:L('alipay_life_status_name_text')}}</th>
+                    <th>{{:L('alipay_life_status_is_shelves_text')}}</th>
+                    <th class="am-hide-sm-only alipay-life-row">{{:L('alipay_life_status_life_text')}}</th>
                     <th>{{:L('common_view_status_title')}}</th>
                     <th>{{:L('common_more_name')}}</th>
                     <th>{{:L('common_operation_name')}}</th>
@@ -64,8 +59,9 @@
                 <if condition="!empty($list)">
                     <foreach name="list" item="v">
                         <tr id="data-list-{{$v.id}}">
-                            <td>{{$v.type_name}}</td>
-                            <td>{{$v.send_type_name}}</td>
+                            <td>{{$v.name}}</td>
+                            <td>{{$v.is_shelves_name}}</td>
+                            <td class="am-hide-sm-only">{{:implode('，', $v['alipay_life_all'])}}</td>
                             <td>{{$v.status_name}}</td>
                             <td>
                                 <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> {{:L('common_see_more_name')}}</span>
@@ -77,25 +73,22 @@
                                         </div>
                                         <div class="am-popup-bd">
                                             <dl class="dl-content">
-                                                <dt>{{:L('alipay_life_message_msg_type_text')}}</dt>
-                                                <dd><if condition="empty($v['type_name'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.type_name}}</if></dd>
+                                                <dt>{{:L('alipay_life_status_name_text')}}</dt>
+                                                <dd><if condition="empty($v['name'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.name}}</if></dd>
 
-                                                <dt>{{:L('alipay_life_message_send_type_text')}}</dt>
-                                                <dd><if condition="empty($v['send_type_name'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.send_type_name}}</if></dd>
+                                                <dt>{{:L('alipay_life_status_is_shelves_text')}}</dt>
+                                                <dd><if condition="empty($v['is_shelves_name'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.is_shelves_name}}</if></dd>
 
-                                                <dt>{{:L('alipay_life_message_life_text')}}</dt>
+                                                <dt>{{:L('alipay_life_status_life_text')}}</dt>
                                                 <dd><if condition="empty($v['alipay_life_all'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{:implode('，', $v['alipay_life_all'])}}</if></dd>
-
-                                                <dt>{{:L('alipay_life_message_user_text')}}</dt>
-                                                <dd><if condition="empty($v['alipay_openid'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.alipay_openid}}</if></dd>
 
                                                 <dt>{{:L('common_view_status_title')}}</dt>
                                                 <dd><if condition="empty($v['status_name'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.status_name}}</if></dd>
 
-                                                <dt>{{:L('alipay_life_message_startup_time_text')}}</dt>
+                                                <dt>{{:L('alipay_life_status_startup_time_text')}}</dt>
                                                 <dd>{{$v.startup_time}}</dd>
 
-                                                <dt>{{:L('alipay_life_message_success_time_text')}}</dt>
+                                                <dt>{{:L('alipay_life_status_success_time_text')}}</dt>
                                                 <dd>{{$v.success_time}}</dd>
 
                                                 <dt>{{:L('common_create_time_name')}}</dt>
@@ -110,21 +103,17 @@
                             </td>
                             <td class="view-operation">
                                 <if condition="in_array($v['status'], [0,4])">
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o submit-ajax" data-url="{{:U('Admin/AlipayLifeMessage/Send')}}" data-id="{{$v.id}}" data-view="reload"> {{:L('common_send_text')}}</button>
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o submit-ajax" data-url="{{:U('Admin/AlipayLifeStatus/Submit')}}" data-id="{{$v.id}}" data-view="reload"> {{:L('common_operation_submit')}}</button>
 
-                                    <a href="{{:U('Admin/AlipayLifeMessage/SaveInfo', array('id'=>$v['id']))}}">
+                                    <a href="{{:U('Admin/AlipayLifeStatus/SaveInfo', array('id'=>$v['id']))}}">
                                         <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:L('common_operation_edit')}}</button>
                                     </a>
                                     
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/AlipayLifeMessage/Delete')}}" data-id="{{$v.id}}"> {{:L('common_operation_delete')}}</button>
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/AlipayLifeStatus/Delete')}}" data-id="{{$v.id}}"> {{:L('common_operation_delete')}}</button>
                                 </if>
 
-                                <a href="{{:U('Admin/AlipayLifeMessage/ContentIndex', array('message_id'=>$v['id']))}}">
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-cubes"> {{:L('alipay_life_message_content_text')}}</button>
-                                </a>
-
-                                <a href="{{:U('Admin/AlipayLifeMessage/Detail', array('message_id'=>$v['id']))}}">
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-align-left"> {{:L('alipay_life_message_detail_text')}}</button>
+                                <a href="{{:U('Admin/AlipayLifeStatus/Detail', array('status_id'=>$v['id']))}}">
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-align-left"> {{:L('alipay_life_status_detail_text')}}</button>
                                 </a>
                             </td>
                         </tr>

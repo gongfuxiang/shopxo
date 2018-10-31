@@ -9,7 +9,7 @@
  */
 return array(
 	// 添加/编辑
-	'alipay_life_message_add_name'          => '生活号消息创建',
+	'alipay_life_message_add_name'          => '生活号消息创建/编辑',
     'alipay_life_message_content_title'     => '生活号消息内容',
 
     'alipay_life_message_life_text'         => '生活号',

@@ -534,6 +534,13 @@ class AlipayLife
         {
             return ['status'=>0, 'msg'=>'操作成功'];
         }
+
+        // 是否相同状态下操作
+        if(stripos($result[$key]['sub_code'], 'LIFE_ALREADY_DEBARK') !== false || stripos($result[$key]['sub_code'], 'LIFE_ALREADY_ON_PLATFORM') !== false)
+        {
+            return ['status'=>0, 'msg'=>$result[$key]['sub_msg'].'['.$result[$key]['code'].']'];
+        }
+
         return ['status'=>-100, 'msg'=>$result[$key]['sub_msg'].'['.$result[$key]['code'].']'];
     }
 

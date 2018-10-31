@@ -541,6 +541,15 @@ return array(
 			4 => array('value' => 4, 'name' => '发布失败'),
 		),
 
+	// 处理状态
+	'common_handle_status_list'	=>	array(
+			0 => array('value' => 0, 'name' => '未处理'),
+			1 => array('value' => 1, 'name' => '处理中'),
+			2 => array('value' => 2, 'name' => '已处理'),
+			3 => array('value' => 3, 'name' => '部分成功'),
+			4 => array('value' => 4, 'name' => '处理失败'),
+		),
+
 	// 支付宝生活号菜单事件类型
 	'common_alipay_life_menu_action_type_list'	=>	array(
 			0 => array('value' => 0, 'out_value' => 'out', 'name' => '事件型菜单'),
@@ -554,6 +563,12 @@ return array(
 	'common_alipay_life_menu_type_list'	=>	array(
 			0 => array('value' => 0, 'name' => '文字'),
 			1 => array('value' => 1, 'name' => '文字+图标'),
+		),
+
+	// 上下架选择
+	'common_shelves_select_list'				=>	array(
+			0 => array('value' => 0, 'name' => '下架'),
+			1 => array('value' => 1, 'name' => '上架', 'checked' => true),
 		),
 
 

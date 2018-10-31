@@ -87,13 +87,7 @@
                                 <a href="{{:U('Admin/AlipayLife/SaveInfo', array('id'=>$v['id']))}}">
                                     <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:L('common_operation_edit')}}</button>
                                 </a>
-                                <if condition="$v['is_shelves'] eq 0">
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/AlipayLife/Delete')}}" data-id="{{$v.id}}"> {{:L('common_operation_delete')}}</button>
-                                <else />
-                                    <a href="{{:U('Admin/AlipayLifeMessage/SaveInfo', ['alipay_life_id'=>$v['id']])}}">
-                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o"> {{:L('alipay_life_user_send_text')}}</button>
-                                    </a>
-                                </if>
+                                <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/AlipayLife/Delete')}}" data-id="{{$v.id}}"> {{:L('common_operation_delete')}}</button>
                             </td>
                         </tr>
                     </foreach>

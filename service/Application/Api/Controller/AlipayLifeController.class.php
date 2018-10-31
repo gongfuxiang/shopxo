@@ -90,5 +90,18 @@ class AlipayLifeController extends CommonController
     {
         AlipayLifeService::MenuRelease($_REQUEST);
     }
+
+    /**
+     * 生活号批量上下架
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-24
+     * @desc    description
+     */
+    public function StatusHandle()
+    {
+        AlipayLifeService::StatusHandle($_REQUEST);
+    }
 }
 ?>

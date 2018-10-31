@@ -404,27 +404,27 @@ class AlipayLifeService
             return DataReturn($ret, -1);
         }
 
-        // 获取消息
+        // 获取数据
         $m = M('AlipayLifeMessage');
-        $message = $m->find(intval($params['id']));
-        if(empty($message))
+        $data = $m->find(intval($params['id']));
+        if(empty($data))
         {
-            return DataReturn('消息纪录不存在', -1);
+            return DataReturn('消息记录不存在', -1);
         }
         $common_send_status_list = L('common_send_status_list');
-        if(!in_array($message['status'], [0,4]))
+        if(!in_array($data['status'], [0,4]))
         {
-            return DataReturn('状态不可操作['.$common_send_status_list[$message['status']]['name'].']', -2);
+            return DataReturn('状态不可操作['.$common_send_status_list[$data['status']]['name'].']', -2);
         }
 
-        // 获取消息内容
-        $content_count = (int) M('AlipayLifeMessageContent')->where(['alipay_life_message_id'=>$message['id']])->count();
+        // 获取数据内容
+        $content_count = (int) M('AlipayLifeMessageContent')->where(['alipay_life_message_id'=>$data['id']])->count();
         if(empty($content_count))
         {
             return DataReturn('消息内容不能为空', -1);
         }
 
-        switch($message['send_type'])
+        switch($data['send_type'])
         {
             case 0 :
                 if($content_count > 1)
@@ -442,27 +442,27 @@ class AlipayLifeService
         }
 
         // 发送类型
-        $data = [];
-        if($message['send_type'] == 1)
+        $detail = [];
+        if($data['send_type'] == 1)
         {
-            $alipay_life_all = json_decode($message['alipay_life_ids'], true);
+            $alipay_life_all = json_decode($data['alipay_life_ids'], true);
             foreach($alipay_life_all as $alipay_life_id)
             {
-                $data[] = [
+                $detail[] = [
                     'alipay_life_id'        => $alipay_life_id,
-                    'alipay_life_message_id'=> $message['id'],
+                    'alipay_life_message_id'=> $data['id'],
                 ];
             }
         } else {
-            $alipay_openid = M('User')->where(['id'=>$message['user_id']])->getField('alipay_openid');
+            $alipay_openid = M('User')->where(['id'=>$data['user_id']])->getField('alipay_openid');
             if(!empty($alipay_openid))
             {
-                $data[] = [
-                    'user_id'               => $message['user_id'],
-                    'alipay_life_id'        => M('AlipayLifeUser')->where(['id'=>$message['alipay_life_user_id']])->getField('alipay_life_id'),
-                    'alipay_life_user_id'   => $message['alipay_life_user_id'],
+                $detail[] = [
+                    'user_id'               => $data['user_id'],
+                    'alipay_life_id'        => M('AlipayLifeUser')->where(['id'=>$data['alipay_life_user_id']])->getField('alipay_life_id'),
+                    'alipay_life_user_id'   => $data['alipay_life_user_id'],
                     'alipay_openid'         => $alipay_openid,
-                    'alipay_life_message_id'=> $message['id'],
+                    'alipay_life_message_id'=> $data['id'],
                 ];
             }
             
@@ -470,12 +470,12 @@ class AlipayLifeService
 
         // 入库详情表
         $m->startTrans();
-        if(M('AlipayLifeMessageDetail')->addAll($data) !== false)
+        if(M('AlipayLifeMessageDetail')->addAll($detail) !== false)
         {
-            if($m->where(['id'=>$message['id']])->save(['status'=>1, 'startup_time'=>time(), 'upd_time'=>time()]) !== false)
+            if($m->where(['id'=>$data['id']])->save(['status'=>1, 'startup_time'=>time(), 'upd_time'=>time()]) !== false)
             {
                 $m->commit();
-                self::SyncJobSend($message['id'], 'message_id', 'MessageSend');
+                self::SyncJobSend($data['id'], 'message_id', 'MessageSend');
                 return DataReturn(L('common_submit_success'), 0);
             }
         }
@@ -517,33 +517,33 @@ class AlipayLifeService
 
         // 启动开始
         echo '[start_time:'.date('Y-m-d H:i:s')."]\n";
-        echo '[message:'.$params['message_id']."]\n";
+        echo '[data:'.$params['message_id']."]\n";
 
         // 开始处理
         $m = M('AlipayLifeMessage');
-        $message = $m->find($params['message_id']);
-        if(empty($message))
+        $data = $m->find($params['message_id']);
+        if(empty($data))
         {
             die('[time:'.date('Y-m-d H:i:s')."][msg:{$params['message_id']}数据不存在]\n\n");
         }
-        if(!in_array($message['status'], [1]))
+        if(!in_array($data['status'], [1]))
         {
-            die('[time:'.date('Y-m-d H:i:s')."][msg:{$message['status']}状态不可操作]\n\n");
+            die('[time:'.date('Y-m-d H:i:s')."][msg:{$data['status']}状态不可操作]\n\n");
         }
 
         // 发送消息类型
-        if($message['send_type'] == 1)
+        if($data['send_type'] == 1)
         {
-            $alipay_life_all = json_decode($message['alipay_life_ids'], true);
+            $alipay_life_all = json_decode($data['alipay_life_ids'], true);
         } else {
-            $alipay_life_all = [M('AlipayLifeUser')->where(['id'=>$message['alipay_life_user_id']])->getField('alipay_life_id')];
+            $alipay_life_all = [M('AlipayLifeUser')->where(['id'=>$data['alipay_life_user_id']])->getField('alipay_life_id')];
         }
 
         // 消息内容
-        $message['content'] = M('AlipayLifeMessageContent')->field('id,title,content,out_image_url,url,action_name')->where(['alipay_life_message_id'=>$message['id']])->select();
-        if(empty($message['content']))
+        $data['content'] = M('AlipayLifeMessageContent')->field('id,title,content,out_image_url,url,action_name')->where(['alipay_life_message_id'=>$data['id']])->select();
+        if(empty($data['content']))
         {
-            die('[time:'.date('Y-m-d H:i:s')."][msg:{$message['id']}消息内容为空]\n\n");
+            die('[time:'.date('Y-m-d H:i:s')."][msg:{$data['id']}消息内容为空]\n\n");
         }
 
         // 生活号循环处理
@@ -554,7 +554,7 @@ class AlipayLifeService
             $life = M('AlipayLife')->find($alipay_life_id);
 
             // 获取消息详情
-            $detail = $detail_m->where(['alipay_life_message_id'=>$message['id'], 'status'=>0])->limit(100)->select();
+            $detail = $detail_m->where(['alipay_life_message_id'=>$data['id'], 'status'=>0])->limit(30)->select();
 
             if(!empty($detail))
             {
@@ -562,14 +562,14 @@ class AlipayLifeService
                 foreach($detail as $v)
                 {
                     // 群发
-                    if($message['send_type'] == 1)
+                    if($data['send_type'] == 1)
                     {
                         // 请求接口处理
-                        $ret = $obj->GroupSend($message);
+                        $ret = $obj->GroupSend($data);
                     } else {
                         // 请求接口处理
-                        $message['alipay_openid'] = $v['alipay_openid'];
-                        $ret = $obj->CustomSend($message);
+                        $data['alipay_openid'] = $v['alipay_openid'];
+                        $ret = $obj->CustomSend($data);
                     }
 
                     // 返回状态更新
@@ -578,21 +578,21 @@ class AlipayLifeService
                 }
                 echo '[count:'.count($detail).']';
             } else {
-                $status_all = $detail_m->where(['alipay_life_message_id'=>$message['id']])->group('status')->getField('status', true);
+                $status_all = $detail_m->where(['alipay_life_message_id'=>$data['id']])->group('status')->getField('status', true);
                 if(count($status_all) <= 1)
                 {
                     $status = in_array(2, $status_all) ? 2 : 4;
                 } else {
                     $status = 3;
                 }
-                $m->where(['id'=>$message['id']])->save(['success_time'=>time(), 'status'=>$status, 'upd_time'=>time()]);
+                $m->where(['id'=>$data['id']])->save(['success_time'=>time(), 'status'=>$status, 'upd_time'=>time()]);
                 echo '[success_time:'.date('Y-m-d H:i:s')."]\n";
-                echo '[message:'.$params['message_id']."]\n\n";
+                echo '[data:'.$params['message_id']."]\n\n";
             }
         }
 
         // 继续运行脚本
-        self::SyncJobSend($message['id'], 'message_id', 'MessageSend');
+        self::SyncJobSend($data['id'], 'message_id', 'MessageSend');
 
         // end
         die('[end_time:'.date('Y-m-d H:i:s')."][msg:处理结束]\n\n");
@@ -609,7 +609,12 @@ class AlipayLifeService
      */
     public static function AlipayLifeSearch($params = [])
     {
-        $where = ['l.is_shelves'=>1];
+        if(isset($params['is_all']) && $params['is_all'] == 1)
+        {
+            $where = [];
+        } else {
+            $where = ['l.is_shelves'=>1];
+        }
 
         // 分类
         if(!empty($params['category_id']))
@@ -1006,28 +1011,28 @@ class AlipayLifeService
             return DataReturn($ret, -1);
         }
 
-        // 获取消息
+        // 获取数据
         $m = M('AlipayLifeMenu');
-        $menu = $m->find(intval($params['id']));
-        if(empty($menu))
+        $data = $m->find(intval($params['id']));
+        if(empty($data))
         {
-            return DataReturn('菜单纪录不存在', -1);
+            return DataReturn('菜单记录不存在', -1);
         }
         $common_release_status_list = L('common_release_status_list');
-        if(!in_array($menu['status'], [0,4]))
+        if(!in_array($data['status'], [0,4]))
         {
-            return DataReturn('状态不可操作['.$common_release_status_list[$menu['status']]['name'].']', -2);
+            return DataReturn('状态不可操作['.$common_release_status_list[$data['status']]['name'].']', -2);
         }
 
-        // 获取消息内容
-        $content_list = M('AlipayLifeMenuContent')->field('id,name')->where(['alipay_life_menu_id'=>$menu['id'], 'pid'=>0])->select();
+        // 获取数据内容
+        $content_list = M('AlipayLifeMenuContent')->field('id,name')->where(['alipay_life_menu_id'=>$data['id'], 'pid'=>0])->select();
         if(empty($content_list))
         {
             return DataReturn('菜单数据不能为空', -1);
         }
 
         $content_count = count($content_list);
-        switch($menu['type'])
+        switch($data['type'])
         {
             case 0 :
                 if($content_count > 4)
@@ -1055,31 +1060,31 @@ class AlipayLifeService
         }
 
         // 生活号
-        $data = [];
-        $alipay_life_all = json_decode($menu['alipay_life_ids'], true);
+        $detail = [];
+        $alipay_life_all = json_decode($data['alipay_life_ids'], true);
         foreach($alipay_life_all as $alipay_life_id)
         {
-            $data[] = [
-                'alipay_life_id'    => $alipay_life_id,
-                'alipay_life_menu_id'    => $menu['id'],
-                'add_time'          => time(),
+            $detail[] = [
+                'alipay_life_id'        => $alipay_life_id,
+                'alipay_life_menu_id'   => $data['id'],
+                'add_time'              => time(),
             ];
         }
 
         // 入库详情表
         $m->startTrans();
-        if(M('AlipayLifeMenuDetail')->addAll($data) !== false)
+        if(M('AlipayLifeMenuDetail')->addAll($detail) !== false)
         {
-            $menu_data = [
+            $upd_data = [
                 'status'            => 1,
                 'startup_time'      => time(),
                 'upd_time'          => time()
             ];
-            $status = M('AlipayLifeMenu')->where(['id'=>$menu['id']])->save($menu_data);
+            $status = M('AlipayLifeMenu')->where(['id'=>$data['id']])->save($upd_data);
             if($status !== false)
             {
                 $m->commit();
-                self::SyncJobSend($menu['id'], 'menu_id', 'MenuRelease');
+                self::SyncJobSend($data['id'], 'menu_id', 'MenuRelease');
                 return DataReturn(L('common_submit_success'), 0);
             }
         }
@@ -1105,40 +1110,40 @@ class AlipayLifeService
 
         // 启动开始
         echo '[start_time:'.date('Y-m-d H:i:s')."]\n";
-        echo '[menu:'.$params['menu_id']."]\n";
+        echo '[data:'.$params['menu_id']."]\n";
 
         // 开始处理
         $m = M('AlipayLifeMenu');
-        $menu = $m->find($params['menu_id']);
-        if(empty($menu))
+        $data = $m->find($params['menu_id']);
+        if(empty($data))
         {
             die('[time:'.date('Y-m-d H:i:s')."][msg:{$params['menu_id']}数据不存在]\n\n");
         }
-        if(!in_array($menu['status'], [1]))
+        if(!in_array($data['status'], [1]))
         {
-            die('[time:'.date('Y-m-d H:i:s')."][msg:{$menu['status']}状态不可操作]\n\n");
+            die('[time:'.date('Y-m-d H:i:s')."][msg:{$data['status']}状态不可操作]\n\n");
         }
 
         // 生活号
-        $alipay_life_all = json_decode($menu['alipay_life_ids'], true);
+        $alipay_life_all = json_decode($data['alipay_life_ids'], true);
 
         // 消息内容
         $field = 'id,pid,name,action_type,action_value,out_icon';
-        $menu['content'] = M('AlipayLifeMenuContent')->field($field)->where(['alipay_life_menu_id'=>$menu['id'], 'pid'=>0])->order('sort asc')->select();
-        if(empty($menu['content']))
+        $data['content'] = M('AlipayLifeMenuContent')->field($field)->where(['alipay_life_menu_id'=>$data['id'], 'pid'=>0])->order('sort asc')->select();
+        if(empty($data['content']))
         {
-            die('[time:'.date('Y-m-d H:i:s')."][msg:{$menu['id']}菜单内容为空]\n\n");
+            die('[time:'.date('Y-m-d H:i:s')."][msg:{$data['id']}菜单内容为空]\n\n");
         }
 
         // 是否文本类型
         $action_type_list = L('common_alipay_life_menu_action_type_list');
-        foreach($menu['content'] as &$v)
+        foreach($data['content'] as &$v)
         {
             // 外部事件值
             $v['action_type'] = $action_type_list[$v['action_type']]['out_value'];
 
             // 是否需要读取子集
-            if($menu['type'] == 0)
+            if($data['type'] == 0)
             {
                 $items = M('AlipayLifeMenuContent')->field($field)->where(['pid'=>$v['id']])->order('sort asc')->select();
                 if(!empty($items))
@@ -1155,7 +1160,7 @@ class AlipayLifeService
 
         // 生活号循环处理
         $detail_m = M('AlipayLifeMenuDetail');
-        $detail = $detail_m->where(['alipay_life_menu_id'=>$menu['id'], 'status'=>0])->select();
+        $detail = $detail_m->where(['alipay_life_menu_id'=>$data['id'], 'status'=>0])->limit(10)->select();
         if(!empty($detail))
         {
             foreach($detail as $d)
@@ -1165,27 +1170,27 @@ class AlipayLifeService
 
                 // 请求接口处理
                 $obj = new \Library\AlipayLife(['life_data'=>$life]);
-                $ret = $obj->MenuRelease($menu);
+                $ret = $obj->MenuRelease($data);
 
                 // 返回状态更新
                 $status = (isset($ret['status']) && $ret['status'] == 0) ? 2 : 4;
                 $detail_m->where(['id'=>$d['id']])->save(['status'=>$status, 'send_time'=>time(), 'upd_time'=>time(), 'return_msg'=>$ret['msg']]);
             }
         } else {
-            $status_all = $detail_m->where(['alipay_life_menu_id'=>$menu['id']])->group('status')->getField('status', true);
+            $status_all = $detail_m->where(['alipay_life_menu_id'=>$data['id']])->group('status')->getField('status', true);
             if(count($status_all) <= 1)
             {
                 $status = in_array(2, $status_all) ? 2 : 4;
             } else {
                 $status = 3;
             }
-            $m->where(['id'=>$menu['id']])->save(['success_time'=>time(), 'status'=>$status, 'upd_time'=>time()]);
+            $m->where(['id'=>$data['id']])->save(['success_time'=>time(), 'status'=>$status, 'upd_time'=>time()]);
             echo '[success_time:'.date('Y-m-d H:i:s')."]\n";
-            echo '[menu:'.$params['menu_id']."]\n\n";
+            echo '[data:'.$params['menu_id']."]\n\n";
         }
 
         // 继续运行脚本
-        self::SyncJobSend($menu['id'], 'menu_id', 'MenuRelease');
+        self::SyncJobSend($data['id'], 'menu_id', 'MenuRelease');
 
         // end
         die('[end_time:'.date('Y-m-d H:i:s')."][msg:处理结束]\n\n");
@@ -1220,6 +1225,282 @@ class AlipayLifeService
             {
                 // 状态
                 $v['status_name'] = $common_release_status_list[$v['status']]['name'];
+
+                // 生活号
+                $v['alipay_life_name'] = empty($v['alipay_life_id']) ? '' : M('AlipayLife')->where(['id'=>$v['alipay_life_id']])->getField('name');
+
+                // 时间
+                $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
+                $v['send_time'] = empty($v['send_time']) ? '' : date('Y-m-d H:i:s', $v['send_time']);
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * 批量上下架保存
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-24
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function LifeStatusSave($params = [])
+    {
+        // 参数校验
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'name',
+                'error_msg'         => '名称不能为空',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'name',
+                'checked_data'      => '30',
+                'error_msg'         => '名称最多30个字符',
+            ],
+            [
+                'checked_type'      => 'in',
+                'key_name'          => 'is_shelves',
+                'checked_data'      => [0,1],
+                'error_msg'         => '上下架状态选择有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'alipay_life_ids',
+                'error_msg'         => '请选择生活号',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 数据项
+        $data = [
+            'name'              => I('name', '', '', $params),
+            'is_shelves'        => intval($params['is_shelves']),
+            'alipay_life_ids'   => empty($params['alipay_life_ids']) ? 0 : json_encode(explode(',', $params['alipay_life_ids'])),
+        ];
+
+        // 开始处理业务
+        $status = false;
+        $m = M('AlipayLifeStatus');
+        if(empty($params['id']))
+        {
+            $data['add_time'] = time();
+            if($m->add($data))
+            {
+                $status = true;
+                $msg = L('common_operation_add_success');
+            } else {
+                $msg = L('common_operation_add_error');
+            }
+        } else {
+            $data['upd_time'] = time();
+            if($m->where(array('id'=>intval(I('id'))))->save($data))
+            {
+                $status = true;
+                $msg = L('common_operation_edit_success');
+            } else {
+                $msg = L('common_operation_edit_error');
+            }
+        }
+
+        return DataReturn($msg, $status ? 0 : -100);
+    }
+
+    /**
+     * 批量上下架提交
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-24
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function LifeStatusSubmit($params = [])
+    {
+        // 基础参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '菜单id有误',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取数据
+        $m = M('AlipayLifeStatus');
+        $data = $m->find(intval($params['id']));
+        if(empty($data))
+        {
+            return DataReturn('数据不存在', -1);
+        }
+        $common_handle_status_list = L('common_handle_status_list');
+        if(!in_array($data['status'], [0,4]))
+        {
+            return DataReturn('状态不可操作['.$common_handle_status_list[$data['status']]['name'].']', -2);
+        }
+
+        // 生活号
+        $detail = [];
+        $alipay_life_all = json_decode($data['alipay_life_ids'], true);
+        foreach($alipay_life_all as $alipay_life_id)
+        {
+            $detail[] = [
+                'alipay_life_id'        => $alipay_life_id,
+                'alipay_life_status_id' => $data['id'],
+                'add_time'              => time(),
+            ];
+        }
+
+        // 入库详情表
+        $m->startTrans();
+        if(M('AlipayLifeStatusDetail')->addAll($detail) !== false)
+        {
+            $upd_data = [
+                'status'            => 1,
+                'startup_time'      => time(),
+                'upd_time'          => time()
+            ];
+            $status = $m->where(['id'=>$data['id']])->save($upd_data);
+            if($status !== false)
+            {
+                $m->commit();
+                self::SyncJobSend($data['id'], 'status_id', 'StatusHandle');
+                return DataReturn(L('common_submit_success'), 0);
+            }
+        }
+        $m->rollback();
+        return DataReturn(L('common_submit_error'), -100);
+    }
+
+    /**
+     * 批量上下架处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-24
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function StatusHandle($params = [])
+    {
+        if(empty($params['status_id']))
+        {
+            die('[params_time:'.date('Y-m-d H:i:s')."][msg:id有误]\n\n");
+        }
+
+        // 启动开始
+        echo '[start_time:'.date('Y-m-d H:i:s')."]\n";
+        echo '[menu:'.$params['status_id']."]\n";
+
+        // 开始处理
+        $m = M('AlipayLifeStatus');
+        $data = $m->find($params['status_id']);
+        if(empty($data))
+        {
+            die('[time:'.date('Y-m-d H:i:s')."][msg:{$params['status_id']}数据不存在]\n\n");
+        }
+        if(!in_array($data['status'], [1]))
+        {
+            die('[time:'.date('Y-m-d H:i:s')."][msg:{$data['status']}状态不可操作]\n\n");
+        }
+
+        // 生活号循环处理
+        $detail_m = M('AlipayLifeStatusDetail');
+        $detail = $detail_m->where(['alipay_life_status_id'=>$data['id'], 'status'=>0])->limit(10)->select();
+        $life_m = M('AlipayLife');
+        if(!empty($detail))
+        {
+            foreach($detail as $v)
+            {
+                // 数据更新
+                $status = 4;
+                $msg = '';
+                $life_m->startTrans();
+                if($life_m->where(array('id'=>$v['alipay_life_id']))->save(array('is_shelves'=>$data['is_shelves'], 'upd_time'=>time())))
+                {
+                    $obj = new \Library\AlipayLife(['life_data'=>$life_m->find($v['alipay_life_id'])]);
+                    if($data['is_shelves'] == 1)
+                    {
+                        $ret = $obj->LifeAboard();
+                    } else {
+                        $ret = $obj->LifeDebark();
+                    }
+                    if($ret['status'] == 0)
+                    {
+                        $life_m->commit();
+                        $status = 2;
+                    } else {
+                        $life_m->rollback();
+                    }
+                    $msg = $ret['msg'];
+                } else {
+                    $life_m->rollback();
+                    $msg = '主数据更新失败';
+                }
+                $detail_m->where(['id'=>$v['id']])->save(['status'=>$status, 'send_time'=>time(), 'upd_time'=>time(), 'return_msg'=>$msg]);
+            }
+        } else {
+            $status_all = $detail_m->where(['alipay_life_status_id'=>$data['id']])->group('status')->getField('status', true);
+            if(count($status_all) <= 1)
+            {
+                $status = in_array(2, $status_all) ? 2 : 4;
+            } else {
+                $status = 3;
+            }
+            $m->where(['id'=>$data['id']])->save(['success_time'=>time(), 'status'=>$status, 'upd_time'=>time()]);
+            echo '[success_time:'.date('Y-m-d H:i:s')."]\n";
+            echo '[data:'.$params['status_id']."]\n\n";
+        }
+
+        // 继续运行脚本
+        self::SyncJobSend($data['id'], 'status_id', 'StatusHandle');
+
+        // end
+        die('[end_time:'.date('Y-m-d H:i:s')."][msg:处理结束]\n\n");
+    }
+
+    /**
+     * 批量上下架详情列表
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-30
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function StatusDetailList($params = [])
+    {
+        // 基础参数
+        if(empty($params['status_id']))
+        {
+            return [];
+        }
+
+        // 条件
+        $where = ['alipay_life_status_id' => intval($params['status_id'])];
+
+        // 列表
+        $data = M('AlipayLifeStatusDetail')->where($where)->order('id desc')->select();
+        if(!empty($data))
+        {
+            $common_handle_status_list = L('common_handle_status_list');
+            foreach($data as &$v)
+            {
+                // 状态
+                $v['status_name'] = $common_handle_status_list[$v['status']]['name'];
 
                 // 生活号
                 $v['alipay_life_name'] = empty($v['alipay_life_id']) ? '' : M('AlipayLife')->where(['id'=>$v['alipay_life_id']])->getField('name');

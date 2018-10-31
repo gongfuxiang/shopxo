@@ -98,7 +98,7 @@
                                 </div>
                             </td>
                             <td class="view-operation">
-                                <if condition="$v['status'] eq 0">
+                                <if condition="in_array($data['status'], [0,4])">
                                     <a href="{{:U('Admin/AlipayLifeMessage/ContentSaveInfo', array('id'=>$v['id'], 'message_id'=>$params['message_id']))}}">
                                         <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:L('common_operation_edit')}}</button>
                                     </a>

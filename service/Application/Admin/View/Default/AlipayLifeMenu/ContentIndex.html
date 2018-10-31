@@ -97,11 +97,13 @@
                             </td>
                             <td class="view-operation">
                                 <if condition="$v['status'] eq 0">
-                                    <a href="{{:U('Admin/AlipayLifeMenu/ContentSaveInfo', array('id'=>$v['id'], 'menu_id'=>$params['menu_id']))}}">
-                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:L('common_operation_edit')}}</button>
-                                    </a>
+                                    <if condition="in_array($data['status'], [0,4])">
+                                        <a href="{{:U('Admin/AlipayLifeMenu/ContentSaveInfo', array('id'=>$v['id'], 'menu_id'=>$params['menu_id']))}}">
+                                            <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:L('common_operation_edit')}}</button>
+                                        </a>
                                     
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/AlipayLifeMenu/ContentDelete')}}" data-id="{{$v.id}}"> {{:L('common_operation_delete')}}</button>
+                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/AlipayLifeMenu/ContentDelete')}}" data-id="{{$v.id}}"> {{:L('common_operation_delete')}}</button>
+                                    </if>
                                 </if>
                             </td>
                         </tr>
@@ -166,11 +168,13 @@
                                     </td>
                                     <td class="view-operation">
                                         <if condition="$v['status'] eq 0">
-                                            <a href="{{:U('Admin/AlipayLifeMenu/ContentSaveInfo', array('id'=>$vs['id'], 'menu_id'=>$params['menu_id']))}}">
-                                                <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:L('common_operation_edit')}}</button>
-                                            </a>
-                                            
-                                            <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/AlipayLifeMenu/ContentDelete')}}" data-id="{{$vs.id}}"> {{:L('common_operation_delete')}}</button>
+                                            <if condition="in_array($data['status'], [0,4])">
+                                                <a href="{{:U('Admin/AlipayLifeMenu/ContentSaveInfo', array('id'=>$vs['id'], 'menu_id'=>$params['menu_id']))}}">
+                                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:L('common_operation_edit')}}</button>
+                                                </a>
+ 
+                                                <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/AlipayLifeMenu/ContentDelete')}}" data-id="{{$vs.id}}"> {{:L('common_operation_delete')}}</button>
+                                            </if>
                                         </if>
                                     </td>
                                 </tr>
