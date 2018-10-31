@@ -36,6 +36,8 @@ return array(
     'alipay_life_is_shelves_text'         => '上下架',
     'alipay_life_save_category_error'     => '分类添加失败',
 
-    'alipay_life_user_send_text'          =>  '发消息',
+    'alipay_life_user_send_text'          => '发消息',
+
+    'alipay_life_tips'                    => '接口异步通知地址：'.__MY_URL__.'alipay_life_notify.php',
 );
 ?>
