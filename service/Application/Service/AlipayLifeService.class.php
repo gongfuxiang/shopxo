@@ -89,7 +89,7 @@ class AlipayLifeService
             'alipay_life_message_id'        => intval($params['message_id']),
             'title'                         => I('title', '', null, $params),
             'content'                       => I('content', '', null, $params),
-            'url'                           => I('url', '', null, $params),
+            'url'                           => isset($params['url']) ? $params['url'] : '',
             'action_name'                   => I('action_name', '', null, $params),
             'image_url'                     => isset($params['image_url']) ? $params['image_url'] : '',
             'add_time'                      => time(),
@@ -112,16 +112,24 @@ class AlipayLifeService
                     if($alipay_life_message['send_type'] == 1 && !empty($alipay_life_message['alipay_life_ids']))
                     {
                         $alipay_life_ids = json_decode($alipay_life_message['alipay_life_ids'], true);
-                        $$alipay_life_id = isset($alipay_life_ids[0]) ? $alipay_life_ids[0] : '';
+                        $alipay_life_id = isset($alipay_life_ids[0]) ? $alipay_life_ids[0] : '';
                     } else {
                         $alipay_life_id = M('AlipayLifeUser')->where(['id'=>$alipay_life_message['alipay_life_user_id']])->getField('alipay_life_id');
                     }
+                } else {
+                    return DataReturn('消息主数据有误', -5);
                 }
                 if(!empty($alipay_life_id))
                 {
                     $obj = new \Library\AlipayLife(['life_data'=>M('AlipayLife')->find($alipay_life_id)]);
                     $res = $obj->UploadImage(['file'=>ROOT_PATH.substr($data['image_url'], 1)]);
-                    $data['out_image_url'] = (isset($res['status']) && $res['status'] == 0) ? $res['data'] : '';
+                    if($res['status'] != 0)
+                    {
+                        return DataReturn($res['msg'], -10);
+                    }
+                    $data['out_image_url'] = $res['data'];
+                } else {
+                    return DataReturn('消息生活号id有误', -10);
                 }
             }
         }
