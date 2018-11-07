@@ -587,7 +587,7 @@ class AlipayLife
     {
         // 参数处理
         $p = $this->RequestCommonParams();
-        $p['method'] = 'alipay.open.public.menu.modify';
+        $p['method'] = empty($params['method']) ? 'alipay.open.public.menu.modify' : $params['method'];
         $biz_content = [
             'type'      => ($params['type'] == 1) ? 'icon' : 'text',
             'button'    => [],
