@@ -52,11 +52,22 @@ class GoodsSearchController extends CommonController
         $field = 'g.id, g.title, g.title_color, g.original_price, g.price, g.images, g.buy_min_number, g.buy_max_number, g.inventory, g.access_count, g.give_integral, gc.name AS category_name';
         $data = $m->alias('g')->join('INNER JOIN __GOODS_CATEGORY_JOIN__ AS gcj ON g.id=gcj.goods_id INNER JOIN __GOODS_CATEGORY__ AS gc ON gcj.category_id=gc.id')->where($where)->field($field)->limit($start, $number)->group('g.id')->order('g.id desc')->select();
 
+        // 分类信息
+        $category = M('GoodsCategory')->field('id,name,icon,big_images')->where(['id'=>$this->data_post['category_id']])->find();
+        if(!empty($category))
+        {
+            $image_host = C('IMAGE_HOST');
+            $category['icon'] = empty($category['icon']) ? null : $image_host.$category['icon'];
+            $category['big_images'] = empty($category['big_images']) ? null : $image_host.$category['big_images'];
+        }
+
+
         // 返回数据
         $result = [
             'total'         =>  $total,
             'page_total'    =>  $page_total,
             'data'          =>  $this->SetGoodsData($data),
+            'category'      =>  $category,
         ];
         $this->ajaxReturn(L('common_operation_success'), 0, $result);
     }

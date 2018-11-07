@@ -406,6 +406,7 @@ return array(
 			'h5' 	 => array('value' => 'h5', 'name' => 'H5手机网站'),
 			'alipay' => array('value' => 'alipay', 'name' => '支付宝小程序'),
 			'wechat' => array('value' => 'wechat', 'name' => '微信小程序'),
+			'baidu' => array('value' => 'baidu', 'name' => '百度小程序'),
 		),
 
 	// 小程序url跳转类型
