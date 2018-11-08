@@ -649,7 +649,7 @@ class AlipayLife
         }
 
         // 失败
-        return ['status'=>-100, 'msg'=>$result[$key]['sub_msg'].'['.$result[$key]['code'].']'];
+        return ['status'=>-100, 'msg'=>$result[$key]['sub_msg'].'['.$result[$key]['code'].'-'.$result[$key]['sub_code'].']'];
     }
 
 }
