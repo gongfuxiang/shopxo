@@ -795,7 +795,7 @@ class BuyService
             $log_m = M('OrderGoodsInventoryLog');
             foreach($order_detail as $v)
             {
-                $goods = $goods_m->field('is_deduction_inventory,inventory')->find();
+                $goods = $goods_m->field('is_deduction_inventory,inventory')->find($v['goods_id']);
                 if(isset($goods['is_deduction_inventory']) && $goods['is_deduction_inventory'] == 1)
                 {
                     // 扣除操作
@@ -817,6 +817,7 @@ class BuyService
                 }
             }
         }
+        return DataReturn('没有需要扣除库存的数据', 0);
         
     }
 }
