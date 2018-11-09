@@ -94,7 +94,7 @@ class ExpressController extends CommonController
 		}
 
 		// 图片
-        $this->ImagesSave('icon', 'file_icon', 'express');
+        $this->FileSave('icon', 'file_icon', 'express');
 
 		// id为空则表示是新增
 		$m = D('Express');

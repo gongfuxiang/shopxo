@@ -202,7 +202,7 @@ class AlipayLifeController extends CommonController
         }
 
         // 图片
-        $this->ImagesSave('logo', 'file_logo', 'alipay_life');
+        $this->FileSave('logo', 'file_logo', 'alipay_life');
 
         // id为空则表示是新增
         $m = D('AlipayLife');

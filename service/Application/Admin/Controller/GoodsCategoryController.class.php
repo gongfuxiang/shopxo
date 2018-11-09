@@ -116,10 +116,10 @@ class GoodsCategoryController extends CommonController
 		}
 
 		// icon
-        $this->ImagesSave('icon', 'file_icon', 'goods_category');
+        $this->FileSave('icon', 'file_icon', 'goods_category');
 
         // 大图片
-        $this->ImagesSave('big_images', 'file_big_images', 'goods_category');
+        $this->FileSave('big_images', 'file_big_images', 'goods_category');
 
 		// id为空则表示是新增
 		$m = D('GoodsCategory');

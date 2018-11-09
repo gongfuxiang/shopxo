@@ -55,6 +55,9 @@ class GoodsController extends CommonController
         // 是否已收藏
         $goods['is_favor'] = $this->IsGoodsUserFavor($goods_id);
 
+        // 视频
+        $goods['video'] = empty($goods['video']) ? null : C('IMAGE_HOST').$goods['video'];
+
         $result = [
             // 商品基础数据
             'goods'         => $goods,
@@ -67,6 +70,9 @@ class GoodsController extends CommonController
 
             // 属性
             'attribute'     => $this->GetGoodsAttribute($goods_id),
+
+            // 客服电话
+            'customer_service_tel'  => MyC('common_customer_service_tel'),
         ];
 
         $this->ajaxReturn(L('common_operation_success'), 0, $result);

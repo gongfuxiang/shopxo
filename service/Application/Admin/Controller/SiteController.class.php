@@ -72,8 +72,8 @@ class SiteController extends CommonController
 	public function Save()
 	{
 		// logo存储
-		$this->ImagesSave('home_site_logo', 'home_site_logo_img');
-		$this->ImagesSave('home_site_logo_wap', 'home_site_logo_wap_img');
+		$this->FileSave('home_site_logo', 'home_site_logo_img');
+		$this->FileSave('home_site_logo_wap', 'home_site_logo_wap_img');
 
 		// 站点状态值处理
 		if(!isset($_POST['home_user_reg_state']))

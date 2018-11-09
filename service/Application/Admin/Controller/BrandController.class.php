@@ -198,7 +198,7 @@ class BrandController extends CommonController
 		}
 
 		// 图片
-        $this->ImagesSave('logo', 'file_logo', 'brand');
+        $this->FileSave('logo', 'file_logo', 'brand');
 
 		// id为空则表示是新增
 		$m = D('Brand');

@@ -290,7 +290,7 @@ class CommonController extends Controller
 	}
 
 	/**
-	 * 图片删除
+	 * 文件删除
 	 * @author   Devil
 	 * @blog    http://gong.gg/
 	 * @version 1.0.0
@@ -298,7 +298,7 @@ class CommonController extends Controller
 	 * @desc    description
 	 * @param   [string]          $img [图片地址 path+name]
 	 */
-	protected function ImagesDelete($img)
+	protected function FileDelete($img)
 	{
 		if(empty($img)) return false;
 
@@ -310,7 +310,7 @@ class CommonController extends Controller
 	}
 
 	/**
-	 * 图片批量删除
+	 * 文件批量删除
 	 * @author   Devil
 	 * @blog    http://gong.gg/
 	 * @version 1.0.0
@@ -318,22 +318,22 @@ class CommonController extends Controller
 	 * @desc    description
 	 * @param   [array]          $img_all [图片地址 path+name]
 	 */
-	protected function ImagesDeleteAll($img_all)
+	protected function FileDeleteAll($img_all)
 	{
 		if(!empty($img_all) && is_array($img_all))
 		{
 			for($i=0; $i<count($img_all); $i++)
 			{
-				$this->ImagesDelete($img_all[$i]);
-				$this->ImagesDelete(str_replace(['compr', 'small'], 'small', $img_all[$i]));
-				$this->ImagesDelete(str_replace(['compr', 'small'], 'compr', $img_all[$i]));
-				$this->ImagesDelete(str_replace(['compr', 'small'], 'original', $img_all[$i]));
+				$this->FileDelete($img_all[$i]);
+				$this->FileDelete(str_replace(['compr', 'small'], 'small', $img_all[$i]));
+				$this->FileDelete(str_replace(['compr', 'small'], 'compr', $img_all[$i]));
+				$this->FileDelete(str_replace(['compr', 'small'], 'original', $img_all[$i]));
 			}
 		}
 	}
 
 	/**
-	 * 图片存储
+	 * 文件存储
 	 * @author   Devil
 	 * @blog    http://gong.gg/
 	 * @version 1.0.0
@@ -343,7 +343,7 @@ class CommonController extends Controller
 	 * @param   [string]          $post_name 	[file form name名称]
 	 * @param   [string]          $dir   		[存储路径标记]
 	 */
-	protected function ImagesSave($field, $post_name, $dir = 'common')
+	protected function FileSave($field, $post_name, $dir = 'common')
 	{
 		if(isset($_FILES[$post_name]['error']))
 		{

@@ -342,7 +342,11 @@ class GoodsController extends CommonController
 		// 添加/编辑
 		$m = D('Goods');
 
-		$type = empty($_POST['id']) ? 1 : 2;
+		// 商品
+		$goods_id = I('id');
+		$goods = $m->find($goods_id);
+
+		$type = empty($goods) ? 1 : 2;
 		if($m->create($_POST, $type))
 		{
 			// 开启事务
@@ -356,14 +360,12 @@ class GoodsController extends CommonController
 			} else {
 				// 更新
 				$data['upd_time'] = time();
-				if($m->where(['id'=>I('id')])->save($data) === false)
+				if($m->where(['id'=>$goods_id])->save($data) === false)
 				{
 					// 回滚事务
  					$m->rollback();
 
 					$this->ajaxReturn(L('common_operation_edit_error'), -100);
-				} else {
-					$goods_id = I('id');
 				}
 			}
 
@@ -409,6 +411,12 @@ class GoodsController extends CommonController
 
 			// 提交事务
 			$m->commit();
+
+			// 删除原来的视频
+			if(!empty($goods['video']) && !empty($video['data']['file_video']['url']))
+			{
+				$this->FileDelete($goods['video']);
+			}
 
 			// 提示
 			if($type == 1)
@@ -547,7 +555,7 @@ class GoodsController extends CommonController
 									$result[$key[1]][$key[0]] = DS.$path.'compr'.$date.$small;
 								} else {
 									// 如果图片格式有误，则删除原图片
-									$this->ImagesDelete($path.'original'.$date.$original);
+									$this->FileDelete($path.'original'.$date.$original);
 								}
 				 			}
 						}
@@ -616,7 +624,7 @@ class GoodsController extends CommonController
 						$result[] = DS.$path.'compr'.$date.$small;
 					} else {
 						// 如果图片格式有误，则删除原图片
-						$this->ImagesDelete($path.'original'.$date.$original);
+						$this->FileDelete($path.'original'.$date.$original);
 					}
 	 			}
 			}
@@ -677,7 +685,7 @@ class GoodsController extends CommonController
 							$result[$field] = DS.$path.'compr'.$date.$small;
 						} else {
 							// 如果图片格式有误，则删除原图片
-							$this->ImagesDelete($path.'original'.$date.$original);
+							$this->FileDelete($path.'original'.$date.$original);
 						}
 		 			}
 		 		}

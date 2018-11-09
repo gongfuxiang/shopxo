@@ -205,7 +205,7 @@ class PaymentController extends CommonController
 		}
 
 		// 图片
-        $this->ImagesSave('logo', 'file_logo', 'payment');
+        $this->FileSave('logo', 'file_logo', 'payment');
 
 		// id为空则表示是新增
 		$m = D('Payment');
