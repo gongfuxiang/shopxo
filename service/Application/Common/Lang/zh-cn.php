@@ -418,9 +418,9 @@ return array(
 
 	// 扣除库存规则
 	'common_deduction_inventory_rules_list'			=>	array(
-			0 => array('id' => 0, 'name' => '订单提交成功', 'checked' => true),
+			0 => array('id' => 0, 'name' => '订单确认成功', 'checked' => true),
 			1 => array('id' => 1, 'name' => '订单支付成功'),
-			2 => array('id' => 2, 'name' => '订单已发货'),
+			2 => array('id' => 2, 'name' => '订单发货'),
 		),
 
 	// 是否已读

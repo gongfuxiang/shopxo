@@ -715,5 +715,109 @@ class BuyService
         }
         return self::CartTotal(['user_id'=>$params['user']['id']]);
     }
+
+    /**
+     * 库存扣除
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-11-09
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function OrderInventoryDeduct($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'order_id',
+                'error_msg'         => '订单id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'order_data',
+                'error_msg'         => '订单更新数据不能为空',
+            ],
+            [
+                'checked_type'      => 'is_array',
+                'key_name'          => 'order_data',
+                'error_msg'         => '订单更新数据有误',
+            ]
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 是否扣除库存
+        $common_is_deduction_inventory = MyC('common_is_deduction_inventory', 0);
+        if($common_is_deduction_inventory != 1)
+        {
+            return DataReturn('未开启扣除库存', 0);
+        }
+
+        // 扣除库存规则
+        $common_deduction_inventory_rules = MyC('common_deduction_inventory_rules', 1);
+        switch($common_deduction_inventory_rules)
+        {
+            // 订单确认成功
+            case 0 :
+                if($params['order_data']['status'] != 1)
+                {
+                    return DataReturn('当前订单状态未操作确认不扣除库存['.$params['order_id'].']', 0);
+                }
+                break;
+
+            // 订单支付成功
+            case 1 :
+                if($params['order_data']['status'] != 2)
+                {
+                    return DataReturn('当前订单状态未操作支付不扣除库存['.$params['order_id'].']', 0);
+                }
+                break;
+
+            // 订单发货
+            case 2 :
+                if($params['order_data']['status'] != 3)
+                {
+                    return DataReturn('当前订单状态未操作发货不扣除库存['.$params['order_id'].']', 0);
+                }
+                break;
+        }
+
+        // 获取订单商品
+        $order_detail = M('OrderDetail')->field('goods_id,buy_number')->where(['order_id'=>$params['order_id']])->select();
+        if(!empty($order_detail))
+        {
+            $goods_m = M('Goods');
+            $log_m = M('OrderGoodsInventoryLog');
+            foreach($order_detail as $v)
+            {
+                $goods = $goods_m->field('is_deduction_inventory,inventory')->find();
+                if(isset($goods['is_deduction_inventory']) && $goods['is_deduction_inventory'] == 1)
+                {
+                    // 扣除操作
+                    if(!$goods_m->where(['id'=>$v['goods_id']])->setDec('inventory', $v['buy_number']))
+                    {
+                        return DataReturn('库存扣减失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
+                    }
+
+                    // 扣除日志添加
+                    $log_data = [
+                        'order_id'              => $params['order_id'],
+                        'goods_id'              => $v['goods_id'],
+                        'order_status'          => $params['order_data']['status'],
+                        'original_inventory'    => $goods['inventory'],
+                        'new_inventory'         => $goods['inventory']+$v['buy_number'],
+                        'add_time'              => time(),
+                    ];
+                    $log_m->add($log_data);
+                }
+            }
+        }
+        
+    }
 }
 ?>

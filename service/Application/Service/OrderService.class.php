@@ -4,6 +4,7 @@ namespace Service;
 
 use Service\GoodsService;
 use Service\ResourcesService;
+use Service\BuyService;
 
 /**
  * 订单服务层
@@ -356,10 +357,17 @@ class OrderService
             // 添加状态日志
             if(self::OrderHistoryAdd($params['order']['id'], 2, $params['order']['status'], '支付', 0, '系统'))
             {
+                // 库存扣除
+                $ret = BuyService::OrderInventoryDeduct(['order_id'=>$params['order']['id'], 'order_data'=>$upd_data]);
+                if($ret['status'] != 0)
+                {
+                    // 事务回滚
+                    $m->rollback();
+                    return DataReturn($ret['msg'], -10);
+                }
+
                 // 提交事务
                 $m->commit();
-
-                // 成功
                 return DataReturn('支付成功', 0);
             }
         }
