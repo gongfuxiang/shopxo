@@ -216,6 +216,9 @@
 								</div>
 							</td>
 							<td class="view-operation">
+								<if condition="in_array($v['status'], [0])">
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:U('Admin/Order/Confirm')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:L('common_collect_tips')}}"> {{:L('common_operation_confirm')}}</button>
+								</if>
 								<if condition="in_array($v['status'], [0,1])">
 									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax" data-url="{{:U('Admin/Order/Cancel')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:L('common_cancel_tips')}}"> {{:L('common_operation_cancel')}}</button>
 									<if condition="in_array($v['status'], [1])">

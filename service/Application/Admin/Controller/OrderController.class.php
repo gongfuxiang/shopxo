@@ -319,6 +319,30 @@ class OrderController extends CommonController
     }
 
     /**
+     * [Confirm 订单确认]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-15T11:03:30+0800
+     */
+    public function Confirm()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            $this->error(L('common_unauthorized_access'));
+        }
+
+        // 订单确认
+        $params = $_POST;
+        $params['user_id'] = $params['value'];
+        $params['creator'] = $this->admin['id'];
+        $params['creator_name'] = $this->admin['username'];
+        $ret = OrderService::OrderConfirm($params);
+        $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
+    }
+
+    /**
      * 订单支付
      * @author   Devil
      * @blog    http://gong.gg/

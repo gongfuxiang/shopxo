@@ -734,24 +734,41 @@ class OrderService
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
-        $data = [
+        // 开启事务
+        $m->startTrans();
+        $upd_data = [
             'status'            => 3,
             'express_id'        => intval($params['express_id']),
             'express_number'    => I('express_number', '', '', $params),
             'delivery_time'     => time(),
             'upd_time'          => time(),
         ];
-        if($m->where($where)->save($data))
+        if($m->where($where)->save($upd_data))
         {
+            // 库存扣除
+            $ret = BuyService::OrderInventoryDeduct(['order_id'=>$params['id'], 'order_data'=>$upd_data]);
+            if($ret['status'] != 0)
+            {
+                // 事务回滚
+                $m->rollback();
+                return DataReturn($ret['msg'], -10);
+            }
+
             // 用户消息
             MessageService::MessageAdd($order['user_id'], '订单发货', '订单已发货', 1, $order['id']);
 
             // 订单状态日志
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
             $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
-            self::OrderHistoryAdd($order['id'], $data['status'], $order['status'], '收货', $creator, $creator_name);
+            self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '收货', $creator, $creator_name);
+
+            // 提交事务
+            $m->commit();
             return DataReturn(L('common_operation_delivery_success'), 0);
         }
+
+        // 事务回滚
+        $m->rollback();
         return DataReturn(L('common_operation_delivery_error'), -1);
     }
 
@@ -799,12 +816,13 @@ class OrderService
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
-        $data = [
+        // 更新订单状态
+        $upd_data = [
             'status'        => 4,
             'collect_time'  => time(),
             'upd_time'      => time(),
         ];
-        if($m->where($where)->save($data))
+        if($m->where($where)->save($upd_data))
         {
             // 用户消息
             MessageService::MessageAdd($order['user_id'], '订单收货', '订单收货成功', 1, $order['id']);
@@ -812,10 +830,92 @@ class OrderService
             // 订单状态日志
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
             $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
-            self::OrderHistoryAdd($order['id'], $data['status'], $order['status'], '收货', $creator, $creator_name);
+            self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '收货', $creator, $creator_name);
             return DataReturn(L('common_operation_collect_success'), 0);
         }
         return DataReturn(L('common_operation_collect_error'), -1);
+    }
+
+    /**
+     * 订单确认
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-30
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function OrderConfirm($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '订单id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user_id',
+                'error_msg'         => '用户id有误',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取订单信息
+        $m = M('Order');
+        $where = ['id'=>intval($params['id']), 'user_id'=>$params['user_id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
+        $order = $m->where($where)->field('id,status,user_id')->find();
+        if(empty($order))
+        {
+            return DataReturn(L('common_data_no_exist_error'), -1);
+        }
+        if(!in_array($order['status'], [0]))
+        {
+            $status_text = L('common_order_admin_status')[$order['status']]['name'];
+            return DataReturn('状态不可操作['.$status_text.']', -1);
+        }
+
+        // 开启事务
+        $m->startTrans();
+
+        // 更新订单状态
+        $upd_data = [
+            'status'        => 1,
+            'confirm_time'  => time(),
+            'upd_time'      => time(),
+        ];
+        if($m->where($where)->save($upd_data))
+        {
+            // 库存扣除
+            $ret = BuyService::OrderInventoryDeduct(['order_id'=>$params['id'], 'order_data'=>$upd_data]);
+            if($ret['status'] != 0)
+            {
+                // 事务回滚
+                $m->rollback();
+                return DataReturn($ret['msg'], -10);
+            }
+
+            // 用户消息
+            MessageService::MessageAdd($order['user_id'], '订单确认', '订单确认成功', 1, $order['id']);
+
+            // 订单状态日志
+            $creator = isset($params['creator']) ? intval($params['creator']) : 0;
+            $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
+            self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '确认', $creator, $creator_name);
+
+            // 事务提交
+            $m->commit();
+            return DataReturn(L('common_confirm_success'), 0);
+        }
+
+        // 事务回滚
+        $m->rollback();
+        return DataReturn(L('common_confirm_error'), -1);
     }
 
     /**

@@ -149,15 +149,15 @@
 				</div>
 				<div class="am-form-group">
 					<label class="block">{{:L('goods_is_deduction_inventory_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('goods_is_deduction_inventory_tips')}}）</span></label>
-					<input name="is_deduction_inventory" value="1" type="checkbox" data-off-text="{{:L('common_operation_off_is_text')}}" data-on-text="{{:L('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch <if condition="!empty($data) and $data['is_deduction_inventory'] eq 1">checked="true"</if> />
+					<input name="is_deduction_inventory" value="1" type="checkbox" data-off-text="{{:L('common_operation_off_is_text')}}" data-on-text="{{:L('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch <if condition="(isset($data['is_deduction_inventory']) and $data['is_deduction_inventory'] eq 1) or empty($data)">checked="true"</if> />
 				</div>
 				<div class="am-form-group">
 					<label class="block">{{:L('goods_is_shelves_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('goods_is_shelves_tips')}}）</span></label>
-					<input name="is_shelves" value="1" type="checkbox" data-off-text="{{:L('common_operation_off_goods_text')}}" data-on-text="{{:L('common_operation_on_goods_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch <if condition="(!empty($data) and $data['is_shelves'] eq 1) or (empty($data))">checked="true"</if> />
+					<input name="is_shelves" value="1" type="checkbox" data-off-text="{{:L('common_operation_off_goods_text')}}" data-on-text="{{:L('common_operation_on_goods_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch <if condition="(isset($data['is_shelves']) and $data['is_shelves'] eq 1) or empty($data)">checked="true"</if> />
 				</div>
 				<div class="am-form-group">
 					<label class="block">{{:L('goods_is_home_recommended_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('goods_is_home_recommended_tips')}}）</span></label>
-					<input name="is_home_recommended" value="1" type="checkbox" data-off-text="{{:L('common_operation_off_is_text')}}" data-on-text="{{:L('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch <if condition="!empty($data) and $data['is_home_recommended'] eq 1">checked="true"</if> />
+					<input name="is_home_recommended" value="1" type="checkbox" data-off-text="{{:L('common_operation_off_is_text')}}" data-on-text="{{:L('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch <if condition="isset($data['is_home_recommended']) and $data['is_home_recommended'] eq 1">checked="true"</if> />
 				</div>
 			</div>
 			<div id="goods-nav-photo" class="division-block">

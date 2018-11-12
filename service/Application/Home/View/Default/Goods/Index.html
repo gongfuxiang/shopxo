@@ -118,7 +118,7 @@
                 </ul>
 
                 <!--各种规格-->
-                <if condition="$goods['is_shelves'] == 1">
+                <if condition="$goods['is_shelves'] == 1 and $goods['inventory'] gt 0">
                     <dl class="iteminfo_parameter sys_item_specpara">
                         <dt class="buy-event login-event" data-type="buy">
                             <div class="cart-title">
@@ -184,46 +184,51 @@
                 </if>
             </div>
 
-            <!--手机导航-->
+            <!-- 购买导航 -->
             <div class="buy-nav">
-                <if condition="$goods['is_shelves'] == 1">
-                    <div class="buy-nav-opt">
-                        <a href="{{:__MY_URL__}}">
-                            <span class="am-icon-home am-icon-fw"> 首页</span>
-                        </a>
-                        <if condition="isset($goods['is_favor']) and $goods['is_favor'] eq 1">
-                            <span class="am-icon-heart am-icon-fw login-event favor-submit text-active" data-ajax-url="{{:U('Home/Goods/Favor')}}">
-                                <em class="goods-favor-text">已收藏</em>
-                                <em class="goods-favor-count">({{$goods.favor_count}})</em>
-                            </span>
-                        <else />
-                            <span class="am-icon-heart am-icon-fw favor-submit login-event" data-ajax-url="{{:U('Home/Goods/Favor')}}">    <em class="goods-favor-text">收藏</em>
-                                <em class="goods-favor-count">({{$goods.favor_count}})</em>
-                            </span>
-                        </if>
-                    </div>
-                    <div class="submit">
-                        <div class="clearfix tb-btn tb-btn-buy buy-event login-event buy-submit" data-type="buy">
-                            <button title="点此按钮到下一步确认购买信息" href="javascript:;" type="button">立即购买</button>
+                <notempty name="goods.is_shelves">
+                    <if condition="$goods['inventory'] gt 0">
+                        <div class="buy-nav-opt">
+                            <a href="{{:__MY_URL__}}">
+                                <span class="am-icon-home am-icon-fw"> 首页</span>
+                            </a>
+                            <if condition="isset($goods['is_favor']) and $goods['is_favor'] eq 1">
+                                <span class="am-icon-heart am-icon-fw login-event favor-submit text-active" data-ajax-url="{{:U('Home/Goods/Favor')}}">
+                                    <em class="goods-favor-text">已收藏</em>
+                                    <em class="goods-favor-count">({{$goods.favor_count}})</em>
+                                </span>
+                            <else />
+                                <span class="am-icon-heart am-icon-fw favor-submit login-event" data-ajax-url="{{:U('Home/Goods/Favor')}}">    <em class="goods-favor-text">收藏</em>
+                                    <em class="goods-favor-count">({{$goods.favor_count}})</em>
+                                </span>
+                            </if>
                         </div>
-                    </div>
-                    <div class="submit">
-                        <div class="clearfix tb-btn tb-btn-basket buy-event login-event cart-submit" data-type="cart"  data-ajax-url="{{:U('Home/Cart/Save')}}">
-                            <button title="加入购物车" href="javascript:;" type="button"><i></i>加入购物车</button>
+                        <div class="submit">
+                            <div class="clearfix tb-btn tb-btn-buy buy-event login-event buy-submit" data-type="buy">
+                                <button title="点此按钮到下一步确认购买信息" href="javascript:;" type="button">立即购买</button>
+                            </div>
                         </div>
-                    </div>
+                        <div class="submit">
+                            <div class="clearfix tb-btn tb-btn-basket buy-event login-event cart-submit" data-type="cart"  data-ajax-url="{{:U('Home/Cart/Save')}}">
+                                <button title="加入购物车" href="javascript:;" type="button"><i></i>加入购物车</button>
+                            </div>
+                        </div>
 
-                    <!-- 购买表单 -->
-                    <form action="{{:U('Home/Buy/Index')}}" method="post" class="buy-form">
-                        <input type="hidden" name="goods_id" value="{{$goods.id}}" />
-                        <input type="hidden" name="buy_type" value="goods" />
-                        <input type="hidden" name="stock" value="1" />
-                        <input type="hidden" name="attr" value="" />
-                        <button type="submit"></button>
-                    </form>
-                <else />
-                    <p class="shelves-tips">商品已下架</p>
-                </if>
+                        <!-- 购买表单 -->
+                        <form action="{{:U('Home/Buy/Index')}}" method="post" class="buy-form">
+                            <input type="hidden" name="goods_id" value="{{$goods.id}}" />
+                            <input type="hidden" name="buy_type" value="goods" />
+                            <input type="hidden" name="stock" value="1" />
+                            <input type="hidden" name="attr" value="" />
+                            <button type="submit"></button>
+                        </form>
+                    <else />
+                        <p class="goods-not-buy-tips">商品卖光了</p>
+                    </if>
+                </notempty>
+                <empty name="goods.is_shelves">
+                    <p class="goods-not-buy-tips">商品已下架</p>
+                </empty>
             </div>
         </div>
     </div>

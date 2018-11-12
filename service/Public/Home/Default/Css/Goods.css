@@ -289,7 +289,7 @@ li.am-comment{ width:100%}
 .nav.white,.tip{z-index:999}
 
 /* 文字提示 */
-.shelves-tips { color: #FF5722; margin: 5px 0; font-size: 14px; }
+.goods-not-buy-tips { color: #FF5722; margin: 5px 0; font-size: 14px; }
 
 @media only screen and (min-width:640px) {
     /*导航固定*/
@@ -456,7 +456,7 @@ li.am-comment{ width:100%}
     /* 推荐商品 */
     .like li:not(:nth-of-type(2n)) { border-right: 1px solid #eee; }
     .like li:nth-child(1), .like li:nth-child(2) { border-top: 0px; }
-    .shelves-tips { text-align: center; }
+    .goods-not-buy-tips { text-align: center; }
     .goods-favor-count { display: none; }
 
     /* 视频操作 */

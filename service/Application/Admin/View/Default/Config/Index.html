@@ -34,6 +34,14 @@
 				</select>
 			</div>
 			<div class="am-form-group">
+				<label>{{$data.common_order_is_booking.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_order_is_booking.describe}}）</span></label>
+				<select name="{{$data.common_order_is_booking.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.common_order_is_booking.error_tips}}" required>
+					<foreach name="common_is_text_list" item="v">
+						<option value="{{$v.id}}" <if condition="isset($data['common_order_is_booking']['value']) and $data['common_order_is_booking']['value'] eq $v['id']">selected</if>>{{$v.name}}</option>
+					</foreach>
+				</select>
+			</div>
+			<div class="am-form-group">
 				<label>{{$data.common_share_giving_integral_frequency.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_share_giving_integral_frequency.describe}}）</span></label>
 				<input type="number" name="{{$data.common_share_giving_integral_frequency.only_tag}}" placeholder="{{$data.common_share_giving_integral_frequency.name}}" data-validation-message="{{$data.common_share_giving_integral_frequency.error_tips}}" class="am-radius" <present name="data"> value="{{$data.common_share_giving_integral_frequency.value}}"</present> />
 			</div>

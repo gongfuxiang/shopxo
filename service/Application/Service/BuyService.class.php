@@ -599,15 +599,18 @@ class BuyService
             'receive_county'        => $address['data']['county'],
             'receive_address'       => $address['data']['address'],
             'user_note'             => I('user_note', null, null, $params),
-            'status'                => 1,
+            'status'                => (intval(MyC('common_order_is_booking', 0)) == 1) ? 0 : 1,
             'preferential_price'    => $preferential_price,
             'price'                 => $check['data']['total_price'],
             'total_price'           => $check['data']['total_price']-$preferential_price,
             'express_id'            => intval($params['express_id']),
             'payment_id'            => intval($params['payment_id']),
             'add_time'              => time(),
-            'confirm_time'          => time(),
         ];
+        if($order['status'] == 1)
+        {
+            $order['confirm_time'] = time();
+        }
 
         // 开始事务
         $m = M('Order');
@@ -644,11 +647,31 @@ class BuyService
             return DataReturn('订单添加失败', -1);
         }
 
+        // 库存扣除
+        if($order['status'] == 1)
+        {
+            $ret = self::OrderInventoryDeduct(['order_id'=>$order_id, 'order_data'=>$order]);
+            if($ret['status'] != 0)
+            {
+                // 事务回滚
+                $m->rollback();
+                return DataReturn($ret['msg'], -10);
+            }
+        }
+        
+
         // 订单提交成功
         $m->commit();
 
         // 删除购物车
         self::BuyCartDelete($params);
+
+        // 返回信息
+        $result = [
+            'order'     => $m->find($order_id),
+            'jump_url'  => U('Home/Order/Index'),
+        ];
+
 
         // 获取订单信息
         switch($order['status'])
@@ -661,6 +684,7 @@ class BuyService
             // 提交成功
             case 1 :
                 $msg = L('common_submit_success');
+                $result['jump_url'] = U('Home/Order/Pay', ['id'=>$order_id]);
                 break;
 
             // 默认操作成功
@@ -668,10 +692,6 @@ class BuyService
                 $msg = L('common_operation_success');
         }
 
-        $result = [
-            'order'     => $m->find($order_id),
-            'pay_url'   => U('Home/Order/Pay', ['id'=>$order_id]),
-        ];
         return DataReturn($msg, 0, $result);
     }
 
@@ -795,25 +815,30 @@ class BuyService
             $log_m = M('OrderGoodsInventoryLog');
             foreach($order_detail as $v)
             {
-                $goods = $goods_m->field('is_deduction_inventory,inventory')->find($v['goods_id']);
-                if(isset($goods['is_deduction_inventory']) && $goods['is_deduction_inventory'] == 1)
+                // 查看是否已扣除过库存,避免更改模式导致重复扣除
+                $temp = $log_m->where(['order_id'=>$params['order_id'], 'goods_id'=>$v['goods_id']])->find();
+                if(empty($temp))
                 {
-                    // 扣除操作
-                    if(!$goods_m->where(['id'=>$v['goods_id']])->setDec('inventory', $v['buy_number']))
+                    $goods = $goods_m->field('is_deduction_inventory,inventory')->find($v['goods_id']);
+                    if(isset($goods['is_deduction_inventory']) && $goods['is_deduction_inventory'] == 1)
                     {
-                        return DataReturn('库存扣减失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
-                    }
+                        // 扣除操作
+                        if(!$goods_m->where(['id'=>$v['goods_id']])->setDec('inventory', $v['buy_number']))
+                        {
+                            return DataReturn('库存扣减失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
+                        }
 
-                    // 扣除日志添加
-                    $log_data = [
-                        'order_id'              => $params['order_id'],
-                        'goods_id'              => $v['goods_id'],
-                        'order_status'          => $params['order_data']['status'],
-                        'original_inventory'    => $goods['inventory'],
-                        'new_inventory'         => $goods['inventory']+$v['buy_number'],
-                        'add_time'              => time(),
-                    ];
-                    $log_m->add($log_data);
+                        // 扣除日志添加
+                        $log_data = [
+                            'order_id'              => $params['order_id'],
+                            'goods_id'              => $v['goods_id'],
+                            'order_status'          => $params['order_data']['status'],
+                            'original_inventory'    => $goods['inventory'],
+                            'new_inventory'         => $goods_m->where(['id'=>$v['goods_id']])->getField('inventory'),
+                            'add_time'              => time(),
+                        ];
+                        $log_m->add($log_data);
+                    }
                 }
             }
         }
