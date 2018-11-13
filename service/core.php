@@ -12,6 +12,9 @@
 // 开启缓冲区
 ob_start();
 
+// 检测PHP环境
+if(version_compare(PHP_VERSION,'5.3.0','<'))  die('require PHP > 5.3.0 !');
+
 // HTTP类型
 define('__MY_HTTP__', (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off') ? 'http' : 'https');
 
@@ -28,8 +31,12 @@ define('__MY_URL__',  empty($_SERVER['HTTP_HOST']) ? '' : __MY_HTTP__.'://'.__MY
 $request_url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 define('__MY_VIEW_URL__', substr(__MY_URL__, 0, -1).$request_url);
 
-// 检测PHP环境
-if(version_compare(PHP_VERSION,'5.3.0','<'))  die('require PHP > 5.3.0 !');
+// 检测是否是新安装
+if(is_dir("./Install") && !file_exists("./Install/install.lock"))
+{
+    $url = __MY_URL__.'Install/index.php';
+    exit(header('location:'.$url));
+}
 
 // 开启调试模式 建议开发阶段开启 部署阶段注释或者设为false
 define('APP_DEBUG', true);

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 多语言支持定义
+ * 扩展钩子
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1

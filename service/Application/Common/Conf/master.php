@@ -17,7 +17,7 @@ return array(
     'DB_PORT'   => 3306, // 端口
     'DB_PARAMS' =>  array(), // 数据库连接参数
     'DB_PREFIX' => 's_', // 数据库表前缀 
-    'DB_CHARSET'=> 'utf8', // 字符集
+    'DB_CHARSET'=> 'utf8mb4', // 字符集
     'DB_DEBUG'  =>  false, // 数据库调试模式 开启后可以记录SQL日志
 );
 ?>

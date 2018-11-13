@@ -1,0 +1,146 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+  background: #fff;
+}
+.agree {
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+}
+.b-display-none {
+  display: none;
+}
+#nav {
+  width: 100%;
+  height: 40px;
+  background: #333333;
+  color: #fff;
+}
+#nav .inside {
+  margin: 0 auto;
+  height: 40px;
+}
+#nav .inside .name {
+  width: 160px;
+  height: 40px;
+  font-size: 20px;
+  float: left;
+  margin-top: 7px;
+}
+#nav .inside .name span {
+  font-size: 12px;
+  margin-left: 2px;
+}
+#nav .inside .schedule {
+  margin-left: 5px;
+  width: 17%;
+  height: 30px;
+  float: left;
+  margin-top: 8px;
+}
+#nav .inside .schedule .number {
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  font-size: 12px;
+  border-radius: 50%;
+  background: #80AAB7;
+  float: left;
+}
+#nav .inside .schedule .word {
+  width: 60px;
+  height: 25px;
+  float: left;
+  line-height: 28px;
+  text-indent: 5px;
+  font-size: 12px;
+}
+#nav .inside .active .number {
+  background: #008CBA;
+}
+#nav .inside .active .word {
+  color: #008CBA;
+}
+#out {
+  width: 100%;
+  overflow: hidden;
+}
+#out .inside {
+  margin: 0 auto;
+  padding: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+#out .inside, #nav .inside {
+  width: 80%;
+}
+#out .inside .agreement {
+  overflow: hidden;
+}
+#out .inside .agreement .content {
+  font-size: 14px;
+  margin-top: 10px;
+}
+#out .inside .agreement .admin_hint {
+  color: red;
+}
+#out .inside .create .one {
+  margin-top: 10px;
+}
+#out .inside .create .one label {
+  width: 100px;
+}
+h2 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+.agree .btn-primary {
+  margin-right: 20px;
+}
+.agree .btn-success {
+  margin-left: 20px;
+}
+.test h2 {
+  background: #eaeaea;
+  margin-bottom: 0px;
+  padding: 5px;
+}
+@media only screen and (max-width: 641px) {
+    #nav .inside .name span {
+      font-size: 12px;
+    }
+    #nav .inside .schedule .number {
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+    }
+    #nav .inside .schedule {
+      margin-top: 10px;
+    }
+    #nav .inside .schedule .word {
+      width: 53px;
+      height: 20px;
+      line-height: 20px;
+    }
+    #nav .inside .schedule .word
+    {
+      text-indent: 3px;
+    }
+    #nav .inside .schedule {
+      width: 23%;
+    }
+    #out .inside, #nav .inside {
+      width: 100%;
+    }
+    #nav .inside .name {
+      display: none;
+    }
+}
+@media only screen and (min-width: 641px) {
+  .create .one input {
+    width: 70%;
+  }
+}

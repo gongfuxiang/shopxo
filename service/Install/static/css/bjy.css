@@ -1,0 +1,244 @@
+@charset "utf-8";
+/* CSS Document */
+/* 清除内外边距 */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+blockquote,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+pre,
+fieldset,
+lengend,
+button,
+input,
+textarea,
+th,
+td {
+  /* table elements 表格元素 */
+  margin: 0;
+  padding: 0;
+}
+/* 将斜体扶正 */
+em,
+i {
+  font-style: normal;
+}
+/* 重置列表元素 */
+ul,
+ol,
+li {
+  list-style: none;
+}
+/* 重置a标签属性 */
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+  transition: all 0.5s ease 0s;
+  color: #0B7DF2;
+}
+a:focus {
+  outline: none;
+  text-decoration: none;
+  -moz-outline: none;
+}
+/* 让链接里的 img 无边框 */
+img {
+  border: none;
+}
+/* 使得表单元素在 ie 下能继承字体大小 */
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+}
+/*表格内容自动换行*/
+table {
+  word-break: break-all;
+  word-wrap: break-word;
+}
+/*禁止textarea拖动*/
+textarea {
+  resize: none;
+}
+/* 常用样式 */
+.b-clear-float {
+  clear: both;
+}
+.b-ta-center {
+  text-align: center;
+}
+.b-h-10 {
+  width: 100%;
+  height: 10px;
+}
+.b-h-20 {
+  width: 100%;
+  height: 20px;
+}
+.b-h-30 {
+  width: 100%;
+  height: 30px;
+}
+.b-h-40 {
+  width: 100%;
+  height: 40px;
+}
+.b-h-50 {
+  width: 100%;
+  height: 50px;
+}
+.b-h-60 {
+  width: 100%;
+  height: 60px;
+}
+.b-h-70 {
+  width: 100%;
+  height: 70px;
+}
+.b-h-80 {
+  width: 100%;
+  height: 80px;
+}
+.b-h-90 {
+  width: 100%;
+  height: 90px;
+}
+.b-h-100 {
+  width: 100%;
+  height: 100px;
+}
+.b-h-110 {
+  width: 100%;
+  height: 110px;
+}
+.b-h-120 {
+  width: 100%;
+  height: 120px;
+}
+.b-h-130 {
+  width: 100%;
+  height: 130px;
+}
+.b-h-140 {
+  width: 100%;
+  height: 140px;
+}
+.b-h-150 {
+  width: 100%;
+  height: 150px;
+}
+.b-h-160 {
+  width: 100%;
+  height: 160px;
+}
+.b-h-170 {
+  width: 100%;
+  height: 170px;
+}
+.b-h-180 {
+  width: 100%;
+  height: 180px;
+}
+.b-h-190 {
+  width: 100%;
+  height: 190px;
+}
+.b-h-200 {
+  width: 100%;
+  height: 200px;
+}
+/* 分页开始 */
+.b-page {
+  background: #fff;
+  box-shadow: 0px 1px 2px 0px #E2E2E2;
+}
+.page {
+  width: 100%;
+  padding: 30px 15px;
+  background: #FFF;
+  text-align: center;
+  overflow: hidden;
+}
+.page .first,
+.page .prev,
+.page .current,
+.page .num,
+.page .current,
+.page .next,
+.page .end {
+  padding: 8px 16px;
+  margin: 0px 5px;
+  display: inline-block;
+  color: #008CBA;
+  border: 1px solid #F2F2F2;
+  border-radius: 5px;
+}
+.page .first:hover,
+.page .prev:hover,
+.page .current:hover,
+.page .num:hover,
+.page .current:hover,
+.page .next:hover,
+.page .end:hover {
+  text-decoration: none;
+  background: #F8F5F5;
+}
+.page .current {
+  background-color: #008CBA;
+  color: #FFF;
+  border-radius: 5px;
+  border: 1px solid #008CBA;
+}
+.page .current:hover {
+  text-decoration: none;
+  background: #008CBA;
+}
+/* 分页结束 */
+.pace {
+  -webkit-pointer-events: none;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999999999999;
+  width: 100%;
+  -webkit-transform: translate3d(0, -50px, 0);
+  -ms-transform: translate3d(0, -50px, 0);
+  transform: translate3d(0, -50px, 0);
+  -webkit-transition: -webkit-transform 0.5s ease-out;
+  -ms-transition: -webkit-transform 0.5s ease-out;
+  transition: transform 0.5s ease-out;
+}
+.pace.pace-active {
+  -webkit-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+.pace .pace-progress {
+  display: block;
+  position: fixed;
+  z-index: 999999999999;
+  top: 0;
+  right: 100%;
+  width: 100%;
+  height: 3px;
+  background: #0B94C1;
+  pointer-events: none;
+}
