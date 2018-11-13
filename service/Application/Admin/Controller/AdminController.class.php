@@ -60,6 +60,13 @@ class AdminController extends CommonController
 
 		// 获取管理员列表
 		$list = $m->where($where)->limit($page->GetPageStarNumber(), $number)->select();
+		if(!empty($list))
+		{
+			foreach($list as &$v)
+			{
+				$v['role_name'] = M('Role')->where(['id'=>$v['role_id']])->getField('name');
+			}
+		}
 		
 		// 角色
 		$role = M('Role')->field(array('id', 'name'))->where(array('is_enable'=>1))->select();
@@ -88,8 +95,7 @@ class AdminController extends CommonController
 		{
 			$where['username'] = array('like', '%'.I('username').'%');
 		}
-		if(!empty($_REQUEST['role_id']) && I('role_id') != -1)
-		if($role_id > 0)
+		if(I('role_id', -1) > -1)
 		{
 			$where['role_id'] = I('role_id');
 		}
@@ -134,7 +140,7 @@ class AdminController extends CommonController
 			$this->assign('data', $user);
 		}
 
-		$role = M('Role')->field(array('id', 'name'))->where(array('is_enable'=>1, 'id'=>array('gt', 1)))->select();
+		$role = M('Role')->field(array('id', 'name'))->where(array('is_enable'=>1))->select();
 		$this->assign('role', $role);
 
 		// 组织列表

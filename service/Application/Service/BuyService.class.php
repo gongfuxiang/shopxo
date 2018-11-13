@@ -786,7 +786,7 @@ class BuyService
             case 0 :
                 if($params['order_data']['status'] != 1)
                 {
-                    return DataReturn('当前订单状态未操作确认不扣除库存['.$params['order_id'].']', 0);
+                    return DataReturn('当前订单状态未操作确认-不扣除库存['.$params['order_id'].']', 0);
                 }
                 break;
 
@@ -794,7 +794,7 @@ class BuyService
             case 1 :
                 if($params['order_data']['status'] != 2)
                 {
-                    return DataReturn('当前订单状态未操作支付不扣除库存['.$params['order_id'].']', 0);
+                    return DataReturn('当前订单状态未操作支付-不扣除库存['.$params['order_id'].']', 0);
                 }
                 break;
 
@@ -802,7 +802,7 @@ class BuyService
             case 2 :
                 if($params['order_data']['status'] != 3)
                 {
-                    return DataReturn('当前订单状态未操作发货不扣除库存['.$params['order_id'].']', 0);
+                    return DataReturn('当前订单状态未操作发货-不扣除库存['.$params['order_id'].']', 0);
                 }
                 break;
         }
@@ -837,13 +837,91 @@ class BuyService
                             'new_inventory'         => $goods_m->where(['id'=>$v['goods_id']])->getField('inventory'),
                             'add_time'              => time(),
                         ];
-                        $log_m->add($log_data);
+                        if($log_m->add($log_data) <= 0)
+                        {
+                            return DataReturn('库存扣减日志添加失败['.$params['order_id'].'-'.$v['goods_id'].']', -100);
+                        }
                     }
                 }
             }
+            return DataReturn('操作成功', 0);
         }
         return DataReturn('没有需要扣除库存的数据', 0);
-        
+    }
+
+    /**
+     * 库存回滚
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-11-09
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function OrderInventoryRollback($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'order_id',
+                'error_msg'         => '订单id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'order_data',
+                'error_msg'         => '订单更新数据不能为空',
+            ],
+            [
+                'checked_type'      => 'is_array',
+                'key_name'          => 'order_data',
+                'error_msg'         => '订单更新数据有误',
+            ]
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 订单状态
+        if(!in_array($params['order_data']['status'], [5,6]))
+        {
+            return DataReturn('当前订单状态不允许回滚库存['.$params['order_id'].'-'.$params['order_data']['status'].']', 0);
+        }
+
+        // 获取订单商品
+        $order_detail = M('OrderDetail')->field('goods_id,buy_number')->where(['order_id'=>$params['order_id']])->select();
+        if(!empty($order_detail))
+        {
+            $goods_m = M('Goods');
+            $log_m = M('OrderGoodsInventoryLog');
+            foreach($order_detail as $v)
+            {
+                // 查看是否已扣除过库存
+                $temp = $log_m->where(['order_id'=>$params['order_id'], 'goods_id'=>$v['goods_id'], 'is_rollback'=>0])->find();
+                if(!empty($temp))
+                {
+                    // 回滚操作
+                    if(!$goods_m->where(['id'=>$v['goods_id']])->setInc('inventory', $v['buy_number']))
+                    {
+                        return DataReturn('库存回滚失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
+                    }
+
+                    // 回滚日志更新
+                    $log_data = [
+                        'is_rollback'   => 1,
+                        'rollback_time' => time(),
+                    ];
+                    if(!$log_m->where(['id'=>$temp['id']])->save($log_data))
+                    {
+                        return DataReturn('库存回滚日志更新失败['.$temp['id'].'-'.$params['order_id'].']', -100);
+                    }
+                }
+            }
+            return DataReturn('操作成功', 0);
+        }
+        return DataReturn('没有需要回滚的数据', 0);
     }
 }
 ?>

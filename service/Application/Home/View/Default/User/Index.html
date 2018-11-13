@@ -26,6 +26,14 @@
     <!-- content start -->
     <div class="user-content">
         <div class="user-content-body">
+            <!-- 公告 -->
+            <notempty name="common_user_center_notice">
+                <div class="am-alert am-alert-warning am-radius user-center-notice" data-am-alert>
+                    <button type="button" class="am-close">&times;</button>
+                    <p>{{$common_user_center_notice}}</p>
+                </div>
+            </notempty>
+
             <!-- 基础信息 -->
             <div class="user-base">
                 <div class="user-base-left">

@@ -25,7 +25,7 @@
 						<tr id="data-list-{{$v.id}}" <if condition="$v['is_enable'] eq 0">class="am-active"</if>>
 							<td>{{$v.name}}</td>
 							<td>
-								<span <if condition="$v['is_enable'] eq 0">class="cr-ccc"</if>>{{:L('common_is_enable_tips')[$v['is_enable']]['name']}}</span>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state <if condition="$v['is_enable'] eq 1">am-success<else />am-default</if>" data-url="{{:U('Admin/Power/RoleStatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
 							</td>
 							<td class="am-hide-sm-only">{{:date('Y-m-d H:i:s', $v['add_time'])}}</td>
 							<td>

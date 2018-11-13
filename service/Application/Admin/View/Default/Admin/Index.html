@@ -47,6 +47,7 @@
 					<th>{{:L('common_view_gender_name')}}</th>
 					<th>{{:L('login_total_name')}}</th>
 					<th>{{:L('common_mobile_name')}}</th>
+					<th class="am-hide-sm-only">{{:L('admin_view_role_name')}}</th>
 					<th class="am-hide-sm-only">{{:L('login_last_time_name')}}</th>
 					<th class="am-hide-sm-only">{{:L('common_create_time_name')}}</th>
 					<th>{{:L('common_operation_name')}}</th>
@@ -60,6 +61,7 @@
 							<td>{{:L('common_gender_list')[$v['gender']]['name']}}</td>
 							<td>{{$v.login_total}}</td>
 							<td><if condition="empty($v['mobile'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.mobile}}</if></td>
+							<td class="am-hide-sm-only">{{$v.role_name}}</td>
 							<td class="am-hide-sm-only">
 								<if condition="$v['login_total'] eq 0">
 									{{:L('common_not_login_name')}}

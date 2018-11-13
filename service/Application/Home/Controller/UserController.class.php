@@ -121,6 +121,9 @@ class UserController extends CommonController
         $data = GoodsService::GoodsBrowseList($browse_params);
         $this->assign('goods_browse_list', $data['data']);
 
+        // 用户中心公告
+        $this->assign('common_user_center_notice', MyC('common_user_center_notice'));
+
 		$this->display('Index');
 	}
 

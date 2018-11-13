@@ -662,21 +662,38 @@ class OrderService
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
-        $data = [
+        // 开启事务
+        $m->startTrans();
+        $upd_data = [
             'status'    => 5,
             'upd_time'  => time(),
         ];
-        if($m->where($where)->save($data))
+        if($m->where($where)->save($upd_data))
         {
+            // 库存扣除
+            $ret = BuyService::OrderInventoryRollback(['order_id'=>$params['id'], 'order_data'=>$upd_data]);
+            if($ret['status'] != 0)
+            {
+                // 事务回滚
+                $m->rollback();
+                return DataReturn($ret['msg'], -10);
+            }
+
             // 用户消息
             MessageService::MessageAdd($order['user_id'], '订单取消', '订单取消成功', 1, $order['id']);
 
             // 订单状态日志
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
             $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
-            self::OrderHistoryAdd($order['id'], $data['status'], $order['status'], '取消', $creator, $creator_name);
+            self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '取消', $creator, $creator_name);
+
+            // 提交事务
+            $m->commit();
             return DataReturn(L('common_cancel_success'), 0);
         }
+
+        // 事务回滚
+        $m->rollback();
         return DataReturn(L('common_cancel_error'), -1);
     }
 

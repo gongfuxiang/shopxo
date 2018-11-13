@@ -296,12 +296,12 @@ class PowerController extends CommonController
 			$role_id = $r->add($role_data);
 
 			// 角色权限关联添加
-			$rp_state = true;
-			if(!empty($_POST['power_id']) && is_array($_POST['power_id']))
+			$rp_status = true;
+			if(!empty($_POST['power_id']))
 			{
 				// 角色权限关联对象
 				$rp = M('RolePower');
-				foreach($_POST['power_id'] as $power_id)
+				foreach(explode(',', I('power_id')) as $power_id)
 				{
 					if(!empty($power_id))
 					{
@@ -312,13 +312,13 @@ class PowerController extends CommonController
 							);
 						if(!$rp->add($rp_data))
 						{
-							$rp_state = false;
+							$rp_status = false;
 							break;
 						}
 					}
 				}
 			}
-			if($role_id && $rp_state)
+			if($role_id && $rp_status)
 			{
 				// 提交事务
 				$r->commit();
@@ -372,11 +372,10 @@ class PowerController extends CommonController
 			$rp_del_state = $rp->where(array('role_id'=>$role_id))->delete();
 
 			// 权限关联数据添加
-			$rp_state = true;
+			$rp_status = true;
 			if(!empty($_POST['power_id']))
 			{
-				$power_id_list = explode(',', $_POST['power_id']);
-				foreach($power_id_list as $power_id)
+				foreach(explode(',', I('power_id')) as $power_id)
 				{
 					if(!empty($power_id))
 					{
@@ -387,13 +386,13 @@ class PowerController extends CommonController
 							);
 						if(!$rp->add($rp_data))
 						{
-							$rp_state = false;
+							$rp_status = false;
 							break;
 						}
 					}
 				}
 			}
-			if($r_state !== false && $rp_del_state !== false && $rp_state !== false)
+			if($r_state !== false && $rp_del_state !== false && $rp_status !== false)
 			{
 				// 提交事务
 				$r->commit();
@@ -440,9 +439,9 @@ class PowerController extends CommonController
 		$r->startTrans();
 
 		// 删除角色
-		$role_state = $r->delete(I('id'));
-		$rp_state = M('RolePower')->where(array('role_id'=>I('id')))->delete();
-		if($role_state !== false && $rp_state !== false)
+		$role_status = $r->delete(I('id'));
+		$rp_status = M('RolePower')->where(array('role_id'=>I('id')))->delete();
+		if($role_status !== false && $rp_status !== false)
 		{
 			// 提交事务
 			$r->commit();
@@ -455,6 +454,30 @@ class PowerController extends CommonController
 			// 回滚事务
 			$r->rollback();
 			$this->ajaxReturn(L('common_operation_delete_error'), -100);
+		}
+	}
+
+	/**
+	 * [RoleStatusUpdate 角色状态更新]
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2017-01-12T22:23:06+0800
+	 */
+	public function RoleStatusUpdate()
+	{
+		// 参数
+		if(empty($_POST['id']) || !isset($_POST['state']))
+		{
+			$this->ajaxReturn(L('common_param_error'), -1);
+		}
+
+		// 数据更新
+		if(M('Role')->where(array('id'=>I('id')))->save(array('is_enable'=>I('state'))))
+		{
+			$this->ajaxReturn(L('common_operation_edit_success'));
+		} else {
+			$this->ajaxReturn(L('common_operation_edit_error'), -100);
 		}
 	}
 }
