@@ -5,3 +5,4 @@
 #form-theme-tips {  }
 input[name="theme"] { width: 105px !important; height: 32px; }
 .am-gallery-title .submit-delete { color:#C13932 !important; }
+input.file-event { margin-top: 0 !important; }
