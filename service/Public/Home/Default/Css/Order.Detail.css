@@ -189,11 +189,11 @@ ul.progress li.current .title {
  * 商品列表
  */
 .order-goods { margin-top: 20px; }
-.goods-detail img { width: 80px; height: 80px; }
-.goods-detail { position: relative; }
+.goods-detail img { width: 80px; height: 80px; position: absolute; }
+.goods-detail { position: relative; min-height: 80px; }
 .goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; }
 .goods-title:hover { text-decoration: underline; }
-.goods-base { position: absolute; top: 0; left: 85px; }
+.goods-base { float: left; top: 0; margin-left: 85px; }
 .goods-attr { margin-top: 5px;  }
 .goods-attr li { color: #888; line-height: 16px; }
 .original-price, .line-price { font-family: Verdana,Tahoma,arial; }

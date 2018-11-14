@@ -47,7 +47,7 @@ ul.order-base li span.am-badge{position: absolute; top: -7px; left: 55%;}
     .nav-search{display: none;} .user-main{padding-top: 0;}
     .user-content-body{padding: 0;}
     .user-base{text-align: center; height: 210px;}
-    .user-avatar{margin-bottom: 10px;}
+    .user-avatar{margin-bottom: 10px; margin-top: 10px; }
     .user-base-left .items a:not(:last-child){margin-right: 20px;}
     .user-base-right{position: absolute; right: 10px; top: 10px;}
     ul.user-base-icon{left: 0; bottom: 0; width: 100%; padding: 5px 0;}

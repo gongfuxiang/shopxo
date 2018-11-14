@@ -56,7 +56,7 @@ $(function()
         {
             $(this).parent().find('li').eq(i).find('i').removeClass('am-icon-star-o').addClass('am-icon-star');
         }
-        $(this).parents('td').find('input.input-rating').val(index+1);
+        $(this).parents('td').find('input.input-rating').val(index+1).trigger('blur');
     });
 
     // 是否自动开启支付窗口

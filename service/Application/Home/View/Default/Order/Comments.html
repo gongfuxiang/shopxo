@@ -69,16 +69,20 @@
                                                 <p class="line-price">￥{{$goods.price}} x {{$goods.buy_number}}</p>
                                             </td>
                                             <td>
-                                                <ul class="rating">
-                                                    <li><i class="am-icon-star-o am-icon-md"></i></li>
-                                                    <li><i class="am-icon-star-o am-icon-md"></i></li>
-                                                    <li><i class="am-icon-star-o am-icon-md"></i></li>
-                                                    <li><i class="am-icon-star-o am-icon-md"></i></li>
-                                                    <li><i class="am-icon-star-o am-icon-md"></i></li>
-                                                </ul>
+                                                <div class="am-form-group rating-items">
+                                                    <ul class="rating">
+                                                        <li><i class="am-icon-star-o am-icon-md"></i></li>
+                                                        <li><i class="am-icon-star-o am-icon-md"></i></li>
+                                                        <li><i class="am-icon-star-o am-icon-md"></i></li>
+                                                        <li><i class="am-icon-star-o am-icon-md"></i></li>
+                                                        <li><i class="am-icon-star-o am-icon-md"></i></li>
+                                                    </ul>
+                                                    <input type="text" name="rating[]" value="" class="input-rating" data-validation-message="请选择评分" required />
+                                                </div>
+                                                <div class="am-form-group">
+                                                    <textarea name="content[]" class="am-radius" rows="4" minlength="6" maxlength="200" data-validation-message="评价内容 6~200 个字符之间" required></textarea>
+                                                </div>
                                                 <input type="hidden" name="goods_id[]" value="{{$goods.goods_id}}" />
-                                                <input type="hidden" name="rating[]" value="0" class="input-rating" />
-                                                <textarea name="content[]" class="am-radius" rows="4" maxlength="200" data-validation-message="最多200个字符"></textarea>
                                             </td>
                                         </tr>
                                     </foreach>

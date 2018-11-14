@@ -91,7 +91,6 @@ table.data-ongoing .base-operate { border-top: 1px dashed #fff1f5; }
  */
 .goods-detail { position: relative; min-height: 80px; }
 .goods-detail img { width: 80px; height: 80px; position: absolute; }
-.goods-detail { position: relative; }
 .goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; }
 .goods-title:hover { text-decoration: underline; }
 .goods-base { float: left; top: 0; margin-left: 85px; }
