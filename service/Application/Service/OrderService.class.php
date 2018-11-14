@@ -853,6 +853,15 @@ class OrderService
                 return DataReturn($ret['msg'], -10);
             }
 
+            // 订单商品销量增加
+            $ret = self::GoodsSalesCountInc(['order_id'=>$order['id']]);
+            if($ret['status'] != 0)
+            {
+                // 事务回滚
+                $m->rollback();
+                return DataReturn($ret['msg'], -10);
+            }
+
             // 用户消息
             MessageService::MessageAdd($order['user_id'], '订单收货', '订单收货成功', 1, $order['id']);
 
@@ -1299,6 +1308,49 @@ class OrderService
             return DataReturn('操作成功', 0);
         }
         return DataReturn('没有需要操作的数据', 0);
+    }
+
+    /**
+     * 订单商品销量添加
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-11-14
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function GoodsSalesCountInc($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'order_id',
+                'error_msg'         => '订单id有误',
+            ]
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取订单商品
+        $order_detail = M('OrderDetail')->field('goods_id,buy_number')->where(['order_id'=>$params['order_id']])->select();
+        if(!empty($order_detail))
+        {
+            $goods_m = M('Goods');
+            foreach($order_detail as $v)
+            {
+                if(!$goods_m->where(['id'=>$v['goods_id']])->setInc('sales_count', $v['buy_number']))
+                {
+                    return DataReturn('订单商品销量增加失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
+                }
+            }
+            return DataReturn('操作成功', 0);
+        } else {
+            return DataReturn('订单有误，没有找到相关商品', -100);
+        }
     }
 
 }
