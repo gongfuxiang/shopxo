@@ -144,3 +144,10 @@ h2 {
     width: 70%;
   }
 }
+#out table tr.yes td {
+  background: #f8fff9;
+}
+#out table tr:not(.yes) td {
+  background: #ffbdb7;
+  color: #f00;
+}

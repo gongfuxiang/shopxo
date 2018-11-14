@@ -16,8 +16,10 @@
 <![endif]-->
 <link rel="stylesheet" href="./static/css/install.css">
 <script>
-function testClick(){
-    if($('.yes').length!=7){
+function TestClick(){
+    var count = $('#out table tr').length-3;
+    if($('#out .yes').length != count)
+    {
         alert('您的配置或权限不符合要求');
     }else{
         location.href='./index.php?c=create';
@@ -50,27 +52,46 @@ function testClick(){
 <div id="out">
     <div class="inside">
         <div class="box test">
-            <h2>环境监测</h2>
+            <h2>环境检查</h2>
             <table class="table table-border">
                 <tr>
                     <th width="25%">坏境</th>
-                    <th width="25%">最低配置</th>
-                    <th width="25%">当前配置</th>
+                    <th width="25%">程序所需</th>
+                    <th width="25%">当前服务器</th>
                     <th width="25%">是否符合</th>
                 </tr>
-                <tr>
+                <tr class="yes">
                     <td>操作系统</td>
-                    <td>不限</td>
+                    <td>无限制</td>
                     <td><?php echo php_uname('s'); ?></td>
-                    <td class="yes">√</td>
+                    <td>√</td>
                 </tr>
-                <tr>
-                    <td>php版本</td>
-                    <td>&gt;5.4</td>
+
+                <?php $php_version = explode('.', PHP_VERSION); ?>
+                <tr class="<?php if(($php_version['0'] >= 7) || ($php_version['0'] >=5 && $php_version['1'] >=4 ))echo 'yes'; ?>">
+                    <td>PHP版本</td>
+                    <td>>=5.4</td>
                     <td><?php echo PHP_VERSION ?></td>
-                    <?php $php_version=explode('.', PHP_VERSION); ?>
-                    <td class="<?php if(($php_version['0']>=7) || ($php_version['0']>=5 && $php_version['1']>=4))echo 'yes'; ?>">
-                        <?php if (($php_version['0']>=7) || ($php_version['0']>=5 && $php_version['1']>=4)): ?>
+                    <td>
+                        <?php if(($php_version['0']>=7) || ($php_version['0']>=5 && $php_version['1']>=4)): ?>
+                            √
+                        <?php else: ?>
+                            ×
+                        <?php endif ?>
+                    </td>
+                </tr>
+
+                <?php
+                    $tmp = function_exists('gd_info') ? gd_info() : array();
+                    preg_match("/[\d.]+/", $tmp['GD Version'], $match);
+                    unset($tmp);
+                ?>
+                <tr class="<?php if($match[0] > 2)echo 'yes'; ?>">
+                    <td>GD库</td>
+                    <td>2.0</td>
+                    <td><?php echo $match[0]; ?></td>
+                    <td>
+                        <?php if($match[0] > 2): ?>
                             √
                         <?php else: ?>
                             ×
@@ -78,15 +99,16 @@ function testClick(){
                     </td>
                 </tr>
             </table>
-            <h2>目录权限</h2>
+
+            <h2>目录/文件权限检查</h2>
             <table class="table table-border">
                 <tr>
                     <th width="25%">坏境</th>
-                    <th width="25%">最低配置</th>
-                    <th width="25%">当前配置</th>
+                    <th width="25%">所需状态</th>
+                    <th width="25%">当前状态</th>
                     <th width="25%">是否符合</th>
                 </tr>
-                <tr>
+                <tr class="<?php if(is_writable('../'))echo 'yes'; ?>">
                     <td>./</td>
                     <td>可写</td>
                     <td>
@@ -96,7 +118,7 @@ function testClick(){
                             不可写
                         <?php endif ?>
                     </td>
-                    <td class="<?php if(is_writable('../'))echo 'yes'; ?>">
+                    <td>
                         <?php if (is_writable('../')): ?>
                             √
                         <?php else: ?>
@@ -104,7 +126,7 @@ function testClick(){
                         <?php endif ?>
                     </td>
                 </tr>
-                <tr>
+                <tr class="<?php if(is_writable('../Application'))echo 'yes'; ?>">
                     <td>./Application</td>
                     <td>可写</td>
                     <td>
@@ -114,7 +136,7 @@ function testClick(){
                             不可写
                         <?php endif ?>
                     </td>
-                    <td class="<?php if(is_writable('../Application'))echo 'yes'; ?>">
+                    <td>
                         <?php if (is_writable('../Application')): ?>
                             √
                         <?php else: ?>
@@ -122,7 +144,7 @@ function testClick(){
                         <?php endif ?>
                     </td>
                 </tr>
-                <tr>
+                <tr class="<?php if(is_writable('../Application/Common/Conf'))echo 'yes'; ?>">
                     <td>./Application/Common/Conf</td>
                     <td>可写</td>
                     <td>
@@ -132,7 +154,7 @@ function testClick(){
                             不可写
                         <?php endif ?>
                     </td>
-                    <td class="<?php if(is_writable('../Application/Common/Conf'))echo 'yes'; ?>">
+                    <td>
                         <?php if (is_writable('../Application/Common/Conf')): ?>
                             √
                         <?php else: ?>
@@ -140,25 +162,43 @@ function testClick(){
                         <?php endif ?>
                     </td>
                 </tr>
-                <tr>
-                    <td>./Application/Runtime/Cache</td>
+                <tr class="<?php if(is_writable('../Application/Library/Payment'))echo 'yes'; ?>">
+                    <td>./Application/Library/Payment</td>
                     <td>可写</td>
                     <td>
-                        <?php if (is_writable('../Application/Runtime/Cache')): ?>
+                        <?php if (is_writable('../Application/Library/Payment')): ?>
                             可写
                         <?php else: ?>
                             不可写
                         <?php endif ?>
                     </td>
-                    <td class="<?php if(is_writable('../Application/Runtime/Cache'))echo 'yes'; ?>">
-                        <?php if (is_writable('../Application/Runtime/Cache')): ?>
+                    <td>
+                        <?php if (is_writable('../Application/Library/Payment')): ?>
                             √
                         <?php else: ?>
                             ×
                         <?php endif ?>
                     </td>
                 </tr>
-                <tr>
+                <tr class="<?php if(is_writable('../Public'))echo 'yes'; ?>">
+                    <td>./Public</td>
+                    <td>可写</td>
+                    <td>
+                        <?php if (is_writable('../Public')): ?>
+                            可写
+                        <?php else: ?>
+                            不可写
+                        <?php endif ?>
+                    </td>
+                    <td>
+                        <?php if (is_writable('../Public')): ?>
+                            √
+                        <?php else: ?>
+                            ×
+                        <?php endif ?>
+                    </td>
+                </tr>
+                <tr class="<?php if(is_writable('./'))echo 'yes'; ?>">
                     <td>./Install</td>
                     <td>可写</td>
                     <td>
@@ -168,8 +208,144 @@ function testClick(){
                             不可写
                         <?php endif ?>
                     </td>
-                    <td class="<?php if(is_writable('./'))echo 'yes'; ?>">
+                    <td>
                         <?php if (is_writable('./')): ?>
+                            √
+                        <?php else: ?>
+                            ×
+                        <?php endif ?>
+                    </td>
+                </tr>
+            </table>
+
+            <h2>函数</h2>
+            <table class="table table-border">
+                <tr>
+                    <th width="25%">坏境</th>
+                    <th width="25%">所需状态</th>
+                    <th width="25%">当前状态</th>
+                    <th width="25%">是否符合</th>
+                </tr>
+                <tr class="<?php if(function_exists('curl_init'))echo 'yes'; ?>">
+                    <td>curl_init</td>
+                    <td>支持</td>
+                    <td>
+                        <?php if (function_exists('curl_init')): ?>
+                            支持
+                        <?php else: ?>
+                            不支持
+                        <?php endif ?>
+                    </td>
+                    <td>
+                        <?php if (function_exists('curl_init')): ?>
+                            √
+                        <?php else: ?>
+                            ×
+                        <?php endif ?>
+                    </td>
+                </tr>
+                <tr class="<?php if(function_exists('fsockopen'))echo 'yes'; ?>">
+                    <td>fsockopen</td>
+                    <td>支持</td>
+                    <td>
+                        <?php if (function_exists('fsockopen')): ?>
+                            支持
+                        <?php else: ?>
+                            不支持
+                        <?php endif ?>
+                    </td>
+                    <td>
+                        <?php if (function_exists('fsockopen')): ?>
+                            √
+                        <?php else: ?>
+                            ×
+                        <?php endif ?>
+                    </td>
+                </tr>
+                <tr class="<?php if(function_exists('mysqli_connect'))echo 'yes'; ?>">
+                    <td>mysqli_connect</td>
+                    <td>支持</td>
+                    <td>
+                        <?php if (function_exists('mysqli_connect')): ?>
+                            支持
+                        <?php else: ?>
+                            不支持
+                        <?php endif ?>
+                    </td>
+                    <td>
+                        <?php if (function_exists('mysqli_connect')): ?>
+                            √
+                        <?php else: ?>
+                            ×
+                        <?php endif ?>
+                    </td>
+                </tr>
+                <tr class="<?php if(function_exists('file_get_contents'))echo 'yes'; ?>">
+                    <td>file_get_contents</td>
+                    <td>支持</td>
+                    <td>
+                        <?php if (function_exists('file_get_contents')): ?>
+                            支持
+                        <?php else: ?>
+                            不支持
+                        <?php endif ?>
+                    </td>
+                    <td>
+                        <?php if (function_exists('file_get_contents')): ?>
+                            √
+                        <?php else: ?>
+                            ×
+                        <?php endif ?>
+                    </td>
+                </tr>
+                <tr class="<?php if(function_exists('mb_convert_encoding'))echo 'yes'; ?>">
+                    <td>mb_convert_encoding</td>
+                    <td>支持</td>
+                    <td>
+                        <?php if (function_exists('mb_convert_encoding')): ?>
+                            支持
+                        <?php else: ?>
+                            不支持
+                        <?php endif ?>
+                    </td>
+                    <td>
+                        <?php if (function_exists('mb_convert_encoding')): ?>
+                            √
+                        <?php else: ?>
+                            ×
+                        <?php endif ?>
+                    </td>
+                </tr>
+                <tr class="<?php if(function_exists('json_encode'))echo 'yes'; ?>">
+                    <td>json_encode</td>
+                    <td>支持</td>
+                    <td>
+                        <?php if (function_exists('json_encode')): ?>
+                            支持
+                        <?php else: ?>
+                            不支持
+                        <?php endif ?>
+                    </td>
+                    <td>
+                        <?php if (function_exists('json_encode')): ?>
+                            √
+                        <?php else: ?>
+                            ×
+                        <?php endif ?>
+                    </td>
+                </tr>
+                <tr class="<?php if(function_exists('json_decode'))echo 'yes'; ?>">
+                    <td>json_decode</td>
+                    <td>支持</td>
+                    <td>
+                        <?php if (function_exists('json_decode')): ?>
+                            支持
+                        <?php else: ?>
+                            不支持
+                        <?php endif ?>
+                    </td>
+                    <td>
+                        <?php if (function_exists('json_decode')): ?>
                             √
                         <?php else: ?>
                             ×
@@ -179,7 +355,7 @@ function testClick(){
             </table>
             <p class="agree">
                 <a class="btn btn-primary" href="./index.php?c=agreement">上一步</a>
-                <a class="btn btn-success" href="javascript:;" onclick="testClick()">下一步</a>
+                <a class="btn btn-success" href="javascript:;" onclick="TestClick()">下一步</a>
             </p>
         </div>
     </div>

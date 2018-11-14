@@ -28,7 +28,7 @@ if($c == 'agreement' || empty($c))
 // 环境检测页面
 if($c == 'test')
 {
-new behavior(array('msg'=>'环境检测'));
+    new behavior(array('msg'=>'环境检测'));
     exit(require './test.html');
 }
 // 创建数据库页面
@@ -44,57 +44,53 @@ if($c == 'success')
     $mysql_ver = '';
 
     // 判断是否为post
-    if($_SERVER['REQUEST_METHOD']=='POST')
+    if($_SERVER['REQUEST_METHOD'] == 'POST')
     {
         $data = $_POST;
         // 连接数据库
-        $constr = "{$data['DB_HOST']}";
-        if(!empty($data['DB_PORT']))
-        {
-            $constr .= ":{$data['DB_PORT']}";
-        }
-        $link = @new mysqli($constr, $data['DB_USER'], $data['DB_PWD']);
+        $link = @mysqli_connect($data['DB_HOST'], $data['DB_USER'], $data['DB_PWD'], null, $data['DB_PORT']);
+
         // 获取错误信息
-        $error = $link->connect_error;
-        if (!is_null($error)) {
+        if (!$link) {
             // 转义防止和alert中的引号冲突
-            $error = addslashes($error);
+            $error = addslashes(mysqli_connect_error().'['.mysqli_connect_errno().']');
 
             // 数据库连接失败上报
             new behavior(array('msg'=>'数据库连接失败['.$error.']'));
             die("<script>alert('数据库链接失败:$error');history.go(-1)</script>");
         }
+
         // 设置字符集
-        $link->query("SET NAMES 'utf8mb4'");
+        mysqli_query($link, "SET NAMES 'utf8mb4'");
 
         // 数据库版本校验
-        if($link->server_info < 5.0)
+        $mysql_ver = mysqli_get_server_info($link);
+        if($mysql_ver < 5.0)
         {
             // 数据库版本过低上报
-            new behavior(array('msg'=>'数据库版本过低['.$link->server_info.']', 'mysql_version'=>$link->server_info));
+            new behavior(array('msg'=>'数据库版本过低['.$mysql_ver.']', 'mysql_version'=>$mysql_ver));
             die("<script>alert('请将您的mysql升级到5.0以上');history.go(-1)</script>");
         }
-        $mysql_ver = $link->server_info;
 
         // 创建数据库并选中
-        if(!$link->select_db($data['DB_NAME'])){
-            $create_sql='CREATE DATABASE IF NOT EXISTS '.$data['DB_NAME'].' DEFAULT CHARACTER SET utf8mb4;';
-            if(!$link->query($create_sql))
+        if(!mysqli_select_db($link, $data['DB_NAME'])){
+            $create_sql = 'CREATE DATABASE IF NOT EXISTS '.$data['DB_NAME'].' DEFAULT CHARACTER SET utf8mb4;';
+            if(!mysqli_query($link, $create_sql))
             {
                 // 数据库创建失败上报
                 new behavior(array('msg'=>'创建数据库失败', 'mysql_version'=>$mysql_ver));
-                die('创建数据库失败');
+                die("<script>alert('创建数据库失败');history.go(-1)</script>");
             }
-            $link->select_db($data['DB_NAME']);
+            mysqli_select_db($link, $data['DB_NAME']);
         }
+
         // 导入sql数据并创建表
-        $shopxo_str = file_get_contents('./shopxo.sql');
-        $sql_array = preg_split("/;[\r\n]+/", str_replace('s_', $data['DB_PREFIX'], $shopxo_str));
+        $sql_array = preg_split("/;[\r\n]+/", str_replace('`s_', '`'.$data['DB_PREFIX'], file_get_contents('./shopxo.sql')));
         $success = 0;
         $failure = 0;
         foreach ($sql_array as $k => $v) {
             if (!empty($v)) {
-                if($link->query($v))
+                if(mysqli_query($link, $v))
                 {
                     $success++;
                 } else {
@@ -102,7 +98,7 @@ if($c == 'success')
                 }
             }
         }
-        $link->close();
+        mysqli_close($link);
 
         // 数据表创建上报
         new behavior(array('msg'=>'运行sql[成功'.$success.', 失败'.$failure.']', 'mysql_version'=>$mysql_ver));
@@ -116,7 +112,7 @@ if($c == 'success')
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
- * @datetime 2016-12-01T21:51:08+0800
+ * @datetime 2018-11-11T21:51:08+0800
  */
 return array(
     // 数据库配置信息
