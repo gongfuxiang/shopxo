@@ -3,9 +3,9 @@ ShopXO学校管理系统，中国首个开源『学校教务管理系统』建�
 <br />官方地址：http://shopxo.net/
 
 # 功能简介
-### 后台功能列表
+### 后端功能列表
 ```
-后台配置
+后端配置
 站点配置
     > 站点设置
     > 短信设置
@@ -50,7 +50,7 @@ ShopXO学校管理系统，中国首个开源『学校教务管理系统』建�
     > 缓存管理
 ```
 
-### 前台
+### 前端
 ```
 首页
 所有分类
@@ -94,49 +94,69 @@ ShopXO学校管理系统，中国首个开源『学校教务管理系统』建�
 ## 项目结构
 ```
 shopxo
-├─core.php        入口公共文件
-├─index.php       前台入口文件
-├─admin.php       后台入口文件
-├─README.md       README文件
-├─robots.txt      爬虫规则定义文件
-├─composer.json   Composer定义文件
-├─changelog.txt   更新日志
-├─Application     应用目录
-│  ├─Admin        后台目录
-│  │  ├─Common       应用函数目录
-│  │  ├─Conf         应用配置目录
-│  │  ├─Lang         应用语言包目录
-│  │  ├─Controller   应用控制器目录
-│  │  ├─Model        应用模型目录
-│  │  └─View         应用视图目录
-│  │     └─Default       默认模板目录
-│  ├─Home         前台目录
-│  │  ├─Common       应用函数目录
-│  │  ├─Conf         应用配置目录
-│  │  ├─Lang         应用语言包目录
-│  │  ├─Controller   应用控制器目录
-│  │  ├─Model        应用模型目录
-│  │  └─View         应用视图目录
-│  │     └─Default       默认模板目录
-│  ├─Common       公共函数配置目录
-│  │  ├─Common       公共方法目录
-│  │  └─Conf         公共配置目录
-│  └─Runtime      临时文件目录
-├─Public          资源文件目录
-│  ├─Admin        后台静态资源目录
-│  │  └─Default       默认模板目录
-│  ├─Home         前台静态资源目录
-│  │  └─Default       默认模板目录
-│  ├─Common       公共静态资源目录
-│  └─Upload       用户上传附件资源目录
-├─Install         安装引导目录
-└─ThinkPHP        框架目录
+├─README.md         README文件
+├─changelog.txt     更新日志
+├─alipay            支付宝小程序
+├─wechat            微信小程序
+├─baidu             百度小程序
+└─service           服务端
+    ├─core.php                      入口公共文件
+    ├─index.php                     前端入口文件
+    ├─admin.php                     后端入口文件
+    ├─api.php                       API入口文件
+    ├─alipay_life_notify.php        支付宝生活号异步接口入口文件
+    ├─apayment_*.php                支付模块异步/同步入口文件
+    ├─robots.txt                    爬虫规则定义文件
+    ├─composer.json                 Composer定义文件
+    ├─Application                   应用目录
+    │  ├─Admin                      后端目录
+    │  │  ├─Common                      应用函数目录
+    │  │  ├─Conf                        应用配置目录
+    │  │  ├─Lang                        应用语言包目录
+    │  │  ├─Controller                  应用控制器目录
+    │  │  ├─Model                       应用模型目录
+    │  │  └─View                        应用视图目录
+    │  │     └─Default                      默认模板目录
+    │  ├─Home                       前端目录
+    │  │  ├─Common                      应用函数目录
+    │  │  ├─Conf                        应用配置目录
+    │  │  ├─Lang                        应用语言包目录
+    │  │  ├─Controller                  应用控制器目录
+    │  │  ├─Model                       应用模型目录
+    │  │  └─View                        应用视图目录
+    │  │     └─Default                      默认模板目录
+    ├─Api                           API目录
+    │  │  ├─Common                      应用函数目录
+    │  │  ├─Conf                        应用配置目录
+    │  │  ├─Lang                        应用语言包目录
+    │  │  ├─Controller                  应用控制器目录
+    │  │  ├─Model                       应用模型目录
+    │  │  └─View                        应用视图目录
+    │  │     └─Default                      默认模板目录
+    ├─Service                       服务层
+    ├─Library                       类库
+    │  │  ├─Payment                     支付模块目录
+    │  │  └─Qrcode                      二维码类库
+    │─Common                        公共函数配置目录
+    │  │  ├─Common                      公共方法目录
+    │  │  └─Conf                        公共配置目录
+    │─Runtime                       临时文件目录
+    ├─Public                        资源文件目录
+    │  ├─Admin                          后端静态资源目录
+    │  │  └─Default                         默认模板目录
+    │  ├─Home                           前端静态资源目录
+    │  │  └─Default                         默认模板目录
+    │  ├─Common                         公共静态资源目录
+    │  └─Upload                         用户上传附件资源目录
+    ├─Rsakeys                       密钥存放目录
+    ├─Install                       安装引导目录
+    └─ThinkPHP                      框架目录
 ```
 
-# 后台基于ThinkPHP
+# 后端基于ThinkPHP v3.2.3
 ThinkPHP是一个快速、简单的基于MVC和面向对象的轻量级PHP开发框架，遵循Apache2开源协议发布，从诞生以来一直秉承简洁实用的设计原则，在保持出色的性能和至简的代码的同时，尤其注重开发体验和易用性，并且拥有众多的原创功能和特性，为WEB应用开发提供了强有力的支持。
 
-# 前台基于AmazeUI
+# 前端基于AmazeUI v2.7.2
 &nbsp;&nbsp;&nbsp;组件丰富，模块化<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以移动优先（Mobile first）为理念，从小屏逐步扩展到大屏，最终实现所有屏幕适配，适应移动互联潮流。
 <br /><br />
@@ -147,9 +167,9 @@ ThinkPHP是一个快速、简单的基于MVC和面向对象的轻量级PHP开发
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amaze UI 面向 HTML5 开发，使用 CSS3 来做动画交互，平滑、高效，更适合移动设备，让 Web 应用更快速载入。
 
 # 版权信息
-SchoolMS遵循Apache2开源协议发布，并提供免费使用。<br />
+ShopXO遵循Apache2开源协议发布，并提供免费使用。<br />
 本项目包含的第三方源码和二进制文件之版权信息另行标注。<br />
-版权所有Copyright © 2011-2017 by SchoolMS (http://schoolcms.org)<br />
+版权所有Copyright © 2011-2018 by ShopXO (http://shopxo.net)<br />
 All rights reserved。<br />
 
 # 更新日志
