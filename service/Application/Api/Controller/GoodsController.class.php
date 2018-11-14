@@ -2,6 +2,8 @@
 
 namespace Api\Controller;
 
+use Service\ResourcesService;
+
 /**
  * 商品
  * @author   Devil
@@ -50,7 +52,7 @@ class GoodsController extends CommonController
         unset($goods['content_web']);
 
         // 产地
-        $goods['place_origin_name'] = GetRegionName($goods['place_origin']);
+        $goods['place_origin_name'] = ResourcesService::RegionName($goods['place_origin']);
 
         // 是否已收藏
         $goods['is_favor'] = $this->IsGoodsUserFavor($goods_id);

@@ -2,6 +2,8 @@
 
 namespace Api\Controller;
 
+use Service\ResourcesService;
+
 /**
  * 用户地址
  * @author   Devil
@@ -63,9 +65,9 @@ class UserAddressController extends CommonController
         $data = M('UserAddress')->where($where)->field($field)->find();
         if(!empty($address))
         {
-            $data['province_name'] = GetRegionName($data['province']);
-            $data['city_name'] = GetRegionName($data['city']);
-            $data['county_name'] = GetRegionName($data['county']);
+            $data['province_name'] = ResourcesService::RegionName($data['province']);
+            $data['city_name'] = ResourcesService::RegionName($data['city']);
+            $data['county_name'] = ResourcesService::RegionName($data['county']);
         }
 
         $this->ajaxReturn(L('common_operation_success'), 0, $data);
@@ -88,9 +90,9 @@ class UserAddressController extends CommonController
         {
             foreach($data as &$v)
             {
-                $v['province_name'] = GetRegionName($v['province']);
-                $v['city_name'] = GetRegionName($v['city']);
-                $v['county_name'] = GetRegionName($v['county']);
+                $v['province_name'] = ResourcesService::RegionName($v['province']);
+                $v['city_name'] = ResourcesService::RegionName($v['city']);
+                $v['county_name'] = ResourcesService::RegionName($v['county']);
             }
         }
         $this->ajaxReturn(L('common_operation_success'), 0, $data);

@@ -2,6 +2,8 @@
 
 namespace Api\Controller;
 
+use Service\ResourcesService;
+
 /**
  * 购买确认
  * @author   Devil
@@ -77,9 +79,9 @@ class BuyController extends CommonController
         $data = M('UserAddress')->where($where)->find();
         if(!empty($data))
         {
-            $data['province_name'] = GetRegionName($data['province']);
-            $data['city_name'] = GetRegionName($data['city']);
-            $data['county_name'] = GetRegionName($data['county']);
+            $data['province_name'] = ResourcesService::RegionName($data['province']);
+            $data['city_name'] = ResourcesService::RegionName($data['city']);
+            $data['county_name'] = ResourcesService::RegionName($data['county']);
         }
         return $data;
     }

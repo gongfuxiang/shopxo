@@ -549,12 +549,12 @@ class OrderService
                 $v['pay_status_name'] = $order_pay_status[$v['pay_status']]['name'];
 
                 // 快递公司
-                $v['express_name'] = ResourcesService::ExpressName(['express_id'=>$v['express_id']]);
+                $v['express_name'] = ResourcesService::ExpressName($v['express_id']);
 
                 // 收件人地址
-                $v['receive_province_name'] = ResourcesService::RegionName(['region_id'=>$v['receive_province']]);
-                $v['receive_city_name'] = ResourcesService::RegionName(['region_id'=>$v['receive_city']]);
-                $v['receive_county_name'] = ResourcesService::RegionName(['region_id'=>$v['receive_county']]);
+                $v['receive_province_name'] = ResourcesService::RegionName($v['receive_province']);
+                $v['receive_city_name'] = ResourcesService::RegionName($v['receive_city']);
+                $v['receive_county_name'] = ResourcesService::RegionName($v['receive_county']);
 
                 // 时间
                 $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);

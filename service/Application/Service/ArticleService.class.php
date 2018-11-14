@@ -2,6 +2,8 @@
 
 namespace Service;
 
+use Service\ResourcesService;
+
 /**
  * 文章服务层
  * @author   Devil
@@ -34,7 +36,7 @@ class ArticleService
             {
                 if(isset($v['content']))
                 {
-                    $v['content'] = ContentStaticReplace($v['content'], 'get');
+                    $v['content'] = ResourcesService::ContentStaticReplace($v['content'], 'get');
                 }
                 if(isset($v['add_time']))
                 {

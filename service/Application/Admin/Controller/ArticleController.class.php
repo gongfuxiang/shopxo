@@ -2,6 +2,8 @@
 
 namespace Admin\Controller;
 
+use Service\ResourcesService;
+
 /**
  * 文章管理
  * @author   Devil
@@ -182,7 +184,7 @@ class ArticleController extends CommonController
 			if(!empty($data['content']))
 			{
 				// 静态资源地址处理
-				$data['content'] = ContentStaticReplace($data['content'], 'get');
+				$data['content'] = ResourcesService::ContentStaticReplace($data['content'], 'get');
 			}
 		}
 		$this->assign('data', $data);
@@ -246,7 +248,7 @@ class ArticleController extends CommonController
 			$m->title 		=	I('title');
 			
 			// 静态资源地址处理
-			$m->content 	=	ContentStaticReplace($m->content, 'add');
+			$m->content 	=	ResourcesService::ContentStaticReplace($m->content, 'add');
 
 			// 正则匹配文章图片
 			$temp_image		=	$this->MatchContentImage($m->content);
@@ -286,7 +288,7 @@ class ArticleController extends CommonController
 			$m->title 		=	I('title');
 
 			// 静态资源地址处理
-			$m->content 	=	ContentStaticReplace($m->content, 'add');
+			$m->content 	=	ResourcesService::ContentStaticReplace($m->content, 'add');
 
 			// 正则匹配文章图片
 			$temp_image		=	$this->MatchContentImage($m->content);

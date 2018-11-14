@@ -3,6 +3,7 @@
 namespace Service;
 
 use Service\ResourcesService;
+use Service\MessageService;
 
 /**
  * 用户服务层
@@ -49,9 +50,9 @@ class UserService
         {
             foreach($data as &$v)
             {
-                $v['province_name'] = ResourcesService::RegionName(['region_id'=>$v['province']]);
-                $v['city_name'] = ResourcesService::RegionName(['region_id'=>$v['city']]);
-                $v['county_name'] = ResourcesService::RegionName(['region_id'=>$v['county']]);
+                $v['province_name'] = ResourcesService::RegionName($v['province']);
+                $v['city_name'] = ResourcesService::RegionName($v['city']);
+                $v['county_name'] = ResourcesService::RegionName($v['county']);
             }
         }
         return DataReturn(L('common_operation_success'), 0, $data);
@@ -480,6 +481,42 @@ class UserService
             return DataReturn('上传成功', 0);
         }
         return DataReturn('上传失败', -100);
+    }
+
+    /**
+     * [UserIntegralLogAdd 用户积分日志添加]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-05-18T16:51:12+0800
+     * @param    [int]                   $user_id           [用户id]
+     * @param    [int]                   $original_integral [原始积分]
+     * @param    [int]                   $new_integral      [最新积分]
+     * @param    [string]                $msg               [操作原因]
+     * @param    [int]                   $type              [操作类型（0减少, 1增加）]
+     * @param    [int]                   $operation_id      [操作人员id]
+     * @return   [boolean]                                  [成功true, 失败false]
+     */
+    public static function UserIntegralLogAdd($user_id, $original_integral, $new_integral, $msg = '', $type = 0, $operation_id = 0)
+    {
+        $data = array(
+            'user_id'           => intval($user_id),
+            'original_integral' => intval($original_integral),
+            'new_integral'      => intval($new_integral),
+            'msg'               => $msg,
+            'type'              => intval($type),
+            'operation_id'      => intval($operation_id),
+            'add_time'          => time(),
+        );
+        if(M('UserIntegralLog')->add($data) > 0)
+        {
+            $type_msg = L('common_integral_log_type_list')[$type]['name'];
+            $integral = ($data['type'] == 0) ? $data['original_integral']-$data['new_integral'] : $data['new_integral']-$data['original_integral'];
+            $detail = $msg.'积分'.$type_msg.$integral;
+            MessageService::MessageAdd($user_id, '积分变动', $detail);
+            return true;
+        }
+        return false;
     }
 
 }

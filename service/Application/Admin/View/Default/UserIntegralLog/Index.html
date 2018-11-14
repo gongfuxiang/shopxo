@@ -69,12 +69,8 @@
 							<td>
 								<if condition="empty($v['type_text'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.type_text}}</if>
 							</td>
-							<td>
-								<if condition="empty($v['original_integral'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.original_integral}}</if>
-							</td>
-							<td>
-								<if condition="empty($v['new_integral'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.new_integral}}</if>
-							</td>
+							<td>{{$v.original_integral}}</td>
+							<td>{{$v.new_integral}}</td>
 							<td class="am-hide-sm-only">
 								<if condition="empty($v['msg'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.msg}}</if>
 							</td>

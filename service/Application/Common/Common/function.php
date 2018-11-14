@@ -127,66 +127,6 @@ function HomeUrl($c='Index', $a='Index', $params=[])
 }
 
 /**
- * [UserIntegralLogAdd 用户积分日志添加]
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  1.0.0
- * @datetime 2018-05-18T16:51:12+0800
- * @param    [int]                   $user_id           [用户id]
- * @param    [int]                   $original_integral [原始积分]
- * @param    [int]                   $new_integral      [最新积分]
- * @param    [string]                $msg               [操作原因]
- * @param    [int]                   $type              [操作类型（0减少, 1增加）]
- * @param    [int]                   $operation_id      [操作人员id]
- * @return   [boolean]                                  [成功true, 失败false]
- */
-function UserIntegralLogAdd($user_id, $original_integral, $new_integral, $msg = '', $type = 0, $operation_id = 0)
-{
-    $data = array(
-        'user_id'           => intval($user_id),
-        'original_integral' => intval($original_integral),
-        'new_integral'      => intval($new_integral),
-        'msg'               => $msg,
-        'type'              => intval($type),
-        'operation_id'      => intval($operation_id),
-        'add_time'          => time(),
-    );
-    if(M('UserIntegralLog')->add($data) > 0)
-    {
-        $type_msg = L('common_integral_log_type_list')[$type]['name'];
-        $integral = ($data['type'] == 0) ? $data['original_integral']-$data['new_integral'] : $data['new_integral']-$data['original_integral'];
-        $detail = $msg.'积分'.$type_msg.$integral;
-        CommonMessageAdd('积分变动', $detail, $user_id);
-        return true;
-    }
-    return false;
-}
-
-/**
- * [CommonMessageAdd 消息添加]
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  1.0.0
- * @datetime 2018-04-14T13:03:35+0800
- * @param    [string]           $title  [标题]
- * @param    [string]           $detail [内容]
- * @param    [int]              $user_id[用户id]
- * @param    [int]              $type   [类型（默认0  普通消息）]
- * @return   [boolean]                  [成功true, 失败false]
- */
-function CommonMessageAdd($title = '', $detail = '', $user_id = 0, $type = 0)
-{
-    $data = array(
-        'user_id'   => intval($user_id),
-        'title'     => $title,
-        'detail'    => $detail,
-        'type'      => intval($type),
-        'add_time'  => time(),
-    );
-    return (M('Message')->add($data) > 0);
-}
-
-/**
  * [PriceBeautify 金额美化]
  * @author   Devil
  * @blog     http://gong.gg/
@@ -324,25 +264,6 @@ function ScienceNumToString($num)
 }
 
 /**
- * [GenerateStudentNumber 学生编号生成-年份+自增id(不足以0前置补齐)]
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  0.0.1
- * @datetime 2017-03-02T12:13:06+0800
- * @param    [int]    $student_id [学生自增id]
- * @return   [string]             [学生编号]
- */
-function GenerateStudentNumber($student_id)
-{
-    $number = date('Y');
-    for($i=0; $i<8-strlen($student_id); $i++)
-    {
-        $number .= '0';
-    }
-    return $number.$student_id;
-}
-
-/**
  * [MyConfigInit 系统配置信息初始化]
  * @author   Devil
  * @blog     http://gong.gg/
@@ -412,71 +333,6 @@ function GetClientIP($long = false)
         $onlineip = sprintf("%u", ip2long($onlineip));
     }
     return $onlineip;
-}
-
-/**
- * [NavDataDealWith 导航数据处理]
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  0.0.1
- * @datetime 2017-02-05T21:36:46+0800
- * @param    [array]      $data [需要处理的数据]
- * @return   [array]            [处理好的数据]
- */
-function NavDataDealWith($data)
-{
-    if(!empty($data) && is_array($data))
-    {
-        foreach($data as $k=>$v)
-        {
-            // url处理
-            switch($v['data_type'])
-            {
-                // 文章分类
-                case 'article':
-                    $v['url'] = HomeUrl('Article', 'Index', ['id'=>$v['value']]);
-                    break;
-
-                // 自定义页面
-                case 'customview':
-                    $v['url'] = HomeUrl('CustomView', 'Index', ['id'=>$v['value']]);
-                    break;
-
-                // 商品分类
-                case 'goods_category':
-                    $v['url'] = HomeUrl('Search', 'Index', ['category_id'=>$v['value']]);
-                    break;
-            }
-            $data[$k] = $v;
-        }
-    }
-    return $data;
-}
-
-/**
- * [ContentStaticReplace 编辑器中内容的静态资源替换]
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  0.0.1
- * @datetime 2017-01-22T16:07:58+0800
- * @param    [string]    $content [在这个字符串中查找进行替换]
- * @param    [string]    $type    [操作类型[get读取额你让, add写入内容](编辑/展示传入get,数据写入数据库传入add)]
- * @return   [string]             [正确返回替换后的内容, 则返回原内容]
- */
-function ContentStaticReplace($content, $type = 'get')
-{
-    switch($type)
-    {
-        // 读取内容
-        case 'get':
-            return str_replace('/Public/', __MY_URL__.'Public/', $content);
-            break;
-
-        // 内容写入
-        case 'add':
-            return str_replace(array(__MY_URL__.'Public/', __MY_ROOT__.'Public/'), '/Public/', $content);
-    }
-    return $content;
 }
 
 /**
@@ -918,56 +774,10 @@ function CheckColor($value)
 function CheckLoginPwd($string)
 {
     return (preg_match('/'.L('common_regex_pwd').'/', $string) == 1) ? true : false;
-    // $len = strlen($string);
-    // return ($len >= 6 && $len <= 18);
 }
 
 /**
- * [Sms_Code_Send 验证码通道]
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  0.0.1
- * @datetime 2016-12-03T21:58:54+0800
- * @param  	 [staing] $content      [内容]
- * @param  	 [string] $mobile_phone [手机号码]
- * @return 	 [boolean]              [成功true, 失败false]
- */
-function Sms_Code_Send($content, $mobile_phone)
-{
-    $post = array(
-      'apikey'  =>  '17171d4ff3510ae8f532a70401e41067',
-      'text'    =>  '【美啦网】'.$content,
-      'mobile'  =>  $mobile_phone,
-    );
-    $result = json_decode(Fsockopen_Post('http://yunpian.com/v1/sms/send.json', $post), true);
-    if(empty($result)) return false;
-    return ($result['msg'] == 'OK');
-}
-
-/**
- * [Sms_Notice_Send 通知短信通道]
- * @param  [staing] $content      [内容]
- * @param  [string] $mobile_phone [手机号码]
- * @return [boolean]              [成功true, 失败false]
- */
-function Sms_Notice_Send($content, $mobile_phone)
-{
-    $post = array(
-      'action'  =>  'sendOnce',
-      'ac'      =>  '1001@501186640001',
-      'authkey' =>  'C511BEF448D2D063972EEC015C3E95C6',
-      'cgid'    =>  '4534',
-      'csid'    =>  '4717',
-      'c'       =>  $content,
-      'm'       =>  $mobile_phone,
-    );
-    $return = Xml_Array(Fsockopen_Post('http://smsapi.c123.cn/OpenPlatform/OpenApi', $post));
-    if(!isset($return['@attributes']['result']) || $return['@attributes']['result'] != 1) return false;
-    return true;
-}
-
-/**
- * [IsExistWebImg 检测一张网络图片是否存在]
+ * [IsExistRemoteImage 检测一张网络图片是否存在]
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -975,7 +785,7 @@ function Sms_Notice_Send($content, $mobile_phone)
  * @param  	 [string] $url [图片地址]
  * @return 	 [boolean]     [存在true, 则false]
  */
-function IsExistWebImg($url)
+function IsExistRemoteImage($url)
 {
     if(!empty($url))
     {
@@ -1343,87 +1153,6 @@ function params_checked($data, $params)
         }
     }
     return true;
-}
-
-/**
- * [UserServiceExpire 用户服务有效]
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  1.0.0
- * @datetime 2018-05-17T17:18:29+0800
- * @param    [int]     $service_expire_time [description]
- * @return   [boolean|int]                  [有效则返回时间, 无效则false]
- */
-function UserServiceExpire($service_expire_time)
-{
-    if(empty($service_expire_time))
-    {
-        return false;
-    }
-
-    $service_time = strtotime(date('Y-m-d', $service_expire_time));
-    $day_time = strtotime(date('Y-m-d'));
-    if($service_time >= $day_time)
-    {
-        return date('Y-m-d', $service_time);
-    }
-    return false;
-}
-
-/**
- * [GetRegionName 获取地区名称]
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  1.0.0
- * @datetime 2018-05-17T18:03:39+0800
- * @param    [int]         $region_id [地区id]
- * @return   [string]                 [地区名称]
- */
-function GetRegionName($region_id)
-{
-    return M('Region')->where(['id'=>$region_id])->getField('name');
-}
-
-/**
- * [GetExpressName 获取快递名称]
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  1.0.0
- * @datetime 2018-05-17T18:03:39+0800
- * @param    [int]         $express_id [快递id]
- * @return   [string]                  [快递名称]
- */
-function GetExpressName($express_id)
-{
-    return M('Express')->where(['id'=>$express_id])->getField('name');
-}
-
-/**
- * [GetGoodsName 获取物品类型名称]
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  1.0.0
- * @datetime 2018-05-17T18:03:39+0800
- * @param    [int]         $goods_id    [快递id]
- * @return   [string]                   [快递名称]
- */
-function GetGoodsName($goods_id)
-{
-    return M('Goods')->where(['id'=>$goods_id])->getField('name');
-}
-
-/**
- * [GetMerchantName 获取站点名称]
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  1.0.0
- * @datetime 2018-05-17T18:03:39+0800
- * @param    [int]         $merchant_id [站点id]
- * @return   [string]                   [站点名称]
- */
-function GetMerchantName($merchant_id)
-{
-    return M('Merchant')->where(['id'=>$merchant_id])->getField('name');
 }
 
 ?>

@@ -2,6 +2,8 @@
 
 namespace Home\Controller;
 
+use Service\ResourcesService;
+
 /**
  * 自定义页面
  * @author   Devil
@@ -42,7 +44,7 @@ class CustomViewController extends CommonController
 			$m->where(array('id'=>I('id')))->setInc('access_count');
 
 			// 静态资源地址处理
-			$data['content'] = ContentStaticReplace($data['content'], 'get');
+			$data['content'] = ResourcesService::ContentStaticReplace($data['content'], 'get');
 
 			$this->assign('is_header', $data['is_header']);
 			$this->assign('is_footer', $data['is_footer']);

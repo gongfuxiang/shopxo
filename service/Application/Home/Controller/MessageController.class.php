@@ -39,12 +39,12 @@ class MessageController extends CommonController
      */
     public function Index()
     {
-        // 消息更新未已读
-        MessageService::MessageRead($params);
-        
         // 参数
         $params = array_merge($_POST, $_GET);
         $params['user'] = $this->user;
+
+        // 消息更新未已读
+        MessageService::MessageRead($params);
 
         // 分页
         $number = 10;

@@ -2,6 +2,8 @@
 
 namespace Admin\Controller;
 
+use Service\ResourcesService;
+
 /**
  * 商品管理
  * @author   Devil
@@ -230,7 +232,7 @@ class GoodsController extends CommonController
 			$data['category_ids'] = M('GoodsCategoryJoin')->where(['goods_id'=>$data['id']])->getField('category_id', true);
 
 			// pc详情
-			$data['content_web'] = ContentStaticReplace($data['content_web'], 'get');
+			$data['content_web'] = ResourcesService::ContentStaticReplace($data['content_web'], 'get');
 		}
 		$this->assign('data', $data);
 
@@ -330,7 +332,7 @@ class GoodsController extends CommonController
 			'buy_max_number'			=> intval(I('buy_max_number', 0)),
 			'is_deduction_inventory'	=> intval(I('is_deduction_inventory')),
 			'is_shelves'				=> intval(I('is_shelves')),
-			'content_web'				=> ContentStaticReplace($_POST['content_web'], 'add'),
+			'content_web'				=> ResourcesService::ContentStaticReplace($_POST['content_web'], 'add'),
 			'images'					=> isset($photo['data'][0]) ? $photo['data'][0] : '',
 			'photo_count'				=> count($photo['data']),
 			'is_home_recommended'		=> intval(I('is_home_recommended')),

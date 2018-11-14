@@ -2,6 +2,8 @@
 
 namespace Admin\Controller;
 
+use Service\ResourcesService;
+
 /**
  * 自定义页面管理
  * @author   Devil
@@ -178,7 +180,7 @@ class CustomViewController extends CommonController
 			if(!empty($data['content']))
 			{
 				// 静态资源地址处理
-				$data['content'] = ContentStaticReplace($data['content'], 'get');
+				$data['content'] = ResourcesService::ContentStaticReplace($data['content'], 'get');
 			}
 		}
 		$this->assign('data', $data);
@@ -245,7 +247,7 @@ class CustomViewController extends CommonController
 			$m->title 		=	I('title');
 			
 			// 静态资源地址处理
-			$m->content 	=	ContentStaticReplace($m->content, 'add');
+			$m->content 	=	ResourcesService::ContentStaticReplace($m->content, 'add');
 
 			// 正则匹配文章图片
 			$temp_image		=	$this->MatchContentImage($m->content);
@@ -280,7 +282,7 @@ class CustomViewController extends CommonController
 		if($m->create($_POST, 2))
 		{
 			// 静态资源地址处理
-			$m->content 	=	ContentStaticReplace($m->content, 'add');
+			$m->content 	=	ResourcesService::ContentStaticReplace($m->content, 'add');
 
 			// 正则匹配文章图片
 			$temp_image		=	$this->MatchContentImage($m->content);

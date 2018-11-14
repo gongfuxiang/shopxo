@@ -2,6 +2,8 @@
 
 namespace Api\Controller;
 
+use Service\ResourcesService;
+
 /**
  * 我的订单
  * @author   Devil
@@ -143,13 +145,13 @@ class OrderController extends CommonController
                 $v['pay_status_text'] = $common_order_pay_status[$v['pay_status']]['name'];
 
                 // 快递公司
-                $v['express_name'] = GetExpressName($v['express_id']);
+                $v['express_name'] = ResourcesService::ExpressName($v['express_id']);
                 unset($v['express_id']);
 
                 // 收件人地址
-                $v['receive_province_name'] = GetRegionName($v['receive_province']);
-                $v['receive_city_name'] = GetRegionName($v['receive_city']);
-                $v['receive_county_name'] = GetRegionName($v['receive_county']);
+                $v['receive_province_name'] = ResourcesService::RegionName($v['receive_province']);
+                $v['receive_city_name'] = ResourcesService::RegionName($v['receive_city']);
+                $v['receive_county_name'] = ResourcesService::RegionName($v['receive_county']);
 
                 // 商品列表
                 $goods = M('OrderDetail')->where(['order_id'=>$v['id']])->select();

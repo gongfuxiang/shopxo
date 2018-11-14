@@ -2,6 +2,8 @@
 
 namespace Admin\Controller;
 
+use Service\UserService;
+
 /**
  * 用户管理
  * @author   Devil
@@ -122,6 +124,17 @@ class UserController extends CommonController
 				} else {
 					$v['birthday_text'] = '';
 				}
+
+				// 头像
+                if(!empty($v['avatar']))
+                {
+                    if(substr($v['avatar'], 0, 4) != 'http')
+                    {
+                        $v['avatar'] = C('IMAGE_HOST').$v['avatar'];
+                    }
+                } else {
+                    $v['avatar'] = C('IMAGE_HOST').'/Public/Home/'.C('DEFAULT_THEME').'/Images/default-user-avatar.jpg';
+                }
 
 				// 注册时间
 				$v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
@@ -311,7 +324,7 @@ class UserController extends CommonController
 				if($user['integral'] != $data['integral'])
 				{
 					$integral_type = ($user['integral'] > $data['integral']) ? 0 : 1;
-					UserIntegralLogAdd($user_id, $user['integral'], $data['integral'], '管理员操作', $integral_type, $this->admin['id']);
+					UserService::UserIntegralLogAdd($user_id, $user['integral'], $data['integral'], '管理员操作', $integral_type, $this->admin['id']);
 				}
 
 				$this->ajaxReturn(L('common_operation_edit_success'));

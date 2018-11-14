@@ -3,6 +3,7 @@
 namespace Admin\Controller;
 
 use Service\ArticleService;
+use Service\NavigationService;
 
 /**
  * 导航管理
@@ -101,12 +102,12 @@ class NavigationController extends CommonController
 	{
 		$m = M('Navigation');
 		$field = array('id', 'pid', 'name', 'url', 'value', 'data_type', 'sort', 'is_show', 'is_new_window_open');
-		$data = NavDataDealWith($m->field($field)->where(array('nav_type'=>$this->nav_type, 'pid'=>0))->order('sort')->select());
+		$data = NavigationService::NavDataDealWith($m->field($field)->where(array('nav_type'=>$this->nav_type, 'pid'=>0))->order('sort')->select());
 		if(!empty($data))
 		{
 			foreach($data as $k=>$v)
 			{
-				$data[$k]['item'] = NavDataDealWith($m->field($field)->where(array('nav_type'=>$this->nav_type, 'pid'=>$v['id']))->order('sort')->select());
+				$data[$k]['item'] = NavigationService::NavDataDealWith($m->field($field)->where(array('nav_type'=>$this->nav_type, 'pid'=>$v['id']))->order('sort')->select());
 			}
 		}
 		return $data;

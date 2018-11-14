@@ -2,6 +2,8 @@
 
 namespace Service;
 
+use Service\ResourcesService;
+
 /**
  * 商品服务层
  * @author   Devil
@@ -232,7 +234,7 @@ class GoodsService
                 // PC内容处理
                 if(isset($v['content_web']))
                 {
-                    $v['content_web'] = ContentStaticReplace($v['content_web'], 'get');
+                    $v['content_web'] = ResourcesService::ContentStaticReplace($v['content_web'], 'get');
                 }
 
                 // 产地
