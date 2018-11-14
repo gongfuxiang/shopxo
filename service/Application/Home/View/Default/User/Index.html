@@ -48,8 +48,7 @@
                     </div>
                 </div>
                 <div class="user-base-right">
-                    <a href="javascript:;" class="am-icon-fire"> 积分198</a>
-                    <a href="{{:U('Home/Message/Index')}}" class="am-icon-bell-o message"> 消息<if condition="$common_message_total gt 0">{{$common_message_total}}</if></a>
+                    <a href="{{:U('Home/Message/Index')}}" class="am-icon-bell-o message"> 消息 <if condition="$common_message_total gt 0">{{$common_message_total}}</if></a>
                 </div>
                 <ul class="user-base-icon">
                     <li>
@@ -68,6 +67,12 @@
                         <a href="{{:U('Home/UserGoodsBrowse/Index')}}">
                             <p>{{$user_goods_browse_count}}</p>
                             <p>我的足迹</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <p>{{$user.integral}}</p>
+                            <p>我的积分</p>
                         </a>
                     </li>
                 </ul>
