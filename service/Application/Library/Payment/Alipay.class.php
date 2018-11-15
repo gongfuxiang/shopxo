@@ -195,7 +195,7 @@ class Alipay
     }
 
     /**
-     * [SoonPayMobile wap手机支付]
+     * [PayMobile wap手机支付]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
