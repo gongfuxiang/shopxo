@@ -72,6 +72,13 @@ return array(
 									'icon'		=>	'am-icon-bell-o',
 								),
 							array(
+									'control'	=>	'UserIntegral',
+									'action'	=>	'Index',
+									'name'		=>	'我的积分',
+									'is_show'	=>	1,
+									'icon'		=>	'am-icon-fire',
+								),
+							array(
 									'control'	=>	'UserGoodsBrowse',
 									'action'	=>	'Index',
 									'name'		=>	'我的足迹',

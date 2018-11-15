@@ -5,6 +5,7 @@ namespace Service;
 use Service\GoodsService;
 use Service\ResourcesService;
 use Service\BuyService;
+use Service\IntegralService;
 
 /**
  * 订单服务层
@@ -845,7 +846,7 @@ class OrderService
         if($m->where($where)->save($upd_data))
         {
             // 订单商品积分赠送
-            $ret = self::OrderGoodsIntegralGiving(['order_id'=>$order['id']]);
+            $ret = IntegralService::OrderGoodsIntegralGiving(['order_id'=>$order['id']]);
             if($ret['status'] != 0)
             {
                 // 事务回滚
@@ -1153,7 +1154,7 @@ class OrderService
     }
 
     /**
-     * 订单每个状态总数
+     * 订单每个环节状态总数
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -1237,77 +1238,6 @@ class OrderService
         }
             
         return DataReturn('处理成功', 0, $result);
-    }
-
-    /**
-     * 订单商品积分赠送
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-11-14
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function OrderGoodsIntegralGiving($params = [])
-    {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'order_id',
-                'error_msg'         => '订单id有误',
-            ]
-        ];
-        $ret = params_checked($params, $p);
-        if($ret !== true)
-        {
-            return DataReturn($ret, -1);
-        }
-
-        // 订单
-        $order = M('Order')->field('id,user_id,status')->find(intval($params['order_id']));
-        if(empty($order))
-        {
-            return DataReturn('订单不存在或已删除，中止操作', 0);
-        }
-        if(!in_array($order['status'], [4]))
-        {
-            return DataReturn('当前订单状态不允许操作['.$params['order_id'].'-'.$order['status'].']', 0);
-        }
-
-        // 获取用户信息
-        $user_m = M('User');
-        $user = $user_m->field('id')->find(intval($order['user_id']));
-        if(empty($user))
-        {
-            return DataReturn('用户不存在或已删除，中止操作', 0);
-        }
-
-        // 获取订单商品
-        $goods_all = M('OrderDetail')->where(['order_id'=>$params['order_id']])->getField('goods_id', true);
-        if(!empty($goods_all))
-        {
-            $goods_m = M('Goods');
-            $log_m = M('OrderGoodsInventoryLog');
-            foreach($goods_all as $goods_id)
-            {
-                $give_integral = $goods_m->where(['id'=>$goods_id])->getField('give_integral');
-                if(!empty($give_integral))
-                {
-                    // 用户积分添加
-                    $user_integral = $user_m->where(['id'=>$user['id']])->getField('integral');
-                    if(!$user_m->where(['id'=>$user['id']])->setInc('integral', $give_integral))
-                    {
-                        return DataReturn('用户积分赠送失败['.$params['order_id'].'-'.$goods_id.']', -10);
-                    }
-
-                    // 积分日志
-                    UserService::UserIntegralLogAdd($user['id'], $user_integral, $user_integral+$give_integral, '订单商品完成赠送', 1);
-                }
-            }
-            return DataReturn('操作成功', 0);
-        }
-        return DataReturn('没有需要操作的数据', 0);
     }
 
     /**

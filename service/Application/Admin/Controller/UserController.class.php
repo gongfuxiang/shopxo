@@ -2,7 +2,7 @@
 
 namespace Admin\Controller;
 
-use Service\UserService;
+use Service\IntegralService;
 
 /**
  * 用户管理
@@ -324,7 +324,7 @@ class UserController extends CommonController
 				if($user['integral'] != $data['integral'])
 				{
 					$integral_type = ($user['integral'] > $data['integral']) ? 0 : 1;
-					UserService::UserIntegralLogAdd($user_id, $user['integral'], $data['integral'], '管理员操作', $integral_type, $this->admin['id']);
+					IntegralService::UserIntegralLogAdd($user_id, $user['integral'], $data['integral'], '管理员操作', $integral_type, $this->admin['id']);
 				}
 
 				$this->ajaxReturn(L('common_operation_edit_success'));

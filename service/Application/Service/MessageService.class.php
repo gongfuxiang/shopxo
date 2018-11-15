@@ -195,7 +195,7 @@ class MessageService
         $limit_number = max(1, intval($params['limit_number']));
         $order_by = empty($params['order_by']) ? 'id desc' : I('order_by', '', '', $params);
 
-        // 获取订单
+        // 获取数据列表
         $data = M('Message')->where($params['where'])->limit($limit_start, $limit_number)->order($order_by)->select();
         if(!empty($data))
         {
