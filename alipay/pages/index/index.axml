@@ -16,12 +16,12 @@
 <view a:if="{{category_list.length > 0}}">
   <view class="spacing-nav-title">
     <text class="line"></text>
-    <text class="text-wrapper">网上选人</text>
+    <text class="text-wrapper">商品分类</text>
   </view>
   <view class="category-list">
-    <view class="items bg-white" a:for="{{category_list}}">
+    <view class="items bg-white" a:for="{{category_list}}" a:if="{{item.is_home_recommended == 1}}">
       <navigator url="/pages/goods-search/goods-search?category_id={{item.id}}" hover-class="none">
-        <image class="wh-auto" src="{{item.icon}}" mode="aspectFit" />
+        <image class="wh-auto" src="{{item.big_images}}" mode="aspectFit" />
         <view class="title tc single-text">{{item.name}}</view>
       </navigator>
     </view>

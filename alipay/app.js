@@ -27,8 +27,8 @@ App({
 
     // 页面标题
     common_pages_title: {
-      "goods_search": "网上选人",
-      "goods_detail": "人员详情",
+      "goods_search": "商品搜索",
+      "goods_detail": "商品详情",
       "goods_attribute": "属性",
       "user_address": "我的地址",
       "user_address_save_add": "新增地址",

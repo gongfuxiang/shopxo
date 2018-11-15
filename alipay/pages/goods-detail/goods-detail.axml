@@ -29,9 +29,9 @@
     <view class="goods-price">
       <text class="sales-price">￥{{goods.price}}</text>
       <text a:if="{{goods.original_price > 0}}" class="original-price">￥{{goods.original_price}}</text>
-      <!-- <view class="fr cr-ccc">
+      <view class="fr cr-ccc">
         <text>销量 {{goods.sales_count}}</text>
-      </view> -->
+      </view>
     </view>
   </view>
 
@@ -46,7 +46,7 @@
   <view a:if="{{goods_content_app.length > 0}}" class="goods-detail spacing">
     <view class="spacing-nav-title">
       <text class="line"></text>
-      <text class="text-wrapper">简历</text>
+      <text class="text-wrapper">详情</text>
     </view>
     <view a:for="{{goods_content_app}}" class="goods-detail-app bg-white">
         <image a:if="{{(item.images || null) != null}}" onTap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto" src="{{item.images}}" mode="widthFix" />
