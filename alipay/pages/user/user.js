@@ -20,7 +20,7 @@ Page({
         url: "user-order",
         icon: "user-nav-booking-order-icon",
         is_show: 1,
-        name: "预约订单"
+        name: "我的订单"
       },
       {
         url: "user-faovr",
@@ -32,7 +32,7 @@ Page({
         url: "user-answer-list",
         icon: "user-nav-answer-icon",
         is_show: 1,
-        name: "我的问答"
+        name: "我的留言"
       }
     ]
   },

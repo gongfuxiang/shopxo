@@ -34,22 +34,22 @@ App({
       "user_address_save_add": "新增地址",
       "user_address_save_edit": "编辑地址",
       "buy": "订单确认",
-      "user_order": "预约订单",
+      "user_order": "我的订单",
       "user_order_detail": "订单详情",
       "user_favor": "我的收藏",
-      "answer_form": "留言",
+      "answer_form": "留言",
       "answer_list": "问答",
-      "user_answer_list": "我的问答",
+      "user_answer_list": "我的留言",
       "user": "用户中心",
     },
 
     // 请求地址
-    request_url: "http://boyuan.mei.la/",
-    //request_url: 'http://default.com/project/shop/service/',
+    request_url: "http://demo.shopxo.net/",
+    request_url: 'http://default.com/project/shopxo/service/',
 
     // 基础信息
-    application_title: "伯缘家政",
-    application_describe: "服务于需要外籍保姆服务的家庭",
+    application_title: "ShopXO电商系统",
+    application_describe: "国内领先企业级B2C电商系统解决方案",
   },
 
   /**
