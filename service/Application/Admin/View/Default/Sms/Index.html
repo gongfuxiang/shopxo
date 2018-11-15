@@ -19,7 +19,7 @@
 			</div>
 			<div class="am-form-group">
 				<label>{{$data.common_sms_sign.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_sms_sign.describe}}）</span></label>
-				<input type="text" name="{{$data.common_sms_sign.only_tag}}" placeholder="{{$data.common_sms_sign.name}}" data-validation-message="{{$data.common_sms_sign.error_tips}}" class="am-radius" minlength="3" maxlength="16" <present name="data"> value="{{$data.common_sms_sign.value}}"</present> />
+				<input type="text" name="{{$data.common_sms_sign.only_tag}}" placeholder="{{$data.common_sms_sign.name}}" data-validation-message="{{$data.common_sms_sign.error_tips}}" class="am-radius" maxlength="16" <present name="data"> value="{{$data.common_sms_sign.value}}"</present> />
 			</div>
 			<div class="am-form-group">
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>

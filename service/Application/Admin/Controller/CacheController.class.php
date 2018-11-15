@@ -52,16 +52,12 @@ class CacheController extends CommonController
 	 */
 	public function SiteUpdate()
 	{
-		// 后台
-		S(C('cache_common_my_config_key'), null);
-		S(C('cache_common_timezone_key'), null);
-		S(C('cache_common_home_nav_header_key'), null);
-		S(C('cache_common_home_nav_footer_key'), null);
-		S(C('cache_common_default_theme_key'), null);
-		PowerCacheDelete();
-
-		// 前台
-		S(C('cache_home_channel_key'), null);
+		DelDirFile(TEMP_PATH);
+		DelDirFile(DATA_PATH);
+		if(file_exists(RUNTIME_PATH.'common~runtime.php'))
+		{
+			unlink(RUNTIME_PATH.'common~runtime.php');
+		}
 
 		$this->success(L('common_operation_update_success'));
 	}

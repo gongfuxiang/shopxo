@@ -31,6 +31,9 @@ return array(
 	// URL模式
 	'URL_MODEL'          	=>	0,
 
+	// false 表示URL区分大小写 true则表示不区分大小写
+	'URL_CASE_INSENSITIVE'	=>	false,
+
 	// 默认语言
 	'DEFAULT_LANG'          =>	'zh-cn',
 
