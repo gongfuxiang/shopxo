@@ -1,2 +1,7 @@
 User-agent: *
-Disallow: /
+Disallow: /admin.php*
+Disallow: /api.php*
+Disallow: /*respond.php
+Disallow: /*notify.php
+Disallow: /Public*
+Disallow: /Install

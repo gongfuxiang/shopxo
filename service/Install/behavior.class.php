@@ -40,7 +40,7 @@ class behavior
 				'php_sapi_name'	=>	php_sapi_name(),
 				'client_date'	=>	date('Y-m-d H:i:s'),
 				'ymd'			=>	date('Ymd'),
-				'ver'			=>	'2.3.1',
+				'ver'			=>	'1.0.0',
 			);
 
 		// 描述信息
@@ -56,12 +56,12 @@ class behavior
 		}
 
 		// 上报数据
-		$url = 'http://schoolcms.gong.gg/report/innstall.php';
+		$url = 'http://report.shopxo.net/install.php';
 		if(function_exists('curl_init'))
 		{
 			$this->CurlPost($url, $data);
 		} else {
-			$this->Fsockopen_Post($url, $data);
+			$this->FsockopenPost($url, $data);
 		}
 	}
 
@@ -93,7 +93,7 @@ class behavior
 	}
 
 	/**
-	 * [Fsockopen_Post fsockopen方式]
+	 * [FsockopenPost fsockopen方式]
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -101,7 +101,7 @@ class behavior
 	 * @param    [string] $url  [url地址]
 	 * @param    [string] $data [发送参数]
 	 */
-	private function Fsockopen_Post($url, $data = '')
+	private function FsockopenPost($url, $data = '')
 	{
 	    $row = parse_url($url);
 	    $host = $row['host'];
