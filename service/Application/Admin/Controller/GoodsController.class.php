@@ -415,7 +415,7 @@ class GoodsController extends CommonController
 			$m->commit();
 
 			// 删除原来的视频
-			if(!empty($goods['video']) && !empty($video['data']['file_video']['url']))
+			if(!empty($goods['video']) && (!empty($video['data']['file_video']['url']) || empty($data['video'])))
 			{
 				$this->FileDelete($goods['video']);
 			}

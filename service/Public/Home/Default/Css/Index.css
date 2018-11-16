@@ -22,6 +22,7 @@ dt + dd {margin-top: 0;}
 .small-nav .mini-nav-goods-category { background-color: #FB6E52; }
 .small-nav .mini-nav-cart { background-color: #48CFAE; }
 .small-nav .mini-nav-user { background-color: #49acfa; }
+.small-nav .mini-nav-order { background-color: #fa506c; }
 .small-nav .mini-nav-seconds { background-color: #fa506c; }
 .small-nav a { text-decoration: none !important; }
 

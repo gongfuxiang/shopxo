@@ -39,11 +39,11 @@
 			</a>
 		</div>
 		<div class="am-u-sm-3">
-			<a href="#">
-				<div class="nav-icon mini-nav-seconds">
-					<img src="__PUBLIC__/Home/{{$default_theme}}/Images/home-mini-nav-seconds-icon.png" />
+			<a <if condition="empty($user)">href="javascript:;" class="login-event"<else /> href="{{:U('Home/Order/Index')}}"</if>>
+				<div class="nav-icon mini-nav-order">
+					<img src="__PUBLIC__/Home/{{$default_theme}}/Images/home-mini-nav-order-icon.png" />
 				</div>
-				<div class="mini-nav-title">秒杀</div>
+				<div class="mini-nav-title">订单</div>
 			</a>
 		</div>
 		<div class="am-u-sm-3">
