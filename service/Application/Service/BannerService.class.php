@@ -33,7 +33,6 @@ class BannerService
                 $v['images_url'] = $images_host.$v['images_url'];
                 $v['jump_url'] = empty($v['jump_url']) ? null : $v['jump_url'];
             }
-            $result['banner'] = $banner;
         }
         return $banner;
     }

@@ -1,20 +1,8 @@
-<swiper
-  indicator-dots="{{indicator_dots}}"
-  indicator-color="{{indicator_color}}"
-  indicator-active-color="{{indicator_active_color}}"
-  autoplay="{{autoplay}}"
-  circular="{{circular}}"
-  class="banner bg-white spacing-mb"
-  a:if="{{banner_list.length > 0}}">
-  <block a:for="{{banner_list}}">
-    <swiper-item>
-      <image class="wh-auto" src="{{item.images_url}}" mode="widthFix" data-value="{{item.jump_url}}" data-type="{{item.jump_url_type}}" onTap="banner_event" />
-    </swiper-item>
-  </block>
-</swiper>
+<component-home-banner />
+<component-goods-category-nav />
 
-<view a:if="{{category_list.length > 0}}">
-  <view class="spacing-nav-title">
+
+  <!-- <view class="spacing-nav-title">
     <text class="line"></text>
     <text class="text-wrapper">商品分类</text>
   </view>
@@ -25,7 +13,8 @@
         <view class="title tc single-text">{{item.name}}</view>
       </navigator>
     </view>
-  </view>
+  </view> -->
+
 </view>
 <view a:if="{{category_list.length == 0}}">
     <import src="/pages/common/nodata.axml" />

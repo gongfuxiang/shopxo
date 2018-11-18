@@ -72,5 +72,31 @@ class IndexController extends CommonController
 		// 返回数据
 		$this->ajaxReturn(L('common_operation_success'), 0, $result);
 	}
+
+	/**
+	 * [GoodsCategoryNav 商品分类导航]
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  1.0.0
+	 * @datetime 2018-05-25T11:03:59+0800
+	 */
+	public function GoodsCategoryNav()
+	{
+		// 返回数据
+		$this->ajaxReturn(L('common_operation_success'), 0, GoodsService::GoodsCategoryList());
+	}
+
+	/**
+	 * [Banner 首页轮播]
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  1.0.0
+	 * @datetime 2018-05-25T11:03:59+0800
+	 */
+	public function Banner()
+	{
+		// 返回数据
+		$this->ajaxReturn(L('common_operation_success'), 0, BannerService::Home());
+	}
 }
 ?>
