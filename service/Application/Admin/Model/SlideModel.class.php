@@ -16,7 +16,7 @@ class SlideModel extends CommonModel
     protected $_validate = array(       
         // 添加,编辑
         array('name', '0,60', '{%slide_name_format}', 1, 'length', 3),
-        array('platform', array('pc','h5','alipay','wechat','baidu'), '{%common_platform_format}', 1, 'in', 3),
+        array('platform', array('pc','h5','app','alipay','wechat','baidu'), '{%common_platform_format}', 1, 'in', 3),
         array('jump_url', '0,255', '{%common_jump_url_format}', 2, 'length', 3),
         array('jump_url_type', array(0,1,2), '{%common_jump_url_type_format}', 1, 'in', 3),
         array('images_url', 'require', '{%slide_images_url_format}', 1, '', 3),

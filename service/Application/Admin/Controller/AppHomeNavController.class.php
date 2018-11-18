@@ -3,13 +3,13 @@
 namespace Admin\Controller;
 
 /**
- * 轮播图片管理
+ * 手机管理-首页导航管理
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class SlideController extends CommonController
+class AppHomeNavController extends CommonController
 {
     /**
      * [_initialize 前置操作-继承公共前置方法]
@@ -31,7 +31,7 @@ class SlideController extends CommonController
     }
 
     /**
-     * [Index 轮播图片列表]
+     * [Index 手机管理-首页导航列表]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -43,7 +43,7 @@ class SlideController extends CommonController
         $param = array_merge($_POST, $_GET);
 
         // 模型对象
-        $m = M('Slide');
+        $m = M('AppHomeNav');
 
         // 条件
         $where = $this->GetIndexWhere();
@@ -54,7 +54,7 @@ class SlideController extends CommonController
                 'number'    =>  $number,
                 'total'     =>  $m->where($where)->count(),
                 'where'     =>  $param,
-                'url'       =>  U('Admin/Slide/Index'),
+                'url'       =>  U('Admin/AppHomeNav/Index'),
             );
         $page = new \Library\Page($page_param);
 
@@ -73,8 +73,8 @@ class SlideController extends CommonController
         // 所属平台
         $this->assign('common_platform_type', L('common_platform_type'));
 
-        // 跳转类型
-        $this->assign('common_jump_url_type', L('common_jump_url_type'));
+        // app事件类型
+        $this->assign('common_app_event_type', L('common_app_event_type'));
 
         // 数据列表
         $this->assign('list', $list);
@@ -87,7 +87,7 @@ class SlideController extends CommonController
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2016-12-29T21:27:15+0800
-     * @param    [array]      $data [轮播图片数据]
+     * @param    [array]      $data [手机管理-首页导航数据]
      * @return   [array]            [处理好的数据]
      */
     private function SetDataHandle($data)
@@ -96,7 +96,7 @@ class SlideController extends CommonController
         {
             $common_platform_type = L('common_platform_type');
             $common_is_enable_tips = L('common_is_enable_tips');
-            $common_jump_url_type = L('common_jump_url_type');
+            $common_app_event_type = L('common_app_event_type');
             foreach($data as &$v)
             {
                 // 是否启用
@@ -106,7 +106,7 @@ class SlideController extends CommonController
                 $v['platform_text'] = $common_platform_type[$v['platform']]['name'];
 
                 // 跳转类型
-                $v['jump_url_type_text'] = $common_jump_url_type[$v['jump_url_type']]['name'];
+                $v['event_type_text'] = $common_app_event_type[$v['event_type']]['name'];
 
                 // 图片地址
                 $v['images_url'] =  empty($v['images_url']) ? '' : C('IMAGE_HOST').$v['images_url'];
@@ -145,9 +145,9 @@ class SlideController extends CommonController
             {
                 $where['is_enable'] = intval(I('is_enable', 0));
             }
-            if(I('jump_url_type', -1) > -1)
+            if(I('event_type', -1) > -1)
             {
-                $where['jump_url_type'] = intval(I('jump_url_type', 0));
+                $where['event_type'] = intval(I('event_type', 0));
             }
             if(!empty($_REQUEST['platform']))
             {
@@ -176,24 +176,25 @@ class SlideController extends CommonController
      */
     public function SaveInfo()
     {
-        // 轮播图片信息
-        $data = empty($_REQUEST['id']) ? array() : M('Slide')->find(I('id'));
+        // 手机管理-首页导航信息
+        $data = empty($_REQUEST['id']) ? array() : M('AppHomeNav')->find(I('id'));
         $this->assign('data', $data);
 
         // 所属平台
         $this->assign('common_platform_type', L('common_platform_type'));
 
-        // 跳转类型
-        $this->assign('common_jump_url_type', L('common_jump_url_type'));
+        // app事件类型
+        $this->assign('common_app_event_type', L('common_app_event_type'));
 
         // 参数
+        $this->assign('platform_type', 'alipay');
         $this->assign('param', array_merge($_POST, $_GET));
 
         $this->display('SaveInfo');
     }
 
     /**
-     * [Save 轮播图片添加/编辑]
+     * [Save 手机管理-首页导航添加/编辑]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -219,7 +220,7 @@ class SlideController extends CommonController
 
             // 文件类型
             list($type, $suffix) = explode('/', $_FILES['file_images_url']['type']);
-            $path = 'Public'.DS.'Upload'.DS.'slide'.DS.date('Y').DS.date('m').DS;
+            $path = 'Public'.DS.'Upload'.DS.'app_home_nav'.DS.date('Y').DS.date('m').DS;
             if(!is_dir($path))
             {
                 mkdir(ROOT_PATH.$path, 0777, true);
@@ -245,7 +246,7 @@ class SlideController extends CommonController
     }
 
     /**
-     * [Add 轮播图片添加]
+     * [Add 手机管理-首页导航添加]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -253,8 +254,8 @@ class SlideController extends CommonController
      */
     private function Add()
     {
-        // 轮播图片模型
-        $m = D('Slide');
+        // 手机管理-首页导航模型
+        $m = D('AppHomeNav');
 
         // 数据自动校验
         if($m->create($_POST, 1))
@@ -262,7 +263,7 @@ class SlideController extends CommonController
             // 额外数据处理
             $m->name            =   I('name');
             $m->jump_url        =   I('jump_url');
-            $m->jump_url_type   =   intval(I('jump_url_type'));
+            $m->event_type   =   intval(I('event_type'));
             $m->images_url      =   I('images_url');
             $m->platform        =   I('platform');
             $m->is_enable       =   intval(I('is_enable', 0));
@@ -282,7 +283,7 @@ class SlideController extends CommonController
     }
 
     /**
-     * [Edit 轮播图片编辑]
+     * [Edit 手机管理-首页导航编辑]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -290,8 +291,8 @@ class SlideController extends CommonController
      */
     private function Edit()
     {
-        // 轮播图片模型
-        $m = D('Slide');
+        // 手机管理-首页导航模型
+        $m = D('AppHomeNav');
 
         // 数据自动校验
         if($m->create($_POST, 2))
@@ -299,7 +300,7 @@ class SlideController extends CommonController
             // 额外数据处理
             $m->name            =   I('name');
             $m->jump_url        =   I('jump_url');
-            $m->jump_url_type   =   intval(I('jump_url_type'));
+            $m->event_type   =   intval(I('event_type'));
             $m->images_url      =   I('images_url');
             $m->platform        =   I('platform');
             $m->is_enable       =   intval(I('is_enable', 0));
@@ -319,7 +320,7 @@ class SlideController extends CommonController
     }
 
     /**
-     * [Delete 轮播图片删除]
+     * [Delete 手机管理-首页导航删除]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -340,7 +341,7 @@ class SlideController extends CommonController
         if(!empty($id))
         {
             // 模型
-            $m = M('Slide');
+            $m = M('AppHomeNav');
 
             // 是否存在
             $data = $m->find($id);
@@ -366,13 +367,13 @@ class SlideController extends CommonController
     }
 
     /**
-     * [StateUpdate 状态更新]
+     * [StatusUpdate 状态更新]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2017-01-12T22:23:06+0800
      */
-    public function StateUpdate()
+    public function StatusUpdate()
     {
         // 参数
         if(empty($_POST['id']) || !isset($_POST['state']))
@@ -381,7 +382,7 @@ class SlideController extends CommonController
         }
 
         // 数据更新
-        if(M('Slide')->where(array('id'=>I('id')))->save(array('is_enable'=>I('state'))))
+        if(M('AppHomeNav')->where(array('id'=>I('id')))->save(array('is_enable'=>I('state'))))
         {
             $this->ajaxReturn(L('common_operation_edit_success'));
         } else {

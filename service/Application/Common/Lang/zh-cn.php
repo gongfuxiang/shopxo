@@ -317,6 +317,12 @@ return array(
     'common_linkage_county_format'      => '请选择区/县',
     'common_avatar_upload_title'		=> '头像上传',
 
+    'common_app_event_type_text'		=>	'事件类型',
+    'common_app_event_type_format'		=>	'事件值类型有误',
+	'common_app_event_type_tips'		=>	'1,2,3',
+	'common_app_event_value_text'		=>	'事件值',
+	'common_app_event_value_format'		=>	'事件值最多 255 个字符',
+
 	// 性别
 	'common_gender_list'				=>	array(
 			0 => array('id' => 0, 'name' => '保密', 'checked' => true),
@@ -402,8 +408,9 @@ return array(
 
 	// 所属平台
 	'common_platform_type'			=>	array(
-			'pc' 	 => array('value' => 'pc', 'name' => 'PC网站', 'checked' => true),
+			'pc' 	 => array('value' => 'pc', 'name' => 'PC网站'),
 			'h5' 	 => array('value' => 'h5', 'name' => 'H5手机网站'),
+			'app' => array('value' => 'app', 'name' => 'APP'),
 			'alipay' => array('value' => 'alipay', 'name' => '支付宝小程序'),
 			'wechat' => array('value' => 'wechat', 'name' => '微信小程序'),
 			'baidu' => array('value' => 'baidu', 'name' => '百度小程序'),
@@ -411,7 +418,7 @@ return array(
 
 	// 小程序url跳转类型
 	'common_jump_url_type'	=>	array(
-			0 => array('value' => 0, 'name' => 'WEB页面', 'checked' => true),
+			0 => array('value' => 0, 'name' => 'WEB页面'),
 			1 => array('value' => 1, 'name' => '内部页面(小程序或APP内部地址)'),
 			2 => array('value' => 2, 'name' => '外部小程序(同一个主体下的小程序appid)'),
 		),
@@ -570,6 +577,15 @@ return array(
 	'common_shelves_select_list'				=>	array(
 			0 => array('value' => 0, 'name' => '下架'),
 			1 => array('value' => 1, 'name' => '上架', 'checked' => true),
+		),
+
+	// app事件类型
+	'common_app_event_type'	=>	array(
+			0 => array('value' => 0, 'name' => 'WEB页面'),
+			1 => array('value' => 1, 'name' => '内部页面(小程序内部地址)'),
+			2 => array('value' => 2, 'name' => '外部小程序(同一个主体下的小程序appid)'),
+			3 => array('value' => 3, 'name' => '跳转原生地图查看指定位置'),
+			4 => array('value' => 4, 'name' => '拨打电话'),
 		),
 
 
