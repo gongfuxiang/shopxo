@@ -1,0 +1,21 @@
+.data-list {
+    overflow: hidden;
+}
+.data-list .items {
+    width: calc(25% - 40rpx);
+    float: left;
+    padding: 20rpx;
+}
+.items-content {
+    border-radius: 50%;
+    padding: 30rpx;
+    text-align: center;
+}
+.data-list .items image {
+    width: 80rpx !important;
+    height: 80rpx !important;
+}
+.data-list .items .title {
+    margin-top: 10rpx;
+    font-size: 32rpx;
+}

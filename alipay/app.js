@@ -44,8 +44,8 @@ App({
     },
 
     // 请求地址
-    request_url: "http://demo.shopxo.net/",
-    request_url: 'http://default.com/project/shopxo/service/',
+    //request_url: "http://demo.shopxo.net/",
+    request_url: 'http://localhost/project/shopxo/service/',
 
     // 基础信息
     application_title: "ShopXO电商系统",
@@ -427,5 +427,49 @@ App({
       s_x += "0";
     }
     return s_x;
-  }
+  },
+
+  /**
+   * 价格保留两位小数
+   * price      价格保留两位小数
+   */
+  operation_event(e) {
+      var value = e.target.dataset.value || null;
+      var type = parseInt(e.target.dataset.type);
+
+      console.log(value, type)
+      if (value != null) {
+        switch(type) {
+          // web
+          case 0 :
+            my.navigateTo({url: '/pages/web-view/web-view?url='+value});
+            break;
+
+          // 内部页面
+          case 1 :
+            my.navigateTo({url: value});
+            break;
+
+          // 跳转到外部小程序
+          case 2 :
+            my.navigateToMiniProgram({appId: value});
+            break;
+
+          // 跳转到地图查看位置
+          case 3 :
+            my.openLocation({
+              longitude: '121.549697',
+              latitude: '31.227250',
+              name: '支付宝',
+              address: '杨高路地铁站',
+            });
+            break;
+
+          // 拨打电话
+          case 4 :
+            my.makePhoneCall({ number: value });
+            break;
+        }
+      }
+    },
 });

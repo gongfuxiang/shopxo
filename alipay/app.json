@@ -39,7 +39,7 @@
         "pagePath": "pages/answer-list/answer-list",
         "icon": "/images/nav-icon-answer.png",
         "activeIcon": "/images/nav-icon-answer-active.png",
-        "name": "问答"
+        "name": "分类"
       },
       {
         "pagePath": "pages/user/user",

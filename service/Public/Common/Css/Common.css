@@ -159,16 +159,3 @@ button.colorpicker-submit:active {
 button.colorpicker-submit img {
     margin-right: 10px;
 }
-
-/**
- * 自定义icon
- */
-.am-icon-alipay {
-    background-image: url('../Images/am-icon-alipay.png');
-    background-repeat:no-repeat;
-    background-size:100% 100%;
-    -moz-background-size:100% 100%;
-    width: 15px;
-    height: 15px;
-    vertical-align: middle;
-}

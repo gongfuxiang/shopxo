@@ -59,7 +59,7 @@ class AppHomeNavController extends CommonController
         $page = new \Library\Page($page_param);
 
         // 获取列表
-        $list = $this->SetDataHandle($m->where($where)->limit($page->GetPageStarNumber(), $number)->order('is_enable desc, id desc')->select());
+        $list = $this->SetDataHandle($m->where($where)->limit($page->GetPageStarNumber(), $number)->order('is_enable desc, sort asc')->select());
 
         // 参数
         $this->assign('param', $param);
@@ -209,30 +209,7 @@ class AppHomeNavController extends CommonController
         }
 
         // 图片
-        if(!empty($_FILES['file_images_url']))
-        {
-            // 文件上传校验
-            $error = FileUploadError('file_images_url');
-            if($error !== true)
-            {
-                $this->ajaxReturn($error, -1);
-            }
-
-            // 文件类型
-            list($type, $suffix) = explode('/', $_FILES['file_images_url']['type']);
-            $path = 'Public'.DS.'Upload'.DS.'app_home_nav'.DS.date('Y').DS.date('m').DS;
-            if(!is_dir($path))
-            {
-                mkdir(ROOT_PATH.$path, 0777, true);
-            }
-            $filename = date('YmdHis').GetNumberCode(6).'.'.$suffix;
-            $file_images_url = $path.$filename;
-
-            if(move_uploaded_file($_FILES['file_images_url']['tmp_name'], ROOT_PATH.$file_images_url))
-            {
-                $_POST['images_url'] = DS.$file_images_url;
-            }
-        }
+        $this->FileSave('images_url', 'file_images_url', 'app_home_nav');
 
         // 添加
         if(empty($_POST['id']))
@@ -263,11 +240,12 @@ class AppHomeNavController extends CommonController
             // 额外数据处理
             $m->name            =   I('name');
             $m->jump_url        =   I('jump_url');
-            $m->event_type   =   intval(I('event_type'));
+            $m->event_type      =   intval(I('event_type', -1));
             $m->images_url      =   I('images_url');
             $m->platform        =   I('platform');
             $m->is_enable       =   intval(I('is_enable', 0));
             $m->bg_color        =   I('bg_color');
+            $m->sort            =   intval(I('sort'));
             $m->add_time        =   time();
 
             // 数据添加
@@ -300,11 +278,12 @@ class AppHomeNavController extends CommonController
             // 额外数据处理
             $m->name            =   I('name');
             $m->jump_url        =   I('jump_url');
-            $m->event_type   =   intval(I('event_type'));
+            $m->event_type      =   intval(I('event_type', -1));
             $m->images_url      =   I('images_url');
             $m->platform        =   I('platform');
             $m->is_enable       =   intval(I('is_enable', 0));
             $m->bg_color        =   I('bg_color');
+            $m->sort            =   intval(I('sort'));
             $m->upd_time        =   time();
 
             // 更新数据库

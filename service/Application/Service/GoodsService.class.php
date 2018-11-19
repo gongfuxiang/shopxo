@@ -130,7 +130,7 @@ class GoodsService
             foreach($goods_category as &$v)
             {
                 $category_ids = self::GoodsCategoryItemsIds(['category_id'=>$v['id']]);
-                $v['goods'] = self::GoodsList(['where'=>['gci.category_id'=>['in', $category_ids], 'is_home_recommended'=>1], 'm'=>0, 'n'=>6]);
+                $v['goods'] = self::GoodsList(['where'=>['gci.category_id'=>['in', $category_ids], 'is_home_recommended'=>1], 'm'=>0, 'n'=>6, 'field'=>'g.title,g.title_color,g.images,g.home_recommended_images,g.original_price,g.price,g.inventory,g.buy_min_number,g.buy_max_number']);
             }
         }
         return $goods_category;

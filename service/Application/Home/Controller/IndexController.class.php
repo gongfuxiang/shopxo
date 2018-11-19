@@ -39,7 +39,7 @@ class IndexController extends CommonController
 	public function Index()
 	{
 		// 首页轮播
-		$this->assign('banner_list', BannerService::Home());
+		$this->assign('banner_list', BannerService::PC());
 
 		// 楼层数据
 		$this->assign('goods_floor_list', GoodsService::HomeFloorList());

@@ -1,0 +1,31 @@
+<include file="Public/Header" />
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:U('Admin/AppMiniAlipayConfig/Save')}}" method="POST" request-type="ajax-url" request-value="{{:U('Admin/AppMiniAlipayConfig/Index')}}">
+			<div class="am-form-group">
+				<label>{{$data.home_app_mini_alipay_title.name}}</label>
+				<input type="text" name="{{$data.home_app_mini_alipay_title.only_tag}}" placeholder="{{$data.home_app_mini_alipay_title.name}}" data-validation-message="{{$data.home_app_mini_alipay_title.error_tips}}" class="am-radius" <present name="data"> value="{{$data.home_app_mini_alipay_title.value}}"</present> required />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_app_mini_alipay_describe.name}}</label>
+				<input type="text" name="{{$data.home_app_mini_alipay_describe.only_tag}}" placeholder="{{$data.home_app_mini_alipay_describe.name}}" data-validation-message="{{$data.home_app_mini_alipay_describe.error_tips}}" class="am-radius" <present name="data"> value="{{$data.home_app_mini_alipay_describe.value}}"</present> required />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_app_mini_alipay_customer_service_tel.name}}</label>
+				<input type="text" name="{{$data.home_app_mini_alipay_customer_service_tel.only_tag}}" placeholder="{{$data.home_app_mini_alipay_customer_service_tel.name}}" data-validation-message="{{$data.home_app_mini_alipay_customer_service_tel.error_tips}}" class="am-radius" <present name="data"> value="{{$data.home_app_mini_alipay_customer_service_tel.value}}"</present> />
+			</div>
+			<div class="am-form-group">
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+<include file="Public/Footer" />
+<!-- footer end -->

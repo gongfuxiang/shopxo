@@ -1,0 +1,72 @@
+.floor {
+    
+}
+.floor, .floor-list, .floor-left {
+    overflow: hidden;
+    position: relative;
+}
+.floor .nav-name {
+    font-size: 34rpx;
+    font-weight: 500;
+    text-align: center;
+    padding: 10rpx 0;
+}
+.floor .vice-name {
+    top: 20rpx;
+    left: 20rpx;
+}
+.floor-left {
+    width: 40%;
+    float: left;
+    height: 660rpx;
+}
+.floor-left image {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+
+.floor .vice-name,
+.floor-left image,
+.goods-list .goods:nth-child(1),
+.goods-list .goods:nth-child(2) {
+    position: absolute;
+}
+
+.goods-list .goods {
+    height: 330rpx;
+    background-color: #fff;
+    overflow: hidden;
+}
+.goods-list .goods image {
+    width: 100%;
+}
+.goods-list .goods:nth-child(1),
+.goods-list .goods:nth-child(2) {
+    width: 60%;
+}
+.goods-list .goods:nth-child(1) .goods-base,
+.goods-list .goods:nth-child(2) .goods-base {
+    float: left;
+}
+.goods-list .goods:nth-child(1) image,
+.goods-list .goods:nth-child(2) image {
+    width: 60%;
+    float: right;
+}
+.goods-list .goods:nth-child(1) {
+    top: 0;
+    right: 0;
+}
+.goods-list .goods:nth-child(2) {
+    top: 330rpx;
+    right: 0;
+}
+.goods-list .goods:nth-child(3),
+.goods-list .goods:nth-child(4),
+.goods-list .goods:nth-child(5),
+.goods-list .goods:nth-child(6) {
+    margin-top: 330rpx;
+    width: 50%;
+}

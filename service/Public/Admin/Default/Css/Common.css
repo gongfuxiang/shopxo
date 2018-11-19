@@ -363,20 +363,20 @@ a:focus {outline:0;text-decoration:none;}
 @media only screen and (max-width:641px) {.am-dropdown-content {border:0px;}
   header .tpl-header-list-user-nick {color:#fff;}
 }
-header {min-height:51px;background-color:#0e90d2 !important;border-color:#0b6fa2;color:#fff;}
+header {min-height:51px;background-color:#4386fb !important; border-color:#4386fb; color:#fff;}
 header .am-dropdown-content {border-radius:2px;}
 ul {margin-top:0;}
 .admin-header {position:fixed;top:0;left:0;right:0;z-index:1000;font-size:1.4rem;margin-bottom:0;}
 .admin-sidebar {width:260px;min-height:100%;float:left;border-right:1px solid #cecece;}
 .admin-sidebar.am-active {z-index:1600;}
 .admin-sidebar-list {margin-bottom:0;}
-.admin-sidebar-list li a {color:#5c5c5c;padding-left:24px;}
+.admin-sidebar-list li a {color:#b6b6b6;padding-left:24px;}
 .admin-sidebar-list li:first-child {border-top:none;}
-.admin-sidebar-sub {margin-top:0;margin-bottom:0;box-shadow:0 16px 8px -15px #e2e2e2 inset;background:#ececec;padding-left:24px;}
+.admin-sidebar-sub {margin-top:0;margin-bottom:0;box-shadow:0 16px 8px -15px #e2e2e2 inset;background:#404040;padding-left:24px;}
 .admin-sidebar-sub li:first-child {border-top:1px solid #dedede;}
 .admin-sidebar {height:100%;overflow-x:hidden;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
 @media only screen and (min-width:641px) {
-  .admin-sidebar {display:block;position:static;background:none;width:200px;z-index:1;}
+  .admin-sidebar {display:block;position:static;background:none;width:245px;z-index:1;}
   .admin-offcanvas-bar {position:static;width:auto;background:none;-webkit-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0);transform:translate3d(0,0,0);overflow-y:visible;min-height:100%;}
   .admin-offcanvas-bar:after {content:none;}
 }
@@ -393,9 +393,11 @@ ul {margin-top:0;}
 .content-right {overflow:auto;flex:1;-webkit-flex:1;}
 .content-right .content {padding:10px 10px 0 10px;}
 .admin-sidebar-list li a {padding:0.6rem 0 0.6rem 1.6rem;}
-.common-left-menu a:hover,.common-left-menu-active {background:#ececec;color:#333 !important;}
+.common-left-menu a:hover,.common-left-menu-active {background:#767778;color:#fff !important;}
 #ifcontent {border:0px;width:100%;overflow-x:hidden;}
 .am-table > tbody > tr > td {vertical-align:top;}
+.admin-offcanvas-bar, .admin-offcanvas-bar .am-list > li { background: #36373c; }
+.admin-offcanvas-bar .am-list > li { border: 1px solid #2e2e31; }
 
 /**
  * excel导入窗口

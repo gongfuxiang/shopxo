@@ -2,7 +2,6 @@
 
 namespace Api\Controller;
 
-use Service\BannerService;
 use Service\GoodsService;
 
 /**
@@ -42,61 +41,10 @@ class IndexController extends CommonController
 	 */
 	public function Index()
 	{
-		// 初始化数据
-		$result = array(
-			'username'				=> null,
-			'nickname'				=> null,
-			'cart_count'			=> 0,
-			'banner'				=> [],
-			'category'				=> [],
-			'customer_service_tel'  => MyC('common_customer_service_tel'),
-		);
-
-		if(!empty($this->user))
-		{
-			// 基础信息
-			$result['username'] = $this->user['username'];
-			$result['nickname'] = $this->user['nickname'];
-
-			// 购物车总数
-			$where = array('user_id'=>$this->user['id']);
-			$result['cart_count'] = intval(M('Cart')->where($where)->count());
-		}
-
-		// 轮播图片
-		$result['banner'] = BannerService::Home();
-
-		// 商品分类
-		$result['category'] = GoodsService::GoodsCategoryList();
+		$data = GoodsService::HomeFloorList();
 
 		// 返回数据
-		$this->ajaxReturn(L('common_operation_success'), 0, $result);
-	}
-
-	/**
-	 * [GoodsCategoryNav 商品分类导航]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  1.0.0
-	 * @datetime 2018-05-25T11:03:59+0800
-	 */
-	public function GoodsCategoryNav()
-	{
-		// 返回数据
-		$this->ajaxReturn(L('common_operation_success'), 0, GoodsService::GoodsCategoryList());
-	}
-
-	/**
-	 * [Banner 首页轮播]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  1.0.0
-	 * @datetime 2018-05-25T11:03:59+0800
-	 */
-	public function Banner()
-	{
-		// 返回数据
-		$this->ajaxReturn(L('common_operation_success'), 0, BannerService::Home());
+		$this->ajaxReturn(L('common_operation_success'), 0, $data);
 	}
 }
 ?>

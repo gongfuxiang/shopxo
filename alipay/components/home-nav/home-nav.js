@@ -5,7 +5,7 @@ Component({
   data: {
     data_list_loding_status: 1,
     data_bottom_line_status: false,
-    category_list: [],
+    data_list: [],
   },
   didMount() {
     this.init();
@@ -21,7 +21,7 @@ Component({
 
       // 加载loding
       my.httpRequest({
-        url: app.get_request_url("GoodsCategoryNav", "Index"),
+        url: app.get_request_url("HomeNav", "Resources"),
         method: "POST",
         data: {},
         dataType: "json",
@@ -29,7 +29,7 @@ Component({
           if (res.data.code == 0) {
             var data = res.data.data;
             this.setData({
-              category_list: data,
+              data_list: data,
               data_list_loding_status: data.length == 0 ? 0 : 3,
               data_bottom_line_status: true,
             });
@@ -57,6 +57,11 @@ Component({
           });
         }
       });
+    },
+
+    // 操作事件
+    nav_event(e) {
+      app.operation_event(e);
     },
   }
 });

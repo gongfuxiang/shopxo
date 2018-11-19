@@ -3,13 +3,13 @@
 namespace Admin\Controller;
 
 /**
- * 配置设置
+ * 支付宝小程序 - 配置
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class ConfigController extends CommonController
+class AppMiniAlipayConfigController extends CommonController
 {
 	/**
 	 * [_initialize 前置操作-继承公共前置方法]
@@ -39,18 +39,6 @@ class ConfigController extends CommonController
      */
 	public function Index()
 	{
-		// csv
-		$this->assign('common_excel_charset_list', L('common_excel_charset_list'));
-
-		// 扣除库存规则
-		$this->assign('common_deduction_inventory_rules_list', L('common_deduction_inventory_rules_list'));
-
-		// 是否
-		$this->assign('common_is_text_list', L('common_is_text_list'));
-
-		// 热门搜索关键字
-		$this->assign('common_search_keywords_type_list', L('common_search_keywords_type_list'));
-
 		// 配置信息
 		$data = M('Config')->getField('only_tag,name,describe,value,error_tips');
 		$this->assign('data', $data);

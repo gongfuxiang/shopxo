@@ -1,34 +1,39 @@
+<!-- 轮播 -->
 <component-home-banner />
-<component-goods-category-nav />
 
+<!-- 导航 -->
+<component-home-nav />
 
-  <!-- <view class="spacing-nav-title">
-    <text class="line"></text>
-    <text class="text-wrapper">商品分类</text>
-  </view>
-  <view class="category-list">
-    <view class="items bg-white" a:for="{{category_list}}" a:if="{{item.is_home_recommended == 1}}">
-      <navigator url="/pages/goods-search/goods-search?category_id={{item.id}}" hover-class="none">
-        <image class="wh-auto" src="{{item.big_images}}" mode="aspectFit" />
-        <view class="title tc single-text">{{item.name}}</view>
-      </navigator>
+<!-- 楼层数据 -->
+
+<block a:if="{{data_list.length > 0}}">
+  <view a:for="{{data_list}}" a:for-item="floor" class="floor">
+    <view class="nav-name">
+      {{floor.name}}
     </view>
-  </view> -->
+    <view class="floor-list" style="background-color:{{floor.bg_color}}">
+      <view class="floor-left">
+        <view class="vice-name">{{floor.vice_name}}</view>
+        <image src="{{floor.big_images}}" mode="aspectFit" />
+      </view>
+      <view class="goods-list" a:if="{{floor.goods.length > 0}}">
+        <view a:for="{{floor.goods}}" a:for-item="goods" class="goods">
+          <image src="{{goods.home_recommended_images}}" mode="aspectFit" />
+          <view class="goods-base">
+            <view class="goods-itle">{{goods.title}}</view>
+          </view>
+          
+        </view>
+      </view>
+    </view>
+  </view>
+</block>
 
-</view>
-<view a:if="{{category_list.length == 0}}">
-    <import src="/pages/common/nodata.axml" />
-    <template is="nodata" data="{{status: data_list_loding_status}}"></template>
-</view>
 
 <view a:if="{{load_status == 1}}" class="spacing-10">
   <navigator url="/pages/answer-form/answer-form" hover-class="none" class="bg-white">
     <image class="wh-auto" mode="widthFix" src="/images/home-consulting-image.jpg" />
   </navigator>
-</view>
-
-<view a:if="{{load_status == 1}}" class="customer-service" onTap="call_event">
-  <image src="/images/customer-service-icon.png" mode="scaleToFill" />
 </view>
 
 <import src="/pages/common/bottom_line.axml" />

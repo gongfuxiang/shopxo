@@ -9,7 +9,7 @@ Component({
     circular: true,
     data_list_loding_status: 1,
     data_bottom_line_status: false,
-    banner_list: [],
+    data_list: [],
   },
   props: {},
   didMount() {
@@ -27,7 +27,7 @@ Component({
 
       // 加载loding
       my.httpRequest({
-        url: app.get_request_url("Banner", "Index"),
+        url: app.get_request_url("HomeBanner", "Resources"),
         method: "POST",
         data: {},
         dataType: "json",
@@ -35,7 +35,7 @@ Component({
           if (res.data.code == 0) {
             var data = res.data.data;
             this.setData({
-              banner_list: data,
+              data_list: data,
               indicator_dots: (data.length > 1),
               autoplay: (data.length > 1),
               data_list_loding_status: data.length == 0 ? 0 : 3,
@@ -67,28 +67,9 @@ Component({
       });
     },
 
-    // 轮播图事件
+    // 操作事件
     banner_event(e) {
-      var value = e.target.dataset.value || null;
-      var type = parseInt(e.target.dataset.type);
-      if (value != null) {
-        switch(type) {
-          // web
-          case 0 :
-            my.navigateTo({url: '/pages/web-view/web-view?url='+value});
-            break;
-
-          // 内部页面
-          case 1 :
-            my.navigateTo({url: value});
-            break;
-
-          // 跳转到外部小程序
-          case 2 :
-            my.navigateToMiniProgram({appId: value});
-            break;
-        }
-      }
+      app.operation_event(e);
     },
   },
 });

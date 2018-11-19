@@ -2,6 +2,9 @@
 
 namespace Api\Controller;
 
+use Service\ResourcesService;
+use Service\BannerService;
+
 /**
  * 资源
  * @author   Devil
@@ -39,90 +42,33 @@ class ResourcesController extends CommonController
      */
     public function Express()
     {
-        // 条件
-        $where = ['is_enable' => 1];
-        // 获取数据
-        $field = 'id,name';
-        $data = M('Express')->where($where)->field($field)->order('id asc, sort asc')->select();
-        $this->ajaxReturn(L('common_operation_success'), 0, $data);
+        $this->ajaxReturn(L('common_operation_success'), 0, ResourcesService::ExpressList());
     }
 
     /**
-     * [Goods 获取物品类型]
+     * [HomeBanner 首页轮播]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
-     * @datetime 2018-04-08T15:08:01+0800
+     * @datetime 2018-05-25T11:03:59+0800
      */
-    public function Goods()
+    public function HomeBanner()
     {
-        // 条件
-        $where = ['is_enable' => 1];
-        // 获取数据
-        $field = 'id,name';
-        $data = M('Goods')->where($where)->field($field)->order('id asc, sort asc')->select();
-        $this->ajaxReturn(L('common_operation_success'), 0, $data);
+        // 返回数据
+        $this->ajaxReturn(L('common_operation_success'), 0, BannerService::App());
     }
 
     /**
-     * 购买服务介绍
+     * [HomeNav 首页导航]
      * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-06-12
-     * @desc    客户端购买服务页面介绍
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-05-25T11:03:59+0800
      */
-    public function ServiceBuyInit()
+    public function HomeNav()
     {
-        $data = [
-            'service_price'         => MyC('common_service_price'),
-            'service_buy_desc'      => MyC('common_service_buy_desc'),
-        ];
-        $this->ajaxReturn(L('common_operation_success'), 0, $data);
-    }
-
-    /**
-     * 获取json数据
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-06-07
-     * @desc    description
-     */
-    public function Shelves()
-    {
-        $data = $this->GetShelvesNodes('id,name');
-        if(!empty($data))
-        {
-            foreach($data as &$v)
-            {
-                unset($v['id']);
-                $v['subList'] = $this->GetShelvesNodes('name', $v['id']);
-            }
-        }
-          $this->ajaxReturn(L('common_operation_success'), 0, $data);
-    }
-
-    /**
-     * 获取货架节点数据列表
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-06-07
-     * @desc    description
-     * @param   string      $field [制定返回字段]
-     * @param   int         $pid   [父级id]
-     */
-    private function GetShelvesNodes($field, $pid = 0)
-    {
-        // 条件
-        $where = [
-            'is_enable'   => 1,
-            'pid'         => intval($pid),
-        ];
-
-        // 获取数据
-        return M('Shelves')->where($where)->field($field)->order('id asc, sort asc')->select();
+        // 返回数据
+        $this->ajaxReturn(L('common_operation_success'), 0, ResourcesService::AppHomeNav());
     }
 
 }

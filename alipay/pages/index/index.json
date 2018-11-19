@@ -1,7 +1,7 @@
 {
     "pullRefresh": true,
     "usingComponents": {
-        "component-goods-category-nav": "/components/goods-category-nav/goods-category-nav",
+        "component-home-nav": "/components/home-nav/home-nav",
         "component-home-banner": "/components/home-banner/home-banner"
     }
 }
