@@ -13,7 +13,7 @@
     </view>
     <view class="floor-list" style="background-color:{{floor.bg_color}}">
       <view class="floor-left">
-        <view class="vice-name">{{floor.vice_name}}</view>
+        <view class="vice-name">{{floor.describe}}</view>
         <image src="{{floor.big_images}}" mode="aspectFit" />
       </view>
       <view class="goods-list" a:if="{{floor.goods.length > 0}}">
