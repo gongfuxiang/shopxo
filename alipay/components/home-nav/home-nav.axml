@@ -1,5 +1,5 @@
 <view a:if="{{data_list.length > 0}}">
-  <view class="data-list">
+  <view class="data-list bg-white spacing-mb">
     <view class="items" a:for="{{data_list}}">
       <view class="items-content" style="background-color:{{item.bg_color}}" data-value="{{item.event_value}}" data-type="{{item.event_type}}" onTap="nav_event">
         <image class="wh-auto" src="{{item.images_url}}" mode="aspectFit" />

@@ -1,23 +1,16 @@
-.floor {
-    
-}
-.floor, .floor-list, .floor-left {
+.floor-list, .floor-left {
     overflow: hidden;
     position: relative;
 }
-.floor .nav-name {
-    font-size: 34rpx;
-    font-weight: 500;
-    text-align: center;
-    padding: 10rpx 0;
-}
 .floor .vice-name {
-    top: 20rpx;
-    left: 20rpx;
+    color: #fff;
+    margin-top: 20rpx;
+    padding: 0 10rpx;
+    font-size: 34rpx;
+    line-height: 48rpx;
 }
 .floor-left {
     width: 40%;
-    float: left;
     height: 660rpx;
 }
 .floor-left image {
@@ -27,32 +20,36 @@
 }
 
 
-.floor .vice-name,
 .floor-left image,
 .goods-list .goods:nth-child(1),
-.goods-list .goods:nth-child(2) {
+.goods-list .goods:nth-child(2),
+.goods-list .goods:nth-child(1) .goods-base,
+.goods-list .goods:nth-child(2) .goods-base {
     position: absolute;
 }
 
 .goods-list .goods {
-    height: 330rpx;
-    background-color: #fff;
     overflow: hidden;
 }
 .goods-list .goods image {
     width: 100%;
+    height: 330rpx;
 }
 .goods-list .goods:nth-child(1),
 .goods-list .goods:nth-child(2) {
     width: 60%;
+    height: 330rpx;
 }
 .goods-list .goods:nth-child(1) .goods-base,
 .goods-list .goods:nth-child(2) .goods-base {
-    float: left;
+    padding-left: 10rpx;
+    width: calc(40% - 10rpx);
+    bottom: 20rpx;
 }
 .goods-list .goods:nth-child(1) image,
 .goods-list .goods:nth-child(2) image {
     width: 60%;
+    height: 330rpx;
     float: right;
 }
 .goods-list .goods:nth-child(1) {
@@ -67,6 +64,17 @@
 .goods-list .goods:nth-child(4),
 .goods-list .goods:nth-child(5),
 .goods-list .goods:nth-child(6) {
-    margin-top: 330rpx;
     width: 50%;
+    height: 430rpx;
+    float: left;
+}
+.goods-list .goods-base {
+    padding: 0 10rpx;
+}
+.goods-base .goods-title {
+    line-height: 52rpx;
+    font-size: 32rpx;
+}
+.goods-base .sales-price {
+    font-size: 30rpx;
 }

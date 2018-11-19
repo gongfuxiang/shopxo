@@ -44,7 +44,8 @@ class GoodsService
      */
     public static function GoodsCategory($params = [])
     {
-        $data = self::GoodsCategoryList(['pid'=>0]);
+        $where = empty($params['where']) ? ['pid'=>0] : $params['where'];
+        $data = self::GoodsCategoryList($where);
         if(!empty($data))
         {
             foreach($data as &$v)
@@ -69,13 +70,13 @@ class GoodsService
      * @version 1.0.0
      * @date    2018-08-29
      * @desc    description
-     * @param   [array]          $params [输入参数]
+     * @param   [array]          $where [条件]
      */
-    public static function GoodsCategoryList($params = [])
+    public static function GoodsCategoryList($where = [])
     {
-        $pid = isset($params['pid']) ? intval($params['pid']) : 0;
+        $where['is_enable'] = 1;
         $field = 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended';
-        $data = M('GoodsCategory')->field($field)->where(['is_enable'=>1, 'pid'=>$pid])->order('sort asc')->select();
+        $data = M('GoodsCategory')->field($field)->where($where)->order('sort asc')->select();
         return self::GoodsCategoryDataDealWith($data);
     }
 
@@ -124,13 +125,14 @@ class GoodsService
     public static function HomeFloorList($params = [])
     {
         // 商品大分类
-        $goods_category = self::GoodsCategory();
+        $params['where'] = ['pid'=>0, 'is_home_recommended'=>1];
+        $goods_category = self::GoodsCategory($params);
         if(!empty($goods_category))
         {
             foreach($goods_category as &$v)
             {
                 $category_ids = self::GoodsCategoryItemsIds(['category_id'=>$v['id']]);
-                $v['goods'] = self::GoodsList(['where'=>['gci.category_id'=>['in', $category_ids], 'is_home_recommended'=>1], 'm'=>0, 'n'=>6, 'field'=>'g.title,g.title_color,g.images,g.home_recommended_images,g.original_price,g.price,g.inventory,g.buy_min_number,g.buy_max_number']);
+                $v['goods'] = self::GoodsList(['where'=>['gci.category_id'=>['in', $category_ids], 'is_home_recommended'=>1], 'm'=>0, 'n'=>6, 'field'=>'g.id,g.title,g.title_color,g.images,g.home_recommended_images,g.original_price,g.price,g.inventory,g.buy_min_number,g.buy_max_number']);
             }
         }
         return $goods_category;
