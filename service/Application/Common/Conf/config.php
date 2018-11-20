@@ -124,9 +124,6 @@ return array(
 
 	// 开启U带域名
 	'url_domain_deploy' 					=>  true,
-	
-	// 支付宝appid
-	'alipay_mini_appid'						=> '2018071160553916',
 
 	// 支付业务类型,支付插件根据业务类型自动生成支付入口文件
 	'payment_business_type_all'				=> [

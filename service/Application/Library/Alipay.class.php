@@ -47,7 +47,7 @@ class Alipay
     private function SoonPayApp($data, $config)
     {
         $parameter = array(
-            'app_id'                =>  C('alipay_mini_appid'),
+            'app_id'                =>  MyC('common_app_mini_alipay_appid'),
             'method'                =>  'alipay.trade.app.pay',
             'format'                =>  'JSON',
             'charset'               =>  'utf-8',
@@ -446,21 +446,6 @@ class Alipay
     }
 
     /**
-     * [SyncRsaVerify 同步返回签名验证]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2017-09-25T13:13:39+0800
-     * @param    [array]                   $data [返回数据]
-     * @param    [boolean]                 $key  [数据key]
-     */
-    private function SyncRsaVerify($data, $key)
-    {
-        $string = json_encode($data[$key], JSON_UNESCAPED_UNICODE);
-        return $this->AlipayRsaVerify($string, $data['sign']);
-    }
-
-    /**
      * [MyRsaSign 签名字符串]
      * @author   Devil
      * @blog     http://gong.gg/
@@ -471,32 +456,10 @@ class Alipay
      */
     private function MyRsaSign($prestr)
     {
-        $public_key = file_get_contents(ROOT_PATH.'Rsakeys/rsa_mini_private_key_pkcs8.pem');
-        $pkeyid = openssl_pkey_get_private($public_key);
-        return openssl_sign($prestr, $sign, $pkeyid, OPENSSL_ALGO_SHA256) ? base64_encode($sign) : null;
-    }
-
-    /**
-     * [AlipayRsaVerify 支付宝验证签名]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2017-09-24T08:39:50+0800
-     * @param    [string]                   $prestr [需要签名的字符串]
-     * @param    [string]                   $sign   [签名结果]
-     * @return   [boolean]                          [正确true, 错误false]
-     */
-    private function AlipayRsaVerify($prestr, $sign)
-    {
-        $sign = base64_decode($sign);
-        $public_key = file_get_contents(ROOT_PATH.'Rsakeys/rsa_alipay_mini_public_key.pem');
-        $pkeyid = openssl_pkey_get_public($public_key);
-        if($pkeyid)
-        {
-            $verify = openssl_verify($prestr, $sign, $pkeyid, OPENSSL_ALGO_SHA256);
-            openssl_free_key($pkeyid);
-        }
-        return (isset($verify) && $verify == 1) ? true : false;
+        $res = "-----BEGIN RSA PRIVATE KEY-----\n";
+        $res .= wordwrap(MyC('common_app_mini_alipay_rsa_private'), 64, "\n", true);
+        $res .= "\n-----END RSA PRIVATE KEY-----";
+        return openssl_sign($prestr, $sign, $res, OPENSSL_ALGO_SHA256) ? base64_encode($sign) : null;
     }
 
     /**
@@ -510,8 +473,10 @@ class Alipay
      */
     private function MyRsaDecrypt($content)
     {
-        $priKey = file_get_contents(ROOT_PATH.'Rsakeys/mini_private_key.pem');
-        $res = openssl_get_privatekey($priKey);
+        $res = "-----BEGIN PUBLIC KEY-----\n";
+        $res .= wordwrap(MyC('common_app_mini_alipay_rsa_public'), 64, "\n", true);
+        $res .= "\n-----END PUBLIC KEY-----";
+        $res = openssl_get_privatekey($res);
         $content = base64_decode($content);
         $result  = '';
         for($i=0; $i<strlen($content)/128; $i++)
@@ -522,6 +487,46 @@ class Alipay
         }
         openssl_free_key($res);
         return $result;
+    }
+
+    /**
+     * [OutRsaVerify 支付宝验证签名]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2017-09-24T08:39:50+0800
+     * @param    [string]                   $prestr [需要签名的字符串]
+     * @param    [string]                   $sign   [签名结果]
+     * @return   [boolean]                          [正确true, 错误false]
+     */
+    private function OutRsaVerify($prestr, $sign)
+    {
+        $res = "-----BEGIN PUBLIC KEY-----\n";
+        $res .= wordwrap(MyC('common_app_mini_alipay_out_rsa_public'), 64, "\n", true);
+        $res .= "\n-----END PUBLIC KEY-----";
+        $pkeyid = openssl_pkey_get_public($res);
+        $sign = base64_decode($sign);
+        if($pkeyid)
+        {
+            $verify = openssl_verify($prestr, $sign, $pkeyid, OPENSSL_ALGO_SHA256);
+            openssl_free_key($pkeyid);
+        }
+        return (isset($verify) && $verify == 1) ? true : false;
+    }
+
+    /**
+     * [SyncRsaVerify 同步返回签名验证]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2017-09-25T13:13:39+0800
+     * @param    [array]                   $data [返回数据]
+     * @param    [boolean]                 $key  [数据key]
+     */
+    private function SyncRsaVerify($data, $key)
+    {
+        $string = json_encode($data[$key], JSON_UNESCAPED_UNICODE);
+        return $this->OutRsaVerify($string, $data['sign']);
     }
 
     /**
@@ -582,7 +587,7 @@ class Alipay
     {
         // 请求参数
         $params = [
-            'app_id'            =>  C('alipay_mini_appid'),
+            'app_id'            =>  MyC('common_app_mini_alipay_appid'),
             'method'            =>  'alipay.open.app.qrcode.create',
             'charset'           =>  'utf-8',
             'format'            =>  'JSON',

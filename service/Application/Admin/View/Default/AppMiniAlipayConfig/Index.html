@@ -6,16 +6,33 @@
 		<!-- form start -->
 		<form class="am-form form-validation view-save" action="{{:U('Admin/AppMiniAlipayConfig/Save')}}" method="POST" request-type="ajax-url" request-value="{{:U('Admin/AppMiniAlipayConfig/Index')}}">
 			<div class="am-form-group">
-				<label>{{$data.home_app_mini_alipay_title.name}}</label>
-				<input type="text" name="{{$data.home_app_mini_alipay_title.only_tag}}" placeholder="{{$data.home_app_mini_alipay_title.name}}" data-validation-message="{{$data.home_app_mini_alipay_title.error_tips}}" class="am-radius" <present name="data"> value="{{$data.home_app_mini_alipay_title.value}}"</present> required />
+				<label>{{$data.common_app_mini_alipay_appid.name}}</label>
+				<input type="text" name="{{$data.common_app_mini_alipay_appid.only_tag}}" placeholder="{{$data.common_app_mini_alipay_appid.name}}" data-validation-message="{{$data.common_app_mini_alipay_appid.error_tips}}" class="am-radius" <present name="data"> value="{{$data.common_app_mini_alipay_appid.value}}"</present> required />
 			</div>
 			<div class="am-form-group">
-				<label>{{$data.home_app_mini_alipay_describe.name}}</label>
-				<input type="text" name="{{$data.home_app_mini_alipay_describe.only_tag}}" placeholder="{{$data.home_app_mini_alipay_describe.name}}" data-validation-message="{{$data.home_app_mini_alipay_describe.error_tips}}" class="am-radius" <present name="data"> value="{{$data.home_app_mini_alipay_describe.value}}"</present> required />
+				<label>{{$data.common_app_mini_alipay_rsa_public.name}}</label>
+				<textarea rows="3" name="{{$data.common_app_mini_alipay_rsa_public.only_tag}}" class="am-radius" placeholder="{{$data.common_app_mini_alipay_rsa_public.name}}" data-validation-message="{{$data.common_app_mini_alipay_rsa_public.error_tips}}"><present name="data">{{$data.common_app_mini_alipay_rsa_public.value}}</present></textarea>
 			</div>
 			<div class="am-form-group">
-				<label>{{$data.home_app_mini_alipay_customer_service_tel.name}}</label>
-				<input type="text" name="{{$data.home_app_mini_alipay_customer_service_tel.only_tag}}" placeholder="{{$data.home_app_mini_alipay_customer_service_tel.name}}" data-validation-message="{{$data.home_app_mini_alipay_customer_service_tel.error_tips}}" class="am-radius" <present name="data"> value="{{$data.home_app_mini_alipay_customer_service_tel.value}}"</present> />
+				<label>{{$data.common_app_mini_alipay_rsa_private.name}}</label>
+				<textarea rows="3" name="{{$data.common_app_mini_alipay_rsa_private.only_tag}}" class="am-radius" placeholder="{{$data.common_app_mini_alipay_rsa_private.name}}" data-validation-message="{{$data.common_app_mini_alipay_rsa_private.error_tips}}"><present name="data">{{$data.common_app_mini_alipay_rsa_private.value}}</present></textarea>
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_app_mini_alipay_out_rsa_public.name}}</label>
+				<textarea rows="3" name="{{$data.common_app_mini_alipay_out_rsa_public.only_tag}}" class="am-radius" placeholder="{{$data.common_app_mini_alipay_out_rsa_public.name}}" data-validation-message="{{$data.common_app_mini_alipay_out_rsa_public.error_tips}}"><present name="data">{{$data.common_app_mini_alipay_out_rsa_public.value}}</present></textarea>
+			</div>
+
+			<div class="am-form-group">
+				<label>{{$data.common_app_mini_alipay_title.name}}</label>
+				<input type="text" name="{{$data.common_app_mini_alipay_title.only_tag}}" placeholder="{{$data.common_app_mini_alipay_title.name}}" data-validation-message="{{$data.common_app_mini_alipay_title.error_tips}}" class="am-radius" <present name="data"> value="{{$data.common_app_mini_alipay_title.value}}"</present> required />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_app_mini_alipay_describe.name}}</label>
+				<input type="text" name="{{$data.common_app_mini_alipay_describe.only_tag}}" placeholder="{{$data.common_app_mini_alipay_describe.name}}" data-validation-message="{{$data.common_app_mini_alipay_describe.error_tips}}" class="am-radius" <present name="data"> value="{{$data.common_app_mini_alipay_describe.value}}"</present> required />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_app_mini_alipay_customer_service_tel.name}}</label>
+				<input type="text" name="{{$data.common_app_mini_alipay_customer_service_tel.only_tag}}" placeholder="{{$data.common_app_mini_alipay_customer_service_tel.name}}" data-validation-message="{{$data.common_app_mini_alipay_customer_service_tel.error_tips}}" class="am-radius" <present name="data"> value="{{$data.common_app_mini_alipay_customer_service_tel.value}}"</present> />
 			</div>
 			<div class="am-form-group">
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:L('common_form_loading_tips')}}'}">{{:L('common_operation_save')}}</button>
