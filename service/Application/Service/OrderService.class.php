@@ -557,9 +557,38 @@ class OrderService
                 $v['receive_city_name'] = ResourcesService::RegionName($v['receive_city']);
                 $v['receive_county_name'] = ResourcesService::RegionName($v['receive_county']);
 
-                // 时间
+                // 创建时间
                 $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
                 $v['add_time_date'] = date('Y-m-d', $v['add_time']);
+                $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
+
+                // 更新时间
+                $v['upd_time'] = date('Y-m-d H:i:s', $v['upd_time']);
+
+                // 确认时间
+                $v['confirm_time'] = empty($v['confirm_time']) ? null : date('Y-m-d H:i:s', $v['confirm_time']);
+
+                // 支付时间
+                $v['pay_time'] = empty($v['pay_time']) ? null : date('Y-m-d H:i:s', $v['pay_time']);
+
+                // 发货时间
+                $v['delivery_time'] = empty($v['delivery_time']) ? null : date('Y-m-d H:i:s', $v['delivery_time']);
+
+                // 完成时间
+                $v['success_time'] = empty($v['success_time']) ? null : date('Y-m-d H:i:s', $v['success_time']);
+
+                // 取消时间
+                $v['cancel_time'] = empty($v['cancel_time']) ? null : date('Y-m-d H:i:s', $v['cancel_time']);
+
+                // 空字段数据处理
+                if(empty($v['express_number']))
+                {
+                    $v['express_number'] = null;
+                }
+                if(empty($v['user_note']))
+                {
+                    $v['user_note'] = null;
+                }
                 
                 // 订单详情
                 if($is_items == 1)

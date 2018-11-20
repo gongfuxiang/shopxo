@@ -44,138 +44,33 @@ class OrderController extends CommonController
      */
     public function Index()
     {
-        $m = M('Order');
-
-        // 获取组织数据
+        // 分页
         $number = 10;
-        $page = intval(I('page', 1));
-        $where = $this->GetIndexWhere();
-        $total = $m->where($where)->count();
+        $page = max(1, isset($this->data_post['page']) ? intval($this->data_post['page']) : 1));
+
+        // 条件
+        $where = OrderService::UserOrderListWhere($this->data_post);
+
+        // 获取总数
+        $total = OrderService::OrderTotal($where);
         $page_total = ceil($total/$number);
         $start = intval(($page-1)*$number);
-        $field = '*';
-        $data = $m->where($where)->field($field)->limit($start, $number)->order('id desc')->select();
+
+        // 获取列表
+        $data_params = array(
+            'limit_start'   => $start,
+            'limit_number'  => $number,
+            'where'         => $where,
+        );
+        $data = OrderService::OrderList($data_params);
 
         // 返回数据
         $result = [
             'total'         =>  $total,
             'page_total'    =>  $page_total,
-            'data'          =>  $this->SetDataList($data),
+            'data'          =>  $data['data'],
         ];
         $this->ajaxReturn(L('common_operation_success'), 0, $result);
-    }
-
-    /**
-     * [GetIndexWhere  我的订单 - 条件]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2018-04-08T15:13:32+0800
-     */
-    private function GetIndexWhere()
-    {
-        $where = [
-            'user_id'           => $this->user['id'],
-            'is_delete_time'    => 0,
-        ];
-
-        // 状态
-        if(isset($this->data_post['status']) && strlen($this->data_post['status']) > 0 && in_array($this->data_post['status'], array_keys(L('common_order_user_status'))))
-        {
-            $where['status'] = intval($this->data_post['status']);
-        }
-
-        // 关键字
-        if(!empty($this->data_post['keywords']))
-        {
-            $like_keyword = array('like', '%'.$this->data_post['keywords'].'%');
-            $where[] = array(
-                    'receive_name'      => $like_keyword,
-                    'receive_tel'       => $like_keyword,
-                    'express_number'    => $like_keyword,
-                    '_logic'            => 'or',
-                );
-        }
-        return $where;
-    }
-
-    /**
-     * [SetDataList 数据处理]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2018-05-17T17:55:36+0800
-     * @param    [array]      $data     [组织数据]
-     * @return   [array]                [处理好的数据]
-     */
-    private function SetDataList($data)
-    {
-        if(!empty($data))
-        {
-            $image_host = C('IMAGE_HOST');
-            $common_order_user_status = L('common_order_user_status');
-            $common_order_pay_status = L('common_order_pay_status');
-            foreach($data as &$v)
-            {
-                // 确认时间
-                $v['confirm_time'] = empty($v['confirm_time']) ? null : date('Y-m-d H:i:s', $v['confirm_time']);
-
-                // 支付时间
-                $v['pay_time'] = empty($v['pay_time']) ? null : date('Y-m-d H:i:s', $v['pay_time']);
-
-                // 发货时间
-                $v['delivery_time'] = empty($v['delivery_time']) ? null : date('Y-m-d H:i:s', $v['delivery_time']);
-
-                // 完成时间
-                $v['success_time'] = empty($v['success_time']) ? null : date('Y-m-d H:i:s', $v['success_time']);
-
-                // 取消时间
-                $v['cancel_time'] = empty($v['cancel_time']) ? null : date('Y-m-d H:i:s', $v['cancel_time']);
-
-                // 创建时间
-                $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
-
-                // 更新时间
-                $v['upd_time'] = date('Y-m-d H:i:s', $v['upd_time']);
-
-                // 状态
-                $v['status_text'] = $common_order_user_status[$v['status']]['name'];
-
-                // 支付状态
-                $v['pay_status_text'] = $common_order_pay_status[$v['pay_status']]['name'];
-
-                // 快递公司
-                $v['express_name'] = ResourcesService::ExpressName($v['express_id']);
-                unset($v['express_id']);
-
-                // 收件人地址
-                $v['receive_province_name'] = ResourcesService::RegionName($v['receive_province']);
-                $v['receive_city_name'] = ResourcesService::RegionName($v['receive_city']);
-                $v['receive_county_name'] = ResourcesService::RegionName($v['receive_county']);
-
-                // 商品列表
-                $goods = M('OrderDetail')->where(['order_id'=>$v['id']])->select();
-                foreach($goods as &$vs)
-                {
-                    $vs['images'] = empty($vs['images']) ? null : $image_host.$vs['images'];
-                }
-                $v['goods'] = $goods;
-
-                // 描述
-                $v['describe'] = '共'.count($goods).'件 合计:￥'.$v['total_price'].'元';
-
-                // 空字段数据处理
-                if(empty($v['express_number']))
-                {
-                    $v['express_number'] = null;
-                }
-                if(empty($v['user_note']))
-                {
-                    $v['user_note'] = null;
-                }
-            }
-        }
-        return $data;
     }
 
     /**
