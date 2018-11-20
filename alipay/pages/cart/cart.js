@@ -126,7 +126,6 @@ Page({
         if (res.data.code == 0) {
           temp_data_list[index]['stock'] = buy_number
           this.setData({ data_list: temp_data_list });
-          my.showToast({ content: res.data.msg });
         } else {
           my.showToast({
             type: "fail",

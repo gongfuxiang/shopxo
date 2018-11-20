@@ -1,8 +1,8 @@
 {
-  "pages": ["pages/cart/cart",
+  "pages": [
     "pages/index/index",
     "pages/goods-category/goods-category",
-    
+    "pages/cart/cart",
     "pages/user/user",
     "pages/web-view/web-view",
     "pages/login/login",
