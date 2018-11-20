@@ -11,12 +11,16 @@
   </view>
 
   <view class="goods bg-white spacing-mb">
-      <view a:for="{{detail.goods}}" class="goods-item oh">
+      <view a:for="{{detail.items}}" class="goods-item oh">
         <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}">
           <image class="goods-image fl" src="{{item.images}}" mode="aspectFill" />
           <view class="goods-base">
             <view class="goods-title multi-text">{{item.title}}</view>
-            <view class="goods-attribute cr-888">{{item.attribute}}</view>
+            <block a:if="{{item.attribute != null}}">
+              <view class="goods-attribute cr-888" a:for="{{item.attribute}}" a:for-item="attr">
+                {{attr.attr_type_name}}:{{attr.attr_name}}
+              </view>
+            </block>
             <view class="oh goods-price">
               <text class="sales-price">￥{{item.price}}</text>
               <text a:if="{{item.original_price > 0}}" class="original-price">￥{{item.original_price}}</text>

@@ -83,27 +83,21 @@ class OrderController extends CommonController
      */
     public function Detail()
     {
-        if(empty($this->data_post['id']))
-        {
-            $this->ajaxReturn('详情id不能为空');
-        }
-
         // 条件
-        $where = [
-            'id'                => intval($this->data_post['id']),
-            'is_delete_time'    => 0,
-            'user_id'           => $this->user['id'],
-        ];
+        $where = OrderService::UserOrderListWhere($this->data_post);
 
-        // 获取数据
-        $data = M('Order')->where($where)->find();
-        if(empty($data))
+        // 获取列表
+        $data_params = array(
+            'limit_start'   => 0,
+            'limit_number'  => 1,
+            'where'         => $where,
+        );
+        $data = OrderService::OrderList($data_params);
+        if(!empty($data['data'][0]))
         {
-            $this->ajaxReturn(L('common_data_no_exist_error'));
+            $this->ajaxReturn(L('common_operation_success'), 0, $data['data'][0]);
         }
-
-        $result = $this->SetDataList([$data]);
-        $this->ajaxReturn(L('common_operation_success'), 0, $result[0]);
+        $this->ajaxReturn(L('common_not_data_tips'), -100);
     }
 
     /**

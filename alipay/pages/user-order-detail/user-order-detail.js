@@ -40,8 +40,9 @@ Page({
           self.setData({
             detail: data,
             detail_list:[
-              {name: "状态", value: data.status_text},
-              {name: "支付状态", value: data.pay_status_text},
+              {name: "订单单号", value: data.order_no},
+              {name: "状态", value: data.status_name},
+              {name: "支付状态", value: data.pay_status_name},
               {name: "单价", value: data.price},
               {name: "总价", value: data.total_price},
               {name: "优惠", value: data.preferential_price},
