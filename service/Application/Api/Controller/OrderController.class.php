@@ -46,7 +46,7 @@ class OrderController extends CommonController
     {
         // 分页
         $number = 10;
-        $page = max(1, isset($this->data_post['page']) ? intval($this->data_post['page']) : 1));
+        $page = max(1, isset($this->data_post['page']) ? intval($this->data_post['page']) : 1);
 
         // 条件
         $where = OrderService::UserOrderListWhere($this->data_post);
