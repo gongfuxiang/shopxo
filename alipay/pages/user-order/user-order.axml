@@ -12,10 +12,10 @@
         <view class="list-item bg-white spacing-mb" a:if="{{data_list.length > 0}}" a:for="{{data_list}}">
             <view class="item-base oh br-b">
                 <text class="cr-666">{{item.add_time}}</text>
-                <text class="fr cr-main">{{item.status_text}}</text>
+                <text class="fr cr-main">{{item.status_name}}</text>
             </view>
             <navigator url="/pages/user-order-detail/user-order-detail?id={{item.id}}">
-                <view a:for="{{item.goods}}" a:for-item="items" class="goods-item oh">
+                <view a:for="{{item.items}}" a:for-item="items" class="goods-item oh">
                     <image class="goods-image fl" src="{{items.images}}" mode="aspectFill" />
                     <view class="goods-base">
                         <view class="goods-title multi-text">{{items.title}}</view>

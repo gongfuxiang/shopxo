@@ -606,6 +606,9 @@ class OrderService
                     }
                     $v['items'] = $items;
                     $v['items_count'] = count($items);
+
+                    // 描述
+                    $v['describe'] = '共'.$v['items_count'].'件 合计:￥'.$v['total_price'].'元';
                 }
             }
         }
