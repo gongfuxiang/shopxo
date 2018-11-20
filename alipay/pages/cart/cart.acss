@@ -1,0 +1,60 @@
+/**
+ * 商品列表
+ */
+.goods-title {
+    line-height: 36rpx;
+}
+.goods-item {
+    padding: 20rpx 10rpx;
+    position: relative;
+}
+.goods-item:not(:last-child) {
+  border-bottom: 1px solid #eee;
+}
+.goods-title, .goods-attribute {
+    margin-bottom: 10rpx;
+}
+.goods-image {
+    width: 160rpx;
+    height: 160rpx;
+    margin-right: 20rpx;
+}
+.goods-base {
+  min-height: 160rpx;
+}
+.goods-price {
+    position: relative;
+}
+.buy-number {
+    margin-left: 20rpx;
+}
+
+/**
+ * 数量操作
+ */
+.number-content {
+    position: absolute;
+    right: 20rpx;
+    top: 120rpx;
+}
+.number-content button
+{
+    background: #eee;
+    height: 64rpx;
+    line-height: 64rpx;
+    font-weight: bold;
+    color: #666;
+}
+.number-content input {
+    width: 50px;
+    margin: 2rpx 10rpx 0 10rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    border-radius: 2px;
+}
+.number-content button,
+.number-content input
+{
+    border: 1px solid #ddd;
+    padding: 0;
+}

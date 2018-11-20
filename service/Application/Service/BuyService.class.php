@@ -175,6 +175,7 @@ class BuyService
             $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
             $v['attribute'] = empty($v['attribute']) ? null : json_decode($v['attribute'], true);
             $v['total_price'] = $v['stock']*$v['price'];
+            $v['buy_max_number'] = ($v['buy_max_number'] <= 0) ? $v['inventory']: $v['buy_max_number'];
         }
 
         return DataReturn(L('common_operation_success'), 0, $data);

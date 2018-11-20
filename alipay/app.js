@@ -42,6 +42,7 @@ App({
       "user_answer_list": "我的留言",
       "user": "用户中心",
       "goods_category": "分类",
+      "cart": "购物车",
     },
 
     // 请求地址

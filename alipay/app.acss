@@ -186,7 +186,7 @@ textarea {
 .sales-price {
     color: #f40;
     font-weight: bold;
-    font-size: 38rpx;
+    font-size: 32rpx;
 }
 .original-price {
     color: #ccc;

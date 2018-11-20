@@ -65,9 +65,6 @@
     right: 0;
     bottom: 0;
 }
-.item-base {
-    
-}
 .item-base, .item-describe, .item-operation {
     padding: 25rpx 10rpx 20rpx 10rpx;
 }
