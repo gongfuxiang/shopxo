@@ -1,14 +1,20 @@
 .content {
     border-left: 1px solid #eee;
-    height: 100vh;
-    box-sizing: border-box
-}
-.content-items .title {
-    font-size: 32rpx;
-    line-height: 68rpx;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding-bottom: 120rpx;
 }
 .content-items {
     float: left;
     width: calc(33.33% - 20rpx);
-    padding: 10rpx;
+    padding: 20rpx 10rpx;
+    text-align: center;
+}
+.content-items .text {
+    font-size: 28rpx;
+    line-height: 46rpx;
+}
+.content-items .icon {
+    width: 120rpx;
+    height: 120rpx;
 }

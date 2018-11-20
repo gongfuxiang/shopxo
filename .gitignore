@@ -8,8 +8,8 @@ temp
 Logs
 logs
 *.lock
-Upload
-upload
+#Upload
+#upload
 Cache
 cache
 .tea

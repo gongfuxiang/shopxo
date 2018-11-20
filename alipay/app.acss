@@ -22,7 +22,7 @@ textarea {
 /* 导航分割 */
 .spacing-nav-title {
     position: relative;
-    color: #ff6482;
+    color: #d2364c;
     text-align: center;
     background-color: #ffffff;
     height: 80rpx;
@@ -32,7 +32,7 @@ textarea {
     display: inline-block;
     width: 50%;
     height: 1px;
-    background: #ff6482;
+    background: #d2364c;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -104,7 +104,7 @@ textarea {
 .dis-none { display: none; }
 .dis-block { display: block; }
 
-.cr-main { color: #ff6482; }
+.cr-main { color: #d2364c; }
 .cr-666 { color: #666; }
 .cr-888 { color: #888; }
 .cr-ccc { color: #ccc; }
@@ -114,7 +114,7 @@ textarea {
     font-size: 38rpx;
     color: #fff;
     border: none;
-    background-color:#ff6482;
+    background-color:#d2364c;
     border-radius: 2px;
 }
 .my-btn-default.btn-disabled{
@@ -199,19 +199,19 @@ textarea {
     position: fixed;
     left: 0;
     bottom: 0;
-    background: #ff6482;
+    background: #d2364c;
     color: #fff;
     border: none;
     width: 100%;
 }
 
 .bg-main {
-    background: #ff6482;
+    background: #d2364c;
     color: #fff;
     border: 0;
 }
 .bg-active-main {
-    background: #ff6482 !important;
+    background: #d2364c !important;
     color: #fff !important;
 }
 

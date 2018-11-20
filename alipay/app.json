@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/goods-category/goods-category",
+    "pages/cart/cart",
     "pages/user/user",
     "pages/web-view/web-view",
     "pages/login/login",
@@ -23,7 +24,7 @@
   ],
   "window": {
     "defaultTitle": "ShopXO电商系统",
-    "titleBarColor": "#ff6482"
+    "titleBarColor": "#d2364c"
   },
   "tabBar": {
     "textColor": "#8a8a8a",
@@ -38,9 +39,15 @@
       },
       {
         "pagePath": "pages/goods-category/goods-category",
-        "icon": "/images/nav-icon-answer.png",
-        "activeIcon": "/images/nav-icon-answer-active.png",
+        "icon": "/images/nav-icon-category.png",
+        "activeIcon": "/images/nav-icon-category-active.png",
         "name": "分类"
+      },
+      {
+        "pagePath": "pages/cart/cart",
+        "icon": "/images/nav-icon-cart.png",
+        "activeIcon": "/images/nav-icon-cart-active.png",
+        "name": "购物车"
       },
       {
         "pagePath": "pages/user/user",

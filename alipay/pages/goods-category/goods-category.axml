@@ -1,21 +1,21 @@
-<view>
-  <vtabs
-    tabs="{{tabs}}"
-    onChange="change_event"
-    activeTab="{{tab_active}}"
-    tabBarActiveTextColor="{{tab_active_text_color}}"
-    tabBarlineColor="{{tab_active_line_color}}"
-  >
-    <block a:for="{{tabs}}">
-      <vtab-content anchor="{{item.anchor}}">
-        <view class="content">
-          <block a:if="{{content.items.length > 0}}">
-            <view a:for="{{content.items}}" a:for-item="v" class="content-items">
-              <view class="title single-text">{{v.name}}</view>
-            </view>
+<vtabs
+  tabs="{{data_list}}"
+  onTabClick="handle_event"
+  onChange="change_event"
+  activeTab="{{tab_active}}"
+  tabBarActiveTextColor="{{tab_active_text_color}}"
+  tabBarlineColor="{{tab_active_line_color}}"
+>
+  <block a:for="{{data_list}}">
+    <vtab-content anchor="{{item.anchor}}">
+      <view class="content">
+        <block a:if="{{item.items.length > 0}}">
+          <view a:for="{{item.items}}" a:for-item="v" class="content-items" data-value="{{vs.id}}" onTap="category_event">
+            <image a:if="{{v.icon != null}}" src="{{v.icon}}" mode="aspectFit" class="icon" />
+            <view class="text single-text">{{v.name}}</view>
           </view>
-        </view>
-      </vtab-content>
-    </block>
-  </vtabs>
-</view>
+        </block>
+      </view>
+    </vtab-content>
+  </block>
+</vtabs>
