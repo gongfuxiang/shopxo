@@ -1,5 +1,4 @@
 const app = getApp();
-
 Page({
   data: {
     data_list_loding_status: 1,
@@ -53,7 +52,7 @@ Page({
     var params = this.data.params;
     params['page'] = this.data.data_page;
     my.httpRequest({
-      url: app.get_request_url("Index", "GoodsSearch"),
+      url: app.get_request_url("Index", "Search"),
       method: "POST",
       data: params,
       dataType: "json",

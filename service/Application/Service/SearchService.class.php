@@ -55,7 +55,7 @@ class SearchService
     {
         $result = [
             'page_total'    => 0,
-            'total'         => 450,
+            'total'         => 0,
             'data'          => [],
         ];
         $where = [

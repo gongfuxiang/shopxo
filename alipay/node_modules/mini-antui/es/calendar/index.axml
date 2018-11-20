@@ -1,0 +1,47 @@
+<view class="am-calendar {{className}}" a:if="{{dates.length > 0}}">
+  <view class="am-calendar-months">
+    <view class="am-calendar-prev-month" onTap="onPrevMonthTap">
+      <view class="am-calendar-arrow"></view>
+    </view>
+    <view class="am-calendar-selected-month">{{selectedYear}}年{{selectedMonth + 1}}月</view>
+    <view class="am-calendar-next-month" onTap="onNextMonthTap">
+      <view class="am-calendar-arrow next"></view>
+    </view>
+  </view>
+  <view class="am-calendar-days">
+    <block a:for="{{['日', '一', '二', '三', '四', '五', '六']}}">
+      <view class="am-calendar-day">{{item}}</view>
+    </block>
+  </view>
+  <view class="am-calendar-dates">
+    <block a:for="{{dates}}">
+      <view class="am-calendar-week">
+        <block a:for="{{item}}">
+          <view
+            class="am-calendar-date-wrap
+              {{ item.isSelected ? 'am-calendar-selected': '' }}
+              {{ item.isStart ? 'am-calendar-start': '' }}
+              {{ item.isMiddle ? 'am-calendar-middle': '' }}
+              {{ item.isEnd ? 'am-calendar-end': '' }}
+              {{ item.disable ? 'am-calendar-disable': '' }}
+              {{ type === 'range' ? 'is-range' : '' }}"
+            data-year="{{item.year}}"
+            data-month="{{item.month}}"
+            data-date="{{item.date}}"
+            onTap="onDateTap"
+          >
+            <view
+              class="am-calendar-block {{ blockType === 2 ? 'has-tag': '' }}"
+            ></view>
+            <view
+              class="am-calendar-date {{ item.isGray ? 'am-calendar-gray': '' }} {{ item.isToday ? 'am-calendar-today': ''}}"
+            >{{item.date}}</view>
+            <view class="am-calendar-tag" style="{{
+              color: item.isSelected || item.isMiddle || item.isStart || item.isEnd ? '#fff' : (item.disable ? '#999' : item.color)
+            }}">{{item.disable ? 'disable' : item.tag}}</view>
+          </view>
+        </block>
+      </view>
+    </block>
+  </view>
+</view>

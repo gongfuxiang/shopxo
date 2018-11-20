@@ -12,10 +12,12 @@
       <text class="text-wrapper">{{floor.name}}</text>
     </view>
     <view class="floor-list" style="background-color:{{floor.bg_color}}">
-      <view class="floor-left">
-        <view class="vice-name">{{floor.describe}}</view>
-        <image src="{{floor.big_images}}" mode="aspectFit" />
-      </view>
+      <navigator url="/pages/goods-search/goods-search?category_id={{floor.id}}" hover-class="none">
+        <view class="floor-left">
+          <view class="vice-name">{{floor.describe}}</view>
+          <image src="{{floor.big_images}}" mode="aspectFit" />
+        </view>
+      </navigator>
       <view class="goods-list" a:if="{{floor.goods.length > 0}}">
         <view a:for="{{floor.goods}}" a:for-item="goods" class="goods bg-white">
           <navigator url="/pages/goods-detail/goods-detail?goods_id={{goods.id}}" hover-class="none">
@@ -30,6 +32,10 @@
     </view>
   </view>
 </block>
+<view a:if="{{data_list.length == 0}}">
+  <import src="/pages/common/nodata.axml" />
+  <template is="nodata" data="{{status: data_list_loding_status}}"></template>
+</view>
 
 <!-- 留言 -->
 <view a:if="{{load_status == 1}}" class="spacing-10">

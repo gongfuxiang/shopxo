@@ -4,6 +4,7 @@ namespace Api\Controller;
 
 use Service\ResourcesService;
 use Service\BannerService;
+use Service\GoodsService;
 
 /**
  * 资源
@@ -54,7 +55,6 @@ class ResourcesController extends CommonController
      */
     public function HomeBanner()
     {
-        // 返回数据
         $this->ajaxReturn(L('common_operation_success'), 0, BannerService::App());
     }
 
@@ -67,8 +67,19 @@ class ResourcesController extends CommonController
      */
     public function HomeNav()
     {
-        // 返回数据
         $this->ajaxReturn(L('common_operation_success'), 0, ResourcesService::AppHomeNav());
+    }
+
+    /**
+     * [GoodsCategory 商品分类]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-05-25T11:03:59+0800
+     */
+    public function GoodsCategory()
+    {
+        $this->ajaxReturn(L('common_operation_success'), 0, GoodsService::GoodsCategory());
     }
 
 }

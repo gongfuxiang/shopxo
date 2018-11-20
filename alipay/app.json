@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/goods-category/goods-category",
     "pages/user/user",
     "pages/web-view/web-view",
     "pages/login/login",
@@ -26,7 +27,7 @@
   },
   "tabBar": {
     "textColor": "#8a8a8a",
-    "selectedColor": "#ff6482",
+    "selectedColor": "#d2364c",
     "backgroundColor": "#fff",
     "items": [
       {
@@ -36,7 +37,7 @@
         "name": "首页"
       },
       {
-        "pagePath": "pages/answer-list/answer-list",
+        "pagePath": "pages/goods-category/goods-category",
         "icon": "/images/nav-icon-answer.png",
         "activeIcon": "/images/nav-icon-answer-active.png",
         "name": "分类"

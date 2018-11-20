@@ -1,0 +1,14 @@
+.content {
+    border-left: 1px solid #eee;
+    height: 100vh;
+    box-sizing: border-box
+}
+.content-items .title {
+    font-size: 32rpx;
+    line-height: 68rpx;
+}
+.content-items {
+    float: left;
+    width: calc(33.33% - 20rpx);
+    padding: 10rpx;
+}

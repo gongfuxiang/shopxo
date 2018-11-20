@@ -1,0 +1,95 @@
+.am-amount {
+  box-sizing: border-box;
+  height: 173px;
+  width: 100%;
+  padding: 16px;
+  background: #fff;
+}
+
+.am-amount-title {
+  height: 24px;
+  line-height: 24px;
+  color: #333;
+  font-size: 17px;
+}
+
+.am-amount-synthetic {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+}
+
+.am-amount-input {
+  margin-top: 16px;
+  padding-bottom: 16px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 48px;
+  position: relative;
+  line-height: 48px;
+  border-bottom: 1rpx solid #eee;
+}
+
+.am-amount-symbol {
+  width: 18px;
+  font-family: PingFang SC;
+  font-size: 30px;
+  color: #333;
+}
+
+.am-amount-placeholder {
+  margin-left: 6px;
+  color: #ccc;
+  font-size: 24px;
+}
+
+.am-amount-value {
+  padding: 0 0 0 24px;
+  box-sizing: border-box;
+  z-index: 2;
+  height: 48px;
+  line-height: 48px;
+  vertical-align: middle;
+  background-color: transparent;
+  font-size: 48px;
+  font-weight: 500;
+}
+
+.am-amount-clear {
+  visibility: hidden;
+  width: 28px;
+  height: 28px;
+}
+
+.am-amount-clear icon {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.am-amount-clear-show {
+  visibility: visible;
+}
+
+.am-amount-footer {
+  padding: 16px 0;
+  display: flex;
+}
+
+.am-amount-extra {
+  flex: 1;
+  height: 20px;
+  line-height: 20px;
+  color: #999;
+  font-size: 14px;
+}
+
+.am-amount-btn {
+  width: 120px;
+  text-align: right;
+  color: #108ee9;
+  font-size: 14px;
+}

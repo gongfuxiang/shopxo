@@ -1,0 +1,33 @@
+.am-message {
+  background-color: #fff;
+  border-bottom: 1rpx solid #eeeeee;
+  margin-bottom: 30px;
+  padding: 30px 15px;
+  text-align: center;
+  height: 199px;
+  box-sizing: border-box;
+}
+.am-message .am-icon {
+  display: block;
+}
+.am-message-main {
+  font-size: 20px;
+  margin: 16px 0 9px;
+  line-height: 28px;
+}
+.am-message-sub {
+  padding: 0 30px;
+  font-size: 14px;
+  line-height: 19px;
+  margin-top: 6px;
+  color: #999;
+}
+.am-button-wrap{
+  padding: 0 15px;
+}
+.am-button-wrap .a-button {
+  margin-bottom: 15px;
+}
+.am-button-wrap .a-button:last-child {
+  margin-bottom: 0;
+}

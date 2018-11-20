@@ -1,0 +1,72 @@
+.am-card {
+  display: flex;
+  background-color: #fff;
+  border-radius: 4px;
+  margin: 6px 10px;
+  align-items: center;
+  min-height: 81px;
+  flex-direction: column;
+  padding: 0 16px;
+}
+
+.am-card.am-card-active {
+  background: #D9D9D9;
+}
+
+.am-card-body {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 16px 0;
+}
+
+.am-card-content {
+  flex: 1;
+  min-width: 100px;
+}
+
+.am-card-title {
+  font-size: 18px;
+  line-height: 25px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.am-card-subtitle {
+  font-size: 14px;
+  line-height: 20px;
+  color: #999;
+  margin-bottom: 2px;
+}
+
+.am-card-thumb {
+  margin-right: 10px;
+  width: 48px;
+  height: 48px;
+  border-radius: 2px;
+}
+
+.am-card-arrow {
+  width: 13px;
+  height: 13px;
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAaCAYAAAC+aNwHAAAAkElEQVR4AWJwL/BhAJRWByYAgkAUhmdpkDZxlJZqD9UpXCPyBUTEga9+4IkI94F1XaWUTdH+a67inPOhjP2OgD+IFoTcm1GY3khrbfGAGFG6kBmAkPCw1rq6iBYb0VkEzJD+hHQWAz6iJBtQdP8YiQEbUQNiAF0BP0T+Gnkj8VbmHxMq5gOFjzQ+VPlYxz+WEyrVzhdMcxADAAAAAElFTkSuQmCC") center center no-repeat;
+  background-size: 8px 13px;
+}
+
+.am-card-footer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  border-top: 1rpx solid #eee;
+  padding: 10px 0;
+  margin: -4px 0 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: #999;
+}
+
+.am-card-footer image {
+  width: 14px;
+  height: 14px;
+  margin-right: 4px;
+}
