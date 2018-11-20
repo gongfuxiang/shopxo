@@ -87,10 +87,11 @@ Page({
 
   // 数量处理方法
   goods_buy_number_func(index, buy_number) {
-    var buy_min_number = parseInt(this.data.data_list[index]['buy_min_number']) || 1;
-    var buy_max_number = parseInt(this.data.data_list[index]['buy_max_number']) || 0;
-    var inventory = parseInt(this.data.data_list[index]['inventory']);
-    var inventory_unit = this.data.data_list[index]['inventory_unit'];
+    var temp_data_list = this.data.data_list;
+    var buy_min_number = parseInt(temp_data_list['buy_min_number']) || 1;
+    var buy_max_number = parseInt(temp_data_list['buy_max_number']) || 0;
+    var inventory = parseInt(temp_data_list['inventory']);
+    var inventory_unit = temp_data_list['inventory_unit'];
     if (buy_number < buy_min_number) {
       buy_number = buy_min_number;
       if (buy_min_number > 1) {
@@ -109,7 +110,6 @@ Page({
       return false;
     }
 
-    var temp_data_list = this.data.data_list;
     if (temp_data_list[index]['stock'] == 1 && buy_number == 1)
     {
       return false;
@@ -124,7 +124,7 @@ Page({
       success: res => {
         my.stopPullDownRefresh();
         if (res.data.code == 0) {
-          temp_data_list[index]['stock'] = buy_number
+          temp_data_list[index]['stock'] = buy_number;
           this.setData({ data_list: temp_data_list });
         } else {
           my.showToast({
