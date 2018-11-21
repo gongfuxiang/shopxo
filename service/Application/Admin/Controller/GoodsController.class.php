@@ -102,7 +102,7 @@ class GoodsController extends CommonController
 				$v['category_text'] = implode('，', $category_name);
 
 				// 产地
-				$v['place_origin_text'] = M('Region')->where(['id'=>$v['place_origin']])->getField('name');
+				$v['place_origin_name'] = ResourcesService::RegionName($v['place_origin']);
 
 				// 品牌
 				$v['brand_name'] = empty($v['brand_id']) ? null : M('Brand')->where(['id'=>$v['brand_id']])->getField('name');

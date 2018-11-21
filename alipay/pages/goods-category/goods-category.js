@@ -7,16 +7,11 @@ Page({
     data_list_loding_status: 1,
     data_bottom_line_status: false,
     data_list: [],
-    params: null,
-  },
-
-  onLoad(params) {
-    this.setData({params: params});
-    this.init();
   },
 
   onShow() {
     my.setNavigationBar({title: app.data.common_pages_title.goods_category});
+    this.init();
   },
 
   // 获取数据
@@ -30,7 +25,7 @@ Page({
     my.httpRequest({
       url: app.get_request_url("GoodsCategory", "Resources"),
       method: "POST",
-      data: this.data.params,
+      data: {},
       dataType: "json",
       success: res => {
         my.stopPullDownRefresh();

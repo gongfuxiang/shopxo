@@ -196,6 +196,7 @@ class GoodsService
 
         $is_photo = (isset($params['is_photo']) && $params['is_photo'] == true) ? true : false;
         $is_attribute = (isset($params['is_attribute']) && $params['is_attribute'] == true) ? true : false;
+        $is_content_app = (isset($params['is_content_app']) && $params['is_content_app'] == true) ? true : false;
         $is_category = (isset($params['is_category']) && $params['is_category'] == true) ? true : false;
 
         $m = isset($params['m']) ? intval($params['m']) : 0;
@@ -242,7 +243,7 @@ class GoodsService
                 // 产地
                 if(!empty($v['place_origin']))
                 {
-                    $v['place_origin_text'] = M('Region')->where(['id'=>$v['place_origin']])->getField('name');
+                    $v['place_origin_name'] = ResourcesService::RegionName($goods['place_origin']);
                 }
 
                 // 时间
@@ -281,7 +282,40 @@ class GoodsService
                 {
                     $v['attribute'] = self::GoodsAttribute(['goods_id'=>$v['id']]);
                 }
+
+                // 获取app内容
+                if($is_content_app && !empty($v['id']))
+                {
+                    $v['content_app'] = self::GoodsContentApp(['goods_id'=>$v['id']]);
+                }
             }
+        }
+        return $data;
+    }
+
+    /**
+     * 获取商品手机详情
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-07-10
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     * @return  [array]                  [app内容]
+     */
+    public static function GoodsContentApp($params = [])
+    {
+        $data = M('GoodsContentApp')->where(['goods_id'=>$params['goods_id']])->field('id,images,content')->order('sort asc')->select();
+        if(!empty($data))
+        {
+            $images_host = C('IMAGE_HOST');
+            foreach($data as &$v)
+            {
+                $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
+                $v['content'] = empty($v['content']) ? null : explode("\n", $v['content']);
+            }
+        } else {
+            $data = [];
         }
         return $data;
     }
@@ -348,6 +382,7 @@ class GoodsService
         $temp = $m->where($data)->find();
         if(empty($temp))
         {
+            // 添加收藏
             $data['add_time'] = time();
             if($m->add($data) > 0)
             {
@@ -360,6 +395,17 @@ class GoodsService
                 return DataReturn(L('common_favor_error'));
             }
         } else {
+            // 是否强制收藏
+            if(isset($params['is_mandatory_favor']) && $params['is_mandatory_favor'] == 1)
+            {
+                return DataReturn(L('common_favor_success'), 0, [
+                    'text'      => L('common_favor_ok_text'),
+                    'status'    => 1,
+                    'count'     => self::GoodsFavorTotal(['goods_id'=>$data['goods_id']]),
+                ]);
+            }
+
+            // 删除收藏
             if($m->where($data)->delete() > 0)
             {
                 return DataReturn(L('common_cancel_success'), 0, [

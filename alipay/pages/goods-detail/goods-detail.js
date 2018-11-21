@@ -22,10 +22,11 @@ Page({
     goods_favor_icon: '/images/goods-detail-favor-icon-0.png',
     temp_attribute_active: {},
     temp_buy_number: 1,
+    buy_event_type: 'buy',
   },
 
   onLoad(params) {
-    //params['goods_id']=1;
+    //params['goods_id']=16;
     this.setData({params: params});
     this.init();
   },
@@ -70,16 +71,16 @@ Page({
           if (res.data.code == 0) {
             var data = res.data.data;
             self.setData({
-              goods: data.goods,
+              goods: data,
               indicator_dots: (data.photo.length > 1),
               autoplay: (data.photo.length > 1),
               goods_photo: data.photo,
               goods_attribute_show: data.attribute.show || [],
               goods_attribute_choose: data.attribute.choose || [],
               goods_content_app: data.content_app,
-              temp_buy_number: (data.goods.buy_min_number) || 1,
-              goods_favor_text: (data.goods.is_favor == 1) ? '已收藏' : '收藏',
-              goods_favor_icon: '/images/goods-detail-favor-icon-'+data.goods.is_favor+'.png',
+              temp_buy_number: (data.buy_min_number) || 1,
+              goods_favor_text: (data.is_favor == 1) ? '已收藏' : '收藏',
+              goods_favor_icon: '/images/goods-detail-favor-icon-'+data.is_favor+'.png',
               data_bottom_line_status: true,
               data_list_loding_status: 3,
             });
@@ -134,9 +135,14 @@ Page({
     });
   },
 
+  // 加入购物车
+  cart_submit_event(e) {
+    this.setData({ popup_status: '', buy_event_type: 'cart' });
+  },
+
   // 立即购买
   buy_submit_event(e) {
-    this.setData({popup_status: ''});
+    this.setData({ popup_status: '', buy_event_type: 'buy'});
   },
 
   // 收藏事件
@@ -151,24 +157,78 @@ Page({
         });
         return false;
       } else {
-        var self = this;
         my.showLoading({content: '处理中...'});
 
         my.httpRequest({
           url: app.get_request_url('Favor', 'Goods'),
           method: 'POST',
-          data: {goods_id: self.data.goods.id},
+          data: {"id": this.data.goods.id},
           dataType: 'json',
           success: (res) => {
             my.hideLoading();
             if(res.data.code == 0)
             {
-              var status = (self.data.goods.is_favor == 1) ? 0 : 1;
+              var status = (this.data.goods.is_favor == 1) ? 0 : 1;
               this.setData({
                 'goods.is_favor': status,
                 goods_favor_text: (status == 1) ? '已收藏' : '收藏',
                 goods_favor_icon: '/images/goods-detail-favor-icon-'+status+'.png'
               });
+              my.showToast({
+                type: 'success',
+                content: res.data.msg
+              });
+            } else {
+              my.showToast({
+                type: 'fail',
+                content: res.data.msg
+              });
+            }
+          },
+          fail: () => {
+            my.hideLoading();
+
+            my.showToast({
+              type: 'fail',
+              content: '服务器请求出错'
+            });
+          }
+        });
+      }
+    }
+  },
+
+  // 加入购物车事件
+  goods_cart_event(e) {
+    var user = app.GetUserInfo(this, 'goods_cart_event');
+    if (user != false) {
+      // 用户未绑定用户则转到登录页面
+      if ((user.mobile || null) == null) {
+        my.navigateTo({
+          url: "/pages/login/login?event_callback=init"
+        });
+        return false;
+      } else {
+        var attribute_all_cart = {};
+        var temp_attribute_active = this.data.temp_attribute_active;
+        if (app.get_length(temp_attribute_active) > 0)
+        {
+          var goods_attribute_choose = this.data.goods_attribute_choose;
+          for (var i in temp_attribute_active) {
+            attribute_all_cart[goods_attribute_choose[i]['id']] = goods_attribute_choose[i]['find'][temp_attribute_active[i]]['id'];
+          }
+        }
+        my.showLoading({ content: '处理中...' });
+
+        my.httpRequest({
+          url: app.get_request_url('Save', 'Cart'),
+          method: 'POST',
+          data: { "goods_id": this.data.goods.id, "stock": this.data.temp_buy_number, "attr": JSON.stringify(attribute_all_cart) },
+          dataType: 'json',
+          success: (res) => {
+            my.hideLoading();
+            if (res.data.code == 0) {
+              this.popup_close_event();
               my.showToast({
                 type: 'success',
                 content: res.data.msg
@@ -256,7 +316,7 @@ Page({
     this.setData({temp_buy_number: buy_number});
   },
 
-  // 购买确认
+  // 确认
   goods_buy_confirm_event(e) {
     var user = app.GetUserInfo(this, 'goods_buy_confirm_event');
     if (user != false) {
@@ -289,19 +349,36 @@ Page({
             }
           }
         }
+        
+        // 操作类型
+        switch (this.data.buy_event_type) {
+          case 'buy' :
+            // 进入订单确认页面
+            var data = [{
+              "goods_id": this.data.goods.id,
+              "buy_number": this.data.temp_buy_number,
+              "attribute": attribute_all.join(',')
+            }]
+            my.navigateTo({
+              url: '/pages/buy/buy?data=' + JSON.stringify(data)
+            });
+            break;
 
-        // 进入订单确认页面
-        var data = [{
-          "goods_id": this.data.goods.id,
-          "buy_number": this.data.temp_buy_number,
-          "attribute": attribute_all.join(',')
-        }]
-        my.navigateTo({
-          url: '/pages/buy/buy?data='+JSON.stringify(data)
-        });
+          case 'cart' :
+            this.goods_cart_event();
+            break;
+
+          default :
+            my.showToast({
+              type: "fail",
+              content: "操作事件类型有误"
+            });
+        }
       }
     }
   },
+
+
 
   // 详情图片查看
   goods_detail_images_view_event(e) {

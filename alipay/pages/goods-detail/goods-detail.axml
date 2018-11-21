@@ -71,7 +71,8 @@
       <text class="dis-block cr-888">{{goods_favor_text}}</text>
     </view>
     <view class="fr">
-      <button class="bg-main" type="default" onTap="buy_submit_event" hover-class="none">立即预约</button>
+      <button class="bg-warning fl" type="default" onTap="cart_submit_event" hover-class="none">加入购物车</button>
+      <button class="bg-main fl" type="default" onTap="buy_submit_event" hover-class="none">立即购买</button>
     </view>
   </view>
 

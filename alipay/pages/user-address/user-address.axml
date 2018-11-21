@@ -13,8 +13,8 @@
       </view>
       <view class="operation br-t oh">
         <view class="default fl" onTap="address_default_event" data-value="{{item.id}}">
-          <image a:if="{{is_default == item.id}}" class="item-icon" src="/images/address-select-active-icon.png" mode="widthFix" />
-          <image a:else class="item-icon" src="/images/address-select-icon.png" mode="widthFix" />
+          <image a:if="{{is_default == item.id}}" class="item-icon" src="/images/default-select-active-icon.png" mode="widthFix" />
+          <image a:else class="item-icon" src="/images/default-select-icon.png" mode="widthFix" />
           <text>设为默认地址</text>
         </view>
         <button class="fr cr-666 delete-submit" type="default" size="mini" onTap="address_delete_event" data-index="{{index}}" data-value="{{item.id}}" hover-class="none">删除</button>

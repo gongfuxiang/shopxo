@@ -21,7 +21,7 @@ return array(
 	'goods_category_id_text'			=>	'商品分类',
 	'goods_category_id_format'			=>	'请至少选择一个商品分类',
 
-	'goods_place_origin_text'			=>	'生产地',
+	'goods_place_origin_name'			=>	'生产地',
 	'goods_place_origin_format'			=>	'请选择生产地',
 
 	'goods_inventory_text'				=>	'库存数量',

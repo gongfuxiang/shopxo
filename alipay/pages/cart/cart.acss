@@ -1,12 +1,15 @@
 /**
  * 商品列表
  */
-.goods-title {
-    line-height: 36rpx;
+ .page {
+  padding-bottom: 120rpx;
 }
 .goods-item {
     padding: 20rpx 10rpx;
     position: relative;
+}
+.goods-title {
+    line-height: 36rpx;
 }
 .goods-item:not(:last-child) {
   border-bottom: 1px solid #eee;
@@ -28,6 +31,12 @@
 .buy-number {
     margin-left: 20rpx;
 }
+.goods-item .items {
+  padding-left: 80rpx;
+}
+.goods-item .selected {
+  margin-top: 60rpx;
+}
 
 /**
  * 数量操作
@@ -35,7 +44,7 @@
 .number-content {
     position: absolute;
     right: 20rpx;
-    top: 120rpx;
+    top: 100rpx;
 }
 .number-content button
 {
@@ -57,4 +66,67 @@
 {
     border: 1px solid #ddd;
     padding: 0;
+}
+
+/**
+ * 空购物车
+ */
+.no-data-box {
+  padding: 30% 0 0 0;
+}
+.no-data-box image {
+    width: 160rpx;
+    margin-bottom: 20rpx;
+}
+.no-data-box .no-data-tips {
+    font-size: 28rpx;
+    color: #a6a6a6;
+}
+.no-data-box button {
+  margin: 0 auto;
+  width: 220rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 28rpx;
+  margin-top: 30rpx;
+}
+
+/**
+ * 操作导航
+ */
+.buy-nav {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+.buy-nav, .nav-base, .nav-submit button {
+    height: 100rpx;
+}
+.nav-base, .nav-submit button {
+    line-height: 100rpx;
+}
+.nav-base {
+    width: calc(75% - 20rpx);
+    padding: 0 10rpx;
+}
+.nav-submit {
+    width: 25%;
+}
+.nav-submit button {
+    border-radius: 0;
+}
+.page {
+    padding-bottom: 120rpx;
+}
+.selected .icon {
+    width: 50rpx;
+    height: 50rpx !important;
+    margin: 0 10rpx;
+    vertical-align: middle;
+}
+.buy-nav .price {
+  width: calc(100% - 140rpx);
+}
+.buy-nav .sales-price {
+  max-width: calc(100% - 40px);
 }

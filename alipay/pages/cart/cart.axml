@@ -1,29 +1,72 @@
-<view a:for="{{data_list}}" class="goods-item oh bg-white">
-  <!-- 图片/链接 -->
-  <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}">
-    <image class="goods-image fl" src="{{item.images}}" mode="aspectFill" />
-  </navigator>
-
-  <!-- 基础 -->
-  <view class="goods-base">
-    <view class="goods-title multi-text">{{item.title}}
-    </view>
-    <block a:if="{{item.attribute != null}}">
-      <view class="goods-attribute cr-888" a:for="{{item.attribute}}" a:for-item="attr">                {{attr.attr_type_name}}:{{attr.attr_name}}              
+<view class="page">
+  <view a:for="{{data_list}}" class="goods-item oh bg-white">
+    <swipe-action index="{{index}}" restore="{{swipe_index === null || swipe_index !== index}}" right="{{item.right}}" onRightItemClick="right_item_event" onSwipeStart="swipe_start_event" extra="{{index}}">
+      <!-- 选择 -->
+      <view onTap="selectedt_event" data-type="node" data-index="{{index}}" class="fl selected">
+        <image a:if="{{(item.selected || false)}}" class="icon" src="/images/default-select-active-icon.png" mode="widthFix" />
+        <image a:else class="icon" src="/images/default-select-icon.png" mode="widthFix" />
       </view>
-    </block>
-  </view>
-  <!-- 数量 -->
-  <view class="number-content fr tr">
-    <button type="default" size="mini" catchTap="goods_buy_number_event" data-index="{{index}}" data-type="0" hover-class="none">﹣</button>
-    <input onBlur="goods_buy_number_blur" class="tc cr-888" type="number" value="{{item.stock}}" data-index="{{index}}" />
-    <button type="default" size="mini" catchTap="goods_buy_number_event" data-index="{{index}}" data-type="1" hover-class="none">＋</button>
+
+      <view class="bg-white items">
+        <!-- 图片/链接 -->
+        <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}">
+          <image class="goods-image fl" src="{{item.images}}" mode="aspectFill" />
+        </navigator>
+
+        <!-- 基础 -->
+        <view class="goods-base">
+          <view class="goods-title multi-text">{{item.title}}
+          </view>
+          <block a:if="{{item.attribute != null}}">
+            <view class="goods-attribute cr-888" a:for="{{item.attribute}}" a:for-item="attr">{{attr.attr_type_name}}:{{attr.attr_name}}</view>
+          </block>
+        </view>
+        <!-- 数量 -->
+        <view class="number-content fr tr">
+          <button type="default" size="mini" catchTap="goods_buy_number_event" data-index="{{index}}" data-type="0" hover-class="none">﹣</button>
+          <input onBlur="goods_buy_number_blur" class="tc cr-888" type="number" value="{{item.stock}}" data-index="{{index}}" />
+          <button type="default" size="mini" catchTap="goods_buy_number_event" data-index="{{index}}" data-type="1" hover-class="none">＋</button>
+        </view>
+
+        <!-- 价格 -->
+        <view class="oh goods-price">
+          <text class="sales-price">￥{{item.price}}</text>
+          <text a:if="{{item.original_price > 0}}" class="original-price">￥{{item.original_price}}</text>
+          <text class="buy-number">x{{item.stock}}</text>
+        </view>
+      </view>
+    </swipe-action>
   </view>
 
-  <!-- 价格 -->
-  <view class="oh goods-price">
-    <text class="sales-price">￥{{item.price}}</text>
-    <text a:if="{{item.original_price > 0}}" class="original-price">￥{{item.original_price}}</text>
-    <text class="buy-number">x{{item.stock}}</text>
+  <!-- 操作导航 -->
+  <view class="buy-nav oh wh-auto br-t">
+    <view class="nav-base bg-white fl single-text">
+      <view onTap="selectedt_event" data-type="all" class="fl selected">
+        <image a:if="{{is_selected_all}}" class="icon" src="/images/default-select-active-icon.png" mode="widthFix" />
+        <image a:else class="icon" src="/images/default-select-icon.png" mode="widthFix" />
+        <text>全选</text>
+      </view>
+      <view class="fr price">
+        <view class="sales-price single-text fr">￥{{total_price}}</view>
+        <view class="fr">合计：</view>
+      </view>
+    </view>
+    <view class="fr nav-submit">
+      <button class="bg-main wh-auto" type="default" onTap="buy_submit_event" disabled="{{buy_submit_disabled_status}}" hover-class="none">结算</button>
+    </view>
   </view>
-</view>
+
+  <!-- 空购物车 -->
+  <view a:if="{{data_list.length == 0 && data_list_loding_status == 0}}" class="no-data-box tc">
+    <image src="/images/default-cart-empty.png" mode="widthFix" />
+    <view class="no-data-tips">购物车空空如也</view>
+    <button type="default" class="my-btn-default">
+      <navigator url="/pages/index/index" open-type="switchTab" hover-class="none">去逛逛</navigator>
+    </button>
+  </view>
+
+  <view a:if="{{data_list.length == 0 && data_list_loding_status != 0}}">
+    <import src="/pages/common/nodata.axml" />
+    <template is="nodata" data="{{status: data_list_loding_status}}"></template>
+  </view>
+  </view>

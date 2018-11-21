@@ -205,14 +205,23 @@ textarea {
     width: 100%;
 }
 
+.bg-main, .bg-primary, .bg-warning {
+  color: #fff;
+  border: 0;
+  font-size: 34rpx;
+}
 .bg-main {
-    background: #d2364c;
-    color: #fff;
-    border: 0;
+  background: #d2364c;
+}
+.bg-primary {
+  background: #ed6977;
+}
+.bg-warning {
+  background: #F37B1D;
 }
 .bg-active-main {
-    background: #d2364c !important;
-    color: #fff !important;
+  background: #d2364c !important;
+  color: #fff !important;
 }
 
 .submit-bottom {

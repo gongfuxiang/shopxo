@@ -58,7 +58,7 @@ class CartController extends CommonController
      */
     public function Save()
     {
-        $params = $this->data_post;
+        $params = $_POST;
         $params['user'] = $this->user;
         $ret = BuyService::CartAdd($params);
         $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
@@ -74,7 +74,6 @@ class CartController extends CommonController
      */
     public function Delete()
     {
-
         $params = $this->data_post;
         $params['user'] = $this->user;
         $ret = BuyService::CartDelete($params);

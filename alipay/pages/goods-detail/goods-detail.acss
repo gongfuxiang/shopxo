@@ -109,15 +109,15 @@
     height: 100rpx;
 }
 .goods-buy-nav .fl {
-    width: calc(25% - 1rpx);
+    width: calc(20% - 1rpx);
 }
 .goods-buy-nav .fr {
-    width: 50%;
+    width: 60%;
 }
 .goods-buy-nav .fr button {
-    border: 0;
     border-radius: 0;
     line-height: 100rpx;
+    width: 50%;
 }
 .goods-buy-nav .fr button,
 .goods-buy-nav .fl

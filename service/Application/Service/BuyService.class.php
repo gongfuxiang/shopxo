@@ -111,8 +111,12 @@ class BuyService
     private static function GoodsAttrParsing($params = [])
     {
         $data = [];
-        if(!empty($params['attr']) && is_array($params['attr']) && !empty($params['goods_id']))
+        if(!empty($params['attr']) && !empty($params['goods_id']))
         {
+            if(!is_array($params['attr']))
+            {
+                $params['attr'] = json_decode($params['attr'], true);
+            }
             foreach($params['attr'] as $k=>$v)
             {
                 $attr_type_name = M('GoodsAttributeType')->where(['goods_id'=>$params['goods_id'], 'id'=>$k])->getField('name');
@@ -161,21 +165,21 @@ class BuyService
 
         $field = 'c.*, g.title, g.images, g.original_price, g.price, g.inventory, g.inventory_unit, g.is_shelves, g.is_delete_time, g.buy_min_number, g.buy_max_number';
         $data = M('Cart')->alias('c')->join(' __GOODS__ AS g ON g.id=c.goods_id')->where($where)->field($field)->select();
-        if(empty($data) || !is_array($data))
-        {
-            return DataReturn(L('common_not_data_tips'), -100);
-        }
+
 
         // 数据处理
-        $images_host = C('IMAGE_HOST');
-        foreach($data as &$v)
+        if(!empty($data))
         {
-            $v['goods_url'] = HomeUrl('Goods', 'Index', ['id'=>$v['goods_id']]);
-            $v['images_old'] = $v['images'];
-            $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
-            $v['attribute'] = empty($v['attribute']) ? null : json_decode($v['attribute'], true);
-            $v['total_price'] = $v['stock']*$v['price'];
-            $v['buy_max_number'] = ($v['buy_max_number'] <= 0) ? $v['inventory']: $v['buy_max_number'];
+            $images_host = C('IMAGE_HOST');
+            foreach($data as &$v)
+            {
+                $v['goods_url'] = HomeUrl('Goods', 'Index', ['id'=>$v['goods_id']]);
+                $v['images_old'] = $v['images'];
+                $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
+                $v['attribute'] = empty($v['attribute']) ? null : json_decode($v['attribute'], true);
+                $v['total_price'] = $v['stock']*$v['price'];
+                $v['buy_max_number'] = ($v['buy_max_number'] <= 0) ? $v['inventory']: $v['buy_max_number'];
+            }
         }
 
         return DataReturn(L('common_operation_success'), 0, $data);
