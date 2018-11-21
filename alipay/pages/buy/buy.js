@@ -5,7 +5,6 @@ Page({
     buy_submit_disabled_status: false,
     data_list_loding_msg: '',
     params: null,
-    address_list: [],
     goods_list: [],
     address: null,
     is_first: 1,
@@ -78,7 +77,6 @@ Page({
           } else {
             this.setData({
               goods_list: data.goods_list,
-              address_list: data.user_address_list,
               total_price: data.base.total_price,
               address: data.base.address,
               address_id: ((data.base.address || null) == null) ? 0 : data.base.address.id,

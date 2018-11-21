@@ -63,12 +63,10 @@ class BuyController extends CommonController
             ];
 
             // 数据返回组装
-            $user_address_list = UserService::UserAddressList(['user'=>$this->user]);
             $express_list = ResourcesService::ExpressList(['is_enable'=>1, 'is_open_user'=>1]);
             $payment_list = ResourcesService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]);
             $result = [
                 'goods_list'            => $ret['data'],
-                'user_address_list'     => $user_address_list['data'],
                 'express_list'          => $express_list,
                 'payment_list'          => $payment_list,
                 'base'                  => $base,
