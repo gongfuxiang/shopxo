@@ -20,15 +20,21 @@
 
   <view class="goods bg-white spacing-mb">
     <view a:for="{{goods_list}}" class="goods-item oh">
-      <image class="goods-image fl" src="{{item.images_url}}" mode="aspectFill" />
+      <image class="goods-image fl" src="{{item.images}}" mode="aspectFill" />
       <view class="goods-base">
         <view class="goods-title multi-text">{{item.title}}</view>
-        <view class="goods-attribute cr-888">{{item.attribute}}</view>
-        <view class="oh goods-price">
-          <text class="sales-price">￥{{item.price}}</text>
-          <text a:if="{{item.original_price > 0}}" class="original-price">￥{{item.original_price}}</text>
-          <text class="buy-number">x{{item.buy_number}}</text>
-        </view>
+        <block a:if="{{item.attribute != null}}">
+          <view class="goods-attribute cr-888" a:for="{{item.attribute}}" a:for-item="attr">{{attr.attr_type_name}}:{{attr.attr_name}}
+          </view>
+        </block>
+      </view>
+      <view class="oh goods-price">
+        <text class="sales-price">￥{{item.price}}
+        </text>
+        <text a:if="{{item.original_price > 0}}" class="original-price">￥{{item.original_price}}
+        </text>
+        <text class="buy-number">x{{item.buy_number}}
+        </text>
       </view>
     </view>
   </view>

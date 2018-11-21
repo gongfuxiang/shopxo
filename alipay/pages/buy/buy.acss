@@ -46,6 +46,9 @@
     right: 0;
     bottom: 0;
 }
+.goods-base {
+  min-height: 160rpx;
+}
 
 .buy-nav {
     position: fixed;
