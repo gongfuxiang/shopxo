@@ -8,6 +8,7 @@ Page({
     swipe_index: null,
     total_price: 0,
     is_selected_all: false,
+    buy_submit_disabled_status: true,
   },
 
   onShow() {
@@ -43,7 +44,10 @@ Page({
   // 获取数据
   get_data() {
     this.setData({
-      data_list_loding_status: 1
+      data_list_loding_status: 1,
+      total_price: 0,
+      is_selected_all: false,
+      buy_submit_disabled_status: true,
     });
 
     my.httpRequest({
@@ -57,7 +61,7 @@ Page({
           var data = res.data.data;
           if (data.length > 0) {
             for (var i in data) {
-              data[i]['right'] = [{ type: 'edit', text: '收藏' }, { type: 'delete', text: '删除' }];
+              data[i]['right'] = [{ type: 'edit', text: '加入收藏' }, { type: 'delete', text: '删除' }];
             }
           }
           this.setData({
@@ -160,6 +164,9 @@ Page({
         if (res.data.code == 0) {
           temp_data_list[index]['stock'] = buy_number;
           this.setData({ data_list: temp_data_list });
+
+          // 选择处理
+          this.selected_calculate();
         } else {
           my.showToast({
             type: "fail",
@@ -274,13 +281,12 @@ Page({
   // 选中处理
   selectedt_event(e) {
     var type = e.currentTarget.dataset.type || null;
-    
     if (type != null)
     {
       var temp_data_list = this.data.data_list;
       var temp_is_selected_all = this.data.is_selected_all;
-      var total_price = 0;
       switch(type) {
+        // 批量操作
         case 'all' :
           temp_is_selected_all = (temp_is_selected_all == true) ? false : true;
           for (var i in temp_data_list) {
@@ -288,24 +294,57 @@ Page({
           }
           break;
 
+        // 节点操作
         case 'node' :
           var index = e.currentTarget.dataset.index || 0;
           temp_data_list[index]['selected'] = (temp_data_list[index]['selected'] == true) ? false : true;
           break;
       }
 
-      for (var i in temp_data_list) {
-        if ((temp_data_list[i]['selected'] || false) == true) {
-          total_price += temp_data_list[i]['stock'] * temp_data_list[i]['price'];
-        }
-      }
-
       this.setData({
         data_list: temp_data_list,
         is_selected_all: temp_is_selected_all,
-        total_price: total_price.toFixed(2),
-      })
+      });
+
+      // 选择处理
+      this.selected_calculate();
     }
+  },
+
+  // 选中计算
+  selected_calculate() {
+    var total_price = 0;
+    var selected_count = 0;
+    var temp_data_list = this.data.data_list;
+    for (var i in temp_data_list) {
+      if ((temp_data_list[i]['selected'] || false) == true) {
+        total_price += temp_data_list[i]['stock'] * temp_data_list[i]['price'];
+        if ((temp_data_list[i]['selected'] || false) == true) {
+          selected_count++;
+        }
+      }
+    }
+
+    this.setData({
+      total_price: total_price.toFixed(2),
+      buy_submit_disabled_status: (selected_count <= 0),
+      is_selected_all: (selected_count >= temp_data_list.length),
+    });
+  },
+
+  // 结算
+  buy_submit_event(e) {
+    my.showToast({content: "开发中..."});
+    // 进入订单确认页面
+    // var data = [{
+    //   "buy_type": "goods",
+    //   "goods_id": this.data.goods.id,
+    //   "stock": this.data.temp_buy_number,
+    //   "attr": attribute_all.join(',')
+    // }];
+    // my.navigateTo({
+    //   url: '/pages/buy/buy?data=' + JSON.stringify(data)
+    // });
   }
 
 });

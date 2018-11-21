@@ -355,13 +355,15 @@ Page({
           case 'buy' :
             // 进入订单确认页面
             var data = [{
+              "buy_type": "goods",
               "goods_id": this.data.goods.id,
-              "buy_number": this.data.temp_buy_number,
-              "attribute": attribute_all.join(',')
-            }]
+              "stock": this.data.temp_buy_number,
+              "attr": attribute_all.join(',')
+            }];
             my.navigateTo({
               url: '/pages/buy/buy?data=' + JSON.stringify(data)
             });
+            this.popup_close_event();
             break;
 
           case 'cart' :
@@ -377,8 +379,6 @@ Page({
       }
     }
   },
-
-
 
   // 详情图片查看
   goods_detail_images_view_event(e) {

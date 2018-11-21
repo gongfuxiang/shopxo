@@ -39,7 +39,7 @@
   </view>
 
   <!-- 操作导航 -->
-  <view class="buy-nav oh wh-auto br-t">
+  <view a:if="{{data_list.length > 0}}" class="buy-nav oh wh-auto br-t">
     <view class="nav-base bg-white fl single-text">
       <view onTap="selectedt_event" data-type="all" class="fl selected">
         <image a:if="{{is_selected_all}}" class="icon" src="/images/default-select-active-icon.png" mode="widthFix" />
@@ -55,18 +55,18 @@
       <button class="bg-main wh-auto" type="default" onTap="buy_submit_event" disabled="{{buy_submit_disabled_status}}" hover-class="none">结算</button>
     </view>
   </view>
+</view>
 
-  <!-- 空购物车 -->
-  <view a:if="{{data_list.length == 0 && data_list_loding_status == 0}}" class="no-data-box tc">
-    <image src="/images/default-cart-empty.png" mode="widthFix" />
-    <view class="no-data-tips">购物车空空如也</view>
-    <button type="default" class="my-btn-default">
-      <navigator url="/pages/index/index" open-type="switchTab" hover-class="none">去逛逛</navigator>
-    </button>
-  </view>
+<!-- 空购物车 -->
+<view a:if="{{data_list.length == 0 && data_list_loding_status == 0}}" class="no-data-box tc">
+  <image src="/images/default-cart-empty.png" mode="widthFix" />
+  <view class="no-data-tips">购物车空空如也</view>
+  <button type="default" class="my-btn-default">
+    <navigator url="/pages/index/index" open-type="switchTab" hover-class="none">去逛逛</navigator>
+  </button>
+</view>
 
-  <view a:if="{{data_list.length == 0 && data_list_loding_status != 0}}">
-    <import src="/pages/common/nodata.axml" />
-    <template is="nodata" data="{{status: data_list_loding_status}}"></template>
-  </view>
-  </view>
+<view a:if="{{data_list.length == 0 && data_list_loding_status != 0}}">
+  <import src="/pages/common/nodata.axml" />
+  <template is="nodata" data="{{status: data_list_loding_status}}"></template>
+</view>
