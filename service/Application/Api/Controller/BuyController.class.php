@@ -3,6 +3,8 @@
 namespace Api\Controller;
 
 use Service\ResourcesService;
+use Service\BuyService;
+use Service\UserService;
 
 /**
  * 购买确认
@@ -45,18 +47,36 @@ class BuyController extends CommonController
      */
     public function Index()
     {
-        // 清单商品
-        $goods = $this->GetBuyGoods();
+        // 获取商品列表
+        $params = $this->data_post;
+        $params['user'] = $this->user;
+        $ret = BuyService::BuyTypeGoodsList($params);
 
-        // 用户地址
-        $address = $this->GetBuyUserAddress();
+        // 商品校验
+        if(isset($ret['code']) && $ret['code'] == 0)
+        {
+            // 商品/基础信息
+            $base = [
+                'total_price'   => empty($ret['data']) ? 0 : array_sum(array_column($ret['data'], 'total_price')),
+                'total_stock'   => empty($ret['data']) ? 0 : array_sum(array_column($ret['data'], 'stock')),
+                'address'       => UserService::UserDefaultAddress(['user'=>$this->user])['data'],
+            ];
 
-        $result = [
-            'goods'             => $goods['goods'],
-            'total_price'       => $goods['total_price'],
-            'address'           => $address,
-        ];
-        $this->ajaxReturn(L('common_operation_success'), 0, $result);
+            // 数据返回组装
+            $user_address_list = UserService::UserAddressList(['user'=>$this->user]);
+            $express_list = ResourcesService::ExpressList(['is_enable'=>1, 'is_open_user'=>1]);
+            $payment_list = ResourcesService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]);
+            $result = [
+                'goods_list'            => $ret['data'],
+                'user_address_list'     => $user_address_list['data'],
+                'express_list'          => $express_list,
+                'payment_list'          => $payment_list,
+                'base'                  => $base,
+            ];
+            $this->ajaxReturn(L('common_operation_success'), 0, $result);
+        } else {
+            $this->ajaxReturn(isset($ret['msg']) ? $ret['msg'] : L('common_param_error'), -100);
+        }
     }
 
     /**

@@ -6,7 +6,7 @@ Page({
     data_bottom_line_status: false,
     data_list: [],
     swipe_index: null,
-    total_price: 0,
+    total_price: '0.00',
     is_selected_all: false,
     buy_submit_disabled_status: true,
   },
@@ -45,7 +45,7 @@ Page({
   get_data() {
     this.setData({
       data_list_loding_status: 1,
-      total_price: 0,
+      total_price: '0.00',
       is_selected_all: false,
       buy_submit_disabled_status: true,
     });
@@ -319,9 +319,7 @@ Page({
     for (var i in temp_data_list) {
       if ((temp_data_list[i]['selected'] || false) == true) {
         total_price += temp_data_list[i]['stock'] * temp_data_list[i]['price'];
-        if ((temp_data_list[i]['selected'] || false) == true) {
-          selected_count++;
-        }
+        selected_count++;
       }
     }
 
@@ -334,17 +332,32 @@ Page({
 
   // 结算
   buy_submit_event(e) {
-    my.showToast({content: "开发中..."});
+    var selected_count = 0;
+    var ids = [];
+    var temp_data_list = this.data.data_list;
+    for (var i in temp_data_list) {
+      if ((temp_data_list[i]['selected'] || false) == true) {
+        ids.push(temp_data_list[i]['id']);
+        selected_count++;
+      }
+    }
+    
+    if (selected_count <= 0) {
+      my.showToast({
+        type: "fail",
+        content: '请选择商品'
+      });
+      return false
+    }
+
     // 进入订单确认页面
-    // var data = [{
-    //   "buy_type": "goods",
-    //   "goods_id": this.data.goods.id,
-    //   "stock": this.data.temp_buy_number,
-    //   "attr": attribute_all.join(',')
-    // }];
-    // my.navigateTo({
-    //   url: '/pages/buy/buy?data=' + JSON.stringify(data)
-    // });
+    var data = {
+      "buy_type": "cart",
+      "ids": ids.join(',')
+    };
+    my.navigateTo({
+      url: '/pages/buy/buy?data=' + JSON.stringify(data)
+    });
   }
 
 });

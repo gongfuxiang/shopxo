@@ -5,7 +5,8 @@ Page({
     buy_submit_disabled_status: false,
     data_list_loding_msg: '',
     params: null,
-    goods: [],
+    address_list: [],
+    goods_list: [],
     address: null,
     is_first: 1,
     address_id: 0,
@@ -17,14 +18,14 @@ Page({
     {
       my.alert({
         title: '温馨提示',
-        content: '商品信息有误',
+        content: '订单信息有误',
         buttonText: '确认',
         success: () => {
           my.navigateBack();
         },
       });
     } else {
-      this.setData({params: params.data});
+      this.setData({ params: JSON.parse(params.data)});
 
       // 删除地址缓存
       my.removeStorageSync({key: app.data.cache_buy_user_address_select_key});
@@ -54,36 +55,38 @@ Page({
       }
     }
 
-    var self = this;
     // 加载loding
     my.showLoading({content: '加载中...'});
     this.setData({
       data_list_loding_status: 1
     });
 
+    var data = this.data.params;
+    data['address_id'] = this.data.address_id;
     my.httpRequest({
       url: app.get_request_url("Index", "Buy"),
       method: "POST",
-      data: {goods: this.data.params, address_id: this.data.address_id},
+      data: data,
       dataType: "json",
       success: res => {
         my.hideLoading();
         if (res.data.code == 0) {
           var data = res.data.data;
-          if(data.goods.length == 0)
+          if (data.goods_list.length == 0)
           {
-            self.setData({data_list_loding_status: 0});
+            this.setData({data_list_loding_status: 0});
           } else {
-            self.setData({
-              goods: data.goods,
-              total_price: data.total_price,
-              address: data.address,
-              address_id: ((data.address || null) == null) ? 0 : data.address.id,
+            this.setData({
+              goods_list: data.goods_list,
+              address_list: data.user_address_list,
+              total_price: data.base.total_price,
+              address: data.base.address,
+              address_id: ((data.base.address || null) == null) ? 0 : data.base.address.id,
               data_list_loding_status: 3,
             });
           }
         } else {
-          self.setData({
+          this.setData({
             data_list_loding_status: 2,
             data_list_loding_msg: res.data.msg,
           });
@@ -95,7 +98,7 @@ Page({
       },
       fail: () => {
         my.hideLoading();
-        self.setData({
+        this.setData({
           data_list_loding_status: 2,
           data_list_loding_msg: '服务器请求出错',
         });

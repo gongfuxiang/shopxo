@@ -1,4 +1,4 @@
-<view a:if="{{goods.length > 0}}" class="page">
+<view a:if="{{goods_list.length > 0}}" class="page">
   <view class="address bg-white arrow-right">
     <navigator url="/pages/user-address/user-address?is_back=1" hover-class="none">
       <view a:if="{{address != null}}">
@@ -19,7 +19,7 @@
   <view class="address-divider spacing-mb"></view>
 
   <view class="goods bg-white spacing-mb">
-    <view a:for="{{goods}}" class="goods-item oh">
+    <view a:for="{{goods_list}}" class="goods-item oh">
       <image class="goods-image fl" src="{{item.images_url}}" mode="aspectFill" />
       <view class="goods-base">
         <view class="goods-title multi-text">{{item.title}}</view>

@@ -189,7 +189,7 @@ textarea {
     font-size: 32rpx;
 }
 .original-price {
-    color: #ccc;
+    color: #888;
     font-size: 26rpx;
     text-decoration: line-through;
     margin-left: 10rpx;

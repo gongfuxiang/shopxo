@@ -32,7 +32,7 @@
         <view class="oh goods-price">
           <text class="sales-price">￥{{item.price}}</text>
           <text a:if="{{item.original_price > 0}}" class="original-price">￥{{item.original_price}}</text>
-          <text class="buy-number">x{{item.stock}}</text>
+          <text class="buy-number cr-888">x{{item.stock}}</text>
         </view>
       </view>
     </swipe-action>
