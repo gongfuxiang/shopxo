@@ -164,7 +164,7 @@ class AlipayMini
         // 验证签名
         if(!$this->SyncRsaVerify($result, $key))
         {
-            return ['status'=>-1, 'msg'=>'签名验证错误'];
+            return DataReturn('签名验证错误', -1);
         }
 
         // 状态
