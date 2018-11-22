@@ -201,7 +201,7 @@ class OrderController extends CommonController
         $ret = OrderService::Pay($params);
         if($ret['code'] == 0)
         {
-            redirect($ret['data']);
+            redirect($ret['data']['data']);
         } else {
             $this->assign('msg', $ret['msg']);
             $this->display('/Public/TipsError');
