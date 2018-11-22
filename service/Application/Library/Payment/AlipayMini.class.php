@@ -136,7 +136,7 @@ class AlipayMini
     {
         $parameter = array(
             'app_id'                =>  $this->config['appid'],
-            'method'                =>  'alipay.trade.app.pay',
+            'method'                =>  'alipay.trade.create',
             'format'                =>  'JSON',
             'charset'               =>  'utf-8',
             'sign_type'             =>  'RSA2',
@@ -148,7 +148,6 @@ class AlipayMini
             'subject'               =>  $params['name'],
             'out_trade_no'          =>  $params['order_no'],
             'total_amount'          =>  $params['total_price'],
-            'product_code'          =>  'QUICK_MSECURITY_PAY',
         );
         $parameter['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
 
@@ -248,8 +247,52 @@ class AlipayMini
             'param' =>  substr($param, 0, -1),
             'value' =>  substr($sign, 0, -1),
         );
-        $result['sign'] = $result['value'].$this->config['key'];
         return $result;
+    }
+
+    /**
+     * [HttpRequest 网络请求]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2017-09-25T09:10:46+0800
+     * @param    [string]          $url  [请求url]
+     * @param    [array]           $data [发送数据]
+     * @return   [mixed]                 [请求返回数据]
+     */
+    private function HttpRequest($url, $data)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_FAILONERROR, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        $body_string = '';
+        if(is_array($data) && 0 < count($data))
+        {
+            foreach($data as $k => $v)
+            {
+                $body_string .= $k.'='.urlencode($v).'&';
+            }
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $body_string);
+        }
+        $headers = array('content-type: application/x-www-form-urlencoded;charset=UTF-8');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $reponse = curl_exec($ch);
+        if(curl_errno($ch))
+        {
+            return false;
+        } else {
+            $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if(200 !== $httpStatusCode)
+            {
+                return false;
+            }
+        }
+        curl_close($ch);
+        return json_decode($reponse, true);
     }
 
     /**
