@@ -148,15 +148,33 @@ class AlipayMini
             'subject'               =>  $params['name'],
             'out_trade_no'          =>  $params['order_no'],
             'total_amount'          =>  $params['total_price'],
+            'buyer_id'              =>  $params['user_openid'],
         );
         $parameter['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
 
         // 生成签名参数+签名
         $params = $this->GetParamSign($parameter);
-        $params['param'] .= '&sign='.urlencode($this->MyRsaSign($params['value']));
+        $parameter['sign'] = $this->MyRsaSign($params['value']);
+        
+
+        // 执行请求
+        $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $parameter);
+        $key = str_replace('.', '_', $parameter['method']).'_response';
+
+        // 验证签名
+        if(!$this->SyncRsaVerify($result, $key))
+        {
+            return ['status'=>-1, 'msg'=>'签名验证错误'];
+        }
+
+        // 状态
+        if(isset($result[$key]['code']) && $result[$key]['code'] == 10000)
+        {
+            return DataReturn('处理成功', 0, $result[$key]['trade_no']);
+        }
 
         // 直接返回支付信息
-        return DataReturn('处理成功', 0, $params['param']);
+        return DataReturn($result[$key]['sub_msg'].'['.$result[$key]['sub_code'].']', -1000);
     }
 
     /**
@@ -362,6 +380,21 @@ class AlipayMini
             openssl_free_key($pkeyid);
         }
         return (isset($verify) && $verify == 1) ? true : false;
+    }
+
+     /**
+     * [SyncRsaVerify 同步返回签名验证]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2017-09-25T13:13:39+0800
+     * @param    [array]                   $data [返回数据]
+     * @param    [boolean]                 $key  [数据key]
+     */
+    private function SyncRsaVerify($data, $key)
+    {
+        $string = json_encode($data[$key], JSON_UNESCAPED_UNICODE);
+        return $this->OutRsaVerify($string, $data['sign']);
     }
 
 }
