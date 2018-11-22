@@ -29,9 +29,6 @@
 .search-btn  .search-icon{
     margin: 8rpx 0;
 }
-/*
-    end 头部搜索框
-*/
 
 /*
     主体
@@ -39,7 +36,9 @@
 .scroll-box{
     height: calc(100vh - 120rpx);
 }
-
+.goods-base {
+  min-height: 160rpx;
+}
 .goods-title {
     line-height: 36rpx;
 }
@@ -77,4 +76,24 @@
 }
 .item-operation button {
     padding: 0 35rpx;
+}
+
+/**
+ * 支付方式
+ */
+.payment-list {
+  padding: 40rpx 0;
+}
+.payment-list .item {
+  width: 50%;
+}
+.payment-list .item-content {
+  margin: 20rpx;
+  padding: 20rpx 10rpx;
+}
+.payment-list .item-content image {
+  width: 50rpx;
+  height: 50rpx !important;
+  vertical-align: middle;
+  margin-right: 10rpx;
 }

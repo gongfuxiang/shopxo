@@ -9,6 +9,11 @@ Page({
     params: null,
     input_keyword_value: '',
     load_status: 0,
+    is_show_payment_popup: false,
+    payment_list: [],
+    payment_id: 0,
+    temp_pay_value: 0,
+    temp_pay_index: 0,
   },
 
   onLoad(params) {
@@ -110,6 +115,7 @@ Page({
               data_list_loding_status: 3,
               data_page: this.data.data_page + 1,
               load_status: 1,
+              payment_list: res.data.data.payment_list || [],
             });
 
             // 是否还有数据
@@ -167,10 +173,25 @@ Page({
   },
 
   // 支付
-  pay_event(e, order_id, index) {
-    var id = e.target.dataset.value;
-    var index = e.target.dataset.index;
-    this.pay_handle(id, index);
+  pay_event(e) {
+    this.setData({
+      is_show_payment_popup: true,
+      temp_pay_value: e.target.dataset.value,
+      temp_pay_index: e.target.dataset.index,
+    });
+  },
+
+  // 支付弹窗关闭
+  payment_popup_event_close(e) {
+    this.setData({ is_show_payment_popup: false });
+  },
+
+  // 支付弹窗发起支付
+  popup_payment_event(e) {
+    var payment_id = e.target.dataset.value || 0;
+    this.setData({payment_id: payment_id});
+    this.payment_popup_event_close();
+    this.pay_handle(this.data.temp_pay_value, this.data.temp_pay_index);
   },
 
   // 支付方法
@@ -182,7 +203,8 @@ Page({
       url: app.get_request_url("Pay", "Order"),
       method: "POST",
       data: {
-        id: order_id
+        id: order_id,
+        payment_id: this.data.payment_id,
       },
       dataType: "json",
       success: res => {
@@ -191,18 +213,23 @@ Page({
           // 线下支付成功
           if (res.data.data.is_under_line == 1) {
             var temp_data_list = this.data.data_list;
-            temp_data_list[index]["status"] = 2;
+            temp_data_list[index]['status'] = 2;
             temp_data_list[index]['status_name'] = '待发货';
             this.setData({ data_list: temp_data_list });
+
+            my.showToast({
+              type: "success",
+              content: '支付成功'
+            });
           } else {
             my.tradePay({
-              orderStr: res.data.data.data,
+              tradeNO: res.data.data.data,
               success: res => {
                 // 数据设置
-                if (res.resultCode == "9000") {
+                if (res.resultCode == 9000) {
                   var temp_data_list = this.data.data_list;
-                  temp_data_list[index]["status"] = 2;
-                  temp_data_list[index]['status_text'] = '待发货';
+                  temp_data_list[index]['status'] = 2;
+                  temp_data_list[index]['status_name'] = '待发货';
                   this.setData({ data_list: temp_data_list });
                 }
 
@@ -212,7 +239,7 @@ Page({
                     "/pages/paytips/paytips?code=" +
                     res.resultCode +
                     "&total_price=" +
-                    temp_data_list[index]['total_price']
+                    this.data.data_list[index]['total_price']
                 });
               },
               fail: res => {

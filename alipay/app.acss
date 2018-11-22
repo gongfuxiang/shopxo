@@ -78,17 +78,17 @@ textarea {
 
 
 /* 边框 */
-.br { border: solid 1rpx #efefef; }
-.br-b { border-bottom: solid 1rpx #efefef; }
-.br-t { border-top: solid 1rpx #efefef; }
-.br-l { border-left: solid 1rpx #efefef; }
-.br-r { border-right: solid 1rpx #efefef; }
+.br { border: solid 1px #efefef; }
+.br-b { border-bottom: solid 1px #efefef; }
+.br-t { border-top: solid 1px #efefef; }
+.br-l { border-left: solid 1px #efefef; }
+.br-r { border-right: solid 1px #efefef; }
 
 /* 虚线边框 */
-.br-b-dashed { border-bottom: dashed 1rpx #efefef; }
-.br-t-dashed { border-top: dashed 1rpx #efefef; }
-.br-l-dashed { border-left: dashed 1rpx #efefef; }
-.br-r-dashed { border-right: dashed 1rpx #efefef; }
+.br-b-dashed { border-bottom: dashed 1px #efefef; }
+.br-t-dashed { border-top: dashed 1px #efefef; }
+.br-l-dashed { border-left: dashed 1px #efefef; }
+.br-r-dashed { border-right: dashed 1px #efefef; }
 
 /* 箭头符号 */
 .arrow-right { background-image: url('data:image/svg+xml;charset=utf-8,<svg width="16" height="26" viewBox="0 0 16 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="UI-KIT_基础元件" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="9.9基础元件" transform="translate(-5809.000000, -8482.000000)" fill="#C7C7CC"><polygon id="Disclosure-Indicator" points="5811 8482 5809 8484 5820.5 8495 5809 8506 5811 8508 5825 8495"></polygon></g></g></svg>'); background-size: 15px 10px; background-repeat: no-repeat; background-position: center right; }

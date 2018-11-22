@@ -331,7 +331,7 @@ Page({
         var goods_attribute_choose = this.data.goods_attribute_choose;
         var temp_attribute_active = this.data.temp_attribute_active;
         var attr_count = goods_attribute_choose.length;
-        var attribute_all = [];
+        var attribute_all = {};
         if(attr_count > 0)
         {
           var attr_active_count = app.get_length(temp_attribute_active);
@@ -345,7 +345,7 @@ Page({
           } else {
             for(var i in temp_attribute_active)
             {
-              attribute_all.push(goods_attribute_choose[i]['id']+':'+goods_attribute_choose[i]['find'][temp_attribute_active[i]]['id']);
+              attribute_all[goods_attribute_choose[i]['id']] = goods_attribute_choose[i]['find'][temp_attribute_active[i]]['id'];
             }
           }
         }
@@ -354,12 +354,12 @@ Page({
         switch (this.data.buy_event_type) {
           case 'buy' :
             // 进入订单确认页面
-            var data = [{
+            var data = {
               "buy_type": "goods",
               "goods_id": this.data.goods.id,
               "stock": this.data.temp_buy_number,
-              "attr": attribute_all.join(',')
-            }];
+              "attr": JSON.stringify(attribute_all)
+            };
             my.navigateTo({
               url: '/pages/buy/buy?data=' + JSON.stringify(data)
             });

@@ -40,6 +40,20 @@ class ResourcesService
     }
 
     /**
+     * 获取订单支付名称
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-19
+     * @desc    description
+     * @param   [int]          $order_id [订单id]
+     */
+    public static function OrderPaymentName($order_id = 0)
+    {
+        return empty($order_id) ? null : M('PayLog')->where(['order_id'=>intval($order_id)])->getField('payment_name');
+    }
+
+    /**
      * 快递列表
      * @author   Devil
      * @blog    http://gong.gg/

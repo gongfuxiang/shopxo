@@ -57,7 +57,7 @@
   <!-- 支付方式 -->
   <view a:if="{{payment_list.length > 0}}" class="payment-list bg-white oh">
     <view class="item tc fl" a:for="{{payment_list}}">
-      <view class="item-content br" data-value="{{item.id}}" onTap="payment_event">
+      <view class="item-content br {{(item.selected || '')}}" data-value="{{item.id}}" onTap="payment_event">
         <image a:if="{{(item.logo || null) != null}}" class="icon" src="{{item.logo}}" mode="widthFix" />
         <text>{{item.name}}</text>
       </view>

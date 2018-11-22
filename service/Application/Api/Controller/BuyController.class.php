@@ -48,7 +48,7 @@ class BuyController extends CommonController
     public function Index()
     {
         // 获取商品列表
-        $params = $this->data_post;
+        $params = $_POST;
         $params['user'] = $this->user;
         $ret = BuyService::BuyTypeGoodsList($params);
 
@@ -94,7 +94,7 @@ class BuyController extends CommonController
      */
     public function Add()
     {
-        $params = $this->data_post;
+        $params = $_POST;
         $params['user'] = $this->user;
         $ret = BuyService::OrderAdd($params);
         $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);

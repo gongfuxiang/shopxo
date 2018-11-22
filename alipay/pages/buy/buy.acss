@@ -101,6 +101,10 @@
   vertical-align: middle;
   margin-right: 10rpx;
 }
+.payment-list .selected {
+  border: 1px solid #d2364c;
+  color: #d2364c;
+}
 
 /**
  * 扩展数据

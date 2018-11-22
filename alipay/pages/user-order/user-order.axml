@@ -1,3 +1,4 @@
+<!-- 搜索 -->
 <view class="search-content bg-white">
   <view class="search-box oh">
     <input class="search" type="text" onInput="input_event" placeholder="收件人/电话/单号" />
@@ -6,6 +7,8 @@
     </view>
   </view>
 </view>
+
+<!-- 订单列表 -->
 <scroll-view scroll-y="{{true}}" class="scroll-box" onScrollToLower="scroll_lower" lower-threshold="30">
   <view class="list-content spacing">
     <view class="list-item bg-white spacing-mb" a:if="{{data_list.length > 0}}" a:for="{{data_list}}">
@@ -23,11 +26,11 @@
                 {{attr.attr_type_name}}:{{attr.attr_name}}
               </view>
             </block>
-            <view class="oh goods-price">
-              <text class="sales-price">￥{{detail.price}}</text>
-              <text a:if="{{detail.original_price > 0}}" class="original-price">￥{{detail.original_price}}</text>
-              <text class="buy-number">x{{detail.buy_number}}</text>
-            </view>
+          </view>
+          <view class="oh goods-price">
+            <text class="sales-price">￥{{detail.price}}</text>
+            <text a:if="{{detail.original_price > 0}}" class="original-price">￥{{detail.original_price}}</text>
+            <text class="buy-number">x{{detail.buy_number}}</text>
           </view>
           </navigator>
           <view class="item-describe tr cr-666">{{item.describe}}
@@ -48,8 +51,22 @@
           <template is="nodata" data="{{status: data_list_loding_status}}">
           </template>
         </view>
-        </view>
-        <import src="/pages/common/bottom_line.axml" />
-        <template is="bottom_line" data="{{status: data_bottom_line_status}}">
-        </template>
-        </scroll-view>
+      </view>
+    <import src="/pages/common/bottom_line.axml" />
+    <template is="bottom_line" data="{{status: data_bottom_line_status}}">
+  </template>
+</scroll-view>
+
+<!-- 支付方式 popup -->
+<popup show="{{is_show_payment_popup}}" position="bottom" onClose="payment_popup_event_close">
+  <view a:if="{{payment_list.length > 0}}" class="payment-list oh bg-white">
+    <view class="item tc fl" a:for="{{payment_list}}">
+      <view class="item-content br" data-value="{{item.id}}" onTap="popup_payment_event">
+        <image a:if="{{(item.logo || null) != null}}" class="icon" src="{{item.logo}}" mode="widthFix" />
+        <text>{{item.name}}
+        </text>
+      </view>
+    </view>
+  </view>
+  <view a:else class="payment-list oh bg-white tc cr-888">没有支付方式</view>
+</popup>

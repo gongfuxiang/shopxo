@@ -560,9 +560,6 @@ class OrderService
             $order_pay_status = L('common_order_pay_status');
             foreach($data as &$v)
             {
-                // 订单基础
-                $v['payment_name'] = '';
-
                 // 状态
                 $v['status_name'] = $order_status_list[$v['status']]['name'];
 
@@ -571,6 +568,9 @@ class OrderService
 
                 // 快递公司
                 $v['express_name'] = ResourcesService::ExpressName($v['express_id']);
+
+                // 支付方式
+                $v['payment_name'] = ($v['status'] <= 1) ? null : ResourcesService::OrderPaymentName($v['id']);
 
                 // 收件人地址
                 $v['receive_province_name'] = ResourcesService::RegionName($v['receive_province']);

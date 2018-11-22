@@ -24,6 +24,9 @@
     line-height: 85rpx;
 }
 
+.goods-base {
+  min-height: 160rpx;
+}
 .goods .goods-item:not(:last-child) {
     border-bottom: 1px dashed #efefef;
 }

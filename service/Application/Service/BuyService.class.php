@@ -344,10 +344,6 @@ class BuyService
         $goods[0]['total_price'] = $params['stock']*$goods[0]['price'];
 
         // 属性
-        if(!empty($params['attr']))
-        {
-            $params['attr'] = json_decode($params['attr'], true);
-        }
         $goods[0]['attribute'] = self::GoodsAttrParsing($params);
 
         return DataReturn(L('common_operation_success'), 0, $goods);

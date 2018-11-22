@@ -47,6 +47,7 @@ Page({
               {name: "总价", value: data.total_price},
               {name: "优惠", value: data.preferential_price},
               {name: "支付金额", value: data.pay_price},
+              {name: "支付方式", value: data.payment_name},
               {name: "快递公司", value: data.express_name},
               {name: "快递单号", value: data.expres_number},
               {name: "用户留言", value: data.user_note},

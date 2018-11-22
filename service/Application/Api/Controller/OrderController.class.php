@@ -65,11 +65,15 @@ class OrderController extends CommonController
         );
         $data = OrderService::OrderList($data_params);
 
+        // 支付方式
+        $payment_list = ResourcesService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]);
+
         // 返回数据
         $result = [
             'total'         =>  $total,
             'page_total'    =>  $page_total,
             'data'          =>  $data['data'],
+            'payment_list'  =>  $payment_list,
         ];
         $this->ajaxReturn(L('common_operation_success'), 0, $result);
     }

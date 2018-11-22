@@ -172,7 +172,18 @@ Page({
   // 支付方式选择
   payment_event(e) {
     var payment_id = e.currentTarget.dataset.value || 0;
-    this.setData({ payment_id: payment_id});
+    var temp_payment_list = this.data.payment_list;
+    for(var i in temp_payment_list) {
+      if(temp_payment_list[i]['id'] == payment_id) {
+        temp_payment_list[i]['selected'] = 'selected';
+      } else {
+        temp_payment_list[i]['selected'] = '';
+      }
+    }
+    this.setData({
+      payment_id: payment_id,
+      payment_list: temp_payment_list
+    });
   }
 
 });
