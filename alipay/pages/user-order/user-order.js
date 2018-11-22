@@ -211,8 +211,8 @@ Page({
                   url:
                     "/pages/paytips/paytips?code=" +
                     res.resultCode +
-                    "&result=" +
-                    res.result
+                    "&total_price=" +
+                    temp_data_list[index]['total_price']
                 });
               },
               fail: res => {

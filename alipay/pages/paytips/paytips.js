@@ -39,9 +39,14 @@ Page({
         msg = '网络连接出错';
         break;
 
+      // 支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
+      case '6004':
+        msg = '支付结果未知';
+        break;
+
       // 用户点击忘记密码导致快捷界面退出(only iOS)
       case '99' :
-        msg = '支付异常错误';
+        msg = '用户取消支付';
         break;
 
       // 默认错误
@@ -49,11 +54,7 @@ Page({
         msg = '其它异常错误';
     }
     options['msg'] = msg;
-
-    // 支付成功返回的信息
-    var pay = ((options.result || null) == null || options.result == 'undefined') ? {} : JSON.parse(options.result);
-    options['pay'] = pay.alipay_trade_app_pay_response;
-
+    
     // 设置信息
     this.setData({params: options});
   },
