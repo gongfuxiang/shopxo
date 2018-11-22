@@ -17,7 +17,7 @@
 			<div class="am-form-group">
 				<label>{{:L('payment_apply_terminal_text')}}</label>
 			    <select name="apply_terminal" class="am-radius c-p chosen-select" multiple="multiple" minchecked="1" data-placeholder="{{:L('common_select_can_choose')}}" data-validation-message="{{:L('payment_apply_terminal_format')}}" required>
-					<foreach name="common_apply_terminal_list" item="v">
+					<foreach name="common_platform_type" item="v">
 						<option value="{{$v.value}}" <if condition="isset($data['apply_terminal']) and in_array($v['value'], $data['apply_terminal'])">selected</if>>{{$v.name}}</option>
 					</foreach>
 				</select>

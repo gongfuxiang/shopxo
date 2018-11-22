@@ -70,7 +70,7 @@
 					<else />
 						<label class="c-p m-l-20">
 					</if>
-						<span><if condition="!empty($v['icon'])"><span class="{{$v.icon}}"></span></if> {{$v.name}}</span>
+						<span><if condition="!empty($v['icon'])"><span class="iconfont {{$v.icon}}"></span></if> {{$v.name}}</span>
 					</label>
 					<div class="fr m-r-20 list-submit">
 						<span class="am-icon-edit am-icon-md c-p submit-edit <if condition="!empty($v['item'])">m-r-5</if>" data-am-modal="{target: '#power-save-win'}" data-json='{{:json_encode($v)}}' data-tag="power-save-win" data-item="<if condition="!empty($v['item'])">ok<else />no</if>"></span>
@@ -84,7 +84,7 @@
 						<foreach name="v.item" item="vs">
 							<li id="data-list-{{$vs.id}}" <if condition="$vs['is_show'] eq 0">class="bk-cr-ffd"</if>>
 								<label class="c-p">
-									<span><if condition="!empty($vs['icon'])"><span class="{{$vs.icon}}"></span></if> {{$vs.name}}</span>
+									<span><if condition="!empty($vs['icon'])"><span class="iconfont {{$vs.icon}}"></span></if> {{$vs.name}}</span>
 								</label>
 								<div class="fr m-l-10 find-submit">
 									<span class="am-icon-edit am-icon-sm c-p submit-edit" data-am-modal="{target: '#power-save-win'}" data-json='{{:json_encode($vs)}}' data-tag="power-save-win" data-item="no"></span>

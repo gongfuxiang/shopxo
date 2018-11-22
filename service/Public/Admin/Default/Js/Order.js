@@ -7,15 +7,11 @@ $(function()
         $('form.delivery-form input[name=express_number]').val('');
         var express_id = $(this).data('express-id') || 0;
         var user_id = $(this).data('user-id') || 0;
-        if($('.express-items-'+express_id).length > 0)
-        {
-            $('form.delivery-form input[name=express_id]').val(express_id);
-            $('form.delivery-form input[name=user_id]').val(user_id);
+        $('form.delivery-form input[name=express_id]').val(express_id);
+        $('form.delivery-form input[name=user_id]').val(user_id);
+        $('ul.express-list li.selected').removeClass('selected');
+        if(express_id != 0) {
             $('.express-items-'+express_id).addClass('selected').siblings('li').removeClass('selected');
-        } else {
-            $('form.delivery-form input[name=express_id]').val(0);
-            $('form.delivery-form input[name=user_id]').val(0);
-            $('ul.express-list li.selected').removeClass('selected');
         }
     });
 

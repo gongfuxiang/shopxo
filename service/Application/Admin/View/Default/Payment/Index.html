@@ -49,8 +49,8 @@
                             <td>
                                 <if condition="!empty($v['apply_terminal'])">
                                     <foreach name="v.apply_terminal" key="terminal_k" item="terminal_v">
-                                        {{:L('common_apply_terminal_list')[$terminal_v]['name']}}
-                                        <if condition="$terminal_k LT count($v['apply_terminal'])-1">,</if>
+                                        {{:L('common_platform_type')[$terminal_v]['name']}}
+                                        <if condition="$terminal_k LT count($v['apply_terminal'])-1"><br /></if>
                                     </foreach>
                                 <else />
                                     <span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span>

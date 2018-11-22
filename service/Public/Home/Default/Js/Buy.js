@@ -3,7 +3,6 @@ if(store.enabled)
     // 选择缓存key
     var store_address_key = 'store-buy-address-selected-index';
     var store_use_new_address_status_key = 'store-buy-use-new-address-status-count';
-    var store_logistics_key = 'store-lbuy-ogistics-selected-index';
     var store_payment_key = 'store-buy-payment-selected-index';
 }
 
@@ -30,13 +29,7 @@ $(function()
         {
             $('ul.address-list li').eq(store_address_value).addClass('address-default').siblings().removeClass('address-default');
         }
-        // 快递
-        var store_logistics_value = store.get(store_logistics_key);
-        if(store_logistics_value !== undefined)
-        {
-            $('ul.logistics-list li').eq(store_logistics_value).addClass('selected');
-        }
-        // 快递
+        // 支付方式
         var store_payment_value = store.get(store_payment_key);
         if(store_payment_value !== undefined)
         {
@@ -66,10 +59,6 @@ $(function()
         {
             case 'payment' :
                 temp_store_key = store_payment_key;
-                break;
-
-            case 'logistics' :
-                temp_store_key = store_logistics_key;
                 break;
         }
         if ($(this).hasClass('selected')) {
@@ -148,16 +137,6 @@ $(function()
 
         if(status === true)
         {
-            var express_id = $('ul.logistics-list li.selected').data('value') || null;
-            if(express_id === null)
-            {
-                status = false;
-                msg = '请选择快递';
-            }
-        }
-
-        if(status === true)
-        {
             var payment_id = $('ul.payment-list li.selected').data('value') || null;
             if(payment_id === null)
             {
@@ -178,7 +157,6 @@ $(function()
         }
         
         $('form.nav-buy input[name=address_id]').val(address_id);
-        $('form.nav-buy input[name=express_id]').val(express_id);
         $('form.nav-buy input[name=payment_id]').val(payment_id);
         $('form.nav-buy input[name=user_note]').val($('.order-user-info input.memo-input').val());
     });

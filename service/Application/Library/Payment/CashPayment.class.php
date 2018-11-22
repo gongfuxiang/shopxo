@@ -46,7 +46,7 @@ class CashPayment
             'apply_version' => '不限',  // 适用系统版本描述
             'desc'          => '现金方式支付货款',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者
-            'author_url'    => 'http://gong.gg/',  // 开发者主页
+            'author_url'    => 'http://shopxo.net/',  // 开发者主页
         ];
 
         // 配置信息

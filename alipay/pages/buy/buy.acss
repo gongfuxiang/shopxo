@@ -1,3 +1,10 @@
+.page {
+    padding-bottom: 120rpx;
+}
+
+/**
+ * 地址
+ */
 .address {
     padding: 10rpx;
 }
@@ -24,6 +31,9 @@
     line-height: 85rpx;
 }
 
+/**
+ * 商品
+ */
 .goods .goods-item:not(:last-child) {
     border-bottom: 1px dashed #efefef;
 }
@@ -50,6 +60,9 @@
   min-height: 160rpx;
 }
 
+/**
+ * 导航
+ */
 .buy-nav {
     position: fixed;
     left: 0;
@@ -71,6 +84,36 @@
 .nav-submit button {
     border-radius: 0;
 }
-.page {
-    padding-bottom: 120rpx;
+
+/**
+ * 支付方式
+ */
+.payment-list .item {
+  width: 50%;
+}
+.payment-list .item-content {
+  margin: 20rpx;
+  padding: 20rpx 10rpx;
+}
+.payment-list .item-content image {
+  width: 50rpx;
+  height: 50rpx !important;
+  vertical-align: middle;
+  margin-right: 10rpx;
+}
+
+/**
+ * 扩展数据
+ */
+.extension-list {
+  background-color: #ffffeb;
+}
+.extension-list .item {
+  padding: 20rpx 10rpx;
+}
+.extension-list .item:not(:last-child) {
+  border-bottom: 1px dashed #ffe2cf;
+}
+.extension-list .item .text-tips {
+  color: #ff8f44;
 }

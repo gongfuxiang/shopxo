@@ -87,12 +87,25 @@ class OrderService
         {
             // 非线上支付处理
             $params['user']['user_name_view'] = '用户-'.$params['user']['user_name_view'];
-            self::OrderPaymentUnderLine([
+            $pay_result = self::OrderPaymentUnderLine([
                 'order'     => $order,
                 'payment'   => $payment[0],
                 'user'      => $params['user'],
                 'subject'   => $params,
             ]);
+            if($pay_result['code'] != 0)
+            {
+                return $pay_result;
+            }
+
+            // 支付信息返回
+            $ret['data'] = [
+                // 是否为线下支付类型
+                'is_under_line' => in_array($payment[0]['payment'], C('under_line_list')) ? 1 : 0,
+
+                // 支付模块处理数据
+                'data'          => $ret['data'],
+            ];
 
             return $ret;
         }

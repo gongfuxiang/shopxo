@@ -124,31 +124,9 @@ class ResourcesService
             foreach($data as $v)
             {
                 // 根据终端类型筛选
-                switch(APPLICATION)
+                if(in_array(APPLICATION_CLIENT_TYPE, $v['apply_terminal']))
                 {
-                    // pc, wap
-                    case 'web' :
-                        if(IsMobile())
-                        {
-                            if(in_array('wap', $v['apply_terminal']))
-                            {
-                                $result[] = $v;
-                            }
-                        } else {
-                            if(in_array('pc', $v['apply_terminal']))
-                            {
-                                $result[] = $v;
-                            }
-                        }
-                        break;
-
-                    // app
-                    case 'app' :
-                        if(in_array('app', $v['apply_terminal']))
-                        {
-                            $result[] = $v;
-                        }
-                        break;
+                    $result[] = $v;
                 }
             }
         }

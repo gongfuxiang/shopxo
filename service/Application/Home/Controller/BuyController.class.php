@@ -56,9 +56,6 @@ class BuyController extends CommonController
                 // 用户地址
                 $this->assign('user_address_list', UserService::UserAddressList(['user'=>$this->user])['data']);
 
-                // 快递
-                $this->assign('express_list', ResourcesService::ExpressList(['is_enable'=>1, 'is_open_user'=>1]));
-
                 // 支付方式
                 $this->assign('payment_list', ResourcesService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
                 

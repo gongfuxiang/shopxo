@@ -90,7 +90,7 @@ Page({
                   {
                     if(this.data.params.order_id == temp_data_list[i]['id'])
                     {
-                      this.pay_fun(this.data.params.order_id, 0);
+                      this.pay_handle(this.data.params.order_id, i);
                       break;
                     }
                   }
@@ -170,11 +170,11 @@ Page({
   pay_event(e, order_id, index) {
     var id = e.target.dataset.value;
     var index = e.target.dataset.index;
-    this.pay_fun(id, index);
+    this.pay_handle(id, index);
   },
 
   // 支付方法
-  pay_fun(order_id, index) {
+  pay_handle(order_id, index) {
     // 加载loding
     my.showLoading({ content: "请求中..." });
 
@@ -187,35 +187,42 @@ Page({
       dataType: "json",
       success: res => {
         my.hideLoading();
-
         if (res.data.code == 0) {
-          my.tradePay({
-            orderStr: res.data.data,
-            success: res => {
-              // 数据设置
-              if (res.resultCode == "9000") {
-                var temp_data_list = this.data.data_list;
-                temp_data_list[index]["status"] = 2;
-                temp_data_list[index]['status_text'] = '已支付';
-                this.setData({ data_list: temp_data_list });
-              }
+          // 线下支付成功
+          if (res.data.data.is_under_line == 1) {
+            var temp_data_list = this.data.data_list;
+            temp_data_list[index]["status"] = 2;
+            temp_data_list[index]['status_name'] = '待发货';
+            this.setData({ data_list: temp_data_list });
+          } else {
+            my.tradePay({
+              orderStr: res.data.data.data,
+              success: res => {
+                // 数据设置
+                if (res.resultCode == "9000") {
+                  var temp_data_list = this.data.data_list;
+                  temp_data_list[index]["status"] = 2;
+                  temp_data_list[index]['status_text'] = '待发货';
+                  this.setData({ data_list: temp_data_list });
+                }
 
-              // 跳转支付页面
-              my.navigateTo({
-                url:
-                  "/pages/paytips/paytips?code=" +
-                  res.resultCode +
-                  "&result=" +
-                  res.result
-              });
-            },
-            fail: res => {
-              my.showToast({
-                type: "fail",
-                content: "唤起支付模块失败"
-              });
-            }
-          });
+                // 跳转支付页面
+                my.navigateTo({
+                  url:
+                    "/pages/paytips/paytips?code=" +
+                    res.resultCode +
+                    "&result=" +
+                    res.result
+                });
+              },
+              fail: res => {
+                my.showToast({
+                  type: "fail",
+                  content: "唤起支付模块失败"
+                });
+              }
+            });
+          }
         } else {
           my.showToast({
             type: "fail",

@@ -135,7 +135,7 @@ class PaymentController extends CommonController
             'is_enable'     => 0,
             'is_open_user'  => 0,
             'is_install'    => 0,
-            'apply_terminal'=> array_column(L('common_apply_terminal_list'), 'value'),
+            'apply_terminal'=> array_column(L('common_platform_type'), 'value'),
             'config'        => '',
         ];
     }
@@ -181,7 +181,7 @@ class PaymentController extends CommonController
         $this->assign('data', $data);
 
         // 适用平台
-        $this->assign('common_apply_terminal_list', L('common_apply_terminal_list'));
+        $this->assign('common_platform_type', L('common_platform_type'));
 
         // 参数
         $this->assign('param', array_merge($_POST, $_GET));

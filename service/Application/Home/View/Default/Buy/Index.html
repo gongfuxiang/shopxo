@@ -70,27 +70,6 @@
             </empty>
         </div>
 
-        <!-- 物流 -->
-        <div class="business-item logistics" data-type="logistics">
-            <h3>选择快递</h3>
-            <notempty name="express_list">
-                <ul class="logistics-list">
-                    <foreach name="express_list" item="express">
-                        <li data-value="{{$express.id}}">
-                            <notempty name="express.icon">
-                                <img src="{{$express.icon}}" />
-                            </notempty>
-                            <span>{{$express.name}}</span>
-                            <i class="icon-active"></i>
-                        </li>
-                    </foreach>
-                </ul>
-            </notempty>
-            <empty name="express_list">
-                <div class="table-no"><i class="am-icon-warning"></i> {{:L('buy_express_not_data_tips')}}</div>
-            </empty>
-        </div>
-
         <!-- 支付方式 -->
         <div class="business-item payment" data-type="payment">
             <h3>选择支付</h3>
@@ -243,7 +222,6 @@
                             <input type="hidden" name="attr" value='<if condition="isset($params['attr'])">{{$params.attr}}</if>' />
                             <input type="hidden" name="ids" value="<if condition="isset($params['ids'])">{{$params.ids}}</if>" />
                             <input type="hidden" name="address_id" value="0" />
-                            <input type="hidden" name="express_id" value="0" />
                             <input type="hidden" name="payment_id" value="0" />
                             <input type="hidden" name="user_note" value="" />
                             <div class="go-btn-wrap">

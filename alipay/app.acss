@@ -53,6 +53,7 @@ textarea {
 .spacing { padding-top: 20rpx; }
 .spacing-10 { padding-top: 10rpx; }
 .spacing-mb { margin-bottom: 20rpx; }
+.spacing-mt { margin-top: 20rpx; }
 
 /* 在线客服 */
 .customer-service {
@@ -77,6 +78,7 @@ textarea {
 
 
 /* 边框 */
+.br { border: solid 1rpx #efefef; }
 .br-b { border-bottom: solid 1rpx #efefef; }
 .br-t { border-top: solid 1rpx #efefef; }
 .br-l { border-left: solid 1rpx #efefef; }

@@ -101,6 +101,23 @@ class OrderController extends CommonController
     }
 
     /**
+     * 订单支付
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
+     */
+    public function Pay()
+    {
+        $params = $this->data_post;
+        $params['user'] = $this->user;
+        $ret = OrderService::Pay($params);
+        $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
+    }
+
+
+    /**
      * [Cancel 订单取消]
      * @author   Devil
      * @blog     http://gong.gg/
@@ -170,53 +187,53 @@ class OrderController extends CommonController
         $this->ajaxReturn(L('common_confirm_error'));
     }
 
-    /**
-     * [Pay 订单支付]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2018-07-22T22:10:46+0800
-     */
-    public function Pay()
-    {
-        if(empty($this->data_post['id']))
-        {
-            $this->ajaxReturn('请选择订单');
-        }
+    // /**
+    //  * [Pay 订单支付]
+    //  * @author   Devil
+    //  * @blog     http://gong.gg/
+    //  * @version  1.0.0
+    //  * @datetime 2018-07-22T22:10:46+0800
+    //  */
+    // public function Pay()
+    // {
+    //     if(empty($this->data_post['id']))
+    //     {
+    //         $this->ajaxReturn('请选择订单');
+    //     }
 
-        $m = M('Order');
-        $where = ['id'=>intval($this->data_post['id']), 'user_id' => $this->user['id']];
-        $data = $m->where($where)->field('id,status,total_price')->find();
-        if(empty($data))
-        {
-            $this->ajaxReturn(L('common_data_no_exist_error'));
-        }
-        if($data['total_price'] <= 0.00)
-        {
-            $this->ajaxReturn('金额不能为0');
-        }
-        if($data['status'] != 1)
-        {
-            $status_text = L('common_order_user_status')[$data['status']]['name'];
-            $this->ajaxReturn('状态不可操作['.$status_text.']');
-        }
+    //     $m = M('Order');
+    //     $where = ['id'=>intval($this->data_post['id']), 'user_id' => $this->user['id']];
+    //     $data = $m->where($where)->field('id,status,total_price')->find();
+    //     if(empty($data))
+    //     {
+    //         $this->ajaxReturn(L('common_data_no_exist_error'));
+    //     }
+    //     if($data['total_price'] <= 0.00)
+    //     {
+    //         $this->ajaxReturn('金额不能为0');
+    //     }
+    //     if($data['status'] != 1)
+    //     {
+    //         $status_text = L('common_order_user_status')[$data['status']]['name'];
+    //         $this->ajaxReturn('状态不可操作['.$status_text.']');
+    //     }
 
-        // 发起支付
-        $notify_url = __MY_URL__.'Notify/order.php';
-        $pay_data = array(
-            'out_user'      =>  md5($this->user['id']),
-            'order_sn'      =>  $data['id'].GetNumberCode(6),
-            'name'          =>  '订单支付',
-            'total_price'   =>  $data['total_price'],
-            'notify_url'    =>  $notify_url,
-        );
-        $pay = (new \Library\Alipay())->SoonPay($pay_data, C("alipay_key_secret"));
-        if(empty($pay))
-        {
-            $this->ajaxReturn('支付接口异常');
-        }
-        $this->ajaxReturn(L('common_operation_success'), 0, $pay);
-    }
+    //     // 发起支付
+    //     $notify_url = __MY_URL__.'Notify/order.php';
+    //     $pay_data = array(
+    //         'out_user'      =>  md5($this->user['id']),
+    //         'order_sn'      =>  $data['id'].GetNumberCode(6),
+    //         'name'          =>  '订单支付',
+    //         'total_price'   =>  $data['total_price'],
+    //         'notify_url'    =>  $notify_url,
+    //     );
+    //     $pay = (new \Library\Alipay())->SoonPay($pay_data, C("alipay_key_secret"));
+    //     if(empty($pay))
+    //     {
+    //         $this->ajaxReturn('支付接口异常');
+    //     }
+    //     $this->ajaxReturn(L('common_operation_success'), 0, $pay);
+    // }
 
     /**
      * 确认

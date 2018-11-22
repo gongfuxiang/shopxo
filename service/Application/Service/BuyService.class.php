@@ -551,11 +551,6 @@ class BuyService
             ],
             [
                 'checked_type'      => 'empty',
-                'key_name'          => 'express_id',
-                'error_msg'         => '快递有误',
-            ],
-            [
-                'checked_type'      => 'empty',
                 'key_name'          => 'payment_id',
                 'error_msg'         => '支付方式有误',
             ],
@@ -608,7 +603,6 @@ class BuyService
             'preferential_price'    => $preferential_price,
             'price'                 => $check['data']['total_price'],
             'total_price'           => $check['data']['total_price']-$preferential_price,
-            'express_id'            => intval($params['express_id']),
             'payment_id'            => intval($params['payment_id']),
             'add_time'              => time(),
         ];

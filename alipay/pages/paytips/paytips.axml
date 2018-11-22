@@ -9,9 +9,7 @@
 </view>
 
 <view class="btn-box">
-  <navigator class="dy-wib" open-type="navigateBack">
-    <button class="my-btn-default" type="default" hover-class="none" size="mini">返回</button>
-  </navigator>
+  <button class="my-btn-default dy-wib" type="default" hover-class="none" size="mini" onTap="back_event">返回</button>
   <navigator a:if="{{(params.page || null) != null && (params.title || null) != null}}" class="dy-wib" url="/pages/{{params.page}}/{{params.page}}" open-type="redirect">
     <button class="my-btn-default" type="default" hover-class="none" size="mini">{{params.title}}</button>
   </navigator>

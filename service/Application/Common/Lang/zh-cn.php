@@ -511,13 +511,6 @@ return array(
 			2 => array('id' => 2, 'name' => '禁止登录', 'tips' => '用户被禁止登录'),
 		),
 
-	// 适用终端
-	'common_apply_terminal_list'		=>	array(
-			'pc' => array('value' => 'pc', 'name' => '电脑端'),
-			'wap' => array('value' => 'wap', 'name' => 'WAP手机端'),
-			'app' => array('value' => 'app', 'name' => 'APP手机端'),
-		),
-
 	// 是否已评价
 	'common_comments_status_list'		=>	array(
 			0 => array('value' => 0, 'name' => '待评价'),

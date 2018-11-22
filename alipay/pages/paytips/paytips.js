@@ -51,10 +51,15 @@ Page({
     options['msg'] = msg;
 
     // 支付成功返回的信息
-    var pay = ((options.result || null) == null) ? {} : JSON.parse(options.result);;
+    var pay = ((options.result || null) == null || options.result == 'undefined') ? {} : JSON.parse(options.result);
     options['pay'] = pay.alipay_trade_app_pay_response;
 
     // 设置信息
     this.setData({params: options});
+  },
+
+  // 返回
+  back_event(e) {
+    my.navigateBack();
   }
 });

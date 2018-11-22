@@ -5,12 +5,15 @@ Page({
     buy_submit_disabled_status: false,
     data_list_loding_msg: '',
     params: null,
+    payment_list: [],
     goods_list: [],
     address: null,
-    is_first: 1,
     address_id: 0,
     total_price: 0,
     user_note_value: '',
+    is_first: 1,
+    extension_list: [],
+    payment_id: 0,
   },
   onLoad(params) {
     if((params.data || null) == null || app.get_length(JSON.parse(params.data)) == 0)
@@ -78,10 +81,16 @@ Page({
             this.setData({
               goods_list: data.goods_list,
               total_price: data.base.total_price,
-              address: data.base.address,
-              address_id: ((data.base.address || null) == null) ? 0 : data.base.address.id,
+              payment_list: data.payment_list || [],
+              extension_list: data.extension_list || [],
               data_list_loding_status: 3,
             });
+            if (this.data.address == null || this.data.address_id == 0) {
+              this.setData({
+                address: data.base.address,
+                address_id: ((data.base.address || null) == null) ? 0 : data.base.address.id,
+              });
+            }
           }
         } else {
           this.setData({
@@ -116,81 +125,54 @@ Page({
 
   // 提交订单
   buy_submit_event(e) {
-    if((this.data.address_id || 0) == 0)
-    {
-      my.showToast({
-        type: "fail",
-        content: "请选择地址"
+    // 表单数据
+    var data = this.data.params;
+    data['address_id'] = this.data.address_id;
+    data['payment_id'] = this.data.payment_id;
+    data['user_note'] = this.data.user_note_value;
+
+    // 数据验证
+    var validation = [
+      { fields: 'address_id', msg: '请选择地址' },
+      { fields: 'payment_id', msg: '请选择支付方式' }
+    ];
+    if (app.fields_check(data, validation)) {
+      // 加载loding
+      my.showLoading({content: '提交中...'});
+      this.setData({
+        buy_submit_disabled_status: true,
       });
-      return false;
-    }
-    var self = this;
-    // 加载loding
-    my.showLoading({content: '提交中...'});
-    this.setData({
-      buy_submit_disabled_status: true,
-    });
 
-    my.httpRequest({
-      url: app.get_request_url("Submit", "Buy"),
-      method: "POST",
-      data: {
-        goods: this.data.params,
-        address_id: this.data.address_id,
-        user_note: this.data.user_note_value,
-      },
-      dataType: "json",
-      success: res => {
-        my.hideLoading();
-
-        if (res.data.code == 0) {
-          var data = res.data.data;
-          if(data.status == 1)
-          {
-            my.confirm({
-              title: '',
-              content: res.data.msg,
-              confirmButtonText: '立即支付',
-              cancelButtonText: '进入订单',
-              success: (result) => {
-                self.setData({buy_submit_disabled_status: false});
-                var is_pay = (result.confirm) ? 1 : 0;
-                my.redirectTo({
-                  url: '/pages/user-order/user-order?is_pay='+is_pay+'&order_id='+res.data.data.id
-                });
-              },
+      my.httpRequest({
+        url: app.get_request_url("Add", "Buy"),
+        method: "POST",
+        data: data,
+        dataType: "json",
+        success: res => {
+          my.hideLoading();
+          if (res.data.code == 0) {
+            my.redirectTo({
+              url: '/pages/user-order/user-order?is_pay=1' + '&order_id=' + res.data.data.order.id
             });
-          } else {
-            my.showToast({
-              type: "success",
-              content: res.data.msg
-            });
-            setTimeout(function()
-            {
-              self.setData({buy_submit_disabled_status: false});
-              my.redirectTo({
-                url: '/pages/user-order/user-order'
-              });
-            }, 1000);
           }
-        } else {
+        },
+        fail: () => {
+          my.hideLoading();
           self.setData({buy_submit_disabled_status: false});
+          
           my.showToast({
             type: "fail",
-            content: res.data.msg
+            content: "服务器请求出错"
           });
         }
-      },
-      fail: () => {
-        my.hideLoading();
-        self.setData({buy_submit_disabled_status: false});
-        
-        my.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
-      }
-    });
+      });
+    }
   },
+
+  // 支付方式选择
+  payment_event(e) {
+    var payment_id = e.currentTarget.dataset.value || 0;
+    this.setData({ payment_id: payment_id});
+  }
 
 });

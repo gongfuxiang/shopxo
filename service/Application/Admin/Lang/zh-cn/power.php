@@ -30,6 +30,6 @@ return array(
 	'role_edit_name'					=>	'角色编辑',
 	'power_icon_text'					=>	'图标class',
 	'power_icon_format'					=>	'图标格式 0~30 个字符之间',
-	'power_icon_tips'					=>	'参考 [http://amazeui.org/css/icon]',
+	'power_icon_tips'					=>	'参考 http://www.iconfont.cn/ 将icon放到 [ /Public/Admin/Default/Css/IconfontMenu.css ] 文件中',
 );
 ?>
