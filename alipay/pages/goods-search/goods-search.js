@@ -62,7 +62,7 @@ Page({
     my.httpRequest({
       url: app.get_request_url("Index", "Search"),
       method: "POST",
-      data: params,
+      data: this.data.post_data,
       dataType: "json",
       success: res => {
         my.hideLoading();

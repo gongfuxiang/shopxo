@@ -1,6 +1,9 @@
 /**
  * 商品列表
  */
+ .scroll-box {
+   height: calc(100vh - 80rpx);
+ }
 .data-list {
     overflow: hidden;
 }
@@ -72,19 +75,18 @@
  * 排序导航
  */
 .nav-sort-content .item {
-  height: 60rpx;
-  line-height: 60rpx;
+  height: 80rpx;
+  line-height: 80rpx;
   width: 160rpx;
 }
 .nav-sort-content .item .icon {
   width: 30rpx;
   height: 30rpx;
-  vertical-align: middle;
 }
 .screening-submit {
-  width: 45rpx;
-  height: 45rpx;
+  width: 50rpx;
+  height: 50rpx;
   position: absolute;
-  top: 10rpx;
+  top: 15rpx;
   right: 20rpx;
 }
