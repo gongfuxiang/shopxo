@@ -1,3 +1,11 @@
+<!-- 搜索 -->
+<view class="search wh-auto">
+  <view class="search-content bg-white oh">
+    <icon type="search" size="16" />
+    <input type="text" confirm-type="search" placeholder="其实搜索很简单^_^！" class="wh-auto" onConfirm="search_input_event" />
+  </view>
+</view>
+
 <!-- 轮播 -->
 <component-home-banner />
 

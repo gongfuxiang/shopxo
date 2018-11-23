@@ -105,15 +105,15 @@ Page({
 
   // 数量输入事件
   goods_buy_number_blur(e) {
-    var index = e.currentTarget.dataset.index || 0;
+    var index = e.target.dataset.index || 0;
     var buy_number = parseInt(e.detail.value) || 1;
     this.goods_buy_number_func(index, buy_number);
   },
 
   // 数量操作事件
   goods_buy_number_event(e) {
-    var index = e.currentTarget.dataset.index || 0;
-    var type = parseInt(e.currentTarget.dataset.type) || 0;
+    var index = e.target.dataset.index || 0;
+    var type = parseInt(e.target.dataset.type) || 0;
     var temp_buy_number = parseInt(this.data.data_list[index]['stock']);
     if (type == 0) {
       var buy_number = temp_buy_number - 1;
@@ -280,7 +280,7 @@ Page({
 
   // 选中处理
   selectedt_event(e) {
-    var type = e.currentTarget.dataset.type || null;
+    var type = e.target.dataset.type || null;
     if (type != null)
     {
       var temp_data_list = this.data.data_list;
@@ -296,7 +296,7 @@ Page({
 
         // 节点操作
         case 'node' :
-          var index = e.currentTarget.dataset.index || 0;
+          var index = e.target.dataset.index || 0;
           temp_data_list[index]['selected'] = (temp_data_list[index]['selected'] == true) ? false : true;
           break;
       }

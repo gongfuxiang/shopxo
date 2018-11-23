@@ -72,6 +72,20 @@ Page({
     });
   },
 
+  // 搜索事件
+  search_input_event(e) {
+    var keywords = e.detail.value || null;
+    if (keywords == null) {
+      my.showToast({content: '请输入搜索关键字'});
+      return false;
+    }
+
+    // 进入搜索页面
+    my.navigateTo({
+      url: '/pages/goods-search/goods-search?keywords='+keywords
+    });
+  },
+
   // 下拉刷新
   onPullDownRefresh() {
     this.init();

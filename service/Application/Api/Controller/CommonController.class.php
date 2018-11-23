@@ -46,9 +46,9 @@ class CommonController extends Controller
 		$this->CommonInit();
 
         // 输入参数
-        $this->data_post = I('post.');
-        $this->data_get = I('get.');
-        $this->data_request = I('request.');
+        $this->data_post = $_POST;
+        $this->data_get = $_GET;
+        $this->data_request = $_REQUEST;
 	}
 
     /**

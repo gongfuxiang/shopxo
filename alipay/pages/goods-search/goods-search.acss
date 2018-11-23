@@ -1,4 +1,6 @@
-/* 商品列表 */
+/**
+ * 商品列表
+ */
 .data-list {
     overflow: hidden;
 }
@@ -25,4 +27,64 @@
 .data-list .items .base,
 .data-list .items .base .price {
     margin-top: 15rpx;
+}
+
+/**
+ * 条件
+ */
+.popup-form {
+  height: calc(100vh - 20rpx);
+  padding: 20rpx 20rpx 0 20rpx;
+}
+.popup-form input {
+  font-size: 24rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  background: #efefef;
+}
+.screening-price input {
+  width: 220rpx;
+}
+.screening-price .separator {
+  margin-top: 20rpx;
+  width: 30rpx;
+}
+.popup-form .keywords input {
+  width: 490rpx;
+}
+.popup-form .item:not(:last-child) {
+  margin-bottom: 50rpx;
+}
+.popup-form .item .title {
+  margin-bottom: 10rpx;
+  font-size: 28rpx;
+}
+.popup-form .form-submit {
+  height: 80rpx;
+  line-height: 80rpx;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  border-radius: 0;
+}
+
+/**
+ * 排序导航
+ */
+.nav-sort-content .item {
+  height: 60rpx;
+  line-height: 60rpx;
+  width: 160rpx;
+}
+.nav-sort-content .item .icon {
+  width: 30rpx;
+  height: 30rpx;
+  vertical-align: middle;
+}
+.screening-submit {
+  width: 45rpx;
+  height: 45rpx;
+  position: absolute;
+  top: 10rpx;
+  right: 20rpx;
 }

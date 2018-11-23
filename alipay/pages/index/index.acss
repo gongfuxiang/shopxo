@@ -1,3 +1,33 @@
+/**
+ * 搜索
+ */
+.search {
+  left: 0;
+  top: 20rpx;
+  box-sizing: border-box; 
+  padding: 15rpx 20rpx;
+  background: #d2364c;
+}
+.search-content {
+  border-radius: 6rpx;
+  position: relative;
+}
+.search icon {
+  position: absolute;
+  left: 10rpx;
+  top: 10rpx;
+}
+.search input {
+  font-size: 28rpx;
+  padding-left: 50rpx;
+  box-sizing: border-box;
+  height: 60rpx;
+  line-height: 60rpx;
+}
+
+ /**
+ * 楼层数据
+ */
 .floor-list, .floor-left {
     overflow: hidden;
     position: relative;

@@ -293,7 +293,7 @@ Page({
               if (res.data.code == 0) {
                 var temp_data_list = this.data.data_list;
                 temp_data_list[index]['status'] = 5;
-                temp_data_list[index]['status_text'] = '已取消';
+                temp_data_list[index]['status_name'] = '已取消';
                 this.setData({data_list: temp_data_list});
 
                 my.showToast({
@@ -346,7 +346,7 @@ Page({
               if (res.data.code == 0) {
                 var temp_data_list = this.data.data_list;
                 temp_data_list[index]['status'] = 4;
-                temp_data_list[index]['status_text'] = '已完成';
+                temp_data_list[index]['status_name'] = '已完成';
                 this.setData({data_list: temp_data_list});
 
                 my.showToast({

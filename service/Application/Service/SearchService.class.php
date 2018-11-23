@@ -87,18 +87,20 @@ class SearchService
         if(!empty($params['screening_price_id']))
         {
             $price = M('ScreeningPrice')->field('min_price,max_price')->where(['is_enable'=>1, 'id'=>intval($params['screening_price_id'])])->find();
-            if(!empty($price['min_price']) && !empty($price['max_price']))
+            $params['min_price'] = $price['min_price'];
+            $params['max_price'] = $price['max_price'];
+            if(!empty($params['min_price']) && !empty($params['max_price']))
             {
                 $where['g.price'] = [
-                    ['EGT', $price['min_price']],
-                    ['LT', $price['max_price']],
+                    ['EGT', $params['min_price']],
+                    ['LT', $params['max_price']],
                 ];
-            } else if(!empty($price['min_price']))
+            } else if(!empty($params['min_price']))
             {
-                $where['g.price'] = ['EGT', $price['min_price']];
-            } else if(!empty($price['max_price']))
+                $where['g.price'] = ['EGT', $params['min_price']];
+            } else if(!empty($params['max_price']))
             {
-                $where['g.price'] = ['LT', $price['max_price']];
+                $where['g.price'] = ['LT', $params['max_price']];
             }
         }
 

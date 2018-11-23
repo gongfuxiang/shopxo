@@ -7,10 +7,18 @@ Page({
     data_page_total: 0,
     data_page: 1,
     params: null,
+    post_data: {},
+    is_show_popup_form: false,
+    popup_form_loading_status: false,
+    search_nav_sort_list: [
+      { name: "综合", field: "default", sort: "asc", "icon": null },
+      { name: "销量", field: "sales_count", sort: "asc", "icon": "default" },
+      { name: "价格", field: "price", sort: "asc", "icon": "default" },
+    ],
   },
 
   onLoad(params) {
-    this.setData({params: params});
+    this.setData({params: params, post_data: params});
     this.init();
   },
 
@@ -127,5 +135,53 @@ Page({
   // 滚动加载
   scroll_lower(e) {
     this.get_data_list();
+  },
+
+  // 搜索条件
+  form_submit_event(e) {
+    this.setData({ post_data: e.detail.value, data_page: 1});
+    this.popup_form_event_close();
+    this.get_data_list(1);
+  },
+
+  // 筛选条件关闭
+  popup_form_event_close(e) {
+    this.setData({ is_show_popup_form: false});
+  },
+
+  // 筛选条件开启
+  popup_form_event_show(e) {
+    this.setData({ is_show_popup_form: true });
+  },
+
+  // 筛选
+  nav_sort_event(e) {
+    var index = e.target.dataset.index || 0;
+    var temp_post_data = this.data.post_data;
+    var temp_search_nav_sort = this.data.search_nav_sort_list;
+    var temp_sort = (temp_search_nav_sort[index]['sort'] == 'desc') ? 'asc' : 'desc';
+    for (var i in temp_search_nav_sort) {
+      if(i != index) {
+        if (temp_search_nav_sort[i]['icon'] != null) {
+          temp_search_nav_sort[i]['icon'] = 'default';
+        }
+        temp_search_nav_sort[i]['sort'] = 'desc';
+      }
+    }
+
+    temp_search_nav_sort[index]['sort'] = temp_sort;
+    if (temp_search_nav_sort[index]['icon'] != null) {
+      temp_search_nav_sort[index]['icon'] = temp_sort;
+    }
+
+    temp_post_data['order_by_field'] = temp_search_nav_sort[index]['field'];
+    temp_post_data['order_by_type'] = temp_sort;
+
+    this.setData({
+      post_data: temp_post_data,
+      search_nav_sort_list: temp_search_nav_sort,
+      data_page: 1,
+    });
+    this.get_data_list(1);
   },
 });
