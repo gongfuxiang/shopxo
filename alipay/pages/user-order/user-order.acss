@@ -3,8 +3,8 @@
  */
 .nav {
   background: #eee;
-  height: 70rpx;
-  line-height: 70rpx;
+  height: 80rpx;
+  line-height: 80rpx;
 }
 .nav .item {
   width: 16.66%;
@@ -14,7 +14,7 @@
  * 列表
  */
 .scroll-box{
-    height: calc(100vh - 70rpx);
+    height: calc(100vh - 80rpx);
 }
 .goods-base {
   min-height: 160rpx;

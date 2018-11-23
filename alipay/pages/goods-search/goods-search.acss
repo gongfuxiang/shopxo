@@ -1,4 +1,27 @@
 /**
+ * 排序导航
+ */
+ .nav-sort {
+   background: #eee;
+ }
+.nav-sort-content .item {
+  height: 80rpx;
+  line-height: 80rpx;
+  width: 160rpx;
+}
+.nav-sort-content .item .icon {
+  width: 30rpx;
+  height: 30rpx;
+}
+.screening-submit {
+  width: 50rpx;
+  height: 50rpx;
+  position: absolute;
+  top: 15rpx;
+  right: 20rpx;
+}
+
+/**
  * 商品列表
  */
  .scroll-box {
@@ -70,27 +93,4 @@
   left: 0;
   bottom: 0;
   border-radius: 0;
-}
-
-/**
- * 排序导航
- */
- .nav-sort {
-   background: #eee;
- }
-.nav-sort-content .item {
-  height: 80rpx;
-  line-height: 80rpx;
-  width: 160rpx;
-}
-.nav-sort-content .item .icon {
-  width: 30rpx;
-  height: 30rpx;
-}
-.screening-submit {
-  width: 50rpx;
-  height: 50rpx;
-  position: absolute;
-  top: 15rpx;
-  right: 20rpx;
 }
