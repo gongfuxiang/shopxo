@@ -56,13 +56,17 @@ Page({
       data_list_loding_status: 1
     });
 
-    // 获取数据
+    // 参数
     var params = this.data.params;
-    params['page'] = this.data.data_page;
+    var post_data = this.data.post_data;
+    post_data['page'] = this.data.data_page;
+    post_data['category_id'] = params['category_id'] || 0;
+
+    // 获取数据
     my.httpRequest({
       url: app.get_request_url("Index", "Search"),
       method: "POST",
-      data: this.data.post_data,
+      data: post_data,
       dataType: "json",
       success: res => {
         my.hideLoading();

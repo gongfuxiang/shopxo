@@ -68,12 +68,23 @@ class OrderController extends CommonController
         // 支付方式
         $payment_list = ResourcesService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]);
 
+        // 导航状态列表
+        $nav_status_list = [
+            ['name'=>'全部', 'value'=>'-1'],
+            ['name'=>'待付款', 'value'=>'0,1'],
+            ['name'=>'待发货', 'value'=>'2'],
+            ['name'=>'待收货', 'value'=>'3'],
+            ['name'=>'已完成', 'value'=>'4'],
+            ['name'=>'已失效', 'value'=>'5,6'],
+        ];
+
         // 返回数据
         $result = [
-            'total'         =>  $total,
-            'page_total'    =>  $page_total,
-            'data'          =>  $data['data'],
-            'payment_list'  =>  $payment_list,
+            'total'             =>  $total,
+            'page_total'        =>  $page_total,
+            'data'              =>  $data['data'],
+            'payment_list'      =>  $payment_list,
+            'nav_status_list'   =>  $nav_status_list,
         ];
         $this->ajaxReturn(L('common_operation_success'), 0, $result);
     }

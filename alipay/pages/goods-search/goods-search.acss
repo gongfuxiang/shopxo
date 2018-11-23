@@ -43,11 +43,11 @@
   font-size: 24rpx;
   height: 50rpx;
   line-height: 50rpx;
-  background: #efefef;
+  background: #fbfbfb;
+  border-radius: 6rpx;
 }
 .screening-price input {
   width: 220rpx;
-  border-radius: 6rpx;
 }
 .screening-price .separator {
   margin-top: 20rpx;
@@ -75,6 +75,9 @@
 /**
  * 排序导航
  */
+ .nav-sort {
+   background: #eee;
+ }
 .nav-sort-content .item {
   height: 80rpx;
   line-height: 80rpx;

@@ -1,16 +1,14 @@
-<!-- 搜索 -->
-<view class="search-content bg-white">
-  <view class="search-box oh">
-    <input class="search" type="text" onInput="input_event" placeholder="收件人/电话/单号" />
-    <view class="search-btn tc fr" onTap="search_event">
-      <icon class="search-icon" type="search" size="16" />
-    </view>
-  </view>
+<!-- 导航 -->
+<view class="nav">
+  <block a:for="{{nav_status_list}}">
+    <view a:if="{{nav_status_index == index}}" class="item fl tc cr-main" data-index="{{index}}" onTap="nav_event">{{item.name}}</view>
+    <view a:else class="item fl tc" data-index="{{index}}" onTap="nav_event">{{item.name}}</view>
+  </block>
 </view>
 
 <!-- 订单列表 -->
 <scroll-view scroll-y="{{true}}" class="scroll-box" onScrollToLower="scroll_lower" lower-threshold="30">
-  <view class="list-content spacing">
+  <view class="list-content">
     <view class="list-item bg-white spacing-mb" a:if="{{data_list.length > 0}}" a:for="{{data_list}}">
       <view class="item-base oh br-b">
         <text class="cr-666">{{item.add_time}}</text>

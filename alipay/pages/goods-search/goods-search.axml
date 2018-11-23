@@ -1,5 +1,5 @@
 <!-- 排序 -->
-<view class="nav-sort oh br-b">
+<view class="nav-sort oh">
   <view class="nav-sort-content">
     <block a:for="{{search_nav_sort_list}}">
       <view class="item tc fl" data-index="{{index}}" onTap="nav_sort_event">

@@ -14,6 +14,15 @@ Page({
     payment_id: 0,
     temp_pay_value: 0,
     temp_pay_index: 0,
+    nav_status_list: [
+      { name: "全部", value: "-1" },
+      { name: "待付款", value: "0,1" },
+      { name: "待发货", value: "2" },
+      { name: "待收货", value: "3" },
+      { name: "已完成", value: "4" },
+      { name: "已失效", value: "5,6" },
+    ],
+    nav_status_index: 0,
   },
 
   onLoad(params) {
@@ -46,14 +55,6 @@ Page({
     this.setData({input_keyword_value: e.detail.value});
   },
 
-  // 搜索事件
-  search_event() {
-    this.setData({
-      data_page: 1
-    });
-    this.get_data_list(1);
-  },
-
   // 获取数据
   get_data_list(is_mandatory) {
     // 分页是否还有数据
@@ -69,13 +70,18 @@ Page({
       data_list_loding_status: 1
     });
 
+    // 参数
+    var order_status = ((this.data.nav_status_list[this.data.nav_status_index] || null) == null) ? -1 : this.data.nav_status_list[this.data.nav_status_index]['value'];
+
     // 获取数据
     my.httpRequest({
       url: app.get_request_url("Index", "Order"),
       method: "POST",
       data: {
         page: this.data.data_page,
-        keywords: this.data.input_keyword_value || ""
+        keywords: this.data.input_keyword_value || "",
+        status: order_status,
+        is_more: 1,
       },
       dataType: "json",
       success: res => {
@@ -116,6 +122,7 @@ Page({
               data_page: this.data.data_page + 1,
               load_status: 1,
               payment_list: res.data.data.payment_list || [],
+              nav_status_list: res.data.data.nav_status_list || [],
             });
 
             // 是否还有数据
@@ -379,5 +386,14 @@ Page({
       type: "success",
       content: "催促成功"
     });
+  },
+
+  // 导航事件
+  nav_event(e) {
+    this.setData({
+      nav_status_index: e.target.dataset.index || 0,
+      data_page: 1,
+    });
+    this.get_data_list(1);
   },
 });

@@ -1,40 +1,20 @@
 /*
-    头部搜索框
-*/
-.search-content{
-    height: 120rpx;
-    padding: 25rpx 10rpx;
-    box-sizing: border-box;
+ * 导航
+ */
+.nav {
+  background: #eee;
+  height: 70rpx;
+  line-height: 70rpx;
 }
-.search-box{
-    border: 1px solid #eee;
-    border-radius: 2rpx;
-    height: 70rpx;
-}
-.search-box .search{
-    width: calc(100% - 111rpx);
-    height: 75rpx;
-    line-height: 75rpx;
-    font-size: 28rpx;
-    box-sizing: border-box;
-    color: #4a4a4a;
-}
-.search-box  .search-btn {
-    width: 100rpx;
-    box-sizing: border-box;
-    margin: 12rpx 0;
-    height: 50rpx;
-    border-left: solid 1px #e3e3e3;
-}
-.search-btn  .search-icon{
-    margin: 8rpx 0;
+.nav .item {
+  width: 16.66%;
 }
 
 /*
-    主体
-*/
+ * 列表
+ */
 .scroll-box{
-    height: calc(100vh - 120rpx);
+    height: calc(100vh - 70rpx);
 }
 .goods-base {
   min-height: 160rpx;
