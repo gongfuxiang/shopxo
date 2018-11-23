@@ -47,6 +47,7 @@
 }
 .screening-price input {
   width: 220rpx;
+  border-radius: 6rpx;
 }
 .screening-price .separator {
   margin-top: 20rpx;
