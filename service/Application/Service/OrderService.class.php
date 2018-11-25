@@ -1245,7 +1245,7 @@ class OrderService
         $order_status_list = L('common_order_user_status');
         foreach(L('common_order_user_status') as $v)
         {
-            $result[$v['id']] = [
+            $result[] = [
                 'name'      => $v['name'],
                 'status'    => $v['id'],
                 'count'     => 0,
@@ -1255,15 +1255,17 @@ class OrderService
         // 数据处理
         if(!empty($data))
         {
-            
-            foreach($data as $v)
+            foreach($result as &$v)
             {
-                if(isset($result[$v['status']]))
+                foreach($data as $vs)
                 {
-                    $result[$v['status']]['count'] = $v['count'];
+                    if($v['status'] == $vs['status'])
+                    {
+                        $v['count'] = $vs['count'];
+                        continue;
+                    }
                 }
             }
-            sort($result);
         }
 
         // 待评价状态站位100

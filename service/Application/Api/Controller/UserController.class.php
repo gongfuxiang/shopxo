@@ -2,6 +2,8 @@
 
 namespace Api\Controller;
 
+use Service\OrderService;
+
 /**
  * 用户
  * @author   Devil
@@ -235,6 +237,9 @@ class UserController extends CommonController
         // 登录校验
         $this->Is_Login();
 
+        // 用户订单状态
+        $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
+
         // 初始化数据
         $result = array(
             'integral'                          => $this->user['integral'],
@@ -243,6 +248,7 @@ class UserController extends CommonController
             'username'                          => $this->user['username'],
             'customer_service_tel'              => MyC('common_customer_service_tel'),
             'common_user_center_notice'         => MyC('common_user_center_notice'),
+            'user_order_status'                 => $user_order_status['data'],
         );
 
         // 返回数据

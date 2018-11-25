@@ -8,19 +8,24 @@ Page({
     agreement_url: '',
     customer_service_tel: null,
     common_user_center_notice: null,
-    
+    user_order_status_list: [
+      { name: "待付款", status: 1, count: 0 },
+      { name: "待发货", status: 2, count: 0 },
+      { name: "待收货", status: 3, count: 0 },
+      { name: "已完成", status: 4, count: 0 },
+    ],
     lists: [
+      {
+        url: "user-order",
+        icon: "user-nav-order-icon",
+        is_show: 1,
+        name: "我的订单",
+      },
       {
         url: "user-address",
         icon: "user-nav-address-icon",
         is_show: 1,
         name: "我的地址"
-      },
-      {
-        url: "user-order",
-        icon: "user-nav-booking-order-icon",
-        is_show: 1,
-        name: "我的订单"
       },
       {
         url: "user-faovr",
@@ -83,22 +88,28 @@ Page({
         my.stopPullDownRefresh();
         if (res.data.code == 0) {
           var data = res.data.data;
+
+          // 订单数量处理
+          var temp_user_order_status_list = this.data.user_order_status_list;
+          if ((data.user_order_status || null) != null && data.user_order_status.length > 0) {
+            for (var i in temp_user_order_status_list) {
+              for (var t in data.user_order_status) {
+                if (temp_user_order_status_list[i]['status'] == data.user_order_status[t]['status']) {
+                  temp_user_order_status_list[i]['count'] = data.user_order_status[t]['count'];
+                  break;
+                }
+              }
+            }
+          }
+
           this.setData({
+            user_order_status_list: temp_user_order_status_list,
             customer_service_tel: data.customer_service_tel || null,
             common_user_center_notice: data.common_user_center_notice || null,
+            avatar: (data.avatar != null) ? data.avatar : this.data.avatar,
+            nickname: (data.nickname != null) ? data.nickname : this.data.nickname,
+            integral: (data.integral != null) ? data.integral : this.data.integral,
           });
-          if(data.avatar != null)
-          {
-            this.setData({avatar: data.avatar});
-          }
-          if(data.nickname != null)
-          {
-            this.setData({nickname: data.nickname});
-          }
-          if(data.integral != null)
-          {
-            this.setData({integral: data.integral});
-          }
         } else {
           my.showToast({
             type: "fail",

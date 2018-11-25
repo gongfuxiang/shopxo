@@ -1,17 +1,32 @@
 <view class="head-box bg-main">
     <view class="head-item oh tc">
-        <image onTap="preview_event" onError="user_avatar_error" class="portrait" src="{{avatar}}" mode="widthFix" />
+        <image onTap="preview_event" onError="user_avatar_error" class="avatar" src="{{avatar}}" mode="widthFix" />
         <text class="item-name dis-block cr-fff">{{nickname}}</text>
     </view>
 </view>
 
 <view class="nav-box bg-white">
-    <navigator a:for="{{lists}}" a:if="{{item.is_show == 1}}" url="/pages/{{item.url}}/{{item.url}}" class="nav-item br-b">
+  <block a:for="{{lists}}">
+    <view a:if="{{item.is_show == 1}}">
+      <navigator url="/pages/{{item.url}}/{{item.url}}" class="nav-item br-b">
         <view class="arrow-right">
-            <image src="/images/{{item.icon}}.png" class="item-icon" mode="widthFix" />
-            <text class="item-name">{{item.name}}</text>
+          <image src="/images/{{item.icon}}.png" class="item-icon" mode="widthFix" />
+          <text class="item-name">{{item.name}}</text>
         </view>
-    </navigator>
+      </navigator>
+    </view>
+    <view a:if="{{item.url == 'user-order' && user_order_status_list.length > 0}}" class="items-list br-b oh">
+      <block a:for="{{user_order_status_list}}" a:for-item="items">
+        <navigator url="/pages/{{item.url}}/{{item.url}}?status={{items.status}}">
+          <view class="items fl tc">
+            <badge a:if="{{items.count > 0}}" text="{{items.count}}" dot="{{false}}"></badge>
+            <image src="/images/user-index-nav-order-icon-{{items.status}}.png" class="items-icon" mode="aspectFill" />
+            <view class="items-name">{{items.name}}</view>
+          </view>
+        </navigator>
+      </block>
+    </view>
+  </block>
 
     <view class="nav-item br-b" onTap="clear_storage">
         <image src="/images/user-nav-cache-icon.png" class="item-icon" mode="widthFix" />

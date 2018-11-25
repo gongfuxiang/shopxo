@@ -3,7 +3,7 @@
     padding: 30rpx 10rpx;
     font-size: 24rpx;
 }
-.head-item .portrait{
+.head-item .avatar {
     width: 160rpx;
     height: 160rpx;
     border-radius: 50%;
@@ -27,6 +27,7 @@
 }
 .nav-box .nav-item .item-icon{
     width: 40rpx;
+    height: 40rpx;
     vertical-align: middle;
 }
 .nav-box .nav-item .item-name{
@@ -35,4 +36,24 @@
 .nav-box .nav-item .item-arrow{
     width: 25rpx;
 }
+
+.items-list {
+  padding: 15rpx 0;
+}
+.items-list .items {
+  width: 25%;
+  position: relative;
+}
+.items-list .items .items-icon {
+  width: 60rpx;
+  height: 60rpx;
+  margin-bottom: 6rpx;
+}
+.items-list .items .am-badge {
+  position: absolute;
+  top: 0;
+  left: calc(50% + 30rpx);
+}
+
+
 .user-notice { margin-top: 20rpx; padding: 0 10rpx 20rpx 10rpx; }

@@ -16,7 +16,7 @@ Page({
     temp_pay_index: 0,
     nav_status_list: [
       { name: "全部", value: "-1" },
-      { name: "待付款", value: "0,1" },
+      { name: "待付款", value: "1" },
       { name: "待发货", value: "2" },
       { name: "待收货", value: "3" },
       { name: "已完成", value: "4" },
@@ -26,7 +26,21 @@ Page({
   },
 
   onLoad(params) {
-    this.setData({params: params});
+    // 是否指定状态
+    var nav_status_index = 0;
+    if ((params.status || null) != null) {
+      for (var i in this.data.nav_status_list) {
+        if (this.data.nav_status_list[i]['value'] == params.status) {
+          nav_status_index = i;
+          break;
+        }
+      }
+    }
+
+    this.setData({
+      params: params,
+      nav_status_index: nav_status_index,
+    });
     this.init();
   },
 
@@ -122,7 +136,6 @@ Page({
               data_page: this.data.data_page + 1,
               load_status: 1,
               payment_list: res.data.data.payment_list || [],
-              nav_status_list: res.data.data.nav_status_list || [],
             });
 
             // 是否还有数据
