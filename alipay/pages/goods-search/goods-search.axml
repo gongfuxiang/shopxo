@@ -50,11 +50,9 @@
       <input type="digit" placeholder="最高价" name="max_price" class="br fl" />
     </view>
     <view class="item keywords">
-      <view class="title cr-666">关键字
-      </view>
+      <view class="title cr-666">关键字</view>
       <input type="text" placeholder="关键字" name="keywords" value="{{(params.keywords || '')}}" class="br" />
     </view>
-    <button formType="submit" class="bg-main form-submit wh-auto" disabled="{{popup_form_loading_status}}" hover-class="none">确认
-    </button>
+    <button formType="submit" class="bg-main form-submit wh-auto" disabled="{{popup_form_loading_status}}" hover-class="none">确认</button>
   </form>
 </popup>

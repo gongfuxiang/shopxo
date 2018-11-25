@@ -99,8 +99,14 @@ Page({
             }
           } else {
             this.setData({
-              data_list_loding_status: 0
+              data_list_loding_status: 0,
             });
+            if (this.data.data_page <= 1) {
+              this.setData({
+                data_list: [],
+                data_bottom_line_status: false,
+              });
+            }
           }
         } else {
           this.setData({

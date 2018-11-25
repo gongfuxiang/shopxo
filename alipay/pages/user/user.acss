@@ -1,6 +1,6 @@
 /* 头部 */
 .head-box{
-    padding: 30rpx 10rpx;
+    padding-top: 30rpx;
     font-size: 24rpx;
 }
 .head-item .avatar {
@@ -12,12 +12,42 @@
     font-size: 30rpx;
     margin-top: 10rpx;
 }
-
-.head-item .item-icon{
+.head-item .item-icon {
     width: 30rpx;
     margin-right: 20rpx;
 }
 
+/* 头部导航 */
+.head-nav {
+  padding: 5px 0;
+  background: rgba(0,0,0,0.1);
+  margin-top: 30rpx;
+}
+.head-nav-item {
+  width: 25%;
+  padding: 5rpx 0;
+}
+.head-nav-item view {
+  line-height: 38rpx;
+  color: #efeaea;
+  font-weight: 100;
+}
+.message-nav {
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+}
+.message-nav image {
+  width: 28rpx;
+  height: 28rpx;
+  vertical-align: middle;
+}
+.message-nav text {
+  margin-left: 5rpx;
+  font-weight: 100;
+  font-size: 24rpx;
+  color: #eee;
+}
 
 /* 导航列表 */
 .nav-box .nav-item{

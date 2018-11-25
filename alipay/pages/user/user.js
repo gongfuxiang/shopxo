@@ -3,11 +3,15 @@ Page({
   data: {
     avatar: app.data.default_user_head_src,
     nickname: "用户名",
-    integral: 0,
-    deadline: 0,
-    agreement_url: '',
     customer_service_tel: null,
     common_user_center_notice: null,
+    message_total: 0,
+    head_nav_list: [
+      { name: "订单总数", url: "user-order", count: 0 },
+      { name: "商品收藏", url: "user-faovr", count: 0 },
+      { name: "我的足迹", url: "user-goods-browse", count: 0 },
+      { name: "我的积分", url: "user-integral", count: 0 },
+    ],
     user_order_status_list: [
       { name: "待付款", status: 1, count: 0 },
       { name: "待发货", status: 2, count: 0 },
@@ -102,13 +106,21 @@ Page({
             }
           }
 
+          // 头部导航总数
+          var temp_head_nav_list = this.data.head_nav_list;
+          temp_head_nav_list[0]['count'] = ((data.user_order_count || 0) == 0) ? 0 : data.user_order_count;
+          temp_head_nav_list[1]['count'] = ((data.user_goods_favor_count || 0) == 0) ? 0 : data.user_goods_favor_count;
+          temp_head_nav_list[2]['count'] = ((data.user_goods_browse_count || 0) == 0) ? 0 : data.user_goods_browse_count;
+          temp_head_nav_list[3]['count'] = ((data.integral || 0) == 0) ? 0 : data.integral;
+
           this.setData({
             user_order_status_list: temp_user_order_status_list,
             customer_service_tel: data.customer_service_tel || null,
             common_user_center_notice: data.common_user_center_notice || null,
             avatar: (data.avatar != null) ? data.avatar : this.data.avatar,
             nickname: (data.nickname != null) ? data.nickname : this.data.nickname,
-            integral: (data.integral != null) ? data.integral : this.data.integral,
+            message_total: ((data.common_message_total || 0) == 0) ? 0 : data.common_message_total,
+            head_nav_list: temp_head_nav_list,
           });
         } else {
           my.showToast({

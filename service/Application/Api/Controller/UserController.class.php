@@ -3,6 +3,8 @@
 namespace Api\Controller;
 
 use Service\OrderService;
+use Service\GoodsService;
+use Service\MessageService;
 
 /**
  * 用户
@@ -237,18 +239,39 @@ class UserController extends CommonController
         // 登录校验
         $this->Is_Login();
 
+        // 订单总数
+        $where = ['user_id'=>$this->user['id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
+        $user_order_count = OrderService::OrderTotal($where);
+
+        // 商品收藏总数
+        $where = ['user_id'=>$this->user['id']];
+        $user_goods_favor_count = GoodsService::GoodsFavorTotal($where);
+
+        // 商品浏览总数
+        $where = ['user_id'=>$this->user['id']];
+        $user_goods_browse_count = GoodsService::GoodsBrowseTotal($where);
+
+        // 未读消息总数
+        $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0];
+        $common_message_total = MessageService::UserMessageTotal($params);
+        $common_message_total = ($common_message_total > 99) ? '99+' : $common_message_total;
+
         // 用户订单状态
         $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
 
         // 初始化数据
         $result = array(
-            'integral'                          => $this->user['integral'],
+            'integral'                          => (int) $this->user['integral'],
             'avatar'                            => $this->user['avatar'],
             'nickname'                          => $this->user['nickname'],
             'username'                          => $this->user['username'],
-            'customer_service_tel'              => MyC('common_customer_service_tel'),
+            'customer_service_tel'              => MyC('common_app_mini_alipay_customer_service_tel'),
             'common_user_center_notice'         => MyC('common_user_center_notice'),
             'user_order_status'                 => $user_order_status['data'],
+            'user_order_count'                  => $user_order_count,
+            'user_goods_favor_count'            => $user_goods_favor_count,
+            'user_goods_browse_count'           => $user_goods_browse_count,
+            'common_message_total'              => $common_message_total,
         );
 
         // 返回数据
