@@ -29,8 +29,9 @@
 }
 .head-nav-item view {
   line-height: 38rpx;
-  color: #efeaea;
-  font-weight: 100;
+}
+.head-nav-item view, .message-nav text {
+  color: #ffd7d7;
 }
 .message-nav {
   position: absolute;
@@ -44,9 +45,7 @@
 }
 .message-nav text {
   margin-left: 5rpx;
-  font-weight: 100;
   font-size: 24rpx;
-  color: #eee;
 }
 
 /* 导航列表 */
