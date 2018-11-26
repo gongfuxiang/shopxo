@@ -43,8 +43,20 @@ class SearchController extends CommonController
      */
     public function Index()
     {
+        // 搜索记录
+        SearchService::SearchAdd($this->params);
+
+        // 获取数据
         $result = SearchService::GoodsList($this->data_post);
-        $result['category'] = GoodsService::GoodsCategoryRow(['id'=>$this->data_post['category_id']]);
+
+        // 分类
+        if(!empty($this->data_post['category_id']))
+        {
+            $result['category'] = GoodsService::GoodsCategoryRow(['id'=>$this->data_post['category_id']]);
+        } else {
+            $result['category'] = [];
+        }
+        
         $this->ajaxReturn(L('common_operation_success'), 0, $result);
     }
 }
