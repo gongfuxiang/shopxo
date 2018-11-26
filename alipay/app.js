@@ -50,7 +50,7 @@ App({
 
     // 请求地址
     request_url: "https://demo.shopxo.net/",
-    request_url: 'http://localhost/project/shopxo/service/',
+    //request_url: 'http://localhost/project/shopxo/service/',
 
     // 基础信息
     application_title: "ShopXO电商系统",

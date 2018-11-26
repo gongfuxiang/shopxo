@@ -61,7 +61,7 @@
 <view a:if="{{data_list.length == 0 && data_list_loding_status == 0}}" class="no-data-box tc">
   <image src="/images/default-cart-empty.png" mode="widthFix" />
   <view class="no-data-tips">购物车空空如也</view>
-  <button type="default" class="my-btn-default">
+  <button type="default" class="my-btn-default" hover-class="none">
     <navigator url="/pages/index/index" open-type="switchTab" hover-class="none">去逛逛</navigator>
   </button>
 </view>

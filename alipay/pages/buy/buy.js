@@ -14,6 +14,7 @@ Page({
     is_first: 1,
     extension_list: [],
     payment_id: 0,
+    common_order_is_booking: 0,
   },
   onLoad(params) {
     if((params.data || null) == null || app.get_length(JSON.parse(params.data)) == 0)
@@ -84,6 +85,7 @@ Page({
               payment_list: data.payment_list || [],
               extension_list: data.extension_list || [],
               data_list_loding_status: 3,
+              common_order_is_booking: data.common_order_is_booking || 0,
             });
             if (this.data.address == null || this.data.address_id == 0) {
               this.setData({
@@ -133,9 +135,11 @@ Page({
 
     // 数据验证
     var validation = [
-      { fields: 'address_id', msg: '请选择地址' },
-      { fields: 'payment_id', msg: '请选择支付方式' }
+      { fields: 'address_id', msg: '请选择地址' }
     ];
+    if (this.data.common_order_is_booking != 1) {
+      validation.push({ fields: 'payment_id', msg: '请选择支付方式' });
+    }
     if (app.fields_check(data, validation)) {
       // 加载loding
       my.showLoading({content: '提交中...'});

@@ -73,10 +73,11 @@ class BuyController extends CommonController
 
             // 数据返回组装
             $result = [
-                'goods_list'            => $ret['data'],
-                'payment_list'          => $payment_list,
-                'base'                  => $base,
-                'extension_list'        => $extension_list,
+                'goods_list'                => $ret['data'],
+                'payment_list'              => $payment_list,
+                'base'                      => $base,
+                'extension_list'            => $extension_list,
+                'common_order_is_booking'   => (int) MyC('common_order_is_booking', 0),
             ];
             $this->ajaxReturn(L('common_operation_success'), 0, $result);
         } else {
