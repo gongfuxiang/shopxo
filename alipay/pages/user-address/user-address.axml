@@ -18,7 +18,7 @@
           <text>设为默认地址</text>
         </view>
         <button class="fr cr-666 delete-submit" type="default" size="mini" onTap="address_delete_event" data-index="{{index}}" data-value="{{item.id}}" hover-class="none">删除</button>
-        <navigator url="/pages/user-address-save/user-address-save?address_id={{item.id}}" open-type="navigate" hover-class="none">
+        <navigator url="/pages/user-address-save/user-address-save?id={{item.id}}" open-type="navigate" hover-class="none">
           <button class="fr cr-666" type="default" size="mini" onTap="address_edit_event" hover-class="none">编辑</button>
         </navigator>
       </view>

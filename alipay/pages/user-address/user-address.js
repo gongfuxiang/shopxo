@@ -44,7 +44,7 @@ Page({
 
     // 获取数据
     my.httpRequest({
-      url: app.get_request_url("GetList", "UserAddress"),
+      url: app.get_request_url("Index", "UserAddress"),
       method: "POST",
       data: {},
       dataType: "json",
@@ -134,7 +134,7 @@ Page({
           my.httpRequest({
             url: app.get_request_url("Delete", "UserAddress"),
             method: "POST",
-            data: {address_id: value},
+            data: {id: value},
             dataType: "json",
             success: res => {
               my.hideLoading();
@@ -202,7 +202,7 @@ Page({
     my.httpRequest({
       url: app.get_request_url("SetDefault", "UserAddress"),
       method: "POST",
-      data: {address_id: value},
+      data: {id: value},
       dataType: "json",
       success: res => {
         my.hideLoading();

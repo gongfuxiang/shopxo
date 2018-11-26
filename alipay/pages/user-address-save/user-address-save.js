@@ -5,7 +5,6 @@ Page({
     province_list: [],
     city_list: [],
     county_list: [],
-
     province_id: null,
     city_id: null,
     county_id: null,
@@ -22,7 +21,7 @@ Page({
   },
 
   onShow() {
-    if((this.data.params.address_id || null) == null)
+    if((this.data.params.id || null) == null)
     {
       var title = app.data.common_pages_title.user_address_save_add;
     } else {
@@ -43,7 +42,7 @@ Page({
         return false;
       } else {
         // 获取地址数据
-        if((this.data.params.address_id || null) != null)
+        if((this.data.params.id || null) != null)
         {
           this.get_user_address();
         }
@@ -61,7 +60,7 @@ Page({
     my.showLoading({ content: "加载中..." });
 
     my.httpRequest({
-      url: app.get_request_url("GetDetail", "UserAddress"),
+      url: app.get_request_url("Detail", "UserAddress"),
       method: "POST",
       data: self.data.params,
       dataType: "json",
@@ -276,14 +275,14 @@ Page({
     form_data["province"] = data.province_id;
     form_data["city"] = data.city_id;
     form_data["county"] = data.county_id;
-    form_data["address_id"] = self.data.params.address_id || 0;
+    form_data["id"] = self.data.params.id || 0;
 
     if (app.fields_check(form_data, validation)) {
       // 加载loding
       my.showLoading({ content: "处理中..." });
 
       my.httpRequest({
-        url: app.get_request_url("Edit", "UserAddress"),
+        url: app.get_request_url("Save", "UserAddress"),
         method: "POST",
         data: form_data,
         dataType: "json",
