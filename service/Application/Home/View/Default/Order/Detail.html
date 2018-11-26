@@ -32,7 +32,7 @@
                         <div class="base">
                             <p class="title">拍下商品</p>
                             <notempty name="data.add_time">
-                                <p class="date">{{:date('Y-m-d H:i:s', $data['add_time'])}}</p>
+                                <p class="date">{{$data.add_time}}</p>
                             </notempty>
                         </div>
                     </li>
@@ -44,7 +44,7 @@
                         <div class="base">
                             <p class="title">付款</p>
                             <notempty name="data.pay_time">
-                                <p class="date">{{:date('Y-m-d H:i:s', $data['pay_time'])}}</p>
+                                <p class="date">{{$data.pay_time}}</p>
                             </notempty>
                         </div>
                     </li>
@@ -56,7 +56,7 @@
                         <div class="base">
                             <p class="title">卖家发货</p>
                             <notempty name="data.delivery_time">
-                                <p class="date">{{:date('Y-m-d H:i:s', $data['delivery_time'])}}</p>
+                                <p class="date">{{$data.delivery_time}}</p>
                             </notempty>
                         </div>
                     </li>
@@ -68,7 +68,7 @@
                         <div class="base">
                             <p class="title">确认收货</p>
                             <notempty name="data.collect_time">
-                                <p class="date">{{:date('Y-m-d H:i:s', $data['collect_time'])}}</p>
+                                <p class="date">{{$data.collect_time}}</p>
                             </notempty>
                         </div>
                     </li>
@@ -79,8 +79,8 @@
                         </p>
                         <div class="base">
                             <p class="title">评价</p>
-                            <notempty name="data.user_is_comments">
-                                <p class="date">{{:date('Y-m-d H:i:s', $data['user_is_comments'])}}</p>
+                            <notempty name="data.user_is_comments_time">
+                                <p class="date">{{$data.user_is_comments_time}}</p>
                             </notempty>
                         </div>
                     </li>
@@ -110,39 +110,51 @@
                             <notempty name="data.add_time">
                                 <div class="items">
                                     <div class="items-title am-fl">下单时间：</div>
-                                    <div class="items-detail am-fl">{{:date('Y-m-d H:i:s', $data['add_time'])}}</div>
+                                    <div class="items-detail am-fl">{{$data.add_time}}</div>
                                 </div>
                             </notempty>
                             <notempty name="data.confirm_time">
                                 <div class="items">
                                     <div class="items-title am-fl">确认时间：</div>
-                                    <div class="items-detail am-fl">{{:date('Y-m-d H:i:s', $data['confirm_time'])}}</div>
+                                    <div class="items-detail am-fl">{{$data.confirm_time}}</div>
                                 </div>
                             </notempty>
                             <notempty name="data.pay_time">
                                 <div class="items">
                                     <div class="items-title am-fl">付款时间：</div>
-                                    <div class="items-detail am-fl">{{:date('Y-m-d H:i:s', $data['pay_time'])}}</div>
+                                    <div class="items-detail am-fl">{{$data.pay_time}}</div>
                                 </div>
                             </notempty>
                             <notempty name="data.delivery_time">
                                 <div class="items">
                                     <div class="items-title am-fl">发货时间：</div>
-                                    <div class="items-detail am-fl">{{:date('Y-m-d H:i:s', $data['delivery_time'])}}</div>
+                                    <div class="items-detail am-fl">{{$data.delivery_time}}</div>
                                 </div>
                             </notempty>
                             <notempty name="data.collect_time">
                                 <div class="items">
                                     <div class="items-title am-fl">收货时间：</div>
-                                    <div class="items-detail am-fl">{{:date('Y-m-d H:i:s', $data['collect_time'])}}</div>
+                                    <div class="items-detail am-fl">{{$data.collect_time}}</div>
                                 </div>
                             </notempty>
-                            <notempty name="data.user_is_comments">
+                            <notempty name="data.user_is_comments_time">
                                 <div class="items">
                                     <div class="items-title am-fl">评论时间：</div>
-                                    <div class="items-detail am-fl">{{:date('Y-m-d H:i:s', $data['user_is_comments'])}}</div>
+                                    <div class="items-detail am-fl">{{$data.user_is_comments_time}}</div>
                                 </div>
                             </notempty>
+                            <if condition="in_array($data['status'], [5]) and !empty($data['cancel_time'])">
+                                <div class="items">
+                                    <div class="items-title am-fl">取消时间：</div>
+                                    <div class="items-detail am-fl">{{$data.cancel_time}}</div>
+                                </div>
+                            </if>
+                            <if condition="in_array($data['status'], [6]) and !empty($data['close_time'])">
+                                <div class="items">
+                                    <div class="items-title am-fl">关闭时间：</div>
+                                    <div class="items-detail am-fl">{{$data.close_time}}</div>
+                                </div>
+                            </if>
                         </div>
                     </div>
                 </div>
@@ -176,20 +188,22 @@
                             <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius submit-delete" data-url="{{:U('Home/Order/Delete')}}" data-id="{{$data.id}}" data-view="jump" data-value="{{:U('Home/Order/Index')}}">删除</button>
                         </if>
                     </div>
-                    <div class="logistics">
-                        <div class="items">
-                            <div class="items-title am-fl">快递公司：</div>
-                            <div class="items-detail am-fl">
-                                <notempty name="data.express_name">{{$data.express_name}}</notempty>
-                            </div>
-                        </div>
-                        <notempty name="data.express_number">
+                    <if condition="in_array($data['status'], [3,4])">
+                        <div class="logistics">
                             <div class="items">
-                                <div class="items-title am-fl">快递单号：</div>
-                                <div class="items-detail am-fl">{{$data.express_number}}</div>
+                                <div class="items-title am-fl">快递公司：</div>
+                                <div class="items-detail am-fl">
+                                    <notempty name="data.express_name">{{$data.express_name}}</notempty>
+                                </div>
                             </div>
-                        </notempty>
-                    </div>
+                            <notempty name="data.express_number">
+                                <div class="items">
+                                    <div class="items-title am-fl">快递单号：</div>
+                                    <div class="items-detail am-fl">{{$data.express_number}}</div>
+                                </div>
+                            </notempty>
+                        </div>
+                    </if>
                 </div>
             </div>
 

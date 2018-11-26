@@ -594,11 +594,17 @@ class OrderService
                 // 发货时间
                 $v['delivery_time'] = empty($v['delivery_time']) ? null : date('Y-m-d H:i:s', $v['delivery_time']);
 
-                // 完成时间
-                $v['success_time'] = empty($v['success_time']) ? null : date('Y-m-d H:i:s', $v['success_time']);
+                // 收货时间
+                $v['collect_time'] = empty($v['collect_time']) ? null : date('Y-m-d H:i:s', $v['collect_time']);
 
                 // 取消时间
                 $v['cancel_time'] = empty($v['cancel_time']) ? null : date('Y-m-d H:i:s', $v['cancel_time']);
+
+                // 关闭时间
+                $v['close_time'] = empty($v['close_time']) ? null : date('Y-m-d H:i:s', $v['close_time']);
+
+                // 评论时间
+                $v['user_is_comments_time'] = ($v['user_is_comments'] == 0) ? null : date('Y-m-d H:i:s', $v['user_is_comments']);
 
                 // 空字段数据处理
                 if(empty($v['express_number']))
@@ -718,8 +724,9 @@ class OrderService
         // 开启事务
         $m->startTrans();
         $upd_data = [
-            'status'    => 5,
-            'upd_time'  => time(),
+            'status'        => 5,
+            'cancel_time'   => time(),
+            'upd_time'      => time(),
         ];
         if($m->where($where)->save($upd_data))
         {

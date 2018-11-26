@@ -18,7 +18,7 @@ Page({
       { name: "待收货", status: 3, count: 0 },
       { name: "已完成", status: 4, count: 0 },
     ],
-    lists: [
+    nav_lists: [
       {
         url: "user-order",
         icon: "user-nav-order-icon",
@@ -121,6 +121,7 @@ Page({
             nickname: (data.nickname != null) ? data.nickname : this.data.nickname,
             message_total: ((data.common_message_total || 0) == 0) ? 0 : data.common_message_total,
             head_nav_list: temp_head_nav_list,
+            'nav_lists[3].is_show': (data.common_app_is_enable_answer == 1) ? 1 : 0,
           });
         } else {
           my.showToast({

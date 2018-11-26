@@ -33,7 +33,7 @@
 			</div>
 
 			<div class="am-form-group">
-				<label>{{:L('common_app_event_type_text')}}<span class="fs-12 fw-100 cr-999">（{{:L('common_app_event_type_tips')}}）</span></label>
+				<label>{{:L('common_app_event_type_text')}}</label>
 				<select name="event_type" class="am-radius chosen-select" data-placeholder="{{:L('common_select_can_choose')}}" placeholder="{{:L('common_app_event_type_format')}}">
 					<option value="">{{:L('common_select_can_choose')}}</option>
 					<foreach name="common_app_event_type" item="v">
@@ -42,6 +42,10 @@
 				</select>
 			</div>
 			<div class="am-form-group">
+				<div class="am-alert am-alert-warning am-radius" data-am-alert>
+				    <button type="button" class="am-close">&times;</button>
+				    <p>{{:L('common_app_event_type_tips')}}</p>
+				</div>
 				<label>{{:L('common_app_event_value_text')}}</label>
 				<input type="text" name="event_value" placeholder="{{:L('common_app_event_value_text')}}" data-validation-message="{{:L('common_app_event_value_format')}}" class="am-radius" <notempty name="data"> value="{{$data.event_value}}"</notempty> />
 			</div>

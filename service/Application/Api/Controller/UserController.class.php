@@ -272,6 +272,7 @@ class UserController extends CommonController
             'user_goods_favor_count'            => $user_goods_favor_count,
             'user_goods_browse_count'           => $user_goods_browse_count,
             'common_message_total'              => $common_message_total,
+            'common_app_is_enable_answer'       => (int) MyC('common_app_is_enable_answer', 0),
         );
 
         // 返回数据

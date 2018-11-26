@@ -40,7 +40,7 @@ Page({
           self.setData({
             detail: data,
             detail_list:[
-              {name: "订单单号", value: data.order_no},
+              {name: "订单号", value: data.order_no},
               {name: "状态", value: data.status_name},
               {name: "支付状态", value: data.pay_status_name},
               {name: "单价", value: data.price},
@@ -55,8 +55,9 @@ Page({
               {name: "确认时间", value: data.confirm_time},
               {name: "支付时间", value: data.pay_time},
               {name: "发货时间", value: data.delivery_time},
-              {name: "完成时间", value: data.success_time},
-              {name: "取消时间", value: data.cancel_time},
+              {name: "收货时间", value: data.collect_time},
+              {name: "取消时间", value: data.close_time},
+              {name: "关闭时间", value: data.close_time},
             ],
             data_list_loding_status: 3,
             data_bottom_line_status: true,

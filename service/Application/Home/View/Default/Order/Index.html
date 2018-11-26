@@ -138,7 +138,7 @@
                     <table id="data-list-{{$order.id}}" class="data-list <if condition="$order['status'] LT 4">data-ongoing</if>">
                         <tr class="content-hd">
                             <td colspan="6">
-                                <span class="am-icon-calendar-check-o"> {{:date('Y-m-d', $order['add_time'])}}</span>
+                                <span class="am-icon-calendar-check-o"> {{$order.add_time}}</span>
                                 <span class="am-icon-bookmark-o"> {{$order.order_no}}</span>
                             </td>
                         </tr>

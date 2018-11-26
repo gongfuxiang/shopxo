@@ -27,7 +27,7 @@
 
 <!-- 导航 -->
 <view class="nav-box bg-white">
-  <block a:for="{{lists}}">
+  <block a:for="{{nav_lists}}">
     <view a:if="{{item.is_show == 1}}">
       <navigator url="/pages/{{item.url}}/{{item.url}}" class="nav-item br-b" hover-class="none">
         <view class="arrow-right">

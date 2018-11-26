@@ -1,5 +1,5 @@
 <!-- 搜索 -->
-<view a:if="{{load_status == 1 && is_enable_search == 1}}" class="search wh-auto">
+<view a:if="{{load_status == 1 && common_app_is_enable_search == 1}}" class="search wh-auto">
   <view class="search-content bg-white oh">
     <icon type="search" size="16" />
     <input type="text" confirm-type="search" placeholder="其实搜索很简单^_^！" class="wh-auto cr-888" onConfirm="search_input_event" />
@@ -51,7 +51,7 @@
 </view>
 
 <!-- 留言 -->
-<view a:if="{{load_status == 1 && is_enable_answer == 1}}" class="spacing-10">
+<view a:if="{{load_status == 1 && common_app_is_enable_answer == 1}}" class="spacing-10">
   <navigator url="/pages/answer-form/answer-form" hover-class="none" class="bg-white">
     <image class="wh-auto" mode="widthFix" src="/images/home-consulting-image.jpg" />
   </navigator>

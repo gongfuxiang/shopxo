@@ -319,7 +319,7 @@ return array(
 
     'common_app_event_type_text'		=>	'事件类型',
     'common_app_event_type_format'		=>	'事件值类型有误',
-	'common_app_event_type_tips'		=>	'1,2,3',
+	'common_app_event_type_tips'		=>	'WEB页面<br />&nbsp&nbsp&nbsp;1.以http开头<br />&nbsp&nbsp&nbsp;2.并在小程序后台加入白名单<br /><br /> 内部页面(小程序/APP内部地址)<br />&nbsp&nbsp&nbsp;1.小程序或APP内部地址<br />&nbsp&nbsp&nbsp;2.小程序以/pages开始<br />&nbsp&nbsp&nbsp;3.例如：/pages/user/user<br />&nbsp&nbsp&nbsp;4.支持带参数 ?x=xx<br /><br /> 跳转原生地图查看指定位置<br />&nbsp&nbsp&nbsp;1.以 | 竖线分割，分别顺序 名称|地址|经度|纬度<br />&nbsp&nbsp&nbsp;2.例如：ShopXO|上海浦东新区张江高科技园区XXX号|121.626444|31.20843 ',
 	'common_app_event_value_text'		=>	'事件值',
 	'common_app_event_value_format'		=>	'事件值最多 255 个字符',
 
@@ -575,7 +575,7 @@ return array(
 	// app事件类型
 	'common_app_event_type'	=>	array(
 			0 => array('value' => 0, 'name' => 'WEB页面'),
-			1 => array('value' => 1, 'name' => '内部页面(小程序内部地址)'),
+			1 => array('value' => 1, 'name' => '内部页面(小程序/APP内部地址)'),
 			2 => array('value' => 2, 'name' => '外部小程序(同一个主体下的小程序appid)'),
 			3 => array('value' => 3, 'name' => '跳转原生地图查看指定位置'),
 			4 => array('value' => 4, 'name' => '拨打电话'),

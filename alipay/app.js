@@ -50,7 +50,7 @@ App({
 
     // 请求地址
     request_url: "https://demo.shopxo.net/",
-    //request_url: 'http://localhost/project/shopxo/service/',
+    request_url: 'http://localhost/project/shopxo/service/',
 
     // 基础信息
     application_title: "ShopXO电商系统",
@@ -442,7 +442,6 @@ App({
       var value = e.target.dataset.value || null;
       var type = parseInt(e.target.dataset.type);
 
-      console.log(value, type)
       if (value != null) {
         switch(type) {
           // web
@@ -462,11 +461,17 @@ App({
 
           // 跳转到地图查看位置
           case 3 :
+            var values = value.split('|');
+            if (values.length != 4) {
+              my.showToast({content: '事件值格式有误'});
+              return false;
+            }
+
             my.openLocation({
-              longitude: '121.549697',
-              latitude: '31.227250',
-              name: '支付宝',
-              address: '杨高路地铁站',
+              name: values[0],
+              address: values[1],
+              longitude: values[2],
+              latitude: values[3],
             });
             break;
 

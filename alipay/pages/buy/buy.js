@@ -151,9 +151,13 @@ Page({
         success: res => {
           my.hideLoading();
           if (res.data.code == 0) {
-            my.redirectTo({
-              url: '/pages/user-order/user-order?is_pay=1' + '&order_id=' + res.data.data.order.id
-            });
+            if (res.data.data.order.status == 1) {
+              my.redirectTo({
+                url: '/pages/user-order/user-order?is_pay=1&order_id=' + res.data.data.order.id
+              });
+            } else {
+              my.redirectTo({url: '/pages/user-order/user-order'});
+            }
           }
         },
         fail: () => {

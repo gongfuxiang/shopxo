@@ -72,7 +72,7 @@ class GoodsController extends CommonController
         // 数据返回
         $result = [
             'goods'                     => $goods[0],
-            'common_order_is_booking'   => MyC('common_order_is_booking', 0),
+            'common_order_is_booking'   => (int) MyC('common_order_is_booking', 0),
         ];
         $this->ajaxReturn(L('common_operation_success'), 0, $result);
     }
