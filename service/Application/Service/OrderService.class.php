@@ -1257,7 +1257,7 @@ class OrderService
             {
                 $where['user_id'] = $params['user']['id'];
             } else {
-                return $result;
+                return DataReturn('用户信息有误', 0, $result);
             }
         }
 
