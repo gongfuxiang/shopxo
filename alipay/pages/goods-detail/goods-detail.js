@@ -23,6 +23,7 @@ Page({
     temp_attribute_active: {},
     temp_buy_number: 1,
     buy_event_type: 'buy',
+    nav_submit_text: '立即购买',
   },
 
   onLoad(params) {
@@ -71,16 +72,17 @@ Page({
           if (res.data.code == 0) {
             var data = res.data.data;
             self.setData({
-              goods: data,
-              indicator_dots: (data.photo.length > 1),
-              autoplay: (data.photo.length > 1),
-              goods_photo: data.photo,
-              goods_attribute_show: data.attribute.show || [],
-              goods_attribute_choose: data.attribute.choose || [],
-              goods_content_app: data.content_app,
-              temp_buy_number: (data.buy_min_number) || 1,
-              goods_favor_text: (data.is_favor == 1) ? '已收藏' : '收藏',
-              goods_favor_icon: '/images/goods-detail-favor-icon-'+data.is_favor+'.png',
+              goods: data.goods,
+              indicator_dots: (data.goods.photo.length > 1),
+              autoplay: (data.goods.photo.length > 1),
+              goods_photo: data.goods.photo,
+              goods_attribute_show: data.goods.attribute.show || [],
+              goods_attribute_choose: data.goods.attribute.choose || [],
+              goods_content_app: data.goods.content_app,
+              temp_buy_number: (data.goods.buy_min_number) || 1,
+              goods_favor_text: (data.goods.is_favor == 1) ? '已收藏' : '收藏',
+              goods_favor_icon: '/images/goods-detail-favor-icon-' + data.goods.is_favor+'.png',
+              nav_submit_text: ((data.common_order_is_booking || 0) == 0) ? '立即购买' : '立即预约',
               data_bottom_line_status: true,
               data_list_loding_status: 3,
             });

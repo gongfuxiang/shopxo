@@ -69,7 +69,12 @@ class GoodsController extends CommonController
         // 用户商品浏览
         GoodsService::GoodsBrowseSave(['goods_id'=>$goods_id, 'user'=>$this->user]);
 
-        $this->ajaxReturn(L('common_operation_success'), 0, $goods[0]);
+        // 数据返回
+        $result = [
+            'goods'                     => $goods[0],
+            'common_order_is_booking'   => MyC('common_order_is_booking', 0),
+        ];
+        $this->ajaxReturn(L('common_operation_success'), 0, $result);
     }
 
 

@@ -72,7 +72,7 @@
     </view>
     <view class="fr">
       <button class="bg-warning fl" type="default" onTap="cart_submit_event" hover-class="none">加入购物车</button>
-      <button class="bg-main fl" type="default" onTap="buy_submit_event" hover-class="none">立即购买</button>
+      <button class="bg-main fl" type="default" onTap="buy_submit_event" hover-class="none">{{nav_submit_text}}</button>
     </view>
   </view>
 
