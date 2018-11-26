@@ -88,12 +88,16 @@ Page({
               common_order_is_booking: data.common_order_is_booking || 0,
             });
             if (this.data.address == null || this.data.address_id == 0) {
-              this.setData({
-                address: data.base.address,
-                address_id: ((data.base.address || null) == null) ? 0 : data.base.address.id,
-              });
+              if((data.base.address || null) != null && data.base.address.length > 0) {
+                this.setData({
+                  address: data.base.address,
+                  address_id: data.base.address.id,
+                });
+              }
             }
           }
+
+          console.log(this.data.address)
         } else {
           this.setData({
             data_list_loding_status: 2,

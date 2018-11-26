@@ -55,11 +55,14 @@ class BuyController extends CommonController
         // 商品校验
         if(isset($ret['code']) && $ret['code'] == 0)
         {
+            // 用户默认地址
+            $address = UserService::UserDefaultAddress(['user'=>$this->user]);
+
             // 商品/基础信息
             $base = [
                 'total_price'   => empty($ret['data']) ? 0 : array_sum(array_column($ret['data'], 'total_price')),
                 'total_stock'   => empty($ret['data']) ? 0 : array_sum(array_column($ret['data'], 'stock')),
-                'address'       => UserService::UserDefaultAddress(['user'=>$this->user])['data'],
+                'address'       => empty($address['data']) ? null : $address['data'],
             ];
 
             // 支付方式
