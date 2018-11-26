@@ -162,6 +162,11 @@ Page({
             } else {
               my.redirectTo({url: '/pages/user-order/user-order'});
             }
+          } else {
+            my.showToast({
+              type: "fail",
+              content: res.data.msg
+            });
           }
         },
         fail: () => {

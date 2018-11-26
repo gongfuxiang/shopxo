@@ -545,12 +545,15 @@ class BuyService
                 'key_name'          => 'address_id',
                 'error_msg'         => '地址有误',
             ],
-            [
+        ];
+        if(MyC('common_order_is_booking', 0) != 1)
+        {
+            $p[] = [
                 'checked_type'      => 'empty',
                 'key_name'          => 'payment_id',
                 'error_msg'         => '支付方式有误',
-            ],
-        ];
+            ];
+        }
         $ret = params_checked($params, $p);
         if($ret !== true)
         {
@@ -599,7 +602,7 @@ class BuyService
             'preferential_price'    => $preferential_price,
             'price'                 => $check['data']['total_price'],
             'total_price'           => $check['data']['total_price']-$preferential_price,
-            'payment_id'            => intval($params['payment_id']),
+            'payment_id'            => isset($params['payment_id']) ? intval($params['payment_id']) : 0,
             'add_time'              => time(),
         ];
         if($order['status'] == 1)
