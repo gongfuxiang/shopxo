@@ -44,7 +44,7 @@ class SearchController extends CommonController
     public function Index()
     {
         // 搜索记录
-        SearchService::SearchAdd($this->params);
+        SearchService::SearchAdd($this->data_post);
 
         // 获取数据
         $result = SearchService::GoodsList($this->data_post);
