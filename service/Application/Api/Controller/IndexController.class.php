@@ -45,6 +45,7 @@ class IndexController extends CommonController
 			'data_list'				=> GoodsService::HomeFloorList(),
 			'common_shop_notice'	=> MyC('common_shop_notice', null, true),
 			'is_enable_search'		=> MyC('common_app_is_enable_search', 1),
+			'is_enable_answer'		=> MyC('common_app_is_enable_answer', 1),
 		];
 
 		// 返回数据

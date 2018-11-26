@@ -11,6 +11,7 @@ Page({
     data_list: [],
     common_shop_notice: null,
     is_enable_search: 1,
+    is_enable_answer: 1,
     load_status: 0,
   },
   
@@ -45,6 +46,7 @@ Page({
             autoplay: (data.data_list.length > 1),
             common_shop_notice: data.common_shop_notice || null,
             is_enable_search: data.is_enable_search,
+            is_enable_answer: data.is_enable_answer,
             data_list_loding_status: data.data_list.length == 0 ? 0 : 3,
             data_bottom_line_status: true,
           });

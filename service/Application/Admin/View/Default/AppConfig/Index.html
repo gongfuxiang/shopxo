@@ -14,6 +14,14 @@
 				</select>
 			</div>
 			<div class="am-form-group">
+				<label>{{$data.common_app_is_enable_answer.name}}</label>
+				<select name="{{$data.common_app_is_enable_answer.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.common_app_is_enable_answer.error_tips}}" required>
+					<foreach name="common_is_text_list" item="v">
+						<option value="{{$v.id}}" <if condition="isset($data['common_app_is_enable_answer']['value']) and $data['common_app_is_enable_answer']['value'] eq $v['id']">selected</if>>{{$v.name}}</option>
+					</foreach>
+				</select>
+			</div>
+			<div class="am-form-group">
 				<label>{{$data.common_app_customer_service_tel.name}}</label>
 				<input type="text" name="{{$data.common_app_customer_service_tel.only_tag}}" placeholder="{{$data.common_app_customer_service_tel.name}}" data-validation-message="{{$data.common_app_customer_service_tel.error_tips}}" class="am-radius" <present name="data"> value="{{$data.common_app_customer_service_tel.value}}"</present> />
 			</div>
