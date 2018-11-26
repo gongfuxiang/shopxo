@@ -323,7 +323,7 @@ class UserService
         // 先全部设置为0 再将当前设置为1
         $all_status = $m->where(['user_id' => $params['user']['id']])->save(['is_default'=>0]);
         $my_status = $m->where(['user_id' => $params['user']['id'], 'id'=>$params['id']])->save(['is_default'=>1]);
-        if($all_status && $my_status)
+        if($all_status !== false && $my_status)
         {
             // 提交事务
             $m->commit();
