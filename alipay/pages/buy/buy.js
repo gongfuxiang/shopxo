@@ -143,9 +143,7 @@ Page({
     if (app.fields_check(data, validation)) {
       // 加载loding
       my.showLoading({content: '提交中...'});
-      this.setData({
-        buy_submit_disabled_status: true,
-      });
+      this.setData({ buy_submit_disabled_status: true });
 
       my.httpRequest({
         url: app.get_request_url("Add", "Buy"),
@@ -167,11 +165,12 @@ Page({
               type: "fail",
               content: res.data.msg
             });
+            this.setData({ buy_submit_disabled_status: false });
           }
         },
         fail: () => {
           my.hideLoading();
-          self.setData({buy_submit_disabled_status: false});
+          this.setData({buy_submit_disabled_status: false});
           
           my.showToast({
             type: "fail",

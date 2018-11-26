@@ -1,5 +1,5 @@
-<scroll-view scroll-y="{{true}}" class="scroll-box" onScrollToLower="scroll_lower" lower-threshold="30">
-  <view a:if="{{data_list.length > 0}}" class="content">
+<scroll-view a:if="{{data_list.length > 0}}" scroll-y="{{true}}" class="scroll-box" onScrollToLower="scroll_lower" lower-threshold="30">
+  <view class="content">
     <view class="data-card bg-white br-b" a:for="{{data_list}}">
       <view class="data-box oh">
       <import src="/pages/common/nodata.axml" />
@@ -20,3 +20,9 @@
   <import src="/pages/common/bottom_line.axml" />
   <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
 </scroll-view>
+
+<view a:if="{{data_list.length == 0 && data_list_loding_status != 0}}">
+  <import src="/pages/common/nodata.axml" />
+  <template is="nodata" data="{{status: data_list_loding_status}}">
+  </template>
+</view>

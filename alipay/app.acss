@@ -154,7 +154,7 @@ textarea {
     padding: 80rpx 0;
 }
 .no-data-box image {
-    width: 360rpx;
+    width: 160rpx;
     margin-bottom: 30rpx;
 }
 .no-data-box .no-data-tips {

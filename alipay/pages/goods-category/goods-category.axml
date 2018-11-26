@@ -1,4 +1,5 @@
 <vtabs
+  a:if="{{data_list.length > 0}}"
   tabs="{{data_list}}"
   onTabClick="handle_event"
   onChange="change_event"
@@ -19,3 +20,9 @@
     </vtab-content>
   </block>
 </vtabs>
+
+<view a:if="{{data_list.length == 0 && data_list_loding_status != 0}}">
+  <import src="/pages/common/nodata.axml" />
+  <template is="nodata" data="{{status: data_list_loding_status}}">
+  </template>
+</view>
