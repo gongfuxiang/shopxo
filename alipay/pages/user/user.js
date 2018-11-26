@@ -117,7 +117,7 @@ Page({
             user_order_status_list: temp_user_order_status_list,
             customer_service_tel: data.customer_service_tel || null,
             common_user_center_notice: data.common_user_center_notice || null,
-            avatar: (data.avatar != null) ? data.avatar : app.data.default_user_head_src,
+            avatar: (data.avatar != null) ? data.avatar : ((this.data.avatar || null) == null ? app.data.default_user_head_src : this.data.avatar),
             nickname: (data.nickname != null) ? data.nickname : this.data.nickname,
             message_total: ((data.common_message_total || 0) == 0) ? 0 : data.common_message_total,
             head_nav_list: temp_head_nav_list,

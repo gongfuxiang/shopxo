@@ -1223,6 +1223,18 @@ class OrderService
      */
     public static function OrderStatusStepTotal($params = [])
     {
+        // 状态数据封装
+        $result = [];
+        $order_status_list = L('common_order_user_status');
+        foreach(L('common_order_user_status') as $v)
+        {
+            $result[] = [
+                'name'      => $v['name'],
+                'status'    => $v['id'],
+                'count'     => 0,
+            ];
+        }
+
         // 用户类型
         $user_type = isset($params['user_type']) ? $params['user_type'] : '';
 
@@ -1238,26 +1250,19 @@ class OrderService
                 break;
         }
 
-        // 新增用户条件
-        if($user_type == 'user' && !empty($params['user']))
+        // 用户条件
+        if($user_type == 'user')
         {
-            $where['user_id'] = $params['user']['id'];
+            if(!empty($params['user']))
+            {
+                $where['user_id'] = $params['user']['id'];
+            } else {
+                return $result;
+            }
         }
 
         $field = 'COUNT(DISTINCT id) AS count, status';
         $data = M('Order')->where($where)->field($field)->group('status')->select();
-
-        // 状态数据封装
-        $result = [];
-        $order_status_list = L('common_order_user_status');
-        foreach(L('common_order_user_status') as $v)
-        {
-            $result[] = [
-                'name'      => $v['name'],
-                'status'    => $v['id'],
-                'count'     => 0,
-            ];
-        }
 
         // 数据处理
         if(!empty($data))
