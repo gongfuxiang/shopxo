@@ -2,7 +2,7 @@
 
 namespace Api\Controller;
 
-use Service\ResourcesService;
+use Service\UserService;
 
 /**
  * 用户地址
