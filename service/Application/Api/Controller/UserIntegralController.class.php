@@ -2,16 +2,16 @@
 
 namespace Api\Controller;
 
-use Service\MessageService;
+use Service\IntegralService;
 
 /**
- * 消息
+ * 用户积分管理
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class MessageController extends CommonController
+class UserIntegralController extends CommonController
 {
     /**
      * [_initialize 前置操作-继承公共前置方法]
@@ -36,11 +36,12 @@ class MessageController extends CommonController
     }
 
     /**
-     * [Index 获取记录]
+     * 用户积分列表
      * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2018-04-08T15:08:01+0800
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
      */
     public function Index()
     {
@@ -48,17 +49,14 @@ class MessageController extends CommonController
         $params = $this->data_post;
         $params['user'] = $this->user;
 
-        // 消息更新未已读
-        MessageService::MessageRead($params);
-
         // 分页
         $number = 10;
 
         // 条件
-        $where = MessageService::UserMessgeListWhere($params);
+        $where = IntegralService::UserIntegralLogListWhere($params);
 
         // 获取总数
-        $total = MessageService::MessageTotal($where);
+        $total = IntegralService::UserIntegralLogTotal($where);
         $page_total = ceil($total/$number);
         $start = intval(($page-1)*$number);
 
@@ -68,8 +66,8 @@ class MessageController extends CommonController
             'limit_number'  => $number,
             'where'         => $where,
         );
-        $data = MessageService::MessageList($data_params);
-        
+        $data = IntegralService::UserIntegralLogList($data_params);
+
         // 返回数据
         $result = [
             'total'             =>  $total,
@@ -78,5 +76,6 @@ class MessageController extends CommonController
         ];
         $this->ajaxReturn(L('common_operation_success'), 0, $result);
     }
+
 }
 ?>

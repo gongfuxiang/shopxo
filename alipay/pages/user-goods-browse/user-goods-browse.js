@@ -9,7 +9,7 @@ Page({
   },
 
   onShow() {
-    my.setNavigationBar({title: app.data.common_pages_title.user_favor});
+    my.setNavigationBar({ title: app.data.common_pages_title.user_goods_browse });
     this.init();
   },
 
@@ -46,7 +46,7 @@ Page({
 
     // 获取数据
     my.httpRequest({
-      url: app.get_request_url("Index", "UserGoodsFavor"),
+      url: app.get_request_url("Index", "UserGoodsBrowse"),
       method: "POST",
       data: {
         page: this.data.data_page
@@ -75,11 +75,10 @@ Page({
             });
 
             // 是否还有数据
-            if (this.data.data_page > 1 && this.data.data_page > this.data.data_page_total)
-            {
+            if (this.data.data_page > 1 && this.data.data_page > this.data.data_page_total) {
               this.setData({ data_bottom_line_status: true });
             } else {
-              this.setData({data_bottom_line_status: false});
+              this.setData({ data_bottom_line_status: false });
             }
           } else {
             this.setData({
@@ -125,11 +124,11 @@ Page({
     this.get_data_list();
   },
 
-  // 取消
-  cancel_event(e) {
+  // 删除
+  delete_event(e) {
     my.confirm({
       title: "温馨提示",
-      content: "取消后不可恢复，确定继续吗?",
+      content: "删除后不可恢复？，确定继续吗?",
       confirmButtonText: "确认",
       cancelButtonText: "不了",
       success: result => {
@@ -142,18 +141,17 @@ Page({
           my.showLoading({ content: "处理中..." });
 
           my.httpRequest({
-            url: app.get_request_url("Cancel", "UserGoodsFavor"),
+            url: app.get_request_url("Delete", "UserGoodsBrowse"),
             method: "POST",
-            data: {id: id},
+            data: { id: id },
             dataType: "json",
             success: res => {
               my.hideLoading();
               if (res.data.code == 0) {
                 var temp_data_list = this.data.data_list;
                 temp_data_list.splice(index, 1);
-                this.setData({data_list: temp_data_list});
-                if(temp_data_list.length == 0)
-                {
+                this.setData({ data_list: temp_data_list });
+                if (temp_data_list.length == 0) {
                   this.setData({
                     data_list_loding_status: 0,
                     data_bottom_line_status: false,

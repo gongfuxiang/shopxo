@@ -43,6 +43,9 @@ App({
       "user": "用户中心",
       "goods_category": "分类",
       "cart": "购物车",
+      "message": "消息",
+      "user_integral": "我的积分",
+      "user_goods_browse": "我的足迹",
     },
 
     // 请求地址

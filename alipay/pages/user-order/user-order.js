@@ -149,6 +149,8 @@ Page({
             this.setData({
               data_list_loding_status: 0,
               load_status: 1,
+              data_list: [],
+              data_bottom_line_status: false,
             });
           }
         } else {
