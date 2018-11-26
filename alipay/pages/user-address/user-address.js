@@ -152,6 +152,18 @@ Page({
                   type: "success",
                   content: res.data.msg
                 });
+
+                // 当前删除是否存在缓存中，存在则删除
+                var cache_address = my.getStorageSync({
+                  key: app.data.cache_buy_user_address_select_key
+                });
+                if ((cache_address.data || null) != null) {
+                  if (cache_address.data.id == value) {
+                    // 删除地址缓存
+                    my.removeStorageSync({ key: app.data.cache_buy_user_address_select_key });
+                  }
+                }
+                
               } else {
                 my.showToast({
                   type: "fail",

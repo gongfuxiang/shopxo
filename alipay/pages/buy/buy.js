@@ -55,6 +55,11 @@ Page({
           address: cache_address.data,
           address_id: cache_address.data.id
         });
+      } else {
+        this.setData({
+          address: null,
+          address_id: 0
+        });
       }
     }
 
@@ -88,7 +93,7 @@ Page({
               common_order_is_booking: data.common_order_is_booking || 0,
             });
             if (this.data.address == null || this.data.address_id == 0) {
-              if((data.base.address || null) != null && data.base.address.length > 0) {
+              if((data.base.address || null) != null) {
                 this.setData({
                   address: data.base.address,
                   address_id: data.base.address.id,
@@ -96,8 +101,6 @@ Page({
               }
             }
           }
-
-          console.log(this.data.address)
         } else {
           this.setData({
             data_list_loding_status: 2,
