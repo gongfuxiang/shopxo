@@ -45,6 +45,10 @@ class OrderController extends CommonController
      */
     public function Index()
     {
+        // 参数
+        $params = $this->data_post['page'];
+        $params['user'] = $this->user;
+
         // 分页
         $number = 10;
         $page = max(1, isset($this->data_post['page']) ? intval($this->data_post['page']) : 1);
