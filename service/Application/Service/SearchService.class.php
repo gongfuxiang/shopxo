@@ -144,10 +144,17 @@ class SearchService
         if(!empty($params['screening_price_id']))
         {
             $price = M('ScreeningPrice')->field('min_price,max_price')->where(['is_enable'=>1, 'id'=>intval($params['screening_price_id'])])->find();
-            if(!empty($price))
-            {
-                $screening_price = $price['min_price'].'-'.$price['max_price'];
-            }
+            $params['min_price'] = $price['min_price'];
+            $params['max_price'] = $price['max_price'];
+        } else {
+            $price = [
+                'min_price' => isset($params['min_price']) ? $params['min_price'] : 0,
+                'max_price' => isset($params['max_price']) ? $params['max_price'] : 0,
+            ];
+        }
+        if(!empty($price))
+        {
+            $screening_price = $price['min_price'].'-'.$price['max_price'];
         }
         
         // 参数

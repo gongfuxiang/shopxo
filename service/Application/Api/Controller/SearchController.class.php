@@ -44,6 +44,7 @@ class SearchController extends CommonController
     public function Index()
     {
         // 搜索记录
+        $this->data_post['user_id'] = isset($this->user['id']) ? $this->user['id'] : 0;
         SearchService::SearchAdd($this->data_post);
 
         // 获取数据
