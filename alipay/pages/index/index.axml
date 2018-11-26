@@ -60,3 +60,7 @@
 <!-- 结尾 -->
 <import src="/pages/common/bottom_line.axml" />
 <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
+
+<!-- 版权 -->
+<import src="/pages/common/copyright.axml" />
+<template is="copyright"></template>

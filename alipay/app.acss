@@ -185,6 +185,21 @@ textarea {
 }
 
 /* 业务公共 */
+.copyright {
+  color: #a5a5a5;
+  text-align: center;
+  padding: 20rpx 0;
+}
+.copyright .title {
+  font-size: 30rpx;
+  font-weight: 500;
+  margin-bottom: 5rpx;
+}
+.copyright .text {
+  font-size: 26rpx;
+  font-weight: 400;
+}
+
 .sales-price {
     color: #f40;
     font-weight: bold;
