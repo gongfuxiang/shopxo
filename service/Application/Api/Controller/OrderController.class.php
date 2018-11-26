@@ -46,7 +46,7 @@ class OrderController extends CommonController
     public function Index()
     {
         // 参数
-        $params = $this->data_post['page'];
+        $params = $this->data_post;
         $params['user'] = $this->user;
 
         // 分页
@@ -92,9 +92,9 @@ class OrderController extends CommonController
     public function Detail()
     {
         // 参数
-        $params = $this->data_post['page'];
+        $params = $this->data_post;
         $params['user'] = $this->user;
-        
+
         // 条件
         $where = OrderService::UserOrderListWhere($params);
 
