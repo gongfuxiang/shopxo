@@ -17,13 +17,14 @@ Page({
     goods_attribute_choose: [],
     goods_content_app: [],
 
-    popup_status: 'dis-none',
+    popup_status: false,
     goods_favor_text: '收藏',
     goods_favor_icon: '/images/goods-detail-favor-icon-0.png',
     temp_attribute_active: {},
     temp_buy_number: 1,
     buy_event_type: 'buy',
     nav_submit_text: '立即购买',
+    nav_submit_is_disabled: true,
   },
 
   onLoad(params) {
@@ -85,7 +86,22 @@ Page({
               nav_submit_text: ((data.common_order_is_booking || 0) == 0) ? '立即购买' : '立即预约',
               data_bottom_line_status: true,
               data_list_loding_status: 3,
+              nav_submit_is_disabled: (data.goods.is_shelves == 1 && data.goods.inventory > 0) ? false : true,
             });
+
+            if (data.goods.is_shelves != 1) {
+              this.setData({
+                nav_submit_text: '商品已下架',
+                nav_submit_is_disabled: true,
+              });
+            } else {
+              if(data.goods.inventory <= 0) {
+                this.setData({
+                  nav_submit_text: '商品卖光了',
+                  nav_submit_is_disabled: true,
+                });
+              }
+            }
           } else {
             self.setData({
               data_bottom_line_status: false,
@@ -126,7 +142,7 @@ Page({
 
   // 弹层关闭
   popup_close_event(e) {
-    this.setData({popup_status: 'dis-none'});
+    this.setData({popup_status: false});
   },
 
   // 进入店铺
@@ -139,12 +155,12 @@ Page({
 
   // 加入购物车
   cart_submit_event(e) {
-    this.setData({ popup_status: '', buy_event_type: 'cart' });
+    this.setData({ popup_status: true, buy_event_type: 'cart' });
   },
 
   // 立即购买
   buy_submit_event(e) {
-    this.setData({ popup_status: '', buy_event_type: 'buy'});
+    this.setData({ popup_status: true, buy_event_type: 'buy'});
   },
 
   // 收藏事件

@@ -2,14 +2,13 @@
     overflow: hidden;
 }
 .data-list .items {
-    width: calc(25% - 40rpx);
+    width: calc(25% - 60rpx);
     float: left;
-    padding: 20rpx;
+    padding: 30rpx;
 }
 .items-content {
     border-radius: 50%;
-    padding: 30rpx;
-    text-align: center;
+    padding: 20rpx;
 }
 .data-list .items image {
     width: 80rpx !important;

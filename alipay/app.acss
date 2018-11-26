@@ -251,6 +251,14 @@ textarea {
     background: #fbe0e5;
     color: #f7b6c2;
 }
+.bg-warning.a-button-disabled {
+    background: #ffcda6;
+    color: #fdae70;
+}
+.bg-primary.a-button-disabled {
+    background: #ffd2d7;
+    color: #ffa0ab;
+}
 
 .nav-back {
     position: fixed;
