@@ -184,6 +184,9 @@ class CommonController extends Controller
 		}
 		$this->assign('home_search_keywords', $home_search_keywords);
 
+		// 商城公告
+		$this->assign('common_shop_notice', MyC('common_shop_notice'));
+
 		// 当前控制器名称
 		$this->assign('controller_name', CONTROLLER_NAME);
 	}

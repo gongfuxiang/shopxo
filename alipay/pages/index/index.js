@@ -9,6 +9,8 @@ Page({
     data_list_loding_status: 1,
     data_bottom_line_status: false,
     data_list: [],
+    common_shop_notice: null,
+    is_enable_search: 1,
     load_status: 0,
   },
   
@@ -38,10 +40,12 @@ Page({
         if (res.data.code == 0) {
           var data = res.data.data;
           self.setData({
-            data_list: data,
-            indicator_dots: (data.length > 1),
-            autoplay: (data.length > 1),
-            data_list_loding_status: data.length == 0 ? 0 : 3,
+            data_list: data.data_list,
+            indicator_dots: (data.data_list.length > 1),
+            autoplay: (data.data_list.length > 1),
+            common_shop_notice: data.common_shop_notice || null,
+            is_enable_search: data.is_enable_search,
+            data_list_loding_status: data.data_list.length == 0 ? 0 : 3,
             data_bottom_line_status: true,
           });
         } else {

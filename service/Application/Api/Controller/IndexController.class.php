@@ -41,10 +41,14 @@ class IndexController extends CommonController
 	 */
 	public function Index()
 	{
-		$data = GoodsService::HomeFloorList();
+		$result = [
+			'data_list'				=> GoodsService::HomeFloorList(),
+			'common_shop_notice'	=> MyC('common_shop_notice', null, true),
+			'is_enable_search'		=> MyC('common_app_is_enable_search', 1),
+		];
 
 		// 返回数据
-		$this->ajaxReturn(L('common_operation_success'), 0, $data);
+		$this->ajaxReturn(L('common_operation_success'), 0, $result);
 	}
 }
 ?>

@@ -54,9 +54,14 @@
 				<textarea rows="3" name="{{$data.common_share_view_desc.only_tag}}" class="am-radius" placeholder="{{$data.common_share_view_desc.name}}" data-validation-message="{{$data.common_share_view_desc.error_tips}}"><present name="data">{{$data.common_share_view_desc.value}}</present></textarea>
 			</div> -->
 			<div class="am-form-group">
+				<label>{{$data.common_shop_notice.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_shop_notice.describe}}）</span></label>
+				<textarea rows="3" name="{{$data.common_shop_notice.only_tag}}" class="am-radius" placeholder="{{$data.common_shop_notice.name}}" data-validation-message="{{$data.common_shop_notice.error_tips}}"><present name="data">{{$data.common_shop_notice.value}}</present></textarea>
+			</div>
+			<div class="am-form-group">
 				<label>{{$data.common_user_center_notice.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_user_center_notice.describe}}）</span></label>
 				<textarea rows="3" name="{{$data.common_user_center_notice.only_tag}}" class="am-radius" placeholder="{{$data.common_user_center_notice.name}}" data-validation-message="{{$data.common_user_center_notice.error_tips}}"><present name="data">{{$data.common_user_center_notice.value}}</present></textarea>
 			</div>
+			
 			<div class="am-form-group">
 				<label>{{$data.home_search_keywords_type.name}}</label>
 				<select name="{{$data.home_search_keywords_type.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_search_keywords_type.error_tips}}">
