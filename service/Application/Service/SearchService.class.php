@@ -149,8 +149,8 @@ class SearchService
         } else {
             if(!empty($params['min_price']) || !empty($params['max_price']))
             $price = [
-                'min_price' => isset($params['min_price']) ? $params['min_price'] : 0,
-                'max_price' => isset($params['max_price']) ? $params['max_price'] : 0,
+                'min_price' => !empty($params['min_price']) ? $params['min_price'] : 0,
+                'max_price' => !empty($params['max_price']) ? $params['max_price'] : 0,
             ];
         }
         if(!empty($price))
