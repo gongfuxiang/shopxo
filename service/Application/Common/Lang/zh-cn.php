@@ -154,6 +154,8 @@ return array(
 	'common_operation_refresh'			=>	'刷新',
 	'common_operation_reply'			=>	'回复',
 	'common_operation_upload'			=>	'上传',
+	'common_operation_download'			=>	'下载',
+	'common_operation_created'			=>	'生成',
 	'common_operation_numbers'			=>	'成员',
 	'common_operation_submit'			=>	'提交',
 	'common_location_submit'			=>	'定位',
@@ -198,6 +200,8 @@ return array(
 	'common_operation_delivery_error'	=>	'发货失败',
 	'common_operation_collect_success'	=>	'收货成功',
 	'common_operation_collect_error'	=>	'收货失败',
+	'common_operation_created_success'	=>	'生成成功',
+	'common_operation_created_error'	=>	'生成失败',
 
 	'common_booking_success'			=>	'预约成功',
 	'common_booking_error'				=>	'预约失败',
