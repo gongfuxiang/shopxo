@@ -101,10 +101,10 @@
         <!-- 购买数量 -->
         <view class="goods-buy-number oh">
           <view class="title fl">购买数量</view>
-          <view class="number-content fr tr">
-            <button type="default" size="mini" catchTap="goods_buy_number_event" data-type="0" hover-class="none">﹣</button>
-            <input onBlur="goods_buy_number_blur" class="tc cr-888" type="number" value="{{temp_buy_number}}" />
-            <button type="default" size="mini" catchTap="goods_buy_number_event" data-type="1" hover-class="none">＋</button>
+          <view class="number-content tc oh">
+            <view onTap="goods_buy_number_event" class="number-submit tc cr-888 fl" data-type="0">-</view>
+            <input onBlur="goods_buy_number_blur" class="tc cr-888 fl" type="number" value="{{temp_buy_number}}" />
+            <view onTap="goods_buy_number_event" class="number-submit tc cr-888 fl" data-type="1">+</view>
           </view>
         </view>
       </view>

@@ -68,5 +68,4 @@
 
 <!-- 版权 -->
 <import src="/pages/common/copyright.axml" />
-<template is="copyright">
-</template>
+<template is="copyright"></template>

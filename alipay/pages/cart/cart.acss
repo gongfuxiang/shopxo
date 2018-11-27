@@ -45,27 +45,25 @@
     position: absolute;
     right: 20rpx;
     top: 100rpx;
-}
-.number-content button
-{
     background: #eee;
-    height: 64rpx;
-    line-height: 64rpx;
+    border-radius: 2px;
+    border: 1px solid #eee;
+}
+.number-content .number-submit
+{
+    width: 80rpx;
     font-weight: bold;
-    color: #666;
 }
 .number-content input {
     width: 50px;
-    margin: 2rpx 10rpx 0 10rpx;
-    height: 60rpx;
-    line-height: 60rpx;
-    border-radius: 2px;
 }
-.number-content button,
+.number-content .number-submit,
 .number-content input
 {
-    border: 1px solid #ddd;
     padding: 0;
+    vertical-align: middle;
+    height: 60rpx;
+    line-height: 60rpx;
 }
 
 /**

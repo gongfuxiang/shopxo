@@ -87,11 +87,12 @@ Page({
             this.setData({
               goods_list: data.goods_list,
               total_price: data.base.total_price,
-              payment_list: data.payment_list || [],
               extension_list: data.extension_list || [],
               data_list_loding_status: 3,
               common_order_is_booking: data.common_order_is_booking || 0,
             });
+
+            // 地址
             if (this.data.address == null || this.data.address_id == 0) {
               if((data.base.address || null) != null) {
                 this.setData({
@@ -100,6 +101,9 @@ Page({
                 });
               }
             }
+
+            // 支付方式
+            this.payment_list_data(data.payment_list);
           }
         } else {
           this.setData({
@@ -190,19 +194,22 @@ Page({
 
   // 支付方式选择
   payment_event(e) {
-    var payment_id = e.currentTarget.dataset.value || 0;
-    var temp_payment_list = this.data.payment_list;
-    for(var i in temp_payment_list) {
-      if(temp_payment_list[i]['id'] == payment_id) {
-        temp_payment_list[i]['selected'] = 'selected';
-      } else {
-        temp_payment_list[i]['selected'] = '';
+    this.setData({ payment_id: e.target.dataset.value});
+    this.payment_list_data(this.data.payment_list);
+  },
+
+  // 支付方式数据处理
+  payment_list_data(data) {
+    if (this.data.payment_id != 0) {
+      for (var i in data) {
+        if (data[i]['id'] == this.data.payment_id) {
+          data[i]['selected'] = 'selected';
+        } else {
+          data[i]['selected'] = '';
+        }
       }
     }
-    this.setData({
-      payment_id: payment_id,
-      payment_list: temp_payment_list
-    });
+    this.setData({payment_list: data || []});
   }
 
 });

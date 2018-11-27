@@ -52,33 +52,35 @@
 }
 .goods-popup .goods-buy-number {
     margin-bottom: 20rpx;
+    position: relative;
+    height: 70rpx;
 }
 .goods-popup .goods-buy-number .title {
     line-height: 60rpx;
 }
-.goods-popup .number-content button
-{
-    background: #eee;
-    height: 64rpx;
-    line-height: 64rpx;
-    font-weight: bold;
-    color: #666;
-}
 .goods-popup .number-content {
-    width: calc(100% - 200rpx);
+    position: absolute;
+    right: 20rpx;
+    top: 0;
+    background: #eee;
+    border-radius: 2px;
+    border: 1px solid #eee;
+}
+.goods-popup .number-content .number-submit
+{
+    width: 80rpx;
+    font-weight: bold;
 }
 .goods-popup .number-content input {
     width: 50px;
-    margin: 2rpx 10rpx 0 10rpx;
-    height: 60rpx;
-    line-height: 60rpx;
-    border-radius: 2px;
 }
-.goods-popup .number-content button,
+.goods-popup .number-content .number-submit,
 .goods-popup .number-content input
 {
-    border: 1px solid #ddd;
     padding: 0;
+    vertical-align: middle;
+    height: 60rpx;
+    line-height: 60rpx;
 }
 
 .goods-detail-app .content-items view {
