@@ -34,7 +34,7 @@ ThinkPHP是一个快速、简单的基于MVC和面向对象的轻量级PHP开发
 本地化支持<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;相比国外框架，Amaze UI 关注中文排版，根据用户代理调整字体，实现更好的中文排版效果；兼顾国内主流浏览器及 App 内置浏览器兼容支持。
 <br /><br />
-轻量级，高性能<br />
+##### 轻量级，高性能<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amaze UI 面向 HTML5 开发，使用 CSS3 来做动画交互，平滑、高效，更适合移动设备，让 Web 应用更快速载入。
 
 ## 项目结构
