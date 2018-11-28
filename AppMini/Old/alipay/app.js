@@ -49,7 +49,7 @@ App({
     },
 
     // 请求地址
-    request_url: "{{request_url}}";
+    request_url: "{{request_url}}",
     //request_url: "https://demo.shopxo.net/",
     //request_url: 'http://localhost/project/shopxo/',
 
