@@ -35,7 +35,7 @@ ThinkPHP是一个快速、简单的基于MVC和面向对象的轻量级PHP开发
 ##### 轻量级，高性能
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amaze UI 面向 HTML5 开发，使用 CSS3 来做动画交互，平滑、高效，更适合移动设备，让 Web 应用更快速载入。
 
-## 项目结构
+# 项目结构
 ```
 shopxo
 ├─README.md         README文件
