@@ -8,7 +8,8 @@ http://shopxo.net/
 <br />
 
 ### 官方QQ群
-<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=b0417d8dd7d3ce7139e9b1d4d5844f9314f4f6097483cddda63ab67fab2d7aca"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="ShopXO电商系统" title="ShopXO电商系统"> 833531593</a>
+<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=b0417d8dd7d3ce7139e9b1d4d5844f9314f4f6097483cddda63ab67fab2d7aca"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="ShopXO电商系统" title="ShopXO电商系统"></a>
+群号：833531593  答案：shopxo.net
 
 ### git平台
 * github：https://github.com/gongfuxiang/shopxo
