@@ -23,11 +23,15 @@
     > 商品分类
 订单管理
     > 订单管理
+问答留言
+    > 问答留言
 网站管理
     > 导航管理
     > 自定义页面
     > 友情链接
     > 主题管理
+    > 首页轮播
+    > 筛选价格
 品牌管理
     > 品牌管理
     > 品牌分类
@@ -48,11 +52,13 @@
 文章管理
     > 文章管理
     > 文章分类
+数据管理
+    > 消息管理
+    > 支付日志
+    > 用户积分日志
 资源管理
     > 地区管理
     > 快递管理
-    > 首页轮播
-    > 筛选价格
     > 支付方式
 工具
     > 缓存管理
@@ -105,61 +111,62 @@
 shopxo
 ├─README.md         README文件
 ├─changelog.txt     更新日志
-├─alipay            支付宝小程序
-├─wechat            微信小程序
-├─baidu             百度小程序
-└─service           服务端
-    ├─core.php                      入口公共文件
-    ├─index.php                     前端入口文件
-    ├─admin.php                     后端入口文件
-    ├─api.php                       API入口文件
-    ├─alipay_life_notify.php        支付宝生活号异步接口入口文件
-    ├─apayment_*.php                支付模块异步/同步入口文件
-    ├─robots.txt                    爬虫规则定义文件
-    ├─composer.json                 Composer定义文件
-    ├─Application                   应用目录
-    │  ├─Admin                      后端目录
-    │  │  ├─Common                      应用函数目录
-    │  │  ├─Conf                        应用配置目录
-    │  │  ├─Lang                        应用语言包目录
-    │  │  ├─Controller                  应用控制器目录
-    │  │  ├─Model                       应用模型目录
-    │  │  └─View                        应用视图目录
-    │  │     └─Default                      默认模板目录
-    │  ├─Home                       前端目录
-    │  │  ├─Common                      应用函数目录
-    │  │  ├─Conf                        应用配置目录
-    │  │  ├─Lang                        应用语言包目录
-    │  │  ├─Controller                  应用控制器目录
-    │  │  ├─Model                       应用模型目录
-    │  │  └─View                        应用视图目录
-    │  │     └─Default                      默认模板目录
-    ├─Api                           API目录
-    │  │  ├─Common                      应用函数目录
-    │  │  ├─Conf                        应用配置目录
-    │  │  ├─Lang                        应用语言包目录
-    │  │  ├─Controller                  应用控制器目录
-    │  │  ├─Model                       应用模型目录
-    │  │  └─View                        应用视图目录
-    │  │     └─Default                      默认模板目录
-    ├─Service                       服务层
-    ├─Library                       类库
-    │  │  ├─Payment                     支付模块目录
-    │  │  └─Qrcode                      二维码类库
-    │─Common                        公共函数配置目录
-    │  │  ├─Common                      公共方法目录
-    │  │  └─Conf                        公共配置目录
-    │─Runtime                       临时文件目录
-    ├─Public                        资源文件目录
-    │  ├─Admin                          后端静态资源目录
-    │  │  └─Default                         默认模板目录
-    │  ├─Home                           前端静态资源目录
-    │  │  └─Default                         默认模板目录
-    │  ├─Common                         公共静态资源目录
-    │  └─Upload                         用户上传附件资源目录
-    ├─Rsakeys                       密钥存放目录
-    ├─Install                       安装引导目录
-    └─ThinkPHP                      框架目录
+├─core.php                      入口公共文件
+├─index.php                     前端入口文件
+├─admin.php                     后端入口文件
+├─api.php                       API入口文件
+├─alipay_life_notify.php        支付宝生活号异步接口入口文件
+├─apayment_*.php                支付模块异步/同步入口文件
+├─robots.txt                    爬虫规则定义文件
+├─composer.json                 Composer定义文件
+├─AppMini                       小程序目录
+│  └─Old                        小程序源码包
+│     ├─alipay                      支付宝小程序
+│     ├─baidu                       百度小程序
+│     └─wechat                      微信小程序
+├─Application                   应用目录
+│  ├─Admin                      后端目录
+│  │  ├─Common                      应用函数目录
+│  │  ├─Conf                        应用配置目录
+│  │  ├─Lang                        应用语言包目录
+│  │  ├─Controller                  应用控制器目录
+│  │  ├─Model                       应用模型目录
+│  │  └─View                        应用视图目录
+│  │     └─Default                      默认模板目录
+│  ├─Home                       前端目录
+│  │  ├─Common                      应用函数目录
+│  │  ├─Conf                        应用配置目录
+│  │  ├─Lang                        应用语言包目录
+│  │  ├─Controller                  应用控制器目录
+│  │  ├─Model                       应用模型目录
+│  │  └─View                        应用视图目录
+│  │     └─Default                      默认模板目录
+│  └─Api                           API目录
+│     ├─Common                      应用函数目录
+│     ├─Conf                        应用配置目录
+│     ├─Lang                        应用语言包目录
+│     ├─Controller                  应用控制器目录
+│     ├─Model                       应用模型目录
+│     └─View                        应用视图目录
+│        └─Default                      默认模板目录
+├─Service                       服务层
+├─Library                       类库
+│     ├─Payment                     支付模块目录
+│     └─Qrcode                      二维码类库
+│─Common                        公共函数配置目录
+│     ├─Common                      公共方法目录
+│     └─Conf                        公共配置目录
+│─Runtime                       临时文件目录
+├─Public                        资源文件目录
+│  ├─Admin                          后端静态资源目录
+│  │  └─Default                         默认模板目录
+│  ├─Home                           前端静态资源目录
+│  │  └─Default                         默认模板目录
+│  ├─Common                         公共静态资源目录
+│  └─Upload                         用户上传附件资源目录
+├─Rsakeys                       密钥存放目录
+├─Install                       安装引导目录
+└─ThinkPHP                      框架目录
 ```
 
 # 后端基于ThinkPHP v3.2.3
