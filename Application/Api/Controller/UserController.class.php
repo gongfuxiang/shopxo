@@ -184,7 +184,7 @@ class UserController extends CommonController
      */
     public function GetAlipayUserInfo()
     {
-        $result = (new \Library\Alipay())->GetAlipayUserInfo(I('authcode'), MyC('common_app_mini_alipay_appid'));
+        $result = (new \Library\AlipayAuth())->GetAlipayUserInfo(I('authcode'), MyC('common_app_mini_alipay_appid'));
         if($result === false)
         {
             $this->ajaxReturn('获取授权信息失败');
