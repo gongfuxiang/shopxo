@@ -1,16 +1,20 @@
 # ShopXO 国内领先企业级B2C开源电商系统！
 求实进取、创新专注、自主研发、国内领先企业级B2C电商系统解决方案。<br />
  PC+WAP、支付宝小程序、微信小程序、百度小程序。
-<br />官方地址：http://shopxo.net/
 <br />
+
+## 官方地址
+http://shopxo.net/
+<br />
+
 ### github
 https://github.com/gongfuxiang/shopxo
 <br />
-### 腾讯云开发者|coding
-https://dev.tencent.com/u/gongfuxiang/p/shopxo/git
-<br />
 ### gitee|码云
 https://gitee.com/gongfuxiang/shopxo
+<br />
+### 腾讯云开发者|coding
+https://dev.tencent.com/u/gongfuxiang/p/shopxo/git
 <br />
 
 # 功能简介
