@@ -10,7 +10,7 @@
 return array(
     'appmini_alipaylist_name_text'          => '包名',
     'appmini_alipaylist_size_text'          => '大小',
-    'appmini_alipaylist_created_msg'        => '生成时间比较长，请耐心等待，不要关闭浏览器窗口！',
+    'appmini_alipaylist_created_msg'        => '生成时间比较长，请不要关闭浏览器窗口！',
     'appmini_alipaylist_created_copy_error' => '项目包复制失败',
     'appmini_alipaylist_config_error'       => '配置信息不能为空',
     'appmini_alipaylist_file_error'         => '包基础文件不存在，请重新生成',

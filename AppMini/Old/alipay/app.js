@@ -51,7 +51,7 @@ App({
     // 请求地址
     request_url: "{{request_url}}";
     //request_url: "https://demo.shopxo.net/",
-    //request_url: 'http://localhost/project/shopxo/service/',
+    //request_url: 'http://localhost/project/shopxo/',
 
     // 基础信息
     application_title: "{{application_title}}",

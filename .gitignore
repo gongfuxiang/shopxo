@@ -10,6 +10,5 @@ logs
 *.lock
 #Upload
 #upload
-Cache
-cache
 .tea
+AppMini/New/*
