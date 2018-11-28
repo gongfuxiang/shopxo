@@ -76,7 +76,7 @@ class AppMiniAlipayListController extends CommonController
 						$url = __MY_URL__.'AppMini'.DS.'New'.DS.$this->application_name.DS.$temp_file;
 						$result[] = [
 							'name'	=> $temp_file,
-							'url'	=> $url,
+							'url'	=> substr($url, -4) == '.zip' ? $url : '',
 							'size'	=> FileSizeByteToUnit(filesize($file_path)),
 							'time'	=> date('Y-m-d H:i:s', filectime($file_path)),
 						];
@@ -165,7 +165,14 @@ class AppMiniAlipayListController extends CommonController
 		}
 
 		// 删除压缩包
-		if(\Library\FileUtil::UnlinkFile($this->new_path.DS.I('id')))
+		$path = $this->new_path.DS.I('id');
+		if(substr($path, -4) == '.zip')
+		{
+			$status = \Library\FileUtil::UnlinkFile($this->new_path.DS.I('id'));
+		} else {
+			$status = \Library\FileUtil::UnlinkDir($this->new_path.DS.I('id'));
+		}
+		if($status)
 		{
 			$this->ajaxReturn(L('common_operation_delete_success'));
 		} else {

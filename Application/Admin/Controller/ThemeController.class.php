@@ -168,7 +168,7 @@ class ThemeController extends CommonController
 		}
 
 		// 开始删除主题
-		if(DelDirFile($this->html_path.$id, true) && DelDirFile($this->static_path.$id, true))
+		if(\Library\FileUtil::UnlinkDir($this->html_path.$id) && \Library\FileUtil::UnlinkDir($this->static_path.$id))
 		{
 			$this->ajaxReturn(L('common_operation_delete_success'));
 		} else {

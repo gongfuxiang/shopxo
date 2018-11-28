@@ -52,13 +52,9 @@ class CacheController extends CommonController
 	 */
 	public function SiteUpdate()
 	{
-		DelDirFile(TEMP_PATH);
-		DelDirFile(DATA_PATH);
-		if(file_exists(RUNTIME_PATH.'common~runtime.php'))
-		{
-			unlink(RUNTIME_PATH.'common~runtime.php');
-		}
-
+		\Library\FileUtil::UnlinkDir(TEMP_PATH);
+		\Library\FileUtil::UnlinkDir(DATA_PATH);
+		\Library\FileUtil::UnlinkFile(RUNTIME_PATH.'common~runtime.php');
 		$this->success(L('common_operation_update_success'));
 	}
 
@@ -72,7 +68,7 @@ class CacheController extends CommonController
 	public function TemplateUpdate()
 	{
 		// 模板 Cache
-		DelDirFile(CACHE_PATH);
+		\Library\FileUtil::UnlinkDir(CACHE_PATH);
 
 		$this->success(L('common_operation_update_success'));
 	}

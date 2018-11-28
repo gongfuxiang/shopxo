@@ -27,9 +27,11 @@
 							<td>{{$v.size}}</td>
 							<td>{{$v.time}}</td>
 							<td class="view-operation">
-								<a href="{{$v.url}}">
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-download"> {{:L('common_operation_download')}}</button>
-								</a>
+								<notempty name="v.url">
+									<a href="{{$v.url}}">
+										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-download"> {{:L('common_operation_download')}}</button>
+									</a>
+								</notempty>
 								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:U('Admin/AppMiniAlipayList/Delete')}}" data-id="{{$v.name}}" data-view="reload"> {{:L('common_operation_delete')}}</button>
 							</td>
 						</tr>

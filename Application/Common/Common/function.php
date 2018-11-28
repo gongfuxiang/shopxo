@@ -357,49 +357,6 @@ function GetClientIP($long = false)
 }
 
 /**
- * [DelDirFile 删除指定目录下的所有文件]
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  0.0.1
- * @datetime 2017-01-11T18:30:37+0800
- * @param    [string]     $dir_name   [目录地址]
- * @param    [boolean]    $is_del_dir [是否删除目录（默认false）]
- * @return   [boolean]                [成功true, 失败false]
- */
-function DelDirFile($dir_name, $is_del_dir = false)  
-{
-    $error = 0;
-    if($handle = opendir($dir_name))
-    {
-        while(false !== ($item = readdir($handle)))
-        {
-            if($item != '.' && $item != '..' )
-            {
-                if(is_dir("{$dir_name}/{$item}"))
-                {
-                    DelDirFile("$dir_name/$item", $is_del_dir);  
-                } else {
-                    if(!is_writable("$dir_name/$item") || !unlink("$dir_name/$item"))
-                    {
-                        $error++;
-                    }
-                }
-            }
-        }
-        
-        // 关闭目录句柄
-        closedir($handle);
-
-        // 是否删除目录
-        if($is_del_dir == true && !rmdir($dir_name))
-        {
-            $error++;
-        }
-    }
-    return ($error == 0);
-}
-
-/**
  * [UrlParamJoin url参数拼接]
  * @author   Devil
  * @blog     http://gong.gg/
