@@ -10,7 +10,7 @@ http://shopxo.net/
 ### github
 https://github.com/gongfuxiang/shopxo
 <br />
-### gitee|码云
+### 码云|gitee
 https://gitee.com/gongfuxiang/shopxo
 <br />
 ### 腾讯云开发者|coding
