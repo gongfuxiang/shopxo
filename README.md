@@ -11,10 +11,10 @@
 * 群号：833531593
 * 答案：shopxo.net
 
-### git平台
-* github：https://github.com/gongfuxiang/shopxo
-* 码云|gitee：https://gitee.com/gongfuxiang/shopxo
-* 腾讯云开发者|coding：https://dev.tencent.com/u/gongfuxiang/p/shopxo/git
+### 源代码平台
+* Github：https://github.com/gongfuxiang/shopxo
+* 码云/开源中国：https://gitee.com/gongfuxiang/shopxo
+* 腾讯云开发者：https://dev.tencent.com/u/gongfuxiang/p/shopxo/git
 
 ### 扩展性
 * 支持多语言，独立模块式开发，完善的注释，易扩展。
