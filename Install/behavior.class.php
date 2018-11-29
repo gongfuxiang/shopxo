@@ -40,7 +40,7 @@ class behavior
 				'php_sapi_name'	=>	php_sapi_name(),
 				'client_date'	=>	date('Y-m-d H:i:s'),
 				'ymd'			=>	date('Ymd'),
-				'ver'			=>	'1.0.0',
+				'ver'			=>	'1.1.0',
 			);
 
 		// 描述信息

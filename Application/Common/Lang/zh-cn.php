@@ -15,8 +15,7 @@ return array(
 
 	// 应用信息
 	'common_application_name'			=>	'ShopXO',
-	'common_application_ver'			=>	'v1.0.0',
-	'common_application_website'		=>	'http://boyuan.mei.la/',
+	'common_application_ver'			=>	'v1.1.0',
 
 	// 公共
 	'common_login_success'				=>	'登录成功',
