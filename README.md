@@ -5,6 +5,7 @@
 ### 传送门
 * 官网地址：http://shopxo.net/
 * 演示地址：http://test.shopxo.net/ （管理账户/密码可进入官网查看）
+* 支付宝小程序：http://shopxo.net/alipay.html
 
 ### 官方QQ群
 * 群号：833531593
