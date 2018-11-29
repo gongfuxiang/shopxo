@@ -11,6 +11,12 @@
 	<meta name="msapplication-starturl" content="{{:__MY_URL__}}" />
 	<link rel="shortcut icon" type="image/x-icon" href="{{:__MY_URL__}}favicon.ico" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="{{:MyC('home_site_name')}}">
+    <link rel="apple-touch-icon" href="{{$image_host}}{{:MyC('home_site_logo_wap')}}">
+    <link rel="apple-touch-icon-precomposed" href="{{$image_host}}{{:MyC('home_site_logo_wap')}}">
+    
 	<css href="__PUBLIC__/Common/Lib/assets/css/amazeui.css?v={{:MyC('home_static_cache_version')}}" />
 	<css href="__PUBLIC__/Common/Lib/amazeui-switch/amazeui.switch.css?v={{:MyC('home_static_cache_version')}}" />
 	<css href="__PUBLIC__/Common/Lib/amazeui-chosen/amazeui.chosen.css?v={{:MyC('home_static_cache_version')}}" />
