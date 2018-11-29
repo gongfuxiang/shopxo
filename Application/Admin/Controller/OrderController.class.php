@@ -136,6 +136,9 @@ class OrderController extends CommonController
                 // 支付状态
                 $v['pay_status_text'] = $common_order_pay_status[$v['pay_status']]['name'];
 
+                // 支付方式
+                $v['payment_name'] = ($v['status'] <= 1) ? null : ResourcesService::OrderPaymentName($v['id']);
+
                 // 快递公司
                 $v['express_name'] = ResourcesService::ExpressName($v['express_id']);
 

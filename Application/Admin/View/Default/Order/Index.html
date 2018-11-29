@@ -175,6 +175,9 @@
 												<dt>{{:L('common_order_status_name')}}</dt>
 												<dd><if condition="empty($v['status_text'])"><span class="cr-ddd">{{:L('common_not_set_text')}}</span><else />{{$v.status_text}}</if></dd>
 
+												<dt>{{:L('order_payment_name_text')}}</dt>
+												<dd><if condition="empty($v['payment_name'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.payment_name}}</if></dd>
+
 												<dt>{{:L('order_user_note_text')}}</dt>
 												<dd><if condition="empty($v['user_note'])"><span class="cr-ddd">{{:L('common_on_fill_in_the_text')}}</span><else />{{$v.user_note}}</if></dd>
 

@@ -39,8 +39,10 @@
 <body>
 
 <!-- 商城公告 -->
-<notempty name="common_shop_notice">
-	<div class="am-alert am-alert-warning am-radius common-shop-notice" data-am-alert>
-		<div class="am-container">{{$common_shop_notice}}</div>
-	</div>
-</notempty>
+<if condition="MyC('home_site_state') == 1 and (!isset($is_header) or $is_header eq 1)">
+	<notempty name="common_shop_notice">
+		<div class="am-alert am-alert-warning am-radius common-shop-notice" data-am-alert>
+			<div class="am-container">{{$common_shop_notice}}</div>
+		</div>
+	</notempty>
+</if>

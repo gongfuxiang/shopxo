@@ -17,6 +17,7 @@ return array(
 	'order_express_text'			=>	'快递信息',
 	'order_user_note_text'			=>	'用户备注',
 	'order_price_th_text'			=>	'订单金额(元)',
+	'order_payment_name_text'		=>	'支付方式',
 
 	'order_confirm_time_text'		=>	'确认时间',
 	'order_pay_time_text'			=>	'支付时间',
