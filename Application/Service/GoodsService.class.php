@@ -131,7 +131,7 @@ class GoodsService
         {
             foreach($goods_category as &$v)
             {
-                $category_ids = self::GoodsCategoryItemsIds(['category_id'=>$v['id']]);
+                $category_ids = self::GoodsCategoryItemsIds([$v['id']]);
                 $v['goods'] = self::GoodsList(['where'=>['gci.category_id'=>['in', $category_ids], 'is_home_recommended'=>1], 'm'=>0, 'n'=>6, 'field'=>'g.id,g.title,g.title_color,g.images,g.home_recommended_images,g.original_price,g.price,g.inventory,g.buy_min_number,g.buy_max_number']);
             }
         }
@@ -145,20 +145,17 @@ class GoodsService
      * @version 1.0.0
      * @date    2018-08-29
      * @desc    description
-     * @param   [array]          $params [输入参数]
+     * @param   [array]          $ids [分类id数组]
      */
-    public static function GoodsCategoryItemsIds($params = [])
+    public static function GoodsCategoryItemsIds($ids = [])
     {
-        $data = M('GoodsCategory')->where(['pid'=>$params['category_id'], 'is_enable'=>1])->getField('id', true);
+        $data = M('GoodsCategory')->where(['pid'=>['in', $ids], 'is_enable'=>1])->getField('id', true);
         if(!empty($data))
         {
-            foreach($data as $v)
+            $temp = self::GoodsCategoryItemsIds($data);
+            if(!empty($temp))
             {
-                $temp = self::GoodsCategoryItemsIds(['category_id'=>$v]);
-                if(!empty($temp))
-                {
-                    $data = array_merge($data, $temp);
-                }
+                $data = array_merge($data, $temp);
             }
         }
         return $data;
