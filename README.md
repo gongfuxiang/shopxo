@@ -187,11 +187,15 @@ shopxo
     > 安全退出
 ```
 
-# 版权信息
-* ShopXO遵循Apache2开源协议发布，并提供免费使用。
-* 本项目包含的第三方源码和二进制文件之版权信息另行标注。
-* 版权所有Copyright © 2011-2018 by ShopXO (http://shopxo.net)
-* All rights reserved。
+# 如何贡献
+非常欢迎您对ShopXO的开发作出贡献！
+你可以选择以下方式向ShopXO贡献：
+- [发布issue进行问题反馈和建议](pulls)
+- 通过Pull Request提交修复
+- 完善我们的文档和例子
+
+# 开源协议
+Apache License Version 2.0 see http://www.apache.org/licenses/LICENSE-2.0.html
 
 # 更新日志
 更多细节参阅 <a href="changelog.txt">changelog.txt</a>
