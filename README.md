@@ -190,7 +190,7 @@ shopxo
 # 如何贡献
 非常欢迎您对ShopXO的开发作出贡献！
 你可以选择以下方式向ShopXO贡献：
-- [发布issue进行问题反馈和建议](pulls)
+- [发布issue进行问题反馈和建议](/pulls)
 - 通过Pull Request提交修复
 - 完善我们的文档和例子
 
