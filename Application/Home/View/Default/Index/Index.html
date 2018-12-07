@@ -174,7 +174,7 @@
 							<div class="triangle-topright"></div>
 						</div>
 
-						<if condition="!empty($floor.goods)">
+						<if condition="!empty($floor['goods'])">
 			                <foreach name="floor.goods" item="goods">
 								<div class="goods-items <if condition="in_array($key, [0,1])">am-u-sm-7 am-u-md-4 text-two<else />am-u-sm-6 am-u-md-2 text-three</if>  <if condition="in_array($key, [0,3])">sug</if> <if condition="in_array($key, [2,5])">big</if> <if condition="$key eq 5">last</if>">
 									<div class="outer-con">
