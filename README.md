@@ -190,8 +190,8 @@ shopxo
 # 如何贡献
 非常欢迎您对ShopXO的开发作出贡献！
 你可以选择以下方式向ShopXO贡献：
-- 1.[Github - 发布issue进行问题反馈和建议](https://github.com/gongfuxiang/shopxo/pulls)
-- 2.[码云/开源中国 - 发布issue进行问题反馈和建议](https://gitee.com/gongfuxiang/shopxo/pulls)
+- [Github - 发布issue进行问题反馈和建议](https://github.com/gongfuxiang/shopxo/pulls)
+- [码云/开源中国 - 发布issue进行问题反馈和建议](https://gitee.com/gongfuxiang/shopxo/pulls)
 - 通过Pull Request提交修复
 - 完善我们的文档和例子
 

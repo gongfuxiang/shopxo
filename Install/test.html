@@ -68,12 +68,12 @@ function TestClick(){
                 </tr>
 
                 <?php $php_version = explode('.', PHP_VERSION); ?>
-                <tr class="<?php if(($php_version['0'] >= 7) || ($php_version['0'] >=5 && $php_version['1'] >=4 ))echo 'yes'; ?>">
+                <tr class="<?php if(($php_version['0'] >= 7) || ($php_version['0'] >=5 && $php_version['1'] >=6 ))echo 'yes'; ?>">
                     <td>PHP版本</td>
-                    <td>>=5.4</td>
+                    <td>>=5.6</td>
                     <td><?php echo PHP_VERSION ?></td>
                     <td>
-                        <?php if(($php_version['0']>=7) || ($php_version['0']>=5 && $php_version['1']>=4)): ?>
+                        <?php if(($php_version['0']>=7) || ($php_version['0']>=5 && $php_version['1']>=6)): ?>
                             √
                         <?php else: ?>
                             ×
