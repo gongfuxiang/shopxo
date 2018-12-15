@@ -1,6 +1,0 @@
-<template name="copyright">
-  <view class="copyright">
-    <view class="title">ShopXO企业级B2C开源电商系统</view>
-    <view class="text">技术支持 shopxo.net</view>
-  </view>
-</template>
