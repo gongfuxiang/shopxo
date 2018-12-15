@@ -1,0 +1,347 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form view-list" action="{{:url('Admin/Order/Index')}}" method="POST">
+			<div class="am-g">
+				<input type="hidden" name="organization_id" <present name="param['organization_id']"> value="{{$param.organization_id}}"{{/if}} />
+				<input type="text" class="am-radius form-keyword" placeholder="{{:lang('order_so_keyword_tips')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
+				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">{{:lang('common_operation_query')}}</button>
+				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
+					{{:lang('common_more_screening')}}
+					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($param['is_more']) and $param['is_more'] eq 1)}}checked{{/if}} />
+					<i class="am-icon-angle-down"></i>
+				</label>
+
+				<div class="more-where {{if !isset($param['is_more']) or $param['is_more'] neq 1)}}none{{/if}}">
+					<select name="status" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1)}}{{:lang('common_order_status_name')}}</option>
+						<foreach name="common_order_admin_status" item="v">
+							<option value="{{$v.id}}" {{if isset($param['status']) and $param['status'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
+					<select name="express_id" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1)}}{{:lang('common_express_name')}}</option>
+						<foreach name="express_list" item="v">
+							<option value="{{$v.id}}" {{if isset($param['express_id']) and $param['express_id'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
+					<select name="pay_status" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1)}}{{:lang('common_pay_status_name')}}</option>
+						<foreach name="common_order_pay_status" item="v">
+							<option value="{{$v.id}}" {{if isset($param['pay_status']) and $param['pay_status'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
+					<div class="param-date param-where m-l-5)}}
+						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_start_name')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
+						<span>~</span>
+						<input type="text" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_end_name')}}" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
+					</div>
+				</div>
+			</div>
+        </form>
+        <!-- form end -->
+
+		<!-- list start -->
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5)}}
+			<thead>
+				<tr>
+					<th class="am-hide-sm-only th-goods">{{:lang('order_base_text')}}</th>
+					<th class="am-hide-sm-only th-receive-address">{{:lang('order_receive_text')}}</th>
+					<th class="am-hide-sm-only">{{:lang('order_express_text')}}</th>
+					<th>{{:lang('common_order_status_name')}}</th>
+					<th>{{:lang('order_price_th_text')}}</th>
+					<th>{{:lang('common_more_name')}}</th>
+					<th>{{:lang('common_operation_name')}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{if !empty($list)}}
+					<foreach name="list" item="v">
+						<tr id="data-list-{{$v.id}}">
+							<td class="am-hide-sm-only">
+								<div class="order-no">{{$v.order_no}}</div>
+								<foreach name="v.goods" item="vs">
+									<div class="goods-item">
+										<div class="base">
+											<a href="{{:HomeUrl('Goods', 'Index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$v.title}}">
+												<img src="{{$image_host}}{{$vs['images']}}" class="am-img-thumbnail am-radius goods-images am-hide-sm-only" />
+											</a>
+											<a href="{{:HomeUrl('Goods', 'Index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}" {{if !empty($vs['title_color'])}} style="color:{{$vs.title_color}};" {{/if}} >{{$vs.title}}</a>
+										</div>
+										<div class="other">
+											<span class="fl">
+												<notempty name="vs.attribute">
+													<foreach name="vs.attribute" key="kss" item="vss">
+														{{$vss.attr_type_name}}:{{$vss.attr_name}}{{if $kss eq count($vs.attribute)-1)}}，{{/if}}
+													{{/foreach}}
+												{{/if}}
+											</span>
+											<span class="fr">{{$vs.price}}x{{$vs.buy_number}}</span>
+										</div>
+									</div>
+								{{/foreach}}
+								<div class="goods-item">{{$v.describe}}</div>
+							</td>
+							<td class="am-hide-sm-only">
+								{{$v.receive_name}}<br />
+								{{$v.receive_tel}}<br />
+								{{$v.receive_province_name}}<br />
+								{{$v.receive_city_name}}<br />
+								{{$v.receive_county_name}}<br />
+								{{$v.receive_address}}
+							</td>
+							<td class="am-hide-sm-only">
+								{{if empty($v['express_name'])}}
+									<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>
+								{{else /}}
+									{{$v.express_name}}<br />{{$v.express_number}}
+								{{/if}}
+							</td>
+							<td>
+								<span class="block">{{$v.status_text}}</span>
+								
+								{{if $v['pay_status'] eq 1)}}
+									<span class="block cr-green fs-12)}}{{$v.pay_status_text}}</span>
+								<elseif condition="$v['pay_status'] eq 2" />
+									<span class="block cr-yellow fs-12)}}{{$v.pay_status_text}}</span>
+								{{else /}}
+									<span class="block fs-12)}}{{$v.pay_status_text}}</span>
+								{{/if}}
+								{{if $v['user_is_delete_time'] neq 0)}}
+									<span class="block cr-red fs-12)}}{{:lang('order_user_is_delete_text')}}</span>
+								{{/if}}
+							</td>
+							<td>
+								{{:lang('order_price_text')}}：{{$v.price}}<br />
+								{{:lang('order_preferential_price_text')}}：{{$v.preferential_price}}<br />
+								{{:lang('order_total_price_text')}}：{{$v.total_price}}<br />
+								{{:lang('order_pay_price_text')}}：{{$v.pay_price}}
+							</td>
+							<td>
+								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> {{:lang('common_see_more_name')}}</span>
+								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
+									<div class="am-popup-inner">
+										<div class="am-popup-hd">
+											<h4 class="am-popup-title">{{:lang('common_detail_content')}}</h4>
+											<span data-am-modal-close class="am-close">&times;</span>
+										</div>
+										<div class="am-popup-bd">
+											<dl class="dl-content">
+												<dt>{{:lang('order_order_no_text')}}</dt>
+												<dd>{{if empty($v['order_no'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.order_no}}{{/if}}</dd>
+
+												<dt>{{:lang('order_base_text')}}</dt>
+												<dd>
+													<foreach name="v.goods" item="vs">
+														<div class="goods-item">
+															<div class="base">
+																<a href="{{:HomeUrl('Goods', 'Index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$v.title}}">
+																	<img src="{{$image_host}}{{$vs['images']}}" class="am-img-thumbnail am-radius goods-images am-hide-sm-only" />
+																</a>
+																<a href="{{:HomeUrl('Goods', 'Index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}" {{if !empty($vs['title_color'])}} style="color:{{$vs.title_color}};" {{/if}} >{{$vs.title}}</a>
+															</div>
+															<div class="other">
+																<span class="fl">{{$vs.attribute}}</span>
+																<span class="fr">{{$vs.price}}x{{$vs.buy_number}}</span>
+															</div>
+														</div>
+													{{/foreach}}
+													<div class="goods-item">{{$v.describe}}</div>
+												</dd>
+
+												<dt>{{:lang('order_receive_text')}}</dt>
+												<dd>
+													{{if empty($v['receive_address'])}}
+														<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>
+													{{else /}}
+														{{$v.receive_name}}<br />
+														{{$v.receive_tel}}<br />
+														{{$v.receive_province_name}}
+														{{$v.receive_city_name}}
+														{{$v.receive_county_name}}
+														{{$v.receive_address}}
+													{{/if}}
+												</dd>
+
+												<dt>{{:lang('order_express_text')}}</dt>
+												<dd>{{if empty($v['express_name'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.express_name}}<br />{{$v.express_number}}{{/if}}</dd>
+
+												<dt>{{:lang('common_pay_status_name')}}</dt>
+												<dd>{{if empty($v['pay_status_text'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.pay_status_text}}{{/if}}</dd>
+
+												<dt>{{:lang('common_order_status_name')}}</dt>
+												<dd>{{if empty($v['status_text'])}}<span class="cr-ddd">{{:lang('common_not_set_text')}}</span>{{else /}}{{$v.status_text}}{{/if}}</dd>
+
+												<dt>{{:lang('order_payment_name_text')}}</dt>
+												<dd>{{if empty($v['payment_name'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.payment_name}}{{/if}}</dd>
+
+												<dt>{{:lang('order_user_note_text')}}</dt>
+												<dd>{{if empty($v['user_note'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.user_note}}{{/if}}</dd>
+
+												<dt>{{:lang('order_price_th_text')}}</dt>
+												<dd>
+													{{if empty($v['price'])}}
+														<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>
+													{{else /}}
+														{{:lang('order_price_text')}}：{{$v.price}}<br />
+														{{:lang('order_preferential_price_text')}}：{{$v.preferential_price}}<br />
+														{{:lang('order_total_price_text')}}：{{$v.total_price}}<br />
+														{{:lang('order_pay_price_text')}}：{{$v.pay_price}}
+													{{/if}}
+												</dd>
+
+												<dt>{{:lang('order_confirm_time_text')}}</dt>
+												<dd>{{if empty($v['confirm_time'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.confirm_time}}{{/if}}</dd>
+
+												<dt>{{:lang('order_pay_time_text')}}</dt>
+												<dd>{{if empty($v['pay_time'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.pay_time}}{{/if}}</dd>
+
+												<dt>{{:lang('order_delivery_time_text')}}</dt>
+												<dd>{{if empty($v['delivery_time'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.delivery_time}}{{/if}}</dd>
+
+												<dt>{{:lang('order_success_time_text')}}</dt>
+												<dd>{{if empty($v['success_time'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.success_time}}{{/if}}</dd>
+
+												<dt>{{:lang('order_cancel_time_text')}}</dt>
+												<dd>{{if empty($v['cancel_time'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.cancel_time}}{{/if}}</dd>
+
+												<dt>{{:lang('common_create_time_name')}}</dt>
+												<dd>{{$v.add_time}}</dd>
+
+												<dt>{{:lang('common_upd_time_name')}}</dt>
+												<dd>{{$v.upd_time}}</dd>
+											</dl>
+										</div>
+									</div>
+								</div>
+							</td>
+							<td class="view-operation">
+								{{if in_array($v['status'], [0])}}
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:url('Admin/Order/Confirm')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:lang('common_collect_tips')}}"> {{:lang('common_operation_confirm')}}</button>
+								{{/if}}
+								{{if in_array($v['status'], [0,1])}}
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax" data-url="{{:url('Admin/Order/Cancel')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:lang('common_cancel_tips')}}"> {{:lang('common_operation_cancel')}}</button>
+									{{if in_array($v['status'], [1])}}
+                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paypal am-btn-block submit-pay" data-id="{{$v.id}}" data-payment-id="{{$v.payment_id}}" data-am-modal="{target: '#order-pay-popup'}"> {{:lang('common_operation_pay')}}</button>
+                                    {{/if}}
+								{{/if}}
+								{{if $v['status'] eq 2)}}
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o am-btn-block submit-delivery" data-url="{{:url('Admin/Order/Delivery')}}" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-express-id="{{$v.express_id}}" data-am-modal="{target: '#order-delivery-popup'}"> {{:lang('common_delivery_submit')}}</button>
+								{{/if}}
+								{{if $v['status'] eq 3)}}
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:url('Admin/Order/Collect')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:lang('common_collect_tips')}}"> {{:lang('common_collect_submit')}}</button>
+								{{/if}}
+								{{if in_array($v['status'], [5,6])}}
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o am-btn-block submit-ajax" data-url="{{:url('Admin/Order/Delete')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="delete" data-msg="{{:lang('common_delete_tips')}}"> {{:lang('common_operation_delete')}}</button>
+								{{/if}}
+							</td>
+						</tr>
+					{{/foreach}}
+				{{else /}}
+					<tr><td colspan="20" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+				{{/if}}
+			</tbody>
+		</table>
+		<!-- list end -->
+
+		<!-- 发货弹窗 -->
+		<div class="am-popup" id="order-delivery-popup">
+			<div class="am-popup-inner">
+				<div class="am-popup-hd">
+					<h4 class="am-popup-title">{{:lang('order_delivery_popup_title')}}</h4>
+					<span data-am-modal-close class="am-close">&times;</span>
+				</div>
+				<div class="am-popup-bd">
+	                <form class="am-form form-validation delivery-form" method="post" action="{{:url('Admin/Order/Delivery')}}" request-type="ajax-reload">
+	                    <!-- 支付方式 -->
+	                    <div class="business-item">
+	                        <h3>{{:lang('order_business_express_title')}}</h3>
+	                        <notempty name="express_list">
+	                            <ul class="express-list" data-type="express">
+	                                <foreach name="express_list" item="express">
+	                                	{{if $express.is_enable eq 1)}}
+		                                    <li class="express-items-{{$express.id}}" data-value="{{$express.id}}">
+		                                        <notempty name="express.icon">
+		                                            <img src="{{$express.icon}}" />
+		                                        {{/if}}
+		                                        <span>{{$express.name}}</span>
+		                                        <i class="icon-active"></i>
+		                                    </li>
+		                                {{/if}}
+	                                {{/foreach}}
+	                            </ul>
+	                        {{/if}}
+	                        <empty name="express_list">
+	                            <div class="table-no"><i class="am-icon-warning"></i> {{:lang('order_express_not_data_tips')}}</div>
+	                        {{/if}}
+	                    </div>
+
+	                    <div class="am-form-group">
+							<label>{{:lang('order_express_number_text')}}</label>
+							<input type="text" name="express_number" placeholder="{{:lang('order_express_number_text')}}" minlength="1" data-validation-message="{{:lang('order_express_number_format')}}" class="am-radius" required />
+	                    </div>
+	                    <div class="am-form-group">
+	                        <input type="hidden" name="id" value="0" />
+	                        <input type="hidden" name="express_id" value="0" />
+	                        <input type="hidden" name="user_id" value="0" />
+	                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_confirm')}}</button>
+	                    </div>
+	                </form>
+	            </div>
+	        </div>
+		</div>
+
+		<!-- 支付弹窗 -->
+        <div class="am-popup" id="order-pay-popup">
+            <div class="am-popup-inner">
+                <div class="am-popup-hd">
+                    <h4 class="am-popup-title">{{:lang('order_pay_popup_title')}}</h4>
+                    <span data-am-modal-close class="am-close">&times;</span>
+                </div>
+                <div class="am-popup-bd">
+                	<form class="am-form form-validation-pay pay-form" action="{{:url('Admin/Order/Pay')}}" method="POST" request-type="ajax-reload">
+                        <!-- 支付方式 -->
+                        <div class="business-item">
+                            <h3>{{:lang('order_business_pay_title')}}</h3>
+                            <notempty name="buy_payment_list">
+                                <ul class="payment-list" data-type="payment">
+                                    <foreach name="buy_payment_list" item="payment">
+                                        <li class="payment-items-{{$payment.id}}" data-value="{{$payment.id}}">
+                                            <notempty name="payment.logo">
+                                                <img src="{{$payment.logo}}" />
+                                            {{/if}}
+                                            <span>{{$payment.name}}</span>
+                                            <i class="icon-active"></i>
+                                        </li>
+                                    {{/foreach}}
+                                </ul>
+                            {{/if}}
+                            <empty name="buy_payment_list">
+                                <div class="table-no"><i class="am-icon-warning"></i> {{:lang('order_payment_not_data_tips')}}</div>
+                            {{/if}}
+                        </div>
+                        <div class="am-form-group">
+                            <input type="hidden" name="id" value="0" />
+                            <input type="hidden" name="payment_id" value="0" />
+                            <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_confirm')}}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+		<!-- page start -->
+		{{if !empty($list)}}
+			{{$page_html}}
+		{{/if}}
+		<!-- page end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

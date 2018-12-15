@@ -1,0 +1,11 @@
+/**
+ * 登录/注册
+ */
+form.form-validation, .reg-switch-view { margin: 30px 0 60px 0; }
+.reg-switch-view .am-btn { width: 49%; line-height: 100px; font-size: 16px; }
+
+.verify-submit-win { margin-top: 20px; display: block; }
+.reg-switch-tips { font-weight: 100; font-size: 12px; color: #f87689; margin-left: 20px; }
+#verify-win .am-modal-bd { margin-top: 10px; }
+#verify-win .am-modal-bd .base { overflow: hidden; }
+#verify-win .am-modal-bd .base .verify-tips { font-size: 12px; }

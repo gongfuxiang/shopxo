@@ -1,0 +1,149 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:url('Admin/Payment/Save')}}" method="POST" request-type="ajax-url" request-value="{{:url('Admin/Payment/Index')}}" enctype="multipart/form-data">
+			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
+			<legend>
+				<span class="fs-16)}}{{:lang('payment_edit_name')}}</span>
+				<a href="{{:url('Admin/Payment/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
+			</legend>
+			<div class="am-form-group">
+				<label>{{:lang('payment_name_text')}}</label>
+				<input type="text" name="name" placeholder="{{:lang('payment_name_text')}}" minlength="2" maxlength="60" data-validation-message="{{:lang('payment_name_format')}}" class="am-radius" <notempty name="data"> value="{{$data.name}}"{{/if}} required />
+			</div>
+			<div class="am-form-group">
+				<label>{{:lang('payment_apply_terminal_text')}}</label>
+			    <select name="apply_terminal" class="am-radius c-p chosen-select" multiple="multiple" minchecked="1" data-placeholder="{{:lang('common_select_can_choose')}}" data-validation-message="{{:lang('payment_apply_terminal_format')}}" required>
+					<foreach name="common_platform_type" item="v">
+						<option value="{{$v.value}}" {{if isset($data['apply_terminal']) and in_array($v['value'], $data['apply_terminal'])}}selected{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+			</div>
+
+			<div class="am-form-group am-form-file">
+				<label class="block">{{:lang('payment_logo_text')}}</label>
+				<button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
+				<i class="am-icon-cloud-upload"></i> {{:lang('common_select_images_text')}}</button>
+				<input type="text" name="logo" class="am-radius js-choice-one original-images-url" data-choice-one-to=".images-file-event" <notempty name="data"> value="{{$data.logo}}"{{/if}}" data-validation-message="{{:lang('common_select_images_tips')}}" readonly="readonly" <notempty name="data"> value="{{$data.logo}}"{{/if}} />
+				<input type="file" name="file_logo" multiple data-validation-message="{{:lang('common_select_images_tips')}}" accept="image/gif,image/jpeg,image/jpg,image/png" class="js-choice-one images-file-event" data-choice-one-to=".original-images-url" data-tips-tag="#form-logo-tips" data-image-tag="#form-img-logo" />
+				<div id="form-logo-tips" class="m-t-5)}}</div>
+				<img src="{{if !empty($data['logo'])}}{{$image_host}}{{$data.logo}}{{else /}}{{$image_host}}/Public/Admin/Default/Images/default-images.png{{/if}}" id="form-img-logo" class="block m-t-5 am-img-thumbnail am-radius" width="100" data-default="{{if !empty($data['logo'])}}{{$image_host}}{{$data.logo}}{{else /}}{{$image_host}}/Public/Admin/Default/Images/default-images.png{{/if}}" />
+			</div>
+
+			<!-- plugins config start -->
+			<notempty name="data.element">
+				<div class="plugins-element">
+					<p class="tips">{{:lang('payment_plugins_element_tips')}}</p>
+					<foreach name="data.element" item="element">
+						<div class="am-form-group">
+							<label class="block">{{$element.title}}</label>
+							<switch name="element.element">
+								<case value="input">
+									{{if in_array($element['type'], ['radio', 'checkbox']) and !empty($element['element_data']) and is_array($element['element_data'])}}
+										<foreach name="element.element_data" key="element_data_key" item="element_data">
+											<label class="{{if isset($element['is_block']) and $element['is_block'] eq 1)}}am-{{$element.type}}{{else /}}am-{{$element.type}}-inline{{/if}}">
+												<input
+													type="{{$element.type}}"
+													name="plugins_{{$element.name}}"
+													value="{{$element_data.value}}"
+													{{if (isset($element_data['is_checked']) and $element_data['is_checked'] eq 1) or (isset($data['config'][$element['name']]) and in_array($element_data['value'], explode(',', $data['config'][$element['name']])))}}checked{{/if}}
+													{{if isset($element['minchecked']) and $element['type'] eq 'checkbox'">minchecked="{{$element.minchecked}}"{{/if}}
+													{{if isset($element['maxchecked']) and $element['type'] eq 'checkbox'">maxchecked="{{$element.maxchecked}}"{{/if}}
+													{{if isset($element['message'])}}data-validation-message="{{$element.message}}"{{/if}}
+													{{if $element_data_key eq 0 and isset($element['is_required']) and $element['is_required'] eq 1)}}required{{/if}}
+													data-am-ucheck />{{$element_data.name}}
+											</label>
+										{{/foreach}}
+									{{else /}}
+										<input
+											class="am-radius"
+											type="{{$element.type}}"
+											name="plugins_{{$element.name}}"
+											value="{{if isset($data['config'][$element['name']])}}{{$data['config'][$element['name']]}}{{else /}}{{if isset($element['default'])}}{{$element.default}}{{/if}}{{/if}}"
+											{{if isset($element['placeholder'])}}placeholder="{{$element.placeholder}}"{{/if}}
+											{{if isset($element['message'])}}data-validation-message="{{$element.message}}"{{/if}}
+											{{if isset($element['is_required']) and $element['is_required'] eq 1)}}required{{/if}}
+											/>
+									{{/if}}
+								</case>
+								<case value="select">
+									{{if !empty($element['element_data']) and is_array($element['element_data'])}}
+										<select
+											class="chosen-select am-radius"
+											name="plugins_{{$element.name}}"
+											{{if isset($element['message'])}}data-validation-message="{{$element.message}}"{{/if}}
+											{{if isset($element['placeholder'])}}data-placeholder="{{$element.placeholder}}"{{else /}}{{:lang('common_select_can_choose')}}{{/if}}
+											{{if isset($element['is_multiple']) and $element['is_multiple'] eq 1)}}
+												multiple
+												{{if isset($element['minchecked'])}}minchecked="{{$element.minchecked}}"{{/if}}
+												{{if isset($element['maxchecked'])}}maxchecked="{{$element.maxchecked}}"{{/if}}
+											{{/if}}
+											{{if isset($element['is_required']) and $element['is_required'] eq 1)}}required{{/if}}
+										>
+										{{if !isset($element['is_multiple']) or $element['is_multiple'] neq 1)}}
+											<option value="">{{if isset($element['placeholder'])}}{{$element.placeholder}}{{else /}}{{:lang('common_select_can_choose')}}{{/if}}</option>
+										{{/if}}
+											<foreach name="element.element_data" key="element_data_key" item="element_data">
+												<option
+													value="{{$element_data.value}}"
+													{{if (isset($element_data['is_selected']) and $element_data['is_selected'] eq 1) or (isset($data['config'][$element['name']]) and in_array($element_data['value'], explode(',', $data['config'][$element['name']])))}}selected{{/if}}
+													>{{$element_data.name}}</option>
+											{{/foreach}}
+										</select>
+									{{/if}}
+								</case>
+								<case value="textarea">
+									<textarea
+										class="am-radius"
+										name="plugins_{{$element.name}}"
+										{{if isset($element['rows'])}}rows="{{$element.rows}}"{{/if}}
+										{{if isset($element['placeholder'])}}placeholder="{{$element.placeholder}}"{{/if}}
+										{{if isset($element['is_required']) and $element['is_required'] eq 1)}}
+											{{if isset($element['minlength'])}}minlength="{{$element.minlength}}"{{/if}}
+											{{if isset($element['maxlength'])}}maxlength="{{$element.maxlength}}"{{/if}}
+											required
+										{{/if}}
+									>{{if isset($data['config'][$element['name']])}}{{$data['config'][$element['name']]}}{{else /}}{{if isset($element['default'])}}{{$element.default}}{{/if}}{{/if}}</textarea>
+								</case>
+							</switch>
+						</div>
+					{{/foreach}}
+				</div>
+			{{/if}}
+			<!-- plugins config end -->
+
+			<div class="am-form-group">
+				<label>{{:lang('common_view_sort_title')}}</label>
+				<input type="number" placeholder="{{:lang('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:lang('common_sort_error')}}" class="am-radius" value="{{if isset($data['sort'])}}{{$data.sort}}{{else /}}0{{/if}}" required />
+			</div>
+
+			<div class="am-form-group">
+			    <label class="block">{{:lang('payment_is_open_user_text')}}</label>
+			    <input name="is_open_user" value="1" type="checkbox" data-off-text="{{:lang('common_operation_off_is_text')}}" data-on-text="{{:lang('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_open_user']) and $data['is_open_user'] eq 1) or !isset($data['is_open_user'])}}checked="true"{{/if}} />
+			</div>
+
+			<div class="am-form-group">
+			    <label class="block">{{:lang('common_view_enable_title')}}</label>
+			    <input name="is_enable" value="1" type="checkbox" data-off-text="{{:lang('common_operation_off_is_text')}}" data-on-text="{{:lang('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<input type="hidden" name="id" <notempty name="data"> value="{{$data.id}}"{{/if}} />
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
+<script>
+$('.select-maxchecked').on('checkedOverflow.selected.amui', function() {
+  Prompt('最多选择' + this.getAttribute('maxchecked') + '项');
+});
+</script>

@@ -1,0 +1,54 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:url('admin/admin/save')}}" method="POST" request-type="ajax-url" request-value="{{:url('admin/admin/index')}}">
+			<legend>
+				<span class="fs-16">
+					{{if empty($data['id'])}}
+						{{:lang('admin_add_name')}}
+					{{else /}}
+						{{:lang('admin_edit_name')}}
+					{{/if}}
+				</span>
+				<a href="{{:url('admin/admin/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
+			</legend>
+			<div class="am-form-group">
+				<label>{{:lang('login_username_text')}}</label>
+				<input type="text" placeholder="{{:lang('login_username_text')}}" name="username" pattern="{{:lang('common_regex_username')}}" data-validation-message="{{:lang('login_username_format')}}" class="am-radius" {{if !empty($data)}}value="{{$data.username}}" disabled{{/if}} required />
+			</div>
+			<div class="am-form-group">
+				<label>{{:lang('login_login_pwd_text')}}</label>
+				<input type="password" placeholder="{{:lang('login_login_pwd_text')}}" name="login_pwd" pattern="{{:lang('common_regex_pwd')}}"  data-validation-message="{{:lang('login_login_pwd_format')}}" class="am-radius" {{if empty($data)}}required{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{:lang('common_mobile_name')}}</label>
+				<input type="text" placeholder="{{:lang('common_mobile_name')}}" name="mobile" pattern="{{:lang('common_regex_mobile')}}" data-validation-message="{{:lang('common_mobile_format_error')}}" class="am-radius" {{if !empty($data)}}value="{{$data.mobile}}"{{/if}} />
+			</div>
+			{{if !isset($data['id']) or $admin['id'] neq $data['id']}}
+				<div class="am-form-group">
+					<label>{{:lang('admin_view_role_name')}}</label>
+					<select  class="am-radius c-p" name="role_id" data-validation-message="{{:lang('login_role_id_format')}}" required>
+						<option value="">{{:lang('common_select_can_choose')}}</option>
+						{{foreach $role as $v}}
+							<option value="{{$v.id}}" {{if isset($data['role_id']) and $data['role_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
+				</div>
+			{{/if}}
+			{{include file="lib/gender" /}}
+			<div class="am-form-group">
+				<input type="hidden" name="id" {{if !empty($data['id'])}}value="{{$data.id}}"{{/if}} />
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

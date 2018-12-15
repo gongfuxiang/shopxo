@@ -1,0 +1,43 @@
+<script>
+/**
+ * [ExcelImportCallback excel导入回调（公共表单方法校验需要放在这里，不能校验其它文件的方法）]
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  0.0.1
+ * @datetime 2017-02-11T21:46:50+0800
+ * @param    {[object]}    data [回调数据]
+ */
+function ExcelImportCallback(data)
+{
+	if(data.code == 0)
+	{
+		// 成功
+		if(data.data.success > 0)
+		{
+			$('.excel-import-success').removeClass('none');
+			$('.excel-import-success').find('strong').text(data.data.success);
+		} else {
+			$('.excel-import-success').addClass('none');
+		}
+
+		// 失败
+		if(data.data.error.length == 0)
+		{
+			$('.excel-import-error').addClass('none');
+		} else {
+			$('.excel-import-error').removeClass('none');
+			$('.excel-import-error').find('strong').text(data.data.error.length);
+			var html = '';
+			for(var i in data.data.error)
+			{
+				html += '<tr><td>'+data.data.error[i]+'</td></tr>';
+			}
+			$('.excel-import-error').find('table tbody').html(html);
+		}
+	} else {
+		Prompt(data.msg);
+	}
+	$.AMUI.progress.done();
+	$('.form-validation').find('button[type="submit"]').button('reset');
+}
+</script>

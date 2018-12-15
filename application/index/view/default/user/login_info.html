@@ -1,0 +1,46 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- conntent start  -->
+<div class="am-g my-content">
+	<div class="am-u-md-6 am-u-sm-centered">
+		<!-- form start -->
+		<form class="am-form form-validation" method="post" action="{{:url('index/user/login')}}" request-type="ajax-url" request-value="{{$referer_url}}">
+			<fieldset>
+				{{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))}}
+					<span class="">{{:lang('user_login_on_accounts_text')}}</span>
+					<a href="{{:url('index/user/reginfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">{{:lang('user_login_immediately_reg_text')}}</a>
+					<hr />
+				{{/if}}
+				<label>{{:lang('user_login_accounts_text')}}</label>
+				<div class="am-form-group">
+					<input type="text" name="accounts" class="am-radius" minlength="1" placeholder="{{:lang('user_login_accounts_text')}}" data-validation-message="{{:lang('user_login_accounts_format')}}" required />
+				</div>
+				<label>{{:lang('user_login_pwd_text')}}</label>
+				<div class="am-form-group">
+					<input type="password" name="pwd" class="am-radius" placeholder="{{:lang('user_login_pwd_text')}}" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="{{:lang('user_reg_pwd_format')}}" required />
+				</div>
+				<p>
+					<button type="submit" class="am-btn am-btn-primary am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '{{:lang('common_login_loading_tips')}}'}">{{:lang('user_login_submit_text')}}</button>
+					<a href="{{:url('index/user/forgetpwdinfo')}}" class="am-fr">{{:lang('user_reg_forget_pwd_text')}}</a>
+				</p>
+			</fieldset>
+		</form>
+		<!-- form end -->
+	</div>
+</div>
+<!-- conntent end  -->
+
+
+{{include file="public/footer" /}}

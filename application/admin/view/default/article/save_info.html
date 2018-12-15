@@ -1,0 +1,67 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:url('Admin/Article/Save')}}" method="POST" request-type="ajax-url" request-value="{{:url('Admin/Article/Index')}}">
+			<legend>
+				<span class="fs-16)}}
+					{{if empty($data['id'])}}
+						{{:lang('article_add_name')}}
+					{{else /}}
+						{{:lang('article_edit_name')}}
+					{{/if}}
+				</span>
+				<a href="{{:url('Admin/Article/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
+			</legend>
+			<div class="am-form-group">
+				<label>{{:lang('article_title_text')}}</label>
+				<div class="am-input-group am-input-group-sm">
+					<input type="hidden" name="title_color" value="{{if !empty($data['title_color'])}}{{$data.title_color}}{{/if}}" />
+					<input type="text" name="title" placeholder="{{:lang('article_title_text')}}" minlength="3" maxlength="60" data-validation-message="{{:lang('article_title_format')}}" class="am-form-field am-radius" <notempty name="data"> value="{{$data.title}}" {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
+					<span class="am-input-group-btn">
+						<button class="am-btn am-btn-default colorpicker-submit" type="button" data-input-tag="input[name='title']" data-color-tag="input[name='title_color']">
+							<img src="__PUBLIC__/Common/Images/colorpicker.png" />
+						</button>
+					</span>
+				</div>
+			</div>
+			<div class="am-form-group">
+				<label>{{:lang('article_category_text')}}</label>
+				<select name="article_category_id" class="am-radius c-p chosen-select" data-placeholder="{{:lang('common_select_can_choose')}}" data-validation-message="{{:lang('article_category_format')}}" required>
+					<option value="">{{:lang('common_select_can_choose')}}</option>
+					<foreach name="article_category_list" item="v">
+						<option value="{{$v.id}}" {{if isset($data['article_category_id']) and $data['article_category_id'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+			</div>
+			<div class="am-form-group">
+				<label>{{:lang('article_jump_url_text')}}</label>
+				<input type="url" name="jump_url" placeholder="{{:lang('article_jump_url_text')}}" data-validation-message="{{:lang('article_jump_url_format')}}" class="am-radius" <notempty name="data"> value="{{$data.jump_url}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+			    <label class="block">{{:lang('common_view_enable_title')}}</label>
+			    <input name="is_enable" value="1" type="checkbox" data-off-text="{{:lang('common_operation_off_is_text')}}" data-on-text="{{:lang('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if !empty($data) and $data['is_enable'] eq 1)}}checked="true"{{/if}} />
+			</div>
+			<div class="am-form-group">
+			    <label class="block">{{:lang('article_home_recommended_text')}}</label>
+			    <input name="is_home_recommended" value="1" type="checkbox" data-off-text="{{:lang('common_operation_off_is_text')}}" data-on-text="{{:lang('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if !empty($data) and $data['is_home_recommended'] eq 1)}}checked="true"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{:lang('article_content_text')}}</label>
+				<textarea class="am-radius am-validate" name="content" rows="5" minlength="50" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:url('Admin/Ueditor/Index', ['path_type'=>'article'])}}" placeholder="{{:lang('article_content_format')}}" {{else /}} placeholder="{{:lang('article_content_format')}}{{:lang('article_content_format_mobile')}}" {{/if}} data-validation-message="{{:lang('article_content_format')}}" required><notempty name="data">{{$data.content}}{{/if}}</textarea>
+			</div>
+			<div class="am-form-group">
+				<input type="hidden" name="id" <notempty name="data"> value="{{$data.id}}"{{/if}}" />
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

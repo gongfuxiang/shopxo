@@ -1,0 +1,55 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+        <!-- operation start -->
+        <div class="am-g">
+            <a href="{{:url('admin/power/rolesaveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:lang('common_operation_add')}}</a>
+        </div>
+        <!-- operation end -->
+
+        <!-- list start -->
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 role-list">
+			<thead>
+				<tr>
+					<th>{{:lang('common_view_name_title')}}</th>
+					<th>{{:lang('common_view_status_title')}}</th>
+					<th class="am-hide-sm-only">{{:lang('common_create_time_name')}}</th>
+					<th>{{:lang('common_operation_name')}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{if !empty($data)}}
+					{{foreach $data as $v}}
+						<tr id="data-list-{{$v.id}}" {{if $v['is_enable'] eq 0}}class="am-active"{{/if}}>
+							<td>{{$v.name}}</td>
+							<td>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('admin/power/RoleStatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
+							</td>
+							<td class="am-hide-sm-only">{{:date('Y-m-d H:i:s', $v['add_time'])}}</td>
+							<td>
+								{{if $v['id'] eq 1}}
+									<span class="cr-ccc">{{:lang('common_do_not_operate')}}</span>
+								{{else /}}
+									<a href="{{:url('admin/power/rolesaveinfo', array('id'=>$v['id']))}}">
+										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:lang('common_operation_edit')}}</button>
+									</a>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/power/roledelete')}}" data-id="{{$v.id}}"> {{:lang('common_operation_delete')}}</button>
+								{{/if}}
+							</td>
+						</tr>
+					{{/foreach}}
+				{{else /}}
+					<tr><td colspan="5" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+				{{/if}}
+			</tbody>
+		</table>
+		<!-- list end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

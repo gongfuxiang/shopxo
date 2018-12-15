@@ -1,0 +1,25 @@
+/**
+ * 列表
+ */
+.user-content-body .am-panel-bd { overflow: hidden; }
+
+/**
+ * 详情页面
+ */
+.user-content-body .verify-submit-win, .user-content-body .verify-submit-win-new { margin-top: 20px; display: block; }
+.user-content-body .reg-switch-tips { font-weight: 100; font-size: 12px; color: #f87689; margin-left: 20px; }
+.user-content-body #verify-win .am-modal-bd { margin-top: 10px; }
+.user-content-body #verify-win .am-modal-bd .base { overflow: hidden; }
+.user-content-body #verify-win .am-modal-bd .base .verify-tips { font-size: 12px; }
+
+.user-content-body legend {
+    padding-bottom: 0.2rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #e5e5e5;
+}
+.user-content-body .legend-title {
+    font-size: 16px;
+}
+.user-content-body a {
+    color: #e7747f;
+}

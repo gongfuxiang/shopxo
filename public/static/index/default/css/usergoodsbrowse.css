@@ -1,0 +1,38 @@
+/**
+ * 搜索
+ */
+.thin { overflow: hidden; }
+
+/**
+ * 商品列表
+ */
+.data-list { margin-top: 10px; }
+.goods-detail img { width: 80px; height: 80px; }
+.goods-detail { position: relative; }
+.goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; }
+.goods-title:hover { text-decoration: underline; }
+.goods-base { position: absolute; top: 0; left: 85px; }
+.original-price, .line-price { font-family: Verdana,Tahoma,arial; }
+.original-price { color: #9c9c9c; text-decoration: line-through; }
+.line-price { color: #3c3c3c; font-weight: 700; }
+.am-table { margin-bottom: 10px; }
+.am-table > tbody > tr > td { border-top: 1px solid #F5F5F5; }
+.am-table > thead > tr > th { border-bottom: 1px solid #f7f7f7; }
+
+@media only screen and (min-width:640px)  {
+    .data-list tr .base { width: 50%; }
+    .data-list tr .price { width: 20%; }
+    .data-list tr .operate { width: 10%; }
+
+    /**
+     * 搜索
+     */
+    .thin .so { width:66%; }
+}
+@media only screen and (max-width:640px)  {
+    .data-list tr .base { width: 65%; }
+    .data-list tr .price { width: 15%; }
+    .data-list tr .operate { width: 20%; }
+    .goods-detail img { width: 50px; height: 50px; }
+    .goods-base { left: 55px; }
+}

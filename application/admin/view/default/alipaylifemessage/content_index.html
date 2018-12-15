@@ -1,0 +1,123 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- back nav start -->
+        <legend>
+            <span class="fs-16)}}{{:lang('alipay_life_message_content_title')}}</span>
+            <a href="{{:url('Admin/AlipayLifeMessage/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
+        </legend>
+        <!-- back nav end -->
+
+        <!-- operation start -->
+        {{if ($msg_type eq 0 and $list_count eq 0) or ($msg_type eq 1 and $list_count lt 10)}}
+            <div class="am-g">
+                <a href="{{:url('Admin/AlipayLifeMessage/ContentSaveInfo', ['message_id'=>$params['message_id']])}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:lang('common_operation_add')}}</a>
+            </div>
+        {{/if}}
+        <!-- operation end -->
+
+        <!-- list start -->
+        <table class="am-table am-table-striped am-table-hover am-text-middle m-t-1)}}
+            <thead>
+                <tr>
+                    <th>{{:lang('alipay_life_message_title_text')}}</th>
+                    <th>{{:lang('alipay_life_message_content_text')}}</th>
+                    <th>{{:lang('alipay_life_message_image_url_text')}}</th>
+                    <th class="am-hide-sm-only">{{:lang('alipay_life_message_url_text')}}</th>
+                    <th class="am-hide-sm-only">{{:lang('alipay_life_message_action_name_text')}}</th>
+                    <th>{{:lang('common_more_name')}}</th>
+                    <th>{{:lang('common_operation_name')}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{if !empty($list)}}
+                    <foreach name="list" item="v">
+                        <tr id="data-list-{{$v.id}}">
+                            <td>
+                                {{if empty($v['title'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.title}}{{/if}}
+                            </td>
+                            <td>
+                                {{if empty($v['content'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.content}}{{/if}}
+                            </td>
+                            <td>
+                                {{if !empty($v['image_url'])}}
+                                    <a href="{{$v['image_url']}}" target="_blank">
+                                        <img src="{{$v['image_url']}}" class="am-radius" width="100" />
+                                    </a>
+                                {{else /}}
+                                    <span class="cr-ddd">{{:lang('common_on_fill_in_images')}}</span>
+                                {{/if}}
+                            </td>
+                            <td class="am-hide-sm-only">
+                                {{if empty($v['url'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.url}}{{/if}}
+                            </td>
+                            <td class="am-hide-sm-only">
+                                {{if empty($v['action_name'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.action_name}}{{/if}}
+                            </td>
+                            <td>
+                                <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> {{:lang('common_see_more_name')}}</span>
+                                <div class="am-popup am-radius" id="my-popup{{$v.id}}">
+                                    <div class="am-popup-inner">
+                                        <div class="am-popup-hd">
+                                            <h4 class="am-popup-title">{{:lang('common_detail_content')}}</h4>
+                                            <span data-am-modal-close class="am-close">&times;</span>
+                                        </div>
+                                        <div class="am-popup-bd">
+                                            <dl class="dl-content">
+                                                <dt>{{:lang('alipay_life_message_title_text')}}</dt>
+                                                <dd>{{if empty($v['title'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.title}}{{/if}}</dd>
+
+                                                <dt>{{:lang('alipay_life_message_content_text')}}</dt>
+                                                <dd>{{if empty($v['content'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.content}}{{/if}}</dd>
+
+                                                <dt>{{:lang('alipay_life_message_image_url_text')}}</dt>
+                                                <dd>
+                                                    {{if !empty($v['image_url'])}}
+                                                        <img src="{{$v['image_url']}}" class="am-img-thumbnail am-radius" width="100" height="100" />
+                                                    {{else /}}
+                                                        <span class="cr-ddd">{{:lang('common_on_fill_in_images')}}</span>
+                                                    {{/if}}
+                                                </dd>
+
+                                                <dt>{{:lang('alipay_life_message_url_text')}}</dt>
+                                                <dd>{{if empty($v['url'])}}<span class="cr-ddd">{{:lang('common_not_set_text')}}</span>{{else /}}{{$v.url}}{{/if}}</dd>
+
+                                                <dt>{{:lang('alipay_life_message_action_name_text')}}</dt>
+                                                <dd>{{if empty($v['action_name'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.action_name}}{{/if}}</dd>
+
+                                                <dt>{{:lang('common_create_time_name')}}</dt>
+                                                <dd>{{$v.add_time}}</dd>
+
+                                                <dt>{{:lang('common_upd_time_name')}}</dt>
+                                                <dd>{{$v.upd_time}}</dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="view-operation">
+                                {{if in_array($data['status'], [0,4])}}
+                                    <a href="{{:url('Admin/AlipayLifeMessage/ContentSaveInfo', array('id'=>$v['id'], 'message_id'=>$params['message_id']))}}">
+                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:lang('common_operation_edit')}}</button>
+                                    </a>
+                                    
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/AlipayLifeMessage/ContentDelete')}}" data-id="{{$v.id}}"> {{:lang('common_operation_delete')}}</button>
+                                {{/if}}
+                            </td>
+                        </tr>
+                    {{/foreach}}
+                {{else /}}
+                    <tr><td colspan="20" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+                {{/if}}
+            </tbody>
+        </table>
+        <!-- list end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

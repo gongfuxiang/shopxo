@@ -1,0 +1,100 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form view-list" action="{{:url('Admin/UserIntegralLog/Index')}}" method="POST">
+			<div class="am-g">
+				<input type="text" class="am-radius form-keyword" placeholder="{{:lang('userintegrallog_so_keyword_tips')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
+				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">{{:lang('common_operation_query')}}</button>
+				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
+					{{:lang('common_more_screening')}}
+					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($param['is_more']) and $param['is_more'] eq 1)}}checked{{/if}} />
+					<i class="am-icon-angle-down"></i>
+				</label>
+
+				<div class="more-where {{if !isset($param['is_more']) or $param['is_more'] neq 1)}}none{{/if}}">
+					<select name="gender" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1)}}{{:lang('common_view_gender_name')}}</option>
+						<foreach name="common_gender_list" item="v">
+							<option value="{{$v.id}}" {{if isset($param['gender']) and $param['gender'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
+					<select name="type" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1)}}{{:lang('userintegrallog_type_name')}}</option>
+						<foreach name="common_integral_log_type_list" item="v">
+							<option value="{{$v.id}}" {{if isset($param['type']) and $param['type'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
+					<div class="param-date param-where m-l-5)}}
+						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_start_name')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
+						<span>~</span>
+						<input type="text" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_end_name')}}" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
+					</div>
+				</div>
+			</div>
+        </form>
+        <!-- form end -->
+
+		<!-- list start -->
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5)}}
+			<thead>
+				<tr>
+					<th>{{:lang('userintegrallog_user_name')}}</th>
+					<th>{{:lang('userintegrallog_type_name')}}</th>
+					<th>{{:lang('userintegrallog_original_integral_name')}}</th>
+					<th>{{:lang('userintegrallog_new_integral_name')}}</th>
+					<th class="am-hide-sm-only">{{:lang('userintegrallog_msg_name')}}</th>
+					<th class="am-hide-sm-only">{{:lang('userintegrallog_add_time_name')}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{if !empty($list)}}
+					<foreach name="list" item="v">
+						<tr id="data-list-{{$v.id}}">
+							<td>
+								{{if !empty($v['username'])}}
+									{{$v.username}}
+									{{if !empty($v['nickname'])}}
+										({{$v.nickname}})
+									{{/if}}
+									<br />
+								{{/if}}
+								{{if !empty($v['mobile'])}}
+									{{$v.mobile}}<br />
+								{{/if}}
+								{{$v.gender_text}}
+							</td>
+							<td>
+								{{if empty($v['type_text'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.type_text}}{{/if}}
+							</td>
+							<td>{{$v.original_integral}}</td>
+							<td>{{$v.new_integral}}</td>
+							<td class="am-hide-sm-only">
+								{{if empty($v['msg'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.msg}}{{/if}}
+							</td>
+							<td class="am-hide-sm-only">
+								{{if empty($v['add_time'])}}<span class="cr-ddd">{{:lang('common_not_set_text')}}</span>{{else /}}{{$v.add_time}}{{/if}}
+							</td>
+						</tr>
+					{{/foreach}}
+				{{else /}}
+					<tr><td colspan="6" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+				{{/if}}
+			</tbody>
+		</table>
+		<!-- list end -->
+
+		<!-- page start -->
+		{{if !empty($list)}}
+			{{$page_html}}
+		{{/if}}
+		<!-- page end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

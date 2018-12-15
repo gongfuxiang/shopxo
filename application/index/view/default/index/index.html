@@ -1,0 +1,200 @@
+{{include file="public/header" /}}
+
+<!-- nav start -->
+{{include file="public/nav" /}}
+<!-- nav end -->
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- banner -->
+{{include file="public/home_banner" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- 轮播上内容 -->
+<div class="am-container slideall">
+    <!-- 轮播右侧-内容1 -->
+    <div class="am-g am-g-fixed small-nav">
+        <div class="am-u-sm-3">
+            <a href="{{:url('index/category/index')}}">
+                <div class="nav-icon mini-nav-goods-category">
+                    <img src="{{$image_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-category-icon.png" />
+                </div>
+                <div class="mini-nav-title">分类</div>
+            </a>
+        </div>
+        <div class="am-u-sm-3">
+            <a {{if empty($user)}}href="javascript:;" class="login-event"{{else /}} href="{{:url('index/Cart/index')}}"{{/if}}>
+                <div class="nav-icon mini-nav-cart">
+                    <img src="{{$image_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-cart-icon.png" />
+                </div>
+                <div class="mini-nav-title">购物车</div>
+            </a>
+        </div>
+        <div class="am-u-sm-3">
+            <a {{if empty($user)}}href="javascript:;" class="login-event"{{else /}} href="{{:url('index/order/index')}}"{{/if}}>
+                <div class="nav-icon mini-nav-order">
+                    <img src="{{$image_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-order-icon.png" />
+                </div>
+                <div class="mini-nav-title">订单</div>
+            </a>
+        </div>
+        <div class="am-u-sm-3">
+            <a {{if empty($user)}}href="javascript:;" class="login-event"{{else /}} href="{{:url('index/user/index')}}"{{/if}}>
+                <div class="nav-icon mini-nav-user">
+                    <img src="{{$image_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-user-icon.png" />
+                </div>
+                <div class="mini-nav-title">我的</div>
+            </a>
+        </div>
+    </div>
+
+    <!--轮播右侧-内容2 -->
+    <div class="marqueen">
+        <div class="mod-vip">
+            <div class="m-baseinfo">
+                <a href="{{if !empty($user)}}{{:url('index/user/index')}}{{else /}}javascript:;{{/if}}" target="_blank">
+                    <img src="{{if !empty($user['avatar'])}}{{$user.avatar}}{{else /}}{{$image_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-user-avatar.jpg{{/if}}" class="user-avatar" />
+                </a>
+                <em>
+                    <span class="s-name">
+                        {{if !empty($user)}}
+                            Hi, {{$user.user_name_view}}
+                        {{else /}}
+                            您好，欢迎来到 {{:MyC('home_site_name')}}
+                        {{/if}}
+                    </span>
+                </em>
+                {{if !empty($user)}}
+                    <a href="{{:url('index/user/logout')}}" class="member-logout">退出</a>
+                {{/if}}
+            </div>
+            {{if empty($user) and (MyC('home_user_login_state') eq 1 or in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state')))}}
+                <div class="member-login">
+                    {{if MyC('home_user_login_state') eq 1}}
+                        <a class="am-btn-primary btn" href="{{:url('index/user/loginInfo')}}">登录</a>
+                    {{/if}}
+                    {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))}}
+                        <a class="am-btn-primary btn" href="{{:url('index/user/regInfo')}}">注册</a>
+                    {{/if}}
+                </div>
+            {{/if}}
+            {{if !empty($user)}}
+                <div class="member-center">
+                    {{if !empty($user_order_status)}}
+                        {{foreach $user_order_status as $v}}
+                            {{if in_array($v['status'], [1,2,3])}}
+                                <a href="{{:url('index/order/index', ['is_more'=>1, 'status'=>$v['status']])}}" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
+                            {{elseif in_array($v['status'], [100]) /}}
+                                <a href="{{:url('index/order/index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
+                            {{/if}}
+                        {{/foreach}}
+                    {{/if}}
+                </div>
+            {{/if}}
+        </div>
+        <span class="marqueen-title">新闻头条</span>
+        <div class="banner-news">
+            <ul>
+                {{if !empty($article_list)}}
+                    {{foreach $article_list as $article}}
+                        <li>
+                            <a href="{{:url('index/article/index', ['id'=>$article['id']])}}" target="_blank">
+                                <span>[{{$article.category_name}}]</span>
+                                <span {{if !empty($article.title_color)}}style="color:{{$article.title_color}};"{{/if}} >{{$article.title}}</span>
+                            </a>
+                        </li>
+                    {{/foreach}}
+                {{/if}}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- 主内容 -->
+<div class="home-floor">
+    <!-- 楼层 -->
+    {{if !empty($goods_floor_list)}}
+        {{foreach $goods_floor_list as $key=>$floor}}
+            {{if isset($floor['is_home_recommended']) and $floor['is_home_recommended'] eq 1}}
+                <div id="floor{{$key+1}}">
+                    <div class="am-container">
+                        <div class="items-nav-title">
+                            <h4>{{$floor.name}}</h4>
+                            <h3>{{$floor.vice_name}}</h3>
+                            <div class="today-brands ">
+                                {{if !empty($floor['items'])}}
+                                    {{foreach $floor.items as $key=>$category}}
+                                        {{if !empty($category['items'])}}
+                                            {{foreach $category.items as $keys=>$categorys}}
+                                                {{if $key lt 6 and $keys eq 0 and isset($categorys['is_home_recommended']) and $categorys['is_home_recommended'] eq 1}}
+                                                    <a href="{{:url('index/search/index', ['category_id'=>$categorys['id']])}}" target="_blank">{{$categorys.name}}</a>
+                                                {{/if}}
+                                            {{/foreach}}
+                                        {{/if}}
+                                    {{/foreach}}
+                                {{/if}}
+                            </div>
+                            <span class="more">
+                                <a href="{{:url('index/search/index', ['category_id'=>$floor['id']])}}" target="_blank">更多 <i class="am-icon-angle-right"></i></a>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="am-g am-g-fixed flood" {{if !empty($floor['bg_color'])}}style="background-color:{{$floor.bg_color}};"{{else /}}style="background-color:#eaeaea;"{{/if}}>
+                        <div class="am-u-sm-5 am-u-md-4 text-one list" >
+                            <div class="word">
+                                {{if !empty($floor['items'])}}
+                                    {{foreach $floor.items as $category_key=>$category}}
+                                        {{if $category_key lt 6 and isset($category['is_home_recommended']) and $category['is_home_recommended'] eq 1}}
+                                            <a href="{{:url('index/search/index', ['category_id'=>$category['id']])}}" class="outer" target="_blank">
+                                                <span class="inner">
+                                                    <b class="text">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</b>
+                                                </span>
+                                            </a>
+                                        {{/if}}
+                                    {{/foreach}}
+                                {{/if}}           
+                            </div>
+                            <a href="{{:url('index/search/index', ['category_id'=>$floor['id']])}}" target="_blank">
+                                <div class="outer-con">
+                                    <div class="describe">{{$floor.describe}}</div>
+                                </div>
+                                {{if !empty($floor['big_images'])}}
+                                    <img src="{{$floor.big_images}}" />
+                                {{/if}}
+                            </a>
+                            <div class="triangle-topright"></div>
+                        </div>
+
+                        {{if !empty($floor['goods'])}}
+                            {{foreach $floor.goods as $goods_key=>$goods}}
+                                <div class="goods-items {{if in_array($goods_key, [0,1])}}am-u-sm-7 am-u-md-4 text-two{{else /}}am-u-sm-6 am-u-md-2 text-three{{/if}} {{if in_array($goods_key, [0,3])}} sug{{/if}} {{if in_array($goods_key, [2,5])}} big{{/if}} {{if $goods_key eq 5}} last{{/if}}">
+                                    <div class="outer-con">
+                                        <div class="goods-title ellipsis">
+                                            <a href="{{$goods['goods_url']}}" target="_blank" {{if !empty($goods.title_color)}}style="color:{{$goods.title_color}};"{{/if}}>{{$goods.title}}</a>
+                                        </div>
+                                        <div class="price">￥{{$goods.price}}</div>
+                                    </div>
+                                    <a href="{{$goods.goods_url}}" target="_blank">
+                                        <img src="{{$goods.home_recommended_images}}" />
+                                    </a>
+                                </div>
+                            {{/foreach}}
+                        {{/if}}
+                    </div>
+                </div>
+            {{/if}}
+        {{/foreach}}
+    {{/if}}
+</div>
+
+{{include file="public/footer" /}}

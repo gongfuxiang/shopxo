@@ -1,0 +1,66 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:url('admin/user/save')}}" method="POST" request-type="ajax-url" request-value="{{:url('admin/user/index', $params)}}">
+			<legend>
+				<span class="fs-16">
+					{{if empty($data['id'])}}
+						{{:lang('user_add_name')}}
+					{{else /}}
+						{{:lang('user_edit_name')}}
+					{{/if}}
+				</span>
+				<a href="{{:url('admin/user/index', $params)}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
+			</legend>
+			<div class="am-form-group">
+				<label>{{:lang('user_username_name')}}</label>
+				<input type="text" name="username" class="am-radius" placeholder="{{:lang('user_username_name')}}" data-validation-message="{{:lang('user_username_format')}}" {{if !empty($data)}} value="{{$data.username}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{:lang('user_nickname_name')}}</label>
+				<input type="text" name="nickname" class="am-radius" placeholder="{{:lang('user_nickname_name')}}" data-validation-message="{{:lang('user_nickname_format')}}" {{if !empty($data)}} value="{{$data.nickname}}"{{/if}} />
+			</div>
+
+			<div class="am-form-group">
+				<label>{{:lang('common_mobile_name')}}</label>
+				<input type="text" name="mobile" class="am-radius" placeholder="{{:lang('common_mobile_name')}}" pattern="{{:lang('common_regex_mobile')}}" data-validation-message="{{:lang('common_mobile_format_error')}}" {{if !empty($data)}} value="{{$data.mobile}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{:lang('common_email_name')}}</label>
+				<input type="email" name="email" class="am-radius" placeholder="{{:lang('common_email_name')}}" data-validation-message="{{:lang('common_email_format_error')}}" {{if !empty($data)}} value="{{$data.email}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{:lang('user_birthday_name')}}</label>
+				<input type="text" name="birthday" class="am-radius Wdate" placeholder="{{:lang('user_birthday_name')}}" pattern="{{:lang('common_regex_date')}}" data-validation-message="{{:lang('user_birthday_format')}}" {{if !empty($data)}} value="{{$data.birthday_text}}" {{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" />
+			</div>
+			<div class="am-form-group">
+				<label>{{:lang('common_address_text')}}</label>
+				<input type="text" placeholder="{{:lang('common_address_text')}}" name="address" data-validation-message="{{:lang('common_address_format')}}" class="am-radius" {{if !empty($data)}} value="{{$data.address}}"{{/if}} />
+			</div>
+			{{include file="lib/gender" /}}
+			<div class="am-form-group">
+				<label>{{:lang('user_integral_name')}}</label>
+				<input type="number" placeholder="{{:lang('user_integral_name')}}" name="integral" data-validation-message="{{:lang('common_address_format')}}" class="am-radius" {{if !empty($data)}} value="{{$data.integral}}"{{/if}} />
+			</div>
+
+			<div class="am-form-group">
+				<label>{{:lang('user_login_pwd_name')}}</label>
+				<input type="text" placeholder="{{:lang('user_login_pwd_name')}}" name="pwd" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="{{:lang('user_login_pwd_format')}}" class="am-radius" value="" />
+			</div>
+
+			<div class="am-form-group">
+				<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

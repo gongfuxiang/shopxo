@@ -1,0 +1,336 @@
+{{include file="public/header" /}}
+
+<!-- nav start -->
+{{include file="public/nav" /}}
+<!-- nav end -->
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<div class="goods-detail" data-id="{{$goods.id}}" data-spec-detail-ajax-url="{{:url('index/goods/specdetail')}}" data-spec-type-ajax-url="{{:url('index/goods/spectype')}}">
+    <!-- 轮播 -->
+    <div class="scoll">
+        <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false}' >
+            <ul class="am-slides">
+                {{if !empty($goods.photo)}}
+                    {{foreach $goods.photo as $photo}}
+                        <li>
+                            <img src="{{$photo.images}}" title="{{$goods.title}}" />
+                        </li>
+                    {{/foreach}}
+                {{/if}}
+            </ul>
+        </div>
+
+        <!-- 视频 -->
+        {{if !empty($goods.video)}}
+            <i class="am-icon-play-circle-o goods-video-submit-start"></i>
+            <i class="goods-video-submit-close none">&times;</i>
+            <video class="goods-video-container none" src="{{$goods.video}}" controls="controls" preload="auto">
+                your browser does not support the video tag
+            </video>
+        {{/if}}
+    </div>
+
+    <!-- 基础信息 -->
+    <div class="item-inform am-container">
+        <!-- pc放大镜 / 左侧 -->
+        <div class="clearfix-left" id="clearcontent">
+            <div class="box">
+                <div class="tb-booth tb-pic tb-s310">
+                    {{if !empty($goods['photo'][0])}}
+                        <a href="{{$goods['photo'][0]['images']}}">
+                            <img src="{{$goods['photo'][0]['images']}}" alt="{{$goods.title}}" rel="{{:str_replace('compr', 'original', $goods['photo'][0]['images'])}}" class="jqzoom" />
+                        </a>
+                    {{/if}}
+                </div>
+                <ul class="tb-thumb" id="thumblist">
+                    {{if !empty($goods.photo)}}
+                        {{foreach $goods.photo as $photo_key=>$photo}}
+                            <li class="{{if $photo_key eq 0}}tb-selected{{else /}} tb-pic tb-s40{{/if}}">
+                                <div class="tb-pic tb-s40">
+                                    <a href="javascript:;"><img src="{{$photo.images}}" mid="{{$photo.images}}" big="{{:str_replace('compr', 'original', $photo.images)}}"></a>
+                                </div>
+                            </li>
+                        {{/foreach}}
+                    {{/if}}
+                </ul>
+
+                <!-- 视频 -->
+                {{if !empty($goods.video)}}
+                    <i class="am-icon-play-circle-o goods-video-submit-start"></i>
+                    <i class="goods-video-submit-close none">&times;</i>
+                    <video class="goods-video-container none" src="{{$goods.video}}" controls="controls" preload="auto">
+                        your browser does not support the video tag
+                    </video>
+                {{/if}}
+            </div>
+        </div>
+
+        <!-- 右侧 -->
+        <div class="clearfix-right">
+            <!--规格-->
+            <!--名称-->
+            <div class="tb-detail-hd">
+                <h1 class="detail-title" {{if !empty($goods.title_color)}}style="color:{{$goods.title_color}};"{{/if}}>{{$goods.title}}</h1>
+            </div>
+            <div class="tb-detail-list">
+                <!--价格-->
+                <div class="tb-detail-price">
+                    {{if isset($goods['original_price']) and $goods['original_price'] gt 0}}
+                        <div class="items price iteminfo_price">
+                            <dt>原价</dt>
+                            <dd>
+                                <b class="sys_item_mktprice">¥ {{$goods.original_price}}</b>
+                            </dd>
+                        </div>
+                    {{/if}}
+                    <div class="items price iteminfo_mktprice">
+                        <dt>促销价</dt>
+                        <dd>
+                            <em>¥</em>
+                            <b class="sys_item_price">{{$goods.price}}</b>
+                        </dd>                                 
+                    </div>
+                    <div class="goods-qrcode am-hide-sm-only">
+                        <span>手机扫一扫购买</span>
+                        <i class="am-icon-qrcode am-icon-sm"></i>
+                        <img class="qrcode-images am-img-thumbnail" src="{{:url('index/qrcode/index', ['content'=>urlencode(url('index/goods/index', ['id'=>$goods['id']], true, true))])}}" />
+                    </div>
+                </div>
+
+                <!--销量-->
+                <ul class="tm-ind-panel">
+                    <li class="tm-ind-item tm-ind-sellCount canClick">
+                        <div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count">{{$goods.sales_count}}</span></div>
+                    </li>
+                    <li class="tm-ind-item tm-ind-sumCount canClick">
+                        <div class="tm-indcon"><span class="tm-label">浏览次数</span><span class="tm-count">{{$goods.access_count}}</span></div>
+                    </li>
+                    <li class="tm-ind-item tm-ind-reviewCount canClick tm-line3">
+                        <div class="tm-indcon"><span class="tm-label">累计评价</span><span class="tm-count">{{$goods.comments_count}}</span></div>
+                    </li>
+                </ul>
+
+                <!--各种规格-->
+                {{if $goods['is_shelves'] == 1 and $goods['inventory'] gt 0}}
+                    <dl class="iteminfo_parameter sys_item_specpara">
+                        <dt class="buy-event login-event" data-type="buy">
+                            <div class="cart-title">
+                                <span class="specpara-title">可选规格</span>
+                                <span class="am-icon-angle-right"></span>
+                            </div>
+                        </dt>
+                        <dd>
+                            <!--操作页面-->
+                            <div class="theme-popover-mask"></div>
+                            <div class="theme-popover">
+                                <div class="theme-span"></div>
+                                <div class="theme-poptit">
+                                    <a href="javascript:;" title="关闭" class="close am-icon-close am-icon-sm"></a>
+                                </div>
+                                <div class="theme-popbod dform">
+                                    <form class="theme-signin" name="loginform" action="javascript:;">
+                                        <div class="theme-signin-left">
+                                            {{if !empty($goods['specifications'])}}
+                                                {{foreach $goods.specifications as $key=>$spec}}
+                                                    {{if !empty($spec['value'])}}
+                                                        <div class="theme-options sku-items">
+                                                            <div class="cart-title">{{$spec.name}}</div>
+                                                            <ul>
+                                                                {{foreach $spec.value as $keys=>$specs}}
+                                                                    <li class="sku-line {{if $key gt 0}} sku-dont-choose{{/if}}" data-type-value="{{$spec.name}}" data-value="{{$specs}}">{{$specs}}<i></i></li>
+                                                                {{/foreach}}
+                                                            </ul>
+                                                        </div>
+                                                    {{/if}}
+                                                {{/foreach}}
+                                            {{/if}}
+                                            <div class="theme-options">
+                                                <div class="cart-title number">数量</div>
+                                                <dd>
+                                                    <div class="am-input-group am-input-group-sm number-tag">
+                                                        <button class="am-input-group-label" id="min" type="button">-</button>
+                                                        <input type="number" class="am-form-field" value="1" id="text_box" min="1" max="{{$goods.inventory}}" />
+                                                        <button class="am-input-group-label" id="add" type="button">+</button>
+                                                    </div>
+                                                    <span class="tb-hidden stock-tips">库存<span class="stock">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
+                                                </dd>
+                                            </div>
+
+                                            <div class="btn-op">
+                                                <span class="btn am-btn am-btn-default confirm login-event" data-type="cart" data-ajax-url="{{:url('index/Cart/Save')}}">确认</span>
+                                                <span class="btn close am-btn am-btn-danger cancel">取消</span>
+                                            </div>
+                                        </div>
+                                        <div class="theme-signin-right">
+                                            <div class="img-info">
+                                                <img src="{{$goods.images}}" />
+                                            </div>
+                                            <div class="text-info">
+                                                <span class="price-now">¥{{$goods.price}}</span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </dd>
+                    </dl>
+                {{/if}}
+            </div>
+
+            <!-- 购买导航 -->
+            <div class="buy-nav">
+                {{if !empty($goods.is_shelves)}}
+                    {{if $goods['inventory'] gt 0}}
+                        <div class="buy-nav-opt">
+                            <a href="{{$Think.__MY_URL__}}">
+                                <span class="am-icon-home am-icon-fw"> 首页</span>
+                            </a>
+                            {{if isset($goods['is_favor']) and $goods['is_favor'] eq 1}}
+                                <span class="am-icon-heart am-icon-fw login-event favor-submit text-active" data-ajax-url="{{:url('index/goods/favor')}}">
+                                    <em class="goods-favor-text">已收藏</em>
+                                    <em class="goods-favor-count">({{$goods.favor_count}})</em>
+                                </span>
+                            {{else /}}
+                                <span class="am-icon-heart am-icon-fw favor-submit login-event" data-ajax-url="{{:url('index/goods/favor')}}">    <em class="goods-favor-text">收藏</em>
+                                    <em class="goods-favor-count">({{$goods.favor_count}})</em>
+                                </span>
+                            {{/if}}
+                        </div>
+                        <div class="submit">
+                            <div class="clearfix tb-btn tb-btn-buy buy-event login-event buy-submit" data-type="buy">
+                                <button title="点此按钮到下一步确认购买信息" href="javascript:;" type="button">立即购买</button>
+                            </div>
+                        </div>
+                        <div class="submit">
+                            <div class="clearfix tb-btn tb-btn-basket buy-event login-event cart-submit" data-type="cart"  data-ajax-url="{{:url('index/Cart/Save')}}">
+                                <button title="加入购物车" href="javascript:;" type="button"><i></i>加入购物车</button>
+                            </div>
+                        </div>
+
+                        <!-- 购买表单 -->
+                        <form action="{{:url('index/buy/index')}}" method="post" class="buy-form">
+                            <input type="hidden" name="goods_id" value="{{$goods.id}}" />
+                            <input type="hidden" name="buy_type" value="goods" />
+                            <input type="hidden" name="stock" value="1" />
+                            <input type="hidden" name="attr" value="" />
+                            <button type="submit"></button>
+                        </form>
+                    {{else /}}
+                        <p class="goods-not-buy-tips">商品卖光了</p>
+                    {{/if}}
+                {{/if}}
+                {{if $goods.is_shelves neq 1}}
+                    <p class="goods-not-buy-tips">商品已下架</p>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+
+    <!-- 详情/推荐商品-->
+    <div class="introduce am-container">
+        <div class="browse">
+            <div class="mc"> 
+                 <ul>                       
+                    <div class="mt">            
+                        <h2>看了又看</h2>        
+                    </div>
+                    {{if !empty($left_goods)}}
+                        {{foreach $left_goods as $key=>$v}}
+                            <li {{if $key eq 0}}class="first"{{/if}}>
+                                <div class="p-img">                    
+                                    <a href="{{:$v['goods_url']}}">
+                                        <img alt="{{$v.title}}" src="{{$v.images}}">
+                                    </a>               
+                                </div>
+                                <div class="p-name">
+                                    <a href="{{:$v['goods_url']}}" {{if !empty($v.title_color)}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</a>
+                                </div>
+                                <div class="p-price"><strong>￥{{$v.price}}</strong></div>
+                            </li>
+                          {{/foreach}}
+                      {{/if}}
+                 </ul>
+            </div>
+        </div>
+        <div class="introduce-main">
+            <div class="am-tabs" data-am-tabs>
+                <ul class="am-avg-sm-2 am-tabs-nav am-nav am-nav-tabs" data-am-sticky="{animation: 'slide-top'}">
+                    <li class="am-active">
+                        <a href="javascript:;">
+                            <span class="index-needs-dt-txt">宝贝详情</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <span class="index-needs-dt-txt">猜你喜欢</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="am-tabs-bd">
+                    <div class="am-tab-panel am-fade am-in am-active">
+                        {{if !empty($goods['attribute'])}}
+                            <div class="specifications">
+                                <div class="spacing-nav-title">
+                                    <span class="line"></span>
+                                    <span class="text-wrapper">产品参数</span>
+                                </div>
+                                <ul class="detail-attr">
+                                    {{if !empty($goods['attribute'])}}
+                                        {{foreach $goods.attribute as $key=>$attribute}}
+                                            <li>{{$attribute.name}}:&nbsp;{{:implode(',', array_column($attribute['find'], 'name'))}}</li>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </ul>
+                            </div>
+                        {{/if}}
+
+                        <div class="details">
+                            <div class="spacing-nav-title">
+                                <span class="line"></span>
+                                <span class="text-wrapper">商品细节</span>
+                            </div>
+                            <div class="detail-content">{{$goods.content_web|raw}}</div>
+                        </div>
+                    </div>
+
+                    <!-- 猜你喜欢 -->
+                    <div class="am-tab-panel am-fade">
+                        <div class="like">
+                            <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
+                                {{if !empty($detail_like_goods)}}
+                                    {{foreach $detail_like_goods as $key=>$v}}
+                                        <li>
+                                            <div class="i-pic limit">
+                                                <a href="{{:$v['goods_url']}}">
+                                                    <img alt="{{$v.title}}" src="{{$v.home_recommended_images}}" />
+                                                </a>
+                                                <p class="ellipsis" {{if !empty($v.title_color)}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</p>
+                                                <p class="price fl">
+                                                    <strong>¥{{$v.price}}</strong>
+                                                </p>
+                                            </div>
+                                        </li>
+                                    {{/foreach}}
+                                {{/if}}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{include file="public/footer" /}}

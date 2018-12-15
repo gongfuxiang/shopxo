@@ -1,0 +1,17 @@
+.user-content-body legend {
+    padding-bottom: 0.2rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #e5e5e5;
+}
+.user-content-body .legend-title {
+    font-size: 16px;
+}
+.user-content-body a {
+    color: #e7747f;
+}
+.user-content-body .items-value-empty {
+    color: #999;
+}
+.user-content-body .span-edit {
+    margin-left: 15px;
+}

@@ -1,0 +1,52 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container user-main">
+
+    <!-- user menu start -->
+    {{include file="public/user_menu" /}}
+  <!-- user menu end -->
+
+  <!-- content start -->
+  <div class="user-content">
+    <div class="user-content-body">
+			<!-- form start -->
+			<form class="am-form form-validation view-save" action="{{:url('index/personal/save')}}" method="POST" request-type="ajax-url" request-value="{{:url('index/personal/index')}}">
+				<legend>
+					<span class="legend-title">{{:lang('personal_save_nav_title_text')}}</span>
+					<a href="{{:url('index/personal/index')}}" class="am-fr am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
+				</legend>
+				<div class="am-form-group">
+					<label>{{:lang('personal_nickname_text')}}</label>
+					<input type="text" name="nickname" placeholder="{{:lang('personal_nickname_text')}}" minlength="2" maxlength="16" data-validation-message="{{:lang('personal_nickname_format')}}" class="am-radius" {{if !empty($data)}} value="{{$data.nickname}}"{{/if}} required />
+				</div>
+                {{include file="lib/gender" /}}
+				<div class="am-form-group">
+					<label>{{:lang('personal_birthday_text')}}</label>
+					<input type="text" name="birthday" class="am-form-field am-input-sm am-radius Wdate" placeholder="{{:lang('personal_birthday_text')}}" data-validation-message="{{:lang('personal_birthday_format')}}" {{if !empty($data)}} value="{{$data.birthday_text}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})"{{/if}} autocomplete="off" required />
+				</div>
+				<div class="am-form-group">
+					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+				</div>
+			</form>
+			<!-- form end -->
+		</div>
+	</div>
+  <!-- content end -->
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

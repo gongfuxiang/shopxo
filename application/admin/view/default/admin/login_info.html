@@ -1,0 +1,35 @@
+{{include file="public/header" /}}
+
+<!-- content start -->
+<div class="account-pages">
+	<div class="wrapper-page">
+		<div class="text-center">
+            <span class="logo fw-70">{{:lang('common_site_name')}}</span>
+        </div>
+        <div class="m-t-40 card-box">
+            <div class="panel-body">
+            	<form class="am-form form-validation" action="{{:url('admin/admin/login')}}" method="POST" request-type="ajax-url" request-value="{{:url('admin/index/index')}}">
+            		<div class="am-g">
+            			<div class="am-form-group">
+					      <input type="text" placeholder="{{:lang('login_username_text')}}" name="username" pattern="{{:lang('common_regex_username')}}" data-validation-message="{{:lang('login_username_format')}}" class="am-radius" required />
+					    </div>
+					    <div class="am-form-group form-horizontal m-t-20">
+					      <input type="password" placeholder="{{:lang('login_login_pwd_text')}}" name="login_pwd" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="{{:lang('login_login_pwd_format')}}" class="am-radius" required />
+					    </div>
+                        <div class="am-form-group">
+                        	<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_login_loading_tips')}}'}">{{:lang('login_button_text')}}</button>
+                        </div>
+                        
+                        <div class="am-form-group">
+                        	<a href="javascript:;" class="text-muted" data-am-popover="{theme: 'danger sm', content: '{{:lang('login_forgot_pwd_tips')}}', trigger: 'hover focus'}">{{:lang('login_forgot_pwd_text')}}</a>
+                        </div>
+            		</div>
+            	</form>
+            </div>
+        </div>
+	</div>
+</div>
+<!-- content end -->
+		
+<!-- footer -->
+{{include file="public/footer" /}}

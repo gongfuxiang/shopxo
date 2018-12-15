@@ -1,0 +1,55 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container user-main">
+
+	<!-- user menu start -->
+	{{include file="public/user_menu" /}}
+	<!-- user menu end -->
+
+	<!-- content start -->
+	<div class="user-content">
+		<div class="user-content-body">
+			<!-- form start -->
+			<form class="am-form form-validation view-save" action="{{:url('index/safety/loginpwdupdate')}}" method="POST" request-type="ajax-url" request-value="{{:url('index/safety/index')}}">
+				<legend>
+					<span class="legend-title">{{:lang('safety_loginpwd_nav_title_text')}}</span>
+					<a href="{{:url('index/safety/index')}}" class="am-fr am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
+				</legend>
+				<div class="am-form-group">
+					<label>{{:lang('safety_my_loginpwd_text')}}</label>
+					<input type="password" name="my_pwd" placeholder="{{:lang('safety_my_loginpwd_text')}}" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="{{:lang('safety_my_loginpwd_tips')}}" class="am-radius" required />
+				</div>
+				<div class="am-form-group">
+					<label>{{:lang('safety_new_loginpwd_text')}}</label>
+					<input type="password" name="new_pwd" placeholder="{{:lang('safety_new_loginpwd_text')}}" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="{{:lang('safety_new_loginpwd_tips')}}" class="am-radius" id="new-loginpwd" required />
+				</div>
+				<div class="am-form-group">
+					<label>{{:lang('safety_confirm_new_loginpwd_text')}}</label>
+					<input type="password" name="confirm_new_pwd" placeholder="{{:lang('safety_confirm_new_loginpwd_text')}}" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="{{:lang('safety_confirm_new_loginpwd_tips')}}" class="am-radius" data-equal-to="#new-loginpwd" required />
+				</div>
+				<div class="am-form-group">
+					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+				</div>
+			</form>
+			<!-- form end -->
+		</div>
+	</div>
+	<!-- content end -->
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

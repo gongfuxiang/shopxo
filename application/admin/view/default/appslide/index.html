@@ -1,0 +1,120 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form view-list" action="{{:url('Admin/AppSlide/Index')}}" method="POST">
+            <div class="am-g">
+                <input type="text" class="am-radius form-keyword" placeholder="{{:lang('app_slide_name_text')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
+                <button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">{{:lang('common_operation_query')}}</button>
+                <label class="fs-12 m-l-5 c-p fw-100 more-submit">
+                    {{:lang('common_more_screening')}}
+                    <input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($param['is_more']) and $param['is_more'] eq 1)}}checked{{/if}} />
+                    <i class="am-icon-angle-down"></i>
+                </label>
+
+                <div class="more-where {{if !isset($param['is_more']) or $param['is_more'] neq 1)}}none{{/if}}">
+                    <select name="is_enable" class="am-radius c-p m-t-10 m-l-5 param-where">
+                        <option value="-1)}}{{:lang('common_view_enable_title')}}</option>
+                        <foreach name="common_is_enable_list" item="v">
+                            <option value="{{$v.id}}" {{if isset($param['is_enable']) and $param['is_enable'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
+                        {{/foreach}}
+                    </select>
+                    <select name="platform" class="am-radius c-p m-t-10 m-l-5 param-where">
+                        <option value="">{{:lang('common_platform_text')}}</option>
+                        <foreach name="common_platform_type" item="v">
+                            {{if !in_array($v['value'], ['pc'])}}
+                                <option value="{{$v.value}}" {{if isset($param['platform']) and $param['platform'] eq $v['value']">selected{{/if}}>{{$v.name}}</option>
+                            {{/if}}
+                        {{/foreach}}
+                    </select>
+                    <select name="event_type" class="am-radius c-p m-t-10 m-l-5 param-where">
+                        <option value="-1)}}{{:lang('common_app_event_type_text')}}</option>
+                        <foreach name="common_app_event_type" item="v">
+                            <option value="{{$v.value}}" {{if isset($param['event_type']) and $param['event_type'] eq $v['value']">selected{{/if}}>{{$v.name}}</option>
+                        {{/foreach}}
+                    </select>
+                    <div class="param-date param-where m-l-5)}}
+                        <input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_start_name')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
+                        <span>~</span>
+                        <input type="text" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_end_name')}}" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- form end -->
+
+        <!-- operation start -->
+        <div class="am-g m-t-15)}}
+            <a href="{{:url('Admin/AppSlide/SaveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:lang('common_operation_add')}}</a>
+        </div>
+        <!-- operation end -->
+
+        <!-- list start -->
+        <table class="am-table am-table-striped am-table-hover am-text-middle m-t-1)}}
+            <thead>
+                <tr>
+                    <th>{{:lang('app_slide_name_text')}}</th>
+                    <th>{{:lang('common_platform_text')}}</th>
+                    <th>{{:lang('app_slide_images_url_text')}}</th>
+                    <th>{{:lang('common_app_event_value_text')}}</th>
+                    <th>{{:lang('common_view_enable_title')}}</th>
+                    <th>{{:lang('common_create_time_name')}}</th>
+                    <th>{{:lang('common_operation_name')}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{if !empty($list)}}
+                    <foreach name="list" item="v">
+                        <tr id="data-list-{{$v.id}}" {{if $v['is_enable'] eq 0)}}class="am-active"{{/if}}>
+                            <td>{{$v.name}}</td>
+                            <td>{{$v.platform_text}}</td>
+                            <td {{if !empty($v['bg_color'])}}style="background-color:{{$v.bg_color}};"{{/if}}>
+                                {{if !empty($v['images_url'])}}
+                                    <a href="{{$v['images_url']}}" target="_blank">
+                                        <img src="{{$v['images_url']}}" class="am-radius" width="100" height="60" />
+                                    </a>
+                                {{else /}}
+                                    <span class="cr-ddd">{{:lang('common_on_fill_in_images')}}</span>
+                                {{/if}}
+                            </td>
+                            <td>
+                                {{$v.event_value}}
+                                {{if !empty($v['event_value'])}}
+                                    <br /><span class="am-badge am-badge-warning am-radius">{{$v.event_type_text}}</span>
+                                {{/if}}
+                            </td>
+                            <td class="am-hide-sm-only">
+                                <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1)}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('Admin/AppSlide/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1)}}</a>
+                            </td>
+                            <td>{{$v.add_time_text}}</td>
+                            <td class="view-operation">
+                                <a href="{{:url('Admin/AppSlide/SaveInfo', array('id'=>$v['id']))}}">
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:lang('common_operation_edit')}}</button>
+                                </a>
+                                {{if $v['is_enable'] eq 0)}}
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/AppSlide/Delete')}}" data-id="{{$v.id}}"> {{:lang('common_operation_delete')}}</button>
+                                {{/if}}
+                            </td>
+                        </tr>
+                    {{/foreach}}
+                {{else /}}
+                    <tr><td colspan="20" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+                {{/if}}
+            </tbody>
+        </table>
+        <!-- list end -->
+
+        <!-- page start -->
+        {{if !empty($list)}}
+            {{$page_html}}
+        {{/if}}
+        <!-- page end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

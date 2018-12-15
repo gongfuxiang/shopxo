@@ -1,0 +1,72 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:url('Admin/AlipayLife/Save')}}" method="POST" request-type="ajax-url" request-value="{{:url('Admin/AlipayLife/Index')}}" enctype="multipart/form-data">
+			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
+			<legend>
+				<span class="fs-16)}}
+					{{if empty($data['id'])}}
+						{{:lang('alipay_life_add_name')}}
+					{{else /}}
+						{{:lang('alipay_life_edit_name')}}
+					{{/if}}
+				</span>
+				<a href="{{:url('Admin/AlipayLife/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
+			</legend>
+			<div class="am-form-group">
+				<label>{{:lang('alipay_life_name_text')}}</label>
+				<input type="text" name="name" placeholder="{{:lang('alipay_life_name_text')}}" minlength="2" maxlength="30" data-validation-message="{{:lang('alipay_life_name_format')}}" class="am-radius" <notempty name="data"> value="{{$data.name}}"{{/if}} required />
+			</div>
+			<div class="am-form-group">
+				<label>{{:lang('alipay_life_category_id_text')}}</label>
+			    <select name="alipay_life_category_id" class="am-radius c-p chosen-select" multiple="multiple" data-placeholder="{{:lang('common_select_can_choose')}}" data-validation-message="{{:lang('alipay_life_category_id_format')}}" required>
+					<foreach name="alipay_life_category" item="v">
+						<option value="{{$v.id}}" {{if !empty($data['category_all']) and in_array($v['id'], $data['category_all'])}}selected{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+			</div>
+
+			<div class="am-form-group">
+				<label>{{:lang('alipay_life_appid_text')}}</label>
+				<input type="text" name="appid" placeholder="{{:lang('alipay_life_appid_text')}}" data-validation-message="{{:lang('alipay_life_appid_format')}}" class="am-radius" minlength="1" maxlength="60" <notempty name="data"> value="{{$data.appid}}"{{/if}} required />
+			</div>
+
+			<div class="am-form-group am-form-file">
+				<label class="block">{{:lang('alipay_life_logo_text')}}</label>
+				<button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
+				<i class="am-icon-cloud-upload"></i> {{:lang('common_select_images_text')}}</button>
+				<input type="text" name="logo" class="am-radius js-choice-one original-images-url original-icon-images-url" data-choice-one-to='input[name="file_logo"]' <notempty name="data"> value="{{$data.logo}}"{{/if}}" data-validation-message="{{:lang('common_select_images_tips')}}" readonly="readonly" />
+				<i class="am-icon-trash-o am-icon-sm original-images-url-delete" data-input-tag="input.original-icon-images-url" data-image-tag="#form-img-icon" data-tips-tag="#form-icon-tips" data-file-tag="input.file_logo-tag"></i>
+				<input type="file" name="file_logo" multiple data-validation-message="{{:lang('common_select_images_tips')}}" accept="image/gif,image/jpeg,image/jpg,image/png" class="js-choice-one images-file-event file_logo-tag" data-choice-one-to=".original-icon-images-url" data-tips-tag="#form-icon-tips" data-image-tag="#form-img-icon" />
+				<div id="form-icon-tips" class="m-t-5)}}</div>
+				<img src="{{if !empty($data['logo'])}}{{$image_host}}{{$data.logo}}{{else /}}{{$image_host}}/Public/Admin/Default/Images/default-images.png{{/if}}" id="form-img-icon" class="block m-t-5 am-img-thumbnail am-radius" width="100" height="100" data-default="{{$image_host}}/Public/Admin/Default/Images/default-images.png" />
+			</div>
+
+			<div class="am-form-group">
+				<label>{{:lang('alipay_life_rsa_public_text')}}</label>
+				<textarea rows="5" name="rsa_public" class="am-radius" placeholder="{{:lang('alipay_life_rsa_public_text')}}" data-validation-message="{{:lang('alipay_life_rsa_public_format')}}" required><present name="data">{{$data.rsa_public}}{{/if}}</textarea>
+			</div>
+			<div class="am-form-group">
+				<label>{{:lang('alipay_life_rsa_private_text')}}</label>
+				<textarea rows="5" name="rsa_private" class="am-radius" placeholder="{{:lang('alipay_life_rsa_private_text')}}" data-validation-message="{{:lang('alipay_life_rsa_private_format')}}" required><present name="data">{{$data.rsa_private}}{{/if}}</textarea>
+			</div>
+			<div class="am-form-group">
+				<label>{{:lang('alipay_life_out_rsa_public_text')}}</label>
+				<textarea rows="5" name="out_rsa_public" class="am-radius" placeholder="{{:lang('alipay_life_out_rsa_public_text')}}" data-validation-message="{{:lang('alipay_life_out_rsa_public_format')}}" required><present name="data">{{$data.out_rsa_public}}{{/if}}</textarea>
+			</div>
+			<div class="am-form-group">
+				<input type="hidden" name="id" <notempty name="data"> value="{{$data.id}}"{{/if}} />
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

@@ -1,0 +1,93 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:url('Admin/AppHomeNav/Save')}}" method="POST" request-type="ajax-url" request-value="{{:url('Admin/AppHomeNav/Index')}}" enctype="multipart/form-data">
+			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
+			<legend>
+				<span class="fs-16)}}
+					{{if empty($data['id'])}}
+						{{:lang('app_home_nav_add_name')}}
+					{{else /}}
+						{{:lang('app_home_nav_edit_name')}}
+					{{/if}}
+				</span>
+				<a href="{{:url('Admin/AppHomeNav/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
+			</legend>
+			<div class="am-form-group">
+				<label>{{:lang('app_home_nav_name_text')}}</label>
+				<input type="text" name="name" placeholder="{{:lang('app_home_nav_name_text')}}" minlength="2" maxlength="60" data-validation-message="{{:lang('app_home_nav_name_format')}}" class="am-radius" <notempty name="data"> value="{{$data.name}}"{{/if}} required />
+			</div>
+
+			<div class="am-form-group">
+				<label>{{:lang('common_platform_text')}}</label>
+				<select name="platform" class="am-radius chosen-select" data-placeholder="{{:lang('common_select_can_choose')}}" placeholder="{{:lang('common_platform_format')}}">
+					<option value="">{{:lang('common_select_can_choose')}}</option>
+					<foreach name="common_platform_type" item="v">
+						{{if !in_array($v['value'], ['pc'])}}
+							<option value="{{$v.value}}" {{if isset($data['platform']) and $data['platform'] eq $v['value']">selected{{else /}}{{if !isset($data['platform']) and isset($v['checked']) and $v['checked'] eq true">selected{{/if}}{{/if}}>{{$v.name}}</option>
+						{{/if}}
+					{{/foreach}}
+				</select>
+			</div>
+
+			<div class="am-form-group">
+				<label>{{:lang('common_app_event_type_text')}}</label>
+				<select name="event_type" class="am-radius chosen-select" data-placeholder="{{:lang('common_select_can_choose')}}" placeholder="{{:lang('common_app_event_type_format')}}">
+					<option value="">{{:lang('common_select_can_choose')}}</option>
+					<foreach name="common_app_event_type" item="v">
+						<option value="{{$v.value}}" {{if isset($data['event_type']) and $data['event_type'] eq $v['value']">selected{{else /}}{{if !isset($data['event_type']) and isset($v['checked']) and $v['checked'] eq true">selected{{/if}}{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+			</div>
+			<div class="am-form-group">
+				<div class="am-alert am-alert-warning am-radius" data-am-alert>
+				    <button type="button" class="am-close">&times;</button>
+				    <p>{{:lang('common_app_event_type_tips')}}</p>
+				</div>
+				<label>{{:lang('common_app_event_value_text')}}</label>
+				<input type="text" name="event_value" placeholder="{{:lang('common_app_event_value_text')}}" data-validation-message="{{:lang('common_app_event_value_format')}}" class="am-radius" <notempty name="data"> value="{{$data.event_value}}"{{/if}} />
+			</div>
+
+			<div class="am-form-group am-form-file">
+				<label class="block">{{:lang('app_home_nav_images_url_text')}}</label>
+				<button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
+				<i class="am-icon-cloud-upload"></i> {{:lang('common_select_images_text')}}</button>
+				<input type="text" name="images_url" class="am-radius js-choice-one original-images-url" data-choice-one-to=".images-file-event" <notempty name="data"> value="{{$data.images_url}}"{{/if}}" data-validation-message="{{:lang('common_select_images_tips')}}" readonly="readonly" <notempty name="data"> value="{{$data.images_url}}"{{/if}} required />
+				<input type="file" name="file_images_url" multiple data-validation-message="{{:lang('common_select_images_tips')}}" accept="image/gif,image/jpeg,image/jpg,image/png" class="js-choice-one images-file-event" data-choice-one-to=".original-images-url" data-tips-tag="#form-images_url-tips" data-image-tag="#form-img-images_url" required />
+				<div id="form-images_url-tips" class="m-t-5)}}</div>
+
+				<div class="am-circle m-t-5 nav-icon-circle" <notempty name="data">style="background-color:{{$data.bg_color}};"{{/if}}>
+					<img src="{{if !empty($data['images_url'])}}{{$image_host}}{{$data.images_url}}{{else /}}{{$image_host}}/Public/Admin/Default/Images/default-images.png{{/if}}" id="form-img-images_url" width="30" height="30" data-default="{{if !empty($data['images_url'])}}{{$image_host}}{{$data.images_url}}{{else /}}{{$image_host}}/Public/Admin/Default/Images/default-images.png{{/if}}" />
+				</div>
+			</div>
+			<div class="am-form-group">
+				<label>{{:lang('common_background_color')}}</label>
+				<input type="hidden" name="bg_color" value="<notempty name="data">{{$data.bg_color}}{{/if}}" />
+				<button class="am-btn am-btn-default colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color" <notempty name="data"> style="background-color:{{$data.bg_color}};"{{/if}}>
+					<img src="__PUBLIC__/Common/Images/colorpicker.png" />
+				</button>
+			</div>
+			<div class="am-form-group">
+				<label>{{:lang('common_view_sort_title')}}</label>
+				<input type="number" placeholder="{{:lang('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:lang('common_sort_error')}}" class="am-radius" value="{{if isset($data['sort'])}}{{$data.sort}}{{else /}}0{{/if}}" required />
+			</div>
+			<div class="am-form-group">
+			    <label class="block">{{:lang('common_view_enable_title')}}</label>
+			    <input name="is_enable" value="1" type="checkbox" data-off-text="{{:lang('common_operation_off_is_text')}}" data-on-text="{{:lang('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if !empty($data) and $data['is_enable'] eq 1)}}checked="true"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<input type="hidden" name="id" <notempty name="data"> value="{{$data.id}}"{{/if}} />
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

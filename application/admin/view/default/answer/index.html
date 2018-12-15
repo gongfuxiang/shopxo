@@ -1,0 +1,183 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form view-list" action="{{:url('Admin/Answer/Index')}}" method="POST">
+			<div class="am-g">
+				<input type="text" class="am-radius form-keyword" placeholder="{{:lang('answer_so_keyword_tips')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
+				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">{{:lang('common_operation_query')}}</button>
+				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
+					{{:lang('common_more_screening')}}
+					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($param['is_more']) and $param['is_more'] eq 1)}}checked{{/if}} />
+					<i class="am-icon-angle-down"></i>
+				</label>
+
+				<div class="more-where {{if !isset($param['is_more']) or $param['is_more'] neq 1)}}none{{/if}}">
+					<select name="is_show" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1)}}{{:lang('common_view_is_show_title')}}</option>
+						<foreach name="common_is_show_list" item="v">
+							<option value="{{$v.id}}" {{if isset($param['is_show']) and $param['is_show'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
+					<div class="param-date param-where m-l-5)}}
+						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_start_name')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
+						<span>~</span>
+						<input type="text" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_end_name')}}" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
+					</div>
+				</div>
+			</div>
+        </form>
+        <!-- form end -->
+
+		<!-- list start -->
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-1)}}
+			<thead>
+				<tr>
+					<th class="am-hide-sm-only">{{:lang('answer_user_name')}}</th>
+					<th class="am-hide-sm-only">{{:lang('answer_contact_name')}}</th>
+					<th style="width: 25%;">{{:lang('answer_content_name')}}</th>
+					<th>{{:lang('common_view_is_show_title')}}</th>
+					<th class="am-hide-sm-only">{{:lang('answer_reply_name')}}</th>
+					<th class="am-hide-sm-only">{{:lang('common_create_time_name')}}</th>
+					<th>{{:lang('common_more_name')}}</th>
+					<th>{{:lang('common_operation_name')}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{if !empty($list)}}
+					<foreach name="list" item="v">
+						<tr id="data-list-{{$v.id}}" {{if $v['is_show'] eq 0)}}class="am-active"{{/if}}>
+							<td class="am-hide-sm-only">
+								{{if !empty($v['username'])}}
+									{{$v.username}}
+									{{if !empty($v['nickname'])}}
+										({{$v.nickname}})
+									{{/if}}
+									{{if !empty($v['gender_text'])}}
+										({{$v.gender_text}})
+									{{/if}}
+								{{/if}}
+								{{if !empty($v['mobile'])}}
+									<br />{{$v.mobile}}
+								{{/if}}
+							</td>
+							<td class="am-hide-sm-only">
+								{{$v.name}}<br />
+								{{$v.tel}}
+							</td>
+							<td>{{$v.content}}</td>
+							<td>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_show'] eq 1)}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('Admin/Answer/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1)}}</a>
+							</td>
+							<td class="am-hide-sm-only">{{$v.reply}}</td>
+							<td class="am-hide-sm-only">{{$v.add_time}}</td>
+							<td>
+								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> {{:lang('common_see_more_name')}}</span>
+								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
+									<div class="am-popup-inner">
+										<div class="am-popup-hd">
+											<h4 class="am-popup-title">{{:lang('common_detail_content')}}</h4>
+											<span data-am-modal-close
+											class="am-close">&times;</span>
+										</div>
+										<div class="am-popup-bd">
+											<dl class="dl-content">
+												<dt>{{:lang('answer_user_name')}}</dt>
+												<dd>
+													{{if !empty($v['username'])}}
+														{{$v.username}}
+														{{if !empty($v['nickname'])}}
+															({{$v.nickname}})
+														{{/if}}
+														{{if !empty($v['gender_text'])}}
+															({{$v.gender_text}})
+														{{/if}}
+													{{/if}}
+													{{if !empty($v['mobile'])}}
+														<br />{{$v.mobile}}
+													{{/if}}
+												</dd>
+
+												<dt>{{:lang('answer_contact_name')}}</dt>
+												<dd>
+													{{$v.name}}<br />{{$v.tel}}
+												</dd>
+
+												<dt>{{:lang('answer_content_name')}}</dt>
+												<dd>{{$v.content}}</dd>
+
+												<dt>{{:lang('common_view_is_show_title')}}</dt>
+												<dd>{{if empty($v['is_show_text'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.is_show_text}}{{/if}}</dd>
+
+												<dt>{{:lang('answer_reply_name')}}</dt>
+												<dd>{{if empty($v['reply'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.reply}}{{/if}}</dd>
+
+												<dt>{{:lang('common_create_time_name')}}</dt>
+												<dd>{{$v.add_time}}</dd>
+
+												<dt>{{:lang('common_upd_time_name')}}</dt>
+												<dd>{{$v.upd_time}}</dd>
+											</dl>
+										</div>
+									</div>
+								</div>
+							</td>
+							<td class="view-operation">
+								{{if $v['is_reply'] eq 0)}}
+									<button class="am-btn am-btn-default am-btn-xs am-radius submit-reply am-icon-gavel" data-am-modal="{target: '#my-popup-reply'}" data-json='{{:json_encode($v)}}'> {{:lang('common_operation_reply')}}</button>
+								{{/if}}
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/Answer/Delete')}}" data-id="{{$v.id}}"> {{:lang('common_operation_delete')}}</button>
+							</td>
+						</tr>
+					{{/foreach}}
+				{{else /}}
+					<tr><td colspan="20" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+				{{/if}}
+			</tbody>
+		</table>
+		<!-- list end -->
+
+		<!-- 处理窗口 -->
+		<div class="am-popup am-radius" id="my-popup-reply">
+			<div class="am-popup-inner">
+				<div class="am-popup-hd">
+					<h4 class="am-popup-title">{{:lang('common_operation_reply')}}</h4>
+					<span data-am-modal-close class="am-close">&times;</span>
+				</div>
+				<div class="am-popup-bd">
+					<dl class="dl-content">
+						<dt>{{:lang('answer_contact_name')}}</dt>
+						<dd>
+							<span class="reply-name"></span> - <span class="reply-tel"></span>
+						</dd>
+					</dl>
+
+					<form class="am-form form-validation" action="{{:url('Admin/Answer/Save')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
+						<div class="am-form-group">
+							<label>{{:lang('answer_reply_name')}}</label>
+							<textarea name="reply" rows="5" class="am-radius" placeholder="{{:lang('answer_reply_format')}}" data-validation-message="{{:lang('answer_reply_format')}}" maxlength="230"></textarea>
+						</div>
+
+						<div class="am-form-group reply-submit t-c">
+							<input type="hidden" name="id" value="" />
+							<button type="submit" class="am-btn am-btn-success am-radius am-btn-sm" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}" data-status="0">{{:lang('common_operation_reply')}}</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- page start -->
+		{{if !empty($list)}}
+			{{$page_html}}
+		{{/if}}
+		<!-- page end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

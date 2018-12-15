@@ -1,0 +1,67 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:url('Admin/Brand/Save')}}" method="POST" request-type="ajax-url" request-value="{{:url('Admin/Brand/Index')}}" enctype="multipart/form-data">
+			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
+			<legend>
+				<span class="fs-16)}}
+					{{if empty($data['id'])}}
+						{{:lang('brand_add_name')}}
+					{{else /}}
+						{{:lang('brand_edit_name')}}
+					{{/if}}
+				</span>
+				<a href="{{:url('Admin/Brand/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
+			</legend>
+			<div class="am-form-group">
+				<label>{{:lang('brand_name_text')}}</label>
+				<input type="text" name="name" placeholder="{{:lang('brand_name_text')}}" minlength="2" maxlength="30" data-validation-message="{{:lang('brand_name_format')}}" class="am-radius" <notempty name="data"> value="{{$data.name}}"{{/if}} required />
+			</div>
+			<div class="am-form-group">
+				<label>{{:lang('brand_category_id_text')}}</label>
+			    <select name="brand_category_id" class="am-radius c-p chosen-select" data-placeholder="{{:lang('common_select_can_choose')}}" data-validation-message="{{:lang('brand_category_id_format')}}" required>
+					<option value="">{{:lang('common_select_can_choose')}}</option>
+					<foreach name="brand_category" item="v">
+						<option value="{{$v.id}}" {{if isset($data['brand_category_id']) and $data['brand_category_id'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+			</div>
+
+			<div class="am-form-group">
+				<label>{{:lang('brand_website_url_text')}}</label>
+				<input type="text" name="website_url" placeholder="{{:lang('brand_website_url_text')}}" data-validation-message="{{:lang('brand_website_url_format')}}" class="am-radius" <notempty name="data"> value="{{$data.website_url}}"{{/if}} />
+			</div>
+
+			<div class="am-form-group am-form-file">
+				<label class="block">{{:lang('brand_logo_text')}}</label>
+				<button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
+				<i class="am-icon-cloud-upload"></i> {{:lang('common_select_images_text')}}</button>
+				<input type="text" name="logo" class="am-radius js-choice-one original-images-url" data-choice-one-to=".images-file-event" <notempty name="data"> value="{{$data.logo}}"{{/if}}" data-validation-message="{{:lang('common_select_images_tips')}}" readonly="readonly" <notempty name="data"> value="{{$data.logo}}"{{/if}} required />
+				<input type="file" name="file_logo" multiple data-validation-message="{{:lang('common_select_images_tips')}}" accept="image/gif,image/jpeg,image/jpg,image/png" class="js-choice-one images-file-event" data-choice-one-to=".original-images-url" data-tips-tag="#form-logo-tips" data-image-tag="#form-img-logo" required />
+				<div id="form-logo-tips" class="m-t-5)}}</div>
+				<img src="{{if !empty($data['logo'])}}{{$image_host}}{{$data.logo}}{{else /}}{{$image_host}}/Public/Admin/Default/Images/default-images.png{{/if}}" id="form-img-logo" class="block m-t-5 am-img-thumbnail am-radius" width="100" data-default="{{if !empty($data['logo'])}}{{$image_host}}{{$data.logo}}{{else /}}{{$image_host}}/Public/Admin/Default/Images/default-images.png{{/if}}" />
+			</div>
+			<div class="am-form-group">
+				<label>{{:lang('common_view_sort_title')}}</label>
+				<input type="number" placeholder="{{:lang('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:lang('common_sort_error')}}" class="am-radius" value="{{if isset($data['sort'])}}{{$data.sort}}{{else /}}0{{/if}}" required />
+			</div>
+			<div class="am-form-group">
+			    <label class="block">{{:lang('common_view_enable_title')}}</label>
+			    <input name="is_enable" value="1" type="checkbox" data-off-text="{{:lang('common_operation_off_is_text')}}" data-on-text="{{:lang('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<input type="hidden" name="id" <notempty name="data"> value="{{$data.id}}"{{/if}} />
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

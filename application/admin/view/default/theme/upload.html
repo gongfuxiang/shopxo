@@ -1,0 +1,30 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- nav start -->
+		<include file="Nav" />
+		<!-- nav end -->
+		<!-- form start -->
+		<form class="am-form form-validation view-save m-t-10" action="{{:url('Admin/Theme/Upload')}}" method="POST" request-type="ajax-url" request-value="{{:url('Admin/Theme/Index')}}" enctype="multipart/form-data">
+			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_file', 51200000, true)}}" />
+			<div class="am-form-group am-form-file">
+				<button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
+				<i class="am-icon-cloud-upload"></i> {{:lang('common_select_file_text')}}</button>
+				<input type="file" name="theme" class="file-event" data-tips-tag="#form-theme-tips" multiple data-validation-message="{{:lang('common_select_file_tips')}}" required />
+				<span class="tips fs-12)}}{{:lang('theme_upload_tips')}}</span>
+				<div id="form-theme-tips"></div>
+			</div>
+			<div class="am-form-group">
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm" data-am-loading="{loadingText:'{{:lang('common_upload_loading_tips')}}'}">{{:lang('common_operation_upload')}}</button>
+			</div>
+		</form>
+		<!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

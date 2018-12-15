@@ -1,0 +1,52 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- operation start -->
+        <div class="am-g">
+            <button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-ajax" data-url="{{:url('Admin/AppMiniAlipayList/Created')}}" data-view="reload" data-msg="{{:lang('appmini_alipaylist_created_msg')}}"> {{:lang('common_operation_created')}}</button>
+        </div>
+        <!-- operation end -->
+
+		<!-- list start -->
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5)}}
+			<thead>
+				<tr>
+					<th>{{:lang('appmini_alipaylist_name_text')}}</th>
+					<th>{{:lang('appmini_alipaylist_size_text')}}</th>
+					<th>{{:lang('common_create_time_name')}}</th>
+					<th>{{:lang('common_operation_name')}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<notempty name="data">
+					<foreach name="data" item="v">
+						<tr>
+							<td>{{$v.name}}</td>
+							<td>{{$v.size}}</td>
+							<td>{{$v.time}}</td>
+							<td class="view-operation">
+								<notempty name="v.url">
+									<a href="{{$v.url}}">
+										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-download"> {{:lang('common_operation_download')}}</button>
+									</a>
+								{{/if}}
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/AppMiniAlipayList/Delete')}}" data-id="{{$v.name}}" data-view="reload"> {{:lang('common_operation_delete')}}</button>
+							</td>
+						</tr>
+					{{/foreach}}
+				{{/if}}
+				<empty name="data">
+					<tr><td colspan="20" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+				{{/if}}
+			</tbody>
+		</table>
+		<!-- lis end -->
+	</div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

@@ -1,0 +1,8 @@
+.am-gallery-item-bottom { background: #f7f7f7; padding: 0px 8px 5px 8px; }
+.am-gallery-desc * { font-size: 12px; }
+.am-gallery-item:hover { border: 1px solid #f60; }
+.theme-active { border: 3px solid #5eb95e !important; }
+#form-theme-tips {  }
+input[name="theme"] { width: 105px !important; height: 32px; }
+.am-gallery-title .submit-delete { color:#C13932 !important; }
+input.file-event { margin-top: 0 !important; }
