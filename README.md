@@ -1,73 +1,47 @@
-![](https://box.kancloud.cn/5a0aaa69a5ff42657b5c4715f3d49221) 
+# ShopXO 国内领先企业级B2C免费开源电商系统！
+* 求实进取、创新专注、自主研发、国内领先企业级B2C电商系统解决方案。
+* 遵循Apache2开源协议发布，并提供免费使用。
+* PC+WAP、支付宝小程序、微信小程序、百度小程序。
 
-ThinkPHP 5.1（LTS版本） —— 12载初心，你值得信赖的PHP框架
-===============
+# ------ 当前为开发版本 ------
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/top-think/framework/badges/quality-score.png?b=5.1)](https://scrutinizer-ci.com/g/top-think/framework/?branch=5.1)
-[![Build Status](https://travis-ci.org/top-think/framework.svg?branch=master)](https://travis-ci.org/top-think/framework)
-[![Total Downloads](https://poser.pugx.org/topthink/framework/downloads)](https://packagist.org/packages/topthink/framework)
-[![Latest Stable Version](https://poser.pugx.org/topthink/framework/v/stable)](https://packagist.org/packages/topthink/framework)
-[![PHP Version](https://img.shields.io/badge/php-%3E%3D5.6-8892BF.svg)](http://www.php.net/)
-[![License](https://poser.pugx.org/topthink/framework/license)](https://packagist.org/packages/topthink/framework)
+### 传送门
+* 官网地址：http://shopxo.net/
+* 演示地址：http://demo.shopxo.net/ （管理账户/密码可进入官网查看）
+* 支付宝小程序：http://shopxo.net/alipay.html
 
-ThinkPHP5.1对底层架构做了进一步的改进，减少依赖，其主要特性包括：
+### 官方QQ群
+* 群号：833531593
+* 答案：shopxo.net
 
- + 采用容器统一管理对象
- + 支持Facade
- + 注解路由支持
- + 路由跨域请求支持
- + 配置和路由目录独立
- + 取消系统常量
- + 助手函数增强
- + 类库别名机制
- + 增加条件查询
- + 改进查询机制
- + 配置采用二级
- + 依赖注入完善
- + 支持`PSR-3`日志规范
- + 中间件支持（V5.1.6+）
- + Swoole/Workerman支持（V5.1.18+）
+### 源代码平台
+* Github：https://github.com/gongfuxiang/shopxo
+* 码云/开源中国：https://gitee.com/gongfuxiang/shopxo
+* 腾讯云开发者：https://dev.tencent.com/u/gongfuxiang/p/shopxo/git
 
+### 扩展性
+* 支持多语言，独立模块式开发，完善的注释，易扩展。
 
-> ThinkPHP5的运行环境要求PHP5.6以上。
+### 安全性
+* 防止sql注入，代码高安全性。
 
-## 安装
+### 轻量级，高性能
+* 支持多数据库，读写分离，高并发，内置缓存机制。
 
-使用composer安装
+# 后端基于ThinkPHP v3.2.3
+ThinkPHP是一个快速、简单的基于MVC和面向对象的轻量级PHP开发框架，遵循Apache2开源协议发布，从诞生以来一直秉承简洁实用的设计原则，在保持出色的性能和至简的代码的同时，尤其注重开发体验和易用性，并且拥有众多的原创功能和特性，为WEB应用开发提供了强有力的支持。
 
-~~~
-composer create-project topthink/think tp
-~~~
+# 前端基于AmazeUI v2.7.2
+##### 组件丰富，模块化
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以移动优先（Mobile first）为理念，从小屏逐步扩展到大屏，最终实现所有屏幕适配，适应移动互联潮流。
+##### 本地化支持
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;相比国外框架，Amaze UI 关注中文排版，根据用户代理调整字体，实现更好的中文排版效果；兼顾国内主流浏览器及 App 内置浏览器兼容支持。
+##### 轻量级，高性能
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amaze UI 面向 HTML5 开发，使用 CSS3 来做动画交互，平滑、高效，更适合移动设备，让 Web 应用更快速载入。
 
-启动服务
-
-~~~
-cd tp
-php think run
-~~~
-
-然后就可以在浏览器中访问
-
-~~~
-http://localhost:8000
-~~~
-
-更新框架
-~~~
-composer update topthink/framework
-~~~
-
-
-## 在线手册
-
-+ [完全开发手册](https://www.kancloud.cn/manual/thinkphp5_1/content)
-+ [升级指导](https://www.kancloud.cn/manual/thinkphp5_1/354155) 
-
-## 目录结构
-
-初始的目录结构如下：
-
-~~~
+# 项目结构
+```
+shopxo
 www  WEB部署目录（或者子目录）
 ├─application           应用目录
 │  ├─common             公共模块目录（可以更改）
@@ -128,53 +102,106 @@ www  WEB部署目录（或者子目录）
 ├─LICENSE.txt           授权说明文件
 ├─README.md             README 文件
 ├─think                 命令行入口文件
-~~~
+```
 
-> 可以使用php自带webserver快速测试
-> 切换到根目录后，启动命令：php think run
+# 功能简介
+### 后端功能列表
+```
+后端配置
+站点配置
+    > 站点设置
+    > 短信设置
+    > 邮箱设置
+    > SEO设置
+权限控制
+    > 管理员
+    > 角色管理
+    > 权限分配
+用户管理
+    > 用户管理
+商品管理
+    > 商品管理
+    > 商品分类
+订单管理
+    > 订单管理
+问答留言
+    > 问答留言
+网站管理
+    > 导航管理
+    > 自定义页面
+    > 友情链接
+    > 主题管理
+    > 首页轮播
+    > 筛选价格
+品牌管理
+    > 品牌管理
+    > 品牌分类
+手机端管理
+    > 基础配置
+    > 首页导航
+    > 轮播管理
+支付宝小程序
+    > 基础配置
+    > 小程序源码包
+支付宝生活号
+    > 生活号管理
+    > 生活号分类
+    > 消息管理
+    > 菜单管理
+    > 批量上下架
+    > 用户管理
+文章管理
+    > 文章管理
+    > 文章分类
+数据管理
+    > 消息管理
+    > 支付日志
+    > 用户积分日志
+资源管理
+    > 地区管理
+    > 快递管理
+    > 支付方式
+工具
+    > 缓存管理
+```
 
-## 命名规范
+### 前端
+```
+首页
+所有分类
+商品搜索
+商品详情
+自定义页面
+文章
+购物车
+订单确认页
+用户中心
+    > 聚合内容
+交易管理
+    > 订单管理
+        > 订单详情
+        > 评论页
+    > 我的收藏
+资料管理
+    > 个人资料
+    > 我的地址
+    > 安全设置
+    > 我的消息
+    > 我的积分
+    > 我的足迹
+    > 安全退出
+```
 
-`ThinkPHP5`遵循PSR-2命名规范和PSR-4自动加载规范，并且注意如下规范：
+# 如何贡献
+非常欢迎您对ShopXO的开发作出贡献！
+你可以选择以下方式向ShopXO贡献：
+- [Github - 发布issue进行问题反馈和建议](https://github.com/gongfuxiang/shopxo/pulls)
+- [码云/开源中国 - 发布issue进行问题反馈和建议](https://gitee.com/gongfuxiang/shopxo/pulls)
+- 通过Pull Request提交修复
+- 完善我们的文档和例子
 
-### 目录和文件
+# 开源协议
+Apache License Version 2.0 see http://www.apache.org/licenses/LICENSE-2.0.html
 
-*   目录不强制规范，驼峰和小写+下划线模式均支持；
-*   类库、函数文件统一以`.php`为后缀；
-*   类的文件名均以命名空间定义，并且命名空间的路径和类库文件所在路径一致；
-*   类名和类文件名保持一致，统一采用驼峰法命名（首字母大写）；
-
-### 函数和类、属性命名
-
-*   类的命名采用驼峰法，并且首字母大写，例如 `User`、`UserType`，默认不需要添加后缀，例如`UserController`应该直接命名为`User`；
-*   函数的命名使用小写字母和下划线（小写字母开头）的方式，例如 `get_client_ip`；
-*   方法的命名使用驼峰法，并且首字母小写，例如 `getUserName`；
-*   属性的命名使用驼峰法，并且首字母小写，例如 `tableName`、`instance`；
-*   以双下划线“__”打头的函数或方法作为魔法方法，例如 `__call` 和 `__autoload`；
-
-### 常量和配置
-
-*   常量以大写字母和下划线命名，例如 `APP_PATH`和 `THINK_PATH`；
-*   配置参数以小写字母和下划线命名，例如 `url_route_on` 和`url_convert`；
-
-### 数据表和字段
-
-*   数据表和字段采用小写加下划线方式命名，并注意字段名不要以下划线开头，例如 `think_user` 表和 `user_name`字段，不建议使用驼峰和中文作为数据表字段命名。
-
-## 参与开发
-
-请参阅 [ThinkPHP5 核心框架包](https://github.com/top-think/framework)。
-
-## 版权信息
-
-ThinkPHP遵循Apache2开源协议发布，并提供免费使用。
-
-本项目包含的第三方源码和二进制文件之版权信息另行标注。
-
-版权所有Copyright © 2006-2018 by ThinkPHP (http://thinkphp.cn)
-
-All rights reserved。
-
-ThinkPHP® 商标和著作权所有者为上海顶想信息科技有限公司。
-
-更多细节参阅 [LICENSE.txt](LICENSE.txt)
+# 更新日志
+更多细节参阅 <a href="changelog.txt">changelog.txt</a>
