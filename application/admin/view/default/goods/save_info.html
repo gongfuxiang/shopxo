@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation view-save" action="{{:url('admin/goods/save')}}" method="POST" request-type="ajax-url" request-value="{{:url('admin/goods/index')}}" enctype="multipart/form-data">
+		<form class="am-form form-validation view-save" action="{{:url('admin/goods/save')}}" method="POST" request-type="ajax-url" request-value="{{:url('admin/goods/index', $params)}}" enctype="multipart/form-data">
 			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_video', 102400000)}}" />
 			<legend>
 				<span class="fs-16">
@@ -14,7 +14,7 @@
 						{{:lang('goods_edit_name')}}
 					{{/if}}
 				</span>
-				<a href="{{:url('admin/goods/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
+				<a href="{{:url('admin/goods/index', $params)}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
 			</legend>
 
 			<nav class="goods-nav">
@@ -110,20 +110,8 @@
 					</select>
 				</div>
 				<div class="am-form-group">
-					<label>{{:lang('goods_inventory_text')}}</label>
-					<input type="number" name="inventory" placeholder="{{:lang('goods_inventory_text')}}" min="1" max="100000000" data-validation-message="{{:lang('goods_inventory_format')}}" class="am-radius" {{if !empty($data)}} value="{{$data.inventory}}"{{/if}} required />
-				</div>
-				<div class="am-form-group">
 					<label>{{:lang('goods_inventory_unit_text')}}</label>
 					<input type="text" name="inventory_unit" placeholder="{{:lang('goods_inventory_unit_text')}}" minlength="1" maxlength="6" data-validation-message="{{:lang('goods_inventory_unit_format')}}" class="am-radius" {{if !empty($data)}} value="{{$data.inventory_unit}}"{{/if}} required />
-				</div>
-				<div class="am-form-group">
-					<label>{{:lang('goods_original_price_text')}}<span class="fs-12 fw-100 cr-999">（{{:lang('goods_price_tips')}}）</span></label>
-					<input type="text" placeholder="{{:lang('goods_price_text')}}" name="original_price" pattern="{{:lang('common_regex_price')}}" data-validation-message="{{:lang('goods_price_format')}}" class="am-radius" {{if !empty($data['original_price']) and $data['original_price'] gt 0}} value="{{$data.original_price}}"{{/if}} />
-				</div>
-				<div class="am-form-group">
-					<label>{{:lang('goods_price_text')}}<span class="fs-12 fw-100 cr-999">（{{:lang('goods_price_tips')}}）</span></label>
-					<input type="text" placeholder="{{:lang('goods_price_text')}}" name="price" pattern="{{:lang('common_regex_price')}}" data-validation-message="{{:lang('goods_price_format')}}" class="am-radius" {{if !empty($data)}}value="{{$data.price}}"{{/if}} required />
 				</div>
 				<div class="am-form-group">
 					<label>{{:lang('goods_give_integral_text')}}</label>
@@ -183,7 +171,7 @@
 							<th>库存</th>
 							<th>规格编码</th>
 							<th>条形码</th>
-							<th>成本价（元） </th>
+							<th>原价（元） </th>
 							<th class="operation-btn">操作</th>
 						</tr>
 					</thead>
@@ -203,7 +191,7 @@
 									<input type="text" name="specifications_barcode[]" placeholder="条形码" class="am-radius" maxlength="80" data-validation-message="条形码最多80个字符" />
 								</td>
 								<td>
-									<input type="text" name="specifications_original_price[]" placeholder="成本价" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的销售金额" />
+									<input type="text" name="specifications_original_price[]" placeholder="原价" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的销售金额" />
 								</td>
 								<td>
 									<!--operation-->
@@ -237,7 +225,7 @@
 													<input type="text" name="specifications_barcode[]" placeholder="条形码" class="am-radius" maxlength="80" data-validation-message="条形码最多80个字符" value="{{$v.data.barcode}}" />
 												</td>
 												<td>
-													<input type="text" name="specifications_original_price[]" placeholder="成本价" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的销售金额" value="{{if $v['data']['original_price'] gt 0}}{{$v.data.original_price}}{{/if}}" />
+													<input type="text" name="specifications_original_price[]" placeholder="原价" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的销售金额" value="{{if $v['data']['original_price'] gt 0}}{{$v.data.original_price}}{{/if}}" />
 												</td>
 												<td>
 													{{if $line_k gt 0}}
@@ -262,7 +250,7 @@
 			<!-- 相册 -->
 			<div id="goods-nav-photo" class="division-block">
 				<label class="block nav-detail-title">{{:lang('goods_nav_photo_name')}}<span class="fs-12 fw-100 cr-999">（{{:lang('goods_images_tips')}}）</span></label>
-				<ul class="plug-file-upload-view goods-photo-view" data-form-name="photo[]" data-max-number="10" data-dialog-type="images">
+				<ul class="plug-file-upload-view goods-photo-view" data-form-name="photo[]" data-max-number="5" data-dialog-type="images">
 					{{if !empty($data['photo'])}}
 						{{foreach $data.photo as $v}}
 							<li>

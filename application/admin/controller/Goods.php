@@ -58,6 +58,7 @@ class Goods extends Common
 				'number'	=>	$number,
 				'total'		=>	$total,
 				'where'		=>	$params,
+				'page'		=>	isset($params['page']) ? intval($params['page']) : 1,
 				'url'		=>	url('admin/goods/index'),
 			);
 		$page = new \base\Page($page_params);
@@ -126,6 +127,9 @@ class Goods extends Common
 
 		// 品牌分类
 		$this->assign('brand_list', BrandService::CategoryBrand());
+
+		// 参数
+		$this->assign('params', $params);
 
 		return $this->fetch();
 	}

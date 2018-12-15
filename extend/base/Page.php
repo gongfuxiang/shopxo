@@ -28,14 +28,14 @@ class Page
 	 * @param [array]  $param['where'] 		[额外条件(键值对)]
 	 * @param [string] $param['url'] 		[url地址]
 	 */
-	public function __construct($param = array())
+	public function __construct($params = array())
 	{
-		$this->page = max(1, isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1);
-		$this->total = max(1, isset($param['total']) ? intval($param['total']) : 1);
-		$this->number = max(1, isset($param['number']) ? intval($param['number']) : 1);
-		$this->bt_number = isset($param['bt_number']) ? intval($param['bt_number']) : 2;
-		$this->where = (isset($param['where']) && is_array($param['where'])) ? $param['where'] : '';
-		$this->url = isset($param['url']) ? $param['url'] : '';
+		$this->page = max(1, isset($params['page']) ? intval($params['page']) : 1);
+		$this->total = max(1, isset($params['total']) ? intval($params['total']) : 1);
+		$this->number = max(1, isset($params['number']) ? intval($params['number']) : 1);
+		$this->bt_number = isset($params['bt_number']) ? intval($params['bt_number']) : 2;
+		$this->where = (isset($params['where']) && is_array($params['where'])) ? $params['where'] : '';
+		$this->url = isset($params['url']) ? $params['url'] : '';
 		$this->page_total = 1;
 		$this->html = '';
 

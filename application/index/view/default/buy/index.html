@@ -119,10 +119,10 @@
                                             </a>
                                             <div class="goods-base">
                                                 <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
-                                                {{if !empty($goods.attribute)}}
+                                                {{if !empty($goods.spec)}}
                                                     <ul class="goods-attr">
-                                                        {{foreach $goods.attribute as $attr}}
-                                                            <li>{{$attr.attr_type_name}}：{{$attr.attr_name}}</li>
+                                                        {{foreach $goods.spec as $spec}}
+                                                            <li>{{$spec.type}}：{{$spec.value}}</li>
                                                         {{/foreach}}
                                                     </ul>
                                                 {{/if}}
@@ -222,7 +222,7 @@
                             <input type="hidden" name="goods_id" value="{{if isset($params['goods_id'])}}{{$params.goods_id}}{{else /}}0{{/if}}" />
                             <input type="hidden" name="buy_type" value="{{if isset($params['buy_type'])}}{{$params.buy_type}}{{else /}}goods{{/if}}" />
                             <input type="hidden" name="stock" value="{{if isset($params['stock'])}}{{$params.stock}}{{else /}}1{{/if}}" />
-                            <input type="hidden" name="attr" value='{{if isset($params['attr'])}}{{$params.attr}}{{/if}}' />
+                            <input type="hidden" name="spec" value='{{if isset($params['spec'])}}{{$params.spec}}{{/if}}' />
                             <input type="hidden" name="ids" value="{{if isset($params['ids'])}}{{$params.ids}}{{/if}}" />
                             <input type="hidden" name="address_id" value="0" />
                             <input type="hidden" name="payment_id" value="0" />

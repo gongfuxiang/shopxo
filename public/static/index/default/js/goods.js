@@ -39,12 +39,12 @@ function CartAdd(e)
     }
 
     // 规格
-    var attr = {};
+    var spec = [];
     var sku_count = $('.sku-items').length;
     if(sku_count > 0)
     {
-        var attr_count = $('.sku-line.selected').length;
-        if(attr_count < sku_count)
+        var spec_count = $('.sku-line.selected').length;
+        if(spec_count < sku_count)
         {
             $('.sku-items').each(function(k, v)
             {
@@ -57,9 +57,9 @@ function CartAdd(e)
             return false;
         } else {
             $('.iteminfo_parameter .sku-items').removeClass('attr-not-active');
-            $('.sku-line.selected').each(function(k, v)
+            $('.theme-signin-left .sku-items li.selected').each(function(k, v)
             {
-                attr[$(this).data('parent-id')] = $(this).data('id');
+                spec.push({"type": $(this).data('type-value'), "value": $(this).data('value')})
             });
         }
     }
@@ -70,7 +70,7 @@ function CartAdd(e)
         // 立即购买
         case 'buy' :
             var $form_buy = $('form.buy-form');
-            $form_buy.find('input[name="attr"]').val(JSON.stringify(attr));
+            $form_buy.find('input[name="spec"]').val(JSON.stringify(spec));
             $form_buy.find('input[name="stock"]').val(stock);
             $form_buy.find('button[type="submit"]').trigger('click');
             break;
@@ -89,7 +89,7 @@ function CartAdd(e)
                 type: 'post',
                 dataType: "json",
                 timeout: 10000,
-                data: {"goods_id": $('.goods-detail').data('id'), "stock": stock, "attr": attr},
+                data: {"goods_id": $('.goods-detail').data('id'), "stock": stock, "spec": spec},
                 success: function(result)
                 {
                     poptit_close();
@@ -216,7 +216,7 @@ function GoodsSpecType()
     var spec = [];
     $('.theme-signin-left .sku-items li.selected').each(function(k, v)
     {
-        spec.push({"type": $(this).data('type-value'), "value": $(this).data('value'), "index": $(this).parents('.sku-items').index()})
+        spec.push({"type": $(this).data('type-value'), "value": $(this).data('value')})
     });
 
     // 开启进度条
@@ -234,7 +234,8 @@ function GoodsSpecType()
             $.AMUI.progress.done();
             if(result.code == 0)
             {
-                var index = (spec.length > 0) ? spec[spec.length-1]['index']+1 : 0;
+                var spec_count = spec.length;
+                var index = (spec_count > 0) ? spec_count : 0;
                 if(index < sku_count)
                 {
                     $('.theme-signin-left .sku-items').eq(index).find('li').each(function(k, v)
@@ -323,7 +324,7 @@ $(function() {
 
     // 放大镜初始化
     $(".jqzoom").imagezoom();
-    $("#thumblist li a").on('click', function() {
+    $("#thumblist li a").on('mouseover', function() {
         $(this).parents("li").addClass("tb-selected").siblings().removeClass("tb-selected");
         $(".jqzoom").attr('src', $(this).find("img").attr("mid"));
         $(".jqzoom").attr('rel', $(this).find("img").attr("big"));

@@ -56,9 +56,11 @@
                 <ul class="tb-thumb" id="thumblist">
                     {{if !empty($goods.photo)}}
                         {{foreach $goods.photo as $photo_key=>$photo}}
-                            <li class="{{if $photo_key eq 0}}tb-selected{{else /}} tb-pic tb-s40{{/if}}">
+                            <li class="{{if $photo_key eq 0}}tb-selected{{else /}} tb-pic{{/if}}">
                                 <div class="tb-pic tb-s40">
-                                    <a href="javascript:;"><img src="{{$photo.images}}" mid="{{$photo.images}}" big="{{:str_replace('compr', 'original', $photo.images)}}"></a>
+                                    <a href="javascript:;">
+                                        <img src="{{$photo.images}}" mid="{{$photo.images}}" big="{{:str_replace('compr', 'original', $photo.images)}}" class="tb-s40" />
+                                    </a>
                                 </div>
                             </li>
                         {{/foreach}}
@@ -223,7 +225,7 @@
                             <input type="hidden" name="goods_id" value="{{$goods.id}}" />
                             <input type="hidden" name="buy_type" value="goods" />
                             <input type="hidden" name="stock" value="1" />
-                            <input type="hidden" name="attr" value="" />
+                            <input type="hidden" name="spec" value="" />
                             <button type="submit"></button>
                         </form>
                     {{else /}}

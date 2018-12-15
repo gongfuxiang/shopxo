@@ -41,10 +41,10 @@
                                 </a>
                                 <div class="goods-base">
                                     <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
-                                    {{if !empty($goods.attribute)}}
+                                    {{if !empty($goods.spec)}}
                                         <ul class="goods-attr">
-                                            {{foreach $goods.attribute as $attr}}
-                                                <li>{{$attr.attr_type_name}}：{{$attr.attr_name}}</li>
+                                            {{foreach $goods.spec as $spec}}
+                                                <li>{{$spec.type}}：{{$spec.value}}</li>
                                             {{/foreach}}
                                         </ul>
                                     {{/if}}

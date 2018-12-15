@@ -58,8 +58,15 @@ class BuyService
             return DataReturn('商品不存在或已删除', -2);
         }
 
-        // 属性处理
-        $attr = self::GoodsAttrParsing($params);
+        // 规格处理
+        $spec = self::GoodsSpecificationsHandle($params);
+
+        // 获取商品基础信息
+        $goods_base = GoodsService::GoodsSpecDetail(['id'=>$goods_id, 'spec'=>$spec]);
+        if($goods_base['code'] != 0)
+        {
+            return $goods_base;
+        }
 
         // 添加购物车
         $data = [
@@ -67,20 +74,19 @@ class BuyService
             'goods_id'      => $goods_id,
             'title'         => $goods['title'],
             'images'        => $goods['images'],
-            'original_price'=> $goods['original_price'],
-            'price'         => $goods['price'],
+            'original_price'=> $goods_base['data']['original_price'],
+            'price'         => $goods_base['data']['price'],
             'stock'         => intval($params['stock']),
-            'attribute'     => count($attr) == 0 ? '' : json_encode($attr),
+            'spec'          => empty($spec) ? '' : json_encode($spec),
         ];
 
         // 存在则更新
-        $m = db('Cart');
-        $where = ['user_id'=>$data['user_id'], 'goods_id'=>$data['goods_id'], 'attribute'=>$data['attribute']];
-        $temp = $m->where($where)->find();
+        $where = ['user_id'=>$data['user_id'], 'goods_id'=>$data['goods_id'], 'spec'=>$data['spec']];
+        $temp = db('Cart')->where($where)->find();
         if(empty($temp))
         {
             $data['add_time'] = time();
-            if($m->insertGetId($data) > 0)
+            if(db('Cart')->insertGetId($data) > 0)
             {
                 return DataReturn(lang('common_join_success'), 0, self::UserCartTotal($params));
             }
@@ -91,7 +97,7 @@ class BuyService
             {
                 $data['stock'] = $goods['inventory'];
             }
-            if($m->where($where)->update($data))
+            if(db('Cart')->where($where)->update($data))
             {
                 return DataReturn(lang('common_join_success'), 0, self::UserCartTotal($params));
             }
@@ -101,7 +107,7 @@ class BuyService
     }
 
     /**
-     * 商品属性解析
+     * 商品规格解析
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -109,31 +115,17 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    private static function GoodsAttrParsing($params = [])
+    private static function GoodsSpecificationsHandle($params = [])
     {
-        $data = [];
-        if(!empty($params['attr']) && !empty($params['goods_id']))
+        $spec = [];
+        if(!empty($params['spec']))
         {
-            if(!is_array($params['attr']))
+            if(!is_array($params['spec']))
             {
-                $params['attr'] = json_decode($params['attr'], true);
-            }
-            foreach($params['attr'] as $k=>$v)
-            {
-                $attr_type_name = db('GoodsAttributeType')->where(['goods_id'=>$params['goods_id'], 'id'=>$k])->value('name');
-                $attr_name = db('GoodsAttribute')->where(['goods_id'=>$params['goods_id'], 'id'=>$v])->value('name');
-                if(!empty($attr_type_name) && !empty($attr_name))
-                {
-                    $data[] = [
-                        'attr_type_id'     => $k,
-                        'attr_type_name'   => $attr_type_name,
-                        'attr_id'          => $v,
-                        'attr_name'        => $attr_name,
-                    ];
-                }
+                $spec = json_decode($params['spec'], true);
             }
         }
-        return $data;
+        return empty($spec) ? '' : $spec;
     }
 
     /**
@@ -164,7 +156,7 @@ class BuyService
         $where = (!empty($params['where']) && is_array($params['where'])) ? $params['where'] : [];
         $where['c.user_id'] = $params['user']['id'];
 
-        $field = 'c.*, g.title, g.images, g.original_price, g.price, g.inventory, g.inventory_unit, g.is_shelves, g.is_delete_time, g.buy_min_number, g.buy_max_number';
+        $field = 'c.*, g.title, g.images, g.inventory_unit, g.is_shelves, g.is_delete_time, g.buy_min_number, g.buy_max_number';
         $data = db('Cart')->alias('c')->join(['__GOODS__'=>'g'], 'g.id=c.goods_id')->where($where)->field($field)->select();
 
 
@@ -174,10 +166,24 @@ class BuyService
             $images_host = config('IMAGE_HOST');
             foreach($data as &$v)
             {
+                // 规格
+                $v['spec'] = empty($v['spec']) ? null : json_decode($v['spec'], true);
+
+                // 获取商品基础信息
+                $goods_base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>$v['spec']]);
+                if($goods_base['code'] == 0)
+                {
+                    $v['inventory'] = $goods_base['data']['inventory'];
+                    $v['price'] = $goods_base['data']['price'];
+                    $v['original_price'] = $goods_base['data']['original_price'];
+                } else {
+                    return $goods_base;
+                }
+
+                // 基础信息
                 $v['goods_url'] = HomeUrl('Goods', 'Index', ['id'=>$v['goods_id']]);
                 $v['images_old'] = $v['images'];
                 $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
-                $v['attribute'] = empty($v['attribute']) ? null : json_decode($v['attribute'], true);
                 $v['total_price'] = $v['stock']*$v['price'];
                 $v['buy_max_number'] = ($v['buy_max_number'] <= 0) ? $v['inventory']: $v['buy_max_number'];
             }
@@ -310,8 +316,8 @@ class BuyService
             ],
             [
                 'checked_type'      => 'isset',
-                'key_name'          => 'attr',
-                'error_msg'         => '属性参数有误',
+                'key_name'          => 'spec',
+                'error_msg'         => '规格参数有误',
             ],
             [
                 'checked_type'      => 'empty',
@@ -332,7 +338,7 @@ class BuyService
                 'is_delete_time'    => 0,
                 'is_shelves'        => 1,
             ],
-            'field' => 'id, id AS goods_id, title, images, original_price, price, inventory, inventory_unit, buy_min_number, buy_max_number',
+            'field' => 'id, id AS goods_id, title, images, inventory_unit, buy_min_number, buy_max_number',
         ];
         $goods = GoodsService::GoodsList($p);
         if(empty($goods[0]))
@@ -340,12 +346,23 @@ class BuyService
             return DataReturn(lang('common_data_no_exist_error'), -10);
         }
 
+        // 规格
+        $goods[0]['spec'] = self::GoodsSpecificationsHandle($params);
+
+        // 获取商品基础信息
+        $goods_base = GoodsService::GoodsSpecDetail(['id'=>$goods[0]['goods_id'], 'spec'=>$goods[0]['spec']]);
+        if($goods_base['code'] == 0)
+        {
+            $goods[0]['inventory'] = $goods_base['data']['inventory'];
+            $goods[0]['price'] = $goods_base['data']['price'];
+            $goods[0]['original_price'] = $goods_base['data']['original_price'];
+        } else {
+            return $goods_base;
+        }
+
         // 数量/小计
         $goods[0]['stock'] = $params['stock'];
         $goods[0]['total_price'] = $params['stock']*$goods[0]['price'];
-
-        // 属性
-        $goods[0]['attribute'] = self::GoodsAttrParsing($params);
 
         return DataReturn(lang('common_operation_success'), 0, $goods);
     }
@@ -467,12 +484,20 @@ class BuyService
 
         // 数据校验
         $total_price = 0;
-        $m = db('Goods');
-        $attr_type_m = db('GoodsAttributeType');
-        $attr_m = db('GoodsAttribute');
         foreach($params['goods'] as $v)
         {
-            $goods = $m->find($v['goods_id']);
+            // 获取商品信息
+            $goods = db('Goods')->find($v['goods_id']);
+
+            // 规格
+            $goods_base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>isset($v['spec']) ? $v['spec'] : []]);
+            if($goods_base['code'] == 0)
+            {
+                $goods['price'] = $goods_base['data']['price'];
+                $goods['inventory'] = $goods_base['data']['inventory'];
+            } else {
+                return $goods_base;
+            }
 
             // 基础判断
             if(empty($goods))
@@ -494,27 +519,6 @@ class BuyService
             if($goods['buy_max_number'] > 1 && $v['stock'] > $goods['buy_max_number'])
             {
                 return DataReturn('['.$v['goods_id'].']超过商品限购数量['.$v['stock'].'>'.$goods['buy_max_number'].']', -1);
-            }
-
-            // 属性
-            if(!empty($v['attribute']))
-            {
-                foreach($v['attribute'] as $vs)
-                {
-                    // 属性类型
-                    $attr_type = $attr_type_m->find($vs['attr_type_id']);
-                    if(empty($attr_type))
-                    {
-                        return DataReturn('['.$v['goods_id'].']商品属性类型有误['.$vs['attr_type_id'].']', -1);
-                    }
-
-                    // 具体属性
-                    $attr_content = $attr_m->find($vs['attr_id']);
-                    if(empty($attr_content))
-                    {
-                        return DataReturn('['.$v['goods_id'].']商品属性有误-'.$vs['attr_id'].']', -1);
-                    }
-                }
             }
 
             // 总价
@@ -634,7 +638,7 @@ class BuyService
                     'images'            => $v['images_old'],
                     'original_price'    => $v['original_price'],
                     'price'             => $v['price'],
-                    'attribute'         => empty($v['attribute']) ? '' : json_encode($v['attribute']),
+                    'spec'              => empty($v['spec']) ? '' : json_encode($v['spec']),
                     'buy_number'        => $v['stock'],
                     'add_time'          => time(),
                 ];

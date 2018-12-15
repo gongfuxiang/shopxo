@@ -2,13 +2,6 @@
 .DS_Store
 .ide
 *.log
-Runtime
-Temp
-temp
-Logs
-logs
 *.lock
-#Upload
-#upload
 .tea
 AppMini/New/*

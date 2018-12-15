@@ -558,7 +558,7 @@ class OrderService
         $data = db('Order')->where($params['where'])->limit($limit_start, $limit_number)->order($order_by)->select();
         if(!empty($data))
         {
-            $detail_field = 'id,goods_id,title,images,original_price,price,attribute,buy_number';
+            $detail_field = 'id,goods_id,title,images,original_price,price,spec,buy_number';
             $images_host = config('IMAGE_HOST');
             $order_status_list = lang('common_order_user_status');
             $order_pay_status = lang('common_order_pay_status');
@@ -629,8 +629,8 @@ class OrderService
                         foreach($items as &$vs)
                         {
                             $vs['images'] = empty($vs['images']) ? null : $images_host.$vs['images'];
-                            $vs['attribute'] = empty($vs['attribute']) ? null : json_decode($vs['attribute'], true);
-                            $vs['goods_url'] = HomeUrl('Goods', 'Index', ['id'=>$vs['goods_id']]);
+                            $vs['spec'] = empty($vs['spec']) ? null : json_decode($vs['spec'], true);
+                            $vs['goods_url'] = HomeUrl('goods', 'index', ['id'=>$vs['goods_id']]);
                             $vs['total_price'] = $vs['buy_number']*$vs['price'];
                         }
                     }

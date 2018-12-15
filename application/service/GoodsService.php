@@ -925,20 +925,10 @@ class GoodsService
                 'error_msg'         => '请至少选择一个商品分类',
             ],
             [
-                'checked_type'      => 'empty',
-                'key_name'          => 'inventory',
-                'error_msg'         => '最低起购数量库存数量',
-            ],
-            [
                 'checked_type'      => 'length',
                 'key_name'          => 'inventory_unit',
                 'checked_data'      => '1,6',
                 'error_msg'         => '库存单位格式 1~6 个字符',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'price',
-                'error_msg'         => '请填写有效的销售金额',
             ],
             [
                 'checked_type'      => 'empty',
@@ -987,10 +977,7 @@ class GoodsService
             'title_color'               => $params['title_color'],
             'model'                     => $params['model'],
             'place_origin'              => intval($params['place_origin']),
-            'inventory'                 => intval($params['inventory']),
             'inventory_unit'            => $params['inventory_unit'],
-            'original_price'            => round($params['original_price'], 2),
-            'price'                     => round($params['price'], 2),
             'give_integral'             => intval($params['give_integral']),
             'buy_min_number'            => intval($params['buy_min_number']),
             'buy_max_number'            => intval($params['buy_max_number']),
@@ -1041,6 +1028,15 @@ class GoodsService
                 // 回滚事务
                 Db::rollback();
                 return $ret;
+            } else {
+                // 更新商品基础信息
+                $ret = self::GoodsSaveBaseUpdate($params, $goods_id);
+                if($ret['code'] != 0)
+                {
+                    // 回滚事务
+                    Db::rollback();
+                    return $ret;
+                }
             }
 
             // 相册
@@ -1076,6 +1072,38 @@ class GoodsService
         // 回滚事务
         Db::rollback();
         return DataReturn('操作失败', -100);
+    }
+
+    /**
+     * 商品保存基础信息更新
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-12-16T01:56:42+0800
+     * @param    [array]          $params   [输入参数]
+     * @param    [int]            $goods_id [商品id]
+     */
+    private static function GoodsSaveBaseUpdate($params, $goods_id)
+    {
+        $data = db('GoodsSpecBase')->field('min(price) AS min_price, max(price) AS max_price, sum(inventory) AS inventory, min(original_price) AS min_original_price, max(original_price) AS max_original_price')->where(['goods_id'=>$goods_id])->find();
+        if(empty($data))
+        {
+            return DataReturn('没找到商品基础信息', -1);
+        }
+
+        // 销售价格 - 展示价格
+        $data['price'] = (!empty($data['max_price']) && $data['min_price'] != $data['max_price']) ? $data['min_price'].'-'.$data['max_price'] : $data['min_price'];
+
+        // 原价价格 - 展示价格
+        $data['original_price'] = (!empty($data['max_original_price']) && $data['min_original_price'] != $data['max_original_price']) ? $data['min_original_price'].'-'.$data['max_original_price'] : $data['min_original_price'];
+
+        // 更新商品表
+        $data['upd_time'] = time();
+        if(db('Goods')->where(['id'=>$goods_id])->update($data))
+        {
+            return DataReturn('操作成功', 0);
+        }
+        return DataReturn('操作失败', 0);
     }
 
     /**
@@ -1639,11 +1667,13 @@ class GoodsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'spec',
+                'is_checked'        => 1,
                 'error_msg'         => '请选择规格',
             ],
             [
                 'checked_type'      => 'is_array',
                 'key_name'          => 'spec',
+                'is_checked'        => 1,
                 'error_msg'         => '规格有误',
             ],
         ];
@@ -1658,50 +1688,61 @@ class GoodsService
         $where = [
             'goods_id'  => intval($params['id']),
         ];
-        $value = [];
-        foreach($params['spec'] as $v)
-        {
-            $value[] = $v['value'];
-        }
-        $where['value'] = $value;
 
-        // 获取规格值基础值id
-        $ids = db('GoodsSpecValue')->where($where)->column('goods_spec_base_id');
-        if(!empty($ids))
+        // 有规格值
+        if(!empty($params['spec']))
         {
-            // 根据基础值id获取规格值列表
-            $temp_data = db('GoodsSpecValue')->where(['goods_spec_base_id'=>$ids])->field('goods_spec_base_id,value')->select();
-            if(!empty($temp_data))
+            $value = [];
+            foreach($params['spec'] as $v)
             {
-                // 根据基础值id分组
-                $data = [];
-                foreach($temp_data as $v)
-                {
-                    $data[$v['goods_spec_base_id']][] = $v;
-                }
+                $value[] = $v['value'];
+            }
+            $where['value'] = $value;
 
-                // 从条件中匹配对应的规格值得到最终的基础值id
-                $base_id = 0;
-                $spec_str = implode('', array_column($params['spec'], 'value'));
-                foreach($data as $value_v)
+            // 获取规格值基础值id
+            $ids = db('GoodsSpecValue')->where($where)->column('goods_spec_base_id');
+            if(!empty($ids))
+            {
+                // 根据基础值id获取规格值列表
+                $temp_data = db('GoodsSpecValue')->where(['goods_spec_base_id'=>$ids])->field('goods_spec_base_id,value')->select();
+                if(!empty($temp_data))
                 {
-                    $temp_str = implode('', array_column($value_v, 'value'));
-                    if($temp_str == $spec_str)
+                    // 根据基础值id分组
+                    $data = [];
+                    foreach($temp_data as $v)
                     {
-                        $base_id = $value_v[0]['goods_spec_base_id'];
-                        break;
+                        $data[$v['goods_spec_base_id']][] = $v;
+                    }
+
+                    // 从条件中匹配对应的规格值得到最终的基础值id
+                    $base_id = 0;
+                    $spec_str = implode('', array_column($params['spec'], 'value'));
+                    foreach($data as $value_v)
+                    {
+                        $temp_str = implode('', array_column($value_v, 'value'));
+                        if($temp_str == $spec_str)
+                        {
+                            $base_id = $value_v[0]['goods_spec_base_id'];
+                            break;
+                        }
+                    }
+                    
+                    // 获取基础值数据
+                    if(!empty($base_id))
+                    {
+                        $base = db('GoodsSpecBase')->field('goods_id,price,inventory,coding,barcode,original_price')->find($base_id);
+                        if(!empty($base))
+                        {
+                            return DataReturn('操作成功', 0, $base);
+                        }
                     }
                 }
-                
-                // 获取基础值数据
-                if(!empty($base_id))
-                {
-                    $base = db('GoodsSpecBase')->field('goods_id,price,inventory,coding,barcode,original_price')->find($base_id);
-                    if(!empty($base))
-                    {
-                        return DataReturn('操作成功', 0, $base);
-                    }
-                }
+            }
+        } else {
+            $base = db('GoodsSpecBase')->field('goods_id,price,inventory,coding,barcode,original_price')->where($where)->find();
+            if(!empty($base))
+            {
+                return DataReturn('操作成功', 0, $base);
             }
         }
         return DataReturn('没有相关规格', -100);
@@ -1771,11 +1812,13 @@ class GoodsService
 
                 // 获取当前操作元素索引
                 $last  = end($params['spec']);
-                $index = $last['index'];
+                $index = count($params['spec'])-1;
+                $spec_str = implode('', array_column($params['spec'], 'value'));
                 $value = [];
                 foreach($data as $v)
                 {
-                    if(isset($v[$index+1]) && $v[$index]['value'] == $last['value'])
+                    $temp_str = implode('', array_column($v, 'value'));
+                    if(isset($v[$index+1]) && stripos($temp_str, $spec_str) !== false)
                     {
                         // 判断是否还有库存
                         $inventory = db('GoodsSpecBase')->where(['id'=>$v[$index+1]['goods_spec_base_id']])->value('inventory');
