@@ -108,13 +108,12 @@ class Uploader
             return;
         }
 
-if (!is_writeable($dirname)) {
-            $this->stateInfo = $this->getStateInfo("ERROR_DIR_NOT_WRITEABLE");
-            return;
-        }
         //创建目录失败
-        if (!is_dir($dirname) && !mkdir($dirname, 0777, true)) {
+        if (!is_dir($dirname) && !@mkdir($dirname, 0777, true)) {
             $this->stateInfo = $this->getStateInfo("ERROR_CREATE_DIR");
+            return;
+        } else if (!is_writeable($dirname)) {
+            $this->stateInfo = $this->getStateInfo("ERROR_DIR_NOT_WRITEABLE");
             return;
         }
 

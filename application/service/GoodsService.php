@@ -158,14 +158,15 @@ class GoodsService
      * @version 1.0.0
      * @date    2018-08-29
      * @desc    description
-     * @param   [array]          $ids [分类id数组]
+     * @param   [array]          $ids       [分类id数组]
+     * @param   [int]            $is_enable [是否启用 0否, 1是]
      */
-    public static function GoodsCategoryItemsIds($ids = [])
+    public static function GoodsCategoryItemsIds($ids = [], $is_enable = 1)
     {
-        $data = db('GoodsCategory')->where(['pid'=>$ids, 'is_enable'=>1])->column('id');
+        $data = db('GoodsCategory')->where(['pid'=>$ids, 'is_enable'=>$is_enable])->column('id');
         if(!empty($data))
         {
-            $temp = self::GoodsCategoryItemsIds($data);
+            $temp = self::GoodsCategoryItemsIds($data, $is_enable);
             if(!empty($temp))
             {
                 $data = array_merge($data, $temp);
@@ -1920,6 +1921,47 @@ class GoodsService
             }
             return DataReturn('编辑失败', -100);
         }
+    }
+
+    /**
+     * 商品分类删除
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-12-17T02:40:29+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function GoodsCategoryDelete($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '删除数据id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'admin',
+                'error_msg'         => '用户信息有误',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取分类下所有分类id
+        $ids = self::GoodsCategoryItemsIds([$params['id']]);
+        $ids[] = $params['id'];
+
+        // 开始删除
+        if(db('GoodsCategory')->where(['id'=>$ids])->delete())
+        {
+            return DataReturn('删除成功', 0);
+        }
+        return DataReturn('删除失败', 0);
     }
 }
 ?>

@@ -102,23 +102,17 @@ class GoodsCategory extends Common
 	 */
 	public function Delete()
 	{
+		// 是否ajax
 		if(!IS_AJAX)
 		{
-			$this->error(lang('common_unauthorized_access'));
+			return $this->error(lang('common_unauthorized_access'));
 		}
 
-		$m = D('GoodsCategory');
-		if($m->create($_POST, 5))
-		{
-			if($m->delete(I('id')))
-			{
-				return json(lang('common_operation_delete_success'));
-			} else {
-				return json(lang('common_operation_delete_error'), -100);
-			}
-		} else {
-			return json($m->getError(), -1);
-		}
+		// 开始操作
+		$params = input('post.');
+		$params['admin'] = $this->admin;
+		$ret = GoodsService::GoodsCategoryDelete($params);
+		return json($ret);
 	}
 }
 ?>

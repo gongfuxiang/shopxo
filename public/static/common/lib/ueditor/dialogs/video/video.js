@@ -241,8 +241,8 @@
                     item = document.createElement('li');
                     video = document.createElement('video');
                     icon = document.createElement('span');
-                    video.width = 113;
-                    video.height = 113;
+                    video.width = 103;
+                    video.height = 103;
                     video.setAttribute('src', urlPrefix + list[i].url + (list[i].url.indexOf('?') == -1 ? '?noCache=':'&noCache=') + (+new Date()).toString(36) );
                     video.setAttribute('_src', urlPrefix + list[i].url);
                     video.setAttribute('controls', 'controls');
@@ -562,8 +562,8 @@
             // 优化retina, 在retina下这个值是2
                 ratio = window.devicePixelRatio || 1,
             // 缩略图大小
-                thumbnailWidth = 113 * ratio,
-                thumbnailHeight = 113 * ratio,
+                thumbnailWidth = 103 * ratio,
+                thumbnailHeight = 103 * ratio,
             // 可能有pedding, ready, uploading, confirm, done.
                 state = '',
             // 所有文件的进度信息，key为file id

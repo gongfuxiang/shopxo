@@ -484,12 +484,13 @@ function FormDataFill(json, tag)
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2017-01-13T10:30:23+0800
- * @param    {[int]}    	id    		[节点id]
- * @param    {[string]}   	url   		[请求url地址]
- * @param    {[int]}      	level 		[层级]
- * @param    {[int]}      	is_add_node [是否开启新增子级按钮]
+ * @param    {[int]}    	id    			[节点id]
+ * @param    {[string]}   	url   			[请求url地址]
+ * @param    {[int]}      	level 			[层级]
+ * @param    {[int]}      	is_add_node 	[是否开启新增子级按钮]
+ * @param    {[int]}      	is_delete_all	[是否所有开启删除按钮]
  */
-function Tree(id, url, level, is_add_node)
+function Tree(id, url, level, is_add_node, is_delete_all)
 {
 	$.ajax({
 		url:url,
@@ -548,7 +549,7 @@ function Tree(id, url, level, is_add_node)
 
 					// 编辑
 					html += '<span class="am-icon-edit am-icon-sm c-p submit-edit" data-am-modal="{target: \'#data-save-win\'}" data-json=\''+result.data[i]['json']+'\' data-is_exist_son="'+result.data[i]['is_son']+'"></span>';
-					if(result.data[i]['is_son'] != 'ok')
+					if(result.data[i]['is_son'] != 'ok' || is_delete_all == 1)
 					{
 						// 删除
 						html += '<span class="am-icon-trash-o am-icon-sm c-p m-l-20 m-r-15 submit-delete" data-id="'+result.data[i]['id']+'" data-url="'+result.data[i]['delete_url']+'"></span>';
