@@ -106,7 +106,7 @@ class BrandService
         if(!empty($params['category_id']))
         {
             // 根据分类获取品牌id
-            $category_ids = GoodsService::GoodsCategoryItemsIds([$params['category_id']]);
+            $category_ids = GoodsService::GoodsCategoryItemsIds([$params['category_id']], 1);
             $where = ['g.is_delete_time'=>0, 'g.is_shelves'=>1, 'gci.id'=>$category_ids];
             $brand_where['id'] = db('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->field('g.brand_id')->where($where)->group('g.brand_id')->column('brand_id');
         }

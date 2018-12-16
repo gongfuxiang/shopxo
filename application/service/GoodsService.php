@@ -144,7 +144,7 @@ class GoodsService
         {
             foreach($goods_category as &$v)
             {
-                $category_ids = self::GoodsCategoryItemsIds([$v['id']]);
+                $category_ids = self::GoodsCategoryItemsIds([$v['id']], 1);
                 $v['goods'] = self::CategoryGoodsList(['where'=>['gci.category_id'=>$category_ids, 'is_home_recommended'=>1], 'm'=>0, 'n'=>6, 'field'=>'g.id,g.title,g.title_color,g.images,g.home_recommended_images,g.original_price,g.price,g.inventory,g.buy_min_number,g.buy_max_number']);
             }
         }
@@ -159,11 +159,16 @@ class GoodsService
      * @date    2018-08-29
      * @desc    description
      * @param   [array]          $ids       [分类id数组]
-     * @param   [int]            $is_enable [是否启用 0否, 1是]
+     * @param   [int]            $is_enable [是否启用 null, 0否, 1是]
      */
-    public static function GoodsCategoryItemsIds($ids = [], $is_enable = 1)
+    public static function GoodsCategoryItemsIds($ids = [], $is_enable = null)
     {
-        $data = db('GoodsCategory')->where(['pid'=>$ids, 'is_enable'=>$is_enable])->column('id');
+        $where = ['pid'=>$ids];
+        if($is_enable !== null)
+        {
+            $where['is_enable'] = $is_enable;
+        }
+        $data = db('GoodsCategory')->where($where)->column('id');
         if(!empty($data))
         {
             $temp = self::GoodsCategoryItemsIds($data, $is_enable);

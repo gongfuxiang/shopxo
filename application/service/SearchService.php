@@ -78,7 +78,7 @@ class SearchService
         // 分类id
         if(!empty($params['category_id']))
         {
-            $category_ids = GoodsService::GoodsCategoryItemsIds([$params['category_id']]);
+            $category_ids = GoodsService::GoodsCategoryItemsIds([$params['category_id']], 1);
             $category_ids[] = $params['category_id'];
             $where[] = ['gci.category_id', 'in', $category_ids];
         }
