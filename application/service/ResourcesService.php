@@ -191,6 +191,30 @@ class ResourcesService
     }
 
     /**
+     * 附件集合处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-08-07
+     * @desc    description
+     * @param    [array]          $params [输入参数]
+     * @param   [array]           $data   [字段列表]
+     */
+    public static function AttachmentParams($params, $data)
+    {
+        $result = [];
+        if(!empty($data))
+        {
+            foreach($data as $field)
+            {
+                $result[$field] = isset($params[$field]) ? self::AttachmentPathHandle($params[$field]) : '';
+            }
+        }
+
+        return DataReturn('success', 0, $result);
+    }
+
+    /**
      * APP获取首页导航
      * @author   Devil
      * @blog    http://gong.gg/

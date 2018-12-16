@@ -55,6 +55,7 @@ class Admin extends Common
 				'number'	=>	$number,
 				'total'		=>	$total,
 				'where'		=>	$params,
+				'page'		=>	isset($params['page']) ? intval($params['page']) : 1,
 				'url'		=>	url('admin/admin/index'),
 			);
 		$page = new \base\Page($page_params);

@@ -1166,11 +1166,13 @@ div.edui-box {
     word-wrap: break-word;
     word-break: normal;
 }
+#edui_fixedlayer {
+    z-index: 1200 !important;
+}
 /* 弹出对话框按钮和对话框大小 */
 .edui-default .edui-dialog {
-    z-index: 2000;
     position: absolute;
-
+    z-index: 1210 !important;
 }
 
 .edui-dialog div{
@@ -1226,30 +1228,30 @@ div.edui-box {
 }
 
 .edui-default .edui-dialog-titlebar {
-    height: 26px;
+    height: 30px;
     border-bottom: 1px solid #c6c6c6;
     /*background: url(../images/dialog-title-bg.png) repeat-x bottom;*/
     position: relative;
     cursor: move;
     background-color: #f5f5f5;
-    border-top-right-radius: 8px;
-    border-top-left-radius: 8px;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
 }
 .edui-default .edui-dialog-caption {
     font-weight: bold;
     font-size: 12px;
-    line-height: 26px;
+    line-height: 30px;
     padding-left: 5px;
 }
 
 .edui-default .edui-dialog-draghandle {
-    height: 26px;
+    height: 30px;
 }
 
 .edui-default .edui-dialog-closebutton {
     position: absolute !important;
     right: 5px;
-    top: 3px;
+    top: 5px;
 }
 
 .edui-default .edui-dialog-closebutton .edui-button-body {
@@ -1265,8 +1267,8 @@ div.edui-box {
 
 .edui-default .edui-dialog-foot {
     height: 40px;
-    border-bottom-right-radius: 8px;
-    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
 }
 
 .edui-default .edui-dialog-buttons {
@@ -1304,7 +1306,7 @@ div.edui-box {
     filter: alpha(opacity = 30);
     background-color: #ccc;
     position: absolute;
-    /*z-index: 1999;*/
+    z-index: 1200 !important;
 }
 
 .edui-default .edui-dialog-dragmask {

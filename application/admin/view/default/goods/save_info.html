@@ -137,7 +137,7 @@
 						{{/if}}
 					</ul>
 					<div class="plug-file-upload-submit" data-view-tag="ul.goods-recommended-images-view">+上传图片</div>
-					</div>
+				</div>
 				<div class="am-form-group">
 					<label class="block">{{:lang('goods_is_deduction_inventory_text')}}<span class="fs-12 fw-100 cr-999">（{{:lang('goods_is_deduction_inventory_tips')}}）</span></label>
 					<input name="is_deduction_inventory" value="1" type="checkbox" data-off-text="{{:lang('common_operation_off_is_text')}}" data-on-text="{{:lang('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_deduction_inventory']) and $data['is_deduction_inventory'] eq 1) or empty($data)}}checked="true"{{/if}} />
@@ -321,7 +321,7 @@
 			<div id="goods-nav-web" class="division-block">
 				<label class="block nav-detail-title">{{:lang('goods_nav_web_name')}}</label>
 				<div class="am-form-group">
-					<textarea class="am-radius am-validate" name="content_web" maxlength="105000" id="editor-tag" data-url="{{:url('admin/ueditor/index', ['path_type'=>'goods_pc'])}}" data-validation-message="{{:lang('goods_content_web_format')}}">{{if !empty($data)}}{{$data.content_web}}{{/if}}</textarea>
+					<textarea class="am-radius am-validate" name="content_web" maxlength="105000" id="editor-tag" data-validation-message="{{:lang('goods_content_web_format')}}">{{if !empty($data)}}{{$data.content_web}}{{/if}}</textarea>
 				</div>
 			</div>
 

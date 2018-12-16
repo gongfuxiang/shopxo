@@ -965,7 +965,7 @@ class GoodsService
 
         // 其它附件
         $data_fields = ['home_recommended_images', 'video'];
-        $attachment = self::GetGoodsAttachmentParams($params, $data_fields);
+        $attachment = ResourcesService::AttachmentParams($params, $data_fields);
         if($attachment['code'] != 0)
         {
             return $attachment;
@@ -1235,30 +1235,6 @@ class GoodsService
                 }
             }
         }
-        return DataReturn('success', 0, $result);
-    }
-
-    /**
-     * 附件集合处理
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-08-07
-     * @desc    description
-     * @param    [array]          $params [输入参数]
-     * @param   [array]           $data   [字段列表]
-     */
-    private static function GetGoodsAttachmentParams($params, $data)
-    {
-        $result = [];
-        if(!empty($data))
-        {
-            foreach($data as $field)
-            {
-                $result[$field] = isset($params[$field]) ? ResourcesService::AttachmentPathHandle($params[$field]) : '';
-            }
-        }
-
         return DataReturn('success', 0, $result);
     }
 
@@ -1832,6 +1808,118 @@ class GoodsService
             }
         }
         return DataReturn('没有相关规格类型', -100);
+    }
+
+    /**
+     * 获取商品分类节点数据
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-12-16T23:54:46+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function GoodsCategoryNodeSon($params = [])
+    {
+        // id
+        $id = isset($params['id']) ? intval($params['id']) : 0;
+
+        // 获取数据
+        $field = 'id,pid,icon,name,sort,is_enable,bg_color,big_images,vice_name,describe,is_home_recommended';
+        $data = db('GoodsCategory')->field($field)->where(['pid'=>$id])->select();
+        if(!empty($data))
+        {
+            $image_host = config('IMAGE_HOST');
+            foreach($data as &$v)
+            {
+                $v['is_son']            =   (db('GoodsCategory')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
+                $v['ajax_url']          =   url('admin/goodscategory/getnodeson', array('id'=>$v['id']));
+                $v['delete_url']        =   url('admin/goodscategory/delete');
+                $v['icon_url']          =   empty($v['icon']) ? '' : $image_host.$v['icon'];
+                $v['big_images_url']    =   empty($v['big_images']) ? '' : $image_host.$v['big_images'];
+                $v['json']              =   json_encode($v);
+            }
+            return DataReturn('操作成功', 0, $data);
+        }
+        return DataReturn('没有相关数据', -100);
+    }
+
+    /**
+     * 商品分类保存
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-12-17T01:04:03+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function GoodsCategorySave($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'name',
+                'checked_data'      => '2,16',
+                'error_msg'         => '名称格式 2~16 个字符',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'vice_name',
+                'checked_data'      => '60',
+                'is_checked'        => 1,
+                'error_msg'         => '副名称格式 最多30个字符',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'describe',
+                'checked_data'      => '200',
+                'is_checked'        => 1,
+                'error_msg'         => '描述格式 最多200个字符',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 其它附件
+        $data_fields = ['icon', 'big_images'];
+        $attachment = ResourcesService::AttachmentParams($params, $data_fields);
+        if($attachment['code'] != 0)
+        {
+            return $attachment;
+        }
+
+        // 数据
+        $data = [
+            'name'                  => $params['name'],
+            'pid'                   => isset($params['pid']) ? intval($params['pid']) : 0,
+            'vice_name'             => isset($params['vice_name']) ? $params['vice_name'] : '',
+            'describe'              => isset($params['describe']) ? $params['describe'] : '',
+            'bg_color'              => isset($params['bg_color']) ? $params['bg_color'] : '',
+            'is_home_recommended'   => isset($params['is_home_recommended']) ? intval($params['is_home_recommended']) : 0,
+            'sort'                  => isset($params['sort']) ? intval($params['sort']) : 0,
+            'icon'                  => $attachment['data']['icon'],
+            'big_images'            => $attachment['data']['big_images'],
+        ];
+
+        // 添加
+        if(empty($params['id']))
+        {
+            $data['add_time'] = time();
+            if(db('GoodsCategory')->insertGetId($data) > 0)
+            {
+                return DataReturn('添加成功', 0);
+            }
+            return DataReturn('添加失败', -100);
+        } else {
+            $data['upd_time'] = time();
+            if(db('GoodsCategory')->where(['id'=>intval($params['id'])])->update($data))
+            {
+                return DataReturn('编辑成功', 0);
+            }
+            return DataReturn('编辑失败', -100);
+        }
     }
 }
 ?>

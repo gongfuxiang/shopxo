@@ -131,6 +131,9 @@ class Goods extends Common
 		// 参数
 		$this->assign('params', $params);
 
+		// 编辑器文件存放地址
+		$this->assign('editor_path_type', 'goods');
+
 		return $this->fetch();
 	}
 

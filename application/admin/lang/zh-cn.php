@@ -300,5 +300,20 @@ return array(
 
     'goods_video_text'                  => '短视频',
     'goods_video_tips'                  => '视频比图文更有具带入感，仅支持 mp4 格式',
+
+
+    // 商品分类
+    'goods_category_add_name'               => '分类添加',
+    'goods_category_edit_name'              => '分类编辑',
+
+    'goods_category_big_images_text'        => '大图片',
+
+    'goods_category_vice_name_text'         => '副名称',
+    'goods_category_vice_name_format'       => '副名称最大60个字符',
+
+    'goods_category_describe_text'          => '描述',
+    'goods_category_describe_format'        => '描述最大200个字符',
+
+    'goods_category_home_recommended_text'  => '首页推荐',
 );
 ?>

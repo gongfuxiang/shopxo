@@ -95,11 +95,11 @@ class SearchService
         }
         if(!empty($params['min_price']))
         {
-            $where[] = ['g.price', 'EGT', $params['min_price']];
+            $where[] = ['g.min_price', 'EGT', $params['min_price']];
         }
         if(!empty($params['max_price']))
         {
-            $where[] = ['g.price', 'LT', $params['max_price']];
+            $where[] = ['g.min_price', 'LT', $params['max_price']];
         }
 
         // 获取商品总数
