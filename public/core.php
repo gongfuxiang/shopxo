@@ -32,11 +32,11 @@ $request_url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 define('__MY_VIEW_URL__', substr(__MY_URL__, 0, -1).$request_url);
 
 // 检测是否是新安装
-if(is_dir("./install") && !file_exists("./install/install.lock"))
-{
-    $url = __MY_URL__.'install/index.php';
-    exit(header('location:'.$url));
-}
+// if(is_dir("./install") && !file_exists("./install/install.lock"))
+// {
+//     $url = __MY_URL__.'install/index.php';
+//     exit(header('location:'.$url));
+// }
 
 // 开启调试模式 建议开发阶段开启 部署阶段注释或者设为false
 define('APP_DEBUG', true);
