@@ -7,24 +7,24 @@
 		<form class="am-form view-list" action="{{:url('Admin/Answer/Index')}}" method="POST">
 			<div class="am-g">
 				<input type="text" class="am-radius form-keyword" placeholder="{{:lang('answer_so_keyword_tips')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
-				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">{{:lang('common_operation_query')}}</button>
+				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
-					{{:lang('common_more_screening')}}
+					更多筛选
 					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($param['is_more']) and $param['is_more'] eq 1)}}checked{{/if}} />
 					<i class="am-icon-angle-down"></i>
 				</label>
 
 				<div class="more-where {{if !isset($param['is_more']) or $param['is_more'] neq 1)}}none{{/if}}">
 					<select name="is_show" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="-1)}}{{:lang('common_view_is_show_title')}}</option>
+						<option value="-1)}}是否显示</option>
 						<foreach name="common_is_show_list" item="v">
 							<option value="{{$v.id}}" {{if isset($param['is_show']) and $param['is_show'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
 					</select>
 					<div class="param-date param-where m-l-5)}}
-						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_start_name')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
+						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
 						<span>~</span>
-						<input type="text" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_end_name')}}" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
+						<input type="text" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
 					</div>
 				</div>
 			</div>
@@ -38,11 +38,11 @@
 					<th class="am-hide-sm-only">{{:lang('answer_user_name')}}</th>
 					<th class="am-hide-sm-only">{{:lang('answer_contact_name')}}</th>
 					<th style="width: 25%;">{{:lang('answer_content_name')}}</th>
-					<th>{{:lang('common_view_is_show_title')}}</th>
+					<th>是否显示</th>
 					<th class="am-hide-sm-only">{{:lang('answer_reply_name')}}</th>
-					<th class="am-hide-sm-only">{{:lang('common_create_time_name')}}</th>
-					<th>{{:lang('common_more_name')}}</th>
-					<th>{{:lang('common_operation_name')}}</th>
+					<th class="am-hide-sm-only">创建时间</th>
+					<th>更多</th>
+					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -74,11 +74,11 @@
 							<td class="am-hide-sm-only">{{$v.reply}}</td>
 							<td class="am-hide-sm-only">{{$v.add_time}}</td>
 							<td>
-								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> {{:lang('common_see_more_name')}}</span>
+								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
 								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
 									<div class="am-popup-inner">
 										<div class="am-popup-hd">
-											<h4 class="am-popup-title">{{:lang('common_detail_content')}}</h4>
+											<h4 class="am-popup-title">详情内容</h4>
 											<span data-am-modal-close
 											class="am-close">&times;</span>
 										</div>
@@ -108,16 +108,16 @@
 												<dt>{{:lang('answer_content_name')}}</dt>
 												<dd>{{$v.content}}</dd>
 
-												<dt>{{:lang('common_view_is_show_title')}}</dt>
-												<dd>{{if empty($v['is_show_text'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.is_show_text}}{{/if}}</dd>
+												<dt>是否显示</dt>
+												<dd>{{if empty($v['is_show_text'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.is_show_text}}{{/if}}</dd>
 
 												<dt>{{:lang('answer_reply_name')}}</dt>
-												<dd>{{if empty($v['reply'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.reply}}{{/if}}</dd>
+												<dd>{{if empty($v['reply'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.reply}}{{/if}}</dd>
 
-												<dt>{{:lang('common_create_time_name')}}</dt>
+												<dt>创建时间</dt>
 												<dd>{{$v.add_time}}</dd>
 
-												<dt>{{:lang('common_upd_time_name')}}</dt>
+												<dt>更新时间</dt>
 												<dd>{{$v.upd_time}}</dd>
 											</dl>
 										</div>
@@ -126,14 +126,14 @@
 							</td>
 							<td class="view-operation">
 								{{if $v['is_reply'] eq 0)}}
-									<button class="am-btn am-btn-default am-btn-xs am-radius submit-reply am-icon-gavel" data-am-modal="{target: '#my-popup-reply'}" data-json='{{:json_encode($v)}}'> {{:lang('common_operation_reply')}}</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius submit-reply am-icon-gavel" data-am-modal="{target: '#my-popup-reply'}" data-json='{{:json_encode($v)}}'> 回复</button>
 								{{/if}}
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/Answer/Delete')}}" data-id="{{$v.id}}"> {{:lang('common_operation_delete')}}</button>
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/Answer/Delete')}}" data-id="{{$v.id}}"> 删除</button>
 							</td>
 						</tr>
 					{{/foreach}}
 				{{else /}}
-					<tr><td colspan="20" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+					<tr><td colspan="20" class="table-no">没有相关数据</td></tr>
 				{{/if}}
 			</tbody>
 		</table>
@@ -143,7 +143,7 @@
 		<div class="am-popup am-radius" id="my-popup-reply">
 			<div class="am-popup-inner">
 				<div class="am-popup-hd">
-					<h4 class="am-popup-title">{{:lang('common_operation_reply')}}</h4>
+					<h4 class="am-popup-title">回复</h4>
 					<span data-am-modal-close class="am-close">&times;</span>
 				</div>
 				<div class="am-popup-bd">
@@ -162,7 +162,7 @@
 
 						<div class="am-form-group reply-submit t-c">
 							<input type="hidden" name="id" value="" />
-							<button type="submit" class="am-btn am-btn-success am-radius am-btn-sm" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}" data-status="0">{{:lang('common_operation_reply')}}</button>
+							<button type="submit" class="am-btn am-btn-success am-radius am-btn-sm" data-am-loading="{loadingText:'处理中...'}" data-status="0">回复</button>
 						</div>
 					</form>
 				</div>

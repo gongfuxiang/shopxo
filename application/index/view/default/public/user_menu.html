@@ -35,7 +35,7 @@
 <div class="am-popup common-cropper-popup" id="user-avatar-popup">
     <div class="am-popup-inner">
         <div class="am-popup-hd meila-radius">
-            <h4 class="am-popup-title">{{:lang('common_avatar_upload_title')}}</h4>
+            <h4 class="am-popup-title">头像上传</h4>
             <span data-am-modal-close class="am-close">&times;</span>
         </div>
         <div class="am-popup-bd">
@@ -58,13 +58,13 @@
                     <button type="button" class="am-btn am-btn-default am-fl am-icon-search-plus am-icon-sm am-btn-xs am-radius" data-method="zoom" data-option="0.1"></button>
                     <div class="am-form-group am-form-file am-fl">
                         <button type="button" class="am-btn am-btn-default am-btn-sm cropper-input-images-submit">
-                        <i class="am-icon-cloud-upload"></i> {{:lang('common_select_images_text')}}</button>
-                        <input type="file" name="file" multiple accept="image/gif,image/jpeg,image/jpg,image/png" data-validation-message="{{:lang('common_select_images_tips')}}" required  />
+                        <i class="am-icon-cloud-upload"></i> 选择图片</button>
+                        <input type="file" name="file" multiple accept="image/gif,image/jpeg,image/jpg,image/png" data-validation-message="请选择需要上传的图片" required  />
                     </div>
                     <button type="button" class="am-btn am-btn-default am-fl am-icon-search-minus am-icon-sm am-btn-xs am-radius" data-method="zoom" data-option="-0.1"></button>
                 </div>
 
-                <button type="submit" class="am-btn am-btn-primary am-btn-sm am-radius head-submit btn-loading-example" data-am-loading="{loadingText: '{{:lang('common_upload_loading_tips')}}'}">{{:lang('common_operation_confirm')}}</button>
+                <button type="submit" class="am-btn am-btn-primary am-btn-sm am-radius head-submit btn-loading-example" data-am-loading="{loadingText: '上传中...'}">确认</button>
             </form>
             <div class="am-alert am-alert-secondary" data-am-alert>
               <p>请在工作区域放大缩小及移动选取框，选择要裁剪的范围，裁切宽高比例固定；</p>

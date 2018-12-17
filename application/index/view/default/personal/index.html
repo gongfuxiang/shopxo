@@ -24,7 +24,7 @@
         <div class="user-content-body">
 			<legend>
 				<span class="legend-title">{{:lang('personal_save_nav_title_text')}}</span>
-				<a href="{{:url('index/personal/saveinfo')}}" class="am-fr"> {{:lang('common_operation_edit')}}</a>
+				<a href="{{:url('index/personal/saveinfo')}}" class="am-fr"> 编辑</a>
 			</legend>
 			<dl class="dl-content">
 				{{foreach $personal_show_list as $k=>$v}}
@@ -32,7 +32,7 @@
 						<dt>{{$v.name}}</dt>
 						<dd>
 							{{if empty($user[$k])}}
-								<span class="items-value-empty">{{:lang('common_on_fill_in_the_text')}}</span>
+								<span class="items-value-empty">未填写</span>
 							{{elseif $k eq 'avatar' /}}
                                 <img src="{{$user[$k]}}" width="50" height="50" />
                             {{else /}}

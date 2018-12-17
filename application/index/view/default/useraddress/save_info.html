@@ -21,7 +21,7 @@
                 <input type="hidden" name="lat" id="form-lat" {{if !empty($data)}} value="{{$data.lat}}"{{/if}} />
                 <input type="text" name="address" id="form-address" placeholder="{{:lang('useraddress_address_text')}}" minlength="2" maxlength="80" data-validation-message="{{:lang('useraddress_address_format')}}" class="am-radius" {{if !empty($data)}} value="{{$data.address}}"{{/if}} required />
                 <span class="am-input-group-btn">
-                    <button class="am-btn am-btn-default am-radius" type="button" id="map-location-submit"><span class="am-icon-map-marker"></span> {{:lang('common_location_submit')}}</button>
+                    <button class="am-btn am-btn-default am-radius" type="button" id="map-location-submit"><span class="am-icon-map-marker"></span> 定位</button>
                 </span>
             </div>
         </div>
@@ -32,13 +32,13 @@
             <input type="text" name="alias" placeholder="{{:lang('useraddress_alias_text')}}" minlength="0" maxlength="16" data-validation-message="{{:lang('useraddress_alias_format')}}" class="am-radius" {{if !empty($data)}} value="{{$data.alias}}"{{/if}} />
         </div>
         <div class="am-form-group">
-            <label class="block">{{:lang('common_view_default_title')}}</label>
-            <input name="is_default" value="1" type="checkbox" data-off-text="{{:lang('common_operation_off_is_text')}}" data-on-text="{{:lang('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="49" data-am-switch {{if isset($data['is_default']) and $data['is_default'] eq 1}}checked="true"{{/if}} />
+            <label class="block">是否默认</label>
+            <input name="is_default" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="49" data-am-switch {{if isset($data['is_default']) and $data['is_default'] eq 1}}checked="true"{{/if}} />
         </div>
 
         <div class="am-form-group">
             <input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
-            <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+            <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
         </div>
     </form>
     <!-- form end -->

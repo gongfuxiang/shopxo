@@ -14,9 +14,9 @@
         <form class="am-form view-list" action="{{:url('Admin/AlipayLife/Index')}}" method="POST">
             <div class="am-g">
                 <input type="text" class="am-radius form-keyword" placeholder="{{:lang('alipay_life_name_text')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
-                <button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">{{:lang('common_operation_query')}}</button>
+                <button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
                 <label class="fs-12 m-l-5 c-p fw-100 more-submit">
-                    {{:lang('common_more_screening')}}
+                    更多筛选
                     <input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($param['is_more']) and $param['is_more'] eq 1)}}checked{{/if}} />
                     <i class="am-icon-angle-down"></i>
                 </label>
@@ -35,9 +35,9 @@
                         {{/foreach}}
                     </select>
                     <div class="param-date param-where m-l-5)}}
-                        <input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_start_name')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
+                        <input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
                         <span>~</span>
-                        <input type="text" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_end_name')}}" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
+                        <input type="text" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
                     </div>
                 </div>
             </div>
@@ -46,7 +46,7 @@
 
         <!-- operation start -->
         <div class="am-g m-t-15)}}
-            <a href="{{:url('Admin/AlipayLife/SaveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:lang('common_operation_add')}}</a>
+            <a href="{{:url('Admin/AlipayLife/SaveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
         </div>
         <!-- operation end -->
 
@@ -59,8 +59,8 @@
                     <th>{{:lang('alipay_life_appid_text')}}</th>
                     <th class="am-hide-sm-only category-row">{{:lang('alipay_life_category_id_text')}}</th>
                     <th>{{:lang('alipay_life_is_shelves_text')}}</th>
-                    <th class="am-hide-sm-only">{{:lang('common_create_time_name')}}</th>
-                    <th>{{:lang('common_operation_name')}}</th>
+                    <th class="am-hide-sm-only">创建时间</th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -74,7 +74,7 @@
                                         <img src="{{$v['logo']}}" class="am-radius" width="100" />
                                     </a>
                                 {{else /}}
-                                    <span class="cr-ddd">{{:lang('common_on_fill_in_images')}}</span>
+                                    <span class="cr-ddd">暂无图片</span>
                                 {{/if}}
                             </td>
                             <td>{{$v.appid}}</td>
@@ -85,14 +85,14 @@
                             <td class="am-hide-sm-only">{{$v.add_time_text}}</td>
                             <td class="view-operation">
                                 <a href="{{:url('Admin/AlipayLife/SaveInfo', array('id'=>$v['id']))}}">
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:lang('common_operation_edit')}}</button>
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> 编辑</button>
                                 </a>
-                                <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/AlipayLife/Delete')}}" data-id="{{$v.id}}"> {{:lang('common_operation_delete')}}</button>
+                                <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/AlipayLife/Delete')}}" data-id="{{$v.id}}"> 删除</button>
                             </td>
                         </tr>
                     {{/foreach}}
                 {{else /}}
-                    <tr><td colspan="7" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+                    <tr><td colspan="7" class="table-no">没有相关数据</td></tr>
                 {{/if}}
             </tbody>
         </table>

@@ -5,7 +5,7 @@
 	<div class="content">
 		<!-- operation start -->
         <div class="am-g">
-            <button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-ajax" data-url="{{:url('Admin/AppMiniAlipayList/Created')}}" data-view="reload" data-msg="{{:lang('appmini_alipaylist_created_msg')}}"> {{:lang('common_operation_created')}}</button>
+            <button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-ajax" data-url="{{:url('Admin/AppMiniAlipayList/Created')}}" data-view="reload" data-msg="{{:lang('appmini_alipaylist_created_msg')}}"> 生成</button>
         </div>
         <!-- operation end -->
 
@@ -15,8 +15,8 @@
 				<tr>
 					<th>{{:lang('appmini_alipaylist_name_text')}}</th>
 					<th>{{:lang('appmini_alipaylist_size_text')}}</th>
-					<th>{{:lang('common_create_time_name')}}</th>
-					<th>{{:lang('common_operation_name')}}</th>
+					<th>创建时间</th>
+					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -29,16 +29,16 @@
 							<td class="view-operation">
 								<notempty name="v.url">
 									<a href="{{$v.url}}">
-										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-download"> {{:lang('common_operation_download')}}</button>
+										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-download"> 下载</button>
 									</a>
 								{{/if}}
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/AppMiniAlipayList/Delete')}}" data-id="{{$v.name}}" data-view="reload"> {{:lang('common_operation_delete')}}</button>
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/AppMiniAlipayList/Delete')}}" data-id="{{$v.name}}" data-view="reload"> 删除</button>
 							</td>
 						</tr>
 					{{/foreach}}
 				{{/if}}
 				<empty name="data">
-					<tr><td colspan="20" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+					<tr><td colspan="20" class="table-no">没有相关数据</td></tr>
 				{{/if}}
 			</tbody>
 		</table>

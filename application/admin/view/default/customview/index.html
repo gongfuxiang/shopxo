@@ -7,36 +7,36 @@
 		<form class="am-form view-list" action="{{:url('Admin/CustomView/Index')}}" method="POST">
 			<div class="am-g">
 				<input type="text" class="am-radius form-keyword" placeholder="{{:lang('customview_so_keyword_tips')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
-				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">{{:lang('common_operation_query')}}</button>
+				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
-					{{:lang('common_more_screening')}}
+					更多筛选
 					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($param['is_more']) and $param['is_more'] eq 1)}}checked{{/if}} />
 					<i class="am-icon-angle-down"></i>
 				</label>
 
 				<div class="more-where {{if !isset($param['is_more']) or $param['is_more'] neq 1)}}none{{/if}}">
 					<select name="is_header" class="am-radius c-p m-t-10 param-where">
-						<option value="-1)}}{{:lang('common_view_is_header_text')}}</option>
+						<option value="-1)}}是否含头部</option>
 						<foreach name="common_is_header_list" item="v">
 							<option value="{{$v.id}}" {{if isset($param['is_header']) and $param['is_header'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
 					</select>
 					<select name="is_footer" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="-1)}}{{:lang('common_view_is_footer_text')}}</option>
+						<option value="-1)}}是否含尾部</option>
 						<foreach name="common_is_footer_list" item="v">
 							<option value="{{$v.id}}" {{if isset($param['is_footer']) and $param['is_footer'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
 					</select>
 					<select name="is_enable" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="-1)}}{{:lang('common_view_enable_title')}}</option>
+						<option value="-1)}}是否启用</option>
 						<foreach name="common_is_enable_list" item="v">
 							<option value="{{$v.id}}" {{if isset($param['is_enable']) and $param['is_enable'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
 					</select>
 					<div class="param-date param-where m-l-5)}}
-						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_start_name')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
+						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
 						<span>~</span>
-						<input type="text" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_end_name')}}" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
+						<input type="text" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
 					</div>
 				</div>
 			</div>
@@ -45,7 +45,7 @@
 
 		<!-- operation start -->
 		<div class="am-g m-t-15)}}
-			<a href="{{:url('Admin/CustomView/SaveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:lang('common_operation_add')}}</a>
+			<a href="{{:url('Admin/CustomView/SaveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
 		</div>
 		<!-- operation end -->
 
@@ -54,13 +54,13 @@
 			<thead>
 				<tr>
 					<th>{{:lang('customview_title_text')}}</th>
-					<th>{{:lang('common_view_status_title')}}</th>
-					<th class="am-hide-sm-only">{{:lang('common_view_is_header_text')}}</th>
-					<th class="am-hide-sm-only">{{:lang('common_view_is_footer_text')}}</th>
-					<th class="am-hide-sm-only">{{:lang('common_view_is_full_screen_text')}}</th>
-					<th class="am-hide-sm-only">{{:lang('common_view_access_count_text')}}</th>
-					<th>{{:lang('common_more_name')}}</th>
-					<th>{{:lang('common_operation_name')}}</th>
+					<th>状态</th>
+					<th class="am-hide-sm-only">是否含头部</th>
+					<th class="am-hide-sm-only">是否含尾部</th>
+					<th class="am-hide-sm-only">是否满屏</th>
+					<th class="am-hide-sm-only">访问次数</th>
+					<th>更多</th>
+					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -84,11 +84,11 @@
 							</td>
 							<td class="am-hide-sm-only">{{$v.access_count}}</td>
 							<td>
-								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> {{:lang('common_see_more_name')}}</span>
+								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
 								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
 									<div class="am-popup-inner">
 										<div class="am-popup-hd">
-											<h4 class="am-popup-title">{{:lang('common_detail_content')}}</h4>
+											<h4 class="am-popup-title">详情内容</h4>
 											<span data-am-modal-close
 											class="am-close">&times;</span>
 										</div>
@@ -97,25 +97,25 @@
 												<dt>{{:lang('customview_title_text')}}</dt>
 												<dd>{{$v.title}}</dd>
 
-												<dt>{{:lang('common_view_enable_title')}}</dt>
+												<dt>是否启用</dt>
 												<dd>{{$v.is_enable_text}}</dd>
 
-												<dt>{{:lang('common_view_is_header_text')}}</dt>
+												<dt>是否含头部</dt>
 												<dd>{{:lang('common_is_header_list')[$v['is_header']]['name']}}</dd>
 
-												<dt>{{:lang('common_view_is_footer_text')}}</dt>
+												<dt>是否含尾部</dt>
 												<dd>{{:lang('common_is_footer_list')[$v['is_footer']]['name']}}</dd>
 
-												<dt>{{:lang('common_view_is_full_screen_text')}}</dt>
+												<dt>是否满屏</dt>
 												<dd>{{:lang('common_is_full_screen_list')[$v['is_full_screen']]['name']}}</dd>
 
-												<dt>{{:lang('common_view_access_count_text')}}</dt>
+												<dt>访问次数</dt>
 												<dd>{{$v.access_count}}</dd>
 
-												<dt>{{:lang('common_create_time_name')}}</dt>
+												<dt>创建时间</dt>
 												<dd>{{$v.add_time}}</dd>
 
-												<dt>{{:lang('common_upd_time_name')}}</dt>
+												<dt>更新时间</dt>
 												<dd>{{$v.upd_time}}</dd>
 											</dl>
 										</div>
@@ -131,7 +131,7 @@
 						</tr>
 					{{/foreach}}
 				{{else /}}
-					<tr><td colspan="10" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+					<tr><td colspan="10" class="table-no">没有相关数据</td></tr>
 				{{/if}}
 			</tbody>
 		</table>

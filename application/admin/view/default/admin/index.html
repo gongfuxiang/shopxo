@@ -7,9 +7,9 @@
 		<form class="am-form view-list" action="{{:url('admin/admin/index')}}" method="POST">
 			<div class="am-g">
 				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="{{:lang('login_username_text')}}" name="username" {{if !empty($params['username'])}} value="{{$params.username}}"{{/if}} />
-				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">{{:lang('common_operation_query')}}</button>
+				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
-					{{:lang('common_more_screening')}}
+					更多筛选
 					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($params['is_more']) and $params['is_more'] eq 1}}checked{{/if}} />
 					<i class="am-icon-angle-down"></i>
 				</label>
@@ -22,7 +22,7 @@
 						{{/foreach}}
 					</select>
 					<select name="gender" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="-1">{{:lang('common_view_gender_name')}}</option>
+						<option value="-1">性别</option>
 						{{foreach $common_gender_list as $v}}
 							<option value="{{$v.id}}" {{if isset($params['gender']) and $params['gender'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
@@ -35,7 +35,7 @@
 
 		<!-- operation start -->
 		<div class="am-g m-t-15">
-			<a href="{{:url('admin/admin/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:lang('common_operation_add')}}</a>
+			<a href="{{:url('admin/admin/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
 		</div>
 		<!-- operation end -->
 
@@ -43,14 +43,14 @@
 		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
 			<thead>
 				<tr>
-					<th>{{:lang('common_admin_name')}}</th>
-					<th>{{:lang('common_view_gender_name')}}</th>
+					<th>管理员</th>
+					<th>性别</th>
 					<th>{{:lang('login_total_name')}}</th>
-					<th>{{:lang('common_mobile_name')}}</th>
+					<th>手机号码</th>
 					<th class="am-hide-sm-only">{{:lang('admin_view_role_name')}}</th>
 					<th class="am-hide-sm-only">{{:lang('login_last_time_name')}}</th>
-					<th class="am-hide-sm-only">{{:lang('common_create_time_name')}}</th>
-					<th>{{:lang('common_operation_name')}}</th>
+					<th class="am-hide-sm-only">创建时间</th>
+					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -60,11 +60,11 @@
 							<td>{{$v.username}}</td>
 							<td>{{:lang('common_gender_list')[$v['gender']]['name']}}</td>
 							<td>{{$v.login_total}}</td>
-							<td>{{if empty($v['mobile'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.mobile}}{{/if}}</td>
+							<td>{{if empty($v['mobile'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.mobile}}{{/if}}</td>
 							<td class="am-hide-sm-only">{{$v.role_name}}</td>
 							<td class="am-hide-sm-only">
 								{{if $v['login_total'] eq 0}}
-									{{:lang('common_not_login_name')}}
+									未登录
 								{{else /}}
 									{{:date('Y-m-d H:i:s', $v['login_time'])}}
 								{{/if}}
@@ -72,20 +72,20 @@
 							<td class="am-hide-sm-only">{{:date('Y-m-d H:i:s', $v['add_time'])}}</td>
 							<td>
 								{{if $v['id'] eq 1}}
-									<span class="cr-ccc">{{:lang('common_do_not_operate')}}</span>
+									<span class="cr-ccc">不可操作</span>
 								{{else /}}
 									<a href="{{:url('admin/admin/saveinfo', array('id'=>$v['id']))}}">
-										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit" > {{:lang('common_operation_edit')}}</button>
+										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit" > 编辑</button>
 									</a>
 									{{if $v['id'] neq $admin['id']}}
-										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/admin/delete')}}" data-id="{{$v.id}}"> {{:lang('common_operation_delete')}}</button>
+										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/admin/delete')}}" data-id="{{$v.id}}"> 删除</button>
 									{{/if}}
 								{{/if}}
 							</td>
 						</tr>
 					{{/foreach}}
 				{{else /}}
-					<tr><td colspan="5" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+					<tr><td colspan="5" class="table-no">没有相关数据</td></tr>
 				{{/if}}
 			</tbody>
 		</table>

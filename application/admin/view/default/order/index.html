@@ -8,36 +8,36 @@
 			<div class="am-g">
 				<input type="hidden" name="organization_id" <present name="param['organization_id']"> value="{{$param.organization_id}}"{{/if}} />
 				<input type="text" class="am-radius form-keyword" placeholder="{{:lang('order_so_keyword_tips')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
-				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">{{:lang('common_operation_query')}}</button>
+				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
-					{{:lang('common_more_screening')}}
+					更多筛选
 					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($param['is_more']) and $param['is_more'] eq 1)}}checked{{/if}} />
 					<i class="am-icon-angle-down"></i>
 				</label>
 
 				<div class="more-where {{if !isset($param['is_more']) or $param['is_more'] neq 1)}}none{{/if}}">
 					<select name="status" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="-1)}}{{:lang('common_order_status_name')}}</option>
+						<option value="-1)}}订单状态</option>
 						<foreach name="common_order_admin_status" item="v">
 							<option value="{{$v.id}}" {{if isset($param['status']) and $param['status'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
 					</select>
 					<select name="express_id" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="-1)}}{{:lang('common_express_name')}}</option>
+						<option value="-1)}}快递公司</option>
 						<foreach name="express_list" item="v">
 							<option value="{{$v.id}}" {{if isset($param['express_id']) and $param['express_id'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
 					</select>
 					<select name="pay_status" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="-1)}}{{:lang('common_pay_status_name')}}</option>
+						<option value="-1)}}支付状态</option>
 						<foreach name="common_order_pay_status" item="v">
 							<option value="{{$v.id}}" {{if isset($param['pay_status']) and $param['pay_status'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
 					</select>
 					<div class="param-date param-where m-l-5)}}
-						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_start_name')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
+						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
 						<span>~</span>
-						<input type="text" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_end_name')}}" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
+						<input type="text" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
 					</div>
 				</div>
 			</div>
@@ -51,10 +51,10 @@
 					<th class="am-hide-sm-only th-goods">{{:lang('order_base_text')}}</th>
 					<th class="am-hide-sm-only th-receive-address">{{:lang('order_receive_text')}}</th>
 					<th class="am-hide-sm-only">{{:lang('order_express_text')}}</th>
-					<th>{{:lang('common_order_status_name')}}</th>
+					<th>订单状态</th>
 					<th>{{:lang('order_price_th_text')}}</th>
-					<th>{{:lang('common_more_name')}}</th>
-					<th>{{:lang('common_operation_name')}}</th>
+					<th>更多</th>
+					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -95,7 +95,7 @@
 							</td>
 							<td class="am-hide-sm-only">
 								{{if empty($v['express_name'])}}
-									<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>
+									<span class="cr-ddd">未填写</span>
 								{{else /}}
 									{{$v.express_name}}<br />{{$v.express_number}}
 								{{/if}}
@@ -121,17 +121,17 @@
 								{{:lang('order_pay_price_text')}}：{{$v.pay_price}}
 							</td>
 							<td>
-								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> {{:lang('common_see_more_name')}}</span>
+								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
 								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
 									<div class="am-popup-inner">
 										<div class="am-popup-hd">
-											<h4 class="am-popup-title">{{:lang('common_detail_content')}}</h4>
+											<h4 class="am-popup-title">详情内容</h4>
 											<span data-am-modal-close class="am-close">&times;</span>
 										</div>
 										<div class="am-popup-bd">
 											<dl class="dl-content">
 												<dt>{{:lang('order_order_no_text')}}</dt>
-												<dd>{{if empty($v['order_no'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.order_no}}{{/if}}</dd>
+												<dd>{{if empty($v['order_no'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.order_no}}{{/if}}</dd>
 
 												<dt>{{:lang('order_base_text')}}</dt>
 												<dd>
@@ -155,7 +155,7 @@
 												<dt>{{:lang('order_receive_text')}}</dt>
 												<dd>
 													{{if empty($v['receive_address'])}}
-														<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>
+														<span class="cr-ddd">未填写</span>
 													{{else /}}
 														{{$v.receive_name}}<br />
 														{{$v.receive_tel}}<br />
@@ -167,24 +167,24 @@
 												</dd>
 
 												<dt>{{:lang('order_express_text')}}</dt>
-												<dd>{{if empty($v['express_name'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.express_name}}<br />{{$v.express_number}}{{/if}}</dd>
+												<dd>{{if empty($v['express_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.express_name}}<br />{{$v.express_number}}{{/if}}</dd>
 
-												<dt>{{:lang('common_pay_status_name')}}</dt>
-												<dd>{{if empty($v['pay_status_text'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.pay_status_text}}{{/if}}</dd>
+												<dt>支付状态</dt>
+												<dd>{{if empty($v['pay_status_text'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.pay_status_text}}{{/if}}</dd>
 
-												<dt>{{:lang('common_order_status_name')}}</dt>
-												<dd>{{if empty($v['status_text'])}}<span class="cr-ddd">{{:lang('common_not_set_text')}}</span>{{else /}}{{$v.status_text}}{{/if}}</dd>
+												<dt>订单状态</dt>
+												<dd>{{if empty($v['status_text'])}}<span class="cr-ddd">未设置</span>{{else /}}{{$v.status_text}}{{/if}}</dd>
 
 												<dt>{{:lang('order_payment_name_text')}}</dt>
-												<dd>{{if empty($v['payment_name'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.payment_name}}{{/if}}</dd>
+												<dd>{{if empty($v['payment_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.payment_name}}{{/if}}</dd>
 
 												<dt>{{:lang('order_user_note_text')}}</dt>
-												<dd>{{if empty($v['user_note'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.user_note}}{{/if}}</dd>
+												<dd>{{if empty($v['user_note'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.user_note}}{{/if}}</dd>
 
 												<dt>{{:lang('order_price_th_text')}}</dt>
 												<dd>
 													{{if empty($v['price'])}}
-														<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>
+														<span class="cr-ddd">未填写</span>
 													{{else /}}
 														{{:lang('order_price_text')}}：{{$v.price}}<br />
 														{{:lang('order_preferential_price_text')}}：{{$v.preferential_price}}<br />
@@ -194,24 +194,24 @@
 												</dd>
 
 												<dt>{{:lang('order_confirm_time_text')}}</dt>
-												<dd>{{if empty($v['confirm_time'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.confirm_time}}{{/if}}</dd>
+												<dd>{{if empty($v['confirm_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.confirm_time}}{{/if}}</dd>
 
 												<dt>{{:lang('order_pay_time_text')}}</dt>
-												<dd>{{if empty($v['pay_time'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.pay_time}}{{/if}}</dd>
+												<dd>{{if empty($v['pay_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.pay_time}}{{/if}}</dd>
 
 												<dt>{{:lang('order_delivery_time_text')}}</dt>
-												<dd>{{if empty($v['delivery_time'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.delivery_time}}{{/if}}</dd>
+												<dd>{{if empty($v['delivery_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.delivery_time}}{{/if}}</dd>
 
 												<dt>{{:lang('order_success_time_text')}}</dt>
-												<dd>{{if empty($v['success_time'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.success_time}}{{/if}}</dd>
+												<dd>{{if empty($v['success_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.success_time}}{{/if}}</dd>
 
 												<dt>{{:lang('order_cancel_time_text')}}</dt>
-												<dd>{{if empty($v['cancel_time'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.cancel_time}}{{/if}}</dd>
+												<dd>{{if empty($v['cancel_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.cancel_time}}{{/if}}</dd>
 
-												<dt>{{:lang('common_create_time_name')}}</dt>
+												<dt>创建时间</dt>
 												<dd>{{$v.add_time}}</dd>
 
-												<dt>{{:lang('common_upd_time_name')}}</dt>
+												<dt>更新时间</dt>
 												<dd>{{$v.upd_time}}</dd>
 											</dl>
 										</div>
@@ -220,28 +220,28 @@
 							</td>
 							<td class="view-operation">
 								{{if in_array($v['status'], [0])}}
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:url('Admin/Order/Confirm')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:lang('common_collect_tips')}}"> {{:lang('common_operation_confirm')}}</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:url('Admin/Order/Confirm')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！"> 确认</button>
 								{{/if}}
 								{{if in_array($v['status'], [0,1])}}
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax" data-url="{{:url('Admin/Order/Cancel')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:lang('common_cancel_tips')}}"> {{:lang('common_operation_cancel')}}</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax" data-url="{{:url('Admin/Order/Cancel')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="取消后无法恢复，确定继续吗？"> 取消</button>
 									{{if in_array($v['status'], [1])}}
-                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paypal am-btn-block submit-pay" data-id="{{$v.id}}" data-payment-id="{{$v.payment_id}}" data-am-modal="{target: '#order-pay-popup'}"> {{:lang('common_operation_pay')}}</button>
+                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paypal am-btn-block submit-pay" data-id="{{$v.id}}" data-payment-id="{{$v.payment_id}}" data-am-modal="{target: '#order-pay-popup'}"> 支付</button>
                                     {{/if}}
 								{{/if}}
 								{{if $v['status'] eq 2)}}
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o am-btn-block submit-delivery" data-url="{{:url('Admin/Order/Delivery')}}" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-express-id="{{$v.express_id}}" data-am-modal="{target: '#order-delivery-popup'}"> {{:lang('common_delivery_submit')}}</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o am-btn-block submit-delivery" data-url="{{:url('Admin/Order/Delivery')}}" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-express-id="{{$v.express_id}}" data-am-modal="{target: '#order-delivery-popup'}"> 发货</button>
 								{{/if}}
 								{{if $v['status'] eq 3)}}
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:url('Admin/Order/Collect')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="{{:lang('common_collect_tips')}}"> {{:lang('common_collect_submit')}}</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:url('Admin/Order/Collect')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！"> 收货</button>
 								{{/if}}
 								{{if in_array($v['status'], [5,6])}}
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o am-btn-block submit-ajax" data-url="{{:url('Admin/Order/Delete')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="delete" data-msg="{{:lang('common_delete_tips')}}"> {{:lang('common_operation_delete')}}</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o am-btn-block submit-ajax" data-url="{{:url('Admin/Order/Delete')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="delete" data-msg="删除后无法恢复，确定继续吗？"> 删除</button>
 								{{/if}}
 							</td>
 						</tr>
 					{{/foreach}}
 				{{else /}}
-					<tr><td colspan="20" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+					<tr><td colspan="20" class="table-no">没有相关数据</td></tr>
 				{{/if}}
 			</tbody>
 		</table>
@@ -287,7 +287,7 @@
 	                        <input type="hidden" name="id" value="0" />
 	                        <input type="hidden" name="express_id" value="0" />
 	                        <input type="hidden" name="user_id" value="0" />
-	                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_confirm')}}</button>
+	                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>
 	                    </div>
 	                </form>
 	            </div>
@@ -326,7 +326,7 @@
                         <div class="am-form-group">
                             <input type="hidden" name="id" value="0" />
                             <input type="hidden" name="payment_id" value="0" />
-                            <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_confirm')}}</button>
+                            <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>
                         </div>
                     </form>
                 </div>

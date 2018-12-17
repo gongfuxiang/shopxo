@@ -7,24 +7,24 @@
         <form class="am-form view-list" action="{{:url('Admin/Slide/Index')}}" method="POST">
             <div class="am-g">
                 <input type="text" class="am-radius form-keyword" placeholder="{{:lang('slide_name_text')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
-                <button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">{{:lang('common_operation_query')}}</button>
+                <button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
                 <label class="fs-12 m-l-5 c-p fw-100 more-submit">
-                    {{:lang('common_more_screening')}}
+                    更多筛选
                     <input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($param['is_more']) and $param['is_more'] eq 1)}}checked{{/if}} />
                     <i class="am-icon-angle-down"></i>
                 </label>
 
                 <div class="more-where {{if !isset($param['is_more']) or $param['is_more'] neq 1)}}none{{/if}}">
                     <select name="is_enable" class="am-radius c-p m-t-10 m-l-5 param-where">
-                        <option value="-1)}}{{:lang('common_view_enable_title')}}</option>
+                        <option value="-1)}}是否启用</option>
                         <foreach name="common_is_enable_list" item="v">
                             <option value="{{$v.id}}" {{if isset($param['is_enable']) and $param['is_enable'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
                         {{/foreach}}
                     </select>
                     <div class="param-date param-where m-l-5)}}
-                        <input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_start_name')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
+                        <input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
                         <span>~</span>
-                        <input type="text" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_end_name')}}" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
+                        <input type="text" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
 
         <!-- operation start -->
         <div class="am-g m-t-15)}}
-            <a href="{{:url('Admin/Slide/SaveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:lang('common_operation_add')}}</a>
+            <a href="{{:url('Admin/Slide/SaveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
         </div>
         <!-- operation end -->
 
@@ -43,10 +43,10 @@
                 <tr>
                     <th>{{:lang('slide_name_text')}}</th>
                     <th>{{:lang('slide_images_url_text')}}</th>
-                    <th>{{:lang('common_jump_url_text')}}</th>
-                    <th>{{:lang('common_view_enable_title')}}</th>
-                    <th>{{:lang('common_create_time_name')}}</th>
-                    <th>{{:lang('common_operation_name')}}</th>
+                    <th>跳转地址</th>
+                    <th>是否启用</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -60,7 +60,7 @@
                                         <img src="{{$v['images_url']}}" class="am-radius" width="100" height="60" />
                                     </a>
                                 {{else /}}
-                                    <span class="cr-ddd">{{:lang('common_on_fill_in_images')}}</span>
+                                    <span class="cr-ddd">暂无图片</span>
                                 {{/if}}
                             </td>
                             <td>{{$v.jump_url}}</td>
@@ -70,16 +70,16 @@
                             <td>{{$v.add_time_text}}</td>
                             <td class="view-operation">
                                 <a href="{{:url('Admin/Slide/SaveInfo', array('id'=>$v['id']))}}">
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:lang('common_operation_edit')}}</button>
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> 编辑</button>
                                 </a>
                                 {{if $v['is_enable'] eq 0)}}
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/Slide/Delete')}}" data-id="{{$v.id}}"> {{:lang('common_operation_delete')}}</button>
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/Slide/Delete')}}" data-id="{{$v.id}}"> 删除</button>
                                 {{/if}}
                             </td>
                         </tr>
                     {{/foreach}}
                 {{else /}}
-                    <tr><td colspan="20" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+                    <tr><td colspan="20" class="table-no">没有相关数据</td></tr>
                 {{/if}}
             </tbody>
         </table>

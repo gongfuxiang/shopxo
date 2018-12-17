@@ -5,7 +5,7 @@
 	<div class="content">
         <!-- operation start -->
         <div class="am-g">
-            <a href="{{:url('admin/power/rolesaveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:lang('common_operation_add')}}</a>
+            <a href="{{:url('admin/power/rolesaveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
         </div>
         <!-- operation end -->
 
@@ -13,10 +13,10 @@
 		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 role-list">
 			<thead>
 				<tr>
-					<th>{{:lang('common_view_name_title')}}</th>
-					<th>{{:lang('common_view_status_title')}}</th>
-					<th class="am-hide-sm-only">{{:lang('common_create_time_name')}}</th>
-					<th>{{:lang('common_operation_name')}}</th>
+					<th>名称</th>
+					<th>状态</th>
+					<th class="am-hide-sm-only">创建时间</th>
+					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -30,18 +30,18 @@
 							<td class="am-hide-sm-only">{{:date('Y-m-d H:i:s', $v['add_time'])}}</td>
 							<td>
 								{{if $v['id'] eq 1}}
-									<span class="cr-ccc">{{:lang('common_do_not_operate')}}</span>
+									<span class="cr-ccc">不可操作</span>
 								{{else /}}
 									<a href="{{:url('admin/power/rolesaveinfo', array('id'=>$v['id']))}}">
-										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:lang('common_operation_edit')}}</button>
+										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> 编辑</button>
 									</a>
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/power/roledelete')}}" data-id="{{$v.id}}"> {{:lang('common_operation_delete')}}</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/power/roledelete')}}" data-id="{{$v.id}}"> 删除</button>
 								{{/if}}
 							</td>
 						</tr>
 					{{/foreach}}
 				{{else /}}
-					<tr><td colspan="5" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+					<tr><td colspan="5" class="table-no">没有相关数据</td></tr>
 				{{/if}}
 			</tbody>
 		</table>

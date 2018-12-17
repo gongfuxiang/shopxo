@@ -5,7 +5,7 @@
     <div class="content">
         <!-- operation start -->
         <div class="am-g">
-            <a href="javascript:;" class="am-btn am-btn-secondary am-btn-xs m-l-10 am-icon-cloud-upload am-radius" data-am-modal="{target: '#payment-upload-win'}"> {{:lang('common_operation_upload')}}</a>
+            <a href="javascript:;" class="am-btn am-btn-secondary am-btn-xs m-l-10 am-icon-cloud-upload am-radius" data-am-modal="{target: '#payment-upload-win'}"> 上传</a>
         </div>
         <!-- operation end -->
 
@@ -19,9 +19,9 @@
                     <th>{{:lang('payment_apply_terminal_text')}}</th>
                     <th class="am-hide-sm-only">{{:lang('payment_author_text')}}</th>
                     <th class="am-hide-sm-only th-desc">{{:lang('payment_desc_text')}}</th>
-                    <th>{{:lang('common_view_enable_title')}}</th>
+                    <th>是否启用</th>
                     <th>{{:lang('payment_is_open_user_text')}}</th>
-                    <th>{{:lang('common_operation_name')}}</th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,11 +40,11 @@
                                         <img src="{{$v['logo']}}" class="am-radius" width="100" />
                                     </a>
                                 {{else /}}
-                                    <span class="cr-ddd">{{:lang('common_on_fill_in_images')}}</span>
+                                    <span class="cr-ddd">暂无图片</span>
                                 {{/if}}
                             </td>
                             <td class="am-hide-sm-only">
-                                {{if empty($v['apply_version'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.apply_version}}{{/if}}
+                                {{if empty($v['apply_version'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.apply_version}}{{/if}}
                             </td>
                             <td>
                                 {{if !empty($v['apply_terminal'])}}
@@ -53,12 +53,12 @@
                                         {{if $terminal_k LT count($v['apply_terminal'])-1)}}<br />{{/if}}
                                     {{/foreach}}
                                 {{else /}}
-                                    <span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>
+                                    <span class="cr-ddd">未填写</span>
                                 {{/if}}
                             </td>
                             <td class="am-hide-sm-only">
                                 {{if empty($v['author'])}}
-                                    <span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>
+                                    <span class="cr-ddd">未填写</span>
                                 {{else /}}
                                     {{$v.author}}
                                     {{if !empty($v['author_url'])}}
@@ -69,41 +69,41 @@
                                 {{/if}}
                             </td>
                             <td class="am-hide-sm-only td-desc">
-                                {{if empty($v['desc'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.desc}}{{/if}}
+                                {{if empty($v['desc'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.desc}}{{/if}}
                             </td>
                             <td>
                                 {{if $v['is_install'] eq 1)}}
                                     <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1)}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('Admin/Payment/StatusUpdate')}}" data-id="{{$v.payment}}" data-field="is_enable" data-state="{{$v['is_enable']}}" data-is-update-status="1)}}</a>
                                 {{else /}}
-                                    <span class="cr-ddd">{{:lang('common_not_install_text')}}</span>
+                                    <span class="cr-ddd">未安装</span>
                                 {{/if}}
                             </td>
                             <td>
                                 {{if $v['is_install'] eq 1)}}
                                     <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_open_user'] eq 1)}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('Admin/Payment/StatusUpdate')}}" data-id="{{$v.payment}}" data-field="is_open_user" data-state="{{$v['is_open_user']}}"></a>
                                 {{else /}}
-                                    <span class="cr-ddd">{{:lang('common_not_install_text')}}</span>
+                                    <span class="cr-ddd">未安装</span>
                                 {{/if}}
                             </td>
                             <td class="view-operation">
                                 {{if $v['is_install'] eq 0)}}
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-cubes submit-ajax" data-url="{{:url('Admin/Payment/Install')}}" data-id="{{$v.payment}}" data-view="reload" data-msg="{{:lang('common_install_msg')}}"> {{:lang('common_operation_install')}}</button>
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-cubes submit-ajax" data-url="{{:url('Admin/Payment/Install')}}" data-id="{{$v.payment}}" data-view="reload" data-msg="安装进行中、确认操作吗？"> 安装</button>
 
                                     {{if !in_array($v['payment'], $cannot_deleted_list)}}
-                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/Payment/Delete')}}" data-id="{{$v.payment}}"> {{:lang('common_operation_delete')}}</button>
+                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/Payment/Delete')}}" data-id="{{$v.payment}}"> 删除</button>
                                     {{/if}}
                                 {{else /}}
                                     <a href="{{:url('Admin/Payment/SaveInfo', array('id'=>$v['id']))}}">
-                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:lang('common_operation_edit')}}</button>
+                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> 编辑</button>
                                     </a>
 
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-genderless submit-ajax" data-url="{{:url('Admin/Payment/Uninstall')}}" data-id="{{$v.payment}}" data-view="reload" data-msg="{{:lang('common_uninstall_msg')}}"> {{:lang('common_operation_uninstall')}}</button>
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-genderless submit-ajax" data-url="{{:url('Admin/Payment/Uninstall')}}" data-id="{{$v.payment}}" data-view="reload" data-msg="卸载后不可恢复、确认操作吗？"> 卸载</button>
                                 {{/if}}
                             </td>
                         </tr>
                     {{/foreach}}
                 {{else /}}
-                    <tr><td colspan="20" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+                    <tr><td colspan="20" class="table-no">没有相关数据</td></tr>
                 {{/if}}
             </tbody>
         </table>
@@ -113,7 +113,7 @@
         <div class="am-popup am-radius" id="payment-upload-win">
             <div class="am-popup-inner">
                 <div class="am-popup-hd">
-                    <h4 class="am-popup-title">{{:lang('common_operation_upload')}}</h4>
+                    <h4 class="am-popup-title">上传</h4>
                     <span data-am-modal-close class="am-close">&times;</span>
                 </div>
                 <div class="am-popup-bd">
@@ -125,12 +125,12 @@
                             <p class="cr-red">{{:lang('payment_upload_ps')}}</p>
                         </div>
                         <div class="am-form-group am-form-file">
-                            <button type="button" class="am-btn am-btn-default am-btn-sm am-radius"><i class="am-icon-cloud-upload"></i> {{:lang('common_select_file_text')}}</button>
-                            <input type="file" name="file" class="file-event" data-tips-tag="#form-payment-tips" multiple data-validation-message="{{:lang('common_select_file_tips')}}" accept=".php" required />
+                            <button type="button" class="am-btn am-btn-default am-btn-sm am-radius"><i class="am-icon-cloud-upload"></i> 选择文件</button>
+                            <input type="file" name="file" class="file-event" data-tips-tag="#form-payment-tips" multiple data-validation-message="请选择需要上传的文件" accept=".php" required />
                             <div id="form-payment-tips"></div>
                         </div>
                         <div class="am-form-group">
-                            <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_confirm')}}</button>
+                            <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">确认</button>
                         </div>
                     </form>
                     <!-- win form end -->

@@ -8,7 +8,7 @@
 			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
 			<legend>
 				<span class="fs-16)}}{{:lang('payment_edit_name')}}</span>
-				<a href="{{:url('Admin/Payment/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
+				<a href="{{:url('Admin/Payment/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
 				<label>{{:lang('payment_name_text')}}</label>
@@ -16,7 +16,7 @@
 			</div>
 			<div class="am-form-group">
 				<label>{{:lang('payment_apply_terminal_text')}}</label>
-			    <select name="apply_terminal" class="am-radius c-p chosen-select" multiple="multiple" minchecked="1" data-placeholder="{{:lang('common_select_can_choose')}}" data-validation-message="{{:lang('payment_apply_terminal_format')}}" required>
+			    <select name="apply_terminal" class="am-radius c-p chosen-select" multiple="multiple" minchecked="1" data-placeholder="可选择..." data-validation-message="{{:lang('payment_apply_terminal_format')}}" required>
 					<foreach name="common_platform_type" item="v">
 						<option value="{{$v.value}}" {{if isset($data['apply_terminal']) and in_array($v['value'], $data['apply_terminal'])}}selected{{/if}}>{{$v.name}}</option>
 					{{/foreach}}
@@ -26,9 +26,9 @@
 			<div class="am-form-group am-form-file">
 				<label class="block">{{:lang('payment_logo_text')}}</label>
 				<button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
-				<i class="am-icon-cloud-upload"></i> {{:lang('common_select_images_text')}}</button>
-				<input type="text" name="logo" class="am-radius js-choice-one original-images-url" data-choice-one-to=".images-file-event" <notempty name="data"> value="{{$data.logo}}"{{/if}}" data-validation-message="{{:lang('common_select_images_tips')}}" readonly="readonly" <notempty name="data"> value="{{$data.logo}}"{{/if}} />
-				<input type="file" name="file_logo" multiple data-validation-message="{{:lang('common_select_images_tips')}}" accept="image/gif,image/jpeg,image/jpg,image/png" class="js-choice-one images-file-event" data-choice-one-to=".original-images-url" data-tips-tag="#form-logo-tips" data-image-tag="#form-img-logo" />
+				<i class="am-icon-cloud-upload"></i> 选择图片</button>
+				<input type="text" name="logo" class="am-radius js-choice-one original-images-url" data-choice-one-to=".images-file-event" <notempty name="data"> value="{{$data.logo}}"{{/if}}" data-validation-message="请选择需要上传的图片" readonly="readonly" <notempty name="data"> value="{{$data.logo}}"{{/if}} />
+				<input type="file" name="file_logo" multiple data-validation-message="请选择需要上传的图片" accept="image/gif,image/jpeg,image/jpg,image/png" class="js-choice-one images-file-event" data-choice-one-to=".original-images-url" data-tips-tag="#form-logo-tips" data-image-tag="#form-img-logo" />
 				<div id="form-logo-tips" class="m-t-5)}}</div>
 				<img src="{{if !empty($data['logo'])}}{{$image_host}}{{$data.logo}}{{else /}}{{$image_host}}/Public/Admin/Default/Images/default-images.png{{/if}}" id="form-img-logo" class="block m-t-5 am-img-thumbnail am-radius" width="100" data-default="{{if !empty($data['logo'])}}{{$image_host}}{{$data.logo}}{{else /}}{{$image_host}}/Public/Admin/Default/Images/default-images.png{{/if}}" />
 			</div>
@@ -75,7 +75,7 @@
 											class="chosen-select am-radius"
 											name="plugins_{{$element.name}}"
 											{{if isset($element['message'])}}data-validation-message="{{$element.message}}"{{/if}}
-											{{if isset($element['placeholder'])}}data-placeholder="{{$element.placeholder}}"{{else /}}{{:lang('common_select_can_choose')}}{{/if}}
+											{{if isset($element['placeholder'])}}data-placeholder="{{$element.placeholder}}"{{else /}}可选择...{{/if}}
 											{{if isset($element['is_multiple']) and $element['is_multiple'] eq 1)}}
 												multiple
 												{{if isset($element['minchecked'])}}minchecked="{{$element.minchecked}}"{{/if}}
@@ -84,7 +84,7 @@
 											{{if isset($element['is_required']) and $element['is_required'] eq 1)}}required{{/if}}
 										>
 										{{if !isset($element['is_multiple']) or $element['is_multiple'] neq 1)}}
-											<option value="">{{if isset($element['placeholder'])}}{{$element.placeholder}}{{else /}}{{:lang('common_select_can_choose')}}{{/if}}</option>
+											<option value="">{{if isset($element['placeholder'])}}{{$element.placeholder}}{{else /}}可选择...{{/if}}</option>
 										{{/if}}
 											<foreach name="element.element_data" key="element_data_key" item="element_data">
 												<option
@@ -116,22 +116,22 @@
 			<!-- plugins config end -->
 
 			<div class="am-form-group">
-				<label>{{:lang('common_view_sort_title')}}</label>
-				<input type="number" placeholder="{{:lang('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:lang('common_sort_error')}}" class="am-radius" value="{{if isset($data['sort'])}}{{$data.sort}}{{else /}}0{{/if}}" required />
+				<label>顺序</label>
+				<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="{{if isset($data['sort'])}}{{$data.sort}}{{else /}}0{{/if}}" required />
 			</div>
 
 			<div class="am-form-group">
 			    <label class="block">{{:lang('payment_is_open_user_text')}}</label>
-			    <input name="is_open_user" value="1" type="checkbox" data-off-text="{{:lang('common_operation_off_is_text')}}" data-on-text="{{:lang('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_open_user']) and $data['is_open_user'] eq 1) or !isset($data['is_open_user'])}}checked="true"{{/if}} />
+			    <input name="is_open_user" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_open_user']) and $data['is_open_user'] eq 1) or !isset($data['is_open_user'])}}checked="true"{{/if}} />
 			</div>
 
 			<div class="am-form-group">
-			    <label class="block">{{:lang('common_view_enable_title')}}</label>
-			    <input name="is_enable" value="1" type="checkbox" data-off-text="{{:lang('common_operation_off_is_text')}}" data-on-text="{{:lang('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />
+			    <label class="block">是否启用</label>
+			    <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />
 			</div>
 			<div class="am-form-group">
 				<input type="hidden" name="id" <notempty name="data"> value="{{$data.id}}"{{/if}} />
-				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
 			</div>
 		</form>
         <!-- form end -->

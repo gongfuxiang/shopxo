@@ -7,9 +7,9 @@
 		<form class="am-form view-list" action="{{:url('Admin/Article/Index')}}" method="POST">
 			<div class="am-g">
 				<input type="text" class="am-radius form-keyword" placeholder="{{:lang('article_so_keyword_tips')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
-				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">{{:lang('common_operation_query')}}</button>
+				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
-					{{:lang('common_more_screening')}}
+					更多筛选
 					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($param['is_more']) and $param['is_more'] eq 1)}}checked{{/if}} />
 					<i class="am-icon-angle-down"></i>
 				</label>
@@ -22,7 +22,7 @@
 						{{/foreach}}
 					</select>
 					<select name="is_enable" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="-1)}}{{:lang('common_view_enable_title')}}</option>
+						<option value="-1)}}是否启用</option>
 						<foreach name="common_is_enable_list" item="v">
 							<option value="{{$v.id}}" {{if isset($param['is_enable']) and $param['is_enable'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
@@ -34,9 +34,9 @@
 						{{/foreach}}
 					</select>
 					<div class="param-date param-where m-l-5)}}
-						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_start_name')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
+						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
 						<span>~</span>
-						<input type="text" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_end_name')}}" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
+						<input type="text" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
 					</div>
 				</div>
 			</div>
@@ -45,7 +45,7 @@
 
         <!-- operation start -->
         <div class="am-g m-t-15)}}
-            <a href="{{:url('Admin/Article/SaveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:lang('common_operation_add')}}</a>
+            <a href="{{:url('Admin/Article/SaveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
         </div>
         <!-- operation end -->
 
@@ -55,11 +55,11 @@
 				<tr>
 					<th>{{:lang('article_title_text')}}</th>
 					<th class="am-hide-sm-only">{{:lang('article_category_text')}}</th>
-					<th class="am-hide-sm-only">{{:lang('common_view_access_count_text')}}</th>
-					<th>{{:lang('common_view_status_title')}}</th>
+					<th class="am-hide-sm-only">访问次数</th>
+					<th>状态</th>
 					<th>{{:lang('article_home_recommended_text')}}</th>
-					<th>{{:lang('common_more_name')}}</th>
-					<th>{{:lang('common_operation_name')}}</th>
+					<th>更多</th>
+					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -78,11 +78,11 @@
 								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_home_recommended'] eq 1)}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('Admin/Article/StatusHomeRecommended')}}" data-id="{{$v.id}}" data-state="{{$v['is_home_recommended']}}"></a>
 							</td>
 							<td>
-								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> {{:lang('common_see_more_name')}}</span>
+								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
 								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
 									<div class="am-popup-inner">
 										<div class="am-popup-hd">
-											<h4 class="am-popup-title">{{:lang('common_detail_content')}}</h4>
+											<h4 class="am-popup-title">详情内容</h4>
 											<span data-am-modal-close
 											class="am-close">&times;</span>
 										</div>
@@ -94,16 +94,16 @@
 												<dt>{{:lang('article_category_text')}}</dt>
 												<dd>{{$v.article_category_name}}</dd>
 
-												<dt>{{:lang('common_view_access_count_text')}}</dt>
+												<dt>访问次数</dt>
 												<dd>{{$v.access_count}}</dd>
 
-												<dt>{{:lang('common_view_enable_title')}}</dt>
+												<dt>是否启用</dt>
 												<dd>{{$v.is_enable_text}}</dd>
 
-												<dt>{{:lang('common_create_time_name')}}</dt>
+												<dt>创建时间</dt>
 												<dd>{{$v.add_time}}</dd>
 
-												<dt>{{:lang('common_upd_time_name')}}</dt>
+												<dt>更新时间</dt>
 												<dd>{{$v.upd_time}}</dd>
 											</dl>
 										</div>
@@ -119,7 +119,7 @@
 						</tr>
 					{{/foreach}}
 				{{else /}}
-					<tr><td colspan="10" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+					<tr><td colspan="10" class="table-no">没有相关数据</td></tr>
 				{{/if}}
 			</tbody>
 		</table>

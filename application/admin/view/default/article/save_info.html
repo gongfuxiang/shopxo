@@ -13,7 +13,7 @@
 						{{:lang('article_edit_name')}}
 					{{/if}}
 				</span>
-				<a href="{{:url('Admin/Article/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
+				<a href="{{:url('Admin/Article/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
 				<label>{{:lang('article_title_text')}}</label>
@@ -29,8 +29,8 @@
 			</div>
 			<div class="am-form-group">
 				<label>{{:lang('article_category_text')}}</label>
-				<select name="article_category_id" class="am-radius c-p chosen-select" data-placeholder="{{:lang('common_select_can_choose')}}" data-validation-message="{{:lang('article_category_format')}}" required>
-					<option value="">{{:lang('common_select_can_choose')}}</option>
+				<select name="article_category_id" class="am-radius c-p chosen-select" data-placeholder="可选择..." data-validation-message="{{:lang('article_category_format')}}" required>
+					<option value="">可选择...</option>
 					<foreach name="article_category_list" item="v">
 						<option value="{{$v.id}}" {{if isset($data['article_category_id']) and $data['article_category_id'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
 					{{/foreach}}
@@ -41,12 +41,12 @@
 				<input type="url" name="jump_url" placeholder="{{:lang('article_jump_url_text')}}" data-validation-message="{{:lang('article_jump_url_format')}}" class="am-radius" <notempty name="data"> value="{{$data.jump_url}}"{{/if}} />
 			</div>
 			<div class="am-form-group">
-			    <label class="block">{{:lang('common_view_enable_title')}}</label>
-			    <input name="is_enable" value="1" type="checkbox" data-off-text="{{:lang('common_operation_off_is_text')}}" data-on-text="{{:lang('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if !empty($data) and $data['is_enable'] eq 1)}}checked="true"{{/if}} />
+			    <label class="block">是否启用</label>
+			    <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if !empty($data) and $data['is_enable'] eq 1)}}checked="true"{{/if}} />
 			</div>
 			<div class="am-form-group">
 			    <label class="block">{{:lang('article_home_recommended_text')}}</label>
-			    <input name="is_home_recommended" value="1" type="checkbox" data-off-text="{{:lang('common_operation_off_is_text')}}" data-on-text="{{:lang('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if !empty($data) and $data['is_home_recommended'] eq 1)}}checked="true"{{/if}} />
+			    <input name="is_home_recommended" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if !empty($data) and $data['is_home_recommended'] eq 1)}}checked="true"{{/if}} />
 			</div>
 			<div class="am-form-group">
 				<label>{{:lang('article_content_text')}}</label>
@@ -54,7 +54,7 @@
 			</div>
 			<div class="am-form-group">
 				<input type="hidden" name="id" <notempty name="data"> value="{{$data.id}}"{{/if}}" />
-				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
 			</div>
 		</form>
         <!-- form end -->

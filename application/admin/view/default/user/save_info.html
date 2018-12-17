@@ -13,7 +13,7 @@
 						{{:lang('user_edit_name')}}
 					{{/if}}
 				</span>
-				<a href="{{:url('admin/user/index', $params)}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
+				<a href="{{:url('admin/user/index', $params)}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
 				<label>{{:lang('user_username_name')}}</label>
@@ -25,25 +25,25 @@
 			</div>
 
 			<div class="am-form-group">
-				<label>{{:lang('common_mobile_name')}}</label>
-				<input type="text" name="mobile" class="am-radius" placeholder="{{:lang('common_mobile_name')}}" pattern="{{:lang('common_regex_mobile')}}" data-validation-message="{{:lang('common_mobile_format_error')}}" {{if !empty($data)}} value="{{$data.mobile}}"{{/if}} />
+				<label>手机号码</label>
+				<input type="text" name="mobile" class="am-radius" placeholder="手机号码" pattern="{{:lang('common_regex_mobile')}}" data-validation-message="手机号码格式错误" {{if !empty($data)}} value="{{$data.mobile}}"{{/if}} />
 			</div>
 			<div class="am-form-group">
-				<label>{{:lang('common_email_name')}}</label>
-				<input type="email" name="email" class="am-radius" placeholder="{{:lang('common_email_name')}}" data-validation-message="{{:lang('common_email_format_error')}}" {{if !empty($data)}} value="{{$data.email}}"{{/if}} />
+				<label>电子邮箱</label>
+				<input type="email" name="email" class="am-radius" placeholder="电子邮箱" data-validation-message="电子邮箱格式错误" {{if !empty($data)}} value="{{$data.email}}"{{/if}} />
 			</div>
 			<div class="am-form-group">
 				<label>{{:lang('user_birthday_name')}}</label>
 				<input type="text" name="birthday" class="am-radius Wdate" placeholder="{{:lang('user_birthday_name')}}" pattern="{{:lang('common_regex_date')}}" data-validation-message="{{:lang('user_birthday_format')}}" {{if !empty($data)}} value="{{$data.birthday_text}}" {{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" />
 			</div>
 			<div class="am-form-group">
-				<label>{{:lang('common_address_text')}}</label>
-				<input type="text" placeholder="{{:lang('common_address_text')}}" name="address" data-validation-message="{{:lang('common_address_format')}}" class="am-radius" {{if !empty($data)}} value="{{$data.address}}"{{/if}} />
+				<label>详细地址</label>
+				<input type="text" placeholder="详细地址" name="address" data-validation-message="详细地址2~60 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.address}}"{{/if}} />
 			</div>
 			{{include file="lib/gender" /}}
 			<div class="am-form-group">
 				<label>{{:lang('user_integral_name')}}</label>
-				<input type="number" placeholder="{{:lang('user_integral_name')}}" name="integral" data-validation-message="{{:lang('common_address_format')}}" class="am-radius" {{if !empty($data)}} value="{{$data.integral}}"{{/if}} />
+				<input type="number" placeholder="{{:lang('user_integral_name')}}" name="integral" data-validation-message="详细地址2~60 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.integral}}"{{/if}} />
 			</div>
 
 			<div class="am-form-group">
@@ -53,7 +53,7 @@
 
 			<div class="am-form-group">
 				<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
-				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
 			</div>
 		</form>
         <!-- form end -->

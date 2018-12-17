@@ -7,9 +7,9 @@
 		<form class="am-form view-list" action="{{:url('admin/goods/index')}}" method="POST">
 			<div class="am-g">
 				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="{{:lang('goods_so_keyword_tips')}}" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
-				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">{{:lang('common_operation_query')}}</button>
+				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
-					{{:lang('common_more_screening')}}
+					更多筛选
 					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($params['is_more']) and $params['is_more'] eq 1}}checked{{/if}} />
 					<i class="am-icon-angle-down"></i>
 				</label>
@@ -28,9 +28,9 @@
 						{{/foreach}}
 					</select>
 					<div class="param-date param-where m-l-5">
-						<input type="text" autocomplete="off" name="time_start" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_start_name')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_start'])}}value="{{$params.time_start}}"{{/if}}/>
+						<input type="text" autocomplete="off" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_start'])}}value="{{$params.time_start}}"{{/if}}/>
 						<span>~</span>
-						<input type="text" autocomplete="off" class="Wdate am-radius m-t-10" placeholder="{{:lang('common_time_end_name')}}" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_end'])}}value="{{$params.time_end}}"{{/if}}/>
+						<input type="text" autocomplete="off" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_end'])}}value="{{$params.time_end}}"{{/if}}/>
 					</div>
 				</div>
 			</div>
@@ -39,7 +39,7 @@
 
         <!-- operation start -->
         <div class="am-g m-t-15">
-            <a href="{{:url('admin/goods/saveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:lang('common_operation_add')}}</a>
+            <a href="{{:url('admin/goods/saveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
         </div>
         <!-- operation end -->
 
@@ -54,8 +54,8 @@
 					<th class="am-hide-sm-only">{{:lang('goods_inventory_text')}}</th>
 					<th class="am-hide-sm-only">{{:lang('goods_model_text')}}</th>
 					<th class="am-hide-sm-only">{{:lang('goods_brand_id_text')}}</th>
-					<th>{{:lang('common_more_name')}}</th>
-					<th>{{:lang('common_operation_name')}}</th>
+					<th>更多</th>
+					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -84,11 +84,11 @@
 							<td class="am-hide-sm-only">{{$v.model}}</td>
 							<td class="am-hide-sm-only">{{$v.brand_name}}</td>
 							<td>
-								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> {{:lang('common_see_more_name')}}</span>
+								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
 								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
 									<div class="am-popup-inner">
 										<div class="am-popup-hd">
-											<h4 class="am-popup-title">{{:lang('common_detail_content')}}</h4>
+											<h4 class="am-popup-title">详情内容</h4>
 											<span data-am-modal-close
 											class="am-close">&times;</span>
 										</div>
@@ -115,7 +115,7 @@
 												<dd>{{$v.buy_min_number}} {{$v.inventory_unit}}</dd>
 
 												<dt>{{:lang('goods_buy_max_number_text')}}</dt>
-												<dd>{{if $v['buy_max_number'] eq 0}}<span class="cr-ddd">{{:lang('common_unlimited_text')}}</span>{{else /}}{{$v.buy_max_number}} {{$v.inventory_unit}}{{/if}}</dd>
+												<dd>{{if $v['buy_max_number'] eq 0}}<span class="cr-ddd">不限</span>{{else /}}{{$v.buy_max_number}} {{$v.inventory_unit}}{{/if}}</dd>
 
 												<dt>{{:lang('goods_model_text')}}</dt>
 												<dd>{{$v.model}}</dd>
@@ -135,13 +135,13 @@
 												<dt>{{:lang('goods_is_deduction_inventory_text')}}</dt>
 												<dd>{{:lang('common_is_text_list')[$v['is_deduction_inventory']]['name']}}</dd>
 
-												<dt>{{:lang('common_view_access_count_text')}}</dt>
+												<dt>访问次数</dt>
 												<dd>{{$v.access_count}}</dd>
 
-												<dt>{{:lang('common_create_time_name')}}</dt>
+												<dt>创建时间</dt>
 												<dd>{{$v.add_time}}</dd>
 
-												<dt>{{:lang('common_upd_time_name')}}</dt>
+												<dt>更新时间</dt>
 												<dd>{{$v.upd_time}}</dd>
 											</dl>
 										</div>
@@ -157,7 +157,7 @@
 						</tr>
 					{{/foreach}}
 				{{else /}}
-					<tr><td colspan="10" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+					<tr><td colspan="10" class="table-no">没有相关数据</td></tr>
 				{{/if}}
 			</tbody>
 		</table>

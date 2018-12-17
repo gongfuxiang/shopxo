@@ -5,7 +5,7 @@
 	<div class="content">
         <!-- operation start -->
         <div class="am-g">
-            <button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus tree-submit-add" data-am-modal="{target: '#data-save-win'}"> {{:lang('common_operation_add')}}</button>
+            <button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus tree-submit-add" data-am-modal="{target: '#data-save-win'}"> 新增</button>
         </div>
         <!-- operation end -->
 
@@ -20,17 +20,17 @@
 					<!-- form start -->
 					<form class="am-form form-validation admin-save" action="{{:url('Admin/ArticleCategory/Save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
-							<label>{{:lang('common_name_text')}}</label>
-							<input type="text" placeholder="{{:lang('common_name_text')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:lang('common_name_format')}}" class="am-radius" required />
+							<label>名称</label>
+							<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
 						</div>
 						<div class="am-form-group">
-							<label>{{:lang('common_view_sort_title')}}</label>
-							<input type="number" placeholder="{{:lang('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:lang('common_sort_error')}}" class="am-radius" value="0" required />
+							<label>顺序</label>
+							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
 						</div>
 						<include file="Lib/Enable" />
 						<div class="am-form-group">
 							<input type="hidden" name="id" />
-							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
 						</div>
 					</form>
 					<!-- form end -->
@@ -43,7 +43,7 @@
 		<div id="tree" class="m-t-15)}}
 			<div class="m-t-30 t-c">
 				<img src="__PUBLIC__/Common/Images/loading.gif" />
-				<p>{{:lang('common_form_loading_tips')}}</p>
+				<p>处理中...</p>
 			</div>
 		</div>
 		<!-- list end -->

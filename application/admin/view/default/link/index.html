@@ -5,7 +5,7 @@
 	<div class="content">
 		<!-- operation start -->
 		<div class="am-g">
-			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#data-save-win'}"> {{:lang('common_operation_add')}}</button>
+			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#data-save-win'}"> 新增</button>
 		</div>
 		<!-- operation end -->
 
@@ -28,8 +28,8 @@
 							<input type="url" placeholder="{{:lang('link_url_text')}}" name="url"  data-validation-message="{{:lang('link_url_format')}}" class="am-radius" required />
 						</div>
 						<div class="am-form-group">
-							<label>{{:lang('common_view_sort_title')}}</label>
-							<input type="number" placeholder="{{:lang('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:lang('common_sort_error')}}" class="am-radius" value="0" required />
+							<label>顺序</label>
+							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
 						</div>
 						<include file="Lib/IsNewWindowOpen" />
 						<include file="Lib/Enable" />
@@ -39,7 +39,7 @@
 						</div>
 						<div class="am-form-group">
 							<input type="hidden" name="id" />
-							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
 						</div>
 					</form>
 					<!-- form end -->
@@ -54,8 +54,8 @@
 				<tr>
 					<th>{{:lang('link_name_text')}}</th>
 					<th class="am-hide-sm-only">{{:lang('link_describe_text')}}</th>
-					<th>{{:lang('common_view_status_title')}}</th>
-					<th>{{:lang('common_operation_name')}}</th>
+					<th>状态</th>
+					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -78,7 +78,7 @@
 						</tr>
 					{{/foreach}}
 				{{else /}}
-					<tr><td colspan="5" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+					<tr><td colspan="5" class="table-no">没有相关数据</td></tr>
 				{{/if}}
 			</tbody>
 		</table>

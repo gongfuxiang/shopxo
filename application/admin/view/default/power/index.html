@@ -5,7 +5,7 @@
 	<div class="content">
 		<!-- operation start -->
 		<div class="am-g">
-			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#power-save-win'}"> {{:lang('common_operation_add')}}</button>
+			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#power-save-win'}"> 新增</button>
 		</div>
 		<!-- operation end -->
 
@@ -22,7 +22,7 @@
 						<div class="am-form-group">
 							<label>{{:lang('power_level_text')}}</label>
 							<select  class="am-radius c-p" name="pid" data-validation-message="{{:lang('power_level_format')}}">
-								<option value="0">{{:lang('common_select_level_one_choice')}}</option>
+								<option value="0">一级栏目...</option>
 								{{foreach $data as $v}}
 									<option value="{{$v.id}}">{{$v.name}}</option>
 								{{/foreach}}
@@ -45,13 +45,13 @@
 							<input type="text" placeholder="{{:lang('power_icon_text')}}" name="icon" maxlength="60" data-validation-message="{{:lang('power_icon_format')}}" class="am-radius" />
 						</div>
 						<div class="am-form-group">
-							<label>{{:lang('common_view_sort_title')}}</label>
-							<input type="number" placeholder="{{:lang('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:lang('common_sort_error')}}" class="am-radius" value="0" required />
+							<label>顺序</label>
+							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
 						</div>
 						<include file="Lib/IsShow" />
 						<div class="am-form-group">
 							<input type="hidden" name="id" />
-							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
 						</div>
 					</form>
 					<!-- form end -->

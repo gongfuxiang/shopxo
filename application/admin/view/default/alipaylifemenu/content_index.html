@@ -6,7 +6,7 @@
         <!-- back nav start -->
         <legend>
             <span class="fs-16)}}{{:lang('alipay_life_menu_content_title')}}</span>
-            <a href="{{:url('Admin/AlipayLifeMenu/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
+            <a href="{{:url('Admin/AlipayLifeMenu/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
         </legend>
         <!-- back nav end -->
 
@@ -19,7 +19,7 @@
 
         <!-- operation start -->
         <div class="am-g">
-            <a href="{{:url('Admin/AlipayLifeMenu/ContentSaveInfo', ['menu_id'=>$params['menu_id']])}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:lang('common_operation_add')}}</a>
+            <a href="{{:url('Admin/AlipayLifeMenu/ContentSaveInfo', ['menu_id'=>$params['menu_id']])}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
         </div>
         <!-- operation end -->
 
@@ -31,8 +31,8 @@
                     <th>{{:lang('alipay_life_menu_action_type_text')}}</th>
                     <th>{{:lang('alipay_life_menu_action_value_text')}}</th>
                     <th class="am-hide-sm-only">{{:lang('alipay_life_menu_icon_text')}}</th>
-                    <th>{{:lang('common_more_name')}}</th>
-                    <th>{{:lang('common_operation_name')}}</th>
+                    <th>更多</th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,13 +40,13 @@
                     <foreach name="list" item="v">
                         <tr id="data-list-{{$v.id}}">
                             <td>
-                                {{if empty($v['name'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.name}}{{/if}}
+                                {{if empty($v['name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.name}}{{/if}}
                             </td>
                             <td>
-                                {{if empty($v['action_type_name'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.action_type_name}}{{/if}}
+                                {{if empty($v['action_type_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.action_type_name}}{{/if}}
                             </td>
                             <td>
-                                {{if empty($v['action_value'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.action_value}}{{/if}}
+                                {{if empty($v['action_value'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.action_value}}{{/if}}
                             </td>
                             <td class="am-hide-sm-only">
                                 {{if !empty($v['icon'])}}
@@ -54,41 +54,41 @@
                                         <img src="{{$v['icon']}}" class="am-radius" width="60" />
                                     </a>
                                 {{else /}}
-                                    <span class="cr-ddd">{{:lang('common_on_fill_in_images')}}</span>
+                                    <span class="cr-ddd">暂无图片</span>
                                 {{/if}}
                             </td>
                             <td>
-                                <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> {{:lang('common_see_more_name')}}</span>
+                                <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
                                 <div class="am-popup am-radius" id="my-popup{{$v.id}}">
                                     <div class="am-popup-inner">
                                         <div class="am-popup-hd">
-                                            <h4 class="am-popup-title">{{:lang('common_detail_content')}}</h4>
+                                            <h4 class="am-popup-title">详情内容</h4>
                                             <span data-am-modal-close class="am-close">&times;</span>
                                         </div>
                                         <div class="am-popup-bd">
                                             <dl class="dl-content">
                                                 <dt>{{:lang('alipay_life_menu_name_text')}}</dt>
-                                                <dd>{{if empty($v['name'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.name}}{{/if}}</dd>
+                                                <dd>{{if empty($v['name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.name}}{{/if}}</dd>
 
                                                 <dt>{{:lang('alipay_life_menu_action_type_text')}}</dt>
-                                                <dd>{{if empty($v['action_type_name'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.action_type_name}}{{/if}}</dd>
+                                                <dd>{{if empty($v['action_type_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.action_type_name}}{{/if}}</dd>
 
                                                 <dt>{{:lang('alipay_life_menu_action_value_text')}}</dt>
-                                                <dd>{{if empty($v['action_value'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.action_value}}{{/if}}</dd>
+                                                <dd>{{if empty($v['action_value'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.action_value}}{{/if}}</dd>
 
                                                 <dt>{{:lang('alipay_life_menu_icon_text')}}</dt>
                                                 <dd>
                                                     {{if !empty($v['icon'])}}
                                                         <img src="{{$v['icon']}}" class="am-img-thumbnail am-radius" width="60" height="60" />
                                                     {{else /}}
-                                                        <span class="cr-ddd">{{:lang('common_on_fill_in_images')}}</span>
+                                                        <span class="cr-ddd">暂无图片</span>
                                                     {{/if}}
                                                 </dd>
 
-                                                <dt>{{:lang('common_create_time_name')}}</dt>
+                                                <dt>创建时间</dt>
                                                 <dd>{{$v.add_time}}</dd>
 
-                                                <dt>{{:lang('common_upd_time_name')}}</dt>
+                                                <dt>更新时间</dt>
                                                 <dd>{{$v.upd_time}}</dd>
                                             </dl>
                                         </div>
@@ -99,10 +99,10 @@
                                 {{if $v['status'] eq 0)}}
                                     {{if in_array($data['status'], [0,4])}}
                                         <a href="{{:url('Admin/AlipayLifeMenu/ContentSaveInfo', array('id'=>$v['id'], 'menu_id'=>$params['menu_id']))}}">
-                                            <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:lang('common_operation_edit')}}</button>
+                                            <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> 编辑</button>
                                         </a>
                                     
-                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/AlipayLifeMenu/ContentDelete')}}" data-id="{{$v.id}}"> {{:lang('common_operation_delete')}}</button>
+                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/AlipayLifeMenu/ContentDelete')}}" data-id="{{$v.id}}"> 删除</button>
                                     {{/if}}
                                 {{/if}}
                             </td>
@@ -111,13 +111,13 @@
                             <foreach name="v.items" item="vs">
                                 <tr id="data-list-{{$vs.id}}">
                                     <td class="p-l-3)}}
-                                        {{if empty($vs['name'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$vs.name}}{{/if}}
+                                        {{if empty($vs['name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$vs.name}}{{/if}}
                                     </td>
                                     <td>
-                                        {{if empty($vs['action_type_name'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$vs.action_type_name}}{{/if}}
+                                        {{if empty($vs['action_type_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$vs.action_type_name}}{{/if}}
                                     </td>
                                     <td>
-                                        {{if empty($vs['action_value'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$vs.action_value}}{{/if}}
+                                        {{if empty($vs['action_value'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$vs.action_value}}{{/if}}
                                     </td>
                                     <td class="am-hide-sm-only">
                                         {{if !empty($vs['icon'])}}
@@ -125,41 +125,41 @@
                                                 <img src="{{$vs['icon']}}" class="am-radius" width="60" />
                                             </a>
                                         {{else /}}
-                                            <span class="cr-ddd">{{:lang('common_on_fill_in_images')}}</span>
+                                            <span class="cr-ddd">暂无图片</span>
                                         {{/if}}
                                     </td>
                                     <td>
-                                        <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$vs.id}}'}"> {{:lang('common_see_more_name')}}</span>
+                                        <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$vs.id}}'}"> 查看更多</span>
                                         <div class="am-popup am-radius" id="my-popup{{$vs.id}}">
                                             <div class="am-popup-inner">
                                                 <div class="am-popup-hd">
-                                                    <h4 class="am-popup-title">{{:lang('common_detail_content')}}</h4>
+                                                    <h4 class="am-popup-title">详情内容</h4>
                                                     <span data-am-modal-close class="am-close">&times;</span>
                                                 </div>
                                                 <div class="am-popup-bd">
                                                     <dl class="dl-content">
                                                         <dt>{{:lang('alipay_life_menu_name_text')}}</dt>
-                                                        <dd>{{if empty($vs['name'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$vs.name}}{{/if}}</dd>
+                                                        <dd>{{if empty($vs['name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$vs.name}}{{/if}}</dd>
 
                                                         <dt>{{:lang('alipay_life_menu_action_type_text')}}</dt>
-                                                        <dd>{{if empty($vs['action_type_name'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$vs.action_type_name}}{{/if}}</dd>
+                                                        <dd>{{if empty($vs['action_type_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$vs.action_type_name}}{{/if}}</dd>
 
                                                         <dt>{{:lang('alipay_life_menu_action_value_text')}}</dt>
-                                                        <dd>{{if empty($vs['action_value'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$vs.action_value}}{{/if}}</dd>
+                                                        <dd>{{if empty($vs['action_value'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$vs.action_value}}{{/if}}</dd>
 
                                                         <dt>{{:lang('alipay_life_menu_icon_text')}}</dt>
                                                         <dd>
                                                             {{if !empty($vs['icon'])}}
                                                                 <img src="{{$vs['icon']}}" class="am-img-thumbnail am-radius" width="60" height="60" />
                                                             {{else /}}
-                                                                <span class="cr-ddd">{{:lang('common_on_fill_in_images')}}</span>
+                                                                <span class="cr-ddd">暂无图片</span>
                                                             {{/if}}
                                                         </dd>
 
-                                                        <dt>{{:lang('common_create_time_name')}}</dt>
+                                                        <dt>创建时间</dt>
                                                         <dd>{{$vs.add_time}}</dd>
 
-                                                        <dt>{{:lang('common_upd_time_name')}}</dt>
+                                                        <dt>更新时间</dt>
                                                         <dd>{{$vs.upd_time}}</dd>
                                                     </dl>
                                                 </div>
@@ -170,10 +170,10 @@
                                         {{if $v['status'] eq 0)}}
                                             {{if in_array($data['status'], [0,4])}}
                                                 <a href="{{:url('Admin/AlipayLifeMenu/ContentSaveInfo', array('id'=>$vs['id'], 'menu_id'=>$params['menu_id']))}}">
-                                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> {{:lang('common_operation_edit')}}</button>
+                                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> 编辑</button>
                                                 </a>
  
-                                                <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/AlipayLifeMenu/ContentDelete')}}" data-id="{{$vs.id}}"> {{:lang('common_operation_delete')}}</button>
+                                                <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/AlipayLifeMenu/ContentDelete')}}" data-id="{{$vs.id}}"> 删除</button>
                                             {{/if}}
                                         {{/if}}
                                     </td>
@@ -182,7 +182,7 @@
                         {{/if}}
                     {{/foreach}}
                 {{else /}}
-                    <tr><td colspan="20" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+                    <tr><td colspan="20" class="table-no">没有相关数据</td></tr>
                 {{/if}}
             </tbody>
         </table>

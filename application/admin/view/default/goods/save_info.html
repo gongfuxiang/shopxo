@@ -14,7 +14,7 @@
 						{{:lang('goods_edit_name')}}
 					{{/if}}
 				</span>
-				<a href="{{:url('admin/goods/index', $params)}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
+				<a href="{{:url('admin/goods/index', $params)}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
 			</legend>
 
 			<nav class="goods-nav">
@@ -62,7 +62,7 @@
 				<div class="am-form-group">
 					<label>{{:lang('goods_category_id_text')}}</label>
 					<br />
-					<select name="category_id" class="am-radius chosen-select c-p" multiple="multiple" minchecked="1" data-placeholder="{{:lang('common_please_select_choose')}}" data-validation-message="{{:lang('goods_category_id_format')}}" required>
+					<select name="category_id" class="am-radius chosen-select c-p" multiple="multiple" minchecked="1" data-placeholder="请选择..." data-validation-message="{{:lang('goods_category_id_format')}}" required>
 						{{if !empty($category_list)}}
 							{{foreach $category_list as $v}}
 								<optgroup label="{{$v.name}}">
@@ -82,9 +82,9 @@
 				<div class="am-form-group">
 					<label>{{:lang('goods_brand_id_text')}}</label>
 					<br />
-					<select name="brand_id" class="am-radius chosen-select c-p" data-placeholder="{{:lang('common_please_select_choose')}}" data-validation-message="{{:lang('goods_category_id_format')}}">
+					<select name="brand_id" class="am-radius chosen-select c-p" data-placeholder="请选择..." data-validation-message="{{:lang('goods_category_id_format')}}">
 						{{if !empty($brand_list)}}
-							<option value="0">{{:lang('common_please_select_choose')}}</option>
+							<option value="0">请选择...</option>
 							{{foreach $brand_list as $v}}
 								<optgroup label="{{$v.name}}">
 									{{if !empty($v['items'])}}
@@ -100,8 +100,8 @@
 				<div class="am-form-group">
 					<label>{{:lang('goods_place_origin_name')}}</label>
 					<br />
-					<select name="place_origin" class="am-radius chosen-select c-p" data-placeholder="{{:lang('common_please_select_choose')}}" data-validation-message="{{:lang('goods_place_origin_format')}}">
-						<option value="0">{{:lang('common_please_select_choose')}}</option>
+					<select name="place_origin" class="am-radius chosen-select c-p" data-placeholder="请选择..." data-validation-message="{{:lang('goods_place_origin_format')}}">
+						<option value="0">请选择...</option>
 						{{if !empty($region_province_list)}}
 							{{foreach $region_province_list as $v}}
 								<option value="{{$v.id}}" {{if !empty($data['place_origin']) and $v['id'] eq $data['place_origin']}}selected{{/if}}>{{$v.name}}</option>
@@ -140,15 +140,15 @@
 				</div>
 				<div class="am-form-group">
 					<label class="block">{{:lang('goods_is_deduction_inventory_text')}}<span class="fs-12 fw-100 cr-999">（{{:lang('goods_is_deduction_inventory_tips')}}）</span></label>
-					<input name="is_deduction_inventory" value="1" type="checkbox" data-off-text="{{:lang('common_operation_off_is_text')}}" data-on-text="{{:lang('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_deduction_inventory']) and $data['is_deduction_inventory'] eq 1) or empty($data)}}checked="true"{{/if}} />
+					<input name="is_deduction_inventory" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_deduction_inventory']) and $data['is_deduction_inventory'] eq 1) or empty($data)}}checked="true"{{/if}} />
 				</div>
 				<div class="am-form-group">
 					<label class="block">{{:lang('goods_is_shelves_text')}}<span class="fs-12 fw-100 cr-999">（{{:lang('goods_is_shelves_tips')}}）</span></label>
-					<input name="is_shelves" value="1" type="checkbox" data-off-text="{{:lang('common_operation_off_goods_text')}}" data-on-text="{{:lang('common_operation_on_goods_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_shelves']) and $data['is_shelves'] eq 1) or empty($data)}}checked="true"{{/if}} />
+					<input name="is_shelves" value="1" type="checkbox" data-off-text="下架" data-on-text="上架" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_shelves']) and $data['is_shelves'] eq 1) or empty($data)}}checked="true"{{/if}} />
 				</div>
 				<div class="am-form-group">
 					<label class="block">{{:lang('goods_is_home_recommended_text')}}<span class="fs-12 fw-100 cr-999">（{{:lang('goods_is_home_recommended_tips')}}）</span></label>
-					<input name="is_home_recommended" value="1" type="checkbox" data-off-text="{{:lang('common_operation_off_is_text')}}" data-on-text="{{:lang('common_operation_on_is_text')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_home_recommended']) and $data['is_home_recommended'] eq 1}}checked="true"{{/if}} />
+					<input name="is_home_recommended" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_home_recommended']) and $data['is_home_recommended'] eq 1}}checked="true"{{/if}} />
 				</div>
 			</div>
 
@@ -285,7 +285,7 @@
 			<!-- app内容 -->
 			<div id="goods-nav-app" class="division-block">
 				<label class="block nav-detail-title">{{:lang('goods_nav_app_name')}}</label>
-				<ul class="content-app-items" data-max-count="10" data-required="1" data-images-name="content_app_images" data-content-name="content_app_text" data-images-text="{{:lang('goods_content_app_images_text')}}" data-content-text="{{:lang('goods_content_app_text_text')}}" data-delete-text="{{:lang('common_operation_delete')}}" data-drag-sort-text="{{:lang('common_drag_sort_title')}}">
+				<ul class="content-app-items" data-max-count="10" data-required="1" data-images-name="content_app_images" data-content-name="content_app_text" data-images-text="{{:lang('goods_content_app_images_text')}}" data-content-text="{{:lang('goods_content_app_text_text')}}" data-delete-text="删除" data-drag-sort-text="拖拽排序">
 					{{if !empty($data['content_app'])}}
 						{{foreach $data.content_app as $v}}
 							<li>
@@ -327,7 +327,7 @@
 
 			<div class="am-form-group">
 				<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
-				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
 			</div>
 		</form>
         <!-- form end -->

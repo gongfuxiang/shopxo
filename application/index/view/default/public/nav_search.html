@@ -14,7 +14,7 @@
     <div class="search-bar">
         <form action="{{:url('index/search/index')}}" method="POST">
             <input id="search-input" name="keywords" type="text" placeholder="{{:lang('common_so_tips')}}" value="{{if !empty($params['keywords'])}}{{$params.keywords}}{{/if}}" autocomplete="off" />
-            <input id="ai-topsearch" class="submit am-btn" placeholder="{{:lang('common_so_tips')}}" index="1" type="submit" value="{{:lang('common_so_text')}}" />
+            <input id="ai-topsearch" class="submit am-btn" placeholder="{{:lang('common_so_tips')}}" index="1" type="submit" value="搜索" />
             <notempty name="home_search_keywords">
                 <ul class="search-hot-keywords">
                     {{foreach $home_search_keywords as $v}}

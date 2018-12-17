@@ -26,7 +26,7 @@
 			<form class="am-form form-validation view-save" action="{{:url('index/personal/save')}}" method="POST" request-type="ajax-url" request-value="{{:url('index/personal/index')}}">
 				<legend>
 					<span class="legend-title">{{:lang('personal_save_nav_title_text')}}</span>
-					<a href="{{:url('index/personal/index')}}" class="am-fr am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
+					<a href="{{:url('index/personal/index')}}" class="am-fr am-icon-mail-reply"> 返回</a>
 				</legend>
 				<div class="am-form-group">
 					<label>{{:lang('personal_nickname_text')}}</label>
@@ -38,7 +38,7 @@
 					<input type="text" name="birthday" class="am-form-field am-input-sm am-radius Wdate" placeholder="{{:lang('personal_birthday_text')}}" data-validation-message="{{:lang('personal_birthday_format')}}" {{if !empty($data)}} value="{{$data.birthday_text}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})"{{/if}} autocomplete="off" required />
 				</div>
 				<div class="am-form-group">
-					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
 				</div>
 			</form>
 			<!-- form end -->

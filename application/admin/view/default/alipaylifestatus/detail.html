@@ -6,7 +6,7 @@
         <!-- back nav start -->
         <legend>
             <span class="fs-16)}}{{:lang('alipay_life_status_detail_text')}}</span>
-            <a href="{{:url('Admin/AlipayLifeStatus/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
+            <a href="{{:url('Admin/AlipayLifeStatus/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
         </legend>
         <!-- back nav end -->
 
@@ -15,10 +15,10 @@
             <thead>
                 <tr>
                     <th>{{:lang('alipay_life_status_life_text')}}</th>
-                    <th>{{:lang('common_view_status_title')}}</th>
+                    <th>状态</th>
                     <th>{{:lang('alipay_life_status_send_time_text')}}</th>
                     <th>{{:lang('alipay_life_status_return_msg_text')}}</th>
-                    <th>{{:lang('common_more_name')}}</th>
+                    <th>更多</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,20 +30,20 @@
                             <td>{{$v.send_time}}</td>
                             <td>{{$v.return_msg}}</td>
                             <td>
-                                <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> {{:lang('common_see_more_name')}}</span>
+                                <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
                                 <div class="am-popup am-radius" id="my-popup{{$v.id}}">
                                     <div class="am-popup-inner">
                                         <div class="am-popup-hd">
-                                            <h4 class="am-popup-title">{{:lang('common_detail_content')}}</h4>
+                                            <h4 class="am-popup-title">详情内容</h4>
                                             <span data-am-modal-close class="am-close">&times;</span>
                                         </div>
                                         <div class="am-popup-bd">
                                             <dl class="dl-content">
                                                 <dt>{{:lang('alipay_life_status_life_text')}}</dt>
-                                                <dd>{{if empty($v['alipay_life_name'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.alipay_life_name}}{{/if}}</dd>
+                                                <dd>{{if empty($v['alipay_life_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.alipay_life_name}}{{/if}}</dd>
 
-                                                <dt>{{:lang('common_view_status_title')}}</dt>
-                                                <dd>{{if empty($v['status_name'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.status_name}}{{/if}}</dd>
+                                                <dt>状态</dt>
+                                                <dd>{{if empty($v['status_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.status_name}}{{/if}}</dd>
 
                                                 <dt>{{:lang('alipay_life_status_send_time_text')}}</dt>
                                                 <dd>{{$v.send_time}}</dd>
@@ -51,10 +51,10 @@
                                                 <dt>{{:lang('alipay_life_status_return_msg_text')}}</dt>
                                                 <dd>{{$v.return_msg}}</dd>
 
-                                                <dt>{{:lang('common_create_time_name')}}</dt>
+                                                <dt>创建时间</dt>
                                                 <dd>{{$v.add_time}}</dd>
 
-                                                <dt>{{:lang('common_upd_time_name')}}</dt>
+                                                <dt>更新时间</dt>
                                                 <dd>{{$v.upd_time}}</dd>
                                             </dl>
                                         </div>
@@ -64,7 +64,7 @@
                         </tr>
                     {{/foreach}}
                 {{else /}}
-                    <tr><td colspan="20" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+                    <tr><td colspan="20" class="table-no">没有相关数据</td></tr>
                 {{/if}}
             </tbody>
         </table>

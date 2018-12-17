@@ -7,9 +7,9 @@
 		<form class="am-form view-list" action="{{:url('Admin/Coupon/User', ['coupon_id'=>I('request.coupon_id')])}}" method="POST">
 			<div class="am-g">
 				<input type="text" class="am-radius form-keyword" placeholder="{{:lang('coupon_send_search_input_text')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
-				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">{{:lang('common_operation_query')}}</button>
+				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
-					{{:lang('common_more_screening')}}
+					更多筛选
 					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($param['is_more']) and $param['is_more'] eq 1)}}checked{{/if}} />
 					<i class="am-icon-angle-down"></i>
 				</label>
@@ -42,8 +42,8 @@
 					<th>{{:lang('coupon_use_where_price_text')}}</th>
 					<th class="am-hide-sm-only">{{:lang('coupon_valid_text')}}</th>
 					<th class="am-hide-sm-only">{{:lang('coupon_user_status_text')}}</th>
-					<th>{{:lang('common_more_name')}}</th>
-					<th>{{:lang('common_operation_name')}}</th>
+					<th>更多</th>
+					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -51,15 +51,15 @@
 					<foreach name="list" item="v">
 						<tr id="data-list-{{$v.id}}">
 							<td>
-								{{if empty($v['username'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.username}}{{/if}}
+								{{if empty($v['username'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.username}}{{/if}}
 							</td>
 							<td>
-								{{if empty($v['nickname'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.nickname}}{{/if}}
+								{{if empty($v['nickname'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.nickname}}{{/if}}
 							</td>
 							<td>{{$v.price}}</td>
 							<td>
 								{{if empty($v['use_where_price'])}}
-									<span class="cr-ddd">{{:lang('common_unlimited_text')}}</span>
+									<span class="cr-ddd">不限</span>
 								{{else /}}
 									{{$v.use_where_price}}
 								{{/if}}
@@ -72,32 +72,32 @@
 									{{$v.valid_end_time_text}}
 								{{/if}}
 								{{if empty($v['valid_start_time_text']) and empty($v['valid_end_time_text'])}}
-									<span class="cr-ccc">{{:lang('common_unlimited_text')}}</span>
+									<span class="cr-ccc">不限</span>
 								{{/if}}
 							</td>
 							<td>{{$v.status_text}}</td>
 							<td>
-								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> {{:lang('common_see_more_name')}}</span>
+								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
 								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
 									<div class="am-popup-inner">
 										<div class="am-popup-hd">
-											<h4 class="am-popup-title">{{:lang('common_detail_content')}}</h4>
+											<h4 class="am-popup-title">详情内容</h4>
 											<span data-am-modal-close
 											class="am-close">&times;</span>
 										</div>
 										<div class="am-popup-bd">
 											<dl class="dl-content">
 												<dt>{{:lang('coupon_user_username_text')}}</dt>
-												<dd>{{if empty($v['username'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.username}}{{/if}}</dd>
+												<dd>{{if empty($v['username'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.username}}{{/if}}</dd>
 
 												<dt>{{:lang('coupon_user_nickname_text')}}</dt>
-												<dd>{{if empty($v['nickname'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.nickname}}{{/if}}</dd>
+												<dd>{{if empty($v['nickname'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.nickname}}{{/if}}</dd>
 
 												<dt>{{:lang('coupon_price_text')}}</dt>
-												<dd>{{if empty($v['price'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.price}}{{/if}}</dd>
+												<dd>{{if empty($v['price'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.price}}{{/if}}</dd>
 
 												<dt>{{:lang('coupon_use_where_price_text')}}</dt>
-												<dd>{{if empty($v['use_where_price'])}}<span class="cr-ddd">{{:lang('common_unlimited_text')}}</span>{{else /}}{{$v.use_where_price}}{{/if}}</dd>
+												<dd>{{if empty($v['use_where_price'])}}<span class="cr-ddd">不限</span>{{else /}}{{$v.use_where_price}}{{/if}}</dd>
 
 												<dt>{{:lang('coupon_valid_text')}}</dt>
 												<dd>
@@ -108,17 +108,17 @@
 														{{$v.valid_end_time_text}}
 													{{/if}}
 													{{if empty($v['valid_start_time_text']) and empty($v['valid_end_time_text'])}}
-														<span class="cr-ccc">{{:lang('common_on_fill_in_the_text')}}</span>
+														<span class="cr-ccc">未填写</span>
 													{{/if}}
 												</dd>
 												
 												<dt>{{:lang('coupon_user_status_text')}}</dt>
-												<dd>{{if empty($v['status_text'])}}<span class="cr-ddd">{{:lang('common_on_fill_in_the_text')}}</span>{{else /}}{{$v.status_text}}{{/if}}</dd>
+												<dd>{{if empty($v['status_text'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.status_text}}{{/if}}</dd>
 
-												<dt>{{:lang('common_create_time_name')}}</dt>
+												<dt>创建时间</dt>
 												<dd>{{$v.add_time_text}}</dd>
 
-												<dt>{{:lang('common_upd_time_name')}}</dt>
+												<dt>更新时间</dt>
 												<dd>{{$v.upd_time_text}}</dd>
 											</dl>
 										</div>
@@ -127,13 +127,13 @@
 							</td>
 							<td class="view-operation">
 								{{if $v['status'] neq 1)}}
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/Coupon/Delete')}}" data-id="{{$v.id}}"> {{:lang('common_operation_delete')}}</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/Coupon/Delete')}}" data-id="{{$v.id}}"> 删除</button>
 								{{/if}}
 							</td>
 						</tr>
 					{{/foreach}}
 				{{else /}}
-					<tr><td colspan="20" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+					<tr><td colspan="20" class="table-no">没有相关数据</td></tr>
 				{{/if}}
 			</tbody>
 		</table>

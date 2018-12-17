@@ -10,7 +10,7 @@
                 <span class="fs-16)}}
                     {{:lang('coupon_operation_user_name')}}{{:lang('coupon_operation_send_name')}}
                 </span>
-                <a href="{{:url('Admin/Coupon/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> {{:lang('common_operation_back')}}</a>
+                <a href="{{:url('Admin/Coupon/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
             </legend>
 
             <!-- 优惠券信息 -->
@@ -31,7 +31,7 @@
                     <span>{{:lang('coupon_use_where_price_text')}}</span>：
                     <span>
                         {{if empty($data['use_where_price'])}}
-                            <span class="cr-ccc">{{:lang('common_unlimited_text')}}</span>
+                            <span class="cr-ccc">不限</span>
                         {{else /}}
                             {{$data['use_where_price']}}
                         {{/if}}
@@ -47,7 +47,7 @@
                              ~ {{$data.valid_end_time}}
                         {{/if}}
                         {{if empty($data['valid_start_time']) and empty($data['valid_end_time'])}}
-                            <span class="cr-ccc">{{:lang('common_unlimited_text')}}</span>
+                            <span class="cr-ccc">不限</span>
                         {{/if}}
                     </span>
                 </div>
@@ -73,7 +73,7 @@
                 </button>
             </div>
             <div class="am-form-group data-error-tips none">
-                {{:lang('common_not_data_tips')}}
+                没有相关数据
             </div>
 
             <!-- 用户列表 -->
@@ -89,7 +89,7 @@
             </div>
             <div class="am-form-group">
                 <input type="hidden" name="coupon_id" <notempty name="data"> value="{{$data.id}}"{{/if}}" />
-                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100 form-send-submit" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_submit')}}</button>
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100 form-send-submit" data-am-loading="{loadingText:'处理中...'}">提交</button>
             </div>
         </form>
         <!-- form end -->

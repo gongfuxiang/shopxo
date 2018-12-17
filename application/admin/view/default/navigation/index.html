@@ -21,9 +21,9 @@
 			<thead>
 				<tr>
 					<th>{{:lang('navigation_name_text')}}</th>
-					<th>{{:lang('common_nav_type_name')}}</th>
-					<th>{{:lang('common_view_status_title')}}</th>
-					<th>{{:lang('common_operation_name')}}</th>
+					<th>导航数据类型</th>
+					<th>状态</th>
+					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -65,7 +65,7 @@
 						{{/if}}
 					{{/foreach}}
 				{{else /}}
-					<tr><td colspan="5" class="table-no">{{:lang('common_not_data_tips')}}</td></tr>
+					<tr><td colspan="5" class="table-no">没有相关数据</td></tr>
 				{{/if}}
 			</tbody>
 		</table>
@@ -84,7 +84,7 @@
 						<div class="am-form-group">
 							<label>{{:lang('navigation_level_text')}}</label>
 							<select class="am-radius c-p chosen-select" name="pid" data-validation-message="{{:lang('navigation_level_format')}}">
-								<option value=")}}{{:lang('common_select_level_one_choice')}}</option>
+								<option value=")}}一级栏目...</option>
 								<foreach name="nav_header_pid_list" item="v">
 									<option value="{{$v.id}}">{{$v.name}}</option>
 								{{/foreach}}
@@ -99,8 +99,8 @@
 							<input type="url" placeholder="{{:lang('navigation_url_text')}}" name="url"  data-validation-message="{{:lang('navigation_url_format')}}" class="am-radius" required />
 						</div>
 						<div class="am-form-group">
-							<label>{{:lang('common_view_sort_title')}}</label>
-							<input type="number" placeholder="{{:lang('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:lang('common_sort_error')}}" class="am-radius" value="0" required />
+							<label>顺序</label>
+							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
 						</div>
 						<include file="Lib/IsShow" />
 						<include file="Lib/IsNewWindowOpen" />
@@ -108,7 +108,7 @@
 							<input type="hidden" name="id" />
 							<input type="hidden" name="data_type" value="custom" />
 							<input type="hidden" name="nav_type" value="{{$nav_type}}" />
-							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
 						</div>
 					</form>
 					<!-- form end -->
@@ -130,7 +130,7 @@
 						<div class="am-form-group">
 							<label>{{:lang('navigation_level_text')}}</label>
 							<select class="am-radius c-p chosen-select" name="pid" data-validation-message="{{:lang('navigation_level_format')}}">
-								<option value=")}}{{:lang('common_select_level_one_choice')}}</option>
+								<option value=")}}一级栏目...</option>
 								<foreach name="nav_header_pid_list" item="v">
 									<option value="{{$v.id}}">{{$v.name}}</option>
 								{{/foreach}}
@@ -138,8 +138,8 @@
 						</div>
 						<div class="am-form-group">
 							<label>{{:lang('navigation_article_id_text')}}</label>
-							<select class="am-radius c-p chosen-select" name="value" data-placeholder="{{:lang('common_please_select_choose')}}" data-validation-message="{{:lang('navigation_article_id_format')}}" required>
-								<option value="">{{:lang('common_please_select_choose')}}</option>
+							<select class="am-radius c-p chosen-select" name="value" data-placeholder="请选择..." data-validation-message="{{:lang('navigation_article_id_format')}}" required>
+								<option value="">请选择...</option>
 								<foreach name="article_list" item="v">
 									<optgroup label="{{$v.name}}">
 										<notempty name="v.items">
@@ -156,8 +156,8 @@
 							<input type="text" placeholder="{{:lang('navigation_name_text')}}" name="name" maxlength="16" data-validation-message="{{:lang('navigation_name_format')}}" class="am-radius" />
 						</div>
 						<div class="am-form-group">
-							<label>{{:lang('common_view_sort_title')}}</label>
-							<input type="number" placeholder="{{:lang('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:lang('common_sort_error')}}" class="am-radius" value="0" required />
+							<label>顺序</label>
+							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
 						</div>
 						<include file="Lib/IsShow" />
 						<include file="Lib/IsNewWindowOpen" />
@@ -165,7 +165,7 @@
 							<input type="hidden" name="id" />
 							<input type="hidden" name="data_type" value="article" />
 							<input type="hidden" name="nav_type" value="{{$nav_type}}" />
-							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
 						</div>
 					</form>
 					<!-- form end -->
@@ -188,7 +188,7 @@
 						<div class="am-form-group">
 							<label>{{:lang('navigation_level_text')}}</label>
 							<select class="am-radius c-p chosen-select" name="pid" data-validation-message="{{:lang('navigation_level_format')}}">
-								<option value=")}}{{:lang('common_select_level_one_choice')}}</option>
+								<option value=")}}一级栏目...</option>
 								<foreach name="nav_header_pid_list" item="v">
 									<option value="{{$v.id}}">{{$v.name}}</option>
 								{{/foreach}}
@@ -196,8 +196,8 @@
 						</div>
 						<div class="am-form-group">
 							<label>{{:lang('navigation_customview_id_text')}}</label>
-							<select class="am-radius c-p chosen-select" name="value" data-placeholder="{{:lang('common_please_select_choose')}}" data-validation-message="{{:lang('navigation_customview_id_format')}}" required>
-								<option value="">{{:lang('common_please_select_choose')}}</option>
+							<select class="am-radius c-p chosen-select" name="value" data-placeholder="请选择..." data-validation-message="{{:lang('navigation_customview_id_format')}}" required>
+								<option value="">请选择...</option>
 								<foreach name="customview_list" item="v">
 									<option value="{{$v.id}}">{{$v.title}}</option>
 								{{/foreach}}
@@ -208,8 +208,8 @@
 							<input type="text" placeholder="{{:lang('navigation_name_text')}}" name="name" maxlength="16" data-validation-message="{{:lang('navigation_name_format')}}" class="am-radius" />
 						</div>
 						<div class="am-form-group">
-							<label>{{:lang('common_view_sort_title')}}</label>
-							<input type="number" placeholder="{{:lang('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:lang('common_sort_error')}}" class="am-radius" value="0" required />
+							<label>顺序</label>
+							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
 						</div>
 						<include file="Lib/IsShow" />
 						<include file="Lib/IsNewWindowOpen" />
@@ -217,7 +217,7 @@
 							<input type="hidden" name="id" />
 							<input type="hidden" name="data_type" value="customview" />
 							<input type="hidden" name="nav_type" value="{{$nav_type}}" />
-							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
 						</div>
 					</form>
 					<!-- form end -->
@@ -239,7 +239,7 @@
 						<div class="am-form-group">
 							<label>{{:lang('navigation_level_text')}}</label>
 							<select class="am-radius c-p chosen-select" name="pid" data-validation-message="{{:lang('navigation_level_format')}}">
-								<option value=")}}{{:lang('common_select_level_one_choice')}}</option>
+								<option value=")}}一级栏目...</option>
 								<foreach name="nav_header_pid_list" item="v">
 									<option value="{{$v.id}}">{{$v.name}}</option>
 								{{/foreach}}
@@ -247,8 +247,8 @@
 						</div>
 						<div class="am-form-group">
 							<label>{{:lang('navigation_goods_category_id_text')}}</label>
-							<select class="am-radius c-p chosen-select" name="value" data-placeholder="{{:lang('common_please_select_choose')}}" data-validation-message="{{:lang('navigation_goods_category_id_format')}}" required>
-								<option value="">{{:lang('common_please_select_choose')}}</option>
+							<select class="am-radius c-p chosen-select" name="value" data-placeholder="请选择..." data-validation-message="{{:lang('navigation_goods_category_id_format')}}" required>
+								<option value="">请选择...</option>
 								<foreach name="goods_category_list" item="v">
 									<option value="{{$v.id}}" {{if !empty($data['category_ids']) and in_array($v['id'], $data['category_ids'])}}selected{{/if}}>{{:lang('navigation_category_level_one')}} - {{$v.name}}</option>
 									{{if !empty($v['items'])}}
@@ -267,8 +267,8 @@
 							<input type="text" placeholder="{{:lang('navigation_name_text')}}" name="name" maxlength="16" data-validation-message="{{:lang('navigation_name_format')}}" class="am-radius" />
 						</div>
 						<div class="am-form-group">
-							<label>{{:lang('common_view_sort_title')}}</label>
-							<input type="number" placeholder="{{:lang('common_view_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:lang('common_sort_error')}}" class="am-radius" value="0" required />
+							<label>顺序</label>
+							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
 						</div>
 						<include file="Lib/IsShow" />
 						<include file="Lib/IsNewWindowOpen" />
@@ -276,7 +276,7 @@
 							<input type="hidden" name="id" />
 							<input type="hidden" name="data_type" value="goods_category" />
 							<input type="hidden" name="nav_type" value="{{$nav_type}}" />
-							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'{{:lang('common_form_loading_tips')}}'}">{{:lang('common_operation_save')}}</button>
+							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
 						</div>
 					</form>
 					<!-- form end -->
