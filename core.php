@@ -39,10 +39,10 @@ if(is_dir("./Install") && !file_exists("./Install/install.lock"))
 }
 
 // 开启调试模式 建议开发阶段开启 部署阶段注释或者设为false
-define('APP_DEBUG', true);
+define('APP_DEBUG', false);
 
 // 分之模式,master,develop,test,debug
-define('APP_STATUS', 'develop');
+define('APP_STATUS', 'master');
 
 /* 定义系统目录分隔符 */
 //define('DS', DIRECTORY_SEPARATOR);
