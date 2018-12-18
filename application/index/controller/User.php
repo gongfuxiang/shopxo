@@ -88,7 +88,8 @@ class User extends Common
         $params['is_more'] = 1;
         $params['status'] = [1,2,3,4];
         $params['is_comments'] = 0;
-        $where = OrderService::UserOrderListWhere($params);
+        $params['user_type'] = 'user';
+        $where = OrderService::OrderListWhere($params);
         $order_params = array(
             'limit_start'   => 0,
             'limit_number'  => 3,

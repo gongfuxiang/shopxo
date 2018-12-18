@@ -11,20 +11,6 @@ namespace app\service;
 class ResourcesService
 {
     /**
-     * 获取地区名称
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-19
-     * @desc    description
-     * @param   [int]          $express_id [快递id]
-     */
-    public static function ExpressName($express_id = 0)
-    {
-        return empty($express_id) ? null : db('Express')->where(['id'=>intval($express_id)])->value('name');
-    }
-
-    /**
      * 获取订单支付名称
      * @author   Devil
      * @blog    http://gong.gg/
@@ -36,35 +22,6 @@ class ResourcesService
     public static function OrderPaymentName($order_id = 0)
     {
         return empty($order_id) ? null : db('PayLog')->where(['order_id'=>intval($order_id)])->value('payment_name');
-    }
-
-    /**
-     * 快递列表
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-19
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function ExpressList($params = [])
-    {
-        $where = [];
-        if(isset($params['is_enable']))
-        {
-            $where['is_enable'] = intval($params['is_enable']);
-        }
-        $data = db('Express')->where($where)->field('id,icon,name,sort,is_enable')->order('sort asc')->select();
-        if(!empty($data) && is_array($data))
-        {
-            $images_host = config('IMAGE_HOST');
-            foreach($data as &$v)
-            {
-                $v['icon_old'] = $v['icon'];
-                $v['icon'] = empty($v['icon']) ? null : $images_host.$v['icon'];
-            }
-        }
-        return $data;
     }
 
     /**
@@ -130,24 +87,6 @@ class ResourcesService
             }
         }
         return $result;
-    }
-
-    /**
-     * 获取地区节点数据
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-21
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function RegionNode($params = [])
-    {
-        $field = empty($params['field']) ? 'id,name,level,letters' : $params['field'];
-        $where = empty($params['where']) ? [] : $params['where'];
-        $where['is_enable'] = 1;
-
-        return db('Region')->where($where)->field($field)->order('id asc, sort asc')->select();
     }
 
     /**

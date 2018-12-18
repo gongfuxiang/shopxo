@@ -8,6 +8,7 @@ use app\service\ResourcesService;
 use app\service\BuyService;
 use app\service\IntegralService;
 use app\service\RegionService;
+use app\service\ExpressService;
 
 /**
  * 订单服务层
@@ -410,7 +411,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function UserOrderListWhere($params = [])
+    public static function OrderListWhere($params = [])
     {
         // 用户类型
         $user_type = isset($params['user_type']) ? $params['user_type'] : 'user';
@@ -571,7 +572,7 @@ class OrderService
                 $v['pay_status_name'] = $order_pay_status[$v['pay_status']]['name'];
 
                 // 快递公司
-                $v['express_name'] = ResourcesService::ExpressName($v['express_id']);
+                $v['express_name'] = ExpressService::ExpressName($v['express_id']);
 
                 // 支付方式
                 $v['payment_name'] = ($v['status'] <= 1) ? null : ResourcesService::OrderPaymentName($v['id']);

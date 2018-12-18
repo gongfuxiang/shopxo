@@ -37,5 +37,23 @@ class RegionService
         $pid = isset($param['pid']) ? intval($param['pid']) : 0;
         return db('Region')->where(['pid'=>$pid, 'is_enable'=>1])->select();
     }
+
+    /**
+     * 获取地区节点数据
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-21
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function RegionNode($params = [])
+    {
+        $field = empty($params['field']) ? 'id,name,level,letters' : $params['field'];
+        $where = empty($params['where']) ? [] : $params['where'];
+        $where['is_enable'] = 1;
+
+        return db('Region')->where($where)->field($field)->order('id asc, sort asc')->select();
+    }
 }
 ?>

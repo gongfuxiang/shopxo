@@ -48,7 +48,7 @@ class Order extends Common
         $number = 10;
 
         // 条件
-        $where = OrderService::UserOrderListWhere($params);
+        $where = OrderService::OrderListWhere($params);
 
         // 获取总数
         $total = OrderService::OrderTotal($where);
@@ -105,7 +105,7 @@ class Order extends Common
         $params['user_type'] = 'user';
 
         // 条件
-        $where = OrderService::UserOrderListWhere($params);
+        $where = OrderService::OrderListWhere($params);
 
         // 获取列表
         $data_params = array(
@@ -146,7 +146,7 @@ class Order extends Common
         $params['user_type'] = 'user';
 
         // 条件
-        $where = OrderService::UserOrderListWhere($params);
+        $where = OrderService::OrderListWhere($params);
 
         // 获取列表
         $data_params = array(

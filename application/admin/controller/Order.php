@@ -1,9 +1,9 @@
 <?php
-
 namespace app\admin\controller;
 
-use Service\OrderService;
-use Service\ResourcesService;
+use app\service\OrderService;
+use app\service\ResourcesService;
+use app\service\ExpressService;
 
 /**
  * 订单管理
@@ -34,35 +34,46 @@ class Order extends Common
     }
 
     /**
-     * [Index 订单列表]
+     * 订单列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2016-12-06T21:31:53+0800
      */
-    public function Index($action = 'Index')
+    public function Index()
     {
         // 参数
-        $param = array_merge($_POST, $_GET);
-
-        // 条件
-        $where = $this->GetIndexWhere();
-
-        // 模型
-        $m = db('Order');
+        $params = input();
+        $params['admin'] = $this->admin;
+        $params['user_type'] = 'admin';
 
         // 分页
-        $number = MyC('admin_page_number');
-        $page_param = array(
+        $number = 10;
+
+        // 条件
+        $where = OrderService::OrderListWhere($params);
+
+        // 获取总数
+        $total = OrderService::OrderTotal($where);
+
+        // 分页
+        $page_params = array(
                 'number'    =>  $number,
-                'total'     =>  $m->where($where)->count(),
-                'where'     =>  $param,
-                'url'       =>  url('Admin/Order/Index'),
+                'total'     =>  $total,
+                'where'     =>  $params,
+                'url'       =>  url('admin/order/index'),
             );
-        $page = new \base\Page($page_param);
+        $page = new \base\Page($page_params);
+        $this->assign('page_html', $page->GetPageHtml());
 
         // 获取列表
-        $list = $this->SetDataHandle($m->where($where)->limit($page->GetPageStarNumber(), $number)->order('id desc')->select());
+        $data_params = array(
+            'limit_start'   => $page->GetPageStarNumber(),
+            'limit_number'  => $number,
+            'where'         => $where,
+        );
+        $data = OrderService::OrderList($data_params);
+        $this->assign('data_list', $data['data']);
 
         // 状态
         $this->assign('common_order_admin_status', lang('common_order_admin_status'));
@@ -71,23 +82,23 @@ class Order extends Common
         $this->assign('common_order_pay_status', lang('common_order_pay_status'));
 
         // 快递公司
-        $this->assign('express_list', ResourcesService::ExpressList());
+        $this->assign('express_list', ExpressService::ExpressList());
 
         // 发起支付 - 支付方式
         $pay_where = [
-            'where' => ['is_enable'=>1, 'is_open_user'=>1, 'payment'=>['in', config('under_line_list')]],
+            'where' => ['is_enable'=>1, 'is_open_user'=>1, 'payment'=>config('under_line_list')],
         ];
         $this->assign('buy_payment_list', ResourcesService::BuyPaymentList($pay_where));
 
+        // 支付方式
+        $this->assign('payment_list', ResourcesService::PaymentList());
+
+        // 评价状态
+        $this->assign('common_comments_status_list', lang('common_comments_status_list'));
+
         // 参数
-        $this->assign('param', $param);
-
-        // 分页
-        $this->assign('page_html', $page->GetPageHtml());
-
-        // 数据列表
-        $this->assign('list', $list);
-        $this->display('Index');
+        $this->assign('params', $params);
+        return $this->fetch();
     }
 
 

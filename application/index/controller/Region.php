@@ -1,7 +1,7 @@
 <?php
 namespace app\index\controller;
 
-use app\service\ResourcesService;
+use app\service\RegionService;
 
 /**
  * 地区
@@ -47,7 +47,7 @@ class Region extends Common
                 'pid'   => intval(input('pid', 0)),
             ],
         ];
-        $data = ResourcesService::RegionNode($params);
+        $data = RegionService::RegionNode($params);
         return json(DataReturn(lang('common_operation_success'), 0, $data));
     }
 }
