@@ -90,6 +90,16 @@ class ThemeService
             return DataReturn('文件格式有误，请上传zip压缩包', -2);
         }
 
+        // 目录是否有权限
+        if(!is_writable(ROOT.self::$html_path))
+        {
+            return DataReturn('视图目录没权限', -10);
+        }
+        if(!is_writable(ROOT.self::$static_path))
+        {
+            return DataReturn('资源目录没权限', -10);
+        }
+
         // 开始解压文件
         $resource = zip_open($_FILES['theme']['tmp_name']);
         while(($temp_resource = zip_read($resource)) !== false)
@@ -105,10 +115,10 @@ class ThemeService
                     // 拼接路径
                     if(strpos($file, '_html') !== false)
                     {
-                        $file = self::$html_path.$file;
+                        $file = ROOT.self::$html_path.$file;
                     } else if(strpos($file, '_static') !== false)
                     {
-                        $file = self::$static_path.$file;
+                        $file = ROOT.self::$static_path.$file;
                     } else {
                         continue;
                     }
