@@ -8,20 +8,20 @@
         	<legend>
 				<span class="fs-16">
 					{{if empty($data['id'])}}
-						{{:lang('role_add_name')}}
+						角色添加
 					{{else /}}
-						{{:lang('role_edit_name')}}
+						角色编辑
 					{{/if}}
 				</span>
 				<a href="{{:url('admin/power/role')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
 			</legend>
         	<div class="am-form-group">
-				<label>{{:lang('role_view_role_text')}}</label>
-				<input type="text" placeholder="{{:lang('role_view_role_text')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:lang('role_name_format')}}" class="am-radius" {{if !empty($data)}}value="{{$data.name}}"{{/if}} required />
+				<label>角色名称</label>
+				<input type="text" placeholder="角色名称" name="name" minlength="2" maxlength="16" data-validation-message="角色名称格式 2~8 个字符之间" class="am-radius" {{if !empty($data)}}value="{{$data.name}}"{{/if}} required />
 			</div>
 			
 			<div class="am-form-group">
-				<label>{{:lang('power_view_have_title')}}</label>
+				<label>拥有权限</label>
 				<ul class="tree-list p-0">
 					{{foreach $power as $v}}
 						<li {{if $v['is_show'] eq 0}}class="bk-cr-ffd"{{/if}}>

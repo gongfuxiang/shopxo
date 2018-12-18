@@ -7,16 +7,16 @@
 		<form class="am-form form-validation view-save" action="{{:url('Admin/Payment/Save')}}" method="POST" request-type="ajax-url" request-value="{{:url('Admin/Payment/Index')}}" enctype="multipart/form-data">
 			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
 			<legend>
-				<span class="fs-16)}}{{:lang('payment_edit_name')}}</span>
+				<span class="fs-16)}}支付方式编辑</span>
 				<a href="{{:url('Admin/Payment/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
-				<label>{{:lang('payment_name_text')}}</label>
-				<input type="text" name="name" placeholder="{{:lang('payment_name_text')}}" minlength="2" maxlength="60" data-validation-message="{{:lang('payment_name_format')}}" class="am-radius" <notempty name="data"> value="{{$data.name}}"{{/if}} required />
+				<label>名称</label>
+				<input type="text" name="name" placeholder="名称" minlength="2" maxlength="60" data-validation-message="名称格式 2~30 个字符" class="am-radius" <notempty name="data"> value="{{$data.name}}"{{/if}} required />
 			</div>
 			<div class="am-form-group">
-				<label>{{:lang('payment_apply_terminal_text')}}</label>
-			    <select name="apply_terminal" class="am-radius c-p chosen-select" multiple="multiple" minchecked="1" data-placeholder="可选择..." data-validation-message="{{:lang('payment_apply_terminal_format')}}" required>
+				<label>适用终端</label>
+			    <select name="apply_terminal" class="am-radius c-p chosen-select" multiple="multiple" minchecked="1" data-placeholder="可选择..." data-validation-message="至少选择一个适用终端" required>
 					<foreach name="common_platform_type" item="v">
 						<option value="{{$v.value}}" {{if isset($data['apply_terminal']) and in_array($v['value'], $data['apply_terminal'])}}selected{{/if}}>{{$v.name}}</option>
 					{{/foreach}}
@@ -24,7 +24,7 @@
 			</div>
 
 			<div class="am-form-group am-form-file">
-				<label class="block">{{:lang('payment_logo_text')}}</label>
+				<label class="block">LOGO</label>
 				<button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
 				<i class="am-icon-cloud-upload"></i> 选择图片</button>
 				<input type="text" name="logo" class="am-radius js-choice-one original-images-url" data-choice-one-to=".images-file-event" <notempty name="data"> value="{{$data.logo}}"{{/if}}" data-validation-message="请选择需要上传的图片" readonly="readonly" <notempty name="data"> value="{{$data.logo}}"{{/if}} />
@@ -36,7 +36,7 @@
 			<!-- plugins config start -->
 			<notempty name="data.element">
 				<div class="plugins-element">
-					<p class="tips">{{:lang('payment_plugins_element_tips')}}</p>
+					<p class="tips">该区域为插件配置填写项，请按照插件文档填写相应的值。</p>
 					<foreach name="data.element" item="element">
 						<div class="am-form-group">
 							<label class="block">{{$element.title}}</label>
@@ -121,7 +121,7 @@
 			</div>
 
 			<div class="am-form-group">
-			    <label class="block">{{:lang('payment_is_open_user_text')}}</label>
+			    <label class="block">对用户放开</label>
 			    <input name="is_open_user" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_open_user']) and $data['is_open_user'] eq 1) or !isset($data['is_open_user'])}}checked="true"{{/if}} />
 			</div>
 

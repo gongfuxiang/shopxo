@@ -9,39 +9,39 @@
 			<legend>
 				<span class="fs-16)}}
 					{{if empty($data['id'])}}
-						{{:lang('coupon_add_name')}}
+						优惠券添加
 					{{else /}}
-						{{:lang('coupon_edit_name')}}
+						优惠券编辑
 					{{/if}}
 				</span>
 				<a href="{{:url('Admin/Coupon/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
-				<label>{{:lang('coupon_name_text')}}</label>
-				<input type="text" name="name" placeholder="{{:lang('coupon_name_text')}}" minlength="2" maxlength="60" data-validation-message="{{:lang('coupon_name_format')}}" class="am-radius" <notempty name="data"> value="{{$data.name}}"{{/if}} required />
+				<label>优惠券名称</label>
+				<input type="text" name="name" placeholder="优惠券名称" minlength="2" maxlength="60" data-validation-message="优惠券名称格式 2~60 个字符" class="am-radius" <notempty name="data"> value="{{$data.name}}"{{/if}} required />
 			</div>
 			<div class="am-form-group">
-				<label>{{:lang('coupon_type_text')}}</label>
-				<select name="type" class="am-radius" placeholder="{{:lang('coupon_type_format')}}" {{if !empty($data)}}disabled{{/if}}>
+				<label>优惠券类型</label>
+				<select name="type" class="am-radius" placeholder="优惠券类型有误" {{if !empty($data)}}disabled{{/if}}>
 					<foreach name="common_coupon_type" item="v">
 						<option value="{{$v.id}}" {{if isset($data['type']) and $data['type'] eq $v['id']">selected{{else /}}{{if !isset($data['type']) and isset($v['checked']) and $v['checked'] eq true">selected{{/if}}{{/if}}>{{$v.name}}</option>
 					{{/foreach}}
 				</select>
 			</div>
 			<div class="am-form-group">
-				<label>{{:lang('coupon_price_text')}}</label>
-				<input type="text" placeholder="{{:lang('coupon_price_text')}}" name="price" pattern="{{:lang('common_regex_price')}}" data-validation-message="{{:lang('coupon_price_format')}}" class="am-radius" value="{{if isset($data['price']) and $data['price'] GT 0.0)}}{{$data.price}}{{/if}}" required />
+				<label>金额(元)</label>
+				<input type="text" placeholder="金额(元)" name="price" pattern="{{:lang('common_regex_price')}}" data-validation-message="金额有误" class="am-radius" value="{{if isset($data['price']) and $data['price'] GT 0.0)}}{{$data.price}}{{/if}}" required />
 			</div>
 			<div class="am-form-group">
-				<label>{{:lang('coupon_use_where_price_text')}}</label>
-				<input type="text" placeholder="{{:lang('coupon_use_where_price_text')}}" name="use_where_price" pattern="{{:lang('common_regex_price')}}" data-validation-message="{{:lang('coupon_use_where_price_format')}}" class="am-radius" value="{{if isset($data['use_where_price']) and $data['use_where_price'] GT 0.0)}}{{$data.use_where_price}}{{/if}}" />
+				<label>使用条件金额(元)</label>
+				<input type="text" placeholder="使用条件金额(元)" name="use_where_price" pattern="{{:lang('common_regex_price')}}" data-validation-message="使用条件金额有误" class="am-radius" value="{{if isset($data['use_where_price']) and $data['use_where_price'] GT 0.0)}}{{$data.use_where_price}}{{/if}}" />
 			</div>
 			<div class="am-form-group">
-				<label>{{:lang('coupon_valid_text')}}</label>
+				<label>有效时间</label>
 				<div class="twain-date">
-					<input class="Wdate am-radius" type="text" placeholder="{{:lang('coupon_valid_text')}}" name="valid_start_time" data-validation-message="{{:lang('coupon_valid_start_time_format')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" <notempty name="data"> value="{{$data.valid_start_time}}"{{/if}} required />
+					<input class="Wdate am-radius" type="text" placeholder="有效时间" name="valid_start_time" data-validation-message="有效开始时间有误" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" <notempty name="data"> value="{{$data.valid_start_time}}"{{/if}} required />
 					<span>~</span>
-					<input class="Wdate am-radius" type="text" placeholder="{{:lang('coupon_valid_text')}}" name="valid_end_time" data-validation-message="{{:lang('coupon_valid_end_time_format')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" <notempty name="data"> value="{{$data.valid_end_time}}"{{/if}} required />
+					<input class="Wdate am-radius" type="text" placeholder="有效时间" name="valid_end_time" data-validation-message="有效截止时间有误" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" <notempty name="data"> value="{{$data.valid_end_time}}"{{/if}} required />
 				</div>
 			</div>
 			<include file="Lib/Enable" />

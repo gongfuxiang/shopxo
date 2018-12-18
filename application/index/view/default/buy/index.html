@@ -68,7 +68,7 @@
             {{if empty($user_address_list)}}
                 <div class="table-no">
                     <i class="am-icon-warning"></i>
-                    {{:lang('buy_user_address_not_data_tips')}}
+                    没有地址
                     <button class="am-btn am-btn-secondary am-btn-xs address-submit-save" type="button" data-url="{{:url('index/useraddress/saveinfo')}}" data-popup-title="新增地址">使用新地址</button></div>
             {{/if}}
         </div>
@@ -90,7 +90,7 @@
                 </ul>
             {{/if}}
             {{if empty($payment_list)}}
-                <div class="table-no"><i class="am-icon-warning"></i> {{:lang('buy_payment_not_data_tips')}}</div>
+                <div class="table-no"><i class="am-icon-warning"></i> 没有支付方式</div>
             {{/if}}
         </div>
 
@@ -154,7 +154,7 @@
                     </table>
                 {{/if}}
                 {{if empty($goods_list)}}
-                    <div class="table-no"><i class="am-icon-warning"></i> {{:lang('buy_goods_not_data_tips')}}</div>
+                    <div class="table-no"><i class="am-icon-warning"></i> 没有商品</div>
                 {{/if}}
 
                 <!-- 留言 -->

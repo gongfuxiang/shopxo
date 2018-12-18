@@ -21,14 +21,14 @@
 									{{$v.name}}
 									<a href="javascript:;" class="am-icon-trash-o fr submit-delete" data-url="{{:url('Admin/Theme/Delete')}}" data-id="{{$v.theme}}"></a>
 								</h3>
-								<div class="am-gallery-desc">{{:lang('theme_author_text')}}
+								<div class="am-gallery-desc">作者：
 									{{if empty($v['home'])}}
 										{{$v.author}}
 									{{else /}}
 										<a href="{{$v.home}}" target="_blank">{{$v.author}}</a>
 									{{/if}}
 								</div>
-								<div class="am-gallery-desc">{{:lang('theme_ver_text')}}{{$v.ver}}</div>
+								<div class="am-gallery-desc">适用版本：{{$v.ver}}</div>
 							</div>
 						</div>
 					</li>

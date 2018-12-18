@@ -55,7 +55,7 @@ class Index extends Common
 				'mysql_ver'		=>	isset($mysql_ver[0]['ver']) ? $mysql_ver[0]['ver'] : '',
 				'os_ver'		=>	PHP_OS,
 				'host'			=>	isset($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : '',
-				'ver'			=>	lang('common_application_name').' '.lang('common_application_ver'),
+				'ver'			=>	'ShopXO'.' '.'v1.1.0',
 			);
 		$this->assign('data', $data);
 		return $this->fetch();

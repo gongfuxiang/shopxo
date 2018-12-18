@@ -13,7 +13,7 @@
         <div class="am-popup am-radius" id="data-save-win">
 			<div class="am-popup-inner">
 				<div class="am-popup-hd">
-					<h4 class="am-popup-title" data-add-title="{{:lang('goods_category_add_name')}}" data-edit-title="{{:lang('goods_category_edit_name')}}">{{:lang('goods_category_add_name')}}</h4>
+					<h4 class="am-popup-title" data-add-title="分类添加" data-edit-title="分类编辑">分类添加</h4>
 					<span data-am-modal-close class="am-close">&times;</span>
 				</div>
 				<div class="am-popup-bd">
@@ -30,7 +30,7 @@
 							<div class="plug-file-upload-submit" data-view-tag="ul.goods-category-icon-images-view">+上传图片</div>
 						</div>
 						<div class="am-form-group am-form-file">
-							<label class="block">{{:lang('goods_category_big_images_text')}}</label>
+							<label class="block">大图片</label>
 							<ul class="plug-file-upload-view goods-category-big_images-images-view" data-form-name="big_images" data-max-number="1" data-dialog-type="images">
 								<li>
 									<input type="hidden" name="big_images" value="" />
@@ -51,15 +51,15 @@
 							<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
 						</div>
 						<div class="am-form-group">
-							<label>{{:lang('goods_category_vice_name_text')}}</label>
-							<input type="text" placeholder="{{:lang('goods_category_vice_name_text')}}" name="vice_name" minlength="0" maxlength="60" data-validation-message="{{:lang('goods_category_vice_name_format')}}" class="am-radius" />
+							<label>副名称</label>
+							<input type="text" placeholder="副名称" name="vice_name" minlength="0" maxlength="60" data-validation-message="副名称最大60个字符" class="am-radius" />
 						</div>
 						<div class="am-form-group">
-							<label>{{:lang('goods_category_describe_text')}}</label>
-							<textarea rows="5" name="describe" maxlength="200" class="am-radius" placeholder="{{:lang('goods_category_describe_text')}}" data-validation-message="{{:lang('goods_category_describe_format')}}"></textarea>
+							<label>描述</label>
+							<textarea rows="5" name="describe" maxlength="200" class="am-radius" placeholder="描述" data-validation-message="描述最大200个字符"></textarea>
 						</div>
 						<div class="am-form-group">
-						    <label>{{:lang('goods_category_home_recommended_text')}}</label>
+						    <label>首页推荐</label>
 						    <div>
 						        {{foreach $common_is_text_list as $v}}
 						            <label class="am-radio-inline m-r-10">

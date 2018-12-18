@@ -94,24 +94,24 @@ class Email
 	{
 		if(empty($param['email']))
 		{
-			$this->error = lang('common_library_email_empty_error');
+			$this->error = '收件邮箱不能为空';
 			return false;
 		}
 		if(empty($param['content']))
 		{
-			$this->error = lang('common_library_content_empty_error');
+			$this->error = '发送内容不能为空';
 			return false;
 		}
 		if(empty($param['title']))
 		{
-			$this->error = lang('common_library_title_empty_error');
+			$this->error = '邮件标题不能为空';
 			return false;
 		}
 
 		// 是否频繁操作
 		if(!$this->IntervalTimeCheck())
 		{
-			$this->error = lang('common_prevent_harassment_error');
+			$this->error = '防止造成骚扰，请勿频繁发送';
 			return false;
 		}
 

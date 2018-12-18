@@ -6,7 +6,7 @@
 		<!-- form start -->
 		<form class="am-form view-list" action="{{:url('Admin/UserIntegralLog/Index')}}" method="POST">
 			<div class="am-g">
-				<input type="text" class="am-radius form-keyword" placeholder="{{:lang('userintegrallog_so_keyword_tips')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
+				<input type="text" class="am-radius form-keyword" placeholder="姓名/手机/昵称/原因" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
 					更多筛选
@@ -22,7 +22,7 @@
 						{{/foreach}}
 					</select>
 					<select name="type" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="-1)}}{{:lang('userintegrallog_type_name')}}</option>
+						<option value="-1)}}操作类型</option>
 						<foreach name="common_integral_log_type_list" item="v">
 							<option value="{{$v.id}}" {{if isset($param['type']) and $param['type'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
@@ -41,12 +41,12 @@
 		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5)}}
 			<thead>
 				<tr>
-					<th>{{:lang('userintegrallog_user_name')}}</th>
-					<th>{{:lang('userintegrallog_type_name')}}</th>
-					<th>{{:lang('userintegrallog_original_integral_name')}}</th>
-					<th>{{:lang('userintegrallog_new_integral_name')}}</th>
-					<th class="am-hide-sm-only">{{:lang('userintegrallog_msg_name')}}</th>
-					<th class="am-hide-sm-only">{{:lang('userintegrallog_add_time_name')}}</th>
+					<th>用户信息</th>
+					<th>操作类型</th>
+					<th>原始积分</th>
+					<th>最新积分</th>
+					<th class="am-hide-sm-only">操作原因</th>
+					<th class="am-hide-sm-only">操作时间</th>
 				</tr>
 			</thead>
 			<tbody>

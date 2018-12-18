@@ -177,7 +177,7 @@ class Answer extends Common
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error(lang('common_unauthorized_access'));
+			$this->error('非法访问');
 		}
 
 		// 参数处理
@@ -193,18 +193,18 @@ class Answer extends Common
 			$merchant = $m->where(array('id'=>$id))->getField('id');
 			if(empty($merchant))
 			{
-				$this->ajaxReturn(lang('common_data_no_exist_error'), -2);
+				$this->ajaxReturn('资源不存在或已被删除', -2);
 			}
 
 			// 删除问答
 			if($m->where(array('id'=>$id))->save(['is_delete_time'=>time()]) !== false)
 			{
-				$this->ajaxReturn(lang('common_operation_delete_success'));
+				$this->ajaxReturn('删除成功');
 			} else {
-				$this->ajaxReturn(lang('common_operation_delete_error'), -100);
+				$this->ajaxReturn('删除失败或资源不存在', -100);
 			}
 		} else {
-			$this->ajaxReturn(lang('common_param_error'), -1);
+			$this->ajaxReturn('参数错误', -1);
 		}
 	}
 
@@ -220,7 +220,7 @@ class Answer extends Common
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error(lang('common_unauthorized_access'));
+			$this->error('非法访问');
 		}
 
 		// 参数处理
@@ -228,11 +228,11 @@ class Answer extends Common
 		$reply = I('reply');
 		if(empty($id))
 		{
-			$this->ajaxReturn(lang('common_param_error'), -1);
+			$this->ajaxReturn('参数错误', -1);
 		}
 		if(empty($reply))
 		{
-			$this->ajaxReturn(lang('answer_reply_format'), -2);
+			$this->ajaxReturn('回复内容格式 2~230 个字符', -2);
 		}
 
 		// 问答模型
@@ -242,15 +242,15 @@ class Answer extends Common
 		$temp = $m->where(array('id'=>$id))->field('id')->find();
 		if(empty($temp))
 		{
-			$this->ajaxReturn(lang('common_data_no_exist_error'), -2);
+			$this->ajaxReturn('资源不存在或已被删除', -2);
 		}
 		// 更新问答
 		$data = array('reply'=>$reply, 'is_reply'=>1, 'upd_time'=>time());
 		if($m->where(array('id'=>$id))->save($data) !== false)
 		{
-			$this->ajaxReturn(lang('common_operation_success'));
+			$this->ajaxReturn('操作成功');
 		} else {
-			$this->ajaxReturn(lang('common_operation_error'), -100);
+			$this->ajaxReturn('操作失败', -100);
 		}
 	}
 
@@ -266,15 +266,15 @@ class Answer extends Common
 		// 参数
 		if(empty($_POST['id']) || !isset($_POST['state']))
 		{
-			$this->ajaxReturn(lang('common_param_error'), -1);
+			$this->ajaxReturn('参数错误', -1);
 		}
 
 		// 数据更新
 		if(db('Answer')->where(array('id'=>I('id')))->save(array('is_show'=>I('state'))))
 		{
-			$this->ajaxReturn(lang('common_operation_edit_success'));
+			$this->ajaxReturn('编辑成功');
 		} else {
-			$this->ajaxReturn(lang('common_operation_edit_error'), -100);
+			$this->ajaxReturn('编辑失败或数据未改变', -100);
 		}
 	}
 }

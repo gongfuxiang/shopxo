@@ -337,7 +337,7 @@ class AlipayLifeMenu extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         $ret = AlipayLifeService::MenuSave($_POST);
@@ -356,7 +356,7 @@ class AlipayLifeMenu extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         $ret = AlipayLifeService::MenuContentSave($_POST);
@@ -375,7 +375,7 @@ class AlipayLifeMenu extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         // 删除
@@ -385,10 +385,10 @@ class AlipayLifeMenu extends Common
         if($m->delete($id) && db('AlipayLifeMenuContent')->where(['alipay_life_message_id'=>$id])->delete())
         {
             $m->commit();
-            $this->ajaxReturn(lang('common_operation_delete_success'));
+            $this->ajaxReturn('删除成功');
         }
         $m->rollback();
-        $this->ajaxReturn(lang('common_operation_delete_error'), -100);
+        $this->ajaxReturn('删除失败或资源不存在', -100);
     }
 
     /**
@@ -403,15 +403,15 @@ class AlipayLifeMenu extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         // 删除
         if(db('AlipayLifeMenuContent')->delete(intval(I('id'))))
         {
-            $this->ajaxReturn(lang('common_operation_delete_success'));
+            $this->ajaxReturn('删除成功');
         }
-        $this->ajaxReturn(lang('common_operation_delete_error'), -100);
+        $this->ajaxReturn('删除失败或资源不存在', -100);
     }
 
     /**
@@ -427,7 +427,7 @@ class AlipayLifeMenu extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         $ret = AlipayLifeService::MenuSubmit($_POST);
@@ -447,7 +447,7 @@ class AlipayLifeMenu extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         $ret = AlipayLifeService::AlipayLifeSearch($_POST);

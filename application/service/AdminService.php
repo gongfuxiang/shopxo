@@ -195,9 +195,9 @@ class AdminService
         // 添加
         if(db('Admin')->insert($data) > 0)
         {
-            return DataReturn(lang('common_operation_add_success'), 0);
+            return DataReturn('新增成功', 0);
         }
-        return DataReturn(lang('common_operation_add_error'), -100);
+        return DataReturn('新增失败', -100);
     }
 
     /**
@@ -262,9 +262,9 @@ class AdminService
                 session_destroy();
             }
             
-            return DataReturn(lang('common_operation_edit_success'), 0);
+            return DataReturn('编辑成功', 0);
         }
-        return DataReturn(lang('common_operation_edit_error'), -100);
+        return DataReturn('编辑失败或数据未改变', -100);
     }
 
     /**
@@ -294,9 +294,9 @@ class AdminService
         // 删除操作
         if(db('Admin')->delete(intval($params['id'])))
         {
-            return DataReturn(lang('common_operation_delete_success'));
+            return DataReturn('删除成功');
         }
-        return DataReturn(lang('common_operation_delete_error'), -100);
+        return DataReturn('删除失败或资源不存在', -100);
     }
 
     /**
@@ -344,14 +344,14 @@ class AdminService
         $admin = db('Admin')->field('id,username,login_pwd,login_salt,mobile,login_total,role_id')->where(['username'=>$params['username']])->find();
         if(empty($admin))
         {
-            return DataReturn(lang('login_username_no_exist'), -2);
+            return DataReturn('管理员不存在', -2);
         }
 
         // 密码校验
         $login_pwd = LoginPwdEncryption($params['login_pwd'], $admin['login_salt']);
         if($login_pwd != $admin['login_pwd'])
         {
-            return DataReturn(lang('login_login_pwd_error'), -3);
+            return DataReturn('密码错误', -3);
         }
 
         // 校验成功
@@ -373,13 +373,13 @@ class AdminService
                 // 清空缓存目录下的数据
                 \base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'cache');
 
-                return DataReturn(lang('login_login_success'));
+                return DataReturn('登录成功');
             }
         }
 
         // 失败
         session('admin', null);
-        return DataReturn(lang('login_login_error'), -100);
+        return DataReturn('登录失败，请稍后再试！', -100);
     }
 }
 ?>

@@ -7,18 +7,18 @@
 		<form class="am-form form-validation view-save" action="{{:url('Admin/AlipayLifeMenu/Save')}}" method="POST" request-type="ajax-url" request-value="{{:url('Admin/AlipayLifeMenu/Index')}}" enctype="multipart/form-data">
 			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
 			<legend>
-				<span class="fs-16)}}{{:lang('alipay_life_menu_add_name')}}</span>
+				<span class="fs-16)}}生活号菜单创建/编辑</span>
 				<a href="{{:url('Admin/AlipayLifeMenu/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
 			</legend>
 
 			<div class="am-form-group">
-                <label>{{:lang('alipay_life_menu_name_text')}}</label>
-                <input type="text" name="name" placeholder="{{:lang('alipay_life_menu_name_text')}}" data-validation-message="{{:lang('alipay_life_menu_main_name_format')}}" class="am-radius" maxlength="30" value="<notempty name="data.name">{{$data.name}}{{/if}}" required />
+                <label>名称</label>
+                <input type="text" name="name" placeholder="名称" data-validation-message="名称格式 1~30 个字符" class="am-radius" maxlength="30" value="<notempty name="data.name">{{$data.name}}{{/if}}" required />
             </div>
 
             <div class="am-form-group">
-                <label>{{:lang('alipay_life_menu_type_text')}}</label>
-                <select name="type" class="am-radius c-p chosen-select" data-placeholder="可选择..." data-validation-message="{{:lang('alipay_life_menu_type_format')}}" {{if isset($data['status']) and $data['status'] neq 0)}}disabled{{/if}} required>
+                <label>菜单类型</label>
+                <select name="type" class="am-radius c-p chosen-select" data-placeholder="可选择..." data-validation-message="请选择菜单类型" {{if isset($data['status']) and $data['status'] neq 0)}}disabled{{/if}} required>
                     <option value="">可选择...</option>
                     <foreach name="common_alipay_life_menu_type_list" item="v">
                         <option value="{{$v.value}}" {{if isset($data['type']) and $v['value'] eq $data['type']">selected{{/if}}>{{$v.name}}</option>
@@ -28,7 +28,7 @@
 
 			<!-- 生活号容器 -->
 			<div class="life-container">
-				<label class="block">{{:lang('alipay_life_menu_life_text')}}</label>
+				<label class="block">生活号</label>
 				<div class="life-form" data-search-url="{{:url('Admin/AlipayLifeMenu/Search')}}">
 				    <select class="am-radius c-p chosen-select life-form-category" data-placeholder="可选择..." data-validation-message="{{:lang('alipay_life_menu_category_format')}}">
 				    	<option value="">可选择...</option>
@@ -36,20 +36,20 @@
 							<option value="{{$v.id}}">{{$v.name}}</option>
 						{{/foreach}}
 					</select>
-					<input type="text" placeholder="{{:lang('alipay_life_menu_name_text')}}" class="am-radius life-form-keywords" />
+					<input type="text" placeholder="名称" class="am-radius life-form-keywords" />
 					<button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm search-submit">搜索</button>
 				</div>
 				<div class="am-form-group life-list">
-					<input type="text" name="alipay_life_ids" value="<notempty name="data.alipay_life_ids">{{:implode(',', json_decode($data['alipay_life_ids'], true))}}{{/if}}" data-validation-message="{{:lang('alipay_life_menu_life_format')}}" required />
+					<input type="text" name="alipay_life_ids" value="<notempty name="data.alipay_life_ids">{{:implode(',', json_decode($data['alipay_life_ids'], true))}}{{/if}}" data-validation-message="请选择生活号" required />
 					<div class="life-items am-fl">
-						<div class="title">{{:lang('alipay_life_menu_optional_text')}}</div>
+						<div class="title">可选</div>
 						<ul class="life-content am-list ul-left">
 							<div class="table-no">没有相关数据</div>
 						</ul>
 					</div>
-					<button type="button" class="am-btn am-btn-default am-btn-xs selected-all">{{:lang('alipay_life_menu_selected_all_text')}} <i class="am-icon-angle-double-right"></i></button>
+					<button type="button" class="am-btn am-btn-default am-btn-xs selected-all">全选 <i class="am-icon-angle-double-right"></i></button>
 					<div class="life-items am-fr">
-						<div class="title">{{:lang('alipay_life_menu_selected_text')}}</div>
+						<div class="title">已选</div>
 						<ul class="life-content am-list ul-right">
 							<div class="table-no <notempty name="data">none{{/if}}">没有相关数据</div>
 							<foreach name="alipay_life_list" item="v">

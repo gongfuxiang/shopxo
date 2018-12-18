@@ -7,14 +7,14 @@
         <form class="am-form form-validation view-save" action="{{:url('Admin/AlipayLifeMenu/ContentSave')}}" method="POST" request-type="ajax-url" request-value="{{:url('Admin/AlipayLifeMenu/ContentIndex', ['menu_id'=>$params['menu_id']])}}" enctype="multipart/form-data">
             <input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
             <legend>
-                <span class="fs-16)}}{{:lang('alipay_life_menu_add_name')}}</span>
+                <span class="fs-16)}}生活号菜单创建/编辑</span>
                 <a href="{{:url('Admin/AlipayLifeMenu/ContentIndex', ['menu_id'=>$params['menu_id']])}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
             </legend>
 
             {{if $menu['type'] eq 0 and !empty($alipay_life_menu_list)}}
                 <div class="am-form-group">
-                    <label>{{:lang('alipay_life_menu_pid_text')}}</label>
-                    <select name="pid" class="am-radius c-p chosen-select" data-placeholder="可选择..." data-validation-message="{{:lang('alipay_life_menu_pid_format')}}">
+                    <label>父级</label>
+                    <select name="pid" class="am-radius c-p chosen-select" data-placeholder="可选择..." data-validation-message="请选择父级">
                         <option value="">可选择...</option>
                         <foreach name="alipay_life_menu_list" item="v">
                             <option value="{{$v.id}}" {{if isset($data['pid']) and $v['id'] eq $data['pid']">selected{{/if}}>{{$v.name}}</option>
@@ -24,13 +24,13 @@
             {{/if}}
 
             <div class="am-form-group">
-                <label>{{:lang('alipay_life_menu_name_text')}}</label>
-                <input type="text" name="name" placeholder="{{:lang('alipay_life_menu_name_text')}}" maxlength="5" data-validation-message="{{:lang('alipay_life_menu_name_format')}}" class="am-radius" value="<notempty name="data.name">{{$data.name}}{{/if}}" required />
+                <label>名称</label>
+                <input type="text" name="name" placeholder="名称" maxlength="5" data-validation-message="名称格式 1~5 个字符" class="am-radius" value="<notempty name="data.name">{{$data.name}}{{/if}}" required />
             </div>
 
             <div class="am-form-group">
-                <label>{{:lang('alipay_life_menu_action_type_text')}}</label>
-                <select name="action_type" class="am-radius c-p chosen-select" data-placeholder="可选择..." data-validation-message="{{:lang('alipay_life_menu_action_type_format')}}" required>
+                <label>事件类型</label>
+                <select name="action_type" class="am-radius c-p chosen-select" data-placeholder="可选择..." data-validation-message="请选择事件类型" required>
                     <option value="">可选择...</option>
                     <foreach name="common_alipay_life_menu_action_type_list" item="v">
                         <option value="{{$v.value}}" {{if isset($data['action_type']) and $v['value'] eq $data['action_type']">selected{{/if}}>{{$v.name}}</option>
@@ -39,17 +39,17 @@
             </div>
 
             <div class="am-form-group">
-                <label>{{:lang('alipay_life_menu_action_value_text')}}</label>
-                <input type="text" name="action_value" placeholder="{{:lang('alipay_life_menu_action_value_text')}}" maxlength="250" data-validation-message="{{:lang('alipay_life_menu_action_value_format')}}" class="am-radius" value="<notempty name="data.action_value">{{$data.action_value}}{{/if}}" />
+                <label>事件值</label>
+                <input type="text" name="action_value" placeholder="事件值" maxlength="250" data-validation-message="事件值格式最多 250 个字符" class="am-radius" value="<notempty name="data.action_value">{{$data.action_value}}{{/if}}" />
             </div>
 
             {{if $menu['type'] eq 1)}}
                 <div class="am-form-group am-form-file">
-                    <label class="block">{{:lang('alipay_life_menu_icon_text')}}</label>
+                    <label class="block">图标</label>
                     <button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
                     <i class="am-icon-cloud-upload"></i> 选择图片</button>
-                    <input type="text" name="icon" class="am-radius js-choice-one original-images-url original-icon-images-url" data-choice-one-to='input[name="file_icon"]' data-validation-message="{{:lang('alipay_life_menu_icon_format')}}" readonly="readonly" value="<notempty name="data.icon">{{$data.icon}}{{/if}}" required />
-                    <input type="file" name="file_icon" multiple data-validation-message="{{:lang('alipay_life_menu_icon_format')}}" accept="image/jpeg,image/jpg,image/png" class="js-choice-one images-file-event file_icon-tag" data-choice-one-to=".original-icon-images-url" data-tips-tag="#form-icon-tips" data-image-tag="#form-img-icon" required />
+                    <input type="text" name="icon" class="am-radius js-choice-one original-images-url original-icon-images-url" data-choice-one-to='input[name="file_icon"]' data-validation-message="请上传图标" readonly="readonly" value="<notempty name="data.icon">{{$data.icon}}{{/if}}" required />
+                    <input type="file" name="file_icon" multiple data-validation-message="请上传图标" accept="image/jpeg,image/jpg,image/png" class="js-choice-one images-file-event file_icon-tag" data-choice-one-to=".original-icon-images-url" data-tips-tag="#form-icon-tips" data-image-tag="#form-img-icon" required />
                     <div id="form-icon-tips" class="m-t-5)}}</div>
                     <notempty name="data.icon">
                         <img src="{{$image_host}}{{$data.icon}}" id="form-img-icon" class="block m-t-5 am-img-thumbnail am-radius" width="60" height="60" data-default="{{$image_host}}/Public/Admin/Default/Images/default-images.png" />

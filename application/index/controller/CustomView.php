@@ -54,7 +54,7 @@ class CustomView extends Common
 			$this->assign('data', $data[0]);
 			return $this->fetch();
 		} else {
-			$this->assign('msg', lang('customview_on_exist_error'));
+			$this->assign('msg', '页面不存在或已删除');
 			return $this->fetch('public/tips_error');
 		}
 	}

@@ -6,7 +6,7 @@
         <!-- form start -->
         <form class="am-form view-list" action="{{:url('Admin/AlipayLifeMessage/Index')}}" method="POST">
             <div class="am-g">
-                <input type="text" class="am-radius form-keyword" placeholder="{{:lang('alipay_life_message_keywords_text')}}" name="keyword" <present name="params['keyword']"> value="{{$params.keyword}}"{{/if}} />
+                <input type="text" class="am-radius form-keyword" placeholder="标题" name="keyword" <present name="params['keyword']"> value="{{$params.keyword}}"{{/if}} />
                 <button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
                 <label class="fs-12 m-l-5 c-p fw-100 more-submit">
                     更多筛选
@@ -22,13 +22,13 @@
                         {{/foreach}}
                     </select>
                     <select name="type" class="am-radius c-p m-t-10 m-l-5 param-where">
-                        <option value="-1)}}{{:lang('alipay_life_message_msg_type_text')}}</option>
+                        <option value="-1)}}消息类型</option>
                         <foreach name="alipay_life_message_msg_type_list" item="v">
                             <option value="{{$v.value}}" {{if isset($params['type']) and $params['type'] eq $v['value']">selected{{/if}}>{{$v.name}}</option>
                         {{/foreach}}
                     </select>
                     <select name="send_type" class="am-radius c-p m-t-10 m-l-5 param-where">
-                        <option value="-1)}}{{:lang('alipay_life_message_send_type_text')}}</option>
+                        <option value="-1)}}发送类型</option>
                         <foreach name="alipay_life_message_send_type_list" item="v">
                             <option value="{{$v.value}}" {{if isset($params['send_type']) and $params['send_type'] eq $v['value']">selected{{/if}}>{{$v.name}}</option>
                         {{/foreach}}
@@ -53,8 +53,8 @@
         <table class="am-table am-table-striped am-table-hover am-text-middle m-t-1)}}
             <thead>
                 <tr>
-                    <th>{{:lang('alipay_life_message_msg_type_text')}}</th>
-                    <th>{{:lang('alipay_life_message_send_type_text')}}</th>
+                    <th>消息类型</th>
+                    <th>发送类型</th>
                     <th>状态</th>
                     <th>更多</th>
                     <th>操作</th>
@@ -77,25 +77,25 @@
                                         </div>
                                         <div class="am-popup-bd">
                                             <dl class="dl-content">
-                                                <dt>{{:lang('alipay_life_message_msg_type_text')}}</dt>
+                                                <dt>消息类型</dt>
                                                 <dd>{{if empty($v['type_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.type_name}}{{/if}}</dd>
 
-                                                <dt>{{:lang('alipay_life_message_send_type_text')}}</dt>
+                                                <dt>发送类型</dt>
                                                 <dd>{{if empty($v['send_type_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.send_type_name}}{{/if}}</dd>
 
-                                                <dt>{{:lang('alipay_life_message_life_text')}}</dt>
+                                                <dt>生活号</dt>
                                                 <dd>{{if empty($v['alipay_life_all'])}}<span class="cr-ddd">未填写</span>{{else /}}{{:implode('，', $v['alipay_life_all'])}}{{/if}}</dd>
 
-                                                <dt>{{:lang('alipay_life_message_user_text')}}</dt>
+                                                <dt>给用户发送消息</dt>
                                                 <dd>{{if empty($v['alipay_openid'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.alipay_openid}}{{/if}}</dd>
 
                                                 <dt>状态</dt>
                                                 <dd>{{if empty($v['status_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.status_name}}{{/if}}</dd>
 
-                                                <dt>{{:lang('alipay_life_message_startup_time_text')}}</dt>
+                                                <dt>发送启动时间</dt>
                                                 <dd>{{$v.startup_time}}</dd>
 
-                                                <dt>{{:lang('alipay_life_message_success_time_text')}}</dt>
+                                                <dt>发送完成时间</dt>
                                                 <dd>{{$v.success_time}}</dd>
 
                                                 <dt>创建时间</dt>
@@ -120,11 +120,11 @@
                                 {{/if}}
 
                                 <a href="{{:url('Admin/AlipayLifeMessage/ContentIndex', array('message_id'=>$v['id']))}}">
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-cubes"> {{:lang('alipay_life_message_content_text')}}</button>
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-cubes"> 内容</button>
                                 </a>
 
                                 <a href="{{:url('Admin/AlipayLifeMessage/Detail', array('message_id'=>$v['id']))}}">
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-align-left"> {{:lang('alipay_life_message_detail_text')}}</button>
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-align-left"> 详情</button>
                                 </a>
                             </td>
                         </tr>

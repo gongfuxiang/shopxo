@@ -9,16 +9,16 @@
 			<legend>
 				<span class="fs-16)}}
 					{{if empty($data['id'])}}
-						{{:lang('app_slide_add_name')}}
+						轮播添加
 					{{else /}}
-						{{:lang('app_slide_edit_name')}}
+						轮播编辑
 					{{/if}}
 				</span>
 				<a href="{{:url('Admin/AppSlide/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
-				<label>{{:lang('app_slide_name_text')}}</label>
-				<input type="text" name="name" placeholder="{{:lang('app_slide_name_text')}}" minlength="2" maxlength="60" data-validation-message="{{:lang('app_slide_name_format')}}" class="am-radius" <notempty name="data"> value="{{$data.name}}"{{/if}} required />
+				<label>名称</label>
+				<input type="text" name="name" placeholder="名称" minlength="2" maxlength="60" data-validation-message="名称格式 2~60 个字符" class="am-radius" <notempty name="data"> value="{{$data.name}}"{{/if}} required />
 			</div>
 			<div class="am-form-group">
 				<label>所属平台</label>
@@ -44,14 +44,14 @@
 			<div class="am-form-group">
 				<div class="am-alert am-alert-warning am-radius" data-am-alert>
 				    <button type="button" class="am-close">&times;</button>
-				    <p>{{:lang('common_app_event_type_tips')}}</p>
+				    <p>WEB页面<br />&nbsp&nbsp&nbsp;1.以http开头<br />&nbsp&nbsp&nbsp;2.并在小程序后台加入白名单<br /><br /> 内部页面(小程序/APP内部地址)<br />&nbsp&nbsp&nbsp;1.小程序或APP内部地址<br />&nbsp&nbsp&nbsp;2.小程序以/pages开始<br />&nbsp&nbsp&nbsp;3.例如：/pages/user/user<br />&nbsp&nbsp&nbsp;4.支持带参数 ?x=xx<br /><br /> 跳转原生地图查看指定位置<br />&nbsp&nbsp&nbsp;1.以 | 竖线分割，分别顺序 名称|地址|经度|纬度<br />&nbsp&nbsp&nbsp;2.例如：ShopXO|上海浦东新区张江高科技园区XXX号|121.626444|31.20843</p>
 				</div>
 				<label>事件值</label>
 				<input type="text" name="event_value" placeholder="事件值" data-validation-message="事件值最多 255 个字符" class="am-radius" <notempty name="data"> value="{{$data.event_value}}"{{/if}} />
 			</div>
 
 			<div class="am-form-group am-form-file">
-				<label class="block">{{:lang('app_slide_images_url_text')}}</label>
+				<label class="block">轮播图片</label>
 				<button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
 				<i class="am-icon-cloud-upload"></i> 选择图片</button>
 				<input type="text" name="images_url" class="am-radius js-choice-one original-images-url" data-choice-one-to=".images-file-event" <notempty name="data"> value="{{$data.images_url}}"{{/if}}" data-validation-message="请选择需要上传的图片" readonly="readonly" <notempty name="data"> value="{{$data.images_url}}"{{/if}} required />

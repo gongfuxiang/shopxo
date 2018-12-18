@@ -47,18 +47,18 @@ class AlipayLifeService
             if($m->insertGetId($data))
             {
                 $status = true;
-                $msg = lang('common_operation_add_success');
+                $msg = '新增成功';
             } else {
-                $msg = lang('common_operation_add_error');
+                $msg = '新增失败';
             }
         } else {
             $data['upd_time'] = time();
             if($m->where(array('id'=>intval(I('id'))))->update($data))
             {
                 $status = true;
-                $msg = lang('common_operation_edit_success');
+                $msg = '编辑成功';
             } else {
-                $msg = lang('common_operation_edit_error');
+                $msg = '编辑失败或数据未改变';
             }
         }
 
@@ -142,18 +142,18 @@ class AlipayLifeService
             if($m->insertGetId($data))
             {
                 $status = true;
-                $msg = lang('common_operation_add_success');
+                $msg = '新增成功';
             } else {
-                $msg = lang('common_operation_add_error');
+                $msg = '新增失败';
             }
         } else {
             $data['upd_time'] = time();
             if($m->where(array('id'=>intval(I('id'))))->update($data))
             {
                 $status = true;
-                $msg = lang('common_operation_edit_success');
+                $msg = '编辑成功';
             } else {
-                $msg = lang('common_operation_edit_error');
+                $msg = '编辑失败或数据未改变';
             }
         }
 
@@ -483,11 +483,11 @@ class AlipayLifeService
             {
                 $m->commit();
                 self::SyncJobSend($data['id'], 'message_id', 'MessageSend');
-                return DataReturn(lang('common_submit_success'), 0);
+                return DataReturn('提交成功', 0);
             }
         }
         $m->rollback();
-        return DataReturn(lang('common_submit_error'), -100);
+        return DataReturn('提交失败', -100);
     }
 
     /**
@@ -635,9 +635,9 @@ class AlipayLifeService
 
         if(empty($data))
         {
-            return DataReturn(lang('common_not_data_tips'), -100);
+            return DataReturn('没有相关数据', -100);
         } else {
-            return DataReturn(lang('common_operation_success'), 0, $data);
+            return DataReturn('操作成功', 0, $data);
         }
     }
 
@@ -732,7 +732,7 @@ class AlipayLifeService
             if($ret['status'] == 0)
             {
                 $m->commit();
-                return DataReturn(lang('common_operation_edit_success'), 0);
+                return DataReturn('编辑成功', 0);
             } else {
                 $m->rollback();
                 return DataReturn($ret['msg'], -100);
@@ -740,7 +740,7 @@ class AlipayLifeService
         }
 
         $m->rollback();
-        return DataReturn(lang('common_operation_edit_error'), -100);
+        return DataReturn('编辑失败或数据未改变', -100);
     }
 
     /**
@@ -800,18 +800,18 @@ class AlipayLifeService
             if($m->insertGetId($data))
             {
                 $status = true;
-                $msg = lang('common_operation_add_success');
+                $msg = '新增成功';
             } else {
-                $msg = lang('common_operation_add_error');
+                $msg = '新增失败';
             }
         } else {
             $data['upd_time'] = time();
             if($m->where(array('id'=>intval(I('id'))))->update($data))
             {
                 $status = true;
-                $msg = lang('common_operation_edit_success');
+                $msg = '编辑成功';
             } else {
-                $msg = lang('common_operation_edit_error');
+                $msg = '编辑失败或数据未改变';
             }
         }
 
@@ -892,18 +892,18 @@ class AlipayLifeService
             if($m->insertGetId($data))
             {
                 $status = true;
-                $msg = lang('common_operation_add_success');
+                $msg = '新增成功';
             } else {
-                $msg = lang('common_operation_add_error');
+                $msg = '新增失败';
             }
         } else {
             $data['upd_time'] = time();
             if($m->where(array('id'=>intval(I('id'))))->update($data))
             {
                 $status = true;
-                $msg = lang('common_operation_edit_success');
+                $msg = '编辑成功';
             } else {
-                $msg = lang('common_operation_edit_error');
+                $msg = '编辑失败或数据未改变';
             }
         }
 
@@ -1091,11 +1091,11 @@ class AlipayLifeService
             {
                 $m->commit();
                 self::SyncJobSend($data['id'], 'menu_id', 'MenuRelease');
-                return DataReturn(lang('common_submit_success'), 0);
+                return DataReturn('提交成功', 0);
             }
         }
         $m->rollback();
-        return DataReturn(lang('common_submit_error'), -100);
+        return DataReturn('提交失败', -100);
     }
 
     /**
@@ -1299,18 +1299,18 @@ class AlipayLifeService
             if($m->insertGetId($data))
             {
                 $status = true;
-                $msg = lang('common_operation_add_success');
+                $msg = '新增成功';
             } else {
-                $msg = lang('common_operation_add_error');
+                $msg = '新增失败';
             }
         } else {
             $data['upd_time'] = time();
             if($m->where(array('id'=>intval(I('id'))))->update($data))
             {
                 $status = true;
-                $msg = lang('common_operation_edit_success');
+                $msg = '编辑成功';
             } else {
-                $msg = lang('common_operation_edit_error');
+                $msg = '编辑失败或数据未改变';
             }
         }
 
@@ -1381,11 +1381,11 @@ class AlipayLifeService
             {
                 $m->commit();
                 self::SyncJobSend($data['id'], 'status_id', 'StatusHandle');
-                return DataReturn(lang('common_submit_success'), 0);
+                return DataReturn('提交成功', 0);
             }
         }
         $m->rollback();
-        return DataReturn(lang('common_submit_error'), -100);
+        return DataReturn('提交失败', -100);
     }
 
     /**

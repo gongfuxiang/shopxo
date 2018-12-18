@@ -80,9 +80,9 @@ class SafetyService
         // 更新数据库
         if(db('User')->where(['id'=>$params['user']['id']])->update($data) !== false)
         {
-            return DataReturn(lang('common_operation_success'), 0);
+            return DataReturn('操作成功', 0);
         }
-        return DataReturn(lang('common_operation_error'), -100);
+        return DataReturn('操作失败', -100);
     }
 
     /**
@@ -100,7 +100,7 @@ class SafetyService
         $user = db('User')->where([$field=>$accounts])->value('id');
         if(!empty($user))
         {
-            $msg = ($type == 'sms') ? lang('common_mobile_exist_error') : lang('common_email_exist_error');
+            $msg = ($type == 'sms') ? '手机号码已存在' : '电子邮箱已存在';
             return DataReturn($msg, -10);
         }
         return DataReturn('账户不存在', 0);
@@ -122,20 +122,20 @@ class SafetyService
         {
             if(empty($params['verify']))
             {
-                return DataReturn(lang('common_param_error'), -10);
+                return DataReturn('参数错误', -10);
             }
             $verify = new \base\Verify($verify_params);
             if(!$verify->CheckExpire())
             {
-                return DataReturn(lang('common_verify_expire'), -11);
+                return DataReturn('验证码已过期', -11);
             }
             if(!$verify->CheckCorrect($params['verify']))
             {
-                return DataReturn(lang('common_verify_error'), -12);
+                return DataReturn('验证码错误', -12);
             }
-            return DataReturn(lang('common_operation_success'), 0, $verify);
+            return DataReturn('操作成功', 0, $verify);
         }
-        return DataReturn(lang('common_operation_success'), 0);
+        return DataReturn('操作成功', 0);
     }
 
     /**
@@ -212,7 +212,7 @@ class SafetyService
             $email_params = array(
                     'email'     =>  $accounts,
                     'content'   =>  MyC('home_email_user_email_binding'),
-                    'title'     =>  MyC('home_site_name').' - '.lang('safety_email_send_title'),
+                    'title'     =>  MyC('home_site_name').' - 电子邮箱绑定',
                     'code'      =>  $code,
                 );
             $status = $obj->SendHtml($email_params);
@@ -227,9 +227,9 @@ class SafetyService
                 $verify['data']->Remove();
             }
 
-            return DataReturn(lang('common_send_success'), 0);
+            return DataReturn('发送成功', 0);
         }
-        return DataReturn(lang('common_send_error').'['.$obj->error.']', -100);
+        return DataReturn('发送失败'.'['.$obj->error.']', -100);
     }
 
     /**
@@ -288,7 +288,7 @@ class SafetyService
         // 是否已过期
         if(!$obj->CheckExpire())
         {
-            return DataReturn(lang('common_verify_expire'), -10);
+            return DataReturn('验证码已过期', -10);
         }
         // 是否正确
         if($obj->CheckCorrect($params['verify']))
@@ -299,9 +299,9 @@ class SafetyService
             // 清除验证码
             $obj->Remove();
 
-            return DataReturn(lang('common_success'), 0);
+            return DataReturn('正确', 0);
         }
-        return DataReturn(lang('common_verify_error'), -11);
+        return DataReturn('验证码错误', -11);
     }
 
     /**
@@ -364,12 +364,12 @@ class SafetyService
         // 是否已过期
         if(!$obj->CheckExpire())
         {
-            return DataReturn(lang('common_verify_expire'), -10);
+            return DataReturn('验证码已过期', -10);
         }
         // 是否正确
         if(!$obj->CheckCorrect($params['verify']))
         {
-            return DataReturn(lang('common_verify_error'), -11);
+            return DataReturn('验证码错误', -11);
         }
 
         // 更新帐号
@@ -390,9 +390,9 @@ class SafetyService
             // 清除验证码
             $obj->Remove();
 
-            return DataReturn(lang('common_operation_success'), 0);
+            return DataReturn('操作成功', 0);
         }
-        return DataReturn(lang('common_operation_error'), -100);
+        return DataReturn('操作失败', -100);
     }
 }
 ?>

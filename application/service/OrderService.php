@@ -54,7 +54,7 @@ class OrderService
         $order = db('Order')->where($where)->find();
         if(empty($order))
         {
-            return DataReturn(lang('common_data_no_exist_error'), -1);
+            return DataReturn('资源不存在或已被删除', -1);
         }
         if($order['total_price'] <= 0.00)
         {
@@ -157,7 +157,7 @@ class OrderService
         $order = db('Order')->where($where)->find();
         if(empty($order))
         {
-            return DataReturn(lang('common_data_no_exist_error'), -1);
+            return DataReturn('资源不存在或已被删除', -1);
         }
         if($order['total_price'] <= 0.00)
         {
@@ -326,7 +326,7 @@ class OrderService
         // 订单信息
         if(empty($params['order']))
         {
-            return DataReturn(lang('common_data_no_exist_error'), -1);
+            return DataReturn('资源不存在或已被删除', -1);
         }
         if($params['order']['status'] > 1)
         {
@@ -717,7 +717,7 @@ class OrderService
         $order = db('Order')->where($where)->field('id,status,user_id')->find();
         if(empty($order))
         {
-            return DataReturn(lang('common_data_no_exist_error'), -1);
+            return DataReturn('资源不存在或已被删除', -1);
         }
         if(!in_array($order['status'], [0,1]))
         {
@@ -753,12 +753,12 @@ class OrderService
 
             // 提交事务
             Db::commit();
-            return DataReturn(lang('common_cancel_success'), 0);
+            return DataReturn('取消成功', 0);
         }
 
         // 事务回滚
         Db::rollback();
-        return DataReturn(lang('common_cancel_error'), -1);
+        return DataReturn('取消失败', -1);
     }
 
     /**
@@ -806,7 +806,7 @@ class OrderService
         $order = db('Order')->where($where)->field('id,status,user_id')->find();
         if(empty($order))
         {
-            return DataReturn(lang('common_data_no_exist_error'), -1);
+            return DataReturn('资源不存在或已被删除', -1);
         }
         if(!in_array($order['status'], [2]))
         {
@@ -844,12 +844,12 @@ class OrderService
 
             // 提交事务
             Db::commit();
-            return DataReturn(lang('common_operation_delivery_success'), 0);
+            return DataReturn('发货成功', 0);
         }
 
         // 事务回滚
         Db::rollback();
-        return DataReturn(lang('common_operation_delivery_error'), -1);
+        return DataReturn('发货失败', -1);
     }
 
     /**
@@ -887,7 +887,7 @@ class OrderService
         $order = db('Order')->where($where)->field('id,status,user_id')->find();
         if(empty($order))
         {
-            return DataReturn(lang('common_data_no_exist_error'), -1);
+            return DataReturn('资源不存在或已被删除', -1);
         }
         if(!in_array($order['status'], [3]))
         {
@@ -934,12 +934,12 @@ class OrderService
 
             // 提交事务
             Db::commit();
-            return DataReturn(lang('common_operation_collect_success'), 0);
+            return DataReturn('收货成功', 0);
         }
 
         // 事务回滚
         Db::rollback();
-        return DataReturn(lang('common_operation_collect_error'), -1);
+        return DataReturn('收货失败', -1);
     }
 
     /**
@@ -977,7 +977,7 @@ class OrderService
         $order = db('Order')->where($where)->field('id,status,user_id')->find();
         if(empty($order))
         {
-            return DataReturn(lang('common_data_no_exist_error'), -1);
+            return DataReturn('资源不存在或已被删除', -1);
         }
         if(!in_array($order['status'], [0]))
         {
@@ -1015,12 +1015,12 @@ class OrderService
 
             // 事务提交
             Db::commit();
-            return DataReturn(lang('common_confirm_success'), 0);
+            return DataReturn('确认成功', 0);
         }
 
         // 事务回滚
         Db::rollback();
-        return DataReturn(lang('common_confirm_error'), -1);
+        return DataReturn('确认失败', -1);
     }
 
     /**
@@ -1079,7 +1079,7 @@ class OrderService
         $order = db('Order')->where($where)->field('id,status,user_id')->find();
         if(empty($order))
         {
-            return DataReturn(lang('common_data_no_exist_error'), -1);
+            return DataReturn('资源不存在或已被删除', -1);
         }
         if(!in_array($order['status'], [4,5,6]))
         {
@@ -1096,9 +1096,9 @@ class OrderService
             // 用户消息
             MessageService::MessageAdd($order['user_id'], '订单删除', '订单删除成功', 1, $order['id']);
 
-            return DataReturn(lang('common_operation_delete_success'), 0);
+            return DataReturn('删除成功', 0);
         }
-        return DataReturn(lang('common_operation_delete_error'), -1);
+        return DataReturn('删除失败或资源不存在', -1);
     }
 
     /**
@@ -1167,7 +1167,7 @@ class OrderService
         $order = db('Order')->where($where)->field('id,status,shop_id,user_is_comments')->find();
         if(empty($order))
         {
-            return DataReturn(lang('common_data_no_exist_error'), -1);
+            return DataReturn('资源不存在或已被删除', -1);
         }
         if($order['status'] != 4)
         {
@@ -1207,7 +1207,7 @@ class OrderService
         }
 
         Db::commit();
-        return DataReturn(lang('common_operation_comments_success'), 0);
+        return DataReturn('评价成功', 0);
     }
 
     /**

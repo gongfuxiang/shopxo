@@ -18,13 +18,13 @@
 		<form class="am-form form-validation" method="post" action="{{:url('index/user/forgetpwd')}}" request-type="ajax-url" request-value="{{:url('index/user/logininfo')}}">
 			<fieldset>
 				{{if MyC('home_user_login_state') eq 1}}
-					<span>{{:lang('user_reg_there_are_accounts_text')}}</span>
-					<a href="{{:url('index/user/logininfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">{{:lang('user_reg_login_immediately_text')}}</a>
+					<span>已有帐号？</span>
+					<a href="{{:url('index/user/logininfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">立即登录</a>
 					<hr />
 				{{/if}}
-				<label>{{:lang('user_login_accounts_text')}}</label>
+				<label>手机/邮箱</label>
 				<div class="am-form-group">
-					<input type="text" name="accounts" class="am-radius" id="accounts" minlength="1" placeholder="{{:lang('user_login_accounts_text')}}" data-validation-message="{{:lang('user_login_accounts_format')}}" required />
+					<input type="text" name="accounts" class="am-radius" id="accounts" minlength="1" placeholder="手机/邮箱" data-validation-message="手机/邮箱格式有误" required />
 				</div>
 
 				<label>验证码</label>
@@ -35,9 +35,9 @@
 	                </span>
 	            </div>
 	            <br />
-				<label>{{:lang('user_reg_pwd_text')}}</label>
+				<label>设置登录密码</label>
 				<div class="am-input-group am-input-group-sm am-form-group">
-					<input type="password" name="pwd" class="am-radius" placeholder="{{:lang('user_reg_pwd_text')}}" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="{{:lang('user_reg_pwd_format')}}" required />
+					<input type="password" name="pwd" class="am-radius" placeholder="设置登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
 					<span class="am-input-group-btn">
 						<button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
 					</span>

@@ -71,7 +71,7 @@ class Buy extends Common
                 $this->assign('params', $params);
                 return $this->fetch();
             } else {
-                $this->assign('msg', isset($ret['msg']) ? $ret['msg'] : lang('common_param_error'));
+                $this->assign('msg', isset($ret['msg']) ? $ret['msg'] : '参数错误');
                 return $this->fetch('public/tips_error');
             }
         }
@@ -94,7 +94,7 @@ class Buy extends Common
             $ret = BuyService::OrderAdd($params);
             return json($ret);
         } else {
-            $this->assign('msg', lang('common_unauthorized_access'));
+            $this->assign('msg', '非法访问');
             return $this->fetch('public/tips_error');
         }
     }

@@ -90,7 +90,7 @@ function DataReturn($msg = '', $code = 0, $data = '')
     // 错误情况下，防止提示信息为空
     if($result['code'] != 0 && empty($result['msg']))
     {
-        $result['msg'] = lang('common_operation_error');
+        $result['msg'] = '操作失败';
     }
 
     return $result;
@@ -194,12 +194,12 @@ function FileUploadError($name, $index = false)
     {
         if(empty($_FILES[$name]))
         {
-            return lang('common_select_file_tips');
+            return '请选择需要上传的文件';
         }
     } else {
         if(empty($_FILES[$name]['name'][$index]))
         {
-            return lang('common_select_file_tips');
+            return '请选择需要上传的文件';
         }
     }
 
@@ -226,7 +226,7 @@ function FileUploadError($name, $index = false)
     {
         return $file_error_list[$error];
     }
-    return lang('common_unknown_error').'[file error '.$error.']';
+    return '未知错误'.'[file error '.$error.']';
 }
 
 /**

@@ -8,7 +8,7 @@
             <input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
             <legend>
                 <span class="fs-16)}}
-                    {{:lang('coupon_operation_user_name')}}{{:lang('coupon_operation_send_name')}}
+                    用户优惠券发放
                 </span>
                 <a href="{{:url('Admin/Coupon/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
             </legend>
@@ -16,19 +16,19 @@
             <!-- 优惠券信息 -->
             <div class="am-form-group am-alert am-alert-secondary am-radius coupon-base">
                 <div class="items">
-                    <span>{{:lang('coupon_name_text')}}</span>：
+                    <span>优惠券名称</span>：
                     <span>{{$data['name']}}</span>
                 </div>
                 <div class="items">
-                    <span>{{:lang('coupon_type_text')}}</span>：
+                    <span>优惠券类型</span>：
                     <span>{{$data['type_text']}}</span>
                 </div>
                 <div class="items">
-                    <span>{{:lang('coupon_price_text')}}</span>：
+                    <span>金额(元)</span>：
                     <span>{{$data['price']}}</span>
                 </div>
                 <div class="items">
-                    <span>{{:lang('coupon_use_where_price_text')}}</span>：
+                    <span>使用条件金额(元)</span>：
                     <span>
                         {{if empty($data['use_where_price'])}}
                             <span class="cr-ccc">不限</span>
@@ -38,7 +38,7 @@
                     </span>
                 </div>
                 <div class="items">
-                    <span>{{:lang('coupon_valid_text')}}</span>：
+                    <span>有效时间</span>：
                     <span>
                         {{if !empty($data['valid_start_time'])}}
                             {{$data.valid_start_time}}
@@ -55,9 +55,9 @@
 
             <!-- 查询用户 -->
             <div class="am-form-group  am-input-group am-input-group-sm">
-                <input type="text" class="am-radius search-keyword" placeholder="{{:lang('coupon_send_search_input_text')}}">
+                <input type="text" class="am-radius search-keyword" placeholder="用户昵称/姓名/手机号码">
                 <span class="am-input-group-btn">
-                    <button class="am-btn am-btn-default am-radius search-submit" type="button" data-url="{{:url('Admin/Coupon/UserQuery')}}"><span class="am-icon-search"></span> {{:lang('coupon_send_search_submit')}}</button>
+                    <button class="am-btn am-btn-default am-radius search-submit" type="button" data-url="{{:url('Admin/Coupon/UserQuery')}}"><span class="am-icon-search"></span> 查询</button>
                 </span>
             </div>
             <div class="am-form-group data-success none">
@@ -80,11 +80,11 @@
             <ul class="user-list am-form-group none"></ul>
 
             <div class="am-form-group">
-                <label>{{:lang('coupon_valid_text')}}</label>
+                <label>有效时间</label>
                 <div class="twain-date">
-                    <input class="Wdate am-radius" type="text" placeholder="{{:lang('coupon_valid_text')}}" name="valid_start_time" data-validation-message="{{:lang('coupon_valid_start_time_format')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" <notempty name="data"> value="{{$data.valid_start_time}}"{{/if}} required />
+                    <input class="Wdate am-radius" type="text" placeholder="有效时间" name="valid_start_time" data-validation-message="有效开始时间有误" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" <notempty name="data"> value="{{$data.valid_start_time}}"{{/if}} required />
                     <span>~</span>
-                    <input class="Wdate am-radius" type="text" placeholder="{{:lang('coupon_valid_text')}}" name="valid_end_time" data-validation-message="{{:lang('coupon_valid_end_time_format')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" <notempty name="data"> value="{{$data.valid_end_time}}"{{/if}} required />
+                    <input class="Wdate am-radius" type="text" placeholder="有效时间" name="valid_end_time" data-validation-message="有效截止时间有误" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" <notempty name="data"> value="{{$data.valid_end_time}}"{{/if}} required />
                 </div>
             </div>
             <div class="am-form-group">

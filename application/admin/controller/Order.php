@@ -248,7 +248,7 @@ class Order extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         // 删除操作
@@ -273,7 +273,7 @@ class Order extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         // 取消操作
@@ -297,7 +297,7 @@ class Order extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         // 发货操作
@@ -320,7 +320,7 @@ class Order extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         // 收货操作
@@ -344,7 +344,7 @@ class Order extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         // 订单确认
@@ -368,7 +368,7 @@ class Order extends Common
     {
         $params = $_POST;
         $params['user'] = $this->admin;
-        $params['user']['user_name_view'] = lang('common_admin_name').'-'.$this->admin['username'];
+        $params['user']['user_name_view'] = '管理员'.'-'.$this->admin['username'];
         $ret = OrderService::AdminPay($params);
         $this->ajaxReturn($ret['msg'], $ret['code'], $ret['data']);
     }

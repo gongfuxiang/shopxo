@@ -64,7 +64,7 @@ class GoodsCategory extends Common
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error(lang('common_unauthorized_access'));
+			$this->error('非法访问');
 		}
 
 		// 开始操作
@@ -85,7 +85,7 @@ class GoodsCategory extends Common
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error(lang('common_unauthorized_access'));
+			$this->error('非法访问');
 		}
 
 		// 开始操作
@@ -105,7 +105,7 @@ class GoodsCategory extends Common
 		// 是否ajax
 		if(!IS_AJAX)
 		{
-			return $this->error(lang('common_unauthorized_access'));
+			return $this->error('非法访问');
 		}
 
 		// 开始操作

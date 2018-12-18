@@ -198,7 +198,7 @@ class AlipayLife extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         // 图片
@@ -241,18 +241,18 @@ class AlipayLife extends Common
                 if($alipay_life_id)
                 {
                     $status = true;
-                    $msg = lang('common_operation_add_success');
+                    $msg = '新增成功';
                 } else {
-                    $msg = lang('common_operation_add_error');
+                    $msg = '新增失败';
                 }
             } else {
                 // 更新数据库
                 if($m->where(array('id'=>$alipay_life_id))->save())
                 {
                     $status = true;
-                    $msg = lang('common_operation_edit_success');
+                    $msg = '编辑成功';
                 } else {
-                    $msg = lang('common_operation_edit_error');
+                    $msg = '编辑失败或数据未改变';
                 }
             }
         } else {
@@ -276,7 +276,7 @@ class AlipayLife extends Common
                 // 回滚事务
                 $m->rollback();
 
-                $this->ajaxReturn(lang('alipay_life_save_category_error'), -10);
+                $this->ajaxReturn('分类添加失败', -10);
             }
         } else {
             // 回滚事务
@@ -300,7 +300,7 @@ class AlipayLife extends Common
     {
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         $m = D('AlipayLife');
@@ -311,9 +311,9 @@ class AlipayLife extends Common
             // 删除
             if($m->delete($id))
             {
-                $this->ajaxReturn(lang('common_operation_delete_success'));
+                $this->ajaxReturn('删除成功');
             } else {
-                $this->ajaxReturn(lang('common_operation_delete_error'), -100);
+                $this->ajaxReturn('删除失败或资源不存在', -100);
             }
         } else {
             $this->ajaxReturn($m->getError(), -1);
@@ -332,7 +332,7 @@ class AlipayLife extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         // 开始处理

@@ -56,7 +56,7 @@ class Region extends Common
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error(lang('common_unauthorized_access'));
+			$this->error('非法访问');
 		}
 
 		// 获取数据
@@ -72,7 +72,7 @@ class Region extends Common
 				$data[$k]['json']		=	json_encode($v);
 			}
 		}
-		$msg = empty($data) ? lang('common_not_data_tips') : lang('common_operation_success');
+		$msg = empty($data) ? '没有相关数据' : '操作成功';
 		$this->ajaxReturn($msg, 0, $data);
 	}
 
@@ -106,7 +106,7 @@ class Region extends Common
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error(lang('common_unauthorized_access'));
+			$this->error('非法访问');
 		}
 
 		// id为空则表示是新增
@@ -127,9 +127,9 @@ class Region extends Common
 				// 写入数据库
 				if($m->add())
 				{
-					$this->ajaxReturn(lang('common_operation_add_success'));
+					$this->ajaxReturn('新增成功');
 				} else {
-					$this->ajaxReturn(lang('common_operation_add_error'), -100);
+					$this->ajaxReturn('新增失败', -100);
 				}
 			}
 		} else {
@@ -146,9 +146,9 @@ class Region extends Common
 				// 更新数据库
 				if($m->where(array('id'=>I('id')))->save())
 				{
-					$this->ajaxReturn(lang('common_operation_edit_success'));
+					$this->ajaxReturn('编辑成功');
 				} else {
-					$this->ajaxReturn(lang('common_operation_edit_error'), -100);
+					$this->ajaxReturn('编辑失败或数据未改变', -100);
 				}
 			}
 		}
@@ -166,7 +166,7 @@ class Region extends Common
 	{
 		if(!IS_AJAX)
 		{
-			$this->error(lang('common_unauthorized_access'));
+			$this->error('非法访问');
 		}
 
 		$m = D('Region');
@@ -174,9 +174,9 @@ class Region extends Common
 		{
 			if($m->delete(I('id')))
 			{
-				$this->ajaxReturn(lang('common_operation_delete_success'));
+				$this->ajaxReturn('删除成功');
 			} else {
-				$this->ajaxReturn(lang('common_operation_delete_error'), -100);
+				$this->ajaxReturn('删除失败或资源不存在', -100);
 			}
 		} else {
 			$this->ajaxReturn($m->getError(), -1);

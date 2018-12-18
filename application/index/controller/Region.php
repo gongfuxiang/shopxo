@@ -38,7 +38,7 @@ class Region extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         // 获取地区
@@ -48,7 +48,7 @@ class Region extends Common
             ],
         ];
         $data = RegionService::RegionNode($params);
-        return json(DataReturn(lang('common_operation_success'), 0, $data));
+        return json(DataReturn('操作成功', 0, $data));
     }
 }
 ?>

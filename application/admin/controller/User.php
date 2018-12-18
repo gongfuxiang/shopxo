@@ -102,7 +102,7 @@ class User extends Common
 		$data = UserService::UserList($data_params);
 
 		// Excel驱动导出数据
-		$excel = new \base\Excel(array('filename'=>'user', 'title'=>lang('excel_user_title_list'), 'data'=>$data, 'msg'=>lang('common_not_data_tips')));
+		$excel = new \base\Excel(array('filename'=>'user', 'title'=>lang('excel_user_title_list'), 'data'=>$data, 'msg'=>'没有相关数据'));
 		return $excel->Export();
 	}
 
@@ -157,7 +157,7 @@ class User extends Common
 		// 是否ajax
 		if(!IS_AJAX)
 		{
-			return $this->error(lang('common_unauthorized_access'));
+			return $this->error('非法访问');
 		}
 
 		// 开始操作
@@ -179,7 +179,7 @@ class User extends Common
 		// 是否ajax
 		if(!IS_AJAX)
 		{
-			return $this->error(lang('common_unauthorized_access'));
+			return $this->error('非法访问');
 		}
 
 		// 开始操作

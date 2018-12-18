@@ -88,7 +88,7 @@ class BuyService
             $data['add_time'] = time();
             if(db('Cart')->insertGetId($data) > 0)
             {
-                return DataReturn(lang('common_join_success'), 0, self::UserCartTotal($params));
+                return DataReturn('加入成功', 0, self::UserCartTotal($params));
             }
         } else {
             $data['upd_time'] = time();
@@ -99,11 +99,11 @@ class BuyService
             }
             if(db('Cart')->where($where)->update($data))
             {
-                return DataReturn(lang('common_join_success'), 0, self::UserCartTotal($params));
+                return DataReturn('加入成功', 0, self::UserCartTotal($params));
             }
         }
         
-        return DataReturn(lang('common_join_error'), -100);
+        return DataReturn('加入失败', -100);
     }
 
     /**
@@ -189,7 +189,7 @@ class BuyService
             }
         }
 
-        return DataReturn(lang('common_operation_success'), 0, $data);
+        return DataReturn('操作成功', 0, $data);
     }
 
     /**
@@ -229,9 +229,9 @@ class BuyService
         ];
         if(db('Cart')->where($where)->delete())
         {
-            return DataReturn(lang('common_operation_delete_success'), 0, self::UserCartTotal($params));
+            return DataReturn('删除成功', 0, self::UserCartTotal($params));
         }
-        return DataReturn(lang('common_operation_delete_error'), -100);
+        return DataReturn('删除失败或资源不存在', -100);
     }
 
     /**
@@ -286,9 +286,9 @@ class BuyService
         ];
         if(db('Cart')->where($where)->update($data))
         {
-            return DataReturn(lang('common_operation_update_success'), 0);
+            return DataReturn('更新成功', 0);
         }
-        return DataReturn(lang('common_operation_update_error'), -100);
+        return DataReturn('更新失败', -100);
     }
 
     /**
@@ -343,7 +343,7 @@ class BuyService
         $goods = GoodsService::GoodsList($p);
         if(empty($goods[0]))
         {
-            return DataReturn(lang('common_data_no_exist_error'), -10);
+            return DataReturn('资源不存在或已被删除', -10);
         }
 
         // 规格
@@ -364,7 +364,7 @@ class BuyService
         $goods[0]['stock'] = $params['stock'];
         $goods[0]['total_price'] = $params['stock']*$goods[0]['price'];
 
-        return DataReturn(lang('common_operation_success'), 0, $goods);
+        return DataReturn('操作成功', 0, $goods);
     }
 
     /**
@@ -529,7 +529,7 @@ class BuyService
         $data = [
             'total_price'   => $total_price,
         ];
-        return DataReturn(lang('common_operation_success'), 0, $data);
+        return DataReturn('操作成功', 0, $data);
     }
 
     /**
@@ -684,18 +684,18 @@ class BuyService
         {
             // 预约成功
             case 0 :
-                $msg = lang('common_booking_success');
+                $msg = '预约成功';
                 break;
 
             // 提交成功
             case 1 :
-                $msg = lang('common_submit_success');
+                $msg = '提交成功';
                 $result['jump_url'] = url('index/order/pay', ['id'=>$order_id]);
                 break;
 
             // 默认操作成功
             default :
-                $msg = lang('common_operation_success');
+                $msg = '操作成功';
         }
 
         return DataReturn($msg, 0, $result);

@@ -214,9 +214,9 @@ class AdminPowerService
         // 数据更新
         if(db('Role')->where(['id'=>intval($params['id'])])->update(['is_enable'=>intval($params['state'])]))
         {
-            return DataReturn(lang('common_operation_edit_success'));
+            return DataReturn('编辑成功');
         }
-        return DataReturn(lang('common_operation_edit_error'), -100);
+        return DataReturn('编辑失败或数据未改变', -100);
     }
 
     /**

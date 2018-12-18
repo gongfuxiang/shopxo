@@ -6,7 +6,7 @@
 		<!-- form start -->
 		<form class="am-form view-list" action="{{:url('Admin/Answer/Index')}}" method="POST">
 			<div class="am-g">
-				<input type="text" class="am-radius form-keyword" placeholder="{{:lang('answer_so_keyword_tips')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
+				<input type="text" class="am-radius form-keyword" placeholder="联系人/内容" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
 					更多筛选
@@ -35,11 +35,11 @@
 		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-1)}}
 			<thead>
 				<tr>
-					<th class="am-hide-sm-only">{{:lang('answer_user_name')}}</th>
-					<th class="am-hide-sm-only">{{:lang('answer_contact_name')}}</th>
-					<th style="width: 25%;">{{:lang('answer_content_name')}}</th>
+					<th class="am-hide-sm-only">用户信息</th>
+					<th class="am-hide-sm-only">联系人</th>
+					<th style="width: 25%;">内容</th>
 					<th>是否显示</th>
-					<th class="am-hide-sm-only">{{:lang('answer_reply_name')}}</th>
+					<th class="am-hide-sm-only">回复内容</th>
 					<th class="am-hide-sm-only">创建时间</th>
 					<th>更多</th>
 					<th>操作</th>
@@ -84,7 +84,7 @@
 										</div>
 										<div class="am-popup-bd">
 											<dl class="dl-content">
-												<dt>{{:lang('answer_user_name')}}</dt>
+												<dt>用户信息</dt>
 												<dd>
 													{{if !empty($v['username'])}}
 														{{$v.username}}
@@ -100,18 +100,18 @@
 													{{/if}}
 												</dd>
 
-												<dt>{{:lang('answer_contact_name')}}</dt>
+												<dt>联系人</dt>
 												<dd>
 													{{$v.name}}<br />{{$v.tel}}
 												</dd>
 
-												<dt>{{:lang('answer_content_name')}}</dt>
+												<dt>内容</dt>
 												<dd>{{$v.content}}</dd>
 
 												<dt>是否显示</dt>
 												<dd>{{if empty($v['is_show_text'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.is_show_text}}{{/if}}</dd>
 
-												<dt>{{:lang('answer_reply_name')}}</dt>
+												<dt>回复内容</dt>
 												<dd>{{if empty($v['reply'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.reply}}{{/if}}</dd>
 
 												<dt>创建时间</dt>
@@ -148,7 +148,7 @@
 				</div>
 				<div class="am-popup-bd">
 					<dl class="dl-content">
-						<dt>{{:lang('answer_contact_name')}}</dt>
+						<dt>联系人</dt>
 						<dd>
 							<span class="reply-name"></span> - <span class="reply-tel"></span>
 						</dd>
@@ -156,8 +156,8 @@
 
 					<form class="am-form form-validation" action="{{:url('Admin/Answer/Save')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
 						<div class="am-form-group">
-							<label>{{:lang('answer_reply_name')}}</label>
-							<textarea name="reply" rows="5" class="am-radius" placeholder="{{:lang('answer_reply_format')}}" data-validation-message="{{:lang('answer_reply_format')}}" maxlength="230"></textarea>
+							<label>回复内容</label>
+							<textarea name="reply" rows="5" class="am-radius" placeholder="回复内容格式 2~230 个字符" data-validation-message="回复内容格式 2~230 个字符" maxlength="230"></textarea>
 						</div>
 
 						<div class="am-form-group reply-submit t-c">

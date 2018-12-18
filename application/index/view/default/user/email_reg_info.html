@@ -19,15 +19,15 @@
 		<form class="am-form form-validation" method="post" action="{{:url('index/user/reg')}}" request-type="ajax-url" request-value="{{$referer_url}}">
 			<fieldset>
 				{{if MyC('home_user_login_state') eq 1}}
-					<span>{{:lang('user_reg_there_are_accounts_text')}}</span>
+					<span>已有帐号？</span>
 					<a href="{{:url('index/user/logininfo')}}">
-						<button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius">{{:lang('user_reg_login_immediately_text')}}</button>
+						<button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius">立即登录</button>
 					</a>
 					<hr />
 				{{/if}}
 				<label>电子邮箱
 					{{if in_array('sms', MyC('home_user_reg_state'))}}
-						<a href="{{:url('index/user/smsreginfo')}}" class="reg-switch-tips">{{:lang('user_reg_no_email_tips')}}</a>
+						<a href="{{:url('index/user/smsreginfo')}}" class="reg-switch-tips">没邮箱？使用手机号码注册</a>
 					{{/if}}
 				</label>
 				<div class="am-form-group">
@@ -43,17 +43,17 @@
 	            </div>
 
 				<br />
-				<label>{{:lang('user_reg_pwd_text')}}</label>
+				<label>设置登录密码</label>
 				<div class="am-input-group am-input-group-sm am-form-group">
-					<input type="password" name="pwd" class="am-radius" placeholder="{{:lang('user_reg_pwd_text')}}" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="{{:lang('user_reg_pwd_format')}}" required />
+					<input type="password" name="pwd" class="am-radius" placeholder="设置登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
 					<span class="am-input-group-btn">
 						<button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
 					</span>
 				</div>
 				<p>
 					<input type="hidden" name="type" value="email" />
-					<button type="submit" class="am-btn am-btn-primary am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '处理中...'}">{{:lang('user_reg_submit_text')}}</button>
-					<a href="{{:url('index/user/forgetpwdinfo')}}" class="am-fr m-t-5">{{:lang('user_reg_forget_pwd_text')}}</a>
+					<button type="submit" class="am-btn am-btn-primary am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '处理中...'}">注册</button>
+					<a href="{{:url('index/user/forgetpwdinfo')}}" class="am-fr m-t-5">忘记密码？</a>
 				</p>
 			</fieldset>
 		</form>

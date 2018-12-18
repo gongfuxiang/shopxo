@@ -9,16 +9,16 @@
 			<legend>
 				<span class="fs-16)}}
 					{{if empty($data['id'])}}
-						{{:lang('app_home_nav_add_name')}}
+						导航添加
 					{{else /}}
-						{{:lang('app_home_nav_edit_name')}}
+						导航编辑
 					{{/if}}
 				</span>
 				<a href="{{:url('Admin/AppHomeNav/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
-				<label>{{:lang('app_home_nav_name_text')}}</label>
-				<input type="text" name="name" placeholder="{{:lang('app_home_nav_name_text')}}" minlength="2" maxlength="60" data-validation-message="{{:lang('app_home_nav_name_format')}}" class="am-radius" <notempty name="data"> value="{{$data.name}}"{{/if}} required />
+				<label>名称</label>
+				<input type="text" name="name" placeholder="名称" minlength="2" maxlength="60" data-validation-message="名称格式 2~60 个字符" class="am-radius" <notempty name="data"> value="{{$data.name}}"{{/if}} required />
 			</div>
 
 			<div class="am-form-group">
@@ -52,7 +52,7 @@
 			</div>
 
 			<div class="am-form-group am-form-file">
-				<label class="block">{{:lang('app_home_nav_images_url_text')}}</label>
+				<label class="block">导航图标</label>
 				<button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
 				<i class="am-icon-cloud-upload"></i> 选择图片</button>
 				<input type="text" name="images_url" class="am-radius js-choice-one original-images-url" data-choice-one-to=".images-file-event" <notempty name="data"> value="{{$data.images_url}}"{{/if}}" data-validation-message="请选择需要上传的图片" readonly="readonly" <notempty name="data"> value="{{$data.images_url}}"{{/if}} required />

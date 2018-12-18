@@ -6,7 +6,7 @@
 		<!-- form start -->
 		<form class="am-form view-list" action="{{:url('admin/user/Index')}}" method="POST">
 			<div class="am-g">
-				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="{{:lang('user_so_keyword_tips')}}" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
+				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="姓名/手机/邮箱/昵称" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
 					更多筛选
@@ -44,12 +44,12 @@
 		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5">
 			<thead>
 				<tr>
-					<th>{{:lang('user_avatar_name')}}</th>
-					<th>{{:lang('user_username_name')}}</th>
+					<th>用户头像</th>
+					<th>用户名</th>
 					<th class="am-hide-sm-only">手机号码</th>
-					<th class="am-hide-sm-only">{{:lang('user_integral_name')}}</th>
+					<th class="am-hide-sm-only">积分</th>
 					<th class="am-hide-sm-only">性别</th>
-					<th class="am-hide-sm-only">{{:lang('user_birthday_name')}}</th>
+					<th class="am-hide-sm-only">生日</th>
 					<th>更多</th>
 					<th>操作</th>
 				</tr>
@@ -90,10 +90,10 @@
 										</div>
 										<div class="am-popup-bd">
 											<dl class="dl-content">
-												<dt>{{:lang('user_username_name')}}</dt>
+												<dt>用户名</dt>
 												<dd>{{if empty($v['username'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.username}}{{/if}}</dd>
 
-												<dt>{{:lang('user_nickname_name')}}</dt>
+												<dt>昵称</dt>
 												<dd>{{if empty($v['nickname'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.nickname}}{{/if}}</dd>
 
 												<dt>手机号码</dt>
@@ -105,22 +105,22 @@
 												<dt>性别</dt>
 												<dd>{{if empty($v['gender_text'])}}<span class="cr-ddd">未设置</span>{{else /}}{{$v.gender_text}}{{/if}}</dd>
 
-												<dt>{{:lang('user_birthday_name')}}</dt>
+												<dt>生日</dt>
 												<dd>{{if empty($v['birthday_text'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.birthday_text}}{{/if}}</dd>
 
-												<dt>{{:lang('user_province_name')}}</dt>
+												<dt>所在省</dt>
 												<dd>{{if empty($v['province'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.province}}{{/if}}</dd>
 
-												<dt>{{:lang('user_city_name')}}</dt>
+												<dt>所在市</dt>
 												<dd>{{if empty($v['city'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.city}}{{/if}}</dd>
 
 												<dt>详细地址</dt>
 												<dd>{{if empty($v['address'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.address}}{{/if}}</dd>
 
-												<dt>{{:lang('user_integral_name')}}</dt>
+												<dt>积分</dt>
 												<dd>{{if empty($v['integral'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.integral}}{{/if}}</dd>
 
-												<dt>{{:lang('user_avatar_name')}}</dt>
+												<dt>用户头像</dt>
 												<dd>
 													{{if !empty($v['avatar'])}}
 														<img src="{{$v['avatar']}}" class="am-img-thumbnail am-radius" width="100" height="100" />

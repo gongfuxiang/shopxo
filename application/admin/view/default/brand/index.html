@@ -6,7 +6,7 @@
         <!-- form start -->
         <form class="am-form view-list" action="{{:url('Admin/Brand/Index')}}" method="POST">
             <div class="am-g">
-                <input type="text" class="am-radius form-keyword" placeholder="{{:lang('brand_name_text')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
+                <input type="text" class="am-radius form-keyword" placeholder="名称" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
                 <button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
                 <label class="fs-12 m-l-5 c-p fw-100 more-submit">
                     更多筛选
@@ -22,7 +22,7 @@
                         {{/foreach}}
                     </select>
                     <select name="brand_category_id" class="am-radius c-p m-t-10 m-l-5 param-where">
-                        <option value="">{{:lang('brand_category_id_text')}}</option>
+                        <option value="">品牌分类</option>
                         <foreach name="brand_category" item="v">
                             <option value="{{$v.id}}" {{if isset($param['brand_category_id']) and $param['brand_category_id'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
                         {{/foreach}}
@@ -47,10 +47,10 @@
         <table class="am-table am-table-striped am-table-hover am-text-middle m-t-1)}}
             <thead>
                 <tr>
-                    <th>{{:lang('brand_name_text')}}</th>
-                    <th>{{:lang('brand_logo_text')}}</th>
-                    <th class="am-hide-sm-only">{{:lang('brand_category_id_text')}}</th>
-                    <th class="am-hide-sm-only">{{:lang('brand_website_url_text')}}</th>
+                    <th>名称</th>
+                    <th>LOGO</th>
+                    <th class="am-hide-sm-only">品牌分类</th>
+                    <th class="am-hide-sm-only">官网地址</th>
                     <th>是否启用</th>
                     <th class="am-hide-sm-only">创建时间</th>
                     <th>操作</th>

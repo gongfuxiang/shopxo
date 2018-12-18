@@ -46,7 +46,7 @@ class Goods extends Common
         $goods = GoodsService::GoodsList($params);
         if(empty($goods[0]) || $goods[0]['is_delete_time'] != 0)
         {
-            $this->assign('msg', lang('common_data_no_exist_error'));
+            $this->assign('msg', '资源不存在或已被删除');
             return $this->fetch('/public/tips_error');
         } else {
             // 当前登录用户是否已收藏

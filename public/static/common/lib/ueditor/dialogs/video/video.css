@@ -210,8 +210,8 @@ span.view{display: inline-block;width: 30px;float: right;cursor: pointer;color: 
 }
 
 #upload .filelist li {
-    width: 103px;
-    height: 103px;
+    width: 113px;
+    height: 113px;
     background: url(./images/bg.png);
     text-align: center;
     margin: 15px 0 0 20px;
@@ -307,11 +307,11 @@ span.view{display: inline-block;width: 30px;float: right;cursor: pointer;color: 
 #upload .filelist li p.imgWrap {
     position: relative;
     z-index: 2;
-    line-height: 103px;
+    line-height: 113px;
     vertical-align: middle;
     overflow: hidden;
-    width: 103px;
-    height: 103px;
+    width: 113px;
+    height: 113px;
 
     -webkit-transform-origin: 50% 50%;
     -moz-transform-origin: 50% 50%;
@@ -658,8 +658,8 @@ i.file-preview.file-type-psd{
     display: block;
     list-style: none;
     padding: 0;
-    width: 103px;
-    height: 103px;
+    width: 100px;
+    height: 100px;
     margin: 0 0 9px 9px;
     *margin: 0 0 6px 6px;
     background-color: #eee;
@@ -704,8 +704,8 @@ i.file-preview.file-type-psd{
 }
 #online li .icon {
     cursor: pointer;
-    width: 103px;
-    height: 103px;
+    width: 100px;
+    height: 100px;
     position: absolute;
     top: 0;
     left: 0;
@@ -714,20 +714,20 @@ i.file-preview.file-type-psd{
     background-repeat: no-repeat;
 }
 #online li .icon:hover {
-    width: 97px;
-    height: 97px;
+    width: 94px;
+    height: 94px;
     border: 3px solid #1094fa;
 }
 #online li.selected .icon {
     background-image: url(images/success.png);
     background-image: url(images/success.gif) \9;
-    background-position: 63px 63px;
+    background-position: 60px 60px;
 }
 #online li.selected .icon:hover {
-    width: 97px;
-    height: 97px;
+    width: 94px;
+    height: 94px;
     border: 3px solid #1094fa;
-    background-position: 60px 60px;
+    background-position: 57px 57px;
 }
 
 #online li .delbtn {      

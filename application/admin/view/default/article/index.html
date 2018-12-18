@@ -6,7 +6,7 @@
 		<!-- form start -->
 		<form class="am-form view-list" action="{{:url('Admin/Article/Index')}}" method="POST">
 			<div class="am-g">
-				<input type="text" class="am-radius form-keyword" placeholder="{{:lang('article_so_keyword_tips')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
+				<input type="text" class="am-radius form-keyword" placeholder="标题关键字" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
 					更多筛选
@@ -16,7 +16,7 @@
 
 				<div class="more-where {{if !isset($param['is_more']) or $param['is_more'] neq 1)}}none{{/if}}">
 					<select  class="am-radius c-p m-t-10 param-where" name="article_category_id">
-						<option value="-1)}}{{:lang('article_category_text')}}</option>
+						<option value="-1)}}文章分类</option>
 						<foreach name="article_category_list" item="v">
 							<option value="{{$v.id}}" {{if isset($param['article_category_id']) and $param['article_category_id'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
@@ -28,7 +28,7 @@
 						{{/foreach}}
 					</select>
 					<select name="is_home_recommended" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="-1)}}{{:lang('article_home_recommended_text')}}</option>
+						<option value="-1)}}首页推荐</option>
 						<foreach name="common_is_text_list" item="v">
 							<option value="{{$v.id}}" {{if isset($param['is_home_recommended']) and $param['is_home_recommended'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
@@ -53,11 +53,11 @@
 		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-1)}}
 			<thead>
 				<tr>
-					<th>{{:lang('article_title_text')}}</th>
-					<th class="am-hide-sm-only">{{:lang('article_category_text')}}</th>
+					<th>标题</th>
+					<th class="am-hide-sm-only">文章分类</th>
 					<th class="am-hide-sm-only">访问次数</th>
 					<th>状态</th>
-					<th>{{:lang('article_home_recommended_text')}}</th>
+					<th>首页推荐</th>
 					<th>更多</th>
 					<th>操作</th>
 				</tr>
@@ -88,10 +88,10 @@
 										</div>
 										<div class="am-popup-bd">
 											<dl class="dl-content">
-												<dt>{{:lang('article_title_text')}}</dt>
+												<dt>标题</dt>
 												<dd>{{$v.title}}</dd>
 
-												<dt>{{:lang('article_category_text')}}</dt>
+												<dt>文章分类</dt>
 												<dd>{{$v.article_category_name}}</dd>
 
 												<dt>访问次数</dt>

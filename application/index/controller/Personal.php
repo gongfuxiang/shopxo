@@ -71,7 +71,7 @@ class Personal extends Common
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error(lang('common_unauthorized_access'));
+			$this->error('非法访问');
 		}
 
 		// 开始操作

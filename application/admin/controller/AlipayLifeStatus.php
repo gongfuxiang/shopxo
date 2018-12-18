@@ -238,7 +238,7 @@ class AlipayLifeStatus extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         $ret = AlipayLifeService::LifeStatusSave($_POST);
@@ -257,15 +257,15 @@ class AlipayLifeStatus extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         // 删除
         if(db('AlipayLifeStatus')->delete(intval(I('id'))))
         {
-            $this->ajaxReturn(lang('common_operation_delete_success'));
+            $this->ajaxReturn('删除成功');
         }
-        $this->ajaxReturn(lang('common_operation_delete_error'), -100);
+        $this->ajaxReturn('删除失败或资源不存在', -100);
     }
 
     /**
@@ -281,7 +281,7 @@ class AlipayLifeStatus extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         $ret = AlipayLifeService::LifeStatusSubmit($_POST);
@@ -301,7 +301,7 @@ class AlipayLifeStatus extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         $params = $_POST;

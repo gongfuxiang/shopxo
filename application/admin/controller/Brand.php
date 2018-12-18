@@ -194,7 +194,7 @@ class Brand extends Common
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error(lang('common_unauthorized_access'));
+			$this->error('非法访问');
 		}
 
 		// 图片
@@ -221,9 +221,9 @@ class Brand extends Common
 				// 写入数据库
 				if($m->add())
 				{
-					$this->ajaxReturn(lang('common_operation_add_success'));
+					$this->ajaxReturn('新增成功');
 				} else {
-					$this->ajaxReturn(lang('common_operation_add_error'), -100);
+					$this->ajaxReturn('新增失败', -100);
 				}
 			}
 		} else {
@@ -243,9 +243,9 @@ class Brand extends Common
 				// 更新数据库
 				if($m->where(array('id'=>I('id')))->save())
 				{
-					$this->ajaxReturn(lang('common_operation_edit_success'));
+					$this->ajaxReturn('编辑成功');
 				} else {
-					$this->ajaxReturn(lang('common_operation_edit_error'), -100);
+					$this->ajaxReturn('编辑失败或数据未改变', -100);
 				}
 			}
 		}
@@ -263,7 +263,7 @@ class Brand extends Common
 	{
 		if(!IS_AJAX)
 		{
-			$this->error(lang('common_unauthorized_access'));
+			$this->error('非法访问');
 		}
 
 		$m = D('Brand');
@@ -274,9 +274,9 @@ class Brand extends Common
 			// 删除
 			if($m->delete($id))
 			{
-				$this->ajaxReturn(lang('common_operation_delete_success'));
+				$this->ajaxReturn('删除成功');
 			} else {
-				$this->ajaxReturn(lang('common_operation_delete_error'), -100);
+				$this->ajaxReturn('删除失败或资源不存在', -100);
 			}
 		} else {
 			$this->ajaxReturn($m->getError(), -1);
@@ -295,15 +295,15 @@ class Brand extends Common
         // 参数
         if(empty($_POST['id']) || !isset($_POST['state']))
         {
-            $this->ajaxReturn(lang('common_param_error'), -1);
+            $this->ajaxReturn('参数错误', -1);
         }
 
         // 数据更新
         if(db('Brand')->where(array('id'=>I('id')))->save(array('is_enable'=>I('state'))))
         {
-            $this->ajaxReturn(lang('common_operation_edit_success'));
+            $this->ajaxReturn('编辑成功');
         } else {
-            $this->ajaxReturn(lang('common_operation_edit_error'), -100);
+            $this->ajaxReturn('编辑失败或数据未改变', -100);
         }
     }
 }

@@ -9,20 +9,20 @@
 			<legend>
 				<span class="fs-16)}}
 					{{if empty($data['id'])}}
-						{{:lang('brand_add_name')}}
+						品牌添加
 					{{else /}}
-						{{:lang('brand_edit_name')}}
+						品牌编辑
 					{{/if}}
 				</span>
 				<a href="{{:url('Admin/Brand/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
-				<label>{{:lang('brand_name_text')}}</label>
-				<input type="text" name="name" placeholder="{{:lang('brand_name_text')}}" minlength="2" maxlength="30" data-validation-message="{{:lang('brand_name_format')}}" class="am-radius" <notempty name="data"> value="{{$data.name}}"{{/if}} required />
+				<label>名称</label>
+				<input type="text" name="name" placeholder="名称" minlength="2" maxlength="30" data-validation-message="名称格式 2~30 个字符" class="am-radius" <notempty name="data"> value="{{$data.name}}"{{/if}} required />
 			</div>
 			<div class="am-form-group">
-				<label>{{:lang('brand_category_id_text')}}</label>
-			    <select name="brand_category_id" class="am-radius c-p chosen-select" data-placeholder="可选择..." data-validation-message="{{:lang('brand_category_id_format')}}" required>
+				<label>品牌分类</label>
+			    <select name="brand_category_id" class="am-radius c-p chosen-select" data-placeholder="可选择..." data-validation-message="请选择品牌分类" required>
 					<option value="">可选择...</option>
 					<foreach name="brand_category" item="v">
 						<option value="{{$v.id}}" {{if isset($data['brand_category_id']) and $data['brand_category_id'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
@@ -31,12 +31,12 @@
 			</div>
 
 			<div class="am-form-group">
-				<label>{{:lang('brand_website_url_text')}}</label>
-				<input type="text" name="website_url" placeholder="{{:lang('brand_website_url_text')}}" data-validation-message="{{:lang('brand_website_url_format')}}" class="am-radius" <notempty name="data"> value="{{$data.website_url}}"{{/if}} />
+				<label>官网地址</label>
+				<input type="text" name="website_url" placeholder="官网地址" data-validation-message="官网地址最多 255 个字符" class="am-radius" <notempty name="data"> value="{{$data.website_url}}"{{/if}} />
 			</div>
 
 			<div class="am-form-group am-form-file">
-				<label class="block">{{:lang('brand_logo_text')}}</label>
+				<label class="block">LOGO</label>
 				<button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
 				<i class="am-icon-cloud-upload"></i> 选择图片</button>
 				<input type="text" name="logo" class="am-radius js-choice-one original-images-url" data-choice-one-to=".images-file-event" <notempty name="data"> value="{{$data.logo}}"{{/if}}" data-validation-message="请选择需要上传的图片" readonly="readonly" <notempty name="data"> value="{{$data.logo}}"{{/if}} required />

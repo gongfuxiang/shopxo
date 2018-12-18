@@ -183,7 +183,7 @@ class Message extends Common
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error(lang('common_unauthorized_access'));
+			$this->error('非法访问');
 		}
 
 		// 参数处理
@@ -199,19 +199,19 @@ class Message extends Common
 			$user = $m->where(array('id'=>$id))->getField('id');
 			if(empty($user))
 			{
-				$this->ajaxReturn(lang('common_data_no_exist_error'), -2);
+				$this->ajaxReturn('资源不存在或已被删除', -2);
 			}
 
 			// 删除消息
 			$status = $m->where(array('id'=>$id))->save(['is_delete_time'=>time()]);
 			if($status !== false)
 			{
-				$this->ajaxReturn(lang('common_operation_delete_success'));
+				$this->ajaxReturn('删除成功');
 			} else {
-				$this->ajaxReturn(lang('common_operation_delete_error'), -100);
+				$this->ajaxReturn('删除失败或资源不存在', -100);
 			}
 		} else {
-			$this->ajaxReturn(lang('common_param_error'), -1);
+			$this->ajaxReturn('参数错误', -1);
 		}
 	}
 }

@@ -5,7 +5,7 @@
     <div class="content">
         <!-- back nav start -->
         <legend>
-            <span class="fs-16)}}{{:lang('alipay_life_status_detail_text')}}</span>
+            <span class="fs-16)}}详情</span>
             <a href="{{:url('Admin/AlipayLifeStatus/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
         </legend>
         <!-- back nav end -->
@@ -14,10 +14,10 @@
         <table class="am-table am-table-striped am-table-hover am-text-middle m-t-1)}}
             <thead>
                 <tr>
-                    <th>{{:lang('alipay_life_status_life_text')}}</th>
+                    <th>生活号</th>
                     <th>状态</th>
-                    <th>{{:lang('alipay_life_status_send_time_text')}}</th>
-                    <th>{{:lang('alipay_life_status_return_msg_text')}}</th>
+                    <th>处理时间</th>
+                    <th>处理描述</th>
                     <th>更多</th>
                 </tr>
             </thead>
@@ -39,16 +39,16 @@
                                         </div>
                                         <div class="am-popup-bd">
                                             <dl class="dl-content">
-                                                <dt>{{:lang('alipay_life_status_life_text')}}</dt>
+                                                <dt>生活号</dt>
                                                 <dd>{{if empty($v['alipay_life_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.alipay_life_name}}{{/if}}</dd>
 
                                                 <dt>状态</dt>
                                                 <dd>{{if empty($v['status_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.status_name}}{{/if}}</dd>
 
-                                                <dt>{{:lang('alipay_life_status_send_time_text')}}</dt>
+                                                <dt>处理时间</dt>
                                                 <dd>{{$v.send_time}}</dd>
 
-                                                <dt>{{:lang('alipay_life_status_return_msg_text')}}</dt>
+                                                <dt>处理描述</dt>
                                                 <dd>{{$v.return_msg}}</dd>
 
                                                 <dt>创建时间</dt>

@@ -150,7 +150,7 @@ class Admin extends Common
 		// 是否ajax
 		if(!IS_AJAX)
 		{
-			return $this->error(lang('common_unauthorized_access'));
+			return $this->error('非法访问');
 		}
 
 		// 开始操作
@@ -178,7 +178,7 @@ class Admin extends Common
 		// 是否ajax
 		if(!IS_AJAX)
 		{
-			return $this->error(lang('common_unauthorized_access'));
+			return $this->error('非法访问');
 		}
 
 		// 开始操作
@@ -218,7 +218,7 @@ class Admin extends Common
 		// 是否ajax
 		if(!IS_AJAX)
 		{
-			return $this->error(lang('common_unauthorized_access'));
+			return $this->error('非法访问');
 		}
 
 		// 开始操作

@@ -82,7 +82,7 @@ class Common extends Controller
 		{
 			if(IS_AJAX)
 			{
-				exit(json_encode(DataReturn(lang('common_login_invalid'), -400)));
+				exit(json_encode(DataReturn('登录失效，请重新登录', -400)));
 			} else {
 				die('<script type="text/javascript">if(self.frameElement && self.frameElement.tagName == "IFRAME"){parent.location.reload();}else{window.location.href="'.url('admin/admin/logininfo').'";}</script>');
 			}
@@ -147,7 +147,7 @@ class Common extends Controller
 			// 角色组权限列表校验
 			if(!in_array(strtolower(request()->controller().'_'.request()->action()), $this->power))
 			{
-				return $this->error(lang('common_there_is_no_power'));
+				return $this->error('无权限');
 			}
 		}
 	}

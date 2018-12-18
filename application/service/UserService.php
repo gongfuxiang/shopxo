@@ -276,9 +276,9 @@ class UserService
         // 删除操作
         if(db('User')->delete(intval($params['id'])))
         {
-            return DataReturn(lang('common_operation_delete_success'));
+            return DataReturn('删除成功');
         }
-        return DataReturn(lang('common_operation_delete_error'), -100);
+        return DataReturn('删除失败或资源不存在', -100);
     }
 
     /**
@@ -322,7 +322,7 @@ class UserService
                 $v['county_name'] = RegionService::RegionName($v['county']);
             }
         }
-        return DataReturn(lang('common_operation_success'), 0, $data);
+        return DataReturn('操作成功', 0, $data);
     }
 
     /**
@@ -492,20 +492,20 @@ class UserService
             if(db('UserAddress')->insertGetId($data) > 0)
             {
                 Db::commit();
-                return DataReturn(lang('common_operation_add_success'), 0);
+                return DataReturn('新增成功', 0);
             } else {
                 Db::rollback();
-                return DataReturn(lang('common_operation_add_error'));
+                return DataReturn('新增失败');
             }
         } else {
             $data['upd_time'] = time();
             if(db('UserAddress')->where($where)->update($data))
             {
                 Db::commit();
-                return DataReturn(lang('common_operation_update_success'), 0);
+                return DataReturn('更新成功', 0);
             } else {
                 Db::rollback();
-                return DataReturn(lang('common_operation_update_error'));
+                return DataReturn('更新失败');
             }
         }
     }
@@ -544,9 +544,9 @@ class UserService
         $data = ['is_delete_time' => time()];
         if(db('UserAddress')->where($where)->update($data))
         {
-            return DataReturn(lang('common_operation_delete_success'), 0);
+            return DataReturn('删除成功', 0);
         } else {
-            return DataReturn(lang('common_operation_delete_error'), -100);
+            return DataReturn('删除失败或资源不存在', -100);
         }
     }
 
@@ -590,11 +590,11 @@ class UserService
         {
             // 提交事务
             Db::commit();
-            return DataReturn(lang('common_operation_set_success'), 0);
+            return DataReturn('设置成功', 0);
         } else {
             // 回滚事务
             Db::rollback();
-            return DataReturn(lang('common_operation_set_error'), -100);
+            return DataReturn('设置失败', -100);
         }
     }
 
@@ -760,20 +760,20 @@ class UserService
         // 是否开启用户登录
         if(MyC('home_user_login_state') != 1)
         {
-            return DataReturn(lang('common_close_user_login_tips'), -1);
+            return DataReturn('暂时关闭用户登录', -1);
         }
 
         // 登录帐号格式校验
         if(!CheckMobile($params['accounts']) && !CheckEmail($params['accounts']))
         {
-            return DataReturn(lang('user_login_accounts_format'), -1);
+            return DataReturn('手机/邮箱格式有误', -1);
         }
 
         // 密码
         $pwd = trim($params['pwd']);
         if(!CheckLoginPwd($pwd))
         {
-            return DataReturn(lang('user_reg_pwd_format'), -2);
+            return DataReturn('密码格式 6~18 个字符之间', -2);
         }
 
         // 获取用户账户信息
@@ -781,7 +781,7 @@ class UserService
         $user = db('User')->field(array('id', 'pwd', 'salt', 'status'))->where($where)->find();
         if(empty($user))
         {
-            return DataReturn(lang('user_login_accounts_on_exist_error'), -3);
+            return DataReturn('帐号不存在', -3);
         }
         // 用户状态
         if($user['status'] == 2)
@@ -792,7 +792,7 @@ class UserService
         // 密码校验
         if(LoginPwdEncryption($pwd, $user['salt']) != $user['pwd'])
         {
-            return DataReturn(lang('user_common_pwd_error'), -4);
+            return DataReturn('密码错误', -4);
         }
 
         // 更新用户密码
@@ -807,10 +807,10 @@ class UserService
             // 登录记录
             if(self::UserLoginRecord($user['id']))
             {
-                return DataReturn(lang('common_login_success'), 0);
+                return DataReturn('登录成功', 0);
             }
         }
-        return DataReturn(lang('common_login_invalid'), -100);
+        return DataReturn('登录失效，请重新登录', -100);
     }
 
     /**
@@ -856,7 +856,7 @@ class UserService
         // 是否开启用户注册
         if(!in_array($params['type'], MyC('home_user_reg_state')))
         {
-            return DataReturn(lang('common_close_user_reg_tips'), -1);
+            return DataReturn('暂时关闭用户注册', -1);
         }
 
         // 账户校验
@@ -880,12 +880,12 @@ class UserService
         // 是否已过期
         if(!$obj->CheckExpire())
         {
-            return DataReturn(lang('common_verify_expire'), -10);
+            return DataReturn('验证码已过期', -10);
         }
         // 是否正确
         if(!$obj->CheckCorrect($params['verify']))
         {
-            return DataReturn(lang('common_verify_error'), -11);
+            return DataReturn('验证码错误', -11);
         }
 
         $salt = GetNumberCode(6);
@@ -911,11 +911,11 @@ class UserService
 
             if(self::UserLoginRecord($user_id))
             {
-                return DataReturn(lang('common_reg_success'), 0);
+                return DataReturn('注册成功', 0);
             }
-            return DataReturn(lang('common_reg_success_login_tips'));
+            return DataReturn('注册成功，请到登录页面登录帐号');
         }
-        return DataReturn(lang('common_reg_error'), -100);
+        return DataReturn('注册失败', -100);
     }
 
     /**
@@ -933,7 +933,7 @@ class UserService
         $accounts = $params['accounts'];
         if(empty($accounts) || empty($type) || !in_array($type, array('sms', 'email')))
         {
-             return DataReturn(lang('common_param_error'), -1);
+             return DataReturn('参数错误', -1);
         }
 
         // 手机号码
@@ -942,13 +942,13 @@ class UserService
             // 手机号码格式
             if(!CheckMobile($accounts))
             {
-                 return DataReturn(lang('common_mobile_format_error'), -2);
+                 return DataReturn('手机号码格式错误', -2);
             }
 
             // 手机号码是否已存在
             if(self::IsExistAccounts($accounts, 'mobile'))
             {
-                 return DataReturn(lang('common_mobile_exist_error'), -3);
+                 return DataReturn('手机号码已存在', -3);
             }
 
         // 电子邮箱
@@ -956,16 +956,16 @@ class UserService
             // 电子邮箱格式
             if(!CheckEmail($accounts))
             {
-                 return DataReturn(lang('common_email_format_error'), -2);
+                 return DataReturn('电子邮箱格式错误', -2);
             }
 
             // 电子邮箱是否已存在
             if(self::IsExistAccounts($accounts, 'email'))
             {
-                 return DataReturn(lang('common_email_exist_error'), -3);
+                 return DataReturn('电子邮箱已存在', -3);
             }
         }
-        return DataReturn(lang('common_operation_success'), 0);
+        return DataReturn('操作成功', 0);
     }
 
     /**
@@ -1000,20 +1000,20 @@ class UserService
         {
             if(empty($params['verify']))
             {
-                return DataReturn(lang('common_param_error'), -10);
+                return DataReturn('参数错误', -10);
             }
             $verify = new \base\Verify($verify_params);
             if(!$verify->CheckExpire())
             {
-                return DataReturn(lang('common_verify_expire'), -11);
+                return DataReturn('验证码已过期', -11);
             }
             if(!$verify->CheckCorrect($params['verify']))
             {
-                return DataReturn(lang('common_verify_error'), -12);
+                return DataReturn('验证码错误', -12);
             }
-            return DataReturn(lang('common_operation_success'), 0, $verify);
+            return DataReturn('操作成功', 0, $verify);
         }
-        return DataReturn(lang('common_operation_success'), 0);
+        return DataReturn('操作成功', 0);
     }
 
     /**
@@ -1048,7 +1048,7 @@ class UserService
         // 是否开启用户注册
         if(!in_array($params['type'], MyC('home_user_reg_state')))
         {
-            return DataReturn(lang('common_close_user_reg_tips'));
+            return DataReturn('暂时关闭用户注册');
         }
 
         // 账户校验
@@ -1083,7 +1083,7 @@ class UserService
             $email_param = array(
                     'email'     =>  $params['accounts'],
                     'content'   =>  MyC('home_email_user_reg'),
-                    'title'     =>  MyC('home_site_name').' - '.lang('common_email_send_user_reg_title'),
+                    'title'     =>  MyC('home_site_name').' - 用户注册'
                     'code'      =>  $code,
                 );
             $status = $obj->SendHtml($email_param);
@@ -1098,9 +1098,9 @@ class UserService
                 $verify['data']->Remove();
             }
 
-            return DataReturn(lang('common_send_success'), 0);
+            return DataReturn('发送成功', 0);
         } else {
-            return DataReturn(lang('common_send_error').'['.$obj->error.']', -100);
+            return DataReturn('发送失败'.'['.$obj->error.']', -100);
         }
     }
 
@@ -1117,7 +1117,7 @@ class UserService
         // 参数
         if(empty($params['accounts']))
         {
-            return DataReturn(lang('common_param_error'), -10);
+            return DataReturn('参数错误', -10);
         }
 
         // 账户是否存在
@@ -1157,12 +1157,12 @@ class UserService
             $email_param = array(
                     'email'     =>  $params['accounts'],
                     'content'   =>  MyC('home_email_user_forget_pwd'),
-                    'title'     =>  MyC('home_site_name').' - '.lang('common_email_send_user_forget_title'),
+                    'title'     =>  MyC('home_site_name').' - '.'密码找回',
                     'code'      =>  $code,
                 );
             $status = $obj->SendHtml($email_param);
         } else {
-            return DataReturn(lang('user_login_accounts_format'), -1);
+            return DataReturn('手机/邮箱格式有误', -1);
         }
 
         // 状态
@@ -1174,9 +1174,9 @@ class UserService
                 $verify['data']->Remove();
             }
 
-            return DataReturn(lang('common_send_success'), 0);
+            return DataReturn('发送成功', 0);
         } else {
-            return DataReturn(lang('common_send_error').'['.$obj->error.']', -100);
+            return DataReturn('发送失败'.'['.$obj->error.']', -100);
         }
     }
 
@@ -1195,18 +1195,18 @@ class UserService
         {
             if(!self::IsExistAccounts($accounts, 'mobile'))
             {
-                return DataReturn(lang('common_mobile_no_exist_error'), -3);
+                return DataReturn('手机号码不存在', -3);
             }
-            return DataReturn(lang('common_operation_success'), 0, 'mobile');
+            return DataReturn('操作成功', 0, 'mobile');
         } else if(CheckEmail($accounts))
         {
             if(!self::IsExistAccounts($accounts, 'email'))
             {
-                return DataReturn(lang('common_email_no_exist_error'), -3);
+                return DataReturn('电子邮箱不存在', -3);
             }
-            return DataReturn(lang('common_operation_success'), 0, 'email');
+            return DataReturn('操作成功', 0, 'email');
         }
-        return DataReturn(lang('common_accounts_format_error'), -4);
+        return DataReturn('手机/邮箱格式有误', -4);
     }
 
     /**
@@ -1266,12 +1266,12 @@ class UserService
         // 是否已过期
         if(!$obj->CheckExpire())
         {
-            return DataReturn(lang('common_verify_expire'), -10);
+            return DataReturn('验证码已过期', -10);
         }
         // 是否正确
         if(!$obj->CheckCorrect($params['verify']))
         {
-            return DataReturn(lang('common_verify_error'), -11);
+            return DataReturn('验证码错误', -11);
         }
 
         // 更新用户密码
@@ -1283,9 +1283,9 @@ class UserService
             );
         if(db('User')->where(array($ret['data']=>$params['accounts']))->update($data) !== false)
         {
-            return DataReturn(lang('common_operation_success'));
+            return DataReturn('操作成功');
         }
-        return DataReturn(lang('common_operation_error'), -100);
+        return DataReturn('操作失败', -100);
     }
 
     /**
@@ -1341,9 +1341,9 @@ class UserService
             // 更新用户session数据
             self::UserLoginRecord($params['user']['id']);
 
-            return DataReturn(lang('common_operation_edit_success'), 0);
+            return DataReturn('编辑成功', 0);
         }
-        return DataReturn(lang('common_operation_edit_error'), -100);
+        return DataReturn('编辑失败或数据未改变', -100);
     }
 
 }

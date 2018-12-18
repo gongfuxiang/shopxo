@@ -5,7 +5,7 @@
     <div class="content">
         <!-- back nav start -->
         <legend>
-            <span class="fs-16)}}{{:lang('alipay_life_message_content_title')}}</span>
+            <span class="fs-16)}}生活号消息内容</span>
             <a href="{{:url('Admin/AlipayLifeMessage/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
         </legend>
         <!-- back nav end -->
@@ -22,11 +22,11 @@
         <table class="am-table am-table-striped am-table-hover am-text-middle m-t-1)}}
             <thead>
                 <tr>
-                    <th>{{:lang('alipay_life_message_title_text')}}</th>
-                    <th>{{:lang('alipay_life_message_content_text')}}</th>
-                    <th>{{:lang('alipay_life_message_image_url_text')}}</th>
-                    <th class="am-hide-sm-only">{{:lang('alipay_life_message_url_text')}}</th>
-                    <th class="am-hide-sm-only">{{:lang('alipay_life_message_action_name_text')}}</th>
+                    <th>消息标题</th>
+                    <th>内容</th>
+                    <th>封面图片</th>
+                    <th class="am-hide-sm-only">图文url跳转地址</th>
+                    <th class="am-hide-sm-only">链接文字</th>
                     <th>更多</th>
                     <th>操作</th>
                 </tr>
@@ -66,13 +66,13 @@
                                         </div>
                                         <div class="am-popup-bd">
                                             <dl class="dl-content">
-                                                <dt>{{:lang('alipay_life_message_title_text')}}</dt>
+                                                <dt>消息标题</dt>
                                                 <dd>{{if empty($v['title'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.title}}{{/if}}</dd>
 
-                                                <dt>{{:lang('alipay_life_message_content_text')}}</dt>
+                                                <dt>内容</dt>
                                                 <dd>{{if empty($v['content'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.content}}{{/if}}</dd>
 
-                                                <dt>{{:lang('alipay_life_message_image_url_text')}}</dt>
+                                                <dt>封面图片</dt>
                                                 <dd>
                                                     {{if !empty($v['image_url'])}}
                                                         <img src="{{$v['image_url']}}" class="am-img-thumbnail am-radius" width="100" height="100" />
@@ -81,10 +81,10 @@
                                                     {{/if}}
                                                 </dd>
 
-                                                <dt>{{:lang('alipay_life_message_url_text')}}</dt>
+                                                <dt>图文url跳转地址</dt>
                                                 <dd>{{if empty($v['url'])}}<span class="cr-ddd">未设置</span>{{else /}}{{$v.url}}{{/if}}</dd>
 
-                                                <dt>{{:lang('alipay_life_message_action_name_text')}}</dt>
+                                                <dt>链接文字</dt>
                                                 <dd>{{if empty($v['action_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.action_name}}{{/if}}</dd>
 
                                                 <dt>创建时间</dt>

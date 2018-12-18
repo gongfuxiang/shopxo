@@ -6,7 +6,7 @@
 		<!-- form start -->
 		<form class="am-form view-list" action="{{:url('Admin/PayLog/Index')}}" method="POST">
 			<div class="am-g">
-				<input type="text" class="am-radius form-keyword" placeholder="{{:lang('paylog_so_keyword_tips')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
+				<input type="text" class="am-radius form-keyword" placeholder="姓名/手机/昵称/支付平台单号" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
 					更多筛选
@@ -22,7 +22,7 @@
 						{{/foreach}}
 					</select>
 					<select name="pay_type" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="">{{:lang('paylog_pay_type_name')}}</option>
+						<option value="">支付类型</option>
 						<foreach name="common_pay_type_list" item="v">
 							{{if !empty($v['id']) && !empty($v['name'])}}
 								<option value="{{$v.id}}" {{if isset($param['pay_type']) and $param['pay_type'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
@@ -30,7 +30,7 @@
 						{{/foreach}}
 					</select>
 					<select name="business_type" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="-1)}}{{:lang('paylog_business_type_name')}}</option>
+						<option value="-1)}}业务类型</option>
 						<foreach name="common_business_type_list" item="v">
 							<option value="{{$v.id}}" {{if isset($param['business_type']) and $param['business_type'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
@@ -49,16 +49,16 @@
 		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5)}}
 			<thead>
 				<tr>
-					<th>{{:lang('paylog_user_name')}}</th>
-					<th>{{:lang('paylog_pay_type_name')}}</th>
-					<th>{{:lang('paylog_business_type_name')}}</th>
-					<th class="am-hide-sm-only">{{:lang('paylog_order_id_name')}}</th>
-					<th class="am-hide-sm-only">{{:lang('paylog_trade_no_name')}}</th>
-					<th class="am-hide-sm-only">{{:lang('paylog_platform_buyer_user_name')}}</th>
-					<th>{{:lang('paylog_pay_price_name')}}</th>
-					<th>{{:lang('paylog_total_price_name')}}</th>
-					<th class="am-hide-sm-only">{{:lang('paylog_subject_name')}}</th>
-					<th class="am-hide-sm-only">{{:lang('paylog_add_time_name')}}</th>
+					<th>用户信息</th>
+					<th>支付类型</th>
+					<th>业务类型</th>
+					<th class="am-hide-sm-only">业务订单id</th>
+					<th class="am-hide-sm-only">支付平台交易号</th>
+					<th class="am-hide-sm-only">支付平台用户帐号</th>
+					<th>支付金额</th>
+					<th>订单实际金额</th>
+					<th class="am-hide-sm-only">订单名称</th>
+					<th class="am-hide-sm-only">支付时间</th>
 				</tr>
 			</thead>
 			<tbody>

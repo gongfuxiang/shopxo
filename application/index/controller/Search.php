@@ -90,10 +90,10 @@ class Search extends Common
         $data = SearchService::GoodsList($this->params);
         if(empty($data['data']))
         {
-            $msg = lang('common_not_data_tips');
+            $msg = '没有相关数据';
             $code = -100;
         } else {
-            $msg = lang('common_operation_success');
+            $msg = '操作成功';
             $code = 0;
         }
 

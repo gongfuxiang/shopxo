@@ -63,7 +63,7 @@ class Article extends Common
 			$this->assign('article', $article[0]);
 			return $this->fetch();
 		} else {
-			$this->assign('msg', lang('article_on_exist_error'));
+			$this->assign('msg', '文章不存在或已删除');
 			return $this->fetch('public/tips_error');
 		}
 	}

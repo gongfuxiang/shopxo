@@ -415,20 +415,20 @@ class GoodsService
             $data['add_time'] = time();
             if(db('GoodsFavor')->insertGetId($data) > 0)
             {
-                return DataReturn(lang('common_favor_success'), 0, [
-                    'text'      => lang('common_favor_ok_text'),
+                return DataReturn('收藏成功', 0, [
+                    'text'      => '已收藏',
                     'status'    => 1,
                     'count'     => self::GoodsFavorTotal(['goods_id'=>$data['goods_id']]),
                 ]);
             } else {
-                return DataReturn(lang('common_favor_error'));
+                return DataReturn('收藏失败');
             }
         } else {
             // 是否强制收藏
             if(isset($params['is_mandatory_favor']) && $params['is_mandatory_favor'] == 1)
             {
-                return DataReturn(lang('common_favor_success'), 0, [
-                    'text'      => lang('common_favor_ok_text'),
+                return DataReturn('收藏成功', 0, [
+                    'text'      => '已收藏',
                     'status'    => 1,
                     'count'     => self::GoodsFavorTotal(['goods_id'=>$data['goods_id']]),
                 ]);
@@ -437,13 +437,13 @@ class GoodsService
             // 删除收藏
             if(db('GoodsFavor')->where($data)->delete() > 0)
             {
-                return DataReturn(lang('common_cancel_success'), 0, [
-                    'text'      => lang('common_favor_not_text'),
+                return DataReturn('取消成功', 0, [
+                    'text'      => '收藏',
                     'status'    => 0,
                     'count'     => self::GoodsFavorTotal(['goods_id'=>$data['goods_id']]),
                 ]);
             } else {
-                return DataReturn(lang('common_cancel_error'));
+                return DataReturn('取消失败');
             }
         }
     }
@@ -481,7 +481,7 @@ class GoodsService
 
         $data = ['goods_id'=>intval($params['goods_id']), 'user_id'=>$params['user']['id']];
         $temp = db('GoodsFavor')->where($data)->find();
-        return DataReturn(lang('common_operation_success'), 0, empty($temp) ? 0 : 1);
+        return DataReturn('操作成功', 0, empty($temp) ? 0 : 1);
     }
 
     /**
@@ -813,9 +813,9 @@ class GoodsService
         ];
         if(db('GoodsBrowse')->where($where)->delete())
         {
-            return DataReturn(lang('common_operation_delete_success'), 0);
+            return DataReturn('删除成功', 0);
         }
-        return DataReturn(lang('common_operation_delete_error'), -100);
+        return DataReturn('删除失败或资源不存在', -100);
     }
 
     /**

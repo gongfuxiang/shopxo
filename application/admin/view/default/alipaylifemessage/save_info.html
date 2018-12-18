@@ -7,13 +7,13 @@
 		<form class="am-form form-validation view-save" action="{{:url('Admin/AlipayLifeMessage/Save')}}" method="POST" request-type="ajax-url" request-value="{{:url('Admin/AlipayLifeMessage/Index')}}" enctype="multipart/form-data">
 			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
 			<legend>
-				<span class="fs-16)}}{{:lang('alipay_life_message_add_name')}}</span>
+				<span class="fs-16)}}生活号消息创建/编辑</span>
 				<a href="{{:url('Admin/AlipayLifeMessage/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
 			</legend>
 
 			<div class="am-form-group">
-                <label>{{:lang('alipay_life_message_msg_type_text')}}</label>
-                <select name="msg_type" class="am-radius c-p chosen-select" data-placeholder="可选择..." data-validation-message="{{:lang('alipay_life_message_msg_type_format')}}" {{if isset($data['status']) and $data['status'] neq 0)}}disabled{{/if}} required>
+                <label>消息类型</label>
+                <select name="msg_type" class="am-radius c-p chosen-select" data-placeholder="可选择..." data-validation-message="请选择消息类型" {{if isset($data['status']) and $data['status'] neq 0)}}disabled{{/if}} required>
                     <option value="">可选择...</option>
                     <foreach name="alipay_life_message_msg_type_list" item="v">
                         <option value="{{$v.value}}" {{if isset($data['msg_type']) and $v['value'] eq $data['msg_type']">selected{{/if}}>{{$v.name}}</option>
@@ -22,8 +22,8 @@
             </div>
 
 			<div class="am-form-group">
-                <label>{{:lang('alipay_life_message_send_type_text')}}</label>
-                <select name="send_type" class="am-radius c-p chosen-select" data-placeholder="可选择..." data-validation-message="{{:lang('alipay_life_message_send_type_format')}}" disabled required>
+                <label>发送类型</label>
+                <select name="send_type" class="am-radius c-p chosen-select" data-placeholder="可选择..." data-validation-message="请选择消息发送类型" disabled required>
                     <option value="">可选择...</option>
                     <foreach name="alipay_life_message_send_type_list" item="v">
                         <option value="{{$v.value}}" {{if isset($send_type) and $v['value'] eq $send_type">selected{{/if}}>{{$v.name}}</option>
@@ -34,8 +34,8 @@
 			<!-- 单条 -->
 			{{if $send_type eq 0)}}
 				<div class="am-form-group">
-					<label>{{:lang('alipay_life_message_life_text')}}</label>
-				    <select name="alipay_life_ids" class="am-radius c-p chosen-select" data-placeholder="可选择..." data-validation-message="{{:lang('alipay_life_message_life_format')}}" <empty name="send_type">disabled{{/if}} required>
+					<label>生活号</label>
+				    <select name="alipay_life_ids" class="am-radius c-p chosen-select" data-placeholder="可选择..." data-validation-message="请选择生活号" <empty name="send_type">disabled{{/if}} required>
 						<foreach name="alipay_life_list" item="v">
 							<option value="{{$v.id}}" {{if in_array($v['id'], $alipay_life_ids_all)}}selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
@@ -43,7 +43,7 @@
 				</div>
 
 				<div class="am-form-group">
-					<label>{{:lang('alipay_life_message_user_text')}}</label>
+					<label>给用户发送消息</label>
 					<input type="hidden" name="user_id" value="{{$user_id}}" />
 					<input type="hidden" name="alipay_life_user_id" value="{{$alipay_life_user_id}}" />
 					<input type="text" class="am-radius" value="{{$alipay_openid}}" disabled />
@@ -53,28 +53,28 @@
 			<!-- 群发 -->
 			{{if $send_type eq 1)}}
 				<div class="life-container">
-					<label class="block">{{:lang('alipay_life_message_life_text')}}</label>
+					<label class="block">生活号</label>
 					<div class="life-form" data-search-url="{{:url('Admin/AlipayLifeMessage/Search')}}">
-					    <select class="am-radius c-p chosen-select life-form-category" data-placeholder="可选择..." data-validation-message="{{:lang('alipay_life_message_category_format')}}">
+					    <select class="am-radius c-p chosen-select life-form-category" data-placeholder="可选择..." data-validation-message="请选择生活号分类">
 					    	<option value="">可选择...</option>
 							<foreach name="alipay_life_category" item="v">
 								<option value="{{$v.id}}">{{$v.name}}</option>
 							{{/foreach}}
 						</select>
-						<input type="text" placeholder="{{:lang('alipay_life_message_title_text')}}" class="am-radius life-form-keywords" />
+						<input type="text" placeholder="消息标题" class="am-radius life-form-keywords" />
 						<button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm search-submit">搜索</button>
 					</div>
 					<div class="am-form-group life-list">
-						<input type="text" name="alipay_life_ids" value="<notempty name="data.alipay_life_ids">{{:implode(',', json_decode($data['alipay_life_ids'], true))}}{{/if}}" data-validation-message="{{:lang('alipay_life_message_life_format')}}" required />
+						<input type="text" name="alipay_life_ids" value="<notempty name="data.alipay_life_ids">{{:implode(',', json_decode($data['alipay_life_ids'], true))}}{{/if}}" data-validation-message="请选择生活号" required />
 						<div class="life-items am-fl">
-							<div class="title">{{:lang('alipay_life_message_optional_text')}}</div>
+							<div class="title">可选</div>
 							<ul class="life-content am-list ul-left">
 								<div class="table-no">没有相关数据</div>
 							</ul>
 						</div>
-						<button type="button" class="am-btn am-btn-default am-btn-xs selected-all">{{:lang('alipay_life_message_selected_all_text')}} <i class="am-icon-angle-double-right"></i></button>
+						<button type="button" class="am-btn am-btn-default am-btn-xs selected-all">全选 <i class="am-icon-angle-double-right"></i></button>
 						<div class="life-items am-fr">
-							<div class="title">{{:lang('alipay_life_message_selected_text')}}</div>
+							<div class="title">已选</div>
 							<ul class="life-content am-list ul-right">
 								<div class="table-no <notempty name="data">none{{/if}}">没有相关数据</div>
 								<foreach name="alipay_life_list" item="v">

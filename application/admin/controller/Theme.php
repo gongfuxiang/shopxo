@@ -147,14 +147,14 @@ class Theme extends Common
 		// 是否ajax
 		if(!IS_AJAX)
 		{
-			$this->error(lang('common_unauthorized_access'));
+			$this->error('非法访问');
 		}
 
 		// 主题
 		$id = str_replace(array('.', '/', '\\'), '', strip_tags(I('id')));
 		if(empty($id))
 		{
-			$this->error(lang('theme_empty_error'));
+			$this->error('主题名称有误');
 		}
 
 		// 默认主题
@@ -164,15 +164,15 @@ class Theme extends Common
 		// 不能删除正在使用的主题
 		if($theme == $id)
 		{
-			$this->ajaxReturn(lang('theme_delete_error'), -2);
+			$this->ajaxReturn('不能删除正在使用的主题', -2);
 		}
 
 		// 开始删除主题
 		if(\base\FileUtil::UnlinkDir($this->html_path.$id) && \base\FileUtil::UnlinkDir($this->static_path.$id))
 		{
-			$this->ajaxReturn(lang('common_operation_delete_success'));
+			$this->ajaxReturn('删除成功');
 		} else {
-			$this->ajaxReturn(lang('common_operation_delete_error'), -100);
+			$this->ajaxReturn('删除失败或资源不存在', -100);
 		}
 	}
 
@@ -188,7 +188,7 @@ class Theme extends Common
 		// 是否ajax
 		if(!IS_AJAX)
 		{
-			$this->error(lang('common_unauthorized_access'));
+			$this->error('非法访问');
 		}
 
 		// 文件上传校验
@@ -202,7 +202,7 @@ class Theme extends Common
 		$type = array('application/zip', 'application/octet-stream');
 		if(!in_array($_FILES['theme']['type'], $type))
 		{
-			$this->ajaxReturn(lang('theme_upload_error'), -2);
+			$this->ajaxReturn('文件格式有误，请上传zip压缩包', -2);
 		}
 
 		// 开始解压文件
@@ -252,7 +252,7 @@ class Theme extends Common
 				
 			}
 		}
-		$this->ajaxReturn(lang('common_operation_success'));
+		$this->ajaxReturn('操作成功');
 	}
 }
 ?>

@@ -55,7 +55,7 @@ class Cache extends Common
 		\base\FileUtil::UnlinkDir(TEMP_PATH);
 		\base\FileUtil::UnlinkDir(DATA_PATH);
 		\base\FileUtil::UnlinkFile(RUNTIME_PATH.'common~runtime.php');
-		$this->success(lang('common_operation_update_success'));
+		$this->success('更新成功');
 	}
 
 	/**
@@ -70,7 +70,7 @@ class Cache extends Common
 		// 模板 Cache
 		\base\FileUtil::UnlinkDir(CACHE_PATH);
 
-		$this->success(lang('common_operation_update_success'));
+		$this->success('更新成功');
 	}
 
 	/**
@@ -82,7 +82,7 @@ class Cache extends Common
 	 */
 	public function ModuleUpdate()
 	{
-		$this->success(lang('common_operation_update_success'));
+		$this->success('更新成功');
 	}
 }
 ?>

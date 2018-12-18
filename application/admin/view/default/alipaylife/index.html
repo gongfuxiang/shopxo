@@ -6,14 +6,14 @@
         <!-- tips start -->
         <div class="am-alert am-alert-warning am-radius" data-am-alert>
             <button type="button" class="am-close">&times;</button>
-            <p>{{:lang('alipay_life_tips')}}</p>
+            <p>接口异步通知地址：http://localhost/shopxo/alipay_life_notify.php</p>
         </div>
         <!-- tips end -->
 
         <!-- form start -->
         <form class="am-form view-list" action="{{:url('Admin/AlipayLife/Index')}}" method="POST">
             <div class="am-g">
-                <input type="text" class="am-radius form-keyword" placeholder="{{:lang('alipay_life_name_text')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
+                <input type="text" class="am-radius form-keyword" placeholder="名称" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
                 <button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
                 <label class="fs-12 m-l-5 c-p fw-100 more-submit">
                     更多筛选
@@ -23,13 +23,13 @@
 
                 <div class="more-where {{if !isset($param['is_more']) or $param['is_more'] neq 1)}}none{{/if}}">
                     <select name="is_shelves" class="am-radius c-p m-t-10 m-l-5 param-where">
-                        <option value="-1)}}{{:lang('alipay_life_is_shelves_text')}}</option>
+                        <option value="-1)}}上下架</option>
                         <foreach name="common_goods_is_shelves_list" item="v">
                             <option value="{{$v.id}}" {{if isset($param['is_shelves']) and $param['is_shelves'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
                         {{/foreach}}
                     </select>
                     <select name="alipay_life_category_id" class="am-radius c-p m-t-10 m-l-5 param-where">
-                        <option value="">{{:lang('alipay_life_category_id_text')}}</option>
+                        <option value="">生活号分类</option>
                         <foreach name="alipay_life_category" item="v">
                             <option value="{{$v.id}}" {{if isset($param['alipay_life_category_id']) and $param['alipay_life_category_id'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
                         {{/foreach}}
@@ -54,11 +54,11 @@
         <table class="am-table am-table-striped am-table-hover am-text-middle m-t-1)}}
             <thead>
                 <tr>
-                    <th>{{:lang('alipay_life_name_text')}}</th>
-                    <th class="am-hide-sm-only">{{:lang('alipay_life_logo_text')}}</th>
-                    <th>{{:lang('alipay_life_appid_text')}}</th>
-                    <th class="am-hide-sm-only category-row">{{:lang('alipay_life_category_id_text')}}</th>
-                    <th>{{:lang('alipay_life_is_shelves_text')}}</th>
+                    <th>名称</th>
+                    <th class="am-hide-sm-only">LOGO</th>
+                    <th>appid</th>
+                    <th class="am-hide-sm-only category-row">生活号分类</th>
+                    <th>上下架</th>
                     <th class="am-hide-sm-only">创建时间</th>
                     <th>操作</th>
                 </tr>

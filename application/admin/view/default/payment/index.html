@@ -13,14 +13,14 @@
         <table class="am-table am-table-striped am-table-hover am-text-middle m-t-1)}}
             <thead>
                 <tr>
-                    <th>{{:lang('payment_name_text')}}</th>
-                    <th class="am-hide-sm-only">{{:lang('payment_logo_text')}}</th>
-                    <th class="am-hide-sm-only">{{:lang('payment_apply_version_text')}}</th>
-                    <th>{{:lang('payment_apply_terminal_text')}}</th>
-                    <th class="am-hide-sm-only">{{:lang('payment_author_text')}}</th>
-                    <th class="am-hide-sm-only th-desc">{{:lang('payment_desc_text')}}</th>
+                    <th>名称</th>
+                    <th class="am-hide-sm-only">LOGO</th>
+                    <th class="am-hide-sm-only">适用版本</th>
+                    <th>适用终端</th>
+                    <th class="am-hide-sm-only">作者</th>
+                    <th class="am-hide-sm-only th-desc">描述</th>
                     <th>是否启用</th>
-                    <th>{{:lang('payment_is_open_user_text')}}</th>
+                    <th>对用户放开</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -121,8 +121,8 @@
                     <form class="am-form form-validation" action="{{:url('Admin/Payment/Upload')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
                         <input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_file', 51200000)}}" />
                         <div class="am-alert am-radius am-alert-tips m-t-0" data-am-alert>
-                            <p class="m-t-1)}}{{:lang('payment_upload_tips')}}</p>
-                            <p class="cr-red">{{:lang('payment_upload_ps')}}</p>
+                            <p class="m-t-1)}}1 类名必须于文件名一致（去除 .class.php ），如 Alipay.class.php 则取 Alipay <br />2 类必须定义三个方法<br />&nbsp;&nbsp;&nbsp; 2.1 Config 配置方法<br />&nbsp;&nbsp;&nbsp; 2.2 Pay 支付方法<br />&nbsp;&nbsp;&nbsp; 2.3 Respond 回调方法</p>
+                            <p class="cr-red">PS：以上条件不满足则无法查看插件</p>
                         </div>
                         <div class="am-form-group am-form-file">
                             <button type="button" class="am-btn am-btn-default am-btn-sm am-radius"><i class="am-icon-cloud-upload"></i> 选择文件</button>

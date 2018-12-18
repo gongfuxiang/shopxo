@@ -5,7 +5,7 @@
     <div class="content">
         <!-- back nav start -->
         <legend>
-            <span class="fs-16)}}{{:lang('alipay_life_message_detail_text')}}</span>
+            <span class="fs-16)}}详情</span>
             <a href="{{:url('Admin/AlipayLifeMessage/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
         </legend>
         <!-- back nav end -->
@@ -14,11 +14,11 @@
         <table class="am-table am-table-striped am-table-hover am-text-middle m-t-1)}}
             <thead>
                 <tr>
-                    <th>{{:lang('alipay_life_message_life_text')}}</th>
-                    <th>{{:lang('alipay_life_message_user_text')}}</th>
+                    <th>生活号</th>
+                    <th>给用户发送消息</th>
                     <th>状态</th>
-                    <th>{{:lang('alipay_life_message_send_time_text')}}</th>
-                    <th>{{:lang('alipay_life_message_return_msg_text')}}</th>
+                    <th>发送时间</th>
+                    <th>发送描述</th>
                     <th>更多</th>
                 </tr>
             </thead>
@@ -41,19 +41,19 @@
                                         </div>
                                         <div class="am-popup-bd">
                                             <dl class="dl-content">
-                                                <dt>{{:lang('alipay_life_message_life_text')}}</dt>
+                                                <dt>生活号</dt>
                                                 <dd>{{if empty($v['alipay_life_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.alipay_life_name}}{{/if}}</dd>
 
-                                                <dt>{{:lang('alipay_life_message_user_text')}}</dt>
+                                                <dt>给用户发送消息</dt>
                                                 <dd>{{if empty($v['alipay_openid'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.alipay_openid}}{{/if}}</dd>
 
                                                 <dt>状态</dt>
                                                 <dd>{{if empty($v['status_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.status_name}}{{/if}}</dd>
 
-                                                <dt>{{:lang('alipay_life_message_send_time_text')}}</dt>
+                                                <dt>发送时间</dt>
                                                 <dd>{{$v.send_time}}</dd>
 
-                                                <dt>{{:lang('alipay_life_message_return_msg_text')}}</dt>
+                                                <dt>发送描述</dt>
                                                 <dd>{{$v.return_msg}}</dd>
 
                                                 <dt>创建时间</dt>

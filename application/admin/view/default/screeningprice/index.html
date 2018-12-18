@@ -13,11 +13,11 @@
         <div class="am-popup am-radius" id="data-save-win">
 			<div class="am-popup-inner">
 				<div class="am-popup-hd">
-					<h4 class="am-popup-title" data-add-title="{{:lang('screening_price_add_name')}}" data-edit-title="{{:lang('screening_price_edit_name')}}">{{:lang('screening_price_add_name')}}</h4>
+					<h4 class="am-popup-title" data-add-title="筛选价格添加" data-edit-title="筛选价格编辑">筛选价格添加</h4>
 					<span data-am-modal-close class="am-close">&times;</span>
 				</div>
 				<div class="am-popup-bd">
-					<div class="am-alert am-alert-secondary" data-am-alert>{{:lang('screening_price_desc')}}</div>
+					<div class="am-alert am-alert-secondary" data-am-alert>规则举例<br /><span class=mini-tips-text>最小价格0 - 最大价格100 则是小于100<br /> 最小价格1000 - 最大价格0 则是大于1000<br /> 最小价格100 - 最大价格500 则是大于等于100并且小于500</span></div>
 					<!-- form start -->
 					<form class="am-form form-validation admin-save" action="{{:url('Admin/ScreeningPrice/Save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
@@ -25,12 +25,12 @@
 							<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
 						</div>
 						<div class="am-form-group">
-							<label>{{:lang('screening_price_min_price_text')}}</label>
-							<input type="number" placeholder="{{:lang('screening_price_min_price_text')}}" name="min_price"" maxlength="10" data-validation-message="{{:lang('screening_price_min_price_format')}}" class="am-radius" value="0" required />
+							<label>最小价格</label>
+							<input type="number" placeholder="最小价格" name="min_price"" maxlength="10" data-validation-message="最小价格有误" class="am-radius" value="0" required />
 						</div>
 						<div class="am-form-group">
-							<label>{{:lang('screening_price_max_price_text')}}</label>
-							<input type="number" placeholder="{{:lang('screening_price_max_price_text')}}" name="max_price" maxlength="10" data-validation-message="{{:lang('screening_price_max_price_format')}}" class="am-radius" value="0" required />
+							<label>最大价格</label>
+							<input type="number" placeholder="最大价格" name="max_price" maxlength="10" data-validation-message="最大价格有误" class="am-radius" value="0" required />
 						</div>
 						<div class="am-form-group">
 							<label>顺序</label>

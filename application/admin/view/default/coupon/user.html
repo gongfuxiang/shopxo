@@ -6,7 +6,7 @@
 		<!-- form start -->
 		<form class="am-form view-list" action="{{:url('Admin/Coupon/User', ['coupon_id'=>I('request.coupon_id')])}}" method="POST">
 			<div class="am-g">
-				<input type="text" class="am-radius form-keyword" placeholder="{{:lang('coupon_send_search_input_text')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
+				<input type="text" class="am-radius form-keyword" placeholder="用户昵称/姓名/手机号码" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
 					更多筛选
@@ -16,18 +16,18 @@
 
 				<div class="more-where {{if !isset($param['is_more']) or $param['is_more'] neq 1)}}none{{/if}}">
 					<select name="status" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="-1)}}{{:lang('coupon_user_status_text')}}</option>
+						<option value="-1)}}优惠券状态</option>
 						<foreach name="common_user_coupon_status" item="v">
 							<option value="{{$v.id}}" {{if isset($param['status']) and $param['status'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
 					</select>
 					<div class="param-date param-where m-l-5)}}
-						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="{{:lang('coupon_valid_text')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
+						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="有效时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
 						<span>~</span>
-						<input type="text" class="Wdate am-radius m-t-10" placeholder="{{:lang('coupon_valid_text')}}" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
+						<input type="text" class="Wdate am-radius m-t-10" placeholder="有效时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
 					</div>
 				</div>
-				<a href="{{:url('Admin/Coupon/Index')}}" class="fr fs-14 am-icon-mail-reply"> {{:lang('coupon_list_name')}}</a>
+				<a href="{{:url('Admin/Coupon/Index')}}" class="fr fs-14 am-icon-mail-reply"> 优惠券列表</a>
 			</div>
         </form>
         <!-- form end -->
@@ -36,12 +36,12 @@
 		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-1)}}
 			<thead>
 				<tr>
-					<th>{{:lang('coupon_user_username_text')}}</th>
-					<th>{{:lang('coupon_user_nickname_text')}}</th>
-					<th>{{:lang('coupon_price_text')}}</th>
-					<th>{{:lang('coupon_use_where_price_text')}}</th>
-					<th class="am-hide-sm-only">{{:lang('coupon_valid_text')}}</th>
-					<th class="am-hide-sm-only">{{:lang('coupon_user_status_text')}}</th>
+					<th>用户姓名</th>
+					<th>用户昵称</th>
+					<th>金额(元)</th>
+					<th>使用条件金额(元)</th>
+					<th class="am-hide-sm-only">有效时间</th>
+					<th class="am-hide-sm-only">优惠券状态</th>
 					<th>更多</th>
 					<th>操作</th>
 				</tr>
@@ -87,19 +87,19 @@
 										</div>
 										<div class="am-popup-bd">
 											<dl class="dl-content">
-												<dt>{{:lang('coupon_user_username_text')}}</dt>
+												<dt>用户姓名</dt>
 												<dd>{{if empty($v['username'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.username}}{{/if}}</dd>
 
-												<dt>{{:lang('coupon_user_nickname_text')}}</dt>
+												<dt>用户昵称</dt>
 												<dd>{{if empty($v['nickname'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.nickname}}{{/if}}</dd>
 
-												<dt>{{:lang('coupon_price_text')}}</dt>
+												<dt>金额(元)</dt>
 												<dd>{{if empty($v['price'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.price}}{{/if}}</dd>
 
-												<dt>{{:lang('coupon_use_where_price_text')}}</dt>
+												<dt>使用条件金额(元)</dt>
 												<dd>{{if empty($v['use_where_price'])}}<span class="cr-ddd">不限</span>{{else /}}{{$v.use_where_price}}{{/if}}</dd>
 
-												<dt>{{:lang('coupon_valid_text')}}</dt>
+												<dt>有效时间</dt>
 												<dd>
 													{{if !empty($v['valid_start_time_text'])}}
 														{{$v.valid_start_time_text}}<br />
@@ -112,7 +112,7 @@
 													{{/if}}
 												</dd>
 												
-												<dt>{{:lang('coupon_user_status_text')}}</dt>
+												<dt>优惠券状态</dt>
 												<dd>{{if empty($v['status_text'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.status_text}}{{/if}}</dd>
 
 												<dt>创建时间</dt>

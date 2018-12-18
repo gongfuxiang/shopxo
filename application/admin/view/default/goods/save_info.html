@@ -9,9 +9,9 @@
 			<legend>
 				<span class="fs-16">
 					{{if empty($data['id'])}}
-						{{:lang('goods_add_name')}}
+						商品添加
 					{{else /}}
-						{{:lang('goods_edit_name')}}
+						商品编辑
 					{{/if}}
 				</span>
 				<a href="{{:url('admin/goods/index', $params)}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
@@ -20,34 +20,34 @@
 			<nav class="goods-nav">
 				<ul>
 					<li>
-						<a href="#goods-nav-base">{{:lang('goods_nav_base_name')}}</a>
+						<a href="#goods-nav-base">基础信息</a>
 					</li>
 					<li>
-						<a href="#goods-nav-operations">{{:lang('goods_nav_attribute_name')}}</a>
+						<a href="#goods-nav-operations">商品规格</a>
 					</li>
 					<li>
-						<a href="#goods-nav-photo">{{:lang('goods_nav_photo_name')}}</a>
+						<a href="#goods-nav-photo">商品相册</a>
 					</li>
 					<li>
-						<a href="#goods-nav-video">{{:lang('goods_nav_video_name')}}</a>
+						<a href="#goods-nav-video">商品视频</a>
 					</li>
 					<li>
-						<a href="#goods-nav-app">{{:lang('goods_nav_app_name')}}</a>
+						<a href="#goods-nav-app">手机端详情</a>
 					</li>
 					<li>
-						<a href="#goods-nav-web">{{:lang('goods_nav_web_name')}}</a>
+						<a href="#goods-nav-web">电脑端详情</a>
 					</li>
 				</ul>
 			</nav>
 
 			<!-- 基础信息 -->
 			<div id="goods-nav-base" class="division-block">
-				<label class="block nav-detail-title">{{:lang('goods_nav_base_name')}}</label>
+				<label class="block nav-detail-title">基础信息</label>
 				<div class="am-form-group">
-					<label>{{:lang('goods_title_text')}}</label>
+					<label>标题名称</label>
 					<div class="am-input-group am-input-group-sm">
 						<input type="hidden" name="title_color" value="{{if !empty($data['title_color'])}}{{$data.title_color}}{{/if}}" />
-						<input type="text" name="title" placeholder="{{:lang('goods_title_text')}}" minlength="2" maxlength="60" data-validation-message="{{:lang('goods_title_format')}}" class="am-form-field am-radius" {{if !empty($data)}} value="{{$data.title}}" {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
+						<input type="text" name="title" placeholder="标题名称" minlength="2" maxlength="60" data-validation-message="标题名称格式 2~60 个字符" class="am-form-field am-radius" {{if !empty($data)}} value="{{$data.title}}" {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
 						<span class="am-input-group-btn">
 							<button class="am-btn am-btn-default colorpicker-submit" type="button" data-input-tag="input[name='title']" data-color-tag="input[name='title_color']">
 								<img src="{{$image_host}}/static/common/images/colorpicker.png" />
@@ -56,21 +56,21 @@
 					</div>
 				</div>
 				<div class="am-form-group">
-					<label>{{:lang('goods_model_text')}}</label>
-					<input type="text" name="model" placeholder="{{:lang('goods_model_text')}}" maxlength="30" data-validation-message="{{:lang('goods_model_format')}}" class="am-radius" {{if !empty($data)}} value="{{$data.model}}"{{/if}} />
+					<label>商品型号</label>
+					<input type="text" name="model" placeholder="商品型号" maxlength="30" data-validation-message="商品型号格式 最多30个字符" class="am-radius" {{if !empty($data)}} value="{{$data.model}}"{{/if}} />
 				</div>
 				<div class="am-form-group">
-					<label>{{:lang('goods_category_id_text')}}</label>
+					<label>商品分类</label>
 					<br />
-					<select name="category_id" class="am-radius chosen-select c-p" multiple="multiple" minchecked="1" data-placeholder="请选择..." data-validation-message="{{:lang('goods_category_id_format')}}" required>
+					<select name="category_id" class="am-radius chosen-select c-p" multiple="multiple" minchecked="1" data-placeholder="请选择..." data-validation-message="请至少选择一个商品分类" required>
 						{{if !empty($category_list)}}
 							{{foreach $category_list as $v}}
 								<optgroup label="{{$v.name}}">
 									{{if !empty($v['items'])}}
 										{{foreach $v.items as $vs}}
-											<option style="padding-left: 30px;" value="{{$vs.id}}" {{if !empty($data['category_ids']) and in_array($vs['id'], $data['category_ids'])}}selected{{/if}}>{{:lang('goods_category_level_two')}}-{{$vs.name}}</option>
+											<option style="padding-left: 30px;" value="{{$vs.id}}" {{if !empty($data['category_ids']) and in_array($vs['id'], $data['category_ids'])}}selected{{/if}}>二级-{{$vs.name}}</option>
 											{{foreach $vs.items as $vss}}
-												<option style="padding-left: 60px;" value="{{$vss.id}}" {{if !empty($data['category_ids']) and in_array($vss['id'], $data['category_ids'])}}selected{{/if}}>{{:lang('goods_category_level_three')}}-{{$vss.name}}</option>
+												<option style="padding-left: 60px;" value="{{$vss.id}}" {{if !empty($data['category_ids']) and in_array($vss['id'], $data['category_ids'])}}selected{{/if}}>三级-{{$vss.name}}</option>
 											{{/foreach}}
 										{{/foreach}}
 									{{/if}}
@@ -80,9 +80,9 @@
 					</select>
 				</div>
 				<div class="am-form-group">
-					<label>{{:lang('goods_brand_id_text')}}</label>
+					<label>品牌</label>
 					<br />
-					<select name="brand_id" class="am-radius chosen-select c-p" data-placeholder="请选择..." data-validation-message="{{:lang('goods_category_id_format')}}">
+					<select name="brand_id" class="am-radius chosen-select c-p" data-placeholder="请选择..." data-validation-message="请至少选择一个商品分类">
 						{{if !empty($brand_list)}}
 							<option value="0">请选择...</option>
 							{{foreach $brand_list as $v}}
@@ -98,9 +98,9 @@
 					</select>
 				</div>
 				<div class="am-form-group">
-					<label>{{:lang('goods_place_origin_name')}}</label>
+					<label>生产地</label>
 					<br />
-					<select name="place_origin" class="am-radius chosen-select c-p" data-placeholder="请选择..." data-validation-message="{{:lang('goods_place_origin_format')}}">
+					<select name="place_origin" class="am-radius chosen-select c-p" data-placeholder="请选择..." data-validation-message="请选择生产地">
 						<option value="0">请选择...</option>
 						{{if !empty($region_province_list)}}
 							{{foreach $region_province_list as $v}}
@@ -110,23 +110,23 @@
 					</select>
 				</div>
 				<div class="am-form-group">
-					<label>{{:lang('goods_inventory_unit_text')}}</label>
-					<input type="text" name="inventory_unit" placeholder="{{:lang('goods_inventory_unit_text')}}" minlength="1" maxlength="6" data-validation-message="{{:lang('goods_inventory_unit_format')}}" class="am-radius" {{if !empty($data)}} value="{{$data.inventory_unit}}"{{/if}} required />
+					<label>库存单位</label>
+					<input type="text" name="inventory_unit" placeholder="库存单位" minlength="1" maxlength="6" data-validation-message="库存单位格式 1~6 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.inventory_unit}}"{{/if}} required />
 				</div>
 				<div class="am-form-group">
-					<label>{{:lang('goods_give_integral_text')}}</label>
-					<input type="number" name="give_integral" placeholder="{{:lang('goods_give_integral_text')}}" max="100000000" data-validation-message="{{:lang('goods_give_integral_format')}}" class="am-radius" value="{{if empty($data)}}0{{else /}}{{$data.give_integral}}{{/if}}" required />
+					<label>购买赠送积分</label>
+					<input type="number" name="give_integral" placeholder="购买赠送积分" max="100000000" data-validation-message="购买赠送积分 0~100000000" class="am-radius" value="{{if empty($data)}}0{{else /}}{{$data.give_integral}}{{/if}}" required />
 				</div>
 				<div class="am-form-group">
-					<label>{{:lang('goods_buy_min_number_text')}}<span class="fs-12 fw-100 cr-999">（{{:lang('goods_buy_min_number_tips')}}）</span></label>
-					<input type="number" name="buy_min_number" placeholder="{{:lang('goods_buy_min_number_text')}}" min="1" max="100000000" data-validation-message="{{:lang('goods_buy_min_number_format')}}" class="am-radius" value="{{if empty($data)}}1{{else /}}{{$data.buy_min_number}}{{/if}}" required />
+					<label>最低起购数量<span class="fs-12 fw-100 cr-999">（默认数值 1）</span></label>
+					<input type="number" name="buy_min_number" placeholder="最低起购数量" min="1" max="100000000" data-validation-message="最低起购数量 1~100000000" class="am-radius" value="{{if empty($data)}}1{{else /}}{{$data.buy_min_number}}{{/if}}" required />
 				</div>
 				<div class="am-form-group">
-					<label>{{:lang('goods_buy_max_number_text')}}<span class="fs-12 fw-100 cr-999">（{{:lang('goods_buy_max_number_tips')}}）</span></label>
-					<input type="number" name="buy_max_number" placeholder="{{:lang('goods_buy_max_number_text')}}" min="0" max="100000000" data-validation-message="{{:lang('goods_buy_max_number_format')}}" class="am-radius" {{if !empty($data['buy_max_number'])}} value="{{$data.buy_max_number}}"{{/if}} />
+					<label>单次最大购买数量<span class="fs-12 fw-100 cr-999">（单次最大数值 100000000, 小于等于0或空则不限）</span></label>
+					<input type="number" name="buy_max_number" placeholder="单次最大购买数量" min="0" max="100000000" data-validation-message="单次最大购买数量 1~100000000" class="am-radius" {{if !empty($data['buy_max_number'])}} value="{{$data.buy_max_number}}"{{/if}} />
 				</div>
 				<div class="am-form-group am-form-file">
-					<label class="block">{{:lang('goods_home_recommended_images_text')}}<span class="fs-12 fw-100 cr-999">（{{:lang('goods_home_recommended_images_tips')}}）</span></label>
+					<label class="block">首页推荐图片<span class="fs-12 fw-100 cr-999">（留空则取相册第一张图）</span></label>
 					<ul class="plug-file-upload-view goods-recommended-images-view" data-form-name="home_recommended_images" data-max-number="1" data-dialog-type="images">
 						{{if !empty($data['home_recommended_images'])}}
 							<li>
@@ -139,15 +139,15 @@
 					<div class="plug-file-upload-submit" data-view-tag="ul.goods-recommended-images-view">+上传图片</div>
 				</div>
 				<div class="am-form-group">
-					<label class="block">{{:lang('goods_is_deduction_inventory_text')}}<span class="fs-12 fw-100 cr-999">（{{:lang('goods_is_deduction_inventory_tips')}}）</span></label>
+					<label class="block">扣减库存<span class="fs-12 fw-100 cr-999">（扣除规则根据后台配置->扣除库存规则而定）</span></label>
 					<input name="is_deduction_inventory" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_deduction_inventory']) and $data['is_deduction_inventory'] eq 1) or empty($data)}}checked="true"{{/if}} />
 				</div>
 				<div class="am-form-group">
-					<label class="block">{{:lang('goods_is_shelves_text')}}<span class="fs-12 fw-100 cr-999">（{{:lang('goods_is_shelves_tips')}}）</span></label>
+					<label class="block">上下架<span class="fs-12 fw-100 cr-999">（下架后用户不可见）</span></label>
 					<input name="is_shelves" value="1" type="checkbox" data-off-text="下架" data-on-text="上架" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_shelves']) and $data['is_shelves'] eq 1) or empty($data)}}checked="true"{{/if}} />
 				</div>
 				<div class="am-form-group">
-					<label class="block">{{:lang('goods_is_home_recommended_text')}}<span class="fs-12 fw-100 cr-999">（{{:lang('goods_is_home_recommended_tips')}}）</span></label>
+					<label class="block">首页推荐<span class="fs-12 fw-100 cr-999">（推荐后在首页展示）</span></label>
 					<input name="is_home_recommended" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_home_recommended']) and $data['is_home_recommended'] eq 1}}checked="true"{{/if}} />
 				</div>
 			</div>
@@ -249,7 +249,7 @@
 
 			<!-- 相册 -->
 			<div id="goods-nav-photo" class="division-block">
-				<label class="block nav-detail-title">{{:lang('goods_nav_photo_name')}}<span class="fs-12 fw-100 cr-999">（{{:lang('goods_images_tips')}}）</span></label>
+				<label class="block nav-detail-title">商品相册<span class="fs-12 fw-100 cr-999">（可拖拽图片进行排序，建议图片尺寸一致）</span></label>
 				<ul class="plug-file-upload-view goods-photo-view" data-form-name="photo[]" data-max-number="5" data-dialog-type="images">
 					{{if !empty($data['photo'])}}
 						{{foreach $data.photo as $v}}
@@ -266,9 +266,9 @@
 
 			<!-- 视频 -->
 			<div id="goods-nav-video" class="division-block">
-				<label class="block nav-detail-title">{{:lang('goods_nav_video_name')}}</label>
+				<label class="block nav-detail-title">商品视频</label>
 				<div class="am-form-group am-form-file">
-					<label class="block">{{:lang('goods_video_text')}}<span class="fs-12 fw-100 cr-999">（{{:lang('goods_video_tips')}}）</span></label>
+					<label class="block">短视频<span class="fs-12 fw-100 cr-999">（视频比图文更有具带入感，仅支持 mp4 格式）</span></label>
 					<ul class="plug-file-upload-view plug-file-upload-view-video goods-video-view" data-form-name="video" data-max-number="1" data-dialog-type="video">
 						{{if !empty($data['video'])}}
 							<li>
@@ -284,14 +284,14 @@
 
 			<!-- app内容 -->
 			<div id="goods-nav-app" class="division-block">
-				<label class="block nav-detail-title">{{:lang('goods_nav_app_name')}}</label>
-				<ul class="content-app-items" data-max-count="10" data-required="1" data-images-name="content_app_images" data-content-name="content_app_text" data-images-text="{{:lang('goods_content_app_images_text')}}" data-content-text="{{:lang('goods_content_app_text_text')}}" data-delete-text="删除" data-drag-sort-text="拖拽排序">
+				<label class="block nav-detail-title">手机端详情</label>
+				<ul class="content-app-items" data-max-count="10" data-required="1" data-images-name="content_app_images" data-content-name="content_app_text" data-images-text="图片" data-content-text="文本内容" data-delete-text="删除" data-drag-sort-text="拖拽排序">
 					{{if !empty($data['content_app'])}}
 						{{foreach $data.content_app as $v}}
 							<li>
 								<div>
 									<div class="content-app-left">
-										<label class="block">{{:lang('goods_content_app_images_text')}}</label>
+										<label class="block">图片</label>
 										<ul class="plug-file-upload-view goods-content-app-images-view-{{$v.id}}" data-form-name="content_app_images_{{$v.id}}" data-max-number="1" data-dialog-type="images">
 											{{if !empty($v['images'])}}
 												<li>
@@ -304,8 +304,8 @@
 										<div class="plug-file-upload-submit" data-view-tag="ul.goods-content-app-images-view-{{$v.id}}">+上传图片</div>
 									</div>
 									<div class="am-form-group content-app-right fr">
-										<label>{{:lang('goods_content_app_text_text')}}</label>
-										<textarea rows="5" name="content_app_text_{{$v.id}}" maxlength="105000" class="am-radius" placeholder="{{:lang('goods_content_app_text_text')}}" data-validation-message="{{:lang('goods_content_app_text_format')}}">{{if !empty($v)}}{{$v.content_old|raw}}{{/if}}</textarea>
+										<label>文本内容</label>
+										<textarea rows="5" name="content_app_text_{{$v.id}}" maxlength="105000" class="am-radius" placeholder="文本内容" data-validation-message="文本内容最多 105000 个字符">{{if !empty($v)}}{{$v.content_old|raw}}{{/if}}</textarea>
 									</div>
 								</div>
 								<i class="c-p fs-12 cr-red content-app-items-rem-sub">删除</i>
@@ -319,9 +319,9 @@
 
 			<!-- web内容 -->
 			<div id="goods-nav-web" class="division-block">
-				<label class="block nav-detail-title">{{:lang('goods_nav_web_name')}}</label>
+				<label class="block nav-detail-title">电脑端详情</label>
 				<div class="am-form-group">
-					<textarea class="am-radius am-validate" name="content_web" maxlength="105000" id="editor-tag" data-validation-message="{{:lang('goods_content_web_format')}}">{{if !empty($data)}}{{$data.content_web}}{{/if}}</textarea>
+					<textarea class="am-radius am-validate" name="content_web" maxlength="105000" id="editor-tag" data-validation-message="电脑端详情内容最多 105000 个字符">{{if !empty($data)}}{{$data.content_web}}{{/if}}</textarea>
 				</div>
 			</div>
 

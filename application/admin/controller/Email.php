@@ -84,15 +84,15 @@ class Email extends Common
 		$obj = new \base\Email($verify_param);
 		$email_param = array(
 				'email'		=>	input('email'),
-				'content'	=>	lang('email_test_email_send_content'),
-				'title'		=>	MyC('home_site_name').' - '.lang('common_operation_test'),
+				'content'	=>	'邮件配置-发送测试内容',
+				'title'		=>	MyC('home_site_name').' - '.'测试',
 			);
 		// 发送
 		if($obj->SendHtml($email_param))
 		{
-			return json(DataReturn(lang('common_send_success')));
+			return json(DataReturn('发送成功'));
 		} else {
-			return json(DataReturn(lang('common_send_error').'['.$obj->error.']', -100));
+			return json(DataReturn('发送失败'.'['.$obj->error.']', -100));
 		}
 	}
 }

@@ -9,20 +9,20 @@
 			<legend>
 				<span class="fs-16)}}
 					{{if empty($data['id'])}}
-						{{:lang('alipay_life_add_name')}}
+						生活号添加
 					{{else /}}
-						{{:lang('alipay_life_edit_name')}}
+						生活号编辑
 					{{/if}}
 				</span>
 				<a href="{{:url('Admin/AlipayLife/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
-				<label>{{:lang('alipay_life_name_text')}}</label>
-				<input type="text" name="name" placeholder="{{:lang('alipay_life_name_text')}}" minlength="2" maxlength="30" data-validation-message="{{:lang('alipay_life_name_format')}}" class="am-radius" <notempty name="data"> value="{{$data.name}}"{{/if}} required />
+				<label>名称</label>
+				<input type="text" name="name" placeholder="名称" minlength="2" maxlength="30" data-validation-message="名称格式 2~30 个字符" class="am-radius" <notempty name="data"> value="{{$data.name}}"{{/if}} required />
 			</div>
 			<div class="am-form-group">
-				<label>{{:lang('alipay_life_category_id_text')}}</label>
-			    <select name="alipay_life_category_id" class="am-radius c-p chosen-select" multiple="multiple" data-placeholder="可选择..." data-validation-message="{{:lang('alipay_life_category_id_format')}}" required>
+				<label>生活号分类</label>
+			    <select name="alipay_life_category_id" class="am-radius c-p chosen-select" multiple="multiple" data-placeholder="可选择..." data-validation-message="请选择生活号分类" required>
 					<foreach name="alipay_life_category" item="v">
 						<option value="{{$v.id}}" {{if !empty($data['category_all']) and in_array($v['id'], $data['category_all'])}}selected{{/if}}>{{$v.name}}</option>
 					{{/foreach}}
@@ -30,12 +30,12 @@
 			</div>
 
 			<div class="am-form-group">
-				<label>{{:lang('alipay_life_appid_text')}}</label>
-				<input type="text" name="appid" placeholder="{{:lang('alipay_life_appid_text')}}" data-validation-message="{{:lang('alipay_life_appid_format')}}" class="am-radius" minlength="1" maxlength="60" <notempty name="data"> value="{{$data.appid}}"{{/if}} required />
+				<label>appid</label>
+				<input type="text" name="appid" placeholder="appid" data-validation-message="appid格式 1~60 个字符" class="am-radius" minlength="1" maxlength="60" <notempty name="data"> value="{{$data.appid}}"{{/if}} required />
 			</div>
 
 			<div class="am-form-group am-form-file">
-				<label class="block">{{:lang('alipay_life_logo_text')}}</label>
+				<label class="block">LOGO</label>
 				<button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
 				<i class="am-icon-cloud-upload"></i> 选择图片</button>
 				<input type="text" name="logo" class="am-radius js-choice-one original-images-url original-icon-images-url" data-choice-one-to='input[name="file_logo"]' <notempty name="data"> value="{{$data.logo}}"{{/if}}" data-validation-message="请选择需要上传的图片" readonly="readonly" />
@@ -46,16 +46,16 @@
 			</div>
 
 			<div class="am-form-group">
-				<label>{{:lang('alipay_life_rsa_public_text')}}</label>
-				<textarea rows="5" name="rsa_public" class="am-radius" placeholder="{{:lang('alipay_life_rsa_public_text')}}" data-validation-message="{{:lang('alipay_life_rsa_public_format')}}" required><present name="data">{{$data.rsa_public}}{{/if}}</textarea>
+				<label>应用公钥</label>
+				<textarea rows="5" name="rsa_public" class="am-radius" placeholder="应用公钥" data-validation-message="应用公钥格式 1~2000 个字符" required><present name="data">{{$data.rsa_public}}{{/if}}</textarea>
 			</div>
 			<div class="am-form-group">
-				<label>{{:lang('alipay_life_rsa_private_text')}}</label>
-				<textarea rows="5" name="rsa_private" class="am-radius" placeholder="{{:lang('alipay_life_rsa_private_text')}}" data-validation-message="{{:lang('alipay_life_rsa_private_format')}}" required><present name="data">{{$data.rsa_private}}{{/if}}</textarea>
+				<label>应用私钥</label>
+				<textarea rows="5" name="rsa_private" class="am-radius" placeholder="应用私钥" data-validation-message="应用私钥格式 1~2000 个字符" required><present name="data">{{$data.rsa_private}}{{/if}}</textarea>
 			</div>
 			<div class="am-form-group">
-				<label>{{:lang('alipay_life_out_rsa_public_text')}}</label>
-				<textarea rows="5" name="out_rsa_public" class="am-radius" placeholder="{{:lang('alipay_life_out_rsa_public_text')}}" data-validation-message="{{:lang('alipay_life_out_rsa_public_format')}}" required><present name="data">{{$data.out_rsa_public}}{{/if}}</textarea>
+				<label>支付宝公钥</label>
+				<textarea rows="5" name="out_rsa_public" class="am-radius" placeholder="支付宝公钥" data-validation-message="支付宝公钥格式 1~2000 个字符" required><present name="data">{{$data.out_rsa_public}}{{/if}}</textarea>
 			</div>
 			<div class="am-form-group">
 				<input type="hidden" name="id" <notempty name="data"> value="{{$data.id}}"{{/if}} />

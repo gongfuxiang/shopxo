@@ -1234,8 +1234,8 @@ div.edui-box {
     position: relative;
     cursor: move;
     background-color: #f5f5f5;
-    border-top-right-radius: 3px;
-    border-top-left-radius: 3px;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
 }
 .edui-default .edui-dialog-caption {
     font-weight: bold;
@@ -1267,8 +1267,8 @@ div.edui-box {
 
 .edui-default .edui-dialog-foot {
     height: 40px;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
 }
 
 .edui-default .edui-dialog-buttons {

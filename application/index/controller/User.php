@@ -145,7 +145,7 @@ class User extends Common
         {
             return $this->fetch();
         } else {
-            $this->assign('msg', lang('common_forget_already_had_tips'));
+            $this->assign('msg', '已经登录了，如要重置密码，请先退出当前账户');
             return $this->fetch('public/tips_error');
         }
     }
@@ -166,11 +166,11 @@ class User extends Common
             {
                 return $this->fetch();
             } else {
-                $this->assign('msg', lang('common_reg_already_had_tips'));
+                $this->assign('msg', '已经登录了，如要注册新账户，请先退出当前账户');
                 return $this->fetch('public/tips_error');
             }
         } else {
-            $this->assign('msg', lang('common_close_user_reg_tips'));
+            $this->assign('msg', '暂时关闭用户注册');
             return $this->fetch('public/tips_error');
         }
     }
@@ -191,11 +191,11 @@ class User extends Common
                 $this->assign('referer_url', $this->GetrefererUrl());
                 return $this->fetch();
             } else {
-                $this->assign('msg', lang('common_reg_already_had_tips'));
+                $this->assign('msg', '已经登录了，如要注册新账户，请先退出当前账户');
                 return $this->fetch('public/tips_error');
             }
         } else {
-            $this->assign('msg', lang('common_close_email_user_reg_tips'));
+            $this->assign('msg', '暂时关闭邮箱注册');
             return $this->fetch('public/tips_error');
         }
     }
@@ -216,11 +216,11 @@ class User extends Common
                 $this->assign('referer_url', $this->GetrefererUrl());
                 return $this->fetch();
             } else {
-                $this->assign('msg', lang('common_reg_already_had_tips'));
+                $this->assign('msg', '已经登录了，如要注册新账户，请先退出当前账户');
                 return $this->fetch('public/tips_error');
             }
         } else {
-            $this->assign('msg', lang('common_close_sms_user_reg_tips'));
+            $this->assign('msg', '暂时关闭短信注册');
             return $this->fetch('public/tips_error');
         }
     }
@@ -241,11 +241,11 @@ class User extends Common
                 $this->assign('referer_url', $this->GetrefererUrl());
                 return $this->fetch();
             } else {
-                $this->assign('msg', lang('common_login_already_had_tips'));
+                $this->assign('msg', '已经登录了，请勿重复登录');
                 return $this->fetch('public/tips_error');
             }
         } else {
-            $this->assign('msg', lang('common_close_user_login_tips'));
+            $this->assign('msg', '暂时关闭用户登录');
             return $this->fetch('public/tips_error');
         }
     }
@@ -270,11 +270,11 @@ class User extends Common
                 $this->assign('referer_url', $this->GetrefererUrl());
                 return $this->fetch();
             } else {
-                $this->assign('msg', lang('common_login_already_had_tips'));
+                $this->assign('msg', '已经登录了，请勿重复登录');
                 return $this->fetch('public/tips_error');
             }
         } else {
-            $this->assign('msg', lang('common_close_user_login_tips'));
+            $this->assign('msg', '暂时关闭用户登录');
             return $this->fetch('public/tips_error');
         }
     }
@@ -291,7 +291,7 @@ class User extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            return $this->error(lang('common_unauthorized_access'));
+            return $this->error('非法访问');
         }
 
         // 调用服务层
@@ -311,7 +311,7 @@ class User extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            return $this->error(lang('common_unauthorized_access'));
+            return $this->error('非法访问');
         }
 
         // 调用服务层
@@ -349,7 +349,7 @@ class User extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            return $this->error(lang('common_unauthorized_access'));
+            return $this->error('非法访问');
         }
 
         // 调用服务层
@@ -369,7 +369,7 @@ class User extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            return $this->error(lang('common_unauthorized_access'));
+            return $this->error('非法访问');
         }
 
         // 调用服务层
@@ -389,7 +389,7 @@ class User extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            return $this->error(lang('common_unauthorized_access'));
+            return $this->error('非法访问');
         }
 
         // 调用服务层
@@ -423,7 +423,7 @@ class User extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            return $this->error(lang('common_unauthorized_access'));
+            return $this->error('非法访问');
         }
 
         // 登录校验

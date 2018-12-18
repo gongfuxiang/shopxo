@@ -88,7 +88,7 @@ class Safety extends Common
 	{
 		if(session('safety_sms') == null && !empty($this->user['mobile']))
 		{
-			return $this->error(lang('safety_original_accounts_check_error'), url('index/safety/mobileinfo'));
+			return $this->error('原帐号校验失败', url('index/safety/mobileinfo'));
 		}
 		return $this->fetch();
 	}
@@ -120,7 +120,7 @@ class Safety extends Common
 	{
 		if(session('safety_email') == null && !empty($this->user['email']))
 		{
-			return $this->error(lang('safety_original_accounts_check_error'), url('index/safety/emailinfo'));
+			return $this->error('原帐号校验失败', url('index/safety/emailinfo'));
 		}
 		return $this->fetch();
 	}
@@ -155,7 +155,7 @@ class Safety extends Common
 		// 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         // 开始处理
@@ -177,7 +177,7 @@ class Safety extends Common
 		// 是否ajax请求
         if(!IS_AJAX)
         {
-            return $this->error(lang('common_unauthorized_access'));
+            return $this->error('非法访问');
         }
 
         // 开始处理
@@ -200,7 +200,7 @@ class Safety extends Common
 		// 是否ajax请求
         if(!IS_AJAX)
         {
-            return $this->error(lang('common_unauthorized_access'));
+            return $this->error('非法访问');
         }
 
         // 开始处理
@@ -222,7 +222,7 @@ class Safety extends Common
 		// 是否ajax请求
         if(!IS_AJAX)
         {
-            return $this->error(lang('common_unauthorized_access'));
+            return $this->error('非法访问');
         }
 
         // 开始处理

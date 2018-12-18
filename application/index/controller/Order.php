@@ -125,7 +125,7 @@ class Order extends Common
             $this->assign('params', $params);
             return $this->fetch();
         } else {
-            $this->assign('msg', lang('common_not_data_tips'));
+            $this->assign('msg', '没有相关数据');
             return $this->fetch('public/tips_error');
         } 
     }
@@ -161,7 +161,7 @@ class Order extends Common
             $this->assign('data', $data['data'][0]);
             return $this->fetch();
         } else {
-            $this->assign('msg', lang('common_not_data_tips'));
+            $this->assign('msg', '没有相关数据');
             return $this->fetch('public/tips_error');
         } 
     }
@@ -183,7 +183,7 @@ class Order extends Common
             $ret = OrderService::Comments($params);
             return json($ret);
         } else {
-            $this->assign('msg', lang('common_unauthorized_access'));
+            $this->assign('msg', '非法访问');
             return $this->fetch('public/tips_error');
         }
     }
@@ -252,7 +252,7 @@ class Order extends Common
             $ret = OrderService::OrderCancel($params);
             return json($ret);
         } else {
-            $this->assign('msg', lang('common_unauthorized_access'));
+            $this->assign('msg', '非法访问');
             return $this->fetch('public/tips_error');
         }
     }
@@ -276,7 +276,7 @@ class Order extends Common
             $ret = OrderService::OrderCollect($params);
             return json($ret);
         } else {
-            $this->assign('msg', lang('common_unauthorized_access'));
+            $this->assign('msg', '非法访问');
             return $this->fetch('public/tips_error');
         }
     }
@@ -301,7 +301,7 @@ class Order extends Common
             $ret = OrderService::OrderDelete($params);
             return json($ret);
         } else {
-            $this->assign('msg', lang('common_unauthorized_access'));
+            $this->assign('msg', '非法访问');
             return $this->fetch('public/tips_error');
         }
     }

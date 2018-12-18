@@ -6,7 +6,7 @@
 		<!-- form start -->
 		<form class="am-form view-list" action="{{:url('Admin/Message/Index')}}" method="POST">
 			<div class="am-g">
-				<input type="text" class="am-radius form-keyword" placeholder="{{:lang('message_so_keyword_tips')}}" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
+				<input type="text" class="am-radius form-keyword" placeholder="姓名/手机/昵称/标题" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
 					更多筛选
@@ -22,13 +22,13 @@
 						{{/foreach}}
 					</select>
 					<select name="type" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="-1)}}{{:lang('message_type_name')}}</option>
+						<option value="-1)}}消息类型</option>
 						<foreach name="common_message_type_list" item="v">
 							<option value="{{$v.id}}" {{if isset($param['type']) and $param['type'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
 					</select>
 					<select name="is_read" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="-1)}}{{:lang('message_is_read_name')}}</option>
+						<option value="-1)}}是否已读</option>
 						<foreach name="common_is_read_list" item="v">
 							<option value="{{$v.id}}" {{if isset($param['is_read']) and $param['is_read'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
@@ -47,12 +47,12 @@
 		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5)}}
 			<thead>
 				<tr>
-					<th>{{:lang('message_user_name')}}</th>
-					<th>{{:lang('message_type_name')}}</th>
-					<th>{{:lang('message_title_name')}}</th>
-					<th class="am-hide-sm-only">{{:lang('message_detail_name')}}</th>
-					<th class="am-hide-sm-only">{{:lang('message_is_read_name')}}</th>
-					<th class="am-hide-sm-only">{{:lang('message_add_time_name')}}</th>
+					<th>用户信息</th>
+					<th>消息类型</th>
+					<th>标题</th>
+					<th class="am-hide-sm-only">内容</th>
+					<th class="am-hide-sm-only">是否已读</th>
+					<th class="am-hide-sm-only">发送时间</th>
 					<th>操作</th>
 				</tr>
 			</thead>

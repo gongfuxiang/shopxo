@@ -34,10 +34,10 @@
 				<input type="text" name="{{$data.common_email_smtp_send_name.only_tag}}" placeholder="{{$data.common_email_smtp_send_name.name}}" data-validation-message="{{$data.common_email_smtp_send_name.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_email_smtp_send_name.value}}"{{/if}} />
 			</div>
 			<div class="am-form-group">
-				<label>{{:lang('email_test_email_text')}}<span class="fs-12 fw-100 cr-999">（{{:lang('email_test_email_tips')}}）</span></label>
+				<label>测试接收的邮件地址<span class="fs-12 fw-100 cr-999">（请先保存配置后，再进行测试）</span></label>
 				<div class="am-input-group am-input-group-sm">
 					<span class='am-form-group'>
-						<input type="text" placeholder="{{:lang('email_test_email_text')}}" class="am-radius test-email-value" />
+						<input type="text" placeholder="测试接收的邮件地址" class="am-radius test-email-value" />
 					</span>
 					<span class="am-input-group-btn">
 						<button class="am-btn am-btn-default am-radius test-email-submit" type="button" data-url="{{:url('Admin/Email/EmailTest')}}">测试</button>

@@ -5,7 +5,7 @@
     <div class="content">
         <!-- back nav start -->
         <legend>
-            <span class="fs-16)}}{{:lang('alipay_life_menu_content_title')}}</span>
+            <span class="fs-16)}}生活号菜单内容</span>
             <a href="{{:url('Admin/AlipayLifeMenu/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
         </legend>
         <!-- back nav end -->
@@ -13,7 +13,7 @@
         <!-- tips start -->
         <div class="am-alert am-alert-warning am-radius" data-am-alert>
             <button type="button" class="am-close">&times;</button>
-            <p>{{:lang('alipay_life_menu_tips')}}</p>
+            <p>1.图标菜单图片大小必须 60X60 像数，最大不超过5M<br />2.图标菜单建议不超过8个<br />3.图标菜单不支持二级<br /><br />1.底部一级菜单最多4个，如已开启客服功能则最多3个<br />2.底部二级菜单最多5个</p>
         </div>
         <!-- tips end -->
 
@@ -27,10 +27,10 @@
         <table class="am-table am-table-striped am-table-hover am-text-middle m-t-1)}}
             <thead>
                 <tr>
-                    <th>{{:lang('alipay_life_menu_name_text')}}</th>
-                    <th>{{:lang('alipay_life_menu_action_type_text')}}</th>
-                    <th>{{:lang('alipay_life_menu_action_value_text')}}</th>
-                    <th class="am-hide-sm-only">{{:lang('alipay_life_menu_icon_text')}}</th>
+                    <th>名称</th>
+                    <th>事件类型</th>
+                    <th>事件值</th>
+                    <th class="am-hide-sm-only">图标</th>
                     <th>更多</th>
                     <th>操作</th>
                 </tr>
@@ -67,16 +67,16 @@
                                         </div>
                                         <div class="am-popup-bd">
                                             <dl class="dl-content">
-                                                <dt>{{:lang('alipay_life_menu_name_text')}}</dt>
+                                                <dt>名称</dt>
                                                 <dd>{{if empty($v['name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.name}}{{/if}}</dd>
 
-                                                <dt>{{:lang('alipay_life_menu_action_type_text')}}</dt>
+                                                <dt>事件类型</dt>
                                                 <dd>{{if empty($v['action_type_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.action_type_name}}{{/if}}</dd>
 
-                                                <dt>{{:lang('alipay_life_menu_action_value_text')}}</dt>
+                                                <dt>事件值</dt>
                                                 <dd>{{if empty($v['action_value'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.action_value}}{{/if}}</dd>
 
-                                                <dt>{{:lang('alipay_life_menu_icon_text')}}</dt>
+                                                <dt>图标</dt>
                                                 <dd>
                                                     {{if !empty($v['icon'])}}
                                                         <img src="{{$v['icon']}}" class="am-img-thumbnail am-radius" width="60" height="60" />
@@ -138,16 +138,16 @@
                                                 </div>
                                                 <div class="am-popup-bd">
                                                     <dl class="dl-content">
-                                                        <dt>{{:lang('alipay_life_menu_name_text')}}</dt>
+                                                        <dt>名称</dt>
                                                         <dd>{{if empty($vs['name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$vs.name}}{{/if}}</dd>
 
-                                                        <dt>{{:lang('alipay_life_menu_action_type_text')}}</dt>
+                                                        <dt>事件类型</dt>
                                                         <dd>{{if empty($vs['action_type_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$vs.action_type_name}}{{/if}}</dd>
 
-                                                        <dt>{{:lang('alipay_life_menu_action_value_text')}}</dt>
+                                                        <dt>事件值</dt>
                                                         <dd>{{if empty($vs['action_value'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$vs.action_value}}{{/if}}</dd>
 
-                                                        <dt>{{:lang('alipay_life_menu_icon_text')}}</dt>
+                                                        <dt>图标</dt>
                                                         <dd>
                                                             {{if !empty($vs['icon'])}}
                                                                 <img src="{{$vs['icon']}}" class="am-img-thumbnail am-radius" width="60" height="60" />

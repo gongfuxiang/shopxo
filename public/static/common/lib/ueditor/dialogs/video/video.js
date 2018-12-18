@@ -241,8 +241,8 @@
                     item = document.createElement('li');
                     video = document.createElement('video');
                     icon = document.createElement('span');
-                    video.width = 103;
-                    video.height = 103;
+                    video.width = 100;
+                    video.height = 100;
                     video.setAttribute('src', urlPrefix + list[i].url + (list[i].url.indexOf('?') == -1 ? '?noCache=':'&noCache=') + (+new Date()).toString(36) );
                     video.setAttribute('_src', urlPrefix + list[i].url);
                     video.setAttribute('controls', 'controls');

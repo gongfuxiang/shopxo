@@ -8,20 +8,20 @@
 			<legend>
 				<span class="fs-16">
 					{{if empty($data['id'])}}
-						{{:lang('user_add_name')}}
+						成员添加
 					{{else /}}
-						{{:lang('user_edit_name')}}
+						成员编辑
 					{{/if}}
 				</span>
 				<a href="{{:url('admin/user/index', $params)}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
-				<label>{{:lang('user_username_name')}}</label>
-				<input type="text" name="username" class="am-radius" placeholder="{{:lang('user_username_name')}}" data-validation-message="{{:lang('user_username_format')}}" {{if !empty($data)}} value="{{$data.username}}"{{/if}} />
+				<label>用户名</label>
+				<input type="text" name="username" class="am-radius" placeholder="用户名" data-validation-message="用户名 2~30 个字符" {{if !empty($data)}} value="{{$data.username}}"{{/if}} />
 			</div>
 			<div class="am-form-group">
-				<label>{{:lang('user_nickname_name')}}</label>
-				<input type="text" name="nickname" class="am-radius" placeholder="{{:lang('user_nickname_name')}}" data-validation-message="{{:lang('user_nickname_format')}}" {{if !empty($data)}} value="{{$data.nickname}}"{{/if}} />
+				<label>昵称</label>
+				<input type="text" name="nickname" class="am-radius" placeholder="昵称" data-validation-message="昵称最多 16 个字符" {{if !empty($data)}} value="{{$data.nickname}}"{{/if}} />
 			</div>
 
 			<div class="am-form-group">
@@ -33,8 +33,8 @@
 				<input type="email" name="email" class="am-radius" placeholder="电子邮箱" data-validation-message="电子邮箱格式错误" {{if !empty($data)}} value="{{$data.email}}"{{/if}} />
 			</div>
 			<div class="am-form-group">
-				<label>{{:lang('user_birthday_name')}}</label>
-				<input type="text" name="birthday" class="am-radius Wdate" placeholder="{{:lang('user_birthday_name')}}" pattern="{{:lang('common_regex_date')}}" data-validation-message="{{:lang('user_birthday_format')}}" {{if !empty($data)}} value="{{$data.birthday_text}}" {{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" />
+				<label>生日</label>
+				<input type="text" name="birthday" class="am-radius Wdate" placeholder="生日" pattern="{{:lang('common_regex_date')}}" data-validation-message="生日格式有误" {{if !empty($data)}} value="{{$data.birthday_text}}" {{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" />
 			</div>
 			<div class="am-form-group">
 				<label>详细地址</label>
@@ -42,13 +42,13 @@
 			</div>
 			{{include file="lib/gender" /}}
 			<div class="am-form-group">
-				<label>{{:lang('user_integral_name')}}</label>
-				<input type="number" placeholder="{{:lang('user_integral_name')}}" name="integral" data-validation-message="详细地址2~60 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.integral}}"{{/if}} />
+				<label>积分</label>
+				<input type="number" placeholder="积分" name="integral" data-validation-message="详细地址2~60 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.integral}}"{{/if}} />
 			</div>
 
 			<div class="am-form-group">
-				<label>{{:lang('user_login_pwd_name')}}</label>
-				<input type="text" placeholder="{{:lang('user_login_pwd_name')}}" name="pwd" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="{{:lang('user_login_pwd_format')}}" class="am-radius" value="" />
+				<label>登录密码</label>
+				<input type="text" placeholder="登录密码" name="pwd" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="登录密码格式 6~18 个字符之间" class="am-radius" value="" />
 			</div>
 
 			<div class="am-form-group">

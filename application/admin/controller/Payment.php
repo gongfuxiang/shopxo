@@ -201,7 +201,7 @@ class Payment extends Common
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error(lang('common_unauthorized_access'));
+			$this->error('非法访问');
 		}
 
 		// 图片
@@ -232,9 +232,9 @@ class Payment extends Common
 			// 更新数据库
 			if($m->where(array('id'=>I('id')))->save())
 			{
-				$this->ajaxReturn(lang('common_operation_edit_success'));
+				$this->ajaxReturn('编辑成功');
 			} else {
-				$this->ajaxReturn(lang('common_operation_edit_error'), -100);
+				$this->ajaxReturn('编辑失败或数据未改变', -100);
 			}
 		} else {
             $this->ajaxReturn($m->getError(), -1);
@@ -272,22 +272,22 @@ class Payment extends Common
     {
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         // 参数
         if(empty($_POST['id']) || !isset($_POST['state']))
         {
-            $this->ajaxReturn(lang('common_param_error'), -1);
+            $this->ajaxReturn('参数错误', -1);
         }
         $field = I('field', 'is_enable');
 
         // 数据更新
         if(db('Payment')->where(array('payment'=>I('id')))->save(array($field=>I('state'))))
         {
-            $this->ajaxReturn(lang('common_operation_edit_success'));
+            $this->ajaxReturn('编辑成功');
         } else {
-            $this->ajaxReturn(lang('common_operation_edit_error'), -100);
+            $this->ajaxReturn('编辑失败或数据未改变', -100);
         }
     }
 
@@ -303,13 +303,13 @@ class Payment extends Common
         // 主目录权限
         if(!is_writable(ROOT_PATH))
         {
-            $this->ajaxReturn(lang('common_is_writable_error').'['.ROOT_PATH.']', -3);
+            $this->ajaxReturn('服务器用户没操作权限'.'['.ROOT_PATH.']', -3);
         }
 
         // 插件权限
         if(!is_writable($this->payment_dir))
         {
-            $this->ajaxReturn(lang('common_is_writable_error').'['.$this->payment_dir.']', -3);
+            $this->ajaxReturn('服务器用户没操作权限'.'['.$this->payment_dir.']', -3);
         }
     }
 
@@ -325,7 +325,7 @@ class Payment extends Common
     {
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         // 权限
@@ -334,7 +334,7 @@ class Payment extends Common
         // 参数
         if(empty($_POST['id']))
         {
-            $this->ajaxReturn(lang('common_param_error'), -1);
+            $this->ajaxReturn('参数错误', -1);
         }
 
         // 数据处理
@@ -357,15 +357,15 @@ class Payment extends Common
                     // 入口文件生成
                     $this->PaymentEntranceCreated($payment);
 
-                    $this->ajaxReturn(lang('common_install_success'));
+                    $this->ajaxReturn('安装成功');
                 } else {
-                    $this->ajaxReturn(lang('common_install_error'), -100);
+                    $this->ajaxReturn('安装失败', -100);
                 }
             } else {
                 $this->ajaxReturn($m->getError(), -1);
             }
         } else {
-            $this->ajaxReturn(lang('common_plugins_config_error'), -10);
+            $this->ajaxReturn('插件配置有误', -10);
         }
     }
 
@@ -381,13 +381,13 @@ class Payment extends Common
     {
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         // 参数
         if(empty($_POST['id']))
         {
-            $this->ajaxReturn(lang('common_param_error'), -1);
+            $this->ajaxReturn('参数错误', -1);
         }
 
         // 开始卸载
@@ -397,9 +397,9 @@ class Payment extends Common
             // 删除入口文件
             $this->PaymentEntranceDelete($payment);
 
-            $this->ajaxReturn(lang('common_uninstall_success'));
+            $this->ajaxReturn('卸载成功');
         } else {
-            $this->ajaxReturn(lang('common_uninstall_error'), -100);
+            $this->ajaxReturn('卸载失败', -100);
         }
     }
 
@@ -415,7 +415,7 @@ class Payment extends Common
     {
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         // 权限
@@ -424,38 +424,38 @@ class Payment extends Common
         // 参数
         if(empty($_POST['id']))
         {
-            $this->ajaxReturn(lang('common_param_error'), -1);
+            $this->ajaxReturn('参数错误', -1);
         }
 
         // 是否禁止删除
         $payment = I('id');
         if(in_array($payment, $this->cannot_deleted_list))
         {
-            $this->ajaxReturn(lang('payment_cannot_deleted_error'), -10);
+            $this->ajaxReturn('该支付方式禁止删除', -10);
         }
 
         // 是否存在
         $file = $this->payment_dir.$payment.'.class.php';
         if(!file_exists($file))
         {
-            $this->ajaxReturn(lang('common_data_no_exist_error'), -2);
+            $this->ajaxReturn('资源不存在或已被删除', -2);
         }
         // 权限
         if(!is_writable($file))
         {
-            $this->ajaxReturn(lang('common_is_writable_error'), -3);
+            $this->ajaxReturn('服务器用户没操作权限', -3);
         }
 
         // 删除
         if(!@unlink($file))
         {
-            $this->ajaxReturn(lang('common_operation_delete_error'), -100);
+            $this->ajaxReturn('删除失败或资源不存在', -100);
         }
 
         // 删除入口文件
         $this->PaymentEntranceDelete($payment);
 
-        $this->ajaxReturn(lang('common_operation_delete_success'));
+        $this->ajaxReturn('删除成功');
     }
 
     /**
@@ -471,7 +471,7 @@ class Payment extends Common
         // 是否ajax
         if(!IS_AJAX)
         {
-            $this->error(lang('common_unauthorized_access'));
+            $this->error('非法访问');
         }
 
         // 权限
@@ -488,19 +488,19 @@ class Payment extends Common
         $type = array('text/php');
         if(!in_array($_FILES['file']['type'], $type))
         {
-            $this->ajaxReturn(lang('payment_upload_format'), -2);
+            $this->ajaxReturn('文件格式有误，必须php文件', -2);
         }
 
         // 是否已有存在插件
         if(file_exists($this->payment_dir.$_FILES['file']['name']))
         {
-            $this->ajaxReturn(lang('common_plugins_already_existed_error'), -3);
+            $this->ajaxReturn('已存在相同插件', -3);
         }
 
         // 存储文件
         if(!move_uploaded_file($_FILES['file']['tmp_name'], $this->payment_dir.$_FILES['file']['name']))
         {
-            $this->ajaxReturn(lang('common_upload_error'), -100);
+            $this->ajaxReturn('上传失败', -100);
         }
 
         // 文件校验
@@ -509,9 +509,9 @@ class Payment extends Common
         if($config === false)
         {
             @unlink($this->payment_dir.$_FILES['file']['name']);
-            $this->ajaxReturn(lang('payment_upload_error'), -10);
+            $this->ajaxReturn('插件编写有误，请参考文档编写', -10);
         }
-        $this->ajaxReturn(lang('common_upload_success'));
+        $this->ajaxReturn('上传成功');
     }
 
     /**

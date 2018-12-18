@@ -89,7 +89,7 @@ class Common extends Controller
         {
             if(IS_AJAX)
             {
-                exit(json_encode(DataReturn(lang('common_login_invalid'), -400)));
+                exit(json_encode(DataReturn('登录失效，请重新登录', -400)));
             } else {
                 return $this->redirect('index/user/logininfo');
             }
@@ -249,7 +249,7 @@ class Common extends Controller
      */
     protected function _empty($name)
     {
-        $this->assign('msg', lang('common_unauthorized_access'));
+        $this->assign('msg', '非法访问');
         return $this->fetch('public/error');
     }
 
@@ -267,9 +267,9 @@ class Common extends Controller
             // 是否ajax请求
             if(IS_AJAX)
             {
-                die(json_encode(DataReturn(MyC('home_site_close_reason', lang('common_site_maintenance_tips')), -10000)));
+                die(json_encode(DataReturn(MyC('home_site_close_reason', '网站维护中...'), -10000)));
             } else {
-                die('<div style="text-align: center;margin-top: 15%;font-size: 18px;color: #f00;">'.MyC('home_site_close_reason', lang('common_site_maintenance_tips'), true).'</div>');
+                die('<div style="text-align: center;margin-top: 15%;font-size: 18px;color: #f00;">'.MyC('home_site_close_reason', '网站维护中...', true).'</div>');
             }
         }
     }

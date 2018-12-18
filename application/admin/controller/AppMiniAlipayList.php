@@ -102,7 +102,7 @@ class AppMiniAlipayList extends Common
 		$app_mini_alipay_describe = MyC('common_app_mini_alipay_describe');
 		if(empty($app_mini_alipay_title) || empty($app_mini_alipay_describe))
 		{
-			$this->ajaxReturn(lang('appmini_alipaylist_config_error'), -1);
+			$this->ajaxReturn('配置信息不能为空', -1);
 		}
 
 		// 目录不存在则创建
@@ -112,13 +112,13 @@ class AppMiniAlipayList extends Common
 		$new_dir = $this->new_path.DS.date('YmdHis');
 		if(\base\FileUtil::CopyDir($this->old_path, $new_dir) != true)
 		{
-			$this->ajaxReturn(lang('appmini_alipaylist_created_copy_error'), -2);
+			$this->ajaxReturn('项目包复制失败', -2);
 		}
 
 		// 校验基础文件是否存在
 		if(!file_exists($new_dir.DS.'app.js') || !file_exists($new_dir.DS.'app.json'))
 		{
-			$this->ajaxReturn(lang('appmini_alipaylist_file_error'), -3);
+			$this->ajaxReturn('包基础文件不存在，请重新生成', -3);
 		}
 
 		// 替换内容
@@ -126,27 +126,27 @@ class AppMiniAlipayList extends Common
 		file_put_contents($new_dir.DS.'app.js', str_replace(['{{request_url}}', '{{application_title}}', '{{application_describe}}'], [__MY_URL__, $app_mini_alipay_title, $app_mini_alipay_describe], file_get_contents($new_dir.DS.'app.js')));
 		if($status === false)
 		{
-			$this->ajaxReturn(lang('appmini_alipaylist_file_replace_error'), -4);
+			$this->ajaxReturn('基础配置替换失败', -4);
 		}
 
 		// app.json
 		$status = file_put_contents($new_dir.DS.'app.json', str_replace(['{{application_title}}'], [$app_mini_alipay_title], file_get_contents($new_dir.DS.'app.json')));
 		if($status === false)
 		{
-			$this->ajaxReturn(lang('appmini_alipaylist_file_replace_error'), -4);
+			$this->ajaxReturn('基础配置替换失败', -4);
 		}
 
 		// 生成压缩包
 		$zip = new \base\ZipFolder();
 		if(!$zip->zip($new_dir.'.zip', $new_dir))
 		{
-			$this->ajaxReturn(lang('appmini_alipaylist_zip_error'), -100);
+			$this->ajaxReturn('压缩包生成失败', -100);
 		}
 
 		// 生成成功删除目录
 		\base\FileUtil::UnlinkDir($new_dir);
 
-		$this->ajaxReturn(lang('common_operation_created_success'), 0);
+		$this->ajaxReturn('生成成功', 0);
 	}
 
 	/**
@@ -161,7 +161,7 @@ class AppMiniAlipayList extends Common
 		// 是否ajax
 		if(!IS_AJAX)
 		{
-			$this->error(lang('common_unauthorized_access'));
+			$this->error('非法访问');
 		}
 
 		// 删除压缩包
@@ -174,9 +174,9 @@ class AppMiniAlipayList extends Common
 		}
 		if($status)
 		{
-			$this->ajaxReturn(lang('common_operation_delete_success'));
+			$this->ajaxReturn('删除成功');
 		} else {
-			$this->ajaxReturn(lang('common_operation_delete_error'), -100);
+			$this->ajaxReturn('删除失败或资源不存在', -100);
 		}
 	}
 }

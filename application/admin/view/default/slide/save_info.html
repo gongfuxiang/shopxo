@@ -9,16 +9,16 @@
 			<legend>
 				<span class="fs-16)}}
 					{{if empty($data['id'])}}
-						{{:lang('slide_add_name')}}
+						轮播添加
 					{{else /}}
-						{{:lang('slide_edit_name')}}
+						轮播编辑
 					{{/if}}
 				</span>
 				<a href="{{:url('Admin/Slide/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
-				<label>{{:lang('slide_name_text')}}</label>
-				<input type="text" name="name" placeholder="{{:lang('slide_name_text')}}" minlength="2" maxlength="60" data-validation-message="{{:lang('slide_name_format')}}" class="am-radius" <notempty name="data"> value="{{$data.name}}"{{/if}} required />
+				<label>名称</label>
+				<input type="text" name="name" placeholder="名称" minlength="2" maxlength="60" data-validation-message="名称格式 2~60 个字符" class="am-radius" <notempty name="data"> value="{{$data.name}}"{{/if}} required />
 			</div>
 			<div class="am-form-group">
 				<label>跳转地址</label>
@@ -26,7 +26,7 @@
 			</div>
 
 			<div class="am-form-group am-form-file">
-				<label class="block">{{:lang('slide_images_url_text')}}</label>
+				<label class="block">轮播图片</label>
 				<button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
 				<i class="am-icon-cloud-upload"></i> 选择图片</button>
 				<input type="text" name="images_url" class="am-radius js-choice-one original-images-url" data-choice-one-to=".images-file-event" <notempty name="data"> value="{{$data.images_url}}"{{/if}}" data-validation-message="请选择需要上传的图片" readonly="readonly" <notempty name="data"> value="{{$data.images_url}}"{{/if}} required />
