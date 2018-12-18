@@ -19,7 +19,9 @@
 							<div class="am-gallery-item-bottom">
 								<h3 class="am-gallery-title">
 									{{$v.name}}
-									<a href="javascript:;" class="am-icon-trash-o fr submit-delete" data-url="{{:url('admin/theme/delete')}}" data-id="{{$v.theme}}"></a>
+									{{if $v.is_delete eq 1}}
+										<a href="javascript:;" class="am-icon-trash-o fr submit-delete" data-url="{{:url('admin/theme/delete')}}" data-id="{{$v.theme}}"></a>
+									{{/if}}
 								</h3>
 								<div class="am-gallery-desc">作者：
 									{{if empty($v['home'])}}
