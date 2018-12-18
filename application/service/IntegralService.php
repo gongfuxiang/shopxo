@@ -151,7 +151,7 @@ class IntegralService
 
         $limit_start = max(0, intval($params['limit_start']));
         $limit_number = max(1, intval($params['limit_number']));
-        $order_by = empty($params['order_by']) ? 'id desc' : I('order_by', '', '', $params);
+        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
 
         // 获取数据列表
         $data = db('UserIntegralLog')->where($params['where'])->limit($limit_start, $limit_number)->order($order_by)->select();

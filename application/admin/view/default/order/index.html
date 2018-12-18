@@ -6,7 +6,7 @@
 		<!-- form start -->
 		<form class="am-form view-list" action="{{:url('admin/order/index')}}" method="POST">
 			<div class="am-g">
-				<input type="text" class="am-radius form-keyword" placeholder="订单号/姓名/手机/地址/快递单号" name="keyword" {{if !empty($params['keyword'])}} value="{{$params.keyword}}"{{/if}} />
+				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="订单号/姓名/手机/地址/快递单号" name="keyword" {{if !empty($params['keyword'])}} value="{{$params.keyword}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
 					更多筛选
@@ -27,6 +27,12 @@
 							<option value="{{$v.id}}" {{if isset($params['express_id']) and $params['express_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
 					</select>
+					<select name="payment_id" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">支付方式</option>
+						{{foreach $payment_list as $v}}
+							<option value="{{$v.id}}" {{if isset($params['payment_id']) and $params['payment_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
 					<select name="pay_status" class="am-radius c-p m-t-10 m-l-5 param-where">
 						<option value="-1">支付状态</option>
 						{{foreach $common_order_pay_status as $v}}
@@ -34,9 +40,9 @@
 						{{/foreach}}
 					</select>
 					<div class="param-date param-where m-l-5">
-						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_start'])}}value="{{$params.time_start}}"{{/if}}/>
+						<input type="text" autocomplete="off" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_start'])}}value="{{$params.time_start}}"{{/if}}/>
 						<span>~</span>
-						<input type="text" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_end'])}}value="{{$params.time_end}}"{{/if}}/>
+						<input type="text" autocomplete="off" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_end'])}}value="{{$params.time_end}}"{{/if}}/>
 					</div>
 				</div>
 			</div>
@@ -65,16 +71,16 @@
 								{{foreach $v.items as $vs}}
 									<div class="goods-item">
 										<div class="base">
-											<a href="{{:HomeUrl('goods', 'index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$v.title}}">
-												<img src="{{$image_host}}{{$vs['images']}}" class="am-img-thumbnail am-radius goods-images am-hide-sm-only" />
+											<a href="{{:HomeUrl('goods', 'index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}">
+												<img src="{{$vs['images']}}" class="am-img-thumbnail am-radius goods-images am-hide-sm-only" />
 											</a>
 											<a href="{{:HomeUrl('goods', 'index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}" {{if !empty($vs['title_color'])}} style="color:{{$vs.title_color}};" {{/if}} >{{$vs.title}}</a>
 										</div>
 										<div class="other">
-											<span class="fl">
+											<span class="fl fs-12">
 												{{if !empty($vs.spec)}}
 													{{foreach $vs.spec as $kss=>$vss}}
-														{{$vss.type}}:{{$vss.value}}{{if $kss eq count($vs.spec)-1}}，{{/if}}
+														{{$vss.type}}:{{$vss.value}}{{if $kss neq count($vs.spec)-1}}，{{/if}}
 													{{/foreach}}
 												{{/if}}
 											</span>
@@ -100,14 +106,14 @@
 								{{/if}}
 							</td>
 							<td>
-								<span class="block">{{$v.status_text}}</span>
+								<span class="block">{{$v.status_name}}</span>
 								
 								{{if $v['pay_status'] eq 1}}
-									<span class="block cr-green fs-12">{{$v.pay_status_text}}</span>
+									<span class="block cr-green fs-12">{{$v.pay_status_name}}</span>
 								{{elseif $v['pay_status'] eq 2 /}}
-									<span class="block cr-yellow fs-12">{{$v.pay_status_text}}</span>
+									<span class="block cr-yellow fs-12">{{$v.pay_status_name}}</span>
 								{{else /}}
-									<span class="block fs-12">{{$v.pay_status_text}}</span>
+									<span class="block fs-12">{{$v.pay_status_name}}</span>
 								{{/if}}
 								{{if $v['user_is_delete_time'] neq 0}}
 									<span class="block cr-red fs-12">用户已删除</span>
@@ -134,16 +140,22 @@
 
 												<dt>基础信息</dt>
 												<dd>
-													{{foreach $v.goods as $vs}}
+													{{foreach $v.items as $vs}}
 														<div class="goods-item">
 															<div class="base">
-																<a href="{{:HomeUrl('goods', 'index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$v.title}}">
-																	<img src="{{$image_host}}{{$vs['images']}}" class="am-img-thumbnail am-radius goods-images am-hide-sm-only" />
+																<a href="{{:HomeUrl('goods', 'index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}">
+																	<img src="{{$vs['images']}}" class="am-img-thumbnail am-radius goods-images am-hide-sm-only" />
 																</a>
 																<a href="{{:HomeUrl('goods', 'index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}" {{if !empty($vs['title_color'])}} style="color:{{$vs.title_color}};" {{/if}} >{{$vs.title}}</a>
 															</div>
 															<div class="other">
-																<span class="fl">{{$vs.attribute}}</span>
+																<span class="fl fs-12">
+																	{{if !empty($vs.spec)}}
+																		{{foreach $vs.spec as $kss=>$vss}}
+																			{{$vss.type}}:{{$vss.value}}{{if $kss neq count($vs.spec)-1}}，{{/if}}
+																		{{/foreach}}
+																	{{/if}}
+																</span>
 																<span class="fr">{{$vs.price}}x{{$vs.buy_number}}</span>
 															</div>
 														</div>
@@ -169,10 +181,10 @@
 												<dd>{{if empty($v['express_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.express_name}}<br />{{$v.express_number}}{{/if}}</dd>
 
 												<dt>支付状态</dt>
-												<dd>{{if empty($v['pay_status_text'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.pay_status_text}}{{/if}}</dd>
+												<dd>{{if empty($v['pay_status_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.pay_status_name}}{{/if}}</dd>
 
 												<dt>订单状态</dt>
-												<dd>{{if empty($v['status_text'])}}<span class="cr-ddd">未设置</span>{{else /}}{{$v.status_text}}{{/if}}</dd>
+												<dd>{{if empty($v['status_name'])}}<span class="cr-ddd">未设置</span>{{else /}}{{$v.status_name}}{{/if}}</dd>
 
 												<dt>支付方式</dt>
 												<dd>{{if empty($v['payment_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.payment_name}}{{/if}}</dd>
@@ -202,7 +214,7 @@
 												<dd>{{if empty($v['delivery_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.delivery_time}}{{/if}}</dd>
 
 												<dt>完成时间</dt>
-												<dd>{{if empty($v['success_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.success_time}}{{/if}}</dd>
+												<dd>{{if empty($v['collect_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.collect_time}}{{/if}}</dd>
 
 												<dt>取消时间</dt>
 												<dd>{{if empty($v['cancel_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.cancel_time}}{{/if}}</dd>
@@ -273,14 +285,14 @@
 	                                {{/foreach}}
 	                            </ul>
 	                        {{/if}}
-	                        <empty name="express_list">
+	                        {{if empty($express_list)}}
 	                            <div class="table-no"><i class="am-icon-warning"></i> 没有快递方式</div>
 	                        {{/if}}
 	                    </div>
 
 	                    <div class="am-form-group">
 							<label>快递单号</label>
-							<input type="text" name="express_number" placeholder="快递单号" minlength="1" data-validation-message="请填写快递单号" class="am-radius" required />
+							<input type="text" autocomplete="off" name="express_number" placeholder="快递单号" minlength="1" data-validation-message="请填写快递单号" class="am-radius" required />
 	                    </div>
 	                    <div class="am-form-group">
 	                        <input type="hidden" name="id" value="0" />
@@ -318,7 +330,7 @@
                                     {{/foreach}}
                                 </ul>
                             {{/if}}
-                            <empty name="buy_payment_list">
+                            {{if empty($buy_payment_list)}}
                                 <div class="table-no"><i class="am-icon-warning"></i> 没有支付方式</div>
                             {{/if}}
                         </div>

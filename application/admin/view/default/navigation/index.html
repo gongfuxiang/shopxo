@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- table nav start -->
-		<include file="Nav" />
+		{{include file="navigation/nav" /}}
 		<!-- table nav end -->
 
 		<!-- operation start -->
@@ -17,7 +17,7 @@
 		<!-- operation end -->
 
 		<!-- list start -->
-		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-1)}}
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
 			<thead>
 				<tr>
 					<th>导航名称</th>
@@ -27,9 +27,9 @@
 				</tr>
 			</thead>
 			<tbody>
-				{{if !empty($list)}}
-					<foreach name="list" item="v">
-						<tr id="data-list-{{$v.id}}" {{if $v['is_show'] eq 0)}}class="am-active"{{/if}}>
+				{{if !empty($data_list)}}
+					{{foreach $data_list as $v}}
+						<tr id="data-list-{{$v.id}}" {{if $v['is_show'] eq 0}}class="am-active"{{/if}}>
 							<td>{{$v.name}}
 								<a href="{{$v.url}}" target="_blank">
 									<i class="am-icon-external-link"></i>
@@ -37,16 +37,16 @@
 							</td>
 							<td>{{:lang('common_nav_type_list')[$v['data_type']]}}</td>
 							<td>
-								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_show'] eq 1)}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('Admin/Navigation/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1)}}</a>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('admin/navigation/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1"></a>
 							</td>
 							<td>
 								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: '#nav-{{$v.data_type}}-save-win'}" data-json='{{:json_encode($v)}}' data-tag="nav-{{$v.data_type}}-save-win"></button>
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/Navigation/Delete')}}" data-id="{{$v.id}}"></button>
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/navigation/Delete')}}" data-id="{{$v.id}}"></button>
 							</td>
 						</tr>
-						{{if !empty($list)}}
-							<foreach name="v.item" item="vs">
-								<tr id="data-list-{{$vs.id}}" {{if $vs['is_show'] eq 0)}}class="am-active"{{/if}}>
+						{{if !empty($data_list)}}
+							{{foreach $v.item as $vs}}
+								<tr id="data-list-{{$vs.id}}" {{if $vs['is_show'] eq 0}}class="am-active"{{/if}}>
 									<td class="p-l-3)}}{{$vs.name}}
 										<a href="{{$vs.url}}" target="_blank">
 											<i class="am-icon-external-link"></i>
@@ -54,11 +54,11 @@
 									</td>
 									<td>{{:lang('common_nav_type_list')[$vs['data_type']]}}</td>
 									<td>
-										<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $vs['is_show'] eq 1)}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('Admin/Navigation/StatusUpdate')}}" data-id="{{$vs.id}}" data-state="{{$vs['is_show']}}" data-is-update-status="1)}}</a>
+										<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $vs['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('admin/navigation/StatusUpdate')}}" data-id="{{$vs.id}}" data-state="{{$vs['is_show']}}" data-is-update-status="1"></a>
 									</td>
 									<td>
 										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: '#nav-{{$vs.data_type}}-save-win'}" data-json='{{:json_encode($vs)}}' data-tag="nav-{{$vs.data_type}}-save-win"></button>
-										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/Navigation/Delete')}}" data-id="{{$vs.id}}"></button>
+										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/navigation/Delete')}}" data-id="{{$vs.id}}"></button>
 									</td>
 								</tr>
 							{{/foreach}}
@@ -80,12 +80,12 @@
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation" action="{{:url('Admin/Navigation/Save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation" action="{{:url('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
 							<label>导航级别</label>
-							<select class="am-radius c-p chosen-select" name="pid" data-validation-message="导航级别选择错误">
-								<option value=")}}一级栏目...</option>
-								<foreach name="nav_header_pid_list" item="v">
+							<select class="am-radius c-p chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
+								<option value="">一级栏目...</option>
+								{{foreach $nav_header_pid_list as $v}}
 									<option value="{{$v.id}}">{{$v.name}}</option>
 								{{/foreach}}
 							</select>
@@ -95,15 +95,15 @@
 							<input type="text" placeholder="导航名称" name="name" minlength="2" maxlength="16" data-validation-message="导航名称格式 2~16 个字符" class="am-radius" required />
 						</div>
 						<div class="am-form-group">
-							<label>url地址<span class="fs-12 fw-100 cr-999">（带http://）</span></label>
+							<label>url地址<span class="fs-12 fw-100 cr-999">（带http://或https://）</span></label>
 							<input type="url" placeholder="url地址" name="url"  data-validation-message="url格式有误" class="am-radius" required />
 						</div>
 						<div class="am-form-group">
 							<label>顺序</label>
 							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
 						</div>
-						<include file="Lib/IsShow" />
-						<include file="Lib/IsNewWindowOpen" />
+						{{include file="lib/is_show" /}}
+						{{include file="lib/is_new_window_open" /}}
 						<div class="am-form-group">
 							<input type="hidden" name="id" />
 							<input type="hidden" name="data_type" value="custom" />
@@ -126,12 +126,12 @@
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation-article" action="{{:url('Admin/Navigation/Save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation-article" action="{{:url('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
 							<label>导航级别</label>
-							<select class="am-radius c-p chosen-select" name="pid" data-validation-message="导航级别选择错误">
-								<option value=")}}一级栏目...</option>
-								<foreach name="nav_header_pid_list" item="v">
+							<select class="am-radius c-p chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
+								<option value="">一级栏目...</option>
+								{{foreach $nav_header_pid_list as $v}}
 									<option value="{{$v.id}}">{{$v.name}}</option>
 								{{/foreach}}
 							</select>
@@ -140,10 +140,10 @@
 							<label>文章</label>
 							<select class="am-radius c-p chosen-select" name="value" data-placeholder="请选择..." data-validation-message="文章选择有误" required>
 								<option value="">请选择...</option>
-								<foreach name="article_list" item="v">
+								{{foreach $article_list as $v}}
 									<optgroup label="{{$v.name}}">
 										<notempty name="v.items">
-											<foreach name="v.items" item="vs">
+											{{foreach $v.items as $vs}}
 												<option value="{{$vs.id}}">{{$vs.title}}</option>
 											{{/foreach}}
 										{{/if}}
@@ -159,8 +159,8 @@
 							<label>顺序</label>
 							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
 						</div>
-						<include file="Lib/IsShow" />
-						<include file="Lib/IsNewWindowOpen" />
+						{{include file="lib/is_show" /}}
+						{{include file="lib/is_new_window_open" /}}
 						<div class="am-form-group">
 							<input type="hidden" name="id" />
 							<input type="hidden" name="data_type" value="article" />
@@ -184,12 +184,12 @@
 					</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation-customview" action="{{:url('Admin/Navigation/Save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation-customview" action="{{:url('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
 							<label>导航级别</label>
-							<select class="am-radius c-p chosen-select" name="pid" data-validation-message="导航级别选择错误">
-								<option value=")}}一级栏目...</option>
-								<foreach name="nav_header_pid_list" item="v">
+							<select class="am-radius c-p chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
+								<option value="">一级栏目...</option>
+								{{foreach $nav_header_pid_list as $v}}
 									<option value="{{$v.id}}">{{$v.name}}</option>
 								{{/foreach}}
 							</select>
@@ -198,7 +198,7 @@
 							<label>自定义页面</label>
 							<select class="am-radius c-p chosen-select" name="value" data-placeholder="请选择..." data-validation-message="自定义页面选择有误" required>
 								<option value="">请选择...</option>
-								<foreach name="customview_list" item="v">
+								{{foreach $customview_list as $v}}
 									<option value="{{$v.id}}">{{$v.title}}</option>
 								{{/foreach}}
 							</select>
@@ -211,8 +211,8 @@
 							<label>顺序</label>
 							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
 						</div>
-						<include file="Lib/IsShow" />
-						<include file="Lib/IsNewWindowOpen" />
+						{{include file="lib/is_show" /}}
+						{{include file="lib/is_new_window_open" /}}
 						<div class="am-form-group">
 							<input type="hidden" name="id" />
 							<input type="hidden" name="data_type" value="customview" />
@@ -235,12 +235,12 @@
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation-goods_category" action="{{:url('Admin/Navigation/Save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation-goods_category" action="{{:url('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
 							<label>导航级别</label>
-							<select class="am-radius c-p chosen-select" name="pid" data-validation-message="导航级别选择错误">
-								<option value=")}}一级栏目...</option>
-								<foreach name="nav_header_pid_list" item="v">
+							<select class="am-radius c-p chosen-select" name="pid" data-placeholder="一级栏目..." data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
+								<option value="">一级栏目...</option>
+								{{foreach $nav_header_pid_list as $v}}
 									<option value="{{$v.id}}">{{$v.name}}</option>
 								{{/foreach}}
 							</select>
@@ -249,12 +249,12 @@
 							<label>商品分类</label>
 							<select class="am-radius c-p chosen-select" name="value" data-placeholder="请选择..." data-validation-message="商品分类选择有误" required>
 								<option value="">请选择...</option>
-								<foreach name="goods_category_list" item="v">
+								{{foreach $goods_category_list as $v}}
 									<option value="{{$v.id}}" {{if !empty($data['category_ids']) and in_array($v['id'], $data['category_ids'])}}selected{{/if}}>一级 - {{$v.name}}</option>
 									{{if !empty($v['items'])}}
-										<foreach name="v.items" item="vs">
+										{{foreach $v.items as $vs}}
 											<option style="padding-left: 30px;" value="{{$vs.id}}" {{if !empty($data['category_ids']) and in_array($vs['id'], $data['category_ids'])}}selected{{/if}}>二级 - {{$vs.name}}</option>
-											<foreach name="vs.items" item="vss">
+											{{foreach $vs.items as $vss}}
 												<option style="padding-left: 60px;" value="{{$vss.id}}" {{if !empty($data['category_ids']) and in_array($vss['id'], $data['category_ids'])}}selected{{/if}}>三级 - {{$vss.name}}</option>
 											{{/foreach}}
 										{{/foreach}}
@@ -270,8 +270,8 @@
 							<label>顺序</label>
 							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
 						</div>
-						<include file="Lib/IsShow" />
-						<include file="Lib/IsNewWindowOpen" />
+						{{include file="lib/is_show" /}}
+						{{include file="lib/is_new_window_open" /}}
 						<div class="am-form-group">
 							<input type="hidden" name="id" />
 							<input type="hidden" name="data_type" value="goods_category" />

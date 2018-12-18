@@ -1083,7 +1083,7 @@ class UserService
             $email_param = array(
                     'email'     =>  $params['accounts'],
                     'content'   =>  MyC('home_email_user_reg'),
-                    'title'     =>  MyC('home_site_name').' - 用户注册'
+                    'title'     =>  MyC('home_site_name').' - 用户注册',
                     'code'      =>  $code,
                 );
             $status = $obj->SendHtml($email_param);

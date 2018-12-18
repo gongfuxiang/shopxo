@@ -1,5 +1,4 @@
 <?php
-
 namespace app\admin\controller;
 
 /**
@@ -33,15 +32,15 @@ class Theme extends Common
 		$this->Is_Power();
 
 		// 静态目录和html目录
-		$this->html_path = 'Application'.DS.'Home'.DS.'View'.DS;
-		$this->static_path = 'Public'.DS.'Home'.DS;
+		$this->html_path = 'application'.DS.'index'.DS.'view'.DS;
+		$this->static_path = 'public'.DS.'static'.DS.'index'.DS;
 
 		// 小导航
-		$this->view_type = I('view_type', 'home');
+		$this->view_type = input('view_type', 'home');
 	}
 
 	/**
-     * [Index 列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -49,28 +48,32 @@ class Theme extends Common
      */
 	public function Index()
 	{
-		// 模板
-		switch($this->view_type)
-		{
-			// 模板安装
-			case 'upload':
-				$this->display('Upload');
-				break;
+		// 模板列表
+		$this->assign('data_list', $this->GetThemeList());
 
-			// 当前模板
-			default:
-				// 模板列表
-				$this->assign('data', $this->GetThemeList());
-
-				// 默认主题
-				$theme = S('cache_common_default_theme_data');
-				$this->assign('theme', empty($theme) ? 'Default' : $theme);
-
-				$this->display('Index');
-		}
+		// 默认主题
+		$theme = cache('cache_common_default_theme_data');
+		$this->assign('theme', empty($theme) ? 'Default' : $theme);
 
 		// 导航参数
 		$this->assign('view_type', $this->view_type);
+
+		return $this->fetch();
+	}
+
+	/**
+     * 模板安装
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     */
+	public function UploadInfo()
+	{
+		// 导航参数
+		$this->assign('view_type', $this->view_type);
+
+		return $this->fetch();
 	}
 
 	/**
@@ -83,13 +86,13 @@ class Theme extends Common
 	 */
 	private function GetThemeList()
 	{
-		$result = array();
-		$dir = 'Application'.DS.'Home'.DS.'View'.DS;
+		$result = [];
+		$dir = ROOT.$this->html_path;
 		if(is_dir($dir))
 		{
 			if($dh = opendir($dir))
 			{
-				$default_preview = 'Public'.DS.'Common'.DS.'Images'.DS.'default-preview.jpg';
+				$default_preview = __MY_URL__.'static'.DS.'common'.DS.'images'.DS.'default-preview.jpg';
 				while(($temp_file = readdir($dh)) !== false)
 				{
 					$config = $dir.$temp_file.DS.'config.json';
@@ -106,13 +109,14 @@ class Theme extends Common
 						{
 							continue;
 						}
+						$preview = ROOT.$this->static_path.$temp_file.DS.'images'.DS.'preview.jpg';
 						$result[] = array(
 							'theme'		=>	$temp_file,
-							'name'		=>	I('data.name', '', '',$data),
-							'ver'		=>	str_replace(array('，',','), ', ', I('data.ver', '', '',$data)),
-							'author'	=>	I('data.author', '', '',$data),
-							'home'		=>	I('data.home', '', '',$data),
-							'preview'	=>	file_exists($dir.$temp_file.DS.'preview.jpg') ? $dir.$temp_file.DS.'preview.jpg' : $default_preview,
+							'name'		=>	htmlentities($data['name']),
+							'ver'		=>	str_replace(array('，',','), ', ', htmlentities($data['ver'])),
+							'author'	=>	htmlentities($data['author']),
+							'home'		=>	isset($data['home']) ? $data['home'] : '',
+							'preview'	=>	file_exists($preview) ? __MY_URL__.'static'.DS.'index'.DS.$temp_file.DS.'images'.DS.'preview.jpg' : $default_preview,
 						);
 					}
 				}
@@ -158,7 +162,7 @@ class Theme extends Common
 		}
 
 		// 默认主题
-		$theme = S('cache_common_default_theme_data');
+		$theme = cache('cache_common_default_theme_data');
 		$theme = empty($theme) ? 'Default' : $theme;
 
 		// 不能删除正在使用的主题
@@ -218,16 +222,16 @@ class Theme extends Common
 				if(strpos($file, '/.') === false && strpos($file, '__') === false)
 				{
 					// 拼接路径
-					if(strpos($file, '_Html') !== false)
+					if(strpos($file, '_html') !== false)
 					{
 						$file = $this->html_path.$file;
-					} else if(strpos($file, '_Static') !== false)
+					} else if(strpos($file, '_static') !== false)
 					{
 						$file = $this->static_path.$file;
 					} else {
 						continue;
 					}
-					$file = str_replace(array('_Static/', '_Html/'), '', $file);
+					$file = str_replace(array('_static/', '_html/'), '', $file);
 
 					// 截取文件路径
 					$file_path = substr($file, 0, strrpos($file, '/'));
@@ -249,7 +253,6 @@ class Theme extends Common
 					// 关闭目录项  
 					zip_entry_close($temp_resource);
 				}
-				
 			}
 		}
 		$this->ajaxReturn('操作成功');

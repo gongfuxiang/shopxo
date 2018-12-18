@@ -50,11 +50,10 @@ class MessageService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function UserMessgeListWhere($params = [])
+    public static function MessgeListWhere($params = [])
     {
         $where = [
             ['is_delete_time', '=', 0],
-            ['user_is_delete_time', '=', 0],
         ];
 
         // id
@@ -63,12 +62,19 @@ class MessageService
             $where[] = ['id', '=', $params['id']];
         }
 
-        // 用户id
-        if(!empty($params['user']))
+        // 用户类型
+        if(isset($params['user_type']) && $params['user_type'] == 'user')
         {
-            $where[] = ['user_id', '=', $params['user']['id']];
-        }
+            $where[] = ['user_is_delete_time', '=', 0];
 
+            // 用户id
+            if(!empty($params['user']))
+            {
+                $where[] = ['user_id', '=', $params['user']['id']];
+            }
+        }
+        
+        // 关键字
         if(!empty($params['keywords']))
         {
             $where[] = ['title|detail', 'like', '%'.$params['keywords'].'%'];
@@ -142,11 +148,11 @@ class MessageService
         {
             return 0;
         }
-        return self::MessageTotal(self::UserMessgeListWhere($params));
+        return self::MessageTotal(self::MessgeListWhere($params));
     }
 
     /**
-     * 订单列表
+     * 列表
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -187,7 +193,7 @@ class MessageService
 
         $limit_start = max(0, intval($params['limit_start']));
         $limit_number = max(1, intval($params['limit_number']));
-        $order_by = empty($params['order_by']) ? 'id desc' : I('order_by', '', '', $params);
+        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
 
         // 获取数据列表
         $data = db('Message')->where($params['where'])->limit($limit_start, $limit_number)->order($order_by)->select();

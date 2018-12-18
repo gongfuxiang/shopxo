@@ -1,9 +1,9 @@
 <?php
-
 namespace app\admin\controller;
 
-use Service\ArticleService;
-use Service\NavigationService;
+use app\service\ArticleService;
+use app\service\NavigationService;
+use app\service\GoodsService;
 
 /**
  * 导航管理
@@ -35,7 +35,7 @@ class Navigation extends Common
 		$this->Is_Power();
 
 		// 导航类型
-		$this->nav_type = I('nav_type', 'header');
+		$this->nav_type = input('nav_type', 'header');
 	}
 
 	/**
@@ -48,34 +48,16 @@ class Navigation extends Common
 	public function Index()
 	{
 		// 获取导航列表
-		$this->assign('list', $this->GetNavList());
+		$this->assign('data_list', NavigationService::NavList(['nav_type'=>$this->nav_type]));
 
 		// 一级分类
-		$this->assign('nav_header_pid_list', db('Navigation')->field(array('id', 'name'))->where(array('is_show'=>1, 'pid'=>0, 'nav_type'=>$this->nav_type))->select());
+		$this->assign('nav_header_pid_list', NavigationService::LevelOneNav(['nav_type'=>$this->nav_type]));
 
 		// 获取分类和文章
 		$this->assign('article_list', ArticleService::ArticleCategoryList());
 
 		// 商品分类
-		$field = 'id,name';
-		$m = db('GoodsCategory');
-		$category = $m->field($field)->where(['is_enable'=>1, 'pid'=>0])->order('sort asc')->select();
-		if(!empty($category))
-		{
-			foreach($category as &$v)
-			{
-				$two = $m->field($field)->where(['is_enable'=>1, 'pid'=>$v['id']])->order('sort asc')->select();
-				if(!empty($two))
-				{
-					foreach($two as &$vs)
-					{
-						$vs['items'] = $m->field($field)->where(['is_enable'=>1, 'pid'=>$vs['id']])->order('sort asc')->select();
-					}
-				}
-				$v['items'] = $two;
-			}
-		}
-		$this->assign('goods_category_list', $category);
+		$this->assign('goods_category_list', GoodsService::GoodsCategory());
 
 		// 自定义页面
 		$this->assign('customview_list', db('CustomView')->field(array('id', 'title'))->where(array('is_enable'=>1))->select());
@@ -87,30 +69,7 @@ class Navigation extends Common
 		$this->assign('common_is_show_list', lang('common_is_show_list'));
 
 		$this->assign('nav_type', $this->nav_type);
-
-		$this->display('Index');
-	}
-
-	/**
-	 * [GetNavList 获取数据列表]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-10T22:16:29+0800
-	 */
-	private function GetNavList()
-	{
-		$m = db('Navigation');
-		$field = array('id', 'pid', 'name', 'url', 'value', 'data_type', 'sort', 'is_show', 'is_new_window_open');
-		$data = NavigationService::NavDataDealWith($m->field($field)->where(array('nav_type'=>$this->nav_type, 'pid'=>0))->order('sort')->select());
-		if(!empty($data))
-		{
-			foreach($data as $k=>$v)
-			{
-				$data[$k]['item'] = NavigationService::NavDataDealWith($m->field($field)->where(array('nav_type'=>$this->nav_type, 'pid'=>$v['id']))->order('sort')->select());
-			}
-		}
-		return $data;
+		return $this->fetch();
 	}
 
 	/**
@@ -123,111 +82,19 @@ class Navigation extends Common
 	public function Save()
 	{
 		// 是否ajax请求
-		if(!IS_AJAX)
-		{
-			$this->error('非法访问');
-		}
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
 
-		// 请求类型
-		switch(I('data_type'))
-		{
-			// 自定义导航
-			case 'custom':
-				$this->DataSave(5);
-				break;
-
-			// 文章分类导航
-			case 'article':
-				$this->DataSave(6);
-				break;
-
-			// 自定义页面导航
-			case 'customview':
-				$this->DataSave(7);
-				break;
-
-			// 商品分类导航
-			case 'goods_category':
-				$this->DataSave(8);
-				break;
-		}
-		$this->ajaxReturn('参数错误', -1);
+        // 开始处理
+        $params = input();
+        $params['nav_type'] = $this->nav_type;
+        $ret = NavigationService::NavSave($params);
+        return json($ret);
 	}
 
-	/**
-	 * [DataSave 导航数据保存]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2017-02-05T20:12:30+0800
-	 * @param    [int]   $check_type [校验类型]
-	 */
-	private function DataSave($check_type)
-	{
-		$m = D('Navigation');
-
-		// 数据校验
-		if($m->create($_POST, $check_type))
-		{
-			// 非自定义导航数据处理
-			if(empty($_POST['name']))
-			{
-				switch(I('data_type'))
-				{
-					// 文章分类导航
-					case 'article':
-						$temp_name = db('Article')->where(array('id'=>I('value')))->getField('title');
-						break;
-
-					// 自定义页面导航
-					case 'customview':
-						$temp_name = db('CustomView')->where(array('id'=>I('value')))->getField('title');
-						break;
-
-					// 商品分类导航
-					case 'goods_category':
-						$temp_name = db('GoodsCategory')->where(array('id'=>I('value')))->getField('name');
-						break;
-				}
-				// 只截取16个字符
-				$m->name = mb_substr($temp_name, 0, 16, config('DEFAULT_CHARSET'));
-			} else {
-				$m->name 	=	I('name');
-			}
-
-			// 清除缓存
-			S(config('cache_common_home_nav_'.$this->nav_type.'_key', null));
-
-			// id为空则表示是新增
-			if(empty($_POST['id']))
-			{
-				// 额外数据处理
-				$m->add_time	=	time();
-				$m->nav_type	=	$this->nav_type;
-
-				// 写入数据库
-				if($m->add())
-				{
-					$this->ajaxReturn('新增成功');
-				} else {
-					$this->ajaxReturn('新增失败', -100);
-				}
-			} else {
-				// 额外数据处理
-				$m->upd_time = time();
-
-				// 数据编辑
-				if($m->where(array('id'=>I('id')))->save())
-				{
-					$this->ajaxReturn('编辑成功');
-				} else {
-					$this->ajaxReturn('编辑失败或数据未改变', -100);
-				}
-			}
-		} else {
-			$this->ajaxReturn($m->getError(), -1);
-		}
-	}
+	
 
 	/**
 	 * [Delete 删除]
@@ -238,26 +105,16 @@ class Navigation extends Common
 	 */
 	public function Delete()
 	{
+		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error('非法访问');
+			return $this->error('非法访问');
 		}
 
-		$m = D('Navigation');
-		if($m->create($_POST, 4))
-		{
-			if($m->delete($id))
-			{
-				// 清除缓存
-				S(config('cache_common_home_nav_'.$this->nav_type.'_key', null));
-
-				$this->ajaxReturn('删除成功');
-			} else {
-				$this->ajaxReturn('删除失败或资源不存在', -100);
-			}
-		} else {
-			$this->ajaxReturn($m->getError(), -1);
-		}
+		// 开始处理
+        $params = input();
+        $ret = NavigationService::NavDelete($params);
+        return json($ret);
 	}
 
 	/**
@@ -269,22 +126,16 @@ class Navigation extends Common
 	 */
 	public function StatusUpdate()
 	{
-		// 参数
-		if(empty($_POST['id']) || !isset($_POST['state']))
+		// 是否ajax请求
+		if(!IS_AJAX)
 		{
-			$this->ajaxReturn('参数错误', -1);
+			return $this->error('非法访问');
 		}
 
-		// 数据更新
-		if(db('Navigation')->where(array('id'=>I('id')))->save(array('is_show'=>I('state'))))
-		{
-			// 清除缓存
-			S(config('cache_common_home_nav_'.$this->nav_type.'_key', null));
-
-			$this->ajaxReturn('编辑成功');
-		} else {
-			$this->ajaxReturn('编辑失败或数据未改变', -100);
-		}
+		// 开始处理
+        $params = input();
+        $ret = NavigationService::NavStatusUpdate($params);
+        return json($ret);
 	}
 }
 ?>

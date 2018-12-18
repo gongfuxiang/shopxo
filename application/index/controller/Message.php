@@ -41,6 +41,7 @@ class Message extends Common
         // 参数
         $params = input();
         $params['user'] = $this->user;
+        $params['user_type'] = 'user';
 
         // 消息更新未已读
         MessageService::MessageRead($params);
@@ -49,7 +50,7 @@ class Message extends Common
         $number = 10;
 
         // 条件
-        $where = MessageService::UserMessgeListWhere($params);
+        $where = MessageService::MessgeListWhere($params);
 
         // 获取总数
         $total = MessageService::MessageTotal($where);
@@ -59,6 +60,7 @@ class Message extends Common
                 'number'    =>  $number,
                 'total'     =>  $total,
                 'where'     =>  $params,
+                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
                 'url'       =>  url('index/message/index'),
             );
         $page = new \base\Page($page_params);

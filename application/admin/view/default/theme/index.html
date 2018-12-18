@@ -4,22 +4,22 @@
 <div class="content-right">
 	<div class="content">
 		<!-- nav start -->
-		<include file="Nav" />
+		{{include file="theme/nav" /}}
 		<!-- nav end -->
 
 		<!-- list start -->
-		<notempty name="data">
-			<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-bordered data-list" data-am-gallery="{}" data-select-url="{{:url('Admin/Theme/Save')}}">
-				<foreach name="data" item="v">
+		{{if !empty($data_list)}}
+			<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-bordered data-list" data-am-gallery="{}" data-select-url="{{:url('admin/theme/save')}}">
+				{{foreach $data_list as $v}}
 					<li id="data-list-{{$v.theme}}">
-						<div class="am-gallery-item am-radius {{if $v['theme'] eq $theme">theme-active{{/if}}">
+						<div class="am-gallery-item am-radius {{if $v['theme'] eq $theme}}theme-active{{/if}}">
 							<a href="javascript:;" class="select-theme" data-theme="{{$v.theme}}">
 								<img src="{{$v.preview}}" alt="{{$v.name}}" />
 							</a>
 							<div class="am-gallery-item-bottom">
 								<h3 class="am-gallery-title">
 									{{$v.name}}
-									<a href="javascript:;" class="am-icon-trash-o fr submit-delete" data-url="{{:url('Admin/Theme/Delete')}}" data-id="{{$v.theme}}"></a>
+									<a href="javascript:;" class="am-icon-trash-o fr submit-delete" data-url="{{:url('admin/theme/delete')}}" data-id="{{$v.theme}}"></a>
 								</h3>
 								<div class="am-gallery-desc">作者：
 									{{if empty($v['home'])}}

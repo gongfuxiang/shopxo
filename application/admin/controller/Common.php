@@ -147,7 +147,12 @@ class Common extends Controller
 			// 角色组权限列表校验
 			if(!in_array(strtolower(request()->controller().'_'.request()->action()), $this->power))
 			{
-				return $this->error('无权限');
+                if(IS_AJAX)
+                {
+                    exit(json_encode(DataReturn('无权限', -1000)));
+                } else {
+                    return $this->error('无权限');
+                }
 			}
 		}
 	}

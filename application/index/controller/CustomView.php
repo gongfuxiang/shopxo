@@ -43,15 +43,15 @@ class CustomView extends Common
 			'n' => 1,
 		];
 		$data = CustomViewService::CustomViewList($params);
-		if(!empty($data[0]))
+		if(!empty($data['data'][0]))
 		{
 			// 访问统计
 			CustomViewService::CustomViewAccessCountInc(['id'=>$id]);
 
 			// 浏览器标题
-			$this->assign('home_seo_site_title', $this->GetBrowserSeoTitle($data[0]['title'], 1));
+			$this->assign('home_seo_site_title', $this->GetBrowserSeoTitle($data['data'][0]['title'], 1));
 
-			$this->assign('data', $data[0]);
+			$this->assign('data', $data['data'][0]);
 			return $this->fetch();
 		} else {
 			$this->assign('msg', '页面不存在或已删除');

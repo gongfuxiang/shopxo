@@ -46,17 +46,17 @@ class GoodsService
      */
     public static function GoodsCategory($params = [])
     {
-        $where = empty($params['where']) ? ['pid'=>0] : $params['where'];
+        $where = empty($params['where']) ? ['pid'=>0, 'is_enable'=>1] : $params['where'];
         $data = self::GoodsCategoryList($where);
         if(!empty($data))
         {
             foreach($data as &$v)
             {
-                $v['items'] = self::GoodsCategoryList(['pid'=>$v['id']]);
+                $v['items'] = self::GoodsCategoryList(['pid'=>$v['id'], 'is_enable'=>1]);
                 if(!empty($v['items']))
                 {
                     // 一次性查出所有二级下的三级、再做归类、避免sql连接超多
-                    $items = self::GoodsCategoryList(['pid'=>array_column($v['items'], 'id')]);
+                    $items = self::GoodsCategoryList(['pid'=>array_column($v['items'], 'id'), 'is_enable'=>1]);
                     if(!empty($items))
                     {
                         foreach($v['items'] as &$vs)

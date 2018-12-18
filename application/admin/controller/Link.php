@@ -1,6 +1,7 @@
 <?php
-
 namespace app\admin\controller;
+
+use app\service\LinkService;
 
 /**
  * 友情链接
@@ -40,8 +41,8 @@ class Link extends Common
 	public function Index()
 	{
 		// 获取导航列表
-		$list = db('Link')->field(array('id', 'name', 'url', 'describe', 'sort', 'is_enable', 'is_new_window_open'))->order('sort')->select();
-		$this->assign('list', $list);
+		$data = LinkService::LinkList();
+		$this->assign('data_list', $data['data']);
 
 		// 是否新窗口打开
 		$this->assign('common_is_new_window_open_list', lang('common_is_new_window_open_list'));
@@ -49,7 +50,7 @@ class Link extends Common
 		// 是否启用
 		$this->assign('common_is_enable_list', lang('common_is_enable_list'));
 
-		$this->display('Index');
+		return $this->fetch();
 	}
 
 	/**
@@ -62,57 +63,15 @@ class Link extends Common
 	public function Save()
 	{
 		// 是否ajax请求
-		if(!IS_AJAX)
-		{
-			$this->error('非法访问');
-		}
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
 
-		// id为空则表示是新增
-		$m = D('Link');
-
-		// 公共额外数据处理
-		$m->sort 		=	intval(I('sort'));
-		$m->describe 	=	I('describe');
-
-		// 添加
-		if(empty($_POST['id']))
-		{
-			if($m->create($_POST, 1))
-			{
-				// 额外数据处理
-				$m->add_time	=	time();
-				$m->name 		=	I('name');
-				$m->describe 	=	I('describe');
-				
-				// 写入数据库
-				if($m->add())
-				{
-					$this->ajaxReturn('新增成功');
-				} else {
-					$this->ajaxReturn('新增失败', -100);
-				}
-			}
-		} else {
-			// 编辑
-			if($m->create($_POST, 2))
-			{
-				// 额外数据处理
-				$m->name 		=	I('name');
-				$m->describe 	=	I('describe');
-
-				// 移除 id
-				unset($m->id);
-
-				// 更新数据库
-				if($m->where(array('id'=>I('id')))->save())
-				{
-					$this->ajaxReturn('编辑成功');
-				} else {
-					$this->ajaxReturn('编辑失败或数据未改变', -100);
-				}
-			}
-		}
-		$this->ajaxReturn($m->getError(), -1);
+        // 开始处理
+        $params = input();
+        $ret = LinkService::LinkSave($params);
+        return json($ret);
 	}
 
 	/**
@@ -124,23 +83,17 @@ class Link extends Common
 	 */
 	public function Delete()
 	{
-		if(!IS_AJAX)
-		{
-			$this->error('非法访问');
-		}
+		// 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
 
-		$m = D('Link');
-		if($m->create($_POST, 4))
-		{
-			if($m->delete($id))
-			{
-				$this->ajaxReturn('删除成功');
-			} else {
-				$this->ajaxReturn('删除失败或资源不存在', -100);
-			}
-		} else {
-			$this->ajaxReturn($m->getError(), -1);
-		}
+        // 开始处理
+        $params = input();
+        $params['user_type'] = 'admin';
+        $ret = LinkService::LinkDelete($params);
+        return json($ret);
 	}
 
 	/**
@@ -152,19 +105,16 @@ class Link extends Common
 	 */
 	public function StatusUpdate()
 	{
-		// 参数
-		if(empty($_POST['id']) || !isset($_POST['state']))
-		{
-			$this->ajaxReturn('参数错误', -1);
-		}
+		// 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
 
-		// 数据更新
-		if(db('Link')->where(array('id'=>I('id')))->save(array('is_enable'=>I('state'))))
-		{
-			$this->ajaxReturn('编辑成功');
-		} else {
-			$this->ajaxReturn('编辑失败或数据未改变', -100);
-		}
+        // 开始处理
+        $params = input();
+        $ret = LinkService::LinkStatusUpdate($params);
+        return json($ret);
 	}
 }
 ?>

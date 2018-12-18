@@ -447,6 +447,10 @@ class OrderService
             {
                 $where[] = ['payment_id', '=', intval($params['payment_id'])];
             }
+            if(isset($params['express_id']) && $params['express_id'] > -1)
+            {
+                $where[] = ['express_id', '=', intval($params['express_id'])];
+            }
             if(isset($params['pay_status']) && $params['pay_status'] > -1)
             {
                 $where[] = ['pay_status', '=', intval($params['pay_status'])];
@@ -552,7 +556,7 @@ class OrderService
 
         $limit_start = max(0, intval($params['limit_start']));
         $limit_number = max(1, intval($params['limit_number']));
-        $order_by = empty($params['order_by']) ? 'id desc' : I('order_by', '', '', $params);
+        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
         $is_items = isset($params['is_items']) ? intval($params['is_items']) : 1;
 
         // 获取订单
@@ -819,7 +823,7 @@ class OrderService
         $upd_data = [
             'status'            => 3,
             'express_id'        => intval($params['express_id']),
-            'express_number'    => I('express_number', '', '', $params),
+            'express_number'    => isset($params['express_number']) ? $params['express_number'] : '',
             'delivery_time'     => time(),
             'upd_time'          => time(),
         ];
