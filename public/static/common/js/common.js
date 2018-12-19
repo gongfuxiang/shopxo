@@ -1504,6 +1504,7 @@ $(function()
 	            {
 	                var $tag = $($('body').attr('view-tag'));
 	                var max_number = $tag.data('max-number') || 0;
+	                var is_delete = ($tag.data('delete') == undefined) ? 1 : $tag.data('delete');
 
 	                // 只限制一条
 	                if(max_number <= 1)
@@ -1521,9 +1522,12 @@ $(function()
 	                    }
 
 	                    var html = '<li>';
-	                        html += '<input type="hidden" name="'+$tag.data('form-name')+'" value="'+result[i].src+'" />';
+	                        html += '<input type="text" name="'+$tag.data('form-name')+'" value="'+result[i].src+'" />';
 	                        html += '<img src="'+result[i].src+'" />';
-	                        html += '<i>×</i>';
+	                        if(is_delete == 1)
+	                        {
+	                        	html += '<i>×</i>';
+	                        }
 	                        html += '</li>';
 	                    $tag.append(html);
 	                }
@@ -1537,6 +1541,7 @@ $(function()
 	            {
 	                var $tag = $($('body').attr('view-tag'));
 	                var max_number = $tag.data('max-number') || 0;
+	                var is_delete = ($tag.data('delete') == undefined) ? 1 : $tag.data('delete');
 
 	                // 只限制一条
 	                if(max_number <= 1)
@@ -1555,9 +1560,12 @@ $(function()
 
 	                    var $tag = $($('body').attr('view-tag'));
 	                    var html = '<li>';
-	                        html += '<input type="hidden" name="'+$tag.data('form-name')+'" value="'+result[i].src+'" />';
+	                        html += '<input type="text" name="'+$tag.data('form-name')+'" value="'+result[i].src+'" />';
 	                        html += '<video src="'+result[i].src+'" controls>your browser does not support the video tag</video>';
-	                        html += '<i>×</i>';
+	                        if(is_delete == 1)
+	                        {
+	                        	html += '<i>×</i>';
+	                        }
 	                        html += '</li>';
 	                    $tag.append(html);
 	                }
@@ -1578,6 +1586,7 @@ $(function()
 	            {
 	                var $tag = $($('body').attr('view-tag'));
 	                var max_number = $tag.data('max-number') || 0;
+	                var is_delete = ($tag.data('delete') == undefined) ? 1 : $tag.data('delete');
 
 	                // 只限制一条
 	                if(max_number <= 1)
@@ -1596,9 +1605,12 @@ $(function()
 
 	                    var $tag = $($('body').attr('view-tag'));
 	                    var html = '<li>';
-	                        html += '<input type="hidden" name="'+$tag.data('form-name')+'" value="'+result[i].src+'" />';
+	                        html += '<input type="text" name="'+$tag.data('form-name')+'" value="'+result[i].src+'" />';
 	                        html += '<a href="'+result[i].src+'">'+result[i].src+'</a>';
-	                        html += '<i>×</i>';
+	                        if(is_delete == 1)
+	                        {
+	                        	html += '<i>×</i>';
+	                        }
 	                        html += '</li>';
 	                    $tag.append(html);
 	                }

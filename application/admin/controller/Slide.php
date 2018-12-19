@@ -1,6 +1,8 @@
 <?php
 namespace app\admin\controller;
 
+use app\service\SlideService;
+
 /**
  * 轮播图片管理
  * @author   Devil
@@ -39,109 +41,50 @@ class Slide extends Common
     public function Index()
     {
         // 参数
-        $param = array_merge($_POST, $_GET);
+        $params = input();
 
-        // 模型对象
-        $m = db('Slide');
+        // 分页
+        $number = 10;
 
         // 条件
-        $where = $this->GetIndexWhere();
+        $where = SlideService::SlideListWhere($params);
+
+        // 获取总数
+        $total = SlideService::SlideTotal($where);
 
         // 分页
-        $number = MyC('admin_page_number');
-        $page_param = array(
+        $page_params = array(
                 'number'    =>  $number,
-                'total'     =>  $m->where($where)->count(),
-                'where'     =>  $param,
-                'url'       =>  url('Admin/Slide/Index'),
+                'total'     =>  $total,
+                'where'     =>  $params,
+                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
+                'url'       =>  url('admin/customview/index'),
             );
-        $page = new \base\Page($page_param);
+        $page = new \base\Page($page_params);
+        $this->assign('page_html', $page->GetPageHtml());
 
         // 获取列表
-        $list = $this->SetDataHandle($m->where($where)->limit($page->GetPageStarNumber(), $number)->order('is_enable desc, sort asc')->select());
-
-        // 参数
-        $this->assign('param', $param);
-
-        // 分页
-        $this->assign('page_html', $page->GetPageHtml());
+        $data_params = array(
+            'limit_start'   => $page->GetPageStarNumber(),
+            'limit_number'  => $number,
+            'where'         => $where,
+            'field'         => '*',
+        );
+        $data = SlideService::SlideList($data_params);
+        $this->assign('data_list', $data['data']);
 
         // 是否启用
         $this->assign('common_is_enable_list', lang('common_is_enable_list'));
 
-        // 数据列表
-        $this->assign('list', $list);
-        $this->display('Index');
-    }
+        // 所属平台
+        $this->assign('common_platform_type', lang('common_platform_type'));
 
-    /**
-     * [SetDataHandle 数据处理]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-29T21:27:15+0800
-     * @param    [array]      $data [轮播图片数据]
-     * @return   [array]            [处理好的数据]
-     */
-    private function SetDataHandle($data)
-    {
-        if(!empty($data))
-        {
-            $common_is_enable_tips = lang('common_is_enable_tips');
-            foreach($data as &$v)
-            {
-                // 是否启用
-                $v['is_enable_text'] = $common_is_enable_tips[$v['is_enable']]['name'];
+        // 事件类型
+        $this->assign('common_app_event_type', lang('common_app_event_type'));
 
-                // 图片地址
-                $v['images_url'] =  empty($v['images_url']) ? '' : config('IMAGE_HOST').$v['images_url'];
-
-                // 添加时间
-                $v['add_time_text'] = date('Y-m-d H:i:s', $v['add_time']);
-
-                // 更新时间
-                $v['upd_time_text'] = date('Y-m-d H:i:s', $v['upd_time']);
-            }
-        }
-        return $data;
-    }
-
-    /**
-     * [GetIndexWhere 列表条件]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-10T22:16:29+0800
-     */
-    private function GetIndexWhere()
-    {
-        $where = array();
-
-        // 模糊
-        if(!empty($_REQUEST['keyword']))
-        {
-            $where['name'] = array('like', '%'.I('keyword').'%');
-        }
-
-        // 是否更多条件
-        if(I('is_more', 0) == 1)
-        {
-            if(I('is_enable', -1) > -1)
-            {
-                $where['is_enable'] = intval(I('is_enable', 0));
-            }
-
-            // 表达式
-            if(!empty($_REQUEST['time_start']))
-            {
-                $where['add_time'][] = array('gt', strtotime(I('time_start')));
-            }
-            if(!empty($_REQUEST['time_end']))
-            {
-                $where['add_time'][] = array('lt', strtotime(I('time_end')));
-            }
-        }
-        return $where;
+        // 参数
+        $this->assign('params', $params);
+        return $this->fetch();
     }
 
     /**
@@ -153,14 +96,36 @@ class Slide extends Common
      */
     public function SaveInfo()
     {
-        // 轮播图片信息
-        $data = empty($_REQUEST['id']) ? array() : db('Slide')->find(I('id'));
-        $this->assign('data', $data);
-
         // 参数
-        $this->assign('param', array_merge($_POST, $_GET));
+        $params = input();
 
-        $this->display('SaveInfo');
+        // 数据
+        if(!empty($params['id']))
+        {
+            // 获取列表
+            $data_params = array(
+                'limit_start'   => 0,
+                'limit_number'  => 1,
+                'where'         => ['id'=>intval($params['id'])],
+                'field'         => '*',
+            );
+            $data = SlideService::SlideList($data_params);
+            $this->assign('data', empty($data['data'][0]) ? [] : $data['data'][0]);
+        }
+
+        // 是否启用
+        $this->assign('common_is_enable_list', lang('common_is_enable_list'));
+
+        // 所属平台
+        $this->assign('common_platform_type', lang('common_platform_type'));
+
+        // 事件类型
+        $this->assign('common_app_event_type', lang('common_app_event_type'));
+
+        // 编辑器文件存放地址
+        $this->assign('editor_path_type', 'slide');
+
+        return $this->fetch();
     }
 
     /**
@@ -175,93 +140,13 @@ class Slide extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error('非法访问');
+            return $this->error('非法访问');
         }
 
-        // 图片
-        $this->FileSave('images_url', 'file_images_url', 'slide');
-
-        // 添加
-        if(empty($_POST['id']))
-        {
-            $this->Add();
-
-        // 编辑
-        } else {
-            $this->Edit();
-        }
-    }
-
-    /**
-     * [Add 轮播图片添加]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-18T16:20:59+0800
-     */
-    private function Add()
-    {
-        // 轮播图片模型
-        $m = D('Slide');
-
-        // 数据自动校验
-        if($m->create($_POST, 1))
-        {
-            // 额外数据处理
-            $m->name            =   I('name');
-            $m->jump_url        =   I('jump_url');
-            $m->images_url      =   I('images_url');
-            $m->is_enable       =   intval(I('is_enable', 0));
-            $m->bg_color        =   I('bg_color');
-            $m->sort            =   intval(I('sort'));
-            $m->add_time        =   time();
-
-            // 数据添加
-            if($m->add())
-            {
-                $this->ajaxReturn('新增成功');
-            } else {
-                $this->ajaxReturn('新增失败', -100);
-            }
-        } else {
-            $this->ajaxReturn($m->getError(), -1);
-        }
-    }
-
-    /**
-     * [Edit 轮播图片编辑]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-17T22:13:40+0800
-     */
-    private function Edit()
-    {
-        // 轮播图片模型
-        $m = D('Slide');
-
-        // 数据自动校验
-        if($m->create($_POST, 2))
-        {
-            // 额外数据处理
-            $m->name            =   I('name');
-            $m->jump_url        =   I('jump_url');
-            $m->images_url      =   I('images_url');
-            $m->is_enable       =   intval(I('is_enable', 0));
-            $m->bg_color        =   I('bg_color');
-            $m->sort            =   intval(I('sort'));
-            $m->upd_time        =   time();
-
-            // 更新数据库
-            if($m->where(array('id'=>I('id')))->save())
-            {
-                $this->ajaxReturn('编辑成功');
-            } else {
-                $this->ajaxReturn('编辑失败或数据未改变', -100);
-            }
-        } else {
-            $this->ajaxReturn($m->getError(), -1);
-        }
+        // 开始处理
+        $params = input();
+        $ret = SlideService::SlideSave($params);
+        return json($ret);
     }
 
     /**
@@ -276,39 +161,13 @@ class Slide extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error('非法访问');
+            return $this->error('非法访问');
         }
 
-        // 参数处理
-        $id = I('id');
-
-        // 删除数据
-        if(!empty($id))
-        {
-            // 模型
-            $m = db('Slide');
-
-            // 是否存在
-            $data = $m->find($id);
-            if(empty($data))
-            {
-                $this->ajaxReturn('资源不存在或已被删除', -2);
-            }
-            if($data['is_enable'] == 1)
-            {
-                $this->ajaxReturn(lang('common_already_is_enable_error'), -3);
-            }
-
-            // 删除
-            if($m->where(array('id'=>$id))->delete() !== false)
-            {
-                $this->ajaxReturn('删除成功');
-            } else {
-                $this->ajaxReturn('删除失败或资源不存在', -100);
-            }
-        } else {
-            $this->ajaxReturn('参数错误', -1);
-        }
+        // 开始处理
+        $params = input();
+        $ret = SlideService::SlideDelete($params);
+        return json($ret);
     }
 
     /**
@@ -320,19 +179,16 @@ class Slide extends Common
      */
     public function StatusUpdate()
     {
-        // 参数
-        if(empty($_POST['id']) || !isset($_POST['state']))
+        // 是否ajax请求
+        if(!IS_AJAX)
         {
-            $this->ajaxReturn('参数错误', -1);
+            return $this->error('非法访问');
         }
 
-        // 数据更新
-        if(db('Slide')->where(array('id'=>I('id')))->save(array('is_enable'=>I('state'))))
-        {
-            $this->ajaxReturn('编辑成功');
-        } else {
-            $this->ajaxReturn('编辑失败或数据未改变', -100);
-        }
+        // 开始处理
+        $params = input();
+        $ret = SlideService::SlideStatusUpdate($params);
+        return json($ret);
     }
 }
 ?>

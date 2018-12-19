@@ -55,7 +55,7 @@ class LinkService
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'sort',
-                'checked_data'      => '4',
+                'checked_data'      => '3',
                 'error_msg'         => '顺序 0~255 之间的数值',
             ],
             [
