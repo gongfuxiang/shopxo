@@ -987,12 +987,12 @@ class GoodsService
             'give_integral'             => intval($params['give_integral']),
             'buy_min_number'            => intval($params['buy_min_number']),
             'buy_max_number'            => intval($params['buy_max_number']),
-            'is_deduction_inventory'    => intval($params['is_deduction_inventory']),
-            'is_shelves'                => intval($params['is_shelves']),
+            'is_deduction_inventory'    => isset($params['is_deduction_inventory']) ? intval($params['is_deduction_inventory']) : 0,
+            'is_shelves'                => isset($params['is_shelves']) ? intval($params['is_shelves']) : 0,
             'content_web'               => ResourcesService::ContentStaticReplace($params['content_web'], 'add'),
             'images'                    => isset($photo['data'][0]) ? $photo['data'][0] : '',
             'photo_count'               => count($photo['data']),
-            'is_home_recommended'       => intval($params['is_home_recommended']),
+            'is_home_recommended'       => isset($params['is_home_recommended']) ? intval($params['is_home_recommended']) : 0,
             'home_recommended_images'   => $attachment['data']['home_recommended_images'],
             'brand_id'                  => intval($params['brand_id']),
             'video'                     => $attachment['data']['video'],
@@ -1174,9 +1174,9 @@ class GoodsService
                     }
                 }
             } else {
-                if(empty($data[0][0]))
+                if(empty($data[0][0]) || $data[0][0] <= 0)
                 {
-                    return DataReturn('请填写规格销售价格', -1);
+                    return DataReturn('请填写有效的规格销售价格', -1);
                 }
                 if(empty($data[0][1]))
                 {
@@ -1201,6 +1201,11 @@ class GoodsService
      */
     private static function GetFormGoodsPhotoParams($params = [])
     {
+        if(empty($params['photo']))
+        {
+            return DataReturn('请上传相册', -1);
+        }
+
         $result = [];
         if(!empty($params['photo']) && is_array($params['photo']))
         {
@@ -1905,6 +1910,7 @@ class GoodsService
             'bg_color'              => isset($params['bg_color']) ? $params['bg_color'] : '',
             'is_home_recommended'   => isset($params['is_home_recommended']) ? intval($params['is_home_recommended']) : 0,
             'sort'                  => isset($params['sort']) ? intval($params['sort']) : 0,
+            'is_enable'             => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
             'icon'                  => $attachment['data']['icon'],
             'big_images'            => $attachment['data']['big_images'],
         ];

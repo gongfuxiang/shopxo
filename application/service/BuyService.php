@@ -1,5 +1,4 @@
 <?php
-
 namespace app\service;
 
 use think\Db;

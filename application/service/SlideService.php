@@ -148,12 +148,6 @@ class SlideService
      */
     public static function SlideSave($params = [])
     {
-        // 是否启用值处理
-        if(!isset($params['is_enable']))
-        {
-            $params['is_enable'] = 0;
-        }
-
         // 请求类型
         $p = [
             [
@@ -192,12 +186,6 @@ class SlideService
                 'checked_data'      => '3',
                 'error_msg'         => '顺序 0~255 之间的数值',
             ],
-            [
-                'checked_type'      => 'in',
-                'key_name'          => 'is_enable',
-                'checked_data'      => [0,1],
-                'error_msg'         => '是否显示范围值有误',
-            ],
         ];
         $ret = params_checked($params, $p);
         if($ret !== true)
@@ -218,7 +206,7 @@ class SlideService
             'images_url'    => $attachment['data']['images_url'],
             'bg_color'      => isset($params['bg_color']) ? $params['bg_color'] : '',
             'sort'          => intval($params['sort']),
-            'is_enable'     => intval($params['is_enable']),
+            'is_enable'     => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
         ];
 
         if(empty($params['id']))

@@ -1,6 +1,7 @@
 <?php
-
 namespace app\admin\controller;
+
+use app\service\ScreeningPriceService;
 
 /**
  * 筛选价格管理
@@ -39,8 +40,10 @@ class ScreeningPrice extends Common
      */
 	public function Index()
 	{
+		// 是否启用
 		$this->assign('common_is_enable_list', lang('common_is_enable_list'));
-		$this->display('Index');
+
+		return $this->fetch();
 	}
 
 	/**
@@ -58,54 +61,15 @@ class ScreeningPrice extends Common
 			$this->error('非法访问');
 		}
 
-		// 获取数据
-		$field = array('id', 'name', 'sort', 'is_enable', 'min_price', 'max_price');
-		$data = db('ScreeningPrice')->field($field)->where(array('pid'=>intval(I('id', 0))))->select();
-		if(!empty($data))
-		{
-			foreach($data as $k=>$v)
-			{
-				$alias = '';
-				if(!empty($v['min_price']) && !empty($v['max_price']))
-				{
-					$alias = $v['min_price'].'-'.$v['max_price'];
-				}
-				if(empty($v['min_price']) && !empty($v['max_price']))
-				{
-					$alias = $v['max_price'].'以下';
-				}
-				if(!empty($v['min_price']) && empty($v['max_price']))
-				{
-					$alias = $v['min_price'].'以上';
-				}
-				$alias = empty($alias) ? '' : '<span class="mini-tips-text">('.$alias.')</span>';
-				$data[$k]['name_alias'] =	$v['name'].' '.$alias;
-				$data[$k]['is_son']		=	$this->IsExistSon($v['id']);
-				$data[$k]['ajax_url']	=	url('Admin/ScreeningPrice/GetNodeSon', array('id'=>$v['id']));
-				$data[$k]['delete_url']	=	url('Admin/ScreeningPrice/Delete');
-				$data[$k]['json']		=	json_encode($v);
-			}
-		}
-		$msg = empty($data) ? '没有相关数据' : '操作成功';
-		$this->ajaxReturn($msg, 0, $data);
-	}
+		// 开始操作
+		$ret = ScreeningPriceService::ScreeningPriceNodeSon(input());
+		return json($ret);
 
-	/**
-	 * [IsExistSon 节点是否存在子数据]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-25T15:22:47+0800
-	 * @param    [int]    $id [节点id]
-	 * @return   [string]     [有数据ok, 则no]
-	 */
-	private function IsExistSon($id)
-	{
-		if(!empty($id))
+		// 是否ajax请求
+		if(!IS_AJAX)
 		{
-			return (db('ScreeningPrice')->where(array('pid'=>$id))->count() > 0) ? 'ok' : 'no';
+			$this->error('非法访问');
 		}
-		return 'no';
 	}
 
 	/**
@@ -123,54 +87,9 @@ class ScreeningPrice extends Common
 			$this->error('非法访问');
 		}
 
-		// id为空则表示是新增
-		$m = D('ScreeningPrice');
-
-		// 公共额外数据处理
-		$m->sort 	=	intval(I('sort'));
-
-		// 添加
-		if(empty($_POST['id']))
-		{
-			if($m->create($_POST, 1))
-			{
-				// 额外数据处理
-				$m->add_time	=	time();
-				$m->min_price 	=	intval(I('min_price'));
-				$m->max_price 	=	intval(I('max_price'));
-				$m->name 		=	I('name');
-				
-				// 写入数据库
-				if($m->add())
-				{
-					$this->ajaxReturn('新增成功');
-				} else {
-					$this->ajaxReturn('新增失败', -100);
-				}
-			}
-		} else {
-			// 编辑
-			if($m->create($_POST, 2))
-			{
-				// 额外数据处理
-				$m->name 		=	I('name');
-				$m->min_price 	=	intval(I('min_price'));
-				$m->max_price 	=	intval(I('max_price'));
-				$m->upd_time	=	time();
-
-				// 移除 id
-				unset($m->id);
-
-				// 更新数据库
-				if($m->where(array('id'=>I('id')))->save())
-				{
-					$this->ajaxReturn('编辑成功');
-				} else {
-					$this->ajaxReturn('编辑失败或数据未改变', -100);
-				}
-			}
-		}
-		$this->ajaxReturn($m->getError(), -1);
+		// 开始操作
+		$ret = ScreeningPriceService::ScreeningPriceSave(input());
+		return json($ret);
 	}
 
 	/**
@@ -182,23 +101,17 @@ class ScreeningPrice extends Common
 	 */
 	public function Delete()
 	{
+		// 是否ajax
 		if(!IS_AJAX)
 		{
-			$this->error('非法访问');
+			return $this->error('非法访问');
 		}
 
-		$m = D('ScreeningPrice');
-		if($m->create($_POST, 5))
-		{
-			if($m->delete(I('id')))
-			{
-				$this->ajaxReturn('删除成功');
-			} else {
-				$this->ajaxReturn('删除失败或资源不存在', -100);
-			}
-		} else {
-			$this->ajaxReturn($m->getError(), -1);
-		}
+		// 开始操作
+		$params = input('post.');
+		$params['admin'] = $this->admin;
+		$ret = ScreeningPriceService::ScreeningPriceDelete($params);
+		return json($ret);
 	}
 }
 ?>

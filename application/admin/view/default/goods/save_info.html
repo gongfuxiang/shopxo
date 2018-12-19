@@ -130,7 +130,7 @@
 					<ul class="plug-file-upload-view goods-recommended-images-view" data-form-name="home_recommended_images" data-max-number="1" data-dialog-type="images">
 						{{if !empty($data['home_recommended_images'])}}
 							<li>
-								<input type="hidden" name="home_recommended_images" value="{{$data.home_recommended_images}}" />
+								<input type="text" name="home_recommended_images" value="{{$data.home_recommended_images}}" />
 								<img src="{{$data.home_recommended_images}}" />
 								<i>×</i>
 							</li>
@@ -254,7 +254,7 @@
 					{{if !empty($data['photo'])}}
 						{{foreach $data.photo as $v}}
 							<li>
-								<input type="hidden" name="photo[]" value="{{$v.images_old}}" />
+								<input type="text" name="photo[]" value="{{$v.images_old}}" />
 								<img src="{{$v.images}}" />
 								<i>×</i>
 							</li>
@@ -272,7 +272,7 @@
 					<ul class="plug-file-upload-view plug-file-upload-view-video goods-video-view" data-form-name="video" data-max-number="1" data-dialog-type="video">
 						{{if !empty($data['video'])}}
 							<li>
-								<input type="hidden" name="video" value="{{$data.video}}" />
+								<input type="text" name="video" value="{{$data.video}}" />
 								<video src="{{$data.video}}" controls>your browser does not support the video tag</video>
 								<i>×</i>
 							</li>
@@ -295,7 +295,7 @@
 										<ul class="plug-file-upload-view goods-content-app-images-view-{{$v.id}}" data-form-name="content_app_images_{{$v.id}}" data-max-number="1" data-dialog-type="images">
 											{{if !empty($v['images'])}}
 												<li>
-													<input type="hidden" name="content_app_images_{{$v.id}}" value="{{$v.images_old}}" />
+													<input type="text" name="content_app_images_{{$v.id}}" value="{{$v.images_old}}" />
 													<img src="{{$v.images}}" />
 													<i>×</i>
 												</li>

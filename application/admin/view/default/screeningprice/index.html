@@ -36,7 +36,7 @@
 							<label>顺序</label>
 							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
 						</div>
-						<include file="Lib/Enable" />
+						{{include file="lib/enable" /}}
 						<div class="am-form-group">
 							<input type="hidden" name="id" />
 							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
@@ -51,7 +51,7 @@
         <!-- list start -->
 		<div id="tree" class="m-t-15" data-additional='[{"field":"min_price", "value":"0", "type":"input"}, {"field":"max_price", "value":"0", "type":"input"}]'>
 			<div class="m-t-30 t-c">
-				<img src="__PUBLIC__/Common/Images/loading.gif" />
+				<img src="{{$image_host}}/static/common/images/loading.gif" />
 				<p>处理中...</p>
 			</div>
 		</div>
@@ -64,5 +64,5 @@
 {{include file="public/footer" /}}
 <!-- footer end -->
 <script>
-	Tree(0, "{{:url('Admin/ScreeningPrice/GetNodeSon')}}", 0);
+	Tree(0, "{{:url('admin/screeningprice/getnodeson')}}", 0);
 </script>
