@@ -51,7 +51,7 @@ class Index extends Common
         
 
         // 首页轮播
-        $this->assign('banner_list', BannerService::PC());
+        $this->assign('banner_list', BannerService::Banner());
 
         // 楼层数据
         $this->assign('goods_floor_list', GoodsService::HomeFloorList());

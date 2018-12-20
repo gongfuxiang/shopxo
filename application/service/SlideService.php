@@ -166,6 +166,7 @@ class SlideService
                 'checked_type'      => 'in',
                 'key_name'          => 'event_type',
                 'checked_data'      => array_column(lang('common_app_event_type'), 'value'),
+                'is_checked'        => 2,
                 'error_msg'         => '事件值类型有误',
             ],
             [
@@ -201,7 +202,7 @@ class SlideService
         $data = [
             'name'          => $params['name'],
             'platform'      => $params['platform'],
-            'event_type'    => intval($params['event_type']),
+            'event_type'    => isset($params['event_type']) ? intval($params['event_type']) : -1,
             'event_value'   => $params['event_value'],
             'images_url'    => $attachment['data']['images_url'],
             'bg_color'      => isset($params['bg_color']) ? $params['bg_color'] : '',

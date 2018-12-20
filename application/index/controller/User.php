@@ -91,9 +91,9 @@ class User extends Common
         $params['user_type'] = 'user';
         $where = OrderService::OrderListWhere($params);
         $order_params = array(
-            'limit_start'   => 0,
-            'limit_number'  => 3,
-            'where'         => $where,
+            'm'         => 0,
+            'n'         => 3,
+            'where'     => $where,
         );
         $order = OrderService::OrderList($order_params);
         $this->assign('order_list', $order['data']);
@@ -107,9 +107,9 @@ class User extends Common
         $params['user'] = $this->user;
         $where = GoodsService::UserGoodsFavorListWhere($params);
         $favor_params = array(
-            'limit_start'   => 0,
-            'limit_number'  => 8,
-            'where'         => $where,
+            'm'         => 0,
+            'n'         => 8,
+            'where'     => $where,
         );
         $favor = GoodsService::GoodsFavorList($favor_params);
         $this->assign('goods_favor_list', $favor['data']);
@@ -119,9 +119,9 @@ class User extends Common
         $params['user'] = $this->user;
         $where = GoodsService::UserGoodsBrowseListWhere($params);
         $browse_params = array(
-            'limit_start'   => 0,
-            'limit_number'  => 6,
-            'where'         => $where,
+            'm'         => 0,
+            'n'         => 6,
+            'where'     => $where,
         );
         $data = GoodsService::GoodsBrowseList($browse_params);
         $this->assign('goods_browse_list', $data['data']);

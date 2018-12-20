@@ -38,22 +38,38 @@ class BrandService
             foreach($data as &$v)
             {
                 // 是否启用
-                $v['is_enable_text'] = $common_is_enable_tips[$v['is_enable']]['name'];
+                if(isset($v['is_enable']))
+                {
+                    $v['is_enable_text'] = $common_is_enable_tips[$v['is_enable']]['name'];
+                }
 
                 // 分类名称
-                $v['brand_category_name'] = db('BrandCategory')->where(['id'=>$v['brand_category_id']])->value('name');
+                if(isset($v['brand_category_id']))
+                {
+                    $v['brand_category_name'] = db('BrandCategory')->where(['id'=>$v['brand_category_id']])->value('name');
+                }
 
                 // logo
-                $v['logo'] =  empty($v['logo']) ? '' : $images_host.$v['logo'];
+                if(isset($v['logo']))
+                {
+                    $v['logo_old'] = $v['logo'];
+                    $v['logo'] =  empty($v['logo']) ? '' : $images_host.$v['logo'];
+                }
 
-                // 添加时间
-                $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
-
-                // 更新时间
-                $v['upd_time'] = date('Y-m-d H:i:s', $v['upd_time']);
+                // 时间
+                if(isset($v['add_time']))
+                {
+                    $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                    $v['add_time_date'] = date('Y-m-d', $v['add_time']);
+                }
+                if(isset($v['upd_time']))
+                {
+                    $v['upd_time_time'] = date('Y-m-d H:i:s', $v['upd_time']);
+                    $v['upd_time_date'] = date('Y-m-d', $v['upd_time']);
+                }
             }
         }
-        return $data;
+        return DataReturn('处理成功', 0, $data);
     }
 
     /**
@@ -67,6 +83,50 @@ class BrandService
     public static function BrandTotal($where)
     {
         return (int) db('Brand')->where($where)->count();
+    }
+
+    /**
+     * 列表条件
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function BrandListListWhere($params = [])
+    {
+        $where = [];
+
+        if(!empty($params['keywords']))
+        {
+            $where[] = ['name', 'like', '%'.$params['keywords'].'%'];
+        }
+
+        // 是否更多条件
+        if(isset($params['is_more']) && $params['is_more'] == 1)
+        {
+            // 等值
+            if(isset($params['is_enable']) && $params['is_enable'] > -1)
+            {
+                $where[] = ['is_enable', '=', intval($params['is_enable'])];
+            }
+            if(isset($params['brand_category_id']) && $params['brand_category_id'] > -1)
+            {
+                $where[] = ['brand_category_id', '=', intval($params['brand_category_id'])];
+            }
+
+            if(!empty($params['time_start']))
+            {
+                $where[] = ['add_time', '>', strtotime($params['time_start'])];
+            }
+            if(!empty($params['time_end']))
+            {
+                $where[] = ['add_time', '<', strtotime($params['time_end'])];
+            }
+        }
+
+        return $where;
     }
 
     /**
@@ -137,6 +197,25 @@ class BrandService
     public static function BrandName($brand_id = 0)
     {
         return empty($brand_id) ? null : db('Brand')->where(['id'=>intval($brand_id)])->value('name');
+    }
+
+    /**
+     * 品牌分类
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-08-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function BrandCategoryList($params = [])
+    {
+        $field = empty($params['field']) ? '*' : $params['field'];
+        $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
+
+        $data = db('BrandCategory')->where(['is_enable'=>1])->field($field)->order($order_by)->select();
+        
+        return DataReturn('处理成功', 0, $data);
     }
 }
 ?>

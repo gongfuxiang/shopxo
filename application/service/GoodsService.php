@@ -552,42 +552,14 @@ class GoodsService
      */
     public static function GoodsFavorList($params = [])
     {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'where',
-                'error_msg'         => '条件不能为空',
-            ],
-            [
-                'checked_type'      => 'is_array',
-                'key_name'          => 'where',
-                'error_msg'         => '条件格式有误',
-            ],
-            [
-                'checked_type'      => 'isset',
-                'key_name'          => 'limit_start',
-                'error_msg'         => '分页起始值有误',
-            ],
-            [
-                'checked_type'      => 'isset',
-                'key_name'          => 'limit_number',
-                'error_msg'         => '分页数量不能为空',
-            ],
-        ];
-        $ret = params_checked($params, $p);
-        if($ret !== true)
-        {
-            return DataReturn($ret, -1);
-        }
-
-        $limit_start = max(0, intval($params['limit_start']));
-        $limit_number = max(1, intval($params['limit_number']));
+        $where = empty($params['where']) ? [] : $params['where'];
+        $m = isset($params['m']) ? intval($params['m']) : 0;
+        $n = isset($params['n']) ? intval($params['n']) : 10;
         $order_by = empty($params['order_by']) ? 'f.id desc' : $params['order_by'];
         $field = 'f.*, g.title, g.original_price, g.price, g.images';
 
         // 获取数据
-        $data = db('GoodsFavor')->alias('f')->join(['__GOODS__'=>'g'], 'g.id=f.goods_id')->field($field)->where($params['where'])->limit($limit_start, $limit_number)->order($order_by)->select();
+        $data = db('GoodsFavor')->alias('f')->join(['__GOODS__'=>'g'], 'g.id=f.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
             $images_host = config('IMAGE_HOST');
@@ -727,42 +699,14 @@ class GoodsService
      */
     public static function GoodsBrowseList($params = [])
     {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'where',
-                'error_msg'         => '条件不能为空',
-            ],
-            [
-                'checked_type'      => 'is_array',
-                'key_name'          => 'where',
-                'error_msg'         => '条件格式有误',
-            ],
-            [
-                'checked_type'      => 'isset',
-                'key_name'          => 'limit_start',
-                'error_msg'         => '分页起始值有误',
-            ],
-            [
-                'checked_type'      => 'isset',
-                'key_name'          => 'limit_number',
-                'error_msg'         => '分页数量不能为空',
-            ],
-        ];
-        $ret = params_checked($params, $p);
-        if($ret !== true)
-        {
-            return DataReturn($ret, -1);
-        }
-
-        $limit_start = max(0, intval($params['limit_start']));
-        $limit_number = max(1, intval($params['limit_number']));
+        $where = empty($params['where']) ? [] : $params['where'];
+        $m = isset($params['m']) ? intval($params['m']) : 0;
+        $n = isset($params['n']) ? intval($params['n']) : 10;
         $order_by = empty($params['order_by']) ? 'b.id desc' : $params['order_by'];
         $field = 'b.*, g.title, g.original_price, g.price, g.images';
 
         // 获取数据
-        $data = db('GoodsBrowse')->alias('b')->join(['__GOODS__'=>'g'], 'g.id=b.goods_id')->field($field)->where($params['where'])->limit($limit_start, $limit_number)->order($order_by)->select();
+        $data = db('GoodsBrowse')->alias('b')->join(['__GOODS__'=>'g'], 'g.id=b.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
             $images_host = config('IMAGE_HOST');

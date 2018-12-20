@@ -1,6 +1,7 @@
 <?php
-
 namespace app\admin\controller;
+
+use app\service\BrandService;
 
 /**
  * 品牌管理
@@ -39,122 +40,50 @@ class Brand extends Common
      */
 	public function Index()
 	{
-		// 参数
-        $param = array_merge($_POST, $_GET);
+        // 参数
+        $params = input();
 
-        // 模型对象
-        $m = db('Brand');
+        // 分页
+        $number = 10;
 
         // 条件
-        $where = $this->GetIndexWhere();
+        $where = BrandService::BrandListListWhere($params);
+
+        // 获取总数
+        $total = BrandService::BrandTotal($where);
 
         // 分页
-        $number = MyC('admin_page_number');
-        $page_param = array(
+        $page_params = array(
                 'number'    =>  $number,
-                'total'     =>  $m->where($where)->count(),
-                'where'     =>  $param,
-                'url'       =>  url('Admin/Brand/Index'),
+                'total'     =>  $total,
+                'where'     =>  $params,
+                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
+                'url'       =>  url('admin/brand/index'),
             );
-        $page = new \base\Page($page_param);
+        $page = new \base\Page($page_params);
+        $this->assign('page_html', $page->GetPageHtml());
 
         // 获取列表
-        $list = $this->SetDataHandle($m->where($where)->limit($page->GetPageStarNumber(), $number)->order('id desc')->select());
-
-        // 参数
-        $this->assign('param', $param);
-
-        // 分页
-        $this->assign('page_html', $page->GetPageHtml());
+        $data_params = array(
+            'm'     => $page->GetPageStarNumber(),
+            'n'     => $number,
+            'where' => $where,
+            'field' => '*',
+        );
+        $data = BrandService::BrandList($data_params);
+        $this->assign('data_list', $data['data']);
 
         // 是否启用
         $this->assign('common_is_enable_list', lang('common_is_enable_list'));
 
         // 品牌分类
-		$brand_category = db('BrandCategory')->where(['is_enable'=>1])->field('id,name')->select();
-		$this->assign('brand_category', $brand_category);
+        $brand_category = BrandService::BrandCategoryList(['field'=>'id,name']);
+        $this->assign('brand_category', $brand_category['data']);
 
-        // 数据列表
-        $this->assign('list', $list);
-        $this->display('Index');
+        // 参数
+        $this->assign('params', $params);
+        return $this->fetch();
 	}
-
-	/**
-     * [SetDataHandle 数据处理]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-29T21:27:15+0800
-     * @param    [array]      $data [轮播图片数据]
-     * @return   [array]            [处理好的数据]
-     */
-    private function SetDataHandle($data)
-    {
-        if(!empty($data))
-        {
-            $common_is_enable_tips = lang('common_is_enable_tips');
-            foreach($data as &$v)
-            {
-                // 是否启用
-                $v['is_enable_text'] = $common_is_enable_tips[$v['is_enable']]['name'];
-
-                // 分类名称
-                $v['brand_category_text'] = db('BrandCategory')->where(['id'=>$v['brand_category_id']])->getField('name');
-
-                // logo
-                $v['logo'] =  empty($v['logo']) ? '' : config('IMAGE_HOST').$v['logo'];
-
-                // 添加时间
-                $v['add_time_text'] = date('Y-m-d H:i:s', $v['add_time']);
-
-                // 更新时间
-                $v['upd_time_text'] = date('Y-m-d H:i:s', $v['upd_time']);
-            }
-        }
-        return $data;
-    }
-
-	/**
-     * [GetIndexWhere 列表条件]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-10T22:16:29+0800
-     */
-    private function GetIndexWhere()
-    {
-        $where = array();
-
-        // 模糊
-        if(!empty($_REQUEST['keyword']))
-        {
-            $where['name'] = array('like', '%'.I('keyword').'%');
-        }
-
-        // 是否更多条件
-        if(I('is_more', 0) == 1)
-        {
-            if(I('is_enable', -1) > -1)
-            {
-                $where['is_enable'] = intval(I('is_enable', 0));
-            }
-            if(I('brand_category_id', -1) > -1)
-            {
-                $where['brand_category_id'] = intval(I('brand_category_id', 0));
-            }
-
-            // 表达式
-            if(!empty($_REQUEST['time_start']))
-            {
-                $where['add_time'][] = array('gt', strtotime(I('time_start')));
-            }
-            if(!empty($_REQUEST['time_end']))
-            {
-                $where['add_time'][] = array('lt', strtotime(I('time_end')));
-            }
-        }
-        return $where;
-    }
 
     /**
      * [SaveInfo 添加/编辑页面]
@@ -165,21 +94,34 @@ class Brand extends Common
      */
     public function SaveInfo()
     {
-        // 轮播图片信息
-        $data = empty($_REQUEST['id']) ? array() : db('Brand')->find(I('id'));
-        $this->assign('data', $data);
+        // 参数
+        $params = input();
+
+        // 数据
+        if(!empty($params['id']))
+        {
+            // 获取列表
+            $data_params = array(
+                'm'     => 0,
+                'n'     => 1,
+                'where' => ['id'=>intval($params['id'])],
+                'field' => '*',
+            );
+            $data = BrandService::BrandList($data_params);
+            $this->assign('data', empty($data['data'][0]) ? [] : $data['data'][0]);
+        }
 
         // 是否启用
         $this->assign('common_is_enable_list', lang('common_is_enable_list'));
 
         // 品牌分类
-		$brand_category = db('BrandCategory')->where(['is_enable'=>1])->field('id,name')->select();
-		$this->assign('brand_category', $brand_category);
+		$brand_category = BrandService::BrandCategoryList(['field'=>'id,name']);
+		$this->assign('brand_category', $brand_category['data']);
 
         // 参数
-        $this->assign('param', array_merge($_POST, $_GET));
+        $this->assign('params', $params);
 
-        $this->display('SaveInfo');
+        return $this->fetch();
     }
 
 	/**

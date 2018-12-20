@@ -66,9 +66,9 @@ class Order extends Common
 
         // 获取列表
         $data_params = array(
-            'limit_start'   => $page->GetPageStarNumber(),
-            'limit_number'  => $number,
-            'where'         => $where,
+            'm'         => $page->GetPageStarNumber(),
+            'n'         => $number,
+            'where'     => $where,
         );
         $data = OrderService::OrderList($data_params);
         $this->assign('data_list', $data['data']);
@@ -110,9 +110,9 @@ class Order extends Common
 
         // 获取列表
         $data_params = array(
-            'limit_start'   => 0,
-            'limit_number'  => 1,
-            'where'         => $where,
+            'm'         => 0,
+            'n'         => 1,
+            'where'     => $where,
         );
         $data = OrderService::OrderList($data_params);
         if(!empty($data['data'][0]))
@@ -151,9 +151,9 @@ class Order extends Common
 
         // 获取列表
         $data_params = array(
-            'limit_start'   => 0,
-            'limit_number'  => 1,
-            'where'         => $where,
+            'm'         => 0,
+            'n'         => 1,
+            'where'     => $where,
         );
         $data = OrderService::OrderList($data_params);
         if(!empty($data['data'][0]))

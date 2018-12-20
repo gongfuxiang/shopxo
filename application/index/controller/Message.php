@@ -68,9 +68,9 @@ class Message extends Common
 
         // 获取列表
         $data_params = array(
-            'limit_start'   => $page->GetPageStarNumber(),
-            'limit_number'  => $number,
-            'where'         => $where,
+            'm'         => $page->GetPageStarNumber(),
+            'n'         => $number,
+            'where'     => $where,
         );
         $data = MessageService::MessageList($data_params);
         $this->assign('data_list', $data['data']);

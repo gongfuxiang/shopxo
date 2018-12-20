@@ -65,10 +65,10 @@ class CustomView extends Common
 
         // 获取列表
         $data_params = array(
-            'limit_start'   => $page->GetPageStarNumber(),
-            'limit_number'  => $number,
-            'where'         => $where,
-            'field'			=> '*',
+            'm'         => $page->GetPageStarNumber(),
+            'n'         => $number,
+            'where'     => $where,
+            'field'     => '*',
         );
         $data = CustomViewService::CustomViewList($data_params);
         $this->assign('data_list', $data['data']);
@@ -107,10 +107,10 @@ class CustomView extends Common
 		{
 			// 获取列表
 	        $data_params = array(
-	            'limit_start'   => 0,
-	            'limit_number'  => 1,
-	            'where'         => ['id'=>intval($params['id'])],
-	            'field'			=> '*',
+	            'm'        => 0,
+	            'n'        => 1,
+	            'where'    => ['id'=>intval($params['id'])],
+	            'field'    => '*',
 	        );
 	        $data = CustomViewService::CustomViewList($data_params);
 	        $this->assign('data', empty($data['data'][0]) ? [] : $data['data'][0]);

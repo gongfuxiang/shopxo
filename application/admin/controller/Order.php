@@ -69,9 +69,9 @@ class Order extends Common
 
         // 获取列表
         $data_params = array(
-            'limit_start'   => $page->GetPageStarNumber(),
-            'limit_number'  => $number,
-            'where'         => $where,
+            'm'         => $page->GetPageStarNumber(),
+            'n'         => $number,
+            'where'     => $where,
         );
         $data = OrderService::OrderList($data_params);
         $this->assign('data_list', $data['data']);
