@@ -121,6 +121,9 @@ class Brand extends Common
         // 参数
         $this->assign('params', $params);
 
+        // 编辑器文件存放地址
+        $this->assign('editor_path_type', 'brand');
+
         return $this->fetch();
     }
 
@@ -134,64 +137,15 @@ class Brand extends Common
 	public function Save()
 	{
 		// 是否ajax请求
-		if(!IS_AJAX)
-		{
-			$this->error('非法访问');
-		}
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
 
-		// 图片
-        $this->FileSave('logo', 'file_logo', 'brand');
-
-		// id为空则表示是新增
-		$m = D('Brand');
-
-		// 公共额外数据处理
-		$_POST['is_enable'] = intval(I('is_enable', 0));
-
-		// 添加
-		if(empty($_POST['id']))
-		{
-			if($m->create($_POST, 1))
-			{
-				// 额外数据处理
-				$m->add_time 			=	time();
-				$m->sort 				=	intval(I('sort'));
-				$m->brand_category_id 	=	intval(I('brand_category_id'));
-				$m->website_url 		=	I('website_url');
-				$m->name 				=	I('name');
-				
-				// 写入数据库
-				if($m->add())
-				{
-					$this->ajaxReturn('新增成功');
-				} else {
-					$this->ajaxReturn('新增失败', -100);
-				}
-			}
-		} else {
-			// 编辑
-			if($m->create($_POST, 2))
-			{
-				// 额外数据处理
-				$m->upd_time 			=	time();
-				$m->sort 				=	intval(I('sort'));
-				$m->brand_category_id 	=	intval(I('brand_category_id'));
-				$m->website_url 		=	I('website_url');
-				$m->name 				=	I('name');
-
-				// 移除 id
-				unset($m->id);
-
-				// 更新数据库
-				if($m->where(array('id'=>I('id')))->save())
-				{
-					$this->ajaxReturn('编辑成功');
-				} else {
-					$this->ajaxReturn('编辑失败或数据未改变', -100);
-				}
-			}
-		}
-		$this->ajaxReturn($m->getError(), -1);
+        // 开始处理
+        $params = input();
+        $ret = BrandService::BrandSave($params);
+        return json($ret);
 	}
 
 	/**
@@ -203,50 +157,38 @@ class Brand extends Common
 	 */
 	public function Delete()
 	{
-		if(!IS_AJAX)
-		{
-			$this->error('非法访问');
-		}
+		// 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
 
-		$m = D('Brand');
-		if($m->create($_POST, 5))
-		{
-			$id = I('id');
-
-			// 删除
-			if($m->delete($id))
-			{
-				$this->ajaxReturn('删除成功');
-			} else {
-				$this->ajaxReturn('删除失败或资源不存在', -100);
-			}
-		} else {
-			$this->ajaxReturn($m->getError(), -1);
-		}
+        // 开始处理
+        $params = input();
+        $params['user_type'] = 'admin';
+        $ret = BrandService::BrandDelete($params);
+        return json($ret);
 	}
 
 	/**
-     * [StateUpdate 状态更新]
+     * [StatusUpdate 状态更新]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2017-01-12T22:23:06+0800
      */
-    public function StateUpdate()
+    public function StatusUpdate()
     {
-        // 参数
-        if(empty($_POST['id']) || !isset($_POST['state']))
+       // 是否ajax请求
+        if(!IS_AJAX)
         {
-            $this->ajaxReturn('参数错误', -1);
+            return $this->error('非法访问');
         }
 
-        // 数据更新
-        if(db('Brand')->where(array('id'=>I('id')))->save(array('is_enable'=>I('state'))))
-        {
-            $this->ajaxReturn('编辑成功');
-        } else {
-            $this->ajaxReturn('编辑失败或数据未改变', -100);
-        }
+        // 开始处理
+        $params = input();
+        $ret = BrandService::BrandStatusUpdate($params);
+        return json($ret);
     }
 }
 ?>

@@ -1780,7 +1780,7 @@ class GoodsService
 
         // 获取数据
         $field = 'id,pid,icon,name,sort,is_enable,bg_color,big_images,vice_name,describe,is_home_recommended';
-        $data = db('GoodsCategory')->field($field)->where(['pid'=>$id])->select();
+        $data = db('GoodsCategory')->field($field)->where(['pid'=>$id])->order('sort asc')->select();
         if(!empty($data))
         {
             $image_host = config('IMAGE_HOST');

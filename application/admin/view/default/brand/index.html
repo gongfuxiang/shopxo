@@ -22,7 +22,7 @@
                         {{/foreach}}
                     </select>
                     <select name="brand_category_id" class="am-radius c-p m-t-10 m-l-5 param-where">
-                        <option value="">品牌分类</option>
+                        <option value="-1">品牌分类</option>
                         {{foreach $brand_category as $v}}
                             <option value="{{$v.id}}" {{if isset($params['brand_category_id']) and $params['brand_category_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                         {{/foreach}}
@@ -84,12 +84,10 @@
                             </td>
                             <td class="am-hide-sm-only">{{$v.add_time_time}}</td>
                             <td class="view-operation">
-                                <a href="{{:url('admin/brand/saveinfo', array('id'=>$v['id']))}}">
+                                <a href="{{:url('admin/brand/saveinfo', array_merge($params, ['id'=>$v['id']]))}}">
                                     <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> 编辑</button>
                                 </a>
-                                {{if $v['is_enable'] eq 0}}
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/brand/Delete')}}" data-id="{{$v.id}}"> 删除</button>
-                                {{/if}}
+                                <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/brand/Delete')}}" data-id="{{$v.id}}"> 删除</button>
                             </td>
                         </tr>
                     {{/foreach}}

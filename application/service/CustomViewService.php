@@ -173,30 +173,6 @@ class CustomViewService
                 'checked_data'      => '50,105000',
                 'error_msg'         => '内容长度最少 50~105000 个字符',
             ],
-            [
-                'checked_type'      => 'in',
-                'key_name'          => 'is_enable',
-                'checked_data'      => [0,1],
-                'error_msg'         => '是否显示范围值有误',
-            ],
-            [
-                'checked_type'      => 'in',
-                'key_name'          => 'is_header',
-                'checked_data'      => [0,1],
-                'error_msg'         => '是否包含头部范围值有误',
-            ],
-            [
-                'checked_type'      => 'in',
-                'key_name'          => 'is_footer',
-                'checked_data'      => [0,1],
-                'error_msg'         => '是否包含尾部范围值有误',
-            ],
-            [
-                'checked_type'      => 'in',
-                'key_name'          => 'is_full_screen',
-                'checked_data'      => [0,1],
-                'error_msg'         => '是否满屏范围值有误',
-            ]
         ];
         $ret = params_checked($params, $p);
         if($ret !== true)
@@ -212,10 +188,10 @@ class CustomViewService
             'content'       => $content,
             'image'         => empty($image) ? '' : json_encode($image),
             'image_count'   => count($image),
-            'is_enable'     => intval($params['is_enable']),
-            'is_header'     => intval($params['is_header']),
-            'is_footer'     => intval($params['is_footer']),
-            'is_full_screen'=> intval($params['is_full_screen']),
+            'is_enable'     => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
+            'is_header'     => isset($params['is_header']) ? intval($params['is_header']) : 0,
+            'is_footer'     => isset($params['is_footer']) ? intval($params['is_footer']) : 0,
+            'is_full_screen'=> isset($params['is_full_screen']) ? intval($params['is_full_screen']) : 0,
         ];
 
         if(empty($params['id']))

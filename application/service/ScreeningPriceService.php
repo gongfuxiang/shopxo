@@ -26,7 +26,7 @@ class ScreeningPriceService
 
         // 获取数据
         $field = 'id,name,sort,is_enable,min_price,max_price';
-        $data = db('ScreeningPrice')->field($field)->where(['pid'=>$id])->select();
+        $data = db('ScreeningPrice')->field($field)->where(['pid'=>$id])->order('sort asc')->select();
         if(!empty($data))
         {
             $image_host = config('IMAGE_HOST');

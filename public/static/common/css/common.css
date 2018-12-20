@@ -191,6 +191,7 @@ ul.plug-file-upload-view li i {
     right: 5px;
     top: 5px;
     cursor: pointer;
+    text-shadow: -2px 1px #fff;
 }
 ul.plug-file-upload-view li:hover > i {
     color: #e90f0f;
