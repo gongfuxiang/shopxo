@@ -111,12 +111,18 @@ class AdminPowerService
             $data['add_time'] = time();
             if(db('Power')->insertGetId($data) > 0)
             {
+                // 清除用户权限数据
+                self::PowerCacheDelete();
+                
                 return DataReturn('添加成功', 0);
             }
             return DataReturn('添加失败', -100);
         } else {
             if(db('Power')->where(['id'=>intval($params['id'])])->update($data) !== false)
             {
+                // 清除用户权限数据
+                self::PowerCacheDelete();
+
                 return DataReturn('更新成功', 0);
             }
             return DataReturn('更新失败', -100);

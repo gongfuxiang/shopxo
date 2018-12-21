@@ -1,0 +1,19 @@
+<view
+  class="am-card"
+  hover-class="am-card-active"
+  onTap="onCardClick"
+>
+  <view class="am-card-body">
+    <image a:if="{{thumb}}" src="{{thumb}}" class="am-card-thumb" />
+    <view class="am-card-content">
+      <view a:if="{{!thumb || (thumb && footer)}}" class="am-card-title">{{title}}</view>
+      <view class="am-card-subtitle">{{subTitle}}</view>
+      <view a:if="{{!footer && thumb}}" class="am-card-title">{{title}}</view>
+    </view>
+    <view class="am-card-arrow" aria-hidden="true" />
+  </view>
+  <view a:if="{{footer}}" class="am-card-footer">
+    <image a:if="{{footerImg}}" src="{{footerImg}}" />
+    {{footer}}
+  </view>
+</view>

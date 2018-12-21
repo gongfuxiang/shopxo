@@ -1,0 +1,39 @@
+.am-list-header,
+.am-list-footer {
+  font-size: 14px;
+  color: #888;
+}
+
+.am-list-header {
+  padding: 16px 16px 8px;
+}
+
+.am-list-body {
+  position: relative;
+}
+
+.am-list-body::before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  transform: scaleY(0.5);
+  background-color: #eee;
+}
+
+.am-list-body::after {
+  position: absolute;
+  content: '';
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  transform: scaleY(0.5);
+  background-color: #eee;
+}
+
+.am-list-footer {
+  padding: 8px 16px 16px 16px;
+}

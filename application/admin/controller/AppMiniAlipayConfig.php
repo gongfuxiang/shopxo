@@ -1,6 +1,7 @@
 <?php
-
 namespace app\admin\controller;
+
+use app\service\ConfigService;
 
 /**
  * 支付宝小程序 - 配置
@@ -40,10 +41,9 @@ class AppMiniAlipayConfig extends Common
 	public function Index()
 	{
 		// 配置信息
-		$data = db('Config')->getField('only_tag,name,describe,value,error_tips');
-		$this->assign('data', $data);
+		$this->assign('data', ConfigService::ConfigList());
 		
-		$this->display('Index');
+		return $this->fetch();
 	}
 
 	/**
@@ -55,7 +55,7 @@ class AppMiniAlipayConfig extends Common
 	 */
 	public function Save()
 	{
-		$this->MyConfigSave();
+		return ConfigService::ConfigSave($_POST);
 	}
 }
 ?>

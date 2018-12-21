@@ -39,7 +39,7 @@
 
         <!-- operation start -->
         <div class="am-g m-t-15">
-            <a href="{{:url('admin/goods/saveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
+            <a href="{{:url('admin/goods/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
         </div>
         <!-- operation end -->
 
@@ -149,7 +149,7 @@
 								</div>
 							</td>
 							<td class="view-operation">
-								<a href="{{:url('admin/goods/saveInfo', array_merge($params, ['id'=>$v['id']]))}}">
+								<a href="{{:url('admin/goods/saveinfo', array_merge($params, ['id'=>$v['id']]))}}">
 									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"></button>
 								</a>
 								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/goods/delete')}}" data-id="{{$v.id}}"></button>

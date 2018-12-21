@@ -5,12 +5,12 @@
 	<div class="content">
 		<!-- operation start -->
         <div class="am-g">
-            <button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-ajax" data-url="{{:url('Admin/AppMiniAlipayList/Created')}}" data-view="reload" data-msg="生成时间比较长，请不要关闭浏览器窗口！"> 生成</button>
+            <button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-ajax" data-url="{{:url('admin/appminialipaylist/created')}}" data-view="reload" data-msg="生成时间比较长，请不要关闭浏览器窗口！"> 生成</button>
         </div>
         <!-- operation end -->
 
 		<!-- list start -->
-		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5)}}
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5">
 			<thead>
 				<tr>
 					<th>包名</th>
@@ -20,25 +20,24 @@
 				</tr>
 			</thead>
 			<tbody>
-				<notempty name="data">
-					<foreach name="data" item="v">
+				{{if !empty($data)}}
+					{{foreach $data as $v}}
 						<tr>
 							<td>{{$v.name}}</td>
 							<td>{{$v.size}}</td>
 							<td>{{$v.time}}</td>
 							<td class="view-operation">
-								<notempty name="v.url">
+								{{if !empty($v.url)}}
 									<a href="{{$v.url}}">
 										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-download"> 下载</button>
 									</a>
 								{{/if}}
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/AppMiniAlipayList/Delete')}}" data-id="{{$v.name}}" data-view="reload"> 删除</button>
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/appminialipaylist/delete')}}" data-id="{{$v.name}}" data-view="reload"> 删除</button>
 							</td>
 						</tr>
 					{{/foreach}}
-				{{/if}}
-				<empty name="data">
-					<tr><td colspan="20" class="table-no">没有相关数据</td></tr>
+				{{else /}}
+					<tr><td colspan="4" class="table-no">没有相关数据</td></tr>
 				{{/if}}
 			</tbody>
 		</table>

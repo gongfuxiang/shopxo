@@ -1,0 +1,11 @@
+<view class="am-list {{className}}">
+  <view class="am-list-header" a:if="{{$slots.header}}">
+    <slot name="header" />
+  </view>
+  <view class="am-list-body">
+    <slot />
+  </view>
+  <view class="am-list-footer" a:if="{{$slots.footer}}">
+    <slot name="footer" />
+  </view>
+</view>

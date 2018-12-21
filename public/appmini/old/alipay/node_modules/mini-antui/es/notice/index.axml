@@ -1,0 +1,12 @@
+<view class="am-notice {{className}}" a:if="{{show}}" onTap="onNoticeTap">
+  <view class="am-notice-thumb"></view>
+  <view class="am-notice-content am-notice-content-{{$id}}">
+    <view class="am-notice-marquee am-notice-marquee-{{$id}}" style="right: {{animatedWidth}}px; display: {{enableMarquee ? 'inline-block' : 'block'}}">
+      <slot></slot>
+    </view>
+  </view>
+  <view class="am-notice-operation" onTap="onOperationTap">
+    <view a:if="{{action !== ''}}" class="am-notice-operation-text {{actionCls}}" >{{action}}</view>
+    <view a:else class="am-notice-{{mode}}"></view>
+  </view>
+</view>

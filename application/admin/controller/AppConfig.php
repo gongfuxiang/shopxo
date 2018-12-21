@@ -1,6 +1,7 @@
 <?php
-
 namespace app\admin\controller;
+
+use app\service\ConfigService;
 
 /**
  * 手机端 - 配置
@@ -40,13 +41,12 @@ class AppConfig extends Common
 	public function Index()
 	{
 		// 配置信息
-		$data = db('Config')->getField('only_tag,name,describe,value,error_tips');
-		$this->assign('data', $data);
+		$this->assign('data', ConfigService::ConfigList());
 
 		// 是否
 		$this->assign('common_is_text_list', lang('common_is_text_list'));
 		
-		$this->display('Index');
+		return $this->fetch();
 	}
 
 	/**
@@ -58,7 +58,7 @@ class AppConfig extends Common
 	 */
 	public function Save()
 	{
-		$this->MyConfigSave();
+		return ConfigService::ConfigSave($_POST);
 	}
 }
 ?>

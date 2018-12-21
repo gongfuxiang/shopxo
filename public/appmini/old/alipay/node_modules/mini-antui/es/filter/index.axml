@@ -1,0 +1,14 @@
+<view class="am-filter-{{show ? 'show' : 'hide'}} {{className}}" disable-scroll="{{false}}">
+  <view class="am-filter-mask" />
+  <view class="am-filter-document">
+    <view class="am-filter-content" onChange="{{callBackFn}}">
+      <view class="am-filter-list">
+        <slot/>
+      </view>
+      <view class="am-filter-btn" a:if="{{max !== 1}}">
+        <button type="default" class="am-filter-default" onTap="resetFn">重置</button>
+        <button type="primary" class="am-filter-primary" onTap="confirmFn">确定</button>
+      </view>
+    </view>
+  </view>
+</view>

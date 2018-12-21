@@ -24,7 +24,7 @@ class BrandService
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
-        $order_by = empty($params['order_by']) ? 'id desc' : trim($params['order_by']);
+        $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
 
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
@@ -34,7 +34,7 @@ class BrandService
         if(!empty($data))
         {
             $common_is_enable_tips = lang('common_is_enable_tips');
-            $images_host = config('IMAGE_HOST');
+            $image_host = config('IMAGE_HOST');
             foreach($data as &$v)
             {
                 // 是否启用
@@ -53,7 +53,7 @@ class BrandService
                 if(isset($v['logo']))
                 {
                     $v['logo_old'] = $v['logo'];
-                    $v['logo'] =  empty($v['logo']) ? '' : $images_host.$v['logo'];
+                    $v['logo'] =  empty($v['logo']) ? '' : $image_host.$v['logo'];
                 }
 
                 // 时间
@@ -94,7 +94,7 @@ class BrandService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function BrandListListWhere($params = [])
+    public static function BrandListWhere($params = [])
     {
         $where = [];
 
@@ -174,11 +174,11 @@ class BrandService
         $brand = db('Brand')->where($brand_where)->field('id,name,logo,website_url')->select();
         if(!empty($brand))
         {
-            $images_host = config('IMAGE_HOST');
+            $image_host = config('IMAGE_HOST');
             foreach($brand as &$v)
             {
                 $v['logo_old'] = $v['logo'];
-                $v['logo'] = empty($v['logo']) ? null : $images_host.$v['logo'];
+                $v['logo'] = empty($v['logo']) ? null : $image_host.$v['logo'];
                 $v['website_url'] = empty($v['website_url']) ? null : $v['website_url'];
             }
         }

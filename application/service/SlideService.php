@@ -56,6 +56,7 @@ class SlideService
                 // 图片地址
                 if(isset($v['images_url']))
                 {
+                    $v['images_url_old'] = $v['images_url'];
                     $v['images_url'] =  empty($v['images_url']) ? '' : $image_host.$v['images_url'];
                 }
 

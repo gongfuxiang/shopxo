@@ -4,22 +4,22 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation view-save" action="{{:url('Admin/AppMiniAlipayConfig/Save')}}" method="POST" request-type="ajax-url" request-value="{{:url('Admin/AppMiniAlipayConfig/Index')}}">
+		<form class="am-form form-validation view-save" action="{{:url('admin/appminialipayconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:url('admin/appminialipayconfig/index')}}">
 			<div class="am-form-group">
 				<label>{{$data.common_app_mini_alipay_appid.name}}</label>
 				<input type="text" name="{{$data.common_app_mini_alipay_appid.only_tag}}" placeholder="{{$data.common_app_mini_alipay_appid.name}}" data-validation-message="{{$data.common_app_mini_alipay_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_appid.value}}"{{/if}} required />
 			</div>
 			<div class="am-form-group">
 				<label>{{$data.common_app_mini_alipay_rsa_public.name}}</label>
-				<textarea rows="3" name="{{$data.common_app_mini_alipay_rsa_public.only_tag}}" class="am-radius" placeholder="{{$data.common_app_mini_alipay_rsa_public.name}}" data-validation-message="{{$data.common_app_mini_alipay_rsa_public.error_tips}}"><present name="data">{{$data.common_app_mini_alipay_rsa_public.value}}{{/if}}</textarea>
+				<textarea rows="3" name="{{$data.common_app_mini_alipay_rsa_public.only_tag}}" class="am-radius" placeholder="{{$data.common_app_mini_alipay_rsa_public.name}}" data-validation-message="{{$data.common_app_mini_alipay_rsa_public.error_tips}}">{{if !empty($data)}}{{$data.common_app_mini_alipay_rsa_public.value}}{{/if}}</textarea>
 			</div>
 			<div class="am-form-group">
 				<label>{{$data.common_app_mini_alipay_rsa_private.name}}</label>
-				<textarea rows="3" name="{{$data.common_app_mini_alipay_rsa_private.only_tag}}" class="am-radius" placeholder="{{$data.common_app_mini_alipay_rsa_private.name}}" data-validation-message="{{$data.common_app_mini_alipay_rsa_private.error_tips}}"><present name="data">{{$data.common_app_mini_alipay_rsa_private.value}}{{/if}}</textarea>
+				<textarea rows="3" name="{{$data.common_app_mini_alipay_rsa_private.only_tag}}" class="am-radius" placeholder="{{$data.common_app_mini_alipay_rsa_private.name}}" data-validation-message="{{$data.common_app_mini_alipay_rsa_private.error_tips}}">{{if !empty($data)}}{{$data.common_app_mini_alipay_rsa_private.value}}{{/if}}</textarea>
 			</div>
 			<div class="am-form-group">
 				<label>{{$data.common_app_mini_alipay_out_rsa_public.name}}</label>
-				<textarea rows="3" name="{{$data.common_app_mini_alipay_out_rsa_public.only_tag}}" class="am-radius" placeholder="{{$data.common_app_mini_alipay_out_rsa_public.name}}" data-validation-message="{{$data.common_app_mini_alipay_out_rsa_public.error_tips}}"><present name="data">{{$data.common_app_mini_alipay_out_rsa_public.value}}{{/if}}</textarea>
+				<textarea rows="3" name="{{$data.common_app_mini_alipay_out_rsa_public.only_tag}}" class="am-radius" placeholder="{{$data.common_app_mini_alipay_out_rsa_public.name}}" data-validation-message="{{$data.common_app_mini_alipay_out_rsa_public.error_tips}}">{{if !empty($data)}}{{$data.common_app_mini_alipay_out_rsa_public.value}}{{/if}}</textarea>
 			</div>
 
 			<div class="am-form-group">

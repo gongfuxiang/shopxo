@@ -1,0 +1,9 @@
+.am-tabs-pane-wrap {
+  width: 100vw;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.fix .am-tabs-pane-wrap {
+  position: static;
+}

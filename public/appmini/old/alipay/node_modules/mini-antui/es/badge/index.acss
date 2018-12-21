@@ -1,0 +1,41 @@
+.am-badge {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.am-badge-text {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  transform: translate(50%, -50%);
+  top: 0px;
+  min-width: 16px;
+  padding: 0;
+  height: 16px;
+  line-height: 16px;
+  text-align: center;
+  background-color: #FF3B30;
+  border-radius: 16px;
+  color: #fff;
+  font-size: 10px;
+}
+
+.am-badge-text.am-badge-double {
+  padding: 0 4px;
+}
+
+.am-badge-not-a-wrapper .am-badge-text {
+  position: relative;
+  top: auto;
+  right: auto;
+  transform: translateX(0);
+}
+
+.am-badge-text.is-dot {
+  padding: 0;
+  width: 10px;
+  min-width: 10px;
+  height: 10px;
+}

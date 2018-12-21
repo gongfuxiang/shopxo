@@ -4,20 +4,20 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation view-save" action="{{:url('Admin/AppConfig/Save')}}" method="POST" request-type="ajax-url" request-value="{{:url('Admin/AppConfig/Index')}}">
+		<form class="am-form form-validation view-save" action="{{:url('admin/appconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:url('admin/appconfig/index')}}">
 			<div class="am-form-group">
 				<label>{{$data.common_app_is_enable_search.name}}</label>
 				<select name="{{$data.common_app_is_enable_search.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.common_app_is_enable_search.error_tips}}" required>
-					<foreach name="common_is_text_list" item="v">
-						<option value="{{$v.id}}" {{if isset($data['common_app_is_enable_search']['value']) and $data['common_app_is_enable_search']['value'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
+					{{foreach $common_is_text_list as $v}}
+						<option value="{{$v.id}}" {{if isset($data['common_app_is_enable_search']['value']) and $data['common_app_is_enable_search']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
 					{{/foreach}}
 				</select>
 			</div>
 			<div class="am-form-group">
 				<label>{{$data.common_app_is_enable_answer.name}}</label>
 				<select name="{{$data.common_app_is_enable_answer.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.common_app_is_enable_answer.error_tips}}" required>
-					<foreach name="common_is_text_list" item="v">
-						<option value="{{$v.id}}" {{if isset($data['common_app_is_enable_answer']['value']) and $data['common_app_is_enable_answer']['value'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
+					{{foreach $common_is_text_list as $v}}
+						<option value="{{$v.id}}" {{if isset($data['common_app_is_enable_answer']['value']) and $data['common_app_is_enable_answer']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
 					{{/foreach}}
 				</select>
 			</div>

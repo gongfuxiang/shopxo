@@ -47,7 +47,7 @@ class Brand extends Common
         $number = 10;
 
         // 条件
-        $where = BrandService::BrandListListWhere($params);
+        $where = BrandService::BrandListWhere($params);
 
         // 获取总数
         $total = BrandService::BrandTotal($where);
@@ -179,7 +179,7 @@ class Brand extends Common
      */
     public function StatusUpdate()
     {
-       // 是否ajax请求
+        // 是否ajax请求
         if(!IS_AJAX)
         {
             return $this->error('非法访问');
