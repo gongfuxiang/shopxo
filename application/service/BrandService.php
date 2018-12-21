@@ -387,8 +387,8 @@ class BrandService
             foreach($data as &$v)
             {
                 $v['is_son']            =   (db('BrandCategory')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
-                $v['ajax_url']          =   url('admin/goodscategory/getnodeson', array('id'=>$v['id']));
-                $v['delete_url']        =   url('admin/goodscategory/delete');
+                $v['ajax_url']          =   url('admin/brandcategory/getnodeson', array('id'=>$v['id']));
+                $v['delete_url']        =   url('admin/brandcategory/delete');
                 $v['json']              =   json_encode($v);
             }
             return DataReturn('操作成功', 0, $data);
@@ -478,7 +478,7 @@ class BrandService
         }
 
         // 开始删除
-        if(db('GoodsCategory')->where(['id'=>intval($params['id'])])->delete())
+        if(db('BrandCategory')->where(['id'=>intval($params['id'])])->delete())
         {
             return DataReturn('删除成功', 0);
         }
