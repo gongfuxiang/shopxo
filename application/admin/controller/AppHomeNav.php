@@ -44,7 +44,7 @@ class AppHomeNav extends Common
         $params = input();
 
         // 分页
-        $number = MyC('admin_page_number', 10, true);;
+        $number = MyC('admin_page_number', 10, true);
 
         // 条件
         $where = AppNavService::AppHomeNavListWhere($params);

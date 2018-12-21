@@ -1,6 +1,9 @@
 <?php
 namespace app\service;
 
+use think\Db;
+use app\service\ResourcesService;
+
 /**
  * 支付宝生活号服务层
  * @author   Devil
@@ -40,7 +43,7 @@ class AlipayLifeService
 
         // 开始处理业务
         $status = false;
-        $m = db('AlipayLifeMessage');
+        $m = Db::name('AlipayLifeMessage');
         if(empty($params['id']))
         {
             $data['add_time'] = time();
@@ -105,7 +108,7 @@ class AlipayLifeService
                 $data['image_url'] = $ret['data']['url'];
 
                 // 图片上传至支付宝
-                $alipay_life_message = db('AlipayLifeMessage')->find($data['alipay_life_message_id']);
+                $alipay_life_message = Db::name('AlipayLifeMessage')->find($data['alipay_life_message_id']);
                 if(!empty($alipay_life_message))
                 {
                     if($alipay_life_message['send_type'] == 1 && !empty($alipay_life_message['alipay_life_ids']))
@@ -113,14 +116,14 @@ class AlipayLifeService
                         $alipay_life_ids = json_decode($alipay_life_message['alipay_life_ids'], true);
                         $alipay_life_id = isset($alipay_life_ids[0]) ? $alipay_life_ids[0] : '';
                     } else {
-                        $alipay_life_id = db('AlipayLifeUser')->where(['id'=>$alipay_life_message['alipay_life_user_id']])->value('alipay_life_id');
+                        $alipay_life_id = Db::name('AlipayLifeUser')->where(['id'=>$alipay_life_message['alipay_life_user_id']])->value('alipay_life_id');
                     }
                 } else {
                     return DataReturn('消息主数据有误', -5);
                 }
                 if(!empty($alipay_life_id))
                 {
-                    $obj = new \Library\AlipayLife(['life_data'=>db('AlipayLife')->find($alipay_life_id)]);
+                    $obj = new \Library\AlipayLife(['life_data'=>Db::name('AlipayLife')->find($alipay_life_id)]);
                     $res = $obj->UploadImage(['file'=>ROOT_PATH.substr($data['image_url'], 1)]);
                     if($res['status'] != 0)
                     {
@@ -135,7 +138,7 @@ class AlipayLifeService
 
         // 开始处理业务
         $status = false;
-        $m = db('AlipayLifeMessageContent');
+        $m = Db::name('AlipayLifeMessageContent');
         if(empty($params['id']))
         {
             $data['add_time'] = time();
@@ -257,7 +260,7 @@ class AlipayLifeService
         }
 
         // 主数据
-        $message = db('AlipayLifeMessage')->find($params['message_id']);
+        $message = Db::name('AlipayLifeMessage')->find($params['message_id']);
         if(empty($message))
         {
             return DataReturn('消息数据不存在', -1);
@@ -311,7 +314,7 @@ class AlipayLifeService
     {
         if(!empty($params['appid']))
         {
-            return db('AlipayLife')->where(['appid'=>$params['appid']])->find();
+            return Db::name('AlipayLife')->where(['appid'=>$params['appid']])->find();
         }
         return null;
     }
@@ -331,10 +334,10 @@ class AlipayLifeService
         if(!empty($params['alipay_openid']))
         {
             $life = self::AppidLifeRow($params);
-            $user = db('User')->where(['alipay_openid'=>$params['alipay_openid']])->find();
+            $user = Db::name('User')->where(['alipay_openid'=>$params['alipay_openid']])->find();
             if(!empty($life) && !empty($user))
             {
-                return db('AlipayLifeUser')->where(['user_id'=>$user['id'], 'alipay_life_id'=>$life['id']])->delete() !== false;
+                return Db::name('AlipayLifeUser')->where(['user_id'=>$user['id'], 'alipay_life_id'=>$life['id']])->delete() !== false;
             }
         }
         return false;
@@ -355,7 +358,7 @@ class AlipayLifeService
         $life = self::AppidLifeRow($params);
         if(!empty($params['alipay_openid']) && !empty($life))
         {
-            $user = db('User')->where(['alipay_openid'=>$params['alipay_openid']])->find();
+            $user = Db::name('User')->where(['alipay_openid'=>$params['alipay_openid']])->find();
             if(empty($user))
             {
                 $data = [
@@ -363,7 +366,7 @@ class AlipayLifeService
                     'nickname'          => isset($params['user_name']) ? $params['user_name'] : '',
                     'add_time'          => time(),
                 ];
-                $user_id = db('User')->insertGetId($data);
+                $user_id = Db::name('User')->insertGetId($data);
             } else {
                 $user_id = $user['id'];
             }
@@ -373,13 +376,13 @@ class AlipayLifeService
                     'user_id'       => $user_id,
                     'alipay_life_id'=> $life['id'],
                 ];
-                $life_user = db('AlipayLifeUser')->where($life_user_data)->find();
+                $life_user = Db::name('AlipayLifeUser')->where($life_user_data)->find();
                 if(empty($life_user))
                 {
                     $life_user_data['add_time'] = time();
-                    return db('AlipayLifeUser')->insertGetId($life_user_data) > 0;
+                    return Db::name('AlipayLifeUser')->insertGetId($life_user_data) > 0;
                 } else {
-                    return db('AlipayLifeUser')->where($life_user_data)->update(['enter_count'=>$life_user['enter_count']+1, 'upd_time'=>time()]) !== false;
+                    return Db::name('AlipayLifeUser')->where($life_user_data)->update(['enter_count'=>$life_user['enter_count']+1, 'upd_time'=>time()]) !== false;
                 }
             }
         }
@@ -412,7 +415,7 @@ class AlipayLifeService
         }
 
         // 获取数据
-        $m = db('AlipayLifeMessage');
+        $m = Db::name('AlipayLifeMessage');
         $data = $m->find(intval($params['id']));
         if(empty($data))
         {
@@ -425,7 +428,7 @@ class AlipayLifeService
         }
 
         // 获取数据内容
-        $content_count = (int) db('AlipayLifeMessageContent')->where(['alipay_life_message_id'=>$data['id']])->count();
+        $content_count = (int) Db::name('AlipayLifeMessageContent')->where(['alipay_life_message_id'=>$data['id']])->count();
         if(empty($content_count))
         {
             return DataReturn('消息内容不能为空', -1);
@@ -461,12 +464,12 @@ class AlipayLifeService
                 ];
             }
         } else {
-            $alipay_openid = db('User')->where(['id'=>$data['user_id']])->value('alipay_openid');
+            $alipay_openid = Db::name('User')->where(['id'=>$data['user_id']])->value('alipay_openid');
             if(!empty($alipay_openid))
             {
                 $detail[] = [
                     'user_id'               => $data['user_id'],
-                    'alipay_life_id'        => db('AlipayLifeUser')->where(['id'=>$data['alipay_life_user_id']])->value('alipay_life_id'),
+                    'alipay_life_id'        => Db::name('AlipayLifeUser')->where(['id'=>$data['alipay_life_user_id']])->value('alipay_life_id'),
                     'alipay_life_user_id'   => $data['alipay_life_user_id'],
                     'alipay_openid'         => $alipay_openid,
                     'alipay_life_message_id'=> $data['id'],
@@ -477,7 +480,7 @@ class AlipayLifeService
 
         // 入库详情表
         $m->startTrans();
-        if(db('AlipayLifeMessageDetail')->addAll($detail) !== false)
+        if(Db::name('AlipayLifeMessageDetail')->addAll($detail) !== false)
         {
             if($m->where(['id'=>$data['id']])->update(['status'=>1, 'startup_time'=>time(), 'upd_time'=>time()]) !== false)
             {
@@ -527,7 +530,7 @@ class AlipayLifeService
         echo '[data:'.$params['message_id']."]\n";
 
         // 开始处理
-        $m = db('AlipayLifeMessage');
+        $m = Db::name('AlipayLifeMessage');
         $data = $m->find($params['message_id']);
         if(empty($data))
         {
@@ -543,25 +546,25 @@ class AlipayLifeService
         {
             $alipay_life_all = json_decode($data['alipay_life_ids'], true);
         } else {
-            $alipay_life_all = [db('AlipayLifeUser')->where(['id'=>$data['alipay_life_user_id']])->value('alipay_life_id')];
+            $alipay_life_all = [Db::name('AlipayLifeUser')->where(['id'=>$data['alipay_life_user_id']])->value('alipay_life_id')];
         }
 
         // 消息内容
-        $data['content'] = db('AlipayLifeMessageContent')->field('id,title,content,out_image_url,url,action_name')->where(['alipay_life_message_id'=>$data['id']])->select();
+        $data['content'] = Db::name('AlipayLifeMessageContent')->field('id,title,content,out_image_url,url,action_name')->where(['alipay_life_message_id'=>$data['id']])->select();
         if(empty($data['content']))
         {
             die('[time:'.date('Y-m-d H:i:s')."][msg:{$data['id']}消息内容为空]\n\n");
         }
 
         // 获取消息详情
-        $detail_m = db('AlipayLifeMessageDetail');
+        $detail_m = Db::name('AlipayLifeMessageDetail');
         $detail = $detail_m->where(['alipay_life_message_id'=>$data['id'], 'status'=>0])->limit(30)->select();
         if(!empty($detail))
         {
             foreach($detail as $v)
             {
                 // 生活号
-                $life = db('AlipayLife')->find($v['alipay_life_id']);
+                $life = Db::name('AlipayLife')->find($v['alipay_life_id']);
                 $obj = new \Library\AlipayLife(['life_data'=>$life]);
 
                 // 群发
@@ -631,7 +634,7 @@ class AlipayLifeService
         }
 
         // 查询数据
-        $data = db('AlipayLife')->alias('l')->join(' INNER JOIN __ALIPAY_LIFE_CATEGORY_JOIN__ AS lc ON l.id=lc.alipay_life_id')->field('l.id,l.name')->group('l.id')->where($where)->select();
+        $data = Db::name('AlipayLife')->alias('l')->join(' INNER JOIN __ALIPAY_LIFE_CATEGORY_JOIN__ AS lc ON l.id=lc.alipay_life_id')->field('l.id,l.name')->group('l.id')->where($where)->select();
 
         if(empty($data))
         {
@@ -662,7 +665,7 @@ class AlipayLifeService
         $where = ['alipay_life_message_id' => intval($params['message_id'])];
 
         // 列表
-        $data = db('AlipayLifeMessageDetail')->where($where)->order('id desc')->select();
+        $data = Db::name('AlipayLifeMessageDetail')->where($where)->order('id desc')->select();
         if(!empty($data))
         {
             $common_send_status_list = lang('common_send_status_list');
@@ -672,10 +675,10 @@ class AlipayLifeService
                 $v['status_name'] = $common_send_status_list[$v['status']]['name'];
 
                 // 生活号
-                $v['alipay_life_name'] = empty($v['alipay_life_id']) ? '' : db('AlipayLife')->where(['id'=>$v['alipay_life_id']])->value('name');
+                $v['alipay_life_name'] = empty($v['alipay_life_id']) ? '' : Db::name('AlipayLife')->where(['id'=>$v['alipay_life_id']])->value('name');
 
                 // 用户
-                $v['alipay_openid'] = empty($v['user_id']) ? '' :  db('User')->where(['id'=>$v['user_id']])->value('alipay_openid');
+                $v['alipay_openid'] = empty($v['user_id']) ? '' :  Db::name('User')->where(['id'=>$v['user_id']])->value('alipay_openid');
 
                 // 时间
                 $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
@@ -718,11 +721,10 @@ class AlipayLifeService
         }
 
         // 数据更新
-        $m = db('AlipayLife');
-        $m->startTrans();
-        if($m->where(array('id'=>$params['alipay_life_id']))->update(array('is_shelves'=>$params['status'], 'upd_time'=>time())))
+        Db::startTrans();
+        if(Db::name('AlipayLife')->where(['id'=>$params['alipay_life_id']])->update(['is_shelves'=>$params['status'], 'upd_time'=>time()]))
         {
-            $obj = new \Library\AlipayLife(['life_data'=>$m->find($params['alipay_life_id'])]);
+            $obj = new \base\AlipayLife(['life_data'=>Db::name('AlipayLife')->find($params['alipay_life_id'])]);
             if($params['status'] == 1)
             {
                 $ret = $obj->LifeAboard();
@@ -731,15 +733,15 @@ class AlipayLifeService
             }
             if($ret['status'] == 0)
             {
-                $m->commit();
+                Db::commit();
                 return DataReturn('编辑成功', 0);
             } else {
-                $m->rollback();
+                Db::rollback();
                 return DataReturn($ret['msg'], -100);
             }
         }
 
-        $m->rollback();
+        Db::rollback();
         return DataReturn('编辑失败或数据未改变', -100);
     }
 
@@ -793,7 +795,7 @@ class AlipayLifeService
 
         // 开始处理业务
         $status = false;
-        $m = db('AlipayLifeMenu');
+        $m = Db::name('AlipayLifeMenu');
         if(empty($params['id']))
         {
             $data['add_time'] = time();
@@ -859,7 +861,7 @@ class AlipayLifeService
                 $data['icon'] = $ret['data']['url'];
 
                 // 图片上传至支付宝
-                $alipay_life_menu = db('AlipayLifeMenu')->find($data['alipay_life_menu_id']);
+                $alipay_life_menu = Db::name('AlipayLifeMenu')->find($data['alipay_life_menu_id']);
                 if(!empty($alipay_life_menu))
                 {
                     if(!empty($alipay_life_menu['alipay_life_ids']))
@@ -867,7 +869,7 @@ class AlipayLifeService
                         $alipay_life_ids = json_decode($alipay_life_menu['alipay_life_ids'], true);
                         $alipay_life_id = isset($alipay_life_ids[0]) ? $alipay_life_ids[0] : '';
 
-                        $obj = new \Library\AlipayLife(['life_data'=>db('AlipayLife')->find($alipay_life_id)]);
+                        $obj = new \Library\AlipayLife(['life_data'=>Db::name('AlipayLife')->find($alipay_life_id)]);
                         $res = $obj->UploadImage(['file'=>ROOT_PATH.substr($data['icon'], 1)]);
                         if($res['status'] != 0)
                         {
@@ -885,7 +887,7 @@ class AlipayLifeService
 
         // 开始处理业务
         $status = false;
-        $m = db('AlipayLifeMenuContent');
+        $m = Db::name('AlipayLifeMenuContent');
         if(empty($params['id']))
         {
             $data['add_time'] = time();
@@ -952,7 +954,7 @@ class AlipayLifeService
         }
 
         // 主数据
-        $menu = db('AlipayLifeMenu')->find($params['menu_id']);
+        $menu = Db::name('AlipayLifeMenu')->find($params['menu_id']);
         if(empty($menu))
         {
             return DataReturn('消息数据不存在', -1);
@@ -1018,7 +1020,7 @@ class AlipayLifeService
         }
 
         // 获取数据
-        $m = db('AlipayLifeMenu');
+        $m = Db::name('AlipayLifeMenu');
         $data = $m->find(intval($params['id']));
         if(empty($data))
         {
@@ -1031,7 +1033,7 @@ class AlipayLifeService
         }
 
         // 获取数据内容
-        $content_list = db('AlipayLifeMenuContent')->field('id,name')->where(['alipay_life_menu_id'=>$data['id'], 'pid'=>0])->select();
+        $content_list = Db::name('AlipayLifeMenuContent')->field('id,name')->where(['alipay_life_menu_id'=>$data['id'], 'pid'=>0])->select();
         if(empty($content_list))
         {
             return DataReturn('菜单数据不能为空', -1);
@@ -1049,7 +1051,7 @@ class AlipayLifeService
                 // 子集校验
                 foreach($content_list as $v)
                 {
-                    $temp_count = db('AlipayLifeMenuContent')->where(['pid'=>$v['id']])->count();
+                    $temp_count = Db::name('AlipayLifeMenuContent')->where(['pid'=>$v['id']])->count();
                     if($temp_count > 5)
                     {
                         return DataReturn('['.$v['name'].']二级菜单不能超过5个', -1);
@@ -1079,14 +1081,14 @@ class AlipayLifeService
 
         // 入库详情表
         $m->startTrans();
-        if(db('AlipayLifeMenuDetail')->addAll($detail) !== false)
+        if(Db::name('AlipayLifeMenuDetail')->addAll($detail) !== false)
         {
             $upd_data = [
                 'status'            => 1,
                 'startup_time'      => time(),
                 'upd_time'          => time()
             ];
-            $status = db('AlipayLifeMenu')->where(['id'=>$data['id']])->update($upd_data);
+            $status = Db::name('AlipayLifeMenu')->where(['id'=>$data['id']])->update($upd_data);
             if($status !== false)
             {
                 $m->commit();
@@ -1119,7 +1121,7 @@ class AlipayLifeService
         echo '[data:'.$params['menu_id']."]\n";
 
         // 开始处理
-        $m = db('AlipayLifeMenu');
+        $m = Db::name('AlipayLifeMenu');
         $data = $m->find($params['menu_id']);
         if(empty($data))
         {
@@ -1132,7 +1134,7 @@ class AlipayLifeService
 
         // 消息内容
         $field = 'id,pid,name,action_type,action_value,out_icon';
-        $data['content'] = db('AlipayLifeMenuContent')->field($field)->where(['alipay_life_menu_id'=>$data['id'], 'pid'=>0])->order('sort asc')->select();
+        $data['content'] = Db::name('AlipayLifeMenuContent')->field($field)->where(['alipay_life_menu_id'=>$data['id'], 'pid'=>0])->order('sort asc')->select();
         if(empty($data['content']))
         {
             die('[time:'.date('Y-m-d H:i:s')."][msg:{$data['id']}菜单内容为空]\n\n");
@@ -1148,7 +1150,7 @@ class AlipayLifeService
             // 是否需要读取子集
             if($data['type'] == 0)
             {
-                $items = db('AlipayLifeMenuContent')->field($field)->where(['pid'=>$v['id']])->order('sort asc')->select();
+                $items = Db::name('AlipayLifeMenuContent')->field($field)->where(['pid'=>$v['id']])->order('sort asc')->select();
                 if(!empty($items))
                 {
                     foreach($items as &$vs)
@@ -1162,14 +1164,14 @@ class AlipayLifeService
         }
 
         // 生活号循环处理
-        $detail_m = db('AlipayLifeMenuDetail');
+        $detail_m = Db::name('AlipayLifeMenuDetail');
         $detail = $detail_m->where(['alipay_life_menu_id'=>$data['id'], 'status'=>0])->limit(10)->select();
         if(!empty($detail))
         {
             foreach($detail as $d)
             {
                 // 生活号
-                $life = db('AlipayLife')->find($d['alipay_life_id']);
+                $life = Db::name('AlipayLife')->find($d['alipay_life_id']);
 
                 // 请求接口处理
                 $obj = new \Library\AlipayLife(['life_data'=>$life]);
@@ -1220,7 +1222,7 @@ class AlipayLifeService
         $where = ['alipay_life_menu_id' => intval($params['menu_id'])];
 
         // 列表
-        $data = db('AlipayLifeMenuDetail')->where($where)->order('id desc')->select();
+        $data = Db::name('AlipayLifeMenuDetail')->where($where)->order('id desc')->select();
         if(!empty($data))
         {
             $common_release_status_list = lang('common_release_status_list');
@@ -1230,7 +1232,7 @@ class AlipayLifeService
                 $v['status_name'] = $common_release_status_list[$v['status']]['name'];
 
                 // 生活号
-                $v['alipay_life_name'] = empty($v['alipay_life_id']) ? '' : db('AlipayLife')->where(['id'=>$v['alipay_life_id']])->value('name');
+                $v['alipay_life_name'] = empty($v['alipay_life_id']) ? '' : Db::name('AlipayLife')->where(['id'=>$v['alipay_life_id']])->value('name');
 
                 // 时间
                 $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
@@ -1292,7 +1294,7 @@ class AlipayLifeService
 
         // 开始处理业务
         $status = false;
-        $m = db('AlipayLifeStatus');
+        $m = Db::name('AlipayLifeStatus');
         if(empty($params['id']))
         {
             $data['add_time'] = time();
@@ -1343,7 +1345,7 @@ class AlipayLifeService
         }
 
         // 获取数据
-        $m = db('AlipayLifeStatus');
+        $m = Db::name('AlipayLifeStatus');
         $data = $m->find(intval($params['id']));
         if(empty($data))
         {
@@ -1369,7 +1371,7 @@ class AlipayLifeService
 
         // 入库详情表
         $m->startTrans();
-        if(db('AlipayLifeStatusDetail')->addAll($detail) !== false)
+        if(Db::name('AlipayLifeStatusDetail')->addAll($detail) !== false)
         {
             $upd_data = [
                 'status'            => 1,
@@ -1409,7 +1411,7 @@ class AlipayLifeService
         echo '[menu:'.$params['status_id']."]\n";
 
         // 开始处理
-        $m = db('AlipayLifeStatus');
+        $m = Db::name('AlipayLifeStatus');
         $data = $m->find($params['status_id']);
         if(empty($data))
         {
@@ -1421,9 +1423,9 @@ class AlipayLifeService
         }
 
         // 生活号循环处理
-        $detail_m = db('AlipayLifeStatusDetail');
+        $detail_m = Db::name('AlipayLifeStatusDetail');
         $detail = $detail_m->where(['alipay_life_status_id'=>$data['id'], 'status'=>0])->limit(10)->select();
-        $life_m = db('AlipayLife');
+        $life_m = Db::name('AlipayLife');
         if(!empty($detail))
         {
             foreach($detail as $v)
@@ -1496,7 +1498,7 @@ class AlipayLifeService
         $where = ['alipay_life_status_id' => intval($params['status_id'])];
 
         // 列表
-        $data = db('AlipayLifeStatusDetail')->where($where)->order('id desc')->select();
+        $data = Db::name('AlipayLifeStatusDetail')->where($where)->order('id desc')->select();
         if(!empty($data))
         {
             $common_handle_status_list = lang('common_handle_status_list');
@@ -1506,7 +1508,7 @@ class AlipayLifeService
                 $v['status_name'] = $common_handle_status_list[$v['status']]['name'];
 
                 // 生活号
-                $v['alipay_life_name'] = empty($v['alipay_life_id']) ? '' : db('AlipayLife')->where(['id'=>$v['alipay_life_id']])->value('name');
+                $v['alipay_life_name'] = empty($v['alipay_life_id']) ? '' : Db::name('AlipayLife')->where(['id'=>$v['alipay_life_id']])->value('name');
 
                 // 时间
                 $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
@@ -1515,6 +1517,340 @@ class AlipayLifeService
             }
         }
         return $data;
+    }
+
+    /**
+     * 生活号列表
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function AlipayLifeList($params = [])
+    {
+        $where = empty($params['where']) ? [] : $params['where'];
+        $field = empty($params['field']) ? 'a.*' : $params['field'];
+        $order_by = empty($params['order_by']) ? 'a.id desc' : trim($params['order_by']);
+
+        $m = isset($params['m']) ? intval($params['m']) : 0;
+        $n = isset($params['n']) ? intval($params['n']) : 10;
+
+        // 获取品牌列表
+        $data = Db::name('AlipayLife')->alias('a')->field($field)->join(['__ALIPAY_LIFE_CATEGORY_JOIN__'=>'cj'], 'a.id=cj.alipay_life_id')->where($where)->limit($m, $n)->order($order_by)->group('a.id')->select();
+        if(!empty($data))
+        {
+            $common_is_enable_tips = lang('common_is_enable_tips');
+            $image_host = config('IMAGE_HOST');
+            foreach($data as &$v)
+            {
+                // 是否启用
+                if(isset($v['is_enable']))
+                {
+                    $v['is_enable_text'] = $common_is_enable_tips[$v['is_enable']]['name'];
+                }
+
+                // 分类名称
+                $category_ids = Db::name('AlipayLifeCategoryJoin')->where(['alipay_life_id'=>$v['id']])->column('alipay_life_category_id');
+                $v['alipay_life_category_text'] = Db::name('AlipayLifeCategory')->where(['id'=>$category_ids])->column('name');
+
+                // logo
+                if(isset($v['logo']))
+                {
+                    $v['logo_old'] = $v['logo'];
+                    $v['logo'] =  empty($v['logo']) ? '' : $image_host.$v['logo'];
+                }
+
+                // 时间
+                if(isset($v['add_time']))
+                {
+                    $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                    $v['add_time_date'] = date('Y-m-d', $v['add_time']);
+                }
+                if(isset($v['upd_time']))
+                {
+                    $v['upd_time_time'] = date('Y-m-d H:i:s', $v['upd_time']);
+                    $v['upd_time_date'] = date('Y-m-d', $v['upd_time']);
+                }
+            }
+        }
+        return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
+     * 生活号总数
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-10T22:16:29+0800
+     * @param    [array]          $where [条件]
+     */
+    public static function AlipayLifeTotal($where)
+    {
+        return (int) Db::name('AlipayLife')->alias('a')->join(['__ALIPAY_LIFE_CATEGORY_JOIN__'=>'cj'], 'a.id=cj.alipay_life_id')->where($where)->count();
+    }
+
+    /**
+     * 生活号列表条件
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function AlipayLifeListWhere($params = [])
+    {
+        $where = [];
+
+        if(!empty($params['keywords']))
+        {
+            $where[] = ['a.name', 'like', '%'.$params['keywords'].'%'];
+        }
+
+        // 是否更多条件
+        if(isset($params['is_more']) && $params['is_more'] == 1)
+        {
+            // 等值
+            if(isset($params['is_shelves']) && $params['is_shelves'] > -1)
+            {
+                $where[] = ['a.is_shelves', '=', intval($params['is_shelves'])];
+            }
+            if(isset($params['alipay_life_category_id']) && $params['alipay_life_category_id'] > -1)
+            {
+                $where[] = ['cj.alipay_life_category_id', '=', intval($params['alipay_life_category_id'])];
+            }
+
+            if(!empty($params['time_start']))
+            {
+                $where[] = ['a.add_time', '>', strtotime($params['time_start'])];
+            }
+            if(!empty($params['time_end']))
+            {
+                $where[] = ['a.add_time', '<', strtotime($params['time_end'])];
+            }
+        }
+
+        return $where;
+    }
+
+    /**
+     * 生活号保存
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-18
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function AlipayLifeSave($params = [])
+    {
+        // 请求类型
+        $p = [
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'name',
+                'checked_data'      => '2,30',
+                'error_msg'         => '名称格式 2~30 个字符',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'alipay_life_category_id',
+                'error_msg'         => '请选择生活号分类',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'appid',
+                'checked_data'      => '1,60',
+                'error_msg'         => 'appid格式 1~60 个字符',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'out_rsa_public',
+                'checked_data'      => '1,2000',
+                'error_msg'         => '应用公钥格式 1~2000 个字符',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'rsa_private',
+                'checked_data'      => '1,2000',
+                'error_msg'         => '应用私钥格式 1~2000 个字符',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'out_rsa_public',
+                'checked_data'      => '1,2000',
+                'error_msg'         => '支付宝公钥格式 1~2000 个字符',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 附件
+        $data_fields = ['logo'];
+        $attachment = ResourcesService::AttachmentParams($params, $data_fields);
+
+        // 数据
+        $data = [
+            'name'              => $params['name'],
+            'appid'             => $params['appid'],
+            'logo'              => $attachment['data']['logo'],
+            'rsa_public'        => empty($params['rsa_public']) ? '' : $params['rsa_public'],
+            'rsa_private'       => empty($params['rsa_private']) ? '' : $params['rsa_private'],
+            'out_rsa_public'    => empty($params['out_rsa_public']) ? '' : $params['out_rsa_public'],
+        ];
+
+        // 开启事务
+        Db::startTrans();
+        if(empty($params['id']))
+        {
+            $data['add_time'] = time();
+            $alipay_life_id = Db::name('AlipayLife')->insertGetId($data);
+            if($alipay_life_id > 0)
+            {
+                $ret = self::AlipayLifeCategoryInsert($params, $alipay_life_id);
+                if($ret['code'] != 0)
+                {
+                    Db::rollback();
+                    return $ret;
+                }
+
+                Db::commit();
+                return DataReturn('添加成功', 0);
+            }
+
+            Db::rollback();
+            return DataReturn('添加失败', -100);
+        } else {
+            $data['upd_time'] = time();
+            if(Db::name('AlipayLife')->where(['id'=>intval($params['id'])])->update($data))
+            {
+                $ret = self::AlipayLifeCategoryInsert($params, intval($params['id']));
+                if($ret['code'] != 0)
+                {
+                    Db::rollback();
+                    return $ret;
+                }
+
+                Db::commit();
+                return DataReturn('编辑成功', 0);
+            }
+
+            Db::rollback();
+            return DataReturn('编辑失败', -100); 
+        }
+    }
+
+    /**
+     * 生活号分类添加
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-21
+     * @desc    description
+     * @param   [array]           $params         [输入参数]
+     * @param   [array]           $alipay_life_id [生活号id]
+     */
+    private static function AlipayLifeCategoryInsert($params = [], $alipay_life_id)
+    {
+        // 删除关联分类
+        Db::name('AlipayLifeCategoryJoin')->where(['alipay_life_id'=>intval($params['id'])])->delete();
+
+        // 开始添加
+        if(!empty($params['alipay_life_category_id']))
+        {
+            $data = [];
+            foreach(explode(',', $params['alipay_life_category_id']) as $v)
+            {
+                $data[] = [
+                    'alipay_life_id'            => $alipay_life_id,
+                    'alipay_life_category_id'   => $v,
+                    'add_time'                  => time(),
+                ];
+            }
+            if(Db::name('AlipayLifeCategoryJoin')->insertAll($data) < count($data))
+            {
+                return DataReturn('生活号分类添加失败', -10);
+            }
+        }
+        return DataReturn('生活号分类添加成功', 0);
+    }
+
+    /**
+     * 生活号删除
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-18
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function AlipayLifeDelete($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '操作id有误',
+            ],
+        ];
+        $ret = params_checked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 删除操作
+        Db::startTrans();
+        if(Db::name('AlipayLife')->where(['id'=>intval($params['id'])])->delete() && Db::name('AlipayLifeCategoryJoin')->where(['alipay_life_id'=>intval($params['id'])])->delete() !== false)
+        {
+            Db::commit();
+            return DataReturn('删除成功');
+        }
+
+        Db::rollback();
+        return DataReturn('删除失败或资源不存在', -100);
+    }
+
+    /**
+     * 生活号分类
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-08-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function AlipayLifeCategoryList($params = [])
+    {
+        $where = empty($params['where']) ? ['is_enable'=>1] : $params['where'];
+        $field = empty($params['field']) ? '*' : $params['field'];
+        $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
+
+        $data = Db::name('AlipayLifeCategory')->where($where)->field($field)->order($order_by)->select();
+        
+        return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
+     * 生活号分类id
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-08-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function AlipayLifeCategoryIds($params = [])
+    {
+        $where = empty($params['where']) ? [] : $params['where'];
+        $field = empty($params['alipay_life_category_id']) ? 'alipay_life_category_id' : $params['field'];
+        $data = Db::name('AlipayLifeCategoryJoin')->where($where)->column($field);
+        return DataReturn('处理成功', 0, $data);
     }
 }
 ?>

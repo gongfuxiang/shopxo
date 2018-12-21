@@ -2,6 +2,7 @@
 namespace app\service;
 
 use app\service\GoodsService;
+use app\service\ResourcesService;
 
 /**
  * 品牌服务层
@@ -235,7 +236,7 @@ class BrandService
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '2,30',
-                'error_msg'         => '名称长度 2~30 个字符',
+                'error_msg'         => '名称格式 2~30 个字符',
             ],
             [
                 'checked_type'      => 'empty',

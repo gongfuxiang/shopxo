@@ -44,7 +44,7 @@ class Brand extends Common
         $params = input();
 
         // 分页
-        $number = 10;
+        $number = MyC('admin_page_number', 10, true);
 
         // 条件
         $where = BrandService::BrandListWhere($params);
