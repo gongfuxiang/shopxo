@@ -38,29 +38,30 @@ class Article extends Common
 		$id = input('id');
 		$params = [
 			'where' => ['a.is_enable'=>1, 'a.id'=>$id],
-			'field' => 'a.id,a.title,a.title_color,a.content,a.access_count,a.article_category_id,a.add_time',
+			'field' => 'a.id,a.title,a.title_color,a.jump_url,a.content,a.access_count,a.article_category_id,a.add_time',
 			'm' => 0,
 			'n' => 1,
 		];
 		$article = ArticleService::ArticleList($params);
-		if(!empty($article[0]))
+		if(!empty($article['data'][0]))
 		{
 			// 访问统计
 			ArticleService::ArticleAccessCountInc(['id'=>$id]);
 
 			// 是否外部链接
-			if(!empty($article[0]['jump_url']))
+			if(!empty($article['data'][0]['jump_url']))
 			{
-				return redirect($article[0]['jump_url']);
+				return redirect($article['data'][0]['jump_url']);
 			}
 
 			// 浏览器标题
-			$this->assign('home_seo_site_title', $this->GetBrowserSeoTitle($article[0]['title'], 1));
+			$this->assign('home_seo_site_title', $this->GetBrowserSeoTitle($article['data'][0]['title'], 1));
 
 			// 获取分类和文字
-			$this->assign('category_list', ArticleService::ArticleCategoryList());
+			$article_category_content = ArticleService::ArticleCategoryListContent();
+            $this->assign('category_list', $article_category_content['data']);
 
-			$this->assign('article', $article[0]);
+			$this->assign('article', $article['data'][0]);
 			return $this->fetch();
 		} else {
 			$this->assign('msg', '文章不存在或已删除');

@@ -50,7 +50,7 @@ class Message extends Common
         $number = 10;
 
         // 条件
-        $where = MessageService::MessgeListWhere($params);
+        $where = MessageService::MessageListWhere($params);
 
         // 获取总数
         $total = MessageService::MessageTotal($where);

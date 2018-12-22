@@ -54,7 +54,8 @@ class Navigation extends Common
 		$this->assign('nav_header_pid_list', NavigationService::LevelOneNav(['nav_type'=>$this->nav_type]));
 
 		// 获取分类和文章
-		$this->assign('article_list', ArticleService::ArticleCategoryList());
+		$article_category_content = ArticleService::ArticleCategoryListContent();
+        $this->assign('article_list', $article_category_content['data']);
 
 		// 商品分类
 		$this->assign('goods_category_list', GoodsService::GoodsCategory());

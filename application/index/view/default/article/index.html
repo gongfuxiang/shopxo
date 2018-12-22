@@ -44,7 +44,7 @@
 											<ul class="am-nav">
 												{{foreach $v.items as $vs}}
 													<li>
-														<a href="{{:url('index/article/index', ['id'=>$vs['id']])}}" {{if !empty($vs.title_color)}}style="color:{{$vs.title_color}};"{{/if}} >{{$vs.title}}</a>
+														<a href="{{$vs.url}}" {{if !empty($vs.title_color)}}style="color:{{$vs.title_color}};"{{/if}} >{{$vs.title}}</a>
 													</li>
 												{{/foreach}}
 											</ul>

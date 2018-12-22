@@ -63,7 +63,8 @@ class Index extends Common
             'm' => 0,
             'n' => 9,
         ];
-        $this->assign('article_list', ArticleService::ArticleList($params));
+        $article_list = ArticleService::ArticleList($params);
+        $this->assign('article_list', $article_list['data']);
 
         // 用户订单状态
         $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);

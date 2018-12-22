@@ -226,7 +226,7 @@ class CustomViewService
     {
         if(!empty($content))
         {
-            $pattern = '/<img.*?src=[\'|\"](\/Public\/Upload\/customview\/image\/.*?[\.gif|\.jpg|\.jpeg|\.png|\.bmp])[\'|\"].*?[\/]?>/';
+            $pattern = '/<img.*?src=[\'|\"](\/static\/upload\/customview\/image\/.*?[\.gif|\.jpg|\.jpeg|\.png|\.bmp])[\'|\"].*?[\/]?>/';
             preg_match_all($pattern, $content, $match);
             return empty($match[1]) ? [] : $match[1];
         }

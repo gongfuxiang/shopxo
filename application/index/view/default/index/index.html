@@ -107,7 +107,7 @@
                 {{if !empty($article_list)}}
                     {{foreach $article_list as $article}}
                         <li>
-                            <a href="{{:url('index/article/index', ['id'=>$article['id']])}}" target="_blank">
+                            <a href="{{$article.url}}" target="_blank">
                                 <span>[{{$article.category_name}}]</span>
                                 <span {{if !empty($article.title_color)}}style="color:{{$article.title_color}};"{{/if}} >{{$article.title}}</span>
                             </a>

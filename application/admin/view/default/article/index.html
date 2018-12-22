@@ -4,39 +4,39 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form view-list" action="{{:url('Admin/Article/Index')}}" method="POST">
+		<form class="am-form view-list" action="{{:url('admin/article/index')}}" method="POST">
 			<div class="am-g">
-				<input type="text" class="am-radius form-keyword" placeholder="标题关键字" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
+				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="标题关键字" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
 					更多筛选
-					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($param['is_more']) and $param['is_more'] eq 1)}}checked{{/if}} />
+					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($params['is_more']) and $params['is_more'] eq 1}}checked{{/if}} />
 					<i class="am-icon-angle-down"></i>
 				</label>
 
-				<div class="more-where {{if !isset($param['is_more']) or $param['is_more'] neq 1)}}none{{/if}}">
+				<div class="more-where {{if !isset($params['is_more']) or $params['is_more'] neq 1}}none{{/if}}">
 					<select  class="am-radius c-p m-t-10 param-where" name="article_category_id">
-						<option value="-1)}}文章分类</option>
-						<foreach name="article_category_list" item="v">
-							<option value="{{$v.id}}" {{if isset($param['article_category_id']) and $param['article_category_id'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
+						<option value="-1">文章分类</option>
+						{{foreach $article_category_list as $v}}
+							<option value="{{$v.id}}" {{if isset($params['article_category_id']) and $params['article_category_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
 					</select>
 					<select name="is_enable" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="-1)}}是否启用</option>
-						<foreach name="common_is_enable_list" item="v">
-							<option value="{{$v.id}}" {{if isset($param['is_enable']) and $param['is_enable'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
+						<option value="-1">是否启用</option>
+						{{foreach $common_is_enable_list as $v}}
+							<option value="{{$v.id}}" {{if isset($params['is_enable']) and $params['is_enable'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
 					</select>
 					<select name="is_home_recommended" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="-1)}}首页推荐</option>
-						<foreach name="common_is_text_list" item="v">
-							<option value="{{$v.id}}" {{if isset($param['is_home_recommended']) and $param['is_home_recommended'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
+						<option value="-1">首页推荐</option>
+						{{foreach $common_is_text_list as $v}}
+							<option value="{{$v.id}}" {{if isset($params['is_home_recommended']) and $params['is_home_recommended'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
 					</select>
-					<div class="param-date param-where m-l-5)}}
-						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
+					<div class="param-date param-where m-l-5">
+						<input type="text" autocomplete="off" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_start'])}}value="{{$params.time_start}}"{{/if}}/>
 						<span>~</span>
-						<input type="text" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
+						<input type="text" autocomplete="off" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_end'])}}value="{{$params.time_end}}"{{/if}}/>
 					</div>
 				</div>
 			</div>
@@ -44,13 +44,13 @@
         <!-- form end -->
 
         <!-- operation start -->
-        <div class="am-g m-t-15)}}
-            <a href="{{:url('Admin/Article/SaveInfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
+        <div class="am-g m-t-15">
+            <a href="{{:url('admin/article/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
         </div>
         <!-- operation end -->
 
 		<!-- list start -->
-		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-1)}}
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
 			<thead>
 				<tr>
 					<th>标题</th>
@@ -63,19 +63,19 @@
 				</tr>
 			</thead>
 			<tbody>
-				{{if !empty($list)}}
-					<foreach name="list" item="v">
-						<tr id="data-list-{{$v.id}}" {{if $v['is_enable'] eq 0)}}class="am-active"{{/if}}>
+				{{if !empty($data_list)}}
+					{{foreach $data_list as $v}}
+						<tr id="data-list-{{$v.id}}" {{if $v['is_enable'] eq 0}}class="am-active"{{/if}}>
 							<td  class="td-title">
-								<a href="{{:HomeUrl('Article', 'Index', ['id'=>$v['id']])}}" target="_blank" title="{{$v.title}}" {{if !empty($v['title_color'])}} style="color:{{$v.title_color}};" {{/if}} >{{$v.title}}</a>
+								<a href="{{$v.url}}" target="_blank" title="{{$v.title}}" {{if !empty($v['title_color'])}} style="color:{{$v.title_color}};" {{/if}} >{{$v.title}}</a>
 							</td>
 							<td class="am-hide-sm-only">{{$v.article_category_name}}</td>
 							<td class="am-hide-sm-only">{{$v.access_count}}</td>
 							<td>
-								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1)}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('Admin/Article/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1)}}</a>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('admin/article/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
 							</td>
 							<td>
-								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_home_recommended'] eq 1)}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('Admin/Article/StatusHomeRecommended')}}" data-id="{{$v.id}}" data-state="{{$v['is_home_recommended']}}"></a>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_home_recommended'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('admin/article/statushomerecommended')}}" data-id="{{$v.id}}" data-state="{{$v['is_home_recommended']}}"></a>
 							</td>
 							<td>
 								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
@@ -101,20 +101,20 @@
 												<dd>{{$v.is_enable_text}}</dd>
 
 												<dt>创建时间</dt>
-												<dd>{{$v.add_time}}</dd>
+												<dd>{{$v.add_time_time}}</dd>
 
 												<dt>更新时间</dt>
-												<dd>{{$v.upd_time}}</dd>
+												<dd>{{$v.upd_time_time}}</dd>
 											</dl>
 										</div>
 									</div>
 								</div>
 							</td>
 							<td class="view-operation">
-								<a href="{{:url('Admin/Article/SaveInfo', array('id'=>$v['id']))}}">
+								<a href="{{:url('admin/article/saveinfo', array_merge($params, ['id'=>$v['id']]))}}">
 									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"></button>
 								</a>
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/Article/Delete')}}" data-id="{{$v.id}}"></button>
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/article/delete')}}" data-id="{{$v.id}}"></button>
 							</td>
 						</tr>
 					{{/foreach}}
@@ -126,8 +126,8 @@
 		<!-- list end -->
 
 		<!-- page start -->
-		{{if !empty($list)}}
-			{{$page_html}}
+		{{if !empty($data_list)}}
+			{{$page_html|raw}}
 		{{/if}}
 		<!-- page end -->
 	</div>

@@ -6,7 +6,7 @@
         <!-- form start -->
         <form class="am-form view-list" action="{{:url('admin/brand/index')}}" method="POST">
             <div class="am-g">
-                <input type="text" class="am-radius form-keyword" placeholder="名称" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
+                <input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="名称" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
                 <button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
                 <label class="fs-12 m-l-5 c-p fw-100 more-submit">
                     更多筛选
@@ -28,9 +28,9 @@
                         {{/foreach}}
                     </select>
                     <div class="param-date param-where m-l-5">
-                        <input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_start'])}}value="{{$params.time_start}}"{{/if}}/>
+                        <input type="text" autocomplete="off" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_start'])}}value="{{$params.time_start}}"{{/if}}/>
                         <span>~</span>
-                        <input type="text" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_end'])}}value="{{$params.time_end}}"{{/if}}/>
+                        <input type="text" autocomplete="off" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_end'])}}value="{{$params.time_end}}"{{/if}}/>
                     </div>
                 </div>
             </div>

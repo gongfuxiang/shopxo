@@ -4,41 +4,41 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form view-list" action="{{:url('Admin/PayLog/Index')}}" method="POST">
+		<form class="am-form view-list" action="{{:url('admin/paylog/index')}}" method="POST">
 			<div class="am-g">
-				<input type="text" class="am-radius form-keyword" placeholder="姓名/手机/昵称/支付平台单号" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
+				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="姓名/手机/昵称/支付平台单号" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
 					更多筛选
-					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($param['is_more']) and $param['is_more'] eq 1)}}checked{{/if}} />
+					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($params['is_more']) and $params['is_more'] eq 1}}checked{{/if}} />
 					<i class="am-icon-angle-down"></i>
 				</label>
 
-				<div class="more-where {{if !isset($param['is_more']) or $param['is_more'] neq 1)}}none{{/if}}">
+				<div class="more-where {{if !isset($params['is_more']) or $params['is_more'] neq 1}}none{{/if}}">
 					<select name="gender" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="-1)}}性别</option>
-						<foreach name="common_gender_list" item="v">
-							<option value="{{$v.id}}" {{if isset($param['gender']) and $param['gender'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
+						<option value="-1">性别</option>
+						{{foreach $common_gender_list as $v}}
+							<option value="{{$v.id}}" {{if isset($params['gender']) and $params['gender'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
 					</select>
 					<select name="pay_type" class="am-radius c-p m-t-10 m-l-5 param-where">
 						<option value="">支付类型</option>
-						<foreach name="common_pay_type_list" item="v">
+						{{foreach $common_pay_type_list as $v}}
 							{{if !empty($v['id']) && !empty($v['name'])}}
-								<option value="{{$v.id}}" {{if isset($param['pay_type']) and $param['pay_type'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
+								<option value="{{$v.id}}" {{if isset($params['pay_type']) and $params['pay_type'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
 							{{/if}}
 						{{/foreach}}
 					</select>
 					<select name="business_type" class="am-radius c-p m-t-10 m-l-5 param-where">
-						<option value="-1)}}业务类型</option>
-						<foreach name="common_business_type_list" item="v">
-							<option value="{{$v.id}}" {{if isset($param['business_type']) and $param['business_type'] eq $v['id']">selected{{/if}}>{{$v.name}}</option>
+						<option value="-1">业务类型</option>
+						{{foreach $common_business_type_list as $v}}
+							<option value="{{$v.id}}" {{if isset($params['business_type']) and $params['business_type'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
 					</select>
-					<div class="param-date param-where m-l-5)}}
-						<input type="text" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_start'])}}value="{{$param.time_start}}"{{/if}}/>
+					<div class="param-date param-where m-l-5">
+						<input type="text" autocomplete="off" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_start'])}}value="{{$params.time_start}}"{{/if}}/>
 						<span>~</span>
-						<input type="text" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
+						<input type="text" autocomplete="off" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_end'])}}value="{{$params.time_end}}"{{/if}}/>
 					</div>
 				</div>
 			</div>
@@ -46,7 +46,7 @@
         <!-- form end -->
 
 		<!-- list start -->
-		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5)}}
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5">
 			<thead>
 				<tr>
 					<th>用户信息</th>
@@ -62,8 +62,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				{{if !empty($list)}}
-					<foreach name="list" item="v">
+				{{if !empty($data_list)}}
+					{{foreach $data_list as $v}}
 						<tr id="data-list-{{$v.id}}">
 							<td>
 								{{if !empty($v['username'])}}
@@ -82,7 +82,7 @@
 								{{if empty($v['payment_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.payment_name}}{{/if}}
 							</td>
 							<td>
-								{{if empty($v['business_type_text'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.business_type_text}}{{/if}}
+								{{if empty($v['business_type_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.business_type_name}}{{/if}}
 							</td>
 							<td class="am-hide-sm-only">
 								{{if empty($v['order_id'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.order_id}}{{/if}}
@@ -103,7 +103,7 @@
 								{{if empty($v['subject'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.subject}}{{/if}}
 							</td>
 							<td class="am-hide-sm-only">
-								{{if empty($v['add_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.add_time}}{{/if}}
+								{{if empty($v['add_time_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.add_time_time}}{{/if}}
 							</td>
 						</tr>
 					{{/foreach}}
@@ -115,8 +115,8 @@
 		<!-- list end -->
 
 		<!-- page start -->
-		{{if !empty($list)}}
-			{{$page_html}}
+		{{if !empty($data_list)}}
+			{{$page_html|raw}}
 		{{/if}}
 		<!-- page end -->
 	</div>
