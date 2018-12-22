@@ -1,6 +1,8 @@
 <?php
 namespace app\service;
 
+use think\Db;
+
 /**
  * 地区服务层
  * @author   Devil
@@ -21,7 +23,7 @@ class RegionService
      */
     public static function RegionName($region_id = 0)
     {
-        return empty($region_id) ? null : db('Region')->where(['id'=>intval($region_id)])->value('name');
+        return empty($region_id) ? null : Db::name('Region')->where(['id'=>intval($region_id)])->value('name');
     }
 
     /**
@@ -35,7 +37,7 @@ class RegionService
     public static function RegionItems($param = [])
     {
         $pid = isset($param['pid']) ? intval($param['pid']) : 0;
-        return db('Region')->where(['pid'=>$pid, 'is_enable'=>1])->select();
+        return Db::name('Region')->where(['pid'=>$pid, 'is_enable'=>1])->select();
     }
 
     /**
@@ -53,7 +55,7 @@ class RegionService
         $where = empty($params['where']) ? [] : $params['where'];
         $where['is_enable'] = 1;
 
-        return db('Region')->where($where)->field($field)->order('id asc, sort asc')->select();
+        return Db::name('Region')->where($where)->field($field)->order('id asc, sort asc')->select();
     }
 }
 ?>

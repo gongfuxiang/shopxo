@@ -1,6 +1,8 @@
 <?php
 namespace app\service;
 
+use think\Db;
+
 /**
  * 轮播图服务层
  * @author   Devil
@@ -26,7 +28,7 @@ class SlideService
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
-        $data = db('Slide')->field($field)->where($where)->order('sort asc')->limit($m, $n)->select();
+        $data = Db::name('Slide')->field($field)->where($where)->order('sort asc')->limit($m, $n)->select();
         if(!empty($data))
         {
             $common_platform_type = lang('common_platform_type');
@@ -87,7 +89,7 @@ class SlideService
      */
     public static function SlideTotal($where = [])
     {
-        return (int) db('Slide')->where($where)->count();
+        return (int) Db::name('Slide')->where($where)->count();
     }
 
     /**
@@ -214,14 +216,14 @@ class SlideService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(db('Slide')->insertGetId($data) > 0)
+            if(Db::name('Slide')->insertGetId($data) > 0)
             {
                 return DataReturn('添加成功', 0);
             }
             return DataReturn('添加失败', -100);
         } else {
             $data['upd_time'] = time();
-            if(db('Slide')->where(['id'=>intval($params['id'])])->update($data))
+            if(Db::name('Slide')->where(['id'=>intval($params['id'])])->update($data))
             {
                 return DataReturn('编辑成功', 0);
             }
@@ -255,7 +257,7 @@ class SlideService
         }
 
         // 删除操作
-        if(db('Slide')->where(['id'=>$params['id']])->delete())
+        if(Db::name('Slide')->where(['id'=>$params['id']])->delete())
         {
             return DataReturn('删除成功');
         }
@@ -294,7 +296,7 @@ class SlideService
         }
 
         // 数据更新
-        if(db('Slide')->where(['id'=>intval($params['id'])])->update(['is_enable'=>intval($params['state'])]))
+        if(Db::name('Slide')->where(['id'=>intval($params['id'])])->update(['is_enable'=>intval($params['state'])]))
         {
            return DataReturn('编辑成功');
         }

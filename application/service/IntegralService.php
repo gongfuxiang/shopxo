@@ -1,7 +1,7 @@
 <?php
-
 namespace app\service;
 
+use think\Db;
 use app\service\MessageService;
 
 /**
@@ -38,7 +38,7 @@ class IntegralService
             'operation_id'      => intval($operation_id),
             'add_time'          => time(),
         );
-        if(db('UserIntegralLog')->insertGetId($data) > 0)
+        if(Db::name('UserIntegralLog')->insertGetId($data) > 0)
         {
             $type_msg = lang('common_integral_log_type_list')[$type]['name'];
             $integral = ($data['type'] == 0) ? $data['original_integral']-$data['new_integral'] : $data['new_integral']-$data['original_integral'];
@@ -106,7 +106,7 @@ class IntegralService
      */
     public static function UserIntegralLogTotal($where = [])
     {
-        return (int) db('UserIntegralLog')->where($where)->count();
+        return (int) Db::name('UserIntegralLog')->where($where)->count();
     }
 
     /**
@@ -126,7 +126,7 @@ class IntegralService
         $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
 
         // 获取数据列表
-        $data = db('UserIntegralLog')->where($where)->limit($m, $n)->order($order_by)->select();
+        $data = Db::name('UserIntegralLog')->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
             $common_integral_log_type_list = lang('common_integral_log_type_list');
@@ -169,7 +169,7 @@ class IntegralService
         }
 
         // 订单
-        $order = db('Order')->field('id,user_id,status')->find(intval($params['order_id']));
+        $order = Db::name('Order')->field('id,user_id,status')->find(intval($params['order_id']));
         if(empty($order))
         {
             return DataReturn('订单不存在或已删除，中止操作', 0);
@@ -180,24 +180,24 @@ class IntegralService
         }
 
         // 获取用户信息
-        $user = db('User')->field('id')->find(intval($order['user_id']));
+        $user = Db::name('User')->field('id')->find(intval($order['user_id']));
         if(empty($user))
         {
             return DataReturn('用户不存在或已删除，中止操作', 0);
         }
 
         // 获取订单商品
-        $goods_all = db('OrderDetail')->where(['order_id'=>$params['order_id']])->column('goods_id');
+        $goods_all = Db::name('OrderDetail')->where(['order_id'=>$params['order_id']])->column('goods_id');
         if(!empty($goods_all))
         {
             foreach($goods_all as $goods_id)
             {
-                $give_integral = db('Goods')->where(['id'=>$goods_id])->value('give_integral');
+                $give_integral = Db::name('Goods')->where(['id'=>$goods_id])->value('give_integral');
                 if(!empty($give_integral))
                 {
                     // 用户积分添加
-                    $user_integral = db('User')->where(['id'=>$user['id']])->value('integral');
-                    if(!db('User')->where(['id'=>$user['id']])->setInc('integral', $give_integral))
+                    $user_integral = Db::name('User')->where(['id'=>$user['id']])->value('integral');
+                    if(!Db::name('User')->where(['id'=>$user['id']])->setInc('integral', $give_integral))
                     {
                         return DataReturn('用户积分赠送失败['.$params['order_id'].'-'.$goods_id.']', -10);
                     }

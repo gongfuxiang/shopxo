@@ -1,6 +1,7 @@
 <?php
 namespace app\service;
 
+use think\Db;
 
 /**
  * 筛选价格服务层
@@ -26,13 +27,13 @@ class ScreeningPriceService
 
         // 获取数据
         $field = 'id,name,sort,is_enable,min_price,max_price';
-        $data = db('ScreeningPrice')->field($field)->where(['pid'=>$id])->order('sort asc')->select();
+        $data = Db::name('ScreeningPrice')->field($field)->where(['pid'=>$id])->order('sort asc')->select();
         if(!empty($data))
         {
             $image_host = config('IMAGE_HOST');
             foreach($data as &$v)
             {
-                $v['is_son']            =   (db('ScreeningPrice')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
+                $v['is_son']            =   (Db::name('ScreeningPrice')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
                 $v['ajax_url']          =   url('admin/screeningprice/getnodeson', array('id'=>$v['id']));
                 $v['delete_url']        =   url('admin/screeningprice/delete');
                 $v['json']              =   json_encode($v);
@@ -89,14 +90,14 @@ class ScreeningPriceService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(db('ScreeningPrice')->insertGetId($data) > 0)
+            if(Db::name('ScreeningPrice')->insertGetId($data) > 0)
             {
                 return DataReturn('添加成功', 0);
             }
             return DataReturn('添加失败', -100);
         } else {
             $data['upd_time'] = time();
-            if(db('ScreeningPrice')->where(['id'=>intval($params['id'])])->update($data))
+            if(Db::name('ScreeningPrice')->where(['id'=>intval($params['id'])])->update($data))
             {
                 return DataReturn('编辑成功', 0);
             }
@@ -134,7 +135,7 @@ class ScreeningPriceService
         }
 
         // 开始删除
-        if(db('ScreeningPrice')->where(['id'=>intval($params['id'])])->delete())
+        if(Db::name('ScreeningPrice')->where(['id'=>intval($params['id'])])->delete())
         {
             return DataReturn('删除成功', 0);
         }

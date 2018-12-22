@@ -1,6 +1,7 @@
 <?php
-
 namespace app\service;
+
+use think\Db;
 
 /**
  * 消息服务层
@@ -38,7 +39,7 @@ class MessageService
             'is_read'           => 0,
             'add_time'          => time(),
         );
-        return db('Message')->insertGetId($data) > 0;
+        return Db::name('Message')->insertGetId($data) > 0;
     }
 
     /**
@@ -121,7 +122,7 @@ class MessageService
      */
     public static function MessageTotal($where = [])
     {
-        return (int) db('Message')->where($where)->count();
+        return (int) Db::name('Message')->where($where)->count();
     }
 
     /**
@@ -168,7 +169,7 @@ class MessageService
         $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
 
         // 获取数据列表
-        $data = db('Message')->where($where)->limit($m, $n)->order($order_by)->select();
+        $data = Db::name('Message')->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
             $common_business_type_list = lang('common_business_type_list');
@@ -220,7 +221,7 @@ class MessageService
 
         // 更新用户未读消息为已读
         $where = ['user_id'=>$params['user']['id'], 'is_read'=>0];
-        $ret = db('Message')->where($where)->update(['is_read'=>1]);
+        $ret = Db::name('Message')->where($where)->update(['is_read'=>1]);
         return DataReturn('处理成功', 0, $ret);
     }
 }

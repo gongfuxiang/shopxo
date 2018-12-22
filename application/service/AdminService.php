@@ -1,6 +1,8 @@
 <?php
 namespace app\service;
 
+use think\Db;
+
 /**
  * 管理员服务层
  * @author   Devil
@@ -28,12 +30,12 @@ class AdminService
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
         // 获取管理员列表
-        $data = db('Admin')->where($where)->order($order_by)->limit($m, $n)->select();
+        $data = Db::name('Admin')->where($where)->order($order_by)->limit($m, $n)->select();
         if(!empty($data))
         {
             foreach($data as &$v)
             {
-                $v['role_name'] = db('Role')->where(['id'=>$v['role_id']])->value('name');
+                $v['role_name'] = Db::name('Role')->where(['id'=>$v['role_id']])->value('name');
             }
         }
         return $data;
@@ -77,7 +79,7 @@ class AdminService
      */
     public static function AdminTotal($where)
     {
-        return (int) db('Admin')->where($where)->count();
+        return (int) Db::name('Admin')->where($where)->count();
     }
 
     /**
@@ -92,7 +94,7 @@ class AdminService
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
-        return db('Role')->field($field)->where($where)->select();
+        return Db::name('Role')->field($field)->where($where)->select();
     }
 
     /**
@@ -193,7 +195,7 @@ class AdminService
         ];
 
         // 添加
-        if(db('Admin')->insert($data) > 0)
+        if(Db::name('Admin')->insert($data) > 0)
         {
             return DataReturn('新增成功', 0);
         }
@@ -254,7 +256,7 @@ class AdminService
         }
 
         // 更新
-        if(db('Admin')->where(['id'=>intval($params['id'])])->update($data))
+        if(Db::name('Admin')->where(['id'=>intval($params['id'])])->update($data))
         {
             // 自己修改密码则重新登录
             if(!empty($params['login_pwd']) && $params['id'] == $params['admin']['id'])
@@ -292,7 +294,7 @@ class AdminService
         }
            
         // 删除操作
-        if(db('Admin')->delete(intval($params['id'])))
+        if(Db::name('Admin')->delete(intval($params['id'])))
         {
             return DataReturn('删除成功');
         }
@@ -341,7 +343,7 @@ class AdminService
         }
 
         // 获取管理员
-        $admin = db('Admin')->field('id,username,login_pwd,login_salt,mobile,login_total,role_id')->where(['username'=>$params['username']])->find();
+        $admin = Db::name('Admin')->field('id,username,login_pwd,login_salt,mobile,login_total,role_id')->where(['username'=>$params['username']])->find();
         if(empty($admin))
         {
             return DataReturn('管理员不存在', -2);
@@ -368,7 +370,7 @@ class AdminService
                     'login_total'   =>  $admin['login_total']+1,
                     'login_time'    =>  time(),
                 );
-            if(db('Admin')->where(['id'=>$admin['id']])->update($data))
+            if(Db::name('Admin')->where(['id'=>$admin['id']])->update($data))
             {
                 // 清空缓存目录下的数据
                 \base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'cache');

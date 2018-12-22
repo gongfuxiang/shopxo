@@ -1,6 +1,7 @@
 <?php
 namespace app\service;
 
+use think\Db;
 use app\service\GoodsService;
 
 /**
@@ -23,7 +24,7 @@ class LinkService
      */
     public static function LinkList($params = [])
     {
-        $data = db('Link')->order('sort asc')->select();
+        $data = Db::name('Link')->order('sort asc')->select();
         return DataReturn('处理成功', 0, $data);
     }
 
@@ -96,14 +97,14 @@ class LinkService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(db('Link')->insertGetId($data) > 0)
+            if(Db::name('Link')->insertGetId($data) > 0)
             {
                 return DataReturn('添加成功', 0);
             }
             return DataReturn('添加失败', -100);
         } else {
             $data['upd_time'] = time();
-            if(db('Link')->where(['id'=>intval($params['id'])])->update($data))
+            if(Db::name('Link')->where(['id'=>intval($params['id'])])->update($data))
             {
                 return DataReturn('编辑成功', 0);
             }
@@ -137,7 +138,7 @@ class LinkService
         }
 
         // 删除操作
-        if(db('Link')->where(['id'=>$params['id']])->delete())
+        if(Db::name('Link')->where(['id'=>$params['id']])->delete())
         {
             return DataReturn('删除成功');
         }
@@ -176,7 +177,7 @@ class LinkService
         }
 
         // 数据更新
-        if(db('Link')->where(['id'=>intval($params['id'])])->update(['is_enable'=>intval($params['state'])]))
+        if(Db::name('Link')->where(['id'=>intval($params['id'])])->update(['is_enable'=>intval($params['state'])]))
         {
             return DataReturn('编辑成功');
         }

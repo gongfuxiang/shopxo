@@ -51,7 +51,7 @@ class OrderService
 
         // 获取订单信息
         $where = ['id'=>intval($params['id']), 'user_id' => $params['user']['id']];
-        $order = db('Order')->where($where)->find();
+        $order = Db::name('Order')->where($where)->find();
         if(empty($order))
         {
             return DataReturn('资源不存在或已被删除', -1);
@@ -154,7 +154,7 @@ class OrderService
 
         // 获取订单信息
         $where = ['id'=>intval($params['id'])];
-        $order = db('Order')->where($where)->find();
+        $order = Db::name('Order')->where($where)->find();
         if(empty($order))
         {
             return DataReturn('资源不存在或已被删除', -1);
@@ -256,7 +256,7 @@ class OrderService
         {
             // 获取订单信息
             $where = ['order_no'=>$ret['data']['out_trade_no'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-            $order = db('Order')->where($where)->find();
+            $order = Db::name('Order')->where($where)->find();
 
             // 非线上支付处理
             self::OrderPaymentUnderLine([
@@ -297,7 +297,7 @@ class OrderService
 
         // 获取订单信息
         $where = ['order_no'=>$ret['data']['out_trade_no'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-        $order = db('Order')->where($where)->find();
+        $order = Db::name('Order')->where($where)->find();
 
         // 支付处理
         $pay_params = [
@@ -357,7 +357,7 @@ class OrderService
             'business_type' => 1,
             'add_time'      => time(),
         ];
-        db('PayLog')->insertGetId($pay_log_data);
+        Db::name('PayLog')->insertGetId($pay_log_data);
 
         // 消息通知
         $detail = '订单支付成功，金额'.PriceBeautify($params['order']['total_price']).'元';
@@ -375,7 +375,7 @@ class OrderService
             'pay_time'      => time(),
             'upd_time'      => time(),
         );
-        if(db('Order')->where(['id'=>$params['order']['id']])->update($upd_data))
+        if(Db::name('Order')->where(['id'=>$params['order']['id']])->update($upd_data))
         {
             // 添加状态日志
             if(self::OrderHistoryAdd($params['order']['id'], 2, $params['order']['status'], '支付', 0, '系统'))
@@ -511,7 +511,7 @@ class OrderService
      */
     public static function OrderTotal($where = [])
     {
-        return (int) db('Order')->where($where)->count();
+        return (int) Db::name('Order')->where($where)->count();
     }
 
     /**
@@ -532,7 +532,7 @@ class OrderService
         $is_items = isset($params['is_items']) ? intval($params['is_items']) : 1;
 
         // 获取订单
-        $data = db('Order')->where($where)->limit($m, $n)->order($order_by)->select();
+        $data = Db::name('Order')->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
             $detail_field = 'id,goods_id,title,images,original_price,price,spec,buy_number';
@@ -600,7 +600,7 @@ class OrderService
                 // 订单详情
                 if($is_items == 1)
                 {
-                    $items = db('OrderDetail')->where(['order_id'=>$v['id']])->field($detail_field)->select();
+                    $items = Db::name('OrderDetail')->where(['order_id'=>$v['id']])->field($detail_field)->select();
                     if(!empty($items))
                     {
                         foreach($items as &$vs)
@@ -655,7 +655,7 @@ class OrderService
             'creator_name'      => htmlentities($creator_name),
             'add_time'          => time(),
         ];
-        return db('OrderStatusHistory')->insertGetId($data) > 0;
+        return Db::name('OrderStatusHistory')->insertGetId($data) > 0;
     }
 
     /**
@@ -690,7 +690,7 @@ class OrderService
 
         // 获取订单信息
         $where = ['id'=>intval($params['id']), 'user_id'=>$params['user_id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-        $order = db('Order')->where($where)->field('id,status,user_id')->find();
+        $order = Db::name('Order')->where($where)->field('id,status,user_id')->find();
         if(empty($order))
         {
             return DataReturn('资源不存在或已被删除', -1);
@@ -708,7 +708,7 @@ class OrderService
             'cancel_time'   => time(),
             'upd_time'      => time(),
         ];
-        if(db('Order')->where($where)->update($upd_data))
+        if(Db::name('Order')->where($where)->update($upd_data))
         {
             // 库存扣除
             $ret = BuyService::OrderInventoryRollback(['order_id'=>$order['id'], 'order_data'=>$upd_data]);
@@ -779,7 +779,7 @@ class OrderService
 
         // 获取订单信息
         $where = ['id'=>intval($params['id']), 'user_id'=>$params['user_id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-        $order = db('Order')->where($where)->field('id,status,user_id')->find();
+        $order = Db::name('Order')->where($where)->field('id,status,user_id')->find();
         if(empty($order))
         {
             return DataReturn('资源不存在或已被删除', -1);
@@ -799,7 +799,7 @@ class OrderService
             'delivery_time'     => time(),
             'upd_time'          => time(),
         ];
-        if(db('Order')->where($where)->update($upd_data))
+        if(Db::name('Order')->where($where)->update($upd_data))
         {
             // 库存扣除
             $ret = BuyService::OrderInventoryDeduct(['order_id'=>$order['id'], 'order_data'=>$upd_data]);
@@ -860,7 +860,7 @@ class OrderService
 
         // 获取订单信息
         $where = ['id'=>intval($params['id']), 'user_id'=>$params['user_id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-        $order = db('Order')->where($where)->field('id,status,user_id')->find();
+        $order = Db::name('Order')->where($where)->field('id,status,user_id')->find();
         if(empty($order))
         {
             return DataReturn('资源不存在或已被删除', -1);
@@ -880,7 +880,7 @@ class OrderService
             'collect_time'  => time(),
             'upd_time'      => time(),
         ];
-        if(db('Order')->where($where)->update($upd_data))
+        if(Db::name('Order')->where($where)->update($upd_data))
         {
             // 订单商品积分赠送
             $ret = IntegralService::OrderGoodsIntegralGiving(['order_id'=>$order['id']]);
@@ -950,7 +950,7 @@ class OrderService
 
         // 获取订单信息
         $where = ['id'=>intval($params['id']), 'user_id'=>$params['user_id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-        $order = db('Order')->where($where)->field('id,status,user_id')->find();
+        $order = Db::name('Order')->where($where)->field('id,status,user_id')->find();
         if(empty($order))
         {
             return DataReturn('资源不存在或已被删除', -1);
@@ -970,7 +970,7 @@ class OrderService
             'confirm_time'  => time(),
             'upd_time'      => time(),
         ];
-        if(db('Order')->where($where)->update($upd_data))
+        if(Db::name('Order')->where($where)->update($upd_data))
         {
             // 库存扣除
             $ret = BuyService::OrderInventoryDeduct(['order_id'=>$params['id'], 'order_data'=>$upd_data]);
@@ -1052,7 +1052,7 @@ class OrderService
 
         // 获取订单信息
         $where = ['id'=>intval($params['id']), 'user_id'=>$params['user_id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-        $order = db('Order')->where($where)->field('id,status,user_id')->find();
+        $order = Db::name('Order')->where($where)->field('id,status,user_id')->find();
         if(empty($order))
         {
             return DataReturn('资源不存在或已被删除', -1);
@@ -1067,7 +1067,7 @@ class OrderService
             $delete_field   => time(),
             'upd_time'      => time(),
         ];
-        if(db('Order')->where($where)->update($data))
+        if(Db::name('Order')->where($where)->update($data))
         {
             // 用户消息
             MessageService::MessageAdd($order['user_id'], '订单删除', '订单删除成功', 1, $order['id']);
@@ -1140,7 +1140,7 @@ class OrderService
         // 获取订单信息
         $order_id = intval($params['id']);
         $where = ['id'=>$order_id, 'user_id'=>$params['user']['id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-        $order = db('Order')->where($where)->field('id,status,shop_id,user_is_comments')->find();
+        $order = Db::name('Order')->where($where)->field('id,status,shop_id,user_is_comments')->find();
         if(empty($order))
         {
             return DataReturn('资源不存在或已被删除', -1);
@@ -1168,7 +1168,7 @@ class OrderService
                 'rating'    => isset($params['rating'][$k]) ? intval($params['rating'][$k]) : 0,
                 'add_time'  => time(),
             ];
-            if(db('OrderComments')->insertGetId($data) <= 0)
+            if(Db::name('OrderComments')->insertGetId($data) <= 0)
             {
                 Db::rollback();
                 return DataReturn('评价内容添加失败', -100);
@@ -1176,7 +1176,7 @@ class OrderService
         }
 
         // 订单评价状态更新
-        if(!db('Order')->where($where)->update(['user_is_comments'=>time(), 'upd_time'=>time()]))
+        if(!Db::name('Order')->where($where)->update(['user_is_comments'=>time(), 'upd_time'=>time()]))
         {
             Db::rollback();
             return DataReturn('订单更新失败', -101);
@@ -1236,7 +1236,7 @@ class OrderService
         }
 
         $field = 'COUNT(DISTINCT id) AS count, status';
-        $data = db('Order')->where($where)->field($field)->group('status')->select();
+        $data = Db::name('Order')->where($where)->field($field)->group('status')->select();
 
         // 数据处理
         if(!empty($data))
@@ -1273,7 +1273,7 @@ class OrderService
             $result[] = [
                 'name'      => '待评价',
                 'status'    => 100,
-                'count'     => (int) db('Order')->where($where)->count(),
+                'count'     => (int) Db::name('Order')->where($where)->count(),
             ];
         }
             
@@ -1306,12 +1306,12 @@ class OrderService
         }
 
         // 获取订单商品
-        $order_detail = db('OrderDetail')->field('goods_id,buy_number')->where(['order_id'=>$params['order_id']])->select();
+        $order_detail = Db::name('OrderDetail')->field('goods_id,buy_number')->where(['order_id'=>$params['order_id']])->select();
         if(!empty($order_detail))
         {
             foreach($order_detail as $v)
             {
-                if(!db('Goods')->where(['id'=>$v['goods_id']])->setInc('sales_count', $v['buy_number']))
+                if(!Db::name('Goods')->where(['id'=>$v['goods_id']])->setInc('sales_count', $v['buy_number']))
                 {
                     return DataReturn('订单商品销量增加失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
                 }

@@ -1,6 +1,7 @@
 <?php
 namespace app\service;
 
+use think\Db;
 use app\service\GoodsService;
 
 /**
@@ -23,7 +24,7 @@ class AnswerService
      */
     public static function AnswerTotal($where = [])
     {
-        return (int) db('Answer')->where($where)->count();
+        return (int) Db::name('Answer')->where($where)->count();
     }
 
     /**
@@ -43,7 +44,7 @@ class AnswerService
         $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
 
         // 获取数据列表
-        $data = db('Answer')->where($where)->limit($m, $n)->order($order_by)->select();
+        $data = Db::name('Answer')->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
             $common_is_show_list = lang('common_is_show_list');
@@ -51,7 +52,7 @@ class AnswerService
             foreach($data as &$v)
             {
                 // 用户信息
-                $user = db('User')->where(['id'=>$v['user_id']])->field('username,nickname,mobile,gender,avatar')->find();
+                $user = Db::name('User')->where(['id'=>$v['user_id']])->field('username,nickname,mobile,gender,avatar')->find();
                 $v['username'] = empty($user['username']) ? '' : $user['username'];
                 $v['nickname'] = empty($user['nickname']) ? '' : $user['nickname'];
                 $v['mobile'] = empty($user['mobile']) ? '' : $user['mobile'];
@@ -171,7 +172,7 @@ class AnswerService
         }
 
         // 获取数据
-        $temp = db('Answer')->where($where)->field('id')->find();
+        $temp = Db::name('Answer')->where($where)->field('id')->find();
         if(empty($temp))
         {
             return DataReturn('资源不存在或已被删除', -1);
@@ -181,7 +182,7 @@ class AnswerService
         $data = [
             'is_delete_time'   => time(),
         ];
-        if(db('Answer')->where($where)->update($data))
+        if(Db::name('Answer')->where($where)->update($data))
         {
             return DataReturn('删除成功', 0);
         }
@@ -230,7 +231,7 @@ class AnswerService
         ];
 
         // 问答是否存在
-        $temp = db('Answer')->where($where)->field('id')->find();
+        $temp = Db::name('Answer')->where($where)->field('id')->find();
         if(empty($temp))
         {
             return DataReturn('资源不存在或已被删除', -2);
@@ -241,7 +242,7 @@ class AnswerService
             'is_reply'  => 1,
             'upd_time'  => time()
         ];
-        if(db('Answer')->where($where)->update($data))
+        if(Db::name('Answer')->where($where)->update($data))
         {
             return DataReturn('操作成功');
         }
@@ -279,7 +280,7 @@ class AnswerService
         }
 
         // 数据更新
-        if(db('Answer')->where(['id'=>intval($params['id'])])->update(['is_show'=>intval($params['state'])]))
+        if(Db::name('Answer')->where(['id'=>intval($params['id'])])->update(['is_show'=>intval($params['state'])]))
         {
             return DataReturn('编辑成功');
         }

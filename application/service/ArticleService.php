@@ -1,6 +1,7 @@
 <?php
 namespace app\service;
 
+use think\Db;
 use app\service\ResourcesService;
 
 /**
@@ -28,7 +29,7 @@ class ArticleService
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
-        $data = db('Article')->alias('a')->join(['__ARTICLE_CATEGORY__'=>'ac'], 'a.article_category_id=ac.id')->field($field)->where($where)->order('a.id desc')->limit($m, $n)->select();
+        $data = Db::name('Article')->alias('a')->join(['__ARTICLE_CATEGORY__'=>'ac'], 'a.article_category_id=ac.id')->field($field)->where($where)->order('a.id desc')->limit($m, $n)->select();
         if(!empty($data))
         {
             foreach($data as &$v)
@@ -58,12 +59,12 @@ class ArticleService
      */
     public static function ArticleCategoryList($params = [])
     {
-        $data = db('ArticleCategory')->field('id,name')->where(['is_enable'=>1])->order('id asc, sort asc')->select();
+        $data = Db::name('ArticleCategory')->field('id,name')->where(['is_enable'=>1])->order('id asc, sort asc')->select();
         if(!empty($data))
         {
             foreach($data as &$v)
             {
-                $v['items'] = db('Article')->field('id,title,title_color')->where(['article_category_id'=>$v['id'], 'is_enable'=>1])->select();
+                $v['items'] = Db::name('Article')->field('id,title,title_color')->where(['article_category_id'=>$v['id'], 'is_enable'=>1])->select();
             }
         }
         return $data;
@@ -82,7 +83,7 @@ class ArticleService
     {
         if(!empty($params['id']))
         {
-            return db('Article')->where(array('id'=>intval($params['id'])))->setInc('access_count');
+            return Db::name('Article')->where(array('id'=>intval($params['id'])))->setInc('access_count');
         }
         return false;
     }

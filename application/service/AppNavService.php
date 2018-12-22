@@ -1,6 +1,8 @@
 <?php
 namespace app\service;
 
+use think\Db;
+
 /**
  * APP导航服务层
  * @author   Devil
@@ -28,7 +30,7 @@ class AppNavService
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
         // 获取品牌列表
-        $data = db('AppHomeNav')->where($where)->order($order_by)->limit($m, $n)->select();
+        $data = Db::name('AppHomeNav')->where($where)->order($order_by)->limit($m, $n)->select();
         if(!empty($data))
         {
             $common_platform_type = lang('common_platform_type');
@@ -88,7 +90,7 @@ class AppNavService
      */
     public static function AppHomeNavTotal($where)
     {
-        return (int) db('AppHomeNav')->where($where)->count();
+        return (int) Db::name('AppHomeNav')->where($where)->count();
     }
 
     /**
@@ -215,14 +217,14 @@ class AppNavService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(db('AppHomeNav')->insertGetId($data) > 0)
+            if(Db::name('AppHomeNav')->insertGetId($data) > 0)
             {
                 return DataReturn('添加成功', 0);
             }
             return DataReturn('添加失败', -100);
         } else {
             $data['upd_time'] = time();
-            if(db('AppHomeNav')->where(['id'=>intval($params['id'])])->update($data))
+            if(Db::name('AppHomeNav')->where(['id'=>intval($params['id'])])->update($data))
             {
                 return DataReturn('编辑成功', 0);
             }
@@ -256,7 +258,7 @@ class AppNavService
         }
 
         // 删除操作
-        if(db('AppHomeNav')->where(['id'=>$params['id']])->delete())
+        if(Db::name('AppHomeNav')->where(['id'=>$params['id']])->delete())
         {
             return DataReturn('删除成功');
         }
@@ -295,7 +297,7 @@ class AppNavService
         }
 
         // 数据更新
-        if(db('AppHomeNav')->where(['id'=>intval($params['id'])])->update(['is_enable'=>intval($params['state'])]))
+        if(Db::name('AppHomeNav')->where(['id'=>intval($params['id'])])->update(['is_enable'=>intval($params['state'])]))
         {
            return DataReturn('编辑成功');
         }

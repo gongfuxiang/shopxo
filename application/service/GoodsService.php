@@ -31,7 +31,7 @@ class GoodsService
             return null;
         }
         $field = empty($params['field']) ? 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended' : $params['field'];
-        $data = self::GoodsCategoryDataDealWith([db('GoodsCategory')->field($field)->where(['is_enable'=>1, 'id'=>intval($params['id'])])->find()]);
+        $data = self::GoodsCategoryDataDealWith([Db::name('GoodsCategory')->field($field)->where(['is_enable'=>1, 'id'=>intval($params['id'])])->find()]);
         return empty($data[0]) ? null : $data[0];
     }
 
@@ -89,7 +89,7 @@ class GoodsService
     {
         $where['is_enable'] = 1;
         $field = 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended';
-        $data = db('GoodsCategory')->field($field)->where($where)->order('sort asc')->select();
+        $data = Db::name('GoodsCategory')->field($field)->where($where)->order('sort asc')->select();
         return self::GoodsCategoryDataDealWith($data);
     }
 
@@ -168,7 +168,7 @@ class GoodsService
         {
             $where['is_enable'] = $is_enable;
         }
-        $data = db('GoodsCategory')->where($where)->column('id');
+        $data = Db::name('GoodsCategory')->where($where)->column('id');
         if(!empty($data))
         {
             $temp = self::GoodsCategoryItemsIds($data, $is_enable);
@@ -191,7 +191,7 @@ class GoodsService
      */
     public static function CategoryGoodsTotal($where = [])
     {
-        return (int) db('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($where)->count('DISTINCT g.id');
+        return (int) Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($where)->count('DISTINCT g.id');
     }
 
     /**
@@ -211,7 +211,7 @@ class GoodsService
 
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
-        $data = db('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->field($field)->where($where)->group('g.id')->order($order_by)->limit($m, $n)->select();
+        $data = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->field($field)->where($where)->group('g.id')->order($order_by)->limit($m, $n)->select();
         
         return self::GoodsDataHandle($params, $data);
     }
@@ -291,15 +291,15 @@ class GoodsService
                 // 是否需要分类名称
                 if($is_category && !empty($v['id']))
                 {
-                    $v['category_ids'] = db('GoodsCategoryJoin')->where(['goods_id'=>$v['id']])->column('category_id');
-                    $category_name = db('GoodsCategory')->where(['id'=>$v['category_ids']])->column('name');
+                    $v['category_ids'] = Db::name('GoodsCategoryJoin')->where(['goods_id'=>$v['id']])->column('category_id');
+                    $category_name = Db::name('GoodsCategory')->where(['id'=>$v['category_ids']])->column('name');
                     $v['category_text'] = implode('，', $category_name);
                 }
 
                 // 获取相册
                 if($is_photo && !empty($v['id']))
                 {
-                    $v['photo'] = db('GoodsPhoto')->where(['goods_id'=>$v['id'], 'is_show'=>1])->order('sort asc')->select();
+                    $v['photo'] = Db::name('GoodsPhoto')->where(['goods_id'=>$v['id'], 'is_show'=>1])->order('sort asc')->select();
                     if(!empty($v['photo']))
                     {
                         foreach($v['photo'] as &$vs)
@@ -338,7 +338,7 @@ class GoodsService
      */
     public static function GoodsContentApp($params = [])
     {
-        $data = db('GoodsContentApp')->where(['goods_id'=>$params['goods_id']])->field('id,images,content')->order('sort asc')->select();
+        $data = Db::name('GoodsContentApp')->where(['goods_id'=>$params['goods_id']])->field('id,images,content')->order('sort asc')->select();
         if(!empty($data))
         {
             $images_host = config('IMAGE_HOST');
@@ -364,7 +364,7 @@ class GoodsService
      */
     public static function GoodsSpecifications($params = [])
     {
-        $data = db('GoodsSpecType')->where(['goods_id'=>$params['goods_id']])->order('id asc')->select();
+        $data = Db::name('GoodsSpecType')->where(['goods_id'=>$params['goods_id']])->order('id asc')->select();
         if(!empty($data))
         {
             foreach($data as &$v)
@@ -408,12 +408,12 @@ class GoodsService
 
         // 开始操作
         $data = ['goods_id'=>intval($params['id']), 'user_id'=>$params['user']['id']];
-        $temp = db('GoodsFavor')->where($data)->find();
+        $temp = Db::name('GoodsFavor')->where($data)->find();
         if(empty($temp))
         {
             // 添加收藏
             $data['add_time'] = time();
-            if(db('GoodsFavor')->insertGetId($data) > 0)
+            if(Db::name('GoodsFavor')->insertGetId($data) > 0)
             {
                 return DataReturn('收藏成功', 0, [
                     'text'      => '已收藏',
@@ -435,7 +435,7 @@ class GoodsService
             }
 
             // 删除收藏
-            if(db('GoodsFavor')->where($data)->delete() > 0)
+            if(Db::name('GoodsFavor')->where($data)->delete() > 0)
             {
                 return DataReturn('取消成功', 0, [
                     'text'      => '收藏',
@@ -480,7 +480,7 @@ class GoodsService
         }
 
         $data = ['goods_id'=>intval($params['goods_id']), 'user_id'=>$params['user']['id']];
-        $temp = db('GoodsFavor')->where($data)->find();
+        $temp = Db::name('GoodsFavor')->where($data)->find();
         return DataReturn('操作成功', 0, empty($temp) ? 0 : 1);
     }
 
@@ -495,7 +495,7 @@ class GoodsService
      */
     public static function GoodsCommentsTotal($goods_id)
     {
-        return (int) db('OrderComments')->where(['goods_id'=>intval($goods_id)])->count();
+        return (int) Db::name('OrderComments')->where(['goods_id'=>intval($goods_id)])->count();
     }
 
     /**
@@ -538,7 +538,7 @@ class GoodsService
      */
     public static function GoodsFavorTotal($where = [])
     {
-        return (int) db('GoodsFavor')->alias('f')->join(['__GOODS__'=>'g'], 'g.id=f.goods_id')->where($where)->count();
+        return (int) Db::name('GoodsFavor')->alias('f')->join(['__GOODS__'=>'g'], 'g.id=f.goods_id')->where($where)->count();
     }
 
     /**
@@ -559,7 +559,7 @@ class GoodsService
         $field = 'f.*, g.title, g.original_price, g.price, g.images';
 
         // 获取数据
-        $data = db('GoodsFavor')->alias('f')->join(['__GOODS__'=>'g'], 'g.id=f.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
+        $data = Db::name('GoodsFavor')->alias('f')->join(['__GOODS__'=>'g'], 'g.id=f.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
             $images_host = config('IMAGE_HOST');
@@ -588,7 +588,7 @@ class GoodsService
     {
         if(!empty($params['goods_id']))
         {
-            return db('Goods')->where(array('id'=>intval($params['goods_id'])))->setInc('access_count');
+            return Db::name('Goods')->where(array('id'=>intval($params['goods_id'])))->setInc('access_count');
         }
         return false;
     }
@@ -624,7 +624,7 @@ class GoodsService
         }
 
         $where = ['goods_id'=>intval($params['goods_id']), 'user_id'=>$params['user']['id']];
-        $temp = db('GoodsBrowse')->where($where)->find();
+        $temp = Db::name('GoodsBrowse')->where($where)->find();
 
         $data = [
             'goods_id'  => intval($params['goods_id']),
@@ -634,9 +634,9 @@ class GoodsService
         if(empty($temp))
         {
             $data['add_time'] = time();
-            $status = db('GoodsBrowse')->insertGetId($data) > 0;
+            $status = Db::name('GoodsBrowse')->insertGetId($data) > 0;
         } else {
-            $status = db('GoodsBrowse')->where($where)->update($data) !== false;
+            $status = Db::name('GoodsBrowse')->where($where)->update($data) !== false;
         }
         if($status)
         {
@@ -685,7 +685,7 @@ class GoodsService
      */
     public static function GoodsBrowseTotal($where = [])
     {
-        return (int) db('GoodsBrowse')->alias('b')->join(['__GOODS__'=>'g'], 'g.id=b.goods_id')->where($where)->count();
+        return (int) Db::name('GoodsBrowse')->alias('b')->join(['__GOODS__'=>'g'], 'g.id=b.goods_id')->where($where)->count();
     }
 
     /**
@@ -706,7 +706,7 @@ class GoodsService
         $field = 'b.*, g.title, g.original_price, g.price, g.images';
 
         // 获取数据
-        $data = db('GoodsBrowse')->alias('b')->join(['__GOODS__'=>'g'], 'g.id=b.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
+        $data = Db::name('GoodsBrowse')->alias('b')->join(['__GOODS__'=>'g'], 'g.id=b.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
             $images_host = config('IMAGE_HOST');
@@ -755,7 +755,7 @@ class GoodsService
             'id'        => explode(',', $params['id']),
             'user_id'   => $params['user']['id']
         ];
-        if(db('GoodsBrowse')->where($where)->delete())
+        if(Db::name('GoodsBrowse')->where($where)->delete())
         {
             return DataReturn('删除成功', 0);
         }
@@ -773,7 +773,7 @@ class GoodsService
      */
     public static function GoodsTotal($where = [])
     {
-        return (int) db('Goods')->where($where)->count();
+        return (int) Db::name('Goods')->where($where)->count();
     }
 
     /**
@@ -793,7 +793,7 @@ class GoodsService
 
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
-        $data = db('Goods')->field($field)->where($where)->order($order_by)->limit($m, $n)->select();
+        $data = Db::name('Goods')->field($field)->where($where)->order($order_by)->limit($m, $n)->select();
         
         return self::GoodsDataHandle($params, $data);
     }
@@ -949,11 +949,11 @@ class GoodsService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            $goods_id = db('Goods')->insertGetId($data);
+            $goods_id = Db::name('Goods')->insertGetId($data);
         } else {
-            $goods = db('Goods')->find($params['id']);
+            $goods = Db::name('Goods')->find($params['id']);
             $data['upd_time'] = time();
-            if(db('Goods')->where(['id'=>intval($params['id'])])->update($data))
+            if(Db::name('Goods')->where(['id'=>intval($params['id'])])->update($data))
             {
                 $goods_id = $params['id'];
             }
@@ -1035,7 +1035,7 @@ class GoodsService
      */
     private static function GoodsSaveBaseUpdate($params, $goods_id)
     {
-        $data = db('GoodsSpecBase')->field('min(price) AS min_price, max(price) AS max_price, sum(inventory) AS inventory, min(original_price) AS min_original_price, max(original_price) AS max_original_price')->where(['goods_id'=>$goods_id])->find();
+        $data = Db::name('GoodsSpecBase')->field('min(price) AS min_price, max(price) AS max_price, sum(inventory) AS inventory, min(original_price) AS min_original_price, max(original_price) AS max_original_price')->where(['goods_id'=>$goods_id])->find();
         if(empty($data))
         {
             return DataReturn('没找到商品基础信息', -1);
@@ -1049,7 +1049,7 @@ class GoodsService
 
         // 更新商品表
         $data['upd_time'] = time();
-        if(db('Goods')->where(['id'=>$goods_id])->update($data))
+        if(Db::name('Goods')->where(['id'=>$goods_id])->update($data))
         {
             return DataReturn('操作成功', 0);
         }
@@ -1206,7 +1206,7 @@ class GoodsService
      */
     private static function GoodsCategoryInsert($data, $goods_id)
     {
-        db('GoodsCategoryJoin')->where(['goods_id'=>$goods_id])->delete();
+        Db::name('GoodsCategoryJoin')->where(['goods_id'=>$goods_id])->delete();
         if(!empty($data))
         {
             foreach($data as $category_id)
@@ -1216,7 +1216,7 @@ class GoodsService
                     'category_id'   => $category_id,
                     'add_time'      => time(),
                 ];
-                if(db('GoodsCategoryJoin')->insertGetId($temp_category) <= 0)
+                if(Db::name('GoodsCategoryJoin')->insertGetId($temp_category) <= 0)
                 {
                     return DataReturn('商品分类添加失败', -1);
                 }
@@ -1238,7 +1238,7 @@ class GoodsService
      */
     private static function GoodsContentAppInsert($data, $goods_id)
     {
-        db('GoodsContentApp')->where(['goods_id'=>$goods_id])->delete();
+        Db::name('GoodsContentApp')->where(['goods_id'=>$goods_id])->delete();
         if(!empty($data))
         {
             foreach(array_values($data) as $k=>$v)
@@ -1250,7 +1250,7 @@ class GoodsService
                     'sort'      => $k,
                     'add_time'  => time(),
                 ];
-                if(db('GoodsContentApp')->insertGetId($temp_content) <= 0)
+                if(Db::name('GoodsContentApp')->insertGetId($temp_content) <= 0)
                 {
                     return DataReturn('手机详情添加失败', -1);
                 }
@@ -1272,7 +1272,7 @@ class GoodsService
      */
     private static function GoodsPhotoInsert($data, $goods_id)
     {
-        db('GoodsPhoto')->where(['goods_id'=>$goods_id])->delete();
+        Db::name('GoodsPhoto')->where(['goods_id'=>$goods_id])->delete();
         if(!empty($data))
         {
             foreach($data as $k=>$v)
@@ -1284,7 +1284,7 @@ class GoodsService
                     'sort'      => $k,
                     'add_time'  => time(),
                 ];
-                if(db('GoodsPhoto')->insertGetId($temp_photo) <= 0)
+                if(Db::name('GoodsPhoto')->insertGetId($temp_photo) <= 0)
                 {
                     return DataReturn('相册添加失败', -1);
                 }
@@ -1307,9 +1307,9 @@ class GoodsService
     private static function GoodsSpecificationsInsert($data, $goods_id)
     {
         // 删除原来的数据
-        db('GoodsSpecType')->where(['goods_id'=>$goods_id])->delete();
-        db('GoodsSpecValue')->where(['goods_id'=>$goods_id])->delete();
-        db('GoodsSpecBase')->where(['goods_id'=>$goods_id])->delete();
+        Db::name('GoodsSpecType')->where(['goods_id'=>$goods_id])->delete();
+        Db::name('GoodsSpecValue')->where(['goods_id'=>$goods_id])->delete();
+        Db::name('GoodsSpecBase')->where(['goods_id'=>$goods_id])->delete();
 
         // 类型
         if(!empty($data['title']))
@@ -1320,7 +1320,7 @@ class GoodsService
                 $v['value']     = json_encode($v['value']);
                 $v['add_time']  = time();
             }
-            if(db('GoodsSpecType')->insertAll($data['title']) < count($data['title']))
+            if(Db::name('GoodsSpecType')->insertAll($data['title']) < count($data['title']))
             {
                 return DataReturn('规格类型添加失败', -1);
             }
@@ -1345,7 +1345,7 @@ class GoodsService
                     $temp_data[$temp_key[$i]] = $data['data'][0][$i];
                 }
                 // 规格基础添加
-                if(db('GoodsSpecBase')->insertGetId($temp_data) <= 0)
+                if(Db::name('GoodsSpecBase')->insertGetId($temp_data) <= 0)
                 {
                     return DataReturn('规格基础添加失败', -1);
                 }
@@ -1377,7 +1377,7 @@ class GoodsService
                     }
                     
                     // 规格基础添加
-                    $base_id = db('GoodsSpecBase')->insertGetId($temp_data);
+                    $base_id = Db::name('GoodsSpecBase')->insertGetId($temp_data);
                     if(empty($base_id))
                     {
                         return DataReturn('规格基础添加失败', -1);
@@ -1388,7 +1388,7 @@ class GoodsService
                     {
                         $value['goods_spec_base_id'] = $base_id;
                     }
-                    if(db('GoodsSpecValue')->insertAll($temp_value) < count($temp_value))
+                    if(Db::name('GoodsSpecValue')->insertAll($temp_value) < count($temp_value))
                     {
                         return DataReturn('规格值添加失败', -1);
                     }
@@ -1418,34 +1418,34 @@ class GoodsService
         Db::startTrans();
 
         // 删除商品
-        if(db('Goods')->delete(intval($params['id'])))
+        if(Db::name('Goods')->delete(intval($params['id'])))
         {
             // 商品规格
-            if(db('GoodsSpecType')->where(['goods_id'=>intval($params['id'])])->delete() === false)
+            if(Db::name('GoodsSpecType')->where(['goods_id'=>intval($params['id'])])->delete() === false)
             {
                 Db::rollback();
                 return DataReturn('规格类型删除失败', -100);
             }
-            if(db('GoodsSpecValue')->where(['goods_id'=>intval($params['id'])])->delete() === false)
+            if(Db::name('GoodsSpecValue')->where(['goods_id'=>intval($params['id'])])->delete() === false)
             {
                 Db::rollback();
                 return DataReturn('规格值删除失败', -100);
             }
-            if(db('GoodsSpecBase')->where(['goods_id'=>intval($params['id'])])->delete() === false)
+            if(Db::name('GoodsSpecBase')->where(['goods_id'=>intval($params['id'])])->delete() === false)
             {
                 Db::rollback();
                 return DataReturn('规格基础删除失败', -100);
             }
 
             // 相册
-            if(db('GoodsPhoto')->where(['goods_id'=>intval($params['id'])])->delete() === false)
+            if(Db::name('GoodsPhoto')->where(['goods_id'=>intval($params['id'])])->delete() === false)
             {
                 Db::rollback();
                 return DataReturn('相册删除失败', -100);
             }
 
             // app内容
-            if(db('GoodsContentApp')->where(['goods_id'=>intval($params['id'])])->delete() === false)
+            if(Db::name('GoodsContentApp')->where(['goods_id'=>intval($params['id'])])->delete() === false)
             {
                 Db::rollback();
                 return DataReturn('相册删除失败', -100);
@@ -1496,7 +1496,7 @@ class GoodsService
         }
 
         // 数据更新
-        if(db('Goods')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
+        if(Db::name('Goods')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
             return DataReturn('操作成功');
         }
@@ -1517,7 +1517,7 @@ class GoodsService
         $where = ['goods_id'=>$goods_id];
 
         // 获取规格类型
-        $type = db('GoodsSpecType')->where($where)->order('id asc')->field('id,name,value')->select();
+        $type = Db::name('GoodsSpecType')->where($where)->order('id asc')->field('id,name,value')->select();
         $value = [];
         if(!empty($type))
         {
@@ -1528,7 +1528,7 @@ class GoodsService
             }
 
             // 获取规格值
-            $temp_value = db('GoodsSpecValue')->where($where)->field('goods_spec_base_id,value')->order('id asc')->select();
+            $temp_value = Db::name('GoodsSpecValue')->where($where)->field('goods_spec_base_id,value')->order('id asc')->select();
             if(!empty($temp_value))
             {
                 foreach($temp_value as $value_v)
@@ -1556,7 +1556,7 @@ class GoodsService
             {
                 foreach($value as $k=>&$v)
                 {
-                    $base = db('GoodsSpecBase')->field('price,inventory,coding,barcode,original_price')->find($k);
+                    $base = Db::name('GoodsSpecBase')->field('price,inventory,coding,barcode,original_price')->find($k);
                     $v[] = [
                         'data_type' => 'base',
                         'data'      => $base,
@@ -1564,7 +1564,7 @@ class GoodsService
                 }
             }
         } else {
-            $base = db('GoodsSpecBase')->where($where)->field('price,inventory,coding,barcode,original_price')->find();
+            $base = Db::name('GoodsSpecBase')->where($where)->field('price,inventory,coding,barcode,original_price')->find();
             $value[][] = [
                 'data_type' => 'base',
                 'data'      => $base,
@@ -1631,11 +1631,11 @@ class GoodsService
             $where['value'] = $value;
 
             // 获取规格值基础值id
-            $ids = db('GoodsSpecValue')->where($where)->column('goods_spec_base_id');
+            $ids = Db::name('GoodsSpecValue')->where($where)->column('goods_spec_base_id');
             if(!empty($ids))
             {
                 // 根据基础值id获取规格值列表
-                $temp_data = db('GoodsSpecValue')->where(['goods_spec_base_id'=>$ids])->field('goods_spec_base_id,value')->select();
+                $temp_data = Db::name('GoodsSpecValue')->where(['goods_spec_base_id'=>$ids])->field('goods_spec_base_id,value')->select();
                 if(!empty($temp_data))
                 {
                     // 根据基础值id分组
@@ -1661,7 +1661,7 @@ class GoodsService
                     // 获取基础值数据
                     if(!empty($base_id))
                     {
-                        $base = db('GoodsSpecBase')->field('goods_id,price,inventory,coding,barcode,original_price')->find($base_id);
+                        $base = Db::name('GoodsSpecBase')->field('goods_id,price,inventory,coding,barcode,original_price')->find($base_id);
                         if(!empty($base))
                         {
                             return DataReturn('操作成功', 0, $base);
@@ -1670,7 +1670,7 @@ class GoodsService
                 }
             }
         } else {
-            $base = db('GoodsSpecBase')->field('goods_id,price,inventory,coding,barcode,original_price')->where($where)->find();
+            $base = Db::name('GoodsSpecBase')->field('goods_id,price,inventory,coding,barcode,original_price')->where($where)->find();
             if(!empty($base))
             {
                 return DataReturn('操作成功', 0, $base);
@@ -1727,11 +1727,11 @@ class GoodsService
         $where['value'] = $value;
 
         // 获取规格值基础值id
-        $ids = db('GoodsSpecValue')->where($where)->column('goods_spec_base_id');
+        $ids = Db::name('GoodsSpecValue')->where($where)->column('goods_spec_base_id');
         if(!empty($ids))
         {
             // 根据基础值id获取规格值列表
-            $temp_data = db('GoodsSpecValue')->where(['goods_spec_base_id'=>$ids])->field('goods_spec_base_id,value')->select();
+            $temp_data = Db::name('GoodsSpecValue')->where(['goods_spec_base_id'=>$ids])->field('goods_spec_base_id,value')->select();
             if(!empty($temp_data))
             {
                 // 根据基础值id分组
@@ -1752,7 +1752,7 @@ class GoodsService
                     if(isset($v[$index+1]) && stripos($temp_str, $spec_str) !== false)
                     {
                         // 判断是否还有库存
-                        $inventory = db('GoodsSpecBase')->where(['id'=>$v[$index+1]['goods_spec_base_id']])->value('inventory');
+                        $inventory = Db::name('GoodsSpecBase')->where(['id'=>$v[$index+1]['goods_spec_base_id']])->value('inventory');
                         if($inventory > 0)
                         {
                             $value[$v[$index+1]['value']] = $v[$index+1]['value'];
@@ -1780,13 +1780,13 @@ class GoodsService
 
         // 获取数据
         $field = 'id,pid,icon,name,sort,is_enable,bg_color,big_images,vice_name,describe,is_home_recommended';
-        $data = db('GoodsCategory')->field($field)->where(['pid'=>$id])->order('sort asc')->select();
+        $data = Db::name('GoodsCategory')->field($field)->where(['pid'=>$id])->order('sort asc')->select();
         if(!empty($data))
         {
             $image_host = config('IMAGE_HOST');
             foreach($data as &$v)
             {
-                $v['is_son']            =   (db('GoodsCategory')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
+                $v['is_son']            =   (Db::name('GoodsCategory')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
                 $v['ajax_url']          =   url('admin/goodscategory/getnodeson', array('id'=>$v['id']));
                 $v['delete_url']        =   url('admin/goodscategory/delete');
                 $v['icon_url']          =   empty($v['icon']) ? '' : $image_host.$v['icon'];
@@ -1863,14 +1863,14 @@ class GoodsService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(db('GoodsCategory')->insertGetId($data) > 0)
+            if(Db::name('GoodsCategory')->insertGetId($data) > 0)
             {
                 return DataReturn('添加成功', 0);
             }
             return DataReturn('添加失败', -100);
         } else {
             $data['upd_time'] = time();
-            if(db('GoodsCategory')->where(['id'=>intval($params['id'])])->update($data))
+            if(Db::name('GoodsCategory')->where(['id'=>intval($params['id'])])->update($data))
             {
                 return DataReturn('编辑成功', 0);
             }
@@ -1912,7 +1912,7 @@ class GoodsService
         $ids[] = $params['id'];
 
         // 开始删除
-        if(db('GoodsCategory')->where(['id'=>$ids])->delete())
+        if(Db::name('GoodsCategory')->where(['id'=>$ids])->delete())
         {
             return DataReturn('删除成功', 0);
         }

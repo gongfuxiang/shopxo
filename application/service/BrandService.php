@@ -1,6 +1,7 @@
 <?php
 namespace app\service;
 
+use think\Db;
 use app\service\GoodsService;
 use app\service\ResourcesService;
 
@@ -31,7 +32,7 @@ class BrandService
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
         // 获取品牌列表
-        $data = db('Brand')->where($where)->order($order_by)->limit($m, $n)->select();
+        $data = Db::name('Brand')->where($where)->order($order_by)->limit($m, $n)->select();
         if(!empty($data))
         {
             $common_is_enable_tips = lang('common_is_enable_tips');
@@ -47,7 +48,7 @@ class BrandService
                 // 分类名称
                 if(isset($v['brand_category_id']))
                 {
-                    $v['brand_category_name'] = db('BrandCategory')->where(['id'=>$v['brand_category_id']])->value('name');
+                    $v['brand_category_name'] = Db::name('BrandCategory')->where(['id'=>$v['brand_category_id']])->value('name');
                 }
 
                 // logo
@@ -83,7 +84,7 @@ class BrandService
      */
     public static function BrandTotal($where)
     {
-        return (int) db('Brand')->where($where)->count();
+        return (int) Db::name('Brand')->where($where)->count();
     }
 
     /**
@@ -140,12 +141,12 @@ class BrandService
      */
     public static function CategoryBrand($params = [])
     {
-        $data = db('BrandCategory')->where(['is_enable'=>1])->select();
+        $data = Db::name('BrandCategory')->where(['is_enable'=>1])->select();
         if(!empty($data))
         {
             foreach($data as &$v)
             {
-                $v['items'] = db('Brand')->field('id,name')->where(['is_enable'=>1, 'brand_category_id'=>$v['id']])->order('sort asc')->select();
+                $v['items'] = Db::name('Brand')->field('id,name')->where(['is_enable'=>1, 'brand_category_id'=>$v['id']])->order('sort asc')->select();
             }
         }
         return $data;
@@ -168,11 +169,11 @@ class BrandService
             // 根据分类获取品牌id
             $category_ids = GoodsService::GoodsCategoryItemsIds([$params['category_id']], 1);
             $where = ['g.is_delete_time'=>0, 'g.is_shelves'=>1, 'gci.id'=>$category_ids];
-            $brand_where['id'] = db('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->field('g.brand_id')->where($where)->group('g.brand_id')->column('brand_id');
+            $brand_where['id'] = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->field('g.brand_id')->where($where)->group('g.brand_id')->column('brand_id');
         }
 
         // 获取品牌列表
-        $brand = db('Brand')->where($brand_where)->field('id,name,logo,website_url')->select();
+        $brand = Db::name('Brand')->where($brand_where)->field('id,name,logo,website_url')->select();
         if(!empty($brand))
         {
             $image_host = config('IMAGE_HOST');
@@ -197,7 +198,7 @@ class BrandService
      */
     public static function BrandName($brand_id = 0)
     {
-        return empty($brand_id) ? null : db('Brand')->where(['id'=>intval($brand_id)])->value('name');
+        return empty($brand_id) ? null : Db::name('Brand')->where(['id'=>intval($brand_id)])->value('name');
     }
 
     /**
@@ -214,7 +215,7 @@ class BrandService
         $field = empty($params['field']) ? '*' : $params['field'];
         $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
 
-        $data = db('BrandCategory')->where(['is_enable'=>1])->field($field)->order($order_by)->select();
+        $data = Db::name('BrandCategory')->where(['is_enable'=>1])->field($field)->order($order_by)->select();
         
         return DataReturn('处理成功', 0, $data);
     }
@@ -280,14 +281,14 @@ class BrandService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(db('Brand')->insertGetId($data) > 0)
+            if(Db::name('Brand')->insertGetId($data) > 0)
             {
                 return DataReturn('添加成功', 0);
             }
             return DataReturn('添加失败', -100);
         } else {
             $data['upd_time'] = time();
-            if(db('Brand')->where(['id'=>intval($params['id'])])->update($data))
+            if(Db::name('Brand')->where(['id'=>intval($params['id'])])->update($data))
             {
                 return DataReturn('编辑成功', 0);
             }
@@ -321,7 +322,7 @@ class BrandService
         }
 
         // 删除操作
-        if(db('Brand')->where(['id'=>$params['id']])->delete())
+        if(Db::name('Brand')->where(['id'=>$params['id']])->delete())
         {
             return DataReturn('删除成功');
         }
@@ -360,7 +361,7 @@ class BrandService
         }
 
         // 数据更新
-        if(db('Brand')->where(['id'=>intval($params['id'])])->update(['is_enable'=>intval($params['state'])]))
+        if(Db::name('Brand')->where(['id'=>intval($params['id'])])->update(['is_enable'=>intval($params['state'])]))
         {
             return DataReturn('编辑成功');
         }
@@ -382,12 +383,12 @@ class BrandService
 
         // 获取数据
         $field = '*';
-        $data = db('BrandCategory')->field($field)->where(['pid'=>$id])->order('sort asc')->select();
+        $data = Db::name('BrandCategory')->field($field)->where(['pid'=>$id])->order('sort asc')->select();
         if(!empty($data))
         {
             foreach($data as &$v)
             {
-                $v['is_son']            =   (db('BrandCategory')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
+                $v['is_son']            =   (Db::name('BrandCategory')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
                 $v['ajax_url']          =   url('admin/brandcategory/getnodeson', array('id'=>$v['id']));
                 $v['delete_url']        =   url('admin/brandcategory/delete');
                 $v['json']              =   json_encode($v);
@@ -434,14 +435,14 @@ class BrandService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(db('BrandCategory')->insertGetId($data) > 0)
+            if(Db::name('BrandCategory')->insertGetId($data) > 0)
             {
                 return DataReturn('添加成功', 0);
             }
             return DataReturn('添加失败', -100);
         } else {
             $data['upd_time'] = time();
-            if(db('BrandCategory')->where(['id'=>intval($params['id'])])->update($data))
+            if(Db::name('BrandCategory')->where(['id'=>intval($params['id'])])->update($data))
             {
                 return DataReturn('编辑成功', 0);
             }
@@ -479,7 +480,7 @@ class BrandService
         }
 
         // 开始删除
-        if(db('BrandCategory')->where(['id'=>intval($params['id'])])->delete())
+        if(Db::name('BrandCategory')->where(['id'=>intval($params['id'])])->delete())
         {
             return DataReturn('删除成功', 0);
         }

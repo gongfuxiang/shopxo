@@ -1,6 +1,8 @@
 <?php
 namespace app\service;
 
+use think\Db;
+
 /**
  * 快递服务层
  * @author   Devil
@@ -21,7 +23,7 @@ class ExpressService
      */
     public static function ExpressName($express_id = 0)
     {
-        return empty($express_id) ? null : db('Express')->where(['id'=>intval($express_id)])->value('name');
+        return empty($express_id) ? null : Db::name('Express')->where(['id'=>intval($express_id)])->value('name');
     }
 
     /**
@@ -40,7 +42,7 @@ class ExpressService
         {
             $where['is_enable'] = intval($params['is_enable']);
         }
-        $data = db('Express')->where($where)->field('id,icon,name,sort,is_enable')->order('sort asc')->select();
+        $data = Db::name('Express')->where($where)->field('id,icon,name,sort,is_enable')->order('sort asc')->select();
         if(!empty($data) && is_array($data))
         {
             $images_host = config('IMAGE_HOST');

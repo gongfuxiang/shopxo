@@ -34,7 +34,7 @@ class UserService
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
         // 获取管理员列表
-        $data = db('User')->where($where)->order($order_by)->limit($m, $n)->select();
+        $data = Db::name('User')->where($where)->order($order_by)->limit($m, $n)->select();
         if(!empty($data))
         {
             $common_gender_list = lang('common_gender_list');
@@ -115,7 +115,7 @@ class UserService
      */
     public static function UserTotal($where)
     {
-        return (int) db('User')->where($where)->count();
+        return (int) Db::name('User')->where($where)->count();
     }
 
     /**
@@ -214,20 +214,20 @@ class UserService
         if(!empty($params['id']))
         {
             // 获取用户信息
-            $user = db('User')->field('id,integral')->find($params['id']);
+            $user = Db::name('User')->field('id,integral')->find($params['id']);
             if(empty($user))
             {
                 return DataReturn('用户信息不存在', -10);
             }
 
             $data['upd_time'] = time();
-            if(db('User')->where(['id'=>$params['id']])->update($data))
+            if(Db::name('User')->where(['id'=>$params['id']])->update($data))
             {
                 $user_id = $params['id'];
             }
         } else {
             $data['add_time'] = time();
-            $user_id = db('User')->insertGetId($data);
+            $user_id = Db::name('User')->insertGetId($data);
         }
 
         // 状态
@@ -274,7 +274,7 @@ class UserService
         }
            
         // 删除操作
-        if(db('User')->delete(intval($params['id'])))
+        if(Db::name('User')->delete(intval($params['id'])))
         {
             return DataReturn('删除成功');
         }
@@ -312,7 +312,7 @@ class UserService
 
         // 获取用户地址
         $field = 'id,alias,name,tel,province,city,county,address,lng,lat,is_default';
-        $data = db('UserAddress')->where($where)->field($field)->order('id desc')->select();
+        $data = Db::name('UserAddress')->where($where)->field($field)->order('id desc')->select();
         if(!empty($data))
         {
             foreach($data as &$v)
@@ -458,7 +458,7 @@ class UserService
         if(!empty($params['id']))
         {
             $where = ['user_id' => $params['user']['id'], 'id'=>$params['id']];
-            $temp = db('UserAddress')->where($where)->find();
+            $temp = Db::name('UserAddress')->where($where)->find();
         }
         
         // 操作数据
@@ -481,7 +481,7 @@ class UserService
         // 默认地址处理
         if($is_default == 1)
         {
-            db('UserAddress')->where(['user_id'=>$params['user']['id'], 'is_default'=>1])->update(['is_default'=>0]);
+            Db::name('UserAddress')->where(['user_id'=>$params['user']['id'], 'is_default'=>1])->update(['is_default'=>0]);
         }
 
         // 添加/更新数据
@@ -489,7 +489,7 @@ class UserService
         {
             $data['user_id'] = $params['user']['id'];
             $data['add_time'] = time();
-            if(db('UserAddress')->insertGetId($data) > 0)
+            if(Db::name('UserAddress')->insertGetId($data) > 0)
             {
                 Db::commit();
                 return DataReturn('新增成功', 0);
@@ -499,7 +499,7 @@ class UserService
             }
         } else {
             $data['upd_time'] = time();
-            if(db('UserAddress')->where($where)->update($data))
+            if(Db::name('UserAddress')->where($where)->update($data))
             {
                 Db::commit();
                 return DataReturn('更新成功', 0);
@@ -542,7 +542,7 @@ class UserService
         // 软删除数据
         $where = ['user_id' => $params['user']['id'], 'id'=>$params['id']];
         $data = ['is_delete_time' => time()];
-        if(db('UserAddress')->where($where)->update($data))
+        if(Db::name('UserAddress')->where($where)->update($data))
         {
             return DataReturn('删除成功', 0);
         } else {
@@ -584,8 +584,8 @@ class UserService
         Db::startTrans();
 
         // 先全部设置为0 再将当前设置为1
-        $all_status = db('UserAddress')->where(['user_id' => $params['user']['id']])->update(['is_default'=>0]);
-        $my_status = db('UserAddress')->where(['user_id' => $params['user']['id'], 'id'=>$params['id']])->update(['is_default'=>1]);
+        $all_status = Db::name('UserAddress')->where(['user_id' => $params['user']['id']])->update(['is_default'=>0]);
+        $my_status = Db::name('UserAddress')->where(['user_id' => $params['user']['id'], 'id'=>$params['id']])->update(['is_default'=>1]);
         if($all_status !== false && $my_status)
         {
             // 提交事务
@@ -611,7 +611,7 @@ class UserService
     {
         if(!empty($user_id))
         {
-            $user = db('User')->field('*')->find($user_id);
+            $user = Db::name('User')->field('*')->find($user_id);
             if(!empty($user))
             {
                 // 基础数据处理
@@ -738,7 +738,7 @@ class UserService
             'avatar'    => DS.$img_path.'compr'.$date.$compr,
             'upd_time'  => time(),
         ];
-        if(db('User')->where(['id'=>$params['user']['id']])->update($data))
+        if(Db::name('User')->where(['id'=>$params['user']['id']])->update($data))
         {
             self::UserLoginRecord($params['user']['id']);
             return DataReturn('上传成功', 0);
@@ -778,7 +778,7 @@ class UserService
 
         // 获取用户账户信息
         $where = array('mobile|email' => $params['accounts'], 'is_delete_time'=>0);
-        $user = db('User')->field(array('id', 'pwd', 'salt', 'status'))->where($where)->find();
+        $user = Db::name('User')->field(array('id', 'pwd', 'salt', 'status'))->where($where)->find();
         if(empty($user))
         {
             return DataReturn('帐号不存在', -3);
@@ -802,7 +802,7 @@ class UserService
                 'salt'      =>  $salt,
                 'upd_time'  =>  time(),
             );
-        if(db('User')->where(array('id'=>$user['id']))->update($data) !== false)
+        if(Db::name('User')->where(array('id'=>$user['id']))->update($data) !== false)
         {
             // 登录记录
             if(self::UserLoginRecord($user['id']))
@@ -903,7 +903,7 @@ class UserService
         }
 
         // 数据添加
-        $user_id = db('User')->insertGetId($data);
+        $user_id = Db::name('User')->insertGetId($data);
         if($user_id > 0)
         {
             // 清除验证码
@@ -980,7 +980,7 @@ class UserService
      */
     private static function IsExistAccounts($accounts, $field = 'mobile')
     {
-        $id = db('User')->where(array($field=>$accounts))->value('id');
+        $id = Db::name('User')->where(array($field=>$accounts))->value('id');
         return !empty($id);
     }
 
@@ -1281,7 +1281,7 @@ class UserService
                 'salt'      =>  $salt,
                 'upd_time'  =>  time(),
             );
-        if(db('User')->where(array($ret['data']=>$params['accounts']))->update($data) !== false)
+        if(Db::name('User')->where(array($ret['data']=>$params['accounts']))->update($data) !== false)
         {
             return DataReturn('操作成功');
         }
@@ -1336,7 +1336,7 @@ class UserService
             'gender'        => intval($params['gender']),
             'upd_time'      => time(),
         ];
-        if(db('User')->where(array('id'=>$params['user']['id']))->update($data))
+        if(Db::name('User')->where(array('id'=>$params['user']['id']))->update($data))
         {
             // 更新用户session数据
             self::UserLoginRecord($params['user']['id']);

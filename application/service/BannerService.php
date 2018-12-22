@@ -1,6 +1,8 @@
 <?php
 namespace app\service;
 
+use think\Db;
+
 /**
  * 轮播服务层
  * @author   Devil
@@ -21,7 +23,7 @@ class BannerService
      */
     public static function Banner($params = [])
     {
-        $banner = db('Slide')->field('name,images_url,event_value,event_type,bg_color')->where(['platform'=>APPLICATION_CLIENT_TYPE, 'is_enable'=>1])->order('sort asc')->select();
+        $banner = Db::name('Slide')->field('name,images_url,event_value,event_type,bg_color')->where(['platform'=>APPLICATION_CLIENT_TYPE, 'is_enable'=>1])->order('sort asc')->select();
         if(!empty($banner))
         {
             $images_host = config('IMAGE_HOST');

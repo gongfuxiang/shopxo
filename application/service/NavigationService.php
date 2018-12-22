@@ -28,7 +28,7 @@ class NavigationService
         $footer = cache(config('cache_common_home_nav_footer_key'));
 
         // 导航模型
-        $m = db('Navigation');
+        $m = Db::name('Navigation');
         $field = array('id', 'pid', 'name', 'url', 'value', 'data_type', 'is_new_window_open');
 
         // 缓存没数据则从数据库重新读取,顶部菜单
@@ -114,12 +114,12 @@ class NavigationService
         }
 
         $field = 'id,pid,name,url,value,data_type,sort,is_show,is_new_window_open';
-        $data = self::NavDataDealWith(db('Navigation')->field($field)->where(['nav_type'=>$params['nav_type'], 'pid'=>0])->order('sort')->select());
+        $data = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(['nav_type'=>$params['nav_type'], 'pid'=>0])->order('sort')->select());
         if(!empty($data))
         {
             foreach($data as &$v)
             {
-                $v['item'] = self::NavDataDealWith(db('Navigation')->field($field)->where(['nav_type'=>$params['nav_type'], 'pid'=>$v['id']])->order('sort')->select());
+                $v['item'] = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(['nav_type'=>$params['nav_type'], 'pid'=>$v['id']])->order('sort')->select());
             }
         }
         return $data;
@@ -141,7 +141,7 @@ class NavigationService
             return [];
         }
 
-        return db('Navigation')->field('id,name')->where(['is_show'=>1, 'pid'=>0, 'nav_type'=>$params['nav_type']])->select();
+        return Db::name('Navigation')->field('id,name')->where(['is_show'=>1, 'pid'=>0, 'nav_type'=>$params['nav_type']])->select();
     }
 
     /**
@@ -292,17 +292,17 @@ class NavigationService
             {
                 // 文章分类导航
                 case 'article':
-                    $temp_name = db('Article')->where(['id'=>$params['value']])->value('title');
+                    $temp_name = Db::name('Article')->where(['id'=>$params['value']])->value('title');
                     break;
 
                 // 自定义页面导航
                 case 'customview':
-                    $temp_name = db('CustomView')->where(['id'=>$params['value']])->value('title');
+                    $temp_name = Db::name('CustomView')->where(['id'=>$params['value']])->value('title');
                     break;
 
                 // 商品分类导航
                 case 'goods_category':
-                    $temp_name = db('GoodsCategory')->where(['id'=>$params['value']])->value('name');
+                    $temp_name = Db::name('GoodsCategory')->where(['id'=>$params['value']])->value('name');
                     break;
             }
             // 只截取16个字符
@@ -329,7 +329,7 @@ class NavigationService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(db('Navigation')->insertGetId($data) > 0)
+            if(Db::name('Navigation')->insertGetId($data) > 0)
             {
                 // 清除缓存
                 cache(config('cache_common_home_nav_'.$params['nav_type'].'_key'), null);
@@ -340,7 +340,7 @@ class NavigationService
             }
         } else {
             $data['upd_time'] = time();
-            if(db('Navigation')->where(['id'=>intval($params['id'])])->update($data))
+            if(Db::name('Navigation')->where(['id'=>intval($params['id'])])->update($data))
             {
                 // 清除缓存
                 cache(config('cache_common_home_nav_'.$params['nav_type'].'_key'), null);
@@ -381,7 +381,7 @@ class NavigationService
         Db::startTrans();
 
         // 删除操作
-        if(db('Navigation')->where(['id'=>$params['id']])->delete() !== false && db('Navigation')->where(['pid'=>$params['id']])->delete() !== false)
+        if(Db::name('Navigation')->where(['id'=>$params['id']])->delete() !== false && Db::name('Navigation')->where(['pid'=>$params['id']])->delete() !== false)
         {
             // 提交事务
             Db::commit();
@@ -430,7 +430,7 @@ class NavigationService
         }
 
         // 数据更新
-        if(db('Navigation')->where(['id'=>intval($params['id'])])->update(['is_show'=>intval($params['state'])]))
+        if(Db::name('Navigation')->where(['id'=>intval($params['id'])])->update(['is_show'=>intval($params['state'])]))
         {
             // 清除缓存
             cache(config('cache_common_home_nav_header_key'), null);

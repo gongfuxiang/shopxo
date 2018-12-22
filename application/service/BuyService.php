@@ -51,7 +51,7 @@ class BuyService
 
         // 获取商品
         $goods_id = intval($params['goods_id']);
-        $goods = db('Goods')->where(['id'=>$goods_id, 'is_shelves'=>1, 'is_delete_time'=>0])->find();
+        $goods = Db::name('Goods')->where(['id'=>$goods_id, 'is_shelves'=>1, 'is_delete_time'=>0])->find();
         if(empty($goods))
         {
             return DataReturn('商品不存在或已删除', -2);
@@ -81,11 +81,11 @@ class BuyService
 
         // 存在则更新
         $where = ['user_id'=>$data['user_id'], 'goods_id'=>$data['goods_id'], 'spec'=>$data['spec']];
-        $temp = db('Cart')->where($where)->find();
+        $temp = Db::name('Cart')->where($where)->find();
         if(empty($temp))
         {
             $data['add_time'] = time();
-            if(db('Cart')->insertGetId($data) > 0)
+            if(Db::name('Cart')->insertGetId($data) > 0)
             {
                 return DataReturn('加入成功', 0, self::UserCartTotal($params));
             }
@@ -96,7 +96,7 @@ class BuyService
             {
                 $data['stock'] = $goods['inventory'];
             }
-            if(db('Cart')->where($where)->update($data))
+            if(Db::name('Cart')->where($where)->update($data))
             {
                 return DataReturn('加入成功', 0, self::UserCartTotal($params));
             }
@@ -156,7 +156,7 @@ class BuyService
         $where['c.user_id'] = $params['user']['id'];
 
         $field = 'c.*, g.title, g.images, g.inventory_unit, g.is_shelves, g.is_delete_time, g.buy_min_number, g.buy_max_number';
-        $data = db('Cart')->alias('c')->join(['__GOODS__'=>'g'], 'g.id=c.goods_id')->where($where)->field($field)->select();
+        $data = Db::name('Cart')->alias('c')->join(['__GOODS__'=>'g'], 'g.id=c.goods_id')->where($where)->field($field)->select();
 
 
         // 数据处理
@@ -226,7 +226,7 @@ class BuyService
             'id'        => explode(',', $params['id']),
             'user_id'   => $params['user']['id']
         ];
-        if(db('Cart')->where($where)->delete())
+        if(Db::name('Cart')->where($where)->delete())
         {
             return DataReturn('删除成功', 0, self::UserCartTotal($params));
         }
@@ -283,7 +283,7 @@ class BuyService
             'stock'     => intval($params['stock']),
             'upd_time'  => time(),
         ];
-        if(db('Cart')->where($where)->update($data))
+        if(Db::name('Cart')->where($where)->update($data))
         {
             return DataReturn('更新成功', 0);
         }
@@ -417,7 +417,7 @@ class BuyService
     {
         if(isset($params['buy_type']) && $params['buy_type'] == 'cart' && !empty($params['ids']))
         {
-            db('Cart')->where(['id'=>explode(',', $params['ids'])])->delete();
+            Db::name('Cart')->where(['id'=>explode(',', $params['ids'])])->delete();
         }
     }
 
@@ -486,7 +486,7 @@ class BuyService
         foreach($params['goods'] as $v)
         {
             // 获取商品信息
-            $goods = db('Goods')->find($v['goods_id']);
+            $goods = Db::name('Goods')->find($v['goods_id']);
 
             // 规格
             $goods_base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>isset($v['spec']) ? $v['spec'] : []]);
@@ -623,7 +623,7 @@ class BuyService
         Db::startTrans();
 
         // 订单添加
-        $order_id = db('Order')->insertGetId($order);
+        $order_id = Db::name('Order')->insertGetId($order);
         if($order_id > 0)
         {
             foreach($goods['data'] as $v)
@@ -641,7 +641,7 @@ class BuyService
                     'buy_number'        => $v['stock'],
                     'add_time'          => time(),
                 ];
-                if(db('OrderDetail')->insertGetId($detail) <= 0)
+                if(Db::name('OrderDetail')->insertGetId($detail) <= 0)
                 {
                     Db::rollback();
                     return DataReturn('订单详情添加失败', -1);
@@ -673,7 +673,7 @@ class BuyService
 
         // 返回信息
         $result = [
-            'order'     => db('Order')->find($order_id),
+            'order'     => Db::name('Order')->find($order_id),
             'jump_url'  => url('index/order/index'),
         ];
 
@@ -711,7 +711,7 @@ class BuyService
      */
     public static function CartTotal($where = [])
     {
-        return (int) db('Cart')->where($where)->count();
+        return (int) Db::name('Cart')->where($where)->count();
     }
 
     /**
@@ -813,20 +813,20 @@ class BuyService
         }
 
         // 获取订单商品
-        $order_detail = db('OrderDetail')->field('goods_id,buy_number')->where(['order_id'=>$params['order_id']])->select();
+        $order_detail = Db::name('OrderDetail')->field('goods_id,buy_number')->where(['order_id'=>$params['order_id']])->select();
         if(!empty($order_detail))
         {
             foreach($order_detail as $v)
             {
                 // 查看是否已扣除过库存,避免更改模式导致重复扣除
-                $temp = db('OrderGoodsInventoryLog')->where(['order_id'=>$params['order_id'], 'goods_id'=>$v['goods_id']])->find();
+                $temp = Db::name('OrderGoodsInventoryLog')->where(['order_id'=>$params['order_id'], 'goods_id'=>$v['goods_id']])->find();
                 if(empty($temp))
                 {
-                    $goods = db('Goods')->field('is_deduction_inventory,inventory')->find($v['goods_id']);
+                    $goods = Db::name('Goods')->field('is_deduction_inventory,inventory')->find($v['goods_id']);
                     if(isset($goods['is_deduction_inventory']) && $goods['is_deduction_inventory'] == 1)
                     {
                         // 扣除操作
-                        if(!db('Goods')->where(['id'=>$v['goods_id']])->setDec('inventory', $v['buy_number']))
+                        if(!Db::name('Goods')->where(['id'=>$v['goods_id']])->setDec('inventory', $v['buy_number']))
                         {
                             return DataReturn('库存扣减失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
                         }
@@ -837,10 +837,10 @@ class BuyService
                             'goods_id'              => $v['goods_id'],
                             'order_status'          => $params['order_data']['status'],
                             'original_inventory'    => $goods['inventory'],
-                            'new_inventory'         => db('Goods')->where(['id'=>$v['goods_id']])->value('inventory'),
+                            'new_inventory'         => Db::name('Goods')->where(['id'=>$v['goods_id']])->value('inventory'),
                             'add_time'              => time(),
                         ];
-                        if(db('OrderGoodsInventoryLog')->insertGetId($log_data) <= 0)
+                        if(Db::name('OrderGoodsInventoryLog')->insertGetId($log_data) <= 0)
                         {
                             return DataReturn('库存扣减日志添加失败['.$params['order_id'].'-'.$v['goods_id'].']', -100);
                         }
@@ -894,17 +894,17 @@ class BuyService
         }
 
         // 获取订单商品
-        $order_detail = db('OrderDetail')->field('goods_id,buy_number')->where(['order_id'=>$params['order_id']])->select();
+        $order_detail = Db::name('OrderDetail')->field('goods_id,buy_number')->where(['order_id'=>$params['order_id']])->select();
         if(!empty($order_detail))
         {
             foreach($order_detail as $v)
             {
                 // 查看是否已扣除过库存
-                $temp = db('OrderGoodsInventoryLog')->where(['order_id'=>$params['order_id'], 'goods_id'=>$v['goods_id'], 'is_rollback'=>0])->find();
+                $temp = Db::name('OrderGoodsInventoryLog')->where(['order_id'=>$params['order_id'], 'goods_id'=>$v['goods_id'], 'is_rollback'=>0])->find();
                 if(!empty($temp))
                 {
                     // 回滚操作
-                    if(!db('Goods')->where(['id'=>$v['goods_id']])->setInc('inventory', $v['buy_number']))
+                    if(!Db::name('Goods')->where(['id'=>$v['goods_id']])->setInc('inventory', $v['buy_number']))
                     {
                         return DataReturn('库存回滚失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
                     }
@@ -914,7 +914,7 @@ class BuyService
                         'is_rollback'   => 1,
                         'rollback_time' => time(),
                     ];
-                    if(!db('OrderGoodsInventoryLog')->where(['id'=>$temp['id']])->update($log_data))
+                    if(!Db::name('OrderGoodsInventoryLog')->where(['id'=>$temp['id']])->update($log_data))
                     {
                         return DataReturn('库存回滚日志更新失败['.$temp['id'].'-'.$params['order_id'].']', -100);
                     }

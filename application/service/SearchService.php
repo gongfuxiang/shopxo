@@ -1,7 +1,7 @@
 <?php
-
 namespace app\service;
 
+use think\Db;
 use app\service\GoodsService;
 
 /**
@@ -39,7 +39,7 @@ class SearchService
     public static function ScreeningPriceList($params = [])
     {
         $field = empty($params['field']) ? '*' : $params['field'];
-        return db('ScreeningPrice')->field($field)->where(['is_enable'=>1])->order('sort asc')->select();
+        return Db::name('ScreeningPrice')->field($field)->where(['is_enable'=>1])->order('sort asc')->select();
     }
 
     /**
@@ -86,7 +86,7 @@ class SearchService
         // 筛选价格
         if(!empty($params['screening_price_id']))
         {
-            $price = db('ScreeningPrice')->field('min_price,max_price')->where(['is_enable'=>1, 'id'=>intval($params['screening_price_id'])])->find();
+            $price = Db::name('ScreeningPrice')->field('min_price,max_price')->where(['is_enable'=>1, 'id'=>intval($params['screening_price_id'])])->find();
             if(!empty($price))
             {
                 $params['min_price'] = $price['min_price'];
@@ -141,7 +141,7 @@ class SearchService
         $screening_price = '';
         if(!empty($params['screening_price_id']))
         {
-            $price = db('ScreeningPrice')->field('min_price,max_price')->where(['is_enable'=>1, 'id'=>intval($params['screening_price_id'])])->find();
+            $price = Db::name('ScreeningPrice')->field('min_price,max_price')->where(['is_enable'=>1, 'id'=>intval($params['screening_price_id'])])->find();
         } else {
             $price = [
                 'min_price' => !empty($params['min_price']) ? $params['min_price'] : 0,
@@ -160,7 +160,7 @@ class SearchService
         unset($params['screening_price_id']);
 
         // 添加日志
-        db('SearchHistory')->insert($params);
+        Db::name('SearchHistory')->insert($params);
     }
 
     /**
@@ -173,7 +173,7 @@ class SearchService
      */
     public function SearchKeywordsList($params = [])
     {
-        return db('SearchHistory')->where(['keywords'=>['neq', '']])->group('keywords')->limit(10)->column('keywords');
+        return Db::name('SearchHistory')->where(['keywords'=>['neq', '']])->group('keywords')->limit(10)->column('keywords');
     }
 }
 ?>

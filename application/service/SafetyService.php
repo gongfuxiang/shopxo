@@ -1,6 +1,7 @@
 <?php
 namespace app\service;
 
+use think\Db;
 use app\service\UserService;
 
 /**
@@ -55,7 +56,7 @@ class SafetyService
         }
 
         // 获取用户账户信息
-        $user = db('User')->field('id,pwd,salt')->find($params['user']['id']);
+        $user = Db::name('User')->field('id,pwd,salt')->find($params['user']['id']);
 
         // 原密码校验
         if(LoginPwdEncryption($params['my_pwd'], $user['salt']) != $user['pwd'])
@@ -78,7 +79,7 @@ class SafetyService
         ];
 
         // 更新数据库
-        if(db('User')->where(['id'=>$params['user']['id']])->update($data) !== false)
+        if(Db::name('User')->where(['id'=>$params['user']['id']])->update($data) !== false)
         {
             return DataReturn('操作成功', 0);
         }
@@ -97,7 +98,7 @@ class SafetyService
     private static function IsExistAccounts($accounts, $type)
     {
         $field = ($type == 'sms') ? 'mobile' : 'email';
-        $user = db('User')->where([$field=>$accounts])->value('id');
+        $user = Db::name('User')->where([$field=>$accounts])->value('id');
         if(!empty($user))
         {
             $msg = ($type == 'sms') ? '手机号码已存在' : '电子邮箱已存在';
@@ -379,7 +380,7 @@ class SafetyService
                 'upd_time'  =>  time(),
             );
         // 更新数据库
-        if(db('User')->where(array('id'=>$params['user']['id']))->update($data) !== false)
+        if(Db::name('User')->where(array('id'=>$params['user']['id']))->update($data) !== false)
         {
             // 更新用户session数据
             UserService::UserLoginRecord($params['user']['id']);

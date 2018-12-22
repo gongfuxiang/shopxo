@@ -27,12 +27,12 @@ class AdminPowerService
         $order_by = empty($params['order_by']) ? 'id desc' : trim($params['order_by']);
 
         // 获取管理员列表
-        $data = db('Power')->where($where)->order($order_by)->select();
+        $data = Db::name('Power')->where($where)->order($order_by)->select();
         if(!empty($data))
         {
             foreach($data as &$v)
             {
-                $v['item'] = db('Power')->field($field)->where(['pid'=>$v['id']])->order($order_by)->select();
+                $v['item'] = Db::name('Power')->field($field)->where(['pid'=>$v['id']])->order($order_by)->select();
             }
         }
         return $data;
@@ -109,7 +109,7 @@ class AdminPowerService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(db('Power')->insertGetId($data) > 0)
+            if(Db::name('Power')->insertGetId($data) > 0)
             {
                 // 清除用户权限数据
                 self::PowerCacheDelete();
@@ -118,7 +118,7 @@ class AdminPowerService
             }
             return DataReturn('添加失败', -100);
         } else {
-            if(db('Power')->where(['id'=>intval($params['id'])])->update($data) !== false)
+            if(Db::name('Power')->where(['id'=>intval($params['id'])])->update($data) !== false)
             {
                 // 清除用户权限数据
                 self::PowerCacheDelete();
@@ -145,7 +145,7 @@ class AdminPowerService
             return DataReturn('权限菜单id有误', -1);
         }
 
-        if(db('Power')->delete(intval($params['id'])))
+        if(Db::name('Power')->delete(intval($params['id'])))
         {
             // 清除用户权限数据
             self::PowerCacheDelete();
@@ -170,7 +170,7 @@ class AdminPowerService
         $order_by = empty($params['order_by']) ? 'id desc' : trim($params['order_by']);
 
         // 获取管理员列表
-        $data = db('Role')->where($where)->order($order_by)->select();
+        $data = Db::name('Role')->where($where)->order($order_by)->select();
         if(!empty($data))
         {
             foreach($data as &$v)
@@ -178,9 +178,9 @@ class AdminPowerService
                 // 关联查询权限和角色数据
                 if($v['id'] == 1)
                 {
-                    $v['item'] = db('Power')->select();
+                    $v['item'] = Db::name('Power')->select();
                 } else {
-                    $v['item'] = db('Role')->alias('r')->join(['__ROLE_POWER__'=>'rp'], 'rp.role_id = r.id')->join(['__POWER__'=>'p'], 'rp.power_id = p.id')->where(array('r.id'=>$v['id']))->field('p.id,p.name')->select();
+                    $v['item'] = Db::name('Role')->alias('r')->join(['__ROLE_POWER__'=>'rp'], 'rp.role_id = r.id')->join(['__POWER__'=>'p'], 'rp.power_id = p.id')->where(array('r.id'=>$v['id']))->field('p.id,p.name')->select();
                 }
             }
         }
@@ -218,7 +218,7 @@ class AdminPowerService
         }
 
         // 数据更新
-        if(db('Role')->where(['id'=>intval($params['id'])])->update(['is_enable'=>intval($params['state'])]))
+        if(Db::name('Role')->where(['id'=>intval($params['id'])])->update(['is_enable'=>intval($params['state'])]))
         {
             return DataReturn('编辑成功');
         }
@@ -236,11 +236,11 @@ class AdminPowerService
     public static function RolePowerEditData($params = [])
     {
         // 当前角色关联的所有菜单id
-        $action = empty($params['role_id']) ? [] : db('RolePower')->where(['role_id'=>$params['role_id']])->column('power_id');
+        $action = empty($params['role_id']) ? [] : Db::name('RolePower')->where(['role_id'=>$params['role_id']])->column('power_id');
 
         // 权限列表
         $power_field = 'id,name,is_show';
-        $power = db('Power')->field($power_field)->where(['pid'=>0])->order('sort')->select();
+        $power = Db::name('Power')->field($power_field)->where(['pid'=>0])->order('sort')->select();
         if(!empty($power))
         {
             foreach($power as &$v)
@@ -249,7 +249,7 @@ class AdminPowerService
                 $v['is_power'] = in_array($v['id'], $action) ? 'ok' : 'no';
 
                 // 获取子权限
-                $item =  db('Power')->field($power_field)->where(array('pid'=>$v['id']))->order('sort')->select();
+                $item =  Db::name('Power')->field($power_field)->where(array('pid'=>$v['id']))->order('sort')->select();
                 if(!empty($item))
                 {
                     foreach($item as $ks=>$vs)
@@ -304,9 +304,9 @@ class AdminPowerService
         if(empty($params['id']))
         {
             $role_data['add_time'] = time();
-            $role_id = db('Role')->insertGetId($role_data);
+            $role_id = Db::name('Role')->insertGetId($role_data);
         } else {
-            if(db('Role')->where(['id'=>$params['id']])->update($role_data) !== false)
+            if(Db::name('Role')->where(['id'=>$params['id']])->update($role_data) !== false)
             {
                 $role_id = $params['id'];
             }
@@ -318,7 +318,7 @@ class AdminPowerService
         }
 
         // 权限关联数据删除
-        if(db('RolePower')->where(['role_id'=>$role_id])->delete() === false)
+        if(Db::name('RolePower')->where(['role_id'=>$role_id])->delete() === false)
         {
             Db::rollback();
             return DataReturn('角色权限操作失败', -3);
@@ -341,7 +341,7 @@ class AdminPowerService
             }
             if(!empty($rp_data))
             {
-                if(db('RolePower')->insertAll($rp_data) < count($rp_data))
+                if(Db::name('RolePower')->insertAll($rp_data) < count($rp_data))
                 {
                     Db::rollback();
                     return DataReturn('角色权限添加失败', -10);
@@ -378,7 +378,7 @@ class AdminPowerService
         Db::startTrans();
 
         // 删除角色
-        if(db('Role')->delete(intval($params['id'])) !== false && db('RolePower')->where(['role_id'=>intval($params['id'])])->delete() !== false)
+        if(Db::name('Role')->delete(intval($params['id'])) !== false && Db::name('RolePower')->where(['role_id'=>intval($params['id'])])->delete() !== false)
         {
             // 提交事务
             Db::commit();
@@ -402,7 +402,7 @@ class AdminPowerService
      */
     public static function PowerCacheDelete()
     {
-        $admin = db('Admin')->column('id');
+        $admin = Db::name('Admin')->column('id');
         if(!empty($admin))
         {
             foreach($admin as $id)
@@ -439,10 +439,10 @@ class AdminPowerService
             if($admin_id == 1)
             {
                 $field = 'id,name,control,action,is_show,icon';
-                $admin_left_menu = db('Power')->where(array('pid' => 0))->field($field)->order('sort')->select();
+                $admin_left_menu = Db::name('Power')->where(array('pid' => 0))->field($field)->order('sort')->select();
             } else {
                 $field = 'p.id,p.name,p.control,p.action,p.is_show,p.icon';
-                $admin_left_menu = db('Power')->alias('p')->join(['__ROLE_POWER__'=>'rp'], 'p.id=rp.power_id')->where(array('rp.role_id' => $role_id, 'p.pid' => 0))->field($field)->order('p.sort')->select();
+                $admin_left_menu = Db::name('Power')->alias('p')->join(['__ROLE_POWER__'=>'rp'], 'p.id=rp.power_id')->where(array('rp.role_id' => $role_id, 'p.pid' => 0))->field($field)->order('p.sort')->select();
             }
             
             // 有数据，则处理子级数据
@@ -456,9 +456,9 @@ class AdminPowerService
                     // 获取子权限
                     if($admin_id == 1)
                     {
-                        $item = db('Power')->where(array('pid' => $v['id']))->field($field)->order('sort')->select();
+                        $item = Db::name('Power')->where(array('pid' => $v['id']))->field($field)->order('sort')->select();
                     } else {
-                        $item = db('Power')->alias('p')->join(['__ROLE_POWER__'=>'rp'], 'p.id=rp.power_id')->where(array('rp.role_id' => $role_id, 'p.pid' => $v['id']))->field($field)->order('p.sort')->select();
+                        $item = Db::name('Power')->alias('p')->join(['__ROLE_POWER__'=>'rp'], 'p.id=rp.power_id')->where(array('rp.role_id' => $role_id, 'p.pid' => $v['id']))->field($field)->order('p.sort')->select();
                     }
 
                     // 权限列表

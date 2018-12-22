@@ -1,6 +1,8 @@
 <?php
 namespace app\service;
 
+use think\Db;
+
 /**
  * 配置服务层
  * @author   Devil
@@ -22,7 +24,7 @@ class ConfigService
     public static function ConfigList($params = [])
     {
         $field = isset($params['field']) ? $params['field'] : 'only_tag,name,describe,value,error_tips';
-        return db('Config')->column($field);
+        return Db::name('Config')->column($field);
     }
 
     /**
@@ -60,7 +62,7 @@ class ConfigService
             {
                 $v = htmlentities($v);
             }
-            if(db('Config')->where(['only_tag'=>$k])->update(['value'=>$v, 'upd_time'=>time()]))
+            if(Db::name('Config')->where(['only_tag'=>$k])->update(['value'=>$v, 'upd_time'=>time()]))
             {
                 $success++;
             }
@@ -90,7 +92,7 @@ class ConfigService
         if($status == 1 || empty($data))
         {
             // 所有配置
-            $data = db('Config')->column('value', 'only_tag');
+            $data = Db::name('Config')->column('value', 'only_tag');
 
             // 数据处理
             // 开启用户注册列表

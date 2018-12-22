@@ -1,6 +1,8 @@
 <?php
 namespace app\service;
 
+use think\Db;
+
 /**
  * 资源服务层
  * @author   Devil
@@ -21,7 +23,7 @@ class ResourcesService
      */
     public static function OrderPaymentName($order_id = 0)
     {
-        return empty($order_id) ? null : db('PayLog')->where(['order_id'=>intval($order_id)])->value('payment_name');
+        return empty($order_id) ? null : Db::name('PayLog')->where(['order_id'=>intval($order_id)])->value('payment_name');
     }
 
     /**
@@ -45,7 +47,7 @@ class ResourcesService
             $where['is_open_user'] = intval($params['is_open_user']);
         }
 
-        $data = db('Payment')->where($where)->field('id,logo,name,sort,payment,config,apply_terminal,apply_terminal,element,is_enable,is_open_user')->order('sort asc')->select();
+        $data = Db::name('Payment')->where($where)->field('id,logo,name,sort,payment,config,apply_terminal,apply_terminal,element,is_enable,is_open_user')->order('sort asc')->select();
         if(!empty($data) && is_array($data))
         {
             $images_host = config('IMAGE_HOST');
@@ -164,7 +166,7 @@ class ResourcesService
      */
     public static function AppHomeNav($params = [])
     {
-        $data = db('AppHomeNav')->field('id,name,images_url,event_value,event_type,bg_color')->where(['platform'=>APPLICATION_CLIENT_TYPE, 'is_enable'=>1])->order('sort asc')->select();
+        $data = Db::name('AppHomeNav')->field('id,name,images_url,event_value,event_type,bg_color')->where(['platform'=>APPLICATION_CLIENT_TYPE, 'is_enable'=>1])->order('sort asc')->select();
         if(!empty($data))
         {
             $images_host = config('IMAGE_HOST');

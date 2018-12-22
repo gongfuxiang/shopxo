@@ -1,6 +1,7 @@
 <?php
 namespace app\service;
 
+use think\Db;
 use app\service\ResourcesService;
 
 /**
@@ -28,7 +29,7 @@ class CustomViewService
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
-        $data = db('CustomView')->field($field)->where($where)->order('id desc')->limit($m, $n)->select();
+        $data = Db::name('CustomView')->field($field)->where($where)->order('id desc')->limit($m, $n)->select();
         if(!empty($data))
         {
             $common_is_enable_list = lang('common_is_enable_list');
@@ -73,7 +74,7 @@ class CustomViewService
      */
     public static function CustomViewTotal($where = [])
     {
-        return (int) db('CustomView')->where($where)->count();
+        return (int) Db::name('CustomView')->where($where)->count();
     }
 
     /**
@@ -143,7 +144,7 @@ class CustomViewService
     {
         if(!empty($params['id']))
         {
-            return db('CustomView')->where(array('id'=>intval($params['id'])))->setInc('access_count');
+            return Db::name('CustomView')->where(array('id'=>intval($params['id'])))->setInc('access_count');
         }
         return false;
     }
@@ -197,14 +198,14 @@ class CustomViewService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(db('CustomView')->insertGetId($data) > 0)
+            if(Db::name('CustomView')->insertGetId($data) > 0)
             {
                 return DataReturn('添加成功', 0);
             }
             return DataReturn('添加失败', -100);
         } else {
             $data['upd_time'] = time();
-            if(db('CustomView')->where(['id'=>intval($params['id'])])->update($data))
+            if(Db::name('CustomView')->where(['id'=>intval($params['id'])])->update($data))
             {
                 return DataReturn('编辑成功', 0);
             }
@@ -258,7 +259,7 @@ class CustomViewService
         }
 
         // 删除操作
-        if(db('CustomView')->where(['id'=>$params['id']])->delete())
+        if(Db::name('CustomView')->where(['id'=>$params['id']])->delete())
         {
             return DataReturn('删除成功');
         }
@@ -302,7 +303,7 @@ class CustomViewService
         }
 
         // 数据更新
-        if(db('CustomView')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state'])]))
+        if(Db::name('CustomView')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state'])]))
         {
            return DataReturn('编辑成功');
         }
