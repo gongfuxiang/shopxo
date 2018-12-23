@@ -49,7 +49,7 @@ class AlipayLifeUser extends Common
 		$m = db('AlipayLifeUser');
 
 		// 分页
-		$number = MyC('admin_page_number');
+		$number = MyC('admin_page_number', 10, true);
 		$page_param = array(
 				'number'	=>	$number,
 				'total'		=>	$m->alias('au')->where($where)->join('INNER JOIN __USER__ AS u ON u.id=au.user_id')->count(),

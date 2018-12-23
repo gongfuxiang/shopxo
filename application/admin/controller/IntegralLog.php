@@ -1,16 +1,16 @@
 <?php
 namespace app\admin\controller;
 
-use app\service\MessageService;
+use app\service\IntegralService;
 
 /**
- * 消息管理
+ * 用户积分日志管理
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Message extends Common
+class IntegralLog extends Common
 {
 	/**
 	 * 构造方法
@@ -32,7 +32,7 @@ class Message extends Common
 	}
 
 	/**
-     * [Index 消息列表]
+     * [Index 用户积分日志列表]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -49,10 +49,10 @@ class Message extends Common
         $number = MyC('admin_page_number', 10, true);
 
         // 条件
-        $where = MessageService::AdminMessageListWhere($params);
+        $where = IntegralService::AdminIntegralListWhere($params);
 
         // 获取总数
-        $total = MessageService::AdminMessageTotal($where);
+        $total = IntegralService::AdminIntegralTotal($where);
 
         // 分页
         $page_params = array(
@@ -60,7 +60,7 @@ class Message extends Common
                 'total'     =>  $total,
                 'where'     =>  $params,
                 'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  url('admin/message/index'),
+                'url'       =>  url('admin/integrallog/index'),
             );
         $page = new \base\Page($page_params);
         $this->assign('page_html', $page->GetPageHtml());
@@ -71,43 +71,18 @@ class Message extends Common
             'n'         => $number,
             'where'     => $where,
         );
-        $data = MessageService::AdminMessageList($data_params);
+        $data = IntegralService::AdminIntegralList($data_params);
         $this->assign('data_list', $data['data']);
 
 		// 性别
 		$this->assign('common_gender_list', lang('common_gender_list'));
 
-		// 消息类型
-		$this->assign('common_message_type_list', lang('common_message_type_list'));
-
-		// 是否已读
-		$this->assign('common_is_read_list', lang('common_is_read_list'));
+		// 操作类型
+		$this->assign('common_integral_log_type_list', lang('common_integral_log_type_list'));
 
 		// 参数
         $this->assign('params', $params);
         return $this->fetch();
-	}
-
-	/**
-	 * [Delete 消息删除]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-15T11:03:30+0800
-	 */
-	public function Delete()
-	{
-		// 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
-        $params = input();
-        $params['admin'] = $this->admin;
-        $ret = MessageService::MessageDelete($params);
-        return json($ret);
 	}
 }
 ?>

@@ -51,7 +51,7 @@ class User extends Common
 		$total = UserService::UserTotal($where);
 
 		// 分页
-		$number = MyC('admin_page_number');
+		$number = MyC('admin_page_number', 10, true);
 		$page_params = array(
 				'number'	=>	$number,
 				'total'		=>	$total,

@@ -489,7 +489,7 @@ class ArticleService
         {
             return DataReturn('删除成功', 0);
         }
-        return DataReturn('删除失败', 0);
+        return DataReturn('删除失败', -100);
     }
 }
 ?>

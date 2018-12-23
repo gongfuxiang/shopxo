@@ -51,7 +51,7 @@ class AlipayLifeMenu extends Common
         $where = $this->GetIndexWhere();
 
         // 分页
-        $number = MyC('admin_page_number');
+        $number = MyC('admin_page_number', 10, true);
         $page_param = array(
                 'number'    =>  $number,
                 'total'     =>  $m->where($where)->count(),

@@ -49,7 +49,7 @@ class Coupon extends Common
 		$where = $this->GetIndexWhere();
 
 		// 分页
-		$number = MyC('admin_page_number');
+		$number = MyC('admin_page_number', 10, true);
 		$page_param = array(
 				'number'	=>	$number,
 				'total'		=>	$m->where($where)->count(),
@@ -480,7 +480,7 @@ class Coupon extends Common
 		$where = $this->GetUserWhere($param);
 
 		// 分页
-		$number = MyC('admin_page_number');
+		$number = MyC('admin_page_number', 10, true);
 		$page_param = array(
 				'number'	=>	$number,
 				'total'		=>	$m->alias('uc')->join('__USER__ AS u ON u.id=uc.user_id')->where($where)->count(),
