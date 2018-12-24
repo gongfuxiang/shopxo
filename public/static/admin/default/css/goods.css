@@ -61,6 +61,58 @@
 .specifications-table > tbody > tr > td {
     vertical-align: middle;
 }
+#goods-nav-operations {
+    position: relative;
+}
+.spec-images-tips {
+    position: absolute;
+    left: 100px;
+    top: 60px;
+    z-index: 2;
+    padding: 2px 5px;
+    white-space: nowrap;
+    border: solid 1px #FDEF9D;
+    border-radius: 2px;
+    background-color: #FEFBE6;
+    color: #593C07;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.05);
+}
+.spec-images-tips::before {
+    position: absolute;
+    z-index: 2;
+    left: 15px;
+    bottom: -5px;
+    overflow: hidden;
+    width: 6px;
+    height: 6px;
+    margin-top: -54px;
+    background-color: #FEFBE6;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    border-color: #FDEF9D;
+    font-size: 0;
+    content: "";
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.05);
+}
+.spec-images-tips .am-checkbox {
+    margin: 0px;
+    min-height: auto;
+}
+.spec-images-tips .am-checkbox input[type="checkbox"] {
+    margin: 0 0 0 -4px;
+}
+.spec-images-list {
+    border: 1px solid #eee;
+    padding: 10px;
+    margin-top: 15px;
+}
+.spec-images-list li {
+    display: inline-block;
+}
 
 /**
  * 属性

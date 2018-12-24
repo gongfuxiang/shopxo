@@ -25,7 +25,7 @@ $(function()
         $('.title-start').before(html);
 
         // value
-        html = '<td class="table-value-'+index+'">';
+        html = '<td class="table-value table-value-'+index+'">';
         html += '<input type="text" name="specifications_value_'+index+'[]" placeholder="规格值" />';
         html += '</td>';
         $('.value-start').before(html);
@@ -83,6 +83,24 @@ $(function()
     $('.specifications-table').on('click', '.line-remove', function()
     {
         $(this).parents('tr').remove();
+
+        if($('.specifications-table tbody tr').length <= 1)
+        {
+            $('.specifications-table th.table-title').remove();
+            $('.specifications-table td.table-value').remove();
+        }
+    });
+
+    // 规格首列事件
+    $('.spec-images-tips').on('change', 'input', function()
+    {
+        if($(this).prop('checked'))
+        {
+            console.log(1);
+        } else {
+            console.log(0);
+        }
+        
     });
 
     // 手机详情添加
@@ -123,7 +141,6 @@ $(function()
         $content_tag.append(html);
         $content_tag.attr('index', index);
         $(this).attr('index', i+1);
-        ImageFileUploadShow('.images-file-tag-'+index);
     });
 
     // 手机详情删除
