@@ -542,6 +542,7 @@ class PaymentService
         {
             return DataReturn('资源不存在或已被删除', -2);
         }
+
         // 权限
         if(!is_writable($file))
         {
@@ -612,6 +613,7 @@ class PaymentService
         // 批量创建
         foreach(self::$payment_business_type_all as $v)
         {
+            $name = strtolower($v['name']);
 // 异步
 $notify=<<<php
 <?php
@@ -620,20 +622,24 @@ $notify=<<<php
  * {$v['desc']}支付异步入口
  */
 
+namespace think;
+
 // 默认绑定模块
-\$_GET['m'] = 'Api';
-\$_GET['c'] = '{$v['name']}Notify';
-\$_GET['a'] = 'Notify';
+\$_GET['s'] = '/api/{$name}notify/notify';
 
 // 支付模块标记
 define('PAYMENT_TYPE', '{$payment}');
 
+// 加载基础文件
+require __DIR__ . '/../thinkphp/base.php';
+
+// 支持事先使用静态方法设置Request对象和Config对象
+
 // 引入公共入口文件
 require './core.php';
 
-// 引入ThinkPHP入口文件
-require './ThinkPHP/ThinkPHP.php';
-
+// 执行应用并响应
+Container::get('app')->run()->send();
 ?>
 php;
 
@@ -645,20 +651,24 @@ $respond=<<<php
  * {$v['desc']}支付同步入口
  */
 
+namespace think;
+
 // 默认绑定模块
-\$_GET['m'] = 'Home';
-\$_GET['c'] = '{$v['name']}';
-\$_GET['a'] = 'Respond';
+\$_GET['s'] = '/index/{$name}/respond';
 
 // 支付模块标记
 define('PAYMENT_TYPE', '{$payment}');
 
+// 加载基础文件
+require __DIR__ . '/../thinkphp/base.php';
+
+// 支持事先使用静态方法设置Request对象和Config对象
+
 // 引入公共入口文件
 require './core.php';
 
-// 引入ThinkPHP入口文件
-require './ThinkPHP/ThinkPHP.php';
-
+// 执行应用并响应
+Container::get('app')->run()->send();
 ?>
 php;
             $name = strtolower($v['name']);

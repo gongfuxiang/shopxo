@@ -2,8 +2,6 @@
 namespace app\service;
 
 use think\Db;
-use app\service\ResourcesService;
-use app\service\MessageService;
 use app\service\RegionService;
 
 /**

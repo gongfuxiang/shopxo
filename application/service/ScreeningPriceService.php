@@ -2,6 +2,7 @@
 namespace app\service;
 
 use think\Db;
+use app\service\ResourcesService;
 
 /**
  * 筛选价格服务层

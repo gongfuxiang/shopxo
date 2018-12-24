@@ -813,7 +813,7 @@ class BuyService
         }
 
         // 获取订单商品
-        $order_detail = Db::name('OrderDetail')->field('goods_id,buy_number')->where(['order_id'=>$params['order_id']])->select();
+        $order_detail = Db::name('OrderDetail')->field('goods_id,buy_number,spec')->where(['order_id'=>$params['order_id']])->select();
         if(!empty($order_detail))
         {
             foreach($order_detail as $v)
@@ -828,7 +828,21 @@ class BuyService
                         // 扣除操作
                         if(!Db::name('Goods')->where(['id'=>$v['goods_id']])->setDec('inventory', $v['buy_number']))
                         {
-                            return DataReturn('库存扣减失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
+                            return DataReturn('商品库存扣减失败['.$params['order_id'].'-'.$v['goods_id'].'('.$goods['inventory'].'-'.$v['buy_number'].')]', -10);
+                        }
+
+                        // 扣除规格库存
+                        $spec = empty($v['spec']) ? '' : json_decode($v['spec'], true);
+                        $base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>$spec]);
+                        if($base['code'] == 0)
+                        {
+                            // 扣除规格操作
+                            if(!Db::name('GoodsSpecBase')->where(['id'=>$base['data']['id'], 'goods_id'=>$v['goods_id']])->setDec('inventory', $v['buy_number']))
+                            {
+                                return DataReturn('规格库存扣减失败['.$params['order_id'].'-'.$v['goods_id'].'('.$goods['inventory'].'-'.$v['buy_number'].')]', -10);
+                            }
+                        } else {
+                            return $base;
                         }
 
                         // 扣除日志添加
@@ -894,7 +908,7 @@ class BuyService
         }
 
         // 获取订单商品
-        $order_detail = Db::name('OrderDetail')->field('goods_id,buy_number')->where(['order_id'=>$params['order_id']])->select();
+        $order_detail = Db::name('OrderDetail')->field('goods_id,buy_number,spec')->where(['order_id'=>$params['order_id']])->select();
         if(!empty($order_detail))
         {
             foreach($order_detail as $v)
@@ -906,7 +920,21 @@ class BuyService
                     // 回滚操作
                     if(!Db::name('Goods')->where(['id'=>$v['goods_id']])->setInc('inventory', $v['buy_number']))
                     {
-                        return DataReturn('库存回滚失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
+                        return DataReturn('商品库存回滚失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
+                    }
+
+                    // 扣除规格库存
+                    $spec = empty($v['spec']) ? '' : json_decode($v['spec'], true);
+                    $base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>$spec]);
+                    if($base['code'] == 0)
+                    {
+                        // 扣除规格操作
+                        if(!Db::name('GoodsSpecBase')->where(['id'=>$base['data']['id'], 'goods_id'=>$v['goods_id']])->setInc('inventory', $v['buy_number']))
+                        {
+                            return DataReturn('规格库存回滚失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
+                        }
+                    } else {
+                        return $base;
                     }
 
                     // 回滚日志更新

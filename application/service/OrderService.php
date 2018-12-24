@@ -358,12 +358,12 @@ class OrderService
         ];
         Db::name('PayLog')->insertGetId($pay_log_data);
 
+        // 开启事务
+        Db::startTrans();
+
         // 消息通知
         $detail = '订单支付成功，金额'.PriceBeautify($params['order']['total_price']).'元';
         MessageService::MessageAdd($params['order']['user_id'], '订单支付', $detail, 1, $params['order']['id']);
-
-        // 开启事务
-        Db::startTrans();
 
         // 更新订单状态
         $upd_data = array(
