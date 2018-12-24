@@ -1,5 +1,4 @@
 <?php
-
 namespace app\admin\controller;
 
 /**
@@ -55,7 +54,7 @@ class Index extends Common
 				'mysql_ver'		=>	isset($mysql_ver[0]['ver']) ? $mysql_ver[0]['ver'] : '',
 				'os_ver'		=>	PHP_OS,
 				'host'			=>	isset($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : '',
-				'ver'			=>	'ShopXO'.' '.'v1.1.0',
+				'ver'			=>	'ShopXO'.' '.APPLICATION_VERSION,
 			);
 		$this->assign('data', $data);
 		return $this->fetch();

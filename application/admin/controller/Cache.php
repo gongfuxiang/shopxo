@@ -1,5 +1,4 @@
 <?php
-
 namespace app\admin\controller;
 
 /**
@@ -39,23 +38,26 @@ class Cache extends Common
 	 */
 	public function Index()
 	{
+		// 缓存类型
 		$this->assign('cache_type_list', lang('cache_type_list'));
-		$this->display('Index');
+
+		return $this->fetch();
 	}
 
 	/**
-	 * [SiteUpdate 站点缓存更新]
+	 * [StatusUpdate 站点缓存更新]
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
 	 * @datetime 2017-02-26T19:53:14+0800
 	 */
-	public function SiteUpdate()
+	public function StatusUpdate()
 	{
-		\base\FileUtil::UnlinkDir(TEMP_PATH);
-		\base\FileUtil::UnlinkDir(DATA_PATH);
-		\base\FileUtil::UnlinkFile(RUNTIME_PATH.'common~runtime.php');
-		$this->success('更新成功');
+		// 模板 cache
+		// 数据 temp
+		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'cache');
+		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'temp');
+		return $this->success('更新成功');
 	}
 
 	/**
@@ -67,10 +69,10 @@ class Cache extends Common
 	 */
 	public function TemplateUpdate()
 	{
-		// 模板 Cache
-		\base\FileUtil::UnlinkDir(CACHE_PATH);
+		// 模板 cache
+		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'cache');
 
-		$this->success('更新成功');
+		return $this->success('更新成功');
 	}
 
 	/**
@@ -82,7 +84,21 @@ class Cache extends Common
 	 */
 	public function ModuleUpdate()
 	{
-		$this->success('更新成功');
+		return $this->success('更新成功');
+	}
+
+	/**
+	 * [LogDelete 日志删除]
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2017-02-26T19:53:14+0800
+	 */
+	public function LogDelete()
+	{
+		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'log');
+
+		return $this->success('更新成功');
 	}
 }
 ?>

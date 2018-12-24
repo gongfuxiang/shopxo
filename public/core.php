@@ -38,8 +38,14 @@ define('__MY_VIEW_URL__', substr(__MY_URL__, 0, -1).$request_url);
 //     exit(header('location:'.$url));
 // }
 
-// 开启调试模式 建议开发阶段开启 部署阶段注释或者设为false
+// 系统版本
+define('APPLICATION_VERSION', 'v1.2.0');
+
+// 调试模式 建议开发阶段开启 部署阶段注释或者设为false
 define('APP_DEBUG', true);
+
+// 应用Trace 建议开发阶段开启 部署阶段注释或者设为false
+define('APP_TRACE', true);
 
 // 分之模式,master,develop,test,debug
 define('APP_STATUS', 'develop');

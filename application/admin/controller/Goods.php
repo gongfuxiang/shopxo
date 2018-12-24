@@ -73,7 +73,7 @@ class Goods extends Common
 		$data = GoodsService::GoodsList($data_params);
 
 		// 是否上下架
-		$this->assign('common_goods_is_shelves_list', lang('common_goods_is_shelves_list'));
+		$this->assign('common_is_shelves_list', lang('common_is_shelves_list'));
 
 		// 是否首页推荐
 		$this->assign('common_is_text_list', lang('common_is_text_list'));

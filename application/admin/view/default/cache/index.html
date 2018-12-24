@@ -4,8 +4,8 @@
 <div class="content-right">
 	<div class="content">
 		<!-- cache list start -->
-		<foreach name="cache_type_list" item="v">
-			{{if $v['is_enable'] eq 1)}}
+		{{foreach $cache_type_list as $v}}
+			{{if $v['is_enable'] eq 1}}
 				<div class="am-panel am-panel-default am-radius">
 					<div class="am-panel-hd">{{$v.name}}</div>
 					<a href="{{$v.url}}">

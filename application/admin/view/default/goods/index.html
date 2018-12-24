@@ -17,7 +17,7 @@
 				<div class="more-where {{if !isset($params['is_more']) or $params['is_more'] neq 1}}none{{/if}}">
 					<select name="is_shelves" class="am-radius c-p m-t-10 m-l-5 param-where">
 						<option value="-1">上下架</option>
-						{{foreach $common_goods_is_shelves_list as $v}}
+						{{foreach $common_is_shelves_list as $v}}
 							<option value="{{$v.id}}" {{if isset($params['is_shelves']) and $params['is_shelves'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
 					</select>
@@ -106,7 +106,7 @@
 												</dd>
 
 												<dt>上下架</dt>
-												<dd>{{:lang('common_goods_is_shelves_list')[$v['is_shelves']]['name']}}</dd>
+												<dd>{{:lang('common_is_shelves_list')[$v['is_shelves']]['name']}}</dd>
 
 												<dt>库存数量</dt>
 												<dd>{{$v.inventory}} {{$v.inventory_unit}}</dd>

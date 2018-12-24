@@ -10,38 +10,46 @@
 				<label>{{$data.home_site_name.name}}</label>
 				<input type="text" name="{{$data.home_site_name.only_tag}}" minlength="1" placeholder="{{$data.home_site_name.name}}" data-validation-message="{{$data.home_site_name.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_site_name.value}}"{{/if}} required />
 			</div>
-			<div class="am-form-group am-form-file">
+			<div class="am-form-group">
 				<label class="block">{{$data.home_site_logo.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_site_logo.describe}}）</span></label>
-				<button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
-				<i class="am-icon-cloud-upload"></i> 选择logo</button>
-				<input type="file" class="site-logo" data-tils-tag="#form-file-logo-tips" name="{{$data.home_site_logo.only_tag}}_img" multiple data-validation-message="{{$data.home_site_logo.error_tips}}" accept="image/gif,image/jpeg,image/jpg,image/png" {{if !empty($data)}}value="{{$data.home_site_logo.value}}"{{/if}} />
-				<input type="hidden" name="{{$data.home_site_logo.only_tag}}" {{if !empty($data)}}value="{{$data.home_site_logo.value}}"{{/if}} />
-				<img src="{{$image_host}}{{$data.home_site_logo.value}}" class="form-img-logo-view" />
-				<div id="form-file-logo-tips"></div>
+				<ul class="plug-file-upload-view home_site_logo-images-view" data-form-name="home_site_logo" data-max-number="1" data-dialog-type="images">
+					{{if !empty($data)}}
+						<li>
+							<input type="text" name="home_site_logo" value="{{$data.home_site_logo.value}}" />
+							<img src="{{$data.home_site_logo.value}}" />
+							<i>×</i>
+						</li>
+					{{/if}}
+				</ul>
+				<div class="plug-file-upload-submit" data-view-tag="ul.home_site_logo-images-view">+选择logo</div>
 			</div>
 
-			<div class="am-form-group am-form-file">
+			<div class="am-form-group">
 				<label class="block">{{$data.home_site_logo_wap.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_site_logo_wap.describe}}）</span></label>
-				<button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
-				<i class="am-icon-cloud-upload"></i> 选择logo</button>
-				<input type="file" class="site-logo" data-tils-tag="#form-file-logo-wap-tips" name="{{$data.home_site_logo_wap.only_tag}}_img" multiple data-validation-message="{{$data.home_site_logo_wap.error_tips}}" accept="image/gif,image/jpeg,image/jpg,image/png" {{if !empty($data)}}value="{{$data.home_site_logo_wap.value}}"{{/if}} />
-				<input type="hidden" name="{{$data.home_site_logo_wap.only_tag}}" {{if !empty($data)}}value="{{$data.home_site_logo_wap.value}}"{{/if}} />
-				{{if !empty($data['home_site_logo_wap']['value'])}}
-					<img src="{{$image_host}}{{$data.home_site_logo_wap.value}}" class="form-img-logo-view" />
-				{{/if}}
-				<div id="form-file-logo-wap-tips"></div>
+				<ul class="plug-file-upload-view home_site_logo_wap-images-view" data-form-name="home_site_logo_wap" data-max-number="1" data-dialog-type="images">
+					{{if !empty($data)}}
+						<li>
+							<input type="text" name="home_site_logo_wap" value="{{$data.home_site_logo_wap.value}}" />
+							<img src="{{$data.home_site_logo_wap.value}}" />
+							<i>×</i>
+						</li>
+					{{/if}}
+				</ul>
+				<div class="plug-file-upload-submit" data-view-tag="ul.home_site_logo_wap-images-view">+选择logo</div>
 			</div>
 
-			<div class="am-form-group am-form-file">
+			<div class="am-form-group">
 				<label class="block">{{$data.home_site_desktop_icon.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_site_desktop_icon.describe}}）</span></label>
-				<button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
-				<i class="am-icon-cloud-upload"></i> 选择图片</button>
-				<input type="file" class="site-logo" data-tils-tag="#form-file-logo-wap-tips" name="{{$data.home_site_desktop_icon.only_tag}}_img" multiple data-validation-message="{{$data.home_site_desktop_icon.error_tips}}" accept="image/gif,image/jpeg,image/jpg,image/png" {{if !empty($data)}}value="{{$data.home_site_desktop_icon.value}}"{{/if}} />
-				<input type="hidden" name="{{$data.home_site_desktop_icon.only_tag}}" {{if !empty($data)}}value="{{$data.home_site_desktop_icon.value}}"{{/if}} />
-				{{if !empty($data['home_site_desktop_icon']['value'])}}
-					<img src="{{$image_host}}{{$data.home_site_desktop_icon.value}}" class="form-img-icon-view" />
-				{{/if}}
-				<div id="form-file-logo-wap-tips"></div>
+				<ul class="plug-file-upload-view home_site_desktop_icon-images-view" data-form-name="home_site_desktop_icon" data-max-number="1" data-dialog-type="images">
+					{{if !empty($data)}}
+						<li>
+							<input type="text" name="home_site_desktop_icon" value="{{$data.home_site_desktop_icon.value}}" />
+							<img src="{{$data.home_site_desktop_icon.value}}" />
+							<i>×</i>
+						</li>
+					{{/if}}
+				</ul>
+				<div class="plug-file-upload-submit" data-view-tag="ul.home_site_desktop_icon-images-view">+选择logo</div>
 			</div>
 
 			<div class="am-form-group">

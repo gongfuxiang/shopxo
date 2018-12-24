@@ -90,6 +90,12 @@ class AdminPowerService
                 'is_checked'        => 1,
                 'error_msg'         => '图标格式 0~30 个字符之间',
             ],
+            [
+                'checked_type'      => 'in',
+                'key_name'          => 'is_show',
+                'checked_data'      => [0,1],
+                'error_msg'         => '是否显示范围值有误',
+            ],
         ];
         $ret = params_checked($params, $p);
         if($ret !== true)
@@ -105,6 +111,7 @@ class AdminPowerService
             'name'      => $params['name'],
             'control'   => $params['control'],
             'action'    => $params['action'],
+            'is_show'   => isset($params['is_show']) ? intval($params['is_show']) : 0,
         ];
         if(empty($params['id']))
         {

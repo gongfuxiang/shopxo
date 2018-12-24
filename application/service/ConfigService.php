@@ -2,6 +2,7 @@
 namespace app\service;
 
 use think\Db;
+use app\service\ResourcesService;
 
 /**
  * 配置服务层
@@ -41,6 +42,14 @@ class ConfigService
         if(empty($params))
         {
             return DataReturn('参数不能为空', -1);
+        }
+
+        // 附件
+        $data_fields = ['home_site_logo', 'home_site_logo_wap', 'home_site_desktop_icon'];
+        $attachment = ResourcesService::AttachmentParams($params, $data_fields);
+        foreach($attachment['data'] as $k=>$v)
+        {
+            $params[$k] = $v;
         }
 
         // 循环保存数据
