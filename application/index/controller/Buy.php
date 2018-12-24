@@ -3,7 +3,7 @@ namespace app\index\controller;
 
 use app\service\GoodsService;
 use app\service\UserService;
-use app\service\ResourcesService;
+use app\service\PaymentService;
 use app\service\BuyService;
 
 /**
@@ -57,7 +57,7 @@ class Buy extends Common
                 $this->assign('user_address_list', UserService::UserAddressList(['user'=>$this->user])['data']);
 
                 // 支付方式
-                $this->assign('payment_list', ResourcesService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
+                $this->assign('payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
                 
                 // 商品/基础信息
                 $base = [

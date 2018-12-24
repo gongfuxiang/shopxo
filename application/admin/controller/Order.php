@@ -2,7 +2,7 @@
 namespace app\admin\controller;
 
 use app\service\OrderService;
-use app\service\ResourcesService;
+use app\service\PaymentService;
 use app\service\ExpressService;
 
 /**
@@ -89,10 +89,10 @@ class Order extends Common
         $pay_where = [
             'where' => ['is_enable'=>1, 'is_open_user'=>1, 'payment'=>config('under_line_list')],
         ];
-        $this->assign('buy_payment_list', ResourcesService::BuyPaymentList($pay_where));
+        $this->assign('buy_payment_list', PaymentService::BuyPaymentList($pay_where));
 
         // 支付方式
-        $this->assign('payment_list', ResourcesService::PaymentList());
+        $this->assign('payment_list', PaymentService::PaymentList());
 
         // 评价状态
         $this->assign('common_comments_status_list', lang('common_comments_status_list'));

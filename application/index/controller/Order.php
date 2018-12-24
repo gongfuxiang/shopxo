@@ -2,7 +2,7 @@
 namespace app\index\controller;
 
 use app\service\OrderService;
-use app\service\ResourcesService;
+use app\service\PaymentService;
 
 /**
  * 订单管理
@@ -74,7 +74,7 @@ class Order extends Common
         $this->assign('data_list', $data['data']);
 
         // 支付方式
-        $this->assign('payment_list', ResourcesService::PaymentList());
+        $this->assign('payment_list', PaymentService::PaymentList());
 
         // 订单状态
         $this->assign('common_order_user_status', lang('common_order_user_status'));
@@ -118,7 +118,7 @@ class Order extends Common
         if(!empty($data['data'][0]))
         {
             // 发起支付 - 支付方式
-            $this->assign('buy_payment_list', ResourcesService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
+            $this->assign('buy_payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
 
             $this->assign('data', $data['data'][0]);
 

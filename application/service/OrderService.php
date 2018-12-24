@@ -3,7 +3,7 @@ namespace app\service;
 
 use think\Db;
 use app\service\GoodsService;
-use app\service\ResourcesService;
+use app\service\PaymentService;
 use app\service\BuyService;
 use app\service\IntegralService;
 use app\service\RegionService;
@@ -67,7 +67,7 @@ class OrderService
 
         // 支付方式
         $payment_id = empty($params['payment_id']) ? $order['payment_id'] : intval($params['payment_id']);
-        $payment = ResourcesService::PaymentList(['where'=>['id'=>$payment_id]]);
+        $payment = PaymentService::PaymentList(['where'=>['id'=>$payment_id]]);
         if(empty($payment[0]))
         {
             return DataReturn('支付方式有误', -1);
@@ -170,7 +170,7 @@ class OrderService
 
         // 支付方式
         $payment_id = empty($params['payment_id']) ? $order['payment_id'] : intval($params['payment_id']);
-        $payment = ResourcesService::PaymentList(['where'=>['id'=>$payment_id]]);
+        $payment = PaymentService::PaymentList(['where'=>['id'=>$payment_id]]);
         if(empty($payment[0]))
         {
             return DataReturn('支付方式有误', -1);
@@ -242,7 +242,7 @@ class OrderService
         }
 
         // 支付方式
-        $payment = ResourcesService::PaymentList(['where'=>['payment'=>PAYMENT_TYPE]]);
+        $payment = PaymentService::PaymentList(['where'=>['payment'=>PAYMENT_TYPE]]);
         if(empty($payment[0]))
         {
             return DataReturn('支付方式有误', -1);
@@ -280,7 +280,7 @@ class OrderService
     public static function Notify($params = [])
     {
         // 支付方式
-        $payment = ResourcesService::PaymentList(['where'=>['payment'=>PAYMENT_TYPE]]);
+        $payment = PaymentService::PaymentList(['where'=>['payment'=>PAYMENT_TYPE]]);
         if(empty($payment[0]))
         {
             return DataReturn('支付方式有误', -1);
@@ -550,7 +550,7 @@ class OrderService
                 $v['express_name'] = ExpressService::ExpressName($v['express_id']);
 
                 // 支付方式
-                $v['payment_name'] = ($v['status'] <= 1) ? null : ResourcesService::OrderPaymentName($v['id']);
+                $v['payment_name'] = ($v['status'] <= 1) ? null : PaymentService::OrderPaymentName($v['id']);
 
                 // 收件人地址
                 $v['receive_province_name'] = RegionService::RegionName($v['receive_province']);

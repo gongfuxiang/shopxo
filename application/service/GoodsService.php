@@ -1461,7 +1461,7 @@ class GoodsService
     }
 
     /**
-     * 商品上下架状态更新
+     * 商品状态更新
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1

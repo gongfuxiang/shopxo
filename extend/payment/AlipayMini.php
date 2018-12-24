@@ -43,7 +43,8 @@ class AlipayMini
             'name'          => '支付宝',  // 插件名称
             'version'       => '0.0.1',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
-            'desc'          => '即时到帐支付方式，买家的交易资金直接打入卖家支付宝账户，快速回笼交易资金。 <a href="http://www.alipay.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
+            'apply_terminal'=> ['alipay'], // 适用终端 ['pc', 'h5', 'app', 'alipay', 'wechat', 'baidu']
+            'desc'          => '适用支付宝小程序，即时到帐支付方式，买家的交易资金直接打入卖家支付宝账户，快速回笼交易资金。 <a href="http://www.alipay.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者
             'author_url'    => 'http://shopxo.net/',  // 开发者主页
         ];
@@ -59,36 +60,6 @@ class AlipayMini
                 'title'         => 'appid',
                 'is_required'   => 1,
                 'message'       => '请填写小程序appid',
-            ],
-            [
-                'element'       => 'input',
-                'type'          => 'text',
-                'default'       => '',
-                'name'          => 'account',
-                'placeholder'   => '支付宝账号',
-                'title'         => '支付宝账号',
-                'is_required'   => 1,
-                'message'       => '请填写支付宝账号',
-            ],
-            [
-                'element'       => 'input',
-                'type'          => 'text',
-                'default'       => '',
-                'name'          => 'partner',
-                'placeholder'   => '合作者身份 partner ID',
-                'title'         => '合作者身份 partner ID',
-                'is_required'   => 1,
-                'message'       => '请填写合作者身份 partner ID',
-            ],
-            [
-                'element'       => 'input',
-                'type'          => 'text',
-                'default'       => '',
-                'name'          => 'key',
-                'placeholder'   => '交易安全校验码 key',
-                'title'         => '交易安全校验码 key',
-                'is_required'   => 1,
-                'message'       => '请填写交易安全校验码 key',
             ],
             [
                 'element'       => 'textarea',

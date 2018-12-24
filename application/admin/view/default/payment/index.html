@@ -10,7 +10,7 @@
         <!-- operation end -->
 
         <!-- list start -->
-        <table class="am-table am-table-striped am-table-hover am-text-middle m-t-1)}}
+        <table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
             <thead>
                 <tr>
                     <th>名称</th>
@@ -25,9 +25,9 @@
                 </tr>
             </thead>
             <tbody>
-                {{if !empty($list)}}
-                    <foreach name="list" item="v">
-                        <tr id="data-list-{{$v.payment}}" {{if $v['is_install'] eq 0)}}class="am-warning"<elseif condition="$v['is_enable'] eq 0" />class="am-active"{{/if}} >
+                {{if !empty($data_list)}}
+                    {{foreach $data_list as $v}}
+                        <tr id="data-list-{{$v.payment}}" {{if $v['is_install'] eq 0}}class="am-warning"{{elseif $v['is_enable'] eq 0 /}}class="am-active"{{/if}} >
                             <td>
                                 {{$v.name}}
                                 {{if !empty($v['version'])}}
@@ -40,7 +40,7 @@
                                         <img src="{{$v['logo']}}" class="am-radius" width="100" />
                                     </a>
                                 {{else /}}
-                                    <span class="cr-ddd">暂无图片</span>
+                                    <span class="cr-ddd">暂无LOGO</span>
                                 {{/if}}
                             </td>
                             <td class="am-hide-sm-only">
@@ -48,9 +48,9 @@
                             </td>
                             <td>
                                 {{if !empty($v['apply_terminal'])}}
-                                    <foreach name="v.apply_terminal" key="terminal_k" item="terminal_v">
-                                        {{:lang('common_platform_type')[$terminal_v]['name']}}
-                                        {{if $terminal_k LT count($v['apply_terminal'])-1)}}<br />{{/if}}
+                                    {{foreach $v.apply_terminal as $terminal_k=>$terminal_v}}
+                                        {{$common_platform_type[$terminal_v]['name']}}
+                                        {{if $terminal_k LT count($v['apply_terminal'])-1}}<br />{{/if}}
                                     {{/foreach}}
                                 {{else /}}
                                     <span class="cr-ddd">未填写</span>
@@ -69,35 +69,35 @@
                                 {{/if}}
                             </td>
                             <td class="am-hide-sm-only td-desc">
-                                {{if empty($v['desc'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.desc}}{{/if}}
+                                {{if empty($v['desc'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.desc||raw}}{{/if}}
                             </td>
                             <td>
-                                {{if $v['is_install'] eq 1)}}
-                                    <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1)}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('Admin/Payment/StatusUpdate')}}" data-id="{{$v.payment}}" data-field="is_enable" data-state="{{$v['is_enable']}}" data-is-update-status="1)}}</a>
+                                {{if $v['is_install'] eq 1}}
+                                    <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('admin/payment/StatusUpdate')}}" data-id="{{$v.payment}}" data-field="is_enable" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
                                 {{else /}}
                                     <span class="cr-ddd">未安装</span>
                                 {{/if}}
                             </td>
                             <td>
-                                {{if $v['is_install'] eq 1)}}
-                                    <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_open_user'] eq 1)}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('Admin/Payment/StatusUpdate')}}" data-id="{{$v.payment}}" data-field="is_open_user" data-state="{{$v['is_open_user']}}"></a>
+                                {{if $v['is_install'] eq 1}}
+                                    <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_open_user'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('admin/payment/StatusUpdate')}}" data-id="{{$v.payment}}" data-field="is_open_user" data-state="{{$v['is_open_user']}}"></a>
                                 {{else /}}
                                     <span class="cr-ddd">未安装</span>
                                 {{/if}}
                             </td>
                             <td class="view-operation">
-                                {{if $v['is_install'] eq 0)}}
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-cubes submit-ajax" data-url="{{:url('Admin/Payment/Install')}}" data-id="{{$v.payment}}" data-view="reload" data-msg="安装进行中、确认操作吗？"> 安装</button>
+                                {{if $v['is_install'] eq 0}}
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-cubes submit-ajax" data-url="{{:url('admin/payment/install')}}" data-id="{{$v.payment}}" data-view="reload" data-msg="安装进行中、确认操作吗？"> 安装</button>
 
                                     {{if !in_array($v['payment'], $cannot_deleted_list)}}
-                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/Payment/Delete')}}" data-id="{{$v.payment}}"> 删除</button>
+                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/payment/Delete')}}" data-id="{{$v.payment}}"> 删除</button>
                                     {{/if}}
                                 {{else /}}
-                                    <a href="{{:url('Admin/Payment/SaveInfo', array('id'=>$v['id']))}}">
+                                    <a href="{{:url('admin/payment/saveinfo', array('id'=>$v['id']))}}">
                                         <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> 编辑</button>
                                     </a>
 
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-genderless submit-ajax" data-url="{{:url('Admin/Payment/Uninstall')}}" data-id="{{$v.payment}}" data-view="reload" data-msg="卸载后不可恢复、确认操作吗？"> 卸载</button>
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-genderless submit-ajax" data-url="{{:url('admin/payment/uninstall')}}" data-id="{{$v.payment}}" data-view="reload" data-msg="卸载后不可恢复、确认操作吗？"> 卸载</button>
                                 {{/if}}
                             </td>
                         </tr>
@@ -118,7 +118,7 @@
                 </div>
                 <div class="am-popup-bd">
                     <!-- win form start -->
-                    <form class="am-form form-validation" action="{{:url('Admin/Payment/Upload')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
+                    <form class="am-form form-validation" action="{{:url('admin/payment/upload')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
                         <input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_file', 51200000)}}" />
                         <div class="am-alert am-radius am-alert-tips m-t-0" data-am-alert>
                             <p class="m-t-1)}}1 类名必须于文件名一致（去除 .class.php ），如 Alipay.class.php 则取 Alipay <br />2 类必须定义三个方法<br />&nbsp;&nbsp;&nbsp; 2.1 Config 配置方法<br />&nbsp;&nbsp;&nbsp; 2.2 Pay 支付方法<br />&nbsp;&nbsp;&nbsp; 2.3 Respond 回调方法</p>
