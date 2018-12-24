@@ -66,8 +66,8 @@
 }
 .spec-images-tips {
     position: absolute;
-    left: 100px;
-    top: 60px;
+    left: 9px;
+    top: 30px;
     z-index: 2;
     padding: 2px 5px;
     white-space: nowrap;
@@ -101,9 +101,19 @@
 .spec-images-tips .am-checkbox {
     margin: 0px;
     min-height: auto;
+    height: 15px;
+    line-height: 15px;
+}
+.spec-images-tips .am-ucheck-icons {
+    width: 15px;
+    height: 15px;
+    line-height: 15px; 
 }
 .spec-images-tips .am-checkbox input[type="checkbox"] {
     margin: 0 0 0 -4px;
+}
+.spec-images-tips .msg-tips {
+    vertical-align: super;
 }
 .spec-images-list {
     border: 1px solid #eee;
@@ -112,6 +122,8 @@
 }
 .spec-images-list li {
     display: inline-block;
+    width: 100px;
+    margin: 0 10px 3px 0;
 }
 
 /**
