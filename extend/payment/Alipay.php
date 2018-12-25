@@ -321,7 +321,7 @@ class Alipay
         $parameter = array(
             'service'           => 'create_direct_pay_by_user',
             'partner'           => $this->config['partner'],
-            '_input_charset'    => C('DEFAULT_CHARSET'),
+            '_input_charset'    => 'utf-8',
             'notify_url'        => $params['notify_url'],
             'return_url'        => $params['call_back_url'],
 
