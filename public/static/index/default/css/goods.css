@@ -38,8 +38,10 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .theme-signin-left{padding-bottom:30px;max-height:250px ;overflow-y: scroll;background: #fff;}
 .theme-options{display: block;overflow: hidden;padding-left: 10px;padding-right:10px; margin-bottom: 5px;}
 .theme-signin-left .cart-title{font-size:14px ;font-weight: 600;}
-.theme-signin-left .sku-line{float: left; margin:10px;margin-left:0;border-radius:3px ; background:#efefef ;padding:0px 8px; border: 1px solid #efefef;}
-.theme-signin-left .sku-line.selected{background:#e23f36;color: #fff; border: 1px solid #e33d2f;}
+.theme-signin-left .sku-line{float: left; margin:10px;margin-left:0;border-radius:3px ; background:#efefef ;padding:0px 8px; border: 1px solid #d5d5d5;}
+.theme-signin-left .sku-line.selected{background:#d2364c;color: #fff; border: 1px solid #d2364c;}
+.sku-line-images { padding:3px !important; }
+.sku-line-images img { width: 30px; height: 30px; }
 
 .theme-signin .btn{width:100%;font-size: 16px;padding:5px ;}
 .btn-op{position:fixed;left:0;bottom: 0;width:100%; z-index: 3;}
@@ -463,4 +465,7 @@ li.am-comment{ width:100%}
 
     /* 视频操作 */
     .scoll .goods-video-submit-close { bottom: 50px; }
+
+    /* 底部 */
+    .am-footer { padding-bottom: 55px; }
 }

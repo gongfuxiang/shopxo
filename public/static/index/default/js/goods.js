@@ -1,7 +1,7 @@
 // 规格弹窗PC显示
 function poptit_pc_show()
 {
-    $(document.body).css("position", "static");
+    $(document.body).css('position', 'static');
     $('.theme-signin-left').scrollTop(0);
     $('.theme-popover-mask').hide();
     $('.theme-popover').slideDown(0);
@@ -11,7 +11,7 @@ function poptit_close()
 {
     if($(window).width() < 1025)
     {
-        $(document.body).css("position", "static");
+        $(document.body).css('position', 'static');
         $('.theme-signin-left').scrollTop(0);
         $('.theme-popover-mask').hide();
         $('.theme-popover').slideUp(100);
@@ -161,7 +161,7 @@ function GoodsSpecDetail()
             $.AMUI.progress.done();
             if(result.code == 0)
             {
-                $('.text-info .price-now').text(result.data.price);
+                $('.text-info .price-now').text('￥'+result.data.price);
                 $('.sys_item_price').text(result.data.price);
                 $('.number-tag input[type="number"]').attr('max', result.data.inventory);
                 $('.stock-tips .stock').text(result.data.inventory);
@@ -272,18 +272,34 @@ function GoodsSpecType()
     });
 }
 
+/**
+ * 商品基础数据恢复
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2018-12-25
+ * @desc    description
+ */
+function GoodsBaseRestore()
+{
+    $('.text-info .price-now').text('￥'+$('.text-info .price-now').data('original-price'));
+    $('.sys_item_price').text($('.sys_item_price').data('original-price'));
+    $('.number-tag input[type="number"]').attr('max', $('.number-tag input[type="number"]').data('original-max'));
+    $('.stock-tips .stock').text($('.stock-tips .stock').data('original-stock'));
+}
+
 $(function() {
     // 商品规格选择
-    $(".theme-options").each(function()
+    $('.theme-options').each(function()
     {
         $(this).find('ul>li').on('click', function()
         {
             var length = $('.theme-signin-left .sku-items').length;
             var index = $(this).parents('.sku-items').index();
 
-            if($(this).hasClass("selected"))
+            if($(this).hasClass('selected'))
             {
-                $(this).removeClass("selected");
+                $(this).removeClass('selected');
 
                 // 去掉元素之后的禁止
                 $('.theme-signin-left .sku-items').each(function(k, v)
@@ -293,12 +309,16 @@ $(function() {
                         $(this).find('li').removeClass('sku-items-disabled').removeClass('selected').addClass('sku-dont-choose');
                     }
                 });
+
+                // 数据还原
+                GoodsBaseRestore();
+
             } else {
                 if($(this).hasClass('sku-items-disabled') || $(this).hasClass('sku-dont-choose'))
                 {
                     return false;
                 }
-                $(this).addClass("selected").siblings("li").removeClass("selected");
+                $(this).addClass('selected').siblings('li').removeClass('selected');
                 $(this).parents('.sku-items').removeClass('attr-not-active');
 
                 // 去掉元素之后的禁止
@@ -313,6 +333,22 @@ $(function() {
                     });
                 }
 
+                // 是否存在规格图片
+                var spec_images = $(this).data('type-images') || null;
+                if(spec_images != null)
+                {
+                    $('.jqzoom').attr('src', spec_images);
+                    $('.jqzoom').attr('rel', spec_images);
+                    $('.img-info img').attr('src', spec_images);
+                }
+
+                // 后面是否还有未选择的规格
+                if(index < length-1)
+                {
+                    // 数据还原
+                    GoodsBaseRestore();
+                }
+
                 // 获取下一个规格类型
                 GoodsSpecType();
 
@@ -323,11 +359,11 @@ $(function() {
     });
 
     // 放大镜初始化
-    $(".jqzoom").imagezoom();
-    $("#thumblist li a").on('mouseover', function() {
-        $(this).parents("li").addClass("tb-selected").siblings().removeClass("tb-selected");
-        $(".jqzoom").attr('src', $(this).find("img").attr("mid"));
-        $(".jqzoom").attr('rel', $(this).find("img").attr("big"));
+    $('.jqzoom').imagezoom();
+    $('#thumblist li a').on('mouseover', function() {
+        $(this).parents('li').addClass('tb-selected').siblings().removeClass('tb-selected');
+        $('.jqzoom').attr('src', $(this).find('img').attr('mid'));
+        $('.jqzoom').attr('rel', $(this).find('img').attr('big'));
     });
 
     //弹出规格选择
@@ -336,7 +372,7 @@ $(function() {
             // 是否登录
             if(__user_id__ != 0)
             {
-                $(document.body).css("position", "fixed");
+                $(document.body).css('position', 'fixed');
                 $('.theme-popover-mask').show();
                 $('.theme-popover').slideDown(200);
 
@@ -453,51 +489,6 @@ $(function() {
 
 });
 
-// 购买导航动画显示/隐藏
-var temp_scroll = 0;
-var scroll_type = -1;
-var location_scroll = 0;
-var nav_status = 1;
-var $buy_nav= $("div.buy-nav");
-$(window).scroll(function()
-{
-    if($(window).width() <= 625)
-    {
-        var scroll = $(document).scrollTop();
-        if(scroll != temp_scroll)
-        {
-            var temp_scroll_type = (scroll > temp_scroll) ? 1 : 0;
-            if(temp_scroll_type != scroll_type)
-            {
-                scroll_type = temp_scroll_type;
-                location_scroll = scroll;
-            }
-
-            if(scroll_type == 1)
-            {
-                if(nav_status == 1 && scroll > location_scroll+200)
-                {
-                    nav_status = 0;
-                    if(!$buy_nav.is(":animated"))
-                    {
-                        $buy_nav.slideUp(500);
-                    }
-                }
-            } else {
-                if(nav_status == 0 && scroll < location_scroll-50)
-                {
-                    nav_status = 1;
-                    if(!$buy_nav.is(":animated"))
-                    {
-                        $buy_nav.slideDown(500);
-                    }
-                }
-            }
-            temp_scroll = scroll;
-        }
-    }
-});
-
 // 浏览器窗口实时事件
 $(window).resize(function()
 {
@@ -512,11 +503,11 @@ $(window).resize(function()
 
 $(document).ready(function() {
     //获得文本框对象
-    var t = $("#text_box");
+    var t = $('#text_box');
     //初始化数量为1,并失效减
     $('#min').attr('disabled', true);
     //数量增加操作
-    $("#add").on('click', function() {
+    $('#add').on('click', function() {
         var stock = parseInt($('.stock-tips .stock').text());
         var number = parseInt(t.val());
         if(number < stock)
@@ -532,7 +523,7 @@ $(document).ready(function() {
 
         });
     //数量减少操作
-    $("#min").on('click', function() {
+    $('#min').on('click', function() {
         t.val(parseInt(t.val()) - 1);
         if (parseInt(t.val()) == 1) {
             $('#min').attr('disabled', true);

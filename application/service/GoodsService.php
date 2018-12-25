@@ -106,19 +106,19 @@ class GoodsService
     {
         if(!empty($data) && is_array($data))
         {
-            $images_host = config('IMAGE_HOST');
+            $image_host = config('IMAGE_HOST');
             foreach($data as &$v)
             {
                 if(is_array($v))
                 {
                     if(isset($v['icon']))
                     {
-                        $v['icon'] = empty($v['icon']) ? null : $images_host.$v['icon'];
+                        $v['icon'] = empty($v['icon']) ? null : $image_host.$v['icon'];
                     }
                     if(isset($v['big_images']))
                     {
                         $v['big_images_old'] = $v['big_images'];
-                        $v['big_images'] = empty($v['big_images']) ? null : $images_host.$v['big_images'];
+                        $v['big_images'] = empty($v['big_images']) ? null : $image_host.$v['big_images'];
                     }
                 }
             }
@@ -236,7 +236,7 @@ class GoodsService
             $is_category = (isset($params['is_category']) && $params['is_category'] == true) ? true : false;
 
             // 开始处理数据
-            $images_host = config('IMAGE_HOST');
+            $image_host = config('IMAGE_HOST');
             foreach($data as &$v)
             {
                 // 商品url地址
@@ -249,21 +249,21 @@ class GoodsService
                 if(isset($v['images']))
                 {
                     $v['images_old'] = $v['images'];
-                    $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
+                    $v['images'] = empty($v['images']) ? null : $image_host.$v['images'];
                 }
 
                 // 视频
                 if(isset($v['video']))
                 {
                     $v['video_old'] = $v['video'];
-                    $v['video'] = empty($v['video']) ? null : $images_host.$v['video'];
+                    $v['video'] = empty($v['video']) ? null : $image_host.$v['video'];
                 }
 
                 // 商品首页推荐图片，不存在则使用商品封面图片
                 if(isset($v['home_recommended_images']))
                 {
                     $v['home_recommended_images_old'] = $v['home_recommended_images'];
-                    $v['home_recommended_images'] = empty($v['home_recommended_images']) ? (empty($v['images']) ? null : $v['images']) : $images_host.$v['home_recommended_images'];
+                    $v['home_recommended_images'] = empty($v['home_recommended_images']) ? (empty($v['images']) ? null : $v['images']) : $image_host.$v['home_recommended_images'];
                 }
 
                 // PC内容处理
@@ -305,7 +305,7 @@ class GoodsService
                         foreach($v['photo'] as &$vs)
                         {
                             $vs['images_old'] = $vs['images'];
-                            $vs['images'] = $images_host.$vs['images'];
+                            $vs['images'] = $image_host.$vs['images'];
                         }
                     }
                 }
@@ -341,11 +341,11 @@ class GoodsService
         $data = Db::name('GoodsContentApp')->where(['goods_id'=>$params['goods_id']])->field('id,images,content')->order('sort asc')->select();
         if(!empty($data))
         {
-            $images_host = config('IMAGE_HOST');
+            $image_host = config('IMAGE_HOST');
             foreach($data as &$v)
             {
                 $v['images_old'] = $v['images'];
-                $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
+                $v['images'] = empty($v['images']) ? null : $image_host.$v['images'];
                 $v['content_old'] = $v['content'];
                 $v['content'] = empty($v['content']) ? null : explode("\n", $v['content']);
             }
@@ -364,16 +364,32 @@ class GoodsService
      */
     public static function GoodsSpecifications($params = [])
     {
-        $data = Db::name('GoodsSpecType')->where(['goods_id'=>$params['goods_id']])->order('id asc')->select();
-        if(!empty($data))
+        // 条件
+        $where = ['goods_id'=>$params['goods_id']];
+
+        // 规格类型
+        $type = Db::name('GoodsSpecType')->where($where)->order('id asc')->select();
+        if(!empty($type))
         {
-            foreach($data as &$v)
+            foreach($type as &$temp_type)
             {
-                $v['value'] = json_decode($v['value'], true);
-                $v['add_time'] = date('Y-m-d H:i:s');
+                $temp_type['value'] = json_decode($temp_type['value'], true);
+                $temp_type['add_time'] = date('Y-m-d H:i:s');
             }
         }
-        return $data;
+
+        // 规格图片
+        $images = Db::name('GoodsSpecImages')->where($where)->column('name,images');
+        if(!empty($images))
+        {
+            $image_host = config('IMAGE_HOST');
+            foreach($images as &$temp_iamges)
+            {
+                $temp_iamges = $image_host.$temp_iamges;
+            }
+        }
+
+        return ['type'=>$type, 'images'=>$images];
     }
 
     /**
@@ -562,12 +578,12 @@ class GoodsService
         $data = Db::name('GoodsFavor')->alias('f')->join(['__GOODS__'=>'g'], 'g.id=f.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
-            $images_host = config('IMAGE_HOST');
+            $image_host = config('IMAGE_HOST');
             foreach($data as &$v)
             {
                 // 图片
                 $v['images_old'] = $v['images'];
-                $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
+                $v['images'] = empty($v['images']) ? null : $image_host.$v['images'];
 
                 $v['goods_url'] = HomeUrl('goods', 'index', ['id'=>$v['goods_id']]);
             }
@@ -709,11 +725,11 @@ class GoodsService
         $data = Db::name('GoodsBrowse')->alias('b')->join(['__GOODS__'=>'g'], 'g.id=b.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
-            $images_host = config('IMAGE_HOST');
+            $image_host = config('IMAGE_HOST');
             foreach($data as &$v)
             {
                 $v['images_old'] = $v['images'];
-                $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
+                $v['images'] = empty($v['images']) ? null : $image_host.$v['images'];
                 $v['goods_url'] = HomeUrl('goods', 'index', ['id'=>$v['goods_id']]);
             }
         }
@@ -1069,6 +1085,7 @@ class GoodsService
     {
         $data = [];
         $title = [];
+        $images = [];
 
         // 规格值
         foreach($params as $k=>$v)
@@ -1092,7 +1109,7 @@ class GoodsService
         // 规格名称
         if(!empty($data[0]))
         {
-            $count = count($data[0])-5;
+            $count = count($data[0])-6;
             if($count > 0)
             {
                 $names = array_slice($data[0], 0, $count);
@@ -1130,7 +1147,14 @@ class GoodsService
         } else {
             return DataReturn('请填写规格', -1);
         }
-        return DataReturn('success', 0, ['data'=>$data, 'title'=>$title]);
+
+        // 规格图片
+        if(!empty($params['spec_images']))
+        {
+            $images = $params['spec_images'];
+        }
+
+        return DataReturn('success', 0, ['data'=>$data, 'title'=>$title, 'images'=>$images]);
     }
 
     /**
@@ -1310,6 +1334,7 @@ class GoodsService
         Db::name('GoodsSpecType')->where(['goods_id'=>$goods_id])->delete();
         Db::name('GoodsSpecValue')->where(['goods_id'=>$goods_id])->delete();
         Db::name('GoodsSpecBase')->where(['goods_id'=>$goods_id])->delete();
+        Db::name('GoodsSpecImages')->where(['goods_id'=>$goods_id])->delete();
 
         // 类型
         if(!empty($data['title']))
@@ -1317,7 +1342,7 @@ class GoodsService
             foreach($data['title'] as &$v)
             {
                 $v['goods_id']  = $goods_id;
-                $v['value']     = json_encode($v['value']);
+                $v['value']     = json_encode(array_values($v['value']));
                 $v['add_time']  = time();
             }
             if(Db::name('GoodsSpecType')->insertAll($data['title']) < count($data['title']))
@@ -1331,10 +1356,11 @@ class GoodsService
         {
             // 基础字段
             $count = count($data['data'][0]);
-            $temp_key = ['price', 'inventory', 'coding', 'barcode', 'original_price'];
+            $temp_key = ['price', 'inventory', 'weight', 'coding', 'barcode', 'original_price'];
+            $key_count = count($temp_key);
 
-            // 等于5则只有一列基础规格
-            if($count == 5)
+            // 等于key总数则只有一列基础规格
+            if($count == $key_count)
             {
                 $temp_data = [
                     'goods_id' => $goods_id,
@@ -1352,7 +1378,7 @@ class GoodsService
 
             // 多规格操作
             } else {
-                $base_start = $count-5;
+                $base_start = $count-$key_count;
                 $value = [];
                 $base = [];
                 foreach($data['data'] as $v)
@@ -1395,6 +1421,26 @@ class GoodsService
                 }
             }
         }
+
+        // 规格图片
+        if(!empty($data['images']))
+        {
+            $images = [];
+            foreach($data['images'] as $k=>$v)
+            {
+                $images[] = [
+                    'goods_id'  => $goods_id,
+                    'name'      => $k,
+                    'images'    => ResourcesService::AttachmentPathHandle($v),
+                    'add_time'  => time(),
+                ];
+            }
+            if(Db::name('GoodsSpecImages')->insertAll($images) < count($images))
+            {
+                return DataReturn('规格图片添加失败', -1);
+            }
+        }
+
         return DataReturn('添加成功', 0);
     }
 
@@ -1556,7 +1602,7 @@ class GoodsService
             {
                 foreach($value as $k=>&$v)
                 {
-                    $base = Db::name('GoodsSpecBase')->field('price,inventory,coding,barcode,original_price')->find($k);
+                    $base = Db::name('GoodsSpecBase')->find($k);
                     $v[] = [
                         'data_type' => 'base',
                         'data'      => $base,
@@ -1564,16 +1610,29 @@ class GoodsService
                 }
             }
         } else {
-            $base = Db::name('GoodsSpecBase')->where($where)->field('price,inventory,coding,barcode,original_price')->find();
+            $base = Db::name('GoodsSpecBase')->where($where)->find();
             $value[][] = [
                 'data_type' => 'base',
                 'data'      => $base,
             ];
         }
 
+        // 规格图片
+        $images = Db::name('GoodsSpecImages')->where($where)->select();
+        if(!empty($images))
+        {
+            $image_host = config('IMAGE_HOST');
+            foreach($images as &$temp_iamges)
+            {
+                $temp_iamges['images_old'] = $temp_iamges['images'];
+                $temp_iamges['images'] = $image_host.$temp_iamges['images'];
+            }
+        }
+
         return [
-            'type'  => $type,
-            'value' => array_values($value),
+            'type'      => $type,
+            'value'     => array_values($value),
+            'images'    => $images,
         ];
     }
 

@@ -169,15 +169,16 @@
 									{{foreach $specifications.type as $type_v}}
 										<th class="table-title table-title-{{$type_v.id}}">
 											<i class="am-close am-close-spin title-nav-remove" data-index="{{$type_v.id}}">×</i>
-											<input type="text" name="specifications_name_{{$type_v.id}}" placeholder="规格名" value="{{$type_v.name}}" />
+											<input type="text" name="specifications_name_{{$type_v.id}}" placeholder="规格名" value="{{$type_v.name}}" data-validation-message="请填写规格名" required />
 										</th>
 									{{/foreach}}
 								{{/if}}
-								<th class="title-start">价格（元）</th>
+								<th class="title-start">价格(元)</th>
 								<th>库存</th>
+								<th>重量(kg)</th>
 								<th>规格编码</th>
 								<th>条形码</th>
-								<th>原价（元） </th>
+								<th>原价(元)</th>
 								<th class="operation-btn">操作</th>
 							</tr>
 						</thead>
@@ -191,7 +192,10 @@
 										<input type="number" name="specifications_number[]" placeholder="库存" class="am-radius" min="1" max="100000000" pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$" data-validation-message="库存数量 1~100000000" required />
 									</td>
 									<td>
-										<input type="text" name="specifications_coding[]" placeholder="规格编码" class="am-radius" maxlength="80" data-validation-message="规格编码最多80个字符" />
+										<input type="number" name="specifications_weight[]" placeholder="重量" class="am-radius" maxlength="80" data-validation-message="请填写有效的规格重量" />
+									</td>
+									<td>
+										<input type="text" name="specifications_coding[]" placeholder="编码" class="am-radius" maxlength="80" data-validation-message="规格编码最多80个字符" />
 									</td>
 									<td>
 										<input type="text" name="specifications_barcode[]" placeholder="条形码" class="am-radius" maxlength="80" data-validation-message="条形码最多80个字符" />
@@ -213,7 +217,7 @@
 											{{switch v.data_type}}
 												{{case spec}}
 													<td class="table-value table-value-{{$v.data.key}}">
-														<input type="text" name="specifications_value_{{$v.data.key}}[]" placeholder="规格值" value="{{$v.data.value}}" />
+														<input type="text" name="specifications_value_{{$v.data.key}}[]" placeholder="规格值" value="{{$v.data.value}}" data-validation-message="请填写规格值" required />
 													</td>
 												{{/case}}
 
@@ -225,7 +229,10 @@
 														<input type="number" name="specifications_number[]" placeholder="库存" class="am-radius" min="0" max="100000000" data-validation-message="库存数量 0~100000000" value="{{$v.data.inventory}}" required />
 													</td>
 													<td>
-														<input type="text" name="specifications_coding[]" placeholder="规格编码" class="am-radius" maxlength="80" data-validation-message="规格编码最多80个字符" value="{{$v.data.coding}}" />
+														<input type="number" name="specifications_weight[]" placeholder="重量" class="am-radius" min="0" max="100000000" data-validation-message="规格重量 0~100000000" value="{{if $v['data']['weight'] gt 0}}{{$v.data.weight}}{{/if}}" />
+													</td>
+													<td>
+														<input type="text" name="specifications_coding[]" placeholder="编码" class="am-radius" maxlength="80" data-validation-message="规格编码最多80个字符" value="{{$v.data.coding}}" />
 													</td>
 													<td>
 														<input type="text" name="specifications_barcode[]" placeholder="条形码" class="am-radius" maxlength="80" data-validation-message="条形码最多80个字符" value="{{$v.data.barcode}}" />
@@ -252,16 +259,18 @@
 					</table>
 					<span class="business-operations-submit specifications-nav-title-add">+添加规格</span>
 					<span class="business-operations-submit specifications-line-add">+添加一行</span>
-					<ul class="spec-images-list">
-						<!-- <li>
-							<ul class="plug-file-upload-view spec-images-view" data-form-name="spec_images[]" data-max-number="1" data-delete='0' data-dialog-type="images">
-								<li>
-									<input type="hidden" name="spec_images[]" value="" />
-									<img src="{{$image_host}}/static/admin/default/images/default-images.png" />
-								</li>
-							</ul>
-							<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view">+上传图片</div>
-						</li> -->
+					<ul class="spec-images-list" {{if empty($specifications['images'])}} style="display: none"{{/if}}>
+						{{foreach $specifications.images as $spec_images}}
+							<li>
+								<ul class="plug-file-upload-view spec-images-view-{{$spec_images.name}}" data-form-name="spec_images[{{$spec_images.name}}]" data-max-number="1" data-delete='0' data-dialog-type="images">
+									<li>
+										<input type="hidden" name="spec_images[{{$spec_images.name}}]" value="{{$spec_images.images_old}}" data-validation-message="请上传规格图片" required />
+										<img src="{{$spec_images.images}}" />
+									</li>
+								</ul>
+								<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-{{$spec_images.name}}">+上传图片</div>
+							</li>
+						{{/foreach}}
 					</ul>
 				</div>
 			</div>
@@ -333,7 +342,7 @@
 						{{/foreach}}
 					{{/if}}
 				</ul>
-				<label class="business-operations-submit content-app-items-add-sub">+添加手机详情</label>
+				<span class="business-operations-submit content-app-items-add-sub">+添加手机详情</span>
 			</div>
 
 			<!-- web内容 -->

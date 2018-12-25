@@ -20,13 +20,13 @@ $(function()
         var index = parseInt(Math.random()*1000001);
         html = '<th class="table-title table-title-'+index+'">';
         html += '<i class="am-close am-close-spin title-nav-remove" data-index="'+index+'">&times;</i>';
-        html += '<input type="text" name="specifications_name_'+index+'" placeholder="规格名" />';
+        html += '<input type="text" name="specifications_name_'+index+'" placeholder="规格名" class="am-radius" data-validation-message="请填写规格名" required />';
         html += '</th>';
         $('.title-start').before(html);
 
         // value
         html = '<td class="table-value table-value-'+index+'">';
-        html += '<input type="text" name="specifications_value_'+index+'[]" placeholder="规格值" />';
+        html += '<input type="text" name="specifications_value_'+index+'[]" placeholder="规格值" class="am-radius" data-validation-message="请填写规格值" required />';
         html += '</td>';
         $('.value-start').before(html);
 
@@ -35,7 +35,7 @@ $(function()
     });
 
     // 规格列移除
-    $('.specifications-table').on('click', '.title-nav-remove', function()
+    $(document).on('click', '.specifications-table .title-nav-remove', function()
     {
         var index = $(this).data('index');
         $('.table-title-'+index).remove();
@@ -78,7 +78,7 @@ $(function()
     });
 
     // 规格行复制
-    $('.specifications-table').on('click', '.line-copy', function()
+    $(document).on('click', '.specifications-table .line-copy', function()
     {
         var $parent = $(this).parents('tr');
         $parent.find('input').each(function(k, v)
@@ -92,7 +92,7 @@ $(function()
     });
 
     // 规格行移除
-    $('.specifications-table').on('click', '.line-remove', function()
+    $(document).on('click', '.specifications-table .line-remove', function()
     {
         $(this).parents('tr').remove();
 
@@ -114,7 +114,7 @@ $(function()
     });
 
     // 规格第一列输入事件
-    $('.specifications-table tbody tr').on('change', 'td:eq(0) input', function()
+    $(document).on('change', '.specifications-table tbody tr td.table-value input', function()
     {
         // 规格图片
         SpecImagesHandle();
@@ -125,25 +125,36 @@ $(function()
     {
         if($('.spec-images-tips input').prop('checked'))
         {
+            // 清空规格
+            $('ul.spec-images-list').html('');
+
+            // 获取第一列数据值
             var temp_spec_all = {}, spec_all = [];
             $('.specifications-table tbody tr').each(function(k, v)
             {
-                var value = $(this).find('td:eq(0) input').val();
-                temp_spec_all[value] = value;
+                var value = $(this).find('td.table-value:eq(0) input').val();
+                if((value || null) != null)
+                {
+                    temp_spec_all[value] = value;
+                }
             });
             spec_all = Object.keys(temp_spec_all);
+            console.log(spec_all)
+
+            // 添加规格图片
             if(spec_all.length > 0)
             {
+                $('.spec-images-list').show();
                 for(var i in spec_all)
                 {
                     var temp_class = 'spec-images-items-'+spec_all[i];
                     if($('ul.spec-images-list').find('.'+temp_class).length <= 0)
                     {
                         var html = '<li class="'+temp_class+'">';
-                            html += '<input type="text" value="'+spec_all[i]+'" disabled="disabled" />'
-                            html += '<ul class="plug-file-upload-view spec-images-view-'+spec_all[i]+'" data-form-name="spec_images[]" data-max-number="1" data-delete="0" data-dialog-type="images">';
+                            html += '<input type="text" value="'+spec_all[i]+'" class="am-radius t-c" disabled="disabled" />'
+                            html += '<ul class="plug-file-upload-view spec-images-view-'+spec_all[i]+'" data-form-name="spec_images['+spec_all[i]+']" data-max-number="1" data-delete="0" data-dialog-type="images">';
                             html += '<li>';
-                            html += '<input type="hidden" name="spec_images[]" value="" />';
+                            html += '<input type="text" name="spec_images['+spec_all[i]+']" value="" data-validation-message="请上传规格图片" required />';
                             html += '<img src="'+__image_host__+'/static/admin/default/images/default-images.png" />';
                             html += '</li>';
                             html += '</ul>';
@@ -152,9 +163,12 @@ $(function()
                         $('ul.spec-images-list').append(html);
                     }
                 }
+            } else {
+                $('.spec-images-list').hide();
             }
         } else {
             $('ul.spec-images-list').html('');
+            $('.spec-images-list').hide();
         }
     }
 

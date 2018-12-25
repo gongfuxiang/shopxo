@@ -1,9 +1,5 @@
 {{include file="public/header" /}}
 
-<!-- nav start -->
-{{include file="public/nav" /}}
-<!-- nav end -->
-
 <!-- header top nav -->
 {{include file="public/header_top_nav" /}}
 
@@ -48,9 +44,7 @@
             <div class="box">
                 <div class="tb-booth tb-pic tb-s310">
                     {{if !empty($goods['photo'][0])}}
-                        <a href="{{$goods['photo'][0]['images']}}">
-                            <img src="{{$goods['photo'][0]['images']}}" alt="{{$goods.title}}" rel="{{:str_replace('compr', 'original', $goods['photo'][0]['images'])}}" class="jqzoom" />
-                        </a>
+                        <img src="{{$goods['photo'][0]['images']}}" alt="{{$goods.title}}" rel="{{$goods['photo'][0]['images']}}" class="jqzoom" />
                     {{/if}}
                 </div>
                 <ul class="tb-thumb" id="thumblist">
@@ -59,7 +53,7 @@
                             <li class="{{if $photo_key eq 0}}tb-selected{{else /}} tb-pic{{/if}}">
                                 <div class="tb-pic tb-s40">
                                     <a href="javascript:;">
-                                        <img src="{{$photo.images}}" mid="{{$photo.images}}" big="{{:str_replace('compr', 'original', $photo.images)}}" class="tb-s40" />
+                                        <img src="{{$photo.images}}" mid="{{$photo.images}}" big="{{$photo.images}}" class="tb-s40" />
                                     </a>
                                 </div>
                             </li>
@@ -100,7 +94,7 @@
                         <dt>促销价</dt>
                         <dd>
                             <em>¥</em>
-                            <b class="sys_item_price">{{$goods.price}}</b>
+                            <b class="sys_item_price" data-original-price="{{$goods.price}}">{{$goods.price}}</b>
                         </dd>                                 
                     </div>
                     <div class="goods-qrcode am-hide-sm-only">
@@ -143,14 +137,19 @@
                                 <div class="theme-popbod dform">
                                     <form class="theme-signin" name="loginform" action="javascript:;">
                                         <div class="theme-signin-left">
-                                            {{if !empty($goods['specifications'])}}
-                                                {{foreach $goods.specifications as $key=>$spec}}
+                                            {{if !empty($goods['specifications']['type'])}}
+                                                {{foreach $goods.specifications.type as $key=>$spec}}
                                                     {{if !empty($spec['value'])}}
                                                         <div class="theme-options sku-items">
                                                             <div class="cart-title">{{$spec.name}}</div>
                                                             <ul>
                                                                 {{foreach $spec.value as $keys=>$specs}}
-                                                                    <li class="sku-line {{if $key gt 0}} sku-dont-choose{{/if}}" data-type-value="{{$spec.name}}" data-value="{{$specs}}">{{$specs}}<i></i></li>
+                                                                    <li class="sku-line {{if !empty($goods['specifications']['images'][$specs])}} sku-line-images{{/if}} {{if $key gt 0}} sku-dont-choose{{/if}}" data-type-value="{{$spec.name}}" data-value="{{$specs}}" {{if !empty($goods['specifications']['images'][$specs])}} data-type-images="{{$goods.specifications.images[$specs]}}"{{/if}}>
+                                                                        {{if !empty($goods['specifications']['images'][$specs])}}
+                                                                            <img src="{{$goods.specifications.images[$specs]}}" />
+                                                                        {{/if}}
+                                                                        {{$specs}}<i></i>
+                                                                    </li>
                                                                 {{/foreach}}
                                                             </ul>
                                                         </div>
@@ -162,10 +161,10 @@
                                                 <dd>
                                                     <div class="am-input-group am-input-group-sm number-tag">
                                                         <button class="am-input-group-label" id="min" type="button">-</button>
-                                                        <input type="number" class="am-form-field" value="1" id="text_box" min="1" max="{{$goods.inventory}}" />
+                                                        <input type="number" class="am-form-field" value="1" id="text_box" min="1" max="{{$goods.inventory}}" data-original-max="{{$goods.inventory}}" />
                                                         <button class="am-input-group-label" id="add" type="button">+</button>
                                                     </div>
-                                                    <span class="tb-hidden stock-tips">库存<span class="stock">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
+                                                    <span class="tb-hidden stock-tips">库存<span class="stock" data-original-stock="{{$goods.inventory}}">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
                                                 </dd>
                                             </div>
 
@@ -179,7 +178,7 @@
                                                 <img src="{{$goods.images}}" />
                                             </div>
                                             <div class="text-info">
-                                                <span class="price-now">¥{{$goods.price}}</span>
+                                                <span class="price-now" data-original-price="{{$goods.price}}">¥{{$goods.price}}</span>
                                             </div>
                                         </div>
                                     </form>

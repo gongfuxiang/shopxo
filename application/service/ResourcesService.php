@@ -49,7 +49,7 @@ class ResourcesService
      */
     public static function AttachmentPathHandle($value)
     {
-        return str_replace([__MY_URL__, __MY_ROOT__], DS, $value);
+        return empty($value) ? '' : str_replace([__MY_URL__, __MY_ROOT__], DS, $value);
     }
 
     /**
