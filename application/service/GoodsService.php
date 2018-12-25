@@ -106,19 +106,19 @@ class GoodsService
     {
         if(!empty($data) && is_array($data))
         {
-            $image_host = config('IMAGE_HOST');
+            $images_host = config('images_host');
             foreach($data as &$v)
             {
                 if(is_array($v))
                 {
                     if(isset($v['icon']))
                     {
-                        $v['icon'] = empty($v['icon']) ? null : $image_host.$v['icon'];
+                        $v['icon'] = empty($v['icon']) ? null : $images_host.$v['icon'];
                     }
                     if(isset($v['big_images']))
                     {
                         $v['big_images_old'] = $v['big_images'];
-                        $v['big_images'] = empty($v['big_images']) ? null : $image_host.$v['big_images'];
+                        $v['big_images'] = empty($v['big_images']) ? null : $images_host.$v['big_images'];
                     }
                 }
             }
@@ -236,7 +236,7 @@ class GoodsService
             $is_category = (isset($params['is_category']) && $params['is_category'] == true) ? true : false;
 
             // 开始处理数据
-            $image_host = config('IMAGE_HOST');
+            $images_host = config('images_host');
             foreach($data as &$v)
             {
                 // 商品url地址
@@ -249,21 +249,21 @@ class GoodsService
                 if(isset($v['images']))
                 {
                     $v['images_old'] = $v['images'];
-                    $v['images'] = empty($v['images']) ? null : $image_host.$v['images'];
+                    $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
                 }
 
                 // 视频
                 if(isset($v['video']))
                 {
                     $v['video_old'] = $v['video'];
-                    $v['video'] = empty($v['video']) ? null : $image_host.$v['video'];
+                    $v['video'] = empty($v['video']) ? null : $images_host.$v['video'];
                 }
 
                 // 商品首页推荐图片，不存在则使用商品封面图片
                 if(isset($v['home_recommended_images']))
                 {
                     $v['home_recommended_images_old'] = $v['home_recommended_images'];
-                    $v['home_recommended_images'] = empty($v['home_recommended_images']) ? (empty($v['images']) ? null : $v['images']) : $image_host.$v['home_recommended_images'];
+                    $v['home_recommended_images'] = empty($v['home_recommended_images']) ? (empty($v['images']) ? null : $v['images']) : $images_host.$v['home_recommended_images'];
                 }
 
                 // PC内容处理
@@ -305,7 +305,7 @@ class GoodsService
                         foreach($v['photo'] as &$vs)
                         {
                             $vs['images_old'] = $vs['images'];
-                            $vs['images'] = $image_host.$vs['images'];
+                            $vs['images'] = $images_host.$vs['images'];
                         }
                     }
                 }
@@ -341,11 +341,11 @@ class GoodsService
         $data = Db::name('GoodsContentApp')->where(['goods_id'=>$params['goods_id']])->field('id,images,content')->order('sort asc')->select();
         if(!empty($data))
         {
-            $image_host = config('IMAGE_HOST');
+            $images_host = config('images_host');
             foreach($data as &$v)
             {
                 $v['images_old'] = $v['images'];
-                $v['images'] = empty($v['images']) ? null : $image_host.$v['images'];
+                $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
                 $v['content_old'] = $v['content'];
                 $v['content'] = empty($v['content']) ? null : explode("\n", $v['content']);
             }
@@ -382,10 +382,10 @@ class GoodsService
         $images = Db::name('GoodsSpecImages')->where($where)->column('name,images');
         if(!empty($images))
         {
-            $image_host = config('IMAGE_HOST');
+            $images_host = config('images_host');
             foreach($images as &$temp_iamges)
             {
-                $temp_iamges = $image_host.$temp_iamges;
+                $temp_iamges = $images_host.$temp_iamges;
             }
         }
 
@@ -578,12 +578,12 @@ class GoodsService
         $data = Db::name('GoodsFavor')->alias('f')->join(['__GOODS__'=>'g'], 'g.id=f.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
-            $image_host = config('IMAGE_HOST');
+            $images_host = config('images_host');
             foreach($data as &$v)
             {
                 // 图片
                 $v['images_old'] = $v['images'];
-                $v['images'] = empty($v['images']) ? null : $image_host.$v['images'];
+                $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
 
                 $v['goods_url'] = HomeUrl('goods', 'index', ['id'=>$v['goods_id']]);
             }
@@ -725,11 +725,11 @@ class GoodsService
         $data = Db::name('GoodsBrowse')->alias('b')->join(['__GOODS__'=>'g'], 'g.id=b.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
-            $image_host = config('IMAGE_HOST');
+            $images_host = config('images_host');
             foreach($data as &$v)
             {
                 $v['images_old'] = $v['images'];
-                $v['images'] = empty($v['images']) ? null : $image_host.$v['images'];
+                $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
                 $v['goods_url'] = HomeUrl('goods', 'index', ['id'=>$v['goods_id']]);
             }
         }
@@ -1631,11 +1631,11 @@ class GoodsService
         $images = Db::name('GoodsSpecImages')->where($where)->select();
         if(!empty($images))
         {
-            $image_host = config('IMAGE_HOST');
+            $images_host = config('images_host');
             foreach($images as &$temp_iamges)
             {
                 $temp_iamges['images_old'] = $temp_iamges['images'];
-                $temp_iamges['images'] = $image_host.$temp_iamges['images'];
+                $temp_iamges['images'] = $images_host.$temp_iamges['images'];
             }
         }
 
@@ -1852,14 +1852,14 @@ class GoodsService
         $data = Db::name('GoodsCategory')->field($field)->where(['pid'=>$id])->order('sort asc')->select();
         if(!empty($data))
         {
-            $image_host = config('IMAGE_HOST');
+            $images_host = config('images_host');
             foreach($data as &$v)
             {
                 $v['is_son']            =   (Db::name('GoodsCategory')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
                 $v['ajax_url']          =   url('admin/goodscategory/getnodeson', array('id'=>$v['id']));
                 $v['delete_url']        =   url('admin/goodscategory/delete');
-                $v['icon_url']          =   empty($v['icon']) ? '' : $image_host.$v['icon'];
-                $v['big_images_url']    =   empty($v['big_images']) ? '' : $image_host.$v['big_images'];
+                $v['icon_url']          =   empty($v['icon']) ? '' : $images_host.$v['icon'];
+                $v['big_images_url']    =   empty($v['big_images']) ? '' : $images_host.$v['big_images'];
                 $v['json']              =   json_encode($v);
             }
             return DataReturn('操作成功', 0, $data);

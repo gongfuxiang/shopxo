@@ -22,7 +22,7 @@
 					<input type="text" name="title" placeholder="标题" minlength="2" maxlength="60" data-validation-message="标题长度 2~60 个字符" class="am-form-field am-radius" {{if !empty($data)}} value="{{$data.title}}" {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
 					<span class="am-input-group-btn">
 						<button class="am-btn am-btn-default colorpicker-submit" type="button" data-input-tag="input[name='title']" data-color-tag="input[name='title_color']">
-							<img src="{{$image_host}}/static/common/images/colorpicker.png" />
+							<img src="{{$images_host}}/static/common/images/colorpicker.png" />
 						</button>
 					</span>
 				</div>

@@ -128,7 +128,7 @@ class Common extends Controller
 		$this->assign('admin', $this->admin);
 
 		// 图片host地址
-		$this->assign('image_host', config('IMAGE_HOST'));
+		$this->assign('images_host', config('images_host'));
 	}
 
 	/**

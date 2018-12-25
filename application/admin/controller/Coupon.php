@@ -375,7 +375,7 @@ class Coupon extends Common
 		}
 		if(empty($user['avatar']))
 		{
-			$user['avatar'] = config('IMAGE_HOST').'Public/Common/Images/user-img-md.gif';
+			$user['avatar'] = config('images_host').'Public/Common/Images/user-img-md.gif';
 		}
 		$this->ajaxReturn('操作成功', 0, $user);
 	}

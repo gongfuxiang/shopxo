@@ -153,7 +153,7 @@ class Common extends Controller
         $this->assign('is_footer', 1);
 
         // 图片host地址
-        $this->assign('image_host', config('IMAGE_HOST'));
+        $this->assign('images_host', config('images_host'));
 
         // 标题
         $this->assign('home_seo_site_title', MyC('home_seo_site_title'));

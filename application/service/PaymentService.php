@@ -175,7 +175,7 @@ class PaymentService
         $data = Db::name('Payment')->where($where)->field('id,logo,name,sort,payment,config,apply_terminal,apply_terminal,element,is_enable,is_open_user')->order('sort asc')->select();
         if(!empty($data) && is_array($data))
         {
-            $images_host = config('IMAGE_HOST');
+            $images_host = config('images_host');
             foreach($data as &$v)
             {
                 $v['logo_old'] = $v['logo'];

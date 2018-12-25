@@ -1541,7 +1541,7 @@ class AlipayLifeService
         if(!empty($data))
         {
             $common_is_enable_tips = lang('common_is_enable_tips');
-            $image_host = config('IMAGE_HOST');
+            $images_host = config('images_host');
             foreach($data as &$v)
             {
                 // 是否启用
@@ -1558,7 +1558,7 @@ class AlipayLifeService
                 if(isset($v['logo']))
                 {
                     $v['logo_old'] = $v['logo'];
-                    $v['logo'] =  empty($v['logo']) ? '' : $image_host.$v['logo'];
+                    $v['logo'] =  empty($v['logo']) ? '' : $images_host.$v['logo'];
                 }
 
                 // 时间

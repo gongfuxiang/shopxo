@@ -58,7 +58,7 @@
 				<ul class="plug-file-upload-view slide-images_url-images-view" data-form-name="images_url" data-max-number="1" data-delete="0" data-dialog-type="images">
 					<li>
 						<input type="text" name="images_url" value="{{if !empty($data['images_url'])}}{{$data.images_url}}{{/if}}" data-validation-message="请上传图片" required />
-						<img src="{{if !empty($data['images_url'])}}{{$data.images_url}}{{else /}}{{$image_host}}/static/admin/default/images/default-images.png{{/if}}" />
+						<img src="{{if !empty($data['images_url'])}}{{$data.images_url}}{{else /}}{{$images_host}}/static/admin/default/images/default-images.png{{/if}}" />
 					</li>
 				</ul>
 				<div class="plug-file-upload-submit" data-view-tag="ul.slide-images_url-images-view">+上传图片</div>
@@ -67,7 +67,7 @@
 				<label>背景色</label>
 				<input type="hidden" name="bg_color" value="{{if !empty($data)}}{{$data.bg_color}}{{/if}}" />
 				<button class="am-btn am-btn-default colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color" {{if !empty($data)}} style="background-color:{{$data.bg_color}};"{{/if}}>
-					<img src="{{$image_host}}/static/common/images/colorpicker.png" />
+					<img src="{{$images_host}}/static/common/images/colorpicker.png" />
 				</button>
 			</div>
 			<div class="am-form-group">

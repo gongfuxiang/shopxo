@@ -164,7 +164,7 @@ class BuyService
         // 数据处理
         if(!empty($data))
         {
-            $images_host = config('IMAGE_HOST');
+            $images_host = config('images_host');
             foreach($data as &$v)
             {
                 // 规格

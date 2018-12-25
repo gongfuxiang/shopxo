@@ -26,7 +26,7 @@
         <div class="am-u-sm-3">
             <a href="{{:url('index/category/index')}}">
                 <div class="nav-icon mini-nav-goods-category">
-                    <img src="{{$image_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-category-icon.png" />
+                    <img src="{{$images_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-category-icon.png" />
                 </div>
                 <div class="mini-nav-title">分类</div>
             </a>
@@ -34,7 +34,7 @@
         <div class="am-u-sm-3">
             <a {{if empty($user)}}href="javascript:;" class="login-event"{{else /}} href="{{:url('index/Cart/index')}}"{{/if}}>
                 <div class="nav-icon mini-nav-cart">
-                    <img src="{{$image_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-cart-icon.png" />
+                    <img src="{{$images_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-cart-icon.png" />
                 </div>
                 <div class="mini-nav-title">购物车</div>
             </a>
@@ -42,7 +42,7 @@
         <div class="am-u-sm-3">
             <a {{if empty($user)}}href="javascript:;" class="login-event"{{else /}} href="{{:url('index/order/index')}}"{{/if}}>
                 <div class="nav-icon mini-nav-order">
-                    <img src="{{$image_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-order-icon.png" />
+                    <img src="{{$images_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-order-icon.png" />
                 </div>
                 <div class="mini-nav-title">订单</div>
             </a>
@@ -50,7 +50,7 @@
         <div class="am-u-sm-3">
             <a {{if empty($user)}}href="javascript:;" class="login-event"{{else /}} href="{{:url('index/user/index')}}"{{/if}}>
                 <div class="nav-icon mini-nav-user">
-                    <img src="{{$image_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-user-icon.png" />
+                    <img src="{{$images_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-user-icon.png" />
                 </div>
                 <div class="mini-nav-title">我的</div>
             </a>
@@ -62,7 +62,7 @@
         <div class="mod-vip">
             <div class="m-baseinfo">
                 <a href="{{if !empty($user)}}{{:url('index/user/index')}}{{else /}}javascript:;{{/if}}" target="_blank">
-                    <img src="{{if !empty($user['avatar'])}}{{$user.avatar}}{{else /}}{{$image_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-user-avatar.jpg{{/if}}" class="user-avatar" />
+                    <img src="{{if !empty($user['avatar'])}}{{$user.avatar}}{{else /}}{{$images_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-user-avatar.jpg{{/if}}" class="user-avatar" />
                 </a>
                 <em>
                     <span class="s-name">

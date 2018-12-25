@@ -36,7 +36,7 @@ class BrandService
         if(!empty($data))
         {
             $common_is_enable_tips = lang('common_is_enable_tips');
-            $image_host = config('IMAGE_HOST');
+            $images_host = config('images_host');
             foreach($data as &$v)
             {
                 // 是否启用
@@ -55,7 +55,7 @@ class BrandService
                 if(isset($v['logo']))
                 {
                     $v['logo_old'] = $v['logo'];
-                    $v['logo'] =  empty($v['logo']) ? '' : $image_host.$v['logo'];
+                    $v['logo'] =  empty($v['logo']) ? '' : $images_host.$v['logo'];
                 }
 
                 // 时间
@@ -176,11 +176,11 @@ class BrandService
         $brand = Db::name('Brand')->where($brand_where)->field('id,name,logo,website_url')->select();
         if(!empty($brand))
         {
-            $image_host = config('IMAGE_HOST');
+            $images_host = config('images_host');
             foreach($brand as &$v)
             {
                 $v['logo_old'] = $v['logo'];
-                $v['logo'] = empty($v['logo']) ? null : $image_host.$v['logo'];
+                $v['logo'] = empty($v['logo']) ? null : $images_host.$v['logo'];
                 $v['website_url'] = empty($v['website_url']) ? null : $v['website_url'];
             }
         }

@@ -45,10 +45,10 @@ class UserService
                 {
                     if(substr($v['avatar'], 0, 4) != 'http')
                     {
-                        $v['avatar'] = config('IMAGE_HOST').$v['avatar'];
+                        $v['avatar'] = config('images_host').$v['avatar'];
                     }
                 } else {
-                    $v['avatar'] = config('IMAGE_HOST').'/static/index/'.strtolower(MyC('cache_common_default_theme_data', 'default')).'/images/default-user-avatar.jpg';
+                    $v['avatar'] = config('images_host').'/static/index/'.strtolower(MyC('cache_common_default_theme_data', 'default')).'/images/default-user-avatar.jpg';
                 }
 
                 // 注册时间
@@ -639,10 +639,10 @@ class UserService
                 {
                     if(substr($user['avatar'], 0, 4) != 'http')
                     {
-                        $user['avatar'] = config('IMAGE_HOST').$user['avatar'];
+                        $user['avatar'] = config('images_host').$user['avatar'];
                     }
                 } else {
-                    $user['avatar'] = config('IMAGE_HOST').'/static/index/'.strtolower(config('DEFAULT_THEME', 'default')).'/images/default-user-avatar.jpg';
+                    $user['avatar'] = config('images_host').'/static/index/'.strtolower(config('DEFAULT_THEME', 'default')).'/images/default-user-avatar.jpg';
                 }
 
                 // 存储session

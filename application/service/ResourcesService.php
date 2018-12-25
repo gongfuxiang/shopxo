@@ -90,7 +90,7 @@ class ResourcesService
         $data = Db::name('AppHomeNav')->field('id,name,images_url,event_value,event_type,bg_color')->where(['platform'=>APPLICATION_CLIENT_TYPE, 'is_enable'=>1])->order('sort asc')->select();
         if(!empty($data))
         {
-            $images_host = config('IMAGE_HOST');
+            $images_host = config('images_host');
             foreach($data as &$v)
             {
                 $v['images_url_old'] = $v['images_url'];

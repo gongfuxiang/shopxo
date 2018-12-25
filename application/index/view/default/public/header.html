@@ -14,8 +14,8 @@
 
 	<meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="{{:MyC('home_site_name')}}">
-    <link rel="apple-touch-icon" href="{{$image_host}}{{:MyC('home_site_desktop_icon')}}">
-    <link rel="apple-touch-icon-precomposed" href="{{$image_host}}{{:MyC('home_site_desktop_icon')}}">
+    <link rel="apple-touch-icon" href="{{$images_host}}{{:MyC('home_site_desktop_icon')}}">
+    <link rel="apple-touch-icon-precomposed" href="{{$images_host}}{{:MyC('home_site_desktop_icon')}}">
     
 	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT__}}static/common/lib/assets/css/amazeui.css?v={{:MyC('home_static_cache_version')}}" />
 	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT__}}static/common/lib/amazeui-switch/amazeui.switch.css?v={{:MyC('home_static_cache_version')}}" />
@@ -33,6 +33,7 @@
 		var __public__ = '{{$Think.__MY_ROOT__}}';
 		var __default_theme__ = '{{$default_theme}}';
 		var __modal_login_url__ = '{{:Url('index/user/modallogininfo')}}';
+		var __images_host__ = '{{$images_host}}';
 		var __user_id__ = {{if empty($user['id'])}}0{{else /}}{{$user.id}}{{/if}};
 	</script>
 </head>
