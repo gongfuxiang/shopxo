@@ -88,6 +88,7 @@ $(function()
         {
             $('.specifications-table th.table-title').remove();
             $('.specifications-table td.table-value').remove();
+            $('ul.spec-images-list').html('');
         }
     });
 
