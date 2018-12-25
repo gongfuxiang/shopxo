@@ -116,12 +116,14 @@ class BuyService
      */
     private static function GoodsSpecificationsHandle($params = [])
     {
-        $spec = [];
+        $spec = '';
         if(!empty($params['spec']))
         {
             if(!is_array($params['spec']))
             {
                 $spec = json_decode($params['spec'], true);
+            } else {
+                $spec = $params['spec'];
             }
         }
         return empty($spec) ? '' : $spec;
