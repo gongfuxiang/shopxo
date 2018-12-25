@@ -48,9 +48,9 @@ class Sms extends Common
 		$this->assign('nav_type', $type);
 		if($type == 'sms')
 		{
-			return $this->fetch('Index');
+			return $this->fetch('index');
 		} else {
-			return $this->fetch('Message');
+			return $this->fetch('message');
 		}
 	}
 
