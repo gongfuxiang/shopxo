@@ -259,6 +259,10 @@ class Ueditor extends Common
 		/* 获取文件列表 */
 		$path = $_SERVER['DOCUMENT_ROOT'] . (substr($path, 0, 1) == "/" ? "":"/") . $path;
 		$files = $this->GetFilesList($path, $allow_files);
+
+		// 倒序
+		//$files = $this->ArrayQuickSort($files);
+
 		if (!count($files)) {
 			$this->current_result =  json_encode(array(
 				"state" => "no match file",
@@ -275,10 +279,6 @@ class Ueditor extends Common
 		{
 			$list[] = $files[$i];
 		}
-		//倒序
-		// for ($i = $end; $i < $len && $i < $end; $i++){
-		//    $list[] = $files[$i];
-		// }
 
 		/* 返回数据 */
 		$this->current_result = json_encode(array(
@@ -287,6 +287,42 @@ class Ueditor extends Common
 			"start" => $start,
 			"total" => count($files)
 		));
+	}
+
+	/**
+	 * 文件快速排序
+	 * @author   Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2018-12-25
+	 * @desc    description
+	 * @param  [array] $data [需要排序的数据（选择一个基准元素，将待排序分成小和打两罐部分，以此类推递归的排序划分两罐部分）]
+	 * @return [array]       [排序好的数据]
+	 */
+	private function ArrayQuickSort($data)
+	{
+		if(!empty($data) && is_array($data))
+		{
+			$len = count($data);
+			if($len <= 1) return $data;
+
+			$base = $data[0];
+			$left_array = array();
+			$right_array = array();
+			for($i=1; $i<$len; $i++)
+			{
+				if($base['mtime'] < $data[$i]['mtime'])
+				{
+					$left_array[] = $data[$i];
+				} else {
+					$right_array[] = $data[$i];
+				}
+			}
+			if(!empty($left_array)) $left_array = $this->ArrayQuickSort($left_array);
+			if(!empty($right_array)) $right_array = $this->ArrayQuickSort($right_array);
+
+			return array_merge($left_array, array($base), $right_array);
+		}
 	}
 
 	/**
