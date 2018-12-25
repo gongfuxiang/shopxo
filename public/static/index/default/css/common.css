@@ -220,8 +220,8 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px; }
     .category-content .menu-item .area-in{ position: relative;  z-index: 1;  }
     .category-content .menu-item .area-bg{ padding: 10px 0 10px 40px;}
     .shadow-bg{ display: none; position: relative; width: 100%; height: 0; } 
-    .shadow-b,.shadow-bg i{background: url(themes/mall/default/styles/default/Images/index_ico.png) no-repeat; }
-    .shadow-r,.shadow-l{ background: url(themes/mall/default/styles/default/Images/shadow.png) no-repeat; }
+    .shadow-b,.shadow-bg i{background: url(themes/mall/default/styles/default/images/index_ico.png) no-repeat; }
+    .shadow-r,.shadow-l{ background: url(themes/mall/default/styles/default/images/shadow.png) no-repeat; }
     .shadow-bg i,.shadow-b{ position: absolute; width: 100%; height: 0; height: 2px\9; background-position: 0 -188px; background-repeat: repeat-x;  }
     .shadow-bg i,.shadow-b{ _height:0; }
     .shadow-l{  position: absolute; left: 0; _left:-42px; top: 0; width: 0; width: 2px\9;  height: 100%; background-position: right 0;  background-repeat: repeat-y;  }
@@ -299,7 +299,7 @@ display: block;
 line-height:38px;
 width: 35px;
 height: 38px;
-background: url(../Images/ibar_sprites.png) no-repeat;
+background: url(../images/ibar_sprites.png) no-repeat;
 }
 /*图标定位*/
 .item .setting {position:absolute;top: 10px;left: 10px;width: 18px;height: 19px;background-position: 0 0;}
@@ -329,7 +329,7 @@ cursor: pointer;color: #FFF; margin-bottom:10px;}
 .item a,.quick_toggle a{ display:block;
 width: 40px;
 height: 38px;cursor: pointer; position:relative; overflow:hidden; }
-.quick_toggle span{position:absolute;top:12px;left:12px;background: url(../Images/ibar_sprites.png) no-repeat;}
+.quick_toggle span{position:absolute;top:12px;left:12px;background: url(../images/ibar_sprites.png) no-repeat;}
 .quick_toggle .kfzx{background-position:0 -175px;}
 .quick_toggle li:hover .kfzx{ background-position:-33px -175px;}
 .quick_toggle .mpbtn_qrcode {background-position: 0 -302px; position:absolute;top:12px;left:10px;}
@@ -349,9 +349,9 @@ height: 38px;cursor: pointer; position:relative; overflow:hidden; }
 
 
 .mp_tooltip {height: 38px;line-height: 38px;width: 92px;position: absolute;z-index: 2;left: -121px;top: 0;background: #2b2b2b;color: #d8d8d8;text-align: center;display: block;visibility: hidden;font-size:12px;}
-.icon_arrow_white {position: absolute;right: -5px;top: 15px;width: 5px;height: 9px;background:url(../Images/ibar_sprites.png) no-repeat;background-position: 0 -253px;}
+.icon_arrow_white {position: absolute;right: -5px;top: 15px;width: 5px;height: 9px;background:url(../images/ibar_sprites.png) no-repeat;background-position: 0 -253px;}
 .icon_arrow_right_black {position: absolute;right: -5px;top: 15px;width: 5px;height: 9px;
-background:url(../Images/ibar_sprites.png) no-repeat;background-position:0px -234px;overflow: hidden;}
+background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -234px;overflow: hidden;}
 
 
 .mp_qrcode {padding: 10px;width: 148px;height: 150px;top: -50px;background: #fff;box-shadow: 0 0 5px rgba(0,0,0,.4);border-radius: 5px 0 0 5px;border: 1px solid #ccc;z-index: 3;position: absolute;left: -154px;display: none;}

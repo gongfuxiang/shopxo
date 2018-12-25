@@ -81,9 +81,9 @@ text-align: center;float:none}
 .sale-item .s-img,.sale-item .s-info{background:#fff ;padding:10px 2px ;}
 /*时间*/
 .sale-mt{overflow: hidden;background:#ffd800 ;margin-top:10px ;}
-.sale-mt i {float: left;display: block;width:60px;height:46px;background: url(../../Images/sale-t_clock.jpg);background-size:100% }
+.sale-mt i {float: left;display: block;width:60px;height:46px;background: url(../../images/sale-t_clock.jpg);background-size:100% }
 .sale-mt .sale-title{font-size: 18px;font-style:italic;line-height: 46px;color: #885621;margin-left:10px;}
-.sale-mt .s-time {float:right;width:112px;height: 27px;position: relative;background: url(../../Images/icon-sale.png);background-size:100% ;margin-top:10px ;margin-right: 10px;}
+.sale-mt .s-time {float:right;width:112px;height: 27px;position: relative;background: url(../../images/icon-sale.png);background-size:100% ;margin-top:10px ;margin-right: 10px;}
 .sale-mt .s-time span { position: absolute;top: 0;display: block;width: 27px;height: 27px;line-height: 27px;font-size:18px;color: #ffeee0;text-align: center;overflow: hidden;}
 .s-time .mm {left:43px;}
 .s-time .ss {left:85px;}
@@ -190,9 +190,9 @@ text-align: center;float:none}
     .s-info .s-price b {font-size:20px}
     .s-buy{display: block;position: absolute;right:0px;bottom: 0px;height:22px;line-height:22px;font-size: 14px;background: #f52e1f;color: #fff;padding:0px 10px}
     /*时间*/
-    .sale-mt i {float: left;display: block;width:380px;height: 93px;background: url(../../Images/sale-t.jpg) no-repeat;}
+    .sale-mt i {float: left;display: block;width:380px;height: 93px;background: url(../../images/sale-t.jpg) no-repeat;}
     .sale-mt .sale-title{display: none;}
-    .sale-mt .s-time {float: right;width: 160px;height: 39px;position: relative;margin-top:24px;margin-right:18px;background: url(../../Images/icon-sale.png);}
+    .sale-mt .s-time {float: right;width: 160px;height: 39px;position: relative;margin-top:24px;margin-right:18px;background: url(../../images/icon-sale.png);}
     .sale-mt .s-time span {width: 39px;height: 39px;line-height: 39px;font-size: 24px;color: #ffeee0;text-align: center;overflow: hidden;}
     .s-time .mm {left: 61px;}
     .s-time .ss {left: 121px;}
@@ -253,7 +253,7 @@ text-align: center;float:none}
 
     /*推荐*/
     .recommendation{margin:0px auto ;}
-    .clock{display: block;height: 145px;background:url(../Images/clockbg.png) repeat ;position: relative;}
+    .clock{display: block;height: 145px;background:url(../images/clockbg.png) repeat ;position: relative;}
     .recommendationMain{height:145px ;}
     .recommendationMain img{width:120px;right: 5%;}
     .clock p{font-size:24px;position: absolute;top:50%;margin-top:-31px ;left:12%;}

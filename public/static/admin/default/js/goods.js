@@ -29,9 +29,6 @@ $(function()
         html += '<input type="text" name="specifications_value_'+index+'[]" placeholder="规格值" class="am-radius" data-validation-message="请填写规格值" required />';
         html += '</td>';
         $('.value-start').before(html);
-
-        // 规格图片
-        SpecImagesHandle();
     });
 
     // 规格列移除
@@ -45,9 +42,6 @@ $(function()
         {
             $('.specifications-table tr.line-not-first').remove();
         }
-
-        // 规格图片
-        SpecImagesHandle();
     });
 
     // 添加一行规格值
@@ -72,9 +66,6 @@ $(function()
         {
             $(this).attr('value', '');
         });
-
-        // 规格图片
-        SpecImagesHandle();
     });
 
     // 规格行复制
@@ -86,9 +77,6 @@ $(function()
             $(this).attr('value', $(this).val());
         });
         $parent.after($parent.prop('outerHTML'));
-
-        // 规格图片
-        SpecImagesHandle();
     });
 
     // 规格行移除
@@ -101,75 +89,39 @@ $(function()
             $('.specifications-table th.table-title').remove();
             $('.specifications-table td.table-value').remove();
         }
-
-        // 规格图片
-        SpecImagesHandle();
     });
 
-    // 规格首列事件
-    $('.spec-images-tips').on('change', 'input', function()
+    // 添加规格图片
+    $('.specifications-line-images-add').on('click', function()
     {
-        // 规格图片
-        SpecImagesHandle();
-    });
-
-    // 规格第一列输入事件
-    $(document).on('change', '.specifications-table tbody tr td.table-value input', function()
-    {
-        // 规格图片
-        SpecImagesHandle();
-    });
-
-    // 规格图片
-    function SpecImagesHandle()
-    {
-        if($('.spec-images-tips input').prop('checked'))
+        if($('.specifications-table th.table-title').length <= 0)
         {
-            // 清空规格
-            $('ul.spec-images-list').html('');
-
-            // 获取第一列数据值
-            var temp_spec_all = {}, spec_all = [];
-            $('.specifications-table tbody tr').each(function(k, v)
-            {
-                var value = $(this).find('td.table-value:eq(0) input').val();
-                if((value || null) != null)
-                {
-                    temp_spec_all[value] = value;
-                }
-            });
-            spec_all = Object.keys(temp_spec_all);
-
-            // 添加规格图片
-            if(spec_all.length > 0)
-            {
-                $('.spec-images-list').show();
-                for(var i in spec_all)
-                {
-                    var temp_class = 'spec-images-items-'+spec_all[i];
-                    if($('ul.spec-images-list').find('.'+temp_class).length <= 0)
-                    {
-                        var html = '<li class="'+temp_class+'">';
-                            html += '<input type="text" value="'+spec_all[i]+'" class="am-radius t-c" disabled="disabled" />'
-                            html += '<ul class="plug-file-upload-view spec-images-view-'+spec_all[i]+'" data-form-name="spec_images['+spec_all[i]+']" data-max-number="1" data-delete="0" data-dialog-type="images">';
-                            html += '<li>';
-                            html += '<input type="text" name="spec_images['+spec_all[i]+']" value="" data-validation-message="请上传规格图片" required />';
-                            html += '<img src="'+__image_host__+'/static/admin/default/images/default-images.png" />';
-                            html += '</li>';
-                            html += '</ul>';
-                            html += '<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-'+spec_all[i]+'">+上传图片</div>';
-                            html += '</li>';
-                        $('ul.spec-images-list').append(html);
-                    }
-                }
-            } else {
-                $('.spec-images-list').hide();
-            }
-        } else {
-            $('ul.spec-images-list').html('');
-            $('.spec-images-list').hide();
+            Prompt('请先添加规格');
+            return false;
         }
-    }
+
+        // 开始添加
+        var index = parseInt(Math.random()*1000001);
+        var temp_class = 'spec-images-items-'+index;
+        var html = '<li class="spec-images-items '+temp_class+'">';
+            html += '<input type="text" name="spec_images_name['+index+']" placeholder="规格名称" class="am-radius t-c" data-validation-message="请填写规格名称" required />'
+            html += '<ul class="plug-file-upload-view spec-images-view-'+index+'" data-form-name="spec_images['+index+']" data-max-number="1" data-dialog-type="images">';
+            html += '<li>';
+            html += '<input type="text" name="spec_images['+index+']" data-validation-message="请上传规格图片" required />';
+            html += '<img src="'+__image_host__+'/static/admin/default/images/default-images.png" />';
+            html += '<i>×</i>';
+            html += '</li>';
+            html += '</ul>';
+            html += '<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-'+index+'">+上传图片</div>';
+            html += '</li>';
+        $('ul.spec-images-list').append(html);
+    });
+
+    // 规格图片删除
+    $('ul.spec-images-list').on('click', 'ul.plug-file-upload-view li i', function()
+    {
+        $(this).parents('li.spec-images-items').remove();
+    });
 
     // 手机详情添加
     $(document).on('click', '.content-app-items-add-sub', function()

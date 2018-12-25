@@ -1149,9 +1149,19 @@ class GoodsService
         }
 
         // 规格图片
-        if(!empty($params['spec_images']))
+        if(!empty($params['spec_images_name']) && !empty($params['spec_images']))
         {
-            $images = $params['spec_images'];
+            foreach($params['spec_images_name'] as $k=>$v)
+            {
+                if(!empty($params['spec_images'][$k]))
+                {
+                    $images[$v] = [
+                        'name'      => $v,
+                        'images'    => $params['spec_images'][$k],
+                    ];
+                }
+            }
+            $images = array_values($images);
         }
 
         return DataReturn('success', 0, ['data'=>$data, 'title'=>$title, 'images'=>$images]);
@@ -1269,7 +1279,7 @@ class GoodsService
             {
                 $temp_content = [
                     'goods_id'  => $goods_id,
-                    'images'    => $v['images'],
+                    'images'    => empty($v['images']) ? '' : $v['images'],
                     'content'   => $v['text'],
                     'sort'      => $k,
                     'add_time'  => time(),
@@ -1426,12 +1436,12 @@ class GoodsService
         if(!empty($data['images']))
         {
             $images = [];
-            foreach($data['images'] as $k=>$v)
+            foreach($data['images'] as $v)
             {
                 $images[] = [
                     'goods_id'  => $goods_id,
-                    'name'      => $k,
-                    'images'    => ResourcesService::AttachmentPathHandle($v),
+                    'name'      => $v['name'],
+                    'images'    => ResourcesService::AttachmentPathHandle($v['images']),
                     'add_time'  => time(),
                 ];
             }

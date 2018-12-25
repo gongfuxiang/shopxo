@@ -155,13 +155,8 @@
 			<!-- 规格 -->
 			<div id="goods-nav-operations" class="division-block">
 				<label class="block nav-detail-title">商品规格</label>
+				<span class="business-operations-submit specifications-nav-title-add">+添加规格</span>
 				<div class="goods-specifications">
-					<div class="spec-images-tips">
-						<label class="am-checkbox c-p">
-							<input type="checkbox" value="1" data-am-ucheck {{if !empty($specifications['images'])}}checked{{/if}} />
-							<span class="fs-12 msg-tips">首个规格选择添加图片</span>
-						</label>
-					</div>
 					<table class="am-table am-table-bordered am-table-centered specifications-table m-t-10 m-b-10">
 						<thead class="title-nav">
 							<tr>
@@ -257,19 +252,25 @@
 							{{/if}}
 						</tbody>
 					</table>
-					<span class="business-operations-submit specifications-nav-title-add">+添加规格</span>
 					<span class="business-operations-submit specifications-line-add">+添加一行</span>
-					<ul class="spec-images-list" {{if empty($specifications['images'])}} style="display: none"{{/if}}>
+					<span class="business-operations-submit specifications-line-images-add m-l-10">+添加规格图片</span>
+					<ul class="spec-images-list">
 						{{if !empty($specifications['images'])}}
+						<div class="am-alert am-alert-warning am-radius" data-am-alert>
+						    <button type="button" class="am-close">&times;</button>
+						    <p class="fs-12">规格名称与规格值保持一致，相同规格名称添加一次即可，重复添加则后面覆盖前面，顺序不影响前端展示效果。</p>
+						</div>
 							{{foreach $specifications.images as $spec_images}}
-								<li>
-									<ul class="plug-file-upload-view spec-images-view-{{$spec_images.name}}" data-form-name="spec_images[{{$spec_images.name}}]" data-max-number="1" data-delete='0' data-dialog-type="images">
+								<li class="spec-images-items spec-images-items-{{$spec_images.id}}">
+									<input type="text" name="spec_images_name[{{$spec_images.id}}]" placeholder="规格名称" class="am-radius t-c" data-validation-message="请填写规格名称" value="{{$spec_images.name}}" required >
+									<ul class="plug-file-upload-view spec-images-view-{{$spec_images.id}}" data-form-name="spec_images[{{$spec_images.id}}]" data-max-number="1" data-delete='0' data-dialog-type="images">
 										<li>
-											<input type="hidden" name="spec_images[{{$spec_images.name}}]" value="{{$spec_images.images_old}}" data-validation-message="请上传规格图片" required />
+											<input type="hidden" name="spec_images[{{$spec_images.id}}]" value="{{$spec_images.images_old}}" data-validation-message="请上传规格图片" required />
 											<img src="{{$spec_images.images}}" />
+											<i>×</i>
 										</li>
 									</ul>
-									<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-{{$spec_images.name}}">+上传图片</div>
+									<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-{{$spec_images.id}}">+上传图片</div>
 								</li>
 							{{/foreach}}
 						{{/if}}
