@@ -371,25 +371,20 @@ class GoodsService
         $type = Db::name('GoodsSpecType')->where($where)->order('id asc')->select();
         if(!empty($type))
         {
+            // 数据处理
+            $images_host = config('images_host');
             foreach($type as &$temp_type)
             {
-                $temp_type['value'] = json_decode($temp_type['value'], true);
+                $temp_type_value = json_decode($temp_type['value'], true);
+                foreach($temp_type_value as &$vs)
+                {
+                    $vs['images'] = empty($vs['images']) ? '' : $images_host.$vs['images'];
+                }
+                $temp_type['value'] = $temp_type_value;
                 $temp_type['add_time'] = date('Y-m-d H:i:s');
             }
         }
-
-        // 规格图片
-        $images = Db::name('GoodsSpecImages')->where($where)->column('name,images');
-        if(!empty($images))
-        {
-            $images_host = config('images_host');
-            foreach($images as &$temp_iamges)
-            {
-                $temp_iamges = $images_host.$temp_iamges;
-            }
-        }
-
-        return ['type'=>$type, 'images'=>$images];
+        return ['type'=>$type];
     }
 
     /**
@@ -1155,13 +1150,9 @@ class GoodsService
             {
                 if(!empty($params['spec_images'][$k]))
                 {
-                    $images[$v] = [
-                        'name'      => $v,
-                        'images'    => $params['spec_images'][$k],
-                    ];
+                    $images[$v] = $params['spec_images'][$k];
                 }
             }
-            $images = array_values($images);
         }
 
         return DataReturn('success', 0, ['data'=>$data, 'title'=>$title, 'images'=>$images]);
@@ -1344,15 +1335,22 @@ class GoodsService
         Db::name('GoodsSpecType')->where(['goods_id'=>$goods_id])->delete();
         Db::name('GoodsSpecValue')->where(['goods_id'=>$goods_id])->delete();
         Db::name('GoodsSpecBase')->where(['goods_id'=>$goods_id])->delete();
-        Db::name('GoodsSpecImages')->where(['goods_id'=>$goods_id])->delete();
 
         // 类型
         if(!empty($data['title']))
         {
             foreach($data['title'] as &$v)
             {
+                $spec = [];
+                foreach($v['value'] as $vs)
+                {
+                    $spec[] = [
+                        'name'      => $vs,
+                        'images'    => isset($data['images'][$vs]) ? ResourcesService::AttachmentPathHandle($data['images'][$vs]) : '',
+                    ];
+                }
                 $v['goods_id']  = $goods_id;
-                $v['value']     = json_encode(array_values($v['value']));
+                $v['value']     = json_encode($spec);
                 $v['add_time']  = time();
             }
             if(Db::name('GoodsSpecType')->insertAll($data['title']) < count($data['title']))
@@ -1429,25 +1427,6 @@ class GoodsService
                         return DataReturn('规格值添加失败', -1);
                     }
                 }
-            }
-        }
-
-        // 规格图片
-        if(!empty($data['images']))
-        {
-            $images = [];
-            foreach($data['images'] as $v)
-            {
-                $images[] = [
-                    'goods_id'  => $goods_id,
-                    'name'      => $v['name'],
-                    'images'    => ResourcesService::AttachmentPathHandle($v['images']),
-                    'add_time'  => time(),
-                ];
-            }
-            if(Db::name('GoodsSpecImages')->insertAll($images) < count($images))
-            {
-                return DataReturn('规格图片添加失败', -1);
             }
         }
 
@@ -1578,10 +1557,18 @@ class GoodsService
         if(!empty($type))
         {
             // 数据处理
-            foreach($type as &$v)
+            $images_host = config('images_host');
+            foreach($type as &$temp_type)
             {
-                $v['value'] = json_decode($v['value'], true);
+                $temp_type_value = json_decode($temp_type['value'], true);
+                foreach($temp_type_value as &$vs)
+                {
+                    $vs['images_old'] = $vs['images'];
+                    $vs['images'] = empty($vs['images']) ? '' : $images_host.$vs['images'];
+                }
+                $temp_type['value'] = $temp_type_value;
             }
+
 
             // 获取规格值
             $temp_value = Db::name('GoodsSpecValue')->where($where)->field('goods_spec_base_id,value')->order('id asc')->select();
@@ -1592,10 +1579,13 @@ class GoodsService
                     $key = '';
                     foreach($type as $type_v)
                     {
-                        if(in_array($value_v['value'], $type_v['value']))
+                        foreach($type_v['value'] as $type_vs)
                         {
-                            $key = $type_v['id'];
-                            break;
+                            if($type_vs['name'] == $value_v['value'])
+                            {
+                                $key = $type_v['id'];
+                                break;
+                            }
                         }
                     }
                     $value[$value_v['goods_spec_base_id']][] = [
@@ -1627,22 +1617,9 @@ class GoodsService
             ];
         }
 
-        // 规格图片
-        $images = Db::name('GoodsSpecImages')->where($where)->select();
-        if(!empty($images))
-        {
-            $images_host = config('images_host');
-            foreach($images as &$temp_iamges)
-            {
-                $temp_iamges['images_old'] = $temp_iamges['images'];
-                $temp_iamges['images'] = $images_host.$temp_iamges['images'];
-            }
-        }
-
         return [
             'type'      => $type,
             'value'     => array_values($value),
-            'images'    => $images,
         ];
     }
 

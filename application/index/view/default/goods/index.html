@@ -144,11 +144,11 @@
                                                             <div class="cart-title">{{$spec.name}}</div>
                                                             <ul>
                                                                 {{foreach $spec.value as $keys=>$specs}}
-                                                                    <li class="sku-line {{if !empty($goods['specifications']['images'][$specs])}} sku-line-images{{/if}} {{if $key gt 0}} sku-dont-choose{{/if}}" data-type-value="{{$spec.name}}" data-value="{{$specs}}" {{if !empty($goods['specifications']['images'][$specs])}} data-type-images="{{$goods.specifications.images[$specs]}}"{{/if}}>
-                                                                        {{if !empty($goods['specifications']['images'][$specs])}}
-                                                                            <img src="{{$goods.specifications.images[$specs]}}" />
+                                                                    <li class="sku-line {{if !empty($specs['images'])}} sku-line-images{{/if}} {{if $key gt 0}} sku-dont-choose{{/if}}" data-type-value="{{$spec.name}}" data-value="{{$specs.name}}" {{if !empty($specs['images'])}} data-type-images="{{$specs.images}}"{{/if}}>
+                                                                        {{if !empty($specs['images'])}}
+                                                                            <img src="{{$specs.images}}" />
                                                                         {{/if}}
-                                                                        {{$specs}}<i></i>
+                                                                        {{$specs.name}}<i></i>
                                                                     </li>
                                                                 {{/foreach}}
                                                             </ul>

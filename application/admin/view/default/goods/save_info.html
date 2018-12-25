@@ -255,23 +255,29 @@
 					<span class="business-operations-submit specifications-line-add">+添加一行</span>
 					<span class="business-operations-submit specifications-line-images-add m-l-10">+添加规格图片</span>
 					<ul class="spec-images-list">
-						{{if !empty($specifications['images'])}}
 						<div class="am-alert am-alert-warning am-radius" data-am-alert>
 						    <button type="button" class="am-close">&times;</button>
 						    <p class="fs-12">规格名称与规格值保持一致，相同规格名称添加一次即可，重复添加则后面覆盖前面，顺序不影响前端展示效果。</p>
 						</div>
-							{{foreach $specifications.images as $spec_images}}
-								<li class="spec-images-items spec-images-items-{{$spec_images.id}}">
-									<input type="text" name="spec_images_name[{{$spec_images.id}}]" placeholder="规格名称" class="am-radius t-c" data-validation-message="请填写规格名称" value="{{$spec_images.name}}" required >
-									<ul class="plug-file-upload-view spec-images-view-{{$spec_images.id}}" data-form-name="spec_images[{{$spec_images.id}}]" data-max-number="1" data-delete='0' data-dialog-type="images">
-										<li>
-											<input type="hidden" name="spec_images[{{$spec_images.id}}]" value="{{$spec_images.images_old}}" data-validation-message="请上传规格图片" required />
-											<img src="{{$spec_images.images}}" />
-											<i>×</i>
-										</li>
-									</ul>
-									<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-{{$spec_images.id}}">+上传图片</div>
-								</li>
+						{{if !empty($specifications['type'])}}
+							{{foreach $specifications.type as $type}}
+								{{if !empty($type['value'])}}
+									{{foreach $type.value as $spec_key=>$spec}}
+										{{if !empty($spec['images'])}}
+											<li class="spec-images-items spec-images-items-{{$type.id}}{{$spec_key}}">
+												<input type="text" name="spec_images_name[{{$type.id}}{{$spec_key}}]" placeholder="规格名称" class="am-radius t-c" data-validation-message="请填写规格名称" value="{{$spec.name}}" required >
+												<ul class="plug-file-upload-view spec-images-view-{{$type.id}}{{$spec_key}}" data-form-name="spec_images[{{$type.id}}{{$spec_key}}]" data-max-number="1" data-delete='0' data-dialog-type="images">
+													<li>
+														<input type="hidden" name="spec_images[{{$type.id}}{{$spec_key}}]" value="{{$spec.images_old}}" data-validation-message="请上传规格图片" required />
+														<img src="{{$spec.images}}" />
+														<i>×</i>
+													</li>
+												</ul>
+												<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-{{$type.id}}{{$spec_key}}">+上传图片</div>
+											</li>
+										{{/if}}
+									{{/foreach}}
+								{{/if}}
 							{{/foreach}}
 						{{/if}}
 					</ul>
