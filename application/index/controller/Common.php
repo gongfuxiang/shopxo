@@ -247,10 +247,15 @@ class Common extends Controller
      * @datetime 2017-02-25T15:47:50+0800
      * @param    [string]      $name [方法名称]
      */
-    protected function _empty($name)
+    public function _empty($name)
     {
-        $this->assign('msg', '非法访问');
-        return $this->fetch('public/error');
+        if(IS_AJAX)
+        {
+            exit(json_encode(DataReturn($name.' 非法访问', -1000)));
+        } else {
+            $this->assign('msg', $name.' 非法访问');
+            return $this->fetch('public/error');
+        }
     }
 
     /**

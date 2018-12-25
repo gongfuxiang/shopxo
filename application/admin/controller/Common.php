@@ -157,72 +157,23 @@ class Common extends Controller
 		}
 	}
 
-	/**
-	 * 文件删除
-	 * @author   Devil
-	 * @blog    http://gong.gg/
-	 * @version 1.0.0
-	 * @date    2018-07-10
-	 * @desc    description
-	 * @param   [string]          $img [图片地址 path+name]
-	 */
-	protected function FileDelete($img)
-	{
-		if(empty($img)) return false;
-
-		if(file_exists(ROOT_PATH.$img))
-		{
-			return unlink(ROOT_PATH.$img);
-		}
-		return false;
-	}
-
-	/**
-	 * 文件批量删除
-	 * @author   Devil
-	 * @blog    http://gong.gg/
-	 * @version 1.0.0
-	 * @date    2018-07-10
-	 * @desc    description
-	 * @param   [array]          $img_all [图片地址 path+name]
-	 */
-	protected function FileDeleteAll($img_all)
-	{
-		if(!empty($img_all) && is_array($img_all))
-		{
-			for($i=0; $i<config($img_all); $i++)
-			{
-				$this->FileDelete($img_all[$i]);
-				$this->FileDelete(str_replace(['compr', 'small'], 'small', $img_all[$i]));
-				$this->FileDelete(str_replace(['compr', 'small'], 'compr', $img_all[$i]));
-				$this->FileDelete(str_replace(['compr', 'small'], 'original', $img_all[$i]));
-			}
-		}
-	}
-
-	/**
-	 * 文件存储
-	 * @author   Devil
-	 * @blog    http://gong.gg/
-	 * @version 1.0.0
-	 * @date    2018-09-11
-	 * @desc    description
-	 * @param   [string]          $field 		[name名称]
-	 * @param   [string]          $post_name 	[file form name名称]
-	 * @param   [string]          $dir   		[存储路径标记]
-	 */
-	protected function FileSave($field, $post_name, $dir = 'common')
-	{
-		if(isset($_FILES[$post_name]['error']))
-		{
-			$path = DS.'static'.DS.'upload'.DS.$dir.DS.date('Y').DS.date('m').DS.date('d').DS;
-			$file_obj = new \base\FileUpload(['root_path'=>ROOT_PATH, 'path'=>$path]);
-			$ret = $file_obj->Save($post_name);
-			if($ret['status'] === true)
-			{
-				$_POST[$field] = $ret['data']['url'];
-			}
-		}
-	}
+    /**
+     * [_empty 空方法操作]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-02-25T15:47:50+0800
+     * @param    [string]      $name [方法名称]
+     */
+    public function _empty($name)
+    {
+        if(IS_AJAX)
+        {
+            exit(json_encode(DataReturn($name.' 非法访问', -1000)));
+        } else {
+            $this->assign('msg', $name.' 非法访问');
+            return $this->fetch('public/error');
+        }
+    }
 }
 ?>

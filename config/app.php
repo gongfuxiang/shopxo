@@ -58,13 +58,13 @@ return [
     // 禁止访问模块
     'deny_module_list'       => ['common', 'service'],
     // 默认控制器名
-    'default_controller'     => 'Index',
+    'default_controller'     => 'index',
     // 默认操作名
     'default_action'         => 'index',
     // 默认验证器
     'default_validate'       => '',
     // 默认的空模块名
-    'empty_module'           => '',
+    'empty_module'           => 'index',
     // 默认的空控制器名
     'empty_controller'       => 'Error',
     // 操作方法前缀

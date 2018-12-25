@@ -1,18 +1,20 @@
-<include file="Public/Header" />
+{{include file="public/header" /}}
 
-<notempty name="is_header">
-    <!-- header top nav -->
-    <include file="Public/HeaderTopNav" />
+<!-- nav start -->
+{{include file="public/nav" /}}
+<!-- nav end -->
 
-    <!-- search -->
-    <include file="Public/NavSearch" />
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
 
-    <!-- header nav -->
-    <include file="Public/HeaderNav" />
+<!-- search -->
+{{include file="public/nav_search" /}}
 
-    <!-- goods category -->
-    <include file="Public/GoodsCategory" />
-</notempty>
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
 
 <!-- content start -->
 <div class="am-g my-content">
@@ -25,5 +27,5 @@
 <!-- content end -->
 
 <!-- footer start -->
-<include file="Public/Footer" />
+{{include file="public/footer" /}}
 <!-- footer end -->
