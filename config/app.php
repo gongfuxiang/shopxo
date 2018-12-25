@@ -37,7 +37,7 @@ return [
     // 默认JSONP处理方法
     'var_jsonp_handler'      => 'callback',
     // 默认时区
-    'default_timezone'       => 'Asia/Shanghai',
+    'default_timezone'       => MyC('common_timezone', 'Asia/Shanghai', true),
     // 是否开启多语言
     'lang_switch_on'         => false,
     // 默认全局过滤方法 用逗号分隔多个
@@ -157,18 +157,12 @@ return [
     // 前台顶部导航
     'cache_common_home_nav_footer_key'      =>  'cache_common_home_nav_footer_data',
 
-    // 时区
-    'cache_common_timezone_key'             =>  'cache_common_timezone_data',
-
-    // 默认模板
-    'cache_common_default_theme_key'        =>  'cache_common_default_theme_data',
-
     // 频道缓存 array(id => name)
     'cache_home_channel_key'                =>  'cache_home_channel_data',
 
 
     // 图片host, 数据库图片地址以/Public/...开头
-    'IMAGE_HOST'                            =>  substr(__MY_URL__, 0, -1),
+    'images_host'                           =>  substr(__MY_URL__, 0, -1),
 
     // 开启U带域名
     'url_domain_deploy'                     =>  true,

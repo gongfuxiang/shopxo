@@ -48,7 +48,7 @@ class UserService
                         $v['avatar'] = config('images_host').$v['avatar'];
                     }
                 } else {
-                    $v['avatar'] = config('images_host').'/static/index/'.strtolower(MyC('cache_common_default_theme_data', 'default')).'/images/default-user-avatar.jpg';
+                    $v['avatar'] = config('images_host').'/static/index/'.strtolower(MyC('common_default_theme', 'default', true)).'/images/default-user-avatar.jpg';
                 }
 
                 // 注册时间

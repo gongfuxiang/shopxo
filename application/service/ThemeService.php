@@ -179,8 +179,7 @@ class ThemeService
         }
 
         // 默认主题
-        $theme = cache('cache_common_default_theme_data');
-        $theme = empty($theme) ? 'default' : $theme;
+        $theme = MyC('common_default_theme', 'default', true);
 
         // 不能删除正在使用的主题
         if($theme == $id)

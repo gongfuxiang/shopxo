@@ -122,7 +122,7 @@ class Common extends Controller
     public function ViewInit()
     {
         // 主题
-        $default_theme = strtolower(MyC('cache_common_default_theme_data', 'default'));
+        $default_theme = strtolower(MyC('common_default_theme', 'default', true));
         $this->assign('default_theme', $default_theme);
 
         // 当前操作名称

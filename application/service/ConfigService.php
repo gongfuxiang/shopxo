@@ -109,20 +109,7 @@ class ConfigService
             {
                 $data['home_user_reg_state'] = explode(',', $data['home_user_reg_state']);
             }
-
             cache($key, $data);
-
-            // 时区
-            if(isset($data['common_timezone']))
-            {
-                cache('cache_common_timezone_data', $data['common_timezone']);
-            }
-
-            // 默认模板
-            if(isset($data['common_default_theme']))
-            {
-                cache('cache_common_default_theme_data', $data['common_default_theme']);
-            }
         }
     }
 }

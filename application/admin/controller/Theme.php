@@ -53,7 +53,7 @@ class Theme extends Common
 			$this->assign('data_list', ThemeService::ThemeList());
 
 			// 默认主题
-			$theme = cache('cache_common_default_theme_data');
+			$theme = MyC('common_default_theme', 'default', true);
 			$this->assign('theme', empty($theme) ? 'default' : $theme);
 			return $this->fetch('index');
 		} else {
