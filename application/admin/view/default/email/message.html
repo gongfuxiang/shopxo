@@ -8,7 +8,7 @@
 		<!-- table nav end -->
 		
 		<!-- form start -->
-		<form class="am-form form-validation view-save" action="{{:url('Admin/Email/Save')}}" method="POST" request-type="ajax-url" request-value="{{:url('Admin/Email/Index', ['type'=>'message'])}}">
+		<form class="am-form form-validation view-save" action="{{:url('admin/email/save')}}" method="POST" request-type="ajax-url" request-value="{{:url('admin/email/index', ['type'=>'message'])}}">
 			<div class="am-form-group">
 				<label>{{$data.home_email_user_reg.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_email_user_reg.describe}}）</span></label>
 				<script type="text/plain" id="email_user_reg" name="{{$data.home_email_user_reg.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_reg.value|raw}}{{/if}}</script>

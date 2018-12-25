@@ -180,7 +180,7 @@ class BuyService
                 }
 
                 // 基础信息
-                $v['goods_url'] = HomeUrl('Goods', 'Index', ['id'=>$v['goods_id']]);
+                $v['goods_url'] = HomeUrl('goods', 'index', ['id'=>$v['goods_id']]);
                 $v['images_old'] = $v['images'];
                 $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
                 $v['total_price'] = $v['stock']*$v['price'];
