@@ -150,7 +150,7 @@ class AnswerService
                 'error_msg'         => '用户类型有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -219,7 +219,7 @@ class AnswerService
                 'error_msg'         => '回复内容格式 2~230 个字符',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -273,7 +273,7 @@ class AnswerService
                 'error_msg'         => '状态有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);

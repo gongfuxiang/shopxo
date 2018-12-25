@@ -49,7 +49,7 @@ class SafetyService
                 'error_msg'         => '用户信息有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -162,7 +162,7 @@ class SafetyService
                 'error_msg'         => '用户信息有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -261,7 +261,7 @@ class SafetyService
                 'error_msg'         => '用户信息有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -338,7 +338,7 @@ class SafetyService
                 'error_msg'         => '用户信息有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);

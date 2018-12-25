@@ -266,7 +266,7 @@ class PaymentService
                 'error_msg'         => '顺序 0~255 之间的数值',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -345,7 +345,7 @@ class PaymentService
                 'error_msg'         => '状态有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);

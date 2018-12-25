@@ -128,7 +128,7 @@ class AdminService
                 'error_msg'         => '性别值范围不正确',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -176,7 +176,7 @@ class AdminService
                 'error_msg'         => '角色组有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -230,7 +230,7 @@ class AdminService
                 'error_msg'         => '角色组有误',
             ];
         }
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -287,7 +287,7 @@ class AdminService
                 'error_msg'         => '删除id有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -336,7 +336,7 @@ class AdminService
                 'error_msg'         => '密码格式 6~18 个字符',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);

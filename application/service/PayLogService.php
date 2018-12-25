@@ -146,7 +146,7 @@ class PayLogService
                 'error_msg'         => '操作id有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);

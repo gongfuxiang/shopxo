@@ -144,7 +144,7 @@ class MessageService
                 'error_msg'         => '用户信息有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return 0;
@@ -213,7 +213,7 @@ class MessageService
                 'error_msg'         => '用户信息有误',
             ]
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -360,7 +360,7 @@ class MessageService
                 'error_msg'         => '操作id有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);

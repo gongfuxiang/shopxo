@@ -992,7 +992,7 @@ function DS($key)
 }
 
 /**
- * [params_checked 参数校验方法]
+ * [ParamsChecked 参数校验方法]
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  1.0.0
@@ -1001,7 +1001,7 @@ function DS($key)
  * @param    [array]                   $params [校验数据]
  * @return   [boolean|string]                  [成功true, 失败 错误信息]
  */
-function params_checked($data, $params)
+function ParamsChecked($data, $params)
 {
     if (empty($params) || !is_array($data) || !is_array($params))
     {

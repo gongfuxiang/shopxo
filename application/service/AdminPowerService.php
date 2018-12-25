@@ -97,7 +97,7 @@ class AdminPowerService
                 'error_msg'         => '是否显示范围值有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -218,7 +218,7 @@ class AdminPowerService
                 'error_msg'         => '状态有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -294,7 +294,7 @@ class AdminPowerService
                 'error_msg'         => '角色名称格式 2~8 个字符之间',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);

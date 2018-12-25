@@ -162,7 +162,7 @@ class IntegralService
                 'error_msg'         => '订单id有误',
             ]
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);

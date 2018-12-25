@@ -107,7 +107,7 @@ class RegionService
                 'error_msg'         => '名称格式 2~16 个字符',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -163,7 +163,7 @@ class RegionService
                 'error_msg'         => '用户信息有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);

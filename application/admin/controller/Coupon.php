@@ -418,7 +418,7 @@ class Coupon extends Common
                 'error_msg'         => '有效截止时间不能为空',
             ]
         ];
-        $ret = params_checked($this->data_post, $params);
+        $ret = ParamsChecked($this->data_post, $params);
         if($ret !== true)
         {
             $this->ajaxReturn($ret, -1);

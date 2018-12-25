@@ -189,7 +189,7 @@ class AlipayLifeService
                 'error_msg'         => '发送类型有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -219,7 +219,7 @@ class AlipayLifeService
         // 验证
         if(!empty($p))
         {
-           $ret = params_checked($params, $p);
+           $ret = ParamsChecked($params, $p);
             if($ret !== true)
             {
                 return DataReturn($ret, -1);
@@ -253,7 +253,7 @@ class AlipayLifeService
                 'error_msg'         => '消息内容有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -291,7 +291,7 @@ class AlipayLifeService
         // 验证
         if(!empty($p))
         {
-           $ret = params_checked($params, $p);
+           $ret = ParamsChecked($params, $p);
             if($ret !== true)
             {
                 return DataReturn($ret, -1);
@@ -408,7 +408,7 @@ class AlipayLifeService
                 'error_msg'         => '消息id有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -714,7 +714,7 @@ class AlipayLifeService
                 'error_msg'         => '状态有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -780,7 +780,7 @@ class AlipayLifeService
                 'error_msg'         => '请选择生活号',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -947,7 +947,7 @@ class AlipayLifeService
                 'error_msg'         => '请选择事件类型',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -984,7 +984,7 @@ class AlipayLifeService
         // 验证
         if(!empty($p))
         {
-           $ret = params_checked($params, $p);
+           $ret = ParamsChecked($params, $p);
             if($ret !== true)
             {
                 return DataReturn($ret, -1);
@@ -1013,7 +1013,7 @@ class AlipayLifeService
                 'error_msg'         => '菜单id有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -1279,7 +1279,7 @@ class AlipayLifeService
                 'error_msg'         => '请选择生活号',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -1338,7 +1338,7 @@ class AlipayLifeService
                 'error_msg'         => '菜单id有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -1683,7 +1683,7 @@ class AlipayLifeService
                 'error_msg'         => '支付宝公钥格式 1~2000 个字符',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
@@ -1798,7 +1798,7 @@ class AlipayLifeService
                 'error_msg'         => '操作id有误',
             ],
         ];
-        $ret = params_checked($params, $p);
+        $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
