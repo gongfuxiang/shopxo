@@ -504,8 +504,7 @@ $(window).resize(function()
 $(document).ready(function() {
     //获得文本框对象
     var t = $('#text_box');
-    //初始化数量为1,并失效减
-    $('#min').attr('disabled', true);
+
     //数量增加操作
     $('#add').on('click', function() {
         var stock = parseInt($('.stock-tips .stock').text());
@@ -513,22 +512,12 @@ $(document).ready(function() {
         if(number < stock)
         {
             t.val(number + 1)
-            if (parseInt(t.val()) > 1) {
-                $('#min').attr('disabled', false);
-            }
-        } else {
-            $('#add').attr('disabled', true);
         }
-            
-
-        });
+    });
     //数量减少操作
     $('#min').on('click', function() {
-        t.val(parseInt(t.val()) - 1);
-        if (parseInt(t.val()) == 1) {
-            $('#min').attr('disabled', true);
-        }
-        $('#add').attr('disabled', false);
+        var value = parseInt(t.val())-1 || 1;
+        t.val(value);
     })
 
 });

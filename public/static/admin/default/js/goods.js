@@ -139,7 +139,6 @@ $(function()
                 }
             });
             spec_all = Object.keys(temp_spec_all);
-            console.log(spec_all)
 
             // 添加规格图片
             if(spec_all.length > 0)

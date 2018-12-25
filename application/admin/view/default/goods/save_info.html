@@ -158,7 +158,7 @@
 				<div class="goods-specifications">
 					<div class="spec-images-tips">
 						<label class="am-checkbox c-p">
-							<input type="checkbox" value="1" data-am-ucheck />
+							<input type="checkbox" value="1" data-am-ucheck {{if !empty($specifications['images'])}}checked{{/if}} />
 							<span class="fs-12 msg-tips">首个规格选择添加图片</span>
 						</label>
 					</div>
@@ -260,17 +260,19 @@
 					<span class="business-operations-submit specifications-nav-title-add">+添加规格</span>
 					<span class="business-operations-submit specifications-line-add">+添加一行</span>
 					<ul class="spec-images-list" {{if empty($specifications['images'])}} style="display: none"{{/if}}>
-						{{foreach $specifications.images as $spec_images}}
-							<li>
-								<ul class="plug-file-upload-view spec-images-view-{{$spec_images.name}}" data-form-name="spec_images[{{$spec_images.name}}]" data-max-number="1" data-delete='0' data-dialog-type="images">
-									<li>
-										<input type="hidden" name="spec_images[{{$spec_images.name}}]" value="{{$spec_images.images_old}}" data-validation-message="请上传规格图片" required />
-										<img src="{{$spec_images.images}}" />
-									</li>
-								</ul>
-								<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-{{$spec_images.name}}">+上传图片</div>
-							</li>
-						{{/foreach}}
+						{{if !empty($specifications['images'])}}
+							{{foreach $specifications.images as $spec_images}}
+								<li>
+									<ul class="plug-file-upload-view spec-images-view-{{$spec_images.name}}" data-form-name="spec_images[{{$spec_images.name}}]" data-max-number="1" data-delete='0' data-dialog-type="images">
+										<li>
+											<input type="hidden" name="spec_images[{{$spec_images.name}}]" value="{{$spec_images.images_old}}" data-validation-message="请上传规格图片" required />
+											<img src="{{$spec_images.images}}" />
+										</li>
+									</ul>
+									<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-{{$spec_images.name}}">+上传图片</div>
+								</li>
+							{{/foreach}}
+						{{/if}}
 					</ul>
 				</div>
 			</div>
