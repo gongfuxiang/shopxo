@@ -41,6 +41,10 @@
 					{{/foreach}}
 				</select>
 			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_spec_add_max_number.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_spec_add_max_number.describe}}）</span></label>
+				<input type="number" name="{{$data.common_spec_add_max_number.only_tag}}" placeholder="{{$data.common_spec_add_max_number.describe}}" data-validation-message="{{$data.common_spec_add_max_number.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_spec_add_max_number.value}}"{{/if}} />
+			</div>
 			<!-- <div class="am-form-group">
 				<label>{{$data.common_share_giving_integral_frequency.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_share_giving_integral_frequency.describe}}）</span></label>
 				<input type="number" name="{{$data.common_share_giving_integral_frequency.only_tag}}" placeholder="{{$data.common_share_giving_integral_frequency.name}}" data-validation-message="{{$data.common_share_giving_integral_frequency.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_share_giving_integral_frequency.value}}"{{/if}} />

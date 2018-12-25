@@ -10,9 +10,10 @@ $(function()
     // 规格列添加
     $('.specifications-nav-title-add').on('click', function()
     {
-        if($('.specifications-table th.table-title').length >= 5)
+        var spec_max = $('#goods-nav-operations').data('spec-add-max-number') || 3;
+        if($('.specifications-table th.table-title').length >= spec_max)
         {
-            Prompt('最多添加5列规格');
+            Prompt('最多添加'+spec_max+'列规格');
             return false;
         }
 
