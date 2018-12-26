@@ -30,7 +30,7 @@ Page({
 
     // 加载loding
     my.httpRequest({
-      url: app.get_request_url("Index", "Index"),
+      url: app.get_request_url("index", "index"),
       method: "POST",
       data: {},
       dataType: "json",

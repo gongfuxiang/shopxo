@@ -21,7 +21,7 @@ Component({
 
       // 加载loding
       my.httpRequest({
-        url: app.get_request_url("HomeNav", "Resources"),
+        url: app.get_request_url("index", "navigation"),
         method: "POST",
         data: {},
         dataType: "json",

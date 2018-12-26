@@ -49,9 +49,9 @@ App({
     },
 
     // 请求地址
-    request_url: "{{request_url}}",
+    //request_url: "{{request_url}}",
     //request_url: "https://demo.shopxo.net/",
-    //request_url: 'http://localhost/project/shopxo/',
+    request_url: 'http://tp5-dev.com/index.php?s=',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -154,9 +154,9 @@ App({
    * 请求地址生成
    */
   get_request_url(a, c, m, params) {
-    a = a || "Index";
-    c = c || "Index";
-    m = m || "Api";
+    a = a || "index";
+    c = c || "index";
+    m = m || "api";
     params = params || "";
     if (params != "" && params.substr(0, 1) != "&") {
       params = "&" + params;
@@ -167,12 +167,7 @@ App({
     var nickname = user == false ? "" : user.nickname;
     return (
       this.data.request_url +
-      "api.php?m=" +
-      m +
-      "&c=" +
-      c +
-      "&a=" +
-      a +
+      "/" + m + "/" + c + "/" + a +
       "&application_client=default&&application=app&application_client_type=alipay&application_user_id=" +
       app_client_user_id +
       "&user_id=" +

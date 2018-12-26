@@ -44,7 +44,7 @@ class Common extends Controller
         $this->SystemInit();
 
         // 站点状态校验
-        $this->SiteStateCheck();
+        $this->SiteStstusCheck();
 
         // 公共数据初始化
         $this->CommonInit();
@@ -106,7 +106,7 @@ class Common extends Controller
     private function CommonInit()
     {
         // 用户数据
-        if(!empty(session('user')))
+        if(session('user') != null)
         {
             $this->user = session('user');
         }
@@ -259,15 +259,15 @@ class Common extends Controller
     }
 
     /**
-     * [SiteStateCheck 站点状态校验]
+     * [SiteStstusCheck 站点状态校验]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2017-02-25T21:43:07+0800
      */
-    private function SiteStateCheck()
+    private function SiteStstusCheck()
     {
-        if(MyC('home_site_state') == 0)
+        if(MyC('home_site_state') != 1)
         {
             // 是否ajax请求
             if(IS_AJAX)

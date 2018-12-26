@@ -27,7 +27,7 @@ Component({
 
       // 加载loding
       my.httpRequest({
-        url: app.get_request_url("HomeBanner", "Resources"),
+        url: app.get_request_url("index", "banner"),
         method: "POST",
         data: {},
         dataType: "json",

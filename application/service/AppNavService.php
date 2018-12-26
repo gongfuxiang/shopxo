@@ -304,5 +304,30 @@ class AppNavService
         }
         return DataReturn('编辑失败或数据未改变', -100);
     }
+
+    /**
+     * APP获取首页导航
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-11-19
+     * @desc    description
+     * @param   array           $params [description]
+     */
+    public static function AppHomeNav($params = [])
+    {
+        $data = Db::name('AppHomeNav')->field('id,name,images_url,event_value,event_type,bg_color')->where(['platform'=>APPLICATION_CLIENT_TYPE, 'is_enable'=>1])->order('sort asc')->select();
+        if(!empty($data))
+        {
+            $images_host = config('images_host');
+            foreach($data as &$v)
+            {
+                $v['images_url_old'] = $v['images_url'];
+                $v['images_url'] = $images_host.$v['images_url'];
+                $v['event_value'] = empty($v['event_value']) ? null : $v['event_value'];
+            }
+        }
+        return $data;
+    }
 }
 ?>
