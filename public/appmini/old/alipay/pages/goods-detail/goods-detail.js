@@ -13,8 +13,7 @@ Page({
 
     goods: null,
     goods_photo: [],
-    goods_attribute_show: [],
-    goods_attribute_choose: [],
+    goods_specifications_choose: [],
     goods_content_app: [],
 
     popup_status: false,
@@ -63,7 +62,7 @@ Page({
       });
 
       my.httpRequest({
-        url: app.get_request_url("Detail", "Goods"),
+        url: app.get_request_url("detail", "goods"),
         method: "POST",
         data: {goods_id: this.data.params.goods_id},
         dataType: "json",
@@ -77,8 +76,6 @@ Page({
               indicator_dots: (data.goods.photo.length > 1),
               autoplay: (data.goods.photo.length > 1),
               goods_photo: data.goods.photo,
-              goods_attribute_show: data.goods.attribute.show || [],
-              goods_attribute_choose: data.goods.attribute.choose || [],
               goods_content_app: data.goods.content_app,
               temp_buy_number: (data.goods.buy_min_number) || 1,
               goods_favor_text: (data.goods.is_favor == 1) ? '已收藏' : '收藏',
@@ -88,6 +85,9 @@ Page({
               data_list_loding_status: 3,
               nav_submit_is_disabled: (data.goods.is_shelves == 1 && data.goods.inventory > 0) ? false : true,
             });
+
+            // 规格处理
+            this.goods_specifications_choose_handle_dont(data.goods.specifications.choose, 0);
 
             if (data.goods.is_shelves != 1) {
               this.setData({
@@ -126,6 +126,26 @@ Page({
         }
       });
     }
+  },
+
+  // 规格处理
+  goods_specifications_choose_handle_dont(data, key) {
+    if((data || null) == null)
+    {
+      this.setData({goods_specifications_choose: []});
+      return false;
+    }
+
+    // 是否不能选择
+    for(var i in data)
+    {
+      for(var k in data[i]['value'])
+      {
+        data[i]['value'][k]['is_dont'] = (key > 0) ? 'spec-dont' : '',
+        data[i]['value'][k]['is_disabled'] = '';
+      }
+    }
+    this.setData({goods_specifications_choose: data});
   },
 
   // 下拉刷新
@@ -178,7 +198,7 @@ Page({
         my.showLoading({content: '处理中...'});
 
         my.httpRequest({
-          url: app.get_request_url('Favor', 'Goods'),
+          url: app.get_request_url('favor', 'goods'),
           method: 'POST',
           data: {"id": this.data.goods.id},
           dataType: 'json',
@@ -231,15 +251,15 @@ Page({
         var temp_attribute_active = this.data.temp_attribute_active;
         if (app.get_length(temp_attribute_active) > 0)
         {
-          var goods_attribute_choose = this.data.goods_attribute_choose;
+          var goods_specifications_choose = this.data.goods_specifications_choose;
           for (var i in temp_attribute_active) {
-            attribute_all_cart[goods_attribute_choose[i]['id']] = goods_attribute_choose[i]['find'][temp_attribute_active[i]]['id'];
+            attribute_all_cart[goods_specifications_choose[i]['id']] = goods_specifications_choose[i]['find'][temp_attribute_active[i]]['id'];
           }
         }
         my.showLoading({ content: '处理中...' });
 
         my.httpRequest({
-          url: app.get_request_url('Save', 'Cart'),
+          url: app.get_request_url('save', 'cart'),
           method: 'POST',
           data: { "goods_id": this.data.goods.id, "stock": this.data.temp_buy_number, "attr": JSON.stringify(attribute_all_cart) },
           dataType: 'json',
@@ -346,9 +366,9 @@ Page({
         return false;
       } else {
         // 属性
-        var goods_attribute_choose = this.data.goods_attribute_choose;
+        var goods_specifications_choose = this.data.goods_specifications_choose;
         var temp_attribute_active = this.data.temp_attribute_active;
-        var attr_count = goods_attribute_choose.length;
+        var attr_count = goods_specifications_choose.length;
         var attribute_all = {};
         if(attr_count > 0)
         {
@@ -363,7 +383,7 @@ Page({
           } else {
             for(var i in temp_attribute_active)
             {
-              attribute_all[goods_attribute_choose[i]['id']] = goods_attribute_choose[i]['find'][temp_attribute_active[i]]['id'];
+              attribute_all[goods_specifications_choose[i]['id']] = goods_specifications_choose[i]['find'][temp_attribute_active[i]]['id'];
             }
           }
         }

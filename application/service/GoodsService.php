@@ -368,12 +368,12 @@ class GoodsService
         $where = ['goods_id'=>$params['goods_id']];
 
         // 规格类型
-        $type = Db::name('GoodsSpecType')->where($where)->order('id asc')->select();
-        if(!empty($type))
+        $choose = Db::name('GoodsSpecType')->where($where)->order('id asc')->select();
+        if(!empty($choose))
         {
             // 数据处理
             $images_host = config('images_host');
-            foreach($type as &$temp_type)
+            foreach($choose as &$temp_type)
             {
                 $temp_type_value = json_decode($temp_type['value'], true);
                 foreach($temp_type_value as &$vs)
@@ -384,7 +384,7 @@ class GoodsService
                 $temp_type['add_time'] = date('Y-m-d H:i:s');
             }
         }
-        return ['type'=>$type];
+        return ['choose'=>$choose];
     }
 
     /**

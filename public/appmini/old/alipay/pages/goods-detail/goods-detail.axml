@@ -10,7 +10,7 @@
     a:if="{{goods_photo.length > 0}}">
     <block a:for="{{goods_photo}}">
       <swiper-item>
-        <image class="swiper-item wh-auto" onTap="goods_photo_view_event" data-index="{{index}}" src="{{item}}" mode="aspectFit" onTap="banner_event" />
+        <image class="swiper-item wh-auto" onTap="goods_photo_view_event" data-index="{{index}}" src="{{item.images}}" mode="aspectFit" onTap="banner_event" />
       </swiper-item>
     </block>
   </swiper>
@@ -36,11 +36,11 @@
   </view>
 
   <!-- 属性导航 -->
-  <view a:if="{{goods_attribute_show.length > 0}}" class="spacing">
+  <!-- <view a:if="{{false}}" class="spacing">
     <view class="goods-attr-show-title bg-white arrow-right cr-666" onTap="good_attribute_nav_event">
       属性
     </view>
-  </view>
+  </view> -->
 
   <!-- 商品详情 -->
   <view a:if="{{goods_content_app.length > 0}}" class="goods-detail spacing">
@@ -86,13 +86,19 @@
       </view>
       <view class="goods-popup-content">
         <!-- 商品属性 -->
-        <view a:if="{{goods_attribute_choose.length > 0}}" class="goods-attr-choose">
-          <view a:for="{{goods_attribute_choose}}" a:for-index="key" a:if="{{item.type == 'choose'}}" class="item br-b">
+        <view a:if="{{goods_specifications_choose.length > 0}}" class="goods-attr-choose">
+          <view a:for="{{goods_specifications_choose}}" a:for-index="key" class="item br-b">
             <view class="title">{{item.name}}</view>
-            <view a:if="{{item.find.length > 0}}" class="attribute">
-              <block a:for="{{item.find}}" a:for-index="keys" a:for-item="items">
-                <button a:if="{{temp_attribute_active[key] == keys}}" catchTap="goods_attribute_event" data-key="{{key}}" data-keys="{{keys}}" class="bg-active-main" type="default" size="mini" hover-class="none">{{items.name}}</button>
-                <button a:else catchTap="goods_attribute_event" data-key="{{key}}" data-keys="{{keys}}" type="default" size="mini" hover-class="none">{{items.name}}</button>
+            <view a:if="{{item.value.length > 0}}" class="attribute">
+              <block a:for="{{item.value}}" a:for-index="keys" a:for-item="items">
+                <button a:if="{{temp_attribute_active[key] == keys}}" catchTap="goods_attribute_event" data-key="{{key}}" data-keys="{{keys}}" class="bg-active-main" type="default" size="mini" hover-class="none">
+                  <image a:if="{{(items.images || null) != null}}" src="{{items.images}}" mode="scaleToFill" />
+                  {{items.name}}
+                </button>
+                <button a:else catchTap="goods_attribute_event" data-key="{{key}}" data-keys="{{keys}}" type="default" size="mini" hover-class="none">
+                  <image a:if="{{(items.images || null) != null}}" src="{{items.images}}" mode="scaleToFill" />
+                  {{items.name}}
+                </button>
               </block>
             </view>
           </view>

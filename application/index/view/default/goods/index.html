@@ -137,8 +137,8 @@
                                 <div class="theme-popbod dform">
                                     <form class="theme-signin" name="loginform" action="javascript:;">
                                         <div class="theme-signin-left">
-                                            {{if !empty($goods['specifications']['type'])}}
-                                                {{foreach $goods.specifications.type as $key=>$spec}}
+                                            {{if !empty($goods['specifications']['choose'])}}
+                                                {{foreach $goods.specifications.choose as $key=>$spec}}
                                                     {{if !empty($spec['value'])}}
                                                         <div class="theme-options sku-items">
                                                             <div class="cart-title">{{$spec.name}}</div>

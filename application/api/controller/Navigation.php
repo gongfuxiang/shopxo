@@ -13,7 +13,7 @@ use app\service\AppNavService;
 class Navigation extends Common
 {
     /**
-     * [_initialize 前置操作-继承公共前置方法]
+     * [__construct 构造方法]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
