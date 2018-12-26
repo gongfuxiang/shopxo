@@ -16,7 +16,7 @@
 					{{if !empty($data)}}
 						<li>
 							<input type="text" name="home_site_logo" value="{{$data.home_site_logo.value}}" />
-							<img src="{{$data.home_site_logo.value}}" />
+							<img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_logo.value}}" />
 							<i>×</i>
 						</li>
 					{{/if}}
@@ -30,7 +30,7 @@
 					{{if !empty($data)}}
 						<li>
 							<input type="text" name="home_site_logo_wap" value="{{$data.home_site_logo_wap.value}}" />
-							<img src="{{$data.home_site_logo_wap.value}}" />
+							<img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_logo_wap.value}}" />
 							<i>×</i>
 						</li>
 					{{/if}}
@@ -44,7 +44,7 @@
 					{{if !empty($data)}}
 						<li>
 							<input type="text" name="home_site_desktop_icon" value="{{$data.home_site_desktop_icon.value}}" />
-							<img src="{{$data.home_site_desktop_icon.value}}" />
+							<img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_desktop_icon.value}}" />
 							<i>×</i>
 						</li>
 					{{/if}}
