@@ -23,20 +23,20 @@
                 {{foreach $goods_category_list as $v}}
                     <dl class="am-accordion-item am-active">
                         <dt class="am-accordion-title">
-                            <a href="{{:url('index/search/index', ['category_id'=>$v['id']])}}" title="{{$v.name}}">{{$v.name}}</a>
+                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$v['id']])}}" title="{{$v.name}}">{{$v.name}}</a>
                         </dt>
                         <dd class="am-accordion-bd am-collapse am-in">
                             <div class="am-accordion-content">
                                 {{if !empty($v['items'])}}
                                     {{foreach $v.items as $vs}}
                                         <div class="title">
-                                            <a href="{{:url('index/search/index', ['category_id'=>$vs['id']])}}" title="{{$vs.name}}">{{$vs.name}}</a>
+                                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$vs['id']])}}" title="{{$vs.name}}">{{$vs.name}}</a>
                                         </div>
                                         {{if !empty($vs['items'])}}
                                             <ul>
                                                 {{foreach $vs.items as $keyss=>$vss}}
                                                     <li class="am-fl">
-                                                        <a {{if $keyss eq 0}}class="first"{{/if}} href="{{:url('index/search/index', ['category_id'=>$vss['id']])}}" title="{{$vss.name}}">{{$vss.name}}</a>
+                                                        <a {{if $keyss eq 0}}class="first"{{/if}} href="{{:MyUrl('index/search/index', ['category_id'=>$vss['id']])}}" title="{{$vss.name}}">{{$vss.name}}</a>
                                                     </li>
                                                 {{/foreach}}
                                             </ul>

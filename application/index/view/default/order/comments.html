@@ -23,7 +23,7 @@
     <div class="user-content">
         <div class="user-content-body">
             {{if $data['user_is_comments'] eq 0}}
-                <form class="am-form form-validation" method="post" action="{{:url('index/order/commentssave')}}" request-type="ajax-url" request-value="{{$referer_url}}">
+                <form class="am-form form-validation" method="post" action="{{:MyUrl('index/order/commentssave')}}" request-type="ajax-url" request-value="{{$referer_url}}">
                     <!-- 商品列表 -->
                     {{if !empty($data.items)}}
                         <div class="order-goods">

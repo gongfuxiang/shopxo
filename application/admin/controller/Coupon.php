@@ -54,7 +54,7 @@ class Coupon extends Common
 				'number'	=>	$number,
 				'total'		=>	$m->where($where)->count(),
 				'where'		=>	$param,
-				'url'		=>	url('Admin/Coupon/Index'),
+				'url'		=>	MyUrl('Admin/Coupon/Index'),
 			);
 		$page = new \base\Page($page_param);
 
@@ -485,7 +485,7 @@ class Coupon extends Common
 				'number'	=>	$number,
 				'total'		=>	$m->alias('uc')->join('__USER__ AS u ON u.id=uc.user_id')->where($where)->count(),
 				'where'		=>	$param,
-				'url'		=>	url('Admin/Coupon/User'),
+				'url'		=>	MyUrl('Admin/Coupon/User'),
 			);
 		$page = new \base\Page($page_param);
 

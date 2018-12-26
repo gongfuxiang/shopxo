@@ -38,7 +38,7 @@ class User extends Common
     private function GetrefererUrl()
     {
         // 上一个页面, 空则用户中心
-        $referer_url = empty($_SERVER['HTTP_REFERER']) ? url('index/user/index') : $_SERVER['HTTP_REFERER'];
+        $referer_url = empty($_SERVER['HTTP_REFERER']) ? MyUrl('index/user/index') : $_SERVER['HTTP_REFERER'];
         if(!empty($_SERVER['HTTP_REFERER']))
         {
             $all = ['logininfo', 'reginfo', 'smsreginfo', 'emailreginfo', 'forgetpwdinfo'];
@@ -46,7 +46,7 @@ class User extends Common
             {
                 if(strpos($_SERVER['HTTP_REFERER'], $v) !== false)
                 {
-                    $referer_url = url('index/user/index');
+                    $referer_url = MyUrl('index/user/index');
                     break;
                 }
             }

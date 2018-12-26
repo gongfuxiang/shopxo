@@ -1,9 +1,9 @@
 <ul class="am-nav am-nav-pills table-nav m-b-10">
 	<li {{if $nav_type eq 'sms'}}class="am-active"{{/if}} data-type="sms">
-		<a href="{{:url('admin/sms/index', ['type'=>'sms'])}}">短信设置</a>
+		<a href="{{:MyUrl('admin/sms/index', ['type'=>'sms'])}}">短信设置</a>
 	</li>
 	<li {{if $nav_type eq 'message'}}class="am-active"{{/if}} data-type="message">
-		<a href="{{:url('admin/sms/index', ['type'=>'message'])}}">消息模板</a>
+		<a href="{{:MyUrl('admin/sms/index', ['type'=>'message'])}}">消息模板</a>
 	</li>
 </ul>
 

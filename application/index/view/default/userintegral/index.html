@@ -22,7 +22,7 @@
     <!-- content start -->
     <div class="user-content">
         <div class="user-content-body">
-            <form class="am-form form-validation" method="post" action="{{:url('index/userintegral/index')}}" request-type="form">
+            <form class="am-form form-validation" method="post" action="{{:MyUrl('index/userintegral/index')}}" request-type="form">
                 <div class="thin">
                     <div class="am-input-group am-input-group-sm am-fl so">
                         <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="其实搜索很简单 ^_^！" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
@@ -52,7 +52,7 @@
                             </td>
                             <td>
                                 <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
-                                <a href="{{:url('index/userintegral/index')}}" class="am-btn am-btn-warning am-radius am-btn-sm reset-submit">清除条件</a>
+                                <a href="{{:MyUrl('index/userintegral/index')}}" class="am-btn am-btn-warning am-radius am-btn-sm reset-submit">清除条件</a>
                             </td>
                         </tr>
                     </tbody>

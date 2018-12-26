@@ -36,7 +36,7 @@ class ArticleService
             foreach($data as &$v)
             {
                 // url
-                $v['url'] = HomeUrl('article', 'index', ['id'=>$v['id']]);
+                $v['url'] = MyUrl('index/article/index', ['id'=>$v['id']]);
 
                 // 分类名称
                 if(isset($v['article_category_id']))
@@ -250,7 +250,7 @@ class ArticleService
                     foreach($items as &$vs)
                     {
                         // url
-                        $vs['url'] = HomeUrl('article', 'index', ['id'=>$vs['id']]);
+                        $vs['url'] = MyUrl('index/article/index', ['id'=>$vs['id']]);
                     }
                 }
                 $v['items'] = $items;
@@ -394,8 +394,8 @@ class ArticleService
             foreach($data as &$v)
             {
                 $v['is_son']            =   (Db::name('ArticleCategory')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
-                $v['ajax_url']          =   url('admin/articlecategory/getnodeson', array('id'=>$v['id']));
-                $v['delete_url']        =   url('admin/articlecategory/delete');
+                $v['ajax_url']          =   MyUrl('admin/articlecategory/getnodeson', array('id'=>$v['id']));
+                $v['delete_url']        =   MyUrl('admin/articlecategory/delete');
                 $v['json']              =   json_encode($v);
             }
             return DataReturn('操作成功', 0, $data);

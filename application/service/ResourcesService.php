@@ -28,12 +28,12 @@ class ResourcesService
         {
             // 读取内容
             case 'get':
-                return str_replace('/static/', __MY_URL__.'static/', $content);
+                return str_replace('/static/', __MY_PUBLIC_URL__.'static/', $content);
                 break;
 
             // 内容写入
             case 'add':
-                return str_replace(array(__MY_URL__.'static/', __MY_ROOT__.'static/'), '/static/', $content);
+                return str_replace(array(__MY_PUBLIC_URL__.'static/', __MY_ROOT__.'static/'), '/static/', $content);
         }
         return $content;
     }
@@ -49,7 +49,7 @@ class ResourcesService
      */
     public static function AttachmentPathHandle($value)
     {
-        return empty($value) ? '' : str_replace([__MY_URL__, __MY_ROOT__], DS, $value);
+        return empty($value) ? '' : str_replace([__MY_PUBLIC_URL__, __MY_ROOT__], DS, $value);
     }
 
     /**

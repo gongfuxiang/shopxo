@@ -22,7 +22,7 @@
     <!-- content start -->
     <div class="user-content">
         <div class="user-content-body">
-            <form class="am-form form-validation" method="post" action="{{:url('index/userfavor/goods')}}" request-type="form">
+            <form class="am-form form-validation" method="post" action="{{:MyUrl('index/userfavor/goods')}}" request-type="form">
                 <div class="thin">
                     <div class="am-input-group am-input-group-sm am-fl so">
                         <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="其实搜索很简单 ^_^！" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
@@ -64,7 +64,7 @@
                                         <p class="line-price">￥{{$v.price}}</p>
                                     </td>
                                     <td>
-                                        <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:url('index/userfavor/cancel')}}" data-id="{{$v.goods_id}}" data-view="delete">取消</button>
+                                        <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('index/userfavor/cancel')}}" data-id="{{$v.goods_id}}" data-view="delete">取消</button>
                                     </td>
                                 </tr>
                             {{/foreach}}

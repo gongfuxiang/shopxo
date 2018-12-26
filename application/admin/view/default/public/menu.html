@@ -2,12 +2,12 @@
 	<div class="am-offcanvas-bar admin-offcanvas-bar">
 		<ul class="am-list admin-sidebar-list common-left-menu">
 			<li>
-				<a href="javascript:;" data-type="menu" data-url="{{:url('admin/index/init')}}" class="common-left-menu-active"><span class="iconfont icon-shouye"></span> 首页</a>
+				<a href="javascript:;" data-type="menu" data-url="{{:MyUrl('admin/index/init')}}" class="common-left-menu-active"><span class="iconfont icon-shouye"></span> 首页</a>
 			</li>
 			{{foreach $left_menu as $v}}
 				{{if empty($v['item'])}}
 					<li>
-						<a href="javascript:;" data-type="menu" data-url="{{:url('admin/'.strtolower($v['control']).'/'.strtolower($v['action']))}}">{{if !empty($v['icon'])}}<span class="iconfont {{$v.icon}}"></span>{{/if}} {{$v.name}}</a>
+						<a href="javascript:;" data-type="menu" data-url="{{:MyUrl('admin/'.strtolower($v['control']).'/'.strtolower($v['action']))}}">{{if !empty($v['icon'])}}<span class="iconfont {{$v.icon}}"></span>{{/if}} {{$v.name}}</a>
 					</li>
 				{{else /}}
 					<li class="admin-parent">
@@ -18,7 +18,7 @@
 						<ul class="am-list am-collapse admin-sidebar-sub" id="power-menu-{{$v.id}}">
 							{{foreach $v.item as $vs}}
 								<li>
-									<a href="javascript:;" data-type="menu" data-url="{{:url('admin/'.strtolower($vs['control']).'/'.strtolower($vs['action']))}}">{{if !empty($vs['icon'])}}<span class="{{$vs.icon}}"></span>{{/if}} {{$vs.name}}</a>
+									<a href="javascript:;" data-type="menu" data-url="{{:MyUrl('admin/'.strtolower($vs['control']).'/'.strtolower($vs['action']))}}">{{if !empty($vs['icon'])}}<span class="{{$vs.icon}}"></span>{{/if}} {{$vs.name}}</a>
 								</li>
 							{{/foreach}}
 						</ul>

@@ -22,7 +22,7 @@
     <!-- content start -->
     <div class="user-content">
         <div class="user-content-body">
-            <form class="am-form form-validation" method="post" action="{{:url('index/order/index')}}" request-type="form">
+            <form class="am-form form-validation" method="post" action="{{:MyUrl('index/order/index')}}" request-type="form">
                 <div class="thin">
                     <div class="am-input-group am-input-group-sm am-fl so">
                         <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="订单号/收件信息" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
@@ -111,7 +111,7 @@
                         <tr>
                             <td>
                                 <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
-                                <a href="{{:url('index/order/index')}}" class="am-btn am-btn-warning am-radius am-btn-sm reset-submit">清除条件</a>
+                                <a href="{{:MyUrl('index/order/index')}}" class="am-btn am-btn-warning am-radius am-btn-sm reset-submit">清除条件</a>
                             </td>
                         </tr>
                     </tbody>
@@ -184,25 +184,25 @@
                                     <td class="row-status" rowspan="{{$order.items_count}}">
                                         {{$order.status_name}}
                                         <div class="base-operate">
-                                            <a class="block" href="{{:url('index/order/detail', ['id'=>$order['id']])}}" target="_blank">订单详情</a>
+                                            <a class="block" href="{{:MyUrl('index/order/detail', ['id'=>$order['id']])}}" target="_blank">订单详情</a>
                                         </div>
                                     </td>
                                     <td class="row-operate" rowspan="{{$order.items_count}}">
                                         <!-- 0待确认, 1已确认/待支付, 2已支付/待发货, 3已发货/待收货, 4已完成, 5已取消, 6已关闭 -->
                                         {{if in_array($order['status'], [0,1])}}
-                                            <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-ajax submit-cancel" data-url="{{:url('index/order/cancel')}}" data-id="{{$order.id}}" data-view="reload">取消</button>
+                                            <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-ajax submit-cancel" data-url="{{:MyUrl('index/order/cancel')}}" data-id="{{$order.id}}" data-view="reload">取消</button>
                                         {{/if}}
                                         {{if in_array($order['status'], [1])}}
-                                            <a class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block" href="{{:url('index/order/detail', ['id'=>$order['id'], 'is_pay_auto'=>1])}}" target="_blank">支付</a>
+                                            <a class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block" href="{{:MyUrl('index/order/detail', ['id'=>$order['id'], 'is_pay_auto'=>1])}}" target="_blank">支付</a>
                                         {{/if}}
                                         {{if in_array($order['status'], [3])}}
-                                            <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax submit-confirm" data-url="{{:url('index/order/collect')}}" data-id="{{$order.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？">收货</button>
+                                            <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/collect')}}" data-id="{{$order.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？">收货</button>
                                         {{/if}}
                                         {{if in_array($order['status'], [4]) and $order['user_is_comments'] eq 0}}
-                                            <a href="{{:url('index/order/comments', ['id'=>$order['id']])}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block">评价</a>
+                                            <a href="{{:MyUrl('index/order/comments', ['id'=>$order['id']])}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block">评价</a>
                                         {{/if}}
                                         {{if in_array($order['status'], [4,5,6])}}
-                                            <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:url('index/order/delete')}}" data-id="{{$order.id}}" data-view="reload">删除</button>
+                                            <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('index/order/delete')}}" data-id="{{$order.id}}" data-view="reload">删除</button>
                                         {{/if}}
                                     </td>
                                 {{/if}}

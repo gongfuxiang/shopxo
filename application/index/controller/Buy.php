@@ -43,7 +43,7 @@ class Buy extends Common
         if(input('post.'))
         {
             session('buy_post_data', $_POST);
-            return redirect(url('index/buy/index'));
+            return redirect(MyUrl('index/buy/index'));
         } else {
             // 获取商品列表
             $params = session('buy_post_data');

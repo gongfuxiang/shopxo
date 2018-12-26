@@ -22,6 +22,9 @@ class PaymentService
     // 不删除的支付方式
     public static $cannot_deleted_list;
 
+    // 入口文件位置
+    public static $dir_root_path;
+
     /**
      * 初始化
      * @author   Devil
@@ -41,6 +44,9 @@ class PaymentService
 
         // 不删除的支付方式
         self::$cannot_deleted_list = ['DeliveryPayment', 'CashPayment'];
+
+        // 入口文件位置
+        self::$dir_root_path = defined('IS_ROOT_ACCESS') ? ROOT : ROOT.'public'.DS;
     }
 
     /**
@@ -368,11 +374,10 @@ class PaymentService
      */
     private static function PowerCheck()
     {
-        // 主目录权限
-        $root_path = ROOT.'public';
-        if(!is_writable($root_path))
+        // 入口文件目录
+        if(!is_writable(self::$dir_root_path))
         {
-            return DataReturn('目录没有操作权限'.'['.$root_path.']', -3);
+            return DataReturn('目录没有操作权限'.'['.self::$dir_root_path.']', -3);
         }
 
         // 插件权限
@@ -614,6 +619,9 @@ class PaymentService
         foreach(self::$payment_business_type_all as $v)
         {
             $name = strtolower($v['name']);
+
+            if(defined('IS_ROOT_ACCESS'))
+            {
 // 异步
 $notify=<<<php
 <?php
@@ -622,24 +630,17 @@ $notify=<<<php
  * {$v['desc']}支付异步入口
  */
 
-namespace think;
-
 // 默认绑定模块
 \$_GET['s'] = '/api/{$name}notify/notify';
 
 // 支付模块标记
 define('PAYMENT_TYPE', '{$payment}');
 
-// 加载基础文件
-require __DIR__ . '/../thinkphp/base.php';
-
-// 支持事先使用静态方法设置Request对象和Config对象
+// 根目录入口
+define('IS_ROOT_ACCESS', true);
 
 // 引入公共入口文件
-require './core.php';
-
-// 执行应用并响应
-Container::get('app')->run()->send();
+require './public/index.php';
 ?>
 php;
 
@@ -651,7 +652,48 @@ $respond=<<<php
  * {$v['desc']}支付同步入口
  */
 
-namespace think;
+// 默认绑定模块
+\$_GET['s'] = '/index/{$name}/respond';
+
+// 支付模块标记
+define('PAYMENT_TYPE', '{$payment}');
+
+// 根目录入口
+define('IS_ROOT_ACCESS', true);
+
+// 引入公共入口文件
+require './public/index.php';
+?>
+php;
+
+            } else {
+
+// 异步
+$notify=<<<php
+<?php
+
+/**
+ * {$v['desc']}支付异步入口
+ */
+
+// 默认绑定模块
+\$_GET['s'] = '/api/{$name}notify/notify';
+
+// 支付模块标记
+define('PAYMENT_TYPE', '{$payment}');
+
+// 引入入口文件
+require __DIR__.'/index.php';
+?>
+php;
+
+// 同步
+$respond=<<<php
+<?php
+
+/**
+ * {$v['desc']}支付同步入口
+ */
 
 // 默认绑定模块
 \$_GET['s'] = '/index/{$name}/respond';
@@ -659,25 +701,18 @@ namespace think;
 // 支付模块标记
 define('PAYMENT_TYPE', '{$payment}');
 
-// 加载基础文件
-require __DIR__ . '/../thinkphp/base.php';
-
-// 支持事先使用静态方法设置Request对象和Config对象
-
-// 引入公共入口文件
-require './core.php';
-
-// 执行应用并响应
-Container::get('app')->run()->send();
+// 引入入口文件
+require __DIR__.'/index.php';
 ?>
 php;
-            $name = strtolower($v['name']);
-            @file_put_contents(ROOT.'public'.DS.'payment_'.$name.'_'.strtolower($payment).'_respond.php', $respond);
+            }
+
+            @file_put_contents(self::$dir_root_path.'payment_'.$name.'_'.strtolower($payment).'_respond.php', $respond);
 
             // 线下支付不生成异步入口文件
             if(!in_array($payment, config('under_line_list')))
             {
-                @file_put_contents(ROOT.'public'.DS.'payment_'.$name.'_'.strtolower($payment).'_notify.php', $notify);
+                @file_put_contents(self::$dir_root_path.'payment_'.$name.'_'.strtolower($payment).'_notify.php', $notify);
             }
         }
 
@@ -705,17 +740,46 @@ php;
         foreach(self::$payment_business_type_all as $v)
         {
             $name = strtolower($v['name']);
-            if(file_exists(ROOT.'public'.DS.'payment_'.$name.'_'.$payment.'_notify.php'))
+            if(file_exists(self::$dir_root_path.'payment_'.$name.'_'.$payment.'_notify.php'))
             {
-                @unlink(ROOT.'public'.DS.'payment_'.$name.'_'.$payment.'_notify.php');
+                @unlink(self::$dir_root_path.'payment_'.$name.'_'.$payment.'_notify.php');
             }
-            if(file_exists(ROOT.'public'.DS.'payment_'.$name.'_'.$payment.'_respond.php'))
+            if(file_exists(self::$dir_root_path.'payment_'.$name.'_'.$payment.'_respond.php'))
             {
-                @unlink(ROOT.'public'.DS.'payment_'.$name.'_'.$payment.'_respond.php');
+                @unlink(self::$dir_root_path.'payment_'.$name.'_'.$payment.'_respond.php');
             }
         }
 
         return DataReturn('操作成功', 0);
+    }
+
+    /**
+     * 入库文件检查
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-26
+     * @desc    description
+     * @param   [string]          $payment [支付标记]
+     * @param   [string]          $name    [支付业务方式名称]
+     */
+    public static function EntranceFileChecked($payment, $name)
+    {
+        // 同步返回文件
+        if(!file_exists(self::$dir_root_path.'payment_'.strtolower($name).'_'.strtolower($payment).'_respond.php'))
+        {
+            return DataReturn('支付返回入口文件不存在，请联系管理员处理', -10);
+        }
+
+        // 线下支付不生成异步入口文件
+        if(!in_array($payment, config('under_line_list')))
+        {
+            if(!file_exists(self::$dir_root_path.'payment_'.strtolower($name).'_'.strtolower($payment).'_notify.php'))
+            {
+                return DataReturn('支付通知入口文件不存在，请联系管理员处理', -10);
+            }
+        }
+        return DataReturn('校验成功', 0);
     }
 }
 ?>

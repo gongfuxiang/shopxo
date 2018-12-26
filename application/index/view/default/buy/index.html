@@ -20,7 +20,7 @@
             <div class="control">
                 <h3>确认收货地址</h3>
                 {{if !empty($user_address_list)}}
-                    <button class="am-btn am-btn-primary am-btn-xs address-submit-save" type="button" data-url="{{:url('index/useraddress/saveinfo')}}" data-popup-title="新增地址">使用新地址</button>
+                    <button class="am-btn am-btn-primary am-btn-xs address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}" data-popup-title="新增地址">使用新地址</button>
                 {{/if}}
             </div>
             {{if !empty($user_address_list)}}
@@ -51,11 +51,11 @@
                                 <span class="am-icon-angle-right am-icon-md"></span>
                             </div>
                             <div class="address-operation-btn">
-                                <a href="javascript:;" class="am-icon-check-circle-o address-default-submit" data-url="{{:url('index/useraddress/setdefault')}}" data-id="{{$address.id}}" data-view="reload"> 设为默认</a>
+                                <a href="javascript:;" class="am-icon-check-circle-o address-default-submit" data-url="{{:MyUrl('index/useraddress/setdefault')}}" data-id="{{$address.id}}" data-view="reload"> 设为默认</a>
                                 <span class="cut">|</span>
-                                <a href="javascript:;" class="am-icon-edit address-submit-save" data-url="{{:url('index/useraddress/saveinfo', ['id'=>$address['id']])}}" data-popup-title="编辑地址"> 编辑</a>
+                                <a href="javascript:;" class="am-icon-edit address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}" data-popup-title="编辑地址"> 编辑</a>
                                 <span class="cut">|</span>
-                                <a href="javascript:;" class="am-icon-trash-o address-submit-delete" data-url="{{:url('index/useraddress/delete')}}" data-id="{{$address.id}}"> 删除</a>
+                                <a href="javascript:;" class="am-icon-trash-o address-submit-delete" data-url="{{:MyUrl('index/useraddress/delete')}}" data-id="{{$address.id}}"> 删除</a>
                             </div>
                         </li>
                     {{/foreach}}
@@ -65,7 +65,7 @@
                 <div class="table-no">
                     <i class="am-icon-warning"></i>
                     没有地址
-                    <button class="am-btn am-btn-secondary am-btn-xs address-submit-save" type="button" data-url="{{:url('index/useraddress/saveinfo')}}" data-popup-title="新增地址">使用新地址</button></div>
+                    <button class="am-btn am-btn-secondary am-btn-xs address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}" data-popup-title="新增地址">使用新地址</button></div>
             {{/if}}
         </div>
 
@@ -214,7 +214,7 @@
                                 </div>
                             </div>
                         </div>
-                        <form class="am-form form-validation nav-buy" action="{{:url('index/buy/add')}}" method="post" class="nav-buy" request-type="ajax-fun" request-value="BuySubmitBack">
+                        <form class="am-form form-validation nav-buy" action="{{:MyUrl('index/buy/add')}}" method="post" class="nav-buy" request-type="ajax-fun" request-value="BuySubmitBack">
                             <input type="hidden" name="goods_id" value="{{if isset($params['goods_id'])}}{{$params.goods_id}}{{else /}}0{{/if}}" />
                             <input type="hidden" name="buy_type" value="{{if isset($params['buy_type'])}}{{$params.buy_type}}{{else /}}goods{{/if}}" />
                             <input type="hidden" name="stock" value="{{if isset($params['stock'])}}{{$params.stock}}{{else /}}1{{/if}}" />

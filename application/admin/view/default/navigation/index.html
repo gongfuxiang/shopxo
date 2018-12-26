@@ -37,11 +37,11 @@
 							</td>
 							<td>{{:lang('common_nav_type_list')[$v['data_type']]}}</td>
 							<td>
-								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('admin/navigation/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1"></a>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/navigation/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1"></a>
 							</td>
 							<td>
 								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: '#nav-{{$v.data_type}}-save-win'}" data-json='{{:json_encode($v)}}' data-tag="nav-{{$v.data_type}}-save-win"></button>
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/navigation/Delete')}}" data-id="{{$v.id}}"></button>
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/navigation/Delete')}}" data-id="{{$v.id}}"></button>
 							</td>
 						</tr>
 						{{if !empty($data_list)}}
@@ -54,11 +54,11 @@
 									</td>
 									<td>{{:lang('common_nav_type_list')[$vs['data_type']]}}</td>
 									<td>
-										<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $vs['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('admin/navigation/StatusUpdate')}}" data-id="{{$vs.id}}" data-state="{{$vs['is_show']}}" data-is-update-status="1"></a>
+										<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $vs['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/navigation/StatusUpdate')}}" data-id="{{$vs.id}}" data-state="{{$vs['is_show']}}" data-is-update-status="1"></a>
 									</td>
 									<td>
 										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: '#nav-{{$vs.data_type}}-save-win'}" data-json='{{:json_encode($vs)}}' data-tag="nav-{{$vs.data_type}}-save-win"></button>
-										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/navigation/Delete')}}" data-id="{{$vs.id}}"></button>
+										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/navigation/Delete')}}" data-id="{{$vs.id}}"></button>
 									</td>
 								</tr>
 							{{/foreach}}
@@ -80,7 +80,7 @@
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation" action="{{:url('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
 							<label>导航级别</label>
 							<select class="am-radius c-p chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
@@ -126,7 +126,7 @@
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation-article" action="{{:url('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation-article" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
 							<label>导航级别</label>
 							<select class="am-radius c-p chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
@@ -184,7 +184,7 @@
 					</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation-customview" action="{{:url('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation-customview" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
 							<label>导航级别</label>
 							<select class="am-radius c-p chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
@@ -235,7 +235,7 @@
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation-goods_category" action="{{:url('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation-goods_category" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
 							<label>导航级别</label>
 							<select class="am-radius c-p chosen-select" name="pid" data-placeholder="一级栏目..." data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">

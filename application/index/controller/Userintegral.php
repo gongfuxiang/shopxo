@@ -57,7 +57,7 @@ class UserIntegral extends Common
                 'total'     =>  $total,
                 'where'     =>  $params,
                 'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  url('index/userintegral/index'),
+                'url'       =>  MyUrl('index/userintegral/index'),
             );
         $page = new \base\Page($page_params);
         $this->assign('page_html', $page->GetPageHtml());

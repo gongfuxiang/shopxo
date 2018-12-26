@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation view-save" action="{{:url('admin/seo/save')}}" method="POST" request-type="ajax-url" request-value="{{:url('admin/seo/index')}}">
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/seo/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/seo/index')}}">
 			<div class="am-form-group">
 				<label>{{$data.home_seo_url_model.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_seo_url_model.describe}}）</span></label>
 				<select name="{{$data.home_seo_url_model.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_seo_url_model.error_tips}}" required>

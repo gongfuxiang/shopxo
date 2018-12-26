@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form view-list" action="{{:url('admin/admin/index')}}" method="POST">
+		<form class="am-form view-list" action="{{:MyUrl('admin/admin/index')}}" method="POST">
 			<div class="am-g">
 				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="用户名" name="username" {{if !empty($params['username'])}} value="{{$params.username}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
@@ -35,7 +35,7 @@
 
 		<!-- operation start -->
 		<div class="am-g m-t-15">
-			<a href="{{:url('admin/admin/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
+			<a href="{{:MyUrl('admin/admin/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
 		</div>
 		<!-- operation end -->
 
@@ -74,11 +74,11 @@
 								{{if $v['id'] eq 1}}
 									<span class="cr-ccc">不可操作</span>
 								{{else /}}
-									<a href="{{:url('admin/admin/saveinfo', array('id'=>$v['id']))}}">
+									<a href="{{:MyUrl('admin/admin/saveinfo', array('id'=>$v['id']))}}">
 										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit" > 编辑</button>
 									</a>
 									{{if $v['id'] neq $admin['id']}}
-										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/admin/delete')}}" data-id="{{$v.id}}"> 删除</button>
+										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/admin/delete')}}" data-id="{{$v.id}}"> 删除</button>
 									{{/if}}
 								{{/if}}
 							</td>

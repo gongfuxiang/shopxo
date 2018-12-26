@@ -73,8 +73,15 @@ class OrderService
             return DataReturn('支付方式有误', -1);
         }
 
+        // 支付入口文件检查
+        $pay_checked = PaymentService::EntranceFileChecked($payment[0]['payment'], 'order');
+        if($pay_checked['code'] != 0)
+        {
+            return $pay_checked;
+        }
+
         // 回调地址
-        $url = __MY_URL__.'payment_order_'.strtolower($payment[0]['payment']);
+        $url = __MY_PUBLIC_URL__.'payment_order_'.strtolower($payment[0]['payment']);
 
         // 开放平台用户penid
         $temp_key = APPLICATION_CLIENT_TYPE.'_openid';
@@ -253,6 +260,10 @@ class OrderService
         $ret = (new $pay_name($payment[0]['config']))->Respond(array_merge($_GET, $_POST));
         if(isset($ret['code']) && $ret['code'] == 0)
         {
+            if(empty($ret['data']['out_trade_no']))
+            {
+                return DataReturn('单号有误', -1);
+            }
             // 获取订单信息
             $where = ['order_no'=>$ret['data']['out_trade_no'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
             $order = Db::name('Order')->where($where)->find();
@@ -606,7 +617,7 @@ class OrderService
                         {
                             $vs['images'] = empty($vs['images']) ? null : $images_host.$vs['images'];
                             $vs['spec'] = empty($vs['spec']) ? null : json_decode($vs['spec'], true);
-                            $vs['goods_url'] = HomeUrl('goods', 'index', ['id'=>$vs['goods_id']]);
+                            $vs['goods_url'] = MyUrl('index/goods/index', ['id'=>$vs['goods_id']]);
                             $vs['total_price'] = $vs['buy_number']*$vs['price'];
                         }
                     }

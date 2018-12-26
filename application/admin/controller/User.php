@@ -57,7 +57,7 @@ class User extends Common
 				'total'		=>	$total,
 				'where'		=>	$params,
 				'page'		=>	isset($params['page']) ? intval($params['page']) : 1,
-				'url'		=>	url('admin/user/index'),
+				'url'		=>	MyUrl('admin/user/index'),
 			);
 		$page = new \base\Page($page_params);
 
@@ -73,7 +73,7 @@ class User extends Common
 		$this->assign('common_gender_list', lang('common_gender_list'));
 
 		// Excel地址
-		$this->assign('excel_url', url('admin/user/excelexport', $params));
+		$this->assign('excel_url', MyUrl('admin/user/excelexport', $params));
 
 		$this->assign('params', $params);
 		$this->assign('page_html', $page->GetPageHtml());
@@ -129,7 +129,7 @@ class User extends Common
 			$data = UserService::UserList($data_params);
 			if(empty($data[0]))
 			{
-				return $this->error('用户信息不存在', url('admin/user/index'));
+				return $this->error('用户信息不存在', MyUrl('admin/user/index'));
 			}
 			$data[0]['birthday_text'] = empty($data[0]['birthday']) ? '' : date('Y-m-d', $data[0]['birthday']);
 			$this->assign('data', $data[0]);

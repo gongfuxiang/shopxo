@@ -23,10 +23,10 @@
 	<div class="user-content">
 		<div class="user-content-body">
 			<!-- form start -->
-			<form class="am-form form-validation view-save" action="{{:url('index/safety/accountsupdate')}}" method="POST" request-type="ajax-url" request-value="{{:url('index/safety/index')}}">
+			<form class="am-form form-validation view-save" action="{{:MyUrl('index/safety/accountsupdate')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('index/safety/index')}}">
 				<legend>
 					<span class="legend-title">新手机号码校验</span>
-					<a href="{{:url('index/safety/index')}}" class="am-fr am-icon-mail-reply"> 返回</a>
+					<a href="{{:MyUrl('index/safety/index')}}" class="am-fr am-icon-mail-reply"> 返回</a>
 				</legend>
 				<div class="am-form-group">
 					<label>手机号码</label>
@@ -36,7 +36,7 @@
 				<div class="am-input-group am-input-group-sm am-form-group">
 					<input type="number" name="verify" class="am-radius" placeholder="验证码" minlength="6" maxlength="6" data-validation-message="验证码格式 6 位数字" required />
 					<span class="am-input-group-btn">
-						<button class="am-btn am-btn-default am-radius btn-loading-example verify-submit-new" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-url="{{:url('index/safety/verifysend')}}" data-verify="{{:MyC('home_img_verify_state')}}" data-text="获取验证码" data-send-text="还有 {time} 秒" data-time="{{:MyC('common_verify_time_interval', 30, true)}}">获取验证码</button>
+						<button class="am-btn am-btn-default am-radius btn-loading-example verify-submit-new" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-url="{{:MyUrl('index/safety/verifysend')}}" data-verify="{{:MyC('home_img_verify_state')}}" data-text="获取验证码" data-send-text="还有 {time} 秒" data-time="{{:MyC('common_verify_time_interval', 30, true)}}">获取验证码</button>
 					</span>
 				</div>
 				<div class="am-form-group">
@@ -56,8 +56,8 @@
 						<div class="base">
 							<input type="text" placeholder="图形验证码" maxlength="6" id="verify-img-value" data-validation-message="请输入有效的图形验证码" class="am-form-field am-radius" />
 							<div class="am-fl">
-								<img src="{{:url('index/safety/verifyentry')}}" class="am-radius c-p" id="verify-img" onClick='this.src="{{:url('index/safety/verifyentry')}}"' />
-								<a href="javascript:;" class="verify-tips" onClick="document.getElementById('verify-img').src='{{:url('index/safety/verifyentry')}}'">看不清换一张</a>
+								<img src="{{:MyUrl('index/safety/verifyentry')}}" class="am-radius c-p" id="verify-img" onClick='this.src="{{:MyUrl('index/safety/verifyentry')}}"' />
+								<a href="javascript:;" class="verify-tips" onClick="document.getElementById('verify-img').src='{{:MyUrl('index/safety/verifyentry')}}'">看不清换一张</a>
 							</div>
 						</div>
 						<button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm block m-t-20 btn-loading-example verify-submit-win-new" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-win="1">确认</button>

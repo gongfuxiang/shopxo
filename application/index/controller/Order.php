@@ -59,7 +59,7 @@ class Order extends Common
                 'total'     =>  $total,
                 'where'     =>  $params,
                 'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  url('index/order/index'),
+                'url'       =>  MyUrl('index/order/index'),
             );
         $page = new \base\Page($page_params);
         $this->assign('page_html', $page->GetPageHtml());
@@ -158,7 +158,7 @@ class Order extends Common
         $data = OrderService::OrderList($data_params);
         if(!empty($data['data'][0]))
         {
-            $this->assign('referer_url', empty($_SERVER['HTTP_REFERER']) ? url('index/order/index') : $_SERVER['HTTP_REFERER']);
+            $this->assign('referer_url', empty($_SERVER['HTTP_REFERER']) ? MyUrl('index/order/index') : $_SERVER['HTTP_REFERER']);
             $this->assign('data', $data['data'][0]);
             return $this->fetch();
         } else {

@@ -72,7 +72,7 @@ class Safety extends Common
 	{
 		if(empty($this->user['mobile']))
 		{
-			return redirect(url('index/safety/newmobileinfo'));
+			return redirect(MyUrl('index/safety/newmobileinfo'));
 		}
 		return $this->fetch();
 	}
@@ -88,7 +88,7 @@ class Safety extends Common
 	{
 		if(session('safety_sms') == null && !empty($this->user['mobile']))
 		{
-			return $this->error('原帐号校验失败', url('index/safety/mobileinfo'));
+			return $this->error('原帐号校验失败', MyUrl('index/safety/mobileinfo'));
 		}
 		return $this->fetch();
 	}
@@ -104,7 +104,7 @@ class Safety extends Common
 	{
 		if(empty($this->user['email']))
 		{
-			return redirect(url('index/safety/newemailinfo'));
+			return redirect(MyUrl('index/safety/newemailinfo'));
 		}
 		return $this->fetch();
 	}
@@ -120,7 +120,7 @@ class Safety extends Common
 	{
 		if(session('safety_email') == null && !empty($this->user['email']))
 		{
-			return $this->error('原帐号校验失败', url('index/safety/emailinfo'));
+			return $this->error('原帐号校验失败', MyUrl('index/safety/emailinfo'));
 		}
 		return $this->fetch();
 	}

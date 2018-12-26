@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation view-save" action="{{:url('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:url('admin/site/index')}}" enctype="multipart/form-data">
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index')}}" enctype="multipart/form-data">
 			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
 			<div class="am-form-group">
 				<label>{{$data.home_site_name.name}}</label>

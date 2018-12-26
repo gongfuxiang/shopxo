@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation view-save" action="{{:url('admin/slide/save')}}" method="POST" request-type="ajax-url" request-value="{{:url('admin/slide/index')}}" enctype="multipart/form-data">
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/slide/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/slide/index')}}" enctype="multipart/form-data">
 			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
 			<legend>
 				<span class="fs-16">
@@ -14,7 +14,7 @@
 						轮播编辑
 					{{/if}}
 				</span>
-				<a href="{{:url('admin/slide/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+				<a href="{{:MyUrl('admin/slide/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
 				<label>名称</label>

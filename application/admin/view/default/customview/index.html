@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form view-list" action="{{:url('admin/customview/index')}}" method="POST">
+		<form class="am-form view-list" action="{{:MyUrl('admin/customview/index')}}" method="POST">
 			<div class="am-g">
 				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="标题关键字" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
@@ -45,7 +45,7 @@
 
 		<!-- operation start -->
 		<div class="am-g m-t-15">
-			<a href="{{:url('admin/customview/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
+			<a href="{{:MyUrl('admin/customview/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
 		</div>
 		<!-- operation end -->
 
@@ -68,19 +68,19 @@
 					{{foreach $data_list as $v}}
 						<tr id="data-list-{{$v.id}}" {{if $v['is_enable'] eq 0}}class="am-active"{{/if}}>
 							<td  class="td-title">
-								<a href="{{:str_replace('admin.php', 'index.php', url('index/customview/index', array('id'=>$v['id'])))}}" target="_blank" title="{{$v.title}}">{{$v.title}}</a>
+								<a href="{{:str_replace('admin.php', 'index.php', MyUrl('index/customview/index', array('id'=>$v['id'])))}}" target="_blank" title="{{$v.title}}">{{$v.title}}</a>
 							</td>
 							<td>
-								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('admin/customview/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-field="is_enable" data-is-update-status="1"></a>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/customview/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-field="is_enable" data-is-update-status="1"></a>
 							</td>
 							<td class="am-hide-sm-only">
-								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_header'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('admin/customview/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_header']}}" data-field="is_header"></a>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_header'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/customview/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_header']}}" data-field="is_header"></a>
 							</td>
 							<td class="am-hide-sm-only">
-								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_footer'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('admin/customview/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_footer']}}" data-field="is_footer"></a>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_footer'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/customview/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_footer']}}" data-field="is_footer"></a>
 							</td>
 							<td class="am-hide-sm-only">
-								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_full_screen'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('admin/customview/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_full_screen']}}" data-field="is_full_screen"></a>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_full_screen'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/customview/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_full_screen']}}" data-field="is_full_screen"></a>
 							</td>
 							<td class="am-hide-sm-only">{{$v.access_count}}</td>
 							<td>
@@ -123,10 +123,10 @@
 								</div>
 							</td>
 							<td class="view-operation">
-								<a href="{{:url('admin/customview/saveinfo', array('id'=>$v['id']))}}">
+								<a href="{{:MyUrl('admin/customview/saveinfo', array('id'=>$v['id']))}}">
 									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"></button>
 								</a>
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/customview/Delete')}}" data-id="{{$v.id}}"></button>
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/customview/Delete')}}" data-id="{{$v.id}}"></button>
 							</td>
 						</tr>
 					{{/foreach}}

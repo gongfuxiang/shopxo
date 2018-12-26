@@ -58,7 +58,7 @@ class AppHomeNav extends Common
                 'total'     =>  $total,
                 'where'     =>  $params,
                 'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  url('admin/apphomenav/index'),
+                'url'       =>  MyUrl('admin/apphomenav/index'),
             );
         $page = new \base\Page($page_params);
         $this->assign('page_html', $page->GetPageHtml());

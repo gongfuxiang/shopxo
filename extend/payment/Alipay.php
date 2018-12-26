@@ -302,7 +302,7 @@ class Alipay
                     <call_back_url>'.$params['call_back_url'].'</call_back_url>
                     <notify_url>'.$params['notify_url'].'</notify_url>
                     <out_user>'.$params['out_user'].'</out_user>
-                    <merchant_url>'.$params['merchant_url'].'</merchant_url>
+                    <merchant_url>'.(isset($params['merchant_url']) ? $params['merchant_url'] : $params['call_back_url']).'</merchant_url>
                     <pay_expire>3600</pay_expire>
                     <agent_id>0</agent_id>
                 </direct_trade_create_req>';

@@ -12,7 +12,7 @@
 <!-- goods category -->
 {{include file="public/goods_category" /}}
 
-<div class="goods-detail" data-id="{{$goods.id}}" data-spec-detail-ajax-url="{{:url('index/goods/specdetail')}}" data-spec-type-ajax-url="{{:url('index/goods/spectype')}}">
+<div class="goods-detail" data-id="{{$goods.id}}" data-spec-detail-ajax-url="{{:MyUrl('index/goods/specdetail')}}" data-spec-type-ajax-url="{{:MyUrl('index/goods/spectype')}}">
     <!-- 轮播 -->
     <div class="scoll">
         <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false}' >
@@ -100,7 +100,7 @@
                     <div class="goods-qrcode am-hide-sm-only">
                         <span>手机扫一扫购买</span>
                         <i class="am-icon-qrcode am-icon-sm"></i>
-                        <img class="qrcode-images am-img-thumbnail" src="{{:url('index/qrcode/index', ['content'=>urlencode(url('index/goods/index', ['id'=>$goods['id']], true, true))])}}" />
+                        <img class="qrcode-images am-img-thumbnail" src="{{:MyUrl('index/qrcode/index', ['content'=>urlencode(MyUrl('index/goods/index', ['id'=>$goods['id']], true, true))])}}" />
                     </div>
                 </div>
 
@@ -169,7 +169,7 @@
                                             </div>
 
                                             <div class="btn-op">
-                                                <span class="btn am-btn am-btn-default confirm login-event" data-type="cart" data-ajax-url="{{:url('index/Cart/Save')}}">确认</span>
+                                                <span class="btn am-btn am-btn-default confirm login-event" data-type="cart" data-ajax-url="{{:MyUrl('index/Cart/Save')}}">确认</span>
                                                 <span class="btn close am-btn am-btn-danger cancel">取消</span>
                                             </div>
                                         </div>
@@ -198,12 +198,12 @@
                                 <span class="am-icon-home am-icon-fw"> 首页</span>
                             </a>
                             {{if isset($goods['is_favor']) and $goods['is_favor'] eq 1}}
-                                <span class="am-icon-heart am-icon-fw login-event favor-submit text-active" data-ajax-url="{{:url('index/goods/favor')}}">
+                                <span class="am-icon-heart am-icon-fw login-event favor-submit text-active" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
                                     <em class="goods-favor-text">已收藏</em>
                                     <em class="goods-favor-count">({{$goods.favor_count}})</em>
                                 </span>
                             {{else /}}
-                                <span class="am-icon-heart am-icon-fw favor-submit login-event" data-ajax-url="{{:url('index/goods/favor')}}">    <em class="goods-favor-text">收藏</em>
+                                <span class="am-icon-heart am-icon-fw favor-submit login-event" data-ajax-url="{{:MyUrl('index/goods/favor')}}">    <em class="goods-favor-text">收藏</em>
                                     <em class="goods-favor-count">({{$goods.favor_count}})</em>
                                 </span>
                             {{/if}}
@@ -214,13 +214,13 @@
                             </div>
                         </div>
                         <div class="submit">
-                            <div class="clearfix tb-btn tb-btn-basket buy-event login-event cart-submit" data-type="cart"  data-ajax-url="{{:url('index/Cart/Save')}}">
+                            <div class="clearfix tb-btn tb-btn-basket buy-event login-event cart-submit" data-type="cart"  data-ajax-url="{{:MyUrl('index/Cart/Save')}}">
                                 <button title="加入购物车" href="javascript:;" type="button"><i></i>加入购物车</button>
                             </div>
                         </div>
 
                         <!-- 购买表单 -->
-                        <form action="{{:url('index/buy/index')}}" method="post" class="buy-form">
+                        <form action="{{:MyUrl('index/buy/index')}}" method="post" class="buy-form">
                             <input type="hidden" name="goods_id" value="{{$goods.id}}" />
                             <input type="hidden" name="buy_type" value="goods" />
                             <input type="hidden" name="stock" value="1" />

@@ -1,4 +1,4 @@
-<div class="am-form-group region-linkage" data-url="{{:url('index/region/index')}}">
+<div class="am-form-group region-linkage" data-url="{{:MyUrl('index/region/index')}}">
     <label class="block">省市区</label>
     <select name="province" data-next="city" class="am-radius c-p chosen-select" data-placeholder="省份" data-validation-message="请选择省份" data-value="{{if isset($data['province'])}}{{$data.province}}{{else /}}0{{/if}}" required>
         <option value="">省份</option>

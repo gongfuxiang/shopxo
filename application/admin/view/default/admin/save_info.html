@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation view-save" action="{{:url('admin/admin/save')}}" method="POST" request-type="ajax-url" request-value="{{:url('admin/admin/index')}}">
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/admin/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/admin/index')}}">
 			<legend>
 				<span class="fs-16">
 					{{if empty($data['id'])}}
@@ -13,7 +13,7 @@
 						管理员编辑
 					{{/if}}
 				</span>
-				<a href="{{:url('admin/admin/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+				<a href="{{:MyUrl('admin/admin/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
 				<label>用户名</label>

@@ -8,7 +8,7 @@
         </div>
         <div class="m-t-40 card-box">
             <div class="panel-body">
-            	<form class="am-form form-validation" action="{{:url('admin/admin/login')}}" method="POST" request-type="ajax-url" request-value="{{:url('admin/index/index')}}">
+            	<form class="am-form form-validation" action="{{:MyUrl('admin/admin/login')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/index/index')}}">
             		<div class="am-g">
             			<div class="am-form-group">
 					      <input type="text" placeholder="用户名" name="username" pattern="{{:lang('common_regex_username')}}" data-validation-message="用户名格式 5~18 个字符（可以是字母数字下划线）" class="am-radius" required />

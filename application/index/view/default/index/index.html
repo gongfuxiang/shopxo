@@ -24,7 +24,7 @@
     <!-- 轮播右侧-内容1 -->
     <div class="am-g am-g-fixed small-nav">
         <div class="am-u-sm-3">
-            <a href="{{:url('index/category/index')}}">
+            <a href="{{:MyUrl('index/category/index')}}">
                 <div class="nav-icon mini-nav-goods-category">
                     <img src="{{$images_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-category-icon.png" />
                 </div>
@@ -32,7 +32,7 @@
             </a>
         </div>
         <div class="am-u-sm-3">
-            <a {{if empty($user)}}href="javascript:;" class="login-event"{{else /}} href="{{:url('index/Cart/index')}}"{{/if}}>
+            <a {{if empty($user)}}href="javascript:;" class="login-event"{{else /}} href="{{:MyUrl('index/Cart/index')}}"{{/if}}>
                 <div class="nav-icon mini-nav-cart">
                     <img src="{{$images_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-cart-icon.png" />
                 </div>
@@ -40,7 +40,7 @@
             </a>
         </div>
         <div class="am-u-sm-3">
-            <a {{if empty($user)}}href="javascript:;" class="login-event"{{else /}} href="{{:url('index/order/index')}}"{{/if}}>
+            <a {{if empty($user)}}href="javascript:;" class="login-event"{{else /}} href="{{:MyUrl('index/order/index')}}"{{/if}}>
                 <div class="nav-icon mini-nav-order">
                     <img src="{{$images_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-order-icon.png" />
                 </div>
@@ -48,7 +48,7 @@
             </a>
         </div>
         <div class="am-u-sm-3">
-            <a {{if empty($user)}}href="javascript:;" class="login-event"{{else /}} href="{{:url('index/user/index')}}"{{/if}}>
+            <a {{if empty($user)}}href="javascript:;" class="login-event"{{else /}} href="{{:MyUrl('index/user/index')}}"{{/if}}>
                 <div class="nav-icon mini-nav-user">
                     <img src="{{$images_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-user-icon.png" />
                 </div>
@@ -61,7 +61,7 @@
     <div class="marqueen">
         <div class="mod-vip">
             <div class="m-baseinfo">
-                <a href="{{if !empty($user)}}{{:url('index/user/index')}}{{else /}}javascript:;{{/if}}" target="_blank">
+                <a href="{{if !empty($user)}}{{:MyUrl('index/user/index')}}{{else /}}javascript:;{{/if}}" target="_blank">
                     <img src="{{if !empty($user['avatar'])}}{{$user.avatar}}{{else /}}{{$images_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-user-avatar.jpg{{/if}}" class="user-avatar" />
                 </a>
                 <em>
@@ -74,16 +74,16 @@
                     </span>
                 </em>
                 {{if !empty($user)}}
-                    <a href="{{:url('index/user/logout')}}" class="member-logout">退出</a>
+                    <a href="{{:MyUrl('index/user/logout')}}" class="member-logout">退出</a>
                 {{/if}}
             </div>
             {{if empty($user) and (MyC('home_user_login_state') eq 1 or in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state')))}}
                 <div class="member-login">
                     {{if MyC('home_user_login_state') eq 1}}
-                        <a class="am-btn-primary btn" href="{{:url('index/user/loginInfo')}}">登录</a>
+                        <a class="am-btn-primary btn" href="{{:MyUrl('index/user/loginInfo')}}">登录</a>
                     {{/if}}
                     {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))}}
-                        <a class="am-btn-primary btn" href="{{:url('index/user/regInfo')}}">注册</a>
+                        <a class="am-btn-primary btn" href="{{:MyUrl('index/user/regInfo')}}">注册</a>
                     {{/if}}
                 </div>
             {{/if}}
@@ -92,9 +92,9 @@
                     {{if !empty($user_order_status)}}
                         {{foreach $user_order_status as $v}}
                             {{if in_array($v['status'], [1,2,3])}}
-                                <a href="{{:url('index/order/index', ['is_more'=>1, 'status'=>$v['status']])}}" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
+                                <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'status'=>$v['status']])}}" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
                             {{elseif in_array($v['status'], [100]) /}}
-                                <a href="{{:url('index/order/index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
+                                <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
                             {{/if}}
                         {{/foreach}}
                     {{/if}}
@@ -136,7 +136,7 @@
                                         {{if !empty($category['items'])}}
                                             {{foreach $category.items as $keys=>$categorys}}
                                                 {{if $key lt 6 and $keys eq 0 and isset($categorys['is_home_recommended']) and $categorys['is_home_recommended'] eq 1}}
-                                                    <a href="{{:url('index/search/index', ['category_id'=>$categorys['id']])}}" target="_blank">{{$categorys.name}}</a>
+                                                    <a href="{{:MyUrl('index/search/index', ['category_id'=>$categorys['id']])}}" target="_blank">{{$categorys.name}}</a>
                                                 {{/if}}
                                             {{/foreach}}
                                         {{/if}}
@@ -144,7 +144,7 @@
                                 {{/if}}
                             </div>
                             <span class="more">
-                                <a href="{{:url('index/search/index', ['category_id'=>$floor['id']])}}" target="_blank">更多 <i class="am-icon-angle-right"></i></a>
+                                <a href="{{:MyUrl('index/search/index', ['category_id'=>$floor['id']])}}" target="_blank">更多 <i class="am-icon-angle-right"></i></a>
                             </span>
                         </div>
                     </div>
@@ -155,7 +155,7 @@
                                 {{if !empty($floor['items'])}}
                                     {{foreach $floor.items as $category_key=>$category}}
                                         {{if $category_key lt 6 and isset($category['is_home_recommended']) and $category['is_home_recommended'] eq 1}}
-                                            <a href="{{:url('index/search/index', ['category_id'=>$category['id']])}}" class="outer" target="_blank">
+                                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$category['id']])}}" class="outer" target="_blank">
                                                 <span class="inner">
                                                     <b class="text">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</b>
                                                 </span>
@@ -164,7 +164,7 @@
                                     {{/foreach}}
                                 {{/if}}           
                             </div>
-                            <a href="{{:url('index/search/index', ['category_id'=>$floor['id']])}}" target="_blank">
+                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$floor['id']])}}" target="_blank">
                                 <div class="outer-con">
                                     <div class="describe">{{$floor.describe}}</div>
                                 </div>

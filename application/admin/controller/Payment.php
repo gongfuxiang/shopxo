@@ -75,7 +75,7 @@ class Payment extends Common
             $data = PaymentService::PaymentList($data_params);
             if(empty($data[0]))
             {
-                return $this->error('没有相关支付方式', url('admin/payment/index'));
+                return $this->error('没有相关支付方式', MyUrl('admin/payment/index'));
             }
             $this->assign('data', $data[0]);
         }

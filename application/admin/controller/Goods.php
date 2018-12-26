@@ -59,7 +59,7 @@ class Goods extends Common
 				'total'		=>	$total,
 				'where'		=>	$params,
 				'page'		=>	isset($params['page']) ? intval($params['page']) : 1,
-				'url'		=>	url('admin/goods/index'),
+				'url'		=>	MyUrl('admin/goods/index'),
 			);
 		$page = new \base\Page($page_params);
 
@@ -110,7 +110,7 @@ class Goods extends Common
 			$data = GoodsService::GoodsList($data_params);
 			if(empty($data[0]))
 			{
-				return $this->error('商品信息不存在', url('admin/goods/index'));
+				return $this->error('商品信息不存在', MyUrl('admin/goods/index'));
 			}
 			$this->assign('data', $data[0]);
 

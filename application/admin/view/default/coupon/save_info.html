@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation view-save" action="{{:url('Admin/Coupon/Save')}}" method="POST" request-type="ajax-url" request-value="{{:url('Admin/Coupon/Index')}}" enctype="multipart/form-data">
+		<form class="am-form form-validation view-save" action="{{:MyUrl('Admin/Coupon/Save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('Admin/Coupon/Index')}}" enctype="multipart/form-data">
 			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
 			<legend>
 				<span class="fs-16)}}
@@ -14,7 +14,7 @@
 						优惠券编辑
 					{{/if}}
 				</span>
-				<a href="{{:url('Admin/Coupon/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+				<a href="{{:MyUrl('Admin/Coupon/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
 				<label>优惠券名称</label>

@@ -18,7 +18,7 @@
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation admin-save" action="{{:url('admin/brandcategory/save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation admin-save" action="{{:MyUrl('admin/brandcategory/save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
 							<label>名称</label>
 							<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
@@ -55,5 +55,5 @@
 {{include file="public/footer" /}}
 <!-- footer end -->
 <script>
-	Tree(0, "{{:url('admin/brandcategory/getnodeson')}}", 0);
+	Tree(0, "{{:MyUrl('admin/brandcategory/getnodeson')}}", 0);
 </script>

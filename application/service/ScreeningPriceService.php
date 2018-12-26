@@ -35,8 +35,8 @@ class ScreeningPriceService
             foreach($data as &$v)
             {
                 $v['is_son']            =   (Db::name('ScreeningPrice')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
-                $v['ajax_url']          =   url('admin/screeningprice/getnodeson', array('id'=>$v['id']));
-                $v['delete_url']        =   url('admin/screeningprice/delete');
+                $v['ajax_url']          =   MyUrl('admin/screeningprice/getnodeson', array('id'=>$v['id']));
+                $v['delete_url']        =   MyUrl('admin/screeningprice/delete');
                 $v['json']              =   json_encode($v);
             }
             return DataReturn('操作成功', 0, $data);

@@ -162,7 +162,7 @@ return [
 
 
     // 图片host, 数据库图片地址以/Public/...开头
-    'images_host'                           =>  substr(__MY_URL__, 0, -1),
+    'images_host'                           =>  substr(__MY_PUBLIC_URL__, 0, -1),
 
     // 开启U带域名
     'url_domain_deploy'                     =>  true,

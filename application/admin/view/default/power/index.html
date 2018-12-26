@@ -18,7 +18,7 @@
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation admin-save" action="{{:url('admin/power/powersave')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation admin-save" action="{{:MyUrl('admin/power/powersave')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
 							<label>栏目级别</label>
 							<select  class="am-radius c-p" name="pid" data-validation-message="栏目级别选择错误">
@@ -75,7 +75,7 @@
 					<div class="fr m-r-20 list-submit">
 						<span class="am-icon-edit am-icon-md c-p submit-edit {{if !empty($v['item'])}}m-r-5{{/if}}" data-am-modal="{target: '#power-save-win'}" data-json='{{:json_encode($v)}}' data-tag="power-save-win" data-item="{{if !empty($v['item'])}}ok{{else /}}no{{/if}}"></span>
 						{{if empty($v['item'])}}
-							<span class="am-icon-trash-o am-icon-md c-p m-l-20 m-r-15 submit-delete" data-url="{{:url('admin/power/powerdelete')}}" data-id="{{$v.id}}"></span>
+							<span class="am-icon-trash-o am-icon-md c-p m-l-20 m-r-15 submit-delete" data-url="{{:MyUrl('admin/power/powerdelete')}}" data-id="{{$v.id}}"></span>
 						{{/if}}
 					</div>
 				</li>
@@ -88,7 +88,7 @@
 								</label>
 								<div class="fr m-l-10 find-submit">
 									<span class="am-icon-edit am-icon-sm c-p submit-edit" data-am-modal="{target: '#power-save-win'}" data-json='{{:json_encode($vs)}}' data-tag="power-save-win" data-item="no"></span>
-									<span class="am-icon-trash-o am-icon-sm c-p m-l-10 m-r-10 submit-delete" data-url="{{:url('admin/power/powerdelete')}}" data-id="{{$vs.id}}"></span>
+									<span class="am-icon-trash-o am-icon-sm c-p m-l-10 m-r-10 submit-delete" data-url="{{:MyUrl('admin/power/powerdelete')}}" data-id="{{$vs.id}}"></span>
 								</div>
 							</li>
 						{{/foreach}}

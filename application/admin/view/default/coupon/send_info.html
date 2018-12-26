@@ -4,13 +4,13 @@
 <div class="content-right">
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation view-save" action="{{:url('Admin/Coupon/Send')}}" method="POST" request-type="ajax-url" request-value="{{:url('Admin/Coupon/Index')}}" enctype="multipart/form-data">
+        <form class="am-form form-validation view-save" action="{{:MyUrl('Admin/Coupon/Send')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('Admin/Coupon/Index')}}" enctype="multipart/form-data">
             <input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
             <legend>
                 <span class="fs-16)}}
                     用户优惠券发放
                 </span>
-                <a href="{{:url('Admin/Coupon/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+                <a href="{{:MyUrl('Admin/Coupon/Index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
             </legend>
 
             <!-- 优惠券信息 -->
@@ -57,7 +57,7 @@
             <div class="am-form-group  am-input-group am-input-group-sm">
                 <input type="text" class="am-radius search-keyword" placeholder="用户昵称/姓名/手机号码">
                 <span class="am-input-group-btn">
-                    <button class="am-btn am-btn-default am-radius search-submit" type="button" data-url="{{:url('Admin/Coupon/UserQuery')}}"><span class="am-icon-search"></span> 查询</button>
+                    <button class="am-btn am-btn-default am-radius search-submit" type="button" data-url="{{:MyUrl('Admin/Coupon/UserQuery')}}"><span class="am-icon-search"></span> 查询</button>
                 </span>
             </div>
             <div class="am-form-group data-success none">

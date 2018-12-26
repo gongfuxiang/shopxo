@@ -242,7 +242,7 @@ class GoodsService
                 // 商品url地址
                 if(!empty($v['id']))
                 {
-                    $v['goods_url'] = HomeUrl('goods', 'index', ['id'=>$v['id']]);
+                    $v['goods_url'] = MyUrl('index/goods/index', ['id'=>$v['id']]);
                 }
 
                 // 商品封面图片
@@ -580,7 +580,7 @@ class GoodsService
                 $v['images_old'] = $v['images'];
                 $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
 
-                $v['goods_url'] = HomeUrl('goods', 'index', ['id'=>$v['goods_id']]);
+                $v['goods_url'] = MyUrl('index/goods/index', ['id'=>$v['goods_id']]);
             }
         }
         return DataReturn('处理成功', 0, $data);
@@ -725,7 +725,7 @@ class GoodsService
             {
                 $v['images_old'] = $v['images'];
                 $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
-                $v['goods_url'] = HomeUrl('goods', 'index', ['id'=>$v['goods_id']]);
+                $v['goods_url'] = MyUrl('index/goods/index', ['id'=>$v['goods_id']]);
             }
         }
         return DataReturn('处理成功', 0, $data);
@@ -1833,8 +1833,8 @@ class GoodsService
             foreach($data as &$v)
             {
                 $v['is_son']            =   (Db::name('GoodsCategory')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
-                $v['ajax_url']          =   url('admin/goodscategory/getnodeson', array('id'=>$v['id']));
-                $v['delete_url']        =   url('admin/goodscategory/delete');
+                $v['ajax_url']          =   MyUrl('admin/goodscategory/getnodeson', array('id'=>$v['id']));
+                $v['delete_url']        =   MyUrl('admin/goodscategory/delete');
                 $v['icon_url']          =   empty($v['icon']) ? '' : $images_host.$v['icon'];
                 $v['big_images_url']    =   empty($v['big_images']) ? '' : $images_host.$v['big_images'];
                 $v['json']              =   json_encode($v);

@@ -18,7 +18,7 @@
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation admin-save" action="{{:url('admin/goodscategory/save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation admin-save" action="{{:MyUrl('admin/goodscategory/save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group am-form-file">
 							<label class="block">icon图标</label>
 							<ul class="plug-file-upload-view goods-category-icon-images-view" data-form-name="icon" data-max-number="1" data-dialog-type="images">
@@ -103,5 +103,5 @@
 {{include file="public/footer" /}}
 <!-- footer end -->
 <script>
-	Tree(0, "{{:url('admin/goodscategory/getnodeson')}}", 0, 1, 1);
+	Tree(0, "{{:MyUrl('admin/goodscategory/getnodeson')}}", 0, 1, 1);
 </script>

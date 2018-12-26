@@ -72,25 +72,25 @@ return array(
             array(
                 'is_enable' => 1,
                 'name' => '站点缓存',
-                'url' => url('admin/cache/statusupdate'),
+                'url' => MyUrl('admin/cache/statusupdate'),
                 'desc' => '数据转换后或前台不能正常访问时，可以使用此功能更新所有缓存'
             ),
             array(
                 'is_enable' => 1,
                 'name' => '模板缓存',
-                'url' => url('admin/cache/templateupdate'),
+                'url' => MyUrl('admin/cache/templateupdate'),
                 'desc' => '当页面显示不正常，可尝试使用此功能修复'
             ),
             array(
                 'is_enable' => 0,
                 'name' => '模块缓存',
-                'url' => url('admin/cache/moduleupdate'),
+                'url' => MyUrl('admin/cache/moduleupdate'),
                 'desc' => '更新页面布局与模块后未生效，可尝试使用此功能修复'
             ),
             array(
                 'is_enable' => 1,
                 'name' => '日志清除',
-                'url' => url('admin/cache/logdelete'),
+                'url' => MyUrl('admin/cache/logdelete'),
                 'desc' => '清除站点日志'
             ),
         ),

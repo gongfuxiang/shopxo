@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form view-list" action="{{:url('Admin/Coupon/User', ['coupon_id'=>I('request.coupon_id')])}}" method="POST">
+		<form class="am-form view-list" action="{{:MyUrl('Admin/Coupon/User', ['coupon_id'=>I('request.coupon_id')])}}" method="POST">
 			<div class="am-g">
 				<input type="text" class="am-radius form-keyword" placeholder="用户昵称/姓名/手机号码" name="keyword" <present name="param['keyword']"> value="{{$param.keyword}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
@@ -27,7 +27,7 @@
 						<input type="text" class="Wdate am-radius m-t-10" placeholder="有效时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($param['time_end'])}}value="{{$param.time_end}}"{{/if}}/>
 					</div>
 				</div>
-				<a href="{{:url('Admin/Coupon/Index')}}" class="fr fs-14 am-icon-mail-reply"> 优惠券列表</a>
+				<a href="{{:MyUrl('Admin/Coupon/Index')}}" class="fr fs-14 am-icon-mail-reply"> 优惠券列表</a>
 			</div>
         </form>
         <!-- form end -->
@@ -127,7 +127,7 @@
 							</td>
 							<td class="view-operation">
 								{{if $v['status'] neq 1)}}
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('Admin/Coupon/Delete')}}" data-id="{{$v.id}}"> 删除</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('Admin/Coupon/Delete')}}" data-id="{{$v.id}}"> 删除</button>
 								{{/if}}
 							</td>
 						</tr>

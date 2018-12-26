@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form view-list" action="{{:url('admin/order/index')}}" method="POST">
+		<form class="am-form view-list" action="{{:MyUrl('admin/order/index')}}" method="POST">
 			<div class="am-g">
 				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="订单号/姓名/手机/地址/快递单号" name="keyword" {{if !empty($params['keyword'])}} value="{{$params.keyword}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
@@ -71,10 +71,10 @@
 								{{foreach $v.items as $vs}}
 									<div class="goods-item">
 										<div class="base">
-											<a href="{{:HomeUrl('goods', 'index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}">
+											<a href="{{:MyUrl('index/goods/index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}">
 												<img src="{{$vs['images']}}" class="am-img-thumbnail am-radius goods-images am-hide-sm-only" />
 											</a>
-											<a href="{{:HomeUrl('goods', 'index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}" {{if !empty($vs['title_color'])}} style="color:{{$vs.title_color}};" {{/if}} >{{$vs.title}}</a>
+											<a href="{{:MyUrl('index/goods/index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}" {{if !empty($vs['title_color'])}} style="color:{{$vs.title_color}};" {{/if}} >{{$vs.title}}</a>
 										</div>
 										<div class="other">
 											<span class="fl fs-12">
@@ -143,10 +143,10 @@
 													{{foreach $v.items as $vs}}
 														<div class="goods-item">
 															<div class="base">
-																<a href="{{:HomeUrl('goods', 'index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}">
+																<a href="{{:MyUrl('index/goods/index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}">
 																	<img src="{{$vs['images']}}" class="am-img-thumbnail am-radius goods-images am-hide-sm-only" />
 																</a>
-																<a href="{{:HomeUrl('goods', 'index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}" {{if !empty($vs['title_color'])}} style="color:{{$vs.title_color}};" {{/if}} >{{$vs.title}}</a>
+																<a href="{{:MyUrl('index/goods/index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}" {{if !empty($vs['title_color'])}} style="color:{{$vs.title_color}};" {{/if}} >{{$vs.title}}</a>
 															</div>
 															<div class="other">
 																<span class="fl fs-12">
@@ -231,22 +231,22 @@
 							</td>
 							<td class="view-operation">
 								{{if in_array($v['status'], [0])}}
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:url('admin/order/confirm')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！"> 确认</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/confirm')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！"> 确认</button>
 								{{/if}}
 								{{if in_array($v['status'], [0,1])}}
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax" data-url="{{:url('admin/order/cancel')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="取消后无法恢复，确定继续吗？"> 取消</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/cancel')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="取消后无法恢复，确定继续吗？"> 取消</button>
 									{{if in_array($v['status'], [1])}}
                                         <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paypal am-btn-block submit-pay" data-id="{{$v.id}}" data-payment-id="{{$v.payment_id}}" data-am-modal="{target: '#order-pay-popup'}"> 支付</button>
                                     {{/if}}
 								{{/if}}
 								{{if $v['status'] eq 2}}
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o am-btn-block submit-delivery" data-url="{{:url('admin/order/delivery')}}" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-express-id="{{$v.express_id}}" data-am-modal="{target: '#order-delivery-popup'}"> 发货</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o am-btn-block submit-delivery" data-url="{{:MyUrl('admin/order/delivery')}}" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-express-id="{{$v.express_id}}" data-am-modal="{target: '#order-delivery-popup'}"> 发货</button>
 								{{/if}}
 								{{if $v['status'] eq 3}}
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:url('admin/order/collect')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！"> 收货</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/collect')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！"> 收货</button>
 								{{/if}}
 								{{if in_array($v['status'], [5,6])}}
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o am-btn-block submit-ajax" data-url="{{:url('admin/order/delete')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="delete" data-msg="删除后无法恢复，确定继续吗？"> 删除</button>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/delete')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="delete" data-msg="删除后无法恢复，确定继续吗？"> 删除</button>
 								{{/if}}
 							</td>
 						</tr>
@@ -266,7 +266,7 @@
 					<span data-am-modal-close class="am-close">&times;</span>
 				</div>
 				<div class="am-popup-bd">
-	                <form class="am-form form-validation delivery-form" method="post" action="{{:url('admin/order/delivery')}}" request-type="ajax-reload">
+	                <form class="am-form form-validation delivery-form" method="post" action="{{:MyUrl('admin/order/delivery')}}" request-type="ajax-reload">
 	                    <!-- 支付方式 -->
 	                    <div class="business-item">
 	                        <h3>选择快递</h3>
@@ -313,7 +313,7 @@
                     <span data-am-modal-close class="am-close">&times;</span>
                 </div>
                 <div class="am-popup-bd">
-                	<form class="am-form form-validation-pay pay-form" action="{{:url('admin/order/pay')}}" method="POST" request-type="ajax-reload">
+                	<form class="am-form form-validation-pay pay-form" action="{{:MyUrl('admin/order/pay')}}" method="POST" request-type="ajax-reload">
                         <!-- 支付方式 -->
                         <div class="business-item">
                             <h3>选择支付</h3>

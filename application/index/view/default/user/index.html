@@ -43,34 +43,34 @@
                     </div>
                     <div class="items">
                         <a href="javascript:;" class="am-icon-camera-retro" data-am-modal="{target:'#user-avatar-popup'}"> 修改头像</a>
-                        <a href="{{:url('index/personal/index')}}" class="am-icon-edit"> 修改资料</a>
-                        <a href="{{:url('index/useraddress/index')}}" class="am-icon-street-view"> 我的地址</a>
+                        <a href="{{:MyUrl('index/personal/index')}}" class="am-icon-edit"> 修改资料</a>
+                        <a href="{{:MyUrl('index/useraddress/index')}}" class="am-icon-street-view"> 我的地址</a>
                     </div>
                 </div>
                 <div class="user-base-right">
-                    <a href="{{:url('index/message/index')}}" class="am-icon-bell-o message"> 消息 {{if $common_message_total gt 0}}{{$common_message_total}}{{/if}}</a>
+                    <a href="{{:MyUrl('index/message/index')}}" class="am-icon-bell-o message"> 消息 {{if $common_message_total gt 0}}{{$common_message_total}}{{/if}}</a>
                 </div>
                 <ul class="user-base-icon">
                     <li>
-                        <a href="{{:url('index/order/index')}}">
+                        <a href="{{:MyUrl('index/order/index')}}">
                             <p>{{$user_order_count}}</p>
                             <p>订单总数</p>
                         </a>
                     </li>
                     <li>
-                        <a href="{{:url('index/userfavor/goods')}}">
+                        <a href="{{:MyUrl('index/userfavor/goods')}}">
                             <p>{{$user_goods_favor_count}}</p>
                             <p>商品收藏</p>
                         </a>
                     </li>
                     <li>
-                        <a href="{{:url('index/usergoodsbrowse/index')}}">
+                        <a href="{{:MyUrl('index/usergoodsbrowse/index')}}">
                             <p>{{$user_goods_browse_count}}</p>
                             <p>我的足迹</p>
                         </a>
                     </li>
                     <li>
-                        <a href="{{:url('index/userintegral/index')}}">
+                        <a href="{{:MyUrl('index/userintegral/index')}}">
                             <p>{{$user.integral}}</p>
                             <p>我的积分</p>
                         </a>
@@ -80,7 +80,7 @@
 
             <!-- 订单信息 -->
             <div class="order-nav">
-                <a href="{{:url('index/order/index')}}">
+                <a href="{{:MyUrl('index/order/index')}}">
                     <span class="nav-name">
                         <i class="order-icon"></i>
                         我的订单
@@ -96,7 +96,7 @@
                     {{foreach $user_order_status as $v}}
                         {{if in_array($v['status'], [1,2,3])}}
                             <li>
-                                <a href="{{:url('index/order/index', ['is_more'=>1, 'status'=>$v['status']])}}">
+                                <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'status'=>$v['status']])}}">
                                     <i class="icon-{{$v.status}}"></i>
                                     <p>{{$v.name}}</p>
                                     {{if !empty($v.count)}}
@@ -106,7 +106,7 @@
                             </li>
                         {{elseif in_array($v['status'], [100]) /}}
                             <li>
-                                <a href="{{:url('index/order/index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}">
+                                <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}">
                                     <i class="icon-{{$v.status}}"></i>
                                     <p>{{$v.name}}</p>
                                     {{if !empty($v.count)}}
@@ -127,7 +127,7 @@
                         <div class="am-panel-hd">
                             <i></i>交易提醒
                             {{if !empty($order_list)}}
-                                <a class="am-fr more-tips" href="{{:url('index/order/index')}}" target="_blank">
+                                <a class="am-fr more-tips" href="{{:MyUrl('index/order/index')}}" target="_blank">
                                     更多 <span class="am-icon-angle-double-right"></span>
                                 </a>
                             {{/if}}
@@ -138,11 +138,11 @@
                                     {{foreach $order.items as $key=>$goods}}
                                         {{if $key eq 0}}
                                             <div class="goods-detail">
-                                                <a href="{{:url('index/order/detail', ['id'=>$order['id']])}}" target="_blank">
+                                                <a href="{{:MyUrl('index/order/detail', ['id'=>$order['id']])}}" target="_blank">
                                                     <img src="{{$goods.images}}" />
                                                 </a>
                                                 <div class="goods-base">
-                                                    <a href="{{:url('index/order/detail', ['id'=>$order['id']])}}" target="_blank" class="goods-title ellipsis">{{$goods.title}}</a>
+                                                    <a href="{{:MyUrl('index/order/detail', ['id'=>$order['id']])}}" target="_blank" class="goods-title ellipsis">{{$goods.title}}</a>
                                                     <ul>
                                                         <li>
                                                             <span>{{$order.add_time_time}}</span>
@@ -157,13 +157,13 @@
                                                     </ul>
                                                 </div>
                                                 {{if in_array($order['status'], [1])}}
-                                                    <a class="am-btn am-btn-primary am-btn-xs am-radius am-fr order-submit" href="{{:url('index/order/detail', ['id'=>$order['id'], 'is_pay_auto'=>1])}}" target="_blank">支付</a>
+                                                    <a class="am-btn am-btn-primary am-btn-xs am-radius am-fr order-submit" href="{{:MyUrl('index/order/detail', ['id'=>$order['id'], 'is_pay_auto'=>1])}}" target="_blank">支付</a>
                                                 {{/if}}
                                                 {{if in_array($order['status'], [3])}}
-                                                    <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-fr order-submit submit-ajax submit-confirm" data-url="{{:url('index/order/Collect')}}" data-id="{{$order.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？">收货</button>
+                                                    <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-fr order-submit submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/Collect')}}" data-id="{{$order.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？">收货</button>
                                                 {{/if}}
                                                 {{if in_array($order['status'], [4]) and $order['user_is_comments'] eq 0}}
-                                                    <a href="{{:url('index/order/Comments', ['id'=>$order['id']])}}" target="_blank" class="am-btn am-btn-warning am-btn-xs am-radius am-fr order-submit">评价</a>
+                                                    <a href="{{:MyUrl('index/order/Comments', ['id'=>$order['id']])}}" target="_blank" class="am-btn am-btn-warning am-btn-xs am-radius am-fr order-submit">评价</a>
                                                 {{/if}}
                                             </div>
                                         {{/if}}
@@ -187,7 +187,7 @@
                         <div class="am-panel-hd">
                             <i></i>购物车
                             {{if !empty($cart_list)}}
-                                <a class="am-fr more-tips" href="{{:url('index/cart/index')}}" target="_blank">
+                                <a class="am-fr more-tips" href="{{:MyUrl('index/cart/index')}}" target="_blank">
                                     更多 <span class="am-icon-angle-double-right"></span>
                                 </a>
                             {{/if}}
@@ -197,11 +197,11 @@
                                 {{foreach $cart_list as $key=>$goods}}
                                     {{if $key lt 3}}
                                         <div class="goods-detail">
-                                            <a href="{{:url('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank">
+                                            <a href="{{:MyUrl('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank">
                                                 <img src="{{$goods.images}}" />
                                             </a>
                                             <div class="goods-base">
-                                                <a href="{{:url('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank" class="goods-title ellipsis">{{$goods.title}}</a>
+                                                <a href="{{:MyUrl('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank" class="goods-title ellipsis">{{$goods.title}}</a>
                                                 <ul>
                                                     <li>
                                                         <span class="line-price">￥{{$goods.price}}</span>
@@ -230,7 +230,7 @@
                         <div class="am-panel-hd">
                             <i></i>商品收藏
                             {{if !empty($goods_favor_list)}}
-                                <a class="am-fr more-tips" href="{{:url('index/userfavor/goods')}}" target="_blank">
+                                <a class="am-fr more-tips" href="{{:MyUrl('index/userfavor/goods')}}" target="_blank">
                                     更多 <span class="am-icon-angle-double-right"></span>
                                 </a>
                             {{/if}}
@@ -241,7 +241,7 @@
                                     {{foreach $goods_favor_list as $goods}}
                                         <li>
                                             <div class="am-gallery-item">
-                                                <a href="{{:url('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank">
+                                                <a href="{{:MyUrl('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank">
                                                     <img src="{{$goods.images}}" alt="{{$goods.title}}" />
                                                     <h3 class="am-gallery-title">{{$goods.title}}</h3>
                                                     <div class="am-gallery-desc line-price">￥{{$goods.price}}</div>
@@ -268,7 +268,7 @@
                         <div class="am-panel-hd">
                             <i></i>我的足迹
                             {{if !empty($goods_browse_list)}}
-                                <a class="am-fr more-tips" href="{{:url('index/usergoodsbrowse/index')}}" target="_blank">
+                                <a class="am-fr more-tips" href="{{:MyUrl('index/usergoodsbrowse/index')}}" target="_blank">
                                     更多 <span class="am-icon-angle-double-right"></span>
                                 </a>
                             {{/if}}
@@ -279,7 +279,7 @@
                                     {{foreach $goods_browse_list as $goods}}
                                         <li>
                                             <div class="am-gallery-item">
-                                                <a href="{{:url('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank">
+                                                <a href="{{:MyUrl('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank">
                                                     <img src="{{$goods.images}}" alt="{{$goods.title}}" class="am-circle" />
                                                     <h3 class="am-gallery-title">{{$goods.title}}</h3>
                                                 </a>

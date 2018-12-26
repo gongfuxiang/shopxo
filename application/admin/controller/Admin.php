@@ -56,7 +56,7 @@ class Admin extends Common
 				'total'		=>	$total,
 				'where'		=>	$params,
 				'page'		=>	isset($params['page']) ? intval($params['page']) : 1,
-				'url'		=>	url('admin/admin/index'),
+				'url'		=>	MyUrl('admin/admin/index'),
 			);
 		$page = new \base\Page($page_params);
 
@@ -118,7 +118,7 @@ class Admin extends Common
 			$data = AdminService::AdminList($data_params);
 			if(empty($data[0]))
 			{
-				return $this->error('管理员信息不存在', url('admin/index/index'));
+				return $this->error('管理员信息不存在', MyUrl('admin/index/index'));
 			}
 			$this->assign('data', $data[0]);
 		}
@@ -200,7 +200,7 @@ class Admin extends Common
 		// 是否已登录
 		if(session('admin') !== null)
 		{
-			return redirect(url('admin/index/index'));
+			return redirect(MyUrl('admin/index/index'));
 		}
 
 		return $this->fetch();
@@ -237,7 +237,7 @@ class Admin extends Common
 	public function Logout()
 	{
 		session_destroy();
-		return redirect(url('admin/admin/logininfo'));
+		return redirect(MyUrl('admin/admin/logininfo'));
 	}
 }
 ?>

@@ -4,11 +4,11 @@
 <div class="am-g my-content">
     <div class="am-u-md-6 am-u-sm-centered">
         <!-- form start -->
-        <form class="am-form form-validation" method="post" action="{{:url('index/user/login')}}" request-type="ajax-fun" request-value="ViewModalBack">
+        <form class="am-form form-validation" method="post" action="{{:MyUrl('index/user/login')}}" request-type="ajax-fun" request-value="ViewModalBack">
             <fieldset>
                 <if condition="in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))">
                     <span class="">还没有帐号？</span>
-                    <a href="{{:url('index/user/reginfo')}}" target="_blank" class="am-btn am-btn-secondary am-btn-xs am-radius">立即注册</a>
+                    <a href="{{:MyUrl('index/user/reginfo')}}" target="_blank" class="am-btn am-btn-secondary am-btn-xs am-radius">立即注册</a>
                     <hr />
                 </if>
                 <label>手机/邮箱</label>
@@ -21,7 +21,7 @@
                 </div>
                 <p>
                     <button type="submit" class="am-btn am-btn-primary am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '登录中...'}">登录</button>
-                    <a href="{{:url('index/user/forgetpwdinfo')}}" target="_blank" class="am-fr">忘记密码？</a>
+                    <a href="{{:MyUrl('index/user/forgetpwdinfo')}}" target="_blank" class="am-fr">忘记密码？</a>
                 </p>
             </fieldset>
         </form>

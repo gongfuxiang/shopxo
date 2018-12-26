@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation view-save" action="{{:url('admin/config/save')}}" method="POST" request-type="ajax-url" request-value="{{:url('admin/config/index')}}">
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/config/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/config/index')}}">
 			<div class="am-form-group">
 				<label>{{$data.admin_excel_charset.name}}<span class="fs-12 fw-100 cr-999">（{{$data.admin_excel_charset.describe}}）</span></label>
 				<select name="{{$data.admin_excel_charset.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.admin_excel_charset.error_tips}}" required>

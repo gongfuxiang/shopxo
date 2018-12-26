@@ -5,7 +5,7 @@
 	<div class="content">
 		<!-- operation start -->
         <div class="am-g">
-            <button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-ajax" data-url="{{:url('admin/appminialipaylist/created')}}" data-view="reload" data-msg="生成时间比较长，请不要关闭浏览器窗口！"> 生成</button>
+            <button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-ajax" data-url="{{:MyUrl('admin/appminialipaylist/created')}}" data-view="reload" data-msg="生成时间比较长，请不要关闭浏览器窗口！"> 生成</button>
         </div>
         <!-- operation end -->
 
@@ -32,7 +32,7 @@
 										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-download"> 下载</button>
 									</a>
 								{{/if}}
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/appminialipaylist/delete')}}" data-id="{{$v.name}}" data-view="reload"> 删除</button>
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/appminialipaylist/delete')}}" data-id="{{$v.name}}" data-view="reload"> 删除</button>
 							</td>
 						</tr>
 					{{/foreach}}

@@ -3,7 +3,7 @@
 <!-- conntent start  -->
 <div class="am-g my-content">
     <!-- form start -->
-    <form class="am-form form-validation" method="post" action="{{:url('index/useraddress/save')}}" request-type="ajax-fun" request-value="ViewModalBack">
+    <form class="am-form form-validation" method="post" action="{{:MyUrl('index/useraddress/save')}}" request-type="ajax-fun" request-value="ViewModalBack">
         <div class="am-form-group">
             <label>姓名</label>
             <input type="text" name="name" placeholder="姓名" minlength="2" maxlength="16" data-validation-message="姓名格式 2~16 个字符之间" class="am-radius" {{if !empty($data)}} value="{{$data.name}}"{{/if}} required />

@@ -78,17 +78,17 @@ class NavigationService
                 {
                     // 文章分类
                     case 'article':
-                        $v['url'] = HomeUrl('article', 'index', ['id'=>$v['value']]);
+                        $v['url'] = MyUrl('index/article/index', ['id'=>$v['value']]);
                         break;
 
                     // 自定义页面
                     case 'customview':
-                        $v['url'] = HomeUrl('customview', 'index', ['id'=>$v['value']]);
+                        $v['url'] = MyUrl('index/customview/index', ['id'=>$v['value']]);
                         break;
 
                     // 商品分类
                     case 'goods_category':
-                        $v['url'] = HomeUrl('search', 'index', ['category_id'=>$v['value']]);
+                        $v['url'] = MyUrl('index/search/index', ['category_id'=>$v['value']]);
                         break;
                 }
                 $data[$k] = $v;

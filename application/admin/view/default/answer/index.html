@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form view-list" action="{{:url('admin/answer/index')}}" method="POST">
+		<form class="am-form view-list" action="{{:MyUrl('admin/answer/index')}}" method="POST">
 			<div class="am-g">
 				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="联系人/内容" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
@@ -69,7 +69,7 @@
 							</td>
 							<td>{{$v.content}}</td>
 							<td>
-								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('admin/answer/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1"></a>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/answer/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1"></a>
 							</td>
 							<td class="am-hide-sm-only">{{$v.reply}}</td>
 							<td class="am-hide-sm-only">{{$v.add_time}}</td>
@@ -128,7 +128,7 @@
 								{{if $v['is_reply'] eq 0}}
 									<button class="am-btn am-btn-default am-btn-xs am-radius submit-reply am-icon-gavel" data-am-modal="{target: '#my-popup-reply'}" data-json='{{:json_encode($v)}}'> 回复</button>
 								{{/if}}
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/answer/delete')}}" data-id="{{$v.id}}"> 删除</button>
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/answer/delete')}}" data-id="{{$v.id}}"> 删除</button>
 							</td>
 						</tr>
 					{{/foreach}}
@@ -154,7 +154,7 @@
 						</dd>
 					</dl>
 
-					<form class="am-form form-validation" action="{{:url('admin/answer/reply')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
+					<form class="am-form form-validation" action="{{:MyUrl('admin/answer/reply')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
 						<div class="am-form-group">
 							<label>回复内容</label>
 							<textarea name="reply" rows="5" class="am-radius" placeholder="回复内容格式 2~230 个字符" data-validation-message="回复内容格式 2~230 个字符" maxlength="230"></textarea>

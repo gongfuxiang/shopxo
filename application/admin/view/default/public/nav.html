@@ -1,6 +1,6 @@
 <header class="am-topbar am-topbar-inverse admin-header">
 	<div class="am-topbar-brand">
-		<a href="{{:url('admin/index/index')}}">
+		<a href="{{:MyUrl('admin/index/index')}}">
 			<h2>ShopXO<span class="admin-site-vice-name m-l-5">后台管理系统</span></h2>
 		</a>
 	</div>
@@ -34,13 +34,13 @@
 				</a>
 				<ul class="am-dropdown-content">
 					<li>
-						<a href="javascript:;" data-type="nav" data-url="{{:url('admin/admin/saveInfo', array('id'=>$admin['id']))}}">
+						<a href="javascript:;" data-type="nav" data-url="{{:MyUrl('admin/admin/saveInfo', array('id'=>$admin['id']))}}">
 							<i class="am-icon-cog"></i>
 							设置
 						</a>
 					</li>
 					<li>
-						<a href="{{:url('admin/admin/logout')}}">
+						<a href="{{:MyUrl('admin/admin/logout')}}">
 							<i class="am-icon-power-off"></i>
 							退出
 						</a>

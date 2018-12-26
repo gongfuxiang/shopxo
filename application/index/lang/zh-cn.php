@@ -103,8 +103,8 @@ return array(
             'nickname'          =>  array('name' => '昵称'),
             'gender_text'       =>  array('name' => '性别'),
             'birthday_text'     =>  array('name' => '生日'),
-            'mobile_security'   =>  array('name' => '手机号码', 'tips' => '<a href="'.url('index/safety/MobileInfo').'">修改</a>'),
-            'email_security'    =>  array('name' => '电子邮箱', 'tips' => '<a href="'.url('index/safety/EmailInfo').'">修改</a>'),
+            'mobile_security'   =>  array('name' => '手机号码', 'tips' => '<a href="'.MyUrl('index/safety/MobileInfo').'">修改</a>'),
+            'email_security'    =>  array('name' => '电子邮箱', 'tips' => '<a href="'.MyUrl('index/safety/EmailInfo').'">修改</a>'),
             'add_time_text'     =>  array('name' => '注册时间'),
             'upd_time_text'     =>  array('name' => '最后更新时间'),
         ),
@@ -115,7 +115,7 @@ return array(
             array(
                     'title'     =>  '登录密码',
                     'msg'       =>  '互联网存在被盗风险，建议您定期更改密码以保护安全。',
-                    'url'       =>  url('index/safety/loginpwdinfo'),
+                    'url'       =>  MyUrl('index/safety/loginpwdinfo'),
                     'type'      =>  'loginpwd',
                 ),
             array(
@@ -123,7 +123,7 @@ return array(
                     'no_msg'    =>  '您还没有绑定手机号码',
                     'ok_msg'    =>  '已绑定手机 #accounts#',
                     'tips'      =>  '可用于登录，密码找回，账户安全管理校验，接受账户提醒通知。',
-                    'url'       =>  url('index/safety/mobileinfo'),
+                    'url'       =>  MyUrl('index/safety/mobileinfo'),
                     'type'      =>  'mobile',
                 ),
             array(
@@ -131,7 +131,7 @@ return array(
                     'no_msg'    =>  '您还没有绑定电子邮箱',
                     'ok_msg'    =>  '已绑定电子邮箱 #accounts#',
                     'tips'      =>  '可用于登录，密码找回，账户安全管理校验，接受账户提醒邮件。',
-                    'url'       =>  url('index/safety/emailinfo'),
+                    'url'       =>  MyUrl('index/safety/emailinfo'),
                     'type'      =>  'email',
                 ),
         ),

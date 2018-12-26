@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation view-save" action="{{:url('admin/appconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:url('admin/appconfig/index')}}">
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/appconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appconfig/index')}}">
 			<div class="am-form-group">
 				<label>{{$data.common_app_is_enable_search.name}}</label>
 				<select name="{{$data.common_app_is_enable_search.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.common_app_is_enable_search.error_tips}}" required>

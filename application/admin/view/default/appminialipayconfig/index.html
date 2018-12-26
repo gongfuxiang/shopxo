@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation view-save" action="{{:url('admin/appminialipayconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:url('admin/appminialipayconfig/index')}}">
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/appminialipayconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appminialipayconfig/index')}}">
 			<div class="am-form-group">
 				<label>{{$data.common_app_mini_alipay_appid.name}}</label>
 				<input type="text" name="{{$data.common_app_mini_alipay_appid.only_tag}}" placeholder="{{$data.common_app_mini_alipay_appid.name}}" data-validation-message="{{$data.common_app_mini_alipay_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_appid.value}}"{{/if}} required />

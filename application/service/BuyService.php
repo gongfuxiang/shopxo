@@ -182,7 +182,7 @@ class BuyService
                 }
 
                 // 基础信息
-                $v['goods_url'] = HomeUrl('goods', 'index', ['id'=>$v['goods_id']]);
+                $v['goods_url'] = MyUrl('index/goods/index', ['id'=>$v['goods_id']]);
                 $v['images_old'] = $v['images'];
                 $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
                 $v['total_price'] = $v['stock']*$v['price'];
@@ -676,7 +676,7 @@ class BuyService
         // 返回信息
         $result = [
             'order'     => Db::name('Order')->find($order_id),
-            'jump_url'  => url('index/order/index'),
+            'jump_url'  => MyUrl('index/order/index'),
         ];
 
 
@@ -691,7 +691,7 @@ class BuyService
             // 提交成功
             case 1 :
                 $msg = '提交成功';
-                $result['jump_url'] = url('index/order/pay', ['id'=>$order_id]);
+                $result['jump_url'] = MyUrl('index/order/pay', ['id'=>$order_id]);
                 break;
 
             // 默认操作成功

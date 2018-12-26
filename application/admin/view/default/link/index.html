@@ -18,7 +18,7 @@
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation" action="{{:url('admin/link/Save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation" action="{{:MyUrl('admin/link/Save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
 							<label>名称</label>
 							<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
@@ -69,11 +69,11 @@
 							</td>
 							<td class="am-hide-sm-only">{{$v.describe}}</td>
 							<td>
-								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:url('admin/link/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/link/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
 							</td>
 							<td>
 								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: '#data-save-win'}" data-json='{{:json_encode($v)}}'></button>
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:url('admin/link/delete')}}" data-id="{{$v.id}}"></button>
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/link/delete')}}" data-id="{{$v.id}}"></button>
 							</td>
 						</tr>
 					{{/foreach}}

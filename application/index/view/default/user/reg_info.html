@@ -17,12 +17,12 @@
     <div class="am-u-md-6 am-u-sm-centered">
         <div class="reg-switch-view">
             {{if in_array('sms', MyC('home_user_reg_state'))}}
-                <a href="{{:url('index/user/smsreginfo')}}" class="am-btn am-btn-primary"><i class="am-icon-comment-o am-icon-sm"></i> 短信注册</a>
+                <a href="{{:MyUrl('index/user/smsreginfo')}}" class="am-btn am-btn-primary"><i class="am-icon-comment-o am-icon-sm"></i> 短信注册</a>
             {{else /}}
                 <a class="am-btn am-btn-danger am-disabled" href="javascript:;"><i class="am-icon-comment-o am-icon-sm"></i> 暂时关闭短信注册</a>
             {{/if}}
             {{if in_array('email', MyC('home_user_reg_state'))}}
-                <a href="{{:url('index/user/emailreginfo')}}" class="am-btn am-btn-secondary"><i class="am-icon-envelope-o am-icon-sm"></i> 邮箱注册</a>
+                <a href="{{:MyUrl('index/user/emailreginfo')}}" class="am-btn am-btn-secondary"><i class="am-icon-envelope-o am-icon-sm"></i> 邮箱注册</a>
             {{else /}}
                 <a class="am-btn am-btn-danger am-disabled" href="javascript:;"><i class="am-icon-envelope-o am-icon-sm"></i> 暂时关闭邮箱注册</a>
             {{/if}}

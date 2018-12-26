@@ -79,8 +79,8 @@ class RegionService
             foreach($data as &$v)
             {
                 $v['is_son']            =   (Db::name('Region')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
-                $v['ajax_url']          =   url('admin/region/getnodeson', array('id'=>$v['id']));
-                $v['delete_url']        =   url('admin/region/delete');
+                $v['ajax_url']          =   MyUrl('admin/region/getnodeson', array('id'=>$v['id']));
+                $v['delete_url']        =   MyUrl('admin/region/delete');
                 $v['json']              =   json_encode($v);
             }
             return DataReturn('操作成功', 0, $data);

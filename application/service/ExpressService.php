@@ -78,8 +78,8 @@ class ExpressService
             foreach($data as &$v)
             {
                 $v['is_son']            =   (Db::name('Express')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
-                $v['ajax_url']          =   url('admin/express/getnodeson', array('id'=>$v['id']));
-                $v['delete_url']        =   url('admin/express/delete');
+                $v['ajax_url']          =   MyUrl('admin/express/getnodeson', array('id'=>$v['id']));
+                $v['delete_url']        =   MyUrl('admin/express/delete');
                 $v['icon_url']          =   empty($v['icon']) ? '' : $images_host.$v['icon'];
                 $v['json']              =   json_encode($v);
             }

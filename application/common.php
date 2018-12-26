@@ -96,35 +96,9 @@ function DataReturn($msg = '', $code = 0, $data = '')
     return $result;
 }
 
-/**
- * 生成接口页面url地址
- * @author   Devil
- * @blog    http://gong.gg/
- * @version 1.0.0
- * @date    2018-06-12
- * @desc    description
- * @param   string          $c      [控制器名称]
- * @param   string          $a      [方法名称]
- * @param   array           $params [参数]
- */
-function ApiUrl($c='index', $a='index', $params=[])
-{
-    $url = url("api/{$c}/{$a}", $params, true, true);
-    $location = stripos($url, '.php');
-    if($location !== false)
-    {
-        $before = substr($url, 0, $location+4);
-        $suffix = substr($before, strrpos($before, '/')+1);
-        if(!empty($suffix))
-        {
-            $url = str_replace($suffix, 'api.php', $url);
-        }
-    }
-    return $url;
-}
 
 /**
- * 生成前端页面url地址
+ * 生成url地址
  * @author   Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
@@ -134,19 +108,16 @@ function ApiUrl($c='index', $a='index', $params=[])
  * @param   string          $a      [方法名称]
  * @param   array           $params [参数]
  */
-function HomeUrl($c='index', $a='index', $params=[])
+function MyUrl($path, $params=[])
 {
-    $url = url("index/{$c}/{$a}", $params, true, true);
-    $location = stripos($url, '.php');
-    if($location !== false)
+    $url = url($path, $params, true, true);
+
+    // 是否根目录访问项目
+    if(defined('IS_ROOT_ACCESS'))
     {
-        $before = substr($url, 0, $location+4);
-        $suffix = substr($before, strrpos($before, '/')+1);
-        if(!empty($suffix))
-        {
-            $url = str_replace($suffix, 'index.php', $url);
-        }
+        $url = str_replace('public/', '', $url);
     }
+
     return $url;
 }
 
@@ -517,7 +488,7 @@ function Curl_Post($url, $post)
  */
 function Fsockopen_Post($url, $data = '')
 {
-    $row = parse_url($url);
+    $row = parse_MyUrl($url);
     $host = $row['host'];
     $port = isset($row['port']) ? $row['port'] : 80;
     $file = $row['path'];

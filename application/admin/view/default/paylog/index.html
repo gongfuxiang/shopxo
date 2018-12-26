@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form view-list" action="{{:url('admin/paylog/index')}}" method="POST">
+		<form class="am-form view-list" action="{{:MyUrl('admin/paylog/index')}}" method="POST">
 			<div class="am-g">
 				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="姓名/手机/昵称/支付平台单号" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>

@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation view-save" action="{{:url('admin/customview/save')}}" method="POST" request-type="ajax-url" request-value="{{:url('admin/customview/index')}}">
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/customview/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/customview/index')}}">
 			<legend>
 				<span class="fs-16">
 					{{if empty($data['id'])}}
@@ -13,7 +13,7 @@
 						自定义页面编辑
 					{{/if}}
 				</span>
-				<a href="{{:url('admin/customview/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+				<a href="{{:MyUrl('admin/customview/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
 				<label>标题</label>
@@ -41,7 +41,7 @@
 
 			<div class="am-form-group">
 				<label>内容{{if IsMobile()}}<span class="fs-12 fw-100 cr-999">（更多编辑功能请使用电脑访问）</span>{{/if}}</label>
-				<textarea class="am-radius am-validate" name="content" rows="5" minlength="50" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:url('admin/ueditor/index', ['path_type'=>'customview'])}}" placeholder="内容长度最少 50~105000 个字符" {{else /}} placeholder="内容长度最少 50~105000 个字符更多编辑功能请使用电脑访问" {{/if}} data-validation-message="内容长度最少 50~105000 个字符" required>{{if !empty($data)}}{{$data.content}}{{/if}}</textarea>
+				<textarea class="am-radius am-validate" name="content" rows="5" minlength="50" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>'customview'])}}" placeholder="内容长度最少 50~105000 个字符" {{else /}} placeholder="内容长度最少 50~105000 个字符更多编辑功能请使用电脑访问" {{/if}} data-validation-message="内容长度最少 50~105000 个字符" required>{{if !empty($data)}}{{$data.content}}{{/if}}</textarea>
 			</div>
 			<div class="am-form-group">
 				<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}}" />

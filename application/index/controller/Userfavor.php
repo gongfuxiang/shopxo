@@ -57,7 +57,7 @@ class UserFavor extends Common
                 'total'     =>  $total,
                 'where'     =>  $params,
                 'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  url('index/userfavor/goods'),
+                'url'       =>  MyUrl('index/userfavor/goods'),
             );
         $page = new \base\Page($page_params);
         $this->assign('page_html', $page->GetPageHtml());
