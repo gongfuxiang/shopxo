@@ -34,7 +34,7 @@ class OrderNotify extends Common
      */
     public function Notify()
     {
-        $ret = OrderService::Notify($_REQUEST);
+        $ret = OrderService::Notify($this->data_request);
         if($ret['code'] == 0)
         {
             exit('success');
