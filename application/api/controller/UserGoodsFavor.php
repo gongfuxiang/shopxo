@@ -1,0 +1,89 @@
+<?php
+namespace app\api\controller;
+
+use app\service\GoodsService;
+
+/**
+ * 用户商品收藏
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  0.0.1
+ * @datetime 2016-12-01T21:51:08+0800
+ */
+class UserGoodsFavor extends Common
+{
+    /**
+     * [__construct 构造方法]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-03T12:39:08+0800
+     */
+    public function __construct()
+    {
+        // 调用父类前置方法
+        parent::__construct();
+
+        // 是否登录
+        $this->Is_Login();
+    }
+
+    /**
+     * [Index 获取列表]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-02-22T16:50:32+0800
+     */
+    public function Index()
+    {
+        // 参数
+        $params = input();
+        $params['user'] = $this->user;
+
+        // 分页
+        $number = 10;
+        $page = max(1, isset($this->data_post['page']) ? intval($this->data_post['page']) : 1);
+
+        // 条件
+        $where = GoodsService::UserGoodsFavorListWhere($params);
+
+        // 获取总数
+        $total = GoodsService::GoodsFavorTotal($where);
+        $page_total = ceil($total/$number);
+        $start = intval(($page-1)*$number);
+
+        // 获取列表
+        $data_params = array(
+            'm'         => $start,
+            'n'         => $number,
+            'where'     => $where,
+        );
+        $data = GoodsService::GoodsFavorList($data_params);
+
+        // 返回数据
+        $result = [
+            'total'         =>  $total,
+            'page_total'    =>  $page_total,
+            'data'          =>  $data['data'],
+        ];
+        return json(DataReturn('success', 0, $result));
+    }
+
+    /**
+     * 用户商品收藏取消
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-07-17
+     * @desc    description
+     */
+    public function Cancel()
+    {
+        $params = $this->data_post;
+        $params['user'] = $this->user;
+        $ret = GoodsService::GoodsFavor($params);
+        return json($ret);
+    }
+}
+?>

@@ -462,16 +462,25 @@ class UserService
         $is_default = isset($params['is_default']) ? intval($params['is_default']) : 0;
         $data = [
             'name'          => $params['name'],
-            'alias'         => $params['alias'],
             'tel'           => $params['tel'],
             'province'      => $params['province'],
             'city'          => $params['city'],
             'county'        => $params['county'],
             'address'       => $params['address'],
             'is_default'    => $is_default,
-            'lng'           => floatval($params['lng']),
-            'lat'           => floatval($params['lat']),
         ];
+        if(!empty($params['alias']))
+        {
+            $data['alias'] = floatval($params['alias']);
+        }
+        if(!empty($params['lng']))
+        {
+            $data['lng'] = floatval($params['lng']);
+        }
+        if(!empty($params['lat']))
+        {
+            $data['lat'] = floatval($params['lat']);
+        }
 
         Db::startTrans();
 
@@ -1398,6 +1407,11 @@ class UserService
                 'checked_type'      => 'empty',
                 'key_name'          => 'mobile',
                 'error_msg'         => '手机号码不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'verify',
+                'error_msg'         => '验证码不能为空',
             ],
             [
                 'checked_type'      => 'empty',

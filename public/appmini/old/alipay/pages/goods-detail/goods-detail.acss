@@ -19,7 +19,7 @@
   z-index: 2;
 }
 .goods-popup-base {
-  height: 220rpx;
+  height: 230rpx;
   position: relative;
 }
 .goods-popup-base image {
@@ -32,7 +32,7 @@
 .goods-popup-base-content {
   position: absolute;
   left: 220rpx;
-  bottom: 20rpx;
+  bottom: 30rpx;
 }
 .goods-popup-base-content .goods-price {
   margin-bottom: 10rpx;

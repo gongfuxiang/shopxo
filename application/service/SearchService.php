@@ -112,9 +112,9 @@ class SearchService
             $order_by = '';
             if(!empty($params['order_by_field']) && !empty($params['order_by_type']) && $params['order_by_field'] != 'default')
             {
-                $order_by = $params['order_by_field'].' '.$params['order_by_type'];
+                $order_by = 'g.'.$params['order_by_field'].' '.$params['order_by_type'];
             } else {
-                $order_by = 'access_count '.$params['order_by_type'].', sales_count '.$params['order_by_type'];
+                $order_by = 'g.access_count desc, g.sales_count desc';
             }
             
             // 分页计算
@@ -157,7 +157,7 @@ class SearchService
         $params['screening_price'] = $screening_price;
         $params['ymd'] = date('Ymd');
         $params['add_time'] = time();
-        unset($params['screening_price_id']);
+        unset($params['screening_price_id'], $params['page'], $params['max_price'], $params['min_price']);
 
         // 添加日志
         Db::name('SearchHistory')->insert($params);

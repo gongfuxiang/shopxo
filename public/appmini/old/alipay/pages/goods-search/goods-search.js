@@ -13,7 +13,7 @@ Page({
     search_nav_sort_list: [
       { name: "综合", field: "default", sort: "asc", "icon": null },
       { name: "销量", field: "sales_count", sort: "asc", "icon": "default" },
-      { name: "价格", field: "price", sort: "asc", "icon": "default" },
+      { name: "价格", field: "min_price", sort: "asc", "icon": "default" },
     ],
   },
 
@@ -64,7 +64,7 @@ Page({
 
     // 获取数据
     my.httpRequest({
-      url: app.get_request_url("Index", "Search"),
+      url: app.get_request_url("index", "search"),
       method: "POST",
       data: post_data,
       dataType: "json",

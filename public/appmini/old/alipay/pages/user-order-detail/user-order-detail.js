@@ -26,7 +26,7 @@ Page({
     });
 
     my.httpRequest({
-      url: app.get_request_url("Detail", "Order"),
+      url: app.get_request_url("detail", "order"),
       method: "POST",
       data: {
         id: this.data.params.id

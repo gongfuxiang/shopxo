@@ -26,6 +26,7 @@
 
 .goods-base {
   min-height: 160rpx;
+  margin-left: 180rpx;
 }
 .goods .goods-item:not(:last-child) {
     border-bottom: 1px dashed #efefef;

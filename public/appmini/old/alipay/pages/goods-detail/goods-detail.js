@@ -31,7 +31,7 @@ Page({
   },
 
   onLoad(params) {
-    params['goods_id']=12;
+    //params['goods_id']=12;
     this.setData({params: params});
     this.init();
   },
@@ -251,7 +251,7 @@ Page({
   },
 
   // 加入购物车事件
-  goods_cart_event(e) {
+  goods_cart_event(e, spec) {
     var user = app.GetUserInfo(this, 'goods_cart_event');
     if (user != false) {
       // 用户未绑定用户则转到登录页面
@@ -261,21 +261,11 @@ Page({
         });
         return false;
       } else {
-        var attribute_all_cart = {};
-        var temp_attribute_active = this.data.temp_attribute_active;
-        if (app.get_length(temp_attribute_active) > 0)
-        {
-          var goods_specifications_choose = this.data.goods_specifications_choose;
-          for (var i in temp_attribute_active) {
-            attribute_all_cart[goods_specifications_choose[i]['id']] = goods_specifications_choose[i]['find'][temp_attribute_active[i]]['id'];
-          }
-        }
         my.showLoading({ content: '处理中...' });
-
         my.httpRequest({
           url: app.get_request_url('save', 'cart'),
           method: 'POST',
-          data: { "goods_id": this.data.goods.id, "stock": this.data.temp_buy_number, "attr": JSON.stringify(attribute_all_cart) },
+          data: { "goods_id": this.data.goods.id, "stock": this.data.temp_buy_number, "spec": JSON.stringify(spec) },
           dataType: 'json',
           success: (res) => {
             my.hideLoading();
@@ -409,7 +399,6 @@ Page({
                       break;
                     }
                   }
-                  console.log(temp_value, temp_status, res.data)
                   if(temp_status == true)
                   {
                     temp_data[i]['value'][k]['is_disabled'] = '';
@@ -521,7 +510,7 @@ Page({
   goods_buy_number_func(buy_number) {
     var buy_min_number = parseInt(this.data.goods.buy_min_number) || 1;
     var buy_max_number = parseInt(this.data.goods.buy_max_number) || 0;
-    var inventory = parseInt(this.data.goods.inventory);
+    var inventory = parseInt(this.data.goods.goods_spec_base_inventory);
     var inventory_unit = this.data.goods.inventory_unit;
     if(buy_number < buy_min_number)
     {
@@ -556,25 +545,30 @@ Page({
         return false;
       } else {
         // 属性
-        var goods_specifications_choose = this.data.goods_specifications_choose;
-        var temp_attribute_active = this.data.temp_attribute_active;
-        var attr_count = goods_specifications_choose.length;
-        var attribute_all = {};
-        if(attr_count > 0)
+        var temp_data = this.data.goods_specifications_choose;
+        var sku_count = temp_data.length;
+        var active_count = 0;
+        var spec = [];
+        if(sku_count > 0)
         {
-          var attr_active_count = app.get_length(temp_attribute_active);
-          if(attr_active_count < attr_count)
+          for(var i in temp_data)
+          {
+            for(var k in temp_data[i]['value'])
+            {
+              if((temp_data[i]['value'][k]['is_active'] || null) != null)
+              {
+                active_count++;
+                spec.push({"type": temp_data[i]['name'], "value": temp_data[i]['value'][k]['name']});
+              }
+            }
+          }
+          if(active_count < sku_count)
           {
             my.showToast({
               type: 'fail',
               content: '请选择属性'
             });
             return false;
-          } else {
-            for(var i in temp_attribute_active)
-            {
-              attribute_all[goods_specifications_choose[i]['id']] = goods_specifications_choose[i]['find'][temp_attribute_active[i]]['id'];
-            }
           }
         }
         
@@ -586,7 +580,7 @@ Page({
               "buy_type": "goods",
               "goods_id": this.data.goods.id,
               "stock": this.data.temp_buy_number,
-              "attr": JSON.stringify(attribute_all)
+              "spec": JSON.stringify(spec)
             };
             my.navigateTo({
               url: '/pages/buy/buy?data=' + JSON.stringify(data)
@@ -595,7 +589,7 @@ Page({
             break;
 
           case 'cart' :
-            this.goods_cart_event();
+            this.goods_cart_event(e, spec);
             break;
 
           default :

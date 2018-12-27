@@ -7,7 +7,7 @@ use app\service\GoodsService;
 use app\service\MessageService;
 
 /**
- * 首页
+ * 用户
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1

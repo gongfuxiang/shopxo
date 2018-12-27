@@ -128,5 +128,21 @@ class Goods extends Common
         $ret = GoodsService::GoodsSpecDetail($params);
         return json($ret);
     }
+
+    /**
+     * 商品分类
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-14
+     * @desc    description
+     */
+    public function Category()
+    {
+        // 开始处理
+        $params = $this->data_post;
+        $data = GoodsService::GoodsCategory($params);
+        return json(DataReturn('success', 0, $data));
+    }
 }
 ?>

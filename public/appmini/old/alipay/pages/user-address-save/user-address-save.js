@@ -60,7 +60,7 @@ Page({
     my.showLoading({ content: "加载中..." });
 
     my.httpRequest({
-      url: app.get_request_url("Detail", "UserAddress"),
+      url: app.get_request_url("detail", "useraddress"),
       method: "POST",
       data: self.data.params,
       dataType: "json",
@@ -104,7 +104,7 @@ Page({
   get_province_list() {
     var self = this;
     my.httpRequest({
-      url: app.get_request_url("Index", "Region"),
+      url: app.get_request_url("index", "region"),
       method: "POST",
       data: {},
       dataType: "json",
@@ -134,7 +134,7 @@ Page({
     var self = this;
     if (self.data.province_id) {
       my.httpRequest({
-        url: app.get_request_url("Index", "Region"),
+        url: app.get_request_url("index", "region"),
         method: "POST",
         data: {
           pid: self.data.province_id
@@ -168,7 +168,7 @@ Page({
     if (self.data.city_id) {
       // 加载loding
       my.httpRequest({
-        url: app.get_request_url("Index", "Region"),
+        url: app.get_request_url("index", "region"),
         method: "POST",
         data: {
           pid: self.data.city_id
@@ -282,7 +282,7 @@ Page({
       my.showLoading({ content: "处理中..." });
 
       my.httpRequest({
-        url: app.get_request_url("Save", "UserAddress"),
+        url: app.get_request_url("save", "useraddress"),
         method: "POST",
         data: form_data,
         dataType: "json",

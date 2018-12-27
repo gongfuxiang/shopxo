@@ -23,7 +23,7 @@ Page({
 
     // 加载loding
     my.httpRequest({
-      url: app.get_request_url("GoodsCategory", "Resources"),
+      url: app.get_request_url("category", "goods"),
       method: "POST",
       data: {},
       dataType: "json",

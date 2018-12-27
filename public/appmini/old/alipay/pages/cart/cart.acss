@@ -24,6 +24,7 @@
 }
 .goods-base {
   min-height: 160rpx;
+  margin-left: 180rpx;
 }
 .goods-price {
     position: relative;
@@ -55,7 +56,7 @@
     font-weight: bold;
 }
 .number-content input {
-    width: 50px;
+    width: 30px;
 }
 .number-content .number-submit,
 .number-content input

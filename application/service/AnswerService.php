@@ -2,7 +2,6 @@
 namespace app\service;
 
 use think\Db;
-use app\service\GoodsService;
 
 /**
  * 问答/留言服务层
@@ -124,6 +123,61 @@ class AnswerService
         }
 
         return $where;
+    }
+
+    /**
+     * 用户留言添加
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-07-17
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function Add($params = [])
+    {
+        // 参数校验
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'name',
+                'error_msg'         => '联系人有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'tel',
+                'error_msg'         => '联系电话有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'content',
+                'error_msg'         => '详细内容有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user',
+                'error_msg'         => '用户信息有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 开始操作
+        $data = [
+            'user_id'       => $params['user']['id'],
+            'name'          => $params['name'],
+            'tel'           => $params['tel'],
+            'content'       => $params['content'],
+            'add_time'      => time(),
+        ];
+        if(Db::name('Answer')->insertGetId($data) > 0)
+        {
+            return DataReturn('提交成功', 0);
+        }
+        return DataReturn('提交失败', -100);
     }
 
     /**

@@ -89,7 +89,7 @@ Page({
 
     // 获取数据
     my.httpRequest({
-      url: app.get_request_url("Index", "Order"),
+      url: app.get_request_url("index", "order"),
       method: "POST",
       data: {
         page: this.data.data_page,
@@ -222,7 +222,7 @@ Page({
     my.showLoading({ content: "请求中..." });
 
     my.httpRequest({
-      url: app.get_request_url("Pay", "Order"),
+      url: app.get_request_url("pay", "order"),
       method: "POST",
       data: {
         id: order_id,
@@ -306,7 +306,7 @@ Page({
           my.showLoading({ content: "处理中..." });
 
           my.httpRequest({
-            url: app.get_request_url("Cancel", "Order"),
+            url: app.get_request_url("cancel", "order"),
             method: "POST",
             data: {id: id},
             dataType: "json",
@@ -359,7 +359,7 @@ Page({
           my.showLoading({ content: "处理中..." });
 
           my.httpRequest({
-            url: app.get_request_url("Collect", "Order"),
+            url: app.get_request_url("collect", "order"),
             method: "POST",
             data: {id: id},
             dataType: "json",

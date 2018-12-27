@@ -72,7 +72,7 @@ Page({
     var data = this.data.params;
     data['address_id'] = this.data.address_id;
     my.httpRequest({
-      url: app.get_request_url("Index", "Buy"),
+      url: app.get_request_url("index", "buy"),
       method: "POST",
       data: data,
       dataType: "json",
@@ -157,7 +157,7 @@ Page({
       this.setData({ buy_submit_disabled_status: true });
 
       my.httpRequest({
-        url: app.get_request_url("Add", "Buy"),
+        url: app.get_request_url("add", "buy"),
         method: "POST",
         data: data,
         dataType: "json",
