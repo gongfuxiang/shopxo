@@ -44,6 +44,11 @@ class Common extends Controller
             exit(json_encode(DataReturn('非法访问', -500)));
         }
 
+        // 输入参数
+        $this->data_post = input('post.');
+        $this->data_get = input('get.');
+        $this->data_request = input();
+
         // 系统初始化
         $this->SystemInit();
 
@@ -52,11 +57,6 @@ class Common extends Controller
 
 		// 公共数据初始化
 		$this->CommonInit();
-
-        // 输入参数
-        $this->data_post = input('post.');
-        $this->data_get = input('get.');
-        $this->data_request = input();
 	}
 
     /**
@@ -118,7 +118,7 @@ class Common extends Controller
 		// 用户数据
 		if(!empty($this->data_request['user_id']))
 		{
-			$this->user = UserService::UserLoginRecord($this->data_request['user_id']);
+			$this->user = UserService::UserLoginRecord($this->data_request['user_id'], true);
 		}
 	}
 

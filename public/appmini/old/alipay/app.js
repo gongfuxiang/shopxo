@@ -164,7 +164,6 @@ App({
     var user = this.GetUserCacheInfo();
     var app_client_user_id = user == false ? "" : user.alipay_openid;
     var user_id = user == false ? 0 : user.id;
-    var nickname = user == false ? "" : user.nickname;
     return (
       this.data.request_url +
       "/" + m + "/" + c + "/" + a +
@@ -172,8 +171,6 @@ App({
       app_client_user_id +
       "&user_id=" +
       user_id +
-      "&nickname=" +
-      nickname +
       "&ajax=ajax" +
       params
     );
@@ -227,7 +224,7 @@ App({
       success: res => {
         if (res.authCode) {
           my.httpRequest({
-            url: this.get_request_url("GetAlipayUserInfo", "User"),
+            url: this.get_request_url("alipayuserauth", "user"),
             method: "POST",
             data: {
               authcode: res.authCode,

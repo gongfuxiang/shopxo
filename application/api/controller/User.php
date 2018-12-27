@@ -1,0 +1,174 @@
+<?php
+namespace app\api\controller;
+
+use app\service\UserService;
+use app\service\OrderService;
+use app\service\GoodsService;
+use app\service\MessageService;
+
+/**
+ * 首页
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  0.0.1
+ * @datetime 2016-12-01T21:51:08+0800
+ */
+class User extends Common
+{
+    /**
+     * [__construct 构造方法]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-03T12:39:08+0800
+     */
+    public function __construct()
+    {
+        // 调用父类前置方法
+        parent::__construct();
+    }
+
+    /**
+     * [Reg 用户注册-数据添加]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-03-07T00:08:36+0800
+     */
+    public function Reg()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 调用服务层
+        $ret = UserService::AppReg(input('post.'));
+        return json($ret);
+    }
+
+    /**
+     * [RegVerifySend 用户注册-验证码发送]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-03-05T19:17:10+0800
+     */
+    public function RegVerifySend()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 调用服务层
+        $ret = UserService::AppUserBindVerifySend(input('post.'));
+        return json($ret);
+    }
+
+    /**
+     * [GetAlipayUserInfo 获取支付宝用户信息]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2017-09-23T21:52:49+0800
+     */
+    public function AlipayUserAuth()
+    {
+        // 参数
+        if(empty($this->data_post['authcode']))
+        {
+            return json(DataReturn('授权码不能为空', -1));
+        }
+
+        // 授权
+        $result = (new \base\AlipayAuth())->GetAlipayUserInfo($this->data_post['authcode'], MyC('common_app_mini_alipay_appid'));
+        if($result === false)
+        {
+            return json(DataReturn('获取授权信息失败', -10));
+        } else {
+            $result['openid'] = $result['user_id'];
+            $result['referrer']= isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0;
+            $ret = UserService::AuthUserProgram($result, 'alipay_openid');
+            return json($ret);
+        }
+    }
+
+    /**
+     * 百度小程序获取用户信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-11-06
+     * @desc    description
+     */
+    public function BaiduUserAuth()
+    {
+        return json(DataReturn('暂未开放', -1));
+
+        $_POST['config'] = MyC('baidu_mini_program_config');
+        $result = (new \Library\BaiduAuth())->GetAuthUserInfo($_POST);
+        if($result['status'] == 0)
+        {
+            $ret = UserService::AuthUserProgram($result, 'alipay_openid');
+            return json($ret);
+        } else {
+            return json(DataReturn($result['msg'], -10));
+        }
+    }
+
+    /**
+     * [ClientCenter 用户中心]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-05-21T15:21:52+0800
+     */
+    public function Center()
+    {
+        // 登录校验
+        $this->Is_Login();
+
+        // 订单总数
+        $where = ['user_id'=>$this->user['id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
+        $user_order_count = OrderService::OrderTotal($where);
+
+        // 商品收藏总数
+        $where = ['user_id'=>$this->user['id']];
+        $user_goods_favor_count = GoodsService::GoodsFavorTotal($where);
+
+        // 商品浏览总数
+        $where = ['user_id'=>$this->user['id']];
+        $user_goods_browse_count = GoodsService::GoodsBrowseTotal($where);
+
+        // 未读消息总数
+        $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0];
+        $common_message_total = MessageService::UserMessageTotal($params);
+        $common_message_total = ($common_message_total > 99) ? '99+' : $common_message_total;
+
+        // 用户订单状态
+        $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
+
+        // 初始化数据
+        $result = array(
+            'integral'                          => (int) $this->user['integral'],
+            'avatar'                            => $this->user['avatar'],
+            'nickname'                          => $this->user['nickname'],
+            'username'                          => $this->user['username'],
+            'customer_service_tel'              => MyC('common_app_customer_service_tel', null, true),
+            'common_user_center_notice'         => MyC('common_user_center_notice', null, true),
+            'user_order_status'                 => $user_order_status['data'],
+            'user_order_count'                  => $user_order_count,
+            'user_goods_favor_count'            => $user_goods_favor_count,
+            'user_goods_browse_count'           => $user_goods_browse_count,
+            'common_message_total'              => $common_message_total,
+            'common_app_is_enable_answer'       => (int) MyC('common_app_is_enable_answer', 0),
+        );
+
+        // 返回数据
+        return json(DataReturn('success', 0, $result));
+    }
+}
+?>

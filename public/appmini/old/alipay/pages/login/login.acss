@@ -12,7 +12,7 @@ page{
 .content .mobile{
     width: 100%;
     margin: 20rpx 0;
-    border-bottom: solid 1rpx #a6a6a6;
+    border-bottom: solid 1px #eee;
 }
 .content input{
     font-size: 28rpx;
@@ -22,13 +22,13 @@ page{
 }
 .content .code{
     margin: 20rpx 0;
-    border-bottom: solid 1rpx #a6a6a6;
+    border-bottom: solid 1px #eee;
 }
 .content .code .verify{
     width: 63%; 
 }
 .content .code .verify-sub{
-    border: solid 1rpx #ff6482; 
+    border: solid 1px #ff6482; 
     color: #ff6482;
     width: 35%;
     height: 35px; 
@@ -36,7 +36,7 @@ page{
     border-radius: 10rpx;
 }
 .content .code .verify-sub.sub-disabled{
-    border: solid 1rpx #a6a6a6; 
+    border: solid 1px #eee; 
     color: #a6a6a6
 }
 .content .submit{

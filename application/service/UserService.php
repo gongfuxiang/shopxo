@@ -602,9 +602,10 @@ class UserService
      * @version  0.0.1
      * @datetime 2017-03-09T11:37:43+0800
      * @param    [int]     $user_id [用户id]
+     * @param    [boolean] $is_app  [是否为app]
      * @return   [boolean]          [记录成功true, 失败false]
      */
-    public static function UserLoginRecord($user_id = 0)
+    public static function UserLoginRecord($user_id = 0, $is_app = false)
     {
         if(!empty($user_id))
         {
@@ -645,9 +646,14 @@ class UserService
                     $user['avatar'] = config('images_host').'/static/index/'.strtolower(config('DEFAULT_THEME', 'default')).'/images/default-user-avatar.jpg';
                 }
 
-                // 存储session
-                session('user', $user);
-                return (session('user') !== null);
+                if($is_app == true)
+                {
+                    return $user;
+                } else {
+                    // 存储session
+                    session('user', $user);
+                    return (session('user') !== null);
+                }
             }
         }
         return false;
@@ -1341,6 +1347,206 @@ class UserService
             return DataReturn('编辑成功', 0);
         }
         return DataReturn('编辑失败或数据未改变', -100);
+    }
+
+    /**
+     * 用户授权数据
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-11-06
+     * @desc    description
+     * @param   [array]          $params    [用户数据]
+     * @param   [string]         $field     [平台字段名称]
+     */
+    public static function AuthUserProgram($params, $field)
+    {
+        $data = [
+            $field              => $params['openid'],
+            'nickname'          => empty($params['nick_name']) ? '' : $params['nick_name'],
+            'avatar'            => empty($params['avatar']) ? '' : $params['avatar'],
+            'gender'            => empty($params['gender']) ? 0 : ($params['gender'] == 'm') ? 2 : 1,
+            'province'          => empty($params['province']) ? '' : $params['province'],
+            'city'              => empty($params['city']) ? '' : $params['city'],
+            'referrer'          => isset($params['referrer']) ? intval($params['referrer']) : 0,
+        ];
+        $where = [$field=>$params['openid'], 'is_delete_time'=>0];
+        $user = Db::name('User')->where($where)->find();
+        if(!empty($user))
+        {
+            $data = $user;
+        }
+
+        // 返回成功
+        return DataReturn('授权成功', 0, $data);
+    }
+
+    /**
+     * app用户注册
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-27
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function AppReg($params = [])
+    {
+        // 数据验证
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'mobile',
+                'error_msg'         => '手机号码不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'app_type',
+                'error_msg'         => '终端用户类型不能为空',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 手机号码格式
+        if(!CheckMobile($params['mobile']))
+        {
+             return DataReturn('手机号码格式错误', -2);
+        }
+
+        // 验证码校验
+        $verify_param = array(
+                'key_prefix' => 'bind',
+                'expire_time' => MyC('common_verify_expire_time')
+            );
+        $obj = new \base\Sms($verify_param);
+
+        // 是否已过期
+        if(!$obj->CheckExpire())
+        {
+            return DataReturn('验证码已过期', -10);
+        }
+        // 是否正确
+        if(!$obj->CheckCorrect($params['verify']))
+        {
+            return DataReturn('验证码错误', -11);
+        }
+
+        // 用户信息
+        $accounts_field = $params['app_type'].'_openid';
+        if(empty($params[$accounts_field]))
+        {
+            return DataReturn('用户openid不能为空', -20);
+        }
+        $data = array(
+            $accounts_field     => $params[$accounts_field],
+            'mobile'            => $params['mobile'],
+        );
+
+        // 获取用户信息
+        $where = ['mobile'=>$data['mobile'], 'is_delete_time'=>0];
+        $temp_user = Db::name('User')->where($where)->find();
+
+        // 额外信息
+        if(empty($temp_user['nickname']) && !empty($params['nickname']))
+        {
+            $data['nickname'] = $params['nickname'];
+        }
+        if(empty($temp_user['avatar']) && !empty($params['avatar']))
+        {
+            $data['avatar'] = $params['avatar'];
+        }
+        if(empty($temp_user['province']) && !empty($params['province']))
+        {
+            $data['province'] = $params['province'];
+        }
+        if(empty($temp_user['city']) && !empty($params['city']))
+        {
+            $data['city'] = $params['city'];
+        }
+        if(empty($temp_user) && isset($params['gender']))
+        {
+            $data['gender'] = intval($params['gender']);
+        }
+
+        // 不存在添加/则更新
+        if(empty($temp_user))
+        {
+            $data['referrer'] = isset($params['referrer']) ? intval($params['referrer']) : 0;
+            $data['add_time'] = time();
+            $user_id = Db::name('User')->insertGetId($data);
+        } else {
+            $data['upd_time'] = time();
+            if(Db::name('User')->where($where)->update($data))
+            {
+                $user_id = $temp_user['id'];
+            }
+        }
+        
+        if(isset($user_id) && $user_id > 0)
+        {
+            // 清除验证码
+            $obj->Remove();
+
+            return DataReturn('绑定成功', 0, self::UserLoginRecord($user_id, true));
+        } else {
+            return DataReturn('绑定失败', -100);
+        }
+    }
+
+    /**
+     * app用户绑定验证码发送
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-27
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function AppUserBindVerifySend($params = [])
+    {
+        // 数据验证
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'mobile',
+                'error_msg'         => '手机号码不能为空',
+            ],
+            [
+                'checked_type'      => 'fun',
+                'key_name'          => 'mobile',
+                'checked_data'      => 'CheckMobile',
+                'error_msg'         => '手机号码格式错误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 验证码公共基础参数
+        $verify_param = array(
+                'key_prefix' => 'bind',
+                'expire_time' => MyC('common_verify_expire_time'),
+                'time_interval' => MyC('common_verify_time_interval'),
+            );
+
+        // 发送验证码
+        $obj = new \base\Sms($verify_param);
+        $code = GetNumberCode(6);
+        $status = $obj->SendCode($params['mobile'], $code, MyC('home_sms_user_mobile_binding'));
+        
+        // 状态
+        if($status)
+        {
+            return DataReturn('发送成功', 0);
+        } else {
+            return DataReturn('发送失败'.'['.$obj->error.']', -100);
+        }
     }
 
 }

@@ -460,6 +460,11 @@ Page({
     }
     if(spec.length <= 0 || active_count < sku_count)
     {
+      this.setData({
+        goods_spec_base_price: this.data.goods.price,
+        goods_spec_base_original_price: this.data.goods.original_price,
+        goods_spec_base_inventory: this.data.goods.inventory,
+      });
       return false;
     }
 
@@ -471,7 +476,11 @@ Page({
       dataType: 'json',
       success: (res) => {
         if (res.data.code == 0) {
-          
+          this.setData({
+            goods_spec_base_price: res.data.data.price,
+            goods_spec_base_original_price: res.data.data.original_price,
+            goods_spec_base_inventory: res.data.data.inventory,
+          });
         } else {
           my.showToast({
             type: 'fail',

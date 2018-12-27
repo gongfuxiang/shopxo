@@ -46,7 +46,7 @@ Page({
       this.setData({verify_submit_text: '发送中', verify_loading: true, verify_disabled: true});
 
       my.httpRequest({
-        url: app.get_request_url('RegVerifySend', 'User'),
+        url: app.get_request_url('regverifysend', 'user'),
         method: 'POST',
         data: {mobile: this.data.mobile},
         dataType: 'json',
@@ -115,7 +115,7 @@ Page({
 
       // 网络请求
       my.httpRequest({
-        url: app.get_request_url('Reg', 'User'),
+        url: app.get_request_url('reg', 'user'),
         method: 'POST',
         data: e.detail.value,
         dataType: 'json',
