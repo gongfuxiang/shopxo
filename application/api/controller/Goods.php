@@ -96,5 +96,37 @@ class Goods extends Common
         $ret = GoodsService::GoodsFavor($params);
         return json($ret);
     }
+
+    /**
+     * 商品规格类型
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-14
+     * @desc    description
+     */
+    public function SpecType()
+    {
+        // 开始处理
+        $params = $this->data_post;
+        $ret = GoodsService::GoodsSpecType($params);
+        return json($ret);
+    }
+
+    /**
+     * 商品规格信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-14
+     * @desc    description
+     */
+    public function SpecDetail()
+    {
+        // 开始处理
+        $params = $this->data_post;
+        $ret = GoodsService::GoodsSpecDetail($params);
+        return json($ret);
+    }
 }
 ?>

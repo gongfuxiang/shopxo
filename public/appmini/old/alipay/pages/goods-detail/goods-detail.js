@@ -19,7 +19,6 @@ Page({
     popup_status: false,
     goods_favor_text: '收藏',
     goods_favor_icon: '/images/goods-detail-favor-icon-0.png',
-    temp_attribute_active: {},
     temp_buy_number: 1,
     buy_event_type: 'buy',
     nav_submit_text: '立即购买',
@@ -76,6 +75,7 @@ Page({
               indicator_dots: (data.goods.photo.length > 1),
               autoplay: (data.goods.photo.length > 1),
               goods_photo: data.goods.photo,
+              goods_specifications_choose: data.goods.specifications.choose || [],
               goods_content_app: data.goods.content_app,
               temp_buy_number: (data.goods.buy_min_number) || 1,
               goods_favor_text: (data.goods.is_favor == 1) ? '已收藏' : '收藏',
@@ -86,8 +86,8 @@ Page({
               nav_submit_is_disabled: (data.goods.is_shelves == 1 && data.goods.inventory > 0) ? false : true,
             });
 
-            // 规格处理
-            this.goods_specifications_choose_handle_dont(data.goods.specifications.choose, 0);
+            // 不能选择规格处理
+            this.goods_specifications_choose_handle_dont(0);
 
             if (data.goods.is_shelves != 1) {
               this.setData({
@@ -128,24 +128,28 @@ Page({
     }
   },
 
-  // 规格处理
-  goods_specifications_choose_handle_dont(data, key) {
-    if((data || null) == null)
+  // 不能选择规格处理
+  goods_specifications_choose_handle_dont(key) {
+    var temp_data = this.data.goods_specifications_choose || [];
+    if(temp_data.length <= 0)
     {
-      this.setData({goods_specifications_choose: []});
       return false;
     }
 
     // 是否不能选择
-    for(var i in data)
+    for(var i in temp_data)
     {
-      for(var k in data[i]['value'])
+      for(var k in temp_data[i]['value'])
       {
-        data[i]['value'][k]['is_dont'] = (key > 0) ? 'spec-dont' : '',
-        data[i]['value'][k]['is_disabled'] = '';
+        if(i > key)
+        {
+          temp_data[i]['value'][k]['is_dont'] = 'spec-dont-choose',
+          temp_data[i]['value'][k]['is_disabled'] = '';
+          temp_data[i]['value'][k]['is_active'] = '';
+        }
       }
     }
-    this.setData({goods_specifications_choose: data});
+    this.setData({goods_specifications_choose: temp_data});
   },
 
   // 下拉刷新
@@ -291,20 +295,136 @@ Page({
     }
   },
 
-  // 属性事件
-  goods_attribute_event(e) {
+  // 规格事件
+  goods_specifications_event(e) {
     var key = e.currentTarget.dataset.key || 0;
     var keys = e.currentTarget.dataset.keys || 0;
-    var temp_data = this.data.temp_attribute_active;
+    var temp_data = this.data.goods_specifications_choose;
 
-    // 相同则移除
-    if(temp_data[key] == keys)
+    // 不能选择和禁止选择跳过
+    if((temp_data[key]['value'][keys]['is_dont'] || null) == null && (temp_data[key]['value'][keys]['is_disabled'] || null) == null)
     {
-      delete temp_data[key];
-    } else {
-      temp_data[key] = keys;
+      // 规格选择
+      for(var i in temp_data)
+      {
+        for(var k in temp_data[i]['value'])
+        {
+          if((temp_data[i]['value'][k]['is_dont'] || null) == null && (temp_data[i]['value'][k]['is_disabled'] || null) == null)
+          {
+            if(key == i)
+            {
+              if(keys == k && (temp_data[i]['value'][k]['is_active'] || null) == null)
+              {
+                temp_data[i]['value'][k]['is_active'] = 'spec-active';
+              } else {
+                temp_data[i]['value'][k]['is_active'] = '';
+              }
+            }
+          }
+        }
+      }
+      this.setData({goods_specifications_choose: temp_data});
+
+      // 不能选择规格处理
+      this.goods_specifications_choose_handle_dont(key);
+
+      // 获取下一个规格类型
+      this.get_goods_specifications_type(key);
+
+      // 获取规格详情
+      this.get_goods_specifications_detail();
     }
-    this.setData({temp_attribute_active: temp_data});
+  },
+
+  // 获取下一个规格类型
+  get_goods_specifications_type(key) {
+    var temp_data = this.data.goods_specifications_choose;
+    var active_index = key+1;
+    var sku_count = temp_data.length;
+
+    if(active_index <= 0 || active_index >= sku_count)
+    {
+      return false;
+    }
+
+    // 获取规格值
+    var spec = [];
+    for(var i in temp_data)
+    {
+      for(var k in temp_data[i]['value'])
+      {
+        if((temp_data[i]['value'][k]['is_active'] || null) != null)
+        {
+          spec.push({"type": temp_data[i]['name'], "value": temp_data[i]['value'][k]['name']});
+          break;
+        }
+      }
+    }
+    if(spec.length <= 0)
+    {
+      return false;
+    }
+
+    // 获取数据
+    my.httpRequest({
+      url: app.get_request_url('spectype', 'goods'),
+      method: 'POST',
+      data: { "id": this.data.goods.id, "spec": JSON.stringify(spec) },
+      dataType: 'json',
+      success: (res) => {
+        if (res.data.code == 0) {
+          var spec_count = spec.length;
+          var index = (spec_count > 0) ? spec_count : 0;
+          if(index < sku_count)
+          {
+            for(var i in temp_data)
+            {
+              for(var k in temp_data[i]['value'])
+              {
+                if(index == i)
+                {
+                  temp_data[i]['value'][k]['is_dont'] = '';
+                  var temp_value = temp_data[i]['value'][k]['name'];
+                  var temp_status = false;
+                  for(var t in res.data.data)
+                  {
+                    if(res.data.data[t] == temp_value)
+                    {
+                      temp_status = true;
+                      break;
+                    }
+                  }
+                  console.log(temp_value, temp_status, res.data)
+                  if(temp_status == true)
+                  {
+                    temp_data[i]['value'][k]['is_disabled'] = '';
+                  } else {
+                    temp_data[i]['value'][k]['is_disabled'] = 'spec-items-disabled';
+                  }
+                }
+              }
+            }
+            this.setData({goods_specifications_choose: temp_data});
+          }
+        } else {
+          my.showToast({
+            type: 'fail',
+            content: res.data.msg
+          });
+        }
+      },
+      fail: () => {
+        my.showToast({
+          type: 'fail',
+          content: '服务器请求出错'
+        });
+      }
+    });
+  },
+
+  // 获取规格详情
+  get_goods_specifications_detail() {
+
   },
 
   // 数量输入事件

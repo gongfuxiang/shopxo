@@ -1748,11 +1748,6 @@ class GoodsService
                 'key_name'          => 'spec',
                 'error_msg'         => '请选择规格',
             ],
-            [
-                'checked_type'      => 'is_array',
-                'key_name'          => 'spec',
-                'error_msg'         => '规格有误',
-            ],
         ];
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
@@ -1766,6 +1761,12 @@ class GoodsService
             'goods_id'  => intval($params['id']),
         ];
         $value = [];
+
+        // 规格不为数组则为json字符串
+        if(!is_array($params['spec']))
+        {
+            $params['spec'] = json_decode($params['spec'], true);
+        }
         foreach($params['spec'] as $v)
         {
             $value[] = $v['value'];

@@ -31,10 +31,11 @@
     margin-top: 20rpx;
     margin-right: 25rpx;
     padding: 0 30rpx;
-    background: #eee;
+    background-color: #f5f5f5;
     color: #666;
     line-height: 27px;
     height: 27px;
+    border: 1px solid #d5d5d5;
 }
 .goods-attr-choose .item .attribute button image {
   width: 20px;
@@ -42,17 +43,38 @@
   vertical-align: middle;
   margin-right: 10rpx;
 }
+.spec-active {
+  background: #d2364c !important;
+  color: #fff !important;
+  border: 1px solid #b91d33 !important;
+}
+.spec-dont-choose {
+    color: #b4b3b3 !important;
+    background-color: #ffffff !important;
+    border: 1px solid #ebeaea !important;
+}
+.spec-dont-choose image {
+    opacity: 0.5;
+}
+.spec-items-disabled {
+    color: #d2cfcf !important;
+    background-color: #ffffff !important;
+    border: 1px dashed #d5d5d5 !important;
+}
+.spec-items-disabled image {
+    opacity: 0.3;
+}
 .goods-attr-choose .item .attribute  button,
 .goods-popup-submit
 {
     border-radius: 50rpx;
-    border: 0;
 }
 .goods-popup-submit {
     height: 85rpx;
     line-height: 85rpx;
     font-size: 36rpx;
     margin-top: 20rpx;
+    border: 0;
 }
 .goods-popup .goods-buy-number {
     margin-bottom: 20rpx;

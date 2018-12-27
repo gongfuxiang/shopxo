@@ -91,11 +91,7 @@
             <view class="title">{{item.name}}</view>
             <view a:if="{{item.value.length > 0}}" class="attribute">
               <block a:for="{{item.value}}" a:for-index="keys" a:for-item="items">
-                <button a:if="{{temp_attribute_active[key] == keys}}" catchTap="goods_attribute_event" data-key="{{key}}" data-keys="{{keys}}" class="bg-active-main" type="default" size="mini" hover-class="none">
-                  <image a:if="{{(items.images || null) != null}}" src="{{items.images}}" mode="scaleToFill" />
-                  {{items.name}}
-                </button>
-                <button a:else catchTap="goods_attribute_event" data-key="{{key}}" data-keys="{{keys}}" type="default" size="mini" hover-class="none">
+                <button catchTap="goods_specifications_event" data-key="{{key}}" data-keys="{{keys}}" type="default" size="mini" hover-class="none" class="{{items.is_active}} {{items.is_dont}} {{items.is_disabled}}">
                   <image a:if="{{(items.images || null) != null}}" src="{{items.images}}" mode="scaleToFill" />
                   {{items.name}}
                 </button>
