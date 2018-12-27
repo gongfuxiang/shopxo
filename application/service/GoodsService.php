@@ -1647,12 +1647,6 @@ class GoodsService
                 'is_checked'        => 1,
                 'error_msg'         => '请选择规格',
             ],
-            [
-                'checked_type'      => 'is_array',
-                'key_name'          => 'spec',
-                'is_checked'        => 1,
-                'error_msg'         => '规格有误',
-            ],
         ];
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
@@ -1670,6 +1664,11 @@ class GoodsService
         if(!empty($params['spec']))
         {
             $value = [];
+            // 规格不为数组则为json字符串
+            if(!is_array($params['spec']))
+            {
+                $params['spec'] = json_decode($params['spec'], true);
+            }
             foreach($params['spec'] as $v)
             {
                 $value[] = $v['value'];

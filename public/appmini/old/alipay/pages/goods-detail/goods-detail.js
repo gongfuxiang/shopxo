@@ -23,10 +23,15 @@ Page({
     buy_event_type: 'buy',
     nav_submit_text: '立即购买',
     nav_submit_is_disabled: true,
+
+    goods_spec_base_price: 0,
+    goods_spec_base_original_price: 0,
+    goods_spec_base_inventory: 0,
+    goods_spec_base_images: '',
   },
 
   onLoad(params) {
-    //params['goods_id']=16;
+    params['goods_id']=12;
     this.setData({params: params});
     this.init();
   },
@@ -84,6 +89,11 @@ Page({
               data_bottom_line_status: true,
               data_list_loding_status: 3,
               nav_submit_is_disabled: (data.goods.is_shelves == 1 && data.goods.inventory > 0) ? false : true,
+
+              goods_spec_base_price: data.goods.price,
+              goods_spec_base_original_price: data.goods.original_price,
+              goods_spec_base_inventory: data.goods.inventory,
+              goods_spec_base_images: data.goods.images
             });
 
             // 不能选择规格处理
@@ -300,6 +310,7 @@ Page({
     var key = e.currentTarget.dataset.key || 0;
     var keys = e.currentTarget.dataset.keys || 0;
     var temp_data = this.data.goods_specifications_choose;
+    var temp_images = this.data.goods_spec_base_images;
 
     // 不能选择和禁止选择跳过
     if((temp_data[key]['value'][keys]['is_dont'] || null) == null && (temp_data[key]['value'][keys]['is_disabled'] || null) == null)
@@ -316,6 +327,10 @@ Page({
               if(keys == k && (temp_data[i]['value'][k]['is_active'] || null) == null)
               {
                 temp_data[i]['value'][k]['is_active'] = 'spec-active';
+                if((temp_data[i]['value'][k]['images'] || null) != null)
+                {
+                  temp_images = temp_data[i]['value'][k]['images'];
+                }
               } else {
                 temp_data[i]['value'][k]['is_active'] = '';
               }
@@ -323,7 +338,7 @@ Page({
           }
         }
       }
-      this.setData({goods_specifications_choose: temp_data});
+      this.setData({goods_specifications_choose: temp_data, goods_spec_base_images: temp_images});
 
       // 不能选择规格处理
       this.goods_specifications_choose_handle_dont(key);
@@ -424,7 +439,53 @@ Page({
 
   // 获取规格详情
   get_goods_specifications_detail() {
+    // 是否全部选中
+    var temp_data = this.data.goods_specifications_choose;
+    var sku_count = temp_data.length;
+    var active_count = 0;
 
+    // 获取规格值
+    var spec = [];
+    for(var i in temp_data)
+    {
+      for(var k in temp_data[i]['value'])
+      {
+        if((temp_data[i]['value'][k]['is_active'] || null) != null)
+        {
+          active_count++;
+          spec.push({"type": temp_data[i]['name'], "value": temp_data[i]['value'][k]['name']});
+          break;
+        }
+      }
+    }
+    if(spec.length <= 0 || active_count < sku_count)
+    {
+      return false;
+    }
+
+    // 获取数据
+    my.httpRequest({
+      url: app.get_request_url('specdetail', 'goods'),
+      method: 'POST',
+      data: { "id": this.data.goods.id, "spec": JSON.stringify(spec) },
+      dataType: 'json',
+      success: (res) => {
+        if (res.data.code == 0) {
+          
+        } else {
+          my.showToast({
+            type: 'fail',
+            content: res.data.msg
+          });
+        }
+      },
+      fail: () => {
+        my.showToast({
+          type: 'fail',
+          content: '服务器请求出错'
+        });
+      }
+    });
   },
 
   // 数量输入事件

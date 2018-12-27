@@ -28,7 +28,7 @@
     </view>
     <view class="goods-price">
       <text class="sales-price">￥{{goods.price}}</text>
-      <text a:if="{{goods.original_price > 0}}" class="original-price">￥{{goods.original_price}}</text>
+      <text a:if="{{(goods.original_price || null) != null}}" class="original-price">￥{{goods.original_price}}</text>
       <view class="fr cr-ccc">
         <text>销量 {{goods.sales_count}}</text>
       </view>
@@ -79,11 +79,27 @@
   <!-- 弹层 -->
   <popup show="{{popup_status}}" position="bottom" onClose="popup_close_event">
     <view class="goods-popup bg-white">
-      <view class="close tr dis-block oh">
+      <view class="close fr oh">
         <view class="fr" catchTap="popup_close_event">
           <icon type="clear" size="20" />
         </view>
       </view>
+      <!-- 规格基础信息 -->
+      <view class="goods-popup-base oh br-b">
+        <image src="{{goods_spec_base_images}}" mode="scaleToFill" class="br" />
+        <view class="goods-popup-base-content">
+          <view class="goods-price">
+            <view class="sales-price">￥{{goods_spec_base_price}}</view>
+            <view a:if="{{(goods_spec_base_original_price || null) != null}}" class="original-price">￥{{goods_spec_base_original_price}}</view>
+          </view>
+          <view class="inventory">
+            <text class="cr-888">库存</text>
+            <text class="cr-666">{{goods_spec_base_inventory}}</text>
+            <text class="cr-888">{{goods.inventory_unit}}</text>
+          </view>
+        </view>
+      </view>
+
       <view class="goods-popup-content">
         <!-- 商品属性 -->
         <view a:if="{{goods_specifications_choose.length > 0}}" class="goods-attr-choose">
