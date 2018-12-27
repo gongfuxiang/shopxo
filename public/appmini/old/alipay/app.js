@@ -49,9 +49,9 @@ App({
     },
 
     // 请求地址
-    //request_url: "{{request_url}}",
+    request_url: "{{request_url}}",
     //request_url: "https://demo.shopxo.net/index.php?s=",
-    request_url: 'http://tp5-dev.com/index.php?s=',
+    //request_url: 'http://tp5-dev.com/index.php?s=',
 
     // 基础信息
     application_title: "{{application_title}}",
