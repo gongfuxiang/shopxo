@@ -20,8 +20,7 @@
           <view class="base">
             <view class="single-text">{{item.title}}</view>
             <view class="price">
-              <text class="sales-price">￥{{item.price}}</text>
-              <text a:if="{{item.original_price > 0}}" class="original-price">￥{{item.original_price}}</text>
+              <text class="sales-price">￥{{item.min_price}}</text>
             </view>
           </view>
         </navigator>

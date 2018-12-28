@@ -720,7 +720,7 @@ class OrderService
         ];
         if(Db::name('Order')->where($where)->update($upd_data))
         {
-            // 库存扣除
+            // 库存回滚
             $ret = BuyService::OrderInventoryRollback(['order_id'=>$order['id'], 'order_data'=>$upd_data]);
             if($ret['code'] != 0)
             {

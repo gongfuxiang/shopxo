@@ -41,7 +41,7 @@
             <image src="{{goods.home_recommended_images}}" mode="aspectFit" />
             <view class="goods-base">
               <view class="goods-title single-text">{{goods.title}}</view>
-              <view class="sales-price">￥{{goods.price}}</view>
+              <view class="sales-price">￥{{goods.min_price}}</view>
             </view>
           </navigator>
         </view>

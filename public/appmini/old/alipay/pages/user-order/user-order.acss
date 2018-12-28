@@ -38,6 +38,7 @@
 }
 .goods-price {
     position: relative;
+    margin-top: 10rpx;
 }
 .buy-number {
     position: absolute;
