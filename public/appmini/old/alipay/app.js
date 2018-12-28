@@ -49,9 +49,9 @@ App({
     },
 
     // 请求地址
-    request_url: "{{request_url}}",
-    //request_url: "https://demo.shopxo.net/index.php?s=",
-    //request_url: 'http://tp5-dev.com/index.php?s=',
+    //request_url: "{{request_url}}",
+    //request_url: "https://demo.shopxo.net/",
+    request_url: 'http://tp5-dev.com/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -166,7 +166,7 @@ App({
     var user_id = user == false ? 0 : user.id;
     return (
       this.data.request_url +
-      "/" + m + "/" + c + "/" + a +
+      "index.php?s=/" + m + "/" + c + "/" + a +
       "&application_client=default&&application=app&application_client_type=alipay&application_user_id=" +
       app_client_user_id +
       "&user_id=" +

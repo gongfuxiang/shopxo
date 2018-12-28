@@ -132,7 +132,7 @@ class AppMiniService
 
         // 替换内容
         // app.js
-        $status = file_put_contents($new_dir.DS.'app.js', str_replace(['{{request_url}}', '{{application_title}}', '{{application_describe}}'], [__MY_URL__.'index.php?s=', $app_mini_alipay_title, $app_mini_alipay_describe], file_get_contents($new_dir.DS.'app.js')));
+        $status = file_put_contents($new_dir.DS.'app.js', str_replace(['{{request_url}}', '{{application_title}}', '{{application_describe}}'], [__MY_URL__, $app_mini_alipay_title, $app_mini_alipay_describe], file_get_contents($new_dir.DS.'app.js')));
         if($status === false)
         {
             return DataReturn('基础配置替换失败', -4);
