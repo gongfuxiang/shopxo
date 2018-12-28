@@ -729,8 +729,8 @@ class UserService
 
         // 开始处理图片存储
         // 定义图片目录
-        $root_path = ROOT;
-        $img_path = 'public'.DS.'static'.DS.'upload'.DS.'images'.DS.'user_avatar'.DS;
+        $root_path = __MY_ROOT__;
+        $img_path = 'static'.DS.'upload'.DS.'images'.DS.'user_avatar'.DS;
         $date = DS.date('Y').DS.date('m').DS.date('d').DS;
 
         // 图像类库
