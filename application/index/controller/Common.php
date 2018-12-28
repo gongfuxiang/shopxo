@@ -177,7 +177,7 @@ class Common extends Controller
         $this->assign('common_cart_total', ($common_cart_total > 99) ? '99+' : $common_cart_total);
 
         // 未读消息总数
-        $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0];
+        $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0, 'user_type'=>'user'];
         $common_message_total = MessageService::UserMessageTotal($params);
         $this->assign('common_message_total', ($common_message_total > 99) ? '99+' : $common_message_total);
 
