@@ -121,6 +121,7 @@ class AlipayMini
             'subject'               =>  $params['name'],
             'out_trade_no'          =>  $params['order_no'],
             'total_amount'          =>  $params['total_price'],
+            'buyer_id'              =>  $params['user_openid'],
         );
         $parameter['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
 
