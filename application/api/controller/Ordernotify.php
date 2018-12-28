@@ -34,8 +34,8 @@ class OrderNotify extends Common
      */
     public function Notify()
     {
-        file_put_contents('./kkkkkk.txt', json_encode($this->data_request));
         $ret = OrderService::Notify($this->data_request);
+        file_put_contents('./rrrrrr.txt', json_encode($ret));
         if($ret['code'] == 0)
         {
             exit('success');
