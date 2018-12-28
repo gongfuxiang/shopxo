@@ -3,7 +3,7 @@
 /**
  * 订单支付异步入口
  */
-file_put_contents('./gggggg.txt', json_encode($_REQUEST));
+
 // 默认绑定模块
 $_GET['s'] = '/api/ordernotify/notify';
 
