@@ -37,8 +37,7 @@ class Cart extends Common
      */
     public function Index()
     {
-        $ret = BuyService::CartList(['user'=>$this->user]);
-        return json($ret);
+        return BuyService::CartList(['user'=>$this->user]);
     }
 
     /**
@@ -53,8 +52,7 @@ class Cart extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        $ret = BuyService::CartAdd($params);
-        return json($ret);
+        return BuyService::CartAdd($params);
     }
 
     /**
@@ -69,8 +67,7 @@ class Cart extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        $ret = BuyService::CartDelete($params);
-        return json($ret);
+        return BuyService::CartDelete($params);
     }
 
     /**
@@ -85,8 +82,7 @@ class Cart extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        $ret = BuyService::CartStock($params);
-        return json($ret);
+        return BuyService::CartStock($params);
     }
 }
 ?>

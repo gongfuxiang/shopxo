@@ -295,8 +295,7 @@ class User extends Common
         }
 
         // 调用服务层
-        $ret = UserService::Reg(input('post.'));
-        return json($ret);
+        return UserService::Reg(input('post.'));
     }
 
     /**
@@ -315,8 +314,7 @@ class User extends Common
         }
 
         // 调用服务层
-        $ret = UserService::Login(input('post.'));
-        return json($ret);
+        return UserService::Login(input('post.'));
     }
 
     /**
@@ -353,8 +351,7 @@ class User extends Common
         }
 
         // 调用服务层
-        $ret = UserService::RegVerifySend(input('post.'));
-        return json($ret);
+        return UserService::RegVerifySend(input('post.'));
     }
 
     /**
@@ -373,8 +370,7 @@ class User extends Common
         }
 
         // 调用服务层
-        $ret = UserService::ForgetPwdVerifySend(input('post.'));
-        return json($ret);
+        return UserService::ForgetPwdVerifySend(input('post.'));
     }
 
     /**
@@ -393,8 +389,7 @@ class User extends Common
         }
 
         // 调用服务层
-        $ret = UserService::ForgetPwd(input('post.'));
-        return json($ret);
+        return UserService::ForgetPwd(input('post.'));
     }
 
     /**
@@ -432,8 +427,7 @@ class User extends Common
         $params = $_POST;
         $params['user'] = $this->user;
         $params['img_field'] = 'file';
-        $ret = UserService::UserAvatarUpload($params);
-        return json($ret);
+        return UserService::UserAvatarUpload($params);
     }
 }
 ?>

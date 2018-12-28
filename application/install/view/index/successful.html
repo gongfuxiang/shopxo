@@ -1,0 +1,19 @@
+{{include file="public/header" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- conntent start  -->
+<div class="am-g inside success">
+    <a href="javascript:;" class="am-icon-btn am-success am-icon-sm am-icon-check"></a>
+    <h2>恭喜您安装成功</h2>
+    <div class="box">
+        <a href="{{$Think.__MY_URL__}}index.php?s=/admin/index/index" target="_blank">后台管理</a><br />
+        <span class="admin_hint">默认账号：admin &emsp; 默认密码为：shopxo</span>
+        <br /><br />
+        <a href="{{$Think.__MY_URL__}}" target="_blank">访问首页</a>
+    </div>
+</div>
+<!-- conntent end  -->
+
+{{include file="public/footer" /}}

@@ -70,8 +70,7 @@ class Link extends Common
 
         // 开始处理
         $params = input();
-        $ret = LinkService::LinkSave($params);
-        return json($ret);
+        return LinkService::LinkSave($params);
 	}
 
 	/**
@@ -92,8 +91,7 @@ class Link extends Common
         // 开始处理
         $params = input();
         $params['user_type'] = 'admin';
-        $ret = LinkService::LinkDelete($params);
-        return json($ret);
+        return LinkService::LinkDelete($params);
 	}
 
 	/**
@@ -113,8 +111,7 @@ class Link extends Common
 
         // 开始处理
         $params = input();
-        $ret = LinkService::LinkStatusUpdate($params);
-        return json($ret);
+        return LinkService::LinkStatusUpdate($params);
 	}
 }
 ?>

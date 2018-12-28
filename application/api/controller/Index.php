@@ -42,7 +42,7 @@ class Index extends Common
 		];
 
 		// 返回数据
-		return json(DataReturn('success', 0, $result));
+		return DataReturn('success', 0, $result);
 	}
 }
 ?>

@@ -106,8 +106,7 @@ class Message extends Common
         // 开始处理
         $params = input();
         $params['admin'] = $this->admin;
-        $ret = MessageService::MessageDelete($params);
-        return json($ret);
+        return MessageService::MessageDelete($params);
 	}
 }
 ?>

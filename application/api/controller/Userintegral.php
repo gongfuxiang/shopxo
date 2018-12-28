@@ -68,7 +68,7 @@ class UserIntegral extends Common
             'page_total'        =>  $page_total,
             'data'              =>  $data['data'],
         ];
-        return json(DataReturn('success', 0, $result));
+        return DataReturn('success', 0, $result);
     }
 
 }

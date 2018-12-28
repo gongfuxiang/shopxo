@@ -70,8 +70,7 @@ class Power extends Common
 		// 开始操作
 		$params = input('post.');
 		$params['admin'] = $this->admin;
-		$ret = AdminPowerService::PowerSave($params);
-		return json($ret);
+		return AdminPowerService::PowerSave($params);
 	}
 
 	/**
@@ -92,8 +91,7 @@ class Power extends Common
 		// 开始操作
 		$params = input('post.');
 		$params['admin'] = $this->admin;
-		$ret = AdminPowerService::PowerDelete($params);
-		return json($ret);
+		return AdminPowerService::PowerDelete($params);
 	}
 
 	/**
@@ -166,8 +164,7 @@ class Power extends Common
 		}
 
 		// 开始操作
-		$ret = AdminPowerService::RoleSave(input('post.'));
-		return json($ret);
+		return AdminPowerService::RoleSave(input('post.'));
 	}
 
 	/**
@@ -186,8 +183,7 @@ class Power extends Common
 		}
 
 		// 开始操作
-		$ret = AdminPowerService::RoleDelete(input('post.'));
-		return json($ret);
+		return AdminPowerService::RoleDelete(input('post.'));
 	}
 
 	/**
@@ -208,8 +204,7 @@ class Power extends Common
 		// 开始操作
 		$params = input('post.');
 		$params['admin'] = $this->admin;
-		$ret = AdminPowerService::RoleStatusUpdate($params);
-		return json($ret);
+		return AdminPowerService::RoleStatusUpdate($params);
 	}
 }
 ?>

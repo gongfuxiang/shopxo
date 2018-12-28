@@ -38,7 +38,7 @@ class Goods extends Common
         // 参数
         if(empty($this->data_post['goods_id']))
         {
-            return json(DataReturn('参数有误', -1));
+            return DataReturn('参数有误', -1);
         }
 
         // 获取商品
@@ -55,7 +55,7 @@ class Goods extends Common
         $goods = GoodsService::GoodsList($params);
         if(empty($goods[0]) || $goods[0]['is_delete_time'] != 0)
         {
-            return json(DataReturn('商品不存在或已删除', -1));
+            return DataReturn('商品不存在或已删除', -1);
         }
         unset($goods[0]['content_web']);
 
@@ -74,7 +74,7 @@ class Goods extends Common
             'goods'                     => $goods[0],
             'common_order_is_booking'   => (int) MyC('common_order_is_booking', 0),
         ];
-        return json(DataReturn('success', 0, $result));
+        return DataReturn('success', 0, $result);
     }
 
     /**
@@ -93,8 +93,7 @@ class Goods extends Common
         // 开始操作
         $params = $this->data_post;
         $params['user'] = $this->user;
-        $ret = GoodsService::GoodsFavor($params);
-        return json($ret);
+        return GoodsService::GoodsFavor($params);
     }
 
     /**
@@ -109,8 +108,7 @@ class Goods extends Common
     {
         // 开始处理
         $params = $this->data_post;
-        $ret = GoodsService::GoodsSpecType($params);
-        return json($ret);
+        return GoodsService::GoodsSpecType($params);
     }
 
     /**
@@ -125,8 +123,7 @@ class Goods extends Common
     {
         // 开始处理
         $params = $this->data_post;
-        $ret = GoodsService::GoodsSpecDetail($params);
-        return json($ret);
+        return GoodsService::GoodsSpecDetail($params);
     }
 
     /**
@@ -142,7 +139,7 @@ class Goods extends Common
         // 开始处理
         $params = $this->data_post;
         $data = GoodsService::GoodsCategory($params);
-        return json(DataReturn('success', 0, $data));
+        return DataReturn('success', 0, $data);
     }
 }
 ?>

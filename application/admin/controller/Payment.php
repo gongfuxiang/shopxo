@@ -105,8 +105,7 @@ class Payment extends Common
         }
 
         // 开始操作
-        $ret = PaymentService::PaymentUpdate(input());
-        return json($ret);
+        return PaymentService::PaymentUpdate(input());
 	}
 
 	/**
@@ -125,8 +124,7 @@ class Payment extends Common
         }
 
         // 开始操作
-        $ret = PaymentService::PaymentStatusUpdate(input());
-        return json($ret);
+        return PaymentService::PaymentStatusUpdate(input());
     }
 
     /**
@@ -146,8 +144,7 @@ class Payment extends Common
         }
 
         // 开始操作
-        $ret = PaymentService::Install(input());
-        return json($ret);
+        return PaymentService::Install(input());
     }
 
     /**
@@ -167,8 +164,7 @@ class Payment extends Common
         }
 
         // 开始操作
-        $ret = PaymentService::Uninstall(input());
-        return json($ret);
+        return PaymentService::Uninstall(input());
     }
 
     /**
@@ -188,8 +184,7 @@ class Payment extends Common
         }
 
         // 开始操作
-        $ret = PaymentService::Delete(input());
-        return json($ret);
+        return PaymentService::Delete(input());
     }
 
     /**
@@ -209,8 +204,7 @@ class Payment extends Common
         }
 
         // 开始操作
-        $ret = PaymentService::Upload(input());
-        return json($ret);
+        return PaymentService::Upload(input());
     }
 }
 ?>

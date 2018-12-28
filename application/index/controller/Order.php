@@ -181,8 +181,7 @@ class Order extends Common
         {
             $params = input('post.');
             $params['user'] = $this->user;
-            $ret = OrderService::Comments($params);
-            return json($ret);
+            return OrderService::Comments($params);
         } else {
             $this->assign('msg', '非法访问');
             return $this->fetch('public/tips_error');
@@ -250,8 +249,7 @@ class Order extends Common
             $params['user_id'] = $this->user['id'];
             $params['creator'] = $this->user['id'];
             $params['creator_name'] = $this->user['user_name_view'];
-            $ret = OrderService::OrderCancel($params);
-            return json($ret);
+            return OrderService::OrderCancel($params);
         } else {
             $this->assign('msg', '非法访问');
             return $this->fetch('public/tips_error');
@@ -274,8 +272,7 @@ class Order extends Common
             $params['user_id'] = $this->user['id'];
             $params['creator'] = $this->user['id'];
             $params['creator_name'] = $this->user['user_name_view'];
-            $ret = OrderService::OrderCollect($params);
-            return json($ret);
+            return OrderService::OrderCollect($params);
         } else {
             $this->assign('msg', '非法访问');
             return $this->fetch('public/tips_error');
@@ -299,8 +296,7 @@ class Order extends Common
             $params['creator'] = $this->user['id'];
             $params['creator_name'] = $this->user['user_name_view'];
             $params['user_type'] = 'user';
-            $ret = OrderService::OrderDelete($params);
-            return json($ret);
+            return OrderService::OrderDelete($params);
         } else {
             $this->assign('msg', '非法访问');
             return $this->fetch('public/tips_error');

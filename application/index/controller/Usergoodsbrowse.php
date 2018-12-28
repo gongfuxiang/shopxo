@@ -96,8 +96,7 @@ class UserGoodsBrowse extends Common
         // 开始处理
         $params = input('post.');
         $params['user'] = $this->user;
-        $ret = GoodsService::GoodsBrowseDelete($params);
-        return json($ret);
+        return GoodsService::GoodsBrowseDelete($params);
     }
 }
 ?>

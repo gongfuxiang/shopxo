@@ -1,0 +1,67 @@
+{{include file="public/header" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- conntent start  -->
+<div class="am-g inside create">
+    <h2>数据库信息</h2>
+    <form class="am-form am-form-horizontal form-validation" method="post" action="{{:MyUrl('install/index/add')}}" request-type="ajax-url" request-value="{{:MyUrl('install/index/success')}}">
+        <div class="am-form-group">
+            <label class="am-u-sm-2 am-form-label">数据库类型</label>
+            <div class="am-u-sm-10">
+                <input type="text" name="DB_TYPE" placeholder="数据库类型" value="mysql" class="am-radius am-input-sm" disabled data-validation-message="请选择数据库类型" required />
+            </div>
+        </div>
+
+        <div class="am-form-group">
+            <label class="am-u-sm-2 am-form-label">数据库服务器</label>
+            <div class="am-u-sm-10">
+                <input type="text" name="DB_HOST" placeholder="数据库服务器" value="127.0.0.1" class="am-radius am-input-sm" data-validation-message="请填写数据库服务器地址" required />
+            </div>
+        </div>
+
+        <div class="am-form-group">
+            <label class="am-u-sm-2 am-form-label">数据库端口</label>
+            <div class="am-u-sm-10">
+                <input type="number" name="DB_PORT" placeholder="数据库端口" value="3306" class="am-radius am-input-sm" data-validation-message="请填写数据库端口" required />
+            </div>
+        </div>
+
+        <div class="am-form-group">
+            <label class="am-u-sm-2 am-form-label">数据库名</label>
+            <div class="am-u-sm-10">
+                <input type="text" name="DB_NAME" placeholder="数据库名" value="shopxo" class="am-radius am-input-sm" data-validation-message="请填写数据库名" required />
+            </div>
+        </div>
+
+        <div class="am-form-group">
+            <label class="am-u-sm-2 am-form-label">数据库用户名</label>
+            <div class="am-u-sm-10">
+                <input type="text" name="DB_USER" placeholder="数据库用户名" value="" class="am-radius am-input-sm" data-validation-message="请填写数据库用户名" required />
+            </div>
+        </div>
+
+        <div class="am-form-group">
+            <label class="am-u-sm-2 am-form-label">数据库密码</label>
+            <div class="am-u-sm-10">
+                <input type="text" name="DB_PWD" placeholder="数据库密码" value="" class="am-radius am-input-sm" data-validation-message="请填写数据库密码" required />
+            </div>
+        </div>
+
+        <div class="am-form-group">
+            <label class="am-u-sm-2 am-form-label">数据表前缀</label>
+            <div class="am-u-sm-10">
+                <input type="text" name="DB_PREFIX" placeholder="数据表前缀" value="s_" class="am-radius am-input-sm" data-validation-message="请填写数据表前缀" required />
+            </div>
+        </div>
+
+        <div class="am-form-group agree">
+            <a href="{{:MyUrl('install/index/check')}}" class="am-btn am-btn-secondary am-radius">上一步</a>
+            <button type="submit" class="am-btn am-btn-success am-radius btn-loading-example" data-am-loading="{spinner:'circle-o-notch', loadingText:'安装中...'}">确认</button>
+        </div>
+    </form>
+</div>
+<!-- conntent end  -->
+
+{{include file="public/footer" /}}

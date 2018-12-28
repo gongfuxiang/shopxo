@@ -75,8 +75,7 @@ class UserAddress extends Common
     {
         $params = input('post.');
         $params['user'] = $this->user;
-        $ret = UserService::UserAddressSave($params);
-        return json($ret);
+        return UserService::UserAddressSave($params);
     }
 
     /**
@@ -91,8 +90,7 @@ class UserAddress extends Common
     {
         $params = $_POST;
         $params['user'] = $this->user;
-        $ret = UserService::UserAddressDelete($params);
-        return json($ret);
+        return UserService::UserAddressDelete($params);
     }
 
     /**
@@ -107,8 +105,7 @@ class UserAddress extends Common
     {
         $params = $_POST;
         $params['user'] = $this->user;
-        $ret = UserService::UserAddressDefault($params);
-        return json($ret);
+        return UserService::UserAddressDefault($params);
     }
 }
 ?>

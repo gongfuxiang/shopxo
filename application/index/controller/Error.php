@@ -22,7 +22,7 @@ class Error extends Common
      * @desc    description
      * @param   Request         $request [参数]
      */
-    public function index(Request $request)
+    public function Index(Request $request)
     {
         if(IS_AJAX)
         {

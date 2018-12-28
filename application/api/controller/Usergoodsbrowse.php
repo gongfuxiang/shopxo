@@ -68,7 +68,7 @@ class UserGoodsBrowse extends Common
             'page_total'        =>  $page_total,
             'data'              =>  $data['data'],
         ];
-        return json(DataReturn('success', 0, $result));
+        return DataReturn('success', 0, $result);
     }
 
     /**
@@ -83,8 +83,7 @@ class UserGoodsBrowse extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        $ret = GoodsService::GoodsBrowseDelete($params);
-        return json($ret);
+        return GoodsService::GoodsBrowseDelete($params);
     }
 }
 ?>

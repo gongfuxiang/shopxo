@@ -67,7 +67,7 @@ class Answer extends Common
             'page_total'    =>  $page_total,
             'data'          =>  $data['data'],
         ];
-        return json(DataReturn('success', 0, $result));
+        return DataReturn('success', 0, $result);
     }
 
     /**
@@ -85,8 +85,7 @@ class Answer extends Common
 
         $params = $this->data_post;
         $params['user'] = $this->user;
-        $ret = AnswerService::Add($params);
-        return json($ret);
+        return AnswerService::Add($params);
     }
 }
 ?>

@@ -77,8 +77,7 @@ class Personal extends Common
 		// 开始操作
 		$params = input('post.');
         $params['user'] = $this->user;
-        $ret = UserService::PersonalSave($params);
-        return json($ret);
+        return UserService::PersonalSave($params);
 	}
 }
 ?>

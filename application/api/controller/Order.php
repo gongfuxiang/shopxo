@@ -72,7 +72,7 @@ class Order extends Common
             'data'              =>  $data['data'],
             'payment_list'      =>  $payment_list,
         ];
-        return json(DataReturn('success', 0, $result));
+        return DataReturn('success', 0, $result);
     }
 
     /**
@@ -100,9 +100,9 @@ class Order extends Common
         $data = OrderService::OrderList($data_params);
         if(!empty($data['data'][0]))
         {
-            return json(DataReturn('success', 0, $data['data'][0]));
+            return DataReturn('success', 0, $data['data'][0]);
         }
-        return json(DataReturn('数据不存在或已删除', -100));
+        return DataReturn('数据不存在或已删除', -100);
     }
 
     /**
@@ -117,8 +117,7 @@ class Order extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        $ret = OrderService::Pay($params);
-        return json($ret);
+        return OrderService::Pay($params);
     }
 
 
@@ -135,8 +134,7 @@ class Order extends Common
         $params['user_id'] = $this->user['id'];
         $params['creator'] = $this->user['id'];
         $params['creator_name'] = $this->user['user_name_view'];
-        $ret = OrderService::OrderCancel($params);
-        return json($ret);
+        return OrderService::OrderCancel($params);
     }
 
     /**
@@ -152,8 +150,7 @@ class Order extends Common
         $params['user_id'] = $this->user['id'];
         $params['creator'] = $this->user['id'];
         $params['creator_name'] = $this->user['user_name_view'];
-        $ret = OrderService::OrderCollect($params);
-        return json($ret);
+        return OrderService::OrderCollect($params);
     }
 
     /**
@@ -171,8 +168,7 @@ class Order extends Common
         $params['creator'] = $this->user['id'];
         $params['creator_name'] = $this->user['user_name_view'];
         $params['user_type'] = 'user';
-        $ret = OrderService::OrderDelete($params);
-        return json($ret);
+        return OrderService::OrderDelete($params);
     }
 
 }

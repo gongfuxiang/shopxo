@@ -62,8 +62,7 @@ class BrandCategory extends Common
 		}
 
 		// 开始操作
-		$ret = BrandService::BrandCategoryNodeSon(input());
-		return json($ret);
+		return BrandService::BrandCategoryNodeSon(input());
 	}
 
 	/**
@@ -82,8 +81,7 @@ class BrandCategory extends Common
 		}
 
 		// 开始操作
-		$ret = BrandService::BrandCategorySave(input());
-		return json($ret);
+		return BrandService::BrandCategorySave(input());
 	}
 
 	/**
@@ -104,8 +102,7 @@ class BrandCategory extends Common
 		// 开始操作
 		$params = input('post.');
 		$params['admin'] = $this->admin;
-		$ret = BrandService::BrandCategoryDelete($params);
-		return json($ret);
+		return BrandService::BrandCategoryDelete($params);
 	}
 }
 ?>

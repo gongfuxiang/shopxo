@@ -145,8 +145,7 @@ class Slide extends Common
 
         // 开始处理
         $params = input();
-        $ret = SlideService::SlideSave($params);
-        return json($ret);
+        return SlideService::SlideSave($params);
     }
 
     /**
@@ -166,8 +165,7 @@ class Slide extends Common
 
         // 开始处理
         $params = input();
-        $ret = SlideService::SlideDelete($params);
-        return json($ret);
+        return SlideService::SlideDelete($params);
     }
 
     /**
@@ -187,8 +185,7 @@ class Slide extends Common
 
         // 开始处理
         $params = input();
-        $ret = SlideService::SlideStatusUpdate($params);
-        return json($ret);
+        return SlideService::SlideStatusUpdate($params);
     }
 }
 ?>

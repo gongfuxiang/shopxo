@@ -75,10 +75,9 @@ class Buy extends Common
                 'extension_list'            => $extension_list,
                 'common_order_is_booking'   => (int) MyC('common_order_is_booking', 0),
             ];
-            return json(DataReturn('success', 0, $result));
-        } else {
-            return json($ret);
+            return DataReturn('success', 0, $result);
         }
+        return $ret;
     }
 
     /**
@@ -93,8 +92,7 @@ class Buy extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        $ret = BuyService::OrderAdd($params);
-        return json($ret);
+        return BuyService::OrderAdd($params);
     }
 }
 ?>

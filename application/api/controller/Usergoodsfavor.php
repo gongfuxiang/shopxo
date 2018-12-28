@@ -67,7 +67,7 @@ class UserGoodsFavor extends Common
             'page_total'    =>  $page_total,
             'data'          =>  $data['data'],
         ];
-        return json(DataReturn('success', 0, $result));
+        return DataReturn('success', 0, $result);
     }
 
     /**
@@ -82,8 +82,7 @@ class UserGoodsFavor extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        $ret = GoodsService::GoodsFavor($params);
-        return json($ret);
+        return GoodsService::GoodsFavor($params);
     }
 }
 ?>

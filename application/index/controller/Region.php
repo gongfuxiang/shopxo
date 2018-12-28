@@ -48,7 +48,7 @@ class Region extends Common
             ],
         ];
         $data = RegionService::RegionNode($params);
-        return json(DataReturn('操作成功', 0, $data));
+        return DataReturn('操作成功', 0, $data);
     }
 }
 ?>

@@ -68,8 +68,7 @@ class GoodsCategory extends Common
 		}
 
 		// 开始操作
-		$ret = GoodsService::GoodsCategoryNodeSon(input());
-		return json($ret);
+		return GoodsService::GoodsCategoryNodeSon(input());
 	}
 
 
@@ -89,8 +88,7 @@ class GoodsCategory extends Common
 		}
 
 		// 开始操作
-		$ret = GoodsService::GoodsCategorySave(input());
-		return json($ret);
+		return GoodsService::GoodsCategorySave(input());
 	}
 
 	/**
@@ -111,8 +109,7 @@ class GoodsCategory extends Common
 		// 开始操作
 		$params = input('post.');
 		$params['admin'] = $this->admin;
-		$ret = GoodsService::GoodsCategoryDelete($params);
-		return json($ret);
+		return GoodsService::GoodsCategoryDelete($params);
 	}
 }
 ?>

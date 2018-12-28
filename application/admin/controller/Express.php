@@ -65,8 +65,7 @@ class Express extends Common
 		}
 
 		// 开始操作
-		$ret = ExpressService::ExpressNodeSon(input());
-		return json($ret);
+		return ExpressService::ExpressNodeSon(input());
 	}
 
 	/**
@@ -85,8 +84,7 @@ class Express extends Common
 		}
 
 		// 开始操作
-		$ret = ExpressService::ExpressSave(input());
-		return json($ret);
+		return ExpressService::ExpressSave(input());
 	}
 
 	/**
@@ -107,8 +105,7 @@ class Express extends Common
 		// 开始操作
 		$params = input('post.');
 		$params['admin'] = $this->admin;
-		$ret = ExpressService::ExpressDelete($params);
-		return json($ret);
+		return ExpressService::ExpressDelete($params);
 	}
 }
 ?>

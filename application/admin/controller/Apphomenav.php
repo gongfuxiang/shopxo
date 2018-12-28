@@ -145,8 +145,7 @@ class AppHomeNav extends Common
 
         // 开始处理
         $params = input();
-        $ret = AppNavService::AppHomeNavSave($params);
-        return json($ret);
+        return AppNavService::AppHomeNavSave($params);
     }
 
     /**
@@ -167,8 +166,7 @@ class AppHomeNav extends Common
         // 开始处理
         $params = input();
         $params['user_type'] = 'admin';
-        $ret = AppNavService::AppHomeNavDelete($params);
-        return json($ret);
+        return AppNavService::AppHomeNavDelete($params);
     }
 
     /**
@@ -188,8 +186,7 @@ class AppHomeNav extends Common
 
         // 开始处理
         $params = input();
-        $ret = AppNavService::AppHomeNavStatusUpdate($params);
-        return json($ret);
+        return AppNavService::AppHomeNavStatusUpdate($params);
     }
 }
 ?>

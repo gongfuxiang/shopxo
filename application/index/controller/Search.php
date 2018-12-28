@@ -101,7 +101,7 @@ class Search extends Common
         SearchService::SearchAdd($this->params);
 
         // 返回
-        return json(DataReturn($msg, $code, $data));
+        return DataReturn($msg, $code, $data);
     }
 }
 ?>

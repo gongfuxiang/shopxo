@@ -148,8 +148,7 @@ class CustomView extends Common
 
         // 开始处理
         $params = input();
-        $ret = CustomViewService::CustomViewSave($params);
-        return json($ret);
+        return CustomViewService::CustomViewSave($params);
 	}
 
 	/**
@@ -170,8 +169,7 @@ class CustomView extends Common
         // 开始处理
         $params = input();
         $params['user_type'] = 'admin';
-        $ret = CustomViewService::CustomViewDelete($params);
-        return json($ret);
+        return CustomViewService::CustomViewDelete($params);
 	}
 
 	/**
@@ -191,8 +189,7 @@ class CustomView extends Common
 
         // 开始处理
         $params = input();
-        $ret = CustomViewService::CustomViewStatusUpdate($params);
-        return json($ret);
+        return CustomViewService::CustomViewStatusUpdate($params);
 	}
 }
 ?>

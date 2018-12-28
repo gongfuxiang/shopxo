@@ -91,8 +91,7 @@ class Buy extends Common
         {
             $params = $_POST;
             $params['user'] = $this->user;
-            $ret = BuyService::OrderAdd($params);
-            return json($ret);
+            return BuyService::OrderAdd($params);
         } else {
             $this->assign('msg', '非法访问');
             return $this->fetch('public/tips_error');

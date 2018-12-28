@@ -147,8 +147,7 @@ class Article extends Common
 
         // 开始处理
         $params = input();
-        $ret = ArticleService::ArticleSave($params);
-        return json($ret);
+        return ArticleService::ArticleSave($params);
 	}
 
 	/**
@@ -169,8 +168,7 @@ class Article extends Common
         // 开始处理
         $params = input();
         $params['admin'] = $this->admin;
-        $ret = ArticleService::ArticleDelete($params);
-        return json($ret);
+        return ArticleService::ArticleDelete($params);
 	}
 
 	/**
@@ -192,8 +190,7 @@ class Article extends Common
         $params = input();
         $params['admin'] = $this->admin;
         $params['field'] = 'is_enable';
-        $ret = ArticleService::ArticleStatusUpdate($params);
-        return json($ret);
+        return ArticleService::ArticleStatusUpdate($params);
 	}
 
 	/**
@@ -215,8 +212,7 @@ class Article extends Common
         $params = input();
         $params['admin'] = $this->admin;
         $params['field'] = 'is_home_recommended';
-        $ret = ArticleService::ArticleStatusUpdate($params);
-        return json($ret);
+        return ArticleService::ArticleStatusUpdate($params);
 	}
 }
 ?>

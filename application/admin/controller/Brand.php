@@ -144,8 +144,7 @@ class Brand extends Common
 
         // 开始处理
         $params = input();
-        $ret = BrandService::BrandSave($params);
-        return json($ret);
+        return BrandService::BrandSave($params);
 	}
 
 	/**
@@ -166,8 +165,7 @@ class Brand extends Common
         // 开始处理
         $params = input();
         $params['user_type'] = 'admin';
-        $ret = BrandService::BrandDelete($params);
-        return json($ret);
+        return BrandService::BrandDelete($params);
 	}
 
 	/**
@@ -187,8 +185,7 @@ class Brand extends Common
 
         // 开始处理
         $params = input();
-        $ret = BrandService::BrandStatusUpdate($params);
-        return json($ret);
+        return BrandService::BrandStatusUpdate($params);
     }
 }
 ?>

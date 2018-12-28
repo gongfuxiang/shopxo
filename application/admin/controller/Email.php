@@ -90,10 +90,9 @@ class Email extends Common
 		// 发送
 		if($obj->SendHtml($email_param))
 		{
-			return json(DataReturn('发送成功'));
-		} else {
-			return json(DataReturn('发送失败'.'['.$obj->error.']', -100));
+			return DataReturn('发送成功');
 		}
+		return DataReturn('发送失败'.'['.$obj->error.']', -100);
 	}
 }
 ?>

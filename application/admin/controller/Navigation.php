@@ -91,8 +91,7 @@ class Navigation extends Common
         // 开始处理
         $params = input();
         $params['nav_type'] = $this->nav_type;
-        $ret = NavigationService::NavSave($params);
-        return json($ret);
+        return NavigationService::NavSave($params);
 	}
 
 	
@@ -114,8 +113,7 @@ class Navigation extends Common
 
 		// 开始处理
         $params = input();
-        $ret = NavigationService::NavDelete($params);
-        return json($ret);
+        return NavigationService::NavDelete($params);
 	}
 
 	/**
@@ -135,8 +133,7 @@ class Navigation extends Common
 
 		// 开始处理
         $params = input();
-        $ret = NavigationService::NavStatusUpdate($params);
-        return json($ret);
+        return NavigationService::NavStatusUpdate($params);
 	}
 }
 ?>

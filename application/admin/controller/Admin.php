@@ -156,8 +156,7 @@ class Admin extends Common
 		// 开始操作
 		$params = input('post.');
 		$params['admin'] = $this->admin;
-		$ret = AdminService::AdminSave($params);
-		return json($ret);
+		return AdminService::AdminSave($params);
 	}
 
 	/**
@@ -184,8 +183,7 @@ class Admin extends Common
 		// 开始操作
 		$params = input('post.');
 		$params['admin'] = $this->admin;
-		$ret = AdminService::AdminDelete($params);
-		return json($ret);
+		return AdminService::AdminDelete($params);
 	}
 
 	/**
@@ -223,8 +221,7 @@ class Admin extends Common
 
 		// 开始操作
 		$params = input('post.');
-		$ret = AdminService::Login($params);
-		return json($ret);
+		return AdminService::Login($params);
 	}
 
 	/**

@@ -95,8 +95,7 @@ class UserFavor extends Common
         // 开始处理
         $params = input('post.');
         $params['user'] = $this->user;
-        $ret = GoodsService::GoodsFavor($params);
-        return json($ret);
+        return GoodsService::GoodsFavor($params);
     }
 }
 ?>

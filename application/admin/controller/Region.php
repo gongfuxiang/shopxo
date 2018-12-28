@@ -62,8 +62,7 @@ class Region extends Common
 		}
 
 		// 开始操作
-		$ret = RegionService::RegionNodeSon(input());
-		return json($ret);
+		return RegionService::RegionNodeSon(input());
 	}
 
 	/**
@@ -82,8 +81,7 @@ class Region extends Common
 		}
 
 		// 开始操作
-		$ret = RegionService::RegionSave(input());
-		return json($ret);
+		return RegionService::RegionSave(input());
 	}
 
 	/**
@@ -104,8 +102,7 @@ class Region extends Common
 		// 开始操作
 		$params = input('post.');
 		$params['admin'] = $this->admin;
-		$ret = RegionService::RegionDelete($params);
-		return json($ret);
+		return RegionService::RegionDelete($params);
 	}
 }
 ?>

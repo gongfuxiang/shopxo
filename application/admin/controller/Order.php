@@ -123,8 +123,7 @@ class Order extends Common
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
         $params['user_type'] = 'admin';
-        $ret = OrderService::OrderDelete($params);
-        return json($ret);
+        return OrderService::OrderDelete($params);
     }
 
     /**
@@ -147,8 +146,7 @@ class Order extends Common
         $params['user_id'] = $params['value'];
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
-        $ret = OrderService::OrderCancel($params);
-        return json($ret);
+        return OrderService::OrderCancel($params);
     }
 
     /**
@@ -170,8 +168,7 @@ class Order extends Common
         $params = input();
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
-        $ret = OrderService::OrderDelivery($params);
-        return json($ret);
+        return OrderService::OrderDelivery($params);
     }
 
     /**
@@ -194,8 +191,7 @@ class Order extends Common
         $params['user_id'] = $params['value'];
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
-        $ret = OrderService::OrderCollect($params);
-        return json($ret);
+        return OrderService::OrderCollect($params);
     }
 
     /**
@@ -218,8 +214,7 @@ class Order extends Common
         $params['user_id'] = $params['value'];
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
-        $ret = OrderService::OrderConfirm($params);
-        return json($ret);
+        return OrderService::OrderConfirm($params);
     }
 
     /**
@@ -235,8 +230,7 @@ class Order extends Common
         $params = input();
         $params['user'] = $this->admin;
         $params['user']['user_name_view'] = '管理员'.'-'.$this->admin['username'];
-        $ret = OrderService::AdminPay($params);
-        return json($ret);
+        return OrderService::AdminPay($params);
     }
 }
 ?>

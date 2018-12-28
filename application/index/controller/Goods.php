@@ -113,8 +113,7 @@ class Goods extends Common
         // 开始处理
         $params = input('post.');
         $params['user'] = $this->user;
-        $ret = GoodsService::GoodsFavor($params);
-        return json($ret);
+        return GoodsService::GoodsFavor($params);
     }
 
     /**
@@ -129,8 +128,7 @@ class Goods extends Common
     {
         // 开始处理
         $params = input('post.');
-        $ret = GoodsService::GoodsSpecType($params);
-        return json($ret);
+        return GoodsService::GoodsSpecType($params);
     }
 
     /**
@@ -145,7 +143,6 @@ class Goods extends Common
     {
         // 开始处理
         $params = input('post.');
-        $ret = GoodsService::GoodsSpecDetail($params);
-        return json($ret);
+        return GoodsService::GoodsSpecDetail($params);
     }
 }

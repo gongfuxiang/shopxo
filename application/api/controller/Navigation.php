@@ -38,7 +38,7 @@ class Navigation extends Common
         $data = AppNavService::AppHomeNav();
 
         // 返回数据
-        return json(DataReturn('success', 0, $data));
+        return DataReturn('success', 0, $data);
     }
 }
 ?>

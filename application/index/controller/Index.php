@@ -37,19 +37,6 @@ class Index extends Common
      */
     public function Index()
     {
-        // // 服务层
-        // echo Goods::Test();
-        // //echo \Page::Test();
-        
-        // // 基础类库 统一放到base下去
-        // echo \base\Page::Test();
-        
-        // // 支付类库
-        // echo \payment\Alipay::Test();
-
-        // return 'shopxo';
-        
-
         // 首页轮播
         $this->assign('banner_list', BannerService::Banner());
 
@@ -69,12 +56,6 @@ class Index extends Common
         // 用户订单状态
         $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
         $this->assign('user_order_status', $user_order_status['data']);
-        return $this->fetch();
-    }
-
-    // 视图
-    public function view()
-    {
         return $this->fetch();
     }
 }

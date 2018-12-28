@@ -38,7 +38,7 @@ class Banner extends Common
         $data = BannerService::Banner();
 
         // 返回数据
-        return json(DataReturn('success', 0, $data));
+        return DataReturn('success', 0, $data);
     }
 }
 ?>

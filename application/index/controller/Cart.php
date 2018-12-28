@@ -67,8 +67,7 @@ class Cart extends Common
 
         $params = $_POST;
         $params['user'] = $this->user;
-        $ret = BuyService::CartAdd($params);
-        return json($ret);
+        return BuyService::CartAdd($params);
     }
 
     /**
@@ -89,8 +88,7 @@ class Cart extends Common
 
         $params = $_POST;
         $params['user'] = $this->user;
-        $ret = BuyService::CartDelete($params);
-        return json($ret);
+        return BuyService::CartDelete($params);
     }
 
     /**
@@ -111,8 +109,7 @@ class Cart extends Common
 
         $params = $_POST;
         $params['user'] = $this->user;
-        $ret = BuyService::CartStock($params);
-        return json($ret);
+        return BuyService::CartStock($params);
     }
 }
 ?>

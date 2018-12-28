@@ -163,8 +163,7 @@ class User extends Common
 		// 开始操作
 		$params = input('post.');
 		$params['admin'] = $this->admin;
-		$ret = UserService::UserSave($params);
-		return json($ret);
+		return UserService::UserSave($params);
 	}
 
 	/**
@@ -185,8 +184,7 @@ class User extends Common
 		// 开始操作
 		$params = input('post.');
 		$params['admin'] = $this->admin;
-		$ret = UserService::UserDelete($params);
-		return json($ret);
+		return UserService::UserDelete($params);
 	}
 }
 ?>

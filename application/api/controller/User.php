@@ -44,8 +44,7 @@ class User extends Common
         }
 
         // 调用服务层
-        $ret = UserService::AppReg(input('post.'));
-        return json($ret);
+        return UserService::AppReg(input('post.'));
     }
 
     /**
@@ -64,8 +63,7 @@ class User extends Common
         }
 
         // 调用服务层
-        $ret = UserService::AppUserBindVerifySend(input('post.'));
-        return json($ret);
+        return UserService::AppUserBindVerifySend(input('post.'));
     }
 
     /**
@@ -80,19 +78,18 @@ class User extends Common
         // 参数
         if(empty($this->data_post['authcode']))
         {
-            return json(DataReturn('授权码不能为空', -1));
+            return DataReturn('授权码不能为空', -1);
         }
 
         // 授权
         $result = (new \base\AlipayAuth())->GetAlipayUserInfo($this->data_post['authcode'], MyC('common_app_mini_alipay_appid'));
         if($result === false)
         {
-            return json(DataReturn('获取授权信息失败', -10));
+            return DataReturn('获取授权信息失败', -10);
         } else {
             $result['openid'] = $result['user_id'];
             $result['referrer']= isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0;
-            $ret = UserService::AuthUserProgram($result, 'alipay_openid');
-            return json($ret);
+            return UserService::AuthUserProgram($result, 'alipay_openid');
         }
     }
 
@@ -106,17 +103,15 @@ class User extends Common
      */
     public function BaiduUserAuth()
     {
-        return json(DataReturn('暂未开放', -1));
+        return DataReturn('暂未开放', -1);
 
         $_POST['config'] = MyC('baidu_mini_program_config');
         $result = (new \Library\BaiduAuth())->GetAuthUserInfo($_POST);
         if($result['status'] == 0)
         {
-            $ret = UserService::AuthUserProgram($result, 'alipay_openid');
-            return json($ret);
-        } else {
-            return json(DataReturn($result['msg'], -10));
+            return UserService::AuthUserProgram($result, 'alipay_openid');
         }
+        return DataReturn($result['msg'], -10);
     }
 
     /**
@@ -168,7 +163,7 @@ class User extends Common
         );
 
         // 返回数据
-        return json(DataReturn('success', 0, $result));
+        return DataReturn('success', 0, $result);
     }
 }
 ?>

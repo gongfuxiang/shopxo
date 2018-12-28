@@ -1,0 +1,176 @@
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+}
+ul {
+    padding: 0;
+    margin: 0;
+}
+li {
+    list-style: none;
+}
+h2 {
+    margin: 0 0 5px 0;
+}
+.inside {
+    margin: 0 auto;
+    padding: 10px;
+}
+.agree {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+}
+.agree .am-btn-secondary {
+    margin-right: 20px;
+}
+.agree .am-btn-success {
+    margin-left: 20px;
+}
+.am-footer {
+    border-top: 1px solid #eee;
+}
+
+/**
+ * 导航
+ */
+.header-nav {
+    width: 100%;
+    height: 40px;
+    background: #333333;
+    color: #fff;
+    overflow: hidden;
+}
+.header-nav .inside {
+    height: 40px;
+    padding: 0;
+}
+.header-nav .inside .logo-name {
+    width: 160px;
+    height: 40px;
+    font-size: 20px;
+    float: left;
+    margin-top: 7px;
+}
+.header-nav .inside .logo-name span {
+    font-size: 12px;
+    margin-left: 2px;
+}
+.header-nav .inside .schedule {
+    margin-left: 5px;
+    width: 17%;
+    height: 30px;
+    float: left;
+    margin-top: 8px;
+}
+.header-nav .inside .active .number {
+    background: #008CBA !important;
+}
+.header-nav .inside .active .word {
+    color: #008CBA !important;
+}
+.header-nav .inside .schedule .number {
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    font-size: 12px;
+    border-radius: 50%;
+    background: #80AAB7;
+    float: left;
+}
+.header-nav .inside .schedule .word {
+    width: 60px;
+    height: 25px;
+    float: left;
+    line-height: 28px;
+    text-indent: 5px;
+    font-size: 12px;
+}
+
+@media only screen and (min-width: 641px) {
+    .inside {
+        max-width: 1000px;
+    }
+}
+
+@media only screen and (max-width: 641px) {
+    .header-nav .inside .logo-name {
+        display: none;
+    }
+    .header-nav .inside .schedule .word {
+        width: 53px;
+        height: 20px;
+        line-height: 20px;
+    }
+    .header-nav .inside .schedule {
+        width: 23%;
+        margin-top: 10px;
+    }
+    .header-nav .inside .schedule .number {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+    }
+    .header-nav .inside .schedule .word {
+        text-indent: 3px;
+    }
+}
+
+
+/**
+ * 协议
+ */
+.agreement {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+.agreement ul li.title {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 30px 0 10px 0;
+}
+.agreement ul li:not(.title) {
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 15px;
+    color: #777;
+}
+
+
+/**
+ * 检查
+ */
+.check h2 {
+    background: #eaeaea;
+    margin-bottom: 0px;
+    padding: 5px;
+}
+
+
+/**
+ * 完成
+ */
+.success {
+    text-align: center;
+    padding: 60px 0 30px 0;
+}
+.success h2 {
+    margin-top: 10px;
+}
+.success .box {
+    text-align: left;
+    width: 260px;
+    margin: 0 auto;
+}
+
+/**
+ * 错误
+ */
+.error {
+    margin: 50px 0;
+}

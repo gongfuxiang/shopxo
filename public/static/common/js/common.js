@@ -1474,22 +1474,25 @@ $(function()
 
 
 	// 颜色选择器
-    $('.colorpicker-submit').colorpicker(
-    {
-        fillcolor:true,
-        success:function(o, color)
-        {
-        	var style = o.context.dataset.colorStyle || 'color';
-            $(o.context.dataset.inputTag).css(style, color);
-            $(o.context.dataset.colorTag).val(color);
-        },
-        reset:function(o)
-        {
-        	var style = o.context.dataset.colorStyle || 'color';
-            $(o.context.dataset.inputTag).css(style, '');
-            $(o.context.dataset.colorTag).val('');
-        }
-    });
+	if($('.colorpicker-submit').length > 0)
+	{
+	    $('.colorpicker-submit').colorpicker(
+	    {
+	        fillcolor:true,
+	        success:function(o, color)
+	        {
+	        	var style = o.context.dataset.colorStyle || 'color';
+	            $(o.context.dataset.inputTag).css(style, color);
+	            $(o.context.dataset.colorTag).val(color);
+	        },
+	        reset:function(o)
+	        {
+	        	var style = o.context.dataset.colorStyle || 'color';
+	            $(o.context.dataset.inputTag).css(style, '');
+	            $(o.context.dataset.colorTag).val('');
+	        }
+	    });
+	}
 
 
     // 监听多图上传和上传附件组件的插入动作

@@ -161,8 +161,7 @@ class Safety extends Common
         // 开始处理
         $params = input('post.');
         $params['user'] = $this->user;
-        $ret = SafetyService::LoginPwdUpdate($params);
-        return json($ret);
+        return SafetyService::LoginPwdUpdate($params);
 	}
 
 	/**
@@ -183,8 +182,7 @@ class Safety extends Common
         // 开始处理
         $params = input('post.');
         $params['user'] = $this->user;
-        $ret = SafetyService::VerifySend($params);
-        return json($ret);
+        return SafetyService::VerifySend($params);
 	}
 
 
@@ -206,8 +204,7 @@ class Safety extends Common
         // 开始处理
         $params = input('post.');
         $params['user'] = $this->user;
-        $ret = SafetyService::VerifyCheck($params);
-        return json($ret);
+        return SafetyService::VerifyCheck($params);
 	}
 
 	/**
@@ -228,8 +225,7 @@ class Safety extends Common
         // 开始处理
         $params = input('post.');
         $params['user'] = $this->user;
-        $ret = SafetyService::AccountsUpdate($params);
-        return json($ret);
+        return SafetyService::AccountsUpdate($params);
 	}
 }
 ?>

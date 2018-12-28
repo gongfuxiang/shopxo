@@ -68,8 +68,7 @@ class AppMiniAlipayList extends Common
 		}
 
 		// 开始操作
-		$ret = AppMiniService::Created($this->params);
-		return json($ret);
+		return AppMiniService::Created($this->params);
 	}
 
 	/**
@@ -88,8 +87,7 @@ class AppMiniAlipayList extends Common
 		}
 
 		// 开始操作
-		$ret = AppMiniService::Delete($this->params);
-		return json($ret);
+		return AppMiniService::Delete($this->params);
 	}
 }
 ?>

@@ -62,8 +62,7 @@ class ArticleCategory extends Common
 		}
 
 		// 开始操作
-		$ret = ArticleService::ArticleCategoryNodeSon(input());
-		return json($ret);
+		return ArticleService::ArticleCategoryNodeSon(input());
 	}
 
 	/**
@@ -82,8 +81,7 @@ class ArticleCategory extends Common
 		}
 
 		// 开始操作
-		$ret = ArticleService::ArticleCategorySave(input());
-		return json($ret);
+		return ArticleService::ArticleCategorySave(input());
 	}
 
 	/**
@@ -104,8 +102,7 @@ class ArticleCategory extends Common
 		// 开始操作
 		$params = input('post.');
 		$params['admin'] = $this->admin;
-		$ret = ArticleService::ArticleCategoryDelete($params);
-		return json($ret);
+		return ArticleService::ArticleCategoryDelete($params);
 	}
 }
 ?>

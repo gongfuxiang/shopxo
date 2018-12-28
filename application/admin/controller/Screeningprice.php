@@ -62,14 +62,7 @@ class ScreeningPrice extends Common
 		}
 
 		// 开始操作
-		$ret = ScreeningPriceService::ScreeningPriceNodeSon(input());
-		return json($ret);
-
-		// 是否ajax请求
-		if(!IS_AJAX)
-		{
-			$this->error('非法访问');
-		}
+		return ScreeningPriceService::ScreeningPriceNodeSon(input());
 	}
 
 	/**
@@ -88,8 +81,7 @@ class ScreeningPrice extends Common
 		}
 
 		// 开始操作
-		$ret = ScreeningPriceService::ScreeningPriceSave(input());
-		return json($ret);
+		return ScreeningPriceService::ScreeningPriceSave(input());
 	}
 
 	/**
@@ -110,8 +102,7 @@ class ScreeningPrice extends Common
 		// 开始操作
 		$params = input('post.');
 		$params['admin'] = $this->admin;
-		$ret = ScreeningPriceService::ScreeningPriceDelete($params);
-		return json($ret);
+		return ScreeningPriceService::ScreeningPriceDelete($params);
 	}
 }
 ?>

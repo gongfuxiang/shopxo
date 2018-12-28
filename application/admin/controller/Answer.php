@@ -98,8 +98,7 @@ class Answer extends Common
         // 开始处理
         $params = input();
         $params['user_type'] = 'admin';
-        $ret = AnswerService::AnswerDelete($params);
-        return json($ret);
+        return AnswerService::AnswerDelete($params);
 	}
 
 	/**
@@ -119,8 +118,7 @@ class Answer extends Common
 
 		// 开始处理
         $params = input();
-        $ret = AnswerService::AnswerReply($params);
-        return json($ret);
+        return AnswerService::AnswerReply($params);
 	}
 
 	/**
@@ -140,8 +138,7 @@ class Answer extends Common
 
 		// 开始处理
         $params = input();
-        $ret = AnswerService::AnswerStatusUpdate($params);
-        return json($ret);
+        return AnswerService::AnswerStatusUpdate($params);
 	}
 }
 ?>

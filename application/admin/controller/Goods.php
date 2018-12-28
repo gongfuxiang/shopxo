@@ -155,8 +155,7 @@ class Goods extends Common
 		// 开始操作
 		$params = input('post.');
 		$params['admin'] = $this->admin;
-		$ret = GoodsService::GoodsSave($params);
-		return json($ret);
+		return GoodsService::GoodsSave($params);
 	}
 
 	/**
@@ -177,8 +176,7 @@ class Goods extends Common
 		// 开始操作
 		$params = input('post.');
 		$params['admin'] = $this->admin;
-		$ret = GoodsService::GoodsDelete($params);
-		return json($ret);
+		return GoodsService::GoodsDelete($params);
 	}
 
 	/**
@@ -200,8 +198,7 @@ class Goods extends Common
 		$params = input('post.');
 		$params['admin'] = $this->admin;
 		$params['field'] = 'is_shelves';
-		$ret = GoodsService::GoodsStatusUpdate($params);
-		return json($ret);
+		return GoodsService::GoodsStatusUpdate($params);
 	}
 
 	/**
@@ -223,8 +220,7 @@ class Goods extends Common
 		$params = input('post.');
 		$params['admin'] = $this->admin;
 		$params['field'] = 'is_home_recommended';
-		$ret = GoodsService::GoodsStatusUpdate($params);
-		return json($ret);
+		return GoodsService::GoodsStatusUpdate($params);
 	}
 }
 ?>

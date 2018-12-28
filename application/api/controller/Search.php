@@ -51,7 +51,7 @@ class Search extends Common
             $result['category'] = [];
         }
         
-        return json(DataReturn('success', 0, $result));
+        return DataReturn('success', 0, $result);
     }
 }
 ?>
