@@ -182,7 +182,7 @@
                                         <div class="goods-title ellipsis">
                                             <a href="{{$goods['goods_url']}}" target="_blank" {{if !empty($goods.title_color)}}style="color:{{$goods.title_color}};"{{/if}}>{{$goods.title}}</a>
                                         </div>
-                                        <div class="price">￥{{$goods.price}}</div>
+                                        <div class="price">￥{{$goods.min_price}}</div>
                                     </div>
                                     <a href="{{$goods.goods_url}}" target="_blank">
                                         <img src="{{$goods.home_recommended_images}}" />
