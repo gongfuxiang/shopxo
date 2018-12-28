@@ -63,6 +63,7 @@ class Index extends Common
     public function Index()
     {
         $this->IsInstall();
+        new \base\Behavior(['msg'=>'协议阅读']);
         return $this->fetch();
     }
 
@@ -77,6 +78,7 @@ class Index extends Common
     public function Check()
     {
         $this->IsInstall();
+        new \base\Behavior(['msg'=>'环境检测']);
         return $this->fetch();
     }
 
@@ -91,6 +93,7 @@ class Index extends Common
     public function Create()
     {
         $this->IsInstall();
+        new \base\Behavior(['msg'=>'数据信息填写']);
         return $this->fetch();
     }
 
@@ -104,6 +107,15 @@ class Index extends Common
      */
     public function Successful()
     {
+        // 检测是否是新安装
+        if(is_dir(ROOT.'public/install') && !file_exists(ROOT.'public/install/install.lock'))
+        {
+            if(empty($_GET['s']) || stripos($_GET['s'], 'install') === false)
+            {
+                $url = __MY_URL__.'index.php?s=/install/index/index';
+                exit(header('location:'.$url));
+            }
+        }
         return $this->fetch();
     }
 
@@ -122,6 +134,7 @@ class Index extends Common
         $ret = $this->ParamsCheck($params);
         if($ret['code'] != 0)
         {
+            new \base\Behavior(['msg'=>'参数校验['.json_encode($ret).']']);
             return $ret;
         }
 
@@ -130,7 +143,8 @@ class Index extends Common
         {
             if(!is_writable(ROOT.'config/database.php'))
             {
-                return DataReturn('配置文件没有权限', -1);
+                new \base\Behavior(['msg'=>'配置文件没有权限[./config/database.php'.']']);
+                return DataReturn('配置文件没有权限[./config/database.php'.']', -1);
             }
         }
 
@@ -138,6 +152,7 @@ class Index extends Common
         $db = $this->DbObj($params);
         if(!is_object($db))
         {
+            new \base\Behavior(['msg'=>'数据库连接失败']);
             return DataReturn('数据库连接失败', -1);
         }
 
@@ -155,6 +170,7 @@ class Index extends Common
             {
                 $db = $this->DbObj($params, $params['DB_NAME']);
             } else {
+                new \base\Behavior(['msg'=>'数据库创建失败']);
                 return DataReturn('数据库创建失败', -1);
             }
         } else {
@@ -162,6 +178,7 @@ class Index extends Common
         }
         if(!is_object($db))
         {
+            new \base\Behavior(['msg'=>'数据库连接失败']);
             return DataReturn('数据库连接失败', -1);
         }
 
@@ -259,8 +276,11 @@ return [
 php;
         if(@file_put_contents(ROOT.'config/database.php', $db_str) === false)
         {
+            new \base\Behavior(['msg'=>'配置文件创建失败']);
             return DataReturn('配置文件创建失败', -1);
         }
+
+        new \base\Behavior(['msg'=>'安装成功']);
         return DataReturn('安装成功', 0);
     }
 
@@ -277,6 +297,7 @@ php;
     {
         if(!file_exists(ROOT.'public/install/shopxo.sql'))
         {
+            new \base\Behavior(['msg'=>'数据库sql文件不存在']);
             return DataReturn('数据库sql文件不存在', -1);
         }
 
@@ -313,6 +334,7 @@ php;
             'success'   => $success,
             'failure'   => $failure,
         ];
+        new \base\Behavior(['msg'=>'sql运行 成功['.$success.']条, 失败['.$failure.']条']);
         if($failure > 0)
         {
             return DataReturn('sql运行失败['.$failure.']条', -1);
@@ -337,10 +359,12 @@ php;
         $data = $db->query("select version() AS version");
         if(empty($data[0]['version']))
         {
+            new \base\Behavior(['msg'=>'查询数据库版本失败']);
             return DataReturn('查询数据库版本失败', -1);
         } else {
             if($data[0]['version'] < 5.0)
             {
+                new \base\Behavior(['msg'=>'数据库版本过低', 'mysql_version'=>$data[0]['version']]);
                 return DataReturn('数据库版本过低', -1);
             }
         }
@@ -359,8 +383,8 @@ php;
      */
     private function DbNameCreate($db, $db_name)
     {
-        $sql = "CREATE DATABASE IF NOT EXISTS {$db_name} DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_general_ci";
-        if($db->query($sql) !== false)
+        $sql = "CREATE DATABASE {$db_name} DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_general_ci";
+        if($db->execute($sql) !== false)
         {
             return $this->IsDbExist($db, $db_name);
         }
