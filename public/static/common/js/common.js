@@ -379,7 +379,7 @@ function FromInit(form_name)
 					url:action,
 					type:method,
 	                dataType:"json",
-	                timeout:10000,
+	                timeout:$form.attr('timeout') || 10000,
 	                data:GetFormVal(form_name),
 	                processData:false,
 					contentType:false,

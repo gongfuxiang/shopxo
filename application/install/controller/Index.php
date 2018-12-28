@@ -27,6 +27,23 @@ class Index extends Common
     }
 
     /**
+     * 是否已安装
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-28
+     * @desc    description
+     */
+    private function IsInstall()
+    {
+        // 是否已安装
+        if(file_exists(ROOT.'public/install/install.lock'))
+        {
+            exit('你已经安装过该系统，重新安装需要先删除 ./public/install/install.lock 文件');
+        }
+    }
+
+    /**
      * 协议
      * @author   Devil
      * @blog    http://gong.gg/
@@ -36,6 +53,7 @@ class Index extends Common
      */
     public function Index()
     {
+        $this->IsInstall();
         return $this->fetch();
     }
 
@@ -49,6 +67,7 @@ class Index extends Common
      */
     public function Check()
     {
+        $this->IsInstall();
         return $this->fetch();
     }
 
@@ -62,6 +81,7 @@ class Index extends Common
      */
     public function Create()
     {
+        $this->IsInstall();
         return $this->fetch();
     }
 
@@ -137,7 +157,7 @@ class Index extends Common
         }
 
         // 创建数据表
-        $ret = $this->CreateTable($db);
+        $ret = $this->CreateTable($db, $params);
         if($ret['code'] != 0)
         {
             return $ret;
@@ -229,7 +249,7 @@ php;
         {
             return DataReturn('配置文件创建失败', -1);
         }
-        return DataReturn('success', 0);
+        return DataReturn('安装成功', 0);
     }
 
     /**
@@ -239,28 +259,41 @@ php;
      * @date    2018-12-28
      * @desc    description
      * @param   [object]          $db      [db对象]
+     * @param   [array]           $params  [输入参数]
      */
-    private function CreateTable($db)
+    private function CreateTable($db, $params)
     {
         if(!file_exists(ROOT.'public/install/shopxo.sql'))
         {
             return DataReturn('数据库sql文件不存在', -1);
         }
 
-        // 导入sql数据并创建表
-        $sql_array = preg_split("/;[\r\n]+/", str_replace('`s_', '`'.$params['DB_PREFIX'], file_get_contents(ROOT.'public/install/shopxo.sql')));
+        // sql文件
+        $sql = file_get_contents(ROOT.'public/install/shopxo.sql');
+
+        //替换表前缀
+        $sql = str_replace("`s_", " `{$params['DB_PREFIX']}", $sql);
+
+        // 转为数组
+        $sql_all = preg_split("/;[\r\n]+/", $sql);
+
         $success = 0;
         $failure = 0;
-        foreach($sql_array as $v)
+        foreach($sql_all as $v)
         {
             if (!empty($v))
             {
-                if($db->query($v))
+                if (substr($v, 0, 12) == 'CREATE TABLE')
                 {
-                    $success++;
+                    if($db->execute($v) !== false)
+                    {
+                        $success++;
+                    } else {
+                        $failure++;
+                    }
                 } else {
-                    $failure++;
-                }
+                    $db->execute($v);
+                }                
             }
         }
 
@@ -274,7 +307,7 @@ php;
         }
 
         // 创建成功标记文件
-        @file_put_contents(ROOT.'public/install/install.lock');
+        @touch(ROOT.'public/install/install.lock');
         return DataReturn('success', 0, $result);
     }
 
@@ -366,9 +399,12 @@ php;
             // 数据库连接端口
             'hostport'    => $params['DB_PORT'],
             // 数据库连接参数
-            'params'      => [],
+            'params'      => [
+                \PDO::ATTR_CASE => \PDO::CASE_LOWER,
+                \PDO::ATTR_EMULATE_PREPARES => true,
+            ],
             // 数据库编码默认采用utf8
-            'charset'     => 'utf8',
+            'charset'     => 'utf8mb4',
             // 数据库表前缀
             'prefix'      => $params['DB_PREFIX'],
         ]);
