@@ -1,0 +1,36 @@
+{{include file="public/header" /}}
+
+<!-- nav start -->
+{{include file="public/nav" /}}
+<!-- nav end -->
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- conntent start  -->
+<div class="am-g my-content">
+    <div class="am-u-md-6 am-u-sm-centered">
+        <div class="am-panel am-radius tips-error tips-pay-error">
+            <div class="am-panel-bd">
+                <i class="am-icon-times-circle am-icon-lg"></i>
+                <span class="msg">{{$msg}}</span>
+                <div class="tips-nav">
+                    <a href="{{$Think.__MY_URL__}}" class="am-btn am-btn-secondary am-radius">回到首页</a>
+                    <a href="{{:MyUrl('index/order/index')}}" class="am-btn am-btn-primary am-radius">我的订单</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- conntent end  -->
+
+{{include file="public/footer" /}}

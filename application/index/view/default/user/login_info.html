@@ -1,0 +1,46 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- conntent start  -->
+<div class="am-g my-content">
+	<div class="am-u-md-6 am-u-sm-centered">
+		<!-- form start -->
+		<form class="am-form form-validation" method="post" action="{{:MyUrl('index/user/login')}}" request-type="ajax-url" request-value="{{$referer_url}}">
+			<fieldset>
+				{{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))}}
+					<span class="">还没有帐号？</span>
+					<a href="{{:MyUrl('index/user/reginfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">立即注册</a>
+					<hr />
+				{{/if}}
+				<label>手机/邮箱</label>
+				<div class="am-form-group">
+					<input type="text" name="accounts" class="am-radius" minlength="1" placeholder="手机/邮箱" data-validation-message="手机/邮箱格式有误" required />
+				</div>
+				<label>登录密码</label>
+				<div class="am-form-group">
+					<input type="password" name="pwd" class="am-radius" placeholder="登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
+				</div>
+				<p>
+					<button type="submit" class="am-btn am-btn-primary am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '登录中...'}">登录</button>
+					<a href="{{:MyUrl('index/user/forgetpwdinfo')}}" class="am-fr">忘记密码？</a>
+				</p>
+			</fieldset>
+		</form>
+		<!-- form end -->
+	</div>
+</div>
+<!-- conntent end  -->
+
+
+{{include file="public/footer" /}}

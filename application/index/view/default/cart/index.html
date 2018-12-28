@@ -1,0 +1,152 @@
+{{include file="public/header" /}}
+
+<!-- nav start -->
+{{include file="public/nav" /}}
+<!-- nav end -->
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container cart-content">
+    {{if !empty($cart_list)}}
+        <!-- 商品列表 -->
+        <table class="am-table">
+            <thead>
+                <tr>
+                    <th>商品信息</th>
+                    <th class="am-hide-sm-only">单价</th>
+                    <th>数量</th>
+                    <th class="am-hide-sm-only">金额</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{foreach $cart_list as $goods}}
+                    <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}" class="{{if $goods['is_shelves'] neq 1}}am-warning{{/if}} {{if $goods['is_delete_time'] neq 0}}am-danger{{/if}}">
+                        <td class="base">
+                            <input type="checkbox" value="{{$goods.id}}" {{if $goods['is_shelves'] neq 1 or $goods['is_delete_time'] neq 0}}disabled{{/if}} />
+                            <div class="goods-detail">
+                                <a href="{{$goods.goods_url}}" target="_blank">
+                                    <img src="{{$goods.images}}">
+                                </a>
+                                <div class="goods-base">
+                                    <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
+                                    {{if !empty($goods.spec)}}
+                                        <ul class="goods-attr">
+                                            {{foreach $goods.spec as $spec}}
+                                                <li>{{$spec.type}}：{{$spec.value}}</li>
+                                            {{/foreach}}
+                                        </ul>
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <div class="wap-base am-show-sm-only">
+                                {{if $goods['original_price'] gt 0}}
+                                    <span class="original-price">￥{{$goods.original_price}}</span>
+                                {{/if}}
+                                <strong class="total-price-content">￥{{$goods.price}}</strong>
+                                <span class="wap-number">x{{$goods.stock}}</span>
+                            </div>
+                        </td>
+                        <td class="price am-hide-sm-only">
+                            {{if $goods['original_price'] gt 0}}
+                                <p class="original-price">￥{{$goods.original_price}}</p>
+                            {{/if}}
+                            <p class="line-price">￥{{$goods.price}}</p>
+                        </td>
+                        <td class="number">
+                            <div class="am-input-group am-input-group-sm stock-tag" data-inventory="{{$goods.inventory}}" data-price="{{$goods.price}}" data-ajax-url="{{:MyUrl('index/cart/Stock')}}">
+                                <span class="am-input-group-label {{if $goods['is_shelves'] eq 1 and $goods['is_delete_time'] eq 0}}stock-submit{{/if}}" data-type="min">-</span>
+                                <input type="number" class="am-form-field" value="{{$goods.stock}}" {{if $goods['is_shelves'] neq 1 or $goods['is_delete_time'] neq 0}}disabled{{/if}} />
+                                <span class="am-input-group-label {{if $goods['is_shelves'] eq 1 and $goods['is_delete_time'] eq 0}}stock-submit{{/if}}" data-type="add">+</span>
+                            </div>
+                            {{if $goods['is_shelves'] neq 1}}
+                                <p>商品已下架</p>
+                            {{/if}}
+                            {{if $goods['is_delete_time'] neq 0}}
+                                <p>商品已作废</p>
+                            {{/if}}
+                        </td>
+                        <td class="total-price am-hide-sm-only">
+                            <strong class="total-price-content">￥{{$goods.total_price}}</strong>
+                        </td>
+                        <td class="operation">
+                            <a href="javascript:;" class="submit-delete" data-url="{{:MyUrl('index/cart/delete')}}" data-id="{{$goods.id}}" data-view="fun" data-value="ViewDeleteBack">删除</a>
+                        </td>
+                    </tr>
+                {{/foreach}}
+            </tbody>
+        </table>
+
+        <!-- 导航 -->
+        <div class="cart-nav">
+            <div class="am-fl nav-left">
+                <label>
+                    <input type="checkbox" value="3" class="select-all-event" />
+                    <span>全选</span>
+                </label>
+                <a href="javascript:;" class="submit-ajax" data-url="{{:MyUrl('index/cart/delete')}}" data-id="{{$base.ids}}" data-view="reload" data-msg="清空后不可恢复、确认操作吗？">清空</a>
+            </div>
+            <div class="am-fr nav-right">
+                <form action="{{:MyUrl('index/buy/index')}}" method="post">
+                    <span class="selected-tips am-fl">已选商品 <strong>0</strong> 件</span>
+                    <span class="total-price-tips am-fl">合计：</span>
+                    <strong class="nav-total-price am-fl">￥0.00</strong>
+                    <input type="hidden" name="ids" value="0" />
+                    <input type="hidden" name="buy_type" value="cart" />
+                    <button type="submit" class="am-btn am-btn-primary separate-submit">结算</button>
+                </form>
+            </div>
+        </div>
+    {{/if}}
+    {{if empty($cart_list)}}
+        <div class="mixed-tips">
+            <i class="am-icon-cart-plus am-fl icon"></i>
+            <div class="mixed-tips-content am-fl">
+                <h1>您的购物车还是空的，您可以</h1>
+                <ul>
+                    <li>
+                       <span>看看</span>
+                        <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/userfavor/goods')}}{{/if}}" class="{{if empty($user)}}login-event{{/if}}">我的收藏夹</a> 
+                    </li>
+                    <li>
+                       <span>看看</span>
+                        <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/order/index')}}{{/if}}" class="{{if empty($user)}}login-event{{/if}}">我的订单</a> 
+                    </li>
+                </ul>
+            </div>
+        </div>
+    {{/if}}
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
+
+<script type="text/javascript">
+    // 返回处理
+    function ViewDeleteBack(e)
+    {
+        if(e.code == 0)
+        {
+            $.AMUI.progress.done();
+            Prompt(e.msg, 'success');
+            $('#data-list-'+e.data_id).remove();
+            HomeCartNumberTotalUpdate(parseInt(e.data));
+        } else {
+            $('form.form-validation').find('button[type="submit"]').button('reset');
+            $.AMUI.progress.done();
+            Prompt(e.msg);
+        }
+    }
+</script>

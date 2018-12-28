@@ -1,0 +1,116 @@
+/**
+ * 地址管理
+ */
+ul.address-list li .user-base {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+.address-operation-btn .cut {
+    padding: 0 5px;
+    color: #ccc;
+}
+@media only screen and (min-width: 641px) {
+    ul.address-list {
+        overflow: hidden;
+        margin-top: 10px;
+    }
+
+    ul.address-list li.address-default {
+        background-image: url(../images/peraddressbg.png);
+    }
+
+    ul.address-list li {
+        display: block;
+        width: calc(50% - 5px);
+        height: 130px;
+        float: left;
+        background-image: url(../images/peraddbg.png);
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        margin: 0 10px 10px 0;
+        padding: 10px;
+        position: relative;
+    }
+
+    .address-operation-btn {
+        position: absolute;
+        bottom: 5px;
+        right: 25px;
+        color: #282828;
+        text-align: right;
+    }
+
+    ul.address-list li:nth-child(2n) {
+        margin-right: 0;
+    }
+}
+
+@media only screen and (min-width: 1025px) {
+    ul.address-list li {
+        width: calc(33.33% - 7px);
+    }
+    
+    ul.address-list li:nth-child(2n) {
+        margin-right: 10px;
+    }
+    ul.address-list li:nth-child(3n) {
+        margin-right: 0;
+    }
+}
+
+@media only screen and (max-width: 641px) {
+    .control .address-submit-save {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        z-index: 2;
+    }
+    .am-footer {
+        padding-bottom: 30px;
+    }
+
+    ul.address-list li {
+        padding: 5px 0 28px 5px;
+        position: relative;
+    }
+    ul.address-list li:not(:last-child) {
+        border-bottom: 1px solid #eee;
+    }
+    .address-detail .phone {
+        float: right;
+    }
+    .address-operation-btn {
+        position: absolute;
+        bottom: 5px;
+        right: 0;
+        color: #282828;
+        text-align: right;
+    }
+    .address-operation-btn a {
+        text-decoration: none;
+    }
+}
+
+
+/**
+ * 地址添加/编辑
+ */
+.my-content {
+    padding: 15px 10px;
+}
+
+.region-linkage .chosen-select {
+    display: -webkit-inline-box;
+    width: calc(33.3% - 3px) !important;
+}
+
+.region-linkage .chosen-select .chosen-single {
+    width: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 250px;
+}

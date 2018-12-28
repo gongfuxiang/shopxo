@@ -1,0 +1,17 @@
+.category-list ul { overflow: hidden; border-bottom: 1px dotted #dedede; margin-bottom: 20px; }
+.category-list ul:last-child { border-bottom: 0; margin-bottom: 0; }
+.category-list .title a { font-weight: 500; font-size: 14px; color: #666; }
+.category-list ul li { margin-right: 10px; line-height: 38px; }
+.category-list ul li a { color: #787878; border-left: 1px solid #dedede; padding-left: 10px; font-size: 12px; }
+.category-list ul li a.first { border-left: 0; padding-left: 0; }
+.am-accordion-gapped .am-accordion-title { font-size: 16px; font-weight: 500; }
+
+@media only screen and (min-width:640px) {
+    .am-accordion-gapped { margin: 0; }
+}
+@media only screen and (max-width:1025px) {
+    .am-accordion-gapped { margin: 0 5px; }
+}
+@media only screen and (max-width:640px) {
+    .am-footer { padding-bottom: 55px; }
+}

@@ -1,0 +1,8 @@
+<ul class="am-nav am-nav-pills table-nav">
+	<li {{if $view_type eq 'home'}}class="am-active"{{/if}}>
+		<a href="{{:MyUrl('admin/theme/index', ['view_type'=>'home'])}}">当前主题</a>
+	</li>
+	<li {{if $view_type eq 'upload'}}class="am-active"{{/if}}>
+		<a href="{{:MyUrl('admin/theme/index', ['view_type'=>'upload'])}}">主题安装</a>
+	</li>
+</ul>

@@ -1,0 +1,55 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container user-main">
+
+    <!-- user menu start -->
+    {{include file="public/user_menu" /}}
+    <!-- user menu end -->
+
+    <!-- content start -->
+    <div class="user-content">
+        <div class="user-content-body">
+			<legend>
+				<span class="legend-title">个人资料</span>
+				<a href="{{:MyUrl('index/personal/saveinfo')}}" class="am-fr"> 编辑</a>
+			</legend>
+			<dl class="dl-content">
+				{{foreach $personal_show_list as $k=>$v}}
+					{{if isset($user[$k])}}
+						<dt>{{$v.name}}</dt>
+						<dd>
+							{{if empty($user[$k])}}
+								<span class="items-value-empty">未填写</span>
+							{{elseif $k eq 'avatar' /}}
+                                <img src="{{$user[$k]}}" width="50" height="50" />
+                            {{else /}}
+								{{$user[$k]}}
+							{{/if}}
+							{{if isset($v['tips'])}}
+								<span class="span-edit">{{$v.tips|raw}}</span>
+							{{/if}}
+						</dd>
+					{{/if}}
+				{{/foreach}}
+			</dl>
+		</div>
+	</div>
+  <!-- content end -->
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

@@ -1,0 +1,58 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/customview/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/customview/index')}}">
+			<legend>
+				<span class="fs-16">
+					{{if empty($data['id'])}}
+						自定义页面添加
+					{{else /}}
+						自定义页面编辑
+					{{/if}}
+				</span>
+				<a href="{{:MyUrl('admin/customview/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+			</legend>
+			<div class="am-form-group">
+				<label>标题</label>
+				<input type="text" name="title" placeholder="标题" minlength="2" maxlength="60" data-validation-message="标题长度 2~60 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.title}}" {{/if}} required />
+			</div>
+			<div class="am-form-group">
+			    <label class="block">是否启用</label>
+			    <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />
+			</div>
+
+			<div class="am-form-group">
+			    <label class="block">是否含头部</label>
+			    <input name="is_header" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_header']) and $data['is_header'] eq 1) or !isset($data['is_header'])}}checked="true"{{/if}} />
+			</div>
+
+			<div class="am-form-group">
+			    <label class="block">是否含尾部</label>
+			    <input name="is_footer" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_footer']) and $data['is_footer'] eq 1) or !isset($data['is_footer'])}}checked="true"{{/if}} />
+			</div>
+
+			<div class="am-form-group">
+			    <label class="block">是否满屏</label>
+			    <input name="is_full_screen" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_full_screen']) and $data['is_full_screen'] eq 1) or !isset($data['is_full_screen'])}}checked="true"{{/if}} />
+			</div>
+
+			<div class="am-form-group">
+				<label>内容{{if IsMobile()}}<span class="fs-12 fw-100 cr-999">（更多编辑功能请使用电脑访问）</span>{{/if}}</label>
+				<textarea class="am-radius am-validate" name="content" rows="5" minlength="50" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>'customview'])}}" placeholder="内容长度最少 50~105000 个字符" {{else /}} placeholder="内容长度最少 50~105000 个字符更多编辑功能请使用电脑访问" {{/if}} data-validation-message="内容长度最少 50~105000 个字符" required>{{if !empty($data)}}{{$data.content}}{{/if}}</textarea>
+			</div>
+			<div class="am-form-group">
+				<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}}" />
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

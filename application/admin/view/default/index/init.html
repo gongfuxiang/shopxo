@@ -1,0 +1,43 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<p class="fw-700 list-title">系统信息</p>
+		<dl class="dl-content">
+			<dt>软件版本</dt>
+			<dd>{{$data.ver}}</dd>
+
+			<dt>操作系统</dt>
+			<dd>{{$data.os_ver}}</dd>
+
+			<dt>PHP版本</dt>
+			<dd>{{$data.php_ver}}</dd>
+
+			<dt>MySQL版本</dt>
+			<dd>{{$data.mysql_ver}}</dd>
+
+			<dt>服务器端信息</dt>
+			<dd>{{$data.server_ver}}</dd>
+
+			<dt>当前域名</dt>
+			<dd>{{$data.host}}</dd>
+		</dl>
+
+		<p class="fw-700 list-title">开发团队</p>
+		<dl class="dl-content">
+			<dt>技术支持</dt>
+			<dd><a href="http://shopxo.net/" target="_blank">ShopXO企业级电商系统提供商</a></dd>
+
+			<dt>研发成员</dt>
+			<dd>
+				<a href="http://gong.gg/" target="_blank">龚哥哥</a>
+			</dd>
+		</dl>
+	</div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

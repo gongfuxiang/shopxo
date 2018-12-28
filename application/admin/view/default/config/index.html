@@ -1,0 +1,100 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/config/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/config/index')}}">
+			<div class="am-form-group">
+				<label>{{$data.admin_excel_charset.name}}<span class="fs-12 fw-100 cr-999">（{{$data.admin_excel_charset.describe}}）</span></label>
+				<select name="{{$data.admin_excel_charset.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.admin_excel_charset.error_tips}}" required>
+					{{foreach $common_excel_charset_list as $v}}
+						<option value="{{$v.id}}" {{if isset($data['admin_excel_charset']['value']) and $data['admin_excel_charset']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.admin_page_number.name}}<span class="fs-12 fw-100 cr-999">（{{$data.admin_page_number.describe}}）</span></label>
+				<input type="number" name="{{$data.admin_page_number.only_tag}}" placeholder="{{$data.admin_page_number.name}}" pattern="{{:lang('common_regex_page_number')}}" data-validation-message="{{$data.admin_page_number.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.admin_page_number.value}}"{{/if}} required />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_is_deduction_inventory.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_is_deduction_inventory.describe}}）</span></label>
+				<select name="{{$data.common_is_deduction_inventory.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.common_is_deduction_inventory.error_tips}}" required>
+					{{foreach $common_is_text_list as $v}}
+						<option value="{{$v.id}}" {{if isset($data['common_is_deduction_inventory']['value']) and $data['common_is_deduction_inventory']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_deduction_inventory_rules.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_deduction_inventory_rules.describe}}）</span></label>
+				<select name="{{$data.common_deduction_inventory_rules.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.common_deduction_inventory_rules.error_tips}}" required>
+					{{foreach $common_deduction_inventory_rules_list as $v}}
+						<option value="{{$v.id}}" {{if isset($data['common_deduction_inventory_rules']['value']) and $data['common_deduction_inventory_rules']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_order_is_booking.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_order_is_booking.describe}}）</span></label>
+				<select name="{{$data.common_order_is_booking.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.common_order_is_booking.error_tips}}" required>
+					{{foreach $common_is_text_list as $v}}
+						<option value="{{$v.id}}" {{if isset($data['common_order_is_booking']['value']) and $data['common_order_is_booking']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_spec_add_max_number.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_spec_add_max_number.describe}}）</span></label>
+				<input type="number" name="{{$data.common_spec_add_max_number.only_tag}}" placeholder="{{$data.common_spec_add_max_number.describe}}" data-validation-message="{{$data.common_spec_add_max_number.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_spec_add_max_number.value}}"{{/if}} />
+			</div>
+			<!-- <div class="am-form-group">
+				<label>{{$data.common_share_giving_integral_frequency.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_share_giving_integral_frequency.describe}}）</span></label>
+				<input type="number" name="{{$data.common_share_giving_integral_frequency.only_tag}}" placeholder="{{$data.common_share_giving_integral_frequency.name}}" data-validation-message="{{$data.common_share_giving_integral_frequency.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_share_giving_integral_frequency.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_share_giving_integral.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_share_giving_integral.describe}}）</span></label>
+				<input type="number" name="{{$data.common_share_giving_integral.only_tag}}" placeholder="{{$data.common_share_giving_integral.name}}" data-validation-message="{{$data.common_share_giving_integral.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_share_giving_integral.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_share_view_desc.name}}</label>
+				<textarea rows="3" name="{{$data.common_share_view_desc.only_tag}}" class="am-radius" placeholder="{{$data.common_share_view_desc.name}}" data-validation-message="{{$data.common_share_view_desc.error_tips}}">{{if !empty($data)}}{{$data.common_share_view_desc.value}}{{/if}}</textarea>
+			</div> -->
+			<div class="am-form-group">
+				<label>{{$data.common_shop_notice.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_shop_notice.describe}}）</span></label>
+				<textarea rows="3" name="{{$data.common_shop_notice.only_tag}}" class="am-radius" placeholder="{{$data.common_shop_notice.name}}" data-validation-message="{{$data.common_shop_notice.error_tips}}">{{if !empty($data)}}{{$data.common_shop_notice.value}}{{/if}}</textarea>
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_user_center_notice.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_user_center_notice.describe}}）</span></label>
+				<textarea rows="3" name="{{$data.common_user_center_notice.only_tag}}" class="am-radius" placeholder="{{$data.common_user_center_notice.name}}" data-validation-message="{{$data.common_user_center_notice.error_tips}}">{{if !empty($data)}}{{$data.common_user_center_notice.value}}{{/if}}</textarea>
+			</div>
+			
+			<div class="am-form-group">
+				<label>{{$data.home_search_keywords_type.name}}</label>
+				<select name="{{$data.home_search_keywords_type.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_search_keywords_type.error_tips}}">
+					{{foreach $common_search_keywords_type_list as $v}}
+						<option value="{{$v.value}}" {{if isset($data['home_search_keywords_type']['value']) and $data['home_search_keywords_type']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_search_keywords.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_search_keywords.describe}}）</span></label>
+				<input type="text" name="{{$data.home_search_keywords.only_tag}}" placeholder="{{$data.home_search_keywords.describe}}" data-validation-message="{{$data.home_search_keywords.error_tips}}" class="am-radius" data-am-tagsinput {{if !empty($data)}}value="{{$data.home_search_keywords.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_baidu_map_ak.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_baidu_map_ak.describe}}）</span></label>
+				<input type="text" name="{{$data.common_baidu_map_ak.only_tag}}" placeholder="{{$data.common_baidu_map_ak.describe}}" data-validation-message="{{$data.common_baidu_map_ak.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_baidu_map_ak.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_customer_service_tel.name}}</label>
+				<input type="text" name="{{$data.common_customer_service_tel.only_tag}}" placeholder="{{$data.common_customer_service_tel.describe}}" data-validation-message="{{$data.common_customer_service_tel.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_service_tel.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

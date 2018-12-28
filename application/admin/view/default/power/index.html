@@ -1,0 +1,105 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- operation start -->
+		<div class="am-g">
+			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#power-save-win'}"> 新增</button>
+		</div>
+		<!-- operation end -->
+
+		<!-- save win start -->
+		<div class="am-popup am-radius" id="power-save-win">
+			<div class="am-popup-inner">
+				<div class="am-popup-hd">
+					<h4 class="am-popup-title" data-add-title="权限添加" data-edit-title="权限编辑">权限添加</h4>
+					<span data-am-modal-close class="am-close">&times;</span>
+				</div>
+				<div class="am-popup-bd">
+					<!-- form start -->
+					<form class="am-form form-validation admin-save" action="{{:MyUrl('admin/power/powersave')}}" method="POST" request-type="ajax-reload" request-value="">
+						<div class="am-form-group">
+							<label>栏目级别</label>
+							<select  class="am-radius c-p" name="pid" data-validation-message="栏目级别选择错误">
+								<option value="0">一级栏目...</option>
+								{{foreach $data as $v}}
+									<option value="{{$v.id}}">{{$v.name}}</option>
+								{{/foreach}}
+							</select>
+						</div>
+						<div class="am-form-group">
+							<label>权限名称</label>
+							<input type="text" placeholder="权限名称" name="name" minlength="2" maxlength="16" data-validation-message="权限名称格式 2~8 个字符之间" class="am-radius" required />
+						</div>
+						<div class="am-form-group">
+							<label>控制器名称</label>
+							<input type="text" placeholder="控制器名称" name="control" pattern="{{:lang('common_regex_control')}}"  data-validation-message="控制器名格式 1~30 个字符之间（必须以字母开始，可以是字母数字下划线）" class="am-radius" required />
+						</div>
+						<div class="am-form-group">
+							<label>方法名称</label>
+							<input type="text" placeholder="方法名称" name="action" pattern="{{:lang('common_regex_action')}}"  data-validation-message="方法名格式 1~30 个字符之间（必须以字母开始，可以是字母数字下划线）" class="am-radius" required />
+						</div>
+						<div class="am-form-group">
+							<label>图标class<span class="fs-12 fw-100 cr-999">（参考 http://www.iconfont.cn/ 将icon放到 [ /static/admin/default/css/iconfontmenu.css ] 文件中）</span></label>
+							<input type="text" placeholder="图标class" name="icon" maxlength="60" data-validation-message="图标格式 0~30 个字符之间" class="am-radius" />
+						</div>
+						<div class="am-form-group">
+							<label>顺序</label>
+							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
+						</div>
+						{{include file="lib/is_show" /}}
+						<div class="am-form-group">
+							<input type="hidden" name="id" />
+							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+						</div>
+					</form>
+					<!-- form end -->
+				</div>
+			</div>
+		</div>
+		<!-- save win end -->
+
+        <!-- content start -->
+		<ul class="tree-list p-0 m-t-15">
+			{{foreach $data as $v}}
+				<li id="data-list-{{$v.id}}" {{if $v['is_show'] eq 0}}class="bk-cr-ffd"{{/if}}>
+					{{if !empty($v['item'])}}
+						<i class="am-icon-plus c-p m-r-5"></i>
+						<label class="c-p">
+					{{else /}}
+						<label class="c-p m-l-2)}}
+					{{/if}}
+						<span>{{if !empty($v['icon'])}}<span class="iconfont {{$v.icon}}"></span>{{/if}} {{$v.name}}</span>
+					</label>
+					<div class="fr m-r-20 list-submit">
+						<span class="am-icon-edit am-icon-md c-p submit-edit {{if !empty($v['item'])}}m-r-5{{/if}}" data-am-modal="{target: '#power-save-win'}" data-json='{{:json_encode($v)}}' data-tag="power-save-win" data-item="{{if !empty($v['item'])}}ok{{else /}}no{{/if}}"></span>
+						{{if empty($v['item'])}}
+							<span class="am-icon-trash-o am-icon-md c-p m-l-20 m-r-15 submit-delete" data-url="{{:MyUrl('admin/power/powerdelete')}}" data-id="{{$v.id}}"></span>
+						{{/if}}
+					</div>
+				</li>
+				{{if !empty($v['item'])}}
+					<ul class="list-find p-0 m-t-5" style="display:none;">
+						{{foreach $v.item as $vs}}
+							<li id="data-list-{{$vs.id}}" {{if $vs['is_show'] eq 0}}class="bk-cr-ffd"{{/if}}>
+								<label class="c-p">
+									<span>{{if !empty($vs['icon'])}}<span class="iconfont {{$vs.icon}}"></span>{{/if}} {{$vs.name}}</span>
+								</label>
+								<div class="fr m-l-10 find-submit">
+									<span class="am-icon-edit am-icon-sm c-p submit-edit" data-am-modal="{target: '#power-save-win'}" data-json='{{:json_encode($vs)}}' data-tag="power-save-win" data-item="no"></span>
+									<span class="am-icon-trash-o am-icon-sm c-p m-l-10 m-r-10 submit-delete" data-url="{{:MyUrl('admin/power/powerdelete')}}" data-id="{{$vs.id}}"></span>
+								</div>
+							</li>
+						{{/foreach}}
+					</ul>
+				{{/if}}
+			{{/foreach}}
+		</ul>
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

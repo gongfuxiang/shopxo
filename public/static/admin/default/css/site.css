@@ -1,0 +1,7 @@
+.form-img-logo-view { max-width: 180px; max-height: 38px; }
+.form-img-icon-view { max-width: 100px; max-height: 100px; }
+
+/**
+ * 覆盖插件样式
+ */
+ul.home_site_logo-images-view li, ul.home_site_logo_wap-images-view li { width: 220px; height: 60px; }

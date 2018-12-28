@@ -1,0 +1,25 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- cache list start -->
+		{{foreach $cache_type_list as $v}}
+			{{if $v['is_enable'] eq 1}}
+				<div class="am-panel am-panel-default am-radius">
+					<div class="am-panel-hd">{{$v.name}}</div>
+					<a href="{{$v.url}}">
+						<button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-fr cache-submit">更新</button>
+					</a>
+					<div class="am-panel-bd">{{$v.desc}}</div>
+				</div>
+			{{/if}}
+		{{/foreach}}
+		<!-- cache list end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

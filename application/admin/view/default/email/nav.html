@@ -1,0 +1,8 @@
+<ul class="am-nav am-nav-pills table-nav m-b-10">
+	<li {{if $nav_type eq 'email'}}class="am-active"{{/if}} data-type="email">
+		<a href="{{:MyUrl('admin/email/index', ['type'=>'email'])}}">邮箱设置</a>
+	</li>
+	<li {{if $nav_type eq 'message'}}class="am-active"{{/if}} data-type="message">
+		<a href="{{:MyUrl('admin/email/index', ['type'=>'message'])}}">消息模板</a>
+	</li>
+</ul>

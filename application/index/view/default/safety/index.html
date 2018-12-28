@@ -1,0 +1,61 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container user-main">
+
+    <!-- user menu start -->
+    {{include file="public/user_menu" /}}
+  	<!-- user menu end -->
+
+	<!-- content start -->
+	<div class="user-content">
+    	<div class="user-content-body">
+			{{foreach $safety_panel_list as $v}}
+				<section class="am-panel am-panel-default am-radius am-panel-{{if empty($data[$v['type']]) and empty($v['msg'])}}danger{{else /}}default{{/if}}">
+					<header class="am-panel-hd">
+						<h3 class="am-panel-title">{{$v.title}}</h3>
+					</header>
+					<div class="am-panel-bd o-h">
+						<div class="am-fl panel-left">
+							{{if !empty($v.msg)}}
+								<span>{{$v.msg}}</span>
+							{{/if}}
+							{{if empty($data[$v['type']]) and !empty($v['tips'])}}
+								{{$v.no_msg}}
+							{{else /}}
+								{{if !empty($data[$v['type']])}}
+									{{:str_replace('#accounts#', $data[$v['type']], $v['ok_msg'])}}
+								{{/if}}
+							{{/if}}
+							{{if !empty($v['tips'])}}
+								<p class="fs-12 m-b-5 cr-999">{{$v.tips}}</p>
+							{{/if}}
+						</div>
+						{{if empty($data[$v['type']]) and empty($v['msg'])}}
+							<a href="{{$v.url}}" class="am-btn am-btn-danger am-radius am-btn-xs am-fr">绑定</a>
+						{{else /}}
+							<a href="{{$v.url}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-fr">修改</a>
+						{{/if}}
+					</div>
+				</section>
+			{{/foreach}}
+		</div>
+	</div>
+	<!-- content end -->
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

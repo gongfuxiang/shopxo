@@ -1,0 +1,107 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+        <!-- operation start -->
+        <div class="am-g">
+            <button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus tree-submit-add" data-am-modal="{target: '#data-save-win'}"> 新增</button>
+        </div>
+        <!-- operation end -->
+
+        <!-- save win start -->
+        <div class="am-popup am-radius" id="data-save-win">
+			<div class="am-popup-inner">
+				<div class="am-popup-hd">
+					<h4 class="am-popup-title" data-add-title="分类添加" data-edit-title="分类编辑">分类添加</h4>
+					<span data-am-modal-close class="am-close">&times;</span>
+				</div>
+				<div class="am-popup-bd">
+					<!-- form start -->
+					<form class="am-form form-validation admin-save" action="{{:MyUrl('admin/goodscategory/save')}}" method="POST" request-type="ajax-reload" request-value="">
+						<div class="am-form-group am-form-file">
+							<label class="block">icon图标</label>
+							<ul class="plug-file-upload-view goods-category-icon-images-view" data-form-name="icon" data-max-number="1" data-dialog-type="images">
+								<li>
+									<input type="hidden" name="icon" value="" />
+									<img src="{{$images_host}}/static/admin/default/images/default-images.png" />
+									<i>×</i>
+								</li>
+							</ul>
+							<div class="plug-file-upload-submit" data-view-tag="ul.goods-category-icon-images-view">+上传图片</div>
+						</div>
+						<div class="am-form-group am-form-file">
+							<label class="block">大图片</label>
+							<ul class="plug-file-upload-view goods-category-big_images-images-view" data-form-name="big_images" data-max-number="1" data-dialog-type="images">
+								<li>
+									<input type="hidden" name="big_images" value="" />
+									<img src="{{$images_host}}/static/admin/default/images/default-images.png" />
+									<i>×</i>
+								</li>
+							</ul>
+							<div class="plug-file-upload-submit" data-view-tag="ul.goods-category-big_images-images-view">+上传图片</div>
+						</div>
+						<div class="am-form-group">
+							<label>背景色</label>
+							<input type="hidden" name="bg_color" value="" />
+							<button class="am-btn am-btn-default colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color">
+								<img src="{{$images_host}}/static/common/images/colorpicker.png" />
+							</button>
+						</div>
+						<div class="am-form-group">
+							<label>名称</label>
+							<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
+						</div>
+						<div class="am-form-group">
+							<label>副名称</label>
+							<input type="text" placeholder="副名称" name="vice_name" minlength="0" maxlength="60" data-validation-message="副名称最大60个字符" class="am-radius" />
+						</div>
+						<div class="am-form-group">
+							<label>描述</label>
+							<textarea rows="5" name="describe" maxlength="200" class="am-radius" placeholder="描述" data-validation-message="描述最大200个字符"></textarea>
+						</div>
+						<div class="am-form-group">
+						    <label>首页推荐</label>
+						    <div>
+						        {{foreach $common_is_text_list as $v}}
+						            <label class="am-radio-inline m-r-10">
+						                <input type="radio" name="is_home_recommended" value="{{$v.id}}" data-am-ucheck /> {{$v.name}}
+						            </label>
+						        {{/foreach}}
+						    </div>
+						</div>
+						<div class="am-form-group">
+							<label>顺序</label>
+							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
+						</div>
+						{{include file="lib/enable" /}}
+						<div class="am-form-group">
+							<input type="hidden" name="id" />
+							<input type="hidden" name="pid" value="0" />
+							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+						</div>
+					</form>
+					<!-- form end -->
+				</div>
+			</div>
+		</div>
+		<!-- save win end -->
+
+        <!-- list start -->
+		<div id="tree" class="m-t-15" data-rank="3" data-additional='[{"field":"bg_color", "value":"", "type":"input"}, {"field":"bg_color", "value":"", "type":"css", "tag":"button.colorpicker-submit", "style":"background-color"}, {"field":"icon", "value":"", "type":"input"}, {"field":"icon_url", "value":"{{$images_host}}/static/admin/default/images/default-images.png", "type":"attr", "tag":"ul.goods-category-icon-images-view li img", "style":"src"}, {"field":"big_images", "value":"", "type":"input"}, {"field":"big_images_url", "value":"{{$images_host}}/static/admin/default/images/default-images.png", "type":"attr", "tag":"ul.goods-category-big_images-images-view li img", "style":"src"}, {"field":"vice_name", "value":"", "type":"input"}, {"field":"describe", "value":"", "type":"textarea"}, {"field":"is_home_recommended", "value":"0", "type":"input"}]'>
+			<div class="m-t-30 t-c">
+				<img src="{{$images_host}}/static/common/images/loading.gif" />
+				<p>处理中...</p>
+			</div>
+		</div>
+		<!-- list end -->
+	</div>
+</div>
+<!-- right content end -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
+<script>
+	Tree(0, "{{:MyUrl('admin/goodscategory/getnodeson')}}", 0, 1, 1);
+</script>

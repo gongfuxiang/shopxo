@@ -1,0 +1,24 @@
+<div class="shop-nav">
+    <div class="am-container">
+        <div class="nav-cont">
+        	<ul>
+                <li><a href="{{$Think.__MY_URL__}}">首页</a></li>
+                {{if !empty($nav_header)}}
+                    {{foreach $nav_header as $nav}}
+                        <li>
+                            <a href="{{$nav.url}}" {{if $nav['is_new_window_open'] eq 1}}target="_blank"{{/if}}>{{$nav.name}}</a>
+                        </li>
+                    {{/foreach}}
+                {{/if}}
+        	</ul>
+            <div class="nav-extra {{if empty($user)}}login-event{{/if}}">
+                <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/user/index')}}{{/if}}">
+                    <img src="{{if !empty($user['avatar'])}}{{$user.avatar}}{{else /}}{{$images_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-user-avatar.jpg{{/if}}" class="nav-user" />
+                	<b></b>
+                    <span>我的商城</span>
+                	<i class="am-icon-angle-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

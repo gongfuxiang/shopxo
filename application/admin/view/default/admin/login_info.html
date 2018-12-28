@@ -1,0 +1,35 @@
+{{include file="public/header" /}}
+
+<!-- content start -->
+<div class="account-pages">
+	<div class="wrapper-page">
+		<div class="text-center">
+            <span class="logo fw-70">ShopXO</span>
+        </div>
+        <div class="m-t-40 card-box">
+            <div class="panel-body">
+            	<form class="am-form form-validation" action="{{:MyUrl('admin/admin/login')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/index/index')}}">
+            		<div class="am-g">
+            			<div class="am-form-group">
+					      <input type="text" placeholder="用户名" name="username" pattern="{{:lang('common_regex_username')}}" data-validation-message="用户名格式 5~18 个字符（可以是字母数字下划线）" class="am-radius" required />
+					    </div>
+					    <div class="am-form-group form-horizontal m-t-20">
+					      <input type="password" placeholder="登录密码" name="login_pwd" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符" class="am-radius" required />
+					    </div>
+                        <div class="am-form-group">
+                        	<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'登录中...'}">登录</button>
+                        </div>
+                        
+                        <div class="am-form-group">
+                        	<a href="javascript:;" class="text-muted" data-am-popover="{theme: 'danger sm', content: '请联系管理员重置密码', trigger: 'hover focus'}">忘记密码?</a>
+                        </div>
+            		</div>
+            	</form>
+            </div>
+        </div>
+	</div>
+</div>
+<!-- content end -->
+		
+<!-- footer -->
+{{include file="public/footer" /}}

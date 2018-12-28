@@ -1,0 +1,73 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container user-main">
+
+    <!-- user menu start -->
+    {{include file="public/user_menu" /}}
+    <!-- user menu end -->
+
+    <!-- content start -->
+    <div class="user-content">
+        <div class="user-content-body">
+            <div class="control">
+                <button class="am-btn am-btn-primary am-btn-xs am-icon-plus address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}" data-popup-title="新增地址"> 新增新地址</button>
+            </div>
+            {{if !empty($user_address_list)}}
+                <ul class="address-list">
+                    {{foreach $user_address_list as $address}}
+                        <li class="{{if isset($address['is_default']) and $address['is_default'] eq 1}}address-default{{/if}}" id="data-list-{{$address.id}}" data-value="{{$address.id}}">
+                            <div class="address-left">
+                                <div class="user-base">
+                                    {{if !empty($address.alias)}}
+                                        <span class="am-badge am-badge-danger am-radius">{{$address.alias}}</span>
+                                    {{/if}}
+                                    {{if isset($address['is_default']) and $address['is_default'] eq 1}}
+                                        <span class="am-badge am-badge-success am-radius">默认</span>
+                                    {{/if}}
+                                    <span class="address-detail">   
+                                        <span class="user">{{$address.name}}</span>
+                                        <span class="phone">{{$address.tel}}</span>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="province">{{$address.province_name}}</span>
+                                    <span class="city">{{$address.city_name}}</span>
+                                    <span class="dist">{{$address.county_name}}</span>
+                                    <span class="street">{{$address.address}}</span>
+                                </div>
+                            </div>
+                            <div class="address-operation-btn">
+                                <a href="javascript:;" class="am-icon-check-circle-o address-default-submit" data-url="{{:MyUrl('index/useraddress/setdefault')}}" data-id="{{$address.id}}" data-view="reload"> 设为默认</a>
+                                <span class="cut">|</span>
+                                <a href="javascript:;" class="am-icon-edit address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}" data-popup-title="编辑地址"> 编辑</a>
+                                <span class="cut">|</span>
+                                <a href="javascript:;" class="am-icon-trash-o address-submit-delete" data-url="{{:MyUrl('index/useraddress/delete')}}" data-id="{{$address.id}}"> 删除</a>
+                            </div>
+                        </li>
+                    {{/foreach}}
+                </ul>
+            {{/if}}
+            {{if empty($user_address_list)}}
+                <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+            {{/if}}
+        </div>
+    </div>
+    <!-- content end -->
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

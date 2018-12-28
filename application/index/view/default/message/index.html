@@ -1,0 +1,134 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container user-main">
+
+    <!-- user menu start -->
+    {{include file="public/user_menu" /}}
+    <!-- user menu end -->
+
+    <!-- content start -->
+    <div class="user-content">
+        <div class="user-content-body">
+            <form class="am-form form-validation" method="post" action="{{:MyUrl('index/message/index')}}" request-type="form">
+                <div class="thin">
+                    <div class="am-input-group am-input-group-sm am-fl so">
+                        <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="其实搜索很简单 ^_^！" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
+                        <span class="am-input-group-btn">
+                            <button class="am-btn am-btn-default am-radius" type="submit" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
+                        </span>
+                    </div>
+                    <label class="am-fl thin_sub more-submit">
+                        更多筛选条件
+                        <input type="checkbox" name="is_more" value="1" class="none am-field-valid" {{if isset($params['is_more'])}}checked{{/if}} />
+                        <i class="am-icon-angle-up"></i>
+                    </label>
+                </div>
+                <table class="so-list more-where {{if !isset($params['is_more'])}}none{{/if}}">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span>类型：</span>
+                                <select name="type" class="chosen-select" data-placeholder="消息类型...">
+                                    <option value="-1">消息类型...</option>
+                                    {{if !empty($common_message_type_list)}}
+                                        {{foreach $common_message_type_list as $v}}
+                                            <option value="{{$v.id}}" {{if isset($params['type']) and $params['type'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </select>
+                            </td>
+                            <td>
+                                <span>业务：</span>
+                                <select name="business_type" class="chosen-select" data-placeholder="业务类型...">
+                                    <option value="-1">业务类型...</option>
+                                    {{if !empty($common_business_type_list)}}
+                                        {{foreach $common_business_type_list as $v}}
+                                            <option value="{{$v.id}}" {{if isset($params['business_type']) and $params['business_type'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>状态：</span>
+                                <select name="is_read" class="chosen-select" data-placeholder="消息状态...">
+                                    <option value="-1">消息状态...</option>
+                                    {{if !empty($common_is_read_list)}}
+                                        {{foreach $common_is_read_list as $v}}
+                                            <option value="{{$v.id}}" {{if isset($params['is_read']) and $params['is_read'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </select>
+                            </td>
+                            <td>
+                                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
+                                <a href="{{:MyUrl('index/message/index')}}" class="am-btn am-btn-warning am-radius am-btn-sm reset-submit">清除条件</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+
+            <!-- 消息列表 -->
+            <div class="data-list">
+                <table class="am-table">
+                    <thead>
+                        <tr>
+                            <th>标题</th>
+                            <th class="am-hide-sm-only">类型</th>
+                            <th class="am-hide-sm-only">业务</th>
+                            <th>详情</th>
+                            <th class="am-hide-sm-only">状态</th>
+                            <th class="am-hide-sm-only">时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{if !empty($data_list)}}
+                            {{foreach $data_list as $v}}
+                                <tr>
+                                    <td>{{$v.title}}</td>
+                                    <td class="am-hide-sm-only">{{$v.type_name}}</td>
+                                    <td class="am-hide-sm-only">{{$v.business_type_name}}</td>
+                                    <td>{{$v.detail}}</td>
+                                    <td class="am-hide-sm-only">{{$v.is_read_name}}</td>
+                                    <td class="am-hide-sm-only">{{$v.add_time_time}}</td>
+                                </tr>
+                            {{/foreach}}
+                        {{/if}}
+                        {{if empty($data_list)}}
+                            <tr>
+                                <td colspan="5">
+                                    <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+                                </td>
+                            </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 分页 -->
+            {{if !empty($data_list)}}
+                {{$page_html|raw}}
+            {{/if}}
+        </div>
+    </div>
+    <!-- content end -->
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

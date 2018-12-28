@@ -1,0 +1,91 @@
+<!-- 顶部导航条 start -->
+<div class="header-top">
+    <div class="am-container header">
+        <ul class="top-nav-left">
+            <div class="top-nav-items">
+                <div class="menu-hd">
+                    {{if empty($user)}}
+                        <span>您好，欢迎来到 {{:MyC('home_site_name')}}</span>
+                        {{if MyC('home_user_login_state') eq 1}}
+                            [<a href="{{:MyUrl('index/user/logininfo')}}">登录</a>]
+                        {{/if}}
+                        {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))}}
+                            [<a href="{{:MyUrl('index/user/regInfo')}}">注册</a>]
+                        {{/if}}
+                    {{else /}}
+                        <span>您好 {{$user.user_name_view}}，欢迎来到 {{:MyC('home_site_name')}}</span>
+                        [<a href="{{:MyUrl('index/user/logout')}}">退出</a>]
+                    {{/if}}
+                </div>
+            </div>
+        </ul>
+        <ul class="top-nav-right">
+            <div class="top-nav-items">
+                <div class="menu-hd {{if empty($user)}}login-event{{/if}}">
+                    <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/user/index')}}{{/if}}" target="_top">
+                        <i class="am-icon-user am-icon-fw"></i>
+                        <span>个人中心</span>
+                    </a>
+                </div>
+            </div>
+            <div class="top-nav-items">
+                <div class="am-dropdown menu-hd {{if empty($user)}}login-event{{/if}}" data-am-dropdown>
+                    <a class="am-dropdown-toggle" href="javascript:;" target="_top" data-am-dropdown-toggle>
+                        <i class="am-icon-cube am-icon-fw"></i>
+                        <span>我的交易</span>
+                        <i class="am-icon-caret-down"></i>
+                    </a>
+                    {{if !empty($user)}}
+                        <ul class="am-dropdown-content">
+                            <li>
+                                <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/order/index')}}{{/if}}">我的订单</a>
+                            </li>
+                        </ul>
+                    {{/if}}
+                </div>
+            </div>
+
+            <div class="top-nav-items">
+                <div class="am-dropdown menu-hd {{if empty($user)}}login-event{{/if}}" data-am-dropdown>
+                    <a class="am-dropdown-toggle" href="javascript:;" target="_top" data-am-dropdown-toggle>
+                        <i class="am-icon-heart am-icon-fw"></i>
+                        <span>我的收藏</span>
+                        <i class="am-icon-caret-down"></i>
+                    </a>
+                    {{if !empty($user)}}
+                        <ul class="am-dropdown-content">
+                            <li>
+                                <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/userfavor/goods')}}{{/if}}">商品收藏</a>
+                            </li>
+                        </ul>
+                    {{/if}}
+                </div>
+            </div>
+            <div class="top-nav-items top-nav-mini-cart">
+                <div class="menu-hd {{if empty($user)}}login-event{{/if}}">
+                    <a id="mc-menu-hd" href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/cart/index')}}{{/if}}" target="_top">
+                        <i class="am-icon-shopping-cart am-icon-fw"></i>
+                        <span>购物车</span>
+                        {{if $common_cart_total gt 0}}
+                            <strong class="am-badge am-badge-danger am-round common-cart-total">{{$common_cart_total}}</strong>
+                        {{else /}}
+                            <strong class="common-cart-total am-round">{{$common_cart_total}}</strong>
+                        {{/if}}
+                    </a>
+                </div>
+            </div>
+            <div class="top-nav-items top-nav-mini-cart">
+                <div class="menu-hd {{if empty($user)}}login-event{{/if}}">
+                    <a id="mc-menu-hd" href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/message/index')}}{{/if}}" target="_top">
+                        <i class="am-icon-bell am-icon-fw"></i>
+                        <span>消息</span>
+                        {{if $common_message_total gt 0}}
+                            <strong class="am-badge am-badge-danger am-round common-cart-total">{{$common_message_total}}</strong>
+                        {{/if}}
+                    </a>
+                </div>
+            </div>
+        </ul>
+    </div>
+</div>
+<!-- 顶部导航条 end -->

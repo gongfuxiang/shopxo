@@ -1,0 +1,94 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container user-main">
+
+    <!-- user menu start -->
+    {{include file="public/user_menu" /}}
+    <!-- user menu end -->
+
+    <!-- content start -->
+    <div class="user-content">
+        <div class="user-content-body">
+            <form class="am-form form-validation" method="post" action="{{:MyUrl('index/userfavor/goods')}}" request-type="form">
+                <div class="thin">
+                    <div class="am-input-group am-input-group-sm am-fl so">
+                        <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="其实搜索很简单 ^_^！" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
+                        <span class="am-input-group-btn">
+                            <button class="am-btn am-btn-default am-radius" type="submit" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+
+            <!-- 商品列表 -->
+            <div class="data-list">
+                <table class="am-table">
+                    <thead>
+                        <tr>
+                            <th class="base">商品信息</th>
+                            <th class="price">价格</th>
+                            <th class="operate">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{if !empty($data_list)}}
+                            {{foreach $data_list as $v}}
+                                <tr id="data-list-{{$v.goods_id}}">
+                                    <td>
+                                        <div class="goods-detail">
+                                            <a href="{{$v.goods_url}}" target="_blank">
+                                                <img src="{{$v.images}}">
+                                            </a>
+                                            <div class="goods-base">
+                                                <a href="{{$v.goods_url}}" target="_blank" class="goods-title">{{$v.title}}</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {{if $v['original_price'] gt 0}}
+                                            <p class="original-price">￥{{$v.original_price}}</p>
+                                        {{/if}}
+                                        <p class="line-price">￥{{$v.price}}</p>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('index/userfavor/cancel')}}" data-id="{{$v.goods_id}}" data-view="delete">取消</button>
+                                    </td>
+                                </tr>
+                            {{/foreach}}
+                        {{/if}}
+                        {{if empty($data_list)}}
+                            <tr>
+                                <td colspan="3">
+                                    <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+                                </td>
+                            </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 分页 -->
+            {{if !empty($data_list)}}
+                {{$page_html|raw}}
+            {{/if}}
+        </div>
+    </div>
+    <!-- content end -->
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

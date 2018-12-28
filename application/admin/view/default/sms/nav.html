@@ -1,0 +1,13 @@
+<ul class="am-nav am-nav-pills table-nav m-b-10">
+	<li {{if $nav_type eq 'sms'}}class="am-active"{{/if}} data-type="sms">
+		<a href="{{:MyUrl('admin/sms/index', ['type'=>'sms'])}}">短信设置</a>
+	</li>
+	<li {{if $nav_type eq 'message'}}class="am-active"{{/if}} data-type="message">
+		<a href="{{:MyUrl('admin/sms/index', ['type'=>'message'])}}">消息模板</a>
+	</li>
+</ul>
+
+<div class="am-alert am-alert-warning am-radius" data-am-alert>
+    <button type="button" class="am-close">&times;</button>
+    <p class="fs-12">阿里云短信管理地址 https://dysms.console.aliyun.com/dysms.htm</p>
+</div>

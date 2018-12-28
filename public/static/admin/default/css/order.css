@@ -1,0 +1,46 @@
+/**
+ * 列表
+ */
+.form-keyword { width: 55% !important; display: initial !important; }
+.more-submit input { display: none; }
+.param-where, .param-date input { display: initial !important; }
+@media only screen and (max-width: 641px) {
+	.param-where { width: 100% !important; margin-left: 0px !important; }
+	.param-date input { width: 47% !important; }
+}
+@media only screen and (min-width: 641px) {
+	.param-where { width: 32% !important; float: left; }
+	.param-date input { width: 45% !important; }
+	.param-where:nth-child(1), .param-where:nth-child(4) { margin-left: 0px !important; }
+}
+@media only screen and (max-width: 321px) {
+	.view-operation button { margin: 2px 0px; }
+}
+
+.am-table .th-goods { width: 30%; }
+.am-table .goods-images { width: 60px; height: 60px; float: left; margin-right: 5px; }
+.am-table .th-receive-address { width: 15%; }
+.am-table .goods-item { padding: 5px 0; }
+.am-table .goods-item, .am-table .goods-item .base { overflow: hidden; }
+.am-table .goods-item .other .fl { width: 60%; }
+.am-table .goods-item:not(:last-child), .am-table .order-no { border-bottom: 1px solid #eee; }
+.am-table .order-no { font-weight: 700; color: #333;}
+
+
+/**
+ * 快递弹窗
+ */
+.business-item h3 { border-bottom: 3px solid #e3e3e3; margin:5px 0 0 0; font-size: 14px;font-weight: 700; }
+.business-item ul { padding: 10px 3px 5px 5px; overflow: hidden; }
+.business-item ul li { border:1px solid transparent ;overflow: hidden; float: left; cursor: pointer; padding: 5px; border: 1px solid #eee; margin: 0 10px 10px 0; }
+.business-item ul  li img { width: 36px; height: 36px; }
+.business-item ul li.selected { border-color: #d2364c ; position: relative; }
+.business-item ul li.selected i.icon-active { position: absolute; width: 10px; height: 10px; font-size: 0; line-height: 0; right: 0px; bottom: 0px; background: url(../images/sys_item_selected.gif) no-repeat right bottom; }
+@media only screen and (min-width:640px) {
+  .business-item ul li {width:calc(33% - 5px); }
+  .business-item ul li:nth-child(3n) { margin-right: 0; }
+}
+@media only screen and (max-width:640px) {
+  .business-item ul li { width: calc(50% - 5px); }
+  .business-item ul li:nth-child(2n) { margin-right: 0; }
+}

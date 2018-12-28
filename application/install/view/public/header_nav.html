@@ -1,0 +1,21 @@
+<div class="header-nav">
+    <div class="inside">
+        <p class="logo-name">ShopXO<span>安装向导 {{$Think.APPLICATION_VERSION}}</span></p>
+        <ul class="schedule {{if isset($action) && $action == 'index'}}active{{/if}}">
+            <li class="number">1</li>
+            <li class="word">使用协议</li>
+        </ul>
+        <ul class="schedule {{if isset($action) && $action == 'check'}}active{{/if}}">
+            <li class="number">2</li>
+            <li class="word">环境检测</li>
+        </ul>
+        <ul class="schedule {{if isset($action) && $action == 'create'}}active{{/if}}">
+            <li class="number">3</li>
+            <li class="word">创建数据</li>
+        </ul>
+        <ul class="schedule {{if isset($action) && $action == 'success'}}active{{/if}}">
+            <li class="number">4</li>
+            <li class="word">安装完成</li>
+        </ul>
+    </div>
+</div>

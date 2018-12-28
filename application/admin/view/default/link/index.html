@@ -1,0 +1,92 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- operation start -->
+		<div class="am-g">
+			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#data-save-win'}"> 新增</button>
+		</div>
+		<!-- operation end -->
+
+		<!-- save win start -->
+		<div class="am-popup am-radius" id="data-save-win">
+			<div class="am-popup-inner">
+				<div class="am-popup-hd">
+					<h4 class="am-popup-title" data-add-title="友情链接添加" data-edit-title="友情链接编辑">友情链接添加</h4>
+					<span data-am-modal-close class="am-close">&times;</span>
+				</div>
+				<div class="am-popup-bd">
+					<!-- form start -->
+					<form class="am-form form-validation" action="{{:MyUrl('admin/link/Save')}}" method="POST" request-type="ajax-reload" request-value="">
+						<div class="am-form-group">
+							<label>名称</label>
+							<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
+						</div>
+						<div class="am-form-group">
+							<label>链接地址<span class="fs-12 fw-100 cr-999">（带http://或https://）</span></label>
+							<input type="url" placeholder="链接地址" name="url"  data-validation-message="链接地址格式有误" class="am-radius" required />
+						</div>
+						<div class="am-form-group">
+							<label>顺序</label>
+							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
+						</div>
+						{{include file="lib/is_new_window_open" /}}
+						{{include file="lib/enable" /}}
+						<div class="am-form-group am-form-success">
+							<label>描述</label>
+							<textarea rows="3" maxlength="60" name="describe" class="am-radius" placeholder="描述" data-validation-message="描述不能大于60个字符"></textarea>
+						</div>
+						<div class="am-form-group">
+							<input type="hidden" name="id" />
+							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+						</div>
+					</form>
+					<!-- form end -->
+				</div>
+			</div>
+		</div>
+		<!-- save win end -->
+
+		<!-- list start -->
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
+			<thead>
+				<tr>
+					<th>名称</th>
+					<th class="am-hide-sm-only">描述</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{if !empty($data_list)}}
+					{{foreach $data_list as $v}}
+						<tr id="data-list-{{$v.id}}" {{if $v['is_enable'] eq 0}} class="am-active"{{/if}}>
+							<td>{{$v.name}}
+								<a href="{{$v.url}}" target="_blank">
+									<i class="am-icon-external-link"></i>
+								</a>
+							</td>
+							<td class="am-hide-sm-only">{{$v.describe}}</td>
+							<td>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/link/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
+							</td>
+							<td>
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: '#data-save-win'}" data-json='{{:json_encode($v)}}'></button>
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/link/delete')}}" data-id="{{$v.id}}"></button>
+							</td>
+						</tr>
+					{{/foreach}}
+				{{else /}}
+					<tr><td colspan="5" class="table-no">没有相关数据</td></tr>
+				{{/if}}
+			</tbody>
+		</table>
+		<!-- list end -->
+	</div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

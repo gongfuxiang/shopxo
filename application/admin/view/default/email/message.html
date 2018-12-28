@@ -1,0 +1,35 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- table nav start -->
+		{{include file="email/nav" /}}
+		<!-- table nav end -->
+		
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/email/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/email/index', ['type'=>'message'])}}">
+			<div class="am-form-group">
+				<label>{{$data.home_email_user_reg.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_email_user_reg.describe}}）</span></label>
+				<script type="text/plain" id="email_user_reg" name="{{$data.home_email_user_reg.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_reg.value|raw}}{{/if}}</script>
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_email_user_forget_pwd.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_email_user_forget_pwd.describe}}）</span></label>
+				<script type="text/plain" id="email_user_forget_pwd" name="{{$data.home_email_user_forget_pwd.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_forget_pwd.value|raw}}{{/if}}</script>
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_email_user_email_binding.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_email_user_email_binding.describe}}）</span></label>
+				<script type="text/plain" id="email_user_email_binding" name="{{$data.home_email_user_email_binding.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_email_binding.value|raw}}{{/if}}</script>
+			</div>
+			<div class="am-form-group">
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

@@ -1,0 +1,3 @@
+<swiper-item style="{{style}}" class="am-tabs-pane-wrap" key="tabs-pane-{{key}}">
+  <slot></slot>
+</swiper-item>

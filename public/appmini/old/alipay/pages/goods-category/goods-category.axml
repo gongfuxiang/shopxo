@@ -1,0 +1,28 @@
+<vtabs
+  a:if="{{data_list.length > 0}}"
+  tabs="{{data_list}}"
+  onTabClick="handle_event"
+  onChange="change_event"
+  activeTab="{{tab_active}}"
+  tabBarActiveTextColor="{{tab_active_text_color}}"
+  tabBarlineColor="{{tab_active_line_color}}"
+>
+  <block a:for="{{data_list}}">
+    <vtab-content anchor="{{item.anchor}}">
+      <view class="content">
+        <block a:if="{{item.items.length > 0}}">
+          <view a:for="{{item.items}}" a:for-item="v" class="content-items" data-value="{{v.id}}" onTap="category_event">
+            <image a:if="{{v.icon != null}}" src="{{v.icon}}" mode="aspectFit" class="icon" />
+            <view class="text single-text">{{v.name}}</view>
+          </view>
+        </block>
+      </view>
+    </vtab-content>
+  </block>
+</vtabs>
+
+<view a:if="{{data_list.length == 0 && data_list_loding_status != 0}}">
+  <import src="/pages/common/nodata.axml" />
+  <template is="nodata" data="{{status: data_list_loding_status}}">
+  </template>
+</view>

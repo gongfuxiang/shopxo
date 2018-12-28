@@ -1,0 +1,68 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container article-content">
+	<!-- 右侧内容 -->
+	<div class="am-u-md-10 am-u-md-push-2 article-right">
+		<div class="am-u-sm-12 article-header">
+			<h1 class="am-article-title">{{$article.title}}</h1>
+			<p class="am-article-meta">
+				<span>发布时间：{{$article.add_time_time}}</span>
+				<span>浏览次数：{{$article.access_count}}</span>
+			</p>
+			<hr class="am-article-divider" />
+		</div>
+		<div class="am-article">{{$article.content|raw}}</div>
+	</div>
+
+	<!-- 左侧内容 -->
+	<div class="am-u-md-2 am-u-md-pull-10 article-sidebar">
+		<div class="am-offcanvas" id="article-nav-sidebar">
+			<div class="am-offcanvas-bar am-offcanvas-bar-overlay">
+				{{if !empty($category_list)}}
+					<section data-am-widget="accordion" class="am-accordion am-accordion-gapped" data-am-accordion='{}'>
+						{{foreach $category_list as $v}}
+							<dl class="am-accordion-item {{if $article['article_category_id'] eq $v['id']}}am-active{{/if}}">
+								<dt class="am-accordion-title">
+									<li class="am-nav-header">{{$v.name}}</li>
+								</dt>
+								<dd class="am-accordion-bd am-collapse {{if $article['article_category_id'] eq $v['id']}}am-in{{/if}}">
+									<div class="am-accordion-content">
+										{{if !empty($v.items)}}
+											<ul class="am-nav">
+												{{foreach $v.items as $vs}}
+													<li>
+														<a href="{{$vs.url}}" {{if !empty($vs.title_color)}}style="color:{{$vs.title_color}};"{{/if}} >{{$vs.title}}</a>
+													</li>
+												{{/foreach}}
+											</ul>
+										{{/if}}
+									</div>
+								</dd>
+							</dl>
+						{{/foreach}}
+					</section>
+				{{/if}}
+			</div>
+		</div>
+	</div>
+	<a href="javascript:;" class="am-icon-btn am-icon-th-list am-show-sm-only article-nav-button" data-am-offcanvas="{target: '#article-nav-sidebar'}">
+		<span class="am-sr-only">侧栏导航</span>
+	</a>
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

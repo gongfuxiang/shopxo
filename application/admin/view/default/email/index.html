@@ -1,0 +1,58 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- table nav start -->
+		{{include file="email/nav" /}}
+		<!-- table nav end -->
+		
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/email/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/email/index', ['type'=>'email'])}}">
+			<div class="am-form-group">
+				<label>{{$data.common_email_smtp_host.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_email_smtp_host.describe}}）</span></label>
+				<input type="text" name="{{$data.common_email_smtp_host.only_tag}}" placeholder="{{$data.common_email_smtp_host.name}}" data-validation-message="{{$data.common_email_smtp_host.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_email_smtp_host.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_email_smtp_port.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_email_smtp_port.describe}}）</span></label>
+				<input type="number" name="{{$data.common_email_smtp_port.only_tag}}" placeholder="{{$data.common_email_smtp_port.name}}" data-validation-message="{{$data.common_email_smtp_port.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_email_smtp_port.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_email_smtp_account.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_email_smtp_account.describe}}）</span></label>
+				<input type="text" name="{{$data.common_email_smtp_account.only_tag}}" placeholder="{{$data.common_email_smtp_account.name}}" data-validation-message="{{$data.common_email_smtp_account.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_email_smtp_account.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_email_smtp_name.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_email_smtp_name.describe}}）</span></label>
+				<input type="text" name="{{$data.common_email_smtp_name.only_tag}}" placeholder="{{$data.common_email_smtp_name.name}}" data-validation-message="{{$data.common_email_smtp_name.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_email_smtp_name.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_email_smtp_pwd.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_email_smtp_pwd.describe}}）</span></label>
+				<input type="password" name="{{$data.common_email_smtp_pwd.only_tag}}" placeholder="{{$data.common_email_smtp_pwd.name}}" data-validation-message="{{$data.common_email_smtp_pwd.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_email_smtp_pwd.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_email_smtp_send_name.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_email_smtp_send_name.describe}}）</span></label>
+				<input type="text" name="{{$data.common_email_smtp_send_name.only_tag}}" placeholder="{{$data.common_email_smtp_send_name.name}}" data-validation-message="{{$data.common_email_smtp_send_name.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_email_smtp_send_name.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>测试接收的邮件地址<span class="fs-12 fw-100 cr-999">（请先保存配置后，再进行测试）</span></label>
+				<div class="am-input-group am-input-group-sm">
+					<span class='am-form-group'>
+						<input type="text" placeholder="测试接收的邮件地址" class="am-radius test-email-value" />
+					</span>
+					<span class="am-input-group-btn">
+						<button class="am-btn am-btn-default am-radius test-email-submit" type="button" data-url="{{:MyUrl('admin/email/emailtest')}}">测试</button>
+					</span>
+				</div>
+			</div>
+			<div class="am-form-group">
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

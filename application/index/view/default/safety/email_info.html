@@ -1,0 +1,75 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container user-main">
+
+    <!-- user menu start -->
+    {{include file="public/user_menu" /}}
+  	<!-- user menu end -->
+
+	<!-- content start -->
+	<div class="user-content">
+	    <div class="user-content-body">
+			<!-- form start -->
+			<form class="am-form form-validation view-save" action="{{:MyUrl('index/safety/VerifyCheck')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('index/safety/NewEmailInfo')}}">
+				<legend>
+					<span class="legend-title">原电子邮箱校验</span>
+					<a href="{{:MyUrl('index/safety/index')}}" class="am-fr am-icon-mail-reply"> 返回</a>
+				</legend>
+				<div class="am-form-group">
+					<label>电子邮箱</label>
+					<input type="text" class="am-radius" value="{{$user.email_security}}" disabled />
+				</div>
+				<label>验证码</label>
+				<div class="am-input-group am-input-group-sm am-form-group">
+					<input type="number" name="verify" class="am-radius" placeholder="验证码" minlength="6" maxlength="6" data-validation-message="验证码格式 6 位数字" required />
+					<span class="am-input-group-btn">
+						<button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-url="{{:MyUrl('index/safety/verifysend')}}" data-verify="{{:MyC('home_img_verify_state')}}" data-text="获取验证码" data-send-text="还有 {time} 秒" data-time="{{:MyC('common_verify_time_interval', 30, true)}}">获取验证码</button>
+					</span>
+				</div>
+				<div class="am-form-group">
+					<input type="hidden" name="type" value="email" />
+					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">确认</button>
+				</div>
+			</form>
+			<!-- form end -->
+
+			<!-- verify win start -->
+			<div class="am-modal am-modal-no-btn" tabindex="-1" id="verify-win">
+				<div class="am-modal-dialog am-radius">
+					<div class="am-modal-hd">
+						<a href="javascript:;" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+					</div>
+					<div class="am-modal-bd">
+						<div class="base">
+							<input type="text" placeholder="图形验证码" maxlength="6" id="verify-img-value" data-validation-message="请输入有效的图形验证码" class="am-form-field am-radius" />
+							<div class="am-fl">
+								<img src="{{:MyUrl('index/safety/verifyentry')}}" class="am-radius c-p" id="verify-img" onClick='this.src="{{:MyUrl('index/safety/verifyentry')}}"' />
+								<a href="javascript:;" class="verify-tips" onClick="document.getElementById('verify-img').src='{{:MyUrl('index/safety/verifyentry')}}'">看不清换一张</a>
+							</div>
+						</div>
+						<button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm block btn-loading-example verify-submit-win" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-win="1">确认</button>
+					</div>
+				</div>
+			</div>
+			<!-- verify win end -->
+		</div>
+	</div>
+	<!-- content end -->
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

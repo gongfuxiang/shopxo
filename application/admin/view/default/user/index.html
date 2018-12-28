@@ -1,0 +1,168 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form view-list" action="{{:MyUrl('admin/user/index')}}" method="POST">
+			<div class="am-g">
+				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="姓名/手机/邮箱/昵称" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
+				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
+				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
+					更多筛选
+					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($params['is_more']) and $params['is_more'] eq 1}}checked{{/if}} />
+					<i class="am-icon-angle-down"></i>
+				</label>
+
+				<div class="more-where {{if !isset($params['is_more']) or $params['is_more'] neq 1}} none{{/if}}">
+					<select name="gender" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">性别</option>
+						{{foreach $common_gender_list as $v}}
+							<option value="{{$v.id}}" {{if isset($params['gender']) and $params['gender'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
+					<div class="param-date param-where m-l-5">
+						<input type="text" autocomplete="off" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_start'])}}value="{{$params.time_start}}"{{/if}}/>
+						<span>~</span>
+						<input type="text" autocomplete="off" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_end'])}}value="{{$params.time_end}}"{{/if}}/>
+					</div>
+				</div>
+			</div>
+        </form>
+        <!-- form end -->
+
+        <!-- operation start -->
+        <div class="am-g m-t-15">
+            <a href="{{:MyUrl('admin/user/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
+            {{if !IsMobile()}}
+            	<a href="{{$excel_url}}" class="am-btn am-btn-success am-btn-xs m-l-10 am-icon-file-excel-o am-radius"> 导出Excel</a>
+            {{/if}}
+        </div>
+        <!-- operation end -->
+
+		<!-- list start -->
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5">
+			<thead>
+				<tr>
+					<th>用户头像</th>
+					<th>用户名</th>
+					<th class="am-hide-sm-only">手机号码</th>
+					<th class="am-hide-sm-only">积分</th>
+					<th class="am-hide-sm-only">性别</th>
+					<th class="am-hide-sm-only">生日</th>
+					<th>更多</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{if !empty($data)}}
+					{{foreach $data as $v}}
+						<tr id="data-list-{{$v.id}}">
+							<td>
+								{{if !empty($v['avatar'])}}
+									<img src="{{$v['avatar']}}" class="am-img-thumbnail am-radius" width="60" height="60" />
+								{{else /}}
+									<span class="cr-ddd">暂无图片</span>
+								{{/if}}
+							</td>
+							<td>
+								{{if empty($v['username'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.username}}{{/if}}
+							</td>
+							<td class="am-hide-sm-only">
+								{{if empty($v['mobile'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.mobile}}{{/if}}
+							</td>
+							<td class="am-hide-sm-only">
+								{{if empty($v['integral'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.integral}}{{/if}}
+							</td>
+							<td class="am-hide-sm-only">
+								{{if empty($v['gender_text'])}}<span class="cr-ddd">未设置</span>{{else /}}{{$v.gender_text}}{{/if}}
+							</td>
+							<td class="am-hide-sm-only">
+								{{if empty($v['birthday_text'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.birthday_text}}{{/if}}
+							</td>
+							<td>
+								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
+									<div class="am-popup-inner">
+										<div class="am-popup-hd">
+											<h4 class="am-popup-title">详情内容</h4>
+											<span data-am-modal-close class="am-close">&times;</span>
+										</div>
+										<div class="am-popup-bd">
+											<dl class="dl-content">
+												<dt>用户名</dt>
+												<dd>{{if empty($v['username'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.username}}{{/if}}</dd>
+
+												<dt>昵称</dt>
+												<dd>{{if empty($v['nickname'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.nickname}}{{/if}}</dd>
+
+												<dt>手机号码</dt>
+												<dd>{{if empty($v['mobile'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.mobile}}{{/if}}</dd>
+
+												<dt>电子邮箱</dt>
+												<dd>{{if empty($v['email'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.email}}{{/if}}</dd>
+
+												<dt>性别</dt>
+												<dd>{{if empty($v['gender_text'])}}<span class="cr-ddd">未设置</span>{{else /}}{{$v.gender_text}}{{/if}}</dd>
+
+												<dt>生日</dt>
+												<dd>{{if empty($v['birthday_text'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.birthday_text}}{{/if}}</dd>
+
+												<dt>所在省</dt>
+												<dd>{{if empty($v['province'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.province}}{{/if}}</dd>
+
+												<dt>所在市</dt>
+												<dd>{{if empty($v['city'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.city}}{{/if}}</dd>
+
+												<dt>详细地址</dt>
+												<dd>{{if empty($v['address'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.address}}{{/if}}</dd>
+
+												<dt>积分</dt>
+												<dd>{{if empty($v['integral'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.integral}}{{/if}}</dd>
+
+												<dt>用户头像</dt>
+												<dd>
+													{{if !empty($v['avatar'])}}
+														<img src="{{$v['avatar']}}" class="am-img-thumbnail am-radius" width="100" height="100" />
+													{{else /}}
+														<span class="cr-ddd">暂无图片</span>
+													{{/if}}
+												</dd>
+
+												<dt>注册时间</dt>
+												<dd>{{$v.add_time}}</dd>
+
+												<dt>更新时间</dt>
+												<dd>{{$v.upd_time}}</dd>
+											</dl>
+										</div>
+									</div>
+								</div>
+							</td>
+							<td class="view-operation">
+								<a href="{{:MyUrl('admin/user/saveinfo', array_merge($params,array('id'=>$v['id'])))}}">
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> 编辑</button>
+								</a>
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/user/delete')}}" data-id="{{$v.id}}"> 删除</button>
+							</td>
+						</tr>
+					{{/foreach}}
+				{{else /}}
+					<tr><td colspan="20" class="table-no">没有相关数据</td></tr>
+				{{/if}}
+			</tbody>
+		</table>
+		<!-- list end -->
+
+		<!-- page start -->
+		{{if !empty($data)}}
+			{{$page_html|raw}}
+		{{/if}}
+		<!-- page end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

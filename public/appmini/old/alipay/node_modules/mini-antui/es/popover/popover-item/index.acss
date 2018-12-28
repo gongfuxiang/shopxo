@@ -1,0 +1,16 @@
+.am-popover-item {
+  min-width: 80px;
+  max-width: 170px;
+  height: 39px;
+  margin: 0 10px;
+  line-height: 39px;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #333;
+  text-align: center;
+}
+.am-popover-item:not(:last-child) {
+  border-bottom: 1px solid #eee;
+}

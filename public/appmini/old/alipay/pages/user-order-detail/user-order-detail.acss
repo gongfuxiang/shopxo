@@ -1,0 +1,69 @@
+.address {
+    padding: 10rpx;
+}
+.address-base, .address-detail {
+    padding: 10rpx 35rpx 10rpx 10rpx;
+}
+.address-detail .icon {
+    width: 35rpx;
+    height: 35rpx !important;
+}
+.address-detail .text {
+    width: calc(100% - 40rpx);
+}
+.address-divider {
+    height: 4px;
+    background-image: url("/images/buy-address-divider.png");
+    background-repeat-y: no-repeat;
+}
+.address-detail .text, .goods-title {
+    line-height: 36rpx;
+}
+.no-address {
+    height: 85rpx;
+    line-height: 85rpx;
+}
+
+.goods-base {
+  min-height: 160rpx;
+  margin-left: 180rpx;
+}
+.goods .goods-item:not(:last-child) {
+    border-bottom: 1px dashed #efefef;
+}
+.goods-item {
+    padding: 20rpx 10rpx;
+}
+.goods-title, .goods-attribute {
+    margin-bottom: 10rpx;
+}
+.goods-image {
+    width: 160rpx;
+    height: 160rpx;
+    margin-right: 20rpx;
+}
+.goods-price {
+    position: relative;
+}
+.buy-number {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.detail-list {
+    padding: 0 10rpx;
+}
+.detail-list .item {
+    padding: 20rpx 0;
+}
+.detail-list .item .title {
+    width: 25%;
+}
+.detail-list .item .content {
+    width: calc(75% - 30rpx);
+    margin-left: 20rpx;
+}
+.detail-list .item view {
+    line-height: 46rpx;
+}

@@ -1,0 +1,33 @@
+page{
+    background: #fff;
+}
+.content{
+    padding-top: 15%;
+    text-align: center;
+}
+.content .pay-img{
+    display: block;
+    width:500rpx;
+    margin: 80rpx auto;
+}
+.content .pay-icon{
+    display: block;
+    width: 250rpx;
+    margin: 60rpx auto;
+}
+
+.btn-box{
+    text-align: center;
+    margin-top: 150rpx;
+}
+.btn-box button{
+    height: 90rpx;
+    line-height: 90rpx;
+    width: 300rpx;
+}
+.dis-block {
+    font-size: 48rpx;
+}
+.price-box {
+    margin-top: 20rpx;
+}

@@ -1,0 +1,52 @@
+<header class="am-topbar am-topbar-inverse admin-header">
+	<div class="am-topbar-brand">
+		<a href="{{:MyUrl('admin/index/index')}}">
+			<h2>ShopXO<span class="admin-site-vice-name m-l-5">后台管理系统</span></h2>
+		</a>
+	</div>
+	<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only am-radius header-nav-submit" data-am-collapse="{target: '#topbar-collapse'}">
+		<span class="am-sr-only">导航切换</span>
+		<i class="am-icon-bars"></i>
+	</button>
+	<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+		<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
+			<li class="am-dropdown">
+				<a href="{{:__MY_URL__}}" target="_blank" class="tpl-header-list-link">
+					<i class="am-icon-home"></i>
+					<span>查看首页</span>
+				</a>
+			</li>
+			
+			{{if !IsMobile()}}
+				<li class="am-dropdown am-hide-sm-only">
+					<a href="javascript:;" id="admin-fullscreen" class="tpl-header-list-link">
+						<i class="am-icon-arrows-alt"></i>
+						<span class="admin-fulltext" fulltext-open="开启全屏" fulltext-exit="退出全屏">开启全屏</span>
+					</a>
+				</li>
+			{{/if}}
+			<li class="am-dropdown common-nav-top" data-am-dropdown data-am-dropdown-toggle>
+				<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+					<i class="am-icon-user"></i>
+					<span class="tpl-header-list-user-nick">{{$admin.username}}</span>
+					<span class="tpl-header-list-user-ico">
+					</span>
+				</a>
+				<ul class="am-dropdown-content">
+					<li>
+						<a href="javascript:;" data-type="nav" data-url="{{:MyUrl('admin/admin/saveInfo', array('id'=>$admin['id']))}}">
+							<i class="am-icon-cog"></i>
+							设置
+						</a>
+					</li>
+					<li>
+						<a href="{{:MyUrl('admin/admin/logout')}}">
+							<i class="am-icon-power-off"></i>
+							退出
+						</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</header>

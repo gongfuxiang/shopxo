@@ -1,0 +1,358 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form view-list" action="{{:MyUrl('admin/order/index')}}" method="POST">
+			<div class="am-g">
+				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="订单号/姓名/手机/地址/快递单号" name="keyword" {{if !empty($params['keyword'])}} value="{{$params.keyword}}"{{/if}} />
+				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
+				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
+					更多筛选
+					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($params['is_more']) and $params['is_more'] eq 1}}checked{{/if}} />
+					<i class="am-icon-angle-down"></i>
+				</label>
+
+				<div class="more-where {{if !isset($params['is_more']) or $params['is_more'] neq 1}}none{{/if}}">
+					<select name="status" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">订单状态</option>
+						{{foreach $common_order_admin_status as $v}}
+							<option value="{{$v.id}}" {{if isset($params['status']) and $params['status'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
+					<select name="express_id" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">快递公司</option>
+						{{foreach $express_list as $v}}
+							<option value="{{$v.id}}" {{if isset($params['express_id']) and $params['express_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
+					<select name="payment_id" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">支付方式</option>
+						{{foreach $payment_list as $v}}
+							<option value="{{$v.id}}" {{if isset($params['payment_id']) and $params['payment_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
+					<select name="pay_status" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">支付状态</option>
+						{{foreach $common_order_pay_status as $v}}
+							<option value="{{$v.id}}" {{if isset($params['pay_status']) and $params['pay_status'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
+					<div class="param-date param-where m-l-5">
+						<input type="text" autocomplete="off" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_start'])}}value="{{$params.time_start}}"{{/if}}/>
+						<span>~</span>
+						<input type="text" autocomplete="off" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_end'])}}value="{{$params.time_end}}"{{/if}}/>
+					</div>
+				</div>
+			</div>
+        </form>
+        <!-- form end -->
+
+		<!-- list start -->
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5">
+			<thead>
+				<tr>
+					<th class="am-hide-sm-only th-goods">基础信息</th>
+					<th class="am-hide-sm-only th-receive-address">收件信息</th>
+					<th class="am-hide-sm-only">快递信息</th>
+					<th>订单状态</th>
+					<th>订单金额(元)</th>
+					<th>更多</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{if !empty($data_list)}}
+					{{foreach $data_list as $v}}
+						<tr id="data-list-{{$v.id}}">
+							<td class="am-hide-sm-only">
+								<div class="order-no">{{$v.order_no}}</div>
+								{{foreach $v.items as $vs}}
+									<div class="goods-item">
+										<div class="base">
+											<a href="{{:MyUrl('index/goods/index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}">
+												<img src="{{$vs['images']}}" class="am-img-thumbnail am-radius goods-images am-hide-sm-only" />
+											</a>
+											<a href="{{:MyUrl('index/goods/index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}" {{if !empty($vs['title_color'])}} style="color:{{$vs.title_color}};" {{/if}} >{{$vs.title}}</a>
+										</div>
+										<div class="other">
+											<span class="fl fs-12">
+												{{if !empty($vs.spec)}}
+													{{foreach $vs.spec as $kss=>$vss}}
+														{{$vss.type}}:{{$vss.value}}{{if $kss neq count($vs.spec)-1}}，{{/if}}
+													{{/foreach}}
+												{{/if}}
+											</span>
+											<span class="fr">{{$vs.price}}x{{$vs.buy_number}}</span>
+										</div>
+									</div>
+								{{/foreach}}
+								<div class="goods-item">{{$v.describe}}</div>
+							</td>
+							<td class="am-hide-sm-only">
+								{{$v.receive_name}}<br />
+								{{$v.receive_tel}}<br />
+								{{$v.receive_province_name}}<br />
+								{{$v.receive_city_name}}<br />
+								{{$v.receive_county_name}}<br />
+								{{$v.receive_address}}
+							</td>
+							<td class="am-hide-sm-only">
+								{{if empty($v['express_name'])}}
+									<span class="cr-ddd">未填写</span>
+								{{else /}}
+									{{$v.express_name}}<br />{{$v.express_number}}
+								{{/if}}
+							</td>
+							<td>
+								<span class="block">{{$v.status_name}}</span>
+								
+								{{if $v['pay_status'] eq 1}}
+									<span class="block cr-green fs-12">{{$v.pay_status_name}}</span>
+								{{elseif $v['pay_status'] eq 2 /}}
+									<span class="block cr-yellow fs-12">{{$v.pay_status_name}}</span>
+								{{else /}}
+									<span class="block fs-12">{{$v.pay_status_name}}</span>
+								{{/if}}
+								{{if $v['user_is_delete_time'] neq 0}}
+									<span class="block cr-red fs-12">用户已删除</span>
+								{{/if}}
+							</td>
+							<td>
+								金额：{{$v.price}}<br />
+								优惠：{{$v.preferential_price}}<br />
+								总价：{{$v.total_price}}<br />
+								支付：{{$v.pay_price}}
+							</td>
+							<td>
+								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
+									<div class="am-popup-inner">
+										<div class="am-popup-hd">
+											<h4 class="am-popup-title">详情内容</h4>
+											<span data-am-modal-close class="am-close">&times;</span>
+										</div>
+										<div class="am-popup-bd">
+											<dl class="dl-content">
+												<dt>订单号</dt>
+												<dd>{{if empty($v['order_no'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.order_no}}{{/if}}</dd>
+
+												<dt>基础信息</dt>
+												<dd>
+													{{foreach $v.items as $vs}}
+														<div class="goods-item">
+															<div class="base">
+																<a href="{{:MyUrl('index/goods/index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}">
+																	<img src="{{$vs['images']}}" class="am-img-thumbnail am-radius goods-images am-hide-sm-only" />
+																</a>
+																<a href="{{:MyUrl('index/goods/index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}" {{if !empty($vs['title_color'])}} style="color:{{$vs.title_color}};" {{/if}} >{{$vs.title}}</a>
+															</div>
+															<div class="other">
+																<span class="fl fs-12">
+																	{{if !empty($vs.spec)}}
+																		{{foreach $vs.spec as $kss=>$vss}}
+																			{{$vss.type}}:{{$vss.value}}{{if $kss neq count($vs.spec)-1}}，{{/if}}
+																		{{/foreach}}
+																	{{/if}}
+																</span>
+																<span class="fr">{{$vs.price}}x{{$vs.buy_number}}</span>
+															</div>
+														</div>
+													{{/foreach}}
+													<div class="goods-item">{{$v.describe}}</div>
+												</dd>
+
+												<dt>收件信息</dt>
+												<dd>
+													{{if empty($v['receive_address'])}}
+														<span class="cr-ddd">未填写</span>
+													{{else /}}
+														{{$v.receive_name}}<br />
+														{{$v.receive_tel}}<br />
+														{{$v.receive_province_name}}
+														{{$v.receive_city_name}}
+														{{$v.receive_county_name}}
+														{{$v.receive_address}}
+													{{/if}}
+												</dd>
+
+												<dt>快递信息</dt>
+												<dd>{{if empty($v['express_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.express_name}}<br />{{$v.express_number}}{{/if}}</dd>
+
+												<dt>支付状态</dt>
+												<dd>{{if empty($v['pay_status_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.pay_status_name}}{{/if}}</dd>
+
+												<dt>订单状态</dt>
+												<dd>{{if empty($v['status_name'])}}<span class="cr-ddd">未设置</span>{{else /}}{{$v.status_name}}{{/if}}</dd>
+
+												<dt>支付方式</dt>
+												<dd>{{if empty($v['payment_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.payment_name}}{{/if}}</dd>
+
+												<dt>用户备注</dt>
+												<dd>{{if empty($v['user_note'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.user_note}}{{/if}}</dd>
+
+												<dt>订单金额(元)</dt>
+												<dd>
+													{{if empty($v['price'])}}
+														<span class="cr-ddd">未填写</span>
+													{{else /}}
+														金额：{{$v.price}}<br />
+														优惠：{{$v.preferential_price}}<br />
+														总价：{{$v.total_price}}<br />
+														支付：{{$v.pay_price}}
+													{{/if}}
+												</dd>
+
+												<dt>确认时间</dt>
+												<dd>{{if empty($v['confirm_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.confirm_time}}{{/if}}</dd>
+
+												<dt>支付时间</dt>
+												<dd>{{if empty($v['pay_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.pay_time}}{{/if}}</dd>
+
+												<dt>发货时间</dt>
+												<dd>{{if empty($v['delivery_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.delivery_time}}{{/if}}</dd>
+
+												<dt>完成时间</dt>
+												<dd>{{if empty($v['collect_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.collect_time}}{{/if}}</dd>
+
+												<dt>取消时间</dt>
+												<dd>{{if empty($v['cancel_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.cancel_time}}{{/if}}</dd>
+
+												<dt>创建时间</dt>
+												<dd>{{$v.add_time}}</dd>
+
+												<dt>更新时间</dt>
+												<dd>{{$v.upd_time}}</dd>
+											</dl>
+										</div>
+									</div>
+								</div>
+							</td>
+							<td class="view-operation">
+								{{if in_array($v['status'], [0])}}
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/confirm')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！"> 确认</button>
+								{{/if}}
+								{{if in_array($v['status'], [0,1])}}
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/cancel')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="取消后无法恢复，确定继续吗？"> 取消</button>
+									{{if in_array($v['status'], [1])}}
+                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paypal am-btn-block submit-pay" data-id="{{$v.id}}" data-payment-id="{{$v.payment_id}}" data-am-modal="{target: '#order-pay-popup'}"> 支付</button>
+                                    {{/if}}
+								{{/if}}
+								{{if $v['status'] eq 2}}
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o am-btn-block submit-delivery" data-url="{{:MyUrl('admin/order/delivery')}}" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-express-id="{{$v.express_id}}" data-am-modal="{target: '#order-delivery-popup'}"> 发货</button>
+								{{/if}}
+								{{if $v['status'] eq 3}}
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/collect')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！"> 收货</button>
+								{{/if}}
+								{{if in_array($v['status'], [5,6])}}
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/delete')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="delete" data-msg="删除后无法恢复，确定继续吗？"> 删除</button>
+								{{/if}}
+							</td>
+						</tr>
+					{{/foreach}}
+				{{else /}}
+					<tr><td colspan="20" class="table-no">没有相关数据</td></tr>
+				{{/if}}
+			</tbody>
+		</table>
+		<!-- list end -->
+
+		<!-- 发货弹窗 -->
+		<div class="am-popup" id="order-delivery-popup">
+			<div class="am-popup-inner">
+				<div class="am-popup-hd">
+					<h4 class="am-popup-title">发货操作</h4>
+					<span data-am-modal-close class="am-close">&times;</span>
+				</div>
+				<div class="am-popup-bd">
+	                <form class="am-form form-validation delivery-form" method="post" action="{{:MyUrl('admin/order/delivery')}}" request-type="ajax-reload">
+	                    <!-- 支付方式 -->
+	                    <div class="business-item">
+	                        <h3>选择快递</h3>
+	                        {{if !empty($express_list)}}
+	                            <ul class="express-list" data-type="express">
+	                                {{foreach $express_list as $express}}
+	                                	{{if $express.is_enable eq 1}}
+		                                    <li class="express-items-{{$express.id}}" data-value="{{$express.id}}">
+		                                        {{if !empty($express.icon)}}
+		                                            <img src="{{$express.icon}}" />
+		                                        {{/if}}
+		                                        <span>{{$express.name}}</span>
+		                                        <i class="icon-active"></i>
+		                                    </li>
+		                                {{/if}}
+	                                {{/foreach}}
+	                            </ul>
+	                        {{/if}}
+	                        {{if empty($express_list)}}
+	                            <div class="table-no"><i class="am-icon-warning"></i> 没有快递方式</div>
+	                        {{/if}}
+	                    </div>
+
+	                    <div class="am-form-group">
+							<label>快递单号</label>
+							<input type="text" autocomplete="off" name="express_number" placeholder="快递单号" minlength="1" data-validation-message="请填写快递单号" class="am-radius" required />
+	                    </div>
+	                    <div class="am-form-group">
+	                        <input type="hidden" name="id" value="0" />
+	                        <input type="hidden" name="express_id" value="0" />
+	                        <input type="hidden" name="user_id" value="0" />
+	                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>
+	                    </div>
+	                </form>
+	            </div>
+	        </div>
+		</div>
+
+		<!-- 支付弹窗 -->
+        <div class="am-popup" id="order-pay-popup">
+            <div class="am-popup-inner">
+                <div class="am-popup-hd">
+                    <h4 class="am-popup-title">支付操作</h4>
+                    <span data-am-modal-close class="am-close">&times;</span>
+                </div>
+                <div class="am-popup-bd">
+                	<form class="am-form form-validation-pay pay-form" action="{{:MyUrl('admin/order/pay')}}" method="POST" request-type="ajax-reload">
+                        <!-- 支付方式 -->
+                        <div class="business-item">
+                            <h3>选择支付</h3>
+                            {{if !empty($buy_payment_list)}}
+                                <ul class="payment-list" data-type="payment">
+                                    {{foreach $buy_payment_list as $payment}}
+                                        <li class="payment-items-{{$payment.id}}" data-value="{{$payment.id}}">
+                                            {{if !empty($payment.logo)}}
+                                                <img src="{{$payment.logo}}" />
+                                            {{/if}}
+                                            <span>{{$payment.name}}</span>
+                                            <i class="icon-active"></i>
+                                        </li>
+                                    {{/foreach}}
+                                </ul>
+                            {{/if}}
+                            {{if empty($buy_payment_list)}}
+                                <div class="table-no"><i class="am-icon-warning"></i> 没有支付方式</div>
+                            {{/if}}
+                        </div>
+                        <div class="am-form-group">
+                            <input type="hidden" name="id" value="0" />
+                            <input type="hidden" name="payment_id" value="0" />
+                            <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+		<!-- page start -->
+		{{if !empty($data_list)}}
+			{{$page_html|raw}}
+		{{/if}}
+		<!-- page end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

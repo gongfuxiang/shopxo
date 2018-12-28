@@ -1,0 +1,35 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- table nav start -->
+		{{include file="sms/nav" /}}
+		<!-- table nav end -->
+		
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/sms/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/sms/index', ['type'=>'message'])}}">
+			<div class="am-form-group">
+				<label>{{$data.home_sms_user_reg.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_sms_user_reg.describe}}）</span></label>
+				<input type="text" name="{{$data.home_sms_user_reg.only_tag}}" placeholder="{{$data.home_sms_user_reg.name}}" data-validation-message="{{$data.home_sms_user_reg.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_sms_user_reg.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_sms_user_forget_pwd.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_sms_user_forget_pwd.describe}}）</span></label>
+				<input type="text" name="{{$data.home_sms_user_forget_pwd.only_tag}}" placeholder="{{$data.home_sms_user_forget_pwd.name}}" data-validation-message="{{$data.home_sms_user_forget_pwd.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_sms_user_forget_pwd.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_sms_user_mobile_binding.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_sms_user_mobile_binding.describe}}）</span></label>
+				<input type="text" name="{{$data.home_sms_user_mobile_binding.only_tag}}" placeholder="{{$data.home_sms_user_mobile_binding.name}}" data-validation-message="{{$data.home_sms_user_mobile_binding.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_sms_user_mobile_binding.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

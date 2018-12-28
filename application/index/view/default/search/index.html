@@ -1,0 +1,124 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container search-content" data-category-id="{{$params.category_id}}">
+    <div class="search-list">
+        <div class="am-u-sm-12 am-u-md-12">
+            <div class="theme-popover">
+                <ul class="select">
+                    <p class="title-tips">
+                        <span>筛选出</span>
+                        <strong>...</strong>
+                        <span>条数据</span>
+                    </p>
+                    <li class="select-result">
+                        <dl>
+                            <dt>已选</dt>
+                            <dd class="select-no"></dd>
+                            <p class="screening-remove-submit">清除</p>
+                        </dl>
+                    </li>
+                    <li class="select-list">
+                        <dl id="screening-brand-dl">
+                            <dt class="am-badge am-round">品牌</dt>   
+                             <div class="dd-conent" data-selected-tag="screening-brand">                                        
+                                <dd class="select-all selected"><a href="javascript:;">不限</a></dd>
+                                {{if !empty($brand_list)}}
+                                    {{foreach $brand_list as $brand}}
+                                        <dd><a href="javascript:;" data-value="{{$brand.id}}" data-field="brand_id">{{$brand.name}}</a></dd>
+                                    {{/foreach}}
+                                {{else /}}
+                                    <span class="not-tips">没有相关品牌</span>
+                                {{/if}}
+                             </div>
+                        </dl>
+                    </li>
+                    <li class="select-list">
+                        <dl id="screening-category-dl">
+                            <dt class="am-badge am-round">分类</dt>
+                            <div class="dd-conent" data-selected-tag="screening-category">
+                                <dd class="select-all selected"><a href="javascript:;">不限</a></dd>
+                                {{if !empty($category_list)}}
+                                    {{foreach $category_list as $category}}
+                                        <dd><a href="javascript:;" data-value="{{$category.id}}" data-field="category_id">{{$category.name}}</a></dd>
+                                    {{/foreach}}
+                                {{else /}}
+                                    <span class="not-tips">没有相关分类</span>
+                                {{/if}}
+                            </div>
+                        </dl>
+                    </li>
+                    <li class="select-list">
+                        <dl id="screening-price-dl">
+                            <dt class="am-badge am-round">价格</dt>
+                            <div class="dd-conent" data-selected-tag="screening-price">
+                                <dd class="select-all selected"><a href="javascript:;">不限</a></dd>
+                                {{if !empty($screening_price_list)}}
+                                    {{foreach $screening_price_list as $screening_price}}
+                                        <dd><a href="javascript:;" data-value="{{$screening_price.id}}" data-field="screening_price_id">{{$screening_price.name}}</a></dd>
+                                    {{/foreach}}
+                                {{else /}}
+                                    <span class="not-tips">没有相关价格</span>
+                                {{/if}}
+                            </div>
+                        </dl>
+                    </li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <div class="search-content">
+                <ul class="sort-nav" data-am-sticky="{animation: 'slide-top'}">
+                    <li class="active" data-field="default" data-type="desc">
+                        <a href="javascript:;" title="综合">
+                            <span>综合</span>
+                        </a>
+                    </li>
+                    <li data-field="sales_count" data-type="desc">
+                        <a href="javascript:;" title="销量">
+                            <span>销量</span>
+                            <i class="am-icon-long-arrow-down"></i>
+                        </a>
+                    </li>
+                    <li data-field="min_price" data-type="desc">
+                        <a href="javascript:;" title="价格">
+                            <span>价格</span>
+                            <i class="am-icon-long-arrow-down"></i>
+                        </a>
+                    </li>
+                </ul>
+                <div class="clear"></div>
+                <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-5 data-list"></ul>
+            </div>
+
+            <!-- 加载数据 -->
+            <div class="loding-view">
+                <i class="am-icon-spinner am-icon-pulse"></i>
+                <span>加载中...</span>
+            </div>
+
+            <!-- 没有数据 -->
+            <div class="table-no" style="display:none;"><i class="am-icon-warning"></i> 没有相关数据</div>
+
+            <!-- 分页 -->
+            <button type="button" class="am-btn am-btn-default am-btn-block search-pages-submit" data-url="{{:MyUrl('index/search/goodslist')}}" style="display:none;">加载更多 <i class="am-icon-angle-double-down"></i></button>
+        </div>
+    </div>
+</div>
+
+<!-- 罩层 -->
+<div class="theme-popover-mask" style="display:none;"></div>
+
+
+{{include file="public/footer" /}}

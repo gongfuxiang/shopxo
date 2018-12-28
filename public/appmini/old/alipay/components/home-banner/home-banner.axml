@@ -1,0 +1,19 @@
+<swiper
+  indicator-dots="{{indicator_dots}}"
+  indicator-color="{{indicator_color}}"
+  indicator-active-color="{{indicator_active_color}}"
+  autoplay="{{autoplay}}"
+  circular="{{circular}}"
+  class="banner bg-white spacing-mb"
+  a:if="{{data_list.length > 0}}">
+  <block a:for="{{data_list}}">
+    <swiper-item>
+      <image class="wh-auto" src="{{item.images_url}}" mode="widthFix" data-value="{{item.event_value}}" data-type="{{item.event_type}}" onTap="banner_event" />
+    </swiper-item>
+  </block>
+</swiper>
+
+<view a:if="{{data_list_loding_status == 2}}">
+  <import src="/pages/common/nodata.axml" />
+  <template is="nodata" data="{{status: data_list_loding_status}}"></template>
+</view>

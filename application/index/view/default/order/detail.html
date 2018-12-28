@@ -1,0 +1,360 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container user-main">
+
+    <!-- user menu start -->
+    {{include file="public/user_menu" /}}
+    <!-- user menu end -->
+
+    <!-- content start -->
+    <div class="user-content">
+        <div class="user-content-body">
+            <!-- 进度环节 -->
+            {{if !in_array($data['status'], [5,6])}}
+                <ul class="progress">
+                    <li class="steps-success {{if $data['status'] LT 2}} current{{/if}}">
+                        <p class="digital">
+                            <i class="am-icon-check"></i>
+                        </p>
+                        <div class="base">
+                            <p class="title">拍下商品</p>
+                            {{if !empty($data.add_time)}}
+                                <p class="date">{{$data.add_time}}</p>
+                            {{/if}}
+                        </div>
+                    </li>
+                    <li class="{{if $data['status'] GT 1}}steps-success{{/if}} {{if $data['status'] EQ 2}} current{{/if}}">
+                        <i class="step"></i>
+                        <p class="digital">
+                            {{if $data['status'] GT 1}}<i class="am-icon-check"></i>{{else /}}2{{/if}}
+                        </p>
+                        <div class="base">
+                            <p class="title">付款</p>
+                            {{if !empty($data.pay_time)}}
+                                <p class="date">{{$data.pay_time}}</p>
+                            {{/if}}
+                        </div>
+                    </li>
+                    <li class="{{if $data['status'] GT 2}}steps-success{{/if}} {{if $data['status'] EQ 3}} current{{/if}}">
+                        <i class="step"></i>
+                        <p class="digital">
+                            {{if $data['status'] GT 2}}<i class="am-icon-check"></i>{{else /}}3{{/if}}
+                        </p>
+                        <div class="base">
+                            <p class="title">卖家发货</p>
+                            {{if !empty($data.delivery_time)}}
+                                <p class="date">{{$data.delivery_time}}</p>
+                            {{/if}}
+                        </div>
+                    </li>
+                    <li class="{{if $data['status'] GT 3}}steps-success{{/if}} {{if $data['status'] EQ 4}} current{{/if}}">
+                        <i class="step"></i>
+                        <p class="digital">
+                            {{if $data['status'] GT 3}}<i class="am-icon-check"></i>{{else /}}4{{/if}}
+                        </p>
+                        <div class="base">
+                            <p class="title">确认收货</p>
+                            {{if !empty($data.collect_time)}}
+                                <p class="date">{{$data.collect_time}}</p>
+                            {{/if}}
+                        </div>
+                    </li>
+                    <li class="{{if $data['user_is_comments'] GT 0}}steps-success{{/if}} {{if $data['user_is_comments'] GT 0}} current{{/if}}">
+                        <i class="step"></i>
+                        <p class="digital">
+                            {{if $data['user_is_comments'] GT 0}}<i class="am-icon-check"></i>{{else /}}5{{/if}}
+                        </p>
+                        <div class="base">
+                            <p class="title">评价</p>
+                            {{if !empty($data.user_is_comments_time)}}
+                                <p class="date">{{$data.user_is_comments_time}}</p>
+                            {{/if}}
+                        </div>
+                    </li>
+                </ul>
+            {{/if}}
+
+            <!-- 基础信息 -->
+            <div class="order-base">
+                <div class="base-left">
+                    <div class="am-panel am-panel-default">
+                        <div class="am-panel-hd">订单信息</div>
+                        <div class="am-panel-bd">
+                            <div class="items">
+                                <div class="items-title am-fl">收货地址：</div>
+                                <div class="items-detail am-fl">{{$data.receive_name}}, {{$data.receive_tel}}, {{$data.receive_province_name}} {{$data.receive_city_name}} {{$data.receive_county_name}} {{$data.receive_address}}</div>
+                            </div>
+                            <div class="items">
+                                <div class="items-title am-fl">订单编号：</div>
+                                <div class="items-detail am-fl">{{$data.order_no}}</div>
+                            </div>
+                            {{if !empty($data.status_name)}}
+                                <div class="items">
+                                    <div class="items-title am-fl">订单状态：</div>
+                                    <div class="items-detail am-fl">{{$data.status_name}}</div>
+                                </div>
+                            {{/if}}
+                            {{if !empty($data.pay_status_name)}}
+                                <div class="items">
+                                    <div class="items-title am-fl">支付状态：</div>
+                                    <div class="items-detail am-fl">{{$data.pay_status_name}}</div>
+                                </div>
+                            {{/if}}
+                            {{if !empty($data.payment_name)}}
+                                <div class="items">
+                                    <div class="items-title am-fl">支付方式：</div>
+                                    <div class="items-detail am-fl">{{$data.payment_name}}</div>
+                                </div>
+                            {{/if}}
+                            {{if !empty($data.user_note)}}
+                                <div class="items">
+                                    <div class="items-title am-fl">用户留言：</div>
+                                    <div class="items-detail am-fl">{{$data.user_note}}</div>
+                                </div>
+                            {{/if}}
+                            {{if !empty($data.add_time)}}
+                                <div class="items">
+                                    <div class="items-title am-fl">下单时间：</div>
+                                    <div class="items-detail am-fl">{{$data.add_time}}</div>
+                                </div>
+                            {{/if}}
+                            {{if !empty($data.confirm_time)}}
+                                <div class="items">
+                                    <div class="items-title am-fl">确认时间：</div>
+                                    <div class="items-detail am-fl">{{$data.confirm_time}}</div>
+                                </div>
+                            {{/if}}
+                            {{if !empty($data.pay_time)}}
+                                <div class="items">
+                                    <div class="items-title am-fl">付款时间：</div>
+                                    <div class="items-detail am-fl">{{$data.pay_time}}</div>
+                                </div>
+                            {{/if}}
+                            {{if !empty($data.delivery_time)}}
+                                <div class="items">
+                                    <div class="items-title am-fl">发货时间：</div>
+                                    <div class="items-detail am-fl">{{$data.delivery_time}}</div>
+                                </div>
+                            {{/if}}
+                            {{if !empty($data.collect_time)}}
+                                <div class="items">
+                                    <div class="items-title am-fl">收货时间：</div>
+                                    <div class="items-detail am-fl">{{$data.collect_time}}</div>
+                                </div>
+                            {{/if}}
+                            {{if !empty($data.user_is_comments_time)}}
+                                <div class="items">
+                                    <div class="items-title am-fl">评论时间：</div>
+                                    <div class="items-detail am-fl">{{$data.user_is_comments_time}}</div>
+                                </div>
+                            {{/if}}
+                            {{if in_array($data['status'], [5]) and !empty($data['cancel_time'])}}
+                                <div class="items">
+                                    <div class="items-title am-fl">取消时间：</div>
+                                    <div class="items-detail am-fl">{{$data.cancel_time}}</div>
+                                </div>
+                            {{/if}}
+                            {{if in_array($data['status'], [6]) and !empty($data['close_time'])}}
+                                <div class="items">
+                                    <div class="items-title am-fl">关闭时间：</div>
+                                    <div class="items-detail am-fl">{{$data.close_time}}</div>
+                                </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+                <div class="base-right">
+                    <div class="status">
+                        {{if $data['status'] EQ 4}}
+                            <i class="am-icon-check-circle icon-success am-fl"></i>
+                        {{else /}}
+                            <i class="am-icon-info-circle icon-tips am-fl"></i>
+                        {{/if}}
+                        <p class="status-name am-fl">{{$data.status_name}}</p>
+                    </div>
+                    <div class="operation">
+                        <!-- 0待确认, 1已确认/待支付, 2已支付/待发货, 3已发货/待收货, 4已完成, 5已取消, 6已关闭 -->
+                        {{if $data['status'] neq 2}}
+                            <span>您可以</span>
+                        {{/if}}
+                        {{if in_array($data['status'], [0,1])}}
+                            <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius submit-ajax submit-cancel" data-url="{{:MyUrl('index/order/cancel')}}" data-id="{{$data.id}}" data-view="reload">取消</button>
+                        {{/if}}
+                        {{if in_array($data['status'], [1])}}
+                            <button class="am-btn am-btn-primary am-btn-xs am-radius submit-pay" data-id="{{$data.id}}" data-payment-id="{{$data.payment_id}}" data-am-modal="{target: '#order-pay-popup'}" data-is-auto="{{if isset($params['is_pay_auto']) and $params['is_pay_auto'] eq 1}}1{{else /}}0{{/if}}">支付</button>
+                        {{/if}}
+                        {{if in_array($data['status'], [3])}}
+                            <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/collect')}}" data-id="{{$data.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？">收货</button>
+                        {{/if}}
+                        {{if in_array($data['status'], [4]) and $data['user_is_comments'] eq 0}}
+                            <a href="{{:MyUrl('index/order/comments', ['id'=>$data['id']])}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius">评价</a>
+                        {{/if}}
+                        {{if in_array($data['status'], [4,5,6])}}
+                            <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius submit-delete" data-url="{{:MyUrl('index/order/delete')}}" data-id="{{$data.id}}" data-view="jump" data-value="{{:MyUrl('index/order/index')}}">删除</button>
+                        {{/if}}
+                    </div>
+                    {{if in_array($data['status'], [3,4])}}
+                        <div class="logistics">
+                            <div class="items">
+                                <div class="items-title am-fl">快递公司：</div>
+                                <div class="items-detail am-fl">
+                                    {{if !empty($data.express_name)}}{{$data.express_name}}{{/if}}
+                                </div>
+                            </div>
+                            {{if !empty($data.express_number)}}
+                                <div class="items">
+                                    <div class="items-title am-fl">快递单号：</div>
+                                    <div class="items-detail am-fl">{{$data.express_number}}</div>
+                                </div>
+                            {{/if}}
+                        </div>
+                    {{/if}}
+                </div>
+            </div>
+
+            <!-- 商品列表 -->
+            {{if !empty($data.items)}}
+                <div class="order-goods">
+                    <table class="am-table">
+                        <thead>
+                            <tr>
+                                <th>商品信息</th>
+                                <th class="am-hide-sm-only">单价</th>
+                                <th class="am-hide-sm-only">数量</th>
+                                <th class="am-hide-sm-only">金额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{foreach $data.items as $goods}}
+                                <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}">
+                                    <td class="base">
+                                        <div class="goods-detail">
+                                            <a href="{{$goods.goods_url}}" target="_blank">
+                                                <img src="{{$goods.images}}" />
+                                            </a>
+                                            <div class="goods-base">
+                                                <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
+                                                {{if !empty($goods.spec)}}
+                                                    <ul class="goods-attr">
+                                                        {{foreach $goods.spec as $spec}}
+                                                            <li>{{$spec.type}}：{{$spec.value}}</li>
+                                                        {{/foreach}}
+                                                    </ul>
+                                                {{/if}}
+                                            </div>
+                                        </div>
+                                        <div class="wap-base am-show-sm-only">
+                                            {{if $goods['original_price'] gt 0}}
+                                                <span class="original-price">￥{{$goods.original_price}}</span>
+                                            {{/if}}
+                                            <strong class="total-price-content">￥{{$goods.price}}</strong>
+                                            <span class="wap-number">x{{$goods.buy_number}}</span>
+                                        </div>
+                                    </td>
+                                    <td class="price am-hide-sm-only">
+                                        {{if $goods['original_price'] gt 0}}
+                                            <p class="original-price">￥{{$goods.original_price}}</p>
+                                        {{/if}}
+                                        <p class="line-price">￥{{$goods.price}}</p>
+                                    </td>
+                                    <td class="number am-hide-sm-only">
+                                        x{{$goods.buy_number}}
+                                    </td>
+                                    <td class="total-price am-hide-sm-only">
+                                        <strong class="total-price-content">￥{{$goods.total_price}}</strong>
+                                    </td>
+                                </tr>
+                            {{/foreach}}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="am-alert am-alert-secondary">
+                  {{if !empty($data.price)}}
+                        <div class="items">
+                            <div class="items-title am-fl">商品总价：</div>
+                            <div class="items-detail am-fl">￥{{$data.price}}</div>
+                        </div>
+                    {{/if}}
+                    {{if !empty($data.preferential_price)}}
+                        <div class="items">
+                            <div class="items-title am-fl">优惠金额：</div>
+                            <div class="items-detail am-fl">-￥{{$data.preferential_price}}</div>
+                        </div>
+                    {{/if}}
+                    {{if !empty($data.total_price)}}
+                        <div class="items">
+                            <div class="items-title am-fl">订单总价：</div>
+                            <div class="items-detail am-fl line-price">￥{{$data.total_price}}</div>
+                        </div>
+                    {{/if}}
+                    {{if !empty($data.pay_price)}}
+                        <div class="items">
+                            <div class="items-title am-fl">支付金额：</div>
+                            <div class="items-detail am-fl">
+                                <strong class="total-price-content">￥{{$data.pay_price}}</strong>
+                            </div>
+                        </div>
+                    {{/if}}
+                </div>
+            {{/if}}
+        </div>
+
+        <!-- 支付弹窗 -->
+        <div class="am-popup am-radius" id="order-pay-popup">
+            <div class="am-popup-inner">
+                <div class="am-popup-hd">
+                    <h4 class="am-popup-title">支付</h4>
+                    <span data-am-modal-close class="am-close">&times;</span>
+                </div>
+                <div class="am-popup-bd">
+                    <form class="am-form pay-form" method="post" action="{{:MyUrl('index/order/pay')}}">
+                        <!-- 支付方式 -->
+                        <div class="business-item">
+                            <h3>选择支付</h3>
+                            {{if !empty($buy_payment_list)}}
+                                <ul class="payment-list" data-type="payment">
+                                    {{foreach $buy_payment_list as $payment}}
+                                        <li class="payment-items-{{$payment.id}}" data-value="{{$payment.id}}">
+                                            {{if !empty($payment.logo)}}
+                                                <img src="{{$payment.logo}}" />
+                                            {{/if}}
+                                            <span>{{$payment.name}}</span>
+                                            <i class="icon-active"></i>
+                                        </li>
+                                    {{/foreach}}
+                                </ul>
+                            {{/if}}
+                            {{if empty($buy_payment_list)}}
+                                <div class="table-no"><i class="am-icon-warning"></i> 没有支付方式</div>
+                            {{/if}}
+                        </div>
+                        <div class="am-form-group">
+                            <input type="hidden" name="id" value="0" />
+                            <input type="hidden" name="payment_id" value="0" />
+                            <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认支付</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

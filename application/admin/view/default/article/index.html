@@ -1,0 +1,139 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form view-list" action="{{:MyUrl('admin/article/index')}}" method="POST">
+			<div class="am-g">
+				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="标题关键字" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
+				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
+				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
+					更多筛选
+					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($params['is_more']) and $params['is_more'] eq 1}}checked{{/if}} />
+					<i class="am-icon-angle-down"></i>
+				</label>
+
+				<div class="more-where {{if !isset($params['is_more']) or $params['is_more'] neq 1}}none{{/if}}">
+					<select  class="am-radius c-p m-t-10 param-where" name="article_category_id">
+						<option value="-1">文章分类</option>
+						{{foreach $article_category_list as $v}}
+							<option value="{{$v.id}}" {{if isset($params['article_category_id']) and $params['article_category_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
+					<select name="is_enable" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">是否启用</option>
+						{{foreach $common_is_enable_list as $v}}
+							<option value="{{$v.id}}" {{if isset($params['is_enable']) and $params['is_enable'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
+					<select name="is_home_recommended" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">首页推荐</option>
+						{{foreach $common_is_text_list as $v}}
+							<option value="{{$v.id}}" {{if isset($params['is_home_recommended']) and $params['is_home_recommended'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
+					<div class="param-date param-where m-l-5">
+						<input type="text" autocomplete="off" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_start'])}}value="{{$params.time_start}}"{{/if}}/>
+						<span>~</span>
+						<input type="text" autocomplete="off" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_end'])}}value="{{$params.time_end}}"{{/if}}/>
+					</div>
+				</div>
+			</div>
+        </form>
+        <!-- form end -->
+
+        <!-- operation start -->
+        <div class="am-g m-t-15">
+            <a href="{{:MyUrl('admin/article/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
+        </div>
+        <!-- operation end -->
+
+		<!-- list start -->
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
+			<thead>
+				<tr>
+					<th>标题</th>
+					<th class="am-hide-sm-only">文章分类</th>
+					<th class="am-hide-sm-only">访问次数</th>
+					<th>状态</th>
+					<th>首页推荐</th>
+					<th>更多</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{if !empty($data_list)}}
+					{{foreach $data_list as $v}}
+						<tr id="data-list-{{$v.id}}" {{if $v['is_enable'] eq 0}}class="am-active"{{/if}}>
+							<td  class="td-title">
+								<a href="{{$v.url}}" target="_blank" title="{{$v.title}}" {{if !empty($v['title_color'])}} style="color:{{$v.title_color}};" {{/if}} >{{$v.title}}</a>
+							</td>
+							<td class="am-hide-sm-only">{{$v.article_category_name}}</td>
+							<td class="am-hide-sm-only">{{$v.access_count}}</td>
+							<td>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/article/StatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
+							</td>
+							<td>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_home_recommended'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/article/statushomerecommended')}}" data-id="{{$v.id}}" data-state="{{$v['is_home_recommended']}}"></a>
+							</td>
+							<td>
+								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
+									<div class="am-popup-inner">
+										<div class="am-popup-hd">
+											<h4 class="am-popup-title">详情内容</h4>
+											<span data-am-modal-close
+											class="am-close">&times;</span>
+										</div>
+										<div class="am-popup-bd">
+											<dl class="dl-content">
+												<dt>标题</dt>
+												<dd>{{$v.title}}</dd>
+
+												<dt>文章分类</dt>
+												<dd>{{$v.article_category_name}}</dd>
+
+												<dt>访问次数</dt>
+												<dd>{{$v.access_count}}</dd>
+
+												<dt>是否启用</dt>
+												<dd>{{$v.is_enable_text}}</dd>
+
+												<dt>创建时间</dt>
+												<dd>{{$v.add_time_time}}</dd>
+
+												<dt>更新时间</dt>
+												<dd>{{$v.upd_time_time}}</dd>
+											</dl>
+										</div>
+									</div>
+								</div>
+							</td>
+							<td class="view-operation">
+								<a href="{{:MyUrl('admin/article/saveinfo', array_merge($params, ['id'=>$v['id']]))}}">
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"></button>
+								</a>
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/article/delete')}}" data-id="{{$v.id}}"></button>
+							</td>
+						</tr>
+					{{/foreach}}
+				{{else /}}
+					<tr><td colspan="10" class="table-no">没有相关数据</td></tr>
+				{{/if}}
+			</tbody>
+		</table>
+		<!-- list end -->
+
+		<!-- page start -->
+		{{if !empty($data_list)}}
+			{{$page_html|raw}}
+		{{/if}}
+		<!-- page end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

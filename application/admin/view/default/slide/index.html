@@ -1,0 +1,116 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form view-list" action="{{:MyUrl('admin/slide/index')}}" method="POST">
+            <div class="am-g">
+                <input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="名称" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
+                <button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
+                <label class="fs-12 m-l-5 c-p fw-100 more-submit">
+                    更多筛选
+                    <input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($params['is_more']) and $params['is_more'] eq 1}}checked{{/if}} />
+                    <i class="am-icon-angle-down"></i>
+                </label>
+
+                <div class="more-where {{if !isset($params['is_more']) or $params['is_more'] neq 1}}none{{/if}}">
+                    <select name="is_enable" class="am-radius c-p m-t-10 m-l-5 param-where">
+                        <option value="-1">是否启用</option>
+                        {{foreach $common_is_enable_list as $v}}
+                            <option value="{{$v.id}}" {{if isset($params['is_enable']) and $params['is_enable'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                        {{/foreach}}
+                    </select>
+                    <select name="platform" class="am-radius c-p m-t-10 m-l-5 param-where">
+                        <option value="">所属平台</option>
+                        {{foreach $common_platform_type as $v}}
+                            <option value="{{$v.value}}" {{if isset($params['platform']) and $params['platform'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                        {{/foreach}}
+                    </select>
+                    <select name="event_type" class="am-radius c-p m-t-10 m-l-5 param-where">
+                        <option value="-1">事件类型</option>
+                        {{foreach $common_app_event_type as $v}}
+                            <option value="{{$v.value}}" {{if isset($params['event_type']) and $params['event_type'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                        {{/foreach}}
+                    </select>
+                    <div class="param-date param-where m-l-5">
+                        <input type="text" autocomplete="off" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_start'])}}value="{{$params.time_start}}"{{/if}}/>
+                        <span>~</span>
+                        <input type="text" autocomplete="off" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_end'])}}value="{{$params.time_end}}"{{/if}}/>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- form end -->
+
+        <!-- operation start -->
+        <div class="am-g m-t-15">
+            <a href="{{:MyUrl('admin/slide/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
+        </div>
+        <!-- operation end -->
+
+        <!-- list start -->
+        <table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
+            <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>所属平台</th>
+                    <th>轮播图片</th>
+                    <th>事件值</th>
+                    <th>是否启用</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{if !empty($data_list)}}
+                    {{foreach $data_list as $v}}
+                        <tr id="data-list-{{$v.id}}" {{if $v['is_enable'] eq 0}}class="am-active"{{/if}}>
+                            <td>{{$v.name}}</td>
+                            <td>{{$v.platform_text}}</td>
+                            <td {{if !empty($v['bg_color'])}}style="background-color:{{$v.bg_color}};"{{/if}}>
+                                {{if !empty($v['images_url'])}}
+                                    <a href="{{$v['images_url']}}" target="_blank">
+                                        <img src="{{$v['images_url']}}" class="am-radius" width="100" height="60" />
+                                    </a>
+                                {{else /}}
+                                    <span class="cr-ddd">暂无图片</span>
+                                {{/if}}
+                            </td>
+                            <td>
+                                {{$v.event_value}}
+                                {{if !empty($v['event_value'])}}
+                                    <br /><span class="am-badge am-badge-warning am-radius">{{$v.event_type_text}}</span>
+                                {{/if}}
+                            </td>
+                            <td class="am-hide-sm-only">
+                                <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/slide/statusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
+                            </td>
+                            <td>{{$v.add_time_time}}</td>
+                            <td class="view-operation">
+                                <a href="{{:MyUrl('admin/slide/saveinfo', array('id'=>$v['id']))}}">
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> 编辑</button>
+                                </a>
+                                <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/slide/delete')}}" data-id="{{$v.id}}"> 删除</button>
+                            </td>
+                        </tr>
+                    {{/foreach}}
+                {{else /}}
+                    <tr><td colspan="20" class="table-no">没有相关数据</td></tr>
+                {{/if}}
+            </tbody>
+        </table>
+        <!-- list end -->
+
+        <!-- page start -->
+        {{if !empty($data_list)}}
+            {{$page_html|raw}}
+        {{/if}}
+        <!-- page end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

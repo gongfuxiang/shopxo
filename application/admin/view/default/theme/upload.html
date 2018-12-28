@@ -1,0 +1,30 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- nav start -->
+		{{include file="theme/nav" /}}
+		<!-- nav end -->
+		<!-- form start -->
+		<form class="am-form form-validation view-save m-t-10" action="{{:MyUrl('admin/theme/upload')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/theme/index')}}" enctype="multipart/form-data">
+			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_file', 51200000, true)}}" />
+			<div class="am-form-group am-form-file">
+				<button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
+				<i class="am-icon-cloud-upload"></i> 选择文件</button>
+				<input type="file" name="theme" class="file-event" data-tips-tag="#form-theme-tips" multiple data-validation-message="请选择需要上传的文件" required />
+				<span class="tips fs-12">上传一个zip压缩格式的主题安装包</span>
+				<div id="form-theme-tips"></div>
+			</div>
+			<div class="am-form-group">
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm" data-am-loading="{loadingText:'上传中...'}">上传</button>
+			</div>
+		</form>
+		<!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

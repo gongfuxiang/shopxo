@@ -1,0 +1,150 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index')}}" enctype="multipart/form-data">
+			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
+			<div class="am-form-group">
+				<label>{{$data.home_site_name.name}}</label>
+				<input type="text" name="{{$data.home_site_name.only_tag}}" minlength="1" placeholder="{{$data.home_site_name.name}}" data-validation-message="{{$data.home_site_name.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_site_name.value}}"{{/if}} required />
+			</div>
+			<div class="am-form-group">
+				<label class="block">{{$data.home_site_logo.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_site_logo.describe}}）</span></label>
+				<ul class="plug-file-upload-view home_site_logo-images-view" data-form-name="home_site_logo" data-max-number="1" data-dialog-type="images">
+					{{if !empty($data)}}
+						<li>
+							<input type="text" name="home_site_logo" value="{{$data.home_site_logo.value}}" />
+							<img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_logo.value}}" />
+							<i>×</i>
+						</li>
+					{{/if}}
+				</ul>
+				<div class="plug-file-upload-submit" data-view-tag="ul.home_site_logo-images-view">+选择logo</div>
+			</div>
+
+			<div class="am-form-group">
+				<label class="block">{{$data.home_site_logo_wap.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_site_logo_wap.describe}}）</span></label>
+				<ul class="plug-file-upload-view home_site_logo_wap-images-view" data-form-name="home_site_logo_wap" data-max-number="1" data-dialog-type="images">
+					{{if !empty($data)}}
+						<li>
+							<input type="text" name="home_site_logo_wap" value="{{$data.home_site_logo_wap.value}}" />
+							<img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_logo_wap.value}}" />
+							<i>×</i>
+						</li>
+					{{/if}}
+				</ul>
+				<div class="plug-file-upload-submit" data-view-tag="ul.home_site_logo_wap-images-view">+选择logo</div>
+			</div>
+
+			<div class="am-form-group">
+				<label class="block">{{$data.home_site_desktop_icon.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_site_desktop_icon.describe}}）</span></label>
+				<ul class="plug-file-upload-view home_site_desktop_icon-images-view" data-form-name="home_site_desktop_icon" data-max-number="1" data-dialog-type="images">
+					{{if !empty($data)}}
+						<li>
+							<input type="text" name="home_site_desktop_icon" value="{{$data.home_site_desktop_icon.value}}" />
+							<img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_desktop_icon.value}}" />
+							<i>×</i>
+						</li>
+					{{/if}}
+				</ul>
+				<div class="plug-file-upload-submit" data-view-tag="ul.home_site_desktop_icon-images-view">+选择logo</div>
+			</div>
+
+			<div class="am-form-group">
+				<label>{{$data.common_timezone.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_timezone.describe}}）</span></label>
+				<select name="{{$data.common_timezone.only_tag}}" class="am-radius chosen-select c-p" data-placeholder="{{$data.common_timezone.name}}" data-validation-message="{{$data.common_timezone.error_tips}}" required>
+					{{foreach $site_timezone_list as $k=>$v}}
+						<option value="{{$k}}" {{if isset($data['common_timezone']['value']) and $data['common_timezone']['value'] eq $k}}selected{{/if}}>{{$v}}</option>
+					{{/foreach}}
+				</select>
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_max_limit_image.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_max_limit_image.describe}}）</span></label>
+				<input type="number" name="{{$data.home_max_limit_image.only_tag}}" placeholder="{{$data.home_max_limit_image.name}}" data-validation-message="{{$data.home_max_limit_image.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_max_limit_image.value}}"{{/if}} required />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_max_limit_file.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_max_limit_file.describe}}）</span></label>
+				<input type="number" name="{{$data.home_max_limit_file.only_tag}}" placeholder="{{$data.home_max_limit_file.name}}" data-validation-message="{{$data.home_max_limit_file.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_max_limit_file.value}}"{{/if}} required />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_max_limit_video.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_max_limit_video.describe}}）</span></label>
+				<input type="number" name="{{$data.home_max_limit_video.only_tag}}" placeholder="{{$data.home_max_limit_video.name}}" data-validation-message="{{$data.home_max_limit_video.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_max_limit_video.value}}"{{/if}} required />
+			</div>
+
+			<div class="am-form-group">
+				<label>{{$data.home_site_state.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_site_state.describe}}）</span></label>
+				<select name="{{$data.home_site_state.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_site_state.error_tips}}" required>
+					{{foreach $site_site_state_list as $v}}
+						<option value="{{$v.value}}" {{if isset($data['home_site_state']['value']) and $data['home_site_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_site_close_reason.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_site_close_reason.describe}}）</span></label>
+				<textarea rows="3" name="{{$data.home_site_close_reason.only_tag}}" class="am-radius" placeholder="{{$data.home_site_close_reason.name}}" data-validation-message="{{$data.home_site_close_reason.error_tips}}">{{if !empty($data)}}{{$data.home_site_close_reason.value}}{{/if}}</textarea>
+			</div>
+
+			<div class="am-form-group">
+				<label>{{$data.home_user_reg_state.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_user_reg_state.describe}}）</span></label>
+				<select name="{{$data.home_user_reg_state.only_tag}}" multiple="multiple" class="am-radius chosen-select c-p" data-placeholder="{{$data.home_user_reg_state.name}}" >
+					{{foreach $site_user_reg_state_list as $v}}
+						<option value="{{$v.value}}" {{if isset($data['home_user_reg_state']['value']) and in_array($v['value'], explode(',', $data['home_user_reg_state']['value']))}}selected{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_user_login_state.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_user_login_state.describe}}）</span></label>
+				<select name="{{$data.home_user_login_state.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_user_login_state.error_tips}}" required>
+					{{foreach $site_user_login_state_list as $v}}
+						<option value="{{$v.value}}" {{if isset($data['home_user_login_state']['value']) and $data['home_user_login_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+			</div>
+
+			<div class="am-form-group">
+				<label>{{$data.common_verify_expire_time.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_verify_expire_time.describe}}）</span></label>
+				<input type="number" name="{{$data.common_verify_expire_time.only_tag}}" placeholder="{{$data.common_verify_expire_time.name}}" data-validation-message="{{$data.common_verify_expire_time.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_verify_expire_time.value}}"{{/if}} required />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_verify_time_interval.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_verify_time_interval.describe}}）</span></label>
+				<input type="number" name="{{$data.common_verify_time_interval.only_tag}}" placeholder="{{$data.common_verify_time_interval.name}}" data-validation-message="{{$data.common_verify_time_interval.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_verify_time_interval.value}}"{{/if}} required />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_img_verify_state.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_img_verify_state.describe}}）</span></label>
+				<select name="{{$data.home_img_verify_state.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_img_verify_state.error_tips}}" required>
+					{{foreach $site_img_verify_state_list as $v}}
+						<option value="{{$v.value}}" {{if isset($data['home_img_verify_state']['value']) and $data['home_img_verify_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_content_max_width.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_content_max_width.describe}}）</span></label>
+				<input type="number" name="{{$data.home_content_max_width.only_tag}}" placeholder="{{$data.home_content_max_width.name}}" data-validation-message="{{$data.home_content_max_width.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_content_max_width.value}}"{{/if}} required />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_static_cache_version.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_static_cache_version.describe}}）</span></label>
+				<input type="text" name="{{$data.home_static_cache_version.only_tag}}" placeholder="{{$data.home_static_cache_version.describe}}" data-validation-message="{{$data.home_static_cache_version.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_static_cache_version.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_site_icp.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_site_icp.describe}}）</span></label>
+				<input type="text" name="{{$data.home_site_icp.only_tag}}" placeholder="{{$data.home_site_icp.describe}}" data-validation-message="{{$data.home_site_icp.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_site_icp.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.home_footer_info.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_footer_info.describe}}）</span></label>
+				<textarea rows="6" name="{{$data.home_footer_info.only_tag}}" class="am-radius" placeholder="{{$data.home_footer_info.name}}" data-validation-message="{{$data.home_footer_info.error_tips}}">{{if !empty($data)}}{{$data.home_footer_info.value}}{{/if}}</textarea>
+			</div>
+			<div class="am-form-group">
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end

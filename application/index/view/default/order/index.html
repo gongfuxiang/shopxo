@@ -1,0 +1,227 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container user-main">
+
+    <!-- user menu start -->
+    {{include file="public/user_menu" /}}
+    <!-- user menu end -->
+
+    <!-- content start -->
+    <div class="user-content">
+        <div class="user-content-body">
+            <form class="am-form form-validation" method="post" action="{{:MyUrl('index/order/index')}}" request-type="form">
+                <div class="thin">
+                    <div class="am-input-group am-input-group-sm am-fl so">
+                        <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="订单号/收件信息" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
+                        <span class="am-input-group-btn">
+                            <button class="am-btn am-btn-default am-radius" type="submit" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
+                        </span>
+                    </div>
+                    <label class="am-fl thin_sub more-submit">
+                        更多筛选条件
+                        <input type="checkbox" name="is_more" value="1" class="none am-field-valid" {{if isset($params['is_more'])}}checked{{/if}} />
+                        <i class="am-icon-angle-up"></i>
+                    </label>
+                </div>
+                <table class="so-list more-where {{if !isset($params['is_more'])}}none{{/if}}">
+                    <tbody>
+                        <tr>
+                            <td class="time">
+                                <span>时间：</span>
+                                <span class="am-form-group">
+                                    <input type="text" autocomplete="off" name="time_start" class="am-form-field am-input-sm am-radius Wdate" placeholder="起始时间" value="{{if !empty($params.time_start)}}{{$params.time_start}}{{/if}}" data-validation-message="日期格式有误" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" /><i class="am-icon-calendar"></i>
+                                </span>
+                                <em class="text-grey">~</em>
+                                <span class="am-form-group">
+                                    <input type="text" autocomplete="off" name="time_end" class="am-form-field am-input-sm am-radius Wdate" placeholder="结束时间" value="{{if !empty($params.time_end)}}{{$params.time_end}}{{/if}}" pattern="^[0-9]{4}-[0-9]{2}-[0-9]{2}$" data-validation-message="日期格式有误" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" /><i class="am-icon-calendar"></i>
+                                </span>
+                            </td>
+                            <td class="price">
+                                <span>价格：</span>
+                                <span class="am-form-group">
+                                    <input type="text" autocomplete="off" name="price_start" class="am-form-field am-input-sm am-radius" placeholder="最小价格" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="价格0~9之间的数字" value="{{if !empty($params.price_start)}}{{$params.price_start}}{{/if}}" />
+                                </span>
+                                <em class="text-grey">~</em>
+                                <span class="am-form-group">
+                                    <input type="text" autocomplete="off" name="price_end" class="am-form-field am-input-sm am-radius" placeholder="最大价格" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="价格0~9之间的数字" value="{{if !empty($params.price_end)}}{{$params.price_end}}{{/if}}" />
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>支付：</span>
+                                <select name="payment_id" class="chosen-select" data-placeholder="支付方式...">
+                                    <option value="-1">支付方式...</option>
+                                    {{if !empty($payment_list)}}
+                                        {{foreach $payment_list as $payment}}
+                                            <option value="{{$payment.id}}" {{if isset($params['payment_id']) and $params['payment_id'] eq $payment['id']}}selected{{/if}}>{{$payment.name}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </select>
+                            </td>
+                            <td>
+                                <span>付款：</span>
+                                <select name="pay_status" class="chosen-select" data-placeholder="付款状态...">
+                                    <option value="-1">付款状态...</option>
+                                    {{if !empty($common_order_pay_status)}}
+                                        {{foreach $common_order_pay_status as $pay}}
+                                            <option value="{{$pay.id}}" {{if isset($params['pay_status']) and $params['pay_status'] eq $pay['id']}}selected{{/if}}>{{$pay.name}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>状态：</span>
+                                <select name="status" class="chosen-select" data-placeholder="订单状态...">
+                                    <option value="-1">订单状态...</option>
+                                    {{if !empty($common_order_user_status)}}
+                                        {{foreach $common_order_user_status as $status}}
+                                            <option value="{{$status.id}}" {{if isset($params['status']) and $params['status'] eq $status['id']}}selected{{/if}}>{{$status.name}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </select>
+                            </td>
+                            <td>
+                                <span>评价：</span>
+                                <select name="is_comments" class="chosen-select" data-placeholder="评价状态...">
+                                    <option value="-1">评价状态...</option>
+                                    {{if !empty($common_comments_status_list)}}
+                                        {{foreach $common_comments_status_list as $comments}}
+                                            <option value="{{$comments.value}}" {{if isset($params['is_comments']) and $params['is_comments'] eq $comments['value']}}selected{{/if}}>{{$comments.name}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
+                                <a href="{{:MyUrl('index/order/index')}}" class="am-btn am-btn-warning am-radius am-btn-sm reset-submit">清除条件</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+
+            <!-- 订单抬头 -->
+            <div class="am-alert am-alert-secondary meila-radius">
+                <table class="content-title">
+                    <tbody><tr>
+                        <th class="row-content">商品</th>
+                        <th class="row-price am-hide-sm-only">单价</th>
+                        <th class="row-number am-hide-sm-only">数量</th>
+                        <th class="row-total-price am-hide-sm-only">合计</th>
+                        <th class="row-status">状态</th>
+                        <th class="row-operate">操作</th>
+                    </tr>
+                </tbody></table>
+            </div>
+
+            <!-- 订单列表 -->
+            {{if !empty($data_list)}}
+                {{foreach $data_list as $order}}
+                    <table id="data-list-{{$order.id}}" class="data-list {{if $order['status'] LT 4}}data-ongoing{{/if}}">
+                        <tr class="content-hd">
+                            <td colspan="6">
+                                <span class="am-icon-calendar-check-o"> {{$order.add_time}}</span>
+                                <span class="am-icon-bookmark-o"> {{$order.order_no}}</span>
+                            </td>
+                        </tr>
+                        {{foreach $order.items as $keys=>$goods}}
+                            <tr>
+                                <td class="base row-content">
+                                    <div class="goods-detail">
+                                        <a href="{{$goods.goods_url}}" target="_blank">
+                                            <img src="{{$goods.images}}">
+                                        </a>
+                                        <div class="goods-base">
+                                            <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
+                                            {{if !empty($goods.spec)}}
+                                                <ul class="goods-attr">
+                                                    {{foreach $goods.spec as $spec}}
+                                                        <li>{{$spec.type}}：{{$spec.value}}</li>
+                                                    {{/foreach}}
+                                                </ul>
+                                            {{/if}}
+                                        </div>
+                                    </div>
+                                    <div class="wap-base am-show-sm-only">
+                                        {{if $goods['original_price'] gt 0}}
+                                            <span class="original-price">￥{{$goods.original_price}}</span>
+                                        {{/if}}
+                                        <strong class="line-price">￥{{$goods.price}}</strong>
+                                        <span class="wap-number">x{{$goods.buy_number}}</span>
+                                    </div>
+                                </td>
+                                <td class="row-price am-hide-sm-only">
+                                    {{if $goods['original_price'] gt 0}}
+                                        <p class="original-price">￥{{$goods.original_price}}</p>
+                                    {{/if}}
+                                    <p class="line-price">￥{{$goods.price}}</p>
+                                </td>
+                                <td class="row-number am-hide-sm-only">
+                                    x{{$goods.buy_number}}
+                                </td>
+                                {{if $keys eq 0}}
+                                    <td class="row-total-price am-hide-sm-only" rowspan="{{$order.items_count}}">
+                                        <strong class="total-price-content">￥{{$order.total_price}}</strong>
+                                    </td>
+                                    <td class="row-status" rowspan="{{$order.items_count}}">
+                                        {{$order.status_name}}
+                                        <div class="base-operate">
+                                            <a class="block" href="{{:MyUrl('index/order/detail', ['id'=>$order['id']])}}" target="_blank">订单详情</a>
+                                        </div>
+                                    </td>
+                                    <td class="row-operate" rowspan="{{$order.items_count}}">
+                                        <!-- 0待确认, 1已确认/待支付, 2已支付/待发货, 3已发货/待收货, 4已完成, 5已取消, 6已关闭 -->
+                                        {{if in_array($order['status'], [0,1])}}
+                                            <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-ajax submit-cancel" data-url="{{:MyUrl('index/order/cancel')}}" data-id="{{$order.id}}" data-view="reload">取消</button>
+                                        {{/if}}
+                                        {{if in_array($order['status'], [1])}}
+                                            <a class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block" href="{{:MyUrl('index/order/detail', ['id'=>$order['id'], 'is_pay_auto'=>1])}}" target="_blank">支付</a>
+                                        {{/if}}
+                                        {{if in_array($order['status'], [3])}}
+                                            <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/collect')}}" data-id="{{$order.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？">收货</button>
+                                        {{/if}}
+                                        {{if in_array($order['status'], [4]) and $order['user_is_comments'] eq 0}}
+                                            <a href="{{:MyUrl('index/order/comments', ['id'=>$order['id']])}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block">评价</a>
+                                        {{/if}}
+                                        {{if in_array($order['status'], [4,5,6])}}
+                                            <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('index/order/delete')}}" data-id="{{$order.id}}" data-view="reload">删除</button>
+                                        {{/if}}
+                                    </td>
+                                {{/if}}
+                            </tr>
+                        {{/foreach}}
+                    </table>
+                {{/foreach}}
+
+                <!-- 分页 -->
+                {{$page_html|raw}}
+            {{/if}}
+            {{if empty($data_list)}}
+                <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+            {{/if}}
+        </div>
+    </div>
+    <!-- content end -->
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

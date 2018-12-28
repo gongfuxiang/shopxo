@@ -1,0 +1,6 @@
+{
+  "pullRefresh": true,
+  "usingComponents": {
+    "badge": "mini-antui/es/badge/index"
+  }
+}

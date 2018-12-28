@@ -1,0 +1,34 @@
+/* 填写信息 */
+.person-box{
+    padding: 20rpx 0;
+}
+.person-box  input{
+    height: 100rpx;
+    line-height: 100rpx;
+    font-size: 28rpx;
+}
+.addressee .addressee-name{
+    width: 250rpx;
+    box-sizing: border-box;
+}
+.addressee .addressee-phone{
+    box-sizing: border-box;
+    width: calc(100% - 250rpx);
+}
+/* 三级联动 */
+.select-address{
+    box-sizing: border-box;
+    height: 100rpx;
+    line-height: 100rpx;
+    padding: 0 10rpx;
+}
+.select-address .section{
+    width: 33%;
+    box-sizing: border-box;
+    padding: 0 5rpx;
+}
+/* end 三级联动 */
+.addressee-address{
+    box-sizing: border-box;
+    width: 100%;
+}

@@ -1,0 +1,21 @@
+.content {
+    border-left: 1px solid #eee;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding-bottom: 120rpx;
+    min-height: 100vh;
+}
+.content-items {
+    float: left;
+    width: calc(33.33% - 20rpx);
+    padding: 20rpx 10rpx;
+    text-align: center;
+}
+.content-items .text {
+    font-size: 28rpx;
+    line-height: 46rpx;
+}
+.content-items .icon {
+    width: 100%;
+    height: 120rpx;
+}

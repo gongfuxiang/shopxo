@@ -1,0 +1,66 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/user/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/user/index', $params)}}">
+			<legend>
+				<span class="fs-16">
+					{{if empty($data['id'])}}
+						成员添加
+					{{else /}}
+						成员编辑
+					{{/if}}
+				</span>
+				<a href="{{:MyUrl('admin/user/index', $params)}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+			</legend>
+			<div class="am-form-group">
+				<label>用户名</label>
+				<input type="text" name="username" class="am-radius" placeholder="用户名" data-validation-message="用户名 2~30 个字符" {{if !empty($data)}} value="{{$data.username}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>昵称</label>
+				<input type="text" name="nickname" class="am-radius" placeholder="昵称" data-validation-message="昵称最多 16 个字符" {{if !empty($data)}} value="{{$data.nickname}}"{{/if}} />
+			</div>
+
+			<div class="am-form-group">
+				<label>手机号码</label>
+				<input type="text" name="mobile" class="am-radius" placeholder="手机号码" pattern="{{:lang('common_regex_mobile')}}" data-validation-message="手机号码格式错误" {{if !empty($data)}} value="{{$data.mobile}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>电子邮箱</label>
+				<input type="email" name="email" class="am-radius" placeholder="电子邮箱" data-validation-message="电子邮箱格式错误" {{if !empty($data)}} value="{{$data.email}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>生日</label>
+				<input type="text" name="birthday" class="am-radius Wdate" placeholder="生日" pattern="{{:lang('common_regex_date')}}" data-validation-message="生日格式有误" {{if !empty($data)}} value="{{$data.birthday_text}}" {{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" />
+			</div>
+			<div class="am-form-group">
+				<label>详细地址</label>
+				<input type="text" placeholder="详细地址" name="address" data-validation-message="详细地址2~60 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.address}}"{{/if}} />
+			</div>
+			{{include file="lib/gender" /}}
+			<div class="am-form-group">
+				<label>积分</label>
+				<input type="number" placeholder="积分" name="integral" data-validation-message="详细地址2~60 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.integral}}"{{/if}} />
+			</div>
+
+			<div class="am-form-group">
+				<label>登录密码</label>
+				<input type="text" placeholder="登录密码" name="pwd" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="登录密码格式 6~18 个字符之间" class="am-radius" value="" />
+			</div>
+
+			<div class="am-form-group">
+				<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

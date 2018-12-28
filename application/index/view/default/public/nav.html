@@ -1,0 +1,17 @@
+<div class="mobile-navigation">
+    <li {{if $controller_name.$action_name eq 'indexindex'}}class="active"{{/if}}>
+        <a href="{{$Think.__MY_URL__}}"><i class="am-icon-home"></i>首页</a>
+    </li>
+    <li {{if $controller_name.$action_name eq 'categoryindex'}}class="active"{{/if}}>
+        <a href="{{:MyUrl('index/category/index')}}"><i class="am-icon-list"></i>分类</a>
+    </li>
+    <li {{if $controller_name.$action_name eq 'cartindex'}}class="active"{{/if}}>
+        <a {{if empty($user)}}href="javascript:;" class="login-event"{{else /}} href="{{:MyUrl('index/cart/index')}}"{{/if}}><i class="am-icon-shopping-basket"></i>购物车</a>
+        {{if !empty($common_cart_total)}}
+            <span class="am-badge am-badge-danger am-round common-cart-total hot-icon">{{$common_cart_total}}</span>
+        {{/if}}
+    </li>
+    <li {{if $controller_name.$action_name eq 'userindex'}}class="active"{{/if}}>
+        <a {{if empty($user)}}href="javascript:;" class="login-event"{{else /}} href="{{:MyUrl('index/user/index')}}"{{/if}}><i class="am-icon-user"></i>我的</a>
+    </li>
+</div>

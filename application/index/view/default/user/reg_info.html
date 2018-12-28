@@ -1,0 +1,34 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- conntent start  -->
+<div class="am-g my-content">
+    <div class="am-u-md-6 am-u-sm-centered">
+        <div class="reg-switch-view">
+            {{if in_array('sms', MyC('home_user_reg_state'))}}
+                <a href="{{:MyUrl('index/user/smsreginfo')}}" class="am-btn am-btn-primary"><i class="am-icon-comment-o am-icon-sm"></i> 短信注册</a>
+            {{else /}}
+                <a class="am-btn am-btn-danger am-disabled" href="javascript:;"><i class="am-icon-comment-o am-icon-sm"></i> 暂时关闭短信注册</a>
+            {{/if}}
+            {{if in_array('email', MyC('home_user_reg_state'))}}
+                <a href="{{:MyUrl('index/user/emailreginfo')}}" class="am-btn am-btn-secondary"><i class="am-icon-envelope-o am-icon-sm"></i> 邮箱注册</a>
+            {{else /}}
+                <a class="am-btn am-btn-danger am-disabled" href="javascript:;"><i class="am-icon-envelope-o am-icon-sm"></i> 暂时关闭邮箱注册</a>
+            {{/if}}
+        </div>
+    </div>
+</div>
+<!-- conntent end  -->
+
+{{include file="public/footer" /}}

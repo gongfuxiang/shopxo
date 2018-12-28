@@ -1,0 +1,72 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/brand/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/brand/index', $params)}}" enctype="multipart/form-data">
+			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
+			<legend>
+				<span class="fs-16">
+					{{if empty($data['id'])}}
+						品牌添加
+					{{else /}}
+						品牌编辑
+					{{/if}}
+				</span>
+				<a href="{{:MyUrl('admin/brand/index', $params)}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+			</legend>
+			<div class="am-form-group">
+				<label>名称</label>
+				<input type="text" name="name" placeholder="名称" minlength="2" maxlength="30" data-validation-message="名称格式 2~30 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.name}}"{{/if}} required />
+			</div>
+			<div class="am-form-group">
+				<label>品牌分类</label>
+			    <select name="brand_category_id" class="am-radius c-p chosen-select" data-placeholder="可选择..." data-validation-message="请选择品牌分类" required>
+					<option value="">可选择...</option>
+					{{foreach $brand_category as $v}}
+						<option value="{{$v.id}}" {{if isset($data['brand_category_id']) and $data['brand_category_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+			</div>
+
+			<div class="am-form-group">
+				<label>官网地址<span class="fs-12 fw-100 cr-999">（带http://或https://）</span></label>
+				<input type="url" placeholder="官网地址" name="website_url"  data-validation-message="官网地址格式有误" class="am-radius" {{if !empty($data)}} value="{{$data.website_url}}"{{/if}} />
+
+			</div>
+
+			<div class="am-form-group am-form-file">
+				<label class="block">LOGO</label>
+				<ul class="plug-file-upload-view brand-logo-images-view" data-form-name="logo" data-max-number="1" data-dialog-type="images">
+					{{if !empty($data['logo'])}}
+						<li>
+							<input type="text" name="logo" value="{{$data.logo}}" />
+							<img src="{{$data.logo}}" />
+							<i>×</i>
+						</li>
+					{{/if}}
+				</ul>
+				<div class="plug-file-upload-submit" data-view-tag="ul.brand-logo-images-view">+上传图片</div>
+			</div>
+			<div class="am-form-group">
+				<label>顺序</label>
+				<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="{{if isset($data['sort'])}}{{$data.sort}}{{else /}}0{{/if}}" required />
+			</div>
+			<div class="am-form-group">
+			    <label class="block">是否启用</label>
+			    <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

@@ -1,0 +1,54 @@
+<!-- commom html -->
+{{include file="public/common" /}}
+
+<textarea id="upload-editor-view" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>empty($editor_path_type) ? 'common' : $editor_path_type])}}" style="display: none;"></textarea>
+</body>
+</html>
+
+<!-- 类库 -->
+<script type='text/javascript' src="{{$Think.__MY_ROOT__}}static/common/lib/jquery/jquery-2.1.0.js"></script>
+<script type='text/javascript' src="{{$Think.__MY_ROOT__}}static/common/lib/assets/js/amazeui.min.js"></script>
+<script type='text/javascript' src="{{$Think.__MY_ROOT__}}static/common/lib/echarts/echarts.min.js"></script>
+
+<!-- ueditor 编辑器 -->
+<script type='text/javascript' src="{{$Think.__MY_ROOT__}}static/common/lib/ueditor/ueditor.config.js"></script>
+<script type='text/javascript' src="{{$Think.__MY_ROOT__}}static/common/lib/ueditor/ueditor.all.js"></script>
+<script type='text/javascript' src="{{$Think.__MY_ROOT__}}static/common/lib/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+<!-- 颜色选择器 -->
+<script type='text/javascript' src="{{$Think.__MY_ROOT__}}static/common/lib/colorpicker/jquery.colorpicker.js"></script>
+
+<!-- 元素拖拽排序插件 -->
+<script type='text/javascript' src="{{$Think.__MY_ROOT__}}static/common/lib/dragsort/jquery.dragsort-0.5.2.min.js"></script>
+
+<!-- amazeui插件 -->
+<script type='text/javascript' src="{{$Think.__MY_ROOT__}}static/common/lib/amazeui-switch/amazeui.switch.min.js"></script>
+<script type='text/javascript' src="{{$Think.__MY_ROOT__}}static/common/lib/amazeui-chosen/amazeui.chosen.min.js"></script>
+<script type='text/javascript' src="{{$Think.__MY_ROOT__}}static/common/lib/amazeui-dialog/amazeui.dialog.min.js"></script>
+<script type='text/javascript' src="{{$Think.__MY_ROOT__}}static/common/lib/amazeui-tagsinput/amazeui.tagsinput.min.js"></script>
+
+<!-- 日期组件 -->
+<script type='text/javascript' src="{{$Think.__MY_ROOT__}}static/common/lib/My97DatePicker/WdatePicker.js"></script>
+
+<!-- 隐藏编辑器初始化 -->
+<script type="text/javascript">
+    var upload_editor = UE.getEditor("upload-editor-view", {
+        isShow: false,
+        focus: false,
+        enableAutoSave: false,
+        autoSyncData: false,
+        autoFloatEnabled:false,
+        wordCount: false,
+        sourceEditor: null,
+        scaleEnabled:true,
+        toolbars: [["insertimage", "insertvideo", "attachment"]]
+    });
+</script>
+
+<!-- 项目公共 -->
+<script type='text/javascript' src="{{$Think.__MY_ROOT__}}static/common/js/common.js"></script>
+
+<!-- 控制器 -->
+{{if !empty($module_js)}}
+    <script type='text/javascript' src="{{$Think.__MY_ROOT__}}static/{{$module_js}}"></script>
+{{/if}}

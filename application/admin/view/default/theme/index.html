@@ -1,0 +1,49 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- nav start -->
+		{{include file="theme/nav" /}}
+		<!-- nav end -->
+
+		<!-- list start -->
+		{{if !empty($data_list)}}
+			<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-bordered data-list" data-am-gallery="{}" data-select-url="{{:MyUrl('admin/theme/save')}}">
+				{{foreach $data_list as $v}}
+					<li id="data-list-{{$v.theme}}">
+						<div class="am-gallery-item am-radius {{if $v['theme'] eq $theme}}theme-active{{/if}}">
+							<a href="javascript:;" class="select-theme" data-theme="{{$v.theme}}">
+								<img src="{{$v.preview}}" alt="{{$v.name}}" />
+							</a>
+							<div class="am-gallery-item-bottom">
+								<h3 class="am-gallery-title">
+									{{$v.name}}
+									{{if $v.is_delete eq 1}}
+										<a href="javascript:;" class="am-icon-trash-o fr submit-delete" data-url="{{:MyUrl('admin/theme/delete')}}" data-id="{{$v.theme}}"></a>
+									{{/if}}
+								</h3>
+								<div class="am-gallery-desc">作者：
+									{{if empty($v['home'])}}
+										{{$v.author}}
+									{{else /}}
+										<a href="{{$v.home}}" target="_blank">{{$v.author}}</a>
+									{{/if}}
+								</div>
+								<div class="am-gallery-desc">适用版本：{{$v.ver}}</div>
+							</div>
+						</div>
+					</li>
+				{{/foreach}}
+			<ul>
+		{{else /}}
+			<div class="table-no">没有相关数据</div>
+		{{/if}}
+		<!-- lis end -->
+	</div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

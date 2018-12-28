@@ -1,0 +1,85 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- conntent start  -->
+<div class="am-g my-content">
+	<div class="am-u-md-6 am-u-sm-centered">
+		<!-- form start -->
+		<form class="am-form form-validation" method="post" action="{{:MyUrl('index/user/reg')}}" request-type="ajax-url" request-value="{{$referer_url}}">
+			<fieldset>
+				{{if MyC('home_user_login_state') eq 1}}
+					<span>已有帐号？</span>
+					<a href="{{:MyUrl('index/user/logininfo')}}">
+						<button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius">立即登录</button>
+					</a>
+					<hr />
+				{{/if}}
+				<label>电子邮箱
+					{{if in_array('sms', MyC('home_user_reg_state'))}}
+						<a href="{{:MyUrl('index/user/smsreginfo')}}" class="reg-switch-tips">没邮箱？使用手机号码注册</a>
+					{{/if}}
+				</label>
+				<div class="am-form-group">
+					<input type="email" name="accounts" class="am-radius" id="accounts" placeholder="电子邮箱" data-validation-message="电子邮箱格式错误" required />
+				</div>
+
+				<label>验证码</label>
+				<div class="am-input-group am-input-group-sm am-form-group">
+	                <input type="number" name="verify" class="am-radius" placeholder="验证码" minlength="6" maxlength="6" data-validation-message="验证码格式 6 位数字" required />
+	                <span class="am-input-group-btn">
+	                    <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-url="{{:MyUrl('index/user/regverifysend')}}" data-verify="{{:MyC('home_img_verify_state')}}" data-text="获取验证码" data-send-text="还有 {time} 秒" data-time="{{:MyC('common_verify_time_interval', 30, true)}}">获取验证码</button>
+	                </span>
+	            </div>
+
+				<br />
+				<label>设置登录密码</label>
+				<div class="am-input-group am-input-group-sm am-form-group">
+					<input type="password" name="pwd" class="am-radius" placeholder="设置登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
+					<span class="am-input-group-btn">
+						<button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
+					</span>
+				</div>
+				<p>
+					<input type="hidden" name="type" value="email" />
+					<button type="submit" class="am-btn am-btn-primary am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '处理中...'}">注册</button>
+					<a href="{{:MyUrl('index/user/forgetpwdinfo')}}" class="am-fr m-t-5">忘记密码？</a>
+				</p>
+			</fieldset>
+		</form>
+		<!-- form end -->
+
+		<!-- verify win start -->
+		<div class="am-modal am-modal-no-btn" tabindex="-1" id="verify-win">
+			<div class="am-modal-dialog am-radius">
+				<div class="am-modal-hd">
+					<a href="javascript:;" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+				</div>
+				<div class="am-modal-bd">
+					<div class="base">
+						<input type="text" placeholder="图形验证码" maxlength="6" id="verify-img-value" data-validation-message="请输入有效的图形验证码" class="am-form-field am-radius" />
+						<div class="am-fl">
+							<img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'reg'])}}" class="am-radius c-p" id="verify-img" onClick='this.src="{{:MyUrl('index/user/userverifyentry', ['type'=>'reg'])}}"' />
+							<a href="javascript:;" class="verify-tips" onClick="document.getElementById('verify-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'reg'])}}'">看不清换一张</a>
+						</div>
+					</div>
+					<button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm block m-t-20 btn-loading-example verify-submit-win" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-win="1">确认</button>
+				</div>
+			</div>
+		</div>
+		<!-- verify win end -->
+	</div>
+</div>
+<!-- conntent end  -->
+
+{{include file="public/footer" /}}

@@ -1,0 +1,39 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/appconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appconfig/index')}}">
+			<div class="am-form-group">
+				<label>{{$data.common_app_is_enable_search.name}}</label>
+				<select name="{{$data.common_app_is_enable_search.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.common_app_is_enable_search.error_tips}}" required>
+					{{foreach $common_is_text_list as $v}}
+						<option value="{{$v.id}}" {{if isset($data['common_app_is_enable_search']['value']) and $data['common_app_is_enable_search']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_app_is_enable_answer.name}}</label>
+				<select name="{{$data.common_app_is_enable_answer.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.common_app_is_enable_answer.error_tips}}" required>
+					{{foreach $common_is_text_list as $v}}
+						<option value="{{$v.id}}" {{if isset($data['common_app_is_enable_answer']['value']) and $data['common_app_is_enable_answer']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_app_customer_service_tel.name}}</label>
+				<input type="text" name="{{$data.common_app_customer_service_tel.only_tag}}" placeholder="{{$data.common_app_customer_service_tel.name}}" data-validation-message="{{$data.common_app_customer_service_tel.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_customer_service_tel.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

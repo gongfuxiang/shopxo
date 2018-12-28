@@ -1,0 +1,8 @@
+<ul class="am-nav am-nav-pills table-nav m-b-10">
+	<li {{if $nav_type eq 'header'}}class="am-active"{{/if}} data-type="header">
+		<a href="{{:MyUrl('admin/navigation/index', ['nav_type'=>'header'])}}">中间导航</a>
+	</li>
+	<li {{if $nav_type eq 'footer'}}class="am-active"{{/if}} data-type="footer">
+		<a href="{{:MyUrl('admin/navigation/index', ['nav_type'=>'footer'])}}">底部导航</a>
+	</li>
+</ul>

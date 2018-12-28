@@ -1,0 +1,52 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container user-main">
+
+    <!-- user menu start -->
+    {{include file="public/user_menu" /}}
+  <!-- user menu end -->
+
+  <!-- content start -->
+  <div class="user-content">
+    <div class="user-content-body">
+			<!-- form start -->
+			<form class="am-form form-validation view-save" action="{{:MyUrl('index/personal/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('index/personal/index')}}">
+				<legend>
+					<span class="legend-title">个人资料</span>
+					<a href="{{:MyUrl('index/personal/index')}}" class="am-fr am-icon-mail-reply"> 返回</a>
+				</legend>
+				<div class="am-form-group">
+					<label>昵称</label>
+					<input type="text" name="nickname" placeholder="昵称" minlength="2" maxlength="16" data-validation-message="昵称 2~16 个字符之间" class="am-radius" {{if !empty($data)}} value="{{$data.nickname}}"{{/if}} required />
+				</div>
+                {{include file="lib/gender" /}}
+				<div class="am-form-group">
+					<label>生日</label>
+					<input type="text" name="birthday" class="am-form-field am-input-sm am-radius Wdate" placeholder="生日" data-validation-message="生日格式有误" {{if !empty($data)}} value="{{$data.birthday_text}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})"{{/if}} autocomplete="off" required />
+				</div>
+				<div class="am-form-group">
+					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+				</div>
+			</form>
+			<!-- form end -->
+		</div>
+	</div>
+  <!-- content end -->
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

@@ -1,0 +1,100 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form view-list" action="{{:MyUrl('admin/integrallog/index')}}" method="POST">
+			<div class="am-g">
+				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="姓名/手机/昵称/原因" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
+				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
+				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
+					更多筛选
+					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($params['is_more']) and $params['is_more'] eq 1}}checked{{/if}} />
+					<i class="am-icon-angle-down"></i>
+				</label>
+
+				<div class="more-where {{if !isset($params['is_more']) or $params['is_more'] neq 1}}none{{/if}}">
+					<select name="gender" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">性别</option>
+						{{foreach $common_gender_list as $v}}
+							<option value="{{$v.id}}" {{if isset($params['gender']) and $params['gender'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
+					<select name="type" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">操作类型</option>
+						{{foreach $common_integral_log_type_list as $v}}
+							<option value="{{$v.id}}" {{if isset($params['type']) and $params['type'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
+					<div class="param-date param-where m-l-5">
+						<input type="text" autocomplete="off" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_start'])}}value="{{$params.time_start}}"{{/if}}/>
+						<span>~</span>
+						<input type="text" autocomplete="off" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_end'])}}value="{{$params.time_end}}"{{/if}}/>
+					</div>
+				</div>
+			</div>
+        </form>
+        <!-- form end -->
+
+		<!-- list start -->
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5">
+			<thead>
+				<tr>
+					<th>用户信息</th>
+					<th>操作类型</th>
+					<th>原始积分</th>
+					<th>最新积分</th>
+					<th class="am-hide-sm-only">操作原因</th>
+					<th class="am-hide-sm-only">操作时间</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{if !empty($data_list)}}
+					{{foreach $data_list as $v}}
+						<tr id="data-list-{{$v.id}}">
+							<td>
+								{{if !empty($v['username'])}}
+									{{$v.username}}
+									{{if !empty($v['nickname'])}}
+										({{$v.nickname}})
+									{{/if}}
+									<br />
+								{{/if}}
+								{{if !empty($v['mobile'])}}
+									{{$v.mobile}}<br />
+								{{/if}}
+								{{$v.gender_text}}
+							</td>
+							<td>
+								{{if empty($v['type_text'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.type_text}}{{/if}}
+							</td>
+							<td>{{$v.original_integral}}</td>
+							<td>{{$v.new_integral}}</td>
+							<td class="am-hide-sm-only">
+								{{if empty($v['msg'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.msg}}{{/if}}
+							</td>
+							<td class="am-hide-sm-only">
+								{{if empty($v['add_time_time'])}}<span class="cr-ddd">未设置</span>{{else /}}{{$v.add_time_time}}{{/if}}
+							</td>
+						</tr>
+					{{/foreach}}
+				{{else /}}
+					<tr><td colspan="6" class="table-no">没有相关数据</td></tr>
+				{{/if}}
+			</tbody>
+		</table>
+		<!-- list end -->
+
+		<!-- page start -->
+		{{if !empty($data_list)}}
+			{{$page_html|raw}}
+		{{/if}}
+		<!-- page end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

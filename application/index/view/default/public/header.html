@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="{{:config('default_charset', 'utf-8')}}" />
+	<title>{{$home_seo_site_title}}</title>
+	<meta name="keywords" content="{{:MyC('home_seo_site_keywords')}}" />
+	<meta name="description" content="{{:MyC('home_seo_site_description')}}" />
+	<meta name="generator" content="{{:__MY_URL__}}" />
+	<meta name="application-name" content="{{$home_seo_site_title}}" />
+	<meta name="msapplication-tooltip" content="{{$home_seo_site_title}}" />
+	<meta name="msapplication-starturl" content="{{:__MY_URL__}}" />
+	<link rel="shortcut icon" type="image/x-icon" href="{{:__MY_URL__}}favicon.ico" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="{{:MyC('home_site_name')}}">
+    <link rel="apple-touch-icon" href="{{$images_host}}{{:MyC('home_site_desktop_icon')}}">
+    <link rel="apple-touch-icon-precomposed" href="{{$images_host}}{{:MyC('home_site_desktop_icon')}}">
+    
+	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT__}}static/common/lib/assets/css/amazeui.css?v={{:MyC('home_static_cache_version')}}" />
+	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT__}}static/common/lib/amazeui-switch/amazeui.switch.css?v={{:MyC('home_static_cache_version')}}" />
+	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT__}}static/common/lib/amazeui-chosen/amazeui.chosen.css?v={{:MyC('home_static_cache_version')}}" />
+	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT__}}static/common/lib/cropper/cropper.min.css?v={{:MyC('home_static_cache_version')}}" />
+	
+	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT__}}static/common/css/common.css?v={{:MyC('home_static_cache_version')}}" />
+	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT__}}static/index/{{$default_theme}}/css/common.css?v={{:MyC('home_static_cache_version')}}" />
+	{{if !empty($module_css)}}
+		<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT__}}static/{{$module_css}}?v={{:MyC('home_static_cache_version')}}" />
+	{{/if}}
+	<script type="text/javascript">
+		var __root__ = '{{$Think.__MY_ROOT__}}';
+		var __my_url__ = '{{:__MY_URL__}}';
+		var __public__ = '{{$Think.__MY_ROOT__}}';
+		var __default_theme__ = '{{$default_theme}}';
+		var __modal_login_url__ = '{{:Url('index/user/modallogininfo')}}';
+		var __images_host__ = '{{$images_host}}';
+		var __user_id__ = {{if empty($user['id'])}}0{{else /}}{{$user.id}}{{/if}};
+	</script>
+</head>
+<body>
+
+<!-- 商城公告 -->
+{{if MyC('home_site_state') == 1 and (!isset($is_header) or $is_header eq 1)}}
+	<notempty name="common_shop_notice">
+		<div class="am-alert am-alert-warning am-radius common-shop-notice" data-am-alert>
+			<div class="am-container">{{$common_shop_notice}}</div>
+		</div>
+	</notempty>
+{{/if}}

@@ -1,0 +1,183 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form view-list" action="{{:MyUrl('admin/answer/index')}}" method="POST">
+			<div class="am-g">
+				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="联系人/内容" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
+				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
+				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
+					更多筛选
+					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($params['is_more']) and $params['is_more'] eq 1}}checked{{/if}} />
+					<i class="am-icon-angle-down"></i>
+				</label>
+
+				<div class="more-where {{if !isset($params['is_more']) or $params['is_more'] neq 1}}none{{/if}}">
+					<select name="is_show" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">是否显示</option>
+						{{foreach $common_is_show_list as $v}}
+							<option value="{{$v.id}}" {{if isset($params['is_show']) and $params['is_show'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
+					<div class="param-date param-where m-l-5">
+						<input type="text" autocomplete="off" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_start'])}}value="{{$params.time_start}}"{{/if}}/>
+						<span>~</span>
+						<input type="text" autocomplete="off" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_end'])}}value="{{$params.time_end}}"{{/if}}/>
+					</div>
+				</div>
+			</div>
+        </form>
+        <!-- form end -->
+
+		<!-- list start -->
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
+			<thead>
+				<tr>
+					<th class="am-hide-sm-only">用户信息</th>
+					<th class="am-hide-sm-only">联系人</th>
+					<th style="width: 25%;">内容</th>
+					<th>是否显示</th>
+					<th class="am-hide-sm-only">回复内容</th>
+					<th class="am-hide-sm-only">创建时间</th>
+					<th>更多</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{if !empty($data_list)}}
+					{{foreach $data_list as $v}}
+						<tr id="data-list-{{$v.id}}" {{if $v['is_show'] eq 0}}class="am-active"{{/if}}>
+							<td class="am-hide-sm-only">
+								{{if !empty($v['username'])}}
+									{{$v.username}}
+									{{if !empty($v['nickname'])}}
+										({{$v.nickname}})
+									{{/if}}
+									{{if !empty($v['gender_text'])}}
+										({{$v.gender_text}})
+									{{/if}}
+								{{/if}}
+								{{if !empty($v['mobile'])}}
+									<br />{{$v.mobile}}
+								{{/if}}
+							</td>
+							<td class="am-hide-sm-only">
+								{{$v.name}}<br />
+								{{$v.tel}}
+							</td>
+							<td>{{$v.content}}</td>
+							<td>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/answer/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1"></a>
+							</td>
+							<td class="am-hide-sm-only">{{$v.reply}}</td>
+							<td class="am-hide-sm-only">{{$v.add_time}}</td>
+							<td>
+								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
+									<div class="am-popup-inner">
+										<div class="am-popup-hd">
+											<h4 class="am-popup-title">详情内容</h4>
+											<span data-am-modal-close
+											class="am-close">&times;</span>
+										</div>
+										<div class="am-popup-bd">
+											<dl class="dl-content">
+												<dt>用户信息</dt>
+												<dd>
+													{{if !empty($v['username'])}}
+														{{$v.username}}
+														{{if !empty($v['nickname'])}}
+															({{$v.nickname}})
+														{{/if}}
+														{{if !empty($v['gender_text'])}}
+															({{$v.gender_text}})
+														{{/if}}
+													{{/if}}
+													{{if !empty($v['mobile'])}}
+														<br />{{$v.mobile}}
+													{{/if}}
+												</dd>
+
+												<dt>联系人</dt>
+												<dd>
+													{{$v.name}}<br />{{$v.tel}}
+												</dd>
+
+												<dt>内容</dt>
+												<dd>{{$v.content}}</dd>
+
+												<dt>是否显示</dt>
+												<dd>{{if empty($v['is_show_text'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.is_show_text}}{{/if}}</dd>
+
+												<dt>回复内容</dt>
+												<dd>{{if empty($v['reply'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.reply}}{{/if}}</dd>
+
+												<dt>创建时间</dt>
+												<dd>{{$v.add_time}}</dd>
+
+												<dt>更新时间</dt>
+												<dd>{{$v.upd_time}}</dd>
+											</dl>
+										</div>
+									</div>
+								</div>
+							</td>
+							<td class="view-operation">
+								{{if $v['is_reply'] eq 0}}
+									<button class="am-btn am-btn-default am-btn-xs am-radius submit-reply am-icon-gavel" data-am-modal="{target: '#my-popup-reply'}" data-json='{{:json_encode($v)}}'> 回复</button>
+								{{/if}}
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/answer/delete')}}" data-id="{{$v.id}}"> 删除</button>
+							</td>
+						</tr>
+					{{/foreach}}
+				{{else /}}
+					<tr><td colspan="20" class="table-no">没有相关数据</td></tr>
+				{{/if}}
+			</tbody>
+		</table>
+		<!-- list end -->
+
+		<!-- 处理窗口 -->
+		<div class="am-popup am-radius" id="my-popup-reply">
+			<div class="am-popup-inner">
+				<div class="am-popup-hd">
+					<h4 class="am-popup-title">回复</h4>
+					<span data-am-modal-close class="am-close">&times;</span>
+				</div>
+				<div class="am-popup-bd">
+					<dl class="dl-content">
+						<dt>联系人</dt>
+						<dd>
+							<span class="reply-name"></span> - <span class="reply-tel"></span>
+						</dd>
+					</dl>
+
+					<form class="am-form form-validation" action="{{:MyUrl('admin/answer/reply')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
+						<div class="am-form-group">
+							<label>回复内容</label>
+							<textarea name="reply" rows="5" class="am-radius" placeholder="回复内容格式 2~230 个字符" data-validation-message="回复内容格式 2~230 个字符" maxlength="230"></textarea>
+						</div>
+
+						<div class="am-form-group reply-submit t-c">
+							<input type="hidden" name="id" value="" />
+							<button type="submit" class="am-btn am-btn-success am-radius am-btn-sm" data-am-loading="{loadingText:'处理中...'}" data-status="0">回复</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- page start -->
+		{{if !empty($data_list)}}
+			{{$page_html|raw}}
+		{{/if}}
+		<!-- page end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

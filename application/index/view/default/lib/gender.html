@@ -1,0 +1,12 @@
+<!-- 性别 开始 -->
+<div class="am-form-group">
+	<label>性别</label>
+	<div>
+		{{foreach $common_gender_list as $v}}
+			<label class="am-radio-inline m-r-10">
+				<input type="radio" name="gender" value="{{$v.id}}" {{if isset($data['gender']) and $data['gender'] eq $v['id']}} checked="checked"{{else /}} {{if !isset($data['gender']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+			</label>
+		{{/foreach}}
+	</div>
+</div>
+<!-- 性别 结束 -->

@@ -1,0 +1,56 @@
+{{include file="public/header" /}}
+
+<!-- nav start -->
+{{include file="public/nav" /}}
+<!-- nav end -->
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container category-list">
+    {{if !empty($goods_category_list)}}
+          <section data-am-widget="accordion" class="am-accordion am-accordion-gapped" data-am-accordion='{}'>
+                {{foreach $goods_category_list as $v}}
+                    <dl class="am-accordion-item am-active">
+                        <dt class="am-accordion-title">
+                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$v['id']])}}" title="{{$v.name}}">{{$v.name}}</a>
+                        </dt>
+                        <dd class="am-accordion-bd am-collapse am-in">
+                            <div class="am-accordion-content">
+                                {{if !empty($v['items'])}}
+                                    {{foreach $v.items as $vs}}
+                                        <div class="title">
+                                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$vs['id']])}}" title="{{$vs.name}}">{{$vs.name}}</a>
+                                        </div>
+                                        {{if !empty($vs['items'])}}
+                                            <ul>
+                                                {{foreach $vs.items as $keyss=>$vss}}
+                                                    <li class="am-fl">
+                                                        <a {{if $keyss eq 0}}class="first"{{/if}} href="{{:MyUrl('index/search/index', ['category_id'=>$vss['id']])}}" title="{{$vss.name}}">{{$vss.name}}</a>
+                                                    </li>
+                                                {{/foreach}}
+                                            </ul>
+                                        {{/if}}
+                                    {{/foreach}}
+                                {{/if}}
+                            </div>
+                        </dd>
+                    </dl>
+              {{/foreach}}
+          </section>
+    {{else /}}
+        <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+    {{/if}}
+</div>
+
+{{include file="public/footer" /}}

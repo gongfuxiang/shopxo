@@ -1,0 +1,13 @@
+/**
+ * 列表
+ */
+table.am-table .th-desc { width: 20%; }
+table.am-table .td-desc, table.am-table .td-version { font-size: 12px; }
+table.am-table .td-version { color: #d2364c; margin: 0; }
+.am-form-file input[type="file"] { margin-top: 0; }
+
+/**
+ * 插件部分
+ */
+.plugins-element { border: 1px dotted #FFC107; background: #fffcf2; padding: 10px 10px 0 10px; margin-bottom: 10px; border-radius: 2px; }
+.plugins-element .tips { color: #FF9800; margin: 0 0 10px 0; font-size: 12px; }

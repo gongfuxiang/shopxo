@@ -1,0 +1,35 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- table nav start -->
+		{{include file="sms/nav"" /}}
+		<!-- table nav end -->
+		
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/sms/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/sms/index', ['type'=>'sms'])}}">
+			<div class="am-form-group">
+				<label>{{$data.common_sms_apikey.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_sms_apikey.describe}}）</span></label>
+				<input type="text" name="{{$data.common_sms_apikey.only_tag}}" placeholder="{{$data.common_sms_apikey.name}}" data-validation-message="{{$data.common_sms_apikey.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_sms_apikey.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_sms_apisecret.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_sms_apisecret.describe}}）</span></label>
+				<input type="text" name="{{$data.common_sms_apisecret.only_tag}}" placeholder="{{$data.common_sms_apisecret.name}}" data-validation-message="{{$data.common_sms_apisecret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_sms_apisecret.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_sms_sign.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_sms_sign.describe}}）</span></label>
+				<input type="text" name="{{$data.common_sms_sign.only_tag}}" placeholder="{{$data.common_sms_sign.name}}" data-validation-message="{{$data.common_sms_sign.error_tips}}" class="am-radius" maxlength="16" {{if !empty($data)}}value="{{$data.common_sms_sign.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

@@ -1,0 +1,71 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/power/rolesave')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/power/role')}}">
+        	<legend>
+				<span class="fs-16">
+					{{if empty($data['id'])}}
+						角色添加
+					{{else /}}
+						角色编辑
+					{{/if}}
+				</span>
+				<a href="{{:MyUrl('admin/power/role')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+			</legend>
+        	<div class="am-form-group">
+				<label>角色名称</label>
+				<input type="text" placeholder="角色名称" name="name" minlength="2" maxlength="16" data-validation-message="角色名称格式 2~8 个字符之间" class="am-radius" {{if !empty($data)}}value="{{$data.name}}"{{/if}} required />
+			</div>
+			
+			<div class="am-form-group">
+				<label>拥有权限</label>
+				<ul class="tree-list p-0">
+					{{foreach $power as $v}}
+						<li {{if $v['is_show'] eq 0}}class="bk-cr-ffd"{{/if}}>
+							{{if !empty($v['item'])}}
+								<i class="am-icon-minus-square c-p m-r-5"></i>
+								<label class="c-p">
+							{{else /}}
+								<label class="c-p m-l-2">
+							{{/if}}
+								<input type="checkbox" name="power_id" value="{{$v.id}}" class="node-choice" {{if $v['is_power'] eq 'ok'}}checked{{/if}} />
+								<span>{{$v.name}}</span>
+							</label>
+						</li>
+						{{if !empty($v['item'])}}
+							<ul class="list-find p-0 m-t-5">
+								{{foreach $v.item as $vs}}
+									<li {{if $vs['is_show'] eq 0}}class="bk-cr-ffd"{{/if}}>
+										<label class="c-p">
+											<input type="checkbox" name="power_id" value="{{$vs.id}}" {{if $vs['is_power'] eq 'ok'}}checked{{/if}} />
+											<span>{{$vs.name}}</span>
+										</label>
+									</li>
+								{{/foreach}}
+							</ul>
+						{{/if}}
+					{{/foreach}}
+				</ul>
+			</div>
+
+			<div class="am-form-group">
+			    <label class="block">是否启用</label>
+			    <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />
+			</div>
+
+			<div class="am-form-group">
+				<input type="hidden" name="id" {{if !empty($data)}}value="{{$data.id}}"{{/if}} />
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+			</div>
+		</form>
+		<!-- right form end  -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

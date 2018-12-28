@@ -1,0 +1,214 @@
+/**
+ * 进度
+ */
+ul.progress {
+    margin: 20px 0;
+}
+ul.progress li {
+    position: relative;
+ }
+ul.progress li i.step {
+    display: block;
+    background-color: #e1e1e1;
+}
+
+ul.progress li .digital {
+    background-color: #f7f7f7;
+    border-radius: 50px;
+    width: 36px;
+    height: 36px;
+    line-height: 26px;
+    text-align: center;
+    color: #e1e1e1;
+    font-weight: 700;
+    border: 6px solid #e1e1e1;
+}
+
+ul.progress li .base .title {
+    font-weight: 500;
+    color: #666;
+}
+
+ul.progress li .base .date {
+    color: #999;
+}
+
+ul.progress li.steps-success .digital {
+    border: 6px solid #4CAF50;
+    color: #fff;
+}
+ul.progress li.steps-success .digital {
+    background-color: #82cc85;
+}
+ul.progress li.steps-success i.step {
+    background-color: #4CAF50;
+}
+ul.progress li.current .title {
+    color: #4CAF50;
+}
+
+.base-right .icon-tips, .base-right .icon-success {
+    font-size: 50px;
+}
+.base-right .icon-tips {
+    color: #6980d0;
+}
+.base-right .icon-success {
+    color: #28801c;
+}
+
+@media only screen and (min-width: 641px) {
+    ul.progress {
+        overflow: hidden;
+    }
+    ul.progress li {
+        float: left;
+        width: 20%;
+        text-align: center;
+    }
+    ul.progress li i.step {
+        display: block;
+        height: 6px;
+        width: 100%;
+        position: absolute;
+        margin: 15px 0 0 -50%;
+        z-index: 1;
+    }
+    ul.progress li .digital {
+        position: absolute;
+        margin-left: calc(50% - 18px);
+        z-index: 2;
+    }
+    ul.progress li .base {
+        margin-top: 50px;
+    }
+}
+
+@media only screen and (max-width: 641px) {
+    ul.progress li i.step {
+        height: 60px;
+        width: 6px;
+        margin-left: 15px;
+    }
+
+    ul.progress li .base {
+        position: absolute;
+        left: 50px;
+        top: 0;
+    }
+    ul.progress li:not(:first-child) .base {
+        margin-top: 70px;
+    }
+}
+
+
+/**
+ * 文本列表
+ */
+.items {
+    padding: 3px 0;
+    overflow: hidden;
+}
+.items-detail {
+    width: calc(100% - 62px);
+    color: #666;
+}
+
+
+/**
+ * 订单详情基础
+ */
+.order-base .am-panel {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.order-base .am-panel-bd, .order-base .base-right {
+    padding: 5px 10px;
+}
+.order-base, .order-base .status {
+    overflow: hidden;
+}
+.order-base .status-name {
+    line-height: 80px;
+}
+.order-base .operation .am-btn {
+    margin-left: 15px;
+}
+.order-base .logistics {
+    margin-top: 10px;
+}
+@media only screen and (min-width: 641px) {
+    .order-base .base-left, .order-base .base-right {
+        width: 50%;
+        float: left;
+    }
+    .order-base {
+        border: 1px solid #ddd;
+    }
+    .order-base .am-panel-default {
+        border-color: #fff;
+    }
+    .order-base .am-panel {
+        border: 0;
+        margin: 0;
+    }
+    .order-base .base-left {
+        border-right: 1px solid #ddd;
+    }
+    .order-base .base-right {
+        padding-top: 0;
+    }
+}
+@media only screen and (max-width: 641px) {
+    .order-base .base-right {
+        border: 1px solid #ddd;
+    }
+}
+
+
+/**
+ * 支付弹窗
+ */
+.business-item h3 { border-bottom: 3px solid #e3e3e3; margin-top:5px; font-size: 14px;font-weight: 700; }
+.business-item ul { padding: 10px 3px 5px 5px; overflow: hidden; }
+.business-item ul li { border:1px solid transparent ;overflow: hidden; float: left; cursor: pointer; padding: 5px; border: 1px solid #eee; margin: 0 10px 10px 0; }
+.business-item ul  li img { width: 36px; height: 36px; }
+.business-item ul li.selected { border-color: #d2364c ; position: relative; }
+.business-item ul li.selected i.icon-active { position: absolute; width: 10px; height: 10px; font-size: 0; line-height: 0; right: 0px; bottom: 0px; background: url(../images/sys_item_selected.gif) no-repeat right bottom; }
+@media only screen and (min-width:640px) {
+  .business-item ul li {width:calc(33% - 5px); }
+  .business-item ul li:nth-child(3n) { margin-right: 0; }
+}
+@media only screen and (max-width:640px) {
+  .business-item ul li { width: calc(50% - 5px); }
+  .business-item ul li:nth-child(2n) { margin-right: 0; }
+}
+
+
+/**
+ * 商品列表
+ */
+.order-goods { margin-top: 20px; }
+.goods-detail img { width: 80px; height: 80px; position: absolute; }
+.goods-detail { position: relative; min-height: 80px; }
+.goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; }
+.goods-title:hover { text-decoration: underline; }
+.goods-base { float: left; top: 0; margin-left: 85px; }
+.goods-attr { margin-top: 5px;  }
+.goods-attr li { color: #888; line-height: 16px; }
+.original-price, .line-price { font-family: Verdana,Tahoma,arial; }
+.original-price { color: #9c9c9c; text-decoration: line-through; }
+.line-price { color: #3c3c3c; }
+.line-price, strong.total-price-content, strong.total-price-content { font-weight: 700; font-family: Verdana,Tahoma,arial; }
+strong.total-price-content { color: #d2364c; font-size: 16px; }
+.am-table { margin-bottom: 10px; }
+.am-table > tbody > tr > td { border-top: 1px solid #F5F5F5; }
+.am-table > thead > tr > th { border-bottom: 1px solid #f7f7f7; }
+
+@media only screen and (min-width:640px)  {
+    .cart-content table tr .base { width: 40%; }
+    .cart-content table tr .price { width: 20%; }
+    .cart-content table tr .number { width: 20%; }
+    .cart-content table tr .total-price { width: 20%; }
+    .cart-content { margin-top: 20px; }
+}

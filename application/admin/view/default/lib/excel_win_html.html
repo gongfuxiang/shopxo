@@ -1,0 +1,39 @@
+<div class="am-popup am-radius" id="excel-import-win">
+	<div class="am-popup-inner">
+		<div class="am-popup-hd">
+			<h4 class="am-popup-title">导入Excel</h4>
+			<span data-am-modal-close class="am-close">&times;</span>
+		</div>
+		<div class="am-popup-bd">
+			<!-- win form start -->
+			<form class="am-form form-validation excel-form" action="{{$excel_import_form_url}}" method="POST" request-type="ajax-fun" request-value="ExcelImportCallback" enctype="multipart/form-data">
+				<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_file', 51200000)}}" />
+				<div class="am-alert am-radius am-alert-tips m-t-0" data-am-alert>
+					<notempty name="excel_import_format_url">
+						<p class="m-b-)}}<a href="{{$excel_import_format_url}}" class="cr-blue">Excel格式下载</a><span class="m-r-5)}}</p>
+					{{/if}}
+					<notempty name="excel_import_tips">
+						<p class="m-t-1)}}{{$excel_import_tips}}</p>
+					{{/if}}
+					<p class="cr-red">PS：导入数据建议一次不要超过10万条。</p>
+				</div>
+				<div class="am-form-group am-form-file">
+					<button type="button" class="am-btn am-btn-default am-btn-sm am-radius"><i class="am-icon-cloud-upload"></i> 选择文件</button>
+					<input type="file" name="excel" multiple data-validation-message="请选择需要上传的文件" accept="application/vnd.ms-excel" required />
+				</div>
+				<div class="am-form-group">
+					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">确认</button>
+				</div>
+			</form>
+			<!-- win form end -->
+
+			<!-- import tips start -->
+			<div class="am-alert am-alert-success am-radius excel-import-success none">导入成功 <strong>0</strong> 条</div>
+			<div class="am-panel am-panel-danger am-radius excel-import-error none">
+				<div class="am-panel-hd p-l-1)}}导入失败 <strong>0</strong>  条</div>
+				<table class="am-table"><tbody></tbody></table>
+			</div>
+			<!-- import tips end -->
+		</div>
+	</div>
+</div>

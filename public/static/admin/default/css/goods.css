@@ -1,0 +1,94 @@
+/**
+ * 列表
+ */
+.form-keyword { width: 55% !important; display: initial !important; }
+.more-submit input { display: none; }
+.param-where, .param-date input { display: initial !important; }
+@media only screen and (max-width: 641px) {
+	.param-where { width: 100% !important; margin-left: 0px !important; }
+	.param-date input { width: 47% !important; }
+    .images-list li { width: calc( 50% - 10px) !important; }
+    .images-list { width: 100%; }
+    .view-list .am-table tr th:nth-child(1) { width: 150px; }
+}
+@media only screen and (min-width: 641px) {
+	.param-where { width: 32% !important; float: left; }
+	.param-date input { width: 45% !important; }
+	.param-where:nth-child(1) { margin-left: 0px !important; }
+    .images-list { width: 75%; }
+    .view-list .am-table tr th:nth-child(1) { width: 300px; }
+}
+@media only screen and (max-width: 321px) {
+	.view-operation button { margin: 2px 0px; }
+}
+.goods-list.am-table .goods-images { width: 60px; height: 60px; float: left; margin-right: 5px; }
+
+/**
+ * 滚动导航
+ */
+.goods-nav { background: #f5f5f5; top: 100px; right: 0; width: 110px; position: fixed; z-index: 1000; border: 1px solid #eee; border-right: 0px; }
+.goods-nav ul { margin: 0; padding: 0; }
+.goods-nav li { display: inline-block; border-bottom: 1px solid #eee; width: 100%; }
+.goods-nav li:last-child { border-bottom: 0px; }
+.goods-nav li a { color: #666; padding: 10px 15px; display: inline-block; width: 100%; }
+.goods-nav li a:hover, .goods-nav-active { color: #333; background: #eee; }
+
+/**
+ * 区域分割
+ */
+.division-block { margin-bottom: 30px; }
+.division-block .nav-detail-title  { border-bottom: 3px ridge #c7c7c7; padding: 8px 5px 5px 5px; margin-bottom: 10px; background: #f3f3f3; font-weight: bold; }
+
+/**
+ * 规格
+ */
+.specifications-table .title-nav th {
+    background-color: #f5f7fa;
+    position: relative;
+}
+.specifications-table .title-nav th input {
+    width: calc(100% - 25px);
+}
+.specifications-table .title-nav-remove {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: 2;
+}
+.specifications-table th.operation-btn {
+    width: 80px;
+}
+.specifications-table > tbody > tr > td {
+    vertical-align: middle;
+}
+#goods-nav-operations {
+    position: relative;
+}
+.spec-images-list .am-alert-warning {
+    margin-bottom: 10px;
+}
+.spec-images-list {
+    border: 1px solid #eee;
+    padding: 10px;
+    margin-top: 15px;
+}
+.spec-images-list li {
+    display: inline-block;
+    width: 100px;
+    margin: 5px 10px 10px 0;
+}
+
+/**
+ * 属性
+ * app详情
+ */
+i.drag-sort-submit { margin-left: 30px; }
+ul { margin: 0px; padding: 0px; overflow: hidden; }
+.content-app-items > li { border: 3px dashed #eee; padding: 10px; }
+ul li { list-style-type: none; }
+
+/**
+ * app详情
+ */
+.content-app-items li { padding-bottom: 10px; margin-bottom: 20px; overflow: hidden; }
+.content-app-left, .content-app-right { width: 45% !important; display: inline-table; margin-bottom: 5px; }

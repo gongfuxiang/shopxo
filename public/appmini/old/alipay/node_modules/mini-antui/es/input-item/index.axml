@@ -1,0 +1,33 @@
+<view
+	class="am-input-item {{last ? 'last': ''}} {{className}}"
+>
+	<view class="am-input-line">
+    <view a:if="{{$slots.$default}}" class="am-input-label {{labelCls}}">
+      <slot />
+    </view>
+    <input
+      enableNative="{{enableNative}}"
+      sync-input="{{syncInput}}"
+      class="am-input-content {{inputCls}}"
+      value="{{value}}"
+      name="{{name}}"
+      type="{{type}}"
+      password="{{password}}"
+      placeholder="{{placeholder}}"
+      placeholderClass="{{placeholderClass}}"
+      placeholderStyle="{{placeholderStyle}}"
+      disabled="{{disabled}}"
+      maxlength="{{maxlength}}"
+      focus="{{focus}}"
+      onInput="onInput"
+      onConfirm="onConfirm"
+      onFocus="onFocus"
+      onBlur="onBlur"
+    />
+    <view class="am-input-clear {{clear && value.length > 0 && !disabled && _focus ? 'show' : 'hidden'}}" onTap="onClear">
+      <icon size="18" type="clear" />
+    </view>
+    <slot name="extra" />
+		<view class="am-input-line-bottom" />
+	</view>
+</view>

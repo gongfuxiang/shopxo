@@ -1,0 +1,55 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+        <!-- operation start -->
+        <div class="am-g">
+            <a href="{{:MyUrl('admin/power/rolesaveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
+        </div>
+        <!-- operation end -->
+
+        <!-- list start -->
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 role-list">
+			<thead>
+				<tr>
+					<th>名称</th>
+					<th>状态</th>
+					<th class="am-hide-sm-only">创建时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{if !empty($data)}}
+					{{foreach $data as $v}}
+						<tr id="data-list-{{$v.id}}" {{if $v['is_enable'] eq 0}}class="am-active"{{/if}}>
+							<td>{{$v.name}}</td>
+							<td>
+								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/power/RoleStatusUpdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
+							</td>
+							<td class="am-hide-sm-only">{{:date('Y-m-d H:i:s', $v['add_time'])}}</td>
+							<td>
+								{{if $v['id'] eq 1}}
+									<span class="cr-ccc">不可操作</span>
+								{{else /}}
+									<a href="{{:MyUrl('admin/power/rolesaveinfo', array('id'=>$v['id']))}}">
+										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> 编辑</button>
+									</a>
+									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/power/roledelete')}}" data-id="{{$v.id}}"> 删除</button>
+								{{/if}}
+							</td>
+						</tr>
+					{{/foreach}}
+				{{else /}}
+					<tr><td colspan="5" class="table-no">没有相关数据</td></tr>
+				{{/if}}
+			</tbody>
+		</table>
+		<!-- list end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

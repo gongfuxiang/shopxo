@@ -1,0 +1,71 @@
+<!-- 头部 -->
+<view class="head-box bg-main">
+    <view class="head-item oh tc">
+      <image onTap="preview_event" onError="user_avatar_error" class="avatar" src="{{avatar}}" mode="widthFix" />
+      <text class="item-name dis-block cr-fff">{{nickname}}</text>
+    </view>
+
+    <view a:if="{{head_nav_list.length > 0}}" class="head-nav oh wh-auto">
+      <block a:for="{{head_nav_list}}">
+        <navigator url="/pages/{{item.url}}/{{item.url}}" hover-class="none">
+          <view class="head-nav-item tc fl">
+            <view>{{item.count}}</view>
+            <view>{{item.name}}</view>
+          </view>
+        </navigator>
+      </block>
+    </view>
+
+    <view class="message-nav">
+      <navigator url="/pages/message/message" hover-class="none">
+        <image src="/images/user-head-message-icon.png" mode="aspectFill" />
+        <text>消息</text>
+        <text>{{message_total}}</text>
+      </navigator>
+    </view>
+</view>
+
+<!-- 导航 -->
+<view class="nav-box bg-white">
+  <block a:for="{{nav_lists}}">
+    <view a:if="{{item.is_show == 1}}">
+      <navigator url="/pages/{{item.url}}/{{item.url}}" class="nav-item br-b" hover-class="none">
+        <view class="arrow-right">
+          <image src="/images/{{item.icon}}.png" class="item-icon" mode="widthFix" />
+          <text class="item-name">{{item.name}}</text>
+        </view>
+      </navigator>
+    </view>
+    <view a:if="{{item.url == 'user-order' && user_order_status_list.length > 0}}" class="items-list br-b oh">
+      <block a:for="{{user_order_status_list}}" a:for-item="items">
+        <navigator url="/pages/{{item.url}}/{{item.url}}?status={{items.status}}" hover-class="none">
+          <view class="items fl tc">
+            <badge a:if="{{items.count > 0}}" text="{{items.count}}" dot="{{false}}"></badge>
+            <image src="/images/user-index-nav-order-icon-{{items.status}}.png" class="items-icon" mode="aspectFill" />
+            <view class="items-name">{{items.name}}</view>
+          </view>
+        </navigator>
+      </block>
+    </view>
+  </block>
+
+  <view class="nav-item br-b" onTap="clear_storage">
+    <image src="/images/user-nav-cache-icon.png" class="item-icon" mode="widthFix" />
+    <text class="item-name">清除缓存</text>
+  </view>
+
+  <view a:if="{{customer_service_tel != null}}" class="nav-item" onTap="call_event">
+    <image src="/images/user-nav-customer-service-icon.png" class="item-icon" mode="widthFix" />
+    <text class="item-name">联系客服 </text>
+    <text class="item-name cr-blue">{{customer_service_tel}}</text>
+  </view>
+</view>
+
+<!-- 用户中心公告 -->
+<view a:if="{{common_user_center_notice != null}}" class="user-notice">
+    <view class="tips">{{common_user_center_notice}}</view>
+</view>
+
+<!-- 版权 -->
+<import src="/pages/common/copyright.axml" />
+<template is="copyright"></template>
