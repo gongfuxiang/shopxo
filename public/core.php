@@ -36,13 +36,6 @@ define('__MY_PUBLIC_URL__',  empty($_SERVER['HTTP_HOST']) ? '' : __MY_HTTP__.':/
 $request_url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 define('__MY_VIEW_URL__', substr(__MY_URL__, 0, -1).$request_url);
 
-// 检测是否是新安装
-// if(is_dir("./install") && !file_exists("./install/install.lock"))
-// {
-//     $url = __MY_URL__.'install/index.php';
-//     exit(header('location:'.$url));
-// }
-
 // 系统版本
 define('APPLICATION_VERSION', 'v1.2.0');
 
@@ -51,9 +44,6 @@ define('APP_DEBUG', true);
 
 // 应用Trace 建议开发阶段开启 部署阶段注释或者设为false
 define('APP_TRACE', true);
-
-// 分之模式,master,develop,test,debug
-define('APP_STATUS', 'develop');
 
 // 定义系统目录分隔符
 define('DS', '/');
@@ -78,5 +68,15 @@ define('APPLICATION_CLIENT_TYPE', empty($_REQUEST['application_client_type']) ? 
 
 // 是否ajax
 define('IS_AJAX', ((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 'xmlhttprequest' == strtolower($_SERVER['HTTP_X_REQUESTED_WITH'])) || isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == 'ajax'));
+
+// 检测是否是新安装
+if(is_dir(ROOT.'public/install') && !file_exists(ROOT.'public/install/install.lock'))
+{
+    if(empty($_GET['s']) || stripos($_GET['s'], 'install') === false)
+    {
+        $url = __MY_URL__.'index.php?s=/install/index/index';
+        exit(header('location:'.$url));
+    }
+}
 
 ?>

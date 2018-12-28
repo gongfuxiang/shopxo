@@ -15,6 +15,9 @@ li {
 h2 {
     margin: 0 0 5px 0;
 }
+p {
+    margin: 0;
+}
 .inside {
     margin: 0 auto;
     padding: 10px;
@@ -50,11 +53,11 @@ h2 {
     padding: 0;
 }
 .header-nav .inside .logo-name {
-    width: 160px;
+    width: 180px;
     height: 40px;
+    line-height: 40px;
     font-size: 20px;
     float: left;
-    margin-top: 7px;
 }
 .header-nav .inside .logo-name span {
     font-size: 12px;
@@ -62,7 +65,7 @@ h2 {
 }
 .header-nav .inside .schedule {
     margin-left: 5px;
-    width: 17%;
+    width: calc(25% - 50px);
     height: 30px;
     float: left;
     margin-top: 8px;
