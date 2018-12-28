@@ -38,12 +38,6 @@ class Common extends Controller
     {
         parent::__construct();
 
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            exit(json_encode(DataReturn('非法访问', -500)));
-        }
-
         // 输入参数
         $this->data_post = input('post.');
         $this->data_get = input('get.');
