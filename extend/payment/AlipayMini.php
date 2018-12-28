@@ -165,6 +165,7 @@ class AlipayMini
         ksort($data);
 
         // 参数字符串
+        $sign = '';
         foreach($data AS $key=>$val)
         {
             if ($key != 'sign' && $key != 'sign_type' && $key != 'code')
