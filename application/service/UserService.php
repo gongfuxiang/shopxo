@@ -686,7 +686,7 @@ class UserService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function UserAvatarUpload($params = [])
+    public static function UserAvatarUpload($params = [])
     {
         // 请求参数
         $p = [
