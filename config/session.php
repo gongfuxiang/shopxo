@@ -1,12 +1,12 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK ]
+// | ShopXO 国内领先企业级B2C免费开源电商系统
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2018 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2011~2018 http://shopxo.net All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: liu21st <liu21st@gmail.com>
+// | Author: Devil
 // +----------------------------------------------------------------------
 
 // +----------------------------------------------------------------------
@@ -18,7 +18,7 @@ return [
     // SESSION_ID的提交变量,解决flash上传跨域
     'var_session_id' => '',
     // SESSION 前缀
-    'prefix'         => 'think',
+    'prefix'         => 'shopxo',
     // 驱动方式 支持redis memcache memcached
     'type'           => '',
     // 是否自动开启 SESSION

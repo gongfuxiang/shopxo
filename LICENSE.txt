@@ -1,5 +1,5 @@
 ShopXO遵循Apache2开源协议发布，并提供免费使用。
-版权所有Copyright © 2006-2018 by ShopXO (http://shopxo.net)
+版权所有Copyright © 2011-2018 by ShopXO (http://shopxo.net)
 All rights reserved。
 
 Apache Licence是著名的非盈利开源组织Apache采用的协议
