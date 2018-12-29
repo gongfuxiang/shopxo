@@ -1,0 +1,1 @@
+RewriteRule (.*)$ /index\.php\?s=$1 [I]
