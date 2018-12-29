@@ -18,7 +18,7 @@ return [
     // 服务器地址
     'hostname'        => '127.0.0.1',
     // 数据库名
-    'database'        => 'shopxo_tp5',
+    'database'        => 'shopxo_test',
     // 用户名
     'username'        => 'root',
     // 密码
@@ -58,7 +58,7 @@ return [
     // Builder类
     'builder'         => '',
     // Query类
-    'query'           => '\\think\\db\\Query',
+    'query'           => '\think\db\Query',
     // 是否需要断线重连
     'break_reconnect' => false,
     // 断线标识字符串

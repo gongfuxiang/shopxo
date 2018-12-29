@@ -55,7 +55,7 @@ class ExpressService
         $data = Db::name('Express')->where($where)->field('id,icon,name,sort,is_enable')->order('sort asc')->select();
         if(!empty($data) && is_array($data))
         {
-            $images_host = config('images_host');
+            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 $v['icon_old'] = $v['icon'];
@@ -83,7 +83,7 @@ class ExpressService
         $data = Db::name('Express')->field($field)->where(['pid'=>$id])->order('sort asc')->select();
         if(!empty($data))
         {
-            $images_host = config('images_host');
+            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 $v['is_son']            =   (Db::name('Express')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';

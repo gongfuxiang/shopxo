@@ -8,6 +8,9 @@
 * 演示地址：http://demo.shopxo.net/ （管理账户/密码可进入官网查看）
 * 支付宝小程序：http://shopxo.net/alipay.html
 
+### 安装教程
+* v1.2.0安装教程：https://ask.shopxo.net/article/5
+
 ### 官方QQ群
 * 群号：833531593
 * 答案：shopxo.net
@@ -18,7 +21,7 @@
 * 腾讯云开发者：https://dev.tencent.com/u/gongfuxiang/p/shopxo/git
 
 ### 扩展性
-* 支持多语言，独立模块式开发，完善的注释，易扩展。
+* 独立模块式开发，完善的注释，易扩展。
 
 ### 安全性
 * 防止sql注入，代码高安全性。

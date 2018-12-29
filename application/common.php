@@ -334,7 +334,7 @@ function UrlParamJoin($param)
  */
 function MyC($key, $default = null, $mandatory = false)
 {
-    $data = cache(config('cache_common_my_config_key'));
+    $data = cache(config('shopxo.cache_common_my_config_key'));
     if($mandatory === true)
     {
         return empty($data[$key]) ? $default : $data[$key];
@@ -1101,5 +1101,4 @@ function ParamsChecked($data, $params)
     }
     return true;
 }
-
 ?>

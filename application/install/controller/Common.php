@@ -54,5 +54,5 @@ class Common extends Controller
         $this->assign('msg', $name.' 非法访问');
         return $this->fetch('public/error');
     }
-
-}?>
+}
+?>

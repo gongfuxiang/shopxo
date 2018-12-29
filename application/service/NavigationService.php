@@ -33,8 +33,8 @@ class NavigationService
     public static function Home($params = [])
     {
         // 读取缓存数据
-        $header = cache(config('cache_common_home_nav_header_key'));
-        $footer = cache(config('cache_common_home_nav_footer_key'));
+        $header = cache(config('shopxo.cache_common_home_nav_header_key'));
+        $footer = cache(config('shopxo.cache_common_home_nav_footer_key'));
 
         // 导航模型
         $m = Db::name('Navigation');
@@ -51,14 +51,14 @@ class NavigationService
                     $header[$k]['item'] = self::NavDataDealWith($m->field($field)->where(array('nav_type'=>'header', 'is_show'=>1, 'pid'=>$v['id']))->order('sort')->select());
                 }
             }
-            cache(config('cache_common_home_nav_header_key'), $header);
+            cache(config('shopxo.cache_common_home_nav_header_key'), $header);
         }
 
         // 底部导航
         if(empty($footer))
         {
             $footer = self::NavDataDealWith($m->field($field)->where(array('nav_type'=>'footer', 'is_show'=>1))->order('sort')->select());
-            cache(config('cache_common_home_nav_footer_key'), $footer);
+            cache(config('shopxo.cache_common_home_nav_footer_key'), $footer);
         }
 
         return [
@@ -315,7 +315,7 @@ class NavigationService
                     break;
             }
             // 只截取16个字符
-            $params['name'] = mb_substr($temp_name, 0, 16, config('default_charset'));
+            $params['name'] = mb_substr($temp_name, 0, 16, config('shopxo.default_charset'));
         }
 
         // 清除缓存
@@ -396,8 +396,8 @@ class NavigationService
             Db::commit();
 
             // 清除缓存
-            cache(config('cache_common_home_nav_header_key'), null);
-            cache(config('cache_common_home_nav_footer_key'), null);
+            cache(config('shopxo.cache_common_home_nav_header_key'), null);
+            cache(config('shopxo.cache_common_home_nav_footer_key'), null);
 
             return DataReturn('删除成功');
         }
@@ -442,8 +442,8 @@ class NavigationService
         if(Db::name('Navigation')->where(['id'=>intval($params['id'])])->update(['is_show'=>intval($params['state'])]))
         {
             // 清除缓存
-            cache(config('cache_common_home_nav_header_key'), null);
-            cache(config('cache_common_home_nav_footer_key'), null);
+            cache(config('shopxo.cache_common_home_nav_header_key'), null);
+            cache(config('shopxo.cache_common_home_nav_footer_key'), null);
 
             return DataReturn('编辑成功');
         }

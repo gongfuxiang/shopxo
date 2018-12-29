@@ -28,3 +28,4 @@ return [
     // 是否使用 setcookie
     'setcookie' => true,
 ];
+?>

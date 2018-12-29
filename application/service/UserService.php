@@ -54,10 +54,10 @@ class UserService
                 {
                     if(substr($v['avatar'], 0, 4) != 'http')
                     {
-                        $v['avatar'] = config('images_host').$v['avatar'];
+                        $v['avatar'] = config('shopxo.images_host').$v['avatar'];
                     }
                 } else {
-                    $v['avatar'] = config('images_host').'/static/index/'.strtolower(MyC('common_default_theme', 'default', true)).'/images/default-user-avatar.jpg';
+                    $v['avatar'] = config('shopxo.images_host').'/static/index/'.strtolower(MyC('common_default_theme', 'default', true)).'/images/default-user-avatar.jpg';
                 }
 
                 // 注册时间
@@ -658,10 +658,10 @@ class UserService
                 {
                     if(substr($user['avatar'], 0, 4) != 'http')
                     {
-                        $user['avatar'] = config('images_host').$user['avatar'];
+                        $user['avatar'] = config('shopxo.images_host').$user['avatar'];
                     }
                 } else {
-                    $user['avatar'] = config('images_host').'/static/index/'.strtolower(config('DEFAULT_THEME', 'default')).'/images/default-user-avatar.jpg';
+                    $user['avatar'] = config('shopxo.images_host').'/static/index/'.strtolower(config('DEFAULT_THEME', 'default')).'/images/default-user-avatar.jpg';
                 }
 
                 if($is_app == true)

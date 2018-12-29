@@ -84,7 +84,7 @@ class Email
 		$this->obj->IsHTMlang(true);
 
 		// 设置编码
-		$this->obj->CharSet = config('default_charset');
+		$this->obj->CharSet = 'utf-8';
 	}
 
 	/**

@@ -99,5 +99,5 @@ class BaiduAuth
         curl_close($ch);
         return json_decode($reponse, true);
     }
-
 }
+?>

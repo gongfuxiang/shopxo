@@ -115,7 +115,7 @@ class GoodsService
     {
         if(!empty($data) && is_array($data))
         {
-            $images_host = config('images_host');
+            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 if(is_array($v))
@@ -245,7 +245,7 @@ class GoodsService
             $is_category = (isset($params['is_category']) && $params['is_category'] == true) ? true : false;
 
             // 开始处理数据
-            $images_host = config('images_host');
+            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 // 商品url地址
@@ -350,7 +350,7 @@ class GoodsService
         $data = Db::name('GoodsContentApp')->where(['goods_id'=>$params['goods_id']])->field('id,images,content')->order('sort asc')->select();
         if(!empty($data))
         {
-            $images_host = config('images_host');
+            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 $v['images_old'] = $v['images'];
@@ -381,7 +381,7 @@ class GoodsService
         if(!empty($choose))
         {
             // 数据处理
-            $images_host = config('images_host');
+            $images_host = config('shopxo.images_host');
             foreach($choose as &$temp_type)
             {
                 $temp_type_value = json_decode($temp_type['value'], true);
@@ -582,7 +582,7 @@ class GoodsService
         $data = Db::name('GoodsFavor')->alias('f')->join(['__GOODS__'=>'g'], 'g.id=f.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
-            $images_host = config('images_host');
+            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 // 图片
@@ -729,7 +729,7 @@ class GoodsService
         $data = Db::name('GoodsBrowse')->alias('b')->join(['__GOODS__'=>'g'], 'g.id=b.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
-            $images_host = config('images_host');
+            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 $v['images_old'] = $v['images'];
@@ -1566,7 +1566,7 @@ class GoodsService
         if(!empty($type))
         {
             // 数据处理
-            $images_host = config('images_host');
+            $images_host = config('shopxo.images_host');
             foreach($type as &$temp_type)
             {
                 $temp_type_value = json_decode($temp_type['value'], true);
@@ -1838,7 +1838,7 @@ class GoodsService
         $data = Db::name('GoodsCategory')->field($field)->where(['pid'=>$id])->order('sort asc')->select();
         if(!empty($data))
         {
-            $images_host = config('images_host');
+            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 $v['is_son']            =   (Db::name('GoodsCategory')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';

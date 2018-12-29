@@ -316,17 +316,12 @@ php;
         {
             if (!empty($v))
             {
-                if (substr($v, 0, 12) == 'CREATE TABLE')
+                if($db->execute($v) !== false)
                 {
-                    if($db->execute($v) !== false)
-                    {
-                        $success++;
-                    } else {
-                        $failure++;
-                    }
+                    $success++;
                 } else {
-                    $db->execute($v);
-                }                
+                    $failure++;
+                }               
             }
         }
 

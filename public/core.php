@@ -78,5 +78,4 @@ if(is_dir(ROOT.'public/install') && !file_exists(ROOT.'public/install/install.lo
         exit(header('location:'.$url));
     }
 }
-
 ?>

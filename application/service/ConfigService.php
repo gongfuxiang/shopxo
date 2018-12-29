@@ -116,7 +116,7 @@ class ConfigService
      */
     public static function ConfigInit($status = 0)
     {
-        $key = config('cache_common_my_config_key');
+        $key = config('shopxo.cache_common_my_config_key');
         $data = cache($key);
         if($status == 1 || empty($data))
         {

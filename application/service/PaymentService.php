@@ -49,7 +49,7 @@ class PaymentService
         self::$payment_dir = ROOT.'extend'.DS.'payment'.DS;
 
         // 支付业务类型
-        self::$payment_business_type_all = config('payment_business_type_all');
+        self::$payment_business_type_all = config('shopxo.payment_business_type_all');
 
         // 不删除的支付方式
         self::$cannot_deleted_list = ['DeliveryPayment', 'CashPayment'];
@@ -190,7 +190,7 @@ class PaymentService
         $data = Db::name('Payment')->where($where)->field('id,logo,name,sort,payment,config,apply_terminal,apply_terminal,element,is_enable,is_open_user')->order('sort asc')->select();
         if(!empty($data) && is_array($data))
         {
-            $images_host = config('images_host');
+            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 $v['logo_old'] = $v['logo'];
@@ -719,7 +719,7 @@ php;
             @file_put_contents(self::$dir_root_path.'payment_'.$name.'_'.strtolower($payment).'_respond.php', $respond);
 
             // 线下支付不生成异步入口文件
-            if(!in_array($payment, config('under_line_list')))
+            if(!in_array($payment, config('shopxo.under_line_list')))
             {
                 @file_put_contents(self::$dir_root_path.'payment_'.$name.'_'.strtolower($payment).'_notify.php', $notify);
             }
@@ -781,7 +781,7 @@ php;
         }
 
         // 线下支付不生成异步入口文件
-        if(!in_array($payment, config('under_line_list')))
+        if(!in_array($payment, config('shopxo.under_line_list')))
         {
             if(!file_exists(self::$dir_root_path.'payment_'.strtolower($name).'_'.strtolower($payment).'_notify.php'))
             {

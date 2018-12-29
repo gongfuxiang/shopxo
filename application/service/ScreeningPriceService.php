@@ -40,7 +40,7 @@ class ScreeningPriceService
         $data = Db::name('ScreeningPrice')->field($field)->where(['pid'=>$id])->order('sort asc')->select();
         if(!empty($data))
         {
-            $images_host = config('images_host');
+            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 $v['is_son']            =   (Db::name('ScreeningPrice')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';

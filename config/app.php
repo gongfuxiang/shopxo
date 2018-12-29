@@ -142,37 +142,5 @@ return [
     'show_error_msg'         => false,
     // 异常处理handle类 留空使用 \think\exception\Handle
     'exception_handle'       => '',
-
-    // 默认编码
-    'default_charset'        => 'utf-8',
-
-
-    // 缓存key列表
-    // 公共系统配置信息key
-    'cache_common_my_config_key'            =>  'cache_common_my_config_data',
-
-    // 前台顶部导航，后端菜单更新则删除缓存
-    'cache_common_home_nav_header_key'      =>  'cache_common_home_nav_header_data',
-
-    // 前台顶部导航
-    'cache_common_home_nav_footer_key'      =>  'cache_common_home_nav_footer_data',
-
-    // 频道缓存 array(id => name)
-    'cache_home_channel_key'                =>  'cache_home_channel_data',
-
-
-    // 图片host, 数据库图片地址以/Public/...开头
-    'images_host'                           =>  substr(__MY_PUBLIC_URL__, 0, -1),
-
-    // 开启U带域名
-    'url_domain_deploy'                     =>  true,
-
-    // 支付业务类型,支付插件根据业务类型自动生成支付入口文件
-    'payment_business_type_all'             => [
-        ['name' => 'Order', 'desc' => '订单'],
-    ],
-
-    // 线下支付方式
-    'under_line_list'                       => ['CashPayment', 'DeliveryPayment'],
-
 ];
+?>

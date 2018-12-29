@@ -28,3 +28,4 @@ return [
     // 是否关闭日志写入
     'close'       => false,
 ];
+?>

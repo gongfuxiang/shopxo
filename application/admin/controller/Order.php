@@ -96,7 +96,7 @@ class Order extends Common
 
         // 发起支付 - 支付方式
         $pay_where = [
-            'where' => ['is_enable'=>1, 'is_open_user'=>1, 'payment'=>config('under_line_list')],
+            'where' => ['is_enable'=>1, 'is_open_user'=>1, 'payment'=>config('shopxo.under_line_list')],
         ];
         $this->assign('buy_payment_list', PaymentService::BuyPaymentList($pay_where));
 

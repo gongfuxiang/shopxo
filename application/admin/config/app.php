@@ -17,7 +17,7 @@
  * @datetime 2016-12-01T21:51:08+0800
  */
 
-return array(
+return [
     // 缓存key列表
     // 权限缓存存储key
     'cache_admin_power_key'         =>  'cache_admin_power_',
@@ -32,7 +32,7 @@ return array(
     'DEFAULT_THEME'                 =>  'Default',
 
     // 百度编辑器配置信息 ueditor
-    'ueditor_config'                =>  array(
+    'ueditor_config'                =>  [
             // 上传图片配置项
             // 执行上传图片的action名称
             'imageActionName'           =>  'uploadimage',
@@ -44,7 +44,7 @@ return array(
             'imageMaxSize'              =>  MyC('home_max_limit_image', 2048000, true),
 
             // 上传图片格式显示
-            'imageAllowFiles'           =>  array('.png', '.jpg', '.jpeg', '.gif', '.bmp'),
+            'imageAllowFiles'           =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp'],
 
             // 是否压缩图片,默认是true
             'imageCompressEnable'       =>  true,
@@ -98,7 +98,7 @@ return array(
 
             // 抓取远程图片配置
             // 执行抓取远程图片的action名称
-            'catcherLocalDomain'    =>  array('127.0.0.1', 'localhost', 'img.baidu.com'),
+            'catcherLocalDomain'    =>  ['127.0.0.1', 'localhost', 'img.baidu.com'],
 
             // 执行抓取远程图片的action名称
             'catcherActionName'     =>  'catchimage',
@@ -116,7 +116,7 @@ return array(
             'catcherMaxSize'        =>  MyC('home_max_limit_image', 2048000, true),
 
             // 抓取图片格式显示
-            'catcherAllowFiles'     =>  array('.png', '.jpg', '.jpeg', '.gif', '.bmp'),
+            'catcherAllowFiles'     =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp'],
 
 
             // 上传视频配置
@@ -136,7 +136,7 @@ return array(
             'videoMaxSize'          =>  MyC('home_max_limit_video', 102400000, true),
 
             // 上传视频格式显示
-            'videoAllowFiles'       =>  array('.swf', '.ogg', '.ogv', '.mp4', '.webm', '.mp3'), 
+            'videoAllowFiles'       =>  ['.swf', '.ogg', '.ogv', '.mp4', '.webm', '.mp3'], 
 
             
             // 上传文件配置
@@ -156,7 +156,7 @@ return array(
             'fileMaxSize'           =>  MyC('home_max_limit_file', 51200000, true),
 
             // 上传文件格式显示
-            'fileAllowFiles'        =>  array('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.webm', '.mp3', '.wav', '.mid','.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.cab', '.iso', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.xml'),
+            'fileAllowFiles'        =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.webm', '.mp3', '.wav', '.mid','.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.cab', '.iso', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.xml'],
 
 
             // 列出指定目录下的图片
@@ -176,7 +176,7 @@ return array(
             'imageManagerInsertAlign'=> 'none',
 
             // 列出的文件类型
-            'imageManagerAllowFiles'=>  array('.png', '.jpg', '.jpeg', '.gif', '.bmp'),
+            'imageManagerAllowFiles'=>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp'],
 
 
             // 列出指定目录下的文件
@@ -193,7 +193,7 @@ return array(
             'fileManagerListSize'   =>  20,
 
             // 列出的文件类型
-            'fileManagerAllowFiles' =>  array('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.webm', '.mp3', '.wav', '.mid','.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.cab', '.iso', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.xml'),
+            'fileManagerAllowFiles' =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.webm', '.mp3', '.wav', '.mid','.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.cab', '.iso', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.xml'],
 
             // 执行视频管理的action名称
             'videoManagerActionName' =>  'listvideo',
@@ -208,6 +208,7 @@ return array(
             'videoManagerListSize'   =>  20,
 
             // 列出的文件类型
-            'videoManagerAllowFiles' =>  array('.swf', '.ogg', '.ogv', '.mp4', '.webm', '.mp3'), 
-        ),
-);
+            'videoManagerAllowFiles' =>  ['.swf', '.ogg', '.ogv', '.mp4', '.webm', '.mp3'], 
+      ],
+];
+?>

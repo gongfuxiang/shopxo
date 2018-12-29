@@ -45,7 +45,7 @@ class BrandService
         if(!empty($data))
         {
             $common_is_enable_tips = lang('common_is_enable_tips');
-            $images_host = config('images_host');
+            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 // 是否启用
@@ -185,7 +185,7 @@ class BrandService
         $brand = Db::name('Brand')->where($brand_where)->field('id,name,logo,website_url')->select();
         if(!empty($brand))
         {
-            $images_host = config('images_host');
+            $images_host = config('shopxo.images_host');
             foreach($brand as &$v)
             {
                 $v['logo_old'] = $v['logo'];

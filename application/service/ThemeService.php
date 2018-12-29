@@ -197,7 +197,7 @@ class ThemeService
         }
 
         // 开始删除主题
-        if(\base\FileUtil::UnlinkDir(self::$html_path.$id) && \base\FileUtil::UnlinkDir(self::$static_path.$id))
+        if(\base\FileUtil::UnlinkDir(ROOT.self::$html_path.$id) && \base\FileUtil::UnlinkDir(ROOT.self::$static_path.$id))
         {
             return DataReturn('删除成功');
         }

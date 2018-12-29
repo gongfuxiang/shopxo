@@ -46,7 +46,7 @@ class AppNavService
             $common_platform_type = lang('common_platform_type');
             $common_is_enable_tips = lang('common_is_enable_tips');
             $common_app_event_type = lang('common_app_event_type');
-            $images_host = config('images_host');
+            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 // 是否启用
@@ -328,7 +328,7 @@ class AppNavService
         $data = Db::name('AppHomeNav')->field('id,name,images_url,event_value,event_type,bg_color')->where(['platform'=>APPLICATION_CLIENT_TYPE, 'is_enable'=>1])->order('sort asc')->select();
         if(!empty($data))
         {
-            $images_host = config('images_host');
+            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 $v['images_url_old'] = $v['images_url'];

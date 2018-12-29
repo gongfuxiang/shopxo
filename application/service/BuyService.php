@@ -173,7 +173,7 @@ class BuyService
         // 数据处理
         if(!empty($data))
         {
-            $images_host = config('images_host');
+            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 // 规格

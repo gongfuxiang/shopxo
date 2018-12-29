@@ -126,7 +126,7 @@ class OrderService
             // 支付信息返回
             $ret['data'] = [
                 // 是否为线下支付类型
-                'is_under_line' => in_array($payment[0]['payment'], config('under_line_list')) ? 1 : 0,
+                'is_under_line' => in_array($payment[0]['payment'], config('shopxo.under_line_list')) ? 1 : 0,
 
                 // 支付模块处理数据
                 'data'          => $ret['data'],
@@ -213,7 +213,7 @@ class OrderService
     {
         if(!empty($params['order']) && !empty($params['payment']) && !empty($params['user']))
         {
-            if(in_array($params['payment']['payment'], config('under_line_list')))
+            if(in_array($params['payment']['payment'], config('shopxo.under_line_list')))
             {
                 // 支付处理
                 $pay_params = [
@@ -555,7 +555,7 @@ class OrderService
         if(!empty($data))
         {
             $detail_field = 'id,goods_id,title,images,original_price,price,spec,buy_number';
-            $images_host = config('images_host');
+            $images_host = config('shopxo.images_host');
             $order_status_list = lang('common_order_user_status');
             $order_pay_status = lang('common_order_pay_status');
             foreach($data as &$v)
