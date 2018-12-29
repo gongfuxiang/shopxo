@@ -39,12 +39,6 @@ define('__MY_VIEW_URL__', substr(__MY_URL__, 0, -1).$request_url);
 // 系统版本
 define('APPLICATION_VERSION', 'v1.2.0');
 
-// 调试模式 建议开发阶段开启 部署阶段注释或者设为false
-define('APP_DEBUG', false);
-
-// 应用Trace 建议开发阶段开启 部署阶段注释或者设为false
-define('APP_TRACE', false);
-
 // 定义系统目录分隔符
 define('DS', '/');
 
