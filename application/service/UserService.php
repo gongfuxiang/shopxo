@@ -686,7 +686,7 @@ class UserService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function UserAvatarUpload($params = [])
+    public static function UserAvatarUpload($params = [])
     {
         // 请求参数
         $p = [
@@ -729,8 +729,8 @@ class UserService
 
         // 开始处理图片存储
         // 定义图片目录
-        $root_path = ROOT_PATH;
-        $img_path = 'Public'.DS.'Upload'.DS.'user_avatar'.DS;
+        $root_path = ROOT.'public'.DS;
+        $img_path = 'static'.DS.'upload'.DS.'images'.DS.'user_avatar'.DS;
         $date = DS.date('Y').DS.date('m').DS.date('d').DS;
 
         // 图像类库

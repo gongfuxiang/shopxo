@@ -89,11 +89,11 @@ color: #555555;background:none;border-color:transparent;cursor: default;}
  
 /*搜索框*/
 .search-bar{height:36px; width: calc(100% - 103px); display: -webkit-inline-box;}
-.search-bar form{border:2px solid #d2364c; width:100%;}
+.search-bar form{border:2px solid #d2364c; width:100%;position: relative;}
 .search-bar input{height:32px;width:72%;outline:none; font-size:12px; border:none}
 #search-input { padding-left: 8px; }
-#ai-topsearch { width:27%;height:32px;border:none;float:right;background: #d2364c none repeat scroll 0% 0%;
-color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px; }
+#ai-topsearch { width:27%;height:32px;border:none;background: #d2364c none repeat scroll 0% 0%;
+color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px; position: absolute;top: 0;right: 0;}
 .search-hot-keywords { margin-top: 5px; height: 16px; overflow: hidden; display: none; }
 .search-hot-keywords li { float: left; }
 .search-hot-keywords li:not(:last-child) { margin-right: 10px; }
@@ -109,7 +109,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px; }
 
 /* 顶部小导航 */
 .header-top { background-color: #fafafa; border-bottom: solid 1px #f0f0f0; }
-.header{ display:none; max-width:1000px; margin:0px auto; font-size:12px;}  
+.header{ display:none; max-width:1000px; margin:0px auto; font-size:12px;position: relative; overflow: hidden; }  
 
 .am-footer { border-top: 2px solid #d2364c; }
 .footer-bd{ display:none}
@@ -133,14 +133,14 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px; }
     .header { display:block;height: 30px;}
     .top-nav-left{ float:left;}
     .top-nav-left .top-nav-items, .top-nav-right .top-nav-items { padding: 0px 8px; height: 30px; line-height: 30px; }
-    .top-nav-right {float: right;}
+    .top-nav-right {position: absolute; top: 0; right: 0; }
     .top-nav-right .top-nav-items {float: left;}
   
     .nav-search .logo{display:none;}  
     .nav-search .logo-big{ display:block;float:left;height:40px;width:135px; margin:0px auto; margin-left:5px; margin-right: 5px;} 
     .nav-search .logo-big img{width:100%;}
     .search-bar {height: 40px; width: calc(100% - 146px);}
-    .search-bar input {width: 80%;height:36px;} 
+    .search-bar input {width: 78%;height:36px;} 
     .classified{display:none;}
     .mobile-navigation{display:none;}
     .nav-search{ position:relative;top:0px;z-index:0;margin-bottom: 5px;margin-top: 5px;}

@@ -55,6 +55,17 @@ class ConfigService
 
         // 附件
         $data_fields = ['home_site_logo', 'home_site_logo_wap', 'home_site_desktop_icon'];
+
+        // 当前参数中不存在则移除
+        foreach($data_fields as $key=>$field)
+        {
+            if(!isset($params[$field]))
+            {
+                unset($data_fields[$key]);
+            }
+        }
+
+        // 获取附件
         $attachment = ResourcesService::AttachmentParams($params, $data_fields);
         foreach($attachment['data'] as $k=>$v)
         {
