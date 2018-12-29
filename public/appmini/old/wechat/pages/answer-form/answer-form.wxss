@@ -1,0 +1,21 @@
+.content{
+    padding: 10rpx;
+}
+.content-textarea {
+    padding-top: 10rpx;
+    min-height: 20vh;
+}
+.bottom-btn-box {
+    margin-top: 160rpx;
+    padding: 0 10rpx;
+}
+
+.form-input {
+    padding: 20rpx 0;
+}
+.form-input input, .form-input textarea {
+    font-size: 30rpx;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}

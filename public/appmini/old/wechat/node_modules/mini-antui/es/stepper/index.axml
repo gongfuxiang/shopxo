@@ -1,0 +1,20 @@
+<view 
+  class="am-stepper-content {{className}}"
+  style="opacity:{{disabled ? '0.4' : '1'}}"
+  max="{{max}}"
+  min="{{min}}"
+  onChange="{{callBackFn}}"
+  step="{{step}}"
+  disabled="{{disabled || readOnly}}"
+>
+  <view class="am-stepper-reduce" style="opacity:{{opaReduce}}" data-type="reduce" onTap="changeFn" />
+  <input
+    class="am-stepper-input"
+    style="display:{{showNumber ? 'inline-block' : 'none'}}"
+    value="{{value}}"
+    onBlur="onBlur"
+    disabled="{{disabled || readOnly}}"
+    type="number"
+  />
+  <view class="am-stepper-add" style="opacity:{{opaAdd}}" data-type="add" onTap="changeFn" />
+</view>

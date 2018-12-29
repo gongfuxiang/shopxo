@@ -1,0 +1,70 @@
+<!-- 导航 -->
+<view class="nav">
+  <block wx:for="{{nav_status_list}}">
+    <view wx:if="{{nav_status_index == index}}" class="item fl tc cr-main" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
+    <view wx:else class="item fl tc" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
+  </block>
+</view>
+
+<!-- 订单列表 -->
+<scroll-view scroll-y="{{true}}" class="scroll-box" bindscrolltolower="scroll_lower" lower-threshold="30">
+  <view class="list-content">
+    <view class="list-item bg-white spacing-mb" wx:if="{{data_list.length > 0}}" wx:for="{{data_list}}">
+      <view class="item-base oh br-b">
+        <text class="cr-666">{{item.add_time}}</text>
+        <text class="fr cr-main">{{item.status_name}}</text>
+      </view>
+      <view wx:for="{{item.items}}" wx:for-item="detail" class="goods-item oh">
+        <navigator url="/pages/user-order-detail/user-order-detail?id={{item.id}}">
+          <image class="goods-image fl" src="{{detail.images}}" mode="aspectFill" />
+          <view class="goods-base">
+            <view class="goods-title multi-text" >{{detail.title}}</view>
+            <block wx:if="{{detail.spec != null}}">
+              <view class="goods-spec cr-888" wx:for="{{detail.spec}}" wx:for-item="spec">
+                {{spec.type}}:{{spec.value}}
+              </view>
+            </block>
+          </view>
+          <view class="oh goods-price">
+            <text class="sales-price">￥{{detail.price}}</text>
+            <text wx:if="{{detail.original_price > 0}}" class="original-price">￥{{detail.original_price}}</text>
+            <text class="buy-number">x{{detail.buy_number}}</text>
+          </view>
+        </navigator>
+        <view class="item-describe tr cr-666">{{item.describe}}
+        </view>
+        <view wx:if="{{item.status <= 3}}" class="item-operation tr br-t">
+          <button wx:if="{{item.status <= 1}}" class="submit-cancel" type="default" size="mini" bindtap="cancel_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">取消
+          </button>
+          <button wx:if="{{item.status == 1}}" class="submit-pay cr-666" type="default" size="mini" bindtap="pay_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">支付
+          </button>
+          <button wx:if="{{item.status == 2}}" class="submit-rush cr-666" type="default" size="mini" bindtap="rush_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">催催
+          </button>
+          <button wx:if="{{item.status == 3}}" class="submit-success cr-666" type="default" size="mini" bindtap="collect_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">收货
+          </button>
+        </view>
+        <view wx:if="{{data_list.length == 0}}">
+          <import src="/pages/common/nodata.wxml" />
+          <template is="nodata" data="{{status: data_list_loding_status}}">
+          </template>
+        </view>
+      </view>
+    </view>
+    <import src="/pages/common/bottom_line.wxml" />
+    <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
+  </view>
+</scroll-view>
+
+<!-- 支付方式 popup -->
+<popup show="{{is_show_payment_popup}}" position="bottom" onClose="payment_popup_event_close">
+  <view wx:if="{{payment_list.length > 0}}" class="payment-list oh bg-white">
+    <view class="item tc fl" wx:for="{{payment_list}}">
+      <view class="item-content br" data-value="{{item.id}}" bindtap="popup_payment_event">
+        <image wx:if="{{(item.logo || null) != null}}" class="icon" src="{{item.logo}}" mode="widthFix" />
+        <text>{{item.name}}
+        </text>
+      </view>
+    </view>
+  </view>
+  <view wx:else class="payment-list oh bg-white tc cr-888">没有支付方式</view>
+</popup>

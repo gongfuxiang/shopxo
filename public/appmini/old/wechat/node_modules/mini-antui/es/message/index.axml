@@ -1,0 +1,27 @@
+<view class="am-message {{className}}">
+  <icon class="am-icon" size="64" type="{{type === 'fail' ? 'cancel' : type}}" />
+  <view class="am-message-main">
+    {{title}}
+  </view>
+  <view a:if="{{subTitle}}" class="am-message-sub">
+    {{subTitle}}
+  </view>
+</view>
+<view class="am-button-wrap" a:if="{{mainButton || subButton}}">
+  <button
+    a:if="{{mainButton}}"
+    type="primary"
+    disabled="{{mainButton.disabled}}"
+    onTap="tapMain"
+  >
+    {{mainButton.buttonText}}
+  </button>
+  <button
+    a:if="{{subButton}}"
+    type="default"
+    disabled="{{subButton.disabled}}"
+    onTap="tapSub"
+  >
+    {{subButton.buttonText}}
+  </button>
+</view>

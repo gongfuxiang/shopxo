@@ -1,0 +1,8 @@
+<view class="am-footer {{className}}">
+  <view class="am-footer-links" a:if="{{links && links.length > 0}}">
+    <block a:for="{{links}}">
+      <navigator class="am-footer-link" url="{{item.url}}">{{item.text}}</navigator>
+    </block>
+  </view>
+  <view class="am-footer-copyright" a:if="{{copyright}}">{{copyright}}</view>
+</view>

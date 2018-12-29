@@ -1,0 +1,38 @@
+.am-tips-plain-favorite {
+  position: fixed;
+  bottom: 10px;
+  padding: 7px 10px;
+  box-sizing: border-box;
+  font-size: 12px;
+}
+
+.am-tips-plain-favorite-wrap {
+  position: relative;
+  background: #2093E7;
+  box-shadow: 0 3px 3px rgba(0, 127, 255, .24);
+  border-radius: 2px;
+  color: #fff;
+  padding: 10px;
+  min-height: 10px;
+}
+
+.am-tips-plain-favorite-content {
+  line-height: 12px;
+  overflow: hidden;
+  height: 12px;
+}
+
+.am-tips-plain-favorite-action:active {
+  background: #0B71BA
+}
+
+.am-tips-plain-favorite-wrap::before {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  margin-left: -10px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #2093E7;
+}

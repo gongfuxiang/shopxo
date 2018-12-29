@@ -1,0 +1,22 @@
+<view class="am-grid am-grid-{{columnNum}} {{circular && columnNum === 4 ? 'circular' : ''}} {{hasLine ? '' : 'am-grid-no-line'}}" >
+	<block a:for="{{list}}">
+		<view
+			style="width:{{100/(columnNum)}}%;"
+			class="am-grid-item {{list.some(item => item.desc && item.desc) ? 'has-desc' : ''}}"
+			onTap="onGridItemClick"
+			data-index={{index}}
+			key="grid-item-{{index}}"
+		>
+			<view class="am-grid-border {{index < 2 ? 'am-grid-top' : ''}} {{index >= bottomIndex ? 'am-grid-bottom' : ''}}  {{(index + 1) % columnNum === 0 ? 'am-grid-right' : ''}}" />
+			<view class="am-grid-item-wrapper">
+				<view class="am-grid-icon-container">
+					<image src="{{item.icon}}" class="am-grid-icon" mode="aspectFit" />
+				</view>
+				<view class="am-grid-text-wrapper">
+					<text class="am-grid-text">{{item.text}}</text>
+					<text	class="am-grid-desc" a:if="{{(columnNum === 2 || columnNum === 3) && item.desc && item.desc !== ''}}">{{item.desc}}</text>
+				</view>
+			</view>
+		</view>
+	</block>
+</view>

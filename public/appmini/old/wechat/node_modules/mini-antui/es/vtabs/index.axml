@@ -1,0 +1,52 @@
+<view class="am-vtabs {{className}}">
+  <view
+    class="am-vtabs-bar"
+    style="{{ backgroundColor: tabBarInactiveBgColor }}"
+    >
+    <scroll-view
+      class="am-vtabs-bar-content"
+      scroll-top="{{tabTop}}"
+      scroll-y="{{true}}">
+      <block a:for="{{tabs}}">
+       <view
+        data-index="{{index}}"
+        data-anchor="{{item.anchor}}"
+        onTap="handleTabClick"
+        class="am-vtabs-bar-tab"
+        style="{{
+          color: activeTab == index ? tabBarActiveTextColor : tabBarInactiveTextColor,
+          borderLeftColor: activeTab == index ? tabBarlineColor : tabBarInactiveBgColor,
+          borderRightColor: activeTab == index ? tabBarActiveBgColor : tabBarInactiveBgColor,
+          backgroundColor: activeTab == index ? tabBarActiveBgColor : tabBarInactiveBgColor
+        }}"
+        >
+        <view class="am-vtabs-bar-title">
+          <text>{{item.title}}</text>
+          <badge
+            className="am-vtabs-bar-badge {{item.badgeType ? item.badgeType : ''}}"
+            a:if="{{item.badgeType}}"
+            dot="{{item.badgeType == 'dot'}}"
+            text="{{item.badgeText}}" />
+        </view>
+       </view>
+      </block>
+    </scroll-view>
+  </view>
+  <view class="am-vtabs-content-wrap" onTouchMove="onWrapTouchMove">
+    <block a:if="{{swipeable}}">
+      <scroll-view
+        class="am-vtabs-slides"
+        scroll-with-animation="{{animated}}"
+        scroll-y="{{true}"
+        scroll-top="{{wrapScrollTop}}"
+        onScroll="onScroll">
+        <slot></slot>
+      </scroll-view>
+    </block>
+    <block a:else>
+      <view class="am-vtabs-slides {{animated ? 'animate' : ''}}" style="{{ transform: 'translate3d(0, ' +(-wrapScrollTop) + 'px, 0)' }}">
+        <slot></slot>
+      </view>
+    </block>
+  </view>
+</view>

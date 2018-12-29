@@ -1,0 +1,28 @@
+<vtabs
+  wx:if="{{data_list.length > 0}}"
+  tabs="{{data_list}}"
+  onTabClick="handle_event"
+  onChange="change_event"
+  activeTab="{{tab_active}}"
+  tabBarActiveTextColor="{{tab_active_text_color}}"
+  tabBarlineColor="{{tab_active_line_color}}"
+>
+  <block wx:for="{{data_list}}">
+    <vtab-content anchor="{{item.anchor}}">
+      <view class="content">
+        <block wx:if="{{item.items.length > 0}}">
+          <view wx:for="{{item.items}}" wx:for-item="v" class="content-items" data-value="{{v.id}}" bindtap="category_event">
+            <image wx:if="{{v.icon != null}}" src="{{v.icon}}" mode="aspectFit" class="icon" />
+            <view class="text single-text">{{v.name}}</view>
+          </view>
+        </block>
+      </view>
+    </vtab-content>
+  </block>
+</vtabs>
+
+<view wx:if="{{data_list.length == 0 && data_list_loding_status != 0}}">
+  <import src="/pages/common/nodata.wxml" />
+  <template is="nodata" data="{{status: data_list_loding_status}}">
+  </template>
+</view>

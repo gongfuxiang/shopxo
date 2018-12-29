@@ -1,0 +1,3 @@
+<view id="am-vtab-slide-{{anchor}}">
+  <slot></slot>
+</view>

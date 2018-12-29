@@ -1,0 +1,7 @@
+{
+    "enablePullDownRefresh": true,
+    "usingComponents": {
+      "list-item": "mini-antui/es/list/list-item/index",
+      "swipe-action": "mini-antui/es/swipe-action/index"
+    }
+}

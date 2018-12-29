@@ -1,0 +1,22 @@
+.item {
+    padding: 10rpx;
+}
+.item .base {
+    height: 80rpx;
+    line-height: 80rpx;
+}
+.item .base .name {
+    font-size: 28rpx;
+    color: #4e4e4e;
+}
+.item .content, .item .answer {
+    padding: 20rpx 0;
+}
+.item .answer .reply-icon {
+    border-radius: 5px;
+    padding: 0px 3px;
+    margin-right: 5px;
+}
+.item .answer .reply-content, .item .content .desc {
+    line-height: 42rpx;
+}

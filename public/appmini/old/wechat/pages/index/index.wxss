@@ -1,0 +1,122 @@
+/**
+ * 搜索
+ */
+.search {
+  left: 0;
+  top: 20rpx;
+  box-sizing: border-box; 
+  padding: 20rpx;
+  background: #d2364c;
+}
+.search-content {
+  border-radius: 6rpx;
+  position: relative;
+  opacity: 0.8;
+}
+.search icon {
+  position: absolute;
+  left: 15rpx;
+  top: 15rpx;
+}
+.search input {
+  font-size: 28rpx;
+  padding-left: 60rpx;
+  box-sizing: border-box;
+  height: 70rpx;
+  line-height: 70rpx;
+}
+
+ /**
+ * 楼层数据
+ */
+.floor-list, .floor-left {
+    overflow: hidden;
+    position: relative;
+}
+.floor .vice-name {
+    color: #fff;
+    margin-top: 20rpx;
+    padding: 0 10rpx;
+    font-size: 34rpx;
+    line-height: 48rpx;
+}
+.floor-left {
+    width: 40%;
+    height: 662rpx;
+}
+.floor-left image {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+.goods-list,
+.goods-list .goods {
+    overflow: hidden;
+}
+.floor-left image,
+.goods-list .goods:nth-child(1),
+.goods-list .goods:nth-child(2),
+.goods-list .goods:nth-child(1) .goods-base,
+.goods-list .goods:nth-child(2) .goods-base {
+    position: absolute;
+}
+
+.goods-list .goods image {
+    width: 100%;
+    height: 380rpx;
+}
+.goods-list .goods:nth-child(1),
+.goods-list .goods:nth-child(2) {
+    width: 60%;
+    height: 330rpx;
+}
+.goods-list .goods:nth-child(1) .goods-base,
+.goods-list .goods:nth-child(2) .goods-base {
+    padding-left: 10rpx;
+    width: calc(40% - 10rpx);
+    bottom: 20rpx;
+}
+.goods-list .goods:nth-child(1) image,
+.goods-list .goods:nth-child(2) image {
+    width: 60%;
+    height: 330rpx;
+    float: right;
+}
+.goods-list .goods:nth-child(1) {
+    top: 0;
+    right: 0;
+}
+.goods-list .goods:nth-child(2) {
+    top: 330rpx;
+    right: 0;
+}
+
+.goods-list .goods:nth-child(2),
+.goods-list .goods:nth-child(3),
+.goods-list .goods:nth-child(4),
+.goods-list .goods:nth-child(5),
+.goods-list .goods:nth-child(6) {
+    border-top: 1px solid #eee;
+}
+.goods-list .goods:nth-child(4),
+.goods-list .goods:nth-child(6) {
+    border-left: 1px solid #eee;
+}
+.goods-list .goods:nth-child(3),
+.goods-list .goods:nth-child(4),
+.goods-list .goods:nth-child(5),
+.goods-list .goods:nth-child(6) {
+    width: calc(50% - 1rpx);
+    height: 480rpx;
+    float: left;
+}
+.goods-list .goods-base {
+    padding: 0 10rpx;
+}
+.goods-base .goods-title {
+    line-height: 52rpx;
+    font-size: 32rpx;
+}
+.goods-base .sales-price {
+    font-size: 30rpx;
+}

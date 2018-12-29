@@ -1,0 +1,3 @@
+.banner {
+    height: 320rpx!important;
+}
