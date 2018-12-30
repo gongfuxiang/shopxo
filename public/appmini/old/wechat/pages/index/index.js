@@ -9,6 +9,7 @@ Page({
     data_list_loding_status: 1,
     data_bottom_line_status: false,
     data_list: [],
+    banner_list: [],
     common_shop_notice: null,
     common_app_is_enable_search: 1,
     common_app_is_enable_answer: 1,
@@ -41,6 +42,10 @@ Page({
         if (res.data.code == 0) {
           var data = res.data.data;
           self.setData({
+            banner_list: data.banner_list,
+            indicator_dots: (data.banner_list.length > 1),
+            autoplay: (data.banner_list.length > 1),
+
             data_list: data.data_list,
             indicator_dots: (data.data_list.length > 1),
             autoplay: (data.data_list.length > 1),

@@ -27,6 +27,13 @@
 }
 
  /**
+ * 轮播
+ */
+.banner {
+    height: 320rpx!important;
+}
+
+ /**
  * 楼层数据
  */
 .floor-list, .floor-left {

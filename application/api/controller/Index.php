@@ -11,6 +11,8 @@
 namespace app\api\controller;
 
 use app\service\GoodsService;
+use app\service\BannerService;
+use app\service\AppNavService;
 
 /**
  * 首页
@@ -44,6 +46,8 @@ class Index extends Common
 	public function Index()
 	{
 		$result = [
+			'navigation'					=> AppNavService::AppHomeNav(),
+			'banner_list'					=> BannerService::Banner(),
 			'data_list'						=> GoodsService::HomeFloorList(),
 			'common_shop_notice'			=> MyC('common_shop_notice', null, true),
 			'common_app_is_enable_search'	=> (int) MyC('common_app_is_enable_search', 1),

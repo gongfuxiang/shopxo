@@ -11,14 +11,21 @@
   <view class="tips">{{common_shop_notice}}</view>
 </view>
 
-<!-- 组件 -->
-<view wx:if="{{load_status == 1}}">
-  <!-- 轮播 -->
-  <component-home-banner />
-
-  <!-- 导航 -->
-  <component-home-nav />
-</view>
+<!-- 轮播 -->
+<swiper
+  indicator-dots="{{indicator_dots}}"
+  indicator-color="{{indicator_color}}"
+  indicator-active-color="{{indicator_active_color}}"
+  autoplay="{{autoplay}}"
+  circular="{{circular}}"
+  class="banner bg-white spacing-mb"
+  wx:if="{{banner_list.length > 0}}">
+  <block wx:for="{{banner_list}}">
+    <swiper-item>
+      <image class="wh-auto" src="{{item.images_url}}" mode="widthFix" data-value="{{item.event_value}}" data-type="{{item.event_type}}" bindtap="banner_event" />
+    </swiper-item>
+  </block>
+</swiper>
 
 
 <!-- 楼层数据 -->
