@@ -152,7 +152,7 @@ class ConfigService
     {
         if(isset($params['home_seo_url_model']))
         {
-            $route_file = ROOT.'route'.DS.'route.txt';
+            $route_file = ROOT.'route'.DS.'route.config';
             $route_file_php = ROOT.'route'.DS.'route.php';
 
             // 文件目录
@@ -173,7 +173,7 @@ class ConfigService
                 
                 if(!file_exists($route_file))
                 {
-                    return DataReturn('路由规则文件不存在'.'[./route/route.txt]', -14);
+                    return DataReturn('路由规则文件不存在'.'[./route/route.config]', -14);
                 }
 
                 // 开始生成规则文件
