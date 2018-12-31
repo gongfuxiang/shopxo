@@ -1,4 +1,4 @@
-.goods-photo .swiper-item {
+.goods-photo .swiper-item, swiper {
     height: 65vh !important;
     display: block;
 }
@@ -166,11 +166,16 @@
 .goods-base {
     padding: 15rpx 10rpx;
 }
-.goods-base .goods-price .fr {
-    line-height: 50rpx;
+.goods-base button {
+  background: #fff;
+}
+.goods-base .goods-price .sales {
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 .goods-base .goods-title {
-    width: calc(100% - 100rpx);
+    width: calc(100% - 130rpx);
     font-size: 32rpx;
     line-height: 44rpx;
     font-weight: 500;
@@ -187,6 +192,8 @@
 }
 .goods-base .goods-price {
     margin-top: 10rpx;
+    padding-right: 160rpx;
+    position: relative;
 }
 .page {
     padding-bottom: 100rpx;

@@ -17,7 +17,7 @@ Page({
    */
   onLoad(option) {
     // 标题设置
-    wx.setNavigationBar({title: '手机绑定'});
+    wx.setNavigationBarTitle({title: '手机绑定'});
 
     // 设置用户信息
     this.setData({params: option, user: app.GetUserCacheInfo()});

@@ -47,7 +47,7 @@ Page({
   },
 
   onShow() {
-    wx.setNavigationBar({title: app.data.common_pages_title.user});
+    wx.setNavigationBarTitle({title: app.data.common_pages_title.user});
     this.init();
   },
 

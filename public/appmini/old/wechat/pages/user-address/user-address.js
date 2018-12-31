@@ -13,7 +13,7 @@ Page({
   },
 
   onShow() {
-    wx.setNavigationBar({title: app.data.common_pages_title.user_address});
+    wx.setNavigationBarTitle({title: app.data.common_pages_title.user_address});
     this.init();
   },
 

@@ -7,7 +7,7 @@ Page({
   onLoad() {},
 
   onShow() {
-    wx.setNavigationBar({title: app.data.common_pages_title.answer_form});
+    wx.setNavigationBarTitle({title: app.data.common_pages_title.answer_form});
     this.init();
   },
 

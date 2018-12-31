@@ -1,25 +1,20 @@
-<vtabs
-  wx:if="{{data_list.length > 0}}"
-  tabs="{{data_list}}"
-  onTabClick="handle_event"
-  onChange="change_event"
-  activeTab="{{tab_active}}"
-  tabBarActiveTextColor="{{tab_active_text_color}}"
-  tabBarlineColor="{{tab_active_line_color}}"
->
-  <block wx:for="{{data_list}}">
-    <vtab-content anchor="{{item.anchor}}">
-      <view class="content">
-        <block wx:if="{{item.items.length > 0}}">
-          <view wx:for="{{item.items}}" wx:for-item="v" class="content-items" data-value="{{v.id}}" bindtap="category_event">
-            <image wx:if="{{v.icon != null}}" src="{{v.icon}}" mode="aspectFit" class="icon" />
-            <view class="text single-text">{{v.name}}</view>
-          </view>
-        </block>
-      </view>
-    </vtab-content>
+<view class='left-nav'>
+  <block wx:for="{{data_list}}" wx:key="key">
+    <view class='items {{item.active || ""}}' data-index="{{index}}" bindtap='nav_event'>
+      <text>{{item.name}}</text>
+    </view>
   </block>
-</vtabs>
+</view>
+<view class='right-content bg-white'>
+  <block wx:if="{{data_content.length > 0}}">
+    <block wx:for="{{data_content}}" wx:key="keys" wx:for-item="v">
+      <view class="content-items" data-value="{{v.id}}" bindtap="category_event">
+        <image wx:if="{{v.icon != null}}" src="{{v.icon}}" mode="aspectFit" class="icon" />
+        <view class="text single-text">{{v.name}}</view>
+      </view>
+    </block>
+  </block>
+</view>
 
 <view wx:if="{{data_list.length == 0 && data_list_loding_status != 0}}">
   <import src="/pages/common/nodata.wxml" />

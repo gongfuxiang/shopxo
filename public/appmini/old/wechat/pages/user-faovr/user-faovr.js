@@ -9,7 +9,7 @@ Page({
   },
 
   onShow() {
-    wx.setNavigationBar({title: app.data.common_pages_title.user_favor});
+    wx.setNavigationBarTitle({title: app.data.common_pages_title.user_favor});
     this.init();
   },
 
@@ -136,8 +136,8 @@ Page({
       success: result => {
         if (result.confirm) {
           // 参数
-          var id = e.target.dataset.value;
-          var index = e.target.dataset.index;
+          var id = e.currentTarget.dataset.value;
+          var index = e.currentTarget.dataset.index;
 
           // 加载loding
           wx.showLoading({ content: "处理中..." });

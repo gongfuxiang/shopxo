@@ -37,7 +37,7 @@ Page({
   },
 
   onShow() {
-    wx.setNavigationBar({title: app.data.common_pages_title.goods_detail});
+    wx.setNavigationBarTitle({title: app.data.common_pages_title.goods_detail});
   },
 
   // 获取数据列表
@@ -616,9 +616,14 @@ Page({
   // 商品相册图片查看
   goods_photo_view_event(e) {
     var index = e.currentTarget.dataset.index;
+    var all = [];
+    for (var i in this.data.goods_photo)
+    {
+      all.push(this.data.goods_photo[i]['images']);
+    }
     wx.previewImage({
       current: index,
-      urls: this.data.goods_photo
+      urls: all
     });
   },
 

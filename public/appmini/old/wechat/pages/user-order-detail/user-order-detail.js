@@ -15,7 +15,7 @@ Page({
   },
 
   onShow() {
-    wx.setNavigationBar({title: app.data.common_pages_title.user_order_detail});
+    wx.setNavigationBarTitle({title: app.data.common_pages_title.user_order_detail});
   },
 
   init() {

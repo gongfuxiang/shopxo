@@ -94,16 +94,6 @@ Page({
     this.init();
   },
 
-  // 轮播事件
-  banner_event(e) {
-    app.operation_event(e);
-  },
-
-  // 导航事件
-  navigation_event(e) {
-    app.operation_event(e);
-  },
-
   // 自定义分享
   onShareAppMessage() {
     return {

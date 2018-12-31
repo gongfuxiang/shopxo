@@ -13,6 +13,9 @@
   width: 30rpx;
   height: 30rpx;
 }
+.nav-sort-content .item text, .nav-sort-content .item image {
+  vertical-align:middle;
+}
 .screening-submit {
   width: 50rpx;
   height: 50rpx;
@@ -59,8 +62,7 @@
  * 条件
  */
 .popup-form {
-  height: calc(100vh - 20rpx);
-  padding: 20rpx 20rpx 0 20rpx;
+  height: 100vh;
 }
 .popup-form input {
   font-size: 24rpx;
@@ -68,19 +70,22 @@
   line-height: 50rpx;
   background: #fbfbfb;
   border-radius: 6rpx;
+  padding: 0 6rpx;
 }
 .screening-price input {
-  width: 220rpx;
+  width: calc(50% - 32rpx);
 }
 .screening-price .separator {
-  margin-top: 20rpx;
+  margin-top: 10rpx;
   width: 30rpx;
 }
-.popup-form .keywords input {
-  width: 490rpx;
+.popup-form .item {
+  width: 480rpx;
+  padding: 0 20rpx;
+  margin-top: 20rpx;
 }
 .popup-form .item:not(:last-child) {
-  margin-bottom: 50rpx;
+  margin-bottom: 30rpx;
 }
 .popup-form .item .title {
   margin-bottom: 10rpx;

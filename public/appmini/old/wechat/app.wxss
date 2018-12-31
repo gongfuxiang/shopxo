@@ -229,21 +229,21 @@ textarea {
 }
 
 .bg-main, .bg-primary, .bg-warning {
-  color: #fff;
+  color: #fff !important;
   border: 0;
   font-size: 34rpx;
 }
 .bg-main {
-  background: #d2364c;
+  background-color: #d2364c !important;
 }
 .bg-primary {
-  background: #ed6977;
+  background-color: #ed6977 !important;
 }
 .bg-warning {
-  background: #F37B1D;
+  background-color: #F37B1D  !important;
 }
 .bg-active-main {
-  background: #d2364c !important;
+  background-color: #d2364c !important;
   color: #fff !important;
 }
 
@@ -254,15 +254,15 @@ textarea {
     border-radius: 0;
 }
 .bg-main.a-button-disabled {
-    background: #fbe0e5;
+    background-color: #fbe0e5;
     color: #f7b6c2;
 }
 .bg-warning.a-button-disabled {
-    background: #ffcda6;
+    background-color: #ffcda6;
     color: #fdae70;
 }
 .bg-primary.a-button-disabled {
-    background: #ffd2d7;
+    background-color: #ffd2d7;
     color: #ffa0ab;
 }
 

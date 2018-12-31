@@ -9,7 +9,7 @@ Page({
   },
 
   onShow() {
-    wx.setNavigationBar({ title: app.data.common_pages_title.message });
+    wx.setNavigationBarTitle({ title: app.data.common_pages_title.message });
     this.init();
   },
 

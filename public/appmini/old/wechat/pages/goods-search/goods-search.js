@@ -23,7 +23,7 @@ Page({
   },
 
   onShow() {
-    wx.setNavigationBar({title: app.data.common_pages_title.goods_search});
+    wx.setNavigationBarTitle({title: app.data.common_pages_title.goods_search});
   },
 
   // 初始化
@@ -167,7 +167,7 @@ Page({
 
   // 筛选
   nav_sort_event(e) {
-    var index = e.target.dataset.index || 0;
+    var index = e.currentTarget.dataset.index || 0;
     var temp_post_data = this.data.post_data;
     var temp_search_nav_sort = this.data.search_nav_sort_list;
     var temp_sort = (temp_search_nav_sort[index]['sort'] == 'desc') ? 'asc' : 'desc';

@@ -1,5 +1,6 @@
 .am-popup-content {
   position: fixed;
+  background:#fff;
 }
 
 .am-popup-mask {

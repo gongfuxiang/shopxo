@@ -36,7 +36,7 @@ Page({
   },
 
   onShow() {
-    wx.setNavigationBar({title: app.data.common_pages_title.buy});
+    wx.setNavigationBarTitle({title: app.data.common_pages_title.buy});
     this.init();
     this.setData({is_first: 0});
   },
@@ -194,7 +194,7 @@ Page({
 
   // 支付方式选择
   payment_event(e) {
-    this.setData({ payment_id: e.target.dataset.value});
+    this.setData({ payment_id: e.currentTarget.dataset.value});
     this.payment_list_data(this.data.payment_list);
   },
 

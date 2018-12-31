@@ -27,7 +27,7 @@ Page({
     } else {
       var title = app.data.common_pages_title.user_address_save_edit;
     }
-    wx.setNavigationBar({title: title});
+    wx.setNavigationBarTitle({title: title});
     this.init();
   },
 

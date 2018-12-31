@@ -1,7 +1,7 @@
 <!-- 排序 -->
 <view class="nav-sort oh">
   <view class="nav-sort-content">
-    <block wx:for="{{search_nav_sort_list}}">
+    <block wx:for="{{search_nav_sort_list}}" wx:key="key">
       <view class="item tc fl" data-index="{{index}}" bindtap="nav_sort_event">
         <text class="cr-666">{{item.name}}</text>
         <image wx:if="{{(item.icon || null) != null}}" class="icon" src="/images/search-{{item.icon}}-icon.png" mode="aspectFill" />
@@ -37,7 +37,7 @@
 </scroll-view>
 
 <!-- 筛选条件 popup -->
-<popup show="{{is_show_popup_form}}" position="right" onClose="popup_form_event_close">
+<component-popup prop-show="{{is_show_popup_form}}" prop-position="right" prop-onclose="popup_form_event_close">
   <form bindsubmit="form_submit_event" class="popup-form oh bg-white">
     <view class="item oh screening-price">
       <view class="title cr-666">价格区间(元)
@@ -53,4 +53,4 @@
     </view>
     <button formType="submit" class="bg-main form-submit wh-auto" disabled="{{popup_form_loading_status}}" hover-class="none">确认</button>
   </form>
-</popup>
+</component-popup>

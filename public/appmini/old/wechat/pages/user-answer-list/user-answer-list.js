@@ -11,7 +11,7 @@ Page({
   onLoad() {},
 
   onShow() {
-    wx.setNavigationBar({title: app.data.common_pages_title.user_answer_list});
+    wx.setNavigationBarTitle({title: app.data.common_pages_title.user_answer_list});
     this.init();
   },
 

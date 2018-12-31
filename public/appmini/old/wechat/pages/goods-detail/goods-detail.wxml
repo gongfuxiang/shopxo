@@ -10,7 +10,7 @@
     wx:if="{{goods_photo.length > 0}}">
     <block wx:for="{{goods_photo}}" wx:key="key">
       <swiper-item>
-        <image class="swiper-item wh-auto" bindtap="goods_photo_view_event" data-index="{{index}}" src="{{item.images}}" mode="aspectFit" bindtap="banner_event" />
+        <image class="swiper-item wh-auto" bindtap="goods_photo_view_event" data-index="{{index}}" src="{{item.images}}" mode="aspectFit" bindtap="goods_photo_view_event" />
       </swiper-item>
     </block>
   </swiper>
@@ -20,16 +20,16 @@
     <view class="oh">
       <view class="goods-title fl multi-text" style="color:{{goods.title_color}}">{{goods.title}}</view>
       <view class="goods-share fr tc">
-        <button type="default" size="mini" open-type="share" hover-class="none" bindtap="defaultTap">
+        <button type="default" size="mini" open-type="share" hover-class="none">
           <image src="/images/goods-detail-share-icon.png" mode="scaleToFill" class="dis-block" />
           <text class="dis-block cr-888">分享</text>
         </button>
       </view>
     </view>
-    <view class="goods-price">
+    <view class="goods-price single-text">
       <text class="sales-price">￥{{goods.price}}</text>
       <text wx:if="{{(goods.original_price || null) != null}}" class="original-price">￥{{goods.original_price}}</text>
-      <view class="fr cr-ccc">
+      <view class="cr-ccc sales">
         <text>销量 {{goods.sales_count}}</text>
       </view>
     </view>
@@ -77,7 +77,6 @@
   </view>
 
   <!-- 弹层 -->
-  <!-- <popup show="{{popup_status}}" position="bottom" onClose="popup_close_event"> -->
   <component-popup prop-show="{{popup_status}}" prop-position="bottom" prop-onclose="popup_close_event">
     <view class="goods-popup bg-white">
       <view class="close fr oh">

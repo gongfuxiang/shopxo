@@ -5,7 +5,7 @@ Component({
     propData: Array
   },
   methods: {
-    nav_event(e) {
+    navigation_event(e) {
       app.operation_event(e);
     },
   },

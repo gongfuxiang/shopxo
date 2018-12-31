@@ -45,7 +45,7 @@ Page({
   },
 
   onShow() {
-    wx.setNavigationBar({title: app.data.common_pages_title.user_order});
+    wx.setNavigationBarTitle({title: app.data.common_pages_title.user_order});
   },
 
   init() {
@@ -198,8 +198,8 @@ Page({
   pay_event(e) {
     this.setData({
       is_show_payment_popup: true,
-      temp_pay_value: e.target.dataset.value,
-      temp_pay_index: e.target.dataset.index,
+      temp_pay_value: e.currentTarget.dataset.value,
+      temp_pay_index: e.currentTarget.dataset.index,
     });
   },
 
@@ -210,7 +210,7 @@ Page({
 
   // 支付弹窗发起支付
   popup_payment_event(e) {
-    var payment_id = e.target.dataset.value || 0;
+    var payment_id = e.currentTarget.dataset.value || 0;
     this.setData({payment_id: payment_id});
     this.payment_popup_event_close();
     this.pay_handle(this.data.temp_pay_value, this.data.temp_pay_index);
@@ -299,8 +299,8 @@ Page({
       success: result => {
         if (result.confirm) {
           // 参数
-          var id = e.target.dataset.value;
-          var index = e.target.dataset.index;
+          var id = e.currentTarget.dataset.value;
+          var index = e.currentTarget.dataset.index;
 
           // 加载loding
           wx.showLoading({ content: "处理中..." });
@@ -352,8 +352,8 @@ Page({
       success: result => {
         if (result.confirm) {
           // 参数
-          var id = e.target.dataset.value;
-          var index = e.target.dataset.index;
+          var id = e.currentTarget.dataset.value;
+          var index = e.currentTarget.dataset.index;
 
           // 加载loding
           wx.showLoading({ content: "处理中..." });
@@ -406,7 +406,7 @@ Page({
   // 导航事件
   nav_event(e) {
     this.setData({
-      nav_status_index: e.target.dataset.index || 0,
+      nav_status_index: e.currentTarget.dataset.index || 0,
       data_page: 1,
     });
     this.get_data_list(1);

@@ -7,10 +7,11 @@ Page({
     data_list_loding_status: 1,
     data_bottom_line_status: false,
     data_list: [],
+    data_content: [],
   },
 
   onShow() {
-    wx.setNavigationBar({title: app.data.common_pages_title.goods_category});
+    wx.setNavigationBarTitle({title: app.data.common_pages_title.goods_category});
     this.init();
   },
 
@@ -32,15 +33,15 @@ Page({
         wx.stopPullDownRefresh();
         if (res.data.code == 0) {
             var data = res.data.data;
-            
-            // tabs
-            for(var i in data) {
-              data[i]['title'] = data[i]['name'];
-              data[i]['anchor'] = data[i]['id'];
+            var data_content = [];
+            if (data.length > 0)
+            {
+              data[0]['active'] = 'nav-active';
+              data_content = data[0]['items'];
             }
-
             this.setData({
               data_list: data,
+              data_content: data_content,
               data_list_loding_status: data.length == 0 ? 0 : 3,
               data_bottom_line_status: true,
             });
@@ -76,22 +77,22 @@ Page({
     this.init();
   },
 
-  // 处理事件
-  handle_event(index) {
+  // 导航事件
+  nav_event(e) {
+    var index = e.currentTarget.dataset.index;
+    var temp_data = this.data.data_list;
+    for(var i in temp_data)
+    {
+      temp_data[i]['active'] = (index == i) ? 'nav-active' : '';
+    }
     this.setData({
-      tab_active: index,
-    });
-  },
-
-  // tab改变
-  change_event(index) {
-    this.setData({
-      tab_active: index,
+      data_list: temp_data,
+      data_content: temp_data[index]['items'],
     });
   },
 
   // 事件
   category_event(e) {
-    wx.navigateTo({url: '/pages/goods-search/goods-search?category_id='+e.target.dataset.value});
+    wx.navigateTo({ url: '/pages/goods-search/goods-search?category_id=' + e.currentTarget.dataset.value});
   }
 });

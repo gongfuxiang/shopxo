@@ -4,11 +4,11 @@
   indicator-active-color="{{indicator_active_color}}"
   autoplay="{{propData.length > 0}}"
   circular="{{circular}}"
-  class="banner bg-white spacing-mb"
+  class="banner"
   wx:if="{{propData.length > 0}}">
   <block wx:for="{{propData}}" wx:key="key">
     <swiper-item>
-      <image class="wh-auto" src="{{item.images_url}}" mode="widthFix" data-value="{{item.event_value}}" data-type="{{item.event_type}}" bindtap="banner_event" />
+      <image src="{{item.images_url}}" mode="widthFix" data-value="{{item.event_value}}" data-type="{{item.event_type}}" bindtap="banner_event" />
     </swiper-item>
   </block>
 </swiper>
