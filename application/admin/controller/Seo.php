@@ -73,7 +73,7 @@ class Seo extends Common
 	 */
 	public function Save()
 	{
-		return ConfigService::ConfigSave($_POST);
+		return ConfigService::ConfigSave(input());
 	}
 }
 ?>

@@ -67,7 +67,8 @@ class Search extends Common
     {
         if(input('post.'))
         {
-            return redirect(MyUrl('index/search/index', ['keywords'=>$this->params['keywords']]));
+            $p = empty($this->params['keywords']) ? [] : ['keywords'=>$this->params['keywords']];
+            return redirect(MyUrl('index/search/index', $p));
         } else {
             // 品牌列表
             $this->assign('brand_list', BrandService::CategoryBrandList(['category_id'=>$this->params['category_id']]));

@@ -101,6 +101,13 @@ class ConfigService
             // 配置信息更新
             self::ConfigInit(1);
 
+            // 是否需要更新路由规则
+            $ret = self::RouteSeparatorHandle($params);
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
+
             return DataReturn('编辑成功'.'['.$success.']');
         }
         return DataReturn('编辑失败', -100);
@@ -131,6 +138,60 @@ class ConfigService
             }
             cache($key, $data);
         }
+    }
+
+    /**
+     * 路由规则处理
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-01-02T23:08:19+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public static function RouteSeparatorHandle($params = [])
+    {
+        if(isset($params['home_seo_url_model']))
+        {
+            $route_file = ROOT.'route'.DS.'route.config';
+            $route_file_php = ROOT.'route'.DS.'route.php';
+
+            // 文件目录
+            if(!is_writable(ROOT.'route'))
+            {
+                return DataReturn('路由目录没有操作权限'.'[./route]', -11);
+            }
+
+            // 路配置文件权限
+            if(file_exists($route_file_php) && !is_writable($route_file_php))
+            {
+                return DataReturn('路由配置文件没有操作权限'.'[./route/route.php]', -11);
+            }
+
+            // pathinfo+短地址模式
+            if($params['home_seo_url_model'] == 2)
+            {
+                
+                if(!file_exists($route_file))
+                {
+                    return DataReturn('路由规则文件不存在'.'[./route/route.config]', -14);
+                }
+
+                // 开始生成规则文件
+                if(file_put_contents($route_file_php, file_get_contents($route_file)) === false)
+                {
+                    return DataReturn('路由规则文件生成失败', -10);
+                }
+
+            // 兼容模式+pathinfo模式
+            } else {
+                if(file_exists($route_file_php) && @unlink($route_file_php) === false)
+                {
+                    return DataReturn('路由规则处理失败', -10);
+                }
+            }
+            return DataReturn('处理成功', 0);
+        }
+        return DataReturn('无需处理', 0);
     }
 }
 ?>

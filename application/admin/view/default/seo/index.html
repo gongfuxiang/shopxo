@@ -14,6 +14,10 @@
 				</select>
 			</div>
 			<div class="am-form-group">
+				<label>{{$data.common_route_separator.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_route_separator.describe}}）</span></label>
+				<input type="text" name="{{$data.common_route_separator.only_tag}}" placeholder="{{$data.common_route_separator.name}}" data-validation-message="{{$data.common_route_separator.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_route_separator.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
 				<label>{{$data.home_seo_url_html_suffix.name}}<span class="fs-12 fw-100 cr-999">（{{$data.home_seo_url_html_suffix.describe}}）</span></label>
 				<input type="text" name="{{$data.home_seo_url_html_suffix.only_tag}}" pattern="{{:lang('common_regex_url_html_suffix')}}" maxlength="8" placeholder="{{$data.home_seo_url_html_suffix.name}}" data-validation-message="{{$data.home_seo_url_html_suffix.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_seo_url_html_suffix.value}}"{{/if}} />
 			</div>

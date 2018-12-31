@@ -97,6 +97,24 @@
                 <?php endif ?>
             </td>
         </tr>
+        <tr class="<?php if(is_writable(ROOT.'route')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
+            <td>./route</td>
+            <td>可写</td>
+            <td>
+                <?php if (is_writable(ROOT.'route')): ?>
+                    可写
+                <?php else: ?>
+                    不可写
+                <?php endif ?>
+            </td>
+            <td>
+                <?php if (is_writable(ROOT.'route')): ?>
+                    √
+                <?php else: ?>
+                    ×
+                <?php endif ?>
+            </td>
+        </tr>
         <tr class="<?php if(is_writable(ROOT.'runtime')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
             <td>./runtime</td>
             <td>可写</td>
