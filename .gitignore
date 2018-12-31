@@ -4,3 +4,4 @@
 *.log
 *.lock
 .tea
+.htaccess

@@ -10,5 +10,11 @@
 // +----------------------------------------------------------------------
 
 // 首页
-Route::get('/', 'index/index');
+// Route::get('/', 'index/index');
+
+// // 商品详情
+// Route::get('goods-:id', 'index/goods/index');
+
+// // 搜索
+// Route::get('search-:category_id', 'index/search/index');
 ?>
