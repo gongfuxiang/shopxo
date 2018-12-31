@@ -1,19 +1,14 @@
 <swiper
-  indicator-dots="{{indicator_dots}}"
+  indicator-dots="{{propData.length > 0}}"
   indicator-color="{{indicator_color}}"
   indicator-active-color="{{indicator_active_color}}"
-  autoplay="{{autoplay}}"
+  autoplay="{{propData.length > 0}}"
   circular="{{circular}}"
   class="banner bg-white spacing-mb"
-  wx:if="{{data_list.length > 0}}">
-  <block wx:for="{{data_list}}">
+  wx:if="{{propData.length > 0}}">
+  <block wx:for="{{propData}}" wx:key="key">
     <swiper-item>
       <image class="wh-auto" src="{{item.images_url}}" mode="widthFix" data-value="{{item.event_value}}" data-type="{{item.event_type}}" bindtap="banner_event" />
     </swiper-item>
   </block>
 </swiper>
-
-<view wx:if="{{data_list_loding_status == 2}}">
-  <import src="/pages/common/nodata.wxml" />
-  <template is="nodata" data="{{status: data_list_loding_status}}"></template>
-</view>

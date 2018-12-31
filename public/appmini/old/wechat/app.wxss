@@ -1,5 +1,11 @@
 /* 框架样式覆盖 */
-.a-textarea-control textarea { font-size: 12px; }
+.a-textarea-control textarea {
+  font-size: 12px;
+}
+button:after, button:before {
+    border: 0;
+    border-radius: 0;
+}
 
 /* 公共样式 */
 page { 

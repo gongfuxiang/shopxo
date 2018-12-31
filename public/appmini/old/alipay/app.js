@@ -428,8 +428,7 @@ App({
   },
 
   /**
-   * 价格保留两位小数
-   * price      价格保留两位小数
+   * 事件操作
    */
   operation_event(e) {
       var value = e.target.dataset.value || null;

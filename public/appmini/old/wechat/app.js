@@ -481,6 +481,53 @@ App({
   },
 
   /**
+   * 事件操作
+   */
+  operation_event(e) {
+    var value = e.currentTarget.dataset.value || null;
+    var type = parseInt(e.currentTarget.dataset.type);
+    if (value != null) {
+      switch (type) {
+        // web
+        case 0:
+          wx.navigateTo({ url: '/pages/web-view/web-view?url=' + value });
+          break;
+
+        // 内部页面
+        case 1:
+          wx.navigateTo({ url: value });
+          break;
+
+        // 跳转到外部小程序
+        case 2:
+          wx.navigateToMiniProgram({ appId: value });
+          break;
+
+        // 跳转到地图查看位置
+        case 3:
+          var values = value.split('|');
+          if (values.length != 4) {
+            wx.showToast({ content: '事件值格式有误' });
+            return false;
+          }
+
+          wx.openLocation({
+            name: values[0],
+            address: values[1],
+            longitude: values[2],
+            latitude: values[3],
+          });
+          break;
+
+        // 拨打电话
+        case 4:
+          wx.makePhoneCall({ number: value });
+          break;
+      }
+    }
+  },
+
+  /**
    * 默认弱提示方法
    * msg    [string]  提示信息
    * status [string]  状态 默认error [正确success, 错误error]

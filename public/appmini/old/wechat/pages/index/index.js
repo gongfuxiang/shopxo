@@ -1,15 +1,11 @@
 const app = getApp();
 Page({
   data: {
-    indicator_dots: false,
-    indicator_color: 'rgba(0, 0, 0, .3)',
-    indicator_active_color: '#e31c55',
-    autoplay: true,
-    circular: true,
     data_list_loding_status: 1,
     data_bottom_line_status: false,
     data_list: [],
     banner_list: [],
+    navigation: [],
     common_shop_notice: null,
     common_app_is_enable_search: 1,
     common_app_is_enable_answer: 1,
@@ -42,13 +38,9 @@ Page({
         if (res.data.code == 0) {
           var data = res.data.data;
           self.setData({
-            banner_list: data.banner_list,
-            indicator_dots: (data.banner_list.length > 1),
-            autoplay: (data.banner_list.length > 1),
-
+            banner_list: data.banner_list || [],
+            navigation: data.navigation || [],
             data_list: data.data_list,
-            indicator_dots: (data.data_list.length > 1),
-            autoplay: (data.data_list.length > 1),
             common_shop_notice: data.common_shop_notice || null,
             common_app_is_enable_search: data.common_app_is_enable_search,
             common_app_is_enable_answer: data.common_app_is_enable_answer,
@@ -100,6 +92,16 @@ Page({
   // 下拉刷新
   onPullDownRefresh() {
     this.init();
+  },
+
+  // 轮播事件
+  banner_event(e) {
+    app.operation_event(e);
+  },
+
+  // 导航事件
+  navigation_event(e) {
+    app.operation_event(e);
   },
 
   // 自定义分享
