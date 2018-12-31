@@ -74,6 +74,7 @@ return array(
     'seo_url_model_list'        =>  array(
             0 => array('value' => 0, 'name' => '兼容模式', 'checked' => true),
             1 => array('value' => 1, 'name' => 'PATHINFO模式'),
+            2 => array('value' => 2, 'name' => 'PATHINFO模式+短地址'),
         ),
 
     // 缓存类型列表
