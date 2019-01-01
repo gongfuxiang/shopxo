@@ -357,7 +357,7 @@ php;
             new \base\Behavior(['msg'=>'查询数据库版本失败']);
             return DataReturn('查询数据库版本失败', -1);
         } else {
-            if($data[0]['version'] < 5.0)
+            if($data[0]['version'] < 5.6)
             {
                 new \base\Behavior(['msg'=>'数据库版本过低', 'mysql_version'=>$data[0]['version']]);
                 return DataReturn('数据库版本过低', -1);
