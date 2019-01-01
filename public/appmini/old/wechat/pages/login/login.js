@@ -31,7 +31,8 @@ Page({
    */
   get_user_info_event(e) {
     console.log(e, e.detail.userInfo)
-  }
+    app.user_auth_login();
+  },
 
   /**
    * 输入手机号码事件

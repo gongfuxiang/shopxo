@@ -65,15 +65,6 @@ App({
     // 设置设备信息
     this.set_system_info();
 
-    // 初始化用户信息、未授权用户唤醒授权操作
-    let user = this.GetUserCacheInfo();
-
-    // // 用户缓存不存在则唤醒用户授权
-    if (user == false) {
-      // 用户信息为空则唤醒授权
-      this.UserAuthCode();
-    }
-
     // 启动query参数处理
     this.startup_query(options);
   },
@@ -244,10 +235,11 @@ App({
     wx.getSetting({
       success(res) {
         console.log('app.js 授权部分');
-        wx.navigateTo({
-          url: "/pages/login/login"
-        });
+        
         if (!res.authSetting['scope.userInfo']) {
+          wx.navigateTo({
+            url: "/pages/login/login"
+          });
           // wx.authorize({
           //   scope: 'scope.userInfo',
           //   success() {

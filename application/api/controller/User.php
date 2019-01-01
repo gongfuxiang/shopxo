@@ -130,7 +130,7 @@ class User extends Common
      */
     public function WechatUserInfo()
     {
-        $result = (new \base\Wechat('wxdaafcb5682165b02', 'e6e46d2f4b04078771a2cd78c95d400b'))->DecryptData(R('encrypted_data'), input('iv'), input('openid'));
+        $result = (new \base\Wechat('wxdaafcb5682165b02', 'e6e46d2f4b04078771a2cd78c95d400b'))->DecryptData(input('encrypted_data'), input('iv'), input('openid'));
 
         if(is_array($result))
         {

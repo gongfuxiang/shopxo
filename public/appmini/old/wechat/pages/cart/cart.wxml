@@ -1,5 +1,5 @@
 <view wx:if="{{data_list.length > 0}}" class="page">
-  <view wx:for="{{data_list}}" wx:key="key" class="goods-item oh bg-white">
+  <view wx:for="{{data_list}}" class="goods-item oh bg-white">
     <!-- 选择 -->
     <view bindtap="selectedt_event" data-type="node" data-index="{{index}}" class="fl selected">
       <image wx:if="{{(item.selected || false)}}" class="icon" src="/images/default-select-active-icon.png" mode="widthFix" />
