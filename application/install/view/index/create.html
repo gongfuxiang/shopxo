@@ -6,6 +6,11 @@
 <!-- conntent start  -->
 <div class="am-g inside create">
     <h2>数据库信息</h2>
+    <div class="am-alert am-alert-warning am-radius" data-am-alert>
+        <button type="button" class="am-close">&times;</button>
+        <p class="fs-12">MySQL需 5.6 及以上版本</p>
+        <p class="fs-12">编码格式为 utf8mb4 / utf8mb4_general_ci</p>
+    </div>
     <form class="am-form am-form-horizontal form-validation" method="post" action="{{:MyUrl('install/index/add')}}" request-type="ajax-url" request-value="{{:MyUrl('install/index/successful')}}" timeout="60000">
         <div class="am-form-group">
             <label class="am-u-sm-2 am-form-label">数据库类型</label>
