@@ -309,7 +309,7 @@ App({
             dataType: 'json',
             header: { 'content-type': 'application/x-www-form-urlencoded' },
             success: (res) => {
-              if (res.data.state == 'ok') {
+              if (res.data.code == 0) {
                 wx.setStorage({
                   key: $this.data.cache_user_login_key,
                   data: res.data.data
@@ -354,7 +354,7 @@ App({
           header: { 'content-type': 'application/x-www-form-urlencoded' },
           success: (res) => {
             wx.hideLoading();
-            if (res.data.state == 'ok') {
+            if (res.data.code == 0) {
               wx.setStorage({
                 key: $this.data.cache_user_info_key,
                 data: res.data.data
