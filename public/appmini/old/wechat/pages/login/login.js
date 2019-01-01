@@ -20,8 +20,18 @@ Page({
     wx.setNavigationBarTitle({title: '手机绑定'});
 
     // 设置用户信息
-    this.setData({params: option, user: app.GetUserCacheInfo()});
+    this.setData({
+      params: option,
+      user: app.GetUserCacheInfo() || null
+    });
   },
+
+  /**
+   * 登录授权事件
+   */
+  get_user_info_event(e) {
+    console.log(e, e.detail.userInfo)
+  }
 
   /**
    * 输入手机号码事件

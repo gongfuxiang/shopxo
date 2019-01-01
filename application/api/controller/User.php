@@ -103,6 +103,45 @@ class User extends Common
     }
 
     /**
+     * 微信小程序获取用户授权
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-11-06
+     * @desc    description
+     */
+    public function WechatUserAuth()
+    {
+        $result = (new \base\Wechat('111', '222'))->GetAuthSessionKey(input('authcode'));
+        if($result !== false)
+        {
+            return DataReturn('授权登录成功', 0, $result);
+        }
+        return DataReturn('授权登录失败', -100);
+    }
+
+    /**
+     * 微信小程序获取用户信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-11-06
+     * @desc    description
+     */
+    public function WechatUserInfo()
+    {
+        $result = (new \base\Wechat('100', '200'))->DecryptData(R('encrypted_data'), input('iv'), input('openid'));
+
+        if(is_array($result))
+        {
+            $result['openid'] = $result['openId'];
+            $result['referrer']= isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0;
+            return UserService::AuthUserProgram($result, 'wechat_openid');
+        }
+        return DataReturn('获取用户信息失败', -100);
+    }
+
+    /**
      * 百度小程序获取用户信息
      * @author   Devil
      * @blog    http://gong.gg/

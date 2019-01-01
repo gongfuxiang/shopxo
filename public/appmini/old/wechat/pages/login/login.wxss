@@ -47,3 +47,13 @@ page{
     height: 90rpx;
     line-height: 90rpx;
 }
+
+/**
+  授权登录
+*/
+.wx-login {
+  padding-top: 30%;
+}
+.wx-login button {
+  margin-top: 30rpx;
+}

@@ -206,27 +206,12 @@ App({
   },
 
   /**
-   * 获取本系统用户信息
-   */
-  GetMyUserInfo() {
-    var user = this.GetUserCacheInfo();
-    if (user == false) {
-      return null;
-    } else {
-      return user.my_user || null;
-    }
-  },
-
-  /**
    * 从缓存获取用户信息
    */
   GetUserCacheInfo() {
     let user = wx.getStorageSync(this.data.cache_user_info_key);
     if ((user || null) == null) {
       return false;
-    }
-    if ((user.my_user || null) == null) {
-      user.my_user = null;
     }
     return user;
   },
@@ -258,17 +243,21 @@ App({
     // 请求授权接口
     wx.getSetting({
       success(res) {
+        console.log('app.js 授权部分');
+        wx.navigateTo({
+          url: "/pages/login/login"
+        });
         if (!res.authSetting['scope.userInfo']) {
-          wx.authorize({
-            scope: 'scope.userInfo',
-            success() {
-              $this.user_auth_login(object, method);
-            },
-            fail: (e) => {
-              wx.hideLoading();
-              $this.showToast('授权失败');
-            }
-          });
+          // wx.authorize({
+          //   scope: 'scope.userInfo',
+          //   success() {
+          //     $this.user_auth_login(object, method);
+          //   },
+          //   fail: (e) => {
+          //     wx.hideLoading();
+          //     $this.showToast('授权失败');
+          //   }
+          // });
         } else {
           $this.user_auth_login(object, method);
         }
@@ -314,7 +303,7 @@ App({
       success: (res) => {
         if (res.code) {
           wx.request({
-            url: $this.get_request_url('GetWechatUserLogin', 'User'),
+            url: $this.get_request_url('WechatUserAuth', 'user'),
             method: 'POST',
             data: { authcode: res.code },
             dataType: 'json',
@@ -358,7 +347,7 @@ App({
       success: function (res) {
         // 远程解密数据
         wx.request({
-          url: $this.get_request_url('GetWechatUserInfo', 'User'),
+          url: $this.get_request_url('WechatUserInfo', 'user'),
           method: 'POST',
           data: { encrypted_data: res.encryptedData, iv: res.iv, openid: openid },
           dataType: 'json',
