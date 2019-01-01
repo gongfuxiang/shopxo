@@ -136,7 +136,7 @@ class User extends Common
         {
             $result['openid'] = $result['openId'];
             $result['referrer']= isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0;
-            return UserService::AuthUserProgram($result, 'wechat_openid');
+            return UserService::AuthUserProgram($result, 'weixin_openid');
         }
         return DataReturn('获取用户信息失败', -100);
     }
