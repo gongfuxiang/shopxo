@@ -182,23 +182,6 @@ App({
   },
 
   /**
-   * 获取平台用户信息
-   * object     回调操作对象
-   * method     回调操作对象的函数
-   * return     有用户数据直接返回, 则回调调用者
-   */
-  get_user_info(object, method) {
-    var user = this.get_user_cache_info();
-    if (user == false) {
-      // 唤醒用户授权
-      this.user_auth_code(object, method);
-
-      return false;
-    }
-    return user;
-  },
-
-  /**
    * 从缓存获取用户信息
    */
   get_user_cache_info() {
@@ -210,49 +193,12 @@ App({
   },
 
   /**
-   * 用户授权
-   * object     回调操作对象
-   * method     回调操作对象的函数
-   */
-  user_auth_code(object, method) {
-    // 加载loding
-    wx.showLoading({ title: '授权中...' });
-    var $this = this;
-
-    // 请求授权接口
-    wx.getSetting({
-      success(res) {
-        if (!res.authSetting['scope.userInfo']) {
-          wx.navigateTo({
-            url: "/pages/login/login"
-          });
-          // wx.authorize({
-          //   scope: 'scope.userInfo',
-          //   success() {
-          //     $this.user_auth_login(object, method);
-          //   },
-          //   fail: (e) => {
-          //     wx.hideLoading();
-          //     $this.showToast('授权失败');
-          //   }
-          // });
-        } else {
-          $this.user_auth_login(object, method);
-        }
-      },
-      fail: (e) => {
-        wx.hideLoading();
-        $this.showToast('授权校验失败');
-      }
-    });
-  },
-
-  /**
    * 用户登录
    * object     回调操作对象
    * method     回调操作对象的函数
    */
   user_auth_login(object, method) {
+    wx.showLoading({ title: "授权中..." });
     var $this = this;
     wx.checkSession({
       success: function () {

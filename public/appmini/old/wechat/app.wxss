@@ -120,20 +120,20 @@ textarea {
 
 .my-btn-default{
     font-size: 38rpx;
-    color: #fff;
-    border: none;
-    background-color:#d2364c;
+    color: #fff !important;
+    border: none !important;
+    background-color:#d2364c !important;
     border-radius: 2px;
 }
 .my-btn-default.btn-disabled{
-    background-color: #a6a6a6;
-    color: #fff;
+    background-color: #a6a6a6 !important;
+    color: #fff !important;
 }
 .my-btn-gray{
     font-size: 30rpx;
-    color: #fff;
-    border: none;
-    background-color:#a6a6a6;
+    color: #fff !important;
+    border: none !important;
+    background-color:#a6a6a6 !important;
     border-radius: 2px;
 }
 
@@ -240,7 +240,7 @@ textarea {
   background-color: #ed6977 !important;
 }
 .bg-warning {
-  background-color: #F37B1D  !important;
+  background-color: #F37B1D !important;
 }
 .bg-active-main {
   background-color: #d2364c !important;

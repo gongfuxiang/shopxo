@@ -121,7 +121,7 @@
           <view class="title fl">购买数量</view>
           <view class="number-content tc oh">
             <view bindtap="goods_buy_number_event" class="number-submit tc cr-888 fl" data-type="0">-</view>
-            <input onBlur="goods_buy_number_blur" class="tc cr-888 fl" type="number" value="{{temp_buy_number}}" />
+            <input bindblur="goods_buy_number_blur" class="tc cr-888 fl" type="number" value="{{temp_buy_number}}" />
             <view bindtap="goods_buy_number_event" class="number-submit tc cr-888 fl" data-type="1">+</view>
           </view>
         </view>

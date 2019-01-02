@@ -23,6 +23,7 @@ page{
 .content .code{
     margin: 20rpx 0;
     border-bottom: solid 1px #eee;
+    position: relative;
 }
 .content .code .verify{
     width: 63%; 
@@ -34,6 +35,9 @@ page{
     height: 35px; 
     line-height: 35px;
     border-radius: 10rpx;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 .content .code .verify-sub.sub-disabled{
     border: solid 1px #eee; 

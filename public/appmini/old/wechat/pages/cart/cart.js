@@ -17,26 +17,24 @@ Page({
   },
 
   init(e) {
-    var user = app.get_user_info(this, "init");
-    if (user != false) {
-      // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
-        wx.showModal({
-          title: '温馨提示',
-          content: '绑定手机号码',
-          confirmText: '确认',
-          cancelText: '暂不',
-          success: (result) => {
-            if (result.confirm) {
-              wx.navigateTo({
-                url: "/pages/login/login?event_callback=init"
-              });
-            }
-          },
-        });
-      } else {
-        this.get_data();
-      }
+    var user = app.get_user_cache_info(this, "init");
+    // 用户未绑定用户则转到登录页面
+    if (user == false || ((user.mobile || null) == null)) {
+      wx.showModal({
+        title: '温馨提示',
+        content: '绑定手机号码',
+        confirmText: '确认',
+        cancelText: '暂不',
+        success: (result) => {
+          if (result.confirm) {
+            wx.navigateTo({
+              url: "/pages/login/login?event_callback=init"
+            });
+          }
+        },
+      });
+    } else {
+      this.get_data();
     }
   },
 
@@ -75,10 +73,7 @@ Page({
             data_bottom_line_status: false,
             data_list_loding_msg: res.data.msg,
           });
-          wx.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
@@ -89,10 +84,7 @@ Page({
           data_list_loding_msg: '服务器请求出错',
         });
 
-        wx.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast("服务器请求出错");
       }
     });
   },
@@ -132,18 +124,18 @@ Page({
     if (buy_number < buy_min_number) {
       buy_number = buy_min_number;
       if (buy_min_number > 1) {
-        wx.showToast({ content: '起购' + buy_min_number + inventory_unit });
+        app.showToast('起购' + buy_min_number + inventory_unit );
         return false;
       }
     }
     if (buy_max_number > 0 && buy_number > buy_max_number) {
       buy_number = buy_max_number;
-      wx.showToast({ content: '限购' + buy_max_number + inventory_unit });
+      app.showToast('限购' + buy_max_number + inventory_unit );
       return false;
     }
     if (buy_number > inventory) {
       buy_number = inventory;
-      wx.showToast({ content: '库存数量' + inventory + inventory_unit });
+      app.showToast( '库存数量' + inventory + inventory_unit );
       return false;
     }
 
@@ -167,17 +159,11 @@ Page({
           // 选择处理
           this.selected_calculate();
         } else {
-          wx.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
-        wx.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast("服务器请求出错");
       }
     });
   },
@@ -225,17 +211,11 @@ Page({
         if (res.data.code == 0) {
           this.cart_delete(id, type);
         } else {
-          wx.showToast({
-            type: 'fail',
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
-        wx.showToast({
-          type: 'fail',
-          content: '服务器请求出错'
-        });
+        app.showToast("服务器请求出错");
       }
     });
   },
@@ -257,22 +237,13 @@ Page({
             data_list_loding_status: temp_data_list.length == 0 ? 0 : this.data.data_list_loding_status,
           });
 
-          wx.showToast({
-            type: 'success',
-            content: (type == 'delete') ? '删除成功' : '收藏成功'
-          });
+          app.showToast(((type == 'delete') ? '删除成功' : '收藏成功'), 'success');
         } else {
-          wx.showToast({
-            type: 'fail',
-            content: (type == 'delete') ? '删除失败' : '收藏失败'
-          });
+          app.showToast((type == 'delete') ? '删除失败' : '收藏失败');
         }
       },
       fail: () => {
-        wx.showToast({
-          type: 'fail',
-          content: '服务器请求出错'
-        });
+        app.showToast("服务器请求出错");
       }
     });
   },
@@ -342,10 +313,7 @@ Page({
     }
     
     if (selected_count <= 0) {
-      wx.showToast({
-        type: "fail",
-        content: '请选择商品'
-      });
+      app.showToast("请选择商品");
       return false
     }
 

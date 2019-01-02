@@ -42,7 +42,7 @@
   </view>
 
   <!-- 留言 -->
-  <textarea onInput="bind_user_note_event" maxlength="60" auto-height placeholder="留言" class="spacing-mb" />
+  <textarea bindinput="bind_user_note_event" maxlength="60" auto-height placeholder="留言" class="spacing-mb" />
 
   <!-- 扩展数据展示 -->
   <view wx:if="{{extension_list.length > 0}}" class="extension-list spacing-mb">
