@@ -13,7 +13,7 @@ Page({
 
   // 初始化
   init() {
-    var user = app.GetUserInfo(this, "init");
+    var user = app.get_user_info(this, "init");
     if (user != false) {
       // 用户未绑定用户则转到登录页面
       if ((user.mobile || null) == null) {

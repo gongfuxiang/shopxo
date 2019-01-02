@@ -96,6 +96,7 @@ class User extends Common
         {
             return DataReturn('获取授权信息失败', -10);
         } else {
+            $result['gender'] = empty($result['gender']) ? 0 : ($result['gender'] == 'm') ? 2 : 1;
             $result['openid'] = $result['user_id'];
             $result['referrer']= isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0;
             return UserService::AuthUserProgram($result, 'alipay_openid');
@@ -134,6 +135,9 @@ class User extends Common
 
         if(is_array($result))
         {
+            $result['nick_name'] = isset($result['nickName']) ? $result['nickName'] : '';
+            $result['avatar'] = isset($result['avatarUrl']) ? $result['avatarUrl'] : '';
+            $result['gender'] = empty($result['gender']) ? 0 : ($result['gender'] == 2) ? 1 : 2;
             $result['openid'] = $result['openId'];
             $result['referrer']= isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0;
             return UserService::AuthUserProgram($result, 'weixin_openid');

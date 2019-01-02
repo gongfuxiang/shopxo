@@ -17,15 +17,15 @@ Page({
   },
 
   init(e) {
-    var user = app.GetUserInfo(this, "init");
+    var user = app.get_user_info(this, "init");
     if (user != false) {
       // 用户未绑定用户则转到登录页面
       if ((user.mobile || null) == null) {
-        wx.confirm({
+        wx.showModal({
           title: '温馨提示',
           content: '绑定手机号码',
-          confirmButtonText: '确认',
-          cancelButtonText: '暂不',
+          confirmText: '确认',
+          cancelText: '暂不',
           success: (result) => {
             if (result.confirm) {
               wx.navigateTo({
@@ -194,11 +194,11 @@ Page({
     if (type == 'edit') {
       this.goods_favor_event(id, goods_id, type);
     } else {
-      wx.confirm({
+      wx.showModal({
         title: '温馨提示',
         content: '删除后不可恢复，确定继续吗？',
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+        confirmText: '确定',
+        cancelText: '取消',
         success: (result) => {
           if (result.confirm) {
             this.cart_delete(id, type);

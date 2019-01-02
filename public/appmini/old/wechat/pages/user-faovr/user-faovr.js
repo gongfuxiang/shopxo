@@ -14,7 +14,7 @@ Page({
   },
 
   init() {
-    var user = app.GetUserInfo(this, "init");
+    var user = app.get_user_info(this, "init");
     if (user != false) {
       // 用户未绑定用户则转到登录页面
       if ((user.mobile || null) == null) {
@@ -128,11 +128,11 @@ Page({
 
   // 取消
   cancel_event(e) {
-    wx.confirm({
+    wx.showModal({
       title: "温馨提示",
       content: "取消后不可恢复，确定继续吗?",
-      confirmButtonText: "确认",
-      cancelButtonText: "不了",
+      confirmText: "确认",
+      cancelText: "不了",
       success: result => {
         if (result.confirm) {
           // 参数

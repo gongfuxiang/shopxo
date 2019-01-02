@@ -200,7 +200,7 @@ Page({
   // 收藏事件
   goods_favor_event(e)
   {
-    var user = app.GetUserInfo(this, 'goods_favor_event');
+    var user = app.get_user_info(this, 'goods_favor_event');
     if (user != false) {
       // 用户未绑定用户则转到登录页面
       if ((user.mobile || null) == null) {
@@ -252,7 +252,7 @@ Page({
 
   // 加入购物车事件
   goods_cart_event(e, spec) {
-    var user = app.GetUserInfo(this, 'goods_cart_event');
+    var user = app.get_user_info(this, 'goods_cart_event');
     if (user != false) {
       // 用户未绑定用户则转到登录页面
       if ((user.mobile || null) == null) {
@@ -535,7 +535,7 @@ Page({
 
   // 确认
   goods_buy_confirm_event(e) {
-    var user = app.GetUserInfo(this, 'goods_buy_confirm_event');
+    var user = app.get_user_info(this, 'goods_buy_confirm_event');
     if (user != false) {
       // 用户未绑定用户则转到登录页面
       if ((user.mobile || null) == null) {

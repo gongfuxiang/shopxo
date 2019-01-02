@@ -22,7 +22,7 @@ Page({
     // 设置用户信息
     this.setData({
       params: option,
-      user: app.GetUserCacheInfo() || null
+      user: app.get_user_cache_info() || null
     });
   },
 
@@ -30,8 +30,9 @@ Page({
    * 登录授权事件
    */
   get_user_info_event(e) {
-    console.log(e, e.detail.userInfo)
-    app.user_auth_login();
+    console.log(e, e.detail.userInfo);
+    //app.user_auth_login();
+    wx.navigateBack();
   },
 
   /**

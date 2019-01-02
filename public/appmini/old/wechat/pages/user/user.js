@@ -52,16 +52,16 @@ Page({
   },
 
   init(e) {
-    var user = app.GetUserInfo(this, "init"),
+    var user = app.get_user_info(this, "init"),
       self = this;
     if (user != false) {
       // 用户未绑定用户则转到登录页面
       if ((user.mobile || null) == null) {
-        wx.confirm({
+        wx.showModal({
           title: '温馨提示',
           content: '绑定手机号码',
-          confirmButtonText: '确认',
-          cancelButtonText: '暂不',
+          confirmText: '确认',
+          cancelText: '暂不',
           success: (result) => {
             if(result.confirm) {
               wx.navigateTo({

@@ -163,7 +163,7 @@ App({
     if (params != "" && params.substr(0, 1) != "&") {
       params = "&" + params;
     }
-    var user = this.GetUserCacheInfo();
+    var user = this.get_user_cache_info();
     var app_client_user_id = user == false ? "" : user.wechat_openid;
     var user_id = user == false ? 0 : user.id;
     return (
@@ -184,22 +184,21 @@ App({
    * method     回调操作对象的函数
    * return     有用户数据直接返回, 则回调调用者
    */
-  GetUserInfo(object, method) {
-    var user = this.GetUserCacheInfo();
+  get_user_info(object, method) {
+    var user = this.get_user_cache_info();
     if (user == false) {
       // 唤醒用户授权
-      this.UserAuthCode(object, method);
+      this.user_auth_code(object, method);
 
       return false;
-    } else {
-      return user;
     }
+    return user;
   },
 
   /**
    * 从缓存获取用户信息
    */
-  GetUserCacheInfo() {
+  get_user_cache_info() {
     let user = wx.getStorageSync(this.data.cache_user_info_key);
     if ((user || null) == null) {
       return false;
@@ -208,25 +207,11 @@ App({
   },
 
   /**
-   * 从缓存获美啦取用户信息
-   */
-  GetMeiLaUserCacheInfo() {
-    let user = wx.getStorageSync(this.data.cache_user_info_key);
-    if ((user || null) == null) {
-      return null;
-    }
-    if ((user.my_user || null) == null) {
-      return null;
-    }
-    return user.my_user;
-  },
-
-  /**
    * 用户授权
    * object     回调操作对象
    * method     回调操作对象的函数
    */
-  UserAuthCode(object, method) {
+  user_auth_code(object, method) {
     // 加载loding
     wx.showLoading({ title: '授权中...' });
     var $this = this;
@@ -234,8 +219,6 @@ App({
     // 请求授权接口
     wx.getSetting({
       success(res) {
-        console.log('app.js 授权部分');
-        
         if (!res.authSetting['scope.userInfo']) {
           wx.navigateTo({
             url: "/pages/login/login"
@@ -349,12 +332,16 @@ App({
             if (res.data.code == 0) {
               wx.setStorage({
                 key: $this.data.cache_user_info_key,
-                data: res.data.data
+                data: res.data.data,
+                success: (res) => {
+                  if (typeof object === 'object' && (method || null) != null) {
+                    object[method]();
+                  }
+                },
+                fail: () => {
+                  $this.showToast('用户信息缓存失败');
+                }
               });
-
-              if (typeof object === 'object' && (method || null) != null) {
-                object[method]();
-              }
             } else {
               $this.showToast(res.data.text);
             }
