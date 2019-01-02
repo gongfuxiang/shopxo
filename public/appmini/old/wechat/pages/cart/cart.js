@@ -32,7 +32,6 @@ Page({
                 url: "/pages/login/login?event_callback=init"
               });
             }
-            this.get_data();
           },
         });
       } else {

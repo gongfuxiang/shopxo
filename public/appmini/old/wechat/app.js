@@ -1,5 +1,8 @@
 App({
   data: {
+    // 用户登录缓存key
+    cache_user_login_key: "cache_user_login_key",
+    
     // 用户信息缓存key
     cache_user_info_key: "cache_shop_user_info_key",
 
