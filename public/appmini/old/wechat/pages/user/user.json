@@ -1,6 +1,6 @@
 {
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "badge": "mini-antui/es/badge/index"
+    "component-badge": "/components/badge/badge"
   }
 }

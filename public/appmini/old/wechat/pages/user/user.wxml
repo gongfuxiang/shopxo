@@ -40,7 +40,9 @@
       <block wx:for="{{user_order_status_list}}" wx:for-item="items">
         <navigator url="/pages/{{item.url}}/{{item.url}}?status={{items.status}}" hover-class="none">
           <view class="items fl tc">
-            <badge wx:if="{{items.count > 0}}" text="{{items.count}}" dot="{{false}}"></badge>
+            <view class="badge-icon">
+              <component-badge prop-number="{{items.count}}"></component-badge>
+            </view>
             <image src="/images/user-index-nav-order-icon-{{items.status}}.png" class="items-icon" mode="aspectFill" />
             <view class="items-name">{{items.name}}</view>
           </view>
