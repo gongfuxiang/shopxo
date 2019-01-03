@@ -208,7 +208,7 @@ class Common extends Controller
         $this->assign('common_shop_notice', MyC('common_shop_notice'));
 
         // 友情链接
-        $link = LinkService::LinkShowList();
+        $link = LinkService::LinkList(['where'=>['is_enable'=>1]]);
         $this->assign('link_list', $link['data']);
     }
 
