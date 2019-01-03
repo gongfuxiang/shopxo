@@ -17,6 +17,7 @@ use app\service\BuyService;
 use app\service\MessageService;
 use app\service\SearchService;
 use app\service\ConfigService;
+use app\service\LinkService;
 
 /**
  * 前端公共控制器
@@ -205,6 +206,10 @@ class Common extends Controller
 
         // 商城公告
         $this->assign('common_shop_notice', MyC('common_shop_notice'));
+
+        // 友情链接
+        $link = LinkService::LinkShowList();
+        $this->assign('link_list', $link['data']);
     }
 
     /**

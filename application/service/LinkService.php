@@ -23,6 +23,21 @@ use app\service\GoodsService;
 class LinkService
 {
     /**
+     * 前端展示
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function LinkShowList($params = [])
+    {
+        $data = Db::name('Link')->where(['is_enable'=>1])->order('sort asc')->select();
+        return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
      * 列表
      * @author   Devil
      * @blog    http://gong.gg/
