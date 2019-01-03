@@ -31,7 +31,7 @@ Page({
 
     // 获取数据
     my.httpRequest({
-      url: app.get_request_url("Common", "Answer"),
+      url: app.get_request_url("common", "answer"),
       method: "POST",
       data: {
         page: this.data.data_page

@@ -1,6 +1,0 @@
-<view class="am-page-result {{className}} {{local ? 'am-local-page': ''}}">
-  <view class="am-page-result-pic page-{{type}}" />
-  <view class="am-page-result-title" a:if="{{!local && title}}">{{title}}</view>
-  <view class="am-page-result-brief" a:if="{{brief}}">{{brief}}</view>
-  <slot></slot>
-</view>

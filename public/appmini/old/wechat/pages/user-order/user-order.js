@@ -49,18 +49,16 @@ Page({
   },
 
   init() {
-    var user = app.get_user_info(this, "init");
-    if (user != false) {
-      // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
-        wx.redirectTo({
-          url: "/pages/login/login?event_callback=init"
-        });
-        return false;
-      } else {
-        // 获取数据
-        this.get_data_list();
-      }
+    var user = app.get_user_cache_info(this, "init");
+    // 用户未绑定用户则转到登录页面
+    if (user == false || ((user.mobile || null) == null)) {
+      wx.redirectTo({
+        url: "/pages/login/login?event_callback=init"
+      });
+      return false;
+    } else {
+      // 获取数据
+      this.get_data_list();
     }
   },
 
@@ -159,10 +157,7 @@ Page({
             load_status: 1,
           });
 
-          wx.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
@@ -173,10 +168,7 @@ Page({
           data_list_loding_status: 2,
           load_status: 1,
         });
-        wx.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast("服务器请求出错");
       }
     });
   },
@@ -239,10 +231,7 @@ Page({
             temp_data_list[index]['status_name'] = '待发货';
             this.setData({ data_list: temp_data_list });
 
-            wx.showToast({
-              type: "success",
-              content: '支付成功'
-            });
+            app.showToast({'支付成功');
           } else {
             wx.tradePay({
               tradeNO: res.data.data.data,
@@ -265,26 +254,17 @@ Page({
                 });
               },
               fail: res => {
-                wx.showToast({
-                  type: "fail",
-                  content: "唤起支付模块失败"
-                });
+                app.showToast("唤起支付模块失败");
               }
             });
           }
         } else {
-          wx.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
         wx.hideLoading();
-        wx.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast("服务器请求出错");
       }
     });
   },
@@ -318,23 +298,14 @@ Page({
                 temp_data_list[index]['status_name'] = '已取消';
                 this.setData({data_list: temp_data_list});
 
-                wx.showToast({
-                  type: "success",
-                  content: res.data.msg
-                });
+                app.showToast(res.data.msg, "success");
               } else {
-                wx.showToast({
-                  type: "fail",
-                  content: res.data.msg
-                });
+                app.showToast(res.data.msg);
               }
             },
             fail: () => {
               wx.hideLoading();
-              wx.showToast({
-                type: "fail",
-                content: "服务器请求出错"
-              });
+              app.showToast("服务器请求出错");
             }
           });
         }
@@ -371,23 +342,14 @@ Page({
                 temp_data_list[index]['status_name'] = '已完成';
                 this.setData({data_list: temp_data_list});
 
-                wx.showToast({
-                  type: "success",
-                  content: res.data.msg
-                });
+                app.showToast(res.data.msg, "success");
               } else {
-                wx.showToast({
-                  type: "fail",
-                  content: res.data.msg
-                });
+                app.showToast(res.data.msg);
               }
             },
             fail: () => {
               wx.hideLoading();
-              wx.showToast({
-                type: "fail",
-                content: "服务器请求出错"
-              });
+              app.showToast("服务器请求出错");
             }
           });
         }
@@ -397,10 +359,7 @@ Page({
 
   // 催催
   rush_event(e) {
-    wx.showToast({
-      type: "success",
-      content: "催促成功"
-    });
+    app.showToast("催促成功", "success");
   },
 
   // 导航事件

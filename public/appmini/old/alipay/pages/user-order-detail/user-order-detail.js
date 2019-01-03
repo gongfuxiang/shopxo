@@ -40,9 +40,9 @@ Page({
           self.setData({
             detail: data,
             detail_list:[
-              {name: "订单号", value: data.order_no},
-              {name: "状态", value: data.status_name},
-              {name: "支付状态", value: data.pay_status_name},
+              {name: "订单号", value: data.order_no},
+              {name: "状态", value: data.status_name},
+              {name: "支付状态", value: data.pay_status_name},
               {name: "单价", value: data.price},
               {name: "总价", value: data.total_price},
               {name: "优惠", value: data.preferential_price},
@@ -50,7 +50,7 @@ Page({
               {name: "支付方式", value: data.payment_name},
               {name: "快递公司", value: data.express_name},
               {name: "快递单号", value: data.expres_number},
-              {name: "用户留言", value: data.user_note},
+              {name: "用户留言", value: data.user_note},
               {name: "创建时间", value: data.add_time},
               {name: "确认时间", value: data.confirm_time},
               {name: "支付时间", value: data.pay_time},

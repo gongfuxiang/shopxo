@@ -13,15 +13,13 @@ Page({
 
   // 初始化
   init() {
-    var user = app.get_user_info(this, "init");
-    if (user != false) {
-      // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
-        wx.redirectTo({
-          url: "/pages/login/login?event_callback=init"
-        });
-        return false;
-      }
+    var user = app.get_user_cache_info(this, "init");
+    // 用户未绑定用户则转到登录页面
+    if (user == false || ((user.mobile || null) == null)) {
+      wx.redirectTo({
+        url: "/pages/login/login?event_callback=init"
+      });
+      return false;
     }
   },
 
@@ -43,7 +41,7 @@ Page({
 
       // 网络请求
       wx.request({
-        url: app.get_request_url('Add', 'Answer'),
+        url: app.get_request_url('add', 'answer'),
         method: 'POST',
         data: e.detail.value,
         dataType: 'json',

@@ -14,18 +14,16 @@ Page({
   },
 
   init() {
-    var user = app.get_user_info(this, "init");
-    if (user != false) {
-      // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
-        wx.redirectTo({
-          url: "/pages/login/login?event_callback=init"
-        });
-        return false;
-      } else {
-        // 获取数据
-        this.get_data_list();
-      }
+    var user = app.get_user_cache_info(this, "init");
+    // 用户未绑定用户则转到登录页面
+    if (user == false || ((user.mobile || null) == null)) {
+      wx.redirectTo({
+        url: "/pages/login/login?event_callback=init"
+      });
+      return false;
+    } else {
+      // 获取数据
+      this.get_data_list();
     }
   },
 
@@ -46,7 +44,7 @@ Page({
 
     // 获取数据
     wx.request({
-      url: app.get_request_url("Index", "UserGoodsBrowse"),
+      url: app.get_request_url("index", "usergoodsbrowse"),
       method: "POST",
       data: {
         page: this.data.data_page
@@ -91,10 +89,7 @@ Page({
             data_list_loding_status: 0
           });
 
-          wx.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
@@ -104,10 +99,7 @@ Page({
         this.setData({
           data_list_loding_status: 2
         });
-        wx.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast("服务器请求出错");
       }
     });
   },
@@ -142,7 +134,7 @@ Page({
           wx.showLoading({ content: "处理中..." });
 
           wx.request({
-            url: app.get_request_url("Delete", "UserGoodsBrowse"),
+            url: app.get_request_url("delete", "usergoodsbrowse"),
             method: "POST",
             data: { id: id },
             dataType: "json",
@@ -160,23 +152,14 @@ Page({
                   });
                 }
 
-                wx.showToast({
-                  type: "success",
-                  content: res.data.msg
-                });
+                app.showToast(res.data.msg, "success");
               } else {
-                wx.showToast({
-                  type: "fail",
-                  content: res.data.msg
-                });
+                app.showToast(res.data.msg);
               }
             },
             fail: () => {
               wx.hideLoading();
-              wx.showToast({
-                type: "fail",
-                content: "服务器请求出错"
-              });
+              app.showToast("服务器请求出错");
             }
           });
         }

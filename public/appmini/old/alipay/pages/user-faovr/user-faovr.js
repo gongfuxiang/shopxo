@@ -46,7 +46,7 @@ Page({
 
     // 获取数据
     my.httpRequest({
-      url: app.get_request_url("Index", "UserGoodsFavor"),
+      url: app.get_request_url("index", "usergoodsfavor"),
       method: "POST",
       data: {
         page: this.data.data_page
@@ -142,7 +142,7 @@ Page({
           my.showLoading({ content: "处理中..." });
 
           my.httpRequest({
-            url: app.get_request_url("Cancel", "UserGoodsFavor"),
+            url: app.get_request_url("cancel", "usergoodsfavor"),
             method: "POST",
             data: {id: id},
             dataType: "json",

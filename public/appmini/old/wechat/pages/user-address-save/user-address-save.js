@@ -32,24 +32,22 @@ Page({
   },
 
   init() {
-    var user = app.get_user_info(this, "init");
-    if (user != false) {
-      // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
-        wx.redirectTo({
-          url: "/pages/login/login?event_callback=init"
-        });
-        return false;
-      } else {
-        // 获取地址数据
-        if((this.data.params.id || null) != null)
-        {
-          this.get_user_address();
-        }
-
-        // 获取省
-        this.get_province_list();
+    var user = app.get_user_cache_info(this, "init");
+    // 用户未绑定用户则转到登录页面
+    if (user == false || ((user.mobile || null) == null)) {
+      wx.redirectTo({
+        url: "/pages/login/login?event_callback=init"
+      });
+      return false;
+    } else {
+      // 获取地址数据
+      if((this.data.params.id || null) != null)
+      {
+        this.get_user_address();
       }
+
+      // 获取省
+      this.get_province_list();
     }
   },
 
@@ -85,18 +83,12 @@ Page({
               self.init_value();
             }, 500);
         } else {
-          wx.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
         wx.hideLoading();
-        wx.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast("服务器请求出错");
       }
     });
   },
@@ -117,17 +109,11 @@ Page({
             province_list: data
           });
         } else {
-          wx.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
-        wx.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast("服务器请求出错");
       }
     });
   },
@@ -150,17 +136,11 @@ Page({
               city_list: data
             });
           } else {
-            wx.showToast({
-              type: "fail",
-              content: res.data.msg
-            });
+            app.showToast(res.data.msg);
           }
         },
         fail: () => {
-          wx.showToast({
-            type: "fail",
-            content: "服务器请求出错"
-          });
+          app.showToast("服务器请求出错");
         }
       });
     }
@@ -185,17 +165,11 @@ Page({
               county_list: data
             });
           } else {
-            wx.showToast({
-              type: "fail",
-              content: res.data.msg
-            });
+            app.showToast(res.data.msg);
           }
         },
         fail: () => {
-          wx.showToast({
-            type: "fail",
-            content: "服务器请求出错"
-          });
+          app.showToast("服务器请求出错");
         }
       });
     }
@@ -294,26 +268,17 @@ Page({
         success: res => {
           wx.hideLoading();
           if (res.data.code == 0) {
-            wx.showToast({
-              type: "success",
-              content: res.data.msg
-            });
+            app.showToast(res.data.msg);
             setTimeout(function() {
               wx.navigateBack();
             }, 1000);
           } else {
-            wx.showToast({
-              type: "fail",
-              content: res.data.msg
-            });
+            app.showToast(res.data.msg);
           }
         },
         fail: () => {
           wx.hideLoading();
-          wx.showToast({
-            type: "fail",
-            content: "服务器请求出错"
-          });
+          app.showToast("服务器请求出错");
         }
       });
     }

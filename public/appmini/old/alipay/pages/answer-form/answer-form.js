@@ -43,7 +43,7 @@ Page({
 
       // 网络请求
       my.httpRequest({
-        url: app.get_request_url('Add', 'Answer'),
+        url: app.get_request_url('add', 'answer'),
         method: 'POST',
         data: e.detail.value,
         dataType: 'json',

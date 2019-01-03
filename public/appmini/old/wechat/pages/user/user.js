@@ -52,39 +52,37 @@ Page({
   },
 
   init(e) {
-    var user = app.get_user_info(this, "init"),
-      self = this;
-    if (user != false) {
-      // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
-        wx.showModal({
-          title: '温馨提示',
-          content: '绑定手机号码',
-          confirmText: '确认',
-          cancelText: '暂不',
-          success: (result) => {
-            if(result.confirm) {
-              wx.navigateTo({
-                url: "/pages/login/login?event_callback=init"
-              });
-            }
-            self.setData({
-              avatar: user.avatar || app.data.default_user_head_src,
-              nickname: user.nickname,
+    var user = app.get_user_cache_info(this, "init"),
+        self = this;
+    // 用户未绑定用户则转到登录页面
+    if (user == false || ((user.mobile || null) == null)) {
+      wx.showModal({
+        title: '温馨提示',
+        content: '绑定手机号码',
+        confirmText: '确认',
+        cancelText: '暂不',
+        success: (result) => {
+          if(result.confirm) {
+            wx.navigateTo({
+              url: "/pages/login/login?event_callback=init"
             });
-            self.get_data();
-          },
-        });
-      } else {
-        self.get_data();
-      }
+          }
+          self.setData({
+            avatar: user.avatar || app.data.default_user_head_src,
+            nickname: user.nickname,
+          });
+          self.get_data();
+        },
+      });
+    } else {
+      self.get_data();
     }
   },
 
   // 获取数据
   get_data() {
     wx.request({
-      url: app.get_request_url("Center", "User"),
+      url: app.get_request_url("center", "user"),
       method: "POST",
       data: {},
       dataType: "json",
@@ -125,18 +123,12 @@ Page({
             'nav_lists[3].is_show': (data.common_app_is_enable_answer == 1) ? 1 : 0,
           });
         } else {
-          wx.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
         wx.stopPullDownRefresh();
-        wx.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast("服务器请求出错");
       }
     });
   },
@@ -144,20 +136,14 @@ Page({
   // 清除缓存
   clear_storage(e) {
     wx.clearStorage()
-    wx.showToast({
-      type: "success",
-      content: "清除缓存成功"
-    });
+    app.showToast("清除缓存成功");
   },
 
   // 客服电话
   call_event() {
     if(this.data.customer_service_tel == null)
     {
-      wx.showToast({
-        type: "fail",
-        content: "客服电话有误"
-      });
+      app.showToast("客服电话有误");
     } else {
       wx.makePhoneCall({ number: this.data.customer_service_tel });
     }

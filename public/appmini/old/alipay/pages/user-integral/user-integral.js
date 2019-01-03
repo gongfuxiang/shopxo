@@ -47,7 +47,7 @@ Page({
 
     // 获取数据
     my.httpRequest({
-      url: app.get_request_url("Index", "UserIntegral"),
+      url: app.get_request_url("index", "userintegral"),
       method: "POST",
       data: {
         page: this.data.data_page

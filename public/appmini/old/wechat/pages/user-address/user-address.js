@@ -19,18 +19,16 @@ Page({
 
   // 初始化
   init() {
-    var user = app.get_user_info(this, "init");
-    if (user != false) {
-      // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
-        wx.redirectTo({
-          url: "/pages/login/login?event_callback=init"
-        });
-        return false;
-      } else {
-        // 获取数据
-        this.get_data_list();
-      }
+    var user = app.get_user_cache_info(this, "init");
+    // 用户未绑定用户则转到登录页面
+    if (user == false || ((user.mobile || null) == null)) {
+      wx.redirectTo({
+        url: "/pages/login/login?event_callback=init"
+      });
+      return false;
+    } else {
+      // 获取数据
+      this.get_data_list();
     }
   },
 
@@ -80,10 +78,7 @@ Page({
             data_list_loding_status: 0
           });
 
-          wx.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
@@ -93,10 +88,7 @@ Page({
         this.setData({
           data_list_loding_status: 2
         });
-        wx.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast("服务器请求出错");
       }
     });
   },
@@ -112,10 +104,7 @@ Page({
     var value = e.currentTarget.dataset.value || null;
     if(value == null)
     {
-      wx.showToast({
-        type: "fail",
-        content: '地址ID有误'
-      });
+      app.showToast("地址ID有误");
       return false;
     }
 
@@ -148,10 +137,7 @@ Page({
                   data_bottom_line_status: temp_data.length == 0 ? false : true,
                 });
 
-                wx.showToast({
-                  type: "success",
-                  content: res.data.msg
-                });
+                app.showToast(res.data.msg, "success");
 
                 // 当前删除是否存在缓存中，存在则删除
                 var cache_address = wx.getStorageSync({
@@ -165,19 +151,13 @@ Page({
                 }
                 
               } else {
-                wx.showToast({
-                  type: "fail",
-                  content: res.data.msg
-                });
+                app.showToast(res.data.msg);
               }
             },
             fail: () => {
               wx.hideLoading();
 
-              wx.showToast({
-                type: "fail",
-                content: "服务器请求出错"
-              });
+              app.showToast("服务器请求出错");
             }
           });
         }
@@ -190,20 +170,14 @@ Page({
     var value = e.currentTarget.dataset.value || null;
     if(value == null)
     {
-      wx.showToast({
-        type: "fail",
-        content: '地址ID有误'
-      });
+      app.showToast("地址ID有误");
       return false;
     }
 
     var self = this;
     if(value == self.data.is_default)
     {
-      wx.showToast({
-          type: "success",
-          content: '设置成功'
-        });
+      app.showToast("设置成功", "success");
       return false;
     }
     
@@ -222,24 +196,15 @@ Page({
         {
           self.setData({is_default: value});
 
-          wx.showToast({
-            type: "success",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg, "success");
         } else {
-          wx.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
         wx.hideLoading();
 
-        wx.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast("服务器请求出错");
       }
     });
   },

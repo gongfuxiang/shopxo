@@ -84,7 +84,7 @@ Page({
   // 获取数据
   get_data() {
     my.httpRequest({
-      url: app.get_request_url("Center", "User"),
+      url: app.get_request_url("center", "user"),
       method: "POST",
       data: {},
       dataType: "json",

@@ -46,7 +46,7 @@ Page({
 
     // 获取数据
     my.httpRequest({
-      url: app.get_request_url("Index", "UserGoodsBrowse"),
+      url: app.get_request_url("index", "usergoodsbrowse"),
       method: "POST",
       data: {
         page: this.data.data_page
@@ -141,7 +141,7 @@ Page({
           my.showLoading({ content: "处理中..." });
 
           my.httpRequest({
-            url: app.get_request_url("Delete", "UserGoodsBrowse"),
+            url: app.get_request_url("delete", "usergoodsbrowse"),
             method: "POST",
             data: { id: id },
             dataType: "json",

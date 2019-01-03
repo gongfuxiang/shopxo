@@ -47,7 +47,7 @@ Page({
 
     // 获取数据
     my.httpRequest({
-      url: app.get_request_url("Index", "Answer"),
+      url: app.get_request_url("index", "answer"),
       method: "POST",
       data: {
         page: this.data.data_page

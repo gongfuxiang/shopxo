@@ -31,7 +31,7 @@ Page({
 
     // 获取数据
     wx.request({
-      url: app.get_request_url("Common", "Answer"),
+      url: app.get_request_url("common", "answer"),
       method: "POST",
       data: {
         page: this.data.data_page
@@ -77,10 +77,7 @@ Page({
             data_list_loding_status: 0
           });
 
-          wx.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
@@ -89,10 +86,7 @@ Page({
         this.setData({
           data_list_loding_status: 2
         });
-        wx.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast("服务器请求出错");
       }
     });
   },

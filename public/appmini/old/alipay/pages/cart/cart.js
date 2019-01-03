@@ -51,7 +51,7 @@ Page({
     });
 
     my.httpRequest({
-      url: app.get_request_url("Index", "Cart"),
+      url: app.get_request_url("index", "cart"),
       method: "POST",
       data: {},
       dataType: "json",
@@ -155,7 +155,7 @@ Page({
 
     // 更新数据库
     my.httpRequest({
-      url: app.get_request_url("Stock", "Cart"),
+      url: app.get_request_url("stock", "cart"),
       method: "POST",
       data: { "id": temp_data_list[index]['id'], "goods_id": temp_data_list[index]['goods_id'], "stock": buy_number},
       dataType: "json",
@@ -218,7 +218,7 @@ Page({
   // 收藏事件
   goods_favor_event(id, goods_id, type) {
     my.httpRequest({
-      url: app.get_request_url('Favor', 'Goods'),
+      url: app.get_request_url('favor', 'goods'),
       method: 'POST',
       data: { "id": goods_id, "is_mandatory_favor": 1 },
       dataType: 'json',
@@ -244,7 +244,7 @@ Page({
   // 购物车删除
   cart_delete(id, type) {
     my.httpRequest({
-      url: app.get_request_url('Delete', 'Cart'),
+      url: app.get_request_url('delete', 'cart'),
       method: 'POST',
       data: { "id": id },
       dataType: 'json',
