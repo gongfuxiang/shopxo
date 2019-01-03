@@ -33,7 +33,8 @@ class LinkService
      */
     public static function LinkList($params = [])
     {
-        $data = Db::name('Link')->order('sort asc')->select();
+        $where = empty($params['where']) ? [] : $params['where'];
+        $data = Db::name('Link')->where($where)->order('sort asc')->select();
         return DataReturn('处理成功', 0, $data);
     }
 

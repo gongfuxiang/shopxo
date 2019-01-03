@@ -92,6 +92,14 @@ class OrderService
         // 回调地址
         $url = __MY_PUBLIC_URL__.'payment_order_'.strtolower($payment[0]['payment']);
 
+        // url模式, pathinfo模式下采用自带url生成url, 避免非index.php多余
+        if(MyC('home_seo_url_model', 0) == 0)
+        {
+            $call_back_url = $url.'_respond.php';
+        } else {
+            $call_back_url = MyUrl('index/order/respond', ['paymentname'=>$payment[0]['payment']]);
+        }
+
         // 开放平台用户penid
         $temp_key = APPLICATION_CLIENT_TYPE.'_openid';
         $user_openid = isset($params['user'][$temp_key]) ? $params['user'][$temp_key] : '';
@@ -104,7 +112,7 @@ class OrderService
             'name'          => '订单支付',
             'total_price'   => $order['total_price'],
             'notify_url'    => $url.'_notify.php',
-            'call_back_url' => $url.'_respond.php',
+            'call_back_url' => $call_back_url,
         );
         $pay_name = 'payment\\'.$payment[0]['payment'];
         $ret = (new $pay_name($payment[0]['config']))->Pay($pay_data);
@@ -258,14 +266,19 @@ class OrderService
         }
 
         // 支付方式
-        $payment = PaymentService::PaymentList(['where'=>['payment'=>PAYMENT_TYPE]]);
+        $payment_name = defined('PAYMENT_TYPE') ? PAYMENT_TYPE : (isset($params['paymentname']) ? $params['paymentname'] : '');
+        if(empty($payment_name))
+        {
+            return DataReturn('支付方式标记异常', -1);
+        }
+        $payment = PaymentService::PaymentList(['where'=>['payment'=>$payment_name]]);
         if(empty($payment[0]))
         {
             return DataReturn('支付方式有误', -1);
         }
 
         // 支付数据校验
-        $pay_name = 'payment\\'.PAYMENT_TYPE;
+        $pay_name = 'payment\\'.$payment_name;
         $ret = (new $pay_name($payment[0]['config']))->Respond(array_merge($_GET, $_POST));
         if(isset($ret['code']) && $ret['code'] == 0)
         {
