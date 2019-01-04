@@ -55,10 +55,11 @@ Page({
     var user = app.get_user_cache_info(this, "init"),
         self = this;
     // 用户未绑定用户则转到登录页面
+    var msg = (user == false) ? '授权用户信息' : '绑定手机号码';
     if (user == false || ((user.mobile || null) == null)) {
       wx.showModal({
         title: '温馨提示',
-        content: '绑定手机号码',
+        content: msg,
         confirmText: '确认',
         cancelText: '暂不',
         success: (result) => {
@@ -71,7 +72,6 @@ Page({
             avatar: user.avatar || app.data.default_user_head_src,
             nickname: user.nickname,
           });
-          self.get_data();
         },
       });
     } else {

@@ -9,7 +9,8 @@ Component({
     propPosition: String,
     propMask: Boolean,
     propAnimation: Boolean,
-    propDisablescroll: Boolean
+    propDisablescroll: Boolean,
+    propOnclose: String
   },
 
   /**
@@ -23,6 +24,13 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    onMaskTap: function onMaskTap() {
+      var onClose = this.propOnclose;
+      console.log(onClose)
 
+      if (onClose) {
+        onClose();
+      }
+    }
   }
 })

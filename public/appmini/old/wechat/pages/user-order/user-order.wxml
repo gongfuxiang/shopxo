@@ -56,7 +56,7 @@
 </scroll-view>
 
 <!-- 支付方式 popup -->
-<popup show="{{is_show_payment_popup}}" position="bottom" onClose="payment_popup_event_close">
+<component-popup prop-show="{{is_show_payment_popup}}" prop-position="bottom" prop-onclose="payment_popup_event_close">
   <view wx:if="{{payment_list.length > 0}}" class="payment-list oh bg-white">
     <view class="item tc fl" wx:for="{{payment_list}}">
       <view class="item-content br" data-value="{{item.id}}" bindtap="popup_payment_event">
@@ -67,4 +67,4 @@
     </view>
   </view>
   <view wx:else class="payment-list oh bg-white tc cr-888">没有支付方式</view>
-</popup>
+</component-popup>
