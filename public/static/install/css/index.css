@@ -167,7 +167,7 @@ p {
 }
 .success .box {
     text-align: left;
-    width: 360px;
+    max-width: 360px;
     margin: 0 auto;
 }
 .success .admin-hint, .success .tips-sweet {
@@ -178,9 +178,15 @@ p {
     background: #ffee5b;
     padding: 5px 8px;
     border: 1px solid #FF9800;
+    font-size: 12px;
 }
 .success a {
     font-size: 16px;
+}
+@media only screen and (max-width: 641px) {
+    .success {
+        padding: 5px;
+    }
 }
 
 /**
