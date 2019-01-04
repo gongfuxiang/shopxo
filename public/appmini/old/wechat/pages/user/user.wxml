@@ -6,7 +6,7 @@
     </view>
 
     <view wx:if="{{head_nav_list.length > 0}}" class="head-nav oh wh-auto">
-      <block wx:for="{{head_nav_list}}">
+      <block wx:for="{{head_nav_list}}" wx:key="key">
         <navigator url="/pages/{{item.url}}/{{item.url}}" hover-class="none">
           <view class="head-nav-item tc fl">
             <view>{{item.count}}</view>
@@ -27,7 +27,7 @@
 
 <!-- 导航 -->
 <view class="nav-box bg-white">
-  <block wx:for="{{nav_lists}}">
+  <block wx:for="{{nav_lists}}" wx:key="key">
     <view wx:if="{{item.is_show == 1}}">
       <navigator url="/pages/{{item.url}}/{{item.url}}" class="nav-item br-b" hover-class="none">
         <view class="arrow-right">
@@ -37,7 +37,7 @@
       </navigator>
     </view>
     <view wx:if="{{item.url == 'user-order' && user_order_status_list.length > 0}}" class="items-list br-b oh">
-      <block wx:for="{{user_order_status_list}}" wx:for-item="items">
+      <block wx:for="{{user_order_status_list}}" wx:key="key" wx:for-item="items">
         <navigator url="/pages/{{item.url}}/{{item.url}}?status={{items.status}}" hover-class="none">
           <view class="items fl tc">
             <view class="badge-icon">

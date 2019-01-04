@@ -57,6 +57,7 @@
 }
 .number-content input {
     width: 30px;
+    background: #fff;
 }
 .number-content .number-submit,
 .number-content input

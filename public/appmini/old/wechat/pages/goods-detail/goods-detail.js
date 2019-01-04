@@ -129,10 +129,7 @@ Page({
             data_list_loding_msg: '服务器请求出错',
           });
 
-          wx.showToast({
-            type: "fail",
-            content: "服务器请求出错"
-          });
+          app.showToast("服务器请求出错");
         }
       });
     }
@@ -200,98 +197,76 @@ Page({
   // 收藏事件
   goods_favor_event(e)
   {
-    var user = app.get_user_info(this, 'goods_favor_event');
-    if (user != false) {
-      // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
-        wx.navigateTo({
-          url: "/pages/login/login?event_callback=init"
-        });
-        return false;
-      } else {
-        wx.showLoading({content: '处理中...'});
+    var user = app.get_user_cache_info(this, 'goods_favor_event');
+    // 用户未绑定用户则转到登录页面
+    if (user == false || (user.mobile || null) == null) {
+      wx.navigateTo({
+        url: "/pages/login/login?event_callback=init"
+      });
+      return false;
+    } else {
+      wx.showLoading({content: '处理中...'});
 
-        wx.request({
-          url: app.get_request_url('favor', 'goods'),
-          method: 'POST',
-          data: {"id": this.data.goods.id},
-          dataType: 'json',
-          success: (res) => {
-            wx.hideLoading();
-            if(res.data.code == 0)
-            {
-              var status = (this.data.goods.is_favor == 1) ? 0 : 1;
-              this.setData({
-                'goods.is_favor': status,
-                goods_favor_text: (status == 1) ? '已收藏' : '收藏',
-                goods_favor_icon: '/images/goods-detail-favor-icon-'+status+'.png'
-              });
-              wx.showToast({
-                type: 'success',
-                content: res.data.msg
-              });
-            } else {
-              wx.showToast({
-                type: 'fail',
-                content: res.data.msg
-              });
-            }
-          },
-          fail: () => {
-            wx.hideLoading();
-
-            wx.showToast({
-              type: 'fail',
-              content: '服务器请求出错'
+      wx.request({
+        url: app.get_request_url('favor', 'goods'),
+        method: 'POST',
+        data: {"id": this.data.goods.id},
+        dataType: 'json',
+        success: (res) => {
+          wx.hideLoading();
+          if(res.data.code == 0)
+          {
+            var status = (this.data.goods.is_favor == 1) ? 0 : 1;
+            this.setData({
+              'goods.is_favor': status,
+              goods_favor_text: (status == 1) ? '已收藏' : '收藏',
+              goods_favor_icon: '/images/goods-detail-favor-icon-'+status+'.png'
             });
+            app.showToast(res.data.msg, "success");
+          } else {
+            app.showToast(res.data.msg);
           }
-        });
-      }
+        },
+        fail: () => {
+          wx.hideLoading();
+
+          app.showToast('服务器请求出错');
+        }
+      });
     }
   },
 
   // 加入购物车事件
   goods_cart_event(e, spec) {
-    var user = app.get_user_info(this, 'goods_cart_event');
-    if (user != false) {
-      // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
-        wx.navigateTo({
-          url: "/pages/login/login?event_callback=init"
-        });
-        return false;
-      } else {
-        wx.showLoading({ content: '处理中...' });
-        wx.request({
-          url: app.get_request_url('save', 'cart'),
-          method: 'POST',
-          data: { "goods_id": this.data.goods.id, "stock": this.data.temp_buy_number, "spec": JSON.stringify(spec) },
-          dataType: 'json',
-          success: (res) => {
-            wx.hideLoading();
-            if (res.data.code == 0) {
-              this.popup_close_event();
-              wx.showToast({
-                type: 'success',
-                content: res.data.msg
-              });
-            } else {
-              wx.showToast({
-                type: 'fail',
-                content: res.data.msg
-              });
-            }
-          },
-          fail: () => {
-            wx.hideLoading();
-
-            wx.showToast({
-              type: 'fail',
-              content: '服务器请求出错'
-            });
+    var user = app.get_user_cache_info(this, 'goods_cart_event');
+    // 用户未绑定用户则转到登录页面
+    if (user == false || (user.mobile || null) == null) {
+      wx.navigateTo({
+        url: "/pages/login/login?event_callback=init"
+      });
+      return false;
+    } else {
+      wx.showLoading({ content: '处理中...' });
+      wx.request({
+        url: app.get_request_url('save', 'cart'),
+        method: 'POST',
+        data: { "goods_id": this.data.goods.id, "stock": this.data.temp_buy_number, "spec": JSON.stringify(spec) },
+        dataType: 'json',
+        success: (res) => {
+          wx.hideLoading();
+          if (res.data.code == 0) {
+            this.popup_close_event();
+            app.showToast(res.data.msg, "success");
+          } else {
+            app.showToast(res.data.msg);
           }
-        });
-      }
+        },
+        fail: () => {
+          wx.hideLoading();
+
+          app.showToast('服务器请求出错');
+        }
+      });
     }
   },
 
@@ -411,17 +386,11 @@ Page({
             this.setData({goods_specifications_choose: temp_data});
           }
         } else {
-          wx.showToast({
-            type: 'fail',
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
-        wx.showToast({
-          type: 'fail',
-          content: '服务器请求出错'
-        });
+        app.showToast("服务器请求出错");
       }
     });
   },
@@ -471,17 +440,11 @@ Page({
             goods_spec_base_inventory: res.data.data.inventory,
           });
         } else {
-          wx.showToast({
-            type: 'fail',
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
-        wx.showToast({
-          type: 'fail',
-          content: '服务器请求出错'
-        });
+        app.showToast("服务器请求出错");
       }
     });
   },
@@ -517,87 +480,79 @@ Page({
       buy_number = buy_min_number;
       if(buy_min_number > 1)
       {
-        wx.showToast({content: '起购'+buy_min_number+inventory_unit});
+        app.showToast( '起购'+buy_min_number+inventory_unit);
       }
     }
     if(buy_max_number > 0 && buy_number > buy_max_number)
     {
       buy_number = buy_max_number;
-      wx.showToast({content: '限购'+buy_max_number+inventory_unit});
+      app.showToast('限购'+buy_max_number+inventory_unit);
     }
     if(buy_number > inventory)
     {
       buy_number = inventory;
-      wx.showToast({content: '库存数量'+inventory+inventory_unit});
+      app.showToast('库存数量'+inventory+inventory_unit);
     }
     this.setData({temp_buy_number: buy_number});
   },
 
   // 确认
   goods_buy_confirm_event(e) {
-    var user = app.get_user_info(this, 'goods_buy_confirm_event');
-    if (user != false) {
-      // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
-        wx.navigateTo({
-          url: "/pages/login/login?event_callback=init"
-        });
-        return false;
-      } else {
-        // 属性
-        var temp_data = this.data.goods_specifications_choose;
-        var sku_count = temp_data.length;
-        var active_count = 0;
-        var spec = [];
-        if(sku_count > 0)
+    var user = app.get_user_cache_info(this, 'goods_buy_confirm_event');
+    // 用户未绑定用户则转到登录页面
+    if (user == false || (user.mobile || null) == null) {
+      wx.navigateTo({
+        url: "/pages/login/login?event_callback=init"
+      });
+      return false;
+    } else {
+      // 属性
+      var temp_data = this.data.goods_specifications_choose;
+      var sku_count = temp_data.length;
+      var active_count = 0;
+      var spec = [];
+      if(sku_count > 0)
+      {
+        for(var i in temp_data)
         {
-          for(var i in temp_data)
+          for(var k in temp_data[i]['value'])
           {
-            for(var k in temp_data[i]['value'])
+            if((temp_data[i]['value'][k]['is_active'] || null) != null)
             {
-              if((temp_data[i]['value'][k]['is_active'] || null) != null)
-              {
-                active_count++;
-                spec.push({"type": temp_data[i]['name'], "value": temp_data[i]['value'][k]['name']});
-              }
+              active_count++;
+              spec.push({"type": temp_data[i]['name'], "value": temp_data[i]['value'][k]['name']});
             }
           }
-          if(active_count < sku_count)
-          {
-            wx.showToast({
-              type: 'fail',
-              content: '请选择属性'
-            });
-            return false;
-          }
         }
-        
-        // 操作类型
-        switch (this.data.buy_event_type) {
-          case 'buy' :
-            // 进入订单确认页面
-            var data = {
-              "buy_type": "goods",
-              "goods_id": this.data.goods.id,
-              "stock": this.data.temp_buy_number,
-              "spec": JSON.stringify(spec)
-            };
-            wx.navigateTo({
-              url: '/pages/buy/buy?data=' + JSON.stringify(data)
-            });
-            this.popup_close_event();
-            break;
-
-          case 'cart' :
-            this.goods_cart_event(e, spec);
-            break;
-
-          default :
-            wx.showToast({
-              type: "fail",
-              content: "操作事件类型有误"
-            });
+        if(active_count < sku_count)
+        {
+          app.showToast('请选择属性');
+          return false;
         }
+      }
+      
+      // 操作类型
+      switch (this.data.buy_event_type) {
+        case 'buy' :
+          // 进入订单确认页面
+          var data = {
+            "buy_type": "goods",
+            "goods_id": this.data.goods.id,
+            "stock": this.data.temp_buy_number,
+            "spec": JSON.stringify(spec)
+          };
+          wx.navigateTo({
+            url: '/pages/buy/buy?data=' + JSON.stringify(data)
+          });
+          this.popup_close_event();
+          break;
+
+        case 'cart' :
+          this.goods_cart_event(e, spec);
+          break;
+
+        default :
+          app.showToast("操作事件类型有误");
       }
     }
   },

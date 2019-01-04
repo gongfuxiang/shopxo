@@ -114,10 +114,7 @@ Page({
             data_list_loding_status: 0
           });
 
-          wx.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
@@ -127,10 +124,7 @@ Page({
         this.setData({
           data_list_loding_status: 2
         });
-        wx.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast("服务器请求出错");
       }
     });
   },

@@ -122,6 +122,7 @@
 }
 .goods-popup .number-content input {
     width: 50px;
+    background: #fff;
 }
 .goods-popup .number-content .number-submit,
 .goods-popup .number-content input

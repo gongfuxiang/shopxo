@@ -51,10 +51,7 @@ Page({
 
           if(res.data.code == 0)
           {
-            wx.showToast({
-              type: 'success',
-              content: res.data.msg
-            });
+            app.showToast(res.data.msg, "success");
             setTimeout(function()
             {
               wx.redirectTo({
@@ -64,20 +61,14 @@ Page({
           } else {
             this.setData({form_submit_loading: false});
             
-            wx.showToast({
-              type: 'fail',
-              content: res.data.msg
-            });
+            app.showToast(res.data.msg);
           }
         },
         fail: () => {
           wx.hideLoading();
           this.setData({form_submit_loading: false});
 
-          wx.showToast({
-            type: 'fail',
-            content: '服务器请求出错'
-          });
+          app.showToast('服务器请求出错');
         }
       });
     }

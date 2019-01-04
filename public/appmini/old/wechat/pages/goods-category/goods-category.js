@@ -51,10 +51,7 @@ Page({
               data_bottom_line_status: true,
             });
 
-            wx.showToast({
-              type: "fail",
-              content: res.data.msg
-            });
+            app.showToast(res.data.msg);
           }
       },
       fail: () => {
@@ -64,10 +61,7 @@ Page({
           data_bottom_line_status: true,
         });
 
-        wx.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast("服务器请求出错");
       }
     });
   },

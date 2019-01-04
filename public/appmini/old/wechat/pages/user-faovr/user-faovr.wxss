@@ -22,6 +22,6 @@
     right: 10rpx;
     bottom: 20rpx;
     border: 1px solid #f7c3b3;
-    color: #f7c3b3;
+    color: #f7c3b3 !important;
     padding: 0 35rpx;
 }

@@ -9,18 +9,18 @@
 <!-- 订单列表 -->
 <scroll-view scroll-y="{{true}}" class="scroll-box" bindscrolltolower="scroll_lower" lower-threshold="30">
   <view class="list-content">
-    <view class="list-item bg-white spacing-mb" wx:if="{{data_list.length > 0}}" wx:for="{{data_list}}">
+    <view class="list-item bg-white spacing-mb" wx:if="{{data_list.length > 0}}" wx:for="{{data_list}}" wx:key="key">
       <view class="item-base oh br-b">
         <text class="cr-666">{{item.add_time}}</text>
         <text class="fr cr-main">{{item.status_name}}</text>
       </view>
-      <view wx:for="{{item.items}}" wx:for-item="detail" class="goods-item oh">
+      <view wx:for="{{item.items}}" wx:key="key" wx:for-item="detail" class="goods-item oh">
         <navigator url="/pages/user-order-detail/user-order-detail?id={{item.id}}">
           <image class="goods-image fl" src="{{detail.images}}" mode="aspectFill" />
           <view class="goods-base">
             <view class="goods-title multi-text" >{{detail.title}}</view>
             <block wx:if="{{detail.spec != null}}">
-              <view class="goods-spec cr-888" wx:for="{{detail.spec}}" wx:for-item="spec">
+              <view class="goods-spec cr-888" wx:for="{{detail.spec}}" wx:key="key" wx:for-item="spec">
                 {{spec.type}}:{{spec.value}}
               </view>
             </block>
@@ -56,7 +56,7 @@
 </scroll-view>
 
 <!-- 支付方式 popup -->
-<component-popup prop-show="{{is_show_payment_popup}}" prop-position="bottom" prop-onclose="payment_popup_event_close">
+<component-popup prop-show="{{is_show_payment_popup}}" prop-position="bottom" bindonclose="payment_popup_event_close">
   <view wx:if="{{payment_list.length > 0}}" class="payment-list oh bg-white">
     <view class="item tc fl" wx:for="{{payment_list}}">
       <view class="item-content br" data-value="{{item.id}}" bindtap="popup_payment_event">

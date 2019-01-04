@@ -11,7 +11,7 @@
             </view>
           </view>
         </navigator>
-        <button class="submit-cancel" type="default" size="mini" onTap="cancel_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">取消</button>
+        <button class="submit-cancel" type="default" size="mini" onTap="cancel_event" data-value="{{item.goods_id}}" data-index="{{index}}" hover-class="none">取消</button>
       </view>
     </view>
     <view a:if="{{data_list.length == 0}}">

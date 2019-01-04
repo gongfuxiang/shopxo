@@ -9,8 +9,7 @@ Component({
     propPosition: String,
     propMask: Boolean,
     propAnimation: Boolean,
-    propDisablescroll: Boolean,
-    propOnclose: String
+    propDisablescroll: Boolean
   },
 
   /**
@@ -25,12 +24,7 @@ Component({
    */
   methods: {
     onMaskTap: function onMaskTap() {
-      var onClose = this.propOnclose;
-      console.log(onClose)
-
-      if (onClose) {
-        onClose();
-      }
+      this.triggerEvent('onclose', {}, {});
     }
   }
 })

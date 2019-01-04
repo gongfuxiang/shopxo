@@ -167,7 +167,7 @@ App({
       params = "&" + params;
     }
     var user = this.get_user_cache_info();
-    var app_client_user_id = user == false ? "" : user.wechat_openid;
+    var app_client_user_id = user == false ? "" : user.weixin_openid;
     var user_id = user == false ? 0 : user.id;
     return (
       this.data.request_url +
