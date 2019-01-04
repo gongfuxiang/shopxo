@@ -46,9 +46,9 @@ class Index extends Common
     private function IsInstall()
     {
         // 是否已安装
-        if(file_exists(ROOT.'public/install/install.lock'))
+        if(file_exists(ROOT.'config/database.php'))
         {
-            exit('你已经安装过该系统，重新安装需要先删除 ./public/install/install.lock 文件');
+            exit('你已经安装过该系统，重新安装需要先删除 ./config/database.php 文件');
         }
     }
 
@@ -108,7 +108,7 @@ class Index extends Common
     public function Successful()
     {
         // 检测是否是新安装
-        if(is_dir(ROOT.'public/install') && !file_exists(ROOT.'public/install/install.lock'))
+        if(is_dir(ROOT.'config') && !file_exists(ROOT.'config/database.php'))
         {
             if(empty($_GET['s']) || stripos($_GET['s'], 'install') === false)
             {
@@ -129,6 +129,12 @@ class Index extends Common
      */
     public function Add()
     {
+        // 是否ajax
+        if(!IS_AJAX)
+        {
+            die('非法访问');
+        }
+
         // 参数
         $params = input('post.');
         $ret = $this->ParamsCheck($params);
@@ -141,11 +147,8 @@ class Index extends Common
         // 配置文件校验
         if(file_exists(ROOT.'config/database.php'))
         {
-            if(!is_writable(ROOT.'config/database.php'))
-            {
-                new \base\Behavior(['msg'=>'配置文件没有权限[./config/database.php'.']']);
-                return DataReturn('配置文件没有权限[./config/database.php'.']', -1);
-            }
+            new \base\Behavior(['msg'=>'你已经安装过该系统，重新安装需要先删除[./config/database.php 文件]']);
+            return DataReturn('你已经安装过该系统，重新安装需要先删除[./config/database.php 文件]', -1);
         }
 
         // 开始安装
@@ -281,7 +284,7 @@ php;
         }
 
         new \base\Behavior(['msg'=>'安装成功']);
-        return DataReturn('安装成功', 0);
+        return DataReturn('安装成功', -20);
     }
 
     /**
@@ -295,14 +298,14 @@ php;
      */
     private function CreateTable($db, $params)
     {
-        if(!file_exists(ROOT.'public/install/shopxo.sql'))
+        if(!file_exists(ROOT.'config/shopxo.sql'))
         {
             new \base\Behavior(['msg'=>'数据库sql文件不存在']);
             return DataReturn('数据库sql文件不存在', -1);
         }
 
         // sql文件
-        $sql = file_get_contents(ROOT.'public/install/shopxo.sql');
+        $sql = file_get_contents(ROOT.'config/shopxo.sql');
 
         //替换表前缀
         $sql = str_replace("`s_", " `{$params['DB_PREFIX']}", $sql);
@@ -335,8 +338,6 @@ php;
             return DataReturn('sql运行失败['.$failure.']条', -1);
         }
 
-        // 创建成功标记文件
-        @touch(ROOT.'public/install/install.lock');
         return DataReturn('success', 0, $result);
     }
 
