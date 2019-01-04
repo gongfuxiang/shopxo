@@ -174,8 +174,8 @@ class ThemeService
         {
             return DataReturn('模板id有误', -1);
         }
-        // 主题
-        $id = str_replace(array('.', '/', '\\'), '', strip_tags($params['id']));
+        // 防止路径回溯
+        $id = htmlentities(str_replace(array('.', '/', '\\'), '', strip_tags($params['id'])));
         if(empty($id))
         {
             return DataReturn('主题名称有误', -1);
