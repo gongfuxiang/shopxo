@@ -187,9 +187,21 @@ class AppMiniService
         // 初始化
         self::Init($params);
 
+        // 目录处理
+        $suffix = '';
+        if(substr($params['id'], -4) === '.zip')
+        {
+            $name = substr($params['id'], 0, strlen($params['id'])-4);
+            $suffix = '.zip';
+        } else {
+            $name = $params['id'];
+        }
+
+        // 防止路径回溯
+        $path = self::$new_path.DS.htmlentities(str_replace(array('.', '/', '\\'), '', strip_tags($name))).$suffix;
+
         // 删除压缩包
-        $path = self::$new_path.DS.$params['id'];
-        if(substr($path, -4) == '.zip')
+        if($suffix == '.zip')
         {
             $status = \base\FileUtil::UnlinkFile($path);
         } else {
