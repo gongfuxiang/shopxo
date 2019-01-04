@@ -64,7 +64,7 @@ define('APPLICATION_CLIENT_TYPE', empty($_REQUEST['application_client_type']) ? 
 define('IS_AJAX', ((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 'xmlhttprequest' == strtolower($_SERVER['HTTP_X_REQUESTED_WITH'])) || isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == 'ajax'));
 
 // 检测是否是新安装
-if(is_dir(ROOT.'public/install') && !file_exists(ROOT.'public/install/install.lock'))
+if(!file_exists(ROOT.'config/database.php'))
 {
     if(empty($_GET['s']) || stripos($_GET['s'], 'install') === false)
     {
