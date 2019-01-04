@@ -167,8 +167,20 @@ p {
 }
 .success .box {
     text-align: left;
-    width: 260px;
+    width: 360px;
     margin: 0 auto;
+}
+.success .admin-hint, .success .tips-sweet {
+    margin-top: 5px;
+}
+.success .tips-sweet {
+    color: #f00;
+    background: #ffee5b;
+    padding: 5px 8px;
+    border: 1px solid #FF9800;
+}
+.success a {
+    font-size: 16px;
 }
 
 /**
