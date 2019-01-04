@@ -151,24 +151,6 @@
                 <?php endif ?>
             </td>
         </tr>
-        <tr class="<?php if(is_writable(ROOT.'public/install')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./public/install</td>
-            <td>可写</td>
-            <td>
-                <?php if (is_writable(ROOT.'public/install')): ?>
-                    可写
-                <?php else: ?>
-                    不可写
-                <?php endif ?>
-            </td>
-            <td>
-                <?php if (is_writable(ROOT.'public/install')): ?>
-                    √
-                <?php else: ?>
-                    ×
-                <?php endif ?>
-            </td>
-        </tr>
         <tr class="<?php if(is_writable(ROOT.'public/appmini/new')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
             <td>./public/appmini/new</td>
             <td>可写</td>
