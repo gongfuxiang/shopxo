@@ -231,7 +231,7 @@ Page({
             temp_data_list[index]['status_name'] = '待发货';
             this.setData({ data_list: temp_data_list });
 
-            app.showToast('支付成功');
+            app.showToast("支付成功", "success");
           } else {
             wx.tradePay({
               tradeNO: res.data.data.data,
