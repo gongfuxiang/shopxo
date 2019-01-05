@@ -437,18 +437,22 @@ class PaymentService
             return DataReturn('已存在相同插件', -3);
         }
 
+        // 文件名称过滤
+        $name = substr($_FILES['file']['name'], 0, strlen($_FILES['file']['name'])-4);
+        $payment = str_replace(array('.', '/', '\\', ':'), '', $name);
+
         // 存储文件
-        if(!move_uploaded_file($_FILES['file']['tmp_name'], self::$payment_dir.$_FILES['file']['name']))
+        $file = self::$payment_dir.$payment.'.php';
+        if(!move_uploaded_file($_FILES['file']['tmp_name'], $file))
         {
             return DataReturn('上传失败', -100);
         }
 
         // 文件校验
-        $payment = htmlentities(str_replace('.php', '', $_FILES['file']['name']));
         $config = self::GetPaymentConfig($payment);
         if($config === false)
         {
-            @unlink(self::$payment_dir.$_FILES['file']['name']);
+            @unlink($file);
             return DataReturn('插件编写有误，请参考文档编写', -10);
         }
         return DataReturn('上传成功');
