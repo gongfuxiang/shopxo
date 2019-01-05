@@ -198,7 +198,7 @@ class AppMiniService
         }
 
         // 防止路径回溯
-        $path = self::$new_path.DS.htmlentities(str_replace(array('.', '/', '\\'), '', strip_tags($name))).$suffix;
+        $path = self::$new_path.DS.htmlentities(str_replace(array('.', '/', '\\', ':'), '', strip_tags($name))).$suffix;
 
         // 删除压缩包
         if($suffix == '.zip')
