@@ -55,7 +55,7 @@ Page({
   get_user_address() {
     var self = this;
     // 加载loding
-    wx.showLoading({ content: "加载中..." });
+    wx.showLoading({title: "加载中..." });
 
     wx.request({
       url: app.get_request_url("detail", "useraddress"),
@@ -257,7 +257,7 @@ Page({
 
     if (app.fields_check(form_data, validation)) {
       // 加载loding
-      wx.showLoading({ content: "处理中..." });
+      wx.showLoading({title: "处理中..." });
 
       wx.request({
         url: app.get_request_url("save", "useraddress"),
@@ -268,7 +268,7 @@ Page({
         success: res => {
           wx.hideLoading();
           if (res.data.code == 0) {
-            app.showToast(res.data.msg);
+            app.showToast(res.data.msg, "success");
             setTimeout(function() {
               wx.navigateBack();
             }, 1000);

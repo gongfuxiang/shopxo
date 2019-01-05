@@ -23,6 +23,7 @@ input[type="digit"],
 textarea { 
     -webkit-appearance: none; 
     border-radius: 5px; 
+    box-sizing: border-box;
 }
 
 /* 导航分割 */
@@ -222,8 +223,8 @@ textarea {
     position: fixed;
     left: 0;
     bottom: 0;
-    background: #d2364c;
-    color: #fff;
+    background: #d2364c !important;
+    color: #fff !important;
     border: none;
     width: 100%;
 }

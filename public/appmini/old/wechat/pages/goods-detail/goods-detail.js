@@ -60,7 +60,7 @@ Page({
       var self = this;
 
       // 加载loding
-      wx.showLoading({content: '加载中...'});
+      wx.showLoading({title: '加载中...'});
       this.setData({
         data_list_loding_status: 1
       });
@@ -205,7 +205,7 @@ Page({
       });
       return false;
     } else {
-      wx.showLoading({content: '处理中...'});
+      wx.showLoading({title: '处理中...'});
 
       wx.request({
         url: app.get_request_url('favor', 'goods'),
@@ -246,7 +246,7 @@ Page({
       });
       return false;
     } else {
-      wx.showLoading({ content: '处理中...' });
+      wx.showLoading({title: '处理中...' });
       wx.request({
         url: app.get_request_url('save', 'cart'),
         method: 'POST',

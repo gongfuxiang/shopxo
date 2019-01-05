@@ -21,12 +21,12 @@
 
   <!-- 商品 -->
   <view class="goods bg-white spacing-mb">
-    <view wx:for="{{goods_list}}" class="goods-item oh">
+    <view wx:for="{{goods_list}}" wx:key="key" class="goods-item oh">
       <image class="goods-image fl" src="{{item.images}}" mode="aspectFill" />
       <view class="goods-base">
         <view class="goods-title multi-text">{{item.title}}</view>
         <block wx:if="{{item.spec != null}}">
-          <view class="goods-attribute cr-888" wx:for="{{item.spec}}" wx:for-item="spec">{{spec.type}}:{{spec.value}}
+          <view class="goods-spec cr-888" wx:for="{{item.spec}}" wx:key="key" wx:for-item="spec">{{spec.type}}:{{spec.value}}
           </view>
         </block>
       </view>
@@ -42,11 +42,11 @@
   </view>
 
   <!-- 留言 -->
-  <textarea bindinput="bind_user_note_event" maxlength="60" auto-height placeholder="留言" class="spacing-mb" />
+  <textarea bindinput="bind_user_note_event" maxlength="60" auto-height placeholder="留言" class="content-textarea bg-white spacing-mb" />
 
   <!-- 扩展数据展示 -->
   <view wx:if="{{extension_list.length > 0}}" class="extension-list spacing-mb">
-    <view wx:for="{{extension_list}}" class="item oh">
+    <view wx:for="{{extension_list}}" wx:key="key" class="item oh">
       <text class="cr-666">{{item.name}}
       </text>
       <text class="text-tips fr">{{item.tips}}
@@ -56,7 +56,7 @@
 
   <!-- 支付方式 -->
   <view wx:if="{{payment_list.length > 0 && common_order_is_booking != 1}}" class="payment-list bg-white oh">
-    <view class="item tc fl" wx:for="{{payment_list}}">
+    <view class="item tc fl" wx:for="{{payment_list}}" wx:key="key">
       <view class="item-content br {{(item.selected || '')}}" data-value="{{item.id}}" bindtap="payment_event">
         <image wx:if="{{(item.logo || null) != null}}" class="icon" src="{{item.logo}}" mode="widthFix" />
         <text>{{item.name}}</text>

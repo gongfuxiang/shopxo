@@ -81,59 +81,49 @@ App({
   /**
    * 启动query参数处理
    */
-  startup_query(options) {
+  startup_query(params) {
     // 没有启动参数则返回
-    if ((options.query || null) == null) {
+    if ((params || null) == null) {
       return false;
     }
 
     // 启动处理类型
-    var type = options.query.type || null;
+    var type = params.type || null;
     switch (type) {
       // type=page
-      case 'page':
+      case "page":
         // 页面
-        var page = options.query.page || null;
+        var page = params.page || null;
+
+        // 参数名
+        var params_field = params.params_field || null;
 
         // 参数值
-        var value = options.query.value || null;
+        var params_value = params.params_value || null;
 
-        // 附带参数值
-        var params = null;
-
-        // 进入逻辑处理
-        switch (page) {
-          // 进入店铺   page=shop
-          case 'shop':
-
-          // 进入项目详情   page=detail
-          case 'detail':
-            if (value != null) {
-              params = 'id=' + value;
-            }
-            break;
-
-          // 店铺买单   page=shoppay
-          case 'shoppay':
-            if (value != null) {
-              params = 'shop_id=' + value;
-            }
-            break;
-
-          default:
-            break;
+        // 页面跳转
+        if (page != null) {
+          wx.navigateTo({
+            url: "/pages/" + page + "/" + page + "?" + params_field + "=" + params_value
+          });
         }
         break;
 
+      // type=view
+      case "view":
+        var url = params.url || null;
+
+        // 页面跳转
+        if (url != null) {
+          wx.navigateTo({
+            url: '/pages/web-view/web-view?url=' + url
+          });
+        }
+        break;
+
+      // 默认
       default:
         break;
-    }
-
-    // 是否需要进行页面跳转
-    if (params != null) {
-      wx.navigateTo({
-        url: '/pages/' + page + '/' + page + '?' + params
-      });
     }
   },
 

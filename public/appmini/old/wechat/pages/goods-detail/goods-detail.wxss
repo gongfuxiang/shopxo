@@ -50,7 +50,7 @@
 .goods-popup-content .title {
     font-size: 36rpx;
 }
-.goods-attr-choose .item .attribute button {
+.goods-attr-choose .item .spec button {
     margin-top: 20rpx;
     margin-right: 25rpx;
     padding: 0 30rpx;
@@ -60,7 +60,7 @@
     height: 27px;
     border: 1px solid #d5d5d5;
 }
-.goods-attr-choose .item .attribute button image {
+.goods-attr-choose .item .spec button image {
   width: 20px;
   height: 20px;
   vertical-align: middle;
@@ -87,7 +87,7 @@
 .spec-items-disabled image {
     opacity: 0.3;
 }
-.goods-attr-choose .item .attribute  button,
+.goods-attr-choose .item .spec  button,
 .goods-popup-submit
 {
     border-radius: 50rpx;
@@ -123,6 +123,7 @@
 .goods-popup .number-content input {
     width: 50px;
     background: #fff;
+    border-radius: 0px;
 }
 .goods-popup .number-content .number-submit,
 .goods-popup .number-content input

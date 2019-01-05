@@ -18,6 +18,7 @@
 }
 .goods-base {
   min-height: 160rpx;
+  margin-left: 180rpx;
 }
 .goods-title {
     line-height: 36rpx;
@@ -28,7 +29,7 @@
 .goods-item {
     padding: 20rpx 10rpx;
 }
-.goods-title, .goods-attribute {
+.goods-title, .goods-spec {
     margin-bottom: 10rpx;
 }
 .goods-image {
@@ -46,11 +47,11 @@
     bottom: 0;
 }
 .item-base, .item-describe, .item-operation {
-    padding: 25rpx 10rpx 20rpx 10rpx;
+    padding: 25rpx 10rpx 10rpx 10rpx;
 }
 .submit-cancel {
     border: 1px solid #f7c3b3;
-    color: #f7c3b3;
+    color: #f7c3b3 !important;
 }
 .item-operation button:not(:first-child) {
     margin-left: 20rpx;

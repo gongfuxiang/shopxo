@@ -20,7 +20,7 @@ Page({
 
   init() {
     var self = this;
-    wx.showLoading({ content: "加载中..." });
+    wx.showLoading({title: "加载中..." });
     this.setData({
       data_list_loding_status: 1
     });

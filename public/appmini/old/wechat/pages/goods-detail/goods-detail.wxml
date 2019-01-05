@@ -105,7 +105,7 @@
         <view wx:if="{{goods_specifications_choose.length > 0}}" class="goods-attr-choose">
           <view wx:for="{{goods_specifications_choose}}" wx:key="key" wx:for-index="key" class="item br-b">
             <view class="title">{{item.name}}</view>
-            <view wx:if="{{item.value.length > 0}}" class="attribute">
+            <view wx:if="{{item.value.length > 0}}" class="spec">
               <block wx:for="{{item.value}}" wx:key="key" wx:for-index="keys" wx:for-item="items">
                 <button catchtap="goods_specifications_event" data-key="{{key}}" data-keys="{{keys}}" type="default" size="mini" hover-class="none" class="{{items.is_active}} {{items.is_dont}} {{items.is_disabled}}">
                   <image wx:if="{{(items.images || null) != null}}" src="{{items.images}}" mode="scaleToFill" />

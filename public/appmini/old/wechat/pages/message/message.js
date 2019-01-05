@@ -38,7 +38,7 @@ Page({
     }
 
     // 加载loding
-    wx.showLoading({ content: "加载中..." });
+    wx.showLoading({title: "加载中..." });
     this.setData({
       data_list_loding_status: 1
     });

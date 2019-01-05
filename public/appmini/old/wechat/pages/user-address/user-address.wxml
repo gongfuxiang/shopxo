@@ -1,6 +1,6 @@
 <view class="page">
   <view wx:if="{{data_list.length > 0}}">
-    <view class="item bg-white spacing-mb" wx:for="{{data_list}}">
+    <view class="item bg-white spacing-mb" wx:for="{{data_list}}" wx:key="key">
       <view bindtap="address_conent_event" data-index="{{index}}">
         <view class="base oh">
           <text>{{item.name}}</text>
@@ -17,9 +17,9 @@
           <image wx:else class="item-icon" src="/images/default-select-icon.png" mode="widthFix" />
           <text>设为默认地址</text>
         </view>
-        <button class="fr cr-666 delete-submit" type="default" size="mini" bindtap="address_delete_event" data-index="{{index}}" data-value="{{item.id}}" hover-class="none">删除</button>
+        <button class="fr cr-666 delete-submit br" type="default" size="mini" bindtap="address_delete_event" data-index="{{index}}" data-value="{{item.id}}" hover-class="none">删除</button>
         <navigator url="/pages/user-address-save/user-address-save?id={{item.id}}" open-type="navigate" hover-class="none">
-          <button class="fr cr-666" type="default" size="mini" bindtap="address_edit_event" hover-class="none">编辑</button>
+          <button class="fr cr-666 br" type="default" size="mini" bindtap="address_edit_event" hover-class="none">编辑</button>
         </navigator>
       </view>
     </view>

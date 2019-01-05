@@ -62,6 +62,10 @@ Page({
     this.setData({
       user: app.get_user_cache_info() || null
     });
+    if((this.data.user.mobile || null) != null)
+    {
+      wx.navigateBack();
+    }
   },
 
   /**
@@ -83,7 +87,7 @@ Page({
     {
       // 网络请求
       var $this = this;
-      wx.showLoading({content: '发送中...'});
+      wx.showLoading({title: '发送中...'});
       this.setData({verify_submit_text: '发送中', verify_loading: true, verify_disabled: true});
 
       wx.request({
@@ -146,7 +150,7 @@ Page({
     e.detail.value['app_type'] = 'weixin';
     if(app.fields_check(e.detail.value, validation))
     {
-      wx.showLoading({content: '处理中...'});
+      wx.showLoading({title: '处理中...'});
       this.setData({form_submit_loading: true});
 
       // 网络请求

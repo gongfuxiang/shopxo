@@ -37,7 +37,7 @@
 </scroll-view>
 
 <!-- 筛选条件 popup -->
-<component-popup prop-show="{{is_show_popup_form}}" prop-position="right" prop-onclose="popup_form_event_close">
+<component-popup prop-show="{{is_show_popup_form}}" prop-position="right" bindonclose="popup_form_event_close">
   <form bindsubmit="form_submit_event" class="popup-form oh bg-white">
     <view class="item oh screening-price">
       <view class="title cr-666">价格区间(元)

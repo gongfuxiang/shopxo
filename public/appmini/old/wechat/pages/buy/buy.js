@@ -31,7 +31,7 @@ Page({
       this.setData({ params: JSON.parse(params.data)});
 
       // 删除地址缓存
-      wx.removeStorageSync({key: app.data.cache_buy_user_address_select_key});
+      wx.removeStorageSync(app.data.cache_buy_user_address_select_key);
     }
   },
 
@@ -46,14 +46,12 @@ Page({
     // 本地缓存地址
     if(this.data.is_first == 0)
     {
-      var cache_address = wx.getStorageSync({
-        key: app.data.cache_buy_user_address_select_key
-      });
-      if((cache_address.data || null) != null)
+      var cache_address = wx.getStorageSync(app.data.cache_buy_user_address_select_key);
+      if((cache_address || null) != null)
       {
         this.setData({
-          address: cache_address.data,
-          address_id: cache_address.data.id
+          address: cache_address,
+          address_id: cache_address.id
         });
       } else {
         this.setData({
@@ -64,7 +62,7 @@ Page({
     }
 
     // 加载loding
-    wx.showLoading({content: '加载中...'});
+    wx.showLoading({title: '加载中...'});
     this.setData({
       data_list_loding_status: 1
     });
@@ -153,7 +151,7 @@ Page({
     }
     if (app.fields_check(data, validation)) {
       // 加载loding
-      wx.showLoading({content: '提交中...'});
+      wx.showLoading({title: '提交中...'});
       this.setData({ buy_submit_disabled_status: true });
 
       wx.request({

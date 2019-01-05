@@ -18,6 +18,7 @@
 }
 .goods-base {
   min-height: 160rpx;
+  margin-left: 180rpx;
 }
 .goods-title {
     line-height: 36rpx;
@@ -28,7 +29,7 @@
 .goods-item {
     padding: 20rpx 10rpx;
 }
-.goods-title, .goods-attribute {
+.goods-title, .goods-spec {
     margin-bottom: 10rpx;
 }
 .goods-image {

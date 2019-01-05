@@ -77,7 +77,7 @@ Page({
     }
 
     // 加载loding
-    wx.showLoading({ content: "加载中..." });
+    wx.showLoading({title: "加载中..." });
     this.setData({
       data_list_loding_status: 1
     });
@@ -211,7 +211,7 @@ Page({
   // 支付方法
   pay_handle(order_id, index) {
     // 加载loding
-    wx.showLoading({ content: "请求中..." });
+    wx.showLoading({title: "请求中..." });
 
     wx.request({
       url: app.get_request_url("pay", "order"),
@@ -283,7 +283,7 @@ Page({
           var index = e.currentTarget.dataset.index;
 
           // 加载loding
-          wx.showLoading({ content: "处理中..." });
+          wx.showLoading({title: "处理中..." });
 
           wx.request({
             url: app.get_request_url("cancel", "order"),
@@ -327,7 +327,7 @@ Page({
           var index = e.currentTarget.dataset.index;
 
           // 加载loding
-          wx.showLoading({ content: "处理中..." });
+          wx.showLoading({title: "处理中..." });
 
           wx.request({
             url: app.get_request_url("collect", "order"),

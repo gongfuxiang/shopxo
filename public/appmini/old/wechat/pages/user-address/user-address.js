@@ -35,7 +35,7 @@ Page({
   // 获取数据列表
   get_data_list() {
     // 加载loding
-    wx.showLoading({ content: "加载中..." });
+    wx.showLoading({title: "加载中..." });
     this.setData({
       data_list_loding_status: 1
     });
@@ -117,7 +117,7 @@ Page({
       success: result => {
         if (result.confirm) {
           // 加载loding
-          wx.showLoading({ content: "处理中..." });
+          wx.showLoading({title: "处理中..." });
 
           // 获取数据
           wx.request({
@@ -140,13 +140,11 @@ Page({
                 app.showToast(res.data.msg, "success");
 
                 // 当前删除是否存在缓存中，存在则删除
-                var cache_address = wx.getStorageSync({
-                  key: app.data.cache_buy_user_address_select_key
-                });
+                var cache_address = wx.getStorageSync(app.data.cache_buy_user_address_select_key);
                 if ((cache_address.data || null) != null) {
                   if (cache_address.data.id == value) {
                     // 删除地址缓存
-                    wx.removeStorageSync({ key: app.data.cache_buy_user_address_select_key });
+                    wx.removeStorageSync(app.data.cache_buy_user_address_select_key);
                   }
                 }
                 
@@ -182,7 +180,7 @@ Page({
     }
     
     // 加载loding
-    wx.showLoading({ content: "处理中..." });
+    wx.showLoading({title: "处理中..." });
 
     // 获取数据
     wx.request({

@@ -36,7 +36,7 @@ Page({
     ];
     if(app.fields_check(e.detail.value, validation))
     {
-      wx.showLoading({content: '提交中...'});
+      wx.showLoading({title: '提交中...'});
       this.setData({form_submit_loading: true});
 
       // 网络请求

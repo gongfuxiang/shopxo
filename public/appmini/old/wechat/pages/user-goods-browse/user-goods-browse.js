@@ -37,7 +37,7 @@ Page({
     }
 
     // 加载loding
-    wx.showLoading({ content: "加载中..." });
+    wx.showLoading({title: "加载中..." });
     this.setData({
       data_list_loding_status: 1
     });
@@ -131,7 +131,7 @@ Page({
           var index = e.currentTarget.dataset.index;
 
           // 加载loding
-          wx.showLoading({ content: "处理中..." });
+          wx.showLoading({title: "处理中..." });
 
           wx.request({
             url: app.get_request_url("delete", "usergoodsbrowse"),
