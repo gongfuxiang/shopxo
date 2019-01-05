@@ -54,15 +54,16 @@
     box-sizing: border-box;
     padding: 30rpx 20rpx;
 }
-.nav-box .nav-item .item-icon{
+.nav-box .nav-item .item-icon {
     width: 40rpx;
     height: 40rpx;
     vertical-align: middle;
 }
-.nav-box .nav-item .item-name{
+.nav-box .nav-item .item-name {
     margin-left: 20rpx;
+    vertical-align: middle;
 }
-.nav-box .nav-item .item-arrow{
+.nav-box .nav-item .item-arrow {
     width: 25rpx;
 }
 
@@ -80,8 +81,8 @@
 }
 .items-list .items .badge-icon {
   position: absolute;
-  top: 0;
-  left: calc(50% + 30rpx);
+  top: -2px;
+  left: calc(50% + 35rpx);
 }
 
 

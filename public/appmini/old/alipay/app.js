@@ -24,6 +24,13 @@ App({
     // 错误圆形提示图片
     default_round_error_icon: "/images/default-round-error-icon.png",
 
+    // tabbar页面
+    tabbar_pages: [
+      "index",
+      "goods-category",
+      "cart",
+      "user",
+    ],
 
     // 页面标题
     common_pages_title: {
@@ -50,7 +57,7 @@ App({
 
     // 请求地址
     request_url: "{{request_url}}",
-    //request_url: "http://test.shopxo.net/",
+    request_url: "https://test.shopxo.net/",
     //request_url: 'http://tp5-dev.com/',
 
     // 基础信息
@@ -428,6 +435,33 @@ App({
   },
 
   /**
+   * 当前地址是否存在tabbar中
+   */
+  is_tabbar_pages(url) {
+    if (url.indexOf("?") == -1)
+    {
+      var all = url.split("/");
+    } else {
+      var temp_str = url.split("?");
+      var all = temp_str[0].split("/");
+    }
+    if (all.length <= 0)
+    {
+      return false;
+    }
+
+    var temp_tabbar_pages = this.data.tabbar_pages;
+    for (var i in temp_tabbar_pages)
+    {
+      if (temp_tabbar_pages[i] == all[all.length-1])
+      {
+        return true;
+      }
+    }
+    return false;
+  },
+
+  /**
    * 事件操作
    */
   operation_event(e) {
@@ -443,7 +477,12 @@ App({
 
           // 内部页面
           case 1 :
-            my.navigateTo({url: value});
+            if (this.is_tabbar_pages(value))
+            {
+              my.switchTab({ url: value });
+            } else {
+              my.navigateTo({ url: value });
+            }
             break;
 
           // 跳转到外部小程序

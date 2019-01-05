@@ -136,7 +136,7 @@ Page({
   // 清除缓存
   clear_storage(e) {
     wx.clearStorage()
-    app.showToast("清除缓存成功");
+    app.showToast("清除缓存成功", "success");
   },
 
   // 客服电话
@@ -145,7 +145,7 @@ Page({
     {
       app.showToast("客服电话有误");
     } else {
-      wx.makePhoneCall({ number: this.data.customer_service_tel });
+      wx.makePhoneCall({ phoneNumber: this.data.customer_service_tel });
     }
   },
 

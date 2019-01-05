@@ -16,14 +16,14 @@ Page({
    * 页面加载初始化
    */
   onLoad(option) {
-    // 标题设置
-    wx.setNavigationBarTitle({title: '手机绑定'});
-
     // 设置用户信息
     this.setData({
       params: option,
       user: app.get_user_cache_info() || null
     });
+
+    // 标题设置
+    wx.setNavigationBarTitle({ title: (this.data.user == null) ? '授权用户信息' : '手机绑定' });
   },
 
   /**

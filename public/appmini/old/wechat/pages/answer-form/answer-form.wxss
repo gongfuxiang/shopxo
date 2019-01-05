@@ -11,7 +11,7 @@
 }
 
 .form-input {
-    padding: 20rpx 0;
+    padding: 20rpx 10rpx;
 }
 .form-input input, .form-input textarea {
     font-size: 30rpx;

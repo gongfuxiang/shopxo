@@ -42,7 +42,7 @@
 }
 .floor-left {
     width: 40%;
-    height: 662rpx;
+    height: 660rpx;
 }
 .floor-left image {
     left: 0;
@@ -107,7 +107,7 @@
 .goods-list .goods:nth-child(5),
 .goods-list .goods:nth-child(6) {
     width: calc(50% - 1rpx);
-    height: 480rpx;
+    height: 490rpx;
     float: left;
 }
 .goods-list .goods-base {

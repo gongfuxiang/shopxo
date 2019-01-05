@@ -616,9 +616,14 @@ Page({
   // 商品相册图片查看
   goods_photo_view_event(e) {
     var index = e.currentTarget.dataset.index;
+    var all = [];
+    for (var i in this.data.goods_photo)
+    {
+      all.push(this.data.goods_photo[i]['images']);
+    }
     my.previewImage({
       current: index,
-      urls: this.data.goods_photo
+      urls: all
     });
   },
 
