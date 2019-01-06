@@ -14,10 +14,10 @@
 <!-- 组件 -->
 <view a:if="{{load_status == 1}}">
   <!-- 轮播 -->
-  <component-home-banner />
+  <component-slider data="{{banner_list}}" />
 
   <!-- 导航 -->
-  <component-home-nav />
+  <component-icon-nav data="{{navigation}}" />
 </view>
 
 
