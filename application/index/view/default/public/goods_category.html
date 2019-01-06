@@ -14,7 +14,9 @@
                             <li class="appliance js_toggle relative first">
                                 <div class="category-info">
                                     <h3 class="category-name b-category-name">
-                                        <i><img src="{{$v.icon}}"></i>
+                                        {{if !empty($v['icon'])}}
+                                            <img src="{{$v.icon}}" />
+                                        {{/if}}
                                         <a href="{{:MyUrl('index/search/index', ['category_id'=>$v['id']])}}" class="ml-22" title="{{$v.name}}">{{$v.name}}</a>
                                     </h3>
                                     <em>&gt;</em>
