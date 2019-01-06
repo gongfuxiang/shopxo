@@ -83,9 +83,11 @@
     font-size: 28rpx;
     color: #a6a6a6;
 }
-.no-data-box button {
-  margin: 0 auto;
+.no-data-box navigator {
   width: 220rpx;
+  margin: 0 auto;
+}
+.no-data-box button {
   height: 60rpx;
   line-height: 60rpx;
   font-size: 28rpx;

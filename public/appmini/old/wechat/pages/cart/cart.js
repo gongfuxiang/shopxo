@@ -33,7 +33,7 @@ Page({
             });
           } else {
             this.setData({
-              data_list_loding_status: 2,
+              data_list_loding_status: 0,
               data_bottom_line_status: false,
               data_list_loding_msg: '请先' + msg,
             });
@@ -72,7 +72,7 @@ Page({
             data_list: data,
             data_list_loding_status: data.length == 0 ? 0 : 3,
             data_bottom_line_status: true,
-            data_list_loding_msg: '',
+            data_list_loding_msg: '购物车空空如也',
           });
         } else {
           this.setData({

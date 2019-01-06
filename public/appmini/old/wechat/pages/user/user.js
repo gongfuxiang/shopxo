@@ -72,6 +72,7 @@ Page({
             avatar: user.avatar || app.data.default_user_head_src,
             nickname: user.nickname,
           });
+          wx.stopPullDownRefresh();
         },
       });
     } else {
