@@ -212,10 +212,14 @@ class WeixinMini
      */
     public function Respond($params = [])
     {
+        file_put_contents('./pppppp.txt', json_encode($_POST));
+        file_put_contents('./gggggg.txt', json_encode($_GET));
+        file_put_contents('./iiiiii.txt', json_encode(input()));
+        file_put_contents('./hhhhhh.txt', json_encode($GLOBALS['HTTP_RAW_POST_DATA']));
         $result = empty($GLOBALS['HTTP_RAW_POST_DATA']) ? '' : $this->Xml_Array($GLOBALS['HTTP_RAW_POST_DATA']);
 
         if(isset($result['sign']) && $result['sign'] == $this->GetParamSing($result)) return $result;
-        return '';   
+        return '';
         return DataReturn('test', -100);
     }
 
