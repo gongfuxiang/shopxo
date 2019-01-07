@@ -218,7 +218,7 @@ class WeixinMini
         {
             file_put_contents(ROOT.'gggggg.txt', json_encode($result));
 
-            return DataReturn('支付成功', 0, $this->ReturnData($data));
+            return DataReturn('支付成功', 0, $this->ReturnData($result));
         }
         return DataReturn('处理异常错误', -100);
     }
