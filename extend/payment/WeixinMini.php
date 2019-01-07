@@ -254,9 +254,31 @@ class WeixinMini
      */
     private function XmlToArray($xml)
     {
-        if(!Xml_Parser($xml)) return '';
+        if(!$this->XmlParser($xml)) return '';
 
         return json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+    }
+
+
+    /**
+     * 判断字符串是否为xml格式
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-01-07
+     * @desc    description
+     * @param   [string]          $string [字符串]
+     */
+    function XmlParser($string)
+    {
+        $xml_parser = xml_parser_create();
+        if(!xml_parse($xml_parser, $string, true))
+        {
+          xml_parser_free($xml_parser);
+          return false;
+        } else {
+          return (json_decode(json_encode(simplexml_load_string($string)),true));
+        }
     }
 
     /**
