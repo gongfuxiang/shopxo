@@ -204,7 +204,7 @@ class WeixinMini
         $params['spbill_create_ip'] = GetClientIP();
         $params['trade_type'] = empty($params['trade_type']) ? 'JSAPI' : $params['trade_type'];
         $params['attach'] = empty($params['attach']) ? 'shopxo-attach' : $params['attach'];
-        $params['sign_type'] = 'MD5',
+        $params['sign_type'] = 'MD5';
         $data = array(
             'sign'  =>  $this->GetSign($params),
             'data'  =>  $params,
