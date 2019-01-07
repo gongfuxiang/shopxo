@@ -210,6 +210,7 @@ Page({
 
   // 支付方法
   pay_handle(order_id, index) {
+    var $this = this;
     // 加载loding
     wx.showLoading({title: "请求中..." });
 
@@ -242,15 +243,15 @@ Page({
               paySign: res.data.data.data.paySign,
               success: function(res) {
                 // 数据设置
-                var temp_data_list = this.data.data_list;
+                var temp_data_list = $this.data.data_list;
                 temp_data_list[index]['status'] = 2;
                 temp_data_list[index]['status_name'] = '待发货';
-                this.setData({ data_list: temp_data_list });
+                $this.setData({ data_list: temp_data_list });
 
                 // 跳转支付页面
                 wx.navigateTo({
                   url: "/pages/paytips/paytips?code=9000&total_price=" +
-                    this.data.data_list[index]['total_price']
+                    $this.data.data_list[index]['total_price']
                 });
               },
               fail: function (res) {

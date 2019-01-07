@@ -214,10 +214,10 @@ class WeixinMini
     {
         $result = empty($GLOBALS['HTTP_RAW_POST_DATA']) ? $this->XmlToArray(file_get_contents('php://input')) : $this->XmlToArray($GLOBALS['HTTP_RAW_POST_DATA']);
 
-        //file_put_contents(ROOT.'gggggg.txt', json_encode($result));
-
-        if(isset($result['sign']) && $result['sign'] == $this->GetSign($result))
+        if(isset($result['result_code']) && $result['result_code'] == 'SUCCESS' && $result['sign'] == $this->GetSign($result))
         {
+            file_put_contents(ROOT.'gggggg.txt', json_encode($result));
+
             return DataReturn('支付成功', 0, $this->ReturnData($data));
         }
         return DataReturn('处理异常错误', -100);
@@ -241,7 +241,7 @@ class WeixinMini
         $data['buyer_user']     = $data['openid'];          // 支付平台 - 用户
         $data['out_trade_no']   = $out_trade_no;            // 本系统发起支付的 - 订单号
         $data['subject']        = $data['attach'];          // 本系统发起支付的 - 商品名称
-        $data['pay_price']      = $data['cash_fee']/100;    // 本系统发起支付的 - 总价
+        $data['pay_price']      = $data['total_fee']/100;    // 本系统发起支付的 - 总价
 
         return $data;
     }
