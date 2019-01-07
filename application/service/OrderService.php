@@ -142,7 +142,7 @@ class OrderService
 
             return $ret;
         }
-        return DataReturn('支付接口异常', -1);
+        return DataReturn(empty($ret['msg']) ? '支付接口异常' : $ret['msg'], -1);
     }
 
     /**
