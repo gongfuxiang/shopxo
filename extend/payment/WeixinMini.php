@@ -209,6 +209,21 @@ class AlipayMini
     }
 
     /**
+     * 支付回调处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-19
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public function Respond($params = [])
+    {
+        
+        return DataReturn('test', -100);
+    }
+
+    /**
      * 签名生成
      * @author   Devil
      * @blog    http://gong.gg/
