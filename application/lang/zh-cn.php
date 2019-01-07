@@ -106,7 +106,7 @@ return array(
             'h5'     => array('value' => 'h5', 'name' => 'H5手机网站'),
             'app' => array('value' => 'app', 'name' => 'APP'),
             'alipay' => array('value' => 'alipay', 'name' => '支付宝小程序'),
-            'wechat' => array('value' => 'wechat', 'name' => '微信小程序'),
+            'weixin' => array('value' => 'weixin', 'name' => '微信小程序'),
             'baidu' => array('value' => 'baidu', 'name' => '百度小程序'),
         ),
 

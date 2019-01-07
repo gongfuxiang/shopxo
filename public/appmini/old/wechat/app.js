@@ -168,7 +168,7 @@ App({
     return (
       this.data.request_url +
       "index.php?s=/" + m + "/" + c + "/" + a +
-      "&application_client=default&&application=app&application_client_type=wechat&application_user_id=" +
+      "&application_client=default&&application=app&application_client_type=weixin&application_user_id=" +
       app_client_user_id +
       "&user_id=" +
       user_id +
