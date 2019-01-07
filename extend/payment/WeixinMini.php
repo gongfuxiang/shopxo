@@ -213,7 +213,7 @@ class WeixinMini
             'attach'            => empty($params['attach']) ? 'shopxo-attach' : $params['attach'],
             'sign_type'         => 'MD5',
         ];
-        $data['sign'] = $this->GetSign($data),
+        $data['sign'] = $this->GetSign($data);
         return DataReturn('success', 0, $data);
     }
 
