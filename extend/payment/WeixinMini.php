@@ -147,7 +147,6 @@ class WeixinMini
         {
             return $data;
         }
-        print_r($data);die;
 
         // xml
         $xml = '<xml>
