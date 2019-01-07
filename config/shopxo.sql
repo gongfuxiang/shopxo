@@ -1,18 +1,20 @@
 /*
- Navicat MySQL Data Transfer
+ Navicat Premium Data Transfer
 
  Source Server         : 本机
- Source Server Version : 50716
+ Source Server Type    : MySQL
+ Source Server Version : 50722
  Source Host           : localhost
- Source Database       : shopxo_ttt
+ Source Database       : shopxo_test
 
- Target Server Version : 50716
+ Target Server Type    : MySQL
+ Target Server Version : 50722
  File Encoding         : utf-8
 
- Date: 12/31/2018 19:15:28 PM
+ Date: 01/07/2019 18:35:44 PM
 */
 
-SET NAMES utf8;
+SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
@@ -76,7 +78,7 @@ COMMIT;
 DROP TABLE IF EXISTS `s_app_home_nav`;
 CREATE TABLE `s_app_home_nav` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `platform` char(30) NOT NULL DEFAULT 'pc' COMMENT '所属平台（pc PC网站, h5 H5手机网站, app 手机APP, alipay 支付宝小程序, wechat 微信小程序, baidu 百度小程序）',
+  `platform` char(30) NOT NULL DEFAULT 'pc' COMMENT '所属平台（pc PC网站, h5 H5手机网站, app 手机APP, alipay 支付宝小程序, weixin 微信小程序, baidu 百度小程序）',
   `event_type` tinyint(2) NOT NULL DEFAULT '-1' COMMENT '事件类型（0 WEB页面, 1 内部页面(小程序或APP内部地址), 2 外部小程序(同一个主体下的小程序appid), 3 打开地图, 4 拨打电话）',
   `event_value` char(255) NOT NULL DEFAULT '' COMMENT '事件值',
   `images_url` char(255) NOT NULL DEFAULT '' COMMENT '图片地址',
@@ -96,7 +98,7 @@ CREATE TABLE `s_app_home_nav` (
 --  Records of `s_app_home_nav`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_app_home_nav` VALUES ('1', 'alipay', '1', '/pages/goods-category/goods-category', '/static/upload/images/app_nav/2018/11/19/2018111915461980516.png', '分类', '1', '#FF3300', '0', '1542563498', '1545371953'), ('2', 'alipay', '1', '/pages/cart/cart', '/static/upload/images/app_nav/2018/11/19/2018111915473948001.png', '购物车', '1', '#48CFAE', '1', '1542613659', '1542618347'), ('3', 'alipay', '1', '/pages/user-order/user-order', '/static/upload/images/app_nav/2018/11/19/2018111915482687655.png', '订单', '1', '#FF0066', '2', '1542613706', '1542705254'), ('4', 'alipay', '1', '/pages/user/user', '/static/upload/images/app_nav/2018/11/19/2018111915491258361.png', '我的', '1', '#49acfa', '3', '1542613752', '1542618360');
+INSERT INTO `s_app_home_nav` VALUES ('1', 'weixin', '1', '/pages/user-order/user-order', '/static/upload/images/app_nav/2018/11/19/2018111915461980516.png', '分类', '1', '#FF3300', '0', '1542563498', '1546671679'), ('2', 'weixin', '1', '/pages/cart/cart', '/static/upload/images/app_nav/2018/11/19/2018111915473948001.png', '购物车', '1', '#48CFAE', '1', '1542613659', '1546281258'), ('3', 'alipay', '1', '/pages/user-order/user-order', '/static/upload/images/app_nav/2018/11/19/2018111915482687655.png', '订单', '1', '#FF0066', '2', '1542613706', '1542705254'), ('4', 'alipay', '1', '/pages/user/user', '/static/upload/images/app_nav/2018/11/19/2018111915491258361.png', '我的', '1', '#49acfa', '3', '1542613752', '1542618360');
 COMMIT;
 
 -- ----------------------------
@@ -1084,7 +1086,7 @@ COMMIT;
 DROP TABLE IF EXISTS `s_slide`;
 CREATE TABLE `s_slide` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `platform` char(30) NOT NULL DEFAULT 'pc' COMMENT '所属平台（pc PC网站, h5 H5手机网站, alipay 支付宝小程序, wechat 微信小程序, baidu 百度小程序）',
+  `platform` char(30) NOT NULL DEFAULT 'pc' COMMENT '所属平台（pc PC网站, h5 H5手机网站, alipay 支付宝小程序, weixin 微信小程序, baidu 百度小程序）',
   `event_type` tinyint(2) NOT NULL DEFAULT '-1' COMMENT '事件类型（0 WEB页面, 1 内部页面(小程序或APP内部地址), 2 外部小程序(同一个主体下的小程序appid), 3 打开地图, 4 拨打电话）',
   `event_value` char(255) NOT NULL DEFAULT '' COMMENT '事件值',
   `images_url` char(255) NOT NULL DEFAULT '' COMMENT '图片地址',
@@ -1104,7 +1106,7 @@ CREATE TABLE `s_slide` (
 --  Records of `s_slide`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_slide` VALUES ('6', 'alipay', '-1', '', '/static/upload/images/slide/2018/08/20180810094402044087.jpeg', '浪漫七夕', '#080718', '1', '7', '1533865442', '1542618695'), ('7', 'alipay', '-1', '', '/static/upload/images/slide/2018/08/20180810095910423687.jpeg', '海洋的未来', '#016bcc', '1', '6', '1533866350', '1542618690'), ('8', 'alipay', '-1', '', '/static/upload/images/slide/2018/08/20180810100811853567.jpeg', '大闸蟹', '#f2efe6', '1', '5', '1533866891', '1542618684'), ('9', 'alipay', '-1', '', '/static/upload/images/slide/2018/08/20180810101045451156.jpeg', '情定七夕', '#7ddcf3', '1', '4', '1533867045', '1542618679'), ('10', 'pc', '-1', '', '/static/upload/images/slide/2018/08/20180810101106984022.jpeg', '美酒', '#f4bccb', '1', '3', '1533867066', '1545290302'), ('11', 'alipay', '3', 'ShopXO|上海浦东新区张江高科技园区XXX号|121.626444|31.20843', '/static/upload/images/slide/2018/08/20180810101154662873.jpeg', '助力七夕', '#85c8c7', '1', '2', '1533867114', '1543212317'), ('12', 'pc', '0', 'https://shopxo.net', '/static/upload/images/slide/2018/08/20180810101224227323.jpeg', '爱在厨房', '#efc6c4', '1', '1', '1533867144', '1545290041'), ('13', 'alipay', '1', '/pages/goods-detail/goods-detail?goods_id=1', '/static/upload/images/slide/2018/08/20180810101305611263.jpeg', '预享甜蜜', '#f6f6f4', '1', '0', '1533867185', '1545290030');
+INSERT INTO `s_slide` VALUES ('6', 'weixin', '0', 'https://shopxo.net', '/static/upload/images/slide/2018/08/20180810094402044087.jpeg', '浪漫七夕', '#080718', '1', '7', '1533865442', '1546281334'), ('7', 'weixin', '1', '/pages/goods-detail/goods-detail?goods_id=12', '/static/upload/images/slide/2018/08/20180810095910423687.jpeg', '海洋的未来', '#016bcc', '1', '6', '1533866350', '1546281301'), ('8', 'alipay', '-1', '', '/static/upload/images/slide/2018/08/20180810100811853567.jpeg', '大闸蟹', '#f2efe6', '1', '5', '1533866891', '1542618684'), ('9', 'alipay', '-1', '', '/static/upload/images/slide/2018/08/20180810101045451156.jpeg', '情定七夕', '#7ddcf3', '1', '4', '1533867045', '1542618679'), ('10', 'pc', '-1', '', '/static/upload/images/slide/2018/08/20180810101106984022.jpeg', '美酒', '#f4bccb', '1', '3', '1533867066', '1545290302'), ('11', 'alipay', '3', 'ShopXO|上海浦东新区张江高科技园区XXX号|121.626444|31.20843', '/static/upload/images/slide/2018/08/20180810101154662873.jpeg', '助力七夕', '#85c8c7', '1', '2', '1533867114', '1543212317'), ('12', 'pc', '0', 'https://shopxo.net', '/static/upload/images/slide/2018/08/20180810101224227323.jpeg', '爱在厨房', '#efc6c4', '1', '1', '1533867144', '1545290041'), ('13', 'alipay', '1', '/pages/goods-detail/goods-detail?goods_id=1', '/static/upload/images/slide/2018/08/20180810101305611263.jpeg', '预享甜蜜', '#f6f6f4', '1', '0', '1533867185', '1545290030');
 COMMIT;
 
 -- ----------------------------
