@@ -164,6 +164,8 @@ class WeixinMini
                 <sign>'.$data['data']['sign'].'</sign>
             </xml>';
 
+        print_r($xml);die;
+
         $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/pay/unifiedorder', $xml));
 
         print_r($result);die;
