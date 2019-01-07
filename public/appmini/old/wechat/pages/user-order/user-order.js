@@ -233,12 +233,13 @@ Page({
 
             app.showToast("支付成功", "success");
           } else {
-            wx.tradePay({
-              timeStamp: res.data.data.timestamp,
-              nonceStr: res.data.data.nonce_str,
-              package: 'partnerid=' + res.data.data.prepay_id,
-              signType: res.data.data.sign_type,
-              paySign: res.data.data.sign,
+            console.log(res.data.data.data)
+            wx.requestPayment({
+              timeStamp: res.data.data.data.timestamp,
+              nonceStr: res.data.data.data.nonce_str,
+              package: 'partnerid=' + res.data.data.data.prepay_id,
+              signType: res.data.data.data.sign_type,
+              paySign: res.data.data.data.sign,
               success: res => {
                 console.log(res);
                 // 数据设置

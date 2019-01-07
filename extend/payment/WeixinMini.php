@@ -160,7 +160,7 @@ class WeixinMini
                     'prepay_id'     => $result['prepay_id'],
                     'nonce_str'     => md5(time().rand()),
                     'sign_type'     => $ret['data']['sign_type'],
-                    'timestamp'     => time(),
+                    'timestamp'     => (string) time(),
                 );
             $pay_data['sign'] = $this->GetSign($pay_data);
             return DataReturn('success', 0, $pay_data);
