@@ -1,6 +1,6 @@
 <!-- 导航 -->
 <view class="nav">
-  <block wx:for="{{nav_status_list}}">
+  <block wx:for="{{nav_status_list}}" wx:key="key">
     <view wx:if="{{nav_status_index == index}}" class="item fl tc cr-main" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
     <view wx:else class="item fl tc" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
   </block>
@@ -58,7 +58,7 @@
 <!-- 支付方式 popup -->
 <component-popup prop-show="{{is_show_payment_popup}}" prop-position="bottom" bindonclose="payment_popup_event_close">
   <view wx:if="{{payment_list.length > 0}}" class="payment-list oh bg-white">
-    <view class="item tc fl" wx:for="{{payment_list}}">
+    <view class="item tc fl" wx:for="{{payment_list}}" wx:key="key">
       <view class="item-content br" data-value="{{item.id}}" bindtap="popup_payment_event">
         <image wx:if="{{(item.logo || null) != null}}" class="icon" src="{{item.logo}}" mode="widthFix" />
         <text>{{item.name}}

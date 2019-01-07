@@ -173,26 +173,6 @@ class WeixinMini
     }
 
     /**
-     * 数组转xml
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2019-01-07
-     * @desc    description
-     * @param   [array]          $data [数组]
-     */
-    private function ArrayToXml($data)
-    {
-        $xml = '<xml>';
-        foreach($data as $k=>$v)
-        {
-            $xml .= '<'.$k.'>'.$v.'</'.$k.'>';
-        }
-        $xml .= '</xml>';
-        return $xml;
-    }
-
-    /**
      * 获取支付参数
      * @author   Devil
      * @blog    http://gong.gg/
@@ -232,7 +212,10 @@ class WeixinMini
      */
     public function Respond($params = [])
     {
-        
+        $result = empty($GLOBALS['HTTP_RAW_POST_DATA']) ? '' : $this->Xml_Array($GLOBALS['HTTP_RAW_POST_DATA']);
+
+        if(isset($result['sign']) && $result['sign'] == $this->GetParamSing($result)) return $result;
+        return '';   
         return DataReturn('test', -100);
     }
 
@@ -254,6 +237,26 @@ class WeixinMini
             if($k != 'sign') $sign .= "$k=$v&";
         }
         return strtoupper(md5($sign.'key='.$this->config['key']));
+    }
+
+    /**
+     * 数组转xml
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-01-07
+     * @desc    description
+     * @param   [array]          $data [数组]
+     */
+    private function ArrayToXml($data)
+    {
+        $xml = '<xml>';
+        foreach($data as $k=>$v)
+        {
+            $xml .= '<'.$k.'>'.$v.'</'.$k.'>';
+        }
+        $xml .= '</xml>';
+        return $xml;
     }
 
     /**
