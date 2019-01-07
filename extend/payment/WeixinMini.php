@@ -151,7 +151,6 @@ class WeixinMini
         // xml
         $xml = $this->ArrayToXml($ret['data']);
         $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/pay/unifiedorder', $xml));
-        print_r($result);
         if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['prepay_id']))
         {
             // 返回数据
@@ -212,7 +211,7 @@ class WeixinMini
             'nonce_str'         => md5(time().rand().$params['order_no']),
             'notify_url'        => $params['notify_url'],
             'openid'            => $params['user_openid'],
-            'out_trade_no'      => $params['order_no'],
+            'out_trade_no'      => $params['order_no'].GetNumberCode(6),
             'spbill_create_ip'  => GetClientIP(),
             'total_fee'         => intval($params['total_price']*100),
             'trade_type'        => empty($params['trade_type']) ? 'JSAPI' : $params['trade_type'],
