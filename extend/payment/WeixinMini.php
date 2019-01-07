@@ -155,14 +155,12 @@ class WeixinMini
         {
             // 返回数据
             $pay_data = array(
-                    'appid'         => $this->config['appid'],
-                    'mch_id'        => $this->config['mch_id'],
-                    'prepay_id'     => $result['prepay_id'],
-                    'nonce_str'     => md5(time().rand()),
-                    'sign_type'     => $ret['data']['sign_type'],
-                    'timestamp'     => (string) time(),
+                    'package'       => 'prepay_id='.$result['prepay_id'],
+                    'nonceStr'      => md5(time().rand()),
+                    'signType'      => $ret['data']['sign_type'],
+                    'timeStamp'     => (string) time(),
                 );
-            $pay_data['sign'] = $this->GetSign($pay_data);
+            $pay_data['paySign'] = $this->GetSign($pay_data);
             return DataReturn('success', 0, $pay_data);
         }
         $msg = empty($result['return_msg']) ? '支付异常' : $result['return_msg'];

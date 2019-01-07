@@ -235,11 +235,11 @@ Page({
           } else {
             console.log(res.data.data.data)
             wx.requestPayment({
-              timeStamp: res.data.data.data.timestamp,
-              nonceStr: res.data.data.data.nonce_str,
-              package: 'partnerid=' + res.data.data.data.prepay_id,
-              signType: res.data.data.data.sign_type,
-              paySign: res.data.data.data.sign,
+              timeStamp: res.data.data.data.timeStamp,
+              nonceStr: res.data.data.data.nonceStr,
+              package: res.data.data.data.package,
+              signType: res.data.data.data.signType,
+              paySign: res.data.data.data.paySign,
               success: res => {
                 console.log(res);
                 // 数据设置
