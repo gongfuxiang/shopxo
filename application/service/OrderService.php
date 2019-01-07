@@ -113,6 +113,7 @@ class OrderService
             'total_price'   => $order['total_price'],
             'notify_url'    => $url.'_notify.php',
             'call_back_url' => $call_back_url,
+            'site_name'     => MyC('home_seo_site_title', 'ShopXO', true),
         );
         $pay_name = 'payment\\'.$payment[0]['payment'];
         $ret = (new $pay_name($payment[0]['config']))->Pay($pay_data);

@@ -202,7 +202,7 @@ class WeixinMini
         $data = [
             'appid'             => $this->config['appid'],
             'mch_id'            => $this->config['mch_id'],
-            'body'              => $params['name'],
+            'body'              => $params['site_name'].'-'.$params['name'],
             'nonce_str'         => md5(time().rand().$params['order_no']),
             'notify_url'        => $params['notify_url'],
             'openid'            => $params['user_openid'],
