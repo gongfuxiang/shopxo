@@ -11,14 +11,14 @@
 namespace payment;
 
 /**
- * 支付宝小程序支付
+ * 微信小程序支付
  * @author   Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
  * @date    2018-09-19
  * @desc    description
  */
-class AlipayMini
+class WeixinMini
 {
     // 插件配置参数
     private $config;
