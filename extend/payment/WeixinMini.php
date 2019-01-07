@@ -166,7 +166,12 @@ class WeixinMini
             $pay_data['sign'] = $this->GetSign($pay_data);
             return DataReturn('success', 0, $pay_data);
         }
-        return DataReturn(empty($result['return_msg']) ? '支付异常' : $result['return_msg'], -1);
+        $msg = empty($result['return_msg']) ? '支付异常';
+        if(!empty($result['err_code_des']))
+        {
+            $msg .= '-'.$result['err_code_des'];
+        }
+        return DataReturn($msg, -1);
     }
 
     /**
