@@ -208,7 +208,7 @@ class WeixinMini
             'openid'            => $params['user_openid'],
             'out_trade_no'      => $params['order_no'],
             'spbill_create_ip'  => GetClientIP(),
-            'total_fee'         => $params['total_price']*100,
+            'total_fee'         => intval($params['total_price']*100),
             'trade_type'        => empty($params['trade_type']) ? 'JSAPI' : $params['trade_type'],
             'attach'            => empty($params['attach']) ? 'shopxo-attach' : $params['attach'],
             'sign_type'         => 'MD5',
