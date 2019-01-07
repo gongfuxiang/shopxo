@@ -242,8 +242,6 @@ class WeixinMini
         {
             if($k != 'sign') $sign .= "$k=$v&";
         }
-
-        echo $sign.'key='.$this->config['key'];die;
         return strtoupper(md5($sign.'key='.$this->config['key']));
     }
 
