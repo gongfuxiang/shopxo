@@ -241,8 +241,9 @@ class WeixinMini
         $data['buyer_user']     = $data['openid'];          // 支付平台 - 用户
         $data['out_trade_no']   = $out_trade_no;            // 本系统发起支付的 - 订单号
         $data['subject']        = $data['attach'];          // 本系统发起支付的 - 商品名称
-        $data['pay_price']      = $data['total_fee']/100;    // 本系统发起支付的 - 总价
+        $data['pay_price']      = $data['total_fee']/100;   // 本系统发起支付的 - 总价
 
+        file_put_contents(ROOT.'dddddd.txt', json_encode($data));
         return $data;
     }
 
