@@ -216,8 +216,6 @@ class WeixinMini
 
         if(isset($result['result_code']) && $result['result_code'] == 'SUCCESS' && $result['sign'] == $this->GetSign($result))
         {
-            file_put_contents(ROOT.'gggggg.txt', json_encode($result));
-
             return DataReturn('支付成功', 0, $this->ReturnData($result));
         }
         return DataReturn('处理异常错误', -100);
@@ -242,8 +240,6 @@ class WeixinMini
         $data['out_trade_no']   = $out_trade_no;            // 本系统发起支付的 - 订单号
         $data['subject']        = $data['attach'];          // 本系统发起支付的 - 商品名称
         $data['pay_price']      = $data['total_fee']/100;   // 本系统发起支付的 - 总价
-
-        file_put_contents(ROOT.'dddddd.txt', json_encode($data));
         return $data;
     }
 
