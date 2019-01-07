@@ -151,15 +151,15 @@ class WeixinMini
         // xml
         $xml = '<xml>
                 <appid>'.$this->config['appid'].'</appid>
-                <body>'.$data['data']['name'].'</body>
+                <body>'.$data['data']['data']['name'].'</body>
                 <mch_id>'.$this->config['mch_id'].'</mch_id>
-                <nonce_str>'.$data['data']['nonce_str'].'</nonce_str>
-                <notify_url>'.$data['data']['notify_url'].'</notify_url>
-                <openid>'.$data['data']['openid'].'</openid>
-                <out_trade_no>'.$data['data']['out_trade_no'].'</out_trade_no>
-                <spbill_create_ip>'.$data['data']['spbill_create_ip'].'</spbill_create_ip>
-                <total_fee>'.$data['data']['total_price'].'</total_fee>
-                <trade_type>'.$data['data']['trade_type'].'</trade_type>
+                <nonce_str>'.$data['data']['data']['nonce_str'].'</nonce_str>
+                <notify_url>'.$data['data']['data']['notify_url'].'</notify_url>
+                <openid>'.$data['data']['data']['user_openid'].'</openid>
+                <out_trade_no>'.$data['data']['data']['out_trade_no'].'</out_trade_no>
+                <spbill_create_ip>'.$data['data']['data']['spbill_create_ip'].'</spbill_create_ip>
+                <total_fee>'.$data['data']['data']['total_price'].'</total_fee>
+                <trade_type>'.$data['data']['data']['trade_type'].'</trade_type>
                 <attach>'.$data['data']['attach'].'</attach>
                 <sign>'.$data['sign'].'</sign>
             </xml>';
