@@ -161,13 +161,12 @@ class WeixinMini
                 <total_fee>'.$data['data']['data']['total_price'].'</total_fee>
                 <trade_type>'.$data['data']['data']['trade_type'].'</trade_type>
                 <attach>'.$data['data']['data']['attach'].'</attach>
+                <sign_type>'.$data['data']['data']['sign_type'].'</sign_type>
                 <sign>'.$data['data']['sign'].'</sign>
             </xml>';
-
-        print_r($xml);die;
-
         $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/pay/unifiedorder', $xml));
 
+        print_r($xml);
         print_r($result);die;
         if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['prepay_id']))
         {
@@ -205,6 +204,7 @@ class WeixinMini
         $params['spbill_create_ip'] = GetClientIP();
         $params['trade_type'] = empty($params['trade_type']) ? 'JSAPI' : $params['trade_type'];
         $params['attach'] = empty($params['attach']) ? 'shopxo-attach' : $params['attach'];
+        $params['sign_type'] = 'MD5',
         $data = array(
             'sign'  =>  $this->GetSign($params),
             'data'  =>  $params,
