@@ -194,7 +194,7 @@ class WeixinMini
             'spbill_create_ip'  => GetClientIP(),
             'total_fee'         => intval($params['total_price']*100),
             'trade_type'        => empty($params['trade_type']) ? 'JSAPI' : $params['trade_type'],
-            'attach'            => empty($params['attach']) ? 'shopxo-attach' : $params['attach'],
+            'attach'            => empty($params['attach']) ? $params['site_name'].'-'.$params['name'] : $params['attach'],
             'sign_type'         => 'MD5',
         ];
         $data['sign'] = $this->GetSign($data);
@@ -214,13 +214,36 @@ class WeixinMini
     {
         $result = empty($GLOBALS['HTTP_RAW_POST_DATA']) ? $this->XmlToArray(file_get_contents('php://input')) : $this->XmlToArray($GLOBALS['HTTP_RAW_POST_DATA']);
 
-        file_put_contents(ROOT.'gggggg.txt', json_encode($result));
+        //file_put_contents(ROOT.'gggggg.txt', json_encode($result));
 
         if(isset($result['sign']) && $result['sign'] == $this->GetSign($result))
         {
-            return DataReturn('success', 0, $result);
+            return DataReturn('支付成功', 0, $this->ReturnData($data));
         }
-        return DataReturn('test', -100);
+        return DataReturn('处理异常错误', -100);
+    }
+
+    /**
+     * [ReturnData 返回数据统一格式]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-10-06T16:54:24+0800
+     * @param    [array]                   $data [返回数据]
+     */
+    private function ReturnData($data)
+    {
+        // 参数处理
+        $out_trade_no = substr($data['out_trade_no'], 0, strlen($data['out_trade_no'])-6);
+
+        // 返回数据固定基础参数
+        $data['trade_no']       = $data['transaction_id'];  // 支付平台 - 订单号
+        $data['buyer_user']     = $data['openid'];          // 支付平台 - 用户
+        $data['out_trade_no']   = $out_trade_no;            // 本系统发起支付的 - 订单号
+        $data['subject']        = $data['attach'];          // 本系统发起支付的 - 商品名称
+        $data['pay_price']      = $data['cash_fee']/100;    // 本系统发起支付的 - 总价
+
+        return $data;
     }
 
     /**
@@ -323,12 +346,13 @@ class WeixinMini
 
         if($use_cert == true)
         {
+            // 退款 取消使用
             //设置证书
             //使用证书：cert 与 key 分别属于两个.pem文件
-            $options[CURLOPT_SSLCERTTYPE] = 'PEM';
-            $options[CURLOPT_SSLCERT] = WEB_ROOT.'cert/wechat_app_apiclient_cert.pem';
-            $options[CURLOPT_SSLKEYTYPE] = 'PEM';
-            $options[CURLOPT_SSLKEY] = WEB_ROOT.'cert/wechat_app_apiclient_key.pem';
+            // $options[CURLOPT_SSLCERTTYPE] = 'PEM';
+            // $options[CURLOPT_SSLCERT] = WEB_ROOT.'cert/wechat_app_apiclient_cert.pem';
+            // $options[CURLOPT_SSLKEYTYPE] = 'PEM';
+            // $options[CURLOPT_SSLKEY] = WEB_ROOT.'cert/wechat_app_apiclient_key.pem';
         }
  
         $ch = curl_init($url);
