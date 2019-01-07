@@ -156,7 +156,7 @@ class WeixinMini
                 <nonce_str>'.$data['data']['data']['nonce_str'].'</nonce_str>
                 <notify_url>'.$data['data']['data']['notify_url'].'</notify_url>
                 <openid>'.$data['data']['data']['user_openid'].'</openid>
-                <out_trade_no>'.$data['data']['data']['out_trade_no'].'</out_trade_no>
+                <out_trade_no>'.$data['data']['data']['order_no'].'</out_trade_no>
                 <spbill_create_ip>'.$data['data']['data']['spbill_create_ip'].'</spbill_create_ip>
                 <total_fee>'.$data['data']['data']['total_price'].'</total_fee>
                 <trade_type>'.$data['data']['data']['trade_type'].'</trade_type>
