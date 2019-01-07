@@ -234,24 +234,29 @@ Page({
             app.showToast("支付成功", "success");
           } else {
             wx.tradePay({
-              tradeNO: res.data.data.data,
+              timeStamp: res.data.data.timestamp,
+              nonceStr: res.data.data.nonce_str,
+              package: 'partnerid=' + res.data.data.prepay_id,
+              signType: res.data.data.sign_type,
+              paySign: res.data.data.sign,
               success: res => {
+                console.log(res);
                 // 数据设置
-                if (res.resultCode == 9000) {
-                  var temp_data_list = this.data.data_list;
-                  temp_data_list[index]['status'] = 2;
-                  temp_data_list[index]['status_name'] = '待发货';
-                  this.setData({ data_list: temp_data_list });
-                }
+                // if (res.resultCode == 9000) {
+                //   var temp_data_list = this.data.data_list;
+                //   temp_data_list[index]['status'] = 2;
+                //   temp_data_list[index]['status_name'] = '待发货';
+                //   this.setData({ data_list: temp_data_list });
+                // }
 
-                // 跳转支付页面
-                wx.navigateTo({
-                  url:
-                    "/pages/paytips/paytips?code=" +
-                    res.resultCode +
-                    "&total_price=" +
-                    this.data.data_list[index]['total_price']
-                });
+                // // 跳转支付页面
+                // wx.navigateTo({
+                //   url:
+                //     "/pages/paytips/paytips?code=" +
+                //     res.resultCode +
+                //     "&total_price=" +
+                //     this.data.data_list[index]['total_price']
+                // });
               },
               fail: res => {
                 app.showToast("唤起支付模块失败");

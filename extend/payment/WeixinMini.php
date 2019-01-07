@@ -155,12 +155,12 @@ class WeixinMini
         {
             // 返回数据
             $pay_data = array(
-                    'appid'         =>  $this->config['appid'],
-                    'partnerid'     =>  $this->config['mch_id'],
-                    'prepayid'      =>  $result['prepay_id'],
-                    'package'       =>  'prepay_id='.$result['prepay_id'],
-                    'noncestr'      =>  md5(time().rand()),
-                    'timestamp'     =>  time(),
+                    'appid'         => $this->config['appid'],
+                    'mch_id'        => $this->config['mch_id'],
+                    'prepay_id'     => $result['prepay_id'],
+                    'nonce_str'     => md5(time().rand()),
+                    'sign_type'     => $ret['data']['sign_type'],
+                    'timestamp'     => time(),
                 );
             $pay_data['sign'] = $this->GetSign($pay_data);
             return DataReturn('success', 0, $pay_data);
