@@ -113,7 +113,7 @@ class User extends Common
      */
     public function WechatUserAuth()
     {
-        $result = (new \base\Wechat('wxdaafcb5682165b02', 'e6e46d2f4b04078771a2cd78c95d400b'))->GetAuthSessionKey(input('authcode'));
+        $result = (new \base\Wechat('wx0a2012ebad94beff', 'd0e4e81180ea59b8fcc4299f6b05b362'))->GetAuthSessionKey(input('authcode'));
         if($result !== false)
         {
             return DataReturn('授权登录成功', 0, $result);
@@ -131,7 +131,7 @@ class User extends Common
      */
     public function WechatUserInfo()
     {
-        $result = (new \base\Wechat('wxdaafcb5682165b02', 'e6e46d2f4b04078771a2cd78c95d400b'))->DecryptData(input('encrypted_data'), input('iv'), input('openid'));
+        $result = (new \base\Wechat('wx0a2012ebad94beff', 'd0e4e81180ea59b8fcc4299f6b05b362'))->DecryptData(input('encrypted_data'), input('iv'), input('openid'));
 
         if(is_array($result))
         {
