@@ -142,14 +142,14 @@ class WeixinMini
         }
 
         // 获取支付参数
-        $data = $this->GetPayParams($params);
-        if($data['code'] != 0)
+        $ret = $this->GetPayParams($params);
+        if($ret['code'] != 0)
         {
-            return $data;
+            return $ret;
         }
 
         // xml
-        $xml = $this->ArrayToXml($data['data']);
+        $xml = $this->ArrayToXml($ret['data']);
         $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/pay/unifiedorder', $xml));
         if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['prepay_id']))
         {
@@ -163,9 +163,9 @@ class WeixinMini
                     'timestamp'     =>  time(),
                 );
             $pay_data['sign'] = $this->GetSign($pay_data);
-            return DataReturn('参数不能为空', 0, $pay_data);
+            return DataReturn('success', 0, $pay_data);
         }
-        return DataReturn('参数不能为空', -1);
+        return DataReturn('支付异常', -1);
     }
 
     /**
