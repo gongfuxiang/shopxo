@@ -149,25 +149,8 @@ class WeixinMini
         }
 
         // xml
-        $xml = '<xml>
-                <appid>'.$this->config['appid'].'</appid>
-                <body>'.$data['data']['data']['name'].'</body>
-                <mch_id>'.$this->config['mch_id'].'</mch_id>
-                <nonce_str>'.$data['data']['data']['nonce_str'].'</nonce_str>
-                <notify_url>'.$data['data']['data']['notify_url'].'</notify_url>
-                <openid>'.$data['data']['data']['user_openid'].'</openid>
-                <out_trade_no>'.$data['data']['data']['order_no'].'</out_trade_no>
-                <spbill_create_ip>'.$data['data']['data']['spbill_create_ip'].'</spbill_create_ip>
-                <total_fee>'.$data['data']['data']['total_price'].'</total_fee>
-                <trade_type>'.$data['data']['data']['trade_type'].'</trade_type>
-                <attach>'.$data['data']['data']['attach'].'</attach>
-                <sign_type>'.$data['data']['data']['sign_type'].'</sign_type>
-                <sign>'.$data['data']['sign'].'</sign>
-            </xml>';
+        $xml = $this->ArrayToXml($data['data']);
         $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/pay/unifiedorder', $xml));
-
-        print_r($xml);
-        print_r($result);die;
         if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['prepay_id']))
         {
             // 返回数据
@@ -186,6 +169,26 @@ class WeixinMini
     }
 
     /**
+     * 数组转xml
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-01-07
+     * @desc    description
+     * @param   [array]          $data [数组]
+     */
+    private function ArrayToXml($data)
+    {
+        $xml = '<xml>';
+        foreach($data as $k=>$v)
+        {
+            $xml .= '<'.$k.'>'.$v.'</'.$k.'>';
+        }
+        $xml .= '</xml>';
+        return $xml;
+    }
+
+    /**
      * 获取支付参数
      * @author   Devil
      * @blog    http://gong.gg/
@@ -196,19 +199,21 @@ class WeixinMini
      */
     private function GetPayParams($params = [])
     {
-        if(empty($params)) return '';
-
-        $params['appid'] = $this->config['appid'];
-        $params['mch_id'] = $this->config['mch_id'];
-        $params['nonce_str'] = md5(time().rand().$params['order_no']);
-        $params['spbill_create_ip'] = GetClientIP();
-        $params['trade_type'] = empty($params['trade_type']) ? 'JSAPI' : $params['trade_type'];
-        $params['attach'] = empty($params['attach']) ? 'shopxo-attach' : $params['attach'];
-        $params['sign_type'] = 'MD5';
-        $data = array(
-            'sign'  =>  $this->GetSign($params),
-            'data'  =>  $params,
-        );
+        $data = [
+            'appid'             => $this->config['appid'],
+            'mch_id'            => $this->config['mch_id'],
+            'body'              => $params['name'],
+            'nonce_str'         => md5(time().rand().$params['order_no']),
+            'notify_url'        => $params['notify_url'],
+            'openid'            => $params['user_openid'],
+            'out_trade_no'      => $params['order_no'],
+            'spbill_create_ip'  => GetClientIP(),
+            'total_fee'         => $params['total_price'],
+            'trade_type'        => empty($params['trade_type']) ? 'JSAPI' : $params['trade_type'],
+            'attach'            => empty($params['attach']) ? 'shopxo-attach' : $params['attach'],
+            'sign_type'         => 'MD5',
+        ];
+        $data['sign'] = $this->GetSign($data),
         return DataReturn('success', 0, $data);
     }
 
