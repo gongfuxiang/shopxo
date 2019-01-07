@@ -160,8 +160,8 @@ class WeixinMini
                 <spbill_create_ip>'.$data['data']['data']['spbill_create_ip'].'</spbill_create_ip>
                 <total_fee>'.$data['data']['data']['total_price'].'</total_fee>
                 <trade_type>'.$data['data']['data']['trade_type'].'</trade_type>
-                <attach>'.$data['data']['attach'].'</attach>
-                <sign>'.$data['sign'].'</sign>
+                <attach>'.$data['data']['data']['attach'].'</attach>
+                <sign>'.$data['data']['sign'].'</sign>
             </xml>';
 
         $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/pay/unifiedorder', $xml));
