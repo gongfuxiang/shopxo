@@ -182,7 +182,10 @@ class SearchService
      */
     public static function SearchKeywordsList($params = [])
     {
-        return Db::name('SearchHistory')->where(['keywords'=>['neq', '']])->group('keywords')->limit(10)->column('keywords');
+        $where = [
+            ['keywords', '<>', ''],
+        ];
+        return Db::name('SearchHistory')->where($where)->group('keywords')->limit(10)->column('keywords');
     }
 }
 ?>
