@@ -74,7 +74,7 @@ class AppMiniService
                     if($temp_file != '.' && $temp_file != '..')
                     {
                         $file_path = self::$new_path.DS.$temp_file;
-                        $url = __MY_URL__.'appmini'.DS.'new'.DS.self::$application_name.DS.$temp_file;
+                        $url = __MY_PUBLIC_URL__.'appmini'.DS.'new'.DS.self::$application_name.DS.$temp_file;
                         $result[] = [
                             'name'  => $temp_file,
                             'url'   => substr($url, -4) == '.zip' ? $url : '',
