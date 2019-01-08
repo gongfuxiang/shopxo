@@ -230,7 +230,7 @@ class Order extends Common
     public function QrcodePay()
     {
         $params = input();
-        if(empty($params['url']) || empty($params['order_no']))
+        if(empty($params['url']) || empty($params['order_no']) || empty($params['name']) || empty($params['msg']))
         {
             $this->assign('msg', '参数有误');
             return $this->fetch('public/tips_error');

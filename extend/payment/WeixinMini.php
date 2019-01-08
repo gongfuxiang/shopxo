@@ -164,7 +164,13 @@ class WeixinMini
         {
             // web支付
             case 'NATIVE' :
-                $url = MyUrl('index/order/qrcodepay', ['url'=>urlencode($data['code_url']), 'order_no'=>$params['order_no']]);
+                $pay_params = [
+                    'url'       => urlencode($data['code_url']),
+                    'order_no'  => $params['order_no'],
+                    'name'      => '微信支付',
+                    'msg'       => '打开微信APP扫一扫进行支付',
+                ];
+                $url = MyUrl('index/order/qrcodepay', $pay_params);
                 $result = DataReturn('success', 0, $url);
                 break;
 
