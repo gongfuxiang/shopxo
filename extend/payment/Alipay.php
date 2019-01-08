@@ -379,6 +379,7 @@ class Alipay
         $result = array(
             'urlcode'   => substr($urlcode, 0, -1),
             'url'       => substr($url, 0, -1),
+            'sign'      => '',
         );
         if(!empty($this->config['key']))
         {
