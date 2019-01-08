@@ -82,6 +82,12 @@ class OrderService
             return DataReturn('支付方式有误', -1);
         }
 
+        // 配置信息
+        if(empty($payment[0]['config']))
+        {
+            return DataReturn('支付缺少配置', -1);
+        }
+
         // 支付入口文件检查
         $pay_checked = PaymentService::EntranceFileChecked($payment[0]['payment'], 'order');
         if($pay_checked['code'] != 0)
