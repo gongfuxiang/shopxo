@@ -153,16 +153,7 @@ class WeixinMini
         $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/pay/unifiedorder', $xml));
         if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['prepay_id']))
         {
-            // 返回数据
-            $pay_data = array(
-                'appId'         => $this->config['appid'],
-                'package'       => 'prepay_id='.$result['prepay_id'],
-                'nonceStr'      => md5(time().rand()),
-                'signType'      => $ret['data']['sign_type'],
-                'timeStamp'     => (string) time(),
-            );
-            $pay_data['paySign'] = $this->GetSign($pay_data);
-            return DataReturn('success', 0, $pay_data);
+            return $this->PayHandleReturn($ret['data'], $result);
         }
         $msg = empty($result['return_msg']) ? '支付异常' : $result['return_msg'];
         if(!empty($result['err_code_des']))
@@ -170,6 +161,52 @@ class WeixinMini
             $msg .= '-'.$result['err_code_des'];
         }
         return DataReturn($msg, -1);
+    }
+
+    /**
+     * 支付返回处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-01-08
+     * @desc    description
+     * @param   [array]           $pay_params   [支付参数]
+     * @param   [array]           $data         [支付返回数据]
+     */
+    private function PayHandleReturn($pay_params = [], $data = [])
+    {
+        $result = DataReturn('支付接口异常', -1);
+        switch($pay_params['sign_type'])
+        {
+            // web支付
+            case 'NATIVE' :
+
+                break;
+
+            // h5支付
+            case 'MWEB' :
+
+                break;
+
+            // 微信中/小程序支付
+            case 'JSAPI' :
+                $pay_data = array(
+                    'appId'         => $this->config['appid'],
+                    'package'       => 'prepay_id='.$data['prepay_id'],
+                    'nonceStr'      => md5(time().rand()),
+                    'signType'      => $pay_params['sign_type'],
+                    'timeStamp'     => (string) time(),
+                );
+                $pay_data['paySign'] = $this->GetSign($pay_data);
+                $result = DataReturn('success', 0, $pay_data);
+                break;
+
+            // APP支付
+            case 'APP' :
+
+                break;
+        }
+        return $result;
     }
 
     /**
@@ -193,12 +230,45 @@ class WeixinMini
             'out_trade_no'      => $params['order_no'].GetNumberCode(6),
             'spbill_create_ip'  => GetClientIP(),
             'total_fee'         => intval($params['total_price']*100),
-            'trade_type'        => empty($params['trade_type']) ? 'JSAPI' : $params['trade_type'],
+            'trade_type'        => empty($params['trade_type']) ? $this->GetTradeType() : $params['trade_type'],
             'attach'            => empty($params['attach']) ? $params['site_name'].'-'.$params['name'] : $params['attach'],
             'sign_type'         => 'MD5',
         ];
         $data['sign'] = $this->GetSign($data);
         return DataReturn('success', 0, $data);
+    }
+
+    /**
+     * 获取支付交易类型
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-01-08
+     * @desc    description
+     */
+    private function GetTradeType()
+    {
+        $type_all = [
+            'pc'        => 'NATIVE',
+            'weixin'    => 'JSAPI',
+            'h5'        => 'MWEB',
+            'app'       => 'APP'
+        ];
+
+        // 手机中打开pc版本
+        if(APPLICATION_CLIENT_TYPE == 'pc' && IsMobile())
+        {
+            $type_all['pc'] = $type_all['h5'];
+        }
+
+        // 微信中打开
+        $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+        if(!empty($user_agent) && strpos($user_agent, 'MicroMessenger') !== false)
+        {
+            $type_all['pc'] = $type_all['weixin'];
+            $type_all['h5'] = $type_all['weixin'];
+        }
+        return isset($type_all[APPLICATION_CLIENT_TYPE]) ? $type_all[APPLICATION_CLIENT_TYPE] : '';
     }
 
     /**
