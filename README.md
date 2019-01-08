@@ -7,7 +7,7 @@
 * 官网地址：http://shopxo.net/
 * 演示地址：http://demo.shopxo.net/ （管理账户/密码可进入官网查看）
 * 支付宝小程序：http://shopxo.net/alipay.html （已发布）
-* 支付宝小程序：http://shopxo.net/ （已发布）
+* 微信小程序：http://shopxo.net/ （已发布）
 
 ### 安装教程
 * v1.2.0安装教程：https://ask.shopxo.net/article/5
