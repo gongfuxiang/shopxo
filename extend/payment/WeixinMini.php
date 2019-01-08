@@ -155,6 +155,8 @@ class WeixinMini
         {
             return $this->PayHandleReturn($ret['data'], $result);
         }
+        print_r($ret['data']);
+        print_r($result);die;
         $msg = empty($result['return_msg']) ? '支付异常' : $result['return_msg'];
         if(!empty($result['err_code_des']))
         {
