@@ -1355,5 +1355,49 @@ class OrderService
         }
     }
 
+    /**
+     * 支付状态校验
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-01-08
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function OrderPayCheck($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'order_no',
+                'error_msg'         => '订单号有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user',
+                'error_msg'         => '用户信息有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取订单状态
+        $where = ['order_no'=>$params['order_no'], 'user_id'=>$params['user']['id']];
+        $order = Db::name('Order')->where($where)->field('id,pay_status')->find();
+        if(empty($order))
+        {
+            return DataReturn('订单不存在', -400, ['url'=>__MY_URL__]);
+        }
+        if($order['pay_status'] == 1)
+        {
+            return DataReturn('支付成功', 0, ['url'=>MyUrl('index/order/detail', ['id'=>$order['id']])]);
+        }
+        return DataReturn('支付中', -300);
+    }
+
 }
 ?>

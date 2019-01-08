@@ -333,5 +333,25 @@ class Order extends Common
         }
     }
 
+    /**
+     * 支付状态校验
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-01-08
+     * @desc    description
+     */
+    public function PayCheck()
+    {
+        if(input('post.'))
+        {
+            $params = input('post.');
+            $params['user'] = $this->user;
+            return OrderService::OrderPayCheck($params);
+        } else {
+            $this->assign('msg', '非法访问');
+            return $this->fetch('public/tips_error');
+        }
+    }
 }
 ?>
