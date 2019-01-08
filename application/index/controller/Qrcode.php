@@ -34,10 +34,11 @@ class QrCode extends Common
     {
         require_once ROOT.'extend'.DS.'qrcode'.DS.'phpqrcode.php';
         
-        $level = isset($_REQUEST['level']) && in_array($_REQUEST['level'], array('L','M','Q','H')) ? $_REQUEST['level'] : 'L';
-        $point_size = isset($_REQUEST['size']) ? min(max(intval($_REQUEST['size']), 1), 10) : 6;
-        $mr = isset($_REQUEST['mr']) ? intval($_REQUEST['mr']) : 1;
-        $content = isset($_REQUEST['content']) ? urldecode(trim($_REQUEST['content'])) : __MY_URL__;
+        $params = input();
+        $level = isset($params['level']) && in_array($params['level'], array('L','M','Q','H')) ? $params['level'] : 'L';
+        $point_size = isset($params['size']) ? min(max(intval($params['size']), 1), 10) : 6;
+        $mr = isset($params['mr']) ? intval($params['mr']) : 1;
+        $content = isset($params['content']) ? urldecode(trim($params['content'])) : __MY_URL__;
         \QRcode::png($content, false, $level, $point_size, $mr);
     }
 }
