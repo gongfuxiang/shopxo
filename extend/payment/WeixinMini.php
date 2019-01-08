@@ -133,7 +133,6 @@ class WeixinMini
 
         // xml
         $xml = $this->ArrayToXml($ret['data']);
-        print_r($xml);die;
         $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/pay/unifiedorder', $xml));
         if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['prepay_id']))
         {
@@ -313,10 +312,11 @@ class WeixinMini
         $sign  = '';
         foreach($params as $k=>$v)
         {
-            if($k != 'sign') $sign .= "$k=$v&";
+            if($k != 'sign' && $v != '' && $v != null)
+            {
+                $sign .= "$k=$v&";
+            }
         }
-
-        echo $sign.'key='.$this->config['key'];
         return strtoupper(md5($sign.'key='.$this->config['key']));
     }
 
