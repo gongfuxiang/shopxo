@@ -284,6 +284,10 @@ class Alipay
             //放入数组中
             $para_text[$key] = $value;
         }
+        if(empty($para_text['res_data']))
+        {
+            return DataReturn('支付宝异常错误', -1);
+        }
 
         $req = Xml_Array($para_text['res_data']);
         if(empty($req['request_token']))
