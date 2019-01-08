@@ -284,7 +284,7 @@ php;
         }
 
         new \base\Behavior(['msg'=>'安装成功']);
-        return DataReturn('安装成功', -20);
+        return DataReturn('安装成功', 0);
     }
 
     /**
