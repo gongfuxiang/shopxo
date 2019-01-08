@@ -1,0 +1,51 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- operation start -->
+        <div class="am-g">
+            <button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-ajax" data-url="{{:MyUrl('admin/appminiweixinlist/created')}}" data-view="reload" data-msg="生成时间比较长，请不要关闭浏览器窗口！"> 生成</button>
+        </div>
+        <!-- operation end -->
+
+		<!-- list start -->
+		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5">
+			<thead>
+				<tr>
+					<th>包名</th>
+					<th>大小</th>
+					<th>创建时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{if !empty($data)}}
+					{{foreach $data as $v}}
+						<tr>
+							<td>{{$v.name}}</td>
+							<td>{{$v.size}}</td>
+							<td>{{$v.time}}</td>
+							<td class="view-operation">
+								{{if !empty($v.url)}}
+									<a href="{{$v.url}}">
+										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-download"> 下载</button>
+									</a>
+								{{/if}}
+								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/appminiweixinlist/delete')}}" data-id="{{$v.name}}" data-view="reload"> 删除</button>
+							</td>
+						</tr>
+					{{/foreach}}
+				{{else /}}
+					<tr><td colspan="4" class="table-no">没有相关数据</td></tr>
+				{{/if}}
+			</tbody>
+		</table>
+		<!-- lis end -->
+	</div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

@@ -13,13 +13,13 @@ namespace app\admin\controller;
 use app\service\AppMiniService;
 
 /**
- * 支付宝小程序管理
+ * 微信小程序管理
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class AppMiniAlipayList extends Common
+class AppMiniWeixinList extends Common
 {
 	private $application_name;
 	private $old_path;
@@ -45,7 +45,7 @@ class AppMiniAlipayList extends Common
 
 		// 参数
 		$this->params = input();
-		$this->params['application_name'] = 'alipay';
+		$this->params['application_name'] = 'weixin';
 	}
 
 	/**
