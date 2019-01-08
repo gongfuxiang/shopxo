@@ -163,13 +163,13 @@ class WeixinMini
         {
             // web支付
             case 'NATIVE' :
-                $result = DataReturn('success', 0, $data['code_url']);
+                $url = MyUrl('index/qrcode/index', ['content'=>$data['code_url']]);
+                $result = DataReturn('success', 0, $url);
                 break;
 
             // h5支付
             case 'MWEB' :
-                $url = MyUrl('index/qrcode/index', ['content'=>$data['mweb_url']]);
-                $result = DataReturn('success', 0, $url);
+                $result = DataReturn('success', 0, $data['mweb_url']);
                 break;
 
             // 微信中/小程序支付
