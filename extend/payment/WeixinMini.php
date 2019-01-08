@@ -66,7 +66,7 @@ class WeixinMini
                 'default'       => '',
                 'name'          => 'appid',
                 'placeholder'   => '公众号ID',
-                'title'         => '公众号ID (用于web/h5/公众号支付)',
+                'title'         => '公众号ID (用于web/h5)',
                 'is_required'   => 0,
                 'message'       => '请填写微信分配的公众号ID',
             ],
