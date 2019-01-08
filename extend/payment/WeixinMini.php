@@ -211,6 +211,13 @@ class WeixinMini
      */
     private function GetPayParams($params = [])
     {
+        $trade_type = empty($params['trade_type']) ? $this->GetTradeType() : $params['trade_type'];
+        if(empty($trade_type))
+        {
+            return DataReturn('支付类型不匹配', -1);
+        }
+
+        // appid
         $appid = (APPLICATION_CLIENT_TYPE == 'weixin') ? $this->config['mini_appid'] :  $this->config['appid'];
         $data = [
             'appid'             => $appid,
@@ -222,7 +229,7 @@ class WeixinMini
             'out_trade_no'      => $params['order_no'].GetNumberCode(6),
             'spbill_create_ip'  => GetClientIP(),
             'total_fee'         => intval($params['total_price']*100),
-            'trade_type'        => empty($params['trade_type']) ? $this->GetTradeType() : $params['trade_type'],
+            'trade_type'        => $trade_type,
             'attach'            => empty($params['attach']) ? $params['site_name'].'-'.$params['name'] : $params['attach'],
             'sign_type'         => 'MD5',
         ];
@@ -254,12 +261,12 @@ class WeixinMini
         }
 
         // 微信中打开
-        $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
-        if(!empty($user_agent) && strpos($user_agent, 'MicroMessenger') !== false)
-        {
-            $type_all['pc'] = $type_all['weixin'];
-            $type_all['h5'] = $type_all['weixin'];
-        }
+        // $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+        // if(!empty($user_agent) && strpos($user_agent, 'MicroMessenger') !== false)
+        // {
+        //     $type_all['pc'] = $type_all['weixin'];
+        //     $type_all['h5'] = $type_all['weixin'];
+        // }
         return isset($type_all[APPLICATION_CLIENT_TYPE]) ? $type_all[APPLICATION_CLIENT_TYPE] : '';
     }
 
