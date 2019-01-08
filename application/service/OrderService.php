@@ -90,7 +90,7 @@ class OrderService
         }
 
         // 回调地址
-        $url = __MY_PUBLIC_URL__.'payment_order_'.strtolower($payment[0]['payment']);
+        $url = __MY_URL__.'payment_order_'.strtolower($payment[0]['payment']);
 
         // url模式, pathinfo模式下采用自带url生成url, 避免非index.php多余
         if(MyC('home_seo_url_model', 0) == 0)
