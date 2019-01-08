@@ -133,6 +133,7 @@ class WeixinMini
 
         // xml
         $xml = $this->ArrayToXml($ret['data']);
+        print_r($xml);die;
         $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/pay/unifiedorder', $xml));
         if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['prepay_id']))
         {
