@@ -180,7 +180,7 @@ class WeixinMini
         {
             // web支付
             case 'NATIVE' :
-
+                $result = DataReturn('success', 0, $data);
                 break;
 
             // h5支付
