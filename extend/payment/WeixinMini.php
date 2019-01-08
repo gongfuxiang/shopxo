@@ -176,7 +176,7 @@ class WeixinMini
     private function PayHandleReturn($pay_params = [], $data = [])
     {
         $result = DataReturn('支付接口异常', -1);
-        switch($pay_params['sign_type'])
+        switch($pay_params['trade_type'])
         {
             // web支付
             case 'NATIVE' :
@@ -206,10 +206,6 @@ class WeixinMini
 
                 break;
         }
-        print_r($pay_params);
-        print_r($data);
-        print_r($result);
-        die;
         return $result;
     }
 
