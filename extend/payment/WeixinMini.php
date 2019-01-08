@@ -235,6 +235,7 @@ class WeixinMini
             'sign_type'         => 'MD5',
         ];
         $data['sign'] = $this->GetSign($data);
+        print_r($data);die;
         return DataReturn('success', 0, $data);
     }
 
