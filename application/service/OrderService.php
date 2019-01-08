@@ -82,12 +82,6 @@ class OrderService
             return DataReturn('支付方式有误', -1);
         }
 
-        // 配置信息
-        if(empty($payment[0]['config']))
-        {
-            return DataReturn('支付缺少配置', -1);
-        }
-
         // 支付入口文件检查
         $pay_checked = PaymentService::EntranceFileChecked($payment[0]['payment'], 'order');
         if($pay_checked['code'] != 0)
@@ -104,6 +98,10 @@ class OrderService
             $call_back_url = $url.'_respond.php';
         } else {
             $call_back_url = MyUrl('index/order/respond', ['paymentname'=>$payment[0]['payment']]);
+            if(stripos($call_back_url, '?') !== false)
+            {
+                $call_back_url = $url.'_respond.php';
+            }
         }
 
         // 发起支付

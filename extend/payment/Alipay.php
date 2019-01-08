@@ -194,6 +194,19 @@ class Alipay
      */
     public function Pay($params = [])
     {
+        // 参数
+        if(empty($params))
+        {
+            return DataReturn('参数不能为空', -1);
+        }
+        
+        // 配置信息
+        if(empty($this->config))
+        {
+            return DataReturn('支付缺少配置', -1);
+        }
+
+        // 手机/PC
         if(IsMobile())
         {
             $ret = $this->PayMobile($params);

@@ -116,6 +116,19 @@ class AlipayMini
      */
     public function Pay($params = [])
     {
+        // 参数
+        if(empty($params))
+        {
+            return DataReturn('参数不能为空', -1);
+        }
+        
+        // 配置信息
+        if(empty($this->config))
+        {
+            return DataReturn('支付缺少配置', -1);
+        }
+
+        // 支付参数
         $parameter = array(
             'app_id'                =>  $this->config['appid'],
             'method'                =>  'alipay.trade.create',
