@@ -53,10 +53,7 @@ Page({
             data_bottom_line_status: true,
           });
 
-          wx.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
@@ -67,10 +64,7 @@ Page({
           load_status: 1,
         });
 
-        wx.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast("服务器请求出错");
       }
     });
   },
@@ -79,7 +73,7 @@ Page({
   search_input_event(e) {
     var keywords = e.detail.value || null;
     if (keywords == null) {
-      wx.showToast({content: '请输入搜索关键字'});
+      app.showToast("请输入搜索关键字");
       return false;
     }
 

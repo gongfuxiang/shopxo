@@ -15,7 +15,7 @@
         <text class="fr cr-main">{{item.status_name}}</text>
       </view>
       <view wx:for="{{item.items}}" wx:key="key" wx:for-item="detail" class="goods-item oh">
-        <navigator url="/pages/user-order-detail/user-order-detail?id={{item.id}}">
+        <navigator url="/pages/user-order-detail/user-order-detail?id={{item.id}}" hover-class="none">
           <image class="goods-image fl" src="{{detail.images}}" mode="aspectFill" />
           <view class="goods-base">
             <view class="goods-title multi-text" >{{detail.title}}</view>

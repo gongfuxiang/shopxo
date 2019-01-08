@@ -6,6 +6,8 @@
     height: 100rpx;
     line-height: 100rpx;
     font-size: 28rpx;
+    padding: 0 10rpx;
+    border-radius:0;
 }
 .addressee .addressee-name{
     width: 250rpx;
@@ -22,13 +24,18 @@
     line-height: 100rpx;
     padding: 0 10rpx;
 }
-.select-address .section{
+.select-address .section {
     width: 33%;
     box-sizing: border-box;
+}
+.select-address .section:not(:first-child) {
     padding: 0 5rpx;
 }
 /* end 三级联动 */
 .addressee-address{
     box-sizing: border-box;
     width: 100%;
+}
+.not-selected {
+  color: #888;
 }

@@ -452,7 +452,7 @@ App({
         case 3:
           var values = value.split('|');
           if (values.length != 4) {
-            wx.showToast({ content: '事件值格式有误' });
+            this.showToast('事件值格式有误');
             return false;
           }
 

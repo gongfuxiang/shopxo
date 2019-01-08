@@ -108,10 +108,7 @@ Page({
             data_list_loding_status: 2,
             data_list_loding_msg: res.data.msg,
           });
-          wx.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
@@ -121,10 +118,7 @@ Page({
           data_list_loding_msg: '服务器请求出错',
         });
         
-        wx.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast("服务器请求出错");
       }
     });
   },
@@ -170,10 +164,7 @@ Page({
               wx.redirectTo({url: '/pages/user-order/user-order'});
             }
           } else {
-            wx.showToast({
-              type: "fail",
-              content: res.data.msg
-            });
+            app.showToast(res.data.msg);
             this.setData({ buy_submit_disabled_status: false });
           }
         },
@@ -181,10 +172,7 @@ Page({
           wx.hideLoading();
           this.setData({buy_submit_disabled_status: false});
           
-          wx.showToast({
-            type: "fail",
-            content: "服务器请求出错"
-          });
+          app.showToast("服务器请求出错");
         }
       });
     }

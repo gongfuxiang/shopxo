@@ -13,6 +13,10 @@ Page({
     default_city: "请选择市",
     default_county: "请选择区/县",
 
+    province_value: -1,
+    city_value: -1,
+    county_value: -1,
+
     params: null,
   },
 
