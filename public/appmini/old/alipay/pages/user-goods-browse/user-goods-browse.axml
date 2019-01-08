@@ -1,7 +1,7 @@
 <scroll-view scroll-y="{{true}}" class="scroll-box" onScrollToLower="scroll_lower" lower-threshold="30">
   <view class="list-item" a:if="{{data_list.length > 0}}">
     <view class="goods-item oh bg-white spacing-mb" a:for="{{data_list}}" a:for-item="item">
-      <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}">
+      <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}" hover-class="none">
         <image class="goods-image fl" src="{{item.images}}" mode="aspectFill" />
         <view class="goods-base">
           <view class="goods-title multi-text">{{item.title}}</view>

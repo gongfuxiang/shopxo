@@ -12,7 +12,7 @@
 
   <view class="goods bg-white spacing-mb">
       <view a:for="{{detail.items}}" class="goods-item oh">
-        <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}">
+        <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}" hover-class="none">
           <image class="goods-image fl" src="{{item.images}}" mode="aspectFill" />
           <view class="goods-base">
             <view class="goods-title multi-text">{{item.title}}</view>

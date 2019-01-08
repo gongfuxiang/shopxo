@@ -14,7 +14,7 @@
         <text class="cr-666">{{item.add_time}}</text>
         <text class="fr cr-main">{{item.status_name}}</text>
       </view>
-      <navigator url="/pages/user-order-detail/user-order-detail?id={{item.id}}">
+      <navigator url="/pages/user-order-detail/user-order-detail?id={{item.id}}" hover-class="none">
         <view a:for="{{item.items}}" a:for-item="detail" class="goods-item oh">
           <image class="goods-image fl" src="{{detail.images}}" mode="aspectFill" />
           <view class="goods-base">
