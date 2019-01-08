@@ -235,8 +235,7 @@ class Order extends Common
             $this->assign('msg', '参数有误');
             return $this->fetch('public/tips_error');
         } else {
-            $this->assign('url', urldecode($params['url']));
-            $this->assign('order_no', $params['order_no']);
+            $this->assign('params', $params);
             return $this->fetch('qrcode_pay');
         }
     }
