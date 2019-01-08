@@ -52,8 +52,8 @@ class WeixinMini
             'name'          => '微信',  // 插件名称
             'version'       => '0.0.1',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
-            'apply_terminal'=> ['wechat'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
-            'desc'          => '适用微信小程序，即时到帐支付方式，买家的交易资金直接打入卖家账户，快速回笼交易资金。 <a href="https://pay.weixin.qq.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
+            'apply_terminal'=> ['pc', 'h5', 'weixin'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
+            'desc'          => '适用微信web/h5/公众号/小程序，即时到帐支付方式，买家的交易资金直接打入卖家账户，快速回笼交易资金。 <a href="https://pay.weixin.qq.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者
             'author_url'    => 'http://shopxo.net/',  // 开发者主页
         ];
@@ -65,6 +65,16 @@ class WeixinMini
                 'type'          => 'text',
                 'default'       => '',
                 'name'          => 'appid',
+                'placeholder'   => '公众号ID',
+                'title'         => '公众号ID 用于web/h5/公众号支付',
+                'is_required'   => 0,
+                'message'       => '请填写微信分配的公众号ID',
+            ],
+            [
+                'element'       => 'input',
+                'type'          => 'text',
+                'default'       => '',
+                'name'          => 'mini_appid',
                 'placeholder'   => '小程序ID',
                 'title'         => '小程序ID',
                 'is_required'   => 0,
@@ -89,33 +99,6 @@ class WeixinMini
                 'title'         => '密钥',
                 'is_required'   => 0,
                 'message'       => '请填写密钥',
-            ],
-            [
-                'element'       => 'textarea',
-                'name'          => 'rsa_public',
-                'placeholder'   => '应用公钥',
-                'title'         => '应用公钥',
-                'is_required'   => 0,
-                'rows'          => 6,
-                'message'       => '请填写应用公钥',
-            ],
-            [
-                'element'       => 'textarea',
-                'name'          => 'rsa_private',
-                'placeholder'   => '应用私钥',
-                'title'         => '应用私钥',
-                'is_required'   => 0,
-                'rows'          => 6,
-                'message'       => '请填写应用私钥',
-            ],
-            [
-                'element'       => 'textarea',
-                'name'          => 'out_rsa_public',
-                'placeholder'   => '支付宝公钥',
-                'title'         => '支付宝公钥',
-                'is_required'   => 0,
-                'rows'          => 6,
-                'message'       => '请填写支付宝公钥',
             ],
         ];
 
@@ -155,8 +138,6 @@ class WeixinMini
         {
             return $this->PayHandleReturn($ret['data'], $result);
         }
-        print_r($ret['data']);
-        print_r($result);die;
         $msg = empty($result['return_msg']) ? '支付异常' : $result['return_msg'];
         if(!empty($result['err_code_des']))
         {
@@ -182,19 +163,18 @@ class WeixinMini
         {
             // web支付
             case 'NATIVE' :
-                print_r($data);die;
                 $result = DataReturn('success', 0, $data['code_url']);
                 break;
 
             // h5支付
             case 'MWEB' :
-
+                $result = DataReturn('success', 0, $data['mweb_url']);
                 break;
 
             // 微信中/小程序支付
             case 'JSAPI' :
                 $pay_data = array(
-                    'appId'         => $this->config['appid'],
+                    'appId'         => $pay_params['appid'],
                     'package'       => 'prepay_id='.$data['prepay_id'],
                     'nonceStr'      => md5(time().rand()),
                     'signType'      => $pay_params['sign_type'],
@@ -206,7 +186,7 @@ class WeixinMini
 
             // APP支付
             case 'APP' :
-
+                $result = DataReturn('APP支付暂未开放', -1);
                 break;
         }
         return $result;
@@ -223,8 +203,9 @@ class WeixinMini
      */
     private function GetPayParams($params = [])
     {
+        $appid = (APPLICATION_CLIENT_TYPE == 'weixin') ? $this->config['mini_appid'] :  $this->config['appid'];
         $data = [
-            'appid'             => $this->config['appid'],
+            'appid'             => $appid,
             'mch_id'            => $this->config['mch_id'],
             'body'              => $params['site_name'].'-'.$params['name'],
             'nonce_str'         => md5(time().rand().$params['order_no']),
