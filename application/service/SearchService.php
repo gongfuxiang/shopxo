@@ -180,7 +180,7 @@ class SearchService
      * @datetime 2018-10-20T23:55:06+0800
      * @param   [array]          $params [输入参数]
      */
-    public function SearchKeywordsList($params = [])
+    public static function SearchKeywordsList($params = [])
     {
         return Db::name('SearchHistory')->where(['keywords'=>['neq', '']])->group('keywords')->limit(10)->column('keywords');
     }
