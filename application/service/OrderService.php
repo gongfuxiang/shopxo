@@ -100,14 +100,10 @@ class OrderService
             $call_back_url = MyUrl('index/order/respond', ['paymentname'=>$payment[0]['payment']]);
         }
 
-        // 开放平台用户penid
-        $temp_key = APPLICATION_CLIENT_TYPE.'_openid';
-        $user_openid = isset($params['user'][$temp_key]) ? $params['user'][$temp_key] : '';
-
         // 发起支付
         $pay_data = array(
+            'user'          => $params['user'],
             'out_user'      => md5($params['user']['id']),
-            'user_openid'   => $user_openid,
             'order_no'      => $order['order_no'],
             'name'          => '订单支付',
             'total_price'   => $order['total_price'],

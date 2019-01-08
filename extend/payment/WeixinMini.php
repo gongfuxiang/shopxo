@@ -218,7 +218,7 @@ class WeixinMini
             'body'              => $params['site_name'].'-'.$params['name'],
             'nonce_str'         => md5(time().rand().$params['order_no']),
             'notify_url'        => $params['notify_url'],
-            'openid'            => $params['user_openid'],
+            'openid'            => $params['user']['weixin_openid'],
             'out_trade_no'      => $params['order_no'].GetNumberCode(6),
             'spbill_create_ip'  => GetClientIP(),
             'total_fee'         => intval($params['total_price']*100),
