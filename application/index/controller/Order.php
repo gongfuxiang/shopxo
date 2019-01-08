@@ -229,6 +229,7 @@ class Order extends Common
      */
     public function PayView()
     {
+        $params = input();
         $this->assign('url', urldecode($params['url']));
         return $this->fetch('public/pay_view');
     }
