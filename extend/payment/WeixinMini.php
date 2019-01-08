@@ -136,7 +136,7 @@ class WeixinMini
         $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/pay/unifiedorder', $xml));
         if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['prepay_id']))
         {
-            return $this->PayHandleReturn($ret['data'], $result);
+            return $this->PayHandleReturn($ret['data'], $result, $params);
         }
         $msg = empty($result['return_msg']) ? '支付异常' : $result['return_msg'];
         if(!empty($result['err_code_des']))
@@ -155,15 +155,16 @@ class WeixinMini
      * @desc    description
      * @param   [array]           $pay_params   [支付参数]
      * @param   [array]           $data         [支付返回数据]
+     * @param   [array]           $params       [输入参数]
      */
-    private function PayHandleReturn($pay_params = [], $data = [])
+    private function PayHandleReturn($pay_params = [], $data = [], $params = [])
     {
         $result = DataReturn('支付接口异常', -1);
         switch($pay_params['trade_type'])
         {
             // web支付
             case 'NATIVE' :
-                $url = MyUrl('index/order/payview', ['url'=>urlencode($data['code_url'])]);
+                $url = MyUrl('index/order/qrcodepay', ['url'=>urlencode($data['code_url']), 'order_no'=>$params['order_no']]);
                 $result = DataReturn('success', 0, $url);
                 break;
 

@@ -227,11 +227,18 @@ class Order extends Common
      * @date    2018-09-28
      * @desc    description
      */
-    public function PayView()
+    public function QrcodePay()
     {
         $params = input();
-        $this->assign('url', urldecode($params['url']));
-        return $this->fetch('public/pay_view');
+        if(empty($params['url']) || empty($params['order_no']))
+        {
+            $this->assign('msg', '参数有误');
+            return $this->fetch('public/tips_error');
+        } else {
+            $this->assign('url', urldecode($params['url']));
+            $this->assign('order_no', $params['order_no']);
+            return $this->fetch('qrcode_pay');
+        }
     }
 
     /**
