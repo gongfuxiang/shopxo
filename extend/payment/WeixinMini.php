@@ -163,7 +163,7 @@ class WeixinMini
         {
             // web支付
             case 'NATIVE' :
-                $url = MyUrl('index/qrcode/index', ['content'=>urlencode($data['code_url'])]);
+                $url = MyUrl('index/order/payview', ['url'=>urlencode($data['code_url'])]);
                 $result = DataReturn('success', 0, $url);
                 break;
 

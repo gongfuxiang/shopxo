@@ -220,6 +220,20 @@ class Order extends Common
     }
 
     /**
+     * 订单支付展示
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
+     */
+    public function PayView()
+    {
+        $this->assign('url', urldecode($params['url']));
+        return $this->fetch('public/pay_view');
+    }
+
+    /**
      * 支付同步返回处理
      * @author   Devil
      * @blog    http://gong.gg/
