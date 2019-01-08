@@ -7,7 +7,7 @@
 		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/appminialipayconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appminialipayconfig/index')}}">
 			<div class="am-form-group">
 				<label>{{$data.common_app_mini_alipay_appid.name}}</label>
-				<input type="text" name="{{$data.common_app_mini_alipay_appid.only_tag}}" placeholder="{{$data.common_app_mini_alipay_appid.name}}" data-validation-message="{{$data.common_app_mini_alipay_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_appid.value}}"{{/if}} required />
+				<input type="text" name="{{$data.common_app_mini_alipay_appid.only_tag}}" placeholder="{{$data.common_app_mini_alipay_appid.name}}" data-validation-message="{{$data.common_app_mini_alipay_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_appid.value}}"{{/if}} />
 			</div>
 			<div class="am-form-group">
 				<label>{{$data.common_app_mini_alipay_rsa_public.name}}</label>
@@ -24,11 +24,11 @@
 
 			<div class="am-form-group">
 				<label>{{$data.common_app_mini_alipay_title.name}}</label>
-				<input type="text" name="{{$data.common_app_mini_alipay_title.only_tag}}" placeholder="{{$data.common_app_mini_alipay_title.name}}" data-validation-message="{{$data.common_app_mini_alipay_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_title.value}}"{{/if}} required />
+				<input type="text" name="{{$data.common_app_mini_alipay_title.only_tag}}" placeholder="{{$data.common_app_mini_alipay_title.name}}" data-validation-message="{{$data.common_app_mini_alipay_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_title.value}}"{{/if}} />
 			</div>
 			<div class="am-form-group">
 				<label>{{$data.common_app_mini_alipay_describe.name}}</label>
-				<input type="text" name="{{$data.common_app_mini_alipay_describe.only_tag}}" placeholder="{{$data.common_app_mini_alipay_describe.name}}" data-validation-message="{{$data.common_app_mini_alipay_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_describe.value}}"{{/if}} required />
+				<input type="text" name="{{$data.common_app_mini_alipay_describe.only_tag}}" placeholder="{{$data.common_app_mini_alipay_describe.name}}" data-validation-message="{{$data.common_app_mini_alipay_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_describe.value}}"{{/if}} />
 			</div>
 			<div class="am-form-group">
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
