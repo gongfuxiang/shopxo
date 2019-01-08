@@ -261,12 +261,11 @@ class WeixinMini
         }
 
         // 微信中打开
-        // $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
-        // if(!empty($user_agent) && strpos($user_agent, 'MicroMessenger') !== false)
-        // {
-        //     $type_all['pc'] = $type_all['weixin'];
-        //     $type_all['h5'] = $type_all['weixin'];
-        // }
+        $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+        if(!empty($user_agent) && strpos($user_agent, 'MicroMessenger') !== false)
+        {
+            $type_all['pc'] = $type_all['h5'];
+        }
         return isset($type_all[APPLICATION_CLIENT_TYPE]) ? $type_all[APPLICATION_CLIENT_TYPE] : '';
     }
 
