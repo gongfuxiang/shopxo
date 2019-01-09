@@ -37,27 +37,28 @@ class NavigationService
         $footer = cache(config('shopxo.cache_common_home_nav_footer_key'));
 
         // 导航模型
-        $m = Db::name('Navigation');
         $field = array('id', 'pid', 'name', 'url', 'value', 'data_type', 'is_new_window_open');
 
         // 缓存没数据则从数据库重新读取,顶部菜单
         if(empty($header))
         {
-            $header = self::NavDataDealWith($m->field($field)->where(array('nav_type'=>'header', 'is_show'=>1, 'pid'=>0))->order('sort')->select());
+            $header = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'header', 'is_show'=>1, 'pid'=>0))->order('sort')->select());
             if(!empty($header))
             {
-                foreach($header as $k=>$v)
+                foreach($header as &$v)
                 {
-                    $header[$k]['item'] = self::NavDataDealWith($m->field($field)->where(array('nav_type'=>'header', 'is_show'=>1, 'pid'=>$v['id']))->order('sort')->select());
+                    $v['items'] = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'header', 'is_show'=>1, 'pid'=>$v['id']))->order('sort')->select());
                 }
             }
             cache(config('shopxo.cache_common_home_nav_header_key'), $header);
         }
 
+        print_r($header);
+
         // 底部导航
         if(empty($footer))
         {
-            $footer = self::NavDataDealWith($m->field($field)->where(array('nav_type'=>'footer', 'is_show'=>1))->order('sort')->select());
+            $footer = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'footer', 'is_show'=>1))->order('sort')->select());
             cache(config('shopxo.cache_common_home_nav_footer_key'), $footer);
         }
 
