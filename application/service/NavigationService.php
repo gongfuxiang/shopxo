@@ -53,8 +53,6 @@ class NavigationService
             cache(config('shopxo.cache_common_home_nav_header_key'), $header);
         }
 
-        print_r($header);
-
         // 底部导航
         if(empty($footer))
         {
