@@ -257,6 +257,7 @@ class NavigationService
                     [
                         'checked_type'      => 'length',
                         'key_name'          => 'name',
+                        'checked_data'      => '2,16',
                         'is_checked'        => 1,
                         'error_msg'         => '导航名称格式 2~16 个字符',
                     ],
