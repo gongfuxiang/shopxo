@@ -237,7 +237,7 @@ App({
                 $this.get_user_login_info(object, method, res.data.data);
               } else {
                 wx.hideLoading();
-                $this.showToast(res.data.text);
+                $this.showToast(res.data.msg);
               }
             },
             fail: () => {
@@ -288,7 +288,7 @@ App({
                 }
               });
             } else {
-              $this.showToast(res.data.text);
+              $this.showToast(res.data.msg);
             }
           },
           fail: () => {
