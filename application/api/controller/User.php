@@ -179,7 +179,7 @@ class User extends Common
         $this->Is_Login();
 
         // 订单总数
-        $where = ['user_id'=>$this->user['id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0, 'user_type'=>'user'];
+        $where = ['user_id'=>$this->user['id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
         $user_order_count = OrderService::OrderTotal($where);
 
         // 商品收藏总数
