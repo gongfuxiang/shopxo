@@ -452,7 +452,7 @@ class AdminPowerService
         if(($role_id > 0 || $admin_id == 1) && empty($admin_left_menu))
         {
             // 获取一级数据
-            if($admin_id == 1)
+            if($admin_id == 1 || $role_id == 1)
             {
                 $field = 'id,name,control,action,is_show,icon';
                 $admin_left_menu = Db::name('Power')->where(array('pid' => 0))->field($field)->order('sort')->select();
@@ -470,17 +470,17 @@ class AdminPowerService
                     $admin_power[$v['id']] = strtolower($v['control'].'_'.$v['action']);
 
                     // 获取子权限
-                    if($admin_id == 1)
+                    if($admin_id == 1 || $role_id == 1)
                     {
-                        $item = Db::name('Power')->where(array('pid' => $v['id']))->field($field)->order('sort')->select();
+                        $items = Db::name('Power')->where(array('pid' => $v['id']))->field($field)->order('sort')->select();
                     } else {
-                        $item = Db::name('Power')->alias('p')->join(['__ROLE_POWER__'=>'rp'], 'p.id=rp.power_id')->where(array('rp.role_id' => $role_id, 'p.pid' => $v['id']))->field($field)->order('p.sort')->select();
+                        $items = Db::name('Power')->alias('p')->join(['__ROLE_POWER__'=>'rp'], 'p.id=rp.power_id')->where(array('rp.role_id' => $role_id, 'p.pid' => $v['id']))->field($field)->order('p.sort')->select();
                     }
 
                     // 权限列表
-                    if(!empty($item))
+                    if(!empty($items))
                     {
-                        foreach($item as $ks=>$vs)
+                        foreach($items as $ks=>$vs)
                         {
                             // 权限
                             $admin_power[$vs['id']] = strtolower($vs['control'].'_'.$vs['action']);
@@ -488,7 +488,7 @@ class AdminPowerService
                             // 是否显示视图
                             if($vs['is_show'] == 0)
                             {
-                                unset($item[$ks]);
+                                unset($items[$ks]);
                             }
                         }
                     }
@@ -497,7 +497,7 @@ class AdminPowerService
                     if($v['is_show'] == 1)
                     {
                         // 子级
-                        $admin_left_menu[$k]['item'] = $item;
+                        $admin_left_menu[$k]['items'] = $items;
                     } else {
                         unset($admin_left_menu[$k]);
                     }

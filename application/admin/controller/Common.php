@@ -154,7 +154,8 @@ class Common extends Controller
 		if(!in_array(strtolower(request()->action()), $unwanted_power))
 		{
 			// 角色组权限列表校验
-			if(!in_array(strtolower(request()->controller().'_'.request()->action()), $this->power))
+			$power = empty($this->power) ? [] : $this->power;
+            if(!in_array(strtolower(request()->controller().'_'.request()->action()), $power))
 			{
                 if(IS_AJAX)
                 {

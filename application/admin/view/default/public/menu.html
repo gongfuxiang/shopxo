@@ -8,7 +8,7 @@
 				</a>
 			</li>
 			{{foreach $left_menu as $v}}
-				{{if empty($v['item'])}}
+				{{if empty($v['items'])}}
 					<li>
 						<a href="javascript:;" data-type="menu" data-url="{{:MyUrl('admin/'.strtolower($v['control']).'/'.strtolower($v['action']))}}">
 							{{if !empty($v['icon'])}}<span class="iconfont {{$v.icon}}"></span>{{/if}}
@@ -23,7 +23,7 @@
 							<i class="am-icon-angle-down am-fr am-margin-right left-menu-more-ico-rotate"></i>
 						</a>
 						<ul class="am-list am-collapse admin-sidebar-sub" id="power-menu-{{$v.id}}">
-							{{foreach $v.item as $vs}}
+							{{foreach $v.items as $vs}}
 								<li>
 									<a href="javascript:;" data-type="menu" data-url="{{:MyUrl('admin/'.strtolower($vs['control']).'/'.strtolower($vs['action']))}}">
 										{{if !empty($vs['icon'])}}<span class="{{$vs.icon}}"></span>{{/if}}
