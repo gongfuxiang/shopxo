@@ -109,7 +109,7 @@ function CartAdd(e)
                     poptit_close();
                     $.AMUI.progress.done();
                     $button.attr('disabled', false);
-                    PromptCenter('网络异常错误');
+                    PromptCenter('服务器错误');
                 }
             });
             break;
@@ -186,9 +186,9 @@ function GoodsSpecDetail()
             $.AMUI.progress.done();
             if($(window).width() < 640)
             {
-                PromptBottom('网络异常错误', null, null, 50);
+                PromptBottom('服务器错误', null, null, 50);
             } else {
-                PromptCenter('网络异常错误');
+                PromptCenter('服务器错误');
             }
         }
     });
@@ -264,9 +264,9 @@ function GoodsSpecType()
             $.AMUI.progress.done();
             if($(window).width() < 640)
             {
-                PromptBottom('网络异常错误', null, null, 50);
+                PromptBottom('服务器错误', null, null, 50);
             } else {
-                PromptCenter('网络异常错误');
+                PromptCenter('服务器错误');
             }
         }
     });
@@ -464,9 +464,9 @@ $(function() {
                     $.AMUI.progress.done();
                     if($(window).width() < 640)
                     {
-                        PromptBottom('网络异常错误', null, null, 50);
+                        PromptBottom('服务器错误', null, null, 50);
                     } else {
-                        PromptCenter('网络异常错误');
+                        PromptCenter('服务器错误');
                     }
                 }
             });

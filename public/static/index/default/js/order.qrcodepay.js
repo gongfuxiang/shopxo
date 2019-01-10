@@ -34,7 +34,7 @@ $(function()
             },
             error: function(xhr, type)
             {
-                Prompt('网络异常错误');
+                Prompt('服务器错误');
             }
         });
     }, 2000);

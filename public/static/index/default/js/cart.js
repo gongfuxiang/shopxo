@@ -80,7 +80,7 @@ $(function()
             error: function(xhr, type)
             {
                 $.AMUI.progress.done();
-                PromptCenter('网络异常错误');
+                PromptCenter('服务器错误');
             }
         });
     }
