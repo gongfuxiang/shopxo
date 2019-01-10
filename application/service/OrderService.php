@@ -452,7 +452,6 @@ class OrderService
         // 条件初始化
         $where = [
             ['is_delete_time', '=', 0],
-            ['user_is_delete_time', '=', 0],
         ];
 
         // id
@@ -460,11 +459,17 @@ class OrderService
         {
             $where[] = ['id', '=', intval($params['id'])];
         }
-
-        // 用户id
-        if(!empty($params['user']))
+        
+        // 用户类型
+        if(isset($params['user_type']) && $params['user_type'] == 'user')
         {
-            $where[] = ['user_id', '=', $params['user']['id']];
+            $where[] = ['user_is_delete_time', '=', 0];
+
+            // 用户id
+            if(!empty($params['user']))
+            {
+                $where[] = ['user_id', '=', $params['user']['id']];
+            }
         }
 
         if(!empty($params['keywords']))

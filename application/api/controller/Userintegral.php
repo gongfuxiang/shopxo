@@ -50,6 +50,7 @@ class UserIntegral extends Common
         // 参数
         $params = $this->data_post;
         $params['user'] = $this->user;
+        $params['user_type'] = 'user';
 
         // 分页
         $number = 10;
