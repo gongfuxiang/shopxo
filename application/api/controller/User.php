@@ -179,7 +179,7 @@ class User extends Common
         $this->Is_Login();
 
         // 订单总数
-        $where = ['user_id'=>$this->user['id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
+        $where = ['user_id'=>$this->user['id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0, 'user_type'=>'user'];
         $user_order_count = OrderService::OrderTotal($where);
 
         // 商品收藏总数
@@ -191,7 +191,7 @@ class User extends Common
         $user_goods_browse_count = GoodsService::GoodsBrowseTotal($where);
 
         // 未读消息总数
-        $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0];
+        $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0, 'user_type'=>'user'];
         $common_message_total = MessageService::UserMessageTotal($params);
         $common_message_total = ($common_message_total > 99) ? '99+' : $common_message_total;
 
