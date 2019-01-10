@@ -325,7 +325,7 @@
         if(!url) return false;
         if ( !checkNum( [width, height] ) ) return false;
         editor.execCommand('insertvideo', {
-            url: convert_url(url),
+            src: convert_url(url),
             width: width.value,
             height: height.value,
             align: align
@@ -342,7 +342,7 @@
         for(var i=0,img; img=imgs[i++];){
             if(img.getAttribute("selected")){
                 videoObjs.push({
-                    url:img.getAttribute("ue_video_url"),
+                    src:img.getAttribute("ue_video_url"),
                     width:420,
                     height:280,
                     align:"none"
@@ -498,7 +498,7 @@
         for(var key in uploadVideoList) {
             var file = uploadVideoList[key];
             videoObjs.push({
-                url: uploadDir + file.url,
+                src: uploadDir + file.url,
                 width:width,
                 height:height,
                 align:align
