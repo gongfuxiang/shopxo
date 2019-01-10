@@ -50,7 +50,6 @@ class Message extends Common
         // 参数
         $params = input();
         $params['user'] = $this->user;
-        $params['user_type'] = 'user';
 
         // 消息更新未已读
         MessageService::MessageRead($params);

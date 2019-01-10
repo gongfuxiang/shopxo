@@ -62,9 +62,6 @@ class MessageService
      */
     public static function MessageListWhere($params = [])
     {
-        // 用户类型
-        $user_type = isset($params['user_type']) ? $params['user_type'] : 'user';
-
         // 条件初始化
         $where = [
             ['is_delete_time', '=', 0],
@@ -76,14 +73,10 @@ class MessageService
             $where[] = ['id', '=', $params['id']];
         }
 
-        // 用户类型
-        if(isset($params['user_type']) && $params['user_type'] == 'user')
+        // 用户id
+        if(!empty($params['user']))
         {
-            // 用户id
-            if(!empty($params['user']))
-            {
-                $where[] = ['user_id', '=', $params['user']['id']];
-            }
+            $where[] = ['user_id', '=', $params['user']['id']];
         }
         
         // 关键字
