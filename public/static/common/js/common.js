@@ -517,7 +517,7 @@ function Tree(id, url, level, is_add_node, is_delete_all)
 					var son_css = '';
 					if(result.data[i]['is_son'] == 'ok')
 					{
-						html += '<i class="am-icon-plus c-p tree-submit" data-id="'+result.data[i]['id']+'" data-url="'+result.data[i]['ajax_url']+'" data-level="'+tmp_level+'" data-is_add_node="'+is_add_node+'" style="margin-right:8px;width:12px;';
+						html += '<i class="am-icon-plus c-p tree-submit" data-id="'+result.data[i]['id']+'" data-url="'+result.data[i]['ajax_url']+'" data-level="'+tmp_level+'" data-is_add_node="'+is_add_node+'" data-is_delete_all="'+is_delete_all+'" style="margin-right:8px;width:12px;';
 						if(id != 0)
 						{
 							html += 'margin-left:'+tmp_level+'px;';
@@ -551,8 +551,11 @@ function Tree(id, url, level, is_add_node, is_delete_all)
 					html += '<span class="am-icon-edit am-icon-sm c-p submit-edit" data-am-modal="{target: \'#data-save-win\'}" data-json=\''+result.data[i]['json']+'\' data-is_exist_son="'+result.data[i]['is_son']+'"></span>';
 					if(result.data[i]['is_son'] != 'ok' || is_delete_all == 1)
 					{
+						// 是否需要删除子数据
+						var pid_class = is_delete_all == 1 ? '.tree-pid-'+result.data[i]['id'] : '';
+
 						// 删除
-						html += '<span class="am-icon-trash-o am-icon-sm c-p m-l-20 m-r-15 submit-delete" data-id="'+result.data[i]['id']+'" data-url="'+result.data[i]['delete_url']+'"></span>';
+						html += '<span class="am-icon-trash-o am-icon-sm c-p m-l-20 m-r-15 submit-delete" data-id="'+result.data[i]['id']+'" data-url="'+result.data[i]['delete_url']+'" data-ext-delete-tag="'+pid_class+'"></span>';
 					}
 					html += '</div>';
 					// 操作项 end
@@ -784,6 +787,7 @@ function DataDelete(e)
 	var value = e.data('value') || null;
 	var title = e.data('title') || '温馨提示';
 	var msg = e.data('msg') || '删除后不可恢复、确认操作吗？';
+	var ext_delete_tag = e.data('ext-delete-tag') || null;
 
 	AMUI.dialog.confirm({
 		title: title,
@@ -813,6 +817,10 @@ function DataDelete(e)
 								case 'delete' :
 									Prompt(result.msg, 'success');
 									$('#data-list-'+id).remove();
+									if(ext_delete_tag != null)
+									{
+										$(ext_delete_tag).remove();
+									}
 									break;
 
 								// 刷新
@@ -1189,9 +1197,10 @@ $(function()
 			var url = $(this).data('url') || '';
 			var level = parseInt($(this).data('level')) || 0;
 			var is_add_node = parseInt($(this).data('is_add_node')) || 0;
+			var is_delete_all = parseInt($(this).data('is_delete_all')) || 0;
 			if(id > 0 && url != '')
 			{
-				Tree(id, url, level, is_add_node);
+				Tree(id, url, level, is_add_node, is_delete_all);
 			} else {
 				Prompt('参数有误');
 			}
