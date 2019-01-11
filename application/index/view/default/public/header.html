@@ -17,20 +17,20 @@
     <link rel="apple-touch-icon" href="{{$images_host}}{{:MyC('home_site_desktop_icon')}}">
     <link rel="apple-touch-icon-precomposed" href="{{$images_host}}{{:MyC('home_site_desktop_icon')}}">
     
-	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT__}}static/common/lib/assets/css/amazeui.css?v={{:MyC('home_static_cache_version')}}" />
-	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT__}}static/common/lib/amazeui-switch/amazeui.switch.css?v={{:MyC('home_static_cache_version')}}" />
-	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT__}}static/common/lib/amazeui-chosen/amazeui.chosen.css?v={{:MyC('home_static_cache_version')}}" />
-	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT__}}static/common/lib/cropper/cropper.min.css?v={{:MyC('home_static_cache_version')}}" />
+	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/assets/css/amazeui.css?v={{:MyC('home_static_cache_version')}}" />
+	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/amazeui-switch/amazeui.switch.css?v={{:MyC('home_static_cache_version')}}" />
+	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/amazeui-chosen/amazeui.chosen.css?v={{:MyC('home_static_cache_version')}}" />
+	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/cropper/cropper.min.css?v={{:MyC('home_static_cache_version')}}" />
 	
-	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT__}}static/common/css/common.css?v={{:MyC('home_static_cache_version')}}" />
-	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT__}}static/index/{{$default_theme}}/css/common.css?v={{:MyC('home_static_cache_version')}}" />
+	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/common/css/common.css?v={{:MyC('home_static_cache_version')}}" />
+	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/index/{{$default_theme}}/css/common.css?v={{:MyC('home_static_cache_version')}}" />
 	{{if !empty($module_css)}}
-		<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT__}}static/{{$module_css}}?v={{:MyC('home_static_cache_version')}}" />
+		<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/{{$module_css}}?v={{:MyC('home_static_cache_version')}}" />
 	{{/if}}
 	<script type="text/javascript">
-		var __root__ = '{{$Think.__MY_ROOT__}}';
+		var __root__ = '{{$Think.__MY_ROOT_PUBLIC__}}';
 		var __my_url__ = '{{:__MY_URL__}}';
-		var __public__ = '{{$Think.__MY_ROOT__}}';
+		var __public__ = '{{$Think.__MY_ROOT_PUBLIC__}}';
 		var __default_theme__ = '{{$default_theme}}';
 		var __modal_login_url__ = '{{:Url("index/user/modallogininfo")}}';
 		var __images_host__ = '{{$images_host}}';

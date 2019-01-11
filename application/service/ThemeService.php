@@ -42,9 +42,14 @@ class ThemeService
         {
             if($dh = opendir($dir))
             {
-                $default_preview = __MY_URL__.'static'.DS.'common'.DS.'images'.DS.'default-preview.jpg';
+                $default_preview = __MY_PUBLIC_URL__.'static'.DS.'common'.DS.'images'.DS.'default-preview.jpg';
                 while(($temp_file = readdir($dh)) !== false)
                 {
+                    if(in_array($temp_file, ['.', '..', 'index.html']))
+                    {
+                        continue;
+                    }
+
                     $config = $dir.$temp_file.DS.'config.json';
                     if(!file_exists($config))
                     {
@@ -66,7 +71,7 @@ class ThemeService
                             'ver'       =>  str_replace(array('，',','), ', ', htmlentities($data['ver'])),
                             'author'    =>  htmlentities($data['author']),
                             'home'      =>  isset($data['home']) ? $data['home'] : '',
-                            'preview'   =>  file_exists($preview) ? __MY_URL__.'static'.DS.'index'.DS.$temp_file.DS.'images'.DS.'preview.jpg' : $default_preview,
+                            'preview'   =>  file_exists($preview) ? __MY_PUBLIC_URL__.'static'.DS.'index'.DS.$temp_file.DS.'images'.DS.'preview.jpg' : $default_preview,
                             'is_delete' => ($temp_file == 'default') ? 0 : 1,
                         );
                     }

@@ -42,7 +42,7 @@ class ResourcesService
 
             // 内容写入
             case 'add':
-                return str_replace(array(__MY_PUBLIC_URL__.'static/', __MY_ROOT__.'static/'), '/static/', $content);
+                return str_replace(array(__MY_PUBLIC_URL__.'static/', __MY_ROOT_PUBLIC__.'static/'), '/static/', $content);
         }
         return $content;
     }
@@ -58,7 +58,7 @@ class ResourcesService
      */
     public static function AttachmentPathHandle($value)
     {
-        return empty($value) ? '' : str_replace([__MY_PUBLIC_URL__, __MY_ROOT__], DS, $value);
+        return empty($value) ? '' : str_replace([__MY_PUBLIC_URL__, __MY_ROOT_PUBLIC__], DS, $value);
     }
 
     /**

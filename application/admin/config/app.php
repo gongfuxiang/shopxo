@@ -59,7 +59,7 @@ return [
             'imageUrlPrefix'            =>  '',
 
             // 上传保存路径,可以自定义保存路径和文件名格式 
-            'imagePathFormat'           =>  __MY_ROOT__.'static/upload/images/'.input('path_type', 'other').'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
+            'imagePathFormat'           =>  __MY_ROOT_PUBLIC__.'static/upload/images/'.input('path_type', 'other').'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
 
 
             // 涂鸦图片上传配置项
@@ -70,7 +70,7 @@ return [
             'scrawlFieldName'       =>  'upfile',
 
             // 上传保存路径,可以自定义保存路径和文件名格式
-            'scrawlPathFormat'      =>  __MY_ROOT__.'static/upload/images/'.input('path_type', 'other').'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
+            'scrawlPathFormat'      =>  __MY_ROOT_PUBLIC__.'static/upload/images/'.input('path_type', 'other').'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
 
             // 上传大小限制，单位B
             'scrawlMaxSize'         =>  MyC('home_max_limit_image', 2048000, true),
@@ -87,7 +87,7 @@ return [
             'snapscreenActionName'  =>  'uploadimage',
 
             // 上传保存路径,可以自定义保存路径和文件名格式
-            'snapscreenPathFormat'  =>  __MY_ROOT__.'static/upload/images/'.input('path_type', 'other').'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
+            'snapscreenPathFormat'  =>  __MY_ROOT_PUBLIC__.'static/upload/images/'.input('path_type', 'other').'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
 
             // 图片访问路径前缀
             'snapscreenUrlPrefix'   =>  '',
@@ -107,7 +107,7 @@ return [
             'catcherFieldName'      =>  'source',
 
             // 上传保存路径,可以自定义保存路径和文件名格式
-            'catcherPathFormat'     =>  __MY_ROOT__.'static/upload/images/'.input('path_type', 'other').'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
+            'catcherPathFormat'     =>  __MY_ROOT_PUBLIC__.'static/upload/images/'.input('path_type', 'other').'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
 
             // 图片访问路径前缀
             'catcherUrlPrefix'      =>  '',
@@ -127,7 +127,7 @@ return [
             'videoFieldName'        =>  'upfile',
 
             // 上传保存路径,可以自定义保存路径和文件名格式
-            'videoPathFormat'       =>  __MY_ROOT__.'static/upload/video/'.input('path_type', 'other').'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
+            'videoPathFormat'       =>  __MY_ROOT_PUBLIC__.'static/upload/video/'.input('path_type', 'other').'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
 
             // 视频访问路径前缀
             'videoUrlPrefix'        =>  '',
@@ -147,7 +147,7 @@ return [
             'fileFieldName'         =>  'upfile',
 
             // 上传保存路径,可以自定义保存路径和文件名格式
-            'filePathFormat'        =>  __MY_ROOT__.'static/upload/file/'.input('path_type', 'other').'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
+            'filePathFormat'        =>  __MY_ROOT_PUBLIC__.'static/upload/file/'.input('path_type', 'other').'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
 
             // 文件访问路径前缀
             'fileUrlPrefix'         =>  '',
@@ -164,7 +164,7 @@ return [
             'imageManagerActionName'=>  'listimage',
 
             // 指定要列出图片的目录
-            'imageManagerListPath'  =>  __MY_ROOT__.'static/upload/images/'.input('path_type', 'other').'/',
+            'imageManagerListPath'  =>  __MY_ROOT_PUBLIC__.'static/upload/images/'.input('path_type', 'other').'/',
 
             // 每次列出文件数量
             'imageManagerListSize'  =>  20,
@@ -184,7 +184,7 @@ return [
             'fileManagerActionName' =>  'listfile',
 
             // 指定要列出文件的目录
-            'fileManagerListPath'   =>  __MY_ROOT__.'static/upload/file/'.input('path_type', 'other').'/',
+            'fileManagerListPath'   =>  __MY_ROOT_PUBLIC__.'static/upload/file/'.input('path_type', 'other').'/',
 
             // 文件访问路径前缀
             'fileManagerUrlPrefix'  =>  '',
@@ -199,7 +199,7 @@ return [
             'videoManagerActionName' =>  'listvideo',
 
             // 指定要列出文件的目录
-            'videoManagerListPath'   =>  __MY_ROOT__.'static/upload/video/'.input('path_type', 'other').'/',
+            'videoManagerListPath'   =>  __MY_ROOT_PUBLIC__.'static/upload/video/'.input('path_type', 'other').'/',
 
             // 文件访问路径前缀
             'videoManagerUrlPrefix'  =>  '',

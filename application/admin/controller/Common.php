@@ -75,7 +75,7 @@ class Common extends Controller
         ConfigService::ConfigInit();
 
         // url模式,后端采用兼容模式
-        \think\facade\Url::root(__MY_ROOT__.'index.php?s=');
+        \think\facade\Url::root(__MY_ROOT_PUBLIC__.'index.php?s=');
     }
 
 	/**
