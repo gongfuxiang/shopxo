@@ -1770,7 +1770,6 @@ class PHPMailer
      */
     protected function smtpSend($header, $body)
     {
-        try {
         $bad_rcpt = [];
         if (!$this->smtpConnect($this->SMTPOptions)) {
             throw new Exception($this->lang('smtp_connect_failed'), self::STOP_CRITICAL);
@@ -1842,12 +1841,6 @@ class PHPMailer
         }
 
         return true;
-        } catch (Exception $exc) {
-                    $lastexception = $exc;
-                    $this->edebug($exc->getMessage());
-                    // We must have connected, but then failed TLS or Auth, so close connection nicely
-                    $this->smtp->quit();
-                }
     }
 
     /**
