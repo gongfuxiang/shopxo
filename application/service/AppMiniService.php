@@ -104,9 +104,7 @@ class AppMiniService
         self::Init($params);
 
         // 配置内容
-        $app_mini_alipay_title = MyC('common_app_mini_alipay_title');
-        $app_mini_alipay_describe = MyC('common_app_mini_alipay_describe');
-        if(empty($app_mini_alipay_title) || empty($app_mini_alipay_describe))
+        if(empty($params['app_mini_title']) || empty($params['app_mini_describe']))
         {
             return DataReturn('配置信息不能为空', -1);
         }
@@ -141,14 +139,14 @@ class AppMiniService
 
         // 替换内容
         // app.js
-        $status = file_put_contents($new_dir.DS.'app.js', str_replace(['{{request_url}}', '{{application_title}}', '{{application_describe}}'], [__MY_URL__, $app_mini_alipay_title, $app_mini_alipay_describe], file_get_contents($new_dir.DS.'app.js')));
+        $status = file_put_contents($new_dir.DS.'app.js', str_replace(['{{request_url}}', '{{application_title}}', '{{application_describe}}'], [__MY_URL__, $params['app_mini_title'], $params['app_mini_describe']], file_get_contents($new_dir.DS.'app.js')));
         if($status === false)
         {
             return DataReturn('基础配置替换失败', -4);
         }
 
         // app.json
-        $status = file_put_contents($new_dir.DS.'app.json', str_replace(['{{application_title}}'], [$app_mini_alipay_title], file_get_contents($new_dir.DS.'app.json')));
+        $status = file_put_contents($new_dir.DS.'app.json', str_replace(['{{application_title}}'], [$params['app_mini_title']], file_get_contents($new_dir.DS.'app.json')));
         if($status === false)
         {
             return DataReturn('基础配置替换失败', -4);
