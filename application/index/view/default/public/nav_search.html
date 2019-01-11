@@ -15,13 +15,13 @@
         <form action="{{:MyUrl('index/search/index')}}" method="POST">
             <input id="search-input" name="keywords" type="text" placeholder="其实搜索很简单^_^ !" value="{{if !empty($params['keywords'])}}{{$params.keywords}}{{/if}}" autocomplete="off" />
             <input id="ai-topsearch" class="submit am-btn" placeholder="其实搜索很简单^_^ !" index="1" type="submit" value="搜索" />
-            <notempty name="home_search_keywords">
+            {{notempty name="home_search_keywords"}}
                 <ul class="search-hot-keywords">
                     {{foreach $home_search_keywords as $v}}
                         <li><a href="{{:MyUrl('index/search/index', ['keywords'=>$v])}}" target="_blank">{{$v}}</a></li>
                     {{/foreach}}
                 </ul>
-            </notempty>
+            {{/notempty}}
         </form>
     </div>
 </div>
