@@ -142,7 +142,7 @@
 								<option value="">请选择...</option>
 								{{foreach $article_list as $v}}
 									<optgroup label="{{$v.name}}">
-										<notempty name="v.items">
+										{{if !empty($v['items'])}}
 											{{foreach $v.items as $vs}}
 												<option value="{{$vs.id}}">{{$vs.title}}</option>
 											{{/foreach}}
