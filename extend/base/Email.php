@@ -9,6 +9,7 @@
 // | Author: Devil
 // +----------------------------------------------------------------------
 namespace base;
+
 use phpmailer\PHPMailer;
 
 /**
@@ -52,11 +53,8 @@ class Email
 	 */
 	private function EmailInit()
 	{
-		// 引入邮件发送类库
-		//require ROOT.'extend'.DS.'phpmailer'.DS.'class.phpmailer.php';
-
 		// 建立邮件发送类  
-		$this->obj= new PHPMailer();
+		$this->obj = new PHPMailer();
 
 		// 使用smtp方式发送
 		$this->obj->IsSMTP();
