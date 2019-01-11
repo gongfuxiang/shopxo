@@ -28,7 +28,7 @@ namespace phpmailer;
  * @author  Andy Prevost (codeworxtech) <codeworxtech@users.sourceforge.net>
  * @author  Brent R. Matzelle (original founder)
  */
-class PHPMailer extends \Think\Exception
+class PHPMailer extends think\Exception
 {
     const CHARSET_ISO88591 = 'iso-8859-1';
     const CHARSET_UTF8 = 'utf-8';
