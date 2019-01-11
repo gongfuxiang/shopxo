@@ -1091,6 +1091,9 @@ class GoodsService
         $title = [];
         $images = [];
 
+        // 基础字段数据字段长度
+        $base_count = 6;
+
         // 规格值
         foreach($params as $k=>$v)
         {
@@ -1110,12 +1113,45 @@ class GoodsService
             }
         }
 
-        // 规格名称
+        // 规格处理
         if(!empty($data[0]))
         {
-            $count = count($data[0])-6;
+            $count = count($data[0])-$base_count;
             if($count > 0)
             {
+                // 列之间是否存在相同的值
+                $column_value = [];
+                foreach($data as $data_value)
+                {
+                    foreach($data_value as $temp_key=>$temp_value)
+                    {
+                        if($temp_key < $count)
+                        {
+                            $column_value[$temp_key][] = $temp_value;
+                        }
+                    }
+                }
+                if(!empty($column_value) && count($column_value) > 1)
+                {
+                    $temp_column = [];
+                    foreach($column_value as $column_key=>$column_val)
+                    {
+                        foreach($column_value as $column_keys=>$column_vals)
+                        {
+                            if($column_key != $column_keys)
+                            {
+                                $temp = array_intersect($column_val, $column_vals);
+                                $temp_column = array_merge($temp_column, $temp);
+                            }
+                        }
+                    }
+                    if(!empty($temp_column))
+                    {
+                        return DataReturn('规格值列直接不能重复['.implode(',', array_unique($temp_column)).']', -1);
+                    }
+                }
+                
+                // 规格名称
                 $names = array_slice($data[0], 0, $count);
                 foreach($names as $v)
                 {

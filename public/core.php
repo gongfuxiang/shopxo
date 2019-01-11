@@ -10,10 +10,7 @@
 // +----------------------------------------------------------------------
 
 // 检测PHP环境
-if(version_compare(PHP_VERSION,'5.6.0','<'))  die('PHP版本最低 5.6.0');
-
-// 开启缓冲区
-ob_start();
+if(version_compare(PHP_VERSION,'5.5.0','<'))  die('PHP版本最低 5.5.0');
 
 // 系统版本
 define('APPLICATION_VERSION', 'v1.2.0');
