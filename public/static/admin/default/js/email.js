@@ -8,7 +8,7 @@ $(function()
 			url:$(this).data('url'),
 			type:'POST',
 			dataType:"json",
-			timeout:10000,
+			timeout:30000,
 			data:{"email":$('.test-email-value').val()},
 			success:function(result)
 			{
