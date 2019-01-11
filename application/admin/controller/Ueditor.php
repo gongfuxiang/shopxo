@@ -130,7 +130,7 @@ class Ueditor extends Common
 		$path = input('path');
 		if(!empty($path))
 		{
-			$path = (__MY_ROOT__ == '/') ? substr(ROOT_PATH, 0, -1).$path : str_replace(__MY_ROOT__, ROOT_PATH, $path);
+			$path = (__MY_ROOT_PUBLIC__ == '/') ? substr(ROOT_PATH, 0, -1).$path : str_replace(__MY_ROOT_PUBLIC__, ROOT_PATH, $path);
 			if(file_exists($path))
 			{
 				if(is_writable($path))

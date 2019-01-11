@@ -45,14 +45,18 @@ class FileUtil
      */
     public static function CreateDir($aim_url)
     {
+        // 根目录前不参与，避免虚拟机没有权限
+        $aim_dir = ROOT;
+        $aim_url = str_replace($aim_dir, '', $aim_url);
+
+        // 空转成目录
         $aim_url = str_replace('', '/', $aim_url);
-        $aim_dir = '';
         $arr = explode('/', $aim_url);
         $result = true;
         foreach($arr as $str)
         {
             $aim_dir .= $str . '/';
-            if(!file_exists($aim_dir))
+            if($aim_dir != '/' && !is_dir($aim_dir))
             {
                 $result = mkdir($aim_dir);
             }

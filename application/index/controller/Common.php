@@ -82,7 +82,7 @@ class Common extends Controller
         // url模式
         if(MyC('home_seo_url_model', 0) == 0)
         {
-            \think\facade\Url::root(__MY_ROOT__.'index.php?s=');
+            \think\facade\Url::root(__MY_ROOT_PUBLIC__.'index.php?s=');
         }
     }
 

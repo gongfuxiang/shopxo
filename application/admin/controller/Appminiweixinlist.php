@@ -76,7 +76,17 @@ class AppMiniWeixinList extends Common
 			$this->error('非法访问');
 		}
 
+		// 配置内容
+        $app_mini_title = MyC('common_app_mini_weixin_title');
+        $app_mini_describe = MyC('common_app_mini_weixin_describe');
+        if(empty($app_mini_title) || empty($app_mini_describe))
+        {
+            return DataReturn('配置信息不能为空', -1);
+        }
+
 		// 开始操作
+		$this->params['app_mini_title'] = $app_mini_title;
+		$this->params['app_mini_describe'] = $app_mini_describe;
 		return AppMiniService::Created($this->params);
 	}
 

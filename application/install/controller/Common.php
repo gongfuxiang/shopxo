@@ -35,7 +35,7 @@ class Common extends Controller
         parent::__construct();
 
         // url模式
-        \think\facade\Url::root(__MY_ROOT__.'index.php?s=');
+        \think\facade\Url::root(__MY_ROOT_PUBLIC__.'index.php?s=');
 
         // 当前方法
         $this->assign('action', strtolower(request()->action()));
