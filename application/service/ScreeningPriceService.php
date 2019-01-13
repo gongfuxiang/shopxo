@@ -40,7 +40,6 @@ class ScreeningPriceService
         $data = Db::name('ScreeningPrice')->field($field)->where(['pid'=>$id])->order('sort asc')->select();
         if(!empty($data))
         {
-            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 $v['is_son']            =   (Db::name('ScreeningPrice')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
@@ -76,14 +75,6 @@ class ScreeningPriceService
         if($ret !== true)
         {
             return DataReturn($ret, -1);
-        }
-
-        // 其它附件
-        $data_fields = ['icon', 'big_images'];
-        $attachment = ResourcesService::AttachmentParams($params, $data_fields);
-        if($attachment['code'] != 0)
-        {
-            return $attachment;
         }
 
         // 数据

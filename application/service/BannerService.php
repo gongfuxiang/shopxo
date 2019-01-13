@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use app\service\ResourcesService;
 
 /**
  * 轮播服务层
@@ -35,11 +36,10 @@ class BannerService
         $banner = Db::name('Slide')->field('name,images_url,event_value,event_type,bg_color')->where(['platform'=>APPLICATION_CLIENT_TYPE, 'is_enable'=>1])->order('sort asc')->select();
         if(!empty($banner))
         {
-            $images_host = config('shopxo.images_host');
             foreach($banner as &$v)
             {
                 $v['images_url_old'] = $v['images_url'];
-                $v['images_url'] = $images_host.$v['images_url'];
+                $v['images_url'] = ResourcesService::AttachmentPathViewHandle($v['images_url']);
                 $v['event_value'] = empty($v['event_value']) ? null : $v['event_value'];
             }
         }

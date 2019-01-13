@@ -17,6 +17,7 @@ use app\service\BuyService;
 use app\service\IntegralService;
 use app\service\RegionService;
 use app\service\ExpressService;
+use app\service\ResourcesService;
 
 /**
  * 订单服务层
@@ -574,7 +575,6 @@ class OrderService
         if(!empty($data))
         {
             $detail_field = 'id,goods_id,title,images,original_price,price,spec,buy_number';
-            $images_host = config('shopxo.images_host');
             $order_status_list = lang('common_order_user_status');
             $order_pay_status = lang('common_order_pay_status');
             foreach($data as &$v)
@@ -643,7 +643,7 @@ class OrderService
                     {
                         foreach($items as &$vs)
                         {
-                            $vs['images'] = empty($vs['images']) ? null : $images_host.$vs['images'];
+                            $vs['images'] = ResourcesService::AttachmentPathViewHandle($vs['images']);
                             $vs['spec'] = empty($vs['spec']) ? null : json_decode($vs['spec'], true);
                             $vs['goods_url'] = MyUrl('index/goods/index', ['id'=>$vs['goods_id']]);
                             $vs['total_price'] = $vs['buy_number']*$vs['price'];

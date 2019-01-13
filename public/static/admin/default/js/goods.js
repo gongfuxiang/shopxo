@@ -110,7 +110,7 @@ $(function()
             html += '<ul class="plug-file-upload-view spec-images-view-'+index+'" data-form-name="spec_images['+index+']" data-max-number="1" data-dialog-type="images">';
             html += '<li>';
             html += '<input type="text" name="spec_images['+index+']" data-validation-message="请上传规格图片" required />';
-            html += '<img src="'+__images_host__+'/static/admin/default/images/default-images.png" />';
+            html += '<img src="'+__attachment_host__+'/static/admin/default/images/default-images.png" />';
             html += '<i>×</i>';
             html += '</li>';
             html += '</ul>';

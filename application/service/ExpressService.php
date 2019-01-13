@@ -55,11 +55,10 @@ class ExpressService
         $data = Db::name('Express')->where($where)->field('id,icon,name,sort,is_enable')->order('sort asc')->select();
         if(!empty($data) && is_array($data))
         {
-            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 $v['icon_old'] = $v['icon'];
-                $v['icon'] = empty($v['icon']) ? null : $images_host.$v['icon'];
+                $v['icon'] = ResourcesService::AttachmentPathViewHandle($v['icon']);
             }
         }
         return $data;
@@ -83,13 +82,12 @@ class ExpressService
         $data = Db::name('Express')->field($field)->where(['pid'=>$id])->order('sort asc')->select();
         if(!empty($data))
         {
-            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 $v['is_son']            =   (Db::name('Express')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
                 $v['ajax_url']          =   MyUrl('admin/express/getnodeson', array('id'=>$v['id']));
                 $v['delete_url']        =   MyUrl('admin/express/delete');
-                $v['icon_url']          =   empty($v['icon']) ? '' : $images_host.$v['icon'];
+                $v['icon_url']          =   ResourcesService::AttachmentPathViewHandle($v['icon']);
                 $v['json']              =   json_encode($v);
             }
             return DataReturn('操作成功', 0, $data);

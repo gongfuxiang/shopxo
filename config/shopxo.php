@@ -28,7 +28,7 @@ return [
     'cache_common_home_nav_footer_key'      =>  'cache_common_home_nav_footer_data',
 
     // 图片host, 数据库图片地址以/Public/...开头
-    'images_host'                           =>  defined('__MY_PUBLIC_URL__') ? substr(__MY_PUBLIC_URL__, 0, -1) : '',
+    'attachment_host'                           =>  defined('__MY_PUBLIC_URL__') ? substr(__MY_PUBLIC_URL__, 0, -1) : '',
 
     // 开启U带域名
     'url_domain_deploy'                     =>  true,

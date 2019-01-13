@@ -37,12 +37,12 @@ class ResourcesService
         {
             // 读取内容
             case 'get':
-                return str_replace('/static/', __MY_PUBLIC_URL__.'static/', $content);
+                return str_replace('src="/static/', 'src="'.__MY_PUBLIC_URL__.'static/', $content);
                 break;
 
             // 内容写入
             case 'add':
-                return str_replace(array(__MY_PUBLIC_URL__.'static/', __MY_ROOT_PUBLIC__.'static/'), '/static/', $content);
+                return str_replace(array('src="'.__MY_PUBLIC_URL__.'static/', 'src="'.__MY_ROOT_PUBLIC__.'static/'), 'src="/static/', $content);
         }
         return $content;
     }
@@ -83,6 +83,27 @@ class ResourcesService
         }
 
         return DataReturn('success', 0, $result);
+    }
+
+    /**
+     * 附件展示地址处理
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-01-13T15:13:30+0800
+     * @param    [type]                   $value [description]
+     */
+    public static function AttachmentPathViewHandle($value)
+    {
+        if(!empty($value))
+        {
+            if(substr($value, 0, 4) != 'http')
+            {
+                return config('shopxo.attachment_host').$value;
+            }
+            return $value;
+        }
+        return '';
     }
 }
 ?>

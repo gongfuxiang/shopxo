@@ -44,7 +44,6 @@ class SlideService
             $common_platform_type = lang('common_platform_type');
             $common_is_enable_tips = lang('common_is_enable_tips');
             $common_app_event_type = lang('common_app_event_type');
-            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 // 是否启用
@@ -69,7 +68,7 @@ class SlideService
                 if(isset($v['images_url']))
                 {
                     $v['images_url_old'] = $v['images_url'];
-                    $v['images_url'] =  empty($v['images_url']) ? '' : $images_host.$v['images_url'];
+                    $v['images_url'] = ResourcesService::AttachmentPathViewHandle($v['images_url']);
                 }
 
                 // 时间

@@ -52,12 +52,9 @@ class UserService
                 // 头像
                 if(!empty($v['avatar']))
                 {
-                    if(substr($v['avatar'], 0, 4) != 'http')
-                    {
-                        $v['avatar'] = config('shopxo.images_host').$v['avatar'];
-                    }
+                    $v['avatar'] = ResourcesService::AttachmentPathViewHandle($v['avatar']);
                 } else {
-                    $v['avatar'] = config('shopxo.images_host').'/static/index/'.strtolower(MyC('common_default_theme', 'default', true)).'/images/default-user-avatar.jpg';
+                    $v['avatar'] = config('shopxo.attachment_host').'/static/index/'.strtolower(MyC('common_default_theme', 'default', true)).'/images/default-user-avatar.jpg';
                 }
 
                 // 注册时间
@@ -656,12 +653,9 @@ class UserService
                 // 头像
                 if(!empty($user['avatar']))
                 {
-                    if(substr($user['avatar'], 0, 4) != 'http')
-                    {
-                        $user['avatar'] = config('shopxo.images_host').$user['avatar'];
-                    }
+                    $user['avatar'] = ResourcesService::AttachmentPathViewHandle($user['avatar']);
                 } else {
-                    $user['avatar'] = config('shopxo.images_host').'/static/index/'.strtolower(config('DEFAULT_THEME', 'default')).'/images/default-user-avatar.jpg';
+                    $user['avatar'] = config('shopxo.attachment_host').'/static/index/'.strtolower(config('DEFAULT_THEME', 'default')).'/images/default-user-avatar.jpg';
                 }
 
                 if($is_app == true)

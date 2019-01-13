@@ -13,6 +13,7 @@ namespace app\service;
 use think\Db;
 use app\service\GoodsService;
 use app\service\UserService;
+use app\service\ResourcesService;
 
 /**
  * 购买服务层
@@ -173,7 +174,6 @@ class BuyService
         // 数据处理
         if(!empty($data))
         {
-            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 // 规格
@@ -193,7 +193,7 @@ class BuyService
                 // 基础信息
                 $v['goods_url'] = MyUrl('index/goods/index', ['id'=>$v['goods_id']]);
                 $v['images_old'] = $v['images'];
-                $v['images'] = empty($v['images']) ? null : $images_host.$v['images'];
+                $v['images'] = ResourcesService::AttachmentPathViewHandle($v['images']);
                 $v['total_price'] = $v['stock']*$v['price'];
                 $v['buy_max_number'] = ($v['buy_max_number'] <= 0) ? $v['inventory']: $v['buy_max_number'];
             }

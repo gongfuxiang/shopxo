@@ -190,11 +190,10 @@ class PaymentService
         $data = Db::name('Payment')->where($where)->field('id,logo,name,sort,payment,config,apply_terminal,apply_terminal,element,is_enable,is_open_user')->order('sort asc')->select();
         if(!empty($data) && is_array($data))
         {
-            $images_host = config('shopxo.images_host');
             foreach($data as &$v)
             {
                 $v['logo_old'] = $v['logo'];
-                $v['logo'] = empty($v['logo']) ? null : $images_host.$v['logo'];
+                $v['logo'] = ResourcesService::AttachmentPathViewHandle($v['logo']);
                 $v['element'] = empty($v['element']) ? '' : json_decode($v['element'], true);
                 $v['config'] = empty($v['config']) ? '' : json_decode($v['config'], true);
                 $v['apply_terminal'] = empty($v['apply_terminal']) ? '' : json_decode($v['apply_terminal'], true);
