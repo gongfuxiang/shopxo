@@ -1141,11 +1141,12 @@ class GoodsService
                     }
                     if(!empty($temp_column))
                     {
-                        return DataReturn('规格值列直接不能重复['.implode(',', array_unique($temp_column)).']', -1);
+                        return DataReturn('规格值列之间不能重复['.implode(',', array_unique($temp_column)).']', -1);
                     }
                 }
                 
                 // 规格名称
+                $names_value = [];
                 $names = array_slice($data[0], 0, $count);
                 foreach($names as $v)
                 {
@@ -1162,11 +1163,19 @@ class GoodsService
                                         'name'  => $params['specifications_name_'.$key],
                                         'value' => array_unique($vs),
                                     ];
+                                    $names_value[] = $params['specifications_name_'.$key];
                                 }
                             }
                         }
-
                     }
+                }
+
+                // 规格名称列直接是否存在重复
+                $unique_all = array_unique($names_value);
+                $repeat_names_all = array_diff_assoc($names_value, $unique_all); 
+                if(!empty($repeat_names_all))
+                {
+                    return DataReturn('规格名称列之间不能重复['.implode(',', $repeat_names_all).']', -1);
                 }
             } else {
                 if(empty($data[0][0]) || $data[0][0] <= 0)

@@ -241,7 +241,7 @@ function GoodsSpecType()
                     $('.theme-signin-left .sku-items').eq(index).find('li').each(function(k, v)
                     {
                         $(this).removeClass('sku-dont-choose');
-                        var value = $(this).data('value');
+                        var value = $(this).data('value').toString();
                         if(result.data.indexOf(value) == -1)
                         {
                             $(this).addClass('sku-items-disabled');
