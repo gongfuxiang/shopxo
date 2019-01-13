@@ -1170,7 +1170,7 @@ class GoodsService
                     }
                 }
 
-                // 规格名称列直接是否存在重复
+                // 规格名称列之间是否存在重复
                 $unique_all = array_unique($names_value);
                 $repeat_names_all = array_diff_assoc($names_value, $unique_all); 
                 if(!empty($repeat_names_all))
