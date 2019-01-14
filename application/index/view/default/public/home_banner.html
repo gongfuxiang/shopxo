@@ -6,7 +6,7 @@
                 {{foreach $banner_list as $banner}}
                     {{if !empty($banner['images_url'])}}
                         <li {{if !empty($banner['bg_color'])}}style="background: {{$banner.bg_color}};"{{/if}} title="{{$banner.name}}">
-                            <a href="{{if !empty($banner['jump_url'])}}{{$banner.jump_url}}{{else /}}javascript:;{{/if}}" target="_blank"><img src="{{$banner.images_url}}" /></a>
+                            <a href="{{if isset($banner['event_type']) and $banner['event_type'] eq 0}}{{$banner.event_value}}{{else /}}javascript:;{{/if}}" target="_blank"><img src="{{$banner.images_url}}" /></a>
                         </li>
                     {{/if}}
                 {{/foreach}}
