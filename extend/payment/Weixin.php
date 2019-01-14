@@ -172,7 +172,7 @@ class Weixin
             // web支付
             case 'NATIVE' :
                 $pay_params = [
-                    'url'       => urlencode($data['code_url']),
+                    'url'       => urlencode(base64_encode($data['code_url'])),
                     'order_no'  => $params['order_no'],
                     'name'      => urlencode('微信支付'),
                     'msg'       => urlencode('打开微信APP扫一扫进行支付'),

@@ -100,7 +100,7 @@
                     <div class="goods-qrcode am-hide-sm-only">
                         <span>手机扫一扫购买</span>
                         <i class="am-icon-qrcode am-icon-sm"></i>
-                        <img class="qrcode-images am-img-thumbnail" src="{{:MyUrl('index/qrcode/index', ['content'=>urlencode(MyUrl('index/goods/index', ['id'=>$goods['id']], true, true))])}}" />
+                        <img class="qrcode-images am-img-thumbnail" src="{{$qrcode_url}}" />
                     </div>
                 </div>
 

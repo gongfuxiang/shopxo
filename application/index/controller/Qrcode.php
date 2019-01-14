@@ -38,7 +38,7 @@ class QrCode extends Common
         $level = isset($params['level']) && in_array($params['level'], array('L','M','Q','H')) ? $params['level'] : 'L';
         $point_size = isset($params['size']) ? min(max(intval($params['size']), 1), 10) : 6;
         $mr = isset($params['mr']) ? intval($params['mr']) : 1;
-        $content = isset($params['content']) ? urldecode(trim($params['content'])) : __MY_URL__;
+        $content = isset($params['content']) ? base64_decode(urldecode(trim($params['content']))) : __MY_URL__;
         \QRcode::png($content, false, $level, $point_size, $mr);
     }
 }

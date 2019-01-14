@@ -71,6 +71,9 @@ class Goods extends Common
             $this->assign('goods', $goods[0]);
             $this->assign('home_seo_site_title', $goods[0]['title']);
 
+            // 二维码
+            $this->assign('qrcode_url', MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode(MyUrl('index/goods/index', ['id'=>$id], true, true)))]));
+
             // 商品访问统计
             GoodsService::GoodsAccessCountInc(['goods_id'=>$id]);
 
