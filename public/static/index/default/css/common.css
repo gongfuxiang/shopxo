@@ -748,3 +748,13 @@ button { outline: none !important; }
     .common-cropper-popup .preview-md { width:90px; height:90px; }
     .common-cropper-popup .preview-sm { width:50px; height:50px; }
 }
+
+
+/**
+ * 回到顶部
+ */
+#my-go-top {
+    position: fixed;
+    right: 50px;
+    bottom: 100px;
+}
