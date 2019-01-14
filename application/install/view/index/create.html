@@ -8,14 +8,31 @@
     <h2>数据库信息</h2>
     <div class="am-alert am-alert-warning am-radius" data-am-alert>
         <button type="button" class="am-close">&times;</button>
-        <p class="fs-12">MySQL需 5.6 及以上版本</p>
-        <p class="fs-12">编码格式为 utf8mb4 / utf8mb4_general_ci</p>
+        <p class="fs-12">温馨提示、建议采用utf8mb4</p>
+        {{if !empty($charset_type_list)}}
+            {{foreach $charset_type_list as $v}}
+                <p class="fs-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$v.charset}}编码、MySQL版本需 {{$v.version}} 及以上版本 （{{$v.collate}}）</p>
+            {{/foreach}}
+        {{/if}}
     </div>
     <form class="am-form am-form-horizontal form-validation" method="post" action="{{:MyUrl('install/index/add')}}" request-type="ajax-url" request-value="{{:MyUrl('install/index/successful')}}" timeout="60000">
         <div class="am-form-group">
             <label class="am-u-sm-2 am-form-label">数据库类型</label>
             <div class="am-u-sm-10">
                 <input type="text" name="DB_TYPE" placeholder="数据库类型" value="mysql" class="am-radius am-input-sm" disabled data-validation-message="请选择数据库类型" required />
+            </div>
+        </div>
+
+        <div class="am-form-group am-form-select">
+            <label class="am-u-sm-2 am-form-label">数据库编码</label>
+            <div class="am-u-sm-10">
+                <select class="am-input-sm am-radius chosen-select" name="DB_CHARSET" data-validation-message="请选择数据编码" required>
+                    {{if !empty($charset_type_list)}}
+                        {{foreach $charset_type_list as $v}}
+                            <option value="{{$v.charset}}">{{$v.charset}} - {{$v.collate}} （mysql版本>={{$v.version}}）</option>
+                        {{/foreach}}
+                    {{/if}}
+                </select>
             </div>
         </div>
 

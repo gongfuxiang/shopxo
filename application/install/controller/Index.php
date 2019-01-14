@@ -22,6 +22,9 @@ use think\Db;
  */
 class Index extends Common
 {
+    // 编码类型
+    private $charset_type_list;
+
     /**
      * 构造方法
      * @author   Devil
@@ -33,6 +36,20 @@ class Index extends Common
     public function __construct()
     {
         parent::__construct();
+
+        // 编码类型
+        $this->charset_type_list = [
+            'utf8mb4'   => [
+                'charset'   => 'utf8mb4',
+                'collate'   => 'utf8mb4_general_ci',
+                'version'   => 5.6,
+            ],
+            'utf8'      => [
+                'charset'   => 'utf8',
+                'collate'   => 'utf8_general_ci',
+                'version'   => 5.0,
+            ],
+        ];
     }
 
     /**
@@ -94,6 +111,8 @@ class Index extends Common
     {
         $this->IsInstall();
         new \base\Behavior(['msg'=>'数据信息填写']);
+
+        $this->assign('charset_type_list' , $this->charset_type_list);
         return $this->fetch();
     }
 
@@ -160,7 +179,7 @@ class Index extends Common
         }
 
         // mysql版本
-        $ret = $this->IsVersion($db);
+        $ret = $this->IsVersion($db, $params['DB_CHARSET']);
         if($ret['code'] != 0)
         {
             return $ret;
@@ -169,7 +188,7 @@ class Index extends Common
         // 检查数据表是否存在
         if(!$this->IsDbExist($db, $params['DB_NAME']))
         {
-            if($this->DbNameCreate($db, $params['DB_NAME']))
+            if($this->DbNameCreate($db, $params['DB_NAME'], $params['DB_CHARSET']))
             {
                 $db = $this->DbObj($params, $params['DB_NAME']);
             } else {
@@ -241,7 +260,7 @@ return [
     // 数据库连接参数
     'params'          => [],
     // 数据库编码默认采用utf8
-    'charset'         => 'utf8mb4',
+    'charset'         => '{$this->charset_type_list[$params['DB_CHARSET']]['charset']}',
     // 数据库表前缀
     'prefix'          => '{$params['DB_PREFIX']}',
     // 数据库调试模式
@@ -310,6 +329,14 @@ php;
         //替换表前缀
         $sql = str_replace("`s_", " `{$params['DB_PREFIX']}", $sql);
 
+        // 编码替换,utf8mb4则做替换操作
+        $charset = $this->charset_type_list[$params['DB_CHARSET']];
+        if($charset['charset'] != 'utf8mb4')
+        {
+            $sql = str_replace('CHARSET=utf8mb4', "CHARSET={$charset['charset']}", $sql);
+            $sql = str_replace('utf8mb4_general_ci', "{$charset['collate']}", $sql);
+        }
+
         // 转为数组
         $sql_all = preg_split("/;[\r\n]+/", $sql);
 
@@ -348,9 +375,10 @@ php;
      * @version 1.0.0
      * @date    2018-12-28
      * @desc    description
-     * @param   [object]          $db      [db对象]
+     * @param   [object]          $db           [db对象]
+     * @param   [string]          $db_charset   [数据库编码]
      */
-    private function IsVersion($db)
+    private function IsVersion($db, $db_charset)
     {
         $data = $db->query("select version() AS version");
         if(empty($data[0]['version']))
@@ -358,10 +386,12 @@ php;
             new \base\Behavior(['msg'=>'查询数据库版本失败']);
             return DataReturn('查询数据库版本失败', -1);
         } else {
-            if($data[0]['version'] < 5.6)
+            $mysql_version = str_replace('-log', '', $data[0]['version']);
+            if($mysql_version < $this->charset_type_list[$db_charset]['version'])
             {
-                new \base\Behavior(['msg'=>'数据库版本过低', 'mysql_version'=>$data[0]['version']]);
-                return DataReturn('数据库版本过低', -1);
+                $msg = '数据库版本过低、需要>='.$this->charset_type_list[$db_charset]['version'].'、当前'.$mysql_version;
+                new \base\Behavior(['msg'=>$msg, 'mysql_version'=>$mysql_version]);
+                return DataReturn($msg, -1);
             }
         }
         return DataReturn('success', 0);
@@ -374,12 +404,13 @@ php;
      * @version 1.0.0
      * @date    2018-12-28
      * @desc    description
-     * @param   [object]          $db      [db对象]
-     * @param   [string]          $db_name [数据库名称]
+     * @param   [object]          $db           [db对象]
+     * @param   [string]          $db_name      [数据库名称]
+     * @param   [string]          $db_charset   [数据库编码]
      */
-    private function DbNameCreate($db, $db_name)
+    private function DbNameCreate($db, $db_name, $db_charset)
     {
-        $sql = "CREATE DATABASE {$db_name} DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_general_ci";
+        $sql = "CREATE DATABASE {$db_name} DEFAULT CHARSET {$this->charset_type_list[$db_charset]['charset']} COLLATE {$this->charset_type_list[$db_charset]['collate']}";
         if($db->execute($sql) !== false)
         {
             return $this->IsDbExist($db, $db_name);
@@ -459,6 +490,12 @@ php;
                 'checked_type'      => 'empty',
                 'key_name'          => 'DB_TYPE',
                 'error_msg'         => '请选择数据库类型',
+            ],
+            [
+                'checked_type'      => 'in',
+                'key_name'          => 'DB_CHARSET',
+                'checked_data'      => array_column($this->charset_type_list, 'charset'),
+                'error_msg'         => '请选择数据编码',
             ],
             [
                 'checked_type'      => 'empty',
