@@ -13,6 +13,7 @@ namespace app\api\controller;
 use think\Controller;
 use app\service\ConfigService;
 use app\service\UserService;
+use app\service\OtherService;
 
 /**
  * 接口公共控制器
@@ -60,7 +61,27 @@ class Common extends Controller
 
 		// 公共数据初始化
 		$this->CommonInit();
-	}
+
+        // 其它处理
+        $this->OtherHandle();
+    }
+
+    /**
+     * 其它处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-07
+     * @desc    description
+     */
+    private function OtherHandle()
+    {
+        $ret = OtherService::EnvironmentCheck();
+        if($ret['code'] != 0)
+        {
+            exit(json_encode($ret));
+        }
+    }
 
     /**
      * 系统初始化

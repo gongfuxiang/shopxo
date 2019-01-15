@@ -280,6 +280,9 @@
         pre.prettyprint .atv { color: #080 }  /* a markup attribute value */
         pre.prettyprint .dec, pre.prettyprint .var { color: #606 }  /* a declaration; a variable name */
         pre.prettyprint .fun { color: red }  /* a function name */
+
+        /* shopxo */
+        .shopxo-ask { margin-left: 15px; }
     </style>
 </head>
 <body>
@@ -410,8 +413,9 @@
     <?php } ?>
 
     <div class="copyright">
-        <a title="官方网站" href="http://www.shopxo.net">ShopXO</a> 
-        <span><?php echo APPLICATION_VERSION; ?></span> 
+        <a title="ShopXO官网" href="http://www.shopxo.net"target="_blank">ShopXO官网</a>
+        <span><?php echo APPLICATION_VERSION; ?></span>
+        <a title="ShopXO社区" href="http://ask.shopxo.net" target="_blank" class="shopxo-ask">ShopXO社区</a>
         <span>{ 国内领先企业级B2C免费开源电商系统！ }</span>
     </div>
     <?php if(\think\facade\App::isDebug()) { ?>
