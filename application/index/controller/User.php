@@ -339,6 +339,8 @@ class User extends Common
                 'width' => 100,
                 'height' => 32,
                 'key_prefix' => input('type', 'reg'),
+                'use_point_back' => false,
+                'use_color_back' => false,
             );
         $verify = new \base\Verify($params);
         $verify->Entry();
