@@ -80,6 +80,7 @@ class Common extends Controller
      */
     private function OtherHandle()
     {
+        // 环境检查
         $ret = OtherService::EnvironmentCheck();
         if($ret['code'] != 0)
         {
