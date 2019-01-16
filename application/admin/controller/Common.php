@@ -13,7 +13,6 @@ namespace app\admin\controller;
 use think\Controller;
 use app\service\AdminPowerService;
 use app\service\ConfigService;
-use app\service\OtherService;
 
 /**
  * 管理员公共控制器
@@ -60,28 +59,7 @@ class Common extends Controller
 
 		// 视图初始化
 		$this->ViewInit();
-
-        // 其它处理
-        $this->OtherHandle();
 	}
-
-    /**
-     * 其它处理
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-12-07
-     * @desc    description
-     */
-    private function OtherHandle()
-    {
-        // 环境检查
-        $ret = OtherService::EnvironmentCheck();
-        if($ret['code'] != 0)
-        {
-            exit(json_encode($ret));
-        }
-    }
 
 	/**
      * 系统初始化
