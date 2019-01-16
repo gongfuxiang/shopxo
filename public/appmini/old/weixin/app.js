@@ -60,7 +60,7 @@ App({
 
     // 请求地址
     request_url: "{{request_url}}",
-    //request_url: 'https://test.shopxo.net/',
+    request_url: 'https://test.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -192,8 +192,9 @@ App({
    * 用户登录
    * object     回调操作对象
    * method     回调操作对象的函数
+   * auth_data  授权数据
    */
-  user_auth_login(object, method) {
+  user_auth_login(object, method, auth_data) {
     wx.showLoading({ title: "授权中..." });
     var $this = this;
     wx.checkSession({
@@ -201,9 +202,9 @@ App({
         var openid = wx.getStorageSync($this.data.cache_user_login_key);
         if ((openid || null) == null)
         {
-          $this.user_login(object, method);
+          $this.user_login(object, method, auth_data);
         } else {
-          $this.get_user_login_info(object, method, openid);
+          $this.get_user_login_info(object, method, openid, auth_data);
         }
       },
       fail: function () {
@@ -216,8 +217,9 @@ App({
    * 用户登录
    * object     回调操作对象
    * method     回调操作对象的函数
+   * auth_data  授权数据
    */
-  user_login(object, method) {
+  user_login(object, method, auth_data) {
     var $this = this;
     wx.login({
       success: (res) => {
@@ -234,7 +236,7 @@ App({
                   key: $this.data.cache_user_login_key,
                   data: res.data.data
                 });
-                $this.get_user_login_info(object, method, res.data.data);
+                $this.get_user_login_info(object, method, res.data.data, auth_data);
               } else {
                 wx.hideLoading();
                 $this.showToast(res.data.msg);
@@ -259,48 +261,41 @@ App({
    * object     回调操作对象
    * method     回调操作对象的函数
    * openid     用户openid
+   * auth_data  授权数据
    */
-  get_user_login_info(object, method, openid) {
+  get_user_login_info(object, method, openid, auth_data) {
     var $this = this;
-    wx.getUserInfo({
-      withCredentials: true,
-      success: function (res) {
-        // 远程解密数据
-        wx.request({
-          url: $this.get_request_url('WechatUserInfo', 'user'),
-          method: 'POST',
-          data: { encrypted_data: res.encryptedData, iv: res.iv, openid: openid },
-          dataType: 'json',
-          header: { 'content-type': 'application/x-www-form-urlencoded' },
-          success: (res) => {
-            wx.hideLoading();
-            if (res.data.code == 0) {
-              wx.setStorage({
-                key: $this.data.cache_user_info_key,
-                data: res.data.data,
-                success: (res) => {
-                  if (typeof object === 'object' && (method || null) != null) {
-                    object[method]();
-                  }
-                },
-                fail: () => {
-                  $this.showToast('用户信息缓存失败');
-                }
-              });
-            } else {
-              $this.showToast(res.data.msg);
-            }
-          },
-          fail: () => {
-            wx.hideLoading();
-            $this.showToast('服务器请求出错');
-          },
-        });
-      },
-      fail: (e) => {
+
+    // 远程解密数据
+    wx.request({
+      url: $this.get_request_url('WechatUserInfo', 'user'),
+      method: 'POST',
+      data: { encrypted_data: auth_data.encryptedData, iv: auth_data.iv, openid: openid },
+      dataType: 'json',
+      header: { 'content-type': 'application/x-www-form-urlencoded' },
+      success: (res) => {
         wx.hideLoading();
-        $this.showToast('获取用户信息失败');
-      }
+        if (res.data.code == 0) {
+          wx.setStorage({
+            key: $this.data.cache_user_info_key,
+            data: res.data.data,
+            success: (res) => {
+              if (typeof object === 'object' && (method || null) != null) {
+                object[method]();
+              }
+            },
+            fail: () => {
+              $this.showToast('用户信息缓存失败');
+            }
+          });
+        } else {
+          $this.showToast(res.data.msg);
+        }
+      },
+      fail: () => {
+        wx.hideLoading();
+        $this.showToast('服务器请求出错');
+      },
     });
   },
 
