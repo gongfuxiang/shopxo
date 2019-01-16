@@ -30,7 +30,6 @@ Page({
    * 登录授权事件
    */
   get_user_info_event(e) {
-    console.log(e);
     this.user_auth_code(null, null, e.detail);
   },
 
