@@ -408,15 +408,19 @@ class Weixin
      * @param    [string]          $url         [请求url]
      * @param    [array]           $data        [发送数据]
      * @param    [boolean]         $use_cert    [是否需要使用证书]
+     * @param    [int]             $second      [超时]
      * @return   [mixed]                        [请求返回数据]
      */
-    private function HttpRequest($url, $data, $use_cert = false)
+    private function HttpRequest($url, $data, $use_cert = false, $second = 30)
     {
         $options = array(
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HEADER         => false,
             CURLOPT_POST           => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => false,
             CURLOPT_POSTFIELDS     => $data,
+            CURLOPT_TIMEOUT        => $second,
         );
 
         if($use_cert == true)
