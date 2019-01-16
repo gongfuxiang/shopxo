@@ -29,7 +29,7 @@ class AdminService
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public function AdminList($params = [])
+    public static function AdminList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
@@ -58,7 +58,7 @@ class AdminService
      * @datetime 2016-12-10T22:16:29+0800
      * @param    [array]          $params [输入参数]
      */
-    public function AdminListWhere($params = [])
+    public static function AdminListWhere($params = [])
     {
         $where = [];
         if(!empty($params['username']))
@@ -86,7 +86,7 @@ class AdminService
      * @datetime 2016-12-10T22:16:29+0800
      * @param    [array]          $where [条件]
      */
-    public function AdminTotal($where)
+    public static function AdminTotal($where)
     {
         return (int) Db::name('Admin')->where($where)->count();
     }
@@ -99,7 +99,7 @@ class AdminService
      * @datetime 2016-12-10T22:16:29+0800
      * @param    [array]          $params [输入参数]
      */
-    public function RoleList($params = [])
+    public static function RoleList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
@@ -114,7 +114,7 @@ class AdminService
      * @datetime 2016-12-10T22:16:29+0800
      * @param    [array]          $params [输入参数]
      */
-    public function AdminSave($params = [])
+    public static function AdminSave($params = [])
     {
         // 请求参数
         $p = [
@@ -142,7 +142,7 @@ class AdminService
         {
             return DataReturn($ret, -1);
         }
-        return empty($params['id']) ? $this->AdminInsert($params) : $this->AdminUpdate($params);
+        return empty($params['id']) ? self::AdminInsert($params) : self::AdminUpdate($params);
     }
 
     /**
@@ -153,7 +153,7 @@ class AdminService
      * @datetime 2016-12-10T22:16:29+0800
      * @param    [array]          $params [输入参数]
      */
-    public function AdminInsert($params = [])
+    public static function AdminInsert($params = [])
     {
         // 请求参数
         $p = [
@@ -219,7 +219,7 @@ class AdminService
      * @datetime 2016-12-10T22:16:29+0800
      * @param    [array]          $params [输入参数]
      */
-    public function AdminUpdate($params = [])
+    public static function AdminUpdate($params = [])
     {
         // 请求参数
         $p = [
@@ -286,7 +286,7 @@ class AdminService
      * @datetime 2016-12-10T22:16:29+0800
      * @param    [array]          $params [输入参数]
      */
-    public function AdminDelete($params = [])
+    public static function AdminDelete($params = [])
     {
         // 请求参数
         $p = [
@@ -318,7 +318,7 @@ class AdminService
      * @datetime 2016-12-10T22:16:29+0800
      * @param    [array]          $params [输入参数]
      */
-    public function Login($params = [])
+    public static function Login($params = [])
     {
         // 请求参数
         $p = [

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
-use app\facade\SafetyService;
+use app\service\SafetyService;
 
 /**
  * 安全

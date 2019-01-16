@@ -11,7 +11,7 @@
 namespace app\service;
 
 use think\Db;
-use app\facade\ResourcesService;
+use app\service\ResourcesService;
 
 /**
  * 轮播服务层
@@ -31,7 +31,7 @@ class BannerService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function Banner($params = [])
+    public static function Banner($params = [])
     {
         $banner = Db::name('Slide')->field('name,images_url,event_value,event_type,bg_color')->where(['platform'=>APPLICATION_CLIENT_TYPE, 'is_enable'=>1])->order('sort asc')->select();
         if(!empty($banner))

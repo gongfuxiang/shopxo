@@ -11,8 +11,8 @@
 namespace app\api\controller;
 
 use think\Controller;
-use app\facade\ConfigService;
-use app\facade\UserService;
+use app\service\ConfigService;
+use app\service\UserService;
 
 /**
  * 接口公共控制器

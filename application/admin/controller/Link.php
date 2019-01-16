@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\facade\LinkService;
+use app\service\LinkService;
 
 /**
  * 友情链接

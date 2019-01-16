@@ -10,8 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\facade\ThemeService;
-use app\facade\ConfigService;
+use app\service\ThemeService;
+use app\service\ConfigService;
 
 /**
  * 主题管理

@@ -10,8 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
-use app\facade\SearchService;
-use app\facade\BrandService;
+use app\service\SearchService;
+use app\service\BrandService;
 
 /**
  * 搜索

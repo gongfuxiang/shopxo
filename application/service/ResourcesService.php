@@ -31,7 +31,7 @@ class ResourcesService
      * @param    [string]    $type    [操作类型[get读取额你让, add写入内容](编辑/展示传入get,数据写入数据库传入add)]
      * @return   [string]             [正确返回替换后的内容, 则返回原内容]
      */
-    public function ContentStaticReplace($content, $type = 'get')
+    public static function ContentStaticReplace($content, $type = 'get')
     {
         switch($type)
         {
@@ -56,7 +56,7 @@ class ResourcesService
      * @desc    description
      * @param   [string]          $value [附件路径地址]
      */
-    public function AttachmentPathHandle($value)
+    public static function AttachmentPathHandle($value)
     {
         return empty($value) ? '' : str_replace([__MY_PUBLIC_URL__, __MY_ROOT_PUBLIC__], DS, $value);
     }
@@ -71,14 +71,14 @@ class ResourcesService
      * @param    [array]          $params [输入参数]
      * @param   [array]           $data   [字段列表]
      */
-    public function AttachmentParams($params, $data)
+    public static function AttachmentParams($params, $data)
     {
         $result = [];
         if(!empty($data))
         {
             foreach($data as $field)
             {
-                $result[$field] = isset($params[$field]) ? $this->AttachmentPathHandle($params[$field]) : '';
+                $result[$field] = isset($params[$field]) ? self::AttachmentPathHandle($params[$field]) : '';
             }
         }
 
@@ -93,7 +93,7 @@ class ResourcesService
      * @datetime 2019-01-13T15:13:30+0800
      * @param    [type]                   $value [description]
      */
-    public function AttachmentPathViewHandle($value)
+    public static function AttachmentPathViewHandle($value)
     {
         if(!empty($value))
         {

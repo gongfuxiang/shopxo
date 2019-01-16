@@ -11,7 +11,7 @@
 namespace app\service;
 
 use think\Db;
-use app\facade\ResourcesService;
+use app\service\ResourcesService;
 
 /**
  * 支付方式服务层
@@ -23,16 +23,16 @@ use app\facade\ResourcesService;
 class PaymentService
 {
     // 插件目录
-    public $payment_dir;
+    public static $payment_dir;
 
     // 支付业务类型
-    public $payment_business_type_all;
+    public static $payment_business_type_all;
 
     // 不删除的支付方式
-    public $cannot_deleted_list;
+    public static $cannot_deleted_list;
 
     // 入口文件位置
-    public $dir_root_path;
+    public static $dir_root_path;
 
     /**
      * 初始化
@@ -43,19 +43,19 @@ class PaymentService
      * @desc    description
      * @param   [array]           $params [输入参数]
      */
-    private function Init($params = [])
+    private static function Init($params = [])
     {
         // 插件目录
-        $this->payment_dir = ROOT.'extend'.DS.'payment'.DS;
+        self::$payment_dir = ROOT.'extend'.DS.'payment'.DS;
 
         // 支付业务类型
-        $this->payment_business_type_all = config('shopxo.payment_business_type_all');
+        self::$payment_business_type_all = config('shopxo.payment_business_type_all');
 
         // 不删除的支付方式
-        $this->cannot_deleted_list = config('shopxo.payment_cannot_deleted_list');
+        self::$cannot_deleted_list = ['DeliveryPayment', 'CashPayment'];
 
         // 入口文件位置
-        $this->dir_root_path = defined('IS_ROOT_ACCESS') ? ROOT : ROOT.'public'.DS;
+        self::$dir_root_path = defined('IS_ROOT_ACCESS') ? ROOT : ROOT.'public'.DS;
     }
 
     /**
@@ -66,16 +66,16 @@ class PaymentService
      * @date    2018-09-17
      * @desc    description
      */
-    public function PlugPaymentList()
+    public static function PlugPaymentList()
     {
         // 初始化
-        $this->Init();
+        self::Init();
 
         // 开始处理
         $data = [];
-        if(is_dir($this->payment_dir))
+        if(is_dir(self::$payment_dir))
         {
-            if($dh = opendir($this->payment_dir))
+            if($dh = opendir(self::$payment_dir))
             {
                 while(($temp_file = readdir($dh)) !== false)
                 {
@@ -83,16 +83,16 @@ class PaymentService
                     {
                         // 获取模块配置信息
                         $payment = htmlentities(str_replace('.php', '', $temp_file));
-                        $config = $this->GetPaymentConfig($payment);
+                        $config = self::GetPaymentConfig($payment);
                         if($config !== false)
                         {
                             // 数据组装
-                            $temp = $this->DataAnalysis($config);
+                            $temp = self::DataAnalysis($config);
                             $temp['id'] = date('YmdHis').GetNumberCode(8);
                             $temp['payment'] = $payment;
 
                             // 获取数据库配置信息
-                            $db_config = $this->PaymentList(['where'=>['payment'=>$payment]]);
+                            $db_config = self::PaymentList(['where'=>['payment'=>$payment]]);
                             if(!empty($db_config[0]))
                             {
                                 $temp['is_install'] = 1;
@@ -123,7 +123,7 @@ class PaymentService
      * @desc    description
      * @param   [string]          $payment [模块名称]
      */
-    private function GetPaymentConfig($payment)
+    private static function GetPaymentConfig($payment)
     {
         $payment = '\payment\\'.$payment;
         if(class_exists($payment))
@@ -146,7 +146,7 @@ class PaymentService
      * @desc    description
      * @param   [array]          $data [插件配置信息]
      */
-    private function DataAnalysis($data)
+    private static function DataAnalysis($data)
     {
         return [
             'name'          => isset($data['base']['name']) ? htmlentities($data['base']['name']) : $payment,
@@ -175,7 +175,7 @@ class PaymentService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function PaymentList($params = [])
+    public static function PaymentList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         if(isset($params['is_enable']))
@@ -211,9 +211,9 @@ class PaymentService
      * @desc    下订单根据终端自动筛选支付方式
      * @param   [array]          $params [输入参数]
      */
-    public function BuyPaymentList($params = [])
+    public static function BuyPaymentList($params = [])
     {
-        $data = $this->PaymentList($params);
+        $data = self::PaymentList($params);
 
         $result = [];
         if(!empty($data))
@@ -239,7 +239,7 @@ class PaymentService
      * @desc    description
      * @param   [int]          $order_id [订单id]
      */
-    public function OrderPaymentName($order_id = 0)
+    public static function OrderPaymentName($order_id = 0)
     {
         return empty($order_id) ? null : Db::name('PayLog')->where(['order_id'=>intval($order_id)])->value('payment_name');
     }
@@ -253,7 +253,7 @@ class PaymentService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function PaymentUpdate($params = [])
+    public static function PaymentUpdate($params = [])
     {
         // 请求类型
         $p = [
@@ -295,7 +295,7 @@ class PaymentService
             'name'              => $params['name'],
             'apply_terminal'    => empty($params['apply_terminal']) ? '' : json_encode(explode(',', $params['apply_terminal'])),
             'logo'              => $attachment['data']['logo'],
-            'config'            => json_encode($this->GetPlugConfig($params)),
+            'config'            => json_encode(self::GetPlugConfig($params)),
             'sort'              => intval($params['sort']),
             'is_enable'         => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
             'is_open_user'      => isset($params['is_open_user']) ? intval($params['is_open_user']) : 0,
@@ -317,7 +317,7 @@ class PaymentService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    private function GetPlugConfig($params = [])
+    private static function GetPlugConfig($params = [])
     {
         $data = [];
         foreach($params as $k=>$v)
@@ -338,7 +338,7 @@ class PaymentService
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public function PaymentStatusUpdate($params = [])
+    public static function PaymentStatusUpdate($params = [])
     {
         // 请求参数
         $p = [
@@ -380,18 +380,18 @@ class PaymentService
      * @version  1.0.0
      * @datetime 2018-09-29T00:01:49+0800
      */
-    private function PowerCheck()
+    private static function PowerCheck()
     {
         // 入口文件目录
-        if(!is_writable($this->dir_root_path))
+        if(!is_writable(self::$dir_root_path))
         {
-            return DataReturn('目录没有操作权限'.'['.$this->dir_root_path.']', -3);
+            return DataReturn('目录没有操作权限'.'['.self::$dir_root_path.']', -3);
         }
 
         // 插件权限
-        if(!is_writable($this->payment_dir))
+        if(!is_writable(self::$payment_dir))
         {
-            return DataReturn('目录没有操作权限'.'['.$this->payment_dir.']', -3);
+            return DataReturn('目录没有操作权限'.'['.self::$payment_dir.']', -3);
         }
     }
 
@@ -404,13 +404,13 @@ class PaymentService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function Upload($params = [])
+    public static function Upload($params = [])
     {
         // 初始化
-        $this->Init();
+        self::Init();
 
         // 权限
-        $ret = $this->PowerCheck();
+        $ret = self::PowerCheck();
         if($ret['code'] != 0)
         {
             return $ret;
@@ -431,7 +431,7 @@ class PaymentService
         }
 
         // 是否已有存在插件
-        if(file_exists($this->payment_dir.$_FILES['file']['name']))
+        if(file_exists(self::$payment_dir.$_FILES['file']['name']))
         {
             return DataReturn('已存在相同插件', -3);
         }
@@ -441,14 +441,14 @@ class PaymentService
         $payment = str_replace(array('.', '/', '\\', ':'), '', $name);
 
         // 存储文件
-        $file = $this->payment_dir.$payment.'.php';
+        $file = self::$payment_dir.$payment.'.php';
         if(!move_uploaded_file($_FILES['file']['tmp_name'], $file))
         {
             return DataReturn('上传失败', -100);
         }
 
         // 文件校验
-        $config = $this->GetPaymentConfig($payment);
+        $config = self::GetPaymentConfig($payment);
         if($config === false)
         {
             @unlink($file);
@@ -466,10 +466,10 @@ class PaymentService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function Install($params = [])
+    public static function Install($params = [])
     {
         // 初始化
-        $this->Init();
+        self::Init();
 
         // 参数
         if(empty($params['id']))
@@ -479,10 +479,10 @@ class PaymentService
 
         // 数据处理
         $payment = $params['id'];
-        $config = $this->GetPaymentConfig($payment);
+        $config = self::GetPaymentConfig($payment);
         if($config !== false)
         {
-            $data = $this->DataAnalysis($config);
+            $data = self::DataAnalysis($config);
             $data['payment'] = $payment;
             $data['element'] = empty($data['element']) ? '' : json_encode($data['element']);
             $data['apply_terminal'] = empty($data['apply_terminal']) ? '' : json_encode($data['apply_terminal']);
@@ -497,7 +497,7 @@ class PaymentService
             if(Db::name('Payment')->insertGetId($data) > 0)
             {
                 // 入口文件生成
-                $ret = $this->PaymentEntranceCreated($payment);
+                $ret = self::PaymentEntranceCreated($payment);
                 if($ret['code'] == 'code')
                 {
                     // 提交事务
@@ -528,13 +528,13 @@ class PaymentService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function Delete($params = [])
+    public static function Delete($params = [])
     {
         // 初始化
-        $this->Init();
+        self::Init();
 
         // 权限
-        $ret = $this->PowerCheck();
+        $ret = self::PowerCheck();
         if($ret['code'] != 0)
         {
             return $ret;
@@ -548,13 +548,13 @@ class PaymentService
 
         // 是否禁止删除
         $payment = $params['id'];
-        if(in_array($payment, $this->cannot_deleted_list))
+        if(in_array($payment, self::$cannot_deleted_list))
         {
             return DataReturn('该支付方式禁止删除', -10);
         }
 
         // 是否存在
-        $file = $this->payment_dir.$payment.'.php';
+        $file = self::$payment_dir.$payment.'.php';
         if(!file_exists($file))
         {
             return DataReturn('资源不存在或已被删除', -2);
@@ -573,7 +573,7 @@ class PaymentService
         }
 
         // 删除入口文件
-        $this->PaymentEntranceDelete($payment);
+        self::PaymentEntranceDelete($payment);
 
         return DataReturn('删除成功');
     }
@@ -587,7 +587,7 @@ class PaymentService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function Uninstall($params = [])
+    public static function Uninstall($params = [])
     {
         // 参数
         if(empty($params['id']))
@@ -596,14 +596,14 @@ class PaymentService
         }
 
         // 初始化
-        $this->Init();
+        self::Init();
 
         // 开始卸载
         $payment = $params['id'];
         if(db('Payment')->where(['payment'=>$payment])->delete())
         {
             // 删除入口文件
-            $this->PaymentEntranceDelete($payment);
+            self::PaymentEntranceDelete($payment);
 
             return DataReturn('卸载成功', 0);
         }
@@ -618,17 +618,17 @@ class PaymentService
      * @datetime 2018-09-28T23:38:52+0800
      * @param    [string]        $payment [支付唯一标记]
      */
-    private function PaymentEntranceCreated($payment)
+    private static function PaymentEntranceCreated($payment)
     {
         // 权限
-        $ret = $this->PowerCheck();
+        $ret = self::PowerCheck();
         if($ret['code'] != 0)
         {
             return $ret;
         }
 
         // 批量创建
-        foreach($this->payment_business_type_all as $v)
+        foreach(self::$payment_business_type_all as $v)
         {
             $name = strtolower($v['name']);
 
@@ -719,12 +719,12 @@ require __DIR__.'/index.php';
 php;
             }
 
-            @file_put_contents($this->dir_root_path.'payment_'.$name.'_'.strtolower($payment).'_respond.php', $respond);
+            @file_put_contents(self::$dir_root_path.'payment_'.$name.'_'.strtolower($payment).'_respond.php', $respond);
 
             // 线下支付不生成异步入口文件
             if(!in_array($payment, config('shopxo.under_line_list')))
             {
-                @file_put_contents($this->dir_root_path.'payment_'.$name.'_'.strtolower($payment).'_notify.php', $notify);
+                @file_put_contents(self::$dir_root_path.'payment_'.$name.'_'.strtolower($payment).'_notify.php', $notify);
             }
         }
 
@@ -739,26 +739,26 @@ php;
      * @datetime 2018-09-28T23:38:52+0800
      * @param    [string]        $payment [支付唯一标记]
      */
-    private function PaymentEntranceDelete($payment)
+    private static function PaymentEntranceDelete($payment)
     {
         // 权限
-        $ret = $this->PowerCheck();
+        $ret = self::PowerCheck();
         if($ret['code'] != 0)
         {
             return $ret;
         }
 
         $payment = strtolower($payment);
-        foreach($this->payment_business_type_all as $v)
+        foreach(self::$payment_business_type_all as $v)
         {
             $name = strtolower($v['name']);
-            if(file_exists($this->dir_root_path.'payment_'.$name.'_'.$payment.'_notify.php'))
+            if(file_exists(self::$dir_root_path.'payment_'.$name.'_'.$payment.'_notify.php'))
             {
-                @unlink($this->dir_root_path.'payment_'.$name.'_'.$payment.'_notify.php');
+                @unlink(self::$dir_root_path.'payment_'.$name.'_'.$payment.'_notify.php');
             }
-            if(file_exists($this->dir_root_path.'payment_'.$name.'_'.$payment.'_respond.php'))
+            if(file_exists(self::$dir_root_path.'payment_'.$name.'_'.$payment.'_respond.php'))
             {
-                @unlink($this->dir_root_path.'payment_'.$name.'_'.$payment.'_respond.php');
+                @unlink(self::$dir_root_path.'payment_'.$name.'_'.$payment.'_respond.php');
             }
         }
 
@@ -775,10 +775,10 @@ php;
      * @param   [string]          $payment [支付标记]
      * @param   [string]          $name    [支付业务方式名称]
      */
-    public function EntranceFileChecked($payment, $name)
+    public static function EntranceFileChecked($payment, $name)
     {
         // 同步返回文件
-        if(!file_exists($this->dir_root_path.'payment_'.strtolower($name).'_'.strtolower($payment).'_respond.php'))
+        if(!file_exists(self::$dir_root_path.'payment_'.strtolower($name).'_'.strtolower($payment).'_respond.php'))
         {
             return DataReturn('支付返回入口文件不存在，请联系管理员处理', -10);
         }
@@ -786,7 +786,7 @@ php;
         // 线下支付不生成异步入口文件
         if(!in_array($payment, config('shopxo.under_line_list')))
         {
-            if(!file_exists($this->dir_root_path.'payment_'.strtolower($name).'_'.strtolower($payment).'_notify.php'))
+            if(!file_exists(self::$dir_root_path.'payment_'.strtolower($name).'_'.strtolower($payment).'_notify.php'))
             {
                 return DataReturn('支付通知入口文件不存在，请联系管理员处理', -10);
             }

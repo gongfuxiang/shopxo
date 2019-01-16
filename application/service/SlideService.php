@@ -11,7 +11,7 @@
 namespace app\service;
 
 use think\Db;
-use app\facade\ResourcesService;
+use app\service\ResourcesService;
 
 /**
  * 轮播图服务层
@@ -31,7 +31,7 @@ class SlideService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function SlideList($params = [])
+    public static function SlideList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
@@ -96,7 +96,7 @@ class SlideService
      * @desc    description
      * @param   [array]          $where [条件]
      */
-    public function SlideTotal($where = [])
+    public static function SlideTotal($where = [])
     {
         return (int) Db::name('Slide')->where($where)->count();
     }
@@ -110,7 +110,7 @@ class SlideService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function SlideListWhere($params = [])
+    public static function SlideListWhere($params = [])
     {
         $where = [];
 
@@ -158,7 +158,7 @@ class SlideService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function SlideSave($params = [])
+    public static function SlideSave($params = [])
     {
         // 请求类型
         $p = [
@@ -249,7 +249,7 @@ class SlideService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function SlideDelete($params = [])
+    public static function SlideDelete($params = [])
     {
         // 请求参数
         $p = [
@@ -282,7 +282,7 @@ class SlideService
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public function SlideStatusUpdate($params = [])
+    public static function SlideStatusUpdate($params = [])
     {
         // 请求参数
         $p = [

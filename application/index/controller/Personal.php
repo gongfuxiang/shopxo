@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
-use app\facade\UserService;
+use app\service\UserService;
 
 /**
  * 个人资料

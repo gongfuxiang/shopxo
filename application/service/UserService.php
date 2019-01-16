@@ -11,8 +11,7 @@
 namespace app\service;
 
 use think\Db;
-use app\facade\RegionService;
-use app\facade\ResourcesService;
+use app\service\RegionService;
 
 /**
  * 用户服务层
@@ -31,7 +30,7 @@ class UserService
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public function UserList($params = [])
+    public static function UserList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
@@ -79,7 +78,7 @@ class UserService
      * @datetime 2016-12-10T22:16:29+0800
      * @param    [array]          $params [输入参数]
      */
-    public function UserListWhere($params = [])
+    public static function UserListWhere($params = [])
     {
         $where = [];
         if(!empty($params['keywords']))
@@ -117,7 +116,7 @@ class UserService
      * @datetime 2016-12-10T22:16:29+0800
      * @param    [array]          $where [条件]
      */
-    public function UserTotal($where)
+    public static function UserTotal($where)
     {
         return (int) Db::name('User')->where($where)->count();
     }
@@ -130,7 +129,7 @@ class UserService
      * @datetime 2016-12-10T22:16:29+0800
      * @param    [array]          $params [输入参数]
      */
-    public function UserSave($params = [])
+    public static function UserSave($params = [])
     {
         // 请求参数
         $p = [
@@ -261,7 +260,7 @@ class UserService
      * @datetime 2016-12-10T22:16:29+0800
      * @param    [array]          $params [输入参数]
      */
-    public function UserDelete($params = [])
+    public static function UserDelete($params = [])
     {
         // 请求参数
         $p = [
@@ -294,7 +293,7 @@ class UserService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function UserAddressList($params = [])
+    public static function UserAddressList($params = [])
     {
         // 请求参数
         $p = [
@@ -337,7 +336,7 @@ class UserService
      * @datetime 2018-09-23T23:19:25+0800
      * @param   [array]          $params [输入参数]
      */
-    public function UserAddressRow($params = [])
+    public static function UserAddressRow($params = [])
     {
         // 请求参数
         $p = [
@@ -362,7 +361,7 @@ class UserService
         $params['where'] = [
             'id'    => intval($params['id']),
         ];
-        $ret = $this->UserAddressList($params);
+        $ret = self::UserAddressList($params);
         if(!empty($ret['data'][0]))
         {
             $ret['data'] = $ret['data'][0];
@@ -379,7 +378,7 @@ class UserService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function UserDefaultAddress($params = [])
+    public static function UserDefaultAddress($params = [])
     {
         // 请求参数
         $p = [
@@ -397,7 +396,7 @@ class UserService
 
         // 获取用户地址
         $params['where'] = ['is_default'=>1];
-        $ret = $this->UserAddressList($params);
+        $ret = self::UserAddressList($params);
         if(!empty($ret['data'][0]))
         {
             $ret['data'] = $ret['data'][0];
@@ -413,7 +412,7 @@ class UserService
      * @datetime 2018-09-23T22:28:31+0800
      * @param   [array]          $params [输入参数]
      */
-    public function UserAddressSave($params = [])
+    public static function UserAddressSave($params = [])
     {
         // 请求参数
         $p = [
@@ -531,7 +530,7 @@ class UserService
      * @datetime 2018-09-23T23:55:51+0800
      * @param   [array]          $params [输入参数]
      */
-    public function UserAddressDelete($params = [])
+    public static function UserAddressDelete($params = [])
     {
         // 请求参数
         $p = [
@@ -572,7 +571,7 @@ class UserService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function UserAddressDefault($params = [])
+    public static function UserAddressDefault($params = [])
     {
         // 请求参数
         $p = [
@@ -621,7 +620,7 @@ class UserService
      * @param    [boolean] $is_app  [是否为app]
      * @return   [boolean]          [记录成功true, 失败false]
      */
-    public function UserLoginRecord($user_id = 0, $is_app = false)
+    public static function UserLoginRecord($user_id = 0, $is_app = false)
     {
         if(!empty($user_id))
         {
@@ -681,7 +680,7 @@ class UserService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function UserAvatarUpload($params = [])
+    public static function UserAvatarUpload($params = [])
     {
         // 请求参数
         $p = [
@@ -756,7 +755,7 @@ class UserService
         ];
         if(Db::name('User')->where(['id'=>$params['user']['id']])->update($data))
         {
-            $this->UserLoginRecord($params['user']['id']);
+            self::UserLoginRecord($params['user']['id']);
             return DataReturn('上传成功', 0);
         }
         return DataReturn('上传失败', -100);
@@ -771,7 +770,7 @@ class UserService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function Login($params = [])
+    public static function Login($params = [])
     {
         // 是否开启用户登录
         if(MyC('home_user_login_state') != 1)
@@ -821,7 +820,7 @@ class UserService
         if(Db::name('User')->where(array('id'=>$user['id']))->update($data) !== false)
         {
             // 登录记录
-            if($this->UserLoginRecord($user['id']))
+            if(self::UserLoginRecord($user['id']))
             {
                 return DataReturn('登录成功', 0);
             }
@@ -838,7 +837,7 @@ class UserService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function Reg($params = [])
+    public static function Reg($params = [])
     {
         // 数据验证
         $p = [
@@ -876,7 +875,7 @@ class UserService
         }
 
         // 账户校验
-        $ret = $this->UserRegAccountsCheck($params);
+        $ret = self::UserRegAccountsCheck($params);
         if($ret['code'] != 0)
         {
             return $ret;
@@ -925,7 +924,7 @@ class UserService
             // 清除验证码
             $obj->Remove();
 
-            if($this->UserLoginRecord($user_id))
+            if(self::UserLoginRecord($user_id))
             {
                 return DataReturn('注册成功', 0);
             }
@@ -942,7 +941,7 @@ class UserService
      * @datetime 2017-03-10T10:06:29+0800
      * @param   [array]          $params [输入参数]
      */
-    private function UserRegAccountsCheck($params = [])
+    private static function UserRegAccountsCheck($params = [])
     {
         // 参数
         $type = $params['type'];
@@ -962,7 +961,7 @@ class UserService
             }
 
             // 手机号码是否已存在
-            if($this->IsExistAccounts($accounts, 'mobile'))
+            if(self::IsExistAccounts($accounts, 'mobile'))
             {
                  return DataReturn('手机号码已存在', -3);
             }
@@ -976,7 +975,7 @@ class UserService
             }
 
             // 电子邮箱是否已存在
-            if($this->IsExistAccounts($accounts, 'email'))
+            if(self::IsExistAccounts($accounts, 'email'))
             {
                  return DataReturn('电子邮箱已存在', -3);
             }
@@ -994,7 +993,7 @@ class UserService
      * @param    [string] $field        [字段名称]
      * @return   [boolean]              [存在true, 不存在false]
      */
-    private function IsExistAccounts($accounts, $field = 'mobile')
+    private static function IsExistAccounts($accounts, $field = 'mobile')
     {
         $id = Db::name('User')->where(array($field=>$accounts))->value('id');
         return !empty($id);
@@ -1010,7 +1009,7 @@ class UserService
      * @param    [array]    $verify_params  [配置参数]
      * @return   [object]                   [图片验证码类对象]
      */
-    private function IsImaVerify($params, $verify_params)
+    private static function IsImaVerify($params, $verify_params)
     {
         if(MyC('home_img_verify_state') == 1)
         {
@@ -1040,7 +1039,7 @@ class UserService
      * @datetime 2017-03-10T10:06:29+0800
      * @param   [array]          $params [输入参数]
      */
-    public function RegVerifySend($params = [])
+    public static function RegVerifySend($params = [])
     {
         // 数据验证
         $p = [
@@ -1068,7 +1067,7 @@ class UserService
         }
 
         // 账户校验
-        $ret = $this->UserRegAccountsCheck($params);
+        $ret = self::UserRegAccountsCheck($params);
         if($ret['code'] != 0)
         {
             return $ret;
@@ -1082,7 +1081,7 @@ class UserService
             );
 
         // 是否开启图片验证码
-        $verify = $this->IsImaVerify($params, $verify_params);
+        $verify = self::IsImaVerify($params, $verify_params);
         if($verify['code'] != 0)
         {
             return $verify;
@@ -1128,7 +1127,7 @@ class UserService
      * @datetime 2017-03-10T17:35:03+0800
      * @param   [array]          $params [输入参数]
      */
-    public function ForgetPwdVerifySend($params = [])
+    public static function ForgetPwdVerifySend($params = [])
     {
         // 参数
         if(empty($params['accounts']))
@@ -1137,7 +1136,7 @@ class UserService
         }
 
         // 账户是否存在
-        $ret = $this->UserForgetAccountsCheck($params['accounts']);
+        $ret = self::UserForgetAccountsCheck($params['accounts']);
         if($ret['code'] != 0)
         {
             return $ret;
@@ -1151,7 +1150,7 @@ class UserService
             );
 
         // 是否开启图片验证码
-        $verify = $this->IsImaVerify($params, $verify_params);
+        $verify = self::IsImaVerify($params, $verify_params);
         if($verify['code'] != 0)
         {
             return $verify;
@@ -1205,18 +1204,18 @@ class UserService
      * @param    [string]     $accounts [账户名称]
      * @return   [string]               [账户字段 mobile, email]
      */
-    private function UserForgetAccountsCheck($accounts)
+    private static function UserForgetAccountsCheck($accounts)
     {
         if(CheckMobile($accounts))
         {
-            if(!$this->IsExistAccounts($accounts, 'mobile'))
+            if(!self::IsExistAccounts($accounts, 'mobile'))
             {
                 return DataReturn('手机号码不存在', -3);
             }
             return DataReturn('操作成功', 0, 'mobile');
         } else if(CheckEmail($accounts))
         {
-            if(!$this->IsExistAccounts($accounts, 'email'))
+            if(!self::IsExistAccounts($accounts, 'email'))
             {
                 return DataReturn('电子邮箱不存在', -3);
             }
@@ -1233,7 +1232,7 @@ class UserService
      * @datetime 2017-03-10T17:35:03+0800
      * @param   [array]          $params [输入参数]
      */
-    public function ForgetPwd($params = [])
+    public static function ForgetPwd($params = [])
     {
         // 数据验证
         $p = [
@@ -1260,7 +1259,7 @@ class UserService
         }
 
         // 账户是否存在
-        $ret = $this->UserForgetAccountsCheck($params['accounts']);
+        $ret = self::UserForgetAccountsCheck($params['accounts']);
         if($ret['code'] != 0)
         {
             return $ret;
@@ -1313,7 +1312,7 @@ class UserService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function PersonalSave($params = [])
+    public static function PersonalSave($params = [])
     {
         // 数据验证
         $p = [
@@ -1355,7 +1354,7 @@ class UserService
         if(Db::name('User')->where(array('id'=>$params['user']['id']))->update($data))
         {
             // 更新用户session数据
-            $this->UserLoginRecord($params['user']['id']);
+            self::UserLoginRecord($params['user']['id']);
 
             return DataReturn('编辑成功', 0);
         }
@@ -1372,7 +1371,7 @@ class UserService
      * @param   [array]          $params    [用户数据]
      * @param   [string]         $field     [平台字段名称]
      */
-    public function AuthUserProgram($params, $field)
+    public static function AuthUserProgram($params, $field)
     {
         $data = [
             $field              => $params['openid'],
@@ -1403,7 +1402,7 @@ class UserService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function AppReg($params = [])
+    public static function AppReg($params = [])
     {
         // 数据验证
         $p = [
@@ -1509,7 +1508,7 @@ class UserService
             // 清除验证码
             $obj->Remove();
 
-            return DataReturn('绑定成功', 0, $this->UserLoginRecord($user_id, true));
+            return DataReturn('绑定成功', 0, self::UserLoginRecord($user_id, true));
         } else {
             return DataReturn('绑定失败', -100);
         }
@@ -1524,7 +1523,7 @@ class UserService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function AppUserBindVerifySend($params = [])
+    public static function AppUserBindVerifySend($params = [])
     {
         // 数据验证
         $p = [

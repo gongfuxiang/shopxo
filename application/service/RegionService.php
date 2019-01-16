@@ -30,7 +30,7 @@ class RegionService
      * @desc    description
      * @param   [int]          $region_id [地区id]
      */
-    public function RegionName($region_id = 0)
+    public static function RegionName($region_id = 0)
     {
         return empty($region_id) ? null : Db::name('Region')->where(['id'=>intval($region_id)])->value('name');
     }
@@ -43,7 +43,7 @@ class RegionService
      * @datetime 2018-12-09T00:13:02+0800
      * @param    [array]                    $param [输入参数]
      */
-    public function RegionItems($param = [])
+    public static function RegionItems($param = [])
     {
         $pid = isset($param['pid']) ? intval($param['pid']) : 0;
         return Db::name('Region')->where(['pid'=>$pid, 'is_enable'=>1])->select();
@@ -58,7 +58,7 @@ class RegionService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function RegionNode($params = [])
+    public static function RegionNode($params = [])
     {
         $field = empty($params['field']) ? 'id,name,level,letters' : $params['field'];
         $where = empty($params['where']) ? [] : $params['where'];
@@ -75,7 +75,7 @@ class RegionService
      * @datetime 2018-12-16T23:54:46+0800
      * @param    [array]          $params [输入参数]
      */
-    public function RegionNodeSon($params = [])
+    public static function RegionNodeSon($params = [])
     {
         // id
         $id = isset($params['id']) ? intval($params['id']) : 0;
@@ -105,7 +105,7 @@ class RegionService
      * @datetime 2018-12-17T01:04:03+0800
      * @param    [array]          $params [输入参数]
      */
-    public function RegionSave($params = [])
+    public static function RegionSave($params = [])
     {
         // 请求参数
         $p = [
@@ -157,7 +157,7 @@ class RegionService
      * @datetime 2018-12-17T02:40:29+0800
      * @param    [array]          $params [输入参数]
      */
-    public function RegionDelete($params = [])
+    public static function RegionDelete($params = [])
     {
         // 请求参数
         $p = [

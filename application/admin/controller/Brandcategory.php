@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\facade\BrandService;
+use app\service\BrandService;
 
 /**
  * 品牌分类管理

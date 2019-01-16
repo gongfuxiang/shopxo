@@ -11,7 +11,7 @@
 namespace app\service;
 
 use think\Db;
-use app\facade\GoodsService;
+use app\service\GoodsService;
 
 /**
  * 搜索服务层
@@ -31,7 +31,7 @@ class SearchService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function GoodsCategoryList($params = [])
+    public static function GoodsCategoryList($params = [])
     {
         return GoodsService::GoodsCategoryList(['pid'=>$params['category_id']]);
     }
@@ -45,7 +45,7 @@ class SearchService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function ScreeningPriceList($params = [])
+    public static function ScreeningPriceList($params = [])
     {
         $field = empty($params['field']) ? '*' : $params['field'];
         return Db::name('ScreeningPrice')->field($field)->where(['is_enable'=>1])->order('sort asc')->select();
@@ -60,7 +60,7 @@ class SearchService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function GoodsList($params = [])
+    public static function GoodsList($params = [])
     {
         $result = [
             'page_total'    => 0,
@@ -144,7 +144,7 @@ class SearchService
      * @datetime 2018-10-21T00:37:44+0800
      * @param   [array]          $params [输入参数]
      */
-    public function SearchAdd($params = [])
+    public static function SearchAdd($params = [])
     {
         // 筛选价格
         $screening_price = '';
@@ -180,7 +180,7 @@ class SearchService
      * @datetime 2018-10-20T23:55:06+0800
      * @param   [array]          $params [输入参数]
      */
-    public function SearchKeywordsList($params = [])
+    public static function SearchKeywordsList($params = [])
     {
         $where = [
             ['keywords', '<>', ''],

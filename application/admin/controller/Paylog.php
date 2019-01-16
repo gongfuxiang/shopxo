@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\facade\PayLogService;
+use app\service\PayLogService;
 
 /**
  * 支付日志管理

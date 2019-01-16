@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
-use app\facade\IntegralService;
+use app\service\IntegralService;
 
 /**
  * 用户积分管理

@@ -11,7 +11,7 @@
 namespace app\service;
 
 use think\Db;
-use app\facade\ResourcesService;
+use app\service\ResourcesService;
 
 /**
  * 筛选价格服务层
@@ -30,7 +30,7 @@ class ScreeningPriceService
      * @datetime 2018-12-16T23:54:46+0800
      * @param    [array]          $params [输入参数]
      */
-    public function ScreeningPriceNodeSon($params = [])
+    public static function ScreeningPriceNodeSon($params = [])
     {
         // id
         $id = isset($params['id']) ? intval($params['id']) : 0;
@@ -60,7 +60,7 @@ class ScreeningPriceService
      * @datetime 2018-12-17T01:04:03+0800
      * @param    [array]          $params [输入参数]
      */
-    public function ScreeningPriceSave($params = [])
+    public static function ScreeningPriceSave($params = [])
     {
         // 请求参数
         $p = [
@@ -114,7 +114,7 @@ class ScreeningPriceService
      * @datetime 2018-12-17T02:40:29+0800
      * @param    [array]          $params [输入参数]
      */
-    public function ScreeningPriceDelete($params = [])
+    public static function ScreeningPriceDelete($params = [])
     {
         // 请求参数
         $p = [

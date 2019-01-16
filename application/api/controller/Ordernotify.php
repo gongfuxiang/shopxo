@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\facade\OrderService;
+use app\service\OrderService;
 
 /**
  * 订单支付异步通知

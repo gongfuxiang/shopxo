@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\facade\SlideService;
+use app\service\SlideService;
 
 /**
  * 轮播图片管理

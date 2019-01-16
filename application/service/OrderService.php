@@ -11,14 +11,13 @@
 namespace app\service;
 
 use think\Db;
-use app\facade\GoodsService;
-use app\facade\PaymentService;
-use app\facade\BuyService;
-use app\facade\IntegralService;
-use app\facade\RegionService;
-use app\facade\ExpressService;
-use app\facade\ResourcesService;
-use app\facade\MessageService;
+use app\service\GoodsService;
+use app\service\PaymentService;
+use app\service\BuyService;
+use app\service\IntegralService;
+use app\service\RegionService;
+use app\service\ExpressService;
+use app\service\ResourcesService;
 
 /**
  * 订单服务层
@@ -38,7 +37,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function Pay($params = [])
+    public static function Pay($params = [])
     {
         // 请求参数
         $p = [
@@ -123,7 +122,7 @@ class OrderService
         {
             // 非线上支付处理
             $params['user']['user_name_view'] = '用户-'.$params['user']['user_name_view'];
-            $pay_result = $this->OrderPaymentUnderLine([
+            $pay_result = self::OrderPaymentUnderLine([
                 'order'     => $order,
                 'payment'   => $payment[0],
                 'user'      => $params['user'],
@@ -157,7 +156,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function AdminPay($params = [])
+    public static function AdminPay($params = [])
     {
         // 请求参数
         $p = [
@@ -204,7 +203,7 @@ class OrderService
         }
 
         // 非线上支付处理
-        return $this->OrderPaymentUnderLine([
+        return self::OrderPaymentUnderLine([
             'order'     => $order,
             'payment'   => $payment[0],
             'user'      => $params['user'],
@@ -220,7 +219,7 @@ class OrderService
      * @datetime 2018-10-05T22:40:57+0800
      * @param   [array]          $params [输入参数]
      */
-    private function OrderPaymentUnderLine($params = [])
+    private static function OrderPaymentUnderLine($params = [])
     {
         if(!empty($params['order']) && !empty($params['payment']) && !empty($params['user']))
         {
@@ -237,7 +236,7 @@ class OrderService
                         'pay_price'     => $params['order']['total_price'],
                     ],
                 ];
-                return $this->OrderPayHandle($pay_params);
+                return self::OrderPayHandle($pay_params);
             }
         }
         return DataReturn('无需处理', 0);
@@ -252,7 +251,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function Respond($params = [])
+    public static function Respond($params = [])
     {
         // 请求参数
         $p = [
@@ -294,7 +293,7 @@ class OrderService
             $order = Db::name('Order')->where($where)->find();
 
             // 非线上支付处理
-            $this->OrderPaymentUnderLine([
+            self::OrderPaymentUnderLine([
                 'order'     => $order,
                 'payment'   => $payment[0],
                 'user'      => $params['user'],
@@ -313,7 +312,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function Notify($params = [])
+    public static function Notify($params = [])
     {
         // 支付方式
         $payment = PaymentService::PaymentList(['where'=>['payment'=>PAYMENT_TYPE]]);
@@ -345,7 +344,7 @@ class OrderService
                 'pay_price'     => $ret['data']['pay_price'],
             ],
         ];
-        return $this->OrderPayHandle($pay_params);
+        return self::OrderPayHandle($pay_params);
     }
 
     /**
@@ -356,7 +355,7 @@ class OrderService
      * @datetime 2018-10-05T23:02:14+0800
      * @param   [array]          $params [输入参数]
      */
-    private function OrderPayHandle($params = [])
+    private static function OrderPayHandle($params = [])
     {
         // 订单信息
         if(empty($params['order']))
@@ -413,7 +412,7 @@ class OrderService
         if(Db::name('Order')->where(['id'=>$params['order']['id']])->update($upd_data))
         {
             // 添加状态日志
-            if($this->OrderHistoryAdd($params['order']['id'], 2, $params['order']['status'], '支付', 0, '系统'))
+            if(self::OrderHistoryAdd($params['order']['id'], 2, $params['order']['status'], '支付', 0, '系统'))
             {
                 // 库存扣除
                 $ret = BuyService::OrderInventoryDeduct(['order_id'=>$params['order']['id'], 'order_data'=>$upd_data]);
@@ -446,7 +445,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function OrderListWhere($params = [])
+    public static function OrderListWhere($params = [])
     {
         // 用户类型
         $user_type = isset($params['user_type']) ? $params['user_type'] : 'user';
@@ -549,7 +548,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $where [条件]
      */
-    public function OrderTotal($where = [])
+    public static function OrderTotal($where = [])
     {
         return (int) Db::name('Order')->where($where)->count();
     }
@@ -563,7 +562,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function OrderList($params = [])
+    public static function OrderList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
@@ -676,7 +675,7 @@ class OrderService
      * @param   [string]       $creator_name    [操作人名称]
      * @return  [boolean]                       [成功 true, 失败 false]
      */
-    public function OrderHistoryAdd($order_id, $new_status, $original_status, $msg = '', $creator = 0, $creator_name = '')
+    public static function OrderHistoryAdd($order_id, $new_status, $original_status, $msg = '', $creator = 0, $creator_name = '')
     {
         // 状态描述
         $order_status_list = lang('common_order_user_status');
@@ -706,7 +705,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function OrderCancel($params = [])
+    public static function OrderCancel($params = [])
     {
         // 请求参数
         $p = [
@@ -764,7 +763,7 @@ class OrderService
             // 订单状态日志
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
             $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
-            $this->OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '取消', $creator, $creator_name);
+            self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '取消', $creator, $creator_name);
 
             // 提交事务
             Db::commit();
@@ -785,7 +784,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function OrderDelivery($params = [])
+    public static function OrderDelivery($params = [])
     {
         // 请求参数
         $p = [
@@ -855,7 +854,7 @@ class OrderService
             // 订单状态日志
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
             $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
-            $this->OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '收货', $creator, $creator_name);
+            self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '收货', $creator, $creator_name);
 
             // 提交事务
             Db::commit();
@@ -876,7 +875,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function OrderCollect($params = [])
+    public static function OrderCollect($params = [])
     {
         // 请求参数
         $p = [
@@ -931,7 +930,7 @@ class OrderService
             }
 
             // 订单商品销量增加
-            $ret = $this->GoodsSalesCountInc(['order_id'=>$order['id']]);
+            $ret = self::GoodsSalesCountInc(['order_id'=>$order['id']]);
             if($ret['code'] != 0)
             {
                 // 事务回滚
@@ -945,7 +944,7 @@ class OrderService
             // 订单状态日志
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
             $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
-            $this->OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '收货', $creator, $creator_name);
+            self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '收货', $creator, $creator_name);
 
             // 提交事务
             Db::commit();
@@ -966,7 +965,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function OrderConfirm($params = [])
+    public static function OrderConfirm($params = [])
     {
         // 请求参数
         $p = [
@@ -1026,7 +1025,7 @@ class OrderService
             // 订单状态日志
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
             $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
-            $this->OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '确认', $creator, $creator_name);
+            self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '确认', $creator, $creator_name);
 
             // 事务提交
             Db::commit();
@@ -1047,7 +1046,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function OrderDelete($params = [])
+    public static function OrderDelete($params = [])
     {
         // 请求参数
         $p = [
@@ -1125,7 +1124,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function Comments($params = [])
+    public static function Comments($params = [])
     {
         // 请求参数
         $p = [
@@ -1234,7 +1233,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function OrderStatusStepTotal($params = [])
+    public static function OrderStatusStepTotal($params = [])
     {
         // 状态数据封装
         $result = [];
@@ -1328,7 +1327,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function GoodsSalesCountInc($params = [])
+    public static function GoodsSalesCountInc($params = [])
     {
         // 请求参数
         $p = [
@@ -1370,7 +1369,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function OrderPayCheck($params = [])
+    public static function OrderPayCheck($params = [])
     {
         // 请求参数
         $p = [
