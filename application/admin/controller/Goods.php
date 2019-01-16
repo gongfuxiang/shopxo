@@ -10,10 +10,10 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\ResourcesService;
-use app\service\GoodsService;
-use app\service\RegionService;
-use app\service\BrandService;
+use app\facade\ResourcesService;
+use app\facade\GoodsService;
+use app\facade\RegionService;
+use app\facade\BrandService;
 
 /**
  * 商品管理

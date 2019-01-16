@@ -11,8 +11,8 @@
 namespace app\service;
 
 use think\Db;
-use app\service\GoodsService;
-use app\service\ResourcesService;
+use app\facade\GoodsService;
+use app\facade\ResourcesService;
 
 /**
  * 品牌服务层
@@ -31,7 +31,7 @@ class BrandService
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function BrandList($params = [])
+    public function BrandList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
@@ -90,7 +90,7 @@ class BrandService
      * @datetime 2016-12-10T22:16:29+0800
      * @param    [array]          $where [条件]
      */
-    public static function BrandTotal($where)
+    public function BrandTotal($where)
     {
         return (int) Db::name('Brand')->where($where)->count();
     }
@@ -104,7 +104,7 @@ class BrandService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function BrandListWhere($params = [])
+    public function BrandListWhere($params = [])
     {
         $where = [];
 
@@ -147,7 +147,7 @@ class BrandService
      * @datetime 2016-12-10T22:16:29+0800
      * @param    [array]          $where [条件]
      */
-    public static function CategoryBrand($params = [])
+    public function CategoryBrand($params = [])
     {
         $data = Db::name('BrandCategory')->where(['is_enable'=>1])->select();
         if(!empty($data))
@@ -169,7 +169,7 @@ class BrandService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function CategoryBrandList($params = [])
+    public function CategoryBrandList($params = [])
     {
         $brand_where = ['is_enable'=>1];
         if(!empty($params['category_id']))
@@ -203,7 +203,7 @@ class BrandService
      * @desc    description
      * @param   [int]          $brand_id [地区id]
      */
-    public static function BrandName($brand_id = 0)
+    public function BrandName($brand_id = 0)
     {
         return empty($brand_id) ? null : Db::name('Brand')->where(['id'=>intval($brand_id)])->value('name');
     }
@@ -217,7 +217,7 @@ class BrandService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function BrandCategoryList($params = [])
+    public function BrandCategoryList($params = [])
     {
         $field = empty($params['field']) ? '*' : $params['field'];
         $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
@@ -236,7 +236,7 @@ class BrandService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function BrandSave($params = [])
+    public function BrandSave($params = [])
     {
         // 请求类型
         $p = [
@@ -312,7 +312,7 @@ class BrandService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function BrandDelete($params = [])
+    public function BrandDelete($params = [])
     {
         // 请求参数
         $p = [
@@ -345,7 +345,7 @@ class BrandService
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function BrandStatusUpdate($params = [])
+    public function BrandStatusUpdate($params = [])
     {
         // 请求参数
         $p = [
@@ -383,7 +383,7 @@ class BrandService
      * @datetime 2018-12-16T23:54:46+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function BrandCategoryNodeSon($params = [])
+    public function BrandCategoryNodeSon($params = [])
     {
         // id
         $id = isset($params['id']) ? intval($params['id']) : 0;
@@ -413,7 +413,7 @@ class BrandService
      * @datetime 2018-12-17T01:04:03+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function BrandCategorySave($params = [])
+    public function BrandCategorySave($params = [])
     {
         // 请求参数
         $p = [
@@ -465,7 +465,7 @@ class BrandService
      * @datetime 2018-12-17T02:40:29+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function BrandCategoryDelete($params = [])
+    public function BrandCategoryDelete($params = [])
     {
         // 请求参数
         $p = [

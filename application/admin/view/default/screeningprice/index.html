@@ -19,7 +19,7 @@
 				<div class="am-popup-bd">
 					<div class="am-alert am-alert-secondary" data-am-alert>规则举例<br /><span class=mini-tips-text>最小价格0 - 最大价格100 则是小于100<br /> 最小价格1000 - 最大价格0 则是大于1000<br /> 最小价格100 - 最大价格500 则是大于等于100并且小于500</span></div>
 					<!-- form start -->
-					<form class="am-form form-validation admin-save" action="{{:MyUrl('Admin/ScreeningPrice/Save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation admin-save" action="{{:MyUrl('admin/screeningprice/save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
 							<label>名称</label>
 							<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />

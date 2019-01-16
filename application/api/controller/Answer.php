@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\AnswerService;
+use app\facade\AnswerService;
 
 /**
  * 用户留言

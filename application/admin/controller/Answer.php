@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\AnswerService;
+use app\facade\AnswerService;
 
 /**
  * 问答管理

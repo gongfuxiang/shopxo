@@ -10,9 +10,9 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\GoodsService;
-use app\service\BannerService;
-use app\service\AppNavService;
+use app\facade\GoodsService;
+use app\facade\BannerService;
+use app\facade\AppNavService;
 
 /**
  * 首页

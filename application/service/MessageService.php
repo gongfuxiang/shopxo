@@ -36,7 +36,7 @@ class MessageService
      * @param    [int]              $type           [类型（默认0  普通消息）]
      * @return   [boolean]                          [成功true, 失败false]
      */
-    public static function MessageAdd($user_id, $title, $detail, $business_type = 0, $business_id = 0, $type = 0)
+    public function MessageAdd($user_id, $title, $detail, $business_type = 0, $business_id = 0, $type = 0)
     {
         $data = array(
             'title'             => $title,
@@ -60,7 +60,7 @@ class MessageService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function MessageListWhere($params = [])
+    public function MessageListWhere($params = [])
     {
         // 条件初始化
         $where = [
@@ -124,7 +124,7 @@ class MessageService
      * @desc    description
      * @param   [array]          $where [条件]
      */
-    public static function MessageTotal($where = [])
+    public function MessageTotal($where = [])
     {
         return (int) Db::name('Message')->where($where)->count();
     }
@@ -138,7 +138,7 @@ class MessageService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function UserMessageTotal($params = [])
+    public function UserMessageTotal($params = [])
     {
         // 请求参数
         $p = [
@@ -153,7 +153,7 @@ class MessageService
         {
             return 0;
         }
-        return self::MessageTotal(self::MessageListWhere($params));
+        return $this->MessageTotal($this->MessageListWhere($params));
     }
 
     /**
@@ -165,7 +165,7 @@ class MessageService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function MessageList($params = [])
+    public function MessageList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
@@ -207,7 +207,7 @@ class MessageService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function MessageRead($params = [])
+    public function MessageRead($params = [])
     {
         // 请求参数
         $p = [
@@ -238,7 +238,7 @@ class MessageService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function AdminMessageList($params = [])
+    public function AdminMessageList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
@@ -285,7 +285,7 @@ class MessageService
      * @desc    description
      * @param   [array]          $where [条件]
      */
-    public static function AdminMessageTotal($where = [])
+    public function AdminMessageTotal($where = [])
     {
         return (int) Db::name('Message')->alias('m')->join(['__USER__'=>'u'], 'u.id=m.user_id')->where($where)->count();
     }
@@ -299,7 +299,7 @@ class MessageService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function AdminMessageListWhere($params = [])
+    public function AdminMessageListWhere($params = [])
     {
         $where = [
             ['m.is_delete_time', '=', 0],
@@ -354,7 +354,7 @@ class MessageService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function MessageDelete($params = [])
+    public function MessageDelete($params = [])
     {
         // 请求参数
         $p = [

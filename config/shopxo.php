@@ -38,6 +38,12 @@ return [
         ['name' => 'Order', 'desc' => '订单'],
     ],
 
+    // 不删除的支付方式
+    'payment_cannot_deleted_list'           => [
+        'DeliveryPayment',
+        'CashPayment',
+    ],
+
     // 线下支付方式
     'under_line_list'                       => ['CashPayment', 'DeliveryPayment'],
 ];

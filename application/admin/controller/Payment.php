@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\PaymentService;
+use app\facade\PaymentService;
 
 /**
  * 支付方式管理
@@ -53,7 +53,7 @@ class Payment extends Common
         $this->assign('data_list', PaymentService::PlugPaymentList());
 
         // 不删除的支付方式
-        $this->assign('cannot_deleted_list', PaymentService::$cannot_deleted_list);
+        $this->assign('cannot_deleted_list', config('shopxo.payment_cannot_deleted_list'));
 
         // 适用平台
         $this->assign('common_platform_type', lang('common_platform_type'));

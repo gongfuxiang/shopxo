@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
-use app\service\ArticleService;
+use app\facade\ArticleService;
 
 /**
  * 文章详情

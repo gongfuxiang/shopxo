@@ -30,7 +30,7 @@ class NavigationService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function Home($params = [])
+    public function Home($params = [])
     {
         // 读取缓存数据
         $header = cache(config('shopxo.cache_common_home_nav_header_key'));
@@ -42,12 +42,12 @@ class NavigationService
         // 缓存没数据则从数据库重新读取,顶部菜单
         if(empty($header))
         {
-            $header = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'header', 'is_show'=>1, 'pid'=>0))->order('sort')->select());
+            $header = $this->NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'header', 'is_show'=>1, 'pid'=>0))->order('sort')->select());
             if(!empty($header))
             {
                 foreach($header as &$v)
                 {
-                    $v['items'] = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'header', 'is_show'=>1, 'pid'=>$v['id']))->order('sort')->select());
+                    $v['items'] = $this->NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'header', 'is_show'=>1, 'pid'=>$v['id']))->order('sort')->select());
                 }
             }
             cache(config('shopxo.cache_common_home_nav_header_key'), $header);
@@ -56,7 +56,7 @@ class NavigationService
         // 底部导航
         if(empty($footer))
         {
-            $footer = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'footer', 'is_show'=>1))->order('sort')->select());
+            $footer = $this->NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'footer', 'is_show'=>1))->order('sort')->select());
             cache(config('shopxo.cache_common_home_nav_footer_key'), $footer);
         }
 
@@ -75,7 +75,7 @@ class NavigationService
      * @param    [array]      $data [需要处理的数据]
      * @return   [array]            [处理好的数据]
      */
-    public static function NavDataDealWith($data)
+    public function NavDataDealWith($data)
     {
         if(!empty($data) && is_array($data))
         {
@@ -114,7 +114,7 @@ class NavigationService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function NavList($params = [])
+    public function NavList($params = [])
     {
         if(empty($params['nav_type']))
         {
@@ -122,12 +122,12 @@ class NavigationService
         }
 
         $field = 'id,pid,name,url,value,data_type,sort,is_show,is_new_window_open';
-        $data = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(['nav_type'=>$params['nav_type'], 'pid'=>0])->order('sort')->select());
+        $data = $this->NavDataDealWith(Db::name('Navigation')->field($field)->where(['nav_type'=>$params['nav_type'], 'pid'=>0])->order('sort')->select());
         if(!empty($data))
         {
             foreach($data as &$v)
             {
-                $v['items'] = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(['nav_type'=>$params['nav_type'], 'pid'=>$v['id']])->order('sort')->select());
+                $v['items'] = $this->NavDataDealWith(Db::name('Navigation')->field($field)->where(['nav_type'=>$params['nav_type'], 'pid'=>$v['id']])->order('sort')->select());
             }
         }
         return $data;
@@ -142,7 +142,7 @@ class NavigationService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function LevelOneNav($params = [])
+    public function LevelOneNav($params = [])
     {
         if(empty($params['nav_type']))
         {
@@ -160,7 +160,7 @@ class NavigationService
      * @datetime 2016-12-07T21:58:19+0800
      * @param   [array]          $params [输入参数]
      */
-    public static function NavSave($params = [])
+    public function NavSave($params = [])
     {
         if(empty($params['data_type']))
         {
@@ -281,7 +281,7 @@ class NavigationService
         }
 
         // 保存数据
-        return self::NacDataSave($params); 
+        return $this->NacDataSave($params); 
     }
 
     /**
@@ -292,7 +292,7 @@ class NavigationService
      * @datetime 2017-02-05T20:12:30+0800
      * @param   [array]          $params [输入参数]
      */
-    public static function NacDataSave($params = [])
+    public function NacDataSave($params = [])
     {
         // 非自定义导航数据处理
         if(empty($params['name']))
@@ -370,7 +370,7 @@ class NavigationService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function NavDelete($params = [])
+    public function NavDelete($params = [])
     {
         // 请求参数
         $p = [
@@ -416,7 +416,7 @@ class NavigationService
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function NavStatusUpdate($params = [])
+    public function NavStatusUpdate($params = [])
     {
         // 请求参数
         $p = [

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\GoodsService;
+use app\facade\GoodsService;
 
 /**
  * 分类管理

@@ -11,7 +11,7 @@
 namespace app\service;
 
 use think\Db;
-use app\service\ResourcesService;
+use app\facade\ResourcesService;
 
 /**
  * 快递服务层
@@ -31,7 +31,7 @@ class ExpressService
      * @desc    description
      * @param   [int]          $express_id [快递id]
      */
-    public static function ExpressName($express_id = 0)
+    public function ExpressName($express_id = 0)
     {
         return empty($express_id) ? null : Db::name('Express')->where(['id'=>intval($express_id)])->value('name');
     }
@@ -45,7 +45,7 @@ class ExpressService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function ExpressList($params = [])
+    public function ExpressList($params = [])
     {
         $where = [];
         if(isset($params['is_enable']))
@@ -72,7 +72,7 @@ class ExpressService
      * @datetime 2018-12-16T23:54:46+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function ExpressNodeSon($params = [])
+    public function ExpressNodeSon($params = [])
     {
         // id
         $id = isset($params['id']) ? intval($params['id']) : 0;
@@ -103,7 +103,7 @@ class ExpressService
      * @datetime 2018-12-17T01:04:03+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function ExpressSave($params = [])
+    public function ExpressSave($params = [])
     {
         // 请求参数
         $p = [
@@ -164,7 +164,7 @@ class ExpressService
      * @datetime 2018-12-17T02:40:29+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function ExpressDelete($params = [])
+    public function ExpressDelete($params = [])
     {
         // 请求参数
         $p = [

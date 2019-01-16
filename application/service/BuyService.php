@@ -11,9 +11,9 @@
 namespace app\service;
 
 use think\Db;
-use app\service\GoodsService;
-use app\service\UserService;
-use app\service\ResourcesService;
+use app\facade\GoodsService;
+use app\facade\UserService;
+use app\facade\ResourcesService;
 
 /**
  * 购买服务层
@@ -33,7 +33,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function CartAdd($params = [])
+    public function CartAdd($params = [])
     {
         // 请求参数
         $p = [
@@ -68,7 +68,7 @@ class BuyService
         }
 
         // 规格处理
-        $spec = self::GoodsSpecificationsHandle($params);
+        $spec = $this->GoodsSpecificationsHandle($params);
 
         // 获取商品基础信息
         $goods_base = GoodsService::GoodsSpecDetail(['id'=>$goods_id, 'spec'=>$spec]);
@@ -97,7 +97,7 @@ class BuyService
             $data['add_time'] = time();
             if(Db::name('Cart')->insertGetId($data) > 0)
             {
-                return DataReturn('加入成功', 0, self::UserCartTotal($params));
+                return DataReturn('加入成功', 0, $this->UserCartTotal($params));
             }
         } else {
             $data['upd_time'] = time();
@@ -108,7 +108,7 @@ class BuyService
             }
             if(Db::name('Cart')->where($where)->update($data))
             {
-                return DataReturn('加入成功', 0, self::UserCartTotal($params));
+                return DataReturn('加入成功', 0, $this->UserCartTotal($params));
             }
         }
         
@@ -124,7 +124,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    private static function GoodsSpecificationsHandle($params = [])
+    private function GoodsSpecificationsHandle($params = [])
     {
         $spec = '';
         if(!empty($params['spec']))
@@ -148,7 +148,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function CartList($params = [])
+    public function CartList($params = [])
     {
         // 请求参数
         $p = [
@@ -211,7 +211,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function CartDelete($params = [])
+    public function CartDelete($params = [])
     {
         // 请求参数
         $p = [
@@ -239,7 +239,7 @@ class BuyService
         ];
         if(Db::name('Cart')->where($where)->delete())
         {
-            return DataReturn('删除成功', 0, self::UserCartTotal($params));
+            return DataReturn('删除成功', 0, $this->UserCartTotal($params));
         }
         return DataReturn('删除失败或资源不存在', -100);
     }
@@ -253,7 +253,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function CartStock($params = [])
+    public function CartStock($params = [])
     {
         // 请求参数
         $p = [
@@ -310,7 +310,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function BuyGoods($params = [])
+    public function BuyGoods($params = [])
     {
         // 请求参数
         $p = [
@@ -357,7 +357,7 @@ class BuyService
         }
 
         // 规格
-        $goods[0]['spec'] = self::GoodsSpecificationsHandle($params);
+        $goods[0]['spec'] = $this->GoodsSpecificationsHandle($params);
 
         // 获取商品基础信息
         $goods_base = GoodsService::GoodsSpecDetail(['id'=>$goods[0]['goods_id'], 'spec'=>$goods[0]['spec']]);
@@ -386,7 +386,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function BuyCart($params = [])
+    public function BuyCart($params = [])
     {
         // 请求参数
         $p = [
@@ -413,7 +413,7 @@ class BuyService
             'g.is_shelves'      => 1,
             'c.id'              => explode(',', $params['ids']),
         ];
-        return self::CartList($params);
+        return $this->CartList($params);
     }
 
     /**
@@ -424,7 +424,7 @@ class BuyService
      * @datetime 2018-10-12T00:42:49+0800
      * @param   [array]          $params [输入参数]
      */
-    public static function BuyCartDelete($params = [])
+    public function BuyCartDelete($params = [])
     {
         if(isset($params['buy_type']) && $params['buy_type'] == 'cart' && !empty($params['ids']))
         {
@@ -441,7 +441,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function BuyTypeGoodsList($params = [])
+    public function BuyTypeGoodsList($params = [])
     {
         if(isset($params['buy_type']))
         {
@@ -476,7 +476,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function BuyGoodsCheck($params = [])
+    public function BuyGoodsCheck($params = [])
     {
         // 请求参数
         $p = [
@@ -551,7 +551,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function OrderAdd($params = [])
+    public function OrderAdd($params = [])
     {
         // 请求参数
         $p = [
@@ -581,12 +581,12 @@ class BuyService
         }
 
         // 清单商品
-        $goods = self::BuyTypeGoodsList($params);
+        $goods = $this->BuyTypeGoodsList($params);
         if(!isset($goods['code']) || $goods['code'] != 0)
         {
             return $goods;
         }
-        $check = self::BuyGoodsCheck(['goods'=>$goods['data']]);
+        $check = $this->BuyGoodsCheck(['goods'=>$goods['data']]);
         if(!isset($check['code']) || $check['code'] != 0)
         {
             return $check;
@@ -666,7 +666,7 @@ class BuyService
         // 库存扣除
         if($order['status'] == 1)
         {
-            $ret = self::OrderInventoryDeduct(['order_id'=>$order_id, 'order_data'=>$order]);
+            $ret = $this->OrderInventoryDeduct(['order_id'=>$order_id, 'order_data'=>$order]);
             if($ret['code'] != 0)
             {
                 // 事务回滚
@@ -680,7 +680,7 @@ class BuyService
         Db::commit();
 
         // 删除购物车
-        self::BuyCartDelete($params);
+        $this->BuyCartDelete($params);
 
         // 返回信息
         $result = [
@@ -720,7 +720,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $where [条件]
      */
-    public static function CartTotal($where = [])
+    public function CartTotal($where = [])
     {
         return (int) Db::name('Cart')->where($where)->count();
     }
@@ -734,7 +734,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function UserCartTotal($params = [])
+    public function UserCartTotal($params = [])
     {
         // 请求参数
         $p = [
@@ -749,7 +749,7 @@ class BuyService
         {
             return 0;
         }
-        return self::CartTotal(['user_id'=>$params['user']['id']]);
+        return $this->CartTotal(['user_id'=>$params['user']['id']]);
     }
 
     /**
@@ -761,7 +761,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function OrderInventoryDeduct($params = [])
+    public function OrderInventoryDeduct($params = [])
     {
         // 请求参数
         $p = [
@@ -886,7 +886,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function OrderInventoryRollback($params = [])
+    public function OrderInventoryRollback($params = [])
     {
         // 请求参数
         $p = [

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\RegionService;
+use app\facade\RegionService;
 
 /**
  * 地区管理

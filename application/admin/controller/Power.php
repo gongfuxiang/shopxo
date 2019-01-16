@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\AdminPowerService;
+use app\facade\AdminPowerService;
 
 /**
  * 权限管理

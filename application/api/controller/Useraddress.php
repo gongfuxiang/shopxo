@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\UserService;
+use app\facade\UserService;
 
 /**
  * 用户地址

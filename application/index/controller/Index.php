@@ -10,10 +10,10 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
-use app\service\BannerService;
-use app\service\GoodsService;
-use app\service\ArticleService;
-use app\service\OrderService;
+use app\facade\BannerService;
+use app\facade\GoodsService;
+use app\facade\ArticleService;
+use app\facade\OrderService;
 
 /**
  * 首页

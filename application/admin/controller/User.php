@@ -10,8 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\IntegralService;
-use app\service\UserService;
+use app\facade\IntegralService;
+use app\facade\UserService;
 
 /**
  * 用户管理

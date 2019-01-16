@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
-use app\service\CustomViewService;
+use app\facade\CustomViewService;
 
 /**
  * 自定义页面

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\BuyService;
+use app\facade\BuyService;
 
 /**
  * 购物车

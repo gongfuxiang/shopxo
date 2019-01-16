@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\ConfigService;
+use app\facade\ConfigService;
 
 /**
  * 手机端 - 配置

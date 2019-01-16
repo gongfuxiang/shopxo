@@ -11,7 +11,7 @@
 namespace app\service;
 
 use think\Db;
-use app\service\MessageService;
+use app\facade\MessageService;
 
 /**
  * 积分服务层
@@ -36,7 +36,7 @@ class IntegralService
      * @param    [int]                   $operation_id      [操作人员id]
      * @return   [boolean]                                  [成功true, 失败false]
      */
-    public static function UserIntegralLogAdd($user_id, $original_integral, $new_integral, $msg = '', $type = 0, $operation_id = 0)
+    public function UserIntegralLogAdd($user_id, $original_integral, $new_integral, $msg = '', $type = 0, $operation_id = 0)
     {
         $data = array(
             'user_id'           => intval($user_id),
@@ -67,7 +67,7 @@ class IntegralService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function UserIntegralLogListWhere($params = [])
+    public function UserIntegralLogListWhere($params = [])
     {
         // 条件初始化
         $where = [];
@@ -114,7 +114,7 @@ class IntegralService
      * @desc    description
      * @param   [array]          $where [条件]
      */
-    public static function UserIntegralLogTotal($where = [])
+    public function UserIntegralLogTotal($where = [])
     {
         return (int) Db::name('UserIntegralLog')->where($where)->count();
     }
@@ -128,7 +128,7 @@ class IntegralService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function UserIntegralLogList($params = [])
+    public function UserIntegralLogList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
@@ -162,7 +162,7 @@ class IntegralService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function OrderGoodsIntegralGiving($params = [])
+    public function OrderGoodsIntegralGiving($params = [])
     {
         // 请求参数
         $p = [
@@ -230,7 +230,7 @@ class IntegralService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function AdminIntegralList($params = [])
+    public function AdminIntegralList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
@@ -269,7 +269,7 @@ class IntegralService
      * @desc    description
      * @param   [array]          $where [条件]
      */
-    public static function AdminIntegralTotal($where = [])
+    public function AdminIntegralTotal($where = [])
     {
         return (int) Db::name('UserIntegralLog')->alias('ui')->join(['__USER__'=>'u'], 'u.id=ui.user_id')->where($where)->count();
     }
@@ -283,7 +283,7 @@ class IntegralService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function AdminIntegralListWhere($params = [])
+    public function AdminIntegralListWhere($params = [])
     {
         $where = [];
         

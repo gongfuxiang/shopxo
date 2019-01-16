@@ -11,7 +11,7 @@
 namespace app\service;
 
 use think\Db;
-use app\service\ResourcesService;
+use app\facade\ResourcesService;
 
 /**
  * 自定义页面服务层
@@ -31,7 +31,7 @@ class CustomViewService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function CustomViewList($params = [])
+    public function CustomViewList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? 'id,title,content,is_header,is_footer,is_full_screen,access_count,is_enable' : $params['field'];
@@ -81,7 +81,7 @@ class CustomViewService
      * @desc    description
      * @param   [array]          $where [条件]
      */
-    public static function CustomViewTotal($where = [])
+    public function CustomViewTotal($where = [])
     {
         return (int) Db::name('CustomView')->where($where)->count();
     }
@@ -95,7 +95,7 @@ class CustomViewService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function CustomViewListWhere($params = [])
+    public function CustomViewListWhere($params = [])
     {
         $where = [];
 
@@ -149,7 +149,7 @@ class CustomViewService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function CustomViewAccessCountInc($params = [])
+    public function CustomViewAccessCountInc($params = [])
     {
         if(!empty($params['id']))
         {
@@ -167,7 +167,7 @@ class CustomViewService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function CustomViewSave($params = [])
+    public function CustomViewSave($params = [])
     {
         // 请求类型
         $p = [
@@ -192,7 +192,7 @@ class CustomViewService
 
         // 数据
         $content = ResourcesService::ContentStaticReplace($params['content'], 'add');
-        $image = self::MatchContentImage($content);
+        $image = $this->MatchContentImage($content);
         $data = [
             'title'         => $params['title'],
             'content'       => $content,
@@ -231,7 +231,7 @@ class CustomViewService
      * @param    [string]         $content [文章内容]
      * @return   [array]                   [文章图片数组（一维）]
      */
-    private static function MatchContentImage($content)
+    private function MatchContentImage($content)
     {
         if(!empty($content))
         {
@@ -251,7 +251,7 @@ class CustomViewService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function CustomViewDelete($params = [])
+    public function CustomViewDelete($params = [])
     {
         // 请求参数
         $p = [
@@ -284,7 +284,7 @@ class CustomViewService
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function CustomViewStatusUpdate($params = [])
+    public function CustomViewStatusUpdate($params = [])
     {
         // 请求参数
         $p = [

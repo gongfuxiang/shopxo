@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\ExpressService;
+use app\facade\ExpressService;
 
 /**
  * 快递管理

@@ -11,9 +11,9 @@
 namespace app\service;
 
 use think\Db;
-use app\service\ResourcesService;
-use app\service\BrandService;
-use app\service\RegionService;
+use app\facade\ResourcesService;
+use app\facade\BrandService;
+use app\facade\RegionService;
 
 /**
  * 商品服务层
@@ -33,14 +33,14 @@ class GoodsService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function GoodsCategoryRow($params = [])
+    public function GoodsCategoryRow($params = [])
     {
         if(empty($params['id']))
         {
             return null;
         }
         $field = empty($params['field']) ? 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended' : $params['field'];
-        $data = self::GoodsCategoryDataDealWith([Db::name('GoodsCategory')->field($field)->where(['is_enable'=>1, 'id'=>intval($params['id'])])->find()]);
+        $data = $this->GoodsCategoryDataDealWith([Db::name('GoodsCategory')->field($field)->where(['is_enable'=>1, 'id'=>intval($params['id'])])->find()]);
         return empty($data[0]) ? null : $data[0];
     }
 
@@ -53,19 +53,19 @@ class GoodsService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function GoodsCategory($params = [])
+    public function GoodsCategory($params = [])
     {
         $where = empty($params['where']) ? ['pid'=>0, 'is_enable'=>1] : $params['where'];
-        $data = self::GoodsCategoryList($where);
+        $data = $this->GoodsCategoryList($where);
         if(!empty($data))
         {
             foreach($data as &$v)
             {
-                $v['items'] = self::GoodsCategoryList(['pid'=>$v['id'], 'is_enable'=>1]);
+                $v['items'] = $this->GoodsCategoryList(['pid'=>$v['id'], 'is_enable'=>1]);
                 if(!empty($v['items']))
                 {
                     // 一次性查出所有二级下的三级、再做归类、避免sql连接超多
-                    $items = self::GoodsCategoryList(['pid'=>array_column($v['items'], 'id'), 'is_enable'=>1]);
+                    $items = $this->GoodsCategoryList(['pid'=>array_column($v['items'], 'id'), 'is_enable'=>1]);
                     if(!empty($items))
                     {
                         foreach($v['items'] as &$vs)
@@ -94,12 +94,12 @@ class GoodsService
      * @desc    description
      * @param   [array]          $where [条件]
      */
-    public static function GoodsCategoryList($where = [])
+    public function GoodsCategoryList($where = [])
     {
         $where['is_enable'] = 1;
         $field = 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended';
         $data = Db::name('GoodsCategory')->field($field)->where($where)->order('sort asc')->select();
-        return self::GoodsCategoryDataDealWith($data);
+        return $this->GoodsCategoryDataDealWith($data);
     }
 
     /**
@@ -111,7 +111,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $data [商品分类数据 二维数组]
      */
-    private static function GoodsCategoryDataDealWith($data)
+    private function GoodsCategoryDataDealWith($data)
     {
         if(!empty($data) && is_array($data))
         {
@@ -143,17 +143,17 @@ class GoodsService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function HomeFloorList($params = [])
+    public function HomeFloorList($params = [])
     {
         // 商品大分类
         $params['where'] = ['pid'=>0, 'is_home_recommended'=>1];
-        $goods_category = self::GoodsCategory($params);
+        $goods_category = $this->GoodsCategory($params);
         if(!empty($goods_category))
         {
             foreach($goods_category as &$v)
             {
-                $category_ids = self::GoodsCategoryItemsIds([$v['id']], 1);
-                $v['goods'] = self::CategoryGoodsList(['where'=>['gci.category_id'=>$category_ids, 'is_home_recommended'=>1], 'm'=>0, 'n'=>6, 'field'=>'g.id,g.title,g.title_color,g.images,g.home_recommended_images,g.original_price,g.price,g.min_price,g.max_price,g.inventory,g.buy_min_number,g.buy_max_number']);
+                $category_ids = $this->GoodsCategoryItemsIds([$v['id']], 1);
+                $v['goods'] = $this->CategoryGoodsList(['where'=>['gci.category_id'=>$category_ids, 'is_home_recommended'=>1], 'm'=>0, 'n'=>6, 'field'=>'g.id,g.title,g.title_color,g.images,g.home_recommended_images,g.original_price,g.price,g.min_price,g.max_price,g.inventory,g.buy_min_number,g.buy_max_number']);
             }
         }
         return $goods_category;
@@ -169,7 +169,7 @@ class GoodsService
      * @param   [array]          $ids       [分类id数组]
      * @param   [int]            $is_enable [是否启用 null, 0否, 1是]
      */
-    public static function GoodsCategoryItemsIds($ids = [], $is_enable = null)
+    public function GoodsCategoryItemsIds($ids = [], $is_enable = null)
     {
         $where = ['pid'=>$ids];
         if($is_enable !== null)
@@ -179,7 +179,7 @@ class GoodsService
         $data = Db::name('GoodsCategory')->where($where)->column('id');
         if(!empty($data))
         {
-            $temp = self::GoodsCategoryItemsIds($data, $is_enable);
+            $temp = $this->GoodsCategoryItemsIds($data, $is_enable);
             if(!empty($temp))
             {
                 $data = array_merge($data, $temp);
@@ -197,7 +197,7 @@ class GoodsService
      * @desc    description
      * @param   array           $where [条件]
      */
-    public static function CategoryGoodsTotal($where = [])
+    public function CategoryGoodsTotal($where = [])
     {
         return (int) Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($where)->count('DISTINCT g.id');
     }
@@ -211,7 +211,7 @@ class GoodsService
      * @desc    description
      * @param   array           $params [输入参数: where, field, is_photo]
      */
-    public static function CategoryGoodsList($params = [])
+    public function CategoryGoodsList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? 'g.*' : $params['field'];
@@ -221,7 +221,7 @@ class GoodsService
         $n = isset($params['n']) ? intval($params['n']) : 10;
         $data = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->field($field)->where($where)->group('g.id')->order($order_by)->limit($m, $n)->select();
         
-        return self::GoodsDataHandle($params, $data);
+        return $this->GoodsDataHandle($params, $data);
     }
 
     /**
@@ -233,7 +233,7 @@ class GoodsService
      * @param    [array]                   $params [输入参数]
      * @param    [array]                   $data   [商品列表]
      */
-    public static function GoodsDataHandle($params, $data)
+    public function GoodsDataHandle($params, $data)
     {
         if(!empty($data))
         {
@@ -320,13 +320,13 @@ class GoodsService
                 // 获取规格
                 if($is_spec && !empty($v['id']))
                 {
-                    $v['specifications'] = self::GoodsSpecifications(['goods_id'=>$v['id']]);
+                    $v['specifications'] = $this->GoodsSpecifications(['goods_id'=>$v['id']]);
                 }
 
                 // 获取app内容
                 if($is_content_app && !empty($v['id']))
                 {
-                    $v['content_app'] = self::GoodsContentApp(['goods_id'=>$v['id']]);
+                    $v['content_app'] = $this->GoodsContentApp(['goods_id'=>$v['id']]);
                 }
             }
         }
@@ -343,7 +343,7 @@ class GoodsService
      * @param   [array]          $params [输入参数]
      * @return  [array]                  [app内容]
      */
-    public static function GoodsContentApp($params = [])
+    public function GoodsContentApp($params = [])
     {
         $data = Db::name('GoodsContentApp')->where(['goods_id'=>$params['goods_id']])->field('id,images,content')->order('sort asc')->select();
         if(!empty($data))
@@ -368,7 +368,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function GoodsSpecifications($params = [])
+    public function GoodsSpecifications($params = [])
     {
         // 条件
         $where = ['goods_id'=>$params['goods_id']];
@@ -401,7 +401,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function GoodsFavor($params = [])
+    public function GoodsFavor($params = [])
     {
         // 请求参数
         $p = [
@@ -434,7 +434,7 @@ class GoodsService
                 return DataReturn('收藏成功', 0, [
                     'text'      => '已收藏',
                     'status'    => 1,
-                    'count'     => self::GoodsFavorTotal(['goods_id'=>$data['goods_id']]),
+                    'count'     => $this->GoodsFavorTotal(['goods_id'=>$data['goods_id']]),
                 ]);
             } else {
                 return DataReturn('收藏失败');
@@ -446,7 +446,7 @@ class GoodsService
                 return DataReturn('收藏成功', 0, [
                     'text'      => '已收藏',
                     'status'    => 1,
-                    'count'     => self::GoodsFavorTotal(['goods_id'=>$data['goods_id']]),
+                    'count'     => $this->GoodsFavorTotal(['goods_id'=>$data['goods_id']]),
                 ]);
             }
 
@@ -456,7 +456,7 @@ class GoodsService
                 return DataReturn('取消成功', 0, [
                     'text'      => '收藏',
                     'status'    => 0,
-                    'count'     => self::GoodsFavorTotal(['goods_id'=>$data['goods_id']]),
+                    'count'     => $this->GoodsFavorTotal(['goods_id'=>$data['goods_id']]),
                 ]);
             } else {
                 return DataReturn('取消失败');
@@ -474,7 +474,7 @@ class GoodsService
      * @param   [array]          $params [输入参数]
      * @return  [int]                    [1已收藏, 0未收藏]
      */
-    public static function IsUserGoodsFavor($params = [])
+    public function IsUserGoodsFavor($params = [])
     {
         // 请求参数
         $p = [
@@ -509,7 +509,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $where [条件]
      */
-    public static function GoodsCommentsTotal($goods_id)
+    public function GoodsCommentsTotal($goods_id)
     {
         return (int) Db::name('OrderComments')->where(['goods_id'=>intval($goods_id)])->count();
     }
@@ -523,7 +523,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function UserGoodsFavorListWhere($params = [])
+    public function UserGoodsFavorListWhere($params = [])
     {
         $where = [
             ['g.is_delete_time', '=', 0]
@@ -552,7 +552,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $where [条件]
      */
-    public static function GoodsFavorTotal($where = [])
+    public function GoodsFavorTotal($where = [])
     {
         return (int) Db::name('GoodsFavor')->alias('f')->join(['__GOODS__'=>'g'], 'g.id=f.goods_id')->where($where)->count();
     }
@@ -566,7 +566,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function GoodsFavorList($params = [])
+    public function GoodsFavorList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
@@ -599,7 +599,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function GoodsAccessCountInc($params = [])
+    public function GoodsAccessCountInc($params = [])
     {
         if(!empty($params['goods_id']))
         {
@@ -617,7 +617,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function GoodsBrowseSave($params = [])
+    public function GoodsBrowseSave($params = [])
     {
         // 请求参数
         $p = [
@@ -669,7 +669,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function UserGoodsBrowseListWhere($params = [])
+    public function UserGoodsBrowseListWhere($params = [])
     {
         $where = [
             ['g.is_delete_time', '=', 0]
@@ -698,7 +698,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $where [条件]
      */
-    public static function GoodsBrowseTotal($where = [])
+    public function GoodsBrowseTotal($where = [])
     {
         return (int) Db::name('GoodsBrowse')->alias('b')->join(['__GOODS__'=>'g'], 'g.id=b.goods_id')->where($where)->count();
     }
@@ -712,7 +712,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function GoodsBrowseList($params = [])
+    public function GoodsBrowseList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
@@ -743,7 +743,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function GoodsBrowseDelete($params = [])
+    public function GoodsBrowseDelete($params = [])
     {
         // 请求参数
         $p = [
@@ -785,7 +785,7 @@ class GoodsService
      * @desc    description
      * @param   [array]           $where [条件]
      */
-    public static function GoodsTotal($where = [])
+    public function GoodsTotal($where = [])
     {
         return (int) Db::name('Goods')->where($where)->count();
     }
@@ -799,7 +799,7 @@ class GoodsService
      * @desc    description
      * @param   array           $params [输入参数: where, field, is_photo]
      */
-    public static function GoodsList($params = [])
+    public function GoodsList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
@@ -809,7 +809,7 @@ class GoodsService
         $n = isset($params['n']) ? intval($params['n']) : 10;
         $data = Db::name('Goods')->field($field)->where($where)->order($order_by)->limit($m, $n)->select();
         
-        return self::GoodsDataHandle($params, $data);
+        return $this->GoodsDataHandle($params, $data);
     }
 
     /**
@@ -820,7 +820,7 @@ class GoodsService
      * @datetime 2016-12-10T22:16:29+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function GetAdminIndexWhere($params = [])
+    public function GetAdminIndexWhere($params = [])
     {
         $where = [
             ['is_delete_time', '=', 0],
@@ -866,7 +866,7 @@ class GoodsService
      * @datetime 2018-12-10T01:02:11+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function GoodsSave($params = [])
+    public function GoodsSave($params = [])
     {
         // 请求参数
         $p = [
@@ -907,21 +907,21 @@ class GoodsService
         }
 
         // 规格
-        $specifications = self::GetFormGoodsSpecificationsParams($params);
+        $specifications = $this->GetFormGoodsSpecificationsParams($params);
         if($specifications['code'] != 0)
         {
             return $specifications;
         }
         
         // 相册
-        $photo = self::GetFormGoodsPhotoParams($params);
+        $photo = $this->GetFormGoodsPhotoParams($params);
         if($photo['code'] != 0)
         {
             return $photo;
         }
 
         // 手机端详情
-        $content_app = self::GetFormGoodsContentAppParams($params);
+        $content_app = $this->GetFormGoodsContentAppParams($params);
         if($content_app['code'] != 0)
         {
             return $content_app;
@@ -977,7 +977,7 @@ class GoodsService
         if(isset($goods_id) && $goods_id > 0)
         {
             // 分类
-            $ret = self::GoodsCategoryInsert(explode(',', $params['category_id']), $goods_id);
+            $ret = $this->GoodsCategoryInsert(explode(',', $params['category_id']), $goods_id);
             if($ret['code'] != 0)
             {
                 // 回滚事务
@@ -986,7 +986,7 @@ class GoodsService
             }
 
             // 规格
-            $ret = self::GoodsSpecificationsInsert($specifications['data'], $goods_id);
+            $ret = $this->GoodsSpecificationsInsert($specifications['data'], $goods_id);
             if($ret['code'] != 0)
             {
                 // 回滚事务
@@ -994,7 +994,7 @@ class GoodsService
                 return $ret;
             } else {
                 // 更新商品基础信息
-                $ret = self::GoodsSaveBaseUpdate($params, $goods_id);
+                $ret = $this->GoodsSaveBaseUpdate($params, $goods_id);
                 if($ret['code'] != 0)
                 {
                     // 回滚事务
@@ -1004,7 +1004,7 @@ class GoodsService
             }
 
             // 相册
-            $ret = self::GoodsPhotoInsert($photo['data'], $goods_id);
+            $ret = $this->GoodsPhotoInsert($photo['data'], $goods_id);
             if($ret['code'] != 0)
             {
                 // 回滚事务
@@ -1013,7 +1013,7 @@ class GoodsService
             }
 
             // 手机详情
-            $ret = self::GoodsContentAppInsert($content_app['data'], $goods_id);
+            $ret = $this->GoodsContentAppInsert($content_app['data'], $goods_id);
             if($ret['code'] != 0)
             {
                 // 回滚事务
@@ -1046,7 +1046,7 @@ class GoodsService
      * @param    [array]          $params   [输入参数]
      * @param    [int]            $goods_id [商品id]
      */
-    private static function GoodsSaveBaseUpdate($params, $goods_id)
+    private function GoodsSaveBaseUpdate($params, $goods_id)
     {
         $data = Db::name('GoodsSpecBase')->field('min(price) AS min_price, max(price) AS max_price, sum(inventory) AS inventory, min(original_price) AS min_original_price, max(original_price) AS max_original_price')->where(['goods_id'=>$goods_id])->find();
         if(empty($data))
@@ -1078,7 +1078,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    private static function GetFormGoodsSpecificationsParams($params = [])
+    private function GetFormGoodsSpecificationsParams($params = [])
     {
         $data = [];
         $title = [];
@@ -1215,7 +1215,7 @@ class GoodsService
      * @param   [array]          $params [输入参数]
      * @return  [array]                  [一维数组但图片地址]
      */
-    private static function GetFormGoodsPhotoParams($params = [])
+    private function GetFormGoodsPhotoParams($params = [])
     {
         if(empty($params['photo']))
         {
@@ -1242,7 +1242,7 @@ class GoodsService
      * @desc    description
      * @param    [array]          $params [输入参数]
      */
-    private static function GetFormGoodsContentAppParams($params = [])
+    private function GetFormGoodsContentAppParams($params = [])
     {
         // 开始处理
         $result = [];
@@ -1276,7 +1276,7 @@ class GoodsService
      * @param   [int]            $goods_id [商品id]
      * @return  [array]                    [boolean | msg]
      */
-    private static function GoodsCategoryInsert($data, $goods_id)
+    private function GoodsCategoryInsert($data, $goods_id)
     {
         Db::name('GoodsCategoryJoin')->where(['goods_id'=>$goods_id])->delete();
         if(!empty($data))
@@ -1308,7 +1308,7 @@ class GoodsService
      * @param   [int]            $goods_id [商品id]
      * @return  [array]                    [boolean | msg]
      */
-    private static function GoodsContentAppInsert($data, $goods_id)
+    private function GoodsContentAppInsert($data, $goods_id)
     {
         Db::name('GoodsContentApp')->where(['goods_id'=>$goods_id])->delete();
         if(!empty($data))
@@ -1342,7 +1342,7 @@ class GoodsService
      * @param   [int]            $goods_id [商品id]
      * @return  [array]                    [boolean | msg]
      */
-    private static function GoodsPhotoInsert($data, $goods_id)
+    private function GoodsPhotoInsert($data, $goods_id)
     {
         Db::name('GoodsPhoto')->where(['goods_id'=>$goods_id])->delete();
         if(!empty($data))
@@ -1376,7 +1376,7 @@ class GoodsService
      * @param   [int]            $goods_id [商品id]
      * @return  [array]                    [boolean | msg]
      */
-    private static function GoodsSpecificationsInsert($data, $goods_id)
+    private function GoodsSpecificationsInsert($data, $goods_id)
     {
         // 删除原来的数据
         Db::name('GoodsSpecType')->where(['goods_id'=>$goods_id])->delete();
@@ -1488,7 +1488,7 @@ class GoodsService
      * @datetime 2018-12-07T00:24:14+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function GoodsDelete($params = [])
+    public function GoodsDelete($params = [])
     {
         // 参数是否有误
         if(empty($params['id']))
@@ -1550,7 +1550,7 @@ class GoodsService
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function GoodsStatusUpdate($params = [])
+    public function GoodsStatusUpdate($params = [])
     {
         // 请求参数
         $p = [
@@ -1594,7 +1594,7 @@ class GoodsService
      * @desc    description
      * @param   [int]          $goods_id [商品id]
      */
-    public static function GoodsEditSpecifications($goods_id)
+    public function GoodsEditSpecifications($goods_id)
     {
         $where = ['goods_id'=>$goods_id];
 
@@ -1678,7 +1678,7 @@ class GoodsService
      * @desc    description
      * @param    [array]          $params [输入参数]
      */
-    public static function GoodsSpecDetail($params = [])
+    public function GoodsSpecDetail($params = [])
     {
         // 请求参数
         $p = [
@@ -1779,7 +1779,7 @@ class GoodsService
      * @desc    description
      * @param    [array]          $params [输入参数]
      */
-    public static function GoodsSpecType($params = [])
+    public function GoodsSpecType($params = [])
     {
         // 请求参数
         $p = [
@@ -1865,7 +1865,7 @@ class GoodsService
      * @datetime 2018-12-16T23:54:46+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function GoodsCategoryNodeSon($params = [])
+    public function GoodsCategoryNodeSon($params = [])
     {
         // id
         $id = isset($params['id']) ? intval($params['id']) : 0;
@@ -1897,7 +1897,7 @@ class GoodsService
      * @datetime 2018-12-17T01:04:03+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function GoodsCategorySave($params = [])
+    public function GoodsCategorySave($params = [])
     {
         // 请求参数
         $p = [
@@ -1977,7 +1977,7 @@ class GoodsService
      * @datetime 2018-12-17T02:40:29+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function GoodsCategoryDelete($params = [])
+    public function GoodsCategoryDelete($params = [])
     {
         // 请求参数
         $p = [
@@ -1999,7 +1999,7 @@ class GoodsService
         }
 
         // 获取分类下所有分类id
-        $ids = self::GoodsCategoryItemsIds([$params['id']]);
+        $ids = $this->GoodsCategoryItemsIds([$params['id']]);
         $ids[] = $params['id'];
 
         // 开始删除

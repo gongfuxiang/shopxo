@@ -11,7 +11,7 @@
 namespace app\service;
 
 use think\Db;
-use app\service\GoodsService;
+use app\facade\GoodsService;
 
 /**
  * 友情链接服务层
@@ -31,7 +31,7 @@ class LinkService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function LinkList($params = [])
+    public function LinkList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $data = Db::name('Link')->where($where)->order('sort asc')->select();
@@ -47,7 +47,7 @@ class LinkService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function LinkSave($params = [])
+    public function LinkSave($params = [])
     {
         // 请求类型
         $p = [
@@ -131,7 +131,7 @@ class LinkService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function LinkDelete($params = [])
+    public function LinkDelete($params = [])
     {
         // 请求参数
         $p = [
@@ -164,7 +164,7 @@ class LinkService
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function LinkStatusUpdate($params = [])
+    public function LinkStatusUpdate($params = [])
     {
         // 请求参数
         $p = [

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\ConfigService;
+use app\facade\ConfigService;
 
 /**
  * 短信设置

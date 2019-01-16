@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\AppNavService;
+use app\facade\AppNavService;
 
 /**
  * 导航

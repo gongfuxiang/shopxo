@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\BannerService;
+use app\facade\BannerService;
 
 /**
  * 轮播

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
-use app\service\GoodsService;
+use app\facade\GoodsService;
 
 /**
  * 商品详情

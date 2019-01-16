@@ -13,7 +13,7 @@ namespace app\service;
 use think\Db;
 
 /**
- * 权限服务层
+ * 管理员权限服务层
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -29,7 +29,7 @@ class AdminPowerService
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function PowerList($params = [])
+    public function PowerList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
@@ -55,7 +55,7 @@ class AdminPowerService
      * @datetime 2018-12-07T00:24:14+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function PowerSave($params = [])
+    public function PowerSave($params = [])
     {
         // 请求参数
         $p = [
@@ -128,7 +128,7 @@ class AdminPowerService
             if(Db::name('Power')->insertGetId($data) > 0)
             {
                 // 清除用户权限数据
-                self::PowerCacheDelete();
+                $this->PowerCacheDelete();
                 
                 return DataReturn('添加成功', 0);
             }
@@ -137,7 +137,7 @@ class AdminPowerService
             if(Db::name('Power')->where(['id'=>intval($params['id'])])->update($data) !== false)
             {
                 // 清除用户权限数据
-                self::PowerCacheDelete();
+                $this->PowerCacheDelete();
 
                 return DataReturn('更新成功', 0);
             }
@@ -153,7 +153,7 @@ class AdminPowerService
      * @datetime 2018-12-07T00:24:14+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function PowerDelete($params = [])
+    public function PowerDelete($params = [])
     {
         // 参数是否有误
         if(empty($params['id']))
@@ -164,7 +164,7 @@ class AdminPowerService
         if(Db::name('Power')->delete(intval($params['id'])))
         {
             // 清除用户权限数据
-            self::PowerCacheDelete();
+            $this->PowerCacheDelete();
 
             return DataReturn('删除成功', 0);
         }
@@ -179,7 +179,7 @@ class AdminPowerService
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function RoleList($params = [])
+    public function RoleList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
@@ -211,7 +211,7 @@ class AdminPowerService
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function RoleStatusUpdate($params = [])
+    public function RoleStatusUpdate($params = [])
     {
         // 请求参数
         $p = [
@@ -249,7 +249,7 @@ class AdminPowerService
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function RolePowerEditData($params = [])
+    public function RolePowerEditData($params = [])
     {
         // 当前角色关联的所有菜单id
         $action = empty($params['role_id']) ? [] : Db::name('RolePower')->where(['role_id'=>$params['role_id']])->column('power_id');
@@ -287,7 +287,7 @@ class AdminPowerService
      * @datetime 2018-12-07T00:24:14+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function RoleSave($params = [])
+    public function RoleSave($params = [])
     {
         // 请求参数
         $p = [
@@ -369,7 +369,7 @@ class AdminPowerService
         Db::commit();
 
         // 清除用户权限数据
-        self::PowerCacheDelete();
+        $this->PowerCacheDelete();
 
         return DataReturn('操作成功', 0);
     }
@@ -382,7 +382,7 @@ class AdminPowerService
      * @datetime 2018-12-07T00:24:14+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function RoleDelete($params = [])
+    public function RoleDelete($params = [])
     {
         // 参数是否有误
         if(empty($params['id']))
@@ -400,7 +400,7 @@ class AdminPowerService
             Db::commit();
 
             // 清除用户权限数据
-            self::PowerCacheDelete();
+            $this->PowerCacheDelete();
 
             return DataReturn('删除成功', 0);
         }
@@ -416,7 +416,7 @@ class AdminPowerService
      * @version  0.0.1
      * @datetime 2017-02-26T23:45:26+0800
      */
-    public static function PowerCacheDelete()
+    public function PowerCacheDelete()
     {
         $admin = Db::name('Admin')->column('id');
         if(!empty($admin))
@@ -437,7 +437,7 @@ class AdminPowerService
      * @date    2018-12-06
      * @desc    description
      */
-    public static function PowerMenuInit()
+    public function PowerMenuInit()
     {
         // 基础参数
         $admin = session('admin');

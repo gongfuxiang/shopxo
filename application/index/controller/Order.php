@@ -10,8 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
-use app\service\OrderService;
-use app\service\PaymentService;
+use app\facade\OrderService;
+use app\facade\PaymentService;
 
 /**
  * 订单管理
