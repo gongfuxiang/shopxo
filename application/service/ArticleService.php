@@ -11,7 +11,7 @@
 namespace app\service;
 
 use think\Db;
-use app\facade\ResourcesService;
+use app\service\ResourcesService;
 
 /**
  * 文章服务层
@@ -31,7 +31,7 @@ class ArticleService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function ArticleList($params)
+    public static function ArticleList($params)
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? 'a.*' : $params['field'];
@@ -87,7 +87,7 @@ class ArticleService
      * @datetime 2016-12-10T22:16:29+0800
      * @param    [array]          $where [条件]
      */
-    public function ArticleTotal($where)
+    public static function ArticleTotal($where)
     {
         return (int) Db::name('Article')->alias('a')->join(['__ARTICLE_CATEGORY__'=>'ac'], 'a.article_category_id=ac.id')->where($where)->count();
     }
@@ -101,7 +101,7 @@ class ArticleService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function ArticleListWhere($params = [])
+    public static function ArticleListWhere($params = [])
     {
         $where = [];
 
@@ -149,7 +149,7 @@ class ArticleService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function ArticleSave($params = [])
+    public static function ArticleSave($params = [])
     {
         // 请求类型
         $p = [
@@ -186,7 +186,7 @@ class ArticleService
 
         // 数据
         $content = ResourcesService::ContentStaticReplace($params['content'], 'add');
-        $image = $this->MatchContentImage($content);
+        $image = self::MatchContentImage($content);
         $data = [
             'title'                 => $params['title'],
             'title_color'           => empty($params['title_color']) ? '' : $params['title_color'],
@@ -226,7 +226,7 @@ class ArticleService
      * @param    [string]         $content [文章内容]
      * @return   [array]                   [文章图片数组（一维）]
      */
-    private function MatchContentImage($content)
+    private static function MatchContentImage($content)
     {
         if(!empty($content))
         {
@@ -246,7 +246,7 @@ class ArticleService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function ArticleCategoryListContent($params = [])
+    public static function ArticleCategoryListContent($params = [])
     {
         $data = Db::name('ArticleCategory')->field('id,name')->where(['is_enable'=>1])->order('id asc, sort asc')->select();
         if(!empty($data))
@@ -277,7 +277,7 @@ class ArticleService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function ArticleAccessCountInc($params = [])
+    public static function ArticleAccessCountInc($params = [])
     {
         if(!empty($params['id']))
         {
@@ -295,7 +295,7 @@ class ArticleService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function ArticleCategoryList($params = [])
+    public static function ArticleCategoryList($params = [])
     {
         $field = empty($params['field']) ? '*' : $params['field'];
         $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
@@ -314,7 +314,7 @@ class ArticleService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function ArticleDelete($params = [])
+    public static function ArticleDelete($params = [])
     {
         // 请求参数
         $p = [
@@ -347,7 +347,7 @@ class ArticleService
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public function ArticleStatusUpdate($params = [])
+    public static function ArticleStatusUpdate($params = [])
     {
         // 请求参数
         $p = [
@@ -390,7 +390,7 @@ class ArticleService
      * @datetime 2018-12-16T23:54:46+0800
      * @param    [array]          $params [输入参数]
      */
-    public function ArticleCategoryNodeSon($params = [])
+    public static function ArticleCategoryNodeSon($params = [])
     {
         // id
         $id = isset($params['id']) ? intval($params['id']) : 0;
@@ -420,7 +420,7 @@ class ArticleService
      * @datetime 2018-12-17T01:04:03+0800
      * @param    [array]          $params [输入参数]
      */
-    public function ArticleCategorySave($params = [])
+    public static function ArticleCategorySave($params = [])
     {
         // 请求参数
         $p = [
@@ -472,7 +472,7 @@ class ArticleService
      * @datetime 2018-12-17T02:40:29+0800
      * @param    [array]          $params [输入参数]
      */
-    public function ArticleCategoryDelete($params = [])
+    public static function ArticleCategoryDelete($params = [])
     {
         // 请求参数
         $p = [

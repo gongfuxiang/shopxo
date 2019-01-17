@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\facade\ArticleService;
+use app\service\ArticleService;
 
 /**
  * 文章分类管理

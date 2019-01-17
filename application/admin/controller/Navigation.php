@@ -10,9 +10,9 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\facade\ArticleService;
-use app\facade\NavigationService;
-use app\facade\GoodsService;
+use app\service\ArticleService;
+use app\service\NavigationService;
+use app\service\GoodsService;
 
 /**
  * 导航管理

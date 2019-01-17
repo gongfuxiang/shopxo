@@ -11,13 +11,13 @@
 namespace app\index\controller;
 
 use think\Controller;
-use app\facade\GoodsService;
-use app\facade\NavigationService;
-use app\facade\BuyService;
-use app\facade\MessageService;
-use app\facade\SearchService;
-use app\facade\ConfigService;
-use app\facade\LinkService;
+use app\service\GoodsService;
+use app\service\NavigationService;
+use app\service\BuyService;
+use app\service\MessageService;
+use app\service\SearchService;
+use app\service\ConfigService;
+use app\service\LinkService;
 
 /**
  * 前端公共控制器

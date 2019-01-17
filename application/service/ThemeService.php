@@ -22,8 +22,8 @@ use think\Db;
 class ThemeService
 {
     // 静态目录和html目录
-    private $html_path = 'application'.DS.'index'.DS.'view'.DS;
-    private $static_path = 'public'.DS.'static'.DS.'index'.DS;
+    private static $html_path = 'application'.DS.'index'.DS.'view'.DS;
+    private static $static_path = 'public'.DS.'static'.DS.'index'.DS;
 
     /**
      * 获取模板列表
@@ -34,10 +34,10 @@ class ThemeService
      * @param    [array]          $params [输入参数]
      * @return   [array]                  [模板列表]
      */
-    public function ThemeList($params = [])
+    public static function ThemeList($params = [])
     {
         $result = [];
-        $dir = ROOT.$this->html_path;
+        $dir = ROOT.self::$html_path;
         if(is_dir($dir))
         {
             if($dh = opendir($dir))
@@ -64,7 +64,7 @@ class ThemeService
                         {
                             continue;
                         }
-                        $preview = ROOT.$this->static_path.$temp_file.DS.'images'.DS.'preview.jpg';
+                        $preview = ROOT.self::$static_path.$temp_file.DS.'images'.DS.'preview.jpg';
                         $result[] = array(
                             'theme'     =>  $temp_file,
                             'name'      =>  htmlentities($data['name']),
@@ -90,7 +90,7 @@ class ThemeService
      * @datetime 2018-12-19T00:53:45+0800
      * @param    [array]          $params [输入参数]
      */
-    public function ThemeUpload($params = [])
+    public static function ThemeUpload($params = [])
     {
         // 文件上传校验
         $error = FileUploadError('theme');
@@ -107,11 +107,11 @@ class ThemeService
         }
 
         // 目录是否有权限
-        if(!is_writable(ROOT.$this->html_path))
+        if(!is_writable(ROOT.self::$html_path))
         {
             return DataReturn('视图目录没权限', -10);
         }
-        if(!is_writable(ROOT.$this->static_path))
+        if(!is_writable(ROOT.self::$static_path))
         {
             return DataReturn('资源目录没权限', -10);
         }
@@ -131,10 +131,10 @@ class ThemeService
                     // 拼接路径
                     if(strpos($file, '_html') !== false)
                     {
-                        $file = ROOT.$this->html_path.$file;
+                        $file = ROOT.self::$html_path.$file;
                     } else if(strpos($file, '_static') !== false)
                     {
-                        $file = ROOT.$this->static_path.$file;
+                        $file = ROOT.self::$static_path.$file;
                     } else {
                         continue;
                     }
@@ -173,7 +173,7 @@ class ThemeService
      * @datetime 2018-12-19T00:46:02+0800
      * @param    [array]          $params [输入参数]
      */
-    public function ThemeDelete($params = [])
+    public static function ThemeDelete($params = [])
     {
         if(empty($params['id']))
         {
@@ -202,7 +202,7 @@ class ThemeService
         }
 
         // 开始删除主题
-        if(\base\FileUtil::UnlinkDir(ROOT.$this->html_path.$id) && \base\FileUtil::UnlinkDir(ROOT.$this->static_path.$id))
+        if(\base\FileUtil::UnlinkDir(ROOT.self::$html_path.$id) && \base\FileUtil::UnlinkDir(ROOT.self::$static_path.$id))
         {
             return DataReturn('删除成功');
         }

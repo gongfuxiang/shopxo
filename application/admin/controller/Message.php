@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\facade\MessageService;
+use app\service\MessageService;
 
 /**
  * 消息管理

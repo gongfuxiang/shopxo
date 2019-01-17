@@ -10,8 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\facade\SearchService;
-use app\facade\GoodsService;
+use app\service\SearchService;
+use app\service\GoodsService;
 
 /**
  * 商品搜索

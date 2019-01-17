@@ -11,7 +11,7 @@
 namespace app\service;
 
 use think\Db;
-use app\facade\ResourcesService;
+use app\service\ResourcesService;
 
 /**
  * 配置服务层
@@ -31,7 +31,7 @@ class ConfigService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function ConfigList($params = [])
+    public static function ConfigList($params = [])
     {
         $field = isset($params['field']) ? $params['field'] : 'only_tag,name,describe,value,error_tips';
         return Db::name('Config')->column($field);
@@ -45,7 +45,7 @@ class ConfigService
      * @datetime 2017-01-02T23:08:19+0800
      * @param   [array]          $params [输入参数]
      */
-    public function ConfigSave($params = [])
+    public static function ConfigSave($params = [])
     {
         // 参数校验
         if(empty($params))
@@ -99,10 +99,10 @@ class ConfigService
         if($success > 0)
         {
             // 配置信息更新
-            $this->ConfigInit(1);
+            self::ConfigInit(1);
 
             // 是否需要更新路由规则
-            $ret = $this->RouteSeparatorHandle($params);
+            $ret = self::RouteSeparatorHandle($params);
             if($ret['code'] != 0)
             {
                 return $ret;
@@ -121,7 +121,7 @@ class ConfigService
      * @datetime 2017-01-03T21:36:55+0800
      * @param    [int] $status [是否更新数据,0否,1是]
      */
-    public function ConfigInit($status = 0)
+    public static function ConfigInit($status = 0)
     {
         $key = config('shopxo.cache_common_my_config_key');
         $data = cache($key);
@@ -148,7 +148,7 @@ class ConfigService
      * @datetime 2017-01-02T23:08:19+0800
      * @param   [array]          $params [输入参数]
      */
-    public function RouteSeparatorHandle($params = [])
+    public static function RouteSeparatorHandle($params = [])
     {
         if(isset($params['home_seo_url_model']))
         {

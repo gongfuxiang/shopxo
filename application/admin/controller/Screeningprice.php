@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\facade\ScreeningPriceService;
+use app\service\ScreeningPriceService;
 
 /**
  * 筛选价格管理

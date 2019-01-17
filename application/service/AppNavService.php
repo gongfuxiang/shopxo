@@ -11,7 +11,7 @@
 namespace app\service;
 
 use think\Db;
-use app\facade\ResourcesService;
+use app\service\ResourcesService;
 
 /**
  * APP导航服务层
@@ -30,7 +30,7 @@ class AppNavService
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public function AppHomeNavList($params = [])
+    public static function AppHomeNavList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
@@ -97,7 +97,7 @@ class AppNavService
      * @datetime 2016-12-10T22:16:29+0800
      * @param    [array]          $where [条件]
      */
-    public function AppHomeNavTotal($where)
+    public static function AppHomeNavTotal($where)
     {
         return (int) Db::name('AppHomeNav')->where($where)->count();
     }
@@ -111,7 +111,7 @@ class AppNavService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function AppHomeNavListWhere($params = [])
+    public static function AppHomeNavListWhere($params = [])
     {
         $where = [];
 
@@ -159,7 +159,7 @@ class AppNavService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function AppHomeNavSave($params = [])
+    public static function AppHomeNavSave($params = [])
     {
         // 请求类型
         $p = [
@@ -250,7 +250,7 @@ class AppNavService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function AppHomeNavDelete($params = [])
+    public static function AppHomeNavDelete($params = [])
     {
         // 请求参数
         $p = [
@@ -283,7 +283,7 @@ class AppNavService
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public function AppHomeNavStatusUpdate($params = [])
+    public static function AppHomeNavStatusUpdate($params = [])
     {
         // 请求参数
         $p = [
@@ -322,7 +322,7 @@ class AppNavService
      * @desc    description
      * @param   array           $params [description]
      */
-    public function AppHomeNav($params = [])
+    public static function AppHomeNav($params = [])
     {
         $data = Db::name('AppHomeNav')->field('id,name,images_url,event_value,event_type,bg_color')->where(['platform'=>APPLICATION_CLIENT_TYPE, 'is_enable'=>1])->order('sort asc')->select();
         if(!empty($data))

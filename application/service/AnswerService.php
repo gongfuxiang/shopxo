@@ -30,7 +30,7 @@ class AnswerService
      * @desc    description
      * @param   [array]          $where [条件]
      */
-    public function AnswerTotal($where = [])
+    public static function AnswerTotal($where = [])
     {
         return (int) Db::name('Answer')->where($where)->count();
     }
@@ -44,7 +44,7 @@ class AnswerService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function AnswerList($params = [])
+    public static function AnswerList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
@@ -89,7 +89,7 @@ class AnswerService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function AnswerListWhere($params = [])
+    public static function AnswerListWhere($params = [])
     {
         $where = [
             ['is_delete_time', '=', 0],
@@ -143,7 +143,7 @@ class AnswerService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function Add($params = [])
+    public static function Add($params = [])
     {
         // 参数校验
         $p = [
@@ -198,7 +198,7 @@ class AnswerService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function AnswerDelete($params = [])
+    public static function AnswerDelete($params = [])
     {
         // 请求参数
         $p = [
@@ -261,7 +261,7 @@ class AnswerService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function AnswerReply($params = [])
+    public static function AnswerReply($params = [])
     {
         // 请求参数
         $p = [
@@ -320,7 +320,7 @@ class AnswerService
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public function AnswerStatusUpdate($params = [])
+    public static function AnswerStatusUpdate($params = [])
     {
         // 请求参数
         $p = [

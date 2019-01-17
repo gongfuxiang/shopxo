@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\facade\ConfigService;
+use app\service\ConfigService;
 
 /**
  * 支付宝小程序 - 配置

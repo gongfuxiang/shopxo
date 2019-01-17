@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\facade\AppNavService;
+use app\service\AppNavService;
 
 /**
  * 手机管理-首页导航管理

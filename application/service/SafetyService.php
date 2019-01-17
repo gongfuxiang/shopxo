@@ -11,7 +11,7 @@
 namespace app\service;
 
 use think\Db;
-use app\facade\UserService;
+use app\service\UserService;
 
 /**
  * 安全服务层
@@ -30,7 +30,7 @@ class SafetyService
      * @datetime 2017-03-28T10:38:23+0800
      * @param    [array]          $params [输入参数]
      */
-    public function LoginPwdUpdate($params = [])
+    public static function LoginPwdUpdate($params = [])
     {
         // 数据验证
         $p = [
@@ -104,7 +104,7 @@ class SafetyService
      * @param    [string]       $accounts [帐号, 手机|邮箱]
      * @param    [string]       $type     [帐号类型, sms|email]
      */
-    private function IsExistAccounts($accounts, $type)
+    private static function IsExistAccounts($accounts, $type)
     {
         $field = ($type == 'sms') ? 'mobile' : 'email';
         $user = Db::name('User')->where([$field=>$accounts])->value('id');
@@ -126,7 +126,7 @@ class SafetyService
      * @param    [array]    $verify_params  [配置参数]
      * @return   [object]                   [图片验证码类对象]
      */
-    private function IsImaVerify($params, $verify_params)
+    private static function IsImaVerify($params, $verify_params)
     {
         if(MyC('home_img_verify_state') == 1)
         {
@@ -156,7 +156,7 @@ class SafetyService
      * @datetime 2017-03-05T19:17:10+0800
      * @param    [array]          $params [输入参数]
      */
-    public function VerifySend($params = [])
+    public static function VerifySend($params = [])
     {
         // 数据验证
         $p = [
@@ -185,7 +185,7 @@ class SafetyService
             $accounts = $params['accounts'];
 
             // 帐号是否已存在
-            $ret = $this->IsExistAccounts($accounts, $params['type']);
+            $ret = self::IsExistAccounts($accounts, $params['type']);
             if($ret['code'] != 0)
             {
                 return $ret;
@@ -200,7 +200,7 @@ class SafetyService
             );
 
         // 是否开启图片验证码
-        $verify = $this->IsImaVerify($params, $img_verify_params);
+        $verify = self::IsImaVerify($params, $img_verify_params);
         if($verify['code'] != 0)
         {
             return $verify;
@@ -250,7 +250,7 @@ class SafetyService
      * @datetime 2017-03-28T15:57:19+0800
      * @param    [array]          $params [输入参数]
      */
-    public function VerifyCheck($params = [])
+    public static function VerifyCheck($params = [])
     {
         // 数据验证
         $p = [
@@ -322,7 +322,7 @@ class SafetyService
      * @datetime 2017-03-28T17:04:36+0800
      * @param    [array]          $params [输入参数]
      */
-    public function AccountsUpdate($params = [])
+    public static function AccountsUpdate($params = [])
     {
         // 数据验证
         $p = [
@@ -354,7 +354,7 @@ class SafetyService
         }
 
         // 帐号是否已存在
-        $ret = $this->IsExistAccounts($params['accounts'], $params['type']);
+        $ret = self::IsExistAccounts($params['accounts'], $params['type']);
          if($ret['code'] != 0)
             {
                 return $ret;

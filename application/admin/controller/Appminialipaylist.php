@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\facade\AppMiniService;
+use app\service\AppMiniService;
 
 /**
  * 支付宝小程序管理

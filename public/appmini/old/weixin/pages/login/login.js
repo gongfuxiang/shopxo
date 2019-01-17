@@ -30,15 +30,16 @@ Page({
    * 登录授权事件
    */
   get_user_info_event(e) {
-    this.user_auth_code();
+    this.user_auth_code(null, null, e.detail);
   },
 
   /**
    * 用户授权
    * object     回调操作对象
    * method     回调操作对象的函数
+   * auth_data  授权数据
    */
-  user_auth_code(object, method) {
+  user_auth_code(object, method, auth_data) {
     // 请求授权接口
     var $this = this;
     wx.getSetting({
@@ -46,7 +47,7 @@ Page({
         if (!res.authSetting['scope.userInfo']) {
           $this.setData({ user: null});
         } else {
-          app.user_auth_login($this, 'user_auth_back_event');
+          app.user_auth_login($this, 'user_auth_back_event', auth_data);
         }
       },
       fail: (e) => {

@@ -22,13 +22,13 @@ use think\Db;
 class AppMiniService
 {
     // 当前小程序包名称
-    private $application_name;
+    private static $application_name;
 
     // 原包地址/操作地址
-    private $old_root;
-    private $new_root;
-    private $old_path;
-    private $new_path;
+    private static $old_root;
+    private static $new_root;
+    private static $old_path;
+    private static $new_path;
 
     /**
      * @author   Devil
@@ -38,16 +38,16 @@ class AppMiniService
      * @desc    description
      * @param    [array]          $params [输入参数]
      */
-    public function Init($params = [])
+    public static function Init($params = [])
     {
         // 当前小程序包名称
-        $this->application_name = isset($params['application_name']) ? $params['application_name'] : 'alipay';
+        self::$application_name = isset($params['application_name']) ? $params['application_name'] : 'alipay';
 
         // 原包地址/操作地址
-        $this->old_root = ROOT.'public'.DS.'appmini'.DS.'old';
-        $this->new_root = ROOT.'public'.DS.'appmini'.DS.'new';
-        $this->old_path = $this->old_root.DS.$this->application_name;
-        $this->new_path = $this->new_root.DS.$this->application_name;
+        self::$old_root = ROOT.'public'.DS.'appmini'.DS.'old';
+        self::$new_root = ROOT.'public'.DS.'appmini'.DS.'new';
+        self::$old_path = self::$old_root.DS.self::$application_name;
+        self::$new_path = self::$new_root.DS.self::$application_name;
     }
 
     /**
@@ -58,23 +58,23 @@ class AppMiniService
      * @datetime 2017-05-10T10:24:40+0800
      * @param    [array]          $params [输入参数]
      */
-    public function DataList($params = [])
+    public static function DataList($params = [])
     {
         // 初始化
-        $this->Init($params);
+        self::Init($params);
 
         // 获取包列表
         $result = [];
-        if(is_dir($this->new_path))
+        if(is_dir(self::$new_path))
         {
-            if($dh = opendir($this->new_path))
+            if($dh = opendir(self::$new_path))
             {
                 while(($temp_file = readdir($dh)) !== false)
                 {
                     if($temp_file != '.' && $temp_file != '..')
                     {
-                        $file_path = $this->new_path.DS.$temp_file;
-                        $url = __MY_PUBLIC_URL__.'appmini'.DS.'new'.DS.$this->application_name.DS.$temp_file;
+                        $file_path = self::$new_path.DS.$temp_file;
+                        $url = __MY_PUBLIC_URL__.'appmini'.DS.'new'.DS.self::$application_name.DS.$temp_file;
                         $result[] = [
                             'name'  => $temp_file,
                             'url'   => substr($url, -4) == '.zip' ? $url : '',
@@ -98,10 +98,10 @@ class AppMiniService
      * @desc    description
      * @param    [array]          $params [输入参数]
      */
-    public function Created($params = [])
+    public static function Created($params = [])
     {
         // 初始化
-        $this->Init($params);
+        self::Init($params);
 
         // 配置内容
         if(empty($params['app_mini_title']) || empty($params['app_mini_describe']))
@@ -110,23 +110,23 @@ class AppMiniService
         }
 
         // 源码包目录是否存在
-        if(!is_dir($this->new_root))
+        if(!is_dir(self::$new_root))
         {
             return DataReturn('源码包目录不存在', -1);
         }
 
         // 源码包目录是否有权限
-        if(!is_writable($this->new_root))
+        if(!is_writable(self::$new_root))
         {
             return DataReturn('源码包目录没有权限', -1);
         }
 
         // 目录不存在则创建
-        \base\FileUtil::CreateDir($this->new_path);
+        \base\FileUtil::CreateDir(self::$new_path);
 
         // 复制包目录
-        $new_dir = $this->new_path.DS.date('YmdHis');
-        if(\base\FileUtil::CopyDir($this->old_path, $new_dir) != true)
+        $new_dir = self::$new_path.DS.date('YmdHis');
+        if(\base\FileUtil::CopyDir(self::$old_path, $new_dir) != true)
         {
             return DataReturn('项目包复制失败', -2);
         }
@@ -174,7 +174,7 @@ class AppMiniService
      * @desc    description
      * @param    [array]          $params [输入参数]
      */
-    public function Delete($params = [])
+    public static function Delete($params = [])
     {
         // 参数
         if(empty($params['id']))
@@ -183,7 +183,7 @@ class AppMiniService
         }
 
         // 初始化
-        $this->Init($params);
+        self::Init($params);
 
         // 目录处理
         $suffix = '';
@@ -196,7 +196,7 @@ class AppMiniService
         }
 
         // 防止路径回溯
-        $path = $this->new_path.DS.htmlentities(str_replace(array('.', '/', '\\', ':'), '', strip_tags($name))).$suffix;
+        $path = self::$new_path.DS.htmlentities(str_replace(array('.', '/', '\\', ':'), '', strip_tags($name))).$suffix;
 
         // 删除压缩包
         if($suffix == '.zip')

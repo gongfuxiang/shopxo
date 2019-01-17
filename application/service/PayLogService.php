@@ -29,7 +29,7 @@ class PayLogService
      * @datetime 2018-12-23T02:22:03+0800
      * @param   [array]          $params [输入参数]
      */
-    public function PayLogTypeList($params = [])
+    public static function PayLogTypeList($params = [])
     {
         $data = Db::name('PayLog')->field('payment AS id, payment_name AS name')->group('payment')->select();
         return DataReturn('处理成功', 0, $data);
@@ -43,7 +43,7 @@ class PayLogService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function AdminPayLogList($params = [])
+    public static function AdminPayLogList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
@@ -82,7 +82,7 @@ class PayLogService
      * @desc    description
      * @param   [array]          $where [条件]
      */
-    public function AdminPayLogTotal($where = [])
+    public static function AdminPayLogTotal($where = [])
     {
         return (int) Db::name('PayLog')->alias('p')->join(['__USER__'=>'u'], 'u.id=p.user_id')->where($where)->count();
     }
@@ -96,7 +96,7 @@ class PayLogService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function AdminPayLogListWhere($params = [])
+    public static function AdminPayLogListWhere($params = [])
     {
         $where = [];
         
@@ -145,7 +145,7 @@ class PayLogService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function PayLogDelete($params = [])
+    public static function PayLogDelete($params = [])
     {
         // 请求参数
         $p = [

@@ -11,8 +11,8 @@
 namespace app\admin\controller;
 
 use think\Controller;
-use app\facade\AdminPowerService;
-use app\facade\ConfigService;
+use app\service\AdminPowerService;
+use app\service\ConfigService;
 
 /**
  * 管理员公共控制器

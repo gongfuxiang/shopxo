@@ -10,10 +10,10 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\facade\UserService;
-use app\facade\OrderService;
-use app\facade\GoodsService;
-use app\facade\MessageService;
+use app\service\UserService;
+use app\service\OrderService;
+use app\service\GoodsService;
+use app\service\MessageService;
 
 /**
  * 用户
@@ -142,7 +142,7 @@ class User extends Common
             $result['referrer']= isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0;
             return UserService::AuthUserProgram($result, 'weixin_openid');
         }
-        return DataReturn('获取用户信息失败', -100);
+        return DataReturn(empty($result) ? '获取用户信息失败' : $result, -100);
     }
 
     /**

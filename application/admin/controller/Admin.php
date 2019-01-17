@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\facade\AdminService;
+use app\service\AdminService;
 
 /**
  * 管理员
