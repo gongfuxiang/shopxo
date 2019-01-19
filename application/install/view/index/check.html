@@ -16,7 +16,7 @@
         <tr class="<?php if(function_exists('php_uname')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
             <td>操作系统</td>
             <td>无限制</td>
-            <td><?php echo function_exists('php_uname') ? php_uname('s') : '未知'; ?></td>
+            <td><?php echo function_exists('php_uname') ? php_uname('s') : '未知（php_uname函数未启用）'; ?></td>
             <td><?php echo function_exists('php_uname') ? '√' : '×'; ?></td>
         </tr>
 
@@ -36,15 +36,18 @@
 
         <?php
             $tmp = function_exists('gd_info') ? gd_info() : array();
-            preg_match("/[\d.]+/", $tmp['GD Version'], $match);
-            unset($tmp);
+            if(!empty($tmp))
+            {
+                preg_match("/[\d.]+/", $tmp['GD Version'], $match);
+                unset($tmp);
+            }
         ?>
-        <tr class="<?php if($match[0] > 2){ echo 'yes'; } else { echo 'am-danger'; } ?>">
+        <tr class="<?php if(isset($match[0]) && $match[0] > 2){ echo 'yes'; } else { echo 'am-danger'; } ?>">
             <td>GD库</td>
             <td>2.0</td>
-            <td><?php echo $match[0]; ?></td>
+            <td><?php echo isset($match[0]) ? $match[0] : '未知（gd_info函数未启用）'; ?></td>
             <td>
-                <?php if($match[0] > 2): ?>
+                <?php if(isset($match[0]) && $match[0] > 2): ?>
                     √
                 <?php else: ?>
                     ×
