@@ -333,6 +333,7 @@ php;
         $charset = $this->charset_type_list[$params['DB_CHARSET']];
         if($charset['charset'] != 'utf8mb4')
         {
+            $sql = str_replace('SET NAMES utf8mb4;', "SET NAMES {$charset['charset']};", $sql);
             $sql = str_replace('CHARSET=utf8mb4', "CHARSET={$charset['charset']}", $sql);
             $sql = str_replace('utf8mb4_general_ci', "{$charset['collate']}", $sql);
         }
