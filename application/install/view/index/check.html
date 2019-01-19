@@ -13,11 +13,11 @@
             <th width="25%">当前服务器</th>
             <th width="25%">是否符合</th>
         </tr>
-        <tr class="yes">
+        <tr class="<?php if(function_exists('php_uname')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
             <td>操作系统</td>
             <td>无限制</td>
-            <td><?php echo php_uname('s'); ?></td>
-            <td>√</td>
+            <td><?php echo function_exists('php_uname') ? php_uname('s') : '未知'; ?></td>
+            <td><?php echo function_exists('php_uname') ? '√' : '×'; ?></td>
         </tr>
 
         <?php $php_version = explode('.', PHP_VERSION); ?>
