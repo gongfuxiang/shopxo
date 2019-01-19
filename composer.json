@@ -1,18 +1,24 @@
 {
-    "name": "topthink/think",
-    "description": "the new thinkphp framework",
+    "name": "shopxo/shopxo",
+    "description": "ShopXO 国内领先企业级B2C免费开源电商系统！",
     "type": "project",
     "keywords": [
-        "framework",
+        "shop",
+        "shopxo",
+        "b2c",
+        "mall",
+        "商城",
+        "开源商城",
+        "小程序",
         "thinkphp",
         "ORM"
     ],
-    "homepage": "http://thinkphp.cn/",
+    "homepage": "http://shopxo.net/",
     "license": "Apache-2.0",
     "authors": [
         {
-            "name": "liu21st",
-            "email": "liu21st@gmail.com"
+            "name": "Devil",
+            "email": "fuxiang.gong@qq.com"
         }
     ],
     "require": {
