@@ -259,8 +259,8 @@ return [
     'dsn'             => '',
     // 数据库连接参数
     'params'          => [],
-    // 数据库编码默认采用utf8
-    'charset'         => '{$this->charset_type_list[$params['DB_CHARSET']]['charset']}',
+    // 数据库编码默认采用utf8mb4
+    'charset'         => '{$params['DB_CHARSET']}',
     // 数据库表前缀
     'prefix'          => '{$params['DB_PREFIX']}',
     // 数据库调试模式
@@ -466,8 +466,8 @@ php;
                 \PDO::ATTR_CASE => \PDO::CASE_LOWER,
                 \PDO::ATTR_EMULATE_PREPARES => true,
             ],
-            // 数据库编码默认采用utf8
-            'charset'     => 'utf8mb4',
+            // 数据库编码默认采用utf8mb4
+            'charset'     => $params['DB_CHARSET'],
             // 数据库表前缀
             'prefix'      => $params['DB_PREFIX'],
         ]);
