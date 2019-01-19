@@ -35,9 +35,9 @@
         </tr>
 
         <?php
-            $tmp = function_exists('gd_info') ? gd_info() : array();
-            if(!empty($tmp))
+            if(function_exists('gd_info'))
             {
+                $tmp = gd_info();
                 preg_match("/[\d.]+/", $tmp['GD Version'], $match);
                 unset($tmp);
             }
