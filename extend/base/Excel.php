@@ -113,9 +113,12 @@ class Excel
 		$charset = lang('common_excel_charset_list')[$excel_charset]['value'];
 
 		// 标题
-		foreach($this->title as $v)
+		$temp_key = 0;
+		foreach($this->title as $k=>$v)
 		{
-			$excel->getActiveSheet()->setCellValue($v['col'].'1', ($excel_charset == 0) ? $v['name'] : iconv('utf-8', $charset, $v['name']));
+			$col = \PHPExcel_Cell::stringFromColumnIndex($temp_key);
+			$excel->getActiveSheet()->setCellValue($col.'1', ($excel_charset == 0) ? $v['name'] : iconv('utf-8', $charset, $v['name']));
+			$temp_key++;
 		}
 		
 		// 内容
@@ -124,9 +127,12 @@ class Excel
 			$i = $k+2;
 			if(is_array($v) && !empty($v))
 			{
+				$temp_key = 0;
 				foreach($this->title as $tk=>$tv)
 				{
-					$excel->getActiveSheet()->setCellValueExplicit($tv['col'].$i, ($excel_charset == 0) ? $v[$tk] : iconv('utf-8', $charset, $v[$tk]), \PHPExcel_Cell_DataType::TYPE_STRING);
+					$col = \PHPExcel_Cell::stringFromColumnIndex($temp_key);
+					$excel->getActiveSheet()->setCellValueExplicit($col.$i, ($excel_charset == 0) ? $v[$tk] : iconv('utf-8', $charset, $v[$tk]), \PHPExcel_Cell_DataType::TYPE_STRING);
+					$temp_key++;
 				}
 			}
 		}

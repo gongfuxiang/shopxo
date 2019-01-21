@@ -108,52 +108,42 @@ return array(
     // 用户excel导出标题列表
     'excel_user_title_list'     =>  array(
             'username'      =>  array(
-                    'col' => 'A',
-                    'name' => '姓名',
+                    'name' => '用户名',
                     'type' => 'string',
                 ),
             'nickname'      =>  array(
-                    'col' => 'B',
                     'name' => '昵称',
                     'type' => 'int',
                 ),
             'gender_text'   =>  array(
-                    'col' => 'C',
                     'name' => '性别',
                     'type' => 'string',
                 ),
             'birthday_text'=>   array(
-                    'col' => 'D',
                     'name' => '生日',
                     'type' => 'string',
                 ),
             'mobile'        =>  array(
-                    'col' => 'E',
                     'name' => '手机号码',
                     'type' => 'int',
                 ),
             'email'         =>  array(
-                    'col' => 'F',
                     'name' => '电子邮箱',
                     'type' => 'string',
                 ),
             'province'      =>  array(
-                    'col' => 'G',
                     'name' => '所在省',
                     'type' => 'string',
                 ),
             'city'      =>  array(
-                    'col' => 'H',
                     'name' => '所在市',
                     'type' => 'string',
                 ),
             'address'       =>  array(
-                    'col' => 'I',
                     'name' => '详细地址',
                     'type' => 'string',
                 ),
             'add_time'      =>  array(
-                    'col' => 'J',
                     'name' => '注册时间',
                     'type' => 'string',
                 ),
