@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : utf-8
 
- Date: 01/21/2019 15:14:12 PM
+ Date: 01/21/2019 16:17:58 PM
 */
 
 SET NAMES utf8mb4;
@@ -362,14 +362,7 @@ CREATE TABLE `s_goods_browse` (
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户商品浏览';
-
--- ----------------------------
---  Records of `s_goods_browse`
--- ----------------------------
-BEGIN;
-INSERT INTO `s_goods_browse` VALUES ('1', '1', '90', '1547450927', '1547485924'), ('2', '2', '90', '1547451628', '1548054581'), ('3', '3', '90', '1547452248', '1547452282'), ('4', '4', '90', '1547452557', '1547452557'), ('5', '5', '90', '1547452801', '1547452801'), ('6', '6', '90', '1547453138', '1547453171'), ('7', '7', '90', '1547453971', '1548054602'), ('8', '9', '90', '1547454789', '1547454913'), ('9', '10', '90', '1547455378', '1547455378'), ('10', '11', '90', '1547455704', '1547455719'), ('11', '12', '90', '1547456327', '1548054600'), ('12', '8', '90', '1547540255', '1547540460');
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户商品浏览';
 
 -- ----------------------------
 --  Table structure for `s_goods_category`
@@ -713,7 +706,7 @@ CREATE TABLE `s_order_detail` (
   `buy_number` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '购买数量',
   `spec_weight` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '重量（kg）',
   `spec_coding` char(80) NOT NULL DEFAULT '' COMMENT '编码',
-  `spec_barcode` char(8) NOT NULL DEFAULT '' COMMENT '条形码',
+  `spec_barcode` char(80) NOT NULL DEFAULT '' COMMENT '条形码',
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`),
