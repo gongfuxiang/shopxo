@@ -49,6 +49,14 @@
         </form>
         <!-- form end -->
 
+        <!-- operation start -->
+        <div class="am-g m-t-15">
+            {{if !IsMobile()}}
+            	<a href="{{$excel_url}}" class="am-btn am-btn-success am-btn-xs am-icon-file-excel-o am-radius"> 导出Excel</a>
+            {{/if}}
+        </div>
+        <!-- operation end -->
+
 		<!-- list start -->
 		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5">
 			<thead>

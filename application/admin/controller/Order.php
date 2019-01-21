@@ -106,9 +106,43 @@ class Order extends Common
         // 评价状态
         $this->assign('common_comments_status_list', lang('common_comments_status_list'));
 
+        // Excel地址
+        $this->assign('excel_url', MyUrl('admin/order/excelexport', input()));
+
         // 参数
         $this->assign('params', $params);
         return $this->fetch();
+    }
+
+    /**
+     * [ExcelExport excel文件导出]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-01-10T15:46:00+0800
+     */
+    public function ExcelExport()
+    {
+        // 参数
+        $params = input();
+        $params['admin'] = $this->admin;
+        $params['user_type'] = 'admin';
+
+        // 条件
+        $where = OrderService::OrderListWhere($params);
+
+        // 获取列表
+        $data_params = array(
+            'where'             => $where,
+            'm'                 => 0,
+            'n'                 => 100000,
+            'is_excel_export'   => 1,
+        );
+        $data = OrderService::OrderList($data_params);
+
+        // Excel驱动导出数据
+        $excel = new \base\Excel(array('filename'=>'order', 'title'=>lang('excel_order_title_list'), 'data'=>$data['data'], 'msg'=>'没有相关数据'));
+        return $excel->Export();
     }
 
     /**

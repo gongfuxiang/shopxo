@@ -186,6 +186,9 @@ class BuyService
                     $v['inventory'] = $goods_base['data']['inventory'];
                     $v['price'] = $goods_base['data']['price'];
                     $v['original_price'] = $goods_base['data']['original_price'];
+                    $v['spec_weight'] = $goods_base['data']['weight'];
+                    $v['spec_coding'] = $goods_base['data']['coding'];
+                    $v['spec_barcode'] = $goods_base['data']['barcode'];
                 } else {
                     return $goods_base;
                 }
@@ -366,6 +369,9 @@ class BuyService
             $goods[0]['inventory'] = $goods_base['data']['inventory'];
             $goods[0]['price'] = $goods_base['data']['price'];
             $goods[0]['original_price'] = $goods_base['data']['original_price'];
+            $goods[0]['spec_weight'] = $goods_base['data']['weight'];
+            $goods[0]['spec_coding'] = $goods_base['data']['coding'];
+            $goods[0]['spec_barcode'] = $goods_base['data']['barcode'];
         } else {
             return $goods_base;
         }
@@ -630,6 +636,8 @@ class BuyService
             $order['confirm_time'] = time();
         }
 
+        //print_r($goods['data']);die;
+
         // 开始事务
         Db::startTrans();
 
@@ -649,6 +657,9 @@ class BuyService
                     'original_price'    => $v['original_price'],
                     'price'             => $v['price'],
                     'spec'              => empty($v['spec']) ? '' : json_encode($v['spec']),
+                    'spec_weight'       => $v['spec_weight'],
+                    'spec_coding'       => $v['spec_coding'],
+                    'spec_barcode'      => $v['spec_barcode'],
                     'buy_number'        => $v['stock'],
                     'add_time'          => time(),
                 ];

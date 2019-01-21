@@ -11,7 +11,6 @@
 namespace app\service;
 
 use think\Db;
-use app\service\GoodsService;
 use app\service\PaymentService;
 use app\service\BuyService;
 use app\service\IntegralService;
@@ -569,12 +568,12 @@ class OrderService
         $n = isset($params['n']) ? intval($params['n']) : 10;
         $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
         $is_items = isset($params['is_items']) ? intval($params['is_items']) : 1;
+        $is_excel_export = isset($params['is_excel_export']) ? intval($params['is_excel_export']) : 0;
 
         // 获取订单
         $data = Db::name('Order')->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
-            $detail_field = 'id,goods_id,title,images,original_price,price,spec,buy_number';
             $order_status_list = lang('common_order_user_status');
             $order_pay_status = lang('common_order_pay_status');
             foreach($data as &$v)
@@ -638,19 +637,51 @@ class OrderService
                 // 订单详情
                 if($is_items == 1)
                 {
-                    $items = Db::name('OrderDetail')->where(['order_id'=>$v['id']])->field($detail_field)->select();
+                    $items = Db::name('OrderDetail')->where(['order_id'=>$v['id']])->select();
+                    $excel_export_items = '';
                     if(!empty($items))
                     {
                         foreach($items as &$vs)
                         {
+                            // 商品信息
                             $vs['images'] = ResourcesService::AttachmentPathViewHandle($vs['images']);
-                            $vs['spec'] = empty($vs['spec']) ? null : json_decode($vs['spec'], true);
                             $vs['goods_url'] = MyUrl('index/goods/index', ['id'=>$vs['goods_id']]);
                             $vs['total_price'] = $vs['buy_number']*$vs['price'];
+
+                            // 规格
+                            if(!empty($vs['spec']))
+                            {
+                                $vs['spec'] = json_decode($vs['spec'], true);
+                                $vs['spec_text'] = implode(',', array_map(function($spec)
+                                {
+                                    return $spec['type'].':'.$spec['value'];
+                                }, $vs['spec']));
+                            } else {
+                                $vs['spec'] = null;
+                                $vs['spec_text'] = null;
+                            }
+
+                            // 是否excel导出
+                            if($is_excel_export == 1)
+                            {
+                                $excel_export_items .= '名称：'.$vs['title']."\n";
+                                $excel_export_items .= '图片：'.$vs['images']."\n";
+                                $excel_export_items .= '地址：'.$vs['goods_url']."\n";
+                                $excel_export_items .= '原价：'.$vs['original_price']."\n";
+                                $excel_export_items .= '销售价：'.$vs['price']."\n";
+                                $excel_export_items .= '总价：'.$vs['total_price']."\n";
+                                $excel_export_items .= '规格：'.$vs['spec_text']."\n";
+                                $excel_export_items .= '重量：'.$vs['spec_weight']."\n";
+                                $excel_export_items .= '编码：'.$vs['spec_coding']."\n";
+                                $excel_export_items .= '条形码：'.$vs['spec_barcode']."\n";
+                                $excel_export_items .= '购买数量：'.$vs['buy_number']."\n";
+                                $excel_export_items .= "\n";
+                            }
                         }
                     }
                     $v['items'] = $items;
                     $v['items_count'] = count($items);
+                    $v['excel_export_items'] = $excel_export_items;
 
                     // 描述
                     $v['describe'] = '共'.$v['items_count'].'件 合计:￥'.$v['total_price'].'元';

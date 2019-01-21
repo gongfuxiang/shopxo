@@ -1752,7 +1752,7 @@ class GoodsService
                     // 获取基础值数据
                     if(!empty($base_id))
                     {
-                        $base = Db::name('GoodsSpecBase')->field('id,goods_id,price,inventory,coding,barcode,original_price')->find($base_id);
+                        $base = Db::name('GoodsSpecBase')->find($base_id);
                         if(!empty($base))
                         {
                             return DataReturn('操作成功', 0, $base);
@@ -1761,7 +1761,7 @@ class GoodsService
                 }
             }
         } else {
-            $base = Db::name('GoodsSpecBase')->field('id,goods_id,price,inventory,coding,barcode,original_price')->where($where)->find();
+            $base = Db::name('GoodsSpecBase')->where($where)->find();
             if(!empty($base))
             {
                 return DataReturn('操作成功', 0, $base);

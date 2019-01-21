@@ -67,7 +67,7 @@ class UserService
                 $v['gender_text'] = $common_gender_list[$v['gender']]['name'];
             }
         }
-        return $data;
+        return DataReturn('处理成功', 0, $data);
     }
 
     /**
