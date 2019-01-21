@@ -227,7 +227,7 @@ text-align: center;float:none}
     /*第一套轮播图布局*/	
     .banner{position: absolute;left:0px;z-index:9; }
     .banner .am-slider .am-slides li{height:360px;}
-    .banner .am-slider .am-slides img{width:800px ;left:50% ;position: absolute;margin-left: -370px;}
+    .banner .am-slider .am-slides img{width:1000px ;left:50% ;position: absolute;margin-left: -500px;}
     .banner .am-slider-default .am-direction-nav .am-next {right: 50px;}
 
     .category-content .category-list.navTwo li { height:36px;}
@@ -339,7 +339,7 @@ text-align: center;float:none}
 
 
     .banner .am-slider .am-slides li{height:430px;}
-    .banner .am-slider .am-slides img{width:954px ;left:50% ;position: absolute;margin-left: -438px;}
+    .banner .am-slider .am-slides img{width:1200px ;left:50% ;position: absolute;margin-left: -600px;}
     /*公告布局*/
     .marqueen {width:220px;height: 412px;text-align: left;top:10px;padding: 10px;}
     .banner-news{padding-top: 0px;}
