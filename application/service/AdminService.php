@@ -63,7 +63,7 @@ class AdminService
         $where = [];
         if(!empty($params['username']))
         {
-            $where[] =['username', 'like', '%'.$params['username'].'%'];
+            $where[] = ['username', 'like', '%'.$params['username'].'%'];
         }
         if(isset($params['role_id']) && $params['role_id'] > -1)
         {
