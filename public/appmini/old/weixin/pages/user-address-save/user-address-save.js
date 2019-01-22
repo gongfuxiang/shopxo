@@ -8,6 +8,7 @@ Page({
     province_id: null,
     city_id: null,
     county_id: null,
+    is_default: 0,
 
     default_province: "请选择省",
     default_city: "请选择市",
@@ -77,7 +78,8 @@ Page({
               address: data.address,
               province_id: data.province,
               city_id: data.city,
-              county_id: data.county
+              county_id: data.county,
+              is_default: data.is_default || 0,
             });
 
             self.get_city_list();
@@ -258,6 +260,7 @@ Page({
     form_data["city"] = data.city_id;
     form_data["county"] = data.county_id;
     form_data["id"] = self.data.params.id || 0;
+    form_data["is_default"] = self.data.is_default || 0;
 
     if (app.fields_check(form_data, validation)) {
       // 加载loding

@@ -82,7 +82,7 @@ Page({
               goods_photo: data.goods.photo,
               goods_specifications_choose: data.goods.specifications.choose || [],
               goods_content_app: data.goods.content_app,
-              temp_buy_number: (data.goods.buy_min_number) || 1,
+              temp_buy_number: data.goods.buy_min_number || 1,
               goods_favor_text: (data.goods.is_favor == 1) ? '已收藏' : '收藏',
               goods_favor_icon: '/images/goods-detail-favor-icon-' + data.goods.is_favor+'.png',
               nav_submit_text: ((data.common_order_is_booking || 0) == 0) ? '立即购买' : '立即预约',
@@ -303,7 +303,7 @@ Page({
           }
         }
       }
-      this.setData({goods_specifications_choose: temp_data, goods_spec_base_images: temp_images});
+      this.setData({ goods_specifications_choose: temp_data, goods_spec_base_images: temp_images, temp_buy_number: 1});
 
       // 不能选择规格处理
       this.goods_specifications_choose_handle_dont(key);
@@ -473,14 +473,14 @@ Page({
   goods_buy_number_func(buy_number) {
     var buy_min_number = parseInt(this.data.goods.buy_min_number) || 1;
     var buy_max_number = parseInt(this.data.goods.buy_max_number) || 0;
-    var inventory = parseInt(this.data.goods.goods_spec_base_inventory);
+    var inventory = parseInt(this.data.goods_spec_base_inventory);
     var inventory_unit = this.data.goods.inventory_unit;
     if(buy_number < buy_min_number)
     {
       buy_number = buy_min_number;
       if(buy_min_number > 1)
       {
-        app.showToast( '起购'+buy_min_number+inventory_unit);
+        app.showToast('起购'+buy_min_number+inventory_unit);
       }
     }
     if(buy_max_number > 0 && buy_number > buy_max_number)
