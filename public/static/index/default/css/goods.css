@@ -65,12 +65,12 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 
 @media only screen and (min-width:640px) {
     .theme-span{height:0px;background:#fff ;}
-    .theme-popover{box-shadow:0 0 10px #666;position:fixed;top:20%;left:calc(50% - 130px);width:260px;bottom:auto;border:solid 6px #d3d3d3;border-radius:3px;}
+    .theme-popover{box-shadow:0 0 10px #666;position:fixed;top:20%;left:calc(50% - 250px);width:500px;bottom:auto;border:solid 6px #d3d3d3;border-radius:3px;}
     .theme-poptit{display: none;}
 
 
     /*商品规格*/
-    .theme-signin-left{padding-top:10px ;float: left;max-width:300px;max-height: none;overflow: visible;}
+    .theme-signin-left{padding-top:10px ;float: left;max-height: none;overflow: visible;}
     .theme-options .cart-title{margin-top:5px ;}
     .theme-options ul{float: left;}
 
@@ -90,7 +90,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
     .text-info span.stock-tips {float:left;font-size: 12px;}
 
     /*操作*/
-    .btn-op{overflow: hidden;padding:10px 20%; position: static;}
+    .btn-op{overflow: hidden;padding:10px 30%; position: static;}
     .theme-signin .btn {width:auto; font-size:12px ;padding:5px 15px ;border-radius:0;}
     .btn.close {display:block;float: left;position: static;}
     i.buy-event{display: inline-block;}
@@ -386,7 +386,7 @@ li.am-comment{ width:100%}
         
             
     /*规格*/
-    .theme-popover {display: block;position: static;border:none ;box-shadow: none;}
+    .theme-popover {display: block;position: static;border:none ;box-shadow: none;width: 100%;}
     .theme-poptit,.theme-signin-right,.iteminfo_parameter dt.buy-event,.btn-op{display: none;}
 
     .theme-options{overflow: visible;padding:0px 0px; margin-bottom: 5px;}
@@ -400,7 +400,6 @@ li.am-comment{ width:100%}
     .clearfix-left{display:block;float: left;width:360px;}
     .clearfix-right{width:calc(100% - 370px);margin-left:10px;}
     .freight{width:400px;float: left;}
-    .theme-signin-left {max-width:500px ;}
     .iteminfo_parameter.freight dt{padding-top:6px ;padding-bottom:0px ;}
 
 

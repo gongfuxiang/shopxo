@@ -652,7 +652,7 @@ class OrderService
                             if(!empty($vs['spec']))
                             {
                                 $vs['spec'] = json_decode($vs['spec'], true);
-                                $vs['spec_text'] = implode(',', array_map(function($spec)
+                                $vs['spec_text'] = implode('，', array_map(function($spec)
                                 {
                                     return $spec['type'].':'.$spec['value'];
                                 }, $vs['spec']));

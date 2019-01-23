@@ -203,9 +203,9 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px; position: a
     .category-content .category-list a:hover{ text-decoration: none; color: #D2364C; }
     .category-content .category-name{ overflow:hidden; position: relative;}
     .category-content .category-name img{ position: absolute; top: 6px; width: 25px; height: 25px; left: 6px; display:block;}
-    .category-content .category-name .ml-22{font-size:14px ;margin-left: 35px;}
+    .category-content .category-name .ml-22{font-size:14px ;padding-left: 35px;}
     .category-content .category-list .bd-b{ height: 1px;  margin: -1px 10px 0 10px;  background: #eee; line-height: 1; font-size: 0; }
-    .category-content .b-category-name {line-height:32px;padding-top:3px ;padding-left:5px ;}
+    .category-content .b-category-name {line-height:32px;padding-top:3px ;padding-left:5px; padding-right: 35px;}
     .category-content .b-category-name b{ margin-left: 4px; font:400 12px/28px "宋体"; }
     .category-content .b-category-name a{ color: #fff; }
     .category-content .c-category-list a{ margin-right:8px; color:#626262; }
@@ -213,7 +213,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px; position: a
     .category-content .s-category-name{ height:22px;}
     .category-content .s-category-name a{ margin:0 16px 0 0; font:12px/22px "宋体";}
     .category-content .category-info{ position:relative;height:100%;  padding-left: 12px;width: 152px;overflow: hidden;}
-    .category-content .category-info em{ position:absolute; top:8px; right:15px; width: 13px; height: 13px; font: 12px/18px "宋体"; color: #9b9b9b;}
+    .category-content .category-info em{ position:absolute; top:8px; right:20px; width: 13px; height: 13px; font: 12px/18px "宋体"; color: #9b9b9b;}
     .category-content .category .hover{ margin-left: -1px; padding-left: 1px;z-index:999;} 
     .category-content .hover .category-info{ border:none; text-decoration:none; background: #fff;  }
     .category-content .menu-item { position: absolute;left: 149px;height:100%; z-index: 11;padding:0 0 0 2px;width:770px;background: #fff; border:none; border-top: 1px solid #bbb9;overflow-y: scroll;overflow-x: hidden;}
@@ -271,11 +271,11 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px; position: a
     /* 分类 */
     #goods-category .category-content{ position:relative; width: 180px; float: left; z-index: 113; top: 45px; }
     #goods-category .category-content .all-goods {width:180px;}
-    .category-content .category{  width:180px;}
+    .category-content .category{  width:180px; max-height: 432px; overflow-y: auto; overflow-x: hidden;}
     .category-content .category-info {padding-left: 12px;width: 182px;overflow: hidden;}
     .category-content .menu-item {left: 179px;}
     .category-content .category-list li {height:43px;}
-    .category-content .b-category-name {padding-left:10px ;}
+    .category-content .b-category-name {padding-left:10px; padding-right: 35px;}
     .category-content .category-name i {top:6px}
     .category-content .category-info em{top:9px}
 }
