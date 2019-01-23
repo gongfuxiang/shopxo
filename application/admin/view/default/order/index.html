@@ -86,10 +86,8 @@
 										</div>
 										<div class="other">
 											<span class="fl fs-12">
-												{{if !empty($vs.spec)}}
-													{{foreach $vs.spec as $kss=>$vss}}
-														{{$vss.type}}:{{$vss.value}}{{if $kss neq count($vs.spec)-1}}，{{/if}}
-													{{/foreach}}
+												{{if !empty($vs.spec_text)}}
+													{{$vs.spec_text}}
 												{{/if}}
 											</span>
 											<span class="fr">{{$vs.price}}x{{$vs.buy_number}}</span>
@@ -158,11 +156,16 @@
 															</div>
 															<div class="other">
 																<span class="fl fs-12">
-																	{{if !empty($vs.spec)}}
-																		{{foreach $vs.spec as $kss=>$vss}}
-																			{{$vss.type}}:{{$vss.value}}{{if $kss neq count($vs.spec)-1}}，{{/if}}
-																		{{/foreach}}
+																	规格：
+																	{{if !empty($vs.spec_text)}}
+																		{{$vs.spec_text}}
 																	{{/if}}
+																</span>
+																<span class="fl fs-12">
+																	重量：{{$vs.spec_weight}}
+																</span>
+																<span class="fl fs-12">
+																	编码：{{$vs.spec_coding}}
 																</span>
 																<span class="fr">{{$vs.price}}x{{$vs.buy_number}}</span>
 															</div>

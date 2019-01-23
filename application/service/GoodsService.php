@@ -1041,12 +1041,6 @@ class GoodsService
                 return $ret;
             }
 
-            // 删除原来的视频
-            if(!empty($goods['video']) && (!empty($video['data']['file_video']['url']) || empty($data['video'])))
-            {
-                \base\FileUtil::UnlinkFile(ROOT_PATH.$goods['video']);
-            }
-
             // 提交事务
             Db::commit();
             return DataReturn('操作成功', 0);
