@@ -388,6 +388,26 @@ class GoodsService
                 $temp_type['value'] = $temp_type_value;
                 $temp_type['add_time'] = date('Y-m-d H:i:s');
             }
+
+            // 只有一个规格的时候直接获取规格值的库存数
+            if(count($choose) == 1)
+            {
+                foreach($choose[0]['value'] as &$temp_spec)
+                {
+                    $temp_spec_params = [
+                        'id'    => $params['goods_id'],
+                        'spec'  => [
+                            ['type' => $choose[0]['name'], 'value' => $temp_spec['name']]
+                        ],
+                    ];
+                    $temp = self::GoodsSpecDetail($temp_spec_params);
+                    if($temp['code'] == 0)
+                    {
+                        $temp_spec['is_only_level_one'] = 1;
+                        $temp_spec['inventory'] = $temp['data']['inventory'];
+                    }
+                }
+            }
         }
         return ['choose'=>$choose];
     }

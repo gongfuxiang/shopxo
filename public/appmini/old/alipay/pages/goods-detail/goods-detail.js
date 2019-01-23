@@ -157,8 +157,15 @@ Page({
           temp_data[i]['value'][k]['is_disabled'] = '';
           temp_data[i]['value'][k]['is_active'] = '';
         }
+
+        // 当只有一个规格的时候
+        if(key == 0 && temp_data.length == 1)
+        {
+          temp_data[i]['value'][k]['is_disabled'] = ((temp_data[i]['value'][k]['is_only_level_one'] || null) != null && (temp_data[i]['value'][k]['inventory'] || 0) <= 0) ? 'spec-items-disabled' : '';
+        }
       }
     }
+
     this.setData({goods_specifications_choose: temp_data});
   },
 

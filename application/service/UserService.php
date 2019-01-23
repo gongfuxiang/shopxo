@@ -1323,14 +1323,15 @@ class UserService
                 'error_msg'         => '昵称 2~16 个字符之间',
             ],
             [
-                'checked_type'      => 'empty',
+                'checked_type'      => 'isset',
                 'key_name'          => 'birthday',
                 'error_msg'         => '请填写生日',
             ],
             [
-                'checked_type'      => 'isset',
+                'checked_type'      => 'in',
+                'checked_data'      => [0,1,2],
                 'key_name'          => 'gender',
-                'error_msg'         => '请选择性别',
+                'error_msg'         => '性别选择有误',
             ],
             [
                 'checked_type'      => 'empty',
@@ -1346,7 +1347,7 @@ class UserService
 
         // 更新数据库
         $data = [
-            'birthday'      => strtotime($params['birthday']),
+            'birthday'      => empty($params['birthday']) ? '' : strtotime($params['birthday']),
             'nickname'      => $params['nickname'],
             'gender'        => intval($params['gender']),
             'upd_time'      => time(),
