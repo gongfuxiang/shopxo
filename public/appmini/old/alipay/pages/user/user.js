@@ -56,10 +56,11 @@ Page({
       self = this;
     if (user != false) {
       // 用户未绑定用户则转到登录页面
+      var msg = (user == false) ? '授权用户信息' : '绑定手机号码';
       if ((user.mobile || null) == null) {
         my.confirm({
           title: '温馨提示',
-          content: '绑定手机号码',
+          content: msg,
           confirmButtonText: '确认',
           cancelButtonText: '暂不',
           success: (result) => {
@@ -70,9 +71,9 @@ Page({
             }
             self.setData({
               avatar: user.avatar || app.data.default_user_head_src,
-              nickname: user.nickname,
+              nickname: user.nickname || '',
             });
-            self.get_data();
+            my.stopPullDownRefresh();
           },
         });
       } else {

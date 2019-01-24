@@ -9,7 +9,7 @@
   <block wx:if="{{data_content.length > 0}}">
     <block wx:for="{{data_content}}" wx:key="keys" wx:for-item="v">
       <view class="content-items" data-value="{{v.id}}" bindtap="category_event">
-        <image wx:if="{{v.icon != null}}" src="{{v.icon}}" mode="aspectFit" class="icon" />
+        <image wx:if="{{(v.icon || null) != null}}" src="{{v.icon}}" mode="aspectFit" class="icon" />
         <view class="text single-text">{{v.name}}</view>
       </view>
     </block>
