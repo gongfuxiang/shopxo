@@ -6,7 +6,7 @@
 		<!-- form start -->
 		<form class="am-form view-list" action="{{:MyUrl('admin/order/index')}}" method="POST">
 			<div class="am-g">
-				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="订单号/姓名/手机/地址/快递单号" name="keyword" {{if !empty($params['keyword'])}} value="{{$params.keyword}}"{{/if}} />
+				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="订单号/姓名/手机/地址/快递单号" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
 					更多筛选
