@@ -25,7 +25,13 @@
 		{{/foreach}}
 	</div>
 	<div class="am-footer-miscs">
-		<p>Powered by <a href="http://shopxo.net/" title="ShopXO电商系统" target="_blank">ShopXO</a> {{$Think.APPLICATION_VERSION}}</p>
+		<p>
+			<script>
+				<!--
+				document.write(unescape("Powered%20by%20%3Ca%20href%3D%22http%3A//shopxo.net/%22%20title%3D%22ShopXO%u7535%u5546%u7CFB%u7EDF%22%20target%3D%22_blank%22%3EShopXO%3C/a%3E%20"));
+				//-->
+			</script> {{$Think.APPLICATION_VERSION}}
+			</p>
 		<p>
 			<a href="http://www.miitbeian.gov.cn/" target="_blank">{{:MyC('home_site_icp')}}</a>
 		</p>
