@@ -635,6 +635,7 @@ class OrderService
                 }
                 
                 // 订单详情
+                $buy_number_count = 0;
                 if($is_items == 1)
                 {
                     $items = Db::name('OrderDetail')->where(['order_id'=>$v['id']])->select();
@@ -643,6 +644,9 @@ class OrderService
                     {
                         foreach($items as &$vs)
                         {
+                            // 购买数量
+                            $buy_number_count += $vs['buy_number'];
+
                             // 商品信息
                             $vs['images'] = ResourcesService::AttachmentPathViewHandle($vs['images']);
                             $vs['goods_url'] = MyUrl('index/goods/index', ['id'=>$vs['goods_id']]);
@@ -678,9 +682,11 @@ class OrderService
                                 $excel_export_items .= "\n";
                             }
                         }
+                    } else {
+                        $buy_number_count = Db::name('OrderDetail')->where(['order_id'=>$v['id']])->sum('buy_number');
                     }
                     $v['items'] = $items;
-                    $v['items_count'] = count($items);
+                    $v['items_count'] = $buy_number_count;
                     $v['excel_export_items'] = $excel_export_items;
 
                     // 描述
