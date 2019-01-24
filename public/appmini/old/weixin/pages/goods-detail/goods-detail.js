@@ -83,7 +83,7 @@ Page({
               goods_specifications_choose: data.goods.specifications.choose || [],
               goods_content_app: data.goods.content_app,
               temp_buy_number: data.goods.buy_min_number || 1,
-              goods_favor_text: (data.goods.is_favor == 1) ? '已收藏' : '收藏',
+              goods_favor_text: (data.goods.is_favor == 1) ? '已收藏' : '收藏',
               goods_favor_icon: '/images/goods-detail-favor-icon-' + data.goods.is_favor+'.png',
               nav_submit_text: ((data.common_order_is_booking || 0) == 0) ? '立即购买' : '立即预约',
               data_bottom_line_status: true,
@@ -101,7 +101,7 @@ Page({
 
             if (data.goods.is_shelves != 1) {
               this.setData({
-                nav_submit_text: '商品已下架',
+                nav_submit_text: '商品已下架',
                 nav_submit_is_disabled: true,
               });
             } else {
@@ -225,7 +225,7 @@ Page({
             var status = (this.data.goods.is_favor == 1) ? 0 : 1;
             this.setData({
               'goods.is_favor': status,
-              goods_favor_text: (status == 1) ? '已收藏' : '收藏',
+              goods_favor_text: (status == 1) ? '已收藏' : '收藏',
               goods_favor_icon: '/images/goods-detail-favor-icon-'+status+'.png'
             });
             app.showToast(res.data.msg, "success");
@@ -309,7 +309,7 @@ Page({
           }
         }
       }
-      this.setData({ goods_specifications_choose: temp_data, goods_spec_base_images: temp_images, temp_buy_number: 1});
+      this.setData({ goods_specifications_choose: temp_data, goods_spec_base_images: temp_images, temp_buy_number: this.data.goods.buy_min_number || 1});
 
       // 不能选择规格处理
       this.goods_specifications_choose_handle_dont(key);

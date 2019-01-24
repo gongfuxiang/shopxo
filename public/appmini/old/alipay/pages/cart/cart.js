@@ -20,10 +20,11 @@ Page({
     var user = app.GetUserInfo(this, "init");
     if (user != false) {
       // 用户未绑定用户则转到登录页面
+      var msg = (user == false) ? '授权用户信息' : '绑定手机号码';
       if ((user.mobile || null) == null) {
         my.confirm({
           title: '温馨提示',
-          content: '绑定手机号码',
+          content: msg,
           confirmButtonText: '确认',
           cancelButtonText: '暂不',
           success: (result) => {
@@ -31,8 +32,13 @@ Page({
               my.navigateTo({
                 url: "/pages/login/login?event_callback=init"
               });
+            } else {
+              this.setData({
+                data_list_loding_status: 0,
+                data_bottom_line_status: false,
+                data_list_loding_msg: '请先' + msg,
+              });
             }
-            this.get_data();
           },
         });
       } else {

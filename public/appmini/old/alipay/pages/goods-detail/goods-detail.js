@@ -335,7 +335,7 @@ Page({
           }
         }
       }
-      this.setData({goods_specifications_choose: temp_data, goods_spec_base_images: temp_images, temp_buy_number: 1});
+      this.setData({goods_specifications_choose: temp_data, goods_spec_base_images: temp_images, temp_buy_number: this.data.goods.buy_min_number || 1});
 
       // 不能选择规格处理
       this.goods_specifications_choose_handle_dont(key);

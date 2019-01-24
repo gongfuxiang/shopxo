@@ -1,8 +1,10 @@
 .banner {
-  height: 320rpx!important;
   background: #fff;
   margin-bottom: 20rpx;
 }
 .banner image {
-  width: 100%;
+  min-width: 100%;
+}
+.banner, .banner image {
+  height: 320rpx !important;
 }
