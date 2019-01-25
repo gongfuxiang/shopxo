@@ -138,7 +138,7 @@ class User extends Common
         $user = UserService::UserInfo('weixin_openid', $params['openid']);
         if(empty($user))
         {
-            $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->DecryptData($params['encrypted_data'], $params['iv'], $openid);
+            $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->DecryptData($params['encrypted_data'], $params['iv'], $params['openid']);
 
             if(is_array($result))
             {
