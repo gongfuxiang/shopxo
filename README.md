@@ -10,7 +10,7 @@
 * 微信小程序：https://shopxo.net/weixin.html （已发布）
 
 ### 小程序体验码
-![微信小程序](https://images.gitee.com/uploads/images/2019/0125/111858_88b945a6_488475.jpeg "gh_a859178ce629_1280 (1).jpg")
+![微信小程序](https://images.gitee.com/uploads/images/2019/0125/111858_88b945a6_488475.jpeg "微信小程序")
 
 ### 安装教程
 * v1.2.0安装教程：https://ask.shopxo.net/article/5
