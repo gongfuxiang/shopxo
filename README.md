@@ -9,6 +9,9 @@
 * 支付宝小程序：http://shopxo.net/alipay.html （已发布）
 * 微信小程序：https://shopxo.net/weixin.html （已发布）
 
+### 小程序体验码
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0125/111717_ee2d2984_488475.jpeg "gh_a859178ce629_1280 (1).jpg")
+
 ### 安装教程
 * v1.2.0安装教程：https://ask.shopxo.net/article/5
 
