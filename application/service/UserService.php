@@ -1383,8 +1383,7 @@ class UserService
             'city'              => empty($params['city']) ? '' : $params['city'],
             'referrer'          => isset($params['referrer']) ? intval($params['referrer']) : 0,
         ];
-        $where = [$field=>$params['openid'], 'is_delete_time'=>0];
-        $user = Db::name('User')->where($where)->find();
+        $user = self::UserInfo($field, $params['openid']);
         if(!empty($user))
         {
             $data = $user;
@@ -1392,6 +1391,21 @@ class UserService
 
         // 返回成功
         return DataReturn('授权成功', 0, $data);
+    }
+
+    /**
+     * 根据字段获取用户信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-01-25
+     * @desc    description
+     * @param   [string]          $field [字段名称]
+     * @param   [string]          $value [字段值]
+     */
+    public static function UserInfo($field, $value)
+    {
+        return Db::name('User')->where([$field=>$value, 'is_delete_time'=>0])->find();
     }
 
     /**
