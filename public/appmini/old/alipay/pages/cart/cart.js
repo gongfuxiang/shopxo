@@ -2,7 +2,7 @@ const app = getApp();
 Page({
   data: {
     data_list_loding_status: 1,
-    data_list_loding_msg: '',
+    data_list_loding_msg: '购物车空空如也',
     data_bottom_line_status: false,
     data_list: [],
     swipe_index: null,
@@ -33,6 +33,7 @@ Page({
                 url: "/pages/login/login?event_callback=init"
               });
             } else {
+              my.stopPullDownRefresh();
               this.setData({
                 data_list_loding_status: 0,
                 data_bottom_line_status: false,
@@ -44,6 +45,13 @@ Page({
       } else {
         this.get_data();
       }
+    } else {
+      my.stopPullDownRefresh();
+      this.setData({
+        data_list_loding_status: 0,
+        data_bottom_line_status: false,
+        data_list_loding_msg: '请先授权用户信息',
+      });
     }
   },
 
@@ -74,7 +82,7 @@ Page({
             data_list: data,
             data_list_loding_status: data.length == 0 ? 0 : 3,
             data_bottom_line_status: true,
-            data_list_loding_msg: '',
+            data_list_loding_msg: '购物车空空如也',
           });
         } else {
           this.setData({

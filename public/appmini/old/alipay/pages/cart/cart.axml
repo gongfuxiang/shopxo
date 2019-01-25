@@ -60,7 +60,7 @@
 <!-- 空购物车 -->
 <view a:if="{{data_list.length == 0 && data_list_loding_status == 0}}" class="no-data-box tc">
   <image src="/images/default-cart-empty.png" mode="widthFix" />
-  <view class="no-data-tips">购物车空空如也</view>
+  <view class="no-data-tips">{{data_list_loding_msg}}</view>
   <button type="default" class="my-btn-default" hover-class="none">
     <navigator url="/pages/index/index" open-type="switchTab" hover-class="none">去逛逛</navigator>
   </button>
@@ -68,5 +68,5 @@
 
 <view a:if="{{data_list.length == 0 && data_list_loding_status != 0}}">
   <import src="/pages/common/nodata.axml" />
-  <template is="nodata" data="{{status: data_list_loding_status}}"></template>
+  <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
 </view>

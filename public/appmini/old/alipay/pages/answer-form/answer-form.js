@@ -1,6 +1,9 @@
 const app = getApp();
 Page({
   data: {
+    data_list_loding_status: 1,
+    data_list_loding_msg: '处理错误',
+
     form_submit_loading: false,
   },
 
@@ -20,8 +23,23 @@ Page({
         my.redirectTo({
           url: "/pages/login/login?event_callback=init"
         });
+
+        this.setData({
+          data_list_loding_status: 2,
+          data_list_loding_msg: '请先绑定手机号码',
+        });
         return false;
+      } else {
+        this.setData({
+          data_list_loding_status: 0,
+          data_list_loding_msg: '',
+        });
       }
+    } else {
+      this.setData({
+        data_list_loding_status: 2,
+        data_list_loding_msg: '请先授权用户信息',
+      });
     }
   },
 
