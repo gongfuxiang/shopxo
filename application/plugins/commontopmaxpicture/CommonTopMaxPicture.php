@@ -14,7 +14,7 @@ use think\Controller;
 use app\service\PluginsService;
 
 /**
- * 顶部广告插件
+ * 顶部大图广告插件
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -22,9 +22,17 @@ use app\service\PluginsService;
  */
 class CommonTopMaxPicture extends Controller
 {
+    /**
+     * 应用响应入口
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-02-09T14:25:44+0800
+     * @param    [array]                    $params [输入参数]
+     */
     public function run($params = [])
     {
-        // 是否控制器
+        // 是否控制器钩子
         if(isset($params['is_control']) && $params['is_control'] === true)
         {
             return [];
@@ -44,12 +52,47 @@ class CommonTopMaxPicture extends Controller
      */
     public function html()
     {
+        // 当前模块/控制器/方法
+        $module_name = strtolower(request()->module());
+        $controller_name = strtolower(request()->controller());
+        $action_name = strtolower(request()->action());
+
+        // 获取应用数据
         $ret = PluginsService::PluginsData('commontopmaxpicture');
 
+        // html拼接
         $html = '<div style="text-align: center;';
         $content = '';
         if($ret['code'] == 0)
         {
+            // 有效时间
+            if(!empty($ret['data']['time_start']))
+            {
+                // 是否已开始
+                if(strtotime($ret['data']['time_start']) > time())
+                {
+                    return '';
+                }
+            }
+            if(!empty($ret['data']['time_end']))
+            {
+                // 是否已结束
+                if(strtotime($ret['data']['time_end']) < time())
+                {
+                    return '';
+                }
+            }
+
+            // 非全局
+            if($ret['data']['is_overall'] != 1)
+            {
+                // 非首页则空
+                if($module_name.$controller_name.$action_name != 'indexindexindex')
+                {
+                    return '';
+                }
+            }
+
             // 背景色
             if(!empty($ret['data']['bg_color']))
             {
@@ -86,11 +129,6 @@ class CommonTopMaxPicture extends Controller
             'sales_amount'  => 0,
         ];
 
-        // 后台配置
-        $admin = [
-
-        ];
-
         // 控制器钩子
         $control_hook = [
             'plugins_control_hook'  =>  [
@@ -100,7 +138,6 @@ class CommonTopMaxPicture extends Controller
 
         return [
             'base'          => $base,
-            'admin'         => $admin,
             'control_hook'  => $control_hook,
         ];
     }
@@ -139,6 +176,13 @@ class CommonTopMaxPicture extends Controller
         $ret = PluginsService::PluginsData('commontopmaxpicture');
         if($ret['code'] == 0)
         {
+            // 是否
+            $is_whether_list =  array(
+                0 => array('id' => 0, 'name' => '否', 'checked' => true),
+                1 => array('id' => 1, 'name' => '是'),
+            );
+            $this->assign('is_whether_list', $is_whether_list);
+
             $this->assign('data', $ret['data']);
             return $this->fetch('commontopmaxpicture/saveinfo');
         } else {
@@ -148,7 +192,7 @@ class CommonTopMaxPicture extends Controller
     }
 
     /**
-     * 保存
+     * 数据保存
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -160,6 +204,5 @@ class CommonTopMaxPicture extends Controller
         unset($params['max_file_size']);
         return PluginsService::PluginsDataSave(['plugins'=>'commontopmaxpicture', 'data'=>$params]);
     }
-
 }
 ?>

@@ -18,6 +18,9 @@
     height: 50px;
     border: 1px solid #eee;
 }
+.commontopmaxpicture-content .edit-submit {
+    margin-bottom: 20px;
+}
 
 /**
  * 编辑页面
@@ -25,4 +28,12 @@
 ul.plugins-images-view li {
     width: 100%;
     height: auto;
+}
+.form-date input {
+    width: 30% !important;
+    display: -webkit-inline-box !important;
+}
+
+.form-date span {
+    vertical-align: middle;
 }

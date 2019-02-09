@@ -83,5 +83,25 @@ class Plugins extends Common
         
         return $this->fetch();
     }
+
+    /**
+     * [StatusUpdate 状态更新]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-01-12T22:23:06+0800
+     */
+    public function StatusUpdate()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 开始处理
+        $params = input();
+        return PluginsService::PluginsStatusUpdate($params);
+    }
 }
 ?>

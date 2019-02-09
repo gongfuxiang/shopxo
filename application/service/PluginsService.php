@@ -179,11 +179,6 @@ class PluginsService
                 'error_msg'         => '操作id有误',
             ],
             [
-                'checked_type'      => 'empty',
-                'key_name'          => 'field',
-                'error_msg'         => '未指定操作字段',
-            ],
-            [
                 'checked_type'      => 'in',
                 'key_name'          => 'state',
                 'checked_data'      => [0,1],
@@ -197,7 +192,7 @@ class PluginsService
         }
 
         // 数据更新
-        if(Db::name('Plugins')->where(['id'=>$params['id']])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
+        if(Db::name('Plugins')->where(['id'=>$params['id']])->update(['is_enable'=>intval($params['state']), 'upd_time'=>time()]))
         {
             return DataReturn('操作成功');
         }

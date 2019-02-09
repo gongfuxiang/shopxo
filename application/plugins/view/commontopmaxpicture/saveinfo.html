@@ -35,7 +35,36 @@
                 <input type="url" placeholder="链接地址" name="url"  data-validation-message="链接地址格式有误" class="am-radius" {{if !empty($data)}} value="{{$data.url}}"{{/if}} />
             </div>
 
-            {{include file="lib/is_new_window_open" /}}
+            <div class="am-form-group">
+                <label>是否新窗口打开</label>
+                <div>
+                    {{foreach $is_whether_list as $v}}
+                        <label class="am-radio-inline m-r-10">
+                            <input type="radio" name="is_new_window_open" value="{{$v.id}}" {{if isset($data['is_new_window_open']) and $data['is_new_window_open'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_new_window_open']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+            </div>
+
+            <div class="am-form-group">
+                <label>是否全局<span class="fs-12 fw-100 cr-999">（默认首页）</span></label>
+                <div>
+                    {{foreach $is_whether_list as $v}}
+                        <label class="am-radio-inline m-r-10">
+                            <input type="radio" name="is_overall" value="{{$v.id}}" {{if isset($data['is_overall']) and $data['is_overall'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_overall']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+            </div>
+
+            <div class="am-form-group">
+                <label>有效时间<span class="fs-12 fw-100 cr-999">（留空则不限制）</span></label>
+                <div class="form-date">
+                    <input type="text" autocomplete="off" name="time_start" class="Wdate am-radius" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if !empty($data['time_start'])}}value="{{$data.time_start}}"{{/if}}/>
+                    <span>~</span>
+                    <input type="text" autocomplete="off" class="Wdate am-radius" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if !empty($data['time_end'])}}value="{{$data.time_end}}"{{/if}}/>
+                </div>
+            </div>
 
             <div class="am-form-group">
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
