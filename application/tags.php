@@ -25,5 +25,8 @@ return [
     'log_write'    => [],
     // 应用结束
     'app_end'      => [],
+
+    // 钩子测试
+    'plugins_common_top'     => ['app\\plugins\\commontopmaxpicture\\CommonTopMaxPicture'],
 ];
 ?>

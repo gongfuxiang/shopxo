@@ -758,3 +758,21 @@ button { outline: none !important; }
     right: 50px;
     bottom: 100px;
 }
+
+/**
+ * 插件标记
+ */
+.plugins-tag {
+    text-align: center;
+    padding: 5px;
+}
+.plugins-tag span {
+    font-size: 16px;
+    font-weight: bold;
+    color: #e90000;
+    text-shadow: 1px 1px #bfbfbf;
+    background: #ffdfdf;
+    padding: 5px 8px;
+    border-radius: 3px;
+    border: 1px solid #ffd4d4;
+}

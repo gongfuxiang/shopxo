@@ -2,7 +2,7 @@
  * 权限添加/编辑
  */
 .tree-list li { list-style-type: none; padding-left: 5px !important; }
-.tree-list li label { display: inline; margin-left: 10px; }
+.tree-list li label { display: inline; }
 .list-find { margin: 0px 0px 5px 35px; overflow: hidden; padding-top: 5px !important; }
 .tree-list i { width: 10px; }
 .list-find li { line-height: 26px; }

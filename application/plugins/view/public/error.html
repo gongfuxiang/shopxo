@@ -1,0 +1,25 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">顶部大图</span>
+            <a href="{{:MyUrl('admin/plugins/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+
+        <div class="table-no">
+            <i class="am-icon-warning cr-999"></i>
+            {{if empty($msg)}}
+                没有相关数据
+            {{else /}}
+                {{$msg}}
+            {{/if}}
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

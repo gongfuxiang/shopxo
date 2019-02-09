@@ -1,0 +1,38 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        {{if !empty($data_list)}}
+            <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-bordered" data-am-gallery="{}">
+                {{foreach $data_list as $v}}
+                    <li>
+                        <div class="am-gallery-item">
+                            <img src="{{$v.logo}}" class="icon" />
+                            <div class="base">
+                                <h3 class="name">{{$v.name}}</h3>
+                                <p>作者：{{$v.author}}</p>
+                                <p>主页：<a href="{{$v.author_url}}" target="_blank">{{$v.author_url}}</a></p>
+                                <p>版本：{{$v.version}}</p>
+                            </div>
+                            <div class="am-gallery-desc">{{$v.desc}}</div>
+                            <div class="operation">
+                                <a href="{{:MyUrl('plugins/index/index', ['control'=>$v['plugins'], 'action'=>'index'])}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-gear"> 设置</a>
+
+                                <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-remove submit-ajax" data-url="{{:MyUrl('admin/plugins/uninstall')}}" data-id="10" data-view="reload" data-msg="卸载后不可恢复、确认操作吗？"> 卸载</button>
+                            </div>
+                        </div>
+                    </li>
+                {{/foreach}}
+            </ul>
+
+        {{else /}}
+            hello
+        {{/if}}
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

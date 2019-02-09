@@ -34,6 +34,7 @@ class PayLogService
         $data = Db::name('PayLog')->field('payment AS id, payment_name AS name')->group('payment')->select();
         return DataReturn('处理成功', 0, $data);
     }
+    
     /**
      * 后台管理员列表
      * @author   Devil

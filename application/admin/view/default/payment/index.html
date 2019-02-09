@@ -90,14 +90,14 @@
                                     <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-cubes submit-ajax" data-url="{{:MyUrl('admin/payment/install')}}" data-id="{{$v.payment}}" data-view="reload" data-msg="安装进行中、确认操作吗？"> 安装</button>
 
                                     {{if !in_array($v['payment'], $cannot_deleted_list)}}
-                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/payment/Delete')}}" data-id="{{$v.payment}}"> 删除</button>
+                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/payment/delete')}}" data-id="{{$v.payment}}"> 删除</button>
                                     {{/if}}
                                 {{else /}}
                                     <a href="{{:MyUrl('admin/payment/saveinfo', array('id'=>$v['id']))}}">
                                         <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> 编辑</button>
                                     </a>
 
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-genderless submit-ajax" data-url="{{:MyUrl('admin/payment/uninstall')}}" data-id="{{$v.payment}}" data-view="reload" data-msg="卸载后不可恢复、确认操作吗？"> 卸载</button>
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-remove submit-ajax" data-url="{{:MyUrl('admin/payment/uninstall')}}" data-id="{{$v.payment}}" data-view="reload" data-msg="卸载后不可恢复、确认操作吗？"> 卸载</button>
                                 {{/if}}
                             </td>
                         </tr>

@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\index\controller\Common;
 use app\service\BannerService;
 use app\service\GoodsService;
 use app\service\ArticleService;
@@ -65,6 +66,7 @@ class Index extends Common
         // 用户订单状态
         $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
         $this->assign('user_order_status', $user_order_status['data']);
+        
         return $this->fetch();
     }
 }

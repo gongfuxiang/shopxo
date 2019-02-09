@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use think\facade\Hook;
 use think\Controller;
 use app\service\GoodsService;
 use app\service\NavigationService;
@@ -64,6 +65,24 @@ class Common extends Controller
 
         // 视图初始化
         $this->ViewInit();
+
+        // 公共钩子初始化
+        $this->CommonPluginsInit();
+    }
+
+    /**
+     * 公共钩子初始化
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-07
+     * @desc    description
+     */
+    private function CommonPluginsInit()
+    {
+        // 公共顶部钩子
+        $this->assign('plugins_common_top_data', Hook::listen('plugins_common_top'));
+        //$this->assign('plugins_common_nav_top_data', Hook::listen('plugins_common_nav_top'));
     }
 
     /**
@@ -210,6 +229,9 @@ class Common extends Controller
         // 友情链接
         $link = LinkService::LinkList(['where'=>['is_enable'=>1]]);
         $this->assign('link_list', $link['data']);
+
+        // 开发模式
+        $this->assign('shopxo_is_develop', config('shopxo.is_develop'));
     }
 
     /**
