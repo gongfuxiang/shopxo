@@ -65,10 +65,14 @@
     border-top: 1px dashed #eee;
     padding: 10px 0 5px 0;
 }
+.content ul li .am-btn, .content ul li .am-icon-btn {
+    width: 35px;
+}
 .content ul li .submit-state {
-    width: 28px;
     height: 28px;
+    line-height: 28px;
     border-radius: 2px;
+    font-size: 12px;
 }
 .content ul li .submit-state.am-default {
     background-color: #e6e6e6;
