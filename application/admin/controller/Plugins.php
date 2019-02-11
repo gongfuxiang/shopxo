@@ -80,7 +80,7 @@ class Plugins extends Common
         );
         $data = PluginsService::PluginsList($data_params);
         $this->assign('data_list', $data['data']);
-        
+
         return $this->fetch();
     }
 

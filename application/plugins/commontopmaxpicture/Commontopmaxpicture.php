@@ -123,23 +123,24 @@ class Commontopmaxpicture extends Controller
     {
         // 基础信息
         $base = [
-            'author'        => 'Devil',
-            'blog'          => 'http://gong.gg',
             'name'          => '顶部广告',
+            'author'        => 'Devil',
+            'author_url'    => 'https://shopxo.net/',
             'version'       => '1.0.0',
+            'desc'          => '顶部大图广告，突破视觉',
+            'apply_terminal'=> ['pc'],
+            'apply_version' => ['1.3.0'],
             'sales_amount'  => 0,
         ];
 
-        // 控制器钩子
-        $control_hook = [
-            'plugins_control_hook'  =>  [
-                'plugins_common_top'     => ['app\\plugins\\commontopmaxpicture\\CommonTopMaxPicture'],
-            ],
+        // 钩子
+        $hook = [
+            'plugins_common_top'     => ['app\\plugins\\commontopmaxpicture\\Commontopmaxpicture'],
         ];
 
         return [
-            'base'          => $base,
-            'control_hook'  => $control_hook,
+            'base'  => $base,
+            'hook'  => $hook,
         ];
     }
 

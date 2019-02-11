@@ -1,12 +1,12 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK ]
+// | ShopXO 国内领先企业级B2C免费开源电商系统
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2018 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2011~2018 http://shopxo.net All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: liu21st <liu21st@gmail.com>
+// | Author: Devil
 // +----------------------------------------------------------------------
 
 // 应用行为扩展定义文件
@@ -27,6 +27,6 @@ return [
     'app_end'      => [],
 
     // 钩子测试
-    'plugins_common_top'     => ['app\\plugins\\commontopmaxpicture\\CommonTopMaxPicture'],
+    'plugins_common_top'     => ['app\\plugins\\commontopmaxpicture\\Commontopmaxpicture'],
 ];
 ?>

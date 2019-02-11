@@ -55,21 +55,36 @@ class PluginsService
      */
     private static function PluginsDataHandle($data)
     {
+        $result = [];
         if(!empty($data))
         {
-            foreach($data as &$v)
+            foreach($data as $v)
             {
-                // 基础数据
-                $v['logo_old'] = $v['logo'];
-                $v['logo'] = ResourcesService::AttachmentPathViewHandle($v['logo']);
-                $v['apply_terminal'] = empty($v['apply_terminal']) ? '' : json_decode($v['apply_terminal'], true);
-
-                // 时间
-                $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
-                $v['add_time_date'] = date('Y-m-d', $v['add_time']);
+                $config = self::GetPluginsConfig($v['plugins']);
+                if($config !== false)
+                {
+                    $base = $config['base'];
+                    $result[] = [
+                        'id'            => $v['id'],
+                        'plugins'       => $v['plugins'],
+                        'logo_old'      => $v['logo'],
+                        'logo'          => ResourcesService::AttachmentPathViewHandle($v['logo']),
+                        'is_enable'     => $v['is_enable'],
+                        'name'          => isset($base['name']) ? $base['name'] : '',
+                        'author'        => isset($base['author']) ? $base['author'] : '',
+                        'author_url'    => isset($base['author_url']) ? $base['author_url'] : '',
+                        'version'       => isset($base['version']) ? $base['version'] : '',
+                        'desc'          => isset($base['desc']) ? $base['desc'] : '',
+                        'apply_version' => isset($base['apply_version']) ? $base['apply_version'] : [],
+                        'apply_terminal'=> isset($base['apply_terminal']) ? $base['apply_terminal'] : [],
+                        'add_time_time' => date('Y-m-d H:i:s', $v['add_time']),
+                        'add_time_date' => date('Y-m-d', $v['add_time']),
+                    ];
+                }
             }
         }
-        return $data;
+
+        return $result;
     }
 
     /**
@@ -233,6 +248,29 @@ class PluginsService
         }
 
         return DataReturn('删除失败或资源不存在', -100);
+    }
+
+    /**
+     * 获取应用配置信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-17
+     * @desc    description
+     * @param   [string]          $plugins [应用名称]
+     */
+    private static function GetPluginsConfig($plugins)
+    {
+        $plugins = '\app\plugins\\'.$plugins.'\\'.ucfirst($plugins);
+        if(class_exists($plugins))
+        {
+            $obj = new $plugins();
+            if(method_exists($obj, 'config'))
+            {
+                return $obj->config();
+            }
+        }
+        return false;
     }
 }
 ?>

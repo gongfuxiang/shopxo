@@ -9,7 +9,7 @@
  Target Server Version : 50716
  File Encoding         : utf-8
 
- Date: 02/09/2019 14:49:20 PM
+ Date: 02/11/2019 23:08:30 PM
 */
 
 SET NAMES utf8;
@@ -808,16 +808,9 @@ CREATE TABLE `s_payment` (
 DROP TABLE IF EXISTS `s_plugins`;
 CREATE TABLE `s_plugins` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `name` char(30) NOT NULL COMMENT '名称',
   `plugins` char(60) NOT NULL DEFAULT '' COMMENT '唯一标记',
   `logo` char(255) NOT NULL DEFAULT '' COMMENT 'logo',
-  `version` char(255) NOT NULL DEFAULT '' COMMENT '版本',
-  `apply_version` char(255) NOT NULL DEFAULT '' COMMENT '适用系统版本',
-  `desc` char(255) NOT NULL DEFAULT '' COMMENT '描述',
-  `author` char(255) NOT NULL DEFAULT '' COMMENT '作者',
-  `author_url` char(255) NOT NULL DEFAULT '' COMMENT '作者主页',
   `data` text COMMENT '应用数据',
-  `apply_terminal` char(255) NOT NULL COMMENT '适用终端 php一维数组json字符串存储（pc, wap, app, alipay, weixin, baidu）',
   `is_enable` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否启用（0否，1是）',
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
@@ -830,7 +823,7 @@ CREATE TABLE `s_plugins` (
 --  Records of `s_plugins`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_plugins` VALUES ('1', '顶部大图广告', 'commontopmaxpicture', 'http://tp5-dev.com/static/upload/images/plugins_commontopmaxpicture/2019/02/09/1549671733987654.png', '1.0.0', '1.3.0', '顶部大图广告，突破视觉', 'Devil', 'https://shopxo.net/', '{\"images\":\"http:\\/\\/tp5-dev.com\\/static\\/upload\\/images\\/plugins_commontopmaxpicture\\/2019\\/02\\/09\\/1549671733978860.jpg\",\"bg_color\":\"#ce0000\",\"url\":\"https:\\/\\/shopxo.net\",\"is_new_window_open\":\"1\",\"is_overall\":\"1\",\"time_start\":\"\",\"time_end\":\"\"}', '{\\\"pc\\\"}', '1', '0', '1549694936');
+INSERT INTO `s_plugins` VALUES ('1', 'commontopmaxpicture', 'http://tp5-dev.com/static/upload/images/plugins_commontopmaxpicture/2019/02/09/1549671733987654.png', '{\"images\":\"http:\\/\\/tp5-dev.com\\/static\\/upload\\/images\\/plugins_commontopmaxpicture\\/2019\\/02\\/09\\/1549671733978860.jpg\",\"bg_color\":\"#ce0000\",\"url\":\"https:\\/\\/shopxo.net\",\"is_new_window_open\":\"1\",\"is_overall\":\"1\",\"time_start\":\"\",\"time_end\":\"\"}', '0', '0', '1549897473');
 COMMIT;
 
 -- ----------------------------
