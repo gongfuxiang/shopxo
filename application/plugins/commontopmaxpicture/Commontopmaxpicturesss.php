@@ -20,7 +20,7 @@ use app\service\PluginsService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class CommonTopMaxPicture extends Controller
+class Commontopmaxpicture extends Controller
 {
     /**
      * 应用响应入口
@@ -39,7 +39,7 @@ class CommonTopMaxPicture extends Controller
 
         // 默认返回视图
         } else {
-            return $this->html();
+            return $this->html($params);
         }
     }
 
@@ -49,8 +49,9 @@ class CommonTopMaxPicture extends Controller
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2019-02-06T16:16:34+0800
+     * @param    [array]          $params [输入参数]
      */
-    public function html()
+    public function html($params = [])
     {
         // 当前模块/控制器/方法
         $module_name = strtolower(request()->module());
