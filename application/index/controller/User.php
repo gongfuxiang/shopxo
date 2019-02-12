@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use think\facade\Hook;
 use app\service\OrderService;
 use app\service\GoodsService;
 use app\service\UserService;
@@ -135,8 +136,8 @@ class User extends Common
         $data = GoodsService::GoodsBrowseList($browse_params);
         $this->assign('goods_browse_list', $data['data']);
 
-        // 用户中心公告
-        $this->assign('common_user_center_notice', MyC('common_user_center_notice'));
+        // 公共顶部钩子
+        $this->assign('plugins_user_center_top_data', Hook::listen('plugins_user_center_top'));
 
         return $this->fetch();
     }

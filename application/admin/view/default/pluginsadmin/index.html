@@ -1,0 +1,65 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- nav start -->
+        {{include file="pluginsadmin/nav" /}}
+        <!-- nav end -->
+
+        <!-- operation start -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+            <div class="am-g m-b-10 m-t-10">
+                <a href="{{:MyUrl('admin/pluginsadmin/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
+            </div>
+        {{/if}}
+        <!-- operation end -->
+
+        {{if !empty($data_list)}}
+            <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-bordered" data-am-gallery="{}">
+                {{foreach $data_list as $v}}
+                    <li>
+                        <div id="data-list-{{$v.id}}" class="am-gallery-item {{if $v['is_enable'] neq 1}}am-active{{/if}}">
+                            <img src="{{$v.logo}}" class="icon" />
+                            <div class="base">
+                                <h3 class="name">{{$v.name}}</h3>
+                                <p>作者：{{$v.author}}</p>
+                                <p>主页：<a href="{{$v.author_url}}" target="_blank">{{$v.author_url}}</a></p>
+                                <p>版本：{{$v.version}}</p>
+                            </div>
+                            <div class="am-gallery-desc">{{$v.desc}}</div>
+                            <div class="operation">
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                    <a href="{{:MyUrl('admin/pluginsadmin/saveinfo', array('id'=>$v['id']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit" title="编辑"></a>
+                                {{/if}}
+
+                                <a href="{{:PluginsAdminUrl($v['plugins'], 'admin', 'index')}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-gear" title="设置"></a>
+
+                                <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-remove submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/uninstall')}}" data-id="10" data-view="reload" data-msg="删除后不可恢复、确认操作吗？" title="删除"></button>
+
+                                <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/pluginsadmin/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1" title="状态"></a>
+
+                                {{if isset($v['is_home']) and $v['is_home'] eq true}}
+                                    <a href="{{:PluginsHomeUrl($v['plugins'], 'index', 'index')}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-home" title="首页" target="_blank"></a>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </li>
+                {{/foreach}}
+            </ul>
+
+            <!-- page start -->
+            {{if !empty($data_list)}}
+                {{$page_html|raw}}
+            {{/if}}
+            <!-- page end -->
+        {{else /}}
+            <div colspan="20" class="table-no">还没有相关应用<div>
+        {{/if}}
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

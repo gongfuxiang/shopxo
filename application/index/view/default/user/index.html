@@ -26,12 +26,18 @@
     <!-- content start -->
     <div class="user-content">
         <div class="user-content-body">
-            <!-- 公告 -->
-            {{if !empty($common_user_center_notice)}}
-                <div class="am-alert am-alert-warning am-radius user-center-notice" data-am-alert>
-                    <button type="button" class="am-close">&times;</button>
-                    <p>{{$common_user_center_notice}}</p>
+            <!-- 用户中心顶部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_user_center_top</span>
                 </div>
+            {{/if}}
+            {{if !empty($plugins_user_center_top_data) and is_array($plugins_user_center_top_data)}}
+                {{foreach $plugins_user_center_top_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
             {{/if}}
 
             <!-- 基础信息 -->

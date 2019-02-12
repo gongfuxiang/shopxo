@@ -31,12 +31,6 @@ button { outline: none; }
     font-size: 12px !important;
 }
 
-/* 商城公告 */
-.common-shop-notice {
-    margin: 0;
-    border-left: 0;
-    border-right: 0;
-}
 
 /*所有超链接不要下划线*/
 *, *:after, *:before{

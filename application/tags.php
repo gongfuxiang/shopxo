@@ -27,6 +27,9 @@ return [
     'app_end'      => [],
 
     // 钩子测试
-    'plugins_common_top'     => ['app\\plugins\\commontopmaxpicture\\Index'],
+    'plugins_common_top'     => ['app\\plugins\\commontopmaxpicture\\Hook', 'app\\plugins\\commontopnotice\\Hook'],
+
+    // 用户中心
+    'plugins_user_center_top'     => ['app\\plugins\\usercentertopnotice\\Hook'],
 ];
 ?>

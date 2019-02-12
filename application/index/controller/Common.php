@@ -82,7 +82,6 @@ class Common extends Controller
     {
         // 公共顶部钩子
         $this->assign('plugins_common_top_data', Hook::listen('plugins_common_top'));
-        //$this->assign('plugins_common_nav_top_data', Hook::listen('plugins_common_nav_top'));
     }
 
     /**
@@ -222,9 +221,6 @@ class Common extends Controller
                 break;
         }
         $this->assign('home_search_keywords', $home_search_keywords);
-
-        // 商城公告
-        $this->assign('common_shop_notice', MyC('common_shop_notice'));
 
         // 友情链接
         $link = LinkService::LinkList(['where'=>['is_enable'=>1]]);

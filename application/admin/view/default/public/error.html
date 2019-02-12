@@ -1,0 +1,19 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <div class="table-no"><i class="am-icon-warning cr-999"></i>
+            {{if isset($msg)}}
+                {{$msg}}
+            {{else /}}
+                异常错误
+            {{/if}}
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

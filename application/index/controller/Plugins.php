@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: Devil
 // +----------------------------------------------------------------------
-namespace app\admin\controller;
+namespace app\index\controller;
 
 /**
  * 应用调用入口
@@ -30,12 +30,6 @@ class Plugins extends Common
     public function __construct()
     {
         parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
     }
     
     /**
@@ -93,8 +87,8 @@ class Plugins extends Common
 
         // 调用应用控制器
         $plugins = '\app\plugins\\'.$pluginsname.'\\'.ucfirst($pluginscontrol);
-        $ret = (new $plugins())->$pluginsaction($params);
-
+        $ret = (new $plugins())->ucfirst($pluginsaction)($params);
+        
         // 是否ajax
         if(IS_AJAX)
         {
@@ -103,14 +97,14 @@ class Plugins extends Common
             // 调用应用模板
             if(isset($ret['code']))
             {
-                if($ret['code'] == 0)
+               if($ret['code'] == 0)
                 {
                     $this->assign($ret['data']);
                     return $this->fetch('../../../plugins/view/'.$pluginsname.'/'.$pluginscontrol.'/'.$pluginsaction);
                 } else {
                     $this->assign('msg', $ret['msg']);
                     return $this->fetch('public/error');
-                }
+                } 
             } else {
                 $this->assign('msg', '应用返回数据格式有误');
                 return $this->fetch('public/error');

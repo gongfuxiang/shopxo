@@ -1,0 +1,44 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">顶部公告</span>
+            <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+
+        <div class="usercentertopnotice-content">
+            <div class="items">
+                <label>公告内容</label>
+                <div>
+                    {{if !empty($data['content'])}}
+                        {{$data.content}}
+                    {{else /}}
+                        无
+                    {{/if}}
+                </div>
+            </div>
+            <div class="items">
+                <label>有效时间</label>
+                <div>
+                    {{if !empty($data['time_start']) and !empty($data['time_end'])}}
+                        {{$data.time_start}} ~ {{$data.time_end}}
+                    {{elseif !empty($data['time_start']) and empty($data['time_end'])}}
+                        {{$data.time_start}} ~ 长期有效
+                    {{elseif empty($data['time_start']) and !empty($data['time_end'])}}
+                        立即生效 ~ {{$data.time_end}}
+                    {{else /}}
+                        无限制
+                    {{/if}}
+                </div>
+            </div>
+            <a href="{{:PluginsAdminUrl('usercentertopnotice', 'admin', 'saveinfo')}}" class="am-btn am-btn-secondary am-radius btn-loading-example am-btn-sm am-btn-block edit-submit">编辑</a>
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

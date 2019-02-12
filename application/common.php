@@ -104,13 +104,68 @@ function DataReturn($msg = '', $code = 0, $data = '')
  * @version 1.0.0
  * @date    2018-06-12
  * @desc    description
- * @param   string          $c      [控制器名称]
- * @param   string          $a      [方法名称]
- * @param   array           $params [参数]
+ * @param   string          $path      [路径地址]
+ * @param   array           $params    [参数]
  */
 function MyUrl($path, $params=[])
 {
     $url = url($path, $params, true, true);
+
+    // 是否根目录访问项目
+    if(defined('IS_ROOT_ACCESS'))
+    {
+        $url = str_replace('public/', '', $url);
+    }
+
+    return $url;
+}
+
+/**
+ * 生成url地址 - 应用前端
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2018-06-12
+ * @desc    description
+ * @param   string          $plugins_name      [应用名称]
+ * @param   string          $plugins_control   [应用控制器]
+ * @param   string          $plugins_action    [应用方法]
+ * @param   array           $params            [参数]
+ */
+function PluginsHomeUrl($plugins_name, $plugins_control, $plugins_action, $params=[])
+{
+    $params['pluginsname'] = $plugins_name;
+    $params['pluginscontrol'] = $plugins_control;
+    $params['pluginsaction'] = $plugins_action;
+    $url = url('index/plugins/index', $params, true, true);
+
+    // 是否根目录访问项目
+    if(defined('IS_ROOT_ACCESS'))
+    {
+        $url = str_replace('public/', '', $url);
+    }
+
+    return $url;
+}
+
+/**
+ * 生成url地址 - 应用后端
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2018-06-12
+ * @desc    description
+ * @param   string          $plugins_name      [应用名称]
+ * @param   string          $plugins_control   [应用控制器]
+ * @param   string          $plugins_action    [应用方法]
+ * @param   array           $params            [参数]
+ */
+function PluginsAdminUrl($plugins_name, $plugins_control, $plugins_action, $params=[])
+{
+    $params['pluginsname'] = $plugins_name;
+    $params['pluginscontrol'] = $plugins_control;
+    $params['pluginsaction'] = $plugins_action;
+    $url = url('admin/plugins/index', $params, true, true);
 
     // 是否根目录访问项目
     if(defined('IS_ROOT_ACCESS'))

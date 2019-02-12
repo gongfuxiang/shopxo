@@ -1,0 +1,74 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">顶部大图</span>
+            <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+
+        <div class="commontopmaxpicture-content">
+            <div class="items">
+                <label>图片</label>
+                <div class="immages-tag">
+                    <img src="{{if !empty($data['images_old'])}}{{$data.images_old}}{{else /}}{{$attachment_host}}/static/plugins/images/commontopmaxpicture/default-images.png{{/if}}" />
+                </div>
+            </div>
+            <div class="items">
+                <label>背景色</label>
+                <div class="bg-color-tag" {{if !empty($data['bg_color'])}}style="background:{{$data.bg_color}}"{{/if}}></div>
+            </div>
+            <div class="items">
+                <label>链接地址</label>
+                <div>
+                    {{if !empty($data['url'])}}
+                        <a href="{{$data.url}}" target="_blank">{{$data.url}}</a>
+                    {{else /}}
+                        无
+                    {{/if}}
+                </div>
+            </div>
+            <div class="items">
+                <label>是否新窗口打开</label>
+                <div>
+                    {{if isset($data['is_new_window_open']) and $data['is_new_window_open'] eq 1}}
+                        是
+                    {{else /}}
+                        否
+                    {{/if}}
+                </div>
+            </div>
+            <div class="items">
+                <label>是否全局</label>
+                <div>
+                    {{if isset($data['is_overall']) and $data['is_overall'] eq 1}}
+                        是
+                    {{else /}}
+                        否
+                    {{/if}}
+                </div>
+            </div>
+            <div class="items">
+                <label>有效时间</label>
+                <div>
+                    {{if !empty($data['time_start']) and !empty($data['time_end'])}}
+                        {{$data.time_start}} ~ {{$data.time_end}}
+                    {{elseif !empty($data['time_start']) and empty($data['time_end'])}}
+                        {{$data.time_start}} ~ 长期有效
+                    {{elseif empty($data['time_start']) and !empty($data['time_end'])}}
+                        立即生效 ~ {{$data.time_end}}
+                    {{else /}}
+                        无限制
+                    {{/if}}
+                </div>
+            </div>
+            <a href="{{:PluginsAdminUrl('commontopmaxpicture', 'admin', 'saveinfo')}}" class="am-btn am-btn-secondary am-radius btn-loading-example am-btn-sm am-btn-block edit-submit">编辑</a>
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

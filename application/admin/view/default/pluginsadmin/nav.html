@@ -1,0 +1,8 @@
+<ul class="am-nav am-nav-pills table-nav">
+    <li {{if $view_type eq 'home'}}class="am-active"{{/if}}>
+        <a href="{{:MyUrl('admin/pluginsadmin/index', ['view_type'=>'home'])}}">应用管理</a>
+    </li>
+    <li {{if $view_type eq 'upload'}}class="am-active"{{/if}}>
+        <a href="{{:MyUrl('admin/pluginsadmin/index', ['view_type'=>'upload'])}}">上传安装</a>
+    </li>
+</ul>

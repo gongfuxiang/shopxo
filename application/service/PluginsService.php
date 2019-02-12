@@ -70,6 +70,7 @@ class PluginsService
                         'is_enable'     => $v['is_enable'],
                         'logo_old'      => $base['logo'],
                         'logo'          => ResourcesService::AttachmentPathViewHandle($base['logo']),
+                        'is_home'       => isset($base['is_home']) ? $base['is_home'] : false,
                         'name'          => isset($base['name']) ? $base['name'] : '',
                         'author'        => isset($base['author']) ? $base['author'] : '',
                         'author_url'    => isset($base['author_url']) ? $base['author_url'] : '',
@@ -123,17 +124,29 @@ class PluginsService
      * @version 1.0.0
      * @date    2018-09-29
      * @desc    description
-     * @param   [string]          $plugins [应用标记]
+     * @param   [string]          $plugins      [应用标记]
+     * @param   [array]           $images_field [图片字段]
      */
-    public static function PluginsData($plugins)
+    public static function PluginsData($plugins, $images_field = [])
     {
         // 获取数据
         $data = Db::name('Plugins')->where(['plugins'=>$plugins])->value('data');
         if(!empty($data))
         {
             $data = json_decode($data, true);
-            $data['images_old'] = $data['images'];
-            $data['images'] = ResourcesService::AttachmentPathViewHandle($data['images']);
+
+            // 是否有图片需要处理
+            if(!empty($images_field) && is_array($images_field))
+            {
+                foreach($images_field as $field)
+                {
+                    if(isset($data[$field]))
+                    {
+                        $data[$field.'_old'] = $data[$field];
+                        $data[$field] = ResourcesService::AttachmentPathViewHandle($data[$field]);
+                    }
+                }
+            }
         }
         return DataReturn('处理成功', 0, $data);
     }

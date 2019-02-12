@@ -1,0 +1,27 @@
+/**
+ * 首页
+ */
+.commontopnotice-content .items {
+    margin: 10px 0 20px 0;
+    border-bottom: 1px dashed #f1f1f1;
+    padding-bottom: 20px;
+}
+.commontopnotice-content .edit-submit {
+    margin-bottom: 20px;
+}
+
+/**
+ * 编辑页面
+ */
+ul.plugins-images-view li {
+    width: 100%;
+    height: auto;
+}
+.form-date input {
+    width: 30% !important;
+    display: -webkit-inline-box !important;
+}
+
+.form-date span {
+    vertical-align: middle;
+}
