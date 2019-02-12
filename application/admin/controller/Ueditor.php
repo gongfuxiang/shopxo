@@ -53,7 +53,7 @@ class Ueditor extends Common
 		if($this->current_action != 'config')
 		{
 			// 登录校验
-			$this->Is_Login();
+			$this->IsLogin();
 		}
 
 		// action

@@ -3,10 +3,16 @@
 <!-- right content start  -->
 <div class="content-right">
     <div class="content">
+        <!-- nav start -->
+        {{include file="plugins/nav" /}}
+        <!-- nav end -->
+
         <!-- operation start -->
-        <div class="am-g m-b-10">
-            <a href="{{:MyUrl('admin/plugins/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
-        </div>
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+            <div class="am-g m-b-10 m-t-10">
+                <a href="{{:MyUrl('admin/plugins/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
+            </div>
+        {{/if}}
         <!-- operation end -->
 
         {{if !empty($data_list)}}
@@ -23,9 +29,11 @@
                             </div>
                             <div class="am-gallery-desc">{{$v.desc}}</div>
                             <div class="operation">
-                                <a href="{{:MyUrl('admin/plugins/saveinfo', array('id'=>$v['id']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit" title="编辑"></a>
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                    <a href="{{:MyUrl('admin/plugins/saveinfo', array('id'=>$v['id']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit" title="编辑"></a>
+                                {{/if}}
 
-                                <a href="{{:MyUrl('plugins/index/index', ['control'=>$v['plugins'], 'action'=>'index'])}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-gear" title="设置"></a>
+                                <a href="{{:MyUrl('plugins/index/index', ['pluginsname'=>$v['plugins'], 'pluginscontrol'=>'index', 'pluginsaction'=>'index'])}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-gear" title="设置"></a>
 
                                 <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-remove submit-ajax" data-url="{{:MyUrl('admin/plugins/uninstall')}}" data-id="10" data-view="reload" data-msg="删除后不可恢复、确认操作吗？" title="删除"></button>
 

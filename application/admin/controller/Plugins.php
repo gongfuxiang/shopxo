@@ -34,10 +34,13 @@ class Plugins extends Common
         parent::__construct();
 
         // 登录校验
-        $this->Is_Login();
+        $this->IsLogin();
 
         // 权限校验
-        $this->Is_Power();
+        $this->IsPower();
+
+        // 小导航
+        $this->view_type = input('view_type', 'home');
     }
 
     /**
@@ -49,39 +52,48 @@ class Plugins extends Common
      */
     public function Index()
     {
+        // 导航参数
+        $this->assign('view_type', $this->view_type);
+
         // 参数
         $params = input();
 
-        // 分页
-        $number = 12;
+        // 页面类型
+        if($this->view_type == 'home')
+        {
+            // 分页
+            $number = 12;
 
-        // 条件
-        $where = PluginsService::PluginsListWhere($params);
+            // 条件
+            $where = PluginsService::PluginsListWhere($params);
 
-        // 获取总数
-        $total = PluginsService::PluginsTotal($where);
+            // 获取总数
+            $total = PluginsService::PluginsTotal($where);
 
-        // 分页
-        $page_params = array(
-                'number'    =>  $number,
-                'total'     =>  $total,
-                'where'     =>  $params,
-                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  MyUrl('admin/plugins/index'),
+            // 分页
+            $page_params = array(
+                    'number'    =>  $number,
+                    'total'     =>  $total,
+                    'where'     =>  $params,
+                    'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
+                    'url'       =>  MyUrl('admin/plugins/index'),
+                );
+            $page = new \base\Page($page_params);
+            $this->assign('page_html', $page->GetPageHtml());
+
+            // 获取列表
+            $data_params = array(
+                'm'         => $page->GetPageStarNumber(),
+                'n'         => $number,
+                'where'     => $where,
             );
-        $page = new \base\Page($page_params);
-        $this->assign('page_html', $page->GetPageHtml());
+            $data = PluginsService::PluginsList($data_params);
+            $this->assign('data_list', $data['data']);
 
-        // 获取列表
-        $data_params = array(
-            'm'         => $page->GetPageStarNumber(),
-            'n'         => $number,
-            'where'     => $where,
-        );
-        $data = PluginsService::PluginsList($data_params);
-        $this->assign('data_list', $data['data']);
-
-        return $this->fetch();
+            return $this->fetch();
+        } else {
+            return $this->fetch('upload');
+        }
     }
 
     /**

@@ -27,6 +27,6 @@ return [
     'app_end'      => [],
 
     // 钩子测试
-    'plugins_common_top'     => ['app\\plugins\\commontopmaxpicture\\Commontopmaxpicture'],
+    'plugins_common_top'     => ['app\\plugins\\commontopmaxpicture\\Index'],
 ];
 ?>

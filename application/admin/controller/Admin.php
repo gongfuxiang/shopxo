@@ -44,10 +44,10 @@ class Admin extends Common
 	public function Index()
 	{
 		// 登录校验
-		$this->Is_Login();
+		$this->IsLogin();
 		
 		// 权限校验
-		$this->Is_Power();
+		$this->IsPower();
 
 		// 参数
 		$params = input();
@@ -104,7 +104,7 @@ class Admin extends Common
 	public function SaveInfo()
 	{
 		// 登录校验
-		$this->Is_Login();
+		$this->IsLogin();
 
 		// 参数
 		$params = input();
@@ -113,7 +113,7 @@ class Admin extends Common
 		if(!isset($params['id']) || $params['id'] != $this->admin['id'])
 		{
 			// 权限校验
-			$this->Is_Power();
+			$this->IsPower();
 		}
 
 		// 管理员编辑
@@ -154,7 +154,7 @@ class Admin extends Common
 	public function Save()
 	{
 		// 登录校验
-		$this->Is_Login();
+		$this->IsLogin();
 
 		// 是否ajax
 		if(!IS_AJAX)
@@ -178,10 +178,10 @@ class Admin extends Common
 	public function Delete()
 	{
 		// 登录校验
-		$this->Is_Login();
+		$this->IsLogin();
 
 		// 权限校验
-		$this->Is_Power();
+		$this->IsPower();
 
 		// 是否ajax
 		if(!IS_AJAX)

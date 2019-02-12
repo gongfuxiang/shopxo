@@ -6,6 +6,7 @@
 		<!-- nav start -->
 		{{include file="theme/nav" /}}
 		<!-- nav end -->
+		
 		<!-- form start -->
 		<form class="am-form form-validation view-save m-t-10" action="{{:MyUrl('admin/theme/upload')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/theme/index')}}" enctype="multipart/form-data">
 			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_file', 51200000, true)}}" />

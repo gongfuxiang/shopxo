@@ -35,10 +35,10 @@ class User extends Common
 		parent::__construct();
 
 		// 登录校验
-		$this->Is_Login();
+		$this->IsLogin();
 
 		// 权限校验
-		$this->Is_Power();
+		$this->IsPower();
 	}
 
 	/**

@@ -79,13 +79,13 @@ class Common extends Controller
     }
 
 	/**
-	 * [Is_Login 登录校验]
+	 * [IsLogin 登录校验]
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
 	 * @datetime 2016-12-03T12:42:35+0800
 	 */
-	protected function Is_Login()
+	protected function IsLogin()
 	{
 		if(session('admin') === null)
 		{
@@ -138,16 +138,19 @@ class Common extends Controller
 
 		// 图片host地址
 		$this->assign('attachment_host', config('shopxo.attachment_host'));
+
+        // 开发模式
+        $this->assign('shopxo_is_develop', config('shopxo.is_develop'));
 	}
 
 	/**
-	 * [Is_Power 是否有权限]
+	 * [IsPower 是否有权限]
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
 	 * @datetime 2016-12-20T19:18:29+0800
 	 */
-	protected function Is_Power()
+	protected function IsPower()
 	{
 		// 不需要校验权限的方法
 		$unwanted_power = array('getnodeson');

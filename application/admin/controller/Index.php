@@ -32,7 +32,7 @@ class Index extends Common
 		parent::__construct();
 
 		// 登录校验
-		$this->Is_Login();
+		$this->IsLogin();
 	}
 
 	/**

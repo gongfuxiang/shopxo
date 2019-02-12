@@ -1,3 +1,6 @@
+/**
+ * 列表
+ */
 .content ul {
     padding: 0px;
     width: calc(100% + 10px);
@@ -93,3 +96,10 @@
         line-height: 16px;
     }
 }
+
+
+/**
+ * 安装
+ */
+input[name="plugins"] { width: 105px !important; height: 32px; }
+input.file-event { margin-top: 0 !important; }

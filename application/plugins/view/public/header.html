@@ -17,6 +17,6 @@
 	{{/if}}
 </head>
 <script type="text/javascript">
-	var __attachment_host__ = '{{$attachment_host}}';
+	var __attachment_host__ = '{{if isset($attachment_host)}}{{$attachment_host}}{{/if}}';
 </script>
 <body>

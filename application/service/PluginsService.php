@@ -67,9 +67,9 @@ class PluginsService
                     $result[] = [
                         'id'            => $v['id'],
                         'plugins'       => $v['plugins'],
-                        'logo_old'      => $v['logo'],
-                        'logo'          => ResourcesService::AttachmentPathViewHandle($v['logo']),
                         'is_enable'     => $v['is_enable'],
+                        'logo_old'      => $base['logo'],
+                        'logo'          => ResourcesService::AttachmentPathViewHandle($base['logo']),
                         'name'          => isset($base['name']) ? $base['name'] : '',
                         'author'        => isset($base['author']) ? $base['author'] : '',
                         'author_url'    => isset($base['author_url']) ? $base['author_url'] : '',
@@ -261,14 +261,10 @@ class PluginsService
      */
     private static function GetPluginsConfig($plugins)
     {
-        $plugins = '\app\plugins\\'.$plugins.'\\'.ucfirst($plugins);
-        if(class_exists($plugins))
+        $config_file = APP_PATH.'plugins'.DS.$plugins.DS.'config.json';
+        if(file_exists($config_file))
         {
-            $obj = new $plugins();
-            if(method_exists($obj, 'config'))
-            {
-                return $obj->config();
-            }
+            return json_decode(file_get_contents($config_file), true);
         }
         return false;
     }

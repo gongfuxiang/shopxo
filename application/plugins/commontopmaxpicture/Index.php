@@ -20,7 +20,7 @@ use app\service\PluginsService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Commontopmaxpicture extends Controller
+class Index extends Controller
 {
     /**
      * 应用响应入口
@@ -110,38 +110,6 @@ class Commontopmaxpicture extends Controller
         $html .= '</div>';
 
         return $html;
-    }
-
-    /**
-     * 配置信息
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-02-06T16:16:34+0800
-     */
-    public function config()
-    {
-        // 基础信息
-        $base = [
-            'name'          => '顶部广告',
-            'author'        => 'Devil',
-            'author_url'    => 'https://shopxo.net/',
-            'version'       => '1.0.0',
-            'desc'          => '顶部大图广告，突破视觉',
-            'apply_terminal'=> ['pc'],
-            'apply_version' => ['1.3.0'],
-            'sales_amount'  => 0,
-        ];
-
-        // 钩子
-        $hook = [
-            'plugins_common_top'     => ['app\\plugins\\commontopmaxpicture\\Commontopmaxpicture'],
-        ];
-
-        return [
-            'base'  => $base,
-            'hook'  => $hook,
-        ];
     }
 
     /**
