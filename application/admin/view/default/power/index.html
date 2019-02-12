@@ -21,7 +21,7 @@
 					<form class="am-form form-validation admin-save" action="{{:MyUrl('admin/power/powersave')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
 							<label>栏目级别</label>
-							<select  class="am-radius c-p" name="pid" data-validation-message="栏目级别选择错误">
+							<select  class="am-radius c-p chosen-select" name="pid" data-validation-message="栏目级别选择错误">
 								<option value="0">一级栏目...</option>
 								{{foreach $data as $v}}
 									<option value="{{$v.id}}">{{$v.name}}</option>

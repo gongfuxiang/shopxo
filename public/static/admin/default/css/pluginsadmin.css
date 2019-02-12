@@ -1,58 +1,58 @@
 /**
  * 列表
  */
-.content ul {
+.content ul.am-gallery-bordered {
     padding: 0px;
     width: calc(100% + 10px);
     margin-left: -5px;
 }
-.content ul .icon {
+.content ul.am-gallery-bordered .icon {
     width: 80px;
     height: 80px;
     border-radius: 10px;
     box-shadow: 0px 10px 10px -6px rgba(0,0,0,.4);
 }
-.content ul.am-gallery-bordered .am-gallery-item {
+.content ul.am-gallery-bordered.am-gallery-bordered .am-gallery-item {
     box-shadow: none;
     border: 1px solid #d4d4d4;
     border-radius: 2px;
 }
-.content ul.am-gallery-bordered .am-gallery-item.am-active {
+.content ul.am-gallery-bordered.am-gallery-bordered .am-gallery-item.am-active {
     border: 1px solid #fde2e2;
     background: #fffbfb;
 }
-.content ul.am-gallery-bordered .am-gallery-item:hover {
+.content ul.am-gallery-bordered.am-gallery-bordered .am-gallery-item:hover {
     border: 1px solid #999;
     box-shadow: 0px 12px 12px -10px rgba(0,0,0,.4);
 }
-.content ul li {
+.content ul.am-gallery-bordered li {
     position: relative;
 }
-.content ul li .base {
+.content ul.am-gallery-bordered li .base {
     position: absolute;
     top: 10px;
     left: 100px;
     width: calc(100% - 112px);
 }
-.content ul li .base h3 {
+.content ul.am-gallery-bordered li .base h3 {
     font-weight: 700;
     color: #333;
     margin: 2px 0px 3px 0px;
 }
-.content ul li .base p {
+.content ul.am-gallery-bordered li .base p {
     line-height: 18px;
     margin: 0;
     font-size: 12px;
     font-weight: 300;
     color: #999;
 }
-.content ul li .base h3, .content ul li .base p {
+.content ul.am-gallery-bordered li .base h3, .content ul.am-gallery-bordered li .base p {
     word-wrap: normal;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 }
-.content ul.am-gallery-bordered .am-gallery-desc {
+.content ul.am-gallery-bordered.am-gallery-bordered .am-gallery-desc {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -64,35 +64,35 @@
     font-weight: 300;
     color: #b3b3b3;
 }
-.content ul li .operation {
+.content ul.am-gallery-bordered li .operation {
     border-top: 1px dashed #eee;
     padding: 10px 0 5px 0;
 }
-.content ul li .am-btn, .content ul li .am-icon-btn {
+.content ul.am-gallery-bordered li .am-btn, .content ul.am-gallery-bordered li .am-icon-btn {
     width: 35px;
 }
-.content ul li .submit-state {
+.content ul.am-gallery-bordered li .submit-state {
     height: 28px;
     line-height: 28px;
     border-radius: 2px;
     font-size: 12px;
 }
-.content ul li .submit-state.am-default {
+.content ul.am-gallery-bordered li .submit-state.am-default {
     background-color: #e6e6e6;
 }
 @media only screen and (max-width: 641px) {
-    .content ul .icon {
+    .content ul.am-gallery-bordered .icon {
         width: 65px;
         height: 65px;
     }
-    .content ul li .base {
+    .content ul.am-gallery-bordered li .base {
         left: 85px;
         width: calc(100% - 97px);
     }
-    .content ul li .base h3 {
+    .content ul.am-gallery-bordered li .base h3 {
         margin: 0px;
     }
-    .content ul li .base p {
+    .content ul.am-gallery-bordered li .base p {
         line-height: 16px;
     }
 }
@@ -101,5 +101,5 @@
 /**
  * 安装
  */
-input[name="plugins"] { width: 105px !important; height: 32px; }
+input[name="file"] { width: 105px !important; height: 32px; }
 input.file-event { margin-top: 0 !important; }

@@ -97,6 +97,52 @@ class Pluginsadmin extends Common
     }
 
     /**
+     * 添加/编辑页面
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-02-12T21:30:26+0800
+     */
+    public function SaveInfo()
+    {
+        // 参数
+        $params = input();
+
+        // 参数
+        $this->assign('params', $params);
+
+        if(empty($params['plugins']))
+        {
+            return $this->fetch('first_step');
+        } else {
+            // 获取数据
+            if(!empty($params['id']))
+            {
+
+            }
+
+            // 编辑器文件存放地址
+            $this->assign('editor_path_type', 'plugins_'.$params['plugins']);
+
+            // 唯一标记
+            $this->assign('plugins', $params['plugins']);
+            return $this->fetch('save_info');
+        }
+    }
+
+    /**
+     * 添加/编辑
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-02-12T21:30:26+0800
+     */
+    public function Save()
+    {
+        print_r(input());
+    }
+
+    /**
      * [StatusUpdate 状态更新]
      * @author   Devil
      * @blog     http://gong.gg/

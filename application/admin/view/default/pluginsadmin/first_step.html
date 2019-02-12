@@ -1,0 +1,36 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/pluginsadmin/saveinfo')}}" method="POST" request-type="form" enctype="multipart/form-data">
+            <legend>
+                <span class="fs-16">
+                    {{if empty($data['id'])}}
+                        应用添加
+                    {{else /}}
+                        应用编辑
+                    {{/if}}
+                </span>
+                <a href="{{:MyUrl('admin/pluginsadmin/index', $params)}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+            </legend>
+
+            <div class="am-form-group">
+                <label>应用唯一标记<span class="fs-12 fw-100 cr-999">（以数字、字母、下划线）</span></label>
+                <input type="text" name="plugins" placeholder="名称" minlength="2" maxlength="30" data-validation-message="应用唯一标记格式 2~30 个字符" pattern="^[A-Za-z0-9_]{5,18}$" class="am-radius" {{if !empty($data)}} value="{{$data.plugins}}"{{/if}} required />
+            </div>
+
+            <div class="am-form-group">
+                <input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">下一步</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

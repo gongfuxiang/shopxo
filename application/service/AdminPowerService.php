@@ -67,8 +67,8 @@ class AdminPowerService
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
-                'checked_data'      => '2,8',
-                'error_msg'         => '权限名称格式 2~8 个字符之间',
+                'checked_data'      => '2,16',
+                'error_msg'         => '权限名称格式 2~16 个字符之间',
             ],
             [
                 'checked_type'      => 'empty',
