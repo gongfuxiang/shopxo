@@ -5,7 +5,6 @@
 	<div class="content">
 		<!-- form start -->
 		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index')}}" enctype="multipart/form-data">
-			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
 			<div class="am-form-group">
 				<label>{{$data.home_site_name.name}}</label>
 				<input type="text" name="{{$data.home_site_name.only_tag}}" minlength="1" placeholder="{{$data.home_site_name.name}}" data-validation-message="{{$data.home_site_name.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_site_name.value}}"{{/if}} required />

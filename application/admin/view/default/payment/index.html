@@ -119,7 +119,6 @@
                 <div class="am-popup-bd">
                     <!-- win form start -->
                     <form class="am-form form-validation" action="{{:MyUrl('admin/payment/upload')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
-                        <input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_file', 51200000)}}" />
                         <div class="am-alert am-radius am-alert-tips m-t-0" data-am-alert>
                             <p class="m-t-10">1 类名必须于文件名一致（去除 .php ），如 Alipay.php 则取 Alipay <br />2 类必须定义三个方法<br />&nbsp;&nbsp;&nbsp; 2.1 Config 配置方法<br />&nbsp;&nbsp;&nbsp; 2.2 Pay 支付方法<br />&nbsp;&nbsp;&nbsp; 2.3 Respond 回调方法</p>
                             <p class="cr-red">PS：以上条件不满足则无法查看插件</p>

@@ -5,7 +5,6 @@
 	<div class="content">
 		<!-- form start -->
 		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/slide/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/slide/index')}}" enctype="multipart/form-data">
-			<input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
 			<legend>
 				<span class="fs-16">
 					{{if empty($data['id'])}}

@@ -17,6 +17,13 @@
  * @datetime 2016-12-01T21:51:08+0800
  */
 return array(
+    // 系统版本列表
+    'common_system_version_list'          =>  array(
+            '1.1.0' => array('value' => '1.1.0', 'name' => 'v1.1.0'),
+            '1.2.0' => array('value' => '1.2.0', 'name' => 'v1.2.0'),
+            '1.3.0' => array('value' => '1.3.0', 'name' => 'v1.3.0'),
+        ),
+    
     // 性别
     'common_gender_list'                =>  array(
             0 => array('id' => 0, 'name' => '保密', 'checked' => true),

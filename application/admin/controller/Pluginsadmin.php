@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\PluginsService;
+use app\service\PluginsAdminService;
 
 /**
  * 应用管理
@@ -65,10 +65,10 @@ class Pluginsadmin extends Common
             $number = 12;
 
             // 条件
-            $where = PluginsService::PluginsListWhere($params);
+            $where = PluginsAdminService::PluginsListWhere($params);
 
             // 获取总数
-            $total = PluginsService::PluginsTotal($where);
+            $total = PluginsAdminService::PluginsTotal($where);
 
             // 分页
             $page_params = array(
@@ -87,7 +87,7 @@ class Pluginsadmin extends Common
                 'n'         => $number,
                 'where'     => $where,
             );
-            $data = PluginsService::PluginsList($data_params);
+            $data = PluginsAdminService::PluginsList($data_params);
             $this->assign('data_list', $data['data']);
 
             return $this->fetch();
@@ -111,16 +111,25 @@ class Pluginsadmin extends Common
         // 参数
         $this->assign('params', $params);
 
-        if(empty($params['plugins']))
+        // 获取数据
+        if(!empty($params['id']))
+        {
+            // 获取数据
+            $data_params = array(
+                'm'         => 0,
+                'n'         => 1,
+                'where'     => ['id' => intval($params['id'])],
+            );
+            $data = PluginsAdminService::PluginsList($data_params);
+            $this->assign('data', $data['data'][0]);
+            $params['plugins'] = $data['data'][0]['plugins'];
+        }
+
+        // 标记为空或等于view 并且 编辑数据为空则走第一步
+        if((empty($params['plugins']) || $params['plugins'] == 'view') && empty($data['data'][0]))
         {
             return $this->fetch('first_step');
         } else {
-            // 获取数据
-            if(!empty($params['id']))
-            {
-
-            }
-
             // 编辑器文件存放地址
             $this->assign('editor_path_type', 'plugins_'.$params['plugins']);
 
@@ -139,7 +148,33 @@ class Pluginsadmin extends Common
      */
     public function Save()
     {
-        print_r(input());
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 开始处理
+        return PluginsAdminService::PluginsSave(input('post.'));
+    }
+
+    /**
+     * 删除
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-02-12T21:30:26+0800
+     */
+    public function Delete()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 开始处理
+        return PluginsAdminService::PluginsDelete(input('post.'));
     }
 
     /**
@@ -158,8 +193,7 @@ class Pluginsadmin extends Common
         }
 
         // 开始处理
-        $params = input();
-        return PluginsService::PluginsStatusUpdate($params);
+        return PluginsAdminService::PluginsStatusUpdate(input('post.'));
     }
 }
 ?>

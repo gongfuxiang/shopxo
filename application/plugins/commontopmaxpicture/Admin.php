@@ -84,7 +84,6 @@ class Admin
      */
     public function save($params = [])
     {
-        unset($params['max_file_size']);
         return PluginsService::PluginsDataSave(['plugins'=>'commontopmaxpicture', 'data'=>$params]);
     }
 }

@@ -40,7 +40,6 @@
         </div>
         <div class="am-popup-bd">
             <form class="am-form form-validation-user-avatar view-save" action="{{:MyUrl('index/user/useravatarupload')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
-                <input type="hidden" name="max_file_size" value="{{:MyC('home_max_limit_image', 2048000)}}" />
                 <div class="cropper-images-view">
                     <div class="img-container am-fl user-avatar-img-container">
                         <img src="{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-user-avatar.jpg" alt="Picture" />

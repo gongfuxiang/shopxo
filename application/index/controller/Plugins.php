@@ -85,9 +85,22 @@ class Plugins extends Common
         // 编辑器文件存放地址定义
         $this->assign('editor_path_type', 'plugins_'.$pluginsname);
 
-        // 调用应用控制器
+        // 应用控制器
         $plugins = '\app\plugins\\'.$pluginsname.'\\'.ucfirst($pluginscontrol);
-        $ret = (new $plugins())->ucfirst($pluginsaction)($params);
+        if(!class_exists($plugins))
+        {
+            $this->assign('msg', ucfirst($pluginscontrol).' 控制器未定义');
+            return $this->fetch('public/error');
+        }
+
+        // 调用方法
+        $obj = new $plugins();
+        if(!method_exists($obj, $pluginsaction))
+        {
+            $this->assign('msg', ucfirst($pluginsaction).' 方法未定义');
+            return $this->fetch('public/error');
+        }
+        $ret = $obj->$pluginsaction($params);
         
         // 是否ajax
         if(IS_AJAX)
@@ -126,11 +139,6 @@ class Plugins extends Common
     {
         // 当前操作名称
         $module_name = 'plugins';
-
-        // 当前操作名称
-        $this->assign('plugins_name', $plugins_name);
-        $this->assign('controller_name', $plugins_control);
-        $this->assign('action_name', $plugins_action);
 
         // 控制器静态文件状态css,js
         $module_css = $module_name.DS.'css'.DS.$plugins_name.DS.$plugins_control;
