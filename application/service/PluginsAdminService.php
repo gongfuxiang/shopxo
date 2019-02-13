@@ -147,19 +147,27 @@ class PluginsAdminService
             return DataReturn($ret, -1);
         }
 
+        // 开启事务
+        Db::startTrans();
+
         // 数据更新
         if(Db::name('Plugins')->where(['id'=>$params['id']])->update(['is_enable'=>intval($params['state']), 'upd_time'=>time()]))
         {
             // 钩子部署
             $ret = self::PluginsHookDeployment();
-            if($ret['code'] != 0)
+            if($ret['code'] == 0)
             {
-                return $ret;
+                // 提交事务
+                Db::commit();
+                return DataReturn('操作成功');
             }
-
-            return DataReturn('操作成功');
+        } else {
+            $ret = DataReturn('操作失败', -100);
         }
-        return DataReturn('操作失败', -100);
+
+        // 事务回退
+        Db::rollback();
+        return $ret;
     }
 
     /**
