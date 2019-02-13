@@ -95,7 +95,7 @@ class Plugins extends Common
         $plugins = '\app\plugins\\'.$pluginsname.'\\'.ucfirst($pluginscontrol);
         if(!class_exists($plugins))
         {
-            $this->assign('msg', ucfirst($pluginscontrol).' 控制器未定义');
+            $this->assign('msg', ucfirst($pluginscontrol).' 应用控制器未定义');
             return $this->fetch('public/error');
         }
 
@@ -103,7 +103,7 @@ class Plugins extends Common
         $obj = new $plugins();
         if(!method_exists($obj, $pluginsaction))
         {
-            $this->assign('msg', ucfirst($pluginsaction).' 方法未定义');
+            $this->assign('msg', ucfirst($pluginsaction).' 应用方法未定义');
             return $this->fetch('public/error');
         }
         $ret = $obj->$pluginsaction($params);

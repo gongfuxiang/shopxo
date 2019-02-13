@@ -10,26 +10,36 @@
 // +----------------------------------------------------------------------
 
 // 应用行为扩展定义文件
-return [
-    // 应用初始化
-    'app_init'     => [],
-    // 应用开始
-    'app_begin'    => [],
-    // 模块初始化
-    'module_init'  => [],
-    // 操作开始执行
-    'action_begin' => [],
-    // 视图内容过滤
-    'view_filter'  => [],
-    // 日志写入
-    'log_write'    => [],
-    // 应用结束
-    'app_end'      => [],
-
-    // 钩子测试
-    'plugins_common_top'     => ['app\\plugins\\commontopmaxpicture\\Hook', 'app\\plugins\\commontopnotice\\Hook'],
-
-    // 用户中心
-    'plugins_user_center_top'     => ['app\\plugins\\usercentertopnotice\\Hook'],
-];
+return array (
+  'app_init' => 
+  array (
+  ),
+  'app_begin' => 
+  array (
+  ),
+  'module_init' => 
+  array (
+  ),
+  'action_begin' => 
+  array (
+  ),
+  'view_filter' => 
+  array (
+  ),
+  'app_end' => 
+  array (
+  ),
+  'log_write' => 
+  array (
+  ),
+  'plugins_common_top' => 
+  array (
+    0 => 'app\\plugins\\commontopmaxpicture\\Hook',
+    1 => 'app\\plugins\\commontopnotice\\Hook',
+  ),
+  'plugins_user_center_top' => 
+  array (
+    0 => 'app\\plugins\\usercentertopnotice\\Hook',
+  ),
+);
 ?>

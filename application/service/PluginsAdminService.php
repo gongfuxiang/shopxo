@@ -150,9 +150,111 @@ class PluginsAdminService
         // 数据更新
         if(Db::name('Plugins')->where(['id'=>$params['id']])->update(['is_enable'=>intval($params['state']), 'upd_time'=>time()]))
         {
+            // 钩子部署
+            $ret = self::PluginsHookDeployment();
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
+
             return DataReturn('操作成功');
         }
         return DataReturn('操作失败', -100);
+    }
+
+    /**
+     * 应用钩子部署
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-02-13
+     * @desc    description
+     */
+    private static function PluginsHookDeployment()
+    {
+        // 钩子配置文件
+        $tags_file = APP_PATH.'tags.php';
+        if(!is_writable($tags_file))
+        {
+            return DataReturn('钩子配置文件没有操作权限'.'['.$tags_file.']', -3);
+        }
+
+        // 钩子容器
+        $result = [];
+
+        // 系统自带钩子处理
+        if(file_exists($tags_file))
+        {
+            $tags = require $tags_file;
+            if(!empty($tags) && is_array($tags))
+            {
+                $system_hook_list = [
+                    'app_init',
+                    'app_dispatch',
+                    'app_begin',
+                    'module_init',
+                    'action_begin',
+                    'view_filter',
+                    'app_end',
+                    'log_write',
+                    'log_level',
+                    'response_send',
+                    'response_end'
+                ];
+                foreach($system_hook_list as $system_hook)
+                {
+                    if(isset($tags[$system_hook]))
+                    {
+                        $result[$system_hook] = $tags[$system_hook];
+                    }
+                }
+            }
+        }
+
+        // 处理应用钩子
+        $data = Db::name('Plugins')->where(['is_enable'=>1])->column('plugins');
+        if(!empty($data))
+        {
+            foreach($data as $plugins)
+            {
+                if(file_exists(APP_PATH.'plugins'.DS.$plugins.DS.'config.json'))
+                {
+                    $config = json_decode(file_get_contents(APP_PATH.'plugins'.DS.$plugins.DS.'config.json'), true);
+                    if(!empty($config['hook']) && is_array($config['hook']))
+                    {
+                        foreach($config['hook'] as $hook_key=>$hook_value)
+                        {
+                            if(isset($result[$hook_key]))
+                            {
+                               $result[$hook_key] = array_merge($result[$hook_key], $hook_value); 
+                            } else {
+                                $result[$hook_key] = $hook_value;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // 部署钩子到文件
+        $ret = @file_put_contents($tags_file, "<?php
+// +----------------------------------------------------------------------
+// | ShopXO 国内领先企业级B2C免费开源电商系统
+// +----------------------------------------------------------------------
+// | Copyright (c) 2011~2018 http://shopxo.net All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
+// | Author: Devil
+// +----------------------------------------------------------------------
+
+// 应用行为扩展定义文件\nreturn ".var_export($result, true).";\n?>");
+        if($ret === false)
+        {
+            return DataReturn('应用钩子部署失败', -10);
+        }
+
+        return DataReturn('处理成功', 0);
     }
 
     /**
@@ -305,15 +407,15 @@ class PluginsAdminService
             return DataReturn($ret, -1);
         }
 
-        // 应用唯一标记
-        $plugins = trim($params['plugins']);
-
         // 权限校验
-        $ret = self::PowerCheck($plugins);
+        $ret = self::PowerCheck();
         if($ret['code'] != 0)
         {
             return $ret;
         }
+
+        // 应用唯一标记
+        $plugins = trim($params['plugins']);
 
         // 应用不存在则添加
         $ret = self::PluginsExistInsert($params, $plugins);
@@ -642,7 +744,7 @@ php;
         $temp_plugins = Db::name('Plugins')->where(['plugins'=>$plugins])->value('plugins');
         if(empty($temp_plugins))
         {
-           if(Db::name('Plugins')->insertGetId(['plugins'=>$plugins, 'add_time'=>time()]) <= 0)
+           if(Db::name('Plugins')->insertGetId(['plugins'=>$plugins, 'is_enable'=>0, 'add_time'=>time()]) <= 0)
             {
                 return DataReturn('应用添加失败', -1);
             } 
@@ -661,9 +763,8 @@ php;
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2018-09-29T00:01:49+0800
-     * @param   [string]          $plugins [应用唯一标记]
      */
-    private static function PowerCheck($plugins)
+    private static function PowerCheck()
     {
         // 应用目录
         $app_dir = APP_PATH.'plugins';
@@ -700,6 +801,86 @@ php;
             return DataReturn('应用images目录没有操作权限'.'['.$app_static_images_dir.']', -3);
         }
         return DataReturn('权限正常', 0);
+    }
+
+    /**
+     * 应用上传
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-12-19T00:53:45+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function PluginsUpload($params = [])
+    {
+        // 文件上传校验
+        $error = FileUploadError('file');
+        if($error !== true)
+        {
+            return DataReturn($error, -1);
+        }
+
+        // 文件格式化校验
+        $type = array('application/zip', 'application/octet-stream');
+        if(!in_array($_FILES['file']['type'], $type))
+        {
+            return DataReturn('文件格式有误，请上传zip压缩包', -2);
+        }
+
+        // 权限校验
+        $ret = self::PowerCheck();
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 开始解压文件
+        $resource = zip_open($_FILES['file']['tmp_name']);
+        while(($temp_resource = zip_read($resource)) !== false)
+        {
+            if(zip_entry_open($resource, $temp_resource))
+            {
+                // 当前压缩包中项目名称
+                $file = zip_entry_name($temp_resource);
+
+                // 排除临时文件和临时目录
+                if(strpos($file, '/.') === false && strpos($file, '__') === false)
+                {
+                    // 拼接路径
+                    if(strpos($file, '_controller') !== false)
+                    {
+                        $file = ROOT.self::$html_path.$file;
+                    } else if(strpos($file, '_static') !== false)
+                    {
+                        $file = ROOT.self::$static_path.$file;
+                    } else {
+                        continue;
+                    }
+                    $file = str_replace(array('_static/', '_html/'), '', $file);
+
+                    // 截取文件路径
+                    $file_path = substr($file, 0, strrpos($file, '/'));
+
+                    // 路径不存在则创建
+                    if(!is_dir($file_path))
+                    {
+                        mkdir($file_path, 0777, true);
+                    }
+
+                    // 如果不是目录则写入文件
+                    if(!is_dir($file))
+                    {
+                        // 读取这个文件
+                        $file_size = zip_entry_filesize($temp_resource);
+                        $file_content = zip_entry_read($temp_resource, $file_size);
+                        file_put_contents($file, $file_content);
+                    }
+                    // 关闭目录项  
+                    zip_entry_close($temp_resource);
+                }
+            }
+        }
+        return DataReturn('操作成功');
     }
 }
 ?>
