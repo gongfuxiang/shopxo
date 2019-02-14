@@ -9,7 +9,7 @@
  Target Server Version : 50716
  File Encoding         : utf-8
 
- Date: 02/14/2019 23:05:39 PM
+ Date: 02/14/2019 23:07:04 PM
 */
 
 SET NAMES utf8;
@@ -586,14 +586,7 @@ CREATE TABLE `s_message` (
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='消息';
-
--- ----------------------------
---  Records of `s_message`
--- ----------------------------
-BEGIN;
-INSERT INTO `s_message` VALUES ('4', '90', '积分变动', '登录赠送积分积分增加3', '0', '0', '0', '1', '0', '0', '1550155205'), ('5', '90', '积分变动', '登录赠送积分积分增加3', '0', '0', '0', '1', '0', '0', '1550155448'), ('6', '90', '积分变动', '登录赠送积分积分增加3', '0', '0', '0', '1', '0', '0', '1550155950'), ('7', '90', '积分变动', '登录赠送积分积分增加3', '0', '0', '0', '1', '0', '0', '1550156005'), ('8', '90', '积分变动', '登录赠送积分积分增加3', '0', '0', '0', '1', '0', '0', '1550156016'), ('9', '90', '积分变动', '登录赠送积分积分增加5', '0', '0', '0', '1', '0', '0', '1550156516');
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='消息';
 
 -- ----------------------------
 --  Table structure for `s_navigation`
