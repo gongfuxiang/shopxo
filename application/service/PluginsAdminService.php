@@ -461,10 +461,13 @@ class PluginsAdminService
         }
 
         // 应用主文件生成
-        $ret = self::PluginsApplicationCreated($params, $app_dir);
-        if($ret['code'] != 0)
+        if(empty($params['id']))
         {
-            return $ret;
+            $ret = self::PluginsApplicationCreated($params, $app_dir);
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
         }
 
         return DataReturn(empty($params['id']) ? '创建成功' : '更新成功', 0);
@@ -723,10 +726,18 @@ php;
      */
     private static function PluginsConfigCreated($params, $app_dir)
     {
+        // 模块名称
+        $plugins = trim($params['plugins']);
+
+        // 配置信息
+        $config = self::GetPluginsConfig($plugins);
+        $hook = empty($config['hook']) ? [] : $config['hook'];
+
+        // 配置信息组装
         $data = [
             // 基础信息
             'base'  => [
-                'plugins'           => trim($params['plugins']),
+                'plugins'           => $plugins,
                 'name'              => $params['name'],
                 'logo'              => $params['logo'],
                 'author'            => $params['author'],
@@ -739,7 +750,7 @@ php;
             ],
 
             // 钩子配置
-            'hook'  => (object) [],
+            'hook'  => (object) $hook,
         ];
 
         // 创建配置文件
