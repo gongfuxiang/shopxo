@@ -1,16 +1,24 @@
 {
-    "base": {
-        "name": "顶部广告",
-        "logo": "/static/upload/images/plugins_commontopmaxpicture/2019/02/09/1549671733987654.png",
-        "author": "Devil",
-        "author_url": "https://shopxo.net/",
-        "version": "1.0.0",
-        "desc": "顶部大图广告，突破视觉",
-        "apply_terminal": ["pc"],
-        "apply_version": ["1.3.0"],
-        "is_home": false
+    "base":{
+        "plugins":"commontopmaxpicture",
+        "name":"顶部广告",
+        "logo":"\/static\/upload\/images\/plugins_commontopmaxpicture\/2019\/02\/09\/1549671733987654.png",
+        "author":"Devil",
+        "author_url":"https:\/\/shopxo.net\/",
+        "version":"1.0.0",
+        "desc":"顶部大图广告，突破视觉",
+        "apply_terminal":[
+            "pc",
+            "h5"
+        ],
+        "apply_version":[
+            "1.3.0"
+        ],
+        "is_home":false
     },
-    "hook": {
-        "plugins_common_top": ["app\\plugins\\commontopmaxpicture\\Hook"]
+    "hook":{
+        "plugins_common_top":[
+            "app\\plugins\\commontopmaxpicture\\Hook"
+        ]
     }
 }

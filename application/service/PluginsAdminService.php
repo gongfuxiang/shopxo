@@ -753,8 +753,15 @@ php;
             'hook'  => (object) $hook,
         ];
 
+        // 文件存在是否有权限
+        $config_file = $app_dir.DS.'config.json';
+        if(file_exists($config_file) && !is_writable($config_file))
+        {
+            return DataReturn('应用配置文件没有操作权限'.'['.$config_file.']', -3);
+        }
+
         // 创建配置文件
-        if(@file_put_contents($app_dir.DS.'config.json', JsonFormat($data)) === false)
+        if(@file_put_contents($config_file, JsonFormat($data)) === false)
         {
             return DataReturn('应用配置文件创建失败', -10);
         }
