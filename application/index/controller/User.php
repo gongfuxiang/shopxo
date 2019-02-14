@@ -136,7 +136,7 @@ class User extends Common
         $data = GoodsService::GoodsBrowseList($browse_params);
         $this->assign('goods_browse_list', $data['data']);
 
-        // 公共顶部钩子
+        // 用户中心顶部钩子
         $this->assign('plugins_user_center_top_data', Hook::listen('plugins_user_center_top'));
 
         return $this->fetch();
