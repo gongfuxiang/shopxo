@@ -9,7 +9,7 @@
  Target Server Version : 50716
  File Encoding         : utf-8
 
- Date: 02/14/2019 23:07:04 PM
+ Date: 02/14/2019 23:33:56 PM
 */
 
 SET NAMES utf8;
@@ -822,7 +822,7 @@ CREATE TABLE `s_plugins` (
 --  Records of `s_plugins`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_plugins` VALUES ('1', 'commontopmaxpicture', '{\"images\":\"http:\\/\\/tp5-dev.com\\/static\\/upload\\/images\\/plugins_commontopmaxpicture\\/2019\\/02\\/09\\/1549671733978860.jpg\",\"bg_color\":\"#ce0000\",\"url\":\"https:\\/\\/shopxo.net\",\"is_new_window_open\":\"1\",\"is_overall\":\"1\",\"time_start\":\"\",\"time_end\":\"\",\"pluginsname\":\"commontopmaxpicture\",\"pluginscontrol\":\"admin\",\"pluginsaction\":\"save\"}', '1', '0', '1550049324'), ('2', 'commontopnotice', '{\"content\":\"\\u6b22\\u8fce\\u6765\\u5230ShopXO\\u4f01\\u4e1a\\u7ea7B2C\\u5f00\\u6e90\\u7535\\u5546\\u7cfb\\u7edf\\u3001\\u6f14\\u793a\\u7ad9\\u70b9\\u8bf7\\u52ff\\u53d1\\u8d77\\u652f\\u4ed8\\u3001\\u4ee5\\u514d\\u7ed9\\u60a8\\u5e26\\u6765\\u4e0d\\u5fc5\\u8981\\u7684\\u8d22\\u4ea7\\u635f\\u5931\\u3002\",\"is_overall\":\"1\",\"time_start\":\"\",\"time_end\":\"\",\"pluginsname\":\"commontopnotice\",\"pluginscontrol\":\"admin\",\"pluginsaction\":\"save\"}', '1', '0', '1550049314'), ('3', 'usercentertopnotice', '{\"content\":\"\\u7528\\u6237\\u4e2d\\u5fc3\\u516c\\u544a\",\"time_start\":\"\",\"time_end\":\"\",\"pluginsname\":\"usercentertopnotice\",\"pluginscontrol\":\"admin\",\"pluginsaction\":\"save\"}', '1', '0', '1550152363'), ('14', 'userlogingiveintegral', '{\"give_integral\":\"5\",\"is_day_once\":\"1\",\"time_start\":\"\",\"time_end\":\"\",\"pluginsname\":\"userlogingiveintegral\",\"pluginscontrol\":\"admin\",\"pluginsaction\":\"save\"}', '1', '1550151175', '1550156513');
+INSERT INTO `s_plugins` VALUES ('1', 'commontopmaxpicture', '{\"images\":\"http:\\/\\/tp5-dev.com\\/static\\/upload\\/images\\/plugins_commontopmaxpicture\\/2019\\/02\\/09\\/1549671733978860.jpg\",\"bg_color\":\"#ce0000\",\"url\":\"https:\\/\\/shopxo.net\",\"is_new_window_open\":\"1\",\"is_overall\":\"1\",\"time_start\":\"\",\"time_end\":\"\",\"pluginsname\":\"commontopmaxpicture\",\"pluginscontrol\":\"admin\",\"pluginsaction\":\"save\"}', '1', '0', '1550157744'), ('2', 'commontopnotice', '{\"content\":\"\\u6b22\\u8fce\\u6765\\u5230ShopXO\\u4f01\\u4e1a\\u7ea7B2C\\u5f00\\u6e90\\u7535\\u5546\\u7cfb\\u7edf\\u3001\\u6f14\\u793a\\u7ad9\\u70b9\\u8bf7\\u52ff\\u53d1\\u8d77\\u652f\\u4ed8\\u3001\\u4ee5\\u514d\\u7ed9\\u60a8\\u5e26\\u6765\\u4e0d\\u5fc5\\u8981\\u7684\\u8d22\\u4ea7\\u635f\\u5931\\u3002\",\"is_overall\":\"1\",\"time_start\":\"\",\"time_end\":\"\",\"pluginsname\":\"commontopnotice\",\"pluginscontrol\":\"admin\",\"pluginsaction\":\"save\"}', '1', '0', '1550157742'), ('3', 'usercentertopnotice', '{\"content\":\"\\u7528\\u6237\\u4e2d\\u5fc3\\u516c\\u544a\",\"time_start\":\"\",\"time_end\":\"\",\"pluginsname\":\"usercentertopnotice\",\"pluginscontrol\":\"admin\",\"pluginsaction\":\"save\"}', '1', '0', '1550157741'), ('14', 'userloginrewardintegral', '{\"give_integral\":\"5\",\"is_day_once\":\"1\",\"time_start\":\"\",\"time_end\":\"\",\"pluginsname\":\"userloginrewardintegral\",\"pluginscontrol\":\"admin\",\"pluginsaction\":\"save\"}', '1', '1550151175', '1550158380');
 COMMIT;
 
 -- ----------------------------
@@ -1073,7 +1073,7 @@ CREATE TABLE `s_user` (
 --  Records of `s_user`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_user` VALUES ('77', '2088502175420842-', '', '', '0', '255773', '70da5937905ce1d1a8c6a8a4ab5c72b3', '', '龚哥哥', '13250814883', 'fuxiang.gong@qq.com', '2', 'https://tfs.alipayobjects.com/images/partner/T10d8lXm4dXXXXXXXX', '上海', '上海市', '1540915200', '', '967', '0', '0', '0', '0', '1545099005'), ('90', '2088502175420842', '', '', '0', '548064', '3428ab57b8303e93c2d0190c1c99ddf0', '', '魔鬼', '17602128368', '', '2', '', '上海', '上海市', '666201600', '', '20', '0', '0', '0', '1539167253', '1550156516');
+INSERT INTO `s_user` VALUES ('77', '2088502175420842-', '', '', '0', '785817', 'bb3cf6432bf357682e1a5ab115e66b3d', '', '龚哥哥', '13250814883', 'fuxiang.gong@qq.com', '2', 'https://tfs.alipayobjects.com/images/partner/T10d8lXm4dXXXXXXXX', '上海', '上海市', '1540915200', '', '977', '0', '0', '0', '0', '1550158398'), ('90', '2088502175420842', '', '', '0', '789261', '849e371e484cd4d39f55aefac55bc97c', '', '魔鬼', '17602128368', '', '2', '', '上海', '上海市', '666201600', '', '25', '0', '0', '0', '1539167253', '1550157964');
 COMMIT;
 
 -- ----------------------------

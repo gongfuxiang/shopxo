@@ -43,7 +43,7 @@ return array (
   ),
   'plugins_control_user_login_end' => 
   array (
-    0 => 'app\\plugins\\userlogingiveintegral\\Hook',
+    0 => 'app\\plugins\\userloginrewardintegral\\Hook',
   ),
 );
 ?>

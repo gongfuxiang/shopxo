@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: Devil
 // +----------------------------------------------------------------------
-namespace app\plugins\userlogingiveintegral;
+namespace app\plugins\userloginrewardintegral;
 
 use think\Db;
 use app\service\PluginsService;
@@ -71,7 +71,7 @@ class Hook
     private function LoginGiveIntegral($params)
     {
         // 获取应用数据
-        $ret = PluginsService::PluginsData('userlogingiveintegral');
+        $ret = PluginsService::PluginsData('userloginrewardintegral');
         if($ret['code'] == 0)
         {
             // 限制时间是否已结束

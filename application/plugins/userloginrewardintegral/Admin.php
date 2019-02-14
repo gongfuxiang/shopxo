@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: Devil
 // +----------------------------------------------------------------------
-namespace app\plugins\userlogingiveintegral;
+namespace app\plugins\userloginrewardintegral;
 
 use app\service\PluginsService;
 
@@ -31,7 +31,7 @@ class Admin
      */
     public function index($params = [])
     {
-        $ret = PluginsService::PluginsData('userlogingiveintegral');
+        $ret = PluginsService::PluginsData('userloginrewardintegral');
         if($ret['code'] == 0)
         {
             // 数组组装
@@ -54,7 +54,7 @@ class Admin
      */
     public function saveinfo($params = [])
     {
-        $ret = PluginsService::PluginsData('userlogingiveintegral');
+        $ret = PluginsService::PluginsData('userloginrewardintegral');
         if($ret['code'] == 0)
         {
             // 是否
@@ -84,7 +84,7 @@ class Admin
      */
     public function save($params = [])
     {
-        return PluginsService::PluginsDataSave(['plugins'=>'userlogingiveintegral', 'data'=>$params]);
+        return PluginsService::PluginsDataSave(['plugins'=>'userloginrewardintegral', 'data'=>$params]);
     }
 }
 ?>

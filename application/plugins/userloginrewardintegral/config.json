@@ -1,12 +1,12 @@
 {
     "base":{
-        "plugins":"userlogingiveintegral",
-        "name":"登录赠送积分",
-        "logo":"\/static\/upload\/images\/plugins_userlogingiveintegral\/2019\/02\/14\/1550151082834629.png",
+        "plugins":"userloginrewardintegral",
+        "name":"登录奖励积分",
+        "logo":"\/static\/upload\/images\/plugins_userloginrewardintegral\/2019\/02\/14\/1550151082834629.png",
         "author":"Devil",
         "author_url":"https:\/\/shopxo.net\/",
         "version":"1.0.0",
-        "desc":"用户登录后赠送积分",
+        "desc":"用户登录成功后奖励积分",
         "apply_terminal":[
             "pc",
             "h5"
@@ -18,7 +18,7 @@
     },
     "hook":{
         "plugins_control_user_login_end":[
-            "app\\plugins\\userlogingiveintegral\\Hook"
+            "app\\plugins\\userloginrewardintegral\\Hook"
         ]
     }
 }
