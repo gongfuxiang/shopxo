@@ -42,11 +42,11 @@
 <!-- 公共顶部钩子 -->
 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_header) or $is_header eq 1)}}
 	<div class="plugins-tag">
-		<span>plugins_common_top</span>
+		<span>plugins_view_common_top</span>
 	</div>
 {{/if}}
-{{if !empty($plugins_common_top_data) and is_array($plugins_common_top_data) and (!isset($is_header) or $is_header eq 1)}}
-	{{foreach $plugins_common_top_data as $hook}}
+{{if !empty($plugins_view_common_top_data) and is_array($plugins_view_common_top_data) and (!isset($is_header) or $is_header eq 1)}}
+	{{foreach $plugins_view_common_top_data as $hook}}
 		{{if is_string($hook) or is_int($hook)}}
 			{{$hook|raw}}
 		{{/if}}

@@ -17,7 +17,7 @@
         "is_home":false
     },
     "hook":{
-        "plugins_common_top":[
+        "plugins_view_common_top":[
             "app\\plugins\\commontopmaxpicture\\Hook"
         ]
     }

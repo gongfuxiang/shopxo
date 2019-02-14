@@ -17,7 +17,7 @@
         "is_home":false
     },
     "hook":{
-        "plugins_user_center_top":[
+        "plugins_view_user_center_top":[
             "app\\plugins\\usercentertopnotice\\Hook"
         ]
     }

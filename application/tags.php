@@ -32,16 +32,16 @@ return array (
   'log_write' => 
   array (
   ),
-  'plugins_common_top' => 
+  'plugins_view_common_top' => 
   array (
     0 => 'app\\plugins\\commontopmaxpicture\\Hook',
     1 => 'app\\plugins\\commontopnotice\\Hook',
   ),
-  'plugins_user_center_top' => 
+  'plugins_view_user_center_top' => 
   array (
     0 => 'app\\plugins\\usercentertopnotice\\Hook',
   ),
-  'plugins_user_login_end' => 
+  'plugins_control_user_login_end' => 
   array (
     0 => 'app\\plugins\\userlogingiveintegral\\Hook',
   ),

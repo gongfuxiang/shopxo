@@ -81,7 +81,7 @@ class Common extends Controller
     private function CommonPluginsInit()
     {
         // 公共顶部钩子
-        $this->assign('plugins_common_top_data', Hook::listen('plugins_common_top', ['hook_name'=>'plugins_common_top', 'is_control'=>false]));
+        $this->assign('plugins_view_common_top_data', Hook::listen('plugins_view_common_top', ['hook_name'=>'plugins_view_common_top', 'is_control'=>false, 'user'=>$this->user]));
     }
 
     /**

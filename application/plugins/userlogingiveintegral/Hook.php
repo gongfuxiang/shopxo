@@ -37,12 +37,12 @@ class Hook
         // 是否控制器钩子
         if(isset($params['is_control']) && $params['is_control'] === true && !empty($params['hook_name']))
         {
-            if(!empty($params['user']))
+            if(!empty($params['user_id']))
             {
                 switch($params['hook_name'])
                 {
                     // 用户登录成功后赠送积分
-                    case 'plugins_user_login_end' :
+                    case 'plugins_control_user_login_end' :
                         $ret = $this->LoginGiveIntegral($params);
                         break;
 
@@ -96,7 +96,7 @@ class Hook
             if(isset($ret['data']['is_day_once']) && $ret['data']['is_day_once'] == 1)
             {
                 $where = [
-                    ['user_id', '=', $params['user']['id']],
+                    ['user_id', '=', $params['user_id']],
                     ['add_time', '>=', strtotime(date('Y-m-d 00:00:00'))],
                     ['type', '=', 1],
                     ['msg', '=', '登录赠送积分'],
@@ -113,17 +113,17 @@ class Hook
             if(!empty($give_integral))
             {
                 // 用户积分添加
-                $user_integral = Db::name('User')->where(['id'=>$params['user']['id']])->value('integral');
-                if(!Db::name('User')->where(['id'=>$params['user']['id']])->setInc('integral', $give_integral))
+                $user_integral = Db::name('User')->where(['id'=>$params['user_id']])->value('integral');
+                if(!Db::name('User')->where(['id'=>$params['user_id']])->setInc('integral', $give_integral))
                 {
                     return DataReturn('登录赠送积分失败', -10);
                 }
 
                 // 积分日志
-                IntegralService::UserIntegralLogAdd($params['user']['id'], $user_integral, $user_integral+$give_integral, '登录赠送积分', 1);
+                IntegralService::UserIntegralLogAdd($params['user_id'], $user_integral, $user_integral+$give_integral, '登录赠送积分', 1);
 
                 // 更新用户登录缓存数据
-                UserService::UserLoginRecord($params['user']['id']);
+                UserService::UserLoginRecord($params['user_id']);
 
                 return DataReturn('登录赠送积分成功', 0);
             } else {
