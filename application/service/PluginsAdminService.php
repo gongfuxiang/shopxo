@@ -918,18 +918,26 @@ php;
                 if(strpos($file, '/.') === false && strpos($file, '__') === false)
                 {
                     // 文件包对应系统所在目录
+                    $is_has_find = false;
                     foreach($dir_list as $dir_key=>$dir_value)
                     {
                         if(strpos($file, $dir_key) !== false)
                         {
                             $file = str_replace($dir_key.'/', '', $dir_value.$file);
+                            $is_has_find = true;
                             break;
                         }
                     }
 
+                    // 没有匹配到则指定目录跳过
+                    if($is_has_find == false)
+                    {
+                        continue;
+                    }
+
                     // 截取文件路径
                     $file_path = substr($file, 0, strrpos($file, '/'));
-
+                    
                     // 路径不存在则创建
                     \base\FileUtil::CreateDir($file_path);
 
