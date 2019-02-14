@@ -1,20 +1,18 @@
 /*
- Navicat Premium Data Transfer
+ Navicat MySQL Data Transfer
 
  Source Server         : 本机
- Source Server Type    : MySQL
- Source Server Version : 50722
+ Source Server Version : 50716
  Source Host           : localhost
- Source Database       : shopxo_test
+ Source Database       : shopxo_ttt
 
- Target Server Type    : MySQL
- Target Server Version : 50722
+ Target Server Version : 50716
  File Encoding         : utf-8
 
- Date: 02/14/2019 11:31:38 AM
+ Date: 02/14/2019 23:05:39 PM
 */
 
-SET NAMES utf8mb4;
+SET NAMES utf8;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
@@ -588,7 +586,14 @@ CREATE TABLE `s_message` (
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='消息';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='消息';
+
+-- ----------------------------
+--  Records of `s_message`
+-- ----------------------------
+BEGIN;
+INSERT INTO `s_message` VALUES ('4', '90', '积分变动', '登录赠送积分积分增加3', '0', '0', '0', '1', '0', '0', '1550155205'), ('5', '90', '积分变动', '登录赠送积分积分增加3', '0', '0', '0', '1', '0', '0', '1550155448'), ('6', '90', '积分变动', '登录赠送积分积分增加3', '0', '0', '0', '1', '0', '0', '1550155950'), ('7', '90', '积分变动', '登录赠送积分积分增加3', '0', '0', '0', '1', '0', '0', '1550156005'), ('8', '90', '积分变动', '登录赠送积分积分增加3', '0', '0', '0', '1', '0', '0', '1550156016'), ('9', '90', '积分变动', '登录赠送积分积分增加5', '0', '0', '0', '1', '0', '0', '1550156516');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `s_navigation`
@@ -818,13 +823,13 @@ CREATE TABLE `s_plugins` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `plugins` (`plugins`),
   KEY `is_enable` (`is_enable`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='应用';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='应用';
 
 -- ----------------------------
 --  Records of `s_plugins`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_plugins` VALUES ('1', 'commontopmaxpicture', '{\"images\":\"http:\\/\\/tp5-dev.com\\/static\\/upload\\/images\\/plugins_commontopmaxpicture\\/2019\\/02\\/09\\/1549671733978860.jpg\",\"bg_color\":\"#ce0000\",\"url\":\"https:\\/\\/shopxo.net\",\"is_new_window_open\":\"1\",\"is_overall\":\"1\",\"time_start\":\"\",\"time_end\":\"\",\"pluginsname\":\"commontopmaxpicture\",\"pluginscontrol\":\"admin\",\"pluginsaction\":\"save\"}', '1', '0', '1550049324'), ('2', 'commontopnotice', '{\"content\":\"\\u6b22\\u8fce\\u6765\\u5230ShopXO\\u4f01\\u4e1a\\u7ea7B2C\\u5f00\\u6e90\\u7535\\u5546\\u7cfb\\u7edf\\u3001\\u6f14\\u793a\\u7ad9\\u70b9\\u8bf7\\u52ff\\u53d1\\u8d77\\u652f\\u4ed8\\u3001\\u4ee5\\u514d\\u7ed9\\u60a8\\u5e26\\u6765\\u4e0d\\u5fc5\\u8981\\u7684\\u8d22\\u4ea7\\u635f\\u5931\\u3002\",\"is_overall\":\"1\",\"time_start\":\"\",\"time_end\":\"\",\"pluginsname\":\"commontopnotice\",\"pluginscontrol\":\"admin\",\"pluginsaction\":\"save\"}', '1', '0', '1550049314'), ('3', 'usercentertopnotice', '{\"content\":\"\\u7528\\u6237\\u4e2d\\u5fc3\\u516c\\u544a\\u6587\\u5b57\\uff0c\\u540e\\u53f0\\u914d\\u7f6e\\u4fee\\u6539\\u3002\",\"time_start\":\"\",\"time_end\":\"\",\"pluginsname\":\"usercentertopnotice\",\"pluginscontrol\":\"admin\",\"pluginsaction\":\"save\"}', '1', '0', '1550049323');
+INSERT INTO `s_plugins` VALUES ('1', 'commontopmaxpicture', '{\"images\":\"http:\\/\\/tp5-dev.com\\/static\\/upload\\/images\\/plugins_commontopmaxpicture\\/2019\\/02\\/09\\/1549671733978860.jpg\",\"bg_color\":\"#ce0000\",\"url\":\"https:\\/\\/shopxo.net\",\"is_new_window_open\":\"1\",\"is_overall\":\"1\",\"time_start\":\"\",\"time_end\":\"\",\"pluginsname\":\"commontopmaxpicture\",\"pluginscontrol\":\"admin\",\"pluginsaction\":\"save\"}', '1', '0', '1550049324'), ('2', 'commontopnotice', '{\"content\":\"\\u6b22\\u8fce\\u6765\\u5230ShopXO\\u4f01\\u4e1a\\u7ea7B2C\\u5f00\\u6e90\\u7535\\u5546\\u7cfb\\u7edf\\u3001\\u6f14\\u793a\\u7ad9\\u70b9\\u8bf7\\u52ff\\u53d1\\u8d77\\u652f\\u4ed8\\u3001\\u4ee5\\u514d\\u7ed9\\u60a8\\u5e26\\u6765\\u4e0d\\u5fc5\\u8981\\u7684\\u8d22\\u4ea7\\u635f\\u5931\\u3002\",\"is_overall\":\"1\",\"time_start\":\"\",\"time_end\":\"\",\"pluginsname\":\"commontopnotice\",\"pluginscontrol\":\"admin\",\"pluginsaction\":\"save\"}', '1', '0', '1550049314'), ('3', 'usercentertopnotice', '{\"content\":\"\\u7528\\u6237\\u4e2d\\u5fc3\\u516c\\u544a\",\"time_start\":\"\",\"time_end\":\"\",\"pluginsname\":\"usercentertopnotice\",\"pluginscontrol\":\"admin\",\"pluginsaction\":\"save\"}', '1', '0', '1550152363'), ('14', 'userlogingiveintegral', '{\"give_integral\":\"5\",\"is_day_once\":\"1\",\"time_start\":\"\",\"time_end\":\"\",\"pluginsname\":\"userlogingiveintegral\",\"pluginscontrol\":\"admin\",\"pluginsaction\":\"save\"}', '1', '1550151175', '1550156513');
 COMMIT;
 
 -- ----------------------------
@@ -1075,7 +1080,7 @@ CREATE TABLE `s_user` (
 --  Records of `s_user`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_user` VALUES ('77', '2088502175420842-', '', '', '0', '255773', '70da5937905ce1d1a8c6a8a4ab5c72b3', '', '龚哥哥', '13250814883', 'fuxiang.gong@qq.com', '2', 'https://tfs.alipayobjects.com/images/partner/T10d8lXm4dXXXXXXXX', '上海', '上海市', '1540915200', '', '967', '0', '0', '0', '0', '1545099005'), ('90', '2088502175420842', '', '', '0', '437481', '89e01b6059ab8151c32a1c6358a2f1cf', '', '魔鬼', '17602128368', '', '2', '', '上海', '上海市', '666201600', '', '0', '0', '0', '0', '1539167253', '1550048957');
+INSERT INTO `s_user` VALUES ('77', '2088502175420842-', '', '', '0', '255773', '70da5937905ce1d1a8c6a8a4ab5c72b3', '', '龚哥哥', '13250814883', 'fuxiang.gong@qq.com', '2', 'https://tfs.alipayobjects.com/images/partner/T10d8lXm4dXXXXXXXX', '上海', '上海市', '1540915200', '', '967', '0', '0', '0', '0', '1545099005'), ('90', '2088502175420842', '', '', '0', '548064', '3428ab57b8303e93c2d0190c1c99ddf0', '', '魔鬼', '17602128368', '', '2', '', '上海', '上海市', '666201600', '', '20', '0', '0', '0', '1539167253', '1550156516');
 COMMIT;
 
 -- ----------------------------

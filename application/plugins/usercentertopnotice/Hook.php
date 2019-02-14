@@ -32,9 +32,9 @@ class Hook
     public function run($params = [])
     {
         // 是否控制器钩子
-        if(isset($params['is_control']) && $params['is_control'] === true)
+        if(isset($params['is_control']) && $params['is_control'] === true && !empty($params['hook_name']))
         {
-            return [];
+            return DataReturn('无需处理', 0);
 
         // 默认返回视图
         } else {

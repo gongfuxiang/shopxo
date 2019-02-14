@@ -81,7 +81,7 @@ class Common extends Controller
     private function CommonPluginsInit()
     {
         // 公共顶部钩子
-        $this->assign('plugins_common_top_data', Hook::listen('plugins_common_top'));
+        $this->assign('plugins_common_top_data', Hook::listen('plugins_common_top', ['hook_name'=>'plugins_common_top', 'is_control'=>false]));
     }
 
     /**
@@ -105,13 +105,13 @@ class Common extends Controller
     }
 
     /**
-     * [Is_Login 登录校验]
+     * [IsLogin 登录校验]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2017-03-09T11:43:48+0800
      */
-    protected function Is_Login()
+    protected function IsLogin()
     {
         if(session('user') == null)
         {

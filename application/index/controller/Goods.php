@@ -120,7 +120,7 @@ class Goods extends Common
     public function Favor()
     {
         // 是否登录
-        $this->Is_Login();
+        $this->IsLogin();
 
         // 开始处理
         $params = input('post.');

@@ -4,23 +4,23 @@
 <div class="content-right">
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('commontopnotice', 'admin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('commontopnotice', 'admin', 'index')}}" enctype="multipart/form-data">
+        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('userlogingiveintegral', 'admin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('userlogingiveintegral', 'admin', 'index')}}" enctype="multipart/form-data">
             <legend>
-                <span class="fs-16">顶部公告</span>
-                <a href="{{:PluginsAdminUrl('commontopnotice', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+                <span class="fs-16">登录赠送积分</span>
+                <a href="{{:PluginsAdminUrl('userlogingiveintegral', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
             </legend>
 
-            <div class="am-form-group am-form-file">
-                <label class="block">公告内容<span class="fs-12 fw-100 cr-999">（空则不显示）</span></label>
-                <textarea rows="3" name="content" class="am-radius am-field-valid" placeholder="公告内容" data-validation-message="请填写公告内容">{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
+            <div class="am-form-group">
+                <label>赠送积分</label>
+                <input type="number" name="give_integral" placeholder="赠送积分" min="1" max="100000000" data-validation-message="赠送积分 1~100000000" class="am-radius" value="{{if empty($data)}}1{{else /}}{{$data.give_integral}}{{/if}}" required />
             </div>
 
             <div class="am-form-group">
-                <label>是否全局<span class="fs-12 fw-100 cr-999">（默认首页）</span></label>
+                <label>是否日/次<span class="fs-12 fw-100 cr-999">（默认当日只赠送一次）</span></label>
                 <div>
                     {{foreach $is_whether_list as $v}}
                         <label class="am-radio-inline m-r-10">
-                            <input type="radio" name="is_overall" value="{{$v.id}}" {{if isset($data['is_overall']) and $data['is_overall'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_overall']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                            <input type="radio" name="is_day_once" value="{{$v.id}}" {{if isset($data['is_day_once']) and $data['is_day_once'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_day_once']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
                         </label>
                     {{/foreach}}
                 </div>

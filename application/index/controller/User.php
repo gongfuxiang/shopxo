@@ -74,7 +74,7 @@ class User extends Common
     public function Index()
     {
         // 登录校验
-        $this->Is_Login();
+        $this->IsLogin();
         
         // 订单总数
         $where = ['user_id'=>$this->user['id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
@@ -137,7 +137,7 @@ class User extends Common
         $this->assign('goods_browse_list', $data['data']);
 
         // 用户中心顶部钩子
-        $this->assign('plugins_user_center_top_data', Hook::listen('plugins_user_center_top'));
+        $this->assign('plugins_user_center_top_data', Hook::listen('plugins_user_center_top', ['hook_name'=>'plugins_user_center_top', 'is_control'=>false]));
 
         return $this->fetch();
     }
@@ -434,7 +434,7 @@ class User extends Common
         }
 
         // 登录校验
-        $this->Is_Login();
+        $this->IsLogin();
 
         $params = $_POST;
         $params['user'] = $this->user;

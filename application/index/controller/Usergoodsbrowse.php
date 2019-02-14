@@ -34,7 +34,7 @@ class UserGoodsBrowse extends Common
         parent::__construct();
 
         // 是否登录
-        $this->Is_Login();
+        $this->IsLogin();
     }
     
     /**

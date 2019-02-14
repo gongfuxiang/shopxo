@@ -461,13 +461,10 @@ class PluginsAdminService
         }
 
         // 应用主文件生成
-        if(empty($params['id']))
+        $ret = self::PluginsApplicationCreated($params, $app_dir);
+        if($ret['code'] != 0)
         {
-            $ret = self::PluginsApplicationCreated($params, $app_dir);
-            if($ret['code'] != 0)
-            {
-                return $ret;
-            }
+            return $ret;
         }
 
         return DataReturn(empty($params['id']) ? '创建成功' : '更新成功', 0);
@@ -530,9 +527,14 @@ class Hook
     public function run(\$params = [])
     {
         // 是否控制器钩子
-        if(isset(\$params['is_control']) && \$params['is_control'] === true)
+        // is_control 当前为控制器业务处理
+        // hook_name 钩子名称
+        if(isset(\$params['is_control']) && \$params['is_control'] === true && !empty(\$params['hook_name']))
         {
-            return [];
+            // 参数一   描述
+            // 参数二   0 为处理成功, 负数为失败
+            // 参数三   返回数据
+            return DataReturn('返回描述', 0);
 
         // 默认返回视图
         } else {
@@ -641,40 +643,42 @@ h1 {
     color: #4CAF50;
 }
 php;
-        // 创建文件
-        if(@file_put_contents($app_dir.DS.'Admin.php', $admin) === false)
-        {
-            return DataReturn('应用文件创建失败[admin]', -11);
-        }
-        if(@file_put_contents($app_dir.DS.'Hook.php', $hook) === false)
-        {
-            return DataReturn('应用文件创建失败[hook]', -11);
-        }
-        if(@file_put_contents($app_dir.DS.'Hook.php', $hook) === false)
-        {
-            return DataReturn('应用文件创建失败[admin-view]', -11);
-        }
-
-        // 应用后台视图目录不存在则创建
-        $app_view_admin_dir = APP_PATH.'plugins'.DS.'view'.DS.trim($params['plugins']).DS.'admin';
-        if(\base\FileUtil::CreateDir($app_view_admin_dir) !== true)
-        {
-            return DataReturn('应用视图目录创建失败[admin]', -10);
-        }
-        if(@file_put_contents($app_view_admin_dir.DS.'index.html', $admin_view) === false)
-        {
-            return DataReturn('应用视图文件创建失败[admin-view]', -11);
-        }
-
-        // css创建
+        // 静态文件目录
         $app_static_css_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.'css'.DS.trim($params['plugins']);
         if(\base\FileUtil::CreateDir($app_static_css_dir) !== true)
         {
             return DataReturn('应用静态目录创建失败[css]', -10);
         }
-        if(@file_put_contents($app_static_css_dir.DS.'admin.css', $admin_css) === false)
+
+        // 编辑模式下不生成后端文件
+        if(empty($params['id']))
         {
-            return DataReturn('应用静态文件创建失败[admin-css]', -11);
+            // 创建文件
+            if(@file_put_contents($app_dir.DS.'Admin.php', $admin) === false)
+            {
+                return DataReturn('应用文件创建失败[admin]', -11);
+            }
+            if(@file_put_contents($app_dir.DS.'Hook.php', $hook) === false)
+            {
+                return DataReturn('应用文件创建失败[hook]', -11);
+            }
+
+            // 应用后台视图目录不存在则创建
+            $app_view_admin_dir = APP_PATH.'plugins'.DS.'view'.DS.trim($params['plugins']).DS.'admin';
+            if(\base\FileUtil::CreateDir($app_view_admin_dir) !== true)
+            {
+                return DataReturn('应用视图目录创建失败[admin]', -10);
+            }
+            if(@file_put_contents($app_view_admin_dir.DS.'index.html', $admin_view) === false)
+            {
+                return DataReturn('应用视图文件创建失败[admin-view]', -11);
+            }
+
+            // css创建
+            if(@file_put_contents($app_static_css_dir.DS.'admin.css', $admin_css) === false)
+            {
+                return DataReturn('应用静态文件创建失败[admin-css]', -11);
+            }
         }
 
 

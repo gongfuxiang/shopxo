@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 use app\service\RegionService;
 
 /**
@@ -793,7 +794,7 @@ class UserService
 
         // 获取用户账户信息
         $where = array('mobile|email' => $params['accounts'], 'is_delete_time'=>0);
-        $user = Db::name('User')->field(array('id', 'pwd', 'salt', 'status'))->where($where)->find();
+        $user = Db::name('User')->field('id,pwd,salt,status')->where($where)->find();
         if(empty($user))
         {
             return DataReturn('帐号不存在', -3);
@@ -810,6 +811,13 @@ class UserService
             return DataReturn('密码错误', -4);
         }
 
+        // 用户登录前钩子
+        $ret = Hook::listen('plugins_user_login_begin', ['hook_name'=>'plugins_user_login_begin', 'is_control'=>true, 'params'=>$params, 'user'=>$user]);
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 更新用户密码
         $salt = GetNumberCode(6);
         $data = array(
@@ -822,6 +830,13 @@ class UserService
             // 登录记录
             if(self::UserLoginRecord($user['id']))
             {
+                // 用户登录后钩子
+                $ret = Hook::listen('plugins_user_login_end', ['hook_name'=>'plugins_user_login_end', 'is_control'=>true, 'params'=>$params, 'user'=>$user]);
+                if(isset($ret['code']) && $ret['code'] != 0)
+                {
+                    return $ret;
+                }
+
                 return DataReturn('登录成功', 0);
             }
         }

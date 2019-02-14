@@ -34,7 +34,7 @@ class UserIntegral extends Common
         parent::_initialize();
 
         // 是否登录
-        $this->Is_Login();
+        $this->IsLogin();
     }
 
     /**

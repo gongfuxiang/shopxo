@@ -41,5 +41,9 @@ return array (
   array (
     0 => 'app\\plugins\\usercentertopnotice\\Hook',
   ),
+  'plugins_user_login_end' => 
+  array (
+    0 => 'app\\plugins\\userlogingiveintegral\\Hook',
+  ),
 );
 ?>
