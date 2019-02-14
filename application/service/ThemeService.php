@@ -116,6 +116,12 @@ class ThemeService
             return DataReturn('资源目录没权限', -10);
         }
 
+        // 资源目录
+        $dir_list = [
+            '_html_'        => ROOT.self::$html_path,
+            '_static_'      => ROOT.self::$static_path,
+        ];
+
         // 开始解压文件
         $resource = zip_open($_FILES['theme']['tmp_name']);
         while(($temp_resource = zip_read($resource)) !== false)
@@ -128,17 +134,15 @@ class ThemeService
                 // 排除临时文件和临时目录
                 if(strpos($file, '/.') === false && strpos($file, '__') === false)
                 {
-                    // 拼接路径
-                    if(strpos($file, '_html') !== false)
+                    // 文件包对应系统所在目录
+                    foreach($dir_list as $dir_key=>$dir_value)
                     {
-                        $file = ROOT.self::$html_path.$file;
-                    } else if(strpos($file, '_static') !== false)
-                    {
-                        $file = ROOT.self::$static_path.$file;
-                    } else {
-                        continue;
+                        if(strpos($file, $dir_key) !== false)
+                        {
+                            $file = str_replace($dir_key.'/', '', $dir_value.$file);
+                            break;
+                        }
                     }
-                    $file = str_replace(array('_static/', '_html/'), '', $file);
 
                     // 截取文件路径
                     $file_path = substr($file, 0, strrpos($file, '/'));
@@ -157,12 +161,13 @@ class ThemeService
                         $file_content = zip_entry_read($temp_resource, $file_size);
                         file_put_contents($file, $file_content);
                     }
+                    
                     // 关闭目录项  
                     zip_entry_close($temp_resource);
                 }
             }
         }
-        return DataReturn('操作成功');
+        return DataReturn('安装成功');
     }
 
     /**

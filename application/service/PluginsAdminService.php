@@ -298,16 +298,30 @@ class PluginsAdminService
            return DataReturn('应用不存在', -10); 
         }
 
+        // 开启事务
+        Db::startTrans();
+
         // 删除操作
         if(Db::name('Plugins')->where($where)->delete())
         {
-            // 删除应用文件
-            self::PluginsResourcesDelete($plugins);
+            // 钩子部署
+            $ret = self::PluginsHookDeployment();
+            if($ret['code'] == 0)
+            {
+                // 删除应用文件
+                self::PluginsResourcesDelete($plugins);
 
-            return DataReturn('删除成功');
+                // 提交事务
+                Db::commit();
+                return DataReturn('删除成功');
+            }
+        } else {
+            $ret = DataReturn('删除失败或资源不存在', -100);
         }
 
-        return DataReturn('删除失败或资源不存在', -100);
+        // 事务回退
+        Db::rollback();
+        return $ret;
     }
 
     /**
@@ -725,7 +739,7 @@ php;
             ],
 
             // 钩子配置
-            'hook'  => [],
+            'hook'  => (object) [],
         ];
 
         // 创建配置文件
@@ -842,6 +856,21 @@ php;
             return $ret;
         }
 
+        // 资源目录
+        $dir_list = [
+            '_controller_'      => APP_PATH.'plugins'.DS,
+            '_view_'            => APP_PATH.'plugins'.DS.'view'.DS,
+            '_css_'             => ROOT.'public'.DS.'static'.DS.'plugins'.DS.'css'.DS,
+            '_js_'              => ROOT.'public'.DS.'static'.DS.'plugins'.DS.'js'.DS,
+            '_images_'          => ROOT.'public'.DS.'static'.DS.'plugins'.DS.'images'.DS,
+            '_uploadfile_'      => ROOT.'public'.DS.'static'.DS.'upload'.DS.'file'.DS,
+            '_uploadimages_'    => ROOT.'public'.DS.'static'.DS.'upload'.DS.'images'.DS,
+            '_uploadvideo_'     => ROOT.'public'.DS.'static'.DS.'upload'.DS.'video'.DS,
+        ];
+
+        // 包名
+        $plugins_name = '';
+
         // 开始解压文件
         $resource = zip_open($_FILES['file']['tmp_name']);
         while(($temp_resource = zip_read($resource)) !== false)
@@ -851,29 +880,40 @@ php;
                 // 当前压缩包中项目名称
                 $file = zip_entry_name($temp_resource);
 
+                // 获取包名
+                if(empty($plugins_name))
+                {
+                    // 应用不存在则添加
+                    $plugins_name = substr($file, 0, strpos($file, '/'));
+                    $ret = self::PluginsExistInsert([], $plugins_name);
+                    if($ret['code'] != 0)
+                    {
+                        zip_entry_close($temp_resource);
+                        return $ret;
+                    }
+                }
+
+                // 去除包名
+                $file = substr($file, strpos($file, '/')+1);
+
                 // 排除临时文件和临时目录
                 if(strpos($file, '/.') === false && strpos($file, '__') === false)
                 {
-                    // 拼接路径
-                    if(strpos($file, '_controller') !== false)
+                    // 文件包对应系统所在目录
+                    foreach($dir_list as $dir_key=>$dir_value)
                     {
-                        $file = ROOT.self::$html_path.$file;
-                    } else if(strpos($file, '_static') !== false)
-                    {
-                        $file = ROOT.self::$static_path.$file;
-                    } else {
-                        continue;
+                        if(strpos($file, $dir_key) !== false)
+                        {
+                            $file = str_replace($dir_key.'/', '', $dir_value.$file);
+                            break;
+                        }
                     }
-                    $file = str_replace(array('_static/', '_html/'), '', $file);
 
                     // 截取文件路径
                     $file_path = substr($file, 0, strrpos($file, '/'));
 
                     // 路径不存在则创建
-                    if(!is_dir($file_path))
-                    {
-                        mkdir($file_path, 0777, true);
-                    }
+                    \base\FileUtil::CreateDir($file_path);
 
                     // 如果不是目录则写入文件
                     if(!is_dir($file))
@@ -881,14 +921,15 @@ php;
                         // 读取这个文件
                         $file_size = zip_entry_filesize($temp_resource);
                         $file_content = zip_entry_read($temp_resource, $file_size);
-                        file_put_contents($file, $file_content);
+                        @file_put_contents($file, $file_content);
                     }
+
                     // 关闭目录项  
                     zip_entry_close($temp_resource);
                 }
             }
         }
-        return DataReturn('操作成功');
+        return DataReturn('安装成功');
     }
 }
 ?>

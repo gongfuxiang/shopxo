@@ -195,5 +195,24 @@ class Pluginsadmin extends Common
         // 开始处理
         return PluginsAdminService::PluginsStatusUpdate(input('post.'));
     }
+
+    /**
+     * 上传安装
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-05-10T16:27:09+0800
+     */
+    public function Upload()
+    {
+        // 是否ajax
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 开始处理
+        return PluginsAdminService::PluginsUpload(input());
+    }
 }
 ?>

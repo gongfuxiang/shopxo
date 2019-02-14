@@ -98,8 +98,7 @@ class Theme extends Common
 		}
 
 		// 开始处理
-		$params = input();
-		return ThemeService::ThemeDelete($params);
+		return ThemeService::ThemeDelete(input());
 	}
 
 	/**
@@ -118,8 +117,7 @@ class Theme extends Common
 		}
 
 		// 开始处理
-		$params = input();
-		return ThemeService::ThemeUpload($params);
+		return ThemeService::ThemeUpload(input());
 	}
 }
 ?>
