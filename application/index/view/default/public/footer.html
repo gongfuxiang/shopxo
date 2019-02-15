@@ -54,6 +54,9 @@
 	<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/{{$module_js}}?v={{:MyC('home_static_cache_version')}}"></script>
 {{/if}}
 
+<!-- 底部信息 --> 
+{{:MyC('home_footer_info')}}
+
 <!-- js钩子 -->
 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
     <div class="plugins-tag">
@@ -67,9 +70,6 @@
         {{/if}}
     {{/foreach}}
 {{/if}}
-
-<!-- 顶部信息 --> 
-{{:MyC('home_footer_info')}}
 
 <!-- 公共页面底部钩子 -->
 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
