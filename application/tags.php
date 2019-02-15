@@ -47,15 +47,15 @@ return array (
   ),
   'plugins_view_common_bottom' => 
   array (
-    0 => 'app\\plugins\\commongobacktop\\Hook',
+    0 => 'app\\plugins\\commonrightnavigation\\Hook',
   ),
   'plugins_view_common_page_bottom' => 
   array (
-    0 => 'app\\plugins\\commongobacktop\\Hook',
+    0 => 'app\\plugins\\commonrightnavigation\\Hook',
   ),
   'plugins_view_common_header' => 
   array (
-    0 => 'app\\plugins\\commongobacktop\\Hook',
+    0 => 'app\\plugins\\commonrightnavigation\\Hook',
   ),
 );
 ?>

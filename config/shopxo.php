@@ -15,7 +15,7 @@
 
 return [
     // 开发模式
-    'is_develop'                            => false,
+    'is_develop'                            => true,
 
     // 默认编码
     'default_charset'                       => 'utf-8',

@@ -1,0 +1,27 @@
+/**
+ * 首页
+ */
+.commonrightnavigation-content .items {
+    margin: 10px 0 20px 0;
+    border-bottom: 1px dashed #f1f1f1;
+    padding-bottom: 20px;
+}
+.commonrightnavigation-content .items .immages-tag {
+    border: 1px solid #eee;
+    text-align: center;
+}
+.commonrightnavigation-content .items .immages-tag img {
+    max-width: 100%;
+}
+.commonrightnavigation-content .items .bg-color-tag {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #eee;
+}
+.commonrightnavigation-content .edit-submit {
+    margin-bottom: 20px;
+}
+
+/**
+ * 编辑页面
+ */
