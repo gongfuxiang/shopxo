@@ -13,7 +13,7 @@ namespace app\plugins\userloginrewardintegral;
 use app\service\PluginsService;
 
 /**
- * 登录赠送积分 - 后台管理
+ * 登录奖励积分 - 后台管理
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1

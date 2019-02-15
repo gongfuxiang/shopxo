@@ -6,13 +6,13 @@
         <!-- form start -->
         <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('userloginrewardintegral', 'admin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('userloginrewardintegral', 'admin', 'index')}}" enctype="multipart/form-data">
             <legend>
-                <span class="fs-16">登录赠送积分</span>
+                <span class="fs-16">登录奖励积分</span>
                 <a href="{{:PluginsAdminUrl('userloginrewardintegral', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
             </legend>
 
             <div class="am-form-group">
-                <label>赠送积分</label>
-                <input type="number" name="give_integral" placeholder="赠送积分" min="1" max="100000000" data-validation-message="赠送积分 1~100000000" class="am-radius" value="{{if empty($data)}}1{{else /}}{{$data.give_integral}}{{/if}}" required />
+                <label>奖励积分</label>
+                <input type="number" name="give_integral" placeholder="奖励积分" min="1" max="100000000" data-validation-message="奖励积分 1~100000000" class="am-radius" value="{{if empty($data)}}1{{else /}}{{$data.give_integral}}{{/if}}" required />
             </div>
 
             <div class="am-form-group">

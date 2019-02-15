@@ -16,7 +16,7 @@ use app\service\IntegralService;
 use app\service\UserService;
 
 /**
- * 登录赠送积分 - 钩子入口
+ * 登录奖励积分 - 钩子入口
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -99,7 +99,7 @@ class Hook
                     ['user_id', '=', $params['user_id']],
                     ['add_time', '>=', strtotime(date('Y-m-d 00:00:00'))],
                     ['type', '=', 1],
-                    ['msg', '=', '登录赠送积分'],
+                    ['msg', '=', '登录奖励积分'],
                 ];
                 $log = Db::name('UserIntegralLog')->where($where)->find();
                 if(!empty($log))
@@ -116,18 +116,18 @@ class Hook
                 $user_integral = Db::name('User')->where(['id'=>$params['user_id']])->value('integral');
                 if(!Db::name('User')->where(['id'=>$params['user_id']])->setInc('integral', $give_integral))
                 {
-                    return DataReturn('登录赠送积分失败', -10);
+                    return DataReturn('登录奖励积分失败', -10);
                 }
 
                 // 积分日志
-                IntegralService::UserIntegralLogAdd($params['user_id'], $user_integral, $user_integral+$give_integral, '登录赠送积分', 1);
+                IntegralService::UserIntegralLogAdd($params['user_id'], $user_integral, $user_integral+$give_integral, '登录奖励积分', 1);
 
                 // 更新用户登录缓存数据
                 UserService::UserLoginRecord($params['user_id']);
 
-                return DataReturn('登录赠送积分成功', 0);
+                return DataReturn('登录奖励积分成功', 0);
             } else {
-                return DataReturn('登录赠送积分应用配置有误', -600);
+                return DataReturn('登录奖励积分应用配置有误', -600);
             }
         } else {
             return $ret;
