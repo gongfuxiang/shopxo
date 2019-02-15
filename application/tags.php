@@ -45,5 +45,17 @@ return array (
   array (
     0 => 'app\\plugins\\userloginrewardintegral\\Hook',
   ),
+  'plugins_view_common_bottom' => 
+  array (
+    0 => 'app\\plugins\\commongobacktop\\Hook',
+  ),
+  'plugins_view_common_page_bottom' => 
+  array (
+    0 => 'app\\plugins\\commongobacktop\\Hook',
+  ),
+  'plugins_view_common_header' => 
+  array (
+    0 => 'app\\plugins\\commongobacktop\\Hook',
+  ),
 );
 ?>

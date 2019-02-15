@@ -36,8 +36,23 @@
 		var __attachment_host__ = '{{$attachment_host}}';
 		var __user_id__ = {{if empty($user['id'])}}0{{else /}}{{$user.id}}{{/if}};
 	</script>
+	
+	<!-- 公共header内钩子 -->
+	{{if !empty($plugins_view_common_header_data) and is_array($plugins_view_common_header_data) and (!isset($is_header) or $is_header eq 1)}}
+		{{foreach $plugins_view_common_header_data as $hook}}
+			{{if is_string($hook) or is_int($hook)}}
+				{{$hook|raw}}
+			{{/if}}
+		{{/foreach}}
+	{{/if}}
 </head>
 <body>
+<!-- 公共header内钩子 -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_header) or $is_header eq 1)}}
+	<div class="plugins-tag">
+		<span>plugins_view_common_header</span>
+	</div>
+{{/if}}
 
 <!-- 公共顶部钩子 -->
 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_header) or $is_header eq 1)}}

@@ -80,8 +80,17 @@ class Common extends Controller
      */
     private function CommonPluginsInit()
     {
+        // 公共header内钩子
+        $this->assign('plugins_view_common_header_data', Hook::listen('plugins_view_common_header', ['hook_name'=>'plugins_view_common_header', 'is_control'=>false, 'user'=>$this->user]));
+
+        // 公共页面部钩子
+        $this->assign('plugins_view_common_page_bottom_data', Hook::listen('plugins_view_common_page_bottom', ['hook_name'=>'plugins_view_common_page_bottom', 'is_control'=>false, 'user'=>$this->user]));
+
         // 公共顶部钩子
         $this->assign('plugins_view_common_top_data', Hook::listen('plugins_view_common_top', ['hook_name'=>'plugins_view_common_top', 'is_control'=>false, 'user'=>$this->user]));
+
+        // 公共底部钩子
+        $this->assign('plugins_view_common_bottom_data', Hook::listen('plugins_view_common_bottom', ['hook_name'=>'plugins_view_common_bottom', 'is_control'=>false, 'user'=>$this->user]));
     }
 
     /**

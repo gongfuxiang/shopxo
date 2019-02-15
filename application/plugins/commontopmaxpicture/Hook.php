@@ -65,6 +65,12 @@ class Hook
         $content = '';
         if($ret['code'] == 0)
         {
+            // 图片是否为空
+            if(empty($ret['data']['images']))
+            {
+                return '';
+            }
+
             // 有效时间
             if(!empty($ret['data']['time_start']))
             {
