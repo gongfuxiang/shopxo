@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : utf-8
 
- Date: 02/15/2019 18:34:37 PM
+ Date: 02/16/2019 10:42:03 AM
 */
 
 SET NAMES utf8mb4;
@@ -40,7 +40,7 @@ CREATE TABLE `s_admin` (
 --  Records of `s_admin`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_admin` VALUES ('1', 'admin', 'db56ff753ddb6c279272c0cf24fec9fa', '443489', '17602128368', '0', '375', '1550199807', '1', '1481350313', '1543486561'), ('3', 'testtest', '7f9b7d564e1426b3e8d235a8f1300e01', '500123', '13222333333', '2', '49', '1549419854', '13', '1483947758', '1545729083');
+INSERT INTO `s_admin` VALUES ('1', 'admin', 'b41b038c61349db4ec50f06e63e52f67', '102417', '17602128368', '0', '376', '1550284832', '1', '1481350313', '1543486561'), ('3', 'testtest', '7f9b7d564e1426b3e8d235a8f1300e01', '500123', '13222333333', '2', '49', '1549419854', '13', '1483947758', '1545729083');
 COMMIT;
 
 -- ----------------------------
@@ -1076,7 +1076,7 @@ CREATE TABLE `s_user` (
   KEY `weixin_openid` (`weixin_openid`),
   KEY `mobile` (`mobile`),
   KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户';
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户';
 
 -- ----------------------------
 --  Records of `s_user`
