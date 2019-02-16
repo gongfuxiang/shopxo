@@ -80,6 +80,12 @@ class Common extends Controller
      */
     private function CommonPluginsInit()
     {
+        // css钩子
+        $this->assign('plugins_css_data', Hook::listen('plugins_css', ['hook_name'=>'plugins_css', 'is_control'=>false]));
+
+        // js钩子
+        $this->assign('plugins_js_data', Hook::listen('plugins_js', ['hook_name'=>'plugins_js', 'is_control'=>false]));
+        
         // 公共header内钩子
         $this->assign('plugins_view_common_header_data', Hook::listen('plugins_view_common_header', ['hook_name'=>'plugins_view_common_header', 'is_control'=>false, 'user'=>$this->user]));
 

@@ -27,6 +27,16 @@
 	{{if !empty($module_css)}}
 		<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/{{$module_css}}?v={{:MyC('home_static_cache_version')}}" />
 	{{/if}}
+
+	<!-- css钩子 -->
+    {{if !empty($plugins_css_data) and is_array($plugins_css_data) and (!isset($is_header) or $is_header eq 1)}}
+        {{foreach $plugins_css_data as $hook}}
+            {{if is_string($hook)}}
+                <link rel="stylesheet" type="text/css" href="{{$hook}}?v={{:MyC('home_static_cache_version')}}" />
+            {{/if}}
+        {{/foreach}}
+    {{/if}}
+
 	<script type="text/javascript">
 		var __root__ = '{{$Think.__MY_ROOT_PUBLIC__}}';
 		var __my_url__ = '{{:__MY_URL__}}';
@@ -47,6 +57,13 @@
 	{{/if}}
 </head>
 <body>
+<!-- css钩子 -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_header) or $is_header eq 1)}}
+    <div class="plugins-tag">
+        <span>plugins_css</span>
+    </div>
+{{/if}}
+
 <!-- 公共header内钩子 -->
 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_header) or $is_header eq 1)}}
 	<div class="plugins-tag">

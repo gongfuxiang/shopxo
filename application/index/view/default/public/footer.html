@@ -53,7 +53,23 @@
 {{if !empty($module_js)}}
 	<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/{{$module_js}}?v={{:MyC('home_static_cache_version')}}"></script>
 {{/if}}
+
+<!-- 底部信息 --> 
 {{:MyC('home_footer_info')}}
+
+<!-- js钩子 -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+    <div class="plugins-tag">
+        <span>plugins_js</span>
+    </div>
+{{/if}}
+{{if !empty($plugins_js_data) and is_array($plugins_js_data) and (!isset($is_header) or $is_header eq 1)}}
+    {{foreach $plugins_js_data as $hook}}
+        {{if is_string($hook)}}
+            <link rel="stylesheet" type="text/css" href="{{$hook}}?v={{:MyC('home_static_cache_version')}}" />
+        {{/if}}
+    {{/foreach}}
+{{/if}}
 
 <!-- 公共页面底部钩子 -->
 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
