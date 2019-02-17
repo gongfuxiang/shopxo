@@ -14,8 +14,8 @@
                 <label class="block">图片<span class="fs-12 fw-100 cr-999">（建议1200像数X80像数）</span></label>
                 <ul class="plug-file-upload-view plugins-images-view" data-form-name="images" data-max-number="1" data-delete="0" data-dialog-type="images">
                     <li>
-                        <input type="text" name="images" value="{{if !empty($data['images'])}}{{$data.images}}{{/if}}" data-validation-message="请上传图片" required />
-                        <img src="{{if !empty($data['images_old'])}}{{$data.images_old}}{{else /}}{{$attachment_host}}/static/plugins/images/commontopmaxpicture/default-images.png{{/if}}" />
+                        <input type="text" name="images" value="{{if !empty($data['images_old'])}}{{$data.images_old}}{{/if}}" data-validation-message="请上传图片" required />
+                        <img src="{{if !empty($data['images'])}}{{$data.images}}{{else /}}{{$attachment_host}}/static/plugins/images/commontopmaxpicture/default-images.png{{/if}}" />
                     </li>
                 </ul>
                 <div class="plug-file-upload-submit" data-view-tag="ul.plugins-images-view">+上传图片</div>
