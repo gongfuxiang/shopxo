@@ -178,7 +178,7 @@
         cursor: pointer;
         border-radius: 50px;
         border: 1px solid #e3e3e3;
-        z-index: 10000;
+        z-index: 1000;
         display: none;
     }
     .cart-show {
@@ -197,6 +197,6 @@
         border-bottom: 1px solid #e3e3e3;
         border-top-left-radius: 3px;
         border-bottom-left-radius: 3px;
-        z-index: 10000;
+        z-index: 1000;
     }
 }
