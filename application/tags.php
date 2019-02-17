@@ -45,15 +45,15 @@ return array (
   array (
     0 => 'app\\plugins\\userloginrewardintegral\\Hook',
   ),
+  'plugins_css' => 
+  array (
+    0 => 'app\\plugins\\commonrightnavigation\\Hook',
+  ),
+  'plugins_js' => 
+  array (
+    0 => 'app\\plugins\\commonrightnavigation\\Hook',
+  ),
   'plugins_view_common_bottom' => 
-  array (
-    0 => 'app\\plugins\\commonrightnavigation\\Hook',
-  ),
-  'plugins_view_common_page_bottom' => 
-  array (
-    0 => 'app\\plugins\\commonrightnavigation\\Hook',
-  ),
-  'plugins_view_common_header' => 
   array (
     0 => 'app\\plugins\\commonrightnavigation\\Hook',
   ),

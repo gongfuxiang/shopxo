@@ -17,13 +17,13 @@
         "is_home":false
     },
     "hook":{
+        "plugins_css":[
+            "app\\plugins\\commonrightnavigation\\Hook"
+        ],
+        "plugins_js":[
+            "app\\plugins\\commonrightnavigation\\Hook"
+        ],
         "plugins_view_common_bottom":[
-            "app\\plugins\\commonrightnavigation\\Hook"
-        ],
-        "plugins_view_common_page_bottom":[
-            "app\\plugins\\commonrightnavigation\\Hook"
-        ],
-        "plugins_view_common_header":[
             "app\\plugins\\commonrightnavigation\\Hook"
         ]
     }

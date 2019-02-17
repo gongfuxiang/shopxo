@@ -66,7 +66,7 @@
 {{if !empty($plugins_js_data) and is_array($plugins_js_data) and (!isset($is_header) or $is_header eq 1)}}
     {{foreach $plugins_js_data as $hook}}
         {{if is_string($hook)}}
-            <link rel="stylesheet" type="text/css" href="{{$hook}}?v={{:MyC('home_static_cache_version')}}" />
+            <script type='text/javascript' src="{{$hook}}?v={{:MyC('home_static_cache_version')}}"></script>
         {{/if}}
     {{/foreach}}
 {{/if}}

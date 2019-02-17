@@ -16,7 +16,7 @@ dt + dd {margin-top: 0;}
 /*手机专享*/
 .small-nav {padding:10px 0px; font-size:12px;}
 .small-nav .am-u-sm-3 { text-align: center; margin: 5px 0; }
-.small-nav .nav-icon {max-width: 48px; padding: 8px; margin: 0 auto; border-radius: 50px; background-color: #d2364c; }
+.small-nav .nav-icon {max-width: 50px; max-height: 50px; padding: 12px; margin: 0 auto; border-radius: 50px; background-color: #d2364c; }
 .small-nav .am-u-sm-3:last-child { float: left; }
 .small-nav .mini-nav-title { margin-top: 5px; }
 .small-nav .mini-nav-goods-category { background-color: #FB6E52; }
@@ -130,7 +130,7 @@ text-align: center;float:none}
 /*推荐*/
 .flood li {width: 50%;float: left;text-align: center;}
 @media only screen and (min-width: 480px) {
-    .small-nav img{max-width:60px;}
+    .small-nav img{max-width: 100%;max-height: 100%;}
     .small-nav{ font-size:14px;}
     .flood li{width:33.3%;}
 
