@@ -160,6 +160,7 @@
     .commonrightnavigation-right-nav .browse-content,
     .commonrightnavigation-right-nav .favor-content,
     .commonrightnavigation-right-nav .qrcode-content,
+    .commonrightnavigation-right-nav .cart-content,
     .commonrightnavigation-right-nav .go-top .mui-mbar-tab-tip {
         display: none;
     }
@@ -180,7 +181,10 @@
         z-index: 10000;
         display: none;
     }
-    .commonrightnavigation-right-nav .cart {
+    .cart-show {
+        display: block !important;
+    }
+    .commonrightnavigation-right-nav .cart-show .cart {
         position: fixed;
         right: 0;
         bottom: calc(50% - 50px);

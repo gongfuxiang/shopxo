@@ -147,7 +147,7 @@ class Hook
                 </a>
 
                 <!-- 购物车 -->
-                <a href="'.(empty($params['user']) ? 'javascript:;' : MyUrl('index/cart/index')).'" '.$is_new_window_open.' class="cart-content '.$login_event.'">
+                <a href="'.(empty($params['user']) ? 'javascript:;' : MyUrl('index/cart/index')).'" '.$is_new_window_open.' class="cart-content '.$login_event.' '.(($ret['data']['is_goods_page_show_cart'] == 1 && $module_name.$controller_name.$action_name == 'indexgoodsindex' ? 'cart-show' : '')).'">
                     <div class="base-nav cart">
                         <i class="am-icon-opencart"></i>
                         <div class="cart-text">

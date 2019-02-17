@@ -57,6 +57,16 @@
                     {{/if}}
                 </div>
             </div>
+            <div class="items">
+                <label>商品详情页面展示购物车入口</label>
+                <div>
+                    {{if isset($data['is_goods_page_show_cart']) and $data['is_goods_page_show_cart'] eq 1}}
+                        是
+                    {{else /}}
+                        否
+                    {{/if}}
+                </div>
+            </div>
             <a href="{{:PluginsAdminUrl('commonrightnavigation', 'admin', 'saveinfo')}}" class="am-btn am-btn-secondary am-radius btn-loading-example am-btn-sm am-btn-block edit-submit">编辑</a>
         </div>
     </div>
