@@ -10,7 +10,7 @@
         <span>plugins_view_common_bottom</span>
     </div>
 {{/if}}
-{{if !empty($plugins_view_common_bottom_data) and is_array($plugins_view_common_bottom_data) and (!isset($is_footer) or $is_footer eq 1)}}
+{{if !empty($plugins_view_common_bottom_data) and is_array($plugins_view_common_bottom_data)}}
     {{foreach $plugins_view_common_bottom_data as $hook}}
         {{if is_string($hook) or is_int($hook)}}
             {{$hook|raw}}
@@ -63,7 +63,7 @@
         <span>plugins_js</span>
     </div>
 {{/if}}
-{{if !empty($plugins_js_data) and is_array($plugins_js_data) and (!isset($is_header) or $is_header eq 1)}}
+{{if !empty($plugins_js_data) and is_array($plugins_js_data)}}
     {{foreach $plugins_js_data as $hook}}
         {{if is_string($hook)}}
             <script type='text/javascript' src="{{$hook}}?v={{:MyC('home_static_cache_version')}}"></script>
@@ -77,7 +77,7 @@
         <span>plugins_view_common_page_bottom</span>
     </div>
 {{/if}}
-{{if !empty($plugins_view_common_page_bottom_data) and is_array($plugins_view_common_page_bottom_data) and (!isset($is_footer) or $is_footer eq 1)}}
+{{if !empty($plugins_view_common_page_bottom_data) and is_array($plugins_view_common_page_bottom_data)}}
     {{foreach $plugins_view_common_page_bottom_data as $hook}}
         {{if is_string($hook) or is_int($hook)}}
             {{$hook|raw}}

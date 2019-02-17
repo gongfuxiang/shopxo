@@ -29,7 +29,7 @@
 	{{/if}}
 
 	<!-- css钩子 -->
-    {{if !empty($plugins_css_data) and is_array($plugins_css_data) and (!isset($is_header) or $is_header eq 1)}}
+    {{if !empty($plugins_css_data) and is_array($plugins_css_data)}}
         {{foreach $plugins_css_data as $hook}}
             {{if is_string($hook)}}
                 <link rel="stylesheet" type="text/css" href="{{$hook}}?v={{:MyC('home_static_cache_version')}}" />
@@ -48,7 +48,7 @@
 	</script>
 	
 	<!-- 公共header内钩子 -->
-	{{if !empty($plugins_view_common_header_data) and is_array($plugins_view_common_header_data) and (!isset($is_header) or $is_header eq 1)}}
+	{{if !empty($plugins_view_common_header_data) and is_array($plugins_view_common_header_data)}}
 		{{foreach $plugins_view_common_header_data as $hook}}
 			{{if is_string($hook) or is_int($hook)}}
 				{{$hook|raw}}
