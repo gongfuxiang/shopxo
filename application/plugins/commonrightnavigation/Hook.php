@@ -14,7 +14,7 @@ use app\service\PluginsService;
 use app\service\BuyService;
 
 /**
- * 右侧导航 - 钩子入口
+ * 右侧快捷导航 - 钩子入口
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1

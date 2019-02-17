@@ -13,7 +13,7 @@ namespace app\plugins\commonrightnavigation;
 use app\service\PluginsService;
 
 /**
- * 右侧导航 - 管理
+ * 右侧快捷导航 - 管理
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1

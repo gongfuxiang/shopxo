@@ -1,12 +1,12 @@
 {
     "base":{
         "plugins":"commonrightnavigation",
-        "name":"右侧导航",
+        "name":"右侧快捷导航",
         "logo":"\/static\/upload\/images\/plugins_commonrightnavigation\/2019\/02\/15\/1550222872753553.png",
         "author":"Devil",
         "author_url":"https:\/\/shopxo.net\/",
         "version":"1.0.0",
-        "desc":"浏览器右侧导航",
+        "desc":"浏览器右侧快捷导航",
         "apply_terminal":[
             "pc",
             "h5"
