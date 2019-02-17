@@ -51,11 +51,11 @@ class Hook
                         $ret = $this->html($params);
                         break;
 
-                    case 'plugins_view_common_page_bottom' :
+                    case 'plugins_common_page_bottom' :
                         $ret = $this->js($params);
                         break;
 
-                    case 'plugins_view_common_header' :
+                    case 'plugins_common_header' :
                         $ret = $this->css($params);
                         break;
 

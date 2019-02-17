@@ -20,10 +20,10 @@
         "plugins_view_common_bottom":[
             "app\\plugins\\commongobacktop\\Hook"
         ],
-        "plugins_view_common_page_bottom":[
+        "plugins_common_page_bottom":[
             "app\\plugins\\commongobacktop\\Hook"
         ],
-        "plugins_view_common_header":[
+        "plugins_common_header":[
             "app\\plugins\\commongobacktop\\Hook"
         ]
     }
