@@ -1,0 +1,63 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('commononlineservice', 'admin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('commononlineservice', 'admin', 'index')}}" enctype="multipart/form-data">
+            <legend>
+                <span class="fs-16">在线客服</span>
+                <a href="{{:PluginsAdminUrl('commononlineservice', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+            </legend>
+
+            <div class="am-form-group">
+                <label>标题</label>
+                <input type="text" name="title" placeholder="标题" minlength="2" maxlength="16" data-validation-message="标题格式 2~16 个字符之间" class="am-radius" value="{{if !empty($data)}}{{$data.title}}{{/if}}" required />
+            </div>
+
+            <div class="am-form-group am-form-file">
+                <label class="block">在线客服<span class="fs-12 fw-100 cr-999">（一行一个、以竖线 | 分割、如：客服一|123456）</span></label>
+                <textarea rows="5" name="online_service" class="am-radius am-field-valid" placeholder="在线客服" data-validation-message="请填写在线客服" required>{{if !empty($data['online_service'])}}{{$data.online_service}}{{/if}}</textarea>
+            </div>
+
+            <div class="am-form-group">
+                <label>电话</label>
+                <input type="text" name="tel" placeholder="电话" data-validation-message="请填写电话" class="am-radius" value="{{if !empty($data)}}{{$data.tel}}{{/if}}" />
+            </div>
+
+            <div class="am-form-group">
+                <label>是否全局<span class="fs-12 fw-100 cr-999">（否则只在首页显示，是则全局展示）</span></label>
+                <div>
+                    {{foreach $is_whether_list as $v}}
+                        <label class="am-radio-inline m-r-10">
+                            <input type="radio" name="is_overall" value="{{$v.id}}" {{if isset($data['is_overall']) and $data['is_overall'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_overall']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+            </div>
+
+            <div class="am-form-group">
+                <label>背景色</label>
+                <input type="hidden" name="bg_color" value="{{if !empty($data['bg_color'])}}{{$data.bg_color}}{{/if}}" />
+                <button class="am-btn am-btn-default colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color" {{if !empty($data['bg_color'])}}style="background:{{$data.bg_color}}"{{/if}}>
+                    <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
+                </button>
+            </div>
+
+            <div class="am-form-group">
+                <label>距离顶部<span class="fs-12 fw-100 cr-999">（默认距离顶部30%）</span></label>
+                <input type="number" name="distance_top" placeholder="距离顶部" min="0" max="100" data-validation-message="距离顶部 0~100" class="am-radius" value="{{if isset($data['distance_top'])}}{{$data.distance_top}}{{else /}}30{{/if}}" required />
+            </div>
+
+            <div class="am-form-group">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

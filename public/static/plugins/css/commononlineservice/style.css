@@ -1,0 +1,88 @@
+.commononlineservice .float-left, .commononlineservice .content {
+    background:#d2364c;
+}
+.commononlineservice {
+    font-size: 12px;
+    position: fixed;
+    top: 30%;
+    right: 0px;
+    z-index: 1000;
+}
+.commononlineservice .float-left {
+    width: 36px;
+    float:left;
+    position: relative;
+    z-index:1;
+    margin-top: 0;
+    height: 120px;
+    border-radius: 6px 0px 0 6px;
+}
+.commononlineservice .float-left a {
+    font-size:0;
+    text-indent: -999em;
+}
+.commononlineservice .content {
+    float: left;
+    padding: 5px;
+    overflow:hidden;
+    width: 140px;
+    margin-right:-150px;
+    border-radius: 0 0px 0 6px;
+}
+.commononlineservice .content .cn {
+    background:#F7F7F7;
+    border-radius:6px;
+}
+.commononlineservice .cn .title {
+    font-size: 14px;
+    color: #333;
+    font-weight:600;
+    line-height:24px;
+    padding:5px;
+    text-align:center;
+    margin: 0;
+}
+.commononlineservice .cn ul {
+    padding:0px;
+    margin: 0;
+}
+.commononlineservice .cn ul li {
+    line-height: 38px;
+    height:38px;
+    border-bottom: solid 1px #E6E4E4;
+    overflow: hidden;
+    text-align:center;
+}
+.commononlineservice .cn ul li:last-child {
+    border: 0;
+}
+.commononlineservice .cn ul li span, .commononlineservice .cn ul li a {
+    color: #777;
+}
+.commononlineservice .cn ul li img {
+    vertical-align: middle;
+}
+.commononlineservice .btn-open, .commononlineservice .btn-ctn {
+    position: relative;
+    z-index:9;
+    top:0;
+    left: 0;
+    background-image: url(../../images/commononlineservice/btn-ctn.png);
+    background-repeat: no-repeat;
+    display:block;
+    height: 120px;
+    background-size: 55px;
+}
+.commononlineservice .btn-open {
+    background-position: 3px 10px;
+}
+.commononlineservice .btn-ctn {
+    background-position: -24px 10px;
+    display: none;
+}
+.commononlineservice ul li.top {
+    border-bottom: solid #ACE5F9 1px;
+}
+.commononlineservice ul li.bot {
+    border-bottom: none;
+}
