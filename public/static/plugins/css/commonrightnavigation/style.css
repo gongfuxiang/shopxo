@@ -1,3 +1,15 @@
+.commonrightnavigation-right-nav .cart .cart-text {
+    line-height: 16px;
+    font-size: 12px;
+}
+.commonrightnavigation-right-nav .cart .cart-text .cart-count {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    line-height: 20px;
+    padding: 0;
+}
+
 @media only screen and (min-width:640px) {
     .commonrightnavigation-right-nav {
         width: 35px;
@@ -78,10 +90,10 @@
     .commonrightnavigation-right-nav .cart {
         bottom: 45vh;
         left: 0;
-        height: 140px;
+        height: 125px;
         border-top: 1px solid #444;
         border-bottom: 1px solid #444;
-        padding: 10px 0;
+        padding: 5px 0;
     }
     .commonrightnavigation-right-nav .cart:hover {
         border-top: 1px solid #d2364c;
@@ -112,17 +124,7 @@
         margin-left: 11.5px;
     }
     .commonrightnavigation-right-nav .cart .cart-text .cart-count {
-        background: #d2364c;
-        color: #fff;
-        padding: 0 3px;
-        min-width: 14px;
-        width: 20px;
-        height: 20px;
-        line-height: 20px;
-        border-radius: 10px;
-        font-size: 12px;
         margin-left: -4px;
-        overflow: hidden;
     }
     .commonrightnavigation-right-nav .qrcode-items {
         bottom: 0;
@@ -157,7 +159,6 @@
     .commonrightnavigation-right-nav .user-content,
     .commonrightnavigation-right-nav .browse-content,
     .commonrightnavigation-right-nav .favor-content,
-    .commonrightnavigation-right-nav .cart-content,
     .commonrightnavigation-right-nav .qrcode-content,
     .commonrightnavigation-right-nav .go-top .mui-mbar-tab-tip {
         display: none;
@@ -178,5 +179,20 @@
         border: 1px solid #e3e3e3;
         z-index: 10000;
         display: none;
+    }
+    .commonrightnavigation-right-nav .cart {
+        position: fixed;
+        right: 0;
+        bottom: calc(50% - 50px);
+        background: #eee;
+        width: 30px;
+        padding: 5px;
+        text-align: center;
+        border-left: 1px solid #e3e3e3;
+        border-top: 1px solid #e3e3e3;
+        border-bottom: 1px solid #e3e3e3;
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+        z-index: 10000;
     }
 }

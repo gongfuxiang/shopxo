@@ -152,7 +152,7 @@ class Hook
                         <i class="am-icon-opencart"></i>
                         <div class="cart-text">
                             购物车
-                            <div class="cart-count common-cart-total">'.$cart_total.'</div>
+                            <div class="cart-count common-cart-total am-badge am-badge-danger">'.($cart_total > 9 ? '9+' : $cart_total).'</div>
                         </div>
                     </div>
                 </a>';
