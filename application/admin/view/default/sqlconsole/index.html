@@ -1,0 +1,61 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <div class="am-alert am-alert-warning am-radius" data-am-alert>
+            <button type="button" class="am-close">&times;</button>
+            <p class="fs-12">PS：非开发人员请不要随意执行任何SQL语句，操作可能导致将整个系统数据库被删除。</p>
+        </div>
+        
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/sqlconsole/implement')}}" method="POST" request-type="ajax-fun" request-value="ViewImplementBack">
+            <div class="am-form-group">
+                <textarea rows="6" name="sql" class="am-radius" placeholder="SQL语句" data-validation-message="请填写需要执行的SQL语句" required>{{if !empty($data)}}{{$data.sql}}{{/if}}</textarea>
+            </div>
+            <div class="am-form-group">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">执行</button>
+            </div>
+        </form>
+        <!-- form end -->
+
+        <!-- tips -->
+        <div class="sql-tips">
+            <div class="am-alert am-alert-success am-radius" data-am-alert style="display: none;"></div>
+            <div class="am-alert am-alert-danger am-radius" data-am-alert style="display: none;"></div>
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
+
+<script type="text/javascript">
+    // 返回处理
+    function ViewImplementBack(e)
+    {
+        $('form.form-validation').find('button[type="submit"]').button('reset');
+        $.AMUI.progress.done();
+        if(e.code == 0)
+        {
+            $.AMUI.progress.done();
+            Prompt(e.msg, 'success');
+            if((e.data || null) != null)
+            {
+                $('.sql-tips .am-alert-success').show();
+                $('.sql-tips .am-alert-danger').hide();
+                $('.sql-tips .am-alert-success').html(e.data);
+            } else {
+                $('.sql-tips .am-alert-success').hide();
+                $('.sql-tips .am-alert-danger').hide();
+            }
+        } else {
+            Prompt(e.msg);
+            $('.sql-tips .am-alert-success').hide();
+            $('.sql-tips .am-alert-danger').show();
+            $('.sql-tips .am-alert-danger').html(e.msg);
+        }
+    }
+</script>
