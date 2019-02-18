@@ -34,10 +34,6 @@
                 </div>
             </div>
             <div class="items">
-                <label>背景色</label>
-                <div class="bg-color-tag" {{if !empty($data['bg_color'])}}style="background:{{$data.bg_color}}"{{/if}}></div>
-            </div>
-            <div class="items">
                 <label>链接是否新窗口打开</label>
                 <div>
                     {{if isset($data['is_new_window_open']) and $data['is_new_window_open'] eq 1}}
