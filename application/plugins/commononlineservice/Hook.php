@@ -144,12 +144,19 @@ class Hook
             // 背景色
             $bg_color = empty($ret['data']['bg_color']) ? '' : 'background:'.$ret['data']['bg_color'].';';
 
+            // 内容css
+            $content_css = $bg_color;
+            if($online_service_li_count <= 2)
+            {
+                $content_css .= 'border-radius:0;';
+            }
+
             // 组装
             $content = '<div class="float-left" style="'.$bg_color.'">
                 <a class="btn-open" title="查看在线客服" href="javascript:void(0);">展开</a>
                 <a class="btn-ctn" title="关闭在线客服" href="javascript:void(0);">收缩</a>
               </div>
-              <div class="content" style="'.(($online_service_li_count <= 2) ? 'border-radius:0;'.$bg_color : $bg_color).'">
+              <div class="content" style="'.$content_css.'">
                 <div class="cn">
                   <h3 class="title">'.$ret['data']['title'].'</h3>
                   <ul>'.$online_service_html.$tel_html.'

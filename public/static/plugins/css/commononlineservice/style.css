@@ -6,16 +6,16 @@
     position: fixed;
     top: 30%;
     right: 0px;
-    z-index: 1000;
+    z-index: 1001;
 }
 .commononlineservice .float-left {
-    width: 36px;
+    width: 35px;
     float:left;
     position: relative;
     z-index:1;
     margin-top: 0;
     height: 120px;
-    border-radius: 6px 0px 0 6px;
+    border-radius: 3px 0px 0 3px;
 }
 .commononlineservice .float-left a {
     font-size:0;
@@ -27,11 +27,11 @@
     overflow:hidden;
     width: 140px;
     margin-right:-150px;
-    border-radius: 0 0px 0 6px;
+    border-radius: 0 0px 0 3px;
 }
 .commononlineservice .content .cn {
     background:#F7F7F7;
-    border-radius:6px;
+    border-radius:3px;
 }
 .commononlineservice .cn .title {
     font-size: 14px;
