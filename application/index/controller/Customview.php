@@ -61,6 +61,8 @@ class CustomView extends Common
 			$this->assign('home_seo_site_title', $this->GetBrowserSeoTitle($data['data'][0]['title'], 1));
 
 			$this->assign('data', $data['data'][0]);
+            $this->assign('is_header', $data['data'][0]['is_header']);
+            $this->assign('is_footer', $data['data'][0]['is_footer']);
 			return $this->fetch();
 		} else {
 			$this->assign('msg', '页面不存在或已删除');
