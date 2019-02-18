@@ -76,7 +76,7 @@ color: #555555;background:none;border-color:transparent;cursor: default;}
 .goods-category-s{display: none;}
 
 /*浮动框*/
-.nav-search{top:0;left:0;width:100%;z-index:1060; margin:0px auto;background:#fff; padding-top: 5px; position: relative;}
+.nav-search{top:0;left:0;width:100%;z-index:1000; margin:0px auto;background:#fff; padding-top: 5px; position: relative;}
 .nav-search .logo{height:36px;width:95px; margin: 0 auto; display: -webkit-inline-box;}
 .logo-big{display:none;}
 .logo img{width:100%}
