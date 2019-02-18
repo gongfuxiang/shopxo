@@ -97,14 +97,14 @@ $(function()
         {
             $(".dd-conent").slideUp(300);
             $(".theme-popover-mask").hide();
-            $(".theme-popover").css({"position":"static", "top":0, "padding-top":"0"});
+            $(".theme-popover").css({"position":"static", "top":0});
         }
     });
     $(document).on("click", ".theme-popover-mask", function()
     {
         $(".dd-conent").slideUp(300);
         $(".theme-popover-mask").hide();
-        $(".theme-popover").css({"position":"static", "top":0, "padding-top":"0"});
+        $(".theme-popover").css({"position":"static", "top":0});
     });
     
 
