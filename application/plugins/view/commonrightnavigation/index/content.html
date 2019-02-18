@@ -1,0 +1,87 @@
+<div class="commonrightnavigation-right-nav">
+    <!-- 用户中心 -->
+    <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/user/index')}}{{/if}}" class="user-content {{$login_event_class}}">
+        <div class="base-nav user-center">
+            <img src="{{if empty($user['avatar'])}}{{:config('shopxo.attachment_host')}}/static/index/default/images/default-user-avatar.jpg{{else /}}{{$user.avatar}}{{/if}}" class="user-avatar">
+            <div class="mui-mbar-tab-tip am-animation-slide-left">
+                用户中心
+                <div class="mui-mbar-arr mui-mbar-tab-tip-arr">◆</div>
+            </div>
+        </div>
+    </a>
+    
+    <!-- 我的足迹 -->
+    <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/usergoodsbrowse/index')}}{{/if}}" class="browse-content {{$login_event_class}}">
+        <div class="base-nav browse">
+            <i class="am-icon-lastfm"></i>
+            <div class="mui-mbar-tab-tip am-animation-slide-left">
+                我的足迹
+                <div class="mui-mbar-arr mui-mbar-tab-tip-arr">◆</div>
+            </div>
+        </div>
+    </a>
+
+    <!-- 我的收藏 -->
+    <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/userfavor/goods')}}{{/if}}" class="favor-content {{$login_event_class}}">
+        <div class="base-nav favor">
+            <i class="am-icon-star-o"></i>
+            <div class="mui-mbar-tab-tip am-animation-slide-left">
+                我的收藏
+                <div class="mui-mbar-arr mui-mbar-tab-tip-arr">◆</div>
+            </div>
+        </div>
+    </a>
+
+    <!-- 购物车 -->
+    <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/cart/index')}}{{/if}}" class="cart-content {{$login_event_class}} {{if isset($data['is_goods_page_show_cart']) and $data['is_goods_page_show_cart'] eq 1 and $module_controller_action eq 'indexgoodsindex'}} cart-show{{/if}}">
+        <div class="base-nav cart">
+            <i class="am-icon-opencart"></i>
+            <div class="cart-text">
+                购物车
+                <div class="cart-count common-cart-total am-badge am-badge-danger">{{if $cart_total > 9}}9+{{else /}}{{$cart_total}}{{/if}}</div>
+            </div>
+        </div>
+    </a>
+
+    <!-- 二维码 -->
+    <div class="base-nav qrcode-content">
+        <i class="am-icon-qrcode"></i>
+        <div class="mui-mbar-popup qrcode-items am-animation-slide-left">
+            <ul>
+                {{if !empty($data['alipay_mini_qrcode_images'])}}
+                    <li>
+                        <p>支付宝小程序</p>
+                        <img src="{{$data.alipay_mini_qrcode_images}}" alt="支付宝小程序">
+                    </li>
+                {{/if}}
+                {{if !empty($data['alipay_fuwu_qrcode_images'])}}
+                    <li>
+                        <p>支付宝生活号</p>
+                        <img src="{{$data.alipay_fuwu_qrcode_images}}" alt="支付宝生活号">
+                    </li>
+                {{/if}}
+                {{if !empty($data['weixin_mini_qrcode_images'])}}
+                    <li>
+                        <p>微信小程序</p>
+                        <img src="{{$data.weixin_mini_qrcode_images}}" alt="微信小程序">
+                    </li>
+                {{/if}}
+                {{if !empty($data['weixin_fuwu_qrcode_images'])}}
+                    <li>
+                        <p>微信公众号</p>
+                        <img src="{{$data.weixin_fuwu_qrcode_images}}" alt="微信公众号">
+                    </li>
+                {{/if}}
+            </ul>
+        </div>
+    </div>
+
+    <!-- 回顶部 -->
+    <div class="base-nav go-top" data-am-smooth-scroll id="plugins-commonrightnavigation">
+        <i class="am-icon-arrow-up"></i>
+        <div class="mui-mbar-tab-tip am-animation-slide-left">
+            返回顶部
+            <div class="mui-mbar-arr mui-mbar-tab-tip-arr">◆</div>
+        </div>
+    </div>
+</div>

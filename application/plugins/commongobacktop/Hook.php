@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\plugins\commongobacktop;
 
+use think\Controller;
 use app\service\PluginsService;
 
 /**
@@ -19,7 +20,7 @@ use app\service\PluginsService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Hook
+class Hook extends Controller
 {
     /**
      * 应用响应入口
@@ -132,10 +133,6 @@ class Hook
 
         // 获取应用数据
         $ret = PluginsService::PluginsData('commongobacktop', ['images']);
-
-        // html拼接
-        $html = '<div data-am-smooth-scroll class="am-hide-sm-only">';
-        $content = '';
         if($ret['code'] == 0)
         {
             // 图片是否为空
@@ -154,16 +151,11 @@ class Hook
                 }
             }
 
-            $content = '<div id="plugins-commongobacktop" title="回到顶部">';
-            $content .= '<img src="'.$ret['data']['images'].'" />';
-            $content .= '</div>';
+            $this->assign('data', $ret['data']);
+            return $this->fetch('../../../plugins/view/commongobacktop/index/content');
         } else {
-            $content = $ret['msg'];
+            return $ret['msg'];
         }
-        $html .= $content;
-        $html .= '</div>';
-
-        return $html;
     }
 }
 ?>

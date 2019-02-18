@@ -100,29 +100,7 @@ class Plugins extends Common
             $this->assign('msg', ucfirst($pluginsaction).' 应用方法未定义');
             return $this->fetch('public/error');
         }
-        $ret = $obj->$pluginsaction($params);
-        
-        // 是否ajax
-        if(IS_AJAX)
-        {
-            return $ret;
-        } else {
-            // 调用应用模板
-            if(isset($ret['code']))
-            {
-               if($ret['code'] == 0)
-                {
-                    $this->assign($ret['data']);
-                    return $this->fetch('../../../plugins/view/'.$pluginsname.'/'.$pluginscontrol.'/'.$pluginsaction);
-                } else {
-                    $this->assign('msg', $ret['msg']);
-                    return $this->fetch('public/error');
-                } 
-            } else {
-                $this->assign('msg', '应用返回数据格式有误');
-                return $this->fetch('public/error');
-            }
-        }
+        return $obj->$pluginsaction($params);
     }
 
     /**

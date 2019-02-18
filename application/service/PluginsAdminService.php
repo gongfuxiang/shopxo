@@ -486,7 +486,7 @@ class PluginsAdminService
 $admin=<<<php
 <?php
 namespace app\plugins\\$plugins;
-
+use think\Controller;
 /**
  * {$params['name']} - 后台管理
  * @author   Devil
@@ -494,17 +494,15 @@ namespace app\plugins\\$plugins;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Admin
+class Admin extends Controller
 {
     // 后台管理入口
     public function index(\$params = [])
     {
         // 数组组装
-        \$data = [
-            'data'  => ['hello', 'world!'],
-            'msg'   => 'hello world! admin',
-        ];
-        return DataReturn('处理成功', 0, \$data);
+        \$this->assign('data', ['hello', 'world!']);
+        \$this->assign('msg', 'hello world! admin');
+        return \$this->fetch('../../../plugins/view/$plugins/admin/index');
     }
 }
 ?>
@@ -513,7 +511,7 @@ php;
 $hook=<<<php
 <?php
 namespace app\plugins\\$plugins;
-
+use think\Controller;
 /**
  * {$params['name']} - 钩子入口
  * @author   Devil
@@ -521,7 +519,7 @@ namespace app\plugins\\$plugins;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Hook
+class Hook extends Controller
 {
     // 应用响应入口
     public function run(\$params = [])
@@ -548,7 +546,7 @@ php;
 $index=<<<php
 <?php
 namespace app\plugins\\$plugins;
-
+use think\Controller;
 /**
  * {$params['name']} - 前端独立页面入口
  * @author   Devil
@@ -556,17 +554,15 @@ namespace app\plugins\\$plugins;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Index
+class Index extends Controller
 {
     // 前端页面入口
     public function index(\$params = [])
     {
         // 数组组装
-        \$data = [
-            'data'  => ['hello', 'world!'],
-            'msg'   => 'hello world! index',
-        ];
-        return DataReturn('处理成功', 0, \$data);
+        \$this->assign('data', ['hello', 'world!']);
+        \$this->assign('msg', 'hello world! index');
+        return \$this->fetch('../../../plugins/view/$plugins/index/index');
     }
 }
 ?>

@@ -1,0 +1,5 @@
+<div style="text-align: center; {{if !empty($data['bg_color'])}}background: {{$data.bg_color}};{{/if}}">
+    <a href="{{if !empty($data['url'])}}{{$data.url}}{{else /}}javascript:;{{/if}}" {{if isset($data['is_new_window_open']) and $data['is_new_window_open'] eq 1}}target="_blank"{{/if}}>
+        <img src="{{$data.images}}" />
+    </a>
+</div>

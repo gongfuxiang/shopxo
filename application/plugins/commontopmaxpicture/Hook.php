@@ -10,8 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\plugins\commontopmaxpicture;
 
+use think\Controller;
 use app\service\PluginsService;
-
 /**
  * 顶部大图广告插件 - 钩子入口
  * @author   Devil
@@ -19,7 +19,7 @@ use app\service\PluginsService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Hook
+class Hook extends Controller
 {
     /**
      * 应用响应入口
@@ -59,10 +59,6 @@ class Hook
 
         // 获取应用数据
         $ret = PluginsService::PluginsData('commontopmaxpicture', ['images']);
-
-        // html拼接
-        $html = '<div style="text-align: center;';
-        $content = '';
         if($ret['code'] == 0)
         {
             // 图片是否为空
@@ -99,22 +95,11 @@ class Hook
                 }
             }
 
-            // 背景色
-            if(!empty($ret['data']['bg_color']))
-            {
-                $html .= 'background: '.$ret['data']['bg_color'].';';
-            }
-            $content .= '<a href="'.(empty($ret['data']['url']) ? 'javascript:;' : $ret['data']['url']).'" '.($ret['data']['is_new_window_open'] == 1 ? 'target="_blank"' : '').'>';
-            $content .= '<img src="'.$ret['data']['images'].'" />';
-            $content .= '</a>';
+            $this->assign('data', $ret['data']);
+            return $this->fetch('../../../plugins/view/commontopmaxpicture/index/content');
         } else {
-            $content = $ret['msg'];
+            return $ret['msg'];
         }
-        $html .= '">';
-        $html .= $content;
-        $html .= '</div>';
-
-        return $html;
     }
 }
 ?>

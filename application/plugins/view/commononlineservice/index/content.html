@@ -1,0 +1,30 @@
+<div class="commononlineservice" {{if !empty($data['distance_top'])}} style="top:{{$data.distance_top}}%"{{/if}}>
+    <div class="float-left" style="{{if !empty($data['bg_color'])}}background: {{$data.bg_color}};{{/if}}">
+        <a class="btn-open" title="查看在线客服" href="javascript:void(0);">展开</a>
+        <a class="btn-ctn" title="关闭在线客服" href="javascript:void(0);">收缩</a>
+    </div>
+    <div class="content" style="{{if isset($data['online_service_li_count']) and $data['online_service_li_count'] ELT 2}}border-radius: 0;{{/if}} {{if !empty($data['bg_color'])}}background: {{$data.bg_color}};{{/if}}">
+        <div class="cn">
+            {{if !empty($data['title'])}}
+                <h3 class="title">{{$data.title}}</h3>
+            {{/if}}
+            {{if !empty($data['online_service'])}}
+                <ul>
+                    {{foreach name=$data.online_service as $v}}
+                        <li>
+                            <span>{{$v[0]}}</span>
+                            <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin={{$v[1]}}&amp;site=qq&amp;menu=yes">
+                                <img border="0" src="http://wpa.qq.com/pa?p=2:{{$v[1]}}:51" alt="点击这里给我发消息" title="点击这里给我发消息">
+                            </a>
+                        </li>
+                    {{/foreach}}
+                    {{if !empty($data['title'])}}
+                        <li>
+                            <span>电话：{{$data.tel}}</span>
+                        </li>
+                    {{/if}}
+                </ul>
+            {{/if}}
+        </div>
+    </div>
+</div>

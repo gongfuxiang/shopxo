@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\plugins\commontopnotice;
 
+use think\Controller;
 use app\service\PluginsService;
 
 /**
@@ -19,7 +20,7 @@ use app\service\PluginsService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Hook
+class Hook extends Controller
 {
     /**
      * 应用响应入口
@@ -59,10 +60,6 @@ class Hook
 
         // 获取应用数据
         $ret = PluginsService::PluginsData('commontopnotice');
-
-        // html拼接
-        $html = '<div class="am-alert am-alert-warning am-radius" style="margin: 0;">';
-        $content = '';
         if($ret['code'] == 0)
         {
             // 内容是否为空
@@ -99,14 +96,11 @@ class Hook
                 }
             }
 
-            $content .= '<div class="am-container">'.$ret['data']['content'].'</div>';
+            $this->assign('data', $ret['data']);
+            return $this->fetch('../../../plugins/view/commontopnotice/index/content');
         } else {
-            $content = $ret['msg'];
+            return $ret['msg'];
         }
-        $html .= $content;
-        $html .= '</div>';
-
-        return $html;
     }
 }
 ?>

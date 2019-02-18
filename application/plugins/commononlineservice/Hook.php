@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\plugins\commononlineservice;
 
+use think\Controller;
 use app\service\PluginsService;
 
 /**
@@ -19,7 +20,7 @@ use app\service\PluginsService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Hook
+class Hook extends Controller
 {
     /**
      * 应用响应入口
@@ -86,10 +87,6 @@ class Hook
 
         // 获取应用数据
         $ret = PluginsService::PluginsData('commononlineservice', ['images']);
-
-        // html拼接
-        $html = '<div class="commononlineservice"';
-        $content = '';
         if($ret['code'] == 0)
         {            
             // 非全局
@@ -102,75 +99,42 @@ class Hook
                 }
             }
 
-            // 距离顶部距离
-            if(isset($ret['data']['distance_top']))
-            {
-                $html .= ' style="top:'.intval($ret['data']['distance_top']).'%"';
-            }
-
             // li数量
             $online_service_li_count = 0;
 
             // 客服
             $online_service = empty($ret['data']['online_service']) ? [] : explode("\n", $ret['data']['online_service']);
-            $online_service_html = '';
+            $online_service_data = [];
             if(!empty($online_service))
             {
                 foreach($online_service as $v)
                 {
                     $items = explode('|', $v);
-                    if(!empty($items) && count($items) == 2)
+                    if(count($items) == 2)
                     {
-                        $online_service_html .= '<li>
-                          <span>'.$items[0].'</span>
-                          <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin='.$items[1].'&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:'.$items[1].':51" alt="点击这里给我发消息" title="点击这里给我发消息"/></a>
-                        </li>';
+                        $online_service_data[] = $items;
                         $online_service_li_count++;
                     }
                     
                 }
             }
+            $ret['data']['online_service'] = $online_service_data;
 
             // 电话
-            $tel_html = '';
             if(!empty($ret['data']['tel']))
             {
-                $tel_html .= '<li>
-                          <span>电话：'.$ret['data']['tel'].'</span>
-                        </li>';
                 $online_service_li_count++;
             }
 
-            // 背景色
-            $bg_color = empty($ret['data']['bg_color']) ? '' : 'background:'.$ret['data']['bg_color'].';';
+            // li数量
+            $ret['data']['online_service_li_count'] = $online_service_li_count;
 
-            // 内容css
-            $content_css = $bg_color;
-            if($online_service_li_count <= 2)
-            {
-                $content_css .= 'border-radius:0;';
-            }
 
-            // 组装
-            $content = '<div class="float-left" style="'.$bg_color.'">
-                <a class="btn-open" title="查看在线客服" href="javascript:void(0);">展开</a>
-                <a class="btn-ctn" title="关闭在线客服" href="javascript:void(0);">收缩</a>
-              </div>
-              <div class="content" style="'.$content_css.'">
-                <div class="cn">
-                  <h3 class="title">'.$ret['data']['title'].'</h3>
-                  <ul>'.$online_service_html.$tel_html.'
-                  </ul>
-                </div>
-              </div>';
+            $this->assign('data', $ret['data']);
+            return $this->fetch('../../../plugins/view/commononlineservice/index/content');
         } else {
-            $content = $ret['msg'];
+            return $ret['msg'];
         }
-        $html .= '>';
-        $html .= $content;
-        $html .= '</div>';
-
-        return $html;
     }
 }
 ?>

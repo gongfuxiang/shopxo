@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\plugins\commononlineservice;
 
+use think\Controller;
 use app\service\PluginsService;
 
 /**
@@ -19,7 +20,7 @@ use app\service\PluginsService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Admin
+class Admin extends Controller
 {
     /**
      * 首页
@@ -37,13 +38,10 @@ class Admin
             // 数据处理
             $ret['data']['online_service'] = str_replace("\n", '<br />', $ret['data']['online_service']);
 
-            // 数组组装
-            $data = [
-                'data'              => $ret['data'],
-            ];
-            return DataReturn('处理成功', 0, $data);
+            $this->assign('data', $ret['data']);
+            return $this->fetch('../../../plugins/view/commononlineservice/admin/index');
         } else {
-            return $ret;
+            return $ret['msg'];
         }
     }
 
@@ -66,14 +64,11 @@ class Admin
                 1 => array('id' => 1, 'name' => '是', 'checked' => true),
             ];
 
-            // 数组组装
-            $data = [
-                'is_whether_list'   => $is_whether_list,
-                'data'              => $ret['data'],
-            ];
-            return DataReturn('处理成功', 0, $data);
+            $this->assign('is_whether_list', $is_whether_list);
+            $this->assign('data', $ret['data']);
+            return $this->fetch('../../../plugins/view/commononlineservice/admin/saveinfo');
         } else {
-            return $ret;
+            return $ret['msg'];
         }
     }
 

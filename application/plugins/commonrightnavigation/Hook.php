@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\plugins\commonrightnavigation;
 
+use think\Controller;
 use app\service\PluginsService;
 use app\service\BuyService;
 
@@ -20,7 +21,7 @@ use app\service\BuyService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Hook
+class Hook extends Controller
 {
     /**
      * 应用响应入口
@@ -103,116 +104,29 @@ class Hook
                 }
             }
 
+            // 当前模块/控制器/方法
+            $this->assign('module_controller_action', $module_name.$controller_name.$action_name);
+
             // 是否新窗口打开
-            $is_new_window_open = (isset($ret['data']['is_new_window_open']) && $ret['data']['is_new_window_open'] == 1) ? 'target="_blank"' : '';
+            $is_new_window_open_html = (isset($ret['data']['is_new_window_open']) && $ret['data']['is_new_window_open'] == 1) ? 'target="_blank"' : '';
+            $this->assign('is_new_window_open_html', $is_new_window_open_html);
 
             // 购物车总数
             $cart_total = BuyService::UserCartTotal(['user'=>$params['user']]);
+            $this->assign('cart_total', $cart_total);
 
             // 是否需要登录
-            $login_event = empty($params['user']) ? 'login-event' : '';
+            $login_event_class = empty($params['user']) ? 'login-event' : '';
+            $this->assign('login_event_class', $login_event_class);
 
-            // 内容
-            $content .= '<!-- 用户中心 -->
-                <a href="'.(empty($params['user']) ? 'javascript:;' : MyUrl('index/user/index')).'" '.$is_new_window_open.' class="user-content '.$login_event.'">
-                    <div class="base-nav user-center">
-                        <img src="'.(!empty($user['avatar']) ? $params['user']['avatar'] : config('shopxo.attachment_host').'/static/index/default/images/default-user-avatar.jpg').'" class="user-avatar" />
-                        <div class="mui-mbar-tab-tip am-animation-slide-left">
-                            用户中心
-                            <div class="mui-mbar-arr mui-mbar-tab-tip-arr">◆</div>
-                        </div>
-                    </div>
-                </a>
+            // 用户信息
+            $this->assign('user', $params['user']);
 
-                <!-- 我的足迹 -->
-                <a href="'.(empty($params['user']) ? 'javascript:;' : MyUrl('index/usergoodsbrowse/index')).'" '.$is_new_window_open.' class="browse-content '.$login_event.'">
-                    <div class="base-nav browse">
-                        <i class="am-icon-lastfm"></i>
-                        <div class="mui-mbar-tab-tip am-animation-slide-left">
-                            我的足迹
-                            <div class="mui-mbar-arr mui-mbar-tab-tip-arr">◆</div>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- 我的收藏 -->
-                <a href="'.(empty($params['user']) ? 'javascript:;' : MyUrl('index/userfavor/goods')).'" '.$is_new_window_open.' class="favor-content '.$login_event.'">
-                    <div class="base-nav favor">
-                        <i class="am-icon-star-o"></i>
-                        <div class="mui-mbar-tab-tip am-animation-slide-left">
-                            我的收藏
-                            <div class="mui-mbar-arr mui-mbar-tab-tip-arr">◆</div>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- 购物车 -->
-                <a href="'.(empty($params['user']) ? 'javascript:;' : MyUrl('index/cart/index')).'" '.$is_new_window_open.' class="cart-content '.$login_event.' '.(($ret['data']['is_goods_page_show_cart'] == 1 && $module_name.$controller_name.$action_name == 'indexgoodsindex' ? 'cart-show' : '')).'">
-                    <div class="base-nav cart">
-                        <i class="am-icon-opencart"></i>
-                        <div class="cart-text">
-                            购物车
-                            <div class="cart-count common-cart-total am-badge am-badge-danger">'.($cart_total > 9 ? '9+' : $cart_total).'</div>
-                        </div>
-                    </div>
-                </a>';
-
-            $qrcode = '';
-            if(!empty($ret['data']['alipay_mini_qrcode_images']))
-            {
-                $qrcode .= '<li>
-                                <p>支付宝小程序</p>
-                                <img src="'.$ret['data']['alipay_mini_qrcode_images'].'" alt="支付宝小程序" /> 
-                            </li>';
-            }
-            if(!empty($ret['data']['alipay_fuwu_qrcode_images']))
-            {
-                $qrcode .= '<li>
-                                <p>支付宝生活号</p>
-                                <img src="'.$ret['data']['alipay_fuwu_qrcode_images'].'" alt="支付宝生活号" /> 
-                            </li>';
-            }
-            if(!empty($ret['data']['weixin_mini_qrcode_images']))
-            {
-                $qrcode .= '<li>
-                                <p>微信小程序</p>
-                                <img src="'.$ret['data']['weixin_mini_qrcode_images'].'" alt="微信小程序" /> 
-                            </li>';
-            }
-            if(!empty($ret['data']['weixin_fuwu_qrcode_images']))
-            {
-                $qrcode .= '<li>
-                                <p>微信公众号</p>
-                                <img src="'.$ret['data']['weixin_fuwu_qrcode_images'].'" alt="微信公众号" /> 
-                            </li>';
-            }
-            if(!empty($qrcode))
-            {
-                $content .= '<!-- 二维码 -->
-                    <div class="base-nav qrcode-content">
-                        <i class="am-icon-qrcode"></i>
-                        <div class="mui-mbar-popup qrcode-items am-animation-slide-left">
-                            <ul>'.$qrcode.'</ul>
-                        </div>
-                    </div>';
-            }
-
-            $content .= '<!-- 回顶部 -->
-                <div class="base-nav go-top" data-am-smooth-scroll id="plugins-commonrightnavigation">
-                    <i class="am-icon-arrow-up"></i>
-                    <div class="mui-mbar-tab-tip am-animation-slide-left">
-                        返回顶部
-                        <div class="mui-mbar-arr mui-mbar-tab-tip-arr">◆</div>
-                    </div>
-                </div>';
-
+            $this->assign('data', $ret['data']);
+            return $this->fetch('../../../plugins/view/commonrightnavigation/index/content');
         } else {
-            $content = $ret['msg'];
+            return $ret['msg'];
         }
-        $html .= $content;
-        $html .= '</div>';
-
-        return $html;
     }
 }
 ?>

@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\plugins\commontopmaxpicture;
 
+use think\Controller;
 use app\service\PluginsService;
 
 /**
@@ -19,7 +20,7 @@ use app\service\PluginsService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Admin
+class Admin extends Controller
 {
     /**
      * 首页
@@ -34,13 +35,10 @@ class Admin
         $ret = PluginsService::PluginsData('commontopmaxpicture', ['images']);
         if($ret['code'] == 0)
         {
-            // 数组组装
-            $data = [
-                'data'              => $ret['data'],
-            ];
-            return DataReturn('处理成功', 0, $data);
+            $this->assign('data', $ret['data']);
+            return $this->fetch('../../../plugins/view/commontopmaxpicture/admin/index');
         } else {
-            return $ret;
+            return $ret['msg'];
         }
     }
 
@@ -63,14 +61,11 @@ class Admin
                 1 => array('id' => 1, 'name' => '是'),
             ];
 
-            // 数组组装
-            $data = [
-                'is_whether_list'   => $is_whether_list,
-                'data'              => $ret['data'],
-            ];
-            return DataReturn('处理成功', 0, $data);
+            $this->assign('is_whether_list', $is_whether_list);
+            $this->assign('data', $ret['data']);
+            return $this->fetch('../../../plugins/view/commontopmaxpicture/admin/saveinfo');
         } else {
-            return $ret;
+            return $ret['msg'];
         }
     }
 
