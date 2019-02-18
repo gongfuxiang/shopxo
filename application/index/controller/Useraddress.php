@@ -69,6 +69,8 @@ class UserAddress extends Common
             $params['user'] = $this->user;
             $data = UserService::UserAddressRow($params);
             $this->assign('data', $data['data']);
+        } else {
+            $this->assign('data', []);
         }
         return $this->fetch();
     }
