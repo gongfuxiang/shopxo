@@ -45,26 +45,17 @@ return array (
   array (
     0 => 'app\\plugins\\userloginrewardintegral\\Hook',
   ),
-  'plugins_view_common_bottom' => 
-  array (
-    0 => 'app\\plugins\\commongobacktop\\Hook',
-    1 => 'app\\plugins\\commonrightnavigation\\Hook',
-    2 => 'app\\plugins\\commononlineservice\\Hook',
-  ),
-  'plugins_common_page_bottom' => 
-  array (
-    0 => 'app\\plugins\\commongobacktop\\Hook',
-  ),
-  'plugins_common_header' => 
-  array (
-    0 => 'app\\plugins\\commongobacktop\\Hook',
-  ),
   'plugins_css' => 
   array (
     0 => 'app\\plugins\\commonrightnavigation\\Hook',
     1 => 'app\\plugins\\commononlineservice\\Hook',
   ),
   'plugins_js' => 
+  array (
+    0 => 'app\\plugins\\commonrightnavigation\\Hook',
+    1 => 'app\\plugins\\commononlineservice\\Hook',
+  ),
+  'plugins_view_common_bottom' => 
   array (
     0 => 'app\\plugins\\commonrightnavigation\\Hook',
     1 => 'app\\plugins\\commononlineservice\\Hook',
