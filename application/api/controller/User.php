@@ -131,16 +131,26 @@ class User extends Common
      */
     public function WechatUserInfo()
     {
-        $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->DecryptData(input('encrypted_data'), input('iv'), input('openid'));
+        // 参数
+        $params = input();
 
-        if(is_array($result))
+        // 先从数据库获取用户信息
+        $user = UserService::UserInfo('weixin_openid', $params['openid']);
+        if(empty($user))
         {
-            $result['nick_name'] = isset($result['nickName']) ? $result['nickName'] : '';
-            $result['avatar'] = isset($result['avatarUrl']) ? $result['avatarUrl'] : '';
-            $result['gender'] = empty($result['gender']) ? 0 : ($result['gender'] == 2) ? 1 : 2;
-            $result['openid'] = $result['openId'];
-            $result['referrer']= isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0;
-            return UserService::AuthUserProgram($result, 'weixin_openid');
+            $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->DecryptData($params['encrypted_data'], $params['iv'], $params['openid']);
+
+            if(is_array($result))
+            {
+                $result['nick_name'] = isset($result['nickName']) ? $result['nickName'] : '';
+                $result['avatar'] = isset($result['avatarUrl']) ? $result['avatarUrl'] : '';
+                $result['gender'] = empty($result['gender']) ? 0 : ($result['gender'] == 2) ? 1 : 2;
+                $result['openid'] = $result['openId'];
+                $result['referrer']= isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0;
+                return UserService::AuthUserProgram($result, 'weixin_openid');
+            }
+        } else {
+            return DataReturn('授权成功', 0, $user);
         }
         return DataReturn(empty($result) ? '获取用户信息失败' : $result, -100);
     }

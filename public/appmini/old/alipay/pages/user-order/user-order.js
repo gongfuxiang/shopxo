@@ -61,6 +61,11 @@ Page({
         // 获取数据
         this.get_data_list();
       }
+    } else {
+      this.setData({
+        data_list_loding_status: 0,
+        data_bottom_line_status: false,
+      });
     }
   },
 

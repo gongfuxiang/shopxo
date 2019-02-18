@@ -4,7 +4,7 @@ dl,dt,dd{ margin:0px auto; padding:0px;}
 .am-thumbnails {margin-left: 0rem;margin-right: 0rem;}
 .am-thumbnail {margin-bottom:0;}
 .am-thumbnails > li {padding: 0 0rem 0.2rem .2rem;}
-img{ width:100%;}
+img{ max-width:100%;}
 .price{color: #e4393c;font-weight: 600;}
 
 .theme-popover {z-index: 1009;overflow:visible;background:#fff; width: 100%; }

@@ -71,7 +71,7 @@ class Search extends Common
             return redirect(MyUrl('index/search/index', $p));
         } else {
             // 品牌列表
-            $this->assign('brand_list', BrandService::CategoryBrandList(['category_id'=>$this->params['category_id']]));
+            $this->assign('brand_list', BrandService::CategoryBrandList(['category_id'=>$this->params['category_id'], 'keywords'=>$this->params['keywords']]));
 
             // 商品分类
             $this->assign('category_list', SearchService::GoodsCategoryList(['category_id'=>$this->params['category_id']]));

@@ -13,11 +13,11 @@
             <th width="25%">当前服务器</th>
             <th width="25%">是否符合</th>
         </tr>
-        <tr class="yes">
+        <tr class="<?php if(function_exists('php_uname')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
             <td>操作系统</td>
             <td>无限制</td>
-            <td><?php echo php_uname('s'); ?></td>
-            <td>√</td>
+            <td><?php echo function_exists('php_uname') ? php_uname('s') : '未知（php_uname函数未启用）'; ?></td>
+            <td><?php echo function_exists('php_uname') ? '√' : '×'; ?></td>
         </tr>
 
         <?php $php_version = explode('.', PHP_VERSION); ?>
@@ -35,16 +35,19 @@
         </tr>
 
         <?php
-            $tmp = function_exists('gd_info') ? gd_info() : array();
-            preg_match("/[\d.]+/", $tmp['GD Version'], $match);
-            unset($tmp);
+            if(function_exists('gd_info'))
+            {
+                $tmp = gd_info();
+                preg_match("/[\d.]+/", $tmp['GD Version'], $match);
+                unset($tmp);
+            }
         ?>
-        <tr class="<?php if($match[0] > 2){ echo 'yes'; } else { echo 'am-danger'; } ?>">
+        <tr class="<?php if(isset($match[0]) && $match[0] > 2){ echo 'yes'; } else { echo 'am-danger'; } ?>">
             <td>GD库</td>
             <td>2.0</td>
-            <td><?php echo $match[0]; ?></td>
+            <td><?php echo isset($match[0]) ? $match[0] : '未知（gd_info函数未启用）'; ?></td>
             <td>
-                <?php if($match[0] > 2): ?>
+                <?php if(isset($match[0]) && $match[0] > 2): ?>
                     √
                 <?php else: ?>
                     ×
@@ -415,7 +418,7 @@
         </tr>
     </table>
 
-    <div class="agree">
+    <div class="agree ongoing-button">
         <a href="{{:MyUrl('install/index/index')}}" class="am-btn am-btn-secondary am-radius">上一步</a>
         <button type="button" class="am-btn am-btn-success am-radius check-submit" data-url="{{:MyUrl('install/index/create')}}">下一步</button>
     </div>

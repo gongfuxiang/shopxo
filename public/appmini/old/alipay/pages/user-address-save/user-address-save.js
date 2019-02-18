@@ -2,12 +2,16 @@ const app = getApp();
 
 Page({
   data: {
+    data_list_loding_status: 1,
+    data_list_loding_msg: '处理错误',
+
     province_list: [],
     city_list: [],
     county_list: [],
     province_id: null,
     city_id: null,
     county_id: null,
+    is_default: 0,
 
     default_province: "请选择省",
     default_city: "请选择市",
@@ -39,8 +43,17 @@ Page({
         my.redirectTo({
           url: "/pages/login/login?event_callback=init"
         });
+        this.setData({
+          data_list_loding_status: 2,
+          data_list_loding_msg: '请先绑定手机号码',
+        });
         return false;
       } else {
+        this.setData({
+          data_list_loding_status: 0,
+          data_list_loding_msg: '',
+        });
+
         // 获取地址数据
         if((this.data.params.id || null) != null)
         {
@@ -50,6 +63,11 @@ Page({
         // 获取省
         this.get_province_list();
       }
+    } else {
+      this.setData({
+        data_list_loding_status: 2,
+        data_list_loding_msg: '请先授权用户信息',
+      });
     }
   },
 
@@ -74,7 +92,8 @@ Page({
               address: data.address,
               province_id: data.province,
               city_id: data.city,
-              county_id: data.county
+              county_id: data.county,
+              is_default: data.is_default || 0,
             });
 
             self.get_city_list();
@@ -276,6 +295,7 @@ Page({
     form_data["city"] = data.city_id;
     form_data["county"] = data.county_id;
     form_data["id"] = self.data.params.id || 0;
+    form_data["is_default"] = self.data.is_default || 0;
 
     if (app.fields_check(form_data, validation)) {
       // 加载loding

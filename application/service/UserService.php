@@ -67,7 +67,7 @@ class UserService
                 $v['gender_text'] = $common_gender_list[$v['gender']]['name'];
             }
         }
-        return $data;
+        return DataReturn('处理成功', 0, $data);
     }
 
     /**
@@ -1323,14 +1323,15 @@ class UserService
                 'error_msg'         => '昵称 2~16 个字符之间',
             ],
             [
-                'checked_type'      => 'empty',
+                'checked_type'      => 'isset',
                 'key_name'          => 'birthday',
                 'error_msg'         => '请填写生日',
             ],
             [
-                'checked_type'      => 'isset',
+                'checked_type'      => 'in',
+                'checked_data'      => [0,1,2],
                 'key_name'          => 'gender',
-                'error_msg'         => '请选择性别',
+                'error_msg'         => '性别选择有误',
             ],
             [
                 'checked_type'      => 'empty',
@@ -1346,7 +1347,7 @@ class UserService
 
         // 更新数据库
         $data = [
-            'birthday'      => strtotime($params['birthday']),
+            'birthday'      => empty($params['birthday']) ? '' : strtotime($params['birthday']),
             'nickname'      => $params['nickname'],
             'gender'        => intval($params['gender']),
             'upd_time'      => time(),
@@ -1382,8 +1383,7 @@ class UserService
             'city'              => empty($params['city']) ? '' : $params['city'],
             'referrer'          => isset($params['referrer']) ? intval($params['referrer']) : 0,
         ];
-        $where = [$field=>$params['openid'], 'is_delete_time'=>0];
-        $user = Db::name('User')->where($where)->find();
+        $user = self::UserInfo($field, $params['openid']);
         if(!empty($user))
         {
             $data = $user;
@@ -1391,6 +1391,21 @@ class UserService
 
         // 返回成功
         return DataReturn('授权成功', 0, $data);
+    }
+
+    /**
+     * 根据字段获取用户信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-01-25
+     * @desc    description
+     * @param   [string]          $field [字段名称]
+     * @param   [string]          $value [字段值]
+     */
+    public static function UserInfo($field, $value)
+    {
+        return Db::name('User')->where([$field=>$value, 'is_delete_time'=>0])->find();
     }
 
     /**

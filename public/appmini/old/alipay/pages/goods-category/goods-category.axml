@@ -12,7 +12,7 @@
       <view class="content">
         <block a:if="{{item.items.length > 0}}">
           <view a:for="{{item.items}}" a:for-item="v" class="content-items" data-value="{{v.id}}" onTap="category_event">
-            <image a:if="{{v.icon != null}}" src="{{v.icon}}" mode="aspectFit" class="icon" />
+            <image a:if="{{(v.icon || null) != null}}" src="{{v.icon}}" mode="aspectFit" class="icon" />
             <view class="text single-text">{{v.name}}</view>
           </view>
         </block>

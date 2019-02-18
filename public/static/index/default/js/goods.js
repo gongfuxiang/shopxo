@@ -294,6 +294,10 @@ $(function() {
     {
         $(this).find('ul>li').on('click', function()
         {
+            // 切换规格购买数量清空
+            $('#text_box').val(1);
+            
+            // 规格处理
             var length = $('.theme-signin-left .sku-items').length;
             var index = $(this).parents('.sku-items').index();
 

@@ -100,6 +100,12 @@ class AppMiniService
      */
     public static function Created($params = [])
     {
+        // 是否https
+        if(__MY_HTTP__ != 'https')
+        {
+            return DataReturn('请使用https协议', -1);
+        }
+
         // 初始化
         self::Init($params);
 

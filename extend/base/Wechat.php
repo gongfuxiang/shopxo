@@ -74,7 +74,7 @@ class Wechat
         $data = json_decode($result, true);
         if($data == NULL)
         {
-            return '数据解密失败';
+            return '解析失败、请重试！';
         }
         if($data['watermark']['appid'] != $this->_appid )
         {

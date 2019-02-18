@@ -388,6 +388,26 @@ class GoodsService
                 $temp_type['value'] = $temp_type_value;
                 $temp_type['add_time'] = date('Y-m-d H:i:s');
             }
+
+            // 只有一个规格的时候直接获取规格值的库存数
+            if(count($choose) == 1)
+            {
+                foreach($choose[0]['value'] as &$temp_spec)
+                {
+                    $temp_spec_params = [
+                        'id'    => $params['goods_id'],
+                        'spec'  => [
+                            ['type' => $choose[0]['name'], 'value' => $temp_spec['name']]
+                        ],
+                    ];
+                    $temp = self::GoodsSpecDetail($temp_spec_params);
+                    if($temp['code'] == 0)
+                    {
+                        $temp_spec['is_only_level_one'] = 1;
+                        $temp_spec['inventory'] = $temp['data']['inventory'];
+                    }
+                }
+            }
         }
         return ['choose'=>$choose];
     }
@@ -1019,12 +1039,6 @@ class GoodsService
                 // 回滚事务
                 Db::rollback();
                 return $ret;
-            }
-
-            // 删除原来的视频
-            if(!empty($goods['video']) && (!empty($video['data']['file_video']['url']) || empty($data['video'])))
-            {
-                \base\FileUtil::UnlinkFile(ROOT_PATH.$goods['video']);
             }
 
             // 提交事务
@@ -1752,7 +1766,7 @@ class GoodsService
                     // 获取基础值数据
                     if(!empty($base_id))
                     {
-                        $base = Db::name('GoodsSpecBase')->field('id,goods_id,price,inventory,coding,barcode,original_price')->find($base_id);
+                        $base = Db::name('GoodsSpecBase')->find($base_id);
                         if(!empty($base))
                         {
                             return DataReturn('操作成功', 0, $base);
@@ -1761,7 +1775,7 @@ class GoodsService
                 }
             }
         } else {
-            $base = Db::name('GoodsSpecBase')->field('id,goods_id,price,inventory,coding,barcode,original_price')->where($where)->find();
+            $base = Db::name('GoodsSpecBase')->where($where)->find();
             if(!empty($base))
             {
                 return DataReturn('操作成功', 0, $base);

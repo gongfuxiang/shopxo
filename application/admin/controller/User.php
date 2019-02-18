@@ -86,7 +86,7 @@ class User extends Common
 
 		$this->assign('params', $params);
 		$this->assign('page_html', $page->GetPageHtml());
-		$this->assign('data', $data);
+		$this->assign('data', $data['data']);
 		return $this->fetch();
 
 	}
@@ -111,7 +111,7 @@ class User extends Common
 		$data = UserService::UserList($data_params);
 
 		// Excel驱动导出数据
-		$excel = new \base\Excel(array('filename'=>'user', 'title'=>lang('excel_user_title_list'), 'data'=>$data, 'msg'=>'没有相关数据'));
+		$excel = new \base\Excel(array('filename'=>'user', 'title'=>lang('excel_user_title_list'), 'data'=>$data['data'], 'msg'=>'没有相关数据'));
 		return $excel->Export();
 	}
 
@@ -136,12 +136,12 @@ class User extends Common
 				'n'			=> 1,
 			];
 			$data = UserService::UserList($data_params);
-			if(empty($data[0]))
+			if(empty($data['data'][0]))
 			{
 				return $this->error('用户信息不存在', MyUrl('admin/user/index'));
 			}
-			$data[0]['birthday_text'] = empty($data[0]['birthday']) ? '' : date('Y-m-d', $data[0]['birthday']);
-			$this->assign('data', $data[0]);
+			$data['data'][0]['birthday_text'] = empty($data['data'][0]['birthday']) ? '' : date('Y-m-d', $data['data'][0]['birthday']);
+			$this->assign('data', $data['data'][0]);
 		}
 
 		// 性别

@@ -28,10 +28,10 @@ p {
     line-height: 60px;
     text-align: center;
 }
-.agree .am-btn-secondary {
+.ongoing-button .am-btn-secondary {
     margin-right: 20px;
 }
-.agree .am-btn-success {
+.ongoing-button .am-btn-success {
     margin-left: 20px;
 }
 .am-footer {

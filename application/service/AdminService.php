@@ -39,7 +39,7 @@ class AdminService
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
         // 获取管理员列表
-        $data = Db::name('Admin')->where($where)->order($order_by)->limit($m, $n)->select();
+        $data = Db::name('Admin')->where($where)->field($field)->order($order_by)->limit($m, $n)->select();
         if(!empty($data))
         {
             foreach($data as &$v)
@@ -63,7 +63,7 @@ class AdminService
         $where = [];
         if(!empty($params['username']))
         {
-            $where[] =['username', 'like', '%'.$params['username'].'%'];
+            $where[] = ['username', 'like', '%'.$params['username'].'%'];
         }
         if(isset($params['role_id']) && $params['role_id'] > -1)
         {

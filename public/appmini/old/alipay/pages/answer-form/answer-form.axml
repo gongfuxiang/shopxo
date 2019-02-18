@@ -1,4 +1,4 @@
-<form onSubmit="formSubmit">
+<form onSubmit="formSubmit" a:if="{{data_list_loding_status == 0}}">
     <view class="form-input bg-white spacing-mb">
         <input type="text" class="wh-auto" name="name" placeholder="联系人" maxlength="30" />
     </view>
@@ -13,3 +13,8 @@
         <button type="default" formType="submit" class="my-btn-default" hover-class="none" onTap="submit_event" loading="{{form_submit_loading}}" disabled="{{form_submit_loading}}">提交</button>
     </view>
 </form>
+
+<view a:if="{{data_list_loding_status != 0}}">
+  <import src="/pages/common/nodata.axml" />
+  <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
+</view>

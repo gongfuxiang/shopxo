@@ -259,8 +259,8 @@ return [
     'dsn'             => '',
     // 数据库连接参数
     'params'          => [],
-    // 数据库编码默认采用utf8
-    'charset'         => '{$this->charset_type_list[$params['DB_CHARSET']]['charset']}',
+    // 数据库编码默认采用utf8mb4
+    'charset'         => '{$params['DB_CHARSET']}',
     // 数据库表前缀
     'prefix'          => '{$params['DB_PREFIX']}',
     // 数据库调试模式
@@ -333,6 +333,7 @@ php;
         $charset = $this->charset_type_list[$params['DB_CHARSET']];
         if($charset['charset'] != 'utf8mb4')
         {
+            $sql = str_replace('SET NAMES utf8mb4;', "SET NAMES {$charset['charset']};", $sql);
             $sql = str_replace('CHARSET=utf8mb4', "CHARSET={$charset['charset']}", $sql);
             $sql = str_replace('utf8mb4_general_ci', "{$charset['collate']}", $sql);
         }
@@ -466,8 +467,8 @@ php;
                 \PDO::ATTR_CASE => \PDO::CASE_LOWER,
                 \PDO::ATTR_EMULATE_PREPARES => true,
             ],
-            // 数据库编码默认采用utf8
-            'charset'     => 'utf8mb4',
+            // 数据库编码默认采用utf8mb4
+            'charset'     => $params['DB_CHARSET'],
             // 数据库表前缀
             'prefix'      => $params['DB_PREFIX'],
         ]);

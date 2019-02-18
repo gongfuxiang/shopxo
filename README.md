@@ -9,6 +9,9 @@
 * 支付宝小程序：http://shopxo.net/alipay.html （已发布）
 * 微信小程序：https://shopxo.net/weixin.html （已发布）
 
+### 小程序体验码
+![微信小程序](https://images.gitee.com/uploads/images/2019/0125/111858_88b945a6_488475.jpeg "微信小程序")
+
 ### 安装教程
 * v1.2.0安装教程：https://ask.shopxo.net/article/5
 
@@ -154,7 +157,7 @@ www  WEB部署目录（或者子目录）
 支付宝小程序
     > 基础配置
     > 小程序源码包
-支付宝生活号
+支付宝生活号（v1.1.0）
     > 生活号管理
     > 生活号分类
     > 消息管理

@@ -106,57 +106,182 @@ return array(
         ),
 
     // 用户excel导出标题列表
-    'excel_user_title_list'     =>  array(
-            'username'      =>  array(
-                    'col' => 'A',
-                    'name' => '姓名',
+    'excel_user_title_list'     =>  [
+            'username'      =>  [
+                    'name' => '用户名',
                     'type' => 'string',
-                ),
-            'nickname'      =>  array(
-                    'col' => 'B',
+                ],
+            'nickname'      =>  [
                     'name' => '昵称',
                     'type' => 'int',
-                ),
-            'gender_text'   =>  array(
-                    'col' => 'C',
+                ],
+            'gender_text'   =>  [
                     'name' => '性别',
                     'type' => 'string',
-                ),
-            'birthday_text'=>   array(
-                    'col' => 'D',
+                ],
+            'birthday_text'=>   [
                     'name' => '生日',
                     'type' => 'string',
-                ),
-            'mobile'        =>  array(
-                    'col' => 'E',
+                ],
+            'mobile'        =>  [
                     'name' => '手机号码',
                     'type' => 'int',
-                ),
-            'email'         =>  array(
-                    'col' => 'F',
+                ],
+            'email'         =>  [
                     'name' => '电子邮箱',
                     'type' => 'string',
-                ),
-            'province'      =>  array(
-                    'col' => 'G',
+                ],
+            'province'      =>  [
                     'name' => '所在省',
                     'type' => 'string',
-                ),
-            'city'      =>  array(
-                    'col' => 'H',
+                ],
+            'city'      =>  [
                     'name' => '所在市',
                     'type' => 'string',
-                ),
-            'address'       =>  array(
-                    'col' => 'I',
+                ],
+            'address'       =>  [
                     'name' => '详细地址',
                     'type' => 'string',
-                ),
-            'add_time'      =>  array(
-                    'col' => 'J',
+                ],
+            'add_time'      =>  [
                     'name' => '注册时间',
                     'type' => 'string',
-                ),
-        ),
+                ],
+        ],
+
+
+    // 订单excel导出
+    'excel_order_title_list'     =>  [
+            'order_no'      =>  [
+                    'name' => '订单编号',
+                    'type' => 'string',
+                ],
+
+            // 收件人信息
+            'receive_name'      =>  [
+                    'name' => '收件人姓名',
+                    'type' => 'string',
+                ],
+            'receive_tel'   =>  [
+                    'name' => '收件人电话',
+                    'type' => 'string',
+                ],
+            'receive_province_name'=>   [
+                    'name' => '收件人所在省',
+                    'type' => 'string',
+                ],
+            'receive_city_name'        =>  [
+                    'name' => '收件人所在市',
+                    'type' => 'string',
+                ],
+            'receive_county_name'         =>  [
+                    'name' => '收件人所在区县',
+                    'type' => 'string',
+                ],
+            'receive_address'      =>  [
+                    'name' => '收件人详细地址',
+                    'type' => 'string',
+                ],
+
+            // 用户留言
+            'user_note'      =>  [
+                    'name' => '用户留言',
+                    'type' => 'string',
+                ],
+
+            // 快递信息
+            'express_name'      =>  [
+                    'name' => '快递公司',
+                    'type' => 'string',
+                ],
+            'express_number'      =>  [
+                    'name' => '快递单号',
+                    'type' => 'string',
+                ],
+
+            // 支付信息
+            'payment_name'      =>  [
+                    'name' => '支付方式',
+                    'type' => 'string',
+                ],
+            'pay_status_name'      =>  [
+                    'name' => '支付状态',
+                    'type' => 'string',
+                ],
+
+            // 基础信息
+            'status_name'      =>  [
+                    'name' => '订单状态',
+                    'type' => 'string',
+                ],
+            'preferential_price'       =>  [
+                    'name' => '优惠金额',
+                    'type' => 'string',
+                ],
+            'price'       =>  [
+                    'name' => '订单单价',
+                    'type' => 'string',
+                ],
+            'total_price'       =>  [
+                    'name' => '订单总价(订单最终价格)',
+                    'type' => 'string',
+                ],
+            'pay_price'       =>  [
+                    'name' => '已支付金额',
+                    'type' => 'string',
+                ],
+            'excel_export_items'       =>  [
+                    'name' => '商品信息',
+                    'type' => 'string',
+                ],
+            'items_count'       =>  [
+                    'name' => '购买总数',
+                    'type' => 'int',
+                ],
+            'describe'       =>  [
+                    'name' => '描述',
+                    'type' => 'string',
+                ],
+
+            // 时间
+            'confirm_time'      =>  [
+                    'name' => '确认时间',
+                    'type' => 'string',
+                ],
+            'pay_time'      =>  [
+                    'name' => '支付时间',
+                    'type' => 'string',
+                ],
+            'delivery_time'      =>  [
+                    'name' => '发货时间',
+                    'type' => 'string',
+                ],
+            'collect_time'      =>  [
+                    'name' => '完成时间',
+                    'type' => 'string',
+                ],
+            'cancel_time'      =>  [
+                    'name' => '取消时间',
+                    'type' => 'string',
+                ],
+            'close_time'      =>  [
+                    'name' => '关闭时间',
+                    'type' => 'string',
+                ],
+            'add_time'      =>  [
+                    'name' => '创建时间',
+                    'type' => 'string',
+                ],
+            'upd_time'      =>  [
+                    'name' => '更新时间',
+                    'type' => 'string',
+                ],
+
+            // 评论
+            'user_is_comments_time'      =>  [
+                    'name' => '评论时间',
+                    'type' => 'string',
+                ],
+        ],
 );
 ?>

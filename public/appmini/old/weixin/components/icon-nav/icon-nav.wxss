@@ -11,10 +11,14 @@
 .items-content {
   border-radius: 50%;
   padding: 20rpx;
+  text-align: center;
+  width: 90rpx;
+  height: 90rpx;
 }
 .data-list .items image {
   width: 80rpx !important;
   height: 80rpx !important;
+  margin-top: 5rpx;
 }
 .data-list .items .title {
   margin-top: 10rpx;

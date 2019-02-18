@@ -172,12 +172,24 @@ class BrandService
     public static function CategoryBrandList($params = [])
     {
         $brand_where = ['is_enable'=>1];
+
+        // 分类id
         if(!empty($params['category_id']))
         {
             // 根据分类获取品牌id
             $category_ids = GoodsService::GoodsCategoryItemsIds([$params['category_id']], 1);
+            $category_ids[] = $params['category_id'];
             $where = ['g.is_delete_time'=>0, 'g.is_shelves'=>1, 'gci.category_id'=>$category_ids];
             $brand_where['id'] = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->field('g.brand_id')->where($where)->group('g.brand_id')->column('brand_id');
+        }
+
+        // 关键字
+        if(!empty($params['keywords']))
+        {
+            $where = [
+                ['title', 'like', '%'.$params['keywords'].'%']
+            ];
+            $brand_where['id'] = Db::name('Goods')->where($where)->group('brand_id')->column('brand_id');
         }
 
         // 获取品牌列表

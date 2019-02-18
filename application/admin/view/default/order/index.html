@@ -6,7 +6,7 @@
 		<!-- form start -->
 		<form class="am-form view-list" action="{{:MyUrl('admin/order/index')}}" method="POST">
 			<div class="am-g">
-				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="订单号/姓名/手机/地址/快递单号" name="keyword" {{if !empty($params['keyword'])}} value="{{$params.keyword}}"{{/if}} />
+				<input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="订单号/姓名/手机/地址/快递单号" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
 					更多筛选
@@ -49,6 +49,14 @@
         </form>
         <!-- form end -->
 
+        <!-- operation start -->
+        <div class="am-g m-t-15">
+            {{if !IsMobile()}}
+            	<a href="{{$excel_url}}" class="am-btn am-btn-success am-btn-xs am-icon-file-excel-o am-radius"> 导出Excel</a>
+            {{/if}}
+        </div>
+        <!-- operation end -->
+
 		<!-- list start -->
 		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 m-l-5">
 			<thead>
@@ -78,10 +86,8 @@
 										</div>
 										<div class="other">
 											<span class="fl fs-12">
-												{{if !empty($vs.spec)}}
-													{{foreach $vs.spec as $kss=>$vss}}
-														{{$vss.type}}:{{$vss.value}}{{if $kss neq count($vs.spec)-1}}，{{/if}}
-													{{/foreach}}
+												{{if !empty($vs.spec_text)}}
+													{{$vs.spec_text}}
 												{{/if}}
 											</span>
 											<span class="fr">{{$vs.price}}x{{$vs.buy_number}}</span>
@@ -150,11 +156,16 @@
 															</div>
 															<div class="other">
 																<span class="fl fs-12">
-																	{{if !empty($vs.spec)}}
-																		{{foreach $vs.spec as $kss=>$vss}}
-																			{{$vss.type}}:{{$vss.value}}{{if $kss neq count($vs.spec)-1}}，{{/if}}
-																		{{/foreach}}
+																	规格：
+																	{{if !empty($vs.spec_text)}}
+																		{{$vs.spec_text}}
 																	{{/if}}
+																</span>
+																<span class="fl fs-12">
+																	重量：{{$vs.spec_weight}}
+																</span>
+																<span class="fl fs-12">
+																	编码：{{$vs.spec_coding}}
 																</span>
 																<span class="fr">{{$vs.price}}x{{$vs.buy_number}}</span>
 															</div>

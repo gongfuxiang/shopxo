@@ -225,7 +225,7 @@ App({
       success: (res) => {
         if (res.code) {
           wx.request({
-            url: $this.get_request_url('WechatUserAuth', 'user'),
+            url: $this.get_request_url('wechatuserauth', 'user'),
             method: 'POST',
             data: { authcode: res.code },
             dataType: 'json',
@@ -267,7 +267,7 @@ App({
     var $this = this;
     // 远程解密数据
     wx.request({
-      url: $this.get_request_url('WechatUserInfo', 'user'),
+      url: $this.get_request_url('wechatuserinfo', 'user'),
       method: 'POST',
       data: { encrypted_data: auth_data.encryptedData, iv: auth_data.iv, openid: openid },
       dataType: 'json',

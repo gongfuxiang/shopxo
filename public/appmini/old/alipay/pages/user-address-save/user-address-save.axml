@@ -1,4 +1,4 @@
-<form onSubmit="form_submit">
+<form onSubmit="form_submit" a:if="{{data_list_loding_status == 0}}">
     <view class="person-box bg-white">
         <view class="addressee br-b oh">
             <input class="addressee-name fl br-r" name="name" type="text" value="{{name}}" placeholder="姓名" />
@@ -30,3 +30,8 @@
 
     <button class="submit-fixed submit-bottom" type="default" formType="submit" hover-class="none">保存</button>
 </form>
+
+<view a:if="{{data_list_loding_status != 0}}">
+  <import src="/pages/common/nodata.axml" />
+  <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
+</view>

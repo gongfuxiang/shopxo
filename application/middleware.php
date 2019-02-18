@@ -13,8 +13,5 @@
 return [
     // 系统环境检查
     app\http\middleware\SystemEnvCheck::class,
-
-    // 访问环境检查
-    app\http\middleware\AccessInAppCheck::class,
 ];
 ?>

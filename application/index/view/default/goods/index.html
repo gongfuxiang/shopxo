@@ -144,7 +144,7 @@
                                                             <div class="cart-title">{{$spec.name}}</div>
                                                             <ul>
                                                                 {{foreach $spec.value as $keys=>$specs}}
-                                                                    <li class="sku-line {{if !empty($specs['images'])}} sku-line-images{{/if}} {{if $key gt 0}} sku-dont-choose{{/if}}" data-type-value="{{$spec.name}}" data-value="{{$specs.name}}" {{if !empty($specs['images'])}} data-type-images="{{$specs.images}}"{{/if}}>
+                                                                    <li class="sku-line {{if !empty($specs['images'])}} sku-line-images{{/if}} {{if $key gt 0}} sku-dont-choose{{/if}} {{if isset($specs['is_only_level_one']) and isset($specs['inventory']) and $specs['inventory'] elt 0}}sku-items-disabled{{/if}}" data-type-value="{{$spec.name}}" data-value="{{$specs.name}}" {{if !empty($specs['images'])}} data-type-images="{{$specs.images}}"{{/if}}>
                                                                         {{if !empty($specs['images'])}}
                                                                             <img src="{{$specs.images}}" />
                                                                         {{/if}}
