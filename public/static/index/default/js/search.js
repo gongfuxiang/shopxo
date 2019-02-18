@@ -70,42 +70,43 @@ $(function()
         get_goods_list(1);
     });
 
-
-    var hh = document.documentElement.clientHeight;
-    var ls = document.documentElement.clientWidth;
-    if (ls < 640)
+    // 条件分类组筛选
+    $(".select dt").on('click', function()
     {
-        $(".select dt").on('click', function() {
+        if($(window).width() < 640)
+        {
             $('body,html').scrollTop(0);
-            $(this).next('div.dd-conent').css('top', ($(this).offset().top+33)+'px')
-
+            $(this).next('div.dd-conent').css('top', ($('.theme-popover').height())+'px');
             if ($(this).next('div.dd-conent').css("display") == 'none') {
                 $(".theme-popover-mask").show();
-                $(".theme-popover").css({"position":"fixed", "top":0, "padding-top":"46px"});
+                $(".theme-popover").css({"position":"fixed", "top":0});
                 $(this).next('div.dd-conent').slideToggle(300);
                 $('.select div.dd-conent').not($(this).next()).hide();
             } else {
                 $(this).next('div.dd-conent').slideUp(300);
                 $(".theme-popover-mask").hide();
-                $(".theme-popover").css({"position":"static", "top":0, "padding-top":"0"});
+                $(".theme-popover").css({"position":"static", "top":0});
            }
-        })
+        }
+    });
 
-        $(document).on("click", ".screening-remove-submit", function() {
-            $(".dd-conent").slideUp(300);
-        })
-
-        $(document).on("click", ".select dd", function() {
+    // 取消条件/移除条件
+    $(document).on("click", ".select dd, .screening-remove-submit", function()
+    {
+        if($(document).width() < 640)
+        {
             $(".dd-conent").slideUp(300);
             $(".theme-popover-mask").hide();
             $(".theme-popover").css({"position":"static", "top":0, "padding-top":"0"});
-        });
-        $(document).on("click", ".theme-popover-mask", function() {
-            $(".dd-conent").slideUp(300);
-            $(".theme-popover-mask").hide();
-            $(".theme-popover").css({"position":"static", "top":0, "padding-top":"0"});
-        });
-    }
+        }
+    });
+    $(document).on("click", ".theme-popover-mask", function()
+    {
+        $(".dd-conent").slideUp(300);
+        $(".theme-popover-mask").hide();
+        $(".theme-popover").css({"position":"static", "top":0, "padding-top":"0"});
+    });
+    
 
     // 导航显示/隐藏处理
     function search_nav()
@@ -134,7 +135,14 @@ $(function()
     // 浏览器窗口实时事件
     $(window).resize(function()
     {
+        // 导航
         search_nav();
+
+        // 条件筛选
+        if($(document).width() >= 640)
+        {
+            $('.dd-conent').show();
+        }
     });
     search_nav();
 
