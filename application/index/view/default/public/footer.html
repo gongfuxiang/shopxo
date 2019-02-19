@@ -67,6 +67,10 @@
     {{foreach $plugins_js_data as $hook}}
         {{if is_string($hook)}}
             <script type='text/javascript' src="{{$hook}}?v={{:MyC('home_static_cache_version')}}"></script>
+        {{elseif is_array($hook) /}}
+            {{foreach $hook as $hook_js}}
+                <script type='text/javascript' src="{{$hook_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+            {{/foreach}}
         {{/if}}
     {{/foreach}}
 {{/if}}
