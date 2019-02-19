@@ -36,7 +36,7 @@
 			<thead>
 				<tr>
 					<th class="am-hide-sm-only">用户信息</th>
-					<th class="am-hide-sm-only">联系人</th>
+					<th class="am-hide-sm-only">联系信息</th>
 					<th style="width: 25%;">内容</th>
 					<th>是否显示</th>
 					<th class="am-hide-sm-only">回复内容</th>
@@ -62,10 +62,22 @@
 								{{if !empty($v['mobile'])}}
 									<br />{{$v.mobile}}
 								{{/if}}
+								{{if empty($v['username']) and empty($v['mobile'])}}
+									<span class="cr-ddd">空</span>
+								{{/if}}
 							</td>
 							<td class="am-hide-sm-only">
-								{{$v.name}}<br />
-								{{$v.tel}}
+								{{if !empty($v['name']) and !empty($v['tel'])}}
+									{{$v.name}}
+									<br />
+									{{$v.tel}}
+								{{elseif !empty($v['name']) }}
+									{{$v.name}}
+								{{elseif !empty($v['tel']) /}}
+									{{$v.tel}}
+								{{else /}}
+									<span class="cr-ddd">未填写</span>
+								{{/if}}
 							</td>
 							<td>{{$v.content}}</td>
 							<td>
@@ -98,11 +110,24 @@
 													{{if !empty($v['mobile'])}}
 														<br />{{$v.mobile}}
 													{{/if}}
+													{{if empty($v['username']) and empty($v['mobile'])}}
+														<span class="cr-ddd">空</span>
+													{{/if}}
 												</dd>
 
 												<dt>联系人</dt>
 												<dd>
-													{{$v.name}}<br />{{$v.tel}}
+													{{if !empty($v['name']) and !empty($v['tel'])}}
+														{{$v.name}}
+														<br />
+														{{$v.tel}}
+													{{elseif !empty($v['name']) }}
+														{{$v.name}}
+													{{elseif !empty($v['tel']) /}}
+														{{$v.tel}}
+													{{else /}}
+														<span class="cr-ddd">未填写</span>
+													{{/if}}
 												</dd>
 
 												<dt>内容</dt>

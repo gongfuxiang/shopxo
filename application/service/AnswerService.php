@@ -161,12 +161,7 @@ class AnswerService
                 'checked_type'      => 'empty',
                 'key_name'          => 'content',
                 'error_msg'         => '详细内容有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
-            ],
+            ]
         ];
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
@@ -176,7 +171,7 @@ class AnswerService
 
         // 开始操作
         $data = [
-            'user_id'       => $params['user']['id'],
+            'user_id'       => isset($params['user']['id']) ? intval($params['user']['id']) : 0,
             'name'          => $params['name'],
             'tel'           => $params['tel'],
             'content'       => $params['content'],
