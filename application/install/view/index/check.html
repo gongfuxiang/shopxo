@@ -154,18 +154,54 @@
                 <?php endif ?>
             </td>
         </tr>
-        <tr class="<?php if(is_writable(ROOT.'public/static/upload')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./public/static/upload</td>
+        <tr class="<?php if(is_writable(ROOT.'public/static/upload/file')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
+            <td>./public/static/upload/file</td>
             <td>可写</td>
             <td>
-                <?php if (is_writable(ROOT.'public/static/upload')): ?>
+                <?php if (is_writable(ROOT.'public/static/upload/file')): ?>
                     可写
                 <?php else: ?>
                     不可写
                 <?php endif ?>
             </td>
             <td>
-                <?php if (is_writable(ROOT.'public/static/upload')): ?>
+                <?php if (is_writable(ROOT.'public/static/upload/file')): ?>
+                    √
+                <?php else: ?>
+                    ×
+                <?php endif ?>
+            </td>
+        </tr>
+        <tr class="<?php if(is_writable(ROOT.'public/static/upload/images')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
+            <td>./public/static/upload/images</td>
+            <td>可写</td>
+            <td>
+                <?php if (is_writable(ROOT.'public/static/upload/images')): ?>
+                    可写
+                <?php else: ?>
+                    不可写
+                <?php endif ?>
+            </td>
+            <td>
+                <?php if (is_writable(ROOT.'public/static/upload/images')): ?>
+                    √
+                <?php else: ?>
+                    ×
+                <?php endif ?>
+            </td>
+        </tr>
+        <tr class="<?php if(is_writable(ROOT.'public/static/upload/video')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
+            <td>./public/static/upload/video</td>
+            <td>可写</td>
+            <td>
+                <?php if (is_writable(ROOT.'public/static/upload/video')): ?>
+                    可写
+                <?php else: ?>
+                    不可写
+                <?php endif ?>
+            </td>
+            <td>
+                <?php if (is_writable(ROOT.'public/static/upload/video')): ?>
                     √
                 <?php else: ?>
                     ×
