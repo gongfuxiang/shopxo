@@ -122,7 +122,19 @@ class Hook extends Controller
             // 用户信息
             $this->assign('user', $params['user']);
 
+            // 应用数据
             $this->assign('data', $ret['data']);
+
+            // 购物车
+            $cart_list = BuyService::CartList(['user'=>$params['user']]);
+            $this->assign('cart_list', $cart_list['data']);
+            $base = [
+                'total_price'   => empty($cart_list['data']) ? 0 : array_sum(array_column($cart_list['data'], 'total_price')),
+                'cart_count'   => empty($cart_list['data']) ? 0 : count($cart_list['data']),
+                'ids'           => empty($cart_list['data']) ? '' : implode(',', array_column($cart_list['data'], 'id')),
+            ];
+            $this->assign('base', $base);
+
             return $this->fetch('../../../plugins/view/commonrightnavigation/index/content');
         } else {
             return $ret['msg'];

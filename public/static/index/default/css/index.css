@@ -43,34 +43,6 @@ dt + dd {margin-top: 0;}
 text-align: center;float:none}
 .items-nav-title h3,.items-nav-title .today-brands,.items-nav-title .more{display: none;}
 
-/*导航*/	
-.absolute{position:absolute;}
-.text-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;_width:100%;}
-.underline,.hover-underline{text-decoration:underline;}
-.block{display:block;}
-.inline-block{display:inline-block;}
-.inline{display:inline;}
-.bold{font-weight:700;}
-.am-modal {width: 100%;left:0 ;margin-left:0 ;top:0;background: #fefefe;}
-
-
-/*推荐*/
-.recommendation{text-align: center;padding:10px 0px;background:#fff ;}
-.clock{display: none;color:#fff ;text-align: center;z-index:11 ;}
-.recommendationMain{width: 100%;position: relative;height:85px;padding:5px 0px 0px;}
-.recommendationMain img{width:80px;position: absolute;right: 50%;margin-right: -40px;}
-
-/*活动*/
-.activity {min-height:180px ;}
-.activity .am-g{background:#fff ;padding: 10px 0px;}
-.activity .am-u-sm-3{padding:0px 2px;}
-.activity .info{margin-top: 5px;}
-.activity .icon-sale{position: absolute; width: 0;height: 0;border-top: 40px solid #0087e5;border-right: 40px solid transparent;}
-.activity .icon-sale.one{border-top-color: #9b0d5f;}
-.activity .icon-sale.two{border-top-color: #b48c66;}
-.activity .icon-sale.three{border-top-color: #7fb113;}
-.activity .am-g h4{position: absolute;color: #fff;top:5px;left: 2px;}
-
 
 /*第二套各类活动*/
 .row {padding: 10px 0px;overflow: hidden;}

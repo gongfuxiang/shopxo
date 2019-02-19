@@ -26,6 +26,11 @@
         position: absolute;
         width: 100%;
         color: #ccc;
+    }
+    .commonrightnavigation-right-nav .base-nav .nav-a {
+        color: #ccc;
+    }
+    .commonrightnavigation-right-nav .base-nav a {
         cursor: pointer;
     }
     .commonrightnavigation-right-nav .base-nav [class*="am-icon-"]:before {
@@ -58,6 +63,10 @@
     .commonrightnavigation-right-nav .base-nav:hover {
         background: #d2364c;
         color: #fff;
+    }
+    .commonrightnavigation-right-nav .base-nav:hover .nav-a {
+        color: #fff;
+        text-decoration: none;
     }
     .commonrightnavigation-right-nav .base-nav:hover .mui-mbar-tab-tip, .commonrightnavigation-right-nav .base-nav:hover .mui-mbar-popup {
         display: block;
@@ -174,6 +183,15 @@
     .commonrightnavigation-right-nav .answer-content .am-form-group {
         width: 100%;
     }
+
+    .commonrightnavigation-right-nav .cart-content {
+        bottom: 0;
+        width: 400px;
+        min-height: 100px;
+        max-height: 300px;
+        background: #fff;
+        color: #666;
+    }
 }
 
 @media only screen and (max-width:640px) {
@@ -206,7 +224,7 @@
     .cart-show {
         display: block !important;
     }
-    .commonrightnavigation-right-nav .cart-show .cart {
+    .commonrightnavigation-right-nav .cart-show {
         position: fixed;
         right: 0;
         bottom: calc(50% - 50px);
@@ -221,4 +239,104 @@
         border-bottom-left-radius: 3px;
         z-index: 1000;
     }
+    .commonrightnavigation-right-nav a.cart-show {
+        text-decoration: none;
+    }
+}
+
+
+/**
+ * 购物车
+ */
+.commonrightnavigation-cart .cart-content {
+    text-align: left;
+    font-size: 12px;
+}
+.commonrightnavigation-cart .cart-content .cart-items {
+    min-height: 60px;
+    max-height: 260px;
+    overflow-x: auto;
+}
+.commonrightnavigation-cart .cart-content .goods-detail img {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+}
+.commonrightnavigation-cart .cart-content .goods-detail {
+    position: relative;
+    min-height: 60px;
+}
+.commonrightnavigation-cart .cart-content .goods-title {
+    display: block;
+    max-height: 36px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}
+.commonrightnavigation-cart .cart-content .goods-title:hover {
+    text-decoration: underline;
+}
+.commonrightnavigation-cart .cart-content .goods-base {
+    float: left;
+    top: 0;
+    margin-left: 65px;
+}
+.commonrightnavigation-cart .cart-content .goods-attr {
+    margin-top: 5px;
+}
+.commonrightnavigation-cart .cart-content .goods-attr li {
+    color: #888;
+    line-height: 16px;
+}
+.commonrightnavigation-cart .cart-content strong.total-price-content, .commonrightnavigation-cart .cart-content .nav-total-price {
+    font-weight: 700;
+}
+.commonrightnavigation-cart .cart-content .cart-nav label {
+    cursor: pointer;
+}
+.commonrightnavigation-cart .cart-content .selected-tips strong, .commonrightnavigation-cart .cart-content .nav-total-price {
+    font-size: 14px;
+}
+.commonrightnavigation-cart .cart-content strong.total-price-content, .commonrightnavigation-cart .cart-content .selected-tips strong, .commonrightnavigation-cart .cart-content .nav-total-price {
+    color: #d2364c;
+    font-family: Verdana,Tahoma,arial;
+}
+.commonrightnavigation-cart .cart-content .am-table {
+    margin-bottom: 10px;
+}
+.commonrightnavigation-cart .cart-content .am-table > tbody > tr > td {
+    border-top: 1px solid #F5F5F5;
+}
+.commonrightnavigation-cart .cart-content table td.base input[type="checkbox"] {
+    float: left;
+}
+.commonrightnavigation-cart .cart-content .cart-nav {
+    background: #eee;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 0 0 5px;
+}
+.commonrightnavigation-cart .cart-content .cart-nav .separate-submit {
+    height: 40px;
+    width: 100px;
+    font-size: 16px;
+    font-weight: 500;
+}
+.commonrightnavigation-cart .cart-content .selected-tips {
+    margin-right: 15px;
+}
+.commonrightnavigation-cart .cart-content table tr .base {
+    width: 60%;
+}
+.commonrightnavigation-cart .cart-content table tr .total-price {
+    width: 26%;
+}
+.commonrightnavigation-cart .cart-content table tr .operation {
+    width: 12%;
+}
+.commonrightnavigation-cart .cart-content .cart-nav .nav-total-price {
+    margin-right: 5px;
+}
+.commonrightnavigation-cart .cart-content .mixed-tips .icon {
+    margin-top: 25px;
 }
