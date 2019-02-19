@@ -69,7 +69,9 @@
             <script type='text/javascript' src="{{$hook}}?v={{:MyC('home_static_cache_version')}}"></script>
         {{elseif is_array($hook) /}}
             {{foreach $hook as $hook_js}}
-                <script type='text/javascript' src="{{$hook_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+                {{if is_string($hook_js)}}
+                    <script type='text/javascript' src="{{$hook_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+                {{/if}}
             {{/foreach}}
         {{/if}}
     {{/foreach}}

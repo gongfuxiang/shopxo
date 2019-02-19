@@ -35,7 +35,9 @@
                 <link rel="stylesheet" type="text/css" href="{{$hook}}?v={{:MyC('home_static_cache_version')}}" />
             {{elseif is_array($hook) /}}
                 {{foreach $hook as $hook_css}}
-                    <link rel="stylesheet" type="text/css" href="{{$hook_css}}?v={{:MyC('home_static_cache_version')}}" />
+                    {{if is_string($hook_css)}}
+                        <link rel="stylesheet" type="text/css" href="{{$hook_css}}?v={{:MyC('home_static_cache_version')}}" />
+                    {{/if}}
                 {{/foreach}}
             {{/if}}
         {{/foreach}}
