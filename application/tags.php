@@ -48,14 +48,17 @@ return array (
   'plugins_css' => 
   array (
     0 => 'app\\plugins\\commonrightnavigation\\Hook',
+    1 => 'app\\plugins\\commononlineservice\\Hook',
   ),
   'plugins_js' => 
   array (
     0 => 'app\\plugins\\commonrightnavigation\\Hook',
+    1 => 'app\\plugins\\commononlineservice\\Hook',
   ),
   'plugins_view_common_bottom' => 
   array (
     0 => 'app\\plugins\\commonrightnavigation\\Hook',
+    1 => 'app\\plugins\\commononlineservice\\Hook',
   ),
 );
 ?>
