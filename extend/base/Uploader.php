@@ -43,7 +43,7 @@ class Uploader
         "ERROR_TYPE_NOT_ALLOWED" => "文件类型不允许",
         "ERROR_CREATE_DIR" => "目录创建失败",
         "ERROR_DIR_NOT_WRITEABLE" => "目录没有写权限",
-        "ERROR_FILE_MOVE" => "文件保存时出错",
+        "ERROR_FILE_MOVE" => "保存出错,图片有误",
         "ERROR_FILE_NOT_FOUND" => "找不到上传文件",
         "ERROR_WRITE_CONTENT" => "写入文件内容错误",
         "ERROR_UNKNOWN" => "未知错误",
@@ -126,10 +126,32 @@ class Uploader
             return;
         }
 
-        //移动文件
-        if (!(move_uploaded_file($file["tmp_name"], $this->filePath) && file_exists($this->filePath))) { //移动失败
+        // 存储图片、使用GD存储图片、防止图片包含木马
+        switch($this->fileType)
+        {
+            case '.png':
+                $image = imagecreatefrompng($file["tmp_name"]); //PNG
+                imagesavealpha($image, true); //这里很重要 意思是不要丢了$sourePic图像的透明色;
+                $width = imagesx($image); //图宽度
+                $heigh = imagesy($image); //图高度
+                $thumb = imagecreatetruecolor($width, $heigh);
+                imagealphablending($thumb, false); //这里很重要,意思是不合并颜色,直接用$img图像颜色替换,包括透明色;
+                imagesavealpha($thumb, true); //这里很重要,意思是不要丢了$thumb图像的透明色;
+                if(imagecopyresampled($thumb, $image, 0, 0, 0, 0, $width, $heigh, $width, $heigh))
+                {
+                    imagepng($thumb, $this->filePath);
+                }
+                break;
+            case '.gif':
+                @imagegif(@imagecreatefromgif($file["tmp_name"]), $this->filePath);
+                break;
+            default:
+                @imagejpeg(@imagecreatefromjpeg($file["tmp_name"]), $this->filePath, 80);
+        }
+        if(!file_exists($this->filePath))
+        {
             $this->stateInfo = $this->getStateInfo("ERROR_FILE_MOVE");
-        } else { //移动成功
+        } else {
             $this->stateInfo = $this->stateMap[0];
         }
     }
