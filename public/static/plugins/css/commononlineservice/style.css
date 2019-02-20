@@ -15,7 +15,6 @@
     z-index:1;
     margin-top: 0;
     height: 120px;
-    border-radius: 3px 0px 0 3px;
 }
 .commononlineservice .float-left a {
     font-size:0;
@@ -27,11 +26,9 @@
     overflow:hidden;
     width: 140px;
     margin-right:-150px;
-    border-radius: 0 0px 0 3px;
 }
 .commononlineservice .content .cn {
     background:#F7F7F7;
-    border-radius:3px;
 }
 .commononlineservice .cn .title {
     font-size: 14px;

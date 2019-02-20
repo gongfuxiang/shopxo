@@ -99,9 +99,6 @@ class Hook extends Controller
                 }
             }
 
-            // li数量
-            $online_service_li_count = 0;
-
             // 客服
             $online_service = empty($ret['data']['online_service']) ? [] : explode("\n", $ret['data']['online_service']);
             $online_service_data = [];
@@ -113,22 +110,10 @@ class Hook extends Controller
                     if(count($items) == 2)
                     {
                         $online_service_data[] = $items;
-                        $online_service_li_count++;
                     }
-                    
                 }
             }
             $ret['data']['online_service'] = $online_service_data;
-
-            // 电话
-            if(!empty($ret['data']['tel']))
-            {
-                $online_service_li_count++;
-            }
-
-            // li数量
-            $ret['data']['online_service_li_count'] = $online_service_li_count;
-
 
             $this->assign('data', $ret['data']);
             return $this->fetch('../../../plugins/view/commononlineservice/index/content');

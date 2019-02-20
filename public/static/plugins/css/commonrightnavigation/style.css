@@ -102,7 +102,7 @@
         height: 35px;
     }
     .commonrightnavigation-right-nav .cart {
-        bottom: 45vh;
+        bottom: 40vh;
         left: 0;
         height: 125px;
         border-top: 1px solid #444;
@@ -114,17 +114,17 @@
         border-bottom: 1px solid #d2364c;
     }
     .commonrightnavigation-right-nav .favor {
-        bottom: calc(45vh + 150px);
+        bottom: calc(40vh + 135px);
         left: 0;
         height: 35px;
     }
     .commonrightnavigation-right-nav .browse {
-        bottom: calc(45vh + 185px);
+        bottom: calc(40vh + 170px);
         left: 0;
         height: 35px;
     }
     .commonrightnavigation-right-nav .user-center {
-        bottom: calc(45vh + 220px);
+        bottom: calc(40vh + 205px);
         left: 0;
         height: 35px;
         padding: 5px;
