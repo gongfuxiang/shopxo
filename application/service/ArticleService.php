@@ -184,8 +184,11 @@ class ArticleService
             return DataReturn($ret, -1);
         }
 
+        // 编辑器内容
+        $content = isset($_POST['content']) ? $_POST['content'] : '';
+
         // 数据
-        $content = ResourcesService::ContentStaticReplace($params['content'], 'add');
+        $content = ResourcesService::ContentStaticReplace($content, 'add');
         $image = self::MatchContentImage($content);
         $data = [
             'title'                 => $params['title'],
