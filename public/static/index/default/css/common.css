@@ -423,7 +423,7 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
  * 混合提示
  */
 .mixed-tips { width: 280px; overflow: hidden; margin:0 auto; margin-top: 5%; margin-bottom: 10%; }
-.mixed-tips .icon { font-size: 68px; color: #ccc; margin-right: 15px; }
+.mixed-tips .icon { font-size: 68px; color: #ccc; margin-right: 15px; line-height: 108px; }
 .mixed-tips-content { margin-top: 10px; }
 .mixed-tips-content h1 { font-size: 14px; font-weight: 500; }
 .mixed-tips-content ul { margin-top: 5px; }
