@@ -31,8 +31,8 @@ function CartAdd(e)
 {
     // 参数
     var type = e.attr('data-type');
-    var stock = $('#text_box').val();
-    if((stock || 0) <= 0)
+    var stock = $('#text_box').val() || 0;
+    if(stock <= 0 || stock < 1)
     {
         PromptCenter('购买数量有误');
         return false;
@@ -491,6 +491,26 @@ $(function() {
         $('.goods-video-submit-start').removeClass('none');
     });
 
+    //获得文本框对象
+    var t = $('#text_box');
+
+    //数量增加操作
+    $('#add').on('click', function() {
+        var stock = parseInt($('.stock-tips .stock').text());
+        var number = parseInt(t.val());
+        if(number < stock)
+        {
+            t.val(number + 1)
+        } else {
+            Prompt('超出库存数量');
+        }
+    });
+    //数量减少操作
+    $('#min').on('click', function() {
+        var value = parseInt(t.val())-1 || 1;
+        t.val((value <= 1) ? 1 : value);
+    });
+
 });
 
 // 浏览器窗口实时事件
@@ -503,25 +523,4 @@ $(window).resize(function()
     } else {
         poptit_pc_show();
     }
-});
-
-$(document).ready(function() {
-    //获得文本框对象
-    var t = $('#text_box');
-
-    //数量增加操作
-    $('#add').on('click', function() {
-        var stock = parseInt($('.stock-tips .stock').text());
-        var number = parseInt(t.val());
-        if(number < stock)
-        {
-            t.val(number + 1)
-        }
-    });
-    //数量减少操作
-    $('#min').on('click', function() {
-        var value = parseInt(t.val())-1 || 1;
-        t.val(value);
-    })
-
 });

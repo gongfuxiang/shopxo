@@ -33,18 +33,18 @@
     </a>
 
     <!-- 购物车 -->
-    <div class="base-nav cart commonrightnavigation-cart">
+    <div class="base-nav cart commonrightnavigation-cart" data-cart-ajax-url="{{:PluginsHomeUrl('commonrightnavigation', 'index', 'cart')}}" data-cart-delete-ajax-url="{{:MyUrl('index/cart/delete')}}">
         <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/cart/index')}}{{/if}}" class="nav-a {{$login_event_class}} {{if isset($data['is_goods_page_show_cart']) and $data['is_goods_page_show_cart'] eq 1 and $module_controller_action eq 'indexgoodsindex'}} cart-show{{/if}}">
             <i class="am-icon-opencart"></i>
             <div class="cart-text">
                 购物车
-                <div class="cart-count common-cart-total am-badge am-badge-danger">{{if $cart_total > 9}}9+{{else /}}{{$cart_total}}{{/if}}</div>
+                <div class="cart-count common-cart-total {{if $cart_total gt 0}}am-badge am-badge-danger{{/if}}">{{if $cart_total > 9}}9+{{else /}}{{$cart_total}}{{/if}}</div>
             </div>
         </a>
         <div class="mui-mbar-popup am-animation-slide-left cart-content">
-            {{if !empty($cart_list)}}
-                <!-- 商品列表 -->
-                <div class="cart-items">
+            <!-- 商品列表 -->
+            <div class="cart-items" style="display: {{if !empty($cart_list)}}block{{else /}}none{{/if}};">
+                {{if !empty($cart_list)}}
                     <table class="am-table">
                         {{foreach $cart_list as $goods}}
                             <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}" class="{{if $goods['is_shelves'] neq 1}}am-warning{{/if}} {{if $goods['is_delete_time'] neq 0}}am-danger{{/if}}">
@@ -65,48 +65,48 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="total-price am-hide-sm-only">
+                                <td class="total-price">
                                     <strong class="total-price-content">￥{{$goods.total_price}}</strong>
                                     <span class="cart-number">x{{$goods.stock}}</span>
                                 </td>
                                 <td class="operation">
-                                    <a href="javascript:;" class="submit-delete" data-url="{{:MyUrl('index/cart/delete')}}" data-id="{{$goods.id}}" data-view="reload">删除</a>
+                                    <a href="javascript:;" class="submit-delete" data-url="{{:MyUrl('index/cart/delete')}}" data-id="{{$goods.id}}" data-view="fun" data-value="PluginsCartViewDeleteBack" data-is-confirm="0">删除</a>
                                 </td>
                             </tr>
                         {{/foreach}}
                     </table>
-                </div>
+                {{/if}}
+            </div>
 
-                <!-- 导航 -->
-                <div class="cart-nav">
-                    <form action="{{:MyUrl('index/buy/index')}}" method="post">
-                        <span class="selected-tips">共 <strong>{{$base.cart_count}}</strong> 种商品</span>
-                        <span class="total-price-tips">共计：</span>
-                        <strong class="nav-total-price">￥{{$base.total_price}}</strong>
-                        <input type="hidden" name="ids" value="{{$base.ids}}" />
-                        <input type="hidden" name="buy_type" value="cart" />
-                        <button type="submit" class="am-btn am-btn-primary separate-submit am-fr">结算</button>
-                    </form>
+            <!-- 导航 -->
+            <div class="cart-nav" style="display: {{if !empty($cart_list)}}block{{else /}}none{{/if}};">
+                <form action="{{:MyUrl('index/buy/index')}}" method="post">
+                    <span class="selected-tips">共 <strong>{{$base.cart_count}}</strong> 种商品</span>
+                    <span class="total-price-tips">共计：</span>
+                    <strong class="nav-total-price">￥{{$base.total_price}}</strong>
+                    <input type="hidden" name="ids" value="{{$base.ids}}" />
+                    <input type="hidden" name="buy_type" value="cart" />
+                    <button type="submit" class="am-btn am-btn-primary separate-submit am-fr">结算</button>
+                </form>
+            </div>
+
+            <!-- 空购物车 -->
+            <div class="mixed-tips" style="display: {{if empty($cart_list)}}block{{else /}}none{{/if}};">
+                <i class="am-icon-cart-plus am-fl icon"></i>
+                <div class="mixed-tips-content am-fl">
+                    <h1>您的购物车还是空的，您可以</h1>
+                    <ul>
+                        <li>
+                           <span>看看</span>
+                            <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/userfavor/goods')}}{{/if}}" class="{{if empty($user)}}login-event{{/if}}">我的收藏夹</a> 
+                        </li>
+                        <li>
+                           <span>看看</span>
+                            <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/order/index')}}{{/if}}" class="{{if empty($user)}}login-event{{/if}}">我的订单</a> 
+                        </li>
+                    </ul>
                 </div>
-            {{/if}}
-            {{if empty($cart_list)}}
-                <div class="mixed-tips">
-                    <i class="am-icon-cart-plus am-fl icon"></i>
-                    <div class="mixed-tips-content am-fl">
-                        <h1>您的购物车还是空的，您可以</h1>
-                        <ul>
-                            <li>
-                               <span>看看</span>
-                                <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/userfavor/goods')}}{{/if}}" class="{{if empty($user)}}login-event{{/if}}">我的收藏夹</a> 
-                            </li>
-                            <li>
-                               <span>看看</span>
-                                <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/order/index')}}{{/if}}" class="{{if empty($user)}}login-event{{/if}}">我的订单</a> 
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            {{/if}}
+            </div>
         </div>
     </div>
 
@@ -179,3 +179,32 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    // 返回处理
+    function PluginsCartViewDeleteBack(e)
+    {
+        if(e.code == 0)
+        {
+            $.AMUI.progress.done();
+            Prompt(e.msg, 'success');
+            $('#data-list-'+e.data_id).remove();
+            HomeCartNumberTotalUpdate(parseInt(e.data));
+
+            // 为空的时候处理
+            if(e.data <= 0)
+            {
+                var $this = $('.commonrightnavigation-cart');
+                $this.find('.mixed-tips').show();
+                $this.find('.cart-nav').hide();
+                $this.find('.cart-items').hide();
+                $this.find('.cart-nav .selected-tips strong').text(0);
+                $this.find('.cart-nav .nav-total-price').text('￥0.00');
+                $this.find('.cart-nav input[name="ids"]').val('');
+            }
+        } else {
+            $.AMUI.progress.done();
+            Prompt(e.msg);
+        }
+    }
+</script>

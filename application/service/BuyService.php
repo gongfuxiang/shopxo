@@ -48,6 +48,12 @@ class BuyService
                 'error_msg'         => '购买数量有误',
             ],
             [
+                'checked_type'      => 'min',
+                'key_name'          => 'stock',
+                'checked_data'      => 1,
+                'error_msg'         => '购买数量有误',
+            ],
+            [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
                 'error_msg'         => '用户信息有误',
@@ -276,6 +282,12 @@ class BuyService
                 'error_msg'         => '购买数量有误',
             ],
             [
+                'checked_type'      => 'min',
+                'key_name'          => 'stock',
+                'checked_data'      => 1,
+                'error_msg'         => '购买数量有误',
+            ],
+            [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
                 'error_msg'         => '用户信息有误',
@@ -320,6 +332,12 @@ class BuyService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'stock',
+                'error_msg'         => '购买数量有误',
+            ],
+            [
+                'checked_type'      => 'min',
+                'key_name'          => 'stock',
+                'checked_data'      => 1,
                 'error_msg'         => '购买数量有误',
             ],
             [

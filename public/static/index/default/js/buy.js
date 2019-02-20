@@ -119,7 +119,7 @@ $(function()
     // 阻止事件冒泡
     $('.address-submit-delete').on('click', function(e)
     {
-        DataDelete($(this));
+        ConfirmDataDelete($(this));
         e.stopPropagation();
     });
 

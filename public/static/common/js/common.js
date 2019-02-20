@@ -785,95 +785,116 @@ function DataDelete(e)
 	var url = e.data('url');
 	var view = e.data('view') || 'delete';
 	var value = e.data('value') || null;
-	var title = e.data('title') || '温馨提示';
-	var msg = e.data('msg') || '删除后不可恢复、确认操作吗？';
 	var ext_delete_tag = e.data('ext-delete-tag') || null;
 
-	AMUI.dialog.confirm({
-		title: title,
-		content: msg,
-		onConfirm: function(options)
+	if((id || null) == null || (url || null) == null)
+	{
+		Prompt('参数配置有误');
+		return false;
+	}
+
+	// 请求删除数据
+	$.ajax({
+		url:url,
+		type:'POST',
+		dataType:"json",
+		timeout:10000,
+		data:{"id":id},
+		success:function(result)
 		{
-			if((id || null) == null || (url || null) == null)
+			if(result.code == 0)
 			{
-				Prompt('参数配置有误');
-			} else {
-				// 请求删除数据
-				$.ajax({
-					url:url,
-					type:'POST',
-					dataType:"json",
-					timeout:10000,
-					data:{"id":id},
-					success:function(result)
-					{
-						if(result.code == 0)
+				Prompt(result.msg, 'success');
+
+				switch(view)
+				{
+					// 成功则删除数据列表
+					case 'delete' :
+						Prompt(result.msg, 'success');
+						$('#data-list-'+id).remove();
+						if(ext_delete_tag != null)
 						{
-							Prompt(result.msg, 'success');
-
-							switch(view)
-							{
-								// 成功则删除数据列表
-								case 'delete' :
-									Prompt(result.msg, 'success');
-									$('#data-list-'+id).remove();
-									if(ext_delete_tag != null)
-									{
-										$(ext_delete_tag).remove();
-									}
-									break;
-
-								// 刷新
-								case 'reload' :
-									Prompt(result.msg, 'success');
-									setTimeout(function()
-									{
-										window.location.reload();
-									}, 1500);
-									break;
-
-								// 回调函数
-								case 'fun' :
-									if(IsExitsFunction(value))
-			                		{
-			                			result['data_id'] = id;
-			                			window[value](result);
-			                		} else {
-			                			Prompt('['+value+']配置方法未定义');
-			                		}
-									break;
-
-								// 跳转
-								case 'jump' :
-									Prompt(result.msg, 'success');
-									if(value != null)
-									{
-										setTimeout(function()
-										{
-											window.location.href = value;
-										}, 1500);
-									}
-									break;
-
-								// 默认提示成功
-								default :
-									Prompt(result.msg, 'success');
-							}
-							// 成功则删除数据列表
-							$('#data-list-'+id).remove();
-						} else {
-							Prompt(result.msg);
+							$(ext_delete_tag).remove();
 						}
-					},
-					error:function(xhr, type)
-					{
-						Prompt('网络异常出错');
-					}
-				});
+						break;
+
+					// 刷新
+					case 'reload' :
+						Prompt(result.msg, 'success');
+						setTimeout(function()
+						{
+							window.location.reload();
+						}, 1500);
+						break;
+
+					// 回调函数
+					case 'fun' :
+						if(IsExitsFunction(value))
+                		{
+                			result['data_id'] = id;
+                			window[value](result);
+                		} else {
+                			Prompt('['+value+']配置方法未定义');
+                		}
+						break;
+
+					// 跳转
+					case 'jump' :
+						Prompt(result.msg, 'success');
+						if(value != null)
+						{
+							setTimeout(function()
+							{
+								window.location.href = value;
+							}, 1500);
+						}
+						break;
+
+					// 默认提示成功
+					default :
+						Prompt(result.msg, 'success');
+				}
+				// 成功则删除数据列表
+				$('#data-list-'+id).remove();
+			} else {
+				Prompt(result.msg);
 			}
 		},
-		onCancel: function(){}
+		error:function(xhr, type)
+		{
+			Prompt('网络异常出错');
+		}
 	});
+}
+
+/**
+ * [ConfirmDataDelete 数据删除]
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @datetime 2018-09-24T08:24:58+0800
+ * @param    {[object]}                 e [当前元素对象]
+ */
+function ConfirmDataDelete(e)
+{
+	var title = e.data('title') || '温馨提示';
+	var msg = e.data('msg') || '删除后不可恢复、确认操作吗？';
+	var is_confirm = (e.data('is-confirm') == undefined || e.data('is-confirm') == 1) ? 1 : 0;
+
+	if(is_confirm == 1)
+	{
+		AMUI.dialog.confirm({
+			title: title,
+			content: msg,
+			onConfirm: function(options)
+			{
+				DataDelete(e);
+			},
+			onCancel: function(){}
+		});
+	} else {
+		DataDelete(e);
+	}
 }
 
 /**
@@ -987,7 +1008,7 @@ $(function()
 	 */
 	$(document).on('click', '.submit-delete', function()
 	{
-		DataDelete($(this));
+		ConfirmDataDelete($(this));
 	});
 
 	/**

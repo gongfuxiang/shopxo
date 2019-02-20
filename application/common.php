@@ -12,6 +12,22 @@
 // 应用公共文件
 
 /**
+ * 金额格式化
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-02-20
+ * @desc    description
+ * @param   [float]         $value     [金额]
+ * @param   [int]           $decimals  [保留的位数]
+ * @param   [string]        $dec_point [保留小数分隔符]
+ */
+function PriceNumberFormat($value, $decimals = 2, $dec_point = '.')
+{
+    return number_format($value, $decimals, $dec_point, '');
+}
+
+/**
  * json带格式输出
  * @author   Devil
  * @blog    http://gong.gg/
@@ -1211,6 +1227,32 @@ function ParamsChecked($data, $params)
                 }
                 $fun = $v['checked_data'];
                 if(!$fun($data[$v['key_name']]))
+                {
+                    return $v['error_msg'];
+                }
+                break;
+
+            // 最小
+            case 'min' :
+                if (!isset($v['checked_data']))
+                {
+                    return '验证最小值未定义';
+                }
+                $fun = $v['checked_data'];
+                if($data[$v['key_name']] < $v['checked_data'])
+                {
+                    return $v['error_msg'];
+                }
+                break;
+
+            // 最大
+            case 'max' :
+                if (!isset($v['checked_data']))
+                {
+                    return '验证最大值未定义';
+                }
+                $fun = $v['checked_data'];
+                if($data[$v['key_name']] > $v['checked_data'])
                 {
                     return $v['error_msg'];
                 }
