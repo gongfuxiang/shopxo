@@ -39,14 +39,17 @@
             <div class="am-form-group">
                 <label>背景色</label>
                 <input type="hidden" name="bg_color" value="{{if !empty($data['bg_color'])}}{{$data.bg_color}}{{/if}}" />
-                <button class="am-btn am-btn-default colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color" {{if !empty($data['bg_color'])}}style="background:{{$data.bg_color}}"{{/if}}>
+                <button class="am-btn am-btn-default colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r am-radius" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color" {{if !empty($data['bg_color'])}}style="background:{{$data.bg_color}}"{{/if}}>
                     <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
                 </button>
             </div>
 
             <div class="am-form-group">
                 <label>距离顶部<span class="fs-12 fw-100 cr-999">（默认距离顶部30%）</span></label>
-                <input type="number" name="distance_top" placeholder="距离顶部" min="0" max="100" data-validation-message="距离顶部 0~100" class="am-radius" value="{{if isset($data['distance_top'])}}{{$data.distance_top}}{{else /}}30{{/if}}" required />
+                <div class="am-input-group am-input-radius am-input-group-sm">
+                    <input type="number" name="distance_top" placeholder="距离顶部" min="0" max="100" data-validation-message="距离顶部 0~100" class="am-form-field" value="{{if isset($data['distance_top'])}}{{$data.distance_top}}{{else /}}30{{/if}}" required />
+                    <span class="am-input-group-label">%</span>
+                </div>
             </div>
 
             <div class="am-form-group">

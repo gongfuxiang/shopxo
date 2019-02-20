@@ -217,6 +217,14 @@ ul.plug-file-upload-view-video li {
     border-color: #f9e4d3;
     color: #f37b1d;
 }
+.am-input-radius input.am-form-field {
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+}
+.am-input-radius span.am-input-group-label {
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+}
 
 /**
  * 颜色选择插件
