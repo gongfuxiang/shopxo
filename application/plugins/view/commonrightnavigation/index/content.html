@@ -111,73 +111,79 @@
     </div>
 
     <!-- 二维码 -->
-    <div class="base-nav qrcode-content">
-        <i class="am-icon-qrcode"></i>
-        <div class="mui-mbar-popup qrcode-items am-animation-slide-left">
-            <ul>
-                {{if !empty($data['alipay_mini_qrcode_images'])}}
-                    <li>
-                        <p>支付宝小程序</p>
-                        <img src="{{$data.alipay_mini_qrcode_images}}" alt="支付宝小程序">
-                    </li>
-                {{/if}}
-                {{if !empty($data['alipay_fuwu_qrcode_images'])}}
-                    <li>
-                        <p>支付宝生活号</p>
-                        <img src="{{$data.alipay_fuwu_qrcode_images}}" alt="支付宝生活号">
-                    </li>
-                {{/if}}
-                {{if !empty($data['weixin_mini_qrcode_images'])}}
-                    <li>
-                        <p>微信小程序</p>
-                        <img src="{{$data.weixin_mini_qrcode_images}}" alt="微信小程序">
-                    </li>
-                {{/if}}
-                {{if !empty($data['weixin_fuwu_qrcode_images'])}}
-                    <li>
-                        <p>微信公众号</p>
-                        <img src="{{$data.weixin_fuwu_qrcode_images}}" alt="微信公众号">
-                    </li>
-                {{/if}}
-            </ul>
+    <a href="javascript:;">
+        <div class="base-nav qrcode-content">
+            <i class="am-icon-qrcode"></i>
+            <div class="mui-mbar-popup qrcode-items am-animation-slide-left">
+                <ul>
+                    {{if !empty($data['alipay_mini_qrcode_images'])}}
+                        <li>
+                            <p>支付宝小程序</p>
+                            <img src="{{$data.alipay_mini_qrcode_images}}" alt="支付宝小程序">
+                        </li>
+                    {{/if}}
+                    {{if !empty($data['alipay_fuwu_qrcode_images'])}}
+                        <li>
+                            <p>支付宝生活号</p>
+                            <img src="{{$data.alipay_fuwu_qrcode_images}}" alt="支付宝生活号">
+                        </li>
+                    {{/if}}
+                    {{if !empty($data['weixin_mini_qrcode_images'])}}
+                        <li>
+                            <p>微信小程序</p>
+                            <img src="{{$data.weixin_mini_qrcode_images}}" alt="微信小程序">
+                        </li>
+                    {{/if}}
+                    {{if !empty($data['weixin_fuwu_qrcode_images'])}}
+                        <li>
+                            <p>微信公众号</p>
+                            <img src="{{$data.weixin_fuwu_qrcode_images}}" alt="微信公众号">
+                        </li>
+                    {{/if}}
+                </ul>
+            </div>
         </div>
-    </div>
+    </a>
 
     <!-- 在线留言 -->
-    <div class="base-nav answer-content">
-        <i class="am-icon-edit"></i>
-        <div class="mui-mbar-popup am-animation-slide-left">
-            <form class="am-form form-validation view-save" action="{{:PluginsHomeUrl('commonrightnavigation', 'index', 'answer')}}" method="POST" request-type="ajax-reload">
-                <legend>
-                    <span class="fs-16">在线留言</span>
-                </legend>
-                <div class="am-form-group">
-                    <label>姓名</label>
-                    <input type="text" name="name" placeholder="姓名" data-validation-message="请填写姓名" class="am-radius" required />
-                </div>
-                <div class="am-form-group">
-                    <label>电话</label>
-                    <input type="text" name="tel" placeholder="电话" data-validation-message="请填写电话" class="am-radius" required />
-                </div>
-                <div class="am-form-group">
-                    <label>内容</label>
-                    <textarea class="am-radius am-validate" name="content" rows="3" minlength="5" maxlength="300" placeholder="内容至少5个字" data-validation-message="内容格式 5~300 个字符之间" required></textarea>
-                </div>
-                <div class="am-form-group">
-                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">提交</button>
-                </div>
-            </form>
+    <a href="javascript:;">
+        <div class="base-nav answer-content">
+            <i class="am-icon-edit"></i>
+            <div class="mui-mbar-popup am-animation-slide-left">
+                <form class="am-form form-validation view-save" action="{{:PluginsHomeUrl('commonrightnavigation', 'index', 'answer')}}" method="POST" request-type="ajax-reload">
+                    <legend>
+                        <span class="fs-16">在线留言</span>
+                    </legend>
+                    <div class="am-form-group">
+                        <label>姓名</label>
+                        <input type="text" name="name" placeholder="姓名" data-validation-message="请填写姓名" class="am-radius" required />
+                    </div>
+                    <div class="am-form-group">
+                        <label>电话</label>
+                        <input type="text" name="tel" placeholder="电话" data-validation-message="请填写电话" class="am-radius" required />
+                    </div>
+                    <div class="am-form-group">
+                        <label>内容</label>
+                        <textarea class="am-radius am-validate" name="content" rows="3" minlength="5" maxlength="300" placeholder="内容至少5个字" data-validation-message="内容格式 5~300 个字符之间" required></textarea>
+                    </div>
+                    <div class="am-form-group">
+                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">提交</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    </a>
 
     <!-- 回顶部 -->
-    <div class="base-nav go-top" data-am-smooth-scroll id="plugins-commonrightnavigation">
-        <i class="am-icon-arrow-up"></i>
-        <div class="mui-mbar-tab-tip am-animation-slide-left">
-            返回顶部
-            <div class="mui-mbar-arr mui-mbar-tab-tip-arr">◆</div>
+    <a href="javascript:;">
+        <div class="base-nav go-top" data-am-smooth-scroll id="plugins-commonrightnavigation">
+            <i class="am-icon-arrow-up"></i>
+            <div class="mui-mbar-tab-tip am-animation-slide-left">
+                返回顶部
+                <div class="mui-mbar-arr mui-mbar-tab-tip-arr">◆</div>
+            </div>
         </div>
-    </div>
+    </a>
 </div>
 
 <script type="text/javascript">
