@@ -159,7 +159,7 @@ class Index extends Common
         $ret = $this->ParamsCheck($params);
         if($ret['code'] != 0)
         {
-            new \base\Behavior(['msg'=>'参数校验['.json_encode($ret, JSON_UNESCAPED_UNICODE).']']);
+            new \base\Behavior(['msg'=>'参数校验['.$ret['msg'].']']);
             return $ret;
         }
 
