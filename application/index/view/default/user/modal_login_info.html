@@ -6,11 +6,11 @@
         <!-- form start -->
         <form class="am-form form-validation" method="post" action="{{:MyUrl('index/user/login')}}" request-type="ajax-fun" request-value="ViewModalBack">
             <fieldset>
-                <if condition="in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))">
+                {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))}}
                     <span class="">还没有帐号？</span>
                     <a href="{{:MyUrl('index/user/reginfo')}}" target="_blank" class="am-btn am-btn-secondary am-btn-xs am-radius">立即注册</a>
                     <hr />
-                </if>
+                {{/if}}
                 <label>手机/邮箱</label>
                 <div class="am-form-group">
                     <input type="text" name="accounts" class="am-radius" minlength="1" placeholder="手机/邮箱" data-validation-message="手机/邮箱格式有误" required />
