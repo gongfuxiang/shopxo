@@ -46,7 +46,7 @@ class Search extends Common
         $this->params['screening_price_id'] = intval(input('screening_price_id', 0));
 
         // 搜索关键字
-        $this->params['keywords'] = trim(input('keywords'));
+        $this->params['keywords'] = str_replace(['?'], '', trim(input('keywords')));
 
         // 排序方式
         $this->params['order_by_field'] = input('order_by_field', 'default');
