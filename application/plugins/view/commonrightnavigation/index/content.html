@@ -111,39 +111,41 @@
     </div>
 
     <!-- 二维码 -->
-    <a href="javascript:;">
-        <div class="base-nav qrcode-content">
-            <i class="am-icon-qrcode"></i>
-            <div class="mui-mbar-popup qrcode-items am-animation-slide-left">
-                <ul>
-                    {{if !empty($data['alipay_mini_qrcode_images'])}}
-                        <li>
-                            <p>支付宝小程序</p>
-                            <img src="{{$data.alipay_mini_qrcode_images}}" alt="支付宝小程序">
-                        </li>
-                    {{/if}}
-                    {{if !empty($data['alipay_fuwu_qrcode_images'])}}
-                        <li>
-                            <p>支付宝生活号</p>
-                            <img src="{{$data.alipay_fuwu_qrcode_images}}" alt="支付宝生活号">
-                        </li>
-                    {{/if}}
-                    {{if !empty($data['weixin_mini_qrcode_images'])}}
-                        <li>
-                            <p>微信小程序</p>
-                            <img src="{{$data.weixin_mini_qrcode_images}}" alt="微信小程序">
-                        </li>
-                    {{/if}}
-                    {{if !empty($data['weixin_fuwu_qrcode_images'])}}
-                        <li>
-                            <p>微信公众号</p>
-                            <img src="{{$data.weixin_fuwu_qrcode_images}}" alt="微信公众号">
-                        </li>
-                    {{/if}}
-                </ul>
+    {{if !empty($data['alipay_mini_qrcode_images']) or !empty($data['alipay_fuwu_qrcode_images']) or !empty($data['weixin_mini_qrcode_images']) or !empty($data['weixin_fuwu_qrcode_images'])}}
+        <a href="javascript:;">
+            <div class="base-nav qrcode-content">
+                <i class="am-icon-qrcode"></i>
+                <div class="mui-mbar-popup qrcode-items am-animation-slide-left">
+                    <ul>
+                        {{if !empty($data['alipay_mini_qrcode_images'])}}
+                            <li>
+                                <p>支付宝小程序</p>
+                                <img src="{{$data.alipay_mini_qrcode_images}}" alt="支付宝小程序">
+                            </li>
+                        {{/if}}
+                        {{if !empty($data['alipay_fuwu_qrcode_images'])}}
+                            <li>
+                                <p>支付宝生活号</p>
+                                <img src="{{$data.alipay_fuwu_qrcode_images}}" alt="支付宝生活号">
+                            </li>
+                        {{/if}}
+                        {{if !empty($data['weixin_mini_qrcode_images'])}}
+                            <li>
+                                <p>微信小程序</p>
+                                <img src="{{$data.weixin_mini_qrcode_images}}" alt="微信小程序">
+                            </li>
+                        {{/if}}
+                        {{if !empty($data['weixin_fuwu_qrcode_images'])}}
+                            <li>
+                                <p>微信公众号</p>
+                                <img src="{{$data.weixin_fuwu_qrcode_images}}" alt="微信公众号">
+                            </li>
+                        {{/if}}
+                    </ul>
+                </div>
             </div>
-        </div>
-    </a>
+        </a>
+    {{/if}}
 
     <!-- 在线留言 -->
     <a href="javascript:;">
