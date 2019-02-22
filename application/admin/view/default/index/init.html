@@ -3,37 +3,147 @@
 <!-- right content start  -->
 <div class="content-right">
 	<div class="content">
-		<p class="fw-700 list-title">系统信息</p>
-		<dl class="dl-content">
-			<dt>软件版本</dt>
-			<dd>{{$data.ver}}</dd>
+		<!-- 基础统计 -->
+		<div class="echarts-container shopxo-base" style="display: none;">
+			<div class="echarts-title">
+				<span class="icon"></span>
+				<span class="title">商城统计</span>
+			</div>
+			<ul class="am-avg-sm-2 am-avg-lg-4">
+				<li>
+					<div class="li-content">
+						<p class="name">用户总量</p>
+						<p class="total">{{$user.total_count}}</p>
+						<div class="yesterday">
+							<span>昨日</span>
+							<span>{{$user.yesterday_count}}</span>
+						</div>
+						<div class="today">
+							<span>今日</span>
+							<span>{{$user.today_count}}</span>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="li-content">
+						<p class="name">订单总量</p>
+						<p class="total">234234</p>
+						<div class="yesterday">
+							<span>昨日</span>
+							<span>34324</span>
+						</div>
+						<div class="today">
+							<span>今日</span>
+							<span>65645</span>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="li-content">
+						<p class="name">成交总量</p>
+						<p class="total">234234</p>
+						<div class="yesterday">
+							<span>昨日</span>
+							<span>34324</span>
+						</div>
+						<div class="today">
+							<span>今日</span>
+							<span>65645</span>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="li-content">
+						<p class="name">收入总计</p>
+						<p class="total">234234</p>
+						<div class="yesterday">
+							<span>昨日</span>
+							<span>34324</span>
+						</div>
+						<div class="today">
+							<span>今日</span>
+							<span>65645</span>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
 
-			<dt>操作系统</dt>
-			<dd>{{$data.os_ver}}</dd>
 
-			<dt>PHP版本</dt>
-			<dd>{{$data.php_ver}}</dd>
+		<!-- 支付方式 -->
+		<div class="echarts-container" style="display: none;">
+			<div class="echarts-title">
+				<span class="icon"></span>
+				<span class="title">支付方式</span>
+			</div>
+			<div id="echarts-order-pay-type"></div>
+		</div>
 
-			<dt>MySQL版本</dt>
-			<dd>{{$data.mysql_ver}}</dd>
+		<!-- 组合 -->
+		<ul class="am-avg-sm-1 am-avg-sm-2 am-avg-lg-2 echarts-combination-container-2" style="display: none;">
+			<li>
+				<!-- 近7日热销商品 -->
+				<div class="echarts-title">
+					<span class="icon"></span>
+					<span class="title">近7日热销商品</span>
+				</div>
+				<div id="echarts-goods-hot"></div>
+			</li>
 
-			<dt>服务器端信息</dt>
-			<dd>{{$data.server_ver}}</dd>
+			<li>
+				<!-- 近7日订单交易走势 -->
+				<div class="echarts-title">
+					<span class="icon"></span>
+					<span class="title">近7日订单交易走势</span>
+				</div>
+				<div id="echarts-order-trading"></div>
+			</li>
+		</ul>
 
-			<dt>当前域名</dt>
-			<dd>{{$data.host}}</dd>
-		</dl>
+		<!-- 系统信息 -->
+		<ul class="am-avg-sm-1 am-avg-sm-2 am-avg-lg-2 echarts-combination-container-2">
+			<li>
+				<div class="echarts-title">
+					<span class="icon"></span>
+					<span class="title">系统信息</span>
+				</div>
+				<dl class="dl-content">
+					<dt>软件版本</dt>
+					<dd>{{$data.ver}}</dd>
 
-		<p class="fw-700 list-title">开发团队</p>
-		<dl class="dl-content">
-			<dt>技术支持</dt>
-			<dd><a href="http://shopxo.net/" target="_blank">ShopXO企业级电商系统提供商</a></dd>
+					<dt>操作系统</dt>
+					<dd>{{$data.os_ver}}</dd>
 
-			<dt>研发成员</dt>
-			<dd>
-				<a href="http://gong.gg/" target="_blank">龚哥哥</a>
-			</dd>
-		</dl>
+					<dt>PHP版本</dt>
+					<dd>{{$data.php_ver}}</dd>
+
+					<dt>MySQL版本</dt>
+					<dd>{{$data.mysql_ver}}</dd>
+
+					<dt>服务器端信息</dt>
+					<dd>{{$data.server_ver}}</dd>
+
+					<dt>当前域名</dt>
+					<dd>{{$data.host}}</dd>
+				</dl>
+			</li>
+
+			<li>
+				<div class="echarts-title">
+					<span class="icon"></span>
+					<span class="title">开发团队</span>
+				</div>
+				<dl class="dl-content">
+					<dt>技术支持</dt>
+					<dd><a href="http://shopxo.net/" target="_blank">ShopXO企业级电商系统提供商</a></dd>
+
+					<dt>研发成员</dt>
+					<dd>
+						<a href="http://gong.gg/" target="_blank">龚哥哥</a>
+					</dd>
+				</dl>
+			</li>
+		</ul>
 	</div>
 </div>
 <!-- right content end  -->
@@ -41,3 +151,213 @@
 <!-- footer start -->
 {{include file="public/footer" /}}
 <!-- footer end -->
+
+<script type="text/javascript">
+$(function()
+{
+    // 订单支付方式
+    var order_pay_type_chart = echarts.init(document.getElementById('echarts-order-pay-type'));
+    var option = {
+	    tooltip : {
+	        trigger: 'axis'
+	    },
+	    legend: {
+	        data:['支付宝','微信','现金支付','货到付款']
+	    },
+	    toolbox: {
+	        show : true,
+	        feature : {
+	            mark : {show: true},
+	            dataView : {show: true, readOnly: false},
+	            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+	            restore : {show: true},
+	            saveAsImage : {show: true}
+	        }
+	    },
+	    calculable : true,
+	    xAxis : [
+	        {
+	            type : 'category',
+	            boundaryGap : false,
+	            data : ['周一','周二','周三','周四','周五','周六','周日']
+	        }
+	    ],
+	    yAxis : [
+	        {
+	            type : 'value'
+	        }
+	    ],
+	    series : [
+	        {
+	            name:'支付宝',
+	            type:'line',
+	            tiled: '总量',
+	            data:[120, 132, 101, 134, 90, 230, 210]
+	        },
+	        {
+	            name:'微信',
+	            type:'line',
+	            tiled: '总量',
+	            data:[220, 182, 191, 234, 290, 330, 310]
+	        },
+	        {
+	            name:'现金支付',
+	            type:'line',
+	            tiled: '总量',
+	            data:[150, 232, 201, 154, 190, 330, 410]
+	        },
+	        {
+	            name:'货到付款',
+	            type:'line',
+	            tiled: '总量',
+	            data:[320, 332, 301, 334, 390, 330, 320]
+	        },
+	    ]
+	};
+    order_pay_type_chart.setOption(option);
+
+
+    // 热销商品
+    var goods_hot_chart = echarts.init(document.getElementById('echarts-goods-hot'));
+    var option = {
+    	title : {
+	        subtext: '只显示前10条商品',
+	        x:'center'
+	    },
+	    tooltip : {
+	        trigger: 'item',
+	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+	    },
+	    legend: {
+	        orient : 'vertical',
+	        x : 'left',
+	        data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+	    },
+	    toolbox: {
+	        show : true,
+	        feature : {
+	            mark : {show: true},
+	            dataView : {show: true, readOnly: false},
+	            magicType : {
+	                show: true, 
+	                type: ['pie', 'funnel'],
+	                option: {
+	                    funnel: {
+	                        x: '25%',
+	                        width: '50%',
+	                        funnelAlign: 'left',
+	                        max: 1548
+	                    }
+	                }
+	            },
+	            restore : {show: true},
+	            saveAsImage : {show: true}
+	        }
+	    },
+	    calculable : true,
+	    series : [
+	        {
+	            name:'访问来源',
+	            type:'pie',
+	            radius : '55%',
+	            center: ['50%', '60%'],
+	            data:[
+	                {value:335, name:'直接访问'},
+	                {value:310, name:'邮件营销'},
+	                {value:234, name:'联盟广告'},
+	                {value:135, name:'视频广告'},
+	                {value:1548, name:'搜索引擎'}
+	            ]
+	        }
+	    ]
+	};
+    goods_hot_chart.setOption(option);
+
+    // 订单交易走势
+    var order_trading_chart = echarts.init(document.getElementById('echarts-order-trading'));
+    var option = {
+	    tooltip : {
+	        trigger: 'axis',
+	        axisPointer: {
+	            type: 'cross',
+	            label: {
+	                backgroundColor: '#6a7985'
+	            }
+	        }
+	    },
+	    legend: {
+	        data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
+	    },
+	    toolbox: {
+	        feature: {
+	            saveAsImage: {}
+	        }
+	    },
+	    grid: {
+	        left: '3%',
+	        right: '4%',
+	        bottom: '3%',
+	        containLabel: true
+	    },
+	    xAxis : [
+	        {
+	            type : 'category',
+	            boundaryGap : false,
+	            data : ['周一','周二','周三','周四','周五','周六','周日']
+	        }
+	    ],
+	    yAxis : [
+	        {
+	            type : 'value'
+	        }
+	    ],
+	    series : [
+	        {
+	            name:'邮件营销',
+	            type:'line',
+	            stack: '总量',
+	            areaStyle: {},
+	            data:[120, 132, 101, 134, 90, 230, 210]
+	        },
+	        {
+	            name:'联盟广告',
+	            type:'line',
+	            stack: '总量',
+	            areaStyle: {},
+	            data:[220, 182, 191, 234, 290, 330, 310]
+	        },
+	        {
+	            name:'视频广告',
+	            type:'line',
+	            stack: '总量',
+	            areaStyle: {},
+	            data:[150, 232, 201, 154, 190, 330, 410]
+	        },
+	        {
+	            name:'直接访问',
+	            type:'line',
+	            stack: '总量',
+	            areaStyle: {normal: {}},
+	            data:[320, 332, 301, 334, 390, 330, 320]
+	        },
+	        {
+	            name:'搜索引擎',
+	            type:'line',
+	            stack: '总量',
+	            
+	            areaStyle: {normal: {}},
+	            data:[820, 932, 901, 934, 1290, 1330, 1320]
+	        }
+	    ]
+	};
+	order_trading_chart.setOption(option);
+
+	// 浏览器大小改变则实时更新图表大小
+	window.onresize = function ()
+	{
+	    order_pay_type_chart.resize();
+	    goods_hot_chart.resize();
+	    order_trading_chart.resize();
+	};
+});
+</script>

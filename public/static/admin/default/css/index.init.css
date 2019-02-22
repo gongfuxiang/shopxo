@@ -1,0 +1,156 @@
+
+/**
+ * 基础
+ */
+html, body {
+    background: #f5f5f5;
+}
+.echarts-container, .echarts-combination-container-2 li {
+    width: 100%;
+    background: #fff !important;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    overflow: hidden;;
+}
+.echarts-container, .echarts-combination-container-2 {
+    position: relative;
+}
+.echarts-container {
+    margin-bottom: 20px;
+}
+
+.echarts-container .echarts-title {
+    margin-left: 10px;
+}
+.echarts-container .echarts-title .icon {
+    background: #2196F3;
+    display: block;
+    width: 5px;
+    height: 16px;
+    position: absolute;
+    left: 10px;
+    top: 13px;
+}
+.echarts-container .echarts-title .title {
+    color: #666;
+    font-size: 14px;
+    margin-left: 5px;
+}
+@media only screen and (min-width: 641px) {
+    .echarts-combination-container-2 {
+        margin-bottom: 20px;
+    }
+    .echarts-combination-container-2 li {
+        width: calc(50% - 10px);
+    }
+    .echarts-combination-container-2 li:nth-child(1) {
+        float: left;
+        top: 0;
+        left: 0;
+    }
+    .echarts-combination-container-2 li:nth-child(2) {
+        float: right;
+        top: 0;
+        right: 0;
+    }
+}
+@media only screen and (max-width: 641px) {
+    .echarts-combination-container-2 li {
+        margin-bottom: 20px;
+    }
+}
+
+
+/**
+ * 基础数据
+ */
+.shopxo-base li {
+    padding: 20px;
+}
+.shopxo-base li .li-content {
+    padding: 10px;
+    border-radius: 3px;
+}
+.shopxo-base li:nth-child(1) .li-content {
+    background: #00BCD4;
+}
+.shopxo-base li:nth-child(2) .li-content {
+    background: #FF9800;
+}
+.shopxo-base li:nth-child(3) .li-content {
+    background: #e63a75;
+}
+.shopxo-base li:nth-child(4) .li-content {
+    background: #9c40ac;
+}
+.shopxo-base li .name {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;
+    color: #fff;
+}
+.shopxo-base li .total {
+    margin: 0 0 5px 0;
+    color: #fff;
+    font-size: 26px;
+}
+.shopxo-base li .yesterday, .shopxo-base li .today {
+    color: #f0f0f0;
+    font-size: 12px;
+}
+.shopxo-base li .yesterday {
+    padding-bottom: 5px;
+}
+@media only screen and (max-width: 641px) {
+    .shopxo-base li:nth-child(1){
+        padding: 10px 5px 5px 0;
+    }
+    .shopxo-base li:nth-child(2){
+        padding: 10px 0 5px 5px;
+    }
+    .shopxo-base li:nth-child(3){
+        padding: 5px 5px 0 0;
+    }
+    .shopxo-base li:nth-child(4){
+        padding: 5px 0 0 5px;
+    }
+}
+
+/**
+ * 支付方式
+ */
+#echarts-order-pay-type {
+    margin-top: 10px;
+    height: 400px;
+}
+
+/**
+ * 热销商品
+ */
+#echarts-goods-hot {
+    margin-top: 10px;
+    height: 400px;
+}
+
+/**
+ * 订单交易
+ */
+#echarts-order-trading {
+    margin-top: 10px;
+    height: 400px;
+}
+
+/**
+ * 系统信息
+ */
+.dl-content {
+    margin: 10px 0 0 0;
+}
+.dl-content dt, .dl-content dd {
+    line-height: 22px;
+    min-height: 30px;
+}
+.dl-content dd:last-child {
+    border-bottom: 0;
+}

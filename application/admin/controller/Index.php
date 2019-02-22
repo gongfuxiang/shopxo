@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\service\StatisticalService;
+
 /**
  * 首页
  * @author   Devil
@@ -56,6 +58,7 @@ class Index extends Common
 	 */
 	public function Init()
 	{
+		// 系统信息
 		$mysql_ver = db()->query('SELECT VERSION() AS `ver`');
 		$data = array(
 				'server_ver'	=>	php_sapi_name(),
@@ -66,6 +69,11 @@ class Index extends Common
 				'ver'			=>	'ShopXO'.' '.APPLICATION_VERSION,
 			);
 		$this->assign('data', $data);
+
+		// 用户
+		$user = StatisticalService::UserYesterdayTodayTotal();
+		$this->assign('user', $user['data']);
+
 		return $this->fetch();
 	}
 }
