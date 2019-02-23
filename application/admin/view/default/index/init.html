@@ -156,7 +156,7 @@
 $(function()
 {
 	// 近7日订单交易走势
-    var order_trading_chart = echarts.init(document.getElementById('echarts-order-trading'));
+    var order_trading_chart = echarts.init(document.getElementById('echarts-order-trading'), 'macarons');
     var option = {
 	    tooltip : {
 	        trigger: 'axis',
@@ -204,7 +204,7 @@ $(function()
 
 
     // 近7日热销商品
-    var goods_hot_chart = echarts.init(document.getElementById('echarts-goods-hot'));
+    var goods_hot_chart = echarts.init(document.getElementById('echarts-goods-hot'), 'macarons');
     var option = {
     	title : {
 	        subtext: '只显示前10条商品',
@@ -248,7 +248,7 @@ $(function()
     goods_hot_chart.setOption(option);
 
     // 近7日订单支付方式
-    var order_pay_type_chart = echarts.init(document.getElementById('echarts-order-pay-type'));
+    var order_pay_type_chart = echarts.init(document.getElementById('echarts-order-pay-type'), 'macarons');
     var option = {
 	    tooltip : {
 	        trigger: 'axis'
