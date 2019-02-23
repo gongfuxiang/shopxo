@@ -50,38 +50,45 @@ class StatisticalService
      */
     public static function Init($params = [])
     {
-        // 近7天日期
-        self::$seven_time_start = strtotime(date('Y-m-d 00:00:00', strtotime('-7 day')));
-        self::$seven_time_end = time();
-
-        // 昨天日期
-        self::$yesterday_time_start = strtotime(date('Y-m-d 00:00:00', strtotime('-1 day')));
-        self::$yesterday_time_end = strtotime(date('Y-m-d 23:59:59', strtotime('-1 day')));
-
-        // 今天日期
-        self::$today_time_start = strtotime(date('Y-m-d 00:00:00'));
-        self::$today_time_end = time();
-
-        // 近3天,近7天,近15天,近30天
-        $nearly_all = [
-            3   => 'nearly_three_days',
-            7   => 'nearly_seven_days',
-            15  => 'nearly_fifteen_days',
-            30  => 'nearly_thirty_days',
-        ];
-        foreach($nearly_all as $day=>$name)
+        static $object = null;
+        if(!is_object($object))
         {
-            $date = [];
-            $time = time();
-            for($i=0; $i<$day; $i++)
+            // 初始化标记对象，避免重复初始化
+            $object = (object) [];
+
+            // 近7天日期
+            self::$seven_time_start = strtotime(date('Y-m-d 00:00:00', strtotime('-7 day')));
+            self::$seven_time_end = time();
+
+            // 昨天日期
+            self::$yesterday_time_start = strtotime(date('Y-m-d 00:00:00', strtotime('-1 day')));
+            self::$yesterday_time_end = strtotime(date('Y-m-d 23:59:59', strtotime('-1 day')));
+
+            // 今天日期
+            self::$today_time_start = strtotime(date('Y-m-d 00:00:00'));
+            self::$today_time_end = time();
+
+            // 近3天,近7天,近15天,近30天
+            $nearly_all = [
+                3   => 'nearly_three_days',
+                7   => 'nearly_seven_days',
+                15  => 'nearly_fifteen_days',
+                30  => 'nearly_thirty_days',
+            ];
+            foreach($nearly_all as $day=>$name)
             {
-                $date[] = [
-                    'start_time'    => strtotime(date('Y-m-d 00:00:00', time()-$i*3600*24)),
-                    'end_time'      => strtotime(date('Y-m-d 23:59:59', time()-$i*3600*24)),
-                    'name'          => date('Y-m-d', time()-$i*3600*24),
-                ];
+                $date = [];
+                $time = time();
+                for($i=0; $i<$day; $i++)
+                {
+                    $date[] = [
+                        'start_time'    => strtotime(date('Y-m-d 00:00:00', time()-$i*3600*24)),
+                        'end_time'      => strtotime(date('Y-m-d 23:59:59', time()-$i*3600*24)),
+                        'name'          => date('Y-m-d', time()-$i*3600*24),
+                    ];
+                }
+                self::${$name} = $date;
             }
-            self::${$name} = $date;
         }
     }
 
