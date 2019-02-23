@@ -27,6 +27,10 @@ class StatisticalService
     private static $nearly_fifteen_days;
     private static $nearly_thirty_days;
 
+    // 近7天日期
+    private static $seven_time_start;
+    private static $seven_time_end;
+
     // 昨天日期
     private static $yesterday_time_start;
     private static $yesterday_time_end;
@@ -46,6 +50,10 @@ class StatisticalService
      */
     public static function Init($params = [])
     {
+        // 近7天日期
+        self::$seven_time_start = strtotime(date('Y-m-d 00:00:00', strtotime('-7 day')));
+        self::$seven_time_end = time();
+
         // 昨天日期
         self::$yesterday_time_start = strtotime(date('Y-m-d 00:00:00', strtotime('-1 day')));
         self::$yesterday_time_end = strtotime(date('Y-m-d 23:59:59', strtotime('-1 day')));
@@ -75,10 +83,10 @@ class StatisticalService
             }
             self::${$name} = $date;
         }
-        
     }
+
     /**
-     * 用户总数,今日,昨日
+     * 用户总数,今日,昨日,总数
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -108,12 +116,319 @@ class StatisticalService
         $today_count = Db::name('User')->where($where)->count();
 
         // 数据组装
-        $data = [
+        $result = [
             'total_count'       => $total_count,
             'yesterday_count'   => $yesterday_count,
             'today_count'       => $today_count,
         ];
-        return DataReturn('处理成功', 0, $data);
+        return DataReturn('处理成功', 0, $result);
+    }
+
+    /**
+     * 订单总数,今日,昨日,总数
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function OrderNumberYesterdayTodayTotal($params = [])
+    {
+        // 初始化
+        self::Init($params);
+
+        // 订单状态
+        // （0待确认, 1已确认/待支付, 2已支付/待发货, 3已发货/待收货, 4已完成, 5已取消, 6已关闭）
+        
+        // 总数
+        $where = [
+            ['status', '<=', 4],
+        ];
+        $total_count = Db::name('Order')->where($where)->count();
+
+        // 昨天
+        $where = [
+            ['status', '<=', 4],
+            ['add_time', '>=', self::$yesterday_time_start],
+            ['add_time', '<=', self::$yesterday_time_end],
+        ];
+        $yesterday_count = Db::name('Order')->where($where)->count();
+
+        // 今天
+        $where = [
+            ['status', '<=', 4],
+            ['add_time', '>=', self::$today_time_start],
+            ['add_time', '<=', self::$today_time_end],
+        ];
+        $today_count = Db::name('Order')->where($where)->count();
+
+        // 数据组装
+        $result = [
+            'total_count'       => $total_count,
+            'yesterday_count'   => $yesterday_count,
+            'today_count'       => $today_count,
+        ];
+        return DataReturn('处理成功', 0, $result);
+    }
+
+    /**
+     * 订单成交总量,今日,昨日,总数
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function OrderCompleteYesterdayTodayTotal($params = [])
+    {
+        // 初始化
+        self::Init($params);
+
+        // 订单状态
+        // （0待确认, 1已确认/待支付, 2已支付/待发货, 3已发货/待收货, 4已完成, 5已取消, 6已关闭）
+        
+        // 总数
+        $where = [
+            ['status', '=', 4],
+        ];
+        $total_count = Db::name('Order')->where($where)->count();
+
+        // 昨天
+        $where = [
+            ['status', '=', 4],
+            ['add_time', '>=', self::$yesterday_time_start],
+            ['add_time', '<=', self::$yesterday_time_end],
+        ];
+        $yesterday_count = Db::name('Order')->where($where)->count();
+
+        // 今天
+        $where = [
+            ['status', '=', 4],
+            ['add_time', '>=', self::$today_time_start],
+            ['add_time', '<=', self::$today_time_end],
+        ];
+        $today_count = Db::name('Order')->where($where)->count();
+
+        // 数据组装
+        $result = [
+            'total_count'       => $total_count,
+            'yesterday_count'   => $yesterday_count,
+            'today_count'       => $today_count,
+        ];
+        return DataReturn('处理成功', 0, $result);
+    }
+
+    /**
+     * 订单收入总计,今日,昨日,总数
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function OrderCompleteMoneyYesterdayTodayTotal($params = [])
+    {
+        // 初始化
+        self::Init($params);
+
+        // 订单状态
+        // （0待确认, 1已确认/待支付, 2已支付/待发货, 3已发货/待收货, 4已完成, 5已取消, 6已关闭）
+        
+        // 总数
+        $where = [
+            ['status', '<=', 4],
+        ];
+        $total_count = Db::name('Order')->where($where)->sum('total_price');
+
+        // 昨天
+        $where = [
+            ['status', '<=', 4],
+            ['add_time', '>=', self::$yesterday_time_start],
+            ['add_time', '<=', self::$yesterday_time_end],
+        ];
+        $yesterday_count = Db::name('Order')->where($where)->sum('total_price');
+
+        // 今天
+        $where = [
+            ['status', '<=', 4],
+            ['add_time', '>=', self::$today_time_start],
+            ['add_time', '<=', self::$today_time_end],
+        ];
+        $today_count = Db::name('Order')->where($where)->sum('total_price');
+
+        // 数据组装
+        $result = [
+            'total_count'       => PriceNumberFormat($total_count),
+            'yesterday_count'   => PriceNumberFormat($yesterday_count),
+            'today_count'       => PriceNumberFormat($today_count),
+        ];
+        return DataReturn('处理成功', 0, $result);
+    }
+
+    /**
+     * 订单交易趋势, 7天数据
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function OrderTradingTrendSevenTodayTotal($params = [])
+    {
+        // 初始化
+        self::Init($params);
+
+        // 订单状态列表
+        $order_status_list = lang('common_order_user_status');
+        $status_arr = array_column($order_status_list, 'id');
+
+        // 循环获取统计数据
+        $data = [];
+        $count_arr = [];
+        $name_arr = [];
+        if(!empty($status_arr))
+        {
+            foreach(self::$nearly_seven_days as $day)
+            {
+                // 当前日期名称
+                $name_arr[] = $day['name'];
+
+                // 根据支付名称获取数量
+                foreach($status_arr as $status)
+                {
+                    // 获取订单
+                    $where = [
+                        ['status', '=', $status],
+                        ['add_time', '>=', $day['start_time']],
+                        ['add_time', '<=', $day['end_time']],
+                    ];
+                    $count_arr[$status][] = Db::name('Order')->where($where)->count();
+                }
+            }
+        }
+
+        // 数据格式组装
+        foreach($status_arr as $status)
+        {
+            $data[] = [
+                'name'      => $order_status_list[$status]['name'],
+                'type'      => 'line',
+                'tiled'     => '总量',
+                'data'      => empty($count_arr[$status]) ? [] : $count_arr[$status],
+            ];
+        }
+
+        // 数据组装
+        $result = [
+            'title_arr' => array_column($order_status_list, 'name'),
+            'name_arr'  => $name_arr,
+            'data'      => $data,
+        ];
+        return DataReturn('处理成功', 0, $result);
+    }
+
+    /**
+     * 订单支付方式, 7天数据
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function OrderPayTypeSevenTodayTotal($params = [])
+    {
+        // 初始化
+        self::Init($params);
+
+        // 获取支付方式名称
+        $where = [
+            ['business_type', '=', 1],
+        ];
+        $pay_name_arr = Db::name('PayLog')->where($where)->group('payment_name')->column('payment_name');
+
+
+        // 循环获取统计数据
+        $data = [];
+        $count_arr = [];
+        $name_arr = [];
+        if(!empty($pay_name_arr))
+        {
+            foreach(self::$nearly_seven_days as $day)
+            {
+                // 当前日期名称
+                $name_arr[] = date('m-d', strtotime($day['name']));
+
+                // 根据支付名称获取数量
+                foreach($pay_name_arr as $payment)
+                {
+                    // 获取订单
+                    $where = [
+                        ['payment_name', '=', $payment],
+                        ['add_time', '>=', $day['start_time']],
+                        ['add_time', '<=', $day['end_time']],
+                    ];
+                    $count_arr[$payment][] = Db::name('PayLog')->where($where)->count();
+                }
+            }
+        }
+
+        // 数据格式组装
+        foreach($pay_name_arr as $payment)
+        {
+            $data[] = [
+                'name'      => $payment,
+                'type'      => 'line',
+                'stack'     => '总量',
+                'areaStyle' => (object) [],
+                'data'      => empty($count_arr[$payment]) ? [] : $count_arr[$payment],
+            ];
+        }
+
+        // 数据组装
+        $result = [
+            'title_arr' => $pay_name_arr,
+            'name_arr'  => $name_arr,
+            'data'      => $data,
+        ];
+        return DataReturn('处理成功', 0, $result);
+    }
+
+    /**
+     * 热销商品, 7天数据
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function GoodsHotSaleSevenTodayTotal($params = [])
+    {
+        // 初始化
+        self::Init($params);
+    
+        // 获取热销商品
+        $where = [
+            ['d.add_time', '>=', self::$seven_time_start],
+            ['d.add_time', '<=', self::$seven_time_end],
+        ];
+        $data = Db::name('Goods')->alias('g')->join(['__ORDER_DETAIL__'=>'d'], 'g.id=d.goods_id') ->where($where)->field('g.title AS name,g.sales_count AS value')->order('g.sales_count desc')->limit(10)->group('g.id')->select();
+        if(!empty($data))
+        {
+            foreach($data as &$v)
+            {
+                if(mb_strlen($v['name'], 'utf-8') > 15)
+                {
+                    $v['name'] = mb_substr($v['name'], 0, 15).'...';
+                }
+            }
+        }
+
+        // 数据组装
+        $result = [
+            'name_arr'  => array_column($data, 'name'),
+            'data'      => $data,
+        ];
+        return DataReturn('处理成功', 0, $result);
     }
 
 }

@@ -24,7 +24,7 @@ html, body {
     margin-left: 10px;
 }
 .echarts-container .echarts-title .icon {
-    background: #2196F3;
+    background: #3f82fe;
     display: block;
     width: 5px;
     height: 16px;
@@ -90,16 +90,23 @@ html, body {
     margin: 0;
     color: #fff;
 }
-.shopxo-base li .total {
+.shopxo-base li .li-content .total {
     margin: 0 0 5px 0;
     color: #fff;
     font-size: 26px;
+    font-weight: 700;
 }
-.shopxo-base li .yesterday, .shopxo-base li .today {
+.shopxo-base li .li-content p, .shopxo-base li .li-content .yesterday, .shopxo-base li .li-content .today {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 100%;
+}
+.shopxo-base li .li-content .yesterday, .shopxo-base li .li-content .today {
     color: #f0f0f0;
     font-size: 12px;
 }
-.shopxo-base li .yesterday {
+.shopxo-base li .li-content .yesterday {
     padding-bottom: 5px;
 }
 @media only screen and (max-width: 641px) {

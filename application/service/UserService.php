@@ -478,7 +478,7 @@ class UserService
         ];
         if(!empty($params['alias']))
         {
-            $data['alias'] = floatval($params['alias']);
+            $data['alias'] = $params['alias'];
         }
         if(!empty($params['lng']))
         {

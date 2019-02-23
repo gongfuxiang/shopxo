@@ -74,6 +74,30 @@ class Index extends Common
 		$user = StatisticalService::UserYesterdayTodayTotal();
 		$this->assign('user', $user['data']);
 
+		// 订单总数
+		$order_number = StatisticalService::OrderNumberYesterdayTodayTotal();
+		$this->assign('order_number', $order_number['data']);
+
+		// 订单成交总量
+		$order_complete_number = StatisticalService::OrderCompleteYesterdayTodayTotal();
+		$this->assign('order_complete_number', $order_complete_number['data']);
+
+		// 订单收入总计
+		$order_complete_money = StatisticalService::OrderCompleteMoneyYesterdayTodayTotal();
+		$this->assign('order_complete_money', $order_complete_money['data']);
+
+		// 近7日订单交易走势
+		$order_trading_trend = StatisticalService::OrderTradingTrendSevenTodayTotal();
+		$this->assign('order_trading_trend', $order_trading_trend['data']);
+		
+		// 近7日订单支付方式
+		$order_type_number = StatisticalService::OrderPayTypeSevenTodayTotal();
+		$this->assign('order_type_number', $order_type_number['data']);
+
+		// 近7日热销商品
+		$goods_hot_sale = StatisticalService::GoodsHotSaleSevenTodayTotal();
+		$this->assign('goods_hot_sale', $goods_hot_sale['data']);
+
 		return $this->fetch();
 	}
 }
