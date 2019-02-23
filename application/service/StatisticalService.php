@@ -415,17 +415,17 @@ class StatisticalService
     
         // 获取热销商品
         $where = [
-            ['d.add_time', '>=', self::$seven_time_start],
-            ['d.add_time', '<=', self::$seven_time_end],
+            ['add_time', '>=', self::$seven_time_start],
+            ['add_time', '<=', self::$seven_time_end],
         ];
-        $data = Db::name('Goods')->alias('g')->join(['__ORDER_DETAIL__'=>'d'], 'g.id=d.goods_id') ->where($where)->field('g.title AS name,g.sales_count AS value')->order('g.sales_count desc')->limit(10)->group('g.id')->select();
+        $data = Db::name('OrderDetail')->where($where)->field('title AS name,sum(buy_number) AS value')->order('value desc')->limit(10)->group('goods_id')->select();
         if(!empty($data))
         {
             foreach($data as &$v)
             {
-                if(mb_strlen($v['name'], 'utf-8') > 15)
+                if(mb_strlen($v['name'], 'utf-8') > 12)
                 {
-                    $v['name'] = mb_substr($v['name'], 0, 15).'...';
+                    $v['name'] = mb_substr($v['name'], 0, 12, 'utf-8').'...';
                 }
             }
         }
