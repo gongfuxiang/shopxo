@@ -22,7 +22,7 @@ use app\service\BrandService;
  */
 class Search extends Common
 {
-    private $params; 
+    private $params;
 
     /**
      * 构造方法
