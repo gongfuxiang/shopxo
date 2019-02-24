@@ -13,17 +13,17 @@ html, body {
     border-radius: 3px;
     overflow: hidden;;
 }
-.echarts-container, .echarts-combination-container-2 {
+.echarts-container, .echarts-combination-container-2 li {
     position: relative;
 }
 .echarts-container {
     margin-bottom: 20px;
 }
 
-.echarts-container .echarts-title {
+.echarts-container .echarts-title, .echarts-combination-container-2 li .echarts-title {
     margin-left: 10px;
 }
-.echarts-container .echarts-title .icon {
+.echarts-container .echarts-title .icon, .echarts-combination-container-2 li .echarts-title .icon {
     background: #3f82fe;
     display: block;
     width: 5px;
@@ -32,7 +32,7 @@ html, body {
     left: 10px;
     top: 13px;
 }
-.echarts-container .echarts-title .title {
+.echarts-container .echarts-title .title, .echarts-combination-container-2 li .echarts-title .title {
     color: #666;
     font-size: 14px;
     margin-left: 5px;
