@@ -71,6 +71,8 @@ html, body {
 .shopxo-base li .li-content {
     padding: 10px;
     border-radius: 3px;
+    background: #00BCD4;
+    position: relative;
 }
 .shopxo-base li:nth-child(1) .li-content {
     background: #00BCD4;
@@ -108,6 +110,13 @@ html, body {
 }
 .shopxo-base li .li-content .yesterday {
     padding-bottom: 5px;
+}
+.shopxo-base li .li-content .bg-icon {
+    font-size: 36px;
+    position: absolute;
+    top: calc(50% - 45px);
+    right: 10px;
+    color: rgba(255, 255, 255, 0.12);
 }
 @media only screen and (max-width: 641px) {
     .shopxo-base li:nth-child(1){
