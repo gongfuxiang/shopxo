@@ -1666,6 +1666,7 @@ class GoodsService
                 foreach($value as $k=>&$v)
                 {
                     $base = Db::name('GoodsSpecBase')->find($k);
+                    $base['weight'] = PriceBeautify($base['weight']);
                     $v[] = [
                         'data_type' => 'base',
                         'data'      => $base,
@@ -1674,6 +1675,7 @@ class GoodsService
             }
         } else {
             $base = Db::name('GoodsSpecBase')->where($where)->find();
+            $base['weight'] = PriceBeautify($base['weight']);
             $value[][] = [
                 'data_type' => 'base',
                 'data'      => $base,
@@ -1770,6 +1772,7 @@ class GoodsService
                     if(!empty($base_id))
                     {
                         $base = Db::name('GoodsSpecBase')->find($base_id);
+                        $base['weight'] = PriceBeautify($base['weight']);
                         if(!empty($base))
                         {
                             return DataReturn('操作成功', 0, $base);
@@ -1779,6 +1782,7 @@ class GoodsService
             }
         } else {
             $base = Db::name('GoodsSpecBase')->where($where)->find();
+            $base['weight'] = PriceBeautify($base['weight']);
             if(!empty($base))
             {
                 return DataReturn('操作成功', 0, $base);
