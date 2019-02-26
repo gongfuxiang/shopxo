@@ -288,6 +288,7 @@
 .commonrightnavigation-cart .cart-content .goods-attr li {
     color: #888;
     line-height: 16px;
+    font-size: 12px;
 }
 .commonrightnavigation-cart .cart-content strong.total-price-content, .commonrightnavigation-cart .cart-content .nav-total-price {
     font-weight: 700;

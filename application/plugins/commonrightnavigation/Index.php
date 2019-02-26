@@ -48,6 +48,14 @@ class Index extends Controller
      */
     public function cart($params = [])
     {
+        // 当前模块/控制器/方法
+        $module_name = strtolower(request()->module());
+        $controller_name = strtolower(request()->controller());
+        $action_name = strtolower(request()->action());
+
+        // 当前模块/控制器/方法
+        $this->assign('module_controller_action', $module_name.$controller_name.$action_name);
+
         // 购物车
         $cart_list = BuyService::CartList(['user'=>session('user')]);
     
