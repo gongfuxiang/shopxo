@@ -70,8 +70,8 @@ ul.order-base li span.am-badge{position: absolute; top: -7px; left: 55%;}
 .various .goods-favor-list, .various .goods-browse-list, .various .am-gallery{padding: 0;}
 .various .am-gallery-item{overflow: hidden; text-align: center;}
 .various .line-price{color: #d2364c; font-weight: 700; font-family: Verdana,Tahoma,arial; }
-.goods-browse-list .am-gallery-item img {width: 80%;}
-.am-gallery-overlay .am-gallery-desc{display: block; position: absolute; right: 0; top: 0; background-color: #d2364c; color: #fff; padding: 0 5px;}
+.various .goods-browse-list .am-gallery-item img {width: 80%;}
+.various .am-gallery-overlay .am-gallery-desc{display: block; position: absolute; right: 0; top: 0; background-color: #d2364c; color: #fff; padding: 0 5px;}
 
 /**
  * PC
@@ -103,12 +103,13 @@ ul.order-base li span.am-badge{position: absolute; top: -7px; left: 55%;}
 /**
  * 商品列表
  */
-.order-list .goods-detail { position: relative; padding: 5px 0; height: 70px; }
-.order-list .goods-detail:not(:last-child) { border-bottom: 1px solid #f5f5f5; }
-.order-list .goods-detail img { width: 60px; height: 60px; }
-.order-list .goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
-.order-list .goods-title:hover { text-decoration: underline; }
-.order-list .goods-base { position: absolute; top: 5px; left: 65px; width: calc(100% - 120px); }
-.order-list .goods-base ul li span:not(:first-child) { margin-left: 10px; }
-.order-list .goods-base ul li { color: #777; }
-.order-list .goods-detail .order-submit { margin-top: 16px; }
+.various .goods-detail { position: relative; padding: 5px 0; height: 70px; }
+.various .goods-detail:not(:last-child) { border-bottom: 1px solid #f5f5f5; }
+.various .goods-detail img { width: 60px; height: 60px; }
+.various .goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+.various .goods-title:hover { text-decoration: underline; }
+.various .goods-base { position: absolute; top: 5px; left: 65px; width: calc(100% - 65px); }
+.various .goods-base ul li span:not(:first-child) { margin-left: 10px; }
+.various .goods-base ul li { color: #777; }
+.various .goods-detail .order-submit { margin-top: 16px; }
+.various .order-list .goods-base { width: calc(100% - 120px); }
