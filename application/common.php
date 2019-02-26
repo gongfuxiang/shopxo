@@ -12,6 +12,35 @@
 // 应用公共文件
 
 /**
+ * each函数
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-02-26
+ * @desc    description
+ * @param   [array]          &$data [输入参数]
+ */
+function FunEach(&$data)
+{
+    if(!is_array($data))
+    {
+        return false;
+    }
+
+    $res = [];
+    $key = key($data);
+    if($key !== null)
+    {
+        next($data); 
+        $res[1] = $res['value'] = $data[$key];
+        $res[0] = $res['key'] = $key;
+    } else {
+        $res = false;
+    }
+    return $res;
+}
+
+/**
  * 金额格式化
  * @author   Devil
  * @blog    http://gong.gg/
@@ -627,7 +656,7 @@ function Fsockopen_Post($url, $data = '')
     $port = isset($row['port']) ? $row['port'] : 80;
     $file = $row['path'];
     $post = '';
-    while (list($k,$v) = each($data)) 
+    while (list($k,$v) = FunEach($data)) 
     {
         if(isset($k) && isset($v)) $post .= rawurlencode($k)."=".rawurlencode($v)."&"; //转URL标准码
     }

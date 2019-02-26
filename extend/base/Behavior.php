@@ -118,7 +118,7 @@ class Behavior
 	    $port = isset($row['port']) ? $row['port'] : 80;
 	    $file = $row['path'];
 	    $post = '';
-	    while (list($k,$v) = each($data)) 
+	    while (list($k,$v) = FunEach($data)) 
 	    {
 	        if(isset($k) && isset($v)) $post .= rawurlencode($k)."=".rawurlencode($v)."&"; //转URL标准码
 	    }
