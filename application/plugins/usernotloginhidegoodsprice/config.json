@@ -21,7 +21,10 @@
         "is_home":false
     },
     "hook":{
-        "plugins_service_goods_handle_begin":[
+        "plugins_service_goods_handle_end":[
+            "app\\plugins\\usernotloginhidegoodsprice\\Hook"
+        ],
+        "plugins_service_goods_spec_base":[
             "app\\plugins\\usernotloginhidegoodsprice\\Hook"
         ]
     }

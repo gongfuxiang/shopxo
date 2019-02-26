@@ -1802,22 +1802,37 @@ class GoodsService
                     if(!empty($base_id))
                     {
                         $base = Db::name('GoodsSpecBase')->find($base_id);
-                        $base['weight'] = PriceBeautify($base['weight']);
-                        if(!empty($base))
-                        {
-                            return DataReturn('操作成功', 0, $base);
-                        }
                     }
                 }
             }
         } else {
             $base = Db::name('GoodsSpecBase')->where($where)->find();
-            $base['weight'] = PriceBeautify($base['weight']);
-            if(!empty($base))
-            {
-                return DataReturn('操作成功', 0, $base);
-            }
         }
+
+        // 是否有规格
+        if(!empty($base))
+        {
+            // 单位 .00 处理
+            $base['weight'] = PriceBeautify($base['weight']);
+
+            // 商品处理前钩子
+            $hook_name = 'plugins_service_goods_spec_base';
+            $ret = Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'spec_base'     => &$base,
+                'goods_id'      => $goods_id
+            ]);
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            // 返回成功
+            return DataReturn('操作成功', 0, $base);
+        }
+
         return DataReturn('没有相关规格', -100);
     }
 

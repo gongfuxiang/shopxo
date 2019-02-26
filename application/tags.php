@@ -60,7 +60,11 @@ return array (
     0 => 'app\\plugins\\commonrightnavigation\\Hook',
     1 => 'app\\plugins\\commononlineservice\\Hook',
   ),
-  'plugins_service_goods_handle_begin' => 
+  'plugins_service_goods_handle_end' => 
+  array (
+    0 => 'app\\plugins\\usernotloginhidegoodsprice\\Hook',
+  ),
+  'plugins_service_goods_spec_base' => 
   array (
     0 => 'app\\plugins\\usernotloginhidegoodsprice\\Hook',
   ),

@@ -85,32 +85,54 @@ class Hook extends Controller
             // 销售价
             $price_placeholder = isset($ret['data']['price_placeholder']) ? $ret['data']['price_placeholder'] : '';
 
-            // 商品原价
-            if(isset($params['goods']['original_price']))
+            switch($params['hook_name'])
             {
-                $params['goods']['original_price'] = $original_price_placeholder;
-            }
-            if(isset($params['goods']['min_original_price']))
-            {
-                $params['goods']['min_original_price'] = $original_price_placeholder;
-            }
-            if(isset($params['goods']['max_original_price']))
-            {
-                $params['goods']['max_original_price'] = $original_price_placeholder;
-            }
+                // 商品数据处理前
+                case 'plugins_service_goods_handle_end' :
+                    // 商品原价
+                    if(isset($params['goods']['original_price']))
+                    {
+                        $params['goods']['original_price'] = $original_price_placeholder;
+                    }
+                    if(isset($params['goods']['min_original_price']))
+                    {
+                        $params['goods']['min_original_price'] = $original_price_placeholder;
+                    }
+                    if(isset($params['goods']['max_original_price']))
+                    {
+                        $params['goods']['max_original_price'] = $original_price_placeholder;
+                    }
 
-            // 销售价
-            if(isset($params['goods']['price']))
-            {
-                $params['goods']['price'] = $price_placeholder;
-            }
-            if(isset($params['goods']['min_price']))
-            {
-                $params['goods']['min_price'] = $price_placeholder;
-            }
-            if(isset($params['goods']['max_price']))
-            {
-                $params['goods']['max_price'] = $price_placeholder;
+                    // 销售价
+                    if(isset($params['goods']['price']))
+                    {
+                        $params['goods']['price'] = $price_placeholder;
+                    }
+                    if(isset($params['goods']['min_price']))
+                    {
+                        $params['goods']['min_price'] = $price_placeholder;
+                    }
+                    if(isset($params['goods']['max_price']))
+                    {
+                        $params['goods']['max_price'] = $price_placeholder;
+                    }
+                    break;
+
+                // 商品规格基础数据
+                case 'plugins_service_goods_spec_base' :
+                    if(isset($params['spec_base']['original_price']))
+                    {
+                        $params['spec_base']['original_price'] = $original_price_placeholder;
+                    }
+                    if(isset($params['spec_base']['price']))
+                    {
+                        $params['spec_base']['price'] = $price_placeholder;
+                    }
+                    break;
+
+                // 默认
+                default :
+                    return DataReturn('无需处理', 0);
             }
 
             return DataReturn('处理成功', 0);
