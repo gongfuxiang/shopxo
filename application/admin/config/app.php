@@ -75,6 +75,9 @@ return [
             // 上传大小限制，单位B
             'scrawlMaxSize'         =>  MyC('home_max_limit_image', 2048000, true),
 
+            // 上传图片格式显示
+            'scrawlAllowFiles'           =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp'],
+
             // 图片访问路径前缀
             'scrawlUrlPrefix'       =>  '',
 

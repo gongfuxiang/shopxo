@@ -43,7 +43,7 @@ class Uploader
         "ERROR_TYPE_NOT_ALLOWED" => "文件类型不允许",
         "ERROR_CREATE_DIR" => "目录创建失败",
         "ERROR_DIR_NOT_WRITEABLE" => "目录没有写权限",
-        "ERROR_FILE_MOVE" => "保存出错,图片有误",
+        "ERROR_FILE_MOVE" => "保存出错,文件有误",
         "ERROR_FILE_NOT_FOUND" => "找不到上传文件",
         "ERROR_WRITE_CONTENT" => "写入文件内容错误",
         "ERROR_UNKNOWN" => "未知错误",
@@ -52,6 +52,8 @@ class Uploader
         "ERROR_HTTP_CONTENTTYPE" => "链接contentType不正确",
         "INVALID_URL" => "非法 URL",
         "INVALID_IP" => "非法 IP",
+        "ERROR_IMAGE_SAVE" => "保存出错,图片有误",
+        "ERROR_UPLOAD_TYPE" => "操作类型有误",
     );
 
     /**
@@ -65,21 +67,107 @@ class Uploader
         $this->fileField = $fileField;
         $this->config = $config;
         $this->type = $type;
-        if ($type == "remote") {
-            $this->saveRemote();
-        } else if($type == "base64") {
-            $this->upBase64();
-        } else {
-            $this->upFile();
+        switch($this->type)
+        {
+            // 抓取远程文件
+            case 'remote' :
+                $this->saveRemote();
+                break;
+
+            // base64文件
+            case 'base64' :
+                $this->uploadBase64();
+                break;
+
+            // 图片
+            case 'image' :
+                $this->uploadImage();
+                break;
+
+            // 文件、视频
+            case 'file' :
+            case 'video' :
+                $this->uploadFile();
+                break;
+
+            // 默认
+            default :
+                $this->stateInfo = $this->getStateInfo("ERROR_UPLOAD_TYPE");
         }
-        //$this->stateMap['ERROR_TYPE_NOT_ALLOWED'] = iconv('unicode', 'utf-8', $this->stateMap['ERROR_TYPE_NOT_ALLOWED']);
     }
 
     /**
-     * 上传文件的主处理方法
-     * @return mixed
+     * 文件上传
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-02-26
+     * @desc    description
      */
-    private function upFile()
+    private function uploadFile()
+    {
+        $file = $this->file = $_FILES[$this->fileField];
+        if (!$file) {
+            $this->stateInfo = $this->getStateInfo("ERROR_FILE_NOT_FOUND");
+            return;
+        }
+        if ($this->file['error']) {
+            $this->stateInfo = $this->getStateInfo($file['error']);
+            return;
+        } else if (!file_exists($file['tmp_name'])) {
+            $this->stateInfo = $this->getStateInfo("ERROR_TMP_FILE_NOT_FOUND");
+            return;
+        } else if (!is_uploaded_file($file['tmp_name'])) {
+            $this->stateInfo = $this->getStateInfo("ERROR_TMPFILE");
+            return;
+        }
+
+        $this->oriName = $file['name'];
+        $this->fileSize = $file['size'];
+        $this->fileType = $this->getFileExt();
+        $this->fullName = $this->getFullName();
+        $this->filePath = $this->getFilePath();
+        $this->fileName = $this->getFileName();
+        $dirname = dirname($this->filePath);
+
+        //检查文件大小是否超出限制
+        if (!$this->checkSize()) {
+            $this->stateInfo = $this->getStateInfo("ERROR_SIZE_EXCEED");
+            return;
+        }
+
+        //检查是否不允许的文件格式
+        if (!$this->checkType()) {
+            $this->stateInfo = $this->getStateInfo("ERROR_TYPE_NOT_ALLOWED");
+            return;
+        }
+
+        //创建目录失败
+        if (!is_dir($dirname) && !@mkdir($dirname, 0777, true)) {
+            $this->stateInfo = $this->getStateInfo("ERROR_CREATE_DIR");
+            return;
+        } else if (!is_writeable($dirname)) {
+            $this->stateInfo = $this->getStateInfo("ERROR_DIR_NOT_WRITEABLE");
+            return;
+        }
+
+        //移动文件
+        if (!(move_uploaded_file($file["tmp_name"], $this->filePath) && file_exists($this->filePath))) { //移动失败
+            $this->stateInfo = $this->getStateInfo("ERROR_FILE_MOVE");
+        } else { //移动成功
+            $this->stateInfo = $this->stateMap[0];
+        }
+    }
+
+    /**
+     * 图片上传
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-02-26
+     * @desc    description
+     */
+    private function uploadImage()
     {
         $file = $this->file = $_FILES[$this->fileField];
         if (!$file) {
@@ -150,7 +238,7 @@ class Uploader
         }
         if(!file_exists($this->filePath))
         {
-            $this->stateInfo = $this->getStateInfo("ERROR_FILE_MOVE");
+            $this->stateInfo = $this->getStateInfo("ERROR_IMAGE_SAVE");
         } else {
             $this->stateInfo = $this->stateMap[0];
         }
@@ -158,9 +246,13 @@ class Uploader
 
     /**
      * 处理base64编码的图片上传
-     * @return mixed
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-02-26
+     * @desc    description
      */
-    private function upBase64()
+    private function uploadBase64()
     {
         $base64Data = $_POST[$this->fileField];
         $img = base64_decode($base64Data);
@@ -199,7 +291,11 @@ class Uploader
 
     /**
      * 拉取远程图片
-     * @return mixed
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-02-26
+     * @desc    description
      */
     private function saveRemote()
     {

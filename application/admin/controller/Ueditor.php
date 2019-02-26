@@ -171,7 +171,7 @@ class Ueditor extends Common
 	 */
 	private function ActionUpload()
 	{
-		$base64 = "upload";
+		$type = "file";
 		switch(htmlspecialchars($this->current_action))
 		{
 			case 'uploadimage':
@@ -181,6 +181,7 @@ class Ueditor extends Common
 						"allowFiles" => $this->current_config['imageAllowFiles']
 					);
 				$field_name = $this->current_config['imageFieldName'];
+				$type = "image";
 				break;
 
 			case 'uploadscrawl':
@@ -191,7 +192,7 @@ class Ueditor extends Common
 						"oriName" => "scrawl.png"
 					);
 				$field_name = $this->current_config['scrawlFieldName'];
-				$base64 = "base64";
+				$type = "base64";
 				break;
 
 			case 'uploadvideo':
@@ -201,6 +202,7 @@ class Ueditor extends Common
 						"allowFiles" => $this->current_config['videoAllowFiles']
 					);
 				$field_name = $this->current_config['videoFieldName'];
+				$type = "video";
 				break;
 
 			case 'uploadfile':
@@ -211,10 +213,11 @@ class Ueditor extends Common
 						"allowFiles" => $this->current_config['fileAllowFiles']
 					);
 				$field_name = $this->current_config['fileFieldName'];
+				$type = "file";
 		}
 
 		/* 生成上传实例对象并完成上传 */
-		$up = new \base\Uploader($field_name, $temp_config, $base64);
+		$up = new \base\Uploader($field_name, $temp_config, $type);
 
 		/**
 		 * 得到上传文件所对应的各个参数,数组结构
