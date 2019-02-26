@@ -1,7 +1,7 @@
 <!-- 用户状态 开始 -->
 <div class="am-form-group">
-	<label>{{:lang('common_view_user_status_name')}}</label>
-	<select name="status" class="am-radius c-p" data-validation-message="{{:lang('common_user_status_format')}}" required>
+	<label>用户状态</label>
+	<select name="status" class="am-radius chosen-select c-p" data-validation-message="请选择用户状态" required>
 		{{foreach :lang('common_user_status_list') as $v}}
 			<option value="{{$v.id}}" {{if isset($data['status']) and $data['status'] eq $v['id']}}selected{{else /}}{{if !isset($data['status']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
 		{{/foreach}}

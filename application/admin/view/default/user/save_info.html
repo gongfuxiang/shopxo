@@ -32,6 +32,20 @@
 				<label>电子邮箱</label>
 				<input type="email" name="email" class="am-radius" placeholder="电子邮箱" data-validation-message="电子邮箱格式错误" {{if !empty($data)}} value="{{$data.email}}"{{/if}} />
 			</div>
+
+			<div class="am-form-group">
+				<label>支付宝openid</label>
+				<input type="text" name="alipay_openid" class="am-radius" placeholder="支付宝openid" data-validation-message="请填写支付宝openid" {{if !empty($data)}} value="{{$data.alipay_openid}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>微信openid</label>
+				<input type="text" name="weixin_openid" class="am-radius" placeholder="微信openid" data-validation-message="请填写微信openid" {{if !empty($data)}} value="{{$data.weixin_openid}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>百度openid</label>
+				<input type="text" name="baidu_openid" class="am-radius" placeholder="百度openid" data-validation-message="请填写百度openid" {{if !empty($data)}} value="{{$data.baidu_openid}}"{{/if}} />
+			</div>
+
 			<div class="am-form-group">
 				<label>生日</label>
 				<input type="text" name="birthday" class="am-radius Wdate" placeholder="生日" pattern="{{:lang('common_regex_date')}}" data-validation-message="生日格式有误" {{if !empty($data)}} value="{{$data.birthday_text}}" {{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" />
@@ -45,6 +59,8 @@
 				<label>积分</label>
 				<input type="number" placeholder="积分" name="integral" data-validation-message="详细地址2~60 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.integral}}"{{/if}} />
 			</div>
+
+			{{include file="lib/user_status" /}}
 
 			<div class="am-form-group">
 				<label>登录密码</label>

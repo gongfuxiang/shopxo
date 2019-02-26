@@ -22,6 +22,7 @@ return array(
             '1.1.0' => array('value' => '1.1.0', 'name' => 'v1.1.0'),
             '1.2.0' => array('value' => '1.2.0', 'name' => 'v1.2.0'),
             '1.3.0' => array('value' => '1.3.0', 'name' => 'v1.3.0'),
+            '1.4.0' => array('value' => '1.4.0', 'name' => 'v1.4.0'),
         ),
     
     // 性别
@@ -210,6 +211,7 @@ return array(
             0 => array('id' => 0, 'name' => '正常', 'checked' => true),
             1 => array('id' => 1, 'name' => '禁止发言', 'tips' => '用户被禁止发言'),
             2 => array('id' => 2, 'name' => '禁止登录', 'tips' => '用户被禁止登录'),
+            3 => array('id' => 3, 'name' => '待审核', 'tips' => '用户等待审核中'),
         ),
 
     // 是否已评价

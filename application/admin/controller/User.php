@@ -81,6 +81,9 @@ class User extends Common
 		// 性别
 		$this->assign('common_gender_list', lang('common_gender_list'));
 
+		// 用户状态
+		$this->assign('common_user_status_list', lang('common_user_status_list'));
+
 		// Excel地址
 		$this->assign('excel_url', MyUrl('admin/user/excelexport', $params));
 

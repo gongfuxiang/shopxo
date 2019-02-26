@@ -13,7 +13,7 @@
 if(version_compare(PHP_VERSION,'5.6.0','<'))  die('PHP版本最低 5.6.0');
 
 // 系统版本
-define('APPLICATION_VERSION', 'v1.3.0');
+define('APPLICATION_VERSION', 'v1.4.0');
 
 // 定义系统目录分隔符
 define('DS', '/');
