@@ -52,24 +52,24 @@ class Goods extends Common
             'is_photo'  => true,
             'is_spec'   => true,
         ];
-        $goods = GoodsService::GoodsList($params);
-        if(empty($goods[0]) || $goods[0]['is_delete_time'] != 0)
+        $ret = GoodsService::GoodsList($params);
+        if(empty($ret['data'][0]) || $ret['data'][0]['is_delete_time'] != 0)
         {
             $this->assign('msg', '资源不存在或已被删除');
             return $this->fetch('/public/tips_error');
         } else {
             // 当前登录用户是否已收藏
             $ret_favor = GoodsService::IsUserGoodsFavor(['goods_id'=>$id, 'user'=>$this->user]);
-            $goods[0]['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
+            $ret['data'][0]['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
 
             // 商品评价总数
-            $goods[0]['comments_count'] = GoodsService::GoodsCommentsTotal($id);
+            $ret['data'][0]['comments_count'] = GoodsService::GoodsCommentsTotal($id);
 
             // 商品收藏总数
-            $goods[0]['favor_count'] = GoodsService::GoodsFavorTotal(['goods_id'=>$id]);
+            $ret['data'][0]['favor_count'] = GoodsService::GoodsFavorTotal(['goods_id'=>$id]);
 
-            $this->assign('goods', $goods[0]);
-            $this->assign('home_seo_site_title', $goods[0]['title']);
+            $this->assign('goods', $ret['data'][0]);
+            $this->assign('home_seo_site_title', $ret['data'][0]['title']);
 
             // 二维码
             $this->assign('qrcode_url', MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode(MyUrl('index/goods/index', ['id'=>$id], true, true)))]));
@@ -90,7 +90,8 @@ class Goods extends Common
                 'field'     => 'id,title,title_color,price,images',
                 'n'         => 10,
             ];
-            $this->assign('left_goods', GoodsService::GoodsList($params));
+            $right_goods = GoodsService::GoodsList($params);
+            $this->assign('left_goods', $right_goods['data']);
 
             // 详情tab商品 猜你喜欢
             $params = [
@@ -103,7 +104,8 @@ class Goods extends Common
                 'field'     => 'id,title,title_color,price,images,home_recommended_images',
                 'n'         => 16,
             ];
-            $this->assign('detail_like_goods', GoodsService::GoodsList($params));
+            $like_goods = GoodsService::GoodsList($params);
+            $this->assign('detail_like_goods', $like_goods['data']);
 
             return $this->fetch();
         }

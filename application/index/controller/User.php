@@ -137,7 +137,7 @@ class User extends Common
         $this->assign('goods_browse_list', $data['data']);
 
         // 用户中心顶部钩子
-        $this->assign('plugins_view_user_center_top_data', Hook::listen('plugins_view_user_center_top', ['hook_name'=>'plugins_view_user_center_top', 'is_control'=>false, 'user'=>$this->user]));
+        $this->assign('plugins_view_user_center_top_data', Hook::listen('plugins_view_user_center_top', ['hook_name'=>'plugins_view_user_center_top', 'is_backend'=>false, 'user'=>$this->user]));
 
         return $this->fetch();
     }

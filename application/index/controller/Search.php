@@ -97,8 +97,8 @@ class Search extends Common
     public function GoodsList()
     {        
         // 获取商品列表
-        $data = SearchService::GoodsList($this->params);
-        if(empty($data['data']))
+        $ret = SearchService::GoodsList($this->params);
+        if(empty($ret['data']))
         {
             $msg = '没有相关数据';
             $code = -100;
@@ -111,7 +111,7 @@ class Search extends Common
         SearchService::SearchAdd($this->params);
 
         // 返回
-        return DataReturn($msg, $code, $data);
+        return DataReturn($msg, $code, $ret['data']);
     }
 }
 ?>

@@ -371,32 +371,32 @@ class BuyService
             ],
             'field' => 'id, id AS goods_id, title, images, inventory_unit, buy_min_number, buy_max_number',
         ];
-        $goods = GoodsService::GoodsList($p);
-        if(empty($goods[0]))
+        $ret = GoodsService::GoodsList($p);
+        if(empty($ret['data'][0]))
         {
             return DataReturn('资源不存在或已被删除', -10);
         }
 
         // 规格
-        $goods[0]['spec'] = self::GoodsSpecificationsHandle($params);
+        $ret['data'][0]['spec'] = self::GoodsSpecificationsHandle($params);
 
         // 获取商品基础信息
-        $goods_base = GoodsService::GoodsSpecDetail(['id'=>$goods[0]['goods_id'], 'spec'=>$goods[0]['spec']]);
+        $goods_base = GoodsService::GoodsSpecDetail(['id'=>$ret['data'][0]['goods_id'], 'spec'=>$ret['data'][0]['spec']]);
         if($goods_base['code'] == 0)
         {
-            $goods[0]['inventory'] = $goods_base['data']['inventory'];
-            $goods[0]['price'] = $goods_base['data']['price'];
-            $goods[0]['original_price'] = $goods_base['data']['original_price'];
-            $goods[0]['spec_weight'] = $goods_base['data']['weight'];
-            $goods[0]['spec_coding'] = $goods_base['data']['coding'];
-            $goods[0]['spec_barcode'] = $goods_base['data']['barcode'];
+            $ret['data'][0]['inventory'] = $goods_base['data']['inventory'];
+            $ret['data'][0]['price'] = $goods_base['data']['price'];
+            $ret['data'][0]['original_price'] = $goods_base['data']['original_price'];
+            $ret['data'][0]['spec_weight'] = $goods_base['data']['weight'];
+            $ret['data'][0]['spec_coding'] = $goods_base['data']['coding'];
+            $ret['data'][0]['spec_barcode'] = $goods_base['data']['barcode'];
         } else {
             return $goods_base;
         }
 
         // 数量/小计
-        $goods[0]['stock'] = $params['stock'];
-        $goods[0]['total_price'] = $params['stock']*$goods[0]['price'];
+        $ret['data'][0]['stock'] = $params['stock'];
+        $ret['data'][0]['total_price'] = $params['stock']*$ret['data'][0]['price'];
 
         return DataReturn('操作成功', 0, $goods);
     }

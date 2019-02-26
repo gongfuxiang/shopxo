@@ -41,7 +41,7 @@ return array (
   array (
     0 => 'app\\plugins\\usercentertopnotice\\Hook',
   ),
-  'plugins_control_user_login_end' => 
+  'plugins_service_user_login_end' => 
   array (
     0 => 'app\\plugins\\userloginrewardintegral\\Hook',
   ),
@@ -59,6 +59,10 @@ return array (
   array (
     0 => 'app\\plugins\\commonrightnavigation\\Hook',
     1 => 'app\\plugins\\commononlineservice\\Hook',
+  ),
+  'plugins_service_goods_handle_begin' => 
+  array (
+    0 => 'app\\plugins\\usernotloginhidegoodsprice\\Hook',
   ),
 );
 ?>

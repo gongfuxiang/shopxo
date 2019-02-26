@@ -833,7 +833,13 @@ class UserService
         }
 
         // 用户登录前钩子
-        $ret = Hook::listen('plugins_control_user_login_begin', ['hook_name'=>'plugins_control_user_login_begin', 'is_control'=>true, 'params'=>$params, 'user_id'=>$user['id']]);
+        $hook_name = 'plugins_service_user_login_begin';
+        $ret = Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'user_id'       => $user['id']
+        ]);
         if(isset($ret['code']) && $ret['code'] != 0)
         {
             return $ret;
@@ -852,7 +858,13 @@ class UserService
             if(self::UserLoginRecord($user['id']))
             {
                 // 用户登录后钩子
-                $ret = Hook::listen('plugins_control_user_login_end', ['hook_name'=>'plugins_control_user_login_end', 'is_control'=>true, 'params'=>$params, 'user_id'=>$user['id']]);
+                $hook_name = 'plugins_service_user_login_end';
+                $ret = Hook::listen($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => &$params,
+                    'user_id'       => $user['id']
+                ]);
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
                     return $ret;

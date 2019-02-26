@@ -61,16 +61,16 @@ class Goods extends Common
             'is_spec' => true,
             'is_content_app' => true,
         ];
-        $goods = GoodsService::GoodsList($params);
-        if(empty($goods[0]) || $goods[0]['is_delete_time'] != 0)
+        $ret = GoodsService::GoodsList($params);
+        if(empty($ret['data'][0]) || $ret['data'][0]['is_delete_time'] != 0)
         {
             return DataReturn('商品不存在或已删除', -1);
         }
-        unset($goods[0]['content_web']);
+        unset($ret['data'][0]['content_web']);
 
         // 当前登录用户是否已收藏
         $ret_favor = GoodsService::IsUserGoodsFavor(['goods_id'=>$goods_id, 'user'=>$this->user]);
-        $goods[0]['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
+        $ret['data'][0]['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
 
         // 商品访问统计
         GoodsService::GoodsAccessCountInc(['goods_id'=>$goods_id]);
@@ -80,7 +80,7 @@ class Goods extends Common
 
         // 数据返回
         $result = [
-            'goods'                     => $goods[0],
+            'goods'                     => $ret['data'][0],
             'common_order_is_booking'   => (int) MyC('common_order_is_booking', 0),
         ];
         return DataReturn('success', 0, $result);

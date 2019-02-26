@@ -74,12 +74,13 @@ class Goods extends Common
 
 		// 获取数据列表
 		$data_params = [
-			'where'			=> $where,
-			'm'				=> $page->GetPageStarNumber(),
-			'n'				=> $number,
-			'is_category'	=> 1,
+			'where'				=> $where,
+			'm'					=> $page->GetPageStarNumber(),
+			'n'					=> $number,
+			'is_category'		=> 1,
+			'is_admin_access'	=> 1,
 		];
-		$data = GoodsService::GoodsList($data_params);
+		$ret = GoodsService::GoodsList($data_params);
 
 		// 是否上下架
 		$this->assign('common_is_shelves_list', lang('common_is_shelves_list'));
@@ -89,7 +90,7 @@ class Goods extends Common
 
 		$this->assign('params', $params);
 		$this->assign('page_html', $page->GetPageHtml());
-		$this->assign('data', $data);
+		$this->assign('data', $ret['data']);
 		return $this->fetch();
 	}
 
@@ -116,15 +117,15 @@ class Goods extends Common
 				'is_content_app'	=> 1,
 				'is_category'		=> 1,
 			];
-			$data = GoodsService::GoodsList($data_params);
-			if(empty($data[0]))
+			$ret = GoodsService::GoodsList($data_params);
+			if(empty($ret['data'][0]))
 			{
 				return $this->error('商品信息不存在', MyUrl('admin/goods/index'));
 			}
-			$this->assign('data', $data[0]);
+			$this->assign('data', $ret['data'][0]);
 
 			// 获取商品编辑规格
-			$specifications = GoodsService::GoodsEditSpecifications($data[0]['id']);
+			$specifications = GoodsService::GoodsEditSpecifications($ret['data'][0]['id']);
 			$this->assign('specifications', $specifications);
 		}
 

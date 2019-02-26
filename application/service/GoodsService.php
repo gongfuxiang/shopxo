@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 use app\service\ResourcesService;
 use app\service\BrandService;
 use app\service\RegionService;
@@ -153,7 +154,8 @@ class GoodsService
             foreach($goods_category as &$v)
             {
                 $category_ids = self::GoodsCategoryItemsIds([$v['id']], 1);
-                $v['goods'] = self::CategoryGoodsList(['where'=>['gci.category_id'=>$category_ids, 'is_home_recommended'=>1], 'm'=>0, 'n'=>6, 'field'=>'g.id,g.title,g.title_color,g.images,g.home_recommended_images,g.original_price,g.price,g.min_price,g.max_price,g.inventory,g.buy_min_number,g.buy_max_number']);
+                $goods = self::CategoryGoodsList(['where'=>['gci.category_id'=>$category_ids, 'is_home_recommended'=>1], 'm'=>0, 'n'=>6, 'field'=>'g.id,g.title,g.title_color,g.images,g.home_recommended_images,g.original_price,g.price,g.min_price,g.max_price,g.inventory,g.buy_min_number,g.buy_max_number']);
+                $v['goods'] = $goods['data'];
             }
         }
         return $goods_category;
@@ -246,6 +248,20 @@ class GoodsService
             // 开始处理数据
             foreach($data as &$v)
             {
+                // 商品处理前钩子
+                $hook_name = 'plugins_service_goods_handle_begin';
+                $ret = Hook::listen($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => &$params,
+                    'goods'         => &$v,
+                    'goods_id'      => $v['id']
+                ]);
+                if(isset($ret['code']) && $ret['code'] != 0)
+                {
+                    return $ret;
+                }
+
                 // 商品url地址
                 if(!empty($v['id']))
                 {
@@ -328,9 +344,23 @@ class GoodsService
                 {
                     $v['content_app'] = self::GoodsContentApp(['goods_id'=>$v['id']]);
                 }
+
+                // 商品处理前钩子
+                $hook_name = 'plugins_service_goods_handle_end';
+                $ret = Hook::listen($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => &$params,
+                    'goods'         => &$v,
+                    'goods_id'      => $v['id']
+                ]);
+                if(isset($ret['code']) && $ret['code'] != 0)
+                {
+                    return $ret;
+                }
             }
         }
-        return $data;
+        return DataReturn('处理成功', 0, $data);
     }
 
     /**

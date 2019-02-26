@@ -31,8 +31,8 @@ class Hook extends Controller
      */
     public function run($params = [])
     {
-        // 是否控制器钩子
-        if(isset($params['is_control']) && $params['is_control'] === true && !empty($params['hook_name']))
+        // 是否后端钩子
+        if(isset($params['is_backend']) && $params['is_backend'] === true && !empty($params['hook_name']))
         {
             return DataReturn('无需处理', 0);
 

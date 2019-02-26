@@ -33,9 +33,9 @@ class Hook extends Controller
     public function run($params = [])
     {
         // 是否控制器钩子
-        // is_control 当前为控制器业务处理
+        // is_backend 当前为后端业务处理
         // hook_name 钩子名称
-        if(isset($params['is_control']) && $params['is_control'] === true && !empty($params['hook_name']))
+        if(isset($params['is_backend']) && $params['is_backend'] === true && !empty($params['hook_name']))
         {
             // 参数一   描述
             // 参数二   0 为处理成功, 负数为失败

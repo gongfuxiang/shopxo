@@ -381,7 +381,7 @@ li.am-comment{ width:100%}
     .tb-detail-price{ background: #fcf1e3 url(../images/goods_meta_bg.png); background-size: cover; -moz-background-size: cover; background-repeat: no-repeat; }
     .tb-detail-price .items {display: block;margin:0px 10px;}
     .tb-detail-price .items  dt {width: 70px;float:left;text-align: left;}
-    .sys_item_price{font-size: 24px;font-weight: bold;}
+    .sys_item_price{font-size: 24px;font-weight: bold; line-height: 16px;}
     .sys_item_mktprice{font-size:14px ;}
         
             
