@@ -48,16 +48,22 @@ class Hook extends Controller
      */
     private function PriceHandle($params)
     {
+        // 后端访问不处理
+        if(isset($params['params']['is_admin_access']) && $params['params']['is_admin_access'] == 1)
+        {
+            return DataReturn('无需处理', 0);
+        }
+
+        // 用户是否已登录
+        if(session('user') != null)
+        {
+            return DataReturn('无需处理', 0);
+        }
+
         // 获取应用数据
         $ret = PluginsService::PluginsData('usernotloginhidegoodsprice');
         if($ret['code'] == 0)
         {
-            // 用户是否已登录
-            if(session('user') != null)
-            {
-                return DataReturn('无需处理', 0);
-            }
-
             // 限制终端
             if(!empty($ret['data']['limit_terminal']))
             {
