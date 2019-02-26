@@ -103,13 +103,12 @@ ul.order-base li span.am-badge{position: absolute; top: -7px; left: 55%;}
 /**
  * 商品列表
  */
-.goods-detail { position: relative; padding: 5px 0; height: 70px; }
-.goods-detail:not(:last-child) { border-bottom: 1px solid #f5f5f5; }
-.goods-detail img { width: 60px; height: 60px; }
-.goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
-.goods-title:hover { text-decoration: underline; }
-.goods-base { position: absolute; top: 5px; left: 65px; width: calc(100% - 65px); }
-.goods-base ul li span:not(:first-child) { margin-left: 10px; }
-.goods-base ul li { color: #777; }
-.goods-detail .order-submit { margin-top: 16px; }
-.order-list .goods-base { width: calc(100% - 120px); }
+.order-list .goods-detail { position: relative; padding: 5px 0; height: 70px; }
+.order-list .goods-detail:not(:last-child) { border-bottom: 1px solid #f5f5f5; }
+.order-list .goods-detail img { width: 60px; height: 60px; }
+.order-list .goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+.order-list .goods-title:hover { text-decoration: underline; }
+.order-list .goods-base { position: absolute; top: 5px; left: 65px; width: calc(100% - 120px); }
+.order-list .goods-base ul li span:not(:first-child) { margin-left: 10px; }
+.order-list .goods-base ul li { color: #777; }
+.order-list .goods-detail .order-submit { margin-top: 16px; }
