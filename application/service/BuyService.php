@@ -65,6 +65,13 @@ class BuyService
             return DataReturn($ret, -1);
         }
 
+        // 查询用户状态是否正常
+        $ret = UserService::UserStatusCheck('id', $params['user']['id']);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 获取商品
         $goods_id = intval($params['goods_id']);
         $goods = Db::name('Goods')->where(['id'=>$goods_id, 'is_shelves'=>1, 'is_delete_time'=>0])->find();
@@ -190,8 +197,8 @@ class BuyService
                 if($goods_base['code'] == 0)
                 {
                     $v['inventory'] = $goods_base['data']['inventory'];
-                    $v['price'] = $goods_base['data']['price'];
-                    $v['original_price'] = $goods_base['data']['original_price'];
+                    $v['price'] = (float)  $goods_base['data']['price'];
+                    $v['original_price'] = (float) $goods_base['data']['original_price'];
                     $v['spec_weight'] = $goods_base['data']['weight'];
                     $v['spec_coding'] = $goods_base['data']['coding'];
                     $v['spec_barcode'] = $goods_base['data']['barcode'];
@@ -203,7 +210,7 @@ class BuyService
                 $v['goods_url'] = MyUrl('index/goods/index', ['id'=>$v['goods_id']]);
                 $v['images_old'] = $v['images'];
                 $v['images'] = ResourcesService::AttachmentPathViewHandle($v['images']);
-                $v['total_price'] = $v['stock']*$v['price'];
+                $v['total_price'] = $v['stock']* ((float)  $v['price']);
                 $v['buy_max_number'] = ($v['buy_max_number'] <= 0) ? $v['inventory']: $v['buy_max_number'];
             }
         }
@@ -239,6 +246,13 @@ class BuyService
         if($ret !== true)
         {
             return DataReturn($ret, -1);
+        }
+
+        // 查询用户状态是否正常
+        $ret = UserService::UserStatusCheck('id', $params['user']['id']);
+        if($ret['code'] != 0)
+        {
+            return $ret;
         }
 
         // 删除
@@ -297,6 +311,13 @@ class BuyService
         if($ret !== true)
         {
             return DataReturn($ret, -1);
+        }
+
+        // 查询用户状态是否正常
+        $ret = UserService::UserStatusCheck('id', $params['user']['id']);
+        if($ret['code'] != 0)
+        {
+            return $ret;
         }
 
         // 更新
@@ -385,8 +406,8 @@ class BuyService
         if($goods_base['code'] == 0)
         {
             $ret['data'][0]['inventory'] = $goods_base['data']['inventory'];
-            $ret['data'][0]['price'] = $goods_base['data']['price'];
-            $ret['data'][0]['original_price'] = $goods_base['data']['original_price'];
+            $ret['data'][0]['price'] = (float) $goods_base['data']['price'];
+            $ret['data'][0]['original_price'] = (float) $goods_base['data']['original_price'];
             $ret['data'][0]['spec_weight'] = $goods_base['data']['weight'];
             $ret['data'][0]['spec_coding'] = $goods_base['data']['coding'];
             $ret['data'][0]['spec_barcode'] = $goods_base['data']['barcode'];
@@ -396,7 +417,7 @@ class BuyService
 
         // 数量/小计
         $ret['data'][0]['stock'] = $params['stock'];
-        $ret['data'][0]['total_price'] = $params['stock']*$ret['data'][0]['price'];
+        $ret['data'][0]['total_price'] = $params['stock']* ((float) $ret['data'][0]['price']);
 
         return DataReturn('操作成功', 0, $ret['data']);
     }
@@ -604,6 +625,13 @@ class BuyService
             return DataReturn($ret, -1);
         }
 
+        // 查询用户状态是否正常
+        $ret = UserService::UserStatusCheck('id', $params['user']['id']);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 清单商品
         $goods = self::BuyTypeGoodsList($params);
         if(!isset($goods['code']) || $goods['code'] != 0)
@@ -653,8 +681,6 @@ class BuyService
         {
             $order['confirm_time'] = time();
         }
-
-        //print_r($goods['data']);die;
 
         // 开始事务
         Db::startTrans();

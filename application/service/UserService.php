@@ -41,6 +41,38 @@ class UserService
             return empty($params['user_id']) ? null : self::UserLoginRecord($params['user_id'], true);
         }
     }
+
+    /**
+     * 用户状态校验
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-02-27
+     * @desc    description
+     * @param   [string]          $field [条件字段]
+     * @param   [string]          $value [条件值]
+     */
+    public static function UserStatusCheck($field, $value)
+    {
+        // 查询用户状态是否正常
+        $user = self::UserInfo($field, $value);
+        if(empty($user))
+        {
+            return DataReturn('用户不存在或已删除', -110);
+        }
+        if(!in_array($user['status'], [0,1]))
+        {
+            $common_user_status_list = lang('common_user_status_list');
+            if(isset($common_user_status_list[$user['status']]))
+            {
+                return DataReturn($common_user_status_list[$user['status']]['tips'], -110);
+            } else {
+                return DataReturn('用户状态有误', -110);
+            }
+        }
+        return DataReturn('正常', 0);
+    }
+
     /**
      * 用户列表
      * @author   Devil

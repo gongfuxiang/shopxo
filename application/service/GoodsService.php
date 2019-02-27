@@ -472,6 +472,13 @@ class GoodsService
             return DataReturn($ret, -1);
         }
 
+        // 查询用户状态是否正常
+        $ret = UserService::UserStatusCheck('id', $params['user']['id']);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 开始操作
         $data = ['goods_id'=>intval($params['id']), 'user_id'=>$params['user']['id']];
         $temp = Db::name('GoodsFavor')->where($data)->find();

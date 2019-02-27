@@ -59,9 +59,9 @@ class Hook extends Controller
         $user = UserService::LoginUserInfo();
         if(!empty($user))
         {
-            // 查询用户状态是否待审核状态
-            $user = UserService::UserInfo('id', $user['id']);
-            if(isset($user['status']) && in_array($user['status'], [0,1]))
+            // 查询用户状态是否正常
+            $ret = UserService::UserStatusCheck('id', $user['id']);
+            if($ret['code'] == 0)
             {
                 return DataReturn('无需处理', 0);
             }
