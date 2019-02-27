@@ -1598,7 +1598,7 @@ class UserService
             // 是否需要审核
             if($common_register_is_enable_audit == 1)
             {
-                return DataReturn('绑定成功、等待审核', -101);
+                return DataReturn('绑定成功、等待审核', 0);
             }
 
             return DataReturn('绑定成功', 0, self::UserLoginRecord($user_id, true));
