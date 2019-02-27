@@ -119,10 +119,7 @@ class Common extends Controller
 	private function CommonInit()
 	{
 		// 用户数据
-		if(!empty($this->data_request['user_id']))
-		{
-			$this->user = UserService::UserLoginRecord($this->data_request['user_id'], true);
-		}
+		$this->user = UserService::LoginUserInfo();
 	}
 
 	/**

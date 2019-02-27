@@ -19,6 +19,7 @@ use app\service\MessageService;
 use app\service\SearchService;
 use app\service\ConfigService;
 use app\service\LinkService;
+use app\service\UserService;
 
 /**
  * 前端公共控制器
@@ -128,7 +129,7 @@ class Common extends Controller
      */
     protected function IsLogin()
     {
-        if(session('user') == null)
+        if(empty($this->user))
         {
             if(IS_AJAX)
             {
@@ -151,7 +152,7 @@ class Common extends Controller
         // 用户数据
         if(session('user') != null)
         {
-            $this->user = session('user');
+            $this->user = UserService::LoginUserInfo();
         }
     }
 

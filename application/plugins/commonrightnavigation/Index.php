@@ -13,6 +13,7 @@ namespace app\plugins\commonrightnavigation;
 use think\Controller;
 use app\service\AnswerService;
 use app\service\BuyService;
+use app\service\UserService;
 
 /**
  * 右侧快捷导航 - 前端
@@ -34,7 +35,7 @@ class Index extends Controller
     public function answer($params = [])
     {
         $params = input('post.');
-        $params['user'] = session('user');
+        $params['user'] = UserService::LoginUserInfo();
         return AnswerService::Add($params);
     }
 
@@ -57,7 +58,7 @@ class Index extends Controller
         $this->assign('module_controller_action', $module_name.$controller_name.$action_name);
 
         // 购物车
-        $cart_list = BuyService::CartList(['user'=>session('user')]);
+        $cart_list = BuyService::CartList(['user'=>UserService::LoginUserInfo()]);
     
         // 基础数据
         $base = [

@@ -24,6 +24,24 @@ use app\service\RegionService;
 class UserService
 {
     /**
+     * 获取用户登录信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-02-27
+     * @desc    description
+     */
+    public static function LoginUserInfo()
+    {
+        if(APPLICATION == 'web')
+        {
+            return session('user');
+        } else {
+            $params = input();
+            return empty($params['user_id']) ? null : self::UserLoginRecord($params['user_id'], true);
+        }
+    }
+    /**
      * 用户列表
      * @author   Devil
      * @blog     http://gong.gg/

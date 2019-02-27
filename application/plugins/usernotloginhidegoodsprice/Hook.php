@@ -12,6 +12,7 @@ namespace app\plugins\usernotloginhidegoodsprice;
 
 use think\Controller;
 use app\service\PluginsService;
+use app\service\UserService;
 
 /**
  * 未登录隐藏商品价格 - 钩子入口
@@ -55,9 +56,15 @@ class Hook extends Controller
         }
 
         // 用户是否已登录
-        if(session('user') != null)
+        $user = UserService::LoginUserInfo();
+        if(!empty($user))
         {
-            return DataReturn('无需处理', 0);
+            // 查询用户状态是否待审核状态
+            $user = UserService::UserInfo('id', $user['id']);
+            if(isset($user['status']) && in_array($user['status'], [0,1]))
+            {
+                return DataReturn('无需处理', 0);
+            }
         }
 
         // 获取应用数据
