@@ -1446,12 +1446,6 @@ class UserService
         $user = self::UserInfo($field, $params['openid']);
         if(!empty($user))
         {
-            // 用户状态
-            if(in_array($user['status'], [2,3]))
-            {
-                return DataReturn(lang('common_user_status_list')[$user['status']]['tips'], -10);
-            }
-
             $data = $user;
         }
 
@@ -1594,12 +1588,6 @@ class UserService
         {
             // 清除验证码
             $obj->Remove();
-
-            // 是否需要审核
-            if($common_register_is_enable_audit == 1)
-            {
-                return DataReturn('绑定成功、等待审核', 0);
-            }
 
             return DataReturn('绑定成功', 0, self::UserLoginRecord($user_id, true));
         } else {
