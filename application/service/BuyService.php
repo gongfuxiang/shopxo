@@ -197,7 +197,7 @@ class BuyService
                 if($goods_base['code'] == 0)
                 {
                     $v['inventory'] = $goods_base['data']['inventory'];
-                    $v['price'] = (float)  $goods_base['data']['price'];
+                    $v['price'] = (float) $goods_base['data']['price'];
                     $v['original_price'] = (float) $goods_base['data']['original_price'];
                     $v['spec_weight'] = $goods_base['data']['weight'];
                     $v['spec_coding'] = $goods_base['data']['coding'];
@@ -210,7 +210,7 @@ class BuyService
                 $v['goods_url'] = MyUrl('index/goods/index', ['id'=>$v['goods_id']]);
                 $v['images_old'] = $v['images'];
                 $v['images'] = ResourcesService::AttachmentPathViewHandle($v['images']);
-                $v['total_price'] = $v['stock']* ((float)  $v['price']);
+                $v['total_price'] = $v['stock']* ((float) $v['price']);
                 $v['buy_max_number'] = ($v['buy_max_number'] <= 0) ? $v['inventory']: $v['buy_max_number'];
             }
         }
