@@ -50,17 +50,17 @@ class Search extends Common
         SearchService::SearchAdd($this->data_post);
 
         // 获取数据
-        $result = SearchService::GoodsList($this->data_post);
+        $ret = SearchService::GoodsList($this->data_post);
 
         // 分类
         if(!empty($this->data_post['category_id']))
         {
-            $result['category'] = GoodsService::GoodsCategoryRow(['id'=>$this->data_post['category_id']]);
+            $ret['data']['category'] = GoodsService::GoodsCategoryRow(['id'=>$this->data_post['category_id']]);
         } else {
-            $result['category'] = [];
+            $ret['data']['category'] = [];
         }
         
-        return DataReturn('success', 0, $result);
+        return $ret;
     }
 }
 ?>

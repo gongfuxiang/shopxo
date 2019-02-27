@@ -130,10 +130,11 @@ class SearchService
             $page = intval(input('page', 1));
             $n = 10;
             $m = intval(($page-1)*$n);
-            $result['data'] = GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>$m, 'n'=>$n, 'order_by'=>$order_by]);
+            $goods = GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>$m, 'n'=>$n, 'order_by'=>$order_by]);
+            $result['data'] = $goods['data'];
             $result['page_total'] = ceil($result['total']/$n);
         }
-        return $result;
+        return DataReturn('处理成功', 0, $result);
     }
 
     /**
