@@ -60,7 +60,7 @@ App({
 
     // 请求地址
     request_url: "{{request_url}}",
-    //request_url: 'https://test.shopxo.net/',
+    request_url: 'https://test.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",

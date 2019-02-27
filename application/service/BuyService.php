@@ -398,7 +398,7 @@ class BuyService
         $ret['data'][0]['stock'] = $params['stock'];
         $ret['data'][0]['total_price'] = $params['stock']*$ret['data'][0]['price'];
 
-        return DataReturn('操作成功', 0, $goods);
+        return DataReturn('操作成功', 0, $ret['data']);
     }
 
     /**
