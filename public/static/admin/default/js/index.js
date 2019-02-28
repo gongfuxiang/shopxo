@@ -85,10 +85,10 @@ $(function()
         } else {
             $(this).animate({left: "189px"}, 300);
             $(this).removeClass('am-icon-angle-double-right').addClass('am-icon-angle-double-left');
-            $('#admin-offcanvas').animate({width: "185px"}, 300);
+            $('#admin-offcanvas').animate({width: "170px"}, 300);
             setTimeout(function() {
                 $('#admin-offcanvas').removeClass('menu-mini');
-                $('#ifcontent').css({"width":"calc(100% - 185px)"});
+                $('#ifcontent').css({"width":"calc(100% - 170px)"});
             }, 300);
         }
         $('#admin-offcanvas ul').animate({opacity: 1}, 300);
@@ -180,8 +180,8 @@ $(function()
         } else {
             if(($('.menu-scaling-submit').attr('data-status') || 0) == 0)
             {
-                $('#admin-offcanvas').css({"width": "185px"});
-                $('#ifcontent').css({"width":"calc(100% - 185px)"});
+                $('#admin-offcanvas').css({"width": "170px"});
+                $('#ifcontent').css({"width":"calc(100% - 170px)"});
             }
         }
     });

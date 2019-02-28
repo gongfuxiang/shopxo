@@ -1,7 +1,7 @@
 /**
  * 公共
  */
-* { font-size: 14px; }
+* { font-size: 12px; }
 .w100 {width:100%;}
 .fw-100 {font-weight:100;}
 .fw-700 {font-weight:700;}
@@ -376,12 +376,12 @@ ul {margin-top:0;}
 .admin-sidebar-sub {margin-top:0;margin-bottom:0;box-shadow:0 16px 8px -15px #e2e2e2 inset;background:#404040;padding-left:24px;}
 .admin-sidebar-sub li:first-child {border-top:1px solid #dedede;}
 .admin-sidebar {height:100%;overflow-x:hidden;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
-.admin-sidebar .am-icon-angle-down {margin-top: 3px;}
+.admin-sidebar .am-icon-angle-down {margin-top: 5px;}
 @media only screen and (min-width:641px) {
-  .admin-sidebar {display:block;width:185px;z-index:1;position: static;}
+  .admin-sidebar {display:block;width:170px;z-index:1;position: static;}
   .admin-offcanvas-bar {position:static;width:auto;background:none;-webkit-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0);transform:translate3d(0,0,0);overflow-y:visible;min-height:100%;}
   .admin-offcanvas-bar:after {content:none;}
-  #ifcontent { width: calc(100% - 185px); }
+  #ifcontent { width: calc(100% - 170px); }
 }
 @media only screen and (max-width:640px) {
   .admin-sidebar {width:inherit;}
