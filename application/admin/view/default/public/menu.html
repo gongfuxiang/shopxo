@@ -17,7 +17,7 @@
 					</li>
 				{{else /}}
 					<li class="admin-parent">
-						<a data-type="menu" class="am-cf" data-am-collapse="{target: '#power-menu-{{$v.id}}'}">
+						<a data-type="menu" class="am-cf menu-parent-items-{{$v.id}}" data-am-collapse="{target: '#power-menu-{{$v.id}}'}">
 							{{if !empty($v['icon'])}}<span class="iconfont {{$v.icon}}"></span>{{/if}}
 							<span class="nav-name">{{$v.name}}</span>
 							<i class="am-icon-angle-down am-fr am-margin-right left-menu-more-ico-rotate"></i>
@@ -25,7 +25,7 @@
 						<ul class="am-list am-collapse admin-sidebar-sub" id="power-menu-{{$v.id}}">
 							{{foreach $v.items as $vs}}
 								<li>
-									<a href="javascript:;" data-type="menu" data-url="{{:MyUrl('admin/'.strtolower($vs['control']).'/'.strtolower($vs['action']))}}">
+									<a href="javascript:;" class="menu-items-{{$vs.id}}" data-parent-id="{{$v.id}}" data-type="menu" data-url="{{:MyUrl('admin/'.strtolower($vs['control']).'/'.strtolower($vs['action']))}}">
 										{{if !empty($vs['icon'])}}<span class="{{$vs.icon}}"></span>{{/if}}
 										<span class="nav-name">{{$vs.name}}</span>
 									</a>

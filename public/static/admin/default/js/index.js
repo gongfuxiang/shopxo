@@ -149,6 +149,22 @@ $(function()
         $(this).hide();
     });
 
+    /**
+     * mini菜单选择
+     */
+    $(document).on('click', '.menu-mini-container-popup ul li a', function()
+    {
+        $('.admin-sidebar-list li a').removeClass('common-left-menu-active');
+        $('.menu-mini-container-popup ul li a').removeClass('common-left-menu-active');
+
+        var parent_id = $(this).data('parent-id') || 0;
+        if(parent_id != 0)
+        {
+            $('.menu-parent-items-'+parent_id).addClass('common-left-menu-active');
+        }
+        $(this).addClass('common-left-menu-active');
+    });
+
     // 浏览器窗口实时事件
     $(window).resize(function()
     {
