@@ -142,7 +142,7 @@ $(function()
     $(document).on('mouseenter', '.menu-mini-container-popup', function()
     {
         $(this).attr('data-is-leave', 1);
-    }).
+    });
     $(document).on('mouseleave', '.menu-mini-container-popup', function()
     {
         $(this).attr('data-is-leave', 0);
