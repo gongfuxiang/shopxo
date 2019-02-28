@@ -77,11 +77,11 @@ $(function()
         $('.menu-mini-container-tips').hide();
         if(status == 0)
         {
-            $(this).animate({left: "64px"}, 300);
+            $(this).animate({left: "59px"}, 300);
             $(this).removeClass('am-icon-angle-double-left').addClass('am-icon-angle-double-right');
             $('#admin-offcanvas').addClass('menu-mini');
-            $('#admin-offcanvas').animate({width: "60px"}, 300);
-            $('#ifcontent').css({"width":"calc(100% - 60px)"});
+            $('#admin-offcanvas').animate({width: "55px"}, 300);
+            $('#ifcontent').css({"width":"calc(100% - 55px)"});
         } else {
             $(this).animate({left: "189px"}, 300);
             $(this).removeClass('am-icon-angle-double-right').addClass('am-icon-angle-double-left');
