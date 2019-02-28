@@ -434,7 +434,9 @@ ul {margin-top:0;}
   }
 }
 
-
+/**
+ * mini菜单
+ */
 .menu-mini .nav-name,.menu-mini .am-icon-angle-down,.menu-mini .admin-sidebar-sub{display:none}
 .menu-mini .admin-sidebar-list li {text-align: center;}
 
