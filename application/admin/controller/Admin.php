@@ -153,17 +153,26 @@ class Admin extends Common
      */
 	public function Save()
 	{
-		// 登录校验
-		$this->IsLogin();
-
 		// 是否ajax
 		if(!IS_AJAX)
 		{
 			return $this->error('非法访问');
 		}
 
-		// 开始操作
+		// 登录校验
+		$this->IsLogin();
+
+		// 参数
 		$params = input('post.');
+
+		// 不是操作自己的情况下
+		if(!isset($params['id']) || $params['id'] != $this->admin['id'])
+		{
+			// 权限校验
+			$this->IsPower();
+		}
+
+		// 开始操作
 		$params['admin'] = $this->admin;
 		return AdminService::AdminSave($params);
 	}
@@ -177,17 +186,17 @@ class Admin extends Common
 	 */
 	public function Delete()
 	{
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-
 		// 是否ajax
 		if(!IS_AJAX)
 		{
 			return $this->error('非法访问');
 		}
+
+		// 登录校验
+		$this->IsLogin();
+
+		// 权限校验
+		$this->IsPower();
 
 		// 开始操作
 		$params = input('post.');
