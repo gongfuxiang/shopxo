@@ -79,7 +79,7 @@ class Admin extends Controller
      */
     public function save($params = [])
     {
-        return PluginsService::PluginsDataSave(['plugins'=>'commontopmaxpicture', 'data'=>$params]);
+        return PluginsService::PluginsDataSave(['plugins'=>'commontopmaxpicture', 'data'=>$params], ['images']);
     }
 }
 ?>
