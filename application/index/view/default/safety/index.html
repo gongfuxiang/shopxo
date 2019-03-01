@@ -44,9 +44,9 @@
 							{{/if}}
 						</div>
 						{{if empty($data[$v['type']]) and empty($v['msg'])}}
-							<a href="{{$v.url}}" class="am-btn am-btn-danger am-radius am-btn-xs am-fr">绑定</a>
+							<a href="{{:MyUrl($v['path'])}}" class="am-btn am-btn-danger am-radius am-btn-xs am-fr">绑定</a>
 						{{else /}}
-							<a href="{{$v.url}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-fr">修改</a>
+							<a href="{{:MyUrl($v['path'])}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-fr">修改</a>
 						{{/if}}
 					</div>
 				</section>

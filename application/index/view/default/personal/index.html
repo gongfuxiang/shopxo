@@ -38,8 +38,12 @@
                             {{else /}}
 								{{$user[$k]}}
 							{{/if}}
-							{{if isset($v['tips'])}}
-								<span class="span-edit">{{$v.tips|raw}}</span>
+							{{if !empty($v['tips'])}}
+                                {{if !empty($v['path'])}}
+                                    <span class="span-edit">{{:str_replace('{path}', MyUrl($v['path']), $v['tips'])}}</span>
+                                {{else /}}
+                                    <span class="span-edit">{{$v.tips|raw}}</span>
+                                {{/if}}
 							{{/if}}
 						</dd>
 					{{/if}}
