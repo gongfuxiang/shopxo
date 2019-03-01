@@ -51,7 +51,7 @@ input:hover, select:hover, textarea:hover, .chosen-choices:hover, .chosen-single
 .am-alert-tips, .am-alert-tips * { font-size: 12px; }
 
 body {margin:0;color:#797979;}
-html,body {position:relative;background:#fff;height:100%;}
+html,body {position:relative;background:#fff;height:100%;width:100%;}
 h1,h2,h3,h4,h5,h6 {font-family:'Karla',sans-serif;margin:10px 0;}
 h1 {line-height:43px;}
 h2 {line-height:35px;}

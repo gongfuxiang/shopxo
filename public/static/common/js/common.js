@@ -975,10 +975,86 @@ function ConfirmNetworkAjax(e)
 	});
 }
 
+/**
+ * 开启全屏
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-03-01
+ * @desc    description
+ */
+function FullscreenOpen()
+{
+    var elem = document.body;
+    if(elem.webkitRequestFullScreen)
+    {
+        elem.webkitRequestFullScreen();
+    } else if (elem.mozRequestFullScreen)
+    {
+        elem.mozRequestFullScreen();
+    } else if (elem.requestFullScreen)
+    {
+        elem.requestFullScreen();
+    } else {
+        Prompt("浏览器不支持全屏API或已被禁用");
+        return false;
+    }
+    return true;
+}
+
+/**
+ * 关闭全屏
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-03-01
+ * @desc    description
+ */
+function FullscreenExit()
+{
+    var elem = document;
+    if (elem.webkitCancelFullScreen)
+    {
+        elem.webkitCancelFullScreen();
+    } else if (elem.mozCancelFullScreen)
+    {
+        elem.mozCancelFullScreen();
+    } else if (elem.cancelFullScreen)
+    {
+        elem.cancelFullScreen();
+    } else if (elem.exitFullscreen)
+    {
+        elem.exitFullscreen();
+    } else {
+        Prompt("浏览器不支持全屏API或已被禁用");
+        return false;
+    }
+    return true;
+}
+
 
 // 公共数据操作
 $(function()
 {
+	// 全屏操作
+	$('.fullscreen-event').on('click', function()
+	{
+		var status = $(this).attr('data-status') || 0;
+		if(status == 0)
+		{
+			if(FullscreenOpen())
+			{
+				$(this).find('.fullscreen-text').text($(this).data('fulltext-exit') || '退出全屏');
+			}
+		} else {
+			if(FullscreenExit())
+			{
+				$(this).find('.fullscreen-text').text($(this).data('fulltext-open') || '开启全屏');
+			}
+		}
+		$(this).attr('data-status', status == 0 ? 1 : 0);
+	});
+
 	// 多选插件初始化
 	if($('.chosen-select').length > 0)
 	{

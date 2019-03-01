@@ -1,23 +1,6 @@
 $(function()
 {
     /**
-     * 全屏操作
-     */
-    var $fullscreen = $.AMUI.fullscreen;
-    $('#admin-fullscreen').on('click', function()
-    {
-    	$fullscreen.toggle();
-    });
-    if($fullscreen.enabled)
-    {
-        $(document).on($fullscreen.raw.fullscreenchange, function()
-        {
-        	$tag = $('.admin-fulltext');
-        	$tag.text($fullscreen.isFullscreen ? $tag.attr('fulltext-exit') : $tag.attr('fulltext-open'));
-        });
-    }
-
-    /**
      * url加载
      */
     $(document).on('click', '.common-left-menu li a, .common-nav-top li a, .menu-mini-container-popup ul li a', function()
