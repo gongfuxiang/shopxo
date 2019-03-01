@@ -83,7 +83,7 @@ $(function()
             $('#admin-offcanvas').animate({width: "55px"}, 300);
             $('#ifcontent').css({"width":"calc(100% - 55px)"});
         } else {
-            $(this).animate({left: "189px"}, 300);
+            $(this).animate({left: "175px"}, 300);
             $(this).removeClass('am-icon-angle-double-right').addClass('am-icon-angle-double-left');
             $('#admin-offcanvas').animate({width: "170px"}, 300);
             setTimeout(function() {
@@ -172,7 +172,7 @@ $(function()
         if($(document).width() <= 640)
         {
             $('.menu-scaling-submit').attr('data-status', 0);
-            $('.menu-scaling-submit').css({"left": "189px"});
+            $('.menu-scaling-submit').css({"left": "175px"});
             $('.menu-scaling-submit').removeClass('am-icon-angle-double-right').addClass('am-icon-angle-double-left');
             $('#admin-offcanvas').css({"width": "inherit"});
             $('#admin-offcanvas').removeClass('menu-mini');
