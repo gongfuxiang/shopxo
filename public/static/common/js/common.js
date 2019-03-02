@@ -1032,6 +1032,29 @@ function FullscreenExit()
     return true;
 }
 
+/**
+ * 全屏ESC监听
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-03-01
+ * @desc    description
+ */
+var fullscreen_counter = 0;
+function FullscreenEscEvent()
+{
+	fullscreen_counter++;
+	if(fullscreen_counter%2 == 0)
+	{
+		var $fullscreen = $('.fullscreen-event');
+		if(($fullscreen.attr('data-status') || 0) == 1)
+		{
+			$fullscreen.find('.fullscreen-text').text($fullscreen.data('fulltext-open') || '开启全屏');
+			$fullscreen.attr('data-status', 0);
+		}
+	}
+}
+
 
 // 公共数据操作
 $(function()
@@ -1053,7 +1076,23 @@ $(function()
 			}
 		}
 		$(this).attr('data-status', status == 0 ? 1 : 0);
+		$(this).attr('data-status-y', status);
 	});
+	
+	// esc退出全屏事件
+	document.addEventListener("fullscreenchange", function(e) {
+	  FullscreenEscEvent();
+	});
+	document.addEventListener("mozfullscreenchange", function(e) {
+	  FullscreenEscEvent();
+	});
+	document.addEventListener("webkitfullscreenchange", function(e) {
+	  FullscreenEscEvent();
+	});
+	document.addEventListener("msfullscreenchange", function(e) {
+	  FullscreenEscEvent();
+	});
+
 
 	// 多选插件初始化
 	if($('.chosen-select').length > 0)
