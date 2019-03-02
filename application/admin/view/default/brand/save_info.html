@@ -30,7 +30,7 @@
 			</div>
 
 			<div class="am-form-group">
-				<label>官网地址<span class="fs-12 fw-100 cr-999">（带http://或https://）</span></label>
+				<label>官网地址<span class="fs-12 fw-100 cr-ccc">（带http://或https://）</span></label>
 				<input type="url" placeholder="官网地址" name="website_url"  data-validation-message="官网地址格式有误" class="am-radius" {{if !empty($data)}} value="{{$data.website_url}}"{{/if}} />
 			</div>
 
@@ -55,7 +55,7 @@
 			    <label class="block">是否启用</label>
 			    <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />
 			</div>
-			<div class="am-form-group">
+			<div class="am-form-group am-form-group-refreshing">
 				<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
 			</div>

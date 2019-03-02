@@ -25,36 +25,40 @@
 					</a>
 					<hr />
 				{{/if}}
-				<label>电子邮箱
-					{{if in_array('sms', MyC('home_user_reg_state'))}}
-						<a href="{{:MyUrl('index/user/smsreginfo')}}" class="reg-switch-tips">没邮箱？使用手机号码注册</a>
-					{{/if}}
-				</label>
-				<div class="am-form-group">
+				<div class="am-form-group am-form-group-refreshing">
+					<label>电子邮箱
+						{{if in_array('sms', MyC('home_user_reg_state'))}}
+							<a href="{{:MyUrl('index/user/smsreginfo')}}" class="reg-switch-tips">没邮箱？使用手机号码注册</a>
+						{{/if}}
+					</label>
 					<input type="email" name="accounts" class="am-radius" id="accounts" placeholder="电子邮箱" data-validation-message="电子邮箱格式错误" required />
 				</div>
 
-				<label>验证码</label>
-				<div class="am-input-group am-input-group-sm am-form-group">
-	                <input type="number" name="verify" class="am-radius" placeholder="验证码" minlength="6" maxlength="6" data-validation-message="验证码格式 6 位数字" required />
-	                <span class="am-input-group-btn">
-	                    <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-url="{{:MyUrl('index/user/regverifysend')}}" data-verify="{{:MyC('home_img_verify_state')}}" data-text="获取验证码" data-send-text="还有 {time} 秒" data-time="{{:MyC('common_verify_time_interval', 30, true)}}">获取验证码</button>
-	                </span>
+				<div class="am-form-group am-form-group-refreshing">
+					<label>验证码</label>
+					<div class="am-input-group am-input-group-sm">
+		                <input type="number" name="verify" class="am-radius" placeholder="验证码" minlength="6" maxlength="6" data-validation-message="验证码格式 6 位数字" required />
+		                <span class="am-input-group-btn">
+		                    <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-url="{{:MyUrl('index/user/regverifysend')}}" data-verify="{{:MyC('home_img_verify_state')}}" data-text="获取验证码" data-send-text="还有 {time} 秒" data-time="{{:MyC('common_verify_time_interval', 30, true)}}">获取验证码</button>
+		                </span>
+		            </div>
 	            </div>
 
-				<br />
-				<label>设置登录密码</label>
-				<div class="am-input-group am-input-group-sm am-form-group">
-					<input type="password" name="pwd" class="am-radius" placeholder="设置登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
-					<span class="am-input-group-btn">
-						<button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
-					</span>
+				<div class="am-form-group am-form-group-refreshing">
+					<label>设置登录密码</label>
+					<div class="am-input-group am-input-group-sm">
+						<input type="password" name="pwd" class="am-radius" placeholder="设置登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
+						<span class="am-input-group-btn">
+							<button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
+						</span>
+					</div>
 				</div>
-				<p>
+
+				<div class="am-form-group am-form-group-refreshing">
 					<input type="hidden" name="type" value="email" />
 					<button type="submit" class="am-btn am-btn-primary am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '处理中...'}">注册</button>
 					<a href="{{:MyUrl('index/user/forgetpwdinfo')}}" class="am-fr m-t-5">忘记密码？</a>
-				</p>
+				</div>
 			</fieldset>
 		</form>
 		<!-- form end -->

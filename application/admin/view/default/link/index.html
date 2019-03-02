@@ -24,7 +24,7 @@
 							<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
 						</div>
 						<div class="am-form-group">
-							<label>链接地址<span class="fs-12 fw-100 cr-999">（带http://或https://）</span></label>
+							<label>链接地址<span class="fs-12 fw-100 cr-ccc">（带http://或https://）</span></label>
 							<input type="url" placeholder="链接地址" name="url"  data-validation-message="链接地址格式有误" class="am-radius" required />
 						</div>
 						<div class="am-form-group">
@@ -37,7 +37,7 @@
 							<label>描述</label>
 							<textarea rows="3" maxlength="60" name="describe" class="am-radius" placeholder="描述" data-validation-message="描述不能大于60个字符"></textarea>
 						</div>
-						<div class="am-form-group">
+						<div class="am-form-group am-form-group-refreshing">
 							<input type="hidden" name="id" />
 							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
 						</div>

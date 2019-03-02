@@ -75,7 +75,7 @@
 							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
 						</div>
 						{{include file="lib/enable" /}}
-						<div class="am-form-group">
+						<div class="am-form-group am-form-group-refreshing">
 							<input type="hidden" name="id" />
 							<input type="hidden" name="pid" value="0" />
 							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>

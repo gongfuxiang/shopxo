@@ -40,7 +40,7 @@
 					<label>确认密码</label>
 					<input type="password" name="confirm_new_pwd" placeholder="确认密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="确认密码格式 6~18 个字符之间，与新密码一致" class="am-radius" data-equal-to="#new-loginpwd" required />
 				</div>
-				<div class="am-form-group">
+				<div class="am-form-group am-form-group-refreshing">
 					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
 				</div>
 			</form>

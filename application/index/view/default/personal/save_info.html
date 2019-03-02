@@ -37,7 +37,7 @@
 					<label>生日</label>
 					<input type="text" name="birthday" class="am-form-field am-input-sm am-radius Wdate" placeholder="生日" data-validation-message="生日格式有误" {{if !empty($data)}} value="{{$data.birthday_text}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})"{{/if}} autocomplete="off" />
 				</div>
-				<div class="am-form-group">
+				<div class="am-form-group am-form-group-refreshing">
 					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
 				</div>
 			</form>

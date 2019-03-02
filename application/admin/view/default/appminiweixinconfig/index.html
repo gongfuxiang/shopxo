@@ -6,11 +6,11 @@
 		<!-- form start -->
 		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/appminiweixinconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appminiweixinconfig/index')}}">
 			<div class="am-form-group">
-				<label>{{$data.common_app_mini_weixin_appid.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_app_mini_weixin_appid.describe}}）</span></label>
+				<label>{{$data.common_app_mini_weixin_appid.name}}<span class="fs-12 fw-100 cr-ccc">（{{$data.common_app_mini_weixin_appid.describe}}）</span></label>
 				<input type="text" name="{{$data.common_app_mini_weixin_appid.only_tag}}" placeholder="{{$data.common_app_mini_weixin_appid.name}}" data-validation-message="{{$data.common_app_mini_weixin_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_weixin_appid.value}}"{{/if}} />
 			</div>
 			<div class="am-form-group">
-				<label>{{$data.common_app_mini_weixin_appsecret.name}}<span class="fs-12 fw-100 cr-999">（{{$data.common_app_mini_weixin_appsecret.describe}}）</span></label>
+				<label>{{$data.common_app_mini_weixin_appsecret.name}}<span class="fs-12 fw-100 cr-ccc">（{{$data.common_app_mini_weixin_appsecret.describe}}）</span></label>
 				<input type="text" name="{{$data.common_app_mini_weixin_appsecret.only_tag}}" placeholder="{{$data.common_app_mini_weixin_appsecret.name}}" data-validation-message="{{$data.common_app_mini_weixin_appsecret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_weixin_appsecret.value}}"{{/if}} />
 			</div>
 
@@ -22,7 +22,7 @@
 				<label>{{$data.common_app_mini_weixin_describe.name}}</label>
 				<input type="text" name="{{$data.common_app_mini_weixin_describe.only_tag}}" placeholder="{{$data.common_app_mini_weixin_describe.name}}" data-validation-message="{{$data.common_app_mini_weixin_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_weixin_describe.value}}"{{/if}} />
 			</div>
-			<div class="am-form-group">
+			<div class="am-form-group am-form-group-refreshing">
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
 			</div>
 		</form>

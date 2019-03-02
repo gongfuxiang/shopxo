@@ -39,7 +39,7 @@
 						<button class="am-btn am-btn-default am-radius btn-loading-example verify-submit-new" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-url="{{:MyUrl('index/safety/verifysend')}}" data-verify="{{:MyC('home_img_verify_state')}}" data-text="获取验证码" data-send-text="还有 {time} 秒" data-time="{{:MyC('common_verify_time_interval', 30, true)}}">获取验证码</button>
 					</span>
 				</div>
-				<div class="am-form-group">
+				<div class="am-form-group am-form-group-refreshing">
 					<input type="hidden" name="type" value="sms" />
 					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">确认</button>
 				</div>

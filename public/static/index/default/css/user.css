@@ -9,3 +9,4 @@ form.form-validation, .reg-switch-view { margin: 30px 0 60px 0; }
 #verify-win .am-modal-bd { margin-top: 10px; }
 #verify-win .am-modal-bd .base { overflow: hidden; }
 #verify-win .am-modal-bd .base .verify-tips { font-size: 12px; }
+form.am-form .am-form-group { padding: 0 !important; }
