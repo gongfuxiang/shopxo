@@ -29,10 +29,10 @@
 							<td class="view-operation">
 								{{if !empty($v.url)}}
 									<a href="{{$v.url}}">
-										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-download"> 下载</button>
+										<button class="am-btn am-btn-success am-btn-xs am-radius am-icon-download"> 下载</button>
 									</a>
 								{{/if}}
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/appminiweixinlist/delete')}}" data-id="{{$v.name}}" data-view="reload"> 删除</button>
+								<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/appminiweixinlist/delete')}}" data-id="{{$v.name}}" data-view="reload"> 删除</button>
 							</td>
 						</tr>
 					{{/foreach}}

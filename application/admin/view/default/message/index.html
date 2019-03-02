@@ -89,7 +89,7 @@
 								{{if empty($v['add_time_time'])}}<span class="cr-ddd">未设置</span>{{else /}}{{$v.add_time_time}}{{/if}}
 							</td>
 							<td class="view-operation">
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/message/delete')}}" data-id="{{$v.id}}"> 删除</button>
+								<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/message/delete')}}" data-id="{{$v.id}}"> 删除</button>
 							</td>
 						</tr>
 					{{/foreach}}

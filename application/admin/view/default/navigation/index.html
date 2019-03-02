@@ -40,8 +40,8 @@
 								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/navigation/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1"></a>
 							</td>
 							<td>
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: '#nav-{{$v.data_type}}-save-win'}" data-json='{{:json_encode($v)}}' data-tag="nav-{{$v.data_type}}-save-win"></button>
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/navigation/delete')}}" data-id="{{$v.id}}"></button>
+								<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: '#nav-{{$v.data_type}}-save-win'}" data-json='{{:json_encode($v)}}' data-tag="nav-{{$v.data_type}}-save-win"> 编辑</button>
+								<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/navigation/delete')}}" data-id="{{$v.id}}"> 删除</button>
 							</td>
 						</tr>
 						{{if !empty($v['items'])}}
@@ -57,8 +57,8 @@
 										<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $vs['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/navigation/statusupdate')}}" data-id="{{$vs.id}}" data-state="{{$vs['is_show']}}" data-is-update-status="1"></a>
 									</td>
 									<td>
-										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: '#nav-{{$vs.data_type}}-save-win'}" data-json='{{:json_encode($vs)}}' data-tag="nav-{{$vs.data_type}}-save-win"></button>
-										<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/navigation/delete')}}" data-id="{{$vs.id}}"></button>
+										<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: '#nav-{{$vs.data_type}}-save-win'}" data-json='{{:json_encode($vs)}}' data-tag="nav-{{$vs.data_type}}-save-win"> 编辑</button>
+										<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/navigation/delete')}}" data-id="{{$vs.id}}"> 删除</button>
 									</td>
 								</tr>
 							{{/foreach}}

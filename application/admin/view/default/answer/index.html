@@ -151,9 +151,9 @@
 							</td>
 							<td class="view-operation">
 								{{if $v['is_reply'] eq 0}}
-									<button class="am-btn am-btn-default am-btn-xs am-radius submit-reply am-icon-gavel" data-am-modal="{target: '#my-popup-reply'}" data-json='{{:json_encode($v)}}'> 回复</button>
+									<button class="am-btn am-btn-secondary am-btn-xs am-radius submit-reply am-icon-gavel" data-am-modal="{target: '#my-popup-reply'}" data-json='{{:json_encode($v)}}'> 回复</button>
 								{{/if}}
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/answer/delete')}}" data-id="{{$v.id}}"> 删除</button>
+								<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/answer/delete')}}" data-id="{{$v.id}}"> 删除</button>
 							</td>
 						</tr>
 					{{/foreach}}
@@ -185,7 +185,7 @@
 							<textarea name="reply" rows="5" class="am-radius" placeholder="回复内容格式 2~230 个字符" data-validation-message="回复内容格式 2~230 个字符" maxlength="230"></textarea>
 						</div>
 
-						<div class="am-form-group reply-submit t-c">
+						<div class="am-form-group reply-submit am-form-group-refreshing t-c">
 							<input type="hidden" name="id" value="" />
 							<button type="submit" class="am-btn am-btn-success am-radius am-btn-sm" data-am-loading="{loadingText:'处理中...'}" data-status="0">回复</button>
 						</div>

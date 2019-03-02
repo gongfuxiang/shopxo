@@ -471,45 +471,65 @@ ul {margin-top:0;}
 
 
 /**
- * 列表美化
+ * 列表按钮美化
  */
-table.am-table .am-btn.am-icon-plus {
-    border: 1px solid #009688;
+table.am-table .am-btn-default {
+    border: 1px solid #444;
     background: #fff;
-    color: #009688;
+    color: #444;
 }
-table.am-table .am-btn.am-icon-plus:hover {
-    background: #009688;
+table.am-table .am-btn-default:hover {
+    background: #444;
     color: #fff;
 }
 
-table.am-table .am-btn.am-icon-edit {
+table.am-table .am-btn-primary {
+    border: 1px solid #0c79b1;
+    background: #fff;
+    color: #0c79b1;
+}
+table.am-table .am-btn-primary:hover {
+    background: #0c79b1;
+    color: #fff;
+}
+
+table.am-table .am-btn-secondary {
     border: 1px solid #3bb4f2;
     background: #fff;
     color: #3bb4f2;
 }
-table.am-table .am-btn.am-icon-edit:hover {
+table.am-table .am-btn-secondary:hover {
     background: #3bb4f2;
     color: #fff;
 }
 
-table.am-table .am-btn.am-icon-trash-o {
-    border: 1px solid #e7505a;
+table.am-table .am-btn-success {
+    border: 1px solid #5eb95e;
     background: #fff;
-    color: #e7505a;
+    color: #5eb95e;
 }
-table.am-table .am-btn.am-icon-trash-o:hover {
-    background: #e7505a;
+table.am-table .am-btn-success:hover {
+    background: #5eb95e;
     color: #fff;
 }
 
-table.am-table .am-btn.am-icon-cubes {
-    border: 1px solid #9C27B0;
+table.am-table .am-btn-warning {
+    border: 1px solid #F37B1D;
     background: #fff;
-    color: #9C27B0;
+    color: #F37B1D;
 }
-table.am-table .am-btn.am-icon-cubes:hover {
-    background: #9C27B0;
+table.am-table .am-btn-warning:hover {
+    background: #F37B1D;
+    color: #fff;
+}
+
+table.am-table .am-btn-danger {
+    border: 1px solid #dd514c;
+    background: #fff;
+    color: #dd514c;
+}
+table.am-table .am-btn-danger:hover {
+    background: #dd514c;
     color: #fff;
 }
 

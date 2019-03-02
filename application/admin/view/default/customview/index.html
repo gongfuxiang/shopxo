@@ -124,9 +124,9 @@
 							</td>
 							<td class="view-operation">
 								<a href="{{:MyUrl('admin/customview/saveinfo', array('id'=>$v['id']))}}">
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"></button>
+									<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit"> 编辑</button>
 								</a>
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/customview/Delete')}}" data-id="{{$v.id}}"></button>
+								<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/customview/Delete')}}" data-id="{{$v.id}}"> 删除</button>
 							</td>
 						</tr>
 					{{/foreach}}
