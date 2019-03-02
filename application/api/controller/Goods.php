@@ -97,7 +97,7 @@ class Goods extends Common
     public function Favor()
     {
         // 登录校验
-        $this->Is_Login();
+        $this->IsLogin();
 
         // 开始操作
         $params = $this->data_post;
