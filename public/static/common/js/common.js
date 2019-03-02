@@ -544,7 +544,7 @@ function Tree(id, url, level, is_add_node, is_delete_all)
 					var rank = tmp_level/20+1;
 					if(is_add_node == 1 && (is_astrict_rank == 0 || rank < is_astrict_rank))
 					{
-						html += '<button class="am-btn am-btn-success am-btn-xs am-radius am-icon-plus c-p m-r-20 tree-submit-add-node" data-am-modal="{target: \'#data-save-win\'}" data-id="'+result.data[i]['id']+'"> 新增</button>';
+						html += '<button class="am-btn am-btn-success am-btn-xs am-radius am-icon-plus c-p m-r-10 tree-submit-add-node" data-am-modal="{target: \'#data-save-win\'}" data-id="'+result.data[i]['id']+'"> 新增</button>';
 					}
 
 					// 编辑
@@ -555,7 +555,7 @@ function Tree(id, url, level, is_add_node, is_delete_all)
 						var pid_class = is_delete_all == 1 ? '.tree-pid-'+result.data[i]['id'] : '';
 
 						// 删除
-						html += '<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o c-p m-l-20 m-r-15 submit-delete" data-id="'+result.data[i]['id']+'" data-url="'+result.data[i]['delete_url']+'" data-ext-delete-tag="'+pid_class+'"> 删除</button>';
+						html += '<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o c-p m-l-10 submit-delete" data-id="'+result.data[i]['id']+'" data-url="'+result.data[i]['delete_url']+'" data-ext-delete-tag="'+pid_class+'"> 删除</button>';
 					}
 					html += '</div>';
 					// 操作项 end
