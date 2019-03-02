@@ -62,16 +62,19 @@ $(function()
         {
             $(this).animate({left: "59px"}, 300);
             $(this).removeClass('am-icon-angle-double-left').addClass('am-icon-angle-double-right');
-            $('#admin-offcanvas').addClass('menu-mini');
+            $('#admin-offcanvas').addClass('menu-mini').addClass('menu-mini-event');
             $('#admin-offcanvas').animate({width: "55px"}, 300);
-            $('#ifcontent').css({"width":"calc(100% - 55px)"});
+            $('#ifcontent').animate({paddingLeft: "55px"}, 300);
+            $('header.admin-header').animate({left: "54px"}, 300);
         } else {
-            $(this).animate({left: "175px"}, 300);
+            $(this).animate({left: "174px"}, 300);
             $(this).removeClass('am-icon-angle-double-right').addClass('am-icon-angle-double-left');
             $('#admin-offcanvas').animate({width: "170px"}, 300);
+            $('#ifcontent').animate({paddingLeft: "170px"}, 300);
+            $('header.admin-header').animate({left: "169px"}, 300);
+            $('#admin-offcanvas').removeClass('menu-mini-event');
             setTimeout(function() {
                 $('#admin-offcanvas').removeClass('menu-mini');
-                $('#ifcontent').css({"width":"calc(100% - 170px)"});
             }, 300);
         }
         $('#admin-offcanvas ul').animate({opacity: 1}, 300);
@@ -82,7 +85,7 @@ $(function()
      * mini菜单操作
      */
     var timer_menu = null;
-    $(document).on('mouseenter', '.menu-mini li', function()
+    $(document).on('mouseenter', '.menu-mini-event li', function()
     {
         clearTimeout(timer_menu);
         var html = $(this).find('ul.admin-sidebar-sub').html() || null;
@@ -109,7 +112,7 @@ $(function()
             }
         }
     });
-    $(document).on('mouseleave', '.menu-mini li', function()
+    $(document).on('mouseleave', '.menu-mini-event li', function()
     {
         $('.menu-mini-container-tips').hide();
         clearTimeout(timer_menu);
@@ -155,16 +158,18 @@ $(function()
         if($(document).width() <= 640)
         {
             $('.menu-scaling-submit').attr('data-status', 0);
-            $('.menu-scaling-submit').css({"left": "175px"});
+            $('.menu-scaling-submit').css({"left": "174px"});
             $('.menu-scaling-submit').removeClass('am-icon-angle-double-right').addClass('am-icon-angle-double-left');
             $('#admin-offcanvas').css({"width": "inherit"});
-            $('#admin-offcanvas').removeClass('menu-mini');
-            $('#ifcontent').css({"width":"100%"});
+            $('#admin-offcanvas').removeClass('menu-mini').removeClass('menu-mini-event');
+            $('#ifcontent').css({"padding-left":0});
+            $('header.admin-header').css({"left": 0});
         } else {
             if(($('.menu-scaling-submit').attr('data-status') || 0) == 0)
             {
                 $('#admin-offcanvas').css({"width": "170px"});
-                $('#ifcontent').css({"width":"calc(100% - 170px)"});
+                $('#ifcontent').css({"padding-left":"170px"});
+                $('header.admin-header').css({"left": "169px"});
             }
         }
     });
