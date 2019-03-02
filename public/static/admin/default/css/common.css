@@ -468,3 +468,59 @@ ul {margin-top:0;}
 .menu-mini-container-popup ul li a span{font-size:12px}
 .menu-mini-container-popup ul li:not(:last-child){border-bottom:1px solid #2e2e31}
 .menu-mini-container-popup .mui-mbar-tab-tip{color:#36373c}
+
+
+/**
+ * 列表美化
+ */
+table.am-table .am-btn.am-icon-plus {
+    border: 1px solid #009688;
+    background: #fff;
+    color: #009688;
+}
+table.am-table .am-btn.am-icon-plus:hover {
+    background: #009688;
+    color: #fff;
+}
+
+table.am-table .am-btn.am-icon-edit {
+    border: 1px solid #3bb4f2;
+    background: #fff;
+    color: #3bb4f2;
+}
+table.am-table .am-btn.am-icon-edit:hover {
+    background: #3bb4f2;
+    color: #fff;
+}
+
+table.am-table .am-btn.am-icon-trash-o {
+    border: 1px solid #e7505a;
+    background: #fff;
+    color: #e7505a;
+}
+table.am-table .am-btn.am-icon-trash-o:hover {
+    background: #e7505a;
+    color: #fff;
+}
+
+table.am-table .am-btn.am-icon-cubes {
+    border: 1px solid #9C27B0;
+    background: #fff;
+    color: #9C27B0;
+}
+table.am-table .am-btn.am-icon-cubes:hover {
+    background: #9C27B0;
+    color: #fff;
+}
+
+
+/**
+ * 分类列表优化
+ */
+#tree table.am-table td {
+    line-height: 30px;
+    padding: 0.4rem 0.7rem;
+}
+#tree table.am-table td button.am-btn {
+    vertical-align: unset;
+}

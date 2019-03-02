@@ -241,6 +241,16 @@ ul.plug-file-upload-view-video li {
     border-bottom-right-radius: 2px;
     border-top-right-radius: 2px;
 }
+.am-checkbox, .am-radio, .am-checkbox-inline, .am-radio-inline {
+    font-size: 12px;
+    padding-left: 18px;
+}
+.am-ucheck-icons {
+    line-height: 18px;
+}
+.am-checkbox .am-icon-checked, .am-radio .am-icon-checked, .am-checkbox-inline .am-icon-checked, .am-radio-inline .am-icon-checked, .am-checkbox .am-icon-checked, .am-radio .am-icon-checked, .am-checkbox-inline .am-icon-checked, .am-radio-inline .am-icon-checked, .am-checkbox .am-icon-unchecked, .am-radio .am-icon-unchecked, .am-checkbox-inline .am-icon-unchecked, .am-radio-inline .am-icon-unchecked {
+    font-size: 16px;
+}
 
 /**
  * 颜色选择插件

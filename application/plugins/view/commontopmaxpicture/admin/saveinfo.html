@@ -24,7 +24,7 @@
             <div class="am-form-group">
                 <label>背景色</label>
                 <input type="hidden" name="bg_color" value="{{if !empty($data['bg_color'])}}{{$data.bg_color}}{{/if}}" />
-                <button class="am-btn am-btn-default colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color" {{if !empty($data['bg_color'])}}style="background:{{$data.bg_color}}"{{/if}}>
+                <button class="am-btn am-btn-default am-btn-xs colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color" {{if !empty($data['bg_color'])}}style="background:{{$data.bg_color}}"{{/if}}>
                     <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
                 </button>
             </div>
