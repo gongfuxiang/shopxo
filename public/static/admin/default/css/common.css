@@ -397,7 +397,7 @@ ul {margin-top:0;}
   .admin-sidebar-list a:hover,.admin-sidebar-list a:active {-webkit-transition:background-color .3s ease;-moz-transition:background-color .3s ease;-ms-transition:background-color .3s ease;-o-transition:background-color .3s ease;transition:background-color .3s ease;background:#E4E4E4;}
   .admin-sidebar .am-offcanvas-bar { width: 70%; }
 }
-.common-nav-bar {position:fixed;z-index:10;bottom:30px;right:20px;}
+.common-nav-bar {position:fixed;z-index:10;bottom:30px;right:20px;box-shadow: 0 0 10px 2px #c4c4c4;opacity: 0.8;}
 .admin {width:100%;height:100%;display:flex;display:-webkit-flex;padding-top:35px;background:#fff;}
 .admin .am-g {padding-left:0;padding-right:0;}
 /*---right Content---*/

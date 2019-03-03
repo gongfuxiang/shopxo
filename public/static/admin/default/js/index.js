@@ -106,10 +106,14 @@ $(function()
             var h = $('.menu-mini-container-popup').height();
             if(h+top > win_height)
             {
-                $('.menu-mini-container-popup').css('top', win_height-h);
+                var t = win_height-h;
+                $('.menu-mini-container-popup').css('top', t);
+                $('.menu-mini-container-popup .mui-mbar-tab-tip').css('top', top-t+12);
             } else {
                 $('.menu-mini-container-popup').css('top', top);
+                $('.menu-mini-container-popup .mui-mbar-tab-tip').css('top', '10px');
             }
+
         }
     });
     $(document).on('mouseleave', '.menu-mini-event li', function()
