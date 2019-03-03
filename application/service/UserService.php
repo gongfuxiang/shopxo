@@ -1515,6 +1515,11 @@ class UserService
      */
     public static function UserInfo($field, $value)
     {
+        if(empty($field) || empty($value))
+        {
+            return '';
+        }
+        
         return Db::name('User')->where([$field=>$value, 'is_delete_time'=>0])->find();
     }
 
