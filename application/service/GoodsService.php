@@ -285,8 +285,22 @@ class GoodsService
                 // 商品首页推荐图片，不存在则使用商品封面图片
                 if(isset($v['home_recommended_images']))
                 {
-                    $v['home_recommended_images_old'] = $v['home_recommended_images'];
-                    $v['home_recommended_images'] = ResourcesService::AttachmentPathViewHandle($v['home_recommended_images']);
+                    if(empty($v['home_recommended_images']))
+                    {
+                        if(isset($v['images']))
+                        {
+                            $v['home_recommended_images'] = $v['images'];
+                        } else {
+                            if(!empty($v['id']))
+                            {
+                                $images = Db::name('Goods')->where(['id'=>$v['id']])->value('images');
+                                $v['home_recommended_images'] = ResourcesService::AttachmentPathViewHandle($images);
+                            }
+                        }
+                    } else {
+                        $v['home_recommended_images_old'] = $v['home_recommended_images'];
+                        $v['home_recommended_images'] = ResourcesService::AttachmentPathViewHandle($v['home_recommended_images']);
+                    }
                 }
 
                 // PC内容处理
