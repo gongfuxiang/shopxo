@@ -26,7 +26,7 @@
 
             <div class="am-form-group">
                 <label>链接地址<span class="fs-12 fw-100 cr-999">（带http://或https://）</span></label>
-                <input type="url" placeholder="链接地址" name="url"  data-validation-message="链接地址格式有误" class="am-radius" {{if !empty($data)}} value="{{$data.url}}"{{/if}} />
+                <input type="url" placeholder="链接地址" name="url"  data-validation-message="链接地址格式有误" class="am-radius" {{if !empty($data['url'])}} value="{{$data.url}}"{{/if}} />
             </div>
 
             <div class="am-form-group">
@@ -38,6 +38,21 @@
                         </label>
                     {{/foreach}}
                 </div>
+            </div>
+
+            <div class="am-form-group">
+                <label>右侧热门问答名称<span class="fs-12 fw-100 cr-999">（默认 热门问答）</span></label>
+                <input type="text" name="right_top_hot_name" placeholder="右侧热门问答名称" maxlength="30" data-validation-message="右侧热门问答名称格式最多 30 个字符" class="am-radius" {{if !empty($data['right_top_hot_name'])}} value="{{$data.right_top_hot_name}}"{{/if}} />
+            </div>
+
+            <div class="am-form-group">
+                <label>中间最新问答名称<span class="fs-12 fw-100 cr-999">（默认 最新问答）</span></label>
+                <input type="text" name="right_middle_new_name" placeholder="中间最新问答名称" maxlength="30" data-validation-message="中间最新问答名称格式最多 30 个字符" class="am-radius" {{if !empty($data['right_middle_new_name'])}} value="{{$data.right_middle_new_name}}"{{/if}} />
+            </div>
+
+            <div class="am-form-group">
+                <label>右侧推荐商品名称<span class="fs-12 fw-100 cr-999">（默认 推荐商品）</span></label>
+                <input type="text" name="right_top_goods_name" placeholder="右侧推荐商品名称" maxlength="30" data-validation-message="右侧推荐商品名称格式最多 30 个字符" class="am-radius" {{if !empty($data['right_top_goods_name'])}} value="{{$data.right_top_goods_name}}"{{/if}} />
             </div>
 
             <div class="am-form-group am-form-group-refreshing">

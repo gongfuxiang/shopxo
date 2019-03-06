@@ -13,6 +13,7 @@ namespace app\plugins\answers;
 use think\Controller;
 use app\service\PluginsService;
 use app\plugins\answers\Service;
+use app\service\SearchService;
 
 /**
  * 问答 - 后台管理
@@ -118,9 +119,6 @@ class Admin extends Controller
      */
     public function sliderinfo($params = [])
     {
-        // 参数
-        $params = input();
-
         // 数据
         if(!empty($params['id']))
         {
@@ -151,7 +149,6 @@ class Admin extends Controller
         }
 
         // 开始处理
-        $params = input();
         return Service::SlideSave($params);
     }
 
@@ -161,8 +158,9 @@ class Admin extends Controller
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2016-12-15T11:03:30+0800
+     * @param    [array]          $params [输入参数]
      */
-    public function sliderdelete()
+    public function sliderdelete($params = [])
     {
         // 是否ajax请求
         if(!IS_AJAX)
@@ -171,7 +169,6 @@ class Admin extends Controller
         }
 
         // 开始处理
-        $params = input();
         return Service::SlideDelete($params);
     }
 
@@ -181,8 +178,9 @@ class Admin extends Controller
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2017-01-12T22:23:06+0800
+     * @param    [array]          $params [输入参数]
      */
-    public function sliderstatusupdate()
+    public function sliderstatusupdate($params = [])
     {
         // 是否ajax请求
         if(!IS_AJAX)
@@ -191,8 +189,70 @@ class Admin extends Controller
         }
 
         // 开始处理
-        $params = input();
         return Service::SlideStatusUpdate($params);
+    }
+
+
+    /**
+     * 推荐商品编辑编辑
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-02-07T08:21:54+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public function goodsinfo($params = [])
+    {
+        // 数据
+        if(!empty($params['id']))
+        {
+            $data_params = array(
+                'where'     => ['id'=>intval($params['id'])],
+            );
+            $ret = Service::SlideList($data_params);
+            $this->assign('data', empty($ret['data'][0]) ? [] : $ret['data'][0]);
+        }
+        
+        return $this->fetch('../../../plugins/view/answers/admin/goodsinfo');
+    }
+
+    /**
+     * 商品搜索
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-02-07T08:21:54+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public function goodssearch($params = [])
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 搜索数据
+        return Service::GoodsSearchList($params);
+    }
+
+    /**
+     * 商品保存
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-02-07T08:21:54+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public function goodssave($params = [])
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        print_r($params);die;
     }
 }
 ?>

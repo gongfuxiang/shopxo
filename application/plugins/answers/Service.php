@@ -204,5 +204,42 @@ class Service
         }
         return DataReturn('编辑失败或数据未改变', -100);
     }
+
+    /**
+     * 商品搜索
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function GoodsSearchList($params = [])
+    {
+        // 条件
+        $where = [
+            ['g.is_delete_time', '=', 0],
+            ['g.is_shelves', '=', 1]
+        ];
+
+        // 关键字
+        if(!empty($params['keywords']))
+        {
+            $where[] = ['g.title', 'like', '%'.$params['keywords'].'%'];
+        }
+
+        // 分类id
+        if(!empty($params['category_id']))
+        {
+            $category_ids = GoodsService::GoodsCategoryItemsIds([$params['category_id']], 1);
+            $category_ids[] = $params['category_id'];
+            $where[] = ['gci.category_id', 'in', $category_ids];
+        }
+
+        // 指定字段
+        $field = 'g.id,g.title';
+
+        // 获取数据
+        return GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>0, 'n'=>100, 'field'=>$field]);
+    }
 }
 ?>

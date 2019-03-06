@@ -310,10 +310,16 @@ class GoodsService
                 }
 
                 // 产地
-                $v['place_origin_name'] = empty($v['place_origin']) ? null : RegionService::RegionName($v['place_origin']);
+                if(isset($v['place_origin_name']))
+                {
+                    $v['place_origin_name'] = empty($v['place_origin']) ? null : RegionService::RegionName($v['place_origin']);
+                }
 
                 // 品牌
-                $v['brand_name'] = empty($v['brand_id']) ? null : BrandService::BrandName($v['brand_id']);
+                if(isset($v['brand_id']))
+                {
+                    $v['brand_name'] = empty($v['brand_id']) ? null : BrandService::BrandName($v['brand_id']);
+                }
 
                 // 时间
                 if(!empty($v['add_time']))
