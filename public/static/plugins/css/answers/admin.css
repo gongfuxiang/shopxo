@@ -1,0 +1,38 @@
+/**
+ * 首页
+ */
+.answers-content .items {
+    margin: 10px 0 20px 0;
+    border-bottom: 1px dashed #f1f1f1;
+    padding-bottom: 20px;
+}
+.answers-content .items .immages-tag {
+    border: 1px solid #eee;
+    text-align: center;
+}
+.answers-content .items .immages-tag img {
+    max-width: 100%;
+}
+.answers-content .edit-submit {
+    margin-bottom: 20px;
+}
+.answers-content img {
+    max-width: 100%;
+}
+@media only screen and (min-width:640px) {
+    .answers-slider .am-slider {
+        width: 30%;
+    }
+}
+
+@media only screen and (max-width:640px) {
+
+}
+
+/**
+ * 编辑页面
+ */
+ul.plugins-images-view li {
+    width: 100%;
+    height: auto;
+}

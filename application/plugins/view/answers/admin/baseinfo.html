@@ -1,0 +1,54 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('answers', 'admin', 'basesave')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('answers', 'admin', 'index')}}" enctype="multipart/form-data">
+            <legend>
+                <span class="fs-16">问答系统</span>
+                <a href="{{:PluginsAdminUrl('answers', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+            </legend>
+
+            <div class="am-form-group am-form-file">
+                <label class="block">中间横幅<span class="fs-12 fw-100 cr-999">（建议1200像数X80像数）</span></label>
+                <ul class="plug-file-upload-view plugins-images-view" data-form-name="images" data-max-number="1" data-dialog-type="images">
+                    {{if !empty($data['images_old'])}}
+                        <li>
+                            <input type="text" name="images" value="{{$data.images_old}}" data-validation-message="请上传图片" required />
+                            <img src="{{$data.images}}" />
+                            <i>×</i>
+                        </li>
+                    {{/if}}
+                </ul>
+                <div class="plug-file-upload-submit" data-view-tag="ul.plugins-images-view">+上传图片</div>
+            </div>
+
+            <div class="am-form-group">
+                <label>链接地址<span class="fs-12 fw-100 cr-999">（带http://或https://）</span></label>
+                <input type="url" placeholder="链接地址" name="url"  data-validation-message="链接地址格式有误" class="am-radius" {{if !empty($data)}} value="{{$data.url}}"{{/if}} />
+            </div>
+
+            <div class="am-form-group">
+                <label>是否新窗口打开</label>
+                <div>
+                    {{foreach $is_whether_list as $v}}
+                        <label class="am-radio-inline m-r-10">
+                            <input type="radio" name="is_new_window_open" value="{{$v.id}}" {{if isset($data['is_new_window_open']) and $data['is_new_window_open'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_new_window_open']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

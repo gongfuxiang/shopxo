@@ -1,0 +1,143 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">问答系统</span>
+            <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+
+        <div class="answers-content">
+            <!-- 基础数据 -->
+            <div class="am-panel am-panel-secondary answers-middle-banner">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">基础数据</span>
+                    <a class="am-fr" href="{{:PluginsAdminUrl('answers', 'admin', 'baseinfo')}}">编辑</a>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="items">
+                        <label>中间横幅</label>
+                        <div class="immages-tag">
+                            <a href="{{if empty($data['url'])}}javascript:;{{else /}}{{$data.url}}{{/if}}" {{if isset($data['is_new_window_open']) and $data['is_new_window_open'] eq 1}} target="_blank"{{/if}}>
+                                <img src="{{if !empty($data['images'])}}{{$data.images}}{{else /}}{{$attachment_host}}/static/plugins/images/answers/default-images.png{{/if}}" />
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="items">
+                        <label>右侧热门问答名称</label>
+                        <div>
+                            {{if empty($data['right_top_hot_name'])}}
+                                热门问答
+                            {{else /}}
+                                {{$data.right_top_hot_name}}
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class="items">
+                        <label>中间最新问答名称</label>
+                        <div>
+                            {{if empty($data['right_middle_new_name'])}}
+                                最新问答
+                            {{else /}}
+                                {{$data.right_middle_new_name}}
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class="items">
+                        <label>右侧推荐商品名称</label>
+                        <div>
+                            {{if empty($data['right_top_goods_name'])}}
+                                推荐商品
+                            {{else /}}
+                                {{$data.right_top_goods_name}}
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 幻灯片 -->
+            <div class="am-panel am-panel-secondary answers-slider">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">幻灯片</span>
+                    <a class="am-fr" href="{{:PluginsAdminUrl('answers', 'admin', 'slider')}}">编辑</a>
+                </div>
+                <div class="am-panel-bd">
+                    {{if !empty($slider)}}
+                        <div data-am-widget="slider" class="am-slider am-slider-c3" data-am-slider='{"controlNav":false}'>
+                            <ul class="am-slides">
+                                {{foreach $slider as $k=>$v}}
+                                    <li>
+                                        <a href="{{$v.url}}">
+                                            <img src="{{$v.images_url}}">
+                                            <div class="am-slider-desc">
+                                                <div class="am-slider-counter">
+                                                    <span class="am-active">{{$k+1}}</span>/{{:count($slider)}}</div>
+                                                {{$v.name}}
+                                            </div>
+                                        </a>
+                                    </li>
+                                {{/foreach}}
+                            </ul>
+                        </div>
+                    {{else /}}
+                        没有幻灯片
+                    {{/if}}
+                </div>
+            </div>
+
+            <!-- 右侧商品 -->
+            <div class="am-panel am-panel-secondary answers-goods">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">右侧商品</span>
+                    <a class="am-fr" href="{{:PluginsAdminUrl('answers', 'admin', 'goodsinfo')}}">编辑</a>
+                </div>
+                <div class="am-panel-bd">
+                    <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-4 am-avg-lg-8 am-gallery-bordered" data-am-gallery="{  }" >
+                      <li>
+                        <div class="am-gallery-item">
+                            <a href="http://s.amazeui.org/media/i/demos/bing-1.jpg" class="">
+                              <img src="http://s.amazeui.org/media/i/demos/bing-1.jpg"  alt="远方 有一个地方 那里种有我们的梦想"/>
+                                <h3 class="am-gallery-title">远方 有一个地方 那里种有我们的梦想</h3>
+                            </a>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="am-gallery-item">
+                            <a href="http://s.amazeui.org/media/i/demos/bing-2.jpg" class="">
+                              <img src="http://s.amazeui.org/media/i/demos/bing-2.jpg"  alt="某天 也许会相遇 相遇在这个好地方"/>
+                                <h3 class="am-gallery-title">某天 也许会相遇 相遇在这个好地方</h3>
+                            </a>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="am-gallery-item">
+                            <a href="http://s.amazeui.org/media/i/demos/bing-3.jpg" class="">
+                              <img src="http://s.amazeui.org/media/i/demos/bing-3.jpg"  alt="不要太担心 只因为我相信"/>
+                                <h3 class="am-gallery-title">不要太担心 只因为我相信</h3>
+                            </a>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="am-gallery-item">
+                            <a href="http://s.amazeui.org/media/i/demos/bing-4.jpg" class="">
+                              <img src="http://s.amazeui.org/media/i/demos/bing-4.jpg"  alt="终会走过这条遥远的道路"/>
+                                <h3 class="am-gallery-title">终会走过这条遥远的道路</h3>
+                            </a>
+                        </div>
+                      </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

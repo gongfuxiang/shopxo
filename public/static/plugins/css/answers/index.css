@@ -1,0 +1,41 @@
+@media only screen and (min-width:640px) {
+    .plugins-answers .answers-top, .plugins-answers .answers-middle-banner, .plugins-answers .answers-goods {
+        margin-top: 10px;
+        overflow: hidden;
+    }
+    .plugins-answers .answers-slider, .plugins-answers .answers-middle-list, .plugins-answers .answers-goods .am-gallery {
+        padding: 0;
+    }
+    .plugins-answers .answers-sidebar, .plugins-answers .answers-goods {
+        padding-right: 0;
+    }
+    .plugins-answers .am-list-news-default {
+        margin: 0;
+    }
+    .plugins-answers .answers-sidebar .am-list-news-hd, .plugins-answers .answers-goods .am-list-news-hd {
+        padding-top: 0;
+    }
+    .plugins-answers .answers-middle-list .am-list-news-hd {
+        padding-top: 10px;
+    }
+    .plugins-answers .am-list-news-hd {
+        font-weight: 500;
+    }
+    .plugins-answers .answers-sidebar .am-list-news-bd .am-list {
+        margin-bottom: 10px;
+    }
+    .plugins-answers .answers-goods .am-list-news-hd {
+        padding-bottom: 5px;
+    }
+
+    .am-gallery-bordered > li:nth-of-type(2n + 1) {
+        padding-left: 0;
+    }
+    .am-gallery-bordered > li:nth-of-type(2n + 2) {
+        padding-right: 0;
+    }
+}
+
+@media only screen and (max-width:640px) {
+
+}
