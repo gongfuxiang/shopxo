@@ -1,4 +1,44 @@
+.plugins-answers .am-list-news-hd {
+    font-weight: 500;
+}
+.plugins-answers .am-gallery-bordered .am-gallery-item {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    border: 1px solid #eee;
+}
+.plugins-answers .answers-middle-banner img {
+    width: 100%;
+}
+.plugins-answers .answers-goods .am-gallery-bordered > li:nth-of-type(2n + 1) {
+    padding-left: 0;
+}
+.plugins-answers .answers-goods .am-gallery-bordered > li:nth-of-type(2n + 2) {
+    padding-right: 0;
+}
+.plugins-answers .am-slider-c3 .am-slider-counter {
+    background-color: #d13a49;
+}
+.plugins-answers .answers-btn-list .am-btn {
+    width: 48%;
+}
+.plugins-answers .answers-btn-list .am-btn-danger {
+    color: #fff !important;
+    background-color: #f15262;
+    border-color: #f15262;
+    font-size: 16px;
+}
+.plugins-answers .answers-btn-list .am-btn-warning {
+    color: #fff !important;
+    background-color: #F44336;
+    border-color: #F44336;
+    font-size: 16px;
+}
+
 @media only screen and (min-width:640px) {
+    .plugins-answers .am-gallery-bordered .am-gallery-item:hover {
+        box-shadow: 0 0 3px rgb(251, 180, 187);
+        -webkit-box-shadow: 0 0 3px rgb(251, 180, 187);
+    }
     .plugins-answers .answers-top, .plugins-answers .answers-middle-banner, .plugins-answers .answers-goods {
         margin-top: 10px;
         overflow: hidden;
@@ -7,7 +47,7 @@
         padding: 0;
     }
     .plugins-answers .answers-sidebar, .plugins-answers .answers-goods {
-        padding-right: 0;
+        padding-right: 1px;
     }
     .plugins-answers .am-list-news-default {
         margin: 0;
@@ -18,24 +58,28 @@
     .plugins-answers .answers-middle-list .am-list-news-hd {
         padding-top: 10px;
     }
-    .plugins-answers .am-list-news-hd {
-        font-weight: 500;
-    }
     .plugins-answers .answers-sidebar .am-list-news-bd .am-list {
         margin-bottom: 10px;
     }
     .plugins-answers .answers-goods .am-list-news-hd {
         padding-bottom: 5px;
     }
-
-    .am-gallery-bordered > li:nth-of-type(2n + 1) {
-        padding-left: 0;
-    }
-    .am-gallery-bordered > li:nth-of-type(2n + 2) {
-        padding-right: 0;
+    .plugins-answers .answers-btn-list .am-btn {
+        margin-bottom: 10px;
     }
 }
 
 @media only screen and (max-width:640px) {
-
+    .plugins-answers .answers-middle-list, .plugins-answers .answers-goods .am-gallery {
+        padding: 0;
+    }
+    .plugins-answers .answers-sidebar .am-list-news-default {
+        margin: 0;
+    }
+    .plugins-answers .answers-middle-banner {
+        padding: 0 10px;
+    }
+    .plugins-answers .answers-btn-list .am-btn {
+        margin-top: 15px;
+    }
 }

@@ -41,18 +41,55 @@
             </div>
 
             <div class="am-form-group">
-                <label>右侧热门问答名称<span class="fs-12 fw-100 cr-999">（默认 热门问答）</span></label>
-                <input type="text" name="right_top_hot_name" placeholder="右侧热门问答名称" maxlength="30" data-validation-message="右侧热门问答名称格式最多 30 个字符" class="am-radius" {{if !empty($data['right_top_hot_name'])}} value="{{$data.right_top_hot_name}}"{{/if}} />
+                <label>右侧推荐问答名称<span class="fs-12 fw-100 cr-999">（默认 推荐问答）</span></label>
+                <input type="text" name="right_top_rec_name" placeholder="右侧推荐问答名称" maxlength="30" data-validation-message="右侧推荐问答名称格式最多 30 个字符" class="am-radius" {{if !empty($data['right_top_rec_name'])}} value="{{$data.right_top_rec_name}}"{{/if}} />
             </div>
 
             <div class="am-form-group">
                 <label>中间最新问答名称<span class="fs-12 fw-100 cr-999">（默认 最新问答）</span></label>
-                <input type="text" name="right_middle_new_name" placeholder="中间最新问答名称" maxlength="30" data-validation-message="中间最新问答名称格式最多 30 个字符" class="am-radius" {{if !empty($data['right_middle_new_name'])}} value="{{$data.right_middle_new_name}}"{{/if}} />
+                <input type="text" name="middle_new_name" placeholder="中间最新问答名称" maxlength="30" data-validation-message="中间最新问答名称格式最多 30 个字符" class="am-radius" {{if !empty($data['middle_new_name'])}} value="{{$data.middle_new_name}}"{{/if}} />
             </div>
 
             <div class="am-form-group">
                 <label>右侧推荐商品名称<span class="fs-12 fw-100 cr-999">（默认 推荐商品）</span></label>
                 <input type="text" name="right_top_goods_name" placeholder="右侧推荐商品名称" maxlength="30" data-validation-message="右侧推荐商品名称格式最多 30 个字符" class="am-radius" {{if !empty($data['right_top_goods_name'])}} value="{{$data.right_top_goods_name}}"{{/if}} />
+            </div>
+
+            <div class="am-form-group">
+                <label>最新问答展示数量<span class="fs-12 fw-100 cr-999">（默认 15 条）</span></label>
+                <input type="number" name="middle_new_page_number" placeholder="右侧推荐商品名称" maxlength="30" data-validation-message="请填写最新问答展示数量" class="am-radius" value="{{if !empty($data['middle_new_page_number'])}}{{$data.middle_new_page_number}}{{else /}}15{{/if}}" />
+            </div>
+
+            <label>右侧推荐问答</label>
+            <div class="forth-selection-container">
+                <div class="forth-selection-form" data-search-url="{{:PluginsAdminUrl('answers', 'admin', 'answerssearch')}}">
+                    <input type="text" placeholder="商品名称" class="am-radius forth-selection-form-keywords" />
+                    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm search-submit">搜索</button>
+                </div>
+                <div class="am-form-group am-form-group-refreshing forth-selection-list">
+                    <input type="text" name="category_ids" value="{{if !empty($data['category_ids'])}}{{$data.category_ids}}{{/if}}" data-validation-message="请选择问答" />
+                    <div class="forth-selection-items am-fl">
+                        <div class="title">可选</div>
+                        <ul class="forth-selection-content am-list ul-left">
+                            <div class="table-no">没有相关数据</div>
+                        </ul>
+                    </div>
+                    <button type="button" class="am-btn am-btn-default am-btn-xs selected-all">全选 <i class="am-icon-angle-double-right"></i></button>
+                    <div class="forth-selection-items am-fr">
+                        <div class="title">已选</div>
+                        <ul class="forth-selection-content am-list ul-right">
+                            <div class="table-no {{if !empty($answers_rc_list)}}none{{/if}}">没有相关数据</div>
+                            {{if !empty($answers_rc_list)}}
+                                {{foreach $answers_rc_list as $v}}
+                                    <li class="am-animation-slide-bottom items-li-{{$v.id}}">
+                                        <span class="name" data-value="{{$v.id}}">{{$v.title}}</span>
+                                        <i class="am-icon-trash-o am-fr"></i>
+                                    </li>
+                                {{/foreach}}
+                            {{/if}}
+                        </ul>
+                    </div>
+                </div>
             </div>
 
             <div class="am-form-group am-form-group-refreshing">

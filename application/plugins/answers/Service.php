@@ -11,8 +11,9 @@
 namespace app\plugins\answers;
 
 use think\Db;
-use app\service\GoodsService;
 use app\service\ResourcesService;
+use app\service\GoodsService;
+use app\service\AnswerService;
 
 /**
  * 问答系统服务层
@@ -240,6 +241,113 @@ class Service
 
         // 获取数据
         return GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>0, 'n'=>100, 'field'=>$field]);
+    }
+
+    /**
+     * 关联商品保存
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-07
+     * @desc    description
+     * @param    [array]          $params [输入参数]
+     */
+    public static function GoodsSave($params = [])
+    {
+        // 清除商品id
+        Db::name('PluginsAnswersGoods')->where('id', '>', 0)->delete();
+
+        // 写入商品id
+        if(!empty($params['category_ids']))
+        {
+            $ids_all = explode(',', $params['category_ids']);
+            $data = [];
+            foreach($ids_all as $goods_id)
+            {
+                $data[] = [
+                    'goods_id'  => $goods_id,
+                    'add_time'  => time(),
+                ];
+            }
+            if(Db::name('PluginsAnswersGoods')->insertAll($data) < count($data))
+            {
+                return DataReturn('操作失败', -100);
+            }
+        }
+        return DataReturn('操作成功', 0);
+    }
+
+    /**
+     * 商品列表
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function GoodsList($params = [])
+    {
+        // 获取推荐商品id
+        $goods_ids = Db::name('PluginsAnswersGoods')->column('goods_id');
+        if(empty($goods_ids))
+        {
+            return DataReturn('没有商品', 0, ['goods'=>[], 'goods_ids'=>[]]);
+        }
+
+        // 条件
+        $where = [
+            ['g.is_delete_time', '=', 0],
+            ['g.is_shelves', '=', 1],
+            ['g.id', 'in', $goods_ids],
+        ];
+
+        // 指定字段
+        $field = 'g.id,g.title,g.images';
+
+        // 获取数据
+        $ret = GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>0, 'n'=>100, 'field'=>$field]);
+        return DataReturn('操作成功', 0, ['goods'=>$ret['data'], 'goods_ids'=>$goods_ids]);
+    }
+
+    /**
+     * 问答列表
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function AnswerList($params = [])
+    {
+        // 条件
+        $where = [
+            ['is_delete_time', '=', 0],
+            ['is_show', '=', 1],
+        ];
+
+        // 搜索关键字
+        if(!empty($params['keywords']))
+        {
+            $where[] = ['content', 'like', '%'.$params['keywords'].'%'];
+        }
+
+        // 指定问答id
+        if(!empty($params['category_ids']))
+        {
+            $where[] = ['id', 'in', explode(',', $params['category_ids'])];
+        }
+
+        // 字段
+        $field = empty($params['field']) ? 'id,name,content,reply,is_reply,add_time' : $params['field'];
+
+        // 获取列表
+        $data_params = array(
+            'm'         => 0,
+            'n'         => isset($params['n']) ? intval($params['n']) : 10,
+            'where'     => $where,
+            'field'     => $field,
+        );
+        return AnswerService::AnswerList($data_params);
     }
 }
 ?>

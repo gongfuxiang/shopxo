@@ -310,7 +310,7 @@ class GoodsService
                 }
 
                 // 产地
-                if(isset($v['place_origin_name']))
+                if(isset($v['place_origin']))
                 {
                     $v['place_origin_name'] = empty($v['place_origin']) ? null : RegionService::RegionName($v['place_origin']);
                 }

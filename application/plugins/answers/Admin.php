@@ -13,7 +13,7 @@ namespace app\plugins\answers;
 use think\Controller;
 use app\service\PluginsService;
 use app\plugins\answers\Service;
-use app\service\SearchService;
+use app\service\GoodsService;
 
 /**
  * 问答 - 后台管理
@@ -39,12 +39,15 @@ class Admin extends Controller
         $this->assign('data', isset($base['data']) ? $base['data'] : []);
 
         // 幻灯片
-        $data_params = array(
-                'where'     => ['is_enable'=>1],
-            );
+        $data_params = [
+            'where'     => ['is_enable'=>1],
+        ];
         $slider = Service::SlideList($data_params);
         $this->assign('slider', isset($slider['data']) ? $slider['data'] : []);
 
+        // 商品数据
+        $goods = Service::GoodsList();
+        $this->assign('goods_list', $goods['data']['goods']);
         
         return $this->fetch('../../../plugins/view/answers/admin/index');
     }
@@ -70,6 +73,16 @@ class Admin extends Controller
 
             $this->assign('is_whether_list', $is_whether_list);
             $this->assign('data', $ret['data']);
+
+            // 获取推荐问答
+            if(!empty($ret['data']['category_ids']))
+            {
+                $answers = Service::AnswerList(['n'=>100, 'field'=>'id,content as title', 'category_ids'=> $ret['data']['category_ids']]);
+                $this->assign('answers_rc_list', $answers['data']);
+            } else {
+                $this->assign('answers_rc_list', []);
+            }
+
             return $this->fetch('../../../plugins/view/answers/admin/baseinfo');
         } else {
             return $ret['msg'];
@@ -203,15 +216,12 @@ class Admin extends Controller
      */
     public function goodsinfo($params = [])
     {
-        // 数据
-        if(!empty($params['id']))
-        {
-            $data_params = array(
-                'where'     => ['id'=>intval($params['id'])],
-            );
-            $ret = Service::SlideList($data_params);
-            $this->assign('data', empty($ret['data'][0]) ? [] : $ret['data'][0]);
-        }
+        // 商品数据
+        $goods = Service::GoodsList();
+        $this->assign('goods', $goods['data']);
+
+        // 商品分类
+        $this->assign('goods_category_list', GoodsService::GoodsCategory());
         
         return $this->fetch('../../../plugins/view/answers/admin/goodsinfo');
     }
@@ -252,7 +262,28 @@ class Admin extends Controller
             return $this->error('非法访问');
         }
 
-        print_r($params);die;
+        // 搜索数据
+        return Service::GoodsSave($params);
+    }
+
+    /**
+     * 问答搜索
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-02-07T08:21:54+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public function answerssearch($params = [])
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 问答内容
+        return Service::AnswerList(['n'=>100, 'field'=>'id,content as title']);
     }
 }
 ?>
