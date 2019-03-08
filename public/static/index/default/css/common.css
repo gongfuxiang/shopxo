@@ -403,6 +403,11 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
     color: #666;
 }
 
+/**
+ * 灰色文字标记
+ */
+.gray-text { color: #999; }
+
 /* 价格颜色 */
 .price strong {color: #E4393C; font-weight: 600; }
 

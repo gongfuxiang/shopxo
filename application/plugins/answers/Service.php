@@ -349,5 +349,45 @@ class Service
         );
         return AnswerService::AnswerList($data_params);
     }
+
+    /**
+     * 获取一条问答
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function AnswerRow($params = [])
+    {
+        // 参数
+        if(empty($params['id']))
+        {
+            return DataReturn('问答id有误', -1);
+        }
+        // 条件
+        $where = [
+            ['is_delete_time', '=', 0],
+            ['is_show', '=', 1],
+            ['id', '=', intval($params['id'])],
+        ];
+
+        // 字段
+        $field = 'content,reply,is_reply,add_time';
+
+        // 获取列表
+        $data_params = array(
+            'm'         => 0,
+            'n'         => 1,
+            'where'     => $where,
+            'field'     => $field,
+        );
+        $ret = AnswerService::AnswerList($data_params);
+        if(isset($ret['data'][0]))
+        {
+            $ret['data'] = $ret['data'][0];
+        }
+        return $ret;
+    }
 }
 ?>

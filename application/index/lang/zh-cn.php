@@ -95,6 +95,13 @@ return array(
                                 'icon'      =>  'am-icon-lastfm',
                             ),
                         array(
+                                'control'   =>  'answer',
+                                'action'    =>  'index',
+                                'name'      =>  '问答/留言',
+                                'is_show'   =>  1,
+                                'icon'      =>  'am-icon-question',
+                            ),
+                        array(
                                 'control'   =>  'user',
                                 'action'    =>  'logout',
                                 'name'      =>  '安全退出',

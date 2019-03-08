@@ -36,8 +36,16 @@
 
 @media only screen and (min-width:640px) {
     .plugins-answers .am-gallery-bordered .am-gallery-item:hover {
-        box-shadow: 0 0 3px rgb(251, 180, 187);
-        -webkit-box-shadow: 0 0 3px rgb(251, 180, 187);
+        -webkit-box-shadow: 0px 12px 12px -10px rgba(0,0,0,.4);
+        box-shadow: 0px 12px 12px -10px rgba(0,0,0,.4);
+        border: 1px solid #d2364c;
+    }
+    .plugins-answers .am-gallery-bordered .am-gallery-item:hover a {
+        text-decoration: none;
+    }
+    .plugins-answers .am-gallery-bordered .am-gallery-item a h3:hover {
+        color: #d2364c;
+        text-decoration: underline;
     }
     .plugins-answers .answers-top, .plugins-answers .answers-middle-banner, .plugins-answers .answers-goods {
         margin-top: 10px;
@@ -82,4 +90,26 @@
     .plugins-answers .answers-btn-list .am-btn {
         margin-top: 15px;
     }
+}
+
+/**
+ * 详情
+ */
+.plugins-answers-detail {
+    padding-top: 10px;
+}
+.plugins-answers-detail .base-content {
+    border: 1px dashed transparent;
+    background: linear-gradient(white,white) padding-box,
+    repeating-linear-gradient(-45deg, #ccc 0, #ccc 0.25em, white 0, white 0.6em);
+    padding: 10px;
+}
+.plugins-answers-detail .base-date {
+    text-align: right;
+    margin-top: 5px;
+}
+.plugins-answers-detail .base {
+    margin-top: 10px;
+    box-shadow: none;
+    -webkit-box-shadow: none;
 }

@@ -135,6 +135,10 @@ class AnswerService
             {
                 $where[] = ['is_show', '=', intval($params['is_show'])];
             }
+            if(isset($params['is_reply']) && $params['is_reply']> -1)
+            {
+                $where[] = ['is_reply', '=', intval($params['is_reply'])];
+            }
 
             if(!empty($params['time_start']))
             {

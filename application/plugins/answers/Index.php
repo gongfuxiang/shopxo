@@ -1,4 +1,13 @@
 <?php
+// +----------------------------------------------------------------------
+// | ShopXO 国内领先企业级B2C免费开源电商系统
+// +----------------------------------------------------------------------
+// | Copyright (c) 2011~2019 http://shopxo.net All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
+// | Author: Devil
+// +----------------------------------------------------------------------
 namespace app\plugins\answers;
 
 use think\Controller;
@@ -17,7 +26,7 @@ use app\plugins\answers\Service;
 class Index extends Controller
 {
     /**
-     * 前端页面入口
+     * 首页入口
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -57,6 +66,41 @@ class Index extends Controller
         }
 
         return $this->fetch('../../../plugins/view/answers/index/index');
+    }
+
+    /**
+     * 详情入口
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-07
+     * @desc    description
+     * @param    [array]          $params [输入参数]
+     */
+    public function detail($params = [])
+    {
+        // 基础数据
+        $base = PluginsService::PluginsData('answers', ['images']);
+        $this->assign('plugins_answers_data', isset($base['data']) ? $base['data'] : []);
+
+        // 商品数据
+        $goods = Service::GoodsList();
+        $this->assign('plugins_answers_goods_list', $goods['data']['goods']);
+
+        // 推荐问答
+        if(!empty($base['data']['category_ids']))
+        {
+            $answers = Service::AnswerList(['n'=>100, 'category_ids'=> $base['data']['category_ids']]);
+            $this->assign('plugins_answers_rc_list', $answers['data']);
+        } else {
+            $this->assign('plugins_answers_rc_list', []);
+        }
+
+        // 获取问答数据
+        $detail = Service::AnswerRow($params);
+        $this->assign('plugins_answers_detail', $detail);
+
+        return $this->fetch('../../../plugins/view/answers/index/detail');
     }
 
     /**
