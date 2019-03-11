@@ -6,7 +6,7 @@
 		<!-- form start -->
 		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/seo/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/seo/index')}}">
 			<div class="am-form-group">
-				<label>{{$data.home_seo_url_model.name}}<span class="fs-12 fw-100 cr-ccc">（{{$data.home_seo_url_model.describe}}）</span></label>
+				<label>{{$data.home_seo_url_model.name}}<span class="am-form-group-label-tips">{{$data.home_seo_url_model.describe}}</span></label>
 				<select name="{{$data.home_seo_url_model.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_seo_url_model.error_tips}}" required>
 					{{foreach $seo_url_model_list as $v}}
 						<option value="{{$v.value}}" {{if isset($data['home_seo_url_model']['value']) and $data['home_seo_url_model']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
@@ -14,23 +14,23 @@
 				</select>
 			</div>
 			<div class="am-form-group">
-				<label>{{$data.common_route_separator.name}}<span class="fs-12 fw-100 cr-ccc">（{{$data.common_route_separator.describe}}）</span></label>
+				<label>{{$data.common_route_separator.name}}<span class="am-form-group-label-tips">{{$data.common_route_separator.describe}}</span></label>
 				<input type="text" name="{{$data.common_route_separator.only_tag}}" placeholder="{{$data.common_route_separator.name}}" data-validation-message="{{$data.common_route_separator.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_route_separator.value}}"{{/if}} />
 			</div>
 			<div class="am-form-group">
-				<label>{{$data.home_seo_url_html_suffix.name}}<span class="fs-12 fw-100 cr-ccc">（{{$data.home_seo_url_html_suffix.describe}}）</span></label>
+				<label>{{$data.home_seo_url_html_suffix.name}}<span class="am-form-group-label-tips">{{$data.home_seo_url_html_suffix.describe}}</span></label>
 				<input type="text" name="{{$data.home_seo_url_html_suffix.only_tag}}" pattern="{{:lang('common_regex_url_html_suffix')}}" maxlength="8" placeholder="{{$data.home_seo_url_html_suffix.name}}" data-validation-message="{{$data.home_seo_url_html_suffix.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_seo_url_html_suffix.value}}"{{/if}} />
 			</div>
 			<div class="am-form-group">
-				<label>{{$data.home_seo_site_title.name}}<span class="fs-12 fw-100 cr-ccc">（{{$data.home_seo_site_title.describe}}）</span></label>
+				<label>{{$data.home_seo_site_title.name}}<span class="am-form-group-label-tips">{{$data.home_seo_site_title.describe}}</span></label>
 				<input type="text" name="{{$data.home_seo_site_title.only_tag}}" minlength="1" placeholder="{{$data.home_seo_site_title.name}}" data-validation-message="{{$data.home_seo_site_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_seo_site_title.value}}"{{/if}} required />
 			</div>
 			<div class="am-form-group">
-				<label>{{$data.home_seo_site_keywords.name}}<span class="fs-12 fw-100 cr-ccc">（{{$data.home_seo_site_keywords.describe}}）</span></label>
+				<label>{{$data.home_seo_site_keywords.name}}<span class="am-form-group-label-tips">{{$data.home_seo_site_keywords.describe}}</span></label>
 				<input type="text" name="{{$data.home_seo_site_keywords.only_tag}}" placeholder="{{$data.home_seo_site_keywords.name}}" data-validation-message="{{$data.home_seo_site_keywords.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_seo_site_keywords.value}}"{{/if}} />
 			</div>
 			<div class="am-form-group">
-				<label>{{$data.home_seo_site_description.name}}<span class="fs-12 fw-100 cr-ccc">（{{$data.home_seo_site_description.describe}}）</span></label>
+				<label>{{$data.home_seo_site_description.name}}<span class="am-form-group-label-tips">{{$data.home_seo_site_description.describe}}</span></label>
 				<textarea rows="6" name="{{$data.home_seo_site_description.only_tag}}" class="am-radius" placeholder="{{$data.home_seo_site_description.name}}" data-validation-message="{{$data.home_seo_site_description.error_tips}}">{{if !empty($data)}}{{$data.home_seo_site_description.value}}{{/if}}</textarea>
 			</div>
 			<div class="am-form-group am-form-group-refreshing">

@@ -10,15 +10,15 @@
 		<!-- form start -->
 		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/email/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/email/index', ['type'=>'message'])}}">
 			<div class="am-form-group">
-				<label>{{$data.home_email_user_reg.name}}<span class="fs-12 fw-100 cr-ccc">（{{$data.home_email_user_reg.describe}}）</span></label>
+				<label>{{$data.home_email_user_reg.name}}<span class="am-form-group-label-tips">{{$data.home_email_user_reg.describe}}</span></label>
 				<script type="text/plain" id="email_user_reg" name="{{$data.home_email_user_reg.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_reg.value|raw}}{{/if}}</script>
 			</div>
 			<div class="am-form-group">
-				<label>{{$data.home_email_user_forget_pwd.name}}<span class="fs-12 fw-100 cr-ccc">（{{$data.home_email_user_forget_pwd.describe}}）</span></label>
+				<label>{{$data.home_email_user_forget_pwd.name}}<span class="am-form-group-label-tips">{{$data.home_email_user_forget_pwd.describe}}</span></label>
 				<script type="text/plain" id="email_user_forget_pwd" name="{{$data.home_email_user_forget_pwd.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_forget_pwd.value|raw}}{{/if}}</script>
 			</div>
 			<div class="am-form-group">
-				<label>{{$data.home_email_user_email_binding.name}}<span class="fs-12 fw-100 cr-ccc">（{{$data.home_email_user_email_binding.describe}}）</span></label>
+				<label>{{$data.home_email_user_email_binding.name}}<span class="am-form-group-label-tips">{{$data.home_email_user_email_binding.describe}}</span></label>
 				<script type="text/plain" id="email_user_email_binding" name="{{$data.home_email_user_email_binding.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_email_binding.value|raw}}{{/if}}</script>
 			</div>
 			<div class="am-form-group am-form-group-refreshing">

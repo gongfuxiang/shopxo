@@ -119,15 +119,15 @@
 					<input type="number" name="give_integral" placeholder="购买赠送积分" max="100000000" data-validation-message="购买赠送积分 0~100000000" class="am-radius" value="{{if empty($data)}}0{{else /}}{{$data.give_integral}}{{/if}}" required />
 				</div>
 				<div class="am-form-group">
-					<label>最低起购数量<span class="fs-12 fw-100 cr-ccc">（默认数值 1）</span></label>
+					<label>最低起购数量<span class="am-form-group-label-tips">默认数值 1</span></label>
 					<input type="number" name="buy_min_number" placeholder="最低起购数量" min="1" max="100000000" data-validation-message="最低起购数量 1~100000000" class="am-radius" value="{{if empty($data)}}1{{else /}}{{$data.buy_min_number}}{{/if}}" required />
 				</div>
 				<div class="am-form-group">
-					<label>单次最大购买数量<span class="fs-12 fw-100 cr-ccc">（单次最大数值 100000000, 小于等于0或空则不限）</span></label>
+					<label>单次最大购买数量<span class="am-form-group-label-tips">单次最大数值 100000000, 小于等于0或空则不限</span></label>
 					<input type="number" name="buy_max_number" placeholder="单次最大购买数量" min="0" max="100000000" data-validation-message="单次最大购买数量 1~100000000" class="am-radius" {{if !empty($data['buy_max_number'])}} value="{{$data.buy_max_number}}"{{/if}} />
 				</div>
 				<div class="am-form-group am-form-file">
-					<label class="block">首页推荐图片<span class="fs-12 fw-100 cr-ccc">（留空则取相册第一张图）</span></label>
+					<label class="block">首页推荐图片<span class="am-form-group-label-tips">留空则取相册第一张图</span></label>
 					<ul class="plug-file-upload-view goods-recommended-images-view" data-form-name="home_recommended_images" data-max-number="1" data-dialog-type="images">
 						{{if !empty($data['home_recommended_images'])}}
 							<li>
@@ -140,15 +140,15 @@
 					<div class="plug-file-upload-submit" data-view-tag="ul.goods-recommended-images-view">+上传图片</div>
 				</div>
 				<div class="am-form-group">
-					<label class="block">扣减库存<span class="fs-12 fw-100 cr-ccc">（扣除规则根据后台配置->扣除库存规则而定）</span></label>
+					<label class="block">扣减库存<span class="am-form-group-label-tips">扣除规则根据后台配置->扣除库存规则而定</span></label>
 					<input name="is_deduction_inventory" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_deduction_inventory']) and $data['is_deduction_inventory'] eq 1) or empty($data)}}checked="true"{{/if}} />
 				</div>
 				<div class="am-form-group">
-					<label class="block">上下架<span class="fs-12 fw-100 cr-ccc">（下架后用户不可见）</span></label>
+					<label class="block">上下架<span class="am-form-group-label-tips">下架后用户不可见</span></label>
 					<input name="is_shelves" value="1" type="checkbox" data-off-text="下架" data-on-text="上架" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_shelves']) and $data['is_shelves'] eq 1) or empty($data)}}checked="true"{{/if}} />
 				</div>
 				<div class="am-form-group">
-					<label class="block">首页推荐<span class="fs-12 fw-100 cr-ccc">（推荐后在首页展示）</span></label>
+					<label class="block">首页推荐<span class="am-form-group-label-tips">推荐后在首页展示</span></label>
 					<input name="is_home_recommended" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_home_recommended']) and $data['is_home_recommended'] eq 1}}checked="true"{{/if}} />
 				</div>
 			</div>
@@ -286,7 +286,7 @@
 
 			<!-- 相册 -->
 			<div id="goods-nav-photo" class="division-block">
-				<label class="block nav-detail-title">商品相册<span class="fs-12 fw-100 cr-ccc">（可拖拽图片进行排序，建议图片尺寸一致）</span></label>
+				<label class="block nav-detail-title">商品相册<span class="am-form-group-label-tips">可拖拽图片进行排序，建议图片尺寸一致</span></label>
 				<ul class="plug-file-upload-view goods-photo-view" data-form-name="photo[]" data-max-number="5" data-dialog-type="images">
 					{{if !empty($data['photo'])}}
 						{{foreach $data.photo as $v}}
@@ -305,7 +305,7 @@
 			<div id="goods-nav-video" class="division-block">
 				<label class="block nav-detail-title">商品视频</label>
 				<div class="am-form-group am-form-file">
-					<label class="block">短视频<span class="fs-12 fw-100 cr-ccc">（视频比图文更有具带入感，仅支持 mp4 格式）</span></label>
+					<label class="block">短视频<span class="am-form-group-label-tips">视频比图文更有具带入感，仅支持 mp4 格式</span></label>
 					<ul class="plug-file-upload-view plug-file-upload-view-video goods-video-view" data-form-name="video" data-max-number="1" data-dialog-type="video">
 						{{if !empty($data['video'])}}
 							<li>
