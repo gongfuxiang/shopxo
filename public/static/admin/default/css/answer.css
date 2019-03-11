@@ -19,3 +19,8 @@
 @media only screen and (max-width: 321px) {
 	.view-operation button { margin: 2px 0px; }
 }
+
+/**
+ * 列表
+ */
+table.am-table .reply-content { max-width: 200px; }

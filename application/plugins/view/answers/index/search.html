@@ -16,31 +16,28 @@
 <div class="am-g am-container plugins-answers plugins-answers-detail">
   <!-- 详情 -->
   <div class="am-u-md-8">
-    {{if isset($plugins_answers_detail['code']) and $plugins_answers_detail['code'] eq 0}}
-      {{if !empty($plugins_answers_detail['data']['content'])}}
-        {{if !empty($plugins_answers_detail['data']['title'])}}
-          <h2>{{$plugins_answers_detail.data.title}}</h2>
-        {{/if}}
-        <div class="base-content">
-          <p>{{$plugins_answers_detail.data.content}}</p>
-          <p class="base-date gray-text">{{$plugins_answers_detail.data.add_time_date}}</p>
+    {{if !empty($plugins_answers_data_list)}}
+      <div data-am-widget="list_news" class="am-list-news am-list-news-default">
+        <div class="am-list-news-bd">
+          <ul class="am-list">
+            {{foreach $plugins_answers_data_list as $answers}}
+              <li class="am-g am-list-item-dated">
+                <a href="{{:PluginsHomeUrl('answers', 'index', 'detail', ['id'=>$answers['id']])}}" target="_blank" class="am-list-item-hd">
+                  {{if empty($answers['title'])}}
+                    {{$answers.content}}
+                  {{else /}}
+                    {{$answers.title}}
+                  {{/if}}
+                </a>
+                <span class="am-list-date">{{$answers.add_time_date}}</span>
+              </li>
+            {{/foreach}}
+          </ul>
         </div>
-        <div class="am-panel base {{if isset($plugins_answers_detail['data']['is_reply']) and $plugins_answers_detail['data']['is_reply'] eq 1}} am-panel-success{{else /}} am-panel-warning{{/if}}">
-          <div class="am-panel-bd">
-            {{if isset($plugins_answers_detail['data']['is_reply']) and $plugins_answers_detail['data']['is_reply'] eq 1}}
-              <span class="am-badge am-radius am-badge-success">管理员已回答</span>
-              <p class="reply-content">{{$plugins_answers_detail.data.reply}}</p>
-              <p class="base-date gray-text">{{$plugins_answers_detail.data.reply_time_date}}</p>
-            {{else /}}
-              <span class="am-badge am-radius">管理员待回复</span>
-            {{/if}}
-          </div>
-        </div>
-      {{else /}}
-        <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
-      {{/if}}
+      </div>
+      {{$page_html|raw}}
     {{else /}}
-      <div class="table-no"><i class="am-icon-warning"></i> {{$plugins_answers_detail.msg}}</div>
+      <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
     {{/if}}
   </div>
       

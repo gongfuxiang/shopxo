@@ -14,6 +14,7 @@ use think\Controller;
 use app\service\PluginsService;
 use app\service\AnswerService;
 use app\service\UserService;
+use app\service\SeoService;
 use app\plugins\answers\Service;
 
 /**
@@ -65,6 +66,10 @@ class Index extends Controller
             $this->assign('plugins_answers_rc_list', []);
         }
 
+        // 浏览器标题
+        $seo_name = empty($base['data']['application_name']) ? '问答' : $base['data']['application_name'];
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle($seo_name, 1));
+
         return $this->fetch('../../../plugins/view/answers/index/index');
     }
 
@@ -100,7 +105,91 @@ class Index extends Controller
         $detail = Service::AnswerRow($params);
         $this->assign('plugins_answers_detail', $detail);
 
+        // 浏览器标题
+        if(!empty($detail['data']['title']))
+        {
+            $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle($detail['data']['title']));
+        } else if(!empty($detail['data']['content']))
+        {
+            $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle($detail['data']['content']));
+        }
+
         return $this->fetch('../../../plugins/view/answers/index/detail');
+    }
+
+    /**
+     * 搜索
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-11
+     * @desc    description
+     * @param    [array]          $params [输入参数]
+     */
+    public function search($params = [])
+    {
+        if(input('post.answers_keywords'))
+        {
+            $answers_keywords = str_replace(['?', ' ', '+', '-'], '', trim(input('post.answers_keywords')));
+            return redirect(PluginsHomeUrl('answers', 'index', 'search', ['answers_keywords'=>$answers_keywords]));
+        } else {
+            // 基础数据
+            $base = PluginsService::PluginsData('answers', ['images']);
+            $this->assign('plugins_answers_data', isset($base['data']) ? $base['data'] : []);
+
+            // 商品数据
+            $goods = Service::GoodsList();
+            $this->assign('plugins_answers_goods_list', $goods['data']['goods']);
+
+            // 推荐问答
+            if(!empty($base['data']['category_ids']))
+            {
+                $answers = Service::AnswerList(['n'=>100, 'category_ids'=> $base['data']['category_ids']]);
+                $this->assign('plugins_answers_rc_list', $answers['data']);
+            } else {
+                $this->assign('plugins_answers_rc_list', []);
+            }
+
+            // 获取搜索数据
+            // 分页
+            $number = 10;
+
+            // 条件
+            $keywords_arr = empty($params['answers_keywords']) ? [] : ['keywords'=>$params['answers_keywords']];
+            $where = Service::AnswerListWhere(array_merge($params, $keywords_arr));
+
+            // 获取总数
+            $total = AnswerService::AnswerTotal($where);
+
+            // 分页
+            $page_params = array(
+                    'number'    =>  $number,
+                    'total'     =>  $total,
+                    'where'     =>  $params,
+                    'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
+                    'url'       =>  PluginsHomeUrl('answers', 'index', 'search'),
+                );
+            $page = new \base\Page($page_params);
+            $this->assign('page_html', $page->GetPageHtml());
+
+            // 获取列表
+            $data_params = array(
+                'm'         => $page->GetPageStarNumber(),
+                'n'         => $number,
+                'where'     => $where,
+                'field'     => 'id,title,content,add_time',
+            );
+            $data = AnswerService::AnswerList($data_params);
+            $this->assign('plugins_answers_data_list', $data['data']);
+
+            // 参数
+            $this->assign('params', $params);
+
+            // 浏览器标题
+            $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('问答搜索', 1));
+
+            return $this->fetch('../../../plugins/view/answers/index/search');
+        }
     }
 
     /**

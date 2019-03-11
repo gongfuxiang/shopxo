@@ -12,6 +12,7 @@ namespace app\index\controller;
 
 use app\service\SearchService;
 use app\service\BrandService;
+use app\service\SeoService;
 
 /**
  * 搜索
@@ -81,6 +82,9 @@ class Search extends Common
 
             // 参数
             $this->assign('params', $this->params);
+
+            // 浏览器名称
+            $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('商品搜索', 1));
 
             return $this->fetch();
         }

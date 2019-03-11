@@ -11,6 +11,7 @@
 namespace app\index\controller;
 
 use app\service\GoodsService;
+use app\service\SeoService;
 
 /**
  * 商品详情
@@ -68,8 +69,11 @@ class Goods extends Common
             // 商品收藏总数
             $ret['data'][0]['favor_count'] = GoodsService::GoodsFavorTotal(['goods_id'=>$id]);
 
+            // 商品数据
             $this->assign('goods', $ret['data'][0]);
-            $this->assign('home_seo_site_title', $ret['data'][0]['title']);
+
+            // 浏览器名称
+            $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle($ret['data'][0]['title']));
 
             // 二维码
             $this->assign('qrcode_url', MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode(MyUrl('index/goods/index', ['id'=>$id], true, true)))]));

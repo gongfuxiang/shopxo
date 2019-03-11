@@ -16,7 +16,7 @@
             </div>
 
             <div class="am-form-group am-form-file">
-                <label class="block">在线客服<span class="fs-12 fw-100 cr-999">（一行一个、以竖线 | 分割、如：客服一|123456）</span></label>
+                <label class="block">在线客服<span class="am-form-group-label-tips">一行一个、以竖线 | 分割、如：客服一|123456</span></label>
                 <textarea rows="5" name="online_service" class="am-radius am-field-valid" placeholder="在线客服" data-validation-message="请填写在线客服" required>{{if !empty($data['online_service'])}}{{$data.online_service}}{{/if}}</textarea>
             </div>
 
@@ -26,7 +26,7 @@
             </div>
 
             <div class="am-form-group">
-                <label>是否全局<span class="fs-12 fw-100 cr-999">（否则只在首页显示，是则全局展示）</span></label>
+                <label>是否全局<span class="am-form-group-label-tips">否则只在首页显示，是则全局展示</span></label>
                 <div>
                     {{foreach $is_whether_list as $v}}
                         <label class="am-radio-inline m-r-10">
@@ -45,7 +45,7 @@
             </div>
 
             <div class="am-form-group">
-                <label>距离顶部<span class="fs-12 fw-100 cr-999">（默认距离顶部30%）</span></label>
+                <label>距离顶部<span class="am-form-group-label-tips">默认距离顶部30%</span></label>
                 <div class="am-input-group am-input-radius am-input-group-sm">
                     <input type="number" name="distance_top" placeholder="距离顶部" min="0" max="100" data-validation-message="距离顶部 0~100" class="am-form-field" value="{{if isset($data['distance_top'])}}{{$data.distance_top}}{{else /}}30{{/if}}" required />
                     <span class="am-input-group-label">%</span>

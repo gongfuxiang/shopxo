@@ -26,7 +26,7 @@ button { outline: none; }
 .am-form select, .am-form textarea, .am-form input[type="text"], .am-form input[type="password"], .am-form input[type="datetime"], .am-form input[type="datetime-local"], .am-form input[type="date"], .am-form input[type="month"], .am-form input[type="time"], .am-form input[type="week"], .am-form input[type="number"], .am-form input[type="email"], .am-form input[type="url"], .am-form input[type="search"], .am-form input[type="tel"], .am-form input[type="color"], .am-form-field {
     font-size: 12px;
 }
-.am-input-group-sm > .am-input-group-btn > .am-btn {
+.am-input-group-sm > .am-input-group-btn > .am-btn, .am-input-group-sm > .am-form-field {
     height: 28px;
     font-size: 12px !important;
 }
@@ -475,10 +475,14 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
 .friendship-list ul li:not(:last-child) {
     margin-right: 10px;
 }
-
 .friendship-list ul li:not(:last-child) a {
     border-right: 1px solid #d4d4d4;
     padding-right: 10px;
+}
+@media only screen and (max-width:1025px) {
+    .friendship-list {
+        padding: 0 5px;
+    }
 }
 
 
@@ -490,9 +494,6 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
     .am-container {
         padding-left: 0px;
         padding-right: 0px;
-    }
-    .friendship-list {
-        padding: 0 5px;
     }
 }
 

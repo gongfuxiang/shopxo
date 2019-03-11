@@ -17,6 +17,17 @@
                 </div>
                 <div class="am-panel-bd">
                     <div class="items">
+                        <label>应用导航名称</label>
+                        <div>
+                            {{if empty($data['application_name'])}}
+                                未设置应用导航名称
+                            {{else /}}
+                                {{$data.application_name}}
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class="items">
                         <label>右侧推荐问答名称</label>
                         <div>
                             {{if empty($data['right_top_rec_name'])}}

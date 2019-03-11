@@ -23,10 +23,11 @@
             {{foreach $plugins_answers_slider as $k=>$v}}
               <li>
                 <a href="{{$v.url}}" target="_blank">
-                  <img src="{{$v.images_url}}">
+                  <img src="{{$v.images_url}}" alt="{{$v.name}}">
                   <div class="am-slider-desc">
                     <div class="am-slider-counter">
-                        <span class="am-active">{{$k+1}}</span>/{{:count($plugins_answers_slider)}}</div>
+                      <span class="am-active">{{$k+1}}</span>/{{:count($plugins_answers_slider)}}
+                    </div>
                     {{$v.name}}
                   </div>
                 </a>
@@ -39,11 +40,8 @@
         
     <!-- 右侧列表 -->
     <div class="am-u-md-4 answers-sidebar">
-      <!-- 操作按钮 -->
-      <div class="answers-btn-list">
-        <a href="javascript:;" type="button" class="am-btn am-btn-warning am-icon-plus" data-am-modal="{target: '#plugins-answers-popup-ask'}"> 我要提问</a>
-        <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/answer/index')}}{{/if}}" type="button" class="am-btn am-btn-danger am-icon-list-ul am-fr {{if empty($user)}}login-event{{/if}}"> 我的提问</a>
-      </div>
+      <!-- 操作 -->
+      {{include file="../../../plugins/view/answers/index/operation" /}}
       
       <!-- 右侧推荐问答 -->
       <div data-am-widget="list_news" class="am-list-news am-list-news-default">
@@ -55,6 +53,7 @@
                 {{$plugins_answers_data.right_top_rec_name}}
               {{/if}}
             </h2>
+            <a href="{{:PluginsHomeUrl('answers', 'index', 'search')}}" target="_blank" class="am-list-news-more am-fr">更多 &raquo;</a>
           </div>
           <div class="am-list-news-bd">
             {{if !empty($plugins_answers_rc_list)}}
@@ -89,7 +88,7 @@
 
   <!-- 最新问答 -->
   <div class="am-u-md-8 answers-middle-list">
-    <div data-am-widget="list_news" class="am-list-news am-list-news-default" >
+    <div data-am-widget="list_news" class="am-list-news am-list-news-default">
       <div class="am-list-news-hd am-cf">
         <h2>
           {{if empty($plugins_answers_data['middle_new_name'])}}
@@ -98,20 +97,21 @@
             {{$plugins_answers_data.middle_new_name}}
           {{/if}}
         </h2>
+        <a href="{{:PluginsHomeUrl('answers', 'index', 'search')}}" target="_blank" class="am-list-news-more am-fr">更多 &raquo;</a>
       </div>
       <div class="am-list-news-bd">
         {{if !empty($plugins_answers_middle_answer_list)}}
           <ul class="am-list">
             {{foreach $plugins_answers_middle_answer_list as $answers}}
               <li class="am-g am-list-item-dated">
-                  <a href="{{:PluginsHomeUrl('answers', 'index', 'detail', ['id'=>$answers['id']])}}" target="_blank" class="am-list-item-hd">
-                    {{if empty($answers['title'])}}
-                      {{$answers.content}}
-                    {{else /}}
-                      {{$answers.title}}
-                    {{/if}}
-                  </a>
-                  <span class="am-list-date">{{$answers.add_time_date}}</span>
+                <a href="{{:PluginsHomeUrl('answers', 'index', 'detail', ['id'=>$answers['id']])}}" target="_blank" class="am-list-item-hd">
+                  {{if empty($answers['title'])}}
+                    {{$answers.content}}
+                  {{else /}}
+                    {{$answers.title}}
+                  {{/if}}
+                </a>
+                <span class="am-list-date">{{$answers.add_time_date}}</span>
               </li>
             {{/foreach}}
           </ul>
@@ -132,6 +132,7 @@
           {{$plugins_answers_data.right_top_goods_name}}
         {{/if}}
       </h2>
+      <a href="{{:MyUrl('index/search/index')}}" target="_blank" class="am-list-news-more am-fr">更多 &raquo;</a>
     </div>
     {{if !empty($plugins_answers_goods_list)}}
       <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-2 am-avg-lg-2 am-gallery-bordered" data-am-gallery="{}">

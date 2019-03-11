@@ -15,6 +15,7 @@ use app\service\OrderService;
 use app\service\GoodsService;
 use app\service\UserService;
 use app\service\BuyService;
+use app\service\SeoService;
 
 /**
  * 用户
@@ -139,6 +140,9 @@ class User extends Common
         // 用户中心顶部钩子
         $this->assign('plugins_view_user_center_top_data', Hook::listen('plugins_view_user_center_top', ['hook_name'=>'plugins_view_user_center_top', 'is_backend'=>false, 'user'=>$this->user]));
 
+        // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('用户中心', 1));
+
         return $this->fetch();
     }
 
@@ -153,6 +157,9 @@ class User extends Common
     {
         if(empty($this->user))
         {
+            // 浏览器名称
+            $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('密码找回', 1));
+
             return $this->fetch();
         } else {
             $this->assign('msg', '已经登录了，如要重置密码，请先退出当前账户');
@@ -174,6 +181,9 @@ class User extends Common
         {
             if(empty($this->user))
             {
+                // 浏览器名称
+                $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('用户注册', 1));
+
                 return $this->fetch();
             } else {
                 $this->assign('msg', '已经登录了，如要注册新账户，请先退出当前账户');
@@ -198,6 +208,9 @@ class User extends Common
         {
             if(empty($this->user))
             {
+                // 浏览器名称
+                $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('用户邮箱注册', 1));
+
                 $this->assign('referer_url', $this->GetrefererUrl());
                 return $this->fetch();
             } else {
@@ -223,6 +236,9 @@ class User extends Common
         {
             if(empty($this->user))
             {
+                // 浏览器名称
+                $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('用户短信注册', 1));
+
                 $this->assign('referer_url', $this->GetrefererUrl());
                 return $this->fetch();
             } else {
@@ -248,6 +264,9 @@ class User extends Common
         {
             if(empty($this->user))
             {
+                // 浏览器名称
+                $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('用户登录', 1));
+
                 $this->assign('referer_url', $this->GetrefererUrl());
                 return $this->fetch();
             } else {
@@ -277,6 +296,9 @@ class User extends Common
         {
             if(empty($this->user))
             {
+                // 浏览器名称
+                $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('用户登录', 1));
+                
                 $this->assign('referer_url', $this->GetrefererUrl());
                 return $this->fetch();
             } else {

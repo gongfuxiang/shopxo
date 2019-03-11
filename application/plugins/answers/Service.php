@@ -310,14 +310,15 @@ class Service
     }
 
     /**
-     * 问答列表
+     * 条件
      * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-06T21:31:53+0800
-     * @param    [array]          $params [输入参数]
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-11
+     * @desc    description
+     * @param   [array]          $params [输入参数]
      */
-    public static function AnswerList($params = [])
+    public static function AnswerListWhere($params = [])
     {
         // 条件
         $where = [
@@ -328,7 +329,7 @@ class Service
         // 搜索关键字
         if(!empty($params['keywords']))
         {
-            $where[] = ['content', 'like', '%'.$params['keywords'].'%'];
+            $where[] = ['title|content', 'like', '%'.$params['keywords'].'%'];
         }
 
         // 指定问答id
@@ -337,6 +338,19 @@ class Service
             $where[] = ['id', 'in', explode(',', $params['category_ids'])];
         }
 
+        return $where;
+    }
+
+    /**
+     * 问答列表
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function AnswerList($params = [])
+    {
         // 字段
         $field = empty($params['field']) ? 'id,name,title,content,reply,is_reply,reply_time,add_time' : $params['field'];
 
@@ -344,7 +358,7 @@ class Service
         $data_params = array(
             'm'         => 0,
             'n'         => isset($params['n']) ? intval($params['n']) : 10,
-            'where'     => $where,
+            'where'     => self::AnswerListWhere($params),
             'field'     => $field,
         );
         return AnswerService::AnswerList($data_params);

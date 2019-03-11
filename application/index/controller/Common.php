@@ -255,36 +255,9 @@ class Common extends Controller
      */
     private function NavInit()
     {
-        $navigation = NavigationService::Home();
+        $navigation = NavigationService::Nav();
         $this->nav_header = $navigation['header'];
         $this->nav_footer = $navigation['footer'];
-    }
-
-    /**
-     * [GetBrowserSeoTitle 获取浏览器seo标题]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-02-25T14:21:21+0800
-     * @param    [string]     $title [标题]
-     * @param    [int]        $type  [页面类型 0, 1, 2]
-     * @return   [string]            [浏览器seo标题]
-     */
-    protected function GetBrowserSeoTitle($title, $type)
-    {
-        switch($type)
-        {
-            case 0:
-                break;
-
-            case 1:
-                $site_name = MyC('home_site_name');
-                break;
-
-            default:
-                $site_name = MyC('home_seo_site_title');
-        }
-        return empty($title) ? $site_name : $title.' - '.$site_name;
     }
 
     /**

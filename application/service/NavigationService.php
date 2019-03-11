@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 
 /**
  * 导航服务层
@@ -22,7 +23,7 @@ use think\Db;
 class NavigationService
 {
     /**
-     * 获取首页导航
+     * 获取导航
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -30,11 +31,12 @@ class NavigationService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function Home($params = [])
+    public static function Nav($params = [])
     {
         // 读取缓存数据
         $header = cache(config('shopxo.cache_common_home_nav_header_key'));
         $footer = cache(config('shopxo.cache_common_home_nav_footer_key'));
+        $header = [];
 
         // 导航模型
         $field = array('id', 'pid', 'name', 'url', 'value', 'data_type', 'is_new_window_open');
@@ -50,6 +52,15 @@ class NavigationService
                     $v['items'] = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'header', 'is_show'=>1, 'pid'=>$v['id']))->order('sort')->select());
                 }
             }
+            // 大导航钩子
+            $hook_name = 'plugins_service_navigation_header_handle';
+            $ret = Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => false,
+                'params'        => &$params,
+                'header'        => &$header,
+            ]);
+ 
             cache(config('shopxo.cache_common_home_nav_header_key'), $header);
         }
 
@@ -57,8 +68,27 @@ class NavigationService
         if(empty($footer))
         {
             $footer = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'footer', 'is_show'=>1))->order('sort')->select());
+            if(!empty($footer))
+            {
+                foreach($footer as &$v)
+                {
+                    $v['items'] = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'footer', 'is_show'=>1, 'pid'=>$v['id']))->order('sort')->select());
+                }
+            }
+
+            // 底部导航钩子
+            $hook_name = 'plugins_service_navigation_footer_handle';
+            $ret = Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => false,
+                'params'        => &$params,
+                'footer'        => &$footer,
+            ]);
+
             cache(config('shopxo.cache_common_home_nav_footer_key'), $footer);
         }
+
+        //print_r($header);
 
         return [
             'header' => $header,

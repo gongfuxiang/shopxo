@@ -79,8 +79,7 @@ iframe { width: 100%; height: 100%; border: 0; }
         background: #f6f9fc;
     }
     form.am-form .am-form-group, .plug-images-list, .goods-specifications, .content-app-items, .plug-file-upload-view {
-        border-bottom: 1px dashed transparent;
-        background: linear-gradient(white,white) padding-box, repeating-linear-gradient(-45deg, #ccc 0, #ccc 0.25em, white 0, white 0.5em);
+        border-bottom: 1px dashed #ccc;
         padding: 10px 20% 10px 5px;
     }
     .am-popup form.am-form .am-form-group {

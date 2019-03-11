@@ -132,7 +132,7 @@ class AnswerService
 
         if(!empty($params['keywords']))
         {
-            $where[] = ['name|tel|content', 'like', '%'.$params['keywords'].'%'];
+            $where[] = ['name|tel|title|content', 'like', '%'.$params['keywords'].'%'];
         }
 
         // 是否更多条件

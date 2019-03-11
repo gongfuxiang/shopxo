@@ -21,6 +21,14 @@
 							<option value="{{$v.id}}" {{if isset($params['is_show']) and $params['is_show'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
 					</select>
+					<select name="is_reply" class="am-radius c-p m-t-10 m-l-5 param-where" data-placeholder="是否回复...">
+                        <option value="-1">是否回复...</option>
+                        {{if !empty($common_is_text_list)}}
+                            {{foreach $common_is_text_list as $v}}
+                                <option value="{{$v.id}}" {{if isset($params['is_reply']) and $params['is_reply'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        {{/if}}
+                    </select>
 					<div class="param-date param-where m-l-5">
 						<input type="text" autocomplete="off" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_start'])}}value="{{$params.time_start}}"{{/if}}/>
 						<span>~</span>
@@ -37,10 +45,12 @@
 				<tr>
 					<th class="am-hide-sm-only">用户信息</th>
 					<th class="am-hide-sm-only">联系信息</th>
-					<th style="width: 25%;">内容</th>
-					<th>是否显示</th>
+					<th>标题</th>
+					<th class="am-hide-sm-only">内容</th>
 					<th class="am-hide-sm-only">回复内容</th>
+					<th class="am-hide-sm-only">回复时间</th>
 					<th class="am-hide-sm-only">创建时间</th>
+					<th>是否显示</th>
 					<th>更多</th>
 					<th>操作</th>
 				</tr>
@@ -79,12 +89,20 @@
 									<span class="cr-ddd">未填写</span>
 								{{/if}}
 							</td>
-							<td>{{$v.content}}</td>
+							<td>{{$v.title}}</td>
+							<td class="am-hide-sm-only reply-content">{{$v.content}}</td>
+							<td class="am-hide-sm-only reply-content">
+								{{if $v['is_reply'] eq 1}}
+                                    {{$v.reply}}
+                                {{else /}}
+                                    <span class="cr-ddd">未回复</span>
+                                {{/if}}
+							</td>
+							<td class="am-hide-sm-only">{{$v.reply_time}}</td>
+							<td class="am-hide-sm-only">{{$v.add_time}}</td>
 							<td>
 								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/answer/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1"></a>
 							</td>
-							<td class="am-hide-sm-only">{{$v.reply}}</td>
-							<td class="am-hide-sm-only">{{$v.add_time}}</td>
 							<td>
 								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
 								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
@@ -130,6 +148,9 @@
 													{{/if}}
 												</dd>
 
+												<dt>标题</dt>
+												<dd>{{if empty($v['title'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.title}}{{/if}}</dd>
+
 												<dt>内容</dt>
 												<dd>{{$v.content}}</dd>
 
@@ -137,7 +158,16 @@
 												<dd>{{if empty($v['is_show_text'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.is_show_text}}{{/if}}</dd>
 
 												<dt>回复内容</dt>
-												<dd>{{if empty($v['reply'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.reply}}{{/if}}</dd>
+												<dd>
+													{{if $v['is_reply'] eq 1}}
+			                                            {{$v.reply}}
+			                                        {{else /}}
+			                                            <span class="cr-ddd">未回复</span>
+			                                        {{/if}}
+			                                    </dd>
+
+												<dt>回复时间</dt>
+												<dd>{{$v.reply_time}}</dd>
 
 												<dt>创建时间</dt>
 												<dd>{{$v.add_time}}</dd>
