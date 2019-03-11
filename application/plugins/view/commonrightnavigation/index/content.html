@@ -160,7 +160,7 @@
                     </legend>
                     <div class="am-form-group am-form-group-refreshing">
                         <label>姓名</label>
-                        <input type="text" name="name" placeholder="姓名" data-validation-message="请填写姓名" class="am-radius" required />
+                        <input type="text" name="name" placeholder="姓名" maxlength="30" data-validation-message="联系人最多30个字符" class="am-radius" required />
                     </div>
                     <div class="am-form-group am-form-group-refreshing">
                         <label>电话</label>
@@ -168,7 +168,7 @@
                     </div>
                     <div class="am-form-group am-form-group-refreshing">
                         <label>内容</label>
-                        <textarea class="am-radius am-validate" name="content" rows="3" minlength="5" maxlength="300" placeholder="内容至少5个字" data-validation-message="内容格式 5~300 个字符之间" required></textarea>
+                        <textarea class="am-radius am-validate" name="content" rows="3" minlength="5" maxlength="230" placeholder="内容格式 5~230 个字符之间" data-validation-message="内容格式 5~300 个字符之间" required></textarea>
                     </div>
                     <div class="am-form-group am-form-group-refreshing">
                         <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">提交</button>

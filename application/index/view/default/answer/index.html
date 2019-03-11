@@ -79,9 +79,11 @@
                         <tr>
                             <th>姓名</th>
                             <th>电话</th>
-                            <th>内容</th>
+                            <th>标题</th>
+                            <th class="am-hide-sm-only">内容</th>
                             <th class="am-hide-sm-only">回复</th>
                             <th class="am-hide-sm-only">是否显示</th>
+                            <th class="am-hide-sm-only">回复时间</th>
                             <th class="am-hide-sm-only">时间</th>
                         </tr>
                     </thead>
@@ -91,7 +93,8 @@
                                 <tr>
                                     <td>{{$v.name}}</td>
                                     <td>{{$v.tel}}</td>
-                                    <td class="reply-content">{{$v.content}}</td>
+                                    <td>{{$v.title}}</td>
+                                    <td class="am-hide-sm-only reply-content">{{$v.content}}</td>
                                     <td class="am-hide-sm-only reply-content">
                                         {{if $v['is_reply'] eq 1}}
                                             {{$v.reply}}
@@ -100,6 +103,7 @@
                                         {{/if}}
                                     </td>
                                     <td class="am-hide-sm-only">{{$v.is_show_text}}</td>
+                                    <td class="am-hide-sm-only">{{$v.reply_time}}</td>
                                     <td class="am-hide-sm-only">{{$v.add_time}}</td>
                                 </tr>
                             {{/foreach}}

@@ -77,12 +77,20 @@ class AnswerService
                     $v['is_show_text'] = $common_is_show_list[$v['is_show']]['name'];
                 }
 
+                // 回复时间
+                if(isset($v['reply_time']))
+                {
+                    $reply_time = $v['reply_time'];
+                    $v['reply_time'] = empty($reply_time) ? '' : date('Y-m-d H:i:s', $reply_time);
+                    $v['reply_time_date'] = empty($reply_time) ? '' : date('Y-m-d', $reply_time);
+                }
+
                 // 创建时间
                 if(isset($v['add_time']))
                 {
                     $add_time = $v['add_time'];
-                    $v['add_time'] = date('Y-m-d H:i:s', $add_time);
-                    $v['add_time_date'] = date('Y-m-d', $add_time);
+                    $v['add_time'] = empty($add_time) ? '' : date('Y-m-d H:i:s', $add_time);
+                    $v['add_time_date'] = empty($add_time) ? '' : date('Y-m-d', $add_time);
                 }
 
                 // 更新时间
@@ -167,14 +175,23 @@ class AnswerService
         // 参数校验
         $p = [
             [
-                'checked_type'      => 'isset',
+                'checked_type'      => 'length',
                 'key_name'          => 'name',
-                'error_msg'         => '联系人有误',
+                'checked_data'      => '30',
+                'is_checked'        => 1,
+                'error_msg'         => '联系人最多30个字符',
             ],
             [
                 'checked_type'      => 'isset',
                 'key_name'          => 'tel',
                 'error_msg'         => '联系电话有误',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'title',
+                'checked_data'      => '60',
+                'is_checked'        => 1,
+                'error_msg'         => '标题最多60个字符',
             ],
             [
                 'checked_type'      => 'empty',
@@ -193,6 +210,7 @@ class AnswerService
             'user_id'       => isset($params['user']['id']) ? intval($params['user']['id']) : 0,
             'name'          => isset($params['name']) ? $params['name'] : '',
             'tel'           => isset($params['tel']) ? $params['tel'] : '',
+            'title'         => isset($params['title']) ? $params['title'] : '',
             'content'       => $params['content'],
             'add_time'      => time(),
         ];
@@ -315,9 +333,10 @@ class AnswerService
         }
         // 更新问答
         $data = [
-            'reply'     => $params['reply'],
-            'is_reply'  => 1,
-            'upd_time'  => time()
+            'reply'         => $params['reply'],
+            'is_reply'      => 1,
+            'reply_time'    => time(),
+            'upd_time'      => time()
         ];
         if(Db::name('Answer')->where($where)->update($data))
         {

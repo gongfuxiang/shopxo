@@ -338,7 +338,7 @@ class Service
         }
 
         // 字段
-        $field = empty($params['field']) ? 'id,name,content,reply,is_reply,add_time' : $params['field'];
+        $field = empty($params['field']) ? 'id,name,title,content,reply,is_reply,reply_time,add_time' : $params['field'];
 
         // 获取列表
         $data_params = array(
@@ -373,7 +373,7 @@ class Service
         ];
 
         // 字段
-        $field = 'content,reply,is_reply,add_time';
+        $field = 'title,content,reply,is_reply,reply_time,add_time';
 
         // 获取列表
         $data_params = array(

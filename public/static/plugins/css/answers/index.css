@@ -113,3 +113,16 @@
     box-shadow: none;
     -webkit-box-shadow: none;
 }
+.plugins-answers-detail .am-panel-warning {
+    background: #fff7ef;
+}
+.plugins-answers-detail .am-panel-success {
+    background: #f2fff1;
+}
+.plugins-answers-detail h2 {
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+.plugins-answers-detail .base .reply-content {
+    margin-top: 5px;
+}

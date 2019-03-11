@@ -61,7 +61,13 @@
               <ul class="am-list">
                 {{foreach $plugins_answers_rc_list as $answers}}
                   <li class="am-g am-list-item-dated">
-                    <a href="{{:PluginsHomeUrl('answers', 'index', 'detail', ['id'=>$answers['id']])}}" target="_blank" class="am-list-item-hd ">{{$answers.content}}</a>
+                    <a href="{{:PluginsHomeUrl('answers', 'index', 'detail', ['id'=>$answers['id']])}}" target="_blank" class="am-list-item-hd">
+                      {{if empty($answers['title'])}}
+                        {{$answers.content}}
+                      {{else /}}
+                        {{$answers.title}}
+                      {{/if}}
+                    </a>
                     <span class="am-list-date">{{$answers.add_time_date}}</span>
                   </li>
                 {{/foreach}}
@@ -98,7 +104,13 @@
           <ul class="am-list">
             {{foreach $plugins_answers_middle_answer_list as $answers}}
               <li class="am-g am-list-item-dated">
-                  <a href="{{:PluginsHomeUrl('answers', 'index', 'detail', ['id'=>$answers['id']])}}" target="_blank" class="am-list-item-hd ">{{$answers.content}}</a>
+                  <a href="{{:PluginsHomeUrl('answers', 'index', 'detail', ['id'=>$answers['id']])}}" target="_blank" class="am-list-item-hd">
+                    {{if empty($answers['title'])}}
+                      {{$answers.content}}
+                    {{else /}}
+                      {{$answers.title}}
+                    {{/if}}
+                  </a>
                   <span class="am-list-date">{{$answers.add_time_date}}</span>
               </li>
             {{/foreach}}
