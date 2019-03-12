@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 use app\service\PaymentService;
 use app\service\BuyService;
 use app\service\IntegralService;
@@ -578,6 +579,20 @@ class OrderService
             $order_pay_status = lang('common_order_pay_status');
             foreach($data as &$v)
             {
+                // 订单处理前钩子
+                $hook_name = 'plugins_service_order_handle_begin';
+                $ret = Hook::listen($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => &$params,
+                    'order'         => &$v,
+                    'order_id'      => $v['id']
+                ]);
+                if(isset($ret['code']) && $ret['code'] != 0)
+                {
+                    return $ret;
+                }
+
                 // 状态
                 $v['status_name'] = $order_status_list[$v['status']]['name'];
 
@@ -692,8 +707,23 @@ class OrderService
                     // 描述
                     $v['describe'] = '共'.$v['items_count'].'件 合计:￥'.$v['total_price'].'元';
                 }
+
+                // 订单处理后钩子
+                $hook_name = 'plugins_service_order_handle_end';
+                $ret = Hook::listen($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => &$params,
+                    'order'         => &$v,
+                    'order_id'      => $v['id']
+                ]);
+                if(isset($ret['code']) && $ret['code'] != 0)
+                {
+                    return $ret;
+                }
             }
         }
+
         return DataReturn('处理成功', 0, $data);
     }
 

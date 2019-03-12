@@ -1,0 +1,44 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content expressforkdn-content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('expressforkdn', 'admin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('expressforkdn', 'admin', 'index')}}" enctype="multipart/form-data">
+           <legend>
+                <span class="fs-16">快递鸟API接口</span>
+                <a href="{{:PluginsAdminUrl('expressforkdn', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+            </legend>
+
+            <div class="am-form-group">
+                <label>EBusinessID</label>
+                <input type="text" name="ebid" placeholder="商户ID" maxlength="16"  class="am-radius" value="{{if !empty($data['ebid'])}}{{$data.ebid}}{{/if}}" />
+            </div>
+
+            <div class="am-form-group">
+                <label class="block">AppKey</label>
+               <input type="text" name="appkey" placeholder="AppKey" maxlength="80"  class="am-radius" value="{{if !empty($data['appkey'])}}{{$data.appkey}}{{/if}}" />
+            </div>
+            <div class="am-form-group express-items">
+                <label class="block">快递代码<span class="am-form-group-label-tips"> 下面应对应快递代号 <a href='http://www.kdniao.com/file/2019%E5%BF%AB%E9%80%92%E9%B8%9F%E6%8E%A5%E5%8F%A3%E6%94%AF%E6%8C%81%E5%BF%AB%E9%80%92%E5%85%AC%E5%8F%B8%E7%BC%96%E7%A0%81.xlsx'>点击下载</a></span></label>
+                {{if !empty($express_list)}}
+                    {{foreach $express_list as $express}}
+                    	{{if $express.is_enable eq 1}}
+                    	<p>{{$express.name}} <input type="text" name="express_ids[{{$express.id}}]" placeholder="快递代号" class="am-radius" value="{{if !empty($data['express_ids'])}}{{$data.express_ids[$express.id]}}{{/if}}"/></p> 
+                    	
+                    	{{/if}}
+                    {{/foreach}}
+                {{/if}}
+            </div>
+            <div class="am-form-group am-form-group-refreshing">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

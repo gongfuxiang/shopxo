@@ -15,8 +15,40 @@
 	{{if !empty($module_css)}}
 		<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/{{$module_css}}" />
 	{{/if}}
+
+	<!-- css钩子 -->
+    {{if !empty($plugins_admin_css_data) and is_array($plugins_admin_css_data)}}
+        {{foreach $plugins_admin_css_data as $hook}}
+            {{if is_string($hook)}}
+                <link rel="stylesheet" type="text/css" href="{{$hook}}?v={{:MyC('home_static_cache_version')}}" />
+            {{elseif is_array($hook) /}}
+                {{foreach $hook as $hook_css}}
+                    {{if is_string($hook_css)}}
+                        <link rel="stylesheet" type="text/css" href="{{$hook_css}}?v={{:MyC('home_static_cache_version')}}" />
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+        {{/foreach}}
+    {{/if}}
+
+    <!-- 公共header内钩子 -->
+	{{if !empty($plugins_admin_common_header_data) and is_array($plugins_admin_common_header_data)}}
+		{{foreach $plugins_admin_common_header_data as $hook}}
+			{{if is_string($hook) or is_int($hook)}}
+				{{$hook|raw}}
+			{{/if}}
+		{{/foreach}}
+	{{/if}}
 </head>
 <script type="text/javascript">
 	var __attachment_host__ = '{{$attachment_host}}';
 </script>
 <body>
+<!-- 公共顶部钩子 -->
+{{if !empty($plugins_admin_view_common_top_data) and is_array($plugins_admin_view_common_top_data) and (!isset($is_header) or $is_header eq 1)}}
+	{{foreach $plugins_admin_view_common_top_data as $hook}}
+		{{if is_string($hook) or is_int($hook)}}
+			{{$hook|raw}}
+		{{/if}}
+	{{/foreach}}
+{{/if}}

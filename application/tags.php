@@ -59,6 +59,7 @@ return array (
   array (
     0 => 'app\\plugins\\commonrightnavigation\\Hook',
     1 => 'app\\plugins\\commononlineservice\\Hook',
+    2 => 'app\\plugins\\expressforkdn\\Hook',
   ),
   'plugins_service_goods_handle_end' => 
   array (
@@ -71,6 +72,30 @@ return array (
   'plugins_service_navigation_header_handle' => 
   array (
     0 => 'app\\plugins\\answers\\Hook',
+  ),
+  'plugins_admin_view_common_bottom' => 
+  array (
+    0 => 'app\\plugins\\expressforkdn\\Hook',
+  ),
+  'plugins_common_page_bottom' => 
+  array (
+    0 => 'app\\plugins\\expressforkdn\\Hook',
+  ),
+  'plugins_admin_common_page_bottom' => 
+  array (
+    0 => 'app\\plugins\\expressforkdn\\Hook',
+  ),
+  'plugins_common_header' => 
+  array (
+    0 => 'app\\plugins\\expressforkdn\\Hook',
+  ),
+  'plugins_admin_common_header' => 
+  array (
+    0 => 'app\\plugins\\expressforkdn\\Hook',
+  ),
+  'plugins_service_order_handle_begin' => 
+  array (
+    0 => 'app\\plugins\\expressforkdn\\Hook',
   ),
 );
 ?>

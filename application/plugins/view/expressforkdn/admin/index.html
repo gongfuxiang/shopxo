@@ -1,0 +1,54 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">快递鸟API接口</span>
+            <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+
+        <div class="expressforkdn-content">
+            <div class="items">
+                <label>EBusinessID</label>
+                <div>
+                    {{if empty($data['ebid'])}}
+                        未填写
+                    {{else /}}
+                        {{$data.ebid}}
+                    {{/if}}
+                </div>
+            </div>
+            <div class="items">
+                <label>AppKey</label>
+                <div>
+                    {{if empty($data['appkey'])}}
+                        未填写
+                    {{else /}}
+                        {{$data.appkey}}
+                    {{/if}}
+                </div>
+            </div>
+         	<div class="am-form-group">
+                <label>快递对应代码</label>
+                <div class="express-items">
+                    {{if !empty($express_list)}}
+                    {{foreach $express_list as $express}}
+                    	{{if $express.is_enable eq 1}}
+                    		<p>{{$express.name}} {{if !empty($data['express_ids'][$express['id']])}}({{$data.express_ids[$express.id]}}){{/if}}</p> 
+                    	{{/if}}
+                    {{/foreach}}
+                    {{/if}}
+                </div>
+			 </div>
+           
+
+            <a href="{{:PluginsAdminUrl('expressforkdn', 'admin', 'saveinfo')}}" class="am-btn am-btn-secondary am-radius btn-loading-example am-btn-sm am-btn-block edit-submit">编辑</a>
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
