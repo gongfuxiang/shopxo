@@ -85,7 +85,7 @@ class Hook extends Controller
                 	$(".plugins-expressforkdn-submit").on("click", function()
                 	{
 						$.ajax({
-							url:"'.PluginsAdminUrl('expressforkdn', 'hook', 'getexpinfo').'",
+							url:"'.PluginsHomeUrl('expressforkdn', 'hook', 'getexpinfo').'",
 							type:"POST",
 							dataType:"json",
 							data: {express_id: $(this).data("exp-id"), express_number: $(this).data("exp-num")},
