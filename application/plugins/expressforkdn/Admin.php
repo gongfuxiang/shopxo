@@ -3,7 +3,6 @@ namespace app\plugins\expressforkdn;
 
 use think\Controller;
 use app\service\PluginsService;
-use think\facade\Hook;
 use app\service\ExpressService;
 
 /**
