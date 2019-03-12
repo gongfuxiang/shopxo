@@ -137,6 +137,11 @@ ul.progress li.current .title {
 .order-base .logistics {
     margin-top: 10px;
 }
+.order-base .am-btn-block {
+    width: auto;
+    padding-left: 1em;
+    padding-right: 1em;
+}
 @media only screen and (min-width: 641px) {
     .order-base .base-left, .order-base .base-right {
         width: 50%;
