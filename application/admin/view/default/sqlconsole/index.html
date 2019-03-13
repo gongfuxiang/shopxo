@@ -11,7 +11,7 @@
         <!-- form start -->
         <form class="am-form form-validation view-save" action="{{:MyUrl('admin/sqlconsole/implement')}}" method="POST" request-type="ajax-fun" request-value="ViewImplementBack">
             <div class="am-form-group">
-                <textarea rows="6" name="sql" class="am-radius" placeholder="SQL语句" data-validation-message="请填写需要执行的SQL语句" required>{{if !empty($data)}}{{$data.sql}}{{/if}}</textarea>
+                <textarea rows="6" name="sql" class="am-radius" placeholder="SQL语句" data-validation-message="请填写需要执行的SQL语句" required></textarea>
             </div>
             <div class="am-form-group am-form-group-refreshing">
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">执行</button>

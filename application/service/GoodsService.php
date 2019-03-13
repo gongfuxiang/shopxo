@@ -680,7 +680,7 @@ class GoodsService
     {
         if(!empty($params['goods_id']))
         {
-            return Db::name('Goods')->where(array('id'=>intval($params['goods_id'])))->setInc('access_count');
+            return Db::name('Goods')->where(['id'=>intval($params['goods_id'])])->setInc('access_count');
         }
         return false;
     }

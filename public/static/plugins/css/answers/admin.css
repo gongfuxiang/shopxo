@@ -36,7 +36,7 @@
 /**
  * 编辑页面
  */
-ul.plugins-images-view li {
+ul.plugins-images-view li, ul.plugins-images-bottom-view li {
     width: 100%;
     height: auto;
 }

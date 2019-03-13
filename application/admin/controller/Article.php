@@ -110,6 +110,7 @@ class Article extends Common
         $params = input();
 
         // 数据
+        $data = [];
         if(!empty($params['id']))
         {
             // 获取列表
@@ -119,9 +120,10 @@ class Article extends Common
                 'where' => ['a.id'=>intval($params['id'])],
                 'field' => 'a.*',
             );
-            $data = ArticleService::ArticleList($data_params);
-            $this->assign('data', empty($data['data'][0]) ? [] : $data['data'][0]);
+            $ret = ArticleService::ArticleList($data_params);
+            $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
         }
+        $this->assign('data', $data);
 
 		// 是否启用
 		$this->assign('common_is_enable_list', lang('common_is_enable_list'));

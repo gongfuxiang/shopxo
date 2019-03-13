@@ -13,7 +13,7 @@
 {{include file="public/goods_category" /}}
 
 <!-- content start -->
-<div class="am-g am-container plugins-answers plugins-answers-detail">
+<div class="am-g am-container plugins-answers plugins-answers-search">
   <!-- 详情 -->
   <div class="am-u-md-8">
     {{if !empty($plugins_answers_data_list)}}
@@ -23,6 +23,11 @@
             {{foreach $plugins_answers_data_list as $answers}}
               <li class="am-g am-list-item-dated">
                 <a href="{{:PluginsHomeUrl('answers', 'index', 'detail', ['id'=>$answers['id']])}}" target="_blank" class="am-list-item-hd">
+                  {{if isset($answers['is_reply']) and $answers['is_reply'] eq 1}}
+                    <span class="am-badge am-radius am-badge-success">已回复</span>
+                  {{else /}}
+                    <span class="am-badge am-radius">待回复</span>
+                  {{/if}}
                   {{if empty($answers['title'])}}
                     {{$answers.content}}
                   {{else /}}
@@ -98,6 +103,9 @@
                 <a href="{{$goods.goods_url}}" target="_blank">
                   <img src="{{$goods.images}}"  alt="{{$goods.title}}"/>
                   <h3 class="am-gallery-title">{{$goods.title}}</h3>
+                  <div class="price">
+                    <strong>￥{{$goods.min_price}}</strong>
+                  </div>
                 </a>
               </div>
             </li>

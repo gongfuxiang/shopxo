@@ -15,6 +15,7 @@ use app\service\PluginsService;
 use app\service\AnswerService;
 use app\service\UserService;
 use app\service\SeoService;
+use app\service\GoodsService;
 use app\plugins\answers\Service;
 
 /**
@@ -66,6 +67,13 @@ class Index extends Controller
             $this->assign('plugins_answers_rc_list', []);
         }
 
+        // 最新商品
+        if(!empty($base['data']['home_new_goods_number']))
+        {
+            $goods = GoodsService::GoodsList(['where'=>['is_delete_time'=>0], 'field'=>'id,title,images,min_price', 'n'=>intval($base['data']['home_new_goods_number'])]);
+            $this->assign('plugins_new_goods_list', $goods['data']);
+        }
+
         // 浏览器标题
         $seo_name = empty($base['data']['application_name']) ? '问答' : $base['data']['application_name'];
         $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle($seo_name, 1));
@@ -104,6 +112,12 @@ class Index extends Controller
         // 获取问答数据
         $detail = Service::AnswerRow($params);
         $this->assign('plugins_answers_detail', $detail);
+
+        // 浏览次数
+        if($detail['code'] == 0 && !empty($detail['data']['id']))
+        {
+            AnswerService::AnswerAccessCountInc(['answer_id'=>$detail['data']['id']]);
+        }
 
         // 浏览器标题
         if(!empty($detail['data']['title']))
@@ -152,7 +166,7 @@ class Index extends Controller
 
             // 获取搜索数据
             // 分页
-            $number = 10;
+            $number = isset($base['data']['search_page_number']) ? intval($base['data']['search_page_number']) : 28;
 
             // 条件
             $keywords_arr = empty($params['answers_keywords']) ? [] : ['keywords'=>$params['answers_keywords']];
@@ -177,7 +191,7 @@ class Index extends Controller
                 'm'         => $page->GetPageStarNumber(),
                 'n'         => $number,
                 'where'     => $where,
-                'field'     => 'id,title,content,add_time',
+                'field'     => 'id,title,content,add_time,is_reply',
             );
             $data = AnswerService::AnswerList($data_params);
             $this->assign('plugins_answers_data_list', $data['data']);

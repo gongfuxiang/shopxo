@@ -72,10 +72,41 @@
                     </div>
 
                     <div class="items">
+                        <label>搜索问答展示数量</label>
+                        <div>
+                            {{if empty($data['search_page_number'])}}
+                                默认 28 条
+                            {{else /}}
+                                {{$data.search_page_number}} 条
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class="items">
+                        <label>首页开启最新商品展示</label>
+                        <div>
+                            {{if empty($data['home_new_goods_number'])}}
+                                不展示
+                            {{else /}}
+                                {{$data.home_new_goods_number}} 条
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class="items">
                         <label>中间横幅</label>
                         <div class="immages-tag">
                             <a href="{{if empty($data['url'])}}javascript:;{{else /}}{{$data.url}}{{/if}}" {{if isset($data['is_new_window_open']) and $data['is_new_window_open'] eq 1}} target="_blank"{{/if}}>
                                 <img src="{{if !empty($data['images'])}}{{$data.images}}{{else /}}{{$attachment_host}}/static/plugins/images/answers/default-images.png{{/if}}" />
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="items">
+                        <label>底部横幅</label>
+                        <div class="immages-tag">
+                            <a href="{{if empty($data['url_bottom'])}}javascript:;{{else /}}{{$data.url_bottom}}{{/if}}" {{if isset($data['is_new_window_open_bottom']) and $data['is_new_window_open_bottom'] eq 1}} target="_blank"{{/if}}>
+                                <img src="{{if !empty($data['images_bottom'])}}{{$data.images_bottom}}{{else /}}{{$attachment_host}}/static/plugins/images/answers/default-images.png{{/if}}" />
                             </a>
                         </div>
                     </div>

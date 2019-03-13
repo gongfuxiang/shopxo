@@ -109,6 +109,7 @@ class AppHomeNav extends Common
         $params = input();
 
         // 数据
+        $data = [];
         if(!empty($params['id']))
         {
             // 获取列表
@@ -118,9 +119,10 @@ class AppHomeNav extends Common
                 'where' => ['id'=>intval($params['id'])],
                 'field' => '*',
             );
-            $data = AppNavService::AppHomeNavList($data_params);
-            $this->assign('data', empty($data['data'][0]) ? [] : $data['data'][0]);
+            $ret = AppNavService::AppHomeNavList($data_params);
+            $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
         }
+        $this->assign('data', $data);
 
         // 所属平台
         $this->assign('common_platform_type', lang('common_platform_type'));

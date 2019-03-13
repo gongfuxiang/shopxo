@@ -107,6 +107,7 @@ class Goods extends Common
 		$params = input();
 
 		// 商品信息
+		$data = [];
 		if(!empty($params['id']))
 		{
 			$data_params = [
@@ -122,12 +123,13 @@ class Goods extends Common
 			{
 				return $this->error('商品信息不存在', MyUrl('admin/goods/index'));
 			}
-			$this->assign('data', $ret['data'][0]);
+			$data = $ret['data'][0];
 
 			// 获取商品编辑规格
 			$specifications = GoodsService::GoodsEditSpecifications($ret['data'][0]['id']);
 			$this->assign('specifications', $specifications);
 		}
+		$this->assign('data', $data);
 
 		// 地区信息
 		$this->assign('region_province_list', RegionService::RegionItems(['pid'=>0]));

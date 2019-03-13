@@ -131,6 +131,7 @@ class User extends Common
 		$params = input();
 
 		// 用户编辑
+		$data = [];
 		if(!empty($params['id']))
 		{
 			$data_params = [
@@ -138,14 +139,18 @@ class User extends Common
 				'm'			=> 0,
 				'n'			=> 1,
 			];
-			$data = UserService::UserList($data_params);
-			if(empty($data['data'][0]))
+			$ret = UserService::UserList($data_params);
+			if(empty($ret['data'][0]))
 			{
 				return $this->error('用户信息不存在', MyUrl('admin/user/index'));
 			}
-			$data['data'][0]['birthday_text'] = empty($data['data'][0]['birthday']) ? '' : date('Y-m-d', $data['data'][0]['birthday']);
-			$this->assign('data', $data['data'][0]);
+
+			// 生日
+			$ret['data'][0]['birthday_text'] = empty($ret['data'][0]['birthday']) ? '' : date('Y-m-d', $ret['data'][0]['birthday']);
+			
+			$data = $ret['data'][0];
 		}
+		$this->assign('data', $data);
 
 		// 性别
 		$this->assign('common_gender_list', lang('common_gender_list'));

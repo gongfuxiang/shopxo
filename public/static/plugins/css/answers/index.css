@@ -3,6 +3,9 @@
     padding-top: 10px;
     padding-bottom: 2px;
 }
+.plugins-answers .answers-goods {
+    overflow: hidden;
+}
 .plugins-answers .answers-goods .am-list-news-hd {
     padding-bottom: 0;
 }
@@ -47,6 +50,12 @@
 .plugins-answers .am-gallery-bordered .am-gallery-title {
     font-size: 12px;
 }
+.plugins-answers .answers-top, .plugins-answers .answers-middle {
+    overflow: hidden;
+}
+.plugins-answers .answers-top, .plugins-answers .answers-middle-banner {
+    margin-top: 10px;
+}
 
 @media only screen and (min-width:640px) {
     .plugins-answers .am-u-md-8, .plugins-answers .am-gallery {
@@ -64,10 +73,7 @@
         color: #d2364c;
         text-decoration: underline;
     }
-    .plugins-answers .answers-top, .plugins-answers .answers-middle-banner {
-        margin-top: 10px;
-        overflow: hidden;
-    }
+    
     .plugins-answers .answers-sidebar, .plugins-answers .answers-goods {
         padding-right: 1px;
     }
@@ -101,23 +107,30 @@
     .plugins-answers .am-list-news-hd {
         padding-bottom: 5px;
     }
+    .plugins-answers .answers-top {
+        margin-top: 0;
+    }
 }
 
 /**
  * 详情
  */
-.plugins-answers-detail {
+.plugins-answers-detail, .plugins-answers-search {
     padding-top: 10px;
 }
-.plugins-answers-detail .base-content {
-    border: 1px dashed transparent;
-    background: linear-gradient(white,white) padding-box,
-    repeating-linear-gradient(-45deg, #ccc 0, #ccc 0.25em, white 0, white 0.6em);
+.plugins-answers-detail .am-u-md-8 {
+    border: 1px solid #dedede;
+}
+.plugins-answers-detail .base-content, .plugins-answers-detail .base-footer {
     padding: 10px;
 }
-.plugins-answers-detail .base-date {
+.plugins-answers-detail .base-content {
+    border-top: 1px solid #dedede;
+}
+.plugins-answers-detail .base-footer {
     text-align: right;
-    margin-top: 5px;
+    border-top: 1px dashed #e7e7e7;
+    border-bottom: 1px dashed #e7e7e7;
 }
 .plugins-answers-detail .base {
     margin-top: 10px;
@@ -128,13 +141,38 @@
     background: #fff7ef;
 }
 .plugins-answers-detail .am-panel-success {
-    background: #f2fff1;
+    background: #e7ffe5;
+}
+.plugins-answers-detail .am-panel {
+    margin: 0;
+    border: 0;
+}
+.plugins-answers-detail .base-title {
+    position: relative;
+    height: 45px;
+    padding: 10px;
+    background: #f6f6f6;
+}
+.plugins-answers-detail .base-title .highlighted {
+    color: #FF9800;
 }
 .plugins-answers-detail h2 {
     font-weight: 500;
-    margin-bottom: 5px;
     font-size: 16px;
+}
+.plugins-answers-detail .base-title .gray-text {
+    position: absolute;
+    right: 10px;
+    top: 15px;
 }
 .plugins-answers-detail .base .reply-content {
     margin-top: 5px;
+}
+.plugins-answers-detail .reply-footer {
+    border-bottom: 0;
+}
+@media only screen and (max-width:640px) {
+    .plugins-answers-detail .answers-btn-list {
+        margin-top: 10px;
+    }
 }

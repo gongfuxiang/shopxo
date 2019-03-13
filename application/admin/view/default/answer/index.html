@@ -48,6 +48,7 @@
 					<th>标题</th>
 					<th class="am-hide-sm-only">内容</th>
 					<th class="am-hide-sm-only">回复内容</th>
+					<th class="am-hide-sm-only">访问次数</th>
 					<th class="am-hide-sm-only">回复时间</th>
 					<th class="am-hide-sm-only">创建时间</th>
 					<th>是否显示</th>
@@ -98,6 +99,7 @@
                                     <span class="cr-ddd">未回复</span>
                                 {{/if}}
 							</td>
+							<td class="am-hide-sm-only">{{$v.access_count}}</td>
 							<td class="am-hide-sm-only">{{$v.reply_time}}</td>
 							<td class="am-hide-sm-only">{{$v.add_time}}</td>
 							<td>

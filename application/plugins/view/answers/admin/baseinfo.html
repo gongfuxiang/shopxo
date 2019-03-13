@@ -20,7 +20,7 @@
                 <ul class="plug-file-upload-view plugins-images-view" data-form-name="images" data-max-number="1" data-dialog-type="images">
                     {{if !empty($data['images_old'])}}
                         <li>
-                            <input type="text" name="images" value="{{$data.images_old}}" data-validation-message="请上传图片" required />
+                            <input type="text" name="images" value="{{$data.images_old}}" data-validation-message="请上中间横幅传图片" required />
                             <img src="{{$data.images}}" />
                             <i>×</i>
                         </li>
@@ -28,18 +28,44 @@
                 </ul>
                 <div class="plug-file-upload-submit" data-view-tag="ul.plugins-images-view">+上传图片</div>
             </div>
-
             <div class="am-form-group">
-                <label>链接地址<span class="am-form-group-label-tips">带http://或https://</span></label>
+                <label>中间横幅-链接地址<span class="am-form-group-label-tips">带http://或https://</span></label>
                 <input type="url" placeholder="链接地址" name="url"  data-validation-message="链接地址格式有误" class="am-radius" {{if !empty($data['url'])}} value="{{$data.url}}"{{/if}} />
             </div>
-
             <div class="am-form-group">
-                <label>是否新窗口打开</label>
+                <label>中间横幅-是否新窗口打开</label>
                 <div>
                     {{foreach $is_whether_list as $v}}
                         <label class="am-radio-inline m-r-10">
                             <input type="radio" name="is_new_window_open" value="{{$v.id}}" {{if isset($data['is_new_window_open']) and $data['is_new_window_open'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_new_window_open']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+            </div>
+
+            <div class="am-form-group am-form-file">
+                <label class="block">底部横幅<span class="am-form-group-label-tips">建议1200像数X80像数</span></label>
+                <ul class="plug-file-upload-view plugins-images-bottom-view" data-form-name="images_bottom" data-max-number="1" data-dialog-type="images">
+                    {{if !empty($data['images_bottom_old'])}}
+                        <li>
+                            <input type="text" name="images_bottom" value="{{$data.images_bottom_old}}" data-validation-message="请上传底部横幅图片" required />
+                            <img src="{{$data.images_bottom}}" />
+                            <i>×</i>
+                        </li>
+                    {{/if}}
+                </ul>
+                <div class="plug-file-upload-submit" data-view-tag="ul.plugins-images-bottom-view">+上传图片</div>
+            </div>
+            <div class="am-form-group">
+                <label>底部横幅-链接地址<span class="am-form-group-label-tips">带http://或https://</span></label>
+                <input type="url" placeholder="链接地址" name="url_bottom"  data-validation-message="链接地址格式有误" class="am-radius" {{if !empty($data['url_bottom'])}} value="{{$data.url_bottom}}"{{/if}} />
+            </div>
+            <div class="am-form-group">
+                <label>底部横幅-是否新窗口打开</label>
+                <div>
+                    {{foreach $is_whether_list as $v}}
+                        <label class="am-radio-inline m-r-10">
+                            <input type="radio" name="is_new_window_open_bottom" value="{{$v.id}}" {{if isset($data['is_new_window_open_bottom']) and $data['is_new_window_open_bottom'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_new_window_open_bottom']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
                         </label>
                     {{/foreach}}
                 </div>
@@ -62,7 +88,17 @@
 
             <div class="am-form-group">
                 <label>最新问答展示数量<span class="am-form-group-label-tips">默认 15 条</span></label>
-                <input type="number" name="middle_new_page_number" placeholder="右侧推荐商品名称" maxlength="30" data-validation-message="请填写最新问答展示数量" class="am-radius" value="{{if !empty($data['middle_new_page_number'])}}{{$data.middle_new_page_number}}{{else /}}15{{/if}}" />
+                <input type="number" name="middle_new_page_number" placeholder="最新问答展示数量" maxlength="30" data-validation-message="请填写最新问答展示数量" class="am-radius" value="{{if !empty($data['middle_new_page_number'])}}{{$data.middle_new_page_number}}{{else /}}15{{/if}}" />
+            </div>
+
+            <div class="am-form-group">
+                <label>搜索问答展示数量<span class="am-form-group-label-tips">默认 28 条</span></label>
+                <input type="number" name="search_page_number" placeholder="搜索问答展示数量" maxlength="30" data-validation-message="请填写搜索问答展示数量数量" class="am-radius" value="{{if !empty($data['search_page_number'])}}{{$data.search_page_number}}{{else /}}28{{/if}}" />
+            </div>
+
+            <div class="am-form-group">
+                <label>首页开启最新商品展示<span class="am-form-group-label-tips">空则不展示</span></label>
+                <input type="number" name="home_new_goods_number" placeholder="首页开启最新商品展示" maxlength="30" data-validation-message="请填写首页开启最新商品展示数量" class="am-radius" value="{{if !empty($data['home_new_goods_number'])}}{{$data.home_new_goods_number}}{{/if}}" />
             </div>
 
             <label>右侧推荐问答</label>

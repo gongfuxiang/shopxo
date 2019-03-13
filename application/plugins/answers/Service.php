@@ -302,7 +302,7 @@ class Service
         ];
 
         // 指定字段
-        $field = 'g.id,g.title,g.images';
+        $field = 'g.id,g.title,g.images,g.min_price';
 
         // 获取数据
         $ret = GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>0, 'n'=>100, 'field'=>$field]);
@@ -387,7 +387,7 @@ class Service
         ];
 
         // 字段
-        $field = 'title,content,reply,is_reply,reply_time,add_time';
+        $field = 'id,name,title,content,reply,is_reply,access_count,reply_time,add_time';
 
         // 获取列表
         $data_params = array(

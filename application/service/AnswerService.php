@@ -382,5 +382,23 @@ class AnswerService
         }
         return DataReturn('编辑失败或数据未改变', -100);
     }
+
+    /**
+     * 访问统计加1
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-15
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function AnswerAccessCountInc($params = [])
+    {
+        if(!empty($params['answer_id']))
+        {
+            return Db::name('Answer')->where(['id'=>intval($params['answer_id'])])->setInc('access_count');
+        }
+        return false;
+    }
 }
 ?>

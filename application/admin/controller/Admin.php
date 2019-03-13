@@ -117,6 +117,7 @@ class Admin extends Common
 		}
 
 		// 管理员编辑
+		$data = [];
 		if(!empty($params['id']))
 		{
 			$data_params = [
@@ -124,13 +125,14 @@ class Admin extends Common
 				'm'			=> 0,
 				'n'			=> 1,
 			];
-			$data = AdminService::AdminList($data_params);
-			if(empty($data[0]))
+			$ret = AdminService::AdminList($data_params);
+			if(empty($ret[0]))
 			{
 				return $this->error('管理员信息不存在', MyUrl('admin/index/index'));
 			}
-			$this->assign('data', $data[0]);
+			$data = $ret[0];
 		}
+		$this->assign('data', $data);
 
 		// 角色
 		$role_params = [

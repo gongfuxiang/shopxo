@@ -107,6 +107,7 @@ class Brand extends Common
         $params = input();
 
         // 数据
+        $data = [];
         if(!empty($params['id']))
         {
             // 获取列表
@@ -116,9 +117,10 @@ class Brand extends Common
                 'where' => ['id'=>intval($params['id'])],
                 'field' => '*',
             );
-            $data = BrandService::BrandList($data_params);
-            $this->assign('data', empty($data['data'][0]) ? [] : $data['data'][0]);
+            $ret = BrandService::BrandList($data_params);
+            $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
         }
+        $this->assign('data', $data);
 
         // 是否启用
         $this->assign('common_is_enable_list', lang('common_is_enable_list'));

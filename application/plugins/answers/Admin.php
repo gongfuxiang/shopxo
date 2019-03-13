@@ -35,7 +35,7 @@ class Admin extends Controller
     public function index($params = [])
     {
         // 基础数据
-        $base = PluginsService::PluginsData('answers', ['images']);
+        $base = PluginsService::PluginsData('answers', ['images', 'images_bottom']);
         $this->assign('data', isset($base['data']) ? $base['data'] : []);
 
         // 幻灯片
@@ -62,7 +62,7 @@ class Admin extends Controller
      */
     public function baseinfo($params = [])
     {
-        $ret = PluginsService::PluginsData('answers', ['images']);
+        $ret = PluginsService::PluginsData('answers', ['images', 'images_bottom']);
         if($ret['code'] == 0)
         {
             // 是否
@@ -99,7 +99,7 @@ class Admin extends Controller
      */
     public function basesave($params = [])
     {
-        return PluginsService::PluginsDataSave(['plugins'=>'answers', 'data'=>$params], ['images']);
+        return PluginsService::PluginsDataSave(['plugins'=>'answers', 'data'=>$params], ['images', 'images_bottom']);
     }
 
     /**
