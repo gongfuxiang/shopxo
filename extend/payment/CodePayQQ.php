@@ -49,7 +49,7 @@ class CodePayQQ
     {
         // 基础信息
         $base = [
-            'name'          => '码支付-微信',  // 插件名称
+            'name'          => '码支付-QQ',  // 插件名称
             'version'       => '0.0.1',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'apply_terminal'=> ['pc','h5'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
