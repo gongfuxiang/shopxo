@@ -11,14 +11,14 @@
 namespace payment;
 
 /**
- * 码支付
+ * 码支付-微信
  * @author   Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
  * @date    2018-09-19
  * @desc    description
  */
-class CodePay
+class CodePayWeixin
 {
     // 插件配置参数
     private $config;
@@ -49,7 +49,7 @@ class CodePay
     {
         // 基础信息
         $base = [
-            'name'          => '码支付',  // 插件名称
+            'name'          => '码支付-微信',  // 插件名称
             'version'       => '0.0.1',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'apply_terminal'=> ['pc','h5'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
@@ -114,7 +114,7 @@ class CodePay
         // 处理支付
         $parameter = array(
             'id'            => $this->config['id'],
-            'type'          => 1,
+            'type'          => 3,
             'notify_url'    => $params['notify_url'],
             'return_url'    => $params['call_back_url'],
 
