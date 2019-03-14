@@ -42,7 +42,6 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .theme-signin-left .sku-line.selected{background:#d2364c;color: #fff; border: 1px solid #d2364c;}
 .sku-line-images { padding:3px !important; }
 .sku-line-images img { width: 30px; height: 30px; }
-
 .theme-signin .btn{width:100%;font-size: 16px;padding:5px ;}
 .btn-op{position:fixed;left:0;bottom: 0;width:100%; z-index: 3;}
 .iteminfo_parameter dt.buy-event {text-align: left;width:100% ;}
@@ -53,8 +52,8 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .am-sticky-placeholder .am-nav-tabs > li.am-active span { color: #333; }
 .buy-nav-opt span { font-size: 12px; color: #555; }
 .attr-not-active { border: 1px solid #f03726 !important; box-shadow: 0 0px 3px #ed7f76, 0 0 6px rgba(0, 0, 0, 0); }
-.sku-items-disabled { color: #d2cfcf !important; background-color: #ffffff !important; border: 1px dashed #d5d5d5 !important; }
-.sku-dont-choose { color: #b4b3b3 !important; background-color: #ffffff !important; border: 1px solid #ebeaea !important; }
+.sku-items-disabled { color: #d2cfcf !important; background-color: #ffffff !important; border: 1px dashed #d5d5d5 !important; box-shadow: none !important; }
+.sku-dont-choose { color: #b4b3b3 !important; background-color: #ffffff !important; border: 1px solid #ebeaea !important; box-shadow: none !important; }
 .sku-dont-choose img { opacity: 0.5; }
 .sku-items-disabled img{ opacity: 0.3; }
 
@@ -75,7 +74,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
     .theme-options ul{float: left;}
 
     .theme-signin-left .sku-line {background: none;border-radius:0 ;margin:5px;padding:0px 8px;border:1px solid #d5d5d5 ;color:#333; background-color: #f5f5f5; }
-    .theme-signin-left .sku-line.selected {background:none;color:#333;border: 1px solid #e23f36; box-shadow: 0px 0 0px 1px #e23f36; }
+    .theme-signin-left .sku-line.selected, .theme-signin-left .sku-line:hover  {background:none;color:#333;border: 1px solid #e23f36; box-shadow: 0px 0 0px 1px #e23f36; }
 
     /*选中样式*/
     .sku-line{position: relative;}
@@ -200,7 +199,7 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 .iteminfo_parameter.munber,.iteminfo_parameter.freight{display:none ;}
 .iteminfo_parameter.munber dd{margin-left:5px ;}
 #min, #add{ width: 35px; height: 25px; outline:none; line-height: 23px; padding: 0; cursor: pointer; }
-#text_box { width: 60px; height: 25px; text-align: center; font-size: 16px !important; }
+#text_box { width: 60px; height: 25px; text-align: center; font-size: 12px !important; }
 .theme-popover .am-input-group { display: inline-flex; }
 
 
