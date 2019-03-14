@@ -225,6 +225,12 @@ function MyUrl($path, $params=[])
         $url = str_replace('public/', '', $url);
     }
 
+    // tpurl方法是否识别到https
+    if(__MY_HTTP__ == 'https' && substr($url, 0, 5) != 'https')
+    {
+        $url = 'https'.mb_substr($url, 4, null, 'utf-8');
+    }
+
     return $url;
 }
 
