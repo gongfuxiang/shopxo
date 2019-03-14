@@ -52,7 +52,7 @@ class User extends Common
         $referer_url = empty($_SERVER['HTTP_REFERER']) ? MyUrl('index/user/index') : $_SERVER['HTTP_REFERER'];
         if(!empty($_SERVER['HTTP_REFERER']))
         {
-            $all = ['logininfo', 'reginfo', 'smsreginfo', 'emailreginfo', 'forgetpwdinfo'];
+            $all = ['login', 'regster', 'forget', 'logininfo', 'reginfo', 'smsreginfo', 'emailreginfo', 'forgetpwdinfo'];
             foreach($all as $v)
             {
                 if(strpos($_SERVER['HTTP_REFERER'], $v) !== false)
