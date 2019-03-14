@@ -6,6 +6,10 @@
 .plugins-answers .answers-goods {
     overflow: hidden;
 }
+.plugins-answers .answers-goods ul.am-gallery {
+    width: calc(100% + 10px);
+    margin-left: -5px;
+}
 .plugins-answers .answers-goods .am-list-news-hd {
     padding-bottom: 0;
 }
@@ -16,12 +20,6 @@
 }
 .plugins-answers .answers-middle-banner img {
     width: 100%;
-}
-.plugins-answers .answers-goods .am-gallery-bordered > li:nth-of-type(2n + 1) {
-    padding-left: 0;
-}
-.plugins-answers .answers-goods .am-gallery-bordered > li:nth-of-type(2n + 2) {
-    padding-right: 0;
 }
 .plugins-answers .am-slider-c3 .am-slider-counter {
     background-color: #d13a49;
