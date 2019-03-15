@@ -11,6 +11,7 @@
 namespace app\index\controller;
 
 use app\service\UserService;
+use app\service\NavigationService;
 
 /**
  * 个人资料
@@ -46,7 +47,7 @@ class Personal extends Common
 	 */
 	public function Index()
 	{
-		$this->assign('personal_show_list', lang('personal_show_list'));
+		$this->assign('personal_show_list', NavigationService::UsersPersonalShowFieldList());
 		return $this->fetch();
 	}
 

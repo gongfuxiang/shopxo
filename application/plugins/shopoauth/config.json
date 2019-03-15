@@ -1,0 +1,32 @@
+{
+    "base":{
+        "plugins":"shopoauth",
+        "name":"第三方账号登陆",
+        "logo":"\/static\/upload\/images\/plugins_shopoauth\/2019\/03\/13\/1552472848865750.png",
+        "author":"guoguo",
+        "author_url":"http:\/\/gadmin.cojz8.com",
+        "version":"1.0.0",
+        "desc":"第三方账号登陆",
+        "apply_terminal":[
+            "pc"
+        ],
+        "apply_version":[
+            "1.4.0"
+        ],
+        "is_home":false
+    },
+    "hook":{
+        "plugins_common_header":[
+            "app\\plugins\\shopoauth\\Hook"
+        ],
+        "plugins_service_user_login_end":[
+            "app\\plugins\\shopoauth\\Hook"
+        ],
+        "plugins_service_header_navigation_top_left":[
+            "app\\plugins\\shopoauth\\Hook"
+        ],
+        "plugins_service_users_personal_show_field_list_handle":[
+            "app\\plugins\\shopoauth\\Hook"
+        ]
+    }
+}

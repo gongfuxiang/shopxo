@@ -16,6 +16,7 @@ use app\service\GoodsService;
 use app\service\UserService;
 use app\service\BuyService;
 use app\service\SeoService;
+use app\service\MessageService;
 
 /**
  * 用户
@@ -92,6 +93,11 @@ class User extends Common
         // 用户订单状态
         $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
         $this->assign('user_order_status', $user_order_status['data']);
+
+        // 未读消息总数
+        $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0, 'user_type'=>'user'];
+        $common_message_total = MessageService::UserMessageTotal($params);
+        $this->assign('common_message_total', ($common_message_total > 99) ? '99+' : $common_message_total);
 
         // 获取进行中的订单列表
         $params = array_merge($_POST, $_GET);

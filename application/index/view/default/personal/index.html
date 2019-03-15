@@ -28,16 +28,20 @@
 			</legend>
 			<dl class="dl-content">
 				{{foreach $personal_show_list as $k=>$v}}
-					{{if isset($user[$k])}}
+					{{if isset($user[$k]) or (isset($v['is_ext']) and $v['is_ext'] eq 1)}}
 						<dt>{{$v.name}}</dt>
 						<dd>
-							{{if empty($user[$k])}}
-								<span class="items-value-empty">未填写</span>
-							{{elseif $k eq 'avatar' /}}
-                                <img src="{{$user[$k]}}" width="50" height="50" />
+                            {{if isset($v['is_ext']) and $v['is_ext'] eq 1}}
+                                {{$v.value}}
                             {{else /}}
-								{{$user[$k]}}
-							{{/if}}
+    							{{if empty($user[$k])}}
+    								<span class="items-value-empty">未填写</span>
+    							{{elseif $k eq 'avatar' /}}
+                                    <img src="{{$user[$k]}}" width="50" height="50" />
+                                {{else /}}
+    								{{$user[$k]}}
+    							{{/if}}
+                            {{/if}}
 							{{if !empty($v['tips'])}}
                                 {{if !empty($v['path'])}}
                                     <span class="span-edit">{{:str_replace('{path}', MyUrl($v['path']), $v['tips'])}}</span>

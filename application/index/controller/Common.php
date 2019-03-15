@@ -98,6 +98,9 @@ class Common extends Controller
 
         // 公共底部钩子
         $this->assign('plugins_view_common_bottom_data', Hook::listen('plugins_view_common_bottom', ['hook_name'=>'plugins_view_common_bottom', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 公共顶部小导航钩子-左侧
+        $this->assign('plugins_service_header_navigation_top_left_data', Hook::listen('plugins_service_header_navigation_top_left', ['hook_name'=>'plugins_service_header_navigation_top_left', 'is_backend'=>false, 'user'=>$this->user]));
     }
 
     /**
@@ -211,19 +214,10 @@ class Common extends Controller
         $this->assign('user', $this->user);
 
         // 用户中心菜单
-        $this->assign('user_left_menu', lang('user_left_menu'));
+        $this->assign('user_left_menu', NavigationService::UsersCenterLeftList());
 
         // 商品大分类
         $this->assign('goods_category_list', GoodsService::GoodsCategory());
-
-        // 购物车商品总数
-        $common_cart_total = BuyService::UserCartTotal(['user'=>$this->user]);
-        $this->assign('common_cart_total', ($common_cart_total > 99) ? '99+' : $common_cart_total);
-
-        // 未读消息总数
-        $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0, 'user_type'=>'user'];
-        $common_message_total = MessageService::UserMessageTotal($params);
-        $this->assign('common_message_total', ($common_message_total > 99) ? '99+' : $common_message_total);
 
         // 搜索框下热门关键字
         $home_search_keywords = [];
@@ -244,6 +238,9 @@ class Common extends Controller
 
         // 开发模式
         $this->assign('shopxo_is_develop', config('shopxo.is_develop'));
+
+        // 顶部右侧导航
+        $this->assign('common_nav_top_right_list', NavigationService::HomeHavTopRight(['user'=>$this->user]));
     }
 
     /**

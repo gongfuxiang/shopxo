@@ -44,6 +44,7 @@ return array (
   'plugins_service_user_login_end' => 
   array (
     0 => 'app\\plugins\\userloginrewardintegral\\Hook',
+    1 => 'app\\plugins\\shopoauth\\Hook',
   ),
   'plugins_css' => 
   array (
@@ -88,6 +89,7 @@ return array (
   'plugins_common_header' => 
   array (
     0 => 'app\\plugins\\expressforkdn\\Hook',
+    1 => 'app\\plugins\\shopoauth\\Hook',
   ),
   'plugins_admin_common_header' => 
   array (
@@ -96,6 +98,14 @@ return array (
   'plugins_service_order_handle_begin' => 
   array (
     0 => 'app\\plugins\\expressforkdn\\Hook',
+  ),
+  'plugins_service_header_navigation_top_left' => 
+  array (
+    0 => 'app\\plugins\\shopoauth\\Hook',
+  ),
+  'plugins_service_users_personal_show_field_list_handle' => 
+  array (
+    0 => 'app\\plugins\\shopoauth\\Hook',
   ),
 );
 ?>

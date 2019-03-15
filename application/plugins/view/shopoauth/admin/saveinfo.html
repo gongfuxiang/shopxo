@@ -1,0 +1,55 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('shopoauth', 'admin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('shopoauth', 'admin', 'index')}}" enctype="multipart/form-data">
+           <legend>
+                <span class="fs-16">第三方账号登陆</span>
+                <a href="{{:PluginsAdminUrl('shopoauth', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+            </legend>
+
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">QQ</h3>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="am-form-group">
+                        <label>QQ互联平台 显示名称</label>
+                        <input type="text" name="auth[qq][name]" placeholder="显示名称" maxlength="16"  class="am-radius" value="{{if !empty($data['auth']['qq']['name'])}}{{$data.auth.qq.name}}{{else /}}QQ{{/if}}" data-validation-message="请填写QQ互联显示名称" required />
+                    </div>
+                    <div class="am-form-group">
+                        <label>QQ互联平台 APP ID</label>
+                        <input type="text" name="auth[qq][app_key]" placeholder="APP ID" maxlength="16"  class="am-radius" value="{{if !empty($data['auth']['qq']['app_key'])}}{{$data.auth.qq.app_key}}{{/if}}" />
+                    </div>
+
+                    <div class="am-form-group">
+                        <label class="block">QQ互联平台 APP KEY</label>
+                       <input type="text" name="auth[qq][app_secret]" placeholder="APP KEY" maxlength="80"  class="am-radius" value="{{if !empty($data['auth']['qq']['app_secret'])}}{{$data.auth.qq.app_secret}}{{/if}}" />
+                    </div>
+                    <div class="am-form-group">
+                        <label>是否开启<span class="am-form-group-label-tips"></span></label>
+                        <div>
+                            {{foreach $is_whether_list as $v}}
+                                <label class="am-radio-inline m-r-10">
+                                    <input type="radio" name="auth[qq][open]" value="{{$v.id}}" {{if isset($data['auth']['qq']['open']) and $data['auth']['qq']['open'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['auth']['qq']['open']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="am-form-group am-form-group-refreshing">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
