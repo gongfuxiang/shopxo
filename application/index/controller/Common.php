@@ -100,7 +100,19 @@ class Common extends Controller
         $this->assign('plugins_view_common_bottom_data', Hook::listen('plugins_view_common_bottom', ['hook_name'=>'plugins_view_common_bottom', 'is_backend'=>false, 'user'=>$this->user]));
 
         // 公共顶部小导航钩子-左侧
-        $this->assign('plugins_service_header_navigation_top_left_data', Hook::listen('plugins_service_header_navigation_top_left', ['hook_name'=>'plugins_service_header_navigation_top_left', 'is_backend'=>false, 'user'=>$this->user]));
+        $this->assign('plugins_view_header_navigation_top_left_data', Hook::listen('plugins_view_header_navigation_top_left', ['hook_name'=>'plugins_view_header_navigation_top_left', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 用户登录页面顶部钩子
+        $this->assign('plugins_view_user_login_info_top_data', Hook::listen('plugins_view_user_login_info_top', ['hook_name'=>'plugins_view_user_login_info_top', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 用户注册页面钩子
+        $this->assign('plugins_view_user_reg_info_data', Hook::listen('plugins_view_user_reg_info', ['hook_name'=>'plugins_view_user_reg_info', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 用户注册短信页面钩子
+        $this->assign('plugins_view_user_sms_reg_info_data', Hook::listen('plugins_view_user_sms_reg_info', ['hook_name'=>'plugins_view_user_sms_reg_info', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 用户注册邮箱页面钩子
+        $this->assign('plugins_view_user_email_reg_info_data', Hook::listen('plugins_view_user_email_reg_info', ['hook_name'=>'plugins_view_user_email_reg_info', 'is_backend'=>false, 'user'=>$this->user]));
     }
 
     /**

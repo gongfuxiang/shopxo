@@ -23,8 +23,23 @@
 					<a href="{{:MyUrl('index/user/logininfo')}}">
 						<button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius">立即登录</button>
 					</a>
-					<hr />
 				{{/if}}
+
+				<!-- 用户注册邮箱页面钩子 -->
+	            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+	                <div class="plugins-tag">
+	                    <span>plugins_view_user_email_reg_info</span>
+	                </div>
+	            {{/if}}
+	            {{if !empty($plugins_view_user_email_reg_info_data) and is_array($plugins_view_user_email_reg_info_data)}}
+	                {{foreach $plugins_view_user_email_reg_info_data as $hook}}
+	                    {{if is_string($hook) or is_int($hook)}}
+	                        {{$hook|raw}}
+	                    {{/if}}
+	                {{/foreach}}
+	            {{/if}}
+	            <hr />
+	            
 				<div class="am-form-group am-form-group-refreshing">
 					<label>电子邮箱
 						{{if in_array('sms', MyC('home_user_reg_state'))}}

@@ -34,7 +34,7 @@ class Hook
                     break;
 
                 // 顶部登录入口/登录信息
-                case 'plugins_service_header_navigation_top_left' :
+                case 'plugins_view_header_navigation_top_left' :
                     $ret = $this->LoginNavTopHtml($params);
                     break;
 

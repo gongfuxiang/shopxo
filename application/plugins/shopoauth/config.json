@@ -22,7 +22,7 @@
         "plugins_service_user_login_end":[
             "app\\plugins\\shopoauth\\Hook"
         ],
-        "plugins_service_header_navigation_top_left":[
+        "plugins_view_header_navigation_top_left":[
             "app\\plugins\\shopoauth\\Hook"
         ],
         "plugins_service_users_personal_show_field_list_handle":[

@@ -112,6 +112,7 @@ class Pluginsadmin extends Common
         $this->assign('params', $params);
 
         // 获取数据
+        $data = [];
         if(!empty($params['id']))
         {
             // 获取数据
@@ -120,10 +121,11 @@ class Pluginsadmin extends Common
                 'n'         => 1,
                 'where'     => ['id' => intval($params['id'])],
             );
-            $data = PluginsAdminService::PluginsList($data_params);
-            $this->assign('data', $data['data'][0]);
-            $params['plugins'] = $data['data'][0]['plugins'];
+            $ret = PluginsAdminService::PluginsList($data_params);
+            $data = $ret['data'][0];
+            $params['plugins'] = $ret['data'][0]['plugins'];
         }
+        $this->assign('data', $data);
 
         // 标记为空或等于view 并且 编辑数据为空则走第一步
         if((empty($params['plugins']) || $params['plugins'] == 'view') && empty($data['data'][0]))

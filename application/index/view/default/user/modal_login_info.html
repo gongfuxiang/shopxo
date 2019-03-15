@@ -9,8 +9,22 @@
                 {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))}}
                     <span class="">还没有帐号？</span>
                     <a href="{{:MyUrl('index/user/reginfo')}}" target="_blank" class="am-btn am-btn-secondary am-btn-xs am-radius">立即注册</a>
-                    <hr />
                 {{/if}}
+
+                <!-- 用户登录页面顶部钩子 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_user_login_info_top</span>
+                    </div>
+                {{/if}}
+                {{if !empty($plugins_view_user_login_info_top_data) and is_array($plugins_view_user_login_info_top_data)}}
+                    {{foreach $plugins_view_user_login_info_top_data as $hook}}
+                        {{if is_string($hook) or is_int($hook)}}
+                            {{$hook|raw}}
+                        {{/if}}
+                    {{/foreach}}
+                {{/if}}
+                <hr />
 
                 <div class="am-form-group am-form-group-refreshing">
                     <label>手机/邮箱</label>

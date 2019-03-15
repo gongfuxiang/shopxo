@@ -44,7 +44,6 @@ return array (
   'plugins_service_user_login_end' => 
   array (
     0 => 'app\\plugins\\userloginrewardintegral\\Hook',
-    1 => 'app\\plugins\\shopoauth\\Hook',
   ),
   'plugins_css' => 
   array (
@@ -73,6 +72,7 @@ return array (
   'plugins_service_navigation_header_handle' => 
   array (
     0 => 'app\\plugins\\answers\\Hook',
+    1 => 'app\\plugins\\touristbuy\\Hook',
   ),
   'plugins_admin_view_common_bottom' => 
   array (
@@ -89,7 +89,7 @@ return array (
   'plugins_common_header' => 
   array (
     0 => 'app\\plugins\\expressforkdn\\Hook',
-    1 => 'app\\plugins\\shopoauth\\Hook',
+    1 => 'app\\plugins\\touristbuy\\Hook',
   ),
   'plugins_admin_common_header' => 
   array (
@@ -99,13 +99,21 @@ return array (
   array (
     0 => 'app\\plugins\\expressforkdn\\Hook',
   ),
-  'plugins_service_header_navigation_top_left' => 
+  'plugins_view_header_navigation_top_left' => 
   array (
-    0 => 'app\\plugins\\shopoauth\\Hook',
+    0 => 'app\\plugins\\touristbuy\\Hook',
   ),
-  'plugins_service_users_personal_show_field_list_handle' => 
+  'plugins_view_user_login_info_top' => 
   array (
-    0 => 'app\\plugins\\shopoauth\\Hook',
+    0 => 'app\\plugins\\touristbuy\\Hook',
+  ),
+  'plugins_view_user_sms_reg_info' => 
+  array (
+    0 => 'app\\plugins\\touristbuy\\Hook',
+  ),
+  'plugins_view_user_email_reg_info' => 
+  array (
+    0 => 'app\\plugins\\touristbuy\\Hook',
   ),
 );
 ?>

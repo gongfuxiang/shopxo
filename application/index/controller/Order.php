@@ -137,7 +137,7 @@ class Order extends Common
         } else {
             $this->assign('msg', '没有相关数据');
             return $this->fetch('public/tips_error');
-        } 
+        }
     }
 
     /**
