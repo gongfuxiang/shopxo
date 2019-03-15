@@ -287,7 +287,7 @@ class Alipay
     private function BuildRequestForm($params)
     {
         $html = "<form id='alipaysubmit' name='alipaysubmit' action='https://openapi.alipay.com/gateway.do?charset=utf-8' method='POST'>";
-        while(list ($key, $val) = each($params))
+        foreach($params as $key=>$val)
         {
             if(!empty($val))
             {
