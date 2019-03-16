@@ -32,41 +32,28 @@ class Hook extends Controller
      */
     public function run($params = [])
     {
-        // 是否控制器钩子
-        // is_backend 当前为后端业务处理
-        // hook_name 钩子名称
-        if(isset($params['is_backend']) && $params['is_backend'] === true && !empty($params['hook_name']))
+        if(!empty($params['hook_name']))
         {
-            // 参数一   描述
-            // 参数二   0 为处理成功, 负数为失败
-            // 参数三   返回数据
-            return DataReturn('返回描述', 0);
-
-        // 默认返回视图
-        } else {
-            if(!empty($params['hook_name']))
+            switch($params['hook_name'])
             {
-                switch($params['hook_name'])
-                {
-                    case 'plugins_view_common_bottom' :
-                        $ret = $this->html($params);
-                        break;
+                case 'plugins_view_common_bottom' :
+                    $ret = $this->html($params);
+                    break;
 
-                    case 'plugins_common_page_bottom' :
-                        $ret = $this->js($params);
-                        break;
+                case 'plugins_common_page_bottom' :
+                    $ret = $this->js($params);
+                    break;
 
-                    case 'plugins_common_header' :
-                        $ret = $this->css($params);
-                        break;
+                case 'plugins_common_header' :
+                    $ret = $this->css($params);
+                    break;
 
-                    default :
-                        $ret = '';
-                }
-                return $ret;
-            } else {
-                return '';
+                default :
+                    $ret = '';
             }
+            return $ret;
+        } else {
+            return '';
         }
     }
 

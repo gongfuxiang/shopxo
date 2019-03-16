@@ -84,7 +84,6 @@ class Hook extends Controller
         {
             // 获取应用数据
             $ret = PluginsService::PluginsData('touristbuy');
-            $ret['data']['application_name'] = '订单查询';
             if($ret['code'] == 0 && !empty($ret['data']['application_name']))
             {
                 $params['header'][] = [
@@ -114,9 +113,6 @@ class Hook extends Controller
         return '<style type="text/css">
                     .plugins-touristbuy-nav-top, .plugins-touristbuy-login-info-btn { margin-left: 10px; }
                     .plugins-touristbuy-nav-top {  color: #FF5722; }
-                    .plugins-touristbuy-index { margin-top: 5%; }
-                    .plugins-touristbuy-index form.am-form { margin-top: 20px; }
-                    .plugins-touristbuy-index form.am-form .am-form-group { padding: 0 !important; }
                 </style>';
     }
 
@@ -130,18 +126,24 @@ class Hook extends Controller
      */
     public function UserLoginInfoHtml($params = [])
     {
-        // html
-        $html = '';
-
         // 获取已登录用户信息，已登录则不展示入口
         $user = UserService::LoginUserInfo();
         if(empty($user))
         {
-            // 获取插件信息
+            // 当前模块/控制器/方法
+            $module_name = strtolower(request()->module());
+            $controller_name = strtolower(request()->controller());
+            $action_name = strtolower(request()->action());
+
+            // 当前窗口登录父级
+            $is_parent = ($module_name.$controller_name.$action_name == 'indexusermodallogininfo') ? 1 : 0;
+
+            // 获取应用数据
             $ret = PluginsService::PluginsData('touristbuy');
-            $html = '<a href="'.PluginsHomeUrl('touristbuy', 'index', 'login').'" target="_blank" class="am-btn am-btn-secondary am-btn-xs am-radius plugins-touristbuy-login-info-btn">游客登录</a>';
+            $login_name = empty($ret['data']['login_name']) ? '游客登录' : $ret['data']['login_name'];
+            return '<a href="'.PluginsHomeUrl('touristbuy', 'index', 'login', ['is_parent'=>$is_parent]).'" class="am-btn am-btn-warning am-btn-xs am-radius plugins-touristbuy-login-info-btn">'.$ret['data']['login_name'].'</a>';
         }
-        return $html;
+        return '';
     }
 
     /**
@@ -154,18 +156,16 @@ class Hook extends Controller
      */
     public function LoginNavTopHtml($params = [])
     {
-        // html
-        $html = '';
-
         // 获取已登录用户信息，已登录则不展示入口
         $user = UserService::LoginUserInfo();
         if(empty($user))
         {
-            // 获取插件信息
+            // 获取应用数据
             $ret = PluginsService::PluginsData('touristbuy');
-            $html = '<a href="'.PluginsHomeUrl('touristbuy', 'index', 'login').'" class="plugins-touristbuy-nav-top">游客登录</a>';
+            $login_name = empty($ret['data']['login_name']) ? '游客登录' : $ret['data']['login_name'];
+            return '<a href="'.PluginsHomeUrl('touristbuy', 'index', 'login').'" class="plugins-touristbuy-nav-top">'.$login_name.'</a>';
         }
-        return $html;
+        return '';
     }
 }
 ?>

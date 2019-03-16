@@ -14,6 +14,7 @@ use think\Controller;
 use app\plugins\touristbuy\Service;
 use app\service\SeoService;
 use app\service\OrderService;
+use app\service\PluginsService;
 
 /**
  * 游客购买 - 前端独立页面入口
@@ -34,8 +35,15 @@ class Index extends Controller
      */
     public function index($params = [])
     {
-        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('订单查询', 1));
-        return $this->fetch('../../../plugins/view/touristbuy/index/index');
+        $ret = PluginsService::PluginsData('touristbuy');
+        if($ret['code'] == 0)
+        {
+            $this->assign('data', $ret['data']);
+            $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('订单查询', 1));
+            return $this->fetch('../../../plugins/view/touristbuy/index/index');
+        } else {
+            return $ret['msg'];
+        }
     }
 
     /**
@@ -116,12 +124,16 @@ class Index extends Controller
         $ret = Service::TouristReg();
         if($ret['code'] == 0)
         {
-            return $this->redirect(__MY_URL__);
+            if(isset($params['is_parent']) && $params['is_parent'] == 1)
+            {
+                return '<script type="text/javascript">if(self.frameElement && self.frameElement.tagName == "IFRAME"){parent.location.reload();}else{window.location.href="'.__MY_URL__.'";}</script>';
+            } else {
+                return $this->redirect(__MY_URL__);
+            }
         } else {
             $this->assign('msg', $ret['msg']);
             return $this->fetch('public/error');
         }
     }
-
 }
 ?>

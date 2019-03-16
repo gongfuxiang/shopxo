@@ -12,6 +12,7 @@ namespace app\plugins\touristbuy;
 
 use think\Db;
 use app\service\UserService;
+use app\service\PluginsService;
 
 /**
  * 问答系统服务层
@@ -40,23 +41,35 @@ class Service
             return DataReturn('已登录，请先退出', -1);
         }
 
+        // 获取应用数据
+        $ret = PluginsService::PluginsData('touristbuy');
+        $nickname = empty($ret['data']['nickname']) ? '游客' : $ret['data']['nickname'];
+
         // 是否重复注册
         $tourist_user_id = session('tourist_user_id');
         if(!empty($tourist_user_id))
         {
-            // 用户登录session纪录
-            if(UserService::UserLoginRecord($tourist_user_id))
+            // 更新用户信息
+            $upd_data  =[
+                'username'      => $nickname,
+                'nickname'      => $nickname,
+                'upd_time'      => time(),
+            ];
+            if(Db::name('User')->where(['id'=>$tourist_user_id])->update($upd_data))
             {
-                return DataReturn('游客登录成功', 0);
-            } else {
-                session('tourist_user_id', null);
+                // 用户登录session纪录
+                if(UserService::UserLoginRecord($tourist_user_id))
+                {
+                    return DataReturn($nickname.'登录成功', 0);
+                }
             }
+            session('tourist_user_id', null);
         }
 
         // 游客数据
         $data = [
-            'username'      => '游客',
-            'nickname'      => '游客',
+            'username'      => $nickname,
+            'nickname'      => $nickname,
             'status'        => 0,
             'add_time'      => time(),
             'upd_time'      => time(),
@@ -72,10 +85,10 @@ class Service
             // 用户登录session纪录
             if(UserService::UserLoginRecord($user_id))
             {
-                return DataReturn('游客登录成功', 0);
+                return DataReturn($nickname.'登录成功', 0);
             }
         }
-        return DataReturn('游客登录失败', -100);
+        return DataReturn($nickname.'登录失败', -100);
     }
 }
 ?>

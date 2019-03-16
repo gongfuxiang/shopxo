@@ -19,10 +19,12 @@
 <!-- content start -->
 <div class="am-g my-content">
     <div class="am-u-md-6 am-u-sm-centered plugins-touristbuy-index">
-        <div class="am-alert am-alert-warning" data-am-alert>
-            <button type="button" class="am-close">&times;</button>
-            <p>请输入订单号，收件人姓名，收件人电话即可查看订单详情</p>
-        </div>
+        {{if !empty($data['query_tips'])}}
+            <div class="am-alert am-alert-warning" data-am-alert>
+                <button type="button" class="am-close">&times;</button>
+                <p>{{$data.query_tips}}</p>
+            </div>
+        {{/if}}
 
         <!-- form start -->
         <form class="am-form form-validation" method="post" action="{{:PluginsHomeUrl('touristbuy', 'index', 'detail')}}" request-type="form">
@@ -32,12 +34,12 @@
             </div>
 
             <div class="am-form-group am-form-group-refreshing">
-                <label>收件人-姓名</label>
+                <label>收件人姓名</label>
                 <input type="text" name="name" class="am-radius" minlength="1" placeholder="订单号" data-validation-message="请输入收件人姓名" required />
             </div>
 
             <div class="am-form-group am-form-group-refreshing">
-                <label>收件人-电话</label>
+                <label>收件人电话</label>
                 <input type="text" name="tel" class="am-radius" minlength="1" placeholder="订单号" data-validation-message="请输入收件人电话" required />
             </div>
             

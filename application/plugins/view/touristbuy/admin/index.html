@@ -10,39 +10,53 @@
 
         <div class="touristbuy-content">
             <div class="items">
-                <label>公告内容</label>
+                <label>应用导航名称</label>
                 <div>
-                    {{if !empty($data['content'])}}
-                        {{$data.content}}
+                    {{if !empty($data['application_name'])}}
+                        {{$data.application_name}}
                     {{else /}}
                         无
                     {{/if}}
                 </div>
             </div>
             <div class="items">
-                <label>是否全局</label>
+                <label>登录入口名称</label>
                 <div>
-                    {{if isset($data['is_overall']) and $data['is_overall'] eq 1}}
-                        是
+                    {{if !empty($data['login_name'])}}
+                        {{$data.login_name}}
                     {{else /}}
-                        否
+                        游客登录
                     {{/if}}
                 </div>
             </div>
             <div class="items">
-                <label>有效时间</label>
+                <label>游客用户名</label>
                 <div>
-                    {{if !empty($data['time_start']) and !empty($data['time_end'])}}
-                        {{$data.time_start}} ~ {{$data.time_end}}
-                    {{elseif !empty($data['time_start']) and empty($data['time_end'])}}
-                        {{$data.time_start}} ~ 长期有效
-                    {{elseif empty($data['time_start']) and !empty($data['time_end'])}}
-                        立即生效 ~ {{$data.time_end}}
+                    {{if !empty($data['nickname'])}}
+                        {{$data.nickname}}
                     {{else /}}
-                        无限制
+                        游客
                     {{/if}}
                 </div>
             </div>
+            <div class="items">
+                <label>订单查询提示</label>
+                <div>
+                    {{if !empty($data['query_tips'])}}
+                        {{$data.query_tips}}
+                    {{else /}}
+                        无
+                    {{/if}}
+                </div>
+            </div>
+
+            <div class="items">
+                <label>订单查询地址</label>
+                <div>
+                    <a href="{{:PluginsHomeUrl('touristbuy', 'index', 'index')}}" target="_blank">{{:PluginsHomeUrl('touristbuy', 'index', 'index')}}</a>
+                </div>
+            </div>
+
             <a href="{{:PluginsAdminUrl('touristbuy', 'admin', 'saveinfo')}}" class="am-btn am-btn-secondary am-radius btn-loading-example am-btn-sm am-btn-block edit-submit">编辑</a>
         </div>
     </div>

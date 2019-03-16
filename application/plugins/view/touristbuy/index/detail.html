@@ -183,6 +183,19 @@
                     </div>
                     <div class="operation">
                         <!-- 0待确认, 1已确认/待支付, 2已支付/待发货, 3已发货/待收货, 4已完成, 5已取消, 6已关闭 -->
+                        <!-- 钩子订单操作 -->
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                            <div class="plugins-tag">
+                                <span>plugins_service_order_handle_operation_html</span>
+                            </div>
+                        {{/if}}
+                        {{if !empty($data['plugins_service_order_handle_operation_html']) and is_array($data['plugins_service_order_handle_operation_html'])}}
+                            {{foreach $data.plugins_service_order_handle_operation_html as $hook}}
+                                {{if is_string($hook) or is_int($hook)}}
+                                    {{$hook|raw}}
+                                {{/if}}
+                            {{/foreach}}
+                        {{/if}}
                     </div>
                     {{if in_array($data['status'], [3,4])}}
                         <div class="logistics">
