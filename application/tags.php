@@ -13,6 +13,7 @@
 return array (
   'app_init' => 
   array (
+    0 => 'app\\plugins\\touristbuy\\Hook',
   ),
   'app_begin' => 
   array (
@@ -98,6 +99,10 @@ return array (
   'plugins_service_order_handle_begin' => 
   array (
     0 => 'app\\plugins\\expressforkdn\\Hook',
+  ),
+  'plugins_service_system_begin' => 
+  array (
+    0 => 'app\\plugins\\touristbuy\\Hook',
   ),
   'plugins_view_header_navigation_top_left' => 
   array (

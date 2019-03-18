@@ -11,6 +11,7 @@
 namespace app\api\controller;
 
 use think\Controller;
+use app\service\SystemService;
 use app\service\ConfigService;
 use app\service\UserService;
 
@@ -47,6 +48,9 @@ class Common extends Controller
     {
         parent::__construct();
 
+        // 系统运行开始
+        SystemService::SystemBegin();
+
         // 输入参数
         $this->data_post = input('post.');
         $this->data_get = input('get.');
@@ -60,6 +64,20 @@ class Common extends Controller
 
 		// 公共数据初始化
 		$this->CommonInit();
+    }
+
+    /**
+     * 析构函数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-18
+     * @desc    description
+     */
+    public function __destruct()
+    {
+        // 系统运行结束
+        SystemService::SystemEnd();
     }
 
     /**

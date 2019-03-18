@@ -51,6 +51,17 @@
             </div>
 
             <div class="items">
+                <label>默认游客登录</label>
+                <div>
+                    {{if isset($data['is_default_tourist']) and $data['is_default_tourist'] eq 1}}
+                        是
+                    {{else /}}
+                        否
+                    {{/if}}
+                </div>
+            </div>
+
+            <div class="items">
                 <label>订单查询地址</label>
                 <div>
                     <a href="{{:PluginsHomeUrl('touristbuy', 'index', 'index')}}" target="_blank">{{:PluginsHomeUrl('touristbuy', 'index', 'index')}}</a>

@@ -30,6 +30,17 @@
                 <textarea rows="3" name="query_tips" class="am-radius am-field-valid" placeholder="公告内容" data-validation-message="请填写订单查询提示">{{if !empty($data['query_tips'])}}{{$data.query_tips}}{{/if}}</textarea>
             </div>
 
+            <div class="am-form-group">
+                <label>默认游客登录<span class="am-form-group-label-tips">建议关闭</span></label>
+                <div>
+                    {{foreach $is_whether_list as $v}}
+                        <label class="am-radio-inline m-r-10">
+                            <input type="radio" name="is_default_tourist" value="{{$v.id}}" {{if isset($data['is_default_tourist']) and $data['is_default_tourist'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_default_tourist']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+            </div>
+
             <div class="am-form-group am-form-group-refreshing">
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
             </div>

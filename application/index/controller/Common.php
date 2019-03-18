@@ -12,6 +12,7 @@ namespace app\index\controller;
 
 use think\facade\Hook;
 use think\Controller;
+use app\service\SystemService;
 use app\service\GoodsService;
 use app\service\NavigationService;
 use app\service\BuyService;
@@ -52,6 +53,9 @@ class Common extends Controller
     {
         parent::__construct();
 
+        // 系统运行开始
+        SystemService::SystemBegin();
+
         // 系统初始化
         $this->SystemInit();
 
@@ -69,6 +73,20 @@ class Common extends Controller
 
         // 公共钩子初始化
         $this->CommonPluginsInit();
+    }
+
+    /**
+     * 析构函数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-18
+     * @desc    description
+     */
+    public function __destruct()
+    {
+        // 系统运行结束
+        SystemService::SystemEnd();
     }
 
     /**

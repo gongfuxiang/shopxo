@@ -11,6 +11,7 @@
 namespace app\plugins\touristbuy;
 
 use think\Controller;
+use app\plugins\touristbuy\Service;
 use app\service\PluginsService;
 use app\service\UserService;
 
@@ -59,6 +60,11 @@ class Hook extends Controller
                 $ret = $this->NavTitle($params);
                     break;
 
+                // 系统运行开始
+                case 'plugins_service_system_begin' :
+                    $ret = $this->SystemBegin($params);
+                    break;
+
                 default :
                     $ret = DataReturn('无需处理', 0);
             }
@@ -68,6 +74,26 @@ class Hook extends Controller
         } else {
             return '';
         }
+    }
+
+    /**
+     * 系统运行开始
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-18
+     * @desc    description
+     * @param    [array]          $params [输入参数]
+     */
+    public function SystemBegin($params = [])
+    {
+        // 是否开启默认游客
+        $ret = PluginsService::PluginsData('touristbuy');
+        if($ret['code'] == 0 && isset($ret['data']['is_default_tourist']) && $ret['data']['is_default_tourist'] == 1)
+        {
+            return Service::TouristReg();
+        }
+        return DataReturn('无需处理', 0);
     }
 
     /**

@@ -17,6 +17,9 @@
         "is_home":true
     },
     "hook":{
+        "plugins_service_system_begin":[
+            "app\\plugins\\touristbuy\\Hook"
+        ],
         "plugins_common_header":[
             "app\\plugins\\touristbuy\\Hook"
         ],
