@@ -89,7 +89,7 @@ class Hook extends Controller
     {
         // 是否开启默认游客
         $ret = PluginsService::PluginsData('touristbuy');
-        if($ret['code'] == 0 && isset($ret['data']['is_default_tourist']) && $ret['data']['is_default_tourist'] == 1)
+        if($ret['code'] == 0 && isset($ret['data']['is_default_tourist']) && $ret['data']['is_default_tourist'] == 1 && strtolower(request()->module()) == 'index')
         {
             return Service::TouristReg();
         }
