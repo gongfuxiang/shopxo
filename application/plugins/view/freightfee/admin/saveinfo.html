@@ -1,0 +1,72 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('freightfee', 'admin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('freightfee', 'admin', 'index')}}" enctype="multipart/form-data">
+            <legend>
+                <span class="fs-16">运费设置</span>
+                <a href="{{:PluginsAdminUrl('freightfee', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+            </legend>
+
+            <div class="am-form-group">
+                <label>计价方式</label>
+                <div>
+                    {{foreach $is_whether_list as $v}}
+                        <label class="am-radio-inline m-r-10">
+                            <input type="radio" name="valuation" value="{{$v.id}}" {{if isset($data['valuation']) and $data['valuation'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['valuation']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+            </div>
+
+            <div class="freightfee-rules">
+                <table class="am-table am-table-striped am-table-hover">
+                    <thead>
+                        <tr>
+                            <th>运送到</th>
+                            <th>首件数(件)</th>
+                            <th>首费(元)</th>
+                            <th>续件数(件)</th>
+                            <th>续费(元)</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Amaze UI</td>
+                            <td>http://amazeui.org</td>
+                            <td>2012-10-01</td></tr>
+                        <tr>
+                            <td>Amaze UI</td>
+                            <td>http://amazeui.org</td>
+                            <td>2012-10-01</td></tr>
+                        <tr>
+                            <td>Amaze UI</td>
+                            <td>http://amazeui.org</td>
+                            <td>2012-10-01</td></tr>
+                        <tr>
+                            <td>Amaze UI</td>
+                            <td>http://amazeui.org</td>
+                            <td>2012-10-01</td></tr>
+                        <tr>
+                            <td>Amaze UI</td>
+                            <td>http://amazeui.org</td>
+                            <td>2012-10-01</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
