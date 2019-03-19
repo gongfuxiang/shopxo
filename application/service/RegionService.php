@@ -36,17 +36,18 @@ class RegionService
     }
 
     /**
-     * 获取地区idx下列表
+     * 获取地区id下列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2018-12-09T00:13:02+0800
-     * @param    [array]                    $param [输入参数]
+     * @param    [array]                    $params [输入参数]
      */
-    public static function RegionItems($param = [])
+    public static function RegionItems($params = [])
     {
-        $pid = isset($param['pid']) ? intval($param['pid']) : 0;
-        return Db::name('Region')->where(['pid'=>$pid, 'is_enable'=>1])->select();
+        $pid = isset($params['pid']) ? intval($params['pid']) : 0;
+        $field = empty($params['field']) ? '*' : $params['field'];
+        return Db::name('Region')->field($field)->where(['pid'=>$pid, 'is_enable'=>1])->select();
     }
 
     /**

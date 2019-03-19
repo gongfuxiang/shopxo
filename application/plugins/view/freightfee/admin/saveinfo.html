@@ -21,8 +21,8 @@
                 </div>
             </div>
 
-            <div class="freightfee-rules">
-                <table class="am-table am-table-striped am-table-hover">
+            <div class="business-form-block freightfee-rules">
+                <table class="am-table am-table-striped">
                     <thead>
                         <tr>
                             <th>运送到</th>
@@ -35,34 +35,67 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Amaze UI</td>
-                            <td>http://amazeui.org</td>
-                            <td>2012-10-01</td></tr>
-                        <tr>
-                            <td>Amaze UI</td>
-                            <td>http://amazeui.org</td>
-                            <td>2012-10-01</td></tr>
-                        <tr>
-                            <td>Amaze UI</td>
-                            <td>http://amazeui.org</td>
-                            <td>2012-10-01</td></tr>
-                        <tr>
-                            <td>Amaze UI</td>
-                            <td>http://amazeui.org</td>
-                            <td>2012-10-01</td></tr>
-                        <tr>
-                            <td>Amaze UI</td>
-                            <td>http://amazeui.org</td>
-                            <td>2012-10-01</td></tr>
+                            <td class="first">
+                                <div class="region-td none"></div>默认运费
+                                <input type="text" class="am-radius region-name" name="region_name[0]['region']" data-validation-message="请选择地区" value="default" required />
+                            </td>
+                            <td>
+                                <input type="number" class="am-radius first-name" name="first_name[0]['first']" min="1" max="9999" data-validation-message="输入 1~9999 的整数" required />
+                            </td>
+                            <td>
+                                <input type="number" class="am-radius first-price-name" name="first_price_name[0]['first_price']" min="0.00" max="999.99" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,小数保留两位" required />
+                            </td>
+                            <td>
+                                <input type="number" class="am-radius continue-name" name="continue_name[0]['continue']" min="1" max="9999" data-validation-message="输入 1~9999 的整数" required />
+                            </td>
+                            <td>
+                                <input type="number" class="am-radius continue-price-name" name="continue_price_name[0]['continue_price']" min="0.00" max="999.99" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,且不能大于首费,小数保留两位" required />
+                            </td>
+                            <td><!--operation--></td>
+                        </tr>
                     </tbody>
                 </table>
+                <span class="business-operations-submit rules-submit-add">+为指定地区城市设置运费</span>
             </div>
 
             <div class="am-form-group am-form-group-refreshing">
-                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
             </div>
         </form>
         <!-- form end -->
+
+        <!-- popup -->
+        <div class="am-popup" id="freightfee-region-popup">
+            <div class="am-popup-inner">
+                <div class="am-popup-hd">
+                    <h4 class="am-popup-title">选择区域</h4>
+                    <span data-am-modal-close class="am-close">&times;</span>
+                </div>
+                <div class="am-popup-bd">
+                    {{if !empty($region_list)}}
+                        <ul class="province-list">
+                            {{foreach $region_list as $v}}
+                                <li>
+                                    <p class="province-name region-node-{{$v.id}}" data-id="{{$v.id}}">{{$v.name}}</p>
+                                    {{if !empty($v['items'])}}
+                                        <ul class="city-list">
+                                            {{foreach $v.items as $vs}}
+                                                <li>
+                                                    <span class="city-name region-node-{{$vs.id}}" data-province-id="{{$v.id}}" data-city-id="{{$vs.id}}">{{$vs.name}}</span>
+                                                </li>
+                                            {{/foreach}}
+                                        </ul>
+                                    {{/if}}
+                                </li>
+                            {{/foreach}}
+                        </ul>
+                    {{else /}}
+                        <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+                    {{/if}}
+                    <button type="submit" class="am-btn am-btn-secondary am-radius btn-loading-example am-btn-sm am-btn-block">确认</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <!-- right content end  -->

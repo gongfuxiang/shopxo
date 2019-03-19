@@ -80,7 +80,7 @@ iframe { width: 100%; height: 100%; border: 0; }
     form.am-form .am-form-group:hover, .plug-file-upload-view:hover {
         background: #f6f9fc;
     }
-    form.am-form .am-form-group, .plug-images-list, .goods-specifications, .content-app-items, .plug-file-upload-view {
+    form.am-form .am-form-group, .plug-images-list, .goods-specifications, .content-app-items, .plug-file-upload-view, .business-form-block {
         border-bottom: 1px dashed #ccc;
         padding: 10px 20% 10px 5px;
     }

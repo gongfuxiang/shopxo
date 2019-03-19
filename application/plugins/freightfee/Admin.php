@@ -12,6 +12,7 @@ namespace app\plugins\freightfee;
 
 use think\Controller;
 use app\service\PluginsService;
+use app\service\RegionService;
 
 /**
  * 运费设置 - 管理
@@ -61,6 +62,20 @@ class Admin extends Controller
                 1 => array('id' => 1, 'name' => '按重量'),
             ];
 
+            // 地区
+            $region = RegionService::RegionItems(['pid'=>0, 'field'=>'id,name']);
+            if(!empty($region))
+            {
+                $region = array_map(function($v)
+                {
+                    $v['items'] = RegionService::RegionItems(['pid'=>$v['id'], 'field'=>'id,name']);
+                    return $v;
+                }, $region);
+            }
+
+            //print_r($ret['data']);
+
+            $this->assign('region_list', $region);
             $this->assign('is_whether_list', $is_whether_list);
             $this->assign('data', $ret['data']);
             return $this->fetch('../../../plugins/view/freightfee/admin/saveinfo');
