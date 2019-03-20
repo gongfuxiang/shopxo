@@ -26,7 +26,7 @@
             {{if !empty($user_address_list)}}
                 <ul class="address-list">
                     {{foreach $user_address_list as $address}}
-                        <li class="{{if isset($address['is_default']) and $address['is_default'] eq 1}}address-default{{/if}}" id="data-list-{{$address.id}}" data-value="{{$address.id}}">
+                        <li class="{{if (isset($params['address_id']) and $params['address_id'] eq $address['id']) or (!isset($params['address_id']) and $params['address_id'] neq $address['id'] and isset($address['is_default']) and $address['is_default'] eq 1)}}address-default{{/if}}" id="data-list-{{$address.id}}" data-value="{{$address.id}}">
                             <div class="address-left">
                                 <div class="user-base">
                                     {{if !empty($address.alias)}}

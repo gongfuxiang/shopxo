@@ -466,7 +466,7 @@ class UserService
         }
 
         // 获取用户地址
-        $params['where'] = ['is_default'=>1];
+        $params['where'] = empty($params['where']) ? ['is_default'=>1] : $params['where'];
         $ret = self::UserAddressList($params);
         if(!empty($ret['data'][0]))
         {

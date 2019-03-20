@@ -1055,6 +1055,81 @@ function FullscreenEscEvent()
 	}
 }
 
+/**
+ * url参数替换，参数不存在则添加
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-03-20
+ * @desc    description
+ * @param   {[string]}        field [字段名称]
+ * @param   {[string]}        value [字段值]
+ * @param   {[string]}        url   [自定义url]
+ */
+function UrlFieldReplace(field, value, url)
+{
+    // 当前页面url地址
+    url = url || window.location.href;
+
+    // 锚点
+    var anchor = '';
+    if(url.indexOf('#') >= 0)
+    {
+        anchor = url.substr(url.indexOf('#'));
+        url = url.substr(0, url.indexOf('#'));
+    }
+
+    if(url.indexOf('?') >= 0)
+    {
+        var str = url.substr(0, url.lastIndexOf('.'));
+        var ext = url.substr(url.lastIndexOf('.'));
+        if(str.indexOf(field) >= 0)
+        {
+            var first = str.substr(0, str.lastIndexOf(field));
+            var last = str.substr(str.lastIndexOf(field));
+                last = last.replace(new RegExp(field+'/', 'g'), '');
+                last = (last.indexOf('/') >= 0) ? last.substr(last.indexOf('/')) : '';
+                url = first+field+'/'+value+last+ext;
+        } else {
+            if(ext.indexOf('?') >= 0)
+            {
+                var p = '';
+                exts = ext.substr(ext.indexOf('?')+1);
+                if(ext.indexOf(field) >= 0)
+                {
+                    var params_all = exts.split('&');
+                    for(var i in params_all)
+                    {
+                        var temp = params_all[i].split('=');
+
+                        if(temp.length >= 2)
+                        {
+                            if(i > 0)
+                            {
+                                p += '&';
+                            }
+                            if(temp[0] == field)
+                            {
+                                p += field+'='+value;
+                            } else {
+                                p += params_all[i];
+                            }
+                        }
+                    }
+                } else {
+                    p = exts+'&'+field+'='+value;
+                }
+                url = str+(ext.substr(0, ext.indexOf('?')))+'?'+p;
+            } else {
+                url = str+'/'+field+'/'+value+ext;
+            }
+        }
+    } else {
+        url += '?'+field+'='+value;
+    }
+    return url+anchor;
+}
+
 
 // 公共数据操作
 $(function()
@@ -1723,7 +1798,6 @@ $(function()
 	        // 文件上传
 	        upload_editor.addListener("beforeInsertFile", function(t, result)
 	        {
-	            console.log(t, result, 'file');
 	            var fileHtml = '';
 	            for(var i in result){
 	                fileHtml += '<li><a href="'+result[i].url+'" target="_blank">'+result[i].url+'</a></li>';

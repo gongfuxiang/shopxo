@@ -12,7 +12,7 @@ Page({
     total_price: 0,
     user_note_value: '',
     is_first: 1,
-    extension_list: [],
+    extension_data: [],
     payment_id: 0,
     common_order_is_booking: 0,
   },
@@ -85,7 +85,7 @@ Page({
             this.setData({
               goods_list: data.goods_list,
               total_price: data.base.total_price,
-              extension_list: data.extension_list || [],
+              extension_data: data.extension_data || [],
               data_list_loding_status: 3,
               common_order_is_booking: data.common_order_is_booking || 0,
             });

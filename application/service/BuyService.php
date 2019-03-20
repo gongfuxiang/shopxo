@@ -509,6 +509,61 @@ class BuyService
         } else {
             $ret = DataReturn('参数有误', -1);
         }
+
+        // 数据组装
+        if($ret['code'] == 0)
+        {
+            // 商品数据
+            $goods = $ret['data'];
+
+            // 用户默认地址
+            $address_params = [
+                'user'  => $params['user'],
+            ];
+            if(!empty($params['address_id']))
+            {
+                $address_params['where'] = ['id' => $params['address_id']];
+            }
+            $address = UserService::UserDefaultAddress($address_params);
+
+            // 商品/基础信息
+            $total_price = empty($goods) ? 0 : array_sum(array_column($goods, 'total_price'));
+            $base = [
+                'total_price'   => $total_price,
+                'actual_price'  => $total_price,
+                'total_stock'   => empty($goods) ? 0 : array_sum(array_column($goods, 'stock')),
+                'address'       => empty($address['data']) ? null : $address['data'],
+            ];
+
+            // 扩展展示数据
+            // name 名称
+            // price 金额
+            // type 类型（0减少, 1增加）
+            // tips 提示信息
+            $extension_data = [
+                [
+                    'name'  => '感恩节9折',
+                    'price' => 23,
+                    'type'  => 0,
+                    'tips'  => '-￥23元'
+                ],
+                [
+                    'name'  => '运费',
+                    'price' => 10,
+                    'type'  => 1,
+                    'tips'  => '+￥10元'
+                ],
+            ];
+
+            // 返回数据
+            $result = [
+                'goods'             => $goods,
+                'base'              => $base,
+                'extension_data'    => $extension_data,
+            ];
+            return DataReturn('操作成功', 0, $result);
+        }
+
         return $ret;
     }
 
@@ -638,7 +693,7 @@ class BuyService
         {
             return $goods;
         }
-        $check = self::BuyGoodsCheck(['goods'=>$goods['data']]);
+        $check = self::BuyGoodsCheck(['goods'=>$goods['data']['goods']]);
         if(!isset($check['code']) || $check['code'] != 0)
         {
             return $check;
@@ -689,7 +744,7 @@ class BuyService
         $order_id = Db::name('Order')->insertGetId($order);
         if($order_id > 0)
         {
-            foreach($goods['data'] as $v)
+            foreach($goods['data']['goods'] as $v)
             {
                 $detail = [
                     'order_id'          => $order_id,

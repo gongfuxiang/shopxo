@@ -45,8 +45,8 @@
   <textarea bindinput="bind_user_note_event" maxlength="60" auto-height placeholder="留言" class="content-textarea bg-white spacing-mb" />
 
   <!-- 扩展数据展示 -->
-  <view wx:if="{{extension_list.length > 0}}" class="extension-list spacing-mb">
-    <view wx:for="{{extension_list}}" wx:key="key" class="item oh">
+  <view wx:if="{{extension_data.length > 0}}" class="extension-list spacing-mb">
+    <view wx:for="{{extension_data}}" wx:key="key" class="item oh">
       <text class="cr-666">{{item.name}}
       </text>
       <text class="text-tips fr">{{item.tips}}

@@ -55,7 +55,7 @@ class Buy extends Common
             return redirect(MyUrl('index/buy/index'));
         } else {
             // 获取商品列表
-            $params = session('buy_post_data');
+            $params = array_merge(input(), session('buy_post_data'));
             $params['user'] = $this->user;
             $ret = BuyService::BuyTypeGoodsList($params);
 
@@ -68,15 +68,9 @@ class Buy extends Common
                 // 支付方式
                 $this->assign('payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
                 
-                // 商品/基础信息
-                $base = [
-                    'total_price'   => empty($ret['data']) ? 0 : array_sum(array_column($ret['data'], 'total_price')),
-                    'total_stock'   => empty($ret['data']) ? 0 : array_sum(array_column($ret['data'], 'stock')),
-                    'address'       => UserService::UserDefaultAddress(['user'=>$this->user])['data'],
-                ];
-                $this->assign('base', $base);
-                $this->assign('goods_list', $ret['data']);
-                
+                $this->assign('base', $ret['data']['base']);
+                $this->assign('goods_list', $ret['data']['goods']);
+                $this->assign('extension_data', $ret['data']['extension_data']);
                 $this->assign('params', $params);
                 return $this->fetch();
             } else {
