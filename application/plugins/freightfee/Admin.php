@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\plugins\freightfee;
 
+use think\Db;
 use think\Controller;
 use app\service\PluginsService;
 use app\service\RegionService;
@@ -36,6 +37,15 @@ class Admin extends Controller
         $ret = PluginsService::PluginsData('freightfee');
         if($ret['code'] == 0)
         {
+            // 数据处理
+            if(!empty($ret['data']['data']))
+            {
+                foreach($ret['data']['data'] as &$v)
+                {
+                    $v['region_names'] = empty($v['region_show']) ? '' : implode('、', Db::name('Region')->where('id', 'in', explode('-', $v['region_show']))->column('name'));
+                }
+            }
+
             $this->assign('data', $ret['data']);
             return $this->fetch('../../../plugins/view/freightfee/admin/index');
         } else {
@@ -73,7 +83,14 @@ class Admin extends Controller
                 }, $region);
             }
 
-            //print_r($ret['data']);
+            // 数据处理
+            if(!empty($ret['data']['data']))
+            {
+                foreach($ret['data']['data'] as &$v)
+                {
+                    $v['region_names'] = empty($v['region_show']) ? '' : implode('、', Db::name('Region')->where('id', 'in', explode('-', $v['region_show']))->column('name'));
+                }
+            }
 
             $this->assign('region_list', $region);
             $this->assign('is_whether_list', $is_whether_list);

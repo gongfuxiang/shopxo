@@ -38,18 +38,20 @@ $(function()
                         case 0 :
                             html += '<tr>';
                             html += '<td class="first"><div class="region-td none"></div>默认运费';
-                            html += '<input type="text" class="am-radius region-name" name="region_name[0][\'region\']" data-validation-message="请选择地区" value="default" required /></td>';
-                            html += '<td>';
-                            html += '<input type="number" class="am-radius first-name" name="first_name[0][\'first\']" min="1" max="9999" data-validation-message="输入 1~9999 的整数" required />';
+                            html += '<input type="text" class="am-radius region-name" name="data[0][region]" data-validation-message="请选择地区" value="default" required />';
+                            html += '<input type="hidden" class="am-radius region-name-show" name="data[0][region_show]" value="" />';
                             html += '</td>';
                             html += '<td>';
-                            html += '<input type="number" class="am-radius first-price-name" name="first_price_name[0][\'first_price\']" min="0.00" max="999.99" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,小数保留两位" required />';
+                            html += '<input type="number" class="am-radius first-name" name="data[0][first]" min="1" max="9999" data-validation-message="输入 1~9999 的整数" required />';
                             html += '</td>';
                             html += '<td>';
-                            html += '<input type="number" class="am-radius continue-name" name="continue_name[0][\'continue\']" min="1" max="9999" data-validation-message="输入 1~9999 的整数" required />';
+                            html += '<input type="number" class="am-radius first-price-name" name="data[0][first_price]" min="0.00" max="999.99" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,小数保留两位" required />';
                             html += '</td>';
                             html += '<td>';
-                            html += '<input type="number" class="am-radius continue-price-name" name="continue_price_name[0][\'continue_price\']" min="0.00" max="999.99" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,且不能大于首费,小数保留两位" required />';
+                            html += '<input type="number" class="am-radius continue-name" name="data[0][continue]" min="1" max="9999" data-validation-message="输入 1~9999 的整数" required />';
+                            html += '</td>';
+                            html += '<td>';
+                            html += '<input type="number" class="am-radius continue-price-name" name="data[0][continue_price]" min="0.00" max="999.99" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,且不能大于首费,小数保留两位" required />';
                             html += '</td>';
                             html += '<td><!--operation--></td>';
                             html += '</tr>';
@@ -59,18 +61,20 @@ $(function()
                         case 1 :
                             html += '<tr>';
                             html += '<td class="first"><div class="region-td none"></div>默认运费';
-                            html += '<input type="text" class="am-radius region-name" name="region_name[0][\'region\']" data-validation-message="请选择地区" value="default" required /></td>';
-                            html += '<td>';
-                            html += '<input type="number" class="am-radius first-name" name="first_name[0][\'first\']" min="0.1" max="9999.0" step="0.1" data-validation-message="输入 0.1~9999.9 的数字,小数保留1位" required />';
+                            html += '<input type="text" class="am-radius region-name" name="data[0][region]" data-validation-message="请选择地区" value="default" required />';
+                            html += '<input type="hidden" class="am-radius region-name-show" name="data[0][region_show]" value="" />';
                             html += '</td>';
                             html += '<td>';
-                            html += '<input type="number" class="am-radius first-price-name" name="first_price_name[0][\'first_price\']" min="0.00" max="999.99" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,小数保留两位" required />';
+                            html += '<input type="number" class="am-radius first-name" name="data[0][first]" min="0.1" max="9999.0" step="0.1" data-validation-message="输入 0.1~9999.9 的数字,小数保留1位" required />';
                             html += '</td>';
                             html += '<td>';
-                            html += '<input type="number" class="am-radius continue-name" name="continue_name[0][\'continue\']" min="0.1" max="9999.0" step="0.1"  data-validation-message="输入 0.1~9999.9 的数字,小数保留1位" required />';
+                            html += '<input type="number" class="am-radius first-price-name" name="data[0][first_price]" min="0.00" max="999.99" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,小数保留两位" required />';
                             html += '</td>';
                             html += '<td>';
-                            html += '<input type="number" class="am-radius continue-price-name" name="continue_price_name[0][\'continue_price\']" min="0.00" max="999.99" step="0.01" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,且不能大于首费,小数保留两位" required />';
+                            html += '<input type="number" class="am-radius continue-name" name="data[0][continue]" min="0.1" max="9999.0" step="0.1"  data-validation-message="输入 0.1~9999.9 的数字,小数保留1位" required />';
+                            html += '</td>';
+                            html += '<td>';
+                            html += '<input type="number" class="am-radius continue-price-name" name="data[0][continue_price]" min="0.00" max="999.99" step="0.01" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,且不能大于首费,小数保留两位" required />';
                             html += '</td>';
                             html += '<td><!--operation--></td>';
                             html += '</tr>';
@@ -121,11 +125,12 @@ $(function()
         $('.freightfee-rules table.am-table').find('tbody tr:last').removeClass().addClass('data-list-'+index);
 
         // name名称设置
-        $('.freightfee-rules table.am-table').find('tbody tr:last .region-name').attr('name', 'region_name['+index+'][\'region\']');
-        $('.freightfee-rules table.am-table').find('tbody tr:last .first-name').attr('name', 'first_name['+index+'][\'first\']');
-        $('.freightfee-rules table.am-table').find('tbody tr:last .first-price-name').attr('name', 'first_price_name['+index+'][\'first_price\']');
-        $('.freightfee-rules table.am-table').find('tbody tr:last .continue-name').attr('name', 'continue_name['+index+'][\'continue\']');
-        $('.freightfee-rules table.am-table').find('tbody tr:last .continue-price-name').attr('name', 'continue_price_name['+index+'][\'continue_price\']');
+        $('.freightfee-rules table.am-table').find('tbody tr:last .region-name').attr('name', 'data['+index+'][region]');
+        $('.freightfee-rules table.am-table').find('tbody tr:last .region-name-show').attr('name', 'data['+index+'][region_show]');
+        $('.freightfee-rules table.am-table').find('tbody tr:last .first-name').attr('name', 'data['+index+'][first]');
+        $('.freightfee-rules table.am-table').find('tbody tr:last .first-price-name').attr('name', 'data['+index+'][first_price]');
+        $('.freightfee-rules table.am-table').find('tbody tr:last .continue-name').attr('name', 'data['+index+'][continue]');
+        $('.freightfee-rules table.am-table').find('tbody tr:last .continue-price-name').attr('name', 'data['+index+'][continue_price]');
     });
 
     // 行移除
@@ -141,7 +146,7 @@ $(function()
         $('#freightfee-region-popup').modal();
         $('#freightfee-region-popup').attr('data-index', index);
 
-        // 清楚选中
+        // 清除选中
         $('#freightfee-region-popup').find('.province-name').removeClass('selected').removeClass('selected-may');
         $('#freightfee-region-popup').find('.city-name').parent('li').removeClass('selected');
 
@@ -216,6 +221,7 @@ $(function()
     {
         var name_all = [];
         var ids_all = [];
+        var show_ids_all = [];
         var city_index = 0;
         var province_index = 0;
         var province_id = 0;
@@ -229,12 +235,14 @@ $(function()
                 {
                     province_id = temp_province_id;
                     name_all[province_index] = $(this).parent('.city-list').prev('.province-name').text();
+                    show_ids_all[province_index] = temp_province_id;
                     province_index++;
                 }
             } else {
                 if($(this).hasClass('selected'))
                 {
                     name_all[province_index] = $(this).find('.city-name').text();
+                    show_ids_all[province_index] = $(this).find('.city-name').data('city-id');
                     province_index++;
                 }
             }
@@ -253,7 +261,8 @@ $(function()
             $content.addClass('none');
         }
         
-        $('.data-list-'+$('#freightfee-region-popup').attr('data-index')+' td.first input').val(ids_all.join('-'));
+        $('.data-list-'+$('#freightfee-region-popup').attr('data-index')+' td.first input.region-name').val(ids_all.join('-'));
+        $('.data-list-'+$('#freightfee-region-popup').attr('data-index')+' td.first input.region-name-show').val(show_ids_all.join('-'));
 
         $('#freightfee-region-popup').modal('close');
     });
