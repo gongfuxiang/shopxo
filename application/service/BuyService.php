@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 use app\service\GoodsService;
 use app\service\UserService;
 use app\service\ResourcesService;
@@ -529,10 +530,29 @@ class BuyService
             // 商品/基础信息
             $total_price = empty($goods) ? 0 : array_sum(array_column($goods, 'total_price'));
             $base = [
-                'total_price'   => $total_price,
-                'actual_price'  => $total_price,
-                'total_stock'   => empty($goods) ? 0 : array_sum(array_column($goods, 'stock')),
-                'address'       => empty($address['data']) ? null : $address['data'],
+                // 总价
+                'total_price'           => $total_price,
+
+                // 订单实际支付金额(已减去优惠金额, 已加上增加金额)
+                'actual_price'          => $total_price,
+
+                // 优惠金额
+                'preferential_price'    => 0.00,
+
+                // 增加金额
+                'increase_price'        => 0.00,
+
+                // 商品数量
+                'goods_count'           => count($goods),
+
+                // 规格重量总计
+                'spec_weight_total'     => empty($goods) ? 0 : array_sum(array_map(function($v) {return $v['spec_weight']*$v['stock'];}, $goods)),
+
+                // 购买总数
+                'buy_count'             => empty($goods) ? 0 : array_sum(array_column($goods, 'stock')),
+
+                // 默认地址
+                'address'               => empty($address['data']) ? null : $address['data'],
             ];
 
             // 扩展展示数据
@@ -541,18 +561,12 @@ class BuyService
             // type 类型（0减少, 1增加）
             // tips 提示信息
             $extension_data = [
-                [
-                    'name'  => '感恩节9折',
-                    'price' => 23,
-                    'type'  => 0,
-                    'tips'  => '-￥23元'
-                ],
-                [
-                    'name'  => '运费',
-                    'price' => 10,
-                    'type'  => 1,
-                    'tips'  => '+￥10元'
-                ],
+                // [
+                //     'name'  => '感恩节9折',
+                //     'price' => 23,
+                //     'type'  => 0,
+                //     'tips'  => '-￥23元'
+                // ],
             ];
 
             // 返回数据
@@ -561,6 +575,20 @@ class BuyService
                 'base'              => $base,
                 'extension_data'    => $extension_data,
             ];
+
+            // 生成订单数据处理钩子
+            $hook_name = 'plugins_service_buy_handle';
+            $ret = Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'data'          => &$result,
+            ]);
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                return $ret;
+            }
+
             return DataReturn('操作成功', 0, $result);
         }
 
@@ -593,7 +621,6 @@ class BuyService
         }
 
         // 数据校验
-        $total_price = 0;
         foreach($params['goods'] as $v)
         {
             // 获取商品信息
@@ -630,16 +657,9 @@ class BuyService
             {
                 return DataReturn('['.$v['goods_id'].']超过商品限购数量['.$v['stock'].'>'.$goods['buy_max_number'].']', -1);
             }
-
-            // 总价
-            $total_price += $goods['price']*$v['stock'];
-            $result[] = $goods;
         }
 
-        $data = [
-            'total_price'   => $total_price,
-        ];
-        return DataReturn('操作成功', 0, $data);
+        return DataReturn('操作成功', 0);
     }
 
     /**
@@ -688,26 +708,24 @@ class BuyService
         }
 
         // 清单商品
-        $goods = self::BuyTypeGoodsList($params);
-        if(!isset($goods['code']) || $goods['code'] != 0)
+        $buy = self::BuyTypeGoodsList($params);
+        if(!isset($buy['code']) || $buy['code'] != 0)
         {
-            return $goods;
+            return $buy;
         }
-        $check = self::BuyGoodsCheck(['goods'=>$goods['data']['goods']]);
+        $check = self::BuyGoodsCheck(['goods'=>$buy['data']['goods']]);
         if(!isset($check['code']) || $check['code'] != 0)
         {
             return $check;
         }
 
-        // 用户地址
-        $address = UserService::UserAddressRow(array_merge($params, ['id'=>$params['address_id']]));
-        if(empty($address))
+        // 收货地址
+        if(empty($buy['data']['base']['address']))
         {
-            return $address;
+            return DataReturn('收货地址有误', -1);
+        } else {
+            $address = $buy['data']['base']['address'];
         }
-
-        // 优惠金额
-        $preferential_price = 0.00;
 
         // 店铺
         $shop_id = 0;
@@ -717,18 +735,20 @@ class BuyService
             'order_no'              => date('YmdHis').GetNumberCode(6),
             'user_id'               => $params['user']['id'],
             'shop_id'               => $shop_id,
-            'receive_address_id'    => $address['data']['id'],
-            'receive_name'          => $address['data']['name'],
-            'receive_tel'           => $address['data']['tel'],
-            'receive_province'      => $address['data']['province'],
-            'receive_city'          => $address['data']['city'],
-            'receive_county'        => $address['data']['county'],
-            'receive_address'       => $address['data']['address'],
+            'receive_address_id'    => $address['id'],
+            'receive_name'          => $address['name'],
+            'receive_tel'           => $address['tel'],
+            'receive_province'      => $address['province'],
+            'receive_city'          => $address['city'],
+            'receive_county'        => $address['county'],
+            'receive_address'       => $address['address'],
             'user_note'             => isset($params['user_note']) ? htmlentities($params['user_note']) : '',
             'status'                => (intval(MyC('common_order_is_booking', 0)) == 1) ? 0 : 1,
-            'preferential_price'    => $preferential_price,
-            'price'                 => $check['data']['total_price'],
-            'total_price'           => $check['data']['total_price']-$preferential_price,
+            'preferential_price'    => $buy['data']['base']['preferential_price'],
+            'increase_price'        => $buy['data']['base']['increase_price'],
+            'price'                 => $buy['data']['base']['total_price'],
+            'total_price'           => $buy['data']['base']['actual_price'],
+            'extension_data'        => empty($buy['data']['extension_data']) ? '' : json_encode($buy['data']['extension_data']),
             'payment_id'            => isset($params['payment_id']) ? intval($params['payment_id']) : 0,
             'add_time'              => time(),
         ];
@@ -744,7 +764,7 @@ class BuyService
         $order_id = Db::name('Order')->insertGetId($order);
         if($order_id > 0)
         {
-            foreach($goods['data']['goods'] as $v)
+            foreach($buy['data']['goods'] as $v)
             {
                 $detail = [
                     'order_id'          => $order_id,

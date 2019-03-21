@@ -117,6 +117,10 @@ class Goods extends Common
     {
         // 开始处理
         $params = $this->data_post;
+        if(isset($_POST['spec']))
+        {
+            $params['spec'] = $_POST['spec'];
+        }
         return GoodsService::GoodsSpecType($params);
     }
 
@@ -132,6 +136,10 @@ class Goods extends Common
     {
         // 开始处理
         $params = $this->data_post;
+        if(isset($_POST['spec']))
+        {
+            $params['spec'] = $_POST['spec'];
+        }
         return GoodsService::GoodsSpecDetail($params);
     }
 

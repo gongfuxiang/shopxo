@@ -86,7 +86,7 @@ Page({
           } else {
             this.setData({
               goods_list: data.goods_list,
-              total_price: data.base.total_price,
+              total_price: data.base.actual_price,
               extension_data: data.extension_data || [],
               data_list_loding_status: 3,
               common_order_is_booking: data.common_order_is_booking || 0,

@@ -110,7 +110,6 @@ ul.progress li.current .title {
     overflow: hidden;
 }
 .items-detail {
-    width: calc(100% - 62px);
     color: #666;
 }
 

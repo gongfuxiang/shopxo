@@ -120,5 +120,9 @@ return array (
   array (
     0 => 'app\\plugins\\touristbuy\\Hook',
   ),
+  'plugins_service_buy_handle' => 
+  array (
+    0 => 'app\\plugins\\freightfee\\Hook',
+  ),
 );
 ?>

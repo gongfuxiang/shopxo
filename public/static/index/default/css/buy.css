@@ -28,8 +28,8 @@ ul.logistics-list li.selected i.icon-active, ul.payment-list li.selected i.icon-
 .business-item ul { padding: 10px 3px 5px 5px;}
 ul.logistics-list li img, ul.payment-list li img { width: 36px; height: 36px; }
 
-/*运费、留言*/
-.buy-message{padding:0px 5px}
+/*运费、留言、扩展数据*/
+.buy-message {padding:0px 5px}
 .td.td-oplist .pay-logis,.td.td-bonus select{position:absolute;top:6px;right:0;}
 .memo-input{width:calc(100% - 64px);border: 1px solid #ccc;padding: 5px;outline:none;border-radius: 2px;}
 
@@ -45,6 +45,13 @@ ul.logistics-list li img, ul.payment-list li img { width: 36px; height: 36px; }
 .link-list h3 { padding: 0 0 5px 5px; }
 ul.address-list, .business-item ul { overflow: hidden; }
 .nav-buy .btn-go.am-disabled { background-color: #efa4af; }
+
+/* 扩展数据 */
+.buy-extension-data { background: #ffffeb; border: 1px solid #ffe2cf; margin-top: 10px; padding: 5px 10px; margin: 10px 5px 0 5px; }
+.buy-extension-data li { padding: 5px 0; }
+.buy-extension-data li:not(:last-child) { border-bottom: 1px dashed #ffe2cf; }
+.buy-extension-data .extension-items-name {  }
+.buy-extension-data .extension-items-tips { color: #ff8f44; }
 
 /**
  * 手机下选择地址
@@ -91,8 +98,6 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .base-real-pay .g_price span {font-size: 26px;}
   .price .nav-total-price {color: #d2364c;font: 700 26px tahoma;}
   .order-nav .buy-footer-address .buy-line-title {color: #404040;font-weight: 700;}
-
-
   .link-list{margin:0px auto;}
   /*地址管理*/
   .address ul{margin-top:10px ;}
@@ -121,6 +126,9 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .link-list h3 { padding: 0 0 5px 0; }
   .buy-message { margin: 0; }
   .buy-point-discharge { padding: 10px 0px; }
+
+  /*扩展数据*/
+  .buy-extension-data { margin: 10px 0 0 0; }
 }
 
 @media only screen and (max-width:640px) {

@@ -21,6 +21,8 @@
         "is_home":false
     },
     "hook":{
-        
+        "plugins_service_buy_handle":[
+            "app\\plugins\\freightfee\\Hook"
+        ]
     }
 }

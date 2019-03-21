@@ -68,12 +68,12 @@ class AlipayAuth
         $result = GS($key);
         if($result !== false)
         {
-            return $result;
+            return ['status'=>0, 'msg'=>'success', 'data'=>$result];
         }
 
         // 获取授权信息并且获取用户信息
         $auth = $this->GetAuthAccessToken($authcode, $app_id);
-        if($auth != false)
+        if($auth['status'] == 0)
         {
             // 请求参数
             $param = [
@@ -84,7 +84,7 @@ class AlipayAuth
                 'sign_type'         =>  'RSA2',
                 'timestamp'         =>  date('Y-m-d H:i:s'),
                 'version'           =>  '1.0',
-                'auth_token'        =>  $auth['access_token'],
+                'auth_token'        =>  $auth['data']['access_token'],
             ];
 
             // 生成签名参数+签名
@@ -99,17 +99,21 @@ class AlipayAuth
                 // 验证签名正确则存储缓存返回数据
                 if(!$this->SyncRsaVerify($result, 'alipay_user_info_share_response'))
                 {
-                    return false;
+                    return ['status'=>-1, 'msg'=>'签名验证失败'];
                 }
                 
                 // 存储缓存
                 SS($key, $result['alipay_user_info_share_response']);
 
                 // 返回用户数据
-                return $result['alipay_user_info_share_response'];
+                return ['status'=>0, 'msg'=>'success', 'data'=>$result['alipay_user_info_share_response']];
             }
+
+            $msg = empty($result['error_response']['sub_msg']) ? '授权失败' : $result['error_response']['sub_msg'];
+            return ['status'=>-1, 'msg'=>$msg];
+        } else {
+            return $auth;
         }
-        return false;
     }
 
     /**
@@ -157,7 +161,7 @@ class AlipayAuth
     {
         if(empty($app_id) || empty($key) || (empty($authcode) && empty($refresh_token)))
         {
-            return false;
+            return ['status'=>-1, 'msg'=>'参数有误'];
         }
 
         // 请求参数
@@ -188,20 +192,22 @@ class AlipayAuth
 
         // 执行请求
         $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $param);
+
         // 结果正确则验证签名 并且 存储缓存返回access_token
         if(!empty($result['alipay_system_oauth_token_response']['user_id']))
         {
             // 验证签名正确则存储缓存返回数据
             if(!$this->SyncRsaVerify($result, 'alipay_system_oauth_token_response'))
             {
-                return false;
+                return ['status'=>-1, 'msg'=>'签名验证失败'];
             }
 
             // 存储缓存
             SS($key, $result['alipay_system_oauth_token_response']);
-            return $result['alipay_system_oauth_token_response'];
+            return ['status'=>0, 'msg'=>'success', 'data'=>$result['alipay_system_oauth_token_response']];
         }
-        return false;
+        $msg = empty($result['error_response']['sub_msg']) ? '授权失败' : $result['error_response']['sub_msg'];
+        return ['status'=>-1, 'msg'=>$msg];
     }
 
     /**

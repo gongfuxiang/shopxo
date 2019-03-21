@@ -296,11 +296,28 @@
                     </table>
                 </div>
 
+                {{if !empty($data['extension_data'])}}
+                    <div class="am-alert am-alert-warning">
+                        {{foreach $data.extension_data as $ertk=>$ext}}
+                            <div class="items">
+                                <div class="items-title am-fl">{{$ext.name}}：</div>
+                                <div class="items-detail am-fl">{{$ext.tips}}</div>
+                            </div>
+                        {{/foreach}}
+                    </div>
+                {{/if}}
+
                 <div class="am-alert am-alert-secondary">
                   {{if !empty($data.price)}}
                         <div class="items">
                             <div class="items-title am-fl">商品总价：</div>
                             <div class="items-detail am-fl">￥{{$data.price}}</div>
+                        </div>
+                    {{/if}}
+                    {{if !empty($data.increase_price)}}
+                        <div class="items">
+                            <div class="items-title am-fl">增加金额：</div>
+                            <div class="items-detail am-fl">+￥{{$data.increase_price}}</div>
                         </div>
                     {{/if}}
                     {{if !empty($data.preferential_price)}}

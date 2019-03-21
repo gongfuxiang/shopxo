@@ -25,11 +25,12 @@ use app\service\UserService;
 class Hook extends Controller
 {
     /**
-     * 钩子入口
-     * @author   Guoguo
-     * @blog     http://gadmin.cojz8.com
+     * 应用响应入口
+     * @author   Devil
+     * @blog     http://gong.gg/
      * @version  1.0.0
-     * @datetime 2019年3月14日
+     * @datetime 2019-02-09T14:25:44+0800
+     * @param    [array]                    $params [输入参数]
      */
     public function run($params = [])
     {

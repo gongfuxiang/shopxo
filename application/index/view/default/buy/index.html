@@ -153,6 +153,13 @@
                     <div class="table-no"><i class="am-icon-warning"></i> 没有商品</div>
                 {{/if}}
 
+                <!-- 含运费小计 -->
+                <div class="buy-point-discharge">
+                    <p>
+                        合计 <span>¥</span><em class="pay-sum">{{$base.total_price}}</em>
+                    </p>
+                </div>
+
                 <!-- 留言 -->
                 <div class="buy-message">
                     <div class="order-extra">
@@ -165,12 +172,17 @@
                     </div>
                 </div>
 
-                <!-- 含运费小计 -->
-                <div class="buy-point-discharge">
-                    <p>
-                        合计（含运费） <span>¥</span><em class="pay-sum">{{$base.total_price}}</em>
-                    </p>
-                </div>
+                <!-- 扩展展示数据 -->
+                {{if !empty($extension_data)}}
+                    <ul class="buy-extension-data">
+                        {{foreach $extension_data as $ext}}
+                            <li>
+                                <span class="extension-items-name">{{$ext.name}}</span>
+                                <span class="am-fr extension-items-tips">{{$ext.tips}}</span>
+                            </li>
+                        {{/foreach}}
+                    </ul>
+                {{/if}}
 
                 <!-- 信息 -->
                 <div class="order-nav">
@@ -180,7 +192,7 @@
                                 <em>实付款：</em>
                                 <span class="price">
                                     <span>¥</span>
-                                    <em class="nav-total-price">{{$base.total_price}}</em>
+                                    <em class="nav-total-price">{{$base.actual_price}}</em>
                                 </span>
                             </div>
 

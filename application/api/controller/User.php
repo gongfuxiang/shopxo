@@ -91,15 +91,16 @@ class User extends Common
         }
 
         // 授权
-        $result = (new \base\AlipayAuth())->GetAlipayUserInfo($this->data_post['authcode'], MyC('common_app_mini_alipay_appid'));
-        if($result === false)
+        $ret = (new \base\AlipayAuth())->GetAlipayUserInfo($this->data_post['authcode'], MyC('common_app_mini_alipay_appid'));
+        if($ret['status'] != 0)
         {
-            return DataReturn('获取授权信息失败', -10);
+            return DataReturn($ret['msg'], -10);
         } else {
-            $result['gender'] = empty($result['gender']) ? 0 : ($result['gender'] == 'm') ? 2 : 1;
-            $result['openid'] = $result['user_id'];
-            $result['referrer']= isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0;
-            return UserService::AuthUserProgram($result, 'alipay_openid');
+            $data = $ret['data'];
+            $data['gender'] = empty($data['gender']) ? 0 : ($data['gender'] == 'm') ? 2 : 1;
+            $data['openid'] = $data['user_id'];
+            $data['referrer']= isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0;
+            return UserService::AuthUserProgram($data, 'alipay_openid');
         }
     }
 

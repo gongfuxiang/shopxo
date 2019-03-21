@@ -10,6 +10,17 @@
 
         <div class="freightfee-content">
             <div class="items">
+                <label>展示名称</label>
+                <div>
+                    {{if empty($data['show_name'])}}
+                        运费
+                    {{else /}}
+                        {{$data.show_name}}
+                    {{/if}}
+                </div>
+            </div>
+
+            <div class="items">
                 <label>计价方式</label>
                 <div>
                     {{if isset($data['valuation']) and $data['valuation'] eq 0}}

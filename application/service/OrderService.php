@@ -648,6 +648,9 @@ class OrderService
                 {
                     $v['user_note'] = null;
                 }
+
+                // 扩展数据
+                $v['extension_data'] = empty($v['extension_data']) ? null : json_decode($v['extension_data'], true);
                 
                 // 订单详情
                 $buy_number_count = 0;

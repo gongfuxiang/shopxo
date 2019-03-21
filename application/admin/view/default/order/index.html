@@ -66,6 +66,7 @@
 					<th class="am-hide-sm-only">快递信息</th>
 					<th>订单状态</th>
 					<th>订单金额(元)</th>
+					<th>扩展数据</th>
 					<th>更多</th>
 					<th>操作</th>
 				</tr>
@@ -127,9 +128,20 @@
 							</td>
 							<td>
 								金额：{{$v.price}}<br />
+								增加：{{$v.increase_price}}<br />
 								优惠：{{$v.preferential_price}}<br />
 								总价：{{$v.total_price}}<br />
 								支付：{{$v.pay_price}}
+							</td>
+							<td>
+								{{if empty($v['extension_data'])}}
+									<span class="cr-ddd">无</span>
+								{{else /}}
+									{{foreach $v.extension_data as $extk=>$ext}}
+										{{if $extk gt 0}}<br />{{/if}}
+										{{$ext.name}} [{{$ext.tips}}]
+									{{/foreach}}
+								{{/if}}
 							</td>
 							<td>
 								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
@@ -209,9 +221,22 @@
 														<span class="cr-ddd">未填写</span>
 													{{else /}}
 														金额：{{$v.price}}<br />
+														增加：{{$v.increase_price}}<br />
 														优惠：{{$v.preferential_price}}<br />
 														总价：{{$v.total_price}}<br />
 														支付：{{$v.pay_price}}
+													{{/if}}
+												</dd>
+
+												<dt>扩展数据</dt>
+												<dd>
+													{{if empty($v['extension_data'])}}
+														<span class="cr-ddd">无</span>
+													{{else /}}
+														{{foreach $v.extension_data as $extk=>$ext}}
+															{{if $extk gt 0}}<br />{{/if}}
+															{{$ext.name}} [{{$ext.tips}}]
+														{{/foreach}}
 													{{/if}}
 												</dd>
 
