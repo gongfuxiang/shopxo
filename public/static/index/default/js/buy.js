@@ -2,7 +2,6 @@ if(store.enabled)
 {
     // 选择缓存key
     var store_use_new_address_status_key = 'store-buy-use-new-address-status-count';
-    var store_payment_key = 'store-buy-payment-selected-index';
 }
 
 $(function()
@@ -20,13 +19,6 @@ $(function()
                 store.set(store_use_new_address_status_key, undefined);
                 window.location.href = UrlFieldReplace('address_id', $('ul.address-list li:first').data('value'));
             }
-        }
-
-        // 支付方式
-        var store_payment_value = store.get(store_payment_key);
-        if(store_payment_value !== undefined)
-        {
-            $('ul.payment-list li').eq(store_payment_value).addClass('selected');
         }
     }
 
@@ -63,26 +55,11 @@ $(function()
     // 混合列表选择
     $('.business-item ul li').on('click', function()
     {
-        var type = $(this).parents('.business-item').data('type') || null;
-        var temp_store_key = null;
-        switch(type)
+        var field = $(this).parents('.business-item').data('field') || null;
+        var value = $(this).data('value') || null;
+        if(field != null && value != null)
         {
-            case 'payment' :
-                temp_store_key = store_payment_key;
-                break;
-        }
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-            if(temp_store_key != null)
-            {
-                store.remove(temp_store_key);
-            }
-        } else {
-            $(this).addClass('selected').siblings('li').removeClass('selected');
-            if(temp_store_key != null)
-            {
-                store.set(temp_store_key, $(this).index());
-            }
+            window.location.href = UrlFieldReplace(field, value);
         }
     });
 

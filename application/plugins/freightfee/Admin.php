@@ -14,6 +14,7 @@ use think\Db;
 use think\Controller;
 use app\service\PluginsService;
 use app\service\RegionService;
+use app\service\PaymentService;
 
 /**
  * 运费设置 - 管理
@@ -37,16 +38,7 @@ class Admin extends Controller
         $ret = PluginsService::PluginsData('freightfee');
         if($ret['code'] == 0)
         {
-            // 数据处理
-            if(!empty($ret['data']['data']))
-            {
-                foreach($ret['data']['data'] as &$v)
-                {
-                    $v['region_names'] = empty($v['region_show']) ? '' : implode('、', Db::name('Region')->where('id', 'in', explode('-', $v['region_show']))->column('name'));
-                }
-            }
-
-            $this->assign('data', $ret['data']);
+            $this->assign('data', $this->DataHandle($ret['data']));
             return $this->fetch('../../../plugins/view/freightfee/admin/index');
         } else {
             return $ret['msg'];
@@ -83,22 +75,46 @@ class Admin extends Controller
                 }, $region);
             }
 
-            // 数据处理
-            if(!empty($ret['data']['data']))
-            {
-                foreach($ret['data']['data'] as &$v)
-                {
-                    $v['region_names'] = empty($v['region_show']) ? '' : implode('、', Db::name('Region')->where('id', 'in', explode('-', $v['region_show']))->column('name'));
-                }
-            }
+            // 支付方式
+            $this->assign('payment_list', PaymentService::PaymentList(['is_enable'=>1, 'is_open_user'=>1]));
 
             $this->assign('region_list', $region);
             $this->assign('is_whether_list', $is_whether_list);
-            $this->assign('data', $ret['data']);
+            $this->assign('data', $this->DataHandle($ret['data']));
             return $this->fetch('../../../plugins/view/freightfee/admin/saveinfo');
         } else {
             return $ret['msg'];
         }
+    }
+
+    /**
+     * 数据处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-22
+     * @desc    description
+     * @param   [array]          $data [应用数据]
+     */
+    private function DataHandle($data)
+    {
+        if(!empty($data['data']))
+        {
+            if(empty($data['payment']))
+            {
+                $data['payment'] = [];
+                $data['payment_names'] = '';
+            } else {
+                $data['payment'] = explode(',', $data['payment']);
+                $data['payment_names'] = implode('、', array_map(function($v){return mb_substr($v, strrpos($v, '-')+1, null, 'utf-8');}, $data['payment']));
+            }
+
+            foreach($data['data'] as &$v)
+            {
+                $v['region_names'] = empty($v['region_show']) ? '' : implode('、', Db::name('Region')->where('id', 'in', explode('-', $v['region_show']))->column('name'));
+            }
+        }
+        return $data;
     }
 
     /**

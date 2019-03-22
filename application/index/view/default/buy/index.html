@@ -70,12 +70,12 @@
         </div>
 
         <!-- 支付方式 -->
-        <div class="business-item payment" data-type="payment">
+        <div class="business-item payment" data-field="payment_id">
             <h3>选择支付</h3>
             {{if !empty($payment_list)}}
                 <ul class="payment-list">
                     {{foreach $payment_list as $payment}}
-                        <li data-value="{{$payment.id}}">
+                        <li data-value="{{$payment.id}}" class="{{if isset($params['payment_id']) and $params['payment_id'] eq $payment['id']}}selected{{/if}}">
                             {{if !empty($payment.logo)}}
                                 <img src="{{$payment.logo}}" />
                             {{/if}}

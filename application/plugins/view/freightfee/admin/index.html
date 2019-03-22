@@ -21,6 +21,17 @@
             </div>
 
             <div class="items">
+                <label>免运费支付方式</label>
+                <div>
+                    {{if empty($data['payment_names'])}}
+                        未设置
+                    {{else /}}
+                        {{$data.payment_names}}
+                    {{/if}}
+                </div>
+            </div>
+
+            <div class="items">
                 <label>计价方式</label>
                 <div>
                     {{if isset($data['valuation']) and $data['valuation'] eq 0}}

@@ -10,9 +10,18 @@
                 <a href="{{:PluginsAdminUrl('freightfee', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
             </legend>
 
-            <div class="business-form-block am-form-group">
+            <div class="am-form-group">
                 <label>展示名称<span class="am-form-group-label-tips">默认 运费</span></label>
                 <input type="text" name="show_name" placeholder="展示名称" maxlength="16" data-validation-message="展示名称格式最多 16 个字符" class="am-radius" value="{{if !empty($data['show_name'])}}{{$data.show_name}}{{else /}}运费{{/if}}" />
+            </div>
+
+            <div class="am-form-group">
+                <label>免运费支付方式</label>
+                <select name="payment" class="am-radius c-p chosen-select" multiple="multiple" data-placeholder="可选择..." data-validation-message="请选择一个免运费支付方式">
+                    {{foreach $payment_list as $v}}
+                        <option value="{{$v.id}}-{{$v.payment}}-{{$v.name}}" {{if isset($data['payment']) and in_array($v['id'].'-'.$v['payment'].'-'.$v['name'], $data['payment'])}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
             </div>
 
             <div class="business-form-block am-form-group">
@@ -27,6 +36,7 @@
             </div>
 
             <div class="business-form-block freightfee-rules">
+                <label>运费模板</label>
                 <table class="am-table am-table-striped">
                     {{if empty($data['data'])}}
                         <thead>

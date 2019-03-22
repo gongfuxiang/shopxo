@@ -61,8 +61,29 @@ class Hook
         $ret = PluginsService::PluginsData('freightfee');
         if($ret['code'] == 0)
         {
+            // 默认运费
+            $price = 0;
+
+            // 支付方式免运费
+            $is_payment = true;
+            if(!empty($ret['data']['payment']) && !empty($params['params']['payment_id']))
+            {
+                $payment = array_map(function($v){return explode('-', $v);}, explode(',', $ret['data']['payment']));
+                if(!empty($payment) && is_array($payment))
+                {
+                    foreach($payment as $v)
+                    {
+                        if(isset($v[0]) && $v[0] == $params['params']['payment_id'])
+                        {
+                            $is_payment = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            
             // 是否设置运费数据
-            if(!empty($ret['data']['data'][0]))
+            if($is_payment === true && !empty($ret['data']['data'][0]))
             {
                 // 规则
                 $rules = $this->RulesHandle($ret['data']['data'], $params['data']['base']['address']);
@@ -70,7 +91,6 @@ class Hook
                 // 计费方式
                 if(!empty($rules))
                 {
-                    $price = 0;
                     switch($ret['data']['valuation'])
                     {
                         // 按件
@@ -83,22 +103,22 @@ class Hook
                             $price = $this->QuantityCalculate($rules, $params['data']);
                             break;
                     }
-
-                    // 扩展展示数据
-                    $show_name = empty($ret['data']['show_name']) ? '运费' : $ret['data']['show_name'];
-                    $params['data']['extension_data'][] = [
-                        'name'      => $show_name,
-                        'price'     => $price,
-                        'type'      => 0,
-                        'tips'      => '+￥'.$price.'元',
-                    ];
-
-                    // 金额
-                    $params['data']['base']['increase_price'] += $price;
-                    $params['data']['base']['actual_price'] += $price;
                 }
-                return DataReturn('处理成功', 0);
             }
+
+            // 扩展展示数据
+            $show_name = empty($ret['data']['show_name']) ? '运费' : $ret['data']['show_name'];
+            $params['data']['extension_data'][] = [
+                'name'      => $show_name,
+                'price'     => $price,
+                'type'      => 0,
+                'tips'      => '+￥'.$price.'元',
+            ];
+
+            // 金额
+            $params['data']['base']['increase_price'] += $price;
+            $params['data']['base']['actual_price'] += $price;
+
             return DataReturn('无需处理', 0);
         } else {
             return $ret['msg'];
