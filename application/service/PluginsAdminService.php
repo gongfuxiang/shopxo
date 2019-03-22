@@ -961,6 +961,19 @@ php;
                 }
             }
         }
+
+        // sql运行
+        $install_sql = APP_PATH.'plugins'.DS.$plugins_name.DS.'install.sql';
+        if(!empty($plugins_name) && file_exists($install_sql))
+        {
+            // 开始处理
+            $ret = SqlconsoleService::Implement(['sql'=>file_get_contents($install_sql)]);
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
+        }
+
         return DataReturn('安装成功');
     }
 }
