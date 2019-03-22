@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\Db;
 use app\service\ResourcesService;
+use app\service\SqlconsoleService;
 
 /**
  * 应用管理服务层
@@ -308,6 +309,13 @@ class PluginsAdminService
             $ret = self::PluginsHookDeployment();
             if($ret['code'] == 0)
             {
+                // sql运行
+                $uninstall_sql = APP_PATH.'plugins'.DS.$plugins.DS.'uninstall.sql';
+                if(file_exists($uninstall_sql))
+                {
+                    SqlconsoleService::Implement(['sql'=>file_get_contents($uninstall_sql)]);
+                }
+
                 // 删除应用文件
                 self::PluginsResourcesDelete($plugins);
 
