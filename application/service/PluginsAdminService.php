@@ -984,5 +984,42 @@ php;
 
         return DataReturn('安装成功');
     }
+
+    /**
+     * 应用打包
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-22
+     * @desc    description
+     * @param    [array]          $params [输入参数]
+     */
+    public static function PluginsDownload($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '操作id有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+        
+        // 获取应用标记
+        $where = ['id'=>intval($params['id'])];
+        $plugins = Db::name('Plugins')->where($where)->value('plugins');
+        if(empty($plugins))
+        {
+           return DataReturn('应用不存在', -10); 
+        }
+
+        // 开始打包
+        return DataReturn('开发中', -10); 
+    }
 }
 ?>

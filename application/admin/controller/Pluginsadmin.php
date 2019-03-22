@@ -216,5 +216,26 @@ class Pluginsadmin extends Common
         // 开始处理
         return PluginsAdminService::PluginsUpload(input());
     }
+
+    /**
+     * 应用打包
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-22
+     * @desc    description
+     */
+    public function Download()
+    {
+        // 开始处理
+        $ret = PluginsAdminService::PluginsDownload(input());
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            $this->assign('msg', $ret['msg']);
+            return $this->fetch('public/error');
+        } else {
+            return $ret;
+        }
+    }
 }
 ?>
