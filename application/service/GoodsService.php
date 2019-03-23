@@ -1831,7 +1831,7 @@ class GoodsService
         // 规格不为数组则为json字符串
         if(!is_array($params['spec']))
         {
-            $params['spec'] = json_decode($params['spec'], true);
+            $params['spec'] = json_decode(htmlspecialchars_decode($params['spec']), true);
         }
         foreach($params['spec'] as $v)
         {
