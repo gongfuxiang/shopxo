@@ -1018,8 +1018,107 @@ php;
            return DataReturn('应用不存在', -10); 
         }
 
-        // 开始打包
-        return DataReturn('开发中', -10); 
+        // 目录不存在则创建
+        $new_dir = ROOT.'runtime'.DS.'data'.DS.'plugins_package'.DS.$plugins;
+        \base\FileUtil::CreateDir($new_dir);
+
+        // 复制包目录 - 控制器
+        $old_dir = APP_PATH.'plugins'.DS.$plugins;
+        if(is_dir($old_dir))
+        {
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_controller_'.DS.$plugins) != true)
+            {
+                return DataReturn('项目包复制失败[控制器]', -2);
+            }
+        }
+
+        // 复制包目录 - 视图
+        $old_dir = APP_PATH.'plugins'.DS.'view'.DS.$plugins;
+        if(is_dir($old_dir))
+        {
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_view_'.DS.$plugins) != true)
+            {
+                return DataReturn('项目包复制失败[视图]', -2);
+            }
+        }
+
+        // 复制包目录 - css
+        $old_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.'css'.DS.$plugins;
+        if(is_dir($old_dir))
+        {
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_css_'.DS.$plugins) != true)
+            {
+                return DataReturn('项目包复制失败[css]', -2);
+            }
+        }
+
+        // 复制包目录 - js
+        $old_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.'js'.DS.$plugins;
+        if(is_dir($old_dir))
+        {
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_js_'.DS.$plugins) != true)
+            {
+                return DataReturn('项目包复制失败[js]', -2);
+            }
+        }
+
+        // 复制包目录 - images
+        $old_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.'images'.DS.$plugins;
+        if(is_dir($old_dir))
+        {
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_images_'.DS.$plugins) != true)
+            {
+                return DataReturn('项目包复制失败[images]', -2);
+            }
+        }
+
+        // 复制包目录 - uploadimages
+        $old_dir = ROOT.'public'.DS.'static'.DS.'upload'.DS.'images'.DS.'plugins_'.$plugins;
+        if(is_dir($old_dir))
+        {
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_uploadimages_'.DS.'plugins_'.$plugins) != true)
+            {
+                return DataReturn('项目包复制失败[uploadimages]', -2);
+            }
+        }
+
+        // 复制包目录 - uploadvideo
+        $old_dir = ROOT.'public'.DS.'static'.DS.'upload'.DS.'video'.DS.'plugins_'.$plugins;
+        if(is_dir($old_dir))
+        {
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_uploadvideo_'.DS.'plugins_'.$plugins) != true)
+            {
+                return DataReturn('项目包复制失败[uploadvideo]', -2);
+            }
+        }
+
+        // 复制包目录 - uploadfile
+        $old_dir = ROOT.'public'.DS.'static'.DS.'upload'.DS.'file'.DS.'plugins_'.$plugins;
+        if(is_dir($old_dir))
+        {
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_uploadfile_'.DS.'plugins_'.$plugins) != true)
+            {
+                return DataReturn('项目包复制失败[uploadfile]', -2);
+            }
+        }
+
+        // 生成压缩包
+        $zip = new \base\ZipFolder();
+        if(!$zip->zip($new_dir.'.zip', $new_dir))
+        {
+            return DataReturn('压缩包生成失败', -100);
+        }
+
+        // 生成成功删除目录
+        \base\FileUtil::UnlinkDir($new_dir);
+
+        // 开始下载
+        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $plugins.'.zip'))
+        {
+            @unlink($new_dir.'.zip');
+        } else {
+            return DataReturn('下载失败', -100);
+        }
     }
 }
 ?>

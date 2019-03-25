@@ -301,5 +301,53 @@ class FileUtil
         copy($file_url, $aim_url);
         return true;
     }
+
+    /**
+     * 文件下载
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-25
+     * @desc    description
+     * @param   [string]          $file_path [文件地址]
+     * @param   [string]          $show_name [显示名称]
+     */
+    public static function DownloadFile($file_path, $show_name)
+    {
+        if(is_file($file_path))
+        {
+            //打开文件
+            $file = fopen($file_path,"r");
+
+            //返回的文件类型
+            Header("Content-type: application/octet-stream");
+
+            //按照字节大小返回
+            Header("Accept-Ranges: bytes");
+
+            //返回文件的大小
+            Header("Accept-Length: ".filesize($file_path));
+
+            //这里设置客户端的弹出对话框显示的文件名
+            Header("Content-Disposition: attachment; filename=".$show_name);
+
+            //一次性将数据传输给客户端
+            //echo fread($file, filesize($file_path));
+            //一次只传输1024个字节的数据给客户端
+            //向客户端回送数据
+            $buffer = 1024;
+
+            //判断文件是否读完
+            while(!feof($file))
+            {
+                //将文件读入内存
+                $file_data = fread($file, $buffer);
+                //每次向客户端回送1024个字节的数据
+                echo $file_data;
+            }
+            return true;
+        }
+        return false;
+    }
 }
 ?>
