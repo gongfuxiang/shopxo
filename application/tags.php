@@ -62,14 +62,6 @@ return array (
     1 => 'app\\plugins\\commononlineservice\\Hook',
     2 => 'app\\plugins\\expressforkdn\\Hook',
   ),
-  'plugins_service_goods_handle_end' => 
-  array (
-    0 => 'app\\plugins\\usernotloginhidegoodsprice\\Hook',
-  ),
-  'plugins_service_goods_spec_base' => 
-  array (
-    0 => 'app\\plugins\\usernotloginhidegoodsprice\\Hook',
-  ),
   'plugins_service_navigation_header_handle' => 
   array (
     0 => 'app\\plugins\\answers\\Hook',
