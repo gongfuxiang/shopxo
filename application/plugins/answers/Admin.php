@@ -133,14 +133,16 @@ class Admin extends Controller
     public function sliderinfo($params = [])
     {
         // 数据
+        $data = [];
         if(!empty($params['id']))
         {
             $data_params = array(
                 'where'     => ['id'=>intval($params['id'])],
             );
             $ret = Service::SlideList($data_params);
-            $this->assign('data', empty($ret['data'][0]) ? [] : $ret['data'][0]);
+            $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
         }
+        $this->assign('data', $data);
         
         return $this->fetch('../../../plugins/view/answers/admin/sliderinfo');
     }

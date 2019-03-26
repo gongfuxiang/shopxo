@@ -90,11 +90,11 @@ class Hook extends Controller
             $original_price_placeholder = isset($ret['data']['original_price_placeholder']) ? $ret['data']['original_price_placeholder'] : '';
 
             // 销售价
-            $price_placeholder = isset($ret['data']['price_placeholder']) ? $ret['data']['price_placeholder'] : '';
+            $price_placeholder = empty($ret['data']['price_placeholder']) ? '登录可见' : $ret['data']['price_placeholder'];
 
             switch($params['hook_name'])
             {
-                // 商品数据处理前
+                // 商品数据处理后
                 case 'plugins_service_goods_handle_end' :
                     // 商品原价
                     if(isset($params['goods']['original_price']))

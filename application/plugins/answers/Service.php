@@ -87,6 +87,7 @@ class Service
             [
                 'checked_type'      => 'fun',
                 'key_name'          => 'url',
+                'is_checked'        => 1,
                 'checked_data'      => 'CheckUrl',
                 'error_msg'         => 'url格式有误',
             ],
@@ -240,7 +241,7 @@ class Service
         $field = 'g.id,g.title';
 
         // 获取数据
-        return GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>0, 'n'=>100, 'field'=>$field]);
+        return GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>0, 'n'=>100, 'field'=>$field, 'is_admin_access'=>1]);
     }
 
     /**

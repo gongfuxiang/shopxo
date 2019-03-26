@@ -39,7 +39,7 @@ class Index extends Controller
     public function index($params = [])
     {
         // 基础数据
-        $base = PluginsService::PluginsData('answers', ['images']);
+        $base = PluginsService::PluginsData('answers', ['images', 'images_bottom']);
         $this->assign('plugins_answers_data', isset($base['data']) ? $base['data'] : []);
 
         // 幻灯片
@@ -93,7 +93,7 @@ class Index extends Controller
     public function detail($params = [])
     {
         // 基础数据
-        $base = PluginsService::PluginsData('answers', ['images']);
+        $base = PluginsService::PluginsData('answers', ['images', 'images_bottom']);
         $this->assign('plugins_answers_data', isset($base['data']) ? $base['data'] : []);
 
         // 商品数据
@@ -148,7 +148,7 @@ class Index extends Controller
             return redirect(PluginsHomeUrl('answers', 'index', 'search', ['answers_keywords'=>$answers_keywords]));
         } else {
             // 基础数据
-            $base = PluginsService::PluginsData('answers', ['images']);
+            $base = PluginsService::PluginsData('answers', ['images', 'images_bottom']);
             $this->assign('plugins_answers_data', isset($base['data']) ? $base['data'] : []);
 
             // 商品数据

@@ -708,6 +708,7 @@ class BuyService
         }
 
         // 清单商品
+        $params['is_order_submit'] = 1;
         $buy = self::BuyTypeGoodsList($params);
         if(!isset($buy['code']) || $buy['code'] != 0)
         {

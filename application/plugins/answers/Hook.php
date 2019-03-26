@@ -37,7 +37,7 @@ class Hook extends Controller
             if(is_array($params['header']))
             {
                 // 获取应用数据
-                $ret = PluginsService::PluginsData('answers', ['images']);
+                $ret = PluginsService::PluginsData('answers', ['images', 'images_bottom']);
                 if($ret['code'] == 0 && !empty($ret['data']['application_name']))
                 {
                     $nav = [

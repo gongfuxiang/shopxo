@@ -365,6 +365,10 @@ class GoodsService
                     $v['content_app'] = self::GoodsContentApp(['goods_id'=>$v['id']]);
                 }
 
+                // 展示字段
+                $v['show_field_original_price_text'] = '原价';
+                $v['show_field_price_text'] = '销售价';
+
                 // 商品处理前钩子
                 $hook_name = 'plugins_service_goods_handle_end';
                 $ret = Hook::listen($hook_name, [

@@ -22,7 +22,7 @@
           <ul class="am-slides">
             {{foreach $plugins_answers_slider as $k=>$v}}
               <li>
-                <a href="{{$v.url}}" target="_blank">
+                <a href="{{if empty($v['url'])}}javascript:;{{else /}}{{$v.url}}{{/if}}" target="_blank">
                   <img src="{{$v.images_url}}" alt="{{$v.name}}">
                   <div class="am-slider-desc">
                     <div class="am-slider-counter">

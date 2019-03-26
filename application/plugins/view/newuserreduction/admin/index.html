@@ -1,0 +1,64 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">新用户立减</span>
+            <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+
+        <div class="newuserreduction-content">
+            <div class="items">
+                <label>展示名称</label>
+                <div>
+                    {{if empty($data['show_name'])}}
+                        新用户立减
+                    {{else /}}
+                        {{$data.show_name}}
+                    {{/if}}
+                </div>
+            </div>
+
+            <div class="items">
+                <label>需满金额</label>
+                <div>
+                    {{if empty($data['full_amount'])}}
+                        不限
+                    {{else /}}
+                        {{$data.full_amount}}
+                    {{/if}}
+                </div>
+            </div>
+
+            <div class="items">
+                <label>立减金额</label>
+                <div>
+                    {{if empty($data['price'])}}
+                        未设置
+                    {{else /}}
+                        {{$data.price}}
+                    {{/if}}
+                </div>
+            </div>
+
+            <div class="items">
+                <label>是否随机</label>
+                <div>
+                    {{if isset($data['is_random']) and $data['is_random'] eq 1}}
+                        是
+                    {{else /}}
+                        否
+                    {{/if}}
+                </div>
+            </div>
+
+            <a href="{{:PluginsAdminUrl('newuserreduction', 'admin', 'saveinfo')}}" class="am-btn am-btn-secondary am-radius btn-loading-example am-btn-sm am-btn-block edit-submit">编辑</a>
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

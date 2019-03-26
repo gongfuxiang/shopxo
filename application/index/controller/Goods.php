@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use think\facade\Hook;
 use app\service\GoodsService;
 use app\service\SeoService;
 
@@ -68,6 +69,51 @@ class Goods extends Common
 
             // 商品收藏总数
             $ret['data'][0]['favor_count'] = GoodsService::GoodsFavorTotal(['goods_id'=>$id]);
+
+            // 商品页面基础信息顶部钩子
+            $this->assign('plugins_view_goods_detail_base_top_data', Hook::listen('plugins_view_goods_detail_base_top',
+                [
+                    'hook_name'    => 'plugins_view_goods_detail_base_top',
+                    'is_backend'    => false,
+                    'goods_id'      => $id,
+                    'goods'         => &$ret['data'][0],
+                ]));
+
+            // 商品页面基础信息面板底部钩子
+            $this->assign('plugins_view_goods_detail_panel_bottom_data', Hook::listen('plugins_view_goods_detail_panel_bottom',
+                [
+                    'hook_name'    => 'plugins_view_goods_detail_panel_bottom',
+                    'is_backend'    => false,
+                    'goods_id'      => $id,
+                    'goods'         => &$ret['data'][0],
+                ]));
+
+            // 商品页面tabs顶部钩子
+            $this->assign('plugins_view_goods_detail_tabs_top_data', Hook::listen('plugins_view_goods_detail_tabs_top',
+                [
+                    'hook_name'    => 'plugins_view_goods_detail_tabs_top',
+                    'is_backend'    => false,
+                    'goods_id'      => $id,
+                    'goods'         => &$ret['data'][0],
+                ]));
+
+            // 商品页面tabs顶部钩子
+            $this->assign('plugins_view_goods_detail_tabs_bottom_data', Hook::listen('plugins_view_goods_detail_tabs_bottom',
+                [
+                    'hook_name'    => 'plugins_view_goods_detail_tabs_bottom',
+                    'is_backend'    => false,
+                    'goods_id'      => $id,
+                    'goods'         => &$ret['data'][0],
+                ]));
+
+            // 商品页面左侧顶部钩子
+            $this->assign('plugins_view_goods_detail_left_top_data', Hook::listen('plugins_view_goods_detail_left_top',
+                [
+                    'hook_name'    => 'plugins_view_goods_detail_left_top',
+                    'is_backend'    => false,
+                    'goods_id'      => $id,
+                    'goods'         => &$ret['data'][0],
+                ]));
 
             // 商品数据
             $this->assign('goods', $ret['data'][0]);

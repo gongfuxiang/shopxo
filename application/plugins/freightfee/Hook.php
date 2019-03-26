@@ -111,7 +111,7 @@ class Hook
             $params['data']['extension_data'][] = [
                 'name'      => $show_name,
                 'price'     => $price,
-                'type'      => 0,
+                'type'      => 1,
                 'tips'      => '+￥'.$price.'元',
             ];
 

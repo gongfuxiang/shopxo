@@ -21,12 +21,12 @@
 
             <div class="am-form-group">
                 <label>原价占位符</label>
-                <input type="text" name="original_price_placeholder" placeholder="原价占位符" maxlength="16" data-validation-message="原价占位符最多16个字符" class="am-radius" value="{{if !empty($data)}}{{$data.original_price_placeholder}}{{/if}}" />
+                <input type="text" name="original_price_placeholder" placeholder="原价占位符" maxlength="16" data-validation-message="原价占位符最多16个字符" class="am-radius" value="{{if !empty($data['original_price_placeholder'])}}{{$data.original_price_placeholder}}{{/if}}" />
             </div>
 
             <div class="am-form-group">
-                <label>销售价占位符</label>
-                <input type="text" name="price_placeholder" placeholder="销售价占位符" maxlength="16" data-validation-message="销售价占位符最多16个字符" class="am-radius" value="{{if !empty($data)}}{{$data.price_placeholder}}{{/if}}" />
+                <label>销售价占位符<span class="am-form-group-label-tips">默认 登录可见</span></label>
+                <input type="text" name="price_placeholder" placeholder="销售价占位符" maxlength="16" data-validation-message="销售价占位符最多16个字符" class="am-radius" value="{{if !empty($data['price_placeholder'])}}{{$data.price_placeholder}}{{/if}}" />
             </div>
 
             <div class="am-form-group am-form-group-refreshing">
