@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use think\facade\Hook;
 use think\Controller;
 use app\service\AdminPowerService;
 use app\service\ConfigService;
@@ -59,7 +60,39 @@ class Common extends Controller
 
 		// 视图初始化
 		$this->ViewInit();
+
+        // 公共钩子初始化
+        $this->CommonPluginsInit();
 	}
+
+    /**
+     * 公共钩子初始化
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-07
+     * @desc    description
+     */
+    private function CommonPluginsInit()
+    {
+        // css钩子
+        $this->assign('plugins_admin_css_data', Hook::listen('plugins_admin_css', ['hook_name'=>'plugins_admin_css', 'is_backend'=>false]));
+
+        // js钩子
+        $this->assign('plugins_admin_js_data', Hook::listen('plugins_admin_js', ['hook_name'=>'plugins_admin_js', 'is_backend'=>false]));
+        
+        // 公共header内钩子
+        $this->assign('plugins_admin_common_header_data', Hook::listen('plugins_admin_common_header', ['hook_name'=>'plugins_admin_common_header', 'is_backend'=>false, 'admin'=>$this->admin]));
+
+        // 公共页面底部钩子
+        $this->assign('plugins_admin_common_page_bottom_data', Hook::listen('plugins_admin_common_page_bottom', ['hook_name'=>'plugins_admin_common_page_bottom', 'is_backend'=>false, 'admin'=>$this->admin]));
+
+        // 公共顶部钩子
+        $this->assign('plugins_admin_view_common_top_data', Hook::listen('plugins_admin_view_common_top', ['hook_name'=>'plugins_admin_view_common_top', 'is_backend'=>false, 'admin'=>$this->admin]));
+
+        // 公共底部钩子
+        $this->assign('plugins_admin_view_common_bottom_data', Hook::listen('plugins_admin_view_common_bottom', ['hook_name'=>'plugins_admin_view_common_bottom', 'is_backend'=>false, 'admin'=>$this->admin]));
+    }
 
 	/**
      * 系统初始化

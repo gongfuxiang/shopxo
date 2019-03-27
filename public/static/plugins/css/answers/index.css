@@ -1,0 +1,181 @@
+.plugins-answers .am-list-news-hd {
+    font-weight: 500;
+    padding-top: 10px;
+    padding-bottom: 2px;
+}
+.plugins-answers .answers-goods {
+    overflow: hidden;
+}
+.plugins-answers .answers-goods ul.am-gallery {
+    width: calc(100% + 10px);
+    margin-left: -5px;
+}
+.plugins-answers .answers-goods .am-list-news-hd {
+    padding-bottom: 0;
+}
+.plugins-answers .am-gallery-bordered .am-gallery-item {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    border: 1px solid #eee;
+}
+.plugins-answers .answers-middle-banner img {
+    width: 100%;
+}
+.plugins-answers .am-slider-c3 .am-slider-counter {
+    background-color: #d13a49;
+}
+.plugins-answers .answers-btn-list .am-btn {
+    width: 48%;
+}
+.plugins-answers .answers-btn-list .am-btn-danger {
+    color: #fff !important;
+    background-color: #f15262;
+    border-color: #f15262;
+    font-size: 16px;
+}
+.plugins-answers .answers-btn-list .am-btn-warning {
+    color: #fff !important;
+    background-color: #F44336;
+    border-color: #F44336;
+    font-size: 16px;
+}
+.plugins-answers .answers-btn-list, .plugins-answers .am-list-news-bd .am-list {
+    margin-bottom: 10px;
+}
+.plugins-answers .am-input-group-sm > .am-input-group-btn > .am-btn, .plugins-answers .am-input-group-sm > .am-form-field {
+    height: 32px;
+}
+.plugins-answers .am-gallery-bordered .am-gallery-title {
+    font-size: 12px;
+}
+.plugins-answers .answers-top, .plugins-answers .answers-middle {
+    overflow: hidden;
+}
+.plugins-answers .answers-top, .plugins-answers .answers-middle-banner {
+    margin-top: 10px;
+}
+
+@media only screen and (min-width:640px) {
+    .plugins-answers .am-u-md-8, .plugins-answers .am-gallery {
+        padding: 0;
+    }
+    .plugins-answers .am-gallery-bordered .am-gallery-item:hover {
+        -webkit-box-shadow: 0px 12px 12px -10px rgba(0,0,0,.4);
+        box-shadow:0px 12px 12px -10px rgba(0,0,0,.4);
+        border: 4px solid #d2364c;
+        -webkit-transition: border-color .2s ease-in;
+        -moz-transition: border-color .2s ease-in;
+        -ms-transition: border-color .2s ease-in;
+        -o-transition: border-color .2s ease-in;
+        transition: border-color .2s ease-in;
+    }
+    .plugins-answers .am-gallery-bordered .am-gallery-item:hover a {
+        text-decoration: none;
+    }
+    .plugins-answers .am-gallery-bordered .am-gallery-item a h3:hover {
+        color: #d2364c;
+        text-decoration: underline;
+    }
+    
+    .plugins-answers .answers-sidebar, .plugins-answers .answers-goods {
+        padding-right: 1px;
+    }
+    .plugins-answers .am-list-news-default {
+        margin: 0;
+    }
+    .plugins-answers .answers-middle-list .am-list-news-hd {
+        padding-top: 10px;
+    }
+}
+
+@media only screen and (max-width:1025px) {
+    .plugins-answers {
+        padding: 0 5px;
+    }
+}
+
+@media only screen and (max-width:640px) {
+    .plugins-answers {
+        padding: 0 5px;
+    }
+    .plugins-answers .am-u-md-8, .plugins-answers .am-u-md-4, .plugins-answers .am-gallery {
+        padding: 0;
+    }
+    .plugins-answers .am-list-news-default {
+        margin: 0;
+    }
+    .plugins-answers .answers-slider {
+        margin-bottom: 10px;
+    }
+    .plugins-answers .am-list-news-hd {
+        padding-bottom: 5px;
+    }
+    .plugins-answers .answers-top {
+        margin-top: 0;
+    }
+}
+
+/**
+ * 详情
+ */
+.plugins-answers-detail, .plugins-answers-search {
+    padding-top: 10px;
+}
+.plugins-answers-detail .am-u-md-8 {
+    border: 1px solid #dedede;
+}
+.plugins-answers-detail .base-content, .plugins-answers-detail .base-footer {
+    padding: 10px;
+}
+.plugins-answers-detail .base-content {
+    border-top: 1px solid #dedede;
+}
+.plugins-answers-detail .base-footer {
+    text-align: right;
+    border-top: 1px dashed #e7e7e7;
+    border-bottom: 1px dashed #e7e7e7;
+}
+.plugins-answers-detail .base {
+    margin-top: 10px;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+.plugins-answers-detail .am-panel-warning {
+    background: #fff7ef;
+}
+.plugins-answers-detail .am-panel-success {
+    background: #e7ffe5;
+}
+.plugins-answers-detail .am-panel {
+    margin: 0;
+    border: 0;
+}
+.plugins-answers-detail .base-title {
+    position: relative;
+    height: 45px;
+    padding: 10px;
+    background: #f6f6f6;
+}
+.plugins-answers-detail .base-title .highlighted {
+    color: #FF9800;
+}
+.plugins-answers-detail h2 {
+    font-weight: 500;
+    font-size: 16px;
+}
+.plugins-answers-detail .base-title .gray-text {
+    position: absolute;
+    right: 10px;
+    top: 15px;
+}
+.plugins-answers-detail .base .reply-content {
+    margin-top: 5px;
+}
+.plugins-answers-detail .reply-footer {
+    border-bottom: 0;
+}
+@media only screen and (max-width:640px) {
+    .plugins-answers-detail .answers-btn-list {
+        margin-top: 10px;
+    }
+}

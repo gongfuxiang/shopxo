@@ -1,0 +1,125 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content start -->
+<div class="am-g am-container plugins-answers plugins-answers-search">
+  <!-- 详情 -->
+  <div class="am-u-md-8">
+    {{if !empty($plugins_answers_data_list)}}
+      <div data-am-widget="list_news" class="am-list-news am-list-news-default">
+        <div class="am-list-news-bd">
+          <ul class="am-list">
+            {{foreach $plugins_answers_data_list as $answers}}
+              <li class="am-g am-list-item-dated">
+                <a href="{{:PluginsHomeUrl('answers', 'index', 'detail', ['id'=>$answers['id']])}}" target="_blank" class="am-list-item-hd">
+                  {{if isset($answers['is_reply']) and $answers['is_reply'] eq 1}}
+                    <span class="am-badge am-radius am-badge-success">已回复</span>
+                  {{else /}}
+                    <span class="am-badge am-radius">待回复</span>
+                  {{/if}}
+                  {{if empty($answers['title'])}}
+                    {{$answers.content}}
+                  {{else /}}
+                    {{$answers.title}}
+                  {{/if}}
+                </a>
+                <span class="am-list-date">{{$answers.add_time_date}}</span>
+              </li>
+            {{/foreach}}
+          </ul>
+        </div>
+      </div>
+      {{$page_html|raw}}
+    {{else /}}
+      <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+    {{/if}}
+  </div>
+      
+  <!-- 右侧列表 -->
+  <div class="am-u-md-4 answers-sidebar">
+    <!-- 操作 -->
+    {{include file="../../../plugins/view/answers/index/operation" /}}
+    
+    <!-- 右侧推荐问答 -->
+    <div data-am-widget="list_news" class="am-list-news am-list-news-default">
+        <div class="am-list-news-hd am-cf">
+          <h2>
+            {{if empty($plugins_answers_data['right_top_rec_name'])}}
+              推荐问答
+            {{else /}}
+              {{$plugins_answers_data.right_top_rec_name}}
+            {{/if}}
+          </h2>
+          <a href="{{:PluginsHomeUrl('answers', 'index', 'search')}}" target="_blank" class="am-list-news-more am-fr">更多 &raquo;</a>
+        </div>
+        <div class="am-list-news-bd">
+          {{if !empty($plugins_answers_rc_list)}}
+            <ul class="am-list">
+              {{foreach $plugins_answers_rc_list as $answers}}
+                <li class="am-g am-list-item-dated">
+                  <a href="{{:PluginsHomeUrl('answers', 'index', 'detail', ['id'=>$answers['id']])}}" target="_blank" class="am-list-item-hd">
+                    {{if empty($answers['title'])}}
+                      {{$answers.content}}
+                    {{else /}}
+                      {{$answers.title}}
+                    {{/if}}
+                  </a>
+                  <span class="am-list-date">{{$answers.add_time_date}}</span>
+                </li>
+              {{/foreach}}
+            </ul>
+          {{/if}}
+        </div>
+    </div>
+
+    <!-- 推荐商品 -->
+    <div class="answers-goods">
+      <div class="am-list-news-hd am-cf">
+        <h2>
+          {{if empty($plugins_answers_data['right_top_goods_name'])}}
+            推荐商品
+          {{else /}}
+            {{$plugins_answers_data.right_top_goods_name}}
+          {{/if}}
+        </h2>
+        <a href="{{:MyUrl('index/search/index')}}" target="_blank" class="am-list-news-more am-fr">更多 &raquo;</a>
+      </div>
+      {{if !empty($plugins_answers_goods_list)}}
+        <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-2 am-avg-lg-2 am-gallery-bordered" data-am-gallery="{}">
+          {{foreach $plugins_answers_goods_list as $goods}}
+            <li>
+              <div class="am-gallery-item">
+                <a href="{{$goods.goods_url}}" target="_blank">
+                  <img src="{{$goods.images}}"  alt="{{$goods.title}}"/>
+                  <h3 class="am-gallery-title">{{$goods.title}}</h3>
+                  <div class="price">
+                    <strong>￥{{$goods.min_price}}</strong>
+                  </div>
+                </a>
+              </div>
+            </li>
+          {{/foreach}}
+        </ul>
+      {{/if}}
+    </div>
+  </div>
+
+  <!-- 提问popup -->
+  {{include file="../../../plugins/view/answers/index/popup" /}}
+</div>
+<!-- content end -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

@@ -1,0 +1,43 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('usernotloginhidegoodsprice', 'admin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('usernotloginhidegoodsprice', 'admin', 'index')}}" enctype="multipart/form-data">
+            <legend>
+                <span class="fs-16">未登录隐藏商品价格</span>
+                <a href="{{:PluginsAdminUrl('usernotloginhidegoodsprice', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+            </legend>
+
+            <div class="am-form-group">
+                <label>限制终端<span class="am-form-group-label-tips">留空则全部</span></label>
+                <select name="limit_terminal" class="am-radius c-p chosen-select" multiple="multiple" minchecked="1" data-placeholder="可选择..." data-validation-message="至少选择一个限制终端">
+                    {{foreach :lang('common_platform_type') as $v}}
+                        <option value="{{$v.value}}" {{if isset($data['limit_terminal']) and in_array($v['value'], $data['limit_terminal'])}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="am-form-group">
+                <label>原价占位符</label>
+                <input type="text" name="original_price_placeholder" placeholder="原价占位符" maxlength="16" data-validation-message="原价占位符最多16个字符" class="am-radius" value="{{if !empty($data['original_price_placeholder'])}}{{$data.original_price_placeholder}}{{/if}}" />
+            </div>
+
+            <div class="am-form-group">
+                <label>销售价占位符<span class="am-form-group-label-tips">默认 登录可见</span></label>
+                <input type="text" name="price_placeholder" placeholder="销售价占位符" maxlength="16" data-validation-message="销售价占位符最多16个字符" class="am-radius" value="{{if !empty($data['price_placeholder'])}}{{$data.price_placeholder}}{{/if}}" />
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

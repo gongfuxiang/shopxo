@@ -24,6 +24,56 @@ use app\service\RegionService;
 class UserService
 {
     /**
+     * 获取用户登录信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-02-27
+     * @desc    description
+     */
+    public static function LoginUserInfo()
+    {
+        if(APPLICATION == 'web')
+        {
+            return session('user');
+        } else {
+            $params = input();
+            return empty($params['user_id']) ? null : self::UserLoginRecord($params['user_id'], true);
+        }
+    }
+
+    /**
+     * 用户状态校验
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-02-27
+     * @desc    description
+     * @param   [string]          $field [条件字段]
+     * @param   [string]          $value [条件值]
+     */
+    public static function UserStatusCheck($field, $value)
+    {
+        // 查询用户状态是否正常
+        $user = self::UserInfo($field, $value);
+        if(empty($user))
+        {
+            return DataReturn('用户不存在或已删除', -110);
+        }
+        if(!in_array($user['status'], [0,1]))
+        {
+            $common_user_status_list = lang('common_user_status_list');
+            if(isset($common_user_status_list[$user['status']]))
+            {
+                return DataReturn($common_user_status_list[$user['status']]['tips'], -110);
+            } else {
+                return DataReturn('用户状态有误', -110);
+            }
+        }
+        return DataReturn('正常', 0);
+    }
+
+    /**
      * 用户列表
      * @author   Devil
      * @blog     http://gong.gg/
@@ -45,6 +95,7 @@ class UserService
         if(!empty($data))
         {
             $common_gender_list = lang('common_gender_list');
+            $common_user_status_list = lang('common_user_status_list');
             foreach($data as &$v)
             {
                 // 生日
@@ -66,6 +117,9 @@ class UserService
 
                 // 性别
                 $v['gender_text'] = $common_gender_list[$v['gender']]['name'];
+
+                // 状态
+                $v['status_text'] = $common_user_status_list[$v['status']]['name'];
             }
         }
         return DataReturn('处理成功', 0, $data);
@@ -94,6 +148,12 @@ class UserService
             if(isset($params['gender']) && $params['gender'] > -1)
             {
                 $where[] = ['gender', '=', intval($params['gender'])];
+            }
+
+            // 状态
+            if(isset($params['status']) && $params['status'] > -1)
+            {
+                $where[] = ['status', '=', intval($params['status'])];
             }
 
             // 时间
@@ -170,8 +230,14 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'gender',
-                'checked_data'      => [0,1,2],
+                'checked_data'      => array_column(lang('common_gender_list'), 'id'),
                 'error_msg'         => '性别值范围不正确',
+            ],
+            [
+                'checked_type'      => 'in',
+                'key_name'          => 'status',
+                'checked_data'      => array_column(lang('common_user_status_list'), 'id'),
+                'error_msg'         => '状态值范围不正确',
             ],
             [
                 'checked_type'      => 'length',
@@ -203,6 +269,10 @@ class UserService
             'address'               => isset($params['address']) ? $params['address'] :  '',
             'gender'                => intval($params['gender']),
             'integral'              => intval($params['integral']),
+            'status'                => intval($params['status']),
+            'alipay_openid'         => isset($params['alipay_openid']) ? $params['alipay_openid'] :  '',
+            'weixin_openid'         => isset($params['weixin_openid']) ? $params['weixin_openid'] :  '',
+            'baidu_openid'          => isset($params['baidu_openid']) ? $params['baidu_openid'] :  '',
             'birthday'              => empty($params['birthday']) ? 0 : strtotime($params['birthday']),
             'upd_time'              => time(),
         ];
@@ -396,7 +466,7 @@ class UserService
         }
 
         // 获取用户地址
-        $params['where'] = ['is_default'=>1];
+        $params['where'] = empty($params['where']) ? ['is_default'=>1] : $params['where'];
         $ret = self::UserAddressList($params);
         if(!empty($ret['data'][0]))
         {
@@ -799,8 +869,9 @@ class UserService
         {
             return DataReturn('帐号不存在', -3);
         }
+
         // 用户状态
-        if($user['status'] == 2)
+        if(in_array($user['status'], [2,3]))
         {
             return DataReturn(lang('common_user_status_list')[$user['status']]['tips'], -10);
         }
@@ -812,7 +883,13 @@ class UserService
         }
 
         // 用户登录前钩子
-        $ret = Hook::listen('plugins_control_user_login_begin', ['hook_name'=>'plugins_control_user_login_begin', 'is_control'=>true, 'params'=>$params, 'user_id'=>$user['id']]);
+        $hook_name = 'plugins_service_user_login_begin';
+        $ret = Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'user_id'       => $user['id']
+        ]);
         if(isset($ret['code']) && $ret['code'] != 0)
         {
             return $ret;
@@ -831,7 +908,13 @@ class UserService
             if(self::UserLoginRecord($user['id']))
             {
                 // 用户登录后钩子
-                $ret = Hook::listen('plugins_control_user_login_end', ['hook_name'=>'plugins_control_user_login_end', 'is_control'=>true, 'params'=>$params, 'user_id'=>$user['id']]);
+                $hook_name = 'plugins_service_user_login_end';
+                $ret = Hook::listen($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => &$params,
+                    'user_id'       => $user['id']
+                ]);
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
                     return $ret;
@@ -918,12 +1001,17 @@ class UserService
             return DataReturn('验证码错误', -11);
         }
 
+        // 是否需要审核
+        $common_register_is_enable_audit = MyC('common_register_is_enable_audit', 0);
+
+        // 用户数据
         $salt = GetNumberCode(6);
         $data = [
             'add_time'      => time(),
             'upd_time'      => time(),
             'salt'          => $salt,
             'pwd'           => LoginPwdEncryption($params['pwd'], $salt),
+            'status'        => ($common_register_is_enable_audit == 1) ? 3 : 0,
         ];
         if($params['type'] == 'sms')
         {
@@ -939,6 +1027,13 @@ class UserService
             // 清除验证码
             $obj->Remove();
 
+            // 是否需要审核
+            if($common_register_is_enable_audit == 1)
+            {
+                return DataReturn('注册成功，请等待审核');
+            }
+
+            // 用户登录session纪录
             if(self::UserLoginRecord($user_id))
             {
                 return DataReturn('注册成功', 0);
@@ -1420,6 +1515,11 @@ class UserService
      */
     public static function UserInfo($field, $value)
     {
+        if(empty($field) || empty($value))
+        {
+            return '';
+        }
+        
         return Db::name('User')->where([$field=>$value, 'is_delete_time'=>0])->find();
     }
 
@@ -1488,9 +1588,15 @@ class UserService
         {
             return DataReturn('用户openid不能为空', -20);
         }
+
+        // 是否需要审核
+        $common_register_is_enable_audit = MyC('common_register_is_enable_audit', 0);
+
+        // 用户数据
         $data = array(
             $accounts_field     => $params[$accounts_field],
             'mobile'            => $params['mobile'],
+            'status'            => ($common_register_is_enable_audit == 1) ? 3 : 0,
         );
 
         // 获取用户信息

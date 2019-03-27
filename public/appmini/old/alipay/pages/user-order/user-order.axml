@@ -31,17 +31,17 @@
             <text class="buy-number">x{{detail.buy_number}}</text>
           </view>
         </navigator>
-        <view class="item-describe tr cr-666">{{item.describe}}</view>
-        <view a:if="{{item.status <= 3}}" class="item-operation tr br-t">
-          <button a:if="{{item.status <= 1}}" class="submit-cancel" type="default" size="mini" onTap="cancel_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">取消
-          </button>
-          <button a:if="{{item.status == 1}}" class="submit-pay cr-666" type="default" size="mini" onTap="pay_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">支付
-          </button>
-          <button a:if="{{item.status == 2}}" class="submit-rush cr-666" type="default" size="mini" onTap="rush_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">催催
-          </button>
-          <button a:if="{{item.status == 3}}" class="submit-success cr-666" type="default" size="mini" onTap="collect_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">收货
-          </button>
-        </view>
+      </view>
+      <view class="item-describe tr cr-666">{{item.describe}}</view>
+      <view a:if="{{item.status <= 3}}" class="item-operation tr br-t">
+        <button a:if="{{item.status <= 1}}" class="submit-cancel" type="default" size="mini" onTap="cancel_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">取消
+        </button>
+        <button a:if="{{item.status == 1}}" class="submit-pay cr-666" type="default" size="mini" onTap="pay_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">支付
+        </button>
+        <button a:if="{{item.status == 2}}" class="submit-rush cr-666" type="default" size="mini" onTap="rush_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">催催
+        </button>
+        <button a:if="{{item.status == 3}}" class="submit-success cr-666" type="default" size="mini" onTap="collect_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">收货
+        </button>
       </view>
     </view>
 

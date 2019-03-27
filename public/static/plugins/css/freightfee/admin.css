@@ -1,0 +1,87 @@
+/**
+ * 首页
+ */
+.freightfee-content .items {
+    margin: 10px 0 20px 0;
+    border-bottom: 1px dashed #f1f1f1;
+    padding-bottom: 20px;
+}
+.freightfee-content .edit-submit {
+    margin-bottom: 20px;
+}
+
+/**
+ * 运费模板
+ */
+.freightfee-rules table.am-table {
+    margin-bottom: 10px;
+}
+.freightfee-rules table.am-table tr td input {
+    max-width: 100px;
+    display: -webkit-inline-box;
+}
+.freightfee-rules table.am-table tr th, .freightfee-rules table.am-table tr td, .freightfee-rules table.am-table tr td input {
+    text-align: center;
+}
+.freightfee-rules table.am-table tr td.first
+{
+    width: 30%;
+}
+.freightfee-rules table.am-table tr td .region-td {
+    border: 1px solid #bee5c0;
+    padding: 5px;
+    background: #f0fff0;
+    margin-bottom: 5px;
+}
+.freightfee-rules table.am-table td.first input {
+    position: absolute;
+    margin-left: -1000000px;
+}
+
+/**
+ * 弹窗
+ */
+#freightfee-region-popup ul {
+    margin: 0;
+    padding: 0;
+}
+#freightfee-region-popup ul li {
+    list-style-type: none;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
+}
+#freightfee-region-popup ul.city-list {
+    overflow: hidden;
+    margin-top: 5px;
+}
+#freightfee-region-popup ul .province-name {
+    border-bottom: 1px solid #e7e7e7;
+    background: #f5f5f5;
+    margin: 0;
+}
+#freightfee-region-popup ul .province-name.selected-may {
+    background: #eaf7eb;
+    border-bottom: 1px solid #d2efd3;
+}
+#freightfee-region-popup ul .province-name.selected {
+    background: #4CAF50;
+    border-bottom: 1px solid #409643;
+    color: #fff;
+}
+#freightfee-region-popup ul.city-list li {
+    float: left;
+    background: #e9e8e8;
+    margin: 0 10px 10px 0;
+    border-radius: 3px;
+    border: 1px solid #d6d6d6;
+}
+#freightfee-region-popup ul li .province-name, #freightfee-region-popup ul li .city-name
+{
+    cursor: pointer;
+    padding: 2px 5px;
+}
+#freightfee-region-popup ul.city-list li.selected {
+    background: #4CAF50;
+    color: #fff;
+    border: 1px solid #409643;
+}

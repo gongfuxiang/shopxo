@@ -1,0 +1,70 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">问答系统</span>
+            <a href="{{:PluginsAdminUrl('answers', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+
+        <div class="answers-content">
+            <!-- operation start -->
+            <div class="am-g m-t-15">
+                <a href="{{:PluginsAdminUrl('answers', 'admin', 'sliderinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
+            </div>
+            <!-- operation end -->
+
+            <!-- list start -->
+            <table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
+                <thead>
+                    <tr>
+                        <th>名称</th>
+                        <th>图片</th>
+                        <th>url地址</th>
+                        <th>是否启用</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{if !empty($data_list)}}
+                        {{foreach $data_list as $v}}
+                            <tr id="data-list-{{$v.id}}" {{if $v['is_enable'] eq 0}}class="am-active"{{/if}}>
+                                <td>{{$v.name}}</td>
+                                <td {{if !empty($v['bg_color'])}}style="background-color:{{$v.bg_color}};"{{/if}}>
+                                    {{if !empty($v['images_url'])}}
+                                        <a href="{{$v['images_url']}}" target="_blank">
+                                            <img src="{{$v['images_url']}}" class="am-radius" width="100" height="60" />
+                                        </a>
+                                    {{else /}}
+                                        <span class="cr-ddd">暂无图片</span>
+                                    {{/if}}
+                                </td>
+                                <td>{{$v.url}}</td>
+                                <td class="am-hide-sm-only">
+                                <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:PluginsAdminUrl('answers', 'admin', 'sliderstatusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
+                            </td>
+                                <td>{{$v.add_time_time}}</td>
+                                <td class="view-operation">
+                                    <a href="{{:PluginsAdminUrl('answers', 'admin', 'sliderinfo', ['id'=>$v['id']])}}">
+                                        <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit"> 编辑</button>
+                                    </a>
+                                    <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:PluginsAdminUrl('answers', 'admin', 'sliderdelete')}}" data-id="{{$v.id}}"> 删除</button>
+                                </td>
+                            </tr>
+                        {{/foreach}}
+                    {{else /}}
+                        <tr><td colspan="5" class="table-no">没有相关数据</td></tr>
+                    {{/if}}
+                </tbody>
+            </table>
+            <!-- list end -->
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

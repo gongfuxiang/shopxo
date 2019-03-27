@@ -1,0 +1,32 @@
+/**
+ * 首页
+ */
+.expressforkdn-content .items {
+    margin: 10px 0 20px 0;
+    border-bottom: 1px dashed #f1f1f1;
+    padding-bottom: 20px;
+}
+.expressforkdn-content .express-items {
+    overflow: hidden;
+}
+.expressforkdn-content .express-items p {
+    border: 1px dashed #ccc;
+    padding: 6px;
+    float: left;
+    margin: 0;
+}
+.expressforkdn-content .express-items p input {
+    display: -webkit-inline-box;
+    width: 80px;
+    font-size: 12px !important;
+}
+.expressforkdn-content .express-items p:not(:last-child) {
+    margin: 0 20px 10px 0;
+}
+.expressforkdn-content .edit-submit {
+    margin-bottom: 20px;
+}
+
+/**
+ * 编辑页面
+ */

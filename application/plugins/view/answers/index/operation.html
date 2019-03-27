@@ -1,0 +1,17 @@
+<!-- 操作按钮 -->
+<div class="answers-btn-list">
+    <a href="javascript:;" type="button" class="am-btn am-btn-warning am-icon-plus" data-am-modal="{target: '#plugins-answers-popup-ask'}"> 我要提问</a>
+    <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/answer/index')}}{{/if}}" type="button" class="am-btn am-btn-danger am-icon-list-ul am-fr {{if empty($user)}}login-event{{/if}}"> 我的提问</a>
+</div>
+
+<!-- 搜索 -->
+<form action="{{:PluginsHomeUrl('answers', 'index', 'search')}}" method="post">
+    <div class="am-input-group am-input-group-sm answers-search">
+        <input type="text" name="answers_keywords" class="am-form-field" placeholder="其实搜索很简单^_^ !" autocomplete="off" {{if !empty($params['answers_keywords'])}}value="{{$params.answers_keywords}}"{{/if}} />
+        <span class="am-input-group-btn">
+            <button class="am-btn am-btn-default" type="submit">
+            <span class="am-icon-search am-icon-sm"></span>
+            </button>
+        </span>
+    </div>
+</form>

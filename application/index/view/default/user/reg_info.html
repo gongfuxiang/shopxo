@@ -26,6 +26,20 @@
             {{else /}}
                 <a class="am-btn am-btn-danger am-disabled" href="javascript:;"><i class="am-icon-envelope-o am-icon-sm"></i> 暂时关闭邮箱注册</a>
             {{/if}}
+
+            <!-- 用户注册页面钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_user_reg_info</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_user_reg_info_data) and is_array($plugins_view_user_reg_info_data)}}
+                {{foreach $plugins_view_user_reg_info_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
         </div>
     </div>
 </div>

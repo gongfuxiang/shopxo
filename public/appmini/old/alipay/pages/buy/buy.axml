@@ -46,8 +46,8 @@
   <textarea onInput="bind_user_note_event" maxlength="60" auto-height placeholder="留言" class="spacing-mb" />
 
   <!-- 扩展数据展示 -->
-  <view a:if="{{extension_list.length > 0}}" class="extension-list spacing-mb">
-    <view a:for="{{extension_list}}" class="item oh">
+  <view a:if="{{extension_data.length > 0}}" class="extension-list spacing-mb">
+    <view a:for="{{extension_data}}" class="item oh">
       <text class="cr-666">{{item.name}}
       </text>
       <text class="text-tips fr">{{item.tips}}

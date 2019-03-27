@@ -21,6 +21,12 @@
 							<option value="{{$v.id}}" {{if isset($params['gender']) and $params['gender'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
 					</select>
+					<select name="status" class="am-radius c-p m-t-10 m-l-5 param-where">
+						<option value="-1">状态</option>
+						{{foreach $common_user_status_list as $v}}
+							<option value="{{$v.id}}" {{if isset($params['status']) and $params['status'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					</select>
 					<div class="param-date param-where m-l-5">
 						<input type="text" autocomplete="off" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_start'])}}value="{{$params.time_start}}"{{/if}}/>
 						<span>~</span>
@@ -49,6 +55,7 @@
 					<th class="am-hide-sm-only">手机号码</th>
 					<th class="am-hide-sm-only">积分</th>
 					<th class="am-hide-sm-only">性别</th>
+					<th class="am-hide-sm-only">状态</th>
 					<th class="am-hide-sm-only">生日</th>
 					<th>更多</th>
 					<th>操作</th>
@@ -78,6 +85,9 @@
 								{{if empty($v['gender_text'])}}<span class="cr-ddd">未设置</span>{{else /}}{{$v.gender_text}}{{/if}}
 							</td>
 							<td class="am-hide-sm-only">
+								{{if empty($v['status_text'])}}<span class="cr-ddd">未知</span>{{else /}}{{$v.status_text}}{{/if}}
+							</td>
+							<td class="am-hide-sm-only">
 								{{if empty($v['birthday_text'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.birthday_text}}{{/if}}
 							</td>
 							<td>
@@ -101,6 +111,18 @@
 
 												<dt>电子邮箱</dt>
 												<dd>{{if empty($v['email'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.email}}{{/if}}</dd>
+
+												<dt>状态</dt>
+												<dd>{{if empty($v['status_text'])}}<span class="cr-ddd">未知</span>{{else /}}{{$v.status_text}}{{/if}}</dd>
+
+												<dt>支付宝openid</dt>
+												<dd>{{if empty($v['alipay_openid'])}}<span class="cr-ddd">未知</span>{{else /}}{{$v.alipay_openid}}{{/if}}</dd>
+
+												<dt>微信openid</dt>
+												<dd>{{if empty($v['weixin_openid'])}}<span class="cr-ddd">未知</span>{{else /}}{{$v.weixin_openid}}{{/if}}</dd>
+
+												<dt>百度openid</dt>
+												<dd>{{if empty($v['baidu_openid'])}}<span class="cr-ddd">未知</span>{{else /}}{{$v.baidu_openid}}{{/if}}</dd>
 
 												<dt>性别</dt>
 												<dd>{{if empty($v['gender_text'])}}<span class="cr-ddd">未设置</span>{{else /}}{{$v.gender_text}}{{/if}}</dd>
@@ -141,9 +163,9 @@
 							</td>
 							<td class="view-operation">
 								<a href="{{:MyUrl('admin/user/saveinfo', array_merge($params,array('id'=>$v['id'])))}}">
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> 编辑</button>
+									<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit"> 编辑</button>
 								</a>
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/user/delete')}}" data-id="{{$v.id}}"> 删除</button>
+								<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/user/delete')}}" data-id="{{$v.id}}"> 删除</button>
 							</td>
 						</tr>
 					{{/foreach}}

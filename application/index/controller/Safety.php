@@ -11,6 +11,7 @@
 namespace app\index\controller;
 
 use app\service\SafetyService;
+use app\service\NavigationService;
 
 /**
  * 安全
@@ -47,7 +48,7 @@ class Safety extends Common
 	public function Index()
 	{
 		// 安全信息列表
-		$this->assign('safety_panel_list', lang('safety_panel_list'));
+		$this->assign('safety_panel_list', NavigationService::UsersSafetyPanelList());
 
 		// 数据列表
 		$data = array(

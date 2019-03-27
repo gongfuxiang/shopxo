@@ -26,7 +26,7 @@
             {{if !empty($user_address_list)}}
                 <ul class="address-list">
                     {{foreach $user_address_list as $address}}
-                        <li class="{{if isset($address['is_default']) and $address['is_default'] eq 1}}address-default{{/if}}" id="data-list-{{$address.id}}" data-value="{{$address.id}}">
+                        <li class="{{if (isset($params['address_id']) and $params['address_id'] eq $address['id']) or (!isset($params['address_id']) and isset($address['is_default']) and $address['is_default'] eq 1)}}address-default{{/if}}" id="data-list-{{$address.id}}" data-value="{{$address.id}}">
                             <div class="address-left">
                                 <div class="user-base">
                                     {{if !empty($address.alias)}}
@@ -70,12 +70,12 @@
         </div>
 
         <!-- 支付方式 -->
-        <div class="business-item payment" data-type="payment">
+        <div class="business-item payment" data-field="payment_id">
             <h3>选择支付</h3>
             {{if !empty($payment_list)}}
                 <ul class="payment-list">
                     {{foreach $payment_list as $payment}}
-                        <li data-value="{{$payment.id}}">
+                        <li data-value="{{$payment.id}}" class="{{if isset($params['payment_id']) and $params['payment_id'] eq $payment['id']}}selected{{/if}}">
                             {{if !empty($payment.logo)}}
                                 <img src="{{$payment.logo}}" />
                             {{/if}}
@@ -153,6 +153,13 @@
                     <div class="table-no"><i class="am-icon-warning"></i> 没有商品</div>
                 {{/if}}
 
+                <!-- 含运费小计 -->
+                <div class="buy-point-discharge">
+                    <p>
+                        合计 <span>¥</span><em class="pay-sum">{{$base.total_price}}</em>
+                    </p>
+                </div>
+
                 <!-- 留言 -->
                 <div class="buy-message">
                     <div class="order-extra">
@@ -165,12 +172,17 @@
                     </div>
                 </div>
 
-                <!-- 含运费小计 -->
-                <div class="buy-point-discharge">
-                    <p>
-                        合计（含运费） <span>¥</span><em class="pay-sum">{{$base.total_price}}</em>
-                    </p>
-                </div>
+                <!-- 扩展展示数据 -->
+                {{if !empty($extension_data)}}
+                    <ul class="buy-extension-data">
+                        {{foreach $extension_data as $ext}}
+                            <li>
+                                <span class="extension-items-name">{{$ext.name}}</span>
+                                <span class="am-fr extension-items-tips">{{$ext.tips}}</span>
+                            </li>
+                        {{/foreach}}
+                    </ul>
+                {{/if}}
 
                 <!-- 信息 -->
                 <div class="order-nav">
@@ -180,7 +192,7 @@
                                 <em>实付款：</em>
                                 <span class="price">
                                     <span>¥</span>
-                                    <em class="nav-total-price">{{$base.total_price}}</em>
+                                    <em class="nav-total-price">{{$base.actual_price}}</em>
                                 </span>
                             </div>
 

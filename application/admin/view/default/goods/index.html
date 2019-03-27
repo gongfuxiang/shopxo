@@ -48,7 +48,7 @@
 			<thead>
 				<tr>
 					<th>标题名称</th>
-					<th>销售价格(元)</th>
+					<th class="am-hide-sm-only">销售价格(元)</th>
 					<th>上下架</th>
 					<th class="am-hide-sm-only">首页推荐</th>
 					<th class="am-hide-sm-only">库存数量</th>
@@ -68,7 +68,7 @@
 								</a>
 								<a href="{{$v.goods_url}}" target="_blank" title="{{$v.title}}" {{if !empty($v['title_color'])}} style="color:{{$v.title_color}};" {{/if}} >{{$v.title}}</a>
 							</td>
-							<td>
+							<td class="am-hide-sm-only">
 								{{$v.price}}
 								{{if !empty($v['original_price']) and $v['original_price'] gt 0}}
 									<br /><span class="am-badge am-radius">原价 {{$v.original_price}}</span>
@@ -150,9 +150,9 @@
 							</td>
 							<td class="view-operation">
 								<a href="{{:MyUrl('admin/goods/saveinfo', array_merge($params, ['id'=>$v['id']]))}}">
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"></button>
+									<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit"> 编辑</button>
 								</a>
-								<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/goods/delete')}}" data-id="{{$v.id}}"></button>
+								<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/goods/delete')}}" data-id="{{$v.id}}"> 删除</button>
 							</td>
 						</tr>
 					{{/foreach}}

@@ -1,0 +1,55 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('touristbuy', 'admin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('touristbuy', 'admin', 'index')}}" enctype="multipart/form-data">
+            <legend>
+                <span class="fs-16">游客购买</span>
+                <a href="{{:PluginsAdminUrl('touristbuy', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+            </legend>
+
+            <div class="am-form-group">
+                <label>应用导航名称<span class="am-form-group-label-tips">空则不显示，订单查询入口</span></label>
+                <input type="text" name="application_name" placeholder="应用导航名称" maxlength="30" data-validation-message="应用导航名称格式最多 30 个字符" class="am-radius" {{if !empty($data['application_name'])}} value="{{$data.application_name}}"{{/if}} />
+            </div>
+
+            <div class="am-form-group">
+                <label>登录入口名称<span class="am-form-group-label-tips">默认 游客登录</span></label>
+                <input type="text" name="login_name" placeholder="登录入口名称" maxlength="30" data-validation-message="登录入口名称格式最多 30 个字符" class="am-radius" value="{{if !empty($data['login_name'])}}{{$data.login_name}}{{else /}}游客登录{{/if}}" />
+            </div>
+
+            <div class="am-form-group">
+                <label>游客用户名<span class="am-form-group-label-tips">默认 游客</span></label>
+                <input type="text" name="nickname" placeholder="游客用户名" maxlength="16" data-validation-message="游客用户名格式最多 16 个字符" class="am-radius" value="{{if !empty($data['nickname'])}}{{$data.nickname}}{{else /}}游客{{/if}}" />
+            </div>
+
+            <div class="am-form-group">
+                <label class="block">订单查询提示<span class="am-form-group-label-tips">空则不显示</span></label>
+                <textarea rows="3" name="query_tips" class="am-radius am-field-valid" placeholder="公告内容" data-validation-message="请填写订单查询提示">{{if !empty($data['query_tips'])}}{{$data.query_tips}}{{/if}}</textarea>
+            </div>
+
+            <div class="am-form-group">
+                <label>默认游客登录<span class="am-form-group-label-tips">建议关闭</span></label>
+                <div>
+                    {{foreach $is_whether_list as $v}}
+                        <label class="am-radio-inline m-r-10">
+                            <input type="radio" name="is_default_tourist" value="{{$v.id}}" {{if isset($data['is_default_tourist']) and $data['is_default_tourist'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_default_tourist']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

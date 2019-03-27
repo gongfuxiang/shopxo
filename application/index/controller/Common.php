@@ -12,6 +12,7 @@ namespace app\index\controller;
 
 use think\facade\Hook;
 use think\Controller;
+use app\service\SystemService;
 use app\service\GoodsService;
 use app\service\NavigationService;
 use app\service\BuyService;
@@ -19,6 +20,7 @@ use app\service\MessageService;
 use app\service\SearchService;
 use app\service\ConfigService;
 use app\service\LinkService;
+use app\service\UserService;
 
 /**
  * 前端公共控制器
@@ -51,6 +53,9 @@ class Common extends Controller
     {
         parent::__construct();
 
+        // 系统运行开始
+        SystemService::SystemBegin();
+
         // 系统初始化
         $this->SystemInit();
 
@@ -71,6 +76,20 @@ class Common extends Controller
     }
 
     /**
+     * 析构函数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-18
+     * @desc    description
+     */
+    public function __destruct()
+    {
+        // 系统运行结束
+        SystemService::SystemEnd();
+    }
+
+    /**
      * 公共钩子初始化
      * @author   Devil
      * @blog    http://gong.gg/
@@ -81,22 +100,37 @@ class Common extends Controller
     private function CommonPluginsInit()
     {
         // css钩子
-        $this->assign('plugins_css_data', Hook::listen('plugins_css', ['hook_name'=>'plugins_css', 'is_control'=>false]));
+        $this->assign('plugins_css_data', Hook::listen('plugins_css', ['hook_name'=>'plugins_css', 'is_backend'=>false]));
 
         // js钩子
-        $this->assign('plugins_js_data', Hook::listen('plugins_js', ['hook_name'=>'plugins_js', 'is_control'=>false]));
+        $this->assign('plugins_js_data', Hook::listen('plugins_js', ['hook_name'=>'plugins_js', 'is_backend'=>false]));
         
         // 公共header内钩子
-        $this->assign('plugins_common_header_data', Hook::listen('plugins_common_header', ['hook_name'=>'plugins_common_header', 'is_control'=>false, 'user'=>$this->user]));
+        $this->assign('plugins_common_header_data', Hook::listen('plugins_common_header', ['hook_name'=>'plugins_common_header', 'is_backend'=>false, 'user'=>$this->user]));
 
         // 公共页面底部钩子
-        $this->assign('plugins_common_page_bottom_data', Hook::listen('plugins_common_page_bottom', ['hook_name'=>'plugins_common_page_bottom', 'is_control'=>false, 'user'=>$this->user]));
+        $this->assign('plugins_common_page_bottom_data', Hook::listen('plugins_common_page_bottom', ['hook_name'=>'plugins_common_page_bottom', 'is_backend'=>false, 'user'=>$this->user]));
 
         // 公共顶部钩子
-        $this->assign('plugins_view_common_top_data', Hook::listen('plugins_view_common_top', ['hook_name'=>'plugins_view_common_top', 'is_control'=>false, 'user'=>$this->user]));
+        $this->assign('plugins_view_common_top_data', Hook::listen('plugins_view_common_top', ['hook_name'=>'plugins_view_common_top', 'is_backend'=>false, 'user'=>$this->user]));
 
         // 公共底部钩子
-        $this->assign('plugins_view_common_bottom_data', Hook::listen('plugins_view_common_bottom', ['hook_name'=>'plugins_view_common_bottom', 'is_control'=>false, 'user'=>$this->user]));
+        $this->assign('plugins_view_common_bottom_data', Hook::listen('plugins_view_common_bottom', ['hook_name'=>'plugins_view_common_bottom', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 公共顶部小导航钩子-左侧
+        $this->assign('plugins_view_header_navigation_top_left_data', Hook::listen('plugins_view_header_navigation_top_left', ['hook_name'=>'plugins_view_header_navigation_top_left', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 用户登录页面顶部钩子
+        $this->assign('plugins_view_user_login_info_top_data', Hook::listen('plugins_view_user_login_info_top', ['hook_name'=>'plugins_view_user_login_info_top', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 用户注册页面钩子
+        $this->assign('plugins_view_user_reg_info_data', Hook::listen('plugins_view_user_reg_info', ['hook_name'=>'plugins_view_user_reg_info', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 用户注册短信页面钩子
+        $this->assign('plugins_view_user_sms_reg_info_data', Hook::listen('plugins_view_user_sms_reg_info', ['hook_name'=>'plugins_view_user_sms_reg_info', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 用户注册邮箱页面钩子
+        $this->assign('plugins_view_user_email_reg_info_data', Hook::listen('plugins_view_user_email_reg_info', ['hook_name'=>'plugins_view_user_email_reg_info', 'is_backend'=>false, 'user'=>$this->user]));
     }
 
     /**
@@ -128,7 +162,7 @@ class Common extends Controller
      */
     protected function IsLogin()
     {
-        if(session('user') == null)
+        if(empty($this->user))
         {
             if(IS_AJAX)
             {
@@ -151,7 +185,7 @@ class Common extends Controller
         // 用户数据
         if(session('user') != null)
         {
-            $this->user = session('user');
+            $this->user = UserService::LoginUserInfo();
         }
     }
 
@@ -210,19 +244,10 @@ class Common extends Controller
         $this->assign('user', $this->user);
 
         // 用户中心菜单
-        $this->assign('user_left_menu', lang('user_left_menu'));
+        $this->assign('user_left_menu', NavigationService::UsersCenterLeftList());
 
         // 商品大分类
         $this->assign('goods_category_list', GoodsService::GoodsCategory());
-
-        // 购物车商品总数
-        $common_cart_total = BuyService::UserCartTotal(['user'=>$this->user]);
-        $this->assign('common_cart_total', ($common_cart_total > 99) ? '99+' : $common_cart_total);
-
-        // 未读消息总数
-        $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0, 'user_type'=>'user'];
-        $common_message_total = MessageService::UserMessageTotal($params);
-        $this->assign('common_message_total', ($common_message_total > 99) ? '99+' : $common_message_total);
 
         // 搜索框下热门关键字
         $home_search_keywords = [];
@@ -243,6 +268,9 @@ class Common extends Controller
 
         // 开发模式
         $this->assign('shopxo_is_develop', config('shopxo.is_develop'));
+
+        // 顶部右侧导航
+        $this->assign('common_nav_top_right_list', NavigationService::HomeHavTopRight(['user'=>$this->user]));
     }
 
     /**
@@ -254,36 +282,9 @@ class Common extends Controller
      */
     private function NavInit()
     {
-        $navigation = NavigationService::Home();
+        $navigation = NavigationService::Nav();
         $this->nav_header = $navigation['header'];
         $this->nav_footer = $navigation['footer'];
-    }
-
-    /**
-     * [GetBrowserSeoTitle 获取浏览器seo标题]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-02-25T14:21:21+0800
-     * @param    [string]     $title [标题]
-     * @param    [int]        $type  [页面类型 0, 1, 2]
-     * @return   [string]            [浏览器seo标题]
-     */
-    protected function GetBrowserSeoTitle($title, $type)
-    {
-        switch($type)
-        {
-            case 0:
-                break;
-
-            case 1:
-                $site_name = MyC('home_site_name');
-                break;
-
-            default:
-                $site_name = MyC('home_seo_site_title');
-        }
-        return empty($title) ? $site_name : $title.' - '.$site_name;
     }
 
     /**

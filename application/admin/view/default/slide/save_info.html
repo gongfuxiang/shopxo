@@ -61,7 +61,7 @@
 			<div class="am-form-group">
 				<label>背景色</label>
 				<input type="hidden" name="bg_color" value="{{if !empty($data)}}{{$data.bg_color}}{{/if}}" />
-				<button class="am-btn am-btn-default colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color" {{if !empty($data)}} style="background-color:{{$data.bg_color}};"{{/if}}>
+				<button class="am-btn am-btn-default am-btn-xs colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color" {{if !empty($data)}} style="background-color:{{$data.bg_color}};"{{/if}}>
 					<img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
 				</button>
 			</div>
@@ -75,7 +75,7 @@
 			    <label class="block">是否启用</label>
 			    <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (!empty($data) and $data['is_enable'] eq 1) or empty($data)}}checked="true"{{/if}} />
 			</div>
-			<div class="am-form-group">
+			<div class="am-form-group am-form-group-refreshing">
 				<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
 			</div>

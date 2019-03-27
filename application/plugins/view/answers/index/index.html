@@ -1,0 +1,202 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content start -->
+<div class="am-g am-container plugins-answers">
+  <div class="answers-top">
+    <!-- 幻灯片 -->
+    <div class="am-u-md-8 answers-slider">
+      {{if !empty($plugins_answers_slider)}}
+        <div data-am-widget="slider" class="am-slider am-slider-c3" data-am-slider='{"controlNav":false}'>
+          <ul class="am-slides">
+            {{foreach $plugins_answers_slider as $k=>$v}}
+              <li>
+                <a href="{{if empty($v['url'])}}javascript:;{{else /}}{{$v.url}}{{/if}}" target="_blank">
+                  <img src="{{$v.images_url}}" alt="{{$v.name}}">
+                  <div class="am-slider-desc">
+                    <div class="am-slider-counter">
+                      <span class="am-active">{{$k+1}}</span>/{{:count($plugins_answers_slider)}}
+                    </div>
+                    {{$v.name}}
+                  </div>
+                </a>
+              </li>
+            {{/foreach}}
+          </ul>
+        </div>
+      {{/if}}
+    </div>
+        
+    <!-- 右侧列表 -->
+    <div class="am-u-md-4 answers-sidebar">
+      <!-- 操作 -->
+      {{include file="../../../plugins/view/answers/index/operation" /}}
+      
+      <!-- 右侧推荐问答 -->
+      <div data-am-widget="list_news" class="am-list-news am-list-news-default">
+          <div class="am-list-news-hd am-cf">
+            <h2>
+              {{if empty($plugins_answers_data['right_top_rec_name'])}}
+                推荐问答
+              {{else /}}
+                {{$plugins_answers_data.right_top_rec_name}}
+              {{/if}}
+            </h2>
+            <a href="{{:PluginsHomeUrl('answers', 'index', 'search')}}" target="_blank" class="am-list-news-more am-fr">更多 &raquo;</a>
+          </div>
+          <div class="am-list-news-bd">
+            {{if !empty($plugins_answers_rc_list)}}
+              <ul class="am-list">
+                {{foreach $plugins_answers_rc_list as $answers}}
+                  <li class="am-g am-list-item-dated">
+                    <a href="{{:PluginsHomeUrl('answers', 'index', 'detail', ['id'=>$answers['id']])}}" target="_blank" class="am-list-item-hd">
+                      {{if empty($answers['title'])}}
+                        {{$answers.content}}
+                      {{else /}}
+                        {{$answers.title}}
+                      {{/if}}
+                    </a>
+                    <span class="am-list-date">{{$answers.add_time_date}}</span>
+                  </li>
+                {{/foreach}}
+              </ul>
+            {{/if}}
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 中间横幅广告 -->
+  {{if !empty($plugins_answers_data['images'])}}
+    <div class="answers-middle-banner">
+      <a href="{{if empty($plugins_answers_data['url'])}}javascript:;{{else /}}{{$plugins_answers_data.url}}{{/if}}" {{if isset($plugins_answers_data['is_new_window_open']) and $plugins_answers_data['is_new_window_open'] eq 1}} target="_blank"{{/if}}>
+        <img src="{{$plugins_answers_data.images}}" />
+      </a>
+    </div>
+  {{/if}}
+
+  <div class="answers-middle">
+    <!-- 最新问答 -->
+    <div class="am-u-md-8 answers-middle-list">
+      <div data-am-widget="list_news" class="am-list-news am-list-news-default">
+        <div class="am-list-news-hd am-cf">
+          <h2>
+            {{if empty($plugins_answers_data['middle_new_name'])}}
+              最新问答
+            {{else /}}
+              {{$plugins_answers_data.middle_new_name}}
+            {{/if}}
+          </h2>
+          <a href="{{:PluginsHomeUrl('answers', 'index', 'search')}}" target="_blank" class="am-list-news-more am-fr">更多 &raquo;</a>
+        </div>
+        <div class="am-list-news-bd">
+          {{if !empty($plugins_answers_middle_answer_list)}}
+            <ul class="am-list">
+              {{foreach $plugins_answers_middle_answer_list as $answers}}
+                <li class="am-g am-list-item-dated">
+                  <a href="{{:PluginsHomeUrl('answers', 'index', 'detail', ['id'=>$answers['id']])}}" target="_blank" class="am-list-item-hd">
+                    {{if empty($answers['title'])}}
+                      {{$answers.content}}
+                    {{else /}}
+                      {{$answers.title}}
+                    {{/if}}
+                  </a>
+                  <span class="am-list-date">{{$answers.add_time_date}}</span>
+                </li>
+              {{/foreach}}
+            </ul>
+            <div class="am-list-news-ft">
+              <a class="am-list-news-more am-btn am-btn-default" href="{{:PluginsHomeUrl('answers', 'index', 'search')}}">查看更多 &raquo;</a>
+            </div>
+          {{else /}}
+            <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+
+    <!-- 推荐商品 -->
+    <div class="am-u-md-4 answers-goods">
+      <div class="am-list-news-hd am-cf">
+        <h2>
+          {{if empty($plugins_answers_data['right_top_goods_name'])}}
+            推荐商品
+          {{else /}}
+            {{$plugins_answers_data.right_top_goods_name}}
+          {{/if}}
+        </h2>
+        <a href="{{:MyUrl('index/search/index')}}" target="_blank" class="am-list-news-more am-fr">更多 &raquo;</a>
+      </div>
+      {{if !empty($plugins_answers_goods_list)}}
+        <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-2 am-avg-lg-2 am-gallery-bordered" data-am-gallery="{}">
+          {{foreach $plugins_answers_goods_list as $goods}}
+            <li>
+              <div class="am-gallery-item">
+                <a href="{{$goods.goods_url}}" target="_blank">
+                  <img src="{{$goods.images}}"  alt="{{$goods.title}}"/>
+                  <h3 class="am-gallery-title">{{$goods.title}}</h3>
+                  <div class="price">
+                    <strong>￥{{$goods.min_price}}</strong>
+                  </div>
+                </a>
+              </div>
+            </li>
+          {{/foreach}}
+        </ul>
+      {{/if}}
+    </div>
+  </div>
+
+  <!-- 底部横幅广告 -->
+  {{if !empty($plugins_answers_data['images_bottom'])}}
+    <div class="answers-middle-banner">
+      <a href="{{if empty($plugins_answers_data['url_bottom'])}}javascript:;{{else /}}{{$plugins_answers_data.url_bottom}}{{/if}}" {{if isset($plugins_answers_data['is_new_window_open_bottom']) and $plugins_answers_data['is_new_window_open_bottom'] eq 1}} target="_blank"{{/if}}>
+        <img src="{{$plugins_answers_data.images_bottom}}" />
+      </a>
+    </div>
+  {{/if}}
+
+  <!-- 最新商品 -->
+  {{if !empty($plugins_new_goods_list)}}
+    <div class="answers-goods">
+      <div class="am-list-news-hd am-cf">
+        <h2>最新商品</h2>
+        <a href="{{:MyUrl('index/search/index')}}" target="_blank" class="am-list-news-more am-fr">更多 &raquo;</a>
+      </div>
+      <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-6 am-gallery-bordered" data-am-gallery="{}">
+        {{foreach $plugins_new_goods_list as $goods}}
+          <li>
+            <div class="am-gallery-item">
+              <a href="{{$goods.goods_url}}" target="_blank">
+                <img src="{{$goods.images}}"  alt="{{$goods.title}}"/>
+                <h3 class="am-gallery-title">{{$goods.title}}</h3>
+                <div class="price">
+                  <strong>￥{{$goods.min_price}}</strong>
+                </div>
+              </a>
+            </div>
+          </li>
+        {{/foreach}}
+      </ul>
+    </div>
+  {{/if}}
+
+  <!-- 提问popup -->
+  {{include file="../../../plugins/view/answers/index/popup" /}}
+</div>
+<!-- content end -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

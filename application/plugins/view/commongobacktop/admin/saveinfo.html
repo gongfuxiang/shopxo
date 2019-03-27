@@ -11,7 +11,7 @@
             </legend>
 
             <div class="am-form-group am-form-file">
-                <label class="block">图片<span class="fs-12 fw-100 cr-999">（建议50像数X50像数）</span></label>
+                <label class="block">图片<span class="am-form-group-label-tips">建议50像数X50像数</span></label>
                 <ul class="plug-file-upload-view plugins-images-view" data-form-name="images" data-max-number="1" data-delete="0" data-dialog-type="images">
                     <li>
                         <input type="text" name="images" value="{{if !empty($data['images_old'])}}{{$data.images_old}}{{/if}}" data-validation-message="请上传图片" required />
@@ -22,7 +22,7 @@
             </div>
 
             <div class="am-form-group">
-                <label>是否全局<span class="fs-12 fw-100 cr-999">（否则只在首页显示，是则全局展示）</span></label>
+                <label>是否全局<span class="am-form-group-label-tips">否则只在首页显示，是则全局展示</span></label>
                 <div>
                     {{foreach $is_whether_list as $v}}
                         <label class="am-radio-inline m-r-10">
@@ -32,7 +32,7 @@
                 </div>
             </div>
 
-            <div class="am-form-group">
+            <div class="am-form-group am-form-group-refreshing">
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
             </div>
         </form>

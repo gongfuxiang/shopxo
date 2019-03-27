@@ -49,10 +49,11 @@ class AnswerService
         $where = empty($params['where']) ? [] : $params['where'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
+        $field = empty($params['field']) ? '*' : $params['field'];
         $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
 
         // 获取数据列表
-        $data = Db::name('Answer')->where($where)->limit($m, $n)->order($order_by)->select();
+        $data = Db::name('Answer')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
             $common_is_show_list = lang('common_is_show_list');
@@ -60,21 +61,43 @@ class AnswerService
             foreach($data as &$v)
             {
                 // 用户信息
-                $user = Db::name('User')->where(['id'=>$v['user_id']])->field('username,nickname,mobile,gender,avatar')->find();
-                $v['username'] = empty($user['username']) ? '' : $user['username'];
-                $v['nickname'] = empty($user['nickname']) ? '' : $user['nickname'];
-                $v['mobile'] = empty($user['mobile']) ? '' : $user['mobile'];
-                $v['avatar'] = empty($user['avatar']) ? '' : $user['avatar'];
-                $v['gender_text'] = isset($user['gender']) ? $common_gender_list[$user['gender']]['name'] : '';
+                if(isset($v['user_id']))
+                {
+                    $user = Db::name('User')->where(['id'=>$v['user_id']])->field('username,nickname,mobile,gender,avatar')->find();
+                    $v['username'] = empty($user['username']) ? '' : $user['username'];
+                    $v['nickname'] = empty($user['nickname']) ? '' : $user['nickname'];
+                    $v['mobile'] = empty($user['mobile']) ? '' : $user['mobile'];
+                    $v['avatar'] = empty($user['avatar']) ? '' : $user['avatar'];
+                    $v['gender_text'] = isset($user['gender']) ? $common_gender_list[$user['gender']]['name'] : '';
+                }
 
                 // 是否显示
-                $v['is_show_text'] = $common_is_show_list[$v['is_show']]['name'];
+                if(isset($v['is_show']))
+                {
+                    $v['is_show_text'] = $common_is_show_list[$v['is_show']]['name'];
+                }
+
+                // 回复时间
+                if(isset($v['reply_time']))
+                {
+                    $reply_time = $v['reply_time'];
+                    $v['reply_time'] = empty($reply_time) ? '' : date('Y-m-d H:i:s', $reply_time);
+                    $v['reply_time_date'] = empty($reply_time) ? '' : date('Y-m-d', $reply_time);
+                }
 
                 // 创建时间
-                $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                if(isset($v['add_time']))
+                {
+                    $add_time = $v['add_time'];
+                    $v['add_time'] = empty($add_time) ? '' : date('Y-m-d H:i:s', $add_time);
+                    $v['add_time_date'] = empty($add_time) ? '' : date('Y-m-d', $add_time);
+                }
 
                 // 更新时间
-                $v['upd_time'] = date('Y-m-d H:i:s', $v['upd_time']);
+                if(isset($v['upd_time']))
+                {
+                    $v['upd_time'] = date('Y-m-d H:i:s', $v['upd_time']);
+                }
             }
         }
         return DataReturn('处理成功', 0, $data);
@@ -109,7 +132,7 @@ class AnswerService
 
         if(!empty($params['keywords']))
         {
-            $where[] = ['name|tel|content', 'like', '%'.$params['keywords'].'%'];
+            $where[] = ['name|tel|title|content', 'like', '%'.$params['keywords'].'%'];
         }
 
         // 是否更多条件
@@ -119,6 +142,10 @@ class AnswerService
             if(isset($params['is_show']) && $params['is_show'] > -1)
             {
                 $where[] = ['is_show', '=', intval($params['is_show'])];
+            }
+            if(isset($params['is_reply']) && $params['is_reply']> -1)
+            {
+                $where[] = ['is_reply', '=', intval($params['is_reply'])];
             }
 
             if(!empty($params['time_start']))
@@ -148,14 +175,23 @@ class AnswerService
         // 参数校验
         $p = [
             [
-                'checked_type'      => 'empty',
+                'checked_type'      => 'length',
                 'key_name'          => 'name',
-                'error_msg'         => '联系人有误',
+                'checked_data'      => '30',
+                'is_checked'        => 1,
+                'error_msg'         => '联系人最多30个字符',
             ],
             [
-                'checked_type'      => 'empty',
+                'checked_type'      => 'isset',
                 'key_name'          => 'tel',
                 'error_msg'         => '联系电话有误',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'title',
+                'checked_data'      => '60',
+                'is_checked'        => 1,
+                'error_msg'         => '标题最多60个字符',
             ],
             [
                 'checked_type'      => 'empty',
@@ -172,8 +208,9 @@ class AnswerService
         // 开始操作
         $data = [
             'user_id'       => isset($params['user']['id']) ? intval($params['user']['id']) : 0,
-            'name'          => $params['name'],
-            'tel'           => $params['tel'],
+            'name'          => isset($params['name']) ? $params['name'] : '',
+            'tel'           => isset($params['tel']) ? $params['tel'] : '',
+            'title'         => isset($params['title']) ? $params['title'] : '',
             'content'       => $params['content'],
             'add_time'      => time(),
         ];
@@ -296,9 +333,10 @@ class AnswerService
         }
         // 更新问答
         $data = [
-            'reply'     => $params['reply'],
-            'is_reply'  => 1,
-            'upd_time'  => time()
+            'reply'         => $params['reply'],
+            'is_reply'      => 1,
+            'reply_time'    => time(),
+            'upd_time'      => time()
         ];
         if(Db::name('Answer')->where($where)->update($data))
         {
@@ -343,6 +381,24 @@ class AnswerService
             return DataReturn('编辑成功');
         }
         return DataReturn('编辑失败或数据未改变', -100);
+    }
+
+    /**
+     * 访问统计加1
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-15
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function AnswerAccessCountInc($params = [])
+    {
+        if(!empty($params['answer_id']))
+        {
+            return Db::name('Answer')->where(['id'=>intval($params['answer_id'])])->setInc('access_count');
+        }
+        return false;
     }
 }
 ?>

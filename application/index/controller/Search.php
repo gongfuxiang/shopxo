@@ -12,6 +12,7 @@ namespace app\index\controller;
 
 use app\service\SearchService;
 use app\service\BrandService;
+use app\service\SeoService;
 
 /**
  * 搜索
@@ -82,6 +83,9 @@ class Search extends Common
             // 参数
             $this->assign('params', $this->params);
 
+            // 浏览器名称
+            $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('商品搜索', 1));
+
             return $this->fetch();
         }
     }
@@ -97,8 +101,8 @@ class Search extends Common
     public function GoodsList()
     {        
         // 获取商品列表
-        $data = SearchService::GoodsList($this->params);
-        if(empty($data['data']))
+        $ret = SearchService::GoodsList($this->params);
+        if(empty($ret['data']))
         {
             $msg = '没有相关数据';
             $code = -100;
@@ -111,7 +115,7 @@ class Search extends Common
         SearchService::SearchAdd($this->params);
 
         // 返回
-        return DataReturn($msg, $code, $data);
+        return DataReturn($msg, $code, $ret['data']);
     }
 }
 ?>

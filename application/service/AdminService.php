@@ -245,7 +245,13 @@ class AdminService
             return DataReturn($ret, -1);
         }
 
-        // 添加账号
+        // 是否非法修改超管
+        if($params['id'] == 1 && $params['id'] != $params['admin']['id'])
+        {
+            return DataReturn('非法操作', -1);
+        }
+
+        // 数据
         $data = [
             'mobile'        => isset($params['mobile']) ? $params['mobile'] : '',
             'gender'        => intval($params['gender']),

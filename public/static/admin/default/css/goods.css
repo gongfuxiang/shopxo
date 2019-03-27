@@ -90,5 +90,6 @@ ul li { list-style-type: none; }
 /**
  * app详情
  */
+.content-app-left, .content-app-right { border-bottom: 0 !important; }
 .content-app-items li { padding-bottom: 10px; margin-bottom: 20px; overflow: hidden; }
-.content-app-left, .content-app-right { width: 45% !important; display: inline-table; margin-bottom: 5px; }
+.content-app-left, .content-app-right { width: 45% !important; display: inline-table; margin-bottom: 5px; padding-right: 5px !important; }

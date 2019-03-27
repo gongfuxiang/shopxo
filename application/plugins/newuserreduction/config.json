@@ -1,0 +1,28 @@
+{
+    "base":{
+        "plugins":"newuserreduction",
+        "name":"新用户立减",
+        "logo":"\/static\/upload\/images\/plugins_newuserreduction\/2019\/03\/25\/1553483752670109.jpg",
+        "author":"Devil",
+        "author_url":"https:\/\/shopxo.net\/",
+        "version":"1.0.0",
+        "desc":"新用户立减优惠",
+        "apply_terminal":[
+            "pc",
+            "h5",
+            "app",
+            "alipay",
+            "weixin",
+            "baidu"
+        ],
+        "apply_version":[
+            "1.4.0"
+        ],
+        "is_home":false
+    },
+    "hook":{
+        "plugins_service_buy_handle":[
+            "app\\plugins\\newuserreduction\\Hook"
+        ]
+    }
+}

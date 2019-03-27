@@ -44,7 +44,7 @@ class Answer extends Common
     public function Index()
     {
         // 登录校验
-        $this->Is_Login();
+        $this->IsLogin();
 
         // 参数
         $params = input();
@@ -90,7 +90,7 @@ class Answer extends Common
     public function Add()
     {
         // 登录校验
-        $this->Is_Login();
+        $this->IsLogin();
 
         $params = $this->data_post;
         $params['user'] = $this->user;

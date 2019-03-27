@@ -89,9 +89,9 @@
                             <td>{{$v.add_time_time}}</td>
                             <td class="view-operation">
                                 <a href="{{:MyUrl('admin/slide/saveinfo', array('id'=>$v['id']))}}">
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> 编辑</button>
+                                    <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit"> 编辑</button>
                                 </a>
-                                <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/slide/delete')}}" data-id="{{$v.id}}"> 删除</button>
+                                <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/slide/delete')}}" data-id="{{$v.id}}"> 删除</button>
                             </td>
                         </tr>
                     {{/foreach}}

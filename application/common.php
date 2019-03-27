@@ -225,6 +225,12 @@ function MyUrl($path, $params=[])
         $url = str_replace('public/', '', $url);
     }
 
+    // tp框架url方法是否识别到https
+    if(__MY_HTTP__ == 'https' && substr($url, 0, 5) != 'https')
+    {
+        $url = 'https'.mb_substr($url, 4, null, 'utf-8');
+    }
+
     return $url;
 }
 
@@ -242,10 +248,12 @@ function MyUrl($path, $params=[])
  */
 function PluginsHomeUrl($plugins_name, $plugins_control, $plugins_action, $params=[])
 {
-    $params['pluginsname'] = $plugins_name;
-    $params['pluginscontrol'] = $plugins_control;
-    $params['pluginsaction'] = $plugins_action;
-    $url = url('index/plugins/index', $params, true, true);
+    $plugins = [
+        'pluginsname'       => $plugins_name,
+        'pluginscontrol'    => $plugins_control,
+        'pluginsaction'     => $plugins_action,
+    ];
+    $url = url('index/plugins/index', $plugins+$params, true, true);
 
     // 是否根目录访问项目
     if(defined('IS_ROOT_ACCESS'))
@@ -270,10 +278,12 @@ function PluginsHomeUrl($plugins_name, $plugins_control, $plugins_action, $param
  */
 function PluginsAdminUrl($plugins_name, $plugins_control, $plugins_action, $params=[])
 {
-    $params['pluginsname'] = $plugins_name;
-    $params['pluginscontrol'] = $plugins_control;
-    $params['pluginsaction'] = $plugins_action;
-    $url = url('admin/plugins/index', $params, true, true);
+    $plugins = [
+        'pluginsname'       => $plugins_name,
+        'pluginscontrol'    => $plugins_control,
+        'pluginsaction'     => $plugins_action,
+    ];
+    $url = url('admin/plugins/index', $plugins+$params, true, true);
 
     // 是否根目录访问项目
     if(defined('IS_ROOT_ACCESS'))

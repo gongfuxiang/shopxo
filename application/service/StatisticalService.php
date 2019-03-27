@@ -413,13 +413,22 @@ class StatisticalService
         // 初始化
         self::Init($params);
     
-        // 获取热销商品
+        // 获取订单id
         $where = [
-            ['o.status', '<=', 4],
-            ['o.add_time', '>=', self::$seven_time_start],
-            ['o.add_time', '<=', self::$seven_time_end],
+            ['status', '<=', 4],
+            ['add_time', '>=', self::$seven_time_start],
+            ['add_time', '<=', self::$seven_time_end],
         ];
-        $data = Db::name('Order')->alias('o')->join(['__ORDER_DETAIL__'=>'od'], 'o.id=od.order_id')->where($where)->field('od.title AS name,sum(od.buy_number) AS value')->order('value desc')->limit(10)->group('od.goods_id')->select();
+        $order_ids = Db::name('Order')->where($where)->column('id');
+
+        // 获取订单详情热销商品
+        if(empty($order_ids))
+        {
+            $data = [];
+        } else {
+            $data = Db::name('OrderDetail')->field('title AS name,sum(buy_number) AS value')->where('order_id', 'IN', $order_ids)->select();
+        }
+
         if(!empty($data))
         {
             foreach($data as &$v)

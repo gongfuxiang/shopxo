@@ -1,0 +1,50 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('newuserreduction', 'admin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('newuserreduction', 'admin', 'index')}}" enctype="multipart/form-data">
+            <legend>
+                <span class="fs-16">新用户立减</span>
+                <a href="{{:PluginsAdminUrl('newuserreduction', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+            </legend>
+
+            <div class="am-form-group">
+                <label>展示名称<span class="am-form-group-label-tips">默认 新用户立减</span></label>
+                <input type="text" name="show_name" placeholder="展示名称" maxlength="16" data-validation-message="展示名称格式最多 16 个字符" class="am-radius" value="{{if !empty($data['show_name'])}}{{$data.show_name}}{{else /}}新用户立减{{/if}}" />
+            </div>
+
+            <div class="am-form-group">
+                <label>需满金额<span class="am-form-group-label-tips">订单金额大于等于该金额 空则不限</span></label>
+                <input type="number" name="full_amount" placeholder="需满金额" min="0.00" step="0.01" data-validation-message="请填写有效的需满金额" class="am-radius" value="{{if isset($data['full_amount']) and $data['full_amount'] gt 0}}{{$data.full_amount}}{{/if}}" />
+            </div>
+
+            <div class="am-form-group">
+                <label>立减金额<span class="am-form-group-label-tips">开启随机则0~当前设置的金额随机取值</span></label>
+                <input type="number" name="price" placeholder="立减金额" min="0.00" step="0.01" data-validation-message="请填写有效的立减金额" class="am-radius" value="{{if isset($data['price']) and $data['price'] gt 0}}{{$data.price}}{{/if}}" />
+            </div>
+
+            <div class="am-form-group">
+                <label>是否随机<span class="am-form-group-label-tips">0~立减金额之间</span></label>
+                <div>
+                    {{foreach $is_whether_list as $v}}
+                        <label class="am-radio-inline m-r-10">
+                            <input type="radio" name="is_random" value="{{$v.id}}" {{if isset($data['is_random']) and $data['is_random'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_random']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+            </div>
+
+            <div class="am-form-group business-form-block am-form-group-refreshing">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

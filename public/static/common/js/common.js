@@ -544,18 +544,18 @@ function Tree(id, url, level, is_add_node, is_delete_all)
 					var rank = tmp_level/20+1;
 					if(is_add_node == 1 && (is_astrict_rank == 0 || rank < is_astrict_rank))
 					{
-						html += '<span class="am-icon-plus am-icon-sm c-p m-r-20 tree-submit-add-node" data-am-modal="{target: \'#data-save-win\'}" data-id="'+result.data[i]['id']+'"></span>';
+						html += '<button class="am-btn am-btn-success am-btn-xs am-radius am-icon-plus c-p m-r-10 tree-submit-add-node" data-am-modal="{target: \'#data-save-win\'}" data-id="'+result.data[i]['id']+'"> 新增</button>';
 					}
 
 					// 编辑
-					html += '<span class="am-icon-edit am-icon-sm c-p submit-edit" data-am-modal="{target: \'#data-save-win\'}" data-json=\''+result.data[i]['json']+'\' data-is_exist_son="'+result.data[i]['is_son']+'"></span>';
+					html += '<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit c-p submit-edit" data-am-modal="{target: \'#data-save-win\'}" data-json=\''+result.data[i]['json']+'\' data-is_exist_son="'+result.data[i]['is_son']+'"> 编辑</button>';
 					if(result.data[i]['is_son'] != 'ok' || is_delete_all == 1)
 					{
 						// 是否需要删除子数据
 						var pid_class = is_delete_all == 1 ? '.tree-pid-'+result.data[i]['id'] : '';
 
 						// 删除
-						html += '<span class="am-icon-trash-o am-icon-sm c-p m-l-20 m-r-15 submit-delete" data-id="'+result.data[i]['id']+'" data-url="'+result.data[i]['delete_url']+'" data-ext-delete-tag="'+pid_class+'"></span>';
+						html += '<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o c-p m-l-10 submit-delete" data-id="'+result.data[i]['id']+'" data-url="'+result.data[i]['delete_url']+'" data-ext-delete-tag="'+pid_class+'"> 删除</button>';
 					}
 					html += '</div>';
 					// 操作项 end
@@ -975,10 +975,200 @@ function ConfirmNetworkAjax(e)
 	});
 }
 
+/**
+ * 开启全屏
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-03-01
+ * @desc    description
+ */
+function FullscreenOpen()
+{
+    var elem = document.body;
+    if(elem.webkitRequestFullScreen)
+    {
+        elem.webkitRequestFullScreen();
+    } else if (elem.mozRequestFullScreen)
+    {
+        elem.mozRequestFullScreen();
+    } else if (elem.requestFullScreen)
+    {
+        elem.requestFullScreen();
+    } else {
+        Prompt("浏览器不支持全屏API或已被禁用");
+        return false;
+    }
+    return true;
+}
+
+/**
+ * 关闭全屏
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-03-01
+ * @desc    description
+ */
+function FullscreenExit()
+{
+    var elem = document;
+    if (elem.webkitCancelFullScreen)
+    {
+        elem.webkitCancelFullScreen();
+    } else if (elem.mozCancelFullScreen)
+    {
+        elem.mozCancelFullScreen();
+    } else if (elem.cancelFullScreen)
+    {
+        elem.cancelFullScreen();
+    } else if (elem.exitFullscreen)
+    {
+        elem.exitFullscreen();
+    } else {
+        Prompt("浏览器不支持全屏API或已被禁用");
+        return false;
+    }
+    return true;
+}
+
+/**
+ * 全屏ESC监听
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-03-01
+ * @desc    description
+ */
+var fullscreen_counter = 0;
+function FullscreenEscEvent()
+{
+	fullscreen_counter++;
+	if(fullscreen_counter%2 == 0)
+	{
+		var $fullscreen = $('.fullscreen-event');
+		if(($fullscreen.attr('data-status') || 0) == 1)
+		{
+			$fullscreen.find('.fullscreen-text').text($fullscreen.data('fulltext-open') || '开启全屏');
+			$fullscreen.attr('data-status', 0);
+		}
+	}
+}
+
+/**
+ * url参数替换，参数不存在则添加
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-03-20
+ * @desc    description
+ * @param   {[string]}        field [字段名称]
+ * @param   {[string]}        value [字段值]
+ * @param   {[string]}        url   [自定义url]
+ */
+function UrlFieldReplace(field, value, url)
+{
+    // 当前页面url地址
+    url = url || window.location.href;
+
+    // 锚点
+    var anchor = '';
+    if(url.indexOf('#') >= 0)
+    {
+        anchor = url.substr(url.indexOf('#'));
+        url = url.substr(0, url.indexOf('#'));
+    }
+
+    if(url.indexOf('?') >= 0)
+    {
+        var str = url.substr(0, url.lastIndexOf('.'));
+        var ext = url.substr(url.lastIndexOf('.'));
+        if(str.indexOf(field) >= 0)
+        {
+            var first = str.substr(0, str.lastIndexOf(field));
+            var last = str.substr(str.lastIndexOf(field));
+                last = last.replace(new RegExp(field+'/', 'g'), '');
+                last = (last.indexOf('/') >= 0) ? last.substr(last.indexOf('/')) : '';
+                url = first+field+'/'+value+last+ext;
+        } else {
+            if(ext.indexOf('?') >= 0)
+            {
+                var p = '';
+                exts = ext.substr(ext.indexOf('?')+1);
+                if(ext.indexOf(field) >= 0)
+                {
+                    var params_all = exts.split('&');
+                    for(var i in params_all)
+                    {
+                        var temp = params_all[i].split('=');
+
+                        if(temp.length >= 2)
+                        {
+                            if(i > 0)
+                            {
+                                p += '&';
+                            }
+                            if(temp[0] == field)
+                            {
+                                p += field+'='+value;
+                            } else {
+                                p += params_all[i];
+                            }
+                        }
+                    }
+                } else {
+                    p = exts+'&'+field+'='+value;
+                }
+                url = str+(ext.substr(0, ext.indexOf('?')))+'?'+p;
+            } else {
+                url = str+'/'+field+'/'+value+ext;
+            }
+        }
+    } else {
+        url += '?'+field+'='+value;
+    }
+    return url+anchor;
+}
+
 
 // 公共数据操作
 $(function()
 {
+	// 全屏操作
+	$('.fullscreen-event').on('click', function()
+	{
+		var status = $(this).attr('data-status') || 0;
+		if(status == 0)
+		{
+			if(FullscreenOpen())
+			{
+				$(this).find('.fullscreen-text').text($(this).data('fulltext-exit') || '退出全屏');
+			}
+		} else {
+			if(FullscreenExit())
+			{
+				$(this).find('.fullscreen-text').text($(this).data('fulltext-open') || '开启全屏');
+			}
+		}
+		$(this).attr('data-status', status == 0 ? 1 : 0);
+		$(this).attr('data-status-y', status);
+	});
+	
+	// esc退出全屏事件
+	document.addEventListener("fullscreenchange", function(e) {
+	  FullscreenEscEvent();
+	});
+	document.addEventListener("mozfullscreenchange", function(e) {
+	  FullscreenEscEvent();
+	});
+	document.addEventListener("webkitfullscreenchange", function(e) {
+	  FullscreenEscEvent();
+	});
+	document.addEventListener("msfullscreenchange", function(e) {
+	  FullscreenEscEvent();
+	});
+
+
 	// 多选插件初始化
 	if($('.chosen-select').length > 0)
 	{
@@ -1608,7 +1798,6 @@ $(function()
 	        // 文件上传
 	        upload_editor.addListener("beforeInsertFile", function(t, result)
 	        {
-	            console.log(t, result, 'file');
 	            var fileHtml = '';
 	            for(var i in result){
 	                fileHtml += '<li><a href="'+result[i].url+'" target="_blank">'+result[i].url+'</a></li>';

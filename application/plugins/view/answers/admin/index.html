@@ -1,0 +1,178 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">问答系统</span>
+            <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+
+        <div class="answers-content">
+            <!-- 基础数据 -->
+            <div class="am-panel am-panel-secondary answers-middle-banner">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">基础数据</span>
+                    <a class="am-fr" href="{{:PluginsAdminUrl('answers', 'admin', 'baseinfo')}}">编辑</a>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="items">
+                        <label>应用导航名称</label>
+                        <div>
+                            {{if empty($data['application_name'])}}
+                                未设置应用导航名称
+                            {{else /}}
+                                {{$data.application_name}}
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class="items">
+                        <label>右侧推荐问答名称</label>
+                        <div>
+                            {{if empty($data['right_top_rec_name'])}}
+                                推荐问答
+                            {{else /}}
+                                {{$data.right_top_rec_name}}
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class="items">
+                        <label>中间最新问答名称</label>
+                        <div>
+                            {{if empty($data['middle_new_name'])}}
+                                最新问答
+                            {{else /}}
+                                {{$data.middle_new_name}}
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class="items">
+                        <label>右侧推荐商品名称</label>
+                        <div>
+                            {{if empty($data['right_top_goods_name'])}}
+                                推荐商品
+                            {{else /}}
+                                {{$data.right_top_goods_name}}
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class="items">
+                        <label>最新问答展示数量</label>
+                        <div>
+                            {{if empty($data['middle_new_page_number'])}}
+                                默认 15 条
+                            {{else /}}
+                                {{$data.middle_new_page_number}} 条
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class="items">
+                        <label>搜索问答展示数量</label>
+                        <div>
+                            {{if empty($data['search_page_number'])}}
+                                默认 28 条
+                            {{else /}}
+                                {{$data.search_page_number}} 条
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class="items">
+                        <label>首页开启最新商品展示</label>
+                        <div>
+                            {{if empty($data['home_new_goods_number'])}}
+                                不展示
+                            {{else /}}
+                                {{$data.home_new_goods_number}} 条
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class="items">
+                        <label>中间横幅</label>
+                        <div class="immages-tag">
+                            <a href="{{if empty($data['url'])}}javascript:;{{else /}}{{$data.url}}{{/if}}" {{if isset($data['is_new_window_open']) and $data['is_new_window_open'] eq 1}} target="_blank"{{/if}}>
+                                <img src="{{if !empty($data['images'])}}{{$data.images}}{{else /}}{{$attachment_host}}/static/plugins/images/answers/default-images.png{{/if}}" />
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="items">
+                        <label>底部横幅</label>
+                        <div class="immages-tag">
+                            <a href="{{if empty($data['url_bottom'])}}javascript:;{{else /}}{{$data.url_bottom}}{{/if}}" {{if isset($data['is_new_window_open_bottom']) and $data['is_new_window_open_bottom'] eq 1}} target="_blank"{{/if}}>
+                                <img src="{{if !empty($data['images_bottom'])}}{{$data.images_bottom}}{{else /}}{{$attachment_host}}/static/plugins/images/answers/default-images.png{{/if}}" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 幻灯片 -->
+            <div class="am-panel am-panel-secondary answers-slider">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">幻灯片</span>
+                    <a class="am-fr" href="{{:PluginsAdminUrl('answers', 'admin', 'slider')}}">编辑</a>
+                </div>
+                <div class="am-panel-bd">
+                    {{if !empty($slider)}}
+                        <div data-am-widget="slider" class="am-slider am-slider-c3" data-am-slider='{"controlNav":false}'>
+                            <ul class="am-slides">
+                                {{foreach $slider as $k=>$v}}
+                                    <li>
+                                        <a href="{{$v.url}}" target="_blank">
+                                            <img src="{{$v.images_url}}">
+                                            <div class="am-slider-desc">
+                                                <div class="am-slider-counter">
+                                                    <span class="am-active">{{$k+1}}</span>/{{:count($slider)}}</div>
+                                                {{$v.name}}
+                                            </div>
+                                        </a>
+                                    </li>
+                                {{/foreach}}
+                            </ul>
+                        </div>
+                    {{else /}}
+                        没有幻灯片
+                    {{/if}}
+                </div>
+            </div>
+
+            <!-- 右侧商品 -->
+            <div class="am-panel am-panel-secondary answers-goods">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">右侧商品</span>
+                    <a class="am-fr" href="{{:PluginsAdminUrl('answers', 'admin', 'goodsinfo')}}">编辑</a>
+                </div>
+                <div class="am-panel-bd">
+                    {{if !empty($goods_list)}}
+                        <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-4 am-avg-lg-8 am-gallery-bordered" data-am-gallery="{  }" >
+                            {{foreach $goods_list as $goods}}
+                                <li>
+                                    <div class="am-gallery-item">
+                                        <a href="{{$goods.goods_url}}" target="_blank">
+                                            <img src="{{$goods.images}}"  alt="{{$goods.title}}"/>
+                                            <h3 class="am-gallery-title">{{$goods.title}}</h3>
+                                        </a>
+                                    </div>
+                                </li>
+                            {{/foreach}}
+                        </ul>
+                    {{else /}}
+                        没有商品数据
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

@@ -26,7 +26,7 @@ button { outline: none; }
 .am-form select, .am-form textarea, .am-form input[type="text"], .am-form input[type="password"], .am-form input[type="datetime"], .am-form input[type="datetime-local"], .am-form input[type="date"], .am-form input[type="month"], .am-form input[type="time"], .am-form input[type="week"], .am-form input[type="number"], .am-form input[type="email"], .am-form input[type="url"], .am-form input[type="search"], .am-form input[type="tel"], .am-form input[type="color"], .am-form-field {
     font-size: 12px;
 }
-.am-input-group-sm > .am-input-group-btn > .am-btn {
+.am-input-group-sm > .am-input-group-btn > .am-btn, .am-input-group-sm > .am-form-field {
     height: 28px;
     font-size: 12px !important;
 }
@@ -55,8 +55,8 @@ a:hover, a:focus { color: #d2364c; text-decoration: underline; }
 
 .spatic{width:100%; height:16px;}
 h5{float: right;color: #666;padding-right:20px;}
-
 input.add,input.min{width:15px}
+.c-p {cursor:pointer;}
 .last{border-right:none !important;}
 /*选项卡样式定义*/
 .am-nav-tabs,.am-tabs-bd{border-color:transparent ;}
@@ -403,6 +403,11 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
     color: #666;
 }
 
+/**
+ * 灰色文字标记
+ */
+.gray-text { color: #999; }
+
 /* 价格颜色 */
 .price strong {color: #E4393C; font-weight: 600; }
 
@@ -470,10 +475,14 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
 .friendship-list ul li:not(:last-child) {
     margin-right: 10px;
 }
-
 .friendship-list ul li:not(:last-child) a {
     border-right: 1px solid #d4d4d4;
     padding-right: 10px;
+}
+@media only screen and (max-width:1025px) {
+    .friendship-list {
+        padding: 0 5px;
+    }
 }
 
 
@@ -485,9 +494,6 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
     .am-container {
         padding-left: 0px;
         padding-right: 0px;
-    }
-    .friendship-list {
-        padding: 0 5px;
     }
 }
 
@@ -695,7 +701,7 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
 .user-content-body {-webkit-box-flex:1;-webkit-flex:1 0 auto;-ms-flex:1 0 auto;flex:1 0 auto; }
 .user-offcanvas-bar { z-index: 900; }
 @media only screen and (min-width:640px) {
-    .user-sidebar {display:block;position:static;background:none; border-top: 5px solid #ED5564;}
+    .user-sidebar {display:block;position:relative;background:none; border-top: 5px solid #ED5564;z-index: 0;}
     .user-offcanvas-bar {position:static;width:auto;background:none;-webkit-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0);transform:translate3d(0,0,0);overflow-y:hidden;}
     .user-offcanvas-bar:after {content:none;}
     .user-main { padding: 0 5px; }

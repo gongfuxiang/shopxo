@@ -1,0 +1,82 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">
+                {{if empty($data['id'])}}
+                    商品添加
+                {{else /}}
+                    商品编辑
+                {{/if}}
+            </span>
+            <a href="{{:PluginsAdminUrl('answers', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+
+        <div class="answers-content">
+            <!-- form start -->
+            <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('answers', 'admin', 'goodssave')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('answers', 'admin', 'index')}}" enctype="multipart/form-data">
+                <div class="forth-selection-container">
+                    <div class="forth-selection-form" data-search-url="{{:PluginsAdminUrl('answers', 'admin', 'goodssearch')}}">
+                        <select class="am-radius c-p chosen-select forth-selection-form-category" data-placeholder="可选择..." data-validation-message="请选择商品分类">
+                            <option value="">可选择...</option>
+                            {{if !empty($goods_category_list)}}
+                                {{foreach $goods_category_list as $v}}
+                                    <option value="{{$v.id}}">一级 - {{$v.name}}</option>
+                                    {{if !empty($v['items'])}}
+                                        {{foreach $v.items as $vs}}
+                                            <option style="padding-left: 30px;" value="{{$vs.id}}">二级 - {{$vs.name}}</option>
+                                            {{if !empty($vs['items'])}}
+                                                {{foreach $vs.items as $vss}}
+                                                    <option style="padding-left: 60px;" value="{{$vss.id}}">三级 - {{$vss.name}}</option>
+                                                {{/foreach}}
+                                            {{/if}}
+                                        {{/foreach}}
+                                    {{/if}}
+                                {{/foreach}}
+                            {{/if}}
+                        </select>
+                        <input type="text" placeholder="商品名称" class="am-radius forth-selection-form-keywords" />
+                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm search-submit">搜索</button>
+                    </div>
+                    <div class="am-form-group am-form-group-refreshing forth-selection-list">
+                        <input type="text" name="category_ids" value="{{if !empty($goods['goods_ids'])}}{{:implode(',', $goods['goods_ids'])}}{{/if}}" data-validation-message="请选择商品" />
+                        <div class="forth-selection-items am-fl">
+                            <div class="title">可选</div>
+                            <ul class="forth-selection-content am-list ul-left">
+                                <div class="table-no">没有相关数据</div>
+                            </ul>
+                        </div>
+                        <button type="button" class="am-btn am-btn-default am-btn-xs selected-all">全选 <i class="am-icon-angle-double-right"></i></button>
+                        <div class="forth-selection-items am-fr">
+                            <div class="title">已选</div>
+                            <ul class="forth-selection-content am-list ul-right">
+                                <div class="table-no {{if !empty($goods['goods'])}}none{{/if}}">没有相关数据</div>
+                                {{if !empty($goods['goods'])}}
+                                    {{foreach $goods['goods'] as $v}}
+                                        <li class="am-animation-slide-bottom items-li-{{$v.id}}">
+                                            <span class="name" data-value="{{$v.id}}">{{$v.title}}</span>
+                                            <i class="am-icon-trash-o am-fr"></i>
+                                        </li>
+                                    {{/foreach}}
+                                {{/if}}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="am-form-group am-form-group-refreshing">
+                    <input type="hidden" name="id" {{if !empty($params['id'])}} value="{{$params.id}}"{{/if}} />
+                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                </div>
+            </form>
+            <!-- form end -->
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

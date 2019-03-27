@@ -1,0 +1,79 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">游客购买</span>
+            <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+
+        <div class="touristbuy-content">
+            <div class="items">
+                <label>应用导航名称</label>
+                <div>
+                    {{if !empty($data['application_name'])}}
+                        {{$data.application_name}}
+                    {{else /}}
+                        无
+                    {{/if}}
+                </div>
+            </div>
+            <div class="items">
+                <label>登录入口名称</label>
+                <div>
+                    {{if !empty($data['login_name'])}}
+                        {{$data.login_name}}
+                    {{else /}}
+                        游客登录
+                    {{/if}}
+                </div>
+            </div>
+            <div class="items">
+                <label>游客用户名</label>
+                <div>
+                    {{if !empty($data['nickname'])}}
+                        {{$data.nickname}}
+                    {{else /}}
+                        游客
+                    {{/if}}
+                </div>
+            </div>
+            <div class="items">
+                <label>订单查询提示</label>
+                <div>
+                    {{if !empty($data['query_tips'])}}
+                        {{$data.query_tips}}
+                    {{else /}}
+                        无
+                    {{/if}}
+                </div>
+            </div>
+
+            <div class="items">
+                <label>默认游客登录</label>
+                <div>
+                    {{if isset($data['is_default_tourist']) and $data['is_default_tourist'] eq 1}}
+                        是
+                    {{else /}}
+                        否
+                    {{/if}}
+                </div>
+            </div>
+
+            <div class="items">
+                <label>订单查询地址</label>
+                <div>
+                    <a href="{{:PluginsHomeUrl('touristbuy', 'index', 'index')}}" target="_blank">{{:PluginsHomeUrl('touristbuy', 'index', 'index')}}</a>
+                </div>
+            </div>
+
+            <a href="{{:PluginsAdminUrl('touristbuy', 'admin', 'saveinfo')}}" class="am-btn am-btn-secondary am-radius btn-loading-example am-btn-sm am-btn-block edit-submit">编辑</a>
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

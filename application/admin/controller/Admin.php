@@ -117,6 +117,7 @@ class Admin extends Common
 		}
 
 		// 管理员编辑
+		$data = [];
 		if(!empty($params['id']))
 		{
 			$data_params = [
@@ -124,13 +125,14 @@ class Admin extends Common
 				'm'			=> 0,
 				'n'			=> 1,
 			];
-			$data = AdminService::AdminList($data_params);
-			if(empty($data[0]))
+			$ret = AdminService::AdminList($data_params);
+			if(empty($ret[0]))
 			{
 				return $this->error('管理员信息不存在', MyUrl('admin/index/index'));
 			}
-			$this->assign('data', $data[0]);
+			$data = $ret[0];
 		}
+		$this->assign('data', $data);
 
 		// 角色
 		$role_params = [
@@ -153,17 +155,26 @@ class Admin extends Common
      */
 	public function Save()
 	{
-		// 登录校验
-		$this->IsLogin();
-
 		// 是否ajax
 		if(!IS_AJAX)
 		{
 			return $this->error('非法访问');
 		}
 
-		// 开始操作
+		// 登录校验
+		$this->IsLogin();
+
+		// 参数
 		$params = input('post.');
+
+		// 不是操作自己的情况下
+		if(!isset($params['id']) || $params['id'] != $this->admin['id'])
+		{
+			// 权限校验
+			$this->IsPower();
+		}
+
+		// 开始操作
 		$params['admin'] = $this->admin;
 		return AdminService::AdminSave($params);
 	}
@@ -177,17 +188,17 @@ class Admin extends Common
 	 */
 	public function Delete()
 	{
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-
 		// 是否ajax
 		if(!IS_AJAX)
 		{
 			return $this->error('非法访问');
 		}
+
+		// 登录校验
+		$this->IsLogin();
+
+		// 权限校验
+		$this->IsPower();
 
 		// 开始操作
 		$params = input('post.');

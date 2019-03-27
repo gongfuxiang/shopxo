@@ -66,6 +66,7 @@
 					<th class="am-hide-sm-only">快递信息</th>
 					<th>订单状态</th>
 					<th>订单金额(元)</th>
+					<th>扩展数据</th>
 					<th>更多</th>
 					<th>操作</th>
 				</tr>
@@ -127,9 +128,20 @@
 							</td>
 							<td>
 								金额：{{$v.price}}<br />
+								增加：{{$v.increase_price}}<br />
 								优惠：{{$v.preferential_price}}<br />
 								总价：{{$v.total_price}}<br />
 								支付：{{$v.pay_price}}
+							</td>
+							<td>
+								{{if empty($v['extension_data'])}}
+									<span class="cr-ddd">无</span>
+								{{else /}}
+									{{foreach $v.extension_data as $extk=>$ext}}
+										{{if $extk gt 0}}<br />{{/if}}
+										{{$ext.name}} [{{$ext.tips}}]
+									{{/foreach}}
+								{{/if}}
 							</td>
 							<td>
 								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
@@ -209,9 +221,22 @@
 														<span class="cr-ddd">未填写</span>
 													{{else /}}
 														金额：{{$v.price}}<br />
+														增加：{{$v.increase_price}}<br />
 														优惠：{{$v.preferential_price}}<br />
 														总价：{{$v.total_price}}<br />
 														支付：{{$v.pay_price}}
+													{{/if}}
+												</dd>
+
+												<dt>扩展数据</dt>
+												<dd>
+													{{if empty($v['extension_data'])}}
+														<span class="cr-ddd">无</span>
+													{{else /}}
+														{{foreach $v.extension_data as $extk=>$ext}}
+															{{if $extk gt 0}}<br />{{/if}}
+															{{$ext.name}} [{{$ext.tips}}]
+														{{/foreach}}
 													{{/if}}
 												</dd>
 
@@ -242,23 +267,32 @@
 							</td>
 							<td class="view-operation">
 								{{if in_array($v['status'], [0])}}
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/confirm')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！"> 确认</button>
+									<button class="am-btn am-btn-primary am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/confirm')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！"> 确认</button>
 								{{/if}}
 								{{if in_array($v['status'], [0,1])}}
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/cancel')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="取消后无法恢复，确定继续吗？"> 取消</button>
+									<button class="am-btn am-btn-warning am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/cancel')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="取消后无法恢复，确定继续吗？"> 取消</button>
 									{{if in_array($v['status'], [1])}}
-                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-paypal am-btn-block submit-pay" data-id="{{$v.id}}" data-payment-id="{{$v.payment_id}}" data-am-modal="{target: '#order-pay-popup'}"> 支付</button>
+                                        <button class="am-btn am-btn-success am-btn-xs am-radius am-icon-paypal am-btn-block submit-pay" data-id="{{$v.id}}" data-payment-id="{{$v.payment_id}}" data-am-modal="{target: '#order-pay-popup'}"> 支付</button>
                                     {{/if}}
 								{{/if}}
 								{{if $v['status'] eq 2}}
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-send-o am-btn-block submit-delivery" data-url="{{:MyUrl('admin/order/delivery')}}" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-express-id="{{$v.express_id}}" data-am-modal="{target: '#order-delivery-popup'}"> 发货</button>
+									<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-send-o am-btn-block submit-delivery" data-url="{{:MyUrl('admin/order/delivery')}}" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-express-id="{{$v.express_id}}" data-am-modal="{target: '#order-delivery-popup'}"> 发货</button>
 								{{/if}}
 								{{if $v['status'] eq 3}}
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/collect')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！"> 收货</button>
+									<button class="am-btn am-btn-success am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/collect')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！"> 收货</button>
 								{{/if}}
 								{{if in_array($v['status'], [5,6])}}
-									<button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/delete')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="delete" data-msg="删除后无法恢复，确定继续吗？"> 删除</button>
+									<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/delete')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="delete" data-msg="删除后无法恢复，确定继续吗？"> 删除</button>
 								{{/if}}
+
+								<!-- 钩子订单操作 -->
+                                {{if !empty($v['plugins_service_order_handle_operation_html']) and is_array($v['plugins_service_order_handle_operation_html'])}}
+                                    {{foreach $v.plugins_service_order_handle_operation_html as $hook}}
+                                        {{if is_string($hook) or is_int($hook)}}
+                                            {{$hook|raw}}
+                                        {{/if}}
+                                    {{/foreach}}
+                                {{/if}}
 							</td>
 						</tr>
 					{{/foreach}}
@@ -305,7 +339,7 @@
 							<label>快递单号</label>
 							<input type="text" autocomplete="off" name="express_number" placeholder="快递单号" minlength="1" data-validation-message="请填写快递单号" class="am-radius" required />
 	                    </div>
-	                    <div class="am-form-group">
+	                    <div class="am-form-group am-form-group-refreshing">
 	                        <input type="hidden" name="id" value="0" />
 	                        <input type="hidden" name="express_id" value="0" />
 	                        <input type="hidden" name="user_id" value="0" />
@@ -345,7 +379,7 @@
                                 <div class="table-no"><i class="am-icon-warning"></i> 没有支付方式</div>
                             {{/if}}
                         </div>
-                        <div class="am-form-group">
+                        <div class="am-form-group am-form-group-refreshing">
                             <input type="hidden" name="id" value="0" />
                             <input type="hidden" name="payment_id" value="0" />
                             <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>

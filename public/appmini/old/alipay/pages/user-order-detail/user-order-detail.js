@@ -49,7 +49,7 @@ Page({
               {name: "支付金额", value: data.pay_price},
               {name: "支付方式", value: data.payment_name},
               {name: "快递公司", value: data.express_name},
-              {name: "快递单号", value: data.expres_number},
+              {name: "快递单号", value: data.express_number},
               {name: "用户留言", value: data.user_note},
               {name: "创建时间", value: data.add_time},
               {name: "确认时间", value: data.confirm_time},

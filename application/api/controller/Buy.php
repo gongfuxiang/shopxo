@@ -37,7 +37,7 @@ class Buy extends Common
         parent::__construct();
 
         // 是否登录
-        $this->Is_Login();
+        $this->IsLogin();
     }
     
     /**
@@ -57,34 +57,18 @@ class Buy extends Common
         // 商品校验
         if(isset($ret['code']) && $ret['code'] == 0)
         {
-            // 用户默认地址
-            $address = UserService::UserDefaultAddress(['user'=>$this->user]);
-
-            // 商品/基础信息
-            $base = [
-                'total_price'   => empty($ret['data']) ? 0 : array_sum(array_column($ret['data'], 'total_price')),
-                'total_stock'   => empty($ret['data']) ? 0 : array_sum(array_column($ret['data'], 'stock')),
-                'address'       => empty($address['data']) ? null : $address['data'],
-            ];
-
             // 支付方式
             $payment_list = PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]);
 
-            // 扩展展示数据
-            $extension_list = [
-                // ['name'=>'感恩节9折', 'tips'=>'-￥23元'],
-                // ['name'=>'运费', 'tips'=>'+￥10元'],
-            ];
-
             // 数据返回组装
             $result = [
-                'goods_list'                => $ret['data'],
+                'goods_list'                => $ret['data']['goods'],
                 'payment_list'              => $payment_list,
-                'base'                      => $base,
-                'extension_list'            => $extension_list,
+                'base'                      => $ret['data']['base'],
+                'extension_data'            => $ret['data']['extension_data'],
                 'common_order_is_booking'   => (int) MyC('common_order_is_booking', 0),
             ];
-            return DataReturn('success', 0, $result);
+            return DataReturn('操作成功', 0, $result);
         }
         return $ret;
     }

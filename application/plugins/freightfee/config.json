@@ -1,0 +1,28 @@
+{
+    "base":{
+        "plugins":"freightfee",
+        "name":"运费设置",
+        "logo":"\/static\/upload\/images\/plugins_freightfee\/2019\/03\/18\/1552894366387964.jpg",
+        "author":"Devil",
+        "author_url":"https:\/\/shopxo.net\/",
+        "version":"1.0.0",
+        "desc":"快递运费设置",
+        "apply_terminal":[
+            "pc",
+            "h5",
+            "app",
+            "alipay",
+            "weixin",
+            "baidu"
+        ],
+        "apply_version":[
+            "1.4.0"
+        ],
+        "is_home":false
+    },
+    "hook":{
+        "plugins_service_buy_handle":[
+            "app\\plugins\\freightfee\\Hook"
+        ]
+    }
+}

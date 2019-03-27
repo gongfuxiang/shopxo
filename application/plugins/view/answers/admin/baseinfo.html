@@ -1,0 +1,147 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('answers', 'admin', 'basesave')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('answers', 'admin', 'index')}}" enctype="multipart/form-data">
+            <legend>
+                <span class="fs-16">问答系统</span>
+                <a href="{{:PluginsAdminUrl('answers', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+            </legend>
+
+            <div class="am-form-group">
+                <label>应用导航名称<span class="am-form-group-label-tips">空则不显示</span></label>
+                <input type="text" name="application_name" placeholder="应用导航名称" maxlength="16" data-validation-message="应用导航名称格式最多 16 个字符" class="am-radius" {{if !empty($data['application_name'])}} value="{{$data.application_name}}"{{/if}} />
+            </div>
+
+            <div class="am-form-group am-form-file">
+                <label class="block">中间横幅<span class="am-form-group-label-tips">建议1200像数X80像数</span></label>
+                <ul class="plug-file-upload-view plugins-images-view" data-form-name="images" data-max-number="1" data-dialog-type="images">
+                    {{if !empty($data['images_old'])}}
+                        <li>
+                            <input type="text" name="images" value="{{$data.images_old}}" data-validation-message="请上中间横幅传图片" required />
+                            <img src="{{$data.images}}" />
+                            <i>×</i>
+                        </li>
+                    {{/if}}
+                </ul>
+                <div class="plug-file-upload-submit" data-view-tag="ul.plugins-images-view">+上传图片</div>
+            </div>
+            <div class="am-form-group">
+                <label>中间横幅-链接地址<span class="am-form-group-label-tips">带http://或https://</span></label>
+                <input type="url" placeholder="链接地址" name="url"  data-validation-message="链接地址格式有误" class="am-radius" {{if !empty($data['url'])}} value="{{$data.url}}"{{/if}} />
+            </div>
+            <div class="am-form-group">
+                <label>中间横幅-是否新窗口打开</label>
+                <div>
+                    {{foreach $is_whether_list as $v}}
+                        <label class="am-radio-inline m-r-10">
+                            <input type="radio" name="is_new_window_open" value="{{$v.id}}" {{if isset($data['is_new_window_open']) and $data['is_new_window_open'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_new_window_open']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+            </div>
+
+            <div class="am-form-group am-form-file">
+                <label class="block">底部横幅<span class="am-form-group-label-tips">建议1200像数X80像数</span></label>
+                <ul class="plug-file-upload-view plugins-images-bottom-view" data-form-name="images_bottom" data-max-number="1" data-dialog-type="images">
+                    {{if !empty($data['images_bottom_old'])}}
+                        <li>
+                            <input type="text" name="images_bottom" value="{{$data.images_bottom_old}}" data-validation-message="请上传底部横幅图片" required />
+                            <img src="{{$data.images_bottom}}" />
+                            <i>×</i>
+                        </li>
+                    {{/if}}
+                </ul>
+                <div class="plug-file-upload-submit" data-view-tag="ul.plugins-images-bottom-view">+上传图片</div>
+            </div>
+            <div class="am-form-group">
+                <label>底部横幅-链接地址<span class="am-form-group-label-tips">带http://或https://</span></label>
+                <input type="url" placeholder="链接地址" name="url_bottom"  data-validation-message="链接地址格式有误" class="am-radius" {{if !empty($data['url_bottom'])}} value="{{$data.url_bottom}}"{{/if}} />
+            </div>
+            <div class="am-form-group">
+                <label>底部横幅-是否新窗口打开</label>
+                <div>
+                    {{foreach $is_whether_list as $v}}
+                        <label class="am-radio-inline m-r-10">
+                            <input type="radio" name="is_new_window_open_bottom" value="{{$v.id}}" {{if isset($data['is_new_window_open_bottom']) and $data['is_new_window_open_bottom'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_new_window_open_bottom']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+            </div>
+
+            <div class="am-form-group">
+                <label>右侧推荐问答名称<span class="am-form-group-label-tips">默认 推荐问答</span></label>
+                <input type="text" name="right_top_rec_name" placeholder="右侧推荐问答名称" maxlength="30" data-validation-message="右侧推荐问答名称格式最多 30 个字符" class="am-radius" {{if !empty($data['right_top_rec_name'])}} value="{{$data.right_top_rec_name}}"{{/if}} />
+            </div>
+
+            <div class="am-form-group">
+                <label>中间最新问答名称<span class="am-form-group-label-tips">默认 最新问答</span></label>
+                <input type="text" name="middle_new_name" placeholder="中间最新问答名称" maxlength="30" data-validation-message="中间最新问答名称格式最多 30 个字符" class="am-radius" {{if !empty($data['middle_new_name'])}} value="{{$data.middle_new_name}}"{{/if}} />
+            </div>
+
+            <div class="am-form-group">
+                <label>右侧推荐商品名称<span class="am-form-group-label-tips">默认 推荐商品</span></label>
+                <input type="text" name="right_top_goods_name" placeholder="右侧推荐商品名称" maxlength="30" data-validation-message="右侧推荐商品名称格式最多 30 个字符" class="am-radius" {{if !empty($data['right_top_goods_name'])}} value="{{$data.right_top_goods_name}}"{{/if}} />
+            </div>
+
+            <div class="am-form-group">
+                <label>最新问答展示数量<span class="am-form-group-label-tips">默认 15 条</span></label>
+                <input type="number" name="middle_new_page_number" placeholder="最新问答展示数量" maxlength="30" data-validation-message="请填写最新问答展示数量" class="am-radius" value="{{if !empty($data['middle_new_page_number'])}}{{$data.middle_new_page_number}}{{else /}}15{{/if}}" />
+            </div>
+
+            <div class="am-form-group">
+                <label>搜索问答展示数量<span class="am-form-group-label-tips">默认 28 条</span></label>
+                <input type="number" name="search_page_number" placeholder="搜索问答展示数量" maxlength="30" data-validation-message="请填写搜索问答展示数量数量" class="am-radius" value="{{if !empty($data['search_page_number'])}}{{$data.search_page_number}}{{else /}}28{{/if}}" />
+            </div>
+
+            <div class="am-form-group">
+                <label>首页开启最新商品展示<span class="am-form-group-label-tips">空则不展示</span></label>
+                <input type="number" name="home_new_goods_number" placeholder="首页开启最新商品展示" maxlength="30" data-validation-message="请填写首页开启最新商品展示数量" class="am-radius" value="{{if !empty($data['home_new_goods_number'])}}{{$data.home_new_goods_number}}{{/if}}" />
+            </div>
+
+            <label>右侧推荐问答</label>
+            <div class="forth-selection-container">
+                <div class="forth-selection-form" data-search-url="{{:PluginsAdminUrl('answers', 'admin', 'answerssearch')}}">
+                    <input type="text" placeholder="商品名称" class="am-radius forth-selection-form-keywords" />
+                    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm search-submit">搜索</button>
+                </div>
+                <div class="am-form-group am-form-group-refreshing forth-selection-list">
+                    <input type="text" name="category_ids" value="{{if !empty($data['category_ids'])}}{{$data.category_ids}}{{/if}}" data-validation-message="请选择问答" />
+                    <div class="forth-selection-items am-fl">
+                        <div class="title">可选</div>
+                        <ul class="forth-selection-content am-list ul-left">
+                            <div class="table-no">没有相关数据</div>
+                        </ul>
+                    </div>
+                    <button type="button" class="am-btn am-btn-default am-btn-xs selected-all">全选 <i class="am-icon-angle-double-right"></i></button>
+                    <div class="forth-selection-items am-fr">
+                        <div class="title">已选</div>
+                        <ul class="forth-selection-content am-list ul-right">
+                            <div class="table-no {{if !empty($answers_rc_list)}}none{{/if}}">没有相关数据</div>
+                            {{if !empty($answers_rc_list)}}
+                                {{foreach $answers_rc_list as $v}}
+                                    <li class="am-animation-slide-bottom items-li-{{$v.id}}">
+                                        <span class="name" data-value="{{$v.id}}">{{$v.title}}</span>
+                                        <i class="am-icon-trash-o am-fr"></i>
+                                    </li>
+                                {{/foreach}}
+                            {{/if}}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

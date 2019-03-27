@@ -1,0 +1,64 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">
+                {{if empty($data['id'])}}
+                    幻灯片添加
+                {{else /}}
+                    幻灯片编辑
+                {{/if}}
+            </span>
+            <a href="{{:PluginsAdminUrl('answers', 'admin', 'slider')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+
+        <div class="answers-content">
+            <!-- form start -->
+            <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('answers', 'admin', 'slidersave')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('answers', 'admin', 'slider')}}" enctype="multipart/form-data">
+                <div class="am-form-group">
+                    <label>名称</label>
+                    <input type="text" name="name" placeholder="名称" minlength="2" maxlength="60" data-validation-message="名称格式 2~60 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.name}}"{{/if}} required />
+                </div>
+                
+                <div class="am-form-group">
+                    <label>url地址<span class="am-form-group-label-tips">带http://或https://</span></label>
+                    <input type="url" placeholder="url地址" name="url"  data-validation-message="url格式有误" class="am-radius" {{if !empty($data)}} value="{{$data.url}}"{{/if}} />
+                </div>
+
+                <div class="am-form-group am-form-file">
+                    <label class="block">图片</label>
+                    <ul class="plug-file-upload-view slide-images_url-images-view" data-form-name="images_url" data-max-number="1" data-delete="0" data-dialog-type="images">
+                        <li>
+                            <input type="text" name="images_url" value="{{if !empty($data['images_url'])}}{{$data.images_url}}{{/if}}" data-validation-message="请上传图片" required />
+                            <img src="{{if !empty($data['images_url'])}}{{$data.images_url}}{{else /}}{{$attachment_host}}/static/plugins/images/answers/default-images.png{{/if}}" />
+                        </li>
+                    </ul>
+                    <div class="plug-file-upload-submit" data-view-tag="ul.slide-images_url-images-view">+上传图片</div>
+                </div>
+
+                <div class="am-form-group">
+                    <label>顺序</label>
+                    <input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="{{if isset($data['sort'])}}{{$data.sort}}{{else /}}0{{/if}}" required />
+                </div>
+                
+                <div class="am-form-group">
+                    <label class="block">是否启用</label>
+                    <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (!empty($data) and $data['is_enable'] eq 1) or empty($data)}}checked="true"{{/if}} />
+                </div>
+
+                <div class="am-form-group am-form-group-refreshing">
+                    <input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
+                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                </div>
+            </form>
+            <!-- form end -->
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

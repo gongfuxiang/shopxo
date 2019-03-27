@@ -11,6 +11,7 @@
 namespace app\index\controller;
 
 use app\service\ArticleService;
+use app\service\SeoService;
 
 /**
  * 文章详情
@@ -64,7 +65,7 @@ class Article extends Common
 			}
 
 			// 浏览器标题
-			$this->assign('home_seo_site_title', $this->GetBrowserSeoTitle($article['data'][0]['title'], 1));
+			$this->assign('home_seo_site_title', SeoService::BrowserSeoTitle($article['data'][0]['title']));
 
 			// 获取分类和文字
 			$article_category_content = ArticleService::ArticleCategoryListContent();

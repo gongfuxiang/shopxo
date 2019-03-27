@@ -51,7 +51,7 @@ ThinkPHP是一个快速、简单的基于MVC和面向对象的轻量级PHP开发
 ![电脑端](https://images.gitee.com/uploads/images/2019/0111/104442_0a307119_488475.gif "1547174456822.gif")
 
 # 后台管理图片展示
-![后台管理](https://images.gitee.com/uploads/images/2019/0111/104511_63926cf8_488475.gif "1547174286447.gif")
+![后台管理](https://images.gitee.com/uploads/images/2019/0227/092528_9eb4dbef_488475.gif "admin-2.gif")
 
 # 功能简介
 ### 后端功能列表

@@ -76,7 +76,7 @@ class Pluginsadmin extends Common
                     'total'     =>  $total,
                     'where'     =>  $params,
                     'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                    'url'       =>  MyUrl('admin/Pluginsadmin/index'),
+                    'url'       =>  MyUrl('admin/pluginsadmin/index'),
                 );
             $page = new \base\Page($page_params);
             $this->assign('page_html', $page->GetPageHtml());
@@ -112,6 +112,7 @@ class Pluginsadmin extends Common
         $this->assign('params', $params);
 
         // 获取数据
+        $data = [];
         if(!empty($params['id']))
         {
             // 获取数据
@@ -120,10 +121,11 @@ class Pluginsadmin extends Common
                 'n'         => 1,
                 'where'     => ['id' => intval($params['id'])],
             );
-            $data = PluginsAdminService::PluginsList($data_params);
-            $this->assign('data', $data['data'][0]);
-            $params['plugins'] = $data['data'][0]['plugins'];
+            $ret = PluginsAdminService::PluginsList($data_params);
+            $data = $ret['data'][0];
+            $params['plugins'] = $ret['data'][0]['plugins'];
         }
+        $this->assign('data', $data);
 
         // 标记为空或等于view 并且 编辑数据为空则走第一步
         if((empty($params['plugins']) || $params['plugins'] == 'view') && empty($data['data'][0]))
@@ -213,6 +215,27 @@ class Pluginsadmin extends Common
 
         // 开始处理
         return PluginsAdminService::PluginsUpload(input());
+    }
+
+    /**
+     * 应用打包
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-22
+     * @desc    description
+     */
+    public function Download()
+    {
+        // 开始处理
+        $ret = PluginsAdminService::PluginsDownload(input());
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            $this->assign('msg', $ret['msg']);
+            return $this->fetch('public/error');
+        } else {
+            return $ret;
+        }
     }
 }
 ?>

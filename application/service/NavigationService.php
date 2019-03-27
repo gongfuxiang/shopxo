@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 
 /**
  * 导航服务层
@@ -22,7 +23,7 @@ use think\Db;
 class NavigationService
 {
     /**
-     * 获取首页导航
+     * 获取导航
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -30,11 +31,12 @@ class NavigationService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function Home($params = [])
+    public static function Nav($params = [])
     {
         // 读取缓存数据
         $header = cache(config('shopxo.cache_common_home_nav_header_key'));
         $footer = cache(config('shopxo.cache_common_home_nav_footer_key'));
+        $header = [];
 
         // 导航模型
         $field = array('id', 'pid', 'name', 'url', 'value', 'data_type', 'is_new_window_open');
@@ -50,6 +52,15 @@ class NavigationService
                     $v['items'] = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'header', 'is_show'=>1, 'pid'=>$v['id']))->order('sort')->select());
                 }
             }
+            // 大导航钩子
+            $hook_name = 'plugins_service_navigation_header_handle';
+            $ret = Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'header'        => &$header,
+            ]);
+ 
             cache(config('shopxo.cache_common_home_nav_header_key'), $header);
         }
 
@@ -57,8 +68,27 @@ class NavigationService
         if(empty($footer))
         {
             $footer = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'footer', 'is_show'=>1))->order('sort')->select());
+            if(!empty($footer))
+            {
+                foreach($footer as &$v)
+                {
+                    $v['items'] = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'footer', 'is_show'=>1, 'pid'=>$v['id']))->order('sort')->select());
+                }
+            }
+
+            // 底部导航钩子
+            $hook_name = 'plugins_service_navigation_footer_handle';
+            $ret = Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'footer'        => &$footer,
+            ]);
+
             cache(config('shopxo.cache_common_home_nav_footer_key'), $footer);
         }
+
+        //print_r($header);
 
         return [
             'header' => $header,
@@ -448,6 +478,315 @@ class NavigationService
             return DataReturn('编辑成功');
         }
         return DataReturn('编辑失败或数据未改变', -100);
+    }
+
+    /**
+     * 获取前端顶部右侧导航
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-15
+     * @desc    description
+     * @param   array           $params [description]
+     */
+    public static function HomeHavTopRight($params = [])
+    {
+        $common_cart_total = 0;
+        $common_message_total = -1;
+        if(!empty($params['user']))
+        {
+            // 购物车商品总数
+            $common_cart_total = BuyService::UserCartTotal(['user'=>$params['user']]);
+            $common_cart_total = ($common_cart_total > 99) ? '99+' : $common_cart_total;
+
+            // 未读消息总数
+            $message_params = ['user'=>$params['user'], 'is_more'=>1, 'is_read'=>0, 'user_type'=>'user'];
+            $common_message_total = MessageService::UserMessageTotal($message_params);
+            $common_message_total = ($common_message_total > 99) ? '99+' : (($common_message_total <= 0) ? -1 : $common_message_total);
+        }
+        
+        // 列表
+        $data = [
+            [
+                'name'      => '个人中心',
+                'is_login'  => 1,
+                'badge'     => null,
+                'icon'      => 'am-icon-user',
+                'url'       => MyUrl('index/user/index'),
+                'items'     => [],
+            ],
+            [
+                'name'      => '我的交易',
+                'is_login'  => 1,
+                'badge'     => null,
+                'icon'      => 'am-icon-cube',
+                'url'       => '',
+                'items'     => [
+                    [
+                        'name'  => '我的订单',
+                        'url'   => MyUrl('index/order/index'),
+                    ],
+                ],
+            ],
+            [
+                'name'      => '我的收藏',
+                'is_login'  => 1,
+                'badge'     => null,
+                'icon'      => 'am-icon-heart',
+                'url'       => '',
+                'items'     => [
+                    [
+                        'name'  => '商品收藏',
+                        'url'   => MyUrl('index/userfavor/goods'),
+                    ],
+                ],
+            ],
+            [
+                'name'      => '购物车',
+                'is_login'  => 1,
+                'badge'     => $common_cart_total,
+                'icon'      => 'am-icon-shopping-cart',
+                'url'       => MyUrl('index/cart/index'),
+                'items'     => [],
+            ],
+            [
+                'name'      => '消息',
+                'is_login'  => 1,
+                'badge'     => $common_message_total,
+                'icon'      => 'am-icon-bell',
+                'url'       => MyUrl('index/message/index'),
+                'items'     => [],
+            ],
+        ];
+
+        // 顶部小导航右侧钩子
+        $hook_name = 'plugins_service_header_navigation_top_right_handle';
+        $ret = Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'data'          => &$data,
+        ]);
+
+        return $data;
+    }
+
+    /**
+     * 用户中心资料修改展示字段
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-15
+     * @desc    description
+     * @param   array           $params [description]
+     */
+    public static function UsersPersonalShowFieldList($params = [])
+    {
+        $data = [
+            'avatar'            =>  [
+                'name' => '头像',
+                'tips' => '<a href="javascript:;" data-am-modal="{target:\'#user-avatar-popup\'}">修改</a>'
+            ],
+            'nickname'          =>  [
+                'name' => '昵称'
+            ],
+            'gender_text'       =>  [
+                'name' => '性别'
+            ],
+            'birthday_text'     =>  [
+                'name' => '生日'
+            ],
+            'mobile_security'   =>  [
+                'name' => '手机号码',
+                'tips' => '<a href="'.MyUrl('index/safety/mobileinfo').'">修改</a>'
+            ],
+            'email_security'    =>  [
+                'name' => '电子邮箱',
+                'tips' => '<a href="'.MyUrl('index/safety/emailinfo').'">修改</a>'
+            ],
+            'add_time_text'     =>  [
+                'name' => '注册时间'
+            ],
+            'upd_time_text'     =>  [
+                'name' => '最后更新时间'
+            ],
+        ];
+
+        // 用户中心资料修改展示字段钩子
+        $hook_name = 'plugins_service_users_personal_show_field_list_handle';
+        $ret = Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'data'          => &$data,
+        ]);
+
+        return $data;
+    }
+
+    /**
+     * 用户安全项列表
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-15
+     * @desc    description
+     * @param   array           $params [description]
+     */
+    public static function UsersSafetyPanelList($params = [])
+    {
+        $data = [
+            [
+                'title'     =>  '登录密码',
+                'msg'       =>  '互联网存在被盗风险，建议您定期更改密码以保护安全。',
+                'url'       =>  MyUrl('index/safety/loginpwdinfo'),
+                'type'      =>  'loginpwd',
+            ],
+            [
+                'title'     =>  '手机号码',
+                'no_msg'    =>  '您还没有绑定手机号码',
+                'ok_msg'    =>  '已绑定手机 #accounts#',
+                'tips'      =>  '可用于登录，密码找回，账户安全管理校验，接受账户提醒通知。',
+                'url'       =>  MyUrl('index/safety/mobileinfo'),
+                'type'      =>  'mobile',
+            ],
+            [
+                'title'     =>  '电子邮箱',
+                'no_msg'    =>  '您还没有绑定电子邮箱',
+                'ok_msg'    =>  '已绑定电子邮箱 #accounts#',
+                'tips'      =>  '可用于登录，密码找回，账户安全管理校验，接受账户提醒邮件。',
+                'url'       =>  MyUrl('index/safety/emailinfo'),
+                'type'      =>  'email',
+            ],
+        ];
+
+        // 用户安全项列表钩子
+        $hook_name = 'plugins_service_users_safety_panel_list_handle';
+        $ret = Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'data'          => &$data,
+        ]);
+
+        return $data;
+    }
+
+    /**
+     * 用户中心左侧菜单
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-15
+     * @desc    description
+     * @param   array           $params [description]
+     */
+    public static function UsersCenterLeftList($params = [])
+    {
+        $data = [
+            [
+                'control'   =>  'user',
+                'action'    =>  'index',
+                'name'      =>  '个人中心',
+                'is_show'   =>  1,
+                'icon'      =>  'am-icon-home',
+            ],
+            [
+                'name'      =>  '交易管理',
+                'is_show'   =>  1,
+                'icon'      =>  'am-icon-cube',
+                'item'      =>  [
+                    [
+                        'control'   =>  'order',
+                        'action'    =>  'index',
+                        'name'      =>  '订单管理',
+                        'is_show'   =>  1,
+                        'icon'      =>  'am-icon-th-list',
+                    ],
+                    [
+                        'control'   =>  'userfavor',
+                        'action'    =>  'goods',
+                        'name'      =>  '我的收藏',
+                        'is_show'   =>  1,
+                        'icon'      =>  'am-icon-heart-o',
+                    ],
+                ]
+            ],
+            [
+                'name'      =>  '资料管理',
+                'is_show'   =>  1,
+                'icon'      =>  'am-icon-user',
+                'item'      =>  [
+                    [
+                        'control'   =>  'personal',
+                        'action'    =>  'index',
+                        'name'      =>  '个人资料',
+                        'is_show'   =>  1,
+                        'icon'      =>  'am-icon-gear',
+                    ],
+                    [
+                        'control'   =>  'useraddress',
+                        'action'    =>  'index',
+                        'name'      =>  '我的地址',
+                        'is_show'   =>  1,
+                        'icon'      =>  'am-icon-street-view',
+                    ],
+                    [
+                        'control'   =>  'safety',
+                        'action'    =>  'index',
+                        'name'      =>  '安全设置',
+                        'is_show'   =>  1,
+                        'icon'      =>  'am-icon-user-secret',
+                    ],
+                    [
+                        'control'   =>  'message',
+                        'action'    =>  'index',
+                        'name'      =>  '我的消息',
+                        'is_show'   =>  1,
+                        'icon'      =>  'am-icon-bell-o',
+                    ],
+                    [
+                        'control'   =>  'userintegral',
+                        'action'    =>  'index',
+                        'name'      =>  '我的积分',
+                        'is_show'   =>  1,
+                        'icon'      =>  'am-icon-fire',
+                    ],
+                    [
+                        'control'   =>  'usergoodsbrowse',
+                        'action'    =>  'index',
+                        'name'      =>  '我的足迹',
+                        'is_show'   =>  1,
+                        'icon'      =>  'am-icon-lastfm',
+                    ],
+                    [
+                        'control'   =>  'answer',
+                        'action'    =>  'index',
+                        'name'      =>  '问答/留言',
+                        'is_show'   =>  1,
+                        'icon'      =>  'am-icon-question',
+                    ],
+                    [
+                        'control'   =>  'user',
+                        'action'    =>  'logout',
+                        'name'      =>  '安全退出',
+                        'is_show'   =>  1,
+                        'icon'      =>  'am-icon-power-off',
+                    ],
+                ]
+            ],
+        ];
+
+        // 用户中心左侧菜单钩子
+        $hook_name = 'plugins_service_users_center_left_menu_handle';
+        $ret = Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'data'          => &$data,
+        ]);
+
+        return $data;
     }
 }
 ?>

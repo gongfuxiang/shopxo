@@ -1,0 +1,57 @@
+{{include file="public/header" /}}
+
+<!-- nav start -->
+{{include file="public/nav" /}}
+<!-- nav end -->
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content start -->
+<div class="am-g my-content">
+    <div class="am-u-md-6 am-u-sm-centered plugins-touristbuy-index">
+        {{if !empty($data['query_tips'])}}
+            <div class="am-alert am-alert-warning" data-am-alert>
+                <button type="button" class="am-close">&times;</button>
+                <p>{{$data.query_tips}}</p>
+            </div>
+        {{/if}}
+
+        <!-- form start -->
+        <form class="am-form form-validation" method="post" action="{{:PluginsHomeUrl('touristbuy', 'index', 'detail')}}" request-type="form">
+            <div class="am-form-group am-form-group-refreshing">
+                <label>订单号</label>
+                <input type="text" name="order_no" class="am-radius" minlength="1" placeholder="订单号" data-validation-message="请输入订单号" required />
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <label>收件人姓名</label>
+                <input type="text" name="name" class="am-radius" minlength="1" placeholder="订单号" data-validation-message="请输入收件人姓名" required />
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <label>收件人电话</label>
+                <input type="text" name="tel" class="am-radius" minlength="1" placeholder="订单号" data-validation-message="请输入收件人电话" required />
+            </div>
+            
+            <div class="am-form-group am-form-group-refreshing">
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '处理中...'}">查询</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- content end -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

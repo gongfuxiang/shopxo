@@ -134,20 +134,22 @@ class Power extends Common
 		$params = input();
 
 		// 角色组
+		$data = [];
 		if(!empty($params['id']))
 		{
 			$data_params = [
 				'where'	=> ['id'=>intval($params['id'])],
 			];
-			$data = AdminPowerService::RoleList($data_params);
-			if(!empty($data[0]['id']))
+			$ret = AdminPowerService::RoleList($data_params);
+			if(!empty($ret[0]['id']))
 			{
-				$this->assign('data', $data[0]);
+				$data = $ret[0];
 
 				// 权限关联数据
-				$params['role_id'] =  $data[0]['id'];
+				$params['role_id'] =  $ret[0]['id'];
 			}
 		}
+		$this->assign('data', $data);
 
 		// 菜单列表
 		$power = AdminPowerService::RolePowerEditData($params);

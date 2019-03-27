@@ -29,10 +29,10 @@ class PluginsService
      * @version 1.0.0
      * @date    2018-09-29
      * @desc    description
-     * @param   [string]          $plugins      [应用标记]
-     * @param   [array]           $images_field [图片字段]
+     * @param   [string]          $plugins          [应用标记]
+     * @param   [array]           $attachment_field [附件字段]
      */
-    public static function PluginsData($plugins, $images_field = [])
+    public static function PluginsData($plugins, $attachment_field = [])
     {
         // 获取数据
         $data = Db::name('Plugins')->where(['plugins'=>$plugins])->value('data');
@@ -41,9 +41,9 @@ class PluginsService
             $data = json_decode($data, true);
 
             // 是否有图片需要处理
-            if(!empty($images_field) && is_array($images_field))
+            if(!empty($attachment_field) && is_array($attachment_field))
             {
-                foreach($images_field as $field)
+                foreach($attachment_field as $field)
                 {
                     if(isset($data[$field]))
                     {
@@ -63,9 +63,10 @@ class PluginsService
      * @version 1.0.0
      * @date    2018-09-29
      * @desc    description
-     * @param   [string]          $plugins [应用标记]
+     * @param   [string]          $plugins          [应用标记]
+     * @param   [array]           $attachment_field [附件字段]
      */
-    public static function PluginsDataSave($params = [])
+    public static function PluginsDataSave($params = [], $attachment_field = [])
     {
         // 请求参数
         $p = [
@@ -84,6 +85,20 @@ class PluginsService
         if($ret !== true)
         {
             return DataReturn($ret, -1);
+        }
+
+        // 附件处理
+        $attachment = ResourcesService::AttachmentParams($params['data'], $attachment_field);
+        if($attachment['code'] != 0)
+        {
+            return $attachment;
+        }
+        if(!empty($attachment['data']))
+        {
+            foreach($attachment['data'] as $field=>$value)
+            {
+                $params['data'][$field] = $value;
+            }
         }
 
         // 数据更新

@@ -1,0 +1,24 @@
+{
+    "base":{
+        "plugins":"answers",
+        "name":"问答增强版",
+        "logo":"\/static\/upload\/images\/plugins_answers\/2019\/03\/06\/1551853529634743.png",
+        "author":"Devil",
+        "author_url":"https:\/\/shopxo.net\/",
+        "version":"1.0.0",
+        "desc":"问答系统增强、独立首页、详情、搜索、可配置推荐问答及商品",
+        "apply_terminal":[
+            "pc",
+            "h5"
+        ],
+        "apply_version":[
+            "1.4.0"
+        ],
+        "is_home":true
+    },
+    "hook":{
+        "plugins_service_navigation_header_handle":[
+            "app\\plugins\\answers\\Hook"
+        ]
+    }
+}

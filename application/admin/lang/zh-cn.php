@@ -123,6 +123,10 @@ return array(
                     'name' => '生日',
                     'type' => 'string',
                 ],
+            'status_text'=>   [
+                    'name' => '状态',
+                    'type' => 'string',
+                ],
             'mobile'        =>  [
                     'name' => '手机号码',
                     'type' => 'int',

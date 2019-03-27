@@ -79,7 +79,7 @@ class Admin extends Controller
      */
     public function save($params = [])
     {
-        return PluginsService::PluginsDataSave(['plugins'=>'commonrightnavigation', 'data'=>$params]);
+        return PluginsService::PluginsDataSave(['plugins'=>'commonrightnavigation', 'data'=>$params], ['alipay_mini_qrcode_images', 'alipay_fuwu_qrcode_images', 'weixin_mini_qrcode_images', 'weixin_fuwu_qrcode_images']);
     }
 }
 ?>

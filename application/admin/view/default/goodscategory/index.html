@@ -44,7 +44,7 @@
 						<div class="am-form-group">
 							<label>背景色</label>
 							<input type="hidden" name="bg_color" value="" />
-							<button class="am-btn am-btn-default colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color">
+							<button class="am-btn am-btn-default am-btn-xs colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color">
 								<img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
 							</button>
 						</div>
@@ -75,7 +75,7 @@
 							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
 						</div>
 						{{include file="lib/enable" /}}
-						<div class="am-form-group">
+						<div class="am-form-group am-form-group-refreshing">
 							<input type="hidden" name="id" />
 							<input type="hidden" name="pid" value="0" />
 							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>

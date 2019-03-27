@@ -13,6 +13,7 @@
 return array (
   'app_init' => 
   array (
+    0 => 'app\\plugins\\touristbuy\\Hook',
   ),
   'app_begin' => 
   array (
@@ -41,7 +42,7 @@ return array (
   array (
     0 => 'app\\plugins\\usercentertopnotice\\Hook',
   ),
-  'plugins_control_user_login_end' => 
+  'plugins_service_user_login_end' => 
   array (
     0 => 'app\\plugins\\userloginrewardintegral\\Hook',
   ),
@@ -59,6 +60,62 @@ return array (
   array (
     0 => 'app\\plugins\\commonrightnavigation\\Hook',
     1 => 'app\\plugins\\commononlineservice\\Hook',
+    2 => 'app\\plugins\\expressforkdn\\Hook',
+  ),
+  'plugins_service_navigation_header_handle' => 
+  array (
+    0 => 'app\\plugins\\answers\\Hook',
+    1 => 'app\\plugins\\touristbuy\\Hook',
+  ),
+  'plugins_admin_view_common_bottom' => 
+  array (
+    0 => 'app\\plugins\\expressforkdn\\Hook',
+  ),
+  'plugins_common_page_bottom' => 
+  array (
+    0 => 'app\\plugins\\expressforkdn\\Hook',
+  ),
+  'plugins_admin_common_page_bottom' => 
+  array (
+    0 => 'app\\plugins\\expressforkdn\\Hook',
+  ),
+  'plugins_common_header' => 
+  array (
+    0 => 'app\\plugins\\expressforkdn\\Hook',
+    1 => 'app\\plugins\\touristbuy\\Hook',
+  ),
+  'plugins_admin_common_header' => 
+  array (
+    0 => 'app\\plugins\\expressforkdn\\Hook',
+  ),
+  'plugins_service_order_handle_begin' => 
+  array (
+    0 => 'app\\plugins\\expressforkdn\\Hook',
+  ),
+  'plugins_service_system_begin' => 
+  array (
+    0 => 'app\\plugins\\touristbuy\\Hook',
+  ),
+  'plugins_view_header_navigation_top_left' => 
+  array (
+    0 => 'app\\plugins\\touristbuy\\Hook',
+  ),
+  'plugins_view_user_login_info_top' => 
+  array (
+    0 => 'app\\plugins\\touristbuy\\Hook',
+  ),
+  'plugins_view_user_sms_reg_info' => 
+  array (
+    0 => 'app\\plugins\\touristbuy\\Hook',
+  ),
+  'plugins_view_user_email_reg_info' => 
+  array (
+    0 => 'app\\plugins\\touristbuy\\Hook',
+  ),
+  'plugins_service_buy_handle' => 
+  array (
+    0 => 'app\\plugins\\freightfee\\Hook',
+    1 => 'app\\plugins\\newuserreduction\\Hook',
   ),
 );
 ?>

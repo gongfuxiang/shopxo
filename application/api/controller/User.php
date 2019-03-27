@@ -91,15 +91,16 @@ class User extends Common
         }
 
         // 授权
-        $result = (new \base\AlipayAuth())->GetAlipayUserInfo($this->data_post['authcode'], MyC('common_app_mini_alipay_appid'));
-        if($result === false)
+        $ret = (new \base\AlipayAuth())->GetAlipayUserInfo($this->data_post['authcode'], MyC('common_app_mini_alipay_appid'));
+        if($ret['status'] != 0)
         {
-            return DataReturn('获取授权信息失败', -10);
+            return DataReturn($ret['msg'], -10);
         } else {
-            $result['gender'] = empty($result['gender']) ? 0 : ($result['gender'] == 'm') ? 2 : 1;
-            $result['openid'] = $result['user_id'];
-            $result['referrer']= isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0;
-            return UserService::AuthUserProgram($result, 'alipay_openid');
+            $data = $ret['data'];
+            $data['gender'] = empty($data['gender']) ? 0 : ($data['gender'] == 'm') ? 2 : 1;
+            $data['openid'] = $data['user_id'];
+            $data['referrer']= isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0;
+            return UserService::AuthUserProgram($data, 'alipay_openid');
         }
     }
 
@@ -113,7 +114,14 @@ class User extends Common
      */
     public function WechatUserAuth()
     {
-        $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->GetAuthSessionKey(input('authcode'));
+        // 参数
+        if(empty($this->data_post['authcode']))
+        {
+            return DataReturn('授权码为空', -1);
+        }
+
+        // 授权
+        $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->GetAuthSessionKey($this->data_post['authcode']);
         if($result !== false)
         {
             return DataReturn('授权登录成功', 0, $result);
@@ -131,14 +139,35 @@ class User extends Common
      */
     public function WechatUserInfo()
     {
-        // 参数
-        $params = input();
+        // 参数校验
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'openid',
+                'error_msg'         => 'openid为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'encrypted_data',
+                'error_msg'         => '解密数据为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'iv',
+                'error_msg'         => 'iv数据为空',
+            ]
+        ];
+        $ret = ParamsChecked($this->data_post, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
 
         // 先从数据库获取用户信息
-        $user = UserService::UserInfo('weixin_openid', $params['openid']);
+        $user = UserService::UserInfo('weixin_openid', $this->data_post['openid']);
         if(empty($user))
         {
-            $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->DecryptData($params['encrypted_data'], $params['iv'], $params['openid']);
+            $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
 
             if(is_array($result))
             {
@@ -186,7 +215,7 @@ class User extends Common
     public function Center()
     {
         // 登录校验
-        $this->Is_Login();
+        $this->IsLogin();
 
         // 订单总数
         $where = ['user_id'=>$this->user['id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];

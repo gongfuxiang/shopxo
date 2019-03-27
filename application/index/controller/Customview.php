@@ -11,6 +11,7 @@
 namespace app\index\controller;
 
 use app\service\CustomViewService;
+use app\service\SeoService;
 
 /**
  * 自定义页面
@@ -58,7 +59,7 @@ class CustomView extends Common
 			CustomViewService::CustomViewAccessCountInc(['id'=>$id]);
 
 			// 浏览器标题
-			$this->assign('home_seo_site_title', $this->GetBrowserSeoTitle($data['data'][0]['title'], 1));
+			$this->assign('home_seo_site_title', SeoService::BrowserSeoTitle($data['data'][0]['title']));
 
 			$this->assign('data', $data['data'][0]);
             $this->assign('is_header', $data['data'][0]['is_header']);

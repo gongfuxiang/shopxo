@@ -53,7 +53,7 @@ class Answer extends Common
         $params = input();
 
         // 分页
-        $number = 10;
+        $number = MyC('admin_page_number', 10, true);
 
         // 条件
         $where = AnswerService::AnswerListWhere($params);
@@ -67,7 +67,7 @@ class Answer extends Common
                 'total'     =>  $total,
                 'where'     =>  $params,
                 'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  MyUrl('admin/order/index'),
+                'url'       =>  MyUrl('admin/answer/index'),
             );
         $page = new \base\Page($page_params);
         $this->assign('page_html', $page->GetPageHtml());
@@ -83,6 +83,9 @@ class Answer extends Common
 
 		// 状态
 		$this->assign('common_is_show_list', lang('common_is_show_list'));
+
+        // 是否
+        $this->assign('common_is_text_list', lang('common_is_text_list'));
 
 		// 参数
         $this->assign('params', $params);

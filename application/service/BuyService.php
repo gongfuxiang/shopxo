@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 use app\service\GoodsService;
 use app\service\UserService;
 use app\service\ResourcesService;
@@ -63,6 +64,13 @@ class BuyService
         if($ret !== true)
         {
             return DataReturn($ret, -1);
+        }
+
+        // 查询用户状态是否正常
+        $ret = UserService::UserStatusCheck('id', $params['user']['id']);
+        if($ret['code'] != 0)
+        {
+            return $ret;
         }
 
         // 获取商品
@@ -190,8 +198,8 @@ class BuyService
                 if($goods_base['code'] == 0)
                 {
                     $v['inventory'] = $goods_base['data']['inventory'];
-                    $v['price'] = $goods_base['data']['price'];
-                    $v['original_price'] = $goods_base['data']['original_price'];
+                    $v['price'] = (float) $goods_base['data']['price'];
+                    $v['original_price'] = (float) $goods_base['data']['original_price'];
                     $v['spec_weight'] = $goods_base['data']['weight'];
                     $v['spec_coding'] = $goods_base['data']['coding'];
                     $v['spec_barcode'] = $goods_base['data']['barcode'];
@@ -203,7 +211,7 @@ class BuyService
                 $v['goods_url'] = MyUrl('index/goods/index', ['id'=>$v['goods_id']]);
                 $v['images_old'] = $v['images'];
                 $v['images'] = ResourcesService::AttachmentPathViewHandle($v['images']);
-                $v['total_price'] = $v['stock']*$v['price'];
+                $v['total_price'] = $v['stock']* ((float) $v['price']);
                 $v['buy_max_number'] = ($v['buy_max_number'] <= 0) ? $v['inventory']: $v['buy_max_number'];
             }
         }
@@ -239,6 +247,13 @@ class BuyService
         if($ret !== true)
         {
             return DataReturn($ret, -1);
+        }
+
+        // 查询用户状态是否正常
+        $ret = UserService::UserStatusCheck('id', $params['user']['id']);
+        if($ret['code'] != 0)
+        {
+            return $ret;
         }
 
         // 删除
@@ -297,6 +312,13 @@ class BuyService
         if($ret !== true)
         {
             return DataReturn($ret, -1);
+        }
+
+        // 查询用户状态是否正常
+        $ret = UserService::UserStatusCheck('id', $params['user']['id']);
+        if($ret['code'] != 0)
+        {
+            return $ret;
         }
 
         // 更新
@@ -371,34 +393,34 @@ class BuyService
             ],
             'field' => 'id, id AS goods_id, title, images, inventory_unit, buy_min_number, buy_max_number',
         ];
-        $goods = GoodsService::GoodsList($p);
-        if(empty($goods[0]))
+        $ret = GoodsService::GoodsList($p);
+        if(empty($ret['data'][0]))
         {
             return DataReturn('资源不存在或已被删除', -10);
         }
 
         // 规格
-        $goods[0]['spec'] = self::GoodsSpecificationsHandle($params);
+        $ret['data'][0]['spec'] = self::GoodsSpecificationsHandle($params);
 
         // 获取商品基础信息
-        $goods_base = GoodsService::GoodsSpecDetail(['id'=>$goods[0]['goods_id'], 'spec'=>$goods[0]['spec']]);
+        $goods_base = GoodsService::GoodsSpecDetail(['id'=>$ret['data'][0]['goods_id'], 'spec'=>$ret['data'][0]['spec']]);
         if($goods_base['code'] == 0)
         {
-            $goods[0]['inventory'] = $goods_base['data']['inventory'];
-            $goods[0]['price'] = $goods_base['data']['price'];
-            $goods[0]['original_price'] = $goods_base['data']['original_price'];
-            $goods[0]['spec_weight'] = $goods_base['data']['weight'];
-            $goods[0]['spec_coding'] = $goods_base['data']['coding'];
-            $goods[0]['spec_barcode'] = $goods_base['data']['barcode'];
+            $ret['data'][0]['inventory'] = $goods_base['data']['inventory'];
+            $ret['data'][0]['price'] = (float) $goods_base['data']['price'];
+            $ret['data'][0]['original_price'] = (float) $goods_base['data']['original_price'];
+            $ret['data'][0]['spec_weight'] = $goods_base['data']['weight'];
+            $ret['data'][0]['spec_coding'] = $goods_base['data']['coding'];
+            $ret['data'][0]['spec_barcode'] = $goods_base['data']['barcode'];
         } else {
             return $goods_base;
         }
 
         // 数量/小计
-        $goods[0]['stock'] = $params['stock'];
-        $goods[0]['total_price'] = $params['stock']*$goods[0]['price'];
+        $ret['data'][0]['stock'] = $params['stock'];
+        $ret['data'][0]['total_price'] = $params['stock']* ((float) $ret['data'][0]['price']);
 
-        return DataReturn('操作成功', 0, $goods);
+        return DataReturn('操作成功', 0, $ret['data']);
     }
 
     /**
@@ -488,6 +510,88 @@ class BuyService
         } else {
             $ret = DataReturn('参数有误', -1);
         }
+
+        // 数据组装
+        if($ret['code'] == 0)
+        {
+            // 商品数据
+            $goods = $ret['data'];
+
+            // 用户默认地址
+            $address_params = [
+                'user'  => $params['user'],
+            ];
+            if(!empty($params['address_id']))
+            {
+                $address_params['where'] = ['id' => $params['address_id']];
+            }
+            $address = UserService::UserDefaultAddress($address_params);
+
+            // 商品/基础信息
+            $total_price = empty($goods) ? 0 : array_sum(array_column($goods, 'total_price'));
+            $base = [
+                // 总价
+                'total_price'           => $total_price,
+
+                // 订单实际支付金额(已减去优惠金额, 已加上增加金额)
+                'actual_price'          => $total_price,
+
+                // 优惠金额
+                'preferential_price'    => 0.00,
+
+                // 增加金额
+                'increase_price'        => 0.00,
+
+                // 商品数量
+                'goods_count'           => count($goods),
+
+                // 规格重量总计
+                'spec_weight_total'     => empty($goods) ? 0 : array_sum(array_map(function($v) {return $v['spec_weight']*$v['stock'];}, $goods)),
+
+                // 购买总数
+                'buy_count'             => empty($goods) ? 0 : array_sum(array_column($goods, 'stock')),
+
+                // 默认地址
+                'address'               => empty($address['data']) ? null : $address['data'],
+            ];
+
+            // 扩展展示数据
+            // name 名称
+            // price 金额
+            // type 类型（0减少, 1增加）
+            // tips 提示信息
+            $extension_data = [
+                // [
+                //     'name'  => '感恩节9折',
+                //     'price' => 23,
+                //     'type'  => 0,
+                //     'tips'  => '-￥23元'
+                // ],
+            ];
+
+            // 返回数据
+            $result = [
+                'goods'             => $goods,
+                'base'              => $base,
+                'extension_data'    => $extension_data,
+            ];
+
+            // 生成订单数据处理钩子
+            $hook_name = 'plugins_service_buy_handle';
+            $ret = Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'data'          => &$result,
+            ]);
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            return DataReturn('操作成功', 0, $result);
+        }
+
         return $ret;
     }
 
@@ -517,7 +621,6 @@ class BuyService
         }
 
         // 数据校验
-        $total_price = 0;
         foreach($params['goods'] as $v)
         {
             // 获取商品信息
@@ -554,16 +657,9 @@ class BuyService
             {
                 return DataReturn('['.$v['goods_id'].']超过商品限购数量['.$v['stock'].'>'.$goods['buy_max_number'].']', -1);
             }
-
-            // 总价
-            $total_price += $goods['price']*$v['stock'];
-            $result[] = $goods;
         }
 
-        $data = [
-            'total_price'   => $total_price,
-        ];
-        return DataReturn('操作成功', 0, $data);
+        return DataReturn('操作成功', 0);
     }
 
     /**
@@ -604,27 +700,33 @@ class BuyService
             return DataReturn($ret, -1);
         }
 
-        // 清单商品
-        $goods = self::BuyTypeGoodsList($params);
-        if(!isset($goods['code']) || $goods['code'] != 0)
+        // 查询用户状态是否正常
+        $ret = UserService::UserStatusCheck('id', $params['user']['id']);
+        if($ret['code'] != 0)
         {
-            return $goods;
+            return $ret;
         }
-        $check = self::BuyGoodsCheck(['goods'=>$goods['data']]);
+
+        // 清单商品
+        $params['is_order_submit'] = 1;
+        $buy = self::BuyTypeGoodsList($params);
+        if(!isset($buy['code']) || $buy['code'] != 0)
+        {
+            return $buy;
+        }
+        $check = self::BuyGoodsCheck(['goods'=>$buy['data']['goods']]);
         if(!isset($check['code']) || $check['code'] != 0)
         {
             return $check;
         }
 
-        // 用户地址
-        $address = UserService::UserAddressRow(array_merge($params, ['id'=>$params['address_id']]));
-        if(empty($address))
+        // 收货地址
+        if(empty($buy['data']['base']['address']))
         {
-            return $address;
+            return DataReturn('收货地址有误', -1);
+        } else {
+            $address = $buy['data']['base']['address'];
         }
-
-        // 优惠金额
-        $preferential_price = 0.00;
 
         // 店铺
         $shop_id = 0;
@@ -634,18 +736,20 @@ class BuyService
             'order_no'              => date('YmdHis').GetNumberCode(6),
             'user_id'               => $params['user']['id'],
             'shop_id'               => $shop_id,
-            'receive_address_id'    => $address['data']['id'],
-            'receive_name'          => $address['data']['name'],
-            'receive_tel'           => $address['data']['tel'],
-            'receive_province'      => $address['data']['province'],
-            'receive_city'          => $address['data']['city'],
-            'receive_county'        => $address['data']['county'],
-            'receive_address'       => $address['data']['address'],
+            'receive_address_id'    => $address['id'],
+            'receive_name'          => $address['name'],
+            'receive_tel'           => $address['tel'],
+            'receive_province'      => $address['province'],
+            'receive_city'          => $address['city'],
+            'receive_county'        => $address['county'],
+            'receive_address'       => $address['address'],
             'user_note'             => isset($params['user_note']) ? htmlentities($params['user_note']) : '',
             'status'                => (intval(MyC('common_order_is_booking', 0)) == 1) ? 0 : 1,
-            'preferential_price'    => $preferential_price,
-            'price'                 => $check['data']['total_price'],
-            'total_price'           => $check['data']['total_price']-$preferential_price,
+            'preferential_price'    => $buy['data']['base']['preferential_price'],
+            'increase_price'        => $buy['data']['base']['increase_price'],
+            'price'                 => $buy['data']['base']['total_price'],
+            'total_price'           => $buy['data']['base']['actual_price'],
+            'extension_data'        => empty($buy['data']['extension_data']) ? '' : json_encode($buy['data']['extension_data']),
             'payment_id'            => isset($params['payment_id']) ? intval($params['payment_id']) : 0,
             'add_time'              => time(),
         ];
@@ -654,8 +758,6 @@ class BuyService
             $order['confirm_time'] = time();
         }
 
-        //print_r($goods['data']);die;
-
         // 开始事务
         Db::startTrans();
 
@@ -663,7 +765,7 @@ class BuyService
         $order_id = Db::name('Order')->insertGetId($order);
         if($order_id > 0)
         {
-            foreach($goods['data'] as $v)
+            foreach($buy['data']['goods'] as $v)
             {
                 $detail = [
                     'order_id'          => $order_id,

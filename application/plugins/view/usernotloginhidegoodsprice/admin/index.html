@@ -1,0 +1,51 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">未登录隐藏商品价格</span>
+            <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+
+        <div class="usernotloginhidegoodsprice-content">
+            <div class="items">
+                <label>原价占位符</label>
+                <div>
+                    {{if !empty($data['original_price_placeholder'])}}
+                        {{$data.original_price_placeholder}}
+                    {{else /}}
+                        <span class="empty-text">未填写</span>
+                    {{/if}}
+                </div>
+            </div>
+            <div class="items">
+                <label>销售价占位符</label>
+                <div>
+                    {{if !empty($data['price_placeholder'])}}
+                        {{$data.price_placeholder}}
+                    {{else /}}
+                        <span class="empty-text">登录可见</span>
+                    {{/if}}
+                </div>
+            </div>
+            <div class="items">
+                <label>限制终端<span class="am-form-group-label-tips">留空则全部</span></label>
+                <div>
+                    {{if !empty($data['limit_terminal_text'])}}
+                        {{$data.limit_terminal_text}}
+                    {{else /}}
+                        全部
+                    {{/if}}
+                </div>
+            </div>
+
+            <a href="{{:PluginsAdminUrl('usernotloginhidegoodsprice', 'admin', 'saveinfo')}}" class="am-btn am-btn-secondary am-radius btn-loading-example am-btn-sm am-btn-block edit-submit">编辑</a>
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

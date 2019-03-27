@@ -11,6 +11,7 @@
 namespace app\api\controller;
 
 use think\Controller;
+use app\service\SystemService;
 use app\service\ConfigService;
 use app\service\UserService;
 
@@ -47,6 +48,9 @@ class Common extends Controller
     {
         parent::__construct();
 
+        // 系统运行开始
+        SystemService::SystemBegin();
+
         // 输入参数
         $this->data_post = input('post.');
         $this->data_get = input('get.');
@@ -60,6 +64,20 @@ class Common extends Controller
 
 		// 公共数据初始化
 		$this->CommonInit();
+    }
+
+    /**
+     * 析构函数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-18
+     * @desc    description
+     */
+    public function __destruct()
+    {
+        // 系统运行结束
+        SystemService::SystemEnd();
     }
 
     /**
@@ -95,13 +113,13 @@ class Common extends Controller
     }
 
 	/**
-	 * [Is_Login 登录校验]
+	 * [IsLogin 登录校验]
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
 	 * @datetime 2017-03-09T11:43:48+0800
 	 */
-	protected function Is_Login()
+	protected function IsLogin()
 	{
 		if(empty($this->user))
 		{
@@ -119,10 +137,7 @@ class Common extends Controller
 	private function CommonInit()
 	{
 		// 用户数据
-		if(!empty($this->data_request['user_id']))
-		{
-			$this->user = UserService::UserLoginRecord($this->data_request['user_id'], true);
-		}
+		$this->user = UserService::LoginUserInfo();
 	}
 
 	/**

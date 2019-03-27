@@ -11,12 +11,12 @@
             </legend>
 
             <div class="am-form-group am-form-file">
-                <label class="block">公告内容<span class="fs-12 fw-100 cr-999">（空则不显示）</span></label>
+                <label class="block">公告内容<span class="am-form-group-label-tips">空则不显示</span></label>
                 <textarea rows="3" name="content" class="am-radius am-field-valid" placeholder="公告内容" data-validation-message="请填写公告内容">{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
             </div>
 
             <div class="am-form-group">
-                <label>是否全局<span class="fs-12 fw-100 cr-999">（默认首页）</span></label>
+                <label>是否全局<span class="am-form-group-label-tips">默认首页</span></label>
                 <div>
                     {{foreach $is_whether_list as $v}}
                         <label class="am-radio-inline m-r-10">
@@ -27,7 +27,7 @@
             </div>
 
             <div class="am-form-group">
-                <label>有效时间<span class="fs-12 fw-100 cr-999">（留空则不限制）</span></label>
+                <label>有效时间<span class="am-form-group-label-tips">留空则不限制</span></label>
                 <div class="form-date">
                     <input type="text" autocomplete="off" name="time_start" class="Wdate am-radius" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if !empty($data['time_start'])}}value="{{$data.time_start}}"{{/if}}/>
                     <span>~</span>
@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <div class="am-form-group">
+            <div class="am-form-group am-form-group-refreshing">
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
             </div>
         </form>

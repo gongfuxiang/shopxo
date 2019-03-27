@@ -1,0 +1,221 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('freightfee', 'admin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('freightfee', 'admin', 'index')}}" enctype="multipart/form-data">
+            <legend>
+                <span class="fs-16">运费设置</span>
+                <a href="{{:PluginsAdminUrl('freightfee', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+            </legend>
+
+            <div class="am-form-group">
+                <label>展示名称<span class="am-form-group-label-tips">默认 运费</span></label>
+                <input type="text" name="show_name" placeholder="展示名称" maxlength="16" data-validation-message="展示名称格式最多 16 个字符" class="am-radius" value="{{if !empty($data['show_name'])}}{{$data.show_name}}{{else /}}运费{{/if}}" />
+            </div>
+
+            <div class="am-form-group">
+                <label>免运费支付方式</label>
+                <select name="payment" class="am-radius c-p chosen-select" multiple="multiple" data-placeholder="可选择..." data-validation-message="请选择一个免运费支付方式">
+                    {{foreach $payment_list as $v}}
+                        <option value="{{$v.id}}-{{$v.payment}}-{{$v.name}}" {{if isset($data['payment']) and in_array($v['id'].'-'.$v['payment'].'-'.$v['name'], $data['payment'])}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="business-form-block am-form-group">
+                <label>计价方式</label>
+                <div>
+                    {{foreach $is_whether_list as $v}}
+                        <label class="am-radio-inline m-r-10">
+                            <input type="radio" name="valuation" value="{{$v.id}}" {{if isset($data['valuation']) and $data['valuation'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['valuation']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+            </div>
+
+            <div class="business-form-block freightfee-rules">
+                <label>运费模板</label>
+                <table class="am-table am-table-striped">
+                    {{if empty($data['data'])}}
+                        <thead>
+                            <tr>
+                                <th>运送到</th>
+                                <th>首件数(件)</th>
+                                <th>首费(元)</th>
+                                <th>续件数(件)</th>
+                                <th>续费(元)</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="first">
+                                    <div class="region-td none"></div>默认运费
+                                    <input type="text" class="am-radius region-name" name="data[0][region]" data-validation-message="请选择地区" value="default" required />
+                                    <input type="hidden" class="am-radius region-name-show" name="data[0][region_show]" value="" />
+                                </td>
+                                <td>
+                                    <input type="number" class="am-radius first-name" name="data[0][first]" min="1" max="9999" data-validation-message="输入 1~9999 的整数" required />
+                                </td>
+                                <td>
+                                    <input type="number" class="am-radius first-price-name" name="data[0][first_price]" min="0.00" max="999.99" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,小数保留两位" required />
+                                </td>
+                                <td>
+                                    <input type="number" class="am-radius continue-name" name="data[0][continue]" min="1" max="9999" data-validation-message="输入 1~9999 的整数" required />
+                                </td>
+                                <td>
+                                    <input type="number" class="am-radius continue-price-name" name="data[0][continue_price]" min="0.00" max="999.99" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,且不能大于首费,小数保留两位" required />
+                                </td>
+                                <td><!--operation--></td>
+                            </tr>
+                        </tbody>
+                    {{else /}}
+                        {{if isset($data['valuation']) and $data['valuation'] eq 0}}
+                            <thead>
+                                <tr>
+                                    <th>运送到</th>
+                                    <th>首件数(件)</th>
+                                    <th>首费(元)</th>
+                                    <th>续件数(件)</th>
+                                    <th>续费(元)</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{foreach $data.data as $k=>$v}}
+                                    <tr class="data-list-{{$k}}">
+                                        <td class="first">
+                                            {{if $v['region'] eq 'default'}}
+                                                <div class="region-td none"></div>默认运费
+                                                <input type="text" class="am-radius region-name" name="data[{{$k}}][region]" data-validation-message="请选择地区" value="default" required />
+                                                <input type="hidden" class="am-radius region-name-show" name="data[{{$k}}][region_show]" value="{{$v.region_show}}" />
+                                            {{else /}}
+                                                <div class="region-td">{{$v.region_names}}</div>
+                                                <span class="fs-12 cr-blue c-p line-edit" data-index="{{$k}}">添加地区</span>
+                                                <input type="text" class="am-radius region-name" name="data[{{$k}}][region]" data-validation-message="请选择地区" value="{{$v.region}}" required />
+                                                <input type="hidden" class="am-radius region-name-show" name="data[{{$k}}][region_show]" value="{{$v.region_show}}" />
+                                            {{/if}}
+                                        </td>
+                                        <td>
+                                            <input type="number" class="am-radius first-name" name="data[{{$k}}][first]" min="1" max="9999" data-validation-message="输入 1~9999 的整数" value="{{$v.first}}" required />
+                                        </td>
+                                        <td>
+                                            <input type="number" class="am-radius first-price-name" name="data[{{$k}}][first_price]" min="0.00" max="999.99" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,小数保留两位" value="{{$v.first_price}}"  required />
+                                        </td>
+                                        <td>
+                                            <input type="number" class="am-radius continue-name" name="data[{{$k}}][continue]" min="1" max="9999" data-validation-message="输入 1~9999 的整数" value="{{$v.continue}}"  required />
+                                        </td>
+                                        <td>
+                                            <input type="number" class="am-radius continue-price-name" name="data[{{$k}}][continue_price]" min="0.00" max="999.99" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,且不能大于首费,小数保留两位" value="{{$v.continue_price}}"  required />
+                                        </td>
+                                        {{if $v['region'] eq 'default'}}
+                                            <td><!--operation--></td>
+                                        {{else /}}
+                                            <td>
+                                                <span class="fs-12 cr-red c-p line-remove">删除</span>
+                                            </td>
+                                        {{/if}}
+                                    </tr>
+                                {{/foreach}}
+                            </tbody>
+                        {{else /}}
+                            <thead>
+                                <tr>
+                                    <th>运送到</th>
+                                    <th>首件数(kg)</th>
+                                    <th>首费(元)</th>
+                                    <th>续件数(kg)</th>
+                                    <th>续费(元)</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{foreach $data.data as $k=>$v}}
+                                    <tr class="data-list-{{$k}}">
+                                        <td class="first">
+                                            {{if $v['region'] eq 'default'}}
+                                                <div class="region-td none"></div>默认运费
+                                                <input type="text" class="am-radius region-name" name="data[{{$k}}][region]" data-validation-message="请选择地区" value="default" required />
+                                                <input type="hidden" class="am-radius region-name-show" name="data[{{$k}}][region_show]" value="{{$v.region_show}}" />
+                                            {{else /}}
+                                                <div class="region-td">{{$v.region_names}}</div>
+                                                <span class="fs-12 cr-blue c-p line-edit" data-index="{{$k}}">添加地区</span>
+                                                <input type="text" class="am-radius region-name" name="data[{{$k}}][region]" data-validation-message="请选择地区" value="{{$v.region}}" required />
+                                                <input type="hidden" class="am-radius region-name-show" name="data[{{$k}}][region_show]" value="{{$v.region_show}}" />
+                                            {{/if}}
+                                        </td>
+                                        <td>
+                                            <input type="number" class="am-radius first-name" name="data[{{$k}}][first]" min="0.1" max="9999.0" step="0.1" data-validation-message="输入 0.1~9999.9 的数字,小数保留1位" value="{{$v.first}}" required />
+                                        </td>
+                                        <td>
+                                            <input type="number" class="am-radius first-price-name" name="data[{{$k}}][first_price]" min="0.00" max="999.99" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,小数保留两位" value="{{$v.first_price}}" required />
+                                        </td>
+                                        <td>
+                                            <input type="number" class="am-radius continue-name" name="data[{{$k}}][continue]"  min="0.1" max="9999.0" step="0.1"  data-validation-message="输入 0.1~9999.9 的数字,小数保留1位"value="{{$v.continue}}" required />
+                                        </td>
+                                        <td>
+                                            <input type="number" class="am-radius continue-price-name" name="data[{{$k}}][continue_price]" min="0.00" max="999.99" step="0.01" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,且不能大于首费,小数保留两位" value="{{$v.continue_price}}"  required />
+                                        </td>
+                                        {{if $v['region'] eq 'default'}}
+                                            <td><!--operation--></td>
+                                        {{else /}}
+                                            <td>
+                                                <span class="fs-12 cr-red c-p line-remove">删除</span>
+                                            </td>
+                                        {{/if}}
+                                    </tr>
+                                {{/foreach}}
+                            </tbody>
+                        {{/if}}
+                    {{/if}}
+                </table>
+                <span class="business-operations-submit rules-submit-add">+为指定地区城市设置运费</span>
+            </div>
+
+            <div class="am-form-group business-form-block am-form-group-refreshing">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+
+        <!-- popup -->
+        <div class="am-popup" id="freightfee-region-popup">
+            <div class="am-popup-inner">
+                <div class="am-popup-hd">
+                    <h4 class="am-popup-title">选择区域</h4>
+                    <span data-am-modal-close class="am-close">&times;</span>
+                </div>
+                <div class="am-popup-bd">
+                    {{if !empty($region_list)}}
+                        <ul class="province-list">
+                            {{foreach $region_list as $v}}
+                                <li>
+                                    <p class="province-name region-node-{{$v.id}}" data-id="{{$v.id}}">{{$v.name}}</p>
+                                    {{if !empty($v['items'])}}
+                                        <ul class="city-list">
+                                            {{foreach $v.items as $vs}}
+                                                <li>
+                                                    <span class="city-name region-node-{{$vs.id}}" data-province-id="{{$v.id}}" data-city-id="{{$vs.id}}">{{$vs.name}}</span>
+                                                </li>
+                                            {{/foreach}}
+                                        </ul>
+                                    {{/if}}
+                                </li>
+                            {{/foreach}}
+                        </ul>
+                    {{else /}}
+                        <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+                    {{/if}}
+                    <button type="submit" class="am-btn am-btn-secondary am-radius btn-loading-example am-btn-sm am-btn-block">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

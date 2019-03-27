@@ -11,7 +11,7 @@
             </legend>
 
             <div class="am-form-group am-form-file">
-                <label class="block">支付宝小程序二维码<span class="fs-12 fw-100 cr-999">（建议100像数X100像数）</span></label>
+                <label class="block">支付宝小程序二维码<span class="am-form-group-label-tips">建议100像数X100像数</span></label>
                 <ul class="plug-file-upload-view plugins-alipay_mini_qrcode_images-view" data-form-name="alipay_mini_qrcode_images" data-max-number="1" data-dialog-type="images">
                     {{if !empty($data['alipay_mini_qrcode_images'])}}
                         <li>
@@ -25,7 +25,7 @@
             </div>
 
             <div class="am-form-group am-form-file">
-                <label class="block">支付宝生活号二维码<span class="fs-12 fw-100 cr-999">（建议100像数X100像数）</span></label>
+                <label class="block">支付宝生活号二维码<span class="am-form-group-label-tips">建议100像数X100像数</span></label>
                 <ul class="plug-file-upload-view plugins-alipay_fuwu_qrcode_images-view" data-form-name="alipay_fuwu_qrcode_images" data-max-number="1" data-dialog-type="images">
                     {{if !empty($data['alipay_fuwu_qrcode_images'])}}
                         <li>
@@ -39,7 +39,7 @@
             </div>
 
             <div class="am-form-group am-form-file">
-                <label class="block">微信小程序二维码<span class="fs-12 fw-100 cr-999">（建议100像数X100像数）</span></label>
+                <label class="block">微信小程序二维码<span class="am-form-group-label-tips">建议100像数X100像数</span></label>
                 <ul class="plug-file-upload-view plugins-weixin_mini_qrcode_images-view" data-form-name="weixin_mini_qrcode_images" data-max-number="1" data-dialog-type="images">
                     {{if !empty($data['weixin_mini_qrcode_images'])}}
                         <li>
@@ -53,7 +53,7 @@
             </div>
 
             <div class="am-form-group am-form-file">
-                <label class="block">微信公众号二维码<span class="fs-12 fw-100 cr-999">（建议100像数X100像数）</span></label>
+                <label class="block">微信公众号二维码<span class="am-form-group-label-tips">建议100像数X100像数</span></label>
                 <ul class="plug-file-upload-view plugins-weixin_fuwu_qrcode_images-view" data-form-name="weixin_fuwu_qrcode_images" data-max-number="1" data-dialog-type="images">
                     {{if !empty($data['weixin_fuwu_qrcode_images'])}}
                         <li>
@@ -78,7 +78,7 @@
             </div>
 
             <div class="am-form-group">
-                <label>是否全局<span class="fs-12 fw-100 cr-999">（否则只在首页显示，是则全局展示）</span></label>
+                <label>是否全局<span class="am-form-group-label-tips">否则只在首页显示，是则全局展示</span></label>
                 <div>
                     {{foreach $is_whether_list as $v}}
                         <label class="am-radio-inline m-r-10">
@@ -99,7 +99,7 @@
                 </div>
             </div>
 
-            <div class="am-form-group">
+            <div class="am-form-group am-form-group-refreshing">
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
             </div>
         </form>

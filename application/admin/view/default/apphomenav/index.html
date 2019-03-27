@@ -35,7 +35,7 @@
                             <option value="{{$v.value}}" {{if isset($params['event_type']) and $params['event_type'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                         {{/foreach}}
                     </select>
-                    <div class="param-date param-where m-l-5)}}
+                    <div class="param-date param-where m-l-5">
                         <input type="text" autocomplete="off" name="time_start" class="Wdate am-radius m-t-10" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_start'])}}value="{{$params.time_start}}"{{/if}}/>
                         <span>~</span>
                         <input type="text" autocomplete="off" class="Wdate am-radius m-t-10" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if isset($params['time_end'])}}value="{{$params.time_end}}"{{/if}}/>
@@ -93,9 +93,9 @@
                             <td>{{$v.add_time_time}}</td>
                             <td class="view-operation">
                                 <a href="{{:MyUrl('admin/apphomenav/saveinfo', array_merge($params, ['id'=>$v['id']]))}}">
-                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit"> 编辑</button>
+                                    <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit"> 编辑</button>
                                 </a>
-                                <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/apphomenav/delete')}}" data-id="{{$v.id}}"> 删除</button>
+                                <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/apphomenav/delete')}}" data-id="{{$v.id}}"> 删除</button>
                             </td>
                         </tr>
                     {{/foreach}}

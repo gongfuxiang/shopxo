@@ -1,0 +1,133 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container user-main">
+
+    <!-- user menu start -->
+    {{include file="public/user_menu" /}}
+    <!-- user menu end -->
+
+    <!-- content start -->
+    <div class="user-content">
+        <div class="user-content-body">
+            <form class="am-form form-validation" method="post" action="{{:MyUrl('index/answer/index')}}" request-type="form">
+                <div class="thin">
+                    <div class="am-input-group am-input-group-sm am-fl so">
+                        <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="其实搜索很简单 ^_^！" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
+                        <span class="am-input-group-btn">
+                            <button class="am-btn am-btn-default am-radius" type="submit" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
+                        </span>
+                    </div>
+                    <label class="am-fl thin_sub more-submit">
+                        更多筛选条件
+                        <input type="checkbox" name="is_more" value="1" class="none am-field-valid" {{if isset($params['is_more'])}}checked{{/if}} />
+                        <i class="am-icon-angle-up"></i>
+                    </label>
+                </div>
+                <table class="so-list more-where {{if !isset($params['is_more'])}}none{{/if}}">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span>显示：</span>
+                                <select name="is_show" class="chosen-select" data-placeholder="是否显示...">
+                                    <option value="-1">是否显示...</option>
+                                    {{if !empty($common_is_show_list)}}
+                                        {{foreach $common_is_show_list as $v}}
+                                            <option value="{{$v.id}}" {{if isset($params['is_show']) and $params['is_show'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </select>
+                            </td>
+                            <td>
+                                <span>状态：</span>
+                                <select name="is_reply" class="chosen-select" data-placeholder="是否回复...">
+                                    <option value="-1">是否回复...</option>
+                                    {{if !empty($common_is_text_list)}}
+                                        {{foreach $common_is_text_list as $v}}
+                                            <option value="{{$v.id}}" {{if isset($params['is_reply']) and $params['is_reply'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
+                                <a href="{{:MyUrl('index/answer/index')}}" class="am-btn am-btn-warning am-radius am-btn-sm reset-submit">清除条件</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+
+            <!-- 列表 -->
+            <div class="data-list">
+                <table class="am-table">
+                    <thead>
+                        <tr>
+                            <th>姓名</th>
+                            <th>电话</th>
+                            <th>标题</th>
+                            <th class="am-hide-sm-only">内容</th>
+                            <th class="am-hide-sm-only">回复</th>
+                            <th class="am-hide-sm-only">是否显示</th>
+                            <th class="am-hide-sm-only">回复时间</th>
+                            <th class="am-hide-sm-only">时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{if !empty($data_list)}}
+                            {{foreach $data_list as $v}}
+                                <tr>
+                                    <td>{{$v.name}}</td>
+                                    <td>{{$v.tel}}</td>
+                                    <td>{{$v.title}}</td>
+                                    <td class="am-hide-sm-only reply-content">{{$v.content}}</td>
+                                    <td class="am-hide-sm-only reply-content">
+                                        {{if $v['is_reply'] eq 1}}
+                                            {{$v.reply}}
+                                        {{else /}}
+                                            <span class="gray-text">未回复</span>
+                                        {{/if}}
+                                    </td>
+                                    <td class="am-hide-sm-only">{{$v.is_show_text}}</td>
+                                    <td class="am-hide-sm-only">{{$v.reply_time}}</td>
+                                    <td class="am-hide-sm-only">{{$v.add_time}}</td>
+                                </tr>
+                            {{/foreach}}
+                        {{/if}}
+                        {{if empty($data_list)}}
+                            <tr>
+                                <td colspan="6">
+                                    <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+                                </td>
+                            </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 分页 -->
+            {{if !empty($data_list)}}
+                {{$page_html|raw}}
+            {{/if}}
+        </div>
+    </div>
+    <!-- content end -->
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

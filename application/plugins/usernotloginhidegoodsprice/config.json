@@ -1,0 +1,31 @@
+{
+    "base":{
+        "plugins":"usernotloginhidegoodsprice",
+        "name":"未登录隐藏商品价格",
+        "logo":"\/static\/upload\/images\/plugins_usernotloginhidegoodsprice\/2019\/02\/26\/1551184745400164.png",
+        "author":"Devil",
+        "author_url":"https:\/\/shopxo.net\/",
+        "version":"1.0.0",
+        "desc":"用户未登录不展示商品价格",
+        "apply_terminal":[
+            "pc",
+            "h5",
+            "app",
+            "alipay",
+            "weixin",
+            "baidu"
+        ],
+        "apply_version":[
+            "1.4.0"
+        ],
+        "is_home":false
+    },
+    "hook":{
+        "plugins_service_goods_handle_end":[
+            "app\\plugins\\usernotloginhidegoodsprice\\Hook"
+        ],
+        "plugins_service_goods_spec_base":[
+            "app\\plugins\\usernotloginhidegoodsprice\\Hook"
+        ]
+    }
+}

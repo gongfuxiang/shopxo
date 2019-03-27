@@ -80,18 +80,32 @@
                 <h1 class="detail-title" {{if !empty($goods.title_color)}}style="color:{{$goods.title_color}};"{{/if}}>{{$goods.title}}</h1>
             </div>
             <div class="tb-detail-list">
-                <!--价格-->
+                <!-- 商品页面基础信息顶部钩子 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_goods_detail_base_top</span>
+                    </div>
+                {{/if}}
+                {{if !empty($plugins_view_goods_detail_base_top_data) and is_array($plugins_view_goods_detail_base_top_data)}}
+                    {{foreach $plugins_view_goods_detail_base_top_data as $hook}}
+                        {{if is_string($hook) or is_int($hook)}}
+                            {{$hook|raw}}
+                        {{/if}}
+                    {{/foreach}}
+                {{/if}}
+
+                <!-- 基础面板 -->
                 <div class="tb-detail-price">
-                    {{if isset($goods['original_price']) and $goods['original_price'] gt 0}}
+                    {{if isset($goods['original_price']) and $goods['original_price'] gt 0 and !empty($goods['show_field_original_price_text'])}}
                         <div class="items price iteminfo_price">
-                            <dt>原价</dt>
+                            <dt>{{$goods.show_field_original_price_text|raw}}</dt>
                             <dd>
                                 <b class="sys_item_mktprice">¥ {{$goods.original_price}}</b>
                             </dd>
                         </div>
                     {{/if}}
                     <div class="items price iteminfo_mktprice">
-                        <dt>促销价</dt>
+                        <dt>{{if empty($goods['show_field_price_text'])}}销售价{{else /}}{{$goods.show_field_price_text|raw}}{{/if}}</dt>
                         <dd>
                             <em>¥</em>
                             <b class="sys_item_price" data-original-price="{{$goods.price}}">{{$goods.price}}</b>
@@ -101,17 +115,31 @@
                         <i class="am-icon-qrcode am-icon-sm"></i>
                         <img class="qrcode-images am-img-thumbnail" src="{{$qrcode_url}}" />
                     </div>
+
+                    <!-- 商品页面基础信息面板底部钩子 -->
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                        <div class="plugins-tag">
+                            <span>plugins_view_goods_detail_panel_bottom</span>
+                        </div>
+                    {{/if}}
+                    {{if !empty($plugins_view_goods_detail_panel_bottom_data) and is_array($plugins_view_goods_detail_panel_bottom_data)}}
+                        {{foreach $plugins_view_goods_detail_panel_bottom_data as $hook}}
+                            {{if is_string($hook) or is_int($hook)}}
+                                {{$hook|raw}}
+                            {{/if}}
+                        {{/foreach}}
+                    {{/if}}
                 </div>
 
                 <!--销量-->
                 <ul class="tm-ind-panel">
-                    <li class="tm-ind-item tm-ind-sellCount canClick">
+                    <li class="tm-ind-item">
                         <div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count">{{$goods.sales_count}}</span></div>
                     </li>
-                    <li class="tm-ind-item tm-ind-sumCount canClick">
+                    <li class="tm-ind-item">
                         <div class="tm-indcon"><span class="tm-label">浏览次数</span><span class="tm-count">{{$goods.access_count}}</span></div>
                     </li>
-                    <li class="tm-ind-item tm-ind-reviewCount canClick tm-line3">
+                    <li class="tm-ind-item">
                         <div class="tm-indcon"><span class="tm-label">累计评价</span><span class="tm-count">{{$goods.comments_count}}</span></div>
                     </li>
                 </ul>
@@ -237,9 +265,24 @@
         </div>
     </div>
 
-    <!-- 详情/推荐商品-->
+    <!-- 左侧-->
     <div class="introduce am-container">
         <div class="browse">
+            <!-- 商品页面左侧顶部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                <div class="plugins-tag">
+                    <span>plugins_view_goods_detail_left_top</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_goods_detail_left_top_data) and is_array($plugins_view_goods_detail_left_top_data)}}
+                {{foreach $plugins_view_goods_detail_left_top_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+
+            <!-- 详情/推荐商品-->
             <div class="mc"> 
                  <ul>                       
                     <div class="mt">            
@@ -263,7 +306,24 @@
                  </ul>
             </div>
         </div>
+
+        <!-- 右侧内容 -->
         <div class="introduce-main">
+            <!-- 商品页面tabs顶部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                <div class="plugins-tag">
+                    <span>plugins_view_goods_detail_tabs_top</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_goods_detail_tabs_top_data) and is_array($plugins_view_goods_detail_tabs_top_data)}}
+                {{foreach $plugins_view_goods_detail_tabs_top_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+
+            <!-- tab -->
             <div class="am-tabs" data-am-tabs>
                 <ul class="am-avg-sm-2 am-tabs-nav am-nav am-nav-tabs" data-am-sticky="{animation: 'slide-top'}">
                     <li class="am-active">
@@ -329,6 +389,20 @@
                     </div>
                 </div>
             </div>
+
+            <!-- 商品页面tabs底部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                <div class="plugins-tag">
+                    <span>plugins_view_goods_detail_tabs_bottom</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_goods_detail_tabs_bottom_data) and is_array($plugins_view_goods_detail_tabs_bottom_data)}}
+                {{foreach $plugins_view_goods_detail_tabs_bottom_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
         </div>
     </div>
 </div>

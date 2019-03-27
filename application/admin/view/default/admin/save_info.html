@@ -30,7 +30,7 @@
 			{{if !isset($data['id']) or $admin['id'] neq $data['id']}}
 				<div class="am-form-group">
 					<label>权限组</label>
-					<select  class="am-radius c-p" name="role_id" data-validation-message="请选择所属角色组" required>
+					<select  class="am-radius chosen-select c-p" name="role_id" data-validation-message="请选择所属角色组" required>
 						<option value="">可选择...</option>
 						{{foreach $role as $v}}
 							<option value="{{$v.id}}" {{if isset($data['role_id']) and $data['role_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
@@ -39,7 +39,7 @@
 				</div>
 			{{/if}}
 			{{include file="lib/gender" /}}
-			<div class="am-form-group">
+			<div class="am-form-group am-form-group-refreshing">
 				<input type="hidden" name="id" {{if !empty($data['id'])}}value="{{$data.id}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
 			</div>

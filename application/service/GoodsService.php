@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 use app\service\ResourcesService;
 use app\service\BrandService;
 use app\service\RegionService;
@@ -153,7 +154,8 @@ class GoodsService
             foreach($goods_category as &$v)
             {
                 $category_ids = self::GoodsCategoryItemsIds([$v['id']], 1);
-                $v['goods'] = self::CategoryGoodsList(['where'=>['gci.category_id'=>$category_ids, 'is_home_recommended'=>1], 'm'=>0, 'n'=>6, 'field'=>'g.id,g.title,g.title_color,g.images,g.home_recommended_images,g.original_price,g.price,g.min_price,g.max_price,g.inventory,g.buy_min_number,g.buy_max_number']);
+                $goods = self::CategoryGoodsList(['where'=>['gci.category_id'=>$category_ids, 'is_home_recommended'=>1], 'm'=>0, 'n'=>6, 'field'=>'g.id,g.title,g.title_color,g.images,g.home_recommended_images,g.original_price,g.price,g.min_price,g.max_price,g.inventory,g.buy_min_number,g.buy_max_number']);
+                $v['goods'] = $goods['data'];
             }
         }
         return $goods_category;
@@ -246,6 +248,20 @@ class GoodsService
             // 开始处理数据
             foreach($data as &$v)
             {
+                // 商品处理前钩子
+                $hook_name = 'plugins_service_goods_handle_begin';
+                $ret = Hook::listen($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => &$params,
+                    'goods'         => &$v,
+                    'goods_id'      => $v['id']
+                ]);
+                if(isset($ret['code']) && $ret['code'] != 0)
+                {
+                    return $ret;
+                }
+
                 // 商品url地址
                 if(!empty($v['id']))
                 {
@@ -269,8 +285,22 @@ class GoodsService
                 // 商品首页推荐图片，不存在则使用商品封面图片
                 if(isset($v['home_recommended_images']))
                 {
-                    $v['home_recommended_images_old'] = $v['home_recommended_images'];
-                    $v['home_recommended_images'] = ResourcesService::AttachmentPathViewHandle($v['home_recommended_images']);
+                    if(empty($v['home_recommended_images']))
+                    {
+                        if(isset($v['images']))
+                        {
+                            $v['home_recommended_images'] = $v['images'];
+                        } else {
+                            if(!empty($v['id']))
+                            {
+                                $images = Db::name('Goods')->where(['id'=>$v['id']])->value('images');
+                                $v['home_recommended_images'] = ResourcesService::AttachmentPathViewHandle($images);
+                            }
+                        }
+                    } else {
+                        $v['home_recommended_images_old'] = $v['home_recommended_images'];
+                        $v['home_recommended_images'] = ResourcesService::AttachmentPathViewHandle($v['home_recommended_images']);
+                    }
                 }
 
                 // PC内容处理
@@ -280,10 +310,16 @@ class GoodsService
                 }
 
                 // 产地
-                $v['place_origin_name'] = empty($v['place_origin']) ? null : RegionService::RegionName($v['place_origin']);
+                if(isset($v['place_origin']))
+                {
+                    $v['place_origin_name'] = empty($v['place_origin']) ? null : RegionService::RegionName($v['place_origin']);
+                }
 
                 // 品牌
-                $v['brand_name'] = empty($v['brand_id']) ? null : BrandService::BrandName($v['brand_id']);
+                if(isset($v['brand_id']))
+                {
+                    $v['brand_name'] = empty($v['brand_id']) ? null : BrandService::BrandName($v['brand_id']);
+                }
 
                 // 时间
                 if(!empty($v['add_time']))
@@ -328,9 +364,27 @@ class GoodsService
                 {
                     $v['content_app'] = self::GoodsContentApp(['goods_id'=>$v['id']]);
                 }
+
+                // 展示字段
+                $v['show_field_original_price_text'] = '原价';
+                $v['show_field_price_text'] = '销售价';
+
+                // 商品处理前钩子
+                $hook_name = 'plugins_service_goods_handle_end';
+                $ret = Hook::listen($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => &$params,
+                    'goods'         => &$v,
+                    'goods_id'      => $v['id']
+                ]);
+                if(isset($ret['code']) && $ret['code'] != 0)
+                {
+                    return $ret;
+                }
             }
         }
-        return $data;
+        return DataReturn('处理成功', 0, $data);
     }
 
     /**
@@ -440,6 +494,13 @@ class GoodsService
         if($ret !== true)
         {
             return DataReturn($ret, -1);
+        }
+
+        // 查询用户状态是否正常
+        $ret = UserService::UserStatusCheck('id', $params['user']['id']);
+        if($ret['code'] != 0)
+        {
+            return $ret;
         }
 
         // 开始操作
@@ -623,7 +684,7 @@ class GoodsService
     {
         if(!empty($params['goods_id']))
         {
-            return Db::name('Goods')->where(array('id'=>intval($params['goods_id'])))->setInc('access_count');
+            return Db::name('Goods')->where(['id'=>intval($params['goods_id'])])->setInc('access_count');
         }
         return false;
     }
@@ -1732,7 +1793,7 @@ class GoodsService
             // 规格不为数组则为json字符串
             if(!is_array($params['spec']))
             {
-                $params['spec'] = json_decode($params['spec'], true);
+                $params['spec'] = json_decode(htmlspecialchars_decode($params['spec']), true);
             }
             foreach($params['spec'] as $v)
             {
@@ -1772,22 +1833,37 @@ class GoodsService
                     if(!empty($base_id))
                     {
                         $base = Db::name('GoodsSpecBase')->find($base_id);
-                        $base['weight'] = PriceBeautify($base['weight']);
-                        if(!empty($base))
-                        {
-                            return DataReturn('操作成功', 0, $base);
-                        }
                     }
                 }
             }
         } else {
             $base = Db::name('GoodsSpecBase')->where($where)->find();
-            $base['weight'] = PriceBeautify($base['weight']);
-            if(!empty($base))
-            {
-                return DataReturn('操作成功', 0, $base);
-            }
         }
+
+        // 是否有规格
+        if(!empty($base))
+        {
+            // 单位 .00 处理
+            $base['weight'] = PriceBeautify($base['weight']);
+
+            // 商品处理前钩子
+            $hook_name = 'plugins_service_goods_spec_base';
+            $ret = Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'spec_base'     => &$base,
+                'goods_id'      => $goods_id
+            ]);
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            // 返回成功
+            return DataReturn('操作成功', 0, $base);
+        }
+
         return DataReturn('没有相关规格', -100);
     }
 

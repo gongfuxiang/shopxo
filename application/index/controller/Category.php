@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\SeoService;
+
 /**
  * 商品分类
  * @author   Devil
@@ -41,6 +43,9 @@ class Category extends Common
      */
     public function Index()
     {
+        // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('商品分类', 1));
+
         return $this->fetch();
     }
 }

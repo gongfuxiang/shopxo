@@ -1,0 +1,103 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">运费设置</span>
+            <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+
+        <div class="freightfee-content">
+            <div class="items">
+                <label>展示名称</label>
+                <div>
+                    {{if empty($data['show_name'])}}
+                        运费
+                    {{else /}}
+                        {{$data.show_name}}
+                    {{/if}}
+                </div>
+            </div>
+
+            <div class="items">
+                <label>免运费支付方式</label>
+                <div>
+                    {{if empty($data['payment_names'])}}
+                        未设置
+                    {{else /}}
+                        {{$data.payment_names}}
+                    {{/if}}
+                </div>
+            </div>
+
+            <div class="items">
+                <label>计价方式</label>
+                <div>
+                    {{if isset($data['valuation']) and $data['valuation'] eq 0}}
+                        按件数
+                    {{else /}}
+                        按重量
+                    {{/if}}
+                </div>
+            </div>
+
+            <div class="items">
+                <label>运费模板</label>
+                <div class="freightfee-rules">
+                    <table class="am-table am-table-striped">
+                        {{if empty($data['data'])}}
+                            没有配置
+                        {{else /}}
+                            {{if isset($data['valuation']) and $data['valuation'] eq 0}}
+                                <thead>
+                                    <tr>
+                                        <th>运送到</th>
+                                        <th>首件数(件)</th>
+                                        <th>首费(元)</th>
+                                        <th>续件数(件)</th>
+                                        <th>续费(元)</th>
+                                    </tr>
+                                </thead>
+                            {{else /}}
+                                <thead>
+                                    <tr>
+                                        <th>运送到</th>
+                                        <th>首件数(kg)</th>
+                                        <th>首费(元)</th>
+                                        <th>续件数(kg)</th>
+                                        <th>续费(元)</th>
+                                    </tr>
+                                </thead>
+                            {{/if}}
+                            <tbody>
+                                {{foreach $data.data as $k=>$v}}
+                                    <tr class="data-list-{{$k}}">
+                                        <td class="first">
+                                            {{if $v['region'] eq 'default'}}
+                                                默认运费
+                                            {{else /}}
+                                                <div class="region-td">{{$v.region_names}}</div>
+                                            {{/if}}
+                                        </td>
+                                        <td>{{$v.first}}</td>
+                                        <td>{{$v.first_price}}</td>
+                                        <td>{{$v.continue}}</td>
+                                        <td>{{$v.continue_price}}</td>
+                                    </tr>
+                                {{/foreach}}
+                            </tbody>
+                        {{/if}}
+                    </table>
+                </div>
+            </div>
+
+            <a href="{{:PluginsAdminUrl('freightfee', 'admin', 'saveinfo')}}" class="am-btn am-btn-secondary am-radius btn-loading-example am-btn-sm am-btn-block edit-submit">编辑</a>
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

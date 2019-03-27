@@ -4,7 +4,7 @@
 			<h2>ShopXO<span class="admin-site-vice-name m-l-5">后台管理系统</span></h2>
 		</a>
 	</div>
-	<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only am-radius header-nav-submit" data-am-collapse="{target: '#topbar-collapse'}">
+	<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-xs am-btn-success am-show-sm-only am-radius header-nav-submit" data-am-collapse="{target: '#topbar-collapse'}">
 		<span class="am-sr-only">导航切换</span>
 		<i class="am-icon-bars"></i>
 	</button>
@@ -16,15 +16,14 @@
 					<span>查看首页</span>
 				</a>
 			</li>
+
+			<li class="am-dropdown am-hide-sm-only">
+				<a href="javascript:;" class="fullscreen-event" data-fulltext-open="开启全屏" data-fulltext-exit="退出全屏">
+					<i class="am-icon-arrows-alt"></i>
+					<span class="fullscreen-text">开启全屏</span>
+				</a>
+			</li>
 			
-			{{if !IsMobile()}}
-				<li class="am-dropdown am-hide-sm-only">
-					<a href="javascript:;" id="admin-fullscreen" class="tpl-header-list-link">
-						<i class="am-icon-arrows-alt"></i>
-						<span class="admin-fulltext" fulltext-open="开启全屏" fulltext-exit="退出全屏">开启全屏</span>
-					</a>
-				</li>
-			{{/if}}
 			<li class="am-dropdown common-nav-top" data-am-dropdown data-am-dropdown-toggle>
 				<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
 					<i class="am-icon-user"></i>

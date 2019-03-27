@@ -41,21 +41,21 @@
                         <tr>
                             <td class="time">
                                 <span>时间：</span>
-                                <span class="am-form-group">
+                                <span>
                                     <input type="text" autocomplete="off" name="time_start" class="am-form-field am-input-sm am-radius Wdate" placeholder="起始时间" value="{{if !empty($params.time_start)}}{{$params.time_start}}{{/if}}" data-validation-message="日期格式有误" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" /><i class="am-icon-calendar"></i>
                                 </span>
                                 <em class="text-grey">~</em>
-                                <span class="am-form-group">
+                                <span>
                                     <input type="text" autocomplete="off" name="time_end" class="am-form-field am-input-sm am-radius Wdate" placeholder="结束时间" value="{{if !empty($params.time_end)}}{{$params.time_end}}{{/if}}" pattern="^[0-9]{4}-[0-9]{2}-[0-9]{2}$" data-validation-message="日期格式有误" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" /><i class="am-icon-calendar"></i>
                                 </span>
                             </td>
                             <td class="price">
                                 <span>价格：</span>
-                                <span class="am-form-group">
+                                <span>
                                     <input type="text" autocomplete="off" name="price_start" class="am-form-field am-input-sm am-radius" placeholder="最小价格" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="价格0~9之间的数字" value="{{if !empty($params.price_start)}}{{$params.price_start}}{{/if}}" />
                                 </span>
                                 <em class="text-grey">~</em>
-                                <span class="am-form-group">
+                                <span>
                                     <input type="text" autocomplete="off" name="price_end" class="am-form-field am-input-sm am-radius" placeholder="最大价格" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="价格0~9之间的数字" value="{{if !empty($params.price_end)}}{{$params.price_end}}{{/if}}" />
                                 </span>
                             </td>
@@ -190,19 +190,33 @@
                                     <td class="row-operate" rowspan="{{$order.items_count}}">
                                         <!-- 0待确认, 1已确认/待支付, 2已支付/待发货, 3已发货/待收货, 4已完成, 5已取消, 6已关闭 -->
                                         {{if in_array($order['status'], [0,1])}}
-                                            <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-ajax submit-cancel" data-url="{{:MyUrl('index/order/cancel')}}" data-id="{{$order.id}}" data-view="reload">取消</button>
+                                            <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax submit-cancel" data-url="{{:MyUrl('index/order/cancel')}}" data-id="{{$order.id}}" data-view="reload"> 取消</button>
                                         {{/if}}
                                         {{if in_array($order['status'], [1])}}
-                                            <a class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block" href="{{:MyUrl('index/order/detail', ['id'=>$order['id'], 'is_pay_auto'=>1])}}" target="_blank">支付</a>
+                                            <a class="am-btn am-btn-primary am-btn-xs am-radius am-icon-paypal am-btn-block" href="{{:MyUrl('index/order/detail', ['id'=>$order['id'], 'is_pay_auto'=>1])}}" target="_blank"> 支付</a>
                                         {{/if}}
                                         {{if in_array($order['status'], [3])}}
-                                            <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/collect')}}" data-id="{{$order.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？">收货</button>
+                                            <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/collect')}}" data-id="{{$order.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？"> 收货</button>
                                         {{/if}}
                                         {{if in_array($order['status'], [4]) and $order['user_is_comments'] eq 0}}
-                                            <a href="{{:MyUrl('index/order/comments', ['id'=>$order['id']])}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block">评价</a>
+                                            <a href="{{:MyUrl('index/order/comments', ['id'=>$order['id']])}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius am-icon-heart-o am-btn-block"> 评价</a>
                                         {{/if}}
                                         {{if in_array($order['status'], [4,5,6])}}
-                                            <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('index/order/delete')}}" data-id="{{$order.id}}" data-view="reload">删除</button>
+                                            <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o am-btn-block submit-delete" data-url="{{:MyUrl('index/order/delete')}}" data-id="{{$order.id}}" data-view="reload"> 删除</button>
+                                        {{/if}}
+
+                                        <!-- 钩子订单操作 -->
+                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                            <div class="plugins-tag">
+                                                <span>plugins_service_order_handle_operation_html</span>
+                                            </div>
+                                        {{/if}}
+                                        {{if !empty($order['plugins_service_order_handle_operation_html']) and is_array($order['plugins_service_order_handle_operation_html'])}}
+                                            {{foreach $order.plugins_service_order_handle_operation_html as $hook}}
+                                                {{if is_string($hook) or is_int($hook)}}
+                                                    {{$hook|raw}}
+                                                {{/if}}
+                                            {{/foreach}}
                                         {{/if}}
                                     </td>
                                 {{/if}}

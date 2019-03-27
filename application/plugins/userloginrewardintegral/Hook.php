@@ -34,15 +34,15 @@ class Hook
      */
     public function run($params = [])
     {
-        // 是否控制器钩子
-        if(isset($params['is_control']) && $params['is_control'] === true && !empty($params['hook_name']))
+        // 是否后端钩子
+        if(isset($params['is_backend']) && $params['is_backend'] === true && !empty($params['hook_name']))
         {
             if(!empty($params['user_id']))
             {
                 switch($params['hook_name'])
                 {
                     // 用户登录成功后赠送积分
-                    case 'plugins_control_user_login_end' :
+                    case 'plugins_service_user_login_end' :
                         $ret = $this->LoginGiveIntegral($params);
                         break;
 

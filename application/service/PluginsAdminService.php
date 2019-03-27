@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\Db;
 use app\service\ResourcesService;
+use app\service\SqlconsoleService;
 
 /**
  * 应用管理服务层
@@ -308,6 +309,13 @@ class PluginsAdminService
             $ret = self::PluginsHookDeployment();
             if($ret['code'] == 0)
             {
+                // sql运行
+                $uninstall_sql = APP_PATH.'plugins'.DS.$plugins.DS.'uninstall.sql';
+                if(file_exists($uninstall_sql))
+                {
+                    SqlconsoleService::Implement(['sql'=>file_get_contents($uninstall_sql)]);
+                }
+
                 // 删除应用文件
                 self::PluginsResourcesDelete($plugins);
 
@@ -486,7 +494,9 @@ class PluginsAdminService
 $admin=<<<php
 <?php
 namespace app\plugins\\$plugins;
+
 use think\Controller;
+
 /**
  * {$params['name']} - 后台管理
  * @author   Devil
@@ -511,7 +521,9 @@ php;
 $hook=<<<php
 <?php
 namespace app\plugins\\$plugins;
+
 use think\Controller;
+
 /**
  * {$params['name']} - 钩子入口
  * @author   Devil
@@ -525,9 +537,9 @@ class Hook extends Controller
     public function run(\$params = [])
     {
         // 是否控制器钩子
-        // is_control 当前为控制器业务处理
+        // is_backend 当前为后端业务处理
         // hook_name 钩子名称
-        if(isset(\$params['is_control']) && \$params['is_control'] === true && !empty(\$params['hook_name']))
+        if(isset(\$params['is_backend']) && \$params['is_backend'] === true && !empty(\$params['hook_name']))
         {
             // 参数一   描述
             // 参数二   0 为处理成功, 负数为失败
@@ -546,7 +558,9 @@ php;
 $index=<<<php
 <?php
 namespace app\plugins\\$plugins;
+
 use think\Controller;
+
 /**
  * {$params['name']} - 前端独立页面入口
  * @author   Devil
@@ -861,7 +875,7 @@ php;
         }
 
         // 文件格式化校验
-        $type = array('application/zip', 'application/octet-stream');
+        $type = array('application/zip', 'application/octet-stream', 'application/x-zip-compressed');
         if(!in_array($_FILES['file']['type'], $type))
         {
             return DataReturn('文件格式有误，请上传zip压缩包', -2);
@@ -955,7 +969,156 @@ php;
                 }
             }
         }
+
+        // sql运行
+        $install_sql = APP_PATH.'plugins'.DS.$plugins_name.DS.'install.sql';
+        if(!empty($plugins_name) && file_exists($install_sql))
+        {
+            // 开始处理
+            $ret = SqlconsoleService::Implement(['sql'=>file_get_contents($install_sql)]);
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
+        }
+
         return DataReturn('安装成功');
+    }
+
+    /**
+     * 应用打包
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-22
+     * @desc    description
+     * @param    [array]          $params [输入参数]
+     */
+    public static function PluginsDownload($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '操作id有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+        
+        // 获取应用标记
+        $where = ['id'=>intval($params['id'])];
+        $plugins = Db::name('Plugins')->where($where)->value('plugins');
+        if(empty($plugins))
+        {
+           return DataReturn('应用不存在', -10); 
+        }
+
+        // 目录不存在则创建
+        $new_dir = ROOT.'runtime'.DS.'data'.DS.'plugins_package'.DS.$plugins;
+        \base\FileUtil::CreateDir($new_dir);
+
+        // 复制包目录 - 控制器
+        $old_dir = APP_PATH.'plugins'.DS.$plugins;
+        if(is_dir($old_dir))
+        {
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_controller_'.DS.$plugins) != true)
+            {
+                return DataReturn('项目包复制失败[控制器]', -2);
+            }
+        }
+
+        // 复制包目录 - 视图
+        $old_dir = APP_PATH.'plugins'.DS.'view'.DS.$plugins;
+        if(is_dir($old_dir))
+        {
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_view_'.DS.$plugins) != true)
+            {
+                return DataReturn('项目包复制失败[视图]', -2);
+            }
+        }
+
+        // 复制包目录 - css
+        $old_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.'css'.DS.$plugins;
+        if(is_dir($old_dir))
+        {
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_css_'.DS.$plugins) != true)
+            {
+                return DataReturn('项目包复制失败[css]', -2);
+            }
+        }
+
+        // 复制包目录 - js
+        $old_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.'js'.DS.$plugins;
+        if(is_dir($old_dir))
+        {
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_js_'.DS.$plugins) != true)
+            {
+                return DataReturn('项目包复制失败[js]', -2);
+            }
+        }
+
+        // 复制包目录 - images
+        $old_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.'images'.DS.$plugins;
+        if(is_dir($old_dir))
+        {
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_images_'.DS.$plugins) != true)
+            {
+                return DataReturn('项目包复制失败[images]', -2);
+            }
+        }
+
+        // 复制包目录 - uploadimages
+        $old_dir = ROOT.'public'.DS.'static'.DS.'upload'.DS.'images'.DS.'plugins_'.$plugins;
+        if(is_dir($old_dir))
+        {
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_uploadimages_'.DS.'plugins_'.$plugins) != true)
+            {
+                return DataReturn('项目包复制失败[uploadimages]', -2);
+            }
+        }
+
+        // 复制包目录 - uploadvideo
+        $old_dir = ROOT.'public'.DS.'static'.DS.'upload'.DS.'video'.DS.'plugins_'.$plugins;
+        if(is_dir($old_dir))
+        {
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_uploadvideo_'.DS.'plugins_'.$plugins) != true)
+            {
+                return DataReturn('项目包复制失败[uploadvideo]', -2);
+            }
+        }
+
+        // 复制包目录 - uploadfile
+        $old_dir = ROOT.'public'.DS.'static'.DS.'upload'.DS.'file'.DS.'plugins_'.$plugins;
+        if(is_dir($old_dir))
+        {
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_uploadfile_'.DS.'plugins_'.$plugins) != true)
+            {
+                return DataReturn('项目包复制失败[uploadfile]', -2);
+            }
+        }
+
+        // 生成压缩包
+        $zip = new \base\ZipFolder();
+        if(!$zip->zip($new_dir.'.zip', $new_dir))
+        {
+            return DataReturn('压缩包生成失败', -100);
+        }
+
+        // 生成成功删除目录
+        \base\FileUtil::UnlinkDir($new_dir);
+
+        // 开始下载
+        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $plugins.'.zip'))
+        {
+            @unlink($new_dir.'.zip');
+        } else {
+            return DataReturn('下载失败', -100);
+        }
     }
 }
 ?>
