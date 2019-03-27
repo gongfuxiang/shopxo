@@ -69,6 +69,7 @@ Page({
 
     var data = this.data.params;
     data['address_id'] = this.data.address_id;
+    data['payment_id'] = this.data.payment_id;
     wx.request({
       url: app.get_request_url("index", "buy"),
       method: "POST",
@@ -96,6 +97,11 @@ Page({
                 this.setData({
                   address: data.base.address,
                   address_id: data.base.address.id,
+                });
+
+                my.setStorage({
+                  key: app.data.cache_buy_user_address_select_key,
+                  data: data.base.address,
                 });
               }
             }
@@ -182,6 +188,7 @@ Page({
   payment_event(e) {
     this.setData({ payment_id: e.currentTarget.dataset.value});
     this.payment_list_data(this.data.payment_list);
+    this.init();
   },
 
   // 支付方式数据处理
