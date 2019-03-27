@@ -145,7 +145,7 @@ class BuyService
         {
             if(!is_array($params['spec']))
             {
-                $spec = json_decode($params['spec'], true);
+                $spec = json_decode(htmlspecialchars_decode($params['spec']), true);
             } else {
                 $spec = $params['spec'];
             }
