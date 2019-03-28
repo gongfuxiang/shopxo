@@ -2047,6 +2047,12 @@ class GoodsService
             'big_images'            => $attachment['data']['big_images'],
         ];
 
+        // 父级id宇当前id不能相同
+        if(!empty($params['id']) && $params['id'] == $data['pid'])
+        {
+            return DataReturn('父级不能与当前相同', -10);
+        }
+
         // 添加
         if(empty($params['id']))
         {
