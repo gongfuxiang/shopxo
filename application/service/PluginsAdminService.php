@@ -905,6 +905,11 @@ php;
 
         // 开始解压文件
         $resource = zip_open($_FILES['file']['tmp_name']);
+        if(!is_resource($resource))
+        {
+            return DataReturn('压缩包打开失败['.$resource.']', -10);
+        }
+
         while(($temp_resource = zip_read($resource)) !== false)
         {
             if(zip_entry_open($resource, $temp_resource))
