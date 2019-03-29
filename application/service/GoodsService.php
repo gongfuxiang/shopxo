@@ -56,6 +56,15 @@ class GoodsService
      */
     public static function GoodsCategory($params = [])
     {
+        // 从缓存获取
+        $key = 'cache_goods_category_key_data';
+        $data = cache($key);
+        if(!empty($data))
+        {
+            return $data;
+        }
+
+        // 获取分类
         $where = empty($params['where']) ? ['pid'=>0, 'is_enable'=>1] : $params['where'];
         $data = self::GoodsCategoryList($where);
         if(!empty($data))
@@ -83,6 +92,10 @@ class GoodsService
                 }
             }
         }
+
+        // 存储缓存
+        cache($key, $data);
+
         return $data;
     }
 
@@ -2066,6 +2079,9 @@ class GoodsService
             $data['upd_time'] = time();
             if(Db::name('GoodsCategory')->where(['id'=>intval($params['id'])])->update($data))
             {
+                // 删除大分类缓存
+                cache('cache_goods_category_key_data', null);
+
                 return DataReturn('编辑成功', 0);
             }
             return DataReturn('编辑失败', -100);
@@ -2108,6 +2124,9 @@ class GoodsService
         // 开始删除
         if(Db::name('GoodsCategory')->where(['id'=>$ids])->delete())
         {
+            // 删除大分类缓存
+            cache('cache_goods_category_key_data', null);
+
             return DataReturn('删除成功', 0);
         }
         return DataReturn('删除失败', -100);

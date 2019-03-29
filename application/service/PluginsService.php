@@ -34,23 +34,31 @@ class PluginsService
      */
     public static function PluginsData($plugins, $attachment_field = [])
     {
-        // 获取数据
-        $data = Db::name('Plugins')->where(['plugins'=>$plugins])->value('data');
-        if(!empty($data))
+        // 从缓存获取数据
+        $data = cache('cache_plugins_data_key_'.$plugins);
+        if(empty($data))
         {
-            $data = json_decode($data, true);
-
-            // 是否有图片需要处理
-            if(!empty($attachment_field) && is_array($attachment_field))
+            // 获取数据
+            $data = Db::name('Plugins')->where(['plugins'=>$plugins])->value('data');
+            if(!empty($data))
             {
-                foreach($attachment_field as $field)
+                $data = json_decode($data, true);
+
+                // 是否有图片需要处理
+                if(!empty($attachment_field) && is_array($attachment_field))
                 {
-                    if(isset($data[$field]))
+                    foreach($attachment_field as $field)
                     {
-                        $data[$field.'_old'] = $data[$field];
-                        $data[$field] = ResourcesService::AttachmentPathViewHandle($data[$field]);
+                        if(isset($data[$field]))
+                        {
+                            $data[$field.'_old'] = $data[$field];
+                            $data[$field] = ResourcesService::AttachmentPathViewHandle($data[$field]);
+                        }
                     }
                 }
+
+                // 存储缓存
+                cache('cache_plugins_data_key_'.$plugins, $data);
             }
         }
         return DataReturn('处理成功', 0, $data);
@@ -104,6 +112,9 @@ class PluginsService
         // 数据更新
         if(Db::name('Plugins')->where(['plugins'=>$params['plugins']])->update(['data'=>json_encode($params['data']), 'upd_time'=>time()]))
         {
+            // 删除缓存
+            cache('plugins_data_key_'.$params['plugins'], null);
+            
             return DataReturn('操作成功');
         }
         return DataReturn('操作失败', -100);
