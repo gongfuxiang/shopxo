@@ -777,10 +777,10 @@ class BuyService
                     'original_price'    => $v['original_price'],
                     'price'             => $v['price'],
                     'spec'              => empty($v['spec']) ? '' : json_encode($v['spec']),
-                    'spec_weight'       => $v['spec_weight'],
-                    'spec_coding'       => $v['spec_coding'],
-                    'spec_barcode'      => $v['spec_barcode'],
-                    'buy_number'        => $v['stock'],
+                    'spec_weight'       => empty($v['spec_weight']) ? 0.00 : (float) $v['spec_weight'],
+                    'spec_coding'       => empty($v['spec_coding']) ? '' : $v['spec_coding'],
+                    'spec_barcode'      => empty($v['spec_barcode']) ? '' : $v['spec_barcode'],
+                    'buy_number'        => intval($v['stock']),
                     'add_time'          => time(),
                 ];
                 if(Db::name('OrderDetail')->insertGetId($detail) <= 0)
