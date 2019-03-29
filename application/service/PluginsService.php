@@ -35,7 +35,8 @@ class PluginsService
     public static function PluginsData($plugins, $attachment_field = [])
     {
         // 从缓存获取数据
-        $data = cache('cache_plugins_data_key_'.$plugins);
+        $key = config('shopxo.cache_plugins_data_key').$plugins;
+        $data = cache($key);
         if(empty($data))
         {
             // 获取数据
@@ -58,7 +59,7 @@ class PluginsService
                 }
 
                 // 存储缓存
-                cache('cache_plugins_data_key_'.$plugins, $data);
+                cache($key, $data);
             }
         }
         return DataReturn('处理成功', 0, $data);
@@ -113,7 +114,7 @@ class PluginsService
         if(Db::name('Plugins')->where(['plugins'=>$params['plugins']])->update(['data'=>json_encode($params['data']), 'upd_time'=>time()]))
         {
             // 删除缓存
-            cache('plugins_data_key_'.$params['plugins'], null);
+            cache(config('shopxo.cache_plugins_data_key').$params['plugins'], null);
             
             return DataReturn('操作成功');
         }

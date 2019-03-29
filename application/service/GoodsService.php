@@ -57,7 +57,7 @@ class GoodsService
     public static function GoodsCategory($params = [])
     {
         // 从缓存获取
-        $key = 'cache_goods_category_key_data';
+        $key = config('shopxo.cache_goods_category_key');
         $data = cache($key);
         if(!empty($data))
         {
@@ -2080,7 +2080,7 @@ class GoodsService
             if(Db::name('GoodsCategory')->where(['id'=>intval($params['id'])])->update($data))
             {
                 // 删除大分类缓存
-                cache('cache_goods_category_key_data', null);
+                cache(config('shopxo.cache_goods_category_key'), null);
 
                 return DataReturn('编辑成功', 0);
             }
@@ -2125,7 +2125,7 @@ class GoodsService
         if(Db::name('GoodsCategory')->where(['id'=>$ids])->delete())
         {
             // 删除大分类缓存
-            cache('cache_goods_category_key_data', null);
+            cache(config('shopxo.cache_goods_category_key'), null);
 
             return DataReturn('删除成功', 0);
         }

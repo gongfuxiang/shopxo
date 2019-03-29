@@ -30,6 +30,12 @@ return [
     // 前台顶部导航
     'cache_common_home_nav_footer_key'      =>  'cache_common_home_nav_footer_data',
 
+    // 商品大分类缓存
+    'cache_goods_category_key'              =>  'cache_goods_category_key_data',
+
+    // 应用数据缓存
+    'cache_plugins_data_key'                =>  'cache_plugins_data_key_data_',
+
     // 附件host, 数据库图片地址以/static/...开头
     'attachment_host'                       =>  defined('__MY_PUBLIC_URL__') ? substr(__MY_PUBLIC_URL__, 0, -1) : '',
 
