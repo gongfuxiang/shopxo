@@ -470,6 +470,16 @@ function FormDataFill(json, tag)
 			});
 		}
 
+		// 是否存在pid和当前id相同
+		if($form.find('select[name="pid"]').length > 0)
+		{
+			$form.find('select[name="pid"]').find('option').removeAttr('disabled');
+			if((json['id'] || null) != null)
+			{
+				$form.find('select[name="pid"]').find('option[value="'+json['id']+'"]').attr('disabled', true);
+			}
+		}
+
 		// 多选插件事件更新
 		if($('.chosen-select').length > 0)
 		{
@@ -1378,7 +1388,13 @@ $(function()
 
 		// 父节点赋值
 		var id = parseInt($(this).data('id')) || 0;
-		$('#data-save-win').find('input[name="pid"]').val(id);
+		$('#data-save-win').find('input[name="pid"], select[name="pid"]').val(id);
+
+		// 多选插件事件更新
+		if($('.chosen-select').length > 0)
+		{
+			$('.chosen-select').trigger('chosen:updated');
+		}
 	});
 
 	/**
@@ -1461,6 +1477,12 @@ $(function()
 		{
 			$(this).blur();
 		});
+
+		// 多选插件事件更新
+		if($('.chosen-select').length > 0)
+		{
+			$('.chosen-select').trigger('chosen:updated');
+		}
 	}
 
 	/**
