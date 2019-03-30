@@ -36,7 +36,7 @@ class Index extends Controller
     {
         $params = input('post.');
         $params['user'] = UserService::LoginUserInfo();
-        return AnswerService::Add($params);
+        return AnswerService::AnswerSave($params);
     }
 
     /**

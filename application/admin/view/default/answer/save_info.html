@@ -1,0 +1,66 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/answer/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/answer/index', $params)}}" enctype="multipart/form-data">
+            <legend>
+                <span class="fs-16">
+                    {{if empty($data['id'])}}
+                        问答添加
+                    {{else /}}
+                        问答编辑
+                    {{/if}}
+                </span>
+                <a href="{{:MyUrl('admin/answer/index', $params)}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+            </legend>
+            <div class="am-form-group">
+                <label>联系人</label>
+                <input type="text" name="name" placeholder="联系人" maxlength="30" data-validation-message="联系人格式最多 30 个字符" class="am-radius" value="{{if !empty($data['name'])}}{{$data.name}}{{/if}}" />
+            </div>
+            <div class="am-form-group">
+                <label>电话</label>
+                <input type="text" name="tel" placeholder="电话" data-validation-message="请填写电话" class="am-radius" value="{{if !empty($data['tel'])}}{{$data.tel}}{{/if}}" />
+            </div>
+            <div class="am-form-group">
+                <label>标题</label>
+                <input type="text" name="title" placeholder="标题" maxlength="60" data-validation-message="标题格式最多 60 个字符" class="am-radius" value="{{if !empty($data['title'])}}{{$data.title}}{{/if}}" />
+            </div>
+            <div class="am-form-group">
+                <label>访问次数</label>
+                <input type="number" name="access_count" placeholder="访问次数" data-validation-message="请填写有效的访问次数" class="am-radius" value="{{if !empty($data['access_count'])}}{{$data.access_count}}{{else /}}0{{/if}}" />
+            </div>
+            <div class="am-form-group">
+                <label>内容<span class="am-form-group-label-tips-must">必填</span></label>
+                <textarea class="am-radius am-validate" name="content" rows="5" minlength="5" maxlength="230" placeholder="5~230个字符之间" data-validation-message="内容格式 5~230 个字符之间" required>{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
+            </div>
+            <div class="am-form-group">
+                <label>回复内容</label>
+                <textarea class="am-radius am-validate" name="reply" rows="5" maxlength="230" placeholder="最多 230 个字符" data-validation-message="内容格式最多 230 个字符">{{if !empty($data['reply'])}}{{$data.reply}}{{/if}}</textarea>
+            </div>
+
+            <div class="am-form-group">
+                <label class="block">是否已回复</label>
+                <input name="is_reply" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_reply']) and $data['is_reply'] eq 1}}checked="true"{{/if}} />
+            </div>
+
+            <div class="am-form-group">
+                <label class="block">是否显示</label>
+                <input name="is_show" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_show']) and $data['is_show'] eq 1}}checked="true"{{/if}} />
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
+                <input type="hidden" name="user_id" {{if !empty($data['user_id'])}} value="{{$data.user_id}}"{{/if}} />
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

@@ -39,6 +39,12 @@
         </form>
         <!-- form end -->
 
+        <!-- operation start -->
+        <div class="am-g m-t-15">
+            <a href="{{:MyUrl('admin/answer/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
+        </div>
+        <!-- operation end -->
+
 		<!-- list start -->
 		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
 			<thead>
@@ -93,7 +99,7 @@
 							<td>{{$v.title}}</td>
 							<td class="am-hide-sm-only reply-content">{{$v.content}}</td>
 							<td class="am-hide-sm-only reply-content">
-								{{if $v['is_reply'] eq 1}}
+								{{if !empty($v['reply'])}}
                                     {{$v.reply}}
                                 {{else /}}
                                     <span class="cr-ddd">未回复</span>
@@ -161,7 +167,7 @@
 
 												<dt>回复内容</dt>
 												<dd>
-													{{if $v['is_reply'] eq 1}}
+													{{if !empty($v['reply'])}}
 			                                            {{$v.reply}}
 			                                        {{else /}}
 			                                            <span class="cr-ddd">未回复</span>
@@ -182,8 +188,11 @@
 								</div>
 							</td>
 							<td class="view-operation">
+								<a href="{{:MyUrl('admin/answer/saveinfo', array_merge($params, ['id'=>$v['id']]))}}">
+                                    <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit"> 编辑</button>
+                                </a>
 								{{if $v['is_reply'] eq 0}}
-									<button class="am-btn am-btn-secondary am-btn-xs am-radius submit-reply am-icon-gavel" data-am-modal="{target: '#my-popup-reply'}" data-json='{{:json_encode($v)}}'> 回复</button>
+									<button class="am-btn am-btn-success am-btn-xs am-radius submit-reply am-icon-gavel" data-am-modal="{target: '#my-popup-reply'}" data-json='{{:json_encode($v)}}'> 回复</button>
 								{{/if}}
 								<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/answer/delete')}}" data-id="{{$v.id}}"> 删除</button>
 							</td>

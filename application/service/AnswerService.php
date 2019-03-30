@@ -162,7 +162,7 @@ class AnswerService
     }
 
     /**
-     * 用户留言添加
+     * 用户留言保存
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -170,7 +170,7 @@ class AnswerService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function Add($params = [])
+    public static function AnswerSave($params = [])
     {
         // 参数校验
         $p = [
@@ -207,18 +207,38 @@ class AnswerService
 
         // 开始操作
         $data = [
-            'user_id'       => isset($params['user']['id']) ? intval($params['user']['id']) : 0,
+            'user_id'       => isset($params['user']['id']) ? intval($params['user']['id']) : (isset($params['user_id']) ? intval($params['user_id']) : 0),
             'name'          => isset($params['name']) ? $params['name'] : '',
             'tel'           => isset($params['tel']) ? $params['tel'] : '',
             'title'         => isset($params['title']) ? $params['title'] : '',
             'content'       => $params['content'],
+            'reply'         => isset($params['reply']) ? $params['reply'] : '',
+            'access_count'  => isset($params['access_count']) ? intval($params['access_count']) : 0,
+            'is_reply'      => isset($params['is_reply']) ? intval($params['is_reply']) : 0,
+            'is_show'       => isset($params['is_show']) ? intval($params['is_show']) : 0,
             'add_time'      => time(),
         ];
-        if(Db::name('Answer')->insertGetId($data) > 0)
+
+        // 回复时间
+        $data['reply_time'] = (isset($data['is_reply']) && $data['is_reply'] == 1) ? time() : 0;
+
+        // 不存在添加，则更新
+        if(empty($params['id']))
         {
-            return DataReturn('提交成功', 0);
+            $data['add_time'] = time();
+            if(Db::name('Answer')->insertGetId($data) > 0)
+            {
+                return DataReturn('提交成功', 0);
+            }
+            return DataReturn('提交失败', -100);
+        } else {
+            $data['upd_time'] = time();
+            if(Db::name('Answer')->where(['id'=>intval($params['id'])])->update($data))
+            {
+                return DataReturn('编辑成功', 0);
+            }
+            return DataReturn('编辑失败', -100); 
         }
-        return DataReturn('提交失败', -100);
     }
 
     /**

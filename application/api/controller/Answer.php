@@ -94,7 +94,7 @@ class Answer extends Common
 
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return AnswerService::Add($params);
+        return AnswerService::AnswerSave($params);
     }
 }
 ?>

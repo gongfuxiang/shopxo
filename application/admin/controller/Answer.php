@@ -92,6 +92,67 @@ class Answer extends Common
         return $this->fetch();
 	}
 
+    /**
+     * [SaveInfo 添加/编辑页面]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-14T21:37:02+0800
+     */
+    public function SaveInfo()
+    {
+        // 参数
+        $params = input();
+
+        // 数据
+        $data = [];
+        if(!empty($params['id']))
+        {
+            // 获取列表
+            $data_params = array(
+                'm'     => 0,
+                'n'     => 1,
+                'where' => ['id'=>intval($params['id'])],
+                'field' => '*',
+            );
+            $ret = AnswerService::AnswerList($data_params);
+            $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
+        }
+        $this->assign('data', $data);
+
+        // 状态
+        $this->assign('common_is_show_list', lang('common_is_show_list'));
+
+        // 是否
+        $this->assign('common_is_text_list', lang('common_is_text_list'));
+
+        // 参数
+        unset($params['id']);
+        $this->assign('params', $params);
+
+        return $this->fetch();
+    }
+
+    /**
+     * [Save 保存]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-25T22:36:12+0800
+     */
+    public function Save()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 开始处理
+        $params = input();
+        return AnswerService::AnswerSave($params);
+    }
+
 	/**
 	 * 问答删除
 	 * @author   Devil
