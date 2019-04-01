@@ -99,7 +99,7 @@ Page({
                   address_id: data.base.address.id,
                 });
 
-                my.setStorage({
+                wx.setStorage({
                   key: app.data.cache_buy_user_address_select_key,
                   data: data.base.address,
                 });
