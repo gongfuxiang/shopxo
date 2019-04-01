@@ -231,7 +231,7 @@ class Weixin
             'mch_id'            => $this->config['mch_id'],
             'body'              => $params['site_name'].'-'.$params['name'],
             'nonce_str'         => md5(time().rand().$params['order_no']),
-            'notify_url'        => str_replace('https', 'http', $params['notify_url']),
+            'notify_url'        => (__MY_HTTP__ == 'https') ? 'https'.mb_substr($params['notify_url'], 4, null, 'utf-8') : $params['notify_url'],
             'openid'            => ($trade_type == 'JSAPI') ? $params['user']['weixin_openid'] : '',
             'out_trade_no'      => $params['order_no'].GetNumberCode(6),
             'spbill_create_ip'  => GetClientIP(),

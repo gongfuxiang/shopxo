@@ -261,6 +261,12 @@ function PluginsHomeUrl($plugins_name, $plugins_control, $plugins_action, $param
         $url = str_replace('public/', '', $url);
     }
 
+    // tp框架url方法是否识别到https
+    if(__MY_HTTP__ == 'https' && substr($url, 0, 5) != 'https')
+    {
+        $url = 'https'.mb_substr($url, 4, null, 'utf-8');
+    }
+
     return $url;
 }
 
@@ -289,6 +295,12 @@ function PluginsAdminUrl($plugins_name, $plugins_control, $plugins_action, $para
     if(defined('IS_ROOT_ACCESS'))
     {
         $url = str_replace('public/', '', $url);
+    }
+
+    // tp框架url方法是否识别到https
+    if(__MY_HTTP__ == 'https' && substr($url, 0, 5) != 'https')
+    {
+        $url = 'https'.mb_substr($url, 4, null, 'utf-8');
     }
 
     return $url;
