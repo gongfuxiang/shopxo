@@ -46,7 +46,7 @@ class GoodsService
     }
 
     /**
-     * 获取大分类
+     * 获取所有分类
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -54,7 +54,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function GoodsCategory($params = [])
+    public static function GoodsCategoryAll($params = [])
     {
         // 从缓存获取
         $key = config('shopxo.cache_goods_category_key');
@@ -65,17 +65,40 @@ class GoodsService
         }
 
         // 获取分类
+        $params['where'] = ['pid'=>0, 'is_enable'=>1];
+        $data = self::GoodsCategory($params);
+
+        // 存储缓存
+        cache($key, $data);
+
+        return $data;
+    }
+
+    /**
+     * 获取分类
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-08-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function GoodsCategory($params = [])
+    {
+        // 获取分类
         $where = empty($params['where']) ? ['pid'=>0, 'is_enable'=>1] : $params['where'];
         $data = self::GoodsCategoryList($where);
         if(!empty($data))
         {
             foreach($data as &$v)
             {
-                $v['items'] = self::GoodsCategoryList(['pid'=>$v['id'], 'is_enable'=>1]);
+                $where['pid'] = $v['id'];
+                $v['items'] = self::GoodsCategoryList($where);
                 if(!empty($v['items']))
                 {
                     // 一次性查出所有二级下的三级、再做归类、避免sql连接超多
-                    $items = self::GoodsCategoryList(['pid'=>array_column($v['items'], 'id'), 'is_enable'=>1]);
+                    $where['pid'] = array_column($v['items'], 'id');
+                    $items = self::GoodsCategoryList($where);
                     if(!empty($items))
                     {
                         foreach($v['items'] as &$vs)
@@ -92,10 +115,6 @@ class GoodsService
                 }
             }
         }
-
-        // 存储缓存
-        cache($key, $data);
-
         return $data;
     }
 
@@ -160,7 +179,7 @@ class GoodsService
     public static function HomeFloorList($params = [])
     {
         // 商品大分类
-        $params['where'] = ['pid'=>0, 'is_home_recommended'=>1];
+        $params['where'] = ['pid'=>0, 'is_home_recommended'=>1, 'is_enable'=>1];
         $goods_category = self::GoodsCategory($params);
         if(!empty($goods_category))
         {

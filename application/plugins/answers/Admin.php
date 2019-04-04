@@ -223,7 +223,7 @@ class Admin extends Controller
         $this->assign('goods', $goods['data']);
 
         // 商品分类
-        $this->assign('goods_category_list', GoodsService::GoodsCategory());
+        $this->assign('goods_category_list', GoodsService::GoodsCategoryAll());
         
         return $this->fetch('../../../plugins/view/answers/admin/goodsinfo');
     }

@@ -135,7 +135,7 @@ class Goods extends Common
 		$this->assign('region_province_list', RegionService::RegionItems(['pid'=>0]));
 
 		// 商品分类
-		$this->assign('category_list', GoodsService::GoodsCategory());
+		$this->assign('category_list', GoodsService::GoodsCategoryAll());
 
 		// 品牌分类
 		$this->assign('brand_list', BrandService::CategoryBrand());

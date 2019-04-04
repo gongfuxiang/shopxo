@@ -56,7 +56,7 @@ class GoodsCategory extends Common
         $this->assign('common_is_text_list', lang('common_is_text_list'));
 
         // 商品分类
-        $this->assign('goods_category_list', GoodsService::GoodsCategory());
+        $this->assign('goods_category_list', GoodsService::GoodsCategoryAll());
 
         // 编辑器文件存放地址
 		$this->assign('editor_path_type', 'goods_category');

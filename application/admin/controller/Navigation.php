@@ -67,7 +67,7 @@ class Navigation extends Common
         $this->assign('article_list', $article_category_content['data']);
 
 		// 商品分类
-		$this->assign('goods_category_list', GoodsService::GoodsCategory());
+		$this->assign('goods_category_list', GoodsService::GoodsCategoryAll());
 
 		// 自定义页面
 		$this->assign('customview_list', db('CustomView')->field(array('id', 'title'))->where(array('is_enable'=>1))->select());

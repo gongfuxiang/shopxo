@@ -247,7 +247,7 @@ class Common extends Controller
         $this->assign('user_left_menu', NavigationService::UsersCenterLeftList());
 
         // 商品大分类
-        $this->assign('goods_category_list', GoodsService::GoodsCategory());
+        $this->assign('goods_category_list', GoodsService::GoodsCategoryAll());
 
         // 搜索框下热门关键字
         $home_search_keywords = [];
