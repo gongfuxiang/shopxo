@@ -27,8 +27,8 @@
                 <hr />
 
                 <div class="am-form-group am-form-group-refreshing">
-                    <label>手机/邮箱</label>
-                    <input type="text" name="accounts" class="am-radius" minlength="1" placeholder="手机/邮箱" data-validation-message="手机/邮箱格式有误" required />
+                    <label>登录账号</label>
+                    <input type="text" name="accounts" class="am-radius" minlength="1" placeholder="用户名/手机/邮箱" data-validation-message="请填写登录账号" required />
                 </div>
 
                 <div class="am-form-group am-form-group-refreshing">
@@ -57,9 +57,16 @@
         {
             $.AMUI.progress.done();
             Prompt(e.msg, 'success');
+
+            // 登录返回html处理
+            if((e.data.body_html || null) != null)
+            {
+                $('body').append(e.data.body_html);
+            }
+
             setTimeout(function()
             {
-                parent.location.reload();
+                window.parent.location.reload();
             }, 1500);
         } else {
             $('form.form-validation').find('button[type="submit"]').button('reset');
@@ -68,3 +75,4 @@
         }
     }
 </script>
+

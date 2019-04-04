@@ -12,6 +12,27 @@
 // 应用公共文件
 
 /**
+ * 生成随机字符串
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-04-04
+ * @desc    description
+ * @param   [int]          $length [长度 默认6]
+ */
+function RandomString($length = 6)
+{
+    $pattern = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLOMNOPQRSTUVWXYZ';
+    $pattern_length = strlen($pattern)-1;
+    $output = '';
+    for($i=0; $i<$length; $i++)   
+    {
+        $output .= $pattern[mt_rand(0, $pattern_length)];
+    }
+    return $output;
+}
+
+/**
  * each函数
  * @author   Devil
  * @blog    http://gong.gg/

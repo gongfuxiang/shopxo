@@ -45,6 +45,7 @@ return array (
   'plugins_service_user_login_end' => 
   array (
     0 => 'app\\plugins\\userloginrewardintegral\\Hook',
+    1 => 'app\\plugins\\ucenter\\Hook',
   ),
   'plugins_css' => 
   array (
@@ -116,6 +117,22 @@ return array (
   array (
     0 => 'app\\plugins\\freightfee\\Hook',
     1 => 'app\\plugins\\newuserreduction\\Hook',
+  ),
+  'plugins_service_user_register_end' => 
+  array (
+    0 => 'app\\plugins\\ucenter\\Hook',
+  ),
+  'plugins_service_user_logout_handle' => 
+  array (
+    0 => 'app\\plugins\\ucenter\\Hook',
+  ),
+  'plugins_service_user_login_pwd_update' => 
+  array (
+    0 => 'app\\plugins\\ucenter\\Hook',
+  ),
+  'plugins_service_user_accounts_update' => 
+  array (
+    0 => 'app\\plugins\\ucenter\\Hook',
   ),
 );
 ?>

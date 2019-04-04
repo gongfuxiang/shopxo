@@ -1,0 +1,65 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('ucenter', 'admin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('ucenter', 'admin', 'index')}}" enctype="multipart/form-data">
+            <legend>
+                <span class="fs-16">UCenter</span>
+                <a href="{{:PluginsAdminUrl('ucenter', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+            </legend>
+
+            <div class="am-form-group am-form-file">
+                <label class="block">同步登录<span class="am-form-group-label-tips">一行一个、GET请求</span></label>
+                <textarea rows="4" name="login_sync_url" class="am-radius am-field-valid" placeholder="同步登录" data-validation-message="请填写同步登录">{{if !empty($data['login_sync_url'])}}{{$data.login_sync_url}}{{/if}}</textarea>
+            </div>
+            <div class="am-form-group am-form-file">
+                <label class="block">异步登录<span class="am-form-group-label-tips">一行一个、GET请求</span></label>
+                <textarea rows="4" name="login_async_url" class="am-radius am-field-valid" placeholder="异步登录" data-validation-message="请填写异步登录">{{if !empty($data['login_async_url'])}}{{$data.login_async_url}}{{/if}}</textarea>
+            </div>
+
+
+            <div class="am-form-group am-form-file">
+                <label class="block">同步注册<span class="am-form-group-label-tips">一行一个、GET请求</span></label>
+                <textarea rows="4" name="register_sync_url" class="am-radius am-field-valid" placeholder="同步注册" data-validation-message="请填写同步注册">{{if !empty($data['register_sync_url'])}}{{$data.register_sync_url}}{{/if}}</textarea>
+            </div>
+            <div class="am-form-group am-form-file">
+                <label class="block">异步注册<span class="am-form-group-label-tips">一行一个、GET请求</span></label>
+                <textarea rows="4" name="register_async_url" class="am-radius am-field-valid" placeholder="异步注册" data-validation-message="请填写异步注册">{{if !empty($data['register_async_url'])}}{{$data.register_async_url}}{{/if}}</textarea>
+            </div>
+
+
+            <div class="am-form-group am-form-file">
+                <label class="block">同步退出<span class="am-form-group-label-tips">一行一个、GET请求</span></label>
+                <textarea rows="4" name="logout_sync_url" class="am-radius am-field-valid" placeholder="同步退出" data-validation-message="请填写同步退出">{{if !empty($data['logout_sync_url'])}}{{$data.logout_sync_url}}{{/if}}</textarea>
+            </div>
+            <div class="am-form-group am-form-file">
+                <label class="block">异步退出<span class="am-form-group-label-tips">一行一个、GET请求</span></label>
+                <textarea rows="4" name="logout_async_url" class="am-radius am-field-valid" placeholder="异步退出" data-validation-message="请填写异步退出">{{if !empty($data['logout_async_url'])}}{{$data.logout_async_url}}{{/if}}</textarea>
+            </div>
+
+
+            <div class="am-form-group am-form-file">
+                <label class="block">异步登录密码修改<span class="am-form-group-label-tips">一行一个、GET请求</span></label>
+                <textarea rows="4" name="loginpwdupdate_async_url" class="am-radius am-field-valid" placeholder="异步登录密码修改" data-validation-message="请填写异步登录密码修改">{{if !empty($data['loginpwdupdate_async_url'])}}{{$data.loginpwdupdate_async_url}}{{/if}}</textarea>
+            </div>
+
+
+            <div class="am-form-group am-form-file">
+                <label class="block">异步账号修改<span class="am-form-group-label-tips">一行一个、GET请求</span></label>
+                <textarea rows="4" name="accounts_async_url" class="am-radius am-field-valid" placeholder="异步账号修改" data-validation-message="请填写异步账号修改">{{if !empty($data['accounts_async_url'])}}{{$data.accounts_async_url}}{{/if}}</textarea>
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

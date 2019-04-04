@@ -1,0 +1,36 @@
+{
+    "base":{
+        "plugins":"ucenter",
+        "name":"UCenter",
+        "logo":"\/static\/upload\/images\/plugins_ucenter\/2019\/04\/02\/1554185833720976.jpg",
+        "author":"Devil",
+        "author_url":"https:\/\/shopxo.net\/",
+        "version":"1.0.0",
+        "desc":"同步用户登录、注册、密码修改、账号修改",
+        "apply_terminal":[
+            "pc",
+            "h5"
+        ],
+        "apply_version":[
+            "1.4.0"
+        ],
+        "is_home":false
+    },
+    "hook":{
+        "plugins_service_user_login_end":[
+            "app\\plugins\\ucenter\\Hook"
+        ],
+        "plugins_service_user_register_end":[
+            "app\\plugins\\ucenter\\Hook"
+        ],
+        "plugins_service_user_logout_handle":[
+            "app\\plugins\\ucenter\\Hook"
+        ],
+        "plugins_service_user_login_pwd_update":[
+            "app\\plugins\\ucenter\\Hook"
+        ],
+        "plugins_service_user_accounts_update":[
+            "app\\plugins\\ucenter\\Hook"
+        ]
+    }
+}

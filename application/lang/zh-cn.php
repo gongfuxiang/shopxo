@@ -309,7 +309,7 @@ return array(
 
     // 正则
     // 用户名
-    'common_regex_username'             =>  '^[A-Za-z0-9_]{5,18}$',
+    'common_regex_username'             =>  '^[A-Za-z0-9_]{2,18}$',
 
     // 用户名
     'common_regex_pwd'                  =>  '^.{6,18}$',

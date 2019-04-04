@@ -13,6 +13,7 @@ namespace app\service;
 use think\Db;
 use think\facade\Hook;
 use app\service\RegionService;
+use app\service\SafetyService;
 
 /**
  * 用户服务层
@@ -850,9 +851,9 @@ class UserService
         }
 
         // 登录帐号格式校验
-        if(!CheckMobile($params['accounts']) && !CheckEmail($params['accounts']))
+        if(empty($params['accounts']))
         {
-            return DataReturn('手机/邮箱格式有误', -1);
+            return DataReturn('登录账号有误', -1);
         }
 
         // 密码
@@ -863,7 +864,7 @@ class UserService
         }
 
         // 获取用户账户信息
-        $where = array('mobile|email' => $params['accounts'], 'is_delete_time'=>0);
+        $where = array('username|mobile|email' => $params['accounts'], 'is_delete_time'=>0);
         $user = Db::name('User')->field('id,pwd,salt,status')->where($where)->find();
         if(empty($user))
         {
@@ -902,25 +903,34 @@ class UserService
                 'salt'      =>  $salt,
                 'upd_time'  =>  time(),
             );
-        if(Db::name('User')->where(array('id'=>$user['id']))->update($data) !== false)
+        if(Db::name('User')->where(['id'=>$user['id']])->update($data) !== false)
         {
             // 登录记录
             if(self::UserLoginRecord($user['id']))
             {
+                // 返回前端html代码
+                $body_html = [];
+
                 // 用户登录后钩子
                 $hook_name = 'plugins_service_user_login_end';
                 $ret = Hook::listen($hook_name, [
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
                     'params'        => &$params,
-                    'user_id'       => $user['id']
+                    'user_id'       => $user['id'],
+                    'user'          => Db::name('User')->field('id,username,nickname,mobile,email,gender,avatar,province,city,birthday')->where(['id'=>$user['id']])->find(),
+                    'body_html'     => &$body_html,
                 ]);
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
                     return $ret;
                 }
 
-                return DataReturn('登录成功', 0);
+                // 登录返回
+                $result = [
+                    'body_html'    => is_array($body_html) ? implode(' ', $body_html) : $body_html,
+                ];
+                return DataReturn('登录成功', 0, $result);
             }
         }
         return DataReturn('登录失效，请重新登录', -100);
@@ -1021,8 +1031,8 @@ class UserService
         }
 
         // 数据添加
-        $user_id = Db::name('User')->insertGetId($data);
-        if($user_id > 0)
+        $user_ret = self::UserInsert($data, $params);
+        if($user_ret['code'] == 0)
         {
             // 清除验证码
             $obj->Remove();
@@ -1034,11 +1044,13 @@ class UserService
             }
 
             // 用户登录session纪录
-            if(self::UserLoginRecord($user_id))
+            if(self::UserLoginRecord($user_ret['data']['user_id']))
             {
-                return DataReturn('注册成功', 0);
+                return DataReturn('注册成功', 0, $user_ret);
             }
             return DataReturn('注册成功，请到登录页面登录帐号');
+        } else {
+            return $user_ret;
         }
         return DataReturn('注册失败', -100);
     }
@@ -1399,18 +1411,20 @@ class UserService
             return DataReturn('验证码错误', -11);
         }
 
-        // 更新用户密码
-        $salt = GetNumberCode(6);
-        $data = array(
-                'pwd'       =>  LoginPwdEncryption($params['pwd'], $salt),
-                'salt'      =>  $salt,
-                'upd_time'  =>  time(),
-            );
-        if(Db::name('User')->where(array($ret['data']=>$params['accounts']))->update($data) !== false)
+        // 获取用户信息
+        $user = Db::name('User')->where([$ret['data']=>$params['accounts']])->find();
+        if(empty($user))
         {
-            return DataReturn('操作成功');
+            return DataReturn('用户信息不存在', -12);
         }
-        return DataReturn('操作失败', -100);
+
+        // 密码修改
+        $ret = SafetyService::UserLoginPwdUpdate($params['accounts'], $user['id'], $params['pwd']);
+        if($ret['code'] != 0)
+        {
+            return DataReturn('操作成功', 0);
+        }
+        return $ret;
     }
 
     /**
@@ -1524,6 +1538,66 @@ class UserService
     }
 
     /**
+     * 用户添加
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-04-03
+     * @desc    description
+     * @param   [array]          $data   [用户添加数据]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function UserInsert($data, $params = [])
+    {
+        // 账号是否存在，以用户名 手机 邮箱 作为唯一
+        if(!empty($data['username']))
+        {
+            $temp = Db::name('User')->where(['username'=>$data['username'], 'is_delete_time'=>0])->find();
+        } else if(!empty($data['mobile']))
+        {
+            $temp = Db::name('User')->where(['mobile'=>$data['mobile'], 'is_delete_time'=>0])->find();
+        } else if(!empty($data['email']))
+        {
+            $temp = Db::name('User')->where(['email'=>$data['email'], 'is_delete_time'=>0])->find();
+        }
+        if(!empty($temp))
+        {
+            return DataReturn('账号已存在', -10);
+        }
+
+        $user_id = Db::name('User')->insertGetId($data);
+        if($user_id > 0)
+        {
+            // 返回前端html代码
+            $body_html = [];
+
+            // 注册成功后钩子
+            $hook_name = 'plugins_service_user_register_end';
+            $ret = Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'user_id'       => $user_id,
+                'user'          => Db::name('User')->field('id,username,nickname,mobile,email,gender,avatar,province,city,birthday')->where(['id'=>$user_id])->find(),
+                'body_html'     => &$body_html,
+            ]);
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            // 登录返回
+            $result = [
+                'body_html'     => is_array($body_html) ? implode(' ', $body_html) : $body_html,
+                'user_id'       => $user_id,
+            ];
+
+            return DataReturn('添加成功', 0, $result);
+        }
+        return DataReturn('添加失败', -100);
+    }
+
+    /**
      * app用户注册
      * @author   Devil
      * @blog    http://gong.gg/
@@ -1630,7 +1704,13 @@ class UserService
         {
             $data['referrer'] = isset($params['referrer']) ? intval($params['referrer']) : 0;
             $data['add_time'] = time();
-            $user_id = Db::name('User')->insertGetId($data);
+            $user_ret = self::UserInsert($data, $params);
+            if($user_ret['code'] == 0)
+            {
+                $user_id = $user_ret['data']['user_id'];
+            } else {
+                return $user_ret;
+            }
         } else {
             $data['upd_time'] = time();
             if(Db::name('User')->where($where)->update($data))
@@ -1700,6 +1780,44 @@ class UserService
         } else {
             return DataReturn('发送失败'.'['.$obj->error.']', -100);
         }
+    }
+
+    /**
+     * 用户退出
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-05T14:31:23+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public static function Logout($params = [])
+    {
+        // 用户信息
+        $user = self::LoginUserInfo();
+
+        // 清除session
+        session('user', null);
+
+        // html代码
+        $body_html = [];
+
+        // 用户退出钩子
+        $hook_name = 'plugins_service_user_logout_handle';
+        $ret = Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => [],
+            'user_id'       => isset($user['id']) ? $user['id'] : 0,
+            'user'          => $user,
+            'body_html'     => &$body_html,
+        ]);
+
+        // 数据返回
+        $result = [
+            'body_html'    => is_array($body_html) ? implode(' ', $body_html) : $body_html,
+        ];
+
+        return DataReturn('退出成功', 0, $result);
     }
 
 }

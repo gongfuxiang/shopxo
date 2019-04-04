@@ -1,0 +1,217 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">UCenter</span>
+            <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+
+        <div class="ucenter-content">
+            <div class="items">
+                <label>同步登录</label>
+                <div>
+                    {{if !empty($data['login_sync_url'])}}
+                        {{$data.login_sync_url|raw}}
+                    {{else /}}
+                        无
+                    {{/if}}
+                </div>
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    附带参数<br />
+                    data 当前用户数据 [ 以 urlencode(json_encode($data)) ]<br />
+                    params 用户登录账号信息 [ 以 urlencode(json_encode($params)) ]<br />
+                    &nbsp;&nbsp;&nbsp; accounts 账号<br />
+                    &nbsp;&nbsp;&nbsp; pwd 密码
+                </div>
+            </div>
+            <div class="items">
+                <label>异步登录</label>
+                <div>
+                    {{if !empty($data['login_async_url'])}}
+                        {{$data.login_async_url|raw}}
+                    {{else /}}
+                        无
+                    {{/if}}
+                </div>
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    附带参数<br />
+                    data 当前用户数据 [ 以 urlencode(json_encode($data)) ]<br />
+                    params 用户登录账号信息 [ 以 urlencode(json_encode($params)) ]<br />
+                    &nbsp;&nbsp;&nbsp; accounts 账号<br />
+                    &nbsp;&nbsp;&nbsp; pwd 密码
+                </div>
+            </div>
+
+            <div class="items">
+                <label>同步注册</label>
+                <div>
+                    {{if !empty($data['register_sync_url'])}}
+                        {{$data.register_sync_url|raw}}
+                    {{else /}}
+                        无
+                    {{/if}}
+                </div>
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    附带参数（手机号、邮箱、用户名、用户昵称 都为可选参数[但至少会有一个字段存在]）<br />
+                    data 当前用户数据 [ 以 urlencode(json_encode($data)) ]<br />
+                    params 用户注册账号信息 [ 以 urlencode(json_encode($params)) ]<br />
+                    &nbsp;&nbsp;&nbsp; mobile 手机号<br />
+                    &nbsp;&nbsp;&nbsp; email 邮箱<br />
+                    &nbsp;&nbsp;&nbsp; username 用户名<br />
+                    &nbsp;&nbsp;&nbsp; nickname 用户昵称<br />
+                    &nbsp;&nbsp;&nbsp; pwd 密码
+                </div>
+            </div>
+            <div class="items">
+                <label>异步注册</label>
+                <div>
+                    {{if !empty($data['register_async_url'])}}
+                        {{$data.register_async_url|raw}}
+                    {{else /}}
+                        无
+                    {{/if}}
+                </div>
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    附带参数（手机号、邮箱、用户名、用户昵称 都为可选参数[但至少会有一个字段存在]）<br />
+                    data 当前用户数据 [ 以 urlencode(json_encode($data)) ]<br />
+                    params 用户注册账号信息 [ 以 urlencode(json_encode($params)) ]<br />
+                    &nbsp;&nbsp;&nbsp; mobile 手机号<br />
+                    &nbsp;&nbsp;&nbsp; email 邮箱<br />
+                    &nbsp;&nbsp;&nbsp; username 用户名<br />
+                    &nbsp;&nbsp;&nbsp; nickname 用户昵称<br />
+                    &nbsp;&nbsp;&nbsp; pwd 密码
+                </div>
+            </div>
+
+            <div class="items">
+                <label>同步退出</label>
+                <div>
+                    {{if !empty($data['logout_sync_url'])}}
+                        {{$data.logout_sync_url|raw}}
+                    {{else /}}
+                        无
+                    {{/if}}
+                </div>
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    附带参数<br />
+                    data 当前用户数据 [ 以 urlencode(json_encode($data)) ]
+                </div>
+            </div>
+            <div class="items">
+                <label>异步退出</label>
+                <div>
+                    {{if !empty($data['logout_async_url'])}}
+                        {{$data.logout_async_url|raw}}
+                    {{else /}}
+                        无
+                    {{/if}}
+                </div>
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    附带参数<br />
+                    data 当前用户数据 [ 以 urlencode(json_encode($data)) ]
+                </div>
+            </div>
+
+            <div class="items">
+                <label>异步登录密码修改</label>
+                <div>
+                    {{if !empty($data['loginpwdupdate_async_url'])}}
+                        {{$data.loginpwdupdate_async_url|raw}}
+                    {{else /}}
+                        无
+                    {{/if}}
+                </div>
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    附带参数<br />
+                    data 当前用户数据 [ 以 urlencode(json_encode($data)) ]<br />
+                    params 用户账号信息 [ 以 urlencode(json_encode($params)) ]<br />
+                    &nbsp;&nbsp;&nbsp; accounts 账号<br />
+                    &nbsp;&nbsp;&nbsp; pwd 密码
+                </div>
+            </div>
+
+            <div class="items">
+                <label>异步账号修改</label>
+                <div>
+                    {{if !empty($data['accounts_async_url'])}}
+                        {{$data.accounts_async_url|raw}}
+                    {{else /}}
+                        无
+                    {{/if}}
+                </div>
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    附带参数<br />
+                    data 当前用户数据 [ 以 urlencode(json_encode($data)) ]<br />
+                    params 用户账号信息 [ 以 urlencode(json_encode($params)) ]<br />
+                    &nbsp;&nbsp;&nbsp; accounts 原来的账号<br />
+                    &nbsp;&nbsp;&nbsp; new_accounts 新的账号<br />
+                    &nbsp;&nbsp;&nbsp; field 字段类型（mobile、email、username）
+                </div>
+            </div>
+
+            <div class="items">
+                <label>api接口-登录</label>
+                <div>
+                    {{:PluginsHomeUrl('ucenter', 'api', 'login')}}
+                </div>
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    附带参数<br />
+                    data 当前用户数据 [ 以 urlencode(json_encode($data)) ]<br />
+                    params 用户登录账号信息 [ 以 urlencode(json_encode($params)) ]<br />
+                    &nbsp;&nbsp;&nbsp; accounts 账号<br />
+                    &nbsp;&nbsp;&nbsp; pwd 密码
+                </div>
+            </div>
+
+            <div class="items">
+                <label>api接口-注册</label>
+                <div>
+                    {{:PluginsHomeUrl('ucenter', 'api', 'register')}}
+                </div>
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    附带参数<br />
+                    data 当前用户数据 [ 以 urlencode(json_encode($data)) ]<br />
+                    params 用户注册账号信息 [ 以 urlencode(json_encode($params)) ]<br />
+                    &nbsp;&nbsp;&nbsp; accounts 账号<br />
+                    &nbsp;&nbsp;&nbsp; pwd 密码
+                </div>
+            </div>
+
+            <div class="items">
+                <label>api接口-退出</label>
+                <div>
+                    {{:PluginsHomeUrl('ucenter', 'api', 'logout')}}
+                </div>
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    附带参数<br />
+                    data 当前用户数据 [ 以 urlencode(json_encode($data)) ]
+                </div>
+            </div>
+
+            <div class="items">
+                <label>api接口-登录密码修改</label>
+                <div>
+                    {{:PluginsHomeUrl('ucenter', 'api', 'loginpwdupdate')}}
+                </div>
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    附带参数<br />
+                    data 当前用户数据 [ 以 urlencode(json_encode($data)) ]<br />
+                    params 修改密码参数信息 [ 以 urlencode(json_encode($params)) ]<br />
+                    &nbsp;&nbsp;&nbsp; accounts 账号<br />
+                    &nbsp;&nbsp;&nbsp; my_pwd 原始密码<br />
+                    &nbsp;&nbsp;&nbsp; new_pwd 新密码<br />
+                    &nbsp;&nbsp;&nbsp; confirm_new_pwd 确认新密码
+                </div>
+            </div>
+
+            <a href="{{:PluginsAdminUrl('ucenter', 'admin', 'saveinfo')}}" class="am-btn am-btn-secondary am-radius btn-loading-example am-btn-sm am-btn-block edit-submit">编辑</a>
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

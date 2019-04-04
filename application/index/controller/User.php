@@ -441,8 +441,15 @@ class User extends Common
      */
     public function Logout()
     {
-        session('user', null);
-        return redirect(__MY_URL__);
+        // 调用服务层
+        $ret = UserService::Logout();
+
+        // 登录返回
+        $body_html = (!empty($ret['data']['body_html']) && is_array($ret['data']['body_html'])) ? implode(' ', $ret['data']['body_html']) : $ret['data']['body_html'];
+        $this->assign('body_html', $body_html);
+        $this->assign('msg', $ret['msg']);
+
+        return $this->fetch();
     }
 
     /**

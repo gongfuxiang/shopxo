@@ -124,12 +124,10 @@ class Index extends Controller
         $ret = Service::TouristReg();
         if($ret['code'] == 0)
         {
-            if(isset($params['is_parent']) && $params['is_parent'] == 1)
-            {
-                return '<script type="text/javascript">if(self.frameElement && self.frameElement.tagName == "IFRAME"){parent.location.reload();}else{window.location.href="'.__MY_URL__.'";}</script>';
-            } else {
-                return $this->redirect(__MY_URL__);
-            }
+            $this->assign('msg', $ret['msg']);
+            $this->assign('data', $ret['data']);
+            $this->assign('is_parent', isset($params['is_parent']) ? $params['is_parent'] : 0);
+            return $this->fetch('../../../plugins/view/touristbuy/index/success');
         } else {
             $this->assign('msg', $ret['msg']);
             return $this->fetch('public/error');

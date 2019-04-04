@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 use app\service\UserService;
 
 /**
@@ -65,7 +66,7 @@ class SafetyService
         }
 
         // 获取用户账户信息
-        $user = Db::name('User')->field('id,pwd,salt')->find($params['user']['id']);
+        $user = Db::name('User')->field('id,pwd,salt,username,mobile,email')->find($params['user']['id']);
 
         // 原密码校验
         if(LoginPwdEncryption($params['my_pwd'], $user['salt']) != $user['pwd'])
@@ -79,20 +80,54 @@ class SafetyService
             return DataReturn('确认密码与新密码不一致', -5);
         }
 
-        // 更新用户密码
-        $salt = GetNumberCode(6);
-        $data = [
-            'pwd'       =>  LoginPwdEncryption(trim($params['new_pwd']), $salt),
-            'salt'      =>  $salt,
-            'upd_time'  =>  time(),
-        ];
-
-        // 更新数据库
-        if(Db::name('User')->where(['id'=>$params['user']['id']])->update($data) !== false)
+        // 密码修改
+        $accounts = empty($user['mobile']) ? (empty($user['email']) ? $user['username'] : $user['email']) : $user['mobile'];
+        $ret = self::UserLoginPwdUpdate($accounts, $user['id'], $params['new_pwd']);
+        if($ret['code'] != 0)
         {
             return DataReturn('操作成功', 0);
         }
-        return DataReturn('操作失败', -100);
+        return $ret;
+    }
+
+    /**
+     * 用户密码修改
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-04-03
+     * @desc    description
+     * @param   [string]         $accounts  [账号]
+     * @param   [int]            $user_id   [用户id]
+     * @param   [string]         $pwd       [密码]
+     */
+    public static function UserLoginPwdUpdate($accounts, $user_id, $pwd)
+    {
+        $salt = GetNumberCode(6);
+        $data = array(
+                'pwd'       =>  LoginPwdEncryption(trim($pwd), $salt),
+                'salt'      =>  $salt,
+                'upd_time'  =>  time(),
+            );
+        if(Db::name('User')->where(['id'=>$user_id])->update($data) !== false)
+        {
+            // 用户登录密码修改钩子
+            $hook_name = 'plugins_service_user_login_pwd_update';
+            $ret = Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => ['accounts'=>$accounts, 'pwd'=>$pwd],
+                'user_id'       => $user_id,
+                'user'          => Db::name('User')->field('id,username,nickname,mobile,email,gender,avatar,province,city,birthday')->where(['id'=>$user_id])->find(),
+            ]);
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            return DataReturn('修改成功');
+        }
+        return DataReturn('修改失败', -100);
     }
 
     /**
@@ -107,7 +142,7 @@ class SafetyService
     private static function IsExistAccounts($accounts, $type)
     {
         $field = ($type == 'sms') ? 'mobile' : 'email';
-        $user = Db::name('User')->where([$field=>$accounts])->value('id');
+        $user = Db::name('User')->where([$field=>$accounts])->field('id')->find();
         if(!empty($user))
         {
             $msg = ($type == 'sms') ? '手机号码已存在' : '电子邮箱已存在';
@@ -355,10 +390,12 @@ class SafetyService
 
         // 帐号是否已存在
         $ret = self::IsExistAccounts($params['accounts'], $params['type']);
-         if($ret['code'] != 0)
-            {
-                return $ret;
-            }
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        } else {
+            $user = Db::name('User')->field('id,username,nickname,mobile,email,gender,avatar,province,city,birthday')->where(['id'=>$params['user']['id']])->find();
+        }
 
         // 验证码校验
         $verify_params = array(
@@ -371,6 +408,7 @@ class SafetyService
         } else {
             $obj = new \base\Email($verify_params);
         }
+
         // 是否已过期
         if(!$obj->CheckExpire())
         {
@@ -389,7 +427,7 @@ class SafetyService
                 'upd_time'  =>  time(),
             );
         // 更新数据库
-        if(Db::name('User')->where(array('id'=>$params['user']['id']))->update($data) !== false)
+        if(Db::name('User')->where(['id'=>$params['user']['id']])->update($data) !== false)
         {
             // 更新用户session数据
             UserService::UserLoginRecord($params['user']['id']);
@@ -399,6 +437,20 @@ class SafetyService
 
             // 清除验证码
             $obj->Remove();
+
+            // 账号修改钩子
+            $hook_name = 'plugins_service_user_accounts_update';
+            $ret = Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => ['accounts'=>$user[$field], 'new_accounts'=>$params['accounts'], 'field'=>$field],
+                'user_id'       => $user['id'],
+                'user'          => Db::name('User')->field('id,username,nickname,mobile,email,gender,avatar,province,city,birthday')->where(['id'=>$user['id']])->find(),
+            ]);
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                return $ret;
+            }
 
             return DataReturn('操作成功', 0);
         }

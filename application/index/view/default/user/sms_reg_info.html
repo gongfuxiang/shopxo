@@ -16,7 +16,7 @@
 <div class="am-g my-content">
 	<div class="am-u-md-6 am-u-sm-centered">
 		<!-- form start -->
-		<form class="am-form form-validation" method="post" action="{{:MyUrl('index/user/reg')}}" request-type="ajax-url" request-value="{{$referer_url}}">
+		<form class="am-form form-validation" method="post" action="{{:MyUrl('index/user/reg')}}" request-type="ajax-fun" request-value="RegisterSuccessBack">
 			<fieldset>
 				{{if MyC('home_user_login_state') eq 1}}
 					<span>已有帐号？</span>
@@ -101,3 +101,30 @@
 <!-- conntent end  -->
 
 {{include file="public/footer" /}}
+
+<script type="text/javascript">
+// 注册成功回调
+function RegisterSuccessBack(e)
+{
+    if(e.code == 0)
+    {
+        $.AMUI.progress.done();
+        Prompt(e.msg, 'success');
+
+        // 登录返回html处理
+        if((e.data.body_html || null) != null)
+        {
+            $('body').append(e.data.body_html);
+        }
+
+        setTimeout(function()
+        {
+            window.location.href = '{{$referer_url}}';
+        }, 1500);
+    } else {
+        $('form.form-validation').find('button[type="submit"]').button('reset');
+        $.AMUI.progress.done();
+        Prompt(e.msg);
+    }
+}
+</script>

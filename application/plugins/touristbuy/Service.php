@@ -41,54 +41,54 @@ class Service
             return DataReturn('已登录，请先退出', -1);
         }
 
-        // 获取应用数据
-        $ret = PluginsService::PluginsData('touristbuy');
-        $nickname = empty($ret['data']['nickname']) ? '游客' : $ret['data']['nickname'];
-
-        // 是否重复注册
+        // 是否有登录纪录
         $tourist_user_id = session('tourist_user_id');
         if(!empty($tourist_user_id))
         {
-            // 更新用户信息
-            $upd_data  =[
-                'username'      => $nickname,
-                'nickname'      => $nickname,
-                'upd_time'      => time(),
-            ];
-            if(Db::name('User')->where(['id'=>$tourist_user_id])->update($upd_data))
+            $user = UserService::UserInfo('id', $tourist_user_id);
+            if(!empty($user))
             {
-                // 用户登录session纪录
-                if(UserService::UserLoginRecord($tourist_user_id))
+                // 用户登录
+                $ret = UserService::Login(['accounts'=>$user['username'], 'pwd'=>$user['username']]);
+                if($ret['code'] == 0)
                 {
-                    return DataReturn($nickname.'登录成功', 0);
+                    return DataReturn('登录成功', 0, $ret['data']);
                 }
             }
             session('tourist_user_id', null);
         }
 
+        // 获取应用数据
+        $ret = PluginsService::PluginsData('touristbuy');
+        $nickname = empty($ret['data']['nickname']) ? '游客' : $ret['data']['nickname'];
+        $nickname = $nickname.'-'.RandomString(6);
+
         // 游客数据
+        $salt = GetNumberCode(6);
         $data = [
             'username'      => $nickname,
             'nickname'      => $nickname,
             'status'        => 0,
+            'salt'          => $salt,
+            'pwd'           => LoginPwdEncryption($nickname, $salt),
             'add_time'      => time(),
             'upd_time'      => time(),
         ];
 
         // 数据添加
-        $user_id = Db::name('User')->insertGetId($data);
-        if($user_id > 0)
+        $ret = UserService::UserInsert($data, ['nickname'=>$nickname, 'pwd'=>$nickname]);
+        if($ret['code'] == 0)
         {
             // 单独存储用户id
-            session('tourist_user_id', $user_id);
+            session('tourist_user_id', $ret['data']['user_id']);
 
             // 用户登录session纪录
-            if(UserService::UserLoginRecord($user_id))
+            if(UserService::UserLoginRecord($ret['data']['user_id']))
             {
-                return DataReturn($nickname.'登录成功', 0);
+                return DataReturn('登录成功', 0, $ret['data']);
             }
         }
-        return DataReturn($nickname.'登录失败', -100);
+        return DataReturn('登录失败', -100);
     }
 }
 ?>

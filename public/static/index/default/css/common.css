@@ -413,7 +413,7 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
 
 /* 公共错误提示页面 */
 .tips-error, .tips-success { margin: 10% 0; }
-.tips-pay-success, .tips-pay-error { box-shadow: none; text-align: center; }
+.tips-pay-success, .tips-pay-error, .tips-error, .tips-success { box-shadow: none; text-align: center; }
 .tips-error i.am-icon-times-circle, .tips-success i.am-icon-check-circle { font-size: 26px; }
 .tips-error i.am-icon-times-circle { color: #F44336; }
 .tips-success i.am-icon-check-circle { color: #4CAF50; }
