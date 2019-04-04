@@ -35,14 +35,14 @@ class Admin extends Controller
         $ret = PluginsService::PluginsData('ucenter');
         if($ret['code'] == 0)
         {
-            $ret['data']['login_sync_url'] = str_replace("\n", '<br />', $ret['data']['login_sync_url']);
-            $ret['data']['login_async_url'] = str_replace("\n", '<br />', $ret['data']['login_async_url']);
-            $ret['data']['register_sync_url'] = str_replace("\n", '<br />', $ret['data']['register_sync_url']);
-            $ret['data']['register_async_url'] = str_replace("\n", '<br />', $ret['data']['register_async_url']);
-            $ret['data']['logout_sync_url'] = str_replace("\n", '<br />', $ret['data']['logout_sync_url']);
-            $ret['data']['logout_async_url'] = str_replace("\n", '<br />', $ret['data']['logout_async_url']);
-            $ret['data']['loginpwdupdate_async_url'] = str_replace("\n", '<br />', $ret['data']['loginpwdupdate_async_url']);
-            $ret['data']['accounts_async_url'] = str_replace("\n", '<br />', $ret['data']['accounts_async_url']);
+            $ret['data']['login_sync_url'] = empty($ret['data']['login_sync_url']) ? '' : str_replace("\n", '<br />', $ret['data']['login_sync_url']);
+            $ret['data']['login_async_url'] = empty($ret['data']['login_async_url']) ? '' : str_replace("\n", '<br />', $ret['data']['login_async_url']);
+            $ret['data']['register_sync_url'] = empty($ret['data']['register_sync_url']) ? '' : str_replace("\n", '<br />', $ret['data']['register_sync_url']);
+            $ret['data']['register_async_url'] = empty($ret['data']['register_async_url']) ? '' : str_replace("\n", '<br />', $ret['data']['register_async_url']);
+            $ret['data']['logout_sync_url'] = empty($ret['data']['logout_sync_url']) ? '' : str_replace("\n", '<br />', $ret['data']['logout_sync_url']);
+            $ret['data']['logout_async_url'] = empty($ret['data']['logout_async_url']) ? '' : str_replace("\n", '<br />', $ret['data']['logout_async_url']);
+            $ret['data']['loginpwdupdate_async_url'] = empty($ret['data']['loginpwdupdate_async_url']) ? '' : str_replace("\n", '<br />', $ret['data']['loginpwdupdate_async_url']);
+            $ret['data']['accounts_async_url'] = empty($ret['data']['accounts_async_url']) ? '' : str_replace("\n", '<br />', $ret['data']['accounts_async_url']);
 
             $this->assign('data', $ret['data']);
             return $this->fetch('../../../plugins/view/ucenter/admin/index');
