@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : utf-8
 
- Date: 04/04/2019 12:31:35 PM
+ Date: 04/04/2019 12:54:21 PM
 */
 
 SET NAMES utf8mb4;
@@ -896,38 +896,6 @@ CREATE TABLE `s_plugins_answers_slide` (
 BEGIN;
 INSERT INTO `s_plugins_answers_slide` VALUES ('1', '品牌盛宴', '/static/upload/images/plugins_answers/2019/03/07/1551940388704924.jpg', '', '1', '1', '1551865738', '1553590786'), ('2', '你想要的', '/static/upload/images/plugins_answers/2019/03/07/1551940388179648.jpg', 'https://ask.shopxo.net/article/6', '1', '3', '1551866754', '1551940526'), ('3', '爱上潮流名店', '/static/upload/images/plugins_answers/2019/03/07/1551940310193935.jpg', 'https://shopxo.net/', '1', '0', '1551940433', '1551940506');
 COMMIT;
-
--- ----------------------------
---  Table structure for `s_plugins_limited_time_discount_goods`
--- ----------------------------
-DROP TABLE IF EXISTS `s_plugins_limited_time_discount_goods`;
-CREATE TABLE `s_plugins_limited_time_discount_goods` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `goods_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '商品id',
-  `plugins_discount` decimal(3,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '折扣系数 0.00~0.99',
-  `plugins_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '减金额',
-  `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
-  PRIMARY KEY (`id`),
-  KEY `goods_id` (`goods_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='限时折扣商品 - 应用';
-
--- ----------------------------
---  Table structure for `s_plugins_limited_time_discount_slide`
--- ----------------------------
-DROP TABLE IF EXISTS `s_plugins_limited_time_discount_slide`;
-CREATE TABLE `s_plugins_limited_time_discount_slide` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `name` char(60) NOT NULL DEFAULT '' COMMENT '别名',
-  `images_url` char(255) NOT NULL DEFAULT '' COMMENT '图片地址',
-  `url` char(255) NOT NULL DEFAULT '' COMMENT 'url地址',
-  `is_enable` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否启用（0否，1是）',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
-  `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
-  `upd_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  KEY `is_enable` (`is_enable`),
-  KEY `sort` (`sort`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='限时折扣轮播图 - 应用';
 
 -- ----------------------------
 --  Table structure for `s_power`
