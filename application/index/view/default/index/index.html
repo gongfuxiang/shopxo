@@ -149,8 +149,8 @@
                         </div>
                     </div>
                     
-                    <div class="am-g am-g-fixed flood" {{if !empty($floor['bg_color'])}}style="background-color:{{$floor.bg_color}};"{{else /}}style="background-color:#eaeaea;"{{/if}}>
-                        <div class="am-u-sm-5 am-u-md-4 text-one list" >
+                    <div class="am-g am-g-fixed flood">
+                        <div class="am-u-sm-3 text-one list" {{if !empty($floor['bg_color'])}}style="background-color:{{$floor.bg_color}};"{{else /}}style="background-color:#eaeaea;"{{/if}}>
                             <div class="word">
                                 {{if !empty($floor['items'])}}
                                     {{foreach $floor.items as $category_key=>$category}}
@@ -164,32 +164,34 @@
                                     {{/foreach}}
                                 {{/if}}           
                             </div>
-                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$floor['id']])}}" target="_blank">
-                                <div class="outer-con">
-                                    <div class="describe">{{$floor.describe}}</div>
-                                </div>
-                                {{if !empty($floor['big_images'])}}
+                            <div class="outer-con">
+                                <div class="describe">{{$floor.describe}}</div>
+                            </div>
+                            {{if !empty($floor['big_images'])}}
+                                <a href="{{:MyUrl('index/search/index', ['category_id'=>$floor['id']])}}" target="_blank">
                                     <img src="{{$floor.big_images}}" />
-                                {{/if}}
-                            </a>
+                                </a>
+                            {{/if}}
                             <div class="triangle-topright"></div>
                         </div>
 
-                        {{if !empty($floor['goods'])}}
-                            {{foreach $floor.goods as $goods_key=>$goods}}
-                                <div class="goods-items {{if in_array($goods_key, [0,1])}}am-u-sm-7 am-u-md-4 text-two{{else /}}am-u-sm-6 am-u-md-2 text-three{{/if}} {{if in_array($goods_key, [0,3])}} sug{{/if}} {{if in_array($goods_key, [2,5])}} big{{/if}} {{if $goods_key eq 5}} last{{/if}}">
-                                    <div class="outer-con">
-                                        <div class="goods-title ellipsis">
-                                            <a href="{{$goods['goods_url']}}" target="_blank" {{if !empty($goods.title_color)}}style="color:{{$goods.title_color}};"{{/if}}>{{$goods.title}}</a>
+                        <div class="goods-list">
+                            {{if !empty($floor['goods'])}}
+                                {{foreach $floor.goods as $goods_key=>$goods}}
+                                    <div class="goods-items">
+                                        <a href="{{$goods.goods_url}}" target="_blank">
+                                            <img src="{{$goods.home_recommended_images}}" alt="{{$goods.title}}" />
+                                        </a>
+                                        <div class="outer-con">
+                                            <div class="goods-title ellipsis">
+                                                <a href="{{$goods['goods_url']}}" target="_blank" {{if !empty($goods.title_color)}}style="color:{{$goods.title_color}};"{{/if}}>{{$goods.title}}</a>
+                                            </div>
+                                            <div class="price">￥{{$goods.min_price}}</div>
                                         </div>
-                                        <div class="price">￥{{$goods.min_price}}</div>
                                     </div>
-                                    <a href="{{$goods.goods_url}}" target="_blank">
-                                        <img src="{{$goods.home_recommended_images}}" />
-                                    </a>
-                                </div>
-                            {{/foreach}}
-                        {{/if}}
+                                {{/foreach}}
+                            {{/if}}
+                        </div>
                     </div>
                 </div>
             {{/if}}

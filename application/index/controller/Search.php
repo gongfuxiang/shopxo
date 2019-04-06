@@ -102,7 +102,7 @@ class Search extends Common
     {        
         // 获取商品列表
         $ret = SearchService::GoodsList($this->params);
-        if(empty($ret['data']))
+        if(empty($ret['data']['data']))
         {
             $msg = '没有相关数据';
             $code = -100;
