@@ -116,6 +116,19 @@ class Answer extends Common
                 'field' => '*',
             );
             $ret = AnswerService::AnswerList($data_params);
+
+            // 内容
+            if(!empty($ret['data'][0]['content']))
+            {
+                $ret['data'][0]['content'] = str_replace('<br />', "\n", $ret['data'][0]['content']);
+            }
+
+            // 回复内容
+            if(!empty($ret['data'][0]['reply']))
+            {
+                $ret['data'][0]['reply'] = str_replace('<br />', "\n", $ret['data'][0]['reply']);
+            }
+
             $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
         }
         $this->assign('data', $data);

@@ -77,6 +77,18 @@ class AnswerService
                     $v['is_show_text'] = $common_is_show_list[$v['is_show']]['name'];
                 }
 
+                // 内容
+                if(!empty($v['content']))
+                {
+                    $v['content'] = str_replace("\n", '<br />', $v['content']);
+                }
+
+                // 回复内容
+                if(!empty($v['reply']))
+                {
+                    $v['reply'] = str_replace("\n", '<br />', $v['reply']);
+                }
+
                 // 回复时间
                 if(isset($v['reply_time']))
                 {
@@ -196,8 +208,14 @@ class AnswerService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'content',
-                'error_msg'         => '详细内容有误',
-            ]
+                'error_msg'         => '详细内容不能为空',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'content',
+                'checked_data'      => '1000',
+                'error_msg'         => '详细内容格式 2~1000 个字符',
+            ],
         ];
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
@@ -330,8 +348,8 @@ class AnswerService
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'reply',
-                'checked_data'      => '2,230',
-                'error_msg'         => '回复内容格式 2~230 个字符',
+                'checked_data'      => '2,1000',
+                'error_msg'         => '回复内容格式 2~1000 个字符',
             ],
         ];
         $ret = ParamsChecked($params, $p);

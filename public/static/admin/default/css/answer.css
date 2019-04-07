@@ -23,4 +23,4 @@
 /**
  * 列表
  */
-table.am-table .reply-content { max-width: 200px; }
+table.am-table .reply-content { max-width: 200px; max-height: 200px; overflow-y: scroll; overflow-x: hidden; }

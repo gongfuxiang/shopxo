@@ -33,11 +33,11 @@
             </div>
             <div class="am-form-group">
                 <label>内容<span class="am-form-group-label-tips-must">必填</span></label>
-                <textarea class="am-radius am-validate" name="content" rows="5" minlength="5" maxlength="230" placeholder="5~230个字符之间" data-validation-message="内容格式 5~230 个字符之间" required>{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
+                <textarea class="am-radius am-validate" name="content" rows="5" minlength="5" maxlength="1000" placeholder="5~1000个字符之间" data-validation-message="内容格式 5~1000 个字符之间" required>{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
             </div>
             <div class="am-form-group">
                 <label>回复内容</label>
-                <textarea class="am-radius am-validate" name="reply" rows="5" maxlength="230" placeholder="最多 230 个字符" data-validation-message="内容格式最多 230 个字符">{{if !empty($data['reply'])}}{{$data.reply}}{{/if}}</textarea>
+                <textarea class="am-radius am-validate" name="reply" rows="5" maxlength="1000" placeholder="最多 1000 个字符" data-validation-message="内容格式最多 1000 个字符">{{if !empty($data['reply'])}}{{$data.reply}}{{/if}}</textarea>
             </div>
 
             <div class="am-form-group">

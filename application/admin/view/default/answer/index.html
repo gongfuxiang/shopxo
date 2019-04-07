@@ -97,10 +97,16 @@
 								{{/if}}
 							</td>
 							<td>{{$v.title}}</td>
-							<td class="am-hide-sm-only reply-content">{{$v.content}}</td>
-							<td class="am-hide-sm-only reply-content">
+							<td class="am-hide-sm-only">
+								<div class="reply-content">
+									{{$v.content|raw}}
+								</div>
+							</td>
+							<td class="am-hide-sm-only">
 								{{if !empty($v['reply'])}}
-                                    {{$v.reply}}
+									<div class="reply-content">
+	                                    {{$v.reply|raw}}
+	                                </div>
                                 {{else /}}
                                     <span class="cr-ddd">未回复</span>
                                 {{/if}}
@@ -160,7 +166,7 @@
 												<dd>{{if empty($v['title'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.title}}{{/if}}</dd>
 
 												<dt>内容</dt>
-												<dd>{{$v.content}}</dd>
+												<dd>{{$v.content|raw}}</dd>
 
 												<dt>是否显示</dt>
 												<dd>{{if empty($v['is_show_text'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.is_show_text}}{{/if}}</dd>
@@ -168,7 +174,7 @@
 												<dt>回复内容</dt>
 												<dd>
 													{{if !empty($v['reply'])}}
-			                                            {{$v.reply}}
+			                                            {{$v.reply|raw}}
 			                                        {{else /}}
 			                                            <span class="cr-ddd">未回复</span>
 			                                        {{/if}}

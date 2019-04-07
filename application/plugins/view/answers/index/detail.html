@@ -24,7 +24,7 @@
           {{/if}}
           <p class="gray-text">阅读数：<span class="highlighted">{{$plugins_answers_detail.data.access_count}}</span></p>
         </div>
-        <div class="base-content">{{$plugins_answers_detail.data.content}}</div>
+        <div class="base-content">{{$plugins_answers_detail.data.content|raw}}</div>
         <div class="base-footer gray-text">
           留言时间：{{$plugins_answers_detail.data.add_time_date}}
           {{if !empty($plugins_answers_detail['data']['name'])}}
@@ -36,7 +36,7 @@
           {{if isset($plugins_answers_detail['data']['is_reply']) and $plugins_answers_detail['data']['is_reply'] eq 1}}
             <div class="am-panel-bd">
               <span class="am-badge am-radius am-badge-success">管理员已回答</span>
-              <p class="reply-content">{{$plugins_answers_detail.data.reply}}</p>
+              <p class="reply-content">{{$plugins_answers_detail.data.reply|raw}}</p>
             </div>
             <div class="base-footer gray-text reply-footer">
               回复时间：{{$plugins_answers_detail.data.reply_time_date}}
