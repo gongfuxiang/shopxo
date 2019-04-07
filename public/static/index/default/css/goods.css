@@ -370,7 +370,8 @@ li.am-comment{ width:100%}
     .tb-thumb .tb-selected div { background-color:#FFFFFF; border:medium none; }
     .tb-thumb li div { border:1px solid #CDCDCD; overflow: hidden;}
     div.zoomDiv { z-index:999; position:absolute; top:0px; left:0px; width:400px; height:400px; background:#ffffff; border:1px solid #CCCCCC; display:none; text-align:center; overflow:hidden; }
-    div.zoomMask { position:absolute; background:url(../images/mask.png)repeat scroll 0 0 transparent; cursor:move; z-index:1; }
+    div.zoomDiv img { min-width: 1000px; }
+    div.zoomMask { position:absolute; background:url(../images/mask.png)repeat scroll 0 0 rgba(210, 54, 76, 0.42); cursor:move; z-index:1; }
            
      /*价格*/ 
     .tb-detail-hd h1 {font-size:18px;}
