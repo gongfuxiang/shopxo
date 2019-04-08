@@ -390,11 +390,24 @@ class UserService
         $data = Db::name('UserAddress')->where($where)->field($field)->order('id desc')->select();
         if(!empty($data))
         {
+            $is_default = false;
             foreach($data as &$v)
             {
                 $v['province_name'] = RegionService::RegionName($v['province']);
                 $v['city_name'] = RegionService::RegionName($v['city']);
                 $v['county_name'] = RegionService::RegionName($v['county']);
+
+                // 是否有默认地址
+                if($is_default === false && $v['is_default'] == 1)
+                {
+                    $is_default = true;
+                }
+            }
+
+            // 没有默认地址将第一个设置为默认地址
+            if($is_default === false)
+            {
+                $data[0]['is_default'] = true;
             }
         }
         return DataReturn('操作成功', 0, $data);
@@ -472,6 +485,14 @@ class UserService
         if(!empty($ret['data'][0]))
         {
             $ret['data'] = $ret['data'][0];
+        } else {
+            // 没有默认地址则读取第一条作为默认地址
+            unset($params['where']);
+            $ret = self::UserAddressList($params);
+            if(!empty($ret['data'][0]))
+            {
+                $ret['data'] = $ret['data'][0];
+            }
         }
         return $ret;
     }
