@@ -183,6 +183,10 @@ class Weixin
 
             // h5支付
             case 'MWEB' :
+                if(!empty($params['order_id']))
+                {
+                    $data['mweb_url'] .= '&redirect_url='.urlencode(MyUrl('index/order/detail', ['id'=>$params['order_id']]));
+                }
                 $result = DataReturn('success', 0, $data['mweb_url']);
                 break;
 

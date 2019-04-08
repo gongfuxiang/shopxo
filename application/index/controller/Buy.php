@@ -63,7 +63,8 @@ class Buy extends Common
             if(isset($ret['code']) && $ret['code'] == 0)
             {
                 // 用户地址
-                $this->assign('user_address_list', UserService::UserAddressList(['user'=>$this->user])['data']);
+                $address = UserService::UserAddressList(['user'=>$this->user]);
+                $this->assign('user_address_list', $address['data']);
 
                 // 支付方式
                 $this->assign('payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));

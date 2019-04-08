@@ -109,6 +109,7 @@ class OrderService
         $pay_data = array(
             'user'          => $params['user'],
             'out_user'      => md5($params['user']['id']),
+            'order_id'      => $order['id'],
             'order_no'      => $order['order_no'],
             'name'          => '订单支付',
             'total_price'   => $order['total_price'],
