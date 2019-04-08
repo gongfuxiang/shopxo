@@ -16,16 +16,17 @@
         {{include file="lib/region_linkage" /}}
         <div class="am-form-group">
             <label>详细地址</label>
-            <div class="am-form-group am-input-group am-input-group-sm">
+            <input type="text" name="address" id="form-address" placeholder="详细地址" minlength="2" maxlength="80" data-validation-message="详细地址格式 1~80 个字符之间" class="am-radius" {{if !empty($data)}} value="{{$data.address}}"{{/if}} required />
+            <!-- <div class="am-form-group am-input-group am-input-group-sm">
                 <input type="hidden" name="lng" id="form-lng" {{if !empty($data)}} value="{{$data.lng}}"{{/if}} />
                 <input type="hidden" name="lat" id="form-lat" {{if !empty($data)}} value="{{$data.lat}}"{{/if}} />
                 <input type="text" name="address" id="form-address" placeholder="详细地址" minlength="2" maxlength="80" data-validation-message="详细地址格式 1~80 个字符之间" class="am-radius" {{if !empty($data)}} value="{{$data.address}}"{{/if}} required />
                 <span class="am-input-group-btn">
                     <button class="am-btn am-btn-default am-radius" type="button" id="map-location-submit"><span class="am-icon-map-marker"></span> 定位</button>
                 </span>
-            </div>
+            </div> -->
         </div>
-        <div id="map" data-level="17" class="am-form-group"></div>
+        <!-- <div id="map" data-level="17" class="am-form-group"></div> -->
 
         <div class="am-form-group">
             <label>别名</label>
@@ -51,17 +52,17 @@
 <!-- footer end -->
 
 <!-- map -->
-<script type="text/javascript" src="{{$Think.__MY_HTTP__}}://api.map.baidu.com/api?v=2.0&ak={{:MyC('common_baidu_map_ak')}}"></script>
+<!-- <script type="text/javascript" src="{{$Think.__MY_HTTP__}}://api.map.baidu.com/api?v=2.0&ak={{:MyC('common_baidu_map_ak')}}"></script> -->
 <script type="text/javascript">
 $(function()
 {
-    // 百度地图API功能
+    /*// 百度地图API功能
     var map = new BMap.Map("map", {enableMapClick:false});
     var level = $('#map').data('level') || 16;
     var point = new BMap.Point({{if !empty($data['lng'])}}{{$data['lng']}}{{else /}}116.400244{{/if}},{{if !empty($data['lat'])}}{{$data['lat']}}{{else /}}39.92556{{/if}});
     map.centerAndZoom(point, level);
 
-    /* 添加控件 */
+    // 添加控件
     var navigationControl = new BMap.NavigationControl({
         // 靠左上角位置
         anchor: BMAP_ANCHOR_TOP_LEFT,
@@ -70,7 +71,7 @@ $(function()
     });
     map.addControl(navigationControl);
 
-    /* 创建标注 */
+    // 创建标注
     var marker = new BMap.Marker(point);  // 创建标注
     map.addOverlay(marker);              // 将标注添加到地图中
     marker.enableDragging();           // 可拖拽
@@ -80,11 +81,11 @@ $(function()
         $('#form-lat').val(e.point.lat);
     });
 
-    /* 设置版权控件位置 */
+    // 设置版权控件位置
     var cr = new BMap.CopyrightControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT});
     map.addControl(cr); //添加版权控件
     var bs = map.getBounds();   //返回地图可视区域
-    cr.addCopyright({id: 1, content: "<div class='map-copy'><span>拖动红色图标直接定位</span></div>", bounds:bs});
+    cr.addCopyright({id: 1, content: "<div class='map-copy'><span>拖动红色图标直接定位</span></div>", bounds:bs});*/
 });
 
 // 返回处理

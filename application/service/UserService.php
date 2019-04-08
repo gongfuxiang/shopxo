@@ -404,8 +404,9 @@ class UserService
                 }
             }
 
-            // 没有默认地址将第一个设置为默认地址
-            if($is_default === false)
+            // 是否处理默认地址,没有默认地址将第一个设置为默认地址
+            $is_default_handle = isset($params['is_default_handle']) ? intval($params['is_default_handle']) : 1;
+            if($is_default === false && $is_default_handle == 1)
             {
                 $data[0]['is_default'] = true;
             }
@@ -446,6 +447,7 @@ class UserService
         $params['where'] = [
             'id'    => intval($params['id']),
         ];
+        $params['is_default_handle'] = 0;
         $ret = self::UserAddressList($params);
         if(!empty($ret['data'][0]))
         {
