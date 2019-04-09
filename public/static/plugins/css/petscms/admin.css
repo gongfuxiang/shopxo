@@ -1,0 +1,39 @@
+/**
+ * 首页
+ */
+.petscms-content .index-list li {
+    padding: 10px;
+}
+.petscms-content .index-list li a {
+    background: #eee;
+    display: block;
+    padding: 20px 10px 10px 10px;
+    color: #666;
+    text-align: center;
+    min-height: 100px;
+}
+.petscms-content .index-list li a .title {
+    font-size: 20px;
+}
+.petscms-content .index-list li a .desc {
+    color: #999;
+}
+.petscms-content .edit-submit {
+    margin-bottom: 20px;
+}
+
+/**
+ * 编辑页面
+ */
+ul.plugins-images-view li {
+    width: 100%;
+    height: auto;
+}
+.form-date input {
+    width: 30% !important;
+    display: -webkit-inline-box !important;
+}
+
+.form-date span {
+    vertical-align: middle;
+}
