@@ -12,6 +12,40 @@
 // 应用公共文件
 
 /**
+ * 获取当前系统所在根路径
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-04-09
+ * @desc    description
+ */
+function GetDocumentRoot()
+{
+    // 当前所在的文档根目录
+    if(!empty($_SERVER['DOCUMENT_ROOT']))
+    {
+        return $_SERVER['DOCUMENT_ROOT'];
+    }
+
+    // 处理iis服务器DOCUMENT_ROOT路径为空
+    if(!empty($_SERVER['PHP_SELF']))
+    {
+        // 当前执行程序的绝对路径及文件名
+        if(!empty($_SERVER['SCRIPT_FILENAME']))
+        {
+            return str_replace('\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0 -strlen($_SERVER['PHP_SELF'])));
+        }
+
+        // 当前所在绝对路径
+        if(!empty($_SERVER['PATH_TRANSLATED']))
+        {
+            return str_replace('\\', '/', substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0 -strlen($_SERVER['PHP_SELF'])));
+        }
+    }
+    return '';
+}
+
+/**
  * 生成随机字符串
  * @author   Devil
  * @blog    http://gong.gg/

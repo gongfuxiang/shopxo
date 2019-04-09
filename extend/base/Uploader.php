@@ -453,7 +453,7 @@ class Uploader
     private function getFilePath()
     {
         $fullname = $this->fullName;
-        $rootPath = $_SERVER['DOCUMENT_ROOT'];
+        $rootPath = GetDocumentRoot();
 
         if (substr($fullname, 0, 1) != '/') {
             $fullname = '/' . $fullname;

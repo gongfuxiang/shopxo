@@ -275,7 +275,7 @@ class Ueditor extends Common
 		$end = $start + $size;
 
 		/* 获取文件列表 */
-		$path = $_SERVER['DOCUMENT_ROOT'] . (substr($path, 0, 1) == "/" ? "":"/") . $path;
+		$path = GetDocumentRoot() . (substr($path, 0, 1) == "/" ? "":"/") . $path;
 		$files = $this->GetFilesList($path, $allow_files);
 
 		// 倒序
@@ -359,6 +359,7 @@ class Ueditor extends Common
 		if(!is_dir($path)) return null;
 		if(substr($path, strlen($path) - 1) != '/') $path .= '/';
 		$handle = opendir($path);
+		$document_root = GetDocumentRoot();
 		while(false !== ($file = readdir($handle)))
 		{
 			if($file != '.' && $file != '..')
@@ -371,7 +372,7 @@ class Ueditor extends Common
 					if(preg_match("/\.(".$allow_files.")$/i", $file))
 					{
 						$files[] = array(
-								'url'=> substr($path2, strlen($_SERVER['DOCUMENT_ROOT'])),
+								'url'=> substr($path2, strlen($document_root)),
 								'mtime'=> filemtime($path2)
 							);
 					}
