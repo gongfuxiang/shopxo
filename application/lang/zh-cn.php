@@ -23,6 +23,7 @@ return array(
             '1.2.0' => array('value' => '1.2.0', 'name' => 'v1.2.0'),
             '1.3.0' => array('value' => '1.3.0', 'name' => 'v1.3.0'),
             '1.4.0' => array('value' => '1.4.0', 'name' => 'v1.4.0'),
+            '1.5.0' => array('value' => '1.5.0', 'name' => 'v1.5.0'),
         ),
     
     // 性别

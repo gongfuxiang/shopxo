@@ -36,7 +36,6 @@ class NavigationService
         // 读取缓存数据
         $header = cache(config('shopxo.cache_common_home_nav_header_key'));
         $footer = cache(config('shopxo.cache_common_home_nav_footer_key'));
-        $header = [];
 
         // 导航模型
         $field = array('id', 'pid', 'name', 'url', 'value', 'data_type', 'is_new_window_open');
@@ -67,7 +66,7 @@ class NavigationService
         // 底部导航
         if(empty($footer))
         {
-            $footer = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'footer', 'is_show'=>1))->order('sort')->select());
+            $footer = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'footer', 'is_show'=>1, 'pid'=>0))->order('sort')->select());
             if(!empty($footer))
             {
                 foreach($footer as &$v)

@@ -54,7 +54,7 @@ class ConfigService
         }
 
         // 附件
-        $data_fields = ['home_site_logo', 'home_site_logo_wap', 'home_site_desktop_icon'];
+        $data_fields = ['home_site_logo', 'home_site_logo_wap', 'home_site_desktop_icon', 'common_customer_store_qrcode'];
 
         // 当前参数中不存在则移除
         foreach($data_fields as $key=>$field)

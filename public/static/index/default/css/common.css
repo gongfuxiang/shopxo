@@ -105,13 +105,6 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px; position: a
 .header-top { background-color: #fafafa; border-bottom: solid 1px #f0f0f0; }
 .header{ display:none; max-width:1000px; margin:0px auto; font-size:12px;position: relative; }  
 
-.am-footer { border-top: 2px solid #d2364c; }
-.footer-bd{ display:none}
-.footer{ text-align: center;border-top: 2px solid #F8F8F8 margin-top:20px; padding-top: 5px;margin-bottom:60px ;}
-.footer-hd{ display: block;}
-.tip{ display:none}
-
-
 .mobile-navigation{position: fixed;bottom:0px ;width: 100%;z-index: 999;background:#fff ;}
 .mobile-navigation li{width: 25%;padding:2px ;background:#fff ;border-top:1px solid #f5f5f5 ;float: left;text-align: center;font-size: 12px; position: relative; }
 .mobile-navigation li a { text-decoration: none; }
@@ -141,13 +134,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px; position: a
      #ai-topsearch{ font-size:14px;height: 36px;line-height: 22px; font-weight: 500; width: 20%; }
      /*底部*/
     .am-footer {text-align:center; display:block;position: relative;margin: 0px auto; padding: 7px 0px 9px; margin-top:20px;}
-    .am-footer .footer-bd p, .footer .footer-hd p {margin-bottom: 8px;line-height: 27px;border-bottom: 1px solid #DDD; text-align:left;}
-    .am-footer .footer-hd a { margin: 0px 4px;white-space: nowrap;color: #6C6C6C;}
-    .am-footer .footer-hd b { margin: 0px 3px;font-weight: 400;color: #DDD;}
-    .am-footer .footer-bd p{ border-bottom:none;}
-    .footer-bd{ display:block;}
-    .bloglist{ margin-top:0px;}
-    .shopMain {margin:0px 5px;}
+
     /*选项卡样式*/
     .am-nav-tabs > li span{font-size:16px;}
 }
@@ -437,17 +424,81 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
 /**
  * 底部
  */
-.am-footer, .am-footer-miscs {
-    font-size: 12px !important;
+.am-footer-default {
+    border-top: 2px solid #d2364c;
+    background: #f3f3f3;
 }
 .am-footer-default a {
-    color: #333;
+    font-size: 12px;
 }
-.am-footer-default .am-footer-divider {
+.am-footer-default .am-container {
+
+}
+.footer-nav-list {
+    overflow: hidden;
+}
+.footer-nav-list li {
+    width: 25%;
+    text-align: left;
     padding: 0 5px;
 }
-.am-footer-default .am-footer-miscs a {
-    color: #8e8e8e;
+.footer-nav-list li .footer-nav-title {
+    font-weight: 500;
+    font-size: 14px;
+    color: #333;
+}
+.footer-nav-list li p {
+    line-height: 26px;
+}
+.footer-nav-list li p a {
+    color: #333;
+}
+.footer-nav-list li p a:hover {
+    color: #d2364c;
+    text-decoration: underline;
+}
+.am-footer-miscs {
+    padding: 10px 0 5px 0;
+    margin-top: 10px;
+}
+.footer-about li {
+    text-align: left;
+}
+.footer-about li span, .footer-about li a {
+    font-size: 14px;
+}
+.footer-about li.tel a {
+    color: #ff6700;
+}
+.footer-about li.qrcode {
+    margin-top: 5px;
+}
+.footer-about li.qrcode img {
+    max-width: 130px;
+}
+.footer-about li i {
+    color: #888;
+    width: 20px;
+    text-align: center;
+}
+.am-footer-miscs .am-container {
+    border-top: 1px solid #ebebeb;
+    padding-top: 10px;
+}
+@media only screen and (max-width:1025px) {
+    .am-footer-default  .am-container {
+        padding: 0 5px;
+    }
+}
+@media only screen and (max-width:640px) {
+    .footer-nav-list li {
+        
+    }
+    .footer-about {
+        border-top: 1px solid #ebebeb;
+        padding-top: 10px;
+        margin-top: 10px;
+    }
 }
 
 /**
@@ -459,13 +510,14 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
 }
 .friendship-list h2 {
     border-bottom: 1px solid #e3e0e0;
-    line-height: 26px;
+    line-height: 30px;
     color: #333;
     font-weight: 500;
     font-size: 14px;
 }
 .friendship-list ul {
     overflow: hidden;
+    padding: 5px 0;
 }
 .friendship-list ul li {
     float: left;

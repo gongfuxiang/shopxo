@@ -198,6 +198,12 @@ class Common extends Controller
      */
     public function ViewInit()
     {
+        // 商店信息
+        $this->assign('common_customer_store_tel', MyC('common_customer_store_tel'));
+        $this->assign('common_customer_store_email', MyC('common_customer_store_email'));
+        $this->assign('common_customer_store_address', MyC('common_customer_store_address'));
+        $this->assign('common_customer_store_qrcode', MyC('common_customer_store_qrcode'));
+        
         // 主题
         $default_theme = strtolower(MyC('common_default_theme', 'default', true));
         $this->assign('default_theme', $default_theme);

@@ -41,7 +41,7 @@ class Config extends Common
 	}
 
 	/**
-     * [Index 配置列表]
+     * 后台配置
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -68,7 +68,22 @@ class Config extends Common
 	}
 
 	/**
-	 * [Save 配置数据保存]
+     * 商店信息
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     */
+	public function Store()
+	{
+		// 配置信息
+		$this->assign('data', ConfigService::ConfigList());
+		
+		return $this->fetch();
+	}
+
+	/**
+	 * 配置数据保存
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -76,6 +91,14 @@ class Config extends Common
 	 */
 	public function Save()
 	{
+		// 数据处理
+		// 商店二维码
+		if(!isset($_POST['common_customer_store_qrcode']))
+		{
+			$_POST['common_customer_store_qrcode'] = '';
+		}
+		
+		// 保存
 		return ConfigService::ConfigSave($_POST);
 	}
 }

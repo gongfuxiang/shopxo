@@ -11,12 +11,11 @@
 			</div>
 			<div class="am-form-group">
 				<label class="block">{{$data.home_site_logo.name}}<span class="am-form-group-label-tips">{{$data.home_site_logo.describe}}</span></label>
-				<ul class="plug-file-upload-view home_site_logo-images-view" data-form-name="home_site_logo" data-max-number="1" data-dialog-type="images">
-					{{if !empty($data)}}
+				<ul class="plug-file-upload-view home_site_logo-images-view" data-form-name="home_site_logo" data-max-number="1" data-delete="0" data-dialog-type="images">
+					{{if !empty($data['home_site_logo']['value'])}}
 						<li>
 							<input type="text" name="home_site_logo" value="{{$data.home_site_logo.value}}" />
 							<img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_logo.value}}" />
-							<i>×</i>
 						</li>
 					{{/if}}
 				</ul>
@@ -25,12 +24,11 @@
 
 			<div class="am-form-group">
 				<label class="block">{{$data.home_site_logo_wap.name}}<span class="am-form-group-label-tips">{{$data.home_site_logo_wap.describe}}</span></label>
-				<ul class="plug-file-upload-view home_site_logo_wap-images-view" data-form-name="home_site_logo_wap" data-max-number="1" data-dialog-type="images">
-					{{if !empty($data)}}
+				<ul class="plug-file-upload-view home_site_logo_wap-images-view" data-form-name="home_site_logo_wap" data-max-number="1" data-delete="0" data-dialog-type="images">
+					{{if !empty($data['home_site_logo_wap']['value'])}}
 						<li>
 							<input type="text" name="home_site_logo_wap" value="{{$data.home_site_logo_wap.value}}" />
 							<img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_logo_wap.value}}" />
-							<i>×</i>
 						</li>
 					{{/if}}
 				</ul>
@@ -39,12 +37,11 @@
 
 			<div class="am-form-group">
 				<label class="block">{{$data.home_site_desktop_icon.name}}<span class="am-form-group-label-tips">{{$data.home_site_desktop_icon.describe}}</span></label>
-				<ul class="plug-file-upload-view home_site_desktop_icon-images-view" data-form-name="home_site_desktop_icon" data-max-number="1" data-dialog-type="images">
-					{{if !empty($data)}}
+				<ul class="plug-file-upload-view home_site_desktop_icon-images-view" data-form-name="home_site_desktop_icon" data-max-number="1" data-delete="0" data-dialog-type="images">
+					{{if !empty($data['home_site_desktop_icon']['value'])}}
 						<li>
 							<input type="text" name="home_site_desktop_icon" value="{{$data.home_site_desktop_icon.value}}" />
 							<img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_desktop_icon.value}}" />
-							<i>×</i>
 						</li>
 					{{/if}}
 				</ul>
