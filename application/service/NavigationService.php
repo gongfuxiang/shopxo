@@ -682,12 +682,20 @@ class NavigationService
      */
     public static function UsersCenterLeftList($params = [])
     {
+        // name        名称
+        // url         页面地址
+        // is_show     是否显示（0否, 1是）
+        // contains    包含的子页面（包括自身）
+        // icon        icon类
+        // item        二级数据
+
+        // 菜单列表
         $data = [
             [
-                'control'   =>  'user',
-                'action'    =>  'index',
                 'name'      =>  '个人中心',
+                'url'       =>  MyUrl('index/user/index'),
                 'is_show'   =>  1,
+                'contains'  =>  ['userindex'],
                 'icon'      =>  'am-icon-home',
             ],
             [
@@ -696,16 +704,16 @@ class NavigationService
                 'icon'      =>  'am-icon-cube',
                 'item'      =>  [
                     [
-                        'control'   =>  'order',
-                        'action'    =>  'index',
                         'name'      =>  '订单管理',
+                        'url'       =>  MyUrl('index/order/index'),
                         'is_show'   =>  1,
+                        'contains'  =>  ['orderindex', 'orderdetail', 'ordercomments'],
                         'icon'      =>  'am-icon-th-list',
                     ],
                     [
-                        'control'   =>  'userfavor',
-                        'action'    =>  'goods',
                         'name'      =>  '我的收藏',
+                        'url'       =>  MyUrl('index/userfavor/goods'),
+                        'contains'  =>  ['userfavorgoods'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-heart-o',
                     ],
@@ -717,62 +725,62 @@ class NavigationService
                 'icon'      =>  'am-icon-user',
                 'item'      =>  [
                     [
-                        'control'   =>  'personal',
-                        'action'    =>  'index',
                         'name'      =>  '个人资料',
+                        'url'       =>  MyUrl('index/personal/index'),
+                        'contains'  =>  ['personalindex', 'personalsaveinfo'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-gear',
                     ],
                     [
-                        'control'   =>  'useraddress',
-                        'action'    =>  'index',
                         'name'      =>  '我的地址',
+                        'url'       =>  MyUrl('index/useraddress/index'),
+                        'contains'  =>  ['useraddressindex', 'useraddresssaveinfo'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-street-view',
                     ],
                     [
-                        'control'   =>  'safety',
-                        'action'    =>  'index',
                         'name'      =>  '安全设置',
+                        'url'       =>  MyUrl('index/safety/index'),
+                        'contains'  =>  ['safetyindex', 'safetyloginpwdinfo', 'safetymobileinfo', 'safetynewmobileinfo', 'safetyemailinfo', 'safetynewemailinfo'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-user-secret',
                     ],
                     [
-                        'control'   =>  'message',
-                        'action'    =>  'index',
                         'name'      =>  '我的消息',
+                        'url'       =>  MyUrl('index/message/index'),
+                        'contains'  =>  ['messageindex'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-bell-o',
                     ],
                     [
-                        'control'   =>  'userintegral',
-                        'action'    =>  'index',
                         'name'      =>  '我的积分',
+                        'url'       =>  MyUrl('index/userintegral/index'),
+                        'contains'  =>  ['userintegralindex'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-fire',
                     ],
                     [
-                        'control'   =>  'usergoodsbrowse',
-                        'action'    =>  'index',
                         'name'      =>  '我的足迹',
+                        'url'       =>  MyUrl('index/usergoodsbrowse/index'),
+                        'contains'  =>  ['usergoodsbrowseindex'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-lastfm',
                     ],
                     [
-                        'control'   =>  'answer',
-                        'action'    =>  'index',
                         'name'      =>  '问答/留言',
+                        'url'       =>  MyUrl('index/answer/index'),
+                        'contains'  =>  ['answerindex'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-question',
                     ],
-                    [
-                        'control'   =>  'user',
-                        'action'    =>  'logout',
-                        'name'      =>  '安全退出',
-                        'is_show'   =>  1,
-                        'icon'      =>  'am-icon-power-off',
-                    ],
                 ]
+            ],
+            [
+                'name'      =>  '安全退出',
+                'url'       =>  MyUrl('index/user/logout'),
+                'contains'  =>  ['userlogout'],
+                'is_show'   =>  1,
+                'icon'      =>  'am-icon-power-off',
             ],
         ];
 

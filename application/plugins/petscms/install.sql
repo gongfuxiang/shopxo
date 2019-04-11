@@ -1,0 +1,21 @@
+CREATE TABLE `s_plugins_petscms_pets` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `title` char(60) NOT NULL DEFAULT '' COMMENT '标题',
+  `name` char(30) NOT NULL DEFAULT '' COMMENT '名字',
+  `birthday` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '出生日期',
+  `type` char(60) NOT NULL DEFAULT '' COMMENT '类型',
+  `varieties` char(60) NOT NULL DEFAULT '' COMMENT '品种',
+  `gender` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '性别（0公, 1母）',
+  `sterilization` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '是否绝育（0否, 1是）',
+  `vaccine` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '是否疫苗（0否, 1是）',
+  `photo` mediumtext NOT NULL COMMENT '相册（json数据）',
+  `content` mediumtext NOT NULL COMMENT '宠物简介',
+  `person_name` char(30) NOT NULL DEFAULT '' COMMENT '主人姓名',
+  `person_tel` char(30) NOT NULL DEFAULT '' COMMENT '主人电话',
+  `person_weixin` char(30) NOT NULL DEFAULT '' COMMENT '主人微信',
+  `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
+  `upd_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `type` (`type`),
+  KEY `gender` (`gender`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='宠物管理系统宠物 - 应用';

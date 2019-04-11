@@ -17,6 +17,8 @@
         "is_home":false
     },
     "hook":{
-        
+        "plugins_service_users_center_left_menu_handle":[
+            "app\\plugins\\petscms\\Hook"
+        ]
     }
 }

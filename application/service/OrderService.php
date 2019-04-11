@@ -375,6 +375,19 @@ class OrderService
             return DataReturn('支付方式有误', -1);
         }
 
+        // 订单支付成功处理前钩子
+        $hook_name = 'plugins_service_order_pay_handle_begin';
+        $ret = Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'order_id'      => $params['order']['id']
+        ]);
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 支付参数
         $pay_price = isset($params['pay']['pay_price']) ? $params['pay']['pay_price'] : 0;
 
@@ -426,6 +439,16 @@ class OrderService
 
                 // 提交事务
                 Db::commit();
+
+                // 订单支付成功处理完毕钩子
+                $hook_name = 'plugins_service_order_pay_success_handle_end';
+                $ret = Hook::listen($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => $params,
+                    'order_id'      => $params['order']['id']
+                ]);
+
                 return DataReturn('支付成功', 0);
             }
         }
@@ -764,7 +787,22 @@ class OrderService
             'creator_name'      => htmlentities($creator_name),
             'add_time'          => time(),
         ];
-        return Db::name('OrderStatusHistory')->insertGetId($data) > 0;
+
+        // 日志添加
+        if(Db::name('OrderStatusHistory')->insertGetId($data) > 0)
+        {
+            // 订单状态改变添加日志钩子
+            $hook_name = 'plugins_service_order_status_change_history_success_handle';
+            $ret = Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'data'          => $data,
+                'order_id'      => $data['order_id']
+            ]);
+
+            return true;
+        }
+        return false;
     }
 
     /**

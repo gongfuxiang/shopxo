@@ -24,7 +24,20 @@ use app\service\PluginsService;
 class Pets extends Controller
 {
     /**
-     * 订单查询入口
+     * 构造方法
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-15
+     * @desc    description
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * 我的宠物
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -33,7 +46,42 @@ class Pets extends Controller
      */
     public function index($params = [])
     {
+        $this->assign('pets_attribute_is_text_list', Service::$pets_attribute_is_text_list);
+        $this->assign('pets_attribute_gender_list', Service::$pets_attribute_gender_list);
+        $this->assign('pets_attribute_type_list', Service::$pets_attribute_type_list);
         return $this->fetch('../../../plugins/view/petscms/pets/index');
+    }
+
+    /**
+     * 宠物添加/编辑页面
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-03-15T23:51:50+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public function saveinfo($params = [])
+    {
+        $this->assign('data', []);
+        $this->assign('pets_attribute_is_text_list', Service::$pets_attribute_is_text_list);
+        $this->assign('pets_attribute_gender_list', Service::$pets_attribute_gender_list);
+        $this->assign('pets_attribute_type_list', Service::$pets_attribute_type_list);
+        return $this->fetch('../../../plugins/view/petscms/pets/saveinfo');
+    }
+
+    /**
+     * 宠物添加/编辑
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-03-15T23:51:50+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public function save($params = [])
+    {
+        $ret = Service::PestSave($params);
+        print_r($ret);
+        die;
     }
 }
 ?>

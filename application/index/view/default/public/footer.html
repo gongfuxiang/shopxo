@@ -1,3 +1,6 @@
+<!-- commom html -->
+<textarea id="upload-editor-view" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>empty($editor_path_type) ? 'common' : $editor_path_type])}}" style="display: none;"></textarea>
+
 <!-- footer start -->
 {{if !isset($is_footer) or $is_footer eq 1}}
 	{{include file="public/footer_nav" /}}
@@ -49,6 +52,21 @@
 
 <!-- 日期组件 -->
 <script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/My97DatePicker/WdatePicker.js"></script>
+
+<!-- 隐藏编辑器初始化 -->
+<script type="text/javascript">
+    var upload_editor = UE.getEditor("upload-editor-view", {
+        isShow: false,
+        focus: false,
+        enableAutoSave: false,
+        autoSyncData: false,
+        autoFloatEnabled:false,
+        wordCount: false,
+        sourceEditor: null,
+        scaleEnabled:true,
+        toolbars: [["insertimage", "insertvideo", "attachment"]]
+    });
+</script>
 
 <!-- 项目公共 -->
 <script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/js/common.js?v={{:MyC('home_static_cache_version')}}"></script>

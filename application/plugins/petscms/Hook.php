@@ -32,75 +32,48 @@ class Hook extends Controller
      */
     public function run($params = [])
     {
-        // 是否后端钩子
-        if(isset($params['is_backend']) && $params['is_backend'] === true && !empty($params['hook_name']))
+        if(!empty($params['hook_name']))
         {
-            return DataReturn('无需处理', 0);
+            switch($params['hook_name'])
+            {
+                // 用户中心左侧导航
+                case 'plugins_service_users_center_left_menu_handle' :
+                    $ret = $this->UserCenterLeftMenuHandle($params);
+                    break;
 
-        // 默认返回视图
-        } else {
-            return $this->html($params);
+                default :
+                    $ret = '';
+            }
+            return $ret;
         }
     }
 
     /**
-     * 视图
+     * 用户中心左侧菜单处理
      * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-02-06T16:16:34+0800
-     * @param    [array]          $params [输入参数]
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-04-11
+     * @desc    description
+     * @param   array           $params [description]
      */
-    public function html($params = [])
+    public function UserCenterLeftMenuHandle($params = [])
     {
-        // 当前模块/控制器/方法
-        $module_name = strtolower(request()->module());
-        $controller_name = strtolower(request()->controller());
-        $action_name = strtolower(request()->action());
-
-        // 获取应用数据
-        $ret = PluginsService::PluginsData('petscms');
-        if($ret['code'] == 0)
-        {
-            // 内容是否为空
-            if(empty($ret['data']['content']))
-            {
-                return '';
-            }
-            
-            // 有效时间
-            if(!empty($ret['data']['time_start']))
-            {
-                // 是否已开始
-                if(strtotime($ret['data']['time_start']) > time())
-                {
-                    return '';
-                }
-            }
-            if(!empty($ret['data']['time_end']))
-            {
-                // 是否已结束
-                if(strtotime($ret['data']['time_end']) < time())
-                {
-                    return '';
-                }
-            }
-
-            // 非全局
-            if($ret['data']['is_overall'] != 1)
-            {
-                // 非首页则空
-                if($module_name.$controller_name.$action_name != 'indexindexindex')
-                {
-                    return '';
-                }
-            }
-
-            $this->assign('data', $ret['data']);
-            return $this->fetch('../../../plugins/view/petscms/index/content');
-        } else {
-            return $ret['msg'];
-        }
+        $menu = [[
+            'name'      =>  '宠物管理',
+            'is_show'   =>  1,
+            'icon'      =>  'am-icon-drupal',
+            'item'      =>  [
+                [
+                    'name'      =>  '我的宠物',
+                    'url'       =>  PluginsHomeUrl('petscms', 'pets', 'index'),
+                    'contains'  =>  ['petsindex', 'petssaveinfo'],
+                    'is_show'   =>  1,
+                    'icon'      =>  'am-icon-github-alt',
+                ],
+            ]
+        ]];
+        array_splice($params['data'], 2, 0, $menu);
     }
 }
 ?>

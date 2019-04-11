@@ -117,5 +117,9 @@ return array (
     0 => 'app\\plugins\\freightfee\\Hook',
     1 => 'app\\plugins\\newuserreduction\\Hook',
   ),
+  'plugins_service_users_center_left_menu_handle' => 
+  array (
+    0 => 'app\\plugins\\petscms\\Hook',
+  ),
 );
 ?>
