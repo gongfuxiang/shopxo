@@ -1049,7 +1049,7 @@ class GoodsService
         }
 
         // 编辑器内容
-        $content_web = isset($_POST['content_web']) ? $_POST['content_web'] : '';
+        $content_web = empty($params['content_web']) ? '' : ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['content_web']), 'add');
 
         // 基础数据
         $data = [
@@ -1063,7 +1063,7 @@ class GoodsService
             'buy_max_number'            => isset($params['buy_max_number']) ? intval($params['buy_max_number']) : 0,
             'is_deduction_inventory'    => isset($params['is_deduction_inventory']) ? intval($params['is_deduction_inventory']) : 0,
             'is_shelves'                => isset($params['is_shelves']) ? intval($params['is_shelves']) : 0,
-            'content_web'               => ResourcesService::ContentStaticReplace($content_web, 'add'),
+            'content_web'               => $content_web,
             'images'                    => isset($photo['data'][0]) ? $photo['data'][0] : '',
             'photo_count'               => count($photo['data']),
             'is_home_recommended'       => isset($params['is_home_recommended']) ? intval($params['is_home_recommended']) : 0,

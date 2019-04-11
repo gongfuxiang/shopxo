@@ -191,14 +191,13 @@ class CustomViewService
         }
 
         // 编辑器内容
-        $content = isset($_POST['content']) ? $_POST['content'] : '';
+        $content = isset($params['content']) ? htmlspecialchars_decode($params['content']) : '';
 
         // 数据
-        $content = ResourcesService::ContentStaticReplace($content, 'add');
         $image = self::MatchContentImage($content);
         $data = [
             'title'         => $params['title'],
-            'content'       => $content,
+            'content'       => ResourcesService::ContentStaticReplace($content, 'add'),
             'image'         => empty($image) ? '' : json_encode($image),
             'image_count'   => count($image),
             'is_enable'     => isset($params['is_enable']) ? intval($params['is_enable']) : 0,

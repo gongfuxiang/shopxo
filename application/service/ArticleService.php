@@ -185,17 +185,16 @@ class ArticleService
         }
 
         // 编辑器内容
-        $content = isset($_POST['content']) ? $_POST['content'] : '';
+        $content = isset($params['content']) ? htmlspecialchars_decode($params['content']) : '';
 
         // 数据
-        $content = ResourcesService::ContentStaticReplace($content, 'add');
         $image = self::MatchContentImage($content);
         $data = [
             'title'                 => $params['title'],
             'title_color'           => empty($params['title_color']) ? '' : $params['title_color'],
             'article_category_id'   => intval($params['article_category_id']),
             'jump_url'              => empty($params['jump_url']) ? '' : $params['jump_url'],
-            'content'               => $content,
+            'content'               => ResourcesService::ContentStaticReplace($content, 'add'),
             'image'                 => empty($image) ? '' : json_encode($image),
             'image_count'           => count($image),
             'is_enable'             => isset($params['is_enable']) ? intval($params['is_enable']) : 0,

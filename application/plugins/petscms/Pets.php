@@ -13,6 +13,7 @@ namespace app\plugins\petscms;
 use think\Controller;
 use app\plugins\petscms\Service;
 use app\service\PluginsService;
+use app\service\UserService;
 
 /**
  * 宠物管理系统 - 用户宠物管理
@@ -23,6 +24,8 @@ use app\service\PluginsService;
  */
 class Pets extends Controller
 {
+    private $user;
+
     /**
      * 构造方法
      * @author   Devil
@@ -34,6 +37,8 @@ class Pets extends Controller
     public function __construct()
     {
         parent::__construct();
+
+        $this->user = UserService::LoginUserInfo();
     }
 
     /**
@@ -46,6 +51,40 @@ class Pets extends Controller
      */
     public function index($params = [])
     {
+        // 参数
+        $params = input();
+        $params['user'] = $this->user;
+
+        // 分页
+        $number = 10;
+
+        // 条件
+        $where = Service::PetsListWhere($params);
+
+        // 获取总数
+        $total = Service::PetsTotal($where);
+
+        // 分页
+        $page_params = array(
+                'number'    =>  $number,
+                'total'     =>  $total,
+                'where'     =>  $params,
+                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
+                'url'       =>  PluginsHomeUrl('petscms', 'pets', 'index'),
+            );
+        $page = new \base\Page($page_params);
+        $this->assign('page_html', $page->GetPageHtml());
+
+        // 获取列表
+        $data_params = array(
+            'm'         => $page->GetPageStarNumber(),
+            'n'         => $number,
+            'where'     => $where,
+        );
+        $data = Service::PetsList($data_params);
+        $this->assign('data_list', $data['data']);
+        //print_r($data['data']);
+
         $this->assign('pets_attribute_is_text_list', Service::$pets_attribute_is_text_list);
         $this->assign('pets_attribute_gender_list', Service::$pets_attribute_gender_list);
         $this->assign('pets_attribute_type_list', Service::$pets_attribute_type_list);
@@ -79,9 +118,15 @@ class Pets extends Controller
      */
     public function save($params = [])
     {
-        $ret = Service::PestSave($params);
-        print_r($ret);
-        die;
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 用户
+        $params['user'] = $this->user;
+        return Service::PestSave($params);
     }
 }
 ?>

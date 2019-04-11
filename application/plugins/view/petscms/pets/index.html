@@ -95,11 +95,15 @@
                     <thead>
                         <tr>
                             <th>标题</th>
-                            <th class="am-hide-sm-only">类型</th>
-                            <th class="am-hide-sm-only">业务</th>
-                            <th>详情</th>
-                            <th class="am-hide-sm-only">状态</th>
+                            <th>姓名</th>
+                            <th>类型</th>
+                            <th class="am-hide-sm-only">性别</th>
+                            <th class="am-hide-sm-only">品种</th>
+                            <th class="am-hide-sm-only">是否绝育</th>
+                            <th class="am-hide-sm-only">是否疫苗</th>
+                            <th class="am-hide-sm-only">生日/年龄</th>
                             <th class="am-hide-sm-only">时间</th>
+                            <th>操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -107,17 +111,28 @@
                             {{foreach $data_list as $v}}
                                 <tr>
                                     <td>{{$v.title}}</td>
-                                    <td class="am-hide-sm-only">{{$v.type_name}}</td>
-                                    <td class="am-hide-sm-only">{{$v.business_type_name}}</td>
-                                    <td>{{$v.detail}}</td>
-                                    <td class="am-hide-sm-only">{{$v.is_read_name}}</td>
+                                    <td>{{$v.name}}</td>
+                                    <td>{{$v.type_name}}</td>
+                                    <td class="am-hide-sm-only">{{$v.gender_name}}</td>
+                                    <td class="am-hide-sm-only">{{$v.varieties}}</td>
+                                    <td class="am-hide-sm-only">{{$v.sterilization_name}}</td>
+                                    <td class="am-hide-sm-only">{{$v.vaccine_name}}</td>
+                                    <td class="am-hide-sm-only">
+                                        {{if !empty($v['birthday_name'])}}
+                                            {{$v.birthday_name}}<br />
+                                        {{/if}}
+                                        <span class="am-badge am-radius">{{$v.age}}</span>
+                                    </td>
                                     <td class="am-hide-sm-only">{{$v.add_time_time}}</td>
+                                    <td>
+                                        edit
+                                    </td>
                                 </tr>
                             {{/foreach}}
                         {{/if}}
                         {{if empty($data_list)}}
                             <tr>
-                                <td colspan="5">
+                                <td colspan="10">
                                     <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
                                 </td>
                             </tr>
