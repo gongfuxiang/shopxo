@@ -737,7 +737,7 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
 
 
 /**
- * 用户中心布局样式
+ * 用户中心左侧菜单
  */
 .user-menu {position:fixed;z-index:10;bottom:70px;right:10px;}
 .user-sidebar {width:145px;min-height:100%;float:left;}
@@ -817,4 +817,22 @@ button { outline: none !important; }
     padding: 5px 8px;
     border-radius: 3px;
     border: 1px solid #ffd4d4;
+}
+
+/**
+ * 公共
+ */
+legend {
+    padding-bottom: 0.2rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #e5e5e5;
+}
+legend .legend-title {
+    font-size: 14px;
+}
+legend a {
+    color: #e7747f;
+}
+.items-value-empty {
+    color: #999;
 }

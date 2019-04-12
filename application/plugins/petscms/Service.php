@@ -41,6 +41,14 @@ class Service
         1 => ['value' => 1, 'name' => '母'],
     ];
 
+    // 状态（0正常, 1丢失, 2去世, 3关闭）
+    public static $pets_attribute_status_list = [
+        0 => ['value' => 0, 'name' => '正常'],
+        1 => ['value' => 1, 'name' => '丢失'],
+        2 => ['value' => 2, 'name' => '去世'],
+        3 => ['value' => 3, 'name' => '关闭'],
+    ];
+
     /**
      * 宠物列表
      * @author   Devil
@@ -75,6 +83,9 @@ class Service
                 // 是否疫苗
                 $v['vaccine_name'] = self::$pets_attribute_is_text_list[$v['vaccine']]['name'];
 
+                // 状态
+                $v['status_name'] = self::$pets_attribute_status_list[$v['status']]['name'];
+
                 // 生日/年龄
                 if(empty($v['birthday']))
                 {
@@ -91,6 +102,9 @@ class Service
 
                 // 相册
                 $v['photo'] = empty($v['photo']) ? null : self::GetPestPhotoHandle($v['photo']);
+
+                // 二维码
+                $v['qrcode_url'] = MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode(MyUrl('index/goods/index', ['id'=>$v['id']], true, true)))]);
 
                 // 时间
                 $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
@@ -114,8 +128,12 @@ class Service
     private static function GetPestPhotoHandle($photo)
     {
         $result = [];
-        if(!empty($photo) && is_array($photo))
+        if(!empty($photo))
         {
+            if(is_string($photo))
+            {
+                $photo = json_decode($photo, true);
+            }
             foreach($photo as &$v)
             {
                 $result[] = [
@@ -160,6 +178,10 @@ class Service
             if(!empty($params['type']))
             {
                 $where[] = ['type', '=', $params['type']];
+            }
+            if(isset($params['status']) && $params['status'] > -1)
+            {
+                $where[] = ['status', '=', intval($params['status'])];
             }
             if(isset($params['gender']) && $params['gender'] > -1)
             {
@@ -327,8 +349,31 @@ class Service
             'person_weixin' => isset($params['person_weixin']) ? $params['person_weixin'] : '',
         ];
 
+        // 绑定编号
+        $edit_msg_title = '编辑';
+        if(empty($params['id']) && !empty($params['pest_no']))
+        {
+            $pets = Db::name('PluginsPetscmsPets')->where(['pest_no'=>$params['pest_no']])->field('id,pest_no,user_id')->find();
+            if(empty($pets))
+            {
+                return DataReturn('宠物编号不存在['.$params['pest_no'].']', -10);
+            }
+
+            // 是否被其他用户绑定
+            if(!empty($pets['user_id']))
+            {
+                return DataReturn('宠物编号已被绑定['.$params['pest_no'].']', -11);
+            }
+
+            // 使用编辑模式
+            $params['id'] = $pets['id'];
+            $edit_msg_title = '绑定';
+        }
+
+        // 添加/编辑
         if(empty($params['id']))
         {
+            $data['pest_no'] = date('YmdHis').GetNumberCode(6);
             $data['add_time'] = time();
             if(Db::name('PluginsPetscmsPets')->insertGetId($data) > 0)
             {
@@ -339,9 +384,9 @@ class Service
             $data['upd_time'] = time();
             if(Db::name('PluginsPetscmsPets')->where(['id'=>intval($params['id'])])->update($data))
             {
-                return DataReturn('编辑成功', 0);
+                return DataReturn($edit_msg_title.'成功', 0);
             }
-            return DataReturn('编辑失败', -100); 
+            return DataReturn($edit_msg_title.'失败', -100);
         }
     }
 

@@ -83,8 +83,8 @@ class Pets extends Controller
         );
         $data = Service::PetsList($data_params);
         $this->assign('data_list', $data['data']);
-        //print_r($data['data']);
 
+        $this->assign('pets_attribute_status_list', Service::$pets_attribute_status_list);
         $this->assign('pets_attribute_is_text_list', Service::$pets_attribute_is_text_list);
         $this->assign('pets_attribute_gender_list', Service::$pets_attribute_gender_list);
         $this->assign('pets_attribute_type_list', Service::$pets_attribute_type_list);
@@ -101,7 +101,22 @@ class Pets extends Controller
      */
     public function saveinfo($params = [])
     {
-        $this->assign('data', []);
+        // 获取数据
+        $data = [];
+        if(!empty($params['id']))
+        {
+            $data_params = array(
+                'm'         => 0,
+                'n'         => 1,
+                'where'     => ['id' => intval($params['id'])],
+            );
+            $ret = Service::PetsList($data_params);
+            $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
+            unset($params['id']);
+        }
+        $this->assign('data', $data);
+        $this->assign('params', $params);
+        $this->assign('pets_attribute_status_list', Service::$pets_attribute_status_list);
         $this->assign('pets_attribute_is_text_list', Service::$pets_attribute_is_text_list);
         $this->assign('pets_attribute_gender_list', Service::$pets_attribute_gender_list);
         $this->assign('pets_attribute_type_list', Service::$pets_attribute_type_list);

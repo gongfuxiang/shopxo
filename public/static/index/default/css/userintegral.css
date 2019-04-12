@@ -10,7 +10,7 @@
 .time i { position:absolute; margin:4px 0px 0px -15px; }
 .price input { width:101px !important; }
 .time, .time { width:50%; }
-.so-list tr+tr>td:first-child { padding-top:10px; }
+.so-list tr+tr>td { padding-top:10px; }
 .so-list .chosen-container { border-radius:2px; }
 .text-grey { color: #999; }
 .chosen-container-single .chosen-single, .so-list select { height: 28px; line-height: 28px; width: 100%; }

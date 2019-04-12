@@ -10,13 +10,20 @@
 .time i { position:absolute; margin:4px 0px 0px -15px; }
 .price input { width:101px !important; }
 .time, .time { width:50%; }
-.so-list tr+tr>td:first-child { padding-top:10px; }
+.so-list tr+tr>td { padding-top:10px; }
 .so-list .chosen-container { border-radius:2px; }
 .text-grey { color: #999; }
 .chosen-container-single .chosen-single, .so-list select { height: 28px; line-height: 28px; width: 100%; }
 .reset-submit { margin-left: 20px; }
 .so-list select { padding: 0 0 0 8px; }
-.operation-nav { margin-top: 15px; }
+.operation-nav { margin: 15px 0 10px 0; }
+.row-qucode img { max-width: 100px; }
+.row-qucode p { margin-top: 5px; }
+.row-qucode a:hover, .row-qucode a:focus { text-decoration: none; }
+.row-first { width: 20%; }
+.row-first p { font-weight: 500; max-width: 240px; }
+.row-first .am-slider { max-height: 130px; }
+.am-slider .am-slides img { width: auto; max-height: 100%; margin: 0 auto; }
 @media only screen and (min-width: 641px){
     .so-list .chosen-container, .so-list select { width:217px !important; display: -webkit-inline-box; }
     .thin_sub:hover { color:#F60; }
@@ -35,4 +42,30 @@
 /**
  * 添加/编辑页面
  */
-.person-view .am-form-group:last-child {border-bottom: 0; }
+.base-view .am-form-group:last-child, .person-view .am-form-group:last-child, .lose-view .am-form-group:last-child {border-bottom: 0; }
+form.form-validation h2 { font-weight: 700; font-size: 14px; }
+form.form-validation .am-divider { margin: 10px auto; }
+.lose-view { margin-top: 30px; }
+form.form-validation .am-alert-secondary { background-color: #f8f8f8; }
+form.form-validation .am-alert-warning { background-color: #fffbf7; }
+
+
+/**
+ * 地图、联动地址
+ */
+form.form-validation .map-address {
+    border-bottom: 0;
+    padding-bottom: 0;
+    margin-bottom: 10px;
+}
+form.form-validation .region-linkage .chosen-select {
+    display: -webkit-inline-box;
+    width: calc(33.3% - 3px) !important;
+}
+form.form-validation .region-linkage .chosen-select .chosen-single {
+    width: 100%;
+}
+form.form-validation #map {
+    width: 100%;
+    height: 350px;
+}

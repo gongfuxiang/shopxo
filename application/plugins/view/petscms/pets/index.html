@@ -42,7 +42,7 @@
                             <td>
                                 <span>类型：</span>
                                 <select name="type" class="chosen-select" data-placeholder="宠物类型...">
-                                    <option value="-1">宠物类型...</option>
+                                    <option value="">宠物类型...</option>
                                     {{if !empty($pets_attribute_type_list)}}
                                         {{foreach $pets_attribute_type_list as $v}}
                                             <option value="{{$v.value}}" {{if isset($params['type']) and $params['type'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
@@ -51,12 +51,12 @@
                                 </select>
                             </td>
                             <td>
-                                <span>性别：</span>
-                                <select name="gender" class="chosen-select" data-placeholder="宠物性别...">
-                                    <option value="-1">宠物性别...</option>
-                                    {{if !empty($pets_attribute_gender_list)}}
-                                        {{foreach $pets_attribute_gender_list as $v}}
-                                            <option value="{{$v.value}}" {{if isset($params['gender']) and $params['gender'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                <span>状态：</span>
+                                <select name="status" class="chosen-select" data-placeholder="宠物状态...">
+                                    <option value="-1">宠物状态...</option>
+                                    {{if !empty($pets_attribute_status_list)}}
+                                        {{foreach $pets_attribute_status_list as $v}}
+                                            <option value="{{$v.value}}" {{if isset($params['status']) and $params['status'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                                         {{/foreach}}
                                     {{/if}}
                                 </select>
@@ -75,6 +75,20 @@
                                 </select>
                             </td>
                             <td>
+                                <span>性别：</span>
+                                <select name="gender" class="chosen-select" data-placeholder="宠物性别...">
+                                    <option value="-1">宠物性别...</option>
+                                    {{if !empty($pets_attribute_gender_list)}}
+                                        {{foreach $pets_attribute_gender_list as $v}}
+                                            <option value="{{$v.value}}" {{if isset($params['gender']) and $params['gender'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
                                 <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
                                 <a href="{{:PluginsHomeUrl('petscms', 'pets', 'index')}}" class="am-btn am-btn-warning am-radius am-btn-sm reset-submit">清除条件</a>
                             </td>
@@ -85,7 +99,7 @@
 
             <!-- operation start -->
             <div class="am-g operation-nav">
-                <a href="{{:PluginsHomeUrl('petscms', 'pets', 'saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
+                <a href="{{:PluginsHomeUrl('petscms', 'pets', 'saveinfo')}}" class="am-btn am-btn-primary am-radius am-btn-xs am-icon-plus"> 新增 / 绑定</a>
             </div>
             <!-- operation end -->
 
@@ -94,15 +108,12 @@
                 <table class="am-table">
                     <thead>
                         <tr>
-                            <th>标题</th>
-                            <th>姓名</th>
-                            <th>类型</th>
-                            <th class="am-hide-sm-only">性别</th>
-                            <th class="am-hide-sm-only">品种</th>
-                            <th class="am-hide-sm-only">是否绝育</th>
-                            <th class="am-hide-sm-only">是否疫苗</th>
-                            <th class="am-hide-sm-only">生日/年龄</th>
-                            <th class="am-hide-sm-only">时间</th>
+                            <th class="am-hide-sm-only">标题/相册</th>
+                            <th>宠物信息</th>
+                            <th class="am-hide-sm-only">主人信息</th>
+                            <th class="am-hide-sm-only">二维码</th>
+                            <th>状态</th>
+                            <th class="am-hide-sm-only">操作时间</th>
                             <th>操作</th>
                         </tr>
                     </thead>
@@ -110,29 +121,68 @@
                         {{if !empty($data_list)}}
                             {{foreach $data_list as $v}}
                                 <tr>
-                                    <td>{{$v.title}}</td>
-                                    <td>{{$v.name}}</td>
-                                    <td>{{$v.type_name}}</td>
-                                    <td class="am-hide-sm-only">{{$v.gender_name}}</td>
-                                    <td class="am-hide-sm-only">{{$v.varieties}}</td>
-                                    <td class="am-hide-sm-only">{{$v.sterilization_name}}</td>
-                                    <td class="am-hide-sm-only">{{$v.vaccine_name}}</td>
-                                    <td class="am-hide-sm-only">
-                                        {{if !empty($v['birthday_name'])}}
-                                            {{$v.birthday_name}}<br />
+                                    <td class="am-hide-sm-only row-first">
+                                        <p class="ellipsis">{{$v.title}}</p>
+                                        {{if !empty($v['photo'])}}
+                                            <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false, "slideshow":false}'  >
+                                                <ul class="am-slides">
+                                                    {{foreach $v.photo as $photo}}
+                                                        <li>
+                                                            <img src="{{$photo.images}}" />
+                                                        </li>
+                                                    {{/foreach}}
+                                                </ul>
+                                            </div>
                                         {{/if}}
-                                        <span class="am-badge am-radius">{{$v.age}}</span>
                                     </td>
-                                    <td class="am-hide-sm-only">{{$v.add_time_time}}</td>
                                     <td>
-                                        edit
+                                        编号：{{if empty($v['pest_no'])}}<span class="items-value-empty">未填写</span>{{else /}}{{$v.pest_no}}{{/if}}<br />
+
+                                        名字：{{if empty($v['name'])}}<span class="items-value-empty">未填写</span>{{else /}}{{$v.name}}{{/if}}<br />
+
+                                        类型：{{if empty($v['type_name'])}}<span class="items-value-empty">未填写</span>{{else /}}{{$v.type_name}}{{/if}}<br />
+
+                                        性别：{{if empty($v['gender_name'])}}<span class="items-value-empty">未填写</span>{{else /}}{{$v.gender_name}}{{/if}}<br />
+
+                                        生日：{{if empty($v['birthday_name'])}}<span class="items-value-empty">未填写</span>{{else /}}{{$v.birthday_name}}{{/if}}<br />
+                                        
+                                        年龄：{{if empty($v['age'])}}<span class="items-value-empty">未填写</span>{{else /}}<span class="am-badge am-radius">{{$v.age}}</span>{{/if}}<br />
+
+                                        品种：{{if empty($v['varieties'])}}<span class="items-value-empty">未填写</span>{{else /}}{{$v.varieties}}{{/if}}<br />
+
+                                        绝育：{{$v.sterilization_name}}<br />
+                                        疫苗：{{$v.vaccine_name}}<br />
+                                    </td>
+                                    <td class="am-hide-sm-only">
+                                        姓名：{{if empty($v['person_name'])}}<span class="items-value-empty">未填写</span>{{else /}}{{$v.person_name}}{{/if}}<br />
+
+                                        电话：{{if empty($v['person_tel'])}}<span class="items-value-empty">未填写</span>{{else /}}{{$v.person_tel}}{{/if}}<br />
+
+                                        微信：{{if empty($v['person_weixin'])}}<span class="items-value-empty">未填写</span>{{else /}}{{$v.person_weixin}}{{/if}}<br />
+                                    </td>
+                                    <td class="am-hide-sm-only row-qucode">
+                                        <img src="{{$v.qrcode_url}}" alt="{{$v.title}}" />
+                                        <a href="#">
+                                            <p><i class="am-icon-cloud-download"></i> 下载二维码</p>
+                                        </a>
+                                    </td>
+                                    <td>{{$v.status_name}}</td>
+                                    <td class="am-hide-sm-only">
+                                        添加：{{$v.add_time_time}}
+                                        {{if !empty($v['upd_time_time'])}}
+                                            <br />更新：{{$v.upd_time_time}}
+                                        {{/if}}
+                                    </td>
+                                    <td>
+                                        <a href="{{:PluginsHomeUrl('petscms', 'pets', 'saveinfo',array_merge($params, ['id'=>$v['id']]))}}" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit am-btn-block"> 编辑</a>
+                                        <a href="{{:PluginsHomeUrl('petscms', 'pets', 'saveinfo',array_merge($params, ['id'=>$v['id']]))}}" class="am-btn am-btn-success am-btn-xs am-radius am-icon-newspaper-o am-btn-block"> 详情</a>
                                     </td>
                                 </tr>
                             {{/foreach}}
                         {{/if}}
                         {{if empty($data_list)}}
                             <tr>
-                                <td colspan="10">
+                                <td colspan="7">
                                     <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
                                 </td>
                             </tr>
