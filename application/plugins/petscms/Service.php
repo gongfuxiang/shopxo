@@ -12,6 +12,7 @@ namespace app\plugins\petscms;
 
 use think\Db;
 use app\service\ResourcesService;
+use app\service\RegionService;
 
 /**
  * 宠物管理系统 - 服务层
@@ -103,8 +104,16 @@ class Service
                 // 相册
                 $v['photo'] = empty($v['photo']) ? null : self::GetPestPhotoHandle($v['photo']);
 
+                // 丢失时间
+                $v['lose_time_name'] = empty($v['lose_time']) ? '' : date('Y-m-d', $v['lose_time']);
+
                 // 二维码
                 $v['qrcode_url'] = MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode(MyUrl('index/goods/index', ['id'=>$v['id']], true, true)))]);
+
+                // 地址
+                $v['province_name'] = RegionService::RegionName($v['lose_province']);
+                $v['city_name'] = RegionService::RegionName($v['lose_city']);
+                $v['county_name'] = RegionService::RegionName($v['lose_county']);
 
                 // 时间
                 $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
@@ -314,6 +323,13 @@ class Service
                 'is_checked'        => 2,
                 'error_msg'         => '主人微信格式 1~30 个字符之间',
             ],
+            [
+                'checked_type'      => 'in',
+                'key_name'          => 'status',
+                'checked_data'      => array_column(self::$pets_attribute_status_list, 'value'),
+                'is_checked'        => 2,
+                'error_msg'         => '宠物状态有误',
+            ],
         ];
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
@@ -347,6 +363,17 @@ class Service
             'person_name'   => isset($params['person_name']) ? $params['person_name'] : '',
             'person_tel'    => isset($params['person_tel']) ? $params['person_tel'] : '',
             'person_weixin' => isset($params['person_weixin']) ? $params['person_weixin'] : '',
+
+            'lose_time'     => empty($params['lose_time']) ? 0 : strtotime($params['lose_time']),
+            'lose_reward_amount' => !empty($params['lose_reward_amount']) ? PriceNumberFormat($params['lose_reward_amount']) : 0.00,
+            'lose_features' => isset($params['lose_features']) ? $params['lose_features'] : '',
+            'lose_province' => isset($params['province']) ? intval($params['province']) : 0,
+            'lose_city'     => isset($params['city']) ? intval($params['city']) : 0,
+            'lose_county'   => isset($params['county']) ? intval($params['county']) : 0,
+            'lose_lng'      => !empty($params['lng']) ? floatval($params['lng']) : 0.00,
+            'lose_lat'      => !empty($params['lat']) ? floatval($params['lat']) : 0.00,
+            'lose_address'  => isset($params['address']) ? $params['address'] : '',
+            'status'        => isset($params['status']) ? intval($params['status']) : 0,
         ];
 
         // 绑定编号

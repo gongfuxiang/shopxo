@@ -6,7 +6,7 @@
         {{foreach $user_left_menu as $k=>$v}}
           {{if $v.is_show eq 1}}
             {{if empty($v['item'])}}
-              <li class="{{if isset($v['contains']) and in_array(strtolower($controller_name.$action_name), $v['contains'])}} am-active{{/if}}" >
+              <li class="{{if isset($v['contains']) and (in_array(strtolower($controller_name.$action_name), $v['contains']) or (isset($params['pluginscontrol']) and isset($params['pluginsaction']) and in_array(strtolower($params['pluginscontrol'].$params['pluginsaction']), $v['contains'])))}} am-active{{/if}}" >
                 <a href="{{$v.url}}">{{if !empty($v['icon'])}}<i class="{{$v.icon}}"></i>{{/if}} {{$v.name}}</a>
               </li>
             {{else /}}
@@ -15,7 +15,7 @@
                 <ul class="am-list am-collapse user-sidebar-sub am-in" id="collapse-nav-{{$k}}">
                   {{foreach $v.item as $vs}}
                     {{if $vs.is_show eq 1}}
-                      <li class="{{if isset($vs['contains']) and in_array(strtolower($controller_name.$action_name), $vs['contains'])}} am-active{{/if}}">
+                      <li class="{{if isset($vs['contains']) and (in_array(strtolower($controller_name.$action_name), $vs['contains']) or (isset($params['pluginscontrol']) and isset($params['pluginsaction']) and in_array(strtolower($params['pluginscontrol'].$params['pluginsaction']), $vs['contains'])))}} am-active{{/if}}">
                         <a href="{{$vs.url}}" class="am-cf">{{if !empty($vs['icon'])}}<i class="{{$vs.icon}}"></i>{{/if}} {{$vs.name}}</a>
                       </li>
                     {{/if}}

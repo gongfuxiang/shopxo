@@ -212,10 +212,10 @@ class Common extends Controller
         $default_theme = strtolower(MyC('common_default_theme', 'default', true));
         $this->assign('default_theme', $default_theme);
 
-        // 当前操作名称, 兼容插件模块名称
-        $module_name = empty($params['pluginsname']) ? strtolower(request()->module()) : $params['pluginsname'];
-        $controller_name = empty($params['pluginscontrol']) ? strtolower(request()->controller()) : $params['pluginscontrol'];
-        $action_name = empty($params['pluginsaction']) ? strtolower(request()->action()) : $params['pluginsaction'];
+        // 当前操作名称, 兼容插件模块名称        
+        $module_name = strtolower(request()->module());
+        $controller_name = strtolower(request()->controller());
+        $action_name = strtolower(request()->action());
 
         // 当前操作名称
         $this->assign('module_name', $module_name);

@@ -124,6 +124,35 @@ class Pets extends Controller
     }
 
     /**
+     * 宠物详情
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-03-15T23:51:50+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public function detail($params = [])
+    {
+        // 获取数据
+        $data = [];
+        if(empty($params['id']))
+        {
+            return '宠物id有误';
+        }
+        $data_params = array(
+            'm'         => 0,
+            'n'         => 1,
+            'where'     => ['id' => intval($params['id'])],
+        );
+        $ret = Service::PetsList($data_params);
+        $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
+
+        $this->assign('data', $data);
+        $this->assign('params', $params);
+        return $this->fetch('../../../plugins/view/petscms/pets/detail');
+    }
+
+    /**
      * 宠物添加/编辑
      * @author   Devil
      * @blog     http://gong.gg/

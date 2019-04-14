@@ -128,7 +128,7 @@
                                                 <ul class="am-slides">
                                                     {{foreach $v.photo as $photo}}
                                                         <li>
-                                                            <img src="{{$photo.images}}" />
+                                                            <img src="{{$photo.images}}" alt="{{$v.title}}" />
                                                         </li>
                                                     {{/foreach}}
                                                 </ul>
@@ -175,7 +175,7 @@
                                     </td>
                                     <td>
                                         <a href="{{:PluginsHomeUrl('petscms', 'pets', 'saveinfo',array_merge($params, ['id'=>$v['id']]))}}" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit am-btn-block"> 编辑</a>
-                                        <a href="{{:PluginsHomeUrl('petscms', 'pets', 'saveinfo',array_merge($params, ['id'=>$v['id']]))}}" class="am-btn am-btn-success am-btn-xs am-radius am-icon-newspaper-o am-btn-block"> 详情</a>
+                                        <a href="{{:PluginsHomeUrl('petscms', 'pets', 'detail',array_merge($params, ['id'=>$v['id']]))}}" class="am-btn am-btn-success am-btn-xs am-radius am-icon-newspaper-o am-btn-block" target="_blank"> 详情</a>
                                     </td>
                                 </tr>
                             {{/foreach}}

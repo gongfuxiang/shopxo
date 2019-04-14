@@ -1,0 +1,167 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<div class="pets-detail am-container">
+    <div class="top">
+        <div class="am-u-md-4 photo">
+            {{if !empty($data['photo'])}}
+                <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false, "slideshow":false}'>
+                    <ul class="am-slides">
+                        {{foreach $data.photo as $photo}}
+                            <li>
+                                <img src="{{$photo.images}}" alt="{{$data.title}}" />
+                            </li>
+                        {{/foreach}}
+                    </ul>
+                </div>
+            {{/if}}
+        </div>
+        <div class="am-u-md-8 base">
+            <h1>{{$data.title}}</h1>
+            <ul class="basic">
+                <li>
+                    <span>编号</span>
+                    <span>{{$data.pest_no}}</span>
+                </li>
+                <li>
+                    <span>名字</span>
+                    <span>{{$data.name}}</span>
+                </li>
+                <li>
+                    <span>类型</span>
+                    <span>{{$data.type_name}}</span>
+                </li>
+                <li>
+                    <span>性别</span>
+                    <span>{{$data.gender_name}}</span>
+                </li>
+                <li>
+                    <span>生日</span>
+                    <span>{{$data.birthday_name}}</span>
+                </li>
+                <li>
+                    <span>年龄</span>
+                    <span>{{$data.age}}</span>
+                </li>
+                <li>
+                    <span>品种</span>
+                    <span>{{$data.varieties}}</span>
+                </li>
+                <li>
+                    <span>绝育</span>
+                    <span>{{$data.sterilization_name}}</span>
+                </li>
+                <li>
+                    <span>疫苗</span>
+                    <span>{{$data.vaccine_name}}</span>
+                </li>
+            </ul>
+
+            {{if isset($data['status']) and in_array($data['status'], [0,1])}}
+                <div class="base-btn">
+                    <!-- <button type="button" class="am-btn am-btn-primary am-radius am-icon-share-alt"> 分享</button> -->
+                    <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a><a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a></div>
+                    <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+
+    {{if isset($data['status']) and $data['status'] eq 1}}
+        <div class="lose">
+            <div class="am-alert am-alert-warning" data-am-alert>
+                <p class="lose-title">该宠物已丢失，欢迎大家提供信息，重重有赏！</p>
+                <ul class="person">
+                    {{if !empty($data['person_name'])}}
+                        <li>
+                            <span>主人姓名</span>
+                            <span>{{$data.person_name}}</span>
+                        </li>
+                    {{/if}}
+                    {{if !empty($data['person_tel'])}}
+                        <li>
+                            <span>主人电话</span>
+                            <span>{{$data.person_tel}}</span>
+                        </li>
+                    {{/if}}
+                    {{if !empty($data['person_weixin'])}}
+                        <li>
+                            <span>主人微信</span>
+                            <span>{{$data.person_weixin}}</span>
+                        </li>
+                    {{/if}}
+
+                    {{if !empty($data['lose_time_name'])}}
+                        <li>
+                            <span>丢失时间</span>
+                            <span>{{$data.lose_time_name}}</span>
+                        </li>
+                    {{/if}}
+                    {{if !empty($data['lose_reward_amount']) and $data['lose_reward_amount'] gt 0}}
+                        <li>
+                            <span>悬赏金额</span>
+                            <span>{{$data.lose_reward_amount}}</span>
+                        </li>
+                    {{/if}}
+                    {{if !empty($data['lose_address'])}}
+                        <li>
+                            <span>丢失地址</span>
+                            <span>{{$data.province_name}}{{$data.city_name}}{{$data.county_name}}{{$data.lose_address}}</span>
+                        </li>
+                    {{/if}}
+                </ul>
+            </div>
+            <div id="map" data-level="17" class="am-form-group"></div>
+        </div>
+    {{/if}}
+
+    {{if !empty($data['content'])}}
+        <div class="content">
+            <div class="spacing-nav-title">
+                <span class="line"></span>
+                <span class="text-wrapper">宠物详情</span>
+            </div>
+            <div class="rich-content">{{$data.content|raw}}</div>
+        </div>
+    {{/if}}
+</div>
+
+{{include file="public/footer" /}}
+
+<!-- map -->
+<script type="text/javascript" src="{{$Think.__MY_HTTP__}}://api.map.baidu.com/api?v=2.0&ak={{:MyC('common_baidu_map_ak')}}"></script>
+
+<script type="text/javascript">
+$(function()
+{
+    // 百度地图API功能
+    var map = new BMap.Map("map", {enableMapClick:false});
+    var level = $('#map').data('level') || 16;
+    var point = new BMap.Point({{if !empty($data['lose_lng'])}}{{$data['lose_lng']}}{{else /}}116.400244{{/if}},{{if !empty($data['lose_lat'])}}{{$data['lose_lat']}}{{else /}}39.92556{{/if}});
+    map.centerAndZoom(point, level);
+
+    // 添加控件
+    var navigationControl = new BMap.NavigationControl({
+        // 靠左上角位置
+        anchor: BMAP_ANCHOR_TOP_LEFT,
+        // LARGE类型
+        type: BMAP_NAVIGATION_CONTROL_LARGE,
+    });
+    map.addControl(navigationControl);
+
+    // 创建标注
+    var marker = new BMap.Marker(point);  // 创建标注
+    map.addOverlay(marker);              // 将标注添加到地图中
+});
+</script>
