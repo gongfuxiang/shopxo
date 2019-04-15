@@ -42,7 +42,7 @@ button { outline: none; }
 
 .clear{ clear:both} 
 
-img, input {
+input {
     vertical-align: middle;
     max-width: 100%;
 }
