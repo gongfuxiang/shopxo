@@ -146,7 +146,7 @@ class Pets extends Controller
         $data_params = array(
             'm'         => 0,
             'n'         => 1,
-            'where'     => ['id' => intval($params['id'])],
+            'where'     => ['id' => intval($params['id']), 'status'=>[0,1,2]],
         );
         $ret = Service::PetsList($data_params);
         $data = empty($ret['data'][0]) ? [] : $ret['data'][0];

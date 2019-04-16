@@ -12,67 +12,69 @@
 <!-- goods category -->
 {{include file="public/goods_category" /}}
 
-<div class="pets-detail am-container">
-    <div class="top">
-        <div class="am-u-md-4 photo">
-            {{if !empty($data['photo'])}}
-                <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false, "slideshow":false}'>
-                    <ul class="am-slides">
-                        {{foreach $data.photo as $photo}}
-                            <li>
-                                <img src="{{$photo.images}}" alt="{{$data.title}}" />
-                            </li>
-                        {{/foreach}}
-                    </ul>
-                </div>
-            {{/if}}
-        </div>
-        <div class="am-u-md-8 base">
-            <h1>{{$data.title}}</h1>
-            <ul class="basic">
-                <li>
-                    <span>编号</span>
-                    <span>{{$data.pest_no}}</span>
-                </li>
-                <li>
-                    <span>名字</span>
-                    <span>{{$data.name}}</span>
-                </li>
-                <li>
-                    <span>类型</span>
-                    <span>{{$data.type_name}}</span>
-                </li>
-                <li>
-                    <span>性别</span>
-                    <span>{{$data.gender_name}}</span>
-                </li>
-                <li>
-                    <span>生日</span>
-                    <span>{{$data.birthday_name}}</span>
-                </li>
-                <li>
-                    <span>年龄</span>
-                    <span>{{$data.age}}</span>
-                </li>
-                <li>
-                    <span>品种</span>
-                    <span>{{$data.varieties}}</span>
-                </li>
-                <li>
-                    <span>绝育</span>
-                    <span>{{$data.sterilization_name}}</span>
-                </li>
-                <li>
-                    <span>疫苗</span>
-                    <span>{{$data.vaccine_name}}</span>
-                </li>
-            </ul>
-
-            {{if isset($data['status']) and in_array($data['status'], [0,1])}}
-                {{if $data['status'] eq 1}}
-                    <div class="base-btn" data-am-modal="{target: '#lose-provide-popup'}">
-                        <button type="button" class="am-btn am-btn-primary am-radius am-icon-pencil"> 我要提供信息</button>
+{{if !empty($data)}}
+    <div class="pets-detail am-container">
+        <div class="top">
+            <div class="am-u-md-4 photo">
+                {{if !empty($data['photo'])}}
+                    <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false, "slideshow":false}'>
+                        <ul class="am-slides">
+                            {{foreach $data.photo as $photo}}
+                                <li>
+                                    <img src="{{$photo.images}}" alt="{{$data.title}}" />
+                                </li>
+                            {{/foreach}}
+                        </ul>
                     </div>
+                {{/if}}
+            </div>
+            <div class="am-u-md-8 base">
+                <h1>{{$data.title}}</h1>
+                <ul class="basic">
+                    <li>
+                        <span>编号</span>
+                        <span>{{$data.pest_no}}</span>
+                    </li>
+                    <li>
+                        <span>名字</span>
+                        <span>{{$data.name}}</span>
+                    </li>
+                    <li>
+                        <span>类型</span>
+                        <span>{{$data.type_name}}</span>
+                    </li>
+                    <li>
+                        <span>性别</span>
+                        <span>{{$data.gender_name}}</span>
+                    </li>
+                    <li>
+                        <span>生日</span>
+                        <span>{{$data.birthday_name}}</span>
+                    </li>
+                    <li>
+                        <span>年龄</span>
+                        <span>{{$data.age}}</span>
+                    </li>
+                    <li>
+                        <span>品种</span>
+                        <span>{{$data.varieties}}</span>
+                    </li>
+                    <li>
+                        <span>绝育</span>
+                        <span>{{$data.sterilization_name}}</span>
+                    </li>
+                    <li>
+                        <span>疫苗</span>
+                        <span>{{$data.vaccine_name}}</span>
+                    </li>
+                    <li>
+                        <span>状态</span>
+                        <span>{{$data.status_name}}</span>
+                    </li>
+                </ul>
+
+                {{if isset($data['status']) and $data['status'] eq 1}}
+                    <button type="button" class="am-btn am-btn-primary am-radius am-icon-pencil provide-submit" data-am-modal="{target: '#lose-provide-popup'}"> 我要提供信息</button>
 
                     <!-- 提供信息窗口 -->
                     <div class="am-popup" id="lose-provide-popup">
@@ -130,76 +132,80 @@
                         </div>
                     </div>
                 {{/if}}
-                <div class="base-share">
+
+                <!-- 分享 -->
+                <div class="base-share {{if !isset($data['status']) or $data['status'] neq 1}}base-share-mobile{{/if}}">
                     <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a><a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a></div>
                     <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
                 </div>
-            {{/if}}
+            </div>
         </div>
-    </div>
 
-    {{if isset($data['status']) and $data['status'] eq 1}}
-        <div class="lose">
-            <div class="am-alert am-alert-warning" data-am-alert>
-                {{if !empty($data['lose_features'])}}
-                    <p class="lose-desc">{{$data.lose_features|raw}}</p>
+        {{if isset($data['status']) and $data['status'] eq 1}}
+            <div class="lose">
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    {{if !empty($data['lose_features'])}}
+                        <p class="lose-desc">{{$data.lose_features|raw}}</p>
+                    {{/if}}
+                    <ul class="person">
+                        {{if !empty($data['person_name'])}}
+                            <li>
+                                <span>主人姓名</span>
+                                <span>{{$data.person_name}}</span>
+                            </li>
+                        {{/if}}
+                        {{if !empty($data['person_tel'])}}
+                            <li class="tel">
+                                <span>主人电话</span>
+                                <a href="tel:{{$data.person_tel}}">{{$data.person_tel}}</a>
+                            </li>
+                        {{/if}}
+                        {{if !empty($data['person_weixin'])}}
+                            <li>
+                                <span>主人微信</span>
+                                <span>{{$data.person_weixin}}</span>
+                            </li>
+                        {{/if}}
+
+                        {{if !empty($data['lose_time_name'])}}
+                            <li>
+                                <span>丢失时间</span>
+                                <span>{{$data.lose_time_name}}</span>
+                            </li>
+                        {{/if}}
+                        {{if !empty($data['lose_reward_amount']) and $data['lose_reward_amount'] gt 0}}
+                            <li class="price">
+                                <span>悬赏金额</span>
+                                <strong>￥{{$data.lose_reward_amount}}</strong>
+                            </li>
+                        {{/if}}
+                        {{if !empty($data['lose_address'])}}
+                            <li>
+                                <span>丢失地址</span>
+                                <span>{{$data.province_name}}{{$data.city_name}}{{$data.county_name}}{{$data.lose_address}}</span>
+                            </li>
+                        {{/if}}
+                    </ul>
+                </div>
+                {{if !empty($data['lose_lng']) and !empty($data['lose_lat'])}}
+                    <div id="map-view" data-level="17" class="am-form-group"></div>
                 {{/if}}
-                <ul class="person">
-                    {{if !empty($data['person_name'])}}
-                        <li>
-                            <span>主人姓名</span>
-                            <span>{{$data.person_name}}</span>
-                        </li>
-                    {{/if}}
-                    {{if !empty($data['person_tel'])}}
-                        <li class="tel">
-                            <span>主人电话</span>
-                            <a href="tel:{{$data.person_tel}}">{{$data.person_tel}}</a>
-                        </li>
-                    {{/if}}
-                    {{if !empty($data['person_weixin'])}}
-                        <li>
-                            <span>主人微信</span>
-                            <span>{{$data.person_weixin}}</span>
-                        </li>
-                    {{/if}}
-
-                    {{if !empty($data['lose_time_name'])}}
-                        <li>
-                            <span>丢失时间</span>
-                            <span>{{$data.lose_time_name}}</span>
-                        </li>
-                    {{/if}}
-                    {{if !empty($data['lose_reward_amount']) and $data['lose_reward_amount'] gt 0}}
-                        <li class="price">
-                            <span>悬赏金额</span>
-                            <strong>￥{{$data.lose_reward_amount}}</strong>
-                        </li>
-                    {{/if}}
-                    {{if !empty($data['lose_address'])}}
-                        <li>
-                            <span>丢失地址</span>
-                            <span>{{$data.province_name}}{{$data.city_name}}{{$data.county_name}}{{$data.lose_address}}</span>
-                        </li>
-                    {{/if}}
-                </ul>
             </div>
-            {{if !empty($data['lose_lng']) and !empty($data['lose_lat'])}}
-                <div id="map-view" data-level="17" class="am-form-group"></div>
-            {{/if}}
-        </div>
-    {{/if}}
+        {{/if}}
 
-    {{if !empty($data['content'])}}
-        <div class="content">
-            <div class="spacing-nav-title">
-                <span class="line"></span>
-                <span class="text-wrapper">宠物详情</span>
+        {{if !empty($data['content'])}}
+            <div class="content">
+                <div class="spacing-nav-title">
+                    <span class="line"></span>
+                    <span class="text-wrapper">宠物详情</span>
+                </div>
+                <div class="rich-content">{{$data.content|raw}}</div>
             </div>
-            <div class="rich-content">{{$data.content|raw}}</div>
-        </div>
-    {{/if}}
-</div>
+        {{/if}}
+    </div>
+{{else /}}
+    <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+{{/if}}
 
 {{include file="public/footer" /}}
 

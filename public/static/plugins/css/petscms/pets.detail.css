@@ -29,7 +29,7 @@
 .pets-detail {
     margin-top: 10px;
 }
-.base-btn, .base-share {
+.provide-submit, .base-share {
     margin-top: 20px;
 }
 .pets-detail .am-btn-primary {
@@ -200,5 +200,24 @@ form.form-validation #map {
     #map-view, form.form-validation #map {
         height: 200px;
     }
-    
+    .provide-submit, .base-share-mobile {
+        margin: 0;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        z-index: 2;
+        height: 35px;
+    }
+    .base-share-mobile {
+        background: #9bddff;
+    }
+    .base-share-mobile a {
+        padding-left: 0 !important;
+        width: 24px !important;
+        margin: 6px calc(12.5% - 32px) !important;
+    }
+    .am-footer {
+        padding-bottom: 35px;
+    }
 }
