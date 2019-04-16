@@ -107,6 +107,9 @@ class Service
                 // 丢失时间
                 $v['lose_time_name'] = empty($v['lose_time']) ? '' : date('Y-m-d', $v['lose_time']);
 
+                // 丢失宠物特征
+                $v['lose_features'] = str_replace("\n", '<br />', $v['lose_features']);
+
                 // 二维码
                 $v['qrcode_url'] = MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode(MyUrl('index/goods/index', ['id'=>$v['id']], true, true)))]);
 
@@ -370,8 +373,8 @@ class Service
             'lose_province' => isset($params['province']) ? intval($params['province']) : 0,
             'lose_city'     => isset($params['city']) ? intval($params['city']) : 0,
             'lose_county'   => isset($params['county']) ? intval($params['county']) : 0,
-            'lose_lng'      => !empty($params['lng']) ? floatval($params['lng']) : 0.00,
-            'lose_lat'      => !empty($params['lat']) ? floatval($params['lat']) : 0.00,
+            'lose_lng'      => empty($params['lng']) ? 0.00 : floatval($params['lng']),
+            'lose_lat'      => empty($params['lat']) ? 0.00 : floatval($params['lat']),
             'lose_address'  => isset($params['address']) ? $params['address'] : '',
             'status'        => isset($params['status']) ? intval($params['status']) : 0,
         ];
@@ -438,6 +441,149 @@ class Service
             }
         }
         return DataReturn('success', 0, $result);
+    }
+
+    /**
+     * 丢失提供信息保存
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-04-11
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function HelpSave($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'pets_id',
+                'error_msg'         => '宠物id有误',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'contacts_name',
+                'checked_data'      => '1,30',
+                'error_msg'         => '联系人姓名格式 1~30 个字符之间',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'province',
+                'error_msg'         => '请选择省份',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'city',
+                'error_msg'         => '请选择城市',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'county',
+                'error_msg'         => '请选择区/县',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'address',
+                'checked_data'      => '1,80',
+                'error_msg'         => '详细地址格式 1~80 个字符之间',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 电话微信只至少填写一个
+        if(empty($params['contacts_tel']) && empty($params['contacts_weixin']))
+        {
+            return DataReturn('电话/微信只至少填写一个', -1);
+        }
+
+        // 宠物数据
+        $data = [
+            'user_id'           => isset($params['user']['id']) ? intval($params['user']['id']) : 0,
+            'pets_id'           => intval($params['pets_id']),
+            'contacts_name'     => $params['contacts_name'],
+            'contacts_tel'      => isset($params['contacts_tel']) ? $params['contacts_tel'] : '',
+            'contacts_weixin'   => isset($params['contacts_weixin']) ? $params['contacts_weixin'] : '',
+            'province'          => intval($params['province']),
+            'city'              => intval($params['city']),
+            'county'            => intval($params['county']),
+            'address'           => $params['address'],
+            'lng'               => empty($params['lng']) ? 0.00 : floatval($params['lng']),
+            'lat'               => empty($params['lat']) ? 0.00 : floatval($params['lat']),
+        ];
+
+        // 添加/编辑
+        if(empty($params['id']))
+        {
+            $data['add_time'] = time();
+            if(Db::name('PluginsPetscmsHelp')->insertGetId($data) > 0)
+            {
+                return DataReturn('添加成功', 0);
+            }
+            return DataReturn('添加失败', -100);
+        } else {
+            $data['upd_time'] = time();
+            if(Db::name('PluginsPetscmsHelp')->where(['id'=>intval($params['id'])])->update($data))
+            {
+                return DataReturn('编辑成功', 0);
+            }
+            return DataReturn('编辑失败', -100);
+        }
+    }
+
+    /**
+     * 宠物帮助数据列表
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function HelpList($params = [])
+    {
+        $where = empty($params['where']) ? [] : $params['where'];
+        $m = isset($params['m']) ? intval($params['m']) : 0;
+        $n = isset($params['n']) ? intval($params['n']) : 10;
+        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
+
+        // 获取数据列表
+        $data = Db::name('PluginsPetscmsHelp')->where($where)->limit($m, $n)->order($order_by)->select();
+        if(!empty($data))
+        {
+            foreach($data as &$v)
+            {
+                // 地址
+                $v['province_name'] = RegionService::RegionName($v['province']);
+                $v['city_name'] = RegionService::RegionName($v['city']);
+                $v['county_name'] = RegionService::RegionName($v['county']);
+
+                // 时间
+                $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                $v['add_time_date'] = date('Y-m-d', $v['add_time']);
+                $v['upd_time_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
+                $v['upd_time_date'] = empty($v['upd_time']) ? '' : date('Y-m-d', $v['upd_time']);
+            }
+        }
+        return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
+     * 宠物帮助数据总数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $where [条件]
+     */
+    public static function HelpTotal($where = [])
+    {
+        return (int) Db::name('PluginsPetscmsHelp')->where($where)->count();
     }
 }
 ?>

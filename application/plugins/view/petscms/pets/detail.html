@@ -69,8 +69,68 @@
             </ul>
 
             {{if isset($data['status']) and in_array($data['status'], [0,1])}}
-                <div class="base-btn">
-                    <!-- <button type="button" class="am-btn am-btn-primary am-radius am-icon-share-alt"> 分享</button> -->
+                {{if $data['status'] eq 1}}
+                    <div class="base-btn" data-am-modal="{target: '#lose-provide-popup'}">
+                        <button type="button" class="am-btn am-btn-primary am-radius am-icon-pencil"> 我要提供信息</button>
+                    </div>
+
+                    <!-- 提供信息窗口 -->
+                    <div class="am-popup" id="lose-provide-popup">
+                        <div class="am-popup-inner">
+                            <div class="am-popup-hd">
+                                <h4 class="am-popup-title">提供信息</h4>
+                                <span data-am-modal-close class="am-close">&times;</span>
+                            </div>
+                            <div class="am-popup-bd">
+                                <form class="am-form form-validation view-save" action="{{:PluginsHomeUrl('petscms', 'pets', 'helpsave')}}" method="POST" request-type="ajax-reload">
+                                    <div class="am-form-group">
+                                        <label>联系人<span class="am-form-group-label-tips-must">必填</span></label>
+                                        <input type="text" name="contacts_name" placeholder="联系人" maxlength="30" data-validation-message="联系人姓名格式 1~30 个字符之间" class="am-radius" required />
+                                    </div>
+                                    <div class="am-form-group">
+                                        <label>联系电话<span class="am-form-group-label-tips-must">电话/微信选填一个</span></label>
+                                        <input type="text" name="contacts_tel" placeholder="联系电话" maxlength="30" data-validation-message="联系人电话格式 1~30 个字符之间" class="am-radius js-choice-one" data-choice-one-to="input[name=contacts_weixin]" {{if !empty($user['mobile'])}}value="{{$user.mobile}}"{{/if}} required />
+                                    </div>
+                                    <div class="am-form-group">
+                                        <label>联系微信<span class="am-form-group-label-tips-must">电话/微信选填一个</span></label>
+                                        <input type="text" name="contacts_weixin" placeholder="联系微信" maxlength="30" data-validation-message="联系人微信格式 1~30 个字符之间" class="am-radius js-choice-one" data-choice-one-to="input[name=contacts_tel]" required />
+                                    </div>
+
+                                    <div class="am-form-group region-linkage" data-url="{{:MyUrl('index/region/index')}}">
+                                        <label class="block">省市区<span class="am-form-group-label-tips-must">必选</span></label>
+                                        <select name="province" data-next="city" class="am-radius chosen-select" data-placeholder="省份" data-validation-message="请选择省份" data-value="0" required />
+                                            <option value="">省份</option>
+                                        </select>
+                                        <select name="city" data-next="county" class="am-radius chosen-select" data-placeholder="城市" data-validation-message="请选择城市" data-value="0" required />
+                                            <option value="">城市</option>
+                                        </select>
+                                        <select name="county" class="am-radius chosen-select" data-placeholder="区/县" data-validation-message="请选择区/县" data-value="0" required />
+                                            <option value="">区/县</option>
+                                        </select>
+                                    </div>
+                                    <div class="am-form-group map-address">
+                                        <label>详细地址<span class="am-form-group-label-tips-must">必填</span></label>
+                                        <div class="am-input-group am-input-group-sm">
+                                            <input type="hidden" name="lng" id="form-lng" value="" />
+                                            <input type="hidden" name="lat" id="form-lat" value="" />
+                                            <input type="text" name="address" id="form-address" placeholder="详细地址" maxlength="80" data-validation-message="详细地址格式 1~80 个字符之间" class="am-radius" required />
+                                            <span class="am-input-group-btn">
+                                                <button class="am-btn am-btn-default am-radius" type="button" id="map-location-submit"><span class="am-icon-map-marker"></span> 定位</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div id="map" data-level="17" class="am-form-group"></div>
+
+                                    <div class="am-form-group am-form-group-refreshing">
+                                        <input type="hidden" name="pets_id" value="{{if !empty($data['id'])}}{{$data.id}}{{/if}}" />
+                                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">提交</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {{/if}}
+                <div class="base-share">
                     <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a><a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a></div>
                     <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
                 </div>
@@ -81,7 +141,9 @@
     {{if isset($data['status']) and $data['status'] eq 1}}
         <div class="lose">
             <div class="am-alert am-alert-warning" data-am-alert>
-                <p class="lose-title">该宠物已丢失，欢迎大家提供信息，重重有赏！</p>
+                {{if !empty($data['lose_features'])}}
+                    <p class="lose-desc">{{$data.lose_features|raw}}</p>
+                {{/if}}
                 <ul class="person">
                     {{if !empty($data['person_name'])}}
                         <li>
@@ -90,9 +152,9 @@
                         </li>
                     {{/if}}
                     {{if !empty($data['person_tel'])}}
-                        <li>
+                        <li class="tel">
                             <span>主人电话</span>
-                            <span>{{$data.person_tel}}</span>
+                            <a href="tel:{{$data.person_tel}}">{{$data.person_tel}}</a>
                         </li>
                     {{/if}}
                     {{if !empty($data['person_weixin'])}}
@@ -109,9 +171,9 @@
                         </li>
                     {{/if}}
                     {{if !empty($data['lose_reward_amount']) and $data['lose_reward_amount'] gt 0}}
-                        <li>
+                        <li class="price">
                             <span>悬赏金额</span>
-                            <span>{{$data.lose_reward_amount}}</span>
+                            <strong>￥{{$data.lose_reward_amount}}</strong>
                         </li>
                     {{/if}}
                     {{if !empty($data['lose_address'])}}
@@ -122,7 +184,9 @@
                     {{/if}}
                 </ul>
             </div>
-            <div id="map" data-level="17" class="am-form-group"></div>
+            {{if !empty($data['lose_lng']) and !empty($data['lose_lat'])}}
+                <div id="map-view" data-level="17" class="am-form-group"></div>
+            {{/if}}
         </div>
     {{/if}}
 
@@ -145,23 +209,59 @@
 <script type="text/javascript">
 $(function()
 {
-    // 百度地图API功能
-    var map = new BMap.Map("map", {enableMapClick:false});
-    var level = $('#map').data('level') || 16;
-    var point = new BMap.Point({{if !empty($data['lose_lng'])}}{{$data['lose_lng']}}{{else /}}116.400244{{/if}},{{if !empty($data['lose_lat'])}}{{$data['lose_lat']}}{{else /}}39.92556{{/if}});
-    map.centerAndZoom(point, level);
+    // 丢失地址-地图展示
+    {{if !empty($data['lose_lng']) and !empty($data['lose_lat'])}}
+        var map = new BMap.Map("map-view", {enableMapClick:false});
+        var level = $('#map-view').data('level') || 16;
+        var point = new BMap.Point({{$data['lose_lng']}},{{$data['lose_lat']}});
+        map.centerAndZoom(point, level);
 
-    // 添加控件
-    var navigationControl = new BMap.NavigationControl({
-        // 靠左上角位置
-        anchor: BMAP_ANCHOR_TOP_LEFT,
-        // LARGE类型
-        type: BMAP_NAVIGATION_CONTROL_LARGE,
-    });
-    map.addControl(navigationControl);
+        // 添加控件
+        var navigationControl = new BMap.NavigationControl({
+            // 靠左上角位置
+            anchor: BMAP_ANCHOR_TOP_LEFT,
+            // LARGE类型
+            type: BMAP_NAVIGATION_CONTROL_LARGE,
+        });
+        map.addControl(navigationControl);
 
-    // 创建标注
-    var marker = new BMap.Marker(point);  // 创建标注
-    map.addOverlay(marker);              // 将标注添加到地图中
+        // 创建标注
+        var marker = new BMap.Marker(point);  // 创建标注
+        map.addOverlay(marker);              // 将标注添加到地图中
+        marker.setAnimation(BMAP_ANIMATION_BOUNCE);  //跳动的动画
+    {{/if}}
+
+    // 丢失提供信息-地图
+    {{if isset($data['status']) and $data['status'] eq 1}}
+        var map = new BMap.Map("map", {enableMapClick:false});
+        var level = $('#map').data('level') || 16;
+        var point = new BMap.Point(116.400244,39.92556);
+        map.centerAndZoom(point, level);
+
+        // 添加控件
+        var navigationControl = new BMap.NavigationControl({
+            // 靠左上角位置
+            anchor: BMAP_ANCHOR_TOP_LEFT,
+            // LARGE类型
+            type: BMAP_NAVIGATION_CONTROL_LARGE,
+        });
+        map.addControl(navigationControl);
+
+        // 创建标注
+        var marker = new BMap.Marker(point);  // 创建标注
+        map.addOverlay(marker);              // 将标注添加到地图中
+        marker.enableDragging();           // 可拖拽
+        marker.addEventListener("dragend", function(e) {
+            map.panTo(e.point);
+            $('#form-lng').val(e.point.lng);
+            $('#form-lat').val(e.point.lat);
+        });
+
+        // 设置版权控件位置
+        var cr = new BMap.CopyrightControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT});
+        map.addControl(cr); //添加版权控件
+        var bs = map.getBounds();   //返回地图可视区域
+        cr.addCopyright({id: 1, content: "<div class='map-copy'><span>拖动红色图标直接定位</span></div>", bounds:bs});
+    {{/if}}
 });
 </script>

@@ -67,7 +67,7 @@ class Hook extends Controller
                 [
                     'name'      =>  '我的宠物',
                     'url'       =>  PluginsHomeUrl('petscms', 'pets', 'index'),
-                    'contains'  =>  ['petsindex', 'petssaveinfo'],
+                    'contains'  =>  ['petsindex', 'petssaveinfo', 'petshelp'],
                     'is_show'   =>  1,
                     'icon'      =>  'am-icon-github-alt',
                 ],

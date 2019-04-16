@@ -111,7 +111,11 @@ class Pets extends Controller
                 'where'     => ['id' => intval($params['id'])],
             );
             $ret = Service::PetsList($data_params);
-            $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
+            if(!empty($ret['data'][0]))
+            {
+                $ret['data'][0]['lose_features'] = str_replace('<br />', "\n", $ret['data'][0]['lose_features']);
+                $data = $ret['data'][0];
+            }
             unset($params['id']);
         }
         $this->assign('data', $data);
@@ -171,6 +175,98 @@ class Pets extends Controller
         // 用户
         $params['user'] = $this->user;
         return Service::PestSave($params);
+    }
+
+    /**
+     * 丢失提供信息添加/编辑
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-03-15T23:51:50+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public function helpsave($params = [])
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 用户
+        $params['user'] = $this->user;
+        return Service::HelpSave($params);
+    }
+
+    /**
+     * 宠物帮助数据列表
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-03-15T23:51:50+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public function help($params = [])
+    {
+        // 参数
+        $params = input();
+        if(empty($params['pets_id']))
+        {
+            $this->assign('msg', '参数有误');
+            return $this->fetch('public/tips_error');
+        }
+
+        // 分页
+        $number = 10;
+
+        // 条件
+        $where = [
+            'user_id'   => $this->user['id'],
+            'pets_id'   => intval($params['pets_id']),
+        ];
+
+        // 获取总数
+        $total = Service::HelpTotal($where);
+
+        // 分页
+        $page_params = array(
+                'number'    =>  $number,
+                'total'     =>  $total,
+                'where'     =>  $params,
+                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
+                'url'       =>  PluginsHomeUrl('petscms', 'pets', 'index'),
+            );
+        $page = new \base\Page($page_params);
+        $this->assign('page_html', $page->GetPageHtml());
+
+        // 获取列表
+        $data_params = array(
+            'm'         => $page->GetPageStarNumber(),
+            'n'         => $number,
+            'where'     => $where,
+        );
+        $data = Service::HelpList($data_params);
+        $this->assign('data_list', $data['data']);
+        return $this->fetch('../../../plugins/view/petscms/pets/help');
+    }
+
+    /**
+     * 宠物帮助数据地图展示
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-03-15T23:51:50+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public function helpmap($params = [])
+    {
+        // 隐藏头尾
+        $this->assign('is_header', 0);
+        $this->assign('is_footer', 0);
+
+        // 参数
+        $this->assign('params', input());
+        return $this->fetch('../../../plugins/view/petscms/pets/helpmap');
     }
 }
 ?>

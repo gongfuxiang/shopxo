@@ -42,7 +42,9 @@ function GetDocumentRoot()
             return str_replace('\\', '/', substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0 -strlen($_SERVER['PHP_SELF'])));
         }
     }
-    return '';
+
+    // 服务器root没有获取到默认使用系统root_path
+    return (substr(ROOT_PATH, -1) == '/') ? substr(ROOT_PATH, 0, -1) : ROOT_PATH;
 }
 
 /**
@@ -740,7 +742,7 @@ function Fsockopen_Post($url, $data = '')
     $post = substr( $post , 0 , -1 );
     $len = strlen($post);
     $fp = @fsockopen( $host ,$port, $errno, $errstr, 10);
-    if (!$fp) {
+    if(!$fp) {
         return "$errstr ($errno)\n";
     } else {
         $receive = '';
@@ -1214,14 +1216,14 @@ function DS($key)
  */
 function ParamsChecked($data, $params)
 {
-    if (empty($params) || !is_array($data) || !is_array($params))
+    if(empty($params) || !is_array($data) || !is_array($params))
     {
         return '内部调用参数配置有误';
     }
 
     foreach ($params as $v)
     {
-        if (empty($v['key_name']) || empty($v['error_msg']))
+        if(empty($v['key_name']) || empty($v['error_msg']))
         {
             return '内部调用参数配置有误';
         }
@@ -1261,7 +1263,7 @@ function ParamsChecked($data, $params)
         {
             // 是否存在
             case 'isset' :
-                if (!isset($data[$v['key_name']]))
+                if(!isset($data[$v['key_name']]))
                 {
                     return $v['error_msg'];
                 }
@@ -1269,7 +1271,7 @@ function ParamsChecked($data, $params)
 
             // 是否为空
             case 'empty' :
-                if (empty($data[$v['key_name']]))
+                if(empty($data[$v['key_name']]))
                 {
                     return $v['error_msg'];
                 }
@@ -1277,11 +1279,11 @@ function ParamsChecked($data, $params)
 
             // 是否存在于验证数组中
             case 'in' :
-                if (empty($v['checked_data']) || !is_array($v['checked_data']))
+                if(empty($v['checked_data']) || !is_array($v['checked_data']))
                 {
                     return '内部调用参数配置有误';
                 }
-                if (!isset($data[$v['key_name']]) || !in_array($data[$v['key_name']], $v['checked_data']))
+                if(!isset($data[$v['key_name']]) || !in_array($data[$v['key_name']], $v['checked_data']))
                 {
                     return $v['error_msg'];
                 }
@@ -1289,7 +1291,7 @@ function ParamsChecked($data, $params)
 
             // 是否为数组
             case 'is_array' :
-                if (!isset($data[$v['key_name']]) || !is_array($data[$v['key_name']]))
+                if(!isset($data[$v['key_name']]) || !is_array($data[$v['key_name']]))
                 {
                     return $v['error_msg'];
                 }
@@ -1327,12 +1329,12 @@ function ParamsChecked($data, $params)
 
             // 自定义函数
             case 'fun' :
-                if (empty($v['checked_data']) || !function_exists($v['checked_data']))
+                if(empty($v['checked_data']) || !function_exists($v['checked_data']))
                 {
                     return '验证函数为空或函数未定义';
                 }
                 $fun = $v['checked_data'];
-                if(!$fun($data[$v['key_name']]))
+                if(!isset($data[$v['key_name']]) || !$fun($data[$v['key_name']]))
                 {
                     return $v['error_msg'];
                 }
@@ -1340,12 +1342,12 @@ function ParamsChecked($data, $params)
 
             // 最小
             case 'min' :
-                if (!isset($v['checked_data']))
+                if(!isset($v['checked_data']))
                 {
                     return '验证最小值未定义';
                 }
                 $fun = $v['checked_data'];
-                if($data[$v['key_name']] < $v['checked_data'])
+                if(!isset($data[$v['key_name']]) || $data[$v['key_name']] < $v['checked_data'])
                 {
                     return $v['error_msg'];
                 }
@@ -1353,12 +1355,29 @@ function ParamsChecked($data, $params)
 
             // 最大
             case 'max' :
-                if (!isset($v['checked_data']))
+                if(!isset($v['checked_data']))
                 {
                     return '验证最大值未定义';
                 }
                 $fun = $v['checked_data'];
-                if($data[$v['key_name']] > $v['checked_data'])
+                if(!isset($data[$v['key_name']]) || $data[$v['key_name']] > $v['checked_data'])
+                {
+                    return $v['error_msg'];
+                }
+                break;
+
+            // 数据库唯一
+            case 'unique' :
+                if(!isset($v['checked_data']))
+                {
+                    return '验证唯一表参数未定义';
+                }
+                if(empty($data[$v['key_name']]))
+                {
+                    return $v['error_msg'];
+                }
+                $temp = db($v['checked_data'])->where([$v['key_name']=>$data[$v['key_name']]])->find();
+                if(!empty($temp))
                 {
                     return $v['error_msg'];
                 }

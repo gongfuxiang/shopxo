@@ -29,7 +29,7 @@
 .pets-detail {
     margin-top: 10px;
 }
-.base-btn {
+.base-btn, .base-share {
     margin-top: 20px;
 }
 .pets-detail .am-btn-primary {
@@ -74,7 +74,7 @@
     background: #f8fdff;
     padding: 0 10px;
     overflow: hidden;
-    border: 1px solid #edf9ff;
+    border: 1px solid #ebf9ff;
 }
 .base ul.basic li {
     padding: 10px 0;
@@ -82,12 +82,12 @@
     width: 50%;
 }
 .base ul.basic li:not(:last-child) {
-    border-bottom: 1px solid #edf9ff;
+    border-bottom: 1px solid #f0faff;
 }
 .base ul.basic li span:first-child {
     font-weight: 500;
     margin-right: 10px;
-    border-right: 1px solid #ebf6fc;
+    border-right: 1px solid #d7f1ff;
     padding-right: 10px;
     color: #666;
 }
@@ -96,13 +96,13 @@
  * 丢失信息
  */
 .lose .am-alert-warning {
-    background-color: #fff8ef;
-    border-color: #fff3ea;
+    background-color: #ffeee1;
+    border-color: #ffb682;
     color: #888;
     margin-top: 20px;
     margin-bottom: 5px;
 }
-.lose .lose-title {
+.lose .lose-desc {
     font-size: 16px;
     color: #f00;
 }
@@ -112,7 +112,7 @@
 .lose ul.person li span:first-child {
     font-weight: 500;
     margin-right: 10px;
-    border-right: 1px solid #feebdd;
+    border-right: 1px solid #ffd5b5;
     padding-right: 10px;
 }
 .lose ul.person {
@@ -122,14 +122,37 @@
     padding: 8px 0;
 }
 .lose ul.person li:not(:last-child) {
-    border-bottom: 1px solid #fff2e8;
+    border-bottom: 1px solid #ffe4d0;
 }
 .lose ul.person li:last-child {
     padding-bottom: 0;
 }
-#map {
+.lose ul.person li.tel a {
+    color: #70cfff;
+}
+#map-view {
     width: 100%;
     height: 350px;
+}
+
+/**
+ * 地图、联动地址
+ */
+form.form-validation .map-address {
+    border-bottom: 0;
+    padding-bottom: 0;
+    margin-bottom: 10px;
+}
+form.form-validation .region-linkage .chosen-select {
+    display: -webkit-inline-box;
+    width: calc(33.3% - 3px) !important;
+}
+form.form-validation .region-linkage .chosen-select .chosen-single {
+    width: 100%;
+}
+form.form-validation #map {
+    width: 100%;
+    height: 300px;
 }
 
 @media only screen and (min-width: 641px) {
@@ -170,5 +193,12 @@
     .base h1 {
         margin: 10px 0 5px 0;
     }
+    .base ul.basic li span:first-child, .lose ul.person li span:first-child {
+        margin-right: 5px;
+        padding-right: 5px;
+    }
+    #map-view, form.form-validation #map {
+        height: 200px;
+    }
     
-} 
+}

@@ -174,6 +174,12 @@ class AdminService
                 'error_msg'         => '用户名格式 5~18 个字符（可以是字母数字下划线）',
             ],
             [
+                'checked_type'      => 'unique',
+                'key_name'          => 'username',
+                'checked_data'      => 'Admin',
+                'error_msg'         => '用户名已存在',
+            ],
+            [
                 'checked_type'      => 'fun',
                 'key_name'          => 'login_pwd',
                 'checked_data'      => 'CheckLoginPwd',

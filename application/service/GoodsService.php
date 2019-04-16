@@ -2085,26 +2085,37 @@ class GoodsService
             return DataReturn('父级不能与当前相同', -10);
         }
 
-        // 添加
+        // 添加/编辑
+        $msg = '操作失败';
+        $code = -100;
         if(empty($params['id']))
         {
             $data['add_time'] = time();
             if(Db::name('GoodsCategory')->insertGetId($data) > 0)
             {
-                return DataReturn('添加成功', 0);
+                $code = 0;
+                $msg = '添加成功';
+            } else {
+                $msg = '添加失败';
             }
-            return DataReturn('添加失败', -100);
         } else {
             $data['upd_time'] = time();
             if(Db::name('GoodsCategory')->where(['id'=>intval($params['id'])])->update($data))
             {
-                // 删除大分类缓存
-                cache(config('shopxo.cache_goods_category_key'), null);
-
-                return DataReturn('编辑成功', 0);
+                $code = 0;
+                $msg = '编辑成功';
+            } else {
+                $msg = '编辑失败';
             }
-            return DataReturn('编辑失败', -100);
         }
+
+        // 状态
+        if($code == 0)
+        {
+            // 删除大分类缓存
+            cache(config('shopxo.cache_goods_category_key'), null);
+        }
+        return DataReturn($msg, $code);
     }
 
     /**

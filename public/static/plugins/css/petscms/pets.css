@@ -69,3 +69,10 @@ form.form-validation #map {
     width: 100%;
     height: 350px;
 }
+
+/**
+ * 帮助页面
+ */
+.pets-help #help-map {
+    height: 80vh;
+}
