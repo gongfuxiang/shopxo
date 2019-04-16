@@ -50,6 +50,7 @@
 		var __default_theme__ = '{{$default_theme}}';
 		var __modal_login_url__ = '{{:Url("index/user/modallogininfo")}}';
 		var __attachment_host__ = '{{$attachment_host}}';
+        var __seo_url_suffix__ = '{{:MyC("home_seo_url_html_suffix", "html", true)}}';
 		var __user_id__ = {{if empty($user['id'])}}0{{else /}}{{$user.id}}{{/if}};
 	</script>
 	

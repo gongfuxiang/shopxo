@@ -73,6 +73,7 @@ form.form-validation #map {
 /**
  * 帮助页面
  */
-.pets-help #help-map {
-    height: 80vh;
+#help-map {
+    width: 100%;
+    height: 100vh;
 }

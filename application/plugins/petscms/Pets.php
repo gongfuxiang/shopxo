@@ -265,7 +265,16 @@ class Pets extends Controller
         $this->assign('is_footer', 0);
 
         // 参数
-        $this->assign('params', input());
+        $params = input();
+        if(!empty($params['lng']))
+        {
+            $params['lng'] = base64_decode($params['lng']);
+        }
+        if(!empty($params['lat']))
+        {
+            $params['lat'] = base64_decode($params['lat']);
+        }
+        $this->assign('params', $params);
         return $this->fetch('../../../plugins/view/petscms/pets/helpmap');
     }
 }

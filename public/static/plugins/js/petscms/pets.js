@@ -7,7 +7,8 @@ $(function()
         var lat = parseFloat($(this).data('lat'));
         if(lng > 0 && lat > 0)
         {
-            var url = UrlFieldReplace('lat', lat, UrlFieldReplace('lng', lng, $('.pets-help').data('url')));
+            // 数据base64避免特殊字符
+            var url = UrlFieldReplace('lat', window.btoa(lat), UrlFieldReplace('lng', window.btoa(lng), $('.pets-help').data('url')));
             ModalLoad(url, '地图', 'plugins-petscms-popup-modal-help');
         }
     });
