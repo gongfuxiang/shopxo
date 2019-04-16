@@ -131,6 +131,7 @@
     }
     .commonrightnavigation-right-nav .user-center img {
         border-radius: 50px;
+        max-width: 100%;
     }
     .commonrightnavigation-right-nav .cart .cart-text {
         width: 12px;
@@ -335,6 +336,9 @@
 }
 .commonrightnavigation-cart .cart-content table tr .operation {
     width: 12%;
+}
+.commonrightnavigation-cart .cart-content table tr .operation a {
+    font-size: 12px;
 }
 .commonrightnavigation-cart .cart-content .cart-nav .nav-total-price {
     margin-right: 5px;
