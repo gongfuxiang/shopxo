@@ -220,4 +220,7 @@ form.form-validation #map {
     .am-footer {
         padding-bottom: 35px;
     }
+    .nav-search {
+        display: none;
+    }
 }
