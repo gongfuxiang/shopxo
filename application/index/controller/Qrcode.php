@@ -28,18 +28,41 @@ class QrCode extends Common
     }
 
     /**
-     * [Index 首页方法]
+     * 二维码显示
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-04-16T21:52:09+0800
      */
     public function Index()
     {
-        require_once ROOT.'extend'.DS.'qrcode'.DS.'phpqrcode.php';
-        
         $params = input();
-        $level = isset($params['level']) && in_array($params['level'], array('L','M','Q','H')) ? $params['level'] : 'L';
-        $point_size = isset($params['size']) ? min(max(intval($params['size']), 1), 10) : 6;
-        $mr = isset($params['mr']) ? intval($params['mr']) : 1;
-        $content = isset($params['content']) ? base64_decode(urldecode(trim($params['content']))) : __MY_URL__;
-        \QRcode::png($content, false, $level, $point_size, $mr);
+        if(empty($params['content']))
+        {
+            $this->assign('msg', '内容参数为空');
+            return $this->fetch('public/tips_error');
+        }
+
+        (new \base\Qrcode())->View($params);
+    }
+
+    /**
+     * 二维码下载
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-04-16T21:52:18+0800
+     */
+    public function Download()
+    {
+        $params = input();
+        if(empty($params['url']))
+        {
+            $this->assign('msg', 'url参数为空');
+            return $this->fetch('public/tips_error');
+        }
+
+        (new \base\Qrcode())->Download($params);
     }
 }
 ?>

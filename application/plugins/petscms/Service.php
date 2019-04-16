@@ -111,7 +111,8 @@ class Service
                 $v['lose_features'] = str_replace("\n", '<br />', $v['lose_features']);
 
                 // 二维码
-                $v['qrcode_url'] = MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode(MyUrl('index/goods/index', ['id'=>$v['id']], true, true)))]);
+                $v['qrcode_url'] = MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode(PluginsHomeUrl('petscms', 'pets', 'detail', ['id'=>$v['id']])))]);
+                $v['qrcode_download'] = MyUrl('index/qrcode/download', ['ssurl'=>urlencode(base64_encode($v['qrcode_url']))]);
 
                 // 地址
                 $v['province_name'] = RegionService::RegionName($v['lose_province']);
