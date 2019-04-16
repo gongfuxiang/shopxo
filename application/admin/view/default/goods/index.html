@@ -47,6 +47,7 @@
 		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10 goods-list">
 			<thead>
 				<tr>
+					<th>编号</th>
 					<th>标题名称</th>
 					<th class="am-hide-sm-only">销售价格(元)</th>
 					<th>上下架</th>
@@ -62,6 +63,7 @@
 				{{if !empty($data)}}
 					{{foreach $data as $v}}
 						<tr id="data-list-{{$v.id}}" {{if $v['is_shelves'] eq 0}}class="am-active"{{/if}}>
+							<td>{{$v.id}}</td>
 							<td>
 								<a href="{{$v.goods_url}}" target="_blank" title="{{$v.title}}">
 									<img src="{{$v['images']}}" class="am-img-thumbnail am-radius goods-images am-hide-sm-only" />
