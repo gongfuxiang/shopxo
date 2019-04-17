@@ -52,6 +52,28 @@
 }
 
 /**
+ * 未绑定
+ */
+.pets-not-bind {
+    text-align: center;
+    max-width: 600px;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    padding: 0 5px;
+}
+.pets-not-bind i {
+    font-size: 60px;
+    color: #00b0ff;
+}
+.pets-not-bind .am-alert-secondary {
+    margin-top: 0;
+}
+.pets-not-bind .am-btn {
+    margin-top: 10px;
+}
+
+/**
  * 左侧
  */
 .photo {

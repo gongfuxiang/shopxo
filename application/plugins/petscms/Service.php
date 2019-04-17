@@ -73,7 +73,7 @@ class Service
             foreach($data as &$v)
             {
                 // 类型
-                $v['type_name'] = self::$pets_attribute_type_list[$v['type']]['name'];
+                $v['type_name'] = empty($v['type']) ? '' : self::$pets_attribute_type_list[$v['type']]['name'];
 
                 // 性别
                 $v['gender_name'] = self::$pets_attribute_gender_list[$v['gender']]['name'];
@@ -249,20 +249,20 @@ class Service
                 'checked_type'      => 'length',
                 'key_name'          => 'title',
                 'checked_data'      => '1,60',
-                'is_checked'        => 2,
+                'is_checked'        => 1,
                 'error_msg'         => '标题格式 1~60 个字符之间',
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '1,30',
-                'is_checked'        => 2,
+                'is_checked'        => 1,
                 'error_msg'         => '宠物名字格式 1~30 个字符之间',
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'birthday',
-                'is_checked'        => 2,
+                'is_checked'        => 1,
                 'error_msg'         => '请填写出生日期',
             ],
             [
@@ -276,7 +276,7 @@ class Service
                 'checked_type'      => 'length',
                 'key_name'          => 'varieties',
                 'checked_data'      => '30',
-                'is_checked'        => 2,
+                'is_checked'        => 1,
                 'error_msg'         => '品种格式最多 30 个字符',
             ],
             [
@@ -296,35 +296,35 @@ class Service
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'photo',
-                'is_checked'        => 2,
+                'is_checked'        => 1,
                 'error_msg'         => '请上传宠物相册',
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'content',
                 'checked_data'      => '105000',
-                'is_checked'        => 2,
+                'is_checked'        => 1,
                 'error_msg'         => '宠物简介内容最多 105000 个字符',
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'person_name',
                 'checked_data'      => '1,30',
-                'is_checked'        => 2,
+                'is_checked'        => 1,
                 'error_msg'         => '主人姓名格式 1~30 个字符之间',
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'person_tel',
                 'checked_data'      => '1,30',
-                'is_checked'        => 2,
+                'is_checked'        => 1,
                 'error_msg'         => '主人电话格式 1~30 个字符之间',
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'person_weixin',
                 'checked_data'      => '1,30',
-                'is_checked'        => 2,
+                'is_checked'        => 1,
                 'error_msg'         => '主人微信格式 1~30 个字符之间',
             ],
             [

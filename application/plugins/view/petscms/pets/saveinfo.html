@@ -30,10 +30,10 @@
 
                 <!-- 基础 -->
                 <div class="base-view">
-                    {{if empty($data['id'])}}
+                    {{if empty($data['id']) and !empty($params['pest_no'])}}
                         <div class="am-form-group">
-                            <label>编号<span class="am-form-group-label-tips-must">请输入二维码上的编号（无二维码留空即可）</span></label>
-                            <input type="text" name="pest_no" placeholder="编号" maxlength="60" data-validation-message="编号格式 1~60 个字符之间" class="am-radius" value="" />
+                            <label>编号<span class="am-form-group-label-tips">宠物绑定</span></label>
+                            <input type="text" name="pest_no" placeholder="编号" maxlength="60" data-validation-message="编号格式 1~60 个字符之间" class="am-radius" value="{{$params.pest_no}}" readonly="true" />
                         </div>
                     {{/if}}
 
@@ -63,7 +63,7 @@
                     </div>
 
                     <div class="am-form-group">
-                        <label>品种<span class="am-form-group-label-tips">必填</span></label>
+                        <label>品种<span class="am-form-group-label-tips-must">必填</span></label>
                         <input type="text" name="varieties" placeholder="品种" maxlength="30" data-validation-message="品种格式最多 30 个字符" class="am-radius" value="{{if !empty($data['varieties'])}}{{$data.varieties}}{{/if}}" required />
                     </div>
 
