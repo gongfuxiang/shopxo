@@ -425,10 +425,12 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
  */
 .am-footer-default {
     border-top: 2px solid #d2364c;
-    background: #f3f3f3;
+    background: #303030;
+    color: #e2e2e2;
 }
 .am-footer-default a {
     font-size: 12px;
+    color: #b1b1b1;
 }
 .am-footer-default .am-container {
 
@@ -444,16 +446,16 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
 .footer-nav-list li .footer-nav-title {
     font-weight: 500;
     font-size: 14px;
-    color: #333;
+    color: #fff;
 }
 .footer-nav-list li p {
     line-height: 26px;
 }
 .footer-nav-list li p a {
-    color: #333;
+    color: #c4c4c4;
 }
 .footer-nav-list li p a:hover {
-    color: #d2364c;
+    color: #fff;
     text-decoration: underline;
 }
 .am-footer-miscs {
@@ -476,12 +478,12 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
     max-width: 130px;
 }
 .footer-about li i {
-    color: #888;
+    color: #a5a5a5;
     width: 20px;
     text-align: center;
 }
 .am-footer-miscs .am-container {
-    border-top: 1px solid #ebebeb;
+    border-top: 1px solid #383838;
     padding-top: 10px;
 }
 @media only screen and (max-width:1025px) {
@@ -494,7 +496,7 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
         
     }
     .footer-about {
-        border-top: 1px solid #ebebeb;
+        border-top: 1px solid #383838;
         padding-top: 10px;
         margin-top: 10px;
     }
