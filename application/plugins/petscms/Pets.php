@@ -52,7 +52,6 @@ class Pets extends Controller
     public function index($params = [])
     {
         // 参数
-        $params = input();
         $params['user'] = $this->user;
 
         // 分页
@@ -82,8 +81,9 @@ class Pets extends Controller
             'where'     => $where,
         );
         $data = Service::PetsList($data_params);
+        unset($params['user']);
+        $this->assign('params', $params);
         $this->assign('data_list', $data['data']);
-
         $this->assign('pets_attribute_status_list', Service::$pets_attribute_status_list);
         $this->assign('pets_attribute_is_text_list', Service::$pets_attribute_is_text_list);
         $this->assign('pets_attribute_gender_list', Service::$pets_attribute_gender_list);
@@ -173,7 +173,7 @@ class Pets extends Controller
         }
 
         // 用户
-        $params['user'] = $this->user;
+        $params['user_id'] = $this->user['id'];
         return Service::PestSave($params);
     }
 
@@ -194,7 +194,7 @@ class Pets extends Controller
         }
 
         // 用户
-        $params['user'] = $this->user;
+        $params['user_id'] = $this->user['id'];
         return Service::HelpSave($params);
     }
 

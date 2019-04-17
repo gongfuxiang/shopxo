@@ -1,1 +1,227 @@
-saveinfo
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">宠物管理系统</span>
+            <a href="{{:PluginsAdminUrl('petscms', 'petsadmin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+        <div class="petscms-content">
+            <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('petscms', 'petsadmin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('petscms', 'petsadmin', 'index', $params)}}" enctype="multipart/form-data">
+                <!-- 基础 -->
+                <div class="base-view">
+                    {{if empty($data['id'])}}
+                        <div class="am-form-group">
+                            <label>编号<span class="am-form-group-label-tips-must">请输入二维码上的编号（无二维码留空即可）</span></label>
+                            <input type="text" name="pest_no" placeholder="编号" maxlength="60" data-validation-message="编号格式 1~60 个字符之间" class="am-radius" value="" />
+                        </div>
+                    {{/if}}
+
+                    <div class="am-form-group">
+                        <label>标题<span class="am-form-group-label-tips-must">必填</span></label>
+                        <input type="text" name="title" placeholder="标题" minlength="1" maxlength="60" data-validation-message="标题格式 1~60 个字符之间" class="am-radius" value="{{if !empty($data['title'])}}{{$data.title}}{{/if}}" required />
+                    </div>
+
+                    <div class="am-form-group">
+                        <label>宠物名字<span class="am-form-group-label-tips-must">必填</span></label>
+                        <input type="text" name="name" placeholder="宠物名字" minlength="1" maxlength="30" data-validation-message="宠物名字格式 1~30 个字符之间" class="am-radius" value="{{if !empty($data['name'])}}{{$data.name}}{{/if}}" required />
+                    </div>
+
+                    <div class="am-form-group">
+                        <label>出生日期<span class="am-form-group-label-tips-must">必填</span></label>
+                        <input type="text" name="birthday" class="am-form-field am-radius Wdate" placeholder="出生日期" data-validation-message="出生日期格式有误" {{if !empty($data['birthday_name'])}} value="{{$data.birthday_name}}"{{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" required />
+                    </div>
+
+                    <div class="am-form-group">
+                        <label>类型<span class="am-form-group-label-tips-must">必选</span></label>
+                        <select name="type" class="am-radius chosen-select" data-placeholder="可选择..." data-validation-message="请选择类型" required>
+                            <option value="">可选择...</option>
+                            {{foreach $pets_attribute_type_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['type']) and $data['type'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label>品种<span class="am-form-group-label-tips">必填</span></label>
+                        <input type="text" name="varieties" placeholder="品种" maxlength="30" data-validation-message="品种格式最多 30 个字符" class="am-radius" value="{{if !empty($data['varieties'])}}{{$data.varieties}}{{/if}}" required />
+                    </div>
+
+                    <div class="am-form-group">
+                        <label>性别<span class="am-form-group-label-tips-must">必选</span></label>
+                        <select name="gender" class="am-radius chosen-select" data-placeholder="可选择..." data-validation-message="请选择性别" required>
+                            <option value="">可选择...</option>
+                            {{foreach $pets_attribute_gender_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['gender']) and $data['gender'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label>是否绝育<span class="am-form-group-label-tips-must">必选</span></label>
+                        <select name="sterilization" class="am-radius chosen-select" data-placeholder="可选择..." data-validation-message="请选择是否绝育" required>
+                            <option value="">可选择...</option>
+                            {{foreach $pets_attribute_is_text_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['sterilization']) and $data['sterilization'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label>是否疫苗<span class="am-form-group-label-tips-must">必选</span></label>
+                        <select name="vaccine" class="am-radius chosen-select" data-placeholder="可选择..." data-validation-message="请选择是否疫苗" required>
+                            <option value="">可选择...</option>
+                            {{foreach $pets_attribute_is_text_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['vaccine']) and $data['vaccine'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+
+                    <!-- 相册 -->
+                    <div class="am-form-group">
+                        <label>宠物相册<span class="am-form-group-label-tips">选填，可拖拽图片进行排序，建议图片尺寸一致</span></label>
+                        <ul class="plug-file-upload-view goods-photo-view" data-form-name="photo[]" data-max-number="6" data-dialog-type="images">
+                            {{if !empty($data['photo'])}}
+                                {{foreach $data.photo as $v}}
+                                    <li>
+                                        <input type="text" name="photo[]" value="{{$v.images_old}}" />
+                                        <img src="{{$v.images}}" />
+                                        <i>×</i>
+                                    </li>
+                                {{/foreach}}
+                            {{/if}}
+                        </ul>
+                        <div class="plug-file-upload-submit" data-view-tag="ul.goods-photo-view">+上传相册</div>
+                    </div>
+
+                    <!-- 宠物简介 -->
+                    <div class="am-form-group">
+                        <label>宠物简介<span class="am-form-group-label-tips">选填</span></label>
+                        <textarea class="am-radius am-validate" name="content" maxlength="105000" id="editor-tag" data-validation-message="宠物简介内容最多 105000 个字符">{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
+                    </div>
+                </div>
+
+                <!-- 主人信息 -->
+                <div class="am-alert am-alert-secondary person-view" data-am-alert>
+                    <h2>主人信息</h2>
+                    <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+                    <div class="am-form-group">
+                        <label>主人姓名<span class="am-form-group-label-tips-must">必填</span></label>
+                        <input type="text" name="person_name" placeholder="主人姓名" minlength="1" maxlength="30" data-validation-message="主人姓名格式 1~30 个字符之间" class="am-radius" value="{{if !empty($data['person_name'])}}{{$data.person_name}}{{/if}}" required />
+                    </div>
+                    <div class="am-form-group">
+                        <label>主人电话<span class="am-form-group-label-tips-must">必填</span></label>
+                        <input type="text" name="person_tel" placeholder="主人电话" minlength="1" maxlength="30" data-validation-message="主人电话格式 1~30 个字符之间" class="am-radius" value="{{if !empty($data['person_tel'])}}{{$data.person_tel}}{{/if}}" required />
+                    </div>
+                    <div class="am-form-group">
+                        <label>主人微信<span class="am-form-group-label-tips-must">必填</span></label>
+                        <input type="text" name="person_weixin" placeholder="主人微信" minlength="1" maxlength="30" data-validation-message="主人微信格式 1~30 个字符之间" class="am-radius" value="{{if !empty($data['person_weixin'])}}{{$data.person_weixin}}{{/if}}" required />
+                    </div>
+                </div>
+
+                <!-- 丢失信息 -->
+                <div class="am-alert am-alert-warning lose-view" data-am-alert>
+                    <h2>丢失信息（丢失状态下有效）</h2>
+                    <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+                    <div class="am-form-group">
+                        <label>丢失时间<span class="am-form-group-label-tips">选填</span></label>
+                        <input type="text" name="lose_time" class="am-form-field am-radius Wdate" placeholder="丢失时间" data-validation-message="丢失时间格式有误" {{if !empty($data['lose_time_name'])}} value="{{$data.lose_time_name}}"{{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" />
+                    </div>
+                    <div class="am-form-group">
+                        <label>悬赏金额<span class="am-form-group-label-tips">选填（空则无赏金）</span></label>
+                        <input type="text" name="lose_reward_amount" placeholder="悬赏金额" data-validation-message="请填写有效的悬赏金额" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" value="{{if !empty($data['lose_reward_amount']) and $data['lose_reward_amount'] gt 0}}{{$data.lose_reward_amount}}{{/if}}" />
+                    </div>
+                    <div class="am-form-group">
+                        <label>宠物特征<span class="am-form-group-label-tips">选填</span></label>
+                        <textarea class="am-radius am-validate" name="lose_features" rows="5" maxlength="230" placeholder="内容最多230个字" data-validation-message="宠物特征最多 230 个字符">{{if !empty($data['lose_features'])}}{{$data.lose_features}}{{/if}}</textarea>
+                    </div>
+                    <div class="am-form-group region-linkage" data-url="{{:MyUrl('index/region/index')}}">
+                        <label class="block">省市区<span class="am-form-group-label-tips">选填</span></label>
+                        <select name="province" data-next="city" class="am-radius chosen-select" data-placeholder="省份" data-validation-message="请选择省份" data-value="{{if isset($data['lose_province'])}}{{$data.lose_province}}{{else /}}0{{/if}}" />
+                            <option value="">省份</option>
+                        </select>
+                        <select name="city" data-next="county" class="am-radius chosen-select" data-placeholder="城市" data-validation-message="请选择城市" data-value="{{if isset($data['lose_city'])}}{{$data.lose_city}}{{else /}}0{{/if}}" />
+                            <option value="">城市</option>
+                        </select>
+                        <select name="county" class="am-radius chosen-select" data-placeholder="区/县" data-validation-message="请选择区/县" data-value="{{if isset($data['lose_county'])}}{{$data.lose_county}}{{else /}}0{{/if}}" />
+                            <option value="">区/县</option>
+                        </select>
+                    </div>
+                    <div class="am-form-group map-address">
+                        <label>详细地址<span class="am-form-group-label-tips">选填</span></label>
+                        <div class="am-input-group am-input-group-sm">
+                            <input type="hidden" name="lng" id="form-lng" value="{{if !empty($data['lose_lng'])}}{{$data.lose_lng}}{{/if}}" />
+                            <input type="hidden" name="lat" id="form-lat" value="{{if !empty($data['lose_lat'])}}{{$data.lose_lat}}{{/if}}" />
+                            <input type="text" name="address" id="form-address" placeholder="详细地址" maxlength="80" data-validation-message="详细地址格式 1~80 个字符之间" class="am-radius" value="{{if !empty($data['lose_address'])}}{{$data.lose_address}}{{/if}}" />
+                            <span class="am-input-group-btn">
+                                <button class="am-btn am-btn-default am-radius" type="button" id="map-location-submit"><span class="am-icon-map-marker"></span> 定位</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div id="map" data-level="17" class="am-form-group"></div>
+                </div>
+
+                <div class="am-form-group">
+                    <label>状态<span class="am-form-group-label-tips-must">必选</span></label>
+                    <select name="status" class="am-radius chosen-select" data-placeholder="可选择..." data-validation-message="请选择状态" required>
+                        <option value="">可选择...</option>
+                        {{foreach $pets_attribute_status_list as $v}}
+                            <option value="{{$v.value}}" {{if isset($data['status']) and $data['status'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                        {{/foreach}}
+                    </select>
+                </div>
+
+                <div class="am-form-group am-form-group-refreshing">
+                    <input type="hidden" name="id" value="{{if !empty($data['id'])}}{{$data.id}}{{/if}}" />
+                    <input type="hidden" name="user_id" value="{{if !empty($data['user_id'])}}{{$data.user_id}}{{/if}}" />
+                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
+
+<!-- map -->
+<script type="text/javascript" src="{{$Think.__MY_HTTP__}}://api.map.baidu.com/api?v=2.0&ak={{:MyC('common_baidu_map_ak')}}"></script>
+
+<script type="text/javascript">
+$(function()
+{
+    // 百度地图API功能
+    var map = new BMap.Map("map", {enableMapClick:false});
+    var level = $('#map').data('level') || 16;
+    var point = new BMap.Point({{if !empty($data['lose_lng'])}}{{$data['lose_lng']}}{{else /}}116.400244{{/if}},{{if !empty($data['lose_lat'])}}{{$data['lose_lat']}}{{else /}}39.92556{{/if}});
+    map.centerAndZoom(point, level);
+
+    // 添加控件
+    var navigationControl = new BMap.NavigationControl({
+        // 靠左上角位置
+        anchor: BMAP_ANCHOR_TOP_LEFT,
+        // LARGE类型
+        type: BMAP_NAVIGATION_CONTROL_LARGE,
+    });
+    map.addControl(navigationControl);
+
+    // 创建标注
+    var marker = new BMap.Marker(point);  // 创建标注
+    map.addOverlay(marker);              // 将标注添加到地图中
+    marker.enableDragging();           // 可拖拽
+    marker.addEventListener("dragend", function(e) {
+        map.panTo(e.point);
+        $('#form-lng').val(e.point.lng);
+        $('#form-lat').val(e.point.lat);
+    });
+
+    // 设置版权控件位置
+    var cr = new BMap.CopyrightControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT});
+    map.addControl(cr); //添加版权控件
+    var bs = map.getBounds();   //返回地图可视区域
+    cr.addCopyright({id: 1, content: "<div class='map-copy'><span>拖动红色图标直接定位</span></div>", bounds:bs});
+});
+</script>

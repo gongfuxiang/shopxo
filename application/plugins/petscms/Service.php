@@ -353,7 +353,7 @@ class Service
 
         // 宠物数据
         $data = [
-            'user_id'       => isset($params['user']['id']) ? intval($params['user']['id']) : 0,
+            'user_id'       => isset($params['user_id']) ? intval($params['user_id']) : 0,
             'title'         => isset($params['title']) ? $params['title'] : '',
             'name'          => isset($params['name']) ? $params['name'] : '',
             'birthday'      => empty($params['birthday']) ? 0 : strtotime($params['birthday']),
@@ -504,7 +504,7 @@ class Service
 
         // 宠物数据
         $data = [
-            'user_id'           => isset($params['user']['id']) ? intval($params['user']['id']) : 0,
+            'user_id'           => isset($params['user_id']) ? intval($params['user_id']) : 0,
             'pets_id'           => intval($params['pets_id']),
             'contacts_name'     => $params['contacts_name'],
             'contacts_tel'      => isset($params['contacts_tel']) ? $params['contacts_tel'] : '',
