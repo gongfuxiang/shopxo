@@ -14,6 +14,7 @@ use think\Controller;
 use app\plugins\petscms\Service;
 use app\service\PluginsService;
 use app\service\UserService;
+use app\service\SeoService;
 
 /**
  * 宠物管理系统 - 用户宠物管理
