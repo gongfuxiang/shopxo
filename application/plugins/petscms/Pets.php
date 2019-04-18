@@ -43,7 +43,7 @@ class Pets extends Controller
         $this->user = UserService::LoginUserInfo();
 
         // 需要登录校验的方法
-        $is_login_all = ['index', 'saveinfo', 'save', 'untying', 'helpsave', 'help', 'helpmap'];
+        $is_login_all = ['index', 'saveinfo', 'save', 'untying', 'help', 'helpmap'];
 
         // 登录校验
         if(in_array(input('pluginsaction'), $is_login_all) && empty($this->user))

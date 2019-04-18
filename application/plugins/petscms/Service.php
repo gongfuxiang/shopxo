@@ -523,9 +523,9 @@ class Service
             $data['add_time'] = time();
             if(Db::name('PluginsPetscmsHelp')->insertGetId($data) > 0)
             {
-                return DataReturn('添加成功', 0);
+                return DataReturn('提供成功', 0);
             }
-            return DataReturn('添加失败', -100);
+            return DataReturn('提供失败', -100);
         } else {
             $data['upd_time'] = time();
             if(Db::name('PluginsPetscmsHelp')->where(['id'=>intval($params['id'])])->update($data))
