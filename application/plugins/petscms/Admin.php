@@ -45,7 +45,7 @@ class Admin extends Controller
      */
     public function base($params = [])
     {
-        $ret = PluginsService::PluginsData('petscms', ['logo', 'pets_default_images']);
+        $ret = PluginsService::PluginsData('petscms', ['logo', 'pets_default_images', 'alipay_qrcode_images', 'weixin_qrcode_images']);
         if($ret['code'] == 0)
         {
             if(!empty($ret['data']['not_bind_desc']))
@@ -69,7 +69,7 @@ class Admin extends Controller
      */
     public function saveinfo($params = [])
     {
-        $ret = PluginsService::PluginsData('petscms', ['logo', 'pets_default_images'], false);
+        $ret = PluginsService::PluginsData('petscms', ['logo', 'pets_default_images', 'alipay_qrcode_images', 'weixin_qrcode_images'], false);
         if($ret['code'] == 0)
         {
             // 是否

@@ -121,5 +121,9 @@ return array (
   array (
     0 => 'app\\plugins\\petscms\\Hook',
   ),
+  'plugins_service_header_navigation_top_right_handle' => 
+  array (
+    0 => 'app\\plugins\\petscms\\Hook',
+  ),
 );
 ?>

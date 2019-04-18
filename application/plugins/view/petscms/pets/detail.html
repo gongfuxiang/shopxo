@@ -222,6 +222,27 @@
                     </div>
                 {{/if}}
                 <a href="{{:PluginsHomeUrl('petscms', 'pets', 'saveinfo', ['pest_no'=>$data['pest_no']])}}" class="am-btn am-btn-primary am-radius am-icon-get-pocket am-animation-slide-bottom"> {{if empty($plugins_base_data['pets_take'])}}我要领取{{else /}}{{$plugins_base_data.pets_take}}{{/if}}</a>
+
+                {{if !empty($plugins_base_data['alipay_qrcode_images']) or !empty($plugins_base_data['weixin_qrcode_images'])}}
+                    <ul class="qrcode am-animation-slide-bottom">
+                        {{if !empty($plugins_base_data['alipay_qrcode_images'])}}
+                            <li>
+                                <img src="{{$plugins_base_data.alipay_qrcode_images}}" alt="二维码" />
+                                {{if !empty($plugins_base_data['alipay_qrcode_name'])}}
+                                    <p>{{$plugins_base_data.alipay_qrcode_name}}</p>
+                                {{/if}}
+                            </li>
+                        {{/if}}
+                        {{if !empty($plugins_base_data['weixin_qrcode_images'])}}
+                            <li>
+                                <img src="{{$plugins_base_data.weixin_qrcode_images}}" alt="二维码" />
+                                {{if !empty($plugins_base_data['weixin_qrcode_name'])}}
+                                    <p>{{$plugins_base_data.weixin_qrcode_name}}</p>
+                                {{/if}}
+                            </li>
+                        {{/if}}
+                    </ul>
+                {{/if}}
             </div>
         {{/if}}
     </div>

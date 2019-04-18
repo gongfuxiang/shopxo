@@ -19,6 +19,9 @@
     "hook":{
         "plugins_service_users_center_left_menu_handle":[
             "app\\plugins\\petscms\\Hook"
+        ],
+        "plugins_service_header_navigation_top_right_handle":[
+            "app\\plugins\\petscms\\Hook"
         ]
     }
 }

@@ -53,6 +53,42 @@
                 <div class="plug-file-upload-submit" data-view-tag="ul.plugins-pets_default_images-view">+上传图片</div>
             </div>
 
+            <div class="am-form-group am-form-file">
+                <label class="block">支付宝二维码<span class="am-form-group-label-tips">建议150像数X150像数</span></label>
+                <ul class="plug-file-upload-view plugins-alipay_qrcode_images-view" data-form-name="alipay_qrcode_images" data-max-number="1" data-dialog-type="images">
+                    {{if !empty($data['alipay_qrcode_images'])}}
+                        <li>
+                            <input type="text" name="alipay_qrcode_images" value="{{$data.alipay_qrcode_images_old}}" data-validation-message="请上传支付宝二维码" />
+                            <img src="{{$data.alipay_qrcode_images}}" />
+                            <i>×</i>
+                        </li>
+                    {{/if}}
+                </ul>
+                <div class="plug-file-upload-submit" data-view-tag="ul.plugins-alipay_qrcode_images-view">+上传图片</div>
+            </div>
+            <div class="am-form-group">
+                <label>支付宝二维码名称<span class="am-form-group-label-tips">空则不显示</span></label>
+                <input type="text" name="alipay_qrcode_name" placeholder="支付宝二维码名称" maxlength="30" data-validation-message="支付宝二维码名称格式最多 30 个字符" class="am-radius" value="{{if !empty($data['alipay_qrcode_name'])}}{{$data.alipay_qrcode_name}}{{/if}}" />
+            </div>
+
+            <div class="am-form-group am-form-file">
+                <label class="block">微信二维码<span class="am-form-group-label-tips">建议150像数X150像数</span></label>
+                <ul class="plug-file-upload-view plugins-weixin_qrcode_images-view" data-form-name="weixin_qrcode_images" data-max-number="1" data-dialog-type="images">
+                    {{if !empty($data['weixin_qrcode_images'])}}
+                        <li>
+                            <input type="text" name="weixin_qrcode_images" value="{{$data.weixin_qrcode_images_old}}" data-validation-message="请上传微信二维码" />
+                            <img src="{{$data.weixin_qrcode_images}}" />
+                            <i>×</i>
+                        </li>
+                    {{/if}}
+                </ul>
+                <div class="plug-file-upload-submit" data-view-tag="ul.plugins-weixin_qrcode_images-view">+上传图片</div>
+            </div>
+            <div class="am-form-group">
+                <label>微信二维码名称<span class="am-form-group-label-tips">空则不显示</span></label>
+                <input type="text" name="weixin_qrcode_name" placeholder="微信二维码名称" maxlength="30" data-validation-message="微信二维码名称格式最多 30 个字符" class="am-radius" value="{{if !empty($data['weixin_qrcode_name'])}}{{$data.weixin_qrcode_name}}{{/if}}" />
+            </div>
+
             <div class="am-form-group am-form-group-refreshing">
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
             </div>

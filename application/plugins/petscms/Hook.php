@@ -41,6 +41,11 @@ class Hook extends Controller
                     $ret = $this->UserCenterLeftMenuHandle($params);
                     break;
 
+                // 顶部小导航右侧-我的业务
+                case 'plugins_service_header_navigation_top_right_handle' :
+                    $ret = $this->CommonTopNavRightMenuHandle($params);
+                    break;
+
                 default :
                     $ret = '';
             }
@@ -74,6 +79,24 @@ class Hook extends Controller
             ]
         ]];
         array_splice($params['data'], 2, 0, $menu);
+    }
+
+    /**
+     * 顶部小导航右侧-我的业务
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-04-11
+     * @desc    description
+     * @param   array           $params [description]
+     */
+    public function CommonTopNavRightMenuHandle($params = [])
+    {
+        $menu = [
+            'name'  => '我的宠物',
+            'url'   => PluginsHomeUrl('petscms', 'pets', 'index'),
+        ];
+        array_push($params['data'][1]['items'], $menu);
     }
 }
 ?>

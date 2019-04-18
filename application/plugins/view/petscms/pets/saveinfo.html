@@ -30,7 +30,7 @@
 
                 <!-- 基础 -->
                 <div class="base-view">
-                    {{if empty($data['id']) and !empty($pest_no)}}
+                    {{if !empty($pest_no)}}
                         <div class="am-form-group">
                             <label>编号<span class="am-form-group-label-tips">宠物绑定</span></label>
                             <input type="text" name="pest_no" placeholder="编号" maxlength="60" data-validation-message="编号格式 1~60 个字符之间" class="am-radius" value="{{$pest_no}}" readonly="true" />
@@ -120,7 +120,9 @@
                             <select name="status" class="am-radius chosen-select" data-placeholder="可选择..." data-validation-message="请选择状态" required>
                                 <option value="">可选择...</option>
                                 {{foreach $pets_attribute_status_list as $v}}
-                                    <option value="{{$v.value}}" {{if isset($data['status']) and $data['status'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                    {{if $v['value'] neq 3}}
+                                        <option value="{{$v.value}}" {{if isset($data['status']) and $data['status'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                    {{/if}}
                                 {{/foreach}}
                             </select>
                         </div>

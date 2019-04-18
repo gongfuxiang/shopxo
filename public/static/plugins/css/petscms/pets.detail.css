@@ -64,13 +64,43 @@
 }
 .pets-not-bind i {
     font-size: 60px;
-    color: #00b0ff;
+    color: #f0f0f0;
 }
 .pets-not-bind .am-alert-secondary {
     margin-top: 0;
+    background: #fcfcfc;
+    border: 1px solid #f8f8f8;
 }
 .pets-not-bind .am-btn {
     margin-top: 10px;
+}
+.pets-not-bind ul.qrcode {
+    overflow: hidden;
+    margin-top: 30px;
+    border: 1px solid;
+    border-top: 5px solid;
+    border-color: #eee;
+}
+.pets-not-bind ul.qrcode li {
+    width: 50%;
+    float: left;
+    text-align: center;
+    padding: 20px;
+}
+.pets-not-bind ul.qrcode li:first-child {
+    border-right: 1px solid #eee;
+}
+.pets-not-bind ul.qrcode li:last-child {
+    border-left: 1px solid #fff;
+}
+.pets-not-bind ul.qrcode li img {
+    max-width: 150px;
+}
+.pets-not-bind ul.qrcode li p {
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+    margin-top: 5px;
 }
 
 /**

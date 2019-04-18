@@ -39,7 +39,22 @@ class Pets extends Controller
     {
         parent::__construct();
 
+        // 用户信息
         $this->user = UserService::LoginUserInfo();
+
+        // 需要登录校验的方法
+        $is_login_all = ['index', 'saveinfo', 'save', 'untying', 'helpsave', 'help', 'helpmap'];
+
+        // 登录校验
+        if(in_array(input('pluginsaction'), $is_login_all) && empty($this->user))
+        {
+            if(IS_AJAX)
+            {
+                exit(json_encode(DataReturn('登录失效，请重新登录', -400)));
+            } else {
+                return $this->redirect('index/user/logininfo');
+            }
+        }
     }
 
     /**
@@ -102,6 +117,24 @@ class Pets extends Controller
      */
     public function saveinfo($params = [])
     {
+        // 是否绑定
+        if(!empty($params['pest_no']))
+        {
+            $data_params = array(
+                'm'         => 0,
+                'n'         => 1,
+                'where'     => ['pest_no' => $params['pest_no']],
+            );
+            $ret = Service::PetsList($data_params);
+            if(!empty($ret['data'][0]['user_id']))
+            {
+                $this->assign('msg', '该宠物已被绑定');
+                return $this->fetch('public/tips_error');
+            }
+            $this->assign('pest_no', $params['pest_no']);
+            unset($params['pest_no']);
+        }
+
         // 获取数据
         $data = [];
         if(!empty($params['id']))
@@ -119,10 +152,7 @@ class Pets extends Controller
             }
             unset($params['id']);
         }
-
-        // 是否绑定
-        $this->assign('pest_no', empty($params['pest_no']) ? '' : $params['pest_no']);
-        unset($params['pest_no']);
+        
         $this->assign('params', $params);
         $this->assign('data', $data);
         $this->assign('pets_attribute_status_list', Service::$pets_attribute_status_list);
@@ -158,7 +188,7 @@ class Pets extends Controller
         $this->assign('data', $data);
 
         // 基础信息
-        $ret = PluginsService::PluginsData('petscms', ['logo', 'pets_default_images']);
+        $ret = PluginsService::PluginsData('petscms', ['logo', 'pets_default_images', 'alipay_qrcode_images', 'weixin_qrcode_images']);
         if(!empty($ret['data']['not_bind_desc']))
         {
             $ret['data']['not_bind_desc'] = str_replace("\n", '<br />', $ret['data']['not_bind_desc']);
@@ -194,6 +224,26 @@ class Pets extends Controller
         // 用户
         $params['user_id'] = $this->user['id'];
         return Service::PetsSave($params);
+    }
+
+    /**
+     * 宠物解绑
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-15T11:03:30+0800
+     */
+    public function untying($params = [])
+    {
+        // 是否ajax
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 用户
+        $params['user_id'] = $this->user['id'];
+        return Service::PetsUntying($params);
     }
 
     /**

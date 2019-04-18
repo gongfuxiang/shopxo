@@ -168,9 +168,9 @@
                                         {{/if}}
                                         <a href="{{:PluginsAdminUrl('petscms', 'petsadmin', 'help',array_merge($params, ['pets_id'=>$v['id']]))}}" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-gg am-btn-block"> 帮助</a>
                                         {{if $v['user_id'] gt 0}}
-                                            <button class="am-btn am-btn-warning am-btn-xs am-radius am-icon-circle-o am-btn-block submit-ajax" data-url="{{:PluginsHomeUrl('petscms', 'petsadmin', 'untying')}}" data-id="{{$v.id}}" data-view="reload" data-msg="解绑后不可恢复，确定操作吗？"> 解绑</button>
+                                            <button class="am-btn am-btn-warning am-btn-xs am-radius am-icon-circle-o am-btn-block submit-ajax" data-url="{{:PluginsAdminUrl('petscms', 'petsadmin', 'untying')}}" data-id="{{$v.id}}" data-view="reload" data-msg="解绑后不可恢复，确定操作吗？"> 解绑</button>
                                         {{/if}}
-                                        <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o am-btn-block submit-delete" data-url="{{:PluginsHomeUrl('petscms', 'petsadmin', 'delete')}}" data-id="{{$v.id}}"> 删除</button>
+                                        <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o am-btn-block submit-delete" data-url="{{:PluginsAdminUrl('petscms', 'petsadmin', 'delete')}}" data-id="{{$v.id}}"> 删除</button>
                                     </td>
                                 </tr>
                             {{/foreach}}

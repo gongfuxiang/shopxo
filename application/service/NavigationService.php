@@ -515,7 +515,7 @@ class NavigationService
                 'items'     => [],
             ],
             [
-                'name'      => '我的交易',
+                'name'      => '我的业务',
                 'is_login'  => 1,
                 'badge'     => null,
                 'icon'      => 'am-icon-cube',

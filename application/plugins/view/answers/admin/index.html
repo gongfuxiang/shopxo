@@ -97,7 +97,7 @@
                         <label>中间横幅</label>
                         <div class="immages-tag">
                             <a href="{{if empty($data['url'])}}javascript:;{{else /}}{{$data.url}}{{/if}}" {{if isset($data['is_new_window_open']) and $data['is_new_window_open'] eq 1}} target="_blank"{{/if}}>
-                                <img src="{{if !empty($data['images'])}}{{$data.images}}{{else /}}{{$attachment_host}}/static/plugins/images/answers/default-images.png{{/if}}" />
+                                <img src="{{if !empty($data['images'])}}{{$data.images}}{{else /}}{{$attachment_host}}/static/plugins/images/answers/default-images.jpg{{/if}}" />
                             </a>
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                         <label>底部横幅</label>
                         <div class="immages-tag">
                             <a href="{{if empty($data['url_bottom'])}}javascript:;{{else /}}{{$data.url_bottom}}{{/if}}" {{if isset($data['is_new_window_open_bottom']) and $data['is_new_window_open_bottom'] eq 1}} target="_blank"{{/if}}>
-                                <img src="{{if !empty($data['images_bottom'])}}{{$data.images_bottom}}{{else /}}{{$attachment_host}}/static/plugins/images/answers/default-images.png{{/if}}" />
+                                <img src="{{if !empty($data['images_bottom'])}}{{$data.images_bottom}}{{else /}}{{$attachment_host}}/static/plugins/images/answers/default-images.jpg{{/if}}" />
                             </a>
                         </div>
                     </div>

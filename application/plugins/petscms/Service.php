@@ -382,7 +382,7 @@ class Service
 
         // 绑定编号
         $edit_msg_title = '编辑';
-        if(empty($params['id']) && !empty($params['pest_no']))
+        if(!empty($params['pest_no']))
         {
             $pets = Db::name('PluginsPetscmsPets')->where(['pest_no'=>$params['pest_no']])->field('id,pest_no,user_id')->find();
             if(empty($pets))
@@ -612,8 +612,15 @@ class Service
             return DataReturn($ret, -1);
         }
 
+        // 条件
+        $where = ['id'=>intval($params['id'])];
+        if(!empty($params['user_id']))
+        {
+            $where['user_id'] = intval($params['user_id']);
+        }
+
         // 解绑操作
-        if(Db::name('PluginsPetscmsPets')->where(['id'=>$params['id']])->update(['user_id'=>0, 'upd_time'=>time()]))
+        if(Db::name('PluginsPetscmsPets')->where($where)->update(['user_id'=>0, 'upd_time'=>time()]))
         {
             return DataReturn('解绑成功');
         }
@@ -647,7 +654,7 @@ class Service
         }
 
         // 删除操作
-        if(Db::name('PluginsPetscmsPets')->where(['id'=>$params['id']])->delete())
+        if(Db::name('PluginsPetscmsPets')->where(['id'=>intval($params['id'])])->delete())
         {
             return DataReturn('删除成功');
         }

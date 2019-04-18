@@ -26,7 +26,7 @@
                 <ul class="plug-file-upload-view plugins-logo-view" data-form-name="logo" data-max-number="1" data-delete="0" data-dialog-type="images">
                     <li>
                         <input type="text" name="logo" value="{{if !empty($data['logo_old'])}}{{$data.logo_old}}{{/if}}" data-validation-message="请上传图片" required />
-                        <img src="{{if !empty($data['logo'])}}{{$data.logo}}{{else /}}{{$attachment_host}}/static/admin/default/images/default-images.png{{/if}}" />
+                        <img src="{{if !empty($data['logo'])}}{{$data.logo}}{{else /}}{{$attachment_host}}/static/admin/default/images/default-images.jpg{{/if}}" />
                     </li>
                 </ul>
                 <div class="plug-file-upload-submit" data-view-tag="ul.plugins-logo-view">+上传图片</div>
