@@ -88,6 +88,16 @@
                         <div class="plug-file-upload-submit" data-view-tag="ul.goods-photo-view">+上传相册</div>
                     </div>
 
+                    <div class="am-form-group">
+                        <label>状态</label>
+                        <select name="status" class="am-radius chosen-select" data-placeholder="可选择..." data-validation-message="请选择状态">
+                            <option value="">可选择...</option>
+                            {{foreach $pets_attribute_status_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['status']) and $data['status'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+
                     <!-- 宠物简介 -->
                     <div class="am-form-group">
                         <label>宠物简介</label>
@@ -153,16 +163,6 @@
                         </div>
                         <div id="map" data-level="17"></div>
                     </div>
-                </div>
-
-                <div class="am-form-group">
-                    <label>状态</label>
-                    <select name="status" class="am-radius chosen-select" data-placeholder="可选择..." data-validation-message="请选择状态">
-                        <option value="">可选择...</option>
-                        {{foreach $pets_attribute_status_list as $v}}
-                            <option value="{{$v.value}}" {{if isset($data['status']) and $data['status'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-                        {{/foreach}}
-                    </select>
                 </div>
 
                 <div class="am-form-group am-form-group-refreshing">

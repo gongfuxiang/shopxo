@@ -118,8 +118,12 @@ class Pets extends Controller
             }
             unset($params['id']);
         }
-        $this->assign('data', $data);
+
+        // 是否绑定
+        $this->assign('pest_no', empty($params['pest_no']) ? '' : $params['pest_no']);
+        unset($params['pest_no']);
         $this->assign('params', $params);
+        $this->assign('data', $data);
         $this->assign('pets_attribute_status_list', Service::$pets_attribute_status_list);
         $this->assign('pets_attribute_is_text_list', Service::$pets_attribute_is_text_list);
         $this->assign('pets_attribute_gender_list', Service::$pets_attribute_gender_list);
@@ -174,7 +178,7 @@ class Pets extends Controller
 
         // 用户
         $params['user_id'] = $this->user['id'];
-        return Service::PestSave($params);
+        return Service::PetsSave($params);
     }
 
     /**
