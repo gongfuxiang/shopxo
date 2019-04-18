@@ -73,16 +73,16 @@ class Service
             foreach($data as &$v)
             {
                 // 类型
-                $v['type_name'] = empty($v['type']) ? '' : self::$pets_attribute_type_list[$v['type']]['name'];
+                $v['type_name'] = (isset($v['type']) && isset(self::$pets_attribute_type_list[$v['type']])) ? self::$pets_attribute_type_list[$v['type']]['name'] : '';
 
                 // 性别
-                $v['gender_name'] = ($v['gender'] == -1) ? '' : self::$pets_attribute_gender_list[$v['gender']]['name'];
+                $v['gender_name'] = (isset($v['gender']) && isset(self::$pets_attribute_gender_list[$v['gender']])) ? self::$pets_attribute_gender_list[$v['gender']]['name'] : '';
 
                 // 是否绝育
-                $v['sterilization_name'] = ($v['sterilization'] == -1) ? '' : self::$pets_attribute_is_text_list[$v['sterilization']]['name'];
+                $v['sterilization_name'] = (isset($v['sterilization']) && isset(self::$pets_attribute_is_text_list[$v['sterilization']])) ? self::$pets_attribute_is_text_list[$v['sterilization']]['name'] : '';
 
                 // 是否疫苗
-                $v['vaccine_name'] = ($v['vaccine'] == -1) ? '' : self::$pets_attribute_is_text_list[$v['vaccine']]['name'];
+                $v['vaccine_name'] = (isset($v['vaccine']) && isset(self::$pets_attribute_is_text_list[$v['vaccine']])) ? self::$pets_attribute_is_text_list[$v['vaccine']]['name'] : '';
 
                 // 状态
                 $v['status_name'] = self::$pets_attribute_status_list[$v['status']]['name'];
