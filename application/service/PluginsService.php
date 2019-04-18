@@ -31,12 +31,16 @@ class PluginsService
      * @desc    description
      * @param   [string]          $plugins          [应用标记]
      * @param   [array]           $attachment_field [附件字段]
+     * @param   [boolean]         $is_cache         [是否缓存读取, 默认true]
      */
-    public static function PluginsData($plugins, $attachment_field = [])
+    public static function PluginsData($plugins, $attachment_field = [], $is_cache = true)
     {
         // 从缓存获取数据
         $key = config('shopxo.cache_plugins_data_key').$plugins;
-        $data = cache($key);
+        if($is_cache === true)
+        {
+            $data = cache($key);
+        }
         if(empty($data))
         {
             // 获取数据

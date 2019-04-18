@@ -17,17 +17,27 @@
         {{if isset($data['user_id']) and $data['user_id'] gt 0}}
             <div class="top">
                 <div class="am-u-md-4 photo">
-                    {{if !empty($data['photo'])}}
-                        <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false, "slideshow":false}'>
-                            <ul class="am-slides">
+                    <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false, "slideshow":false}'>
+                        <ul class="am-slides">
+                            {{if !empty($data['photo'])}}
                                 {{foreach $data.photo as $photo}}
                                     <li>
                                         <img src="{{$photo.images}}" alt="{{$data.title}}" />
                                     </li>
                                 {{/foreach}}
-                            </ul>
-                        </div>
-                    {{/if}}
+                            {{else /}}
+                                {{if !empty($plugins_base_data['pets_default_images'])}}
+                                    <li>
+                                        <img src="{{$plugins_base_data.pets_default_images}}" alt="{{$data.title}}" />
+                                    </li>
+                                {{else /}}
+                                    <li>
+                                        <img src="{{$attachment_host}}/static/plugins/images/petscms/pets-default-images.jpg" alt="{{$data.title}}" />
+                                    </li>
+                                {{/if}}
+                            {{/if}}
+                        </ul>
+                    </div>
                 </div>
                 <div class="am-u-md-8 base">
                     <h1>{{$data.title}}</h1>
@@ -75,7 +85,7 @@
                     </ul>
 
                     {{if isset($data['status']) and $data['status'] eq 1}}
-                        <button type="button" class="am-btn am-btn-primary am-radius am-icon-pencil provide-submit" data-am-modal="{target: '#lose-provide-popup'}"> 我要提供信息</button>
+                        <button type="button" class="am-btn am-btn-primary am-radius am-icon-pencil provide-submit" data-am-modal="{target: '#lose-provide-popup'}"> {{if empty($plugins_base_data['lose_provide'])}}我要提供信息{{else /}}{{$plugins_base_data.lose_provide}}{{/if}}</button>
 
                         <!-- 提供信息窗口 -->
                         <div class="am-popup" id="lose-provide-popup">
@@ -205,11 +215,13 @@
             {{/if}}
         {{else /}}
             <div class="pets-not-bind">
-                <i class="am-icon-github-alt am-animation-slide-top"></i>
-                <div class="am-alert am-alert-secondary am-animation-shake" data-am-alert>
-                    该宠物还没有主人领取，立即领取可爱的宠物宝宝哦！
-                </div>
-                <a href="{{:PluginsHomeUrl('petscms', 'pets', 'saveinfo', ['pest_no'=>$data['pest_no']])}}" class="am-btn am-btn-primary am-radius am-icon-get-pocket am-animation-slide-bottom"> 我要领取</a>
+                <p><i class="am-icon-github-alt am-animation-slide-top"></i></p>
+                {{if !empty($plugins_base_data['not_bind_desc'])}}
+                    <div class="am-alert am-alert-secondary am-animation-shake" data-am-alert>
+                        {{$plugins_base_data.not_bind_desc|raw}}
+                    </div>
+                {{/if}}
+                <a href="{{:PluginsHomeUrl('petscms', 'pets', 'saveinfo', ['pest_no'=>$data['pest_no']])}}" class="am-btn am-btn-primary am-radius am-icon-get-pocket am-animation-slide-bottom"> {{if empty($plugins_base_data['pets_take'])}}我要领取{{else /}}{{$plugins_base_data.pets_take}}{{/if}}</a>
             </div>
         {{/if}}
     </div>

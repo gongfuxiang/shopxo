@@ -32,8 +32,8 @@ legend {padding-bottom:0.2rem !important; margin-bottom: 1rem; }
 .cr-green { color: #4aaa4a !important; }
 .cr-blue { color: #4abbf5 !important; }
 .cr-yellow { color: #e4bfbc !important; }
-.am-form select,.am-form textarea,.am-form input[type="text"],.am-form input[type="password"],.am-form input[type="datetime"],.am-form input[type="datetime-local"],.am-form input[type="date"],.am-form input[type="month"],.am-form input[type="time"],.am-form input[type="week"],.am-form input[type="number"],.am-form input[type="email"],.am-form input[type="url"],.am-form input[type="search"],.am-form input[type="tel"],.am-form input[type="color"],.am-form-field {font-size:1.4rem !important;}
-select {height:32px !important;}
+.am-form select,.am-form textarea,.am-form input[type="text"],.am-form input[type="password"],.am-form input[type="datetime"],.am-form input[type="datetime-local"],.am-form input[type="date"],.am-form input[type="month"],.am-form input[type="time"],.am-form input[type="week"],.am-form input[type="number"],.am-form input[type="email"],.am-form input[type="url"],.am-form input[type="search"],.am-form input[type="tel"],.am-form input[type="color"],.am-form-field {font-size:12px !important;}
+select {height:28px !important;}
 .bk-cr-gray {background:#f3f3f3 !important;}
 .bk-cr-ffd {background:#ffd !important;}
 .bk-cr-white {background-color: #fff;}
@@ -43,12 +43,13 @@ select {height:32px !important;}
 .o-h { overflow: hidden; }
 .submit-state { font-size: 16px; width: 25px; height: 25px; line-height: 25px; }
 input:hover, select:hover, textarea:hover, .chosen-choices:hover, .chosen-single:hover { border-style:solid; border-width:1px; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; border:1px solid #4FACF5 !important; box-shadow:0 0 5px #4FACF5 !important; }
-.am-input-group-sm > .am-input-group-btn > .am-btn { height: 32px; }
+.am-input-group-sm > .am-input-group-btn > .am-btn { height: 28px; font-size: 12px !important; }
 .left-menu-more-ico-rotate {-webkit-transform: rotate(-90deg);transform: rotate(-90deg);-webkit-transition: all 300ms;transition: all 300ms;}
 .am-icon-angle-down {-webkit-transition: all 300ms;transition: all 300ms;}
 .am-radio-inline input[type="radio"] { margin-left: 0px !important; }
 .am-alert-tips { background-color: #ffffe9; border-color: #faebd2; color: #888; }
 .am-alert-tips, .am-alert-tips * { font-size: 12px; }
+.am-btn-sm { font-size: 12px; }
 
 body {margin:0;color:#797979;}
 html,body {position:relative;background:#fff;height:100%;width:100%;}

@@ -154,8 +154,16 @@ class Pets extends Controller
         );
         $ret = Service::PetsList($data_params);
         $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
-
         $this->assign('data', $data);
+
+        // 基础信息
+        $ret = PluginsService::PluginsData('petscms', ['logo', 'pets_default_images']);
+        if(!empty($ret['data']['not_bind_desc']))
+        {
+            $ret['data']['not_bind_desc'] = str_replace("\n", '<br />', $ret['data']['not_bind_desc']);
+        }
+        $this->assign('plugins_base_data', $ret['data']);
+        
         $this->assign('params', $params);
         return $this->fetch('../../../plugins/view/petscms/pets/detail');
     }

@@ -4,35 +4,53 @@
 <div class="content-right">
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('petscms', 'admin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('petscms', 'admin', 'index')}}" enctype="multipart/form-data">
+        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('petscms', 'admin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('petscms', 'admin', 'base')}}" enctype="multipart/form-data">
             <legend>
                 <span class="fs-16">宠物管理系统</span>
-                <a href="{{:PluginsAdminUrl('petscms', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+                <a href="{{:PluginsAdminUrl('petscms', 'admin', 'base')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
             </legend>
 
             <div class="am-form-group am-form-file">
-                <label class="block">公告内容<span class="am-form-group-label-tips">空则不显示</span></label>
-                <textarea rows="3" name="content" class="am-radius am-field-valid" placeholder="公告内容" data-validation-message="请填写公告内容">{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
+                <label class="block">宠物未绑定提示信息<span class="am-form-group-label-tips">空则不显示</span></label>
+                <textarea rows="3" name="not_bind_desc" class="am-radius am-field-valid" placeholder="宠物未绑定提示信息" data-validation-message="请填写宠物未绑定提示信息">{{if !empty($data['not_bind_desc'])}}{{$data.not_bind_desc}}{{/if}}</textarea>
             </div>
 
             <div class="am-form-group">
-                <label>是否全局<span class="am-form-group-label-tips">默认首页</span></label>
-                <div>
-                    {{foreach $is_whether_list as $v}}
-                        <label class="am-radio-inline m-r-10">
-                            <input type="radio" name="is_overall" value="{{$v.id}}" {{if isset($data['is_overall']) and $data['is_overall'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_overall']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
-                        </label>
-                    {{/foreach}}
-                </div>
+                <label>宠物领取名称<span class="am-form-group-label-tips">默认 我要领取</span></label>
+                <input type="text" name="pets_take" placeholder="宠物领取名称" maxlength="30" data-validation-message="宠物领取名称格式最多 30 个字符" class="am-radius" value="{{if !empty($data['pets_take'])}}{{$data.pets_take}}{{else /}}我要领取{{/if}}" />
             </div>
 
             <div class="am-form-group">
-                <label>有效时间<span class="am-form-group-label-tips">留空则不限制</span></label>
-                <div class="form-date">
-                    <input type="text" autocomplete="off" name="time_start" class="Wdate am-radius" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if !empty($data['time_start'])}}value="{{$data.time_start}}"{{/if}}/>
-                    <span>~</span>
-                    <input type="text" autocomplete="off" class="Wdate am-radius" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if !empty($data['time_end'])}}value="{{$data.time_end}}"{{/if}}/>
-                </div>
+                <label>提供信息名称<span class="am-form-group-label-tips">默认 我要提供信息</span></label>
+                <input type="text" name="lose_provide" placeholder="提供信息名称" maxlength="30" data-validation-message="提供信息名称格式最多 30 个字符" class="am-radius" value="{{if !empty($data['lose_provide'])}}{{$data.lose_provide}}{{else /}}我要提供信息{{/if}}" />
+            </div>
+
+            <div class="am-form-group am-form-file">
+                <label class="block">二维码logo<span class="am-form-group-label-tips">建议50像数X50像数</span></label>
+                <ul class="plug-file-upload-view plugins-logo-view" data-form-name="logo" data-max-number="1" data-dialog-type="images">
+                    {{if !empty($data['logo'])}}
+                        <li>
+                            <input type="text" name="logo" value="{{$data.logo_old}}" data-validation-message="请上传二维码logo" />
+                            <img src="{{$data.logo}}" />
+                            <i>×</i>
+                        </li>
+                    {{/if}}
+                </ul>
+                <div class="plug-file-upload-submit" data-view-tag="ul.plugins-logo-view">+上传图片</div>
+            </div>
+
+            <div class="am-form-group am-form-file">
+                <label class="block">宠物默认图片<span class="am-form-group-label-tips">建议350像数X350像数</span></label>
+                <ul class="plug-file-upload-view plugins-pets_default_images-view" data-form-name="pets_default_images" data-max-number="1" data-dialog-type="images">
+                    {{if !empty($data['pets_default_images'])}}
+                        <li>
+                            <input type="text" name="pets_default_images" value="{{$data.pets_default_images_old}}" data-validation-message="请上传宠物默认图片" />
+                            <img src="{{$data.pets_default_images}}" />
+                            <i>×</i>
+                        </li>
+                    {{/if}}
+                </ul>
+                <div class="plug-file-upload-submit" data-view-tag="ul.plugins-pets_default_images-view">+上传图片</div>
             </div>
 
             <div class="am-form-group am-form-group-refreshing">

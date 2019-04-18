@@ -32,11 +32,28 @@ class Admin extends Controller
      */
     public function index($params = [])
     {
-        $ret = PluginsService::PluginsData('petscms');
+        return $this->fetch('../../../plugins/view/petscms/admin/index');
+    }
+
+    /**
+     * 配置管理
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-02-07T08:21:54+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public function base($params = [])
+    {
+        $ret = PluginsService::PluginsData('petscms', ['logo', 'pets_default_images']);
         if($ret['code'] == 0)
         {
+            if(!empty($ret['data']['not_bind_desc']))
+            {
+                $ret['data']['not_bind_desc'] = str_replace("\n", '<br />', $ret['data']['not_bind_desc']);
+            }
             $this->assign('data', $ret['data']);
-            return $this->fetch('../../../plugins/view/petscms/admin/index');
+            return $this->fetch('../../../plugins/view/petscms/admin/base');
         } else {
             return $ret['msg'];
         }
@@ -52,7 +69,7 @@ class Admin extends Controller
      */
     public function saveinfo($params = [])
     {
-        $ret = PluginsService::PluginsData('petscms');
+        $ret = PluginsService::PluginsData('petscms', ['logo', 'pets_default_images'], false);
         if($ret['code'] == 0)
         {
             // 是否

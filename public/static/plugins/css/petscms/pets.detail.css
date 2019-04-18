@@ -102,9 +102,10 @@
     padding: 10px 0;
     float: left;
     width: 50%;
+    border-top: 1px solid #f0faff;
 }
-.base ul.basic li:not(:last-child) {
-    border-bottom: 1px solid #f0faff;
+.base ul.basic li:first-child, .base ul.basic li:nth-child(2) {
+    border-top: 0;
 }
 .base ul.basic li span:first-child {
     font-weight: 500;
@@ -142,12 +143,10 @@
 }
 .lose ul.person li {
     padding: 8px 0;
+    border-top: 1px solid #ffe4d0;
 }
-.lose ul.person li:not(:last-child) {
-    border-bottom: 1px solid #ffe4d0;
-}
-.lose ul.person li:last-child {
-    padding-bottom: 0;
+.lose ul.person li:first-child {
+    border-top: 0;
 }
 .lose ul.person li.tel a {
     color: #70cfff;
@@ -188,9 +187,8 @@ form.form-validation #map {
         float: left;
         width: 50%;
     }
-    .lose ul.person li:nth-last-child(2) {
-        border-bottom: 0;
-        padding-bottom: 0;
+    .lose ul.person li:nth-child(2) {
+        border-top: 0;
     }
 }
 @media only screen and (min-width:1025px) {
