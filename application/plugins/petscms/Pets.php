@@ -163,6 +163,12 @@ class Pets extends Controller
             $ret['data']['not_bind_desc'] = str_replace("\n", '<br />', $ret['data']['not_bind_desc']);
         }
         $this->assign('plugins_base_data', $ret['data']);
+
+        // 浏览器标题
+        if(!empty($data['title']))
+        {
+            $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle($data['title']));
+        }
         
         $this->assign('params', $params);
         return $this->fetch('../../../plugins/view/petscms/pets/detail');
