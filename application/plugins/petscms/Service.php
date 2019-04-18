@@ -64,7 +64,7 @@ class Service
         $where = empty($params['where']) ? [] : $params['where'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
-        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
+        $order_by = empty($params['order_by']) ? 'status asc, id desc' : $params['order_by'];
 
         // 获取数据列表
         $data = Db::name('PluginsPetscmsPets')->where($where)->limit($m, $n)->order($order_by)->select();
@@ -76,13 +76,13 @@ class Service
                 $v['type_name'] = empty($v['type']) ? '' : self::$pets_attribute_type_list[$v['type']]['name'];
 
                 // 性别
-                $v['gender_name'] = self::$pets_attribute_gender_list[$v['gender']]['name'];
+                $v['gender_name'] = ($v['gender'] == -1) ? '' : self::$pets_attribute_gender_list[$v['gender']]['name'];
 
                 // 是否绝育
-                $v['sterilization_name'] = self::$pets_attribute_is_text_list[$v['sterilization']]['name'];
+                $v['sterilization_name'] = ($v['sterilization'] == -1) ? '' : self::$pets_attribute_is_text_list[$v['sterilization']]['name'];
 
                 // 是否疫苗
-                $v['vaccine_name'] = self::$pets_attribute_is_text_list[$v['vaccine']]['name'];
+                $v['vaccine_name'] = ($v['vaccine'] == -1) ? '' : self::$pets_attribute_is_text_list[$v['vaccine']]['name'];
 
                 // 状态
                 $v['status_name'] = self::$pets_attribute_status_list[$v['status']]['name'];
@@ -102,7 +102,7 @@ class Service
                 $v['content'] = ResourcesService::ContentStaticReplace($v['content'], 'get');
 
                 // 相册
-                $v['photo'] = empty($v['photo']) ? null : self::GetPestPhotoHandle($v['photo']);
+                $v['photo'] = empty($v['photo']) ? null : self::GetPetsPhotoHandle($v['photo']);
 
                 // 丢失时间
                 $v['lose_time_name'] = empty($v['lose_time']) ? '' : date('Y-m-d', $v['lose_time']);
@@ -138,7 +138,7 @@ class Service
      * @datetime 2019-04-11T22:56:49+0800
      * @param    [array]                   $photo [相册数据]
      */
-    private static function GetPestPhotoHandle($photo)
+    private static function GetPetsPhotoHandle($photo)
     {
         $result = [];
         if(!empty($photo))
@@ -241,7 +241,7 @@ class Service
      * @desc    description
      * @param   [array]           $params [输入参数]
      */
-    public static function PestSave($params = [])
+    public static function PetsSave($params = [])
     {
         // 请求参数
         $p = [
@@ -359,9 +359,9 @@ class Service
             'birthday'      => empty($params['birthday']) ? 0 : strtotime($params['birthday']),
             'type'          => isset($params['type']) ? $params['type'] : '',
             'varieties'     => isset($params['varieties']) ? $params['varieties'] : '',
-            'gender'        => isset($params['gender']) ? intval($params['gender']) : 0,
-            'sterilization' => isset($params['sterilization']) ? intval($params['sterilization']) : 0,
-            'vaccine'       => isset($params['vaccine']) ? intval($params['vaccine']) : 0,
+            'gender'        => isset($params['gender']) ? $params['gender'] : -1,
+            'sterilization' => isset($params['sterilization']) ? $params['sterilization'] : -1,
+            'vaccine'       => isset($params['vaccine']) ? $params['vaccine'] : -1,
             'photo'         => empty($photo['data']) ? '' : json_encode($photo['data']),
             'content'       => $content,
             'person_name'   => isset($params['person_name']) ? $params['person_name'] : '',
@@ -585,6 +585,74 @@ class Service
     public static function HelpTotal($where = [])
     {
         return (int) Db::name('PluginsPetscmsHelp')->where($where)->count();
+    }
+
+    /**
+     * 宠物解绑
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-18
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function PetsUntying($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '操作id有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 解绑操作
+        if(Db::name('PluginsPetscmsPets')->where(['id'=>$params['id']])->update(['user_id'=>0, 'upd_time'=>time()]))
+        {
+            return DataReturn('解绑成功');
+        }
+
+        return DataReturn('解绑失败或资源不存在', -100);
+    }
+
+    /**
+     * 宠物删除
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-18
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function PetsDelete($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '操作id有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 删除操作
+        if(Db::name('PluginsPetscmsPets')->where(['id'=>$params['id']])->delete())
+        {
+            return DataReturn('删除成功');
+        }
+
+        return DataReturn('删除失败或资源不存在', -100);
     }
 }
 ?>

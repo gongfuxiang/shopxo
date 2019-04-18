@@ -101,13 +101,13 @@
                             <th>二维码</th>
                             <th>状态</th>
                             <th class="am-hide-sm-only">操作时间</th>
-                            <th>操作</th>
+                            <th class="th-operation">操作</th>
                         </tr>
                     </thead>
                     <tbody>
                         {{if !empty($data_list)}}
                             {{foreach $data_list as $v}}
-                                <tr>
+                                <tr id="data-list-{{$v.id}}">
                                     <td class="am-hide-sm-only row-first">
                                         <p class="ellipsis">{{$v.title}}</p>
                                         {{if !empty($v['photo'])}}
@@ -129,7 +129,7 @@
 
                                         类型：{{if empty($v['type_name'])}}<span class="items-value-empty">未填写</span>{{else /}}{{$v.type_name}}{{/if}}<br />
 
-                                        性别：{{if empty($v['gender_name'])}}<span class="items-value-empty">未填写</span>{{else /}}{{$v.gender_name}}{{/if}}<br />
+                                        性别：{{if empty($v['gender_name'])}}<span class="items-value-empty">未设置</span>{{else /}}{{$v.gender_name}}{{/if}}<br />
 
                                         生日：{{if empty($v['birthday_name'])}}<span class="items-value-empty">未填写</span>{{else /}}{{$v.birthday_name}}{{/if}}<br />
                                         
@@ -137,8 +137,9 @@
 
                                         品种：{{if empty($v['varieties'])}}<span class="items-value-empty">未填写</span>{{else /}}{{$v.varieties}}{{/if}}<br />
 
-                                        绝育：{{$v.sterilization_name}}<br />
-                                        疫苗：{{$v.vaccine_name}}<br />
+                                        绝育：{{if empty($v['sterilization_name'])}}<span class="items-value-empty">未设置</span>{{else /}}{{$v.sterilization_name}}{{/if}}<br />
+
+                                        疫苗：{{if empty($v['sterilization_name'])}}<span class="items-value-empty">未设置</span>{{else /}}{{$v.sterilization_name}}{{/if}}<br />
                                     </td>
                                     <td class="am-hide-sm-only">
                                         姓名：{{if empty($v['person_name'])}}<span class="items-value-empty">未填写</span>{{else /}}{{$v.person_name}}{{/if}}<br />
@@ -161,11 +162,15 @@
                                         {{/if}}
                                     </td>
                                     <td>
-                                        <a href="{{:PluginsAdminUrl('petscms', 'petsadmin', 'saveinfo',array_merge($params, ['id'=>$v['id']]))}}" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit am-btn-block"> 编辑</a>
+                                        <a href="{{:PluginsAdminUrl('petscms', 'petsadmin', 'saveinfo',array_merge($params, ['id'=>$v['id']]))}}" class="am-btn am-btn-primary am-btn-xs am-radius am-icon-edit am-btn-block"> 编辑</a>
                                         {{if $v['status'] neq 3}}
                                             <a href="{{:PluginsHomeUrl('petscms', 'pets', 'detail',array_merge($params, ['id'=>$v['id']]))}}" class="am-btn am-btn-success am-btn-xs am-radius am-icon-newspaper-o am-btn-block" target="_blank"> 详情</a>
                                         {{/if}}
-                                        <a href="{{:PluginsAdminUrl('petscms', 'petsadmin', 'help',array_merge($params, ['pets_id'=>$v['id']]))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-gg am-btn-block" target="_blank"> 帮助</a>
+                                        <a href="{{:PluginsAdminUrl('petscms', 'petsadmin', 'help',array_merge($params, ['pets_id'=>$v['id']]))}}" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-gg am-btn-block"> 帮助</a>
+                                        {{if $v['user_id'] gt 0}}
+                                            <button class="am-btn am-btn-warning am-btn-xs am-radius am-icon-circle-o am-btn-block submit-ajax" data-url="{{:PluginsHomeUrl('petscms', 'petsadmin', 'untying')}}" data-id="{{$v.id}}" data-view="reload" data-msg="解绑后不可恢复，确定操作吗？"> 解绑</button>
+                                        {{/if}}
+                                        <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o am-btn-block submit-delete" data-url="{{:PluginsHomeUrl('petscms', 'petsadmin', 'delete')}}" data-id="{{$v.id}}"> 删除</button>
                                     </td>
                                 </tr>
                             {{/foreach}}

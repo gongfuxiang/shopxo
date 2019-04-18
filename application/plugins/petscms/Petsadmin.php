@@ -49,7 +49,7 @@ class PetsAdmin extends Controller
                 'total'     =>  $total,
                 'where'     =>  $params,
                 'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  PluginsHomeUrl('petscms', 'pets', 'index'),
+                'url'       =>  PluginsAdminUrl('petscms', 'petsadmin', 'index'),
             );
         $page = new \base\Page($page_params);
         $this->assign('page_html', $page->GetPageHtml());
@@ -152,7 +152,45 @@ class PetsAdmin extends Controller
         }
 
         // 用户
-        return Service::PestSave($params);
+        return Service::PetsSave($params);
+    }
+
+    /**
+     * 宠物解绑
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-15T11:03:30+0800
+     */
+    public function untying($params = [])
+    {
+        // 是否ajax
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 开始操作
+        return Service::PetsUntying($params);
+    }
+
+    /**
+     * 宠物删除
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-15T11:03:30+0800
+     */
+    public function delete($params = [])
+    {
+        // 是否ajax
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 开始操作
+        return Service::PetsDelete($params);
     }
 
     /**
@@ -188,7 +226,7 @@ class PetsAdmin extends Controller
                 'total'     =>  $total,
                 'where'     =>  $params,
                 'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  PluginsHomeUrl('petscms', 'pets', 'index'),
+                'url'       =>  PluginsAdminUrl('petscms', 'petsadmin', 'index'),
             );
         $page = new \base\Page($page_params);
         $this->assign('page_html', $page->GetPageHtml());
@@ -200,7 +238,9 @@ class PetsAdmin extends Controller
             'where'     => $where,
         );
         $data = Service::HelpList($data_params);
+        unset($params['pets_id']);
         $this->assign('data_list', $data['data']);
+        $this->assign('params', $params);
         return $this->fetch('../../../plugins/view/petscms/petsadmin/help');
     }
 

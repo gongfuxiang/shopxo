@@ -38,6 +38,9 @@
     .chosen-container-single .chosen-search input[type="text"] { width: 100% !important; }
     .so-list select { width: calc(100% - 44px); display: -webkit-inline-box; }
 }
+.th-operation {
+    width: 120px;
+}
 
 /**
  * 添加/编辑页面
@@ -49,15 +52,9 @@ form.form-validation .am-divider { margin: 10px auto; }
 form.form-validation .am-alert-secondary { background-color: #f8f8f8; }
 form.form-validation .am-alert-warning { background-color: #fffbf7; }
 
-
 /**
  * 地图、联动地址
  */
-form.form-validation .map-address {
-    border-bottom: 0;
-    padding-bottom: 0;
-    margin-bottom: 10px;
-}
 form.form-validation .region-linkage .chosen-select {
     display: -webkit-inline-box;
     width: calc(33.3% - 3px) !important;
@@ -68,6 +65,7 @@ form.form-validation .region-linkage .chosen-select .chosen-single {
 form.form-validation #map {
     width: 100%;
     height: 350px;
+    margin-top: 5px;
 }
 
 /**
