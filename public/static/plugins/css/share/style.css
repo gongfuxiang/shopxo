@@ -8,8 +8,33 @@
 }
 .plugins-share ul li {
     float: left;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    line-height: 35px;
+    border-radius: 50px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.plugins-share ul li:last-child {
+    margin-right: 0;
 }
 .plugins-share ul li .iconfont {
     font-size: 20px;
     color: #fff;
+}
+.plugins-share ul li.share-qq {
+    background: #d82d0e;
+}
+.plugins-share ul li.share-qq-space {
+    background: #0da6e4;
+}
+.plugins-share ul li.share-weixin {
+    background: #3eab0f;
+}
+.plugins-share ul li.share-sian {
+    background: #e71f2d;
+}
+.plugins-share ul li.share-url {
+    background: #607d8b;
 }

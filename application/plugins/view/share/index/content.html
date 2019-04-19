@@ -1,19 +1,33 @@
 <div class="plugins-share">
     <ul>
-        <li class="share-sian">
-            <span class="icon iconfont icon-sina"></span>
-        </li>
-        <li class="share-qq">
+        <li class="share-qq" data-type="qq">
             <span class="icon iconfont icon-qq"></span>
         </li>
-        <li class="share-url">
-            <span class="icon iconfont icon-url"></span>
-        </li>
-        <li class="share-qq-space">
+        <li class="share-qq-space" data-type="qq-space">
             <span class="icon iconfont icon-qq-space"></span>
         </li>
-        <li class="share-weixin">
+        <li class="share-weixin" data-type="weixin">
             <span class="icon iconfont icon-weixin"></span>
         </li>
+        <li class="share-sian" data-type="sian">
+            <span class="icon iconfont icon-sina"></span>
+        </li>
+        <li class="share-url" data-type="url">
+            <span class="icon iconfont icon-url"></span>
+        </li>
     </ul>
+</div>
+
+<!-- 微信弹出框 -->
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="plugins-share-weixin-modal">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">
+            <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+        </div>
+        <div class="am-modal-bd">
+            <div id="plugins-share-modal-weixin-qrcode" class="am-text-center"></div>
+            <p>打开微信，点击底部的“发现”</p>
+            <p>使用“扫一扫”即可将网页分享至朋友圈</p>
+        </div>
+    </div>
 </div>
