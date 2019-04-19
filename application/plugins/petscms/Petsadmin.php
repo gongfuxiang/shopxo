@@ -62,6 +62,11 @@ class PetsAdmin extends Controller
         );
         $data = Service::PetsList($data_params);
         $this->assign('data_list', $data['data']);
+
+        // 插件配置信息
+        $base = PluginsService::PluginsData('petscms', ['logo', 'pets_default_images', 'alipay_qrcode_images', 'weixin_qrcode_images'], false);
+        $this->assign('plugins_base_data', $base['data']);
+
         $this->assign('params', $params);
         $this->assign('pets_attribute_status_list', Service::$pets_attribute_status_list);
         $this->assign('pets_attribute_is_text_list', Service::$pets_attribute_is_text_list);

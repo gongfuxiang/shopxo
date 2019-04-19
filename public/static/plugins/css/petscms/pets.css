@@ -24,6 +24,7 @@
 .row-first p { font-weight: 500; max-width: 240px; }
 .row-first .am-slider { max-height: 130px; }
 .row-first .am-slider .am-slides img { width: auto; max-height: 100%; margin: 0 auto; }
+.data-list table.am-table .am-slides li { height: 150px; }
 @media only screen and (min-width: 641px){
     .so-list .chosen-container, .so-list select { width:217px !important; display: -webkit-inline-box; }
     .thin_sub:hover { color:#F60; }

@@ -110,17 +110,27 @@
                                 <tr id="data-list-{{$v.id}}">
                                     <td class="am-hide-sm-only row-first">
                                         <p class="ellipsis">{{$v.title}}</p>
-                                        {{if !empty($v['photo'])}}
-                                            <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false, "slideshow":false}'  >
-                                                <ul class="am-slides">
+                                        <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false, "slideshow":false}'  >
+                                            <ul class="am-slides">
+                                                {{if !empty($v['photo'])}}
                                                     {{foreach $v.photo as $photo}}
                                                         <li>
                                                             <img src="{{$photo.images}}" alt="{{$v.title}}" />
                                                         </li>
                                                     {{/foreach}}
-                                                </ul>
-                                            </div>
-                                        {{/if}}
+                                                {{else /}}
+                                                    {{if !empty($plugins_base_data['pets_default_images'])}}
+                                                        <li>
+                                                            <img src="{{$plugins_base_data.pets_default_images}}" alt="{{$v.title}}" />
+                                                        </li>
+                                                    {{else /}}
+                                                        <li>
+                                                            <img src="{{$attachment_host}}/static/plugins/images/petscms/pets-default-images.jpg" alt="{{$v.title}}" />
+                                                        </li>
+                                                    {{/if}}
+                                                {{/if}}
+                                            </ul>
+                                        </div>
                                     </td>
                                     <td>
                                         编号：{{if empty($v['pest_no'])}}<span class="items-value-empty">未填写</span>{{else /}}{{$v.pest_no}}{{/if}}<br />
