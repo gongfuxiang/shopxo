@@ -1,0 +1,40 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('share', 'admin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('share', 'admin', 'index')}}" enctype="multipart/form-data">
+            <legend>
+                <span class="fs-16">分享</span>
+                <a href="{{:PluginsAdminUrl('share', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+            </legend>
+
+            <div class="am-form-group am-form-file">
+                <label class="block">公告内容<span class="am-form-group-label-tips">空则不显示</span></label>
+                <textarea rows="3" name="content" class="am-radius am-field-valid" placeholder="公告内容" data-validation-message="请填写公告内容">{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
+            </div>
+
+            <div class="am-form-group">
+                <label>是否全局<span class="am-form-group-label-tips">默认首页</span></label>
+                <div>
+                    {{foreach $is_whether_list as $v}}
+                        <label class="am-radio-inline m-r-10">
+                            <input type="radio" name="is_overall" value="{{$v.id}}" {{if isset($data['is_overall']) and $data['is_overall'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_overall']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

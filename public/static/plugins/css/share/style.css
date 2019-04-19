@@ -1,0 +1,15 @@
+.plugins-share {
+
+}
+.plugins-share ul {
+    padding: 10px;
+    background: #333;
+    overflow: hidden;
+}
+.plugins-share ul li {
+    float: left;
+}
+.plugins-share ul li .iconfont {
+    font-size: 20px;
+    color: #fff;
+}

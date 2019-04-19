@@ -50,17 +50,20 @@ return array (
   array (
     0 => 'app\\plugins\\commonrightnavigation\\Hook',
     1 => 'app\\plugins\\commononlineservice\\Hook',
+    2 => 'app\\plugins\\share\\Hook',
   ),
   'plugins_js' => 
   array (
     0 => 'app\\plugins\\commonrightnavigation\\Hook',
     1 => 'app\\plugins\\commononlineservice\\Hook',
+    2 => 'app\\plugins\\share\\Hook',
   ),
   'plugins_view_common_bottom' => 
   array (
     0 => 'app\\plugins\\commonrightnavigation\\Hook',
     1 => 'app\\plugins\\commononlineservice\\Hook',
     2 => 'app\\plugins\\expressforkdn\\Hook',
+    3 => 'app\\plugins\\share\\Hook',
   ),
   'plugins_service_navigation_header_handle' => 
   array (
