@@ -35,8 +35,8 @@ form.am-form .am-form-group-label-tips-must { color: #f00; }
 .am-tagsinput input[type="text"]:hover { box-shadow: 0 0 0 #fff !important; border: 0 !important; }
 .chosen-choices li.search-field input[type="text"]:focus,
 .am-tagsinput input[type="text"]:focus { border-color: #fff; -webkit-box-shadow: inset 0 0 0 0 !important; box-shadow: inset 0 0 0 0 !important; }
-.chosen-choices { padding: 0px 3px !important; min-height: 32px; }
-.chosen-container-single .chosen-single { height: 32px; line-height: 32px; }
+.chosen-choices { padding: 0px 3px !important; min-height: 28px; }
+.chosen-container-single .chosen-single { height: 28px; line-height: 28px; }
 .chosen-container-multi .chosen-choices li.search-field { padding-left: 3px; }
 .chosen-container-single .chosen-single { color: #444 !important; }
 .chosen-container-single .chosen-default { color: #999 !important; }

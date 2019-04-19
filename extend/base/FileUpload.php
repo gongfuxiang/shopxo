@@ -34,8 +34,8 @@ class FileUpload
      */
     public function __construct($params = [])
     {
-        $this->config['root_path'] = isset($params['root_path']) ? $params['root_path'] : ROOT_PATH;
-        $this->config['path'] = isset($params['path']) ? $params['path'] : DS.'Public'.DS.'Upload'.DS.'file'.DS.date('Y').DS.date('m').DS.date('d').DS;
+        $this->config['root_path'] = isset($params['root_path']) ? $params['root_path'] : ROOT.'public';
+        $this->config['path'] = isset($params['path']) ? $params['path'] : DS.'static'.DS.'upload'.DS.'file'.DS.date('Y').DS.date('m').DS.date('d').DS;
     }
 
     /**

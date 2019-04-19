@@ -4,6 +4,7 @@ CREATE TABLE `s_plugins_petscms_pets` (
   `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
   `pest_no` char(60) NOT NULL DEFAULT '' COMMENT '宠物编号',
   `status` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '状态（0正常, 1丢失, 2去世, 3关闭）',
+  `qrcode_images` char(255) NOT NULL DEFAULT '' COMMENT '宠物二维码',
   `title` char(60) NOT NULL DEFAULT '' COMMENT '标题',
   `name` char(30) NOT NULL DEFAULT '' COMMENT '名字',
   `birthday` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '出生日期',
@@ -34,7 +35,6 @@ CREATE TABLE `s_plugins_petscms_pets` (
   KEY `gender` (`gender`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='宠物管理系统宠物 - 应用'
-
 
 
 # 宠物管理系统宠物丢失帮助数据

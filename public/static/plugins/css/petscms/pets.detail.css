@@ -74,29 +74,37 @@
 .pets-not-bind .am-btn {
     margin-top: 10px;
 }
-.pets-not-bind ul.qrcode {
-    overflow: hidden;
+
+/**
+ * 相关二维码
+ */
+.pets-qrcode-related {
     margin-top: 30px;
+}
+.pets-qrcode-related ul {
+    margin: 0 auto;
+    max-width: 600px;
+    overflow: hidden;
     border: 1px solid;
     border-top: 5px solid;
-    border-color: #eee;
+    border-color: #1aa9f3;
 }
-.pets-not-bind ul.qrcode li {
+.pets-qrcode-related li {
     width: 50%;
     float: left;
     text-align: center;
     padding: 20px;
 }
-.pets-not-bind ul.qrcode li:first-child {
+.pets-qrcode-related li:first-child {
     border-right: 1px solid #eee;
 }
-.pets-not-bind ul.qrcode li:last-child {
+.pets-qrcode-related li:last-child {
     border-left: 1px solid #fff;
 }
-.pets-not-bind ul.qrcode li img {
+.pets-qrcode-related li img {
     max-width: 150px;
 }
-.pets-not-bind ul.qrcode li p {
+.pets-qrcode-related li p {
     font-size: 14px;
     font-weight: 500;
     color: #666;
@@ -237,7 +245,7 @@ form.form-validation #map {
     }
 }
 @media only screen and (max-width: 641px) {
-    .base, .lose, .content {
+    .base, .lose, .content, .pets-qrcode-related {
         padding: 0 5px;
     }
     .base h1 {

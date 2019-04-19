@@ -13,6 +13,7 @@ namespace app\plugins\petscms;
 use think\Db;
 use app\service\ResourcesService;
 use app\service\RegionService;
+use app\service\PluginsService;
 
 /**
  * 宠物管理系统 - 服务层
@@ -111,8 +112,8 @@ class Service
                 $v['lose_features'] = str_replace("\n", '<br />', $v['lose_features']);
 
                 // 二维码
-                $v['qrcode_url'] = MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode(PluginsHomeUrl('petscms', 'pets', 'detail', ['id'=>$v['id']])))]);
-                $v['qrcode_download'] = MyUrl('index/qrcode/download', ['url'=>urlencode(base64_encode($v['qrcode_url']))]);
+                $v['qrcode_url'] = empty($v['qrcode_images']) ? MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode(PluginsHomeUrl('petscms', 'pets', 'detail', ['id'=>$v['id']])))]) : ResourcesService::AttachmentPathViewHandle($v['qrcode_images']);
+                $v['qrcode_download'] = MyUrl('index/qrcode/download', ['url'=>urlencode(base64_encode($v['qrcode_url'])), 'filename'=>$v['pest_no']]);
 
                 // 地址
                 $v['province_name'] = RegionService::RegionName($v['lose_province']);
@@ -126,7 +127,6 @@ class Service
                 $v['upd_time_date'] = empty($v['upd_time']) ? '' : date('Y-m-d', $v['upd_time']);
             }
         }
-        //print_r($data);
         return DataReturn('处理成功', 0, $data);
     }
 
@@ -406,8 +406,12 @@ class Service
         {
             $data['pest_no'] = date('YmdHis').GetNumberCode(6);
             $data['add_time'] = time();
-            if(Db::name('PluginsPetscmsPets')->insertGetId($data) > 0)
+            $pets_id = Db::name('PluginsPetscmsPets')->insertGetId($data);
+            if($pets_id > 0)
             {
+                // 生成二维码
+                self::PetsQrcodeCreate($pets_id);
+
                 return DataReturn('添加成功', 0);
             }
             return DataReturn('添加失败', -100);
@@ -419,6 +423,37 @@ class Service
             }
             return DataReturn($edit_msg_title.'失败', -100);
         }
+    }
+
+    /**
+     * 宠物二维码生成
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-04-19
+     * @desc    description
+     * @param   [type]          $pets_id [description]
+     */
+    private static function PetsQrcodeCreate($pets_id)
+    {
+        if(!empty($pets_id))
+        {
+            $base = PluginsService::PluginsData('petscms', ['logo']);
+            $params = [
+                'path'      => DS.'static'.DS.'upload'.DS.'images'.DS.'plugins_petscms'.DS.'qrcode'.DS.date('Y').DS.date('m').DS.date('d').DS,
+                'content'   => PluginsHomeUrl('petscms', 'pets', 'detail', ['id'=>$pets_id]),
+                'logo'      => empty($base['data']['logo']) ? '' : $base['data']['logo'],
+            ];
+            $ret = (new \base\Qrcode())->Create($params);
+            if($ret['code'] == 0)
+            {
+                if(!Db::name('PluginsPetscmsPets')->where(['id'=>$pets_id])->update(['qrcode_images'=>$ret['data']['path'].$ret['data']['filename'], 'upd_time'=>time()]))
+                {
+                    return DataReturn('二维码生成失败', -10);
+                }
+            }
+        }
+        return DataReturn('二维码生成成功', 0);
     }
 
     /**
