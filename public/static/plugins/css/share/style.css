@@ -1,3 +1,6 @@
+/**
+ * 分享
+ */
 .plugins-share {
 
 }
@@ -37,4 +40,19 @@
 }
 .plugins-share ul li.share-url {
     background: #607d8b;
+}
+
+
+/**
+ * 微信
+ */
+#plugins-share-weixin-modal .weixin-qrcode {
+    margin-top: 10px;
+}
+
+/**
+ * url
+ */
+#plugins-share-url-modal .am-input-group {
+    margin-top: 10px;
 }

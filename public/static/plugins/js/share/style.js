@@ -14,7 +14,7 @@ $(function()
             url = encodeURIComponent(url);
 
         // 标题
-        var title = $(this).parents('.plugins-share').data('title') || $('title').text() || null;
+        var title = $(this).parents('.plugins-share').data('title') || document.title || null;
             title = title == null ? '' : encodeURIComponent(title);
 
         // 描述
@@ -46,19 +46,28 @@ $(function()
 
             // 微信
             case 'weixin' :
-                var $modal = $('#plugins-share-weixin-modal');
-                $('#plugins-share-modal-weixin-qrcode').empty().qrcode({
-                    text: decodeURIComponent(url),
-                    width: 200,
-                    height: 200
-                });
-                $modal.modal({width: 260});
-                $modal.modal('open');
+                // 是否微信环境中
+                if(IsEnvironment == 'weixin')
+                {
+                    alert('weixin');
+                } else {
+                    var $modal = $('#plugins-share-weixin-modal');
+                    $modal.find('.weixin-qrcode').empty().qrcode({
+                        text: decodeURIComponent(url),
+                        width: 200,
+                        height: 200
+                    });
+                    $modal.modal({width: 260});
+                    $modal.modal('open');
+                }
                 break;
 
             // url
             case 'url' :
-                alert("已复制好，可贴粘。");
+                var $modal = $('#plugins-share-url-modal');
+                $modal.find('.am-input-group input').val(decodeURIComponent(url));
+                $modal.modal({width: 350});
+                $modal.modal('open');
                 break;
         }
         
@@ -67,5 +76,22 @@ $(function()
         {
             window.open(platform_url);  
         }
+    });
+
+    // url复制
+    var clipboard = new ClipboardJS('#plugins-share-url-modal .am-input-group button.am-btn',
+    {
+        text: function()
+        {
+            return $('#plugins-share-url-modal .am-input-group input').val();
+        }
+    });
+    clipboard.on('success', function(e)
+    {
+        Prompt('复制成功', 'success');
+    });
+    clipboard.on('error', function(e)
+    {
+        Prompt('复制失败，请手动复制！');
     });
 });

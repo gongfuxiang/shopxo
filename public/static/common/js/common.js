@@ -1140,6 +1140,55 @@ function UrlFieldReplace(field, value, url)
     return url+anchor;
 }
 
+/**
+ * 当前环境
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @datetime 2019-04-20T19:48:59+0800
+ * @return   {string} [weixin,weibo,qq,ios,android,pc]
+ */
+function IsEnvironment()
+{
+	if(browser.versions.mobile)
+	{
+		var ua = navigator.userAgent.toLowerCase();
+		if(ua.match(/MicroMessenger/i) == 'micromessenger')
+		{
+			return 'weixin';
+		}
+
+		if(ua.match(/WeiBo/i) == 'weibo')
+		{
+			return 'weibo';
+		}
+
+		if(ua.match(/QQ/i) == 'qq')
+		{
+			return 'qq';
+		}
+
+		if(browser.versions.ios)
+		{
+			return 'ios';
+		}
+
+		if(browser.versions.android)
+		{
+			return 'android';
+		}
+
+	} else {
+		return 'pc';
+	}
+}
+
+function IsWeixinss()
+{
+	var ua = navigator.userAgent.toLowerCase();
+	return (ua.match(/MicroMessenger/i) == "micromessenger");
+}
+
 
 // 公共数据操作
 $(function()
