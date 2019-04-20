@@ -270,10 +270,18 @@ form.form-validation #map {
     .base-share-mobile {
         background: #9bddff;
     }
-    .base-share-mobile a {
-        padding-left: 0 !important;
-        width: 24px !important;
-        margin: 6px calc(12.5% - 32px) !important;
+    .base-share-mobile .plugins-share ul {
+        padding: 5px;
+    }
+    .base-share-mobile .plugins-share ul li {
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        margin-right: calc(10% - 12.5px);
+        margin-left: calc(10% - 12.5px);
+    }
+    .base-share-mobile .plugins-share ul li .iconfont {
+        font-size: 16px;
     }
     .am-footer {
         padding-bottom: 35px;

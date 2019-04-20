@@ -146,8 +146,7 @@
 
                     <!-- 分享 -->
                     <div class="base-share {{if !isset($data['status']) or $data['status'] neq 1}}base-share-mobile{{/if}}">
-                        <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a><a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a></div>
-                        <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+                        <div class="plugins-share-view"></div>
                     </div>
                 </div>
             </div>
@@ -254,7 +253,7 @@
 
 {{include file="public/footer" /}}
 
-{{if isset($data['user_id']) and $data['user_id'] gt 0}}
+{{if !empty($data['lose_lng']) and !empty($data['lose_lat']) and $data['lose_lng'] gt 0 and $data['lose_lat'] gt 0 and isset($data['status']) and $data['status'] eq 1}}
     <!-- map -->
     <script type="text/javascript" src="{{$Think.__MY_HTTP__}}://api.map.baidu.com/api?v=2.0&ak={{:MyC('common_baidu_map_ak')}}"></script>
 
@@ -262,7 +261,7 @@
     $(function()
     {
         // 丢失地址-地图展示
-        {{if !empty($data['lose_lng']) and !empty($data['lose_lat'])}}
+        {{if $data['lose_lng'] gt 0 and $data['lose_lat'] gt 0}}
             var map = new BMap.Map("map-view", {enableMapClick:false});
             var level = $('#map-view').data('level') || 16;
             var point = new BMap.Point({{$data['lose_lng']}},{{$data['lose_lat']}});

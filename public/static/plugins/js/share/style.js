@@ -27,31 +27,47 @@ $(function()
 
         // 平台地址
         var platform_url = null;
+
+        // 当前环境
+        var env = MobileBrowserEnvironment();
+        
+        // 关闭弹层
+        $('#plugins-share-layer').hide();
+
+        // 根据分享类型处理
         switch(type)
         {
             // QQ
             case 'qq' :
-                platform_url = 'https://connect.qq.com/widget/shareqq/index.html?url='+url+'&utm_medium=qqim&title='+title+'&desc='+desc+'&pics='+pic+'&site='+site
+                if(env == 'qq' || env == 'weixin' || env == 'qzone' || env == 'weibo')
+                {
+                    $('#plugins-share-layer').show();
+                } else {
+                    platform_url = 'https://connect.qq.com/widget/shareqq/index.html?url='+url+'&utm_medium=qqim&title='+title+'&desc='+desc+'&pics='+pic+'&site='+site
+                }
                 break;
 
             // QQ空间
             case 'qq-space' :
-                platform_url = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url='+url+'&utm_medium=qzone&title='+title+'&desc='+desc+'&pics='+pic+'&summary='+desc+'&site='+site;
+                if(env == 'qq' || env == 'weibo')
+                {
+                    $('#plugins-share-layer').show();
+                } else {
+                    platform_url = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url='+url+'&utm_medium=qzone&title='+title+'&desc='+desc+'&pics='+pic+'&summary='+desc+'&site='+site;
+                }
                 break;
 
-            // 新浪
+            // 新浪微博
             case 'sian' :
                 platform_url = 'http://service.weibo.com/share/share.php?url='+url+'&utm_medium=sian&title='+title+'&desc='+desc+'&pics='+pic+'&site='+site;
                 break;
 
             // 微信
             case 'weixin' :
-                // 是否微信环境中
-                if(MobileBrowserEnvironment() == 'weixin')
+                if(env == 'qq' || env == 'weixin' || env == 'qzone' || env == 'weibo')
                 {
-                    $('#plugins-share-weixin-layer').show();
+                    $('#plugins-share-layer').show();
                 } else {
-                    $('#plugins-share-weixin-layer').hide();
                     var $modal = $('#plugins-share-weixin-modal');
                     $modal.find('.weixin-qrcode').empty().qrcode({
                         text: decodeURIComponent(url),
@@ -65,7 +81,7 @@ $(function()
 
             // url
             case 'url' :
-                var $modal = $('#plugins-share-url-modal');
+                var $modal = $('#plugins-share-copy-modal');
                 $modal.find('.am-input-group input').val(decodeURIComponent(url));
                 $modal.modal({width: 300});
                 $modal.modal('open');
@@ -80,11 +96,11 @@ $(function()
     });
 
     // url复制
-    var clipboard = new ClipboardJS('#plugins-share-url-modal .am-input-group button.am-btn',
+    var clipboard = new ClipboardJS('#plugins-share-copy-modal .am-input-group button.am-btn',
     {
         text: function()
         {
-            return $('#plugins-share-url-modal .am-input-group input').val();
+            return $('#plugins-share-copy-modal .am-input-group input').val();
         }
     });
     clipboard.on('success', function(e)
@@ -96,9 +112,21 @@ $(function()
         Prompt('复制失败，请手动复制！');
     });
 
-    // 微信分享提示弹层关闭
-    $('#plugins-share-weixin-layer').on('click', function()
+    // 分享提示弹层关闭
+    $('#plugins-share-layer').on('click', function()
     {
-        $('#plugins-share-weixin-layer').hide();
+        $('#plugins-share-layer').hide();
     });
+
+
+    // 初始化
+    if($('.plugins-share-container').length > 0)
+    {
+        // 标签初始化
+        if($('.plugins-share-view').length > 0)
+        {
+            $('.plugins-share-view').html($('.plugins-share-container').html());
+        }   
+    }
+    
 });

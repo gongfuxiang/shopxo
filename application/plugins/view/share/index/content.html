@@ -1,24 +1,27 @@
-<div class="plugins-share">
-    <ul>
-        <li class="share-qq" data-type="qq">
-            <span class="icon iconfont icon-qq"></span>
-        </li>
-        <li class="share-qq-space" data-type="qq-space">
-            <span class="icon iconfont icon-qq-space"></span>
-        </li>
-        <li class="share-weixin" data-type="weixin">
-            <span class="icon iconfont icon-weixin"></span>
-        </li>
-        <li class="share-sian" data-type="sian">
-            <span class="icon iconfont icon-sina"></span>
-        </li>
-        <li class="share-url" data-type="url">
-            <span class="icon iconfont icon-url"></span>
-        </li>
-    </ul>
+<!-- 分享组建 -->
+<div class="plugins-share-container">
+    <div class="plugins-share">
+        <ul>
+            <li class="share-qq" data-type="qq">
+                <span class="icon iconfont icon-qq"></span>
+            </li>
+            <li class="share-qq-space" data-type="qq-space">
+                <span class="icon iconfont icon-qq-space"></span>
+            </li>
+            <li class="share-weixin" data-type="weixin">
+                <span class="icon iconfont icon-weixin"></span>
+            </li>
+            <li class="share-sian" data-type="sian">
+                <span class="icon iconfont icon-sina"></span>
+            </li>
+            <li class="share-url" data-type="url">
+                <span class="icon iconfont icon-url"></span>
+            </li>
+        </ul>
+    </div>
 </div>
 
-<!-- 微信弹出框 -->
+<!-- 微信二维码弹出框 -->
 <div class="am-modal am-modal-no-btn" tabindex="-1" id="plugins-share-weixin-modal">
     <div class="am-modal-dialog">
         <div class="am-modal-hd">
@@ -32,13 +35,13 @@
     </div>
 </div>
 
-<!-- 微信环境中提示分享 -->
-<div id="plugins-share-weixin-layer">
-    <img src="{{$attachment_host}}/static/plugins/images/share/weixin-layer.png" />
+<!-- 弹层提示分享 -->
+<div id="plugins-share-layer">
+    <img src="{{$attachment_host}}/static/plugins/images/share/share-layer.png" />
 </div>
 
-<!-- url复制 -->
-<div class="am-modal am-modal-no-btn" tabindex="-1" id="plugins-share-url-modal">
+<!-- 复制 -->
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="plugins-share-copy-modal">
     <div class="am-modal-dialog">
         <div class="am-modal-hd">
             <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>

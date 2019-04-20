@@ -1150,17 +1150,28 @@ function UrlFieldReplace(field, value, url)
  */
 function MobileBrowserEnvironment()
 {
+	// 浏览器标识
 	var ua = navigator.userAgent.toLowerCase();
+
+	// 微信
 	if(ua.match(/MicroMessenger/i) == 'micromessenger')
 	{
 		return 'weixin';
 	}
 
+	// 新浪微博
 	if(ua.match(/WeiBo/i) == 'weibo')
 	{
 		return 'weibo';
 	}
 
+	// QQ空间
+	if(ua.match(/qzone/i) == 'qzone')
+	{
+		return 'qzone';
+	}
+
+	// QQ
 	if(ua.match(/QQ/i) == 'qq')
 	{
 		return 'qq';
