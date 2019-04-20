@@ -67,7 +67,7 @@ $(function()
             case 'url' :
                 var $modal = $('#plugins-share-url-modal');
                 $modal.find('.am-input-group input').val(decodeURIComponent(url));
-                $modal.modal({width: 350});
+                $modal.modal({width: 300});
                 $modal.modal('open');
                 break;
         }
@@ -94,5 +94,11 @@ $(function()
     clipboard.on('error', function(e)
     {
         Prompt('复制失败，请手动复制！');
+    });
+
+    // 微信分享提示弹层关闭
+    $('#plugins-share-weixin-layer').on('click', function()
+    {
+        $('#plugins-share-weixin-layer').hide();
     });
 });
