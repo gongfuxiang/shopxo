@@ -47,11 +47,11 @@ $(function()
             // 微信
             case 'weixin' :
                 // 是否微信环境中
-                alert(IsEnvironment())
-                if(IsEnvironment() == 'weixin')
+                if(MobileBrowserEnvironment() == 'weixin')
                 {
-                    
+                    $('#plugins-share-weixin-layer').show();
                 } else {
+                    $('#plugins-share-weixin-layer').hide();
                     var $modal = $('#plugins-share-weixin-modal');
                     $modal.find('.weixin-qrcode').empty().qrcode({
                         text: decodeURIComponent(url),

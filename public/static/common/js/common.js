@@ -1141,14 +1141,14 @@ function UrlFieldReplace(field, value, url)
 }
 
 /**
- * 当前环境
+ * 当前手机浏览器环境
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  1.0.0
  * @datetime 2019-04-20T19:48:59+0800
  * @return   {string} [weixin,weibo,qq]
  */
-function IsEnvironment()
+function MobileBrowserEnvironment()
 {
 	var ua = navigator.userAgent.toLowerCase();
 	if(ua.match(/MicroMessenger/i) == 'micromessenger')
@@ -1167,13 +1167,6 @@ function IsEnvironment()
 	}
 	return null;
 }
-
-function IsWeixinss()
-{
-	var ua = navigator.userAgent.toLowerCase();
-	return (ua.match(/MicroMessenger/i) == "micromessenger");
-}
-
 
 // 公共数据操作
 $(function()

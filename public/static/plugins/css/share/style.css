@@ -49,6 +49,20 @@
 #plugins-share-weixin-modal .weixin-qrcode {
     margin-top: 10px;
 }
+#plugins-share-weixin-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 10000;
+    text-align: center;
+    display: none;
+}
+#plugins-share-weixin-layer img {
+    max-width: 90%;
+}
 
 /**
  * url
