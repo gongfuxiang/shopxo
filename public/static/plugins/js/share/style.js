@@ -47,8 +47,8 @@ $(function()
             // 微信
             case 'weixin' :
                 // 是否微信环境中
-                alert(IsEnvironment)
-                if(IsEnvironment == 'weixin')
+                alert(IsEnvironment())
+                if(IsEnvironment() == 'weixin')
                 {
                     
                 } else {
