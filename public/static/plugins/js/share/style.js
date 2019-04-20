@@ -47,9 +47,10 @@ $(function()
             // 微信
             case 'weixin' :
                 // 是否微信环境中
+                alert(IsEnvironment)
                 if(IsEnvironment == 'weixin')
                 {
-                    alert('weixin');
+                    
                 } else {
                     var $modal = $('#plugins-share-weixin-modal');
                     $modal.find('.weixin-qrcode').empty().qrcode({
