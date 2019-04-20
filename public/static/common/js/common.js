@@ -1146,41 +1146,26 @@ function UrlFieldReplace(field, value, url)
  * @blog     http://gong.gg/
  * @version  1.0.0
  * @datetime 2019-04-20T19:48:59+0800
- * @return   {string} [weixin,weibo,qq,ios,android,pc]
+ * @return   {string} [weixin,weibo,qq]
  */
 function IsEnvironment()
 {
-	if(browser.versions.mobile)
+	var ua = navigator.userAgent.toLowerCase();
+	if(ua.match(/MicroMessenger/i) == 'micromessenger')
 	{
-		var ua = navigator.userAgent.toLowerCase();
-		if(ua.match(/MicroMessenger/i) == 'micromessenger')
-		{
-			return 'weixin';
-		}
-
-		if(ua.match(/WeiBo/i) == 'weibo')
-		{
-			return 'weibo';
-		}
-
-		if(ua.match(/QQ/i) == 'qq')
-		{
-			return 'qq';
-		}
-
-		if(browser.versions.ios)
-		{
-			return 'ios';
-		}
-
-		if(browser.versions.android)
-		{
-			return 'android';
-		}
-
-	} else {
-		return 'pc';
+		return 'weixin';
 	}
+
+	if(ua.match(/WeiBo/i) == 'weibo')
+	{
+		return 'weibo';
+	}
+
+	if(ua.match(/QQ/i) == 'qq')
+	{
+		return 'qq';
+	}
+	return null;
 }
 
 function IsWeixinss()
