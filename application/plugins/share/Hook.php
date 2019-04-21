@@ -49,7 +49,11 @@ class Hook extends Controller
                     break;
 
                 case 'plugins_view_common_bottom' :
-                    $ret = $this->html($params);
+                    $ret = $this->Content($params);
+                    break;
+
+                case 'plugins_view_goods_detail_photo_bottom' :
+                    $ret = $this->GoodsPhotoBottom($params);
                     break;
             }
         }
@@ -57,14 +61,36 @@ class Hook extends Controller
     }
 
     /**
-     * 视图
+     * 商品页面相册底部钩子
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-04-22T02:08:26+0800
+     * @param    [array]          $params [输入参数]
+     */
+    private function GoodsPhotoBottom($params = [])
+    {
+        // html
+        $html = '<div class="plugins-share-view" style="margin-top:10px;" ';
+
+        // 默认图片
+        if(!empty($params['goods']['photo'][0]['images']))
+        {
+            $html .= ' data-pic="'.$params['goods']['photo'][0]['images'].'"';
+        }
+
+        return $html.'></div>';
+    }
+
+    /**
+     * 视图html
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2019-02-06T16:16:34+0800
      * @param    [array]          $params [输入参数]
      */
-    public function html($params = [])
+    private function Content($params = [])
     {
         // 获取应用数据
         $ret = PluginsService::PluginsData('share', ['pic']);

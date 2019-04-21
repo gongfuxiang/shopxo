@@ -363,7 +363,9 @@ $(function() {
     });
 
     // 放大镜初始化
-    $('.jqzoom').imagezoom();
+    $('.jqzoom').imagezoom({
+        yzoom: 398
+    });
     $('#thumblist li a').on('mouseover', function() {
         $(this).parents('li').addClass('tb-selected').siblings().removeClass('tb-selected');
         $('.jqzoom').attr('src', $(this).find('img').attr('mid'));

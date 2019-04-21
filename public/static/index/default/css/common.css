@@ -133,7 +133,7 @@ color: #F5F5F2;font-size: 14px;cursor:pointer;border-radius:0px 0px; position: a
     .nav-search{ position:relative;top:0px;z-index:0;margin-bottom: 5px;margin-top: 5px;}
      #ai-topsearch{ font-size:14px;height: 36px;line-height: 22px; font-weight: 500; width: 20%; }
      /*底部*/
-    .am-footer {text-align:center; display:block;position: relative;margin: 0px auto; padding: 7px 0px 9px; margin-top:20px;}
+    .am-footer {text-align:center; display:block;position: relative;margin: 0px auto; padding: 7px 0px 9px; }
 
     /*选项卡样式*/
     .am-nav-tabs > li span{font-size:16px;}
@@ -427,6 +427,7 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
     border-top: 2px solid #d2364c;
     background: #303030;
     color: #e2e2e2;
+    margin-top:20px;
 }
 .am-footer-default a {
     font-size: 12px;

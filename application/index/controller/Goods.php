@@ -70,6 +70,15 @@ class Goods extends Common
             // 商品收藏总数
             $ret['data'][0]['favor_count'] = GoodsService::GoodsFavorTotal(['goods_id'=>$id]);
 
+            // 商品页面相册底部钩子
+            $this->assign('plugins_view_goods_detail_photo_bottom_data', Hook::listen('plugins_view_goods_detail_photo_bottom',
+                [
+                    'hook_name'    => 'plugins_view_goods_detail_photo_bottom',
+                    'is_backend'    => false,
+                    'goods_id'      => $id,
+                    'goods'         => &$ret['data'][0],
+                ]));
+            
             // 商品页面基础信息顶部钩子
             $this->assign('plugins_view_goods_detail_base_top_data', Hook::listen('plugins_view_goods_detail_base_top',
                 [

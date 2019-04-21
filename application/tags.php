@@ -128,5 +128,9 @@ return array (
   array (
     0 => 'app\\plugins\\petscms\\Hook',
   ),
+  'plugins_view_goods_detail_photo_bottom' => 
+  array (
+    0 => 'app\\plugins\\share\\Hook',
+  ),
 );
 ?>

@@ -26,7 +26,7 @@ ul.logistics-list li.selected i.icon-active, ul.payment-list li.selected i.icon-
     background: url(../images/sys_item_selected.gif) no-repeat right bottom;
 }
 .business-item ul { padding: 10px 3px 5px 5px;}
-ul.logistics-list li img, ul.payment-list li img { width: 36px; height: 36px; }
+ul.logistics-list li img, ul.payment-list li img { width: 36px; height: 36px; vertical-align: middle; }
 
 .business-item ul li, ul.address-list li {
   -webkit-transition: border-color .2s ease-in;
@@ -64,14 +64,14 @@ ul.address-list, .business-item ul { overflow: hidden; }
 /**
  * 手机下选择地址
  */
-.mobile-address { position: fixed; left: 0; bottom: 0; background-color: #fff; width: 100%; height: 100%; z-index: 1099; padding-top: 0 !important; margin-top: 0 !important; border-top: 0 !important; overflow-y: scroll; overflow-x: hidden; padding-bottom: 28px; }
-.mobile-address .control { margin-bottom: 10px; }
-.mobile-address .control h3 { background-color: #eee; padding: 5px; }
-.mobile-address .control, .mobile-address ul.address-list li, .mobile-address ul.address-list li .address-operation-btn { display: block !important; }
-.mobile-address .control .address-submit-save { position: fixed; left: 0; bottom: 0; width: 100%; z-index: 100; }
-.mobile-address ul.address-list li { border-bottom: 1px solid #eee; padding-top: 5px; }
-.mobile-address ul.address-list li .address-left { width: 100%; }
-.mobile-address ul.address-list li .address-right { display: none; }
+.link-list .mobile-address { position: fixed; left: 0; bottom: 0; background-color: #fff; width: 100%; height: 100%; z-index: 1099; padding-top: 0 !important; margin-top: 0 !important; border-top: 0 !important; overflow-y: scroll; overflow-x: hidden; padding-bottom: 28px; }
+.link-list .mobile-address .control { margin-bottom: 10px; }
+.link-list .mobile-address .control h3 { background-color: #eee; padding: 5px; }
+.link-list .mobile-address .control, .link-list .mobile-address ul.address-list li, .link-list .mobile-address ul.address-list li .address-operation-btn { display: block !important; }
+.link-list .mobile-address .control .address-submit-save { position: fixed; left: 0; bottom: 0; width: 100%; z-index: 100; }
+.link-list .mobile-address ul.address-list li { border-bottom: 1px solid #eee; padding-top: 5px; }
+.link-list .mobile-address ul.address-list li .address-left { width: 100%; }
+.link-list .mobile-address ul.address-list li .address-right { display: none; }
 
 @media only screen and (min-width:640px) {
   /*地址操作*/
@@ -100,6 +100,7 @@ ul.address-list, .business-item ul { overflow: hidden; }
 
   .order-nav {clear: both;text-align: right;position: relative;margin-top: 10px;border: none;}
   .order-nav .address-confirm .box{position: relative;float: right;z-index: 100;padding-right:2%; padding-bottom:10px;border: 1px solid #f50;font-family: tahoma;display: inline-block;right: 0;background-color: #fff0e8;}
+  .order-nav form.am-form { overflow: inherit;}
 
   .nav-buy .go-btn-wrap {width:100%;overflow: hidden;padding-top:10px;margin-bottom: 10px;}
   .nav-buy .btn-go {display: block;padding: 0 26px;height: 36px;font: 400 18px/36px arial;font-size: 18px;background-color: #d2364c;color: #fff;text-align: center;cursor: pointer;outline: 0; z-index:999;}
@@ -156,7 +157,7 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .buy-message { padding-top: 10px; }
   .pay-confirm em { font-size: 12px; }
   .pay-confirm .nav-total-price { color: #d2364c; font-weight: 700; }
-  .order-nav { background: #f5f5f5; }
+  .order-nav { background: #f5f5f5; z-index: 100; }
   .am-footer { padding-bottom: 45px; }
 } 
 

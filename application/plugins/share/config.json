@@ -25,6 +25,9 @@
         ],
         "plugins_view_common_bottom":[
             "app\\plugins\\share\\Hook"
+        ],
+        "plugins_view_goods_detail_photo_bottom":[
+            "app\\plugins\\share\\Hook"
         ]
     }
 }
