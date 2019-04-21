@@ -146,7 +146,7 @@
 
                     <!-- 分享 -->
                     <div class="base-share {{if !isset($data['status']) or $data['status'] neq 1}}base-share-mobile{{/if}}">
-                        <div class="plugins-share-view"></div>
+                        <div class="plugins-share-view" data-pic="{{if !empty($data['photo'][0]['images'])}}{{$data['photo'][0]['images']}}{{elseif !empty($plugins_base_data['pets_default_images'])}}{{$plugins_base_data.pets_default_images}}{{/if}}"></div>
                     </div>
                 </div>
             </div>

@@ -10,19 +10,19 @@ $(function()
         var site = 'shopxo';
 
         // url
-        var url = $(this).parents('.plugins-share').data('url') || window.location.href;
+        var url = $(this).parents('.plugins-share').parent().data('url') || $('.plugins-share-container').data('url') ||  window.location.href;
             url = encodeURIComponent(url);
 
         // 标题
-        var title = $(this).parents('.plugins-share').data('title') || document.title || null;
+        var title = $(this).parents('.plugins-share').parent().data('title') || $('.plugins-share-container').data('title') || document.title || null;
             title = title == null ? '' : encodeURIComponent(title);
 
         // 描述
-        var desc = $(this).parents('.plugins-share').data('desc') || $('meta[name="description"]').attr('content') || null;
+        var desc = $(this).parents('.plugins-share').parent().data('desc') || $('.plugins-share-container').data('desc') || $('meta[name="description"]').attr('content') || null;
             desc = desc == null ? '' : encodeURIComponent(desc);
 
         // 封面图
-        var pic = $(this).parents('.plugins-share').data('pic') || null;
+        var pic = $(this).parents('.plugins-share').parent().data('pic') || $('.plugins-share-container').data('pic') || null;
             pic = pic == null ? '' : encodeURIComponent(pic);
 
         // 平台地址
@@ -48,7 +48,7 @@ $(function()
                 break;
 
             // QQ空间
-            case 'qq-space' :
+            case 'qzone' :
                 if(env == 'qq' || env == 'weibo')
                 {
                     $('#plugins-share-layer').show();
@@ -119,14 +119,38 @@ $(function()
     });
 
 
-    // 初始化
+    // 分享组建初始化
     if($('.plugins-share-container').length > 0)
     {
         // 标签初始化
         if($('.plugins-share-view').length > 0)
         {
-            $('.plugins-share-view').html($('.plugins-share-container').html());
-        }   
+            // 循环处理每个节点
+            $('.plugins-share-view').each(function(k, v)
+            {
+                // 获取指定分享项
+                var html = '';
+                var share = $(this).data('share') || null;
+
+                // 未指定则全部
+                if(share == null)
+                {
+                    html = $('.plugins-share-container').html();
+                } else {
+                    share = share.split(',');
+                    if(share.length > 0)
+                    {
+                        html += '<div class="plugins-share"><ul>';
+                        for(var i in share)
+                        {
+                            html += $('.plugins-share-container').find('ul li.share-'+share[i]).prop('outerHTML');
+                        }
+                        html += '</ul></div>';
+                    }
+                }
+                $(this).html(html);
+            });         
+        }
     }
     
 });

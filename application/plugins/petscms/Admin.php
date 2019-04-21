@@ -96,7 +96,7 @@ class Admin extends Controller
      */
     public function save($params = [])
     {
-        return PluginsService::PluginsDataSave(['plugins'=>'petscms', 'data'=>$params]);
+        return PluginsService::PluginsDataSave(['plugins'=>'petscms', 'data'=>$params], ['logo', 'pets_default_images', 'alipay_qrcode_images', 'weixin_qrcode_images']);
     }
 }
 ?>

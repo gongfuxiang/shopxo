@@ -101,9 +101,6 @@
 .pets-qrcode-related li:last-child {
     border-left: 1px solid #fff;
 }
-.pets-qrcode-related li img {
-    max-width: 150px;
-}
 .pets-qrcode-related li p {
     font-size: 14px;
     font-weight: 500;
@@ -228,6 +225,9 @@ form.form-validation #map {
     .lose ul.person li:nth-child(2) {
         border-top: 0;
     }
+    .pets-qrcode-related li img {
+        max-width: 150px;
+    }
 }
 @media only screen and (min-width:1025px) {
     /**
@@ -274,19 +274,16 @@ form.form-validation #map {
         padding: 5px;
     }
     .base-share-mobile .plugins-share ul li {
-        width: 25px;
-        height: 25px;
-        line-height: 25px;
         margin-right: calc(10% - 12.5px);
         margin-left: calc(10% - 12.5px);
-    }
-    .base-share-mobile .plugins-share ul li .iconfont {
-        font-size: 16px;
     }
     .am-footer {
         padding-bottom: 35px;
     }
     .nav-search {
         display: none;
+    }
+    .pets-qrcode-related li img {
+        max-width: 100%;
     }
 }

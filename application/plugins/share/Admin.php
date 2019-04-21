@@ -32,7 +32,7 @@ class Admin extends Controller
      */
     public function index($params = [])
     {
-        $ret = PluginsService::PluginsData('share');
+        $ret = PluginsService::PluginsData('share', ['pic']);
         if($ret['code'] == 0)
         {
             $this->assign('data', $ret['data']);
@@ -52,16 +52,9 @@ class Admin extends Controller
      */
     public function saveinfo($params = [])
     {
-        $ret = PluginsService::PluginsData('share');
+        $ret = PluginsService::PluginsData('share', ['pic']);
         if($ret['code'] == 0)
         {
-            // 是否
-            $is_whether_list =  [
-                0 => array('id' => 0, 'name' => '否', 'checked' => true),
-                1 => array('id' => 1, 'name' => '是'),
-            ];
-
-            $this->assign('is_whether_list', $is_whether_list);
             $this->assign('data', $ret['data']);
             return $this->fetch('../../../plugins/view/share/admin/saveinfo');
         } else {
@@ -79,7 +72,7 @@ class Admin extends Controller
      */
     public function save($params = [])
     {
-        return PluginsService::PluginsDataSave(['plugins'=>'share', 'data'=>$params]);
+        return PluginsService::PluginsDataSave(['plugins'=>'share', 'data'=>$params], ['pic']);
     }
 }
 ?>

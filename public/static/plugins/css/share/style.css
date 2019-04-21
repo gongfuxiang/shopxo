@@ -9,10 +9,10 @@
 }
 .plugins-share ul li {
     float: left;
-    width: 35px;
-    height: 35px;
+    width: 25px;
+    height: 25px;
     text-align: center;
-    line-height: 35px;
+    line-height: 25px;
     border-radius: 50px;
     margin-right: 10px;
     cursor: pointer;
@@ -21,13 +21,13 @@
     margin-right: 0;
 }
 .plugins-share ul li .iconfont {
-    font-size: 20px;
+    font-size: 16px;
     color: #fff;
 }
 .plugins-share ul li.share-qq {
     background: #03A9F4;
 }
-.plugins-share ul li.share-qq-space {
+.plugins-share ul li.share-qzone {
     background: #FF9800;
 }
 .plugins-share ul li.share-weixin {
@@ -38,6 +38,24 @@
 }
 .plugins-share ul li.share-url {
     background: #607d8b;
+}
+
+@media only screen and (min-width: 641px) {
+    .plugins-share ul li.share-qq:hover {
+        background: #26bbff;
+    }
+    .plugins-share ul li.share-qzone:hover {
+        background: #fca729;
+    }
+    .plugins-share ul li.share-weixin:hover {
+        background: #49bc18;
+    }
+    .plugins-share ul li.share-sian:hover {
+        background: #f43844;
+    }
+    .plugins-share ul li.share-url:hover {
+        background: #7d9eae;
+    }
 }
 
 

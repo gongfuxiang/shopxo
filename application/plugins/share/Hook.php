@@ -67,7 +67,7 @@ class Hook extends Controller
     public function html($params = [])
     {
         // 获取应用数据
-        $ret = PluginsService::PluginsData('share');
+        $ret = PluginsService::PluginsData('share', ['pic']);
         if($ret['code'] == 0)
         {
             $this->assign('data', $ret['data']);

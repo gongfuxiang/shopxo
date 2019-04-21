@@ -10,20 +10,41 @@
                 <a href="{{:PluginsAdminUrl('share', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
             </legend>
 
-            <div class="am-form-group am-form-file">
-                <label class="block">公告内容<span class="am-form-group-label-tips">空则不显示</span></label>
-                <textarea rows="3" name="content" class="am-radius am-field-valid" placeholder="公告内容" data-validation-message="请填写公告内容">{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
+            <div class="am-alert am-alert-warning" data-am-alert>
+                <button type="button" class="am-close">&times;</button>
+                <p>
+                    建议不要设置默认内容，采用自动获取页面相应的内容<br />
+                    内容优先级： 1元素配置默认 -> 2插件配置默认 -> 3页面对应内容
+                </p>
             </div>
 
             <div class="am-form-group">
-                <label>是否全局<span class="am-form-group-label-tips">默认首页</span></label>
-                <div>
-                    {{foreach $is_whether_list as $v}}
-                        <label class="am-radio-inline m-r-10">
-                            <input type="radio" name="is_overall" value="{{$v.id}}" {{if isset($data['is_overall']) and $data['is_overall'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_overall']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
-                        </label>
-                    {{/foreach}}
-                </div>
+                <label>默认标题<span class="am-form-group-label-tips">空则读取站点页面名称</span></label>
+                <input type="text" name="title" placeholder="默认标题" maxlength="60" data-validation-message="默认标题格式最多 60 个字符" class="am-radius" value="{{if !empty($data['title'])}}{{$data.title}}{{/if}}" />
+            </div>
+
+            <div class="am-form-group">
+                <label>默认url地址<span class="am-form-group-label-tips">空则读取站点页面url地址</span></label>
+                <input type="url" name="url" placeholder="默认url地址" maxlength="255" data-validation-message="请填写有效的默认url地址" class="am-radius" value="{{if !empty($data['url'])}}{{$data.url}}{{/if}}" />
+            </div>
+
+            <div class="am-form-group am-form-file">
+                <label class="block">默认描述<span class="am-form-group-label-tips">空则读取站点页面描述</span></label>
+                <textarea rows="3" name="desc" class="am-radius am-field-valid" placeholder="默认描述" maxlength="180" data-validation-message="描默认述格式最多 180 个字符">{{if !empty($data['desc'])}}{{$data.desc}}{{/if}}</textarea>
+            </div>
+
+            <div class="am-form-group am-form-file">
+                <label class="block">默认图片<span class="am-form-group-label-tips">建议300像数X300像数</span></label>
+                <ul class="plug-file-upload-view plugins-pic-view" data-form-name="pic" data-max-number="1" data-dialog-type="images">
+                    {{if !empty($data['pic'])}}
+                        <li>
+                            <input type="text" name="pic" value="{{$data.pic_old}}" data-validation-message="请上传默认图片" />
+                            <img src="{{$data.pic}}" />
+                            <i>×</i>
+                        </li>
+                    {{/if}}
+                </ul>
+                <div class="plug-file-upload-submit" data-view-tag="ul.plugins-pic-view">+上传图片</div>
             </div>
 
             <div class="am-form-group am-form-group-refreshing">

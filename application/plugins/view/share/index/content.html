@@ -1,12 +1,17 @@
 <!-- 分享组建 -->
-<div class="plugins-share-container">
+<div class="plugins-share-container"
+    data-title="{{if !empty($data['title'])}}{{$data.title}}{{/if}}"
+    data-desc="{{if !empty($data['desc'])}}{{$data.desc}}{{/if}}"
+    data-url="{{if !empty($data['url'])}}{{$data.url}}{{/if}}"
+    data-pic="{{if !empty($data['pic'])}}{{$data.pic}}{{/if}}"
+>
     <div class="plugins-share">
         <ul>
             <li class="share-qq" data-type="qq">
                 <span class="icon iconfont icon-qq"></span>
             </li>
-            <li class="share-qq-space" data-type="qq-space">
-                <span class="icon iconfont icon-qq-space"></span>
+            <li class="share-qzone" data-type="qzone">
+                <span class="icon iconfont icon-qzone"></span>
             </li>
             <li class="share-weixin" data-type="weixin">
                 <span class="icon iconfont icon-weixin"></span>
