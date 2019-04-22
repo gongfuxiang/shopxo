@@ -179,6 +179,7 @@ ul.am-tabs-nav.am-nav.am-nav-tabs {background: #F5F5F5;}
 .box .goods-video-container { line-height: 32px; font-size: 32px; color: #f00; background: #fff; text-align: center; width: 100%; height: 100%; top: 0; left: 0; z-index: 3; }
 
 /* 视频 轮播下 */
+.scoll .slider-content { overflow: hidden; position: relative; }
 .scoll .goods-video-submit-start { left: 0; bottom: 0; z-index: 2; padding: 10px 10px 5px 10px; }
 .scoll .goods-video-submit-close { right: 10px; }
 .scoll .goods-video-container { line-height: 32px; font-size: 32px; color: #f00; background: #fff; text-align: center; width: 100%; height: 100%; top: 0; left: 0; z-index: 3; }
@@ -220,8 +221,6 @@ li.am-active hr{border-top: 1px solid #f00;}
 .match-title{height: 36px;line-height: 36px;font-size: 16px;margin: 0px 10px;border-bottom: 1px solid #E6E6E6;color:#E4393C;font-weight: 700;}
 .like_list{overflow: hidden;}
 .like_list li{float: left;margin-left: 5px;margin-right: 5px;padding-bottom: 15px;text-align: center;}
-.s_picBox {width:100px;overflow: hidden;display: block;}
-.s_picBox img{width:100% ;}
 .info-box-price { color: #E4393C;font-size: 16px;font-family: arial;font-weight: 600;}
 .info-original-price {display:none;text-decoration: line-through;font-size: 12px;color: #999;margin-left: 5px;font-family: arial;font-weight: 400;}
 .like_list .plus_icon {width: 10px;text-align: center;font-size: 20px;color: #C3C3C3;height:100px ;line-height:100px;margin:0px 0px;}
@@ -300,7 +299,7 @@ li.am-comment{ width:100%}
     /*导航固定*/
     ul.am-tabs-nav.am-nav.am-nav-tabs {margin-right:10px ;margin-left: 10px;width: auto;}
     .scoll{float: left;width: calc(45% - 10px);max-width:360px;padding-right:20px; }
-    .scoll .am-slider { border: 1px solid #eee; }
+    .scoll .slider-content { border: 1px solid #eee; }
     .clearfix-right{float:left;width:55%;min-height: 270px;}
     .iteminfo_parameter.freight{display: block;margin-top: 10px;margin-bottom:10px ;}
     .iteminfo_parameter.freight dt{margin-left:-70px ;float: left;margin-right:10px ;padding-top:5px ;padding-bottom:20px ;}
@@ -320,7 +319,6 @@ li.am-comment{ width:100%}
     .tm-ind-panel .tm-count {display: inline-block;line-height: 16px;height: 16px;color: #C40000;font-weight: 700;margin-left: 3px;}    
 
     /*搭配*/
-    .s_picBox {width:150px;}
     .like_list .plus_icon {height:150px ;line-height:150px;}
     .info-original-price ,.c-title{display: inline;}
     .like_list .total_price .buy_now {width:102px;line-height: 32px;font-size: 14px;}

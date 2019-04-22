@@ -13,17 +13,12 @@ img{max-width:100%;}
 .method3 li{border:none;border-left:1px #e8e8e8 solid;border-top:1px #e8e8e8 solid}
 dt + dd {margin-top: 0;}
 
-/*手机专享*/
+/*手机导航*/
 .small-nav {padding:10px 0px; font-size:12px;}
 .small-nav .am-u-sm-3 { text-align: center; margin: 5px 0; }
-.small-nav .nav-icon {max-width: 50px; max-height: 50px; padding: 12px; margin: 0 auto; border-radius: 50px; background-color: #d2364c; }
+.small-nav .nav-icon {max-width: 50px; max-height: 50px; padding: 12px; margin: 0 auto; border-radius: 50px; background-color: #ccc; }
 .small-nav .am-u-sm-3:last-child { float: left; }
 .small-nav .mini-nav-title { margin-top: 5px; }
-.small-nav .mini-nav-goods-category { background-color: #FB6E52; }
-.small-nav .mini-nav-cart { background-color: #48CFAE; }
-.small-nav .mini-nav-user { background-color: #49acfa; }
-.small-nav .mini-nav-order { background-color: #fa506c; }
-.small-nav .mini-nav-seconds { background-color: #fa506c; }
 .small-nav a { text-decoration: none !important; }
 
 /*走马灯*/

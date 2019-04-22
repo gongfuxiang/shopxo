@@ -46,8 +46,15 @@ class AppNavService
             $common_platform_type = lang('common_platform_type');
             $common_is_enable_tips = lang('common_is_enable_tips');
             $common_app_event_type = lang('common_app_event_type');
+            $common_is_text_list = lang('common_is_text_list');
             foreach($data as &$v)
             {
+                // 是否需要登录
+                if(isset($v['is_need_login']))
+                {
+                    $v['is_need_login_text'] = $common_is_text_list[$v['is_need_login']]['name'];
+                }
+
                 // 是否启用
                 if(isset($v['is_enable']))
                 {
@@ -221,6 +228,7 @@ class AppNavService
             'bg_color'      => isset($params['bg_color']) ? $params['bg_color'] : '',
             'sort'          => intval($params['sort']),
             'is_enable'     => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
+            'is_need_login' => isset($params['is_need_login']) ? intval($params['is_need_login']) : 0,
         ];
 
         if(empty($params['id']))
@@ -293,6 +301,11 @@ class AppNavService
                 'error_msg'         => '操作id有误',
             ],
             [
+                'checked_type'      => 'empty',
+                'key_name'          => 'field',
+                'error_msg'         => '操作字段有误',
+            ],
+            [
                 'checked_type'      => 'in',
                 'key_name'          => 'state',
                 'checked_data'      => [0,1],
@@ -306,7 +319,7 @@ class AppNavService
         }
 
         // 数据更新
-        if(Db::name('AppHomeNav')->where(['id'=>intval($params['id'])])->update(['is_enable'=>intval($params['state'])]))
+        if(Db::name('AppHomeNav')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state'])]))
         {
            return DataReturn('编辑成功');
         }
@@ -324,7 +337,8 @@ class AppNavService
      */
     public static function AppHomeNav($params = [])
     {
-        $data = Db::name('AppHomeNav')->field('id,name,images_url,event_value,event_type,bg_color')->where(['platform'=>APPLICATION_CLIENT_TYPE, 'is_enable'=>1])->order('sort asc')->select();
+        $client_type = (APPLICATION_CLIENT_TYPE == 'pc') ? (IsMobile() ? 'h5' : 'pc') : APPLICATION_CLIENT_TYPE;
+        $data = Db::name('AppHomeNav')->field('id,name,images_url,event_value,event_type,bg_color,is_need_login')->where(['platform'=>$client_type, 'is_enable'=>1])->order('sort asc')->select();
         if(!empty($data))
         {
             foreach($data as &$v)

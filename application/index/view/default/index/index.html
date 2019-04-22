@@ -21,43 +21,23 @@
 
 <!-- 轮播上内容 -->
 <div class="am-container slideall">
-    <!-- 轮播右侧-内容1 -->
-    <div class="am-g am-g-fixed small-nav">
-        <div class="am-u-sm-3">
-            <a href="{{:MyUrl('index/category/index')}}">
-                <div class="nav-icon mini-nav-goods-category">
-                    <img src="{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-category-icon.png" />
+    <!-- 轮播右侧-手机导航 -->
+    {{if !empty($navigation)}}
+        <div class="am-g am-g-fixed small-nav">
+            {{foreach $navigation as $nav}}
+                <div class="am-u-sm-3">
+                    <a {{if $nav['is_need_login'] eq 1 and empty($user)}} href="javascript:;" class="login-event" {{else /}} href="{{$nav.event_value}}" {{/if}} >
+                        <div class="nav-icon" style="{{if !empty($nav['bg_color'])}}background:{{$nav.bg_color}};{{/if}}">
+                            <img src="{{$nav.images_url}}" alt="{{$nav.name}}" />
+                        </div>
+                        <div class="mini-nav-title">{{$nav.name}}</div>
+                    </a>
                 </div>
-                <div class="mini-nav-title">分类</div>
-            </a>
+            {{/foreach}}
         </div>
-        <div class="am-u-sm-3">
-            <a {{if empty($user)}}href="javascript:;" class="login-event"{{else /}} href="{{:MyUrl('index/Cart/index')}}"{{/if}}>
-                <div class="nav-icon mini-nav-cart">
-                    <img src="{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-cart-icon.png" />
-                </div>
-                <div class="mini-nav-title">购物车</div>
-            </a>
-        </div>
-        <div class="am-u-sm-3">
-            <a {{if empty($user)}}href="javascript:;" class="login-event"{{else /}} href="{{:MyUrl('index/order/index')}}"{{/if}}>
-                <div class="nav-icon mini-nav-order">
-                    <img src="{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-order-icon.png" />
-                </div>
-                <div class="mini-nav-title">订单</div>
-            </a>
-        </div>
-        <div class="am-u-sm-3">
-            <a {{if empty($user)}}href="javascript:;" class="login-event"{{else /}} href="{{:MyUrl('index/user/index')}}"{{/if}}>
-                <div class="nav-icon mini-nav-user">
-                    <img src="{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/home-mini-nav-user-icon.png" />
-                </div>
-                <div class="mini-nav-title">我的</div>
-            </a>
-        </div>
-    </div>
+    {{/if}}
 
-    <!--轮播右侧-内容2 -->
+    <!--轮播右侧-聚合内容 -->
     <div class="marqueen">
         <div class="mod-vip">
             <div class="m-baseinfo">

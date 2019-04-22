@@ -15,26 +15,28 @@
 <div class="goods-detail" data-id="{{$goods.id}}" data-spec-detail-ajax-url="{{:MyUrl('index/goods/specdetail')}}" data-spec-type-ajax-url="{{:MyUrl('index/goods/spectype')}}">
     <!-- 轮播 -->
     <div class="scoll">
-        <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false}' >
-            <ul class="am-slides">
-                {{if !empty($goods.photo)}}
-                    {{foreach $goods.photo as $photo}}
-                        <li>
-                            <img src="{{$photo.images}}" title="{{$goods.title}}" />
-                        </li>
-                    {{/foreach}}
-                {{/if}}
-            </ul>
-        </div>
+        <div class="slider-content">
+            <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false}' >
+                <ul class="am-slides">
+                    {{if !empty($goods.photo)}}
+                        {{foreach $goods.photo as $photo}}
+                            <li>
+                                <img src="{{$photo.images}}" title="{{$goods.title}}" />
+                            </li>
+                        {{/foreach}}
+                    {{/if}}
+                </ul>
+            </div>
 
-        <!-- 视频 -->
-        {{if !empty($goods.video)}}
-            <i class="am-icon-play-circle-o goods-video-submit-start"></i>
-            <i class="goods-video-submit-close none">&times;</i>
-            <video class="goods-video-container none" src="{{$goods.video}}" controls="controls" preload="auto">
-                your browser does not support the video tag
-            </video>
-        {{/if}}
+            <!-- 视频 -->
+            {{if !empty($goods.video)}}
+                <i class="am-icon-play-circle-o goods-video-submit-start"></i>
+                <i class="goods-video-submit-close none">&times;</i>
+                <video class="goods-video-container none" src="{{$goods.video}}" controls="controls" preload="auto">
+                    your browser does not support the video tag
+                </video>
+            {{/if}}
+        </div>
 
         <!-- 商品页面相册底部钩子 -->
         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
