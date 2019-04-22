@@ -1,0 +1,86 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">首页中间广告</span>
+            <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+
+        <div class="homemiddleadv-content">
+            <!-- 基础数据 -->
+            <div class="am-panel am-panel-secondary homemiddleadv-middle-banner">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">基础数据</span>
+                    <a class="am-fr" href="{{:PluginsAdminUrl('homemiddleadv', 'admin', 'baseinfo')}}">编辑</a>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="items">
+                        <label>应用导航名称</label>
+                        <div>
+                            {{if empty($data['application_name'])}}
+                                未设置应用导航名称
+                            {{else /}}
+                                {{$data.application_name}}
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class="items">
+                        <label>右侧推荐问答名称</label>
+                        <div>
+                            {{if empty($data['right_top_rec_name'])}}
+                                推荐问答
+                            {{else /}}
+                                {{$data.right_top_rec_name}}
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class="items">
+                        <label>中间最新问答名称</label>
+                        <div>
+                            {{if empty($data['middle_new_name'])}}
+                                最新问答
+                            {{else /}}
+                                {{$data.middle_new_name}}
+                            {{/if}}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 广告图片 -->
+            <div class="am-panel am-panel-secondary homemiddleadv-data-list">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">广告图片</span>
+                    <a class="am-fr" href="{{:PluginsAdminUrl('homemiddleadv', 'admin', 'dataindex')}}">编辑</a>
+                </div>
+                <div class="am-panel-bd">
+                    {{if !empty($data_list)}}
+                        <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-4 am-avg-lg-4 am-gallery-overlay am-container" data-am-gallery="{}">
+                            {{foreach $data_list as $k=>$v}}
+                                <li>
+                                    <div class="am-gallery-item">
+                                        <a href="{{if empty($v['url'])}}javascript:;{{else /}}{{$v.url}}{{/if}}" {{if isset($v['is_new_window_open']) and $v['is_new_window_open'] eq 1}}target="_blank"{{/if}}>
+                                            <img src="{{$v.images_url}}" alt="{{$v.name}}" />
+                                        </a>
+                                    </div>
+                                </li>
+                            {{/foreach}}
+                        </ul>
+                    {{else /}}
+                        没有数据
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

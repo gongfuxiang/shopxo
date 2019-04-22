@@ -4,14 +4,14 @@
 <div class="content-right">
     <div class="content">
         <legend>
-            <span class="fs-16">问答系统</span>
-            <a href="{{:PluginsAdminUrl('answers', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+            <span class="fs-16">首页中间广告</span>
+            <a href="{{:PluginsAdminUrl('homemiddleadv', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
         </legend>
 
-        <div class="answers-content">
+        <div class="homemiddleadv-content">
             <!-- operation start -->
             <div class="am-g m-t-15">
-                <a href="{{:PluginsAdminUrl('answers', 'admin', 'sliderinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
+                <a href="{{:PluginsAdminUrl('homemiddleadv', 'admin', 'datainfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
             </div>
             <!-- operation end -->
 
@@ -22,8 +22,9 @@
                         <th>名称</th>
                         <th>图片</th>
                         <th>url地址</th>
+                        <th class="am-hide-sm-only">是否新窗口打开</th>
                         <th class="am-hide-sm-only">是否启用</th>
-                        <th class="am-hide-sm-only">创建时间</th>
+                        <th class="am-hide-sm-only">操作时间</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -43,19 +44,22 @@
                                 </td>
                                 <td>{{$v.url}}</td>
                                 <td class="am-hide-sm-only">
-                                    <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:PluginsAdminUrl('answers', 'admin', 'sliderstatusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
+                                    <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_new_window_open'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:PluginsAdminUrl('homemiddleadv', 'admin', 'datastatusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_new_window_open']}}" data-field="is_new_window_open"></a>
                                 </td>
-                                <td class="am-hide-sm-only">{{$v.add_time_time}}</td>
+                                <td class="am-hide-sm-only">
+                                    <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:PluginsAdminUrl('homemiddleadv', 'admin', 'datastatusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-field="is_enable" data-is-update-status="1"></a>
+                                </td>
+                                <td class="am-hide-sm-only">{{$v.operation_time_time}}</td>
                                 <td class="view-operation">
-                                    <a href="{{:PluginsAdminUrl('answers', 'admin', 'sliderinfo', ['id'=>$v['id']])}}">
+                                    <a href="{{:PluginsAdminUrl('homemiddleadv', 'admin', 'datainfo', ['id'=>$v['id']])}}">
                                         <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit"> 编辑</button>
                                     </a>
-                                    <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:PluginsAdminUrl('answers', 'admin', 'sliderdelete')}}" data-id="{{$v.id}}"> 删除</button>
+                                    <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:PluginsAdminUrl('homemiddleadv', 'admin', 'datadelete')}}" data-id="{{$v.id}}"> 删除</button>
                                 </td>
                             </tr>
                         {{/foreach}}
                     {{else /}}
-                        <tr><td colspan="6" class="table-no">没有相关数据</td></tr>
+                        <tr><td colspan="7" class="table-no">没有相关数据</td></tr>
                     {{/if}}
                 </tbody>
             </table>

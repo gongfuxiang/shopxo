@@ -58,6 +58,8 @@ h5{float: right;color: #666;padding-right:20px;}
 input.add,input.min{width:15px}
 .c-p {cursor:pointer;}
 .last{border-right:none !important;}
+.am-container { margin: 0 auto; }
+
 /*选项卡样式定义*/
 .am-nav-tabs,.am-tabs-bd{border-color:transparent ;}
 .am-nav-tabs > li.am-active > a, .am-nav-tabs > li.am-active > a:hover, .am-nav-tabs > li.am-active > a:focus,.am-nav-tabs > li > a:hover ,.am-nav-tabs > li > a:focus {
@@ -432,9 +434,6 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
 .am-footer-default a {
     font-size: 12px;
     color: #b1b1b1;
-}
-.am-footer-default .am-container {
-
 }
 .footer-nav-list {
     overflow: hidden;

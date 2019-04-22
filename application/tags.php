@@ -132,5 +132,9 @@ return array (
   array (
     0 => 'app\\plugins\\share\\Hook',
   ),
+  'plugins_view_home_floor_top' => 
+  array (
+    0 => 'app\\plugins\\homemiddleadv\\Hook',
+  ),
 );
 ?>

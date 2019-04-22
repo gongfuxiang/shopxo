@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use think\facade\Hook;
 use app\service\BannerService;
 use app\service\GoodsService;
 use app\service\ArticleService;
@@ -69,8 +70,30 @@ class Index extends Common
         // 用户订单状态
         $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
         $this->assign('user_order_status', $user_order_status['data']);
+
+        // 钩子
+        $this->PluginsHook();
         
         return $this->fetch();
+    }
+
+    /**
+     * 钩子处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-04-22
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    private function PluginsHook($params = [])
+    {
+        // 楼层数据上面
+        $this->assign('plugins_view_home_floor_top_data', Hook::listen('plugins_view_home_floor_top',
+            [
+                'hook_name'    => 'plugins_view_home_floor_top',
+                'is_backend'    => false,
+            ]));
     }
 }
 ?>

@@ -1,0 +1,112 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('homemiddleadv', 'admin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('homemiddleadv', 'admin', 'index')}}" enctype="multipart/form-data">
+            <legend>
+                <span class="fs-16">首页中间广告</span>
+                <a href="{{:PluginsAdminUrl('homemiddleadv', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+            </legend>
+
+            <div class="am-alert am-alert-secondary" data-am-alert>
+                <div class="am-form-group am-form-file">
+                    <label class="block">广告1-图片<span class="am-form-group-label-tips">建议290像数X150像数</span></label>
+                    <ul class="plug-file-upload-view plugins-ad1_images-view" data-form-name="ad1_images" data-max-number="1" data-delete="0" data-dialog-type="images">
+                        <li>
+                            <input type="text" name="ad1_images" value="{{if !empty($data['ad1_images_old'])}}{{$data.ad1_images_old}}{{/if}}" data-validation-message="请上传图片" required />
+                            <img src="{{if !empty($data['ad1_images'])}}{{$data.ad1_images}}{{else /}}{{$attachment_host}}/static/plugins/images/homemiddleadv/default-images.jpg{{/if}}" />
+                        </li>
+                    </ul>
+                    <div class="plug-file-upload-submit" data-view-tag="ul.plugins-ad1_images-view">+上传图片</div>
+                </div>
+                <div class="am-form-group">
+                    <label>广告1-链接地址<span class="am-form-group-label-tips">带http://或https://</span></label>
+                    <input type="url" placeholder="广告1-链接地址" name="ad1_url"  data-validation-message="广告1-链接地址格式有误" class="am-radius" {{if !empty($data)}} value="{{$data.ad1_url}}"{{/if}} />
+                </div>
+            </div>
+
+            <div class="am-alert am-alert-secondary" data-am-alert>
+                <div class="am-form-group am-form-file">
+                    <label class="block">广告2-图片<span class="am-form-group-label-tips">建议290像数X150像数</span></label>
+                    <ul class="plug-file-upload-view plugins-ad2_images-view" data-form-name="ad2_images" data-max-number="1" data-delete="0" data-dialog-type="images">
+                        <li>
+                            <input type="text" name="ad2_images" value="{{if !empty($data['ad2_images_old'])}}{{$data.ad2_images_old}}{{/if}}" data-validation-message="请上传图片" required />
+                            <img src="{{if !empty($data['ad2_images'])}}{{$data.ad2_images}}{{else /}}{{$attachment_host}}/static/plugins/images/homemiddleadv/default-images.jpg{{/if}}" />
+                        </li>
+                    </ul>
+                    <div class="plug-file-upload-submit" data-view-tag="ul.plugins-ad2_images-view">+上传图片</div>
+                </div>
+                <div class="am-form-group">
+                    <label>广告2-链接地址<span class="am-form-group-label-tips">带http://或https://</span></label>
+                    <input type="url" placeholder="广告2-链接地址" name="ad2_url"  data-validation-message="广告2-链接地址格式有误" class="am-radius" {{if !empty($data)}} value="{{$data.ad2_url}}"{{/if}} />
+                </div>
+            </div>
+
+            <div class="am-alert am-alert-secondary" data-am-alert>
+                <div class="am-form-group am-form-file">
+                    <label class="block">广告3-图片<span class="am-form-group-label-tips">建议290像数X150像数</span></label>
+                    <ul class="plug-file-upload-view plugins-ad3_images-view" data-form-name="ad3_images" data-max-number="1" data-delete="0" data-dialog-type="images">
+                        <li>
+                            <input type="text" name="ad3_images" value="{{if !empty($data['ad3_images_old'])}}{{$data.ad3_images_old}}{{/if}}" data-validation-message="请上传图片" required />
+                            <img src="{{if !empty($data['ad3_images'])}}{{$data.ad3_images}}{{else /}}{{$attachment_host}}/static/plugins/images/homemiddleadv/default-images.jpg{{/if}}" />
+                        </li>
+                    </ul>
+                    <div class="plug-file-upload-submit" data-view-tag="ul.plugins-ad3_images-view">+上传图片</div>
+                </div>
+                <div class="am-form-group">
+                    <label>广告3-链接地址<span class="am-form-group-label-tips">带http://或https://</span></label>
+                    <input type="url" placeholder="广告3-链接地址" name="ad3_url"  data-validation-message="广告3-链接地址格式有误" class="am-radius" {{if !empty($data)}} value="{{$data.ad3_url}}"{{/if}} />
+                </div>
+            </div>
+
+            <div class="am-alert am-alert-secondary" data-am-alert>
+                <div class="am-form-group am-form-file">
+                    <label class="block">广告4-图片<span class="am-form-group-label-tips">建议290像数X150像数</span></label>
+                    <ul class="plug-file-upload-view plugins-ad4_images-view" data-form-name="ad4_images" data-max-number="1" data-delete="0" data-dialog-type="images">
+                        <li>
+                            <input type="text" name="ad4_images" value="{{if !empty($data['ad4_images_old'])}}{{$data.ad4_images_old}}{{/if}}" data-validation-message="请上传图片" required />
+                            <img src="{{if !empty($data['ad4_images'])}}{{$data.ad4_images}}{{else /}}{{$attachment_host}}/static/plugins/images/homemiddleadv/default-images.jpg{{/if}}" />
+                        </li>
+                    </ul>
+                    <div class="plug-file-upload-submit" data-view-tag="ul.plugins-ad4_images-view">+上传图片</div>
+                </div>
+                <div class="am-form-group">
+                    <label>广告4-链接地址<span class="am-form-group-label-tips">带http://或https://</span></label>
+                    <input type="url" placeholder="广告4-链接地址" name="ad4_url"  data-validation-message="广告4-链接地址格式有误" class="am-radius" {{if !empty($data)}} value="{{$data.ad4_url}}"{{/if}} />
+                </div>
+            </div>
+
+            <div class="am-form-group">
+                <label>是否新窗口打开</label>
+                <div>
+                    {{foreach $is_whether_list as $v}}
+                        <label class="am-radio-inline m-r-10">
+                            <input type="radio" name="is_new_window_open" value="{{$v.id}}" {{if isset($data['is_new_window_open']) and $data['is_new_window_open'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_new_window_open']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+            </div>
+
+            <div class="am-form-group">
+                <label>有效时间<span class="am-form-group-label-tips">留空则不限制</span></label>
+                <div class="form-date">
+                    <input type="text" autocomplete="off" name="time_start" class="Wdate am-radius" placeholder="起始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if !empty($data['time_start'])}}value="{{$data.time_start}}"{{/if}}/>
+                    <span>~</span>
+                    <input type="text" autocomplete="off" class="Wdate am-radius" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" {{if !empty($data['time_end'])}}value="{{$data.time_end}}"{{/if}}/>
+                </div>
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
