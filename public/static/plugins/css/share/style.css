@@ -89,3 +89,30 @@
 #plugins-share-copy-modal .am-input-group {
     margin-top: 10px;
 }
+
+
+/**
+ * 商品页面分享
+ */
+.plugins-goods-share-view {
+    margin-top: 5px;
+    display: block;
+}
+.plugins-goods-share-view a {
+    color: #888;
+}
+.plugins-goods-share-view a:hover {
+    color: #d2364c;
+}
+@media only screen and (max-width: 641px) {
+    .plugins-goods-share-view {
+        margin-top: 0;
+        padding: 5px;
+        border-top: 1px solid;
+        border-bottom: 1px solid;
+        border-color: #eee;
+    }
+    .plugins-goods-share-view .am-dropdown-content {
+        margin: 0 5px;
+    }
+}

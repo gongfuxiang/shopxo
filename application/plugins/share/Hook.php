@@ -71,7 +71,9 @@ class Hook extends Controller
     private function GoodsPhotoBottom($params = [])
     {
         // html
-        $html = '<div class="plugins-share-view" style="margin-top:10px;" ';
+        $html ='<div class="am-dropdown plugins-goods-share-view" data-am-dropdown>';
+        $html .= '<a href="javascript:;" class="am-dropdown-toggle am-icon-share-alt" data-am-dropdown-toggle> 分享</a>';
+        $html .= '<div class="am-dropdown-content plugins-share-view"';
 
         // 默认图片
         if(!empty($params['goods']['photo'][0]['images']))
@@ -79,7 +81,7 @@ class Hook extends Controller
             $html .= ' data-pic="'.$params['goods']['photo'][0]['images'].'"';
         }
 
-        return $html.'></div>';
+        return $html.'></div></div>';
     }
 
     /**
