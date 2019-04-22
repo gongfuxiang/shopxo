@@ -35,6 +35,11 @@ class Hook extends Controller
         {
             switch($params['hook_name'])
             {
+                // style css
+                case 'plugins_common_header' :
+                    $ret = $this->Css($params);
+                    break;
+
                 // 楼层数据上面
                 case 'plugins_view_home_floor_top' :
                     $ret = $this->HomeFloorTopAdv($params);
@@ -63,6 +68,27 @@ class Hook extends Controller
             return $this->fetch('../../../plugins/view/homemiddleadv/index/content');
         }
         return '';
+    }
+
+    /**
+     * css
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-02-06T16:16:34+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public function Css($params = [])
+    {
+        return '<style type="text/css">
+                    @media only screen and (min-width:640px) {
+                        .plugins-homemiddleadv-home-adv ul.am-gallery {
+                            width: calc(100% + 20px);
+                            margin-left: -10px;
+                            margin-top: 10px;
+                        }
+                    }
+                </style>';
     }
 }
 ?>

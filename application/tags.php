@@ -86,6 +86,7 @@ return array (
   array (
     0 => 'app\\plugins\\expressforkdn\\Hook',
     1 => 'app\\plugins\\touristbuy\\Hook',
+    2 => 'app\\plugins\\homemiddleadv\\Hook',
   ),
   'plugins_admin_common_header' => 
   array (

@@ -17,6 +17,9 @@
         "is_home":false
     },
     "hook":{
+        "plugins_common_header":[
+            "app\\plugins\\homemiddleadv\\Hook"
+        ],
         "plugins_view_home_floor_top":[
             "app\\plugins\\homemiddleadv\\Hook"
         ]
