@@ -34,7 +34,7 @@ class Service
      */
     public static function DataList($params = [])
     {
-        $ret = PluginsService::PluginsData('homemiddleadv', null, false);
+        $ret = PluginsService::PluginsData('homemiddleadv');
         $data = (empty($ret['data']) || empty($ret['data']['data_list'])) ? [] : $ret['data']['data_list'];
 
         if(!empty($data))

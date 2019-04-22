@@ -12,6 +12,7 @@ namespace app\plugins\homemiddleadv;
 
 use think\Controller;
 use app\plugins\homemiddleadv\Service;
+use app\service\PluginsService;
 /**
  * 首页中间广告插件 - 钩子入口
  * @author   Devil
@@ -37,7 +38,7 @@ class Hook extends Controller
             {
                 // style css
                 case 'plugins_common_header' :
-                    $ret = $this->Css($params);
+                    $ret = $this->StyleCss($params);
                     break;
 
                 // 楼层数据上面
@@ -61,6 +62,30 @@ class Hook extends Controller
      */
     public function HomeFloorTopAdv($params = [])
     {
+        // 获取应用数据
+        $ret = PluginsService::PluginsData('homemiddleadv');
+        if($ret['code'] == 0)
+        {
+            // 有效时间
+            if(!empty($ret['data']['time_start']))
+            {
+                // 是否已开始
+                if(strtotime($ret['data']['time_start']) > time())
+                {
+                    return '';
+                }
+            }
+            if(!empty($ret['data']['time_end']))
+            {
+                // 是否已结束
+                if(strtotime($ret['data']['time_end']) < time())
+                {
+                    return '';
+                }
+            }
+        }
+
+        // 获取图片列表
         $ret = Service::DataList();
         if($ret['code'] == 0 && !empty($ret['data']))
         {
@@ -78,7 +103,7 @@ class Hook extends Controller
      * @datetime 2019-02-06T16:16:34+0800
      * @param    [array]          $params [输入参数]
      */
-    public function Css($params = [])
+    public function StyleCss($params = [])
     {
         return '<style type="text/css">
                     @media only screen and (min-width:640px) {
@@ -86,6 +111,19 @@ class Hook extends Controller
                             width: calc(100% + 20px);
                             margin-left: -10px;
                             margin-top: 10px;
+                        }
+                        .plugins-homemiddleadv-home-adv ul.am-gallery img {
+                            -webkit-transition: transform .2s ease-in;
+                            -moz-transition: transform .2s ease-in;
+                            -ms-transition: transform .2s ease-in;
+                            -o-transition: transform .2s ease-in;
+                            transition: transform .2s ease-in;
+                        }
+                        .plugins-homemiddleadv-home-adv ul.am-gallery img:hover {
+                            -ms-transform: translate3d(0px, -3px, 0px);
+                            -webkit-transform: translate3d(0px, -3px, 0px);
+                            -o-transform: translate3d(0px, -3px, 0px);
+                            transform: translate3d(0px, -3px, 0px);
                         }
                     }
                 </style>';

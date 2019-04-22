@@ -5,7 +5,7 @@
                 <li>
                     <div class="am-gallery-item">
                         <a href="{{if empty($v['url'])}}javascript:;{{else /}}{{$v.url}}{{/if}}" {{if isset($v['is_new_window_open']) and $v['is_new_window_open'] eq 1}}target="_blank"{{/if}}>
-                            <img src="{{$v.images_url}}" alt="{{$v.name}}" />
+                            <img src="{{$v.images_url}}" alt="{{$v.name}}" title="{{$v.name}}" />
                         </a>
                     </div>
                 </li>

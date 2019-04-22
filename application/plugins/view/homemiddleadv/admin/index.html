@@ -13,42 +13,23 @@
             <div class="am-panel am-panel-secondary homemiddleadv-middle-banner">
                 <div class="am-panel-hd">
                     <span class="am-panel-title">基础数据</span>
-                    <a class="am-fr" href="{{:PluginsAdminUrl('homemiddleadv', 'admin', 'baseinfo')}}">编辑</a>
+                    <a class="am-fr" href="{{:PluginsAdminUrl('homemiddleadv', 'admin', 'saveinfo')}}">编辑</a>
                 </div>
                 <div class="am-panel-bd">
                     <div class="items">
-                        <label>应用导航名称</label>
+                        <label>有效时间</label>
                         <div>
-                            {{if empty($data['application_name'])}}
-                                未设置应用导航名称
+                            {{if !empty($data['time_start']) and !empty($data['time_end'])}}
+                                {{$data.time_start}} ~ {{$data.time_end}}
+                            {{elseif !empty($data['time_start']) and empty($data['time_end'])}}
+                                {{$data.time_start}} ~ 长期有效
+                            {{elseif empty($data['time_start']) and !empty($data['time_end'])}}
+                                立即生效 ~ {{$data.time_end}}
                             {{else /}}
-                                {{$data.application_name}}
+                                无限制
                             {{/if}}
                         </div>
                     </div>
-
-                    <div class="items">
-                        <label>右侧推荐问答名称</label>
-                        <div>
-                            {{if empty($data['right_top_rec_name'])}}
-                                推荐问答
-                            {{else /}}
-                                {{$data.right_top_rec_name}}
-                            {{/if}}
-                        </div>
-                    </div>
-
-                    <div class="items">
-                        <label>中间最新问答名称</label>
-                        <div>
-                            {{if empty($data['middle_new_name'])}}
-                                最新问答
-                            {{else /}}
-                                {{$data.middle_new_name}}
-                            {{/if}}
-                        </div>
-                    </div>
-
                 </div>
             </div>
 
@@ -65,7 +46,7 @@
                                 <li>
                                     <div class="am-gallery-item">
                                         <a href="{{if empty($v['url'])}}javascript:;{{else /}}{{$v.url}}{{/if}}" {{if isset($v['is_new_window_open']) and $v['is_new_window_open'] eq 1}}target="_blank"{{/if}}>
-                                            <img src="{{$v.images_url}}" alt="{{$v.name}}" />
+                                            <img src="{{$v.images_url}}" alt="{{$v.name}}" title="{{$v.name}}" />
                                         </a>
                                     </div>
                                 </li>
