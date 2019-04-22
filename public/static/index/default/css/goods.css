@@ -367,7 +367,7 @@ li.am-comment{ width:100%}
     .tb-s40 a { *font-size:35px;}
     .tb-s40{ height:60px; width:60px; }
     .tb-booth { border-bottom:1px solid #eee; position:relative; z-index:1;overflow: hidden; }
-    .tb-booth img { width: 100%; height: 100%; }
+    .tb-booth img { width: 100%; height: 100%; display: block; }
     .tb-thumb .tb-selected { background:none repeat scroll 0 0 #C30008; height:62px;}
     .tb-thumb .tb-selected div { background-color:#FFFFFF; border:medium none; }
     .tb-thumb li div { border:1px solid #CDCDCD; overflow: hidden;}
