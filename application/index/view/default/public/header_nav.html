@@ -1,29 +1,3 @@
-<!-- <div class="shop-nav">
-    <div class="am-container">
-        <div class="nav-cont">
-        	<ul>
-                <li><a href="{{$Think.__MY_URL__}}">首页</a></li>
-                {{if !empty($nav_header)}}
-                    {{foreach $nav_header as $nav}}
-                        <li>
-                            <a href="{{$nav.url}}" {{if $nav['is_new_window_open'] eq 1}}target="_blank"{{/if}}>{{$nav.name}}</a>
-                        </li>
-                    {{/foreach}}
-                {{/if}}
-        	</ul>
-            <div class="nav-extra {{if empty($user)}}login-event{{/if}}">
-                <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/user/index')}}{{/if}}">
-                    <img src="{{if !empty($user['avatar'])}}{{$user.avatar}}{{else /}}{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-user-avatar.jpg{{/if}}" class="nav-user" />
-                	<b></b>
-                    <span>我的商城</span>
-                	<i class="am-icon-angle-right"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-</div> -->
-
-
 <header class="am-topbar shop-navigation">
     <div class="am-container">
         <h1 class="am-topbar-brand wap-logo am-show-sm-only">
@@ -46,7 +20,7 @@
                         {{else /}}
                             <li class="am-dropdown" data-am-dropdown>
                             <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                                {{$nav.name}} <span class="am-icon-caret-down"></span>
+                                {{$nav.name}} <span class="am-icon-angle-down"></span>
                             </a>
                             <ul class="am-dropdown-content">
                                 {{foreach $nav.items as $navs}}
@@ -61,8 +35,13 @@
             </ul>
 
             <form class="am-topbar-form am-topbar-left am-form-inline am-show-sm-only" role="search" action="{{:MyUrl('index/search/index')}}" method="POST">
-                <div class="am-form-group">
-                    <input type="text" class="am-form-field am-input-sm" name="keywords" placeholder="其实搜索很简单^_^ !" value="{{if !empty($params['keywords'])}}{{$params.keywords}}{{/if}}" autocomplete="off" />
+                <div class="am-input-group am-input-group-sm">
+                    <input type="text" name="keywords" class="am-form-field" placeholder="其实搜索很简单^_^ !" value="{{if !empty($params['keywords'])}}{{$params.keywords}}{{/if}}" autocomplete="off" />
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-default" type="submit">
+                            <span class="am-icon-search am-icon-sm"></span>
+                        </button>
+                    </span>
                 </div>
             </form>
 
