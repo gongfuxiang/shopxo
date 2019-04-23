@@ -24,8 +24,7 @@
                 {{if !empty($express_list)}}
                     {{foreach $express_list as $express}}
                     	{{if $express.is_enable eq 1}}
-                    	<p>{{$express.name}} <input type="text" name="express_ids[{{$express.id}}]" placeholder="快递代号" class="am-radius" value="{{if !empty($data['express_ids'])}}{{$data.express_ids[$express.id]}}{{/if}}"/></p> 
-                    	
+                    	   <p>{{$express.name}} <input type="text" name="express_ids[{{$express.id}}]" placeholder="快递代号" class="am-radius" value="{{if !empty($data['express_ids']) and isset($data.express_ids[$express.id])}}{{$data.express_ids[$express.id]}}{{/if}}"/></p> 
                     	{{/if}}
                     {{/foreach}}
                 {{/if}}

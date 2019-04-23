@@ -87,6 +87,7 @@ return array (
     0 => 'app\\plugins\\expressforkdn\\Hook',
     1 => 'app\\plugins\\touristbuy\\Hook',
     2 => 'app\\plugins\\homemiddleadv\\Hook',
+    3 => 'app\\plugins\\footercustomerservice\\Hook',
   ),
   'plugins_admin_common_header' => 
   array (
@@ -136,6 +137,10 @@ return array (
   'plugins_view_home_floor_top' => 
   array (
     0 => 'app\\plugins\\homemiddleadv\\Hook',
+  ),
+  'plugins_view_common_footer_top' => 
+  array (
+    0 => 'app\\plugins\\footercustomerservice\\Hook',
   ),
 );
 ?>

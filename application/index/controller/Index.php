@@ -91,8 +91,9 @@ class Index extends Common
         // 楼层数据上面
         $this->assign('plugins_view_home_floor_top_data', Hook::listen('plugins_view_home_floor_top',
             [
-                'hook_name'    => 'plugins_view_home_floor_top',
+                'hook_name'     => 'plugins_view_home_floor_top',
                 'is_backend'    => false,
+                'user'          => $this->user,
             ]));
     }
 }

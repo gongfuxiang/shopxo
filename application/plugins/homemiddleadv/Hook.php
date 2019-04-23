@@ -13,6 +13,7 @@ namespace app\plugins\homemiddleadv;
 use think\Controller;
 use app\plugins\homemiddleadv\Service;
 use app\service\PluginsService;
+
 /**
  * 首页中间广告插件 - 钩子入口
  * @author   Devil

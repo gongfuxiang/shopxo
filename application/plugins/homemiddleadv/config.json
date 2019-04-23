@@ -6,7 +6,7 @@
         "author":"Devil",
         "author_url":"https:\/\/shopxo.net\/",
         "version":"1.0.0",
-        "desc":"首页中间广告，4个推荐位",
+        "desc":"首页中间广告，推荐位",
         "apply_terminal":[
             "pc",
             "h5"

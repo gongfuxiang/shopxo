@@ -131,6 +131,9 @@ class Common extends Controller
 
         // 用户注册邮箱页面钩子
         $this->assign('plugins_view_user_email_reg_info_data', Hook::listen('plugins_view_user_email_reg_info', ['hook_name'=>'plugins_view_user_email_reg_info', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 底部导航上面钩子
+        $this->assign('plugins_view_common_footer_top_data', Hook::listen('plugins_view_common_footer_top', ['hook_name'=>'plugins_view_common_footer_top', 'is_backend'=>false, 'user'=>$this->user]));
     }
 
     /**

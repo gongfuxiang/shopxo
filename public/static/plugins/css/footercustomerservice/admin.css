@@ -1,0 +1,61 @@
+/**
+ * 首页
+ */
+.footercustomerservice-content .items {
+    margin: 10px 0 20px 0;
+    border-bottom: 1px dashed #f1f1f1;
+    padding-bottom: 20px;
+}
+.footercustomerservice-content .items .immages-tag {
+    text-align: left;
+}
+.footercustomerservice-content .items .immages-tag img {
+    max-width: 100%;
+    border: 1px dashed #eee;
+    padding: 5px;
+}
+.footercustomerservice-content .edit-submit {
+    margin-bottom: 20px;
+}
+.footercustomerservice-content img {
+    max-width: 100%;
+}
+.footercustomerservice-content .am-slider-c3 .am-slider-counter {
+    background-color: #d13a49;
+}
+@media only screen and (min-width:640px) {
+    .footercustomerservice-data-list .am-gallery-overlay .am-gallery-item img {
+        width: auto;
+        max-height: 150px;
+    }
+}
+
+/**
+ * 服务介绍列表
+ */
+.customer-service .am-gallery-overlay .am-gallery-item img {
+    width: 50px;
+    float: left;
+}
+.customer-service .am-gallery-overlay .am-gallery-item .base {
+    margin-left: 60px;
+}
+.customer-service .am-gallery-overlay .am-gallery-item .base .title {
+    font-weight: 500;
+    font-size: 16px;
+    color: #505050;
+    margin: 0;
+}
+.customer-service .am-gallery-overlay .am-gallery-item .base .desc {
+    color: #999;
+    margin: 5px 0 0 0;
+}
+.am-footer-default {
+    margin-top: 0;
+}
+@media only screen and (max-width:640px) {
+    .customer-service .am-gallery-overlay .am-gallery-item {
+        border-bottom: 1px solid #f0f0f0;
+        padding-bottom: 10px;
+    }
+}

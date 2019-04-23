@@ -12,7 +12,6 @@ namespace app\plugins\homemiddleadv;
 
 use app\service\PluginsService;
 use app\service\ResourcesService;
-use app\service\AnswerService;
 
 /**
  * 首页中间广告服务层

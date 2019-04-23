@@ -43,13 +43,15 @@
                     {{if !empty($data_list)}}
                         <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-4 am-avg-lg-4 am-gallery-overlay am-container" data-am-gallery="{}">
                             {{foreach $data_list as $k=>$v}}
-                                <li>
-                                    <div class="am-gallery-item">
-                                        <a href="{{if empty($v['url'])}}javascript:;{{else /}}{{$v.url}}{{/if}}" {{if isset($v['is_new_window_open']) and $v['is_new_window_open'] eq 1}}target="_blank"{{/if}}>
-                                            <img src="{{$v.images_url}}" alt="{{$v.name}}" title="{{$v.name}}" />
-                                        </a>
-                                    </div>
-                                </li>
+                                {{if isset($v['is_enable']) and $v['is_enable'] eq 1}}
+                                    <li>
+                                        <div class="am-gallery-item">
+                                            <a href="{{if empty($v['url'])}}javascript:;{{else /}}{{$v.url}}{{/if}}" {{if isset($v['is_new_window_open']) and $v['is_new_window_open'] eq 1}}target="_blank"{{/if}}>
+                                                <img src="{{$v.images_url}}" alt="{{$v.name}}" title="{{$v.name}}" />
+                                            </a>
+                                        </div>
+                                    </li>
+                                {{/if}}
                             {{/foreach}}
                         </ul>
                     {{else /}}
