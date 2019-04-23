@@ -223,7 +223,7 @@ text-align: center;float:none}
     .items-nav-title h3{display:block;font-size: 12px;color: #999;float: left;margin-left: 10px;margin-top:12px;}
     .items-nav-title .more {display: block;position: absolute;right: 0px;top:12px;font-size: 12px;overflow: hidden;}
     .items-nav-title .more .more-link{color: #FFF;background: #F72862 none repeat scroll 0% 0%;display: block;line-height: 20px;padding: 0px 10px; border-radius: 10px;font-size: 14px;}
-    .items-nav-title .today-brands{display: block;position: absolute;right: 60px;overflow: hidden;height: 20px; top: 12px;text-align: right;}
+    .items-nav-title .today-brands{display: block;position: absolute;right: 50px;overflow: hidden;height: 20px; top: 12px;text-align: right;}
     .today-brands a {font-size:12px;display: inline-block;vertical-align: middle;margin:0px 5px;}
 
      /*改写的公告*/
