@@ -127,9 +127,9 @@ table { border-collapse: collapse; border-spacing: 0; font-size: 14px;}
 
 fieldset {padding:0px;padding-left:7px;padding-right:7px;padding-bottom:7px;}
 fieldset legend{margin-left:15px;padding-left:3px;padding-right:3px;color:#333;}
-.am-nav > li > a{padding:4px 0px;font-size: 12px;}
-.am-nav-tabs > li > a { margin-right:0px;}
-.am-nav-tabs > li{border-top: 2px solid transparent;border-bottom:2px solid transparent ;}
+.introduce-main .am-nav > li > a{padding:4px 0px;font-size: 12px;}
+.introduce-main .am-nav-tabs > li > a { margin-right:0px;}
+.introduce-main .am-nav-tabs > li{border-top: 2px solid transparent;border-bottom:2px solid transparent ;}
 
 /*导航固定*/
 ul.am-tabs-nav.am-nav.am-nav-tabs {background: #F5F5F5;}

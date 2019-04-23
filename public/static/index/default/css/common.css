@@ -445,11 +445,15 @@ ul.am-dropdown-content {
 }
 ul.am-dropdown-content > .am-active > a,
 ul.am-dropdown-content > .am-active > a:hover,
+ul.am-dropdown-content > .am-active > a:focus {
+    background-color: #ffeaed;
+}
+ul.am-dropdown-content > .am-active > a,
+ul.am-dropdown-content > .am-active > a:hover,
 ul.am-dropdown-content > .am-active > a:focus,
 .am-nav > li.am-active > a,
 .am-nav > li.am-active > a:hover,
 .am-nav > li.am-active > a:focus {
-    background-color: #ffeaed;
     color: #d2354c !important;
 }
 
@@ -676,6 +680,9 @@ ul.am-dropdown-content > .am-active > a:focus,
     max-width: 120px;
     max-height: 45px;
     padding: 5px;
+}
+.shop-navigation .wap-logo img {
+    max-width: 100%;
 }
 @media only screen and (min-width: 641px) {
     .shop-navigation {
