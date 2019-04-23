@@ -348,10 +348,6 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
     font-size: 14px;
     color: #fff;
 }
-.am-footer-miscs {
-    padding: 10px 0 5px 0;
-    margin-top: 10px;
-}
 .footer-about li {
     text-align: left;
 }
@@ -372,9 +368,25 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
     width: 20px;
     text-align: center;
 }
+.am-footer-miscs {
+    padding: 10px 0 5px 0;
+    margin-top: 10px;
+}
 .am-footer-miscs .am-container {
     border-top: 1px solid #383838;
     padding-top: 10px;
+}
+.am-footer-miscs .powered a {
+    font-weight: 700;
+}
+.am-footer-miscs .powered a:hover, .am-footer-miscs .powered a:focus {
+    text-decoration: none;
+}
+.am-footer-miscs .powered a span.b {
+    color: #026ed9;
+}
+.am-footer-miscs .powered a span.o {
+    color: #e6000e;
 }
 @media only screen and (max-width:1025px) {
     .am-footer-default  .am-container {
@@ -400,8 +412,8 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
     border-bottom: 1px solid #e3e0e0;
     line-height: 30px;
     color: #333;
-    font-weight: 500;
-    font-size: 14px;
+    font-weight: 600;
+    font-size: 16px;
 }
 .friendship-list ul {
     overflow: hidden;
@@ -787,6 +799,7 @@ button { outline: none !important; }
 .common-cropper-popup .cropper-container, .cropper-input-images-submit { border-radius:2px; }
 .common-cropper-popup .am-form-file input[type="file"] { margin-top: 0; }
 .common-cropper-popup .am-form-group { width: auto; }
+.common-cropper-popup form.am-form .am-form-group-refreshing { padding: 0 !important; }
 @media only screen and (max-width:641px){
     .common-cropper-popup .img-preview { margin-left:10px; }
     .common-cropper-popup .preview-md,
