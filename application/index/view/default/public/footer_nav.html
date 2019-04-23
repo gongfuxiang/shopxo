@@ -34,18 +34,20 @@
 	<div class="am-container">
 		<!-- 底部导航 -->
 		{{if !empty($nav_footer)}}
-			<ul class="footer-nav-list am-u-md-8">
+			<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-4 am-avg-lg-4 am-gallery-overlay am-no-layout am-u-md-8 footer-nav-list" data-am-gallery="{}">
 				{{foreach $nav_footer as $k=>$v}}
 					{{if $k lt 4}}
-						<li class="am-fl">
-							<p class="footer-nav-title ellipsis">{{$v.name}}</p>
-							{{if !empty($v['items'])}}
-								{{foreach $v.items as $vs}}
-									<p class="ellipsis">
-										<a href="{{$vs.url}}" {{if $vs['is_new_window_open'] eq 1}}target="_blank"{{/if}}>{{$vs.name}}</a>
-									</p>
-								{{/foreach}}
-							{{/if}}
+						<li>
+							<div class="am-gallery-item">
+								<p class="footer-nav-title ellipsis">{{$v.name}}</p>
+								{{if !empty($v['items'])}}
+									{{foreach $v.items as $vs}}
+										<p class="ellipsis">
+											<a href="{{$vs.url}}" {{if $vs['is_new_window_open'] eq 1}}target="_blank"{{/if}}>{{$vs.name}}</a>
+										</p>
+									{{/foreach}}
+								{{/if}}
+							</div>
 						</li>
 					{{/if}}
 				{{/foreach}}

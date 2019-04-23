@@ -436,27 +436,15 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
     color: #b1b1b1;
 }
 .footer-nav-list {
-    overflow: hidden;
+    padding: 0;
 }
-.footer-nav-list li {
-    width: 25%;
+.footer-nav-list .am-gallery-item {
     text-align: left;
-    padding: 0 5px;
 }
-.footer-nav-list li .footer-nav-title {
+.footer-nav-list .am-gallery-item .footer-nav-title {
     font-weight: 500;
     font-size: 14px;
     color: #fff;
-}
-.footer-nav-list li p {
-    line-height: 26px;
-}
-.footer-nav-list li p a {
-    color: #c4c4c4;
-}
-.footer-nav-list li p a:hover {
-    color: #fff;
-    text-decoration: underline;
 }
 .am-footer-miscs {
     padding: 10px 0 5px 0;
@@ -492,9 +480,6 @@ background:url(../images/ibar_sprites.png) no-repeat;background-position:0px -23
     }
 }
 @media only screen and (max-width:640px) {
-    .footer-nav-list li {
-        
-    }
     .footer-about {
         border-top: 1px solid #383838;
         padding-top: 10px;
