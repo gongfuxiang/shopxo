@@ -46,29 +46,15 @@ return array (
   array (
     0 => 'app\\plugins\\userloginrewardintegral\\Hook',
   ),
-  'plugins_css' => 
-  array (
-    0 => 'app\\plugins\\commonrightnavigation\\Hook',
-    1 => 'app\\plugins\\commononlineservice\\Hook',
-    2 => 'app\\plugins\\share\\Hook',
-  ),
-  'plugins_js' => 
-  array (
-    0 => 'app\\plugins\\commonrightnavigation\\Hook',
-    1 => 'app\\plugins\\commononlineservice\\Hook',
-    2 => 'app\\plugins\\share\\Hook',
-  ),
-  'plugins_view_common_bottom' => 
-  array (
-    0 => 'app\\plugins\\commonrightnavigation\\Hook',
-    1 => 'app\\plugins\\commononlineservice\\Hook',
-    2 => 'app\\plugins\\expressforkdn\\Hook',
-    3 => 'app\\plugins\\share\\Hook',
-  ),
   'plugins_service_navigation_header_handle' => 
   array (
     0 => 'app\\plugins\\answers\\Hook',
     1 => 'app\\plugins\\touristbuy\\Hook',
+  ),
+  'plugins_view_common_bottom' => 
+  array (
+    0 => 'app\\plugins\\expressforkdn\\Hook',
+    1 => 'app\\plugins\\share\\Hook',
   ),
   'plugins_admin_view_common_bottom' => 
   array (
@@ -129,6 +115,14 @@ return array (
   'plugins_service_header_navigation_top_right_handle' => 
   array (
     0 => 'app\\plugins\\petscms\\Hook',
+  ),
+  'plugins_css' => 
+  array (
+    0 => 'app\\plugins\\share\\Hook',
+  ),
+  'plugins_js' => 
+  array (
+    0 => 'app\\plugins\\share\\Hook',
   ),
   'plugins_view_goods_detail_photo_bottom' => 
   array (
