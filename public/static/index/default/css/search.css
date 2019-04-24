@@ -67,7 +67,6 @@ dl#select3 .dd-conent{ left:-200%; right:0px;}
 .limit p.title,.i-pic.check p.title{padding:0px 5px;margin:5px 0px;overflow:hidden;height:18px;line-height:18px ;}
 .search-pages-submit { margin: 10px 0; }
 
-
 @media only screen and (min-width: 640px) {
     /* select */
     .theme-popover { padding: 0 5px; }
@@ -84,14 +83,13 @@ dl#select3 .dd-conent{ left:-200%; right:0px;}
     .screening-remove-submit{width:80px;float:right;margin-right:20px;}
     .search-content .am-badge{font-size:14px ;padding:0px 0px;background: none; }
 
-
     /*排序*/
     .sort-nav{padding:0px 0px;margin:10px 5px; font-size: 12px;width:auto;overflow: hidden;}
     .sort-nav li{ display:inline; padding:0px 20px;width:auto;border-right:1px solid #eee;}
     .sort-nav li.active{background: #F5F5F5;}
     .sort-nav li.active a { color: #d2364c;}
     .select-list .dd-conent { padding-top: 10px; }
-
+    .search-nav .am-sticky-placeholder { margin: 10px 5px !important; }
 
     /*筛选条件*/
     .select-list,.select-list dl{width:100%;}
@@ -106,12 +104,10 @@ dl#select3 .dd-conent{ left:-200%; right:0px;}
     .am-slider-default .am-direction-nav a {z-index:0;}
     span.am-icon-th-list{color:orangered;margin-right:1px ;}
 
-
     /*改写的布局*/   
     .flood li{width:33.3%;float: left; text-align: center;}
     .smallnav img{max-width:60px;}
     .smallnav{ font-size:14px;}
-
 
     /*文字布局*/
     .limit p.title,.i-pic.check p.title{padding:0px 10px;overflow:hidden;height:36px;line-height:18px ;}
@@ -123,6 +119,7 @@ dl#select3 .dd-conent{ left:-200%; right:0px;}
     .nav.white{padding-left:0px}
     .theme-popover { padding: 0px; margin-top: 10px; }
     .sort-nav { margin: 10px 0; }
+    .search-nav .am-sticky-placeholder { margin: 10px 0 !important; }
     .data-list { width: calc(100% + 10px); margin-left: -5px; }
 
     /*选中效果*/
@@ -131,12 +128,16 @@ dl#select3 .dd-conent{ left:-200%; right:0px;}
 
 @media only screen and (max-width: 640px) {
     .theme-popover { padding: 0; }
-    .data-list li:nth-child(2n) .i-pic.limit { margin-right: 0px; }
-    .data-list li:nth-child(2n+1) .i-pic.limit { margin-left: 0px; }
     .screening-remove-submit { margin-top: -28px; }
     .select .title-tips { padding: 5px 5px 0 5px; }
     .sort-nav li { border-bottom: 1px solid #eee; }
     .select-list .dd-conent { overflow-y: scroll;overflow-x: hidden; }
+}
+@media only screen and (max-width:1025px) {
+    .search-pages-submit {
+        margin: 0 auto;
+        width: calc(100% - 10px);
+    }
 }
 
 .not-tips { color: #666; font-size: 12px; text-align: center; display: block; }

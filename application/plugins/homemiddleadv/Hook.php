@@ -108,11 +108,6 @@ class Hook extends Controller
     {
         return '<style type="text/css">
                     @media only screen and (min-width:640px) {
-                        .plugins-homemiddleadv-home-adv ul.am-gallery {
-                            width: calc(100% + 20px);
-                            margin-left: -10px;
-                            margin-top: 10px;
-                        }
                         .plugins-homemiddleadv-home-adv ul.am-gallery img {
                             -webkit-transition: transform .2s ease-in;
                             -moz-transition: transform .2s ease-in;
@@ -125,6 +120,16 @@ class Hook extends Controller
                             -webkit-transform: translate3d(0px, -3px, 0px);
                             -o-transform: translate3d(0px, -3px, 0px);
                             transform: translate3d(0px, -3px, 0px);
+                        }
+                    }
+                    @media only screen and (min-width:1025px) {
+                        .plugins-homemiddleadv-home-adv {
+                            overflow: hidden;
+                        }
+                        .plugins-homemiddleadv-home-adv ul.am-gallery {
+                            width: calc(100% + 20px);
+                            margin-left: -10px;
+                            margin-top: 10px;
                         }
                     }
                 </style>';
