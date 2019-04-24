@@ -17,7 +17,9 @@
 <!-- header nav end -->
 
 <!-- content start -->
-<div {{if !isset($data['is_full_screen']) or $data['is_full_screen'] eq 0}}class="am-container"{{/if}}>{{$data.content|raw}}</div>
+<div class="customview-content {{if !isset($data['is_full_screen']) or $data['is_full_screen'] eq 0}}am-container{{/if}}">
+{{$data.content|raw}}
+</div>
 <!-- content end -->
 
 <!-- footer start -->
