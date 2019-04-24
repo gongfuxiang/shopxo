@@ -1,12 +1,18 @@
 <header class="am-topbar shop-navigation">
     <div class="am-container">
+        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-default am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
         <h1 class="am-topbar-brand wap-logo am-show-sm-only">
             <a href="{{$Think.__MY_URL__}}">
                 <img src="{{$attachment_host}}{{:MyC('home_site_logo_wap')}}" alt="{{:MyC('home_seo_site_title')}}" />
             </a>
         </h1>
 
-        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-default am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+        <a href="{{:MyUrl('index/category/index')}}" class="am-show-md-only">
+            <div class="goods-category-title am-hide-sm-only">
+                <span class="all-goods">全部分类</span>
+            </div>
+        </a>
 
         <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
             <ul class="am-nav am-nav-pills am-topbar-nav">
@@ -45,7 +51,7 @@
                 </div>
             </form>
 
-            <div class="am-topbar-right">
+            <div class="am-topbar-right am-hide-sm-only">
                 <div class="navigation-user {{if empty($user)}}login-event{{/if}}">
                     <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/user/index')}}{{/if}}">
                         <img src="{{if !empty($user['avatar'])}}{{$user.avatar}}{{else /}}{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-user-avatar.jpg{{/if}}" class="nav-user" />

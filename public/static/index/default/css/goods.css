@@ -449,7 +449,6 @@ li.am-comment{ width:100%}
 
 /* 手机模式下 */
 @media only screen and (max-width:640px) {
-    .nav-search { display: none; }
     .goods-detail { padding: 0px; }
     .detail-title, .tb-detail-price, .detail-attr { padding: 0px 5px; }
     .buy-nav .buy-nav-opt { width: 40%; }
@@ -467,5 +466,5 @@ li.am-comment{ width:100%}
     .scoll .goods-video-submit-close { bottom: 50px; }
 
     /* 底部 */
-    .am-footer { padding-bottom: 55px; }
+    .am-footer { padding-bottom: 35px; }
 }
