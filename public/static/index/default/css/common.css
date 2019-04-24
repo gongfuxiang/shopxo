@@ -724,6 +724,11 @@ ul.am-dropdown-content > .am-active > a:focus,
 
 
 /**
+ * 用户中心
+ */
+.user-content-body {-webkit-box-flex:1;-webkit-flex:1 0 auto;-ms-flex:1 0 auto;flex:1 0 auto; overflow: hidden; }
+
+/**
  * 用户中心左侧菜单
  */
 .user-menu {position:fixed;z-index:10;bottom:70px;right:10px;}
@@ -737,7 +742,7 @@ ul.am-dropdown-content > .am-active > a:focus,
 .user-sidebar-sub li { border-left: 0!important; border-right: 0!important; }
 .user-sidebar-sub li a { padding-left:35px; }
 .user-content {display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;background:#fff;}
-.user-content-body {-webkit-box-flex:1;-webkit-flex:1 0 auto;-ms-flex:1 0 auto;flex:1 0 auto; }
+
 .user-offcanvas-bar { z-index: 900; }
 @media only screen and (min-width:640px) {
     .user-sidebar {display:block;position:relative;background:none; border-top: 5px solid #ED5564;z-index: 0;}

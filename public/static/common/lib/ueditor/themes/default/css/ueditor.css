@@ -1909,3 +1909,31 @@ div.edui-box {
 .edui-default  .edui-pastecontainer .edui-button  .edui-state-hover .edui-plaintxticon{
     background-position: -72px -34px;
 }
+
+
+/**
+ * 手机端自适应
+ */
+@media only screen and (max-width: 641px) {
+    .edui-default .edui-dialog {
+        left: 10px !important;
+        width: calc(100% - 20px) !important;
+    }
+    .edui-default .edui-for-emotion {
+        left: 10px !important;
+        width: calc(100% - 20px) !important;
+    }
+
+    #edui_fixedlayer,
+    .edui-default .edui-for-insertimage .edui-dialog-content,
+    .edui-default .edui-for-insertvideo .edui-dialog-content,
+    .edui-default .edui-for-attachment .edui-dialog-content,
+    .edui-default .edui-for-map .edui-dialog-content,
+    .edui-default .edui-for-spechars .edui-dialog-content,
+    .edui-default .edui-for-anchor .edui-dialog-content,
+    .edui-default .edui-for-searchreplace .edui-dialog-content,
+    .edui-default .edui-dialog-content,
+    .edui-default .edui-for-emotion .edui-popup-content iframe {
+        width: 100% !important;
+    }
+}

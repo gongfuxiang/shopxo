@@ -698,3 +698,19 @@ i.file-preview.file-type-psd{
     color: #fff;
     background-color: #ef1313;
 }
+
+/**
+ * 手机端自适应
+ */
+@media only screen and (max-width: 641px) {
+    .wrapper {
+        width: 100%;
+        box-sizing:border-box;
+    }
+    #upload .filelist {
+        height: 290px;
+    }
+    #online {
+        height: 330px;
+    }
+}

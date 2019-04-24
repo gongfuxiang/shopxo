@@ -1,1 +1,4 @@
 /*可以在这里添加你自己的css*/
+.edui-default, .edui-default .edui-dialog-body, .edui-default .edui-for-insertimage .edui-dialog-content, .edui-dialog div {
+    width: 200px !important;
+}

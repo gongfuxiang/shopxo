@@ -92,3 +92,25 @@ div.alignment,#custom{margin-left: 23px;margin-left: 28px\9;}
     border: 3px solid #1094fa;
     background-position: 72px 72px;
 }
+
+/**
+ * 手机端自适应
+ */
+@media only screen and (max-width: 641px) {
+    .wrapper {
+        width: calc(100% - 20px);
+    }
+    #imageList {
+        height: 205px;
+    }
+    #imgManager li {
+        width: 110px;
+        height: 110px;
+        margin: 10px 0 0 10px;
+        border: 1px solid #eee;
+    }
+    #normal input.txt {
+        width: calc(100% - 70px);
+        border: 1px solid #ccc;
+    }
+}

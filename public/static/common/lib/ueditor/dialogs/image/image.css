@@ -911,3 +911,47 @@
     color: #fff;
     background-color: #ef1313;
 }
+
+/**
+ * 手机端自适应
+ */
+@media only screen and (max-width: 641px) {
+    .wrapper, #remote .top, #remote .left {
+        width: 100%;
+        box-sizing:border-box;
+    }
+    #remote .right {
+        width: 80px;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        height: 80px;
+    }
+    #remote #preview {
+        width: 80px;
+        height: 80px;
+        margin-top: 0;
+    }
+    #remote #url, #remote #border, #remote #vhSpace {
+        width: auto;
+    }
+    #remote .row {
+        margin-left: 0;
+    }
+    .tabbody {
+        height: 315px;
+        overflow: hidden;
+    }
+    #upload .placeholder {
+        height: 140px;
+    }
+    #online {
+        height: 305px;
+    }
+    #upload .filelist {
+        height: 260px;
+    }
+    .tabbody .panel.focus {
+        height: 315px;
+    }
+}

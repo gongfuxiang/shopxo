@@ -16,3 +16,15 @@ p{margin: 5px 0}
 table{clear:both;margin-bottom:10px;border-collapse:collapse;word-break:break-all;}
 li{clear:both}
 ol{padding-left:40px; }
+
+/**
+ * 手机端自适应
+ */
+@media only screen and (max-width: 641px) {
+    .left {
+        width: 50%;
+    }
+    .right {
+        width: calc(50% - 30px);
+    }
+}

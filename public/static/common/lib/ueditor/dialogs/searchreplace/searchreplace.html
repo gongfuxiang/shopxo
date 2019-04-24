@@ -12,6 +12,19 @@
         .tabbody .panel{width:373px;height:100%;padding-left: 5px;position: absolute;background-color: #fff;}
         .tabbody input.int{ width:190px;height:21px;border:1px solid #d7d7d7;line-height:21px;}
         .tabbody input.btn{padding: 0 5px; text-align:center;line-height:24px; text-decoration: none;height:24px;background:url("../../themes/default/images/dialog-title-bg.png") repeat-x;border:1px solid #ccc; }
+
+        /**
+         * 手机端自适应
+         */
+        @media only screen and (max-width: 641px) {
+            .warpper {
+                width: calc(100% - 20px);
+            }
+            .tabbody .panel {
+                width: 100%;
+                box-sizing:border-box;
+            }
+        }
     </style>
 </head>
 <body>

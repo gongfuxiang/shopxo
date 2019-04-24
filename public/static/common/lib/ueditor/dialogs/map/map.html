@@ -14,6 +14,40 @@
         #address{width:130px}
         #is_dynamic_label span{vertical-align:middle;margin: 3px 0px 3px 3px;}
         #is_dynamic_label input{vertical-align:middle;margin: 3px 3px 3px 50px;}
+
+        /**
+         * 手机端自适应
+         */
+        @media only screen and (max-width: 641px) {
+            .content {
+                width: 100%;
+                box-sizing:border-box;
+            }
+            .content table {
+                position: relative;
+            }
+            .content table td {
+                display: block;
+                padding: 0 10px;
+            }
+            .content table td input {
+                width: 100% !important;
+                margin-bottom: 5px;
+            }
+            #is_dynamic_label {
+                bottom: 5px;
+                right: 10px;
+                position: absolute;
+            }
+            #is_dynamic_label input {
+                width: 15px !important;
+                margin: 0;
+            }
+            .content #container {
+                height: 250px !important;
+                border: 0 !important;
+            }
+        }
     </style>
 </head>
 <body>

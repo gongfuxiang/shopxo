@@ -6895,6 +6895,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
                 container = document.getElementById(container);
             }
             if (container) {
+                options.initialFrameWidth = 100
                 if(options.initialFrameWidth){
                     options.minFrameWidth = options.initialFrameWidth
                 }else{
@@ -6906,7 +6907,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
                     options.initialFrameHeight = options.minFrameHeight = container.offsetHeight;
                 }
 
-                container.style.width = /%$/.test(options.initialFrameWidth) ?  '100%' : options.initialFrameWidth-
+                container.style.width = /%$/.test(options.initialFrameWidth) ?  '60%' : options.initialFrameWidth-
                     getStyleValue("padding-left")- getStyleValue("padding-right") +'px';
                 container.style.height = /%$/.test(options.initialFrameHeight) ?  '100%' : options.initialFrameHeight -
                     getStyleValue("padding-top")- getStyleValue("padding-bottom") +'px';

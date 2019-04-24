@@ -5,3 +5,12 @@
 .tabbody .panel p{font-size:12px;margin: 5px 0 0 5px;}
 .tabbody table{width:90%;line-height: 20px;margin: 5px 0 0 5px;;}
 .tabbody table thead{font-weight: bold;line-height: 25px;}
+
+/**
+ * 手机端自适应
+ */
+@media only screen and (max-width: 641px) {
+    .wrapper {
+        width: calc(100% - 20px);
+    }
+}

@@ -70,3 +70,37 @@ em{font-style: normal;}
 .eraserIcon{display: inline-block;width:16px;height:16px;background-image: url('images/eraser.png')}
 
 
+/**
+ * 手机端自适应
+ */
+@media only screen and (max-width: 641px) {
+    .main {
+        width: calc(100% - 16px);
+    }
+    .hot {
+        margin-bottom: 10px;
+    }
+    .hot, .picBoard {
+        width: 100%;
+        height: 150px;
+    }
+    .picBoard {
+        width: 100%;
+    }
+    .drawBoard {
+        height: 100%;
+    }
+    .brushBorad {
+        width: 100%;
+        height: 100%
+    }
+    .operateBar {
+        width: 50%;
+    }
+    .drawToolbar {
+        height: 185px;
+    }
+    .sectionBar {
+        margin-top: 6px;
+    }
+}

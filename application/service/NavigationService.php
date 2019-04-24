@@ -753,13 +753,6 @@ class NavigationService
                         'icon'      =>  'am-icon-bell-o',
                     ],
                     [
-                        'name'      =>  '我的积分',
-                        'url'       =>  MyUrl('index/userintegral/index'),
-                        'contains'  =>  ['userintegralindex'],
-                        'is_show'   =>  1,
-                        'icon'      =>  'am-icon-fire',
-                    ],
-                    [
                         'name'      =>  '我的足迹',
                         'url'       =>  MyUrl('index/usergoodsbrowse/index'),
                         'contains'  =>  ['usergoodsbrowseindex'],
@@ -772,6 +765,20 @@ class NavigationService
                         'contains'  =>  ['answerindex'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-question',
+                    ],
+                ]
+            ],
+            [
+                'name'      =>  '财产中心',
+                'is_show'   =>  1,
+                'icon'      =>  'am-icon-trophy',
+                'item'      =>  [
+                    [
+                        'name'      =>  '我的积分',
+                        'url'       =>  MyUrl('index/userintegral/index'),
+                        'contains'  =>  ['userintegralindex'],
+                        'is_show'   =>  1,
+                        'icon'      =>  'am-icon-fire',
                     ],
                 ]
             ],

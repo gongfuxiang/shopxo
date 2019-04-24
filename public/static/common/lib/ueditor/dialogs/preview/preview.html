@@ -17,6 +17,19 @@
                 margin:0;
             }
             #preview *{font-family:sans-serif;font-size:16px;}
+            /**
+             * 手机端自适应
+             */
+            @media only screen and (max-width: 641px) {
+                #preview {
+                    margin: 0 !important;
+                    padding: 10px;
+                    box-sizing:border-box;
+                }
+                #preview img {
+                    max-width: 100%;
+                }
+            }
         </style>
         <script type="text/javascript" src="../internal.js"></script>
         <script src="../../ueditor.parse.js"></script>
