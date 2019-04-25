@@ -14,6 +14,17 @@
             </div>
         </a>
 
+        <form class="am-topbar-form am-topbar-left am-form-inline am-show-sm-only navigation-search" role="search" action="{{:MyUrl('index/search/index')}}" method="POST">
+            <div class="am-input-group am-input-group-sm">
+                <input type="text" name="keywords" class="am-form-field" placeholder="其实搜索很简单^_^ !" value="{{if !empty($params['keywords'])}}{{$params.keywords}}{{/if}}" autocomplete="off" />
+                <span class="am-input-group-btn">
+                    <button class="am-btn am-btn-default" type="submit">
+                        <span class="am-icon-search am-icon-xs"></span>
+                    </button>
+                </span>
+            </div>
+        </form>
+
         <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
             <ul class="am-nav am-nav-pills am-topbar-nav">
                 <li><a href="{{$Think.__MY_URL__}}">首页</a></li>
@@ -39,17 +50,6 @@
                     {{/foreach}}
                 {{/if}}
             </ul>
-
-            <form class="am-topbar-form am-topbar-left am-form-inline am-show-sm-only" role="search" action="{{:MyUrl('index/search/index')}}" method="POST">
-                <div class="am-input-group am-input-group-sm">
-                    <input type="text" name="keywords" class="am-form-field" placeholder="其实搜索很简单^_^ !" value="{{if !empty($params['keywords'])}}{{$params.keywords}}{{/if}}" autocomplete="off" />
-                    <span class="am-input-group-btn">
-                        <button class="am-btn am-btn-default" type="submit">
-                            <span class="am-icon-search am-icon-xs"></span>
-                        </button>
-                    </span>
-                </div>
-            </form>
 
             <div class="am-topbar-right am-hide-sm-only">
                 <div class="navigation-user {{if empty($user)}}login-event{{/if}}">
