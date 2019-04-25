@@ -37,6 +37,10 @@
     position: absolute;
     margin-left: -1000000px;
 }
+.freightfee-rules .am-form-group-label-tips-must {
+    vertical-align: middle;
+    margin-left: 5px !important;
+}
 
 /**
  * 弹窗

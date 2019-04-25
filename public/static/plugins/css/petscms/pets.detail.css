@@ -10,7 +10,7 @@
 #ai-topsearch {
     background: #03A9F4 none repeat scroll 0% 0%;
 }
-.goods-category-title, .navigation-user, .navigation-user .nav-user {
+.goods-category-title, .navigation-user, .navigation-user .nav-user, .shop-navigation .am-btn {
     background: #03A9F4;
 }
 .navigation-user * {
@@ -19,8 +19,8 @@
 .am-footer-default {
     border-top: 2px solid #03A9F4;
 }
-.am-slider-a1 .am-control-nav li a.am-active {
-    background-color: #03A9F4;
+.shop-navigation .am-btn, .shop-navigation .navigation-search input {
+    border-color: #03A9F4;
 }
 .shop-navigation .am-topbar-nav > li > a:hover, a:hover, a:focus {
     color: #03A9F4;
@@ -34,6 +34,9 @@
  */
 .pets-detail {
     margin-top: 10px;
+}
+.pets-detail .am-slider-a1 .am-control-nav li a.am-active {
+    background-color: #03A9F4;
 }
 .provide-submit, .base-share {
     margin-top: 20px;

@@ -41,11 +41,12 @@
                     {{if empty($data['data'])}}
                         <thead>
                             <tr>
-                                <th>运送到</th>
-                                <th>首件数(件)</th>
-                                <th>首费(元)</th>
-                                <th>续件数(件)</th>
-                                <th>续费(元)</th>
+                                <th>运送到<span class="am-form-group-label-tips-must">*</span></th>
+                                <th>首件数(件)<span class="am-form-group-label-tips-must">*</span></th>
+                                <th>首费(元)<span class="am-form-group-label-tips-must">*</span></th>
+                                <th>续件数(件)<span class="am-form-group-label-tips-must">*</span></th>
+                                <th>续费(元)<span class="am-form-group-label-tips-must">*</span></th>
+                                <th>满(免运费)</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -68,6 +69,9 @@
                                 <td>
                                     <input type="number" class="am-radius continue-price-name" name="data[0][continue_price]" min="0.00" max="999.99" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,且不能大于首费,小数保留两位" required />
                                 </td>
+                                <td>
+                                    <input type="number" class="am-radius continue-free-shipping-price-name" name="data[0][free_shipping_price]" min="0.00" step="0.01" data-validation-message="满免运费,小数保留两位" />
+                                </td>
                                 <td><!--operation--></td>
                             </tr>
                         </tbody>
@@ -75,11 +79,12 @@
                         {{if isset($data['valuation']) and $data['valuation'] eq 0}}
                             <thead>
                                 <tr>
-                                    <th>运送到</th>
-                                    <th>首件数(件)</th>
-                                    <th>首费(元)</th>
-                                    <th>续件数(件)</th>
-                                    <th>续费(元)</th>
+                                    <th>运送到<span class="am-form-group-label-tips-must">*</span></th>
+                                    <th>首件数(件)<span class="am-form-group-label-tips-must">*</span></th>
+                                    <th>首费(元)<span class="am-form-group-label-tips-must">*</span></th>
+                                    <th>续件数(件)<span class="am-form-group-label-tips-must">*</span></th>
+                                    <th>续费(元)<span class="am-form-group-label-tips-must">*</span></th>
+                                    <th>满(免运费)</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
@@ -110,6 +115,9 @@
                                         <td>
                                             <input type="number" class="am-radius continue-price-name" name="data[{{$k}}][continue_price]" min="0.00" max="999.99" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,且不能大于首费,小数保留两位" value="{{$v.continue_price}}"  required />
                                         </td>
+                                        <td>
+                                            <input type="number" class="am-radius continue-free-shipping-price-name" name="data[{{$k}}][free_shipping_price]" min="0.00" step="0.01" data-validation-message="满免运费,小数保留两位" value="{{if isset($v['free_shipping_price']) and $v['free_shipping_price'] gt 0}}{{$v.free_shipping_price}}{{/if}}" />
+                                        </td>
                                         {{if $v['region'] eq 'default'}}
                                             <td><!--operation--></td>
                                         {{else /}}
@@ -123,11 +131,12 @@
                         {{else /}}
                             <thead>
                                 <tr>
-                                    <th>运送到</th>
-                                    <th>首件数(kg)</th>
-                                    <th>首费(元)</th>
-                                    <th>续件数(kg)</th>
-                                    <th>续费(元)</th>
+                                    <th>运送到<span class="am-form-group-label-tips-must">*</span></th>
+                                    <th>首件数(kg)<span class="am-form-group-label-tips-must">*</span></th>
+                                    <th>首费(元)<span class="am-form-group-label-tips-must">*</span></th>
+                                    <th>续件数(kg)<span class="am-form-group-label-tips-must">*</span></th>
+                                    <th>续费(元)<span class="am-form-group-label-tips-must">*</span></th>
+                                    <th>满(免运费)</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
@@ -157,6 +166,9 @@
                                         </td>
                                         <td>
                                             <input type="number" class="am-radius continue-price-name" name="data[{{$k}}][continue_price]" min="0.00" max="999.99" step="0.01" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,且不能大于首费,小数保留两位" value="{{$v.continue_price}}"  required />
+                                        </td>
+                                        <td>
+                                            <input type="number" class="am-radius continue-free-shipping-price-name" name="data[{{$k}}][free_shipping_price]" min="0.00" step="0.01" data-validation-message="满免运费,小数保留两位" value="{{if isset($v['free_shipping_price']) and $v['free_shipping_price'] gt 0}}{{$v.free_shipping_price}}{{/if}}" />
                                         </td>
                                         {{if $v['region'] eq 'default'}}
                                             <td><!--operation--></td>

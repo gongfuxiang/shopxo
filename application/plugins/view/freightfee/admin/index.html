@@ -57,6 +57,7 @@
                                         <th>首费(元)</th>
                                         <th>续件数(件)</th>
                                         <th>续费(元)</th>
+                                        <th>满(免运费)</th>
                                     </tr>
                                 </thead>
                             {{else /}}
@@ -67,6 +68,7 @@
                                         <th>首费(元)</th>
                                         <th>续件数(kg)</th>
                                         <th>续费(元)</th>
+                                        <th>满(免运费)</th>
                                     </tr>
                                 </thead>
                             {{/if}}
@@ -84,6 +86,7 @@
                                         <td>{{$v.first_price}}</td>
                                         <td>{{$v.continue}}</td>
                                         <td>{{$v.continue_price}}</td>
+                                        <td>{{$v.free_shipping_price}}</td>
                                     </tr>
                                 {{/foreach}}
                             </tbody>

@@ -23,11 +23,12 @@ $(function()
 
                     $this.parents('.am-form-group').attr('data-value', valuation);
                     var thead = '<tr>';
-                        thead += '<th>运送到</th>';
-                        thead += '<th>首件数('+unit+')</th>';
-                        thead += '<th>首费(元)</th>';
-                        thead += '<th>续件数('+unit+')</th>';
-                        thead += '<th>续费(元)</th>';
+                        thead += '<th>运送到<span class="am-form-group-label-tips-must">*</span></th>';
+                        thead += '<th>首件数('+unit+')<span class="am-form-group-label-tips-must">*</span></th>';
+                        thead += '<th>首费(元)<span class="am-form-group-label-tips-must">*</span></th>';
+                        thead += '<th>续件数('+unit+')<span class="am-form-group-label-tips-must">*</span></th>';
+                        thead += '<th>续费(元)<span class="am-form-group-label-tips-must">*</span></th>';
+                        thead += '<th>满(免运费)</th>';
                         thead += '<th>操作</th>';
                         thead += '</tr>';
 
@@ -53,6 +54,9 @@ $(function()
                             html += '<td>';
                             html += '<input type="number" class="am-radius continue-price-name" name="data[0][continue_price]" min="0.00" max="999.99" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,且不能大于首费,小数保留两位" required />';
                             html += '</td>';
+                            html += '<td>';
+                            html += '<input type="number" class="am-radius continue-free-shipping-price-name" name="data[0][free_shipping_price]" min="0.00" step="0.01" data-validation-message="满免运费,小数保留两位" />';
+                            html += '</td>';
                             html += '<td><!--operation--></td>';
                             html += '</tr>';
                             break;
@@ -75,6 +79,9 @@ $(function()
                             html += '</td>';
                             html += '<td>';
                             html += '<input type="number" class="am-radius continue-price-name" name="data[0][continue_price]" min="0.00" max="999.99" step="0.01" step="0.01" data-validation-message="应输入 0.00~999.99 的数字,且不能大于首费,小数保留两位" required />';
+                            html += '</td>';
+                            html += '<td>';
+                            html += '<input type="number" class="am-radius continue-free-shipping-price-name" name="data[0][free_shipping_price]" min="0.00" step="0.01" data-validation-message="满免运费,小数保留两位" />';
                             html += '</td>';
                             html += '<td><!--operation--></td>';
                             html += '</tr>';
@@ -131,6 +138,7 @@ $(function()
         $('.freightfee-rules table.am-table').find('tbody tr:last .first-price-name').attr('name', 'data['+index+'][first_price]');
         $('.freightfee-rules table.am-table').find('tbody tr:last .continue-name').attr('name', 'data['+index+'][continue]');
         $('.freightfee-rules table.am-table').find('tbody tr:last .continue-price-name').attr('name', 'data['+index+'][continue_price]');
+        $('.freightfee-rules table.am-table').find('tbody tr:last .continue-free-shipping-price-name').attr('name', 'data['+index+'][free_shipping_price]');
     });
 
     // 行移除
