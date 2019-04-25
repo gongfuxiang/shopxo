@@ -1,0 +1,31 @@
+{
+    "base":{
+        "plugins":"membershiplevel",
+        "name":"会员等级",
+        "logo":"\/static\/upload\/images\/plugins_membershiplevel\/2019\/04\/25\/1556163954923228.jpg",
+        "author":"Devil",
+        "author_url":"https:\/\/shopxo.net\/",
+        "version":"1.0.0",
+        "desc":"根据不同等级设置不同折扣",
+        "apply_terminal":[
+            "pc",
+            "h5",
+            "app",
+            "alipay",
+            "weixin",
+            "baidu"
+        ],
+        "apply_version":[
+            "1.5.0"
+        ],
+        "is_home":false
+    },
+    "hook":{
+        "plugins_common_header":[
+            "app\\plugins\\membershiplevel\\Hook"
+        ],
+        "plugins_view_home_floor_top":[
+            "app\\plugins\\membershiplevel\\Hook"
+        ]
+    }
+}

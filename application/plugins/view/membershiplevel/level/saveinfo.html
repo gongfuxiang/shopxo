@@ -1,0 +1,96 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">
+                {{if empty($data['id'])}}
+                    会员等级添加
+                {{else /}}
+                    会员等级编辑
+                {{/if}}
+            </span>
+            <a href="{{:PluginsAdminUrl('membershiplevel', 'level', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+
+        <div class="membershiplevel-content">
+            <!-- form start -->
+            <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('membershiplevel', 'level', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('membershiplevel', 'level', 'index')}}" enctype="multipart/form-data">
+                <div class="am-form-group">
+                    <label>名称</label>
+                    <input type="text" name="name" placeholder="名称" minlength="1" maxlength="30" data-validation-message="名称格式 1~30 个字符" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+                </div>
+
+                <div class="am-form-group am-form-file">
+                    <label class="block">图标<span class="am-form-group-label-tips">建议50像数x50像数</span></label>
+                    <ul class="plug-file-upload-view images_url-images-view" data-form-name="images_url" data-max-number="1" data-delete="0" data-dialog-type="images">
+                        <li>
+                            <input type="text" name="images_url" value="{{if !empty($data['images_url'])}}{{$data.images_url}}{{/if}}" data-validation-message="请上传图标" required />
+                            <img src="{{if !empty($data['images_url'])}}{{$data.images_url}}{{else /}}{{$attachment_host}}/static/plugins/images/membershiplevel/default-images.jpg{{/if}}" />
+                        </li>
+                    </ul>
+                    <div class="plug-file-upload-submit" data-view-tag="ul.images_url-images-view">+上传图标</div>
+                </div>
+                
+                <div class="am-alert am-alert-warning" data-am-alert="">
+                    <button type="button" class="am-close">&times;</button>
+                    <p>
+                        规则举例 <br>
+                        <span class="mini-tips-text">最小规则0 - 最大规则100 则是小于100
+                            <br> 最小规则1000 - 最大规则0 则是大于1000
+                            <br> 最小规则100 - 最大规则500 则是大于等于100并且小于500
+                        </span>
+                    </p>
+                </div>
+                <div class="am-form-group">
+                    <label>规则值</label>
+                    <div class="rules-value">
+                        <input type="number" placeholder="最小值" name="rules_min" data-validation-message="请填写规则最小值" class="am-radius" {{if isset($data['rules_min'])}} value="{{$data.rules_min}}"{{/if}} required />
+                        <span>~</span>
+                        <input type="number" placeholder="最大值" name="rules_max" data-validation-message="请填写规则最大值" class="am-radius" {{if isset($data['rules_max'])}} value="{{$data.rules_max}}"{{/if}} required />
+                    </div>
+                </div>
+
+                <div class="am-alert am-alert-warning" data-am-alert="">
+                    <button type="button" class="am-close">&times;</button>
+                    <p>
+                        优惠说明 <br>
+                        <span class="mini-tips-text">
+                            满减优惠 与 折扣率可<span class="cr-red">叠加使用</span>，如需只使用其中一项优惠，则请注意只需配置该优惠项即可！！！
+                        </span>
+                    </p>
+                </div>
+                <div class="am-form-group">
+                    <label>满减优惠<span class="am-form-group-label-tips">计算规则，大于等于[订单满金额]则减[满减金额](不含运费)，空或0则无优惠</span></label>
+                    <div class="full-reduction-value">
+                        <span>满</span>
+                        <input type="number" name="order_price" min="0.00" step="0.01" placeholder="订单满金额" data-validation-message="请输入有效的订单满金额" class="am-radius" {{if !empty($data['order_price'])}} value="{{$data.order_price}}"{{/if}} />
+                        <span>减</span>
+                        <input type="number" name="full_reduction_price" min="0.00" step="0.01" placeholder="满减金额" data-validation-message="请输入有效的满减金额" class="am-radius" {{if !empty($data['full_reduction_price'])}} value="{{$data.full_reduction_price}}"{{/if}} />
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label>折扣率<span class="am-form-group-label-tips">空或0则无折扣，最大0.99</span></label>
+                    <input type="number" name="discount_rate" placeholder="折扣率" min="0.00" max="0.99" step="0.01" data-validation-message="折扣率应输入 0.00~0.99 的数字,小数保留两位" class="am-radius" {{if !empty($data['discount_rate'])}} value="{{$data.discount_rate}}"{{/if}} />
+                </div>
+
+                <div class="am-form-group">
+                    <label class="block">是否启用</label>
+                    <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or empty($data)}}checked="true"{{/if}} />
+                </div>
+
+                <div class="am-form-group am-form-group-refreshing">
+                    <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
+                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                </div>
+            </form>
+            <!-- form end -->
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

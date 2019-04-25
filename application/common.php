@@ -1346,7 +1346,6 @@ function ParamsChecked($data, $params)
                 {
                     return '验证最小值未定义';
                 }
-                $fun = $v['checked_data'];
                 if(!isset($data[$v['key_name']]) || $data[$v['key_name']] < $v['checked_data'])
                 {
                     return $v['error_msg'];
@@ -1359,8 +1358,19 @@ function ParamsChecked($data, $params)
                 {
                     return '验证最大值未定义';
                 }
-                $fun = $v['checked_data'];
                 if(!isset($data[$v['key_name']]) || $data[$v['key_name']] > $v['checked_data'])
+                {
+                    return $v['error_msg'];
+                }
+                break;
+
+            // 相等
+            case 'eq' :
+                if(!isset($v['checked_data']))
+                {
+                    return '验证相等未定义';
+                }
+                if(!isset($data[$v['key_name']]) || $data[$v['key_name']] == $v['checked_data'])
                 {
                     return $v['error_msg'];
                 }
