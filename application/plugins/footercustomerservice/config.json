@@ -17,7 +17,7 @@
         "is_home":false
     },
     "hook":{
-        "plugins_common_header":[
+        "plugins_css":[
             "app\\plugins\\footercustomerservice\\Hook"
         ],
         "plugins_view_common_footer_top":[

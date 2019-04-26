@@ -9,93 +9,133 @@
         </legend>
 
         <div class="freightfee-content">
-            <div class="items">
-                <label>展示名称</label>
-                <div>
-                    {{if empty($data['show_name'])}}
-                        运费
-                    {{else /}}
-                        {{$data.show_name}}
-                    {{/if}}
+            <div class="am-panel am-panel-secondary">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">基础数据</span>
+                    <a class="am-fr" href="{{:PluginsAdminUrl('freightfee', 'admin', 'saveinfo')}}">编辑</a>
                 </div>
-            </div>
-
-            <div class="items">
-                <label>免运费支付方式</label>
-                <div>
-                    {{if empty($data['payment_names'])}}
-                        未设置
-                    {{else /}}
-                        {{$data.payment_names}}
-                    {{/if}}
-                </div>
-            </div>
-
-            <div class="items">
-                <label>计价方式</label>
-                <div>
-                    {{if isset($data['valuation']) and $data['valuation'] eq 0}}
-                        按件数
-                    {{else /}}
-                        按重量
-                    {{/if}}
-                </div>
-            </div>
-
-            <div class="items">
-                <label>运费模板</label>
-                <div class="freightfee-rules">
-                    <table class="am-table am-table-striped">
-                        {{if empty($data['data'])}}
-                            没有配置
-                        {{else /}}
-                            {{if isset($data['valuation']) and $data['valuation'] eq 0}}
-                                <thead>
-                                    <tr>
-                                        <th>运送到</th>
-                                        <th>首件数(件)</th>
-                                        <th>首费(元)</th>
-                                        <th>续件数(件)</th>
-                                        <th>续费(元)</th>
-                                        <th>满(免运费)</th>
-                                    </tr>
-                                </thead>
+                <div class="am-panel-bd">
+                    <div class="items">
+                        <label>展示名称</label>
+                        <div>
+                            {{if empty($data['show_name'])}}
+                                运费
                             {{else /}}
-                                <thead>
-                                    <tr>
-                                        <th>运送到</th>
-                                        <th>首件数(kg)</th>
-                                        <th>首费(元)</th>
-                                        <th>续件数(kg)</th>
-                                        <th>续费(元)</th>
-                                        <th>满(免运费)</th>
-                                    </tr>
-                                </thead>
+                                {{$data.show_name}}
                             {{/if}}
-                            <tbody>
-                                {{foreach $data.data as $k=>$v}}
-                                    <tr class="data-list-{{$k}}">
-                                        <td class="first">
-                                            {{if $v['region'] eq 'default'}}
-                                                默认运费
-                                            {{else /}}
-                                                <div class="region-td">{{$v.region_names}}</div>
-                                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class="items">
+                        <label>免运费支付方式</label>
+                        <div>
+                            {{if empty($data['payment_names'])}}
+                                未设置
+                            {{else /}}
+                                {{$data.payment_names}}
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class="items">
+                        <label>计价方式</label>
+                        <div>
+                            {{if isset($data['valuation']) and $data['valuation'] eq 0}}
+                                按件数
+                            {{else /}}
+                                按重量
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="am-panel am-panel-secondary index-goods-list">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">免运费商品</span>
+                    <a class="am-fr" href="{{:PluginsAdminUrl('freightfee', 'admin', 'saveinfo')}}">编辑</a>
+                </div>
+                <div class="am-panel-bd">
+                    <table class="am-table">
+                        <thead>
+                            <tr>
+                                <th>标题</th>
+                                <th>价格</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{if !empty($data['goods_list'])}}
+                                {{foreach $data['goods_list'] as $v}}
+                                    <tr>
+                                        <td>
+                                            <a href="{{$v.goods_url}}" target="_blank">{{$v.title}}</a>
                                         </td>
-                                        <td>{{$v.first}}</td>
-                                        <td>{{$v.first_price}}</td>
-                                        <td>{{$v.continue}}</td>
-                                        <td>{{$v.continue_price}}</td>
-                                        <td>{{$v.free_shipping_price}}</td>
+                                        <td>￥{{$v.price}}</td>
                                     </tr>
                                 {{/foreach}}
-                            </tbody>
-                        {{/if}}
+                            {{/if}}
+                        </tbody>
                     </table>
                 </div>
             </div>
 
-            <a href="{{:PluginsAdminUrl('freightfee', 'admin', 'saveinfo')}}" class="am-btn am-btn-secondary am-radius btn-loading-example am-btn-sm am-btn-block edit-submit">编辑</a>
+            <div class="am-panel am-panel-secondary">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">运费模板</span>
+                    <a class="am-fr" href="{{:PluginsAdminUrl('freightfee', 'admin', 'saveinfo')}}">编辑</a>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="freightfee-rules">
+                        <table class="am-table am-table-striped">
+                            {{if empty($data['data'])}}
+                                没有配置
+                            {{else /}}
+                                {{if isset($data['valuation']) and $data['valuation'] eq 0}}
+                                    <thead>
+                                        <tr>
+                                            <th>运送到</th>
+                                            <th>首件数(件)</th>
+                                            <th>首费(元)</th>
+                                            <th>续件数(件)</th>
+                                            <th>续费(元)</th>
+                                            <th>满(免运费)</th>
+                                        </tr>
+                                    </thead>
+                                {{else /}}
+                                    <thead>
+                                        <tr>
+                                            <th>运送到</th>
+                                            <th>首件数(kg)</th>
+                                            <th>首费(元)</th>
+                                            <th>续件数(kg)</th>
+                                            <th>续费(元)</th>
+                                            <th>满(免运费)</th>
+                                        </tr>
+                                    </thead>
+                                {{/if}}
+                                <tbody>
+                                    {{foreach $data.data as $k=>$v}}
+                                        <tr class="data-list-{{$k}}">
+                                            <td class="first">
+                                                {{if $v['region'] eq 'default'}}
+                                                    默认运费
+                                                {{else /}}
+                                                    <div class="region-td">{{$v.region_names}}</div>
+                                                {{/if}}
+                                            </td>
+                                            <td>{{if isset($v['first'])}}{{$v.first}}{{/if}}</td>
+                                            <td>{{if isset($v['first_price'])}}{{$v.first_price}}{{/if}}</td>
+                                            <td>{{if isset($v['continue'])}}{{$v.continue}}{{/if}}</td>
+                                            <td>{{if isset($v['continue_price'])}}{{$v.continue_price}}{{/if}}</td>
+                                            <td>{{if isset($v['free_shipping_price'])}}{{$v.free_shipping_price}}{{/if}}</td>
+                                        </tr>
+                                    {{/foreach}}
+                                </tbody>
+                            {{/if}}
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

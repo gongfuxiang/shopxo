@@ -1,0 +1,30 @@
+.plugins-footercustomerservice-customer-service {
+    background: #f8f8f8;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+.plugins-footercustomerservice-customer-service .am-gallery-overlay .am-gallery-item img {
+    width: 50px;
+    float: left;
+}
+.plugins-footercustomerservice-customer-service .am-gallery-overlay .am-gallery-item .base {
+    margin-left: 60px;
+}
+.plugins-footercustomerservice-customer-service .am-gallery-overlay .am-gallery-item .base .title {
+    font-weight: 500;
+    font-size: 16px;
+    color: #505050;
+}
+.plugins-footercustomerservice-customer-service .am-gallery-overlay .am-gallery-item .base .desc {
+    color: #999;
+    margin-top: 5px;
+}
+@media only screen and (max-width:1025px) {
+    .plugins-footercustomerservice-customer-service .am-gallery-overlay .am-gallery-item {
+        border-bottom: 1px solid #f0f0f0;
+        padding-bottom: 10px;
+    }
+}
+.am-footer-default {
+    margin-top: 0;
+}

@@ -73,7 +73,6 @@ return array (
     0 => 'app\\plugins\\expressforkdn\\Hook',
     1 => 'app\\plugins\\touristbuy\\Hook',
     2 => 'app\\plugins\\homemiddleadv\\Hook',
-    3 => 'app\\plugins\\footercustomerservice\\Hook',
   ),
   'plugins_admin_common_header' => 
   array (
@@ -103,10 +102,20 @@ return array (
   array (
     0 => 'app\\plugins\\touristbuy\\Hook',
   ),
+  'plugins_css' => 
+  array (
+    0 => 'app\\plugins\\freightfee\\Hook',
+    1 => 'app\\plugins\\share\\Hook',
+    2 => 'app\\plugins\\footercustomerservice\\Hook',
+  ),
   'plugins_service_buy_handle' => 
   array (
     0 => 'app\\plugins\\freightfee\\Hook',
     1 => 'app\\plugins\\newuserreduction\\Hook',
+  ),
+  'plugins_view_goods_detail_title' => 
+  array (
+    0 => 'app\\plugins\\freightfee\\Hook',
   ),
   'plugins_service_users_center_left_menu_handle' => 
   array (
@@ -115,10 +124,6 @@ return array (
   'plugins_service_header_navigation_top_right_handle' => 
   array (
     0 => 'app\\plugins\\petscms\\Hook',
-  ),
-  'plugins_css' => 
-  array (
-    0 => 'app\\plugins\\share\\Hook',
   ),
   'plugins_js' => 
   array (

@@ -107,7 +107,22 @@
             <!--规格-->
             <!--名称-->
             <div class="tb-detail-hd">
-                <h1 class="detail-title" {{if !empty($goods.title_color)}}style="color:{{$goods.title_color}};"{{/if}}>{{$goods.title}}</h1>
+                <h1 class="detail-title" {{if !empty($goods.title_color)}}style="color:{{$goods.title_color}};"{{/if}}>
+                    {{$goods.title}}
+                    <!-- 商品页面基础信息标题里面钩子 -->
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                        <div class="plugins-tag">
+                            <span>plugins_view_goods_detail_title</span>
+                        </div>
+                    {{/if}}
+                    {{if !empty($plugins_view_goods_detail_title_data) and is_array($plugins_view_goods_detail_title_data)}}
+                        {{foreach $plugins_view_goods_detail_title_data as $hook}}
+                            {{if is_string($hook) or is_int($hook)}}
+                                {{$hook|raw}}
+                            {{/if}}
+                        {{/foreach}}
+                    {{/if}}
+                </h1>
             </div>
             <div class="tb-detail-list">
                 <!-- 商品页面基础信息顶部钩子 -->
@@ -292,6 +307,20 @@
                     <p class="goods-not-buy-tips">商品已下架</p>
                 {{/if}}
             </div>
+
+            <!-- 商品页面基础信息底部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                <div class="plugins-tag">
+                    <span>plugins_view_goods_detail_base_bottom</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_goods_detail_base_bottom_data) and is_array($plugins_view_goods_detail_base_bottom_data)}}
+                {{foreach $plugins_view_goods_detail_base_bottom_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
         </div>
     </div>
 

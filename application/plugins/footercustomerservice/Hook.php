@@ -37,9 +37,9 @@ class Hook extends Controller
         {
             switch($params['hook_name'])
             {
-                // style css
-                case 'plugins_common_header' :
-                    $ret = $this->StyleCss($params);
+                // css
+                case 'plugins_css' :
+                    $ret = $this->CssFile($params);
                     break;
 
                 // 底部导航上面钩子
@@ -80,43 +80,12 @@ class Hook extends Controller
      * @datetime 2019-02-06T16:16:34+0800
      * @param    [array]          $params [输入参数]
      */
-    public function StyleCss($params = [])
+    public function CssFile($params = [])
     {
         $ret = $this->IsNormal($params);
         if($ret['code'] == 0)
         {
-            return '<style type="text/css">
-                    .plugins-footercustomerservice-customer-service {
-                        background: #f8f8f8;
-                        padding: 10px 0;
-                        margin-top: 20px;
-                    }
-                    .plugins-footercustomerservice-customer-service .am-gallery-overlay .am-gallery-item img {
-                        width: 50px;
-                        float: left;
-                    }
-                    .plugins-footercustomerservice-customer-service .am-gallery-overlay .am-gallery-item .base {
-                        margin-left: 60px;
-                    }
-                    .plugins-footercustomerservice-customer-service .am-gallery-overlay .am-gallery-item .base .title {
-                        font-weight: 500;
-                        font-size: 16px;
-                        color: #505050;
-                    }
-                    .plugins-footercustomerservice-customer-service .am-gallery-overlay .am-gallery-item .base .desc {
-                        color: #999;
-                        margin-top: 5px;
-                    }
-                    @media only screen and (max-width:1025px) {
-                        .plugins-footercustomerservice-customer-service .am-gallery-overlay .am-gallery-item {
-                            border-bottom: 1px solid #f0f0f0;
-                            padding-bottom: 10px;
-                        }
-                    }
-                    .am-footer-default {
-                        margin-top: 0;
-                    }
-                </style>';
+            return __MY_ROOT_PUBLIC__.'static/plugins/css/footercustomerservice/style.css';
         }
         return '';
     }

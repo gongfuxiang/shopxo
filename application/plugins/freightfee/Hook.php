@@ -35,9 +35,19 @@ class Hook
         {
             switch($params['hook_name'])
             {
+                // css
+                case 'plugins_css' :
+                    $ret = __MY_ROOT_PUBLIC__.'static/plugins/css/freightfee/style.css';
+                    break;
+
                 // 运费计算
                 case 'plugins_service_buy_handle' :
                     $ret = $this->FreightFeeCalculate($params);
+                    break;
+
+                // 商品免运费icon
+                case 'plugins_view_goods_detail_title' :
+                    $ret = $this->FreeShippingGoodsIcon($params);
                     break;
 
                 default :
@@ -45,6 +55,29 @@ class Hook
             }
             return $ret;
         }
+    }
+
+    /**
+     * 商品免运费icon
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-04-26
+     * @desc    description
+     * @param    [array]          $params [输入参数]
+     */
+    private function FreeShippingGoodsIcon($params = [])
+    {
+        $ret = PluginsService::PluginsData('freightfee');
+        if($ret['code'] == 0 && !empty($ret['data']['goods_ids']) && !empty($params['goods_id']))
+        {
+            $goods_all = explode(',', $ret['data']['goods_ids']);
+            if(in_array($params['goods_id'], $goods_all))
+            {
+                return '<span class="am-badge am-radius plugins-freightfee-goods-icon">免运费</span>';
+            }
+        }
+        return '';
     }
 
     /**
@@ -81,6 +114,11 @@ class Hook
                     }
                 }
             }
+
+            // 免运费商品
+            $free_goods = $this->FreeShippingGoods($ret['data']['goods_ids'], $params);
+            $params['data']['base']['buy_count'] -= $free_goods['buy_count'];
+            $params['data']['base']['spec_weight_total'] -= $free_goods['spec_weight'];
             
             // 是否设置运费数据
             if($is_payment === true && !empty($ret['data']['data'][0]))
@@ -91,17 +129,22 @@ class Hook
                 // 计费方式
                 if(!empty($rules))
                 {
-                    switch($ret['data']['valuation'])
+                    // 订单金额满免运费
+                    if(empty($rules['free_shipping_price']) || $params['data']['base']['total_price'] < $rules['free_shipping_price'])
                     {
-                        // 按件
-                        case 0 :
-                            $price = $this->PieceCalculate($rules, $params['data']);
-                            break;
+                        // 根据规则计算运费
+                        switch($ret['data']['valuation'])
+                        {
+                            // 按件
+                            case 0 :
+                                $price = $this->PieceCalculate($rules, $params['data']);
+                                break;
 
-                        // 按量
-                        case 1 :
-                            $price = $this->QuantityCalculate($rules, $params['data']);
-                            break;
+                            // 按量
+                            case 1 :
+                                $price = $this->QuantityCalculate($rules, $params['data']);
+                                break;
+                        }
                     }
                 }
             }
@@ -123,6 +166,38 @@ class Hook
         } else {
             return $ret['msg'];
         }
+    }
+
+    /**
+     * 免运费商品
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-04-26
+     * @desc    description
+     * @param   [string]         $goods_ids [商品ids]
+     * @param   [array]          $params    [钩子参数]
+     */
+    private function FreeShippingGoods($goods_ids, $params)
+    {
+        $result = [
+            'buy_count'     => 0,
+            'spec_weight'   => 0,
+        ];
+        if(!empty($goods_ids))
+        {
+            $goods_all = explode(',', $goods_ids);
+            foreach($params['data']['goods'] as $goods)
+            {
+                if(in_array($goods['goods_id'], $goods_all))
+                {
+                    $result['buy_count'] += $goods['stock'];
+                    $result['spec_weight'] += $goods['spec_weight'];
+                }
+            }
+        }
+
+        return $result;
     }
 
     /**

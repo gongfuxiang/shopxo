@@ -21,7 +21,13 @@
         "is_home":false
     },
     "hook":{
+        "plugins_css":[
+            "app\\plugins\\freightfee\\Hook"
+        ],
         "plugins_service_buy_handle":[
+            "app\\plugins\\freightfee\\Hook"
+        ],
+        "plugins_view_goods_detail_title":[
             "app\\plugins\\freightfee\\Hook"
         ]
     }
