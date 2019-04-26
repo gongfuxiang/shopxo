@@ -56,15 +56,15 @@
                     <a class="am-fr" href="{{:PluginsAdminUrl('freightfee', 'admin', 'saveinfo')}}">编辑</a>
                 </div>
                 <div class="am-panel-bd">
-                    <table class="am-table">
-                        <thead>
-                            <tr>
-                                <th>标题</th>
-                                <th>价格</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{if !empty($data['goods_list'])}}
+                    {{if !empty($data['goods_list'])}}
+                        <table class="am-table">
+                            <thead>
+                                <tr>
+                                    <th>标题</th>
+                                    <th>价格</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                                 {{foreach $data['goods_list'] as $v}}
                                     <tr>
                                         <td>
@@ -73,9 +73,11 @@
                                         <td>￥{{$v.price}}</td>
                                     </tr>
                                 {{/foreach}}
-                            {{/if}}
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    {{else /}}
+                        没有配置
+                    {{/if}}
                 </div>
             </div>
 
@@ -86,10 +88,8 @@
                 </div>
                 <div class="am-panel-bd">
                     <div class="freightfee-rules">
-                        <table class="am-table am-table-striped">
-                            {{if empty($data['data'])}}
-                                没有配置
-                            {{else /}}
+                        {{if !empty($data['data'])}}
+                            <table class="am-table am-table-striped">
                                 {{if isset($data['valuation']) and $data['valuation'] eq 0}}
                                     <thead>
                                         <tr>
@@ -131,8 +131,10 @@
                                         </tr>
                                     {{/foreach}}
                                 </tbody>
-                            {{/if}}
-                        </table>
+                            </table>
+                        {{else /}}
+                            没有配置
+                        {{/if}}
                     </div>
                 </div>
             </div>

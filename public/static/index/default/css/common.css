@@ -188,7 +188,7 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
     .am-container { padding-left:0rem;padding-right:0rem;max-width: 1000px;}
     .mui-mbar-tabs{ display:block;}  
     .nav-search{padding-left:0px; max-width:1000px; margin:0px auto;padding-top: 20px; height: 100px;}
-    .nav-search .logo-big { display: -webkit-inline-box; float:left;height:60px; width:230px; margin:0px;}
+    .nav-search .logo-big { display: -webkit-inline-box; float:left;height:60px; width:220px; margin:0px;}
     .search-bar{margin:auto; width: 50%;padding-left: 10%;}
     .shopMain{margin:0px 0px 0px 5px;} 
     .shopCon li{width:20%;padding:10px;}
