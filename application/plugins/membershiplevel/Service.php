@@ -10,8 +10,10 @@
 // +----------------------------------------------------------------------
 namespace app\plugins\membershiplevel;
 
+use think\Db;
 use app\service\PluginsService;
 use app\service\ResourcesService;
+use app\service\UserService;
 
 /**
  * 会员等级服务层
@@ -50,6 +52,22 @@ class Service
         // 获取数据
         $ret = PluginsService::PluginsData('membershiplevel', self::$base_config_attachment_field);
         $data = (empty($ret['data']) || empty($ret['data'][$data_field])) ? [] : $ret['data'][$data_field];
+
+        // 数据处理
+        return self::LevelDataHandle($data, $params);
+    }
+
+    /**
+     * 用户等级数据列表处理
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-04-27T01:08:23+0800
+     * @param    [array]                   $data   [等级数据]
+     * @param    [array]                   $params [输入参数]
+     */
+    public static function LevelDataHandle($data, $params = [])
+    {
         if(!empty($data))
         {
             $common_is_enable_tips = lang('common_is_enable_tips');
@@ -183,8 +201,8 @@ class Service
         // 数据
         $data = [
             'name'                  => $params['name'],
-            'rules_min'             => intval($params['rules_min']),
-            'rules_max'             => intval($params['rules_max']),
+            'rules_min'             => $params['rules_min'],
+            'rules_max'             => $params['rules_max'],
             'images_url'            => $attachment['data']['images_url'],
             'is_enable'             => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
             'discount_rate'         => isset($params['discount_rate']) ? $params['discount_rate'] : 0,
@@ -298,6 +316,134 @@ class Service
         
         // 保存
         return PluginsService::PluginsDataSave(['plugins'=>'membershiplevel', 'data'=>$ret['data']]);
+    }
+
+    /**
+     * 优惠价格计算
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-26
+     * @desc    description
+     * @param   [string]          $price            [商品展示金额]
+     * @param   [int]             $plugins_discount [折扣系数]
+     * @param   [int]             $plugins_price    [减金额]
+     */
+    public static function PriceCalculate($price, $plugins_discount = 0, $plugins_price = 0)
+    {
+        if($plugins_discount <= 0 && $plugins_price <= 0)
+        {
+            return $price;
+        }
+
+        // 折扣
+        if($plugins_discount > 0)
+        {
+            if(stripos($price, '-') !== false)
+            {
+                $text = explode('-', $price);
+                $min_price = $text[0]*$plugins_discount;
+                $max_price = $text[1]*$plugins_discount;
+                $price = ($min_price <= 0) ? '0.00' : PriceNumberFormat($min_price);
+                $price .= '-'.(($max_price <= 0) ? '0.00' : PriceNumberFormat($max_price));
+            } else {
+                $price = (float) $price *$plugins_discount;
+                $price = ($price <= 0) ? '0.00' : PriceNumberFormat($price);
+            }
+        }
+
+        // 减金额
+        if($plugins_price > 0)
+        {
+            if(stripos($price, '-') !== false)
+            {
+                $text = explode('-', $price);
+                $min_price = $text[0]-$plugins_price;
+                $max_price = $text[1]-$plugins_price;
+                $price = ($min_price <= 0) ? '0.00' : PriceNumberFormat($min_price);
+                $price .= '-'.(($max_price <= 0) ? '0.00' : PriceNumberFormat($max_price));
+            } else {
+                $price = (float) $price-$plugins_price;
+                $price = ($price <= 0) ? '0.00' : PriceNumberFormat($price);
+            }
+        }
+        return $price;
+    }
+
+    /**
+     * 用户等级匹配
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-04-27T00:32:00+0800
+     */
+    public static function UserLevelMatching()
+    {
+        // 用户
+        $user = UserService::LoginUserInfo();
+        if(!empty($user))
+        {
+            // 缓存key
+            $key = 'plugins_membershiplevel_cache_user_level_'.$user['id'];
+            $level = cache($key);
+
+            // 应用配置
+            if(empty($level) || config('app_debug') == true)
+            {
+                $base = PluginsService::PluginsData('membershiplevel', Service::$base_config_attachment_field);
+                if(!empty($base['data']['level_list']))
+                {
+                    // 匹配类型
+                    $value = 0;
+                    switch($base['data']['level_rules'])
+                    {
+                        // 积分（可用积分）
+                        case 0 :
+                            $value = isset($user['integral']) ? intval($user['integral']) : 0;
+                            break;
+
+                        // 消费总额（已完成订单）
+                        // 订单状态（0待确认, 1已确认/待支付, 2已支付/待发货, 3已发货/待收货, 4已完成, 5已取消, 6已关闭）
+                        case 1 :
+                            $where = ['user_id'=>$user['id'], 'status'=>4];
+                            $value = (float) Db::name('Order')->where($where)->sum('total_price');
+                            break;
+                    }
+                    
+                    // 匹配相应的等级
+                    $level_list = self::LevelDataHandle($base['data']['level_list']);
+                    foreach($level_list['data'] as $rules)
+                    {
+                        if(isset($rules['is_enable']) && $rules['is_enable'] == 1)
+                        {
+                            // 0-*
+                            if($rules['rules_min'] <= 0 && $rules['rules_max'] > 0 && $value < $rules['rules_max'])
+                            {
+                                $level = $rules;
+                                break;
+                            }
+
+                            // *-*
+                            if($rules['rules_min'] > 0 && $rules['rules_max'] > 0 && $value >= $rules['rules_min'] && $value < $rules['rules_max'])
+                            {
+                                $level = $rules;
+                                break;
+                            }
+
+                            // *-0
+                            if($rules['rules_max'] <= 0 && $rules['rules_min'] > 0 && $value > $rules['rules_min'])
+                            {
+                                $level = $rules;
+                                break;
+                            }
+                        }
+                    }
+                    cache($key, $level);
+                }
+            }
+            return $level;
+        }
+        return [];
     }
 }
 ?>

@@ -12,7 +12,6 @@ namespace app\plugins\membershiplevel;
 
 use think\Controller;
 use app\plugins\membershiplevel\Service;
-use app\service\PluginsService;
 
 /**
  * 会员等级插件 - 钩子入口
@@ -33,106 +32,97 @@ class Hook extends Controller
      */
     public function run($params = [])
     {
+        // 后端访问不处理
+        if(isset($params['params']['is_admin_access']) && $params['params']['is_admin_access'] == 1)
+        {
+            return DataReturn('无需处理', 0);
+        }
+
+        // 钩子名称
         if(!empty($params['hook_name']))
         {
+            // 当前模块/控制器/方法
+            $module_name = strtolower(request()->module());
+            $controller_name = strtolower(request()->controller());
+            $action_name = strtolower(request()->action());
+
+            // 页面参数
+            $input = input();
+
+            $ret = '';
             switch($params['hook_name'])
             {
-                // style css
-                case 'plugins_common_header' :
-                    $ret = $this->StyleCss($params);
+                case 'plugins_css' :
+                    $ret = __MY_ROOT_PUBLIC__.'static/plugins/css/membershiplevel/style.css';
                     break;
 
-                // 楼层数据上面
-                case 'plugins_view_home_floor_top' :
-                    $ret = $this->HomeFloorTopAdv($params);
+                // 商品数据处理后
+                case 'plugins_service_goods_handle_end' :
+                    if(!empty($params['goods']['id']) && !empty($input['id']) && $params['goods']['id'] == $input['id'] && $module_name.$controller_name.$action_name == 'indexgoodsindex')
+                    {
+                        $this->GoodsHandleEnd($params['goods']);
+                    }
                     break;
-                default :
-                    $ret = '';
+
+                // 商品规格基础数据
+                case 'plugins_service_goods_spec_base' :
+                    $this->GoodsSpecBase($params['spec_base']);
+                    break;
             }
             return $ret;
+        } else {
+            return '';
         }
     }
 
     /**
-     * 首页楼层顶部广告
+     * 商品处理结束钩子
      * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-02-06T16:16:34+0800
-     * @param    [array]          $params [输入参数]
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-26
+     * @desc    description
+     * @param    [array]              &$goods [商品数据]
      */
-    public function HomeFloorTopAdv($params = [])
+    private function GoodsHandleEnd(&$goods = [])
     {
-        // 获取应用数据
-        $ret = PluginsService::PluginsData('membershiplevel');
-        if($ret['code'] == 0)
+        // 用户等级
+        $level = Service::UserLevelMatching();
+        if(!empty($level) && $level['discount_rate'] > 0)
         {
-            // 有效时间
-            if(!empty($ret['data']['time_start']))
+            if(empty($goods['original_price']))
             {
-                // 是否已开始
-                if(strtotime($ret['data']['time_start']) > time())
-                {
-                    return '';
-                }
+                $goods['original_price'] = $goods['price'];
             }
-            if(!empty($ret['data']['time_end']))
-            {
-                // 是否已结束
-                if(strtotime($ret['data']['time_end']) < time())
-                {
-                    return '';
-                }
-            }
-        }
 
-        // 获取图片列表
-        $ret = Service::DataList();
-        if($ret['code'] == 0 && !empty($ret['data']))
-        {
-            $this->assign('data_list', $ret['data']);
-            return $this->fetch('../../../plugins/view/membershiplevel/index/content');
+            // 价格处理
+            $goods['price'] = Service::PriceCalculate($goods['price'], $level['discount_rate'], 0);
+            $price_title = empty($level['name']) ? '会员价' : $level['name'];
+            $goods['show_field_price_text'] = '<span class="plugins-membershiplevel-goods-price-icon">'.$price_title.'</span>';
         }
-        return '';
     }
 
     /**
-     * css
+     * 商品规格基础数据
      * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-02-06T16:16:34+0800
-     * @param    [array]          $params [输入参数]
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-26
+     * @desc    description
+     * @param   [array]           &$spec_base [规格信息]
      */
-    public function StyleCss($params = [])
+    private function GoodsSpecBase(&$spec_base = [])
     {
-        return '<style type="text/css">
-                    @media only screen and (min-width:640px) {
-                        .plugins-membershiplevel-home-adv ul.am-gallery img {
-                            -webkit-transition: transform .2s ease-in;
-                            -moz-transition: transform .2s ease-in;
-                            -ms-transition: transform .2s ease-in;
-                            -o-transition: transform .2s ease-in;
-                            transition: transform .2s ease-in;
-                        }
-                        .plugins-membershiplevel-home-adv ul.am-gallery img:hover {
-                            -ms-transform: translate3d(0px, -3px, 0px);
-                            -webkit-transform: translate3d(0px, -3px, 0px);
-                            -o-transform: translate3d(0px, -3px, 0px);
-                            transform: translate3d(0px, -3px, 0px);
-                        }
-                    }
-                    @media only screen and (min-width:1025px) {
-                        .plugins-membershiplevel-home-adv {
-                            overflow: hidden;
-                        }
-                        .plugins-membershiplevel-home-adv ul.am-gallery {
-                            width: calc(100% + 20px);
-                            margin-left: -10px;
-                            margin-top: 10px;
-                        }
-                    }
-                </style>';
+        // 用户等级
+        $level = Service::UserLevelMatching();
+        if(!empty($level) && $level['discount_rate'] > 0 && isset($spec_base['price']))
+        {
+            if(empty($spec_base['original_price']))
+            {
+                $spec_base['original_price'] = $spec_base['price'];
+            }
+            $spec_base['price'] = Service::PriceCalculate($spec_base['price'], $level['discount_rate'], 0);
+        }
     }
 }
 ?>

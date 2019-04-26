@@ -116,7 +116,7 @@ class Hook
             }
 
             // 免运费商品
-            $free_goods = $this->FreeShippingGoods($ret['data']['goods_ids'], $params);
+            $free_goods = $this->FreeShippingGoods(empty($ret['data']['goods_ids']) ? '' : $ret['data']['goods_ids'], $params);
             $params['data']['base']['buy_count'] -= $free_goods['buy_count'];
             $params['data']['base']['spec_weight_total'] -= $free_goods['spec_weight'];
             

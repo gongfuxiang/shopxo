@@ -107,6 +107,7 @@ return array (
     0 => 'app\\plugins\\freightfee\\Hook',
     1 => 'app\\plugins\\share\\Hook',
     2 => 'app\\plugins\\footercustomerservice\\Hook',
+    3 => 'app\\plugins\\membershiplevel\\Hook',
   ),
   'plugins_service_buy_handle' => 
   array (
@@ -140,6 +141,14 @@ return array (
   'plugins_view_common_footer_top' => 
   array (
     0 => 'app\\plugins\\footercustomerservice\\Hook',
+  ),
+  'plugins_service_goods_handle_end' => 
+  array (
+    0 => 'app\\plugins\\membershiplevel\\Hook',
+  ),
+  'plugins_service_goods_spec_base' => 
+  array (
+    0 => 'app\\plugins\\membershiplevel\\Hook',
   ),
 );
 ?>

@@ -21,10 +21,13 @@
         "is_home":false
     },
     "hook":{
-        "plugins_common_header":[
+        "plugins_css":[
             "app\\plugins\\membershiplevel\\Hook"
         ],
-        "plugins_view_home_floor_top":[
+        "plugins_service_goods_handle_end":[
+            "app\\plugins\\membershiplevel\\Hook"
+        ],
+        "plugins_service_goods_spec_base":[
             "app\\plugins\\membershiplevel\\Hook"
         ]
     }
