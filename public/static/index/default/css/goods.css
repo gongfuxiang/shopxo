@@ -161,7 +161,7 @@ ul.am-tabs-nav.am-nav.am-nav-tabs {background: #F5F5F5;}
 .tm-indcon .tm-label,.tb-detail-price dt{ white-space:nowrap; color:#888;}
 .tb-detail-price{ background: #fcf1e3 url(../images/goods_meta_bg.png); background-size: cover; -moz-background-size: cover; background-repeat: no-repeat; height:75px;padding:10px; }
 .tb-detail-price .items {display: block;margin-left:0 !important;}
-.tb-detail-price .items dt { min-width: 65px; float:left; text-align: left;}
+.tb-detail-price .items dt { float:left; text-align: left;}
 .sys_item_price{font-size: 24px;font-weight: bold; line-height: 16px;}
 
 /* 二维码 */
@@ -323,17 +323,12 @@ li.am-comment{ width:100%}
     flex: 1 1 0%;line-height: 16px;cursor: pointer;}   
     .tm-ind-panel .tm-count {display: inline-block;line-height: 16px;height: 16px;color: #C40000;font-weight: 700;margin-left: 3px;}    
 
-    /*搭配*/
-    .like_list .plus_icon {height:150px ;line-height:150px;}
-    .info-original-price ,.c-title{display: inline;}
-    .like_list .total_price .buy_now {width:102px;line-height: 32px;font-size: 14px;}
-    .like_list .plus_icon i.am-icon-angle-right{display: none;}
-
+    /*基础*/
+    .tb-detail-price .items dt { min-width: 65px; }
     .theme-signin-left{float:none;padding-bottom:0;margin:0 ;}
     .iteminfo_parameter {padding-left: 50px;}
     .tb-detail-hd,.tb-detail-price{text-align: left;}
     .tb-detail-hd h1 {font-size: 16px;}
-    .match{margin:0px auto;max-width: 1000px;padding-top:20px ;background: #fff;}
 
     /*购物车*/
     .tb-btn-buy{margin-left:50px; margin-right:20px;}
@@ -449,6 +444,7 @@ li.am-comment{ width:100%}
     ul.tm-ind-panel li { border-left: 0px; }
     ul.tm-ind-panel li:first-child { text-align: left; }
     ul.tm-ind-panel li:last-child { text-align: right; }
+    .tb-detail-price .items dt { margin-right: 10px; }
 
     /* 推荐商品 */
     .like li:not(:nth-of-type(2n)) { border-right: 1px solid #eee; }
