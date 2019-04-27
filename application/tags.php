@@ -113,6 +113,7 @@ return array (
   array (
     0 => 'app\\plugins\\freightfee\\Hook',
     1 => 'app\\plugins\\newuserreduction\\Hook',
+    2 => 'app\\plugins\\membershiplevel\\Hook',
   ),
   'plugins_view_goods_detail_title' => 
   array (

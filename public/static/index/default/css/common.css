@@ -66,12 +66,12 @@ input.add,input.min{width:15px}
 color: #555555;background:none;border-color:transparent;cursor: default;}
 .am-nav-tabs > li{border-bottom:2px solid  transparent;}
 .am-nav-tabs > li.am-active {border-bottom:2px solid #d2364c;}
-.am-tabs-nav li {height:36px;font-size:16px;line-height:36px ;}
+.am-tabs-nav li {height:36px;font-size:14px;line-height:36px ;}
 .am-tabs-nav li a,.am-tabs-nav li.am-active a, .am-tabs-nav li{cursor: pointer;}
 
 /*选项卡样式*/
-.am-nav-tabs > li.am-active span{color: #E4393C;font-size:16px;}
-.am-nav-tabs > li span{font-size:16px;font-weight:500;}
+.am-nav-tabs > li span{font-size:14px;font-weight:500;}
+.am-nav-tabs > li.am-active span{color: #E4393C;}
 
 /* 商品分类 */
 #goods-category { position: relative; top: -45px; }

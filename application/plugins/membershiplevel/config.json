@@ -29,6 +29,9 @@
         ],
         "plugins_service_goods_spec_base":[
             "app\\plugins\\membershiplevel\\Hook"
+        ],
+        "plugins_service_buy_handle":[
+            "app\\plugins\\membershiplevel\\Hook"
         ]
     }
 }

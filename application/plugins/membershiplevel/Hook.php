@@ -68,11 +68,49 @@ class Hook extends Controller
                 case 'plugins_service_goods_spec_base' :
                     $this->GoodsSpecBase($params['spec_base']);
                     break;
+
+                // 满减优惠
+                case 'plugins_service_buy_handle' :
+                    $ret = $this->FullReductionCalculate($params);
+                    break;
             }
             return $ret;
         } else {
             return '';
         }
+    }
+
+    /**
+     * 满减计算
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-21
+     * @desc    description
+     * @param    [array]          $params [输入参数]
+     */
+    public function FullReductionCalculate($params = [])
+    {
+        // 用户等级
+        $level = Service::UserLevelMatching();
+        if(!empty($level) && $level['order_price'] > 0 && $level['full_reduction_price'] > 0 && $params['data']['base']['total_price'] >= $level['order_price'])
+        {
+            // 扩展展示数据
+            $show_name = $level['name'].'-满减';
+            $params['data']['extension_data'][] = [
+                'name'      => $show_name,
+                'price'     => $level['full_reduction_price'],
+                'type'      => 1,
+                'tips'      => '-￥'.$level['full_reduction_price'].'元',
+            ];
+
+            // 金额
+            $params['data']['base']['preferential_price'] += $level['full_reduction_price'];
+            $params['data']['base']['actual_price'] -= $level['full_reduction_price'];
+
+            return DataReturn('处理成功', 0);
+        }
+        return DataReturn('无需处理', 0);
     }
 
     /**
