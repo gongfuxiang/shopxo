@@ -101,7 +101,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 }
 
 @media only screen and (min-width:1025px) {
-     i.buy-event{display: none;}  
+    i.buy-event{display: none;}  
     .theme-signin-left{padding-top:15px ;float: left;max-width:none;padding-bottom:0px ;}
     .theme-signin-right{float: left;display:block;overflow: hidden;padding: 10px;}
     .theme-signin-right .img-info,.theme-signin-right .text-info{position: static;}
