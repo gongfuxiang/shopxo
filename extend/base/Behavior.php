@@ -293,6 +293,7 @@ class Behavior
 		$http = empty($_SERVER['HTTPS']) ? 'http' : 'https';
 
 		// 根目录
+		$root = '';
 		if(!empty($_SERVER['SCRIPT_NAME']))
 		{
 			$root = substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '/')+1);
