@@ -195,6 +195,8 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
     .tip{display:block;}
     .search-hot-keywords { display: block; }
     .goods-category-title { top: 3px; }
+    #goods-category .category-content { opacity: 0.8; -webkit-transition: opacity .2s ease-in; -moz-transition: opacity .2s ease-in; -ms-transition: opacity .2s ease-in; -o-transition: opacity .2s ease-in; transition: opacity .2s ease-in; }
+    #goods-category:hover .category-content { opacity: 1; }
 }
        
 
@@ -420,7 +422,7 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
 ul.am-dropdown-content {
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-    border: 0;
+    border: 1px solid #ededed;
     padding: 0;
 }
 ul.am-dropdown-content > .am-active > a,
