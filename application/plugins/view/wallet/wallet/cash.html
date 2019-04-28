@@ -22,25 +22,14 @@
     <!-- content start -->
     <div class="user-content">
         <div class="user-content-body">
-            <div class="am-alert am-alert-secondary" data-am-alert>
-                <div class="available">
-                    <span>正常可用</span>
-                    <span class="integral-value">{{$user.integral}}</span>
-                    <em>积分</em>
-                    <span class="integral-tips">可以正常使用的积分</span>
-                </div>
-                <div class="locking">
-                    <span>当前锁定</span>
-                    <span class="integral-value">{{$user.locking_integral}}</span>
-                    <em>积分</em>
-                    <span class="integral-tips">一般积分交易中，交易并未完成、锁定相应的积分</span>
-                </div>
-            </div>
+            <!-- user menu start -->
+            {{include file="../../../plugins/view/wallet/wallet/nav" /}}
+            <!-- user menu end -->
 
-            <form class="am-form form-validation" method="post" action="{{:MyUrl('index/userintegral/index')}}" request-type="form">
+            <form class="am-form form-validation" method="post" action="{{:PluginsHomeUrl('wallet', 'wallet', 'index')}}" request-type="form">
                 <div class="thin">
                     <div class="am-input-group am-input-group-sm am-fl so">
-                        <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="其实搜索很简单 ^_^！" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
+                        <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="申请单号" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
                         <span class="am-input-group-btn">
                             <button class="am-btn am-btn-default am-radius" type="submit" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
                         </span>
@@ -55,7 +44,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <span>类型：</span>
+                                <span>状态：</span>
                                 <select name="type" class="chosen-select" data-placeholder="操作类型...">
                                     <option value="-1">操作类型...</option>
                                     {{if !empty($common_integral_log_type_list)}}
@@ -67,7 +56,7 @@
                             </td>
                             <td>
                                 <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
-                                <a href="{{:MyUrl('index/userintegral/index')}}" class="am-btn am-btn-warning am-radius am-btn-sm reset-submit">清除条件</a>
+                                <a href="{{:PluginsHomeUrl('wallet', 'wallet', 'index')}}" class="am-btn am-btn-warning am-radius am-btn-sm reset-submit">清除条件</a>
                             </td>
                         </tr>
                     </tbody>

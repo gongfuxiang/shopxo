@@ -8,13 +8,13 @@
 // +----------------------------------------------------------------------
 // | Author: Devil
 // +----------------------------------------------------------------------
-namespace app\plugins\petscms;
+namespace app\plugins\wallet;
 
 use think\Controller;
-use app\service\PluginsService;
+use app\plugins\wallet\Service;
 
 /**
- * 顶部公告 - 钩子入口
+ * 会员等级插件 - 钩子入口
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -64,10 +64,10 @@ class Hook extends Controller
      */
     public function UserCenterLeftMenuHandle($params = [])
     {
-        $params['data']['business']['item'][] = [
-            'name'      =>  '我的宠物',
-            'url'       =>  PluginsHomeUrl('petscms', 'pets', 'index'),
-            'contains'  =>  ['petsindex', 'petssaveinfo', 'petshelp'],
+        $params['data']['property']['item'][] = [
+            'name'      =>  '我的钱包',
+            'url'       =>  PluginsHomeUrl('wallet', 'wallet', 'index'),
+            'contains'  =>  ['walletindex'],
             'is_show'   =>  1,
             'icon'      =>  'am-icon-github-alt',
         ];
@@ -85,8 +85,8 @@ class Hook extends Controller
     public function CommonTopNavRightMenuHandle($params = [])
     {
         array_push($params['data'][1]['items'], [
-            'name'  => '我的宠物',
-            'url'   => PluginsHomeUrl('petscms', 'pets', 'index'),
+            'name'  => '我的钱包',
+            'url'   => PluginsHomeUrl('wallet', 'wallet', 'index'),
         ]);
     }
 }

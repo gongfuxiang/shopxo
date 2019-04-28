@@ -1,0 +1,56 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">会员等级</span>
+            <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+
+        <div class="membershiplevel-content">
+            <!-- 基础数据 -->
+            <div class="am-panel am-panel-secondary membershiplevel-middle-banner">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">基础数据</span>
+                    <a class="am-fr" href="{{:PluginsAdminUrl('membershiplevel', 'admin', 'saveinfo')}}">编辑</a>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="items">
+                        <label>等级规则模式</label>
+                        <div>
+                            {{if isset($data['level_rules']) and isset($members_level_rules_list[$data['level_rules']])}}
+                                {{:$members_level_rules_list[$data['level_rules']]['name']}}
+                            {{else /}}
+                                未设置，默认[ 积分（可用积分）]
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class="items">
+                        <label>默认等级图标</label>
+                        <div class="immages-tag">
+                            <img src="{{if !empty($data['default_level_images'])}}{{$data.default_level_images}}{{else /}}{{$attachment_host}}/static/plugins/images/membershiplevel/level-default-images.png{{/if}}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 会员等级 -->
+            <div class="am-panel am-panel-secondary membershiplevel-level-list">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">会员等级</span>
+                    <a class="am-fr" href="{{:PluginsAdminUrl('membershiplevel', 'level', 'index')}}">编辑</a>
+                </div>
+                <div class="am-panel-bd">
+                    <iframe src="{{:PluginsAdminUrl('membershiplevel', 'level', 'index', ['is_admin_index'=>1])}}"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

@@ -133,8 +133,22 @@ fieldset legend{margin-left:15px;padding-left:3px;padding-right:3px;color:#333;}
 .introduce-main .am-nav-tabs > li.am-active { border-bottom: 2px solid #F03726; }
 
 
-/*导航固定*/
-ul.am-tabs-nav.am-nav.am-nav-tabs {background: #F5F5F5;}
+/*导航*/
+.introduce ul.am-tabs-nav.am-nav.am-nav-tabs {background: #F5F5F5;}
+.introduce .am-nav-tabs, .introduce .am-tabs-bd{border-color:transparent ;}
+.introduce .am-nav-tabs > li.am-active > a,
+.introduce .am-nav-tabs > li.am-active > a:hover,
+.introduce .am-nav-tabs > li.am-active > a:focus,
+.introduce .am-nav-tabs > li > a:hover,
+.introduce .am-nav-tabs > li > a:focus { color: #555555;background:none;border-color:transparent;cursor: default;}
+.introduce .am-nav-tabs > li{border-bottom:2px solid  transparent;}
+.introduce .am-nav-tabs > li.am-active {border-bottom:2px solid #d2364c;}
+.introduce .am-tabs-nav li {height:36px;font-size:14px;line-height:36px ;}
+.introduce .am-tabs-nav li a,
+.introduce .am-tabs-nav li.am-active a,
+.introduce .am-tabs-nav li{cursor: pointer;}
+.introduce .am-nav-tabs > li span{font-size:14px;font-weight:500;}
+.introduce .am-nav-tabs > li.am-active span{color: #E4393C;}
 
 
 /*tab*/

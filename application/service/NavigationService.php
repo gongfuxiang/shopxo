@@ -515,7 +515,7 @@ class NavigationService
                 'items'     => [],
             ],
             [
-                'name'      => '我的业务',
+                'name'      => '我的商城',
                 'is_login'  => 1,
                 'badge'     => null,
                 'icon'      => 'am-icon-cube',
@@ -691,15 +691,15 @@ class NavigationService
 
         // 菜单列表
         $data = [
-            [
+            'center' => [
                 'name'      =>  '个人中心',
                 'url'       =>  MyUrl('index/user/index'),
                 'is_show'   =>  1,
                 'contains'  =>  ['userindex'],
                 'icon'      =>  'am-icon-home',
             ],
-            [
-                'name'      =>  '交易管理',
+            'business' => [
+                'name'      =>  '业务管理',
                 'is_show'   =>  1,
                 'icon'      =>  'am-icon-cube',
                 'item'      =>  [
@@ -719,7 +719,7 @@ class NavigationService
                     ],
                 ]
             ],
-            [
+            'base' => [
                 'name'      =>  '资料管理',
                 'is_show'   =>  1,
                 'icon'      =>  'am-icon-user',
@@ -768,7 +768,7 @@ class NavigationService
                     ],
                 ]
             ],
-            [
+            'property' => [
                 'name'      =>  '财产中心',
                 'is_show'   =>  1,
                 'icon'      =>  'am-icon-trophy',
@@ -782,7 +782,7 @@ class NavigationService
                     ],
                 ]
             ],
-            [
+            'logout' => [
                 'name'      =>  '安全退出',
                 'url'       =>  MyUrl('index/user/logout'),
                 'contains'  =>  ['userlogout'],

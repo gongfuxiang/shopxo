@@ -1,0 +1,86 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container user-main">
+
+    <!-- user menu start -->
+    {{include file="public/user_menu" /}}
+    <!-- user menu end -->
+
+    <!-- content start -->
+    <div class="user-content">
+        <div class="user-content-body">
+            <!-- user menu start -->
+            {{include file="../../../plugins/view/wallet/wallet/nav" /}}
+            <!-- user menu end -->
+
+            <form class="am-form form-validation" method="post" action="{{:PluginsHomeUrl('wallet', 'wallet', 'recharge')}}" request-type="form">
+                <div class="thin">
+                    <div class="am-input-group am-input-group-sm am-fl so">
+                        <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="充值单号" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
+                        <span class="am-input-group-btn">
+                            <button class="am-btn am-btn-default am-radius" type="submit" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+
+            <!-- 列表 -->
+            <div class="data-list">
+                <table class="am-table">
+                    <thead>
+                        <tr>
+                            <th>操作类型</th>
+                            <th class="am-hide-sm-only">描述</th>
+                            <th>原始积分</th>
+                            <th>最新积分</th>
+                            <th class="am-hide-sm-only">时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{if !empty($data_list)}}
+                            {{foreach $data_list as $v}}
+                                <tr>
+                                    <td>{{$v.type_name}}</td>
+                                    <td class="am-hide-sm-only">{{$v.msg}}</td>
+                                    <td>{{$v.original_integral}}</td>
+                                    <td>{{$v.new_integral}}</td>
+                                    <td class="am-hide-sm-only">{{$v.add_time_time}}</td>
+                                </tr>
+                            {{/foreach}}
+                        {{/if}}
+                        {{if empty($data_list)}}
+                            <tr>
+                                <td colspan="5">
+                                    <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+                                </td>
+                            </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 分页 -->
+            {{if !empty($data_list)}}
+                {{$page_html|raw}}
+            {{/if}}
+        </div>
+    </div>
+    <!-- content end -->
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

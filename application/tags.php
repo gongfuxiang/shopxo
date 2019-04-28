@@ -122,10 +122,12 @@ return array (
   'plugins_service_users_center_left_menu_handle' => 
   array (
     0 => 'app\\plugins\\petscms\\Hook',
+    1 => 'app\\plugins\\wallet\\Hook',
   ),
   'plugins_service_header_navigation_top_right_handle' => 
   array (
     0 => 'app\\plugins\\petscms\\Hook',
+    1 => 'app\\plugins\\wallet\\Hook',
   ),
   'plugins_js' => 
   array (

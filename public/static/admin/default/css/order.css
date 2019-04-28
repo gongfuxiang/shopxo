@@ -33,7 +33,7 @@ form.am-form .am-form-group { padding-right: 5px; }
 
 
 /**
- * 快递弹窗
+ * 业务弹窗
  */
 .business-item h3 { border-bottom: 3px solid #e3e3e3; margin:5px 0 0 0; font-size: 14px;font-weight: 700; }
 .business-item ul { padding: 10px 3px 5px 5px; overflow: hidden; }

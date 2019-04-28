@@ -1,0 +1,85 @@
+<!-- 导航 -->
+<ul class="am-nav am-nav-pills">
+    <li {{if !isset($plugins_action) or (isset($plugins_action) and $plugins_action eq 'index')}}class="am-active"{{/if}}>
+        <a href="{{:PluginsHomeUrl('wallet', 'wallet', 'index')}}">账户余额</a>
+    </li>
+    <li {{if isset($plugins_action) and $plugins_action eq 'recharge'}}class="am-active"{{/if}}>
+        <a href="{{:PluginsHomeUrl('wallet', 'wallet', 'recharge')}}">充值明细</a>
+    </li>
+    <li {{if isset($plugins_action) and $plugins_action eq 'cash'}}class="am-active"{{/if}}>
+        <a href="{{:PluginsHomeUrl('wallet', 'wallet', 'cash')}}">余额提现</a>
+    </li>
+
+    <div class="am-topbar-right">
+        {{if in_array($plugins_action, ['index', 'recharge'])}}
+            <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm am-icon-shield" data-am-modal="{target: '#plugins-recharge-pay-modal-popup'}"> 在线充值</button>
+        {{/if}}
+        {{if in_array($plugins_action, ['index', 'cash'])}}
+            <a class="am-btn am-btn-success am-topbar-btn am-btn-sm am-icon-money"> 申请提现</a>
+        {{/if}}
+    </div>
+</ul>
+
+<!-- 账户信息 -->
+<div class="am-alert am-alert-secondary" data-am-alert>
+    <div class="available">
+        <span>可用金额</span>
+        <span class="integral-value">{{$user.integral}}</span>
+        <em>元</em>
+        <span class="integral-tips">正常可以使用的金额</span>
+    </div>
+    <div class="locking">
+        <span>冻结金额</span>
+        <span class="integral-value">{{$user.locking_integral}}</span>
+        <em>元</em>
+        <span class="integral-tips">一般积分交易中、提现、交易并未完成，锁定相应的积分</span>
+    </div>
+</div>
+
+<!-- 充值窗口 -->
+<div class="am-popup" id="plugins-recharge-pay-modal-popup">
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">充值</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd">
+            <form class="am-form form-validation-plugins-recharge-pay" action="{{:MyUrl('admin/order/pay')}}" method="POST" request-type="ajax-reload">
+                <!-- 支付方式 -->
+                <div class="business-item am-form-group">
+                    <h3>选择支付</h3>
+                    {{if !empty($buy_payment_list)}}
+                        <ul class="payment-list" data-type="payment">
+                            {{foreach $buy_payment_list as $payment}}
+                                <li class="payment-items-{{$payment.id}}" data-value="{{$payment.id}}">
+                                    {{if !empty($payment.logo)}}
+                                        <img src="{{$payment.logo}}" />
+                                    {{/if}}
+                                    <span>{{$payment.name}}</span>
+                                </li>
+                            {{/foreach}}
+                        </ul>
+                    {{/if}}
+                    {{if empty($buy_payment_list)}}
+                        <div class="table-no"><i class="am-icon-warning"></i> 没有支付方式</div>
+                    {{/if}}
+                    <input type="number" name="payment_id" data-validation-message="请选择支付方式" value="" required />
+                </div>
+
+                <div class="am-form-group">
+                    <label>充值金额</label>
+                    <div class="am-input-group am-input-group-sm">
+                        <input type="number" autocomplete="off" name="money" step="0.01" class="am-radius" placeholder="充值金额" data-validation-message="请输入充值金额" required />
+                        <span class="am-input-group-btn">
+                            <button class="am-btn am-btn-default am-radius">元</button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="am-form-group am-form-group-refreshing">
+                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
