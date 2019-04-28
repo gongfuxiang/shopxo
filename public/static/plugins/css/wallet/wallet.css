@@ -2,7 +2,7 @@
 .thin, .pay-list { overflow:hidden; }
 .thin .so { width:66%; }
 .thin_sub { font-weight:100; margin:10px 0px 0px 10px; cursor: pointer; }
-.so-list { width:100%; margin-top: 20px; }
+.so-list { width:100%; margin-top: 10px; }
 .so-list * { font-size:1.2rem !important; }
 .so-list input { height:28px; display:inline !important; }
 .time input, .so-list .chosen-container { background:#FFF !important; }
@@ -32,8 +32,20 @@
 }
 
 /**
+ * 列表
+ */
+.user-content-body .data-list {
+    margin-top: 10px;
+}
+
+/**
  * 账户信息
  */
+.user-content-body .am-alert-secondary {
+    background-color: #f6f6f6;
+    border-color: #ececec;
+    margin-bottom: 20px;
+}
 .user-content-body .available .integral-value {
     color: #4CAF50;
 }
@@ -48,10 +60,10 @@
     font-weight: 700;
 }
 .user-content-body .integral-tips {
-    color: #c27300;
-    background: #e7e3d9;
+    color: #d7b27d;
+    background: #f8f5ee;
     padding: 3px 6px;
-    border: 1px solid #e7d8c2;
+    border: 1px solid #f4eadb;
     margin-left: 10px;
 }
 
@@ -87,6 +99,7 @@
 /**
  * 业务弹窗
  */
+.user-content-body .business-item label { margin-bottom: 0px; }
 .user-content-body .business-item h3 { font-weight: 700; }
 .user-content-body .business-item ul { padding: 5px 1px; overflow: hidden; }
 .user-content-body .business-item ul li { border:1px solid transparent ;overflow: hidden; float: left; cursor: pointer; padding: 5px; border: 1px solid #eee; margin: 0 10px 10px 0; background: #fff; }

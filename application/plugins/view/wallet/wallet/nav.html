@@ -47,7 +47,7 @@
             <form class="am-form form-validation-plugins-recharge-pay" action="{{:MyUrl('admin/order/pay')}}" method="POST" request-type="ajax-reload">
                 <!-- 支付方式 -->
                 <div class="business-item am-form-group">
-                    <h3>选择支付</h3>
+                    <label>选择支付</label>
                     {{if !empty($buy_payment_list)}}
                         <ul class="payment-list" data-type="payment">
                             {{foreach $buy_payment_list as $payment}}
@@ -63,7 +63,7 @@
                     {{if empty($buy_payment_list)}}
                         <div class="table-no"><i class="am-icon-warning"></i> 没有支付方式</div>
                     {{/if}}
-                    <input type="number" name="payment_id" data-validation-message="请选择支付方式" value="" required />
+                    <input type="number" name="payment_id" min="1" data-validation-message="请选择支付方式" value="0" required />
                 </div>
 
                 <div class="am-form-group">
