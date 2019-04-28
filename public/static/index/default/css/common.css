@@ -130,9 +130,9 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
     .am-footer {text-align:center; display:block;position: relative;margin: 0px auto; padding: 10px 0px; }
 
     /* 导航上用户 */
-    .navigation-user {display: block; position: absolute;right:0px ;top:0px;font-size: 14px;line-height:33px;height:33px ;width:110px;text-align:center;background: #e1363f;cursor: pointer;}
-    .navigation-user  .nav-user{background:#e0313b; width: 33px;height: 33px;border-radius: 33px;position: absolute;left:-28px;z-index: 2;padding: 1px;overflow: hidden;}
-    .navigation-user b{display:block;position: absolute;width: 40px;height: 40px;border-radius:45px;z-index: 1;left: -31px;top: -4px;background: #fff;}
+    .navigation-user {display: block; position: absolute;right:0px;bottom:6px;font-size: 12px;line-height:26px;height:25px ;width:85px;text-align:center;background: #e1363f;cursor: pointer;}
+    .navigation-user  .nav-user{background:#e0313b; width: 25px;height: 25px;border-radius: 25px;position: absolute;left:-22px;z-index: 2;padding: 1px;overflow: hidden;}
+    .navigation-user b{display:block;position: absolute;width: 25px;height: 27px;border-radius:45px;z-index: 1;left: -19px;top: -1px;background: #fff;}
     .navigation-user .am-icon-angle-right { margin-left: 5px; }
     .navigation-user  * { color:#fcff00; text-decoration: none; }
     .navigation-user b.line{display: block;width:100%;height:2px ;border-bottom:2px solid #d2364c;position: absolute;top:180px;z-index:5;}
@@ -737,6 +737,12 @@ ul.am-dropdown-content > .am-active > a:focus,
         background-color: #d2354c;
         border-color: #d2354c;
     }
+}
+
+/* 用户 */
+img.common-user-icon {
+    max-height: 15px;
+    vertical-align: middle;
 }
 
 

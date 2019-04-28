@@ -5,7 +5,8 @@
             <div class="top-nav-items">
                 <div class="menu-hd">
                     {{if empty($user)}}
-                        <span>您好，欢迎来到 {{:MyC('home_site_name')}}</span>
+                        <em>您好，欢迎来到</em>
+                        <em>{{:MyC('home_site_name')}}</em>
                         {{if MyC('home_user_login_state') eq 1}}
                             [<a href="{{:MyUrl('index/user/logininfo')}}">登录</a>]
                         {{/if}}
@@ -13,7 +14,12 @@
                             [<a href="{{:MyUrl('index/user/regInfo')}}">注册</a>]
                         {{/if}}
                     {{else /}}
-                        <span>您好 {{$user.user_name_view}}，欢迎来到 {{:MyC('home_site_name')}}</span>
+                        <em>您好</em>
+                        {{if !empty($user['icon'])}}
+                            <img src="{{$user.icon}}" class="common-user-icon" {{if !empty($user['icon_title'])}}title="{{$user.icon_title}}"{{/if}} />
+                        {{/if}}
+                        <em>{{$user.user_name_view}}，欢迎来到</em>
+                        <em>{{:MyC('home_site_name')}}</em>
                         [<a href="{{:MyUrl('index/user/logout')}}">退出</a>]
                     {{/if}}
 

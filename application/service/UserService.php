@@ -753,6 +753,15 @@ class UserService
                     $user['avatar'] = config('shopxo.attachment_host').'/static/index/'.strtolower(config('DEFAULT_THEME', 'default')).'/images/default-user-avatar.jpg';
                 }
 
+                // 用户登录成功信息纪录钩子
+                $hook_name = 'plugins_service_user_login_success_record';
+                $ret = Hook::listen($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'user'          => &$user,
+                    'user_id'       => $user_id
+                ]);
+
                 if($is_app == true)
                 {
                     return $user;

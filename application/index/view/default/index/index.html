@@ -47,9 +47,14 @@
                 <em>
                     <span class="s-name">
                         {{if !empty($user)}}
-                            Hi, {{$user.user_name_view}}
+                            <em>Hi,</em>
+                            {{if !empty($user['icon'])}}
+                                <img src="{{$user.icon}}" class="common-user-icon" {{if !empty($user['icon_title'])}}title="{{$user.icon_title}}"{{/if}} />
+                            {{/if}}
+                            <em>{{$user.user_name_view}}</em>
                         {{else /}}
-                            您好，欢迎来到 {{:MyC('home_site_name')}}
+                            <em>您好，欢迎来到</em>
+                            <em>{{:MyC('home_site_name')}}</em>
                         {{/if}}
                     </span>
                 </em>

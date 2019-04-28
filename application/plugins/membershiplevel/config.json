@@ -32,6 +32,9 @@
         ],
         "plugins_service_buy_handle":[
             "app\\plugins\\membershiplevel\\Hook"
+        ],
+        "plugins_service_user_login_success_record":[
+            "app\\plugins\\membershiplevel\\Hook"
         ]
     }
 }

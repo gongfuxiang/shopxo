@@ -115,12 +115,6 @@ class Service
                 'error_msg'         => '名称长度 1~30 个字符',
             ],
             [
-                'checked_type'      => 'empty',
-                'key_name'          => 'images_url',
-                'checked_data'      => '255',
-                'error_msg'         => '请上传图标',
-            ],
-            [
                 'checked_type'      => 'isset',
                 'key_name'          => 'rules_min',
                 'error_msg'         => '请填写规则最小值',
@@ -172,19 +166,22 @@ class Service
                 'checked_data'      => $params['rules_min'],
                 'error_msg'         => '规则最大值不能最小值相等',
             ],
-            [
+        ];
+        if(intval($params['rules_max']) > 0)
+        {
+            $p[] = [
                 'checked_type'      => 'max',
                 'key_name'          => 'rules_min',
                 'checked_data'      => intval($params['rules_max']),
                 'error_msg'         => '规则最小值不能大于最大值['.intval($params['rules_max']).']',
-            ],
-            [
+            ];
+            $p[] = [
                 'checked_type'      => 'min',
                 'key_name'          => 'rules_max',
                 'checked_data'      => intval($params['rules_min']),
                 'error_msg'         => '规则最大值不能小于最小值['.intval($params['rules_min']).']',
-            ],
-        ];
+            ];
+        }
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
@@ -373,14 +370,19 @@ class Service
     /**
      * 用户等级匹配
      * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-04-27T00:32:00+0800
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-04-28
+     * @desc    description
+     * @param   [array]           $user [用户信息]
      */
-    public static function UserLevelMatching()
+    public static function UserLevelMatching($user = [])
     {
-        // 用户
-        $user = UserService::LoginUserInfo();
+        // 未指定用户信息，则从服务层读取
+        if(empty($user))
+        {
+            $user = UserService::LoginUserInfo();
+        }
         if(!empty($user))
         {
             // 缓存key
@@ -437,6 +439,12 @@ class Service
                                 break;
                             }
                         }
+                    }
+
+                    // 等级icon
+                    if(!empty($level) && empty($level['images_url']))
+                    {
+                        $level['images_url'] = empty($base['data']['default_level_images']) ? config('shopxo.attachment_host').'/static/plugins/images/membershiplevel/level-default-images.png' : $base['data']['default_level_images'];
                     }
                     cache($key, $level);
                 }

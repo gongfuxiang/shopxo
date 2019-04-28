@@ -24,11 +24,14 @@
 
                 <div class="am-form-group am-form-file">
                     <label class="block">图标<span class="am-form-group-label-tips">建议50像数x50像数</span></label>
-                    <ul class="plug-file-upload-view images_url-images-view" data-form-name="images_url" data-max-number="1" data-delete="0" data-dialog-type="images">
-                        <li>
-                            <input type="text" name="images_url" value="{{if !empty($data['images_url'])}}{{$data.images_url}}{{/if}}" data-validation-message="请上传图标" required />
-                            <img src="{{if !empty($data['images_url'])}}{{$data.images_url}}{{else /}}{{$attachment_host}}/static/plugins/images/membershiplevel/default-images.jpg{{/if}}" />
-                        </li>
+                    <ul class="plug-file-upload-view images_url-images-view" data-form-name="images_url" data-max-number="1" data-delete="1" data-dialog-type="images">
+                        {{if !empty($data['images_url'])}}
+                            <li>
+                                <input type="text" name="images_url" value="{{$data.images_url_old}}" data-validation-message="请上传图标" />
+                                <img src="{{$data.images_url}}" />
+                                <i>×</i>
+                            </li>
+                        {{/if}}
                     </ul>
                     <div class="plug-file-upload-submit" data-view-tag="ul.images_url-images-view">+上传图标</div>
                 </div>

@@ -7,7 +7,7 @@
 .user-base a, .order-base a, .order-nav a{text-decoration: none;}
 .user-avatar{text-align: center;}
 .user-avatar .user-name{font-weight: 500;}
-.user-avatar img{width: 80px; height: 80px; border-radius: 100%;}
+.user-avatar img.avatar {width: 80px; height: 80px; border-radius: 100%;}
 .user-avatar .user-name{margin-top: 5px;}
 .user-base-left .items a{color: #f8f8f8;}
 .user-base-right a:not(:last-child){margin-right: 15px;}

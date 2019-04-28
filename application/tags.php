@@ -151,5 +151,9 @@ return array (
   array (
     0 => 'app\\plugins\\membershiplevel\\Hook',
   ),
+  'plugins_service_user_login_success_record' => 
+  array (
+    0 => 'app\\plugins\\membershiplevel\\Hook',
+  ),
 );
 ?>

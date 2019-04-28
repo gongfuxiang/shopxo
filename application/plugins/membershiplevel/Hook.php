@@ -73,11 +73,39 @@ class Hook extends Controller
                 case 'plugins_service_buy_handle' :
                     $ret = $this->FullReductionCalculate($params);
                     break;
+
+                // 用户登录成功信息纪录钩子 icon处理
+                case 'plugins_service_user_login_success_record' :
+                    $ret = $this->UserLoginSuccessIconHandle($params);
+                    break;
             }
             return $ret;
         } else {
             return '';
         }
+    }
+
+    /**
+     * 用户icon处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-04-28
+     * @desc    description
+     * @param    [array]          $params [输入参数]
+     */
+    private function UserLoginSuccessIconHandle($params = [])
+    {
+        if(!empty($params['user']))
+        {
+            // 用户等级
+            $level = Service::UserLevelMatching($params['user']);
+            if(!empty($level) && $level['images_url'])
+            {
+                $params['user']['icon'] = $level['images_url'];
+            }
+        }
+        return DataReturn('处理成功', 0);
     }
 
     /**
@@ -136,7 +164,7 @@ class Hook extends Controller
             // 价格处理
             $goods['price'] = Service::PriceCalculate($goods['price'], $level['discount_rate'], 0);
             $price_title = empty($level['name']) ? '会员价' : $level['name'];
-            $goods['show_field_price_text'] = '<span class="plugins-membershiplevel-goods-price-icon">'.$price_title.'</span>';
+            $goods['show_field_price_text'] = '<span class="plugins-membershiplevel-goods-price-icon" title="'.$price_title.'">'.$price_title.'</span>';
         }
     }
 

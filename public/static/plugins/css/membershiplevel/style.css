@@ -2,4 +2,17 @@
     padding: 3px 5px;
     background: #fee85c;
     color: #d19432;
+    position: relative;
+}
+.plugins-membershiplevel-goods-price-icon:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: url(../../images/membershiplevel/flash.gif) no-repeat center;
+    background-size: contain;
+    opacity: 0.3;
 }

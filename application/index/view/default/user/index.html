@@ -44,8 +44,13 @@
             <div class="user-base">
                 <div class="user-base-left">
                     <div class="user-avatar">
-                        <img src="{{$user.avatar}}" />
-                        <p class="user-name">{{$user.user_name_view}}</p>
+                        <img src="{{$user.avatar}}" class="avatar" />
+                        <div class="user-name">
+                            {{if !empty($user['icon'])}}
+                                <img src="{{$user.icon}}" class="common-user-icon" {{if !empty($user['icon_title'])}}title="{{$user.icon_title}}"{{/if}} />
+                            {{/if}}
+                            <span>{{$user.user_name_view}}</span>
+                        </div>
                     </div>
                     <div class="items">
                         <a href="javascript:;" class="am-icon-camera-retro" data-am-modal="{target:'#user-avatar-popup'}"> 修改头像</a>
