@@ -30,3 +30,24 @@
     .chosen-container-single .chosen-search input[type="text"] { width: 100% !important; }
     .so-list select { width: calc(100% - 44px); display: -webkit-inline-box; }
 }
+
+.user-content-body .available .integral-value {
+    color: #4CAF50;
+}
+.user-content-body .locking {
+    margin-top: 5px;
+}
+.user-content-body .locking .integral-value {
+    color: #FF9800;
+}
+.user-content-body .integral-value {
+    font-size: 18px;
+    font-weight: 700;
+}
+.user-content-body .integral-tips {
+    color: #c27300;
+    background: #e7e3d9;
+    padding: 3px 6px;
+    border: 1px solid #e7d8c2;
+    margin-left: 5px;
+}

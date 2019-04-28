@@ -22,6 +22,19 @@
     <!-- content start -->
     <div class="user-content">
         <div class="user-content-body">
+            <div class="am-alert am-alert-secondary" data-am-alert>
+                <div class="available">
+                    <span>可用积分</span>
+                    <span class="integral-value">{{$user.integral}}</span>
+                    <span class="integral-tips">正常可以使用的积分</span>
+                </div>
+                <div class="locking">
+                    <span>锁定积分</span>
+                    <span class="integral-value">{{$user.locking_integral}}</span>
+                    <span class="integral-tips">一般积分交易中，交易并未完成、锁定相应的积分</span>
+                </div>
+            </div>
+
             <form class="am-form form-validation" method="post" action="{{:MyUrl('index/userintegral/index')}}" request-type="form">
                 <div class="thin">
                     <div class="am-input-group am-input-group-sm am-fl so">
