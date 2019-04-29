@@ -12,7 +12,7 @@
 
     <div class="am-topbar-right">
         {{if in_array($plugins_action, ['index', 'recharge'])}}
-            <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm am-icon-shield" data-am-modal="{target: '#plugins-recharge-pay-modal-popup'}"> 在线充值</button>
+            <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm am-icon-shield" data-am-modal="{target: '#plugins-recharge-pay-modal', width: 260, height: 130}"> 在线充值</button>
         {{/if}}
         {{if in_array($plugins_action, ['index', 'cash'])}}
             <a class="am-btn am-btn-success am-topbar-btn am-btn-sm am-icon-money"> 申请提现</a>
@@ -37,17 +37,37 @@
 </div>
 
 <!-- 充值窗口 -->
-<div class="am-popup" id="plugins-recharge-pay-modal-popup">
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="plugins-recharge-pay-modal">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">
+            <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+        </div>
+        <div class="am-modal-bd">
+            <form class="am-form form-validation-plugins-recharge-modal" action="{{:PluginsHomeUrl('wallet', 'wallet', 'rechargecreate')}}" method="POST" request-type="ajax-fun" request-value="PluginsRechargeBack">
+                <label>充值金额</label>
+                <div class="am-input-group am-input-group-sm">
+                    <input type="number" autocomplete="off" name="money" step="0.01" class="am-radius" placeholder="充值金额" data-validation-message="请输入充值金额" required />
+                    <span class="am-input-group-btn">
+                        <button type="button" class="am-btn am-btn-default am-radius">元</button>
+                    </span>
+                </div>
+
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 支付方式 -->
+<div class="am-popup" id="plugins-recharge-pay-popup">
     <div class="am-popup-inner">
         <div class="am-popup-hd">
-            <h4 class="am-popup-title">充值</h4>
+            <h4 class="am-popup-title">支付方式</h4>
             <span data-am-modal-close class="am-close">&times;</span>
         </div>
         <div class="am-popup-bd">
-            <form class="am-form form-validation-plugins-recharge-pay" action="{{:PluginsHomeUrl('wallet', 'wallet', 'rechargecreate')}}" method="POST" request-type="ajax-fun" request-value="PluginsRechargeFormBack">
-                <!-- 支付方式 -->
-                <div class="business-item am-form-group">
-                    <label>选择支付</label>
+            <form class="am-form form-validation-plugins-recharge-popup" action="{{:PluginsHomeUrl('wallet', 'wallet', 'pay')}}" method="POST" request-type="ajax-fun" request-value="PluginsRechargePayBack">
+                <div class="business-item ">
                     {{if !empty($buy_payment_list)}}
                         <ul class="payment-list" data-type="payment">
                             {{foreach $buy_payment_list as $payment}}
@@ -68,17 +88,8 @@
                     <input type="number" name="payment_id" min="1" data-validation-message="请选择支付方式" value="0" required />
                 </div>
 
-                <div class="am-form-group">
-                    <label>充值金额</label>
-                    <div class="am-input-group am-input-group-sm">
-                        <input type="number" autocomplete="off" name="money" step="0.01" class="am-radius" placeholder="充值金额" data-validation-message="请输入充值金额" required />
-                        <span class="am-input-group-btn">
-                            <button class="am-btn am-btn-default am-radius">元</button>
-                        </span>
-                    </div>
-                </div>
-
                 <div class="am-form-group am-form-group-refreshing">
+                    <input type="hidden" name="recharge_id" value="" />
                     <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>
                 </div>
             </form>
@@ -86,13 +97,34 @@
     </div>
 </div>
 <script type="text/javascript">
-function PluginsRechargeFormBack(e)
+/**
+ * 充值回调
+ */
+function PluginsRechargeBack(e)
+{
+    $.AMUI.progress.done();
+    $('form.form-validation-plugins-recharge-modal').find('button[type="submit"]').button('reset');
+    if(e.code == 0)
+    {
+        $('#plugins-recharge-pay-modal').modal('close');
+        var $popup = $('#plugins-recharge-pay-popup');
+        $popup.find('input[name="recharge_id"]').val(e.data.recharge_id);
+        $popup.modal('open');
+    } else {
+        Prompt(e.msg);
+    }
+}
+
+/**
+ * 支付回调
+ */
+function PluginsRechargePayBack(e)
 {
     if(e.code == 0)
     {
         window.location.href = e.data;
     } else {
-        $('form.form-validation-plugins-recharge-pay').find('button[type="submit"]').button('reset');
+        $('form.form-validation-plugins-recharge-popup').find('button[type="submit"]').button('reset');
         $.AMUI.progress.done();
         Prompt(e.msg);
     }

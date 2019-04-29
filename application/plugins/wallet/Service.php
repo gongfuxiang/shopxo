@@ -29,11 +29,100 @@ class Service
         'default_level_images'
     ];
 
-    // 等级规则
-    public static $members_level_rules_list = [
-        0 => ['value' => 0, 'name' => '积分（可用积分）', 'checked' => true],
-        1 => ['value' => 1, 'name' => '消费总额（已完成订单）'],
+    // 充值支付状态
+    public static $recharge_status_list = [
+        0 => ['value' => 0, 'name' => '未支付', 'checked' => true],
+        1 => ['value' => 1, 'name' => '已支付'],
     ];
+
+    /**
+     * 充值列表
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-04-30T00:13:14+0800
+     * @param    array                    $params [description]
+     */
+    public static function RechargeList($params = [])
+    {
+        $where = empty($params['where']) ? [] : $params['where'];
+        $m = isset($params['m']) ? intval($params['m']) : 0;
+        $n = isset($params['n']) ? intval($params['n']) : 10;
+        $field = empty($params['field']) ? '*' : $params['field'];
+        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
+
+        // 获取数据列表
+        $data = Db::name('PluginsWalletRecharge')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
+        if(!empty($data))
+        {
+            $common_gender_list = lang('common_gender_list');
+            foreach($data as &$v)
+            {
+                // 用户信息
+                if(!empty($v['user_id']))
+                {
+                    $user = Db::name('User')->where(['id'=>$v['user_id']])->field('username,nickname,mobile,gender,avatar')->find();
+                    $v['username'] = empty($user['username']) ? '' : $user['username'];
+                    $v['nickname'] = empty($user['nickname']) ? '' : $user['nickname'];
+                    $v['mobile'] = empty($user['mobile']) ? '' : $user['mobile'];
+                    $v['avatar'] = empty($user['avatar']) ? '' : $user['avatar'];
+                    $v['gender_text'] = isset($user['gender']) ? $common_gender_list[$user['gender']]['name'] : '';
+                }
+
+                // 支付状态
+                $v['status_text'] = isset($v['status']) ? self::$recharge_status_list[$v['status']]['name'] : '';
+
+                // 支付时间
+                $v['pay_time_text'] = empty($v['pay_time']) ? '' : date('Y-m-d H:i:s', $v['pay_time']);
+
+                // 创建时间
+                $v['add_time_text'] = empty($v['pay_time']) ? '' : date('Y-m-d H:i:s', $v['pay_time']);
+            }
+        }
+        return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
+     * 总数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $where [条件]
+     */
+    public static function RechargeTotal($where = [])
+    {
+        return (int) Db::name('PluginsWalletRecharge')->where($where)->count();
+    }
+
+    /**
+     * 充值列表条件
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function RechargeListWhere($params = [])
+    {
+        $where = [];
+
+        // 用户id
+        if(!empty($params['user']))
+        {
+            $where[] = ['user_id', '=', $params['user']['id']];
+        }
+
+        // 关键字
+        if(!empty($params['keywords']))
+        {
+            $where[] = ['recharge_no', 'like', '%'.$params['keywords'].'%'];
+        }
+
+        return $where;
+    }
 
     /**
      * 充值订单创建
@@ -81,10 +170,14 @@ class Service
             'add_time'      => time(),
 
         ];
-        $params['recharge_id'] = Db::name('PluginsWalletRecharge')->insertGetId($data);
-        if($params['recharge_id'] > 0)
+        $recharge_id = Db::name('PluginsWalletRecharge')->insertGetId($data);
+        if($recharge_id > 0)
         {
-            return self::Pay($params);
+            return DataReturn('添加成功',0, [
+                'recharge_id'   => $recharge_id,
+                'recharge_no'   => $data['recharge_no'],
+            ]);
+            //return self::Pay($params);
         }
         return DataReturn('添加失败', -100);
     }

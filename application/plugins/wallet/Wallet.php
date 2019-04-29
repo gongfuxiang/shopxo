@@ -121,10 +121,36 @@ class Wallet extends Controller
     public function recharge($params = [])
     {
         // 参数
-        $params = input();
         $params['user'] = $this->user;
 
-        $this->assign('data_list', []);
+        // 分页
+        $number = MyC('admin_page_number', 10, true);
+
+        // 条件
+        $where = Service::RechargeListWhere($params);
+
+        // 获取总数
+        $total = Service::RechargeTotal($where);
+
+        // 分页
+        $page_params = array(
+                'number'    =>  $number,
+                'total'     =>  $total,
+                'where'     =>  $params,
+                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
+                'url'       =>  PluginsHomeUrl('wallet', 'wallet', 'recharge'),
+            );
+        $page = new \base\Page($page_params);
+        $this->assign('page_html', $page->GetPageHtml());
+
+        // 获取列表
+        $data_params = array(
+            'm'         => $page->GetPageStarNumber(),
+            'n'         => $number,
+            'where'     => $where,
+        );
+        $data = Service::RechargeList($data_params);
+        $this->assign('data_list', $data['data']);
 
         // 参数
         $this->assign('params', $params);
@@ -186,12 +212,7 @@ class Wallet extends Controller
     {
         // 用户
         $params['user'] = $this->user;
-        $ret = Service::Pay($params);
-        if($ret['code'] == 0)
-        {
-            return redirect($ret['data']['data']);
-        }
-        return $ret['msg'];
+        return Service::Pay($params);
     }
 
     /**

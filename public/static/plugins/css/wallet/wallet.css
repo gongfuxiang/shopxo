@@ -117,7 +117,15 @@
 /**
  * 充值窗口
  */
-#plugins-recharge-pay-modal-popup input[name="payment_id"] {
+#plugins-recharge-pay-modal button[type="submit"] {
+    margin-top: 10px;
+}
+
+
+/**
+ * 支付选择窗口
+ */
+#plugins-recharge-pay-popup input[name="payment_id"] {
     margin-left: -10000px;
     position: absolute;
 }

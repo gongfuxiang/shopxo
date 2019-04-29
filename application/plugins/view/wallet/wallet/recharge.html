@@ -44,8 +44,8 @@
                         <tr>
                             <th>充值单号</th>
                             <th>充值金额(元)</th>
-                            <th>支付方式</th>
                             <th>状态</th>
+                            <th class="am-hide-sm-only">支付方式</th>
                             <th class="am-hide-sm-only">支付时间</th>
                             <th class="am-hide-sm-only">创建时间</th>
                             <th>操作</th>
@@ -55,11 +55,15 @@
                         {{if !empty($data_list)}}
                             {{foreach $data_list as $v}}
                                 <tr>
-                                    <td>{{$v.type_name}}</td>
-                                    <td class="am-hide-sm-only">{{$v.msg}}</td>
-                                    <td>{{$v.original_integral}}</td>
-                                    <td>{{$v.new_integral}}</td>
-                                    <td class="am-hide-sm-only">{{$v.add_time_time}}</td>
+                                    <td>{{$v.recharge_no}}</td>
+                                    <td>{{$v.money}}</td>
+                                    <td>{{$v.status_text}}</td>
+                                    <td class="am-hide-sm-only">{{$v.payment_name}}</td>
+                                    <td class="am-hide-sm-only">{{$v.pay_time_text}}</td>
+                                    <td class="am-hide-sm-only">{{$v.add_time_text}}</td>
+                                    <td>
+                                        <button class="am-btn am-btn-success am-topbar-btn am-btn-sm am-icon-shield recharge-submit" data-value="{{$v.id}}"> 继续支付</button>
+                                    </td>
                                 </tr>
                             {{/foreach}}
                         {{/if}}
