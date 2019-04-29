@@ -53,7 +53,7 @@ input:hover, select:hover, textarea:hover, .chosen-choices:hover, .chosen-single
 
 body {margin:0;color:#797979;}
 html,body {position:relative;background:#fff;height:100%;width:100%;}
-h1,h2,h3,h4,h5,h6 {margin:10px 0;}
+h1,h2,h3,h4,h5,h6 {font-family:'Karla',sans-serif;margin:10px 0;}
 h1 {line-height:43px;}
 h2 {line-height:35px;}
 h3 small {color:#444444;}
@@ -270,7 +270,7 @@ a:focus {outline:0;text-decoration:none;}
 .nav-tabs > .active > a,.nav-tabs > .active > a:focus,.nav-tabs > .active > a:hover {border:2px solid #eeeeee !important;border-bottom-color:#ffffff !important;}
 .nav-tabs {border-bottom:2px solid #eeeeee;}
 .nav-tabs > li {margin-bottom:-2px;}
-.nav-tabs a {color:#435966;font-size:15px;font-weight:600;}
+.nav-tabs a {color:#435966;font-size:15px;font-weight:600;font-family:'Karla',sans-serif;}
 .nav > li > a:focus,.nav > li > a:hover {text-decoration:none;background-color:#f4f8fb;}
 .nav .open > a,.nav .open > a:focus,.nav .open > a:hover {border-color:#eeeeee;}
 /* List group */
