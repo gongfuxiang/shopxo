@@ -391,7 +391,7 @@ class PaymentService
         // 插件权限
         if(!is_writable(self::$payment_dir))
         {
-            return DataReturn('目录没有操作权限'.'['.self::$payment_dir.']', -3);
+            return DataReturn('目录没有操作权限'.'['.self::$payment_dir.']', -4);
         }
     }
 
@@ -497,7 +497,7 @@ class PaymentService
             if(Db::name('Payment')->insertGetId($data) > 0)
             {
                 // 入口文件生成
-                $ret = self::PaymentEntranceCreated($payment);
+                $ret = self::PaymentEntranceCreated(['payment' => $payment]);
                 if($ret['code'] == 'code')
                 {
                     // 提交事务
@@ -573,7 +573,7 @@ class PaymentService
         }
 
         // 删除入口文件
-        self::PaymentEntranceDelete($payment);
+        self::PaymentEntranceDelete(['payment' => $payment]);
 
         return DataReturn('删除成功');
     }
@@ -603,7 +603,7 @@ class PaymentService
         if(db('Payment')->where(['payment'=>$payment])->delete())
         {
             // 删除入口文件
-            self::PaymentEntranceDelete($payment);
+            self::PaymentEntranceDelete(['payment' => $payment]);
 
             return DataReturn('卸载成功', 0);
         }
@@ -616,21 +616,47 @@ class PaymentService
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2018-09-28T23:38:52+0800
-     * @param    [string]        $payment [支付唯一标记]
+     * @param    [array]            $params                 [输入参数]
+     * @param    [string]           $params['payment']      [支付唯一标记]
+     * @param    [array]            $params['business']     [处理业务, 默认配置文件读取]
+     * @param    [array]            $params['not_notify']   [不生成异步入口]
+     * @param    [string]           $params['respond']      [同步参数值]
+     * @param    [string]           $params['notify']       [异步参数值]
      */
-    private static function PaymentEntranceCreated($payment)
+    public static function PaymentEntranceCreated($params = [])
     {
+        // 初始化
+        self::Init();
+
         // 权限
         $ret = self::PowerCheck();
         if($ret['code'] != 0)
         {
             return $ret;
         }
+        if(empty($params['payment']))
+        {
+            return '支付唯一标记不能为空';
+        }
+
+        // 不生成异步入口
+        $not_notify = empty($params['not_notify']) ? config('shopxo.under_line_list') : $params['not_notify'];
+
+        // 处理业务
+        $business_all = empty($params['business']) ? self::$payment_business_type_all : $params['business'];
+
+        // 同步参数值
+        $respond_params = empty($params['respond']) ? '/index/{$name}/respond' : $params['respond'];
+
+        // 异步参数值
+        $notify_params = empty($params['notify']) ? '/index/{$name}/notify' : $params['notify'];
 
         // 批量创建
-        foreach(self::$payment_business_type_all as $v)
+        foreach($business_all as $v)
         {
-            $name = strtolower($v['name']);
+            $business_name = strtolower($v['name']);
+            $respond_s = str_replace('{$name}', $business_name, $respond_params);
+            $notify_s = str_replace('{$name}', $business_name, $notify_params);
 
             if(defined('IS_ROOT_ACCESS'))
             {
@@ -643,10 +669,10 @@ $notify=<<<php
  */
 
 // 默认绑定模块
-\$_GET['s'] = '/api/{$name}notify/notify';
+\$_GET['s'] = '{$notify_s}';
 
 // 支付模块标记
-define('PAYMENT_TYPE', '{$payment}');
+define('PAYMENT_TYPE', '{$params["payment"]}');
 
 // 根目录入口
 define('IS_ROOT_ACCESS', true);
@@ -665,10 +691,10 @@ $respond=<<<php
  */
 
 // 默认绑定模块
-\$_GET['s'] = '/index/{$name}/respond';
+\$_GET['s'] = '{$respond_s}';
 
 // 支付模块标记
-define('PAYMENT_TYPE', '{$payment}');
+define('PAYMENT_TYPE', '{$params["payment"]}');
 
 // 根目录入口
 define('IS_ROOT_ACCESS', true);
@@ -689,10 +715,10 @@ $notify=<<<php
  */
 
 // 默认绑定模块
-\$_GET['s'] = '/api/{$name}notify/notify';
+\$_GET['s'] = '{$notify_s}';
 
 // 支付模块标记
-define('PAYMENT_TYPE', '{$payment}');
+define('PAYMENT_TYPE', '{$params["payment"]}');
 
 // 引入入口文件
 require __DIR__.'/index.php';
@@ -708,10 +734,10 @@ $respond=<<<php
  */
 
 // 默认绑定模块
-\$_GET['s'] = '/index/{$name}/respond';
+\$_GET['s'] = '{$respond_s}';
 
 // 支付模块标记
-define('PAYMENT_TYPE', '{$payment}');
+define('PAYMENT_TYPE', '{$params["payment"]}');
 
 // 引入入口文件
 require __DIR__.'/index.php';
@@ -719,12 +745,12 @@ require __DIR__.'/index.php';
 php;
             }
 
-            @file_put_contents(self::$dir_root_path.'payment_'.$name.'_'.strtolower($payment).'_respond.php', $respond);
+            @file_put_contents(self::$dir_root_path.'payment_'.$business_name.'_'.strtolower($params['payment']).'_respond.php', $respond);
 
             // 线下支付不生成异步入口文件
-            if(!in_array($payment, config('shopxo.under_line_list')))
+            if(!in_array($params['payment'], $not_notify))
             {
-                @file_put_contents(self::$dir_root_path.'payment_'.$name.'_'.strtolower($payment).'_notify.php', $notify);
+                @file_put_contents(self::$dir_root_path.'payment_'.$business_name.'_'.strtolower($params['payment']).'_notify.php', $notify);
             }
         }
 
@@ -737,28 +763,40 @@ php;
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2018-09-28T23:38:52+0800
-     * @param    [string]        $payment [支付唯一标记]
+     * @param    [array]            $params                 [输入参数]
+     * @param    [string]           $params['payment']      [支付唯一标记]
+     * @param    [array]            $params['business']     [处理业务, 默认配置文件读取]
      */
-    private static function PaymentEntranceDelete($payment)
+    public static function PaymentEntranceDelete($params = [])
     {
+        // 初始化
+        self::Init();
+
         // 权限
         $ret = self::PowerCheck();
         if($ret['code'] != 0)
         {
             return $ret;
         }
-
-        $payment = strtolower($payment);
-        foreach(self::$payment_business_type_all as $v)
+        if(empty($params['payment']))
         {
-            $name = strtolower($v['name']);
-            if(file_exists(self::$dir_root_path.'payment_'.$name.'_'.$payment.'_notify.php'))
+            return '支付唯一标记不能为空';
+        }
+
+        // 处理业务
+        $business_all = empty($params['business']) ? self::$payment_business_type_all : $params['business'];
+
+        $payment = strtolower($params['payment']);
+        foreach($business_all as $v)
+        {
+            $business_name = strtolower($v['name']);
+            if(file_exists(self::$dir_root_path.'payment_'.$business_name.'_'.$payment.'_notify.php'))
             {
-                @unlink(self::$dir_root_path.'payment_'.$name.'_'.$payment.'_notify.php');
+                @unlink(self::$dir_root_path.'payment_'.$business_name.'_'.$payment.'_notify.php');
             }
-            if(file_exists(self::$dir_root_path.'payment_'.$name.'_'.$payment.'_respond.php'))
+            if(file_exists(self::$dir_root_path.'payment_'.$business_name.'_'.$payment.'_respond.php'))
             {
-                @unlink(self::$dir_root_path.'payment_'.$name.'_'.$payment.'_respond.php');
+                @unlink(self::$dir_root_path.'payment_'.$business_name.'_'.$payment.'_respond.php');
             }
         }
 

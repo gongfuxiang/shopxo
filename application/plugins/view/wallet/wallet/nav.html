@@ -44,19 +44,21 @@
             <span data-am-modal-close class="am-close">&times;</span>
         </div>
         <div class="am-popup-bd">
-            <form class="am-form form-validation-plugins-recharge-pay" action="{{:MyUrl('admin/order/pay')}}" method="POST" request-type="ajax-reload">
+            <form class="am-form form-validation-plugins-recharge-pay" action="{{:PluginsHomeUrl('wallet', 'wallet', 'rechargecreate')}}" method="POST" request-type="ajax-fun" request-value="PluginsRechargeFormBack">
                 <!-- 支付方式 -->
                 <div class="business-item am-form-group">
                     <label>选择支付</label>
                     {{if !empty($buy_payment_list)}}
                         <ul class="payment-list" data-type="payment">
                             {{foreach $buy_payment_list as $payment}}
-                                <li class="payment-items-{{$payment.id}}" data-value="{{$payment.id}}">
-                                    {{if !empty($payment.logo)}}
-                                        <img src="{{$payment.logo}}" />
-                                    {{/if}}
-                                    <span>{{$payment.name}}</span>
-                                </li>
+                                {{if !in_array($payment['payment'], config('shopxo.under_line_list'))}}
+                                    <li class="payment-items-{{$payment.id}}" data-value="{{$payment.id}}">
+                                        {{if !empty($payment.logo)}}
+                                            <img src="{{$payment.logo}}" />
+                                        {{/if}}
+                                        <span>{{$payment.name}}</span>
+                                    </li>
+                                {{/if}}
                             {{/foreach}}
                         </ul>
                     {{/if}}
@@ -83,3 +85,16 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+function PluginsRechargeFormBack(e)
+{
+    if(e.code == 0)
+    {
+        window.location.href = e.data;
+    } else {
+        $('form.form-validation-plugins-recharge-pay').find('button[type="submit"]').button('reset');
+        $.AMUI.progress.done();
+        Prompt(e.msg);
+    }
+}
+</script>

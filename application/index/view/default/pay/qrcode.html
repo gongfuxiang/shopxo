@@ -19,7 +19,7 @@
 <!-- conntent start  -->
 <div class="am-g my-content">
     <div class="am-u-md-6 am-u-sm-centered">
-        <div class="am-panel am-radius qrcode-pay" data-ajax-url="{{:MyUrl('index/order/paycheck', ['order_no'=>$params['order_no']])}}" data-order-no="{{$params['order_no']}}">
+        <div class="am-panel am-radius qrcode-pay" data-ajax-url="{{:urldecode($params['ajax_url'])}}" data-order-no="{{$params['order_no']}}">
             <div class="am-panel-bd">
                 <div class="name">{{:urldecode($params['name'])}}</div>
                 <img class="qrcode-images am-img-thumbnail" src="{{:MyUrl('index/qrcode/index', ['content'=>$params['url']])}}">

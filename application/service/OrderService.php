@@ -87,7 +87,15 @@ class OrderService
         $pay_checked = PaymentService::EntranceFileChecked($payment[0]['payment'], 'order');
         if($pay_checked['code'] != 0)
         {
-            return $pay_checked;
+            // 入口文件不存在则创建
+            $payment_params = [
+                'payment'       => $payment[0]['payment'],
+            ];
+            $ret = PaymentService::PaymentEntranceCreated($payment_params);
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
         }
 
         // 回调地址
@@ -116,6 +124,7 @@ class OrderService
             'notify_url'    => $url.'_notify.php',
             'call_back_url' => $call_back_url,
             'site_name'     => MyC('home_site_name', 'ShopXO', true),
+            'ajax_url'      => MyUrl('index/order/paycheck'),
         );
         $pay_name = 'payment\\'.$payment[0]['payment'];
         $ret = (new $pay_name($payment[0]['config']))->Pay($pay_data);

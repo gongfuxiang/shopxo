@@ -42,11 +42,13 @@
                 <table class="am-table">
                     <thead>
                         <tr>
-                            <th>操作类型</th>
-                            <th class="am-hide-sm-only">描述</th>
-                            <th>原始积分</th>
-                            <th>最新积分</th>
-                            <th class="am-hide-sm-only">时间</th>
+                            <th>充值单号</th>
+                            <th>充值金额(元)</th>
+                            <th>支付方式</th>
+                            <th>状态</th>
+                            <th class="am-hide-sm-only">支付时间</th>
+                            <th class="am-hide-sm-only">创建时间</th>
+                            <th>操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -63,7 +65,7 @@
                         {{/if}}
                         {{if empty($data_list)}}
                             <tr>
-                                <td colspan="5">
+                                <td colspan="7">
                                     <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
                                 </td>
                             </tr>

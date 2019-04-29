@@ -220,27 +220,6 @@ class Order extends Common
     }
 
     /**
-     * 订单支付展示
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-28
-     * @desc    description
-     */
-    public function QrcodePay()
-    {
-        $params = input();
-        if(empty($params['url']) || empty($params['order_no']) || empty($params['name']) || empty($params['msg']))
-        {
-            $this->assign('msg', '参数有误');
-            return $this->fetch('public/tips_error');
-        } else {
-            $this->assign('params', $params);
-            return $this->fetch('qrcode_pay');
-        }
-    }
-
-    /**
      * 支付同步返回处理
      * @author   Devil
      * @blog    http://gong.gg/

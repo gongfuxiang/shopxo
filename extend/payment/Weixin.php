@@ -171,13 +171,18 @@ class Weixin
         {
             // web支付
             case 'NATIVE' :
+                if(empty($params['ajax_url']))
+                {
+                    return DataReturn('支付状态校验地址不能为空', -50);
+                }
                 $pay_params = [
                     'url'       => urlencode(base64_encode($data['code_url'])),
                     'order_no'  => $params['order_no'],
                     'name'      => urlencode('微信支付'),
                     'msg'       => urlencode('打开微信APP扫一扫进行支付'),
+                    'ajax_url'  => urlencode($params['ajax_url']),
                 ];
-                $url = MyUrl('index/order/qrcodepay', $pay_params);
+                $url = MyUrl('index/pay/qrcode', $pay_params);
                 $result = DataReturn('success', 0, $url);
                 break;
 

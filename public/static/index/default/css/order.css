@@ -108,20 +108,3 @@ strong.total-price-content { color: #d2364c; font-size: 16px; }
     table.data-list td.row-status { border-left: 1px solid #eee; }
     table.data-ongoing td.row-status { border-left: 1px solid #fff1f5; }
 }
-
-
-/**
- * 订单二维码支付页面
- */
-.qrcode-pay {
-    text-align: center;
-    box-shadow: none;
-}
-.qrcode-pay .name {
-    font-size: 18px;
-    font-weight: 500;
-    margin: 20px 0 10px 0;
-}
-.qrcode-pay .msg {
-    color: #F44336;
-}

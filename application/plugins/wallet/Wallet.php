@@ -154,69 +154,14 @@ class Wallet extends Controller
     }
 
     /**
-     * 宠物添加/编辑页面
+     * 充值订单创建
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2019-03-15T23:51:50+0800
      * @param   [array]          $params [输入参数]
      */
-    public function saveinfo($params = [])
-    {
-        // 是否绑定
-        if(!empty($params['pest_no']))
-        {
-            $data_params = array(
-                'm'         => 0,
-                'n'         => 1,
-                'where'     => ['pest_no' => $params['pest_no']],
-            );
-            $ret = Service::PetsList($data_params);
-            if(!empty($ret['data'][0]['user_id']))
-            {
-                $this->assign('msg', '该宠物已被绑定');
-                return $this->fetch('public/tips_error');
-            }
-            $this->assign('pest_no', $params['pest_no']);
-            unset($params['pest_no']);
-        }
-
-        // 获取数据
-        $data = [];
-        if(!empty($params['id']))
-        {
-            $data_params = array(
-                'm'         => 0,
-                'n'         => 1,
-                'where'     => ['id' => intval($params['id'])],
-            );
-            $ret = Service::PetsList($data_params);
-            if(!empty($ret['data'][0]))
-            {
-                $ret['data'][0]['lose_features'] = str_replace('<br />', "\n", $ret['data'][0]['lose_features']);
-                $data = $ret['data'][0];
-            }
-            unset($params['id']);
-        }
-        
-        $this->assign('params', $params);
-        $this->assign('data', $data);
-        $this->assign('pets_attribute_status_list', Service::$pets_attribute_status_list);
-        $this->assign('pets_attribute_is_text_list', Service::$pets_attribute_is_text_list);
-        $this->assign('pets_attribute_gender_list', Service::$pets_attribute_gender_list);
-        $this->assign('pets_attribute_type_list', Service::$pets_attribute_type_list);
-        return $this->fetch('../../../plugins/view/wallet/pets/saveinfo');
-    }
-
-    /**
-     * 宠物添加/编辑
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-03-15T23:51:50+0800
-     * @param   [array]          $params [输入参数]
-     */
-    public function save($params = [])
+    public function rechargecreate($params = [])
     {
         // 是否ajax请求
         if(!IS_AJAX)
@@ -225,8 +170,78 @@ class Wallet extends Controller
         }
 
         // 用户
-        $params['user_id'] = $this->user['id'];
-        return Service::PetsSave($params);
+        $params['user'] = $this->user;
+        return Service::RechargeCreate($params);
+    }
+
+    /**
+     * 支付
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-03-15T23:51:50+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public function pay($params = [])
+    {
+        // 用户
+        $params['user'] = $this->user;
+        $ret = Service::Pay($params);
+        if($ret['code'] == 0)
+        {
+            return redirect($ret['data']['data']);
+        }
+        return $ret['msg'];
+    }
+
+    /**
+     * 支付状态校验
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-03-15T23:51:50+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public function paycheck($params = [])
+    {
+        if(input('post.'))
+        {
+            $params['user'] = $this->user;
+            return Service::RechargePayCheck($params);
+        } else {
+            $this->assign('msg', '非法访问');
+            return $this->fetch('public/tips_error');
+        }
+    }
+
+    /**
+     * 支付同步页面
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-04-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public function respond($params = [])
+    {
+        $this->assign('msg', '支付失败');
+        return $this->fetch('public/pay_error');
+    }
+
+    /**
+     * 支付异步通知
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-04-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public function notify($params = [])
+    {
+        $this->assign('msg', '支付成功');
+        return $this->fetch('public/pay_success');
     }
 
     /**
