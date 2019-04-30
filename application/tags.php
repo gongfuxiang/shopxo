@@ -46,15 +46,29 @@ return array (
   array (
     0 => 'app\\plugins\\userloginrewardintegral\\Hook',
   ),
+  'plugins_css' => 
+  array (
+    0 => 'app\\plugins\\commonrightnavigation\\Hook',
+    1 => 'app\\plugins\\freightfee\\Hook',
+    2 => 'app\\plugins\\share\\Hook',
+    3 => 'app\\plugins\\footercustomerservice\\Hook',
+    4 => 'app\\plugins\\membershiplevel\\Hook',
+  ),
+  'plugins_js' => 
+  array (
+    0 => 'app\\plugins\\commonrightnavigation\\Hook',
+    1 => 'app\\plugins\\share\\Hook',
+  ),
+  'plugins_view_common_bottom' => 
+  array (
+    0 => 'app\\plugins\\commonrightnavigation\\Hook',
+    1 => 'app\\plugins\\expressforkdn\\Hook',
+    2 => 'app\\plugins\\share\\Hook',
+  ),
   'plugins_service_navigation_header_handle' => 
   array (
     0 => 'app\\plugins\\answers\\Hook',
     1 => 'app\\plugins\\touristbuy\\Hook',
-  ),
-  'plugins_view_common_bottom' => 
-  array (
-    0 => 'app\\plugins\\expressforkdn\\Hook',
-    1 => 'app\\plugins\\share\\Hook',
   ),
   'plugins_admin_view_common_bottom' => 
   array (
@@ -102,13 +116,6 @@ return array (
   array (
     0 => 'app\\plugins\\touristbuy\\Hook',
   ),
-  'plugins_css' => 
-  array (
-    0 => 'app\\plugins\\freightfee\\Hook',
-    1 => 'app\\plugins\\share\\Hook',
-    2 => 'app\\plugins\\footercustomerservice\\Hook',
-    3 => 'app\\plugins\\membershiplevel\\Hook',
-  ),
   'plugins_service_buy_handle' => 
   array (
     0 => 'app\\plugins\\freightfee\\Hook',
@@ -118,10 +125,6 @@ return array (
   'plugins_view_goods_detail_title' => 
   array (
     0 => 'app\\plugins\\freightfee\\Hook',
-  ),
-  'plugins_js' => 
-  array (
-    0 => 'app\\plugins\\share\\Hook',
   ),
   'plugins_view_goods_detail_photo_bottom' => 
   array (

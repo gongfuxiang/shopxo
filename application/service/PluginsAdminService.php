@@ -702,30 +702,30 @@ php;
         if(isset($params['is_home']) && $params['is_home'] == 1)
         {
             // 创建文件
-            if(@file_put_contents($app_dir.DS.'Index.php', $index) === false)
+            if(!file_exists($app_dir.DS.'Index.php') && @file_put_contents($app_dir.DS.'Index.php', $index) === false)
             {
                 return DataReturn('应用文件创建失败[index]', -11);
             }
 
             // 应用前端视图目录不存在则创建
             $app_view_index_dir = APP_PATH.'plugins'.DS.'view'.DS.trim($params['plugins']).DS.'index';
-            if(\base\FileUtil::CreateDir($app_view_index_dir) !== true)
+            if(!is_dir($app_view_index_dir) && \base\FileUtil::CreateDir($app_view_index_dir) !== true)
             {
                 return DataReturn('应用视图目录创建失败[index]', -10);
             }
-            if(@file_put_contents($app_view_index_dir.DS.'index.html', $index_view) === false)
+            if(!file_exists($app_view_index_dir.DS.'index.html') && @file_put_contents($app_view_index_dir.DS.'index.html', $index_view) === false)
             {
                 return DataReturn('应用视图文件创建失败[index-view]', -11);
             }
 
             // 前端css目录创建
-            if(\base\FileUtil::CreateDir($app_static_css_dir.DS.'index') !== true)
+            if(!is_dir($app_static_css_dir.DS.'index') && \base\FileUtil::CreateDir($app_static_css_dir.DS.'index') !== true)
             {
                 return DataReturn('应用静态目录创建失败[css/index]', -10);
             }
 
             // css创建
-            if(@file_put_contents($app_static_css_dir.DS.'index'.DS.'index.css', $index_css) === false)
+            if(!file_exists($app_static_css_dir.DS.'index'.DS.'index.css') && @file_put_contents($app_static_css_dir.DS.'index'.DS.'index.css', $index_css) === false)
             {
                 return DataReturn('应用静态文件创建失败[index-css]', -11);
             }
