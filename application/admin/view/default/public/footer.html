@@ -62,9 +62,14 @@
 <!-- 项目公共 -->
 <script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/js/common.js"></script>
 
-<!-- 控制器 -->
+<!-- 应用插件公共js -->
+{{if !empty($plugins_js)}}
+    <script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/{{$plugins_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+{{/if}}
+
+<!-- 当前控制器js -->
 {{if !empty($module_js)}}
-    <script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/{{$module_js}}"></script>
+    <script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/{{$module_js}}?v={{:MyC('home_static_cache_version')}}"></script>
 {{/if}}
 
 <!-- js钩子 -->

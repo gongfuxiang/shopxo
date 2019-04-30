@@ -15,3 +15,34 @@ CREATE TABLE `s_plugins_wallet_recharge` (
   KEY `status` (`status`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='钱包充值 - 应用';
+
+# 钱包
+CREATE TABLE `s_plugins_wallet` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `status` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '状态（0正常, 1异常, 2已注销）',
+  `normal_money` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '有效金额（包含赠送金额）',
+  `frozen_money` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '冻结金额',
+  `give_money` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '赠送金额（所有赠送金额总计）',
+  `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
+  `upd_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `status` (`status`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='钱包 - 应用';
+
+# 钱包日志
+CREATE TABLE `s_plugins_wallet_log` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `wallet_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '钱包id',
+  `business_type` tinyint(2) NOT NULL DEFAULT '-1' COMMENT '业务类型（-1未知, 0充值, 1提现, 2消费）',
+  `operation_type` tinyint(2) NOT NULL DEFAULT '-1' COMMENT '操作类型（-1未知, 0减少, 1增加）',
+  `money_type` tinyint(2) NOT NULL DEFAULT '-1' COMMENT '操作类型（-1未知, 0正常, 1冻结）',
+  `money` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '操作金额',
+  `msg` char(200) NOT NULL DEFAULT '' COMMENT '变更说明',
+  `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
+  PRIMARY KEY (`id`),
+  KEY `wallet_id` (`wallet_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='钱包日志 - 应用';

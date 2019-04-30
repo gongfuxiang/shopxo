@@ -37,7 +37,7 @@ class Hook
             {
                 // css
                 case 'plugins_css' :
-                    $ret = __MY_ROOT_PUBLIC__.'static/plugins/css/freightfee/style.css';
+                    $ret = __MY_ROOT_PUBLIC__.'static/plugins/css/freightfee/index/style.css';
                     break;
 
                 // 运费计算

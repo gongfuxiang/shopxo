@@ -39,13 +39,13 @@ class Hook extends Controller
             {
                 case 'plugins_css' :
                     $ret = [
-                        __MY_ROOT_PUBLIC__.'static/plugins/css/share/iconfont.css',
-                        __MY_ROOT_PUBLIC__.'static/plugins/css/share/style.css',
+                        __MY_ROOT_PUBLIC__.'static/plugins/css/share/index/iconfont.css',
+                        __MY_ROOT_PUBLIC__.'static/plugins/css/share/index/style.css',
                     ];
                     break;
 
                 case 'plugins_js' :
-                    $ret = __MY_ROOT_PUBLIC__.'static/plugins/js/share/style.js';
+                    $ret = __MY_ROOT_PUBLIC__.'static/plugins/js/share/index/style.js';
                     break;
 
                 case 'plugins_view_common_bottom' :

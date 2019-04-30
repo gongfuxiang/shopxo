@@ -85,7 +85,7 @@ class Hook extends Controller
         $ret = $this->IsNormal($params);
         if($ret['code'] == 0)
         {
-            return __MY_ROOT_PUBLIC__.'static/plugins/css/footercustomerservice/style.css';
+            return __MY_ROOT_PUBLIC__.'static/plugins/css/footercustomerservice/index/style.css';
         }
         return '';
     }

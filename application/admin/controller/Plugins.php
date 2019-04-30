@@ -129,14 +129,23 @@ class Plugins extends Common
         // 当前操作名称
         $module_name = 'plugins';
 
+        // 模块组
+        $group = 'admin';
+
         // 控制器静态文件状态css,js
-        $module_css = $module_name.DS.'css'.DS.$plugins_name.DS.$plugins_control;
+        $module_css = $module_name.DS.'css'.DS.$plugins_name.DS.$group.DS.$plugins_control;
         $module_css .= file_exists(ROOT_PATH.'static'.DS.$module_css.'.'.$plugins_action.'.css') ? '.'.$plugins_action.'.css' : '.css';
         $this->assign('module_css', file_exists(ROOT_PATH.'static'.DS.$module_css) ? $module_css : '');
 
-        $module_js = $module_name.DS.'js'.DS.$plugins_name.DS.$plugins_control;
+        $module_js = $module_name.DS.'js'.DS.$plugins_name.DS.$group.DS.$plugins_control;
         $module_js .= file_exists(ROOT_PATH.'static'.DS.$module_js.'.'.$plugins_action.'.js') ? '.'.$plugins_action.'.js' : '.js';
         $this->assign('module_js', file_exists(ROOT_PATH.'static'.DS.$module_js) ? $module_js : '');
+
+        // 应用公共css,js
+        $plugins_css = $module_name.DS.'css'.DS.$plugins_name.DS.$group.DS.'common.css';
+        $this->assign('plugins_css', file_exists(ROOT_PATH.'static'.DS.$plugins_css) ? $plugins_css : '');
+        $plugins_js = $module_name.DS.'js'.DS.$plugins_name.DS.$group.DS.'common.js';
+        $this->assign('plugins_js', file_exists(ROOT_PATH.'static'.DS.$plugins_js) ? $plugins_js : '');
     }
 }
 ?>

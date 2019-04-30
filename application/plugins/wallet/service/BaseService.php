@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: Devil
 // +----------------------------------------------------------------------
-namespace app\plugins\wallet;
+namespace app\plugins\wallet\service;
 
 use think\Db;
 use app\service\PluginsService;
@@ -16,13 +16,13 @@ use app\service\ResourcesService;
 use app\service\PaymentService;
 
 /**
- * 会员等级服务层
+ * 基础服务层
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Service
+class BaseService
 {
     // 基础数据附件字段
     public static $base_config_attachment_field = [
@@ -41,7 +41,7 @@ class Service
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2019-04-30T00:13:14+0800
-     * @param    array                    $params [description]
+     * @param   [array]          $params [输入参数]
      */
     public static function RechargeList($params = [])
     {
@@ -118,7 +118,7 @@ class Service
         // 关键字
         if(!empty($params['keywords']))
         {
-            $where[] = ['recharge_no', 'like', '%'.$params['keywords'].'%'];
+            $where[] = ['recharge_no', '=', $params['keywords']];
         }
 
         return $where;
@@ -176,8 +176,8 @@ class Service
             return DataReturn('添加成功',0, [
                 'recharge_id'   => $recharge_id,
                 'recharge_no'   => $data['recharge_no'],
+                'money'         => $data['money'],
             ]);
-            //return self::Pay($params);
         }
         return DataReturn('添加失败', -100);
     }
@@ -269,7 +269,7 @@ class Service
         {
             $call_back_url = $url.'_respond.php';
         } else {
-            $call_back_url = PluginsHomeUrl('wallet', 'wallet', 'respond', ['paymentname'=>$payment[0]['payment']]);
+            $call_back_url = PluginsHomeUrl('wallet', 'recharge', 'respond', ['paymentname'=>$payment[0]['payment']]);
             if(stripos($call_back_url, '?') !== false)
             {
                 $call_back_url = $url.'_respond.php';
@@ -287,7 +287,7 @@ class Service
             'notify_url'    => $url.'_notify.php',
             'call_back_url' => $call_back_url,
             'site_name'     => MyC('home_site_name', 'ShopXO', true),
-            'ajax_url'      => PluginsHomeUrl('wallet', 'wallet', 'paycheck')
+            'ajax_url'      => PluginsHomeUrl('wallet', 'recharge', 'paycheck')
         );
         $pay_name = 'payment\\'.$payment[0]['payment'];
         $ret = (new $pay_name($payment[0]['config']))->Pay($pay_data);
@@ -337,9 +337,51 @@ class Service
         }
         if($recharge['status'] == 1)
         {
-            return DataReturn('支付成功', 0, ['url'=>PluginsHomeUrl('wallet', 'wallet', 'recharge')]);
+            return DataReturn('支付成功', 0, ['url'=>PluginsHomeUrl('wallet', 'recharge', 'index')]);
         }
         return DataReturn('支付中', -300);
+    }
+
+    /**
+     * 充值纪录删除
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-14
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function RechargeDelete($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '删除数据id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user',
+                'error_msg'         => '用户信息有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 删除
+        $where = [
+            'id'        => intval($params['id']),
+            'user_id'   => $params['user']['id']
+        ];
+        if(Db::name('PluginsWalletRecharge')->where($where)->delete())
+        {
+            return DataReturn('删除成功', 0);
+        }
+        return DataReturn('删除失败或资源不存在', -100);
     }
 }
 ?>

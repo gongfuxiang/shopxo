@@ -24,6 +24,9 @@
 	
 	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/common/css/common.css?v={{:MyC('home_static_cache_version')}}" />
 	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/index/{{$default_theme}}/css/common.css?v={{:MyC('home_static_cache_version')}}" />
+    {{if !empty($plugins_css)}}
+        <link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/{{$plugins_css}}?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
 	{{if !empty($module_css)}}
 		<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/{{$module_css}}?v={{:MyC('home_static_cache_version')}}" />
 	{{/if}}

@@ -53,7 +53,7 @@ class Hook extends Controller
             switch($params['hook_name'])
             {
                 case 'plugins_css' :
-                    $ret = __MY_ROOT_PUBLIC__.'static/plugins/css/membershiplevel/style.css';
+                    $ret = __MY_ROOT_PUBLIC__.'static/plugins/css/membershiplevel/index/style.css';
                     break;
 
                 // 商品数据处理后

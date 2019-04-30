@@ -12,6 +12,9 @@
 	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/common/css/common.css" />
 	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/admin/{{$default_theme}}/css/common.css" />
 	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/admin/{{$default_theme}}/css/iconfontmenu.css" />
+    {{if !empty($plugins_css)}}
+        <link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/{{$plugins_css}}" />
+    {{/if}}
 	{{if !empty($module_css)}}
 		<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/{{$module_css}}" />
 	{{/if}}

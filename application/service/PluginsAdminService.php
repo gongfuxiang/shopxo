@@ -658,6 +658,12 @@ php;
         if(\base\FileUtil::CreateDir($app_static_css_dir) !== true)
         {
             return DataReturn('应用静态目录创建失败[css]', -10);
+        } else {
+            // 后端css目录创建
+            if(\base\FileUtil::CreateDir($app_static_css_dir.DS.'admin') !== true)
+            {
+                return DataReturn('应用静态目录创建失败[css/admin]', -10);
+            }
         }
 
         // 编辑模式下不生成后端文件
@@ -685,7 +691,7 @@ php;
             }
 
             // css创建
-            if(@file_put_contents($app_static_css_dir.DS.'admin.css', $admin_css) === false)
+            if(@file_put_contents($app_static_css_dir.DS.'admin'.DS.'admin.css', $admin_css) === false)
             {
                 return DataReturn('应用静态文件创建失败[admin-css]', -11);
             }
@@ -712,8 +718,14 @@ php;
                 return DataReturn('应用视图文件创建失败[index-view]', -11);
             }
 
+            // 前端css目录创建
+            if(\base\FileUtil::CreateDir($app_static_css_dir.DS.'index') !== true)
+            {
+                return DataReturn('应用静态目录创建失败[css/index]', -10);
+            }
+
             // css创建
-            if(@file_put_contents($app_static_css_dir.DS.'index.css', $index_css) === false)
+            if(@file_put_contents($app_static_css_dir.DS.'index'.DS.'index.css', $index_css) === false)
             {
                 return DataReturn('应用静态文件创建失败[index-css]', -11);
             }
@@ -722,7 +734,7 @@ php;
         } else {
             \base\FileUtil::UnlinkFile($app_dir.DS.'Index.php');
             \base\FileUtil::UnlinkDir(APP_PATH.'plugins'.DS.'view'.DS.trim($params['plugins']).DS.'index');
-            \base\FileUtil::UnlinkFile($app_static_css_dir.DS.'index.css');
+            \base\FileUtil::UnlinkFile($app_static_css_dir.DS.'index'.DS.'index.css');
         }
 
         return DataReturn('创建成功', 0);

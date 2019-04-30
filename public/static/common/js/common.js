@@ -992,7 +992,7 @@ function ConfirmNetworkAjax(e)
 	AMUI.dialog.confirm({
 		title: title,
 		content: msg,
-		onConfirm: function(e)
+		onConfirm: function(result)
 		{
 			AjaxRequest(e);
 		},

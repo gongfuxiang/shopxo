@@ -23,7 +23,7 @@
     <div class="user-content">
         <div class="user-content-body">
             <!-- user menu start -->
-            {{include file="../../../plugins/view/wallet/wallet/nav" /}}
+            {{include file="../../../plugins/view/wallet/public/nav" /}}
             <!-- user menu end -->
 
             <form class="am-form form-validation" method="post" action="{{:PluginsHomeUrl('wallet', 'wallet', 'recharge')}}" request-type="form">
@@ -54,15 +54,16 @@
                     <tbody>
                         {{if !empty($data_list)}}
                             {{foreach $data_list as $v}}
-                                <tr>
+                                <tr id="data-list-{{$v.id}}">
                                     <td>{{$v.recharge_no}}</td>
-                                    <td>{{$v.money}}</td>
+                                    <td class="money">+{{$v.money}}</td>
                                     <td>{{$v.status_text}}</td>
                                     <td class="am-hide-sm-only">{{$v.payment_name}}</td>
                                     <td class="am-hide-sm-only">{{$v.pay_time_text}}</td>
                                     <td class="am-hide-sm-only">{{$v.add_time_text}}</td>
                                     <td>
-                                        <button class="am-btn am-btn-success am-topbar-btn am-btn-sm am-icon-shield recharge-submit" data-value="{{$v.id}}"> 继续支付</button>
+                                        <button class="am-btn am-btn-success am-btn-xs am-radius am-icon-shield recharge-submit" data-value="{{$v.id}}" data-recharge-no="{{$v.recharge_no}}" data-money="{{$v.money}}"> 支付</button>
+                                        <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:PluginsHomeUrl('wallet', 'recharge', 'delete')}}" data-id="{{$v.id}}" data-view="delete"> 删除</button>
                                     </td>
                                 </tr>
                             {{/foreach}}

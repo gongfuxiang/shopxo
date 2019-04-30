@@ -1,5 +1,5 @@
 /* 筛选 */
-.thin, .pay-list { overflow:hidden; }
+.thin { overflow:hidden; }
 .thin .so { width:66%; }
 .thin_sub { font-weight:100; margin:10px 0px 0px 10px; cursor: pointer; }
 .so-list { width:100%; margin-top: 10px; }
@@ -32,10 +32,32 @@
 }
 
 /**
- * 列表
+ * 导航
  */
-.user-content-body .data-list {
-    margin-top: 10px;
+.user-content-body .am-nav {
+    border-bottom: 1px solid #eee;
+}
+.user-content-body .am-nav li {
+    margin-bottom: -1px;
+}
+.user-content-body .am-nav li a {
+    font-size: 14px;
+}
+.user-content-body .am-nav .am-active {
+    border-bottom: 2px solid #ed5565;
+    
+}
+.user-content-body .am-nav > li > a:hover, .user-content-body .am-nav > li > a:focus {
+    background: transparent;
+}
+.user-content-body .am-nav .am-topbar-right {
+    margin-right: 0;
+}
+.user-content-body .am-nav .am-topbar-right .am-btn:not(:last-child) {
+    margin-right: 5px;
+}
+.user-content-body .am-nav .am-topbar-right .am-topbar-btn {
+    margin-top: 0;
 }
 
 /**
@@ -68,35 +90,6 @@
 }
 
 /**
- * 导航
- */
-.user-content-body .am-nav {
-    border-bottom: 1px solid #eee;
-}
-.user-content-body .am-nav li {
-    margin-bottom: -1px;
-}
-.user-content-body .am-nav li a {
-    font-size: 14px;
-}
-.user-content-body .am-nav .am-active {
-    border-bottom: 2px solid #ed5565;
-    
-}
-.user-content-body .am-nav > li > a:hover, .user-content-body .am-nav > li > a:focus {
-    background: transparent;
-}
-.user-content-body .am-nav .am-topbar-right {
-    margin-right: 0;
-}
-.user-content-body .am-nav .am-topbar-right .am-btn:not(:last-child) {
-    margin-right: 5px;
-}
-.user-content-body .am-nav .am-topbar-right .am-topbar-btn {
-    margin-top: 0;
-}
-
-/**
  * 业务弹窗
  */
 .user-content-body .business-item label { margin-bottom: 0px; }
@@ -104,7 +97,8 @@
 .user-content-body .business-item ul { padding: 5px 1px; overflow: hidden; }
 .user-content-body .business-item ul li { border:1px solid transparent ;overflow: hidden; float: left; cursor: pointer; padding: 5px; border: 1px solid #eee; margin: 0 10px 10px 0; background: #fff; }
 .user-content-body .business-item ul  li img { width: 36px; height: 36px; }
-.user-content-body .business-item ul li:hover, .user-content-body .business-item ul li.selected { border-color: #e23f36 ; position: relative; box-shadow: 0px 0 0px 1px #e23f36; }
+.user-content-body .business-item ul li:hover, .user-content-body .business-item ul li.selected { border-color: #e4383c ; position: relative; box-shadow: 0px 0 0px 1px #e4383c; }
+.user-content-body .business-item li.selected i.icon-active { position: absolute; width: 10px; height: 10px; font-size: 0; line-height: 0; right: 0px; bottom: 0px; background: url(../../images/wallet/sys_item_selected.gif) no-repeat right bottom; }
 @media only screen and (min-width:640px) {
     .user-content-body .business-item ul li {width:calc(33% - 5px); }
     .user-content-body .business-item ul li:nth-child(3n) { margin-right: 0; }
@@ -128,4 +122,28 @@
 #plugins-recharge-pay-popup input[name="payment_id"] {
     margin-left: -10000px;
     position: absolute;
+}
+#plugins-recharge-pay-popup .base {
+    margin-bottom: 15px;
+    padding: 5px 10px;
+    background: #f6f6f6;
+    border: 1px solid #efefef;
+}
+#plugins-recharge-pay-popup .base p {
+    line-height: 24px;
+}
+#plugins-recharge-pay-popup .base .recharge-no {
+    font-weight: 700;
+    color: #666;
+}
+
+
+/**
+ * 列表
+ */
+.user-content-body .data-list {
+    margin-top: 10px;
+}
+.user-content-body .data-list .money {
+    color: #E4393C;
 }
