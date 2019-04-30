@@ -98,7 +98,7 @@
 .user-content-body .business-item ul li { border:1px solid transparent ;overflow: hidden; float: left; cursor: pointer; padding: 5px; border: 1px solid #eee; margin: 0 10px 10px 0; background: #fff; }
 .user-content-body .business-item ul  li img { width: 36px; height: 36px; }
 .user-content-body .business-item ul li:hover, .user-content-body .business-item ul li.selected { border-color: #e4383c ; position: relative; box-shadow: 0px 0 0px 1px #e4383c; }
-.user-content-body .business-item li.selected i.icon-active { position: absolute; width: 10px; height: 10px; font-size: 0; line-height: 0; right: 0px; bottom: 0px; background: url(../../images/wallet/sys_item_selected.gif) no-repeat right bottom; }
+.user-content-body .business-item li.selected i.icon-active { position: absolute; width: 10px; height: 10px; font-size: 0; line-height: 0; right: 0px; bottom: 0px; background: url(../../../images/wallet/sys_item_selected.gif) no-repeat right bottom; }
 @media only screen and (min-width:640px) {
     .user-content-body .business-item ul li {width:calc(33% - 5px); }
     .user-content-body .business-item ul li:nth-child(3n) { margin-right: 0; }

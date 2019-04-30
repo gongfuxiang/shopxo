@@ -12,7 +12,7 @@
     left: 0;
     width: 100%;
     height: 20px;
-    background: url(../../images/membershiplevel/flash.gif) no-repeat center;
+    background: url(../../../images/membershiplevel/flash.gif) no-repeat center;
     background-size: contain;
     opacity: 0.3;
 }

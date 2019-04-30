@@ -169,26 +169,6 @@ ul.progress li.current .title {
     }
 }
 
-
-/**
- * 支付弹窗
- */
-.business-item h3 { border-bottom: 3px solid #e3e3e3; margin-top:5px; font-size: 14px;font-weight: 700; }
-.business-item ul { padding: 10px 3px 5px 5px; overflow: hidden; }
-.business-item ul li { border:1px solid transparent ;overflow: hidden; float: left; cursor: pointer; padding: 5px; border: 1px solid #eee; margin: 0 10px 10px 0; }
-.business-item ul  li img { width: 36px; height: 36px; }
-.business-item ul li.selected { border-color: #d2364c ; position: relative; }
-.business-item ul li.selected i.icon-active { position: absolute; width: 10px; height: 10px; font-size: 0; line-height: 0; right: 0px; bottom: 0px; background: url(../images/sys_item_selected.gif) no-repeat right bottom; }
-@media only screen and (min-width:640px) {
-  .business-item ul li {width:calc(33% - 5px); }
-  .business-item ul li:nth-child(3n) { margin-right: 0; }
-}
-@media only screen and (max-width:640px) {
-  .business-item ul li { width: calc(50% - 5px); }
-  .business-item ul li:nth-child(2n) { margin-right: 0; }
-}
-
-
 /**
  * 商品列表
  */
@@ -208,11 +188,3 @@ strong.total-price-content { color: #d2364c; font-size: 16px; }
 .am-table { margin-bottom: 10px; }
 .am-table > tbody > tr > td { border-top: 1px solid #F5F5F5; }
 .am-table > thead > tr > th { border-bottom: 1px solid #f7f7f7; }
-
-@media only screen and (min-width:640px)  {
-    .cart-content table tr .base { width: 40%; }
-    .cart-content table tr .price { width: 20%; }
-    .cart-content table tr .number { width: 20%; }
-    .cart-content table tr .total-price { width: 20%; }
-    .cart-content { margin-top: 20px; }
-}
