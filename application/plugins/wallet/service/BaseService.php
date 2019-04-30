@@ -14,6 +14,7 @@ use think\Db;
 use app\service\PluginsService;
 use app\service\ResourcesService;
 use app\service\PaymentService;
+use app\plugins\wallet\service\WalletService;
 
 /**
  * 基础服务层
@@ -83,7 +84,7 @@ class BaseService
     }
 
     /**
-     * 总数
+     * 充值列表总数
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -105,7 +106,7 @@ class BaseService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function RechargeListWhere($params = [])
+    public static function RechargeWhere($params = [])
     {
         $where = [];
 
@@ -382,6 +383,102 @@ class BaseService
             return DataReturn('删除成功', 0);
         }
         return DataReturn('删除失败或资源不存在', -100);
+    }
+
+
+    /**
+     * 钱包明细列表
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-04-30T00:13:14+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public static function WalletLogList($params = [])
+    {
+        $where = empty($params['where']) ? [] : $params['where'];
+        $m = isset($params['m']) ? intval($params['m']) : 0;
+        $n = isset($params['n']) ? intval($params['n']) : 10;
+        $field = empty($params['field']) ? '*' : $params['field'];
+        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
+
+        // 获取数据列表
+        $data = Db::name('PluginsWalletLog')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
+        if(!empty($data))
+        {
+            $business_type_list = WalletService::$business_type_list;
+            $operation_type_list = WalletService::$operation_type_list;
+            $money_type_list = WalletService::$money_type_list;
+            foreach($data as &$v)
+            {
+                // 业务类型
+                $v['business_type_text'] = (isset($v['business_type']) && isset($business_type_list[$v['business_type']])) ? $business_type_list[$v['business_type']]['name'] : '未知';
+
+                // 操作类型
+                $v['operation_type_text'] = (isset($v['operation_type']) && isset($operation_type_list[$v['operation_type']])) ? $operation_type_list[$v['operation_type']]['name'] : '未知';
+
+                // 金额类型
+                $v['money_type_text'] = (isset($v['money_type']) && isset($money_type_list[$v['money_type']])) ? $money_type_list[$v['money_type']]['name'] : '未知';
+
+                // 创建时间
+                $v['add_time_text'] = empty($v['add_time']) ? '' : date('Y-m-d H:i:s', $v['add_time']);
+            }
+        }
+        return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
+     * 钱包明细总数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $where [条件]
+     */
+    public static function WalletLogTotal($where = [])
+    {
+        return (int) Db::name('PluginsWalletLog')->where($where)->count();
+    }
+
+    /**
+     * 钱包明细条件
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function WalletLogWhere($params = [])
+    {
+        $where = [];
+
+        // 用户id
+        if(!empty($params['user']))
+        {
+            $where[] = ['user_id', '=', $params['user']['id']];
+        }
+
+        // 业务类型
+        if(isset($params['business_type']) && $params['business_type'] > -1)
+        {
+            $where[] = ['business_type', '=', $params['business_type']];
+        }
+
+        // 操作类型
+        if(isset($params['operation_type']) && $params['operation_type'] > -1)
+        {
+            $where[] = ['operation_type', '=', $params['operation_type']];
+        }
+
+        // 金额类型
+        if(isset($params['money_type']) && $params['money_type'] > -1)
+        {
+            $where[] = ['money_type', '=', $params['money_type']];
+        }
+
+        return $where;
     }
 }
 ?>

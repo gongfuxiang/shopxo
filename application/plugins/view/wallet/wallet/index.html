@@ -31,12 +31,36 @@
                     <tbody>
                         <tr>
                             <td>
-                                <span>类型：</span>
-                                <select name="type" class="chosen-select" data-placeholder="操作类型...">
+                                <span>业务：</span>
+                                <select name="business_type" class="chosen-select" data-placeholder="业务类型...">
+                                    <option value="-1">业务类型...</option>
+                                    {{if !empty($business_type_list)}}
+                                        {{foreach $business_type_list as $v}}
+                                            <option value="{{$v.value}}" {{if isset($params['business_type']) and $params['business_type'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </select>
+                            </td>
+                            <td>
+                                <span>操作：</span>
+                                <select name="operation_type" class="chosen-select" data-placeholder="操作类型...">
                                     <option value="-1">操作类型...</option>
-                                    {{if !empty($common_integral_log_type_list)}}
-                                        {{foreach $common_integral_log_type_list as $v}}
-                                            <option value="{{$v.id}}" {{if isset($params['type']) and $params['type'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                    {{if !empty($operation_type_list)}}
+                                        {{foreach $operation_type_list as $v}}
+                                            <option value="{{$v.value}}" {{if isset($params['operation_type']) and $params['operation_type'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>金额：</span>
+                                <select name="money_type" class="chosen-select" data-placeholder="金额类型...">
+                                    <option value="-1">金额类型...</option>
+                                    {{if !empty($money_type_list)}}
+                                        {{foreach $money_type_list as $v}}
+                                            <option value="{{$v.value}}" {{if isset($params['money_type']) and $params['money_type'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                                         {{/foreach}}
                                     {{/if}}
                                 </select>
@@ -55,28 +79,43 @@
                 <table class="am-table">
                     <thead>
                         <tr>
+                            <th>业务类型</th>
                             <th>操作类型</th>
-                            <th class="am-hide-sm-only">描述</th>
-                            <th>原始积分</th>
-                            <th>最新积分</th>
-                            <th class="am-hide-sm-only">时间</th>
+                            <th>金额类型</th>
+                            <th>操作金额(元)</th>
+                            <th class="am-hide-sm-only">变更说明</th>
+                            <th class="am-hide-sm-only">创建时间</th>
                         </tr>
                     </thead>
                     <tbody>
                         {{if !empty($data_list)}}
                             {{foreach $data_list as $v}}
                                 <tr>
-                                    <td>{{$v.type_name}}</td>
+                                    <td>{{$v.business_type_text}}</td>
+                                    <td>
+                                        {{if $v['operation_type'] eq 0}}
+                                            <span class="operation-reduce-icon">{{$v.operation_type_text}}</span>
+                                        {{elseif $v['operation_type'] eq 1}}
+                                            <span class="operation-increase-icon">{{$v.operation_type_text}}</span>
+                                        {{/if}}
+                                    </td>
+                                    <td>{{$v.money_type_text}}</td>
+                                    <td>
+                                        {{if $v['operation_type'] eq 0}}
+                                            <span class="operation-reduce-icon">-</span>
+                                        {{elseif $v['operation_type'] eq 1}}
+                                            <span class="operation-increase-icon">+</span>
+                                        {{/if}}
+                                        <span class="money">{{$v.money}}</span>
+                                    </td>
                                     <td class="am-hide-sm-only">{{$v.msg}}</td>
-                                    <td>{{$v.original_integral}}</td>
-                                    <td>{{$v.new_integral}}</td>
-                                    <td class="am-hide-sm-only">{{$v.add_time_time}}</td>
+                                    <td class="am-hide-sm-only">{{$v.add_time_text}}</td>
                                 </tr>
                             {{/foreach}}
                         {{/if}}
                         {{if empty($data_list)}}
                             <tr>
-                                <td colspan="5">
+                                <td colspan="6">
                                     <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
                                 </td>
                             </tr>

@@ -67,7 +67,7 @@ class Hook extends Controller
         $params['data']['property']['item'][] = [
             'name'      =>  '我的钱包',
             'url'       =>  PluginsHomeUrl('wallet', 'wallet', 'index'),
-            'contains'  =>  ['walletindex'],
+            'contains'  =>  ['walletindex', 'rechargeindex', 'cashindex'],
             'is_show'   =>  1,
             'icon'      =>  'am-icon-github-alt',
         ];

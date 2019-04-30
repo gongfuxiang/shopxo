@@ -52,7 +52,7 @@ class Recharge extends Common
         $number = MyC('admin_page_number', 10, true);
 
         // 条件
-        $where = BaseService::RechargeListWhere($params);
+        $where = BaseService::RechargeWhere($params);
 
         // 获取总数
         $total = BaseService::RechargeTotal($where);

@@ -11,9 +11,8 @@
 namespace app\plugins\wallet;
 
 use app\plugins\wallet\Common;
-use app\plugins\wallet\BusinessService;
-use app\service\PluginsService;
-use app\service\IntegralService;
+use app\plugins\wallet\service\BaseService;
+use app\plugins\wallet\service\WalletService;
 
 /**
  * 钱包 - 账户明细
@@ -48,17 +47,16 @@ class Wallet extends Common
     public function index($params = [])
     {
         // 参数
-        $params = input();
         $params['user'] = $this->user;
 
         // 分页
-        $number = 10;
+        $number = MyC('admin_page_number', 10, true);
 
         // 条件
-        $where = IntegralService::UserIntegralLogListWhere($params);
+        $where = BaseService::WalletLogWhere($params);
 
         // 获取总数
-        $total = IntegralService::UserIntegralLogTotal($where);
+        $total = BaseService::WalletLogTotal($where);
 
         // 分页
         $page_params = array(
@@ -66,7 +64,7 @@ class Wallet extends Common
                 'total'     =>  $total,
                 'where'     =>  $params,
                 'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  MyUrl('index/userintegral/index'),
+                'url'       =>  PluginsHomeUrl('wallet', 'wallet', 'index'),
             );
         $page = new \base\Page($page_params);
         $this->assign('page_html', $page->GetPageHtml());
@@ -77,11 +75,13 @@ class Wallet extends Common
             'n'         => $number,
             'where'     => $where,
         );
-        $data = IntegralService::UserIntegralLogList($data_params);
+        $data = BaseService::WalletLogList($data_params);
         $this->assign('data_list', $data['data']);
 
-        // 操作类型
-        $this->assign('common_integral_log_type_list', lang('common_integral_log_type_list'));
+        // 静态数据
+        $this->assign('business_type_list', WalletService::$business_type_list);
+        $this->assign('operation_type_list', WalletService::$operation_type_list);
+        $this->assign('money_type_list', WalletService::$money_type_list);
 
         // 参数
         $this->assign('params', $params);

@@ -31,6 +31,26 @@ class WalletService
         2 => ['value' => 2, 'name' => '已注销'],
     ];
 
+    // 业务类型
+    public static $business_type_list = [
+        0 => ['value' => 0, 'name' => '充值', 'checked' => true],
+        1 => ['value' => 1, 'name' => '提现'],
+        2 => ['value' => 2, 'name' => '消费'],
+    ];
+
+    // 操作类型
+    public static $operation_type_list = [
+        0 => ['value' => 0, 'name' => '减少', 'checked' => true],
+        1 => ['value' => 1, 'name' => '增加'],
+    ];
+
+    // 金额类型
+    public static $money_type_list = [
+        0 => ['value' => 0, 'name' => '正常', 'checked' => true],
+        1 => ['value' => 1, 'name' => '冻结'],
+    ];
+    
+
     /**
      * 用户钱包
      * @author   Devil
