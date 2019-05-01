@@ -4,46 +4,82 @@
 <div class="content-right">
     <div class="content">
         <legend>
-            <span class="fs-16">会员等级</span>
+            <span class="fs-16">钱包</span>
             <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
         </legend>
 
-        <div class="membershiplevel-content">
+        <div class="wallet-content">
             <!-- 基础数据 -->
-            <div class="am-panel am-panel-secondary membershiplevel-middle-banner">
+            <div class="am-panel am-panel-secondary wallet-content-base">
                 <div class="am-panel-hd">
                     <span class="am-panel-title">基础数据</span>
-                    <a class="am-fr" href="{{:PluginsAdminUrl('membershiplevel', 'admin', 'saveinfo')}}">编辑</a>
+                    <a class="am-fr" href="{{:PluginsAdminUrl('wallet', 'admin', 'saveinfo')}}">编辑</a>
                 </div>
                 <div class="am-panel-bd">
-                    <div class="items">
-                        <label>等级规则模式</label>
-                        <div>
-                            {{if isset($data['level_rules']) and isset($members_level_rules_list[$data['level_rules']])}}
-                                {{:$members_level_rules_list[$data['level_rules']]['name']}}
-                            {{else /}}
-                                未设置，默认[ 积分（可用积分）]
-                            {{/if}}
-                        </div>
-                    </div>
-
-                    <div class="items">
-                        <label>默认等级图标</label>
-                        <div class="immages-tag">
-                            <img src="{{if !empty($data['default_level_images'])}}{{$data.default_level_images}}{{else /}}{{$attachment_host}}/static/plugins/images/membershiplevel/level-default-images.png{{/if}}" />
-                        </div>
-                    </div>
+                    <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-4 am-avg-lg-4 am-gallery-default" data-am-gallery="{ pureview: true }" >
+                        <li>
+                            <div class="items">
+                                <label>开启充值</label>
+                                <div>
+                                    {{if isset($data['is_recharge']) and $data['is_recharge'] eq 1}}
+                                        是
+                                    {{else /}}
+                                        否
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="items">
+                                <label>开启提现申请</label>
+                                <div>
+                                    {{if isset($data['is_cash']) and $data['is_cash'] eq 1}}
+                                        是
+                                    {{else /}}
+                                        否
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="items">
+                                <label>开启余额支付功能</label>
+                                <div>
+                                    {{if isset($data['is_pay']) and $data['is_pay'] eq 1}}
+                                        是
+                                    {{else /}}
+                                        否
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="items">
+                                <label>充值赠送</label>
+                                <div>
+                                    {{if isset($data['recharge_give_type']) and isset($data['recharge_give_value']) and $data['recharge_give_value'] gt 0}}
+                                        {{if $data['recharge_give_type'] eq 0}}
+                                            固定金额（{{$data.recharge_give_value}}元）
+                                        {{elseif $data['recharge_give_type'] eq 1 /}}
+                                            比例（{{$data.recharge_give_value}}%）
+                                        {{/if}}
+                                    {{else /}}
+                                        不赠送
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- 会员等级 -->
-            <div class="am-panel am-panel-secondary membershiplevel-level-list">
+            <!-- 管理 -->
+            <div class="am-panel am-panel-secondary wallet-middle-list">
                 <div class="am-panel-hd">
-                    <span class="am-panel-title">会员等级</span>
-                    <a class="am-fr" href="{{:PluginsAdminUrl('membershiplevel', 'level', 'index')}}">编辑</a>
+                    <span class="am-panel-title">管理</span>
                 </div>
                 <div class="am-panel-bd">
-                    <iframe src="{{:PluginsAdminUrl('membershiplevel', 'level', 'index', ['is_admin_index'=>1])}}"></iframe>
+                    hello
                 </div>
             </div>
         </div>

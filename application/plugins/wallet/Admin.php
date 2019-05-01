@@ -11,7 +11,7 @@
 namespace app\plugins\wallet;
 
 use think\Controller;
-use app\plugins\wallet\Service;
+use app\plugins\wallet\service\BaseService;
 use app\service\PluginsService;
 
 /**
@@ -33,12 +33,9 @@ class Admin extends Controller
      */
     public function index($params = [])
     {
-        $ret = PluginsService::PluginsData('wallet', Service::$base_config_attachment_field, false);
+        $ret = PluginsService::PluginsData('wallet', '', false);
         if($ret['code'] == 0)
-        {
-            // 等级规则
-            $this->assign('members_level_rules_list', Service::$members_level_rules_list);
-            
+        {            
             $this->assign('data', $ret['data']);
             return $this->fetch('../../../plugins/view/wallet/admin/index');
         } else {
@@ -56,11 +53,22 @@ class Admin extends Controller
      */
     public function saveinfo($params = [])
     {
-        $ret = PluginsService::PluginsData('wallet', Service::$base_config_attachment_field, false);
+        $ret = PluginsService::PluginsData('wallet', '', false);
         if($ret['code'] == 0)
         {
-            // 等级规则
-            $this->assign('members_level_rules_list', Service::$members_level_rules_list);
+            // 是否
+            $is_whether_list =  [
+                0 => array('value' => 0, 'name' => '否', 'checked' => true),
+                1 => array('value' => 1, 'name' => '是'),
+            ];
+            $this->assign('is_whether_list', $is_whether_list);
+
+            // 充值赠送类型
+            $recharge_give_type_list =  [
+                0 => array('value' => 0, 'name' => '固定金额', 'checked' => true),
+                1 => array('value' => 1, 'name' => '比例'),
+            ];
+            $this->assign('recharge_give_type_list', $recharge_give_type_list);
 
             $this->assign('data', $ret['data']);
             return $this->fetch('../../../plugins/view/wallet/admin/saveinfo');
@@ -79,8 +87,6 @@ class Admin extends Controller
      */
     public function save($params = [])
     {
-        $level = Service::LevelDataList();
-        $params['level_list'] = $level['data'];
         return PluginsService::PluginsDataSave(['plugins'=>'wallet', 'data'=>$params]);
     }
 }

@@ -4,35 +4,65 @@
 <div class="content-right">
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('membershiplevel', 'admin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('membershiplevel', 'admin', 'index')}}" enctype="multipart/form-data">
+        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('wallet', 'admin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('wallet', 'admin', 'index')}}" enctype="multipart/form-data">
             <legend>
-                <span class="fs-16">会员等级</span>
-                <a href="{{:PluginsAdminUrl('membershiplevel', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+                <span class="fs-16">钱包</span>
+                <a href="{{:PluginsAdminUrl('wallet', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
             </legend>
             
             <div class="am-form-group">
-                <label>等级规则模式<span class="am-form-group-label-tips">默认积分</span></label>
+                <label>开启充值<span class="am-form-group-label-tips">默认关闭</span></label>
                 <div>
-                    {{foreach $members_level_rules_list as $v}}
+                    {{foreach $is_whether_list as $v}}
                         <label class="am-radio-inline m-r-10">
-                            <input type="radio" name="level_rules" value="{{$v.value}}" {{if isset($data['level_rules']) and $data['level_rules'] eq $v['value']}}checked="checked"{{else /}}{{if !isset($data['level_rules']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                            <input type="radio" name="is_recharge" value="{{$v.value}}" {{if isset($data['is_recharge']) and $data['is_recharge'] eq $v['value']}}checked="checked"{{else /}}{{if !isset($data['is_recharge']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
                         </label>
                     {{/foreach}}
                 </div>
             </div>
 
-            <div class="am-form-group am-form-file">
-                <label class="block">默认等级图标<span class="am-form-group-label-tips">建议50像数X50像数</span></label>
-                <ul class="plug-file-upload-view plugins-default_level_images-view" data-form-name="default_level_images" data-max-number="1" data-dialog-type="images">
-                    {{if !empty($data['default_level_images'])}}
-                        <li>
-                            <input type="text" name="default_level_images" value="{{$data.default_level_images_old}}" data-validation-message="请上传默认等级图标" />
-                            <img src="{{$data.default_level_images}}" />
-                            <i>×</i>
-                        </li>
-                    {{/if}}
-                </ul>
-                <div class="plug-file-upload-submit" data-view-tag="ul.plugins-default_level_images-view">+上传图片</div>
+            <div class="am-form-group">
+                <label>开启提现申请<span class="am-form-group-label-tips">默认关闭</span></label>
+                <div>
+                    {{foreach $is_whether_list as $v}}
+                        <label class="am-radio-inline m-r-10">
+                            <input type="radio" name="is_cash" value="{{$v.value}}" {{if isset($data['is_cash']) and $data['is_cash'] eq $v['value']}}checked="checked"{{else /}}{{if !isset($data['is_cash']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+            </div>
+
+            <div class="am-form-group">
+                <label>开启余额支付功能<span class="am-form-group-label-tips">默认关闭</span></label>
+                <div>
+                    {{foreach $is_whether_list as $v}}
+                        <label class="am-radio-inline m-r-10">
+                            <input type="radio" name="is_pay" value="{{$v.value}}" {{if isset($data['is_pay']) and $data['is_pay'] eq $v['value']}}checked="checked"{{else /}}{{if !isset($data['is_pay']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+            </div>
+
+            <div class="am-alert am-alert-warning" data-am-alert="">
+                <button type="button" class="am-close">&times;</button>
+                <p>
+                    赠送金额规则，小于0或空则不赠送<br>
+                    <span class="mini-tips-text">
+                        固定金额：填写相应的金额即可<br>
+                        比例：填写百分比数值，如 10% 则填写 10（小数保留两位、四舍五入）
+                    </span>
+                </p>
+            </div>
+            <div class="am-form-group">
+                <label>充值赠送<span class="am-form-group-label-tips">默认固定金额</span></label>
+                <div>
+                    {{foreach $recharge_give_type_list as $v}}
+                        <label class="am-radio-inline m-r-10">
+                            <input type="radio" name="recharge_give_type" value="{{$v.value}}" {{if isset($data['recharge_give_type']) and $data['recharge_give_type'] eq $v['value']}}checked="checked"{{else /}}{{if !isset($data['recharge_give_type']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+                <input type="number" name="recharge_give_value" placeholder="充值赠送金额值" step="0.01" data-validation-message="请填写有效的充值赠送金额值" class="am-radius m-t-10" {{if !empty($data['recharge_give_value']) and $data['recharge_give_value'] gt 0}} value="{{$data.recharge_give_value}}"{{/if}} />
             </div>
 
             <div class="am-form-group am-form-group-refreshing">

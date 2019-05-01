@@ -1,0 +1,12 @@
+/**
+ * 首页
+ */
+.wallet-content-base .am-panel-bd, .wallet-content-base .items {
+    padding: 10px;
+}
+.wallet-content-base .am-panel-bd .am-gallery {
+    padding: 0;
+}
+.wallet-content-base .items {
+    border: 1px dashed #eee;
+}
