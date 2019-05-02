@@ -48,7 +48,7 @@ return array (
   ),
   'plugins_css' => 
   array (
-    0 => 'app\\plugins\\commonrightnavigation\\Hook',
+    0 => 'app\\plugins\\commononlineservice\\Hook',
     1 => 'app\\plugins\\freightfee\\Hook',
     2 => 'app\\plugins\\share\\Hook',
     3 => 'app\\plugins\\footercustomerservice\\Hook',
@@ -56,12 +56,12 @@ return array (
   ),
   'plugins_js' => 
   array (
-    0 => 'app\\plugins\\commonrightnavigation\\Hook',
+    0 => 'app\\plugins\\commononlineservice\\Hook',
     1 => 'app\\plugins\\share\\Hook',
   ),
   'plugins_view_common_bottom' => 
   array (
-    0 => 'app\\plugins\\commonrightnavigation\\Hook',
+    0 => 'app\\plugins\\commononlineservice\\Hook',
     1 => 'app\\plugins\\expressforkdn\\Hook',
     2 => 'app\\plugins\\share\\Hook',
   ),

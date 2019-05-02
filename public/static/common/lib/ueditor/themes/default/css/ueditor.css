@@ -1919,7 +1919,7 @@ div.edui-box {
         left: 10px !important;
         width: calc(100% - 20px) !important;
     }
-    .edui-default .edui-for-emotion {
+    .edui-default .edui-popup.edui-for-emotion {
         left: 10px !important;
         width: calc(100% - 20px) !important;
     }

@@ -43,6 +43,9 @@ select {height:28px !important;}
 .o-h { overflow: hidden; }
 .submit-state { font-size: 16px; width: 25px; height: 25px; line-height: 25px; }
 input:hover, select:hover, textarea:hover, .chosen-choices:hover, .chosen-single:hover { border-style:solid; border-width:1px; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; border:1px solid #4FACF5 !important; box-shadow:0 0 5px #4FACF5 !important; }
+.am-input-group-sm > .am-input-group-btn > .am-btn,
+.am-input-group-sm > .am-form-field,
+.am-input-group-sm > .am-input-group-label,
 .am-input-group-sm > .am-input-group-btn > .am-btn { height: 28px; font-size: 12px !important; }
 .left-menu-more-ico-rotate {-webkit-transform: rotate(-90deg);transform: rotate(-90deg);-webkit-transition: all 300ms;transition: all 300ms;}
 .am-icon-angle-down {-webkit-transition: all 300ms;transition: all 300ms;}

@@ -26,7 +26,10 @@ button { outline: none; }
 .am-form select, .am-form textarea, .am-form input[type="text"], .am-form input[type="password"], .am-form input[type="datetime"], .am-form input[type="datetime-local"], .am-form input[type="date"], .am-form input[type="month"], .am-form input[type="time"], .am-form input[type="week"], .am-form input[type="number"], .am-form input[type="email"], .am-form input[type="url"], .am-form input[type="search"], .am-form input[type="tel"], .am-form input[type="color"], .am-form-field {
     font-size: 12px;
 }
-.am-input-group-sm > .am-input-group-btn > .am-btn, .am-input-group-sm > .am-form-field {
+.am-input-group-sm > .am-input-group-btn > .am-btn,
+.am-input-group-sm > .am-form-field,
+.am-input-group-sm > .am-input-group-label,
+.am-input-group-sm > .am-input-group-btn > .am-btn {
     height: 28px;
     font-size: 12px !important;
 }

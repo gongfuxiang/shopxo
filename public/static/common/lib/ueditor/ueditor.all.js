@@ -6895,7 +6895,6 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
                 container = document.getElementById(container);
             }
             if (container) {
-                options.initialFrameWidth = 100
                 if(options.initialFrameWidth){
                     options.minFrameWidth = options.initialFrameWidth
                 }else{
