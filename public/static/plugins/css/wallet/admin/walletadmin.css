@@ -3,11 +3,18 @@
 }
 @media only screen and (min-width: 641px) {
     .form-search .form-keyword input {
-        width: 50%;
+        width: 260px;
+    }
+    .form-search .chosen-container, .form-search select {
+        width: 150px !important;
+        display: -webkit-inline-box;
+    }
+    .form-search .chosen-container-single .chosen-single {
+        width: 100%;
     }
 }
 @media only screen and (max-width: 641px) {
-    .form-search .form-keyword input {
-        width: calc(100% - 54px);
+    .form-search .form-search-items {
+        margin-bottom: 10px;
     }
 }

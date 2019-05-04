@@ -49,7 +49,85 @@ class WalletService
         0 => ['value' => 0, 'name' => '正常', 'checked' => true],
         1 => ['value' => 1, 'name' => '冻结'],
     ];
-    
+
+    /**
+     * 钱包列表
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-04-30T00:13:14+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public static function WalletList($params = [])
+    {
+        $where = empty($params['where']) ? [] : $params['where'];
+        $m = isset($params['m']) ? intval($params['m']) : 0;
+        $n = isset($params['n']) ? intval($params['n']) : 10;
+        $field = empty($params['field']) ? '*' : $params['field'];
+        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
+
+        // 获取数据列表
+        $data = Db::name('PluginsWallet')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
+        if(!empty($data))
+        {
+            $wallet_status_list = WalletService::$wallet_status_list;
+            foreach($data as &$v)
+            {
+                // 状态
+                $v['status_text'] = (isset($v['status']) && isset($wallet_status_list[$v['status']])) ? $wallet_status_list[$v['status']]['name'] : '未知';
+
+                // 创建时间
+                $v['add_time_text'] = empty($v['add_time']) ? '' : date('Y-m-d H:i:s', $v['add_time']);
+            }
+        }
+        return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
+     * 钱包总数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $where [条件]
+     */
+    public static function WalletTotal($where = [])
+    {
+        return (int) Db::name('PluginsWallet')->where($where)->count();
+    }
+
+    /**
+     * 钱包条件
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function WalletWhere($params = [])
+    {
+        $where = [];
+
+        // 用户
+        if(!empty($params['keywords']))
+        {
+            $user_ids = Db::name('User')->where('username|mobile|email', 'like', '%'.$params['keywords'].'%')->column('id');
+            if(!empty($user_ids))
+            {
+                $where[] = ['user_id', 'in', $user_ids];
+            }
+        }
+
+        // 状态
+        if(isset($params['status']) && $params['status'] > -1)
+        {
+            $where[] = ['status', '=', $params['status']];
+        }
+
+        return $where;
+    }
 
     /**
      * 用户钱包

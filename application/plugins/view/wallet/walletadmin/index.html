@@ -5,7 +5,7 @@
     <div class="content">
         {{if !isset($params['is_admin_index']) or $params['is_admin_index'] neq 1}}
             <legend>
-                <span class="fs-16">钱包插件</span>
+                <span class="fs-16">钱包</span>
                 <a href="{{:PluginsAdminUrl('wallet', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
             </legend>
         {{/if}}
@@ -14,7 +14,15 @@
             <!-- form start -->
             <form class="am-form form-search" action="{{:PluginsAdminUrl('wallet', 'walletadmin', 'index')}}" method="POST">
                 <div class="am-g form-keyword">
-                    <input type="text" class="am-form-field am-radius" name="keywords" placeholder="用户名/电话/邮箱" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
+                    <input type="text" class="am-form-field am-radius form-search-items" name="keywords" placeholder="用户名/电话/邮箱" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
+                    <select name="status" class="chosen-select form-search-items" data-placeholder="状态...">
+                        <option value="-1">状态...</option>
+                        {{if !empty($wallet_status_list)}}
+                            {{foreach $wallet_status_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($params['status']) and $params['status'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        {{/if}}
+                    </select>
                     <button class="am-btn am-btn-secondary am-radius am-btn-sm" type="submit">查询</button>
                 </div>
             </form>
@@ -36,35 +44,13 @@
                 <tbody>
                     {{if !empty($data_list)}}
                         {{foreach $data_list as $v}}
-                            <tr id="data-list-{{$v.id}}" {{if isset($v['is_enable']) and $v['is_enable'] eq 0}}class="am-active"{{/if}}>
-                                <td>{{$v.name}}</td>
-                                <td {{if !empty($v['bg_color'])}}style="background-color:{{$v.bg_color}};"{{/if}}>
-                                    {{if !empty($v['images_url'])}}
-                                        <a href="{{$v['images_url']}}" target="_blank">
-                                            <img src="{{$v['images_url']}}" class="am-radius" width="100" />
-                                        </a>
-                                    {{else /}}
-                                        <span class="cr-ccc">暂无图片</span>
-                                    {{/if}}
-                                </td>
-                                <td>{{$v.rules_min}}~{{$v.rules_max}}</td>
-                                <td>
-                                    满减：{{if $v['order_price'] gt 0 and $v['full_reduction_price'] gt 0}}
-                                        满{{$v.order_price}}元 减{{$v.full_reduction_price}}元
-                                    {{else /}}
-                                        <span class="cr-ccc">无满减</span>
-                                    {{/if}}
-                                    <br />
-                                    折扣：{{if $v['discount_rate']}}
-                                        {{$v.discount_rate}}折
-                                    {{else /}}
-                                        <span class="cr-ccc">无折扣</span>
-                                    {{/if}}
-                                </td>
-                                <td class="am-hide-sm-only">
-                                    <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if isset($v['is_enable']) and $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:PluginsAdminUrl('wallet', 'level', 'statusupdate')}}" data-id="{{$v.id}}" data-state="{{if isset($v['is_enable'])}}{{$v['is_enable']}}{{/if}}" data-field="is_enable" data-is-update-status="1"></a>
-                                </td>
-                                <td class="am-hide-sm-only">{{$v.operation_time_time}}</td>
+                            <tr id="data-list-{{$v.id}}" {{if isset($v['status']) and $v['status'] neq 0}}{{if $v['status'] eq 1}} class="am-danger"{{elseif $v['status'] eq 2}} class="am-active"{{else /}} class="am-warning"{{/if}}{{/if}}>
+                                <td>{{$v.id}}</td>
+                                <td>{{$v.normal_money}}</td>
+                                <td>{{$v.frozen_money}}</td>
+                                <td>{{$v.give_money}}</td>
+                                <td>{{$v.status_text}}</td>
+                                <td class="am-hide-sm-only">{{$v.add_time_text}}</td>
                                 {{if !isset($params['is_admin_index']) or $params['is_admin_index'] neq 1}}
                                     <td class="view-operation">
                                         <a href="{{:PluginsAdminUrl('wallet', 'level', 'saveinfo', ['id'=>$v['id']])}}">
@@ -81,6 +67,11 @@
                 </tbody>
             </table>
             <!-- list end -->
+
+            <!-- 分页 -->
+            {{if !empty($data_list)}}
+                {{$page_html|raw}}
+            {{/if}}
         </div>
     </div>
 </div>

@@ -11,7 +11,7 @@
 namespace app\plugins\wallet;
 
 use think\Controller;
-use app\plugins\wallet\service\BaseService;
+use app\plugins\wallet\service\WalletService;
 use app\service\PluginsService;
 
 /**
@@ -33,14 +33,41 @@ class Walletadmin extends Controller
      */
     public function index($params = [])
     {
-        $ret = PluginsService::PluginsData('wallet', '', false);
-        if($ret['code'] == 0)
-        {            
-            $this->assign('data', $ret['data']);
-            return $this->fetch('../../../plugins/view/wallet/walletadmin/index');
-        } else {
-            return $ret['msg'];
-        }
+        // 分页
+        $number = MyC('admin_page_number', 10, true);
+
+        // 条件
+        $where = WalletService::WalletWhere($params);
+
+        // 获取总数
+        $total = WalletService::WalletTotal($where);
+
+        // 分页
+        $page_params = array(
+                'number'    =>  $number,
+                'total'     =>  $total,
+                'where'     =>  $params,
+                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
+                'url'       =>  PluginsHomeUrl('wallet', 'wallet', 'index'),
+            );
+        $page = new \base\Page($page_params);
+        $this->assign('page_html', $page->GetPageHtml());
+
+        // 获取列表
+        $data_params = array(
+            'm'         => $page->GetPageStarNumber(),
+            'n'         => $number,
+            'where'     => $where,
+        );
+        $data = WalletService::WalletList($data_params);
+        $this->assign('data_list', $data['data']);
+
+        // 静态数据
+        $this->assign('wallet_status_list', WalletService::$wallet_status_list);
+
+        // 参数
+        $this->assign('params', $params);
+        return $this->fetch('../../../plugins/view/wallet/walletadmin/index');
     }
 }
 ?>

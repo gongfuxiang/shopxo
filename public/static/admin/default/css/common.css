@@ -405,7 +405,6 @@ ul {margin-top:0;}
 .admin {width:100%;height:100%;display:flex;display:-webkit-flex;padding-top:35px;background:#fff;}
 .admin .am-g {padding-left:0;padding-right:0;}
 /*---right Content---*/
-.content-right {overflow:auto;flex:1;-webkit-flex:1;}
 .content-right .content {padding:10px 10px 0 10px;}
 .admin-sidebar-list li a {padding:0.6rem;}
 .common-left-menu a:hover { background:rgba(118, 119, 120, 0.1); }

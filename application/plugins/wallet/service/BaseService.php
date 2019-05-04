@@ -480,5 +480,6 @@ class BaseService
 
         return $where;
     }
+
 }
 ?>
