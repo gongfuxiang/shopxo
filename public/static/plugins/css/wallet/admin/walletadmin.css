@@ -1,0 +1,13 @@
+.form-search .form-keyword input {
+    display: initial;
+}
+@media only screen and (min-width: 641px) {
+    .form-search .form-keyword input {
+        width: 50%;
+    }
+}
+@media only screen and (max-width: 641px) {
+    .form-search .form-keyword input {
+        width: calc(100% - 54px);
+    }
+}

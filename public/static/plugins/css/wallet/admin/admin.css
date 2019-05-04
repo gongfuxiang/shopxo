@@ -22,7 +22,7 @@
     padding: 10px;
     margin: 10px;
     border-radius: 3px;
-    background: #68cffe;
+    background: #f0f0f0;
     position: relative;
 }
 .wallet-content-module .module-items p, .wallet-content-module .module-items .small {
@@ -40,27 +40,27 @@
     font-size: 14px;
     font-weight: 700;
     margin: 0;
-    color: #fff;
+    color: #666;
 }
 .wallet-content-module .module-items p.total {
     margin: 0 0 5px 0;
-    color: #fff;
+    color: #333;
     font-size: 26px;
     font-weight: 700;
 }
 .wallet-content-module .module-items .small span {
-    color: #f0f0f0;
+    color: #888;
     font-size: 12px;
 }
 .wallet-content-module .module-items .top-right {
     position: absolute;
     top: 10px;
     right: 10px;
-    color: #ddd;
+    color: #888;
 }
 .wallet-content-module .module-items .view-to {
     position: absolute;
     right: 10px;
     bottom: 10px;
-    color: #fff;
+    color: #666;
 }
