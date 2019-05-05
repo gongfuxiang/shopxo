@@ -64,7 +64,7 @@ text-align: center;float:none}
 
 /*小标签*/
 .list .word{padding: 5px 10px; overflow: hidden;}
-.word .outer {margin: 5px; width: 50px;height: 50px;text-align: center;color: #2f2f2f;background-color: #fff;border-radius: 50px; display: -webkit-inline-box; }
+.word .outer {margin: 5px; width: 50px;height: 50px;text-align: center;color: #2f2f2f;background-color: #fff;border-radius: 50px; display: inline-block; }
 .word .outer  .inner {display: table-cell;vertical-align: middle;width:50px;height:50px;}
 .word .outer .text {font-weight: 400;display: inline-block; max-width:35px;margin: 0 auto;}
 

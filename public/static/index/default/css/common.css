@@ -73,7 +73,8 @@ input.add,input.min{width:15px}
  
 /*搜索框*/
 .search-bar{height:30px; width: calc(100% - 200px); display: -webkit-inline-box;}
-.search-bar form{border:2px solid #d2364c; width:100%;position: relative;}
+.search-bar form { width: 100%; }
+.search-bar form .search-group{border:2px solid #d2364c; width:100%;position: relative;}
 .search-bar input{height:26px;width:79%;outline:none; font-size:12px; border:none}
 #search-input { padding-left: 8px; }
 #ai-topsearch { width:27%;height:26px;border:none;background: #d2364c none repeat scroll 0% 0%;
