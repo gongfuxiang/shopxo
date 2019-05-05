@@ -73,6 +73,9 @@ class WalletService
             $wallet_status_list = WalletService::$wallet_status_list;
             foreach($data as &$v)
             {
+                // 用户信息
+                $v['user'] = self::GetUserInfo($v['user_id']);
+
                 // 状态
                 $v['status_text'] = (isset($v['status']) && isset($wallet_status_list[$v['status']])) ? $wallet_status_list[$v['status']]['name'] : '未知';
 
@@ -81,6 +84,46 @@ class WalletService
             }
         }
         return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
+     * 获取用户信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-05
+     * @desc    description
+     * @param   [int]          $user_id [用户id]
+     */
+    private static function GetUserInfo($user_id)
+    {
+        $user = Db::name('User')->field('username,nickname,mobile,email,avatar')->find($user_id);
+        if(!empty($user))
+        {
+            $user['user_name_view'] = $user['username'];
+            if(empty($user['user_name_view']))
+            {
+                $user['user_name_view'] = $user['nickname'];
+            }
+            if(empty($user['user_name_view']))
+            {
+                $user['user_name_view'] = $user['mobile'];
+            }
+            if(empty($user['user_name_view']))
+            {
+                $user['user_name_view'] = $user['email'];
+            }
+
+            // 头像
+            if(!empty($user['avatar']))
+            {
+                $user['avatar'] = ResourcesService::AttachmentPathViewHandle($user['avatar']);
+            } else {
+                $user['avatar'] = config('shopxo.attachment_host').'/static/index/'.strtolower(config('DEFAULT_THEME', 'default')).'/images/default-user-avatar.jpg';
+            }
+        }
+
+        return $user;
     }
 
     /**
@@ -113,10 +156,13 @@ class WalletService
         // 用户
         if(!empty($params['keywords']))
         {
-            $user_ids = Db::name('User')->where('username|mobile|email', 'like', '%'.$params['keywords'].'%')->column('id');
+            $user_ids = Db::name('User')->where('username|nickname|mobile|email', '=', $params['keywords'])->column('id');
             if(!empty($user_ids))
             {
                 $where[] = ['user_id', 'in', $user_ids];
+            } else {
+                // 无数据条件，避免用户搜索条件没有数据造成的错觉
+                $where[] = ['id', '=', 0];
             }
         }
 

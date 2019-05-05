@@ -13,17 +13,28 @@
         <div class="wallet-content">
             <!-- form start -->
             <form class="am-form form-search" action="{{:PluginsAdminUrl('wallet', 'walletadmin', 'index')}}" method="POST">
-                <div class="am-g form-keyword">
-                    <input type="text" class="am-form-field am-radius form-search-items" name="keywords" placeholder="用户名/电话/邮箱" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
-                    <select name="status" class="chosen-select form-search-items" data-placeholder="状态...">
-                        <option value="-1">状态...</option>
-                        {{if !empty($wallet_status_list)}}
+                <div class="am-g">
+                    <input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="姓名/手机/邮箱/昵称" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
+                    <button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
+                    <label class="fs-12 m-l-5 c-p fw-100 more-submit">
+                        更多筛选
+                        {{if isset($params['is_more']) and $params['is_more'] eq 1}}
+                            <input type="checkbox" name="is_more" value="1" id="is_more" checked />
+                            <i class="am-icon-angle-up"></i>
+                        {{else /}}
+                            <input type="checkbox" name="is_more" value="1" id="is_more" />
+                            <i class="am-icon-angle-down"></i>
+                        {{/if}}
+                    </label>
+
+                    <div class="more-where {{if !isset($params['is_more']) or $params['is_more'] neq 1}} none{{/if}}">
+                        <select name="status" class="am-radius c-p m-t-10 chosen-select param-where" data-placeholder="状态...">
+                            <option value="-1">状态...</option>
                             {{foreach $wallet_status_list as $v}}
                                 <option value="{{$v.value}}" {{if isset($params['status']) and $params['status'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
-                        {{/if}}
-                    </select>
-                    <button class="am-btn am-btn-secondary am-radius am-btn-sm" type="submit">查询</button>
+                        </select>
+                    </div>
                 </div>
             </form>
             <!-- form end -->
@@ -33,9 +44,7 @@
                 <thead>
                     <tr>
                         <th>用户信息</th>
-                        <th>可用金额</th>
-                        <th>冻结金额</th>
-                        <th>赠送金额</th>
+                        <th>账户金额(元)</th>
                         <th>状态</th>
                         <th class="am-hide-sm-only">开通时间</th>
                         <th>操作</th>
@@ -45,10 +54,32 @@
                     {{if !empty($data_list)}}
                         {{foreach $data_list as $v}}
                             <tr id="data-list-{{$v.id}}" {{if isset($v['status']) and $v['status'] neq 0}}{{if $v['status'] eq 1}} class="am-danger"{{elseif $v['status'] eq 2}} class="am-active"{{else /}} class="am-warning"{{/if}}{{/if}}>
-                                <td>{{$v.id}}</td>
-                                <td>{{$v.normal_money}}</td>
-                                <td>{{$v.frozen_money}}</td>
-                                <td>{{$v.give_money}}</td>
+                                <td class="user-info">
+                                    {{if !empty($v['user'])}}
+                                        <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-fl am-img-thumbnail am-radius am-hide-sm-only" />
+                                        <ul class="user-base am-fl">
+                                            <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
+                                            <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
+                                            <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
+                                            <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
+                                        </ul>
+                                    {{else /}}
+                                        用户信息异常
+                                    {{/if}}
+                                </td>
+                                <td class="money">
+                                    <ul>
+                                        <li>
+                                            可用：<span class="normal-money">{{$v.normal_money}}</span>
+                                        </li>
+                                        <li>
+                                            冻结：<span class="frozen-money">{{$v.frozen_money}}</span>
+                                        </li>
+                                        <li>
+                                            赠送：<span class="give-money">{{$v.give_money}}</span>
+                                        </li>
+                                    </ul>
+                                </td>
                                 <td>{{$v.status_text}}</td>
                                 <td class="am-hide-sm-only">{{$v.add_time_text}}</td>
                                 {{if !isset($params['is_admin_index']) or $params['is_admin_index'] neq 1}}

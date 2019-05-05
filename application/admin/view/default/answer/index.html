@@ -10,8 +10,13 @@
 				<button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
 				<label class="fs-12 m-l-5 c-p fw-100 more-submit">
 					更多筛选
-					<input type="checkbox" name="is_more" value="1" id="is_more" {{if isset($params['is_more']) and $params['is_more'] eq 1}}checked{{/if}} />
-					<i class="am-icon-angle-down"></i>
+                    {{if isset($params['is_more']) and $params['is_more'] eq 1}}
+                        <input type="checkbox" name="is_more" value="1" id="is_more" checked />
+                        <i class="am-icon-angle-up"></i>
+                    {{else /}}
+                        <input type="checkbox" name="is_more" value="1" id="is_more" />
+                        <i class="am-icon-angle-down"></i>
+                    {{/if}}
 				</label>
 
 				<div class="more-where {{if !isset($params['is_more']) or $params['is_more'] neq 1}}none{{/if}}">

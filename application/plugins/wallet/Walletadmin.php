@@ -54,13 +54,18 @@ class Walletadmin extends Controller
         $this->assign('page_html', $page->GetPageHtml());
 
         // 获取列表
-        $data_params = array(
-            'm'         => $page->GetPageStarNumber(),
-            'n'         => $number,
-            'where'     => $where,
-        );
-        $data = WalletService::WalletList($data_params);
-        $this->assign('data_list', $data['data']);
+        if($total > 0)
+        {
+            $data_params = array(
+                'm'         => $page->GetPageStarNumber(),
+                'n'         => $number,
+                'where'     => $where,
+            );
+            $data = WalletService::WalletList($data_params);
+            $this->assign('data_list', $data['data']);
+        } else {
+            $this->assign('data_list', []);
+        }
 
         // 静态数据
         $this->assign('wallet_status_list', WalletService::$wallet_status_list);

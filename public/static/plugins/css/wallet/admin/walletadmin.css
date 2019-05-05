@@ -1,20 +1,44 @@
-.form-search .form-keyword input {
-    display: initial;
+/**
+ * 搜索表单
+ */
+.form-search .form-keyword { display: initial !important; }
+.form-search .more-submit input { display: none; }
+.form-search .param-date input { display: initial !important; }
+@media only screen and (max-width: 641px) {
+    .form-search .form-keyword { width: calc(100% - 140px) !important; }
+    .form-search .param-where { width: 100% !important; margin-left: 0px !important; }
+    .form-search .param-date input { width: 47% !important; }
 }
 @media only screen and (min-width: 641px) {
-    .form-search .form-keyword input {
-        width: 260px;
-    }
-    .form-search .chosen-container, .form-search select {
-        width: 150px !important;
-        display: -webkit-inline-box;
-    }
-    .form-search .chosen-container-single .chosen-single {
-        width: 100%;
-    }
+    .form-search .form-keyword { width: 35% !important; }
+    .form-search .param-where { width: 32% !important; float: left; }
+    .form-search .param-date input { width: 45% !important; }
+    .form-search .param-where:nth-child(1), .param-where:nth-child(4) { margin-left: 0px !important; }
 }
-@media only screen and (max-width: 641px) {
-    .form-search .form-search-items {
-        margin-bottom: 10px;
-    }
+
+
+/**
+ * 列表
+ */
+.wallet-content table.am-table ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.wallet-content table.am-table .user-info img {
+    max-width: 75px;
+    max-height: 75px;
+    margin-right: 5px;
+}
+.wallet-content table.am-table .money span {
+    font-weight: 700;
+}
+.wallet-content table.am-table .normal-money {
+    color: #4CAF50;
+}
+.wallet-content table.am-table .frozen-money {
+    color: #FF9800;
+}
+.wallet-content table.am-table .give-money {
+    color: #666;
 }
