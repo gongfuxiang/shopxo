@@ -385,7 +385,7 @@ li.am-comment{ width:100%}
     .tb-thumb li div { border:1px solid #eee; overflow: hidden;}
     div.zoomDiv { z-index:999; position:absolute; top:0px; left:0px; width:400px; height:400px; background:#ffffff; border:1px solid #CCCCCC; display:none; text-align:center; overflow:hidden; }
     div.zoomDiv img { min-width: 1000px; display: block; }
-    div.zoomMask { position:absolute; background:url(../images/mask.png)repeat scroll 0 0 rgba(210, 54, 76, 0.42); cursor:move; z-index:1; }
+    div.zoomMask { position:absolute; background:url(../images/mask.png)repeat scroll 0 0 rgba(33, 150, 243, 0.3); cursor:move; z-index:1; }
             
     /*规格*/
     .theme-popover {display: block;position: static;border:none ;box-shadow: none;width: 100%;}
