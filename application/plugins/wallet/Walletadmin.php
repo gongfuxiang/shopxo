@@ -74,5 +74,22 @@ class Walletadmin extends Controller
         $this->assign('params', $params);
         return $this->fetch('../../../plugins/view/wallet/walletadmin/index');
     }
+
+    /**
+     * 钱包编辑页面
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-05
+     * @desc    description
+     * @param    [array]          $params [输入参数]
+     */
+    public function saveinfo($params = [])
+    {
+        // 静态数据
+        $this->assign('wallet_status_list', WalletService::$wallet_status_list);
+        
+        return $this->fetch('../../../plugins/view/wallet/walletadmin/saveinfo');
+    }
 }
 ?>
