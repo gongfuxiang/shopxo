@@ -76,8 +76,16 @@ class Goods extends Common
             // 商品数据
             $this->assign('goods', $ret['data'][0]);
 
-            // 浏览器名称
-            $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle($ret['data'][0]['title']));
+            // seo
+            $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle($ret['data'][0]['title'], 2));
+            if(!empty($ret['data'][0]['seo_keywords']))
+            {
+                $this->assign('home_seo_site_keywords', SeoService::BrowserSeoTitle($ret['data'][0]['seo_keywords'], 2));
+            }
+            if(!empty($ret['data'][0]['seo_desc']))
+            {
+                $this->assign('home_seo_site_description', SeoService::BrowserSeoTitle($ret['data'][0]['seo_desc'], 2));
+            }
 
             // 二维码
             $this->assign('qrcode_url', MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode(MyUrl('index/goods/index', ['id'=>$id], true, true)))]));

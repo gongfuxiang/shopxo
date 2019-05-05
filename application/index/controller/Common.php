@@ -245,8 +245,10 @@ class Common extends Controller
         // 图片host地址
         $this->assign('attachment_host', config('shopxo.attachment_host'));
 
-        // 标题
+        // seo
         $this->assign('home_seo_site_title', MyC('home_seo_site_title'));
+        $this->assign('home_seo_site_keywords', MyC('home_seo_site_keywords'));
+        $this->assign('home_seo_site_description', MyC('home_seo_site_description'));
 
         // 页面最大宽度
         $max_width = MyC('home_content_max_width', 0, true);

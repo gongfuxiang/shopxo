@@ -1012,6 +1012,20 @@ class GoodsService
                 'key_name'          => 'buy_min_number',
                 'error_msg'         => '请填写有效的最低起购数量',
             ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'seo_keywords',
+                'checked_data'      => '130',
+                'is_checked'        => 1,
+                'error_msg'         => 'SEO关键字格式 最多130个字符',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'seo_desc',
+                'checked_data'      => '230',
+                'is_checked'        => 1,
+                'error_msg'         => 'SEO描述格式 最多230个字符',
+            ],
         ];
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
@@ -1070,6 +1084,8 @@ class GoodsService
             'home_recommended_images'   => $attachment['data']['home_recommended_images'],
             'brand_id'                  => isset($params['brand_id']) ? intval($params['brand_id']) : 0,
             'video'                     => $attachment['data']['video'],
+            'seo_keywords'              => empty($params['seo_keywords']) ? '' : $params['seo_keywords'],
+            'seo_desc'                  => empty($params['seo_desc']) ? '' : $params['seo_desc'],
         ];
 
         // 启动事务

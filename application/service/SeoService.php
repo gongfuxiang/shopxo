@@ -27,7 +27,7 @@ class SeoService
      * @date    2019-03-11
      * @desc    description
      * @param   [string]     $title [标题]
-     * @param   [int]        $type [模式0 使用站点名称, 模式1 使用SEO名称]
+     * @param   [int]        $type  [模式0 使用站点名称, 模式1 使用SEO名称, 模式2 标题, ]
      * @return  [string]            [浏览器seo标题]
      */
     public static function BrowserSeoTitle($title, $type = 0)
@@ -41,15 +41,21 @@ class SeoService
         // 模式
         switch($type)
         {
-            // 模式0 使用站点名称
-            case 0 :
-                return $title.' - '.MyC('home_site_name');
-                break;
-
             // 模式1 或 默认使用标题加seo名称
             case 1 :
-            default :
                 return $title.' - '.MyC('home_seo_site_title');
+                break;
+
+            // 模式2 或 默认使用标题加seo名称
+            case 2 :
+                return $title;
+                break;
+
+            // 模式0 使用站点名称
+            // 默认标题
+            case 0 :
+            default :
+                return $title.' - '.MyC('home_site_name');
         }
     }
 }
