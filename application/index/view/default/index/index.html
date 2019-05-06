@@ -154,11 +154,7 @@
                                 {{if !empty($floor['items'])}}
                                     {{foreach $floor.items as $category_key=>$category}}
                                         {{if $category_key lt 6 and isset($category['is_home_recommended']) and $category['is_home_recommended'] eq 1}}
-                                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$category['id']])}}" class="outer" target="_blank">
-                                                <span class="inner">
-                                                    <b class="text">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</b>
-                                                </span>
-                                            </a>
+                                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$category['id']])}}" class="outer" target="_blank">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</a>
                                         {{/if}}
                                     {{/foreach}}
                                 {{/if}}           

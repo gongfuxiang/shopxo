@@ -86,10 +86,27 @@ class Walletadmin extends Controller
      */
     public function saveinfo($params = [])
     {
-        // 静态数据
-        $this->assign('wallet_status_list', WalletService::$wallet_status_list);
-        
-        return $this->fetch('../../../plugins/view/wallet/walletadmin/saveinfo');
+        if(!empty($params['id']))
+        {
+            $data_params = array(
+                'm'         => 0,
+                'n'         => 1,
+                'where'     => ['id'=>intval($params['id'])],
+            );
+            $data = WalletService::WalletList($data_params);
+            if(empty($data['data'][0]))
+            {
+                return '钱包有误';
+            }
+            $this->assign('data', $data['data'][0]);
+
+            // 静态数据
+            $this->assign('wallet_status_list', WalletService::$wallet_status_list);
+
+            return $this->fetch('../../../plugins/view/wallet/walletadmin/saveinfo');
+        } else {
+            return '钱包id有误';
+        }
     }
 }
 ?>

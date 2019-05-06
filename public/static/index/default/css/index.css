@@ -63,10 +63,8 @@ text-align: center;float:none}
 .recommendation .info h3{font-size:12px;color:#F03726} 
 
 /*小标签*/
-.list .word{padding: 5px 10px; overflow: hidden;}
-.word .outer {margin: 5px; width: 50px;height: 50px;text-align: center;color: #2f2f2f;background-color: #fff;border-radius: 50px; display: inline-block; }
-.word .outer  .inner {display: table-cell;vertical-align: middle;width:50px;height:50px;}
-.word .outer .text {font-weight: 400;display: inline-block; max-width:35px;margin: 0 auto;}
+.list .word{padding: 5px; overflow: hidden;}
+.word .outer {margin: 5px; width: calc(50% - 12px); height: 28px;  line-height: 28px; text-align: center;color: #fff;background-color: rgba(0, 0, 0, 0.03);border-radius: 3px; display: inline-block; border: 1px solid #fff; text-decoration: none; overflow: hidden;}
 
 /*楼层左侧*/
 .list .outer-con .describe { color: #fff; max-width: 100%; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
@@ -151,11 +149,11 @@ text-align: center;float:none}
     .flood .list img {position: absolute;top:auto;left:0;bottom:0;max-width: 100%;}
 
     /*楼层 hover*/
-    .word .outer:hover { background: #f9918f; color: #fff !important; -webkit-transition: background .2s ease-in; -moz-transition: background .2s ease-in; -ms-transition: background .2s ease-in; -o-transition: background .2s ease-in; transition: background .2s ease-in; }
-    .goods-items:before { content: ""; position: absolute; top: 0; left: -100%; display: block; height: 100%; width: 50%; z-index: 999; background-color: rgba(255, 255, 255, 0.3); -webkit-transition: all 1s ease 0s; -moz-transition: all 1s ease 0s; -o-transition: all 1s ease 0s; transition: all 1s ease 0s; -ms-transform: skewX(-20deg); -webkit-transform: skewX(-20deg); -o-transform: skewX(-20deg); transform: skewX(-20deg); background: -webkit-linear-gradient(90deg, transparent 0, rgba(255, 255, 255, 0.4) 100%); background: -moz-linear-gradient(90deg, transparent 0, rgba(255, 255, 255, 0.4) 100%); background: -o-linear-gradient(90deg, transparent 0, rgba(255, 255, 255, 0.4) 100%); background: linear-gradient(90deg, transparent 0, rgba(255, 255, 255, 0.4) 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=transparent, endColorstr=rgba(255, 255, 255, 0.4),GradientType=0.9); }
-    .goods-items:hover:before { left: 100%; }
+    .word .outer:hover { background: #fff; color: #d2354c !important; -webkit-transition: background .2s ease-in; -moz-transition: background .2s ease-in; -ms-transition: background .2s ease-in; -o-transition: background .2s ease-in; transition: background .2s ease-in; -webkit-transition: color .2s ease-in; -moz-transition: color .2s ease-in; -ms-transition: color .2s ease-in; -o-transition: color .2s ease-in; transition: color .2s ease-in; }
+    /*.goods-items:before { content: ""; position: absolute; top: 0; left: -100%; display: block; height: 100%; width: 50%; z-index: 999; background-color: rgba(255, 255, 255, 0.3); -webkit-transition: all 1s ease 0s; -moz-transition: all 1s ease 0s; -o-transition: all 1s ease 0s; transition: all 1s ease 0s; -ms-transform: skewX(-20deg); -webkit-transform: skewX(-20deg); -o-transform: skewX(-20deg); transform: skewX(-20deg); background: -webkit-linear-gradient(90deg, transparent 0, rgba(255, 255, 255, 0.4) 100%); background: -moz-linear-gradient(90deg, transparent 0, rgba(255, 255, 255, 0.4) 100%); background: -o-linear-gradient(90deg, transparent 0, rgba(255, 255, 255, 0.4) 100%); background: linear-gradient(90deg, transparent 0, rgba(255, 255, 255, 0.4) 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=transparent, endColorstr=rgba(255, 255, 255, 0.4),GradientType=0.9); }
+    .goods-items:hover:before { left: 100%; }*/
     .goods-items:hover { z-index: 99; -webkit-box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); -moz-box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); -webkit-transition: box-shadow .2s ease-in; -moz-transition: box-shadow .2s ease-in; -ms-transition: box-shadow .2s ease-in; -o-transition: box-shadow .2s ease-in; transition: box-shadow .2s ease-in; }
-    .flood .list img { -webkit-transition: transform .2s ease-in; -moz-transition: transform .2s ease-in; -ms-transition: transform .2s ease-in; -o-transition: transform .2s ease-in; transition: transform .2s ease-in; }
+    .flood .list img { -webkit-transition: transform .6s ease-in; -moz-transition: transform .6s ease-in; -ms-transition: transform .6s ease-in; -o-transition: transform .6s ease-in; transition: transform .6s ease-in; }
     .flood .list img:hover { transform: scale(1.1); -moz-transform: scale(1.1); -webkit-transform: scale(1.1); -o-transform: scale(1.1); -ms-transform: scale(1.1); }
 }
 
@@ -259,6 +257,7 @@ text-align: center;float:none}
 
     /*楼层左侧*/
     .flood .list { width: 222px; height: 456px; }
+    .list .word{ padding: 5px 10px; }
 
     /*楼层商品*/
     .flood .goods-list .goods-items { height: 228px; }
@@ -313,12 +312,10 @@ text-align: center;float:none}
 
     /*楼层*/
     .flood .list { width: 100%; height: auto; }
-    .word .outer { display: inline-flex; padding: 5px 0; height: auto;background-color: transparent; width: 32.33%; margin: 0; }
-    .word .outer .inner { color: #2f2f2f; background-color: #fff; border-radius: 50px; margin: 0 auto; padding: 0 12px;}
+    .list .word { padding: 10px; }
+    .word .outer { width: calc(33% - 12px); }
     .flood .goods-list .goods-items { width: 50%; float: left; padding: 10px; border-bottom: 1px solid #eee; }
     .flood .goods-list .goods-items img { padding: 10px; }
     .flood .goods-list .goods-items:nth-of-type(2n + 1) { border-right: 1px solid #eee; }
     .flood .goods-list .goods-items:nth-of-type(2n) { border-left: 1px solid transparent; }
-    .list .word { padding: 10px 0; }
-    .word .outer .text {  display: table-cell; vertical-align: middle; width: 35px; height: 50px; }
 }
