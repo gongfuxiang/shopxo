@@ -33,9 +33,10 @@ class WalletService
 
     // 业务类型
     public static $business_type_list = [
-        0 => ['value' => 0, 'name' => '充值', 'checked' => true],
-        1 => ['value' => 1, 'name' => '提现'],
-        2 => ['value' => 2, 'name' => '消费'],
+        0 => ['value' => 0, 'name' => '系统', 'checked' => true],
+        1 => ['value' => 1, 'name' => '充值'],
+        2 => ['value' => 2, 'name' => '提现'],
+        3 => ['value' => 3, 'name' => '消费'],
     ];
 
     // 操作类型
@@ -48,6 +49,7 @@ class WalletService
     public static $money_type_list = [
         0 => ['value' => 0, 'name' => '正常', 'checked' => true],
         1 => ['value' => 1, 'name' => '冻结'],
+        2 => ['value' => 2, 'name' => '赠送'],
     ];
 
     /**
@@ -219,6 +221,93 @@ class WalletService
         }
 
         return DataReturn('操作成功', 0, $wallet);
+    }
+
+    /**
+     * 钱包编辑
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-06
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function WalletEdit($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '钱包id有误',
+            ],
+            [
+                'checked_type'      => 'in',
+                'key_name'          => 'status',
+                'checked_data'      => array_column(self::$wallet_status_list, 'value'),
+                'error_msg'         => '钱包状态有误',
+            ],
+            [
+                'checked_type'      => 'fun',
+                'key_name'          => 'normal_money',
+                'checked_data'      => 'CheckPrice',
+                'is_checked'        => 1,
+                'error_msg'         => '有效金额格式有误',
+            ],
+            [
+                'checked_type'      => 'fun',
+                'key_name'          => 'frozen_money',
+                'checked_data'      => 'CheckPrice',
+                'is_checked'        => 1,
+                'error_msg'         => '冻结金额格式有误',
+            ],
+            [
+                'checked_type'      => 'fun',
+                'key_name'          => 'give_money',
+                'checked_data'      => 'CheckPrice',
+                'is_checked'        => 1,
+                'error_msg'         => '赠送金额格式有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取钱包
+        $wallet = Db::name('PluginsWallet')->find(intval($params['id']));
+        if(empty($wallet))
+        {
+            return DataReturn('钱包不存在或已删除', -10);
+        }
+
+        // 数据
+        $data = [
+            'status'        => intval($params['status']),
+            'normal_money'  => empty($params['normal_money']) ? 0.00 : PriceNumberFormat($params['normal_money']),
+            'frozen_money'  => empty($params['frozen_money']) ? 0.00 : PriceNumberFormat($params['frozen_money']),
+            'give_money'    => empty($params['give_money']) ? 0.00 : PriceNumberFormat($params['give_money']),
+            'upd_time'      => time(),
+        ];
+
+        // 日志
+        $log_data = [];
+        if($wallet['normal_money'] != $data['normal_money'])
+        {
+            $log_data[] = [
+                'user_id'           => $wallet['user_id'],
+                'wallet_id'         => $wallet['id'],
+                'business_type'     => 0,
+                'operation_type'    => ($wallet['normal_money'] < $data['normal_money']) ? 1 : 0,
+                'money_type'        => 0,
+                'money'             => ($wallet['normal_money'] < $data['normal_money']) ? PriceNumberFormat($data['normal_money']-$wallet['normal_money']) : PriceNumberFormat($wallet['normal_money']-$data['normal_money']),
+                'msg'               => '管理员操作',
+                'add_time'          => time(),
+            ];
+        }
+        print_r($data);
+        print_r($log_data);
     }
 }
 ?>

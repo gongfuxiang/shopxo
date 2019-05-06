@@ -86,6 +86,7 @@ class Walletadmin extends Controller
      */
     public function saveinfo($params = [])
     {
+        $data = [];
         if(!empty($params['id']))
         {
             $data_params = array(
@@ -93,20 +94,36 @@ class Walletadmin extends Controller
                 'n'         => 1,
                 'where'     => ['id'=>intval($params['id'])],
             );
-            $data = WalletService::WalletList($data_params);
-            if(empty($data['data'][0]))
+            $ret = WalletService::WalletList($data_params);
+            if(!empty($ret['data'][0]))
             {
-                return '钱包有误';
+                $data = $ret['data'][0];
+
+                // 静态数据
+                $this->assign('wallet_status_list', WalletService::$wallet_status_list);
+            } else {
+                $this->assign('msg', '钱包有误');
             }
-            $this->assign('data', $data['data'][0]);
-
-            // 静态数据
-            $this->assign('wallet_status_list', WalletService::$wallet_status_list);
-
-            return $this->fetch('../../../plugins/view/wallet/walletadmin/saveinfo');
         } else {
-            return '钱包id有误';
+            $this->assign('msg', '钱包id有误');
         }
+
+        $this->assign('data', $data);
+        return $this->fetch('../../../plugins/view/wallet/walletadmin/saveinfo');
+    }
+
+    /**
+     * 钱包编辑
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-06
+     * @desc    description
+     * @param    [array]          $params [输入参数]
+     */
+    public function save($params = [])
+    {
+        return WalletService::WalletEdit($params);
     }
 }
 ?>

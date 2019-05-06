@@ -9,53 +9,57 @@
         </legend>
 
         <div class="wallet-content">
-            <!-- form start -->
-            <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('wallet', 'level', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('wallet', 'walletadmin', 'index')}}" enctype="multipart/form-data">
-                <div class="am-alert am-alert-secondary saveinfo-view" data-am-alert="">
-                    <div>
-                        <span>有效金额：</span>
-                        <span class="normal-money">{{$data.normal_money}}</span>
+            {{if !empty($data)}}
+                <!-- form start -->
+                <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('wallet', 'walletadmin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('wallet', 'walletadmin', 'index')}}" enctype="multipart/form-data">
+                    <div class="am-alert am-alert-secondary saveinfo-view" data-am-alert="">
+                        <div>
+                            <span>有效金额：</span>
+                            <span class="normal-money">{{$data.normal_money}}</span>
+                        </div>
+                        <div>
+                            <span>冻结金额：</span>
+                            <span  class="frozen-money">{{$data.frozen_money}}</span>
+                        </div>
+                        <div>
+                            <span>赠送金额：</span>
+                            <span class="give-money">{{$data.give_money}}</span>
+                        </div>
                     </div>
-                    <div>
-                        <span>冻结金额：</span>
-                        <span  class="frozen-money">{{$data.frozen_money}}</span>
+                    <div class="am-form-group">
+                        <label>有效金额<span class="am-form-group-label-tips">包含赠送金额，最多两位小数</span></label>
+                        <input type="text" name="normal_money" placeholder="有效金额" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请输入有效的有效金额" class="am-radius" {{if !empty($data['normal_money']) and $data['normal_money'] gt 0}} value="{{$data.normal_money}}"{{/if}} />
                     </div>
-                    <div>
-                        <span>赠送金额：</span>
-                        <span class="give-money">{{$data.give_money}}</span>
+
+                    <div class="am-form-group">
+                        <label>冻结金额<span class="am-form-group-label-tips">最多两位小数</span></label>
+                        <input type="text" name="frozen_money" placeholder="冻结金额" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请输入有效的冻结金额" class="am-radius" {{if !empty($data['frozen_money']) and $data['frozen_money'] gt 0}} value="{{$data.frozen_money}}"{{/if}} />
                     </div>
-                </div>
-                <div class="am-form-group">
-                    <label>有效金额<span class="am-form-group-label-tips">包含赠送金额</span></label>
-                    <input type="number" name="normal_money" placeholder="有效金额" step="0.01" min="0.00" data-validation-message="请输入有效的有效金额" class="am-radius" {{if !empty($data['normal_money']) and $data['normal_money'] gt 0}} value="{{$data.normal_money}}"{{/if}} />
-                </div>
 
-                <div class="am-form-group">
-                    <label>冻结金额</label>
-                    <input type="number" name="frozen_money" placeholder="冻结金额" step="0.01" min="0.00" data-validation-message="请输入有效的冻结金额" class="am-radius" {{if !empty($data['frozen_money']) and $data['frozen_money'] gt 0}} value="{{$data.frozen_money}}"{{/if}} />
-                </div>
+                    <div class="am-form-group">
+                        <label>赠送金额<span class="am-form-group-label-tips">最多两位小数</span></label>
+                        <input type="text" name="give_money" placeholder="赠送金额" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请输入有效的赠送金额" class="am-radius" {{if !empty($data['give_money']) and $data['give_money'] gt 0}} value="{{$data.give_money}}"{{/if}} />
+                    </div>
 
-                <div class="am-form-group">
-                    <label>赠送金额</label>
-                    <input type="number" name="give_money" placeholder="赠送金额" step="0.01" min="0.00" data-validation-message="请输入有效的赠送金额" class="am-radius" {{if !empty($data['give_money']) and $data['give_money'] gt 0}} value="{{$data.give_money}}"{{/if}} />
-                </div>
-
-                <div class="am-form-group">
-                    <label>状态</label>
-                    <select name="status" class="am-radius chosen-select" data-validation-message="请选择状态" required>
-                        {{foreach $wallet_status_list as $v}}
-                            <option value="{{$v.value}}" {{if isset($data['status']) and $data['status'] eq $v['value']}}selected{{else /}}{{if !isset($data['status']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
-                        {{/foreach}}
-                    </select>
-                </div>
+                    <div class="am-form-group">
+                        <label>状态</label>
+                        <select name="status" class="am-radius chosen-select" data-validation-message="请选择状态" required>
+                            {{foreach $wallet_status_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['status']) and $data['status'] eq $v['value']}}selected{{else /}}{{if !isset($data['status']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
 
 
-                <div class="am-form-group am-form-group-refreshing">
-                    <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
-                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
-                </div>
-            </form>
-            <!-- form end -->
+                    <div class="am-form-group am-form-group-refreshing">
+                        <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
+                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                    </div>
+                </form>
+                <!-- form end -->
+            {{else /}}
+                <div class="table-no"><i class="am-icon-warning"></i> {{$msg}}</div>
+            {{/if}}
         </div>
     </div>
 </div>
