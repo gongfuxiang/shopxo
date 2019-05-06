@@ -64,7 +64,7 @@ text-align: center;float:none}
 
 /*小标签*/
 .list .word{padding: 5px; overflow: hidden;}
-.word .outer {margin: 5px; width: calc(50% - 12px); height: 28px;  line-height: 28px; text-align: center;color: #fff;background-color: rgba(0, 0, 0, 0.03);border-radius: 3px; display: inline-block; border: 1px solid #fff; text-decoration: none; overflow: hidden;}
+.word .outer {margin: 5px; width: calc(50% - 12px); height: 32px;  line-height: 32px; text-align: center;color: #fff;background-color: rgba(0, 0, 0, 0.03);border-radius: 3px; display: inline-block; border: 1px solid #fff; text-decoration: none; overflow: hidden;}
 
 /*楼层左侧*/
 .list .outer-con .describe { color: #fff; max-width: 100%; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
