@@ -38,7 +38,7 @@ CREATE TABLE `s_plugins_wallet_log` (
   `wallet_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '钱包id',
   `business_type` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '业务类型（0系统, 1充值, 2提现, 3消费）',
   `operation_type` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '操作类型（ 0减少, 1增加）',
-  `money_type` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '金额类型（0正常, 1冻结, 2赠送）',
+  `money_type` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '金额类型（0有效, 1冻结, 2赠送）',
   `money` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '操作金额',
   `msg` char(200) NOT NULL DEFAULT '' COMMENT '变更说明',
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',

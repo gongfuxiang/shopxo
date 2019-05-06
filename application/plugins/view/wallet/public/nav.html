@@ -23,17 +23,23 @@
 <!-- 账户信息 -->
 {{if empty($wallet_error)}}
     <div class="am-alert am-alert-secondary" data-am-alert>
-        <div class="available">
-            <span>可用金额</span>
+        <div class="normal">
+            <span>有效金额</span>
             <span class="integral-value">{{$user_wallet.normal_money}}</span>
             <em>元</em>
-            <span class="integral-tips">正常可以使用的金额</span>
+            <span class="integral-tips">正常可以使用的金额、包含赠送金额</span>
         </div>
-        <div class="locking">
+        <div class="frozen">
             <span>冻结金额</span>
             <span class="integral-value">{{$user_wallet.frozen_money}}</span>
             <em>元</em>
             <span class="integral-tips">一般积分交易中、提现、交易并未完成，锁定相应的积分</span>
+        </div>
+        <div class="give">
+            <span>赠送金额</span>
+            <span class="integral-value">{{$user_wallet.give_money}}</span>
+            <em>元</em>
+            <span class="integral-tips">所有赠送金额总额</span>
         </div>
     </div>
 {{else /}}

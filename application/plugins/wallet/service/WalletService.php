@@ -47,7 +47,7 @@ class WalletService
 
     // 金额类型
     public static $money_type_list = [
-        0 => ['value' => 0, 'name' => '正常', 'checked' => true],
+        0 => ['value' => 0, 'name' => '有效', 'checked' => true],
         1 => ['value' => 1, 'name' => '冻结'],
         2 => ['value' => 2, 'name' => '赠送'],
     ];
@@ -224,6 +224,30 @@ class WalletService
     }
 
     /**
+     * 钱包日志添加
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-05-07T00:57:36+0800
+     * @param   [array]          $params [输入参数]
+     * @return  [boolean]                [成功true, 失败false]
+     */
+    public static function WalletLogInsert($params = [])
+    {
+        $data = [
+            'user_id'           => isset($params['user_id']) ? intval($params['user_id']) : 0,
+            'wallet_id'         => isset($params['wallet_id']) ? intval($params['wallet_id']) : 0,
+            'business_type'     => isset($params['business_type']) ? intval($params['business_type']) : 0,
+            'operation_type'    => isset($params['operation_type']) ? intval($params['operation_type']) : 0,
+            'money_type'        => isset($params['money_type']) ? intval($params['money_type']) : 0,
+            'money'             => isset($params['money']) ? PriceNumberFormat($params['money']) : 0.00,
+            'msg'               => empty($params['msg']) ? '系统' : $params['msg'],
+            'add_time'          => time(),
+        ];
+        return Db::name('PluginsWalletLog')->insertGetId($data) > 0;
+    }
+
+    /**
      * 钱包编辑
      * @author   Devil
      * @blog    http://gong.gg/
@@ -282,6 +306,9 @@ class WalletService
             return DataReturn('钱包不存在或已删除', -10);
         }
 
+        // 开始处理
+        Db::startTrans();
+
         // 数据
         $data = [
             'status'        => intval($params['status']),
@@ -290,24 +317,44 @@ class WalletService
             'give_money'    => empty($params['give_money']) ? 0.00 : PriceNumberFormat($params['give_money']),
             'upd_time'      => time(),
         ];
+        if(!Db::name('PluginsWallet')->where(['id'=>$wallet['id']])->update($data))
+        {
+            Db::rollback();
+            return DataReturn('编辑失败', -100);
+        }
 
         // 日志
-        $log_data = [];
-        if($wallet['normal_money'] != $data['normal_money'])
+        // 字段名称 金额类型
+        $money_field = [
+            ['field' => 'normal_money', 'money_type' => 0],
+            ['field' => 'frozen_money', 'money_type' => 1],
+            ['field' => 'give_money', 'money_type' => 2],
+        ];
+        foreach($money_field as $v)
         {
-            $log_data[] = [
-                'user_id'           => $wallet['user_id'],
-                'wallet_id'         => $wallet['id'],
-                'business_type'     => 0,
-                'operation_type'    => ($wallet['normal_money'] < $data['normal_money']) ? 1 : 0,
-                'money_type'        => 0,
-                'money'             => ($wallet['normal_money'] < $data['normal_money']) ? PriceNumberFormat($data['normal_money']-$wallet['normal_money']) : PriceNumberFormat($wallet['normal_money']-$data['normal_money']),
-                'msg'               => '管理员操作',
-                'add_time'          => time(),
-            ];
+            // 有效金额
+            if($wallet[$v['field']] != $data[$v['field']])
+            {
+                $log_data = [
+                    'user_id'           => $wallet['user_id'],
+                    'wallet_id'         => $wallet['id'],
+                    'business_type'     => 0,
+                    'operation_type'    => ($wallet[$v['field']] < $data[$v['field']]) ? 1 : 0,
+                    'money_type'        => $v['money_type'],
+                    'money'             => ($wallet[$v['field']] < $data[$v['field']]) ? PriceNumberFormat($data[$v['field']]-$wallet[$v['field']]) : PriceNumberFormat($wallet[$v['field']]-$data[$v['field']]),
+                    'msg'               => '管理员操作',
+                ];
+                if(!self::WalletLogInsert($log_data))
+                {
+                    Db::rollback();
+                    return DataReturn('日志添加失败', -101);
+                }
+            }
         }
-        print_r($data);
-        print_r($log_data);
+
+        // 处理成功
+        Db::commit();
+        return DataReturn('编辑成功', 0);
     }
 }
 ?>

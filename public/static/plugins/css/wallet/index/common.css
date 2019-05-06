@@ -68,13 +68,10 @@
     border-color: #ececec;
     margin-bottom: 20px;
 }
-.user-content-body .available .integral-value {
+.user-content-body .normal .integral-value {
     color: #4CAF50;
 }
-.user-content-body .locking {
-    margin-top: 5px;
-}
-.user-content-body .locking .integral-value {
+.user-content-body .frozen .integral-value {
     color: #FF9800;
 }
 .user-content-body .integral-value {
@@ -146,4 +143,5 @@
 }
 .user-content-body .data-list .money {
     color: #E4393C;
+    font-weight: 700;
 }
