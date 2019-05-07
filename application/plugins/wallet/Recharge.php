@@ -163,7 +163,7 @@ class Recharge extends Common
         $ret = PayService::Respond($params);
 
         // 自定义链接
-        $this->assign('to_url', PluginsHomeUrl('wallet', 'wallet', 'recharge'));
+        $this->assign('to_url', PluginsHomeUrl('wallet', 'recharge', 'index'));
         $this->assign('to_title', '充值明细');
 
         // 状态

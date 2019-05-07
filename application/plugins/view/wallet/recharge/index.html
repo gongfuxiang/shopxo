@@ -26,7 +26,7 @@
             {{include file="../../../plugins/view/wallet/public/nav" /}}
             <!-- user menu end -->
 
-            <form class="am-form form-validation" method="post" action="{{:PluginsHomeUrl('wallet', 'wallet', 'recharge')}}" request-type="form">
+            <form class="am-form form-validation" method="post" action="{{:PluginsHomeUrl('wallet', 'recharge', 'index')}}" request-type="form">
                 <div class="thin">
                     <div class="am-input-group am-input-group-sm am-fl so">
                         <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="充值单号" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
