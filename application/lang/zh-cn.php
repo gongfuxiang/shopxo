@@ -154,6 +154,7 @@ return array(
     'common_business_type_list'             =>  array(
             0 => array('id' => 0, 'name' => '默认', 'checked' => true),
             1 => array('id' => 1, 'name' => '订单'),
+            2 => array('id' => 2, 'name' => '充值'),
         ),
 
     // 用户积分 - 操作类型

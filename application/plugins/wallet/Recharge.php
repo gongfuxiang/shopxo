@@ -12,6 +12,7 @@ namespace app\plugins\wallet;
 
 use app\plugins\wallet\Common;
 use app\plugins\wallet\service\BaseService;
+use app\plugins\wallet\service\PayService;
 
 /**
  * 钱包 - 充值
@@ -115,7 +116,7 @@ class Recharge extends Common
     {
         // 用户
         $params['user'] = $this->user;
-        return BaseService::Pay($params);
+        return PayService::Pay($params);
     }
 
     /**
@@ -131,7 +132,7 @@ class Recharge extends Common
         if(input('post.'))
         {
             $params['user'] = $this->user;
-            return BaseService::RechargePayCheck($params);
+            return PayService::RechargePayCheck($params);
         } else {
             $this->assign('msg', '非法访问');
             return $this->fetch('public/tips_error');
@@ -149,23 +150,16 @@ class Recharge extends Common
      */
     public function respond($params = [])
     {
-        $this->assign('msg', '支付失败');
-        return $this->fetch('public/pay_error');
-    }
-
-    /**
-     * 支付异步通知
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2019-04-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public function notify($params = [])
-    {
-        $this->assign('msg', '支付成功');
-        return $this->fetch('public/pay_success');
+        $params['user'] = $this->user;
+        $ret = PayService::Respond($params);
+        if($ret['code'] == 0)
+        {
+            $this->assign('msg', '支付成功');
+            return $this->fetch('public/pay_success');
+        } else {
+            $this->assign('msg', $ret['msg']);
+            return $this->fetch('public/pay_error');
+        }
     }
 
     /**

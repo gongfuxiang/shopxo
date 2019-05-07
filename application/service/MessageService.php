@@ -31,7 +31,7 @@ class MessageService
      * @param    [int]              $user_id        [用户id]
      * @param    [string]           $title          [标题]
      * @param    [string]           $detail         [内容]
-     * @param    [int]              $business_type  [业务类型（0默认, 1订单, ...）]
+     * @param    [int]              $business_type  [业务类型（0默认, 1订单, 2充值, ...）]
      * @param    [int]              $business_id    [业务id]
      * @param    [int]              $type           [类型（默认0  普通消息）]
      * @return   [boolean]                          [成功true, 失败false]

@@ -18,6 +18,7 @@ use app\service\IntegralService;
 use app\service\RegionService;
 use app\service\ExpressService;
 use app\service\ResourcesService;
+use app\service\PayLogService;
 
 /**
  * 订单服务层
@@ -412,9 +413,8 @@ class OrderService
             'payment'       => $params['payment']['payment'],
             'payment_name'  => $params['payment']['name'],
             'business_type' => 1,
-            'add_time'      => time(),
         ];
-        Db::name('PayLog')->insertGetId($pay_log_data);
+        PayLogService::PayLogInsert($pay_log_data);
 
         // 开启事务
         Db::startTrans();
