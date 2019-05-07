@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : utf-8
 
- Date: 05/07/2019 17:39:35 PM
+ Date: 05/07/2019 18:41:02 PM
 */
 
 SET NAMES utf8mb4;
@@ -880,13 +880,13 @@ CREATE TABLE `s_payment` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `payment` (`payment`),
   KEY `is_enable` (`is_enable`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='支付方式';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='支付方式';
 
 -- ----------------------------
 --  Records of `s_payment`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_payment` VALUES ('1', '现金支付', 'CashPayment', '', '0.0.1', '不限', '现金方式支付货款', 'Devil', 'http://shopxo.net/', '', '', '[\"pc\",\"h5\",\"app\",\"alipay\",\"weixin\",\"baidu\"]', '1', '1', '0', '1554966430', '1554966433'), ('2', '微信', 'Weixin', '', '0.0.1', '不限', '适用微信web/h5(非微信环境)/小程序，即时到帐支付方式，买家的交易资金直接打入卖家账户，快速回笼交易资金。 <a href=\"https://pay.weixin.qq.com/\" target=\"_blank\">立即申请</a>', 'Devil', 'http://shopxo.net/', '[{\"element\":\"input\",\"type\":\"text\",\"default\":\"\",\"name\":\"appid\",\"placeholder\":\"\\u516c\\u4f17\\u53f7ID\",\"title\":\"\\u516c\\u4f17\\u53f7ID (\\u7528\\u4e8eweb\\/h5)\",\"is_required\":0,\"message\":\"\\u8bf7\\u586b\\u5199\\u5fae\\u4fe1\\u5206\\u914d\\u7684\\u516c\\u4f17\\u53f7ID\"},{\"element\":\"input\",\"type\":\"text\",\"default\":\"\",\"name\":\"mini_appid\",\"placeholder\":\"\\u5c0f\\u7a0b\\u5e8fID\",\"title\":\"\\u5c0f\\u7a0b\\u5e8fID\",\"is_required\":0,\"message\":\"\\u8bf7\\u586b\\u5199\\u5fae\\u4fe1\\u5206\\u914d\\u7684\\u5c0f\\u7a0b\\u5e8fID\"},{\"element\":\"input\",\"type\":\"text\",\"default\":\"\",\"name\":\"mch_id\",\"placeholder\":\"\\u5fae\\u4fe1\\u652f\\u4ed8\\u5546\\u6237\\u53f7\",\"title\":\"\\u5fae\\u4fe1\\u652f\\u4ed8\\u5546\\u6237\\u53f7\",\"is_required\":0,\"message\":\"\\u8bf7\\u586b\\u5199\\u5fae\\u4fe1\\u652f\\u4ed8\\u5206\\u914d\\u7684\\u5546\\u6237\\u53f7\"},{\"element\":\"input\",\"type\":\"text\",\"default\":\"\",\"name\":\"key\",\"placeholder\":\"\\u5bc6\\u94a5\",\"title\":\"\\u5bc6\\u94a5\",\"is_required\":0,\"message\":\"\\u8bf7\\u586b\\u5199\\u5bc6\\u94a5\"}]', '{\"appid\":\"wx1ce7a168ab0012c5\",\"mini_appid\":\"\",\"mch_id\":\"1274838501\",\"key\":\"cc9d97baeb4aa9357034252087cbbecc\"}', '[\"pc\",\"h5\",\"weixin\"]', '1', '1', '0', '1555491043', '1555491074');
+INSERT INTO `s_payment` VALUES ('1', '现金支付', 'CashPayment', '', '0.0.1', '不限', '现金方式支付货款', 'Devil', 'http://shopxo.net/', '', '', '[\"pc\",\"h5\",\"app\",\"alipay\",\"weixin\",\"baidu\"]', '1', '1', '0', '1554966430', '1554966433'), ('2', '微信', 'Weixin', '', '0.0.1', '不限', '适用微信web/h5(非微信环境)/小程序，即时到帐支付方式，买家的交易资金直接打入卖家账户，快速回笼交易资金。 <a href=\"https://pay.weixin.qq.com/\" target=\"_blank\">立即申请</a>', 'Devil', 'http://shopxo.net/', '[{\"element\":\"input\",\"type\":\"text\",\"default\":\"\",\"name\":\"appid\",\"placeholder\":\"\\u516c\\u4f17\\u53f7ID\",\"title\":\"\\u516c\\u4f17\\u53f7ID (\\u7528\\u4e8eweb\\/h5)\",\"is_required\":0,\"message\":\"\\u8bf7\\u586b\\u5199\\u5fae\\u4fe1\\u5206\\u914d\\u7684\\u516c\\u4f17\\u53f7ID\"},{\"element\":\"input\",\"type\":\"text\",\"default\":\"\",\"name\":\"mini_appid\",\"placeholder\":\"\\u5c0f\\u7a0b\\u5e8fID\",\"title\":\"\\u5c0f\\u7a0b\\u5e8fID\",\"is_required\":0,\"message\":\"\\u8bf7\\u586b\\u5199\\u5fae\\u4fe1\\u5206\\u914d\\u7684\\u5c0f\\u7a0b\\u5e8fID\"},{\"element\":\"input\",\"type\":\"text\",\"default\":\"\",\"name\":\"mch_id\",\"placeholder\":\"\\u5fae\\u4fe1\\u652f\\u4ed8\\u5546\\u6237\\u53f7\",\"title\":\"\\u5fae\\u4fe1\\u652f\\u4ed8\\u5546\\u6237\\u53f7\",\"is_required\":0,\"message\":\"\\u8bf7\\u586b\\u5199\\u5fae\\u4fe1\\u652f\\u4ed8\\u5206\\u914d\\u7684\\u5546\\u6237\\u53f7\"},{\"element\":\"input\",\"type\":\"text\",\"default\":\"\",\"name\":\"key\",\"placeholder\":\"\\u5bc6\\u94a5\",\"title\":\"\\u5bc6\\u94a5\",\"is_required\":0,\"message\":\"\\u8bf7\\u586b\\u5199\\u5bc6\\u94a5\"}]', '{\"appid\":\"wx1ce7a168ab0012c5\",\"mini_appid\":\"\",\"mch_id\":\"1274838501\",\"key\":\"cc9d97baeb4aa9357034252087cbbecc\"}', '[\"pc\",\"h5\",\"weixin\"]', '1', '1', '0', '1555491043', '1555491074'), ('3', '支付宝', 'Alipay', '', '0.0.2', '不限', '2.0版本，适用PC+H5，即时到帐支付方式，买家的交易资金直接打入卖家支付宝账户，快速回笼交易资金。 <a href=\"http://www.alipay.com/\" target=\"_blank\">立即申请</a>', 'Devil', 'http://shopxo.net/', '[{\"element\":\"input\",\"type\":\"text\",\"default\":\"\",\"name\":\"appid\",\"placeholder\":\"\\u5e94\\u7528ID\",\"title\":\"\\u5e94\\u7528ID\",\"is_required\":0,\"message\":\"\\u8bf7\\u586b\\u5199\\u5e94\\u7528ID\"},{\"element\":\"textarea\",\"name\":\"rsa_public\",\"placeholder\":\"\\u5e94\\u7528\\u516c\\u94a5\",\"title\":\"\\u5e94\\u7528\\u516c\\u94a5\",\"is_required\":0,\"rows\":6,\"message\":\"\\u8bf7\\u586b\\u5199\\u5e94\\u7528\\u516c\\u94a5\"},{\"element\":\"textarea\",\"name\":\"rsa_private\",\"placeholder\":\"\\u5e94\\u7528\\u79c1\\u94a5\",\"title\":\"\\u5e94\\u7528\\u79c1\\u94a5\",\"is_required\":0,\"rows\":6,\"message\":\"\\u8bf7\\u586b\\u5199\\u5e94\\u7528\\u79c1\\u94a5\"},{\"element\":\"textarea\",\"name\":\"out_rsa_public\",\"placeholder\":\"\\u652f\\u4ed8\\u5b9d\\u516c\\u94a5\",\"title\":\"\\u652f\\u4ed8\\u5b9d\\u516c\\u94a5\",\"is_required\":0,\"rows\":6,\"message\":\"\\u8bf7\\u586b\\u5199\\u652f\\u4ed8\\u5b9d\\u516c\\u94a5\"}]', '{\"appid\":\"2019031463536637\",\"rsa_public\":\"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuxAXbZitfaALDaevrWVITveMu2fh3L8t3p\\/5WGPNEVOqCnL3v8EeYZWOLSuBHhpJaLb7Q3HrPWynzpcJ2C17+DxCVS3Js8J\\/iAgiJGJB4f8wZuPBwqKncGXdrAtN6EYp3H9K1IQeCmGN9di4Ht7igDDREnVWrUIc1Q6O64KDg8YLhWaTf2FMFvdPKiH9tijIZuvtYxxOUkHmgG6N7+IIvKPLdYde0dt\\/eTy6L1wbXSWoStfmFYd38vywt51N6AlChh\\/XAQmUGYTq1sW+PFXg2MrDyyWIEZxGb1dINhlMgXMqxTropo31kXa09vUffNvPWVmR38iT9lY+n6ZWSVzH3QIDAQAB\",\"rsa_private\":\"MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC7EBdtmK19oAsNp6+tZUhO94y7Z+Hcvy3en\\/lYY80RU6oKcve\\/wR5hlY4tK4EeGklotvtDces9bKfOlwnYLXv4PEJVLcmzwn+ICCIkYkHh\\/zBm48HCoqdwZd2sC03oRincf0rUhB4KYY312Lge3uKAMNESdVatQhzVDo7rgoODxguFZpN\\/YUwW908qIf22KMhm6+1jHE5SQeaAbo3v4gi8o8t1h17R2395PLovXBtdJahK1+YVh3fy\\/LC3nU3oCUKGH9cBCZQZhOrWxb48VeDYysPLJYgRnEZvV0g2GUyBcyrFOuimjfWRdrT29R98289ZWZHfyJP2Vj6fplZJXMfdAgMBAAECggEAXXHCYkscj169ZsrXZUTtBBWBRbS1DTKrVUSQqGjibb9fd+zKeg2cgZ7V8RaEX2c+OIL\\/rUdg\\/cQjZ33nuwetn+lqMWa4FYYZcvitJYO36Y8yvJMVnYbnIayhOWpENr2l97HWzaZZ41GsOp1SDInGl8bLCe93pwEZqgyltFv0GoSfNu3trFFxPZgZJalV0t5M7+RchutkHskwrwI9BdnCJs38lh08jHHppQdkgcpyCiCdu\\/b4f+n9z97Op5Va8WY1M+wwqRk76Ias8mqwJXT\\/+t\\/sXhqkMv1ylAb89+b3rgiOU7KlZMpIAercW\\/ZRojnDjpY9ViaCxwWPwb\\/VkPrDgQKBgQDkDuie0DAIDP5C74dPj\\/Z0mapsU9bKlcgC+nowEUaEO7A9cwMVFal0x9p7BKIJsV2b6d1qJGP7rM9YtRMldJQmuxPcHOKPcZR8pGLqFYT2QGKGurohb\\/o+btGda\\/SGwJfi6jwQUF0AE+1k+Dj9P3hDxHgkj6ZMkHEBtqUj520VTQKBgQDR+1rPPex8zTQgl9uSY0hlXPyYEhpXicNhzyet1Su+TV8wdGNUr2YeuDHEu6oiRocBaT8DEwpy9EToe56EK3Ht2AQ76NBSUp9EOl1twocebM42etJSJZGpB1AgP+R\\/hmUbcBPXEwXdy5XeYnYmpVUcoizzKrnRDxg3TRF3kIX00QKBgGc49EMFmefa8a6cOdNiJrvp3YBAhkSVfL0UX\\/+nohIx7fgyOV\\/uuQ9ZceMiWrEmbWcneAcVx4dfVU4iTzMxy+in3jpPfKBOWVX9FaQ77z2CMNYoaBzAUTS29ftZpIjlXRngySTdKurhGh8MVscRVj7eCz8JIc0fx3ZuE9rnYbE1AoGAJoqJL3LBPmL3x2e4IJVii2BW6J6iASFDIGfCc7Cl18chyqYCOV\\/8UXUjhWWgo6voScUEkM7k4xacs0NFZCMJRUuZ81kXK5UIsKA519SVsmrsKqm+gt9sbebuuQyhJxsG4dNfgOF3+S7N8kSGRS+hgKDvuS5Fbu7jVfsqUpTPUZECgYAcbq3mqWwExY2Kn0I660OqOFk620pGsSY7gECUQintCZioYemzC1TN9pM6fKnOIYriV4Ou7iswhEfVX+5bwMjH2ujmu8KDdpkpdhRoFCw3GUn\\/PDelQrptaKkKXnOIJe\\/R8m+TUxYCtECTlKlYS4hTst7YhTDz5sQHcXRtveATZQ==\",\"out_rsa_public\":\"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnYFb57nryfdHO2Z9M8mEx5Q6Tn988EGAI2oAYizPB9NSWE1Rs4LI8WqoGTA\\/jVwey5PTiRgWcFrdGhM+zFgOy1J5RaSrJ6V+0EFb4zKrjH4qkifneF\\/DPYN4dWZHFpGBEv8o41X1+8KW+3OtrqMIgluB8BsE4\\/3BJC28err5I0lNMk+R9NPG\\/YEqjM3+J3o1W9iuEF5+vAWODFmeQY15RuaCKTGjlb1HpeKGbyOKKSPY8etwtFeYA1YG1ZrgdNm41\\/y9uMqwSTUz6E4QANtLAlBC31chVTFb2PleXYa8ScAt8b0W1EY5rDbA0\\/+GYoYIOgdezLEzZKt0mpVBpSBfPQIDAQAB\"}', '[\"pc\",\"h5\"]', '1', '1', '0', '1557224365', '1557224411');
 COMMIT;
 
 -- ----------------------------
@@ -1072,14 +1072,7 @@ CREATE TABLE `s_plugins_wallet_log` (
   PRIMARY KEY (`id`),
   KEY `wallet_id` (`wallet_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='钱包日志 - 应用';
-
--- ----------------------------
---  Records of `s_plugins_wallet_log`
--- ----------------------------
-BEGIN;
-INSERT INTO `s_plugins_wallet_log` VALUES ('1', '90', '1', '0', '0', '0', '0.01', '0.00', '0.00', '用户充值', '1556610086'), ('2', '90', '1', '2', '1', '1', '103.00', '0.00', '0.00', '管理员操作', '1556690086'), ('3', '90', '1', '0', '0', '1', '1100.00', '0.00', '1100.00', '管理员操作', '1557195809'), ('4', '90', '1', '0', '2', '1', '100.00', '0.00', '100.00', '管理员操作', '1557195809'), ('5', '90', '1', '0', '0', '0', '49.99', '1100.00', '1050.01', '管理员操作', '1557196320'), ('6', '90', '1', '0', '2', '0', '50.00', '100.00', '50.00', '管理员操作', '1557196320'), ('7', '90', '1', '0', '0', '0', '950.01', '1050.01', '100.00', '管理员操作', '1557196435'), ('8', '90', '1', '0', '2', '0', '50.00', '50.00', '0.00', '管理员操作', '1557196435'), ('9', '90', '1', '0', '0', '0', '10.00', '100.00', '90.00', '管理员操作[冻结10元]', '1557196738'), ('10', '90', '1', '0', '1', '1', '10.00', '0.00', '10.00', '管理员操作[冻结10元]', '1557196738'), ('11', '90', '1', '0', '1', '0', '5.00', '10.00', '5.00', '管理员操作[ 解冻5元 ]', '1557196769'), ('12', '90', '1', '0', '2', '1', '150.00', '0.00', '150.00', '管理员操作[ 赠送150元\n活动赠送 ]', '1557196827'), ('13', '90', '1', '0', '2', '0', '20.00', '150.00', '130.00', '管理员操作[ 减少20元赠送接你，操作失误 ]', '1557196913'), ('14', '90', '1', '0', '0', '0', '80.00', '90.00', '10.00', '管理员操作[ 订单号：20190429175813029476，操作时间：2019-11-12 11:22:13，操作原因：用户提现 ]', '1557197008'), ('15', '90', '1', '0', '1', '0', '5.00', '5.00', '0.00', '管理员操作[ 订单号：20190429175813029476\n操作时间：2019-11-12 11:22:13\n操作原因：用户提现 ]', '1557197201'), ('16', '90', '1', '0', '1', '1', '1.00', '0.00', '1.00', '管理员操作[\n订单号：20190429175813029476\n操作时间：2019-11-12 11:22:13\n操作原因：用户提现\n]', '1557197255'), ('17', '90', '1', '0', '1', '1', '1.00', '1.00', '2.00', '管理员操作 [\n订单号：20190429175813029476\n操作时间：2019-11-12 11:22:13\n操作原因：用户提现\n]', '1557197273'), ('18', '90', '1', '0', '2', '0', '128.00', '130.00', '2.00', '管理员操作', '1557197290'), ('19', '90', '1', '0', '2', '1', '1.00', '2.00', '3.00', '管理员操作 [\n用户提现\n]', '1557197303'), ('20', '90', '1', '0', '2', '1', '1.00', '3.00', '4.00', '管理员操作 [用户提现]', '1557197362'), ('21', '90', '1', '0', '2', '1', '1.00', '4.00', '5.00', '管理员操作 [ 用户提现 ]', '1557197384'), ('22', '90', '1', '0', '2', '1', '1.00', '5.00', '6.00', '管理员操作 [ 订单号：20190429175813029476\n操作时间：2019-11-12 11:22:13\n操作原因：用户提现 ]', '1557197412'), ('23', '90', '1', '0', '2', '0', '6.00', '6.00', '0.00', '管理员操作', '1557197888');
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='钱包日志 - 应用';
 
 -- ----------------------------
 --  Table structure for `s_plugins_wallet_recharge`
@@ -1088,6 +1081,7 @@ DROP TABLE IF EXISTS `s_plugins_wallet_recharge`;
 CREATE TABLE `s_plugins_wallet_recharge` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `wallet_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '钱包id',
   `recharge_no` char(60) NOT NULL DEFAULT '' COMMENT '充值单号',
   `status` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '状态（0未支付, 1已支付）',
   `money` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '金额',
@@ -1101,13 +1095,13 @@ CREATE TABLE `s_plugins_wallet_recharge` (
   UNIQUE KEY `recharge_no` (`recharge_no`),
   KEY `status` (`status`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='钱包充值 - 应用';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='钱包充值 - 应用';
 
 -- ----------------------------
 --  Records of `s_plugins_wallet_recharge`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_plugins_wallet_recharge` VALUES ('12', '90', '20190430102455647827', '0', '0.01', '0.00', '0', '', '', '0', '1556591095'), ('14', '90', '20190430134700124535', '0', '2.00', '0.00', '0', '', '', '0', '1556603220'), ('15', '90', '20190430144322830296', '0', '2.00', '0.00', '0', '', '', '0', '1556606602'), ('16', '90', '20190430145534104308', '0', '4.00', '0.00', '0', '', '', '0', '1556607334'), ('17', '90', '20190430155737418679', '0', '55.00', '0.00', '0', '', '', '0', '1556611057');
+INSERT INTO `s_plugins_wallet_recharge` VALUES ('1', '90', '1', '20190507181038613181', '0', '0.01', '0.00', '0', '', '', '0', '1557223838'), ('2', '90', '1', '20190507181326357094', '0', '1.00', '0.00', '0', '', '', '0', '1557224006');
 COMMIT;
 
 -- ----------------------------

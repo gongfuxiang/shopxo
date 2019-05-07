@@ -31,9 +31,6 @@ class Rechargenotify
      */
     public function notify($params = [])
     {
-        file_put_contents(ROOT.'qqqqqq.txt', json_encode(array_merge($_GET, $_POST)));
-        file_put_contents(ROOT.'pppppp.txt', json_encode($params));
-
         $ret = PayService::Notify($params);
         if($ret['code'] == 0)
         {
