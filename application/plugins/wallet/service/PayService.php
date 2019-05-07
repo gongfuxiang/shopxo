@@ -259,6 +259,7 @@ class PayService
         // 支付数据校验
         $pay_name = 'payment\\'.PAYMENT_TYPE;
         $ret = (new $pay_name($payment[0]['config']))->Respond(array_merge($_GET, $_POST));
+        file_put_contents(ROOT.'tttttt.txt', json_encode($ret));
         if(!isset($ret['code']) || $ret['code'] != 0)
         {
             return $ret;
