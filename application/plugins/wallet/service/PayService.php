@@ -393,7 +393,7 @@ class PayService
                         'latest_money'      => $data[$v['field']],
                         'msg'               => '账户充值'.$v['msg'],
                     ];
-                    if(!self::WalletLogInsert($log_data))
+                    if(!WalletService::WalletLogInsert($log_data))
                     {
                         Db::rollback();
                         return DataReturn('日志添加失败', -101);
