@@ -14,6 +14,7 @@ use think\Db;
 use app\service\PluginsService;
 use app\service\ResourcesService;
 use app\service\PaymentService;
+use app\service\MessageService;
 
 /**
  * 钱包服务层
@@ -184,30 +185,22 @@ class WalletService
      * @version 1.0.0
      * @date    2019-04-30
      * @desc    description
-     * @param   [array]          $params [输入参数]
+     * @param   [int]          $user_id [用户id]
      */
-    public static function UserWallet($params = [])
+    public static function UserWallet($user_id)
     {
         // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
+        if(empty($user_id))
         {
-            return DataReturn($ret, -1);
+            return DataReturn('用户id有误', -1);
         }
 
         // 获取钱包, 不存在则创建
-        $wallet = Db::name('PluginsWallet')->where(['user_id' => $params['user']['id']])->find();
+        $wallet = Db::name('PluginsWallet')->where(['user_id' => $user_id])->find();
         if(empty($wallet))
         {
             $data = [
-                'user_id'       => $params['user']['id'],
+                'user_id'       => $user_id,
                 'status'        => 0,
                 'add_time'      => time(),
             ];
@@ -322,15 +315,15 @@ class WalletService
         if(!Db::name('PluginsWallet')->where(['id'=>$wallet['id']])->update($data))
         {
             Db::rollback();
-            return DataReturn('编辑失败', -100);
+            return DataReturn('操作失败', -100);
         }
 
         // 日志
         // 字段名称 金额类型
         $money_field = [
-            ['field' => 'normal_money', 'money_type' => 0],
-            ['field' => 'frozen_money', 'money_type' => 1],
-            ['field' => 'give_money', 'money_type' => 2],
+            ['field' => 'normal_money', 'money_type' => 0, 'name' => '有效金额'],
+            ['field' => 'frozen_money', 'money_type' => 1, 'name' => '冻结金额'],
+            ['field' => 'give_money', 'money_type' => 2, 'name' => '赠送金额'],
         ];
 
         // 操作原因
@@ -349,19 +342,23 @@ class WalletService
                     'operation_money'   => ($wallet[$v['field']] < $data[$v['field']]) ? PriceNumberFormat($data[$v['field']]-$wallet[$v['field']]) : PriceNumberFormat($wallet[$v['field']]-$data[$v['field']]),
                     'original_money'    => $wallet[$v['field']],
                     'latest_money'      => $data[$v['field']],
-                    'msg'               => '管理员操作'.$operation_msg,
                 ];
+                $operation_type_text = ($log_data['operation_type'] == 1) ? '增加' : '减少';
+                $log_data['msg'] = '管理员操作[ '.$v['name'].$operation_type_text.$log_data['operation_money'].'元 ]'.$operation_msg;
                 if(!self::WalletLogInsert($log_data))
                 {
                     Db::rollback();
                     return DataReturn('日志添加失败', -101);
                 }
+
+                // 消息通知
+                MessageService::MessageAdd($wallet['user_id'], '账户余额变动', $log_data['msg'], 0, $wallet['id']);
             }
         }
 
         // 处理成功
         Db::commit();
-        return DataReturn('编辑成功', 0);
+        return DataReturn('操作成功', 0);
     }
 }
 ?>

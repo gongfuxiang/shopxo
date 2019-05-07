@@ -57,7 +57,7 @@ class Common extends Controller
         $this->assign('buy_payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
 
         // 用户钱包
-        $user_wallet = WalletService::UserWallet(['user'=>$this->user]);
+        $user_wallet = WalletService::UserWallet($this->user['id']);
 
         // 用户钱包状态
         $wallet_error = '';

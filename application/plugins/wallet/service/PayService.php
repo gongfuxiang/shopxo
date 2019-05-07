@@ -14,6 +14,7 @@ use think\Db;
 use app\service\PaymentService;
 use app\service\PayLogService;
 use app\service\MessageService;
+use app\service\PluginsService;
 use app\plugins\wallet\service\WalletService;
 
 /**
@@ -326,12 +327,20 @@ class PayService
         ];
         PayLogService::PayLogInsert($pay_log_data);
 
+        // 获取用户钱包校验
+        $user_wallet = WalletService::UserWallet($params['recharge']['user_id']);
+        if($user_wallet['code'] != 0)
+        {
+            return $user_wallet;
+        } else {
+            if($user_wallet['data']['id'] != $params['recharge']['wallet_id'])
+            {
+                return DataReturn('用户钱包不匹配', -1);
+            }
+        }
+
         // 开启事务
         Db::startTrans();
-
-        // 消息通知
-        $detail = '账户充值成功，金额'.PriceBeautify($params['recharge']['money']).'元';
-        MessageService::MessageAdd($params['recharge']['user_id'], '账户充值', $detail, 2, $params['recharge']['id']);
 
         // 更新充值状态
         $upd_data = array(
@@ -345,23 +354,57 @@ class PayService
         );
         if(Db::name('PluginsWalletRecharge')->where(['id'=>$params['recharge']['id']])->update($upd_data))
         {
-            /*$log_data = [
-                    'user_id'           => $wallet['user_id'],
-                    'wallet_id'         => $wallet['id'],
-                    'business_type'     => 0,
-                    'operation_type'    => ($wallet[$v['field']] < $data[$v['field']]) ? 1 : 0,
-                    'money_type'        => $v['money_type'],
-                    'operation_money'   => ($wallet[$v['field']] < $data[$v['field']]) ? PriceNumberFormat($data[$v['field']]-$wallet[$v['field']]) : PriceNumberFormat($wallet[$v['field']]-$data[$v['field']]),
-                    'original_money'    => $wallet[$v['field']],
-                    'latest_money'      => $data[$v['field']],
-                    'msg'               => '管理员操作'.$operation_msg,
-                ];
-                if(!self::WalletLogInsert($log_data))
+            // 字段名称 金额类型
+            $money_field = [
+                ['field' => 'normal_money', 'money_type' => 0, 'msg' => ' [ '.$pay_price.'元 ]'],
+            ];
+
+            // 是否有赠送金额
+            $give_money = self::RechargeGiveMoneyHandle($pay_price);
+            if($give_money > 0)
+            {
+                $money_field[] = ['field' => 'give_money', 'money_type' => 2, 'msg' => ' [ 赠送'.$give_money.'元 ]'];
+            }
+
+            // 钱包更新数据
+            $data = [
+                'normal_money'      => PriceNumberFormat($user_wallet['data']['normal_money']+$pay_price+$give_money),
+                'give_money'        => PriceNumberFormat($user_wallet['data']['give_money']+$give_money),
+                'upd_time'          => time(),
+            ];
+            if(!Db::name('PluginsWallet')->where(['id'=>$user_wallet['data']['id']])->update($data))
+            {
+                Db::rollback();
+                return DataReturn('钱包更新失败', -10);
+            }
+
+            foreach($money_field as $v)
+            {
+                // 有效金额
+                if($user_wallet['data'][$v['field']] != $data[$v['field']])
                 {
-                    Db::rollback();
-                    return DataReturn('日志添加失败', -101);
-                }*/
-                
+                    $log_data = [
+                        'user_id'           => $user_wallet['data']['user_id'],
+                        'wallet_id'         => $user_wallet['data']['id'],
+                        'business_type'     => 1,
+                        'operation_type'    => 1,
+                        'money_type'        => $v['money_type'],
+                        'operation_money'   => ($user_wallet['data'][$v['field']] < $data[$v['field']]) ? PriceNumberFormat($data[$v['field']]-$user_wallet['data'][$v['field']]) : PriceNumberFormat($user_wallet['data'][$v['field']]-$data[$v['field']]),
+                        'original_money'    => $user_wallet['data'][$v['field']],
+                        'latest_money'      => $data[$v['field']],
+                        'msg'               => '账户充值'.$v['msg'],
+                    ];
+                    if(!self::WalletLogInsert($log_data))
+                    {
+                        Db::rollback();
+                        return DataReturn('日志添加失败', -101);
+                    }
+
+                    // 消息通知
+                    MessageService::MessageAdd($params['recharge']['user_id'], '账户充值', $log_data['msg'], 2, $params['recharge']['id']);
+                }
+            }
+
             // 提交事务
             Db::commit();
             return DataReturn('支付成功', 0);
@@ -370,6 +413,36 @@ class PayService
         // 处理失败
         Db::rollback();
         return DataReturn('处理失败', -100);
+    }
+
+    /**
+     * 充值赠送金额计算
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-05-08T00:12:48+0800
+     * @param    [float]                   $pay_price [支付金额]
+     */
+    private static function RechargeGiveMoneyHandle($pay_price)
+    {
+        $give_money = 0;
+        $ret = PluginsService::PluginsData('wallet', '', false);
+        if(!empty($ret['data']['recharge_give_value']) && isset($ret['data']['recharge_give_type']))
+        {
+            switch($ret['data']['recharge_give_type'])
+            {
+                // 固定金额
+                case 0 :
+                    $give_money = PriceNumberFormat($ret['data']['recharge_give_value']);
+                    break;
+
+                // 比例
+                case 1 :
+                    $give_money = ($ret['data']['recharge_give_value']/100)*$pay_price;
+                    break;
+            }
+        }
+        return $give_money;
     }
 }
 ?>
