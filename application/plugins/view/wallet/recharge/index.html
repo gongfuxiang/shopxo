@@ -62,8 +62,10 @@
                                     <td class="am-hide-sm-only">{{$v.pay_time_text}}</td>
                                     <td class="am-hide-sm-only">{{$v.add_time_text}}</td>
                                     <td>
-                                        <button class="am-btn am-btn-success am-btn-xs am-radius am-icon-shield recharge-submit" data-value="{{$v.id}}" data-recharge-no="{{$v.recharge_no}}" data-money="{{$v.money}}"> 支付</button>
-                                        <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:PluginsHomeUrl('wallet', 'recharge', 'delete')}}" data-id="{{$v.id}}" data-view="delete"> 删除</button>
+                                        {{if $v['status'] eq 0}}
+                                            <button class="am-btn am-btn-success am-btn-xs am-radius am-icon-shield recharge-submit" data-value="{{$v.id}}" data-recharge-no="{{$v.recharge_no}}" data-money="{{$v.money}}"> 支付</button>
+                                            <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:PluginsHomeUrl('wallet', 'recharge', 'delete')}}" data-id="{{$v.id}}" data-view="delete"> 删除</button>
+                                        {{/if}}
                                     </td>
                                 </tr>
                             {{/foreach}}
