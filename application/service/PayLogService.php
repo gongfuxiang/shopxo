@@ -45,13 +45,13 @@ class PayLogService
         $data = [
             'user_id'           => isset($params['user_id']) ? intval($params['user_id']) : 0,
             'order_id'          => isset($params['order_id']) ? intval($params['order_id']) : 0,
-            'total_price'       => isset($params['total_price']) ? intval($params['total_price']) : 0,
+            'total_price'       => isset($params['total_price']) ? PriceNumberFormat($params['total_price']) : 0.00,
             'trade_no'          => isset($params['trade_no']) ? $params['trade_no'] : '',
-            'buyer_user'        => isset($params['buyer_user']) ? intval($params['buyer_user']) : '',
+            'buyer_user'        => isset($params['buyer_user']) ? $params['buyer_user'] : '',
             'pay_price'         => isset($params['pay_price']) ? PriceNumberFormat($params['pay_price']) : 0.00,
-            'subject'           => isset($params['subject']) ? intval($params['subject']) : '',
-            'payment'           => isset($params['payment']) ? intval($params['payment']) : '',
-            'payment_name'      => isset($params['payment_name']) ? intval($params['payment_name']) : '',
+            'subject'           => isset($params['subject']) ? $params['subject'] : '',
+            'payment'           => isset($params['payment']) ? $params['payment'] : '',
+            'payment_name'      => isset($params['payment_name']) ? $params['payment_name'] : '',
             'business_type'     => isset($params['business_type']) ? intval($params['business_type']) : 0,
             'add_time'          => time(),
         ];
