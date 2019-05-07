@@ -353,16 +353,21 @@ class PayService
         );
         if(Db::name('PluginsWalletRecharge')->where(['id'=>$params['recharge']['id']])->update($upd_data))
         {
-            // 字段名称 金额类型
-            $money_field = [
-                ['field' => 'normal_money', 'money_type' => 0, 'msg' => ' [ '.$pay_price.'元 ]'],
-            ];
-
             // 是否有赠送金额
             $give_money = self::RechargeGiveMoneyHandle($pay_price);
+
+            // 字段名称 金额类型
+            
             if($give_money > 0)
             {
-                $money_field[] = ['field' => 'give_money', 'money_type' => 2, 'msg' => ' [ 赠送'.$give_money.'元 ]'];
+                $money_field = [
+                    ['field' => 'normal_money', 'money_type' => 0, 'msg' => ' [ '.$pay_price.'元, 赠送'.$give_money.'元 ]'],
+                    ['field' => 'give_money', 'money_type' => 2, 'msg' => ' [ 赠送'.$give_money.'元 ]'],
+                ];
+            } else {
+                $money_field = [
+                    ['field' => 'normal_money', 'money_type' => 0, 'msg' => ' [ '.$pay_price.'元 ]'],
+                ];
             }
 
             // 钱包更新数据
