@@ -78,7 +78,7 @@
             <span data-am-modal-close class="am-close">&times;</span>
         </div>
         <div class="am-popup-bd">
-            <form class="am-form form-validation-plugins-recharge-popup" action="{{:PluginsHomeUrl('wallet', 'recharge', 'pay')}}" method="POST" request-type="ajax-fun" request-value="PluginsRechargePayBack">
+            <form class="am-form form-validation-plugins-recharge-popup" action="{{:PluginsHomeUrl('wallet', 'recharge', 'pay')}}" method="POST" request-type="form">
                 <div class="base">
                     <p>充值单号：<span class="recharge-no">...</span></p>
                     <p class="price">充值金额：<strong>...</strong></p>
@@ -133,21 +133,6 @@ function PluginsRechargeBack(e)
         $popup.find('.base .price strong').text('￥'+e.data.money);
         $popup.modal('open');
     } else {
-        Prompt(e.msg);
-    }
-}
-
-/**
- * 支付回调
- */
-function PluginsRechargePayBack(e)
-{
-    if(e.code == 0)
-    {
-        window.location.href = e.data;
-    } else {
-        $('form.form-validation-plugins-recharge-popup').find('button[type="submit"]').button('reset');
-        $.AMUI.progress.done();
         Prompt(e.msg);
     }
 }

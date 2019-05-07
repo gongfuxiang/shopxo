@@ -117,7 +117,14 @@ class Recharge extends Common
     {
         // 用户
         $params['user'] = $this->user;
-        return PayService::Pay($params);
+        $ret = PayService::Pay($params);
+        if($ret['code'] == 0)
+        {
+            return redirect($ret['data']);
+        } else {
+            $this->assign('msg', $ret['msg']);
+            return $this->fetch('public/tips_error');
+        }
     }
 
     /**
