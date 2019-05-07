@@ -420,6 +420,9 @@ class BaseService
                 // 金额类型
                 $v['money_type_text'] = (isset($v['money_type']) && isset($money_type_list[$v['money_type']])) ? $money_type_list[$v['money_type']]['name'] : '未知';
 
+                // 操作原因
+                $v['msg'] = empty($v['msg']) ? '' : str_replace("\n", '<br />', $v['msg']);
+
                 // 创建时间
                 $v['add_time_text'] = empty($v['add_time']) ? '' : date('Y-m-d H:i:s', $v['add_time']);
             }

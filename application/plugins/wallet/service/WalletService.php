@@ -240,7 +240,9 @@ class WalletService
             'business_type'     => isset($params['business_type']) ? intval($params['business_type']) : 0,
             'operation_type'    => isset($params['operation_type']) ? intval($params['operation_type']) : 0,
             'money_type'        => isset($params['money_type']) ? intval($params['money_type']) : 0,
-            'money'             => isset($params['money']) ? PriceNumberFormat($params['money']) : 0.00,
+            'operation_money'   => isset($params['operation_money']) ? PriceNumberFormat($params['operation_money']) : 0.00,
+            'original_money'    => isset($params['original_money']) ? PriceNumberFormat($params['original_money']) : 0.00,
+            'latest_money'      => isset($params['latest_money']) ? PriceNumberFormat($params['latest_money']) : 0.00,
             'msg'               => empty($params['msg']) ? '系统' : $params['msg'],
             'add_time'          => time(),
         ];
@@ -330,6 +332,9 @@ class WalletService
             ['field' => 'frozen_money', 'money_type' => 1],
             ['field' => 'give_money', 'money_type' => 2],
         ];
+
+        // 操作原因
+        $operation_msg = empty($params['msg']) ? '' : ' [ '.$params['msg'].' ]';
         foreach($money_field as $v)
         {
             // 有效金额
@@ -341,8 +346,10 @@ class WalletService
                     'business_type'     => 0,
                     'operation_type'    => ($wallet[$v['field']] < $data[$v['field']]) ? 1 : 0,
                     'money_type'        => $v['money_type'],
-                    'money'             => ($wallet[$v['field']] < $data[$v['field']]) ? PriceNumberFormat($data[$v['field']]-$wallet[$v['field']]) : PriceNumberFormat($wallet[$v['field']]-$data[$v['field']]),
-                    'msg'               => '管理员操作',
+                    'operation_money'   => ($wallet[$v['field']] < $data[$v['field']]) ? PriceNumberFormat($data[$v['field']]-$wallet[$v['field']]) : PriceNumberFormat($wallet[$v['field']]-$data[$v['field']]),
+                    'original_money'    => $wallet[$v['field']],
+                    'latest_money'      => $data[$v['field']],
+                    'msg'               => '管理员操作'.$operation_msg,
                 ];
                 if(!self::WalletLogInsert($log_data))
                 {

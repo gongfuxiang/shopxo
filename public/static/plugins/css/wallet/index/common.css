@@ -141,7 +141,9 @@
 .user-content-body .data-list {
     margin-top: 10px;
 }
+.user-content-body .data-list .money-bold {
+    font-weight: 700;
+}
 .user-content-body .data-list .money {
     color: #E4393C;
-    font-weight: 700;
 }

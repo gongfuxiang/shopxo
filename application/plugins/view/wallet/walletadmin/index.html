@@ -3,12 +3,10 @@
 <!-- right content start  -->
 <div class="content-right">
     <div class="content">
-        {{if !isset($params['is_admin_index']) or $params['is_admin_index'] neq 1}}
-            <legend>
-                <span class="fs-16">钱包</span>
-                <a href="{{:PluginsAdminUrl('wallet', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
-            </legend>
-        {{/if}}
+        <legend>
+            <span class="fs-16">钱包</span>
+            <a href="{{:PluginsAdminUrl('wallet', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
 
         <div class="wallet-content">
             <!-- form start -->
@@ -82,14 +80,11 @@
                                 </td>
                                 <td>{{$v.status_text}}</td>
                                 <td class="am-hide-sm-only">{{$v.add_time_text}}</td>
-                                {{if !isset($params['is_admin_index']) or $params['is_admin_index'] neq 1}}
-                                    <td class="view-operation">
-                                        <a href="{{:PluginsAdminUrl('wallet', 'walletadmin', 'saveinfo', ['id'=>$v['id']])}}">
-                                            <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit"> 编辑</button>
-                                        </a>
-                                        <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:PluginsAdminUrl('wallet', 'walletadmin', 'delete')}}" data-id="{{$v.id}}"> 删除</button>
-                                    </td>
-                                {{/if}}
+                                <td class="view-operation">
+                                    <a href="{{:PluginsAdminUrl('wallet', 'walletadmin', 'saveinfo', ['id'=>$v['id']])}}">
+                                        <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit"> 编辑</button>
+                                    </a>
+                                </td>
                             </tr>
                         {{/foreach}}
                     {{else /}}

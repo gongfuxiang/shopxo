@@ -50,6 +50,10 @@
                         </select>
                     </div>
 
+                    <div class="am-form-group">
+                      <label>操作原因</label>
+                      <textarea class="am-radius" name="msg" rows="3" maxlength="80" placeholder="最多80个字符" data-validation-message="操作原因格式最多 80 个字符"></textarea>
+                    </div>
 
                     <div class="am-form-group am-form-group-refreshing">
                         <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />

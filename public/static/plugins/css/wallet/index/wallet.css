@@ -7,3 +7,6 @@
 .user-content-body .data-list .operation-increase-icon {
     color: #0a9610;
 }
+.user-content-body .data-list .operation-msg {
+    width: 30%;
+}
