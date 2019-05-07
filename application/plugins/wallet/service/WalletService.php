@@ -319,11 +319,11 @@ class WalletService
         }
 
         // 日志
-        // 字段名称 金额类型
+        // 字段名称 金额类型 金额名称
         $money_field = [
-            ['field' => 'normal_money', 'money_type' => 0, 'name' => '有效金额'],
-            ['field' => 'frozen_money', 'money_type' => 1, 'name' => '冻结金额'],
-            ['field' => 'give_money', 'money_type' => 2, 'name' => '赠送金额'],
+            ['field' => 'normal_money', 'money_type' => 0],
+            ['field' => 'frozen_money', 'money_type' => 1],
+            ['field' => 'give_money', 'money_type' => 2],
         ];
 
         // 操作原因
@@ -344,7 +344,7 @@ class WalletService
                     'latest_money'      => $data[$v['field']],
                 ];
                 $operation_type_text = ($log_data['operation_type'] == 1) ? '增加' : '减少';
-                $log_data['msg'] = '管理员操作[ '.$v['name'].$operation_type_text.$log_data['operation_money'].'元 ]'.$operation_msg;
+                $log_data['msg'] = '管理员操作[ '.self::$money_type_list[$v['money_type']]['name'].'金额'.$operation_type_text.$log_data['operation_money'].'元 ]'.$operation_msg;
                 if(!self::WalletLogInsert($log_data))
                 {
                     Db::rollback();
