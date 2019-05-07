@@ -350,7 +350,6 @@ class PayService
             'payment'       => $params['payment']['payment'],
             'payment_name'  => $params['payment']['name'],
             'pay_time'      => time(),
-            'upd_time'      => time(),
         );
         if(Db::name('PluginsWalletRecharge')->where(['id'=>$params['recharge']['id']])->update($upd_data))
         {
