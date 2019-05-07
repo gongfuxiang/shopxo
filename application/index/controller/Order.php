@@ -229,9 +229,16 @@ class Order extends Common
      */
     public function Respond()
     {
+        // 获取支付回调数据
         $params = input();
         $params['user'] = $this->user;
         $ret = OrderService::Respond($params);
+
+        // 自定义链接
+        $this->assign('to_url', MyUrl('index/order/index'));
+        $this->assign('to_title', '我的订单');
+
+        // 状态
         if($ret['code'] == 0)
         {
             $this->assign('msg', '支付成功');

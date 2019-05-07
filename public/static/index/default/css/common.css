@@ -270,7 +270,7 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
 .tips-success i.am-icon-check-circle { color: #4CAF50; }
 .tips-error span.msg, .tips-success span.msg { font-size: 22px; margin-left: 10px; }
 .tips-error .tips-nav, .tips-success .tips-nav { margin-top: 20px; }
-.tips-error .tips-nav .am-btn:not(:last-child), .tips-success .tips-nav .am-btn:not(:last-child) { margin-right: 20px; }
+.tips-error .tips-nav .am-btn:not(:first-child), .tips-success .tips-nav .am-btn:not(:first-child) { margin-left: 20px; }
 
 /* 页面加载数据 */
 .loding-view { text-align: center; color: #888; padding: 10px 0; }

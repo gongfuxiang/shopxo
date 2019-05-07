@@ -158,8 +158,15 @@ class Recharge extends Common
      */
     public function respond($params = [])
     {
+        // 获取支付回调数据
         $params['user'] = $this->user;
         $ret = PayService::Respond($params);
+
+        // 自定义链接
+        $this->assign('to_url', PluginsHomeUrl('wallet', 'wallet', 'recharge'));
+        $this->assign('to_title', '充值明细');
+
+        // 状态
         if($ret['code'] == 0)
         {
             $this->assign('msg', '支付成功');

@@ -361,7 +361,7 @@ class PayService
             if($give_money > 0)
             {
                 $money_field = [
-                    ['field' => 'normal_money', 'money_type' => 0, 'msg' => ' [ '.$pay_price.'元, 赠送'.$give_money.'元 ]'],
+                    ['field' => 'normal_money', 'money_type' => 0, 'msg' => ' [ '.$pay_price.'元 , 赠送'.$give_money.'元 ]'],
                     ['field' => 'give_money', 'money_type' => 2, 'msg' => ' [ 赠送'.$give_money.'元 ]'],
                 ];
             } else {
