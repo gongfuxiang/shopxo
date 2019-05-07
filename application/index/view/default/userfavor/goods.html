@@ -35,7 +35,7 @@
 
             <!-- 商品列表 -->
             <div class="data-list">
-                <table class="am-table">
+                <table class="am-table am-table-striped">
                     <thead>
                         <tr>
                             <th class="base">商品信息</th>
@@ -69,15 +69,12 @@
                                 </tr>
                             {{/foreach}}
                         {{/if}}
-                        {{if empty($data_list)}}
-                            <tr>
-                                <td colspan="3">
-                                    <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
-                                </td>
-                            </tr>
-                        {{/if}}
                     </tbody>
                 </table>
+
+                {{if empty($data_list)}}
+                    <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+                {{/if}}
             </div>
 
             <!-- 分页 -->
