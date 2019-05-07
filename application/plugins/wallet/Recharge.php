@@ -101,6 +101,7 @@ class Recharge extends Common
 
         // 用户
         $params['user'] = $this->user;
+        $params['user_wallet'] = $this->user_wallet;
         return BaseService::RechargeCreate($params);
     }
 

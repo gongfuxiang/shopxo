@@ -134,6 +134,11 @@ class BaseService
                 'error_msg'         => '用户信息有误',
             ],
             [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user_wallet',
+                'error_msg'         => '用户钱包有误',
+            ],
+            [
                 'checked_type'      => 'fun',
                 'key_name'          => 'money',
                 'checked_data'      => 'CheckPrice',
@@ -155,6 +160,7 @@ class BaseService
         // 添加
         $data = [
             'recharge_no'   => date('YmdHis').GetNumberCode(6),
+            'wallet_id'     => $params['user_wallet']['id'],
             'user_id'       => $params['user']['id'],
             'money'         => PriceNumberFormat($params['money']),
             'status'        => 0,

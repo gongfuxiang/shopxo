@@ -14,6 +14,7 @@ use think\Db;
 use app\service\PaymentService;
 use app\service\PayLogService;
 use app\service\MessageService;
+use app\plugins\wallet\service\WalletService;
 
 /**
  * 支付服务层
@@ -344,6 +345,22 @@ class PayService
         );
         if(Db::name('PluginsWalletRecharge')->where(['id'=>$params['recharge']['id']])->update($upd_data))
         {
+            $log_data = [
+                    'user_id'           => $wallet['user_id'],
+                    'wallet_id'         => $wallet['id'],
+                    'business_type'     => 0,
+                    'operation_type'    => ($wallet[$v['field']] < $data[$v['field']]) ? 1 : 0,
+                    'money_type'        => $v['money_type'],
+                    'operation_money'   => ($wallet[$v['field']] < $data[$v['field']]) ? PriceNumberFormat($data[$v['field']]-$wallet[$v['field']]) : PriceNumberFormat($wallet[$v['field']]-$data[$v['field']]),
+                    'original_money'    => $wallet[$v['field']],
+                    'latest_money'      => $data[$v['field']],
+                    'msg'               => '管理员操作'.$operation_msg,
+                ];
+                if(!self::WalletLogInsert($log_data))
+                {
+                    Db::rollback();
+                    return DataReturn('日志添加失败', -101);
+                }
             // 提交事务
             Db::commit();
             return DataReturn('支付成功', 0);

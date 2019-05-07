@@ -56,20 +56,19 @@ class Common extends Controller
         // 发起支付 - 支付方式
         $this->assign('buy_payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
 
-        // 用户钱包信息
-        $this->user_wallet = WalletService::UserWallet(['user'=>$this->user]);
-        $this->assign('user_wallet', $this->user_wallet['data']);
+        // 用户钱包
+        $user_wallet = WalletService::UserWallet(['user'=>$this->user]);
 
         // 用户钱包状态
         $wallet_error = '';
-        if(isset($this->user_wallet['code']) and $this->user_wallet['code'] == 0)
+        if(isset($user_wallet['code']) and $user_wallet['code'] == 0)
         {
-            if(!isset($this->user_wallet['data']['status']) || $this->user_wallet['data']['status'] != 0)
+            if(!isset($user_wallet['data']['status']) || $user_wallet['data']['status'] != 0)
             {
-                $wallet_error = array_key_exists($this->user_wallet['data']['status'], WalletService::$wallet_status_list) ? '用户钱包[ '.WalletService::$wallet_status_list[$this->user_wallet['data']['status']]['name'].' ]' : '用户钱包状态异常错误';
+                $wallet_error = array_key_exists($user_wallet['data']['status'], WalletService::$wallet_status_list) ? '用户钱包[ '.WalletService::$wallet_status_list[$user_wallet['data']['status']]['name'].' ]' : '用户钱包状态异常错误';
             }
         } else {
-            $wallet_error = isset($this->user_wallet['msg']) ? $this->user_wallet['msg'] : '用户钱包异常错误';
+            $wallet_error = isset($user_wallet['msg']) ? $user_wallet['msg'] : '用户钱包异常错误';
         }
         $this->assign('wallet_error', $wallet_error);
 
@@ -78,6 +77,10 @@ class Common extends Controller
         {
             exit(json_encode(DataReturn($wallet_error, -50)));
         }
+
+        // 用户钱包信息
+        $this->user_wallet = $user_wallet['data'];
+        $this->assign('user_wallet', $user_wallet['data']);
     }
 }
 ?>
