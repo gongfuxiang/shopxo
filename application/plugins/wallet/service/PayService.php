@@ -345,7 +345,7 @@ class PayService
         );
         if(Db::name('PluginsWalletRecharge')->where(['id'=>$params['recharge']['id']])->update($upd_data))
         {
-            $log_data = [
+            /*$log_data = [
                     'user_id'           => $wallet['user_id'],
                     'wallet_id'         => $wallet['id'],
                     'business_type'     => 0,
@@ -360,7 +360,8 @@ class PayService
                 {
                     Db::rollback();
                     return DataReturn('日志添加失败', -101);
-                }
+                }*/
+                
             // 提交事务
             Db::commit();
             return DataReturn('支付成功', 0);
