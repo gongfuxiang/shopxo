@@ -58,7 +58,7 @@
                                 <tr id="data-list-{{$v.id}}">
                                     <td>{{$v.recharge_no}}</td>
                                     <td class="money-bold">{{$v.money}}</td>
-                                    <td class="money">{{if $v['pay_price'] gt 0}}+{{$v.pay_price}}{{/if}}</td>
+                                    <td class="money">{{if $v['pay_money'] gt 0}}+{{$v.pay_money}}{{/if}}</td>
                                     <td>{{$v.status_text}}</td>
                                     <td class="am-hide-sm-only">{{$v.payment_name}}</td>
                                     <td class="am-hide-sm-only">{{$v.pay_time_text}}</td>
