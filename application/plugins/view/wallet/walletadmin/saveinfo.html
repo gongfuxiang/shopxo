@@ -55,6 +55,11 @@
                       <textarea class="am-radius" name="msg" rows="3" maxlength="80" placeholder="最多80个字符" data-validation-message="操作原因格式最多 80 个字符"></textarea>
                     </div>
 
+                    <div class="am-form-group">
+                        <label class="block">发送站内信</label>
+                        <input name="is_send_message" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch checked="true" />
+                    </div>
+
                     <div class="am-form-group am-form-group-refreshing">
                         <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
                         <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>

@@ -326,6 +326,9 @@ class WalletService
             ['field' => 'give_money', 'money_type' => 2],
         ];
 
+        // 是否发送消息
+        $is_send_message = (isset($params['is_send_message']) && $params['is_send_message'] == 1) ? 1 : 0;
+
         // 操作原因
         $operation_msg = empty($params['msg']) ? '' : ' [ '.$params['msg'].' ]';
         foreach($money_field as $v)
@@ -352,7 +355,10 @@ class WalletService
                 }
 
                 // 消息通知
-                MessageService::MessageAdd($wallet['user_id'], '账户余额变动', $log_data['msg'], 0, $wallet['id']);
+                if($is_send_message == 1)
+                {
+                    MessageService::MessageAdd($wallet['user_id'], '账户余额变动', $log_data['msg'], 0, $wallet['id']);
+                }
             }
         }
 

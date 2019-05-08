@@ -12,10 +12,10 @@
 
     <div class="am-topbar-right">
         {{if in_array($plugins_control, ['wallet', 'recharge'])}}
-            <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm am-icon-shield" data-am-modal="{target: '#plugins-recharge-pay-modal', width: 260, height: 130}"> 在线充值</button>
+            <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm am-icon-shield" data-am-modal="{target: '#plugins-recharge-pay-modal', width: 260, height: 130}"> 充值</button>
         {{/if}}
         {{if in_array($plugins_control, ['wallet', 'cash'])}}
-            <a class="am-btn am-btn-success am-topbar-btn am-btn-sm am-icon-money"> 申请提现</a>
+            <a class="am-btn am-btn-success am-topbar-btn am-btn-sm am-icon-money"> 提现</a>
         {{/if}}
     </div>
 </ul>
@@ -33,7 +33,7 @@
             <span>冻结金额</span>
             <span class="integral-value">{{$user_wallet.frozen_money}}</span>
             <em>元</em>
-            <span class="integral-tips">一般积分交易中、提现、交易并未完成，锁定相应的积分</span>
+            <span class="integral-tips">一般积分预交易中、提现、交易并未完成，冻结相应的金额</span>
         </div>
         <div class="give">
             <span>赠送金额</span>
