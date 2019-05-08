@@ -11,7 +11,7 @@
 namespace app\plugins\homemiddleadv;
 
 use think\Controller;
-use app\plugins\homemiddleadv\Service;
+use app\plugins\homemiddleadv\service\Service;
 use app\service\PluginsService;
 
 /**
@@ -91,7 +91,7 @@ class Hook extends Controller
         if($ret['code'] == 0 && !empty($ret['data']))
         {
             $this->assign('data_list', $ret['data']);
-            return $this->fetch('../../../plugins/view/homemiddleadv/index/content');
+            return $this->fetch('../../../plugins/view/homemiddleadv/index/public/content');
         }
         return '';
     }

@@ -135,7 +135,7 @@ class Hook extends Controller
             ];
             $this->assign('base', $base);
 
-            return $this->fetch('../../../plugins/view/commonrightnavigation/index/content');
+            return $this->fetch('../../../plugins/view/commonrightnavigation/index/public/content');
         } else {
             return $ret['msg'];
         }

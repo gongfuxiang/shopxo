@@ -120,7 +120,7 @@ class Hook extends Controller
         if($ret['code'] == 0)
         {
             $this->assign('data', $ret['data']);
-            return $this->fetch('../../../plugins/view/expressforkdn/admin/content');
+            return $this->fetch('../../../plugins/view/expressforkdn/index/public/content');
         } else {
             return $ret['msg'];
         }

@@ -99,7 +99,7 @@ class Hook extends Controller
         if($ret['code'] == 0)
         {
             $this->assign('data', $ret['data']);
-            return $this->fetch('../../../plugins/view/share/index/content');
+            return $this->fetch('../../../plugins/view/share/index/public/content');
         } else {
             return $ret['msg'];
         }

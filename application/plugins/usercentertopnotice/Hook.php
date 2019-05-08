@@ -82,7 +82,7 @@ class Hook extends Controller
             }
 
             $this->assign('data', $ret['data']);
-            return $this->fetch('../../../plugins/view/usercentertopnotice/index/content');
+            return $this->fetch('../../../plugins/view/usercentertopnotice/index/public/content');
         } else {
             return $ret['msg'];
         }

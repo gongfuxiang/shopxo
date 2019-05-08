@@ -97,7 +97,7 @@ class Hook extends Controller
             }
 
             $this->assign('data', $ret['data']);
-            return $this->fetch('../../../plugins/view/commontopnotice/index/content');
+            return $this->fetch('../../../plugins/view/commontopnotice/index/public/content');
         } else {
             return $ret['msg'];
         }

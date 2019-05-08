@@ -1,0 +1,143 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container user-main">
+
+    <!-- user menu start -->
+    {{include file="public/user_menu" /}}
+    <!-- user menu end -->
+
+    <!-- content start -->
+    <div class="user-content">
+        <div class="user-content-body">
+            <!-- user menu start -->
+            {{include file="../../../plugins/view/wallet/index/public/nav" /}}
+            <!-- user menu end -->
+
+            <form class="am-form form-validation" method="post" action="{{:PluginsHomeUrl('wallet', 'wallet', 'index')}}" request-type="form">
+                <table class="so-list more-where">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span>业务：</span>
+                                <select name="business_type" class="chosen-select" data-placeholder="业务类型...">
+                                    <option value="-1">业务类型...</option>
+                                    {{if !empty($business_type_list)}}
+                                        {{foreach $business_type_list as $v}}
+                                            <option value="{{$v.value}}" {{if isset($params['business_type']) and $params['business_type'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </select>
+                            </td>
+                            <td>
+                                <span>操作：</span>
+                                <select name="operation_type" class="chosen-select" data-placeholder="操作类型...">
+                                    <option value="-1">操作类型...</option>
+                                    {{if !empty($operation_type_list)}}
+                                        {{foreach $operation_type_list as $v}}
+                                            <option value="{{$v.value}}" {{if isset($params['operation_type']) and $params['operation_type'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>金额：</span>
+                                <select name="money_type" class="chosen-select" data-placeholder="金额类型...">
+                                    <option value="-1">金额类型...</option>
+                                    {{if !empty($money_type_list)}}
+                                        {{foreach $money_type_list as $v}}
+                                            <option value="{{$v.value}}" {{if isset($params['money_type']) and $params['money_type'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </select>
+                            </td>
+                            <td>
+                                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
+                                <a href="{{:PluginsHomeUrl('wallet', 'wallet', 'index')}}" class="am-btn am-btn-warning am-radius am-btn-sm reset-submit">清除条件</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+
+            <!-- 列表 -->
+            <div class="data-list">
+                <table class="am-table am-table-striped">
+                    <thead>
+                        <tr>
+                            <th class="am-hide-sm-only">业务类型</th>
+                            <th>操作类型</th>
+                            <th>金额类型</th>
+                            <th>操作金额(元)</th>
+                            <th>原始金额(元)</th>
+                            <th>最新金额(元)</th>
+                            <th class="am-hide-sm-only">变更说明</th>
+                            <th class="am-hide-sm-only">操作时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{if !empty($data_list)}}
+                            {{foreach $data_list as $v}}
+                                <tr>
+                                    <td class="am-hide-sm-only">{{$v.business_type_text}}</td>
+                                    <td>
+                                        {{if $v['operation_type'] eq 0}}
+                                            <span class="operation-reduce-icon">{{$v.operation_type_text}}</span>
+                                        {{elseif $v['operation_type'] eq 1}}
+                                            <span class="operation-increase-icon">{{$v.operation_type_text}}</span>
+                                        {{/if}}
+                                    </td>
+                                    <td>{{$v.money_type_text}}</td>
+                                    <td>
+                                        {{if $v['operation_type'] eq 0}}
+                                            <span class="operation-reduce-icon">-</span>
+                                        {{elseif $v['operation_type'] eq 1}}
+                                            <span class="operation-increase-icon">+</span>
+                                        {{/if}}
+                                        <span class="money-bold money">{{$v.operation_money}}</span>
+                                    </td>
+                                    <td>
+                                        <span class="money-bold">{{$v.original_money}}</span>
+                                    </td>
+                                    <td>
+                                        <span class="money-bold">{{$v.latest_money}}</span>
+                                    </td>
+                                    <td class="am-hide-sm-only operation-msg">{{$v.msg|raw}}</td>
+                                    <td class="am-hide-sm-only">{{$v.add_time_text}}</td>
+                                </tr>
+                            {{/foreach}}
+                        {{/if}}
+                    </tbody>
+                </table>
+
+                {{if empty($data_list)}}
+                    <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+                {{/if}}
+            </div>
+
+            <!-- 分页 -->
+            {{if !empty($data_list)}}
+                {{$page_html|raw}}
+            {{/if}}
+        </div>
+    </div>
+    <!-- content end -->
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

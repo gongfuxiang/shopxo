@@ -116,7 +116,7 @@ class Hook extends Controller
             $ret['data']['online_service'] = $online_service_data;
 
             $this->assign('data', $ret['data']);
-            return $this->fetch('../../../plugins/view/commononlineservice/index/content');
+            return $this->fetch('../../../plugins/view/commononlineservice/index/public/content');
         } else {
             return $ret['msg'];
         }

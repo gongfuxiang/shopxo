@@ -92,7 +92,7 @@ class Plugins extends Common
         $this->assign('editor_path_type', 'plugins_'.$pluginsname);
 
         // 应用控制器
-        $plugins = '\app\plugins\\'.$pluginsname.'\\'.ucfirst($pluginscontrol);
+        $plugins = '\app\plugins\\'.$pluginsname.'\admin\\'.ucfirst($pluginscontrol);
         if(!class_exists($plugins))
         {
             $this->assign('msg', ucfirst($pluginscontrol).' 应用控制器未定义');

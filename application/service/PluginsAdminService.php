@@ -493,7 +493,7 @@ class PluginsAdminService
         $plugins = trim($params['plugins']);
 $admin=<<<php
 <?php
-namespace app\plugins\\$plugins;
+namespace app\plugins\\$plugins\admin;
 
 use think\Controller;
 
@@ -512,7 +512,7 @@ class Admin extends Controller
         // 数组组装
         \$this->assign('data', ['hello', 'world!']);
         \$this->assign('msg', 'hello world! admin');
-        return \$this->fetch('../../../plugins/view/$plugins/admin/index');
+        return \$this->fetch('../../../plugins/view/$plugins/admin/admin/index');
     }
 }
 ?>
@@ -557,7 +557,7 @@ php;
 
 $index=<<<php
 <?php
-namespace app\plugins\\$plugins;
+namespace app\plugins\\$plugins\index;
 
 use think\Controller;
 
@@ -576,7 +576,7 @@ class Index extends Controller
         // 数组组装
         \$this->assign('data', ['hello', 'world!']);
         \$this->assign('msg', 'hello world! index');
-        return \$this->fetch('../../../plugins/view/$plugins/index/index');
+        return \$this->fetch('../../../plugins/view/$plugins/index/index/index');
     }
 }
 ?>
@@ -669,18 +669,24 @@ php;
         // 编辑模式下不生成后端文件
         if(empty($params['id']))
         {
-            // 创建文件
-            if(@file_put_contents($app_dir.DS.'Admin.php', $admin) === false)
+            // 后端admin目录创建
+            if(\base\FileUtil::CreateDir($app_dir.DS.'admin') !== true)
             {
-                return DataReturn('应用文件创建失败[admin]', -11);
+                return DataReturn('应用后端目录创建失败[admin]', -10);
+            }
+
+            // 创建文件
+            if(@file_put_contents($app_dir.DS.'admin'.DS.'Admin.php', $admin) === false)
+            {
+                return DataReturn('应用文件创建失败[Admin.php]', -11);
             }
             if(@file_put_contents($app_dir.DS.'Hook.php', $hook) === false)
             {
-                return DataReturn('应用文件创建失败[hook]', -11);
+                return DataReturn('应用文件创建失败[Hook.php]', -11);
             }
 
             // 应用后台视图目录不存在则创建
-            $app_view_admin_dir = APP_PATH.'plugins'.DS.'view'.DS.trim($params['plugins']).DS.'admin';
+            $app_view_admin_dir = APP_PATH.'plugins'.DS.'view'.DS.trim($params['plugins']).DS.'admin'.DS.'admin';
             if(\base\FileUtil::CreateDir($app_view_admin_dir) !== true)
             {
                 return DataReturn('应用视图目录创建失败[admin]', -10);
@@ -701,14 +707,20 @@ php;
         // 是否有前端页面
         if(isset($params['is_home']) && $params['is_home'] == 1)
         {
+            // 前端index目录创建
+            if(\base\FileUtil::CreateDir($app_dir.DS.'index') !== true)
+            {
+                return DataReturn('应用前端目录创建失败[index]', -10);
+            }
+
             // 创建文件
-            if(!file_exists($app_dir.DS.'Index.php') && @file_put_contents($app_dir.DS.'Index.php', $index) === false)
+            if(!file_exists($app_dir.DS.'index'.DS.'Index.php') && @file_put_contents($app_dir.DS.'index'.DS.'Index.php', $index) === false)
             {
                 return DataReturn('应用文件创建失败[index]', -11);
             }
 
             // 应用前端视图目录不存在则创建
-            $app_view_index_dir = APP_PATH.'plugins'.DS.'view'.DS.trim($params['plugins']).DS.'index';
+            $app_view_index_dir = APP_PATH.'plugins'.DS.'view'.DS.trim($params['plugins']).DS.'index'.DS.'index';
             if(!is_dir($app_view_index_dir) && \base\FileUtil::CreateDir($app_view_index_dir) !== true)
             {
                 return DataReturn('应用视图目录创建失败[index]', -10);
@@ -732,7 +744,7 @@ php;
 
         // 没有独立前端页面则删除文件
         } else {
-            \base\FileUtil::UnlinkFile($app_dir.DS.'Index.php');
+            \base\FileUtil::UnlinkFile($app_dir.DS.'index'.DS.'Index.php');
             \base\FileUtil::UnlinkDir(APP_PATH.'plugins'.DS.'view'.DS.trim($params['plugins']).DS.'index');
             \base\FileUtil::UnlinkFile($app_static_css_dir.DS.'index'.DS.'index.css');
         }

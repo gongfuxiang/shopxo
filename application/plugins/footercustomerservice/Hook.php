@@ -11,7 +11,7 @@
 namespace app\plugins\footercustomerservice;
 
 use think\Controller;
-use app\plugins\footercustomerservice\Service;
+use app\plugins\footercustomerservice\service\Service;
 use app\service\PluginsService;
 
 /**
@@ -67,7 +67,7 @@ class Hook extends Controller
         if($ret['code'] == 0)
         {
             $this->assign('data_list', $ret['data']);
-            return $this->fetch('../../../plugins/view/footercustomerservice/index/content');
+            return $this->fetch('../../../plugins/view/footercustomerservice/index/public/content');
         }
         return '';
     }

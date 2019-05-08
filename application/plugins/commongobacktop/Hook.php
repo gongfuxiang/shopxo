@@ -139,7 +139,7 @@ class Hook extends Controller
             }
 
             $this->assign('data', $ret['data']);
-            return $this->fetch('../../../plugins/view/commongobacktop/index/content');
+            return $this->fetch('../../../plugins/view/commongobacktop/index/public/content');
         } else {
             return $ret['msg'];
         }

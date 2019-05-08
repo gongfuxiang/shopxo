@@ -11,7 +11,7 @@
 namespace app\plugins\membershiplevel;
 
 use think\Controller;
-use app\plugins\membershiplevel\Service;
+use app\plugins\membershiplevel\service\Service;
 
 /**
  * 会员等级插件 - 钩子入口
