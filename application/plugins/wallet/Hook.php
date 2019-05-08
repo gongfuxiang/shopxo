@@ -69,7 +69,7 @@ class Hook extends Controller
             'url'       =>  PluginsHomeUrl('wallet', 'wallet', 'index'),
             'contains'  =>  ['walletindex', 'rechargeindex', 'cashindex'],
             'is_show'   =>  1,
-            'icon'      =>  'am-icon-github-alt',
+            'icon'      =>  'am-icon-google-wallet',
         ];
     }
 
