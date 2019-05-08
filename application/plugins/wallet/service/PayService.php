@@ -309,7 +309,7 @@ class PayService
             return DataReturn('支付方式有误', -1);
         }
 
-        // 支付参数
+        // 支付金额
         $pay_price = isset($params['pay']['pay_price']) ? $params['pay']['pay_price'] : 0;
 
         // 写入支付日志
@@ -345,7 +345,7 @@ class PayService
         // 更新充值状态
         $upd_data = array(
             'status'        => 1,
-            'pay_price'     => $pay_price,
+            'pay_money'     => $pay_price,
             'payment_id'    => $params['payment']['id'],
             'payment'       => $params['payment']['payment'],
             'payment_name'  => $params['payment']['name'],

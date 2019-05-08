@@ -6,7 +6,7 @@ CREATE TABLE `s_plugins_wallet_recharge` (
   `recharge_no` char(60) NOT NULL DEFAULT '' COMMENT '充值单号',
   `status` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '状态（0未支付, 1已支付）',
   `money` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '金额',
-  `pay_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '支付金额',
+  `pay_money` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '支付金额',
   `payment_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '支付方式id',
   `payment` char(60) NOT NULL DEFAULT '' COMMENT '支付方式标记',
   `payment_name` char(60) NOT NULL DEFAULT '' COMMENT '支付方式名称',

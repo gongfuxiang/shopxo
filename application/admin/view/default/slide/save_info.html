@@ -22,7 +22,7 @@
 			
 			<div class="am-form-group">
 				<label>所属平台</label>
-				<select name="platform" class="am-radius chosen-select" data-placeholder="可选择..." placeholder="所属平台有误">
+				<select name="platform" class="am-radius chosen-select" data-placeholder="可选择..." data-validation-message="请选择所属平台" required>
 					<option value="">可选择...</option>
 					{{foreach $common_platform_type as $v}}
 						<option value="{{$v.value}}" {{if isset($data['platform']) and $data['platform'] eq $v['value']}}selected{{else /}}{{if !isset($data['platform']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
@@ -32,7 +32,7 @@
 
 			<div class="am-form-group">
 				<label>事件类型</label>
-				<select name="event_type" class="am-radius chosen-select" data-placeholder="可选择..." placeholder="事件值类型有误">
+				<select name="event_type" class="am-radius chosen-select" data-placeholder="可选择..." data-validation-message="请选择事件值类型">
 					<option value="">可选择...</option>
 					{{foreach $common_app_event_type as $v}}
 						<option value="{{$v.value}}" {{if isset($data['event_type']) and $data['event_type'] eq $v['value']}}selected{{else /}}{{if !isset($data['event_type']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
