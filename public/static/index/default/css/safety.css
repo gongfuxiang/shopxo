@@ -11,6 +11,7 @@
 .user-content-body #verify-win .am-modal-bd { margin-top: 10px; }
 .user-content-body #verify-win .am-modal-bd .base { overflow: hidden; }
 .user-content-body #verify-win .am-modal-bd .base .verify-tips { font-size: 12px; }
+.user-content-body #verify-img { vertical-align: middle; }
 
 .user-content-body legend {
     padding-bottom: 0.2rem;

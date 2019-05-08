@@ -738,12 +738,6 @@ img.common-user-icon {
     vertical-align: middle;
 }
 
-
-/**
- * 用户中心
- */
-.user-content-body {-webkit-box-flex:1;-webkit-flex:1 0 auto;-ms-flex:1 0 auto;flex:1 0 auto; overflow: hidden; }
-
 /**
  * 用户中心左侧菜单
  */

@@ -15,7 +15,7 @@
             <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm am-icon-shield" data-am-modal="{target: '#plugins-recharge-pay-modal', width: 260, height: 130}"> 充值</button>
         {{/if}}
         {{if in_array($plugins_control, ['wallet', 'cash'])}}
-            <a class="am-btn am-btn-success am-topbar-btn am-btn-sm am-icon-money"> 提现</a>
+            <a href="{{:PluginsHomeUrl('wallet', 'cash', 'authinfo')}}" class="am-btn am-btn-success am-topbar-btn am-btn-sm am-icon-money"> 提现</a>
         {{/if}}
     </div>
 </ul>

@@ -12,7 +12,7 @@ namespace app\plugins\wallet;
 
 use think\Controller;
 use app\plugins\wallet\service\WalletService;
-use app\service\PluginsService;
+use app\plugins\wallet\service\BaseService;
 
 /**
  * 钱包插件 - 钱包管理
@@ -37,10 +37,10 @@ class Walletadmin extends Controller
         $number = MyC('admin_page_number', 10, true);
 
         // 条件
-        $where = WalletService::WalletWhere($params);
+        $where = BaseService::WalletWhere($params);
 
         // 获取总数
-        $total = WalletService::WalletTotal($where);
+        $total = BaseService::WalletTotal($where);
 
         // 分页
         $page_params = array(
@@ -61,7 +61,7 @@ class Walletadmin extends Controller
                 'n'         => $number,
                 'where'     => $where,
             );
-            $data = WalletService::WalletList($data_params);
+            $data = BaseService::WalletList($data_params);
             $this->assign('data_list', $data['data']);
         } else {
             $this->assign('data_list', []);
@@ -94,7 +94,7 @@ class Walletadmin extends Controller
                 'n'         => 1,
                 'where'     => ['id'=>intval($params['id'])],
             );
-            $ret = WalletService::WalletList($data_params);
+            $ret = BaseService::WalletList($data_params);
             if(!empty($ret['data'][0]))
             {
                 $data = $ret['data'][0];

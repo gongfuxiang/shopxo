@@ -16,6 +16,7 @@ use app\service\PayLogService;
 use app\service\MessageService;
 use app\service\PluginsService;
 use app\plugins\wallet\service\WalletService;
+use app\plugins\wallet\service\RechargeService;
 
 /**
  * 支付服务层
@@ -26,12 +27,6 @@ use app\plugins\wallet\service\WalletService;
  */
 class PayService
 {
-    // 充值支付状态
-    public static $recharge_status_list = [
-        0 => ['value' => 0, 'name' => '未支付', 'checked' => true],
-        1 => ['value' => 1, 'name' => '已支付'],
-    ];
-
     /**
      * 支付
      * @author   Devil
@@ -299,7 +294,7 @@ class PayService
         }
         if($params['recharge']['status'] > 0)
         {
-            $status_text = self::$recharge_status_list[$params['recharge']['status']]['name'];
+            $status_text = RechargeService::$recharge_status_list[$params['recharge']['status']]['name'];
             return DataReturn('状态不可操作['.$status_text.']', 0);
         }
 
@@ -409,7 +404,7 @@ class PayService
                 }
 
                 // 消息通知
-                MessageService::MessageAdd($params['recharge']['user_id'], '账户充值', $log_data['msg'], 2, $params['recharge']['id']);
+                MessageService::MessageAdd($params['recharge']['user_id'], '账户余额变动', $log_data['msg'], 2, $params['recharge']['id']);
             }
         }
 

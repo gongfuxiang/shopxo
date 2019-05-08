@@ -49,4 +49,27 @@ CREATE TABLE `s_plugins_wallet_log` (
   PRIMARY KEY (`id`),
   KEY `wallet_id` (`wallet_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='钱包日志 - 应用'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='钱包日志 - 应用';
+
+# 钱包提现
+CREATE TABLE `s_plugins_wallet_cash` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `wallet_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '钱包id',
+  `cash_no` char(60) NOT NULL DEFAULT '' COMMENT '提现单号',
+  `status` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '状态（0未打款, 1已打款, 2打款失败）',
+  `money` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '提现金额',
+  `pay_money` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '打款金额',
+  `bank_name` char(60) NOT NULL DEFAULT '' COMMENT '收款银行',
+  `bank_accounts` char(60) NOT NULL DEFAULT '' COMMENT '收款账号',
+  `bank_username` char(60) NOT NULL DEFAULT '' COMMENT '开户人姓名',
+  `msg` char(200) NOT NULL DEFAULT '' COMMENT '描述（用户可见）',
+  `pay_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '打款时间',
+  `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
+  `upd_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `cash_no` (`cash_no`),
+  KEY `status` (`status`),
+  KEY `user_id` (`user_id`),
+  KEY `wallet_id` (`wallet_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='钱包提现 - 应用';

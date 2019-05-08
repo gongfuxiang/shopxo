@@ -146,7 +146,8 @@ class Safety extends Common
 	{
 		$params = array(
                 'width' => 100,
-                'height' => 32,
+                'height' => 28,
+                'use_point_back' => false,
                 'key_prefix' => 'safety',
             );
         $verify = new \base\Verify($params);

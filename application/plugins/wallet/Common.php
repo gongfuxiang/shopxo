@@ -59,17 +59,8 @@ class Common extends Controller
         // 用户钱包
         $user_wallet = WalletService::UserWallet($this->user['id']);
 
-        // 用户钱包状态
-        $wallet_error = '';
-        if(isset($user_wallet['code']) and $user_wallet['code'] == 0)
-        {
-            if(!isset($user_wallet['data']['status']) || $user_wallet['data']['status'] != 0)
-            {
-                $wallet_error = array_key_exists($user_wallet['data']['status'], WalletService::$wallet_status_list) ? '用户钱包[ '.WalletService::$wallet_status_list[$user_wallet['data']['status']]['name'].' ]' : '用户钱包状态异常错误';
-            }
-        } else {
-            $wallet_error = isset($user_wallet['msg']) ? $user_wallet['msg'] : '用户钱包异常错误';
-        }
+        // 用户钱包错误信息
+        $wallet_error = ($user_wallet['code'] == 0) ? '' : $user_wallet['msg'];
         $this->assign('wallet_error', $wallet_error);
 
         // 所有ajax请求校验用户钱包状态

@@ -45,11 +45,11 @@
                         <tr>
                             <td>
                                 <span>状态：</span>
-                                <select name="type" class="chosen-select" data-placeholder="操作类型...">
-                                    <option value="-1">操作类型...</option>
-                                    {{if !empty($common_integral_log_type_list)}}
-                                        {{foreach $common_integral_log_type_list as $v}}
-                                            <option value="{{$v.id}}" {{if isset($params['type']) and $params['type'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                <select name="status" class="chosen-select" data-placeholder="提现状态...">
+                                    <option value="-1">提现状态...</option>
+                                    {{if !empty($cash_status_list)}}
+                                        {{foreach $cash_status_list as $v}}
+                                            <option value="{{$v.value}}" {{if isset($params['status']) and $params['status'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                                         {{/foreach}}
                                     {{/if}}
                                 </select>
@@ -68,22 +68,32 @@
                 <table class="am-table am-table-striped">
                     <thead>
                         <tr>
-                            <th>操作类型</th>
+                            <th>提现单号</th>
+                            <th>提现金额(元)</th>
+                            <th class="am-hide-sm-only">打款金额(元)</th>
+                            <th>状态</th>
+                            <th class="am-hide-sm-only">收款银行</th>
+                            <th>收款账号</th>
+                            <th class="am-hide-sm-only">开户人姓名</th>
                             <th class="am-hide-sm-only">描述</th>
-                            <th>原始积分</th>
-                            <th>最新积分</th>
-                            <th class="am-hide-sm-only">时间</th>
+                            <th class="am-hide-sm-only">打款时间</th>
+                            <th class="am-hide-sm-only">创建时间</th>
                         </tr>
                     </thead>
                     <tbody>
                         {{if !empty($data_list)}}
                             {{foreach $data_list as $v}}
                                 <tr>
-                                    <td>{{$v.type_name}}</td>
-                                    <td class="am-hide-sm-only">{{$v.msg}}</td>
-                                    <td>{{$v.original_integral}}</td>
-                                    <td>{{$v.new_integral}}</td>
-                                    <td class="am-hide-sm-only">{{$v.add_time_time}}</td>
+                                    <td>{{$v.cash_no}}</td>
+                                    <td class="money-bold">{{$v.money}}</td>
+                                    <td class="am-hide-sm-only money-bold money">{{if $v['pay_money'] gt 0}}{{$v.pay_money}}{{/if}}</td>
+                                    <td>{{$v.status_text}}</td>
+                                    <td class="am-hide-sm-only">{{$v.bank_name}}</td>
+                                    <td>{{$v.bank_accounts}}</td>
+                                    <td class="am-hide-sm-only">{{$v.bank_username}}</td>
+                                    <td class="am-hide-sm-only operation-msg">{{$v.msg}}</td>
+                                    <td class="am-hide-sm-only">{{$v.pay_time_text}}</td>
+                                    <td class="am-hide-sm-only">{{$v.add_time_text}}</td>
                                 </tr>
                             {{/foreach}}
                         {{/if}}

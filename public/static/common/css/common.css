@@ -233,9 +233,29 @@ ul.plug-file-upload-view-video li {
 /**
  * 覆盖框架样式
  */
+.am-alert {
+    background: #f1faff;
+    border: 1px solid #e2f5ff;
+    color: #1490d2;
+}
+.am-alert-danger {
+    background-color: #fff1f0;
+    border-color: #ffe4e3;
+    color: #dd514c;
+}
+.am-alert-secondary {
+    background-color: #f6f6f6;
+    border-color: #efefef;
+    color: #666;
+}
+.am-alert-success {
+    background-color: #eef7ea;
+    border-color: #e3f3d6;
+    color: #468847;
+}
 .am-alert-warning {
-    background-color: #ffeee1;
-    border-color: #f9e4d3;
+    background-color: #fff7f1;
+    border-color: #fff0e4;
     color: #f37b1d;
 }
 .am-input-radius input.am-form-field {

@@ -54,131 +54,6 @@ class WalletService
     ];
 
     /**
-     * 钱包列表
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-04-30T00:13:14+0800
-     * @param   [array]          $params [输入参数]
-     */
-    public static function WalletList($params = [])
-    {
-        $where = empty($params['where']) ? [] : $params['where'];
-        $m = isset($params['m']) ? intval($params['m']) : 0;
-        $n = isset($params['n']) ? intval($params['n']) : 10;
-        $field = empty($params['field']) ? '*' : $params['field'];
-        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
-
-        // 获取数据列表
-        $data = Db::name('PluginsWallet')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
-        if(!empty($data))
-        {
-            $wallet_status_list = WalletService::$wallet_status_list;
-            foreach($data as &$v)
-            {
-                // 用户信息
-                $v['user'] = self::GetUserInfo($v['user_id']);
-
-                // 状态
-                $v['status_text'] = (isset($v['status']) && isset($wallet_status_list[$v['status']])) ? $wallet_status_list[$v['status']]['name'] : '未知';
-
-                // 创建时间
-                $v['add_time_text'] = empty($v['add_time']) ? '' : date('Y-m-d H:i:s', $v['add_time']);
-            }
-        }
-        return DataReturn('处理成功', 0, $data);
-    }
-
-    /**
-     * 获取用户信息
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2019-05-05
-     * @desc    description
-     * @param   [int]          $user_id [用户id]
-     */
-    private static function GetUserInfo($user_id)
-    {
-        $user = Db::name('User')->field('username,nickname,mobile,email,avatar')->find($user_id);
-        if(!empty($user))
-        {
-            $user['user_name_view'] = $user['username'];
-            if(empty($user['user_name_view']))
-            {
-                $user['user_name_view'] = $user['nickname'];
-            }
-            if(empty($user['user_name_view']))
-            {
-                $user['user_name_view'] = $user['mobile'];
-            }
-            if(empty($user['user_name_view']))
-            {
-                $user['user_name_view'] = $user['email'];
-            }
-
-            // 头像
-            if(!empty($user['avatar']))
-            {
-                $user['avatar'] = ResourcesService::AttachmentPathViewHandle($user['avatar']);
-            } else {
-                $user['avatar'] = config('shopxo.attachment_host').'/static/index/'.strtolower(config('DEFAULT_THEME', 'default')).'/images/default-user-avatar.jpg';
-            }
-        }
-
-        return $user;
-    }
-
-    /**
-     * 钱包总数
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $where [条件]
-     */
-    public static function WalletTotal($where = [])
-    {
-        return (int) Db::name('PluginsWallet')->where($where)->count();
-    }
-
-    /**
-     * 钱包条件
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function WalletWhere($params = [])
-    {
-        $where = [];
-
-        // 用户
-        if(!empty($params['keywords']))
-        {
-            $user_ids = Db::name('User')->where('username|nickname|mobile|email', '=', $params['keywords'])->column('id');
-            if(!empty($user_ids))
-            {
-                $where[] = ['user_id', 'in', $user_ids];
-            } else {
-                // 无数据条件，避免用户搜索条件没有数据造成的错觉
-                $where[] = ['id', '=', 0];
-            }
-        }
-
-        // 状态
-        if(isset($params['status']) && $params['status'] > -1)
-        {
-            $where[] = ['status', '=', $params['status']];
-        }
-
-        return $where;
-    }
-
-    /**
      * 用户钱包
      * @author   Devil
      * @blog    http://gong.gg/
@@ -207,13 +82,43 @@ class WalletService
             $wallet_id = Db::name('PluginsWallet')->insertGetId($data);
             if($wallet_id > 0)
             {
-                $wallet = Db::name('PluginsWallet')->find($wallet_id);
+                return DataReturn('操作成功', 0, Db::name('PluginsWallet')->find($wallet_id));
             } else {
                 return DataReturn('钱包添加失败', -100);
             }
+        } else {
+            return self::UserWalletStatusCheck($wallet);
+        }
+    }
+
+    /**
+     * 用户钱包状态校验
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-08
+     * @desc    description
+     * @param   [array]          $user_wallet [用户钱包]
+     */
+    public static function UserWalletStatusCheck($user_wallet)
+    {
+        // 用户钱包状态
+        $wallet_error = '';
+        if(isset($user_wallet['status']))
+        {
+            if($user_wallet['status'] != 0)
+            {
+                $wallet_error = array_key_exists($user_wallet['status'], self::$wallet_status_list) ? '用户钱包[ '.self::$wallet_status_list[$user_wallet['status']]['name'].' ]' : '用户钱包状态异常错误';
+            }
+        } else {
+            $wallet_error = '用户钱包异常错误';
         }
 
-        return DataReturn('操作成功', 0, $wallet);
+        if(!empty($wallet_error))
+        {
+            return DataReturn($wallet_error, -30);
+        }
+        return DataReturn('操作成功', 0, $user_wallet);
     }
 
     /**

@@ -13,6 +13,7 @@ namespace app\plugins\wallet;
 use app\plugins\wallet\Common;
 use app\plugins\wallet\service\BaseService;
 use app\plugins\wallet\service\PayService;
+use app\plugins\wallet\service\RechargeService;
 
 /**
  * 钱包 - 充值
@@ -102,7 +103,7 @@ class Recharge extends Common
         // 用户
         $params['user'] = $this->user;
         $params['user_wallet'] = $this->user_wallet;
-        return BaseService::RechargeCreate($params);
+        return RechargeService::RechargeCreate($params);
     }
 
     /**
@@ -196,7 +197,7 @@ class Recharge extends Common
 
         // 开始处理
         $params['user'] = $this->user;
-        return BaseService::RechargeDelete($params);
+        return RechargeService::RechargeDelete($params);
     }
 }
 ?>

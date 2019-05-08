@@ -11,11 +11,11 @@
 namespace app\plugins\wallet\service;
 
 use think\Db;
-use app\service\PluginsService;
 use app\service\ResourcesService;
-use app\service\PaymentService;
 use app\plugins\wallet\service\WalletService;
 use app\plugins\wallet\service\PayService;
+use app\plugins\wallet\service\CashService;
+use app\plugins\wallet\service\RechargeService;
 
 /**
  * 基础服务层
@@ -26,6 +26,131 @@ use app\plugins\wallet\service\PayService;
  */
 class BaseService
 {
+    /**
+     * 钱包列表
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-04-30T00:13:14+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public static function WalletList($params = [])
+    {
+        $where = empty($params['where']) ? [] : $params['where'];
+        $m = isset($params['m']) ? intval($params['m']) : 0;
+        $n = isset($params['n']) ? intval($params['n']) : 10;
+        $field = empty($params['field']) ? '*' : $params['field'];
+        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
+
+        // 获取数据列表
+        $data = Db::name('PluginsWallet')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
+        if(!empty($data))
+        {
+            $wallet_status_list = WalletService::$wallet_status_list;
+            foreach($data as &$v)
+            {
+                // 用户信息
+                $v['user'] = self::GetUserInfo($v['user_id']);
+
+                // 状态
+                $v['status_text'] = (isset($v['status']) && isset($wallet_status_list[$v['status']])) ? $wallet_status_list[$v['status']]['name'] : '未知';
+
+                // 创建时间
+                $v['add_time_text'] = empty($v['add_time']) ? '' : date('Y-m-d H:i:s', $v['add_time']);
+            }
+        }
+        return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
+     * 获取用户信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-05
+     * @desc    description
+     * @param   [int]          $user_id [用户id]
+     */
+    private static function GetUserInfo($user_id)
+    {
+        $user = Db::name('User')->field('username,nickname,mobile,email,avatar')->find($user_id);
+        if(!empty($user))
+        {
+            $user['user_name_view'] = $user['username'];
+            if(empty($user['user_name_view']))
+            {
+                $user['user_name_view'] = $user['nickname'];
+            }
+            if(empty($user['user_name_view']))
+            {
+                $user['user_name_view'] = $user['mobile'];
+            }
+            if(empty($user['user_name_view']))
+            {
+                $user['user_name_view'] = $user['email'];
+            }
+
+            // 头像
+            if(!empty($user['avatar']))
+            {
+                $user['avatar'] = ResourcesService::AttachmentPathViewHandle($user['avatar']);
+            } else {
+                $user['avatar'] = config('shopxo.attachment_host').'/static/index/'.strtolower(config('DEFAULT_THEME', 'default')).'/images/default-user-avatar.jpg';
+            }
+        }
+
+        return $user;
+    }
+
+    /**
+     * 钱包总数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $where [条件]
+     */
+    public static function WalletTotal($where = [])
+    {
+        return (int) Db::name('PluginsWallet')->where($where)->count();
+    }
+
+    /**
+     * 钱包条件
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function WalletWhere($params = [])
+    {
+        $where = [];
+
+        // 用户
+        if(!empty($params['keywords']))
+        {
+            $user_ids = Db::name('User')->where('username|nickname|mobile|email', '=', $params['keywords'])->column('id');
+            if(!empty($user_ids))
+            {
+                $where[] = ['user_id', 'in', $user_ids];
+            } else {
+                // 无数据条件，避免用户搜索条件没有数据造成的错觉
+                $where[] = ['id', '=', 0];
+            }
+        }
+
+        // 状态
+        if(isset($params['status']) && $params['status'] > -1)
+        {
+            $where[] = ['status', '=', $params['status']];
+        }
+
+        return $where;
+    }
+
     /**
      * 充值列表
      * @author   Devil
@@ -61,13 +186,13 @@ class BaseService
                 }
 
                 // 支付状态
-                $v['status_text'] = isset($v['status']) ? PayService::$recharge_status_list[$v['status']]['name'] : '';
+                $v['status_text'] = isset($v['status']) ? RechargeService::$recharge_status_list[$v['status']]['name'] : '';
 
                 // 支付时间
                 $v['pay_time_text'] = empty($v['pay_time']) ? '' : date('Y-m-d H:i:s', $v['pay_time']);
 
                 // 创建时间
-                $v['add_time_text'] = empty($v['pay_time']) ? '' : date('Y-m-d H:i:s', $v['pay_time']);
+                $v['add_time_text'] = empty($v['add_time']) ? '' : date('Y-m-d H:i:s', $v['add_time']);
             }
         }
         return DataReturn('处理成功', 0, $data);
@@ -114,113 +239,6 @@ class BaseService
 
         return $where;
     }
-
-    /**
-     * 充值订单创建
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2019-04-29
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function RechargeCreate($params = [])
-    {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'user_wallet',
-                'error_msg'         => '用户钱包有误',
-            ],
-            [
-                'checked_type'      => 'fun',
-                'key_name'          => 'money',
-                'checked_data'      => 'CheckPrice',
-                'error_msg'         => '请输入有效的充值金额',
-            ],
-            [
-                'checked_type'      => 'min',
-                'key_name'          => 'money',
-                'checked_data'      => 0.01,
-                'error_msg'         => '请输入大于0的充值金额',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
-        {
-            return DataReturn($ret, -1);
-        }
-
-        // 添加
-        $data = [
-            'recharge_no'   => date('YmdHis').GetNumberCode(6),
-            'wallet_id'     => $params['user_wallet']['id'],
-            'user_id'       => $params['user']['id'],
-            'money'         => PriceNumberFormat($params['money']),
-            'status'        => 0,
-            'add_time'      => time(),
-
-        ];
-        $recharge_id = Db::name('PluginsWalletRecharge')->insertGetId($data);
-        if($recharge_id > 0)
-        {
-            return DataReturn('添加成功',0, [
-                'recharge_id'   => $recharge_id,
-                'recharge_no'   => $data['recharge_no'],
-                'money'         => $data['money'],
-            ]);
-        }
-        return DataReturn('添加失败', -100);
-    }
-
-    /**
-     * 充值纪录删除
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-14
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function RechargeDelete($params = [])
-    {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'id',
-                'error_msg'         => '删除数据id有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
-        {
-            return DataReturn($ret, -1);
-        }
-
-        // 删除
-        $where = [
-            'id'        => intval($params['id']),
-            'user_id'   => $params['user']['id']
-        ];
-        if(Db::name('PluginsWalletRecharge')->where($where)->delete())
-        {
-            return DataReturn('删除成功', 0);
-        }
-        return DataReturn('删除失败或资源不存在', -100);
-    }
-
 
     /**
      * 钱包明细列表
@@ -315,6 +333,104 @@ class BaseService
         if(isset($params['money_type']) && $params['money_type'] > -1)
         {
             $where[] = ['money_type', '=', $params['money_type']];
+        }
+
+        return $where;
+    }
+
+    /**
+     * 提现列表
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-04-30T00:13:14+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public static function CashList($params = [])
+    {
+        $where = empty($params['where']) ? [] : $params['where'];
+        $m = isset($params['m']) ? intval($params['m']) : 0;
+        $n = isset($params['n']) ? intval($params['n']) : 10;
+        $field = empty($params['field']) ? '*' : $params['field'];
+        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
+
+        // 获取数据列表
+        $data = Db::name('PluginsWalletCash')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
+        if(!empty($data))
+        {
+            $common_gender_list = lang('common_gender_list');
+            foreach($data as &$v)
+            {
+                // 用户信息
+                if(!empty($v['user_id']))
+                {
+                    $user = Db::name('User')->where(['id'=>$v['user_id']])->field('username,nickname,mobile,gender,avatar')->find();
+                    $v['username'] = empty($user['username']) ? '' : $user['username'];
+                    $v['nickname'] = empty($user['nickname']) ? '' : $user['nickname'];
+                    $v['mobile'] = empty($user['mobile']) ? '' : $user['mobile'];
+                    $v['avatar'] = empty($user['avatar']) ? '' : $user['avatar'];
+                    $v['gender_text'] = isset($user['gender']) ? $common_gender_list[$user['gender']]['name'] : '';
+                }
+
+                // 提现状态
+                $v['status_text'] = isset($v['status']) ? CashService::$cash_status_list[$v['status']]['name'] : '';
+
+                // 备注
+                $v['msg'] = empty($v['msg']) ? '' : str_replace("\n", '<br />', $v['msg']);
+
+                // 打款时间
+                $v['pay_time_text'] = empty($v['pay_time']) ? '' : date('Y-m-d H:i:s', $v['pay_time']);
+
+                // 创建时间
+                $v['add_time_text'] = empty($v['add_time']) ? '' : date('Y-m-d H:i:s', $v['add_time']);
+            }
+        }
+        return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
+     * 提现列表总数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $where [条件]
+     */
+    public static function CashTotal($where = [])
+    {
+        return (int) Db::name('PluginsWalletCash')->where($where)->count();
+    }
+
+    /**
+     * 提现列表条件
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function CashWhere($params = [])
+    {
+        $where = [];
+
+        // 用户id
+        if(!empty($params['user']))
+        {
+            $where[] = ['user_id', '=', $params['user']['id']];
+        }
+
+        // 关键字
+        if(!empty($params['keywords']))
+        {
+            $where[] = ['cash_no', '=', $params['keywords']];
+        }
+
+        // 状态
+        if(isset($params['status']) && $params['status'] > -1)
+        {
+            $where[] = ['status', '=', $params['status']];
         }
 
         return $where;
