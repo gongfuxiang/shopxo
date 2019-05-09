@@ -15,9 +15,9 @@
 ### 安装教程
 * 安装教程：https://ask.shopxo.net/article/5
 
-### 官方QQ群
-* 群号：833531593
-* 答案：shopxo.net
+### 官方QQ群（答案：shopxo.net）
+* 官方1群：833531593
+* 官方2群：641730223
 
 ### 源代码平台
 * Github：https://github.com/gongfuxiang/shopxo
