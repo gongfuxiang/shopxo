@@ -80,10 +80,10 @@
                     <thead>
                         <tr>
                             <th class="am-hide-sm-only">业务类型</th>
-                            <th>操作类型</th>
+                            <th class="am-hide-sm-only">操作类型</th>
                             <th>金额类型</th>
                             <th>操作金额(元)</th>
-                            <th>原始金额(元)</th>
+                            <th class="am-hide-sm-only">原始金额(元)</th>
                             <th>最新金额(元)</th>
                             <th class="am-hide-sm-only">变更说明</th>
                             <th class="am-hide-sm-only">操作时间</th>
@@ -94,7 +94,7 @@
                             {{foreach $data_list as $v}}
                                 <tr>
                                     <td class="am-hide-sm-only">{{$v.business_type_text}}</td>
-                                    <td>
+                                    <td class="am-hide-sm-only">
                                         {{if $v['operation_type'] eq 0}}
                                             <span class="operation-reduce-icon">{{$v.operation_type_text}}</span>
                                         {{elseif $v['operation_type'] eq 1}}
@@ -110,7 +110,7 @@
                                         {{/if}}
                                         <span class="money-bold money">{{$v.operation_money}}</span>
                                     </td>
-                                    <td>
+                                    <td class="am-hide-sm-only">
                                         <span class="money-bold">{{$v.original_money}}</span>
                                     </td>
                                     <td>

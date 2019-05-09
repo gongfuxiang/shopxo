@@ -41,10 +41,10 @@
             <table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
                 <thead>
                     <tr>
-                        <th>用户信息</th>
+                        <th class="am-hide-md-down">用户信息</th>
                         <th>账户金额(元)</th>
-                        <th>状态</th>
-                        <th class="am-hide-sm-only">开通时间</th>
+                        <th  class="am-hide-sm-only">状态</th>
+                        <th>更多</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -52,10 +52,10 @@
                     {{if !empty($data_list)}}
                         {{foreach $data_list as $v}}
                             <tr id="data-list-{{$v.id}}" {{if isset($v['status']) and $v['status'] neq 0}}{{if $v['status'] eq 1}} class="am-danger"{{elseif $v['status'] eq 2}} class="am-active"{{else /}} class="am-warning"{{/if}}{{/if}}>
-                                <td class="user-info">
+                                <td class="user-info am-hide-md-down">
                                     {{if !empty($v['user'])}}
-                                        <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-fl am-img-thumbnail am-radius am-hide-sm-only" />
-                                        <ul class="user-base am-fl">
+                                        <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                                        <ul class="user-base">
                                             <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
                                             <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
                                             <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
@@ -78,8 +78,61 @@
                                         </li>
                                     </ul>
                                 </td>
-                                <td>{{$v.status_text}}</td>
-                                <td class="am-hide-sm-only">{{$v.add_time_text}}</td>
+                                <td  class="am-hide-sm-only">{{$v.status_text}}</td>
+                                <td>
+                                    <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+                                    <div class="am-popup am-radius" id="my-popup{{$v.id}}">
+                                        <div class="am-popup-inner">
+                                            <div class="am-popup-hd">
+                                                <h4 class="am-popup-title">详情内容</h4>
+                                                <span data-am-modal-close
+                                                class="am-close">&times;</span>
+                                            </div>
+                                            <div class="am-popup-bd">
+                                                <dl class="dl-content">
+                                                    <dt>用户信息</dt>
+                                                    <dd class="user-info">
+                                                        {{if !empty($v['user'])}}
+                                                            <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                                                            <ul class="user-base">
+                                                                <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
+                                                                <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
+                                                                <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
+                                                                <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
+                                                            </ul>
+                                                        {{else /}}
+                                                            用户信息异常
+                                                        {{/if}}
+                                                    </dd>
+
+                                                    <dt>账户金额(元)</dt>
+                                                    <dd class="money">
+                                                        <ul>
+                                                            <li>
+                                                                有效：<span class="normal-money">{{$v.normal_money}}</span>
+                                                            </li>
+                                                            <li>
+                                                                冻结：<span class="frozen-money">{{$v.frozen_money}}</span>
+                                                            </li>
+                                                            <li>
+                                                                赠送：<span class="give-money">{{$v.give_money}}</span>
+                                                            </li>
+                                                        </ul>
+                                                    </dd>
+
+                                                    <dt>状态</dt>
+                                                    <dd>{{$v.status_text}}</dd>
+
+                                                    <dt>创建时间</dt>
+                                                    <dd>{{$v.add_time_text}}</dd>
+
+                                                    <dt>更新时间</dt>
+                                                    <dd>{{if empty($v['upd_time_text'])}}<span class="cr-ddd">未更新</span>{{else /}}{{$v.upd_time_text}}{{/if}}</dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td class="view-operation">
                                     <a href="{{:PluginsAdminUrl('wallet', 'wallet', 'saveinfo', ['id'=>$v['id']])}}">
                                         <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit"> 编辑</button>

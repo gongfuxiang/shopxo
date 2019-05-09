@@ -42,7 +42,7 @@
                 <table class="am-table am-table-striped">
                     <thead>
                         <tr>
-                            <th>充值单号</th>
+                            <th class="am-hide-sm-only">充值单号</th>
                             <th>充值金额(元)</th>
                             <th class="am-hide-sm-only">支付金额(元)</th>
                             <th>状态</th>
@@ -56,7 +56,7 @@
                         {{if !empty($data_list)}}
                             {{foreach $data_list as $v}}
                                 <tr id="data-list-{{$v.id}}">
-                                    <td>{{$v.recharge_no}}</td>
+                                    <td class="am-hide-sm-only">{{$v.recharge_no}}</td>
                                     <td class="money-bold">{{$v.money}}</td>
                                     <td class="am-hide-sm-only money-bold money">{{if $v['pay_money'] gt 0}}{{$v.pay_money}}{{/if}}</td>
                                     <td>{{$v.status_text}}</td>

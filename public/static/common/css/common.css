@@ -11,7 +11,7 @@
 .dl-content dt { float: left; padding-left: 5px; overflow: hidden; clear: left;  
         width: 120px; }
 .dl-content dd { border-bottom: 1px solid #efefef; padding-left: 120px; }
-.dl-content dt, .dl-content dd { font-weight: normal !important; text-align: left; margin-top: 0px; line-height: 36px; min-height: 46px; padding-top: 5px; padding-bottom: 5px; }
+.dl-content dt, .dl-content dd { font-weight: normal !important; text-align: left; margin-top: 0px; line-height: 20px; min-height: 40px; padding-top: 10px; padding-bottom: 10px; }
 
 /**
  * 表单优化

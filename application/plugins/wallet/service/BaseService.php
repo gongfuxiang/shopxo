@@ -55,8 +55,9 @@ class BaseService
                 // 状态
                 $v['status_text'] = (isset($v['status']) && isset($wallet_status_list[$v['status']])) ? $wallet_status_list[$v['status']]['name'] : '未知';
 
-                // 创建时间
+                // 时间
                 $v['add_time_text'] = empty($v['add_time']) ? '' : date('Y-m-d H:i:s', $v['add_time']);
+                $v['upd_time_text'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
             }
         }
         return DataReturn('处理成功', 0, $data);
@@ -362,11 +363,10 @@ class BaseService
                 // 备注
                 $v['msg'] = empty($v['msg']) ? '' : str_replace("\n", '<br />', $v['msg']);
 
-                // 打款时间
+                // 时间
                 $v['pay_time_text'] = empty($v['pay_time']) ? '' : date('Y-m-d H:i:s', $v['pay_time']);
-
-                // 创建时间
                 $v['add_time_text'] = empty($v['add_time']) ? '' : date('Y-m-d H:i:s', $v['add_time']);
+                $v['upd_time_text'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
             }
         }
         return DataReturn('处理成功', 0, $data);

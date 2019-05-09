@@ -41,12 +41,12 @@
             <table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
                 <thead>
                     <tr>
-                        <th class="am-hide-sm-only">用户信息</th>
-                        <th>提现信息</th>
+                        <th class="am-hide-md-down">用户信息</th>
+                        <th class="am-hide-sm-only">提现信息</th>
                         <th>收款信息</th>
                         <th class="am-hide-sm-only">打款信息</th>
-                        <th class="am-hide-sm-only">描述</th>
-                        <th class="am-hide-sm-only">申请时间</th>
+                        <th class="am-hide-md-down">描述</th>
+                        <th>更多</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -54,10 +54,10 @@
                     {{if !empty($data_list)}}
                         {{foreach $data_list as $v}}
                             <tr>
-                                <td class="user-info am-hide-sm-only">
+                                <td class="user-info am-hide-md-down">
                                     {{if !empty($v['user'])}}
-                                        <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-fl am-img-thumbnail am-radius am-hide-md" />
-                                        <ul class="user-base am-fl">
+                                        <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                                        <ul class="user-base">
                                             <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
                                             <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
                                             <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
@@ -67,7 +67,7 @@
                                         用户信息异常
                                     {{/if}}
                                 </td>
-                                <td>
+                                <td class="am-hide-sm-only">
                                     单号：{{$v.cash_no}}<br />
                                     金额：<span class="money-bold cash-money">{{$v.money}}</span> 元
                                 </td>
@@ -85,11 +85,75 @@
                                         时间：{{$v.pay_time_text}}
                                     {{/if}}
                                 </td>
-                                <td class="am-hide-sm-only operation-msg">{{$v.msg}}</td>
-                                <td class="am-hide-sm-only">{{$v.add_time_text}}</td>
+                                <td class="am-hide-md-down operation-msg">
+                                    {{if empty($v['msg'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.msg}}{{/if}}
+                                </td>
+                                <td>
+                                    <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+                                    <div class="am-popup am-radius" id="my-popup{{$v.id}}">
+                                        <div class="am-popup-inner">
+                                            <div class="am-popup-hd">
+                                                <h4 class="am-popup-title">详情内容</h4>
+                                                <span data-am-modal-close
+                                                class="am-close">&times;</span>
+                                            </div>
+                                            <div class="am-popup-bd">
+                                                <dl class="dl-content">
+                                                    <dt>用户信息</dt>
+                                                    <dd class="user-info">
+                                                        {{if !empty($v['user'])}}
+                                                            <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                                                            <ul class="user-base">
+                                                                <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
+                                                                <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
+                                                                <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
+                                                                <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
+                                                            </ul>
+                                                        {{else /}}
+                                                            用户信息异常
+                                                        {{/if}}
+                                                    </dd>
+
+                                                    <dt>提现信息</dt>
+                                                    <dd>
+                                                        单号：{{$v.cash_no}}<br />
+                                                        金额：<span class="money-bold cash-money">{{$v.money}}</span> 元
+                                                    </dd>
+
+                                                    <dt>收款信息</dt>
+                                                    <dd>
+                                                        银行：{{$v.bank_name}}<br />
+                                                        账号：{{$v.bank_accounts}}<br />
+                                                        姓名：{{$v.bank_username}}<br />
+                                                    </dd>
+
+                                                    <dt>打款信息</dt>
+                                                    <dd>
+                                                        {{$v.status_text}}<br />
+                                                        {{if $v['pay_money'] gt 0}}
+                                                            金额：<span class="money-bold money">{{$v.pay_money}}</span> 元<br />
+                                                        {{/if}}
+                                                        {{if !empty($v['pay_time_text'])}}
+                                                            时间：{{$v.pay_time_text}}
+                                                        {{/if}}
+                                                    </dd>
+
+                                                    <dt>描述</dt>
+                                                    <dd>{{if empty($v['msg'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.msg}}{{/if}}</dd>
+
+                                                    <dt>申请时间</dt>
+                                                    <dd>{{$v.add_time_text}}</dd>
+
+                                                    <dt>更新时间</dt>
+                                                    <dd>{{if empty($v['upd_time_text'])}}<span class="cr-ddd">未更新</span>{{else /}}{{$v.upd_time_text}}{{/if}}</dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td class="view-operation">
                                     <a href="{{:PluginsAdminUrl('wallet', 'wallet', 'saveinfo', ['id'=>$v['id']])}}">
-                                        <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit"> 编辑</button>
+                                        <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-gavel"> 审核</button>
                                     </a>
                                 </td>
                             </tr>
