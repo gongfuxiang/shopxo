@@ -19,40 +19,29 @@
 /**
  * 列表
  */
-.wallet-content table.am-table ul {
+.cash-content table.am-table ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
-.wallet-content table.am-table .user-info img {
+.cash-content table.am-table .user-info img {
     max-width: 75px;
     max-height: 75px;
     margin-right: 5px;
+}
+.cash-content table.am-table .operation-msg {
+    width: 20%;
 }
 
 /**
  * 金额
  */
-.wallet-content .normal-money,
-.wallet-content .frozen-money,
-.wallet-content .give-money {
+.cash-content .money-bold {
     font-weight: 700;
 }
-.wallet-content .normal-money {
+.cash-content .money {
     color: #4CAF50;
 }
-.wallet-content .frozen-money {
+.cash-content .cash-money {
     color: #FF9800;
-}
-.wallet-content .give-money {
-    color: #666;
-}
-
-/**
- * 编辑
- */
-@media only screen and (min-width: 641px) {
-    .wallet-content form .am-alert {
-        margin: 0;
-    }
 }

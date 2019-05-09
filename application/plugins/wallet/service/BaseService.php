@@ -175,15 +175,7 @@ class BaseService
             foreach($data as &$v)
             {
                 // 用户信息
-                if(!empty($v['user_id']))
-                {
-                    $user = Db::name('User')->where(['id'=>$v['user_id']])->field('username,nickname,mobile,gender,avatar')->find();
-                    $v['username'] = empty($user['username']) ? '' : $user['username'];
-                    $v['nickname'] = empty($user['nickname']) ? '' : $user['nickname'];
-                    $v['mobile'] = empty($user['mobile']) ? '' : $user['mobile'];
-                    $v['avatar'] = empty($user['avatar']) ? '' : $user['avatar'];
-                    $v['gender_text'] = isset($user['gender']) ? $common_gender_list[$user['gender']]['name'] : '';
-                }
+                $v['user'] = self::GetUserInfo($v['user_id']);
 
                 // 支付状态
                 $v['status_text'] = isset($v['status']) ? RechargeService::$recharge_status_list[$v['status']]['name'] : '';
@@ -362,15 +354,7 @@ class BaseService
             foreach($data as &$v)
             {
                 // 用户信息
-                if(!empty($v['user_id']))
-                {
-                    $user = Db::name('User')->where(['id'=>$v['user_id']])->field('username,nickname,mobile,gender,avatar')->find();
-                    $v['username'] = empty($user['username']) ? '' : $user['username'];
-                    $v['nickname'] = empty($user['nickname']) ? '' : $user['nickname'];
-                    $v['mobile'] = empty($user['mobile']) ? '' : $user['mobile'];
-                    $v['avatar'] = empty($user['avatar']) ? '' : $user['avatar'];
-                    $v['gender_text'] = isset($user['gender']) ? $common_gender_list[$user['gender']]['name'] : '';
-                }
+                $v['user'] = self::GetUserInfo($v['user_id']);
 
                 // 提现状态
                 $v['status_text'] = isset($v['status']) ? CashService::$cash_status_list[$v['status']]['name'] : '';

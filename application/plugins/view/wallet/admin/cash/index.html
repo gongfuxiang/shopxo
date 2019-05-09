@@ -8,11 +8,11 @@
             <a href="{{:PluginsAdminUrl('wallet', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
         </legend>
 
-        <div class="wallet-content">
+        <div class="cash-content">
             <!-- form start -->
-            <form class="am-form form-search" action="{{:PluginsAdminUrl('wallet', 'wallet', 'index')}}" method="POST">
+            <form class="am-form form-search" action="{{:PluginsAdminUrl('wallet', 'cash', 'index')}}" method="POST">
                 <div class="am-g">
-                    <input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="用户名/昵称/手机/邮箱" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
+                    <input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="申请单号" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
                     <button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
                     <label class="fs-12 m-l-5 c-p fw-100 more-submit">
                         更多筛选
@@ -28,7 +28,7 @@
                     <div class="more-where {{if !isset($params['is_more']) or $params['is_more'] neq 1}} none{{/if}}">
                         <select name="status" class="am-radius m-t-10 chosen-select param-where" data-placeholder="状态...">
                             <option value="-1">状态...</option>
-                            {{foreach $wallet_status_list as $v}}
+                            {{foreach $cash_status_list as $v}}
                                 <option value="{{$v.value}}" {{if isset($params['status']) and $params['status'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
@@ -41,20 +41,22 @@
             <table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
                 <thead>
                     <tr>
-                        <th>用户信息</th>
-                        <th>账户金额(元)</th>
-                        <th>状态</th>
-                        <th class="am-hide-sm-only">开通时间</th>
+                        <th class="am-hide-sm-only">用户信息</th>
+                        <th>提现信息</th>
+                        <th>收款信息</th>
+                        <th class="am-hide-sm-only">打款信息</th>
+                        <th class="am-hide-sm-only">描述</th>
+                        <th class="am-hide-sm-only">申请时间</th>
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{if !empty($data_list)}}
                         {{foreach $data_list as $v}}
-                            <tr id="data-list-{{$v.id}}" {{if isset($v['status']) and $v['status'] neq 0}}{{if $v['status'] eq 1}} class="am-danger"{{elseif $v['status'] eq 2}} class="am-active"{{else /}} class="am-warning"{{/if}}{{/if}}>
-                                <td class="user-info">
+                            <tr>
+                                <td class="user-info am-hide-sm-only">
                                     {{if !empty($v['user'])}}
-                                        <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-fl am-img-thumbnail am-radius am-hide-sm-only" />
+                                        <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-fl am-img-thumbnail am-radius am-hide-md" />
                                         <ul class="user-base am-fl">
                                             <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
                                             <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
@@ -65,20 +67,25 @@
                                         用户信息异常
                                     {{/if}}
                                 </td>
-                                <td class="money">
-                                    <ul>
-                                        <li>
-                                            有效：<span class="normal-money">{{$v.normal_money}}</span>
-                                        </li>
-                                        <li>
-                                            冻结：<span class="frozen-money">{{$v.frozen_money}}</span>
-                                        </li>
-                                        <li>
-                                            赠送：<span class="give-money">{{$v.give_money}}</span>
-                                        </li>
-                                    </ul>
+                                <td>
+                                    单号：{{$v.cash_no}}<br />
+                                    金额：<span class="money-bold cash-money">{{$v.money}}</span> 元
                                 </td>
-                                <td>{{$v.status_text}}</td>
+                                <td>
+                                    银行：{{$v.bank_name}}<br />
+                                    账号：{{$v.bank_accounts}}<br />
+                                    姓名：{{$v.bank_username}}<br />
+                                </td>
+                                <td class="am-hide-sm-only">
+                                    {{$v.status_text}}<br />
+                                    {{if $v['pay_money'] gt 0}}
+                                        金额：<span class="money-bold money">{{$v.pay_money}}</span> 元<br />
+                                    {{/if}}
+                                    {{if !empty($v['pay_time_text'])}}
+                                        时间：{{$v.pay_time_text}}
+                                    {{/if}}
+                                </td>
+                                <td class="am-hide-sm-only operation-msg">{{$v.msg}}</td>
                                 <td class="am-hide-sm-only">{{$v.add_time_text}}</td>
                                 <td class="view-operation">
                                     <a href="{{:PluginsAdminUrl('wallet', 'wallet', 'saveinfo', ['id'=>$v['id']])}}">

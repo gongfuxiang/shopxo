@@ -68,26 +68,27 @@
                 <table class="am-table am-table-striped">
                     <thead>
                         <tr>
-                            <th>提现单号</th>
-                            <th>提现金额(元)</th>
+                            <th class="am-hide-sm-only">提现信息</th>
                             <th>收款信息</th>
-                            <th class="am-hide-sm-only">打款信息</th>
+                            <th>打款信息</th>
                             <th class="am-hide-sm-only">描述</th>
-                            <th class="am-hide-sm-only">创建时间</th>
+                            <th class="am-hide-sm-only">申请时间</th>
                         </tr>
                     </thead>
                     <tbody>
                         {{if !empty($data_list)}}
                             {{foreach $data_list as $v}}
                                 <tr>
-                                    <td>{{$v.cash_no}}</td>
-                                    <td class="money-bold">{{$v.money}}</td>
+                                    <td class="am-hide-sm-only">
+                                        单号：{{$v.cash_no}}<br />
+                                        金额：<span class="money-bold cash-money">{{$v.money}}</span> 元
+                                    </td>
                                     <td>
                                         银行：{{$v.bank_name}}<br />
                                         账号：{{$v.bank_accounts}}<br />
                                         姓名：{{$v.bank_username}}<br />
                                     </td>
-                                    <td class="am-hide-sm-only">
+                                    <td>
                                         {{$v.status_text}}<br />
                                         {{if $v['pay_money'] gt 0}}
                                             金额：<span class="money-bold money">{{$v.pay_money}}</span> 元<br />
