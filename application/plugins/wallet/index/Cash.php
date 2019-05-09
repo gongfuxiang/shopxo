@@ -118,6 +118,11 @@ class Cash extends Common
      */
     public function createinfo($params = [])
     {
+        // 是否验证成功
+        $check_time = session('plugins_wallet_cash_check_success');
+        $check_status = (!empty($check_time) && $check_time+1800 >= time()) ? 1 : 0;
+        $this->assign('check_status', $check_status);
+
         // 参数
         $this->assign('params', $params);
         return $this->fetch('../../../plugins/view/wallet/index/cash/createinfo');
@@ -207,7 +212,7 @@ class Cash extends Common
 
         // 开始处理
         $params['user'] = $this->user;
-        return CashService::Create($params);
+        return CashService::CashCreate($params);
     }
 }
 ?>

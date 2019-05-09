@@ -213,7 +213,7 @@ class CashService
         if($obj->CheckCorrect($params['verify']))
         {
             // 校验成功标记
-            session('wallet_cash_'.$params['account_type'], true);
+            session('plugins_wallet_cash_check_success', time());
 
             // 清除验证码
             $obj->Remove();
@@ -232,7 +232,7 @@ class CashService
      * @desc    description
      * @param    [array]          $params [输入参数]
      */
-    public static function Create($params = [])
+    public static function CashCreate($params = [])
     {
         // 数据验证
         $p = [

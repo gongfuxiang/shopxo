@@ -26,50 +26,54 @@
             {{include file="../../../plugins/view/wallet/index/public/nav" /}}
             <!-- user menu end -->
 
-            <!-- form start -->
-            <form class="am-form form-validation create-info" method="post" action="{{:PluginsHomeUrl('wallet', 'cash', 'create')}}" request-type="ajax-url" request-value="{{:PluginsHomeUrl('wallet', 'cash', 'index')}}">
-                <div class="am-form-group">
-                    <label>提现金额<span class="am-form-group-label-tips-must">必填</span></label>
-                    <div class="am-input-group am-input-group-sm">
-                        <input type="number" autocomplete="off" name="money" step="0.01" min="0.00" max="{{$user_wallet.normal_money}}" class="am-radius" placeholder="提现金额" data-validation-message="请输入提现金额" required />
-                        <span class="am-input-group-btn">
-                            <button type="button" class="am-btn am-btn-default am-radius">元</button>
-                        </span>
+            {{if isset($check_status) and $check_status eq 1}}
+                <!-- form start -->
+                <form class="am-form form-validation create-info" method="post" action="{{:PluginsHomeUrl('wallet', 'cash', 'create')}}" request-type="ajax-url" request-value="{{:PluginsHomeUrl('wallet', 'cash', 'index')}}">
+                    <div class="am-form-group">
+                        <label>提现金额<span class="am-form-group-label-tips-must">必填</span></label>
+                        <div class="am-input-group am-input-group-sm">
+                            <input type="number" autocomplete="off" name="money" step="0.01" min="0.00" max="{{$user_wallet.normal_money}}" class="am-radius" placeholder="提现金额" data-validation-message="请输入提现金额" required />
+                            <span class="am-input-group-btn">
+                                <button type="button" class="am-btn am-btn-default am-radius">元</button>
+                            </span>
+                        </div>
+                        <div class="am-alert" data-am-alert>
+                            当前可用金额 <span class="cash-normal-mony">{{$user_wallet.normal_money}}</span> 元
+                        </div>
                     </div>
-                    <div class="am-alert" data-am-alert>
-                        当前可用金额 <span class="cash-normal-mony">{{$user_wallet.normal_money}}</span> 元
-                    </div>
-                </div>
 
-                <div class="am-form-group">
-                    <label>收款银行<span class="am-form-group-label-tips-must">必填</span></label>
-                    <input type="text" name="bank_name" placeholder="收款银行" minlength="1" maxlength="60" data-validation-message="收款银行格式 1~60 个字符之间" class="am-radius" required />
-                    <div class="am-alert" data-am-alert>
-                        强烈建议优先填写国有4大银行(中国银行、中国建设银行、中国工商银行和中国农业银行) 请填写详细的开户银行分行名称，虚拟账户如支付宝、财付通、微信 直接填写 支付宝 即可。
+                    <div class="am-form-group">
+                        <label>收款银行<span class="am-form-group-label-tips-must">必填</span></label>
+                        <input type="text" name="bank_name" placeholder="收款银行" minlength="1" maxlength="60" data-validation-message="收款银行格式 1~60 个字符之间" class="am-radius" required />
+                        <div class="am-alert" data-am-alert>
+                            强烈建议优先填写国有4大银行(中国银行、中国建设银行、中国工商银行和中国农业银行) 请填写详细的开户银行分行名称，虚拟账户如支付宝、财付通、微信 直接填写 支付宝 即可。
+                        </div>
                     </div>
-                </div>
 
-                <div class="am-form-group">
-                    <label>收款账号<span class="am-form-group-label-tips-must">必填</span></label>
-                    <input type="text" name="bank_accounts" placeholder="收款账号" minlength="1" maxlength="60" data-validation-message="收款账号格式 1~60 个字符之间" class="am-radius" required />
-                    <div class="am-alert" data-am-alert>
-                        银行账号或虚拟账号(支付宝、财付通等账号)
+                    <div class="am-form-group">
+                        <label>收款账号<span class="am-form-group-label-tips-must">必填</span></label>
+                        <input type="text" name="bank_accounts" placeholder="收款账号" minlength="1" maxlength="60" data-validation-message="收款账号格式 1~60 个字符之间" class="am-radius" required />
+                        <div class="am-alert" data-am-alert>
+                            银行账号或虚拟账号(支付宝、财付通等账号)
+                        </div>
                     </div>
-                </div>
 
-                <div class="am-form-group">
-                    <label>开户人姓名<span class="am-form-group-label-tips-must">必填</span></label>
-                    <input type="text" name="bank_username" placeholder="开户人姓名" minlength="1" maxlength="30" data-validation-message="开户人姓名格式 1~30 个字符之间" class="am-radius" required />
-                    <div class="am-alert" data-am-alert>
-                        收款账号的开户人姓名
+                    <div class="am-form-group">
+                        <label>开户人姓名<span class="am-form-group-label-tips-must">必填</span></label>
+                        <input type="text" name="bank_username" placeholder="开户人姓名" minlength="1" maxlength="30" data-validation-message="开户人姓名格式 1~30 个字符之间" class="am-radius" required />
+                        <div class="am-alert" data-am-alert>
+                            收款账号的开户人姓名
+                        </div>
                     </div>
-                </div>
 
-                <div class="am-form-group am-form-group-refreshing">
-                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '处理中...'}">确认提现</button>
-                </div>
-            </form>
-            <!-- form end -->
+                    <div class="am-form-group am-form-group-refreshing">
+                        <button type="submit" class="am-btn am-btn-primary am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '处理中...'}">确认提现</button>
+                    </div>
+                </form>
+                <!-- form end -->
+            {{else /}}
+                <div class="table-no"><i class="am-icon-warning"></i> 安全验证已超时，请重新验证再操作 <a class="am-btn am-btn-link" href="{{:PluginsHomeUrl('wallet', 'cash', 'authinfo')}}">申请提现</a></div>
+            {{/if}}
         </div>
     </div>
     <!-- content end -->

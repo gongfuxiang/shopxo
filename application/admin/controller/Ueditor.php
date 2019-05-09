@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use think\facade\Hook;
+
 /**
  * 百度编辑器控制器入口
  * @author   Devil
@@ -130,6 +132,14 @@ class Ueditor extends Common
 		$path = input('path');
 		if(!empty($path))
 		{
+			// 附件删除前处理钩子
+	        $hook_name = 'plugins_controller_attachment_delete_handle_begin';
+	        Hook::listen($hook_name, [
+	            'hook_name'     	=> $hook_name,
+	            'is_backend'    	=> true,
+	            'path'				=> &$path,
+	        ]);
+
 			$path = (__MY_ROOT_PUBLIC__ == '/') ? substr(ROOT_PATH, 0, -1).$path : str_replace(__MY_ROOT_PUBLIC__, ROOT_PATH, $path);
 			if(file_exists($path))
 			{
@@ -137,6 +147,14 @@ class Ueditor extends Common
 				{
 					if(unlink($path))
 					{
+						// 附件删除成功后处理钩子
+				        $hook_name = 'plugins_controller_attachment_delete_handle_end';
+				        Hook::listen($hook_name, [
+				            'hook_name'     	=> $hook_name,
+				            'is_backend'    	=> true,
+				            'path'				=> $path,
+				        ]);
+
 						$this->current_result = json_encode(array(
 							'state'=> 'SUCCESS'
 						));
@@ -171,7 +189,7 @@ class Ueditor extends Common
 	 */
 	private function ActionUpload()
 	{
-		$type = "file";
+		$attachment_type = "file";
 		switch(htmlspecialchars($this->current_action))
 		{
 			case 'uploadimage':
@@ -181,7 +199,7 @@ class Ueditor extends Common
 						"allowFiles" => $this->current_config['imageAllowFiles']
 					);
 				$field_name = $this->current_config['imageFieldName'];
-				$type = "image";
+				$attachment_type = "image";
 				break;
 
 			case 'uploadscrawl':
@@ -192,7 +210,7 @@ class Ueditor extends Common
 						"oriName" => "scrawl.png"
 					);
 				$field_name = $this->current_config['scrawlFieldName'];
-				$type = "base64";
+				$attachment_type = "base64";
 				break;
 
 			case 'uploadvideo':
@@ -202,7 +220,7 @@ class Ueditor extends Common
 						"allowFiles" => $this->current_config['videoAllowFiles']
 					);
 				$field_name = $this->current_config['videoFieldName'];
-				$type = "video";
+				$attachment_type = "video";
 				break;
 
 			case 'uploadfile':
@@ -213,11 +231,21 @@ class Ueditor extends Common
 						"allowFiles" => $this->current_config['fileAllowFiles']
 					);
 				$field_name = $this->current_config['fileFieldName'];
-				$type = "file";
+				$attachment_type = "file";
 		}
 
+		// 附件上传前处理钩子
+        $hook_name = 'plugins_controller_attachment_upload_handle_begin';
+        Hook::listen($hook_name, [
+            'hook_name'     	=> $hook_name,
+            'is_backend'    	=> true,
+            'attachment_type'	=> $attachment_type,
+            'field_name'    	=> $field_name,
+            'temp_config'		=> &$temp_config,
+        ]);
+
 		/* 生成上传实例对象并完成上传 */
-		$up = new \base\Uploader($field_name, $temp_config, $type);
+		$up = new \base\Uploader($field_name, $temp_config, $attachment_type);
 
 		/**
 		 * 得到上传文件所对应的各个参数,数组结构
@@ -230,9 +258,21 @@ class Ueditor extends Common
 		 *     "size" => "",           //文件大小
 		 * )
 		 */
+		$data = $up->getFileInfo();
+
+		// 附件上传成功后处理钩子
+        $hook_name = 'plugins_controller_attachment_upload_handle_end';
+        Hook::listen($hook_name, [
+            'hook_name'     	=> $hook_name,
+            'is_backend'    	=> true,
+            'attachment_type'	=> $attachment_type,
+            'field_name'    	=> $field_name,
+            'temp_config'		=> $temp_config,
+            'data'          	=> &$data,
+        ]);
 
 		// 返回数据
-		$this->current_result = json_encode($up->getFileInfo());
+		$this->current_result = json_encode($data);
 	}
 
 	/**
@@ -275,36 +315,115 @@ class Ueditor extends Common
 		$end = $start + $size;
 
 		/* 获取文件列表 */
-		$path = GetDocumentRoot() . (substr($path, 0, 1) == "/" ? "":"/") . $path;
-		$files = $this->GetFilesList($path, $allow_files);
+		$data = array(
+			"state" => "no match file",
+			"list" => array(),
+			"start" => $start,
+			"total" => 0,
+		);
+
+		// 是否从磁盘获取数据 0否, 1是
+		$is_disk_get = 1;
+
+		// 附件列表获取处理钩子
+        $hook_name = 'plugins_controller_attachment_get_list_handle';
+        Hook::listen($hook_name, [
+            'hook_name'     	=> $hook_name,
+            'is_backend'    	=> true,
+            'is_disk_get'		=> &$is_disk_get,
+            'data'				=> &$data,
+        ]);
+
+        // 是否从磁盘获取数据
+        if($is_disk_get == 1)
+        {
+        	$path = GetDocumentRoot() . (substr($path, 0, 1) == "/" ? "":"/") . $path;
+			$this->GetFilesList($path, $allow_files, $size, $start, $end, $data);
+        }
+		
+		/* 返回数据 */
+		$this->current_result = json_encode($data);
+	}
+
+	/**
+	 * [GetFilesList 获取目录下的指定类型的文件]
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2017-01-17T23:24:59+0800
+	 * @param    [string]        $path       	[路径地址]
+	 * @param    [string]        $allow_files 	[允许的文件]
+	 * @param    [int]         	 $size     		[条数]
+	 * @param    [int]         	 $start     	[起始]
+	 * @param    [int]         	 $end     		[结束标记]
+	 * @param    [array]         $data     		[返回数据]
+	 * @return   [array]                     	[数据]
+	 */
+	private function GetFilesList($path, $allow_files, $size, $start, $end, &$data)
+	{
+		// 从磁盘获取文件
+		$files = $this->GetDirFilesList($path, $allow_files, $files);
 
 		// 倒序
 		//$files = $this->ArrayQuickSort($files);
 
-		if (!count($files)) {
-			$this->current_result =  json_encode(array(
-				"state" => "no match file",
-				"list" => array(),
+		if(count($files) > 0)
+		{
+			/* 获取指定范围的列表 */
+			$len = count($files);
+			$list = [];
+			for ($i = min($end, $len) - 1; $i < $len && $i >= 0 && $i >= $start; $i--)
+			{
+				$list[] = $files[$i];
+			}
+
+			/* 返回数据 */
+			$data = array(
+				"state" => "SUCCESS",
+				"list" => $list,
 				"start" => $start,
 				"total" => count($files)
-			));
+			);
 		}
+	}
 
-		/* 获取指定范围的列表 */
-		$len = count($files);
-		$list = [];
-		for ($i = min($end, $len) - 1; $i < $len && $i >= 0 && $i >= $start; $i--)
+	/**
+	 * 遍历获取目录下的指定类型的文件
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2017-01-17T23:24:59+0800
+	 * @param    [string]        $path       	[路径地址]
+	 * @param    [string]        $allow_files 	[允许的文件]
+	 * @param    [array]         &$files     	[数据]
+	 * @return   [array]                     	[数据]
+	 */
+	private function GetDirFilesList($path, $allow_files, &$files = array())
+	{
+		if(!is_dir($path)) return null;
+		if(substr($path, strlen($path) - 1) != '/') $path .= '/';
+		$handle = opendir($path);
+		$document_root = GetDocumentRoot();
+		while(false !== ($file = readdir($handle)))
 		{
-			$list[] = $files[$i];
+			if($file != '.' && $file != '..')
+			{
+				$path2 = $path . $file;
+				if(is_dir($path2))
+				{
+					$this->GetDirFilesList($path2, $allow_files, $files);
+				} else {
+					if(preg_match("/\.(".$allow_files.")$/i", $file))
+					{
+						$files[] = array(
+							'url'=> substr($path2, strlen($document_root)),
+							'mtime'=> filemtime($path2)
+						);
+					}
+				}
+			}
 		}
-
-		/* 返回数据 */
-		$this->current_result = json_encode(array(
-			"state" => "SUCCESS",
-			"list" => $list,
-			"start" => $start,
-			"total" => count($files)
-		));
+		return $files;
 	}
 
 	/**
@@ -344,45 +463,6 @@ class Ueditor extends Common
 	}
 
 	/**
-	 * [GetFilesList 遍历获取目录下的指定类型的文件]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2017-01-17T23:24:59+0800
-	 * @param    [string]        $path       	[路径地址]
-	 * @param    [string]        $allow_files 	[允许的文件]
-	 * @param    [array]         &$files     	[数据]
-	 * @return   [array]                     	[数据]
-	 */
-	private function GetFilesList($path, $allow_files, &$files = array())
-	{
-		if(!is_dir($path)) return null;
-		if(substr($path, strlen($path) - 1) != '/') $path .= '/';
-		$handle = opendir($path);
-		$document_root = GetDocumentRoot();
-		while(false !== ($file = readdir($handle)))
-		{
-			if($file != '.' && $file != '..')
-			{
-				$path2 = $path . $file;
-				if(is_dir($path2))
-				{
-					$this->GetFilesList($path2, $allow_files, $files);
-				} else {
-					if(preg_match("/\.(".$allow_files.")$/i", $file))
-					{
-						$files[] = array(
-								'url'=> substr($path2, strlen($document_root)),
-								'mtime'=> filemtime($path2)
-							);
-					}
-				}
-			}
-		}
-		return $files;
-	}
-
-	/**
 	 * [ActionCrawler 抓取远程文件]
 	 * @author   Devil
 	 * @blog     http://gong.gg/
@@ -415,6 +495,14 @@ class Ueditor extends Common
 				"source" => htmlspecialchars($imgUrl)
 			));
 		}
+
+		// 附件抓取远程文件取结束处理钩子
+        $hook_name = 'plugins_controller_attachment_crawler_handle_end';
+        Hook::listen($hook_name, [
+            'hook_name'     	=> $hook_name,
+            'is_backend'    	=> true,
+            'list'				=> &$list,
+        ]);
 
 		/* 返回抓取数据 */
 		$this->current_result = json_encode(array(
