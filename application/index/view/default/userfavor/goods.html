@@ -22,7 +22,7 @@
     <!-- content start -->
     <div class="user-content">
         <div class="user-content-body">
-            <form class="am-form form-validation" method="post" action="{{:MyUrl('index/userfavor/goods')}}" request-type="form">
+            <form class="am-form form-validation form-search" method="post" action="{{:MyUrl('index/userfavor/goods')}}" request-type="form">
                 <div class="thin">
                     <div class="am-input-group am-input-group-sm am-fl so">
                         <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="其实搜索很简单 ^_^！" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />

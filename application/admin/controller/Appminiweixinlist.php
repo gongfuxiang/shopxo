@@ -57,7 +57,7 @@ class AppMiniWeixinList extends Common
      */
 	public function Index()
 	{
-		$this->assign('data', AppMiniService::DataList($this->params));
+		$this->assign('data_list', AppMiniService::DataList($this->params));
 		return $this->fetch();
 	}
 

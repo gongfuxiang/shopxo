@@ -69,8 +69,8 @@
                         <th>操作金额(元)</th>
                         <th class="am-hide-sm-only">原始金额(元)</th>
                         <th>最新金额(元)</th>
-                        <th class="am-hide-sm-only">变更说明</th>
-                        <th class="am-hide-sm-only">操作时间</th>
+                        <th class="am-hide-md-down">变更说明</th>
+                        <th>更多</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -100,8 +100,63 @@
                                 <td>
                                     <span class="money-bold">{{$v.latest_money}}</span>
                                 </td>
-                                <td class="am-hide-sm-only operation-msg">{{$v.msg|raw}}</td>
-                                <td class="am-hide-sm-only">{{$v.add_time_text}}</td>
+                                <td class="am-hide-md-down operation-msg">{{$v.msg|raw}}</td>
+                                <td>
+                                    <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+                                    <div class="am-popup am-radius" id="my-popup{{$v.id}}">
+                                        <div class="am-popup-inner">
+                                            <div class="am-popup-hd">
+                                                <h4 class="am-popup-title">详情内容</h4>
+                                                <span data-am-modal-close
+                                                class="am-close">&times;</span>
+                                            </div>
+                                            <div class="am-popup-bd">
+                                                <dl class="dl-content">
+                                                    <dt>业务类型</dt>
+                                                    <dd>{{$v.business_type_text}}</dd>
+
+                                                    <dt>操作类型</dt>
+                                                    <dd>
+                                                        {{if $v['operation_type'] eq 0}}
+                                                            <span class="operation-reduce-icon">{{$v.operation_type_text}}</span>
+                                                        {{elseif $v['operation_type'] eq 1}}
+                                                            <span class="operation-increase-icon">{{$v.operation_type_text}}</span>
+                                                        {{/if}}
+                                                    </dd>
+
+                                                    <dt>金额类型</dt>
+                                                    <dd>{{$v.money_type_text}}</dd>
+
+                                                    <dt>操作金额(元)</dt>
+                                                    <dd>
+                                                        {{if $v['operation_type'] eq 0}}
+                                                            <span class="operation-reduce-icon">-</span>
+                                                        {{elseif $v['operation_type'] eq 1}}
+                                                            <span class="operation-increase-icon">+</span>
+                                                        {{/if}}
+                                                        <span class="money-bold money">{{$v.operation_money}}</span>
+                                                    </dd>
+
+                                                    <dt>原始金额(元)</dt>
+                                                    <dd>
+                                                        <span class="money-bold">{{$v.original_money}}</span>
+                                                    </dd>
+
+                                                    <dt>最新金额(元)</dt>
+                                                    <dd>
+                                                        <span class="money-bold">{{$v.latest_money}}</span>
+                                                    </dd>
+
+                                                    <dt>变更说明</dt>
+                                                    <dd>{{$v.msg|raw}}</dd>
+
+                                                    <dt>操作时间</dt>
+                                                    <dd>{{$v.add_time_text}}</dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                         {{/foreach}}
                     {{/if}}

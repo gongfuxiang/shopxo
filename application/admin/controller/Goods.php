@@ -90,7 +90,7 @@ class Goods extends Common
 
 		$this->assign('params', $params);
 		$this->assign('page_html', $page->GetPageHtml());
-		$this->assign('data', $ret['data']);
+		$this->assign('data_list', $ret['data']);
 		return $this->fetch();
 	}
 

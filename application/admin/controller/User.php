@@ -89,7 +89,7 @@ class User extends Common
 
 		$this->assign('params', $params);
 		$this->assign('page_html', $page->GetPageHtml());
-		$this->assign('data', $data['data']);
+		$this->assign('data_list', $data['data']);
 		return $this->fetch();
 
 	}

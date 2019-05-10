@@ -61,9 +61,9 @@ class AdminService
     public static function AdminListWhere($params = [])
     {
         $where = [];
-        if(!empty($params['username']))
+        if(!empty($params['keywords']))
         {
-            $where[] = ['username', 'like', '%'.$params['username'].'%'];
+            $where[] = ['username', 'like', '%'.$params['keywords'].'%'];
         }
         if(isset($params['role_id']) && $params['role_id'] > -1)
         {

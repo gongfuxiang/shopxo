@@ -310,6 +310,7 @@ class CashService
         // 钱包更新
         $wallet_data = [
             'normal_money'  => PriceNumberFormat($user_wallet['data']['normal_money']-$money),
+            'frozen_money'  => PriceNumberFormat($user_wallet['data']['frozen_money']+$money),
             'upd_time'      => time(),
         ];
         if(!Db::name('PluginsWallet')->where(['id'=>$user_wallet['data']['id']])->update($wallet_data))
@@ -319,25 +320,36 @@ class CashService
         }
 
         // 日志
-        $log_data = [
-            'user_id'           => $user_wallet['data']['user_id'],
-            'wallet_id'         => $user_wallet['data']['id'],
-            'business_type'     => 2,
-            'operation_type'    => 0,
-            'money_type'        => 0,
-            'operation_money'   => $money,
-            'original_money'    => $user_wallet['data']['normal_money'],
-            'latest_money'      => $wallet_data['normal_money'],
+        $money_field = [
+            ['field' => 'normal_money', 'money_type' => 0, 'msg' => ' [ 有效金额减少'.$money.'元 ]'],
+            ['field' => 'frozen_money', 'money_type' => 1, 'msg' => ' [ 冻结金额增加'.$money.'元 ]'],
         ];
-        $log_data['msg'] = '用户提现申请[ 减少有效金额'.$log_data['operation_money'].'元 ]';
-        if(!WalletService::WalletLogInsert($log_data))
+        foreach($money_field as $v)
         {
-            Db::rollback();
-            return DataReturn('日志添加失败', -101);
-        }
+            // 有效金额
+            if($user_wallet['data'][$v['field']] != $wallet_data[$v['field']])
+            {
+                $log_data = [
+                    'user_id'           => $user_wallet['data']['user_id'],
+                    'wallet_id'         => $user_wallet['data']['id'],
+                    'business_type'     => 2,
+                    'operation_type'    => ($user_wallet['data'][$v['field']] < $wallet_data[$v['field']]) ? 1 : 0,
+                    'money_type'        => $v['money_type'],
+                    'operation_money'   => ($user_wallet['data'][$v['field']] < $wallet_data[$v['field']]) ? PriceNumberFormat($wallet_data[$v['field']]-$user_wallet['data'][$v['field']]) : PriceNumberFormat($user_wallet['data'][$v['field']]-$wallet_data[$v['field']]),
+                    'original_money'    => $user_wallet['data'][$v['field']],
+                    'latest_money'      => $wallet_data[$v['field']],
+                    'msg'               => '用户提现申请 '.$v['msg'],
+                ];
+                if(!WalletService::WalletLogInsert($log_data))
+                {
+                    Db::rollback();
+                    return DataReturn('日志添加失败', -101);
+                }
 
-        // 消息通知
-        MessageService::MessageAdd($user_wallet['data']['user_id'], '账户余额变动', $log_data['msg'], 3, $cash_id);
+                // 消息通知
+                MessageService::MessageAdd($user_wallet['data']['user_id'], '账户余额变动', $log_data['msg'], 3, $cash_id);
+            }
+        }
 
         // 提交事务
         Db::commit();
@@ -506,7 +518,7 @@ class CashService
                     'operation_money'   => ($wallet[$v['field']] < $wallet_upd_data[$v['field']]) ? PriceNumberFormat($wallet_upd_data[$v['field']]-$wallet[$v['field']]) : PriceNumberFormat($wallet[$v['field']]-$wallet_upd_data[$v['field']]),
                     'original_money'    => $wallet[$v['field']],
                     'latest_money'      => $wallet_upd_data[$v['field']],
-                    'msg'               => $v['msg'],
+                    'msg'               => '管理员审核'.$v['msg'],
                 ];
                 if(!WalletService::WalletLogInsert($log_data))
                 {

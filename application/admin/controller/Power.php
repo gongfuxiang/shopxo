@@ -117,7 +117,7 @@ class Power extends Common
 		];
 		$data = AdminPowerService::RoleList($data_params);
 
-		$this->assign('data', $data);
+		$this->assign('data_list', $data);
 		return $this->fetch();
 	}
 

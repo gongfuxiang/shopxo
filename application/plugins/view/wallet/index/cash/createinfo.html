@@ -32,7 +32,7 @@
                     <div class="am-form-group">
                         <label>提现金额<span class="am-form-group-label-tips-must">必填</span></label>
                         <div class="am-input-group am-input-group-sm">
-                            <input type="number" autocomplete="off" name="money" step="0.01" min="0.00" max="{{$user_wallet.normal_money}}" class="am-radius" placeholder="提现金额" data-validation-message="请输入提现金额" required />
+                            <input type="number" autocomplete="off" name="money" step="0.01" min="0.00" max="{{$user_wallet.normal_money}}" class="am-radius" placeholder="提现金额" data-validation-message="提现金额，最低0.01元，最高{{$user_wallet.normal_money}}元" required />
                             <span class="am-input-group-btn">
                                 <button type="button" class="am-btn am-btn-default am-radius">元</button>
                             </span>

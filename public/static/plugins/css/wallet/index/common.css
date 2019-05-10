@@ -76,17 +76,17 @@
 .user-content-body .am-alert-secondary {
     margin-bottom: 20px;
 }
-.user-content-body .normal .integral-value {
+.user-content-body .normal .panel-value {
     color: #4CAF50;
 }
-.user-content-body .frozen .integral-value {
+.user-content-body .frozen .panel-value {
     color: #FF9800;
 }
-.user-content-body .integral-value {
+.user-content-body .panel-value {
     font-size: 18px;
     font-weight: 700;
 }
-.user-content-body .integral-tips {
+.user-content-body .panel-tips {
     color: #ff9600;
     background: #fdf8ed;
     padding: 3px 6px;
@@ -94,7 +94,7 @@
     margin-left: 10px;
 }
 @media only screen and (max-width: 641px) {
-    .user-content-body .integral-tips {
+    .user-content-body .panel-tips {
         display: none;
     }
 }

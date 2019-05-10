@@ -10,12 +10,16 @@
 
         <div class="cash-content">
             <!-- form start -->
-            <form class="am-form form-search" action="{{:PluginsAdminUrl('wallet', 'cash', 'index')}}" method="POST">
-                <div class="am-g">
-                    <input type="text" autocomplete="off" class="am-radius form-keyword" placeholder="用户名/昵称/手机/邮箱/申请单号" name="keywords" {{if !empty($params['keywords'])}} value="{{$params.keywords}}"{{/if}} />
-                    <button type="submit" class="am-btn am-btn-secondary am-btn-sm am-radius form-submit">查询</button>
-                    <label class="fs-12 m-l-5 c-p fw-100 more-submit">
-                        更多筛选
+            <form class="am-form form-validation form-search" method="post" action="{{:PluginsAdminUrl('wallet', 'cash', 'index')}}" request-type="form">
+                <div class="thin">
+                    <div class="am-input-group am-input-group-sm am-fl so">
+                        <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="用户名/昵称/手机/邮箱/申请单号" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
+                        <span class="am-input-group-btn">
+                            <button class="am-btn am-btn-default am-radius" type="submit" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
+                        </span>
+                    </div>
+                    <label class="am-fl thin_sub more-submit">
+                        更多筛选条件
                         {{if isset($params['is_more']) and $params['is_more'] eq 1}}
                             <input type="checkbox" name="is_more" value="1" id="is_more" checked />
                             <i class="am-icon-angle-up"></i>
@@ -24,16 +28,26 @@
                             <i class="am-icon-angle-down"></i>
                         {{/if}}
                     </label>
-
-                    <div class="more-where {{if !isset($params['is_more']) or $params['is_more'] neq 1}} none{{/if}}">
-                        <select name="status" class="am-radius m-t-10 chosen-select param-where" data-placeholder="状态...">
-                            <option value="-1">状态...</option>
-                            {{foreach $cash_status_list as $v}}
-                                <option value="{{$v.value}}" {{if isset($params['status']) and $params['status'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-                            {{/foreach}}
-                        </select>
-                    </div>
                 </div>
+                <table class="so-list more-where {{if !isset($params['is_more'])}}none{{/if}}">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span>状态：</span>
+                                <select name="status" class="chosen-select" data-placeholder="状态...">
+                                    <option value="-1">状态...</option>
+                                    {{foreach $cash_status_list as $v}}
+                                        <option value="{{$v.value}}" {{if isset($params['status']) and $params['status'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                    {{/foreach}}
+                                </select>
+                            </td>
+                            <td>
+                                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
+                                <a href="{{:PluginsAdminUrl('wallet', 'cash', 'index')}}" class="am-btn am-btn-warning am-radius am-btn-sm reset-submit">清除条件</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </form>
             <!-- form end -->
 

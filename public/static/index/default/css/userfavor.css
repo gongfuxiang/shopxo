@@ -1,9 +1,4 @@
 /**
- * 搜索
- */
-.thin { overflow: hidden; }
-
-/**
  * 商品列表
  */
 .data-list { margin-top: 10px; }
@@ -23,11 +18,6 @@
     .data-list tr .base { width: 50%; }
     .data-list tr .price { width: 20%; }
     .data-list tr .operate { width: 10%; }
-
-    /**
-     * 搜索
-     */
-    .thin .so { width:66%; }
 }
 @media only screen and (max-width:640px)  {
     .data-list tr .base { width: 65%; }

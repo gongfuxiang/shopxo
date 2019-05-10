@@ -22,7 +22,7 @@
     <!-- content start -->
     <div class="user-content">
         <div class="user-content-body">
-            <form class="am-form form-validation" method="post" action="{{:MyUrl('index/answer/index')}}" request-type="form">
+            <form class="am-form form-validation form-search" method="post" action="{{:MyUrl('index/answer/index')}}" request-type="form">
                 <div class="thin">
                     <div class="am-input-group am-input-group-sm am-fl so">
                         <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="其实搜索很简单 ^_^！" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
@@ -32,8 +32,13 @@
                     </div>
                     <label class="am-fl thin_sub more-submit">
                         更多筛选条件
-                        <input type="checkbox" name="is_more" value="1" class="none am-field-valid" {{if isset($params['is_more'])}}checked{{/if}} />
-                        <i class="am-icon-angle-up"></i>
+                        {{if isset($params['is_more']) and $params['is_more'] eq 1}}
+                            <input type="checkbox" name="is_more" value="1" id="is_more" checked />
+                            <i class="am-icon-angle-up"></i>
+                        {{else /}}
+                            <input type="checkbox" name="is_more" value="1" id="is_more" />
+                            <i class="am-icon-angle-down"></i>
+                        {{/if}}
                     </label>
                 </div>
                 <table class="so-list more-where {{if !isset($params['is_more'])}}none{{/if}}">
