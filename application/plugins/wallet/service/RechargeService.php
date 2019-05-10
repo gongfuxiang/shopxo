@@ -111,6 +111,7 @@ class RechargeService
             ],
             [
                 'checked_type'      => 'empty',
+                'is_checked'        => 2,
                 'key_name'          => 'user',
                 'error_msg'         => '用户信息有误',
             ],
@@ -124,8 +125,11 @@ class RechargeService
         // 删除
         $where = [
             'id'        => intval($params['id']),
-            'user_id'   => $params['user']['id']
         ];
+        if(!empty($params['user']['id']))
+        {
+            $where['user_id'] = $params['user']['id'];
+        }
         if(Db::name('PluginsWalletRecharge')->where($where)->delete())
         {
             return DataReturn('删除成功', 0);

@@ -11,26 +11,25 @@
 namespace app\plugins\wallet\admin;
 
 use think\Controller;
-use app\plugins\wallet\service\CashService;
 use app\plugins\wallet\service\BaseService;
-use app\plugins\wallet\service\WalletService;
+use app\plugins\wallet\service\RechargeService;
 
 /**
- * 钱包插件 - 提现管理
+ * 钱包 - 充值管理
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Cash extends Controller
+class Recharge extends Controller
 {
     /**
-     * 首页
+     * 充值明细
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
-     * @datetime 2019-02-07T08:21:54+0800
-     * @param    [array]          $params [输入参数]
+     * @datetime 2019-03-15T23:51:50+0800
+     * @param   [array]          $params [输入参数]
      */
     public function index($params = [])
     {
@@ -38,10 +37,10 @@ class Cash extends Controller
         $number = MyC('admin_page_number', 10, true);
 
         // 条件
-        $where = BaseService::CashWhere($params);
+        $where = BaseService::RechargeWhere($params);
 
         // 获取总数
-        $total = BaseService::CashTotal($where);
+        $total = BaseService::RechargeTotal($where);
 
         // 分页
         $page_params = array(
@@ -49,7 +48,7 @@ class Cash extends Controller
                 'total'     =>  $total,
                 'where'     =>  $params,
                 'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  PluginsAdminUrl('wallet', 'cash', 'index'),
+                'url'       =>  PluginsAdminUrl('wallet', 'recharge', 'index'),
             );
         $page = new \base\Page($page_params);
         $this->assign('page_html', $page->GetPageHtml());
@@ -62,74 +61,39 @@ class Cash extends Controller
                 'n'         => $number,
                 'where'     => $where,
             );
-            $data = BaseService::CashList($data_params);
+            $data = BaseService::RechargeList($data_params);
             $this->assign('data_list', $data['data']);
         } else {
             $this->assign('data_list', []);
         }
 
         // 静态数据
-        $this->assign('cash_status_list', CashService::$cash_status_list);
+        $this->assign('recharge_status_list', RechargeService::$recharge_status_list);
 
         // 参数
         $this->assign('params', $params);
-        return $this->fetch('../../../plugins/view/wallet/admin/cash/index');
+        return $this->fetch('../../../plugins/view/wallet/admin/recharge/index');
     }
 
     /**
-     * 审核页面
+     * 充值纪录删除
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2019-05-05
+     * @date    2018-09-14
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public function auditinfo($params = [])
+    public function delete($params = [])
     {
-        $data = [];
-        if(!empty($params['id']))
+        // 是否ajax请求
+        if(!IS_AJAX)
         {
-            $data_params = array(
-                'm'         => 0,
-                'n'         => 1,
-                'where'     => ['id'=>intval($params['id'])],
-            );
-            $ret = BaseService::CashList($data_params);
-            if(!empty($ret['data'][0]))
-            {
-                // 用户钱包
-                $user_wallet = WalletService::UserWallet($ret['data'][0]['user_id']);
-                if($user_wallet['code'] == 0)
-                {
-                    $data = $ret['data'][0];
-                    $this->assign('user_wallet', $user_wallet['data']);
-                } else {
-                    $this->assign('msg', $user_wallet['msg']);
-                }
-            } else {
-                $this->assign('msg', '数据不存在或已删除');
-            }
-        } else {
-            $this->assign('msg', '参数id有误');
+            $this->error('非法访问');
         }
 
-        $this->assign('data', $data);
-        return $this->fetch('../../../plugins/view/wallet/admin/cash/auditinfo');
-    }
-
-    /**
-     * 审核
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2019-05-06
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public function audit($params = [])
-    {
-        return CashService::CashAudit($params);
+        // 开始处理
+        return RechargeService::RechargeDelete($params);
     }
 }
 ?>

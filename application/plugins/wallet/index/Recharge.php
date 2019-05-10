@@ -51,7 +51,7 @@ class Recharge extends Common
         $params['user'] = $this->user;
 
         // 分页
-        $number = MyC('admin_page_number', 10, true);
+        $number = 10;
 
         // 条件
         $where = BaseService::RechargeWhere($params);

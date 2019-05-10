@@ -26,7 +26,8 @@
             {{include file="../../../plugins/view/wallet/index/public/nav" /}}
             <!-- user menu end -->
 
-            <form class="am-form form-validation" method="post" action="{{:PluginsHomeUrl('wallet', 'cash', 'index')}}" request-type="form">
+            <!-- form start -->
+            <form class="am-form form-validation form-search" method="post" action="{{:PluginsHomeUrl('wallet', 'cash', 'index')}}" request-type="form">
                 <div class="thin">
                     <div class="am-input-group am-input-group-sm am-fl so">
                         <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="申请单号" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
@@ -62,6 +63,7 @@
                     </tbody>
                 </table>
             </form>
+            <!-- form end -->
 
             <!-- 列表 -->
             <div class="data-list">

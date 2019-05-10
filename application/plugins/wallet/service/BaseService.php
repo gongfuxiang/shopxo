@@ -224,10 +224,26 @@ class BaseService
             $where[] = ['user_id', '=', $params['user']['id']];
         }
 
-        // 关键字
+        // 关键字根据用户筛选
         if(!empty($params['keywords']))
         {
-            $where[] = ['recharge_no', '=', $params['keywords']];
+            if(empty($params['user']))
+            {
+                $user_ids = Db::name('User')->where('username|nickname|mobile|email', '=', $params['keywords'])->column('id');
+                if(!empty($user_ids))
+                {
+                    $where[] = ['user_id', 'in', $user_ids];
+                } else {
+                    // 无数据条件，走单号条件
+                    $where[] = ['recharge_no', '=', $params['keywords']];
+                }
+            }
+        }
+
+        // 状态
+        if(isset($params['status']) && $params['status'] > -1)
+        {
+            $where[] = ['status', '=', $params['status']];
         }
 
         return $where;
@@ -405,10 +421,20 @@ class BaseService
             $where[] = ['user_id', '=', $params['user']['id']];
         }
 
-        // 关键字
+        // 关键字根据用户筛选
         if(!empty($params['keywords']))
         {
-            $where[] = ['cash_no', '=', $params['keywords']];
+            if(empty($params['user']))
+            {
+                $user_ids = Db::name('User')->where('username|nickname|mobile|email', '=', $params['keywords'])->column('id');
+                if(!empty($user_ids))
+                {
+                    $where[] = ['user_id', 'in', $user_ids];
+                } else {
+                    // 无数据条件，走单号条件
+                    $where[] = ['cash_no', '=', $params['keywords']];
+                }
+            }
         }
 
         // 状态

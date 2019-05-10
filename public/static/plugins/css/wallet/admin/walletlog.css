@@ -1,0 +1,21 @@
+/**
+ * 列表
+ */
+.walletlog-content table.am-table {
+    margin-top: 10px;
+}
+.walletlog-content table.am-table .money-bold {
+    font-weight: 700;
+}
+.walletlog-content table.am-table .money {
+    color: #E4393C;
+}
+.walletlog-content table.am-table .operation-reduce-icon {
+    color: #f00;
+}
+.walletlog-content table.am-table .operation-increase-icon {
+    color: #0a9610;
+}
+.walletlog-content table.am-table .operation-msg {
+    width: 30%;
+}

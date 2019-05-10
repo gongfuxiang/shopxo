@@ -1,36 +1,4 @@
 /**
- * 搜索表单
- */
-.form-search .form-keyword { display: initial !important; }
-.form-search .more-submit input { display: none; }
-.form-search .param-date input { display: initial !important; }
-@media only screen and (max-width: 641px) {
-    .form-search .form-keyword { width: calc(100% - 140px) !important; }
-    .form-search .param-where { width: 100% !important; margin-left: 0px !important; }
-    .form-search .param-date input { width: 47% !important; }
-}
-@media only screen and (min-width: 641px) {
-    .form-search .form-keyword { width: 35% !important; }
-    .form-search .param-where { width: 32% !important; float: left; }
-    .form-search .param-date input { width: 45% !important; }
-    .form-search .param-where:nth-child(1), .param-where:nth-child(4) { margin-left: 0px !important; }
-}
-
-/**
- * 用户信息
- */
-.cash-content .user-info img {
-    max-width: 35px;
-    max-height: 35px;
-    margin: 0 5px 2px 0;
-}
-.cash-content ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-/**
  * 列表
  */
 .cash-content table.am-table .operation-msg {

@@ -294,3 +294,39 @@ button.colorpicker-submit:active {
 button.colorpicker-submit img {
     margin-right: 10px;
 }
+
+
+/**
+ * 搜索表单
+ */
+.form-search .thin { overflow:hidden; }
+.form-search .thin .so { width:66%; }
+.form-search .thin_sub { font-weight:100; margin:10px 0px 0px 10px; cursor: pointer; }
+.form-search .so-list { width:100%; margin-top: 10px; }
+.form-search .so-list * { font-size:1.2rem !important; }
+.form-search .so-list input { height:28px; display:inline !important; }
+.form-search .time input, .form-search .so-list .chosen-container { background:#FFF !important; }
+.form-search .time input { width:100px !important; }
+.form-search .time i { position:absolute; margin:4px 0px 0px -15px; }
+.form-search .price input { width:101px !important; }
+.form-search .time { width:50%; }
+.form-search .so-list tr+tr>td { padding-top:10px; }
+.form-search .so-list .chosen-container { border-radius:2px; }
+.form-search .text-grey { color: #999; }
+.form-search .chosen-container-single .chosen-single, .form-search .so-list select { height: 28px; line-height: 28px; width: 100%; }
+.form-search .reset-submit { margin-left: 20px; }
+.form-search .so-list select { padding: 0 0 0 8px; }
+@media only screen and (min-width: 641px) {
+    .form-search .so-list .chosen-container, .form-search .so-list select { width:217px !important; display: -webkit-inline-box; }
+    .form-search .thin_sub:hover { color:#F60; }
+}
+@media only screen and (max-width: 641px) {
+    .form-search .so-list input { width:40% !important; }
+    .form-search .so-list td { width:100%; display:block; }
+    .form-search .so-list tr td:last-child { margin-top:10px; }
+    .form-search .so-list .chosen-container { width:85%; }
+    .form-search .so-list .chosen-container { width:100%; }
+    .form-search .so-list tr td:last-child { padding-top:0px !important; }
+    .form-search .chosen-container-single .chosen-search input[type="text"] { width: 100% !important; }
+    .form-search .so-list select { width: calc(100% - 44px); display: -webkit-inline-box; }
+}

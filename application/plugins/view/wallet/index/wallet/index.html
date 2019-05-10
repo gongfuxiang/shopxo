@@ -26,7 +26,8 @@
             {{include file="../../../plugins/view/wallet/index/public/nav" /}}
             <!-- user menu end -->
 
-            <form class="am-form form-validation" method="post" action="{{:PluginsHomeUrl('wallet', 'wallet', 'index')}}" request-type="form">
+            <!-- form start -->
+            <form class="am-form form-validation form-search" method="post" action="{{:PluginsHomeUrl('wallet', 'wallet', 'index')}}" request-type="form">
                 <table class="so-list more-where">
                     <tbody>
                         <tr>
@@ -73,6 +74,7 @@
                     </tbody>
                 </table>
             </form>
+            <!-- form end -->
 
             <!-- 列表 -->
             <div class="data-list">

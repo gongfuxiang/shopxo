@@ -8,36 +8,23 @@
 // +----------------------------------------------------------------------
 // | Author: Devil
 // +----------------------------------------------------------------------
-namespace app\plugins\wallet\index;
+namespace app\plugins\wallet\admin;
 
-use app\plugins\wallet\index\Common;
+use think\Controller;
 use app\plugins\wallet\service\BaseService;
 use app\plugins\wallet\service\WalletService;
 
 /**
- * 钱包 - 账户明细
+ * 钱包 - 账户明细管理
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Wallet extends Common
+class Walletlog extends Controller
 {
     /**
-     * 构造方法
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2019-03-15
-     * @desc    description
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-     * 钱包明细
+     * 充值明细
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -46,11 +33,8 @@ class Wallet extends Common
      */
     public function index($params = [])
     {
-        // 参数
-        $params['user'] = $this->user;
-
         // 分页
-        $number = 10;
+        $number = MyC('admin_page_number', 10, true);
 
         // 条件
         $where = BaseService::WalletLogWhere($params);
@@ -64,7 +48,7 @@ class Wallet extends Common
                 'total'     =>  $total,
                 'where'     =>  $params,
                 'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  PluginsHomeUrl('wallet', 'wallet', 'index'),
+                'url'       =>  PluginsAdminUrl('wallet', 'walletlog', 'index'),
             );
         $page = new \base\Page($page_params);
         $this->assign('page_html', $page->GetPageHtml());
@@ -85,7 +69,7 @@ class Wallet extends Common
 
         // 参数
         $this->assign('params', $params);
-        return $this->fetch('../../../plugins/view/wallet/index/wallet/index');
+        return $this->fetch('../../../plugins/view/wallet/admin/walletlog/index');
     }
 }
 ?>
