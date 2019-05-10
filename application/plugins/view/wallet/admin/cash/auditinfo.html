@@ -1,0 +1,90 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <legend>
+            <span class="fs-16">提现审核</span>
+            <a href="{{:PluginsAdminUrl('wallet', 'cash', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+        </legend>
+
+        <div class="cash-content">
+            {{if !empty($data)}}
+                <!-- form start -->
+                <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('wallet', 'cash', 'audit')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('wallet', 'cash', 'index')}}">
+                    {{if !empty($data['user'])}}
+                        <div class="am-alert am-alert-secondary user-info" data-am-alert>
+                            <p class="am-alert-title">用户信息</p>
+                            <img src="{{$data.user.avatar}}" alt="{{$data.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                            <ul class="user-base">
+                                <li>名称：{{if empty($data['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$data.user.username}}{{/if}}</li>
+                                <li>昵称：{{if empty($data['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$data.user.nickname}}{{/if}}</li>
+                                <li>手机：{{if empty($data['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$data.user.mobile}}{{/if}}</li>
+                                <li>邮箱：{{if empty($data['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$data.user.email}}{{/if}}</li>
+                            </ul>
+                        </div>
+                    {{/if}}
+
+                    <div class="am-alert am-alert-secondary" data-am-alert>
+                        <p class="am-alert-title">用户钱包</p>
+                        <div>
+                            <span>有效金额：</span>
+                            <span class="normal-money">{{$user_wallet.normal_money}}</span> 元
+                        </div>
+                        <div>
+                            <span>冻结金额：</span>
+                            <span  class="frozen-money">{{$user_wallet.frozen_money}}</span> 元
+                        </div>
+                        <div>
+                            <span>赠送金额：</span>
+                            <span class="give-money">{{$user_wallet.give_money}}</span> 元
+                        </div>
+                    </div>
+
+                    <div class="am-alert" data-am-alert>
+                        <p class="am-alert-title">收款信息</p>
+                        银行：{{$data.bank_name}}<br />
+                        账号：{{$data.bank_accounts}}<br />
+                        姓名：{{$data.bank_username}}<br />
+                    </div>
+
+                    <div class="am-alert" data-am-alert>
+                        <p class="am-alert-title">申请信息</p>
+                        单号：{{$data.cash_no}}<br />
+                        金额：<span class="money-bold cash-money">{{$data.money}}</span> 元
+                    </div>
+
+                    <div class="am-form-group">
+                        <label>打款金额<span class="am-form-group-label-tips">最多两位小数，不能大于提现申请金额 [ {{$data.money}} 元 ]</span></label>
+                        <input type="number" name="pay_money" placeholder="打款金额" step="0.01" min="0.01" max="{{$data.money}}" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="打款金额有误，最低0.01元，最高{{$data.money}}元" class="am-radius" value="{{$data.money}}" />
+                    </div>
+
+                    <div class="am-form-group">
+                      <label>备注<span class="am-form-group-label-tips">用户可见</span></label>
+                      <textarea class="am-radius" name="msg" rows="3" maxlength="180" placeholder="备注最多 180 个字符" data-validation-message="备注格式最多 80 个字符"></textarea>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label class="block">发送站内信</label>
+                        <input name="is_send_message" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch checked="true" />
+                    </div>
+
+                    <div class="am-form-group am-form-group-refreshing am-cf form-submit-list">
+                        <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
+                        <input type="text" name="type" data-validation-message="操作类型有误，同意或拒绝操作出错" required />
+                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-fl" data-am-loading="{loadingText:'处理中...'}" data-type="agree">提交</button>
+                        <button type="submit" class="am-btn am-btn-danger am-radius btn-loading-example am-btn-sm am-fr" data-am-loading="{loadingText:'处理中...'}" data-type="refuse">拒绝</button>
+                    </div>
+                </form>
+                <!-- form end -->
+            {{else /}}
+                <div class="table-no"><i class="am-icon-warning"></i> {{$msg}}</div>
+            {{/if}}
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

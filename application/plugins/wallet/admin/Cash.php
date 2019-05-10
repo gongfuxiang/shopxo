@@ -13,6 +13,7 @@ namespace app\plugins\wallet\admin;
 use think\Controller;
 use app\plugins\wallet\service\CashService;
 use app\plugins\wallet\service\BaseService;
+use app\plugins\wallet\service\WalletService;
 
 /**
  * 钱包插件 - 提现管理
@@ -76,15 +77,15 @@ class Cash extends Controller
     }
 
     /**
-     * 钱包编辑页面
+     * 审核页面
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2019-05-05
      * @desc    description
-     * @param    [array]          $params [输入参数]
+     * @param   [array]          $params [输入参数]
      */
-    public function saveinfo($params = [])
+    public function auditinfo($params = [])
     {
         $data = [];
         if(!empty($params['id']))
@@ -94,36 +95,41 @@ class Cash extends Controller
                 'n'         => 1,
                 'where'     => ['id'=>intval($params['id'])],
             );
-            $ret = BaseService::WalletList($data_params);
+            $ret = BaseService::CashList($data_params);
             if(!empty($ret['data'][0]))
             {
-                $data = $ret['data'][0];
-
-                // 静态数据
-                $this->assign('wallet_status_list', WalletService::$wallet_status_list);
+                // 用户钱包
+                $user_wallet = WalletService::UserWallet($ret['data'][0]['user_id']);
+                if($user_wallet['code'] == 0)
+                {
+                    $data = $ret['data'][0];
+                    $this->assign('user_wallet', $user_wallet['data']);
+                } else {
+                    $this->assign('msg', $user_wallet['msg']);
+                }
             } else {
-                $this->assign('msg', '钱包有误');
+                $this->assign('msg', '数据不存在或已删除');
             }
         } else {
-            $this->assign('msg', '钱包id有误');
+            $this->assign('msg', '参数id有误');
         }
 
         $this->assign('data', $data);
-        return $this->fetch('../../../plugins/view/wallet/admin/wallet/saveinfo');
+        return $this->fetch('../../../plugins/view/wallet/admin/cash/auditinfo');
     }
 
     /**
-     * 钱包编辑
+     * 审核
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2019-05-06
      * @desc    description
-     * @param    [array]          $params [输入参数]
+     * @param   [array]          $params [输入参数]
      */
-    public function save($params = [])
+    public function audit($params = [])
     {
-        return WalletService::WalletEdit($params);
+        return CashService::CashAudit($params);
     }
 }
 ?>

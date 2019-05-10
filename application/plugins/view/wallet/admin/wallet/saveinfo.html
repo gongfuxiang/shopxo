@@ -12,18 +12,18 @@
             {{if !empty($data)}}
                 <!-- form start -->
                 <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('wallet', 'wallet', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('wallet', 'wallet', 'index')}}" enctype="multipart/form-data">
-                    <div class="am-alert am-alert-secondary saveinfo-view" data-am-alert="">
+                    <div class="am-alert am-alert-secondary saveinfo-view" data-am-alert>
                         <div>
                             <span>有效金额：</span>
-                            <span class="normal-money">{{$data.normal_money}}</span>
+                            <span class="normal-money">{{$data.normal_money}}</span> 元
                         </div>
                         <div>
                             <span>冻结金额：</span>
-                            <span  class="frozen-money">{{$data.frozen_money}}</span>
+                            <span  class="frozen-money">{{$data.frozen_money}}</span> 元
                         </div>
                         <div>
                             <span>赠送金额：</span>
-                            <span class="give-money">{{$data.give_money}}</span>
+                            <span class="give-money">{{$data.give_money}}</span> 元
                         </div>
                     </div>
                     <div class="am-form-group">

@@ -17,18 +17,22 @@
 }
 
 /**
- * 列表
+ * 用户信息
  */
-.cash-content table.am-table ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-.cash-content table.am-table .user-info img {
+.cash-content .user-info img {
     max-width: 35px;
     max-height: 35px;
     margin: 0 5px 2px 0;
 }
+.cash-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/**
+ * 列表
+ */
 .cash-content table.am-table .operation-msg {
     width: 15%;
 }
@@ -44,4 +48,45 @@
 }
 .cash-content .cash-money {
     color: #FF9800;
+}
+
+/**
+ * 用户钱包金额
+ */
+.cash-content .normal-money,
+.cash-content .frozen-money,
+.cash-content .give-money {
+    font-weight: 700;
+}
+.cash-content .normal-money {
+    color: #4CAF50;
+}
+.cash-content .frozen-money {
+    color: #FF9800;
+}
+.cash-content .give-money {
+    color: #666;
+}
+
+/**
+ * 审核页面
+ */
+.cash-content .am-alert-title {
+    margin-bottom: 5px;
+    font-weight: 700;
+    font-size: 14px;
+    color: #888;
+}
+@media only screen and (min-width: 641px) {
+    .cash-content .form-submit-list {
+        padding-left: 20% !important;
+        padding-right: 40% !important;
+    }
+}
+.cash-content .form-submit-list button {
+    width: 45%;
+}
+.cash-content .form-submit-list input[name="type"] {
+    position: absolute;
+    margin-left: -1000000px;
 }

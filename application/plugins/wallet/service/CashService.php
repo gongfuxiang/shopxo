@@ -234,7 +234,7 @@ class CashService
      */
     public static function CashCreate($params = [])
     {
-        // 数据验证
+        // 参数验证
         $p = [
             [
                 'checked_type'      => 'empty',
@@ -337,11 +337,194 @@ class CashService
         }
 
         // 消息通知
-        MessageService::MessageAdd($user_wallet['data']['user_id'], '账户余额变动', $log_data['msg'], 0, $cash_id);
+        MessageService::MessageAdd($user_wallet['data']['user_id'], '账户余额变动', $log_data['msg'], 3, $cash_id);
 
         // 提交事务
         Db::commit();
         return DataReturn('操作成功', 0);   
+    }
+
+    /**
+     * 提现申请审核
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-10
+     * @desc    description
+     * @param    [array]          $params [输入参数]
+     */
+    public static function CashAudit($params = [])
+    {
+        // 参数验证
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '提现id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'pay_money',
+                'error_msg'         => '打款金额有误',
+            ],
+            [
+                'checked_type'      => 'fun',
+                'key_name'          => 'pay_money',
+                'checked_data'      => 'CheckPrice',
+                'error_msg'         => '请输入有效的打款金额有误',
+            ],
+            [
+                'checked_type'      => 'min',
+                'key_name'          => 'pay_money',
+                'checked_data'      => 0.01,
+                'error_msg'         => '打款金额有误，最低0.01元',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'msg',
+                'checked_data'      => '180',
+                'error_msg'         => '备注最多 180 个字符',
+            ],
+            [
+                'checked_type'      => 'in',
+                'key_name'          => 'type',
+                'checked_data'      => ['agree', 'refuse'],
+                'error_msg'         => '操作类型有误，同意或拒绝操作出错',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取提现数据
+        $cash = Db::name('PluginsWalletCash')->find(intval($params['id']));
+        if(empty($cash))
+        {
+            return DataReturn('提现数据不存在或已删除', -10);
+        }
+
+        // 状态
+        if($cash['status'] != 0)
+        {
+            return DataReturn('状态不可操作['.self::$cash_status_list[$cash['status']]['name'].']', -11);
+        }
+
+        // 金额处理
+        $pay_money = PriceNumberFormat($params['pay_money']);
+        if($pay_money <= 0.00 || $pay_money > $cash['money'])
+        {
+            return DataReturn('打款金额有误，最低0.01元，最高'.$cash['money'].'元', -12);
+        }
+
+        // 获取用户钱包
+        $wallet = Db::name('PluginsWallet')->find(intval($cash['wallet_id']));
+        if(empty($wallet))
+        {
+            return DataReturn('用户钱包不存在或已删除', -20);
+        }
+
+        // 是否发送消息
+        $is_send_message = (isset($params['is_send_message']) && $params['is_send_message'] == 1) ? 1 : 0;
+
+        // 开始处理
+        Db::startTrans();
+
+        // 数据处理
+        if($params['type'] == 'agree')
+        {
+            // 钱包更新数据
+            $wallet_upd_data = [
+                'frozen_money'  => PriceNumberFormat($wallet['frozen_money']-$cash['money']),
+            ];
+
+            // 提现更新数据
+            $cash_upd_data = [
+                'status'        => 1,
+                'pay_money'     => $pay_money,
+                'pay_time'      => time(),
+            ];
+
+            $money_field = [
+                ['field' => 'frozen_money', 'money_type' => 1, 'msg' => ' [ 提现申请成功 , 冻结金额减少'.$cash['money'].'元 ]'],
+            ];
+
+            // 打款金额是否小于提现金额
+            if($pay_money < $cash['money'])
+            {
+                $surplus_money = PriceNumberFormat($cash['money']-$pay_money);
+                $wallet_upd_data['normal_money'] = PriceNumberFormat($wallet['normal_money']+$surplus_money);
+
+                $money_field[] = ['field' => 'normal_money', 'money_type' => 0, 'msg' => ' [ 提现申请成功 , 部分金额未打款 , 冻结金额退回至有效金额'.$surplus_money.'元 ]'];
+            }
+        } else {
+            // 钱包更新数据
+            $wallet_upd_data = [
+                'frozen_money'  => PriceNumberFormat($wallet['frozen_money']-$cash['money']),
+                'normal_money'  => PriceNumberFormat($wallet['normal_money']+$cash['money']),
+            ];
+
+            // 提现更新数据
+            $cash_upd_data = [
+                'status'        => 2,
+            ];
+
+            $money_field = [
+                ['field' => 'frozen_money', 'money_type' => 1, 'msg' => ' [ 提现申请失败 , 冻结金额释放 '.$cash['money'].'元 ]'],
+                ['field' => 'normal_money', 'money_type' => 0, 'msg' => ' [ 提现申请失败 , 冻结金额退回至有效金额'.$cash['money'].'元 ]'],
+            ];
+        }
+
+        // 提现更新
+        $cash_upd_data['msg'] = empty($params['msg']) ? '' : $params['msg'];
+        $cash_upd_data['upd_time'] = time();
+        if(!Db::name('PluginsWalletCash')->where(['id'=>$cash['id']])->update($cash_upd_data))
+        {
+            Db::rollback();
+            return DataReturn('提现申请操作失败', -100);
+        }
+
+        // 钱包更新
+        if(!Db::name('PluginsWallet')->where(['id'=>$wallet['id']])->update($wallet_upd_data))
+        {
+            Db::rollback();
+            return DataReturn('钱包操作失败', -101);
+        }
+
+        foreach($money_field as $v)
+        {
+            // 有效金额
+            if($wallet[$v['field']] != $wallet_upd_data[$v['field']])
+            {
+                $log_data = [
+                    'user_id'           => $wallet['user_id'],
+                    'wallet_id'         => $wallet['id'],
+                    'business_type'     => 2,
+                    'operation_type'    => ($wallet[$v['field']] < $wallet_upd_data[$v['field']]) ? 1 : 0,
+                    'money_type'        => $v['money_type'],
+                    'operation_money'   => ($wallet[$v['field']] < $wallet_upd_data[$v['field']]) ? PriceNumberFormat($wallet_upd_data[$v['field']]-$wallet[$v['field']]) : PriceNumberFormat($wallet[$v['field']]-$wallet_upd_data[$v['field']]),
+                    'original_money'    => $wallet[$v['field']],
+                    'latest_money'      => $wallet_upd_data[$v['field']],
+                    'msg'               => $v['msg'],
+                ];
+                if(!WalletService::WalletLogInsert($log_data))
+                {
+                    Db::rollback();
+                    return DataReturn('日志添加失败', -101);
+                }
+
+                // 消息通知
+                if($is_send_message == 1)
+                {
+                    MessageService::MessageAdd($wallet['user_id'], '账户余额变动', $log_data['msg'], 3, $cash['id']);
+                }
+            }
+        }
+
+        // 处理成功
+        Db::commit();
+        return DataReturn('操作成功', 0);
     }
 }
 ?>

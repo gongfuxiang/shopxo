@@ -4,7 +4,7 @@
 <div class="content-right">
     <div class="content">
         <legend>
-            <span class="fs-16">钱包</span>
+            <span class="fs-16">提现申请管理</span>
             <a href="{{:PluginsAdminUrl('wallet', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
         </legend>
 
@@ -45,7 +45,7 @@
                         <th class="am-hide-sm-only">提现信息</th>
                         <th>收款信息</th>
                         <th class="am-hide-sm-only">打款信息</th>
-                        <th class="am-hide-md-down">描述</th>
+                        <th class="am-hide-md-down">备注</th>
                         <th>更多</th>
                         <th>操作</th>
                     </tr>
@@ -138,7 +138,7 @@
                                                         {{/if}}
                                                     </dd>
 
-                                                    <dt>描述</dt>
+                                                    <dt>备注</dt>
                                                     <dd>{{if empty($v['msg'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.msg}}{{/if}}</dd>
 
                                                     <dt>申请时间</dt>
@@ -152,9 +152,11 @@
                                     </div>
                                 </td>
                                 <td class="view-operation">
-                                    <a href="{{:PluginsAdminUrl('wallet', 'wallet', 'saveinfo', ['id'=>$v['id']])}}">
-                                        <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-gavel"> 审核</button>
-                                    </a>
+                                    {{if $v['status'] eq 0}}
+                                        <a href="{{:PluginsAdminUrl('wallet', 'cash', 'auditinfo', ['id'=>$v['id']])}}">
+                                            <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-gavel"> 审核</button>
+                                        </a>
+                                    {{/if}}
                                 </td>
                             </tr>
                         {{/foreach}}
