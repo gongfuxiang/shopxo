@@ -13,7 +13,6 @@ namespace app\plugins\wallet\service;
 use think\Db;
 use app\service\ResourcesService;
 use app\plugins\wallet\service\WalletService;
-use app\plugins\wallet\service\PayService;
 use app\plugins\wallet\service\CashService;
 use app\plugins\wallet\service\RechargeService;
 

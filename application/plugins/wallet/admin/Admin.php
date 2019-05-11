@@ -11,8 +11,9 @@
 namespace app\plugins\wallet\admin;
 
 use think\Controller;
-use app\plugins\wallet\service\BaseService;
 use app\service\PluginsService;
+use app\plugins\wallet\service\BaseService;
+use app\plugins\wallet\service\StatisticalService;
 
 /**
  * 钱包插件 - 管理
@@ -37,6 +38,10 @@ class Admin extends Controller
         if($ret['code'] == 0)
         {            
             $this->assign('data', $ret['data']);
+
+            // 统计数据
+            $this->assign('statistical', StatisticalService::StatisticalData());
+
             return $this->fetch('../../../plugins/view/wallet/admin/admin/index');
         } else {
             return $ret['msg'];
