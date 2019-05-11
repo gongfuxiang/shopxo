@@ -63,18 +63,33 @@ class AdminService
         $where = [];
         if(!empty($params['keywords']))
         {
-            $where[] = ['username', 'like', '%'.$params['keywords'].'%'];
-        }
-        if(isset($params['role_id']) && $params['role_id'] > -1)
-        {
-            $where[] = ['role_id', '=', intval($params['role_id'])];
+            $where[] = ['username|mobile', 'like', '%'.$params['keywords'].'%'];
         }
 
-        // 等值
-        if(isset($params['gender']) && $params['gender'] > -1)
+        // 是否更多条件
+        if(isset($params['is_more']) && $params['is_more'] == 1)
         {
-            $where[] = ['gender', '=', intval($params['gender'])];
+            if(isset($params['role_id']) && $params['role_id'] > -1)
+            {
+                $where[] = ['role_id', '=', intval($params['role_id'])];
+            }
+
+            // 等值
+            if(isset($params['gender']) && $params['gender'] > -1)
+            {
+                $where[] = ['gender', '=', intval($params['gender'])];
+            }
+
+            if(!empty($params['time_start']))
+            {
+                $where[] = ['add_time', '>', strtotime($params['time_start'])];
+            }
+            if(!empty($params['time_end']))
+            {
+                $where[] = ['add_time', '<', strtotime($params['time_end'])];
+            }
         }
+        
         return $where;
     }
 

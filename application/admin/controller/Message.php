@@ -92,6 +92,9 @@ class Message extends Common
 		// 是否已读
 		$this->assign('common_is_read_list', lang('common_is_read_list'));
 
+        // 是否
+        $this->assign('common_is_text_list', lang('common_is_text_list'));
+
 		// 参数
         $this->assign('params', $params);
         return $this->fetch();

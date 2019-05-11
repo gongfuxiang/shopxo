@@ -55,7 +55,13 @@
 								{{/foreach}}
 							</select>
                     	</td>
-                        <td class="time">
+                        <td class="input">
+                            <span>热度：</span>
+                            <input type="number" name="access_count" class="am-form-field am-input-sm am-radius" placeholder="浏览热度" value="{{if !empty($params.access_count)}}{{$params.access_count}}{{/if}}" data-validation-message="热度有误" />
+                        </td>
+                    </tr>
+                   	<tr>
+                   		<td class="time">
                             <span>时间：</span>
                             <span>
                                 <input type="text" autocomplete="off" name="time_start" class="am-form-field am-input-sm am-radius Wdate" placeholder="起始时间" value="{{if !empty($params.time_start)}}{{$params.time_start}}{{/if}}" data-validation-message="日期格式有误" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" /><i class="am-icon-calendar"></i>
@@ -65,9 +71,6 @@
                                 <input type="text" autocomplete="off" name="time_end" class="am-form-field am-input-sm am-radius Wdate" placeholder="结束时间" value="{{if !empty($params.time_end)}}{{$params.time_end}}{{/if}}" pattern="^[0-9]{4}-[0-9]{2}-[0-9]{2}$" data-validation-message="日期格式有误" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" /><i class="am-icon-calendar"></i>
                             </span>
                         </td>
-                    </tr>
-                   	<tr>
-                   		<td></td>
                         <td>
                             <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
                             <a href="{{:MyUrl('admin/article/index')}}" class="am-btn am-btn-warning am-radius am-btn-sm reset-submit">清除条件</a>
@@ -90,8 +93,8 @@
 				<tr>
 					<th>标题</th>
 					<th class="am-hide-sm-only">文章分类</th>
-					<th class="am-hide-sm-only">访问次数</th>
-					<th>状态</th>
+					<th class="am-hide-sm-only">访问热度</th>
+					<th>启用</th>
 					<th>首页推荐</th>
 					<th>更多</th>
 					<th>操作</th>

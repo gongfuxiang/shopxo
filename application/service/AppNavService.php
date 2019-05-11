@@ -133,7 +133,12 @@ class AppNavService
             // 等值
             if(isset($params['is_enable']) && $params['is_enable'] > -1)
             {
+                
                 $where[] = ['is_enable', '=', intval($params['is_enable'])];
+            }
+            if(isset($params['is_need_login']) && $params['is_need_login'] > -1)
+            {
+                $where[] = ['is_need_login', '=', intval($params['is_need_login'])];
             }
             if(isset($params['event_type']) && $params['event_type'] > -1)
             {

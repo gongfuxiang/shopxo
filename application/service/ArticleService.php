@@ -126,6 +126,10 @@ class ArticleService
             {
                 $where[] = ['a.is_home_recommended', '=', intval($params['is_home_recommended'])];
             }
+            if(isset($params['access_count']) && $params['access_count'] > -1)
+            {
+                $where[] = ['a.access_count', '>', intval($params['access_count'])];
+            }
 
             if(!empty($params['time_start']))
             {

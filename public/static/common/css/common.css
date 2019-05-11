@@ -317,7 +317,7 @@ button.colorpicker-submit img {
 .form-search .so-list select { padding: 0 0 0 8px; }
 .form-search .more-submit input { display: none; }
 @media only screen and (min-width: 641px) {
-    .form-search .so-list .chosen-container, .form-search .so-list select { width:217px !important; display: -webkit-inline-box; }
+    .form-search .so-list .chosen-container, .form-search .so-list select, .form-search .input input { width:217px !important; display: -webkit-inline-box; }
     .form-search .thin_sub:hover { color:#F60; }
 }
 @media only screen and (max-width: 641px) {
@@ -326,5 +326,5 @@ button.colorpicker-submit img {
     .form-search .so-list tr td:last-child { margin-top:10px; }
     .form-search .so-list tr td:last-child { padding-top:0px !important; }
     .form-search .chosen-container-single .chosen-search input[type="text"] { width: 100% !important; }
-    .form-search .so-list select, .form-search .so-list .chosen-container { width: calc(100% - 44px) !important; display: -webkit-inline-box; }
+    .form-search .so-list select, .form-search .so-list .chosen-container, .form-search .input input { width: calc(100% - 44px) !important; display: -webkit-inline-box; }
 }

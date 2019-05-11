@@ -85,6 +85,9 @@ class AppHomeNav extends Common
         // 是否启用
         $this->assign('common_is_enable_list', lang('common_is_enable_list'));
 
+        // 是否
+        $this->assign('common_is_text_list', lang('common_is_text_list'));
+
         // 所属平台
         $this->assign('common_platform_type', lang('common_platform_type'));
 

@@ -161,6 +161,15 @@ class PayLogService
                 $where[] = ['u.gender', '=', intval($params['gender'])];
             }
 
+            if(!empty($params['price_start']))
+            {
+                $where[] = ['p.pay_price', '>', PriceNumberFormat($params['price_start'])];
+            }
+            if(!empty($params['price_end']))
+            {
+                $where[] = ['p.pay_price', '<', PriceNumberFormat($params['price_end'])];
+            }
+
             if(!empty($params['time_start']))
             {
                 $where[] = ['p.add_time', '>', strtotime($params['time_start'])];

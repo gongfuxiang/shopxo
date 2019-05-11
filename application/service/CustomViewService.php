@@ -118,6 +118,10 @@ class CustomViewService
             {
                 $where[] = ['is_enable', '=', intval($params['is_enable'])];
             }
+            if(isset($params['is_full_screen']) && $params['is_full_screen'] > -1)
+            {
+                $where[] = ['is_full_screen', '=', intval($params['is_full_screen'])];
+            }
             if(isset($params['is_header']) && $params['is_header'] > -1)
             {
                 $where[] = ['is_header', '=', intval($params['is_header'])];

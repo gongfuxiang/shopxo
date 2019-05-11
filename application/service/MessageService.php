@@ -265,6 +265,9 @@ class MessageService
                 // 业务类型
                 $v['business_type_name'] = $common_business_type_list[$v['business_type']]['name'];
 
+                // 用户是否已删除
+                $v['user_is_delete_time_name'] = ($v['user_is_delete_time'] == 0) ? '否' : '是';
+
                 // 性别
                 $v['gender_text'] = $common_gender_list[$v['gender']]['name'];
 
@@ -330,6 +333,15 @@ class MessageService
             if(isset($params['gender']) && $params['gender'] > -1)
             {
                 $where[] = ['u.gender', '=', intval($params['gender'])];
+            }
+            if(isset($params['user_is_delete_time']) && $params['user_is_delete_time'] > -1)
+            {
+                if(intval($params['user_is_delete_time']) == 0)
+                {
+                    $where[] = ['m.user_is_delete_time', '=', 0];
+                } else {
+                    $where[] = ['m.user_is_delete_time', '>', 0];
+                }
             }
 
             if(!empty($params['time_start']))
