@@ -819,6 +819,13 @@ php;
      */
     private static function PluginsExistInsert($params, $plugins)
     {
+        // 是否非使用的名称
+        if(in_array($plugins, ['view', 'shopxo']))
+        {
+            return DataReturn('不能使用限制的名称['.$plugins.']', -1);
+        }
+
+        // 应用是否存在
         $temp_plugins = Db::name('Plugins')->where(['plugins'=>$plugins])->value('plugins');
         if(empty($temp_plugins))
         {
