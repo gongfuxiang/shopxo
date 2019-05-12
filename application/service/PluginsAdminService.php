@@ -23,6 +23,9 @@ use app\service\SqlconsoleService;
  */
 class PluginsAdminService
 {
+    // 排除不能使用的名称
+    public static $plugins_exclude_verification = ['view', 'shopxo', 'www'];
+
     /**
      * 列表
      * @author   Devil
@@ -808,6 +811,33 @@ php;
     }
 
     /**
+     * 名称校验
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-05-13T00:00:45+0800
+     * @param   [array]           $params    [输入参数]
+     * @param    [string]         $plugins   [应用唯一标记]
+     */
+    public static function PluginsVerification($params, $plugins)
+    {
+        // 排除校验
+        if(in_array($plugins, self::$plugins_exclude_verification))
+        {
+            return DataReturn('不能使用限制的名称['.$plugins.']', -1);
+        }
+
+        // 应用是否存在
+        $temp_plugins = Db::name('Plugins')->where(['plugins'=>$plugins])->value('plugins');
+        if(empty($params['id']) && $temp_plugins == $plugins)
+        {
+            return DataReturn('应用名称已存在['.$plugins.']', -1);
+        }
+
+        return DataReturn('校验成功', 0);
+    }
+
+    /**
      * 应用添加
      * @author   Devil
      * @blog    http://gong.gg/
@@ -819,26 +849,26 @@ php;
      */
     private static function PluginsExistInsert($params, $plugins)
     {
-        // 是否非使用的名称
-        if(in_array($plugins, ['view', 'shopxo']))
+        // 名称校验
+        $ret = self::PluginsVerification($params, $plugins);
+        if($ret['code'] != 0)
         {
-            return DataReturn('不能使用限制的名称['.$plugins.']', -1);
+            return $ret;
         }
 
-        // 应用是否存在
-        $temp_plugins = Db::name('Plugins')->where(['plugins'=>$plugins])->value('plugins');
-        if(empty($temp_plugins))
+        // 应用添加
+        if(empty($params['id']))
         {
-           if(Db::name('Plugins')->insertGetId(['plugins'=>$plugins, 'is_enable'=>0, 'add_time'=>time()]) <= 0)
+            $temp_plugins = Db::name('Plugins')->where(['plugins'=>$plugins])->value('plugins');
+            if(empty($temp_plugins))
             {
-                return DataReturn('应用添加失败', -1);
-            } 
-        } else {
-            if(empty($params['id']) && $temp_plugins == $plugins)
-            {
-                return DataReturn('应用名称已存在['.$plugins.']', -1);
+                if(Db::name('Plugins')->insertGetId(['plugins'=>$plugins, 'is_enable'=>0, 'add_time'=>time()]) <= 0)
+                {
+                    return DataReturn('应用添加失败', -1);
+                }
             }
         }
+
         return DataReturn('添加成功', 0);
     }
 

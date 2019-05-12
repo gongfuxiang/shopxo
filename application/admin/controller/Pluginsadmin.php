@@ -127,8 +127,19 @@ class Pluginsadmin extends Common
         }
         $this->assign('data', $data);
 
+        // 名称校验
+        if(!empty($params['plugins']))
+        {
+            $ret = PluginsAdminService::PluginsVerification($params, $params['plugins']);
+            if($ret['code'] != 0)
+            {
+                $this->assign('verification_msg', $ret['msg']);
+                return $this->fetch('first_step');
+            }
+        }
+
         // 标记为空或等于view 并且 编辑数据为空则走第一步
-        if((empty($params['plugins']) || $params['plugins'] == 'view') && empty($data['data'][0]))
+        if(empty($params['plugins']) && empty($data['data'][0]))
         {
             return $this->fetch('first_step');
         } else {
