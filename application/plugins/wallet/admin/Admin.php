@@ -63,8 +63,8 @@ class Admin extends Controller
         {
             // 是否
             $is_whether_list =  [
-                0 => array('value' => 0, 'name' => '否', 'checked' => true),
-                1 => array('value' => 1, 'name' => '是'),
+                0 => array('value' => 0, 'name' => '否'),
+                1 => array('value' => 1, 'name' => '是', 'checked' => true),
             ];
             $this->assign('is_whether_list', $is_whether_list);
 

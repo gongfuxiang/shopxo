@@ -100,6 +100,12 @@ class Recharge extends Common
             return $this->error('非法访问');
         }
 
+        // 是否开启充值
+        if(isset($this->plugins_base['is_enable_recharge']) && $this->plugins_base['is_enable_recharge'] == 0)
+        {
+            return DataReturn('暂时关闭了在线充值', -1);
+        }
+
         // 用户
         $params['user'] = $this->user;
         $params['user_wallet'] = $this->user_wallet;

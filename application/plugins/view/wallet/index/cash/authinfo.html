@@ -35,7 +35,7 @@
                     <li>3. 如果您的手机已失效，可以 <a href="{{:MyUrl('index/safety/index')}}">绑定邮箱</a> 后通过接收邮件完成验证。</li>
                     <li>4. 请正确输入下方图形验证码，如看不清可点击图片进行更换，输入完成后进行下一步操作。</li>
                     <li>5. 收到安全验证码后，请在{{:Myc('common_verify_expire_time', 600, true)/60}}分钟内完成验证。</li>
-                    <li>6. 安全验证成功后，请在30分钟内完成提现申请。</li>
+                    <li>6. 安全验证成功后，请在{{if empty($plugins_base_data['cash_time_limit'])}}30{{else /}}{{$plugins_base_data.cash_time_limit}}{{/if}}分钟内完成提现申请。</li>
                 </ul>
             </div>
             <!-- tips end -->

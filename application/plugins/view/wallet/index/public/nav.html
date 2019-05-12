@@ -11,10 +11,10 @@
     </li>
 
     <div class="am-topbar-right">
-        {{if in_array($plugins_control, ['wallet', 'recharge'])}}
+        {{if in_array($plugins_control, ['wallet', 'recharge']) and (!isset($plugins_base_data['is_enable_recharge']) or $plugins_base_data['is_enable_recharge'] eq 1)}}
             <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm am-icon-shield" data-am-modal="{target: '#plugins-recharge-pay-modal', width: 260, height: 130}"> 充值</button>
         {{/if}}
-        {{if in_array($plugins_control, ['wallet', 'cash'])}}
+        {{if in_array($plugins_control, ['wallet', 'cash']) and (!isset($plugins_base_data['is_enable_cash']) or $plugins_base_data['is_enable_cash'] eq 1)}}
             <a href="{{:PluginsHomeUrl('wallet', 'cash', 'authinfo')}}" class="am-btn am-btn-success am-topbar-btn am-btn-sm am-icon-money"> 提现</a>
         {{/if}}
     </div>

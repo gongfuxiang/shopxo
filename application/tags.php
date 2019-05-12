@@ -45,39 +45,25 @@ return array (
   'plugins_service_user_login_end' => 
   array (
     0 => 'app\\plugins\\userloginrewardintegral\\Hook',
-    1 => 'app\\plugins\\ucenter\\Hook',
   ),
   'plugins_css' => 
   array (
     0 => 'app\\plugins\\commonrightnavigation\\Hook',
-    1 => 'app\\plugins\\commononlineservice\\Hook',
-    2 => 'app\\plugins\\freightfee\\Hook',
-    3 => 'app\\plugins\\share\\Hook',
-    4 => 'app\\plugins\\footercustomerservice\\Hook',
-    5 => 'app\\plugins\\membershiplevel\\Hook',
+    1 => 'app\\plugins\\freightfee\\Hook',
+    2 => 'app\\plugins\\share\\Hook',
+    3 => 'app\\plugins\\footercustomerservice\\Hook',
+    4 => 'app\\plugins\\membershiplevel\\Hook',
   ),
   'plugins_js' => 
   array (
     0 => 'app\\plugins\\commonrightnavigation\\Hook',
-    1 => 'app\\plugins\\commononlineservice\\Hook',
-    2 => 'app\\plugins\\share\\Hook',
+    1 => 'app\\plugins\\share\\Hook',
   ),
   'plugins_view_common_bottom' => 
   array (
     0 => 'app\\plugins\\commonrightnavigation\\Hook',
-    1 => 'app\\plugins\\commononlineservice\\Hook',
-    2 => 'app\\plugins\\expressforkdn\\Hook',
-    3 => 'app\\plugins\\share\\Hook',
-  ),
-  'plugins_service_goods_handle_end' => 
-  array (
-    0 => 'app\\plugins\\usernotloginhidegoodsprice\\Hook',
-    1 => 'app\\plugins\\membershiplevel\\Hook',
-  ),
-  'plugins_service_goods_spec_base' => 
-  array (
-    0 => 'app\\plugins\\usernotloginhidegoodsprice\\Hook',
-    1 => 'app\\plugins\\membershiplevel\\Hook',
+    1 => 'app\\plugins\\expressforkdn\\Hook',
+    2 => 'app\\plugins\\share\\Hook',
   ),
   'plugins_service_navigation_header_handle' => 
   array (
@@ -140,22 +126,6 @@ return array (
   array (
     0 => 'app\\plugins\\freightfee\\Hook',
   ),
-  'plugins_service_user_register_end' => 
-  array (
-    0 => 'app\\plugins\\ucenter\\Hook',
-  ),
-  'plugins_service_user_logout_handle' => 
-  array (
-    0 => 'app\\plugins\\ucenter\\Hook',
-  ),
-  'plugins_service_user_login_pwd_update' => 
-  array (
-    0 => 'app\\plugins\\ucenter\\Hook',
-  ),
-  'plugins_service_user_accounts_update' => 
-  array (
-    0 => 'app\\plugins\\ucenter\\Hook',
-  ),
   'plugins_view_goods_detail_photo_bottom' => 
   array (
     0 => 'app\\plugins\\share\\Hook',
@@ -167,6 +137,14 @@ return array (
   'plugins_view_common_footer_top' => 
   array (
     0 => 'app\\plugins\\footercustomerservice\\Hook',
+  ),
+  'plugins_service_goods_handle_end' => 
+  array (
+    0 => 'app\\plugins\\membershiplevel\\Hook',
+  ),
+  'plugins_service_goods_spec_base' => 
+  array (
+    0 => 'app\\plugins\\membershiplevel\\Hook',
   ),
   'plugins_service_user_login_success_record' => 
   array (

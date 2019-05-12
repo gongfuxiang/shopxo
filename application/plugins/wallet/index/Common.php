@@ -13,6 +13,7 @@ namespace app\plugins\wallet\index;
 use think\Controller;
 use app\service\UserService;
 use app\service\PaymentService;
+use app\service\PluginsService;
 use app\plugins\wallet\service\WalletService;
 
 /**
@@ -26,6 +27,7 @@ class Common extends Controller
 {
     protected $user;
     protected $user_wallet;
+    protected $plugins_base;
 
     /**
      * 构造方法
@@ -72,6 +74,11 @@ class Common extends Controller
         // 用户钱包信息
         $this->user_wallet = $user_wallet['data'];
         $this->assign('user_wallet', $user_wallet['data']);
+
+        // 应用配置
+        $plugins_base = PluginsService::PluginsData('wallet');
+        $this->plugins_base = $plugins_base['data'];
+        $this->assign('plugins_base_data', $this->plugins_base);
     }
 }
 ?>

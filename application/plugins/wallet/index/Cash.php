@@ -96,6 +96,13 @@ class Cash extends Common
      */
     public function authinfo($params = [])
     {
+        // 是否开启提现申请
+        if(isset($this->plugins_base['is_enable_cash']) && $this->plugins_base['is_enable_cash'] == 0)
+        {
+            $this->assign('msg', '暂时关闭了提现申请');
+            return $this->fetch('public/tips_error');
+        }
+
         // 手机号/邮箱
         $check_account_list = [
             ['field' => 'mobile_security', 'value' => 'mobile', 'name' => '手机'],
@@ -118,9 +125,19 @@ class Cash extends Common
      */
     public function createinfo($params = [])
     {
+        // 是否开启提现申请
+        if(isset($this->plugins_base['is_enable_cash']) && $this->plugins_base['is_enable_cash'] == 0)
+        {
+            $this->assign('msg', '暂时关闭了提现申请');
+            return $this->fetch('public/tips_error');
+        }
+
+        // 安全验证后规定时间内时间限制
+        $cash_time_limit = empty($this->plugins_base['cash_time_limit']) ? 30 : $this->plugins_base['cash_time_limit']*60;
+
         // 是否验证成功
         $check_time = session('plugins_wallet_cash_check_success');
-        $check_status = (!empty($check_time) && $check_time+1800 >= time()) ? 1 : 0;
+        $check_status = (!empty($check_time) && $check_time+$cash_time_limit >= time()) ? 1 : 0;
         $this->assign('check_status', $check_status);
 
         // 参数

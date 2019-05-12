@@ -11,48 +11,43 @@
             </legend>
             
             <div class="am-form-group">
-                <label>开启充值<span class="am-form-group-label-tips">默认关闭</span></label>
+                <label>开启充值<span class="am-form-group-label-tips">默认开启</span></label>
                 <div>
                     {{foreach $is_whether_list as $v}}
                         <label class="am-radio-inline m-r-10">
-                            <input type="radio" name="is_recharge" value="{{$v.value}}" {{if isset($data['is_recharge']) and $data['is_recharge'] eq $v['value']}}checked="checked"{{else /}}{{if !isset($data['is_recharge']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                            <input type="radio" name="is_enable_recharge" value="{{$v.value}}" {{if isset($data['is_enable_recharge']) and $data['is_enable_recharge'] eq $v['value']}}checked="checked"{{else /}}{{if !isset($data['is_enable_recharge']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
                         </label>
                     {{/foreach}}
                 </div>
             </div>
 
             <div class="am-form-group">
-                <label>开启提现申请<span class="am-form-group-label-tips">默认关闭</span></label>
+                <label>开启提现申请<span class="am-form-group-label-tips">默认开启</span></label>
                 <div>
                     {{foreach $is_whether_list as $v}}
                         <label class="am-radio-inline m-r-10">
-                            <input type="radio" name="is_cash" value="{{$v.value}}" {{if isset($data['is_cash']) and $data['is_cash'] eq $v['value']}}checked="checked"{{else /}}{{if !isset($data['is_cash']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                            <input type="radio" name="is_enable_cash" value="{{$v.value}}" {{if isset($data['is_enable_cash']) and $data['is_enable_cash'] eq $v['value']}}checked="checked"{{else /}}{{if !isset($data['is_enable_cash']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
                         </label>
                     {{/foreach}}
                 </div>
             </div>
 
             <div class="am-form-group">
-                <label>开启余额支付功能<span class="am-form-group-label-tips">默认关闭</span></label>
-                <div>
-                    {{foreach $is_whether_list as $v}}
-                        <label class="am-radio-inline m-r-10">
-                            <input type="radio" name="is_pay" value="{{$v.value}}" {{if isset($data['is_pay']) and $data['is_pay'] eq $v['value']}}checked="checked"{{else /}}{{if !isset($data['is_pay']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
-                        </label>
-                    {{/foreach}}
-                </div>
-            </div>
-
-            <div class="am-alert am-alert-warning" data-am-alert="">
-                <button type="button" class="am-close">&times;</button>
-                <p>
-                    赠送金额规则，小于0或空则不赠送<br>
-                    <span class="mini-tips-text">
-                        固定金额：填写相应的金额即可<br>
-                        比例：填写百分比数值，如 10% 则填写 10（小数保留两位、四舍五入）
+                <label>提现申请时间限制</label>
+                <div class="am-input-group am-input-group-sm">
+                    <input type="number" name="cash_time_limit" placeholder="提现申请时间限制" data-validation-message="请输入提现申请时间限制" class="am-radius" value="{{if empty($data['cash_time_limit'])}}30{{else /}}{{$data.cash_time_limit}}{{/if}}" />
+                    <span class="am-input-group-btn">
+                        <button type="button" class="am-btn am-btn-default am-radius">分钟</button>
                     </span>
-                </p>
+                </div>
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    <button type="button" class="am-close">&times;</button>
+                    <p>
+                        提现申请通过安全验证后，在规定时间内完提现申请操作，单位[ 分钟 ]，默认30分钟
+                    </p>
+                </div>
             </div>
+
             <div class="am-form-group">
                 <label>充值赠送<span class="am-form-group-label-tips">默认固定金额</span></label>
                 <div>
@@ -62,7 +57,17 @@
                         </label>
                     {{/foreach}}
                 </div>
-                <input type="number" name="recharge_give_value" placeholder="充值赠送金额值" step="0.01" data-validation-message="请填写有效的充值赠送金额值" class="am-radius m-t-10" {{if !empty($data['recharge_give_value']) and $data['recharge_give_value'] gt 0}} value="{{$data.recharge_give_value}}"{{/if}} />
+                <input type="number" name="recharge_give_value" placeholder="充值赠送金额值" step="0.01" data-validation-message="请填写有效的充值赠送金额值" class="am-radius m-t-5" {{if !empty($data['recharge_give_value']) and $data['recharge_give_value'] gt 0}} value="{{$data.recharge_give_value}}"{{/if}} />
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    <button type="button" class="am-close">&times;</button>
+                    <p>
+                        赠送金额规则，小于0或空则不赠送<br>
+                        <span class="mini-tips-text">
+                            固定金额：填写相应的金额即可<br>
+                            比例：填写百分比数值，如 10% 则填写 10（小数保留两位、四舍五入）
+                        </span>
+                    </p>
+                </div>
             </div>
 
             <div class="am-form-group am-form-group-refreshing">

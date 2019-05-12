@@ -21,7 +21,7 @@
                             <div class="items">
                                 <label>开启充值</label>
                                 <div>
-                                    {{if isset($data['is_recharge']) and $data['is_recharge'] eq 1}}
+                                    {{if !isset($data['is_enable_recharge']) or $data['is_enable_recharge'] eq 1}}
                                         是
                                     {{else /}}
                                         否
@@ -33,7 +33,7 @@
                             <div class="items">
                                 <label>开启提现申请</label>
                                 <div>
-                                    {{if isset($data['is_cash']) and $data['is_cash'] eq 1}}
+                                    {{if !isset($data['is_enable_cash']) or $data['is_enable_cash'] eq 1}}
                                         是
                                     {{else /}}
                                         否
@@ -43,13 +43,14 @@
                         </li>
                         <li>
                             <div class="items">
-                                <label>开启余额支付功能</label>
+                                <label>提现申请时间限制</label>
                                 <div>
-                                    {{if isset($data['is_pay']) and $data['is_pay'] eq 1}}
-                                        是
+                                    {{if empty($data['cash_time_limit'])}}
+                                        30
                                     {{else /}}
-                                        否
+                                        {{$data.cash_time_limit}}
                                     {{/if}}
+                                    分钟
                                 </div>
                             </div>
                         </li>
