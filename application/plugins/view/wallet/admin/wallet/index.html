@@ -148,9 +148,22 @@
                                     </div>
                                 </td>
                                 <td class="view-operation">
-                                    <a href="{{:PluginsAdminUrl('wallet', 'wallet', 'saveinfo', ['id'=>$v['id']])}}">
-                                        <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit"> 编辑</button>
-                                    </a>
+                                    <div>
+                                        <a href="{{:PluginsAdminUrl('wallet', 'wallet', 'saveinfo', ['id'=>$v['id']])}}">
+                                            <button class="am-btn am-btn-primary am-btn-xs am-radius m-r-5 am-icon-edit"> 编辑</button>
+                                        </a>
+                                        <a href="{{:PluginsAdminUrl('wallet', 'recharge', 'index', ['keywords'=>$v['user']['user_name_view']])}}">
+                                            <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-shield"> 充值</button>
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <a href="{{:PluginsAdminUrl('wallet', 'cash', 'index', ['keywords'=>$v['user']['user_name_view']])}}">
+                                            <button class="am-btn am-btn-warning am-btn-xs am-radius m-t-10 m-r-5 am-icon-money"> 提现</button>
+                                        </a>
+                                        <a href="{{:PluginsAdminUrl('wallet', 'walletlog', 'index', ['keywords'=>$v['user']['user_name_view']])}}">
+                                            <button class="am-btn am-btn-default am-btn-xs am-radius m-t-10 am-icon-history"> 明细</button>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         {{/foreach}}

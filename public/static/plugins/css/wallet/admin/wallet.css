@@ -1,4 +1,15 @@
 /**
+ * 列表
+ */
+.wallet-content .view-operation {
+    width: 160px;
+}
+.wallet-content .view-operation button {
+    width: calc(50% - 5px);
+}
+
+
+/**
  * 金额
  */
 .wallet-content .normal-money,

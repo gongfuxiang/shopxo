@@ -273,6 +273,9 @@ class BaseService
             $money_type_list = WalletService::$money_type_list;
             foreach($data as &$v)
             {
+                // 用户信息
+                $v['user'] = self::GetUserInfo($v['user_id']);
+                
                 // 业务类型
                 $v['business_type_text'] = (isset($v['business_type']) && isset($business_type_list[$v['business_type']])) ? $business_type_list[$v['business_type']]['name'] : '未知';
 
@@ -323,6 +326,19 @@ class BaseService
         if(!empty($params['user']))
         {
             $where[] = ['user_id', '=', $params['user']['id']];
+        }
+
+        // 用户
+        if(!empty($params['keywords']))
+        {
+            $user_ids = Db::name('User')->where('username|nickname|mobile|email', '=', $params['keywords'])->column('id');
+            if(!empty($user_ids))
+            {
+                $where[] = ['user_id', 'in', $user_ids];
+            } else {
+                // 无数据条件，避免用户搜索条件没有数据造成的错觉
+                $where[] = ['id', '=', 0];
+            }
         }
 
         // 业务类型

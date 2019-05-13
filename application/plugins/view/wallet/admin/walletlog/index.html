@@ -11,7 +11,25 @@
         <div class="walletlog-content">
             <!-- form start -->
             <form class="am-form form-validation form-search" method="post" action="{{:PluginsAdminUrl('wallet', 'walletlog', 'index')}}" request-type="form">
-                <table class="so-list more-where">
+                <div class="thin">
+                    <div class="am-input-group am-input-group-sm am-fl so">
+                        <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="用户名/昵称/手机/邮箱" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
+                        <span class="am-input-group-btn">
+                            <button class="am-btn am-btn-default am-radius" type="submit" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
+                        </span>
+                    </div>
+                    <label class="am-fl thin_sub more-submit">
+                        更多筛选条件
+                        {{if isset($params['is_more']) and $params['is_more'] eq 1}}
+                            <input type="checkbox" name="is_more" value="1" id="is_more" checked />
+                            <i class="am-icon-angle-up"></i>
+                        {{else /}}
+                            <input type="checkbox" name="is_more" value="1" id="is_more" />
+                            <i class="am-icon-angle-down"></i>
+                        {{/if}}
+                    </label>
+                </div>
+                <table class="so-list more-where {{if !isset($params['is_more'])}}none{{/if}}">
                     <tbody>
                         <tr>
                             <td>
@@ -63,9 +81,10 @@
             <table class="am-table am-table-striped am-table-hover m-t-10">
                 <thead>
                     <tr>
-                        <th class="am-hide-sm-only">业务类型</th>
-                        <th class="am-hide-sm-only">操作类型</th>
-                        <th>金额类型</th>
+                        <th class="am-hide-md-down">用户信息</th>
+                        <th class="am-hide-sm-only">业务</th>
+                        <th class="am-hide-sm-only">操作</th>
+                        <th>类型</th>
                         <th>操作金额(元)</th>
                         <th class="am-hide-sm-only">原始金额(元)</th>
                         <th>最新金额(元)</th>
@@ -77,6 +96,19 @@
                     {{if !empty($data_list)}}
                         {{foreach $data_list as $v}}
                             <tr>
+                                <td class="user-info am-hide-md-down">
+                                    {{if !empty($v['user'])}}
+                                        <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                                        <ul class="user-base">
+                                            <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
+                                            <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
+                                            <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
+                                            <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
+                                        </ul>
+                                    {{else /}}
+                                        用户信息异常
+                                    {{/if}}
+                                </td>
                                 <td class="am-hide-sm-only">{{$v.business_type_text}}</td>
                                 <td class="am-hide-sm-only">
                                     {{if $v['operation_type'] eq 0}}
@@ -112,6 +144,21 @@
                                             </div>
                                             <div class="am-popup-bd">
                                                 <dl class="dl-content">
+                                                    <dt>用户信息</dt>
+                                                    <dd class="user-info">
+                                                        {{if !empty($v['user'])}}
+                                                            <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                                                            <ul class="user-base">
+                                                                <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
+                                                                <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
+                                                                <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
+                                                                <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
+                                                            </ul>
+                                                        {{else /}}
+                                                            用户信息异常
+                                                        {{/if}}
+                                                    </dd>
+                                                    
                                                     <dt>业务类型</dt>
                                                     <dd>{{$v.business_type_text}}</dd>
 
