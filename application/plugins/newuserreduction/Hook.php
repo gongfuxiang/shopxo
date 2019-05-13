@@ -99,8 +99,14 @@ class Hook
                 ];
 
                 // 金额
-                $params['data']['base']['increase_price'] -= $price;
-                $params['data']['base']['actual_price'] -= $price;
+                if($params['data']['base']['increase_price'] > 0)
+                {
+                    $params['data']['base']['increase_price'] -= $price;
+                }
+                if($params['data']['base']['actual_price'] > 0)
+                {
+                    $params['data']['base']['actual_price'] -= $price;
+                }
             }
             return DataReturn('无需处理', 0);
         } else {

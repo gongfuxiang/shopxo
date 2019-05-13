@@ -1194,6 +1194,66 @@ function MobileBrowserEnvironment()
 	return null;
 }
 
+/**
+ * [pagelibrary 分页按钮获取]
+ * @param  {[int]} total      [数据总条数]
+ * @param  {[int]} number     [页面数据显示条数]
+ * @param  {[int]} page       [当前页码数]
+ * @param  {[int]} sub_number [按钮生成个数]
+ * @return {[string]}         [html代码]
+ */
+function PageLibrary(total, number, page, sub_number)
+{
+	if((total || null) == null) return '';
+	if((page || null) == null) page = 1;
+	if((number || null) == null) number = 15;
+	if((sub_number || null) == null) sub_number = 2;
+
+	var page_total = Math.ceil(total/number);
+	if(page > page_total) page = page_total;
+	page = (page <= 0) ? 1 : parseInt(page);
+
+	var html = '<ul class="am-pagination am-pagination-centered pagelibrary"><li ';
+		html += (page > 1) ? '' : 'class="am-disabled"';
+		page_x = page-1;
+		html += '><a data-page="'+page_x+'" class="am-radius">&laquo;</a></li>';
+
+		var html_before = '';
+		var html_after = '';
+		var html_page = '<li class="am-active"><a class="am-radius">'+page+'</a></li>';
+		if(sub_number > 0)
+		{
+			/* 前按钮 */
+			if(page > 1)
+			{
+				total = (page-sub_number < 1) ? 1 : page-sub_number;
+				for(var i=page-1; i>=total; i--)
+				{
+					html_before = '<li><a data-page="'+i+'" class="am-radius">'+i+'</a></li>'+html_before;
+				}
+			}
+
+			/* 后按钮 */
+			if(page_total > page)
+			{
+				total = (page+sub_number > page_total) ? page_total : page+sub_number;
+				for(var i=page+1; i<=total; i++)
+				{
+					html_after += '<li><a data-page="'+i+'" class="am-radius">'+i+'</a></li>';
+
+				}
+			}
+		}
+
+		html += html_before+html_page+html_after;
+
+		html += '<li';
+		html += (page > 0 && page < page_total) ? '' : ' class="am-disabled"';
+		page_y = page+1;
+		html += '><a data-page="'+page_y+'" class="am-radius">&raquo;</a></li></ul>';
+	return html;
+}
+
 // 公共数据操作
 $(function()
 {

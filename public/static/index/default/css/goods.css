@@ -66,6 +66,8 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .goods-comment .am-comment-main { border: 1px solid #eee; }
 .goods-comment .comment-spec { margin-top: 5px; color: #B0B0B0; }
 .comment-reply { border-top: 1px dashed #eee; margin-top: 10px; padding-top: 10px; }
+.goods-comment .am-comment .am-comment-hd { background: #fbfbfb; }
+.goods-comment .am-comment .am-comment-main:after { border-right-color: #fbfbfb; }
 .comment-reply-title { color: #666; }
 .comment-reply-desc { color: #905602; }
 

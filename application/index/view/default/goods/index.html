@@ -184,7 +184,7 @@
                     <li class="tm-ind-item">
                         <div class="tm-indcon"><span class="tm-label">浏览次数</span><span class="tm-count">{{$goods.access_count}}</span></div>
                     </li>
-                    <li class="tm-ind-item">
+                    <li class="tm-ind-item ind-panel-comment">
                         <div class="tm-indcon"><span class="tm-label">累计评价</span><span class="tm-count">{{$goods.comments_count}}</span></div>
                     </li>
                 </ul>
@@ -383,14 +383,14 @@
             {{/if}}
 
             <!-- tab -->
-            <div class="am-tabs" data-am-tabs>
+            <div class="am-tabs" data-am-tabs id="goods-tabs">
                 <ul class="am-avg-sm-3 am-tabs-nav am-nav am-nav-tabs" data-am-sticky="{animation: 'slide-top'}">
                     <li class="am-active">
                         <a href="javascript:;">
                             <span class="index-needs-dt-txt">详情</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="tabs-comment">
                         <a href="javascript:;">
                             <span class="index-needs-dt-txt">评价({{$goods.comments_count}})</span>
                         </a>
@@ -402,6 +402,7 @@
                     </li>
                 </ul>
 
+                <!-- 详情 -->
                 <div class="am-tabs-bd">
                     <div class="am-tab-panel am-fade am-in am-active">
                         {{if !empty($goods['attribute'])}}
@@ -430,61 +431,13 @@
                     </div>
 
                     <!-- 评论 -->
-                    <div class="am-tab-panel am-fade goods-comment">
-                        <article class="am-comment">
-                            <a href="#">
-                                <img src="http://tp5-dev.com/static/index/default/images/default-user-avatar.jpg" class="am-comment-avatar" alt=""/>
-                            </a>
-                            <div class="am-comment-main"> <!-- 评论内容容器 -->
-                            <header class="am-comment-hd">
-                                <!--<h3 class="am-comment-title">评论标题</h3>-->
-                                <div class="am-comment-meta"> <!-- 评论元数据 -->
-                                <a href="#link-to-user" class="am-comment-author">魔鬼</a> <!-- 评论者 -->
-                                评论于 <time datetime="">2019-05-13 15:32</time>
-                                </div>
-                            </header>
-                            <div class="am-comment-bd">
-                                <p>那，那是一封写给南部母亲的信。我茫然站在骑楼下，我又看到永远的樱子走到街心。其实雨下得并不大，却是一生一世中最大的一场雨。而那封信是这样写的，年轻的樱子知不知道呢？</p>
-                                <p class="comment-spec">颜色：红色，尺码：M</p>
-                                <div class="comment-reply">
-                                    <span class="comment-reply-title">管理员回复：</span>
-                                    <span class="comment-reply-desc">我打算在下个月和樱子结婚。</span>
-                                </div>
-                            </div>
-                        </article>
-                        <article class="am-comment">
-                            <a href="#">
-                                <img src="http://tp5-dev.com/static/index/default/images/default-user-avatar.jpg" class="am-comment-avatar" alt=""/>
-                            </a>
-                            <div class="am-comment-main"> <!-- 评论内容容器 -->
-                            <header class="am-comment-hd">
-                                <!--<h3 class="am-comment-title">评论标题</h3>-->
-                                <div class="am-comment-meta"> <!-- 评论元数据 -->
-                                <a href="#link-to-user" class="am-comment-author">魔鬼</a> <!-- 评论者 -->
-                                评论于 <time datetime="">2019-05-13 15:32</time>
-                                </div>
-                            </header>
-                            <div class="am-comment-bd">
-                                <p>那，那是一封写给南部母亲的信。我茫然站在骑楼下，我又看到永远的樱子走到街心。其实雨下得并不大，却是一生一世中最大的一场雨。而那封信是这样写的，年轻的樱子知不知道呢？</p>
-                                <p class="comment-spec">颜色：红色，尺码：M</p>
-                            </div>
-                        </article>
-                        <article class="am-comment">
-                            <a href="#">
-                                <img src="http://tp5-dev.com/static/index/default/images/default-user-avatar.jpg" class="am-comment-avatar" alt=""/>
-                            </a>
-                            <div class="am-comment-main"> <!-- 评论内容容器 -->
-                            <header class="am-comment-hd">
-                                <!--<h3 class="am-comment-title">评论标题</h3>-->
-                                <div class="am-comment-meta"> <!-- 评论元数据 -->
-                                <a href="#link-to-user" class="am-comment-author">魔鬼</a> <!-- 评论者 -->
-                                评论于 <time datetime="">2019-05-13 15:32</time>
-                                </div>
-                            </header>
-                            <div class="am-comment-bd">
-                                <p>那，那是一封写给南部母亲的信。我茫然站在骑楼下，我又看到永远的樱子走到街心。其实雨下得并不大，却是一生一世中最大的一场雨。而那封信是这样写的，年轻的樱子知不知道呢？</p>
-                            </div>
-                        </article>
+                    <div class="am-tab-panel am-fade goods-comment" data-goods-id="{{$goods.id}}" data-url="{{:MyUrl('index/goods/comment')}}">
+                        <div class="goods-comment-content"></div>
+                        <div class="goods-page-container"></div>
+                        <div class="table-no goods-page-no-data none">
+                            <i class="am-icon-warning"></i>
+                            <span>没有评论数据</span>
+                        </div>
                     </div>
 
                     <!-- 猜你喜欢 -->

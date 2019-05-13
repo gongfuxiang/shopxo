@@ -12,6 +12,7 @@ namespace app\index\controller;
 
 use think\facade\Hook;
 use app\service\GoodsService;
+use app\service\GoodsCommentsService;
 use app\service\SeoService;
 
 /**
@@ -45,10 +46,10 @@ class Goods extends Common
      */
     public function Index()
     {
-        $id = input('id');
+        $goods_id = input('id');
         $params = [
             'where' => [
-                'id'    => $id,
+                'id'    => $goods_id,
                 'is_delete_time' => 0,
             ],
             'is_photo'  => true,
@@ -61,17 +62,17 @@ class Goods extends Common
             return $this->fetch('/public/tips_error');
         } else {
             // 当前登录用户是否已收藏
-            $ret_favor = GoodsService::IsUserGoodsFavor(['goods_id'=>$id, 'user'=>$this->user]);
+            $ret_favor = GoodsService::IsUserGoodsFavor(['goods_id'=>$goods_id, 'user'=>$this->user]);
             $ret['data'][0]['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
 
             // 商品评价总数
-            $ret['data'][0]['comments_count'] = GoodsService::GoodsCommentsTotal($id);
+            $ret['data'][0]['comments_count'] = GoodsService::GoodsCommentsTotal($goods_id);
 
             // 商品收藏总数
-            $ret['data'][0]['favor_count'] = GoodsService::GoodsFavorTotal(['goods_id'=>$id]);
+            $ret['data'][0]['favor_count'] = GoodsService::GoodsFavorTotal(['goods_id'=>$goods_id]);
 
             // 钩子
-            $this->PluginsHook($id, $ret['data'][0]);
+            $this->PluginsHook($goods_id, $ret['data'][0]);
 
             // 商品数据
             $this->assign('goods', $ret['data'][0]);
@@ -88,13 +89,13 @@ class Goods extends Common
             }
 
             // 二维码
-            $this->assign('qrcode_url', MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode(MyUrl('index/goods/index', ['id'=>$id], true, true)))]));
+            $this->assign('qrcode_url', MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode(MyUrl('index/goods/index', ['id'=>$goods_id], true, true)))]));
 
             // 商品访问统计
-            GoodsService::GoodsAccessCountInc(['goods_id'=>$id]);
+            GoodsService::GoodsAccessCountInc(['goods_id'=>$goods_id]);
 
             // 用户商品浏览
-            GoodsService::GoodsBrowseSave(['goods_id'=>$id, 'user'=>$this->user]);
+            GoodsService::GoodsBrowseSave(['goods_id'=>$goods_id, 'user'=>$this->user]);
 
             // 左侧商品 看了又看
             $params = [
@@ -134,7 +135,8 @@ class Goods extends Common
      * @version 1.0.0
      * @date    2019-04-22
      * @desc    description
-     * @param   [array]           $params [输入参数]
+     * @param   [int]             $goods_id [商品id]
+     * @param   [array]           $params   [输入参数]
      */
     private function PluginsHook($goods_id, &$goods)
     {
@@ -258,5 +260,48 @@ class Goods extends Common
         // 开始处理
         $params = input('post.');
         return GoodsService::GoodsSpecDetail($params);
+    }
+
+    /**
+     * 商品评论
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-05-13T21:47:41+0800
+     */
+    public function Comment()
+    {
+        // 参数
+        $params = input();
+
+        // 分页
+        $number = 10;
+        $page = max(1, isset($params['page']) ? intval($params['page']) : 1);
+
+        // 条件
+        $where = ['goods_id'=>$params['goods_id']];
+
+        // 获取总数
+        $total = GoodsCommentsService::GoodsCommentsTotal($where);
+        $page_total = ceil($total/$number);
+        $start = intval(($page-1)*$number);
+
+        // 获取列表
+        $data_params = array(
+            'm'         => $start,
+            'n'         => $number,
+            'where'     => $where,
+            'is_public' => 1,
+        );
+        $data = GoodsCommentsService::GoodsCommentsList($data_params);
+        
+        // 返回数据
+        $result = [
+            'number'            => $number,
+            'total'             => $total,
+            'page_total'        => $page_total,
+            'data'              => $data['data'],
+        ];
+        return DataReturn('请求成功', 0, $result);
     }
 }

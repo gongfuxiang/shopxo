@@ -156,7 +156,21 @@ class GoodsCommentsService
             foreach($data as &$v)
             {
                 // 用户信息
-                $v['user'] = UserService::GetUserViewInfo($v['user_id']);
+                $user = UserService::GetUserViewInfo($v['user_id']);
+                if(!isset($params['is_public']) || $params['is_public'] == 1)
+                {
+                    $v['user'] = [
+                        'avatar'            => $user['avatar'],
+                        'user_name_view'    => ($v['is_anonymous'] == 1) ? '匿名' : substr($user['user_name_view'], 0, 3).'***'.substr($user['user_name_view'], -3),
+                    ];
+                } else {
+                    $v['user'] = $user;
+                }
+                
+
+                // 订单规格
+                $spec = Db::name('OrderDetail')->where(['order_id'=>$v['order_id'], 'goods_id'=>$v['goods_id']])->value('spec');
+                $v['spec'] = empty($spec) ? null : json_decode($spec);
 
                 // 是否
                 $v['is_reply_text'] = isset($common_is_text_list[$v['is_reply']]) ? $common_is_text_list[$v['is_reply']]['name'] : '';

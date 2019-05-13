@@ -19,6 +19,82 @@ function poptit_close()
 }
 
 /**
+ * 评论记录ajax请求
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @datetime 2019-05-13T21:39:55+0800
+ * @param    {[int]}                 page [分页值]
+ */
+function GoodsCommentsHtml(page)
+{
+    $('.goods-page-no-data').addClass('none');
+
+    $.ajax({
+        url: $('.goods-comment').data('url'),
+        type:'POST',
+        data:{"goods_id": $('.goods-comment').data('goods-id'), "page": page},
+        dataType:'json',
+        success:function(result)
+        {
+            if(result.code == 0)
+            {
+                var html = '';
+                for(var i in result.data.data)
+                {
+                    html += '<article class="am-comment">';
+                    html += '<img src="'+result.data.data[i]['user']['avatar']+'" class="am-comment-avatar" alt="'+result.data.data[i]['user']['user_name_view']+'" />';
+                    html += '<div class="am-comment-main">';
+                    html += '<header class="am-comment-hd">';
+                    html += '<div class="am-comment-meta">';
+                    html += '<span class="am-comment-author">'+result.data.data[i]['user']['user_name_view']+'</span>';
+                    html += ' 评论于 <time datetime="">'+result.data.data[i]['add_time_time']+'</time>';
+                    html += '</div>';
+                    html += '</header>';
+                    html += '<div class="am-comment-bd">';
+                    html += '<p>'+result.data.data[i]['content']+'</p>';
+
+                    // 规格
+                    if((result.data.data[i]['spec'] || null) != null)
+                    {
+                        var spec_string = '';
+                        for(var s in result.data.data[i]['spec'])
+                        {
+                            if(s > 0)
+                            {
+                                spec_string += ' | ';
+                            }
+                            spec_string += result.data.data[i]['spec'][s]['type']+'：'+result.data.data[i]['spec'][s]['value'];
+                        }
+                        html += '<p class="comment-spec">'+spec_string+'</p>';
+                    }
+
+                    // 回复
+                    if(result.data.data[i]['is_reply'] == 1 && (result.data.data[i]['reply'] || null) != null)
+                    {
+                        html += '<div class="comment-reply">';
+                        html += '<span class="comment-reply-title">管理员回复：</span>';
+                        html += '<span class="comment-reply-desc">'+result.data.data[i]['reply']+'</span>';
+                        html += '</div>';
+                    }
+                    html += '</div>';
+                    html += '</article>';
+                }
+
+                $('.goods-comment-content').html(html);
+                $('.goods-page-container').html(PageLibrary(result.data.total, result.data.number, page, 2));
+            }
+
+            // 没有数据
+            if($('.goods-comment-content article').length <= 0)
+            {
+                $('.goods-page-no-data').removeClass('none');
+            }
+        }
+    });
+}
+
+/**
  * 购买/加入购物车
  * @author   Devil
  * @blog    http://gong.gg/
@@ -511,6 +587,30 @@ $(function() {
     $('#min').on('click', function() {
         var value = parseInt(t.val())-1 || 1;
         t.val((value <= 1) ? 1 : value);
+    });
+
+    // 评论
+    GoodsCommentsHtml(1);
+    $(document).on('click', '.goods-page-container .pagelibrary a', function()
+    {
+        var page = $(this).data('page') || null;
+        if(page != null)
+        {
+            // 获取数据
+            GoodsCommentsHtml(page);
+
+            // 回到评论顶部位置
+            var top = $('.introduce-main').offset().top;
+            $(window).smoothScroll({position: top});
+        }
+    });
+
+    // 累计评价点击事件
+    $('.tm-ind-panel .ind-panel-comment').on('click', function()
+    {
+        var top = $('.introduce-main').offset().top;
+        $(window).smoothScroll({position: top});
+        $('.introduce-main .am-tabs').tabs('open', 1);
     });
 
 });
