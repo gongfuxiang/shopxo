@@ -166,7 +166,6 @@ class GoodsCommentsService
                 } else {
                     $v['user'] = $user;
                 }
-                
 
                 // 订单规格
                 $spec = Db::name('OrderDetail')->where(['order_id'=>$v['order_id'], 'goods_id'=>$v['goods_id']])->value('spec');
