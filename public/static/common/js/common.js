@@ -918,7 +918,7 @@ function ConfirmDataDelete(e)
 function AjaxRequest(e)
 {
 	var id = e.data('id');
-	var field = e.data('field') || 'value';
+	var field = e.data('field') || '';
 	var value = e.data('value') || '';
 	var url = e.data('url');
 	var view = e.data('view') || '';
@@ -929,7 +929,7 @@ function AjaxRequest(e)
 		type:'POST',
 		dataType:"json",
 		timeout:10000,
-		data:{id:id, field: value},
+		data:{"id":id, "value": value, "field": field},
 		success:function(result)
 		{
 			if(result.code == 0)

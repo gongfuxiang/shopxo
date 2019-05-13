@@ -1852,5 +1852,45 @@ class UserService
         return DataReturn('退出成功', 0, $result);
     }
 
+    /**
+     * 获取用户展示信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-05
+     * @desc    description
+     * @param   [int]          $user_id [用户id]
+     */
+    public static function GetUserViewInfo($user_id)
+    {
+        $user = Db::name('User')->field('username,nickname,mobile,email,avatar')->find($user_id);
+        if(!empty($user))
+        {
+            $user['user_name_view'] = $user['username'];
+            if(empty($user['user_name_view']))
+            {
+                $user['user_name_view'] = $user['nickname'];
+            }
+            if(empty($user['user_name_view']))
+            {
+                $user['user_name_view'] = $user['mobile'];
+            }
+            if(empty($user['user_name_view']))
+            {
+                $user['user_name_view'] = $user['email'];
+            }
+
+            // 头像
+            if(!empty($user['avatar']))
+            {
+                $user['avatar'] = ResourcesService::AttachmentPathViewHandle($user['avatar']);
+            } else {
+                $user['avatar'] = config('shopxo.attachment_host').'/static/index/'.strtolower(config('DEFAULT_THEME', 'default')).'/images/default-user-avatar.jpg';
+            }
+        }
+
+        return $user;
+    }
+
 }
 ?>

@@ -1,28 +1,34 @@
-ul.rating {
+.user-content-body ul.rating {
     overflow: hidden;
     margin-bottom: 2px;
     padding: 3px 5px;
 }
-ul.rating li {
+.user-content-body ul.rating li {
     float: left;
     margin-right: 10px;
 }
-ul.rating li i.am-icon-star-o {
+.user-content-body ul.rating li i {
+    cursor: pointer;
+}
+.user-content-body ul.rating li i.am-icon-star-o {
     color: #888;
 }
-ul.rating li i.am-icon-star {
+.user-content-body ul.rating li i.am-icon-star {
     color: #d13b49;
 }
-.rating-items {
+.user-content-body .rating-items {
     margin-bottom: 0;
 }
-.rating-items .input-rating {
+.user-content-body .rating-items .input-rating {
     position: fixed;
     top: -10000px;
     left: -10000px;
 }
-.rating-items.am-form-error ul.rating {
+.user-content-body .am-form-group.am-form-error ul.not-selected {
     background-color: #ffe7e7;
+}
+.user-content-body .order-goods:hover {
+    background: transparent !important;
 }
 
 /**

@@ -12,6 +12,7 @@ namespace app\plugins\wallet\service;
 
 use think\Db;
 use app\service\ResourcesService;
+use app\service\UserService;
 use app\plugins\wallet\service\WalletService;
 use app\plugins\wallet\service\CashService;
 use app\plugins\wallet\service\RechargeService;
@@ -49,7 +50,7 @@ class BaseService
             foreach($data as &$v)
             {
                 // 用户信息
-                $v['user'] = self::GetUserInfo($v['user_id']);
+                $v['user'] = UserService::GetUserViewInfo($v['user_id']);
 
                 // 状态
                 $v['status_text'] = (isset($v['status']) && isset($wallet_status_list[$v['status']])) ? $wallet_status_list[$v['status']]['name'] : '未知';
@@ -60,46 +61,6 @@ class BaseService
             }
         }
         return DataReturn('处理成功', 0, $data);
-    }
-
-    /**
-     * 获取用户信息
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2019-05-05
-     * @desc    description
-     * @param   [int]          $user_id [用户id]
-     */
-    private static function GetUserInfo($user_id)
-    {
-        $user = Db::name('User')->field('username,nickname,mobile,email,avatar')->find($user_id);
-        if(!empty($user))
-        {
-            $user['user_name_view'] = $user['username'];
-            if(empty($user['user_name_view']))
-            {
-                $user['user_name_view'] = $user['nickname'];
-            }
-            if(empty($user['user_name_view']))
-            {
-                $user['user_name_view'] = $user['mobile'];
-            }
-            if(empty($user['user_name_view']))
-            {
-                $user['user_name_view'] = $user['email'];
-            }
-
-            // 头像
-            if(!empty($user['avatar']))
-            {
-                $user['avatar'] = ResourcesService::AttachmentPathViewHandle($user['avatar']);
-            } else {
-                $user['avatar'] = config('shopxo.attachment_host').'/static/index/'.strtolower(config('DEFAULT_THEME', 'default')).'/images/default-user-avatar.jpg';
-            }
-        }
-
-        return $user;
     }
 
     /**
@@ -175,7 +136,7 @@ class BaseService
             foreach($data as &$v)
             {
                 // 用户信息
-                $v['user'] = self::GetUserInfo($v['user_id']);
+                $v['user'] = UserService::GetUserViewInfo($v['user_id']);
 
                 // 支付状态
                 $v['status_text'] = isset($v['status']) ? RechargeService::$recharge_status_list[$v['status']]['name'] : '';
@@ -274,7 +235,7 @@ class BaseService
             foreach($data as &$v)
             {
                 // 用户信息
-                $v['user'] = self::GetUserInfo($v['user_id']);
+                $v['user'] = UserService::GetUserViewInfo($v['user_id']);
                 
                 // 业务类型
                 $v['business_type_text'] = (isset($v['business_type']) && isset($business_type_list[$v['business_type']])) ? $business_type_list[$v['business_type']]['name'] : '未知';
@@ -386,7 +347,7 @@ class BaseService
             foreach($data as &$v)
             {
                 // 用户信息
-                $v['user'] = self::GetUserInfo($v['user_id']);
+                $v['user'] = UserService::GetUserViewInfo($v['user_id']);
 
                 // 提现状态
                 $v['status_text'] = isset($v['status']) ? CashService::$cash_status_list[$v['status']]['name'] : '';

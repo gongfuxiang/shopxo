@@ -26,7 +26,7 @@
                 <form class="am-form form-validation" method="post" action="{{:MyUrl('index/order/commentssave')}}" request-type="ajax-url" request-value="{{$referer_url}}">
                     <!-- 商品列表 -->
                     {{if !empty($data.items)}}
-                        <div class="order-goods">
+                        <div class="order-goods am-form-group business-form-block">
                             <table class="am-table">
                                 <thead>
                                     <tr>
@@ -37,7 +37,7 @@
                                 </thead>
                                 <tbody>
                                     {{foreach $data.items as $goods}}
-                                        <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}">
+                                        <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}" class="am-form-group business-form-block">
                                             <td class="base">
                                                 <div class="goods-detail">
                                                     <a href="{{$goods.goods_url}}" target="_blank">
@@ -69,8 +69,8 @@
                                                 <p class="line-price">￥{{$goods.price}} x {{$goods.buy_number}}</p>
                                             </td>
                                             <td>
-                                                <div class="am-form-group rating-items">
-                                                    <ul class="rating">
+                                                <div class="rating-items">
+                                                    <ul class="rating not-selected">
                                                         <li><i class="am-icon-star-o am-icon-md"></i></li>
                                                         <li><i class="am-icon-star-o am-icon-md"></i></li>
                                                         <li><i class="am-icon-star-o am-icon-md"></i></li>
@@ -79,9 +79,7 @@
                                                     </ul>
                                                     <input type="text" name="rating[]" value="" class="input-rating" data-validation-message="请选择评分" required />
                                                 </div>
-                                                <div class="am-form-group">
-                                                    <textarea name="content[]" class="am-radius" rows="4" minlength="6" maxlength="200" data-validation-message="评价内容 6~200 个字符之间" required></textarea>
-                                                </div>
+                                                <textarea name="content[]" class="am-radius" rows="4" minlength="6" maxlength="200" data-validation-message="评价内容 6~200 个字符之间" required></textarea>
                                                 <input type="hidden" name="goods_id[]" value="{{$goods.goods_id}}" />
                                             </td>
                                         </tr>
@@ -90,7 +88,13 @@
                             </table>
                         </div>
                     {{/if}}
-                    <div class="am-form-group">
+
+                    <div class="am-form-group business-form-block">
+                        <label class="block">是否匿名</label>
+                        <input name="is_anonymous" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch />
+                    </div>
+
+                    <div class="am-form-group am-form-group-refreshing business-form-block">
                         <input type="hidden" name="id" value="{{$data.id}}" />
                         <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm" data-am-loading="{loadingText:'处理中...'}">提交</button>
                     </div>

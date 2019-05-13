@@ -61,6 +61,14 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .buy-nav-opt a { color: #666; }
 .text-active { color: #cf2915 !important; }
 
+/* 商品评论 */
+.goods-comment .am-comment { margin-top: 15px; }
+.goods-comment .am-comment-main { border: 1px solid #eee; }
+.goods-comment .comment-spec { margin-top: 5px; color: #B0B0B0; }
+.comment-reply { border-top: 1px dashed #eee; margin-top: 10px; padding-top: 10px; }
+.comment-reply-title { color: #666; }
+.comment-reply-desc { color: #905602; }
+
 
 @media only screen and (min-width:640px) {
     .theme-span{height:0px;background:#fff ;}
@@ -468,6 +476,9 @@ li.am-comment{ width:100%}
 
     /* 视频操作 */
     .scoll .goods-video-submit-close { bottom: 50px; }
+
+    /* 商品评论 */
+    .goods-comment .am-comment { margin-left: 5px; margin-right: 5px; }
 
     /* 底部 */
     .am-footer { padding-bottom: 35px; }

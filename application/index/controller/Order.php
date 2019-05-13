@@ -12,6 +12,7 @@ namespace app\index\controller;
 
 use app\service\OrderService;
 use app\service\PaymentService;
+use app\service\GoodsCommentsService;
 
 /**
  * 订单管理
@@ -190,7 +191,7 @@ class Order extends Common
         {
             $params = input('post.');
             $params['user'] = $this->user;
-            return OrderService::Comments($params);
+            return GoodsCommentsService::Comments($params);
         } else {
             $this->assign('msg', '非法访问');
             return $this->fetch('public/tips_error');

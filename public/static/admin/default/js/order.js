@@ -29,6 +29,7 @@ $(function()
     });
 
     // 发货操作表单
+    FromInit('form.form-validation-delivery');
     $('form.delivery-form button[type=submit]').on('click', function()
     {
         var id = $('form.delivery-form input[name=id]').val() || 0;
