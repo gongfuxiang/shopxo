@@ -10,6 +10,10 @@
 		<!-- form start -->
 		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/email/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/email/index', ['type'=>'message'])}}">
 			<div class="am-form-group">
+				<label>{{$data.common_email_currency_template.name}}<span class="am-form-group-label-tips">{{$data.common_email_currency_template.describe}}</span></label>
+				<script type="text/plain" id="common_email_currency_template" name="{{$data.common_email_currency_template.only_tag}}">{{if !empty($data)}}{{$data.common_email_currency_template.value|raw}}{{/if}}</script>
+			</div>
+			<div class="am-form-group">
 				<label>{{$data.home_email_user_reg.name}}<span class="am-form-group-label-tips">{{$data.home_email_user_reg.describe}}</span></label>
 				<script type="text/plain" id="email_user_reg" name="{{$data.home_email_user_reg.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_reg.value|raw}}{{/if}}</script>
 			</div>

@@ -78,6 +78,7 @@ class ConfigService
         // 不实例化的字段
         $no_all = array(
             'home_footer_info',
+            'common_email_currency_template',
             'home_email_user_reg',
             'home_email_user_forget_pwd',
             'home_email_user_email_binding',

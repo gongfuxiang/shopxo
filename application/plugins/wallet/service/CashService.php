@@ -92,12 +92,12 @@ class CashService
         if($params['account_type'] == 'mobile')
         {
             $obj = new \base\Sms($verify_params);
-            $status = $obj->SendCode($accounts, $code, MyC('home_sms_user_mobile_binding'));
+            $status = $obj->SendCode($accounts, $code, MyC('common_sms_currency_template'));
         } else {
             $obj = new \base\Email($verify_params);
             $email_params = array(
                     'email'     =>  $accounts,
-                    'content'   =>  MyC('home_email_user_email_binding'),
+                    'content'   =>  MyC('common_email_currency_template'),
                     'title'     =>  MyC('home_site_name').' - 账户安全认证',
                     'code'      =>  $code,
                 );
