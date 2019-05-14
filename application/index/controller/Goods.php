@@ -66,7 +66,7 @@ class Goods extends Common
             $ret['data'][0]['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
 
             // 商品评价总数
-            $ret['data'][0]['comments_count'] = GoodsService::GoodsCommentsTotal($goods_id);
+            $ret['data'][0]['comments_count'] = GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods_id]);
 
             // 商品收藏总数
             $ret['data'][0]['favor_count'] = GoodsService::GoodsFavorTotal(['goods_id'=>$goods_id]);

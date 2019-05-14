@@ -614,20 +614,6 @@ class GoodsService
     }
 
     /**
-     * 商品评论总数
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $where [条件]
-     */
-    public static function GoodsCommentsTotal($goods_id)
-    {
-        return (int) Db::name('OrderComments')->where(['goods_id'=>intval($goods_id)])->count();
-    }
-
-    /**
      * 前端商品收藏列表条件
      * @author   Devil
      * @blog    http://gong.gg/

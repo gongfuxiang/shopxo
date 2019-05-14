@@ -55,18 +55,9 @@ function GoodsCommentsHtml(page)
                     html += '<p>'+result.data.data[i]['content']+'</p>';
 
                     // 规格
-                    if((result.data.data[i]['spec'] || null) != null)
+                    if((result.data.data[i]['msg'] || null) != null)
                     {
-                        var spec_string = '';
-                        for(var s in result.data.data[i]['spec'])
-                        {
-                            if(s > 0)
-                            {
-                                spec_string += ' | ';
-                            }
-                            spec_string += result.data.data[i]['spec'][s]['type']+'：'+result.data.data[i]['spec'][s]['value'];
-                        }
-                        html += '<p class="comment-spec">'+spec_string+'</p>';
+                        html += '<p class="comment-spec">'+result.data.data[i]['msg']+'</p>';
                     }
 
                     // 回复

@@ -41,6 +41,11 @@ class GoodsCommentsService
                 'error_msg'         => '订单id有误',
             ],
             [
+                'checked_type'      => 'empty',
+                'key_name'          => 'business_type',
+                'error_msg'         => '业务类型标记不能为空',
+            ],
+            [
                 'checked_type'      => 'isset',
                 'key_name'          => 'goods_id',
                 'error_msg'         => '商品id有误',
@@ -109,12 +114,13 @@ class GoodsCommentsService
                 'shop_id'       => $order['shop_id'],
                 'order_id'      => $order_id,
                 'goods_id'      => $goods_id,
+                'business_type' => $params['business_type'],
                 'content'       => isset($params['content'][$k]) ? htmlspecialchars(trim($params['content'][$k])) : '',
                 'rating'        => isset($params['rating'][$k]) ? intval($params['rating'][$k]) : 0,
                 'is_anonymous'  => isset($params['is_anonymous']) ? min(1, intval($params['is_anonymous'])) : 0,
                 'add_time'      => time(),
             ];
-            if(Db::name('OrderComments')->insertGetId($data) <= 0)
+            if(Db::name('GoodsComments')->insertGetId($data) <= 0)
             {
                 Db::rollback();
                 return DataReturn('评价内容添加失败', -100);
@@ -149,7 +155,7 @@ class GoodsCommentsService
         $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
 
         // 获取数据列表
-        $data = Db::name('OrderComments')->where($where)->limit($m, $n)->order($order_by)->select();
+        $data = Db::name('GoodsComments')->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
             $common_is_text_list = lang('common_is_text_list');
@@ -167,9 +173,15 @@ class GoodsCommentsService
                     $v['user'] = $user;
                 }
 
-                // 订单规格
-                $spec = Db::name('OrderDetail')->where(['order_id'=>$v['order_id'], 'goods_id'=>$v['goods_id']])->value('spec');
-                $v['spec'] = empty($spec) ? null : json_decode($spec);
+                // 业务类型
+                $msg = null;
+                switch($v['business_type'])
+                {
+                    // 订单
+                    case 'order' :
+                        $msg = self::BusinessTypeOrderSpec($v['order_id'], $v['goods_id'], $v['user_id']);
+                }
+                $v['msg'] = empty($msg) ? null : $msg;
 
                 // 是否
                 $v['is_reply_text'] = isset($common_is_text_list[$v['is_reply']]) ? $common_is_text_list[$v['is_reply']]['name'] : '';
@@ -188,6 +200,40 @@ class GoodsCommentsService
     }
 
     /**
+     * 订单规格字符串处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-14
+     * @desc    description
+     * @param   [int]          $order_id    [订单id]
+     * @param   [int]          $goods_id    [商品id]
+     * @param   [int]           $user_id    [用户id]
+     * @return  [string]                    [规格字符串]
+     */
+    private static function BusinessTypeOrderSpec($order_id, $goods_id, $user_id = 0)
+    {
+        $string = null;
+        $spec = Db::name('OrderDetail')->where(['order_id'=>$order_id, 'goods_id'=>$goods_id])->value('spec');
+        if(!empty($spec))
+        {
+            $spec = json_decode($spec, true);
+            if(is_array($spec) && !empty($spec))
+            {
+                foreach($spec as $k=>$v)
+                {
+                    if($k > 0)
+                    {
+                        $string .= ' | ';
+                    }
+                    $string .= $v['type'].'：'.$v['value'];
+                }
+            }
+        }
+        return $string;
+    }
+
+    /**
      * 商品评论总数
      * @author   Devil
      * @blog    http://gong.gg/
@@ -198,7 +244,7 @@ class GoodsCommentsService
      */
     public static function GoodsCommentsTotal($where = [])
     {
-        return (int) Db::name('OrderComments')->where($where)->count();
+        return (int) Db::name('GoodsComments')->where($where)->count();
     }
 
     /**
@@ -220,7 +266,7 @@ class GoodsCommentsService
             $where[] = ['user_id', '=', $params['user']['id']];
         }
         
-        // 关键字根据用户筛选
+        // 关键字根据用户筛选,商品标题
         if(!empty($params['keywords']))
         {
             if(empty($params['user']))
@@ -230,8 +276,14 @@ class GoodsCommentsService
                 {
                     $where[] = ['user_id', 'in', $user_ids];
                 } else {
-                    // 无数据条件，走单号条件
-                    $where[] = ['recharge_no', '=', $params['keywords']];
+                    // 无数据条件，走商品
+                    $goods_ids = Db::name('Goods')->where('title', 'like', '%'.$params['keywords'].'%')->column('id');
+                    if(!empty($goods_ids))
+                    {
+                        $where[] = ['goods_id', 'in', $goods_ids];
+                    } else {
+                        $where[] = ['id', '=', 0];
+                    }
                 }
             }
         }
@@ -247,6 +299,10 @@ class GoodsCommentsService
             if(isset($params['is_reply']) && $params['is_reply'] > -1)
             {
                 $where[] = ['is_reply', '=', intval($params['is_reply'])];
+            }
+            if(!empty($params['business_type']))
+            {
+                $where[] = ['business_type', '='. $params['business_type']];
             }
 
 

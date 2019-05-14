@@ -191,6 +191,7 @@ class Order extends Common
         {
             $params = input('post.');
             $params['user'] = $this->user;
+            $params['business_type'] = '订单';
             return GoodsCommentsService::Comments($params);
         } else {
             $this->assign('msg', '非法访问');
