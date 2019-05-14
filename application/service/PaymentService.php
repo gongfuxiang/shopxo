@@ -646,10 +646,10 @@ class PaymentService
         $business_all = empty($params['business']) ? self::$payment_business_type_all : $params['business'];
 
         // 同步参数值
-        $respond_params = empty($params['respond']) ? '/index/{$name}/respond' : $params['respond'];
+        $respond_params = empty($params['respond']) ? '/api/{$name}/respond' : $params['respond'];
 
         // 异步参数值
-        $notify_params = empty($params['notify']) ? '/index/{$name}/notify' : $params['notify'];
+        $notify_params = empty($params['notify']) ? '/api/{$name}/notify' : $params['notify'];
 
         // 批量创建
         foreach($business_all as $v)
