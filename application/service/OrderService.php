@@ -91,6 +91,8 @@ class OrderService
             // 入口文件不存在则创建
             $payment_params = [
                 'payment'       => $payment[0]['payment'],
+                'respond'       => '/index/order/respond',
+                'notify'        => '/api/ordernotify/notify',
             ];
             $ret = PaymentService::PaymentEntranceCreated($payment_params);
             if($ret['code'] != 0)

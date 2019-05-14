@@ -496,19 +496,10 @@ class PaymentService
             Db::startTrans();
             if(Db::name('Payment')->insertGetId($data) > 0)
             {
-                // 入口文件生成
-                $ret = self::PaymentEntranceCreated(['payment' => $payment]);
-                if($ret['code'] == 'code')
-                {
-                    // 提交事务
-                    Db::commit();
+                // 提交事务
+                Db::commit();
 
-                   return DataReturn('安装成功'); 
-                } else {
-                    // 事务回滚
-                    Db::rollback();
-                    return $ret;
-                }
+               return DataReturn('安装成功'); 
             } else {
                 // 事务回滚
                 Db::rollback();
@@ -611,7 +602,7 @@ class PaymentService
     }
 
     /**
-     * [PaymentEntranceCreated 入口文件创建]
+     * 入口文件创建
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -628,12 +619,37 @@ class PaymentService
         // 初始化
         self::Init();
 
+        // 参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'payment',
+                'error_msg'         => '支付唯一标记不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'respond',
+                'error_msg'         => '支付同步地址参数不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'notify',
+                'error_msg'         => '支付异步地址参数不能为空',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
         // 权限
         $ret = self::PowerCheck();
         if($ret['code'] != 0)
         {
             return $ret;
         }
+
         if(empty($params['payment']))
         {
             return '支付唯一标记不能为空';
@@ -645,19 +661,10 @@ class PaymentService
         // 处理业务
         $business_all = empty($params['business']) ? self::$payment_business_type_all : $params['business'];
 
-        // 同步参数值
-        $respond_params = empty($params['respond']) ? '/api/{$name}/respond' : $params['respond'];
-
-        // 异步参数值
-        $notify_params = empty($params['notify']) ? '/api/{$name}/notify' : $params['notify'];
-
         // 批量创建
         foreach($business_all as $v)
         {
             $business_name = strtolower($v['name']);
-            $respond_s = str_replace('{$name}', $business_name, $respond_params);
-            $notify_s = str_replace('{$name}', $business_name, $notify_params);
-
             if(defined('IS_ROOT_ACCESS'))
             {
 // 异步
@@ -669,7 +676,7 @@ $notify=<<<php
  */
 
 // 默认绑定模块
-\$_GET['s'] = '{$notify_s}';
+\$_GET['s'] = '{$params["notify"]}';
 
 // 支付模块标记
 define('PAYMENT_TYPE', '{$params["payment"]}');
@@ -691,7 +698,7 @@ $respond=<<<php
  */
 
 // 默认绑定模块
-\$_GET['s'] = '{$respond_s}';
+\$_GET['s'] = '{$params["respond"]}';
 
 // 支付模块标记
 define('PAYMENT_TYPE', '{$params["payment"]}');
@@ -715,7 +722,7 @@ $notify=<<<php
  */
 
 // 默认绑定模块
-\$_GET['s'] = '{$notify_s}';
+\$_GET['s'] = '{$params["notify"]}';
 
 // 支付模块标记
 define('PAYMENT_TYPE', '{$params["payment"]}');
@@ -734,7 +741,7 @@ $respond=<<<php
  */
 
 // 默认绑定模块
-\$_GET['s'] = '{$respond_s}';
+\$_GET['s'] = '{$params["respond"]}';
 
 // 支付模块标记
 define('PAYMENT_TYPE', '{$params["payment"]}');
