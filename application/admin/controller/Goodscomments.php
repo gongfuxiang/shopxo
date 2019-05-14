@@ -67,7 +67,7 @@ class Goodscomments extends Common
                 'total'     =>  $total,
                 'where'     =>  $params,
                 'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  MyUrl('admin/answer/index'),
+                'url'       =>  MyUrl('admin/goodscomments/index'),
             );
         $page = new \base\Page($page_params);
         $this->assign('page_html', $page->GetPageHtml());
@@ -82,11 +82,10 @@ class Goodscomments extends Common
         $data = GoodsCommentsService::GoodsCommentsList($data_params);
         $this->assign('data_list', $data['data']);
 
-        // 状态
+        // 静态数据
         $this->assign('common_is_show_list', lang('common_is_show_list'));
-
-        // 是否
         $this->assign('common_is_text_list', lang('common_is_text_list'));
+        $this->assign('business_type_list', GoodsCommentsService::$business_type_list);
 
         // 参数
         $this->assign('params', $params);
@@ -184,8 +183,7 @@ class Goodscomments extends Common
 
         // 开始处理
         $params = input();
-        $params['user_type'] = 'admin';
-        return GoodsCommentsService::AnswerDelete($params);
+        return GoodsCommentsService::GoodsCommentsDelete($params);
     }
 
     /**
@@ -205,7 +203,7 @@ class Goodscomments extends Common
 
         // 开始处理
         $params = input();
-        return GoodsCommentsService::AnswerReply($params);
+        return GoodsCommentsService::GoodsCommentsReply($params);
     }
 
     /**
@@ -225,7 +223,7 @@ class Goodscomments extends Common
 
         // 开始处理
         $params = input();
-        return GoodsCommentsService::AnswerStatusUpdate($params);
+        return GoodsCommentsService::GoodsCommentsStatusUpdate($params);
     }
 }
 ?>

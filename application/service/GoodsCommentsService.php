@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\Db;
 use app\service\UserService;
+use app\service\GoodsService;
 
 /**
  * 商品评论服务层
@@ -22,6 +23,11 @@ use app\service\UserService;
  */
 class GoodsCommentsService
 {
+    // 业务类型
+    public static $business_type_list = [
+        'order' => '订单',
+    ];
+
     /**
      * 订单评价
      * @author   Devil
@@ -173,7 +179,19 @@ class GoodsCommentsService
                     $v['user'] = $user;
                 }
 
+                // 获取商品信息
+                $goods_params = [
+                    'where' => [
+                        'id'                => $v['goods_id'],
+                        'is_delete_time'    => 0,
+                    ],
+                    'field'  => 'id,title,images,price,min_price',
+                ];
+                $ret = GoodsService::GoodsList($goods_params);
+                $v['goods'] = isset($ret['data'][0]) ? $ret['data'][0] : [];
+
                 // 业务类型
+                $v['business_type_text'] = array_key_exists($v['business_type'], self::$business_type_list) ? self::$business_type_list[$v['business_type']] : null;
                 $msg = null;
                 switch($v['business_type'])
                 {
@@ -186,16 +204,22 @@ class GoodsCommentsService
                 // 是否
                 $v['is_reply_text'] = isset($common_is_text_list[$v['is_reply']]) ? $common_is_text_list[$v['is_reply']]['name'] : '';
                 $v['is_anonymous_text'] = isset($common_is_text_list[$v['is_anonymous']]) ? $common_is_text_list[$v['is_anonymous']]['name'] : '';
+                $v['is_show_text'] = isset($common_is_text_list[$v['is_show']]) ? $common_is_text_list[$v['is_show']]['name'] : '';
+
+                // 回复时间
+                $v['reply_time_time'] = empty($v['reply_time']) ? null : date('Y-m-d H:i:s', $v['reply_time']);
+                $v['reply_time_date'] = empty($v['reply_time']) ? null : date('Y-m-d', $v['reply_time']);
 
                 // 评论时间
                 $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
                 $v['add_time_date'] = date('Y-m-d', $v['add_time']);
 
-                // 回复时间
-                $v['reply_time_time'] = empty($v['reply_time']) ? null : date('Y-m-d H:i:s', $v['reply_time']);
-                $v['reply_time_date'] = empty($v['reply_time']) ? null : date('Y-m-d', $v['reply_time']);
+                // 更新时间
+                $v['upd_time_time'] = empty($v['upd_time']) ? null : date('Y-m-d H:i:s', $v['upd_time']);
+                $v['upd_time_date'] = empty($v['upd_time']) ? null : date('Y-m-d', $v['upd_time']);
             }
         }
+        //print_r($data);
         return DataReturn('处理成功', 0, $data);
     }
 
@@ -292,6 +316,10 @@ class GoodsCommentsService
         if(isset($params['is_more']) && $params['is_more'] == 1)
         {
             // 等值
+            if(isset($params['is_show']) && $params['is_show'] > -1)
+            {
+                $where[] = ['is_show', '=', intval($params['is_show'])];
+            }
             if(isset($params['is_anonymous']) && $params['is_anonymous'] > -1)
             {
                 $where[] = ['is_anonymous', '=', intval($params['is_anonymous'])];
@@ -302,7 +330,7 @@ class GoodsCommentsService
             }
             if(!empty($params['business_type']))
             {
-                $where[] = ['business_type', '='. $params['business_type']];
+                $where[] = ['business_type', '=', $params['business_type']];
             }
 
 
@@ -317,6 +345,133 @@ class GoodsCommentsService
         }
 
         return $where;
+    }
+
+    /**
+     * 删除
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-30
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function GoodsCommentsDelete($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '操作id有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 开始删除
+        if(Db::name('GoodsComments')->where(['id'=>$comments_id])->delete())
+        {
+            return DataReturn('删除成功', 0);
+        }
+        return DataReturn('删除失败或数据不存在', -100);
+    }
+
+    /**
+     * 回复
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-18
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function GoodsCommentsReply($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '操作id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'reply',
+                'error_msg'         => '回复内容不能为空',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'reply',
+                'checked_data'      => '1,230',
+                'error_msg'         => '回复内容格式 1~230 个字符',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 评论是否存在
+        $comments_id = Db::name('GoodsComments')->field('id')->find(intval($params['id']));
+        if(empty($comments_id))
+        {
+            return DataReturn('资源不存在或已被删除', -2);
+        }
+        // 更新问答
+        $data = [
+            'reply'         => $params['reply'],
+            'is_reply'      => 1,
+            'reply_time'    => time(),
+            'upd_time'      => time()
+        ];
+        if(Db::name('GoodsComments')->where(['id'=>$comments_id])->update($data))
+        {
+            return DataReturn('操作成功');
+        }
+        return DataReturn('操作失败', -100);
+    }
+
+    /**
+     * 状态更新
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function GoodsCommentsStatusUpdate($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '操作id有误',
+            ],
+            [
+                'checked_type'      => 'in',
+                'key_name'          => 'state',
+                'checked_data'      => [0,1],
+                'error_msg'         => '状态有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 数据更新
+        if(Db::name('GoodsComments')->where(['id'=>intval($params['id'])])->update(['is_show'=>intval($params['state'])]))
+        {
+            return DataReturn('编辑成功');
+        }
+        return DataReturn('编辑失败或数据未改变', -100);
     }
 }
 ?>

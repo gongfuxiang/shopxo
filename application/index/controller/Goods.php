@@ -49,8 +49,8 @@ class Goods extends Common
         $goods_id = input('id');
         $params = [
             'where' => [
-                'id'    => $goods_id,
-                'is_delete_time' => 0,
+                'id'                => $goods_id,
+                'is_delete_time'    => 0,
             ],
             'is_photo'  => true,
             'is_spec'   => true,
@@ -66,7 +66,7 @@ class Goods extends Common
             $ret['data'][0]['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
 
             // 商品评价总数
-            $ret['data'][0]['comments_count'] = GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods_id]);
+            $ret['data'][0]['comments_count'] = GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods_id, 'is_show'=>1]);
 
             // 商品收藏总数
             $ret['data'][0]['favor_count'] = GoodsService::GoodsFavorTotal(['goods_id'=>$goods_id]);
@@ -279,7 +279,10 @@ class Goods extends Common
         $page = max(1, isset($params['page']) ? intval($params['page']) : 1);
 
         // 条件
-        $where = ['goods_id'=>$params['goods_id']];
+        $where = [
+            'goods_id'      => $params['goods_id'],
+            'is_show'       => 1,
+        ];
 
         // 获取总数
         $total = GoodsCommentsService::GoodsCommentsTotal($where);
