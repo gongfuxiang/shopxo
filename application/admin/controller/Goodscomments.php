@@ -13,7 +13,7 @@ namespace app\admin\controller;
 use app\service\GoodsCommentsService;
 
 /**
- * 商品评价管理
+ * 商品评论管理
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -85,6 +85,7 @@ class Goodscomments extends Common
         // 静态数据
         $this->assign('common_is_show_list', lang('common_is_show_list'));
         $this->assign('common_is_text_list', lang('common_is_text_list'));
+        $this->assign('rating_list', GoodsCommentsService::$rating_list);
         $this->assign('business_type_list', GoodsCommentsService::$business_type_list);
 
         // 参数
@@ -110,34 +111,21 @@ class Goodscomments extends Common
         {
             // 获取列表
             $data_params = array(
-                'm'     => 0,
-                'n'     => 1,
-                'where' => ['id'=>intval($params['id'])],
-                'field' => '*',
+                'm'         => 0,
+                'n'         => 1,
+                'where'     => ['id'=>intval($params['id'])],
+                'is_public' => 0,
             );
-            $ret = GoodsCommentsService::AnswerList($data_params);
-
-            // 内容
-            if(!empty($ret['data'][0]['content']))
-            {
-                $ret['data'][0]['content'] = str_replace('<br />', "\n", $ret['data'][0]['content']);
-            }
-
-            // 回复内容
-            if(!empty($ret['data'][0]['reply']))
-            {
-                $ret['data'][0]['reply'] = str_replace('<br />', "\n", $ret['data'][0]['reply']);
-            }
-
+            $ret = GoodsCommentsService::GoodsCommentsList($data_params);
             $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
         }
         $this->assign('data', $data);
 
-        // 状态
+        // 静态数据
         $this->assign('common_is_show_list', lang('common_is_show_list'));
-
-        // 是否
         $this->assign('common_is_text_list', lang('common_is_text_list'));
+        $this->assign('rating_list', GoodsCommentsService::$rating_list);
+        $this->assign('business_type_list', GoodsCommentsService::$business_type_list);
 
         // 参数
         unset($params['id']);
@@ -163,7 +151,7 @@ class Goodscomments extends Common
 
         // 开始处理
         $params = input();
-        return GoodsCommentsService::AnswerSave($params);
+        return GoodsCommentsService::GoodsCommentsSave($params);
     }
 
     /**

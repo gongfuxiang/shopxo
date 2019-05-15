@@ -28,8 +28,18 @@ class GoodsCommentsService
         'order' => '订单',
     ];
 
+    // 评分
+    public static $rating_list = [
+        0 => ['name'=>'未评分', 'badge'=>''],
+        1 => ['name'=>'1分', 'badge'=>'am-badge-danger'],
+        2 => ['name'=>'2分', 'badge'=>'am-badge-warning'],
+        3 => ['name'=>'3分', 'badge'=>'am-badge-secondary'],
+        4 => ['name'=>'4分', 'badge'=>'am-badge-primary'],
+        5 => ['name'=>'5分', 'badge'=>'am-badge-success'],
+    ];
+
     /**
-     * 订单评价
+     * 订单评论
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -74,12 +84,12 @@ class GoodsCommentsService
             [
                 'checked_type'      => 'isset',
                 'key_name'          => 'content',
-                'error_msg'         => '评价内容有误',
+                'error_msg'         => '评论内容有误',
             ],
             [
                 'checked_type'      => 'is_array',
                 'key_name'          => 'content',
-                'error_msg'         => '评价内容数据格式有误',
+                'error_msg'         => '评论内容数据格式有误',
             ],
             [
                 'checked_type'      => 'empty',
@@ -108,7 +118,7 @@ class GoodsCommentsService
         }
         if($order['user_is_comments'] != 0)
         {
-            return DataReturn('该订单你已进行过评价', -10);
+            return DataReturn('该订单你已进行过评论', -10);
         }
 
         // 处理数据
@@ -129,11 +139,11 @@ class GoodsCommentsService
             if(Db::name('GoodsComments')->insertGetId($data) <= 0)
             {
                 Db::rollback();
-                return DataReturn('评价内容添加失败', -100);
+                return DataReturn('评论内容添加失败', -100);
             }
         }
 
-        // 订单评价状态更新
+        // 订单评论状态更新
         if(!Db::name('Order')->where($where)->update(['user_is_comments'=>time(), 'upd_time'=>time()]))
         {
             Db::rollback();
@@ -141,7 +151,7 @@ class GoodsCommentsService
         }
 
         Db::commit();
-        return DataReturn('评价成功', 0);
+        return DataReturn('评论成功', 0);
     }
 
     /**
@@ -200,6 +210,9 @@ class GoodsCommentsService
                         $msg = self::BusinessTypeOrderSpec($v['order_id'], $v['goods_id'], $v['user_id']);
                 }
                 $v['msg'] = empty($msg) ? null : $msg;
+
+                // 评分
+                $v['rating_text'] = self::$rating_list[$v['rating']]['name'];
 
                 // 是否
                 $v['is_reply_text'] = isset($common_is_text_list[$v['is_reply']]) ? $common_is_text_list[$v['is_reply']]['name'] : '';
@@ -348,6 +361,76 @@ class GoodsCommentsService
     }
 
     /**
+     * 评论保存
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-07-17
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function GoodsCommentsSave($params = [])
+    {
+        // 参数校验
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '操作id有误',
+            ],
+            [
+                'checked_type'      => 'in',
+                'key_name'          => 'business_type',
+                'checked_data'      => array_keys(self::$business_type_list),
+                'error_msg'         => '请选择业务类型',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'content',
+                'checked_data'      => '6,230',
+                'error_msg'         => '评论内容 6~230 个字符之间',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'reply',
+                'checked_data'      => '230',
+                'error_msg'         => '回复内容最多 230 个字符',
+            ],
+            [
+                'checked_type'      => 'in',
+                'key_name'          => 'rating',
+                'checked_data'      => array_keys(self::$rating_list),
+                'error_msg'         => '请选择评分',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 开始操作
+        $data = [
+            'content'           => $params['content'],
+            'reply'             => $params['reply'],
+            'business_type'     => $params['business_type'],
+            'rating'            => intval($params['rating']),
+            'reply_time'        => empty($params['reply_time']) ? 0 : strtotime($params['reply_time']),
+            'is_reply'          => isset($params['is_reply']) ? intval($params['is_reply']) : 0,
+            'is_show'           => isset($params['is_show']) ? intval($params['is_show']) : 0,
+            'is_anonymous'      => isset($params['is_anonymous']) ? intval($params['is_anonymous']) : 0,
+            'upd_time'          => time(),
+        ];
+
+        // 更新
+        if(Db::name('GoodsComments')->where(['id'=>intval($params['id'])])->update($data))
+        {
+            return DataReturn('编辑成功', 0);
+        }
+        return DataReturn('编辑失败或数据不存在', -100); 
+    }
+
+    /**
      * 删除
      * @author   Devil
      * @blog    http://gong.gg/
@@ -373,7 +456,7 @@ class GoodsCommentsService
         }
 
         // 开始删除
-        if(Db::name('GoodsComments')->where(['id'=>$comments_id])->delete())
+        if(Db::name('GoodsComments')->where(['id'=>intval($params['id'])])->delete())
         {
             return DataReturn('删除成功', 0);
         }
@@ -459,6 +542,12 @@ class GoodsCommentsService
                 'checked_data'      => [0,1],
                 'error_msg'         => '状态有误',
             ],
+            [
+                'checked_type'      => 'in',
+                'key_name'          => 'field',
+                'checked_data'      => ['is_anonymous', 'is_show', 'is_reply'],
+                'error_msg'         => '操作字段有误',
+            ],
         ];
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
@@ -467,11 +556,60 @@ class GoodsCommentsService
         }
 
         // 数据更新
-        if(Db::name('GoodsComments')->where(['id'=>intval($params['id'])])->update(['is_show'=>intval($params['state'])]))
+        $data = [
+            $params['field']    => intval($params['state']),
+            'upd_time'          => time(),
+        ];
+        if(Db::name('GoodsComments')->where(['id'=>intval($params['id'])])->update($data))
         {
             return DataReturn('编辑成功');
         }
         return DataReturn('编辑失败或数据未改变', -100);
+    }
+
+    /**
+     * 商品动态评分
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-15
+     * @desc    description
+     * @param   [int]           $goods_id [商品id]
+     */
+    public static function GoodsCommentsScore($goods_id)
+    {
+        // 默认
+        $rating_list = [
+            1 => ['rating'=>1, 'name'=>'1分', 'count'=>0, 'portion'=>0],
+            2 => ['rating'=>2, 'name'=>'2分', 'count'=>0, 'portion'=>0],
+            3 => ['rating'=>3, 'name'=>'3分', 'count'=>0, 'portion'=>0],
+            4 => ['rating'=>4, 'name'=>'4分', 'count'=>0, 'portion'=>0],
+            5 => ['rating'=>5, 'name'=>'5分', 'count'=>0, 'portion'=>0],
+        ];
+        $where = [
+            ['goods_id', '=', $goods_id],
+            ['rating', '>', 0],
+        ];
+        $data = Db::name('GoodsComments')->where($where)->group('rating')->column('count(*) as count, rating', 'rating');
+        if(!empty($data))
+        {
+            $sum = array_sum($data);
+            foreach($data as $rating=>$count)
+            {
+                if($rating > 0 && $rating <= 5)
+                {
+                    $rating_list[$rating]['count'] = $count;
+                    $rating_list[$rating]['portion'] = round($count/$sum, 2)*100;
+                }
+            }
+        }
+
+        sort($rating_list);
+        $result = [
+            'avg'       => PriceNumberFormat(Db::name('GoodsComments')->where($where)->avg('rating'), 1),
+            'rating'    => $rating_list,
+        ];
+        return DataReturn('操作成功', 0, $result);
     }
 }
 ?>

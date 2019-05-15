@@ -1,7 +1,41 @@
 /**
  * 列表
  */
-table.am-table .reply-content { max-width: 200px; max-height: 200px; overflow-y: scroll; overflow-x: hidden; }
-@media only screen and (max-width: 321px) {
-    .view-operation button { margin: 2px 0px; }
+.content-right table.am-table .reply-content {
+    max-width: 200px;
+    max-height: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.content-right table.am-table .view-operation {
+    width: 85px;
+}
+@media only screen and (max-width: 641px) {
+    .content-right table.am-table td.content-info {
+        width: 45%;
+    }
+}
+
+/**
+ * 用户信息
+ */
+.content-right .user-info img {
+    max-width: 35px;
+    max-height: 35px;
+    margin: 0 5px 2px 0;
+}
+.content-right ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/**
+ * 编辑
+ */
+.content-right .am-alert p.title {
+    font-weight: 700;
+    font-size: 14px;
+    margin: 0 0 5px 0;
+    color: #888;
 }

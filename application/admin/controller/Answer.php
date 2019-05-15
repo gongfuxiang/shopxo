@@ -77,14 +77,13 @@ class Answer extends Common
             'm'         => $page->GetPageStarNumber(),
             'n'         => $number,
             'where'     => $where,
+            'is_public' => 0,
         );
         $data = AnswerService::AnswerList($data_params);
         $this->assign('data_list', $data['data']);
 
-		// 状态
+		// 静态数据
 		$this->assign('common_is_show_list', lang('common_is_show_list'));
-
-        // 是否
         $this->assign('common_is_text_list', lang('common_is_text_list'));
 
 		// 参数
@@ -110,10 +109,11 @@ class Answer extends Common
         {
             // 获取列表
             $data_params = array(
-                'm'     => 0,
-                'n'     => 1,
-                'where' => ['id'=>intval($params['id'])],
-                'field' => '*',
+                'm'         => 0,
+                'n'         => 1,
+                'where'     => ['id'=>intval($params['id'])],
+                'field'     => '*',
+                'is_public' => 0,
             );
             $ret = AnswerService::AnswerList($data_params);
 
@@ -133,10 +133,8 @@ class Answer extends Common
         }
         $this->assign('data', $data);
 
-        // 状态
+        // 静态数据
         $this->assign('common_is_show_list', lang('common_is_show_list'));
-
-        // 是否
         $this->assign('common_is_text_list', lang('common_is_text_list'));
 
         // 参数

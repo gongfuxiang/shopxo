@@ -80,10 +80,8 @@ class Answer extends Common
         $data = AnswerService::AnswerList($data_params);
         $this->assign('data_list', $data['data']);
 
-        // 状态
+        // 静态数据
         $this->assign('common_is_show_list', lang('common_is_show_list'));
-
-        // 是否
         $this->assign('common_is_text_list', lang('common_is_text_list'));
 
         // 参数
@@ -91,5 +89,26 @@ class Answer extends Common
         return $this->fetch();
     }
 
+    /**
+     * 问答删除
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-15T11:03:30+0800
+     */
+    public function Delete()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 开始处理
+        $params = input();
+        $params['user_type'] = 'user';
+        $params['user'] = $this->user;
+        return AnswerService::AnswerDelete($params);
+    }
 }
 ?>

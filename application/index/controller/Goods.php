@@ -91,6 +91,10 @@ class Goods extends Common
             // 二维码
             $this->assign('qrcode_url', MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode(MyUrl('index/goods/index', ['id'=>$goods_id], true, true)))]));
 
+            // 商品评分
+            $goods_score = GoodsCommentsService::GoodsCommentsScore($goods_id);
+            $this->assign('goods_score', $goods_score['data']);
+
             // 商品访问统计
             GoodsService::GoodsAccessCountInc(['goods_id'=>$goods_id]);
 

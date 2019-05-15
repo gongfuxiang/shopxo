@@ -97,8 +97,9 @@
                     <th class="am-hide-md-down">商品信息</th>
                     <th class="am-hide-md-down">用户信息</th>
                     <th class="am-hide-sm-only">业务类型</th>
-                    <th>评价内容</th>
-                    <th class="am-hide-sm-only">是否回复</th>
+                    <th>评论内容</th>
+                    <th class="am-hide-sm-only">评分</th>
+                    <th class="am-hide-sm-only">回复</th>
                     <th class="am-hide-sm-only">匿名</th>
                     <th class="am-hide-sm-only">显示</th>
                     <th>更多</th>
@@ -110,20 +111,14 @@
                     {{foreach $data_list as $v}}
                         <tr id="data-list-{{$v.id}}" {{if $v['is_show'] eq 0}}class="am-active"{{/if}}>
                             <td class="goods-info am-hide-md-down">
-                                {{if !empty($v['user'])}}
+                                {{if !empty($v['goods'])}}
                                     <div class="base">
                                         <a href="{{$v.goods.goods_url}}" target="_blank">
                                             <img src="{{$v.goods.images}}" alt="{{$v.goods.title}}" class="am-img-thumbnail am-radius am-align-left" />
                                         </a>
-                                        <a class="am-text-top" href="{{$v.goods.goods_url}}" target="_blank">
-                                            {{if mb_strlen($v['goods']['title']) gt 23}}
-                                                {{:mb_substr($v['goods']['title'], 0, 23, 'utf-8')}} ...
-                                            {{else /}}
-                                                {{$v.goods.title}}
-                                            {{/if}}
-                                        </a>
+                                        <a class="am-text-top" href="{{$v.goods.goods_url}}" target="_blank">{{$v.goods.title}}</a>
                                     </div>
-                                    <p>￥{{$v.goods.min_price}}</p>
+                                    <p>￥{{$v.goods.price}}</p>
                                 {{else /}}
                                     商品信息异常
                                 {{/if}}
@@ -142,21 +137,22 @@
                                 {{/if}}
                             </td>
                             <td class="am-hide-sm-only">{{$v.business_type_text}}</td>
-                            <td>
+                            <td class="content-info">
                                 <div class="reply-content">
                                     {{$v.content}}
                                 </div>
                             </td>
                             <td class="am-hide-sm-only">
-                                {{if $v['is_reply'] eq 1 and !empty($v['reply'])}}
-                                    已回复
-                                {{else /}}
-                                    <span class="cr-ddd">未回复</span>
-                                {{/if}}
+                                <span class="am-badge am-radius {{$rating_list[$v['rating']]['badge']}}">{{$v.rating_text}}</span>
                             </td>
-                            <td class="am-hide-sm-only">{{$v.is_anonymous_text}}</td>
                             <td class="am-hide-sm-only">
-                                <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/goodscomments/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1"></a>
+                                <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_reply'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/goodscomments/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_reply']}}" data-field="is_reply"></a>
+                            </td>
+                            <td class="am-hide-sm-only">
+                                <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_anonymous'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/goodscomments/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_anonymous']}}" data-field="is_anonymous"></a>
+                            </td>
+                            <td class="am-hide-sm-only">
+                                <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/goodscomments/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-field="is_show" data-is-update-status="1"></a>
                             </td>
                             <td>
                                 <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
@@ -171,20 +167,14 @@
                                             <dl class="dl-content">
                                                 <dt>商品信息</dt>
                                                 <dd class="goods-info am-hide-md-down">
-                                                    {{if !empty($v['user'])}}
+                                                    {{if !empty($v['goods'])}}
                                                         <div class="base">
                                                             <a href="{{$v.goods.goods_url}}" target="_blank">
                                                                 <img src="{{$v.goods.images}}" alt="{{$v.goods.title}}" class="am-img-thumbnail am-radius am-align-left" />
                                                             </a>
-                                                            <a class="am-text-top" href="{{$v.goods.goods_url}}" target="_blank">
-                                                                {{if mb_strlen($v['goods']['title']) gt 23}}
-                                                                    {{:mb_substr($v['goods']['title'], 0, 23, 'utf-8')}} ...
-                                                                {{else /}}
-                                                                    {{$v.goods.title}}
-                                                                {{/if}}
-                                                            </a>
+                                                            <a class="am-text-top" href="{{$v.goods.goods_url}}" target="_blank">{{$v.goods.title}}</a>
                                                         </div>
-                                                        <p>￥{{$v.goods.min_price}}</p>
+                                                        <p>￥{{$v.goods.price}}</p>
                                                     {{else /}}
                                                         商品信息异常
                                                     {{/if}}
@@ -208,8 +198,13 @@
                                                 <dt>业务类型</dt>
                                                 <dd>{{$v.business_type_text}}</dd>
 
-                                                <dt>评价内容</dt>
-                                                <dd>{{$v.content|raw}}</dd>
+                                                <dt>评论内容</dt>
+                                                <dd>{{$v.content}}</dd>
+
+                                                <dt>评分</dt>
+                                                <dd>
+                                                    <span class="am-badge am-radius {{$rating_list[$v['rating']]['badge']}}">{{$v.rating_text}}</span>
+                                                </dd>
 
                                                 <dt>是否匿名</dt>
                                                 <dd>{{$v.is_anonymous_text}}</dd>
@@ -224,7 +219,7 @@
                                                 <dd>
                                                     {{if $v['is_reply'] eq 1 and !empty($v['reply'])}}
                                                         <div class="reply-content">
-                                                            {{$v.reply|raw}}
+                                                            {{$v.reply}}
                                                         </div>
                                                     {{else /}}
                                                         <span class="cr-ddd">未回复</span>
@@ -270,21 +265,40 @@
                 </div>
                 <div class="am-popup-bd">
                     <dl class="dl-content">
-                        <dt>联系人</dt>
-                        <dd>
-                            <span class="reply-name"></span> - <span class="reply-tel"></span>
+                        <dt>商品信息</dt>
+                        <dd class="goods-info">
+                            <div class="base">
+                                <a href="javascript:;" target="_blank">
+                                    <img src="{{$attachment_host}}/static/common/images/user-img-sm.gif" alt="{{$v.goods.title}}" class="am-img-thumbnail am-radius am-align-left" />
+                                </a>
+                                <a class="am-text-top title" href="javascript:;" target="_blank">...</a>
+                            </div>
+                            <p class="price">...</p>
                         </dd>
+
+                        <dt>用户信息</dt>
+                        <dd class="user-info">
+                            <img src="{{$attachment_host}}/static/common/images/user-img-sm.gif" class="am-img-thumbnail am-radius am-align-left" />
+                            <ul class="user-base">
+                                <li class="username">名称：<span>...</span></li>
+                                <li class="nickname">昵称：<span>...</span></li>
+                                <li class="mobile">手机：<span>...</span></li>
+                                <li class="email">邮箱：<span>...</span></li>
+                            </ul>
+                        </dd>
+                        <dt>评论内容</dt>
+                        <dd class="content">...</dd>
                     </dl>
 
-                    <form class="am-form form-validation" action="{{:MyUrl('admin/goodscomments/reply')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
+                    <form class="am-form form-validation-reply" action="{{:MyUrl('admin/goodscomments/reply')}}" method="POST" request-type="ajax-reload">
                         <div class="am-form-group">
                             <label>回复内容</label>
-                            <textarea name="reply" rows="5" class="am-radius" placeholder="回复内容格式 2~230 个字符" data-validation-message="回复内容格式 2~230 个字符" maxlength="230"></textarea>
+                            <textarea name="reply" rows="5" class="am-radius" placeholder="回复内容格式 1~230 个字符" data-validation-message="回复内容格式 1~230 个字符" minlength="1" maxlength="230" required></textarea>
                         </div>
 
                         <div class="am-form-group reply-submit am-form-group-refreshing t-c">
                             <input type="hidden" name="id" value="" />
-                            <button type="submit" class="am-btn am-btn-success am-radius am-btn-sm" data-am-loading="{loadingText:'处理中...'}" data-status="0">回复</button>
+                            <button type="submit" class="am-btn am-btn-success am-radius am-btn-sm" data-am-loading="{loadingText:'处理中...'}">回复</button>
                         </div>
                     </form>
                 </div>

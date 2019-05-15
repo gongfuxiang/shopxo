@@ -323,7 +323,6 @@ class Service
     {
         // 条件
         $where = [
-            ['is_delete_time', '=', 0],
             ['is_show', '=', 1],
         ];
 
@@ -382,7 +381,6 @@ class Service
         }
         // 条件
         $where = [
-            ['is_delete_time', '=', 0],
             ['is_show', '=', 1],
             ['id', '=', intval($params['id'])],
         ];

@@ -78,15 +78,15 @@
 		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
 			<thead>
 				<tr>
-					<th class="am-hide-sm-only">用户信息</th>
+					<th class="am-hide-md-down">用户信息</th>
 					<th class="am-hide-sm-only">联系信息</th>
-					<th>标题</th>
-					<th class="am-hide-sm-only">内容</th>
+					<th class="am-hide-sm-only">标题</th>
+					<th>内容</th>
 					<th class="am-hide-sm-only">回复内容</th>
 					<th class="am-hide-sm-only">访问次数</th>
 					<th class="am-hide-sm-only">回复时间</th>
 					<th class="am-hide-sm-only">创建时间</th>
-					<th>是否显示</th>
+					<th class="am-hide-sm-only">显示</th>
 					<th>更多</th>
 					<th>操作</th>
 				</tr>
@@ -95,23 +95,19 @@
 				{{if !empty($data_list)}}
 					{{foreach $data_list as $v}}
 						<tr id="data-list-{{$v.id}}" {{if $v['is_show'] eq 0}}class="am-active"{{/if}}>
-							<td class="am-hide-sm-only">
-								{{if !empty($v['username'])}}
-									{{$v.username}}
-									{{if !empty($v['nickname'])}}
-										({{$v.nickname}})
-									{{/if}}
-									{{if !empty($v['gender_text'])}}
-										({{$v.gender_text}})
-									{{/if}}
-								{{/if}}
-								{{if !empty($v['mobile'])}}
-									<br />{{$v.mobile}}
-								{{/if}}
-								{{if empty($v['username']) and empty($v['mobile'])}}
-									<span class="cr-ddd">空</span>
-								{{/if}}
-							</td>
+							<td class="user-info am-hide-md-down">
+                                {{if !empty($v['user'])}}
+                                    <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                                    <ul class="user-base">
+                                        <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
+                                        <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
+                                        <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
+                                        <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
+                                    </ul>
+                                {{else /}}
+                                    用户信息异常
+                                {{/if}}
+                            </td>
 							<td class="am-hide-sm-only">
 								{{if !empty($v['name']) and !empty($v['tel'])}}
 									{{$v.name}}
@@ -125,8 +121,8 @@
 									<span class="cr-ddd">未填写</span>
 								{{/if}}
 							</td>
-							<td>{{$v.title}}</td>
-							<td class="am-hide-sm-only">
+							<td class="am-hide-sm-only">{{$v.title}}</td>
+							<td class="content-info">
 								<div class="reply-content">
 									{{$v.content|raw}}
 								</div>
@@ -143,7 +139,7 @@
 							<td class="am-hide-sm-only">{{$v.access_count}}</td>
 							<td class="am-hide-sm-only">{{$v.reply_time}}</td>
 							<td class="am-hide-sm-only">{{$v.add_time}}</td>
-							<td>
+							<td class="am-hide-sm-only">
 								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/answer/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1"></a>
 							</td>
 							<td>
@@ -158,22 +154,18 @@
 										<div class="am-popup-bd">
 											<dl class="dl-content">
 												<dt>用户信息</dt>
-												<dd>
-													{{if !empty($v['username'])}}
-														{{$v.username}}
-														{{if !empty($v['nickname'])}}
-															({{$v.nickname}})
-														{{/if}}
-														{{if !empty($v['gender_text'])}}
-															({{$v.gender_text}})
-														{{/if}}
-													{{/if}}
-													{{if !empty($v['mobile'])}}
-														<br />{{$v.mobile}}
-													{{/if}}
-													{{if empty($v['username']) and empty($v['mobile'])}}
-														<span class="cr-ddd">空</span>
-													{{/if}}
+												<dd class="user-info">
+													{{if !empty($v['user'])}}
+                                                        <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                                                        <ul class="user-base">
+                                                            <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
+                                                            <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
+                                                            <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
+                                                            <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
+                                                        </ul>
+                                                    {{else /}}
+                                                        用户信息异常
+                                                    {{/if}}
 												</dd>
 
 												<dt>联系人</dt>
@@ -223,13 +215,11 @@
 								</div>
 							</td>
 							<td class="view-operation">
-								<a href="{{:MyUrl('admin/answer/saveinfo', array_merge($params, ['id'=>$v['id']]))}}">
-                                    <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit"> 编辑</button>
-                                </a>
+								<a href="{{:MyUrl('admin/answer/saveinfo', array_merge($params, ['id'=>$v['id']]))}}" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block am-icon-edit"> 编辑</a>
 								{{if $v['is_reply'] eq 0}}
-									<button class="am-btn am-btn-success am-btn-xs am-radius submit-reply am-icon-gavel" data-am-modal="{target: '#my-popup-reply'}" data-json='{{:json_encode($v)}}'> 回复</button>
+									<button class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-reply am-icon-gavel" data-am-modal="{target: '#my-popup-reply'}" data-json='{{:json_encode($v)}}'> 回复</button>
 								{{/if}}
-								<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/answer/delete')}}" data-id="{{$v.id}}"> 删除</button>
+								<button class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/answer/delete')}}" data-id="{{$v.id}}"> 删除</button>
 							</td>
 						</tr>
 					{{/foreach}}
@@ -250,21 +240,27 @@
 				</div>
 				<div class="am-popup-bd">
 					<dl class="dl-content">
-						<dt>联系人</dt>
-						<dd>
-							<span class="reply-name"></span> - <span class="reply-tel"></span>
-						</dd>
+						<dt>用户信息</dt>
+						<dd class="user-info">
+                            <img src="{{$attachment_host}}/static/common/images/user-img-sm.gif" class="am-img-thumbnail am-radius am-align-left" />
+                            <ul class="user-base">
+                                <li class="username">名称：<span>...</span></li>
+                                <li class="nickname">昵称：<span>...</span></li>
+                                <li class="mobile">手机：<span>...</span></li>
+                                <li class="email">邮箱：<span>...</span></li>
+                            </ul>
+                        </dd>
 					</dl>
 
-					<form class="am-form form-validation" action="{{:MyUrl('admin/answer/reply')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
+					<form class="am-form form-validation-reply" action="{{:MyUrl('admin/answer/reply')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
 						<div class="am-form-group">
 							<label>回复内容</label>
-							<textarea name="reply" rows="5" class="am-radius" placeholder="回复内容格式 2~230 个字符" data-validation-message="回复内容格式 2~230 个字符" maxlength="230"></textarea>
+							<textarea name="reply" rows="5" class="am-radius" placeholder="回复内容格式 2~230 个字符" data-validation-message="回复内容格式 2~230 个字符" minlength="2" maxlength="230" required></textarea>
 						</div>
 
 						<div class="am-form-group reply-submit am-form-group-refreshing t-c">
 							<input type="hidden" name="id" value="" />
-							<button type="submit" class="am-btn am-btn-success am-radius am-btn-sm" data-am-loading="{loadingText:'处理中...'}" data-status="0">回复</button>
+							<button type="submit" class="am-btn am-btn-success am-radius am-btn-sm" data-am-loading="{loadingText:'处理中...'}">回复</button>
 						</div>
 					</form>
 				</div>

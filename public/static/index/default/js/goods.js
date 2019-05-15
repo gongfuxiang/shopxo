@@ -28,15 +28,22 @@ function poptit_close()
  */
 function GoodsCommentsHtml(page)
 {
-    $('.goods-page-no-data').addClass('none');
+    if((page || 1) <= 1)
+    {
+        $('.goods-page-no-data').removeClass('none');
+        $('.goods-page-no-data span').text('加载中...');
+    } else {
+        $('.goods-page-no-data').addClass('none');
+    }
 
     $.ajax({
         url: $('.goods-comment').data('url'),
         type:'POST',
-        data:{"goods_id": $('.goods-comment').data('goods-id'), "page": page},
+        data:{"goods_id": $('.goods-comment').data('goods-id'), "page": page || 1},
         dataType:'json',
         success:function(result)
         {
+            $('.goods-page-no-data').addClass('none');
             if(result.code == 0)
             {
                 var html = '';
@@ -80,7 +87,13 @@ function GoodsCommentsHtml(page)
             if($('.goods-comment-content article').length <= 0)
             {
                 $('.goods-page-no-data').removeClass('none');
+                $('.goods-page-no-data span').text('没有评论数据');
             }
+        },
+        error:function(result)
+        {
+            $('.goods-page-no-data').removeClass('none');
+            $('.goods-page-no-data span').text('请求出现错误，请稍后再试！');
         }
     });
 }
@@ -602,6 +615,13 @@ $(function() {
         var top = $('.introduce-main').offset().top;
         $(window).smoothScroll({position: top});
         $('.introduce-main .am-tabs').tabs('open', 1);
+    });
+
+    // tab事件
+    $('.introduce-main .am-tabs li').on('click', function()
+    {
+        var top = $('.introduce-main').offset().top;
+        $(window).smoothScroll({position: top});
     });
 
 });

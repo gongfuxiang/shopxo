@@ -432,6 +432,36 @@
 
                     <!-- 评论 -->
                     <div class="am-tab-panel am-fade goods-comment" data-goods-id="{{$goods.id}}" data-url="{{:MyUrl('index/goods/comment')}}">
+                        <div class="am-cf score-container">
+                            <div class="score am-fl">
+                                <p class="name">动态评分</p>
+                                <p class="value">{{$goods_score.avg}}</p>
+                            </div>
+                            <div class="am-progress am-fr">
+                                {{if isset($goods_score['avg']) and $goods_score['avg'] gt 0 and !empty($goods_score['rating'])}}
+                                    {{foreach $goods_score.rating as $score}}
+                                        <div class="am-progress-bar 
+                                            {{switch score.rating}}
+                                                {{case 1}}
+                                                    am-progress-bar-danger
+                                                {{/case}}
+                                                {{case 2}}
+                                                    am-progress-bar-warning
+                                                {{/case}}
+                                                {{case 3}}
+                                                    am-progress-bar-secondary
+                                                {{/case}}
+                                                {{case 5}}
+                                                    am-progress-bar-success
+                                                {{/case}}
+                                            {{/switch}}"
+                                            style="width: {{$score.portion}}%">{{$score.name}}({{$score.portion}}%)</div>
+                                    {{/foreach}}
+                                {{else /}}
+                                    没有评分数据
+                                {{/if}}
+                            </div>
+                        </div>
                         <div class="goods-comment-content"></div>
                         <div class="goods-page-container"></div>
                         <div class="table-no goods-page-no-data none">

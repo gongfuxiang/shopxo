@@ -90,12 +90,13 @@
                             <th class="am-hide-sm-only">是否显示</th>
                             <th class="am-hide-sm-only">回复时间</th>
                             <th class="am-hide-sm-only">时间</th>
+                            <th class="am-hide-sm-only">操作</th>
                         </tr>
                     </thead>
                     <tbody>
                         {{if !empty($data_list)}}
                             {{foreach $data_list as $v}}
-                                <tr>
+                                <tr id="data-list-{{$v.id}}">
                                     <td>{{$v.name}}</td>
                                     <td>{{$v.tel}}</td>
                                     <td>{{$v.title}}</td>
@@ -110,6 +111,9 @@
                                     <td class="am-hide-sm-only">{{$v.is_show_text}}</td>
                                     <td class="am-hide-sm-only">{{$v.reply_time}}</td>
                                     <td class="am-hide-sm-only">{{$v.add_time}}</td>
+                                    <td class="view-operation">
+                                        <button class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block am-icon-trash-o submit-delete" data-url="{{:MyUrl('index/answer/delete')}}" data-id="{{$v.id}}"> 删除</button>
+                                    </td>
                                 </tr>
                             {{/foreach}}
                         {{/if}}

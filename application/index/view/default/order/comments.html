@@ -32,7 +32,7 @@
                                     <tr>
                                         <th>商品信息</th>
                                         <th class="am-hide-sm-only">单价</th>
-                                        <th>评价内容</th>
+                                        <th>评论内容</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -79,7 +79,7 @@
                                                     </ul>
                                                     <input type="text" name="rating[]" value="" class="input-rating" data-validation-message="请选择评分" required />
                                                 </div>
-                                                <textarea name="content[]" class="am-radius" rows="4" minlength="6" maxlength="200" data-validation-message="评价内容 6~200 个字符之间" required></textarea>
+                                                <textarea name="content[]" class="am-radius" rows="4" minlength="6" maxlength="230" data-validation-message="评论内容 6~230 个字符之间" required></textarea>
                                                 <input type="hidden" name="goods_id[]" value="{{$goods.goods_id}}" />
                                             </td>
                                         </tr>
@@ -100,7 +100,7 @@
                     </div>
                 </form>
             {{else /}}
-                <div class="table-no"><i class="am-icon-warning"></i> 你已进行过评价</div>
+                <div class="table-no"><i class="am-icon-warning"></i> 你已进行过评论</div>
             {{/if}}
         </div>
     </div>

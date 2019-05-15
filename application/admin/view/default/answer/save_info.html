@@ -15,6 +15,21 @@
                 </span>
                 <a href="{{:MyUrl('admin/answer/index', $params)}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
             </legend>
+            <div class="am-alert am-alert-secondary user-info" data-am-alert>
+                <p class="title">用户信息</p>
+                {{if !empty($data['user'])}}
+                    <img src="{{$data.user.avatar}}" alt="{{$data.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                    <ul class="user-base">
+                        <li>名称：{{if empty($data['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$data.user.username}}{{/if}}</li>
+                        <li>昵称：{{if empty($data['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$data.user.nickname}}{{/if}}</li>
+                        <li>手机：{{if empty($data['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$data.user.mobile}}{{/if}}</li>
+                        <li>邮箱：{{if empty($data['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$data.user.email}}{{/if}}</li>
+                    </ul>
+                {{else /}}
+                    用户信息异常
+                {{/if}}
+            </div>
+            
             <div class="am-form-group">
                 <label>联系人</label>
                 <input type="text" name="name" placeholder="联系人" maxlength="30" data-validation-message="联系人格式最多 30 个字符" class="am-radius" value="{{if !empty($data['name'])}}{{$data.name}}{{/if}}" />

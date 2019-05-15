@@ -63,12 +63,16 @@ class AnswerService
                 // 用户信息
                 if(isset($v['user_id']))
                 {
-                    $user = Db::name('User')->where(['id'=>$v['user_id']])->field('username,nickname,mobile,gender,avatar')->find();
-                    $v['username'] = empty($user['username']) ? '' : $user['username'];
-                    $v['nickname'] = empty($user['nickname']) ? '' : $user['nickname'];
-                    $v['mobile'] = empty($user['mobile']) ? '' : $user['mobile'];
-                    $v['avatar'] = empty($user['avatar']) ? '' : $user['avatar'];
-                    $v['gender_text'] = isset($user['gender']) ? $common_gender_list[$user['gender']]['name'] : '';
+                    $user = UserService::GetUserViewInfo($v['user_id']);
+                    if(!isset($params['is_public']) || $params['is_public'] == 1)
+                    {
+                        $v['user'] = [
+                            'avatar'            => $user['avatar'],
+                            'user_name_view'    => $user['user_name_view'],
+                        ];
+                    } else {
+                        $v['user'] = $user;
+                    }
                 }
 
                 // 是否显示
@@ -126,9 +130,7 @@ class AnswerService
      */
     public static function AnswerListWhere($params = [])
     {
-        $where = [
-            ['is_delete_time', '=', 0],
-        ];
+        $where = [];
 
         // id
         if(!empty($params['id']))
@@ -304,22 +306,12 @@ class AnswerService
             $where['user_id'] = $params['user']['id'];
         }
 
-        // 获取数据
-        $temp = Db::name('Answer')->where($where)->field('id')->find();
-        if(empty($temp))
-        {
-            return DataReturn('资源不存在或已被删除', -1);
-        }
-
         // 开始删除
-        $data = [
-            'is_delete_time'   => time(),
-        ];
-        if(Db::name('Answer')->where($where)->update($data))
+        if(Db::name('Answer')->where($where)->delete())
         {
             return DataReturn('删除成功', 0);
         }
-        return DataReturn('删除失败', -1);
+        return DataReturn('删除失败或数据不存在', -1);
     }
 
     /**
