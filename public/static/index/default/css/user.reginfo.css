@@ -1,0 +1,17 @@
+.register-container, .register-container .am-tabs {
+    margin-top: 20px;
+}
+.register-container .am-tabs {
+    background: rgba(0,0,0,0.15);
+    padding: 10px;
+}
+.register-container .am-tabs .am-tabs-bd {
+    background: #fff;
+}
+
+.my-content {
+    background: #FAFAFA url(http://b2b2c.shopnctest.com/dema/member/templates/default/images/register_bg.png) repeat 50% 50%;
+    width: 100%;
+    height: 680px;
+    overflow: hidden;
+}
