@@ -1,5 +1,17 @@
+/**
+ * 中间
+ */
+.my-content {
+    background: #FAFAFA url(http://b2b2c.shopnctest.com/dema/member/templates/default/images/register_bg.png);
+    width: 100%;
+    overflow: hidden;
+    padding-bottom: 50px;
+}
 .register-container, .register-container .am-tabs {
-    margin-top: 20px;
+    margin: 20px 0 0 0;
+}
+.register-container {
+    padding-top: 10px;
 }
 .register-container .am-tabs {
     background: rgba(0,0,0,0.15);
@@ -8,10 +20,60 @@
 .register-container .am-tabs .am-tabs-bd {
     background: #fff;
 }
-
-.my-content {
-    background: #FAFAFA url(http://b2b2c.shopnctest.com/dema/member/templates/default/images/register_bg.png) repeat 50% 50%;
-    width: 100%;
-    height: 680px;
-    overflow: hidden;
+.register-container form.am-form .am-form-group {
+    padding: 5px 0 !important;
 }
+.register-container .am-tabs-d2 .am-tabs-nav a {
+    text-decoration: none;
+}
+.register-container .am-tabs-d2 .am-tabs-nav > .am-active a {
+    color: #d2364c;
+}
+.register-container .am-tabs-d2 .am-tabs-nav > .am-active {
+    border-bottom: 2px solid #d2364c;
+}
+.register-container .am-tabs-d2 .am-tabs-nav > .am-active:after {
+    border-bottom-color: #d2364c;
+}
+.register-container .register-bottom {
+    margin-top: 10px;
+}
+
+/**
+ * 表单验证码
+ */
+.register-container form.form-validation-username .form-verify {
+    padding: 0;
+}
+.register-container form.form-validation-username .form-verify img {
+    height: 26px;
+}
+.register-container form.form-validation-username .form-verify a.form-verify-tips {
+    font-size: 12px;
+    text-decoration: none;
+    line-height: 28px;
+    color: #FFF;
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled='true', startColorstr='#7F000000', endColorstr='#7F000000');
+    background: rgba(0,0,0,0.5);
+    text-align: center;
+    display: none;
+    width: 83px;
+    height: 28px;
+    position: absolute;
+    z-index: 1;
+    top: -1px;
+    left: -1px;
+}
+.register-container form.form-validation-username .form-verify:hover a.form-verify-tips {
+    display: block;
+}
+
+/**
+ * 弹窗图片验证码
+ */
+.register-container .verify-submit-win{ margin-top: 20px; display: block; }
+.register-container .reg-switch-tips { font-weight: 100; font-size: 12px; color: #f87689; margin-left: 20px; }
+.register-container #verify-win .am-modal-bd { margin-top: 10px; }
+.register-container #verify-win .am-modal-bd .base { overflow: hidden; }
+.register-container #verify-win .am-modal-bd .base .verify-tips { font-size: 12px; }
+.register-container #verify-img { vertical-align: middle; }

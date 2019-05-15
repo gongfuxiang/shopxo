@@ -1,3 +1,8 @@
+// 表单初始化
+FromInit('form.form-validation-username');
+FromInit('form.form-validation-mobile');
+FromInit('form.form-validation-email');
+
 $(function()
 {
 	$verify_win = $('#verify-win');

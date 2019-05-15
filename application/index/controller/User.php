@@ -190,6 +190,7 @@ class User extends Common
                 // 浏览器名称
                 $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('用户注册', 1));
 
+                $this->assign('referer_url', $this->GetrefererUrl());
                 return $this->fetch();
             } else {
                 $this->assign('msg', '已经登录了，如要注册新账户，请先退出当前账户');
