@@ -203,62 +203,6 @@ class User extends Common
     }
 
     /**
-     * [EmailRegInfo 用户注册页面-邮箱]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-03-10T12:18:17+0800
-     */
-    public function EmailRegInfo()
-    {
-        if(in_array('email', MyC('home_user_reg_state')))
-        {
-            if(empty($this->user))
-            {
-                // 浏览器名称
-                $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('用户邮箱注册', 1));
-
-                $this->assign('referer_url', $this->GetrefererUrl());
-                return $this->fetch();
-            } else {
-                $this->assign('msg', '已经登录了，如要注册新账户，请先退出当前账户');
-                return $this->fetch('public/tips_error');
-            }
-        } else {
-            $this->assign('msg', '暂时关闭邮箱注册');
-            return $this->fetch('public/tips_error');
-        }
-    }
-
-    /**
-     * [SmsRegInfo 用户注册页面-短信]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-03-02T22:48:35+0800
-     */
-    public function SmsRegInfo()
-    {
-        if(in_array('sms', MyC('home_user_reg_state')))
-        {
-            if(empty($this->user))
-            {
-                // 浏览器名称
-                $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('用户短信注册', 1));
-
-                $this->assign('referer_url', $this->GetrefererUrl());
-                return $this->fetch();
-            } else {
-                $this->assign('msg', '已经登录了，如要注册新账户，请先退出当前账户');
-                return $this->fetch('public/tips_error');
-            }
-        } else {
-            $this->assign('msg', '暂时关闭短信注册');
-            return $this->fetch('public/tips_error');
-        }
-    }
-
-    /**
      * [LoginInfo 用户登录页面]
      * @author   Devil
      * @blog     http://gong.gg/

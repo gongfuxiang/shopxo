@@ -10,7 +10,7 @@
                         {{if MyC('home_user_login_state') eq 1}}
                             [<a href="{{:MyUrl('index/user/logininfo')}}">登录</a>]
                         {{/if}}
-                        {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))}}
+                        {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state')) or in_array('username', MyC('home_user_reg_state'))}}
                             [<a href="{{:MyUrl('index/user/regInfo')}}">注册</a>]
                         {{/if}}
                     {{else /}}

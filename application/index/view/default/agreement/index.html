@@ -1,0 +1,35 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container">
+    {{if !empty($data)}}
+        <article class="am-article am-margin-top-lg xo-padding-horizontal-md-xs">
+            <div class="am-article-hd am-text-center">
+                <h1 class="am-article-title am-text-default">{{$data.name}}</h1>
+                <p class="am-article-meta am-margin-top-xs">{{$data.upd_time_time}}</p>
+            </div>
+            <hr data-am-widget="divider" class="am-divider am-divider-default" />
+            <div class="am-article-bd am-margin-top-lg">
+                {{$data.value|raw}}
+            </div>
+        </article>
+    {{else /}}
+        <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+    {{/if}}
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

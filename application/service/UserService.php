@@ -992,13 +992,15 @@ class UserService
                 'error_msg'         => '密码不能为空',
             ],
             [
-                'checked_type'      => 'empty',
+                'checked_type'      => 'in',
                 'key_name'          => 'type',
+                'checked_data'      => array_column(lang('site_user_reg_state_list'), 'value'),
                 'error_msg'         => '注册类型有误',
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'verify',
+                'is_checked'        => 2,
                 'error_msg'         => '验证码不能为空',
             ],
         ];
@@ -1029,19 +1031,25 @@ class UserService
         if($params['type'] == 'sms')
         {
             $obj = new \base\Sms($verify_param);
-        } else {
+        } else if($params['type'] == 'email') {
             $obj = new \base\Email($verify_param);
         }
-        // 是否已过期
-        if(!$obj->CheckExpire())
+
+        // 验证码校验
+        if(isset($obj) && is_object($obj))
         {
-            return DataReturn('验证码已过期', -10);
+            // 是否已过期
+            if(!$obj->CheckExpire())
+            {
+                return DataReturn('验证码已过期', -10);
+            }
+            // 是否正确
+            if(!$obj->CheckCorrect($params['verify']))
+            {
+                return DataReturn('验证码错误', -11);
+            }
         }
-        // 是否正确
-        if(!$obj->CheckCorrect($params['verify']))
-        {
-            return DataReturn('验证码错误', -11);
-        }
+        
 
         // 是否需要审核
         $common_register_is_enable_audit = MyC('common_register_is_enable_audit', 0);
@@ -1058,8 +1066,10 @@ class UserService
         if($params['type'] == 'sms')
         {
             $data['mobile'] = $params['accounts'];
-        } else {
+        } else if($params['type'] == 'email') {
             $data['email'] = $params['accounts'];
+        } else {
+            $data['username'] = $params['accounts'];
         }
 
         // 数据添加
@@ -1067,7 +1077,10 @@ class UserService
         if($user_ret['code'] == 0)
         {
             // 清除验证码
-            $obj->Remove();
+            if(isset($obj) && is_object($obj))
+            {
+                $obj->Remove();
+            }
 
             // 是否需要审核
             if($common_register_is_enable_audit == 1)
@@ -1097,42 +1110,46 @@ class UserService
      */
     private static function UserRegAccountsCheck($params = [])
     {
-        // 参数
-        $type = $params['type'];
-        $accounts = $params['accounts'];
-        if(empty($accounts) || empty($type) || !in_array($type, array('sms', 'email')))
+        switch($params['type'])
         {
-             return DataReturn('参数错误', -1);
-        }
+            // 手机
+            case 'sms' :
+                // 手机号码格式
+                if(!CheckMobile($params['accounts']))
+                {
+                     return DataReturn('手机号码格式错误', -2);
+                }
 
-        // 手机号码
-        if($type == 'sms')
-        {
-            // 手机号码格式
-            if(!CheckMobile($accounts))
-            {
-                 return DataReturn('手机号码格式错误', -2);
-            }
+                // 手机号码是否已存在
+                if(self::IsExistAccounts($params['accounts'], 'mobile'))
+                {
+                     return DataReturn('手机号码已存在', -3);
+                }
+                break;
 
-            // 手机号码是否已存在
-            if(self::IsExistAccounts($accounts, 'mobile'))
-            {
-                 return DataReturn('手机号码已存在', -3);
-            }
+            // 邮箱
+            case 'email' :
+                // 电子邮箱格式
+                if(!CheckEmail($params['accounts']))
+                {
+                     return DataReturn('电子邮箱格式错误', -2);
+                }
 
-        // 电子邮箱
-        } else {
-            // 电子邮箱格式
-            if(!CheckEmail($accounts))
-            {
-                 return DataReturn('电子邮箱格式错误', -2);
-            }
+                // 电子邮箱是否已存在
+                if(self::IsExistAccounts($params['accounts'], 'email'))
+                {
+                     return DataReturn('电子邮箱已存在', -3);
+                }
+                break;
 
-            // 电子邮箱是否已存在
-            if(self::IsExistAccounts($accounts, 'email'))
-            {
-                 return DataReturn('电子邮箱已存在', -3);
-            }
+            // 用户名
+            case 'username' :
+                // 用户名格式
+                if(!CheckUserName($params['accounts']))
+                {
+                     return DataReturn('用户名格式由 字母数字下划线 2~18 个字符', -2);
+                }
+                break;
         }
         return DataReturn('操作成功', 0);
     }
@@ -1203,8 +1220,9 @@ class UserService
                 'error_msg'         => '账号不能为空',
             ],
             [
-                'checked_type'      => 'empty',
+                'checked_type'      => 'in',
                 'key_name'          => 'type',
+                'checked_data'      => array_column(lang('site_user_reg_state_list'), 'value'),
                 'error_msg'         => '注册类型有误',
             ],
         ];
@@ -1218,13 +1236,6 @@ class UserService
         if(!in_array($params['type'], MyC('home_user_reg_state')))
         {
             return DataReturn('暂时关闭用户注册');
-        }
-
-        // 账户校验
-        $ret = self::UserRegAccountsCheck($params);
-        if($ret['code'] != 0)
-        {
-            return $ret;
         }
 
         // 验证码公共基础参数
@@ -1241,13 +1252,20 @@ class UserService
             return $verify;
         }
 
+        // 账户校验
+        $ret = self::UserRegAccountsCheck($params);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 发送验证码
         $code = GetNumberCode(6);
         if($params['type'] == 'sms')
         {
             $obj = new \base\Sms($verify_params);
             $status = $obj->SendCode($params['accounts'], $code, MyC('home_sms_user_reg'));
-        } else {
+        } else if($params['type'] == 'email') {
             $obj = new \base\Email($verify_params);
             $email_param = array(
                     'email'     =>  $params['accounts'],
@@ -1256,6 +1274,8 @@ class UserService
                     'code'      =>  $code,
                 );
             $status = $obj->SendHtml($email_param);
+        } else {
+            return DataReturn('该类型不支持验证码发送', -2);
         }
         
         // 状态
@@ -1289,13 +1309,6 @@ class UserService
             return DataReturn('参数错误', -10);
         }
 
-        // 账户是否存在
-        $ret = self::UserForgetAccountsCheck($params['accounts']);
-        if($ret['code'] != 0)
-        {
-            return $ret;
-        }
-
         // 验证码公共基础参数
         $verify_params = array(
                 'key_prefix' => 'forget',
@@ -1308,6 +1321,13 @@ class UserService
         if($verify['code'] != 0)
         {
             return $verify;
+        }
+
+        // 账户是否存在
+        $ret = self::UserForgetAccountsCheck($params['accounts']);
+        if($ret['code'] != 0)
+        {
+            return $ret;
         }
 
         // 验证码

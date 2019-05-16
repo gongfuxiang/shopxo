@@ -22,6 +22,17 @@ use app\service\ResourcesService;
  */
 class ConfigService
 {
+    // 富文本,不实例化的字段
+    public static $rich_text_list = [
+            'home_footer_info',
+            'common_email_currency_template',
+            'home_email_user_reg',
+            'home_email_user_forget_pwd',
+            'home_email_user_email_binding',
+            'home_site_close_reason',
+            'common_agreement_userregister',
+        ];
+
     /**
      * 配置列表，唯一标记作为key
      * @author   Devil
@@ -75,21 +86,13 @@ class ConfigService
         // 循环保存数据
         $success = 0;
 
-        // 不实例化的字段
-        $no_all = array(
-            'home_footer_info',
-            'common_email_currency_template',
-            'home_email_user_reg',
-            'home_email_user_forget_pwd',
-            'home_email_user_email_binding',
-            'home_site_close_reason',
-        );
-
         // 开始更新数据
         foreach($params as $k=>$v)
         {
-            if(!in_array($k, $no_all))
+            if(in_array($k, self::$rich_text_list))
             {
+                $v = ResourcesService::ContentStaticReplace($v, 'add');
+            } else {
                 $v = htmlentities($v);
             }
             if(Db::name('Config')->where(['only_tag'=>$k])->update(['value'=>$v, 'upd_time'=>time()]))
@@ -137,6 +140,16 @@ class ConfigService
             {
                 $data['home_user_reg_state'] = explode(',', $data['home_user_reg_state']);
             }
+
+            // 富文本字段处理
+            foreach($data as $k=>$v)
+            {
+                if(in_array($k, self::$rich_text_list))
+                {
+                    $data[$k] = ResourcesService::ContentStaticReplace($v, 'get');
+                }
+            }
+
             cache($key, $data);
         }
     }
@@ -193,6 +206,31 @@ class ConfigService
             return DataReturn('处理成功', 0);
         }
         return DataReturn('无需处理', 0);
+    }
+
+    /**
+     * 根据唯一标记获取条配置内容
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-16
+     * @desc    description
+     * @param   [string]           $only_tag [唯一标记]
+     */
+    public static function ConfigContentRow($only_tag)
+    {
+        // 获取内容
+        $data = Db::name('Config')->where(['only_tag'=>$only_tag])->field('name,value,type,upd_time')->find();
+        if(!empty($data))
+        {
+            // 富文本处理
+            if(in_array($only_tag, self::$rich_text_list))
+            {
+                $data['value'] = ResourcesService::ContentStaticReplace($data['value'], 'get');
+            }
+            $data['upd_time_time'] = empty($data['upd_time']) ? null : date('Y-m-d H:i:s', $data['upd_time']);
+        }
+        return DataReturn('操作成功', 0, $data);
     }
 }
 ?>

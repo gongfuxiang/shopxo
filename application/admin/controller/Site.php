@@ -55,7 +55,7 @@ class Site extends Common
 		// 站点状态
 		$this->assign('site_site_state_list', lang('site_site_state_list'));
 
-		// 是否开启用户注册
+		// 用户注册类型列表
 		$this->assign('site_user_reg_state_list', lang('site_user_reg_state_list'));
 
 		// 是否开启用户登录

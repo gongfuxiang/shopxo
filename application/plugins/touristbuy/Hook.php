@@ -46,8 +46,7 @@ class Hook extends Controller
 
                 // 用户登录页面顶部
                 case 'plugins_view_user_login_info_top' :
-                case 'plugins_view_user_sms_reg_info' :
-                case 'plugins_view_user_email_reg_info' :
+                case 'plugins_view_user_reg_info' :
                     $ret = $this->UserLoginInfoHtml($params);
                     break;
 

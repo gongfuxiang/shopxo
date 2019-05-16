@@ -1,0 +1,33 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- table nav start -->
+        {{include file="agreement/nav" /}}
+        <!-- table nav end -->
+        
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/agreement/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/agreement/index', ['type'=>$nav_type])}}">
+            <div class="am-form-group">
+                <div class="am-cf">
+                    <label>{{$data.common_agreement_userregister.name}}<span class="am-form-group-label-tips">{{$data.common_agreement_userregister.describe}}</span></label>
+                    <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank" class="am-fr">查看详情</a>
+                </div>
+                <textarea class="am-radius am-validate" name="{{$data.common_agreement_userregister.only_tag}}" maxlength="105000" id="editor-tag" data-validation-message="{{$data.common_agreement_userregister.error_tips}}">{{if !empty($data)}}{{$data.common_agreement_userregister.value|raw}}{{/if}}</textarea>
+            </div>
+            <div class="am-form-group am-form-group-refreshing">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">
+                    <button type="button" class="am-btn am-btn-default am-btn-xs am-btn-block m-t-20">查看详情</button>
+                </a>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

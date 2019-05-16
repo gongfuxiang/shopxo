@@ -1,12 +1,10 @@
 // 表单初始化
 FromInit('form.form-validation-username');
-FromInit('form.form-validation-mobile');
+FromInit('form.form-validation-sms');
 FromInit('form.form-validation-email');
 
 $(function()
 {
-	$verify_win = $('#verify-win');
-
 	// 查看密码
 	$('.eye-submit').on('click', function()
 	{
@@ -25,8 +23,17 @@ $(function()
 	// 短信验证码获取
 	$('.verify-submit, .verify-submit-win').on('click', function()
 	{
+		// 表单发送按钮
+		var form_tag = $(this).data('form-tag') || null;
+		if(form_tag != null)
+		{
+			$('body').attr('data-form-tag', form_tag);
+		}
+		
+		// 验证账户
 		var $this = $(this);
-		var $accounts = $('#accounts');
+		var $form_tag = $($('body').attr('data-form-tag'));
+		var $accounts = $form_tag.find('input[name="accounts"]');
 		var $verify = $('#verify-img-value');
 		var $verify_img = $('#verify-img');
 		var verify = '';
@@ -36,6 +43,7 @@ $(function()
 			if($this.data('verify') == 1)
 			{
 				// 开启图片验证码窗口
+				var $verify_win = $('#verify-win');
 				$verify_win.modal('open');
 				$verify_img.trigger("click");
 				$verify.focus();
@@ -46,7 +54,7 @@ $(function()
 			var is_win = $(this).data('win');
 			if(is_win == 1)
 			{
-				$this = $('.verify-submit');
+				$this = $form_tag.find('.verify-submit');
 
 				// 验证码参数处理
 				verify = $verify.val().replace(/\s+/g, '');
@@ -73,7 +81,7 @@ $(function()
 			$.ajax({
 				url:$('.verify-submit').data('url'),
 				type:'POST',
-				data:{"accounts":$accounts.val(), "verify":verify, "type":$('form input[name="type"]').val()},
+				data:{"accounts":$accounts.val(), "verify":verify, "type":$form_tag.find('input[name="type"]').val()},
 				dataType:'json',
 				success:function(result)
 				{
@@ -118,7 +126,10 @@ $(function()
 				}
 			});			
 		} else {
-			$verify_win.modal('close');
+			if($('#verify-win').length > 0)
+			{
+				$('#verify-win').modal('close');
+			}
 			$accounts.focus();
 		}
 	});

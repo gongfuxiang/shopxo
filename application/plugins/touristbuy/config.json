@@ -29,10 +29,7 @@
         "plugins_view_user_login_info_top":[
             "app\\plugins\\touristbuy\\Hook"
         ],
-        "plugins_view_user_sms_reg_info":[
-            "app\\plugins\\touristbuy\\Hook"
-        ],
-        "plugins_view_user_email_reg_info":[
+        "plugins_view_user_reg_info":[
             "app\\plugins\\touristbuy\\Hook"
         ],
         "plugins_service_navigation_header_handle":[

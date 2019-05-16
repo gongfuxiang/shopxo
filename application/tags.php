@@ -108,11 +108,7 @@ return array (
   array (
     0 => 'app\\plugins\\touristbuy\\Hook',
   ),
-  'plugins_view_user_sms_reg_info' => 
-  array (
-    0 => 'app\\plugins\\touristbuy\\Hook',
-  ),
-  'plugins_view_user_email_reg_info' => 
+  'plugins_view_user_reg_info' => 
   array (
     0 => 'app\\plugins\\touristbuy\\Hook',
   ),

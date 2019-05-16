@@ -13,185 +13,243 @@
 {{include file="public/goods_category" /}}
 
 <!-- conntent start  -->
-<div class="am-g my-content">
-    <div class="am-u-md-8 am-u-lg-5 am-u-sm-centered">
-        <div class="register-container">
-            <div class="register-top">
-                {{if MyC('home_user_login_state') eq 1}}
-                    <span>已有帐号？</span>
-                    <a href="{{:MyUrl('index/user/logininfo')}}">
-                        <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius">立即登录</button>
-                    </a>
+<div class="am-g my-content user-register-container">
+    <div class="am-container">
+        <!-- 用户注册页面顶部钩子 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+            <div class="plugins-tag">
+                <span>plugins_view_user_reg_info_top</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_user_reg_info_top_data) and is_array($plugins_view_user_reg_info_top_data)}}
+            {{foreach $plugins_view_user_reg_info_top_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
                 {{/if}}
-            </div>
+            {{/foreach}}
+        {{/if}}
 
-            <div data-am-widget="tabs" class="am-tabs am-tabs-d2">
-                <ul class="am-tabs-nav am-cf">
-                    <li class="am-active"><a href="[data-tab-panel-0]">账号注册</a></li>
-                    <li class=""><a href="[data-tab-panel-1]">手机注册</a></li>
-                    <li class=""><a href="[data-tab-panel-2]">邮箱注册</a></li>
-                </ul>
-                <div class="am-tabs-bd">
-                    <div data-tab-panel-0 class="am-tab-panel am-active">
-                        <!-- form start -->
-                        <form class="am-form form-validation-username" method="post" action="{{:MyUrl('index/user/reg')}}" request-type="ajax-fun" request-value="RegisterSuccessBack">
-                            <div class="am-form-group am-form-group-refreshing business-form-block">
-                                <label>用户名</label>
-                                <input type="text" name="accounts" class="am-radius" id="accounts" placeholder="用户名" data-validation-message="请填写有效的用户名" required />
-                            </div>
+        <div class="am-u-sm-10 am-u-md-6 am-u-lg-5 am-u-sm-centered">
+            <div class="register-container">
+                <div class="register-top">
+                    {{if MyC('home_user_login_state') eq 1}}
+                        <span>我已经注册，现在就</span>
+                        <a href="{{:MyUrl('index/user/logininfo')}}">
+                            <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius">登录</button>
+                        </a>
+                    {{/if}}
 
-                            <div class="am-form-group am-form-group-refreshing business-form-block">
-                                <label>设置登录密码</label>
-                                <div class="am-input-group am-input-group-sm">
-                                    <input type="password" name="pwd" class="am-radius" placeholder="设置登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
-                                    <span class="am-input-group-btn">
-                                        <button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="am-form-group am-form-group-refreshing business-form-block">
-                                <label>验证码</label>
-                                <div class="am-input-group am-input-group-sm">
-                                    <input type="number" name="verify" class="am-radius" placeholder="验证码" minlength="6" maxlength="6" data-validation-message="验证码格式 6 位数字" required />
-                                    <span class="am-input-group-btn">
-                                        <span class="am-btn am-btn-default am-radius form-verify">
-                                            <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'reg'])}}" class="am-radius c-p" id="form-verify-img" onClick="this.src=this.src+'#'+Math.random();" />
-                                            <a href="javascript:;" class="form-verify-tips" onClick="document.getElementById('form-verify-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'reg'])}}#'+Math.random();">更换一张</a>
-                                        </span>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="am-form-group am-form-group-refreshing business-form-block">
-                                <input type="hidden" name="type" value="username" />
-                                <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '处理中...'}">注册</button>
-                            </div>
-                        </form>
-                        <!-- form end -->
-                    </div>
-                    <div data-tab-panel-1 class="am-tab-panel ">
-                        <!-- form start -->
-                        <form class="am-form form-validation-mobile" method="post" action="{{:MyUrl('index/user/reg')}}" request-type="ajax-fun" request-value="RegisterSuccessBack">
-                            <div class="am-form-group am-form-group-refreshing business-form-block">
-                                <label>手机号码</label>
-                                <input type="text" name="accounts" class="am-radius" id="accounts" placeholder="手机号码" pattern="{{:lang('common_regex_mobile')}}" data-validation-message="手机号码格式错误" required />
-                            </div>
-
-                            <div class="am-form-group am-form-group-refreshing business-form-block">
-                                <label>验证码</label>
-                                <div class="am-input-group am-input-group-sm">
-                                    <input type="number" name="verify" class="am-radius" placeholder="验证码" minlength="6" maxlength="6" data-validation-message="验证码格式 6 位数字" required />
-                                    <span class="am-input-group-btn">
-                                        <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-url="{{:MyUrl('index/user/regverifysend')}}" data-verify="{{:MyC('home_img_verify_state')}}" data-text="获取验证码" data-send-text="还有 {time} 秒" data-time="{{:MyC('common_verify_time_interval', 30, true)}}">获取验证码</button>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="am-form-group am-form-group-refreshing business-form-block">
-                                <label>设置登录密码</label>
-                                <div class="am-input-group am-input-group-sm">
-                                    <input type="password" name="pwd" class="am-radius" placeholder="设置登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
-                                    <span class="am-input-group-btn">
-                                        <button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="am-form-group am-form-group-refreshing business-form-block">
-                                <input type="hidden" name="type" value="sms" />
-                                <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '处理中...'}">注册</button>
-                            </div>
-                        </form>
-                        <!-- form end -->
-                    </div>
-                    <div data-tab-panel-2 class="am-tab-panel ">
-                        <!-- form start -->
-                        <form class="am-form form-validation-email" method="post" action="{{:MyUrl('index/user/reg')}}" request-type="ajax-fun" request-value="RegisterSuccessBack">
-                            <div class="am-form-group am-form-group-refreshing business-form-block">
-                                <label>电子邮箱</label>
-                                <input type="email" name="accounts" class="am-radius" id="accounts" placeholder="电子邮箱" data-validation-message="电子邮箱格式错误" required />
-                            </div>
-
-                            <div class="am-form-group am-form-group-refreshing business-form-block">
-                                <label>验证码</label>
-                                <div class="am-input-group am-input-group-sm">
-                                    <input type="number" name="verify" class="am-radius" placeholder="验证码" minlength="6" maxlength="6" data-validation-message="验证码格式 6 位数字" required />
-                                    <span class="am-input-group-btn">
-                                        <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-url="{{:MyUrl('index/user/regverifysend')}}" data-verify="{{:MyC('home_img_verify_state')}}" data-text="获取验证码" data-send-text="还有 {time} 秒" data-time="{{:MyC('common_verify_time_interval', 30, true)}}">获取验证码</button>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="am-form-group am-form-group-refreshing business-form-block">
-                                <label>设置登录密码</label>
-                                <div class="am-input-group am-input-group-sm">
-                                    <input type="password" name="pwd" class="am-radius" placeholder="设置登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
-                                    <span class="am-input-group-btn">
-                                        <button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="am-form-group am-form-group-refreshing business-form-block">
-                                <input type="hidden" name="type" value="email" />
-                                <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '处理中...'}">注册</button>
-                            </div>
-                        </form>
-                        <!-- form end -->
-                    </div>
+                    <!-- 用户注册页面钩子 -->
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                        <div class="plugins-tag">
+                            <span>plugins_view_user_reg_info</span>
+                        </div>
+                    {{/if}}
+                    {{if !empty($plugins_view_user_reg_info_data) and is_array($plugins_view_user_reg_info_data)}}
+                        {{foreach $plugins_view_user_reg_info_data as $hook}}
+                            {{if is_string($hook) or is_int($hook)}}
+                                {{$hook|raw}}
+                            {{/if}}
+                        {{/foreach}}
+                    {{/if}}
                 </div>
-            </div>
-            
-            <div class="register-bottom am-cf">
-                <a href="{{:MyUrl('index/user/forgetpwdinfo')}}" class="am-fr m-t-5">忘记密码？</a>
-            </div>
 
-            <!-- verify win start -->
-            <div class="am-modal am-modal-no-btn" tabindex="-1" id="verify-win">
-                <div class="am-modal-dialog am-radius">
-                    <div class="am-modal-hd">
-                        <a href="javascript:;" class="am-close am-close-spin" data-am-modal-close>&times;</a>
-                    </div>
-                    <div class="am-modal-bd">
-                        <div class="base">
-                            <input type="text" placeholder="图形验证码" maxlength="6" id="verify-img-value" data-validation-message="请输入有效的图形验证码" class="am-form-field am-radius" />
-                            <div class="am-fl">
-                                <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'reg'])}}" class="am-radius c-p" id="verify-img" onClick="this.src=this.src+'#'+Math.random();" />
-                                <a href="javascript:;" class="verify-tips" onClick="document.getElementById('verify-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'reg'])}}#'+Math.random();">看不清换一张</a>
+                <div class="register-content">
+                    {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state')) or in_array('username', MyC('home_user_reg_state'))}}
+                        <div data-am-widget="tabs" class="am-tabs am-tabs-d2" data-am-tabs="{noSwipe: 1}">
+                            <ul class="am-tabs-nav am-cf">
+                                {{if in_array('username', MyC('home_user_reg_state'))}}
+                                    <li class="am-active"><a href="[data-tab-panel-0]">账号注册</a></li>
+                                {{/if}}
+                                {{if in_array('sms', MyC('home_user_reg_state'))}}
+                                    <li class="{{if !in_array('username', MyC('home_user_reg_state'))}}am-active{{/if}}"><a href="[data-tab-panel-1]">手机注册</a></li>
+                                {{/if}}
+                                {{if in_array('email', MyC('home_user_reg_state'))}}
+                                    <li class="{{if !in_array('username', MyC('home_user_reg_state')) and !in_array('sms', MyC('home_user_reg_state'))}}am-active{{/if}}"><a href="[data-tab-panel-2]">邮箱注册</a></li>
+                                {{/if}}
+                            </ul>
+                            <div class="am-tabs-bd">
+                                {{if in_array('username', MyC('home_user_reg_state'))}}
+                                    <div data-tab-panel-0 class="am-tab-panel am-active">
+                                        <!-- form start -->
+                                        <form class="am-form form-validation-username" method="post" action="{{:MyUrl('index/user/reg')}}" request-type="ajax-fun" request-value="RegisterSuccessBack">
+                                            <div class="am-form-group am-form-group-refreshing business-form-block">
+                                                <label>用户名</label>
+                                                <input type="text" name="accounts" class="am-radius" placeholder="请使用字母、数字、下划线 2~18 个字符" pattern="{{:lang('common_regex_username')}}" data-validation-message="用户名格式由 字母数字下划线 2~18 个字符" required />
+                                            </div>
+
+                                            <div class="am-form-group am-form-group-refreshing business-form-block">
+                                                <label>设置登录密码</label>
+                                                <div class="am-input-group am-input-group-sm">
+                                                    <input type="password" name="pwd" class="am-radius" placeholder="设置登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
+                                                    <span class="am-input-group-btn">
+                                                        <button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            {{if MyC('home_img_verify_state') eq 1}}
+                                                <div class="am-form-group am-form-group-refreshing business-form-block">
+                                                    <label>验证码</label>
+                                                    <div class="am-input-group am-input-group-sm">
+                                                        <input type="number" name="verify" class="am-radius" placeholder="验证码" minlength="6" maxlength="6" data-validation-message="验证码格式 6 位数字" required />
+                                                        <span class="am-input-group-btn">
+                                                            <span class="am-btn am-btn-default am-radius form-verify">
+                                                                <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'reg'])}}" class="am-radius c-p" id="form-verify-img" onClick="this.src=this.src+'#'+Math.random();" />
+                                                                <a href="javascript:;" class="form-verify-tips" onClick="document.getElementById('form-verify-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'reg'])}}#'+Math.random();">更换一张</a>
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            {{/if}}
+
+                                            <div class="agreement">
+                                                <label class="am-checkbox am-success c-p">
+                                                    <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="请同意注册协议" data-am-ucheck required /> 阅读并同意
+                                                </label>
+                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">《服务协议》</a>
+                                            </div>
+                                            
+                                            <div class="am-form-group am-form-group-refreshing business-form-block">
+                                                <input type="hidden" name="type" value="username" />
+                                                <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '处理中...'}">注册</button>
+                                            </div>
+                                        </form>
+                                        <!-- form end -->
+                                    </div>
+                                {{/if}}
+                                {{if in_array('sms', MyC('home_user_reg_state'))}}
+                                    <div data-tab-panel-1 class="am-tab-panel {{if !in_array('username', MyC('home_user_reg_state'))}}am-active{{/if}}">
+                                        <!-- form start -->
+                                        <form class="am-form form-validation-sms" method="post" action="{{:MyUrl('index/user/reg')}}" request-type="ajax-fun" request-value="RegisterSuccessBack">
+                                            <div class="am-form-group am-form-group-refreshing business-form-block">
+                                                <label>手机号码</label>
+                                                <input type="text" name="accounts" class="am-radius" placeholder="请输入手机号码" pattern="{{:lang('common_regex_mobile')}}" data-validation-message="手机号码格式错误" required />
+                                            </div>
+
+                                            <div class="am-form-group am-form-group-refreshing business-form-block">
+                                                <label>验证码</label>
+                                                <div class="am-input-group am-input-group-sm">
+                                                    <input type="number" name="verify" class="am-radius" placeholder="验证码" minlength="6" maxlength="6" data-validation-message="验证码格式 6 位数字" required />
+                                                    <span class="am-input-group-btn">
+                                                        <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-url="{{:MyUrl('index/user/regverifysend')}}" data-verify="{{:MyC('home_img_verify_state')}}" data-text="获取验证码" data-send-text="还有 {time} 秒" data-time="{{:MyC('common_verify_time_interval', 30, true)}}" data-form-tag="form.form-validation-sms">获取验证码</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="am-form-group am-form-group-refreshing business-form-block">
+                                                <label>设置登录密码</label>
+                                                <div class="am-input-group am-input-group-sm">
+                                                    <input type="password" name="pwd" class="am-radius" placeholder="设置登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
+                                                    <span class="am-input-group-btn">
+                                                        <button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="agreement">
+                                                <label class="am-checkbox am-success c-p">
+                                                    <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="请同意注册协议" data-am-ucheck required /> 阅读并同意
+                                                </label>
+                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">《服务协议》</a>
+                                            </div>
+
+                                            <div class="am-form-group am-form-group-refreshing business-form-block">
+                                                <input type="hidden" name="type" value="sms" />
+                                                <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '处理中...'}">注册</button>
+                                            </div>
+                                        </form>
+                                        <!-- form end -->
+                                    </div>
+                                {{/if}}
+                                {{if in_array('email', MyC('home_user_reg_state'))}}
+                                    <div data-tab-panel-2 class="am-tab-panel {{if !in_array('username', MyC('home_user_reg_state')) and !in_array('sms', MyC('home_user_reg_state'))}}am-active{{/if}}">
+                                        <!-- form start -->
+                                        <form class="am-form form-validation-email" method="post" action="{{:MyUrl('index/user/reg')}}" request-type="ajax-fun" request-value="RegisterSuccessBack">
+                                            <div class="am-form-group am-form-group-refreshing business-form-block">
+                                                <label>电子邮箱</label>
+                                                <input type="email" name="accounts" class="am-radius" placeholder="请输入电子邮箱" data-validation-message="电子邮箱格式错误" required />
+                                            </div>
+
+                                            <div class="am-form-group am-form-group-refreshing business-form-block">
+                                                <label>验证码</label>
+                                                <div class="am-input-group am-input-group-sm">
+                                                    <input type="number" name="verify" class="am-radius" placeholder="验证码" minlength="6" maxlength="6" data-validation-message="验证码格式 6 位数字" required />
+                                                    <span class="am-input-group-btn">
+                                                        <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-url="{{:MyUrl('index/user/regverifysend')}}" data-verify="{{:MyC('home_img_verify_state')}}" data-text="获取验证码" data-send-text="还有 {time} 秒" data-time="{{:MyC('common_verify_time_interval', 30, true)}}" data-form-tag="form.form-validation-email">获取验证码</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="am-form-group am-form-group-refreshing business-form-block">
+                                                <label>设置登录密码</label>
+                                                <div class="am-input-group am-input-group-sm">
+                                                    <input type="password" name="pwd" class="am-radius" placeholder="设置登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
+                                                    <span class="am-input-group-btn">
+                                                        <button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="agreement">
+                                                <label class="am-checkbox am-success c-p">
+                                                    <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="请同意注册协议" data-am-ucheck required /> 阅读并同意
+                                                </label>
+                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">《服务协议》</a>
+                                            </div>
+
+                                            <div class="am-form-group am-form-group-refreshing business-form-block">
+                                                <input type="hidden" name="type" value="email" />
+                                                <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '处理中...'}">注册</button>
+                                            </div>
+                                        </form>
+                                        <!-- form end -->
+                                    </div>
+                                {{/if}}
                             </div>
                         </div>
-                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm block m-t-20 btn-loading-example verify-submit-win" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-win="1">确认</button>
-                    </div>
+
+                        {{if MyC('home_img_verify_state') eq 1}}
+                            <!-- verify win start -->
+                            <div class="am-modal am-modal-no-btn" tabindex="-1" id="verify-win">
+                                <div class="am-modal-dialog am-radius">
+                                    <div class="am-modal-hd">
+                                        <a href="javascript:;" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+                                    </div>
+                                    <div class="am-modal-bd">
+                                        <div class="base">
+                                            <input type="text" placeholder="图形验证码" maxlength="6" id="verify-img-value" data-validation-message="请输入有效的图形验证码" class="am-form-field am-radius" />
+                                            <div class="am-fl">
+                                                <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'reg'])}}" class="am-radius c-p" id="verify-img" onClick="this.src=this.src+'#'+Math.random();" />
+                                                <a href="javascript:;" class="verify-tips" onClick="document.getElementById('verify-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'reg'])}}#'+Math.random();">看不清换一张</a>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm block m-t-20 btn-loading-example verify-submit-win" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-win="1">确认</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- verify win end -->
+                        {{/if}}
+                    {{else /}}
+                        <div class="am-text-center am-padding-vertical-lg register-close"><i class="am-icon-warning"></i> 暂时关闭了注册</div>
+                    {{/if}}
                 </div>
             </div>
-            <!-- verify win end -->
         </div>
 
-
-        <!-- <div class="reg-switch-view">
-            {{if in_array('sms', MyC('home_user_reg_state'))}}
-                <a href="{{:MyUrl('index/user/smsreginfo')}}" class="am-btn am-btn-primary"><i class="am-icon-comment-o am-icon-sm"></i> 短信注册</a>
-            {{else /}}
-                <a class="am-btn am-btn-danger am-disabled" href="javascript:;"><i class="am-icon-comment-o am-icon-sm"></i> 暂时关闭短信注册</a>
-            {{/if}}
-            {{if in_array('email', MyC('home_user_reg_state'))}}
-                <a href="{{:MyUrl('index/user/emailreginfo')}}" class="am-btn am-btn-secondary"><i class="am-icon-envelope-o am-icon-sm"></i> 邮箱注册</a>
-            {{else /}}
-                <a class="am-btn am-btn-danger am-disabled" href="javascript:;"><i class="am-icon-envelope-o am-icon-sm"></i> 暂时关闭邮箱注册</a>
-            {{/if}}
-
-            用户注册页面钩子
-            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                <div class="plugins-tag">
-                    <span>plugins_view_user_reg_info</span>
-                </div>
-            {{/if}}
-            {{if !empty($plugins_view_user_reg_info_data) and is_array($plugins_view_user_reg_info_data)}}
-                {{foreach $plugins_view_user_reg_info_data as $hook}}
-                    {{if is_string($hook) or is_int($hook)}}
-                        {{$hook|raw}}
-                    {{/if}}
-                {{/foreach}}
-            {{/if}}
-        </div> -->
+        <!-- 用户注册页面底部钩子 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+            <div class="plugins-tag">
+                <span>plugins_view_user_reg_info_bottom</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_user_reg_info_bottom_data) and is_array($plugins_view_user_reg_info_bottom_data)}}
+            {{foreach $plugins_view_user_reg_info_bottom_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
     </div>
 </div>
 <!-- conntent end  -->
@@ -218,7 +276,7 @@ function RegisterSuccessBack(e)
             window.location.href = '{{$referer_url}}';
         }, 1500);
     } else {
-        $('form.form-validation').find('button[type="submit"]').button('reset');
+        $('.register-container form.am-form').find('button[type="submit"]').button('reset');
         $.AMUI.progress.done();
         Prompt(e.msg);
     }

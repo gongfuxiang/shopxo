@@ -14,16 +14,18 @@
 
 <!-- conntent start  -->
 <div class="am-g my-content">
-	<div class="am-u-md-6 am-u-sm-centered">
-		<!-- form start -->
-		<form class="am-form form-validation" method="post" action="{{:MyUrl('index/user/login')}}" request-type="ajax-fun" request-value="LoginSuccessBack">
-			<fieldset>
-				{{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))}}
-					<span class="">还没有帐号？</span>
-					<a href="{{:MyUrl('index/user/reginfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">立即注册</a>
-				{{/if}}
+    <div class="am-container user-login-container">
+        <div class="am-hide-sm-only am-u-md-6 am-u-lg-8 am-vertical-align am-text-center container-left">
+            <img src="http://b2b2c.shopnctest.com/dema/data/upload/shop/login/2.jpg" class="am-vertical-align-middle" />
+        </div>
+    	<div class="am-u-sm-10 am-u-md-6 am-u-lg-4 container-right">
+            <div class="forgetpwd-top">
+                {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))}}
+                    <span class="">还没有帐号？</span>
+                    <a href="{{:MyUrl('index/user/reginfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">立即注册</a>
+                {{/if}}
 
-				<!-- 用户登录页面顶部钩子 -->
+                <!-- 用户登录页面顶部钩子 -->
                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                     <div class="plugins-tag">
                         <span>plugins_view_user_login_info_top</span>
@@ -36,26 +38,29 @@
                         {{/if}}
                     {{/foreach}}
                 {{/if}}
-                <hr />
+            </div>
+            <div class="user-form-container">
+        		<!-- form start -->
+        		<form class="am-form form-validation" method="post" action="{{:MyUrl('index/user/login')}}" request-type="ajax-fun" request-value="LoginSuccessBack">
+    				<div class="am-form-group am-form-group-refreshing">
+    					<label>登录账号</label>
+    					<input type="text" name="accounts" class="am-radius" minlength="1" placeholder="用户名/手机/邮箱" data-validation-message="请填写登录账号" required />
+    				</div>
 
-				<div class="am-form-group am-form-group-refreshing">
-					<label>登录账号</label>
-					<input type="text" name="accounts" class="am-radius" minlength="1" placeholder="用户名/手机/邮箱" data-validation-message="请填写登录账号" required />
-				</div>
-
-				<div class="am-form-group am-form-group-refreshing">
-					<label>登录密码</label>
-					<input type="password" name="pwd" class="am-radius" placeholder="登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
-				</div>
-				
-				<div class="am-form-group am-form-group-refreshing">
-					<button type="submit" class="am-btn am-btn-primary am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '登录中...'}">登录</button>
-					<a href="{{:MyUrl('index/user/forgetpwdinfo')}}" class="am-fr">忘记密码？</a>
-				</div>
-			</fieldset>
-		</form>
-		<!-- form end -->
-	</div>
+    				<div class="am-form-group am-form-group-refreshing">
+    					<label>登录密码</label>
+    					<input type="password" name="pwd" class="am-radius" placeholder="登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
+    				</div>
+    				
+    				<div class="am-form-group am-form-group-refreshing">
+    					<button type="submit" class="am-btn am-btn-primary am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '登录中...'}">登录</button>
+    					<a href="{{:MyUrl('index/user/forgetpwdinfo')}}" class="am-fr">忘记密码？</a>
+    				</div>
+    			</form>
+                <!-- form end -->
+    		</div>
+    	</div>
+    </div>
 </div>
 <!-- conntent end  -->
 

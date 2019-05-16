@@ -328,3 +328,39 @@ button.colorpicker-submit img {
     .form-search .chosen-container-single .chosen-search input[type="text"] { width: 100% !important; }
     .form-search .so-list select, .form-search .so-list .chosen-container, .form-search .input input { width: calc(100% - 44px) !important; display: -webkit-inline-box; }
 }
+
+
+/**
+ * 自定义辅助类
+ */
+@media only screen and (max-width: 641px) {
+    /* 水平方向内边距 */
+    .xo-padding-horizontal-md-xs {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    .xo-padding-horizontal-md-sm {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+@media only screen and (min-width: 640px) {
+    /* 水平方向内边距 */
+    .xo-padding-horizontal-md-xs {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    .xo-padding-horizontal-md-sm {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+@media only screen and (min-width: 1025px) {
+    /* 水平方向内边距 */
+    .xo-padding-horizontal-md-xs,
+    .xo-padding-horizontal-md-sm {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
