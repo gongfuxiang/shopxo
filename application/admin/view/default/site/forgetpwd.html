@@ -1,0 +1,36 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- table nav start -->
+        {{include file="site/nav" /}}
+        <!-- table nav end -->
+
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index')}}" enctype="multipart/form-data">
+            <div class="am-form-group">
+                <label class="block">{{$data.home_site_desktop_icon.name}}<span class="am-form-group-label-tips">{{$data.home_site_desktop_icon.describe}}</span></label>
+                <ul class="plug-file-upload-view home_site_desktop_icon-images-view" data-form-name="home_site_desktop_icon" data-max-number="1" data-delete="0" data-dialog-type="images">
+                    {{if !empty($data['home_site_desktop_icon']['value'])}}
+                        <li>
+                            <input type="text" name="home_site_desktop_icon" value="{{$data.home_site_desktop_icon.value}}" />
+                            <img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_desktop_icon.value}}" />
+                        </li>
+                    {{/if}}
+                </ul>
+                <div class="plug-file-upload-submit" data-view-tag="ul.home_site_desktop_icon-images-view">+选择logo</div>
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end

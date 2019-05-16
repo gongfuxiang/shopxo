@@ -1,0 +1,14 @@
+<ul class="am-nav am-nav-pills table-nav m-b-10">
+    <li {{if $nav_type eq 'base'}}class="am-active"{{/if}} data-type="base">
+        <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'base'])}}">基础配置</a>
+    </li>
+    <li {{if $nav_type eq 'login'}}class="am-active"{{/if}} data-type="login">
+        <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'login'])}}">用户登录</a>
+    </li>
+    <li {{if $nav_type eq 'register'}}class="am-active"{{/if}} data-type="register">
+        <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'register'])}}">用户注册</a>
+    </li>
+    <li {{if $nav_type eq 'forgetpwd'}}class="am-active"{{/if}} data-type="forgetpwd">
+        <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'forgetpwd'])}}">密码找回</a>
+    </li>
+</ul>

@@ -1,0 +1,46 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- table nav start -->
+        {{include file="site/nav" /}}
+        <!-- table nav end -->
+
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'register'])}}" enctype="multipart/form-data">
+            <div class="am-form-group">
+                <label class="block">{{$data.home_site_user_register_bg_images.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_register_bg_images.describe}}</span></label>
+                <ul class="plug-file-upload-view home_site_user_register_bg_images-images-view" data-form-name="home_site_user_register_bg_images" data-max-number="1" data-dialog-type="images">
+                    {{if !empty($data['home_site_user_register_bg_images']['value'])}}
+                        <li>
+                            <input type="text" name="home_site_user_register_bg_images" value="{{$data.home_site_user_register_bg_images.value}}" />
+                            <img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_user_register_bg_images.value}}" />
+                            <i>×</i>
+                        </li>
+                    {{/if}}
+                </ul>
+                <div class="plug-file-upload-submit" data-view-tag="ul.home_site_user_register_bg_images-images-view">+选择图片</div>
+            </div>
+
+            <div class="am-form-group">
+                <label>{{$data.home_user_reg_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_reg_state.describe}}</span></label>
+                <select name="{{$data.home_user_reg_state.only_tag}}" multiple="multiple" class="am-radius chosen-select c-p" data-placeholder="{{$data.home_user_reg_state.name}}" >
+                    {{foreach $site_user_reg_state_list as $v}}
+                        <option value="{{$v.value}}" {{if isset($data['home_user_reg_state']['value']) and in_array($v['value'], explode(',', $data['home_user_reg_state']['value']))}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+            
+            <div class="am-form-group am-form-group-refreshing">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end

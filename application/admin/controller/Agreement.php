@@ -57,7 +57,7 @@ class Agreement extends Common
         $this->assign('editor_path_type', 'agreement');
 
         // 导航/视图
-        $nav_type = input('type', 'register');
+        $nav_type = input('nav_type', 'register');
         $this->assign('nav_type', $nav_type);
         return $this->fetch($nav_type);
     }

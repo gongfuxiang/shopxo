@@ -35,12 +35,7 @@
 }
 @media only screen and (max-width:641px) {
     .my-content {
-        padding: 20px 0;
-    }
-    .my-content .container-right {
-        float: none !important;
-        margin-left: auto;
-        margin-right: auto;
+        padding: 20px 0 30px 0;
     }
 }
 
@@ -62,12 +57,11 @@
 }
 
 
-
 /**
  * 注册
  */
 .user-register-container {
-    background: #FAFAFA url(../images/register-bg.png);
+    background-color: #FAFAFA;
     width: 100%;
     overflow: hidden;
 }

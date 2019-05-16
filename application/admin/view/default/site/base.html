@@ -3,6 +3,10 @@
 <!-- right content start  -->
 <div class="content-right">
 	<div class="content">
+		<!-- table nav start -->
+        {{include file="site/nav" /}}
+        <!-- table nav end -->
+
 		<!-- form start -->
 		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index')}}" enctype="multipart/form-data">
 			<div class="am-form-group">
@@ -133,7 +137,7 @@
 				<textarea rows="6" name="{{$data.home_footer_info.only_tag}}" class="am-radius" placeholder="{{$data.home_footer_info.name}}" data-validation-message="{{$data.home_footer_info.error_tips}}">{{if !empty($data)}}{{$data.home_footer_info.value}}{{/if}}</textarea>
 			</div>
 			<div class="am-form-group am-form-group-refreshing">
-				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm w100" data-am-loading="{loadingText:'处理中...'}">保存</button>
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
 			</div>
 		</form>
         <!-- form end -->

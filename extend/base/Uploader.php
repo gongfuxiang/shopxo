@@ -234,7 +234,7 @@ class Uploader
                 @imagegif(@imagecreatefromgif($file["tmp_name"]), $this->filePath);
                 break;
             default:
-                @imagejpeg(@imagecreatefromjpeg($file["tmp_name"]), $this->filePath, 80);
+                @imagejpeg(@imagecreatefromjpeg($file["tmp_name"]), $this->filePath, 100);
         }
         if(!file_exists($this->filePath))
         {

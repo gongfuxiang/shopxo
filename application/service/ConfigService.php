@@ -33,6 +33,15 @@ class ConfigService
             'common_agreement_userregister',
         ];
 
+    // 附件字段列表
+    public static $attachment_field_list = [
+        'home_site_logo',
+        'home_site_logo_wap',
+        'home_site_desktop_icon',
+        'common_customer_store_qrcode',
+        'home_site_user_register_bg_images',
+    ];
+
     /**
      * 配置列表，唯一标记作为key
      * @author   Devil
@@ -64,10 +73,8 @@ class ConfigService
             return DataReturn('参数不能为空', -1);
         }
 
-        // 附件
-        $data_fields = ['home_site_logo', 'home_site_logo_wap', 'home_site_desktop_icon', 'common_customer_store_qrcode'];
-
         // 当前参数中不存在则移除
+        $data_fields = self::$attachment_field_list;
         foreach($data_fields as $key=>$field)
         {
             if(!isset($params[$field]))

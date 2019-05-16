@@ -1,0 +1,134 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- table nav start -->
+        {{include file="site/nav" /}}
+        <!-- table nav end -->
+
+        <!-- form start -->
+        <form class="am-form form-validation view-save site-panel" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index')}}" enctype="multipart/form-data">
+            <div class="am-panel am-panel-secondary">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">图片1</span>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="am-form-group">
+                        <label class="block">{{$data.home_site_user_login_ad1_images.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_login_ad1_images.describe}}</span></label>
+                        <ul class="plug-file-upload-view home_site_user_login_ad1_images-images-view" data-form-name="home_site_user_login_ad1_images" data-max-number="1" data-dialog-type="images">
+                            {{if !empty($data['home_site_user_login_ad1_images']['value'])}}
+                                <li>
+                                    <input type="text" name="home_site_user_login_ad1_images" value="{{$data.home_site_user_login_ad1_images.value}}" />
+                                    <img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_user_login_ad1_images.value}}" />
+                                    <i>×</i>
+                                </li>
+                            {{/if}}
+                        </ul>
+                        <div class="plug-file-upload-submit" data-view-tag="ul.home_site_user_login_ad1_images-images-view">+选择图片</div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label>{{$data.home_site_user_login_ad1_url.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_login_ad1_url.describe}}</span></label>
+                        <input type="url" placeholder="{{$data.home_site_user_login_ad1_url.name}}" name="{{$data.home_site_user_login_ad1_url.only_tag}}" class="am-radius" />
+                    </div>
+
+                    <div class="am-form-group">
+                        <label>背景色</label>
+                        <input type="hidden" name="bg_color" value="{{if !empty($data['bg_color'])}}{{$data.bg_color}}{{/if}}" />
+                        <button class="am-btn am-btn-default am-btn-xs colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color" {{if !empty($data['bg_color'])}} style="background-color:{{$data.bg_color}};"{{/if}}>
+                            <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="am-panel am-panel-secondary">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">图片2</span>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="am-form-group">
+                        <label class="block">{{$data.home_site_user_login_ad2_images.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_login_ad2_images.describe}}</span></label>
+                        <ul class="plug-file-upload-view home_site_user_login_ad2_images-images-view" data-form-name="home_site_user_login_ad2_images" data-max-number="1" data-dialog-type="images">
+                            {{if !empty($data['home_site_user_login_ad2_images']['value'])}}
+                                <li>
+                                    <input type="text" name="home_site_user_login_ad2_images" value="{{$data.home_site_user_login_ad2_images.value}}" />
+                                    <img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_user_login_ad2_images.value}}" />
+                                    <i>×</i>
+                                </li>
+                            {{/if}}
+                        </ul>
+                        <div class="plug-file-upload-submit" data-view-tag="ul.home_site_user_login_ad2_images-images-view">+选择图片</div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label>{{$data.home_site_user_login_ad2_url.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_login_ad2_url.describe}}</span></label>
+                        <input type="url" placeholder="{{$data.home_site_user_login_ad2_url.name}}" name="{{$data.home_site_user_login_ad2_url.only_tag}}" class="am-radius" />
+                    </div>
+
+                    <div class="am-form-group">
+                        <label>背景色</label>
+                        <input type="hidden" name="bg_color" value="{{if !empty($data['bg_color'])}}{{$data.bg_color}}{{/if}}" />
+                        <button class="am-btn am-btn-default am-btn-xs colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color" {{if !empty($data['bg_color'])}} style="background-color:{{$data.bg_color}};"{{/if}}>
+                            <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="am-panel am-panel-secondary">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">图片3</span>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="am-form-group">
+                        <label class="block">{{$data.home_site_user_login_ad3_images.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_login_ad3_images.describe}}</span></label>
+                        <ul class="plug-file-upload-view home_site_user_login_ad3_images-images-view" data-form-name="home_site_user_login_ad3_images" data-max-number="1" data-dialog-type="images">
+                            {{if !empty($data['home_site_user_login_ad3_images']['value'])}}
+                                <li>
+                                    <input type="text" name="home_site_user_login_ad3_images" value="{{$data.home_site_user_login_ad3_images.value}}" />
+                                    <img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_user_login_ad3_images.value}}" />
+                                    <i>×</i>
+                                </li>
+                            {{/if}}
+                        </ul>
+                        <div class="plug-file-upload-submit" data-view-tag="ul.home_site_user_login_ad3_images-images-view">+选择图片</div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label>{{$data.home_site_user_login_ad3_url.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_login_ad3_url.describe}}</span></label>
+                        <input type="url" placeholder="{{$data.home_site_user_login_ad3_url.name}}" name="{{$data.home_site_user_login_ad3_url.only_tag}}" class="am-radius" />
+                    </div>
+
+                    <div class="am-form-group">
+                        <label>背景色</label>
+                        <input type="hidden" name="bg_color" value="{{if !empty($data['bg_color'])}}{{$data.bg_color}}{{/if}}" />
+                        <button class="am-btn am-btn-default am-btn-xs colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color" {{if !empty($data['bg_color'])}} style="background-color:{{$data.bg_color}};"{{/if}}>
+                            <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="am-form-group">
+                <label>{{$data.home_user_login_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_login_state.describe}}</span></label>
+                <select name="{{$data.home_user_login_state.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_user_login_state.error_tips}}" required>
+                    {{foreach $site_user_login_state_list as $v}}
+                        <option value="{{$v.value}}" {{if isset($data['home_user_login_state']['value']) and $data['home_user_login_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end

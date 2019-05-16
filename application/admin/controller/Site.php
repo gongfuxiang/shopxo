@@ -69,8 +69,11 @@ class Site extends Common
 
 		// 编辑器文件存放地址
         $this->assign('editor_path_type', 'common');
-		
-		return $this->fetch();
+
+        // 导航/视图
+        $nav_type = input('nav_type', 'base');
+        $this->assign('nav_type', $nav_type);
+        return $this->fetch($nav_type);
 	}
 
 	/**
@@ -86,6 +89,12 @@ class Site extends Common
 		if(!isset($_POST['home_user_reg_state']))
 		{
 			$_POST['home_user_reg_state'] = '';
+		}
+
+		// 用户注册背景图片
+		if(!isset($_POST['home_site_user_register_bg_images']))
+		{
+			$_POST['home_site_user_register_bg_images'] = '';
 		}
 
 		// 基础配置
