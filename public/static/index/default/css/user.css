@@ -107,7 +107,7 @@
     top: -1px;
     left: -1px;
 }
-@media only screen and (max-width:641px) {
+@media only screen and (min-width:641px) {
     .my-content form.am-form .form-verify:hover a.form-verify-tips {
         display: block;
     }
