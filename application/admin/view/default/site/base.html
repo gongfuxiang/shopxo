@@ -60,18 +60,6 @@
 					{{/foreach}}
 				</select>
 			</div>
-			<div class="am-form-group">
-				<label>{{$data.home_max_limit_image.name}}<span class="am-form-group-label-tips">{{$data.home_max_limit_image.describe}}</span></label>
-				<input type="number" name="{{$data.home_max_limit_image.only_tag}}" placeholder="{{$data.home_max_limit_image.name}}" data-validation-message="{{$data.home_max_limit_image.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_max_limit_image.value}}"{{/if}} required />
-			</div>
-			<div class="am-form-group">
-				<label>{{$data.home_max_limit_file.name}}<span class="am-form-group-label-tips">{{$data.home_max_limit_file.describe}}</span></label>
-				<input type="number" name="{{$data.home_max_limit_file.only_tag}}" placeholder="{{$data.home_max_limit_file.name}}" data-validation-message="{{$data.home_max_limit_file.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_max_limit_file.value}}"{{/if}} required />
-			</div>
-			<div class="am-form-group">
-				<label>{{$data.home_max_limit_video.name}}<span class="am-form-group-label-tips">{{$data.home_max_limit_video.describe}}</span></label>
-				<input type="number" name="{{$data.home_max_limit_video.only_tag}}" placeholder="{{$data.home_max_limit_video.name}}" data-validation-message="{{$data.home_max_limit_video.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_max_limit_video.value}}"{{/if}} required />
-			</div>
 
 			<div class="am-form-group">
 				<label>{{$data.home_site_state.name}}<span class="am-form-group-label-tips">{{$data.home_site_state.describe}}</span></label>
@@ -86,40 +74,6 @@
 				<textarea rows="3" name="{{$data.home_site_close_reason.only_tag}}" class="am-radius" placeholder="{{$data.home_site_close_reason.name}}" data-validation-message="{{$data.home_site_close_reason.error_tips}}">{{if !empty($data)}}{{$data.home_site_close_reason.value}}{{/if}}</textarea>
 			</div>
 
-			<div class="am-form-group">
-				<label>{{$data.home_user_reg_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_reg_state.describe}}</span></label>
-				<select name="{{$data.home_user_reg_state.only_tag}}" multiple="multiple" class="am-radius chosen-select c-p" data-placeholder="{{$data.home_user_reg_state.name}}" >
-					{{foreach $site_user_reg_state_list as $v}}
-						<option value="{{$v.value}}" {{if isset($data['home_user_reg_state']['value']) and in_array($v['value'], explode(',', $data['home_user_reg_state']['value']))}}selected{{/if}}>{{$v.name}}</option>
-					{{/foreach}}
-				</select>
-
-			</div>
-			<div class="am-form-group">
-				<label>{{$data.home_user_login_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_login_state.describe}}</span></label>
-				<select name="{{$data.home_user_login_state.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_user_login_state.error_tips}}" required>
-					{{foreach $site_user_login_state_list as $v}}
-						<option value="{{$v.value}}" {{if isset($data['home_user_login_state']['value']) and $data['home_user_login_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-					{{/foreach}}
-				</select>
-			</div>
-
-			<div class="am-form-group">
-				<label>{{$data.common_verify_expire_time.name}}<span class="am-form-group-label-tips">{{$data.common_verify_expire_time.describe}}</span></label>
-				<input type="number" name="{{$data.common_verify_expire_time.only_tag}}" placeholder="{{$data.common_verify_expire_time.name}}" data-validation-message="{{$data.common_verify_expire_time.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_verify_expire_time.value}}"{{/if}} required />
-			</div>
-			<div class="am-form-group">
-				<label>{{$data.common_verify_time_interval.name}}<span class="am-form-group-label-tips">{{$data.common_verify_time_interval.describe}}</span></label>
-				<input type="number" name="{{$data.common_verify_time_interval.only_tag}}" placeholder="{{$data.common_verify_time_interval.name}}" data-validation-message="{{$data.common_verify_time_interval.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_verify_time_interval.value}}"{{/if}} required />
-			</div>
-			<div class="am-form-group">
-				<label>{{$data.home_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.home_img_verify_state.describe}}</span></label>
-				<select name="{{$data.home_img_verify_state.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_img_verify_state.error_tips}}" required>
-					{{foreach $site_img_verify_state_list as $v}}
-						<option value="{{$v.value}}" {{if isset($data['home_img_verify_state']['value']) and $data['home_img_verify_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-					{{/foreach}}
-				</select>
-			</div>
 			<div class="am-form-group">
 				<label>{{$data.home_content_max_width.name}}<span class="am-form-group-label-tips">{{$data.home_content_max_width.describe}}</span></label>
 				<input type="number" name="{{$data.home_content_max_width.only_tag}}" placeholder="{{$data.home_content_max_width.name}}" data-validation-message="{{$data.home_content_max_width.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_content_max_width.value}}"{{/if}} required />
@@ -137,6 +91,7 @@
 				<textarea rows="6" name="{{$data.home_footer_info.only_tag}}" class="am-radius" placeholder="{{$data.home_footer_info.name}}" data-validation-message="{{$data.home_footer_info.error_tips}}">{{if !empty($data)}}{{$data.home_footer_info.value}}{{/if}}</textarea>
 			</div>
 			<div class="am-form-group am-form-group-refreshing">
+				<input type="hidden" name="nav_type" value="{{$nav_type}}" />
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
 			</div>
 		</form>

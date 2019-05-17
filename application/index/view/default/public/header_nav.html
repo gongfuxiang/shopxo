@@ -1,6 +1,6 @@
 <header class="am-topbar shop-navigation">
     <div class="am-container">
-        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-default am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-default am-show-sm-only switch-submit" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
 
         <h1 class="am-topbar-brand wap-logo am-show-sm-only">
             <a href="{{$Think.__MY_URL__}}">
@@ -26,13 +26,26 @@
         </form>
 
         <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
+            {{if empty($user)}}
+                <!-- 未登录 -->
+                <div class="navigation-button am-show-sm-only">
+                    {{if MyC('home_user_login_state') eq 1}}
+                        <a href="{{:MyUrl('index/user/logininfo')}}" class="am-btn am-btn-primary am-topbar-btn am-btn-sm">登录</a>
+                    {{/if}}
+                    {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state')) or in_array('username', MyC('home_user_reg_state'))}}
+                        <a href="{{:MyUrl('index/user/regInfo')}}" class="am-btn am-btn-success am-topbar-btn am-btn-sm">注册</a>
+                    {{/if}}
+                </div>
+            {{/if}}
+
+            <!-- 主导航 -->
             <ul class="am-nav am-nav-pills am-topbar-nav">
                 <li><a href="{{$Think.__MY_URL__}}">首页</a></li>
                 {{if !empty($nav_header)}}
                     {{foreach $nav_header as $nav}}
                         {{if empty($nav['items'])}}
                             <li>
-                                <a href="{{$nav.url}}" {{if $nav['is_new_window_open'] eq 1}}target="_blank"{{/if}}>{{$nav.name}}</a>
+                                <a href="{{$nav.url}}" {{if $nav['is_new_window_open'] eq 1}}target="_blank"{{/if}} title="{{$nav.name}}">{{$nav.name}}</a>
                             </li>
                         {{else /}}
                             <li class="am-dropdown" data-am-dropdown>
@@ -42,7 +55,7 @@
                             <ul class="am-dropdown-content">
                                 {{foreach $nav.items as $navs}}
                                     <li>
-                                        <a href="{{$navs.url}}">{{$navs.name}}</a>
+                                        <a href="{{$navs.url}}" title="{{$navs.name}}">{{$navs.name}}</a>
                                     </li>
                                 {{/foreach}}
                             </ul>

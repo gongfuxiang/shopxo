@@ -35,6 +35,14 @@ return array(
             1 => array('value' => 1, 'name' => '开启', 'checked' => true),
         ),
 
+    // 图片验证码
+    'site_images_verify_rules_list'  => array(
+            0 => array('value' => 'bgcolor', 'name' => '彩色背景'),
+            1 => array('value' => 'textcolor', 'name' => '彩色文本'),
+            2 => array('value' => 'point', 'name' => '干扰点'),
+            3 => array('value' => 'line', 'name' => '干扰线'),
+        ),
+
     // 时区
     'site_timezone_list' => array(
         'Pacific/Pago_Pago' => '(标准时-11:00) 中途岛、萨摩亚群岛',

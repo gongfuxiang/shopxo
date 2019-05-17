@@ -166,6 +166,10 @@ class User extends Common
             // 浏览器名称
             $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('密码找回', 1));
 
+            // 左侧图片,随机其中一个
+            $left_data = UserService::UserEntranceLeftData(['left_key'=>'forgetpwd', 'cache_key'=>config('shopxo.cache_user_forgetpwd_left_key')]);
+            $this->assign('user_forgetpwd_left_data', empty($left_data['data']) ? [] : $left_data['data'][array_rand($left_data['data'], 1)]);
+
             return $this->fetch();
         } else {
             $this->assign('msg', '已经登录了，如要重置密码，请先退出当前账户');
@@ -223,7 +227,13 @@ class User extends Common
                 // 浏览器名称
                 $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('用户登录', 1));
 
+                // 返回地址
                 $this->assign('referer_url', $this->GetrefererUrl());
+
+                // 左侧图片,随机其中一个
+                $left_data = UserService::UserEntranceLeftData(['left_key'=>'login', 'cache_key'=>config('shopxo.cache_user_login_left_key')]);
+                $this->assign('user_login_left_data', empty($left_data['data']) ? [] : $left_data['data'][array_rand($left_data['data'], 1)]);
+
                 return $this->fetch();
             } else {
                 $this->assign('msg', '已经登录了，请勿重复登录');
@@ -316,10 +326,8 @@ class User extends Common
     {
         $params = array(
                 'width' => 100,
-                'height' => 32,
+                'height' => 26,
                 'key_prefix' => input('type', 'reg'),
-                'use_point_back' => false,
-                'use_color_back' => false,
             );
         $verify = new \base\Verify($params);
         $verify->Entry();

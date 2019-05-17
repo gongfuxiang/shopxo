@@ -27,7 +27,7 @@ return array(
         ),
 
     // 用户注册类型列表
-    'site_user_reg_state_list'          =>  array(
+    'common_user_reg_state_list'          =>  array(
             0 => array('value' => 'sms', 'name' => '短信'),
             1 => array('value' => 'email', 'name' => '邮箱'),
             2 => array('value' => 'username', 'name' => '用户名'),

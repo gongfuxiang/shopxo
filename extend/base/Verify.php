@@ -26,7 +26,8 @@ class Verify
 	private $length;
 	private $use_point_back;
 	private $use_line_back;
-	private $use_color_back;
+	private $use_bg_color_back;
+	private $use_text_color_back;
 	private $key_verify;
 	private $expire_time;
 
@@ -36,24 +37,29 @@ class Verify
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
 	 * @datetime 2017-03-05T16:42:49+0800
-	 * @param    [int]        $param['width'] 			[宽度（默认65）]
-	 * @param    [int]        $param['height'] 			[高度（默认30）]
-	 * @param    [int]        $param['length'] 			[验证码位数（默认6）]
-	 * @param    [boolean]    $param['use_point_back'] 	[是否添加干扰点（默认 true）]
-	 * @param    [boolean]    $param['use_line_back'] 	[是否添加干扰线（默认 true）]
-	 * @param    [boolean]    $param['use_color_back'] 	[是否使用彩色背景（默认 true）]
-	 * @param    [string]     $param['key_prefix'] 		[验证码种存储前缀key（默认 空）]
-	 * @param    [int]        $param['expire_time'] 	[到期时间（默认30）单位（秒）]
+	 * @param    [int]        $param['width'] 				[宽度（默认65）]
+	 * @param    [int]        $param['height'] 				[高度（默认30）]
+	 * @param    [int]        $param['length'] 				[验证码位数（默认6）]
+	 * @param    [boolean]    $param['use_point_back'] 		[是否添加干扰点（默认 true）]
+	 * @param    [boolean]    $param['use_line_back'] 		[是否添加干扰线（默认 true）]
+	 * @param    [boolean]    $param['use_bg_color_back']	[是否使用彩色背景（默认 true）]
+	 * @param    [boolean]    $param['use_text_color_back']	[是否使用彩色文本（默认 true）]
+	 * @param    [string]     $param['key_prefix'] 			[验证码种存储前缀key（默认 空）]
+	 * @param    [int]        $param['expire_time'] 		[到期时间（默认30）单位（秒）]
 	 */
 	public function __construct($param = array())
 	{
+		// 验证码规则
+		$rules = MyC('common_images_verify_rules', [], true);
+
 		// 参数处理
 		$this->width = isset($param['width']) ? intval($param['width']) : 65;
 		$this->height = isset($param['height']) ? intval($param['height']) : 30;
 		$this->length = isset($param['length']) ? intval($param['length']) : 6;
-		$this->use_point_back = isset($param['use_point_back']) ? $param['use_point_back'] : true;
-		$this->use_line_back = isset($param['use_line_back']) ? $param['use_line_back'] : true;
-		$this->use_color_back = isset($param['use_color_back']) ? $param['use_color_back'] : true;
+		$this->use_point_back = isset($param['use_point_back']) ? $param['use_point_back'] : in_array('point', $rules);
+		$this->use_line_back = isset($param['use_line_back']) ? $param['use_line_back'] : in_array('line', $rules);
+		$this->use_bg_color_back = isset($param['use_bg_color_back']) ? $param['use_bg_color_back'] : in_array('bgcolor', $rules);
+		$this->use_text_color_back = isset($param['use_text_color_back']) ? $param['use_text_color_back'] : in_array('textcolor', $rules);
 		$this->key_verify = isset($param['key_prefix']) ? trim($param['key_prefix']).'_verify_code' : '_verify_code';
 		$this->expire_time = isset($param['expire_time']) ? intval($param['expire_time']) : 30;
 	}
@@ -74,7 +80,7 @@ class Verify
 		$this->img = imagecreatetruecolor($this->width,  $this->height);
 
 		// 画背景
-		if($this->use_color_back == true)
+		if($this->use_bg_color_back == true)
 		{
 			$back_color = imagecolorallocate($this->img, rand(200,255), rand(200,255), rand(200,255));
 		} else {
@@ -99,7 +105,14 @@ class Verify
 		$first = 40/100*$each_width;
 		foreach(str_split($this->rand_string) as $k=>$v)
 		{
-			$fgcolor = imagecolorallocate($this->img, rand(0,200), rand(0,255), rand(0,255));
+			// 是否使用彩色文本
+			if($this->use_text_color_back == true)
+			{
+				$fgcolor = imagecolorallocate($this->img, rand(0,200), rand(0,255), rand(0,255));
+			} else {
+				$fgcolor = imagecolorallocate($this->img, 0, 0, 0);
+			}
+
 			$temp_height = 95/100*$this->height;
 			if($this->height-$temp_height < 15)
 			{

@@ -8,8 +8,9 @@
         <!-- table nav end -->
 
         <!-- form start -->
-        <form class="am-form form-validation view-save site-panel" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index')}}" enctype="multipart/form-data">
-            <div class="am-panel am-panel-secondary">
+        <form class="am-form form-validation view-save site-panel" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'login'])}}" enctype="multipart/form-data">
+            <!-- 图片1 -->
+            <div class="am-panel am-panel-default">
                 <div class="am-panel-hd">
                     <span class="am-panel-title">图片1</span>
                 </div>
@@ -30,20 +31,21 @@
 
                     <div class="am-form-group">
                         <label>{{$data.home_site_user_login_ad1_url.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_login_ad1_url.describe}}</span></label>
-                        <input type="url" placeholder="{{$data.home_site_user_login_ad1_url.name}}" name="{{$data.home_site_user_login_ad1_url.only_tag}}" class="am-radius" />
+                        <input type="url" placeholder="{{$data.home_site_user_login_ad1_url.name}}" name="{{$data.home_site_user_login_ad1_url.only_tag}}" value="{{$data.home_site_user_login_ad1_url.value}}" class="am-radius" />
                     </div>
 
                     <div class="am-form-group">
                         <label>背景色</label>
-                        <input type="hidden" name="bg_color" value="{{if !empty($data['bg_color'])}}{{$data.bg_color}}{{/if}}" />
-                        <button class="am-btn am-btn-default am-btn-xs colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color" {{if !empty($data['bg_color'])}} style="background-color:{{$data.bg_color}};"{{/if}}>
+                        <input type="hidden" name="{{$data.home_site_user_login_ad1_bg_color.only_tag}}" value="{{$data.home_site_user_login_ad1_bg_color.value}}" />
+                        <button class="am-btn am-btn-default am-btn-xs colorpicker-submit am-btn-block bk-cr-white t-r bg-color-tag-{{$data.home_site_user_login_ad1_bg_color.only_tag}}" type="button" data-input-tag="button.bg-color-tag-{{$data.home_site_user_login_ad1_bg_color.only_tag}}" data-color-tag="input[name='{{$data.home_site_user_login_ad1_bg_color.only_tag}}']" data-color-style="background-color" {{if !empty($data['home_site_user_login_ad1_bg_color']['value'])}} style="background-color:{{$data.home_site_user_login_ad1_bg_color.value}};"{{/if}}>
                             <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div class="am-panel am-panel-secondary">
+            <!-- 图片2 -->
+            <div class="am-panel am-panel-default">
                 <div class="am-panel-hd">
                     <span class="am-panel-title">图片2</span>
                 </div>
@@ -64,20 +66,21 @@
 
                     <div class="am-form-group">
                         <label>{{$data.home_site_user_login_ad2_url.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_login_ad2_url.describe}}</span></label>
-                        <input type="url" placeholder="{{$data.home_site_user_login_ad2_url.name}}" name="{{$data.home_site_user_login_ad2_url.only_tag}}" class="am-radius" />
+                        <input type="url" placeholder="{{$data.home_site_user_login_ad2_url.name}}" name="{{$data.home_site_user_login_ad2_url.only_tag}}" value="{{$data.home_site_user_login_ad2_url.value}}" class="am-radius" />
                     </div>
 
                     <div class="am-form-group">
                         <label>背景色</label>
-                        <input type="hidden" name="bg_color" value="{{if !empty($data['bg_color'])}}{{$data.bg_color}}{{/if}}" />
-                        <button class="am-btn am-btn-default am-btn-xs colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color" {{if !empty($data['bg_color'])}} style="background-color:{{$data.bg_color}};"{{/if}}>
+                        <input type="hidden" name="{{$data.home_site_user_login_ad2_bg_color.only_tag}}" value="{{$data.home_site_user_login_ad2_bg_color.value}}" />
+                        <button class="am-btn am-btn-default am-btn-xs colorpicker-submit am-btn-block bk-cr-white t-r bg-color-tag-{{$data.home_site_user_login_ad2_bg_color.only_tag}}" type="button" data-input-tag="button.bg-color-tag-{{$data.home_site_user_login_ad2_bg_color.only_tag}}" data-color-tag="input[name='{{$data.home_site_user_login_ad2_bg_color.only_tag}}']" data-color-style="background-color" {{if !empty($data['home_site_user_login_ad2_bg_color']['value'])}} style="background-color:{{$data.home_site_user_login_ad2_bg_color.value}};"{{/if}}>
                             <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div class="am-panel am-panel-secondary">
+            <!-- 图片3 -->
+            <div class="am-panel am-panel-default">
                 <div class="am-panel-hd">
                     <span class="am-panel-title">图片3</span>
                 </div>
@@ -98,13 +101,13 @@
 
                     <div class="am-form-group">
                         <label>{{$data.home_site_user_login_ad3_url.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_login_ad3_url.describe}}</span></label>
-                        <input type="url" placeholder="{{$data.home_site_user_login_ad3_url.name}}" name="{{$data.home_site_user_login_ad3_url.only_tag}}" class="am-radius" />
+                        <input type="url" placeholder="{{$data.home_site_user_login_ad3_url.name}}" name="{{$data.home_site_user_login_ad3_url.only_tag}}" value="{{$data.home_site_user_login_ad3_url.value}}" class="am-radius" />
                     </div>
 
                     <div class="am-form-group">
                         <label>背景色</label>
-                        <input type="hidden" name="bg_color" value="{{if !empty($data['bg_color'])}}{{$data.bg_color}}{{/if}}" />
-                        <button class="am-btn am-btn-default am-btn-xs colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color" {{if !empty($data['bg_color'])}} style="background-color:{{$data.bg_color}};"{{/if}}>
+                        <input type="hidden" name="{{$data.home_site_user_login_ad3_bg_color.only_tag}}" value="{{$data.home_site_user_login_ad3_bg_color.value}}" />
+                        <button class="am-btn am-btn-default am-btn-xs colorpicker-submit am-btn-block bk-cr-white t-r bg-color-tag-{{$data.home_site_user_login_ad3_bg_color.only_tag}}" type="button" data-input-tag="button.bg-color-tag-{{$data.home_site_user_login_ad3_bg_color.only_tag}}" data-color-tag="input[name='{{$data.home_site_user_login_ad3_bg_color.only_tag}}']" data-color-style="background-color" {{if !empty($data['home_site_user_login_ad3_bg_color']['value'])}} style="background-color:{{$data.home_site_user_login_ad3_bg_color.value}};"{{/if}}>
                             <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
                         </button>
                     </div>
@@ -120,7 +123,17 @@
                 </select>
             </div>
 
+            <div class="am-form-group">
+                <label>{{$data.home_user_login_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_login_img_verify_state.describe}}</span></label>
+                <select name="{{$data.home_user_login_img_verify_state.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_user_login_img_verify_state.error_tips}}" required>
+                    {{foreach $site_img_verify_state_list as $v}}
+                        <option value="{{$v.value}}" {{if isset($data['home_user_login_img_verify_state']['value']) and $data['home_user_login_img_verify_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
             <div class="am-form-group am-form-group-refreshing">
+                <input type="hidden" name="nav_type" value="{{$nav_type}}" />
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
             </div>
         </form>

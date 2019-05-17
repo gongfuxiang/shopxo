@@ -14,6 +14,7 @@ use think\Db;
 use think\facade\Hook;
 use app\service\RegionService;
 use app\service\SafetyService;
+use app\service\ResourcesService;
 
 /**
  * 用户服务层
@@ -895,6 +896,17 @@ class UserService
             return DataReturn('密码格式 6~18 个字符之间', -2);
         }
 
+        // 是否开启图片验证码
+        $verify_params = array(
+                'key_prefix' => 'login',
+                'expire_time' => MyC('common_verify_expire_time'),
+            );
+        $verify = self::IsImaVerify($params, $verify_params, MyC('home_user_login_img_verify_state'));
+        if($verify['code'] != 0)
+        {
+            return $verify;
+        }
+
         // 获取用户账户信息
         $where = array('username|mobile|email' => $params['accounts'], 'is_delete_time'=>0);
         $user = Db::name('User')->field('id,pwd,salt,status')->where($where)->find();
@@ -994,7 +1006,7 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(lang('site_user_reg_state_list'), 'value'),
+                'checked_data'      => array_column(lang('common_user_reg_state_list'), 'value'),
                 'error_msg'         => '注册类型有误',
             ],
             [
@@ -1024,15 +1036,23 @@ class UserService
         }
 
         // 验证码校验
-        $verify_param = array(
+        $verify_params = array(
                 'key_prefix' => 'reg',
-                'expire_time' => MyC('common_verify_expire_time')
+                'expire_time' => MyC('common_verify_expire_time'),
             );
         if($params['type'] == 'sms')
         {
-            $obj = new \base\Sms($verify_param);
+            $obj = new \base\Sms($verify_params);
         } else if($params['type'] == 'email') {
-            $obj = new \base\Email($verify_param);
+            $obj = new \base\Email($verify_params);
+        } else if($params['type'] == 'username')
+        {
+            // 是否开启图片验证码
+            $verify = self::IsImaVerify($params, $verify_params, MyC('home_user_register_img_verify_state'));
+            if($verify['code'] != 0)
+            {
+                return $verify;
+            }
         }
 
         // 验证码校验
@@ -1178,15 +1198,16 @@ class UserService
      * @datetime 2017-03-22T15:48:31+0800
      * @param    [array]    $params         [输入参数]
      * @param    [array]    $verify_params  [配置参数]
+     * @param    [int]      $status         [状态 0未开启, 1已开启]
      * @return   [object]                   [图片验证码类对象]
      */
-    private static function IsImaVerify($params, $verify_params)
+    private static function IsImaVerify($params, $verify_params, $status = 0)
     {
-        if(MyC('home_img_verify_state') == 1)
+        if($status == 1)
         {
             if(empty($params['verify']))
             {
-                return DataReturn('参数错误', -10);
+                return DataReturn('图片验证码为空', -10);
             }
             $verify = new \base\Verify($verify_params);
             if(!$verify->CheckExpire())
@@ -1222,7 +1243,7 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(lang('site_user_reg_state_list'), 'value'),
+                'checked_data'      => array_column(lang('common_user_reg_state_list'), 'value'),
                 'error_msg'         => '注册类型有误',
             ],
         ];
@@ -1246,7 +1267,7 @@ class UserService
             );
 
         // 是否开启图片验证码
-        $verify = self::IsImaVerify($params, $verify_params);
+        $verify = self::IsImaVerify($params, $verify_params, MyC('home_img_verify_state'));
         if($verify['code'] != 0)
         {
             return $verify;
@@ -1317,7 +1338,7 @@ class UserService
             );
 
         // 是否开启图片验证码
-        $verify = self::IsImaVerify($params, $verify_params);
+        $verify = self::IsImaVerify($params, $verify_params, MyC('home_img_verify_state'));
         if($verify['code'] != 0)
         {
             return $verify;
@@ -1691,11 +1712,11 @@ class UserService
         }
 
         // 验证码校验
-        $verify_param = array(
+        $verify_params = array(
                 'key_prefix' => 'bind',
                 'expire_time' => MyC('common_verify_expire_time')
             );
-        $obj = new \base\Sms($verify_param);
+        $obj = new \base\Sms($verify_params);
 
         // 是否已过期
         if(!$obj->CheckExpire())
@@ -1814,14 +1835,14 @@ class UserService
         }
 
         // 验证码公共基础参数
-        $verify_param = array(
+        $verify_params = array(
                 'key_prefix' => 'bind',
                 'expire_time' => MyC('common_verify_expire_time'),
                 'time_interval' => MyC('common_verify_time_interval'),
             );
 
         // 发送验证码
-        $obj = new \base\Sms($verify_param);
+        $obj = new \base\Sms($verify_params);
         $code = GetNumberCode(6);
         $status = $obj->SendCode($params['mobile'], $code, MyC('home_sms_user_mobile_binding'));
         
@@ -1912,5 +1933,49 @@ class UserService
         return $user;
     }
 
+    /**
+     * 用户登录,密码找回左侧数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-17
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function UserEntranceLeftData($params = [])
+    {
+        // 从缓存获取
+        $data = empty($params['cache_key']) ? [] : cache($params['cache_key']);
+
+        // 获取数据
+        if(empty($data))
+        {
+            $data = [];
+            if(!empty($params['left_key']))
+            {
+                for($i=1; $i<=3; $i++)
+                {
+                    $images_value = MyC('home_site_user_'.$params['left_key'].'_ad'.$i.'_images');
+                    $url_value = MyC('home_site_user_'.$params['left_key'].'_ad'.$i.'_url');
+                    $bg_color_value = MyC('home_site_user_'.$params['left_key'].'_ad'.$i.'_bg_color');
+                    if(!empty($images_value))
+                    {
+                        $data[] = [
+                            'images'    => ResourcesService::AttachmentPathViewHandle($images_value),
+                            'url'       => empty($url_value) ? null : $url_value,
+                            'bg_color'  => empty($bg_color_value) ? null : $bg_color_value,
+                        ];
+                    }
+                }
+
+                // 存储缓存
+                if(!empty($params['cache_key']))
+                {
+                    cache($params['cache_key'], $data);
+                }
+            }
+        }
+        return DataReturn('操作成功', 0, $data);
+    }
 }
 ?>

@@ -56,13 +56,16 @@ class Site extends Common
 		$this->assign('site_site_state_list', lang('site_site_state_list'));
 
 		// 用户注册类型列表
-		$this->assign('site_user_reg_state_list', lang('site_user_reg_state_list'));
+		$this->assign('common_user_reg_state_list', lang('common_user_reg_state_list'));
 
 		// 是否开启用户登录
 		$this->assign('site_user_login_state_list', lang('site_user_login_state_list'));
 
 		// 获取验证码-开启图片验证码
 		$this->assign('site_img_verify_state_list', lang('site_img_verify_state_list'));
+
+		// 图片验证码规则
+		$this->assign('site_images_verify_rules_list', lang('site_images_verify_rules_list'));
 
 		// 配置信息
 		$this->assign('data', ConfigService::ConfigList());
@@ -85,20 +88,71 @@ class Site extends Common
 	 */
 	public function Save()
 	{
-		// 站点状态值处理
-		if(!isset($_POST['home_user_reg_state']))
+		// 导航
+		$nav_type = input('nav_type', 'base');
+
+		// 字段不存在赋空值
+		$field_list = [];
+
+		// 用户注册
+		if($nav_type == 'register')
 		{
-			$_POST['home_user_reg_state'] = '';
+			$field_list[] = 'home_user_reg_state';
+			$field_list[] = 'home_site_user_register_bg_images';
 		}
 
-		// 用户注册背景图片
-		if(!isset($_POST['home_site_user_register_bg_images']))
+		// 用户登录
+		if($nav_type == 'login')
 		{
-			$_POST['home_site_user_register_bg_images'] = '';
+			$field_list[] = 'home_site_user_login_ad1_images';
+			$field_list[] = 'home_site_user_login_ad2_images';
+			$field_list[] = 'home_site_user_login_ad3_images';
+		}
+
+		// 密码找回
+		if($nav_type == 'forgetpwd')
+		{
+			$field_list[] = 'home_site_user_forgetpwd_ad1_images';
+			$field_list[] = 'home_site_user_forgetpwd_ad2_images';
+			$field_list[] = 'home_site_user_forgetpwd_ad3_images';
+		}
+
+		// 图片验证码
+		if($nav_type == 'imagesverify')
+		{
+			$field_list[] = 'common_images_verify_rules';
+		}
+
+		// 开始处理空值
+		if(!empty($field_list))
+		{
+			foreach($field_list as $field)
+			{
+				if(!isset($_POST[$field]))
+				{
+					$_POST[$field] = '';
+				}
+			}
 		}
 
 		// 基础配置
-		return ConfigService::ConfigSave($_POST);
+		$ret = ConfigService::ConfigSave($_POST);
+
+		// 清除缓存
+		if($ret['code'] == 0)
+		{
+			switch($nav_type)
+			{
+				case 'login' :
+					cache(config('shopxo.cache_user_login_left_key'), null);
+
+				case 'forgetpwd' :
+					cache(config('shopxo.cache_user_forgetpwd_left_key'), null);
+					break;
+			}
+		}
+
+		return $ret;
 	}
 }
 ?>

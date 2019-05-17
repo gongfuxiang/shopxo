@@ -13,10 +13,14 @@
 {{include file="public/goods_category" /}}
 
 <!-- conntent start  -->
-<div class="am-g my-content">
+<div class="am-g my-content" {{if !empty($user_login_left_data['bg_color'])}}style="background-color:{{$user_login_left_data.bg_color}};"{{/if}}>
     <div class="am-container user-login-container">
         <div class="am-hide-sm-only am-u-md-6 am-u-lg-8 am-vertical-align am-text-center container-left">
-            <img src="http://b2b2c.shopnctest.com/dema/data/upload/shop/login/2.jpg" class="am-vertical-align-middle" />
+            {{if !empty($user_login_left_data['images'])}}
+                <a href="{{if empty($user_login_left_data['url'])}}javascript:;{{else /}}{{$user_login_left_data.url}}{{/if}}" target="_blank">
+                    <img src="{{$user_login_left_data.images}}" class="am-vertical-align-middle" alt="用户登录" />
+                </a>
+            {{/if}}
         </div>
     	<div class="am-u-sm-12 am-u-md-6 am-u-lg-4 container-right">
             <div class="forgetpwd-top">
@@ -51,6 +55,21 @@
     					<label>登录密码</label>
     					<input type="password" name="pwd" class="am-radius" placeholder="登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
     				</div>
+
+                    {{if MyC('home_user_login_img_verify_state') eq 1}}
+                        <div class="am-form-group am-form-group-refreshing business-form-block">
+                            <label>验证码</label>
+                            <div class="am-input-group am-input-group-sm">
+                                <input type="text" name="verify" class="am-radius" placeholder="验证码" minlength="6" maxlength="6" data-validation-message="请输入图片验证码" required />
+                                <span class="am-input-group-btn">
+                                    <span class="am-btn am-btn-default am-radius form-verify">
+                                        <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'login'])}}" class="am-radius c-p" id="form-verify-img" onClick="this.src=this.src+'#'+Math.random();" />
+                                        <a href="javascript:;" class="form-verify-tips" onClick="document.getElementById('form-verify-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'login'])}}#'+Math.random();">更换一张</a>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    {{/if}}
     				
     				<div class="am-form-group am-form-group-refreshing">
     					<button type="submit" class="am-btn am-btn-primary am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '登录中...'}">登录</button>

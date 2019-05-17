@@ -18,11 +18,9 @@
     .my-content .container-right {
         padding-right: 5px;
     }
-    .user-forgetpwd-container .container-left {
-        height: 375px;
-    }
-    .user-login-container .container-left {
-        height: 295px;
+    .user-forgetpwd-container .container-left, .user-login-container .container-left {
+        min-height: 295px;
+        max-height: 375px;
     }
 }
 @media only screen and (min-width:1025px) {
@@ -90,13 +88,10 @@
 /**
  * 表单验证码
  */
-.register-container form.form-validation-username .form-verify {
+.my-content form.am-form .form-verify {
     padding: 0;
 }
-.register-container form.form-validation-username .form-verify img {
-    height: 26px;
-}
-.register-container form.form-validation-username .form-verify a.form-verify-tips {
+.my-content form.am-form .form-verify a.form-verify-tips {
     font-size: 12px;
     text-decoration: none;
     line-height: 28px;
@@ -105,14 +100,14 @@
     background: rgba(0,0,0,0.5);
     text-align: center;
     display: none;
-    width: 83px;
+    width: 102px;
     height: 28px;
     position: absolute;
     z-index: 1;
     top: -1px;
     left: -1px;
 }
-.register-container form.form-validation-username .form-verify:hover a.form-verify-tips {
+.my-content form.am-form .form-verify:hover a.form-verify-tips {
     display: block;
 }
 
@@ -138,4 +133,15 @@
 .my-content #verify-win .am-modal-bd { margin-top: 10px; }
 .my-content #verify-win .am-modal-bd .base { overflow: hidden; }
 .my-content #verify-win .am-modal-bd .base .verify-tips { font-size: 12px; }
-.my-content #verify-img { vertical-align: middle; }
+.my-content #verify-img { vertical-align: middle; border: 1px solid #ccc; }
+
+
+/**
+ * 弹层登录
+ */
+.login-modal-container {
+    padding: 0;
+}
+.login-modal-container-top {
+    margin: 10px 0;
+}

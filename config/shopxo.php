@@ -36,6 +36,12 @@ return [
     // 应用数据缓存
     'cache_plugins_data_key'                =>  'cache_plugins_data_key_data_',
 
+    // 用户登录左侧数据
+    'cache_user_login_left_key'             =>  'cache_user_login_left_data',
+
+    // 用户密码找回左侧数据
+    'cache_user_forgetpwd_left_key'         =>  'cache_user_forgetpwd_left_data',
+
     // 附件host, 数据库图片地址以/static/...开头
     'attachment_host'                       =>  defined('__MY_PUBLIC_URL__') ? substr(__MY_PUBLIC_URL__, 0, -1) : '',
 

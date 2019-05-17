@@ -1,0 +1,50 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- table nav start -->
+        {{include file="site/nav" /}}
+        <!-- table nav end -->
+
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'imagesverify'])}}" enctype="multipart/form-data">
+            <div class="am-form-group">
+                <label>{{$data.common_verify_expire_time.name}}<span class="am-form-group-label-tips">{{$data.common_verify_expire_time.describe}}</span></label>
+                <input type="number" name="{{$data.common_verify_expire_time.only_tag}}" placeholder="{{$data.common_verify_expire_time.name}}" data-validation-message="{{$data.common_verify_expire_time.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_verify_expire_time.value}}"{{/if}} required />
+            </div>
+            <div class="am-form-group">
+                <label>{{$data.common_verify_time_interval.name}}<span class="am-form-group-label-tips">{{$data.common_verify_time_interval.describe}}</span></label>
+                <input type="number" name="{{$data.common_verify_time_interval.only_tag}}" placeholder="{{$data.common_verify_time_interval.name}}" data-validation-message="{{$data.common_verify_time_interval.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_verify_time_interval.value}}"{{/if}} required />
+            </div>
+            <div class="am-form-group">
+                <label>{{$data.home_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.home_img_verify_state.describe}}</span></label>
+                <select name="{{$data.home_img_verify_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_img_verify_state.error_tips}}" required>
+                    {{foreach $site_img_verify_state_list as $v}}
+                        <option value="{{$v.value}}" {{if isset($data['home_img_verify_state']['value']) and $data['home_img_verify_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="am-form-group">
+                <label>{{$data.common_images_verify_rules.name}}<span class="am-form-group-label-tips">{{$data.common_images_verify_rules.describe}}</span></label>
+                <select name="{{$data.common_images_verify_rules.only_tag}}" multiple="multiple" class="am-radius chosen-select" data-placeholder="{{$data.common_images_verify_rules.name}}" >
+                    {{foreach $site_images_verify_rules_list as $v}}
+                        <option value="{{$v.value}}" {{if isset($data['common_images_verify_rules']['value']) and in_array($v['value'], explode(',', $data['common_images_verify_rules']['value']))}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end

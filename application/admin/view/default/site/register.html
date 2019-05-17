@@ -26,13 +26,23 @@
             <div class="am-form-group">
                 <label>{{$data.home_user_reg_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_reg_state.describe}}</span></label>
                 <select name="{{$data.home_user_reg_state.only_tag}}" multiple="multiple" class="am-radius chosen-select c-p" data-placeholder="{{$data.home_user_reg_state.name}}" >
-                    {{foreach $site_user_reg_state_list as $v}}
+                    {{foreach $common_user_reg_state_list as $v}}
                         <option value="{{$v.value}}" {{if isset($data['home_user_reg_state']['value']) and in_array($v['value'], explode(',', $data['home_user_reg_state']['value']))}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="am-form-group">
+                <label>{{$data.home_user_register_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_register_img_verify_state.describe}}</span></label>
+                <select name="{{$data.home_user_register_img_verify_state.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_user_register_img_verify_state.error_tips}}" required>
+                    {{foreach $site_img_verify_state_list as $v}}
+                        <option value="{{$v.value}}" {{if isset($data['home_user_register_img_verify_state']['value']) and $data['home_user_register_img_verify_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
                 </select>
             </div>
             
             <div class="am-form-group am-form-group-refreshing">
+                <input type="hidden" name="nav_type" value="{{$nav_type}}" />
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
             </div>
         </form>

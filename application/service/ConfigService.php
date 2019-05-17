@@ -40,6 +40,18 @@ class ConfigService
         'home_site_desktop_icon',
         'common_customer_store_qrcode',
         'home_site_user_register_bg_images',
+        'home_site_user_login_ad1_images',
+        'home_site_user_login_ad2_images',
+        'home_site_user_login_ad3_images',
+        'home_site_user_forgetpwd_ad1_images',
+        'home_site_user_forgetpwd_ad2_images',
+        'home_site_user_forgetpwd_ad3_images',
+    ];
+
+    // 字符串转数组字段列表, 默认使用英文逗号处理 [ , ]
+    public static $string_to_array_field_list = [
+        'home_user_reg_state',
+        'common_images_verify_rules',
     ];
 
     /**
@@ -143,9 +155,12 @@ class ConfigService
 
             // 数据处理
             // 开启用户注册列表
-            if(isset($data['home_user_reg_state']))
+            foreach(self::$string_to_array_field_list as $field)
             {
-                $data['home_user_reg_state'] = explode(',', $data['home_user_reg_state']);
+                if(isset($data[$field]))
+                {
+                    $data[$field] = empty($data[$field]) ? [] : explode(',', $data[$field]);
+                }
             }
 
             // 富文本字段处理

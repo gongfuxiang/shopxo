@@ -10,7 +10,7 @@
     padding: 0;
 }
 
-@media only screen and (min-width:640px) {
+@media only screen and (min-width:1025px) {
     .commonrightnavigation-right-nav {
         width: 35px;
         height: 100vh;
@@ -195,7 +195,7 @@
     }
 }
 
-@media only screen and (max-width:640px) {
+@media only screen and (max-width:1025px) {
     .commonrightnavigation-right-nav .user-content,
     .commonrightnavigation-right-nav .browse-content,
     .commonrightnavigation-right-nav .favor-content,

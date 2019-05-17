@@ -88,7 +88,7 @@
                                                 </div>
                                             </div>
 
-                                            {{if MyC('home_img_verify_state') eq 1}}
+                                            {{if MyC('home_user_register_img_verify_state') eq 1}}
                                                 <div class="am-form-group am-form-group-refreshing business-form-block">
                                                     <label>验证码</label>
                                                     <div class="am-input-group am-input-group-sm">
@@ -218,7 +218,7 @@
                                     </div>
                                     <div class="am-modal-bd">
                                         <div class="base">
-                                            <input type="text" placeholder="图形验证码" maxlength="6" id="verify-img-value" data-validation-message="请输入有效的图形验证码" class="am-form-field am-radius" />
+                                            <input type="text" placeholder="图形验证码" minlength="6" maxlength="6" id="verify-img-value" data-validation-message="请输入有效的图形验证码" class="am-form-field am-radius" />
                                             <div class="am-fl">
                                                 <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'reg'])}}" class="am-radius c-p" id="verify-img" onClick="this.src=this.src+'#'+Math.random();" />
                                                 <a href="javascript:;" class="verify-tips" onClick="document.getElementById('verify-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'reg'])}}#'+Math.random();">看不清换一张</a>

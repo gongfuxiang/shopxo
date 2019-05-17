@@ -12,10 +12,14 @@
 <!-- goods category -->
 {{include file="public/goods_category" /}}
 <!-- conntent start  -->
-<div class="am-g my-content">
+<div class="am-g my-content" {{if !empty($user_forgetpwd_left_data['bg_color'])}}style="background-color:{{$user_forgetpwd_left_data.bg_color}};"{{/if}}>
 	<div class="am-container user-forgetpwd-container">
 		<div class="am-hide-sm-only am-u-md-6 am-u-lg-8 am-vertical-align am-text-center container-left">
-			<img src="http://b2b2c.shopnctest.com/dema/data/upload/shop/login/4.jpg" class="am-vertical-align-middle" />
+			{{if !empty($user_forgetpwd_left_data['images'])}}
+                <a href="{{if empty($user_forgetpwd_left_data['url'])}}javascript:;{{else /}}{{$user_forgetpwd_left_data.url}}{{/if}}" target="_blank">
+                    <img src="{{$user_forgetpwd_left_data.images}}" class="am-vertical-align-middle" alt="密码找回" />
+                </a>
+            {{/if}}
 		</div>
 		<div class="am-u-sm-12 am-u-md-6 am-u-lg-4 container-right">
 			<div class="forgetpwd-top">
@@ -67,7 +71,7 @@
 					</div>
 					<div class="am-modal-bd">
 						<div class="base">
-							<input type="text" placeholder="图形验证码" maxlength="6" id="verify-img-value" data-validation-message="请输入有效的图形验证码" class="am-form-field am-radius" />
+							<input type="text" placeholder="图形验证码" minlength="6" maxlength="6" id="verify-img-value" data-validation-message="请输入有效的图形验证码" class="am-form-field am-radius" />
 							<div class="am-fl">
 								<img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'forget'])}}" class="am-radius c-p" id="verify-img" onClick="this.src=this.src+'#'+Math.random();" />
 								<a href="javascript:;" class="verify-tips" onClick="document.getElementById('verify-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'forget'])}}#'+Math.random();">看不清换一张</a>
