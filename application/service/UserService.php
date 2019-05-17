@@ -1048,6 +1048,7 @@ class UserService
         } else if($params['type'] == 'username')
         {
             // 是否开启图片验证码
+            $verify_params['key_prefix'] = 'images_verify_reg';
             $verify = self::IsImaVerify($params, $verify_params, MyC('home_user_register_img_verify_state'));
             if($verify['code'] != 0)
             {

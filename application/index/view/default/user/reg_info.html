@@ -95,8 +95,8 @@
                                                         <input type="text" name="verify" class="am-radius" placeholder="验证码" minlength="6" maxlength="6" data-validation-message="请输入图片验证码" required />
                                                         <span class="am-input-group-btn">
                                                             <span class="am-btn am-btn-default am-radius form-verify">
-                                                                <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'reg'])}}" class="am-radius c-p" id="form-verify-img" onClick="this.src=this.src+'#'+Math.random();" />
-                                                                <a href="javascript:;" class="form-verify-tips" onClick="document.getElementById('form-verify-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'reg'])}}#'+Math.random();">更换一张</a>
+                                                                <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'images_verify_reg'])}}" class="am-radius c-p" id="form-verify-img" onClick="this.src=this.src+'#'+Math.random();" />
+                                                                <a href="javascript:;" class="form-verify-tips" onClick="document.getElementById('form-verify-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'images_verify_reg'])}}#'+Math.random();">更换一张</a>
                                                             </span>
                                                         </span>
                                                     </div>
