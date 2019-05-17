@@ -50,7 +50,7 @@ class Service
             // 地区
             foreach($data['data'] as &$v)
             {
-                $v['region_names'] = empty($v['region_show']) ? '' : implode('、', Db::name('Region')->where('id', 'in', explode('-', $v['region_show']))->column('name'));
+                $v['region_names'] = (empty($v['region_show']) || $v['region_show'] == 'default') ? '' : implode('、', Db::name('Region')->where('id', 'in', explode('-', $v['region_show']))->column('name'));
             }
 
             // 商品列表
