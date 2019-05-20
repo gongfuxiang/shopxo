@@ -66,6 +66,11 @@ class Email
 		$this->obj->SMTPAuth = true;
 		// 端口
 		$this->obj->Port = MyC('common_email_smtp_port', 25, true);
+		
+		// 如果是465端口则使用ssl
+		if ($this->obj->Port == 465) {
+			$this->obj->SMTPSecure = 'ssl';
+		}
 
 		// 邮箱用户名
 		$this->obj->Username =  MyC('common_email_smtp_name');
