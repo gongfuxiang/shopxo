@@ -117,6 +117,9 @@ class ConfigService
             if(Db::name('Config')->where(['only_tag'=>$k])->update(['value'=>$v, 'upd_time'=>time()]))
             {
                 $success++;
+
+                // 单条配置缓存删除
+                cache(config('shopxo.cache_config_row_key').$k, null);
             }
         }
         if($success > 0)
@@ -241,17 +244,26 @@ class ConfigService
      */
     public static function ConfigContentRow($only_tag)
     {
+        // 缓存key
+        $key = config('shopxo.cache_config_row_key').$only_tag;
+        $data = cache($key);
+
         // 获取内容
-        $data = Db::name('Config')->where(['only_tag'=>$only_tag])->field('name,value,type,upd_time')->find();
-        if(!empty($data))
+        if(empty($data))
         {
-            // 富文本处理
-            if(in_array($only_tag, self::$rich_text_list))
+            $data = Db::name('Config')->where(['only_tag'=>$only_tag])->field('name,value,type,upd_time')->find();
+            if(!empty($data))
             {
-                $data['value'] = ResourcesService::ContentStaticReplace($data['value'], 'get');
+                // 富文本处理
+                if(in_array($only_tag, self::$rich_text_list))
+                {
+                    $data['value'] = ResourcesService::ContentStaticReplace($data['value'], 'get');
+                }
+                $data['upd_time_time'] = empty($data['upd_time']) ? null : date('Y-m-d H:i:s', $data['upd_time']);
             }
-            $data['upd_time_time'] = empty($data['upd_time']) ? null : date('Y-m-d H:i:s', $data['upd_time']);
+            cache($key, $data);
         }
+        
         return DataReturn('操作成功', 0, $data);
     }
 }

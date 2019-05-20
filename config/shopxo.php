@@ -42,6 +42,9 @@ return [
     // 用户密码找回左侧数据
     'cache_user_forgetpwd_left_key'         =>  'cache_user_forgetpwd_left_data',
 
+    // 配置信息一条缓存 拼接唯一标记 [ only_tag ]
+    'cache_config_row_key'                  =>  'cache_config_row_data_',
+
     // 附件host, 数据库图片地址以/static/...开头
     'attachment_host'                       =>  defined('__MY_PUBLIC_URL__') ? substr(__MY_PUBLIC_URL__, 0, -1) : '',
 
