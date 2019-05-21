@@ -53,6 +53,9 @@ class Email extends Common
 		$this->assign('data', ConfigService::ConfigList());
 		$type = input('type', 'email');
 
+		// 静态数据
+		$this->assign('common_is_text_list', lang('common_is_text_list'));
+
 		// 导航
 		$this->assign('nav_type', $type);
 		if($type == 'email')

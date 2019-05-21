@@ -30,6 +30,14 @@
 				<input type="password" name="{{$data.common_email_smtp_pwd.only_tag}}" placeholder="{{$data.common_email_smtp_pwd.name}}" data-validation-message="{{$data.common_email_smtp_pwd.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_email_smtp_pwd.value}}"{{/if}} />
 			</div>
 			<div class="am-form-group">
+                <label>{{$data.common_email_is_use_ssl.name}}</label>
+                <select name="{{$data.common_email_is_use_ssl.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.common_email_is_use_ssl.error_tips}}" required>
+                    {{foreach $common_is_text_list as $v}}
+                        <option value="{{$v.id}}" {{if isset($data['common_email_is_use_ssl']['value']) and $data['common_email_is_use_ssl']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+			<div class="am-form-group">
 				<label>{{$data.common_email_smtp_send_name.name}}<span class="am-form-group-label-tips">{{$data.common_email_smtp_send_name.describe}}</span></label>
 				<input type="text" name="{{$data.common_email_smtp_send_name.only_tag}}" placeholder="{{$data.common_email_smtp_send_name.name}}" data-validation-message="{{$data.common_email_smtp_send_name.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_email_smtp_send_name.value}}"{{/if}} />
 			</div>

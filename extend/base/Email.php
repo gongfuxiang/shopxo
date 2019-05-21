@@ -64,8 +64,15 @@ class Email
 
 		//smtp验证功能；
 		$this->obj->SMTPAuth = true;
+
 		// 端口
 		$this->obj->Port = MyC('common_email_smtp_port', 25, true);
+
+		// SSL方式加密
+		if(MyC('common_email_is_use_ssl', 0, true) == 1)
+		{
+			$this->obj->SMTPSecure = 'ssl';
+		}
 
 		// 邮箱用户名
 		$this->obj->Username =  MyC('common_email_smtp_name');
