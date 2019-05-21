@@ -93,82 +93,82 @@
                     <div class="am-panel am-panel-default">
                         <div class="am-panel-hd">订单信息</div>
                         <div class="am-panel-bd">
-                            <div class="items">
+                            <div class="items am-cf">
                                 <div class="items-title am-fl">收货地址：</div>
                                 <div class="items-detail am-fl">{{$data.receive_name}}, {{$data.receive_tel}}, {{$data.receive_province_name}} {{$data.receive_city_name}} {{$data.receive_county_name}} {{$data.receive_address}}</div>
                             </div>
-                            <div class="items">
+                            <div class="items am-cf">
                                 <div class="items-title am-fl">订单编号：</div>
                                 <div class="items-detail am-fl">{{$data.order_no}}</div>
                             </div>
                             {{if !empty($data.status_name)}}
-                                <div class="items">
+                                <div class="items am-cf">
                                     <div class="items-title am-fl">订单状态：</div>
                                     <div class="items-detail am-fl">{{$data.status_name}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.pay_status_name)}}
-                                <div class="items">
+                                <div class="items am-cf">
                                     <div class="items-title am-fl">支付状态：</div>
                                     <div class="items-detail am-fl">{{$data.pay_status_name}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.payment_name)}}
-                                <div class="items">
+                                <div class="items am-cf">
                                     <div class="items-title am-fl">支付方式：</div>
                                     <div class="items-detail am-fl">{{$data.payment_name}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.user_note)}}
-                                <div class="items">
+                                <div class="items am-cf">
                                     <div class="items-title am-fl">用户留言：</div>
                                     <div class="items-detail am-fl">{{$data.user_note}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.add_time)}}
-                                <div class="items">
+                                <div class="items am-cf">
                                     <div class="items-title am-fl">下单时间：</div>
                                     <div class="items-detail am-fl">{{$data.add_time}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.confirm_time)}}
-                                <div class="items">
+                                <div class="items am-cf">
                                     <div class="items-title am-fl">确认时间：</div>
                                     <div class="items-detail am-fl">{{$data.confirm_time}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.pay_time)}}
-                                <div class="items">
+                                <div class="items am-cf">
                                     <div class="items-title am-fl">付款时间：</div>
                                     <div class="items-detail am-fl">{{$data.pay_time}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.delivery_time)}}
-                                <div class="items">
+                                <div class="items am-cf">
                                     <div class="items-title am-fl">发货时间：</div>
                                     <div class="items-detail am-fl">{{$data.delivery_time}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.collect_time)}}
-                                <div class="items">
+                                <div class="items am-cf">
                                     <div class="items-title am-fl">收货时间：</div>
                                     <div class="items-detail am-fl">{{$data.collect_time}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.user_is_comments_time)}}
-                                <div class="items">
+                                <div class="items am-cf">
                                     <div class="items-title am-fl">评论时间：</div>
                                     <div class="items-detail am-fl">{{$data.user_is_comments_time}}</div>
                                 </div>
                             {{/if}}
                             {{if in_array($data['status'], [5]) and !empty($data['cancel_time'])}}
-                                <div class="items">
+                                <div class="items am-cf">
                                     <div class="items-title am-fl">取消时间：</div>
                                     <div class="items-detail am-fl">{{$data.cancel_time}}</div>
                                 </div>
                             {{/if}}
                             {{if in_array($data['status'], [6]) and !empty($data['close_time'])}}
-                                <div class="items">
+                                <div class="items am-cf">
                                     <div class="items-title am-fl">关闭时间：</div>
                                     <div class="items-detail am-fl">{{$data.close_time}}</div>
                                 </div>
@@ -222,14 +222,14 @@
                     </div>
                     {{if in_array($data['status'], [3,4])}}
                         <div class="logistics">
-                            <div class="items">
+                            <div class="items am-cf">
                                 <div class="items-title am-fl">快递公司：</div>
                                 <div class="items-detail am-fl">
                                     {{if !empty($data.express_name)}}{{$data.express_name}}{{/if}}
                                 </div>
                             </div>
                             {{if !empty($data.express_number)}}
-                                <div class="items">
+                                <div class="items am-cf">
                                     <div class="items-title am-fl">快递单号：</div>
                                     <div class="items-detail am-fl">{{$data.express_number}}</div>
                                 </div>
@@ -299,7 +299,7 @@
                 {{if !empty($data['extension_data'])}}
                     <div class="am-alert am-alert-warning">
                         {{foreach $data.extension_data as $ertk=>$ext}}
-                            <div class="items">
+                            <div class="items am-cf">
                                 <div class="items-title am-fl">{{$ext.name}}：</div>
                                 <div class="items-detail am-fl">{{$ext.tips}}</div>
                             </div>
@@ -309,31 +309,31 @@
 
                 <div class="am-alert am-alert-secondary">
                   {{if !empty($data.price)}}
-                        <div class="items">
+                        <div class="items am-cf">
                             <div class="items-title am-fl">商品总价：</div>
                             <div class="items-detail am-fl">￥{{$data.price}}</div>
                         </div>
                     {{/if}}
                     {{if !empty($data.increase_price)}}
-                        <div class="items">
+                        <div class="items am-cf">
                             <div class="items-title am-fl">增加金额：</div>
                             <div class="items-detail am-fl">+￥{{$data.increase_price}}</div>
                         </div>
                     {{/if}}
                     {{if !empty($data.preferential_price)}}
-                        <div class="items">
+                        <div class="items am-cf">
                             <div class="items-title am-fl">优惠金额：</div>
                             <div class="items-detail am-fl">-￥{{$data.preferential_price}}</div>
                         </div>
                     {{/if}}
                     {{if !empty($data.total_price)}}
-                        <div class="items">
+                        <div class="items am-cf">
                             <div class="items-title am-fl">订单总价：</div>
                             <div class="items-detail am-fl line-price">￥{{$data.total_price}}</div>
                         </div>
                     {{/if}}
                     {{if !empty($data.pay_price)}}
-                        <div class="items">
+                        <div class="items am-cf">
                             <div class="items-title am-fl">支付金额：</div>
                             <div class="items-detail am-fl">
                                 <strong class="total-price-content">￥{{$data.pay_price}}</strong>

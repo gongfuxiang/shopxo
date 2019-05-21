@@ -174,7 +174,7 @@ class Order extends Common
         } else {
             $this->assign('msg', '没有相关数据');
             return $this->fetch('public/tips_error');
-        } 
+        }
     }
 
     /**
@@ -195,6 +195,50 @@ class Order extends Common
             return GoodsCommentsService::Comments($params);
         } else {
             $this->assign('msg', '非法访问');
+            return $this->fetch('public/tips_error');
+        }
+    }
+
+    /**
+     * 售后页面
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-21
+     * @desc    description
+     */
+    public function Aftersale()
+    {
+        // 参数
+        $params = input();
+        $params['user'] = $this->user;
+        $params['user_type'] = 'user';
+
+        // 条件
+        $where = OrderService::OrderListWhere($params);
+
+        // 获取列表
+        $data_params = array(
+            'm'         => 0,
+            'n'         => 1,
+            'where'     => $where,
+        );
+        $data = OrderService::OrderList($data_params);
+        if(!empty($data['data'][0]))
+        {
+            $this->assign('data', $data['data'][0]);
+
+            // 仅退款原因
+            $return_only_money_reason = MyC('home_order_aftersale_return_only_money_reason');
+            $this->assign('return_only_money_reason_list', empty($return_only_money_reason) ? [] : explode("\n", $return_only_money_reason));
+
+            // 退款退货原因
+            $return_money_goods_reason = MyC('home_order_aftersale_return_money_goods_reason');
+            $this->assign('return_money_goods_reason_list', empty($return_money_goods_reason) ? [] : explode("\n", $return_money_goods_reason));
+
+            return $this->fetch();
+        } else {
+            $this->assign('msg', '没有相关数据');
             return $this->fetch('public/tips_error');
         }
     }

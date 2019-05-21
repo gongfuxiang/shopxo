@@ -1,40 +1,4 @@
 /**
- * 评分
- */
-.user-content-body ul.rating {
-    overflow: hidden;
-    margin-bottom: 2px;
-    padding: 3px 5px;
-}
-.user-content-body ul.rating li {
-    float: left;
-    margin-right: 10px;
-}
-.user-content-body ul.rating li i {
-    cursor: pointer;
-}
-.user-content-body ul.rating li i.am-icon-star-o {
-    color: #888;
-}
-.user-content-body ul.rating li i.am-icon-star {
-    color: #d13b49;
-}
-.user-content-body .rating-items {
-    margin-bottom: 0;
-}
-.user-content-body .rating-items .input-rating {
-    position: fixed;
-    top: -10000px;
-    left: -10000px;
-}
-.user-content-body .am-form-group.am-form-error ul.not-selected {
-    background-color: #ffe7e7;
-}
-.user-content-body .order-goods:hover {
-    background: transparent !important;
-}
-
-/**
  * 商品列表
  */
 .order-goods .base { width: 50%; }
@@ -65,4 +29,63 @@ strong.total-price-content { color: #d2364c; font-size: 16px; }
     .goods-detail img { width: 60px; height: 60px; }
     .goods-base { margin-left: 65px; }
     .goods-detail { min-height: 60px; }
+}
+
+/**
+ * 列表
+ */
+.user-content-body table.am-table .operations {
+    width: 100px;
+}
+
+/**
+ * 弹窗
+ */
+.user-content-body .aftersale-type {
+    padding: 5px;
+}
+.user-content-body .aftersale-type .am-vertical-align {
+    width: 49%;
+    border: 1px solid #eee;
+    padding: 10px;
+    cursor: pointer;
+    -webkit-transition: border-color .2s ease-in;
+    -moz-transition: border-color .2s ease-in;
+    -ms-transition: border-color .2s ease-in;
+    -o-transition: border-color .2s ease-in;
+    transition: border-color .2s ease-in;
+}
+.user-content-body .aftersale-type .am-vertical-align.selected, .user-content-body .aftersale-type .am-vertical-align:hover {
+    border: 1px solid #d2364c;
+    box-shadow: 0px 0 0px 1px #d2364c;
+}
+.user-content-body .aftersale-type .am-vertical-align .icon {
+    height: 75px;
+    margin-right: 10px;
+}
+.user-content-body .aftersale-type .am-vertical-align .icon i {
+    font-size: 46px;
+    color: #d2354c;
+}
+.user-content-body .aftersale-type .am-vertical-align .name {
+    font-size: 16px;
+    font-weight: 500;
+}
+.user-content-body .aftersale-type .am-vertical-align .desc {
+    color: #888;
+    margin-top: 5px;
+}
+
+/**
+ * 步骤
+ */
+.aftersale-step li {
+    float: left;
+}
+.aftersale-step li .number {
+    background: #fff;
+    color: #ccc;
+}
+.aftersale-step li .text {
+    color: #fff;
 }

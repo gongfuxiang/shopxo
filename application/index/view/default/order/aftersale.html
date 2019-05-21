@@ -1,0 +1,136 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container user-main">
+
+    <!-- user menu start -->
+    {{include file="public/user_menu" /}}
+    <!-- user menu end -->
+
+    <!-- content start -->
+    <div class="user-content">
+        <div class="user-content-body">
+            {{if true }}
+                <!-- 商品列表 -->
+                {{if !empty($data.items)}}
+                    <table class="am-table">
+                        <thead>
+                            <tr>
+                                <th>商品信息</th>
+                                <th class="am-hide-sm-only">单价</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{foreach $data.items as $goods}}
+                                <tr id="data-list-{{$goods.id}}">
+                                    <td class="base">
+                                        <div class="goods-detail">
+                                            <a href="{{$goods.goods_url}}" target="_blank">
+                                                <img src="{{$goods.images}}">
+                                            </a>
+                                            <div class="goods-base">
+                                                <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
+                                                {{if !empty($goods.spec)}}
+                                                    <ul class="goods-attr">
+                                                        {{foreach $goods.spec as $spec}}
+                                                            <li>{{$spec.type}}：{{$spec.value}}</li>
+                                                        {{/foreach}}
+                                                    </ul>
+                                                {{/if}}
+                                            </div>
+                                        </div>
+                                        <div class="wap-base am-show-sm-only">
+                                            {{if $goods['original_price'] gt 0}}
+                                                <span class="original-price">￥{{$goods.original_price}}</span>
+                                            {{/if}}
+                                            <strong class="total-price-content">￥{{$goods.price}}</strong>
+                                            <span class="wap-number">x{{$goods.buy_number}}</span>
+                                        </div>
+                                    </td>
+                                    <td class="am-hide-sm-only">
+                                        {{if $goods['original_price'] gt 0}}
+                                            <p class="original-price">￥{{$goods.original_price}}</p>
+                                        {{/if}}
+                                        <p class="line-price">￥{{$goods.price}} x {{$goods.buy_number}}</p>
+                                    </td>
+                                    <td class="operations">
+                                        <!-- <a href="{{:MyUrl('index/order/aftersale', ['order_id'=>$data['id'], 'goods_id'=>$goods['goods_id']])}}" target="_blank" class="am-btn am-btn-default am-btn-xs am-radius am-icon-puzzle-piece am-btn-block"> 申请售后</a> -->
+                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-puzzle-piece am-btn-block" data-order-id="{{$data.id}}" data-goods-id="{{$goods.goods_id}}" data-number="{{$goods.buy_number}}" data-price="{{$data.pay_price}}"> 申请售后</button>
+                                    </td>
+                                </tr>
+                            {{/foreach}}
+                        </tbody>
+                    </table>
+
+                    {{if !empty($data['extension_data'])}}
+                        <div class="am-alert am-alert-warning">
+                            {{foreach $data.extension_data as $ertk=>$ext}}
+                                <div class="items am-cf">
+                                    <div class="items-title am-fl">{{$ext.name}}：</div>
+                                    <div class="items-detail am-fl">{{$ext.tips}}</div>
+                                </div>
+                            {{/foreach}}
+                        </div>
+                    {{/if}}
+
+                    <div class="am-alert am-alert-secondary">
+                      {{if !empty($data.price)}}
+                            <div class="items am-cf">
+                                <div class="items-title am-fl">商品总价：</div>
+                                <div class="items-detail am-fl">￥{{$data.price}}</div>
+                            </div>
+                        {{/if}}
+                        {{if !empty($data.increase_price)}}
+                            <div class="items am-cf">
+                                <div class="items-title am-fl">增加金额：</div>
+                                <div class="items-detail am-fl">+￥{{$data.increase_price}}</div>
+                            </div>
+                        {{/if}}
+                        {{if !empty($data.preferential_price)}}
+                            <div class="items am-cf">
+                                <div class="items-title am-fl">优惠金额：</div>
+                                <div class="items-detail am-fl">-￥{{$data.preferential_price}}</div>
+                            </div>
+                        {{/if}}
+                        {{if !empty($data.total_price)}}
+                            <div class="items am-cf">
+                                <div class="items-title am-fl">订单总价：</div>
+                                <div class="items-detail am-fl line-price">￥{{$data.total_price}}</div>
+                            </div>
+                        {{/if}}
+                        {{if !empty($data.pay_price)}}
+                            <div class="items am-cf">
+                                <div class="items-title am-fl">支付金额：</div>
+                                <div class="items-detail am-fl">
+                                    <strong class="total-price-content">￥{{$data.pay_price}}</strong>
+                                </div>
+                            </div>
+                        {{/if}}
+                    </div>
+
+                    {{include file="order/aftersale_popup" /}}
+                {{/if}}
+            {{else /}}
+                <div class="table-no"><i class="am-icon-warning"></i> 你已进行过评论</div>
+            {{/if}}
+        </div>
+    </div>
+    <!-- content end -->
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

@@ -17,4 +17,7 @@
     <li {{if $nav_type eq 'imagesverify'}}class="am-active"{{/if}} data-type="imagesverify">
         <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'imagesverify'])}}">图片验证码</a>
     </li>
+    <li {{if $nav_type eq 'orderaftersale'}}class="am-active"{{/if}} data-type="orderaftersale">
+        <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'orderaftersale'])}}">订单售后</a>
+    </li>
 </ul>
