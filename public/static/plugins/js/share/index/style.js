@@ -96,7 +96,7 @@ $(function()
     });
 
     // url复制
-    var clipboard = new ClipboardJS('#plugins-share-copy-modal .am-input-group button.am-btn',
+    var clipboard = new ClipboardJS('#plugins-share-copy-modal .am-input-group .am-input-group-label',
     {
         text: function()
         {

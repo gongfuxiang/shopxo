@@ -15,7 +15,8 @@ time, mark, audio, video {
     padding: 0;
     border: 0;
     vertical-align: baseline;
-    font-family: arial,"Lantinghei SC","Microsoft Yahei";  
+    font-family: arial,"Lantinghei SC","Microsoft Yahei";
+    font-style: normal;
 }
 li { list-style-type: none; }
 button { outline: none; }

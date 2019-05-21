@@ -79,13 +79,51 @@ strong.total-price-content { color: #d2364c; font-size: 16px; }
 /**
  * 步骤
  */
+.aftersale-step {
+    margin: 10px 5px;
+}
 .aftersale-step li {
     float: left;
+    width: 33.33%;
+    padding: 5px 0;
+    position: relative;
+    overflow: hidden;
+    background: #ccc;
 }
 .aftersale-step li .number {
+    padding: 2px 6px;
+    border-radius: 50px;
+    font-weight: 700;
     background: #fff;
-    color: #ccc;
+    color: #b4b4b4;
 }
 .aftersale-step li .text {
     color: #fff;
+    margin-left: 2px;
+}
+.aftersale-step li i.am-icon-angle-right {
+    float: right;
+    font-size: 66px;
+    line-height: 0px;
+    position: absolute;
+    top: -21px;
+    right: 0;
+    color: #fff;
+}
+.aftersale-step li.selected {
+    background: #d2354c;
+}
+.aftersale-step li.selected .number {
+    color: #d2354c;
+}
+.aftersale-step li.selected i.am-icon-caret-right {
+    position: absolute;
+    top: -29px;
+    right: 5px;
+    z-index: 1;
+    font-size: 56px;
+    color: #d2354c;
+}
+.aftersale-step li.selected-end i.am-icon-angle-right {
+    background: #ccc;
 }

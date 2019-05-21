@@ -89,6 +89,9 @@
 #plugins-share-copy-modal .am-input-group {
     margin-top: 10px;
 }
+#plugins-share-copy-modal .am-input-group .am-input-group-label {
+    cursor: pointer;
+}
 
 
 /**
