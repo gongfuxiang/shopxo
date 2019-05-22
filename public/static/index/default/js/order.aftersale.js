@@ -1,55 +1,77 @@
 $(function()
 {
-    var $popup = $('#aftersale-popup');
-
-    // 弹窗事件
-    $('.user-content-body table.am-table .operations button').on('click', function()
-    {
-        var order_id = $(this).data('order-id') || 0;
-        var goods_id = $(this).data('goods-id') || 0;
-        var number = $(this).data('number') || 0;
-        var price = $(this).data('price') || 0;
-        if(order_id == 0 || goods_id == 0 || number == 0)
-        {
-            Prompt('参数配置有误');
-            return false;
-        }
-        $popup.find('.am-form-group').addClass('none');
-        $popup.find('input[name="order_id"]').val(order_id);
-        $popup.find('input[name="goods_id"]').val(goods_id);
-        $popup.find('input[name="number"]').val(number);
-        $popup.find('input[name="number"]').attr('max', number);
-        $popup.find('input[name="price"]').val(price);
-        $('.aftersale-type .am-vertical-align').removeClass('selected');
-        $popup.modal('open');
-    });
+    // 表单面板
+    var $form_panel = $('.aftersale-form-panel');
 
     // 类型切换
-    $('.aftersale-type .am-vertical-align').on('click', function()
+    $('.aftersale-type .items-align').on('click', function()
     {
-        $('.aftersale-type .am-vertical-align').removeClass('selected');
+        $('.aftersale-type .items-align').removeClass('selected');
         $(this).addClass('selected');
 
         // 表单处理
         var type = $(this).data('type');
         if(type != undefined)
         {
-            $popup.find('.am-form-group').removeClass('none');
-            $popup.find('input[name="type"]').val(type);
+            $form_panel.removeClass('none');
+            $form_panel.find('input[name="type"]').val(type);
         }
+
+        var json = [];
         switch(type)
         {
             // 仅退款
             case 0 :
-                $popup.find('.form-only-money').removeClass('none');
-                $popup.find('.form-money-goods').addClass('none');
+                json = $form_panel.find('select[name="reason"]').data('only-json') || null;
+                $form_panel.find('.form-number').addClass('none');
+                $('.return-only-money-step').removeClass('none');
+                $('.return-money-goods-step').addClass('none');
                 break;
 
             // 退款退货
             case 1 :
-                $popup.find('.form-only-money').addClass('none');
-                $popup.find('.form-money-goods').removeClass('none');
+                json = $form_panel.find('select[name="reason"]').data('goods-json') || null;
+                $form_panel.find('.form-number').removeClass('none');
+                $('.return-only-money-step').addClass('none');
+                $('.return-money-goods-step').removeClass('none');
                 break;
         }
+
+        // 退款原因
+        if(json.length > 0)
+        {
+            var html = '';
+            for(var i in json)
+            {
+                html += '<option value="'+json[i]+'">'+json[i]+'</option>';
+            }
+            $form_panel.find('select[name="reason"]').html(html);
+        } else {
+            $form_panel.find('select[name="reason"]').html('');
+            Prompt('退款原因数据为空');
+        }
+        $form_panel.find('.chosen-select').val('').trigger('chosen:updated');
+    });
+
+    // 数量加减
+    $('.number-container .am-input-group-label').on('click', function()
+    {
+        var number = $('.number-container input').val();
+        var max = $('.number-container input').attr('max') || 1;
+        if(($(this).data('type') || 0) == 0)
+        {
+            number--;
+        } else {
+            number++;
+        }
+        if(number <= 0)
+        {
+            number = 1;
+        }
+        if(number > max)
+        {
+            number = max;
+        }
+        $('.number-container input').val(number);
     });
 });

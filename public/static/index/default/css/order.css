@@ -19,18 +19,20 @@ table.data-list td { padding:10px; vertical-align: top; }
 .wap-base, .base-operate { padding-top: 3px; }
 .base-operate { margin-top: 3px; }
 .content-hd td span { color: #666; }
-.content-hd td span:not(:last-child) { margin-right: 20px; }
-@media only screen and (min-width: 641px){
-    .row-content { width:35%; }
+@media only screen and (min-width: 641px) {
+    .row-content { width:25%; }
     .row-price { width:15%; }
     .row-number { width:10%; }
+    .row-goods-operate { width: 10%; }
     .row-total-price { width:20%; }
     .row-status { width:10%; }
     .row-operate { width:10%; }
 }
-@media only screen and (max-width: 641px){
-    .row-content { width:55%; }
-    .row-status { width:25%; }
+@media only screen and (max-width: 641px) {
+    table.data-list td { padding: 5px; }
+    .row-content { width:40%; }
+    .row-goods-operate { width: 20%; }
+    .row-status { width:20%; }
     .row-operate { width:20%; }
 }
 
@@ -58,7 +60,7 @@ table.data-ongoing .base-operate { border-top: 1px dashed #fff1f5; }
  */
 .goods-detail { position: relative; min-height: 80px; }
 .goods-detail img { width: 80px; height: 80px; position: absolute; left: 0; border: 1px solid #eee; }
-.goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; }
+.goods-title { display: -webkit-box; max-height: 36px; overflow: hidden; text-overflow: ellipsis; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .goods-title:hover { text-decoration: underline; }
 .goods-base { float: left; top: 0; margin-left: 85px; }
 .goods-attr { margin-top: 5px;  }
@@ -67,11 +69,11 @@ table.data-ongoing .base-operate { border-top: 1px dashed #fff1f5; }
 .original-price { color: #9c9c9c; text-decoration: line-through; }
 .line-price { color: #3c3c3c; }
 .line-price, strong.total-price-content { font-weight: 700; }
-strong.total-price-content { color: #d2364c; font-size: 16px; }
+strong.total-price-content { color: #d2364c; font-size: 14px; }
 @media only screen and (max-width:640px) {
     .goods-detail { min-height: 40px; }
-    .goods-detail img { width: 40px; height: 40px; }
-    .goods-base { margin-left: 45px; }
+    .goods-detail .goods-images { display: none; }
+    .goods-base { margin-left: 0px; }
     table.data-list td.row-status { border-left: 1px solid #eee; }
     table.data-ongoing td.row-status { border-left: 1px solid #fff1f5; }
 }

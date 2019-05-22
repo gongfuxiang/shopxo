@@ -32,6 +32,8 @@ button { outline: none; }
 .am-input-group-sm > .am-input-group-btn > .am-btn {
     height: 28px;
     font-size: 12px !important;
+}
+.am-input-group-sm > .am-input-group-label {
     line-height: 26px;
 }
 

@@ -1,0 +1,40 @@
+<form class="am-form form-validation view-save" action="{{:PluginsHomeUrl('answers', 'index', 'answer')}}" method="POST" request-type="ajax-reload">
+    <div class="am-form-group">
+        <label>退款原因<span class="am-form-group-label-tips-must">必选</span></label>
+        <select name="reason" class="chosen-select" data-placeholder="退款原因..." data-validation-message="请选择退款原因" data-only-json='{{:json_encode($return_only_money_reason_list)}}' data-goods-json='{{:json_encode($return_money_goods_reason_list)}}' required>
+        </select>
+    </div>
+
+    <div class="am-form-group form-number">
+        <label>商品件数<span class="am-form-group-label-tips-must">必填</span></label>
+        <div class="am-input-group am-input-group-sm number-container">
+            <span class="am-input-group-label" data-type="0">-</span>
+            <input type="number" name="number" class="am-form-field" value="1" min="1" max="{{$goods.buy_number}}" data-validation-message="请填写有效的商品件数,最小1,最大{{$goods.buy_number}}" required />
+            <span class="am-input-group-label" data-type="1">+</span>
+        </div>
+    </div>
+
+    <div class="am-form-group">
+        <label>退款金额<span class="am-form-group-label-tips-must">必填</span></label>
+        <input type="number" name="price" value="{{$order.pay_price}}" step="0.01" min="0.01" max="{{$order.pay_price}}" class="am-radius" placeholder="退款金额" data-validation-message="请输入有效的退款金额,最低0.01元,最高{{$order.pay_price}}元" required />
+    </div>
+
+    <div class="am-form-group">
+        <label>退款说明<span class="am-form-group-label-tips-must">必填</span></label>
+        <textarea class="am-radius" name="msg" rows="5" minlength="5" maxlength="200" placeholder="退款说明 5~200 个字符之间" data-validation-message="退款说明格式 5~200 个字符之间" required></textarea>
+    </div>
+
+    <div class="am-form-group">
+        <label>上传凭证<span class="am-form-group-label-tips">最多上传3张图片</span></label>
+        <ul class="plug-file-upload-view goods-images-view" data-form-name="images[]" data-max-number="3" data-dialog-type="images">
+        </ul>
+        <div class="plug-file-upload-submit" data-view-tag="ul.goods-images-view">+上传图片</div>
+    </div>
+
+    <div class="am-form-group am-form-group-refreshing">
+        <input type="hidden" name="order_id" value="{{$params.id}}" />
+        <input type="hidden" name="goods_id" value="{{$params.gid}}" />
+        <input type="hidden" name="type" value="" />
+        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">提交</button>
+    </div>
+</form>

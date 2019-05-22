@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\service\CacheService;
+
 /**
  * 缓存管理
  * @author   Devil
@@ -48,7 +50,7 @@ class Cache extends Common
 	public function Index()
 	{
 		// 缓存类型
-		$this->assign('cache_type_list', lang('cache_type_list'));
+		$this->assign('cache_type_list', CacheService::AdminCacheTypeList());
 
 		return $this->fetch();
 	}

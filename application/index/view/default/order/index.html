@@ -130,6 +130,7 @@
                         <th class="row-content">商品</th>
                         <th class="row-price am-hide-sm-only">单价</th>
                         <th class="row-number am-hide-sm-only">数量</th>
+                        <th class="row-goods-operate">商品操作</th>
                         <th class="row-total-price am-hide-sm-only">合计</th>
                         <th class="row-status">状态</th>
                         <th class="row-operate">操作</th>
@@ -142,17 +143,17 @@
                 {{foreach $data_list as $order}}
                     <table id="data-list-{{$order.id}}" class="data-list {{if $order['status'] LT 4}}data-ongoing{{/if}}">
                         <tr class="content-hd">
-                            <td colspan="6">
-                                <span class="am-icon-calendar-check-o"> {{$order.add_time}}</span>
-                                <span class="am-icon-bookmark-o"> {{$order.order_no}}</span>
+                            <td colspan="7">
+                                <span class="am-icon-bookmark-o am-fl"> {{$order.order_no}}</span>
+                                <span class="am-icon-calendar-check-o am-fr"> {{$order.add_time}}</span>
                             </td>
                         </tr>
                         {{foreach $order.items as $keys=>$goods}}
                             <tr>
                                 <td class="base row-content">
                                     <div class="goods-detail">
-                                        <a href="{{$goods.goods_url}}" target="_blank">
-                                            <img src="{{$goods.images}}">
+                                        <a href="{{$goods.goods_url}}" target="_blank" class="goods-images">
+                                            <img src="{{$goods.images}}" alt="{{$goods.title}}" />
                                         </a>
                                         <div class="goods-base">
                                             <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
@@ -182,6 +183,11 @@
                                 <td class="row-number am-hide-sm-only">
                                     x{{$goods.buy_number}}
                                 </td>
+                                <td class="row-number">
+                                    {{if in_array($order['status'], [2,3,4])}}
+                                        <a href="{{:MyUrl('index/order/aftersale', ['id'=>$order['id'], 'gid'=>$goods['goods_id']])}}" target="_blank">申请售后</a>
+                                    {{/if}}
+                                </td>
                                 {{if $keys eq 0}}
                                     <td class="row-total-price am-hide-sm-only" rowspan="{{$order.items_count}}">
                                         <strong class="total-price-content">￥{{$order.total_price}}</strong>
@@ -205,10 +211,6 @@
                                         {{/if}}
                                         {{if in_array($order['status'], [4]) and $order['user_is_comments'] eq 0}}
                                             <a href="{{:MyUrl('index/order/comments', ['id'=>$order['id']])}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius am-icon-heart-o am-btn-block"> 评论</a>
-                                        {{/if}}
-
-                                        {{if in_array($order['status'], [2,3,4])}}
-                                            <a href="{{:MyUrl('index/order/aftersale', ['id'=>$order['id']])}}" target="_blank" class="am-btn am-btn-default am-btn-xs am-radius am-icon-puzzle-piece am-btn-block"> 售后</a>
                                         {{/if}}
 
                                         {{if in_array($order['status'], [4,5,6])}}

@@ -226,7 +226,21 @@ class Order extends Common
         $data = OrderService::OrderList($data_params);
         if(!empty($data['data'][0]))
         {
-            $this->assign('data', $data['data'][0]);
+            // 商品处理
+            $goods = [];
+            if(!empty($data['data'][0]['items']))
+            {
+                foreach($data['data'][0]['items'] as $v)
+                {
+                    if(isset($params['gid']) && $params['gid'] == $v['goods_id'])
+                    {
+                        $goods = $v;
+                        break;
+                    }
+                }
+            }
+            $this->assign('goods', $goods);
+            $this->assign('order', $data['data'][0]);
 
             // 仅退款原因
             $return_only_money_reason = MyC('home_order_aftersale_return_only_money_reason');
@@ -236,6 +250,7 @@ class Order extends Common
             $return_money_goods_reason = MyC('home_order_aftersale_return_money_goods_reason');
             $this->assign('return_money_goods_reason_list', empty($return_money_goods_reason) ? [] : explode("\n", $return_money_goods_reason));
 
+            $this->assign('params', $params);
             return $this->fetch();
         } else {
             $this->assign('msg', '没有相关数据');
