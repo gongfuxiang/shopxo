@@ -39,10 +39,10 @@
 					{{if $k lt 4}}
 						<li>
 							<div class="am-gallery-item">
-								<p class="footer-nav-title ellipsis">{{$v.name}}</p>
+								<p class="footer-nav-title am-text-truncate">{{$v.name}}</p>
 								{{if !empty($v['items'])}}
 									{{foreach $v.items as $vs}}
-										<p class="ellipsis">
+										<p class="am-text-truncate">
 											<a href="{{$vs.url}}" {{if $vs['is_new_window_open'] eq 1}}target="_blank"{{/if}}>{{$vs.name}}</a>
 										</p>
 									{{/foreach}}

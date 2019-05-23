@@ -1,12 +1,5 @@
-ul, li, ol {list-style: none;}
-dl,dt,dd{ margin:0px auto; padding:0px;}
-[class*="am-u-"] {padding-left:0rem;padding-right:0rem;}
-.am-thumbnails {margin-left: 0rem;margin-right: 0rem;}
-.am-thumbnail {margin-bottom:0;}
-.am-thumbnails > li {padding: 0 0rem 0.2rem .2rem;}
-img{ max-width:100%;}
-.price{color: #e4393c;font-weight: 600;}
-
+.i-pic.limit img{ width:100%;}
+.i-pic.limit .price strong{ font-size: 14px; }
 .theme-popover {z-index: 1011;overflow:visible;background:#fff; width: 100%; }
 .sort-nav a:hover, .sort-nav a:focus { color: #d2364c; }
 .select .title-tips { font-size: 12px; color: #888; }
@@ -64,7 +57,7 @@ dl#select3 .dd-conent{ left:-200%; right:0px;}
 .am-pagination li{ float:none;}
 
 .search-side{display: none;}
-.limit p.title,.i-pic.check p.title{padding:0px 5px;margin:5px 0px;overflow:hidden;height:18px;line-height:18px ;}
+.limit p.title,.i-pic.check p.title{padding:0px 5px;}
 .search-pages-submit { margin: 10px 0; }
 
 @media only screen and (min-width: 640px) {
@@ -103,15 +96,6 @@ dl#select3 .dd-conent{ left:-200%; right:0px;}
     .scoll{ margin-top:70px;}
     .am-slider-default .am-direction-nav a {z-index:0;}
     span.am-icon-th-list{color:orangered;margin-right:1px ;}
-
-    /*改写的布局*/   
-    .flood li{width:33.3%;float: left; text-align: center;}
-    .smallnav img{max-width:60px;}
-    .smallnav{ font-size:14px;}
-
-    /*文字布局*/
-    .limit p.title,.i-pic.check p.title{padding:0px 10px;overflow:hidden;height:36px;line-height:18px ;}
-    .price.fl{font-size:16px ;}
 }
 
 @media only screen and (min-width:1025px) {

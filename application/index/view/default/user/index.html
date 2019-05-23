@@ -153,7 +153,7 @@
                                                     <img src="{{$goods.images}}" />
                                                 </a>
                                                 <div class="goods-base">
-                                                    <a href="{{:MyUrl('index/order/detail', ['id'=>$order['id']])}}" target="_blank" class="goods-title ellipsis">{{$goods.title}}</a>
+                                                    <a href="{{:MyUrl('index/order/detail', ['id'=>$order['id']])}}" target="_blank" class="goods-title am-text-truncate">{{$goods.title}}</a>
                                                     <ul>
                                                         <li>
                                                             <span>{{$order.add_time_time}}</span>
@@ -212,7 +212,7 @@
                                                 <img src="{{$goods.images}}" />
                                             </a>
                                             <div class="goods-base">
-                                                <a href="{{:MyUrl('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank" class="goods-title ellipsis">{{$goods.title}}</a>
+                                                <a href="{{:MyUrl('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank" class="goods-title am-text-truncate">{{$goods.title}}</a>
                                                 <ul>
                                                     <li>
                                                         <span class="line-price">￥{{$goods.price}}</span>

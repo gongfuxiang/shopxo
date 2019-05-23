@@ -247,16 +247,6 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
     font-weight: bold;
 }
 
-/* 文字自动隐藏 */
-.ellipsis {
-    -o-text-overflow: ellipsis;
-    text-overflow: ellipsis;      
-    overflow: hidden;
-    white-space: nowrap;
-    max-width: 100%;
-    color: #666;
-}
-
 /**
  * 灰色文字标记
  */
@@ -296,6 +286,9 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
     background: #303030;
     color: #e2e2e2;
     margin-top:20px;
+}
+.am-footer-default p.am-text-truncate {
+    line-height: 24px;
 }
 .am-footer-default a {
     font-size: 12px;

@@ -192,9 +192,9 @@ $(function()
                             html += '<img src="'+result.data.data[i]['images']+'" />';
                             html += '</a>';
                             html += '<a href="'+result.data.data[i]['goods_url']+'" target="_blank">';
-                            html += '<p class="title fl">'+result.data.data[i]['title']+'</p>';
+                            html += '<p class="am-text-truncate title fl">'+result.data.data[i]['title']+'</p>';
                             html += '</a>';
-                            html += '<p class="price fl"><b>¥</b><strong>'+result.data.data[i]['min_price']+'</strong></p>';
+                            html += '<p class="price fl"><strong>¥ '+result.data.data[i]['min_price']+'</strong></p>';
                             html += '<p class="number fl">销量<span>'+result.data.data[i]['sales_count']+'</span></p>';
                             html += '</div></li>';
 
