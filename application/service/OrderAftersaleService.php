@@ -12,6 +12,8 @@ namespace app\service;
 
 use think\Db;
 use think\facade\Hook;
+use app\service\UserService;
+use app\service\ResourcesService;
 
 /**
  * 订单售后服务层
@@ -22,6 +24,12 @@ use think\facade\Hook;
  */
 class OrderAftersaleService
 {
+    // 订单售后类型
+    public static $order_aftersale_type_list = [
+        0 => '仅退款',
+        1 => '退款退货',
+    ];
+
     // 订单售后状态
     public static $order_aftersale_status_list = [
         0 => '待确认',
@@ -329,7 +337,58 @@ class OrderAftersaleService
         {
             foreach($data as &$v)
             {
+                // 用户信息
+                $user = UserService::GetUserViewInfo($v['user_id']);
+                if(isset($params['is_public']) && $params['is_public'] == 0)
+                {
+                    $v['user'] = $user;
+                } else {
+                    $v['user'] = null;
+                }
 
+                // 类型
+                $v['type_text'] = self::$order_aftersale_type_list[$v['type']];
+
+                // 状态
+                $v['status_text'] = self::$order_aftersale_status_list[$v['status']];
+
+                // 图片
+                if(!empty($v['images']))
+                {
+                    $images = json_decode($v['images'], true);
+                    foreach($images as $ik=>$iv)
+                    {
+                        $images[$ik] = ResourcesService::AttachmentPathViewHandle($iv);
+                    }
+                    $v['images'] = $images;
+                } else {
+                    $v['images'] = null;
+                }
+
+                // 申请时间
+                $v['apply_time_time'] = empty($v['apply_time']) ? null : date('Y-m-d H:i:s', $v['apply_time']);
+                $v['apply_time_date'] = empty($v['apply_time']) ? null : date('Y-m-d', $v['apply_time']);
+
+                // 确认时间
+                $v['confirm_time_time'] = empty($v['confirm_time']) ? null : date('Y-m-d H:i:s', $v['confirm_time']);
+                $v['confirm_time_date'] = empty($v['confirm_time']) ? null : date('Y-m-d', $v['confirm_time']);
+
+                // 退货时间
+                $v['delivery_time_time'] = empty($v['delivery_time']) ? null : date('Y-m-d H:i:s', $v['delivery_time']);
+                $v['delivery_time_date'] = empty($v['delivery_time']) ? null : date('Y-m-d', $v['delivery_time']);
+
+                // 审核时间
+                $v['audit_time_time'] = empty($v['audit_time']) ? null : date('Y-m-d H:i:s', $v['audit_time']);
+                $v['audit_time_date'] = empty($v['audit_time']) ? null : date('Y-m-d', $v['audit_time']);
+
+                // 添加时间
+                $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                $v['add_time_date'] = date('Y-m-d', $v['add_time']);
+
+                // 更新时间
+                $v['upd_time_time'] = empty($v['upd_time']) ? null : date('Y-m-d H:i:s', $v['upd_time']);
+                $v['upd_time_date'] = empty($v['upd_time']) ? null : date('Y-m-d', $v['upd_time']);
+                
             }
         }
         return DataReturn('获取成功', 0, $data);
