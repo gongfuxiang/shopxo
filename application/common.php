@@ -1257,6 +1257,9 @@ function ParamsChecked($data, $params)
             continue;
         }
 
+        // 数据类型,默认字符串类型
+        $data_type = empty($v['data_type']) ? 'string' : $v['data_type'];
+
         // 验证规则，默认isset
         $checked_type = isset($v['checked_type']) ? $v['checked_type'] : 'isset';
         switch($checked_type)
@@ -1311,7 +1314,12 @@ function ParamsChecked($data, $params)
                 {
                     return $v['error_msg'];
                 }
-                $length = mb_strlen($data[$v['key_name']], 'utf-8');
+                if($data_type == 'array')
+                {
+                    $length = count($data[$v['key_name']]);
+                } else {
+                    $length = mb_strlen($data[$v['key_name']], 'utf-8');
+                }
                 $rule = explode(',', $v['checked_data']);
                 if(count($rule) == 1)
                 {

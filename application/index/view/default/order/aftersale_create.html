@@ -1,4 +1,4 @@
-<form class="am-form form-validation view-save" action="{{:PluginsHomeUrl('answers', 'index', 'answer')}}" method="POST" request-type="ajax-reload">
+<form class="am-form form-validation view-save" action="{{:MyUrl('index/order/aftersalecreate')}}" method="POST" request-type="ajax-reload">
     <div class="am-form-group">
         <label>退款原因<span class="am-form-group-label-tips-must">必选</span></label>
         <select name="reason" class="chosen-select" data-placeholder="退款原因..." data-validation-message="请选择退款原因" data-only-json='{{:json_encode($return_only_money_reason_list)}}' data-goods-json='{{:json_encode($return_money_goods_reason_list)}}' required>

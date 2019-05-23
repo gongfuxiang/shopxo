@@ -204,7 +204,7 @@ ul.progress li.current .title {
 .original-price { color: #9c9c9c; text-decoration: line-through; }
 .line-price { color: #3c3c3c; }
 .line-price, strong.total-price-content, strong.total-price-content { font-weight: 700; font-family: Verdana,Tahoma,arial; }
-strong.total-price-content { color: #d2364c; font-size: 16px; }
+strong.total-price-content { color: #d2364c; }
 .am-table { margin-bottom: 10px; }
 .am-table > tbody > tr > td { border-top: 1px solid #F5F5F5; }
 .am-table > thead > tr > th { border-bottom: 1px solid #f7f7f7; }

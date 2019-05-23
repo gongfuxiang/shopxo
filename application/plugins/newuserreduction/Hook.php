@@ -99,10 +99,7 @@ class Hook
                 ];
 
                 // 金额
-                if($params['data']['base']['increase_price'] > 0)
-                {
-                    $params['data']['base']['increase_price'] -= $price;
-                }
+                $params['data']['base']['preferential_price'] += $price;
                 if($params['data']['base']['actual_price'] > 0)
                 {
                     $params['data']['base']['actual_price'] -= $price;

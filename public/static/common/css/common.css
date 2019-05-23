@@ -258,6 +258,12 @@ ul.plug-file-upload-view-video li {
     border-color: #fff0e4;
     color: #f37b1d;
 }
+.am-alert a {
+    color: #d2354c;
+}
+.am-alert-danger a {
+    color: #136ed9;
+}
 .am-input-radius input.am-form-field {
     border-bottom-left-radius: 2px;
     border-top-left-radius: 2px;

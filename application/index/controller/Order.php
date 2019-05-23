@@ -13,6 +13,7 @@ namespace app\index\controller;
 use app\service\OrderService;
 use app\service\PaymentService;
 use app\service\GoodsCommentsService;
+use app\service\OrderAftersaleService;
 
 /**
  * 订单管理
@@ -211,36 +212,13 @@ class Order extends Common
     {
         // 参数
         $params = input();
-        $params['user'] = $this->user;
-        $params['user_type'] = 'user';
-
-        // 条件
-        $where = OrderService::OrderListWhere($params);
-
-        // 获取列表
-        $data_params = array(
-            'm'         => 0,
-            'n'         => 1,
-            'where'     => $where,
-        );
-        $data = OrderService::OrderList($data_params);
-        if(!empty($data['data'][0]))
+        $order_id = isset($params['id']) ? intval($params['id']) : 0;
+        $goods_id = isset($params['gid']) ? intval($params['gid']) : 0;
+        $ret = OrderAftersaleService::OrdferGoodsRow($order_id, $goods_id, $this->user['id']);
+        if($ret['code'] == 0)
         {
-            // 商品处理
-            $goods = [];
-            if(!empty($data['data'][0]['items']))
-            {
-                foreach($data['data'][0]['items'] as $v)
-                {
-                    if(isset($params['gid']) && $params['gid'] == $v['goods_id'])
-                    {
-                        $goods = $v;
-                        break;
-                    }
-                }
-            }
-            $this->assign('goods', $goods);
-            $this->assign('order', $data['data'][0]);
+            $this->assign('goods', $ret['data']['items']);
+            $this->assign('order', $ret['data']);
 
             // 仅退款原因
             $return_only_money_reason = MyC('home_order_aftersale_return_only_money_reason');
@@ -250,12 +228,55 @@ class Order extends Common
             $return_money_goods_reason = MyC('home_order_aftersale_return_money_goods_reason');
             $this->assign('return_money_goods_reason_list', empty($return_money_goods_reason) ? [] : explode("\n", $return_money_goods_reason));
 
+            // 获取当前订单商品售后最新的一条纪录
+            $data_params = [
+                'm'     => 0,
+                'n'     => 1,
+                'where' => [
+                    ['order_id', '=', $order_id],
+                    ['goods_id', '=', $goods_id],
+                    ['user_id', '=', $this->user['id']],
+                ],
+            ];
+            $new_aftersale = OrderAftersaleService::OrderGoodsAftersaleList($data_params);
+            $this->assign('new_aftersale_data', empty($new_aftersale['data'][0]) ? [] : $new_aftersale['data'][0]);
+
             $this->assign('params', $params);
             return $this->fetch();
         } else {
-            $this->assign('msg', '没有相关数据');
+            $this->assign('msg', $ret['msg']);
             return $this->fetch('public/tips_error');
         }
+    }
+
+    /**
+     * 申请售后创建
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-23
+     * @desc    description
+     */
+    public function AftersaleCreate()
+    {
+        $params = input();
+        $params['user'] = $this->user;
+        return OrderAftersaleService::AftersaleCreate($params);
+    }
+
+    /**
+     * 申请售后-用户发货
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-23
+     * @desc    description
+     */
+    public function AftersaleDelivery()
+    {
+        $params = input();
+        $params['user'] = $this->user;
+        return OrderAftersaleService::AftersaleDelivery($params);
     }
 
     /**

@@ -11,7 +11,7 @@
 namespace app\plugins\touristbuy;
 
 use think\Controller;
-use app\plugins\touristbuy\Service;
+use app\plugins\touristbuy\service\Service;
 use app\service\PluginsService;
 use app\service\UserService;
 
