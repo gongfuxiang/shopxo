@@ -967,7 +967,7 @@ class UserService
     public static function UserLoginHandle($user_id, $params = [])
     {
         // 登录记录
-        if(self::UserLoginRecord($user_id]))
+        if(self::UserLoginRecord($user_id))
         {
             // 返回前端html代码
             $body_html = [];
