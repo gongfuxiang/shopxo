@@ -103,10 +103,12 @@ return array (
   'plugins_view_header_navigation_top_left' => 
   array (
     0 => 'app\\plugins\\touristbuy\\Hook',
+    1 => 'app\\plugins\\weixinwebauthorization\\Hook',
   ),
   'plugins_view_user_login_info_top' => 
   array (
     0 => 'app\\plugins\\touristbuy\\Hook',
+    1 => 'app\\plugins\\weixinwebauthorization\\Hook',
   ),
   'plugins_view_user_reg_info' => 
   array (
@@ -153,6 +155,10 @@ return array (
   'plugins_service_header_navigation_top_right_handle' => 
   array (
     0 => 'app\\plugins\\wallet\\Hook',
+  ),
+  'plugins_view_user_reg_info_top' => 
+  array (
+    0 => 'app\\plugins\\weixinwebauthorization\\Hook',
   ),
 );
 ?>

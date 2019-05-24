@@ -1,0 +1,40 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:PluginsAdminUrl('weixinwebauthorization', 'admin', 'save')}}" method="POST" request-type="ajax-url" request-value="{{:PluginsAdminUrl('weixinwebauthorization', 'admin', 'index')}}" enctype="multipart/form-data">
+            <legend>
+                <span class="fs-16">微信登录</span>
+                <a href="{{:PluginsAdminUrl('weixinwebauthorization', 'admin', 'index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+            </legend>
+
+            <div class="am-form-group">
+                <label>appid<span class="am-form-group-label-tips">公众号/服务号AppID</span></label>
+                <input type="text" name="appid" placeholder="appid" maxlength="30" data-validation-message="appid格式最多 30 个字符" class="am-radius" {{if !empty($data['appid'])}} value="{{$data.appid}}"{{/if}} />
+            </div>
+
+            <div class="am-form-group">
+                <label>授权方式<span class="am-form-group-label-tips">默认 静默授权方式</span></label>
+                <div>
+                    {{foreach $is_auth_type_list as $v}}
+                        <label class="am-radio-inline m-r-10">
+                            <input type="radio" name="auth_type" value="{{$v.id}}" {{if isset($data['auth_type']) and $data['auth_type'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['auth_type']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
