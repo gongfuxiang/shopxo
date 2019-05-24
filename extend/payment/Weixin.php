@@ -226,12 +226,6 @@ class Weixin
                                       if(res.err_msg == "get_brand_wcpay_request:ok" )
                                       {
                                         Prompt(result.msg, "success");
-                                        {{if !empty($redirect_url)}}
-                                            setTimeout(function()
-                                            {
-                                                window.location.href = "{{$redirect_url}}";
-                                            }, 1500);
-                                        {{/if}}
                                       } else if(res.err_msg == "get_brand_wcpay_request:cancel")
                                       {
                                         Prompt("用户取消");
