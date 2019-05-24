@@ -210,55 +210,55 @@ class Weixin
                 // 微信中
                 if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false)
                 {
-                    $html = '<script type="text/javascript">
-                                function onBridgeReady()
-                                {
-                                   WeixinJSBridge.invoke(
-                                      \'getBrandWCPayRequest\', {
-                                         "appId":"'.$pay_data['appId'].'",
-                                         "timeStamp":"'.$pay_data['timeStamp'].'",
-                                         "nonceStr":"'.$pay_data['nonceStr'].'",
-                                         "package":"'.$pay_data['package'].'",     
-                                         "signType":"'.$pay_data['signType'].'",
-                                         "paySign":"'.$pay_data['paySign'].'"
-                                      },
-                                      function(res) {
-                                      if(res.err_msg == "get_brand_wcpay_request:ok" )
-                                      {
-                                        Prompt(result.msg, "success");
-                                      } else if(res.err_msg == "get_brand_wcpay_request:cancel")
-                                      {
-                                        Prompt("用户取消");
-                                      } else if(res.err_msg == "get_brand_wcpay_request:fail")
-                                      {
-                                        Prompt("支付失败");
-                                      } else {
-                                        Prompt("支付参数有误");
-                                      }
-                                   }); 
-                                }
-                                if(typeof WeixinJSBridge == "undefined")
-                                {
-                                   if( document.addEventListener )
-                                   {
-                                       document.addEventListener("WeixinJSBridgeReady", onBridgeReady, false);
-                                   } else if (document.attachEvent)
-                                   {
-                                       document.attachEvent("WeixinJSBridgeReady", onBridgeReady); 
-                                       document.attachEvent("onWeixinJSBridgeReady", onBridgeReady);
-                                   }
-                                } else {
-                                   onBridgeReady();
-                                }
-                                </script>';
-                                // echo '<pre>';
-                                // echo htmlspecialchars($html);
-                                // die;
-                                die($html);
-                    /*session('weixin_pay_data', $pay_data);
-                    session('weixin_redirect_url', empty($redirect_url) ? '' : urldecode($redirect_url));
-                    $url = PluginsHomeUrl('weixinwebauthorization', 'pay', 'index');
-                    $result = DataReturn('success', 0, $url);*/
+                    $html = '<html>
+                                <head>
+                                    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+                                    <title>微信安全支付</title>
+                                    <script type="text/javascript">
+                                        function onBridgeReady()
+                                        {
+                                           WeixinJSBridge.invoke(
+                                              \'getBrandWCPayRequest\', {
+                                                 "appId":"'.$pay_data['appId'].'",
+                                                 "timeStamp":"'.$pay_data['timeStamp'].'",
+                                                 "nonceStr":"'.$pay_data['nonceStr'].'",
+                                                 "package":"'.$pay_data['package'].'",     
+                                                 "signType":"'.$pay_data['signType'].'",
+                                                 "paySign":"'.$pay_data['paySign'].'"
+                                              },
+                                              function(res) {
+                                              if(res.err_msg == "get_brand_wcpay_request:ok" )
+                                              {
+                                                Prompt(result.msg, "success");
+                                              } else if(res.err_msg == "get_brand_wcpay_request:cancel")
+                                              {
+                                                Prompt("用户取消");
+                                              } else if(res.err_msg == "get_brand_wcpay_request:fail")
+                                              {
+                                                Prompt("支付失败");
+                                              } else {
+                                                Prompt("支付参数有误");
+                                              }
+                                           }); 
+                                        }
+                                        if(typeof WeixinJSBridge == "undefined")
+                                        {
+                                           if( document.addEventListener )
+                                           {
+                                               document.addEventListener("WeixinJSBridgeReady", onBridgeReady, false);
+                                           } else if (document.attachEvent)
+                                           {
+                                               document.attachEvent("WeixinJSBridgeReady", onBridgeReady); 
+                                               document.attachEvent("onWeixinJSBridgeReady", onBridgeReady);
+                                           }
+                                        } else {
+                                           onBridgeReady();
+                                        }
+                                    </script>
+                                    </head>
+                                <body>
+                            </html>';
+                            exit($html);
                 } else {
                     $result = DataReturn('success', 0, $pay_data);
                 }
