@@ -53,6 +53,7 @@ class Service
                 {
                     return DataReturn('登录成功', 0, $ret['data']);
                 }
+                return $ret;
             }
         } else {
             return DataReturn('用户openid为空', -1);
