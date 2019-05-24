@@ -141,6 +141,8 @@ class Weixin
         // xml
         $xml = $this->ArrayToXml($ret['data']);
         $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/pay/unifiedorder', $xml));
+
+        print_r($result);die;
         if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['prepay_id']))
         {
             return $this->PayHandleReturn($ret['data'], $result, $params);
@@ -259,7 +261,7 @@ class Weixin
             'attach'            => empty($params['attach']) ? $params['site_name'].'-'.$params['name'] : $params['attach'],
             'sign_type'         => 'MD5',
         ];
-        $data['sign'] = $this->GetSign($data);print_r($data);die;
+        $data['sign'] = $this->GetSign($data);
         return DataReturn('success', 0, $data);
     }
 
