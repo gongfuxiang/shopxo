@@ -964,7 +964,7 @@ class UserService
      * @param   [int]          $user_id [用户id]
      * @param   [array]        $params  [输入参数]
      */
-    public static function UserLoginHandle($user_id, $params)
+    public static function UserLoginHandle($user_id, $params = [])
     {
         // 登录记录
         if(self::UserLoginRecord($user_id]))
