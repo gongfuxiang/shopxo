@@ -259,6 +259,8 @@ class Weixin
             'attach'            => empty($params['attach']) ? $params['site_name'].'-'.$params['name'] : $params['attach'],
             'sign_type'         => 'MD5',
         ];
+
+        print_r($data);die;
         $data['sign'] = $this->GetSign($data);
         return DataReturn('success', 0, $data);
     }
@@ -291,7 +293,7 @@ class Weixin
         {
             $type_all['pc'] = $type_all['weixin'];
         }
-        print_r($type_all);die;
+
         return isset($type_all[APPLICATION_CLIENT_TYPE]) ? $type_all[APPLICATION_CLIENT_TYPE] : '';
     }
 
