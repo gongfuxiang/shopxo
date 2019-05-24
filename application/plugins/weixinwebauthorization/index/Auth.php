@@ -49,7 +49,7 @@ class Auth extends Controller
             $auth_type = (isset($ret['data']['auth_type']) && $ret['data']['auth_type'] == 1) ? 'snsapi_userinfo' : 'snsapi_base';
 
             // 授权code
-            $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$ret['data']['appid'].'&redirect_uri='.$redirect_uri.'&response_type=code&scope='.$auth_type.'&state=login#wechat_redirect';
+            $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$ret['data']['appid'].'&redirect_uri='.$redirect_uri.'&response_type=cossde&scope='.$auth_type.'&state=login#wechat_redirect';
             return redirect($url);
         } else {
             $this->assign('msg', $ret['msg']);
@@ -67,6 +67,12 @@ class Auth extends Controller
      */
     public function callback($params = [])
     {
+        // 参数校验
+        if(empty($params['code']))
+        {
+            $this->assign('msg', '授权code为空');
+            return $this->fetch('public/tips_error');
+        }
         echo '<pre>';
         print_r($params);
 
