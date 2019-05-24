@@ -257,6 +257,7 @@ class Weixin
                                    onBridgeReady();
                                 }
                                 </script>';
+                                echo '<pre>';
                                 echo htmlspecialchars($html);
                                 die;
                                 die($html);
