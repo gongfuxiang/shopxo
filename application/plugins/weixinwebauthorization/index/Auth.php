@@ -80,9 +80,7 @@ class Auth extends Controller
         $ret = $this->RemoteAccessToken($params);
 
         echo '<pre>';
-        print_r($params);
-
-        echo __MY_VIEW_URL__;
+        print_r($ret);
     }
 
     /**
