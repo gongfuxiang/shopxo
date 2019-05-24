@@ -291,6 +291,7 @@ class Weixin
         {
             $type_all['pc'] = $type_all['weixin'];
         }
+        print_r($type_all);die;
         return isset($type_all[APPLICATION_CLIENT_TYPE]) ? $type_all[APPLICATION_CLIENT_TYPE] : '';
     }
 
