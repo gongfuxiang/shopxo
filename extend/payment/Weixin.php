@@ -205,6 +205,13 @@ class Weixin
                     'timeStamp'     => (string) time(),
                 );
                 $pay_data['paySign'] = $this->GetSign($pay_data);
+
+                // 微信中
+                if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false)
+                {
+                    $url = PluginsHomeUrl('weixinwebauthorization', 'pay', 'index', ['pay_data'=>urlencode(json_encode($pay_data))]);
+                    $result = DataReturn('success', 0, $url);
+                }
                 $result = DataReturn('success', 0, $pay_data);
                 break;
 
@@ -213,7 +220,6 @@ class Weixin
                 $result = DataReturn('APP支付暂未开放', -1);
                 break;
         }
-        print_r($result);die;
         return $result;
     }
 
