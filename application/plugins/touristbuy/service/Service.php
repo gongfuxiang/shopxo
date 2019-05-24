@@ -49,11 +49,7 @@ class Service
             if(!empty($user))
             {
                 // 用户登录
-                $ret = UserService::Login(['accounts'=>$user['username'], 'pwd'=>$user['username']]);
-                if($ret['code'] == 0)
-                {
-                    return DataReturn('登录成功', 0, $ret['data']);
-                }
+                return UserService::UserLoginHandle($tourist_user_id, $params);
             }
             session('tourist_user_id', null);
         }
