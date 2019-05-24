@@ -251,9 +251,9 @@ class Weixin
                                    onBridgeReady();
                                 }
                                 </script>';
-                                echo '<pre>';
-                                echo htmlspecialchars($html);
-                                die;
+                                // echo '<pre>';
+                                // echo htmlspecialchars($html);
+                                // die;
                                 die($html);
                     /*session('weixin_pay_data', $pay_data);
                     session('weixin_redirect_url', empty($redirect_url) ? '' : urldecode($redirect_url));
