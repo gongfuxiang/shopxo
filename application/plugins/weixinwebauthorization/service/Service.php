@@ -55,7 +55,7 @@ class Service
         }
 
         // 用户名
-        $username = empty($params['nickname']) ? '微信'.RandomString(6) : $params['username'].RandomString(6);
+        $username = empty($params['nickname']) ? '微信'.RandomString(6) : $params['nickname'].RandomString(6);
         if(mb_strlen($username, 'utf-8') > 18)
         {
             $username = mb_substr($username, 0, 18);
