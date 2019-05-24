@@ -48,22 +48,24 @@ class Service
             if(!empty($user))
             {
                 // 用户登录
-                $ret = UserService::Login(['accounts'=>$user['username'], 'pwd'=>$user['username']]);
-                if($ret['code'] == 0)
-                {
-                    return DataReturn('登录成功', 0, $ret['data']);
-                }
-                return $ret;
+                return UserService::UserLoginHandle($user['id'] $params);
             }
         } else {
             return DataReturn('用户openid为空', -1);
+        }
+
+        // 用户名
+        $username = empty($params['nickname']) ? '微信'.RandomString(6) : $params['username'].RandomString(6);
+        if(mb_strlen($username, 'utf-8') > 18)
+        {
+            $username = mb_substr($username, 0, 18);
         }
 
         // 游客数据
         $salt = GetNumberCode(6);
         $data = [
             'weixin_web_openid' => $params['openid'],
-            'username'          => $params['openid'],
+            'username'          => $username,
             'nickname'          => empty($params['nickname']) ? '' : $params['nickname'],
             'gender'            => empty($params['sex']) ? 0 : (isset($params['sex']) && $params['sex'] == 1) ? 2 : 1,
             'province'          => empty($params['province']) ? '' : $params['province'],
@@ -71,7 +73,7 @@ class Service
             'avatar'            => empty($params['headimgurl']) ? '' : $params['headimgurl'],
             'status'            => 0,
             'salt'              => $salt,
-            'pwd'               => LoginPwdEncryption($params['openid'], $salt),
+            'pwd'               => LoginPwdEncryption($username, $salt),
             'add_time'          => time(),
             'upd_time'          => time(),
         ];

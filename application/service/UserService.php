@@ -949,33 +949,49 @@ class UserService
             );
         if(Db::name('User')->where(['id'=>$user['id']])->update($data) !== false)
         {
-            // 登录记录
-            if(self::UserLoginRecord($user['id']))
+            return self::UserLoginHandle($user['id'], $params);
+        }
+        return DataReturn('登录失效，请重新登录', -100);
+    }
+
+    /**
+     * 登录处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-24
+     * @desc    description
+     * @param   [int]          $user_id [用户id]
+     * @param   [array]        $params  [输入参数]
+     */
+    public static function UserLoginHandle($user_id, $params)
+    {
+        // 登录记录
+        if(self::UserLoginRecord($user_id]))
+        {
+            // 返回前端html代码
+            $body_html = [];
+
+            // 用户登录后钩子
+            $hook_name = 'plugins_service_user_login_end';
+            $ret = Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'user_id'       => $user_id,
+                'user'          => Db::name('User')->field('id,username,nickname,mobile,email,gender,avatar,province,city,birthday')->where(['id'=>$user_id])->find(),
+                'body_html'     => &$body_html,
+            ]);
+            if(isset($ret['code']) && $ret['code'] != 0)
             {
-                // 返回前端html代码
-                $body_html = [];
-
-                // 用户登录后钩子
-                $hook_name = 'plugins_service_user_login_end';
-                $ret = Hook::listen($hook_name, [
-                    'hook_name'     => $hook_name,
-                    'is_backend'    => true,
-                    'params'        => &$params,
-                    'user_id'       => $user['id'],
-                    'user'          => Db::name('User')->field('id,username,nickname,mobile,email,gender,avatar,province,city,birthday')->where(['id'=>$user['id']])->find(),
-                    'body_html'     => &$body_html,
-                ]);
-                if(isset($ret['code']) && $ret['code'] != 0)
-                {
-                    return $ret;
-                }
-
-                // 登录返回
-                $result = [
-                    'body_html'    => is_array($body_html) ? implode(' ', $body_html) : $body_html,
-                ];
-                return DataReturn('登录成功', 0, $result);
+                return $ret;
             }
+
+            // 登录返回
+            $result = [
+                'body_html'    => is_array($body_html) ? implode(' ', $body_html) : $body_html,
+            ];
+            return DataReturn('登录成功', 0, $result);
         }
         return DataReturn('登录失效，请重新登录', -100);
     }
