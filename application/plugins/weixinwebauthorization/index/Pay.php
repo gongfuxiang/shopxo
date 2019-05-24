@@ -31,11 +31,12 @@ class Pay extends Controller
      */
     public function Index($params = [])
     {
-        if(empty($params['pay_data']))
+        if(!empty($params['pay_data']))
         {
             $pay_data = json_decode(urldecode($params['pay_data']), true);
-            print_r($pay_data);die;
-            
+            $redirect_url = empty($params['redirect_url']) ? '' : urldecode($params['redirect_url']);
+            $this->assign('pay_data', $pay_data);
+            $this->assign('redirect_url', $redirect_url);
             return $this->fetch('../../../plugins/view/weixinwebauthorization/index/pay/index');
         } else {
             $this->assign('msg', '支付参数错误');

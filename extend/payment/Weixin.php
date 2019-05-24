@@ -166,6 +166,7 @@ class Weixin
      */
     private function PayHandleReturn($pay_params = [], $data = [], $params = [])
     {
+        $redirect_url = empty($params['order_id']) ? '' : urlencode(MyUrl('index/order/detail', ['id'=>$params['order_id']]));
         $result = DataReturn('支付接口异常', -1);
         switch($pay_params['trade_type'])
         {
@@ -190,7 +191,7 @@ class Weixin
             case 'MWEB' :
                 if(!empty($params['order_id']))
                 {
-                    $data['mweb_url'] .= '&redirect_url='.urlencode(MyUrl('index/order/detail', ['id'=>$params['order_id']]));
+                    $data['mweb_url'] .= '&redirect_url='.$redirect_url;
                 }
                 $result = DataReturn('success', 0, $data['mweb_url']);
                 break;
@@ -209,7 +210,7 @@ class Weixin
                 // 微信中
                 if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false)
                 {
-                    $url = PluginsHomeUrl('weixinwebauthorization', 'pay', 'index', ['pay_data'=>urlencode(json_encode($pay_data))]);
+                    $url = PluginsHomeUrl('weixinwebauthorization', 'pay', 'index', ['pay_data'=>urlencode(json_encode($pay_data)), 'redirect_url'=>$redirect_url]);
                     $result = DataReturn('success', 0, $url);
                 } else {
                     $result = DataReturn('success', 0, $pay_data);
