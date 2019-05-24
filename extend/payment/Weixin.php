@@ -287,9 +287,7 @@ class Weixin
         }
 
         // 微信中打开
-        $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
-        var_dump($user_agent);die;
-        if(!empty($user_agent) && strpos($user_agent, 'MicroMessenger') !== false)
+        if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false)
         {
             $type_all['pc'] = $type_all['weixin'];
         }
