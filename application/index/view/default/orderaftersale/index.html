@@ -95,6 +95,7 @@
                 <table class="am-table am-table-striped">
                     <thead>
                         <tr>
+                            <th>商品信息</th>
                             <th>申请信息</th>
                             <th class="am-hide-sm-only">凭证</th>
                             <th>状态</th>
@@ -106,6 +107,7 @@
                         {{if !empty($data_list)}}
                             {{foreach $data_list as $v}}
                                 <tr>
+                                    <td>商品信息</td>
                                     <td>
                                         类型：{{$v.type_text}}<br />
                                         原因：{{$v.reason}}<br />
