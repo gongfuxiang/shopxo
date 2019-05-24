@@ -20,6 +20,16 @@
                 </div>
             </div>
             <div class="items">
+                <label>AppSecret</label>
+                <div>
+                    {{if !empty($data['secret'])}}
+                        {{$data.secret}}
+                    {{else /}}
+                        未填写
+                    {{/if}}
+                </div>
+            </div>
+            <div class="items">
                 <label>授权方式</label>
                 <div>
                     {{if isset($data['auth_type']) and $data['auth_type'] eq 1}}

@@ -16,6 +16,11 @@
             </div>
 
             <div class="am-form-group">
+                <label>secret<span class="am-form-group-label-tips">公众号/服务号AppSecret</span></label>
+                <input type="text" name="secret" placeholder="secret" maxlength="60" data-validation-message="secret格式最多 60 个字符" class="am-radius" {{if !empty($data['secret'])}} value="{{$data.secret}}"{{/if}} />
+            </div>
+
+            <div class="am-form-group">
                 <label>授权方式<span class="am-form-group-label-tips">默认 静默授权方式</span></label>
                 <div>
                     {{foreach $is_auth_type_list as $v}}
