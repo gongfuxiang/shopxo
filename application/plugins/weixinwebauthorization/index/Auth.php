@@ -12,6 +12,7 @@ namespace app\plugins\weixinwebauthorization\index;
 
 use think\Controller;
 use app\service\PluginsService;
+use app\plugins\weixinwebauthorization\service\Service;
 
 /**
  * 微信登录 - 登录授权
@@ -74,28 +75,69 @@ class Auth extends Controller
             return $this->fetch('public/tips_error');
         }
 
-        // 本地获取access_token
-
         // 远程获取access_token
         $ret = $this->RemoteAccessToken($params);
+        if($ret['code'] != 0)
+        {
+            $this->assign('msg', $ret['msg']);
+            return $this->fetch('public/tips_error');
+        }
 
-        echo '<pre>';
-        print_r($ret);
+        // 获取用户信息
+        $ret = $this->UserInfo($ret['data']);
+        if($ret['code'] != 0)
+        {
+            $this->assign('msg', $ret['msg']);
+            return $this->fetch('public/tips_error');
+        }
+
+        // 处理用户数据
+        $ret = Service::WeixinAuthReg($ret['data']);
+        if($ret['code'] == 0)
+        {
+            $this->assign('msg', $ret['msg']);
+            $this->assign('data', $ret['data']);
+            return $this->fetch('../../../plugins/view/weixinwebauthorization/index/public/success');
+        } else {
+            $this->assign('msg', $ret['msg']);
+            return $this->fetch('public/error');
+        }
     }
 
     /**
-     * 获取access_token
+     * 获取用户信息
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2019-05-24
      * @desc    description
-     * @param   array           $params [description]
+     * @param    [array]          $params [输入参数]
      */
-    private function AccessToken($params = [])
+    private function UserInfo($params = [])
     {
-        
-        
+        // 参数校验
+        if(empty($params['access_token']))
+        {
+            return DataReturn('access_token为空', -1);
+        }
+        if(empty($params['openid']))
+        {
+            return DataReturn('openid为空', -1);
+        }
+
+        // 获取用户详细信息
+        $url = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$params['access_token'].'&openid='.$params['openid'].'&lang=zh_CN';
+        $data = json_decode(file_get_contents($url), true);
+        if(empty($data['openid']))
+        {
+            if(empty($data['errmsg']))
+            {
+                return DataReturn('获取用户信息失败', -100);
+            } else {
+                return DataReturn($data['errmsg'], -100);
+            }
+        }
+        return DataReturn('获取成功', 0, $data);
     }
 
     /**
@@ -105,7 +147,7 @@ class Auth extends Controller
      * @version 1.0.0
      * @date    2019-05-24
      * @desc    description
-     * @param   array           $params [description]
+     * @param    [array]          $params [输入参数]
      */
     private function RemoteAccessToken($params = [])
     {
@@ -129,9 +171,16 @@ class Auth extends Controller
             // 获取access_token
             $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$ret['data']['appid'].'&secret='.$ret['data']['secret'].'&code='.$params['code'].'&grant_type=authorization_code';
             $data = json_decode(file_get_contents($url), true);
-
-            echo '<pre>';
-            print_r($data);die;
+            if(empty($data['access_token']))
+            {
+                if(empty($data['errmsg']))
+                {
+                    return DataReturn('获取access_token失败', -100);
+                } else {
+                    return DataReturn($data['errmsg'], -100);
+                }
+            }
+            return DataReturn('获取成功', 0, $data);
 
         } else {
             return DataReturn($ret['msg'], -1);
