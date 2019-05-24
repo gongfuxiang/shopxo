@@ -163,14 +163,19 @@ class SearchService
             $screening_price = $price['min_price'].'-'.$price['max_price'];
         }
         
-        // 参数
-        $params['screening_price'] = $screening_price;
-        $params['ymd'] = date('Ymd');
-        $params['add_time'] = time();
-        unset($params['screening_price_id'], $params['page'], $params['max_price'], $params['min_price']);
-
         // 添加日志
-        Db::name('SearchHistory')->insert($params);
+        $data = [
+            'user_id'               => isset($params['user_id']) ? intval($params['user_id']) : 0,
+            'brand_id'              => isset($params['brand_id']) ? intval($params['brand_id']) : 0,
+            'category_id'           => isset($params['category_id']) ? intval($params['category_id']) : 0,
+            'keywords'              => empty($params['keywords']) ? '' : $params['keywords'],
+            'order_by_field'        => empty($params['order_by_field']) ? '' : $params['order_by_field'],
+            'order_by_type'         => empty($params['order_by_type']) ? '' : $params['order_by_type'],
+            'screening_price'       => $screening_price,
+            'ymd'                   => date('Ymd'),
+            'add_time'              => time(),
+        ];
+        Db::name('SearchHistory')->insert($data);
     }
 
     /**

@@ -24,22 +24,6 @@ use app\service\ResourcesService;
  */
 class OrderAftersaleService
 {
-    // 订单售后类型
-    public static $order_aftersale_type_list = [
-        0 => '仅退款',
-        1 => '退款退货',
-    ];
-
-    // 订单售后状态
-    public static $order_aftersale_status_list = [
-        0 => '待确认',
-        1 => '待退货',
-        2 => '待审核',
-        3 => '已完成',
-        4 => '已拒绝',
-        5 => '已取消',
-    ];
-
     /**
      * 获取一条订单,附带一条指定商品
      * @author  Devil
@@ -166,7 +150,7 @@ class OrderAftersaleService
             ['order_id', '=', intval($params['order_id'])],
             ['goods_id', '=', intval($params['goods_id'])],
             ['user_id', '=', $params['user']['id']],
-            ['status', '<=', 1],
+            ['status', '<=', 2],
         ];
         $count = (int) Db::name('OrderAftersale')->where($where)->count();
         if($count > 0)
@@ -177,9 +161,8 @@ class OrderAftersaleService
         // 获取历史申请售后条件
         $where = [
             ['order_id', '=', intval($params['order_id'])],
-            ['goods_id', '=', intval($params['goods_id'])],
             ['user_id', '=', $params['user']['id']],
-            ['status', '<=', 2],
+            ['status', '<=', 3],
         ];
 
         // 退款金额
@@ -196,6 +179,7 @@ class OrderAftersaleService
         $number = isset($params['number']) ? intval($params['number']) : 0;
 
         // 历史退货数量
+        $where[] = ['goods_id', '=', intval($params['goods_id'])];
         $history_number = (int) Db::name('OrderAftersale')->where($where)->sum('number');
         if($params['type'] == 1)
         {
@@ -217,6 +201,7 @@ class OrderAftersaleService
 
         // 数据
         $data = [
+            'order_no'      => $order['data']['order_no'],
             'type'          => intval($params['type']),
             'order_id'      => intval($params['order_id']),
             'goods_id'      => intval($params['goods_id']),
@@ -226,6 +211,7 @@ class OrderAftersaleService
             'reason'        => $params['reason'],
             'msg'           => $params['msg'],
             'images'        => json_encode($images),
+            'status'        => ($params['type'] == 0) ? 2 : 0,
             'add_time'      => time(),
             'apply_time'    => time(),
         ];
@@ -296,7 +282,8 @@ class OrderAftersaleService
         }
         if($aftersale['status'] != 1)
         {
-            return DataReturn('该售后订单状态不可操作['.self::$order_aftersale_status_list[$aftersale['status']].']', -10);
+            $common_order_aftersale_status_list = lang('common_order_aftersale_status_list');
+            return DataReturn('该售后订单状态不可操作['.$common_order_aftersale_status_list[$aftersale['status']]['name'].']', -10);
         }
 
         // 数据
@@ -315,7 +302,7 @@ class OrderAftersaleService
     }
 
     /**
-     * 获取订单商品售后纪录列表
+     * 获取订单售后纪录列表
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -323,7 +310,7 @@ class OrderAftersaleService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function OrderGoodsAftersaleList($params = [])
+    public static function OrderAftersaleList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
@@ -335,6 +322,9 @@ class OrderAftersaleService
         $data = Db::name('OrderAftersale')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
+            $common_order_aftersale_type_list = lang('common_order_aftersale_type_list');
+            $common_order_aftersale_status_list = lang('common_order_aftersale_status_list');
+            $common_order_aftersale_refundment_list = lang('common_order_aftersale_refundment_list');
             foreach($data as &$v)
             {
                 // 用户信息
@@ -347,10 +337,13 @@ class OrderAftersaleService
                 }
 
                 // 类型
-                $v['type_text'] = self::$order_aftersale_type_list[$v['type']];
+                $v['type_text'] = $common_order_aftersale_type_list[$v['type']]['name'];
 
                 // 状态
-                $v['status_text'] = self::$order_aftersale_status_list[$v['status']];
+                $v['status_text'] = $common_order_aftersale_status_list[$v['status']]['name'];
+
+                // 退款方式
+                $v['refundment_text'] = $common_order_aftersale_refundment_list[$v['refundment']]['name'];
 
                 // 图片
                 if(!empty($v['images']))
@@ -381,6 +374,10 @@ class OrderAftersaleService
                 $v['audit_time_time'] = empty($v['audit_time']) ? null : date('Y-m-d H:i:s', $v['audit_time']);
                 $v['audit_time_date'] = empty($v['audit_time']) ? null : date('Y-m-d', $v['audit_time']);
 
+                // 取消时间
+                $v['cancel_time_time'] = empty($v['cancel_time']) ? null : date('Y-m-d H:i:s', $v['cancel_time']);
+                $v['cancel_time_date'] = empty($v['cancel_time']) ? null : date('Y-m-d', $v['cancel_time']);
+
                 // 添加时间
                 $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
                 $v['add_time_date'] = date('Y-m-d', $v['add_time']);
@@ -392,6 +389,151 @@ class OrderAftersaleService
             }
         }
         return DataReturn('获取成功', 0, $data);
+    }
+
+    /**
+     * 订单售后列表条件
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function OrderAftersaleListWhere($params = [])
+    {
+        // 用户类型
+        $user_type = isset($params['user_type']) ? $params['user_type'] : 'user';
+
+        // 条件初始化
+        $where = [];
+
+        // id
+        if(!empty($params['id']))
+        {
+            $where[] = ['id', '=', intval($params['id'])];
+        }
+        
+        // 用户类型
+        if(isset($params['user_type']) && $params['user_type'] == 'user')
+        {
+            // 用户id
+            if(!empty($params['user']))
+            {
+                $where[] = ['user_id', '=', $params['user']['id']];
+            }
+        }
+
+        // 关键字根据用户筛选
+        if(!empty($params['keywords']))
+        {
+            if(empty($params['user']))
+            {
+                $user_ids = Db::name('User')->where('username|nickname|mobile|email', '=', $params['keywords'])->column('id');
+                if(!empty($user_ids))
+                {
+                    $where[] = ['user_id', 'in', $user_ids];
+                } else {
+                    // 无数据条件，走单号条件
+                    $where[] = ['order_no', '=', $params['keywords']];
+                }
+            } else {
+                // 用户走关键字
+                $where[] = ['order_no', '=', $params['keywords']];
+            }
+        }
+
+        // 是否更多条件
+        if(isset($params['is_more']) && $params['is_more'] == 1)
+        {
+            // 等值
+            if(isset($params['type']) && $params['type'] > -1)
+            {
+                $where[] = ['type', '=', intval($params['type'])];
+            }
+            if(isset($params['refundment']) && $params['refundment'] > -1)
+            {
+                $where[] = ['refundment', '=', intval($params['refundment'])];
+            }
+            if(isset($params['status']) && $params['status'] > -1)
+            {
+                $where[] = ['status', '=', intval($params['status'])];
+            }
+            if(!empty($params['express_number']))
+            {
+                $where[] = ['express_number', '=', $params['express_number']];
+            }
+
+            // 时间
+            if(!empty($params['time_start']))
+            {
+                $where[] = ['add_time', '>', strtotime($params['time_start'])];
+            }
+            if(!empty($params['time_end']))
+            {
+                $where[] = ['add_time', '<', strtotime($params['time_end'])];
+            }
+        }
+        return $where;
+    }
+
+    /**
+     * 订单售后总数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $where [条件]
+     */
+    public static function OrderAftersaleTotal($where = [])
+    {
+        return (int) Db::name('OrderAftersale')->where($where)->count();
+    }
+
+    /**
+     * 订单售后取消
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function AftersaleCancel($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '操作id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'is_checked'        => 2,
+                'key_name'          => 'user',
+                'error_msg'         => '用户信息有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 数据更新
+        $where = [
+            'id'        => intval($params['id']),
+        ];
+        if(!empty($params['user']['id']))
+        {
+            $where['user_id'] = $params['user']['id'];
+        }
+        if(Db::name('OrderAftersale')->where($where)->update(['status'=>5, 'cancel_time'=>time(), 'upd_time'=>time()]))
+        {
+            return DataReturn('取消成功');
+        }
+        return DataReturn('取消失败', -100);
     }
 }
 ?>

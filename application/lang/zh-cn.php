@@ -294,6 +294,29 @@ return array(
             4 => array('value' => 4, 'name' => '拨打电话'),
         ),
 
+    // 订单售后类型
+    'common_order_aftersale_type_list' =>  array(
+            0 => array('value' => 0, 'name' => '仅退款', 'desc' => '未收到货(未签收),协商同意前提下', 'icon' => 'am-icon-random', 'class' => 'am-fl'),
+            1 => array('value' => 1, 'name' => '退款退货', 'desc' => '已收到货,需要退换已收到的货物', 'icon' => 'am-icon-retweet', 'class' => 'am-fr'),
+        ),
+
+    // 订单售后状态
+    'common_order_aftersale_status_list' =>  array(
+            0 => array('value' => 0, 'name' => '待确认'),
+            1 => array('value' => 1, 'name' => '待退货'),
+            2 => array('value' => 2, 'name' => '待审核'),
+            3 => array('value' => 3, 'name' => '已完成'),
+            4 => array('value' => 4, 'name' => '已拒绝'),
+            5 => array('value' => 5, 'name' => '已取消'),
+        ),
+
+    // 订单售后退款方式
+    'common_order_aftersale_refundment_list' =>  array(
+            0 => array('value' => 0, 'name' => '原路退回'),
+            1 => array('value' => 1, 'name' => '退至钱包'),
+            2 => array('value' => 2, 'name' => '手动处理'),
+        ),
+
 
     // 色彩值
     'common_color_list'                 =>  array(

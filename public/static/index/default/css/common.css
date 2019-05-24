@@ -307,6 +307,7 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
 }
 .footer-about li {
     text-align: left;
+    line-height: 24px;
 }
 .footer-about li span, .footer-about li a {
     font-size: 14px;

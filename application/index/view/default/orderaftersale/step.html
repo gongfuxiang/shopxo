@@ -5,7 +5,7 @@
         <i class="am-icon-caret-right"></i>
         <i class="am-icon-angle-right"></i>
     </li>
-    <li class="am-text-truncate {{if isset($new_aftersale_data['status']) and $new_aftersale_data['status'] elt 3 and $new_aftersale_data['status'] egt 0}} selected{{/if}} {{if isset($new_aftersale_data['status']) and $new_aftersale_data['status'] eq 0}} selected-end{{/if}}">
+    <li class="am-text-truncate {{if isset($new_aftersale_data['status']) and $new_aftersale_data['status'] elt 3 and $new_aftersale_data['status'] egt 0}} selected{{/if}} {{if isset($new_aftersale_data['status']) and  $new_aftersale_data['status'] elt 2}} selected-end{{/if}}">
         <span class="number">2</span>
         <span class="text">管理员审核</span>
         {{if isset($new_aftersale_data['status']) and $new_aftersale_data['status'] elt 3 and $new_aftersale_data['status'] egt 0}}

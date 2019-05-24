@@ -185,7 +185,7 @@
                                 </td>
                                 <td class="row-number">
                                     {{if in_array($order['status'], [2,3,4])}}
-                                        <a href="{{:MyUrl('index/order/aftersale', ['id'=>$order['id'], 'gid'=>$goods['goods_id']])}}" target="_blank">申请售后</a>
+                                        <a href="{{:MyUrl('index/orderaftersale/aftersale', ['id'=>$order['id'], 'gid'=>$goods['goods_id']])}}" target="_blank">申请售后</a>
                                     {{/if}}
                                 </td>
                                 {{if $keys eq 0}}

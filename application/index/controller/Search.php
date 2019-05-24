@@ -47,7 +47,7 @@ class Search extends Common
         $this->params['screening_price_id'] = intval(input('screening_price_id', 0));
 
         // 搜索关键字
-        $this->params['keywords'] = str_replace(['?', ' ', '+', '-'], '', trim(input('keywords')));
+        $this->params['wd'] = str_replace(['?', ' ', '+', '-'], '', trim(input('wd')));
 
         // 排序方式
         $this->params['order_by_field'] = input('order_by_field', 'default');
@@ -68,11 +68,11 @@ class Search extends Common
     {
         if(input('post.'))
         {
-            $p = empty($this->params['keywords']) ? [] : ['keywords'=>$this->params['keywords']];
+            $p = empty($this->params['wd']) ? [] : ['wd'=>$this->params['wd']];
             return redirect(MyUrl('index/search/index', $p));
         } else {
             // 品牌列表
-            $this->assign('brand_list', BrandService::CategoryBrandList(['category_id'=>$this->params['category_id'], 'keywords'=>$this->params['keywords']]));
+            $this->assign('brand_list', BrandService::CategoryBrandList(['category_id'=>$this->params['category_id'], 'keywords'=>$this->params['wd']]));
 
             // 商品分类
             $this->assign('category_list', SearchService::GoodsCategoryList(['category_id'=>$this->params['category_id']]));
@@ -99,8 +99,9 @@ class Search extends Common
      * @desc    description
      */
     public function GoodsList()
-    {        
+    {
         // 获取商品列表
+        $this->params['keywords'] = $this->params['wd'];
         $ret = SearchService::GoodsList($this->params);
         if(empty($ret['data']['data']))
         {

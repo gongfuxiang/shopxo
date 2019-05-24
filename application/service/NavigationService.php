@@ -711,6 +711,13 @@ class NavigationService
                         'icon'      =>  'am-icon-th-list',
                     ],
                     [
+                        'name'      =>  '订单售后',
+                        'url'       =>  MyUrl('index/orderaftersale/index'),
+                        'is_show'   =>  1,
+                        'contains'  =>  ['orderaftersaleindex', 'orderaftersaleaftersale'],
+                        'icon'      =>  'am-icon-puzzle-piece',
+                    ],
+                    [
                         'name'      =>  '我的收藏',
                         'url'       =>  MyUrl('index/userfavor/goods'),
                         'contains'  =>  ['userfavorgoods'],
