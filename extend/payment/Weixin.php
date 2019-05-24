@@ -100,6 +100,17 @@ class Weixin
                 'is_required'   => 0,
                 'message'       => '请填写密钥',
             ],
+            [
+                'element'       => 'select',
+                'title'         => '异步通知协议',
+                'message'       => '请选择协议类型',
+                'name'          => 'agreement',
+                'is_multiple'   => 0,
+                'element_data'  => [
+                    ['value'=>1, 'name'=>'默认当前http协议'],
+                    ['value'=>2, 'name'=>'强制https转http协议'],
+                ],
+            ],
         ];
 
         return [
@@ -313,13 +324,16 @@ class Weixin
         // appid
         $appid = (APPLICATION == 'app') ? $this->config['mini_appid'] :  $this->config['appid'];
 
+        // 异步地址处理
+        $notify_url = (__MY_HTTP__ == 'https' && isset($this->config['agreement']) && $this->config['agreement'] == 1) ? 'http'.mb_substr($params['notify_url'], 5, null, 'utf-8') : $params['notify_url'];
+
         // 请求参数
         $data = [
             'appid'             => $appid,
             'mch_id'            => $this->config['mch_id'],
             'body'              => $params['site_name'].'-'.$params['name'],
             'nonce_str'         => md5(time().rand().$params['order_no']),
-            'notify_url'        => (__MY_HTTP__ == 'https') ? 'http'.mb_substr($params['notify_url'], 5, null, 'utf-8') : $params['notify_url'],
+            'notify_url'        => $notify_url,
             'openid'            => ($trade_type == 'JSAPI') ? $openid : '',
             'out_trade_no'      => $params['order_no'].GetNumberCode(6),
             'spbill_create_ip'  => GetClientIP(),

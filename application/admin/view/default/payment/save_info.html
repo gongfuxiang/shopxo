@@ -89,7 +89,7 @@
 
 											{{if isset($element['message'])}} data-validation-message="{{$element.message}}"{{/if}}
 
-											{{if isset($element['placeholder'])}} data-placeholder="{{$element.placeholder}}"{{else /}}可选择...{{/if}}
+											{{if !empty($element['placeholder'])}} data-placeholder="{{$element.placeholder}}"{{/if}}
 
 											{{if isset($element['is_multiple']) and $element['is_multiple'] eq 1}}
 												multiple
@@ -100,9 +100,9 @@
 											{{if isset($element['is_required']) and $element['is_required'] eq 1}}required{{/if}}
 										>
 										{{if !isset($element['is_multiple']) or $element['is_multiple'] neq 1}}
-											<option value="">
-												{{if isset($element['placeholder'])}}{{$element.placeholder}}{{else /}}可选择...{{/if}}
-											</option>
+											{{if !empty($element['placeholder'])}}
+												<option value="">{{$element.placeholder}}</option>
+											{{/if}}
 										{{/if}}
 											{{foreach $element.element_data as $element_data_key=>$element_data}}
 												<option
