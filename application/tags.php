@@ -87,6 +87,7 @@ return array (
     0 => 'app\\plugins\\expressforkdn\\Hook',
     1 => 'app\\plugins\\touristbuy\\Hook',
     2 => 'app\\plugins\\homemiddleadv\\Hook',
+    3 => 'app\\plugins\\weixinwebauthorization\\Hook',
   ),
   'plugins_admin_common_header' => 
   array (
@@ -113,6 +114,7 @@ return array (
   'plugins_view_user_reg_info' => 
   array (
     0 => 'app\\plugins\\touristbuy\\Hook',
+    1 => 'app\\plugins\\weixinwebauthorization\\Hook',
   ),
   'plugins_service_buy_handle' => 
   array (
@@ -155,10 +157,6 @@ return array (
   'plugins_service_header_navigation_top_right_handle' => 
   array (
     0 => 'app\\plugins\\wallet\\Hook',
-  ),
-  'plugins_view_user_reg_info_top' => 
-  array (
-    0 => 'app\\plugins\\weixinwebauthorization\\Hook',
   ),
 );
 ?>

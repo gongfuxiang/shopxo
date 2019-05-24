@@ -233,15 +233,25 @@ class Weixin
             return DataReturn('支付类型不匹配', -1);
         }
 
+        // openid
+        if(APPLICATION == 'app')
+        {
+            $openid = isset($params['user']['weixin_openid']) ? $params['user']['weixin_openid'] : '';
+        } else {
+            $openid = isset($params['user']['weixin_web_openid']) ? $params['user']['weixin_web_openid'] : '';
+        }
+
         // appid
-        $appid = (APPLICATION_CLIENT_TYPE == 'weixin') ? $this->config['mini_appid'] :  $this->config['appid'];
+        $appid = (APPLICATION == 'app') ? $this->config['mini_appid'] :  $this->config['appid'];
+
+        // 请求参数
         $data = [
             'appid'             => $appid,
             'mch_id'            => $this->config['mch_id'],
             'body'              => $params['site_name'].'-'.$params['name'],
             'nonce_str'         => md5(time().rand().$params['order_no']),
             'notify_url'        => (__MY_HTTP__ == 'https') ? 'http'.mb_substr($params['notify_url'], 5, null, 'utf-8') : $params['notify_url'],
-            'openid'            => ($trade_type == 'JSAPI') ? $params['user']['weixin_openid'] : '',
+            'openid'            => ($trade_type == 'JSAPI') ? $openid : '',
             'out_trade_no'      => $params['order_no'].GetNumberCode(6),
             'spbill_create_ip'  => GetClientIP(),
             'total_fee'         => intval($params['total_price']*100),

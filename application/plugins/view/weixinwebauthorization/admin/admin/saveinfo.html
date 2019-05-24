@@ -21,6 +21,16 @@
             </div>
 
             <div class="am-form-group">
+                <label>登录入口名称<span class="am-form-group-label-tips">默认 微信</span></label>
+                <input type="text" name="login_name" placeholder="登录入口名称" maxlength="30" data-validation-message="登录入口名称格式最多 30 个字符" class="am-radius" value="{{if !empty($data['login_name'])}}{{$data.login_name}}{{else /}}微信{{/if}}" />
+            </div>
+
+            <div class="am-form-group">
+                <label>微信用户名前缀<span class="am-form-group-label-tips">默认 微信</span></label>
+                <input type="text" name="nickname" placeholder="微信用户名" maxlength="6" data-validation-message="微信用户名前缀格式最多 6 个字符" class="am-radius" value="{{if !empty($data['nickname'])}}{{$data.nickname}}{{else /}}微信{{/if}}" />
+            </div>
+
+            <div class="am-form-group">
                 <label>授权方式<span class="am-form-group-label-tips">默认 静默授权方式</span></label>
                 <div>
                     {{foreach $is_auth_type_list as $v}}

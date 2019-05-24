@@ -1,1 +1,1 @@
-<a href="{{:PluginsHomeUrl('weixinwebauthorization', 'auth', 'index')}}" class="am-btn am-btn-warning am-btn-xs am-radius plugins-touristbuy-login-info-btn">微信登录</a>
+<a href="{{:PluginsHomeUrl('weixinwebauthorization', 'auth', 'index')}}" class="am-btn am-btn-success am-btn-xs am-radius am-margin-left-xs">{{if empty($plugins_data['login_name'])}}微信{{else /}}{{$plugins_data.login_name}}{{/if}}</a>

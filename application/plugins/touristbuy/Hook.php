@@ -137,8 +137,7 @@ class Hook extends Controller
     public function Style($params = [])
     {
         return '<style type="text/css">
-                    .plugins-touristbuy-nav-top, .plugins-touristbuy-login-info-btn { margin-left: 10px; }
-                    .plugins-touristbuy-nav-top {  color: #FF5722; }
+                    .plugins-touristbuy-nav-top { color: #FF5722; }
                 </style>';
     }
 
@@ -166,8 +165,8 @@ class Hook extends Controller
 
             // 获取应用数据
             $ret = PluginsService::PluginsData('touristbuy');
-            $login_name = empty($ret['data']['login_name']) ? '游客登录' : $ret['data']['login_name'];
-            return '<a href="'.PluginsHomeUrl('touristbuy', 'index', 'login', ['is_parent'=>$is_parent]).'" class="am-btn am-btn-warning am-btn-xs am-radius plugins-touristbuy-login-info-btn">'.$login_name.'</a>';
+            $login_name = empty($ret['data']['login_name']) ? '游客' : $ret['data']['login_name'];
+            return '<a href="'.PluginsHomeUrl('touristbuy', 'index', 'login', ['is_parent'=>$is_parent]).'" class="am-btn am-btn-warning am-btn-xs am-radius am-margin-left-xs">'.$login_name.'</a>';
         }
         return '';
     }
@@ -188,8 +187,8 @@ class Hook extends Controller
         {
             // 获取应用数据
             $ret = PluginsService::PluginsData('touristbuy');
-            $login_name = empty($ret['data']['login_name']) ? '游客登录' : $ret['data']['login_name'];
-            return '<a href="'.PluginsHomeUrl('touristbuy', 'index', 'login').'" class="plugins-touristbuy-nav-top">'.$login_name.'</a>';
+            $login_name = empty($ret['data']['login_name']) ? '游客' : $ret['data']['login_name'];
+            return '<a href="'.PluginsHomeUrl('touristbuy', 'index', 'login').'" class="plugins-touristbuy-nav-top am-margin-left-xs">'.$login_name.'</a>';
         }
         return '';
     }

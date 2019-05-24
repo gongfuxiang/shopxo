@@ -41,6 +41,27 @@
             </div>
 
             <div class="items">
+                <label>登录入口名称</label>
+                <div>
+                    {{if !empty($data['login_name'])}}
+                        {{$data.login_name}}
+                    {{else /}}
+                        微信
+                    {{/if}}
+                </div>
+            </div>
+            <div class="items">
+                <label>微信用户名前缀</label>
+                <div>
+                    {{if !empty($data['nickname'])}}
+                        {{$data.nickname}}
+                    {{else /}}
+                        微信
+                    {{/if}}
+                </div>
+            </div>
+
+            <div class="items">
                 <label>登录授权地址</label>
                 <div>
                     <a href="{{:PluginsHomeUrl('weixinwebauthorization', 'auth', 'index')}}" target="_blank">{{:PluginsHomeUrl('weixinwebauthorization', 'auth', 'index')}}</a>

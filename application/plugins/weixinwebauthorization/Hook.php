@@ -11,6 +11,7 @@
 namespace app\plugins\weixinwebauthorization;
 
 use think\Controller;
+use app\service\PluginsService;
 
 /**
  * 微信登录 - 钩子入口
@@ -31,14 +32,15 @@ class Hook extends Controller
      */
     public function run($params = [])
     {
-        if(!empty($params['hook_name']))
+        // 目前微信登录只针对手机端
+        if(!empty($params['hook_name']) && IsMobile())
         {
             switch($params['hook_name'])
             {
                 // 用户登录页面顶部钩子
                 // 用户注册页面钩子
                 case 'plugins_view_user_login_info_top' :
-                case 'plugins_view_user_reg_info_top' :
+                case 'plugins_view_user_reg_info' :
                     $ret = $this->ButtonHtml($params);
                     break;
 
@@ -47,11 +49,31 @@ class Hook extends Controller
                     $ret = $this->NavTextHtml($params);
                     break;
 
+                // header代码
+                case 'plugins_common_header' :
+                    $ret = $this->Style($params);
+                    break;
+
                 default :
                     $ret = '';
             }
             return $ret;
         }
+    }
+
+    /**
+     * css
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-02-06T16:16:34+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public function Style($params = [])
+    {
+        return '<style type="text/css">
+                    .plugins-weixinwebauthorization-nav-top-text { color: #3db53d; }
+                </style>';
     }
 
     /**
@@ -65,6 +87,8 @@ class Hook extends Controller
      */
     private function ButtonHtml($params = [])
     {
+        $ret = PluginsService::PluginsData('weixinwebauthorization');
+        $this->assign('plugins_data', $ret['data']);
         return $this->fetch('../../../plugins/view/weixinwebauthorization/index/public/auth_button');
     }
 
@@ -79,6 +103,8 @@ class Hook extends Controller
      */
     private function NavTextHtml($params = [])
     {
+        $ret = PluginsService::PluginsData('weixinwebauthorization');
+        $this->assign('plugins_data', $ret['data']);
         return $this->fetch('../../../plugins/view/weixinwebauthorization/index/public/auth_text');
     }
 }

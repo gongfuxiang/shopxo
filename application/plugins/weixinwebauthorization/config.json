@@ -20,10 +20,13 @@
         "plugins_view_user_login_info_top":[
             "app\\plugins\\weixinwebauthorization\\Hook"
         ],
-        "plugins_view_user_reg_info_top":[
+        "plugins_view_user_reg_info":[
             "app\\plugins\\weixinwebauthorization\\Hook"
         ],
         "plugins_view_header_navigation_top_left":[
+            "app\\plugins\\weixinwebauthorization\\Hook"
+        ],
+        "plugins_common_header":[
             "app\\plugins\\weixinwebauthorization\\Hook"
         ]
     }
