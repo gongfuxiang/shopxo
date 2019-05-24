@@ -95,19 +95,39 @@
                 <table class="am-table am-table-striped">
                     <thead>
                         <tr>
-                            <th>商品信息</th>
-                            <th>申请信息</th>
+                            <th class="row-goods am-hide-sm-only">商品信息</th>
+                            <th class="row-apply">申请信息</th>
                             <th class="am-hide-sm-only">凭证</th>
                             <th>状态</th>
                             <th class="am-hide-sm-only">快递信息</th>
-                            <th>操作</th>
+                            <th class="row-operation">操作</th>
                         </tr>
                     </thead>
                     <tbody>
                         {{if !empty($data_list)}}
                             {{foreach $data_list as $v}}
                                 <tr>
-                                    <td>商品信息</td>
+                                    <td class="am-hide-sm-only">
+                                        <div class="goods-detail">
+                                            <a href="{{$v.order_data.items.goods_url}}" target="_blank">
+                                                <img src="{{$v.order_data.items.images}}">
+                                            </a>
+                                            <div class="goods-base">
+                                                <a href="{{$v.order_data.items.goods_url}}" target="_blank" class="goods-title">{{$v.order_data.items.title}}</a>
+                                                {{if !empty($v.order_data.items.spec)}}
+                                                    <ul class="goods-attr">
+                                                        {{foreach $v.order_data.items.spec as $spec}}
+                                                            <li>{{$spec.type}}：{{$spec.value}}</li>
+                                                        {{/foreach}}
+                                                    </ul>
+                                                {{/if}}
+                                            </div>
+                                        </div>
+                                        {{if $v.order_data.items.original_price gt 0}}
+                                            <p class="original-price">￥{{$v.order_data.items.original_price}}</p>
+                                        {{/if}}
+                                        <p class="line-price">￥{{$v.order_data.items.price}} x {{$v.order_data.items.buy_number}}</p>
+                                    </td>
                                     <td>
                                         类型：{{$v.type_text}}<br />
                                         原因：{{$v.reason}}<br />
@@ -145,7 +165,7 @@
                                             时间：{{$v.delivery_time_time}}
                                         {{/if}}
                                     </td>
-                                    <td class="operation">
+                                    <td>
                                         {{if in_array($v['status'], [0,3])}}
                                             <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax submit-cancel" data-url="{{:MyUrl('index/orderaftersale/cancel')}}" data-id="{{$v.id}}" data-view="reload"> 取消</button>
                                         {{/if}}

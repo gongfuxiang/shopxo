@@ -1,8 +1,32 @@
+/**
+ * 商品列表
+ */
+.goods-detail img { width: 80px; height: 80px; position: absolute; border: 1px solid #eee; }
+.goods-detail { position: relative; min-height: 80px; }
+.goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; }
+.goods-title:hover { text-decoration: underline; }
+.goods-base {float: left; top: 0; margin-left: 85px; }
+.goods-attr { margin-top: 5px;  }
+.goods-attr li { color: #888; line-height: 16px; }
+.original-price, .line-price { font-family: Verdana,Tahoma,arial; }
+.original-price { color: #9c9c9c; text-decoration: line-through; }
+.line-price { color: #3c3c3c; font-weight: 700; }
+
+/**
+ * 列表
+ */
+@media only screen and (min-width:640px) {
+    .user-content-body table tr .row-goods { width: 25%; }
+    .user-content-body table tr .row-apply { width: 25%; }
+    .user-content-body table tr .row-operation { width: 85px; }
+}
+@media only screen and (max-width:640px) {
+    .user-content-body table tr .row-apply { width: 50%; }
+    .user-content-body table tr .row-operation { width: 75px; }
+}
+
 .data-list .am-slider {
-    width: 130px;
+    width: 100px;
     max-height: 108px;
     overflow: hidden;
-}
-.data-list .operation {
-    width: 100px;
 }

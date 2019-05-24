@@ -327,6 +327,10 @@ class OrderAftersaleService
             $common_order_aftersale_refundment_list = lang('common_order_aftersale_refundment_list');
             foreach($data as &$v)
             {
+                // 订单商品
+                $order = self::OrdferGoodsRow($v['order_id'], $v['goods_id'], $v['user_id']);
+                $v['order_data'] = $order['data'];
+
                 // 用户信息
                 $user = UserService::GetUserViewInfo($v['user_id']);
                 if(isset($params['is_public']) && $params['is_public'] == 0)

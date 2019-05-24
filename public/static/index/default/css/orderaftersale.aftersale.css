@@ -1,7 +1,6 @@
 /**
  * 商品列表
  */
-.order-goods .base { width: 50%; }
 .goods-detail img { width: 80px; height: 80px; position: absolute; border: 1px solid #eee; }
 .goods-detail { position: relative; min-height: 80px; }
 .goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; }
@@ -15,7 +14,6 @@
 .am-table { margin-bottom: 10px; }
 .am-table > tbody > tr > td { border-top: 1px solid #F5F5F5; }
 .am-table > thead > tr > th { border-bottom: 1px solid #f7f7f7; }
-
 @media only screen and (min-width:640px)  {
     .user-content-body table tr .row-base { width: 60%; }
     .user-content-body table tr .row-price { width: 40%; }
