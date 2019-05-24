@@ -141,8 +141,6 @@ class Weixin
         // xml
         $xml = $this->ArrayToXml($ret['data']);
         $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/pay/unifiedorder', $xml));
-
-        print_r($result);die;
         if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['prepay_id']))
         {
             return $this->PayHandleReturn($ret['data'], $result, $params);
@@ -215,6 +213,7 @@ class Weixin
                 $result = DataReturn('APP支付暂未开放', -1);
                 break;
         }
+        print_r($result);die;
         return $result;
     }
 
