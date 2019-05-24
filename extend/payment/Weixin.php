@@ -211,8 +211,9 @@ class Weixin
                 {
                     $url = PluginsHomeUrl('weixinwebauthorization', 'pay', 'index', ['pay_data'=>urlencode(json_encode($pay_data))]);
                     $result = DataReturn('success', 0, $url);
+                } else {
+                    $result = DataReturn('success', 0, $pay_data);
                 }
-                $result = DataReturn('success', 0, $pay_data);
                 break;
 
             // APP支付
