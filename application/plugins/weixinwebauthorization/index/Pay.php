@@ -19,7 +19,7 @@ use think\Controller;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Auth extends Controller
+class Pay extends Controller
 {
     /**
      * 授权
