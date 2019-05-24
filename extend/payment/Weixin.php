@@ -259,9 +259,7 @@ class Weixin
             'attach'            => empty($params['attach']) ? $params['site_name'].'-'.$params['name'] : $params['attach'],
             'sign_type'         => 'MD5',
         ];
-
-        print_r($data);die;
-        $data['sign'] = $this->GetSign($data);
+        $data['sign'] = $this->GetSign($data);print_r($data);die;
         return DataReturn('success', 0, $data);
     }
 
