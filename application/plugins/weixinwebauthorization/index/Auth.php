@@ -69,6 +69,8 @@ class Auth extends Controller
     {
         echo '<pre>';
         print_r($params);
+
+        echo __MY_VIEW_URL__;
     }
 
 }
