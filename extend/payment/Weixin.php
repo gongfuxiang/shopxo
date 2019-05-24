@@ -210,7 +210,7 @@ class Weixin
                 // 微信中
                 if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false)
                 {
-                    $url = PluginsHomeUrl('weixinwebauthorization', 'pay', 'index', ['pay_data'=>urlencode(json_encode($pay_data)), 'redirect_url'=>$redirect_url]);
+                    $url = PluginsHomeUrl('weixinwebauthorization', 'pay', 'index', ['pay_data'=>urlencode(base64_encode(json_encode($pay_data))), 'redirect_url'=>$redirect_url]);
                     $result = DataReturn('success', 0, $url);
                 } else {
                     $result = DataReturn('success', 0, $pay_data);

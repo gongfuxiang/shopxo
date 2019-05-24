@@ -33,7 +33,7 @@ class Pay extends Controller
     {
         if(!empty($params['pay_data']))
         {
-            $pay_data = json_decode(urldecode($params['pay_data']), true);
+            $pay_data = json_decode(base64_decode(urldecode($params['pay_data'])), true);
             $redirect_url = empty($params['redirect_url']) ? '' : urldecode($params['redirect_url']);
             $this->assign('pay_data', $pay_data);
             $this->assign('redirect_url', $redirect_url);
