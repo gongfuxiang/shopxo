@@ -48,7 +48,7 @@ class Service
             if(!empty($user))
             {
                 // 用户登录
-                return UserService::UserLoginHandle($user['id'] $params);
+                return UserService::UserLoginHandle($user['id'], $params);
             }
         } else {
             return DataReturn('用户openid为空', -1);
