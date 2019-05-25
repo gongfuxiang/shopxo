@@ -595,8 +595,6 @@ class Weixin
             return DataReturn('授权code为空', -1);
         }
 
-echo '<pre>';
-print_r($params);die;
         // 远程获取access_token
         return $this->RemoteAccessToken($params);
     }
@@ -615,6 +613,10 @@ print_r($params);die;
         // 获取access_token
         $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$this->config['appid'].'&secret='.$this->config['secret'].'&code='.$params['code'].'&grant_type=authorization_code';
         $data = json_decode(file_get_contents($url), true);
+
+        echo '<pre>';
+print_r($data);die;
+
         if(empty($data['access_token']))
         {
             if(empty($data['errmsg']))
