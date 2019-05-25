@@ -33,6 +33,15 @@ class Auth extends Controller
      */
     public function Pay($params = [])
     {
+        // 订单url处理
+        if(!empty($params['id']))
+        {
+            $is_pay_auto = isset($params['is_pay_auto']) ? intval($params['is_pay_auto']) : 0;
+            $url = MyUrl('index/order/detail', ['id'=>intval($params['id']), 'is_pay_auto'=>$is_pay_auto]);
+            session('plugins_pay_order_detail_url', $url);
+        }
+
+        // 调用授权
         return $this->Index($params);
     }
 
@@ -108,6 +117,15 @@ class Auth extends Controller
         $ret = Service::WeixinAuthBind($ret['data']);
         if($ret['code'] == 0)
         {
+            // 是否订单支付授权,进入订单详情
+            $url = session('plugins_pay_order_detail_url');
+            if(!empty($url))
+            {
+                session('plugins_pay_order_detail_url', null);
+                return redirect($url);
+            }
+
+            // 默认页面提示
             $this->assign('msg', $ret['msg']);
             $this->assign('data', $ret['data']);
             return $this->fetch('../../../plugins/view/weixinwebauthorization/index/public/success');
