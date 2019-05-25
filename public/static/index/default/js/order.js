@@ -71,7 +71,7 @@ $(function()
             // 是否自动提交支付表单
             if($('.submit-pay').data('is-pay') == 1)
             {
-                $('#order-pay-popup button["submit"]').trigger('click');
+                $('#order-pay-popup button[type="submit"]').trigger('click');
             }
         }
     }
