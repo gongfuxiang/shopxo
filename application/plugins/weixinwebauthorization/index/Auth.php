@@ -24,6 +24,19 @@ use app\plugins\weixinwebauthorization\service\Service;
 class Auth extends Controller
 {
     /**
+     * 支付授权
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-05-25T14:44:32+0800
+     * @param    [array]      $params [输入参数]
+     */
+    public function Pay($params = [])
+    {
+        return $this->Index($params);
+    }
+
+    /**
      * 授权
      * @author   Devil
      * @blog     http://gong.gg/
@@ -92,7 +105,7 @@ class Auth extends Controller
         }
 
         // 处理用户数据
-        $ret = Service::WeixinAuthReg($ret['data']);
+        $ret = Service::WeixinAuthBind($ret['data']);
         if($ret['code'] == 0)
         {
             $this->assign('msg', $ret['msg']);
@@ -186,6 +199,5 @@ class Auth extends Controller
             return DataReturn($ret['msg'], -1);
         }
     }
-
 }
 ?>

@@ -143,21 +143,10 @@ class Weixin
         }
 
         // 微信中打开
-        // if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false)
-        // {
-        //     $input = input();
-        //     if(empty($input['code']))
-        //     {
-        //         $this->GetUserOpenId($params);
-        //     } else {
-        //         $ret = $this->Callback($input);
-        //         if($ret['code'] != 0)
-        //         {
-        //             return $ret;
-        //         }
-        //         $params['user']['weixin_web_openid'] = $ret['data'];
-        //     }
-        // }
+        if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false && empty($params['user']['weixin_web_openid']))
+        {
+            exit(header('location:'.PluginsHomeUrl('weixinwebauthorization', 'auth', 'pay', input())));
+        }
 
         // 获取支付参数
         $ret = $this->GetPayParams($params);

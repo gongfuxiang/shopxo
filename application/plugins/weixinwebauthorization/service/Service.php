@@ -24,7 +24,7 @@ use app\service\PluginsService;
 class Service
 {
     /**
-     * 微信登录注册
+     * 微信绑定
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -32,26 +32,38 @@ class Service
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function WeixinAuthReg($params = [])
+    public static function WeixinAuthBind($params = [])
     {
+        // openid
+        if(empty($params['openid']))
+        {
+            return DataReturn('用户openid为空', -1);
+        }
+
         // 获取登录用户
         $user = UserService::LoginUserInfo();
         if(!empty($user))
         {
-            return DataReturn('已登录，请先退出', -1);
+            // 是否已绑定
+            if(!empty($user['weixin_web_openid']))
+            {
+                return DataReturn('该帐号已绑定微信，请先解绑', -1);
+            }
+
+            // 绑定
+            if(Db::name('User')->where(['id'=>$user['id']])->update(['weixin_web_openid'=>$params['openid'], 'upd_time'=>time()]))
+            {
+                return DataReturn('绑定成功', 0);
+            }
+            return DataReturn('绑定失败', -100);
         }
 
-        // 是否有登录纪录
-        if(!empty($params['openid']))
+        // openid登录
+        $user = UserService::UserInfo('weixin_web_openid', $params['openid']);
+        if(!empty($user))
         {
-            $user = UserService::UserInfo('weixin_web_openid', $params['openid']);
-            if(!empty($user))
-            {
-                // 用户登录
-                return UserService::UserLoginHandle($user['id'], $params);
-            }
-        } else {
-            return DataReturn('用户openid为空', -1);
+            // 用户登录
+            return UserService::UserLoginHandle($user['id'], $params);
         }
 
         // 用户名
