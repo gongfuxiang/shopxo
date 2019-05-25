@@ -574,8 +574,7 @@ class Weixin
         // 回调地址
         $redirect_uri = urlencode(MyUrl('index/order/pay', ['id'=>$input['id'], 'payment_id'=>$input['payment_id']]));
 
-        // 授权方式
-        $auth_type = (isset($ret['data']['auth_type']) && $ret['data']['auth_type'] == 1) ? 'snsapi_userinfo' : 'snsapi_base';
+        die(MyUrl('index/order/pay', ['id'=>$input['id'], 'payment_id'=>$input['payment_id']]));
 
         // 授权code
         $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$this->config['appid'].'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state=callback#wechat_redirect';
