@@ -252,9 +252,11 @@ class Weixin
      */
     private function PayHtml($pay_data, $redirect_url)
     {
-        $success_url = urlencode(PluginsHomeUrl('weixinwebauthorization', 'auth', 'paytips', ['status'=>0]));
-        $error_url = urlencode(PluginsHomeUrl('weixinwebauthorization', 'auth', 'paytips', ['status'=>-1]));
+        // 支付跳转地址
+        $success_url = PluginsHomeUrl('weixinwebauthorization', 'auth', 'paytips', ['status'=>0]);
+        $error_url = PluginsHomeUrl('weixinwebauthorization', 'auth', 'paytips', ['status'=>-1]);
 
+        // 支付代码
         exit('<html>
             <head>
                 <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
