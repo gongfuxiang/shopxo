@@ -194,7 +194,7 @@
                             <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-icon-paint-brush submit-ajax submit-cancel" data-url="{{:MyUrl('index/order/cancel')}}" data-id="{{$data.id}}" data-view="reload"> 取消</button>
                         {{/if}}
                         {{if in_array($data['status'], [1])}}
-                            <button class="am-btn am-btn-primary am-btn-xs am-radius am-icon-paypal submit-pay" data-id="{{$data.id}}" data-payment-id="{{$data.payment_id}}" data-am-modal="{target: '#order-pay-popup'}" data-is-auto="{{if isset($params['is_pay_auto']) and $params['is_pay_auto'] eq 1}}1{{else /}}0{{/if}}"> 支付</button>
+                            <button class="am-btn am-btn-primary am-btn-xs am-radius am-icon-paypal submit-pay" data-id="{{$data.id}}" data-payment-id="{{$data.payment_id}}" data-am-modal="{target: '#order-pay-popup'}" data-is-auto="{{if isset($params['is_pay_auto']) and $params['is_pay_auto'] eq 1}}1{{else /}}0{{/if}}" data-is-pay="{{if isset($params['is_pay_submit']) and $params['is_pay_submit'] eq 1}}1{{else /}}0{{/if}}"> 支付</button>
                         {{/if}}
                         {{if in_array($data['status'], [3])}}
                             <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-check-circle-o submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/collect')}}" data-id="{{$data.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？"> 收货</button>

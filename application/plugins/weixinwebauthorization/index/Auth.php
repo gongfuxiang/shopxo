@@ -36,7 +36,7 @@ class Auth extends Controller
         // 订单url处理
         if(!empty($params['id']))
         {
-            $url = MyUrl('index/order/detail', ['id'=>intval($params['id']), 'is_pay_auto'=>1]);
+            $url = MyUrl('index/order/detail', ['id'=>intval($params['id']), 'is_pay_auto'=>1, 'is_pay_submit'=>1]);
             session('plugins_pay_order_detail_url', $url);
         }
 

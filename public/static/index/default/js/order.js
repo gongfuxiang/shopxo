@@ -61,9 +61,19 @@ $(function()
     });
 
     // 是否自动开启支付窗口
-    if($('.submit-pay').length > 0 && $('.submit-pay').data('is-auto') == 1)
+    if($('.submit-pay').length > 0)
     {
-        $('.submit-pay').trigger('click');
+        // 是否自动打开支付窗口
+        if($('.submit-pay').data('is-auto') == 1)
+        {
+            $('.submit-pay').trigger('click');
+
+            // 是否自动提交支付表单
+            if($('.submit-pay').data('is-pay') == 1)
+            {
+                $('#order-pay-popup button["submit"]').trigger('click');
+            }
+        }
     }
 
 });
