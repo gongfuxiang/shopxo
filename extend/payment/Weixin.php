@@ -577,10 +577,11 @@ class Weixin
 
         // 回调地址
         $redirect_uri = urlencode(MyUrl('index/order/pay'));
+        $redirect_uri = urlencode('http://test.shopxo.net/index/order/pay.html');
 
         // 授权code
         $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$this->config['appid'].'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state=callback#wechat_redirect';
-        die($url);
+        //die($url);
         exit(header('location:'.$url));
     }
 
