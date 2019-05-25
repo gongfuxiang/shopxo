@@ -150,7 +150,7 @@ class Weixin
             $input = input();
             if(empty($input['code']))
             {
-                return $this->GetUserOpenId($params);
+                $this->GetUserOpenId($params);
             } else {
                 $ret = $this->Callback($input);
                 $this->weixin_web_openid = $ret['data']['openid'];
@@ -576,7 +576,7 @@ class Weixin
 
         // 授权code
         $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$this->config['appid'].'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state=callback#wechat_redirect';
-        return redirect($url);
+        exit(header('location:'.$url));
     }
 
     /**
