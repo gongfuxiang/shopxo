@@ -216,12 +216,14 @@
         line-height: 45px;
         text-align: center;
         color: #666;
-        font-size: 20px;
         cursor: pointer;
         border-radius: 50px;
         border: 1px solid #e3e3e3;
         z-index: 1000;
         display: none;
+    }
+    .commonrightnavigation-right-nav .go-top i {
+        font-size: 24px;
     }
     .cart-show {
         display: block !important;
