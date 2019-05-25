@@ -22,6 +22,7 @@ class Weixin
 {
     // 插件配置参数
     private $config;
+    private $weixin_web_openid;
 
     /**
      * 构造方法
@@ -35,6 +36,7 @@ class Weixin
     public function __construct($params = [])
     {
         $this->config = $params;
+        $this->config['secret'] = 'fc480bd4a543c0340f90093db8f3fc6b';
     }
 
     /**
@@ -140,6 +142,19 @@ class Weixin
         if(empty($this->config))
         {
             return DataReturn('支付缺少配置', -1);
+        }
+
+        // 微信中打开
+        if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false)
+        {
+            $input = input();
+            if(empty($input['code']))
+            {
+                return $this->GetUserOpenId($params);
+            } else {
+                $ret = $this->Callback($input);
+                $this->weixin_web_openid = $ret['data']['openid'];
+            }
         }
 
         // 获取支付参数
@@ -318,7 +333,7 @@ class Weixin
         {
             $openid = isset($params['user']['weixin_openid']) ? $params['user']['weixin_openid'] : '';
         } else {
-            $openid = isset($params['user']['weixin_web_openid']) ? $params['user']['weixin_web_openid'] : '';
+            $openid = $this->weixin_web_openid;
         }
 
         // appid
@@ -541,6 +556,83 @@ class Weixin
         $result = curl_exec($ch);
         curl_close($ch);
         return $result;
+    }
+
+    /**
+     * 授权
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-02-07T08:21:54+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public function GetUserOpenId($params = [])
+    {
+        // 参数校验
+        if(empty($ret['data']['appid']))
+        {
+            $this->assign('msg', 'appid未配置');
+            return $this->fetch('public/tips_error');
+        }
+
+        // 参数
+        $input = input();
+
+        // 回调地址
+        $redirect_uri = urlencode(MyUrl('index/order/pay', ['id'=>$input['id'], 'payment_id'=>$input['payment_id']]));
+
+        // 授权方式
+        $auth_type = (isset($ret['data']['auth_type']) && $ret['data']['auth_type'] == 1) ? 'snsapi_userinfo' : 'snsapi_base';
+
+        // 授权code
+        $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$this->config['appid'].'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state=callback#wechat_redirect';
+        return redirect($url);
+    }
+
+    /**
+     * 回调
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-02-07T08:21:54+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public function Callback($params = [])
+    {
+        // 参数校验
+        if(empty($params['code']))
+        {
+            return DataReturn('授权code为空', -1);
+        }
+
+        // 远程获取access_token
+        return $this->RemoteAccessToken($params);
+    }
+
+    /**
+     * 远程获取access_token
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-24
+     * @desc    description
+     * @param    [array]          $params [输入参数]
+     */
+    private function RemoteAccessToken($params = [])
+    {
+        // 获取access_token
+        $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$this->config['appid'].'&secret='.$this->config['secret'].'&code='.$params['code'].'&grant_type=authorization_code';
+        $data = json_decode(file_get_contents($url), true);
+        if(empty($data['access_token']))
+        {
+            if(empty($data['errmsg']))
+            {
+                return DataReturn('获取access_token失败', -100);
+            } else {
+                return DataReturn($data['errmsg'], -100);
+            }
+        }
+        return DataReturn('获取成功', 0, $data);
     }
 }
 ?>
