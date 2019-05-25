@@ -73,12 +73,12 @@ $(function()
         {
             PayPopupParamsInit($('.submit-pay'));
             $('#order-pay-popup button[type="submit"]').trigger('click');
-        }
-
-        // 是否自动打开支付窗口
-        if($('.submit-pay').data('is-auto') == 1)
-        {
-            $('.submit-pay').trigger('click');
+        } else {
+            // 是否自动打开支付窗口
+            if($('.submit-pay').data('is-auto') == 1)
+            {
+                $('.submit-pay').trigger('click');
+            }
         }
     }
 
