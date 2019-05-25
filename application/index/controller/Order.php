@@ -210,6 +210,8 @@ class Order extends Common
     public function Pay()
     {
         $params = input();
+        $params['id'] = 25;
+        $params['payment_id'] = 2;
         $params['user'] = $this->user;
         $ret = OrderService::Pay($params);
         if($ret['code'] == 0)
