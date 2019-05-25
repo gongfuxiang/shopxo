@@ -1,12 +1,12 @@
 {
     "base":{
         "plugins":"weixinwebauthorization",
-        "name":"微信登录",
+        "name":"微信网页授权",
         "logo":"\/static\/upload\/images\/plugins_weixinwebauthorization\/2019\/05\/24\/1558681549248354.jpg",
         "author":"Devil",
         "author_url":"https:\/\/shopxo.net\/",
         "version":"1.0.0",
-        "desc":"微信授权登录、注册",
+        "desc":"微信授权登录、注册、公众号支付",
         "apply_terminal":[
             "pc",
             "h5"
