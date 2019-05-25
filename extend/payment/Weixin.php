@@ -568,13 +568,6 @@ class Weixin
      */
     public function GetUserOpenId($params = [])
     {
-        // 参数校验
-        if(empty($ret['data']['appid']))
-        {
-            $this->assign('msg', 'appid未配置');
-            return $this->fetch('public/tips_error');
-        }
-
         // 参数
         $input = input();
 
