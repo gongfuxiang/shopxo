@@ -84,6 +84,12 @@ class OrderService
             return DataReturn('支付方式有误', -1);
         }
 
+        // 更新订单支付方式
+        if(!empty($params['payment_id']) && $params['payment_id'] != $order['payment_id'])
+        {
+            Db::name('Order')->where(['id'=>$order['id']])->update(['payment_id'=>$payment_id, 'upd_time'=>time()]);
+        }
+
         // 支付入口文件检查
         $pay_checked = PaymentService::EntranceFileChecked($payment[0]['payment'], 'order');
         if($pay_checked['code'] != 0)

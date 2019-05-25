@@ -252,6 +252,9 @@ class Weixin
      */
     private function PayHtml($pay_data, $redirect_url)
     {
+        $success_url = urlencode(PluginsHomeUrl('weixinwebauthorization', 'auth', 'paytips', ['status'=>0]));
+        $error_url = urlencode(PluginsHomeUrl('weixinwebauthorization', 'auth', 'paytips', ['status'=>-1]));
+
         exit('<html>
             <head>
                 <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
@@ -260,28 +263,23 @@ class Weixin
                     function onBridgeReady()
                     {
                        WeixinJSBridge.invoke(
-                          \'getBrandWCPayRequest\', {
-                             "appId":"'.$pay_data['appId'].'",
-                             "timeStamp":"'.$pay_data['timeStamp'].'",
-                             "nonceStr":"'.$pay_data['nonceStr'].'",
-                             "package":"'.$pay_data['package'].'",     
-                             "signType":"'.$pay_data['signType'].'",
-                             "paySign":"'.$pay_data['paySign'].'"
-                          },
-                          function(res) {
-                          if(res.err_msg == "get_brand_wcpay_request:ok" )
-                          {
-                            Prompt("支付成功", "success");
-                          } else if(res.err_msg == "get_brand_wcpay_request:cancel")
-                          {
-                            Prompt("用户取消");
-                          } else if(res.err_msg == "get_brand_wcpay_request:fail")
-                          {
-                            Prompt("支付失败");
-                          } else {
-                            Prompt("支付参数有误");
-                          }
-                       }); 
+                            \'getBrandWCPayRequest\', {
+                                "appId":"'.$pay_data['appId'].'",
+                                "timeStamp":"'.$pay_data['timeStamp'].'",
+                                "nonceStr":"'.$pay_data['nonceStr'].'",
+                                "package":"'.$pay_data['package'].'",     
+                                "signType":"'.$pay_data['signType'].'",
+                                "paySign":"'.$pay_data['paySign'].'"
+                            },
+                            function(res) {
+                                if(res.err_msg == "get_brand_wcpay_request:ok" )
+                                {
+                                    window.location.href = "'.$success_url.'";
+                                } else {
+                                    window.location.href = "'.$error_url.'";
+                                }
+                            }
+                        ); 
                     }
                     if(typeof WeixinJSBridge == "undefined")
                     {

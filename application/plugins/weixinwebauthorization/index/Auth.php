@@ -24,6 +24,31 @@ use app\plugins\weixinwebauthorization\service\Service;
 class Auth extends Controller
 {
     /**
+     * 支付提示
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-05-25T20:15:23+0800
+     * @param    [array]      $params [输入参数]
+     */
+    public function PayTips($params = [])
+    {
+        // 自定义链接
+        $this->assign('to_url', MyUrl('index/order/index'));
+        $this->assign('to_title', '我的订单');
+        
+        // 状态
+        if(isset($params['status']) && $params['status'] == 0)
+        {
+            $this->assign('msg', '支付成功');
+            return $this->fetch('public/pay_success');
+        } else {
+            $this->assign('msg', $ret['msg']);
+            return $this->fetch('public/pay_error');
+        }
+    }
+
+    /**
      * 支付授权
      * @author   Devil
      * @blog     http://gong.gg/
