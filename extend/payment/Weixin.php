@@ -22,7 +22,6 @@ class Weixin
 {
     // 插件配置参数
     private $config;
-    private $weixin_web_openid;
 
     /**
      * 构造方法
@@ -36,7 +35,6 @@ class Weixin
     public function __construct($params = [])
     {
         $this->config = $params;
-        $this->config['secret'] = 'fc480bd4a543c0340f90093db8f3fc6b';
     }
 
     /**
@@ -67,10 +65,10 @@ class Weixin
                 'type'          => 'text',
                 'default'       => '',
                 'name'          => 'appid',
-                'placeholder'   => '公众号ID',
-                'title'         => '公众号ID (用于web/h5)',
+                'placeholder'   => '公众号/服务号AppID',
+                'title'         => '公众号/服务号AppID',
                 'is_required'   => 0,
-                'message'       => '请填写微信分配的公众号ID',
+                'message'       => '请填写微信分配的AppID',
             ],
             [
                 'element'       => 'input',
@@ -157,7 +155,7 @@ class Weixin
         //         {
         //             return $ret;
         //         }
-        //         $this->weixin_web_openid = $ret['data'];
+        //         $params['user']['weixin_web_openid'] = $ret['data'];
         //     }
         // }
 
@@ -337,7 +335,6 @@ class Weixin
         {
             $openid = isset($params['user']['weixin_openid']) ? $params['user']['weixin_openid'] : '';
         } else {
-            $openid = $this->weixin_web_openid;
             $openid = isset($params['user']['weixin_web_openid']) ? $params['user']['weixin_web_openid'] : '';
         }
 
@@ -561,77 +558,6 @@ class Weixin
         $result = curl_exec($ch);
         curl_close($ch);
         return $result;
-    }
-
-    /**
-     * 授权
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-02-07T08:21:54+0800
-     * @param    [array]          $params [输入参数]
-     */
-    public function GetUserOpenId($params = [])
-    {
-        // 参数
-        $input = input();
-
-        // 回调地址
-        $redirect_uri = urlencode(MyUrl('index/order/pay'));
-        //$redirect_uri = urlencode('http://test.shopxo.net/index/order/pay.html');
-    
-        //die($redirect_uri);
-
-        // 授权code
-        $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$this->config['appid'].'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state=callback#wechat_redirect';
-        //die($url);
-        exit(header('location:'.$url));
-    }
-
-    /**
-     * 回调
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-02-07T08:21:54+0800
-     * @param    [array]          $params [输入参数]
-     */
-    public function Callback($params = [])
-    {
-        // 参数校验
-        if(empty($params['code']))
-        {
-            return DataReturn('授权code为空', -1);
-        }
-
-        // 远程获取access_token
-        return $this->RemoteUserOpenId($params);
-    }
-
-    /**
-     * 远程获取access_token
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2019-05-24
-     * @desc    description
-     * @param    [array]          $params [输入参数]
-     */
-    private function RemoteUserOpenId($params = [])
-    {
-        // 获取access_token
-        $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$this->config['appid'].'&secret='.$this->config['secret'].'&code='.$params['code'].'&grant_type=authorization_code';
-        $data = json_decode(file_get_contents($url), true);
-        if(empty($data['access_token']))
-        {
-            if(empty($data['errmsg']))
-            {
-                return DataReturn('获取access_token失败', -100);
-            } else {
-                return DataReturn($data['errmsg'], -100);
-            }
-        }
-        return DataReturn('获取成功', 0, $data['openid']);
     }
 }
 ?>
