@@ -53,7 +53,11 @@ class Service
             // 绑定
             if(Db::name('User')->where(['id'=>$user['id']])->update(['weixin_web_openid'=>$params['openid'], 'upd_time'=>time()]))
             {
-                return DataReturn('绑定成功', 0);
+                // 用户登录session纪录
+                if(UserService::UserLoginRecord($user['id']))
+                {
+                    return DataReturn('绑定成功', 0);
+                }
             }
             return DataReturn('绑定失败', -100);
         }
