@@ -6,7 +6,7 @@
         "author":"Devil",
         "author_url":"https:\/\/shopxo.net\/",
         "version":"1.0.0",
-        "desc":"微信授权登录、注册、公众号支付",
+        "desc":"微信授权登录、注册、支付",
         "apply_terminal":[
             "pc",
             "h5"
