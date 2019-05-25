@@ -66,13 +66,14 @@ $(function()
         // 是否自动打开支付窗口
         if($('.submit-pay').data('is-auto') == 1)
         {
-            $('.submit-pay').trigger('click');
-
             // 是否自动提交支付表单
             if($('.submit-pay').data('is-pay') == 1)
             {
                 $('#order-pay-popup button[type="submit"]').trigger('click');
             }
+
+            // 打开支付窗口
+            $('.submit-pay').trigger('click');
         }
     }
 
