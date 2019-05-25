@@ -153,7 +153,11 @@ class Weixin
                 $this->GetUserOpenId($params);
             } else {
                 $ret = $this->Callback($input);
-                $this->weixin_web_openid = $ret['data']['openid'];
+                if($ret['code'] != 0)
+                {
+                    return $ret;
+                }
+                $this->weixin_web_openid = $ret['data'];
             }
         }
 
@@ -596,7 +600,7 @@ class Weixin
         }
 
         // 远程获取access_token
-        return $this->RemoteAccessToken($params);
+        return $this->RemoteUserOpenId($params);
     }
 
     /**
@@ -608,15 +612,11 @@ class Weixin
      * @desc    description
      * @param    [array]          $params [输入参数]
      */
-    private function RemoteAccessToken($params = [])
+    private function RemoteUserOpenId($params = [])
     {
         // 获取access_token
         $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$this->config['appid'].'&secret='.$this->config['secret'].'&code='.$params['code'].'&grant_type=authorization_code';
         $data = json_decode(file_get_contents($url), true);
-
-        echo '<pre>';
-print_r($data);die;
-
         if(empty($data['access_token']))
         {
             if(empty($data['errmsg']))
@@ -626,7 +626,7 @@ print_r($data);die;
                 return DataReturn($data['errmsg'], -100);
             }
         }
-        return DataReturn('获取成功', 0, $data);
+        return DataReturn('获取成功', 0, $data['openid']);
     }
 }
 ?>
