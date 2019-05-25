@@ -115,8 +115,6 @@ class OrderService
                 $call_back_url = $url.'_respond.php';
             }
         }
-echo '<pre>';
-print_r($params);die;
 
         // 发起支付
         $pay_data = array(
