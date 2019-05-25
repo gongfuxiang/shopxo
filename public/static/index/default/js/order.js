@@ -1,10 +1,10 @@
 $(function()
 {
-    // 支付操作
-    $('.submit-pay').on('click', function()
+    // 支付窗口参数初始化
+    function PayPopupParamsInit(e)
     {
-        $('form.pay-form input[name=id]').val($(this).data('id'));
-        var payment_id = $(this).data('payment-id') || 0;
+        $('form.pay-form input[name=id]').val(e.data('id'));
+        var payment_id = e.data('payment-id') || 0;
         if($('.payment-items-'+payment_id).length > 0)
         {
             $('form.pay-form input[name=payment_id]').val(payment_id);
@@ -13,6 +13,11 @@ $(function()
             $('form.pay-form input[name=payment_id]').val(0);
             $('ul.payment-list li.selected').removeClass('selected');
         }
+    }
+    // 支付操作
+    $('.submit-pay').on('click', function()
+    {
+        PayPopupParamsInit($(this));
     });
 
     // 混合列表选择
@@ -60,19 +65,19 @@ $(function()
         $(this).parent().removeClass('not-selected');
     });
 
-    // 是否自动开启支付窗口
+    // 自动支付处理
     if($('.submit-pay').length > 0)
     {
+        // 是否自动提交支付表单
+        if($('.submit-pay').data('is-pay') == 1)
+        {
+            PayPopupParamsInit($(this));
+            $('#order-pay-popup button[type="submit"]').trigger('click');
+        }
+
         // 是否自动打开支付窗口
         if($('.submit-pay').data('is-auto') == 1)
         {
-            // 是否自动提交支付表单
-            if($('.submit-pay').data('is-pay') == 1)
-            {
-                $('#order-pay-popup button[type="submit"]').trigger('click');
-            }
-
-            // 打开支付窗口
             $('.submit-pay').trigger('click');
         }
     }
