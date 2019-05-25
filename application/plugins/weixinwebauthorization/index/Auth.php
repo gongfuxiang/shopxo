@@ -36,14 +36,14 @@ class Auth extends Controller
         // 自定义链接
         $this->assign('to_url', MyUrl('index/order/index'));
         $this->assign('to_title', '我的订单');
-        
+
         // 状态
         if(isset($params['status']) && $params['status'] == 0)
         {
             $this->assign('msg', '支付成功');
             return $this->fetch('public/pay_success');
         } else {
-            $this->assign('msg', $ret['msg']);
+            $this->assign('msg', '支付失败');
             return $this->fetch('public/pay_error');
         }
     }
