@@ -145,21 +145,21 @@ class Weixin
         }
 
         // 微信中打开
-        if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false)
-        {
-            $input = input();
-            if(empty($input['code']))
-            {
-                $this->GetUserOpenId($params);
-            } else {
-                $ret = $this->Callback($input);
-                if($ret['code'] != 0)
-                {
-                    return $ret;
-                }
-                $this->weixin_web_openid = $ret['data'];
-            }
-        }
+        // if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false)
+        // {
+        //     $input = input();
+        //     if(empty($input['code']))
+        //     {
+        //         $this->GetUserOpenId($params);
+        //     } else {
+        //         $ret = $this->Callback($input);
+        //         if($ret['code'] != 0)
+        //         {
+        //             return $ret;
+        //         }
+        //         $this->weixin_web_openid = $ret['data'];
+        //     }
+        // }
 
         // 获取支付参数
         $ret = $this->GetPayParams($params);
@@ -338,6 +338,7 @@ class Weixin
             $openid = isset($params['user']['weixin_openid']) ? $params['user']['weixin_openid'] : '';
         } else {
             $openid = $this->weixin_web_openid;
+            $openid = isset($params['user']['weixin_web_openid']) ? $params['user']['weixin_web_openid'] : '';
         }
 
         // appid
