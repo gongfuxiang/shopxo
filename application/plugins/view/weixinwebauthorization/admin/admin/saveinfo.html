@@ -21,8 +21,8 @@
             </div>
 
             <div class="am-form-group">
-                <label>登录入口名称<span class="am-form-group-label-tips">默认 微信</span></label>
-                <input type="text" name="login_name" placeholder="登录入口名称" maxlength="30" data-validation-message="登录入口名称格式最多 30 个字符" class="am-radius" value="{{if !empty($data['login_name'])}}{{$data.login_name}}{{else /}}微信{{/if}}" />
+                <label>登录入口名称<span class="am-form-group-label-tips">空则不显示</span></label>
+                <input type="text" name="login_name" placeholder="登录入口名称" maxlength="30" data-validation-message="登录入口名称格式最多 30 个字符" class="am-radius" value="{{if !empty($data['login_name'])}}{{$data.login_name}}{{/if}}" />
             </div>
 
             <div class="am-form-group">
