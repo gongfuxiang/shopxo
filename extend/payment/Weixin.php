@@ -574,8 +574,6 @@ class Weixin
         // 回调地址
         $redirect_uri = urlencode(MyUrl('index/order/pay', ['id'=>$input['id'], 'payment_id'=>$input['payment_id']]));
 
-        die(MyUrl('index/order/pay', ['id'=>$input['id'], 'payment_id'=>$input['payment_id']]));
-
         // 授权code
         $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$this->config['appid'].'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state=callback#wechat_redirect';
         return redirect($url);
@@ -597,6 +595,8 @@ class Weixin
             return DataReturn('授权code为空', -1);
         }
 
+echo '<pre>';
+print_r($params);die;
         // 远程获取access_token
         return $this->RemoteAccessToken($params);
     }
