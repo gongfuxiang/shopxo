@@ -26,7 +26,7 @@
         "plugins_view_header_navigation_top_left":[
             "app\\plugins\\weixinwebauthorization\\Hook"
         ],
-        "plugins_common_header":[
+        "plugins_service_users_personal_show_field_list_handle":[
             "app\\plugins\\weixinwebauthorization\\Hook"
         ]
     }

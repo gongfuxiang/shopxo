@@ -32,7 +32,9 @@
 						<dt>{{$v.name}}</dt>
 						<dd>
                             {{if isset($v['is_ext']) and $v['is_ext'] eq 1}}
-                                {{$v.value}}
+                                {{if isset($v['value'])}}
+                                    {{$v.value}}
+                                {{/if}}
                             {{else /}}
     							{{if empty($user[$k])}}
     								<span class="items-value-empty">未填写</span>

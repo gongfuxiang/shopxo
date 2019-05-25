@@ -581,6 +581,10 @@ class NavigationService
      */
     public static function UsersPersonalShowFieldList($params = [])
     {
+        // is_ext       扩展数据 1, key不存在用户字段中可使用该扩展
+        // name         显示名称
+        // value        扩展自定义值
+        // tips         html提示操作内容
         $data = [
             'avatar'            =>  [
                 'name' => '头像',
@@ -607,7 +611,7 @@ class NavigationService
                 'name' => '注册时间'
             ],
             'upd_time_text'     =>  [
-                'name' => '最后更新时间'
+                'name' => '更新时间'
             ],
         ];
 

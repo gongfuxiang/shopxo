@@ -24,6 +24,35 @@ use app\service\PluginsService;
 class Service
 {
     /**
+     * 微信解绑
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-05-26T00:56:04+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public static function WeixinUnbind($params = [])
+    {
+        $user = UserService::LoginUserInfo();
+        if(!empty($user))
+        {
+            $data = [
+                'weixin_web_openid' => '',
+                'upd_time'          => time(),
+            ];
+            if(Db::name('User')->where(['id'=>$user['id']])->update($data))
+            {
+                if(UserService::UserLoginRecord($user['id']))
+                {
+                    return DataReturn('解绑成功', 0);
+                }
+            }
+            return DataReturn('解绑失败', -100);
+        }
+        return DataReturn('未登录，不能操作', -1);
+    }
+
+    /**
      * 微信绑定
      * @author   Devil
      * @blog    http://gong.gg/

@@ -24,6 +24,18 @@ use app\plugins\weixinwebauthorization\service\Service;
 class Auth extends Controller
 {
     /**
+     * 用户解绑
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-05-26T00:55:08+0800
+     * @param    array                    $params [description]
+     */
+    public function Unbind($params = [])
+    {
+        return Service::WeixinUnbind($params);
+    }
+    /**
      * 支付提示
      * @author   Devil
      * @blog     http://gong.gg/
