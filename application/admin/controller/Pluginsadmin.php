@@ -243,7 +243,7 @@ class Pluginsadmin extends Common
         if(isset($ret['code']) && $ret['code'] != 0)
         {
             $this->assign('msg', $ret['msg']);
-            return $this->fetch('public/error');
+            return $this->fetch('public/tips_error');
         } else {
             return $ret;
         }

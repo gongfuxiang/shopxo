@@ -53,10 +53,10 @@ class Auth extends Controller
         if(isset($params['status']) && $params['status'] == 0)
         {
             $this->assign('msg', '支付成功');
-            return $this->fetch('public/pay_success');
+            return $this->fetch('public/tips_success');
         } else {
             $this->assign('msg', '支付失败');
-            return $this->fetch('public/pay_error');
+            return $this->fetch('public/tips_error');
         }
     }
 
@@ -167,7 +167,7 @@ class Auth extends Controller
             return $this->fetch('../../../plugins/view/weixinwebauthorization/index/public/success');
         } else {
             $this->assign('msg', $ret['msg']);
-            return $this->fetch('public/error');
+            return $this->fetch('public/tips_error');
         }
     }
 

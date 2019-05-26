@@ -317,7 +317,7 @@ class Common extends Controller
             exit(json_encode(DataReturn($name.' 非法访问', -1000)));
         } else {
             $this->assign('msg', $name.' 非法访问');
-            return $this->fetch('public/error');
+            return $this->fetch('public/tips_error');
         }
     }
 

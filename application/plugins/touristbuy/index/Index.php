@@ -130,7 +130,7 @@ class Index extends Controller
             return $this->fetch('../../../plugins/view/touristbuy/index/index/success');
         } else {
             $this->assign('msg', $ret['msg']);
-            return $this->fetch('public/error');
+            return $this->fetch('public/tips_error');
         }
     }
 }

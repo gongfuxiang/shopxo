@@ -66,7 +66,12 @@ class PluginsService
                 cache($key, $data);
             }
         }
-        return DataReturn('处理成功', 0, empty($data) ? [] : $data);
+
+        if(empty($data))
+        {
+            return DataReturn('应用不存在[ '.$plugins.' ]', -100, []);
+        }
+        return DataReturn('处理成功', 0, $data);
     }
 
     /**
@@ -123,6 +128,22 @@ class PluginsService
             return DataReturn('操作成功');
         }
         return DataReturn('操作失败', -100);
+    }
+
+    /**
+     * 根据应用标记获取指定字段数据
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [string]          $plugins        [应用标记]
+     * @param   [string]          $field          [字段名称]
+     */
+    public static function PluginsField($plugins, $field)
+    {
+        $data = Db::name('Plugins')->where(['plugins'=>$plugins])->value($field);
+        return DataReturn('操作成功', 0, $data);
     }
 }
 ?>

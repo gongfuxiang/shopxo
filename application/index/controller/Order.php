@@ -244,10 +244,10 @@ class Order extends Common
         if($ret['code'] == 0)
         {
             $this->assign('msg', '支付成功');
-            return $this->fetch('public/pay_success');
+            return $this->fetch('public/tips_success');
         } else {
             $this->assign('msg', $ret['msg']);
-            return $this->fetch('public/pay_error');
+            return $this->fetch('public/tips_error');
         }
     }
 

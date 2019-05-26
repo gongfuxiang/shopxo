@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\PluginsService;
+
 /**
  * 应用调用入口
  * @author   Devil
@@ -70,7 +72,7 @@ class Plugins extends Common
                 return DataReturn($ret, -5000);
             } else {
                 $this->assign('msg', $ret);
-                return $this->fetch('public/error');
+                return $this->fetch('public/tips_error');
             }
         }
 
@@ -78,6 +80,19 @@ class Plugins extends Common
         $pluginsname = $params['pluginsname'];
         $pluginscontrol = strtolower($params['pluginscontrol']);
         $pluginsaction = strtolower($params['pluginsaction']);
+
+        // 应用校验
+        $ret = $this->PluginsCheck($pluginsname, $pluginscontrol, $pluginsaction);
+        if($ret['code'] != 0)
+        {
+            if(IS_AJAX)
+            {
+                return $ret;
+            } else {
+                $this->assign('msg', $ret['msg']);
+                return $this->fetch('public/tips_error');
+            }
+        }
 
         // 视图初始化
         $this->PluginsViewInit($pluginsname, $pluginscontrol, $pluginsaction);
@@ -90,7 +105,7 @@ class Plugins extends Common
         if(!class_exists($plugins))
         {
             $this->assign('msg', ucfirst($pluginscontrol).' 应用控制器未定义');
-            return $this->fetch('public/error');
+            return $this->fetch('public/tips_error');
         }
 
         // 调用方法
@@ -98,9 +113,33 @@ class Plugins extends Common
         if(!method_exists($obj, $pluginsaction))
         {
             $this->assign('msg', ucfirst($pluginsaction).' 应用方法未定义');
-            return $this->fetch('public/error');
+            return $this->fetch('public/tips_error');
         }
         return $obj->$pluginsaction($params);
+    }
+
+    /**
+     * 应用校验
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-05-27T00:13:50+0800
+     * @param    [string]                   $plugins_name       [应用名称]
+     * @param    [string]                   $plugins_control    [控制器名称]
+     * @param    [string]                   $plugins_action     [方法]
+     */
+    private function PluginsCheck($pluginsname, $pluginscontrol, $pluginsaction)
+    {
+        $ret = PluginsService::PluginsData($pluginsname);
+        if($ret['code'] == 0)
+        {
+            $is_enable = PluginsService::PluginsField($pluginsname, 'is_enable');
+            if($is_enable['data'] != 1)
+            {
+                return DataReturn('应用异常或未启用', -10);
+            }
+        }
+        return $ret;
     }
 
     /**

@@ -256,9 +256,8 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
 .price strong {color: #E4393C; font-weight: 600; }
 
 /* 公共错误提示页面 */
-.tips-error, .tips-success { margin: 10% 0; }
-.tips-pay-success, .tips-pay-error, .tips-error, .tips-success { box-shadow: none; text-align: center; }
-.tips-error i.am-icon-times-circle, .tips-success i.am-icon-check-circle { font-size: 26px; }
+.tips-error, .tips-success { margin: 10% 0; background: #fff; }
+.tips-error i.am-icon-times-circle, .tips-success i.am-icon-check-circle { font-size: 20px; }
 .tips-error i.am-icon-times-circle { color: #F44336; }
 .tips-success i.am-icon-check-circle { color: #4CAF50; }
 .tips-error span.msg, .tips-success span.msg { font-size: 22px; margin-left: 10px; }

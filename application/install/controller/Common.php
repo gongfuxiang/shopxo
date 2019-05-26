@@ -52,7 +52,7 @@ class Common extends Controller
     public function _empty($name)
     {
         $this->assign('msg', $name.' 非法访问');
-        return $this->fetch('public/error');
+        return $this->fetch('public/tips_error');
     }
 }
 ?>

@@ -34,7 +34,7 @@ class Error extends Common
     public function Index(Request $request)
     {
         $this->assign('msg', $request->controller().' 控制器不存在');
-        return $this->fetch('public/error');
+        return $this->fetch('public/tips_error');
     }
 }
 ?>
