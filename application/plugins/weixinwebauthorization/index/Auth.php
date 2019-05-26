@@ -164,7 +164,7 @@ class Auth extends Controller
             // 默认页面提示
             $this->assign('msg', $ret['msg']);
             $this->assign('data', $ret['data']);
-            return $this->fetch('../../../plugins/view/weixinwebauthorization/index/public/success');
+            return $this->fetch('public/login_success');
         } else {
             $this->assign('msg', $ret['msg']);
             return $this->fetch('public/tips_error');

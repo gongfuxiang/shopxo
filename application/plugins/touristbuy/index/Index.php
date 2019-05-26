@@ -127,7 +127,7 @@ class Index extends Controller
             $this->assign('msg', $ret['msg']);
             $this->assign('data', $ret['data']);
             $this->assign('is_parent', isset($params['is_parent']) ? $params['is_parent'] : 0);
-            return $this->fetch('../../../plugins/view/touristbuy/index/index/success');
+            return $this->fetch('public/login_success');
         } else {
             $this->assign('msg', $ret['msg']);
             return $this->fetch('public/tips_error');
