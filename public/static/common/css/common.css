@@ -41,8 +41,7 @@ form.am-form .am-form-group-label-tips-must { color: #f00; }
 .chosen-container-single .chosen-single { color: #444 !important; }
 .chosen-container-single .chosen-default { color: #999 !important; }
 .am-tagsinput { display: block; }
-.am-tagsinput { padding: 0 5px 5px 5px; }
-.am-tagsinput .tag { margin-top: 5px; }
+.am-tagsinput { padding: 2px 5px; }
 .chosen-disabled .chosen-choices, .chosen-disabled .chosen-single { background-color: #ccc; }
 .chosen-disabled .search-choice { background: #d6d6d6 !important; }
 
