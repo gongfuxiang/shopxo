@@ -26,7 +26,7 @@ dt + dd {margin-top: 0;}
 .marqueen-title{position: absolute;left:10px;padding-right:10px;border-right:1px solid #F5F5F5 ;}
 .banner-news li,#banner-news li a{height: 30px;line-height:30px; font-size: 12px; overflow: hidden;}
 .banner-news{max-width:1200px; margin:0px auto; overflow:hidden; height:30px;width:100%; text-align:left;color:#ffffff;}
-.banner-news li {padding:0px 15px;}
+.banner-news li {padding:0 10px 0 80px;}
 .mod-vip{display: none;}
 
 /*标题*/
@@ -307,7 +307,7 @@ text-align: center;float:none}
 
 @media only screen and (max-width: 640px) {
     .items-nav-title{ padding: 0 10%;}
-    .marqueen-title{line-height: 30px; height: 30px;}
+    .marqueen-title{line-height: 30px; height: 30px; color: #333; }
     .am-footer { padding-bottom: 55px; }
 
     /*楼层*/
