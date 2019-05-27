@@ -40,7 +40,7 @@ class Pay extends Controller
         }
 
         // 调用授权
-        $ret = AuthService::Auth($params]);
+        $ret = AuthService::Auth($params);
         if($ret['code'] == 0)
         {
             return redirect($ret['data']);
