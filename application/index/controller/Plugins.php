@@ -130,16 +130,12 @@ class Plugins extends Common
      */
     private function PluginsCheck($pluginsname, $pluginscontrol, $pluginsaction)
     {
-        $ret = PluginsService::PluginsData($pluginsname);
-        if($ret['code'] == 0)
+        $is_enable = PluginsService::PluginsField($pluginsname, 'is_enable');
+        if($is_enable['data'] != 1)
         {
-            $is_enable = PluginsService::PluginsField($pluginsname, 'is_enable');
-            if($is_enable['data'] != 1)
-            {
-                return DataReturn('应用异常或未启用', -10);
-            }
+            return DataReturn('应用异常或未启用', -10);
         }
-        return $ret;
+        return DataReturn('验证成功', 0);
     }
 
     /**
