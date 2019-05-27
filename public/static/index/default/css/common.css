@@ -257,7 +257,7 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
 
 /* 公共错误提示页面 */
 .tips-error, .tips-success { margin: 10% 0; background: #fff; }
-.tips-error i.am-icon-times-circle, .tips-success i.am-icon-check-circle { font-size: 20px; }
+.tips-error i.am-icon-times-circle, .tips-success i.am-icon-check-circle { font-size: 24px; }
 .tips-error i.am-icon-times-circle { color: #F44336; }
 .tips-success i.am-icon-check-circle { color: #4CAF50; }
 .tips-error span.msg, .tips-success span.msg { font-size: 22px; margin-left: 10px; }
