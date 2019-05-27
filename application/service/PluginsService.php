@@ -66,11 +66,6 @@ class PluginsService
                 cache($key, $data);
             }
         }
-
-        if(empty($data))
-        {
-            return DataReturn('应用不存在[ '.$plugins.' ]', -100, []);
-        }
         return DataReturn('处理成功', 0, $data);
     }
 
