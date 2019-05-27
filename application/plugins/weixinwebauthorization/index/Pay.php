@@ -14,37 +14,32 @@ use think\Controller;
 use app\plugins\weixinwebauthorization\service\AuthService;
 
 /**
- * 微信网页授权 - 授权处理
+ * 微信登录 - 微信里面支付
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Auth extends Controller
+class Pay extends Controller
 {
     /**
-     * 用户解绑
+     * 支付授权
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
-     * @datetime 2019-05-26T00:55:08+0800
-     * @param    array                    $params [description]
-     */
-    public function Unbind($params = [])
-    {
-        return AuthService::WeixinUnbind($params);
-    }
-
-    /**
-     * 授权
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-02-07T08:21:54+0800
-     * @param    [array]          $params [输入参数]
+     * @datetime 2019-05-25T14:44:32+0800
+     * @param    [array]      $params [输入参数]
      */
     public function Index($params = [])
     {
+        // 订单url处理
+        if(!empty($params['id']))
+        {
+            $url = MyUrl('index/order/detail', ['id'=>intval($params['id']), 'is_pay_auto'=>1, 'is_pay_submit'=>1]);
+            session('plugins_pay_order_detail_url', $url);
+        }
+
+        // 调用授权
         $ret = AuthService::Auth($params]);
         if($ret['code'] == 0)
         {
@@ -56,32 +51,26 @@ class Auth extends Controller
     }
 
     /**
-     * 授权回调
+     * 支付提示
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
-     * @datetime 2019-02-07T08:21:54+0800
-     * @param    [array]          $params [输入参数]
+     * @datetime 2019-05-25T20:15:23+0800
+     * @param    [array]      $params [输入参数]
      */
-    public function Callback($params = [])
+    public function Tips($params = [])
     {
-        $ret = AuthService::Callback($params);
-        if($ret['code'] == 0)
-        {
-            // 是否订单支付授权,进入订单详情
-            $url = session('plugins_pay_order_detail_url');
-            if(!empty($url))
-            {
-                session('plugins_pay_order_detail_url', null);
-                return redirect($url);
-            }
+        // 自定义链接
+        $this->assign('to_url', MyUrl('index/order/index'));
+        $this->assign('to_title', '我的订单');
 
-            // 默认页面提示
-            $this->assign('msg', $ret['msg']);
-            $this->assign('data', $ret['data']);
-            return $this->fetch('public/login_success');
+        // 状态
+        if(isset($params['status']) && $params['status'] == 0)
+        {
+            $this->assign('msg', '支付成功');
+            return $this->fetch('public/tips_success');
         } else {
-            $this->assign('msg', $ret['msg']);
+            $this->assign('msg', '支付失败');
             return $this->fetch('public/tips_error');
         }
     }

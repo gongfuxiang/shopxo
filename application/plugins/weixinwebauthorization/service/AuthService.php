@@ -15,14 +15,162 @@ use app\service\UserService;
 use app\service\PluginsService;
 
 /**
- * 微信登录服务层
+ * 授权 - 服务层
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Service
+class AuthService
 {
+    /**
+     * 授权
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-02-07T08:21:54+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function Auth($params = [])
+    {
+        $ret = PluginsService::PluginsData('weixinwebauthorization');
+        if($ret['code'] == 0)
+        {
+            // 参数校验
+            if(empty($ret['data']['appid']))
+            {
+                return DataReturn('appid未配置', -1);
+            }
+
+            // 回调地址
+            $redirect_uri = urlencode(PluginsHomeUrl('weixinwebauthorization', 'auth', 'callback'));
+
+            // 授权方式
+            $auth_type = (isset($ret['data']['auth_type']) && $ret['data']['auth_type'] == 1) ? 'snsapi_userinfo' : 'snsapi_base';
+
+            // 授权code
+            $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$ret['data']['appid'].'&redirect_uri='.$redirect_uri.'&response_type=code&scope='.$auth_type.'&state=login#wechat_redirect';
+            return DataReturn('操作成功', 0, $url);
+        }
+        return $ret;
+    }
+
+    /**
+     * 回调
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-02-07T08:21:54+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function Callback($params = [])
+    {
+        // 参数校验
+        if(empty($params['code']))
+        {
+            return DataReturn('授权code为空', -1);
+        }
+
+        // 远程获取access_token
+        $ret = self::RemoteAccessToken($params);
+        if($ret['code'] != 0)
+        {
+            return DataReturn($ret['msg'], -1);
+        }
+
+        // 获取用户信息
+        $ret = self::RemoteUserInfo($ret['data']);
+        if($ret['code'] != 0)
+        {
+            return DataReturn($ret['msg'], -1);
+        }
+
+        // 处理用户数据
+        return self::WeixinAuthBind($ret['data']);
+    }
+
+    /**
+     * 获取用户信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-24
+     * @desc    description
+     * @param    [array]          $params [输入参数]
+     */
+    public static function RemoteUserInfo($params = [])
+    {
+        // 参数校验
+        if(empty($params['access_token']))
+        {
+            return DataReturn('access_token为空', -1);
+        }
+        if(empty($params['openid']))
+        {
+            return DataReturn('openid为空', -1);
+        }
+
+        // 获取用户详细信息
+        $url = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$params['access_token'].'&openid='.$params['openid'].'&lang=zh_CN';
+        $data = json_decode(file_get_contents($url), true);
+        if(empty($data['openid']))
+        {
+            if(empty($data['errmsg']))
+            {
+                return DataReturn('获取用户信息失败', -100);
+            } else {
+                return DataReturn($data['errmsg'], -100);
+            }
+        }
+        return DataReturn('获取成功', 0, $data);
+    }
+
+    /**
+     * 远程获取access_token
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-24
+     * @desc    description
+     * @param    [array]          $params [输入参数]
+     */
+    public static function RemoteAccessToken($params = [])
+    {
+        $ret = PluginsService::PluginsData('weixinwebauthorization');
+        if($ret['code'] == 0)
+        {
+            // 参数校验
+            if(empty($ret['data']['appid']))
+            {
+                return DataReturn('appid未配置', -1);
+            }
+            if(empty($ret['data']['secret']))
+            {
+                return DataReturn('secret未配置', -1);
+            }
+            if(empty($params['code']))
+            {
+                return DataReturn('code授权码为空', -1);
+            }
+
+            // 获取access_token
+            $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$ret['data']['appid'].'&secret='.$ret['data']['secret'].'&code='.$params['code'].'&grant_type=authorization_code';
+            $data = json_decode(file_get_contents($url), true);
+            if(empty($data['access_token']))
+            {
+                if(empty($data['errmsg']))
+                {
+                    return DataReturn('获取access_token失败', -100);
+                } else {
+                    return DataReturn($data['errmsg'], -100);
+                }
+            }
+            return DataReturn('获取成功', 0, $data);
+
+        }
+        return $ret;
+    }
+
     /**
      * 微信解绑
      * @author   Devil

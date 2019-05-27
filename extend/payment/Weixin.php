@@ -145,7 +145,7 @@ class Weixin
         // 微信中打开
         if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false && empty($params['user']['weixin_web_openid']))
         {
-            exit(header('location:'.PluginsHomeUrl('weixinwebauthorization', 'auth', 'pay', input())));
+            exit(header('location:'.PluginsHomeUrl('weixinwebauthorization', 'pay', 'index', input())));
         }
 
         // 获取支付参数
@@ -253,8 +253,8 @@ class Weixin
     private function PayHtml($pay_data, $redirect_url)
     {
         // 支付跳转地址
-        $success_url = PluginsHomeUrl('weixinwebauthorization', 'auth', 'paytips', ['status'=>0]);
-        $error_url = PluginsHomeUrl('weixinwebauthorization', 'auth', 'paytips', ['status'=>-1]);
+        $success_url = PluginsHomeUrl('weixinwebauthorization', 'pay', 'tips', ['status'=>0]);
+        $error_url = PluginsHomeUrl('weixinwebauthorization', 'pay', 'tips', ['status'=>-1]);
 
         // 支付代码
         exit('<html>
