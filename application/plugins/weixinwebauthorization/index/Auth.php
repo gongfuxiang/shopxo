@@ -45,7 +45,7 @@ class Auth extends Controller
      */
     public function Index($params = [])
     {
-        $ret = AuthService::Auth($params]);
+        $ret = AuthService::Auth($params);
         if($ret['code'] == 0)
         {
             return redirect($ret['data']);
