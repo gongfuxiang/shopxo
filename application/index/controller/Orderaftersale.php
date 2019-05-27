@@ -196,6 +196,13 @@ class Orderaftersale extends Common
      */
     public function Create()
     {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            $this->assign('msg', '非法访问');
+            return $this->fetch('public/tips_error');
+        }
+        
         $params = input();
         $params['user'] = $this->user;
         return OrderAftersaleService::AftersaleCreate($params);
@@ -211,6 +218,13 @@ class Orderaftersale extends Common
      */
     public function Delivery()
     {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            $this->assign('msg', '非法访问');
+            return $this->fetch('public/tips_error');
+        }
+
         $params = input();
         $params['user'] = $this->user;
         return OrderAftersaleService::AftersaleDelivery($params);
@@ -226,15 +240,16 @@ class Orderaftersale extends Common
      */
     public function Cancel()
     {
-        if(input('post.'))
+        // 是否ajax请求
+        if(!IS_AJAX)
         {
-            $params = input('post.');
-            $params['user'] = $this->user;
-            return OrderAftersaleService::AftersaleCancel($params);
-        } else {
             $this->assign('msg', '非法访问');
             return $this->fetch('public/tips_error');
         }
+
+        $params = input('post.');
+        $params['user'] = $this->user;
+        return OrderAftersaleService::AftersaleCancel($params);
     }
 }
 ?>

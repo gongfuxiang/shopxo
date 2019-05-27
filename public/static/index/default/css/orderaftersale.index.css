@@ -1,16 +1,16 @@
 /**
  * 商品列表
  */
-.goods-detail img { width: 80px; height: 80px; position: absolute; border: 1px solid #eee; }
-.goods-detail { position: relative; min-height: 80px; }
-.goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; }
-.goods-title:hover { text-decoration: underline; }
-.goods-base {float: left; top: 0; margin-left: 85px; }
-.goods-attr { margin-top: 5px;  }
-.goods-attr li { color: #888; line-height: 16px; }
-.original-price, .line-price { font-family: Verdana,Tahoma,arial; }
-.original-price { color: #9c9c9c; text-decoration: line-through; }
-.line-price { color: #3c3c3c; font-weight: 700; }
+.user-content-body .goods-detail img { width: 80px; height: 80px; position: absolute; border: 1px solid #eee; }
+.user-content-body .goods-detail { position: relative; min-height: 80px; }
+.user-content-body .goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; }
+.user-content-body .goods-title:hover { text-decoration: underline; }
+.user-content-body .goods-base {float: left; top: 0; margin-left: 85px; }
+.user-content-body .goods-attr { margin-top: 5px;  }
+.user-content-body .goods-attr li { color: #888; line-height: 16px; }
+.user-content-body .original-price, .user-content-body .line-price { font-family: Verdana,Tahoma,arial; }
+.user-content-body .original-price { color: #9c9c9c; text-decoration: line-through; }
+.user-content-body .line-price { color: #3c3c3c; font-weight: 700; }
 
 /**
  * 列表

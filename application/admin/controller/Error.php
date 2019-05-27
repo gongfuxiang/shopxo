@@ -37,7 +37,8 @@ class Error extends Common
         {
             exit(json_encode(DataReturn($request->controller().' 控制器不存在', -1000)));
         } else {
-            exit($request->controller().' 控制器不存在');
+            $this->assign('msg', $request->controller().' 控制器不存在');
+            return $this->fetch('public/tips_error');
         }
     }
 }

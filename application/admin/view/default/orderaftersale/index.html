@@ -1,0 +1,394 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation form-search" method="post" action="{{:MyUrl('admin/orderaftersale/index')}}" request-type="form">
+            <div class="thin">
+                <div class="am-input-group am-input-group-sm am-fl so">
+                    <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="订单号" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-default am-radius" type="submit" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
+                    </span>
+                </div>
+                <label class="am-fl thin_sub more-submit">
+                    更多筛选条件
+                    {{if isset($params['is_more']) and $params['is_more'] eq 1}}
+                        <input type="checkbox" name="is_more" value="1" id="is_more" checked />
+                        <i class="am-icon-angle-up"></i>
+                    {{else /}}
+                        <input type="checkbox" name="is_more" value="1" id="is_more" />
+                        <i class="am-icon-angle-down"></i>
+                    {{/if}}
+                </label>
+            </div>
+            <table class="so-list more-where {{if !isset($params['is_more'])}}none{{/if}}">
+                <tbody>
+                    <tr>
+                        <td>
+                            <span>类型：</span>
+                            <select name="type" class="chosen-select" data-placeholder="类型...">
+                                <option value="-1">类型...</option>
+                                {{if !empty($common_order_aftersale_type_list)}}
+                                    {{foreach $common_order_aftersale_type_list as $v}}
+                                        <option value="{{$v.value}}" {{if isset($params['type']) and $params['type'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                    {{/foreach}}
+                                {{/if}}
+                            </select>
+                        </td>
+                        <td>
+                            <span>状态：</span>
+                            <select name="status" class="chosen-select" data-placeholder="状态...">
+                                <option value="-1">状态...</option>
+                                {{if !empty($common_order_aftersale_status_list)}}
+                                    {{foreach $common_order_aftersale_status_list as $v}}
+                                        <option value="{{$v.value}}" {{if isset($params['status']) and $params['status'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                    {{/foreach}}
+                                {{/if}}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>退款：</span>
+                            <select name="refundment" class="chosen-select" data-placeholder="退款...">
+                                <option value="-1">退款...</option>
+                                {{if !empty($common_order_aftersale_refundment_list)}}
+                                    {{foreach $common_order_aftersale_refundment_list as $v}}
+                                        <option value="{{$v.value}}" {{if isset($params['refundment']) and $params['refundment'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                    {{/foreach}}
+                                {{/if}}
+                            </select>
+                        </td>
+                        <td>
+                            <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
+                            <a href="{{:MyUrl('admin/orderaftersale/index')}}" class="am-btn am-btn-warning am-radius am-btn-sm reset-submit">清除条件</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <!-- form end -->
+
+        <!-- list start -->
+        <table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
+            <thead>
+                <tr>
+                    <th class="row-user-info am-hide-md-down">用户信息</th>
+                    <th class="row-goods am-hide-sm-only">商品信息</th>
+                    <th class="row-apply">申请信息</th>
+                    <th class="am-hide-sm-only">凭证</th>
+                    <th class="am-hide-sm-only">状态</th>
+                    <th class="am-hide-sm-only">快递信息</th>
+                    <th>更多</th>
+                    <th class="row-operation">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{if !empty($data_list)}}
+                    {{foreach $data_list as $v}}
+                        <tr id="data-list-{{$v.id}}">
+                            <td class="user-info am-hide-md-down">
+                                {{if !empty($v['user'])}}
+                                    <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                                    <ul class="user-base">
+                                        <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
+                                        <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
+                                        <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
+                                        <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
+                                    </ul>
+                                {{else /}}
+                                    用户信息异常
+                                {{/if}}
+                            </td>
+                            <td class="am-hide-sm-only">
+                                <div class="goods-detail">
+                                    <a href="{{$v.order_data.items.goods_url}}" target="_blank">
+                                        <img src="{{$v.order_data.items.images}}">
+                                    </a>
+                                    <div class="goods-base">
+                                        <a href="{{$v.order_data.items.goods_url}}" target="_blank" class="goods-title">{{$v.order_data.items.title}}</a>
+                                        {{if !empty($v.order_data.items.spec)}}
+                                            <ul class="goods-attr">
+                                                {{foreach $v.order_data.items.spec as $spec}}
+                                                    <li>{{$spec.type}}：{{$spec.value}}</li>
+                                                {{/foreach}}
+                                            </ul>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                                {{if $v.order_data.items.original_price gt 0}}
+                                    <p class="original-price">￥{{$v.order_data.items.original_price}}</p>
+                                {{/if}}
+                                <p class="line-price">￥{{$v.order_data.items.price}} x {{$v.order_data.items.buy_number}}</p>
+                            </td>
+                            <td>
+                                类型：{{$v.type_text}}<br />
+                                原因：{{$v.reason}}<br />
+                                数量：{{$v.number}}<br />
+                                金额：{{$v.price}}<br />
+                                说明：{{$v.msg}}<br />
+                                时间：{{$v.apply_time_time}}
+                            </td>
+                            <td class="am-hide-sm-only">
+                                {{if !empty($v['images'])}}
+                                    <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false, slideshow:false}' >
+                                        <ul class="am-slides">
+                                            {{foreach $v.images as $img}}
+                                                <li>
+                                                    <img src="{{$img}}" />
+                                                </li>
+                                            {{/foreach}}
+                                        </ul>
+                                    </div>
+                                {{/if}}
+                            </td>
+                            <td class="am-hide-sm-only">
+                                <p>{{$v.status_text}}</p>
+                                {{if $v['status'] eq 3 and !empty($v['refundment_text'])}}
+                                    <span class="am-badge am-badge-success am-margin-top-xs">{{$v.refundment_text}}</span>
+                                {{/if}}
+                                {{if $v['status'] eq 4 and !empty($v['refuse_reason'])}}
+                                    <span class="am-badge am-badge-danger am-margin-top-xs">{{$v.refuse_reason}}</span>
+                                {{/if}}
+                            </td>
+                            <td class="am-hide-sm-only">
+                                {{if $v['type'] eq 1 and in_array($v['status'], [2,3])}}
+                                    快递：{{$v.express_name}}<br />
+                                    单号：{{$v.express_number}}<br />
+                                    时间：{{$v.delivery_time_time}}
+                                {{/if}}
+                            </td>
+                            <td>
+                                <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+                                <div class="am-popup am-radius" id="my-popup{{$v.id}}">
+                                    <div class="am-popup-inner">
+                                        <div class="am-popup-hd">
+                                            <h4 class="am-popup-title">详情内容</h4>
+                                            <span data-am-modal-close
+                                            class="am-close">&times;</span>
+                                        </div>
+                                        <div class="am-popup-bd">
+                                            <dl class="dl-content">
+                                                <dt>用户信息</dt>
+                                                <dd class="user-info">
+                                                    {{if !empty($v['user'])}}
+                                                        <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                                                        <ul class="user-base">
+                                                            <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
+                                                            <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
+                                                            <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
+                                                            <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
+                                                        </ul>
+                                                    {{else /}}
+                                                        用户信息异常
+                                                    {{/if}}
+                                                </dd>
+
+                                                <dt>商品信息</dt>
+                                                <dd>
+                                                    <div class="goods-detail">
+                                                        <a href="{{$v.order_data.items.goods_url}}" target="_blank">
+                                                            <img src="{{$v.order_data.items.images}}">
+                                                        </a>
+                                                        <div class="goods-base">
+                                                            <a href="{{$v.order_data.items.goods_url}}" target="_blank" class="goods-title">{{$v.order_data.items.title}}</a>
+                                                            {{if !empty($v.order_data.items.spec)}}
+                                                                <ul class="goods-attr">
+                                                                    {{foreach $v.order_data.items.spec as $spec}}
+                                                                        <li>{{$spec.type}}：{{$spec.value}}</li>
+                                                                    {{/foreach}}
+                                                                </ul>
+                                                            {{/if}}
+                                                        </div>
+                                                    </div>
+                                                    {{if $v.order_data.items.original_price gt 0}}
+                                                        <p class="original-price">￥{{$v.order_data.items.original_price}}</p>
+                                                    {{/if}}
+                                                    <p class="line-price">￥{{$v.order_data.items.price}} x {{$v.order_data.items.buy_number}}</p>
+                                                </dd>
+
+                                                <dt>申请信息</dt>
+                                                <dd>
+                                                    类型：{{$v.type_text}}<br />
+                                                    原因：{{$v.reason}}<br />
+                                                    数量：{{$v.number}}<br />
+                                                    金额：{{$v.price}}<br />
+                                                    说明：{{$v.msg}}<br />
+                                                    时间：{{$v.apply_time_time}}
+                                                </dd>
+
+                                                <dt>凭证</dt>
+                                                <dd>
+                                                    {{if !empty($v['images'])}}
+                                                        {{foreach $v.images as $img}}
+                                                            <a href="{{$img}}" target="_blank">
+                                                                <img src="{{$img}}" class="am-img-thumbnail" width="80" height="80" />
+                                                            </a>
+                                                        {{/foreach}}
+                                                    {{/if}}
+                                                </dd>
+
+                                                <dt>状态</dt>
+                                                <dd>
+                                                    <p>{{$v.status_text}}</p>
+                                                    {{if $v['status'] eq 3 and !empty($v['refundment_text'])}}
+                                                        <span class="am-badge am-badge-success am-margin-top-xs">{{$v.refundment_text}}</span>
+                                                    {{/if}}
+                                                    {{if $v['status'] eq 4 and !empty($v['refuse_reason'])}}
+                                                        <span class="am-badge am-badge-danger am-margin-top-xs">{{$v.refuse_reason}}</span>
+                                                    {{/if}}
+                                                </dd>
+
+                                                <dt>快递信息</dt>
+                                                <dd>
+                                                    {{if $v['type'] eq 1 and in_array($v['status'], [2,3])}}
+                                                        快递：{{$v.express_name}}<br />
+                                                        单号：{{$v.express_number}}<br />
+                                                        时间：{{$v.delivery_time_time}}
+                                                    {{/if}}
+                                                </dd>
+
+                                                <dt>申请时间</dt>
+                                                <dd>{{$v.apply_time_time}}</dd>
+
+                                                <dt>确认时间</dt>
+                                                <dd>{{$v.confirm_time_time}}</dd>
+
+                                                <dt>退货时间</dt>
+                                                <dd>{{$v.delivery_time_time}}</dd>
+
+                                                <dt>审核时间</dt>
+                                                <dd>{{$v.audit_time_time}}</dd>
+
+                                                <dt>取消时间</dt>
+                                                <dd>{{$v.cancel_time_time}}</dd>
+
+                                                <dt>添加时间</dt>
+                                                <dd>{{$v.add_time_time}}</dd>
+
+                                                <dt>更新时间</dt>
+                                                <dd>{{$v.upd_time_time}}</dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                {{if $v['status'] eq 0 and $v['type'] eq 1}}
+                                    <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-check am-btn-block submit-ajax" data-url="{{:MyUrl('admin/orderaftersale/confirm')}}" data-id="{{$v.id}}" data-view="reload"> 确认</button>
+                                {{/if}}
+                                {{if $v['status'] eq 2}}
+                                    <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-gavel am-btn-block submit-audit" data-json='{{:json_encode($v)}}'> 审核</button>
+                                {{/if}}
+                                {{if in_array($v['status'], [0,2])}}
+                                    <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-icon-warning am-btn-block submit-refuse" data-json='{{:json_encode($v)}}'> 拒绝</button>
+                                {{/if}}
+                                {{if in_array($v['status'], [1,2])}}
+                                    <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax submit-cancel" data-url="{{:MyUrl('admin/orderaftersale/cancel')}}" data-id="{{$v.id}}" data-view="reload"> 取消</button>
+                                {{/if}}
+                                {{if in_array($v['status'], [4,5])}}
+                                    <button class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/orderaftersale/delete')}}" data-id="{{$v.id}}"> 删除</button>
+                                {{/if}}
+                            </td>
+                        </tr>
+                    {{/foreach}}
+                {{/if}}
+            </tbody>
+        </table>
+        {{if empty($data_list)}}
+            <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+        {{/if}}
+        <!-- list end -->
+
+        <!-- 审核弹窗 -->
+        <div class="am-popup" id="order-audit-popup">
+            <div class="am-popup-inner">
+                <div class="am-popup-hd">
+                    <h4 class="am-popup-title">审核操作</h4>
+                    <span data-am-modal-close class="am-close">&times;</span>
+                </div>
+                <div class="am-popup-bd">
+                    <dl class="dl-content">
+                        <dt>用户信息</dt>
+                        <dd class="user-info">
+                            <img src="{{$attachment_host}}/static/common/images/user-img-sm.gif" class="am-img-thumbnail am-radius am-align-left" />
+                            <ul class="user-base">
+                                <li class="username">名称：<span>...</span></li>
+                                <li class="nickname">昵称：<span>...</span></li>
+                                <li class="mobile">手机：<span>...</span></li>
+                                <li class="email">邮箱：<span>...</span></li>
+                            </ul>
+                        </dd>
+                    </dl>
+
+                    <form class="am-form form-validation-audit" action="{{:MyUrl('admin/orderaftersale/audit')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
+                        <div class="am-form-group">
+                            <label class="am-block">退款方式</label>
+                            {{if !empty($common_order_aftersale_refundment_list)}}
+                                {{foreach $common_order_aftersale_refundment_list as $k=>$v}}
+                                    <label class="am-radio-inline am-success">
+                                        <input type="radio" name="refundment" value="{{$v.value}}" data-am-ucheck {{if $k eq 0}} data-validation-message="请选择退狂方式" required{{/if}} /> {{$v.name}}
+                                    </label>
+                                {{/foreach}}
+                            {{/if}}
+                        </div>
+
+                        <div class="am-form-group reply-submit am-form-group-refreshing">
+                            <input type="hidden" name="id" value="" />
+                            <button type="submit" class="am-btn am-btn-primary am-radius am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- 拒绝弹窗 -->
+        <div class="am-popup" id="order-refuse-popup">
+            <div class="am-popup-inner">
+                <div class="am-popup-hd">
+                    <h4 class="am-popup-title">拒绝操作</h4>
+                    <span data-am-modal-close class="am-close">&times;</span>
+                </div>
+                <div class="am-popup-bd">
+                    <dl class="dl-content">
+                        <dt>用户信息</dt>
+                        <dd class="user-info">
+                            <img src="{{$attachment_host}}/static/common/images/user-img-sm.gif" class="am-img-thumbnail am-radius am-align-left" />
+                            <ul class="user-base">
+                                <li class="username">名称：<span>...</span></li>
+                                <li class="nickname">昵称：<span>...</span></li>
+                                <li class="mobile">手机：<span>...</span></li>
+                                <li class="email">邮箱：<span>...</span></li>
+                            </ul>
+                        </dd>
+                    </dl>
+
+                    <form class="am-form form-validation-refuse" action="{{:MyUrl('admin/orderaftersale/refuse')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
+                        <div class="am-form-group">
+                            <label>拒绝原因</label>
+                            <textarea name="refuse_reason" rows="5" class="am-radius" placeholder="拒绝原因格式 2~230 个字符" data-validation-message="拒绝原因格式 2~230 个字符" minlength="2" maxlength="230" required></textarea>
+                        </div>
+
+                        <div class="am-form-group reply-submit am-form-group-refreshing">
+                            <input type="hidden" name="id" value="" />
+                            <button type="submit" class="am-btn am-btn-danger am-radius am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- page start -->
+        {{if !empty($data_list)}}
+            {{$page_html|raw}}
+        {{/if}}
+        <!-- page end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

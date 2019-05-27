@@ -525,19 +525,94 @@ class OrderAftersaleService
             return DataReturn($ret, -1);
         }
 
-        // 数据更新
+        // 条件
         $where = [
             'id'        => intval($params['id']),
         ];
-        if(!empty($params['user']['id']))
+        if(!empty($params['user']))
         {
             $where['user_id'] = $params['user']['id'];
         }
+
+        // 售后订单
+        $aftersale = Db::name('OrderAftersale')->where($where)->find();
+        if(empty($aftersale))
+        {
+            return DataReturn('数据不存在或已删除', -1);
+        }
+
+        // 状态校验
+        if(in_array($aftersale['status'], [3,5]))
+        {
+            $status_list = lang('common_order_aftersale_status_list');
+            return DataReturn('状态不可操作['.$status_list[$aftersale['status']]['name'].']', -1);
+        }
+
+        // 数据更新
         if(Db::name('OrderAftersale')->where($where)->update(['status'=>5, 'cancel_time'=>time(), 'upd_time'=>time()]))
         {
             return DataReturn('取消成功');
         }
         return DataReturn('取消失败', -100);
+    }
+
+    /**
+     * 确认
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-27
+     * @desc    description
+     * @param    [array]          $params [输入参数]
+     */
+    public static function AftersaleConfirm($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '操作id有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 条件
+        $where = [
+            'id'    => intval($params['id']),
+        ];
+
+        // 售后订单
+        $aftersale = Db::name('OrderAftersale')->where($where)->find();
+        if(empty($aftersale))
+        {
+            return DataReturn('数据不存在或已删除', -1);
+        }
+
+        // 状态校验
+        if($aftersale['status'] != 0)
+        {
+            $status_list = lang('common_order_aftersale_status_list');
+            return DataReturn('状态不可操作['.$status_list[$aftersale['status']]['name'].']', -1);
+        }
+
+        // 类型
+        if($aftersale['type'] != 1)
+        {
+            $aftersale_type_list = lang('common_order_aftersale_type_list');
+            return DataReturn('类型不可操作['.$aftersale_type_list[$aftersale['type']]['name'].']', -1);
+        }
+
+        // 数据更新
+        if(Db::name('OrderAftersale')->where($where)->update(['status'=>1, 'confirm_time'=>time(), 'upd_time'=>time()]))
+        {
+            return DataReturn('确认成功');
+        }
+        return DataReturn('确认失败', -100);
     }
 }
 ?>

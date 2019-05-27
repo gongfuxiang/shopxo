@@ -57,7 +57,7 @@ class Order extends Common
         $params['user_type'] = 'admin';
 
         // 分页
-        $number = 10;
+        $number = MyC('admin_page_number', 10, true);
 
         // 条件
         $where = OrderService::OrderListWhere($params);

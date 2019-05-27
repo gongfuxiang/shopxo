@@ -187,7 +187,8 @@ class Safety extends Common
 		// 是否ajax请求
         if(!IS_AJAX)
         {
-            return $this->error('非法访问');
+            $this->assign('msg', '非法访问');
+            return $this->fetch('public/tips_error');
         }
 
         // 开始处理
@@ -209,7 +210,8 @@ class Safety extends Common
 		// 是否ajax请求
         if(!IS_AJAX)
         {
-            return $this->error('非法访问');
+            $this->assign('msg', '非法访问');
+            return $this->fetch('public/tips_error');
         }
 
         // 开始处理
@@ -230,7 +232,8 @@ class Safety extends Common
 		// 是否ajax请求
         if(!IS_AJAX)
         {
-            return $this->error('非法访问');
+            $this->assign('msg', '非法访问');
+            return $this->fetch('public/tips_error');
         }
 
         // 开始处理

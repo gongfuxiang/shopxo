@@ -1,6 +1,26 @@
 /**
  * 公共
  */
+div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    font-family: arial,"Lantinghei SC","Microsoft Yahei";
+    font-style: normal;
+}
 * { font-size: 12px; }
 .w100 {width:100%;}
 .fw-100 {font-weight:100;}
@@ -64,8 +84,6 @@ h4 {line-height:22px;}
 h4 small {color:#444444;}
 h5 {font-size:15px;}
 h5 small {color:#444444;}
-p {line-height:1.6;}
-* {outline:none !important;}
 b {font-weight:600;}
 i{ font-style: normal; }
 a:hover {outline:0;text-decoration:none;}
