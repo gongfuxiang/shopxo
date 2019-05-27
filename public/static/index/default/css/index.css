@@ -25,8 +25,8 @@ dt + dd {margin-top: 0;}
 .marqueen{position: relative;border-top:1px solid #F5F5F5 ;border-bottom: 1px #f5f5f5 solid;overflow: hidden;}
 .marqueen-title{position: absolute;left:10px;padding-right:10px;border-right:1px solid #F5F5F5 ;}
 .banner-news li,#banner-news li a{height: 30px;line-height:30px; font-size: 12px; overflow: hidden;}
-.banner-news{max-width:1200px; margin:0px auto;margin-left:60px;overflow:hidden;height:30px;width:100%; text-align:left;color:#ffffff;}
-.banner-news li {padding:0px 20px;}
+.banner-news{max-width:1200px; margin:0px auto; overflow:hidden; height:30px;width:100%; text-align:left;color:#ffffff;}
+.banner-news li {padding:0px 15px;}
 .mod-vip{display: none;}
 
 /*标题*/
@@ -98,9 +98,9 @@ text-align: center;float:none}
     .scoll{ margin-top:0px;overflow: hidden;}
 
      /*改写的公告*/
-    .marqueen{padding-top:0px;margin-bottom: 20px;height:auto; background:#FFF; opacity:0.8;text-align: center;padding:10px 5px ;}
-    .marqueen-title{font-size: 14px;position: static;border-right:none ;color:#e60012 ;font-size: 16px;font-weight: 600;}
-    .banner-news{ margin-left: -5px;height: auto;width: 100%;padding-top:5px; }
+    .marqueen{height:auto; background:#FFF; opacity:0.8;text-align: center; }
+    .marqueen-title{font-size: 14px;position: static;border-right:none ;color:#e60012 ;font-size: 16px;font-weight: 600; text-align: center;}
+    .banner-news{ height: auto;width: 100%;padding-top:5px; }
     .banner-news li{ font-size:12px; padding:0px 0px;height: 30px;float: right;width:30% ;}	
 
     /*标题*/
@@ -201,7 +201,7 @@ text-align: center;float:none}
     .small-nav { display:none;}
     .am-g-fixed{max-width:1000px;}
     .flood li{width:20%;} 
-    .banner-news{ margin-left: 0px;}
+    .banner-news{ padding: 10px; }
     .slideall{margin:0px auto;height:360px;position: relative;}
 
     /*第一套轮播图布局*/	
@@ -225,8 +225,8 @@ text-align: center;float:none}
     .today-brands a {font-size:12px;display: inline-block;vertical-align: middle;margin:0px 5px;}
 
      /*改写的公告*/
-    .marqueen{ position:absolute;top:10px;right:0px;width:170px;height:315px ; background:#FFF; z-index: 11;border:none; opacity: 0.8; -webkit-transition: opacity .2s ease-in; -moz-transition: opacity .2s ease-in; -ms-transition: opacity .2s ease-in; -o-transition: opacity .2s ease-in; transition: opacity .2s ease-in; }
-    .marqueen .banner-news li {float: none;width: 100%;padding:0px 5px;border:none ;height: 30px;line-height:30px ;}
+    .marqueen{ position:absolute;top:10px;right:0px;width:170px; background:#FFF; z-index: 11;border:none; opacity: 0.8; -webkit-transition: opacity .2s ease-in; -moz-transition: opacity .2s ease-in; -ms-transition: opacity .2s ease-in; -o-transition: opacity .2s ease-in; transition: opacity .2s ease-in; }
+    .marqueen .banner-news li {float: none;width: 100%;padding:0px 5px;border:none ;height: 29px;line-height:32px ;}
     .marqueen:hover { opacity: 1; }
 
     /*推荐*/
@@ -284,15 +284,15 @@ text-align: center;float:none}
     .banner .am-slider .am-slides li{height:430px;}
     .banner .am-slider .am-slides img{width:1200px ;left:50% ;position: absolute;margin-left: -600px;}
     /*公告布局*/
-    .marqueen {width:220px;height: 412px;text-align: left;top:10px;padding: 10px;}
+    .marqueen { width:220px; text-align: left; }
     .banner-news{padding-top: 0px;}
     .banner-news li {height: 26px;line-height: 26px;}
-    .marqueen-title{display: block;margin-left:5px ;margin-top: 5px;}
-    .mod-vip{display: block; padding-bottom: 5px; border-bottom: 1px solid #eee;}
+    .marqueen-title{display: block; padding-left:5px; padding-top: 5px; border-top: 1px solid #eee; }
+    .mod-vip{ display: block; padding: 10px; }
     .m-baseinfo{position: relative;margin-bottom: 10px;}
     .m-baseinfo img.user-avatar {display: block;width: 50px;height: 50px;border-radius: 50px;}
     .m-baseinfo em span {position: absolute;top:15px;left:60px;font-size: 12px;color: #3C3C3C;}
-    .member-login .btn{width:95px;margin-right:3px;height: 25px;display: inline-block;line-height: 25px;text-align: center;}
+    .member-login .btn{width:48%;height: 25px;display: inline-block;line-height: 25px;text-align: center;}
     .member-login .btn:hover { color: #fff !important; text-decoration: none; }
     .member-login{overflow: hidden;height:25px;text-align: center;}
     .member-logout {  position: absolute; top: 33px; left: 60px; font-size: 12px; color: #f4546b; }

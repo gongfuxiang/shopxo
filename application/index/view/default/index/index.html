@@ -65,10 +65,10 @@
             {{if empty($user) and (MyC('home_user_login_state') eq 1 or in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state')))}}
                 <div class="member-login">
                     {{if MyC('home_user_login_state') eq 1}}
-                        <a class="am-btn-primary btn" href="{{:MyUrl('index/user/loginInfo')}}">登录</a>
+                        <a class="am-btn-primary btn am-fl" href="{{:MyUrl('index/user/loginInfo')}}">登录</a>
                     {{/if}}
                     {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state')) or in_array('username', MyC('home_user_reg_state'))}}
-                        <a class="am-btn-primary btn" href="{{:MyUrl('index/user/regInfo')}}">注册</a>
+                        <a class="am-btn-primary btn am-fr" href="{{:MyUrl('index/user/regInfo')}}">注册</a>
                     {{/if}}
                 </div>
             {{/if}}
@@ -86,10 +86,10 @@
                 </div>
             {{/if}}
         </div>
-        <span class="marqueen-title">新闻头条</span>
-        <div class="banner-news">
-            <ul>
-                {{if !empty($article_list)}}
+        {{if !empty($article_list)}}
+            <div class="banner-news">
+                <p class="marqueen-title">新闻头条</p>
+                <ul>
                     {{foreach $article_list as $article}}
                         <li>
                             <a href="{{$article.url}}" target="_blank">
@@ -98,9 +98,9 @@
                             </a>
                         </li>
                     {{/foreach}}
-                {{/if}}
-            </ul>
-        </div>
+                </ul>
+            </div>
+        {{/if}}
     </div>
 </div>
 
