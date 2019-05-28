@@ -793,7 +793,7 @@ class OrderAftersaleService
         }
         if($ret['code'] != 0)
         {
-            return DataReturn('支付插件退款失败', -50);
+            return $ret;
         }
 
         // 写入退款日志
