@@ -197,6 +197,8 @@
                                                 {{/case}}
                                             {{/switch}}
                                         </a>
+                                    {{elseif $order['status'] eq 6 /}}
+                                        <a href="{{:MyUrl('index/orderaftersale/index', ['keywords'=>$order['order_no']])}}">查看退款</a>
                                     {{/if}}
                                 </td>
                                 {{if $keys eq 0}}

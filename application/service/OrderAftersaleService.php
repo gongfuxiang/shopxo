@@ -758,20 +758,53 @@ class OrderAftersaleService
         // 退款成功
         if($ret['code'] == 0)
         {
-            // 更新退款状态
+            // 开启事务
+            Db::startTrans();
             $upd_data = [
-                'status'        => 3,
-                'audit_time'    => time(),
+                'status'        => 6,
+                'pay_status'    => 2,
+                'close_time'    => time(),
                 'upd_time'      => time(),
             ];
-            if(Db::name('OrderAftersale')->where(['id'=>$aftersale['id'])->update($upd_data))
+            if(Db::name('Order')->where(['id'=>$order['data']['id']])->update($upd_data))
             {
+                // 库存回滚
+                $ret = BuyService::OrderInventoryRollback(['order_id'=>$order['data']['id'], 'order_data'=>$upd_data]);
+                if($ret['code'] != 0)
+                {
+                    // 事务回滚
+                    Db::rollback();
+                    return DataReturn($ret['msg'], -10);
+                }
+
                 // 消息通知
                 $detail = '订单退款成功，金额'.PriceBeautify($aftersale['price']).'元';
-                MessageService::MessageAdd($aftersale['user_id'], '订单退款', $detail, 1, $order['data']['id']);
+                MessageService::MessageAdd($order['data']['user_id'], '订单退款', $detail, 1, $order['data']['id']);
 
+                // 订单状态日志
+                $creator = isset($params['creator']) ? intval($params['creator']) : 0;
+                $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
+                self::OrderHistoryAdd($order['data']['id'], $upd_data['status'], $order['data']['status'], '关闭', $creator, $creator_name);
+
+                // 更新退款状态
+                $upd_data = [
+                    'status'        => 3,
+                    'audit_time'    => time(),
+                    'upd_time'      => time(),
+                ];
+                if(!Db::name('OrderAftersale')->where(['id'=>$aftersale['id'])->update($upd_data))
+                {
+                    return DataReturn('售后订单更新失败', -60);
+                }
+
+                // 提交事务
+                Db::commit();
                 return DataReturn('退款成功', 0);
             }
+
+            // 事务回滚
+            Db::rollback();
+            return DataReturn('退款失败', -1);
         }
         return $ret;
     }

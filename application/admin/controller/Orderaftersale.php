@@ -134,6 +134,8 @@ class Orderaftersale extends Common
         }
 
         $params = input();
+        $params['creator'] = $this->admin['id'];
+        $params['creator_name'] = $this->admin['username'];
         return OrderAftersaleService::AftersaleAudit($params);
     }
 
