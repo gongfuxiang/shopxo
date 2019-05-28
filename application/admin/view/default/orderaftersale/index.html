@@ -75,8 +75,8 @@
         <table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
             <thead>
                 <tr>
-                    <th class="row-user-info am-hide-md-down">用户信息</th>
                     <th class="row-goods am-hide-sm-only">商品信息</th>
+                    <th class="row-user-info am-hide-md-down">用户信息</th>
                     <th class="row-apply">申请信息</th>
                     <th class="am-hide-sm-only">凭证</th>
                     <th class="am-hide-sm-only">状态</th>
@@ -89,19 +89,6 @@
                 {{if !empty($data_list)}}
                     {{foreach $data_list as $v}}
                         <tr id="data-list-{{$v.id}}">
-                            <td class="user-info am-hide-md-down">
-                                {{if !empty($v['user'])}}
-                                    <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
-                                    <ul class="user-base">
-                                        <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
-                                        <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
-                                        <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
-                                        <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
-                                    </ul>
-                                {{else /}}
-                                    用户信息异常
-                                {{/if}}
-                            </td>
                             <td class="am-hide-sm-only">
                                 <div class="goods-detail">
                                     <a href="{{$v.order_data.items.goods_url}}" target="_blank">
@@ -122,6 +109,19 @@
                                     <p class="original-price">￥{{$v.order_data.items.original_price}}</p>
                                 {{/if}}
                                 <p class="line-price">￥{{$v.order_data.items.price}} x {{$v.order_data.items.buy_number}}</p>
+                            </td>
+                            <td class="user-info am-hide-md-down">
+                                {{if !empty($v['user'])}}
+                                    <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                                    <ul class="user-base">
+                                        <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
+                                        <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
+                                        <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
+                                        <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
+                                    </ul>
+                                {{else /}}
+                                    用户信息异常
+                                {{/if}}
                             </td>
                             <td>
                                 类型：{{$v.type_text}}<br />
@@ -171,21 +171,6 @@
                                         </div>
                                         <div class="am-popup-bd">
                                             <dl class="dl-content">
-                                                <dt>用户信息</dt>
-                                                <dd class="user-info">
-                                                    {{if !empty($v['user'])}}
-                                                        <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
-                                                        <ul class="user-base">
-                                                            <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
-                                                            <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
-                                                            <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
-                                                            <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
-                                                        </ul>
-                                                    {{else /}}
-                                                        用户信息异常
-                                                    {{/if}}
-                                                </dd>
-
                                                 <dt>商品信息</dt>
                                                 <dd>
                                                     <div class="goods-detail">
@@ -207,6 +192,21 @@
                                                         <p class="original-price">￥{{$v.order_data.items.original_price}}</p>
                                                     {{/if}}
                                                     <p class="line-price">￥{{$v.order_data.items.price}} x {{$v.order_data.items.buy_number}}</p>
+                                                </dd>
+
+                                                <dt>用户信息</dt>
+                                                <dd class="user-info">
+                                                    {{if !empty($v['user'])}}
+                                                        <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                                                        <ul class="user-base">
+                                                            <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
+                                                            <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
+                                                            <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
+                                                            <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
+                                                        </ul>
+                                                    {{else /}}
+                                                        用户信息异常
+                                                    {{/if}}
                                                 </dd>
 
                                                 <dt>申请信息</dt>

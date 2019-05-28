@@ -146,9 +146,9 @@ class Orderaftersale extends Common
     {
         // 参数
         $params = input();
-        $order_id = isset($params['id']) ? intval($params['id']) : 0;
-        $goods_id = isset($params['gid']) ? intval($params['gid']) : 0;
-        $ret = OrderAftersaleService::OrdferGoodsRow($order_id, $goods_id, $this->user['id']);
+        $order_id = isset($params['oid']) ? intval($params['oid']) : 0;
+        $order_detail_id = isset($params['did']) ? intval($params['did']) : 0;
+        $ret = OrderAftersaleService::OrdferGoodsRow($order_id, $order_detail_id, $this->user['id']);
         if($ret['code'] == 0)
         {
             $this->assign('goods', $ret['data']['items']);
@@ -167,8 +167,7 @@ class Orderaftersale extends Common
                 'm'     => 0,
                 'n'     => 1,
                 'where' => [
-                    ['order_id', '=', $order_id],
-                    ['goods_id', '=', $goods_id],
+                    ['order_detail_id', '=', $order_detail_id],
                     ['user_id', '=', $this->user['id']],
                 ],
             ];

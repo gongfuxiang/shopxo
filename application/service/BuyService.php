@@ -1049,8 +1049,16 @@ class BuyService
             return DataReturn('当前订单状态不允许回滚库存['.$params['order_id'].'-'.$params['order_data']['status'].']', 0);
         }
 
+        // 是否指定商品和数量
+        $appoint_buy_number = empty($params['appoint_buy_number']) ? 0 : intval($params['appoint_buy_number']);
+        $detail_where = ['order_id' => $params['order_id']];
+        if(!empty($params['appoint_order_detail_id']))
+        {
+            $detail_where['id'] = intval($params['appoint_order_detail_id']);
+        }
+
         // 获取订单商品
-        $order_detail = Db::name('OrderDetail')->field('goods_id,buy_number,spec')->where(['order_id'=>$params['order_id']])->select();
+        $order_detail = Db::name('OrderDetail')->field('goods_id,buy_number,spec')->where($detail_where)->select();
         if(!empty($order_detail))
         {
             foreach($order_detail as $v)
@@ -1059,19 +1067,22 @@ class BuyService
                 $temp = Db::name('OrderGoodsInventoryLog')->where(['order_id'=>$params['order_id'], 'goods_id'=>$v['goods_id'], 'is_rollback'=>0])->find();
                 if(!empty($temp))
                 {
+                    // 数量
+                    $buy_number = ($appoint_buy_number == 0) ? $v['buy_number'] : $appoint_buy_number;
+
                     // 回滚操作
-                    if(!Db::name('Goods')->where(['id'=>$v['goods_id']])->setInc('inventory', $v['buy_number']))
+                    if(!Db::name('Goods')->where(['id'=>$v['goods_id']])->setInc('inventory', $buy_number))
                     {
                         return DataReturn('商品库存回滚失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
                     }
 
-                    // 扣除规格库存
+                    // 回滚规格库存
                     $spec = empty($v['spec']) ? '' : json_decode($v['spec'], true);
                     $base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>$spec]);
                     if($base['code'] == 0)
                     {
-                        // 扣除规格操作
-                        if(!Db::name('GoodsSpecBase')->where(['id'=>$base['data']['id'], 'goods_id'=>$v['goods_id']])->setInc('inventory', $v['buy_number']))
+                        // 回滚规格操作
+                        if(!Db::name('GoodsSpecBase')->where(['id'=>$base['data']['id'], 'goods_id'=>$v['goods_id']])->setInc('inventory', $buy_number))
                         {
                             return DataReturn('规格库存回滚失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
                         }

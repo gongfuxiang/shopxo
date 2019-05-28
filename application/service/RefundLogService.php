@@ -88,11 +88,11 @@ class RefundLogService
         $where = empty($params['where']) ? [] : $params['where'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
-        $field = 'p.*,u.username,u.nickname,u.mobile,u.gender';
-        $order_by = empty($params['order_by']) ? 'p.id desc' : $params['order_by'];
+        $field = 'r.*,u.username,u.nickname,u.mobile,u.gender';
+        $order_by = empty($params['order_by']) ? 'r.id desc' : $params['order_by'];
 
         // 获取数据列表
-        $data = Db::name('RefundLog')->alias('p')->join(['__USER__'=>'u'], 'u.id=p.user_id')->where($where)->field($field)->limit($m, $n)->order($order_by)->select();
+        $data = Db::name('RefundLog')->alias('r')->join(['__USER__'=>'u'], 'u.id=r.user_id')->where($where)->field($field)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
             $common_business_type_list = lang('common_business_type_list');
@@ -124,7 +124,7 @@ class RefundLogService
      */
     public static function AdminRefundLogTotal($where = [])
     {
-        return (int) Db::name('RefundLog')->alias('p')->join(['__USER__'=>'u'], 'u.id=p.user_id')->where($where)->count();
+        return (int) Db::name('RefundLog')->alias('r')->join(['__USER__'=>'u'], 'u.id=r.user_id')->where($where)->count();
     }
 
     /**
@@ -143,7 +143,7 @@ class RefundLogService
         // 关键字
         if(!empty($params['keywords']))
         {
-            $where[] = ['p.trade_no|u.username|u.nickname|u.mobile', 'like', '%'.$params['keywords'].'%'];
+            $where[] = ['r.trade_no|u.username|u.nickname|u.mobile', 'like', '%'.$params['keywords'].'%'];
         }
 
         // 是否更多条件
@@ -152,11 +152,11 @@ class RefundLogService
             // 等值
             if(isset($params['business_type']) && $params['business_type'] > -1)
             {
-                $where[] = ['p.business_type', '=', intval($params['business_type'])];
+                $where[] = ['r.business_type', '=', intval($params['business_type'])];
             }
             if(!empty($params['pay_type']))
             {
-                $where[] = ['p.payment', '=', $params['pay_type']];
+                $where[] = ['r.payment', '=', $params['pay_type']];
             }
             if(isset($params['gender']) && $params['gender'] > -1)
             {
@@ -165,20 +165,20 @@ class RefundLogService
 
             if(!empty($params['price_start']))
             {
-                $where[] = ['p.pay_price', '>', PriceNumberFormat($params['price_start'])];
+                $where[] = ['r.pay_price', '>', PriceNumberFormat($params['price_start'])];
             }
             if(!empty($params['price_end']))
             {
-                $where[] = ['p.pay_price', '<', PriceNumberFormat($params['price_end'])];
+                $where[] = ['r.pay_price', '<', PriceNumberFormat($params['price_end'])];
             }
 
             if(!empty($params['time_start']))
             {
-                $where[] = ['p.add_time', '>', strtotime($params['time_start'])];
+                $where[] = ['r.add_time', '>', strtotime($params['time_start'])];
             }
             if(!empty($params['time_end']))
             {
-                $where[] = ['p.add_time', '<', strtotime($params['time_end'])];
+                $where[] = ['r.add_time', '<', strtotime($params['time_end'])];
             }
         }
 

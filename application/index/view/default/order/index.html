@@ -187,7 +187,7 @@
                                 </td>
                                 <td class="row-number">
                                     {{if in_array($order['status'], [2,3,4])}}
-                                        <a href="{{:MyUrl('index/orderaftersale/aftersale', ['id'=>$order['id'], 'gid'=>$goods['goods_id']])}}" target="_blank">
+                                        <a href="{{:MyUrl('index/orderaftersale/aftersale', ['oid'=>$order['id'], 'did'=>$goods['id']])}}" target="_blank">
                                             {{switch $order.status}}
                                                 {{case 2|3}}
                                                     退款/退货

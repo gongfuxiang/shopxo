@@ -17,6 +17,7 @@ use app\service\ResourcesService;
 use app\service\RefundLogService;
 use app\service\OrderService;
 use app\service\MessageService;
+use app\plugins\wallet\service\WalletService;
 
 /**
  * 订单售后服务层
@@ -34,11 +35,11 @@ class OrderAftersaleService
      * @version 1.0.0
      * @date    2019-05-23
      * @desc    description
-     * @param   [int]          $order_id [订单id]
-     * @param   [int]          $goods_id [商品id]
-     * @param   [int]          $user_id  [用户id]
+     * @param   [int]          $order_id        [订单id]
+     * @param   [int]          $order_detail_id [订单详情id]
+     * @param   [int]          $user_id         [用户id]
      */
-    public static function OrdferGoodsRow($order_id, $goods_id, $user_id)
+    public static function OrdferGoodsRow($order_id, $order_detail_id, $user_id)
     {
         // 获取列表
         $data_params = array(
@@ -59,7 +60,7 @@ class OrderAftersaleService
             {
                 foreach($ret['data'][0]['items'] as $v)
                 {
-                    if($goods_id == $v['goods_id'])
+                    if($order_detail_id == $v['id'])
                     {
                         $goods = $v;
                         break;
@@ -94,8 +95,8 @@ class OrderAftersaleService
             ],
             [
                 'checked_type'      => 'empty',
-                'key_name'          => 'goods_id',
-                'error_msg'         => '商品id有误',
+                'key_name'          => 'order_detail_id',
+                'error_msg'         => '订单详情id有误',
             ],
             [
                 'checked_type'      => 'in',
@@ -142,7 +143,7 @@ class OrderAftersaleService
         }
 
         // 获取订单数据
-        $order = self::OrdferGoodsRow($params['order_id'], $params['goods_id'], $params['user']['id']);
+        $order = self::OrdferGoodsRow($params['order_id'], $params['order_detail_id'], $params['user']['id']);
         if($order['code'] != 0)
         {
             return $order;
@@ -151,7 +152,7 @@ class OrderAftersaleService
         // 当前是否存在进行中
         $where = [
             ['order_id', '=', intval($params['order_id'])],
-            ['goods_id', '=', intval($params['goods_id'])],
+            ['order_detail_id', '=', intval($params['order_detail_id'])],
             ['user_id', '=', $params['user']['id']],
             ['status', '<=', 2],
         ];
@@ -182,7 +183,7 @@ class OrderAftersaleService
         $number = isset($params['number']) ? intval($params['number']) : 0;
 
         // 历史退货数量
-        $where[] = ['goods_id', '=', intval($params['goods_id'])];
+        $where[] = ['order_detail_id', '=', intval($params['order_detail_id'])];
         $history_number = (int) Db::name('OrderAftersale')->where($where)->sum('number');
         if($params['type'] == 1)
         {
@@ -204,19 +205,20 @@ class OrderAftersaleService
 
         // 数据
         $data = [
-            'order_no'      => $order['data']['order_no'],
-            'type'          => intval($params['type']),
-            'order_id'      => intval($params['order_id']),
-            'goods_id'      => intval($params['goods_id']),
-            'user_id'       => $params['user']['id'],
-            'number'        => ($params['type'] == 0) ? 0 : $number,
-            'price'         => $price,
-            'reason'        => $params['reason'],
-            'msg'           => $params['msg'],
-            'images'        => json_encode($images),
-            'status'        => ($params['type'] == 0) ? 2 : 0,
-            'add_time'      => time(),
-            'apply_time'    => time(),
+            'order_no'          => $order['data']['order_no'],
+            'type'              => intval($params['type']),
+            'order_detail_id'   => intval($params['order_detail_id']),
+            'order_id'          => intval($params['order_id']),
+            'goods_id'          => $order['data']['items']['goods_id'],
+            'user_id'           => $params['user']['id'],
+            'number'            => ($params['type'] == 0) ? 0 : $number,
+            'price'             => $price,
+            'reason'            => $params['reason'],
+            'msg'               => $params['msg'],
+            'images'            => json_encode($images),
+            'status'            => ($params['type'] == 0) ? 2 : 0,
+            'add_time'          => time(),
+            'apply_time'        => time(),
         ];
         if(Db::name('OrderAftersale')->insertGetId($data) > 0)
         {
@@ -331,7 +333,7 @@ class OrderAftersaleService
             foreach($data as &$v)
             {
                 // 订单商品
-                $order = self::OrdferGoodsRow($v['order_id'], $v['goods_id'], $v['user_id']);
+                $order = self::OrdferGoodsRow($v['order_id'], $v['order_detail_id'], $v['user_id']);
                 $v['order_data'] = $order['data'];
 
                 // 用户信息
@@ -664,7 +666,7 @@ class OrderAftersaleService
         }
 
         // 获取订单数据
-        $order = self::OrdferGoodsRow($aftersale['order_id'], $aftersale['goods_id'], $aftersale['user_id']);
+        $order = self::OrdferGoodsRow($aftersale['order_id'], $aftersale['order_detail_id'], $aftersale['user_id']);
         if($order['code'] != 0)
         {
             return $order;
@@ -737,31 +739,35 @@ class OrderAftersaleService
             }
         }
 
-        // 退款方式
-        $ret = DataReturn('退款方式未定义', -100);
-        switch($params['refundment'])
+        // 原路退回
+        if($params['refundment'] == 0)
         {
-            // 原路退回
-            case 0 :
-                $ret = self::OriginalRoadRefundment($params, $aftersale, $order['data'], $pay_log);
-                break;
+            $refund = self::OriginalRoadRefundment($params, $aftersale, $order['data'], $pay_log);
 
-            // 退至钱包
-            case 1 :
-                $ret = self::WalletRefundment($params, $aftersale, $order['data'], $pay_log);
-                break;
-
-            // 手动处理
-            case 2 :
-                $ret = DataReturn('退款成功', 0);
-                break;
+        // 钱包走事务处理, 手动处理不涉及金额
+        } else {
+            $refund = DataReturn('退款成功', 0);
         }
 
         // 退款成功
-        if($ret['code'] == 0)
+        if($refund['code'] == 0)
         {
             // 开启事务
             Db::startTrans();
+
+            // 钱包操作 - 退至钱包
+            if($params['refundment'] == 1)
+            {
+                $ret = self::WalletRefundment($params, $aftersale, $order['data'], $pay_log);
+                if($ret['code'] != 0)
+                {
+                    // 事务回滚
+                    Db::rollback();
+                    return $ret;
+                }
+            }
+            
+            // 更新主订单
             $upd_data = [
                 'status'        => 6,
                 'pay_status'    => 2,
@@ -771,7 +777,7 @@ class OrderAftersaleService
             if(Db::name('Order')->where(['id'=>$order['data']['id']])->update($upd_data))
             {
                 // 库存回滚
-                $ret = BuyService::OrderInventoryRollback(['order_id'=>$order['data']['id'], 'order_data'=>$upd_data]);
+                $ret = BuyService::OrderInventoryRollback(['order_id'=>$order['data']['id'], 'order_data'=>$upd_data, 'appoint_order_detail_id'=>$aftersale['order_detail_id'], 'appoint_buy_number'=>$aftersale['number']]);
                 if($ret['code'] != 0)
                 {
                     // 事务回滚
@@ -791,6 +797,7 @@ class OrderAftersaleService
                 // 更新退款状态
                 $upd_data = [
                     'status'        => 3,
+                    'refundment'    => $params['refundment'],
                     'audit_time'    => time(),
                     'upd_time'      => time(),
                 ];
@@ -808,7 +815,7 @@ class OrderAftersaleService
             Db::rollback();
             return DataReturn('退款失败', -1);
         }
-        return $ret;
+        return $refund;
     }
 
     /**
@@ -882,7 +889,61 @@ class OrderAftersaleService
      */
     private static function WalletRefundment($params, $aftersale, $order, $pay_log)
     {
-        return DataReturn('开发中', -10);
+        // 获取用户钱包校验
+        $user_wallet = WalletService::UserWallet($order['user_id']);
+        if($user_wallet['code'] != 0)
+        {
+            return $user_wallet;
+        }
+
+        // 钱包更新数据
+        $data = [
+            'normal_money'      => PriceNumberFormat($user_wallet['data']['normal_money']+$aftersale['price']),
+            'upd_time'          => time(),
+        ];
+        if(!Db::name('PluginsWallet')->where(['id'=>$user_wallet['data']['id']])->update($data))
+        {
+            return DataReturn('钱包更新失败', -10);
+        }
+
+        // 钱包变更日志
+        $msg = $order['order_no'].'订单退款'.$aftersale['price'].'元';
+        $log_data = [
+            'user_id'           => $user_wallet['data']['user_id'],
+            'wallet_id'         => $user_wallet['data']['id'],
+            'business_type'     => 0,
+            'operation_type'    => 1,
+            'money_type'        => 0,
+            'operation_money'   => $aftersale['price'],
+            'original_money'    => $user_wallet['data']['normal_money'],
+            'latest_money'      => $data['normal_money'],
+            'msg'               => $msg,
+        ];
+        if(!WalletService::WalletLogInsert($log_data))
+        {
+            return DataReturn('钱包日志添加失败', -101);
+        }
+
+        // 写入退款日志
+        $refund_log = [
+            'user_id'       => $order['user_id'],
+            'order_id'      => $order['id'],
+            'total_price'   => $order['total_price'],
+            'trade_no'      => '',
+            'buyer_user'    => '',
+            'refund_price'  => $aftersale['price'],
+            'msg'           => $msg,
+            'payment'       => $pay_log['payment'],
+            'payment_name'  => $pay_log['payment_name'],
+            'business_type' => 1,
+            'return_params' => '',
+        ];
+        RefundLogService::RefundLogInsert($refund_log);
+
+        // 消息通知
+        MessageService::MessageAdd($order['user_id'], '账户余额变动', $msg, 1, $order['id']);
+
+        return DataReturn('退款成功', 0);   
     }
 
     /**
