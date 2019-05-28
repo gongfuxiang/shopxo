@@ -15,6 +15,8 @@ use think\facade\Hook;
 use app\service\UserService;
 use app\service\ResourcesService;
 use app\service\RefundLogService;
+use app\service\OrderService;
+use app\service\MessageService;
 
 /**
  * 订单售后服务层
@@ -784,7 +786,7 @@ class OrderAftersaleService
                 // 订单状态日志
                 $creator = isset($params['creator']) ? intval($params['creator']) : 0;
                 $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
-                self::OrderHistoryAdd($order['data']['id'], $upd_data['status'], $order['data']['status'], '关闭', $creator, $creator_name);
+                OrderService::OrderHistoryAdd($order['data']['id'], $upd_data['status'], $order['data']['status'], '关闭', $creator, $creator_name);
 
                 // 更新退款状态
                 $upd_data = [
@@ -792,7 +794,7 @@ class OrderAftersaleService
                     'audit_time'    => time(),
                     'upd_time'      => time(),
                 ];
-                if(!Db::name('OrderAftersale')->where(['id'=>$aftersale['id'])->update($upd_data))
+                if(!Db::name('OrderAftersale')->where(['id'=>$aftersale['id']])->update($upd_data))
                 {
                     return DataReturn('售后订单更新失败', -60);
                 }
