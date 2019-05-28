@@ -856,13 +856,13 @@ class OrderAftersaleService
             'order_id'      => $order['id'],
             'total_price'   => $order['total_price'],
             'trade_no'      => isset($ret['data']['trade_no']) ? $ret['data']['trade_no'] : '',
-            'buyer_user'    => isset($ret['data']['buyer_user_id']) ? $ret['data']['buyer_user_id'] : '',
-            'refund_price'  => $aftersale['price'],
+            'buyer_user'    => isset($ret['data']['buyer_user']) ? $ret['data']['buyer_user'] : '',
+            'refund_price'  => isset($ret['data']['refund_price']) ? $ret['data']['refund_price'] : '',
             'msg'           => $pay_params['refund_reason'],
             'payment'       => $pay_log['payment'],
             'payment_name'  => $pay_log['payment_name'],
             'business_type' => 1,
-            'return_params' => $ret['data'],
+            'return_params' => isset($ret['data']['return_params']) ? $ret['data']['return_params'] : '',
         ];
         RefundLogService::RefundLogInsert($refund_log);
         return $ret;

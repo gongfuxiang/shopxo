@@ -345,7 +345,15 @@ class Alipay
         // 状态
         if(isset($result[$key]['code']) && $result[$key]['code'] == 10000)
         {
-            return DataReturn('退款成功', 0, $result[$key]);
+            // 统一返回格式
+            $data = [
+                'out_trade_no'  => isset($result[$key]['out_trade_no']) ? $result[$key]['out_trade_no'] : '',
+                'trade_no'      => isset($result[$key]['trade_no']) ? $result[$key]['trade_no'] : '',
+                'buyer_user'    => isset($result[$key]['buyer_user_id']) ? $result[$key]['buyer_user_id'] : '',
+                'refund_price'  => isset($result[$key]['refund_fee']) ? $result[$key]['refund_fee'] : 0.00,
+                'return_params' => $result[$key],
+            ];
+            return DataReturn('退款成功', 0, $data);
         }
 
         // 直接返回支付信息
