@@ -85,8 +85,8 @@ class Goodscomments extends Common
         // 静态数据
         $this->assign('common_is_show_list', lang('common_is_show_list'));
         $this->assign('common_is_text_list', lang('common_is_text_list'));
-        $this->assign('rating_list', GoodsCommentsService::$rating_list);
-        $this->assign('business_type_list', GoodsCommentsService::$business_type_list);
+        $this->assign('common_goods_comments_rating_list', lang('common_goods_comments_rating_list'));
+        $this->assign('common_goods_rating_business_type_list', lang('common_goods_rating_business_type_list'));
 
         // 参数
         $this->assign('params', $params);
@@ -124,8 +124,8 @@ class Goodscomments extends Common
         // 静态数据
         $this->assign('common_is_show_list', lang('common_is_show_list'));
         $this->assign('common_is_text_list', lang('common_is_text_list'));
-        $this->assign('rating_list', GoodsCommentsService::$rating_list);
-        $this->assign('business_type_list', GoodsCommentsService::$business_type_list);
+        $this->assign('common_goods_comments_rating_list', lang('common_goods_comments_rating_list'));
+        $this->assign('common_goods_rating_business_type_list', lang('common_goods_rating_business_type_list'));
 
         // 参数
         unset($params['id']);

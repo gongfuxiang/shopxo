@@ -317,6 +317,21 @@ return array(
             2 => array('value' => 2, 'name' => '手动处理'),
         ),
 
+    // 商品评分
+    'common_goods_comments_rating_list' =>  array(
+            0 => array('name'=>'未评分', 'badge'=>''),
+            1 => array('name'=>'1分', 'badge'=>'am-badge-danger'),
+            2 => array('name'=>'2分', 'badge'=>'am-badge-warning'),
+            3 => array('name'=>'3分', 'badge'=>'am-badge-secondary'),
+            4 => array('name'=>'4分', 'badge'=>'am-badge-primary'),
+            5 => array('name'=>'5分', 'badge'=>'am-badge-success'),
+        ),
+
+    // 商品评分业务类型
+    'common_goods_rating_business_type_list' =>  array(
+            'order' => '订单',
+        ),
+
 
     // 色彩值
     'common_color_list'                 =>  array(

@@ -110,7 +110,7 @@
                                     <td class="am-hide-sm-only">
                                         <div class="goods-detail">
                                             <a href="{{$v.order_data.items.goods_url}}" target="_blank">
-                                                <img src="{{$v.order_data.items.images}}">
+                                                <img src="{{$v.order_data.items.images}}" alt="{{$v.order_data.items.title}}" class="am-img-thumbnail am-radius" />
                                             </a>
                                             <div class="goods-base">
                                                 <a href="{{$v.order_data.items.goods_url}}" target="_blank" class="goods-title">{{$v.order_data.items.title}}</a>
@@ -132,7 +132,7 @@
                                         类型：{{$v.type_text}}<br />
                                         原因：{{$v.reason}}<br />
                                         数量：{{$v.number}}<br />
-                                        金额：{{$v.price}}<br />
+                                        金额：<span class="am-text-warning">￥{{$v.price}}</span><br />
                                         说明：{{$v.msg}}<br />
                                         时间：{{$v.apply_time_time}}
                                     </td>

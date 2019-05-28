@@ -64,12 +64,12 @@
 
 <!-- 应用插件公共js -->
 {{if !empty($plugins_js)}}
-    <script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/{{$plugins_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+    <script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/{{$plugins_js}}"></script>
 {{/if}}
 
 <!-- 当前控制器js -->
 {{if !empty($module_js)}}
-    <script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/{{$module_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+    <script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/{{$module_js}}"></script>
 {{/if}}
 
 <!-- js钩子 -->

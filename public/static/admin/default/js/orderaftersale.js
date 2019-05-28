@@ -4,39 +4,35 @@ FromInit('form.form-validation-refuse');
 
 $(function()
 {
+    // 弹窗数据初始化
+    function PopupInit($popup, data)
+    {
+        // 用户信息
+        $popup.find('input[name="id"]').val(data.id);
+        $popup.find('.user-info img').attr('src', data.user.avatar || $popup.find('.user-info img').attr('src'));
+        $popup.find('.user-info .user-base .username span').html(data.user.username || '<span class="cr-ddd">未填写</span>');
+        $popup.find('.user-info .user-base .nickname span').html(data.user.nickname || '<span class="cr-ddd">未填写</span>');
+        $popup.find('.user-info .user-base .mobile span').html(data.user.mobile || '<span class="cr-ddd">未填写</span>');
+        $popup.find('.user-info .user-base .email span').html(data.user.email || '<span class="cr-ddd">未填写</span>');
+
+        // 申请信息
+        $popup.find('.apply-info .type span').html(data.type_text || '<span class="cr-ddd">未填写</span>');
+        $popup.find('.apply-info .reason span').html(data.reason || '<span class="cr-ddd">未填写</span>');
+        $popup.find('.apply-info .number span').html(data.number || '<span class="cr-ddd">未填写</span>');
+        $popup.find('.apply-info .price span').html('￥'+data.price || '<span class="cr-ddd">未填写</span>');
+        $popup.find('.apply-info .msg span').html(data.price || '<span class="cr-ddd">未填写</span>');
+
+        $popup.modal(); 
+    }
     // 审核
     $('table.am-table .submit-audit').on('click', function()
     {
-        var $audit_popup = $('#order-audit-popup');
-        var json = $(this).data('json');
-        console.log(json);
-
-        // 用户信息
-        $audit_popup.find('input[name="id"]').val(json.id);
-        $audit_popup.find('.user-info img').attr('src', json.user.avatar || $audit_popup.find('.user-info img').attr('src'));
-        $audit_popup.find('.user-info .user-base .username span').html(json.user.username || '<span class="cr-ddd">未填写</span>');
-        $audit_popup.find('.user-info .user-base .nickname span').html(json.user.nickname || '<span class="cr-ddd">未填写</span>');
-        $audit_popup.find('.user-info .user-base .mobile span').html(json.user.mobile || '<span class="cr-ddd">未填写</span>');
-        $audit_popup.find('.user-info .user-base .email span').html(json.user.email || '<span class="cr-ddd">未填写</span>');
-
-        $audit_popup.modal();
+        PopupInit($('#order-audit-popup'), $(this).data('json'));
     });
 
     // 拒绝
     $('table.am-table .submit-refuse').on('click', function()
     {
-        var $refuse_popup = $('#order-refuse-popup');
-        var json = $(this).data('json');
-        console.log(json);
-
-        // 用户信息
-        $refuse_popup.find('input[name="id"]').val(json.id);
-        $refuse_popup.find('.user-info img').attr('src', json.user.avatar || $refuse_popup.find('.user-info img').attr('src'));
-        $refuse_popup.find('.user-info .user-base .username span').html(json.user.username || '<span class="cr-ddd">未填写</span>');
-        $refuse_popup.find('.user-info .user-base .nickname span').html(json.user.nickname || '<span class="cr-ddd">未填写</span>');
-        $refuse_popup.find('.user-info .user-base .mobile span').html(json.user.mobile || '<span class="cr-ddd">未填写</span>');
-        $refuse_popup.find('.user-info .user-base .email span').html(json.user.email || '<span class="cr-ddd">未填写</span>');
-
-        $refuse_popup.modal();
+        PopupInit($('#order-refuse-popup'), $(this).data('json'));
     });
 });

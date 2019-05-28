@@ -61,8 +61,8 @@
                             <span>类型：</span>
                             <select name="business_type" class="chosen-select" data-placeholder="业务类型...">
                                 <option value="">业务类型...</option>
-                                {{if !empty($business_type_list)}}
-                                    {{foreach $business_type_list as $k=>$v}}
+                                {{if !empty($common_goods_rating_business_type_list)}}
+                                    {{foreach $common_goods_rating_business_type_list as $k=>$v}}
                                         <option value="{{$k}}" {{if isset($params['business_type']) and $params['business_type'] eq $k}}selected{{/if}}>{{$v}}</option>
                                     {{/foreach}}
                                 {{/if}}
@@ -143,7 +143,7 @@
                                 </div>
                             </td>
                             <td class="am-hide-sm-only">
-                                <span class="am-badge am-radius {{$rating_list[$v['rating']]['badge']}}">{{$v.rating_text}}</span>
+                                <span class="am-badge am-radius {{$common_goods_comments_rating_list[$v['rating']]['badge']}}">{{$v.rating_text}}</span>
                             </td>
                             <td class="am-hide-sm-only">
                                 <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_reply'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/goodscomments/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_reply']}}" data-field="is_reply"></a>
@@ -203,7 +203,7 @@
 
                                                 <dt>评分</dt>
                                                 <dd>
-                                                    <span class="am-badge am-radius {{$rating_list[$v['rating']]['badge']}}">{{$v.rating_text}}</span>
+                                                    <span class="am-badge am-radius {{$common_goods_comments_rating_list[$v['rating']]['badge']}}">{{$v.rating_text}}</span>
                                                 </dd>
 
                                                 <dt>是否匿名</dt>

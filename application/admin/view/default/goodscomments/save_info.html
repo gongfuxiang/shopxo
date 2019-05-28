@@ -42,8 +42,8 @@
             <div class="am-form-group">
                 <label>业务类型<span class="am-form-group-label-tips-must">必选</span></label>
                 <select name="business_type" class="chosen-select" data-placeholder="业务类型..." data-validation-message="请选择业务类型" required>
-                    {{if !empty($business_type_list)}}
-                        {{foreach $business_type_list as $k=>$v}}
+                    {{if !empty($common_goods_rating_business_type_list)}}
+                        {{foreach $common_goods_rating_business_type_list as $k=>$v}}
                             <option value="{{$k}}" {{if isset($data['business_type']) and $data['business_type'] eq $k}}selected{{/if}}>{{$v}}</option>
                         {{/foreach}}
                     {{/if}}
@@ -68,8 +68,8 @@
             <div class="am-form-group">
                 <label>评分<span class="am-form-group-label-tips-must">必选</span></label>
                 <select name="rating" class="chosen-select" data-placeholder="评分..." data-validation-message="请选择评分" required>
-                    {{if !empty($business_type_list)}}
-                        {{foreach $rating_list as $k=>$v}}
+                    {{if !empty($common_goods_comments_rating_list)}}
+                        {{foreach $common_goods_comments_rating_list as $k=>$v}}
                             <option value="{{$k}}" {{if isset($data['rating']) and $data['rating'] eq $k}}selected{{/if}}>{{$v.name}}</option>
                         {{/foreach}}
                     {{/if}}
