@@ -333,7 +333,7 @@
                         </dd>
                     </dl>
 
-                    <form class="am-form form-validation-audit" action="{{:MyUrl('admin/orderaftersale/audit')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
+                    <form class="am-form form-validation-audit" action="{{:MyUrl('admin/orderaftersale/audit')}}" method="POST" request-type="ajax-reload">
                         <div class="am-form-group">
                             <label class="am-block">退款方式</label>
                             {{if !empty($common_order_aftersale_refundment_list)}}
@@ -385,7 +385,7 @@
                         </dd>
                     </dl>
 
-                    <form class="am-form form-validation-refuse" action="{{:MyUrl('admin/orderaftersale/refuse')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
+                    <form class="am-form form-validation-refuse" action="{{:MyUrl('admin/orderaftersale/refuse')}}" method="POST" request-type="ajax-reload">
                         <div class="am-form-group">
                             <label>拒绝原因</label>
                             <textarea name="refuse_reason" rows="5" class="am-radius" placeholder="拒绝原因格式 2~230 个字符" data-validation-message="拒绝原因格式 2~230 个字符" minlength="2" maxlength="230" required></textarea>

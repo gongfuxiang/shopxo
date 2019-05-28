@@ -213,7 +213,6 @@ class Alipay
         exit($this->BuildRequestForm($parameter));
     }
 
-    
 
     /**
      * 支付回调处理
@@ -275,6 +274,85 @@ class Alipay
     }
 
     /**
+     * 退款处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-28
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public function Refund($params = [])
+    {
+        // 参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'order_no',
+                'error_msg'         => '订单号不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'trade_no',
+                'error_msg'         => '交易平台订单号不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'refund_amount',
+                'error_msg'         => '退款金额不能为空',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 退款原因
+        $refund_reason = empty($params['refund_reason']) ? $params['order_no'].'订单退款'.$params['refund_amount'].'元' : $params['refund_reason'];
+
+        // 退款参数
+        $parameter = array(
+            'app_id'                =>  $this->config['appid'],
+            'method'                =>  'alipay.trade.refund',
+            'format'                =>  'JSON',
+            'charset'               =>  'utf-8',
+            'sign_type'             =>  'RSA2',
+            'timestamp'             =>  date('Y-m-d H:i:s'),
+            'version'               =>  '1.0',
+        );
+        $biz_content = array(
+            'out_trade_no'          =>  $params['order_no'],
+            'trade_no'              =>  $params['trade_no'],
+            'refund_amount'         =>  $params['refund_amount'],
+            'refund_reason'         =>  $refund_reason,
+        );
+        $parameter['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
+
+        // 生成签名参数+签名
+        $parameter['sign'] = $this->MyRsaSign($this->GetSignContent($parameter));
+
+        // 执行请求
+        $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $parameter);
+        $key = str_replace('.', '_', $parameter['method']).'_response';
+
+        // 验证签名
+        if(!$this->SyncRsaVerify($result, $key))
+        {
+            return DataReturn('签名验证错误', -1);
+        }
+
+        // 状态
+        if(isset($result[$key]['code']) && $result[$key]['code'] == 10000)
+        {
+            return DataReturn('退款成功', 0, $result[$key]);
+        }
+
+        // 直接返回支付信息
+        return DataReturn($result[$key]['sub_msg'].'['.$result[$key]['sub_code'].']', -1000);
+    }
+
+    /**
      * 建立请求，以表单HTML形式构造（默认）
      * @author   Devil
      * @blog    http://gong.gg/
@@ -302,6 +380,51 @@ class Alipay
         $html .= "<script>document.forms['alipaysubmit'].submit();</script>";
         
         return $html;
+    }
+
+    /**
+     * [HttpRequest 网络请求]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2017-09-25T09:10:46+0800
+     * @param    [string]          $url  [请求url]
+     * @param    [array]           $data [发送数据]
+     * @return   [mixed]                 [请求返回数据]
+     */
+    private function HttpRequest($url, $data)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_FAILONERROR, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        $body_string = '';
+        if(is_array($data) && 0 < count($data))
+        {
+            foreach($data as $k => $v)
+            {
+                $body_string .= $k.'='.urlencode($v).'&';
+            }
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $body_string);
+        }
+        $headers = array('content-type: application/x-www-form-urlencoded;charset=UTF-8');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $reponse = curl_exec($ch);
+        if(curl_errno($ch))
+        {
+            return false;
+        } else {
+            $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if(200 !== $httpStatusCode)
+            {
+                return false;
+            }
+        }
+        curl_close($ch);
+        return json_decode($reponse, true);
     }
 
     /**

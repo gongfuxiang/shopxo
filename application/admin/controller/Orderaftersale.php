@@ -138,6 +138,26 @@ class Orderaftersale extends Common
     }
 
     /**
+     * 拒绝
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-23
+     * @desc    description
+     */
+    public function Refuse()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        $params = input();
+        return OrderAftersaleService::AftersaleRefuse($params);
+    }
+
+    /**
      * 订单取消
      * @author   Devil
      * @blog    http://gong.gg/

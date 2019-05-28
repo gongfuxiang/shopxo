@@ -14,6 +14,7 @@ use think\Db;
 use think\facade\Hook;
 use app\service\UserService;
 use app\service\ResourcesService;
+use app\service\RefundLogService;
 
 /**
  * 订单售后服务层
@@ -563,7 +564,7 @@ class OrderAftersaleService
      * @version 1.0.0
      * @date    2019-05-27
      * @desc    description
-     * @param    [array]          $params [输入参数]
+     * @param   [array]          $params [输入参数]
      */
     public static function AftersaleConfirm($params = [])
     {
@@ -613,6 +614,261 @@ class OrderAftersaleService
             return DataReturn('确认成功');
         }
         return DataReturn('确认失败', -100);
+    }
+
+    /**
+     * 审核
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-27
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function AftersaleAudit($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '操作id有误',
+            ],
+            [
+                'checked_type'      => 'in',
+                'key_name'          => 'refundment',
+                'checked_data'      => array_column(lang('common_order_aftersale_refundment_list'), 'value'),
+                'error_msg'         => '退款方式有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 售后订单
+        $aftersale = Db::name('OrderAftersale')->where(['id' => intval($params['id'])])->find();
+        if(empty($aftersale))
+        {
+            return DataReturn('数据不存在或已删除', -1);
+        }
+
+        // 状态校验
+        if($aftersale['status'] != 2)
+        {
+            $status_list = lang('common_order_aftersale_status_list');
+            return DataReturn('状态不可操作['.$status_list[$aftersale['status']]['name'].']', -1);
+        }
+
+        // 获取订单数据
+        $order = self::OrdferGoodsRow($aftersale['order_id'], $aftersale['goods_id'], $aftersale['user_id']);
+        if($order['code'] != 0)
+        {
+            return $order;
+        }
+
+        // 获取历史申请售后条件
+        $where = [
+            ['order_id', '=', $aftersale['order_id']],
+            ['status', '=', 3],
+            ['id', '<>', $aftersale['id']],
+        ];
+
+        // 历史退款金额
+        $history_price = PriceNumberFormat(Db::name('OrderAftersale')->where($where)->sum('price'));
+        if($aftersale['price']+$history_price > $order['data']['pay_price'])
+        {
+            return DataReturn('退款金额大于支付金额[ 历史退款 '.$history_price.' ]', -1);
+        }
+
+        // 历史退货数量
+        $where[] = ['goods_id', '=', $aftersale['goods_id']];
+        $history_number = (int) Db::name('OrderAftersale')->where($where)->sum('number');
+        if($aftersale['type'] == 1)
+        {
+            if($aftersale['number']+$history_number > $order['data']['items']['buy_number'])
+            {
+                return DataReturn('退货数量大于购买数量[ 历史退货数量 '.$history_number.' ]', -1);
+            }
+        }
+
+        // 订单支付方式校验
+        $pay_log = Db::name('PayLog')->where(['order_id'=>$order['data']['id'], 'business_type'=>1])->find();
+
+        // 手动处理不校验支付日志
+        if($params['refundment'] != 2)
+        {
+            if(empty($pay_log))
+            {
+                return DataReturn('支付日志不存在，请使用手动处理方式', -1);
+            }
+        }
+
+        // 原路退回
+        if($params['refundment'] == 0)
+        {
+            if(in_array($pay_log['payment'], config('shopxo.under_line_list')))
+            {
+                return DataReturn('线下支付方式不能原路退回[ '.$pay_log['payment_name'].' ]', -1);
+            } else {
+                $payment = 'payment\\'.$pay_log['payment'];
+                if(class_exists($payment))
+                {
+                    if(!method_exists((new $payment()), 'Refund'))
+                    {
+                        return DataReturn('支付插件没退款功能[ '.$pay_log['payment'].' ]', -1);
+                    }
+                } else {
+                    return DataReturn('支付插件不存在[ '.$pay_log['payment'].' ]', -1);
+                }
+            }
+        }
+
+        // 钱包校验
+        if($params['refundment'] == 1)
+        {
+            $wallet = Db::name('Plugins')->where(['plugins'=>'wallet'])->find();
+            if(empty($wallet))
+            {
+                return DataReturn('请先安装钱包插件[ Wallet ]', -1);
+            }
+        }
+
+        // 退款方式
+        $ret = DataReturn('退款方式未定义', -100);
+        switch($params['refundment'])
+        {
+            // 原路退回
+            case 0 :
+                $ret = self::OriginalRoadRefundment($params, $aftersale, $order['data'], $pay_log);
+                break;
+
+            // 退至钱包
+            case 1 :
+                $ret = self::WalletRefundment($params, $aftersale, $order['data'], $pay_log);
+                break;
+
+            // 手动处理
+            case 2 :
+                $ret = DataReturn('操作成功', 0);
+                break;
+        }
+        return $ret;
+    }
+
+    /**
+     * 原路退回
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-27
+     * @desc    description
+     * @param   [array]          $params    [输入参数]
+     * @param   [array]          $aftersale [售后订单数据]
+     * @param   [array]          $order     [订单数据]
+     * @param   [array]          $pay_log   [订单支付日志]
+     */
+    private static function OriginalRoadRefundment($params, $aftersale, $order, $pay_log)
+    {
+        // 支付方式
+        $payment = PaymentService::PaymentList(['where'=>['payment'=>$pay_log['payment']]]);
+        if(empty($payment[0]))
+        {
+            return DataReturn('支付方式有误', -1);
+        }
+
+        // 操作退款
+        $pay_name = 'payment\\'.$pay_log['payment'];
+        $pay_params = [
+            'order_no'          => $order['order_no'],
+            'trade_no'          => $pay_log['trade_no'],
+            'refund_amount'     => $aftersale['price'],
+            'refund_reason'     => $order['order_no'].'订单退款'.$aftersale['price'].'元',
+        ];
+        $ret = (new $pay_name($payment[0]['config']))->Refund($pay_params);
+        if(!isset($ret['code']))
+        {
+            return DataReturn('支付插件退款处理有误', -1);
+        }
+        if($ret['code'] != 0)
+        {
+            return DataReturn('支付插件退款失败', -50);
+        }
+
+        // 写入退款日志
+        $refund_log = [
+            'user_id'       => $order['user_id'],
+            'order_id'      => $order['id'],
+            'total_price'   => $order['total_price'],
+            'trade_no'      => isset($ret['data']['trade_no']) ? $ret['data']['trade_no'] : '',
+            'buyer_user'    => isset($ret['data']['buyer_user']) ? $ret['data']['buyer_user'] : '',
+            'refund_price'  => $aftersale['price'],
+            'msg'           => $pay_params['refund_reason'],
+            'payment'       => $pay_log['payment'],
+            'payment_name'  => $pay_log['payment_name'],
+            'business_type' => 1,
+            'return_params' => $ret['data'],
+        ];
+        RefundLogService::RefundLogInsert($refund_log);
+
+        // 更新退款状态
+        return self::OrderAftersaleSuccess($aftersale['id']);
+    }
+
+    /**
+     * 订单售后审核完成
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-28
+     * @desc    description
+     * @param   [int]          $aftersale_id [订单售后id]
+     */
+    private static function OrderAftersaleSuccess($aftersale_id)
+    {
+        // 更新退款状态
+        $upd_data = [
+            'status'        => 3,
+            'audit_time'    => time(),
+            'upd_time'      => time(),
+        ];
+        if(Db::name('OrderAftersale')->where(['id'=>$aftersale_id])->update($upd_data))
+        {
+            return DataReturn('退款成功', 0);
+        }
+        return DataReturn('退款失败', -100);
+    }
+
+    /**
+     * 退至钱包
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-27
+     * @desc    description
+     * @param   [array]          $params    [输入参数]
+     * @param   [array]          $aftersale [售后订单数据]
+     * @param   [array]          $order     [订单数据]
+     * @param   [array]          $pay_log   [订单支付日志]
+     */
+    private static function WalletRefundment($params, $aftersale, $order, $pay_log)
+    {
+        return DataReturn('开发中', -10);
+    }
+
+    /**
+     * 拒绝
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-27
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function AftersaleRefuse($params = [])
+    {
+        return DataReturn('开发中', -10);
     }
 }
 ?>

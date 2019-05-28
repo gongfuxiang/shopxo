@@ -13,16 +13,16 @@ namespace app\service;
 use think\Db;
 
 /**
- * 支付日志服务层
+ * 退款日志服务层
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class PayLogService
+class RefundLogService
 {
     /**
-     * 支付日志添加
+     * 退款日志添加
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -33,14 +33,15 @@ class PayLogService
      * @param   [float]             $total_price    [业务订单实际金额]
      * @param   [string]            $trade_no       [支付平台交易号]
      * @param   [string]            $buyer_user     [支付平台用户帐号]
-     * @param   [float]             $pay_price      [支付金额]
-     * @param   [string]            $subject        [业务订单名称]
+     * @param   [float]             $refund_price   [退款金额]
+     * @param   [string]            $msg            [描述]
      * @param   [string]            $payment        [支付方式标记]
      * @param   [string]            $payment_name   [支付方式名称]
      * @param   [int]               $business_type  [业务类型（0默认, 1订单, 2充值, ...）]
+     * @param   [string]            $return_params  [支付平台返回参数]
      * @return  [boolean]                           [成功true, 失败false]
      */
-    public static function PayLogInsert($params = [])
+    public static function RefundLogInsert($params = [])
     {
         $data = [
             'user_id'           => isset($params['user_id']) ? intval($params['user_id']) : 0,
@@ -48,14 +49,15 @@ class PayLogService
             'total_price'       => isset($params['total_price']) ? PriceNumberFormat($params['total_price']) : 0.00,
             'trade_no'          => isset($params['trade_no']) ? $params['trade_no'] : '',
             'buyer_user'        => isset($params['buyer_user']) ? $params['buyer_user'] : '',
-            'pay_price'         => isset($params['pay_price']) ? PriceNumberFormat($params['pay_price']) : 0.00,
-            'subject'           => isset($params['subject']) ? $params['subject'] : '',
+            'refund_price'      => isset($params['refund_price']) ? PriceNumberFormat($params['refund_price']) : 0.00,
+            'msg'               => isset($params['msg']) ? $params['msg'] : '',
             'payment'           => isset($params['payment']) ? $params['payment'] : '',
             'payment_name'      => isset($params['payment_name']) ? $params['payment_name'] : '',
             'business_type'     => isset($params['business_type']) ? intval($params['business_type']) : 0,
+            'return_params'     => empty($params['return_params']) ? '' : json_encode($params['return_params'], 'JSON_UNESCAPED_UNICODE'),
             'add_time'          => time(),
         ];
-        return Db::name('PayLog')->insertGetId($data) > 0;
+        return Db::name('RefundLog')->insertGetId($data) > 0;
     }
 
     /**
@@ -68,7 +70,7 @@ class PayLogService
      */
     public static function PayLogTypeList($params = [])
     {
-        $data = Db::name('PayLog')->field('payment AS id, payment_name AS name')->group('payment')->select();
+        $data = Db::name('RefundLog')->field('payment AS id, payment_name AS name')->group('payment')->select();
         return DataReturn('处理成功', 0, $data);
     }
     
@@ -81,7 +83,7 @@ class PayLogService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function AdminPayLogList($params = [])
+    public static function AdminRefundLogList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
@@ -90,7 +92,7 @@ class PayLogService
         $order_by = empty($params['order_by']) ? 'p.id desc' : $params['order_by'];
 
         // 获取数据列表
-        $data = Db::name('PayLog')->alias('p')->join(['__USER__'=>'u'], 'u.id=p.user_id')->where($where)->field($field)->limit($m, $n)->order($order_by)->select();
+        $data = Db::name('RefundLog')->alias('p')->join(['__USER__'=>'u'], 'u.id=p.user_id')->where($where)->field($field)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
             $common_business_type_list = lang('common_business_type_list');
@@ -112,7 +114,7 @@ class PayLogService
     }
 
     /**
-     * 总数
+     * 后台总数
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -120,13 +122,13 @@ class PayLogService
      * @desc    description
      * @param   [array]          $where [条件]
      */
-    public static function AdminPayLogTotal($where = [])
+    public static function AdminRefundLogTotal($where = [])
     {
-        return (int) Db::name('PayLog')->alias('p')->join(['__USER__'=>'u'], 'u.id=p.user_id')->where($where)->count();
+        return (int) Db::name('RefundLog')->alias('p')->join(['__USER__'=>'u'], 'u.id=p.user_id')->where($where)->count();
     }
 
     /**
-     * 列表条件
+     * 后台列表条件
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -134,7 +136,7 @@ class PayLogService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function AdminPayLogListWhere($params = [])
+    public static function AdminRefundLogListWhere($params = [])
     {
         $where = [];
         
