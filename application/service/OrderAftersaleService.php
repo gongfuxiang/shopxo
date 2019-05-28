@@ -751,8 +751,27 @@ class OrderAftersaleService
 
             // 手动处理
             case 2 :
-                $ret = DataReturn('操作成功', 0);
+                $ret = DataReturn('退款成功', 0);
                 break;
+        }
+
+        // 退款成功
+        if($ret['code'] == 0)
+        {
+            // 更新退款状态
+            $upd_data = [
+                'status'        => 3,
+                'audit_time'    => time(),
+                'upd_time'      => time(),
+            ];
+            if(Db::name('OrderAftersale')->where(['id'=>$aftersale['id'])->update($upd_data))
+            {
+                // 消息通知
+                $detail = '订单退款成功，金额'.PriceBeautify($aftersale['price']).'元';
+                MessageService::MessageAdd($aftersale['user_id'], '订单退款', $detail, 1, $order['data']['id']);
+
+                return DataReturn('退款成功', 0);
+            }
         }
         return $ret;
     }
@@ -802,7 +821,7 @@ class OrderAftersaleService
             'order_id'      => $order['id'],
             'total_price'   => $order['total_price'],
             'trade_no'      => isset($ret['data']['trade_no']) ? $ret['data']['trade_no'] : '',
-            'buyer_user'    => isset($ret['data']['buyer_user']) ? $ret['data']['buyer_user'] : '',
+            'buyer_user'    => isset($ret['data']['buyer_user_id']) ? $ret['data']['buyer_user_id'] : '',
             'refund_price'  => $aftersale['price'],
             'msg'           => $pay_params['refund_reason'],
             'payment'       => $pay_log['payment'],
@@ -811,33 +830,7 @@ class OrderAftersaleService
             'return_params' => $ret['data'],
         ];
         RefundLogService::RefundLogInsert($refund_log);
-
-        // 更新退款状态
-        return self::OrderAftersaleSuccess($aftersale['id']);
-    }
-
-    /**
-     * 订单售后审核完成
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2019-05-28
-     * @desc    description
-     * @param   [int]          $aftersale_id [订单售后id]
-     */
-    private static function OrderAftersaleSuccess($aftersale_id)
-    {
-        // 更新退款状态
-        $upd_data = [
-            'status'        => 3,
-            'audit_time'    => time(),
-            'upd_time'      => time(),
-        ];
-        if(Db::name('OrderAftersale')->where(['id'=>$aftersale_id])->update($upd_data))
-        {
-            return DataReturn('退款成功', 0);
-        }
-        return DataReturn('退款失败', -100);
+        return $ret;
     }
 
     /**
