@@ -54,7 +54,7 @@ class RefundLogService
             'payment'           => isset($params['payment']) ? $params['payment'] : '',
             'payment_name'      => isset($params['payment_name']) ? $params['payment_name'] : '',
             'business_type'     => isset($params['business_type']) ? intval($params['business_type']) : 0,
-            'return_params'     => empty($params['return_params']) ? '' : json_encode($params['return_params'], 'JSON_UNESCAPED_UNICODE'),
+            'return_params'     => empty($params['return_params']) ? '' : json_encode($params['return_params'], JSON_UNESCAPED_UNICODE),
             'add_time'          => time(),
         ];
         return Db::name('RefundLog')->insertGetId($data) > 0;
