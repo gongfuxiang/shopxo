@@ -186,20 +186,19 @@
                                     x{{$goods.buy_number}}
                                 </td>
                                 <td class="row-number">
-                                    {{if in_array($order['status'], [2,3,4])}}
-                                        <a href="{{:MyUrl('index/orderaftersale/aftersale', ['oid'=>$order['id'], 'did'=>$goods['id']])}}" target="_blank">
-                                            {{switch $order.status}}
-                                                {{case 2|3}}
-                                                    退款/退货
-                                                {{/case}}
-                                                {{case 4}}
-                                                    申请售后
-                                                {{/case}}
-                                            {{/switch}}
-                                        </a>
-                                    {{elseif $order['status'] eq 6 /}}
-                                        <a href="{{:MyUrl('index/orderaftersale/index', ['keywords'=>$order['order_no']])}}">查看退款</a>
-                                    {{/if}}
+                                    <a href="{{:MyUrl('index/orderaftersale/aftersale', ['oid'=>$order['id'], 'did'=>$goods['id']])}}" target="_blank">
+                                        {{switch $order.status}}
+                                            {{case 2|3}}
+                                                退款/退货
+                                            {{/case}}
+                                            {{case 4}}
+                                                申请售后
+                                            {{/case}}
+                                            {{case 6}}
+                                                查看退款
+                                            {{/case}}
+                                        {{/switch}}
+                                    </a>
                                 </td>
                                 {{if $keys eq 0}}
                                     <td class="row-total-price am-hide-sm-only" rowspan="{{$order.items_count}}">

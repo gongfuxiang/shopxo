@@ -181,6 +181,114 @@
                         {{/case}}
                     {{/switch}}
                 {{/if}}
+
+                <!-- 详情 -->
+                {{if !empty($new_aftersale_data)}}
+                    <div class="detail">
+                        <div class="am-u-md-6 apply-container">
+                            <div class="am-panel am-panel-default">
+                                <div class="am-panel-hd">申请信息</div>
+                                <div class="am-panel-bd">
+                                    <div class="am-cf am-padding-vertical-xs">
+                                        <span>退款类型：</span>
+                                        <span>{{$new_aftersale_data.type_text}}</span>
+                                    </div>
+                                    <div class="am-cf am-padding-vertical-xs">
+                                        <span>当前状态：</span>
+                                        <span>{{$new_aftersale_data.status_text}}</span>
+                                    </div>
+                                    <div class="am-cf am-padding-vertical-xs">
+                                        <span>申请原因：</span>
+                                        <span>{{$new_aftersale_data.reason}}</span>
+                                    </div>
+                                    <div class="am-cf am-padding-vertical-xs">
+                                        <span>退货数量：</span>
+                                        <span>{{$new_aftersale_data.number}}</span>
+                                    </div>
+                                    <div class="am-cf am-padding-vertical-xs">
+                                        <span>退款金额：</span>
+                                        <span class="am-text-warning">￥{{$new_aftersale_data.price}}</span>
+                                    </div>
+                                    <div class="am-cf am-padding-vertical-xs">
+                                        <span>退款说明：</span>
+                                        <span>{{$new_aftersale_data.msg}}</span>
+                                    </div>
+                                    <div class="am-cf am-padding-vertical-xs">
+                                        <span>拒绝原因：</span>
+                                        <span>{{$new_aftersale_data.refuse_reason}}</span>
+                                    </div>
+                                    <div class="am-cf am-padding-vertical-xs">
+                                        <span>申请时间：</span>
+                                        <span>{{$new_aftersale_data.apply_time_time}}</span>
+                                    </div>
+                                    <div class="am-cf am-padding-vertical-xs">
+                                        <span>确认时间：</span>
+                                        <span>{{$new_aftersale_data.confirm_time_time}}</span>
+                                    </div>
+                                    <div class="am-cf am-padding-vertical-xs">
+                                        <span>退货时间：</span>
+                                        <span>{{$new_aftersale_data.delivery_time_time}}</span>
+                                    </div>
+                                    <div class="am-cf am-padding-vertical-xs">
+                                        <span>审核时间：</span>
+                                        <span>{{$new_aftersale_data.audit_time_time}}</span>
+                                    </div>
+                                    <div class="am-cf am-padding-vertical-xs">
+                                        <span>取消时间：</span>
+                                        <span>{{$new_aftersale_data.cancel_time_time}}</span>
+                                    </div>
+                                    <div class="am-cf am-padding-vertical-xs">
+                                        <span>添加时间：</span>
+                                        <span>{{$new_aftersale_data.add_time_time}}</span>
+                                    </div>
+                                    <div class="am-cf am-padding-vertical-xs">
+                                        <span>更新时间：</span>
+                                        <span>{{$new_aftersale_data.upd_time_time}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="am-u-md-6 express-container">
+                            <div class="am-panel am-panel-default">
+                                <div class="am-panel-hd">快递信息</div>
+                                <div class="am-panel-bd">
+                                    {{if $new_aftersale_data['type'] eq 1 and in_array($new_aftersale_data['status'], [2,3])}}
+                                        <div class="am-cf am-padding-vertical-xs">
+                                            <span>快递：</span>
+                                            <span>{{$new_aftersale_data.express_name}}</span>
+                                        </div>
+                                        <div class="am-cf am-padding-vertical-xs">
+                                            <span>单号：</span>
+                                            <span>{{$new_aftersale_data.express_number}}</span>
+                                        </div>
+                                        <div class="am-cf am-padding-vertical-xs">
+                                            <span>时间：</span>
+                                            <span>{{$new_aftersale_data.delivery_time_time}}</span>
+                                        </div>
+                                    {{else /}}
+                                        <span>无数据</span>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="am-u-md-6 voucher-container">
+                            <div class="am-panel am-panel-default">
+                                <div class="am-panel-hd">凭证</div>
+                                <div class="am-panel-bd">
+                                    {{if !empty($new_aftersale_data['images'])}}
+                                        {{foreach $new_aftersale_data.images as $img}}
+                                            <a href="{{$img}}" target="_blank">
+                                                <img src="{{$img}}" class="am-img-thumbnail am-block" width="80" height="80" />
+                                            </a>
+                                        {{/foreach}}
+                                    {{else /}}
+                                        <span>无数据</span>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{/if}}
             {{/if}}
         </div>
     </div>
