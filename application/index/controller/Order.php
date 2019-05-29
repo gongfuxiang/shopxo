@@ -237,7 +237,7 @@ class Order extends Common
         // 是否自定义状态
         if(isset($params['appoint_status']))
         {
-            $ret = ($params['appoint_status'] == 1) ? DataReturn('支付成功', 0) : DataReturn('支付失败', -100);
+            $ret = ($params['appoint_status'] == 0) ? DataReturn('支付成功', 0) : DataReturn('支付失败', -100);
 
             // 获取支付回调数据
         } else {

@@ -99,7 +99,7 @@ class OrderService
             ]);
             if($pay_result['code'] == 0)
             {
-                return DataReturn('支付成功', 0, ['data'=>MyUrl('index/order/respond', ['appoint_status'=>1])]);
+                return DataReturn('支付成功', 0, ['data'=>MyUrl('index/order/respond', ['appoint_status'=>0])]);
             }
             return $pay_result;
         }
