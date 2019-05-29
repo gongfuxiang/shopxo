@@ -612,6 +612,38 @@ class Weixin
     }
 
     /**
+     * [Curl_Post curl模拟post]
+     * @param  [string] $url        [请求地址]
+     * @param  [array] $post        [发送的post数据]
+     * @param  [boolean] $use_cert  [是否需要使用证书]
+     */
+    private function HttpRequest($url, $post, $use_cert = false)
+    {
+        $options = array(
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HEADER         => false,
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => $post,
+        );
+
+        if($use_cert == true)
+        {
+            //设置证书
+            //使用证书：cert 与 key 分别属于两个.pem文件
+            $options[CURLOPT_SSLCERTTYPE] = 'PEM';
+            $options[CURLOPT_SSLCERT] = ROOT.'cert/apiclient_cert.pem';
+            $options[CURLOPT_SSLKEYTYPE] = 'PEM';
+            $options[CURLOPT_SSLKEY] = ROOT.'cert/apiclient_key.pem';
+        }
+ 
+        $ch = curl_init($url);
+        curl_setopt_array($ch, $options);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
+    }
+
+    /**
      * 以post方式提交xml到对应的接口url
      * 
      * @param WxPayConfigInterface $config  配置对象
@@ -621,7 +653,7 @@ class Weixin
      * @param int $second   url执行超时时间，默认30s
      * @throws WxPayException
      */
-    private static function HttpRequest($url, $xml, $useCert = false, $second = 30)
+    private static function HttpRequesthh($url, $xml, $useCert = false, $second = 30)
     {       
         $ch = curl_init();
         $curlVersion = curl_version();
