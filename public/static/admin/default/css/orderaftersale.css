@@ -33,11 +33,12 @@
     .content-right table.am-table tr .row-user-info { width: 20%; }
     .content-right table.am-table tr .row-goods { width: 20%; }
     .content-right table.am-table tr .row-apply { width: 25%; }
+    .content-right table.am-table tr .row-more { width: 80px; }
     .content-right table.am-table tr .row-operation { width: 85px; }
 }
 @media only screen and (max-width:640px) {
     .content-right table.am-table tr .row-apply { width: 50%; }
-    .content-right table.am-table tr .row-operation { width: 75px; }
+    .content-right table.am-table tr .row-operation, .content-right table.am-table tr .row-more { width: 75px; }
 }
 
 .content-right table.am-table .am-slider {

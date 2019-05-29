@@ -81,7 +81,7 @@
                     <th class="am-hide-sm-only">凭证</th>
                     <th class="am-hide-sm-only">状态</th>
                     <th class="am-hide-sm-only">快递信息</th>
-                    <th>更多</th>
+                    <th class="row-more">更多</th>
                     <th class="row-operation">操作</th>
                 </tr>
             </thead>
@@ -150,7 +150,7 @@
                                     <span class="am-badge am-badge-success am-margin-top-xs">{{$v.refundment_text}}</span>
                                 {{/if}}
                                 {{if $v['status'] eq 4 and !empty($v['refuse_reason'])}}
-                                    <span class="am-badge am-badge-danger am-margin-top-xs">{{$v.refuse_reason}}</span>
+                                    <span class="am-text-danger">{{$v.refuse_reason}}</span>
                                 {{/if}}
                             </td>
                             <td class="am-hide-sm-only">
@@ -236,10 +236,9 @@
                                                     {{if $v['status'] eq 3 and !empty($v['refundment_text'])}}
                                                         <span class="am-badge am-badge-success am-margin-top-xs">{{$v.refundment_text}}</span>
                                                     {{/if}}
-                                                    {{if $v['status'] eq 4 and !empty($v['refuse_reason'])}}
-                                                        <span class="am-badge am-badge-danger am-margin-top-xs">{{$v.refuse_reason}}</span>
-                                                    {{/if}}
                                                 </dd>
+                                                <dt>拒绝原因</dt>
+                                                <dd class="am-text-danger">{{$v.refuse_reason}}</dd>
 
                                                 <dt>快递信息</dt>
                                                 <dd>

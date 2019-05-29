@@ -636,18 +636,13 @@ class Weixin
 
         if($use_cert == true)
         {
+            //设置证书
+            //使用证书：cert 与 key 分别属于两个.pem文件
             $apiclient = $this->GetApiclientFile();
             $options[CURLOPT_SSLCERTTYPE] = 'PEM';
             $options[CURLOPT_SSLCERT] = $apiclient['cert'];
             $options[CURLOPT_SSLKEYTYPE] = 'PEM';
             $options[CURLOPT_SSLKEY] = $apiclient['key'];
-
-            //设置证书
-            //使用证书：cert 与 key 分别属于两个.pem文件
-            // $options[CURLOPT_SSLCERTTYPE] = 'PEM';
-            // $options[CURLOPT_SSLCERT] = ROOT.'cert/apiclient_cert.pem';
-            // $options[CURLOPT_SSLKEYTYPE] = 'PEM';
-            // $options[CURLOPT_SSLKEY] = ROOT.'cert/apiclient_key.pem';
         }
  
         $ch = curl_init($url);

@@ -155,7 +155,7 @@
                                             <span class="am-badge am-badge-success am-margin-top-xs">{{$v.refundment_text}}</span>
                                         {{/if}}
                                         {{if $v['status'] eq 4 and !empty($v['refuse_reason'])}}
-                                            <span class="am-badge am-badge-danger am-margin-top-xs">{{$v.refuse_reason}}</span>
+                                            <span class="am-text-danger">{{$v.refuse_reason}}</span>
                                         {{/if}}
                                     </td>
                                     <td class="am-hide-sm-only">
@@ -169,7 +169,7 @@
                                         {{if $v['status'] eq 1 and $v['type'] eq 1}}
                                             <a href="{{:MyUrl('index/orderaftersale/aftersale', ['id'=>$v['order_id'], 'gid'=>$v['goods_id']])}}" target="_blank" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-send am-btn-block"> 发货</a>
                                         {{/if}}
-                                        {{if !in_array($v['status'], [3,4,5])}}
+                                        {{if !in_array($v['status'], [3,5])}}
                                             <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax submit-cancel" data-url="{{:MyUrl('index/orderaftersale/cancel')}}" data-id="{{$v.id}}" data-view="reload"> 取消</button>
                                         {{/if}}
                                         <a href="{{:MyUrl('index/orderaftersale/aftersale', ['oid'=>$v['order_id'], 'did'=>$v['order_detail_id']])}}" target="_blank" class="am-btn am-btn-default am-btn-xs am-radius am-icon-cubes am-btn-block"> 详情</a>

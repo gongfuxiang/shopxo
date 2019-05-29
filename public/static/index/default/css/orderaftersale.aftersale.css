@@ -169,7 +169,14 @@ form.form-validation .number-container .am-input-group-label {
 /**
  * 详情信息
  */
-@media only screen and (min-width:460px) {
+.user-content-body .detail .am-u-md-6 .am-panel {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+.user-content-body .detail .am-u-md-6 .am-panel-bd {
+    padding: 10px;
+}
+@media only screen and (min-width:641px) {
     .user-content-body .apply-container {
         padding-left: 0;
         padding-right: 10px;
@@ -179,15 +186,8 @@ form.form-validation .number-container .am-input-group-label {
         padding-right: 0;
     }
 }
-@media only screen and (max-width:460px) {
+@media only screen and (max-width:641px) {
     .user-content-body .detail .am-u-md-6 {
         padding: 0;
     }
-}
-.user-content-body .detail .am-u-md-6 .am-panel {
-    box-shadow: none;
-    -webkit-box-shadow: none;
-}
-.user-content-body .detail .am-u-md-6 .am-panel-bd {
-    padding: 10px;
 }

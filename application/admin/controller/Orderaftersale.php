@@ -156,6 +156,8 @@ class Orderaftersale extends Common
         }
 
         $params = input();
+        $params['creator'] = $this->admin['id'];
+        $params['creator_name'] = $this->admin['username'];
         return OrderAftersaleService::AftersaleRefuse($params);
     }
 
@@ -176,7 +178,31 @@ class Orderaftersale extends Common
         }
 
         $params = input();
+        $params['creator'] = $this->admin['id'];
+        $params['creator_name'] = $this->admin['username'];
         return OrderAftersaleService::AftersaleCancel($params);
+    }
+
+    /**
+     * 订单删除
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-30
+     * @desc    description
+     */
+    public function Delete()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        $params = input();
+        $params['creator'] = $this->admin['id'];
+        $params['creator_name'] = $this->admin['username'];
+        return OrderAftersaleService::AftersaleDelete($params);
     }
 }
 ?>

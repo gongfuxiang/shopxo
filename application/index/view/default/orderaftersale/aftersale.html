@@ -215,7 +215,7 @@
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
                                         <span>拒绝原因：</span>
-                                        <span>{{$new_aftersale_data.refuse_reason}}</span>
+                                        <span class="am-text-danger">{{$new_aftersale_data.refuse_reason}}</span>
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
                                         <span>申请时间：</span>
@@ -274,10 +274,10 @@
                         <div class="am-u-md-6 voucher-container">
                             <div class="am-panel am-panel-default">
                                 <div class="am-panel-hd">凭证</div>
-                                <div class="am-panel-bd">
+                                <div class="am-panel-bd am-cf">
                                     {{if !empty($new_aftersale_data['images'])}}
                                         {{foreach $new_aftersale_data.images as $img}}
-                                            <a href="{{$img}}" target="_blank">
+                                            <a href="{{$img}}" target="_blank" class="am-fl am-margin-right-xs">
                                                 <img src="{{$img}}" class="am-img-thumbnail am-block" width="80" height="80" />
                                             </a>
                                         {{/foreach}}

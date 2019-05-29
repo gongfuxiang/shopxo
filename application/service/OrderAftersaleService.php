@@ -176,7 +176,7 @@ class OrderAftersaleService
         $history_price = PriceNumberFormat(Db::name('OrderAftersale')->where($where)->sum('price'));
         if($price+$history_price > $order['data']['pay_price'])
         {
-            return DataReturn('退款金额大于支付金额[ 历史退款 '.$history_price.' ]', -1);
+            return DataReturn('退款金额大于支付金额[ 历史退款'.$history_price.'元, 订单金额'.$order['data']['pay_price'].'元 ]', -1);
         }
 
         // 退货数量
@@ -189,7 +189,7 @@ class OrderAftersaleService
         {
             if($number+$history_number > $order['data']['items']['buy_number'])
             {
-                return DataReturn('退货数量大于购买数量[ 历史退货数量 '.$history_number.' ]', -1);
+                return DataReturn('退货数量大于购买数量[ 历史退货数量 '.$history_number.', 订单商品数量 '.$order['data']['items']['buy_number'].' ]', -1);
             }
         }
 
@@ -683,7 +683,7 @@ class OrderAftersaleService
         $history_price = PriceNumberFormat(Db::name('OrderAftersale')->where($where)->sum('price'));
         if($aftersale['price']+$history_price > $order['data']['pay_price'])
         {
-            return DataReturn('退款金额大于支付金额[ 历史退款 '.$history_price.' ]', -1);
+            return DataReturn('退款金额大于支付金额[ 历史退款'.$history_price.'元, 订单金额'.$order['data']['pay_price'].'元 ]', -1);
         }
 
         // 历史退货数量
@@ -693,7 +693,7 @@ class OrderAftersaleService
         {
             if($aftersale['number']+$history_number > $order['data']['items']['buy_number'])
             {
-                return DataReturn('退货数量大于购买数量[ 历史退货数量 '.$history_number.' ]', -1);
+                return DataReturn('退货数量大于购买数量[ 历史退货数量 '.$history_number.', 订单商品数量 '.$order['data']['items']['buy_number'].' ]', -1);
             }
         }
 
@@ -964,7 +964,99 @@ class OrderAftersaleService
      */
     public static function AftersaleRefuse($params = [])
     {
-        return DataReturn('开发中', -10);
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '操作id有误',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'refuse_reason',
+                'checked_data'      => '2,230',
+                'error_msg'         => '拒绝原因格式 2~230 个字符',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 售后订单
+        $aftersale = Db::name('OrderAftersale')->where(['id' => intval($params['id'])])->find();
+        if(empty($aftersale))
+        {
+            return DataReturn('数据不存在或已删除', -1);
+        }
+
+        // 状态校验
+        if(!in_array($aftersale['status'], [0,2]))
+        {
+            $status_list = lang('common_order_aftersale_status_list');
+            return DataReturn('状态不可操作['.$status_list[$aftersale['status']]['name'].']', -1);
+        }
+
+        // 更新操作
+        $data = [
+            'status'            => 4,
+            'refuse_reason'     => $params['refuse_reason'],
+            'audit_time'        => time(),
+            'upd_time'          => time(),
+        ];
+        if(Db::name('OrderAftersale')->where(['id' => intval($params['id'])])->update($data))
+        {
+            return DataReturn('拒绝成功', 0);
+        }
+        return DataReturn('拒绝失败', -100);
+    }
+
+    /**
+     * 删除
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-27
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function AftersaleDelete($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '操作id有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 售后订单
+        $aftersale = Db::name('OrderAftersale')->where(['id' => intval($params['id'])])->find();
+        if(empty($aftersale))
+        {
+            return DataReturn('数据不存在或已删除', -1);
+        }
+
+        // 状态校验
+        if(!in_array($aftersale['status'], [4,5]))
+        {
+            $status_list = lang('common_order_aftersale_status_list');
+            return DataReturn('状态不可操作['.$status_list[$aftersale['status']]['name'].']', -1);
+        }
+
+        // 删除操作
+        if(Db::name('OrderAftersale')->where(['id' => intval($params['id'])])->delete())
+        {
+            return DataReturn('删除成功', 0);
+        }
+        return DataReturn('删除失败', -100);
     }
 }
 ?>
