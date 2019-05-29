@@ -707,7 +707,6 @@ class OrderService
                 $v['extension_data'] = empty($v['extension_data']) ? null : json_decode($v['extension_data'], true);
                 
                 // 订单详情
-                $buy_number_count = 0;
                 if($is_items == 1)
                 {
                     $items = Db::name('OrderDetail')->where(['order_id'=>$v['id']])->select();
@@ -716,9 +715,6 @@ class OrderService
                     {
                         foreach($items as &$vs)
                         {
-                            // 购买数量
-                            $buy_number_count += $vs['buy_number'];
-
                             // 商品信息
                             $vs['images'] = ResourcesService::AttachmentPathViewHandle($vs['images']);
                             $vs['goods_url'] = MyUrl('index/goods/index', ['id'=>$vs['goods_id']]);
@@ -760,15 +756,13 @@ class OrderService
                                 $vs['orderaftersale'] = Db::name('OrderAftersale')->where(['order_detail_id'=>$vs['id']])->order('id desc')->find();
                             }
                         }
-                    } else {
-                        $buy_number_count = Db::name('OrderDetail')->where(['order_id'=>$v['id']])->sum('buy_number');
                     }
                     $v['items'] = $items;
-                    $v['items_count'] = $buy_number_count;
+                    $v['items_count'] = count($items);
                     $v['excel_export_items'] = $excel_export_items;
 
                     // 描述
-                    $v['describe'] = '共'.$v['items_count'].'件 合计:￥'.$v['total_price'].'元';
+                    $v['describe'] = '共'.$v['buy_number_count'].'件 合计:￥'.$v['total_price'].'元';
                 }
 
                 // 订单处理后钩子

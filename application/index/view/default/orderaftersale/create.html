@@ -16,7 +16,7 @@
 
     <div class="am-form-group">
         <label>退款金额<span class="am-form-group-label-tips-must">必填</span></label>
-        <input type="number" name="price" value="{{$order.pay_price}}" step="0.01" min="0.00" max="{{$order.pay_price}}" class="am-radius" placeholder="退款金额" data-validation-message="请输入有效的退款金额,最高{{$order.pay_price}}元" required />
+        <input type="number" name="price" value="{{$order.pay_price-$order.refund_price}}" step="0.01" min="0.00" max="{{$order.pay_price-$order.refund_price}}" class="am-radius" placeholder="退款金额" data-validation-message="请输入有效的退款金额,最高{{$order.pay_price-$order.refund_price}}元" required />
     </div>
 
     <div class="am-form-group">

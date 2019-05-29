@@ -119,6 +119,18 @@
                                     <div class="items-detail am-fl">{{$data.payment_name}}</div>
                                 </div>
                             {{/if}}
+                            {{if !empty($data.buy_number_count)}}
+                                <div class="items am-cf">
+                                    <div class="items-title am-fl">购买数量：</div>
+                                    <div class="items-detail am-fl">{{$data.buy_number_count}}</div>
+                                </div>
+                            {{/if}}
+                            {{if !empty($data.returned_quantity)}}
+                                <div class="items am-cf">
+                                    <div class="items-title am-fl">退货数量：</div>
+                                    <div class="items-detail am-fl">{{$data.returned_quantity}}</div>
+                                </div>
+                            {{/if}}
                             {{if !empty($data.user_note)}}
                                 <div class="items am-cf">
                                     <div class="items-title am-fl">用户留言：</div>
@@ -324,6 +336,14 @@
                         <div class="items am-cf">
                             <div class="items-title am-fl">优惠金额：</div>
                             <div class="items-detail am-fl">-￥{{$data.preferential_price}}</div>
+                        </div>
+                    {{/if}}
+                    {{if !empty($data.refund_price)}}
+                        <div class="items am-cf">
+                            <div class="items-title am-fl">退款金额：</div>
+                            <div class="items-detail am-fl">
+                                <span class="am-text-danger">-￥{{$data.refund_price}}</span>
+                            </div>
                         </div>
                     {{/if}}
                     {{if !empty($data.total_price)}}

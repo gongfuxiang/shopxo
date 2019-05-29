@@ -751,6 +751,7 @@ class BuyService
             'total_price'           => ($buy['data']['base']['actual_price'] <= 0.00) ? 0.00 : $buy['data']['base']['actual_price'],
             'extension_data'        => empty($buy['data']['extension_data']) ? '' : json_encode($buy['data']['extension_data']),
             'payment_id'            => isset($params['payment_id']) ? intval($params['payment_id']) : 0,
+            'buy_number_count'      => array_sum(array_column($buy['data']['goods'], 'stock')),
             'add_time'              => time(),
         ];
         if($order['status'] == 1)
@@ -1044,9 +1045,12 @@ class BuyService
         }
 
         // 订单状态
-        if(!in_array($params['order_data']['status'], [5,6]))
+        if(isset($params['order_data']['status']))
         {
-            return DataReturn('当前订单状态不允许回滚库存['.$params['order_id'].'-'.$params['order_data']['status'].']', 0);
+            if(!in_array($params['order_data']['status'], [5,6]))
+            {
+                return DataReturn('当前订单状态不允许回滚库存['.$params['order_id'].'-'.$params['order_data']['status'].']', 0);
+            }
         }
 
         // 是否指定商品和数量

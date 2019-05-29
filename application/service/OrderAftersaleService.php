@@ -687,7 +687,7 @@ class OrderAftersaleService
         }
 
         // 历史退货数量
-        $where[] = ['goods_id', '=', $aftersale['goods_id']];
+        $where[] = ['order_detail_id', '=', $aftersale['order_detail_id']];
         $history_number = (int) Db::name('OrderAftersale')->where($where)->sum('number');
         if($aftersale['type'] == 1)
         {
@@ -750,73 +750,84 @@ class OrderAftersaleService
         }
 
         // 退款成功
-        if($refund['code'] == 0)
+        if($refund['code'] != 0)
         {
-            // 开启事务
-            Db::startTrans();
-
-            // 钱包操作 - 退至钱包
-            if($params['refundment'] == 1)
-            {
-                $ret = self::WalletRefundment($params, $aftersale, $order['data'], $pay_log);
-                if($ret['code'] != 0)
-                {
-                    // 事务回滚
-                    Db::rollback();
-                    return $ret;
-                }
-            }
-            
-            // 更新主订单
-            $upd_data = [
-                'status'        => 6,
-                'pay_status'    => 2,
-                'refund_price'  => PriceNumberFormat($order['data']['refund_price']+$aftersale['price']),
-                'close_time'    => time(),
-                'upd_time'      => time(),
-            ];
-            if(Db::name('Order')->where(['id'=>$order['data']['id']])->update($upd_data))
-            {
-                // 库存回滚
-                $ret = BuyService::OrderInventoryRollback(['order_id'=>$order['data']['id'], 'order_data'=>$upd_data, 'appoint_order_detail_id'=>$aftersale['order_detail_id'], 'appoint_buy_number'=>$aftersale['number']]);
-                if($ret['code'] != 0)
-                {
-                    // 事务回滚
-                    Db::rollback();
-                    return DataReturn($ret['msg'], -10);
-                }
-
-                // 消息通知
-                $detail = '订单退款成功，金额'.PriceBeautify($aftersale['price']).'元';
-                MessageService::MessageAdd($order['data']['user_id'], '订单退款', $detail, 1, $order['data']['id']);
-
-                // 订单状态日志
-                $creator = isset($params['creator']) ? intval($params['creator']) : 0;
-                $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
-                OrderService::OrderHistoryAdd($order['data']['id'], $upd_data['status'], $order['data']['status'], '关闭', $creator, $creator_name);
-
-                // 更新退款状态
-                $upd_data = [
-                    'status'        => 3,
-                    'refundment'    => $params['refundment'],
-                    'audit_time'    => time(),
-                    'upd_time'      => time(),
-                ];
-                if(!Db::name('OrderAftersale')->where(['id'=>$aftersale['id']])->update($upd_data))
-                {
-                    return DataReturn('售后订单更新失败', -60);
-                }
-
-                // 提交事务
-                Db::commit();
-                return DataReturn('退款成功', 0);
-            }
-
-            // 事务回滚
-            Db::rollback();
-            return DataReturn('退款失败', -1);
+            return $refund;
         }
-        return $refund;
+        // 开启事务
+        Db::startTrans();
+
+        // 钱包操作 - 退至钱包
+        if($params['refundment'] == 1)
+        {
+            $ret = self::WalletRefundment($params, $aftersale, $order['data'], $pay_log);
+            if($ret['code'] != 0)
+            {
+                Db::rollback();
+                return $ret;
+            }
+        }
+
+        // 更新主订单
+        $refund_price = PriceNumberFormat($order['data']['refund_price']+$aftersale['price']);
+        $returned_quantity = $order['data']['returned_quantity']+$aftersale['number'];
+        $upd_data = [
+            'pay_status'        => ($refund_price >= $order['data']['pay_price']) ? 2 : 3,
+            'refund_price'      => $refund_price,
+            'returned_quantity' => $returned_quantity,
+            'close_time'        => time(),
+            'upd_time'          => time(),
+        ];
+        // 如果退款金额和退款数量到达订单实际是否金额和购买数量则关闭订单
+        if($refund_price >= $order['data']['pay_price'] && $returned_quantity >= $order['data']['buy_number_count'])
+        {
+            $upd_data['status'] = 6;
+        }
+        if(!Db::name('Order')->where(['id'=>$order['data']['id']])->update($upd_data))
+        {
+            Db::rollback();
+            return DataReturn('主订单更新失败', -1);
+        }
+
+        // 库存回滚
+        if($aftersale['type'] == 1)
+        {
+            $ret = BuyService::OrderInventoryRollback(['order_id'=>$order['data']['id'], 'order_data'=>$upd_data, 'appoint_order_detail_id'=>$aftersale['order_detail_id'], 'appoint_buy_number'=>$aftersale['number']]);
+            if($ret['code'] != 0)
+            {
+                Db::rollback();
+                return DataReturn($ret['msg'], -10);
+            }
+        }
+
+        // 消息通知
+        $detail = '订单退款成功，金额'.PriceBeautify($aftersale['price']).'元';
+        MessageService::MessageAdd($order['data']['user_id'], '订单退款', $detail, 1, $order['data']['id']);
+
+        // 订单状态日志
+        if(isset($upd_data['status']))
+        {
+            $creator = isset($params['creator']) ? intval($params['creator']) : 0;
+            $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
+            OrderService::OrderHistoryAdd($order['data']['id'], $upd_data['status'], $order['data']['status'], '关闭', $creator, $creator_name);
+        }
+
+        // 更新退款状态
+        $upd_data = [
+            'status'        => 3,
+            'refundment'    => $params['refundment'],
+            'audit_time'    => time(),
+            'upd_time'      => time(),
+        ];
+        if(!Db::name('OrderAftersale')->where(['id'=>$aftersale['id']])->update($upd_data))
+        {
+            Db::rollback();
+            return DataReturn('售后订单更新失败', -60);
+        }
+
+        // 提交事务
+        Db::commit();
+        return DataReturn('退款成功', 0);
     }
 
     /**

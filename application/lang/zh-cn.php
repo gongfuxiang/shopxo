@@ -79,6 +79,7 @@ return array(
             0 => array('id' => 0, 'name' => '待支付', 'checked' => true),
             1 => array('id' => 1, 'name' => '已支付'),
             2 => array('id' => 2, 'name' => '已退款'),
+            3 => array('id' => 3, 'name' => '部分退款'),
         ),
 
     // 用户端 - 订单管理
