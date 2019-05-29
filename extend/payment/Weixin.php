@@ -658,7 +658,6 @@ class Weixin
         } else { 
             $error = curl_errno($ch);
             curl_close($ch);
-            var_dump($error);
             return $error;
         }
     }
@@ -700,9 +699,9 @@ class Weixin
             //设置证书
             //使用证书：cert 与 key 分别属于两个.pem文件
             $options[CURLOPT_SSLCERTTYPE] = 'PEM';
-            $options[CURLOPT_SSLCERT] = ROOT.'weixin-cert/apiclient_cert.pem';
+            $options[CURLOPT_SSLCERT] = ROOT.'cert/apiclient_cert.pem';
             $options[CURLOPT_SSLKEYTYPE] = 'PEM';
-            $options[CURLOPT_SSLKEY] = ROOT.'weixin-cert/apiclient_key.pem';
+            $options[CURLOPT_SSLKEY] = ROOT.'cert/apiclient_key.pem';
         }
  
         $ch = curl_init($url);
