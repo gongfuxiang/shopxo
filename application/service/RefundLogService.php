@@ -30,7 +30,7 @@ class RefundLogService
      * @param   [array]             $params         [输入参数]
      * @param   [int]               $user_id        [用户id]
      * @param   [int]               $order_id       [业务订单id]
-     * @param   [float]             $total_price    [业务订单实际金额]
+     * @param   [float]             $pay_price      [业务订单实际支付金额]
      * @param   [string]            $trade_no       [支付平台交易号]
      * @param   [string]            $buyer_user     [支付平台用户帐号]
      * @param   [float]             $refund_price   [退款金额]
@@ -46,7 +46,7 @@ class RefundLogService
         $data = [
             'user_id'           => isset($params['user_id']) ? intval($params['user_id']) : 0,
             'order_id'          => isset($params['order_id']) ? intval($params['order_id']) : 0,
-            'total_price'       => isset($params['total_price']) ? PriceNumberFormat($params['total_price']) : 0.00,
+            'pay_price'         => isset($params['pay_price']) ? PriceNumberFormat($params['pay_price']) : 0.00,
             'trade_no'          => isset($params['trade_no']) ? $params['trade_no'] : '',
             'buyer_user'        => isset($params['buyer_user']) ? $params['buyer_user'] : '',
             'refund_price'      => isset($params['refund_price']) ? PriceNumberFormat($params['refund_price']) : 0.00,
@@ -61,14 +61,14 @@ class RefundLogService
     }
 
     /**
-     * 获取支付日志类型
+     * 获取退款日志类型
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2018-12-23T02:22:03+0800
      * @param   [array]          $params [输入参数]
      */
-    public static function PayLogTypeList($params = [])
+    public static function RefundLogTypeList($params = [])
     {
         $data = Db::name('RefundLog')->field('payment AS id, payment_name AS name')->group('payment')->select();
         return DataReturn('处理成功', 0, $data);
@@ -194,7 +194,7 @@ class RefundLogService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function PayLogDelete($params = [])
+    public static function RefundLogDelete($params = [])
     {
         // 请求参数
         $p = [
@@ -211,7 +211,7 @@ class RefundLogService
         }
 
         // 删除操作
-        if(Db::name('PayLog')->where(['id'=>$params['id']])->delete())
+        if(Db::name('RefundLog')->where(['id'=>$params['id']])->delete())
         {
             return DataReturn('删除成功');
         }

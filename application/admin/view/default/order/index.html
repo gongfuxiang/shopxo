@@ -168,7 +168,8 @@
 								增加：{{$v.increase_price}}<br />
 								优惠：{{$v.preferential_price}}<br />
 								总价：{{$v.total_price}}<br />
-								支付：{{$v.pay_price}}
+								支付：{{$v.pay_price}}<br />
+                                退款：{{if $v['refund_price'] gt 0}}<span class="am-text-danger">{{$v.refund_price}}</span>{{else /}}{{$v.refund_price}}{{/if}}
 							</td>
 							<td>
 								{{if empty($v['extension_data'])}}
@@ -261,7 +262,8 @@
 														增加：{{$v.increase_price}}<br />
 														优惠：{{$v.preferential_price}}<br />
 														总价：{{$v.total_price}}<br />
-														支付：{{$v.pay_price}}
+														支付：{{$v.pay_price}}<br />
+                                                        退款：{{if $v['refund_price'] gt 0}}<span class="am-text-danger">{{$v.refund_price}}</span>{{else /}}{{$v.refund_price}}{{/if}}
 													{{/if}}
 												</dd>
 

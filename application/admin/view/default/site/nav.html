@@ -21,3 +21,17 @@
         <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'orderaftersale'])}}">订单售后</a>
     </li>
 </ul>
+
+{{if in_array($nav_type, ['login', 'forgetpwd'])}}
+    <!-- 登录/密码找回提示 -->
+    <div class="am-alert am-alert-warning am-radius" data-am-alert>
+        <button type="button" class="am-close">&times;</button>
+        <p class="fs-12">左侧图片最多可上传3张图片、每次随机展示其中一张</p>
+    </div>
+{{elseif in_array($nav_type, ['register']) /}}
+    <!-- 注册提示 -->
+    <div class="am-alert am-alert-warning am-radius" data-am-alert>
+        <button type="button" class="am-close">&times;</button>
+        <p class="fs-12">可自定义背景图片、默认底灰色</p>
+    </div>
+{{/if}}

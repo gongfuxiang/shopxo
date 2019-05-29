@@ -444,11 +444,11 @@ class OrderAftersaleService
                     $where[] = ['user_id', 'in', $user_ids];
                 } else {
                     // 无数据条件，走单号条件
-                    $where[] = ['order_no', '=', $params['keywords']];
+                    $where[] = ['order_no|express_number', '=', $params['keywords']];
                 }
             } else {
                 // 用户走关键字
-                $where[] = ['order_no', '=', $params['keywords']];
+                $where[] = ['order_no|express_number', '=', $params['keywords']];
             }
         }
 
@@ -771,6 +771,7 @@ class OrderAftersaleService
             $upd_data = [
                 'status'        => 6,
                 'pay_status'    => 2,
+                'refund_price'  => PriceNumberFormat($order['data']['refund_price']+$aftersale['price']),
                 'close_time'    => time(),
                 'upd_time'      => time(),
             ];
@@ -868,7 +869,7 @@ class OrderAftersaleService
         $refund_log = [
             'user_id'       => $order['user_id'],
             'order_id'      => $order['id'],
-            'total_price'   => $order['total_price'],
+            'pay_price'     => $order['pay_price'],
             'trade_no'      => isset($ret['data']['trade_no']) ? $ret['data']['trade_no'] : '',
             'buyer_user'    => isset($ret['data']['buyer_user']) ? $ret['data']['buyer_user'] : '',
             'refund_price'  => isset($ret['data']['refund_price']) ? $ret['data']['refund_price'] : '',
@@ -935,7 +936,7 @@ class OrderAftersaleService
         $refund_log = [
             'user_id'       => $order['user_id'],
             'order_id'      => $order['id'],
-            'total_price'   => $order['total_price'],
+            'pay_price'     => $order['pay_price'],
             'trade_no'      => '',
             'buyer_user'    => '',
             'refund_price'  => $aftersale['price'],
