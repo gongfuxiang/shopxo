@@ -628,26 +628,19 @@ class Weixin
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HEADER         => false,
             CURLOPT_POST           => true,
-            CURLOPT_SSL_VERIFYPEER => true,
-            CURLOPT_SSL_VERIFYHOST => 2,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => false,
             CURLOPT_POSTFIELDS     => $data,
             CURLOPT_TIMEOUT        => $second,
         );
 
         if($use_cert == true)
         {
-            $apiclient_cert = "-----BEGIN CERTIFICATE-----\n";
-            $apiclient_cert .= wordwrap($this->config['apiclient_cert'], 64, "\n", true);
-            $apiclient_cert .= "\n-----END CERTIFICATE-----";
-
-            $apiclient_key = "-----BEGIN PRIVATE KEY-----\n";
-            $apiclient_key .= wordwrap($this->config['apiclient_key'], 64, "\n", true);
-            $apiclient_key .= "\n-----END PRIVATE KEY-----";
-
+            $apiclient = $this->GetApiclientFile();
             $options[CURLOPT_SSLCERTTYPE] = 'PEM';
-            $options[CURLOPT_SSLCERT] = $apiclient_cert;
+            $options[CURLOPT_SSLCERT] = $apiclient['cert'];
             $options[CURLOPT_SSLKEYTYPE] = 'PEM';
-            $options[CURLOPT_SSLKEY] = $apiclient_key;
+            $options[CURLOPT_SSLKEY] = $apiclient['key'];
 
             //设置证书
             //使用证书：cert 与 key 分别属于两个.pem文件
@@ -670,6 +663,38 @@ class Weixin
             curl_close($ch);
             return "curl出错，错误码:$error";
         }
+    }
+
+    /**
+     * 获取证书文件路径
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-29
+     * @desc    description
+     */
+    private function GetApiclientFile()
+    {
+        // 证书位置
+        $apiclient_cert_file = ROOT.'runtime'.DS.'temp'.DS.'payment_weixin_pay_apiclient_cert.pem';
+        $apiclient_key_file = ROOT.'runtime'.DS.'temp'.DS.'payment_weixin_pay_apiclient_key.pem';
+
+        // 文件是否存在
+        if(!file_exists($apiclient_cert_file))
+        {
+            $apiclient_cert = "-----BEGIN CERTIFICATE-----\n";
+            $apiclient_cert .= wordwrap($this->config['apiclient_cert'], 64, "\n", true);
+            $apiclient_cert .= "\n-----END CERTIFICATE-----";
+            file_put_contents($apiclient_cert_file, $apiclient_cert);
+        }
+        if(!file_exists($apiclient_key_file))
+        {
+            $apiclient_key = "-----BEGIN PRIVATE KEY-----\n";
+            $apiclient_key .= wordwrap($this->config['apiclient_key'], 64, "\n", true);
+            $apiclient_key .= "\n-----END PRIVATE KEY-----";
+            file_put_contents($apiclient_key_file, $apiclient_key);
+        }
+        return ['cert' => $apiclient_cert_file, 'key' => $apiclient_key_file];
     }
 }
 ?>
