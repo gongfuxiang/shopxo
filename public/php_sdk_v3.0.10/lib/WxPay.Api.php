@@ -584,9 +584,9 @@ class WxPayApi
 			curl_setopt($ch,CURLOPT_SSLKEYTYPE,'PEM');
 			curl_setopt($ch,CURLOPT_SSLKEY, $sslKeyPath);
 
-			echo file_get_contents($sslCertPath)."\n";
-			echo file_get_contents($sslKeyPath);
-			die;
+			// echo file_get_contents($sslCertPath)."\n";
+			// echo file_get_contents($sslKeyPath);
+			// die;
 		}
 		//post提交方式
 		curl_setopt($ch, CURLOPT_POST, TRUE);
