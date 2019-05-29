@@ -501,8 +501,7 @@ class Weixin
             'out_refund_no'     => $params['order_no'].GetNumberCode(6),
             'total_fee'         => intval($params['pay_price']*100),
             'refund_fee'        => intval($params['refund_price']*100),
-            'refund_desc'       => $refund_reason,
-            
+            'refund_desc'       => $refund_reason,            
         ];
         $data['sign'] = $this->GetSign($data);
 
@@ -522,7 +521,7 @@ class Weixin
             ];
             return DataReturn('退款成功', 0, $data);
         }
-        $msg = is_string($result) ? $result : (empty($result['return_msg']) ? '退款异常' : $result['return_msg']);
+        $msg = is_string($result) ? $result : (empty($result['return_msg']) ? '退款接口异常' : $result['return_msg']);
         if(!empty($result['err_code_des']))
         {
             $msg .= '-'.$result['err_code_des'];
