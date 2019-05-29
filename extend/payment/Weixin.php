@@ -658,10 +658,6 @@ class Weixin
             $options[CURLOPT_SSLCERT] = ROOT.'cert/apiclient_cert.pem';
             $options[CURLOPT_SSLKEYTYPE] = 'PEM';
             $options[CURLOPT_SSLKEY] = ROOT.'cert/apiclient_key.pem';
-
-            echo ROOT.'cert/apiclient_cert.pem';
-            echo ROOT.'cert/apiclient_key.pem';
-            die;
         }
  
         $ch = curl_init($url);
