@@ -43,7 +43,7 @@ class WxPayConfig extends WxPayConfigInterface
 	**/
 	public function GetNotifyUrl()
 	{
-		return "";
+		return "https://dev.ccxqc.com/";
 	}
 	public function GetSignType()
 	{
