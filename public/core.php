@@ -48,13 +48,10 @@ define('ROOT', str_replace('public'.DS, '', ROOT_PATH));
 // 定义应用目录
 define('APP_PATH', ROOT.'application'.DS);
 
-// 请求应用 [web, app] 默认web
+// 请求应用 [web, app] 默认web(ios|android|小程序 均为app)
 define('APPLICATION', empty($_REQUEST['application']) ? 'web' : trim($_REQUEST['application']));
 
-// 请求客户端 [default, ...] 默认default
-define('APPLICATION_CLIENT', empty($_REQUEST['application_client']) ? 'default' : trim($_REQUEST['application_client']));
-
-// 请求客户端 [pc, h5, alipay, weixin, baidu] 默认pc
+// 请求客户端 [pc, h5, ios, android, alipay, weixin, baidu] 默认pc(目前系统为自适应,h5需自行校验)
 define('APPLICATION_CLIENT_TYPE', empty($_REQUEST['application_client_type']) ? 'pc' : trim($_REQUEST['application_client_type']));
 
 // 是否ajax

@@ -120,7 +120,8 @@ return array(
     'common_platform_type'          =>  array(
             'pc'     => array('value' => 'pc', 'name' => 'PC网站'),
             'h5'     => array('value' => 'h5', 'name' => 'H5手机网站'),
-            'app' => array('value' => 'app', 'name' => 'APP'),
+            'ios' => array('value' => 'ios', 'name' => '苹果APP'),
+            'android' => array('value' => 'android', 'name' => '安卓APP'),
             'alipay' => array('value' => 'alipay', 'name' => '支付宝小程序'),
             'weixin' => array('value' => 'weixin', 'name' => '微信小程序'),
             'baidu' => array('value' => 'baidu', 'name' => '百度小程序'),

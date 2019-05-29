@@ -298,7 +298,7 @@ class Alipay
             ],
             [
                 'checked_type'      => 'empty',
-                'key_name'          => 'refund_amount',
+                'key_name'          => 'refund_price',
                 'error_msg'         => '退款金额不能为空',
             ],
         ];
@@ -309,7 +309,7 @@ class Alipay
         }
 
         // 退款原因
-        $refund_reason = empty($params['refund_reason']) ? $params['order_no'].'订单退款'.$params['refund_amount'].'元' : $params['refund_reason'];
+        $refund_reason = empty($params['refund_reason']) ? $params['order_no'].'订单退款'.$params['refund_price'].'元' : $params['refund_reason'];
 
         // 退款参数
         $parameter = array(
@@ -324,7 +324,7 @@ class Alipay
         $biz_content = array(
             'out_trade_no'          =>  $params['order_no'],
             'trade_no'              =>  $params['trade_no'],
-            'refund_amount'         =>  $params['refund_amount'],
+            'refund_amount'         =>  $params['refund_price'],
             'refund_reason'         =>  $refund_reason,
         );
         $parameter['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);

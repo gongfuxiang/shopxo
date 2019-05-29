@@ -101,13 +101,31 @@ class Weixin
                 'message'       => '请填写密钥',
             ],
             [
+                'element'       => 'textarea',
+                'name'          => 'apiclient_cert',
+                'placeholder'   => '证书(apiclient_cert.pem)',
+                'title'         => '证书(apiclient_cert.pem)',
+                'is_required'   => 0,
+                'rows'          => 6,
+                'message'       => '请填写证书(apiclient_cert.pem)',
+            ],
+            [
+                'element'       => 'textarea',
+                'name'          => 'apiclient_key',
+                'placeholder'   => '证书密钥(apiclient_key.pem)',
+                'title'         => '证书密钥(apiclient_key.pem)',
+                'is_required'   => 0,
+                'rows'          => 6,
+                'message'       => '请填写证书密钥(apiclient_key.pem)',
+            ],
+            [
                 'element'       => 'select',
                 'title'         => '异步通知协议',
                 'message'       => '请选择协议类型',
                 'name'          => 'agreement',
                 'is_multiple'   => 0,
                 'element_data'  => [
-                    ['value'=>1, 'name'=>'默认当前http协议'],
+                    ['value'=>1, 'name'=>'默认当前协议'],
                     ['value'=>2, 'name'=>'强制https转http协议'],
                 ],
             ],
@@ -427,6 +445,92 @@ class Weixin
     }
 
     /**
+     * 退款处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-28
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public function Refund($params = [])
+    {
+        // 参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'order_no',
+                'error_msg'         => '订单号不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'trade_no',
+                'error_msg'         => '交易平台订单号不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'pay_price',
+                'error_msg'         => '支付金额不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'refund_price',
+                'error_msg'         => '退款金额不能为空',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 退款原因
+        $refund_reason = empty($params['refund_reason']) ? $params['order_no'].'订单退款'.$params['refund_price'].'元' : $params['refund_reason'];
+
+        // appid
+        $appid = (APPLICATION == 'app') ? $this->config['mini_appid'] :  $this->config['appid'];
+
+        // 请求参数
+        $data = [
+            'appid'             => $appid,
+            'mch_id'            => $this->config['mch_id'],
+            'nonce_str'         => md5(time().rand().$params['order_no']),
+            'sign_type'         => 'MD5',
+            'transaction_id'    => $params['trade_no'],
+            'out_trade_no'      => $params['order_no'],
+            'out_refund_no'     => $params['order_no'].GetNumberCode(6),
+            'total_fee'         => intval($params['pay_price']*100),
+            'refund_fee'        => intval($params['refund_price']*100),
+            'refund_desc'       => $refund_reason,
+            
+        ];
+        $data['sign'] = $this->GetSign($data);
+
+        // xml
+        $xml = $this->ArrayToXml($data);
+       // echo $xml;die;
+        $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/secapi/pay/refund', $xml, true));
+        if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['prepay_id']))
+        {
+            // 统一返回格式
+            $data = [
+                'out_trade_no'  => isset($result['out_trade_no']) ? $result['out_trade_no'] : '',
+                'trade_no'      => isset($result['transaction_id']) ? $result['transaction_id'] : '',
+                'buyer_user'    => isset($result['refund_id']) ? $result['refund_id'] : '',
+                'refund_price'  => isset($result['refund_fee']) ? $result['refund_fee'] : 0.00,
+                'return_params' => $result,
+            ];
+            return DataReturn('退款成功', 0, $data);
+        }
+        $msg = empty($result['return_msg']) ? '退款异常' : $result['return_msg'];
+        if(!empty($result['err_code_des']))
+        {
+            $msg .= '-'.$result['err_code_des'];
+        }
+        return DataReturn($msg, -1);
+    }
+
+    /**
      * 签名生成
      * @author   Devil
      * @blog    http://gong.gg/
@@ -533,13 +637,20 @@ class Weixin
 
         if($use_cert == true)
         {
-            // 退款 取消使用
+            $apiclient_cert = "-----BEGIN CERTIFICATE-----\n";
+            $apiclient_cert .= wordwrap($this->config['apiclient_cert'], 64, "\n", true);
+            $apiclient_cert .= "\n-----END CERTIFICATE-----";
+
+            $apiclient_key = "-----BEGIN PRIVATE KEY-----\n";
+            $apiclient_key .= wordwrap($this->config['apiclient_key'], 64, "\n", true);
+            $apiclient_key .= "\n-----END PRIVATE KEY-----";
+
             //设置证书
             //使用证书：cert 与 key 分别属于两个.pem文件
-            // $options[CURLOPT_SSLCERTTYPE] = 'PEM';
-            // $options[CURLOPT_SSLCERT] = WEB_ROOT.'cert/wechat_app_apiclient_cert.pem';
-            // $options[CURLOPT_SSLKEYTYPE] = 'PEM';
-            // $options[CURLOPT_SSLKEY] = WEB_ROOT.'cert/wechat_app_apiclient_key.pem';
+            $options[CURLOPT_SSLCERTTYPE] = 'PEM';
+            $options[CURLOPT_SSLCERT] = ROOT.'weixin-cert/apiclient_cert.pem';
+            $options[CURLOPT_SSLKEYTYPE] = 'PEM';
+            $options[CURLOPT_SSLKEY] = ROOT.'weixin-cert/apiclient_key.pem';
         }
  
         $ch = curl_init($url);

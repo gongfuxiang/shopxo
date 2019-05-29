@@ -174,7 +174,7 @@ App({
     return (
       this.data.request_url +
       "index.php?s=/" + m + "/" + c + "/" + a +
-      "&application_client=default&&application=app&application_client_type=alipay&application_user_id=" +
+      "&application=app&application_client_type=alipay&application_user_id=" +
       app_client_user_id +
       "&user_id=" +
       user_id +

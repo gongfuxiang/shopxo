@@ -241,6 +241,94 @@ class AlipayMini
     }
 
     /**
+     * 退款处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-28
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public function Refund($params = [])
+    {
+        // 参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'order_no',
+                'error_msg'         => '订单号不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'trade_no',
+                'error_msg'         => '交易平台订单号不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'refund_price',
+                'error_msg'         => '退款金额不能为空',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 退款原因
+        $refund_reason = empty($params['refund_reason']) ? $params['order_no'].'订单退款'.$params['refund_price'].'元' : $params['refund_reason'];
+
+        // 退款参数
+        $parameter = array(
+            'app_id'                =>  $this->config['appid'],
+            'method'                =>  'alipay.trade.refund',
+            'format'                =>  'JSON',
+            'charset'               =>  'utf-8',
+            'sign_type'             =>  'RSA2',
+            'timestamp'             =>  date('Y-m-d H:i:s'),
+            'version'               =>  '1.0',
+        );
+        $biz_content = array(
+            'out_trade_no'          =>  $params['order_no'],
+            'trade_no'              =>  $params['trade_no'],
+            'refund_amount'         =>  $params['refund_price'],
+            'refund_reason'         =>  $refund_reason,
+        );
+        $parameter['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
+
+        // 生成签名参数+签名
+        $params = $this->GetParamSign($parameter);
+        $parameter['sign'] = $this->MyRsaSign($params['value']);
+
+        // 执行请求
+        $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $parameter);
+        $key = str_replace('.', '_', $parameter['method']).'_response';
+
+        // 验证签名
+        if(!$this->SyncRsaVerify($result, $key))
+        {
+            return DataReturn('签名验证错误', -1);
+        }
+
+        // 状态
+        if(isset($result[$key]['code']) && $result[$key]['code'] == 10000)
+        {
+            // 统一返回格式
+            $data = [
+                'out_trade_no'  => isset($result[$key]['out_trade_no']) ? $result[$key]['out_trade_no'] : '',
+                'trade_no'      => isset($result[$key]['trade_no']) ? $result[$key]['trade_no'] : '',
+                'buyer_user'    => isset($result[$key]['buyer_user_id']) ? $result[$key]['buyer_user_id'] : '',
+                'refund_price'  => isset($result[$key]['refund_fee']) ? $result[$key]['refund_fee'] : 0.00,
+                'return_params' => $result[$key],
+            ];
+            return DataReturn('退款成功', 0, $data);
+        }
+
+        // 直接返回支付信息
+        return DataReturn($result[$key]['sub_msg'].'['.$result[$key]['sub_code'].']', -1000);
+    }
+
+    /**
      * [GetParamSign 生成参数和签名]
      * @param  [array] $data   [待生成的参数]
      * @return [array]         [生成好的参数和签名]
