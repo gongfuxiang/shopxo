@@ -642,9 +642,9 @@ class Weixin
             //使用证书：cert 与 key 分别属于两个.pem文件
             //证书文件请放入服务器的非web目录下
             curl_setopt($ch,CURLOPT_SSLCERTTYPE,'PEM');
-            curl_setopt($ch,CURLOPT_SSLCERT, ROOT.'weixin-cert/apiclient_cert.pem');
+            curl_setopt($ch,CURLOPT_SSLCERT, ROOT.'cert/apiclient_cert.pem');
             curl_setopt($ch,CURLOPT_SSLKEYTYPE,'PEM');
-            curl_setopt($ch,CURLOPT_SSLKEY, ROOT.'weixin-cert/apiclient_key.pem');
+            curl_setopt($ch,CURLOPT_SSLKEY, ROOT.'cert/apiclient_key.pem');
         }
         //post提交方式
         curl_setopt($ch, CURLOPT_POST, TRUE);
@@ -699,9 +699,9 @@ class Weixin
             //设置证书
             //使用证书：cert 与 key 分别属于两个.pem文件
             $options[CURLOPT_SSLCERTTYPE] = 'PEM';
-            $options[CURLOPT_SSLCERT] = '/www/wwwroot/test.shopxo.net/shopxo/cert/apiclient_cert.pem';
+            $options[CURLOPT_SSLCERT] = ROOT.'cert/apiclient_cert.pem';
             $options[CURLOPT_SSLKEYTYPE] = 'PEM';
-            $options[CURLOPT_SSLKEY] = '/www/wwwroot/test.shopxo.net/shopxo/cert/apiclient_key.pem';
+            $options[CURLOPT_SSLKEY] = ROOT.'cert/apiclient_key.pem';
         }
  
         $ch = curl_init($url);
