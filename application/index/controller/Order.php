@@ -231,10 +231,19 @@ class Order extends Common
      */
     public function Respond()
     {
-        // 获取支付回调数据
+        // 参数
         $params = input();
-        $params['user'] = $this->user;
-        $ret = OrderService::Respond($params);
+
+        // 是否自定义状态
+        if(isset($params['appoint_status']))
+        {
+            $ret = ($params['appoint_status'] == 1) ? DataReturn('支付成功', 0) : DataReturn('支付失败', -100);
+
+            // 获取支付回调数据
+        } else {
+            $params['user'] = $this->user;
+            $ret = OrderService::Respond($params);
+        }
 
         // 自定义链接
         $this->assign('to_url', MyUrl('index/order/index'));

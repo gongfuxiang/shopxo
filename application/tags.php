@@ -114,6 +114,11 @@ return array (
     0 => 'app\\plugins\\touristbuy\\Hook',
     1 => 'app\\plugins\\weixinwebauthorization\\Hook',
   ),
+  'plugins_service_buy_handle' => 
+  array (
+    0 => 'app\\plugins\\newuserreduction\\Hook',
+    1 => 'app\\plugins\\membershiplevel\\Hook',
+  ),
   'plugins_view_goods_detail_photo_bottom' => 
   array (
     0 => 'app\\plugins\\share\\Hook',
@@ -131,10 +136,6 @@ return array (
     0 => 'app\\plugins\\membershiplevel\\Hook',
   ),
   'plugins_service_goods_spec_base' => 
-  array (
-    0 => 'app\\plugins\\membershiplevel\\Hook',
-  ),
-  'plugins_service_buy_handle' => 
   array (
     0 => 'app\\plugins\\membershiplevel\\Hook',
   ),

@@ -66,10 +66,6 @@ class OrderService
         {
             return DataReturn('资源不存在或已被删除', -1);
         }
-        if($order['total_price'] <= 0.00)
-        {
-            return DataReturn('金额不能为0', -1);
-        }
         if($order['status'] != 1)
         {
             $status_text = lang('common_order_user_status')[$order['status']]['name'];
@@ -88,6 +84,24 @@ class OrderService
         if(!empty($params['payment_id']) && $params['payment_id'] != $order['payment_id'])
         {
             Db::name('Order')->where(['id'=>$order['id']])->update(['payment_id'=>$payment_id, 'upd_time'=>time()]);
+        }
+
+        // 金额为0直接支付成功
+        if($order['total_price'] <= 0.00)
+        {
+            // 非线上支付处理
+            $params['user']['user_name_view'] = '用户-'.$params['user']['user_name_view'];
+            $pay_result = self::OrderPaymentUnderLine([
+                'order'     => $order,
+                'payment'   => $payment[0],
+                'user'      => $params['user'],
+                'subject'   => $params,
+            ]);
+            if($pay_result['code'] == 0)
+            {
+                return DataReturn('支付成功', 0, ['data'=>MyUrl('index/order/respond', ['appoint_status'=>1])]);
+            }
+            return $pay_result;
         }
 
         // 支付入口文件检查
@@ -203,10 +217,6 @@ class OrderService
         {
             return DataReturn('资源不存在或已被删除', -1);
         }
-        if($order['total_price'] <= 0.00)
-        {
-            return DataReturn('金额不能为0', -1);
-        }
         if($order['status'] != 1)
         {
             $status_text = lang('common_order_admin_status')[$order['status']]['name'];
@@ -242,7 +252,7 @@ class OrderService
     {
         if(!empty($params['order']) && !empty($params['payment']) && !empty($params['user']))
         {
-            if(in_array($params['payment']['payment'], config('shopxo.under_line_list')))
+            if(in_array($params['payment']['payment'], config('shopxo.under_line_list')) || $params['order']['total_price'] <= 0.00)
             {
                 // 支付处理
                 $pay_params = [
@@ -256,6 +266,8 @@ class OrderService
                     ],
                 ];
                 return self::OrderPayHandle($pay_params);
+            } else {
+                return DataReturn('仅线下支付方式处理', -1);
             }
         }
         return DataReturn('无需处理', 0);

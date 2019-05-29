@@ -839,6 +839,12 @@ class OrderAftersaleService
             return DataReturn('支付方式有误', -1);
         }
 
+        // 交易平台单号
+        if(empty($pay_log['trade_no']))
+        {
+            return DataReturn('平台单号为空，请确认支付日志是否存在', -1);
+        }
+
         // 操作退款
         $pay_name = 'payment\\'.$pay_log['payment'];
         $pay_params = [
