@@ -180,7 +180,7 @@ class Weixin
         {
             return $this->PayHandleReturn($ret['data'], $result, $params);
         }
-        $msg = empty($result['return_msg']) ? '支付异常' : $result['return_msg'];
+        $msg = is_string($result) ? $result : (empty($result['return_msg']) ? '退款异常' : $result['return_msg']);
         if(!empty($result['err_code_des']))
         {
             $msg .= '-'.$result['err_code_des'];
@@ -522,7 +522,7 @@ class Weixin
             ];
             return DataReturn('退款成功', 0, $data);
         }
-        $msg = empty($result['return_msg']) ? '退款异常' : $result['return_msg'];
+        $msg = is_string($result) ? $result : (empty($result['return_msg']) ? '退款异常' : $result['return_msg']);
         if(!empty($result['err_code_des']))
         {
             $msg .= '-'.$result['err_code_des'];
@@ -584,7 +584,10 @@ class Weixin
      */
     private function XmlToArray($xml)
     {
-        if(!$this->XmlParser($xml)) return '';
+        if(!$this->XmlParser($xml))
+        {
+            return is_string($xml) ? $xml : '接口返回数据有误';
+        }
 
         return json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
     }
@@ -656,8 +659,16 @@ class Weixin
         $ch = curl_init($url);
         curl_setopt_array($ch, $options);
         $result = curl_exec($ch);
-        curl_close($ch);
-        return $result;
+        //返回结果
+        if($result)
+        {
+            curl_close($ch);
+            return $result;
+        } else { 
+            $error = curl_errno($ch);
+            curl_close($ch);
+            return "curl出错，错误码:$error";
+        }
     }
 }
 ?>
