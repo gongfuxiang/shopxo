@@ -740,6 +740,12 @@ class OrderService
                                 $excel_export_items .= '购买数量：'.$vs['buy_number']."\n";
                                 $excel_export_items .= "\n";
                             }
+
+                            // 是否获取售后信息
+                            // if($is_orderaftersale == 1)
+                            // {
+                            //     $items['orderaftersale'] = Db::name('OrderAftersale')->where(['order_detail_id'=>$vs['id']])->find();
+                            // }
                         }
                     } else {
                         $buy_number_count = Db::name('OrderDetail')->where(['order_id'=>$v['id']])->sum('buy_number');
