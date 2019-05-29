@@ -639,18 +639,18 @@ class Weixin
 
         if($use_cert == true)
         {
-            $apiclient_cert = "-----BEGIN CERTIFICATE-----\n";
-            $apiclient_cert .= wordwrap($this->config['apiclient_cert'], 64, "\n", true);
-            $apiclient_cert .= "\n-----END CERTIFICATE-----";
+            // $apiclient_cert = "-----BEGIN CERTIFICATE-----\n";
+            // $apiclient_cert .= wordwrap($this->config['apiclient_cert'], 64, "\n", true);
+            // $apiclient_cert .= "\n-----END CERTIFICATE-----";
 
-            $apiclient_key = "-----BEGIN PRIVATE KEY-----\n";
-            $apiclient_key .= wordwrap($this->config['apiclient_key'], 64, "\n", true);
-            $apiclient_key .= "\n-----END PRIVATE KEY-----";
+            // $apiclient_key = "-----BEGIN PRIVATE KEY-----\n";
+            // $apiclient_key .= wordwrap($this->config['apiclient_key'], 64, "\n", true);
+            // $apiclient_key .= "\n-----END PRIVATE KEY-----";
 
-            $options[CURLOPT_SSLCERTTYPE] = 'PEM';
-            $options[CURLOPT_SSLCERT] = $apiclient_cert;
-            $options[CURLOPT_SSLKEYTYPE] = 'PEM';
-            $options[CURLOPT_SSLKEY] = $apiclient_key;
+            // $options[CURLOPT_SSLCERTTYPE] = 'PEM';
+            // $options[CURLOPT_SSLCERT] = $apiclient_cert;
+            // $options[CURLOPT_SSLKEYTYPE] = 'PEM';
+            // $options[CURLOPT_SSLKEY] = $apiclient_key;
 
             //设置证书
             //使用证书：cert 与 key 分别属于两个.pem文件
