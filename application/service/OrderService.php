@@ -623,6 +623,7 @@ class OrderService
         $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
         $is_items = isset($params['is_items']) ? intval($params['is_items']) : 1;
         $is_excel_export = isset($params['is_excel_export']) ? intval($params['is_excel_export']) : 0;
+        $is_orderaftersale = isset($params['is_orderaftersale']) ? intval($params['is_orderaftersale']) : 0;
 
         // 获取订单
         $data = Db::name('Order')->where($where)->limit($m, $n)->order($order_by)->select();
@@ -753,11 +754,11 @@ class OrderService
                                 $excel_export_items .= "\n";
                             }
 
-                            // 是否获取售后信息
-                            // if($is_orderaftersale == 1)
-                            // {
-                            //     $items['orderaftersale'] = Db::name('OrderAftersale')->where(['order_detail_id'=>$vs['id']])->find();
-                            // }
+                            // 是否获取最新一条售后信息
+                            if($is_orderaftersale == 1)
+                            {
+                                $vs['orderaftersale'] = Db::name('OrderAftersale')->where(['order_detail_id'=>$vs['id']])->order('id desc')->find();
+                            }
                         }
                     } else {
                         $buy_number_count = Db::name('OrderDetail')->where(['order_id'=>$v['id']])->sum('buy_number');

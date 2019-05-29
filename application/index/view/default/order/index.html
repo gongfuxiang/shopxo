@@ -189,13 +189,25 @@
                                     <a href="{{:MyUrl('index/orderaftersale/aftersale', ['oid'=>$order['id'], 'did'=>$goods['id']])}}" target="_blank">
                                         {{switch $order.status}}
                                             {{case 2|3}}
-                                                退款/退货
+                                                {{if empty($goods['orderaftersale'])}}
+                                                    退款/退货
+                                                {{else /}}
+                                                    <span class="am-text-secondary">查看进度</span>
+                                                {{/if}}
                                             {{/case}}
                                             {{case 4}}
                                                 申请售后
                                             {{/case}}
                                             {{case 6}}
-                                                查看退款
+                                                {{if empty($goods['orderaftersale']) or $goods['orderaftersale'] eq 5}}
+                                                    申请售后
+                                                {{else /}}
+                                                    {{if $goods['orderaftersale']['status'] eq 3}}
+                                                        <span class="am-text-success">查看退款</span>
+                                                    {{else /}}
+                                                        <span class="am-text-secondary">查看进度</span>
+                                                    {{/if}}
+                                                {{/if}}
                                             {{/case}}
                                         {{/switch}}
                                     </a>

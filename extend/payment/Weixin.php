@@ -173,9 +173,8 @@ class Weixin
             return $ret;
         }
 
-        // xml
-        $xml = $this->ArrayToXml($ret['data']);
-        $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/pay/unifiedorder', $xml));
+        // 请求接口处理
+        $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/pay/unifiedorder', $this->ArrayToXml($ret['data'])));
         if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['prepay_id']))
         {
             return $this->PayHandleReturn($ret['data'], $result, $params);
@@ -505,11 +504,8 @@ class Weixin
         ];
         $data['sign'] = $this->GetSign($data);
 
-        // xml
-        $xml = $this->ArrayToXml($data);
-       // echo $xml;die;
-        $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/secapi/pay/refund', $xml, true));
-        print_r($result);die;
+        // 请求接口处理
+        $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/secapi/pay/refund', $this->ArrayToXml($data), true));
         if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['prepay_id']))
         {
             // 统一返回格式
@@ -640,25 +636,25 @@ class Weixin
 
         if($use_cert == true)
         {
-            // $apiclient_cert = "-----BEGIN CERTIFICATE-----\n";
-            // $apiclient_cert .= wordwrap($this->config['apiclient_cert'], 64, "\n", true);
-            // $apiclient_cert .= "\n-----END CERTIFICATE-----";
+            $apiclient_cert = "-----BEGIN CERTIFICATE-----\n";
+            $apiclient_cert .= wordwrap($this->config['apiclient_cert'], 64, "\n", true);
+            $apiclient_cert .= "\n-----END CERTIFICATE-----";
 
-            // $apiclient_key = "-----BEGIN PRIVATE KEY-----\n";
-            // $apiclient_key .= wordwrap($this->config['apiclient_key'], 64, "\n", true);
-            // $apiclient_key .= "\n-----END PRIVATE KEY-----";
+            $apiclient_key = "-----BEGIN PRIVATE KEY-----\n";
+            $apiclient_key .= wordwrap($this->config['apiclient_key'], 64, "\n", true);
+            $apiclient_key .= "\n-----END PRIVATE KEY-----";
 
-            // $options[CURLOPT_SSLCERTTYPE] = 'PEM';
-            // $options[CURLOPT_SSLCERT] = $apiclient_cert;
-            // $options[CURLOPT_SSLKEYTYPE] = 'PEM';
-            // $options[CURLOPT_SSLKEY] = $apiclient_key;
+            $options[CURLOPT_SSLCERTTYPE] = 'PEM';
+            $options[CURLOPT_SSLCERT] = $apiclient_cert;
+            $options[CURLOPT_SSLKEYTYPE] = 'PEM';
+            $options[CURLOPT_SSLKEY] = $apiclient_key;
 
             //设置证书
             //使用证书：cert 与 key 分别属于两个.pem文件
-            $options[CURLOPT_SSLCERTTYPE] = 'PEM';
-            $options[CURLOPT_SSLCERT] = ROOT.'cert/apiclient_cert.pem';
-            $options[CURLOPT_SSLKEYTYPE] = 'PEM';
-            $options[CURLOPT_SSLKEY] = ROOT.'cert/apiclient_key.pem';
+            // $options[CURLOPT_SSLCERTTYPE] = 'PEM';
+            // $options[CURLOPT_SSLCERT] = ROOT.'cert/apiclient_cert.pem';
+            // $options[CURLOPT_SSLKEYTYPE] = 'PEM';
+            // $options[CURLOPT_SSLKEY] = ROOT.'cert/apiclient_key.pem';
         }
  
         $ch = curl_init($url);
