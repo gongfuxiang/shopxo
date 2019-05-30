@@ -255,7 +255,7 @@
                                                 <a href="{{:MyUrl('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank">
                                                     <img src="{{$goods.images}}" alt="{{$goods.title}}" class="am-img-thumbnail am-radius" />
                                                     <h3 class="am-gallery-title">{{$goods.title}}</h3>
-                                                    <div class="am-gallery-desc line-price">￥{{$goods.price}}</div>
+                                                    <div class="am-gallery-desc line-price">￥{{$goods.min_price}}</div>
                                                 </a>
                                             </div>
                                         </li>
@@ -294,7 +294,7 @@
                                                     <img src="{{$goods.images}}" alt="{{$goods.title}}" class="am-img-thumbnail am-circle" />
                                                     <h3 class="am-gallery-title">{{$goods.title}}</h3>
                                                 </a>
-                                                <div class="am-gallery-desc line-price">￥{{$goods.price}}</div>
+                                                <div class="am-gallery-desc line-price">￥{{$goods.min_price}}</div>
                                             </div>
                                         </li>
                                     {{/foreach}}

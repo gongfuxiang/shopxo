@@ -671,7 +671,7 @@ class GoodsService
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
         $order_by = empty($params['order_by']) ? 'f.id desc' : $params['order_by'];
-        $field = 'f.*, g.title, g.original_price, g.price, g.images';
+        $field = 'f.*, g.title, g.original_price, g.price, g.min_price, g.images';
 
         // 获取数据
         $data = Db::name('GoodsFavor')->alias('f')->join(['__GOODS__'=>'g'], 'g.id=f.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
@@ -817,7 +817,7 @@ class GoodsService
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
         $order_by = empty($params['order_by']) ? 'b.id desc' : $params['order_by'];
-        $field = 'b.*, g.title, g.original_price, g.price, g.images';
+        $field = 'b.*, g.title, g.original_price, g.price, g.min_price, g.images';
 
         // 获取数据
         $data = Db::name('GoodsBrowse')->alias('b')->join(['__GOODS__'=>'g'], 'g.id=b.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
