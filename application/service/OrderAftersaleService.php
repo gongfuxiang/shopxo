@@ -174,7 +174,7 @@ class OrderAftersaleService
 
         // 历史退款金额
         $history_price = PriceNumberFormat(Db::name('OrderAftersale')->where($where)->sum('price'));
-        if($price+$history_price > $order['data']['pay_price'])
+        if(PriceNumberFormat($price+$history_price) > $order['data']['pay_price'])
         {
             return DataReturn('退款金额大于支付金额[ 历史退款'.$history_price.'元, 订单金额'.$order['data']['pay_price'].'元 ]', -1);
         }
@@ -187,7 +187,7 @@ class OrderAftersaleService
         $history_number = (int) Db::name('OrderAftersale')->where($where)->sum('number');
         if($params['type'] == 1)
         {
-            if($number+$history_number > $order['data']['items']['buy_number'])
+            if(intval($number+$history_number) > $order['data']['items']['buy_number'])
             {
                 return DataReturn('退货数量大于购买数量[ 历史退货数量 '.$history_number.', 订单商品数量 '.$order['data']['items']['buy_number'].' ]', -1);
             }
@@ -681,7 +681,7 @@ class OrderAftersaleService
 
         // 历史退款金额
         $history_price = PriceNumberFormat(Db::name('OrderAftersale')->where($where)->sum('price'));
-        if($aftersale['price']+$history_price > $order['data']['pay_price'])
+        if(PriceNumberFormat($aftersale['price']+$history_price) > $order['data']['pay_price'])
         {
             return DataReturn('退款金额大于支付金额[ 历史退款'.$history_price.'元, 订单金额'.$order['data']['pay_price'].'元 ]', -1);
         }
@@ -691,7 +691,7 @@ class OrderAftersaleService
         $history_number = (int) Db::name('OrderAftersale')->where($where)->sum('number');
         if($aftersale['type'] == 1)
         {
-            if($aftersale['number']+$history_number > $order['data']['items']['buy_number'])
+            if(intval($aftersale['number']+$history_number) > $order['data']['items']['buy_number'])
             {
                 return DataReturn('退货数量大于购买数量[ 历史退货数量 '.$history_number.', 订单商品数量 '.$order['data']['items']['buy_number'].' ]', -1);
             }
@@ -770,8 +770,8 @@ class OrderAftersaleService
 
         // 更新主订单
         $refund_price = PriceNumberFormat($order['data']['refund_price']+$aftersale['price']);
-        $returned_quantity = $order['data']['returned_quantity']+$aftersale['number'];
-        $upd_data = [
+        $returned_quantity = intval($order['data']['returned_quantity']+$aftersale['number']);
+        $order_upd_data = [
             'pay_status'        => ($refund_price >= $order['data']['pay_price']) ? 2 : 3,
             'refund_price'      => $refund_price,
             'returned_quantity' => $returned_quantity,
@@ -781,18 +781,30 @@ class OrderAftersaleService
         // 如果退款金额和退款数量到达订单实际是否金额和购买数量则关闭订单
         if($refund_price >= $order['data']['pay_price'] && $returned_quantity >= $order['data']['buy_number_count'])
         {
-            $upd_data['status'] = 6;
+            $order_upd_data['status'] = 6;
         }
-        if(!Db::name('Order')->where(['id'=>$order['data']['id']])->update($upd_data))
+        if(!Db::name('Order')->where(['id'=>$order['data']['id']])->update($order_upd_data))
         {
             Db::rollback();
             return DataReturn('主订单更新失败', -1);
         }
 
+        // 订单详情
+        $detail_upd_data = [
+            'refund_price'      => PriceNumberFormat($order['data']['items']['refund_price']+$aftersale['price']),
+            'returned_quantity' => intval($order['data']['items']['returned_quantity']+$aftersale['number']),
+            'upd_time'          => time(),
+        ];
+        if(!Db::name('OrderDetail')->where(['id'=>$aftersale['order_detail_id']])->update($detail_upd_data))
+        {
+            Db::rollback();
+            return DataReturn('订单详情更新失败', -1);
+        }
+
         // 库存回滚
         if($aftersale['type'] == 1)
         {
-            $ret = BuyService::OrderInventoryRollback(['order_id'=>$order['data']['id'], 'order_data'=>$upd_data, 'appoint_order_detail_id'=>$aftersale['order_detail_id'], 'appoint_buy_number'=>$aftersale['number']]);
+            $ret = BuyService::OrderInventoryRollback(['order_id'=>$order['data']['id'], 'order_data'=>$order_upd_data, 'appoint_order_detail_id'=>$aftersale['order_detail_id'], 'appoint_buy_number'=>$aftersale['number']]);
             if($ret['code'] != 0)
             {
                 Db::rollback();
@@ -805,21 +817,21 @@ class OrderAftersaleService
         MessageService::MessageAdd($order['data']['user_id'], '订单退款', $detail, 1, $order['data']['id']);
 
         // 订单状态日志
-        if(isset($upd_data['status']))
+        if(isset($order_upd_data['status']))
         {
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
             $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
-            OrderService::OrderHistoryAdd($order['data']['id'], $upd_data['status'], $order['data']['status'], '关闭', $creator, $creator_name);
+            OrderService::OrderHistoryAdd($order['data']['id'], $order_upd_data['status'], $order['data']['status'], '关闭', $creator, $creator_name);
         }
 
         // 更新退款状态
-        $upd_data = [
+        $aftersale_upd_data = [
             'status'        => 3,
             'refundment'    => $params['refundment'],
             'audit_time'    => time(),
             'upd_time'      => time(),
         ];
-        if(!Db::name('OrderAftersale')->where(['id'=>$aftersale['id']])->update($upd_data))
+        if(!Db::name('OrderAftersale')->where(['id'=>$aftersale['id']])->update($aftersale_upd_data))
         {
             Db::rollback();
             return DataReturn('售后订单更新失败', -60);
@@ -887,6 +899,7 @@ class OrderAftersaleService
             'msg'           => $pay_params['refund_reason'],
             'payment'       => $pay_log['payment'],
             'payment_name'  => $pay_log['payment_name'],
+            'refundment'    => $params['refundment'],
             'business_type' => 1,
             'return_params' => isset($ret['data']['return_params']) ? $ret['data']['return_params'] : '',
         ];
@@ -954,6 +967,7 @@ class OrderAftersaleService
             'msg'           => $msg,
             'payment'       => $pay_log['payment'],
             'payment_name'  => $pay_log['payment_name'],
+            'refundment'    => $params['refundment'],
             'business_type' => 1,
             'return_params' => '',
         ];
@@ -1069,6 +1083,105 @@ class OrderAftersaleService
             return DataReturn('删除成功', 0);
         }
         return DataReturn('删除失败', -100);
+    }
+
+    /**
+     * 订单售后退款退货计算
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-30
+     * @desc    description
+     * @param   [int]          $order_id        [订单id]
+     * @param   [int]          $order_detail_id [订单详情id]
+     */
+    public static function OrderAftersaleCalculation($order_id, $order_detail_id)
+    {
+        // 可退数量/金额
+        $returned_quantity = 0;
+        $refund_price = 0.00;
+
+        // 历史退货数量/金额
+        $history_returned_quantity = 0;
+        $history_refund_price = 0.00;
+
+        // 未发生退货数量/金额
+        $not_returned_quantity = 0;
+        $not_refund_price = 0.00;
+        
+        // 获取订单数据
+        $order = Db::name('Order')->where(['id'=>$order_id])->field('id,status,pay_status,buy_number_count,increase_price,preferential_price,price,total_price,pay_price,refund_price,returned_quantity')->find();
+        if(!empty($order))
+        {
+            $dateil = Db::name('OrderDetail')->where(['order_id'=>$order_id])->field('id,price,total_price,buy_number,refund_price,returned_quantity')->select();
+            if(!empty($dateil))
+            {
+                foreach($dateil as $v)
+                {
+                    // 从订单售后中获取进行中的数据
+                    $where = [
+                        ['order_detail_id', '=', $v['id']],
+                        ['status', '<=', 2],
+                    ];
+                    $aftersale = Db::name('OrderAftersale')->where($where)->field('sum(number) as number, sum(price) as price')->find();
+                    if(!empty($aftersale['number']))
+                    {
+                        $v['returned_quantity'] += $aftersale['number'];
+                    }
+                    if(!empty($aftersale['price']))
+                    {
+                        $v['refund_price'] += $aftersale['price'];
+                    }
+
+                    // 累计
+                    $history_returned_quantity += $v['returned_quantity'];
+                    $history_refund_price += $v['refund_price'];
+
+                    // 当前指定详情
+                    if($v['id'] == $order_detail_id)
+                    {
+                        $returned_quantity = $v['buy_number']-$v['returned_quantity'];
+                        $refund_price = $v['price']*$returned_quantity;
+                        if($refund_price+$v['refund_price'] > $v['total_price'])
+                        {
+                            $refund_price = $v['total_price']-$v['refund_price'];
+                        }
+                    } else {
+                        // 未发生
+                        if($v['returned_quantity'] <= 0 && $v['refund_price'] <= 0.00)
+                        {
+                            $not_returned_quantity += $v['buy_number'];
+                            $not_refund_price += $v['total_price'];
+                        }
+                    }
+                }
+            }
+
+            // 未发生售后
+            if($not_returned_quantity > 0)
+            {
+                if(PriceNumberFormat($refund_price+$not_refund_price) > $order['price'])
+                {
+                    $refund_price -= $not_refund_price;
+                }
+            }
+
+            // 如果最后一件退款则加上增加的金额，减去优惠家呢
+            if(PriceNumberFormat($history_refund_price+$refund_price) >= $order['price'])
+            {
+                $refund_price += $order['increase_price'];
+                $refund_price -= $order['preferential_price'];
+            }
+
+            // 如果退款金额大于支付金额，则支付金额减去已退款金额
+            $temp_price = PriceNumberFormat($refund_price+$history_refund_price);
+            if($temp_price > $order['pay_price'])
+            {
+                $refund_price = $order['pay_price']-$history_refund_price;
+            }
+        }
+
+        return DataReturn('操作成功', 0, ['returned_quantity'=>$returned_quantity, 'refund_price'=>PriceNumberFormat($refund_price)]);
     }
 }
 ?>

@@ -81,6 +81,14 @@
                                     <div class="items-detail am-fl">-￥{{$order.preferential_price}}</div>
                                 </div>
                             {{/if}}
+                            {{if !empty($order.refund_price)}}
+                                <div class="items am-cf">
+                                    <div class="items-title am-fl">退款金额：</div>
+                                    <div class="items-detail am-fl">
+                                        <span class="am-text-danger">-￥{{$order.refund_price}}</span>
+                                    </div>
+                                </div>
+                            {{/if}}
                             {{if !empty($order.total_price)}}
                                 <div class="items am-cf">
                                     <div class="items-title am-fl">订单总价：</div>
@@ -146,11 +154,11 @@
 
                         {{case 1}}
                             {{if $new_aftersale_data['type'] eq 1}}
-                                <div class="am-panel am-panel-default aftersale-form-panel">
-                                    <div class="am-panel-bd">
-                                        {{include file="orderaftersale/delivery" /}}
-                                    </div>
+                                <div class="am-alert">
+                                    当前订单商品售后，管理员已确认，请尽快完成退货！<a href="{{:MyUrl('index/orderaftersale/index', ['keywords'=>$new_aftersale_data['order_no']])}}">详情查看</a>
+                                    <button type="button" class="am-btn am-btn-primary am-radius am-margin-left-sm orderaftersale-delivery-submit" data-am-modal="{target: '#popup-orderaftersale-delivery'}" data-is-auto-delivery="{{if isset($params['is_auto_delivery'])}}{{$params.is_auto_delivery}}{{else /}}0{{/if}}">立即退货</button>
                                 </div>
+                                {{include file="orderaftersale/delivery" /}}
                             {{else /}}
                                 <div class="am-alert">
                                     当前订单商品售后已提交申请，等待管理员确认中！<a href="{{:MyUrl('index/orderaftersale/index', ['keywords'=>$new_aftersale_data['order_no']])}}">详情查看</a>
@@ -199,11 +207,11 @@
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
                                         <span>退货数量：</span>
-                                        <span>{{$new_aftersale_data.number}}</span>
+                                        <span {{if $new_aftersale_data['number'] gt 0}}class="am-text-danger"{{/if}}>{{$new_aftersale_data.number}}</span>
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
                                         <span>退款金额：</span>
-                                        <span class="am-text-warning">￥{{$new_aftersale_data.price}}</span>
+                                        <span class="am-text-danger">￥{{$new_aftersale_data.price}}</span>
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
                                         <span>退款说明：</span>

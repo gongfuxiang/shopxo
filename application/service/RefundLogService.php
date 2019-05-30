@@ -37,6 +37,7 @@ class RefundLogService
      * @param   [string]            $msg            [描述]
      * @param   [string]            $payment        [支付方式标记]
      * @param   [string]            $payment_name   [支付方式名称]
+     * @param   [int]               $refundment     [退款类型（0原路退回, 1退至钱包, 2手动处理）]
      * @param   [int]               $business_type  [业务类型（0默认, 1订单, 2充值, ...）]
      * @param   [string]            $return_params  [支付平台返回参数]
      * @return  [boolean]                           [成功true, 失败false]
@@ -53,6 +54,7 @@ class RefundLogService
             'msg'               => isset($params['msg']) ? $params['msg'] : '',
             'payment'           => isset($params['payment']) ? $params['payment'] : '',
             'payment_name'      => isset($params['payment_name']) ? $params['payment_name'] : '',
+            'refundment'        => isset($params['refundment']) ? intval($params['refundment']) : 0,
             'business_type'     => isset($params['business_type']) ? intval($params['business_type']) : 0,
             'return_params'     => empty($params['return_params']) ? '' : json_encode($params['return_params'], JSON_UNESCAPED_UNICODE),
             'add_time'          => time(),
@@ -97,6 +99,7 @@ class RefundLogService
         {
             $common_business_type_list = lang('common_business_type_list');
             $common_gender_list = lang('common_gender_list');
+            $common_order_aftersale_refundment_list = lang('common_order_aftersale_refundment_list');
             foreach($data as &$v)
             {
                 // 业务类型
@@ -104,6 +107,9 @@ class RefundLogService
 
                 // 性别
                 $v['gender_text'] = $common_gender_list[$v['gender']]['name'];
+
+                // 退款方式
+                $v['refundment_text'] = $common_order_aftersale_refundment_list[$v['refundment']]['name'];
 
                 // 时间
                 $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);

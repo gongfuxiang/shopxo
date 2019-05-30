@@ -1,5 +1,14 @@
 $(function()
 {
+    // 自动开启退货窗口
+    if($('.orderaftersale-delivery-submit').length > 0)
+    {
+        if($('.orderaftersale-delivery-submit').data('is-auto-delivery') == 1)
+        {
+            $('#popup-orderaftersale-delivery').modal('open');
+        }
+    }
+
     // 表单面板
     var $form_panel = $('.aftersale-form-panel');
 

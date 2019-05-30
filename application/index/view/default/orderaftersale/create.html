@@ -9,14 +9,14 @@
         <label>商品件数<span class="am-form-group-label-tips-must">必填</span></label>
         <div class="am-input-group am-input-group-sm number-container">
             <span class="am-input-group-label" data-type="0">-</span>
-            <input type="number" name="number" class="am-form-field" value="1" min="1" max="{{$goods.buy_number}}" data-validation-message="请填写有效的商品件数,最小1,最大{{$goods.buy_number}}" required />
+            <input type="number" name="number" class="am-form-field" value="{{$returned_data.returned_quantity}}" min="1" max="{{$returned_data.returned_quantity}}" data-validation-message="请填写有效的商品件数,最小1,最大{{$returned_data.returned_quantity}}" required />
             <span class="am-input-group-label" data-type="1">+</span>
         </div>
     </div>
 
     <div class="am-form-group">
         <label>退款金额<span class="am-form-group-label-tips-must">必填</span></label>
-        <input type="number" name="price" value="{{$order.pay_price-$order.refund_price}}" step="0.01" min="0.00" max="{{$order.pay_price-$order.refund_price}}" class="am-radius" placeholder="退款金额" data-validation-message="请输入有效的退款金额,最高{{$order.pay_price-$order.refund_price}}元" required />
+        <input type="number" name="price" value="{{$returned_data.refund_price}}" step="0.01" min="0.00" max="{{$returned_data.refund_price}}" class="am-radius" placeholder="退款金额" data-validation-message="请输入有效的退款金额,最高{{$returned_data.refund_price}}元" required />
     </div>
 
     <div class="am-form-group">

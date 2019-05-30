@@ -106,6 +106,9 @@ class Order extends Common
         // 评价状态
         $this->assign('common_comments_status_list', lang('common_comments_status_list'));
 
+        // 平台
+        $this->assign('common_platform_type', lang('common_platform_type'));
+
         // Excel地址
         $this->assign('excel_url', MyUrl('admin/order/excelexport', input()));
 

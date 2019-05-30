@@ -49,9 +49,10 @@ return array (
   'plugins_css' => 
   array (
     0 => 'app\\plugins\\commonrightnavigation\\Hook',
-    1 => 'app\\plugins\\share\\Hook',
-    2 => 'app\\plugins\\footercustomerservice\\Hook',
-    3 => 'app\\plugins\\membershiplevel\\Hook',
+    1 => 'app\\plugins\\freightfee\\Hook',
+    2 => 'app\\plugins\\share\\Hook',
+    3 => 'app\\plugins\\footercustomerservice\\Hook',
+    4 => 'app\\plugins\\membershiplevel\\Hook',
   ),
   'plugins_js' => 
   array (
@@ -116,8 +117,12 @@ return array (
   ),
   'plugins_service_buy_handle' => 
   array (
-    0 => 'app\\plugins\\newuserreduction\\Hook',
+    0 => 'app\\plugins\\freightfee\\Hook',
     1 => 'app\\plugins\\membershiplevel\\Hook',
+  ),
+  'plugins_view_goods_detail_title' => 
+  array (
+    0 => 'app\\plugins\\freightfee\\Hook',
   ),
   'plugins_view_goods_detail_photo_bottom' => 
   array (

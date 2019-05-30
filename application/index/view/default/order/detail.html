@@ -254,7 +254,7 @@
             <!-- 商品列表 -->
             {{if !empty($data.items)}}
                 <div class="order-goods">
-                    <table class="am-table">
+                    <table class="am-table am-table-centered">
                         <thead>
                             <tr>
                                 <th>商品信息</th>
@@ -274,7 +274,7 @@
                                             <div class="goods-base">
                                                 <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
                                                 {{if !empty($goods.spec)}}
-                                                    <ul class="goods-attr">
+                                                    <ul class="am-margin-top-xs am-text-left goods-attr">
                                                         {{foreach $goods.spec as $spec}}
                                                             <li>{{$spec.type}}：{{$spec.value}}</li>
                                                         {{/foreach}}
@@ -288,6 +288,9 @@
                                             {{/if}}
                                             <strong class="total-price-content">￥{{$goods.price}}</strong>
                                             <span class="wap-number">x{{$goods.buy_number}}</span>
+                                            {{if isset($goods['returned_quantity']) and $goods['returned_quantity'] gt 0}}
+                                                <span class="am-badge am-round am-badge-warning">已退 {{$goods.returned_quantity}}</span>
+                                            {{/if}}
                                         </div>
                                     </td>
                                     <td class="price am-hide-sm-only">
@@ -297,10 +300,16 @@
                                         <p class="line-price">￥{{$goods.price}}</p>
                                     </td>
                                     <td class="number am-hide-sm-only">
-                                        x{{$goods.buy_number}}
+                                        <span>x{{$goods.buy_number}}</span>
+                                        {{if isset($goods['returned_quantity']) and $goods['returned_quantity'] gt 0}}
+                                            <br /><span class="am-badge am-round am-badge-warning">已退 {{$goods.returned_quantity}}</span>
+                                        {{/if}}
                                     </td>
                                     <td class="total-price am-hide-sm-only">
                                         <strong class="total-price-content">￥{{$goods.total_price}}</strong>
+                                        {{if isset($goods['refund_price']) and $goods['refund_price'] gt 0}}
+                                            <br /><span class="am-badge am-round am-badge-warning">已退 {{$goods.refund_price}}</span>
+                                        {{/if}}
                                     </td>
                                 </tr>
                             {{/foreach}}

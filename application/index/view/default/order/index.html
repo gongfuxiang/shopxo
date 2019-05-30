@@ -174,6 +174,9 @@
                                         {{/if}}
                                         <strong class="line-price">￥{{$goods.price}}</strong>
                                         <span class="wap-number">x{{$goods.buy_number}}</span>
+                                        {{if isset($goods['returned_quantity']) and $goods['returned_quantity'] gt 0}}
+                                            <span class="am-badge am-round am-badge-warning">已退 {{$goods.returned_quantity}}</span>
+                                        {{/if}}
                                     </div>
                                 </td>
                                 <td class="row-price am-hide-sm-only">
@@ -183,7 +186,10 @@
                                     <p class="line-price">￥{{$goods.price}}</p>
                                 </td>
                                 <td class="row-number am-hide-sm-only">
-                                    x{{$goods.buy_number}}
+                                    <span>x{{$goods.buy_number}}</span>
+                                    {{if isset($goods['returned_quantity']) and $goods['returned_quantity'] gt 0}}
+                                        <br /><span class="am-badge am-round am-badge-warning">已退 {{$goods.returned_quantity}}</span>
+                                    {{/if}}
                                 </td>
                                 <td class="row-number">
                                     <a href="{{:MyUrl('index/orderaftersale/aftersale', ['oid'=>$order['id'], 'did'=>$goods['id']])}}" target="_blank">
@@ -195,12 +201,11 @@
                                                     <span class="am-text-secondary">查看进度</span>
                                                 {{/if}}
                                             {{/case}}
-                                            {{case 4}}
-                                                申请售后
-                                            {{/case}}
-                                            {{case 6}}
-                                                {{if empty($goods['orderaftersale']) or $goods['orderaftersale'] eq 5}}
-                                                    申请售后
+                                            {{case 4|6}}
+                                                {{if empty($goods['orderaftersale'])}}
+                                                    {{if $order['status'] eq 4}}
+                                                        申请售后
+                                                    {{/if}}
                                                 {{else /}}
                                                     {{if $goods['orderaftersale']['status'] eq 3}}
                                                         <span class="am-text-success">查看退款</span>
@@ -215,6 +220,9 @@
                                 {{if $keys eq 0}}
                                     <td class="row-total-price am-hide-sm-only" rowspan="{{$order.items_count}}">
                                         <strong class="total-price-content">￥{{$order.total_price}}</strong>
+                                        {{if isset($order['refund_price']) and $order['refund_price'] gt 0}}
+                                            <br /><span class="am-badge am-round am-badge-warning">已退 {{$order.refund_price}}</span>
+                                        {{/if}}
                                     </td>
                                     <td class="row-status" rowspan="{{$order.items_count}}">
                                         {{$order.status_name}}
@@ -225,7 +233,7 @@
                                     <td class="row-operate" rowspan="{{$order.items_count}}">
                                         <!-- 0待确认, 1已确认/待支付, 2已支付/待发货, 3已发货/待收货, 4已完成, 5已取消, 6已关闭 -->
                                         {{if in_array($order['status'], [0,1])}}
-                                            <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax submit-cancel" data-url="{{:MyUrl('index/order/cancel')}}" data-id="{{$order.id}}" data-view="reload"> 取消</button>
+                                            <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax submit-cancel" data-url="{{:MyUrl('index/order/cancel')}}" data-id="{{$order.id}}" data-view="reload"> 取消</button>
                                         {{/if}}
                                         {{if in_array($order['status'], [1])}}
                                             <a class="am-btn am-btn-primary am-btn-xs am-radius am-icon-paypal am-btn-block" href="{{:MyUrl('index/order/detail', ['id'=>$order['id'], 'is_pay_auto'=>1])}}" target="_blank"> 支付</a>

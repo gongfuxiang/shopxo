@@ -144,6 +144,7 @@ class OrderService
             'order_no'      => $order['order_no'],
             'name'          => '订单支付',
             'total_price'   => $order['total_price'],
+            'client_type'   => $order['client_type'],
             'notify_url'    => $url.'_notify.php',
             'call_back_url' => $call_back_url,
             'site_name'     => MyC('home_site_name', 'ShopXO', true),
@@ -154,16 +155,19 @@ class OrderService
         if(isset($ret['code']) && $ret['code'] == 0)
         {
             // 非线上支付处理
-            $params['user']['user_name_view'] = '用户-'.$params['user']['user_name_view'];
-            $pay_result = self::OrderPaymentUnderLine([
-                'order'     => $order,
-                'payment'   => $payment[0],
-                'user'      => $params['user'],
-                'subject'   => $params,
-            ]);
-            if($pay_result['code'] != 0)
+            if(in_array($payment[0]['payment'], config('shopxo.under_line_list')))
             {
-                return $pay_result;
+                $params['user']['user_name_view'] = '用户-'.$params['user']['user_name_view'];
+                $pay_result = self::OrderPaymentUnderLine([
+                    'order'     => $order,
+                    'payment'   => $payment[0],
+                    'user'      => $params['user'],
+                    'subject'   => $params,
+                ]);
+                if($pay_result['code'] != 0)
+                {
+                    return $pay_result;
+                }
             }
 
             // 支付信息返回
@@ -547,6 +551,10 @@ class OrderService
             {
                 $where[] = ['pay_status', '=', intval($params['pay_status'])];
             }
+            if(!empty($params['client_type']))
+            {
+                $where[] = ['client_type', '=', $params['client_type']];
+            }
             if(isset($params['status']) && $params['status'] != -1)
             {
                 // 多个状态,字符串以半角逗号分割
@@ -631,6 +639,7 @@ class OrderService
         {
             $order_status_list = lang('common_order_user_status');
             $order_pay_status = lang('common_order_pay_status');
+            $common_platform_type = lang('common_platform_type');
             foreach($data as &$v)
             {
                 // 订单处理前钩子
@@ -646,6 +655,9 @@ class OrderService
                 {
                     return $ret;
                 }
+
+                // 客户端
+                $v['client_type_name'] = isset($common_platform_type[$v['client_type']]) ? $common_platform_type[$v['client_type']]['name'] : '';
 
                 // 状态
                 $v['status_name'] = $order_status_list[$v['status']]['name'];

@@ -99,6 +99,7 @@
                     <th class="am-hide-sm-only">业务订单id</th>
                     <th class="am-hide-sm-only">支付平台交易号</th>
                     <th class="am-hide-sm-only">支付平台用户帐号</th>
+                    <th>退款方式</th>
                     <th>退款金额</th>
                     <th>订单支付金额</th>
                     <th class="am-hide-sm-only">描述</th>
@@ -136,6 +137,9 @@
                             </td>
                             <td class="am-hide-sm-only">
                                 {{if empty($v['buyer_user'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.buyer_user}}{{/if}}
+                            </td>
+                            <td>
+                                {{if empty($v['refundment_text'])}}<span class="cr-ddd">未填写</span>{{else /}}<span class="am-text-success">￥{{$v.refundment_text}}</span>{{/if}}
                             </td>
                             <td>
                                 {{if empty($v['refund_price'])}}<span class="cr-ddd">未填写</span>{{else /}}<span class="am-text-danger">￥{{$v.refund_price}}</span>{{/if}}

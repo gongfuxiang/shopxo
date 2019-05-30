@@ -169,7 +169,7 @@ form.form-validation .number-container .am-input-group-label {
 /**
  * 详情信息
  */
-.user-content-body .detail .am-u-md-6 .am-panel, .user-content-body .aftersale-form-panel {
+.user-content-body .detail .am-u-md-6 .am-panel {
     box-shadow: none;
     -webkit-box-shadow: none;
 }

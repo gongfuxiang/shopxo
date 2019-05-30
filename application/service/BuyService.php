@@ -752,6 +752,7 @@ class BuyService
             'extension_data'        => empty($buy['data']['extension_data']) ? '' : json_encode($buy['data']['extension_data']),
             'payment_id'            => isset($params['payment_id']) ? intval($params['payment_id']) : 0,
             'buy_number_count'      => array_sum(array_column($buy['data']['goods'], 'stock')),
+            'client_type'           => (APPLICATION_CLIENT_TYPE == 'pc' && IsMobile()) ? 'h5' : APPLICATION_CLIENT_TYPE,
             'add_time'              => time(),
         ];
         if($order['status'] == 1)
@@ -777,6 +778,7 @@ class BuyService
                     'images'            => $v['images_old'],
                     'original_price'    => $v['original_price'],
                     'price'             => $v['price'],
+                    'total_price'       => PriceNumberFormat($v['stock']*$v['price']),
                     'spec'              => empty($v['spec']) ? '' : json_encode($v['spec']),
                     'spec_weight'       => empty($v['spec_weight']) ? 0.00 : (float) $v['spec_weight'],
                     'spec_coding'       => empty($v['spec_coding']) ? '' : $v['spec_coding'],

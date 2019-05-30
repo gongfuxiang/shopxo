@@ -132,7 +132,7 @@
                                         类型：{{$v.type_text}}<br />
                                         原因：{{$v.reason}}<br />
                                         数量：{{$v.number}}<br />
-                                        金额：<span class="am-text-warning">￥{{$v.price}}</span><br />
+                                        金额：<span class="am-text-danger">￥{{$v.price}}</span><br />
                                         说明：{{$v.msg}}<br />
                                         时间：{{$v.apply_time_time}}
                                     </td>
@@ -167,7 +167,7 @@
                                     </td>
                                     <td>
                                         {{if $v['status'] eq 1 and $v['type'] eq 1}}
-                                            <a href="{{:MyUrl('index/orderaftersale/aftersale', ['id'=>$v['order_id'], 'gid'=>$v['goods_id']])}}" target="_blank" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-send am-btn-block"> 发货</a>
+                                            <a href="{{:MyUrl('index/orderaftersale/aftersale', ['oid'=>$v['order_id'], 'did'=>$v['order_detail_id'], 'is_auto_delivery'=>1])}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius am-icon-send am-btn-block"> 退货</a>
                                         {{/if}}
                                         {{if !in_array($v['status'], [3,5])}}
                                             <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax submit-cancel" data-url="{{:MyUrl('index/orderaftersale/cancel')}}" data-id="{{$v.id}}" data-view="reload"> 取消</button>

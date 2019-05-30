@@ -43,8 +43,7 @@ $(function()
 			if($this.data('verify') == 1)
 			{
 				// 开启图片验证码窗口
-				var $verify_win = $('#verify-win');
-				$verify_win.modal('open');
+				$('#verify-win').modal('open');
 				$verify_img.trigger("click");
 				$verify.focus();
 				return false;
@@ -104,7 +103,10 @@ $(function()
 								$this.text(send_msg);
 							}
 						}, 1000);
-						$verify_win.modal('close');
+						if($('#verify-win').length > 0)
+						{
+							$('#verify-win').modal('close');
+						}
 					} else {
 						$this.button('reset');
 						if(is_win == 1)

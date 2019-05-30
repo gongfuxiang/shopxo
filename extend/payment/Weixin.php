@@ -486,8 +486,8 @@ class Weixin
         // 退款原因
         $refund_reason = empty($params['refund_reason']) ? $params['order_no'].'订单退款'.$params['refund_price'].'元' : $params['refund_reason'];
 
-        // appid
-        $appid = (APPLICATION == 'app') ? $this->config['mini_appid'] :  $this->config['appid'];
+        // appid，默认使用公众号appid
+        $appid = (!isset($params['client_type']) || in_array($params['client_type'], ['pc', 'h5'])) ? $this->config['appid'] : $this->config['mini_appid'];
 
         // 请求参数
         $data = [

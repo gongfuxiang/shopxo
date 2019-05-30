@@ -131,6 +131,11 @@ class Orderaftersale extends Common
             $new_aftersale = OrderAftersaleService::OrderAftersaleList($data_params);
             $this->assign('new_aftersale_data', empty($new_aftersale['data'][0]) ? [] : $new_aftersale['data'][0]);
 
+            // 可退款退货
+            $returned = OrderAftersaleService::OrderAftersaleCalculation($order_id, $order_detail_id);
+            $this->assign('returned_data', $returned['data']);
+            //print_r($returned);
+
             // 静态数据
             $this->assign('common_order_aftersale_type_list', lang('common_order_aftersale_type_list'));
 
