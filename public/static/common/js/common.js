@@ -539,12 +539,10 @@ function Tree(id, url, level, is_add_node, is_delete_all)
 					html += '<span style="'+son_css+'">';
 					if((result.data[i]['icon_url'] || null) != null)
 					{
-						html += '<a href="'+result.data[i]['icon_url']+'" target="_blank"><img src="'+result.data[i]['icon_url']+'" width="20" height="20" style="margin-right:5px;" /></a>';
+						html += '<a href="'+result.data[i]['icon_url']+'" target="_blank"><img src="'+result.data[i]['icon_url']+'" width="20" height="20" class="am-vertical-align-middle am-margin-right-xs" /></a>';
 					}
 					html += '<span>'+(result.data[i]['name_alias'] || result.data[i]['name'])+'</span>';
 					html += '</span>';
-
-
 					// 数据 end
 
 					// 操作项 start

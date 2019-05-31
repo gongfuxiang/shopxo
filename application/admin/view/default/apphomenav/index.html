@@ -115,10 +115,10 @@
                             <td>{{$v.name}}</td>
                             <td>{{$v.platform_text}}</td>
                             <td>
-                                <div class="am-circle nav-icon-circle" {{if !empty($v['bg_color'])}}style="background-color:{{$v.bg_color}};"{{/if}}>
+                                <div class="am-circle nav-icon-circle am-vertical-align" {{if !empty($v['bg_color'])}}style="background-color:{{$v.bg_color}};"{{/if}}>
                                     {{if !empty($v['images_url'])}}
                                         <a href="{{$v['images_url']}}" target="_blank">
-                                            <img src="{{$v['images_url']}}" class="am-radius" width="30" height="30" />
+                                            <img src="{{$v['images_url']}}" class="am-radius am-vertical-align-middle" width="30" height="30" />
                                         </a>
                                     {{else /}}
                                         <span class="cr-ddd">暂无图片</span>
