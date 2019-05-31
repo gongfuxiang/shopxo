@@ -34,9 +34,7 @@
                 <div class="register-top">
                     {{if MyC('home_user_login_state') eq 1}}
                         <span>我已经注册，现在就</span>
-                        <a href="{{:MyUrl('index/user/logininfo')}}">
-                            <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius">登录</button>
-                        </a>
+                        <a href="{{:MyUrl('index/user/logininfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">登录</a>
                     {{/if}}
 
                     <!-- 用户注册页面钩子 -->
@@ -103,12 +101,14 @@
                                                 </div>
                                             {{/if}}
 
-                                            <div class="agreement">
-                                                <label class="am-checkbox am-success c-p">
-                                                    <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="请同意注册协议" data-am-ucheck required /> 阅读并同意
-                                                </label>
-                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">《服务协议》</a>
-                                            </div>
+                                            {{if MyC('home_is_enable_userregister_agreement') eq 1}}
+                                                <div class="agreement">
+                                                    <label class="am-checkbox am-success c-p">
+                                                        <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="请同意注册协议" data-am-ucheck required /> 阅读并同意
+                                                    </label>
+                                                    <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">《服务协议》</a>
+                                                </div>
+                                            {{/if}}
                                             
                                             <div class="am-form-group am-form-group-refreshing business-form-block">
                                                 <input type="hidden" name="type" value="username" />
@@ -147,12 +147,14 @@
                                                 </div>
                                             </div>
 
-                                            <div class="agreement">
-                                                <label class="am-checkbox am-success c-p">
-                                                    <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="请同意注册协议" data-am-ucheck required /> 阅读并同意
-                                                </label>
-                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">《服务协议》</a>
-                                            </div>
+                                            {{if MyC('home_is_enable_userregister_agreement') eq 1}}
+                                                <div class="agreement">
+                                                    <label class="am-checkbox am-success c-p">
+                                                        <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="请同意注册协议" data-am-ucheck required /> 阅读并同意
+                                                    </label>
+                                                    <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">《服务协议》</a>
+                                                </div>
+                                            {{/if}}
 
                                             <div class="am-form-group am-form-group-refreshing business-form-block">
                                                 <input type="hidden" name="type" value="sms" />
@@ -191,12 +193,14 @@
                                                 </div>
                                             </div>
 
-                                            <div class="agreement">
-                                                <label class="am-checkbox am-success c-p">
-                                                    <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="请同意注册协议" data-am-ucheck required /> 阅读并同意
-                                                </label>
-                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">《服务协议》</a>
-                                            </div>
+                                            {{if MyC('home_is_enable_userregister_agreement') eq 1}}
+                                                <div class="agreement">
+                                                    <label class="am-checkbox am-success c-p">
+                                                        <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="请同意注册协议" data-am-ucheck required /> 阅读并同意
+                                                    </label>
+                                                    <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">《服务协议》</a>
+                                                </div>
+                                            {{/if}}
 
                                             <div class="am-form-group am-form-group-refreshing business-form-block">
                                                 <input type="hidden" name="type" value="email" />

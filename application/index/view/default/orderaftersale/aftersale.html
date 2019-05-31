@@ -158,6 +158,10 @@
                                     当前订单商品售后，管理员已确认，请尽快完成退货！<a href="{{:MyUrl('index/orderaftersale/index', ['keywords'=>$new_aftersale_data['order_no']])}}">详情查看</a>
                                     <button type="button" class="am-btn am-btn-primary am-radius am-margin-left-sm orderaftersale-delivery-submit" data-am-modal="{target: '#popup-orderaftersale-delivery'}" data-is-auto-delivery="{{if isset($params['is_auto_delivery'])}}{{$params.is_auto_delivery}}{{else /}}0{{/if}}">立即退货</button>
                                 </div>
+                                <div class="am-alert am-alert-warning">
+                                    <span>退货地址：</span>
+                                    <span class="am-text-primary">{{:MyC('home_order_aftersale_return_goods_address', '管理员未填写', true)}}</span>
+                                </div>
                                 {{include file="orderaftersale/delivery" /}}
                             {{else /}}
                                 <div class="am-alert">

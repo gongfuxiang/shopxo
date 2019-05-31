@@ -40,6 +40,15 @@
                     {{/foreach}}
                 </select>
             </div>
+
+            <div class="am-form-group">
+                <label>{{$data.home_is_enable_userregister_agreement.name}}</label>
+                <select name="{{$data.home_is_enable_userregister_agreement.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_is_enable_userregister_agreement.error_tips}}" required>
+                    {{foreach $site_img_verify_state_list as $v}}
+                        <option value="{{$v.value}}" {{if isset($data['home_is_enable_userregister_agreement']['value']) and $data['home_is_enable_userregister_agreement']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
             
             <div class="am-form-group am-form-group-refreshing">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />
