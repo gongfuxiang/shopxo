@@ -78,11 +78,16 @@ class AuthService
             return DataReturn($ret['msg'], -1);
         }
 
-        // 获取用户信息
-        $ret = self::RemoteUserInfo($ret['data']);
-        if($ret['code'] != 0)
+        // 获取插件配置
+        $ret = PluginsService::PluginsData('weixinwebauthorization');
+        if($ret['code'] == 0 && isset($ret['data']['auth_type']) && $ret['data']['auth_type'] == 1)
         {
-            return DataReturn($ret['msg'], -1);
+            // 获取用户信息
+            $ret = self::RemoteUserInfo($ret['data']);
+            if($ret['code'] != 0)
+            {
+                return DataReturn($ret['msg'], -1);
+            }
         }
 
         // 处理用户数据
