@@ -669,7 +669,7 @@ class OrderService
                 $v['express_name'] = ExpressService::ExpressName($v['express_id']);
 
                 // 支付方式
-                $v['payment_name'] = ($v['status'] <= 1) ? null : PaymentService::OrderPaymentName($v['payment_id']);
+                $v['payment_name'] = ($v['status'] <= 1) ? null : PaymentService::OrderPaymentName($v['id']);
 
                 // 收件人地址
                 $v['receive_province_name'] = RegionService::RegionName($v['receive_province']);
