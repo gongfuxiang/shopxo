@@ -496,7 +496,6 @@ class Weixin
             'nonce_str'         => md5(time().rand().$params['order_no']),
             'sign_type'         => 'MD5',
             'transaction_id'    => $params['trade_no'],
-            'out_trade_no'      => $params['order_no'],
             'out_refund_no'     => $params['order_no'].GetNumberCode(6),
             'total_fee'         => intval($params['pay_price']*100),
             'refund_fee'        => intval($params['refund_price']*100),
