@@ -79,8 +79,8 @@ class AuthService
         }
 
         // 获取插件配置
-        $ret = PluginsService::PluginsData('weixinwebauthorization');
-        if($ret['code'] == 0 && isset($ret['data']['auth_type']) && $ret['data']['auth_type'] == 1)
+        $base = PluginsService::PluginsData('weixinwebauthorization');
+        if($base['code'] == 0 && isset($base['data']['auth_type']) && $base['data']['auth_type'] == 1)
         {
             // 获取用户信息
             $ret = self::RemoteUserInfo($ret['data']);
