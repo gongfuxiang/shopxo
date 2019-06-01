@@ -505,13 +505,12 @@ class Weixin
 
         // 请求接口处理
         $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/secapi/pay/refund', $this->ArrayToXml($data), true));
-        print_r($result);die;
         if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['return_msg']) && $result['return_msg'] == 'OK')
         {
             // 统一返回格式
             $data = [
                 'out_trade_no'  => isset($result['out_trade_no']) ? $result['out_trade_no'] : '',
-                'trade_no'      => isset($result['transaction_id']) ? $result['transaction_id'] : '',
+                'trade_no'      => isset($result['transaction_id']) ? $result['transaction_id'] : (isset($result['err_code_des']) ? $result['err_code_des'] : ''),
                 'buyer_user'    => isset($result['refund_id']) ? $result['refund_id'] : '',
                 'refund_price'  => isset($result['refund_fee']) ? $result['refund_fee']/100 : 0.00,
                 'return_params' => $result,
