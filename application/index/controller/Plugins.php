@@ -104,16 +104,26 @@ class Plugins extends Common
         $plugins = '\app\plugins\\'.$pluginsname.'\index\\'.ucfirst($pluginscontrol);
         if(!class_exists($plugins))
         {
-            $this->assign('msg', ucfirst($pluginscontrol).' 应用控制器未定义');
-            return $this->fetch('public/tips_error');
+            if(IS_AJAX)
+            {
+                return DataReturn(ucfirst($pluginscontrol).' 应用控制器未定义', -1);
+            } else {
+                $this->assign('msg', ucfirst($pluginscontrol).' 应用控制器未定义');
+                return $this->fetch('public/tips_error');
+            }
         }
 
         // 调用方法
         $obj = new $plugins();
         if(!method_exists($obj, $pluginsaction))
         {
-            $this->assign('msg', ucfirst($pluginsaction).' 应用方法未定义');
-            return $this->fetch('public/tips_error');
+            if(IS_AJAX)
+            {
+                return DataReturn(ucfirst($pluginsaction).' 应用方法未定义', -1);
+            } else {
+                $this->assign('msg', ucfirst($pluginsaction).' 应用方法未定义');
+                return $this->fetch('public/tips_error');
+            }
         }
         return $obj->$pluginsaction($params);
     }
