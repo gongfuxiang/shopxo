@@ -2163,5 +2163,21 @@ class GoodsService
         }
         return DataReturn('删除失败', -100);
     }
+
+    /**
+     * 获取商品分类字段字段数据
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-06-02T01:51:31+0800
+     * @param    [int]           $category_id [商品分类id]
+     * @param    [string]        $field       [指定字段值]
+     * @param    [string]        $default     [默认值]
+     */
+    public static function GoodsCategoryValue($category_id, $field, $default = null)
+    {
+        $value = Db::name('GoodsCategory')->where(['id'=>intval($category_id)])->value($field);
+        return ($value === null) ? $default : $value;
+    }
 }
 ?>

@@ -12,6 +12,53 @@
 // 应用公共文件
 
 /**
+ * 字符串转ascii
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @datetime 2019-06-02T01:13:47+0800
+ * @param    [string]          $str [字符串]
+ * @return   [string]               [转换后的ascii]
+ */
+function StrToAscii($str)
+{
+    $change_after = '';
+    if(!empty($str))
+    {
+        $str = mb_convert_encoding($str, 'GB2312');
+        for($i=0;$i<strlen($str);$i++){
+            $temp_str = dechex(ord($str[$i]));
+            $change_after .= $temp_str[1].$temp_str[0];
+        }
+    }
+    return strtoupper($change_after);
+}
+
+
+/**
+ * ascii转字符串
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @datetime 2019-06-02T01:14:04+0800
+ * @param    [string]       $ascii [ascii]
+ * @return   [string]              [转换后的字符串]
+ */
+function AsciiToStr($ascii)
+{
+    $str = '';
+    if(!empty($ascii))
+    {
+        $asc_arr = str_split(strtolower($ascii), 2);
+        for($i=0; $i<count($asc_arr); $i++)
+        {
+            $str .= chr(hexdec($asc_arr[$i][1].$asc_arr[$i][0]));
+        }
+    }
+    return mb_convert_encoding($str, 'UTF-8', 'GB2312');
+}
+
+/**
  * 获取当前系统所在根路径
  * @author   Devil
  * @blog    http://gong.gg/

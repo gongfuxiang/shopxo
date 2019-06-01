@@ -20,7 +20,7 @@
             {{if !empty($home_search_keywords)}}
                 <ul class="search-hot-keywords">
                     {{foreach $home_search_keywords as $v}}
-                        <li><a href="{{:MyUrl('index/search/index', ['wd'=>$v])}}" target="_blank">{{$v}}</a></li>
+                        <li><a href="{{:MyUrl('index/search/index', ['wd'=>StrToAscii($v)])}}" target="_blank">{{$v}}</a></li>
                     {{/foreach}}
                 </ul>
             {{/if}}
