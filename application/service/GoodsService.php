@@ -130,7 +130,7 @@ class GoodsService
     public static function GoodsCategoryList($where = [])
     {
         $where['is_enable'] = 1;
-        $field = 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended';
+        $field = 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended,seo_title,seo_keywords,seo_desc';
         $data = Db::name('GoodsCategory')->field($field)->where($where)->order('sort asc')->select();
         return self::GoodsCategoryDataDealWith($data);
     }
@@ -1000,6 +1000,13 @@ class GoodsService
             ],
             [
                 'checked_type'      => 'length',
+                'key_name'          => 'seo_title',
+                'checked_data'      => '100',
+                'is_checked'        => 1,
+                'error_msg'         => 'SEO标题格式 最多100个字符',
+            ],
+            [
+                'checked_type'      => 'length',
                 'key_name'          => 'seo_keywords',
                 'checked_data'      => '130',
                 'is_checked'        => 1,
@@ -1070,6 +1077,7 @@ class GoodsService
             'home_recommended_images'   => $attachment['data']['home_recommended_images'],
             'brand_id'                  => isset($params['brand_id']) ? intval($params['brand_id']) : 0,
             'video'                     => $attachment['data']['video'],
+            'seo_title'                 => empty($params['seo_title']) ? '' : $params['seo_title'],
             'seo_keywords'              => empty($params['seo_keywords']) ? '' : $params['seo_keywords'],
             'seo_desc'                  => empty($params['seo_desc']) ? '' : $params['seo_desc'],
         ];
@@ -2002,7 +2010,7 @@ class GoodsService
         $id = isset($params['id']) ? intval($params['id']) : 0;
 
         // 获取数据
-        $field = 'id,pid,icon,name,sort,is_enable,bg_color,big_images,vice_name,describe,is_home_recommended';
+        $field = 'id,pid,icon,name,sort,is_enable,bg_color,big_images,vice_name,describe,is_home_recommended,seo_title,seo_keywords,seo_desc';
         $data = Db::name('GoodsCategory')->field($field)->where(['pid'=>$id])->order('sort asc')->select();
         if(!empty($data))
         {
@@ -2052,6 +2060,27 @@ class GoodsService
                 'is_checked'        => 1,
                 'error_msg'         => '描述格式 最多200个字符',
             ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'seo_title',
+                'checked_data'      => '100',
+                'is_checked'        => 1,
+                'error_msg'         => 'SEO标题格式 最多100个字符',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'seo_keywords',
+                'checked_data'      => '130',
+                'is_checked'        => 1,
+                'error_msg'         => 'SEO关键字格式 最多130个字符',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'seo_desc',
+                'checked_data'      => '230',
+                'is_checked'        => 1,
+                'error_msg'         => 'SEO描述格式 最多230个字符',
+            ],
         ];
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
@@ -2079,6 +2108,9 @@ class GoodsService
             'is_enable'             => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
             'icon'                  => $attachment['data']['icon'],
             'big_images'            => $attachment['data']['big_images'],
+            'seo_title'             => empty($params['seo_title']) ? '' : $params['seo_title'],
+            'seo_keywords'          => empty($params['seo_keywords']) ? '' : $params['seo_keywords'],
+            'seo_desc'              => empty($params['seo_desc']) ? '' : $params['seo_desc'],
         ];
 
         // 父级id宇当前id不能相同
@@ -2162,22 +2194,6 @@ class GoodsService
             return DataReturn('删除成功', 0);
         }
         return DataReturn('删除失败', -100);
-    }
-
-    /**
-     * 获取商品分类字段字段数据
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-06-02T01:51:31+0800
-     * @param    [int]           $category_id [商品分类id]
-     * @param    [string]        $field       [指定字段值]
-     * @param    [string]        $default     [默认值]
-     */
-    public static function GoodsCategoryValue($category_id, $field, $default = null)
-    {
-        $value = Db::name('GoodsCategory')->where(['id'=>intval($category_id)])->value($field);
-        return ($value === null) ? $default : $value;
     }
 }
 ?>

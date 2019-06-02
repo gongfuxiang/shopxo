@@ -97,6 +97,9 @@
 							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
 						</div>
 						{{include file="lib/enable" /}}
+						<div class="am-alert am-alert-secondary">
+							{{include file="lib/seo" /}}
+						</div>
 						<div class="am-form-group am-form-group-refreshing">
 							<input type="hidden" name="id" />
 							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
@@ -109,7 +112,7 @@
 		<!-- save win end -->
 
         <!-- list start -->
-		<div id="tree" class="m-t-15" data-rank="3" data-additional='[{"field":"bg_color", "value":"", "type":"input"}, {"field":"bg_color", "value":"", "type":"css", "tag":"button.colorpicker-submit", "style":"background-color"}, {"field":"icon", "value":"", "type":"input"}, {"field":"icon_url", "value":"{{$attachment_host}}/static/admin/default/images/default-images.jpg", "type":"attr", "tag":"ul.goods-category-icon-images-view li img", "style":"src"}, {"field":"big_images", "value":"", "type":"input"}, {"field":"big_images_url", "value":"{{$attachment_host}}/static/admin/default/images/default-images.jpg", "type":"attr", "tag":"ul.goods-category-big_images-images-view li img", "style":"src"}, {"field":"vice_name", "value":"", "type":"input"}, {"field":"describe", "value":"", "type":"textarea"}, {"field":"is_home_recommended", "value":"0", "type":"input"}]'>
+		<div id="tree" class="m-t-15" data-rank="3" data-additional='[{"field":"bg_color", "value":"", "type":"input"}, {"field":"bg_color", "value":"", "type":"css", "tag":"button.colorpicker-submit", "style":"background-color"}, {"field":"icon", "value":"", "type":"input"}, {"field":"icon_url", "value":"{{$attachment_host}}/static/admin/default/images/default-images.jpg", "type":"attr", "tag":"ul.goods-category-icon-images-view li img", "style":"src"}, {"field":"big_images", "value":"", "type":"input"}, {"field":"big_images_url", "value":"{{$attachment_host}}/static/admin/default/images/default-images.jpg", "type":"attr", "tag":"ul.goods-category-big_images-images-view li img", "style":"src"}, {"field":"vice_name", "value":"", "type":"input"}, {"field":"describe", "value":"", "type":"textarea"}, {"field":"is_home_recommended", "value":"0", "type":"input"}, {"field":"seo_title", "value":"", "type":"input"}, {"field":"seo_keywords", "value":"", "type":"input"}, {"field":"seo_desc", "value":"", "type":"textarea"}]'>
 			<div class="m-t-30 t-c">
 				<img src="{{$attachment_host}}/static/common/images/loading.gif" />
 				<p>处理中...</p>

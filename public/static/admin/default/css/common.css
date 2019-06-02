@@ -565,3 +565,10 @@ table.am-table .am-btn-danger:hover {
 #tree table.am-table td button.am-btn {
     vertical-align: unset;
 }
+
+/**
+ * 警告框下表单最后一个去掉虚线
+ */
+.am-alert .am-form-group:last-child {
+    border-bottom: 0;
+}

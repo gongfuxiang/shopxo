@@ -52,6 +52,11 @@
 				<label>内容</label>
 				<textarea class="am-radius am-validate" name="content" rows="5" minlength="10" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>'article'])}}" placeholder="内容长度最少 10~105000 个字符" {{else /}} placeholder="内容长度最少 10~105000 个字符更多编辑功能请使用电脑访问" {{/if}} data-validation-message="内容长度最少 10~105000 个字符" required>{{if !empty($data)}}{{$data.content}}{{/if}}</textarea>
 			</div>
+
+			<div class="am-alert am-alert-secondary">
+				{{include file="lib/seo" /}}
+			</div>
+						
 			<div class="am-form-group am-form-group-refreshing">
 				<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>

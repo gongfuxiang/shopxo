@@ -68,17 +68,42 @@ class Search extends Common
             // 参数
             $this->assign('params', $this->params);
 
-            // 浏览器名称
-            if(!empty($this->params['category_id']))
-            {
-                $seo_name = GoodsService::GoodsCategoryValue($this->params['category_id'], 'name', '商品搜索');
-            } else {
-                $seo_name = empty($this->params['wd']) ? '商品搜索' : $this->params['wd'];
-            }
-            $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle($seo_name, 1));
+            // seo
+            $this->SetSeo();
 
             return $this->fetch();
         }
+    }
+
+    /**
+     * seo设置
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-06-02T21:29:04+0800
+     */
+    private function SetSeo()
+    {
+        $seo_title = $this->params['wd'];
+        if(!empty($this->params['category_id']))
+        {
+            $category = GoodsService::GoodsCategoryRow(['id'=>$this->params['category_id'], 'field'=>'name,seo_title,seo_keywords,seo_desc']);
+            if(!empty($category))
+            {
+                $seo_title = empty($category['seo_title']) ? $category['name'] : $category['seo_title'];
+
+                // 关键字和描述
+                if(!empty($category['seo_keywords']))
+                {
+                    $this->assign('home_seo_site_keywords', $category['seo_keywords']);
+                }
+                if(!empty($category['seo_desc']))
+                {
+                    $this->assign('home_seo_site_description', $category['seo_desc']);
+                }
+            }                
+        }
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle(empty($seo_title) ? '商品搜索' : $seo_title, 1));
     }
 
     /**

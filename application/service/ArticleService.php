@@ -181,6 +181,27 @@ class ArticleService
                 'checked_data'      => '10,105000',
                 'error_msg'         => '内容 10~105000 个字符',
             ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'seo_title',
+                'checked_data'      => '100',
+                'is_checked'        => 1,
+                'error_msg'         => 'SEO标题格式 最多100个字符',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'seo_keywords',
+                'checked_data'      => '130',
+                'is_checked'        => 1,
+                'error_msg'         => 'SEO关键字格式 最多130个字符',
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'seo_desc',
+                'checked_data'      => '230',
+                'is_checked'        => 1,
+                'error_msg'         => 'SEO描述格式 最多230个字符',
+            ],
         ];
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
@@ -203,6 +224,9 @@ class ArticleService
             'image_count'           => count($image),
             'is_enable'             => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
             'is_home_recommended'   => isset($params['is_home_recommended']) ? intval($params['is_home_recommended']) : 0,
+            'seo_title'             => empty($params['seo_title']) ? '' : $params['seo_title'],
+            'seo_keywords'          => empty($params['seo_keywords']) ? '' : $params['seo_keywords'],
+            'seo_desc'              => empty($params['seo_desc']) ? '' : $params['seo_desc'],
         ];
 
         if(empty($params['id']))

@@ -38,8 +38,8 @@
 
 			<!-- plugins config start -->
 			{{if !empty($data['element'])}}
-				<div class="plugins-element">
-					<p class="tips">该区域为插件配置填写项，请按照插件文档填写相应的值。</p>
+				<div class="am-alert am-alert-secondary">
+					<label class="am-text-sm am-text-warning">该区域为插件配置填写项，请按照插件文档填写相应的值。</label>
 					{{foreach $data.element as $element}}
 						<div class="am-form-group">
 							<label class="block">{{$element.title}}</label>

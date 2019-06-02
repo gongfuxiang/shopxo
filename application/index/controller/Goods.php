@@ -78,14 +78,15 @@ class Goods extends Common
             $this->assign('goods', $ret['data'][0]);
 
             // seo
-            $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle($ret['data'][0]['title'], 2));
+            $seo_title = empty($ret['data'][0]['seo_title']) ? $ret['data'][0]['title'] : $ret['data'][0]['seo_title'];
+            $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle($seo_title, 2));
             if(!empty($ret['data'][0]['seo_keywords']))
             {
-                $this->assign('home_seo_site_keywords', SeoService::BrowserSeoTitle($ret['data'][0]['seo_keywords'], 2));
+                $this->assign('home_seo_site_keywords', $ret['data'][0]['seo_keywords']);
             }
             if(!empty($ret['data'][0]['seo_desc']))
             {
-                $this->assign('home_seo_site_description', SeoService::BrowserSeoTitle($ret['data'][0]['seo_desc'], 2));
+                $this->assign('home_seo_site_description', $ret['data'][0]['seo_desc']);
             }
 
             // 二维码

@@ -48,7 +48,7 @@ class Article extends Common
 		$id = input('id');
 		$params = [
 			'where' => ['a.is_enable'=>1, 'a.id'=>$id],
-			'field' => 'a.id,a.title,a.title_color,a.jump_url,a.content,a.access_count,a.article_category_id,a.add_time',
+			'field' => 'a.id,a.title,a.title_color,a.jump_url,a.content,a.access_count,a.article_category_id,seo_title,seo_keywords,seo_desc,a.add_time',
 			'm' => 0,
 			'n' => 1,
 		];
@@ -64,12 +64,21 @@ class Article extends Common
 				return redirect($article['data'][0]['jump_url']);
 			}
 
-			// 浏览器标题
-			$this->assign('home_seo_site_title', SeoService::BrowserSeoTitle($article['data'][0]['title']));
-
 			// 获取分类和文字
 			$article_category_content = ArticleService::ArticleCategoryListContent();
             $this->assign('category_list', $article_category_content['data']);
+
+            // seo
+            $seo_title = empty($article['data'][0]['seo_title']) ? $article['data'][0]['title'] : $article['data'][0]['seo_title'];
+            $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle($seo_title, 2));
+            if(!empty($article['data'][0]['seo_keywords']))
+            {
+                $this->assign('home_seo_site_keywords', $article['data'][0]['seo_keywords']);
+            }
+            if(!empty($article['data'][0]['seo_desc']))
+            {
+                $this->assign('home_seo_site_description', $article['data'][0]['seo_desc']);
+            }
 
 			$this->assign('article', $article['data'][0]);
 			return $this->fetch();
