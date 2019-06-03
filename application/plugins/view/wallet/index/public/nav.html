@@ -58,7 +58,7 @@
             <form class="am-form form-validation-plugins-recharge-modal" action="{{:PluginsHomeUrl('wallet', 'recharge', 'create')}}" method="POST" request-type="ajax-fun" request-value="PluginsRechargeBack">
                 <label>充值金额</label>
                 <div class="am-input-group am-input-group-sm">
-                    <input type="number" autocomplete="off" name="money" step="0.01" class="am-radius" placeholder="充值金额" data-validation-message="请输入充值金额" required />
+                    <input type="number" autocomplete="off" name="money" min="0.01" step="0.01" class="am-radius" placeholder="充值金额" data-validation-message="请输入充值金额" required />
                     <span class="am-input-group-btn">
                         <button type="button" class="am-btn am-btn-default am-radius">元</button>
                     </span>

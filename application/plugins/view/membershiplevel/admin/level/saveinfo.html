@@ -49,9 +49,9 @@
                 <div class="am-form-group">
                     <label>规则值</label>
                     <div class="rules-value">
-                        <input type="number" placeholder="最小值" name="rules_min" step="0.01" data-validation-message="请填写规则最小值" class="am-radius" {{if isset($data['rules_min'])}} value="{{$data.rules_min}}"{{/if}} required />
+                        <input type="number" placeholder="最小值" name="rules_min" min="0" step="0.01" data-validation-message="请填写规则最小值" class="am-radius" {{if isset($data['rules_min'])}} value="{{$data.rules_min}}"{{/if}} required />
                         <span>~</span>
-                        <input type="number" placeholder="最大值" step="0.01" name="rules_max" data-validation-message="请填写规则最大值" class="am-radius" {{if isset($data['rules_max'])}} value="{{$data.rules_max}}"{{/if}} required />
+                        <input type="number" placeholder="最大值" min="0" step="0.01" name="rules_max" data-validation-message="请填写规则最大值" class="am-radius" {{if isset($data['rules_max'])}} value="{{$data.rules_max}}"{{/if}} required />
                     </div>
                 </div>
 
