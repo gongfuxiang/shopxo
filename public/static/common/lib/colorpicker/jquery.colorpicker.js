@@ -82,8 +82,8 @@
                     }
                 }
             }
-            colorTable='<table width=232 border="0" cellspacing="0" cellpadding="0" style="border:1px solid #000;">'
-            +'<tr height=30><td colspan=21 bgcolor=#cccccc>'
+            colorTable='<table width=232 border="0" cellspacing="0" cellpadding="0" style="border:1px solid #000;height: 24px;line-height: 21px;">'
+            +'<tr><td colspan=21 bgcolor=#cccccc>'
             +'<table cellpadding="0" cellspacing="1" border="0" style="border-collapse: collapse">'
             +'<tr><td width="3"><td><input type="text" id="DisColor" size="3" disabled style="border:solid 1px #000000;background-color:#ffff00"></td>'
             +'<td width="3"><td><input type="text" id="HexColor" size="7" style="border:inset 1px;font-family:Arial;" value="#000000"><a href="javascript:void(0);" id="_determine">确定</a> | <a href="javascript:void(0);" id="_cclose">关闭</a> | <a href="javascript:void(0);" id="_creset">清除</a></td></tr></table></td></table>'

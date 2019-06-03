@@ -369,3 +369,10 @@ button.colorpicker-submit img {
     }
 }
 
+
+/**
+ * 框架组件代码优化
+ */
+.am-radio input[type="radio"], .am-radio-inline input[type="radio"], .am-checkbox input[type="checkbox"], .am-checkbox-inline input[type="checkbox"] {
+    margin: -3px;
+}
