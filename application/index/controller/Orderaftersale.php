@@ -134,10 +134,12 @@ class Orderaftersale extends Common
             // 可退款退货
             $returned = OrderAftersaleService::OrderAftersaleCalculation($order_id, $order_detail_id);
             $this->assign('returned_data', $returned['data']);
-            //print_r($returned);
 
             // 静态数据
             $this->assign('common_order_aftersale_type_list', lang('common_order_aftersale_type_list'));
+
+            // 编辑器文件存放地址
+            $this->assign('editor_path_type', 'aftersale_'.$this->user['id'].'_'.$order_id.'_'.$order_detail_id);
 
             $this->assign('params', $params);
             return $this->fetch();
