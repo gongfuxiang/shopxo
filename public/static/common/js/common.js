@@ -1868,6 +1868,7 @@ $(function()
 	                var $tag = $($('body').attr('view-tag'));
 	                var max_number = $tag.data('max-number') || 0;
 	                var is_delete = ($tag.data('delete') == undefined) ? 1 : $tag.data('delete');
+	                var form_name = $tag.data('form-name') || '';
 	                var is_attr = $tag.data('is-attr') || null;
 
 	                // 只限制一条
@@ -1882,6 +1883,7 @@ $(function()
 	                	// 是否直接赋值属性
 	                	if(i == 0 && is_attr != null)
 	                	{
+	                		$('form [name="'+form_name+'"]').val(result[i].src);
 	                		$tag.attr(is_attr, result[i].src);
 	                		break;
 	                	}
@@ -1894,7 +1896,7 @@ $(function()
 	                    }
 
 	                    var html = '<li>';
-	                        html += '<input type="text" name="'+$tag.data('form-name')+'" value="'+result[i].src+'" />';
+	                        html += '<input type="text" name="'+form_name+'" value="'+result[i].src+'" />';
 	                        html += '<img src="'+result[i].src+'" />';
 	                        if(is_delete == 1)
 	                        {
@@ -1914,6 +1916,7 @@ $(function()
 	                var $tag = $($('body').attr('view-tag'));
 	                var max_number = $tag.data('max-number') || 0;
 	                var is_delete = ($tag.data('delete') == undefined) ? 1 : $tag.data('delete');
+	                var form_name = $tag.data('form-name') || '';
 	                var is_attr = $tag.data('is-attr') || null;
 
 	                // 只限制一条
@@ -1928,6 +1931,7 @@ $(function()
 	                	// 是否直接赋值属性
 	                	if(i == 0 && is_attr != null)
 	                	{
+	                		$('form [name="'+form_name+'"]').val(result[i].src);
 	                		$tag.attr(is_attr, result[i].src);
 	                		break;
 	                	}
@@ -1941,7 +1945,7 @@ $(function()
 
 	                    var $tag = $($('body').attr('view-tag'));
 	                    var html = '<li>';
-	                        html += '<input type="text" name="'+$tag.data('form-name')+'" value="'+result[i].src+'" />';
+	                        html += '<input type="text" name="'+form_name+'" value="'+result[i].src+'" />';
 	                        html += '<video src="'+result[i].src+'" controls>your browser does not support the video tag</video>';
 	                        if(is_delete == 1)
 	                        {
@@ -1967,6 +1971,7 @@ $(function()
 	                var $tag = $($('body').attr('view-tag'));
 	                var max_number = $tag.data('max-number') || 0;
 	                var is_delete = ($tag.data('delete') == undefined) ? 1 : $tag.data('delete');
+	                var form_name = $tag.data('form-name') || '';
 	                var is_attr = $tag.data('is-attr') || null;
 
 	                // 只限制一条
@@ -1981,6 +1986,7 @@ $(function()
 	                	// 是否直接赋值属性
 	                	if(i == 0 && is_attr != null)
 	                	{
+	                		$('form [name="'+form_name+'"]').val(result[i].src);
 	                		$tag.attr(is_attr, result[i].src);
 	                		break;
 	                	}
@@ -1994,7 +2000,7 @@ $(function()
 
 	                    var $tag = $($('body').attr('view-tag'));
 	                    var html = '<li>';
-	                        html += '<input type="text" name="'+$tag.data('form-name')+'" value="'+result[i].src+'" />';
+	                        html += '<input type="text" name="'+form_name+'" value="'+result[i].src+'" />';
 	                        html += '<a href="'+result[i].src+'">'+result[i].src+'</a>';
 	                        if(is_delete == 1)
 	                        {
