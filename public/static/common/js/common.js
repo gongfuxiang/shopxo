@@ -1868,6 +1868,7 @@ $(function()
 	                var $tag = $($('body').attr('view-tag'));
 	                var max_number = $tag.data('max-number') || 0;
 	                var is_delete = ($tag.data('delete') == undefined) ? 1 : $tag.data('delete');
+	                var is_attr = $tag.data('is-attr') || null;
 
 	                // 只限制一条
 	                if(max_number <= 1)
@@ -1878,6 +1879,14 @@ $(function()
 	                // 循环处理
 	                for(var i in result)
 	                {
+	                	// 是否直接赋值属性
+	                	if(i == 0 && is_attr != null)
+	                	{
+	                		$tag.attr(is_attr, result[i].src);
+	                		break;
+	                	}
+
+	                	// 是否限制数量
 	                    if(max_number > 0 && $tag.find('li').length >= max_number)
 	                    {
 	                        Prompt('最多上传'+max_number+'张图片');
@@ -1905,6 +1914,7 @@ $(function()
 	                var $tag = $($('body').attr('view-tag'));
 	                var max_number = $tag.data('max-number') || 0;
 	                var is_delete = ($tag.data('delete') == undefined) ? 1 : $tag.data('delete');
+	                var is_attr = $tag.data('is-attr') || null;
 
 	                // 只限制一条
 	                if(max_number <= 1)
@@ -1915,6 +1925,14 @@ $(function()
 	                // 循环处理
 	                for(var i in result)
 	                {
+	                	// 是否直接赋值属性
+	                	if(i == 0 && is_attr != null)
+	                	{
+	                		$tag.attr(is_attr, result[i].src);
+	                		break;
+	                	}
+
+	                	// 是否限制数量
 	                    if(max_number > 0 && $tag.find('li').length >= max_number)
 	                    {
 	                        Prompt('最多上传'+max_number+'个视频');
@@ -1949,6 +1967,7 @@ $(function()
 	                var $tag = $($('body').attr('view-tag'));
 	                var max_number = $tag.data('max-number') || 0;
 	                var is_delete = ($tag.data('delete') == undefined) ? 1 : $tag.data('delete');
+	                var is_attr = $tag.data('is-attr') || null;
 
 	                // 只限制一条
 	                if(max_number <= 1)
@@ -1959,6 +1978,14 @@ $(function()
 	                // 循环处理
 	                for(var i in result)
 	                {
+	                	// 是否直接赋值属性
+	                	if(i == 0 && is_attr != null)
+	                	{
+	                		$tag.attr(is_attr, result[i].src);
+	                		break;
+	                	}
+
+	                	// 是否限制数量
 	                    if(max_number > 0 && $tag.find('li').length >= max_number)
 	                    {
 	                        Prompt('最多上传'+max_number+'个附件');
