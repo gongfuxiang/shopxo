@@ -5,6 +5,5 @@
 *.lock
 .tea
 .htaccess
-route.php
 *payment_*_respond.php
 *payment_*_notify.php
