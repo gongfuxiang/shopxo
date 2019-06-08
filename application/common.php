@@ -12,6 +12,72 @@
 // 应用公共文件
 
 /**
+ * RGB 转 十六进制
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @datetime 2019-06-08T18:38:16+0800
+ * @param    [string]        $rgb [reg颜色值]
+ */
+function RgbToHex($rgb)
+{
+    $regexp = "/^rgb\(([0-9]{0,3})\,\s*([0-9]{0,3})\,\s*([0-9]{0,3})\)/";
+    preg_match($regexp, $rgb, $match);
+    $re = array_shift($match);
+    $hex_color = "#";
+    $hex = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
+    for ($i = 0; $i < 3; $i++)
+    {
+        $r = null;
+        $c = $match[$i];
+        $hex_array = [];
+        while ($c > 16)
+        {
+            $r = $c % 16;
+            $c = ($c / 16) >> 0;
+            array_push($hex_array, $hex[$r]);
+        }
+        array_push($hex_array, $hex[$c]);
+        $ret = array_reverse($hex_array);
+        $item = implode('', $ret);
+        $item = str_pad($item, 2, '0', STR_PAD_LEFT);
+        $hex_color .= $item;
+    }
+    return $hex_color;
+}
+
+/**
+ * 十六进制 转 RGB
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @datetime 2019-06-08T18:33:45+0800
+ * @param    [string]        $hex_color [十六进制颜色值]
+ */
+function HexToRgb($hex_color) {
+    $color = str_replace('#', '', $hex_color);
+    if(strlen($color) > 3)
+    {
+        $rgb = [
+            'r' => hexdec(substr($color, 0, 2)),
+            'g' => hexdec(substr($color, 2, 2)),
+            'b' => hexdec(substr($color, 4, 2))
+        ];
+    } else {
+        $color = $hex_color;
+        $r = substr($color, 0, 1) . substr($color, 0, 1);
+        $g = substr($color, 1, 1) . substr($color, 1, 1);
+        $b = substr($color, 2, 1) . substr($color, 2, 1);
+        $rgb = [
+            'r' => hexdec($r),
+            'g' => hexdec($g),
+            'b' => hexdec($b)
+        ];
+    }
+    return $rgb;
+}
+
+/**
  * 字符串转ascii
  * @author   Devil
  * @blog     http://gong.gg/
