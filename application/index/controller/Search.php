@@ -24,8 +24,6 @@ use app\service\GoodsService;
  */
 class Search extends Common
 {
-    private $params;
-
     /**
      * 构造方法
      * @author   Devil
@@ -115,9 +113,6 @@ class Search extends Common
      */
     private function ParamsInit()
     {
-        // 参数
-        $params = input();
-
         // 品牌id
         $this->params['brand_id'] = isset($params['brand_id']) ? intval($params['brand_id']) : 0;
 

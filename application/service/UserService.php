@@ -1934,11 +1934,19 @@ class UserService
      * @version 1.0.0
      * @date    2019-05-05
      * @desc    description
-     * @param   [int]          $user_id [用户id]
+     * @param   [int]          $user_id     [用户id]
+     * @param   [array]        $user        [指定用户信息]
+     * @param   [boolean]      $is_privacy  [是否隐私处理展示用户名]
      */
-    public static function GetUserViewInfo($user_id)
+    public static function GetUserViewInfo($user_id, $user = [], $is_privacy = false)
     {
-        $user = Db::name('User')->field('username,nickname,mobile,email,avatar')->find($user_id);
+        // 是否指定用户信息
+        if(empty($user) && !empty($user_id))
+        {
+            $user = Db::name('User')->field('username,nickname,mobile,email,avatar')->find($user_id);
+        }
+        
+        // 开始处理用户信息
         if(!empty($user))
         {
             $user['user_name_view'] = $user['username'];
@@ -1953,6 +1961,12 @@ class UserService
             if(empty($user['user_name_view']))
             {
                 $user['user_name_view'] = $user['email'];
+            }
+
+            // 处理展示用户
+            if($is_privacy === true)
+            {
+                $user['user_name_view'] = substr($user['user_name_view'], 0, 3).'***'.substr($user['user_name_view'], -3);
             }
 
             // 头像
