@@ -41,6 +41,9 @@ class Common extends Controller
     // 用户信息
     protected $user;
 
+    // 请求参数
+    protected $params;
+
     /**
      * 构造方法
      * @author   Devil
@@ -186,9 +189,18 @@ class Common extends Controller
     private function CommonInit()
     {
         // 用户数据
-        if(session('user') != null)
+        if(session('user') !== null)
         {
             $this->user = UserService::LoginUserInfo();
+        }
+
+        // 公共参数
+        $this->params = input();
+
+        // 推荐人
+        if(!empty($this->params['referrer']))
+        {
+            session('share_referrer_id', intval($this->params['referrer']));
         }
     }
 
@@ -201,9 +213,8 @@ class Common extends Controller
      */
     public function ViewInit()
     {
-        // 参数
-        $params = input();
-        $this->assign('params', $params);
+        // 公共参数
+        $this->assign('params', $this->params);
 
         // 商店信息
         $this->assign('common_customer_store_tel', MyC('common_customer_store_tel'));

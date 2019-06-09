@@ -1086,7 +1086,6 @@ class UserService
                 return DataReturn('验证码错误', -11);
             }
         }
-        
 
         // 是否需要审核
         $common_register_is_enable_audit = MyC('common_register_is_enable_audit', 0);
@@ -1655,9 +1654,28 @@ class UserService
             return DataReturn('账号已存在', -10);
         }
 
+        // 推荐人id
+        if(isset($params['referrer']))
+        {
+            $data['referrer'] = intval($params['referrer']);
+        } else {
+            $referrer = session('share_referrer_id');
+            if($referrer !== null)
+            {
+                $data['referrer'] = intval($referrer);
+            }
+        }
+
+        // 添加用户
         $user_id = Db::name('User')->insertGetId($data);
         if($user_id > 0)
         {
+            // 清除推荐id
+            if(isset($data['referrer']))
+            {
+                session('share_referrer_id', null);
+            }
+
             // 返回前端html代码
             $body_html = [];
 
@@ -1792,7 +1810,6 @@ class UserService
         // 不存在添加/则更新
         if(empty($temp_user))
         {
-            $data['referrer'] = isset($params['referrer']) ? intval($params['referrer']) : 0;
             $data['add_time'] = time();
             $user_ret = self::UserInsert($data, $params);
             if($user_ret['code'] == 0)
