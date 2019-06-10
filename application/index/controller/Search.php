@@ -114,20 +114,20 @@ class Search extends Common
     private function ParamsInit()
     {
         // 品牌id
-        $this->params['brand_id'] = isset($params['brand_id']) ? intval($params['brand_id']) : 0;
+        $this->params['brand_id'] = isset($this->params['brand_id']) ? intval($this->params['brand_id']) : 0;
 
         // 分类id
-        $this->params['category_id'] = isset($params['category_id']) ? intval($params['category_id']) : 0;
+        $this->params['category_id'] = isset($this->params['category_id']) ? intval($this->params['category_id']) : 0;
 
         // 筛选价格id
-        $this->params['screening_price_id'] = isset($params['screening_price_id']) ? intval($params['screening_price_id']) : 0;
+        $this->params['screening_price_id'] = isset($this->params['screening_price_id']) ? intval($this->params['screening_price_id']) : 0;
 
         // 搜索关键字
-        $this->params['wd'] = empty($params['wd']) ? '' : (IS_AJAX ? trim($params['wd']) : AsciiToStr($params['wd']));
+        $this->params['wd'] = empty($this->params['wd']) ? '' : (IS_AJAX ? trim($this->params['wd']) : AsciiToStr($this->params['wd']));
 
         // 排序方式
-        $this->params['order_by_field'] = empty($params['order_by_field']) ? 'default' : $params['order_by_field'];
-        $this->params['order_by_type'] = empty($params['order_by_type']) ? 'desc' : $params['order_by_type'];
+        $this->params['order_by_field'] = empty($this->params['order_by_field']) ? 'default' : $this->params['order_by_field'];
+        $this->params['order_by_type'] = empty($this->params['order_by_type']) ? 'desc' : $this->params['order_by_type'];
 
         // 用户信息
         $this->params['user_id'] = isset($this->user['id']) ? $this->user['id'] : 0;
