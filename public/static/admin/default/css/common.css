@@ -26,7 +26,7 @@ time, mark, audio, video {
 .fw-100 {font-weight:100;}
 .fw-700 {font-weight:700;}
 #common-prompt {position:fixed;top:0;left:0;right:0;text-align:center;margin-top:0;padding:5px;font-size:14px;z-index:10000;}
-.am-popover, .am-radius, .am-selected-btn { border-radius:2px !important; }
+.am-popover { border-radius:2px !important; }
 .am-popover * {font-size: 12px;}
 .am-icon-trash-o:before {width:12px !important;}
 .fr {float:right !important;}
@@ -72,6 +72,7 @@ input:hover, select:hover, textarea:hover, .chosen-choices:hover, .chosen-single
 .am-alert-tips { background-color: #ffffe9; border-color: #faebd2; color: #888; }
 .am-alert-tips, .am-alert-tips * { font-size: 12px; }
 .am-btn-sm { font-size: 12px; }
+.am-input-group-sm > .am-input-group-label { line-height: 26px; }
 
 body {margin:0;color:#666;}
 html,body {position:relative;background:#fff;height:100%;width:100%;}
@@ -382,8 +383,9 @@ a:focus {outline:0;text-decoration:none;}
 .waves-effect.purple .waves-ripple {background-color:rgba(91,105,188,0.2);}
 .waves-effect.waves-inverse .waves-ripple {background-color:rgba(59,62,71,0.4);}
 /* fixed-layout 固定头部和边栏布局*/
-@media only screen and (max-width:641px) {.am-dropdown-content {border:0px;}
-  header .tpl-header-list-user-nick {color:#fff;}
+@media only screen and (max-width:641px) {
+    header .am-dropdown-content {border:0px;}
+    header .tpl-header-list-user-nick {color:#fff;}
 }
 header { background-color:#4386fb !important; border-color:#4386fb; color:#fff; }
 header, header.am-topbar { min-height:35px; }
