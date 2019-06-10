@@ -15,7 +15,7 @@
         <form action="{{:MyUrl('index/search/index')}}" method="POST">
             <div class="search-group">
                 <input id="search-input" name="wd" type="text" placeholder="其实搜索很简单^_^ !" value="{{if !empty($params['wd'])}}{{$params.wd}}{{/if}}" autocomplete="off" />
-                <input id="ai-topsearch" class="submit am-btn" placeholder="其实搜索很简单^_^ !" index="1" type="submit" value="搜索" />
+                <input id="ai-topsearch" class="submit am-btn" index="1" type="submit" value="搜索" />
             </div>
             {{if !empty($home_search_keywords)}}
                 <ul class="search-hot-keywords">
