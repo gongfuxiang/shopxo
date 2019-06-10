@@ -271,5 +271,78 @@ class WalletService
         Db::commit();
         return DataReturn('操作成功', 0);
     }
+
+    /**
+     * 用户钱包有效金额更新
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-06-10
+     * @desc    description
+     * @param   [int]          $user_id         [用户id]
+     * @param   [float]        $money           [操作金额]
+     * @param   [int]          $type            [类型（0减少, 1增加）]
+     * @param   [string]       $field           [金额字段, 默认normal_money有效金额, frozen_money冻结金额, give_money赠送金额]
+     * @param   [int]          $business_type   [业务类型（0系统, 1充值, 2提现, 3消费）]
+     * @param   [string]       $msg_title       [附加描述标题]
+     */
+    public static function UserWalletMoneyUpdate($user_id, $money, $type, $field = 'normal_money', $business_type = 0, $msg_title = '钱包变更')
+    {
+        // 获取用户钱包
+        $wallet = self::UserWallet($user_id);
+        if($wallet['code'] == 0)
+        {
+            // 金额字段
+            $money_field = ['normal_money' => 0, 'frozen_money '=> 1, 'give_money' => 2];
+            if(!in_array($field, $money_field))
+            {
+                return DataReturn('钱包操作金额字段有误', -10);
+            }
+
+            // 操作金额
+            $money = PriceNumberFormat($money);
+
+            // 开始处理
+            Db::startTrans();
+
+            // 钱包数据
+            $data = [
+                $field      => ($type == 1) ? PriceNumberFormat($wallet['data'][$field]+$money) : PriceNumberFormat($wallet['data'][$field]-$money),
+                'upd_time'  => time(),
+            ];
+            if(!Db::name('PluginsWallet')->where(['id'=>$wallet['data']['id']])->update($data))
+            {
+                Db::rollback();
+                return DataReturn('钱包操作失败', -100);
+            }
+
+            // 日志
+            $log_data = [
+                'user_id'           => $wallet['data']['user_id'],
+                'wallet_id'         => $wallet['data']['id'],
+                'business_type'     => $business_type,
+                'operation_type'    => $type,
+                'money_type'        => $money_field[$field],
+                'operation_money'   => $money,
+                'original_money'    => $wallet['data'][$field],
+                'latest_money'      => $data[$field],
+            ];
+            $operation_type_text = ($log_data['operation_type'] == 1) ? '增加' : '减少';
+            $log_data['msg'] = $msg_title.' [ '.self::$money_type_list[$log_data['money_type']]['name'].'金额'.$operation_type_text.$log_data['operation_money'].'元 ]';
+            if(!self::WalletLogInsert($log_data))
+            {
+                Db::rollback();
+                return DataReturn('钱包日志添加失败', -101);
+            }
+
+            // 消息通知
+            MessageService::MessageAdd($wallet['data']['user_id'], '钱包变更', $log_data['msg'], 0, $wallet['data']['id']);
+
+            // 处理成功
+            Db::commit();
+            return DataReturn('操作成功', 0);
+        }
+        return $wallet;
+    }
 }
 ?>
