@@ -94,7 +94,14 @@ function StrToAscii($str)
         $str = mb_convert_encoding($str, 'GB2312');
         for($i=0;$i<strlen($str);$i++){
             $temp_str = dechex(ord($str[$i]));
-            $change_after .= $temp_str[1].$temp_str[0];
+            if(isset($temp_str[1]))
+            {
+                $change_after .= $temp_str[1];
+            }
+            if(isset($temp_str[0]))
+            {
+                $change_after .= $temp_str[0];
+            }
         }
     }
     return strtoupper($change_after);
