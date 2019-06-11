@@ -743,7 +743,7 @@ class BuyService
             'receive_city'          => $address['city'],
             'receive_county'        => $address['county'],
             'receive_address'       => $address['address'],
-            'user_note'             => isset($params['user_note']) ? htmlentities($params['user_note']) : '',
+            'user_note'             => isset($params['user_note']) ? str_replace(['"', "'"], '', strip_tags($params['user_note'])) : '',
             'status'                => (intval(MyC('common_order_is_booking', 0)) == 1) ? 0 : 1,
             'preferential_price'    => ($buy['data']['base']['preferential_price'] <= 0.00) ? 0.00 : $buy['data']['base']['preferential_price'],
             'increase_price'        => ($buy['data']['base']['increase_price'] <= 0.00) ? 0.00 : $buy['data']['base']['increase_price'],
