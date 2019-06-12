@@ -241,7 +241,7 @@ function FromInit(form_name)
 			// 二选一校验
 			if($(validity.field).is('.js-choice-one'))
 			{
-				var tag = $(validity.field).data('choice-one-to');
+				var tag = $(validity.field).attr('data-choice-one-to');
 				if(typeof($(validity.field).attr('required')) == 'undefined' && typeof($(tag).attr('required')) == 'undefined')
 				{
 					validity.valid = true;
@@ -258,7 +258,7 @@ function FromInit(form_name)
 		{
 			// 错误信息
 			var $field = $(validity.field);
-			var msg = $field.data('validationMessage') || this.getValidationMessage(validity);
+			var msg = $field.attr('data-validationMessage') || this.getValidationMessage(validity);
 			Prompt(msg);
 		},
 
@@ -277,7 +277,7 @@ function FromInit(form_name)
 					editor.focus();
 
 					// 错误信息
-					var msg = $editor_tag.data('validationMessage') || $editor_tag.getValidationMessage(validity);
+					var msg = $editor_tag.attr('data-validationMessage') || $editor_tag.getValidationMessage(validity);
 					Prompt(msg);
 				}
 			}
@@ -514,7 +514,7 @@ function Tree(id, url, level, is_add_node, is_delete_all)
 			{
 				html = (id != 0) ? '' : '<table class="am-table am-table-striped am-table-hover">';
 				is_add_node = is_add_node || 0;
-				var is_astrict_rank = parseInt($('#tree').data('rank')) || 0;
+				var is_astrict_rank = parseInt($('#tree').attr('data-rank')) || 0;
 				for(var i in result.data)
 				{
 					// 获取class
@@ -608,7 +608,7 @@ function ImageFileUploadShow(class_name, show_img, default_images)
 {
 	$(document).on("change", class_name, function(imgFile)
 	{
-		show_img = $(this).data('image-tag') || null;
+		show_img = $(this).attr('data-image-tag') || null;
 		var status = false;
 		if((imgFile.target.value || null) != null)
 		{
@@ -632,7 +632,7 @@ function ImageFileUploadShow(class_name, show_img, default_images)
 				}
 			}
 		}
-		var default_img = $(show_img).data('default') || null;
+		var default_img = $(show_img).attr('data-default') || null;
 		if(status == false && ((default_images || null) != null || default_img != null))
 		{
 			$(show_img).attr('src', default_images || default_img);
@@ -650,7 +650,7 @@ function VideoFileUploadShow(class_name, show_video, default_video)
 {
 	$(document).on("change", class_name, function(imgFile)
 	{
-		show_video = $(this).data('video-tag') || null;
+		show_video = $(this).attr('data-video-tag') || null;
 		var status = false;
 		if((imgFile.target.value || null) != null)
 		{
@@ -674,7 +674,7 @@ function VideoFileUploadShow(class_name, show_video, default_video)
 				}
 			}
 		}
-		var default_video = $(show_video).data('default') || null;
+		var default_video = $(show_video).attr('data-default') || null;
 		if(status == false && ((default_video || null) != null || default_video != null))
 		{
 			$(show_video).attr('src', default_video || default_video);
@@ -789,11 +789,11 @@ function FomatFloat(value, pos)
  */
 function DataDelete(e)
 {
-	var id = e.data('id');
-	var url = e.data('url');
-	var view = e.data('view') || 'delete';
-	var value = e.data('value') || null;
-	var ext_delete_tag = e.data('ext-delete-tag') || null;
+	var id = e.attr('data-id');
+	var url = e.attr('data-url');
+	var view = e.attr('data-view') || 'delete';
+	var value = e.attr('data-value') || null;
+	var ext_delete_tag = e.attr('data-ext-delete-tag') || null;
 
 	if((id || null) == null || (url || null) == null)
 	{
@@ -885,9 +885,9 @@ function DataDelete(e)
  */
 function ConfirmDataDelete(e)
 {
-	var title = e.data('title') || '温馨提示';
-	var msg = e.data('msg') || '删除后不可恢复、确认操作吗？';
-	var is_confirm = (e.data('is-confirm') == undefined || e.data('is-confirm') == 1) ? 1 : 0;
+	var title = e.attr('data-title') || '温馨提示';
+	var msg = e.attr('data-msg') || '删除后不可恢复、确认操作吗？';
+	var is_confirm = (e.attr('data-is-confirm') == undefined || e.attr('data-is-confirm') == 1) ? 1 : 0;
 
 	if(is_confirm == 1)
 	{
@@ -915,11 +915,11 @@ function ConfirmDataDelete(e)
  */
 function AjaxRequest(e)
 {
-	var id = e.data('id');
-	var field = e.data('field') || '';
-	var value = e.data('value') || '';
-	var url = e.data('url');
-	var view = e.data('view') || '';
+	var id = e.attr('data-id');
+	var field = e.attr('data-field') || '';
+	var value = e.attr('data-value') || '';
+	var url = e.attr('data-url');
+	var view = e.attr('data-view') || '';
 
 	// ajax
 	$.ajax({
@@ -984,8 +984,8 @@ function AjaxRequest(e)
  */
 function ConfirmNetworkAjax(e)
 {
-	var title = e.data('title') || '温馨提示';
-	var msg = e.data('msg') || '操作后不可恢复、确认继续吗？';
+	var title = e.attr('data-title') || '温馨提示';
+	var msg = e.attr('data-msg') || '操作后不可恢复、确认继续吗？';
 
 	AMUI.dialog.confirm({
 		title: title,
@@ -1072,7 +1072,7 @@ function FullscreenEscEvent()
 		var $fullscreen = $('.fullscreen-event');
 		if(($fullscreen.attr('data-status') || 0) == 1)
 		{
-			$fullscreen.find('.fullscreen-text').text($fullscreen.data('fulltext-open') || '开启全屏');
+			$fullscreen.find('.fullscreen-text').text($fullscreen.attr('data-fulltext-open') || '开启全屏');
 			$fullscreen.attr('data-status', 0);
 		}
 	}
@@ -1263,12 +1263,12 @@ $(function()
 		{
 			if(FullscreenOpen())
 			{
-				$(this).find('.fullscreen-text').text($(this).data('fulltext-exit') || '退出全屏');
+				$(this).find('.fullscreen-text').text($(this).attr('data-fulltext-exit') || '退出全屏');
 			}
 		} else {
 			if(FullscreenExit())
 			{
-				$(this).find('.fullscreen-text').text($(this).data('fulltext-open') || '开启全屏');
+				$(this).find('.fullscreen-text').text($(this).attr('data-fulltext-open') || '开启全屏');
 			}
 		}
 		$(this).attr('data-status', status == 0 ? 1 : 0);
@@ -1337,11 +1337,11 @@ $(function()
 	{		
 		// 获取参数
 		var $tag = $(this);
-		var id = $tag.data('id');
-		var state = ($tag.data('state') == 1) ? 0 : 1;
-		var url = $tag.data('url');
-		var field = $tag.data('field') || '';
-		var is_update_status = $tag.data('is-update-status') || 0;
+		var id = $tag.attr('data-id');
+		var state = ($tag.attr('data-state') == 1) ? 0 : 1;
+		var url = $tag.attr('data-url');
+		var field = $tag.attr('field') || '';
+		var is_update_status = $tag.attr('data-is-update-status') || 0;
 		if(id == undefined || url == undefined)
 		{
 			Prompt('参数配置有误');
@@ -1384,7 +1384,7 @@ $(function()
 							}
 						}
 					}
-					$tag.data('state', state);
+					$tag.attr('data-state', state);
 				} else {
 					Prompt(result.msg);
 				}
@@ -1412,7 +1412,7 @@ $(function()
 		// 额外处理数据
 		if($('#tree').length > 0)
 		{
-			var additional = $('#tree').data('additional') || null;
+			var additional = $('#tree').attr('data-additional') || null;
 			if(additional != null)
 			{
 				for(var i in additional)
@@ -1470,17 +1470,17 @@ $(function()
 	$(document).on('click', '.submit-edit', function()
 	{
 		// 窗口标签
-		var tag = $(this).data('tag') || 'data-save-win';
+		var tag = $(this).attr('data-tag') || 'data-save-win';
 
 		// 更改窗口名称
 		if($('#'+tag).length > 0)
 		{
 			$title = $('#'+tag).find('.am-popup-title');
-			$title.text($title.data('edit-title'));
+			$title.text($title.attr('data-edit-title'));
 		}
 		
 		// 填充数据
-		var data = FunSaveWinAdditional($(this).data('json'), 'edit');
+		var data = FunSaveWinAdditional($(this).attr('data-json'), 'edit');
 
 		// 开始填充数据
 		FormDataFill(data, '#'+tag);
@@ -1499,7 +1499,7 @@ $(function()
 		TreeFormInit();
 
 		// 父节点赋值
-		var id = parseInt($(this).data('id')) || 0;
+		var id = parseInt($(this).attr('data-id')) || 0;
 		$('#data-save-win').find('input[name="pid"], select[name="pid"]').val(id);
 
 		// 多选插件事件更新
@@ -1518,7 +1518,7 @@ $(function()
 	 */
 	$('#tree').on('click', '.tree-submit', function()
 	{
-		var id = parseInt($(this).data('id')) || 0;
+		var id = parseInt($(this).attr('data-id')) || 0;
 		// 状态
 		if($('#data-list-'+id).find('.tree-submit').attr('state') == 'ok')
 		{
@@ -1533,10 +1533,10 @@ $(function()
 				$('.tree-pid-'+id).css('display', 'none');
 			}
 		} else {
-			var url = $(this).data('url') || '';
-			var level = parseInt($(this).data('level')) || 0;
-			var is_add_node = parseInt($(this).data('is_add_node')) || 0;
-			var is_delete_all = parseInt($(this).data('is_delete_all')) || 0;
+			var url = $(this).attr('data-url') || '';
+			var level = parseInt($(this).attr('data-level')) || 0;
+			var is_add_node = parseInt($(this).attr('data-is_add_node')) || 0;
+			var is_delete_all = parseInt($(this).attr('data-is_delete_all')) || 0;
 			if(id > 0 && url != '')
 			{
 				Tree(id, url, level, is_add_node, is_delete_all);
@@ -1570,7 +1570,7 @@ $(function()
 	{
 		// 更改窗口名称
 		$title = $('#data-save-win').find('.am-popup-title');
-		$title.text($title.data('add-title'));
+		$title.text($title.attr('data-add-title'));
 
 		// 填充数据
 		var data = {"id":"", "pid":0, "name":"", "sort":0, "is_enable":1, "icon":""};
@@ -1609,7 +1609,7 @@ $(function()
 	 */
 	$(document).on('click', '.submit-ajax', function()
 	{
-		var is_confirm = $(this).data('is-confirm');
+		var is_confirm = $(this).attr('data-is-confirm');
 		if(is_confirm == undefined || is_confirm == 1)
 		{
 			ConfirmNetworkAjax($(this));
@@ -1633,7 +1633,7 @@ $(function()
 		if(value != null)
 		{
 			$.ajax({
-				url:$('.region-linkage').data('url'),
+				url:$('.region-linkage').attr('data-url'),
 				type:'POST',
 				data:{"pid": value},
 				dataType:'json',
@@ -1643,7 +1643,7 @@ $(function()
 					{
 						/* html拼接 */
 						var html = '';
-						var value = $('.region-linkage select[name='+next_name+']').data('value') || 0;
+						var value = $('.region-linkage select[name='+next_name+']').attr('data-value') || 0;
 						for(var i in result.data)
 						{
 							html += '<option value="'+result.data[i]['id']+'"';
@@ -1704,14 +1704,14 @@ $(function()
 		RegionNodeData(0, 'province', 'province');
 
 		// 市初始化
-		var value = $('.region-linkage select[name=province]').data('value') || 0;
+		var value = $('.region-linkage select[name=province]').attr('data-value') || 0;
 		if(value != 0)
 		{
 			RegionNodeData(value, 'city', 'city');
 		}
 
 		// 区/县初始化
-		var value = $('.region-linkage select[name=city]').data('value') || 0;
+		var value = $('.region-linkage select[name=city]').attr('data-value') || 0;
 		if(value != 0)
 		{
 			RegionNodeData(value, 'county', 'county');
@@ -1738,7 +1738,7 @@ $(function()
 
 		var map = new BMap.Map("map", {enableMapClick:false});
 		var point = new BMap.Point(116.331398,39.897445);
-		var level = $('#map').data('level') || 16;
+		var level = $('#map').attr('data-level') || 16;
 		map.centerAndZoom(point, level);
 
 		// 创建地址解析器实例
@@ -1791,10 +1791,10 @@ $(function()
         {
             fileNames += '<span class="am-badge">' + this.name + '</span> ';
         });
-        $($(this).data('tips-tag')).html(fileNames);
+        $($(this).attr('data-tips-tag')).html(fileNames);
 
         // 触发配合显示input地址事件
-        var input_tag = $(this).data('choice-one-to') || null;
+        var input_tag = $(this).attr('data-choice-one-to') || null;
         if(input_tag != null)
         {
         	$(input_tag).trigger('blur');
@@ -1816,10 +1816,10 @@ $(function()
         {
             fileNames += '<span class="am-badge">' + this.name + '</span> ';
         });
-        $($(this).data('tips-tag')).html(fileNames);
+        $($(this).attr('data-tips-tag')).html(fileNames);
 
         // 触发配合显示input地址事件
-        var input_tag = $(this).data('choice-one-to') || null;
+        var input_tag = $(this).attr('data-choice-one-to') || null;
         if(input_tag != null)
         {
         	$(input_tag).trigger('blur');
@@ -1866,10 +1866,10 @@ $(function()
 	            if(result.length > 0)
 	            {
 	                var $tag = $($('body').attr('view-tag'));
-	                var max_number = $tag.data('max-number') || 0;
-	                var is_delete = ($tag.data('delete') == undefined) ? 1 : $tag.data('delete');
-	                var form_name = $tag.data('form-name') || '';
-	                var is_attr = $tag.data('is-attr') || null;
+	                var max_number = $tag.attr('data-max-number') || 0;
+	                var is_delete = ($tag.attr('data-delete') == undefined) ? 1 : $tag.attr('data-delete');
+	                var form_name = $tag.attr('data-form-name') || '';
+	                var is_attr = $tag.attr('data-is-attr') || null;
 
 	                // 只限制一条
 	                if(max_number <= 1)
@@ -1914,10 +1914,10 @@ $(function()
 	            if(result.length > 0)
 	            {
 	                var $tag = $($('body').attr('view-tag'));
-	                var max_number = $tag.data('max-number') || 0;
-	                var is_delete = ($tag.data('delete') == undefined) ? 1 : $tag.data('delete');
-	                var form_name = $tag.data('form-name') || '';
-	                var is_attr = $tag.data('is-attr') || null;
+	                var max_number = $tag.attr('data-max-number') || 0;
+	                var is_delete = ($tag.attr('data-delete') == undefined) ? 1 : $tag.attr('data-delete');
+	                var form_name = $tag.attr('data-form-name') || '';
+	                var is_attr = $tag.attr('data-is-attr') || null;
 
 	                // 只限制一条
 	                if(max_number <= 1)
@@ -1969,10 +1969,10 @@ $(function()
 	            if(result.length > 0)
 	            {
 	                var $tag = $($('body').attr('view-tag'));
-	                var max_number = $tag.data('max-number') || 0;
-	                var is_delete = ($tag.data('delete') == undefined) ? 1 : $tag.data('delete');
-	                var form_name = $tag.data('form-name') || '';
-	                var is_attr = $tag.data('is-attr') || null;
+	                var max_number = $tag.attr('data-max-number') || 0;
+	                var is_delete = ($tag.attr('data-delete') == undefined) ? 1 : $tag.attr('data-delete');
+	                var form_name = $tag.attr('data-form-name') || '';
+	                var is_attr = $tag.attr('data-is-attr') || null;
 
 	                // 只限制一条
 	                if(max_number <= 1)
@@ -2025,18 +2025,18 @@ $(function()
     	}
 
     	// 容器是否指定
-        if(($(this).data('view-tag') || null) == null)
+        if(($(this).attr('data-view-tag') || null) == null)
         {
             Prompt('未指定容器');
             return false;
         }
 
         // 容器
-        var $view_tag = $($(this).data('view-tag'));
+        var $view_tag = $($(this).attr('data-view-tag'));
 
         // 加载组建类型
         var dialog_type = null;
-        switch($view_tag.data('dialog-type'))
+        switch($view_tag.attr('data-dialog-type'))
         {
             // 视频
             case 'video' :
@@ -2060,7 +2060,7 @@ $(function()
         }
 
         // 是否指定form名称
-        if(($view_tag.data('form-name') || null) == null)
+        if(($view_tag.attr('data-form-name') || null) == null)
         {
             Prompt('未指定表单name名称');
             return false;
@@ -2072,7 +2072,7 @@ $(function()
         dialog.open();
 
         // 赋值参数
-        $('body').attr('view-tag',$(this).data('view-tag'));
+        $('body').attr('view-tag',$(this).attr('data-view-tag'));
     });
 
     // 删除容器中的内容
@@ -2085,7 +2085,7 @@ $(function()
         $(this).parent().remove();
 
         // 数据处理
-        var max_number = $tag.data('max-number') || 0;
+        var max_number = $tag.attr('data-max-number') || 0;
         if(max_number > 0)
         {
             if($tag.find('li').length < max_number)

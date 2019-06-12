@@ -67,18 +67,17 @@
 					<select name="category_id" class="am-radius chosen-select c-p" multiple="multiple" minchecked="1" data-placeholder="请选择..." data-validation-message="请至少选择一个商品分类" required>
 						{{if !empty($category_list)}}
 							{{foreach $category_list as $v}}
-								<optgroup label="{{$v.name}}">
-									{{if !empty($v['items'])}}
-										{{foreach $v.items as $vs}}
-											<option style="padding-left: 30px;" value="{{$vs.id}}" {{if !empty($data['category_ids']) and in_array($vs['id'], $data['category_ids'])}}selected{{/if}}>二级-{{$vs.name}}</option>
-											{{if !empty($vs['items'])}}
-												{{foreach $vs.items as $vss}}
-													<option style="padding-left: 60px;" value="{{$vss.id}}" {{if !empty($data['category_ids']) and in_array($vss['id'], $data['category_ids'])}}selected{{/if}}>三级-{{$vss.name}}</option>
-												{{/foreach}}
-											{{/if}}
-										{{/foreach}}
-									{{/if}}
-								</optgroup>
+								<option value="{{$v.id}}" {{if !empty($data['category_ids']) and in_array($v['id'], $data['category_ids'])}}selected{{/if}}>一级 - {{$v.name}}</option>
+								{{if !empty($v['items'])}}
+									{{foreach $v.items as $vs}}
+										<option style="padding-left: 30px;" value="{{$vs.id}}" {{if !empty($data['category_ids']) and in_array($vs['id'], $data['category_ids'])}}selected{{/if}}>二级-{{$vs.name}}</option>
+										{{if !empty($vs['items'])}}
+											{{foreach $vs.items as $vss}}
+												<option style="padding-left: 60px;" value="{{$vss.id}}" {{if !empty($data['category_ids']) and in_array($vss['id'], $data['category_ids'])}}selected{{/if}}>三级-{{$vss.name}}</option>
+											{{/foreach}}
+										{{/if}}
+									{{/foreach}}
+								{{/if}}
 							{{/foreach}}
 						{{/if}}
 					</select>

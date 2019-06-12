@@ -87,7 +87,6 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
     .theme-popover{box-shadow:0 0 10px #666;position:fixed;top:20%;left:calc(50% - 250px);width:500px;bottom:auto;border:solid 6px #d3d3d3;border-radius:3px;}
     .theme-poptit{display: none;}
 
-
     /*商品规格*/
     .theme-signin-left{padding-top:10px ;float: left;max-height: none;overflow: visible;}
     .theme-options .cart-title{margin-top:5px ;}
@@ -291,13 +290,14 @@ ul.detail-attr li {height: 26px;overflow: hidden;line-height: 26px;vertical-alig
     .clearfix-right{float:left;width:55%;min-height: 270px;}
     .iteminfo_parameter.freight{display: block;margin-top: 10px;margin-bottom:10px ;}
     .iteminfo_parameter.freight dt{margin-left:-70px ;float: left;margin-right:10px ;padding-top:5px ;padding-bottom:20px ;}
-    .buy-nav{position: static;}
+    .buy-nav{position: static; margin-top: 20px; }
     ul.am-avg-sm-4.am-tabs-nav.am-nav.am-nav-tabs {width: auto;}
     ul.detail-attr li {display: inline;float: left;width: 33.33%;}
 
     /*可选规格*/
     .buy-event .cart-title{border:none ;margin-left: -60px;position: relative;padding:10px 0px 5px 10px ;}
     .buy-event .cart-title .am-icon-angle-right {position: absolute;right: -50px;}
+    .iteminfo_parameter { border-bottom: 0; }
 
     /*销量*/
     .tm-ind-panel {border-width:1px 0px;margin: -1px 0px 0px 0px;padding: 10px 0px;

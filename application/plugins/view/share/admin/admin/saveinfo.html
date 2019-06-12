@@ -47,6 +47,17 @@
                 <div class="plug-file-upload-submit" data-view-tag="ul.plugins-pic-view">+上传图片</div>
             </div>
 
+            <div class="am-form-group">
+                <label>商品详情页面展示分享<span class="am-form-group-label-tips">开启后商品详情左侧相册下将展示分享功能，默认关闭</span></label>
+                <div>
+                    {{foreach $share_is_enable_list as $v}}
+                        <label class="am-radio-inline m-r-10">
+                            <input type="radio" name="is_goods_detail" value="{{$v.value}}" {{if isset($data['is_goods_detail']) and $data['is_goods_detail'] eq $v['value']}}checked="checked"{{else /}}{{if !isset($data['is_goods_detail']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
+                        </label>
+                    {{/foreach}}
+                </div>
+            </div>
+
             <div class="am-form-group am-form-group-refreshing">
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
             </div>

@@ -58,10 +58,7 @@ class Hook extends Controller
 
                 // 商品数据处理后
                 case 'plugins_service_goods_handle_end' :
-                    if(!empty($params['goods']['id']) && !empty($input['id']) && $params['goods']['id'] == $input['id'] && $module_name.$controller_name.$action_name == 'indexgoodsindex')
-                    {
-                        $this->GoodsHandleEnd($params['goods']);
-                    }
+                    $this->GoodsHandleEnd($params['goods']);
                     break;
 
                 // 商品规格基础数据
@@ -165,6 +162,16 @@ class Hook extends Controller
             $goods['price'] = Service::PriceCalculate($goods['price'], $level['discount_rate'], 0);
             $price_title = empty($level['name']) ? '会员价' : $level['name'];
             $goods['show_field_price_text'] = '<span class="plugins-membershiplevel-goods-price-icon" title="'.$price_title.'">'.$price_title.'</span>';
+
+            // 最低价最高价
+            if(isset($goods['min_price']))
+            {
+                $goods['min_price'] = Service::PriceCalculate($goods['min_price'], $level['discount_rate'], 0);
+            }
+            if(isset($goods['max_price']))
+            {
+                $goods['max_price'] = Service::PriceCalculate($goods['max_price'], $level['discount_rate'], 0);
+            }
         }
     }
 

@@ -78,8 +78,9 @@
                             <th class="am-hide-sm-only">提现信息</th>
                             <th>收款信息</th>
                             <th>打款信息</th>
-                            <th class="am-hide-sm-only">备注</th>
-                            <th class="am-hide-sm-only">申请时间</th>
+                            <th class="am-hide-md-down">备注</th>
+                            <th class="am-hide-md-down">申请时间</th>
+                            <th>更多</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -93,7 +94,7 @@
                                     <td>
                                         银行：{{$v.bank_name}}<br />
                                         账号：{{$v.bank_accounts}}<br />
-                                        姓名：{{$v.bank_username}}<br />
+                                        姓名：{{$v.bank_username}}
                                     </td>
                                     <td>
                                         {{$v.status_text}}<br />
@@ -104,8 +105,53 @@
                                             时间：{{$v.pay_time_text}}
                                         {{/if}}
                                     </td>
-                                    <td class="am-hide-sm-only operation-msg">{{$v.msg}}</td>
-                                    <td class="am-hide-sm-only">{{$v.add_time_text}}</td>
+                                    <td class="am-hide-md-down operation-msg">{{$v.msg}}</td>
+                                    <td  class="am-hide-md-down">{{$v.add_time_text}}</td>
+                                    <td>
+                                        <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+                                        <div class="am-popup am-radius" id="my-popup{{$v.id}}">
+                                            <div class="am-popup-inner">
+                                                <div class="am-popup-hd">
+                                                    <h4 class="am-popup-title">详情内容</h4>
+                                                    <span data-am-modal-close
+                                                    class="am-close">&times;</span>
+                                                </div>
+                                                <div class="am-popup-bd">
+                                                    <dl class="dl-content">
+                                                        <dt>提现信息</dt>
+                                                        <dd>
+                                                            单号：{{$v.cash_no}}<br />
+                                                            金额：<span class="money-bold cash-money">{{$v.money}}</span> 元
+                                                        </dd>
+
+                                                        <dt>收款信息</dt>
+                                                        <dd>
+                                                            银行：{{$v.bank_name}}<br />
+                                                            账号：{{$v.bank_accounts}}<br />
+                                                            姓名：{{$v.bank_username}}
+                                                        </dd>
+
+                                                        <dt>打款信息</dt>
+                                                        <dd>
+                                                            {{$v.status_text}}<br />
+                                                            {{if $v['pay_money'] gt 0}}
+                                                                金额：<span class="money-bold money">{{$v.pay_money}}</span> 元<br />
+                                                            {{/if}}
+                                                            {{if !empty($v['pay_time_text'])}}
+                                                                时间：{{$v.pay_time_text}}
+                                                            {{/if}}
+                                                        </dd>
+
+                                                        <dt>备注</dt>
+                                                        <dd>{{$v.msg}}</dd>
+
+                                                        <dt>申请时间</dt>
+                                                        <dd>{{$v.add_time_text}}</dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                             {{/foreach}}
                         {{/if}}

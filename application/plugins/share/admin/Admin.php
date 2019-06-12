@@ -22,6 +22,12 @@ use app\service\PluginsService;
  */
 class Admin extends Controller
 {
+    // 是否开启
+    private $share_is_enable_list = [
+        0 => ['value' => 0, 'name' => '关闭', 'checked' => true],
+        1 => ['value' => 1, 'name' => '开启'],
+    ];
+
     /**
      * 首页
      * @author   Devil
@@ -35,6 +41,9 @@ class Admin extends Controller
         $ret = PluginsService::PluginsData('share', ['pic']);
         if($ret['code'] == 0)
         {
+            // 是否开启
+            $this->assign('share_is_enable_list', $this->share_is_enable_list);
+
             $this->assign('data', $ret['data']);
             return $this->fetch('../../../plugins/view/share/admin/admin/index');
         } else {
@@ -55,6 +64,9 @@ class Admin extends Controller
         $ret = PluginsService::PluginsData('share', ['pic']);
         if($ret['code'] == 0)
         {
+            // 是否开启
+            $this->assign('share_is_enable_list', $this->share_is_enable_list);
+            
             $this->assign('data', $ret['data']);
             return $this->fetch('../../../plugins/view/share/admin/admin/saveinfo');
         } else {

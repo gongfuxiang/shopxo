@@ -46,8 +46,12 @@ class SqlconsoleService
             return DataReturn($ret, -1);
         }
 
+        // 表前缀，编码替换
+        $sql = str_replace('{PREFIX}', config('database.prefix'), $params['sql']);
+        $sql = str_replace('{CHARSET}', config('database.charset'), $sql);
+
         // 转为数组
-        $sql_all = preg_split("/;[\r\n]+/", $params['sql']);
+        $sql_all = preg_split("/;[\r\n]+/", $sql);
 
         $success = 0;
         $failure = 0;

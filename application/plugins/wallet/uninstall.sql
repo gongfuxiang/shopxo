@@ -1,11 +1,11 @@
 # 钱包 - 应用
-DROP TABLE `s_plugins_wallet`;
+DROP TABLE `{PREFIX}plugins_wallet`;
 
 # 充值 - 应用
-DROP TABLE `s_plugins_wallet_recharge`;
+DROP TABLE `{PREFIX}plugins_wallet_recharge`;
 
 # 钱包日志 - 应用
-DROP TABLE `s_plugins_wallet_log`;
+DROP TABLE `{PREFIX}plugins_wallet_log`;
 
 # 钱包提现 - 应用
-DROP TABLE `s_plugins_wallet_cash`;
+DROP TABLE `{PREFIX}plugins_wallet_cash`;

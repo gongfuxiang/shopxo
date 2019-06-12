@@ -71,6 +71,17 @@
                 </div>
             </div>
 
+            <div class="items am-padding-sm">
+                <label>商品详情页面展示分享</label>
+                <div>
+                    {{if isset($data['is_goods_detail']) and isset($share_is_enable_list[$data['is_goods_detail']])}}
+                        {{$share_is_enable_list[$data['is_goods_detail']]['name']}}
+                    {{else /}}
+                        未设置，默认[ 关闭 ]
+                    {{/if}}
+                </div>
+            </div>
+
             <a href="{{:PluginsAdminUrl('share', 'admin', 'saveinfo')}}" class="am-btn am-btn-secondary am-radius btn-loading-example am-btn-sm am-btn-block edit-submit">编辑</a>
         </div>
     </div>

@@ -1,5 +1,5 @@
 # 钱包
-CREATE TABLE `s_plugins_wallet` (
+CREATE TABLE `{PREFIX}plugins_wallet` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
   `status` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '状态（0正常, 1异常, 2已注销）',
@@ -11,10 +11,10 @@ CREATE TABLE `s_plugins_wallet` (
   PRIMARY KEY (`id`),
   KEY `status` (`status`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='钱包 - 应用';
+) ENGINE=InnoDB DEFAULT CHARSET={CHARSET} ROW_FORMAT=DYNAMIC COMMENT='钱包 - 应用';
 
 # 钱包日志
-CREATE TABLE `s_plugins_wallet_log` (
+CREATE TABLE `{PREFIX}plugins_wallet_log` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
   `wallet_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '钱包id',
@@ -29,10 +29,10 @@ CREATE TABLE `s_plugins_wallet_log` (
   PRIMARY KEY (`id`),
   KEY `wallet_id` (`wallet_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='钱包日志 - 应用';
+) ENGINE=InnoDB DEFAULT CHARSET={CHARSET} ROW_FORMAT=DYNAMIC COMMENT='钱包日志 - 应用';
 
 # 充值
-CREATE TABLE `s_plugins_wallet_recharge` (
+CREATE TABLE `{PREFIX}plugins_wallet_recharge` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
   `wallet_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '钱包id',
@@ -49,10 +49,10 @@ CREATE TABLE `s_plugins_wallet_recharge` (
   UNIQUE KEY `recharge_no` (`recharge_no`),
   KEY `status` (`status`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='钱包充值 - 应用';
+) ENGINE=InnoDB DEFAULT CHARSET={CHARSET} ROW_FORMAT=DYNAMIC COMMENT='钱包充值 - 应用';
 
 # 钱包提现
-CREATE TABLE `s_plugins_wallet_cash` (
+CREATE TABLE `{PREFIX}plugins_wallet_cash` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
   `wallet_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '钱包id',
@@ -72,4 +72,4 @@ CREATE TABLE `s_plugins_wallet_cash` (
   KEY `status` (`status`),
   KEY `user_id` (`user_id`),
   KEY `wallet_id` (`wallet_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='钱包提现 - 应用';
+) ENGINE=InnoDB DEFAULT CHARSET={CHARSET} ROW_FORMAT=DYNAMIC COMMENT='钱包提现 - 应用';

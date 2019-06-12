@@ -81,6 +81,7 @@ class Order extends Common
             'm'         => $page->GetPageStarNumber(),
             'n'         => $number,
             'where'     => $where,
+            'is_public' => 0,
         );
         $data = OrderService::OrderList($data_params);
         $this->assign('data_list', $data['data']);

@@ -656,6 +656,15 @@ class OrderService
                     return $ret;
                 }
 
+                // 用户信息
+                if(isset($v['user_id']))
+                {
+                    if(isset($params['is_public']) && $params['is_public'] == 0)
+                    {
+                        $v['user'] = UserService::GetUserViewInfo($v['user_id']);
+                    }
+                }
+
                 // 客户端
                 $v['client_type_name'] = isset($common_platform_type[$v['client_type']]) ? $common_platform_type[$v['client_type']]['name'] : '';
 

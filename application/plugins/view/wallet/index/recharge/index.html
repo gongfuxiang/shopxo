@@ -42,13 +42,14 @@
                 <table class="am-table am-table-striped">
                     <thead>
                         <tr>
-                            <th class="am-hide-sm-only">充值单号</th>
+                            <th class="am-hide-md-down">充值单号</th>
                             <th>充值金额(元)</th>
                             <th class="am-hide-sm-only">支付金额(元)</th>
                             <th>状态</th>
                             <th class="am-hide-sm-only">支付方式</th>
-                            <th class="am-hide-sm-only">支付时间</th>
-                            <th class="am-hide-sm-only">创建时间</th>
+                            <th class="am-hide-md-down">支付时间</th>
+                            <th class="am-hide-md-down">创建时间</th>
+                            <th>更多</th>
                             <th>操作</th>
                         </tr>
                     </thead>
@@ -56,13 +57,61 @@
                         {{if !empty($data_list)}}
                             {{foreach $data_list as $v}}
                                 <tr id="data-list-{{$v.id}}">
-                                    <td class="am-hide-sm-only">{{$v.recharge_no}}</td>
-                                    <td class="money-bold">{{$v.money}}</td>
-                                    <td class="am-hide-sm-only money-bold money">{{if $v['pay_money'] gt 0}}{{$v.pay_money}}{{/if}}</td>
+                                    <td class="am-hide-md-down">{{$v.recharge_no}}</td>
+                                    <td>
+                                        <span class="money-bold">{{$v.money}}</span>
+                                    </td>
+                                    <td class="am-hide-sm-only">
+                                        {{if $v['pay_money'] gt 0}}
+                                            <span class="money-bold money">{{$v.pay_money}}</span>
+                                        {{/if}}
+                                    </td>
                                     <td>{{$v.status_text}}</td>
                                     <td class="am-hide-sm-only">{{$v.payment_name}}</td>
-                                    <td class="am-hide-sm-only">{{$v.pay_time_text}}</td>
-                                    <td class="am-hide-sm-only">{{$v.add_time_text}}</td>
+                                    <td class="am-hide-md-down">{{$v.pay_time_text}}</td>
+                                    <td class="am-hide-md-down">{{$v.add_time_text}}</td>
+                                    <td>
+                                        <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+                                        <div class="am-popup am-radius" id="my-popup{{$v.id}}">
+                                            <div class="am-popup-inner">
+                                                <div class="am-popup-hd">
+                                                    <h4 class="am-popup-title">详情内容</h4>
+                                                    <span data-am-modal-close
+                                                    class="am-close">&times;</span>
+                                                </div>
+                                                <div class="am-popup-bd">
+                                                    <dl class="dl-content">
+                                                        <dt>充值单号</dt>
+                                                        <dd>{{$v.recharge_no}}</dd>
+
+                                                        <dt>充值金额(元)</dt>
+                                                        <dd>
+                                                            <span class="money-bold">{{$v.money}}</span>
+                                                        </dd>
+
+                                                        <dt>支付金额(元)</dt>
+                                                        <dd>
+                                                            {{if $v['pay_money'] gt 0}}
+                                                                <span class="money-bold money">{{$v.pay_money}}</span>
+                                                            {{/if}}
+                                                        </dd>
+
+                                                        <dt>状态</dt>
+                                                        <dd>{{$v.status_text}}</dd>
+
+                                                        <dt>支付方式</dt>
+                                                        <dd>{{$v.payment_name}}</dd>
+
+                                                        <dt>支付时间</dt>
+                                                        <dd>{{$v.pay_time_text}}</dd>
+
+                                                        <dt>创建时间</dt>
+                                                        <dd>{{$v.add_time_text}}</dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td>
                                         {{if $v['status'] eq 0}}
                                             <button class="am-btn am-btn-success am-btn-xs am-radius am-icon-shield recharge-submit" data-value="{{$v.id}}" data-recharge-no="{{$v.recharge_no}}" data-money="{{$v.money}}"> 支付</button>

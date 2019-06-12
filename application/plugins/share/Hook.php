@@ -70,18 +70,24 @@ class Hook extends Controller
      */
     private function GoodsPhotoBottom($params = [])
     {
-        // html
-        $html ='<div class="am-dropdown plugins-goods-share-view" data-am-dropdown>';
-        $html .= '<a href="javascript:;" class="am-dropdown-toggle am-icon-share-alt" data-am-dropdown-toggle> 分享</a>';
-        $html .= '<div class="am-dropdown-content plugins-share-view"';
-
-        // 默认图片
-        if(!empty($params['goods']['photo'][0]['images']))
+        // 获取应用数据
+        $ret = PluginsService::PluginsData('share', ['pic']);
+        if($ret['code'] == 0 && isset($ret['data']['is_goods_detail']) && $ret['data']['is_goods_detail'] == 1)
         {
-            $html .= ' data-pic="'.$params['goods']['photo'][0]['images'].'"';
-        }
+            // html
+            $html ='<div class="am-dropdown plugins-goods-share-view" data-am-dropdown>';
+            $html .= '<a href="javascript:;" class="am-dropdown-toggle am-icon-share-alt" data-am-dropdown-toggle> 分享</a>';
+            $html .= '<div class="am-dropdown-content plugins-share-view"';
 
-        return $html.'></div></div>';
+            // 默认图片
+            if(!empty($params['goods']['photo'][0]['images']))
+            {
+                $html .= ' data-pic="'.$params['goods']['photo'][0]['images'].'"';
+            }
+
+            return $html.'></div></div>';
+        }
+        return '';
     }
 
     /**

@@ -75,6 +75,7 @@
     height: 28px;
     border-radius: 2px;
     font-size: 12px;
+    line-height: 28px;
 }
 .content ul.am-gallery-bordered li .submit-state.am-default {
     background-color: #e6e6e6;
@@ -102,3 +103,19 @@
  */
 input[name="file"] { width: 105px !important; height: 32px; }
 input.file-event { margin-top: 0 !important; }
+
+/**
+ * 删除modal
+ */
+@media only screen and (min-width: 641px) {
+    #plugins-delete-modal .am-modal-bd button.submit-ajax {
+        margin-right: 10px;
+    }
+}
+@media only screen and (max-width: 641px) {
+    #plugins-delete-modal .am-modal-bd .am-btn {
+        width: 100%;
+        display: block;
+        margin-top: 10px;
+    }
+}

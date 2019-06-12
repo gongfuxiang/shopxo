@@ -312,15 +312,19 @@ class PluginsAdminService
             $ret = self::PluginsHookDeployment();
             if($ret['code'] == 0)
             {
-                // sql运行
-                $uninstall_sql = APP_PATH.'plugins'.DS.$plugins.DS.'uninstall.sql';
-                if(file_exists($uninstall_sql))
+                // 是否需要删除应用数据,sql运行
+                $is_delete_static = (isset($params['value']) && $params['value'] == 1);
+                if($is_delete_static === true)
                 {
-                    SqlconsoleService::Implement(['sql'=>file_get_contents($uninstall_sql)]);
+                    $uninstall_sql = APP_PATH.'plugins'.DS.$plugins.DS.'uninstall.sql';
+                    if(file_exists($uninstall_sql))
+                    {
+                        SqlconsoleService::Implement(['sql'=>file_get_contents($uninstall_sql)]);
+                    }
                 }
 
                 // 删除应用文件
-                self::PluginsResourcesDelete($plugins);
+                self::PluginsResourcesDelete($plugins, $is_delete_static);
 
                 // 提交事务
                 Db::commit();
@@ -342,18 +346,24 @@ class PluginsAdminService
      * @version 1.0.0
      * @date    2019-02-13
      * @desc    description
-     * @param   [string]          $plugins [唯一标记]
+     * @param   [string]          $plugins          [唯一标记]
+     * @param   [boolean]         $is_delete_static [是否删除应用数据]
      */
-    private static function PluginsResourcesDelete($plugins)
+    private static function PluginsResourcesDelete($plugins, $is_delete_static = false)
     {
         \base\FileUtil::UnlinkDir(APP_PATH.'plugins'.DS.$plugins);
         \base\FileUtil::UnlinkDir(APP_PATH.'plugins'.DS.'view'.DS.$plugins);
         \base\FileUtil::UnlinkDir(ROOT.'public'.DS.'static'.DS.'plugins'.DS.'css'.DS.$plugins);
         \base\FileUtil::UnlinkDir(ROOT.'public'.DS.'static'.DS.'plugins'.DS.'js'.DS.$plugins);
         \base\FileUtil::UnlinkDir(ROOT.'public'.DS.'static'.DS.'plugins'.DS.'images'.DS.$plugins);
-        \base\FileUtil::UnlinkDir(ROOT.'public'.DS.'static'.DS.'upload'.DS.'images'.DS.'plugins_'.$plugins);
-        \base\FileUtil::UnlinkDir(ROOT.'public'.DS.'static'.DS.'upload'.DS.'video'.DS.'plugins_'.$plugins);
-        \base\FileUtil::UnlinkDir(ROOT.'public'.DS.'static'.DS.'upload'.DS.'file'.DS.'plugins_'.$plugins);
+
+        // 是否需要删除应用数据
+        if($is_delete_static === true)
+        {
+            \base\FileUtil::UnlinkDir(ROOT.'public'.DS.'static'.DS.'upload'.DS.'images'.DS.'plugins_'.$plugins);
+            \base\FileUtil::UnlinkDir(ROOT.'public'.DS.'static'.DS.'upload'.DS.'video'.DS.'plugins_'.$plugins);
+            \base\FileUtil::UnlinkDir(ROOT.'public'.DS.'static'.DS.'upload'.DS.'file'.DS.'plugins_'.$plugins);
+        }
     }
 
     /**
