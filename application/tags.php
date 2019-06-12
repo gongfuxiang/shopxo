@@ -151,14 +151,24 @@ return array (
   'plugins_service_users_center_left_menu_handle' => 
   array (
     0 => 'app\\plugins\\wallet\\Hook',
+    1 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_header_navigation_top_right_handle' => 
   array (
     0 => 'app\\plugins\\wallet\\Hook',
+    1 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_users_personal_show_field_list_handle' => 
   array (
     0 => 'app\\plugins\\weixinwebauthorization\\Hook',
+  ),
+  'plugins_service_order_pay_success_handle_end' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_order_aftersale_audit_handle_end' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
   ),
 );
 ?>
