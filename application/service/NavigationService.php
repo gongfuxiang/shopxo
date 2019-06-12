@@ -692,6 +692,7 @@ class NavigationService
         // contains    包含的子页面（包括自身）
         // icon        icon类
         // item        二级数据
+        // is_system   是否系统内置菜单（0否, 1是）扩展数据可空或0
 
         // 菜单列表
         $data = [
@@ -701,11 +702,13 @@ class NavigationService
                 'is_show'   =>  1,
                 'contains'  =>  ['userindex'],
                 'icon'      =>  'am-icon-home',
+                'is_system' =>  1,
             ],
             'business' => [
                 'name'      =>  '业务管理',
                 'is_show'   =>  1,
                 'icon'      =>  'am-icon-cube',
+                'is_system' =>  1,
                 'item'      =>  [
                     [
                         'name'      =>  '订单管理',
@@ -713,6 +716,7 @@ class NavigationService
                         'is_show'   =>  1,
                         'contains'  =>  ['orderindex', 'orderdetail', 'ordercomments'],
                         'icon'      =>  'am-icon-th-list',
+                        'is_system' =>  1,
                     ],
                     [
                         'name'      =>  '订单售后',
@@ -720,6 +724,7 @@ class NavigationService
                         'is_show'   =>  1,
                         'contains'  =>  ['orderaftersaleindex', 'orderaftersaleaftersale'],
                         'icon'      =>  'am-icon-puzzle-piece',
+                        'is_system' =>  1,
                     ],
                     [
                         'name'      =>  '我的收藏',
@@ -727,6 +732,7 @@ class NavigationService
                         'contains'  =>  ['userfavorgoods'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-heart-o',
+                        'is_system' =>  1,
                     ],
                 ]
             ],
@@ -734,6 +740,7 @@ class NavigationService
                 'name'      =>  '资料管理',
                 'is_show'   =>  1,
                 'icon'      =>  'am-icon-user',
+                'is_system' =>  1,
                 'item'      =>  [
                     [
                         'name'      =>  '个人资料',
@@ -741,6 +748,7 @@ class NavigationService
                         'contains'  =>  ['personalindex', 'personalsaveinfo'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-gear',
+                        'is_system' =>  1,
                     ],
                     [
                         'name'      =>  '我的地址',
@@ -748,6 +756,7 @@ class NavigationService
                         'contains'  =>  ['useraddressindex', 'useraddresssaveinfo'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-street-view',
+                        'is_system' =>  1,
                     ],
                     [
                         'name'      =>  '安全设置',
@@ -755,6 +764,7 @@ class NavigationService
                         'contains'  =>  ['safetyindex', 'safetyloginpwdinfo', 'safetymobileinfo', 'safetynewmobileinfo', 'safetyemailinfo', 'safetynewemailinfo'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-user-secret',
+                        'is_system' =>  1,
                     ],
                     [
                         'name'      =>  '我的消息',
@@ -762,6 +772,7 @@ class NavigationService
                         'contains'  =>  ['messageindex'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-bell-o',
+                        'is_system' =>  1,
                     ],
                     [
                         'name'      =>  '我的足迹',
@@ -769,6 +780,7 @@ class NavigationService
                         'contains'  =>  ['usergoodsbrowseindex'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-lastfm',
+                        'is_system' =>  1,
                     ],
                     [
                         'name'      =>  '问答/留言',
@@ -776,6 +788,7 @@ class NavigationService
                         'contains'  =>  ['answerindex'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-question',
+                        'is_system' =>  1,
                     ],
                 ]
             ],
@@ -783,6 +796,7 @@ class NavigationService
                 'name'      =>  '财产中心',
                 'is_show'   =>  1,
                 'icon'      =>  'am-icon-trophy',
+                'is_system' =>  1,
                 'item'      =>  [
                     [
                         'name'      =>  '我的积分',
@@ -790,6 +804,7 @@ class NavigationService
                         'contains'  =>  ['userintegralindex'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-fire',
+                        'is_system' =>  1,
                     ],
                 ]
             ],
@@ -799,6 +814,7 @@ class NavigationService
                 'contains'  =>  ['userlogout'],
                 'is_show'   =>  1,
                 'icon'      =>  'am-icon-power-off',
+                'is_system' =>  1,
             ],
         ];
 
