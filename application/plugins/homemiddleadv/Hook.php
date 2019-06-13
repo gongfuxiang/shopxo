@@ -109,11 +109,11 @@ class Hook extends Controller
         return '<style type="text/css">
                     @media only screen and (min-width:640px) {
                         .plugins-homemiddleadv-home-adv ul.am-gallery img {
-                            -webkit-transition: transform .2s ease-in;
-                            -moz-transition: transform .2s ease-in;
-                            -ms-transition: transform .2s ease-in;
-                            -o-transition: transform .2s ease-in;
-                            transition: transform .2s ease-in;
+                            -webkit-transition: transform .3s ease-in;
+                            -moz-transition: transform .3s ease-in;
+                            -ms-transition: transform .3s ease-in;
+                            -o-transition: transform .3s ease-in;
+                            transition: transform .3s ease-in;
                         }
                         .plugins-homemiddleadv-home-adv ul.am-gallery img:hover {
                             -ms-transform: translate3d(0px, -3px, 0px);
