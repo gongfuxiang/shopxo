@@ -379,7 +379,7 @@ function FromInit(form_name)
 					url:action,
 					type:method,
 	                dataType:"json",
-	                timeout:$form.attr('timeout') || 10000,
+	                timeout:$form.attr('timeout') || 30000,
 	                data:GetFormVal(form_name),
 	                processData:false,
 					contentType:false,
@@ -506,7 +506,7 @@ function Tree(id, url, level, is_add_node, is_delete_all)
 		url:url,
 		type:'POST',
 		dataType:"json",
-		timeout:10000,
+		timeout:30000,
 		data:{"id":id},
 		success:function(result)
 		{
@@ -806,7 +806,7 @@ function DataDelete(e)
 		url:url,
 		type:'POST',
 		dataType:"json",
-		timeout:10000,
+		timeout:e.attr('timeout') || 30000,
 		data:{"id":id},
 		success:function(result)
 		{
@@ -926,7 +926,7 @@ function AjaxRequest(e)
 		url:url,
 		type:'POST',
 		dataType:"json",
-		timeout:10000,
+		timeout:e.attr('timeout') || 30000,
 		data:{"id":id, "value": value, "field": field},
 		success:function(result)
 		{
@@ -1353,7 +1353,7 @@ $(function()
 			url:url,
 			type:'POST',
 			dataType:"json",
-			timeout:10000,
+			timeout:$tag.attr('timeout') || 30000,
 			data:{"id":id, "state":state, "field":field},
 			success:function(result)
 			{
