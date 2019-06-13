@@ -48,6 +48,9 @@ return [
     // 附件host, 数据库图片地址以/static/...开头
     'attachment_host'                       =>  defined('__MY_PUBLIC_URL__') ? substr(__MY_PUBLIC_URL__, 0, -1) : '',
 
+    // 应用商店地址
+    'store_url'                             =>  'https://store.shopxo.net/',
+
     // 开启U带域名
     'url_domain_deploy'                     =>  true,
 

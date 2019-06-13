@@ -410,7 +410,6 @@ ul {margin-top:0;}
   .admin-sidebar {display:block;width:170px;z-index:1; position: fixed; top: 0; left: 0;}
   .admin-offcanvas-bar {position:static;width:auto;background:none;-webkit-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0);transform:translate3d(0,0,0);overflow-y:visible;min-height:100%;}
   .admin-offcanvas-bar:after {content:none;}
-  #ifcontent { padding-left: 170px; }
 }
 @media only screen and (max-width:640px) {
     header { left: 0; }
