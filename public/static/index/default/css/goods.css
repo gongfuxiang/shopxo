@@ -177,9 +177,7 @@ fieldset legend{margin-left:15px;padding-left:3px;padding-right:3px;color:#333;}
 .tab a.cur{ font-weight:bold;}
 
 /*商品详细页*/
-/*iteminfo*/
-.clearfix-right{font-size:12px;}
-.tb-detail-hd h1 {padding-bottom:0.4em; line-height: 1;font-size: 14px;font-weight: 600;color: #333; line-height: 24px;}
+.simple-desc { color: #999; }
 
 /*价格*/
 .tb-detail-price{text-align: left; position: relative;}
@@ -421,7 +419,7 @@ ul.detail-attr li {height: 26px;overflow: hidden;line-height: 26px;vertical-alig
 /* 手机模式下 */
 @media only screen and (max-width:640px) {
     .goods-detail { padding: 0px; }
-    .detail-title, .detail-attr { padding: 0px 5px; }
+    .detail-title, .detail-attr, .simple-desc { padding: 0px 5px; }
     .tb-detail-price { padding: 10px 5px; }
     .buy-nav .buy-nav-opt { width: 40%; }
     ul.tm-ind-panel li { border-left: 0px; }

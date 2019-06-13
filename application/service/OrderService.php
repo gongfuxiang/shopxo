@@ -763,6 +763,7 @@ class OrderService
                                 $excel_export_items .= '原价：'.$vs['original_price']."\n";
                                 $excel_export_items .= '销售价：'.$vs['price']."\n";
                                 $excel_export_items .= '总价：'.$vs['total_price']."\n";
+                                $excel_export_items .= '型号：'.$vs['model']."\n";
                                 $excel_export_items .= '规格：'.$vs['spec_text']."\n";
                                 $excel_export_items .= '重量：'.$vs['spec_weight']."\n";
                                 $excel_export_items .= '编码：'.$vs['spec_coding']."\n";

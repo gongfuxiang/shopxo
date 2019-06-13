@@ -977,6 +977,13 @@ class GoodsService
             ],
             [
                 'checked_type'      => 'length',
+                'key_name'          => 'simple_desc',
+                'checked_data'      => '60',
+                'is_checked'        => 1,
+                'error_msg'         => '商品简述格式 最多60个字符',
+            ],
+            [
+                'checked_type'      => 'length',
                 'key_name'          => 'model',
                 'checked_data'      => '30',
                 'is_checked'        => 1,
@@ -1062,6 +1069,7 @@ class GoodsService
         $data = [
             'title'                     => $params['title'],
             'title_color'               => empty($params['title_color']) ? '' : $params['title_color'],
+            'simple_desc'               => $params['simple_desc'],
             'model'                     => $params['model'],
             'place_origin'              => isset($params['place_origin']) ? intval($params['place_origin']) : 0,
             'inventory_unit'            => $params['inventory_unit'],

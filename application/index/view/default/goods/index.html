@@ -107,7 +107,7 @@
             <!--规格-->
             <!--名称-->
             <div class="tb-detail-hd">
-                <h1 class="detail-title" {{if !empty($goods.title_color)}}style="color:{{$goods.title_color}};"{{/if}}>
+                <h1 class="detail-title am-margin-bottom-xs" {{if !empty($goods.title_color)}}style="color:{{$goods.title_color}};"{{/if}}>
                     {{$goods.title}}
                     <!-- 商品页面基础信息标题里面钩子 -->
                     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
@@ -123,6 +123,9 @@
                         {{/foreach}}
                     {{/if}}
                 </h1>
+                {{if !empty($goods['simple_desc'])}}
+                    <p class="simple-desc am-margin-bottom-xs">{{$goods.simple_desc}}</p>
+                {{/if}}
             </div>
             <div class="tb-detail-list">
                 <!-- 商品页面基础信息顶部钩子 -->

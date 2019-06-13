@@ -1085,6 +1085,12 @@ php;
         {
             return DataReturn($ret, -1);
         }
+
+        // 是否开启开发者模式
+        if(config('shopxo.is_develop') !== true)
+        {
+            return DataReturn('请先开启开发者模式', -1); 
+        }
         
         // 获取应用标记
         $where = ['id'=>intval($params['id'])];

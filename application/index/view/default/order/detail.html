@@ -273,11 +273,16 @@
                                             </a>
                                             <div class="goods-base">
                                                 <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
-                                                {{if !empty($goods.spec)}}
+                                                {{if !empty($goods.spec) or !empty($goods['model'])}}
                                                     <ul class="am-margin-top-xs am-text-left goods-attr">
-                                                        {{foreach $goods.spec as $spec}}
-                                                            <li>{{$spec.type}}：{{$spec.value}}</li>
-                                                        {{/foreach}}
+                                                        {{if !empty($goods['model'])}}
+                                                            <li>型号：{{$goods.model}}</li>
+                                                        {{/if}}
+                                                        {{if !empty($goods.spec)}}
+                                                            {{foreach $goods.spec as $spec}}
+                                                                <li>{{$spec.type}}：{{$spec.value}}</li>
+                                                            {{/foreach}}
+                                                        {{/if}}
                                                     </ul>
                                                 {{/if}}
                                             </div>

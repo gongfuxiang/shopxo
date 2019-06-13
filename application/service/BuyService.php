@@ -181,7 +181,7 @@ class BuyService
         $where = (!empty($params['where']) && is_array($params['where'])) ? $params['where'] : [];
         $where['c.user_id'] = $params['user']['id'];
 
-        $field = 'c.*, g.title, g.images, g.inventory_unit, g.is_shelves, g.is_delete_time, g.buy_min_number, g.buy_max_number';
+        $field = 'c.*, g.title, g.images, g.inventory_unit, g.is_shelves, g.is_delete_time, g.buy_min_number, g.buy_max_number, g.model';
         $data = Db::name('Cart')->alias('c')->join(['__GOODS__'=>'g'], 'g.id=c.goods_id')->where($where)->field($field)->select();
 
 
@@ -391,7 +391,7 @@ class BuyService
                 'is_delete_time'    => 0,
                 'is_shelves'        => 1,
             ],
-            'field' => 'id, id AS goods_id, title, images, inventory_unit, buy_min_number, buy_max_number',
+            'field' => 'id, id AS goods_id, title, images, inventory_unit, buy_min_number, buy_max_number, model',
         ];
         $ret = GoodsService::GoodsList($p);
         if(empty($ret['data'][0]))
@@ -784,6 +784,7 @@ class BuyService
                     'spec_coding'       => empty($v['spec_coding']) ? '' : $v['spec_coding'],
                     'spec_barcode'      => empty($v['spec_barcode']) ? '' : $v['spec_barcode'],
                     'buy_number'        => intval($v['stock']),
+                    'model'             => $v['model'],
                     'add_time'          => time(),
                 ];
                 if(Db::name('OrderDetail')->insertGetId($detail) <= 0)

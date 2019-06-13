@@ -101,7 +101,7 @@ class AppMiniService
     public static function Created($params = [])
     {
         // 是否https
-        if(config('shopxo.is_develop') == false)
+        if(config('shopxo.is_develop') !== true)
         {
             if(__MY_HTTP__ != 'https')
             {

@@ -153,15 +153,19 @@ class Hook extends Controller
         $level = Service::UserLevelMatching();
         if(!empty($level) && $level['discount_rate'] > 0)
         {
-            if(empty($goods['original_price']))
+            // 无价格字段则不处理
+            if(isset($goods['price']))
             {
-                $goods['original_price'] = $goods['price'];
-            }
+                if(empty($goods['original_price']))
+                {
+                    $goods['original_price'] = $goods['price'];
+                }
 
-            // 价格处理
-            $goods['price'] = Service::PriceCalculate($goods['price'], $level['discount_rate'], 0);
-            $price_title = empty($level['name']) ? '会员价' : $level['name'];
-            $goods['show_field_price_text'] = '<span class="plugins-membershiplevel-goods-price-icon" title="'.$price_title.'">'.$price_title.'</span>';
+                // 价格处理
+                $goods['price'] = Service::PriceCalculate($goods['price'], $level['discount_rate'], 0);
+                $price_title = empty($level['name']) ? '会员价' : $level['name'];
+                $goods['show_field_price_text'] = '<span class="plugins-membershiplevel-goods-price-icon" title="'.$price_title.'">'.$price_title.'</span>';
+            }
 
             // 最低价最高价
             if(isset($goods['min_price']))
