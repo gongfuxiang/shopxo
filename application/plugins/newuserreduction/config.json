@@ -5,7 +5,7 @@
         "logo":"\/static\/upload\/images\/plugins_newuserreduction\/2019\/03\/25\/1553483752670109.jpg",
         "author":"Devil",
         "author_url":"https:\/\/shopxo.net\/",
-        "version":"1.0.0",
+        "version":"1.2.0",
         "desc":"新用户立减优惠",
         "apply_terminal":[
             "pc",
