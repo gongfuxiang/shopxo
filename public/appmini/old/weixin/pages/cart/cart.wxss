@@ -38,6 +38,10 @@
 .goods-item .selected {
   margin-top: 60rpx;
 }
+.goods-item .delete {
+  color: #e00303;
+  margin-right: 10rpx;
+}
 
 /**
  * 数量操作

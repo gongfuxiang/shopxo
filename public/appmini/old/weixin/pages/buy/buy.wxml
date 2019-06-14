@@ -47,7 +47,7 @@
   <!-- 扩展数据展示 -->
   <view wx:if="{{extension_data.length > 0}}" class="extension-list spacing-mb">
     <view wx:for="{{extension_data}}" wx:key="key" class="item oh">
-      <text class="cr-666">{{item.name}}
+      <text class="cr-666 fl">{{item.name}}
       </text>
       <text class="text-tips fr">{{item.tips}}
       </text>

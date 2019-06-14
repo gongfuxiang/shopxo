@@ -175,38 +175,6 @@ Page({
     });
   },
 
-  // 滑动操作
-  right_item_event(e) {
-    var type = e.detail.type;
-    var index = e.extra;
-    var id = this.data.data_list[index]['id'];
-    var goods_id = this.data.data_list[index]['goods_id'];
-
-    // 收藏
-    if (type == 'edit') {
-      this.goods_favor_event(id, goods_id, type);
-    } else {
-      wx.showModal({
-        title: '温馨提示',
-        content: '删除后不可恢复，确定继续吗？',
-        confirmText: '确定',
-        cancelText: '取消',
-        success: (result) => {
-          if (result.confirm) {
-            this.cart_delete(id, type);
-          } else {
-            this.setData({ swipe_index: null });
-          }
-        }
-      });
-    }
-  },
-
-  // 滑动操作
-  swipe_start_event(e) {
-    this.setData({ swipe_index: e.index });
-  },
-
   // 收藏事件
   goods_favor_event(id, goods_id, type) {
     wx.request({
@@ -225,6 +193,26 @@ Page({
         app.showToast("服务器请求出错");
       }
     });
+  },
+
+  // 删除操作事件
+  cart_delete_event(e) {
+    var id = e.currentTarget.dataset.id || null;
+    if (id !== null) {
+      wx.showModal({
+        title: '温馨提示',
+        content: '删除后不可恢复，确定继续吗?',
+        confirmText: '确认',
+        cancelText: '暂不',
+        success: (result) => {
+          if (result.confirm) {
+            this.cart_delete(id, 'delete');
+          }
+        },
+      });
+    } else {
+      app.showToast("参数有误");
+    }
   },
 
   // 购物车删除

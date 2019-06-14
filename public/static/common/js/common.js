@@ -806,7 +806,7 @@ function DataDelete(e)
 		url:url,
 		type:'POST',
 		dataType:"json",
-		timeout:e.attr('timeout') || 30000,
+		timeout:e.attr('data-timeout') || 30000,
 		data:{"id":id},
 		success:function(result)
 		{
@@ -926,7 +926,7 @@ function AjaxRequest(e)
 		url:url,
 		type:'POST',
 		dataType:"json",
-		timeout:e.attr('timeout') || 30000,
+		timeout:e.attr('data-timeout') || 30000,
 		data:{"id":id, "value": value, "field": field},
 		success:function(result)
 		{
@@ -1340,7 +1340,7 @@ $(function()
 		var id = $tag.attr('data-id');
 		var state = ($tag.attr('data-state') == 1) ? 0 : 1;
 		var url = $tag.attr('data-url');
-		var field = $tag.attr('field') || '';
+		var field = $tag.attr('data-field') || '';
 		var is_update_status = $tag.attr('data-is-update-status') || 0;
 		if(id == undefined || url == undefined)
 		{
@@ -1353,7 +1353,7 @@ $(function()
 			url:url,
 			type:'POST',
 			dataType:"json",
-			timeout:$tag.attr('timeout') || 30000,
+			timeout:$tag.attr('data-timeout') || 30000,
 			data:{"id":id, "state":state, "field":field},
 			success:function(result)
 			{

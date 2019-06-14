@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\Db;
 use app\service\MessageService;
+use app\service\UserService;
 
 /**
  * 积分服务层
@@ -53,6 +54,13 @@ class IntegralService
             $integral = ($data['type'] == 0) ? $data['original_integral']-$data['new_integral'] : $data['new_integral']-$data['original_integral'];
             $detail = $msg.'积分'.$type_msg.$integral;
             MessageService::MessageAdd($user_id, '积分变动', $detail);
+
+            // 用户登录数据更新防止数据存储session不同步展示
+            if(in_array(APPLICATION_CLIENT_TYPE, ['pc', 'h5']))
+            {
+                UserService::UserLoginRecord($user_id);
+            }
+            
             return true;
         }
         return false;
