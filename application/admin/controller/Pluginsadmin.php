@@ -90,6 +90,8 @@ class Pluginsadmin extends Common
             $data = PluginsAdminService::PluginsList($data_params);
             $this->assign('data_list', $data['data']);
 
+            $this->assign('store_url', config('shopxo.store_url').'?url='.urlencode(__MY_URL__));
+
             return $this->fetch();
         } else {
             return $this->fetch('upload');
