@@ -2,7 +2,7 @@
     "base":{
         "plugins":"commontopnotice",
         "name":"顶部公告",
-        "logo":"\/static\/upload\/images\/plugins_commontopnotice\/2019\/02\/12\/1549671733987652.png",
+        "logo":"\/static\/upload\/images\/plugins_commontopnotice\/2019\/02\/12\/1549671733987652.jpg",
         "author":"Devil",
         "author_url":"https:\/\/shopxo.net\/",
         "version":"1.0.0",
@@ -12,7 +12,7 @@
             "h5"
         ],
         "apply_version":[
-            "1.3.0"
+            "1.5.0"
         ],
         "is_home":false
     },
