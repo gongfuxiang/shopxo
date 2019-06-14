@@ -1001,9 +1001,6 @@ php;
                     }
                 }
 
-                // 去除包名
-                $file = substr($file, strpos($file, '/')+1);
-
                 // 排除临时文件和临时目录
                 if(strpos($file, '/.') === false && strpos($file, '__') === false)
                 {
@@ -1013,7 +1010,7 @@ php;
                     {
                         if(strpos($file, $dir_key) !== false)
                         {
-                            $file = str_replace($dir_key.'/', '', $dir_value.$file);
+                            $file = str_replace($plugins_name.'/'.$dir_key.'/', '', $dir_value.$file);
                             $is_has_find = true;
                             break;
                         }
@@ -1027,7 +1024,7 @@ php;
 
                     // 截取文件路径
                     $file_path = substr($file, 0, strrpos($file, '/'));
-                    
+
                     // 路径不存在则创建
                     \base\FileUtil::CreateDir($file_path);
 

@@ -58,7 +58,10 @@ class Hook extends Controller
 
                 // 商品数据处理后
                 case 'plugins_service_goods_handle_end' :
-                    $this->GoodsHandleEnd($params['goods']);
+                    if($module_name != 'admin')
+                    {
+                        $this->GoodsHandleEnd($params['goods']);
+                    }
                     break;
 
                 // 商品规格基础数据
@@ -156,12 +159,7 @@ class Hook extends Controller
             // 无价格字段则不处理
             if(isset($goods['price']))
             {
-                if(empty($goods['original_price']))
-                {
-                    $goods['original_price'] = $goods['price'];
-                }
-
-                // 价格处理
+                $goods['original_price'] = $goods['price'];
                 $goods['price'] = Service::PriceCalculate($goods['price'], $level['discount_rate'], 0);
                 $price_title = empty($level['name']) ? '会员价' : $level['name'];
                 $goods['show_field_price_text'] = '<span class="plugins-membershiplevel-goods-price-icon" title="'.$price_title.'">'.$price_title.'</span>';

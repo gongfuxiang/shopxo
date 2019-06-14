@@ -395,9 +395,12 @@ class Service
                 $base = PluginsService::PluginsData('membershiplevel', Service::$base_config_attachment_field);
                 if(!empty($base['data']['level_list']))
                 {
+                    // 规则
+                    $level_rules = isset($base['data']['level_rules']) ? $base['data']['level_rules'] : 0;
+
                     // 匹配类型
                     $value = 0;
-                    switch($base['data']['level_rules'])
+                    switch($level_rules)
                     {
                         // 积分（可用积分）
                         case 0 :
