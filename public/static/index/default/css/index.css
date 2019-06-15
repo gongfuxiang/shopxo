@@ -1,17 +1,10 @@
 @charset "utf-8";
 ul, li, ol {list-style: none;}
 [class*="am-u-"] {padding-left:0rem;padding-right:0rem;}
-.am-thumbnails {margin-left: 0rem;margin-right: 0rem;}
-.am-thumbnail {margin-bottom:0;}
-.am-thumbnails > li {padding: 0 0rem 0.2rem .2rem;}
 .am-container {padding-left:0px;padding-right:0px ;}
 .am-container > .am-g {margin-left: 0px;margin-right:0px ;}
 img{max-width:100%;}
 .small-nav img,.small-nav a,.am-g.small-nav {border:none;}
-.e-price{color:red; font-size:14px;}
-.method3 img{border:none;}
-.method3 li{border:none;border-left:1px #e8e8e8 solid;border-top:1px #e8e8e8 solid}
-dt + dd {margin-top: 0;}
 
 /*手机导航*/
 .small-nav {padding:10px 0px; font-size:12px;}
@@ -40,10 +33,6 @@ text-align: center;float:none}
 .outer-con .price { color: #f33f00; font-weight: bold; }
 .items-nav-title a:hover { color: #d2364c; }
 
-/*文字说明*/
-.seprate{display: none;}
-.recommendation .info h3{font-size:12px;color:#F03726} 
-
 /*小标签*/
 .list .word{padding: 5px; overflow: hidden;}
 .word .outer {margin: 5px; width: calc(50% - 12px); height: 32px;  line-height: 32px; text-align: center;color: #fff;background-color: rgba(0, 0, 0, 0.03);border-radius: 3px; display: inline-block; border: 1px solid #fff; text-decoration: none; overflow: hidden;}
@@ -67,20 +56,14 @@ text-align: center;float:none}
 @media only screen and (min-width: 640px) {
     /*标题*/
     .items-nav-title{background: #fff; border-bottom: 2px solid #000;}
-    .hmtop{background: #fff;}
     .am-container {padding-left:0px;padding-right:0px ;}
     .home-floor{width:100%;background:#fff;overflow:visible;}
 
     /*主题布局*/
-    .pro-title{ font-size:14px;}
-    .banner-news li{font-size:16px;}
-    .e-price{color:red; font-size:16px;}
-    .flood li{width:25%;}
     .banner{ width:100%;overflow:hidden;}
-    .scoll{ margin-top:0px;overflow: hidden;}
 
      /*改写的公告*/
-    .marqueen{height:auto; background:#FFF; opacity:0.8;text-align: center; }
+    .marqueen{height:auto; background:#FFF; opacity:0.8;text-align: center; margin-bottom: 10px; }
     .marqueen-title{font-size: 14px;position: static;border-right:none ;color:#e60012 ;font-size: 16px;font-weight: 600; text-align: center;}
     .banner-news{ height: auto;width: 100%;padding-top:5px; }
     .banner-news li{ font-size:12px; padding:0px 0px;height: 30px;float: right;width:30% ;}	
@@ -88,38 +71,6 @@ text-align: center;float:none}
     /*标题*/
     .items-nav-title h4{border: none;font-size:18px;line-height: 24px;margin:5px 0px ;font-weight: 600;}
     .items-nav-title h3{display:block;font-size: 14px;color: #999;line-height:18px;margin-bottom: 5px;}
-
-    /*推荐*/
-    .recommendation {text-align: left;margin-bottom:10px;padding-top:0px;margin-left:-2px;overflow: hidden;}
-    .recommendation .info{position: absolute;left:-3px;top:20%;z-index: 9;border-left: 1px solid #e8e4de;padding-left: 15px;height:60% ;}
-
-    .recommendationMain{height:125px ;}
-    .recommendationMain img{width:100px;position: absolute;right:10%;margin-right:0px ;bottom: 10px;}
-    .recommendation .am-u-sm-4{padding-left:3px ;}
-
-    /*活动*/
-    .activity {position: relative;}
-    .activity .info{text-align:center;position: absolute;left:5%;width:90%;bottom:5px ;background:#eee ;padding:5px ;}
-    .activity .icon-sale{border-top: 60px solid #0087e5;border-right: 60px solid transparent;}
-    .activity .am-g h4{position: absolute;color: #fff;top:10px;left: 5px;}
-
-    /*第二套各类活动*/
-    .row {padding:0px 10px 20px;overflow: hidden;}
-
-    /*秒杀*/
-    .sale {padding: 0px 6px 6px 6px;}
-    .sale-item img{max-width:180px}
-    .sale-item .s-info .s-title,.sale-item .s-info .s-price{width:90%;margin-left: 5%;text-align: left;padding:0px 5px ;position:relative;}
-    .s-info .s-price { display: block;height: 22px;line-height: 22px;font-size:18px;color: #f52e1f;margin-top: 10px;}
-    .s-info .s-price b {font-size:20px}
-    .s-buy{display: block;position: absolute;right:0px;bottom: 0px;height:22px;line-height:22px;font-size: 14px;background: #f52e1f;color: #fff;padding:0px 10px}
-    /*时间*/
-    .sale-mt i {float: left;display: block;width:380px;height: 93px;background: url(../../images/sale-t.jpg) no-repeat;}
-    .sale-mt .sale-title{display: none;}
-    .sale-mt .s-time {float: right;width: 160px;height: 39px;position: relative;margin-top:24px;margin-right:18px;background: url(../../images/icon-sale.png);}
-    .sale-mt .s-time span {width: 39px;height: 39px;line-height: 39px;font-size: 24px;color: #ffeee0;text-align: center;overflow: hidden;}
-    .s-time .mm {left: 61px;}
-    .s-time .ss {left: 121px;}
 
     /*楼层*/
     .flood { margin-bottom: 15px; }
@@ -198,7 +149,6 @@ text-align: center;float:none}
 
     /*标题*/
     .items-nav-title{text-align: left;position: relative;margin-top:10px ;}
-    .activity .items-nav-title{margin-top: 10px;}
     .items-nav-title h4{float:left;border: none;margin:8px 0 0 0; font-size:16px;font-weight: 600;}
     .items-nav-title h3{display:block;font-size: 12px;color: #999;float: left;margin-left: 10px;margin-top:12px;}
     .items-nav-title .more {display: block;position: absolute;right: 0px;top:12px;font-size: 12px;overflow: hidden;}
@@ -207,31 +157,9 @@ text-align: center;float:none}
     .today-brands a {font-size:12px;display: inline-block;vertical-align: middle;margin:0px 5px;}
 
      /*改写的公告*/
-    .marqueen{ position:absolute;top:10px;right:0px;width:170px; background:#FFF; z-index: 11;border:none; opacity: 0.8; -webkit-transition: opacity .2s ease-in; -moz-transition: opacity .2s ease-in; -ms-transition: opacity .2s ease-in; -o-transition: opacity .2s ease-in; transition: opacity .2s ease-in; }
+    .marqueen{ position:absolute;top:10px;right:0px;width:170px; background:#FFF; z-index: 11;border:none; opacity: 0.8; -webkit-transition: opacity .2s ease-in; -moz-transition: opacity .2s ease-in; -ms-transition: opacity .2s ease-in; -o-transition: opacity .2s ease-in; transition: opacity .2s ease-in; margin-bottom: 0; }
     .marqueen .banner-news li {float: none;width: 100%;padding:0px 5px;border:none ;height: 29px;line-height:32px ;}
     .marqueen:hover { opacity: 1; }
-
-    /*推荐*/
-    .recommendation{margin:0px auto ;}
-    .clock{display: block;height: 145px;background:url(../images/clockbg.png) repeat ;position: relative;}
-    .recommendationMain{height:145px ;}
-    .recommendationMain img{width:120px;right: 5%;}
-    .clock p{font-size:24px;position: absolute;top:50%;margin-top:-31px ;left:12%;}
-    .clock img{position: absolute;right: 10%;width: 120px;top:15px;}
-
-    /*活动*/
-    .activity .icon-sale{border-top: 100px solid #0087e5;border-right: 100px solid transparent;}
-    .activity .am-g h4{position: absolute;color: #fff;top:10px;left: 10px;font-size:16px ;}
-    .activity .info{font-size: 16px;bottom: 10px;}
-
-    /*第二套各类活动*/
-    .row {padding:0px;position: absolute;left:152px ;bottom:0px ;}
-    .row li{padding-left:5px ;}
-    /*秒杀*/
-    .sale-mt{margin-top:250px ;}
-    .s-info .s-price b {font-size: 26px}
-    .s-buy{bottom: 0px;height: 30px;line-height: 30px;font-size: 14px;padding:0px 10px}
-    .sale-item .s-img{padding: 30px 2px;}
 
     /*楼层*/	
     .outer-con .title,.recommendation .info h3{line-height:22px ;color:#666 ;}
