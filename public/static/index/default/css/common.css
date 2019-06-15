@@ -96,9 +96,9 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
 
 .mobile-navigation{position: fixed;bottom:0px ;width: 100%;z-index: 999;background:#fff ;}
 .mobile-navigation li{width: 25%;padding:2px ;background:#fff ;border-top:1px solid #f5f5f5 ;float: left;text-align: center;font-size: 12px; position: relative; }
-.mobile-navigation li a { text-decoration: none; }
-.mobile-navigation li i{display: block;font-size: 16px; z-index: 1; }
-.mobile-navigation li.active a{color:#d2364c ;}
+.mobile-navigation li a { text-decoration: none; color: #666; }
+.mobile-navigation li img { width: 30px; height: 30px; margin: 0 auto; }
+.mobile-navigation li.active a{ color:#d2364c; }
 .hot-icon { position: absolute; top: 1%; left: 53%; z-index: 2; border: 1px solid #fff; }
 
 @media only screen and (min-width: 640px) {

@@ -2,7 +2,7 @@
  * 用户中心
  */
 .user-base, ul.order-base{overflow: hidden;}
-.user-base{-webkit-animation: changeBg 20s infinite; -moz-animation: changeBg 20s infinite; animation: changeBg 20s infinite; background-color: #ED5564; background-image: url(../images/member_top_bg.png); background-size: cover; width: 100%; position: relative; padding: 20px 10px;}
+.user-base{-webkit-animation: changeBg 20s infinite; -moz-animation: changeBg 20s infinite; animation: changeBg 20s infinite; background-color: #ED5564; background-image: url(../images/user-member_top_bg.png); background-size: cover; width: 100%; position: relative; padding: 20px 10px;}
 .user-base p, .user-base span, .user-base a{color: #fff;}
 .user-base a, .order-base a, .order-nav a{text-decoration: none;}
 .user-avatar{text-align: center;}

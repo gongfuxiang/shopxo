@@ -35,24 +35,6 @@ dt + dd {margin-top: 0;}
 text-align: center;float:none}
 .items-nav-title h3,.items-nav-title .today-brands,.items-nav-title .more{display: none;}
 
-
-/*第二套各类活动*/
-.row {padding: 10px 0px;overflow: hidden;}
-.row li{width: 50%;float: left;}
-/*秒杀*/
-.sale {background: #ffd800;padding: 0px 2px 4px 2px;}
-.sale-item{padding: 0px 2px;}
-.sale-item .s-img,.sale-item .s-info{background:#fff ;padding:10px 2px ;}
-/*时间*/
-.sale-mt{overflow: hidden;background:#ffd800 ;margin-top:10px ;}
-.sale-mt i {float: left;display: block;width:60px;height:46px;background: url(../../images/sale-t_clock.jpg);background-size:100% }
-.sale-mt .sale-title{font-size: 18px;font-style:italic;line-height: 46px;color: #885621;margin-left:10px;}
-.sale-mt .s-time {float:right;width:112px;height: 27px;position: relative;background: url(../../images/icon-sale.png);background-size:100% ;margin-top:10px ;margin-right: 10px;}
-.sale-mt .s-time span { position: absolute;top: 0;display: block;width: 27px;height: 27px;line-height: 27px;font-size:18px;color: #ffeee0;text-align: center;overflow: hidden;}
-.s-time .mm {left:43px;}
-.s-time .ss {left:85px;}
-
-.s-buy{display:none;}
 /*楼层*/
 .flood {background: #fff; position: relative; }
 .outer-con .price { color: #f33f00; font-weight: bold; }

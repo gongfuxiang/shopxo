@@ -23,7 +23,7 @@ ul.logistics-list li.selected i.icon-active, ul.payment-list li.selected i.icon-
     line-height: 0;
     right: 0px;
     bottom: 0px;
-    background: url(../images/sys_item_selected.gif) no-repeat right bottom;
+    background: url(../images/sys-item-selected.gif) no-repeat right bottom;
 }
 .business-item ul { padding: 10px 3px 5px 5px;}
 ul.logistics-list li img, ul.payment-list li img { width: 36px; height: 36px; vertical-align: middle; }
@@ -147,7 +147,7 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .address { margin-top: 10px; }
   .address, .buy-message { border-top: 1px solid #eee; }
   .address .control { display: none; }
-  .address-default {background: url(../images/peraddress.png) repeat-x; background-position: bottom; }
+  .address-default {background: url(../images/buy-peraddress.png) repeat-x; background-position: bottom; }
   ul.address-list li { padding: 5px; min-height: 60px; overflow: hidden; }
   .address-detail .phone { float: right; }
   ul.address-list .am-icon-angle-right { color: #888; }

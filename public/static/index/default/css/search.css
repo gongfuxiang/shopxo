@@ -23,7 +23,7 @@ li.select-result dl{padding: 25px 0 5px 0px;}
 li.select-result dt {left:-26px; top:0;font-weight:bold;width:50px;}
 
 .select-no{color:#999}
-.select .select-result a{padding-right:20px;background: url("../images/close.png") right 9px no-repeat}
+.select .select-result a{padding-right:20px;background: url("../images/search-close.png") right 9px no-repeat}
 .select .select-result a:hover{background-position:right -15px}
 .screening-remove-submit{display:none;line-height:21px;margin-top:4px;width:35px;float:right;color:#F00;cursor:pointer;}
 

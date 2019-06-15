@@ -17,7 +17,7 @@ ul.address-list li .user-base {
     }
 
     ul.address-list li.address-default {
-        background-image: url(../images/peraddressbg.png);
+        background-image: url(../images/address-peraddressbg.png);
     }
 
     ul.address-list li {
@@ -25,7 +25,7 @@ ul.address-list li .user-base {
         width: calc(50% - 5px);
         height: 130px;
         float: left;
-        background-image: url(../images/peraddbg.png);
+        background-image: url(../images/address-peraddbg.png);
         background-repeat: no-repeat;
         background-size: 100% 100%;
         margin: 0 10px 10px 0;
