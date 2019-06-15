@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\service\StoreService;
 use app\service\PluginsAdminService;
 
 /**
@@ -90,8 +91,7 @@ class Pluginsadmin extends Common
             $data = PluginsAdminService::PluginsList($data_params);
             $this->assign('data_list', $data['data']);
 
-            $this->assign('store_url', config('shopxo.store_url').'?url='.urlencode(__MY_URL__));
-
+            $this->assign('store_url', StoreService::StoreUrl());
             return $this->fetch();
         } else {
             return $this->fetch('upload');

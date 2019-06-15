@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\StatisticalService;
+use app\service\StoreService;
 
 /**
  * 应用商店
@@ -48,7 +48,7 @@ class Store extends Common
      */
     public function Index()
     {
-        $this->assign('store_url', config('shopxo.store_url').'?url='.urlencode(__MY_URL__));
+        $this->assign('store_url', StoreService::StoreUrl());
         return $this->fetch();
     }
 }
