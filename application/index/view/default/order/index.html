@@ -198,7 +198,11 @@
                                                 {{if empty($goods['orderaftersale'])}}
                                                     退款/退货
                                                 {{else /}}
-                                                    <span class="am-text-secondary">查看进度</span>
+                                                    {{if $goods['orderaftersale']['status'] eq 3}}
+                                                        <span class="am-text-success">查看退款</span>
+                                                    {{else /}}
+                                                        <span class="am-text-secondary">查看进度</span>
+                                                    {{/if}}
                                                 {{/if}}
                                             {{/case}}
                                             {{case 4|6}}

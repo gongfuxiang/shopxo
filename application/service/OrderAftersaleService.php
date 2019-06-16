@@ -729,8 +729,33 @@ class OrderAftersaleService
             }
         }
 
+        // 原路退回(钱包支付方式使用退至钱包)/退到钱包(走事务处理)/手动处理
+        $is_walet = false;
+        if($params['refundment'] == 0)
+        {
+            if($pay_log['payment'] == 'WalletPay')
+            {
+                $is_walet = true;
+            } else {
+                // 原路退回
+                $refund = self::OriginalRoadRefundment($params, $aftersale, $order['data'], $pay_log);
+            }
+        } elseif($params['refundment'] == 1)
+        {
+            $is_walet = true;
+        } else {
+            // 手动处理不涉及金额
+            $refund = DataReturn('退款成功', 0);
+        }
+
+        // 退款成功
+        if(isset($refund['code']) && $refund['code'] != 0)
+        {
+            return $refund;
+        }
+
         // 钱包校验
-        if($params['refundment'] == 1)
+        if($is_walet === true)
         {
             $wallet = Db::name('Plugins')->where(['plugins'=>'wallet'])->find();
             if(empty($wallet))
@@ -739,26 +764,11 @@ class OrderAftersaleService
             }
         }
 
-        // 原路退回
-        if($params['refundment'] == 0)
-        {
-            $refund = self::OriginalRoadRefundment($params, $aftersale, $order['data'], $pay_log);
-
-        // 钱包走事务处理, 手动处理不涉及金额
-        } else {
-            $refund = DataReturn('退款成功', 0);
-        }
-
-        // 退款成功
-        if($refund['code'] != 0)
-        {
-            return $refund;
-        }
         // 开启事务
         Db::startTrans();
 
-        // 钱包操作 - 退至钱包
-        if($params['refundment'] == 1)
+        // 钱包退款
+        if($is_walet === true)
         {
             $ret = self::WalletRefundment($params, $aftersale, $order['data'], $pay_log);
             if($ret['code'] != 0)
