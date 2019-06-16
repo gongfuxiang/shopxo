@@ -119,5 +119,26 @@ class Theme extends Common
 		// 开始处理
 		return ThemeService::ThemeUpload(input());
 	}
+
+	/**
+     * 主题打包
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-22
+     * @desc    description
+     */
+    public function Download()
+    {
+        // 开始处理
+        $ret = ThemeService::ThemeDownload(input());
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            $this->assign('msg', $ret['msg']);
+            return $this->fetch('public/tips_error');
+        } else {
+            return $ret;
+        }
+    }
 }
 ?>

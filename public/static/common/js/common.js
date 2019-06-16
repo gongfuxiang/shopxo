@@ -258,7 +258,7 @@ function FromInit(form_name)
 		{
 			// 错误信息
 			var $field = $(validity.field);
-			var msg = $field.attr('data-validationMessage') || this.getValidationMessage(validity);
+			var msg = $field.data('validationMessage') || this.getValidationMessage(validity);
 			Prompt(msg);
 		},
 
@@ -277,7 +277,8 @@ function FromInit(form_name)
 					editor.focus();
 
 					// 错误信息
-					var msg = $editor_tag.attr('data-validationMessage') || $editor_tag.getValidationMessage(validity);
+					var msg = $editor_tag.data('validationMessage') || $editor_tag.getValidationMessage(validity);
+					console.log(msg);
 					Prompt(msg);
 				}
 			}
@@ -1480,7 +1481,7 @@ $(function()
 		}
 		
 		// 填充数据
-		var data = FunSaveWinAdditional($(this).attr('data-json'), 'edit');
+		var data = FunSaveWinAdditional($(this).data('json'), 'edit');
 
 		// 开始填充数据
 		FormDataFill(data, '#'+tag);

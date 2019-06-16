@@ -424,37 +424,78 @@ class PaymentService
         }
 
         // 文件格式化校验
-        $type = array('text/php');
+        $type = array('application/zip', 'application/octet-stream', 'application/x-zip-compressed');
         if(!in_array($_FILES['file']['type'], $type))
         {
-            return DataReturn('文件格式有误，必须php文件', -2);
+            return DataReturn('文件格式有误，请上传zip压缩包', -2);
         }
 
-        // 是否已有存在插件
-        if(file_exists(self::$payment_dir.$_FILES['file']['name']))
+        // 开始解压文件
+        $resource = zip_open($_FILES['file']['tmp_name']);
+        if(!is_resource($resource))
         {
-            return DataReturn('已存在相同插件', -3);
+            return DataReturn('压缩包打开失败['.$resource.']', -10);
         }
 
-        // 文件名称过滤
-        $name = substr($_FILES['file']['name'], 0, strlen($_FILES['file']['name'])-4);
-        $payment = str_replace(array('.', '/', '\\', ':'), '', $name);
-
-        // 存储文件
-        $file = self::$payment_dir.$payment.'.php';
-        if(!move_uploaded_file($_FILES['file']['tmp_name'], $file))
+        $success = 0;
+        $error = 0;
+        while(($temp_resource = zip_read($resource)) !== false)
         {
-            return DataReturn('上传失败', -100);
+            if(zip_entry_open($resource, $temp_resource))
+            {
+                // 当前压缩包中项目名称
+                $file = zip_entry_name($temp_resource);
+
+                // 排除临时文件和临时目录
+                if(strpos($file, '/.') === false && strpos($file, '__') === false)
+                {
+                    // 忽略非php文件
+                    if(substr($file, -4) != '.php')
+                    {
+                        $error++;
+                        continue;
+                    }
+
+                    // 文件名称
+                    $payment = str_replace(array('.', '/', '\\', ':'), '', substr($file, 0, -4));
+
+                    // 是否已有存在插件
+                    if(file_exists(self::$payment_dir.$payment))
+                    {
+                        $error++;
+                        continue;
+                    } else {
+                        $file = self::$payment_dir.$payment.'.php';
+                    }
+
+                    // 如果不是目录则写入文件
+                    if(!is_dir($file))
+                    {
+                        // 读取这个文件
+                        $file_size = zip_entry_filesize($temp_resource);
+                        $file_content = zip_entry_read($temp_resource, $file_size);
+                        if(@file_put_contents($file, $file_content) !== false)
+                        {
+                            // 文件校验
+                            $config = self::GetPaymentConfig($payment);
+                            if($config === false)
+                            {
+                                $error++;
+                                @unlink($file);
+                            } else {
+                                $success++;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        // 文件校验
-        $config = self::GetPaymentConfig($payment);
-        if($config === false)
+        if($success > 0)
         {
-            @unlink($file);
-            return DataReturn('插件编写有误，请参考文档编写', -10);
+            return DataReturn('上传成功[成功'.$success.'个, 失败'.$error.'个]', 0);
         }
-        return DataReturn('上传成功');
+        return DataReturn('上传失败'.$error.'个', -10);
     }
 
     /**

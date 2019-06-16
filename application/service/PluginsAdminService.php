@@ -1065,7 +1065,7 @@ php;
      * @version 1.0.0
      * @date    2019-03-22
      * @desc    description
-     * @param    [array]          $params [输入参数]
+     * @param   [array]          $params [输入参数]
      */
     public static function PluginsDownload($params = [])
     {

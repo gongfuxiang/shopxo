@@ -192,6 +192,7 @@ class ThemeService
         {
             return DataReturn('模板id有误', -1);
         }
+
         // 防止路径回溯
         $id = htmlentities(str_replace(array('.', '/', '\\', ':'), '', strip_tags($params['id'])));
         if(empty($id))
@@ -220,6 +221,87 @@ class ThemeService
             return DataReturn('删除成功');
         }
         return DataReturn('删除失败或资源不存在', -100);
+    }
+
+    /**
+     * 主题打包
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-22
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function ThemeDownload($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '模板id有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 是否开启开发者模式
+        if(config('shopxo.is_develop') !== true)
+        {
+            return DataReturn('请先开启开发者模式', -1); 
+        }
+
+        // 防止路径回溯
+        $theme = htmlentities(str_replace(array('.', '/', '\\', ':'), '', strip_tags($params['id'])));
+        if(empty($theme))
+        {
+            return DataReturn('主题名称有误', -1);
+        }
+
+        // 目录不存在则创建
+        $new_dir = ROOT.'runtime'.DS.'data'.DS.'theme_package'.DS.$theme;
+        \base\FileUtil::CreateDir($new_dir);
+
+        // 复制包目录 - 视图
+        $old_dir = ROOT.self::$html_path.$theme;
+        if(is_dir($old_dir))
+        {
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_html_') != true)
+            {
+                return DataReturn('项目包复制失败[视图]', -2);
+            }
+        }
+
+        // 复制包目录 - 静态文件
+        $old_dir = ROOT.self::$static_path.$theme;
+        if(is_dir($old_dir))
+        {
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_static_') != true)
+            {
+                return DataReturn('项目包复制失败[静态文件]', -2);
+            }
+        }
+
+        // 生成压缩包
+        $zip = new \base\ZipFolder();
+        if(!$zip->zip($new_dir.'.zip', $new_dir))
+        {
+            return DataReturn('压缩包生成失败', -100);
+        }
+
+        // 生成成功删除目录
+        \base\FileUtil::UnlinkDir($new_dir);
+
+        // 开始下载
+        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $theme.'.zip'))
+        {
+            @unlink($new_dir.'.zip');
+        } else {
+            return DataReturn('下载失败', -100);
+        }
     }
 }
 ?>

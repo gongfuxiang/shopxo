@@ -19,9 +19,14 @@
 							<div class="am-gallery-item-bottom">
 								<h3 class="am-gallery-title">
 									{{$v.name}}
-									{{if $v.is_delete eq 1}}
-										<a href="javascript:;" class="am-icon-trash-o fr submit-delete" data-url="{{:MyUrl('admin/theme/delete')}}" data-id="{{$v.theme}}"></a>
-									{{/if}}
+									<div class="am-fr am-text-right">
+										{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+											<a href="{{:MyUrl('admin/theme/download', array('id'=>$v['theme']))}}" class="am-icon-trash-o am-icon-download" title="打包" data-url="{{:MyUrl('admin/theme/download')}}" data-id="{{$v.theme}}"></a>
+										{{/if}}
+										{{if $v.is_delete eq 1}}
+											<a href="javascript:;" class="am-icon-trash-o submit-delete am-margin-left-sm" title="删除" data-url="{{:MyUrl('admin/theme/delete')}}" data-id="{{$v.theme}}"></a>
+										{{/if}}
+									</div>
 								</h3>
 								<div class="am-gallery-desc">作者：
 									{{if empty($v['home'])}}

@@ -189,7 +189,7 @@ fieldset legend{margin-left:15px;padding-left:3px;padding-right:3px;color:#333;}
  .tb-detail-price dd {display: inline-block;}
  .goods-favor-count { color: #999; }
 .iteminfo_parameter a:hover{text-decoration: none;color:initial ;}
-.tm-indcon .tm-label,.tb-detail-price dt{ white-space:nowrap; color:#888;}
+.tm-indcon .tm-label, .tb-detail-price dt, .specpara-title { white-space:nowrap; color:#666; font-weight: 400; }
 .tb-detail-price{ background: #fcf1e3 url(../images/goods-meta-bg.png); background-size: cover; -moz-background-size: cover; background-repeat: no-repeat; height:75px;padding:10px; }
 .tb-detail-price .items {display: block;margin-left:0 !important;}
 .tb-detail-price .items dt { float:left; text-align: left;}
