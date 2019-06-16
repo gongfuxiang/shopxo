@@ -736,6 +736,22 @@ class NavigationService
                     ],
                 ]
             ],
+            'property' => [
+                'name'      =>  '财产中心',
+                'is_show'   =>  1,
+                'icon'      =>  'am-icon-trophy',
+                'is_system' =>  1,
+                'item'      =>  [
+                    [
+                        'name'      =>  '我的积分',
+                        'url'       =>  MyUrl('index/userintegral/index'),
+                        'contains'  =>  ['userintegralindex'],
+                        'is_show'   =>  1,
+                        'icon'      =>  'am-icon-fire',
+                        'is_system' =>  1,
+                    ],
+                ]
+            ],
             'base' => [
                 'name'      =>  '资料管理',
                 'is_show'   =>  1,
@@ -788,22 +804,6 @@ class NavigationService
                         'contains'  =>  ['answerindex'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-question',
-                        'is_system' =>  1,
-                    ],
-                ]
-            ],
-            'property' => [
-                'name'      =>  '财产中心',
-                'is_show'   =>  1,
-                'icon'      =>  'am-icon-trophy',
-                'is_system' =>  1,
-                'item'      =>  [
-                    [
-                        'name'      =>  '我的积分',
-                        'url'       =>  MyUrl('index/userintegral/index'),
-                        'contains'  =>  ['userintegralindex'],
-                        'is_show'   =>  1,
-                        'icon'      =>  'am-icon-fire',
                         'is_system' =>  1,
                     ],
                 ]

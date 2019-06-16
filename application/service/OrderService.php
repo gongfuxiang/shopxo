@@ -390,7 +390,7 @@ class OrderService
      * @datetime 2018-10-05T23:02:14+0800
      * @param   [array]          $params [输入参数]
      */
-    private static function OrderPayHandle($params = [])
+    public static function OrderPayHandle($params = [])
     {
         // 订单信息
         if(empty($params['order']))

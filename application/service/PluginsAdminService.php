@@ -925,6 +925,14 @@ php;
         {
             return DataReturn('应用images目录没有操作权限'.'['.$app_static_images_dir.']', -3);
         }
+
+        // 应用upload目录
+        $app_upload_dir = ROOT.'public'.DS.'static'.DS.'upload';
+        if(!is_writable($app_upload_dir))
+        {
+            return DataReturn('应用upload目录没有操作权限'.'['.$app_upload_dir.']', -3);
+        }
+
         return DataReturn('权限正常', 0);
     }
 
