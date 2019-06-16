@@ -211,13 +211,6 @@ class Qrcode
     {
         if(!is_dir($dir))
         {
-            // 目录是否有权限
-            $ret = $this->IsWritable($dir);
-            if($ret['code'] != 0)
-            {
-                return $ret;
-            }
-
             // 创建目录
             if(mkdir($dir, 0777, true) === false)
             {
@@ -225,34 +218,6 @@ class Qrcode
             }
         }
         return DataReturn('操作成功', 0);
-    }
-
-    /**
-     * 目录是否有权限
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2019-04-19
-     * @desc    description
-     * @param   [string]          $dir [文件路径]
-     */
-    private function IsWritable($dir)
-    {
-        $dirs = str_replace($this->config['root_path'], '', $dir);
-        $dll = explode(DS, $dirs);
-        if(!empty($dll) && is_array($dll))
-        {
-            $dstr = '';
-            foreach($dll as $d)
-            {
-                $dstr .= empty($d) ? '' : DS.$d;
-                if(is_dir($this->config['root_path'].$dstr) && !is_writable($this->config['root_path'].$dstr))
-                {
-                    return DataReturn('目录没有权限['.$dstr.']', -1);
-                }
-            }
-        }
-        return DataReturn('有权限', 0);
     }
 }
 ?>
