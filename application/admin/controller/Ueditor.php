@@ -367,7 +367,7 @@ class Ueditor extends Common
 		// 倒序
 		//$files = $this->ArrayQuickSort($files);
 
-		if(count($files) > 0)
+		if(is_array($files) && count($files) > 0)
 		{
 			/* 获取指定范围的列表 */
 			$len = count($files);
