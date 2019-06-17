@@ -39,8 +39,8 @@ define('__MY_PUBLIC_URL__',  empty($_SERVER['HTTP_HOST']) ? '' : __MY_HTTP__.':/
 $request_url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 define('__MY_VIEW_URL__', substr(__MY_URL__, 0, -1).$request_url);
 
-// 系统根目录
-define('ROOT_PATH', dirname(__FILE__).DS);
+// 系统根目录,强制转换win反斜杠
+define('ROOT_PATH', str_replace('\\', DS, dirname(__FILE__)).DS);
 
 // 系统根目录 去除public
 define('ROOT', str_replace('public'.DS, '', ROOT_PATH));
