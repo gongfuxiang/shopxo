@@ -48,7 +48,6 @@ class Pay extends Common
             $this->assign('msg', '参数有误');
             return $this->fetch('public/tips_error');
         } else {
-            //print_r($params);die;
             $this->assign('params', $params);
             return $this->fetch();
         }

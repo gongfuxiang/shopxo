@@ -218,7 +218,7 @@ class Weixin
                     'order_no'  => $params['order_no'],
                     'name'      => urlencode('微信支付'),
                     'msg'       => urlencode('打开微信APP扫一扫进行支付'),
-                    'ajax_url'  => urlencode($params['ajax_url']),
+                    'ajax_url'  => urlencode(base64_encode($params['ajax_url'])),
                 ];
                 $url = MyUrl('index/pay/qrcode', $pay_params);
                 $result = DataReturn('success', 0, $url);
