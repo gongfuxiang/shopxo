@@ -245,7 +245,7 @@ class Weixin
                 $pay_data['paySign'] = $this->GetSign($pay_data);
 
                 // 微信中
-                if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false)
+                if(in_array(APPLICATION_CLIENT_TYPE, ['pc', 'h5']) && !empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false)
                 {
                     $this->PayHtml($pay_data, $redirect_url);
                 } else {
@@ -396,9 +396,12 @@ class Weixin
         }
 
         // 微信中打开
-        if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false)
+        if(in_array(APPLICATION_CLIENT_TYPE, ['pc', 'h5']))
         {
-            $type_all['pc'] = $type_all['weixin'];
+            if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false)
+            {
+                $type_all['pc'] = $type_all['weixin'];
+            }
         }
 
         return isset($type_all[APPLICATION_CLIENT_TYPE]) ? $type_all[APPLICATION_CLIENT_TYPE] : '';
