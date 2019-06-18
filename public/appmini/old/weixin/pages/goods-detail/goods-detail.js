@@ -97,7 +97,7 @@ Page({
               goods_spec_base_inventory: data.goods.inventory,
               goods_spec_base_images: data.goods.images,
 
-              show_field_price_text: data.goods.show_field_price_text.replace(/<[^>]+>/g, "") || null,
+              show_field_price_text: (data.goods.show_field_price_text == '销售价') ? null : (data.goods.show_field_price_text.replace(/<[^>]+>/g, "") || null),
             });
 
             // 不能选择规格处理
