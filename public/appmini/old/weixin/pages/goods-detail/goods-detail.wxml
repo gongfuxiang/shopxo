@@ -27,6 +27,7 @@
       </view>
     </view>
     <view class="goods-price single-text">
+      <text wx:if="{{(show_field_price_text || null) != null}}" class="price-icon">{{show_field_price_text}}</text>
       <text class="sales-price">￥{{goods.price}}</text>
       <text wx:if="{{(goods.original_price || null) != null}}" class="original-price">￥{{goods.original_price}}</text>
       <view class="cr-ccc sales">
@@ -49,7 +50,7 @@
       <text class="text-wrapper">详情</text>
     </view>
     <view wx:for="{{goods_content_app}}" wx:key="key" class="goods-detail-app bg-white">
-        <image wx:if="{{(item.images || null) != null}}" bindtap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto" src="{{item.images}}" mode="widthFix" />
+        <image wx:if="{{(item.images || null) != null}}" bindtap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto dis-block" src="{{item.images}}" mode="widthFix" />
         <view wx:if="{{(item.content || null) != null}}" class="content-items">
           <view wx:for="{{item.content}}" wx:for-item="items">{{items}}</view>
         </view>

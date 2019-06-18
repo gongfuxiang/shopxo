@@ -14,7 +14,6 @@ time, mark, audio, video {
     margin: 0;
     padding: 0;
     border: 0;
-    vertical-align: baseline;
     font-family: arial,"Lantinghei SC","Microsoft Yahei";
     font-style: normal;
 }
@@ -649,6 +648,7 @@ ul.am-dropdown-content > .am-active > a:focus,
     max-width: 100px;
     max-height: 45px;
     padding: 5px;
+    line-height: 30px;
 }
 .shop-navigation .wap-logo img {
     max-width: 100%;

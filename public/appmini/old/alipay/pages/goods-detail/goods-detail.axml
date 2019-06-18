@@ -27,6 +27,7 @@
       </view>
     </view>
     <view class="goods-price single-text">
+      <text a:if="{{(show_field_price_text || null) != null}}" class="price-icon">{{show_field_price_text}}</text>
       <text class="sales-price">￥{{goods.price}}</text>
       <text a:if="{{(goods.original_price || null) != null}}" class="original-price">￥{{goods.original_price}}</text>
       <view class="cr-ccc sales">
@@ -49,7 +50,7 @@
       <text class="text-wrapper">详情</text>
     </view>
     <view a:for="{{goods_content_app}}" class="goods-detail-app bg-white">
-        <image a:if="{{(item.images || null) != null}}" onTap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto" src="{{item.images}}" mode="widthFix" />
+        <image a:if="{{(item.images || null) != null}}" onTap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto dis-block" src="{{item.images}}" mode="widthFix" />
         <view a:if="{{(item.content || null) != null}}" class="content-items">
           <view a:for="{{item.content}}" a:for-item="items">{{items}}</view>
         </view>

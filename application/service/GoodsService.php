@@ -1309,7 +1309,7 @@ class GoodsService
                 {
                     return DataReturn('请填写有效的规格销售价格', -1);
                 }
-                if(empty($data[0][1]))
+                if(!isset($data[0][1]) || $data[0][1] < 0)
                 {
                     return DataReturn('请填写规格库存', -1);
                 }

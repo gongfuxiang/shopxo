@@ -203,3 +203,14 @@
 .page {
     padding-bottom: 100rpx;
 }
+
+/*
+ * 价格icon
+ */
+ .price-icon {
+  background:#FF5722;
+  color:#fff;
+  padding:2px 5px;
+  line-height:20px;
+  border-radius:1px;
+}
