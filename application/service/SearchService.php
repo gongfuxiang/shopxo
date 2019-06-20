@@ -75,7 +75,7 @@ class SearchService
         // 关键字
         if(!empty($params['keywords']))
         {
-            $where[] = ['g.title', 'like', '%'.$params['keywords'].'%'];
+            $where[] = ['g.title|g.seo_title|g.seo_keywords|g.seo_keywords', 'like', '%'.$params['keywords'].'%'];
         }
 
         // 品牌
