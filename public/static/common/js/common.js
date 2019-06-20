@@ -1413,7 +1413,7 @@ $(function()
 		// 额外处理数据
 		if($('#tree').length > 0)
 		{
-			var additional = $('#tree').attr('data-additional') || null;
+			var additional = $('#tree').data('additional') || null;
 			if(additional != null)
 			{
 				for(var i in additional)
