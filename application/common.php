@@ -381,6 +381,32 @@ function DataReturn($msg = '', $code = 0, $data = '')
     return $result;
 }
 
+/**
+ * 获取当前脚本名称
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-06-20
+ * @desc    description
+ */
+function CurrentScriptName()
+{
+    $name = '';
+    if(!empty($_SERVER['SCRIPT_NAME']))
+    {
+        if(!empty($_SERVER['SCRIPT_FILENAME']))
+        {
+            $loc = strripos($_SERVER['SCRIPT_FILENAME'], '/');
+            if($loc !== false)
+            {
+                $name = substr($_SERVER['SCRIPT_FILENAME'], $loc);
+            }
+        }
+    } else {
+        $name = $_SERVER['SCRIPT_NAME'];
+    }
+    return str_replace('/', '', $name);
+}
 
 /**
  * 生成url地址
@@ -394,6 +420,7 @@ function DataReturn($msg = '', $code = 0, $data = '')
  */
 function MyUrl($path, $params=[])
 {
+    // 调用框架生成url
     $url = url($path, $params, true, true);
 
     // 是否根目录访问项目
@@ -406,6 +433,13 @@ function MyUrl($path, $params=[])
     if(__MY_HTTP__ == 'https' && substr($url, 0, 5) != 'https')
     {
         $url = 'https'.mb_substr($url, 4, null, 'utf-8');
+    }
+
+    // 避免从后台生成url入口错误
+    $script_name = CurrentScriptName();
+    if($script_name != 'index.php' && substr($path, 0, 6) == 'index/')
+    {
+        $url = str_replace($script_name, 'index.php', $url);
     }
 
     return $url;
@@ -443,6 +477,9 @@ function PluginsHomeUrl($plugins_name, $plugins_control, $plugins_action, $param
     {
         $url = 'https'.mb_substr($url, 4, null, 'utf-8');
     }
+
+    // 避免从后台生成url入口错误
+    $url = str_replace(CurrentScriptName(), 'index.php', $url);
 
     return $url;
 }
