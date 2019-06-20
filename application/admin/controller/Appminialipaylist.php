@@ -24,6 +24,7 @@ class AppMiniAlipayList extends Common
 	private $application_name;
 	private $old_path;
 	private $new_path;
+	private $params;
 
 	/**
 	 * 构造方法
