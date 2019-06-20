@@ -3,7 +3,7 @@
 * 遵循Apache2开源协议发布，无需授权、可商用、可二次开发、满足99%的电商运营需求。
 * PC+H5、支付宝小程序、微信小程序、百度小程序(筹备中)。
 
-### 传送门
+### 传送门 
 * 官网地址：https://shopxo.net/
 * 社区交流：https://ask.shopxo.net/
 * 应用商店：https://store.shopxo.net/
