@@ -426,7 +426,7 @@ class StatisticalService
         {
             $data = [];
         } else {
-            $data = Db::name('OrderDetail')->field('title AS name,sum(buy_number) AS value')->where('order_id', 'IN', $order_ids)->group('goods_id')->select();
+            $data = Db::name('OrderDetail')->field('title AS name,sum(buy_number) AS value')->where('order_id', 'IN', $order_ids)->group('goods_id')->limit(10)->select();
         }
 
         if(!empty($data))
