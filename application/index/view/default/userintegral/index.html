@@ -88,7 +88,8 @@
                             <th class="am-hide-sm-only">描述</th>
                             <th>原始积分</th>
                             <th>最新积分</th>
-                            <th class="am-hide-sm-only">时间</th>
+                            <th class="am-hide-md-down">时间</th>
+                            <th>更多</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -99,7 +100,37 @@
                                     <td class="am-hide-sm-only">{{$v.msg}}</td>
                                     <td>{{$v.original_integral}}</td>
                                     <td>{{$v.new_integral}}</td>
-                                    <td class="am-hide-sm-only">{{$v.add_time_time}}</td>
+                                    <td class="am-hide-md-down">{{$v.add_time_time}}</td>
+                                    <td>
+                                        <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+                                        <div class="am-popup am-radius" id="my-popup{{$v.id}}">
+                                            <div class="am-popup-inner">
+                                                <div class="am-popup-hd">
+                                                    <h4 class="am-popup-title">详情内容</h4>
+                                                    <span data-am-modal-close
+                                                    class="am-close">&times;</span>
+                                                </div>
+                                                <div class="am-popup-bd">
+                                                    <dl class="dl-content">
+                                                        <dt>操作类型</dt>
+                                                        <dd>{{$v.type_name}}</dd>
+
+                                                        <dt>描述</dt>
+                                                        <dd>{{$v.msg}}</dd>
+
+                                                        <dt>原始积分</dt>
+                                                        <dd>{{$v.original_integral}}</dd>
+
+                                                        <dt>最新积分</dt>
+                                                        <dd>{{$v.new_integral}}</dd>
+
+                                                        <dt>时间</dt>
+                                                        <dd>{{$v.add_time_time}}</dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                             {{/foreach}}
                         {{/if}}

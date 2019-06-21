@@ -83,14 +83,14 @@
                     <thead>
                         <tr>
                             <th>姓名</th>
-                            <th>电话</th>
+                            <th class="am-hide-sm-only">电话</th>
                             <th>标题</th>
                             <th class="am-hide-sm-only">内容</th>
                             <th class="am-hide-sm-only">回复</th>
-                            <th class="am-hide-sm-only">是否显示</th>
-                            <th class="am-hide-sm-only">回复时间</th>
-                            <th class="am-hide-sm-only">时间</th>
-                            <th class="am-hide-sm-only">操作</th>
+                            <th class="am-hide-md-down">回复时间</th>
+                            <th class="am-hide-md-down">时间</th>
+                            <th>更多</th>
+                            <th>操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -98,7 +98,7 @@
                             {{foreach $data_list as $v}}
                                 <tr id="data-list-{{$v.id}}">
                                     <td>{{$v.name}}</td>
-                                    <td>{{$v.tel}}</td>
+                                    <td class="am-hide-sm-only">{{$v.tel}}</td>
                                     <td>{{$v.title}}</td>
                                     <td class="am-hide-sm-only reply-content">{{$v.content}}</td>
                                     <td class="am-hide-sm-only reply-content">
@@ -108,9 +108,53 @@
                                             <span class="gray-text">未回复</span>
                                         {{/if}}
                                     </td>
-                                    <td class="am-hide-sm-only">{{$v.is_show_text}}</td>
-                                    <td class="am-hide-sm-only">{{$v.reply_time}}</td>
-                                    <td class="am-hide-sm-only">{{$v.add_time}}</td>
+                                    <td class="am-hide-md-down">{{$v.reply_time}}</td>
+                                    <td class="am-hide-md-down">{{$v.add_time}}</td>
+                                    <td>
+                                        <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+                                        <div class="am-popup am-radius" id="my-popup{{$v.id}}">
+                                            <div class="am-popup-inner">
+                                                <div class="am-popup-hd">
+                                                    <h4 class="am-popup-title">详情内容</h4>
+                                                    <span data-am-modal-close
+                                                    class="am-close">&times;</span>
+                                                </div>
+                                                <div class="am-popup-bd">
+                                                    <dl class="dl-content">
+                                                        <dt>姓名</dt>
+                                                        <dd>{{if empty($v['name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.name}}{{/if}}</dd>
+
+                                                        <dt>电话</dt>
+                                                        <dd>{{if empty($v['tel'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.tel}}{{/if}}</dd>
+
+                                                        <dt>标题</dt>
+                                                        <dd>{{if empty($v['title'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.title}}{{/if}}</dd>
+
+                                                        <dt>内容</dt>
+                                                        <dd>{{$v.content|raw}}</dd>
+
+                                                        <dt>回复内容</dt>
+                                                        <dd>
+                                                            {{{if $v['is_reply'] eq 1}}
+                                                                {{$v.reply}}
+                                                            {{else /}}
+                                                                <span class="gray-text">未回复</span>
+                                                            {{/if}}
+                                                        </dd>
+
+                                                        <dt>回复时间</dt>
+                                                        <dd>{{if empty($v['reply_time'])}}<span class="cr-ddd">未回复</span>{{else /}}{{$v.reply_time}}{{/if}}</dd>
+
+                                                        <dt>创建时间</dt>
+                                                        <dd>{{$v.add_time}}</dd>
+
+                                                        <dt>更新时间</dt>
+                                                        <dd>{{$v.upd_time}}</dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td class="view-operation">
                                         <button class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block am-icon-trash-o submit-delete" data-url="{{:MyUrl('index/answer/delete')}}" data-id="{{$v.id}}"> 删除</button>
                                     </td>
