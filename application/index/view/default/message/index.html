@@ -93,7 +93,7 @@
                 <table class="am-table am-table-striped">
                     <thead>
                         <tr>
-                            <th>标题</th>
+                            <th class="am-hide-sm-only">标题</th>
                             <th class="am-hide-sm-only">类型</th>
                             <th class="am-hide-sm-only">业务</th>
                             <th>详情</th>
@@ -106,7 +106,7 @@
                         {{if !empty($data_list)}}
                             {{foreach $data_list as $v}}
                                 <tr>
-                                    <td>{{$v.title}}</td>
+                                    <td class="am-hide-sm-only">{{$v.title}}</td>
                                     <td class="am-hide-sm-only">{{$v.type_name}}</td>
                                     <td class="am-hide-sm-only">{{$v.business_type_name}}</td>
                                     <td>{{$v.detail}}</td>
