@@ -217,7 +217,7 @@
 							<td class="view-operation">
 								<a href="{{:MyUrl('admin/answer/saveinfo', array_merge($params, ['id'=>$v['id']]))}}" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block am-icon-edit"> 编辑</a>
 								{{if $v['is_reply'] eq 0}}
-									<button class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-reply am-icon-gavel" data-am-modal="{target: '#my-popup-reply'}" data-json='{{:json_encode($v)}}'> 回复</button>
+									<button class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-reply am-icon-gavel" data-am-modal="{target: '#my-popup-reply'}" data-json='{{:str_replace("'", '', json_encode($v))}}'> 回复</button>
 								{{/if}}
 								<button class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/answer/delete')}}" data-id="{{$v.id}}"> 删除</button>
 							</td>

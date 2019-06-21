@@ -228,11 +228,11 @@ class AnswerService
         // 开始操作
         $data = [
             'user_id'       => isset($params['user']['id']) ? intval($params['user']['id']) : (isset($params['user_id']) ? intval($params['user_id']) : 0),
-            'name'          => isset($params['name']) ? str_replace(['"', "'"], '', strip_tags($params['name'])) : '',
-            'tel'           => isset($params['tel']) ? str_replace(['"', "'"], '', strip_tags($params['tel'])) : '',
-            'title'         => isset($params['title']) ? str_replace(['"', "'"], '', strip_tags($params['title'])) : '',
-            'content'       => str_replace(['"', "'"], '', strip_tags($params['content'])),
-            'reply'         => isset($params['reply']) ? str_replace(['"', "'"], '', strip_tags($params['reply'])) : '',
+            'name'          => isset($params['name']) ? $params['name'] : '',
+            'tel'           => isset($params['tel']) ? $params['tel'] : '',
+            'title'         => isset($params['title']) ? $params['title'] : '',
+            'content'       => $params['content'],
+            'reply'         => isset($params['reply']) ? $params['reply'] : '',
             'access_count'  => isset($params['access_count']) ? intval($params['access_count']) : 0,
             'is_reply'      => isset($params['is_reply']) ? intval($params['is_reply']) : 0,
             'is_show'       => isset($params['is_show']) ? intval($params['is_show']) : 0,

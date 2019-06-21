@@ -279,10 +279,10 @@
                                     <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-check am-btn-block submit-ajax" data-url="{{:MyUrl('admin/orderaftersale/confirm')}}" data-id="{{$v.id}}" data-view="reload"> 确认</button>
                                 {{/if}}
                                 {{if $v['status'] eq 2}}
-                                    <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-gavel am-btn-block submit-audit" data-json='{{:json_encode($v)}}'> 审核</button>
+                                    <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-gavel am-btn-block submit-audit" data-json='{{:str_replace("'", '', json_encode($v))}}'> 审核</button>
                                 {{/if}}
                                 {{if in_array($v['status'], [0,2])}}
-                                    <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-icon-warning am-btn-block submit-refuse" data-json='{{:json_encode($v)}}'> 拒绝</button>
+                                    <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-icon-warning am-btn-block submit-refuse" data-json='{{:str_replace("'", '', json_encode($v))}}'> 拒绝</button>
                                 {{/if}}
                                 {{if in_array($v['status'], [1,2])}}
                                     <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax submit-cancel" data-url="{{:MyUrl('admin/orderaftersale/cancel')}}" data-id="{{$v.id}}" data-view="reload"> 取消</button>
