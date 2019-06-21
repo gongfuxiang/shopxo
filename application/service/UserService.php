@@ -1655,16 +1655,7 @@ class UserService
         }
 
         // 推荐人id
-        if(isset($params['referrer']))
-        {
-            $data['referrer'] = intval($params['referrer']);
-        } else {
-            $referrer = session('share_referrer_id');
-            if($referrer !== null)
-            {
-                $data['referrer'] = intval($referrer);
-            }
-        }
+        $data['referrer'] = self::UserReferrerDecrypt($params);
 
         // 添加用户
         $user_id = Db::name('User')->insertGetId($data);
@@ -2024,6 +2015,43 @@ class UserService
             }
         }
         return DataReturn('操作成功', 0, $data);
+    }
+
+    /**
+     * 用户推荐id加密
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-06-21
+     * @desc    description
+     * @param   [int]           $user_id [用户id]
+     */
+    public static function UserReferrerEncryption($user_id)
+    {
+        return StrToAscii(base64_encode($user_id));
+    }
+
+    /**
+     * 用户推荐id解密
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-06-21
+     * @desc    description
+     * @param   [array]           $params [输入参数, referrer 参数用户推荐id]
+     */
+    public static function UserReferrerDecrypt($params = [])
+    {
+        // 推荐人
+        $referrer = empty($params['referrer']) ? session('share_referrer_id') : $params['referrer'];
+
+        // 查看用户id是否已加密
+        if(preg_match('/[a-zA-Z]/', $referrer))
+        {
+            $referrer = base64_decode(AsciiToStr($referrer));
+        }
+
+        return intval($referrer);
     }
 }
 ?>
