@@ -200,7 +200,7 @@ class Common extends Controller
         // 推荐人
         if(!empty($this->params['referrer']))
         {
-            session('share_referrer_id', intval($this->params['referrer']));
+            session('share_referrer_id', $this->params['referrer']);
         }
     }
 
