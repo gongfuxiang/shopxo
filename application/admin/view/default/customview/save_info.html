@@ -41,7 +41,7 @@
 
 			<div class="am-form-group">
 				<label>内容{{if IsMobile()}}<span class="am-form-group-label-tips">更多编辑功能请使用电脑访问</span>{{/if}}</label>
-				<textarea class="am-radius am-validate" name="content" rows="5" minlength="50" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>'customview'])}}" placeholder="内容长度最少 50~105000 个字符" {{else /}} placeholder="内容长度最少 50~105000 个字符更多编辑功能请使用电脑访问" {{/if}} data-validation-message="内容长度最少 50~105000 个字符" required>{{if !empty($data)}}{{$data.content}}{{/if}}</textarea>
+				<textarea class="am-radius am-validate" name="content" rows="5" minlength="50" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('api/ueditor/index', ['path_type'=>'customview'])}}" placeholder="内容长度最少 50~105000 个字符" {{else /}} placeholder="内容长度最少 50~105000 个字符更多编辑功能请使用电脑访问" {{/if}} data-validation-message="内容长度最少 50~105000 个字符" required>{{if !empty($data)}}{{$data.content}}{{/if}}</textarea>
 			</div>
 			<div class="am-form-group am-form-group-refreshing">
 				<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />

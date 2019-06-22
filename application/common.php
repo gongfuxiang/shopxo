@@ -437,9 +437,15 @@ function MyUrl($path, $params=[])
 
     // 避免从后台生成url入口错误
     $script_name = CurrentScriptName();
-    if($script_name != 'index.php' && substr($path, 0, 6) == 'index/')
+    if($script_name != 'index.php')
     {
-        $url = str_replace($script_name, 'index.php', $url);
+        if(substr($path, 0, 6) == 'index/')
+        {
+            $url = str_replace($script_name, 'index.php', $url);
+        } elseif(substr($path, 0, 4) == 'api/')
+        {
+            $url = str_replace($script_name, 'api.php', $url);
+        }
     }
 
     return $url;
@@ -479,7 +485,14 @@ function PluginsHomeUrl($plugins_name, $plugins_control, $plugins_action, $param
     }
 
     // 避免从后台生成url入口错误
-    $url = str_replace(CurrentScriptName(), 'index.php', $url);
+    $script_name = CurrentScriptName();
+    if(substr($path, 0, 6) == 'index/')
+    {
+        $url = str_replace($script_name, 'index.php', $url);
+    } elseif(substr($path, 0, 4) == 'api/')
+    {
+        $url = str_replace($script_name, 'api.php', $url);
+    }
 
     return $url;
 }

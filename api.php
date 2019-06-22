@@ -9,26 +9,9 @@
 // | Author: Devil
 // +----------------------------------------------------------------------
 
-/**
- * 模块配置信息
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  0.0.1
- * @datetime 2016-12-01T21:51:08+0800
- */
+// 根目录入口
+define('IS_ROOT_ACCESS', true);
 
-return [
-    // 缓存key列表
-    // 权限缓存存储key
-    'cache_admin_power_key'         =>  'cache_admin_power_',
-
-    // 菜单列表
-    'cache_admin_left_menu_key'     =>  'cache_admin_left_menu_',
-
-    // URL模式
-    'URL_MODEL'                     =>  0,
-
-    // 设置默认的模板主题
-    'DEFAULT_THEME'                 =>  'Default',
-];
+// 引入公共入口文件
+require './public/api.php';
 ?>

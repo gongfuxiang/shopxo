@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: Devil
 // +----------------------------------------------------------------------
-namespace app\admin\controller;
+namespace app\api\controller;
 
 use think\facade\Hook;
 
@@ -50,13 +50,6 @@ class Ueditor extends Common
 		// 配置信息
 		$this->current_config = config('ueditor_config');
 		$this->current_action = input('action');
-
-		// 非获取配置信息登录校验
-		if($this->current_action != 'config')
-		{
-			// 登录校验
-			$this->IsLogin();
-		}
 
 		// action
 		switch($this->current_action)

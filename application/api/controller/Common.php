@@ -123,7 +123,7 @@ class Common extends Controller
 	{
 		if(empty($this->user))
 		{
-			exit(json_encode(DataReturn('登录失效，请重新登录', -400)));
+			exit(json_encode(DataReturn('登录失效，请重新登录sss', -400)));
 		}
     }
 

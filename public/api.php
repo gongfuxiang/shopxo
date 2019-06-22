@@ -9,26 +9,17 @@
 // | Author: Devil
 // +----------------------------------------------------------------------
 
-/**
- * 模块配置信息
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  0.0.1
- * @datetime 2016-12-01T21:51:08+0800
- */
+// [ 接口入口文件 ]
+namespace think;
 
-return [
-    // 缓存key列表
-    // 权限缓存存储key
-    'cache_admin_power_key'         =>  'cache_admin_power_',
+// 加载基础文件
+require __DIR__ . '/../thinkphp/base.php';
 
-    // 菜单列表
-    'cache_admin_left_menu_key'     =>  'cache_admin_left_menu_',
+// 支持事先使用静态方法设置Request对象和Config对象
 
-    // URL模式
-    'URL_MODEL'                     =>  0,
+// 引入公共入口文件
+require __DIR__.'/core.php';
 
-    // 设置默认的模板主题
-    'DEFAULT_THEME'                 =>  'Default',
-];
+// 执行应用并响应
+Container::get('app')->run()->send();
 ?>
