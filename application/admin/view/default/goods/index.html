@@ -98,6 +98,9 @@
 									<img src="{{$v['images']}}" class="am-img-thumbnail am-radius goods-images am-hide-sm-only" />
 								</a>
 								<a href="{{$v.goods_url}}" target="_blank" title="{{$v.title}}" {{if !empty($v['title_color'])}} style="color:{{$v.title_color}};" {{/if}} >{{$v.title}}</a>
+                                {{if !empty($v['simple_desc'])}}
+                                    <p class="cr-red am-hide-md-down">{{$v.simple_desc}}</p>
+                                {{/if}}
 							</td>
 							<td class="am-hide-sm-only">
 								{{$v.price}}

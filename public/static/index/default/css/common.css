@@ -123,8 +123,8 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
     .am-footer {text-align:center; display:block;position: relative;margin: 0px auto; padding: 10px 0px; }
 
     /* 导航上用户 */
-    .navigation-user {display: block; position: absolute;right:0px;bottom:6px;font-size: 12px;line-height:26px;height:25px ;width:85px;text-align:center;background: #e1363f;cursor: pointer;}
-    .navigation-user  .nav-user{background:#e0313b; width: 25px;height: 25px;border-radius: 25px;position: absolute;left:-22px;z-index: 2;padding: 1px;overflow: hidden;}
+    .navigation-user {display: block; position: absolute;right:0px;bottom:6px;font-size: 12px;line-height:26px;height:25px ;width:85px;text-align:center;background: #d2364c;cursor: pointer;}
+    .navigation-user  .nav-user{background:#d2364c; width: 25px;height: 25px;border-radius: 25px;position: absolute;left:-22px;z-index: 2;padding: 1px;overflow: hidden;}
     .navigation-user b{display:block;position: absolute;width: 25px;height: 27px;border-radius:45px;z-index: 1;left: -19px;top: -1px;background: #fff;}
     .navigation-user .am-icon-angle-right { margin-left: 5px; }
     .navigation-user  * { color:#fcff00; text-decoration: none; }

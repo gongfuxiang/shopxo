@@ -177,7 +177,7 @@ fieldset legend{margin-left:15px;padding-left:3px;padding-right:3px;color:#333;}
 .tab a.cur{ font-weight:bold;}
 
 /*商品详细页*/
-.simple-desc { color: #999; }
+.simple-desc { color: #f00; }
 
 /*价格*/
 .tb-detail-price{text-align: left; position: relative;}
@@ -244,9 +244,8 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 
 /*购物车*/
 .tb-btn button, .buy-nav div.submit,.buy-nav .buy-nav-opt, .buy-nav span { height: 35px; line-height: 35px; }
-.tb-btn button {margin-right: 0px;float: left;overflow: hidden; position: relative;width:100%; background-color: #FFEDED;
-color:#F03726;font-size: 14px;text-align: center;border: 0;}
-.tb-btn-basket button {background-color:#F03726;color: #FFF;}
+.tb-btn button {margin-right: 0px;float: left;overflow: hidden; position: relative;width:100%; background-color: #FFEDED; color:#d2364c;font-size: 14px;text-align: center;border: 0;}
+.tb-btn-basket button {background-color:#d2364c;color: #FFF;}
 .buy-nav .buy-nav-opt, .buy-nav div.submit { float:left; }
 .buy-nav div.submit { width: 30%; }
 .buy-nav span{display:inline-block;width: 50%;float: left; ;cursor: pointer; border-top: 1px solid #f5f5f5; border-left: 1px solid #f5f5f5;}
@@ -313,7 +312,7 @@ ul.detail-attr li {height: 26px;overflow: hidden;line-height: 26px;vertical-alig
 
     /*购物车*/
     .tb-btn-buy{margin-left:50px; margin-right:20px;}
-    .tb-btn button{width:98px ;border: 1px solid #F03726;}
+    .tb-btn button{width:98px ;border: 1px solid #d2364c;}
     .buy-nav div.submit{width: auto;}
 
     /*印象*/
