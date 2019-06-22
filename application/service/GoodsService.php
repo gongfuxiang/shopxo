@@ -636,7 +636,7 @@ class GoodsService
 
         if(!empty($params['keywords']))
         {
-            $where[] = ['g.title|g.seo_title|g.seo_keywords|g.seo_keywords', 'like', '%'.$params['keywords'].'%'];
+            $where[] = ['g.title|g.model|g.simple_desc|g.seo_title|g.seo_keywords|g.seo_keywords', 'like', '%'.$params['keywords'].'%'];
         }
 
         return $where;
@@ -782,7 +782,7 @@ class GoodsService
 
         if(!empty($params['keywords']))
         {
-            $where[] = ['g.title|g.seo_title|g.seo_keywords|g.seo_keywords', 'like', '%'.$params['keywords'].'%'];
+            $where[] = ['g.title|g.model|g.simple_desc|g.seo_title|g.seo_keywords|g.seo_keywords', 'like', '%'.$params['keywords'].'%'];
         }
 
         return $where;
@@ -928,7 +928,7 @@ class GoodsService
         // 模糊
         if(!empty($params['keywords']))
         {
-            $where[] = ['title|model|seo_title|seo_keywords|seo_keywords', 'like', '%'.$params['keywords'].'%'];
+            $where[] = ['title|model|simple_desc|seo_title|seo_keywords|seo_keywords', 'like', '%'.$params['keywords'].'%'];
         }
 
         // 是否更多条件
