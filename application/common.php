@@ -437,15 +437,9 @@ function MyUrl($path, $params=[])
 
     // 避免从后台生成url入口错误
     $script_name = CurrentScriptName();
-    if($script_name != 'index.php')
+    if($script_name != 'index.php' && substr($path, 0, 6) != 'admin/')
     {
-        if(substr($path, 0, 6) == 'index/')
-        {
-            $url = str_replace($script_name, 'index.php', $url);
-        } elseif(substr($path, 0, 4) == 'api/')
-        {
-            $url = str_replace($script_name, 'api.php', $url);
-        }
+        $url = str_replace($script_name, 'index.php', $url);
     }
 
     return $url;
