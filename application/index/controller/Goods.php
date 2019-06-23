@@ -146,7 +146,7 @@ class Goods extends Common
     private function PluginsHook($goods_id, &$goods)
     {
         // 商品页面相册内部钩子
-        $this->assign('plugins_view_goods_detail_photo_within_data', Hook::listen('plugins_view_goods_detail_photo_bottom',
+        $this->assign('plugins_view_goods_detail_photo_within_data', Hook::listen('plugins_view_goods_detail_photo_within',
             [
                 'hook_name'    => 'plugins_view_goods_detail_photo_within',
                 'is_backend'   => false,
