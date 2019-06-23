@@ -270,7 +270,7 @@ ul.detail-attr li {height: 26px;overflow: hidden;line-height: 26px;vertical-alig
 .like li img{width:100%}
 
 /*轮播*/
-.clearfix-left{display:none;}
+.clearfix-left{display:none; position: relative;}
 .scoll img{width:100%; margin-left:0}
 
 /* 文字提示 */
