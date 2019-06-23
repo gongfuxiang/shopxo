@@ -20,6 +20,9 @@
     <li {{if $nav_type eq 'orderaftersale'}}class="am-active"{{/if}} data-type="orderaftersale">
         <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'orderaftersale'])}}">订单售后</a>
     </li>
+    <li {{if $nav_type eq 'search'}}class="am-active"{{/if}} data-type="search">
+        <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'search'])}}">搜索</a>
+    </li>
 </ul>
 
 {{if in_array($nav_type, ['login', 'forgetpwd'])}}

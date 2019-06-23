@@ -42,6 +42,15 @@
             </div>
 
             <div class="am-form-group">
+                <label>{{$data.common_register_is_enable_audit.name}}<span class="am-form-group-label-tips">{{$data.common_register_is_enable_audit.describe}}</span></label>
+                <select name="{{$data.common_register_is_enable_audit.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.common_register_is_enable_audit.error_tips}}" required>
+                    {{foreach $common_is_text_list as $v}}
+                        <option value="{{$v.id}}" {{if isset($data['common_register_is_enable_audit']['value']) and $data['common_register_is_enable_audit']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="am-form-group">
                 <label>{{$data.home_is_enable_userregister_agreement.name}}</label>
                 <select name="{{$data.home_is_enable_userregister_agreement.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_is_enable_userregister_agreement.error_tips}}" required>
                     {{foreach $site_img_verify_state_list as $v}}

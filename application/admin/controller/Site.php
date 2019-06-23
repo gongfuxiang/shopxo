@@ -67,6 +67,12 @@ class Site extends Common
 		// 图片验证码规则
 		$this->assign('site_images_verify_rules_list', lang('site_images_verify_rules_list'));
 
+		// 热门搜索关键字
+		$this->assign('common_search_keywords_type_list', lang('common_search_keywords_type_list'));
+
+		// 是否
+		$this->assign('common_is_text_list', lang('common_is_text_list'));
+
 		// 配置信息
 		$this->assign('data', ConfigService::ConfigList());
 
