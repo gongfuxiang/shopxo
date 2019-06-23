@@ -36,6 +36,20 @@
                     your browser does not support the video tag
                 </video>
             {{/if}}
+
+            <!-- 商品页面相册内部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                <div class="plugins-tag">
+                    <span>plugins_view_goods_detail_photo_within</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_goods_detail_photo_within_data) and is_array($plugins_view_goods_detail_photo_within_data)}}
+                {{foreach $plugins_view_goods_detail_photo_within_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
         </div>
 
         <!-- 商品页面相册底部钩子 -->
@@ -84,6 +98,20 @@
                     <video class="goods-video-container none" src="{{$goods.video}}" controls="controls" preload="auto">
                         your browser does not support the video tag
                     </video>
+                {{/if}}
+
+                <!-- 商品页面相册内部钩子 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_goods_detail_photo_within</span>
+                    </div>
+                {{/if}}
+                {{if !empty($plugins_view_goods_detail_photo_within_data) and is_array($plugins_view_goods_detail_photo_within_data)}}
+                    {{foreach $plugins_view_goods_detail_photo_within_data as $hook}}
+                        {{if is_string($hook) or is_int($hook)}}
+                            {{$hook|raw}}
+                        {{/if}}
+                    {{/foreach}}
                 {{/if}}
             </div>
 
