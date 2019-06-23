@@ -32,13 +32,5 @@ return array (
   'log_write' => 
   array (
   ),
-  'plugins_css' => 
-  array (
-    0 => 'app\\plugins\\goodsphototag\\Hook',
-  ),
-  'plugins_view_goods_detail_photo_bottom' => 
-  array (
-    0 => 'app\\plugins\\goodsphototag\\Hook',
-  ),
 );
 ?>
