@@ -34,9 +34,17 @@
                                     <a href="{{:MyUrl('admin/pluginsadmin/download', array('id'=>$v['id']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-download" title="打包"></a>
                                 {{/if}}
 
-                                <a href="{{:PluginsAdminUrl($v['plugins'], 'admin', 'index')}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-gear" title="设置"></a>
-                                <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-remove submit-delete-modal" data-url="{{:MyUrl('admin/pluginsadmin/delete')}}" data-id="{{$v.id}}" title="删除"></button>
-                                <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/pluginsadmin/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1" title="状态"></a>
+                                {{if isset($v['is_install']) and $v['is_install'] eq 1}}
+                                    <a href="{{:PluginsAdminUrl($v['plugins'], 'admin', 'index')}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-gear" title="设置"></a>
+                                    
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-circle-o submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/uninstall')}}" data-id="{{$v.plugins}}" data-view="reload" data-msg="卸载将删除基础数据不可恢复、确认操作吗？" title="卸载"></button>
+
+                                    <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/pluginsadmin/statusupdate')}}" data-id="{{$v.plugins}}" data-state="{{$v['is_enable']}}" data-is-update-status="1" title="状态"></a>
+                                {{else /}}
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-remove submit-delete-modal" data-url="{{:MyUrl('admin/pluginsadmin/delete')}}" data-id="{{$v.plugins}}" title="删除"></button>
+
+                                    <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-cubes submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/install')}}" data-id="{{$v.plugins}}" data-view="reload" data-msg="进行安装操作、确认继续吗？" title="安装"></button>
+                                {{/if}}
 
                                 {{if isset($v['is_home']) and $v['is_home'] eq true}}
                                     <a href="{{:PluginsHomeUrl($v['plugins'], 'index', 'index')}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-home" title="首页" target="_blank"></a>
@@ -47,12 +55,7 @@
                 {{/foreach}}
             </ul>
 
-            <!-- page start -->
-            {{if !empty($data_list)}}
-                {{$page_html|raw}}
-            {{/if}}
-            <!-- page end -->
-
+            <!-- 删除弹层 -->
             <div class="am-modal am-modal-no-btn" tabindex="-1" id="plugins-delete-modal">
                 <div class="am-modal-dialog">
                     <div class="am-modal-hd">

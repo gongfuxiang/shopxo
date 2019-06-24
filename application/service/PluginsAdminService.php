@@ -37,88 +37,148 @@ class PluginsAdminService
      */
     public static function PluginsList($params = [])
     {
-        $where = empty($params['where']) ? [] : $params['where'];
-        $m = isset($params['m']) ? intval($params['m']) : 0;
-        $n = isset($params['n']) ? intval($params['n']) : 10;
-        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
-
-        // 获取数据列表
-        $data = Db::name('Plugins')->where($where)->limit($m, $n)->order($order_by)->select();
-        
-        return DataReturn('处理成功', 0, self::PluginsDataHandle($data));
-    }
-
-    /**
-     * 数据处理
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $data [数据]
-     */
-    private static function PluginsDataHandle($data)
-    {
-        $result = [];
-        if(!empty($data))
+        $data = [];
+        $plugins_dir = APP_PATH.'plugins'.DS;
+        if(is_dir($plugins_dir))
         {
-            foreach($data as $v)
+            if($dh = opendir($plugins_dir))
             {
-                $config = self::GetPluginsConfig($v['plugins']);
-                if($config !== false)
+                while(($temp_file = readdir($dh)) !== false)
                 {
-                    $base = $config['base'];
-                    $result[] = [
-                        'id'            => $v['id'],
-                        'plugins'       => $v['plugins'],
-                        'is_enable'     => $v['is_enable'],
-                        'logo_old'      => $base['logo'],
-                        'logo'          => ResourcesService::AttachmentPathViewHandle($base['logo']),
-                        'is_home'       => isset($base['is_home']) ? $base['is_home'] : false,
-                        'name'          => isset($base['name']) ? $base['name'] : '',
-                        'author'        => isset($base['author']) ? $base['author'] : '',
-                        'author_url'    => isset($base['author_url']) ? $base['author_url'] : '',
-                        'version'       => isset($base['version']) ? $base['version'] : '',
-                        'desc'          => isset($base['desc']) ? $base['desc'] : '',
-                        'apply_version' => isset($base['apply_version']) ? $base['apply_version'] : [],
-                        'apply_terminal'=> isset($base['apply_terminal']) ? $base['apply_terminal'] : [],
-                        'add_time_time' => date('Y-m-d H:i:s', $v['add_time']),
-                        'add_time_date' => date('Y-m-d', $v['add_time']),
-                    ];
+                    if(!in_array($temp_file, ['.', '..', '/', 'view', 'index.html']) && substr($temp_file, 0, 1) != '.')
+                    {
+                        // 获取插件配置信息
+                        $config = self::GetPluginsConfig($temp_file);
+                        if($config !== false)
+                        {
+                            // 获取数据库配置信息
+                            $db_config = Db::name('Plugins')->where(['plugins'=>$config['base']['plugins']])->find();
+
+                            // 数据组装
+                            $base = $config['base'];
+                            $data[] = [
+                                'id'            => date('YmdHis').GetNumberCode(8),
+                                'plugins'       => isset($base['plugins']) ? $base['plugins'] : '',
+                                'is_enable'     => isset($db_config['is_enable']) ? $db_config['is_enable'] : 0,
+                                'is_install'    => empty($db_config) ? 0 : 1,
+                                'logo_old'      => $base['logo'],
+                                'logo'          => ResourcesService::AttachmentPathViewHandle($base['logo']),
+                                'is_home'       => isset($base['is_home']) ? $base['is_home'] : false,
+                                'name'          => isset($base['name']) ? $base['name'] : '',
+                                'author'        => isset($base['author']) ? $base['author'] : '',
+                                'author_url'    => isset($base['author_url']) ? $base['author_url'] : '',
+                                'version'       => isset($base['version']) ? $base['version'] : '',
+                                'desc'          => isset($base['desc']) ? $base['desc'] : '',
+                                'apply_version' => isset($base['apply_version']) ? $base['apply_version'] : [],
+                                'apply_terminal'=> isset($base['apply_terminal']) ? $base['apply_terminal'] : [],
+                                'add_time_time' => isset($db_config['add_time']) ? date('Y-m-d H:i:s', $db_config['add_time']) : '',
+                                'add_time_date' => isset($db_config['add_time']) ? date('Y-m-d', $db_config['add_time']) : '',
+                            ];
+                        }
+                    }
                 }
+                closedir($dh);
             }
         }
 
-        return $result;
+        return DataReturn('处理成功', 0, $data);
     }
 
     /**
-     * 总数
-     * @author   Devil
+     * 应用安装
+     * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $where [条件]
-     */
-    public static function PluginsTotal($where = [])
-    {
-        return (int) Db::name('Plugins')->where($where)->count();
-    }
-
-    /**
-     * 列表条件
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
+     * @date    2018-09-17
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function PluginsListWhere($params = [])
+    public static function PluginsInstall($params = [])
     {
-        $where = [];
-        return $where;
+        // 参数
+        if(empty($params['id']))
+        {
+            return DataReturn('参数错误', -1);
+        }
+
+        // 数据处理
+        $config = self::GetPluginsConfig($params['id']);;
+        if($config !== false)
+        {
+            $data = [
+                'plugins'   => $params['id'],
+                'is_enable' => 0,
+                'add_time'  => time(),
+            ];
+
+            // 添加数据
+            if(Db::name('Plugins')->insertGetId($data) > 0)
+            {
+               return DataReturn('安装成功'); 
+            } else {
+                return DataReturn('安装失败', -100);
+            }
+        } else {
+            return DataReturn('插件配置有误', -10);
+        }
+    }
+
+    /**
+     * 卸载应用
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-17
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function PluginsUninstall($params = [])
+    {
+        // 参数
+        if(empty($params['id']))
+        {
+            return DataReturn('参数错误', -1);
+        }
+
+        // 开启事务
+        Db::startTrans();
+
+        // 开始卸载
+        if(db('Plugins')->where(['plugins'=>$params['id']])->delete())
+        {
+            // 钩子部署
+            $ret = self::PluginsHookDeployment();
+            if($ret['code'] == 0)
+            {
+                // 提交事务
+                Db::commit();
+                return DataReturn('卸载成功');
+            }
+        }
+
+        // 事务回退
+        Db::rollback();
+        return DataReturn('卸载失败', -100);
+    }
+
+    /**
+     * 获取插件配置信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-17
+     * @desc    description
+     * @param   [string]          $plugins [插件名称]
+     */
+    private static function GetPluginsConfig($plugins)
+    {
+        $config = [];
+        $file = APP_PATH.'plugins'.DS.$plugins.DS.'config.json';
+        if(file_exists($file))
+        {
+            $config = json_decode(file_get_contents($file), true);
+        }
+        return empty($config) ? false : $config;
     }
 
     /**
@@ -155,7 +215,7 @@ class PluginsAdminService
         Db::startTrans();
 
         // 数据更新
-        if(Db::name('Plugins')->where(['id'=>$params['id']])->update(['is_enable'=>intval($params['state']), 'upd_time'=>time()]))
+        if(Db::name('Plugins')->where(['plugins'=>$params['id']])->update(['is_enable'=>intval($params['state']), 'upd_time'=>time()]))
         {
             // 钩子部署
             $ret = self::PluginsHookDeployment();
@@ -293,49 +353,40 @@ class PluginsAdminService
         {
             return DataReturn($ret, -1);
         }
-        
-        // 获取应用标记
-        $where = ['id'=>intval($params['id'])];
-        $plugins = Db::name('Plugins')->where($where)->value('plugins');
-        if(empty($plugins))
+
+        // 应用是否存在
+        if(!file_exists(APP_PATH.'plugins'.DS.$params['id']))
         {
            return DataReturn('应用不存在', -10); 
         }
-
-        // 开启事务
-        Db::startTrans();
-
-        // 删除操作
-        if(Db::name('Plugins')->where($where)->delete())
+        
+        // 获取应用标记
+        $data = Db::name('Plugins')->where(['plugins'=>$params['id']])->find();
+        if(!empty($data['is_enable']))
         {
-            // 钩子部署
-            $ret = self::PluginsHookDeployment();
-            if($ret['code'] == 0)
-            {
-                // 是否需要删除应用数据,sql运行
-                $is_delete_static = (isset($params['value']) && $params['value'] == 1);
-                if($is_delete_static === true)
-                {
-                    $uninstall_sql = APP_PATH.'plugins'.DS.$plugins.DS.'uninstall.sql';
-                    if(file_exists($uninstall_sql))
-                    {
-                        SqlconsoleService::Implement(['sql'=>file_get_contents($uninstall_sql)]);
-                    }
-                }
-
-                // 删除应用文件
-                self::PluginsResourcesDelete($plugins, $is_delete_static);
-
-                // 提交事务
-                Db::commit();
-                return DataReturn('删除成功');
-            }
-        } else {
-            $ret = DataReturn('删除失败或资源不存在', -100);
+           return DataReturn('请先卸载应用', -10);
         }
 
-        // 事务回退
-        Db::rollback();
+        // 钩子部署
+        $ret = self::PluginsHookDeployment();
+        if($ret['code'] == 0)
+        {
+            // 是否需要删除应用数据,sql运行
+            $is_delete_static = (isset($params['value']) && $params['value'] == 1);
+            if($is_delete_static === true)
+            {
+                $uninstall_sql = APP_PATH.'plugins'.DS.$params['id'].DS.'uninstall.sql';
+                if(file_exists($uninstall_sql))
+                {
+                    SqlconsoleService::Implement(['sql'=>file_get_contents($uninstall_sql)]);
+                }
+            }
+
+            // 删除应用文件
+            self::PluginsResourcesDelete($params['id'], $is_delete_static);
+
+            return DataReturn('删除成功');
+        }
         return $ret;
     }
 
@@ -364,25 +415,6 @@ class PluginsAdminService
             \base\FileUtil::UnlinkDir(ROOT.'public'.DS.'static'.DS.'upload'.DS.'video'.DS.'plugins_'.$plugins);
             \base\FileUtil::UnlinkDir(ROOT.'public'.DS.'static'.DS.'upload'.DS.'file'.DS.'plugins_'.$plugins);
         }
-    }
-
-    /**
-     * 获取应用配置信息
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-17
-     * @desc    description
-     * @param   [string]          $plugins [应用名称]
-     */
-    private static function GetPluginsConfig($plugins)
-    {
-        $config_file = APP_PATH.'plugins'.DS.$plugins.DS.'config.json';
-        if(file_exists($config_file))
-        {
-            return json_decode(file_get_contents($config_file), true);
-        }
-        return false;
     }
 
     /**
@@ -460,11 +492,22 @@ class PluginsAdminService
         // 应用唯一标记
         $plugins = trim($params['plugins']);
 
-        // 应用不存在则添加
-        $ret = self::PluginsExistInsert($params, $plugins);
+        // 应用校验
+        $ret = self::PluginsVerification($plugins);
         if($ret['code'] != 0)
         {
             return $ret;
+        }
+
+        // 应用是否已存在数据库
+        $plugins_id = Db::name('Plugins')->where(['plugins'=>$plugins])->value('id');
+        if(empty($plugins_id))
+        {
+            $plugins_id = Db::name('Plugins')->insertGetId(['plugins'=>$plugins, 'is_enable'=>0, 'add_time'=>time()]);
+            if(empty($plugins_id))
+            {
+                return DataReturn('应用添加失败', -100);
+            }
         }
 
         // 应用目录不存在则创建
@@ -826,22 +869,14 @@ php;
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2019-05-13T00:00:45+0800
-     * @param   [array]           $params    [输入参数]
-     * @param    [string]         $plugins   [应用唯一标记]
+     * @param   [string]          $plugins   [应用唯一标记]
      */
-    public static function PluginsVerification($params, $plugins)
+    public static function PluginsVerification($plugins)
     {
         // 排除校验
         if(in_array($plugins, self::$plugins_exclude_verification))
         {
             return DataReturn('不能使用限制的名称['.$plugins.']', -1);
-        }
-
-        // 应用是否存在
-        $temp_plugins = Db::name('Plugins')->where(['plugins'=>$plugins])->value('plugins');
-        if(empty($params['id']) && $temp_plugins == $plugins)
-        {
-            return DataReturn('应用名称已存在['.$plugins.']', -1);
         }
 
         return DataReturn('校验成功', 0);
@@ -854,29 +889,14 @@ php;
      * @version 1.0.0
      * @date    2018-12-18
      * @desc    description
-     * @param   [array]           $params    [输入参数]
      * @param   [string]          $plugins   [应用唯一标记]
      */
-    private static function PluginsExistInsert($params, $plugins)
+    private static function PluginsExist($plugins)
     {
-        // 名称校验
-        $ret = self::PluginsVerification($params, $plugins);
-        if($ret['code'] != 0)
+        // 应用是否存在
+        if(is_dir(APP_PATH.'plugins'.DS.$plugins))
         {
-            return $ret;
-        }
-
-        // 应用添加
-        if(empty($params['id']))
-        {
-            $temp_plugins = Db::name('Plugins')->where(['plugins'=>$plugins])->value('plugins');
-            if(empty($temp_plugins))
-            {
-                if(Db::name('Plugins')->insertGetId(['plugins'=>$plugins, 'is_enable'=>0, 'add_time'=>time()]) <= 0)
-                {
-                    return DataReturn('应用添加失败', -1);
-                }
-            }
+            return DataReturn('应用名称已存在['.$plugins.']', -1);
         }
 
         return DataReturn('添加成功', 0);
@@ -1001,7 +1021,15 @@ php;
                 {
                     // 应用不存在则添加
                     $plugins_name = substr($file, 0, strpos($file, '/'));
-                    $ret = self::PluginsExistInsert([], $plugins_name);
+                    $ret = self::PluginsVerification($plugins_name);
+                    if($ret['code'] != 0)
+                    {
+                        zip_entry_close($temp_resource);
+                        return $ret;
+                    }
+
+                    // 应用是否存在
+                    $ret = self::PluginsExist($plugins_name);
                     if($ret['code'] != 0)
                     {
                         zip_entry_close($temp_resource);

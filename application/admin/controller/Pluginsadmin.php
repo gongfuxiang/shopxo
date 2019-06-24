@@ -62,33 +62,7 @@ class Pluginsadmin extends Common
         // 页面类型
         if($this->view_type == 'home')
         {
-            // 分页
-            $number = 12;
-
-            // 条件
-            $where = PluginsAdminService::PluginsListWhere($params);
-
-            // 获取总数
-            $total = PluginsAdminService::PluginsTotal($where);
-
-            // 分页
-            $page_params = array(
-                    'number'    =>  $number,
-                    'total'     =>  $total,
-                    'where'     =>  $params,
-                    'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                    'url'       =>  MyUrl('admin/pluginsadmin/index'),
-                );
-            $page = new \base\Page($page_params);
-            $this->assign('page_html', $page->GetPageHtml());
-
-            // 获取列表
-            $data_params = array(
-                'm'         => $page->GetPageStarNumber(),
-                'n'         => $number,
-                'where'     => $where,
-            );
-            $data = PluginsAdminService::PluginsList($data_params);
+            $data = PluginsAdminService::PluginsList();
             $this->assign('data_list', $data['data']);
 
             $this->assign('store_url', StoreService::StoreUrl());
@@ -249,6 +223,46 @@ class Pluginsadmin extends Common
         } else {
             return $ret;
         }
+    }
+
+    /**
+     * 安装
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-17
+     * @desc    description
+     */
+    public function Install()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            $this->error('非法访问');
+        }
+
+        // 开始操作
+        return PluginsAdminService::PluginsInstall(input());
+    }
+
+    /**
+     * 卸载
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-17
+     * @desc    description
+     */
+    public function Uninstall()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            $this->error('非法访问');
+        }
+
+        // 开始操作
+        return PluginsAdminService::PluginsUninstall(input());
     }
 }
 ?>
