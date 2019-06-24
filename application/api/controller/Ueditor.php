@@ -252,6 +252,7 @@ class Ueditor extends Common
 		 * )
 		 */
 		$data = $up->getFileInfo();
+		print_r($data);die;
 
 		// 附件上传成功后处理钩子
         $hook_name = 'plugins_controller_attachment_upload_handle_end';

@@ -487,13 +487,15 @@ class Uploader
     public function getFileInfo()
     {
         return array(
-            "state" => $this->stateInfo,
-            "url" => $this->fullName,
-            "title" => $this->fileName,
-            "original" => $this->oriName,
-            "type" => $this->fileType,
-            "size" => $this->fileSize
+            "state"     => $this->stateInfo,
+            "url"       => $this->fullName,
+            "path"      => $this->filePath,
+            "title"     => $this->fileName,
+            "original"  => $this->oriName,
+            "type"      => $this->fileType,
+            "size"      => $this->fileSize,
+            "hash"      => hash_file('sha256', $this->filePath, false),
         );
     }
-
 }
+?>
