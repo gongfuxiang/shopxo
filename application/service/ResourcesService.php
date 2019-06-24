@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 
 /**
  * 资源服务层
@@ -104,6 +105,60 @@ class ResourcesService
             return $value;
         }
         return '';
+    }
+
+    /**
+     * 附件添加
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-06-25T00:13:33+0800
+     * @param    [array]         $params [输入参数]
+     */
+    public static function AttachmentAdd($params = [])
+    {
+        if(!empty($params['title']))
+        {
+            // 数据组装
+            $data = [
+                'path_type'     => input('path_type', 'other'),
+                'original'      => empty($params['original']) ? '' : mb_substr($params['original'], -160, null, 'utf-8'),
+                'title'         => $params['title'],
+                'size'          => $params['size'],
+                'type'          => $params['type'],
+                'hash'          => $params['hash'],
+                'path'          => self::AttachmentPathHandle($params['url']),
+                'add_time'      => time(),
+            ];
+
+            // 附件上传前处理钩子
+            $hook_name = 'plugins_service_attachment_handle_begin';
+            Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => $params,
+                'data'          => &$data,
+            ]);
+
+            // 添加到数据库
+            $attachment_id = Db::name('Attachment')->insertGetId($data);
+            if($attachment_id > 0)
+            {
+                // 附件上传后处理钩子
+                $hook_name = 'plugins_service_attachment_handle_end';
+                $ret = Hook::listen($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => &$params,
+                    'data'          => &$data,
+                    'attachment_id' => $attachment_id,
+                ]);
+
+                return DataReturn('添加成功', 0, $params);
+            }
+            return DataReturn('添加失败', 0);
+        }
+        return DataReturn('附件不能为空', -1);
     }
 }
 ?>

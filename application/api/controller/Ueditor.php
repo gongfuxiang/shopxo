@@ -11,6 +11,7 @@
 namespace app\api\controller;
 
 use think\facade\Hook;
+use app\service\ResourcesService;
 
 /**
  * 百度编辑器控制器入口
@@ -227,16 +228,6 @@ class Ueditor extends Common
 				$attachment_type = "file";
 		}
 
-		// 附件上传前处理钩子
-        $hook_name = 'plugins_controller_attachment_upload_handle_begin';
-        Hook::listen($hook_name, [
-            'hook_name'     	=> $hook_name,
-            'is_backend'    	=> true,
-            'attachment_type'	=> $attachment_type,
-            'field_name'    	=> $field_name,
-            'temp_config'		=> &$temp_config,
-        ]);
-
 		/* 生成上传实例对象并完成上传 */
 		$up = new \base\Uploader($field_name, $temp_config, $attachment_type);
 
@@ -245,28 +236,27 @@ class Ueditor extends Common
 		 * array(
 		 *     "state" => "",          //上传状态，上传成功时必须返回"SUCCESS"
 		 *     "url" => "",            //返回的地址
+		 *     "path" => "",           //绝对地址
 		 *     "title" => "",          //新文件名
 		 *     "original" => "",       //原始文件名
 		 *     "type" => ""            //文件类型
 		 *     "size" => "",           //文件大小
+		 *     "hash" => "",   		   //sha256值
 		 * )
 		 */
 		$data = $up->getFileInfo();
-		print_r($data);die;
-
-		// 附件上传成功后处理钩子
-        $hook_name = 'plugins_controller_attachment_upload_handle_end';
-        Hook::listen($hook_name, [
-            'hook_name'     	=> $hook_name,
-            'is_backend'    	=> true,
-            'attachment_type'	=> $attachment_type,
-            'field_name'    	=> $field_name,
-            'temp_config'		=> $temp_config,
-            'data'          	=> &$data,
-        ]);
-
-		// 返回数据
-		$this->current_result = json_encode($data);
+		if(isset($data['state']) && $data['state'] == 'SUCCESS')
+		{
+			$ret = ResourcesService::AttachmentAdd($data);
+			if($ret['code'] == 0)
+			{
+				$this->current_result = json_encode($ret['data']);
+			} else {
+				$this->current_result = json_encode(['state'=>$ret['msg']]);
+			}
+		} else {
+			$this->current_result = json_encode($data);
+		}
 	}
 
 	/**
