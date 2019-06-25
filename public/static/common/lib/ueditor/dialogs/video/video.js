@@ -252,8 +252,15 @@
                     item.appendChild(video);
                     item.appendChild(icon);
 
+                    // 原名功能 start
+                    var original = document.createElement('p');
+                    original.setAttribute('class', 'attachment-title');
+                    original.innerHTML = list[i].original;
+                    item.appendChild(original);
+                    // 原名功能 end
+
                     // 视频添加删除功能 start
-                    item.appendChild($("<span class='delbtn' url='" + list[i].url + "'>x</span>").click(function() {
+                    item.appendChild($("<span class='delbtn' data-id='" + list[i].id + "'>x</span>").click(function() {
                         var del = $(this);
                         try{
                             window.event.cancelBubble = true; //停止冒泡
@@ -262,7 +269,7 @@
                             window.event.stopPropagation();   //阻止事件的传播
                         } finally {
                             if(!confirm("确定要删除吗？")) return;
-                            $.post(editor.getOpt("serverUrl") + "?action=deletefile", { "path": del.attr("url") }, function(responseText) {
+                            $.post(editor.getOpt("serverUrl") + "?action=deletefile", { "id": del.attr("data-id") }, function(responseText) {
                                 json = utils.str2json(responseText);
                                 if (json.state == 'SUCCESS') del.parent().remove();
                                 else alert(json.state);

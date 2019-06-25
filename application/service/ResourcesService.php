@@ -117,48 +117,214 @@ class ResourcesService
      */
     public static function AttachmentAdd($params = [])
     {
-        if(!empty($params['title']))
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'title',
+                'error_msg'         => '名称有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'original',
+                'error_msg'         => '原名有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'url',
+                'error_msg'         => '地址有误',
+            ],
+            [
+                'checked_type'      => 'isset',
+                'key_name'          => 'size',
+                'error_msg'         => '文件大小有误',
+            ],
+            [
+                'checked_type'      => 'isset',
+                'key_name'          => 'ext',
+                'error_msg'         => '扩展名有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'hash',
+                'error_msg'         => 'hash值有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
         {
-            // 数据组装
-            $data = [
-                'path_type'     => input('path_type', 'other'),
-                'original'      => empty($params['original']) ? '' : mb_substr($params['original'], -160, null, 'utf-8'),
-                'title'         => $params['title'],
-                'size'          => $params['size'],
-                'type'          => $params['type'],
-                'hash'          => $params['hash'],
-                'path'          => self::AttachmentPathHandle($params['url']),
-                'add_time'      => time(),
-            ];
+            return DataReturn($ret, -1);
+        }
 
-            // 附件上传前处理钩子
-            $hook_name = 'plugins_service_attachment_handle_begin';
-            Hook::listen($hook_name, [
+        // 数据组装
+        $data = [
+            'path_type'     => input('path_type', 'other'),
+            'original'      => empty($params['original']) ? '' : mb_substr($params['original'], -160, null, 'utf-8'),
+            'title'         => $params['title'],
+            'size'          => $params['size'],
+            'ext'           => $params['ext'],
+            'type'          => isset($params['type']) ? $params['type'] : 'file',
+            'hash'          => $params['hash'],
+            'url'           => self::AttachmentPathHandle($params['url']),
+            'add_time'      => time(),
+        ];
+
+        // 附件上传前处理钩子
+        $hook_name = 'plugins_service_attachment_handle_begin';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => $params,
+            'data'          => &$data,
+        ]);
+
+        // 添加到数据库
+        $attachment_id = Db::name('Attachment')->insertGetId($data);
+        if($attachment_id > 0)
+        {
+            // 附件上传后处理钩子
+            $hook_name = 'plugins_service_attachment_handle_end';
+            $ret = Hook::listen($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
-                'params'        => $params,
+                'params'        => &$params,
                 'data'          => &$data,
+                'attachment_id' => $attachment_id,
             ]);
 
-            // 添加到数据库
-            $attachment_id = Db::name('Attachment')->insertGetId($data);
-            if($attachment_id > 0)
+            return DataReturn('添加成功', 0, $params);
+        }
+
+        // 删除本地图片
+        if(!empty($params['path']))
+        {
+            \base\FileUtil::UnlinkFile($params['path']);
+        }
+        return DataReturn('添加失败', -100);
+    }
+
+    /**
+     * 获取附件总数
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-06-25T22:44:52+0800
+     * @param    [array]               $where [条件]
+     */
+    public static function AttachmentTotal($where)
+    {
+        return (int) Db::name('Attachment')->where($where)->count();
+    }
+
+    /**
+     * 获取附件列表
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-06-25T22:44:52+0800
+     * @param    [array]               $params [参数]
+     */
+    public static function AttachmentList($params = [])
+    {
+        $m = max(0, isset($params['m']) ? intval($params['m']) : 0);
+        $n = max(1, isset($params['n']) ? intval($params['n']) : 20);
+        $data = Db::name('Attachment')->where($params['where'])->order('id desc')->limit($m, $n)->select();
+        if(!empty($data))
+        {
+            foreach($data as &$v)
             {
-                // 附件上传后处理钩子
-                $hook_name = 'plugins_service_attachment_handle_end';
+                // 附件列表处理前钩子
+                $hook_name = 'plugins_service_attachment_list_handle_begin';
                 $ret = Hook::listen($hook_name, [
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
-                    'params'        => &$params,
-                    'data'          => &$data,
-                    'attachment_id' => $attachment_id,
+                    'data'          => &$v,
                 ]);
+                if(isset($ret['code']) && $ret['code'] != 0)
+                {
+                    return $ret;
+                }
 
-                return DataReturn('添加成功', 0, $params);
+                // 数据处理
+                $v['url'] = self::AttachmentPathViewHandle($v['url']);
+                $v['add_time'] = date('Y-m-d H:i:s');
+
+                // 附件列表处理后钩子
+                $hook_name = 'plugins_service_attachment_list_handle_end';
+                $ret = Hook::listen($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'data'          => &$v,
+                ]);
+                if(isset($ret['code']) && $ret['code'] != 0)
+                {
+                    return $ret;
+                }
             }
-            return DataReturn('添加失败', 0);
         }
-        return DataReturn('附件不能为空', -1);
+        return DataReturn('操作成功', 0, $data);
+    }
+
+    /**
+     * 附件删除
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-06-25T23:35:27+0800
+     * @param    [array]              $params [输入参数]
+     */
+    public static function AttachmentDelete($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '操作id有误',
+            ]
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取数据
+        $data = Db::name('Attachment')->find(intval($params['id']));
+        if(empty($data))
+        {
+            return DataReturn('数据不存在或已删除', -1);
+        }
+
+        // 删除文件
+        $path = substr(ROOT_PATH, 0, -1).$data['url'];
+        if(file_exists($path))
+        {
+            if(is_writable($path))
+            {
+                if(DB::name('Attachment')->where(['id'=>$data['id']])->delete())
+                {
+                    // 删除附件
+                    \base\FileUtil::UnlinkFile($path);
+                    
+                    // 附件删除成功后处理钩子
+                    $hook_name = 'plugins_service_attachment_delete_success';
+                    Hook::listen($hook_name, [
+                        'hook_name'         => $hook_name,
+                        'is_backend'        => true,
+                        'data'              => $data,
+                    ]);
+
+                    return DataReturn('删除成功', 0);
+                } else {
+                    return DataReturn('删除失败', -1);
+                }
+            } else {
+                return DataReturn('没有删除权限', -1);
+            }
+        } else {
+            return DataReturn('文件不存在', -1);
+        }
     }
 }
 ?>

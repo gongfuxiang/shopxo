@@ -343,7 +343,7 @@
     text-indent: 5px;
     text-align: left;
     z-index: 3;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.3);
     color: #fff;
     padding: 6px 0;
 }
@@ -957,4 +957,23 @@
     .tabbody .panel.focus {
         height: 315px;
     }
+}
+
+/**
+ * 原标题
+ */
+#imageList .attachment-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% - 23px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-indent: 5px;
+    text-align: left;
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    padding: 2px 0;
 }

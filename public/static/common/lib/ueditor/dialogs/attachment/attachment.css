@@ -717,3 +717,22 @@ i.file-preview.file-type-psd{
         height: 330px;
     }
 }
+
+/**
+ * 原标题
+ */
+#fileList .attachment-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% - 23px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-indent: 5px;
+    text-align: left;
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    padding: 2px 0;
+}

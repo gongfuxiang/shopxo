@@ -123,53 +123,15 @@ class Ueditor extends Common
 	 */
 	private function DeleteFile()
 	{
-		$path = input('path');
-		if(!empty($path))
+		$ret = ResourcesService::AttachmentDelete(input());
+		if($ret['code'] == 0)
 		{
-			// 附件删除前处理钩子
-	        $hook_name = 'plugins_controller_attachment_delete_handle_begin';
-	        Hook::listen($hook_name, [
-	            'hook_name'     	=> $hook_name,
-	            'is_backend'    	=> true,
-	            'path'				=> &$path,
-	        ]);
-
-			$path = (__MY_ROOT_PUBLIC__ == '/') ? substr(ROOT_PATH, 0, -1).$path : str_replace(__MY_ROOT_PUBLIC__, ROOT_PATH, $path);
-			if(file_exists($path))
-			{
-				if(is_writable($path))
-				{
-					if(unlink($path))
-					{
-						// 附件删除成功后处理钩子
-				        $hook_name = 'plugins_controller_attachment_delete_handle_end';
-				        Hook::listen($hook_name, [
-				            'hook_name'     	=> $hook_name,
-				            'is_backend'    	=> true,
-				            'path'				=> $path,
-				        ]);
-
-						$this->current_result = json_encode(array(
-							'state'=> 'SUCCESS'
-						));
-					} else {
-						$this->current_result = json_encode(array(
-							'state'=> '删除成功'
-						));
-					}
-				} else {
-					$this->current_result = json_encode(array(
-						'state'=> '没有删除权限'
-					));
-				}
-			} else {
-				$this->current_result = json_encode(array(
-					'state'=> '文件不存在'
-				));
-			}
+			$this->current_result = json_encode(array(
+				'state'=> 'SUCCESS'
+			));
 		} else {
 			$this->current_result = json_encode(array(
-				'state'=> '删除文件路径不能为空'
+				'state'=> $ret['msg']
 			));
 		}
 	}
@@ -204,7 +166,7 @@ class Ueditor extends Common
 						"oriName" => "scrawl.png"
 					);
 				$field_name = $this->current_config['scrawlFieldName'];
-				$attachment_type = "base64";
+				$attachment_type = "scrawl";
 				break;
 
 			case 'uploadvideo':
@@ -247,6 +209,7 @@ class Ueditor extends Common
 		$data = $up->getFileInfo();
 		if(isset($data['state']) && $data['state'] == 'SUCCESS')
 		{
+			$data['type'] = $attachment_type;
 			$ret = ResourcesService::AttachmentAdd($data);
 			if($ret['code'] == 0)
 			{
@@ -298,152 +261,33 @@ class Ueditor extends Common
 		$start = isset($_GET['start']) ? htmlspecialchars($_GET['start']) : 0;
 		$end = $start + $size;
 
-		/* 获取文件列表 */
+		// 参数
+		$params = [
+			'm'			=> $start,
+			'n'			=> $size,
+			'where'		=> [
+	            'type'      => substr($this->current_action, 4),
+	            'path_type' => input('path_type', 'other'),
+	        ],
+		];
+
+		// 数据初始化
 		$data = array(
-			"state" => "no match file",
-			"list" => array(),
-			"start" => $start,
-			"total" => 0,
+			'state' 	=> "没有相关数据",
+			'list' 		=> [],
+			'start' 	=> $start,
+			'total' 	=> ResourcesService::AttachmentTotal($params['where']),
 		);
 
-		// 是否从磁盘获取数据 0否, 1是
-		$is_disk_get = 1;
-
-		// 附件列表获取处理钩子
-        $hook_name = 'plugins_controller_attachment_get_list_handle';
-        Hook::listen($hook_name, [
-            'hook_name'     	=> $hook_name,
-            'is_backend'    	=> true,
-            'is_disk_get'		=> &$is_disk_get,
-            'data'				=> &$data,
-        ]);
-
-        // 是否从磁盘获取数据
-        if($is_disk_get == 1)
-        {
-        	$path = GetDocumentRoot() . (substr($path, 0, 1) == "/" ? "":"/") . $path;
-			$this->GetFilesList($path, $allow_files, $size, $start, $end, $data);
-        }
+		// 获取数据
+		$ret = ResourcesService::AttachmentList($params);
+		if(!empty($ret['data']))
+		{
+			$data['state'] = 'SUCCESS';
+			$data['list'] = $ret['data'];
+		}
 		
-		/* 返回数据 */
 		$this->current_result = json_encode($data);
-	}
-
-	/**
-	 * [GetFilesList 获取目录下的指定类型的文件]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2017-01-17T23:24:59+0800
-	 * @param    [string]        $path       	[路径地址]
-	 * @param    [string]        $allow_files 	[允许的文件]
-	 * @param    [int]         	 $size     		[条数]
-	 * @param    [int]         	 $start     	[起始]
-	 * @param    [int]         	 $end     		[结束标记]
-	 * @param    [array]         $data     		[返回数据]
-	 * @return   [array]                     	[数据]
-	 */
-	private function GetFilesList($path, $allow_files, $size, $start, $end, &$data)
-	{
-		// 从磁盘获取文件
-		$files = $this->GetDirFilesList($path, $allow_files, $files);
-
-		// 倒序
-		//$files = $this->ArrayQuickSort($files);
-
-		if(is_array($files) && count($files) > 0)
-		{
-			/* 获取指定范围的列表 */
-			$len = count($files);
-			$list = [];
-			for ($i = min($end, $len) - 1; $i < $len && $i >= 0 && $i >= $start; $i--)
-			{
-				$list[] = $files[$i];
-			}
-
-			/* 返回数据 */
-			$data = array(
-				"state" => "SUCCESS",
-				"list" => $list,
-				"start" => $start,
-				"total" => count($files)
-			);
-		}
-	}
-
-	/**
-	 * 遍历获取目录下的指定类型的文件
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2017-01-17T23:24:59+0800
-	 * @param    [string]        $path       	[路径地址]
-	 * @param    [string]        $allow_files 	[允许的文件]
-	 * @param    [array]         &$files     	[数据]
-	 * @return   [array]                     	[数据]
-	 */
-	private function GetDirFilesList($path, $allow_files, &$files = array())
-	{
-		if(!is_dir($path)) return null;
-		if(substr($path, strlen($path) - 1) != '/') $path .= '/';
-		$handle = opendir($path);
-		$document_root = GetDocumentRoot();
-		while(false !== ($file = readdir($handle)))
-		{
-			if($file != '.' && $file != '..')
-			{
-				$path2 = $path . $file;
-				if(is_dir($path2))
-				{
-					$this->GetDirFilesList($path2, $allow_files, $files);
-				} else {
-					if(preg_match("/\.(".$allow_files.")$/i", $file))
-					{
-						$files[] = array(
-							'url'=> substr($path2, strlen($document_root)),
-							'mtime'=> filemtime($path2)
-						);
-					}
-				}
-			}
-		}
-		return $files;
-	}
-
-	/**
-	 * 文件快速排序
-	 * @author   Devil
-	 * @blog    http://gong.gg/
-	 * @version 1.0.0
-	 * @date    2018-12-25
-	 * @desc    description
-	 * @param  [array] $data [需要排序的数据（选择一个基准元素，将待排序分成小和打两罐部分，以此类推递归的排序划分两罐部分）]
-	 * @return [array]       [排序好的数据]
-	 */
-	private function ArrayQuickSort($data)
-	{
-		if(!empty($data) && is_array($data))
-		{
-			$len = count($data);
-			if($len <= 1) return $data;
-
-			$base = $data[0];
-			$left_array = array();
-			$right_array = array();
-			for($i=1; $i<$len; $i++)
-			{
-				if($base['mtime'] < $data[$i]['mtime'])
-				{
-					$left_array[] = $data[$i];
-				} else {
-					$right_array[] = $data[$i];
-				}
-			}
-			if(!empty($left_array)) $left_array = $this->ArrayQuickSort($left_array);
-			if(!empty($right_array)) $right_array = $this->ArrayQuickSort($right_array);
-
-			return array_merge($left_array, array($base), $right_array);
-		}
 	}
 
 	/**
@@ -469,30 +313,44 @@ class Ueditor extends Common
 		foreach($source as $imgUrl)
 		{
 			$item = new \base\Uploader($imgUrl, $temp_config, "remote");
-			$info = $item->getFileInfo();
+			/**
+			 * 得到上传文件所对应的各个参数,数组结构
+			 * array(
+			 *     "state" => "",          //上传状态，上传成功时必须返回"SUCCESS"
+			 *     "url" => "",            //返回的地址
+			 *     "path" => "",           //绝对地址
+			 *     "title" => "",          //新文件名
+			 *     "original" => "",       //原始文件名
+			 *     "type" => ""            //文件类型
+			 *     "size" => "",           //文件大小
+			 *     "hash" => "",   		   //sha256值
+			 * )
+			 */
+			$data = $up->getFileInfo();
+			if(isset($data['state']) && $data['state'] == 'SUCCESS')
+			{
+				$data['type'] = 'remote';
+				$ret = ResourcesService::AttachmentAdd($data);
+				if($ret['code'] != 0)
+				{
+					$data['state'] = $ret['msg'];
+				}
+			}
 			array_push($list, array(
-				"state" => $info["state"],
-				"url" => $info["url"],
-				"size" => $info["size"],
-				"title" => htmlspecialchars($info["title"]),
-				"original" => htmlspecialchars($info["original"]),
+				"state" => $data["state"],
+				"url" => $data["url"],
+				"size" => $data["size"],
+				"title" => htmlspecialchars($data["title"]),
+				"original" => htmlspecialchars($data["original"]),
 				"source" => htmlspecialchars($imgUrl)
 			));
 		}
 
-		// 附件抓取远程文件取结束处理钩子
-        $hook_name = 'plugins_controller_attachment_crawler_handle_end';
-        Hook::listen($hook_name, [
-            'hook_name'     	=> $hook_name,
-            'is_backend'    	=> true,
-            'list'				=> &$list,
-        ]);
-
 		/* 返回抓取数据 */
 		$this->current_result = json_encode(array(
-				'state'=> count($list) ? 'SUCCESS':'ERROR',
-				'list'=> $list
-			));
+			'state'=> count($list) ? 'SUCCESS':'ERROR',
+			'list'=> $list
+		));
 	}
 }
 ?>
