@@ -340,9 +340,12 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    top: 5px;
     text-indent: 5px;
     text-align: left;
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 6px 0;
 }
 
 #upload .filelist li p.progress {
