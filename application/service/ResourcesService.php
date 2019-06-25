@@ -306,25 +306,35 @@ class ResourcesService
                 {
                     // 删除附件
                     \base\FileUtil::UnlinkFile($path);
-                    
-                    // 附件删除成功后处理钩子
-                    $hook_name = 'plugins_service_attachment_delete_success';
-                    Hook::listen($hook_name, [
-                        'hook_name'         => $hook_name,
-                        'is_backend'        => true,
-                        'data'              => $data,
-                    ]);
 
-                    return DataReturn('删除成功', 0);
+                    $ret = DataReturn('删除成功', 0);
                 } else {
-                    return DataReturn('删除失败', -1);
+                    $ret = DataReturn('删除失败', -1);
                 }
             } else {
-                return DataReturn('没有删除权限', -1);
+                $ret = DataReturn('没有删除权限', -1);
             }
         } else {
-            return DataReturn('文件不存在', -1);
+            if(DB::name('Attachment')->where(['id'=>$data['id']])->delete())
+            {
+                $ret = DataReturn('删除成功', 0);
+            } else {
+                $ret = DataReturn('删除失败', -1);
+            }
         }
+
+        // 处理
+        if($ret['code'] == 0)
+        {
+            // 附件删除成功后处理钩子
+            $hook_name = 'plugins_service_attachment_delete_success';
+            Hook::listen($hook_name, [
+                'hook_name'         => $hook_name,
+                'is_backend'        => true,
+                'data'              => $data,
+            ]);
+        }
+        return $ret;
     }
 }
 ?>
