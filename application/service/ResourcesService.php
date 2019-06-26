@@ -131,6 +131,11 @@ class ResourcesService
             ],
             [
                 'checked_type'      => 'empty',
+                'key_name'          => 'path_type',
+                'error_msg'         => '路径标记有误',
+            ],
+            [
+                'checked_type'      => 'empty',
                 'key_name'          => 'url',
                 'error_msg'         => '地址有误',
             ],
@@ -158,7 +163,7 @@ class ResourcesService
 
         // 数据组装
         $data = [
-            'path_type'     => input('path_type', 'other'),
+            'path_type'     => $params['path_type'],
             'original'      => empty($params['original']) ? '' : mb_substr($params['original'], -160, null, 'utf-8'),
             'title'         => $params['title'],
             'size'          => $params['size'],
@@ -309,7 +314,7 @@ class ResourcesService
 
                     $ret = DataReturn('删除成功', 0);
                 } else {
-                    $ret = DataReturn('删除失败', -1);
+                    $ret = DataReturn('删除失败', -100);
                 }
             } else {
                 $ret = DataReturn('没有删除权限', -1);
@@ -319,7 +324,7 @@ class ResourcesService
             {
                 $ret = DataReturn('删除成功', 0);
             } else {
-                $ret = DataReturn('删除失败', -1);
+                $ret = DataReturn('删除失败', -100);
             }
         }
 
@@ -335,6 +340,24 @@ class ResourcesService
             ]);
         }
         return $ret;
+    }
+
+    /**
+     * 附件根据标记删除
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-06-25T23:35:27+0800
+     * @param    [string]              $path_type [唯一标记]
+     */
+    public static function AttachmentPathTypeDelete($path_type)
+    {
+        // 请求参数
+        if(DB::name('Attachment')->where(['path_type'=>$path_type])->delete() !== false)
+        {
+            return DataReturn('删除成功', 0);
+        }
+        return DataReturn('删除失败', -100);
     }
 }
 ?>

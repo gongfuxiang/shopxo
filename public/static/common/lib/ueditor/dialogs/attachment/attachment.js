@@ -12,6 +12,7 @@
 
     window.onload = function () {
         initTabs();
+        initAlign();
         initButtons();
     };
 
@@ -42,14 +43,24 @@
                 domUtils.removeClasses($G(bodyId), 'focus');
             }
         }
+
+        document.getElementById('search-container').setAttribute('class', 'none');
         switch (id) {
             case 'upload':
                 uploadFile = uploadFile || new UploadFile('queueList');
                 break;
             case 'online':
+                document.getElementById('search-container').setAttribute('class', '');
                 onlineFile = onlineFile || new OnlineFile('fileList');
                 break;
         }
+    }
+
+    /* 初始化搜索点击事件 */
+    function initAlign(){
+        domUtils.on($G("search-submit"), 'click', function(e){
+            onlineFile = new OnlineFile('fileList');
+        });
     }
 
     /* 初始化onok事件 */
@@ -634,7 +645,8 @@
                     timeout: 100000,
                     data: utils.extend({
                             start: this.listIndex,
-                            size: this.listSize
+                            size: this.listSize,
+                            keywords: document.getElementById('search-input').value
                         }, editor.queryCommandValue('serverparam')),
                     method: 'get',
                     onsuccess: function (r) {

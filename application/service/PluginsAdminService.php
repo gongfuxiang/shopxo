@@ -382,6 +382,9 @@ class PluginsAdminService
                 }
             }
 
+            // 删除数据库附件
+            ResourcesService::AttachmentPathTypeDelete('plugins_'.$params['id']);
+
             // 删除应用文件
             self::PluginsResourcesDelete($params['id'], $is_delete_static);
 

@@ -17,6 +17,7 @@
     window.onload = function(){
         $focus($G("videoUrl"));
         initTabs();
+        initAlign();
         initVideo();
         initUpload();
     };
@@ -53,11 +54,25 @@
                 domUtils.removeClasses($G(bodyId), 'focus');
             }
         }
+        document.getElementById('search-container').setAttribute('class', 'none');
         switch (id) {
             case "online":
+                document.getElementById('search-container').setAttribute('class', '');
                 initOnline();
                 break;
         }
+    }
+
+    /* 初始化搜索点击事件 */
+    function initAlign(){
+        domUtils.on($G("search-submit"), 'click', function(e){
+            initOnline();
+        });
+    }
+
+    /* 获取对齐方式 */
+    function getAlign(){
+        return 'none';
     }
 
     function initVideo(){
@@ -202,7 +217,8 @@
                     'dataType': isJsonp ? 'jsonp':'',
                     'data': utils.extend({
                             start: this.listIndex,
-                            size: this.listSize
+                            size: this.listSize,
+                            keywords: document.getElementById('search-input').value
                         }, editor.queryCommandValue('serverparam')),
                     'method': 'get',
                     'onsuccess': function (r) {

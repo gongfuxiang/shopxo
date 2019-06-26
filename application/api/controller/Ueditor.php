@@ -210,6 +210,7 @@ class Ueditor extends Common
 		if(isset($data['state']) && $data['state'] == 'SUCCESS')
 		{
 			$data['type'] = $attachment_type;
+			$data['path_type'] = empty($this->data_request['path_type']) ? 'other' : $this->data_request['path_type'];
 			$ret = ResourcesService::AttachmentAdd($data);
 			if($ret['code'] == 0)
 			{
@@ -266,10 +267,16 @@ class Ueditor extends Common
 			'm'			=> $start,
 			'n'			=> $size,
 			'where'		=> [
-	            'type'      => substr($this->current_action, 4),
-	            'path_type' => input('path_type', 'other'),
+				['type', '=', substr($this->current_action, 4)],
+				['path_type', '=', empty($this->data_request['path_type']) ? 'other' : $this->data_request['path_type']]
 	        ],
 		];
+
+		// 搜索关键字
+		if(!empty($this->data_request['keywords']))
+		{
+			$params['where'][] = ['original', 'like', '%'.$this->data_request['keywords'].'%'];
+		}
 
 		// 数据初始化
 		$data = array(
@@ -330,6 +337,7 @@ class Ueditor extends Common
 			if(isset($data['state']) && $data['state'] == 'SUCCESS')
 			{
 				$data['type'] = 'remote';
+				$data['path_type'] = empty($this->data_request['path_type']) ? 'other' : $this->data_request['path_type'];
 				$ret = ResourcesService::AttachmentAdd($data);
 				if($ret['code'] != 0)
 				{
