@@ -176,7 +176,8 @@
                 fileVal: editor.getOpt('fileFieldName'),
                 duplicate: true,
                 fileSingleSizeLimit: fileMaxSize,
-                compress: false
+                compress: false,
+                threads: 1
             });
             uploader.addButton({
                 id: '#filePickerBlock'

@@ -625,7 +625,8 @@
                 fileVal: editor.getOpt('videoFieldName'),
                 duplicate: true,
                 fileSingleSizeLimit: fileMaxSize,
-                compress: false
+                compress: false,
+                threads: 1
             });
             uploader.addButton({
                 id: '#filePickerBlock'

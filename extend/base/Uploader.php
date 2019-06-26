@@ -107,6 +107,12 @@ class Uploader
      */
     private function uploadFile()
     {
+        if(empty($_FILES[$this->fileField]))
+        {
+            $this->stateInfo = $this->getStateInfo("ERROR_SIZE_EXCEED");
+            return;
+        }
+        
         $file = $this->file = $_FILES[$this->fileField];
         if (!$file) {
             $this->stateInfo = $this->getStateInfo("ERROR_FILE_NOT_FOUND");
