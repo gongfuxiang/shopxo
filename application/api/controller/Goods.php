@@ -50,6 +50,9 @@ class Goods extends Common
             return DataReturn('参数有误', -1);
         }
 
+        // 商品详情方式
+        $is_use_mobile_detail = intval(MyC('common_app_is_use_mobile_detail'));
+
         // 获取商品
         $goods_id = intval($this->data_post['goods_id']);
         $params = [
@@ -59,14 +62,32 @@ class Goods extends Common
             ],
             'is_photo' => true,
             'is_spec' => true,
-            'is_content_app' => true,
+            'is_content_app' => ($is_use_mobile_detail == 1),
         ];
         $ret = GoodsService::GoodsList($params);
         if(empty($ret['data'][0]) || $ret['data'][0]['is_delete_time'] != 0)
         {
             return DataReturn('商品不存在或已删除', -1);
         }
-        unset($ret['data'][0]['content_web']);
+
+        // 商品详情处理
+        if($is_use_mobile_detail == 1)
+        {
+            unset($ret['data'][0]['content_web']);
+        } else {
+            // 标签处理，兼容小程序rich-text
+            $search = [
+                '<img ',
+                '<section',
+                '/section>'
+            ];
+            $replace = [
+                '<img style="max-width:100%;margin:0;display:block;" ',
+                '<div',
+                '/div>',
+            ];
+            $ret['data'][0]['content_web'] = str_replace($search, $replace, $ret['data'][0]['content_web']);
+        }
 
         // 当前登录用户是否已收藏
         $ret_favor = GoodsService::IsUserGoodsFavor(['goods_id'=>$goods_id, 'user'=>$this->user]);
@@ -82,6 +103,7 @@ class Goods extends Common
         $result = [
             'goods'                     => $ret['data'][0],
             'common_order_is_booking'   => (int) MyC('common_order_is_booking', 0),
+            'is_use_mobile_detail'      => $is_use_mobile_detail,
         ];
         return DataReturn('success', 0, $result);
     }

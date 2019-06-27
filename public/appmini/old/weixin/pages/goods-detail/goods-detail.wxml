@@ -61,7 +61,9 @@
       <text class="text-wrapper">详情</text>
     </view>
     <!-- web详情 -->
-    <rich-text wx:if="{{is_use_mobile_detail == 0}}" nodes="{{goods.content_web || ''}}"></rich-text>
+    <view wx:if="{{is_use_mobile_detail == 0}}" class="bg-white">
+      <rich-text nodes="{{goods.content_web || ''}}"></rich-text>
+    </view>
     <!-- 手机独立详情 -->
     <block wx:if="{{is_use_mobile_detail == 1 && goods_content_app.length > 0}}">
       <view wx:for="{{goods_content_app}}" wx:key="key" class="goods-detail-app bg-white">

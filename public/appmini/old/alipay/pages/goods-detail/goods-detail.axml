@@ -50,7 +50,9 @@
       <text class="text-wrapper">详情</text>
     </view>
     <!-- web详情 -->
-    <rich-text a:if="{{is_use_mobile_detail == 0}}" nodes="{{goods.content_web || ''}}"></rich-text>
+    <view a:if="{{is_use_mobile_detail == 0}}" class="bg-white">
+      <rich-text nodes="{{goods.content_web || ''}}"></rich-text>
+    </view>
     <!-- 手机独立详情 -->
     <block a:if="{{is_use_mobile_detail == 1 && goods_content_app.length > 0}}">
       <view a:for="{{goods_content_app}}" class="goods-detail-app bg-white">
