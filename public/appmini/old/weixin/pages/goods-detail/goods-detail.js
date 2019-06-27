@@ -32,10 +32,11 @@ Page({
     show_field_price_text: null,
 
     goods_video_is_autoplay: false,
+    is_use_mobile_detail: 1,
   },
 
   onLoad(params) {
-    params['goods_id']=2;
+    //params['goods_id']=2;
     this.setData({params: params});
     this.init();
   },
@@ -85,7 +86,7 @@ Page({
               autoplay: (data.goods.photo.length > 1),
               goods_photo: data.goods.photo,
               goods_specifications_choose: data.goods.specifications.choose || [],
-              goods_content_app: data.goods.content_app,
+              goods_content_app: data.goods.content_app || [],
               temp_buy_number: data.goods.buy_min_number || 1,
               goods_favor_text: (data.goods.is_favor == 1) ? '已收藏' : '收藏',
               goods_favor_icon: '/images/goods-detail-favor-icon-' + data.goods.is_favor+'.png',
@@ -100,6 +101,7 @@ Page({
               goods_spec_base_images: data.goods.images,
 
               show_field_price_text: (data.goods.show_field_price_text == '销售价') ? null : (data.goods.show_field_price_text.replace(/<[^>]+>/g, "") || null),
+              is_use_mobile_detail: data.is_use_mobile_detail || 0,
             });
 
             // 不能选择规格处理

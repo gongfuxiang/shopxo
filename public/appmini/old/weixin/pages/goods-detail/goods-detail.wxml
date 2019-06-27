@@ -16,13 +16,15 @@
   </swiper>
 
   <!-- 视频 -->
-  <view wx:if="{{goods_video_is_autoplay}}" class="goods-video">
-    <video src="{{goods.video}}" autoplay="{{goods_video_is_autoplay}}" show-center-play-btn="{{true}}" controls="{{false}}" show-play-btn="{{false}}" enable-progress-gesture="{{false}}" show-fullscreen-btn="{{false}}"></video>
-  </view>
-  <view class="goods-video-submit">
-    <text wx:if="{{!goods_video_is_autoplay}}" class="goods-video-play" bindtap="goods_video_play_event" type="primary">视频</text>
-    <text wx:if="{{goods_video_is_autoplay}}" class="goods-video-close" bindtap="goods_video_close_event">关闭</text>
-  </view>
+  <block wx:if="{{goods.video.length > 0}}">
+    <view wx:if="{{goods_video_is_autoplay}}" class="goods-video">
+      <video src="{{goods.video}}" autoplay="{{goods_video_is_autoplay}}" show-center-play-btn="{{true}}" controls="{{false}}" show-play-btn="{{false}}" enable-progress-gesture="{{false}}" show-fullscreen-btn="{{false}}"></video>
+    </view>
+    <view class="goods-video-submit">
+      <image wx:if="{{!goods_video_is_autoplay}}" class="goods-video-play" bindtap="goods_video_play_event" src="/images/goods-detail-video-play.png" mode="aspectFit"></image>
+      <image wx:if="{{goods_video_is_autoplay}}" class="goods-video-close"  bindtap="goods_video_close_event" src="/images/goods-detail-video-close.png" mode="aspectFit"></image>
+    </view>
+  </block>
 
   <!-- 基础信息 -->
   <view class="goods-base bg-white">
@@ -53,17 +55,22 @@
   </view> -->
 
   <!-- 商品详情 -->
-  <view wx:if="{{goods_content_app.length > 0}}" class="goods-detail spacing">
+  <view class="goods-detail spacing">
     <view class="spacing-nav-title">
       <text class="line"></text>
       <text class="text-wrapper">详情</text>
     </view>
-    <view wx:for="{{goods_content_app}}" wx:key="key" class="goods-detail-app bg-white">
-        <image wx:if="{{(item.images || null) != null}}" bindtap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto dis-block" src="{{item.images}}" mode="widthFix" />
-        <view wx:if="{{(item.content || null) != null}}" class="content-items">
-          <view wx:for="{{item.content}}" wx:for-item="items">{{items}}</view>
-        </view>
-    </view>
+    <!-- web详情 -->
+    <rich-text wx:if="{{is_use_mobile_detail == 0}}" nodes="{{goods.content_web || ''}}"></rich-text>
+    <!-- 手机独立详情 -->
+    <block wx:if="{{is_use_mobile_detail == 1 && goods_content_app.length > 0}}">
+      <view wx:for="{{goods_content_app}}" wx:key="key" class="goods-detail-app bg-white">
+          <image wx:if="{{(item.images || null) != null}}" bindtap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto dis-block" src="{{item.images}}" mode="widthFix" />
+          <view wx:if="{{(item.content || null) != null}}" class="content-items">
+            <view wx:for="{{item.content}}" wx:for-item="items">{{items}}</view>
+          </view>
+      </view>
+    </block>
   </view>
 
   <!-- 底线 -->

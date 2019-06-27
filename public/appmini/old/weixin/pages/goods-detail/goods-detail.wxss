@@ -233,22 +233,10 @@
 .goods-video-submit {
   position: absolute;
   left: 30rpx;
-  top: calc(65vh - 80rpx);
+  top: calc(65vh - 110rpx);
   z-index: 2;
 }
-.goods-video-submit text {
-  height: 56rpx;
-  line-height: 56rpx !important;
-  font-size: 24rpx;
-  padding: 5rpx 20rpx;
-  border-radius: 6rpx;
-  background: #fff;
-}
-.goods-video-play {
-  border: 1px solid #10a54a;
-  color: #10a54a;
-}
-.goods-video-close {
-  border: 1px solid #eee;
-  color: #cb5757;
+.goods-video-submit image {
+  width: 80rpx;
+  height: 80rpx;
 }
