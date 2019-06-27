@@ -19,10 +19,10 @@
   <view wx:if="{{goods_video_is_autoplay}}" class="goods-video">
     <video src="{{goods.video}}" autoplay="{{goods_video_is_autoplay}}" show-center-play-btn="{{true}}" controls="{{false}}" show-play-btn="{{false}}" enable-progress-gesture="{{false}}" show-fullscreen-btn="{{false}}"></video>
   </view>
-  <cover-view class="goods-video-submit">
+  <view class="goods-video-submit">
     <text wx:if="{{!goods_video_is_autoplay}}" class="goods-video-play" bindtap="goods_video_play_event" type="primary">视频</text>
     <text wx:if="{{goods_video_is_autoplay}}" class="goods-video-close" bindtap="goods_video_close_event">关闭</text>
-  </cover-view>
+  </view>
 
   <!-- 基础信息 -->
   <view class="goods-base bg-white">
