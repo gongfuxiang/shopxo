@@ -30,10 +30,12 @@ Page({
     goods_spec_base_images: '',
 
     show_field_price_text: null,
+
+    goods_video_is_autoplay: false,
   },
 
   onLoad(params) {
-    //params['goods_id']=12;
+    params['goods_id']=2;
     this.setData({params: params});
     this.init();
   },
@@ -590,6 +592,16 @@ Page({
       current: index,
       urls: all
     });
+  },
+
+  // 视频播放
+  goods_video_play_event(e) {
+    this.setData({ goods_video_is_autoplay: true});
+  },
+
+  // 视频关闭
+  goods_video_close_event(e) {
+    this.setData({ goods_video_is_autoplay: false });
   },
 
   // 自定义分享
