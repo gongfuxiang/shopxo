@@ -1,4 +1,5 @@
 const app = getApp();
+import parse from 'mini-html-parser2';
 Page({
   data: {
     indicator_dots: false,
@@ -30,6 +31,7 @@ Page({
     goods_spec_base_images: '',
 
     show_field_price_text: null,
+    is_use_mobile_detail: 1,
   },
 
   onLoad(params) {
@@ -83,7 +85,7 @@ Page({
               autoplay: (data.goods.photo.length > 1),
               goods_photo: data.goods.photo,
               goods_specifications_choose: data.goods.specifications.choose || [],
-              goods_content_app: data.goods.content_app,
+              goods_content_app: data.goods.content_app || [],
               temp_buy_number: data.goods.buy_min_number || 1,
               goods_favor_text: (data.goods.is_favor == 1) ? '已收藏' : '收藏',
               goods_favor_icon: '/images/goods-detail-favor-icon-' + data.goods.is_favor+'.png',
@@ -98,7 +100,17 @@ Page({
               goods_spec_base_images: data.goods.images,
 
               show_field_price_text: (data.goods.show_field_price_text == '销售价') ? null : (data.goods.show_field_price_text.replace(/<[^>]+>/g, "") || null),
+              is_use_mobile_detail: data.is_use_mobile_detail || 0,
             });
+
+            parse(data.goods.content_web, (err, nodes) => {
+              if (!err) {
+                this.setData({
+                  'goods.content_web': nodes,
+                });
+                console.log(this.data.goods.content_web);
+              }
+            })
 
             // 不能选择规格处理
             this.goods_specifications_choose_handle_dont(0);
