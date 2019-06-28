@@ -1791,8 +1791,14 @@ class UserService
         );
 
         // 获取用户信息
-        $temp_user = Db::name('User')->where('mobile', '=', $data['mobile'])->find();
-        $open_user = Db::name('User')->where($accounts_field, '=', $params[$accounts_field])->find();
+        $temp_user = Db::name('User')->where([
+            ['mobile', '=', $data['mobile']],
+            ['is_delete_time', '=', 0],
+        ])->find();
+        $open_user = Db::name('User')->where([
+            [$accounts_field, '=', $params[$accounts_field]],
+            ['is_delete_time', '=', 0],
+        ])->find();
 
         // 如果手机号码存在，并且openid也已存在，则更新掉之前的openid
         if(!empty($temp_user))
