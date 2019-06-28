@@ -1780,6 +1780,21 @@ class UserService
             return DataReturn('用户openid不能为空', -20);
         }
 
+        // 获取用户信息
+        $temp_user = Db::name('User')->where('mobile', '=', $data['mobile'])->find();
+        $open_user = Db::name('User')->where($accounts_field, '=', $params[$accounts_field])->find();
+
+        // 如果手机号码存在，并且openid也已存在，则更新掉之前的openid
+        if(!empty($temp_user))
+        {
+            if(!empty($open_user))
+            {
+                Db::name('User')->where(['id'=>$open_user['id']])->update([$accounts_field=>'', 'upd_time'=>time()]);
+            }
+        } else {
+            $temp_user = $open_user;
+        }
+
         // 是否需要审核
         $common_register_is_enable_audit = MyC('common_register_is_enable_audit', 0);
 
@@ -1789,14 +1804,6 @@ class UserService
             'mobile'            => $params['mobile'],
             'status'            => ($common_register_is_enable_audit == 1) ? 3 : 0,
         );
-
-        // 获取用户信息
-        $where = ['is_delete_time' => 0];
-        $accounts_where = [
-            ['mobile', '=', $data['mobile']],
-            [$accounts_field, '=', $params[$accounts_field]],
-        ];
-        $temp_user = Db::name('User')->where($where)->whereOr($accounts_where)->find();
 
         // 额外信息
         if(empty($temp_user['nickname']) && !empty($params['nickname']))
