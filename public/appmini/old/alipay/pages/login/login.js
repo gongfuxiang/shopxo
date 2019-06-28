@@ -44,8 +44,14 @@ Page({
         //   content: userinfo,
         //   buttonText: '我知道了',
         // });
-        console.log(userinfo)
-        app.user_auth_login($this, 'user_auth_back_event', null);
+
+        // 字符串则转为json对象（兼容支付宝框架bug）
+        // if(typeof(userinfo) == 'string')
+        // {
+          userinfo = JSON.parse(userinfo.response);
+        //}
+        console.log(userinfo.response)
+        app.user_auth_login(this, 'user_auth_back_event', userinfo.response);
       }
     });
   },

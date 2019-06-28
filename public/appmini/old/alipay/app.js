@@ -311,10 +311,11 @@ App({
   get_user_login_info(object, method, openid, userinfo) {
     my.showLoading({ content: "授权中..." });
     var $this = this;
+    userinfo['openid'] = openid;
     my.request({
       url: $this.get_request_url('alipayuserinfo', 'user'),
       method: 'POST',
-      data: { userinfo: userinfo, openid: openid },
+      data: userinfo,
       dataType: 'json',
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: (res) => {

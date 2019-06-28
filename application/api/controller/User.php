@@ -138,11 +138,11 @@ class User extends Common
                 'key_name'          => 'openid',
                 'error_msg'         => 'openid为空',
             ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'userinfo',
-                'error_msg'         => '用户数据为空',
-            ],
+            // [
+            //     'checked_type'      => 'empty',
+            //     'key_name'          => 'userinfo',
+            //     'error_msg'         => '用户数据为空',
+            // ],
         ];
         $ret = ParamsChecked($this->data_post, $p);
         if($ret !== true)
