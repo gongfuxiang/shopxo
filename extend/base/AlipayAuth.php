@@ -93,7 +93,6 @@ class AlipayAuth
 
             // 执行请求
             $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $param);
-
             if(!empty($result['alipay_user_info_share_response']['code']) && $result['alipay_user_info_share_response']['code'] == 10000)
             {
                 // 验证签名正确则存储缓存返回数据
@@ -110,6 +109,10 @@ class AlipayAuth
             }
 
             $msg = empty($result['error_response']['sub_msg']) ? '授权失败' : $result['error_response']['sub_msg'];
+            if(!empty($result['alipay_user_info_share_response']['sub_msg']))
+            {
+                $msg = $result['alipay_user_info_share_response']['sub_msg'];
+            }
             return ['status'=>-1, 'msg'=>$msg];
         } else {
             return $auth;
@@ -152,14 +155,12 @@ class AlipayAuth
      * @version  1.0.0
      * @datetime 2017-09-24T21:55:45+0800
      * @param    [string]            $app_id        [应用appid]
-     * @param    [string]            $key           [缓存key]
      * @param    [string]            $authcode      [用户授权码]
-     * @param    [string]            $refresh_token [刷新授权token]
      * @return   [array|boolean]                    [失败false, 用户授权信息]
      */
-    private function GetAuthCode($app_id, $key, $authcode = '', $refresh_token = '')
+    public function GetAuthCode($app_id, $authcode = '')
     {
-        if(empty($app_id) || empty($key) || (empty($authcode) && empty($refresh_token)))
+        if(empty($app_id) || empty($authcode))
         {
             return ['status'=>-1, 'msg'=>'参数有误'];
         }
@@ -173,18 +174,10 @@ class AlipayAuth
             'sign_type'         =>  'RSA2',
             'timestamp'         =>  date('Y-m-d H:i:s'),
             'version'           =>  '1.0',
+            'code'              =>  $authcode,
+            'grant_type'        =>  'authorization_code',
             'biz_content'       =>  'mini-authcode',
         ];
-        if(!empty($authcode))
-        {
-            $param['code'] = $authcode;
-            $param['grant_type'] = 'authorization_code';
-        }
-        if(!empty($refresh_token))
-        {
-            $param['refresh_token'] = $refresh_token;
-            $param['grant_type'] = 'refresh_token';
-        }
 
         // 生成签名参数+签名
         $p = $this->GetParamSign($param);
@@ -202,8 +195,6 @@ class AlipayAuth
                 return ['status'=>-1, 'msg'=>'签名验证失败'];
             }
 
-            // 存储缓存
-            SS($key, $result['alipay_system_oauth_token_response']);
             return ['status'=>0, 'msg'=>'success', 'data'=>$result['alipay_system_oauth_token_response']];
         }
         $msg = empty($result['error_response']['sub_msg']) ? '授权失败' : $result['error_response']['sub_msg'];

@@ -103,14 +103,17 @@ Page({
               is_use_mobile_detail: data.is_use_mobile_detail || 0,
             });
 
-            parse(data.goods.content_web, (err, nodes) => {
-              if (!err) {
-                this.setData({
-                  'goods.content_web': nodes,
-                });
-                console.log(this.data.goods.content_web);
-              }
-            })
+            // web内容转化
+            if((data.goods.content_web || null) != null)
+            {
+              parse(data.goods.content_web, (err, nodes) => {
+                if (!err) {
+                  this.setData({
+                    'goods.content_web': nodes,
+                  });
+                }
+              });
+            }
 
             // 不能选择规格处理
             this.goods_specifications_choose_handle_dont(0);
@@ -223,10 +226,10 @@ Page({
   // 收藏事件
   goods_favor_event(e)
   {
-    var user = app.GetUserInfo(this, 'goods_favor_event');
+    var user = app.get_user_info(this, 'goods_favor_event');
     if (user != false) {
       // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
+      if (app.user_is_need_login(user)) {
         my.navigateTo({
           url: "/pages/login/login?event_callback=init"
         });
@@ -275,10 +278,10 @@ Page({
 
   // 加入购物车事件
   goods_cart_event(e, spec) {
-    var user = app.GetUserInfo(this, 'goods_cart_event');
+    var user = app.get_user_info(this, 'goods_cart_event');
     if (user != false) {
       // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
+      if (app.user_is_need_login(user)) {
         my.navigateTo({
           url: "/pages/login/login?event_callback=init"
         });
@@ -558,10 +561,10 @@ Page({
 
   // 确认
   goods_buy_confirm_event(e) {
-    var user = app.GetUserInfo(this, 'goods_buy_confirm_event');
+    var user = app.get_user_info(this, 'goods_buy_confirm_event');
     if (user != false) {
       // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
+      if (app.user_is_need_login(user)) {
         my.navigateTo({
           url: "/pages/login/login?event_callback=init"
         });

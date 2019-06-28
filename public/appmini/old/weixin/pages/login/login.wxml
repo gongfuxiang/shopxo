@@ -9,7 +9,7 @@
   </form>
 </view>
 
-<view wx:if="{{user == null}}" class="wx-login tc">
+<view wx:if="{{user == null}}" class="user-login tc">
   <view class="cr-888 fs-12">确认登录授权，为您提供更优质的服务</view>
   <button type="primary" size="mini" open-type="getUserInfo" bindgetuserinfo="get_user_info_event">授权登录</button>
 </view>

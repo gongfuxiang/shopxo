@@ -60,10 +60,9 @@ Page({
    * 授权返回事件
    */
   user_auth_back_event() {
-    this.setData({
-      user: app.get_user_cache_info() || null
-    });
-    if((this.data.user.mobile || null) != null)
+    var user = app.get_user_cache_info();
+    this.setData({user: user || null});
+    if (app.user_is_need_login(user) == false)
     {
       wx.navigateBack();
     }

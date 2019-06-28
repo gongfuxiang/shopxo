@@ -487,6 +487,29 @@ App({
         duration: 3000
       });
     }
+  },
+
+  /**
+   * 是否需要登录
+   * 是否需要绑定手机号码
+   */
+  user_is_need_login(user) {
+    // 用户信息是否正确
+    if (user == false)
+    {
+      return true;
+    }
+
+    // 是否需要绑定手机号码
+    if ((user.is_mandatory_bind_mobile || 0) == 1)
+    {
+      if ((user.mobile || null) == null)
+      {
+        return true;
+      }
+    }
+    
+    return false;
   }
 
 });

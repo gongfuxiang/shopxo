@@ -1,4 +1,4 @@
-<view class="content">
+<view a:if="{{user != null}}" class="content">
   <form onSubmit="formSubmit">
     <input type="number" placeholder="输入手机号码" maxlength="11" name="mobile" onInput="bind_key_input" class="mobile" />
     <view class="code clearfix">
@@ -7,4 +7,9 @@
     </view>
     <button type="default" formType="submit" hover-class="none" plain loading="{{form_submit_loading}}" disabled="{{form_submit_loading}}" class="submit {{form_submit_loading ? 'my-btn-gray' : 'my-btn-default'}}">确认绑定</button>
   </form>
+</view>
+
+<view a:if="{{user == null}}" class="user-login tc">
+  <view class="cr-888 fs-12">确认登录授权，为您提供更优质的服务</view>
+  <button type="primary" size="mini" open-type="getAuthorize" scope="userInfo" onGetAuthorize="get_user_info_event">授权登录</button>
 </view>

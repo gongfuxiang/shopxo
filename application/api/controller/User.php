@@ -76,7 +76,7 @@ class User extends Common
     }
 
     /**
-     * [GetAlipayUserInfo 获取支付宝用户信息]
+     * [GetAlipayUserInfo 支付宝用户授权]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -87,21 +87,82 @@ class User extends Common
         // 参数
         if(empty($this->data_post['authcode']))
         {
-            return DataReturn('授权码不能为空', -1);
+            return DataReturn('授权码为空', -1);
         }
 
         // 授权
-        $ret = (new \base\AlipayAuth())->GetAlipayUserInfo($this->data_post['authcode'], MyC('common_app_mini_alipay_appid'));
-        if($ret['status'] != 0)
+        $result = (new \base\AlipayAuth())->GetAuthCode(MyC('common_app_mini_alipay_appid'), $this->data_post['authcode']);
+        if($result['status'] == 0)
         {
-            return DataReturn($ret['msg'], -10);
-        } else {
-            $data = $ret['data'];
-            $data['gender'] = empty($data['gender']) ? 0 : ($data['gender'] == 'm') ? 2 : 1;
-            $data['openid'] = $data['user_id'];
-            $data['referrer']= isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0;
-            return UserService::AuthUserProgram($data, 'alipay_openid');
+            return DataReturn('授权登录成功', 0, $result['data']['user_id']);
         }
+        return DataReturn($result['msg'], -100);
+
+
+
+
+        // // 参数
+        // if(empty($this->data_post['authcode']))
+        // {
+        //     return DataReturn('授权码不能为空', -1);
+        // }
+
+        // // 授权
+        // $ret = (new \base\AlipayAuth())->GetAuthCode($this->data_post['authcode'], MyC('common_app_mini_alipay_appid'));
+        // if($ret['status'] != 0)
+        // {
+        //     return DataReturn($ret['msg'], -10);
+        // } else {
+        //     $data = $ret['data'];
+        //     $data['gender'] = empty($data['gender']) ? 0 : ($data['gender'] == 'm') ? 2 : 1;
+        //     $data['openid'] = $data['user_id'];
+        //     $data['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
+        //     return UserService::AuthUserProgram($data, 'alipay_openid');
+        // }
+    }
+
+    /**
+     * 支付宝小程序获取用户信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-11-06
+     * @desc    description
+     */
+    public function AlipayUserInfo()
+    {
+        // 参数校验
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'openid',
+                'error_msg'         => 'openid为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'userinfo',
+                'error_msg'         => '用户数据为空',
+            ],
+        ];
+        $ret = ParamsChecked($this->data_post, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 先从数据库获取用户信息
+        $user = UserService::UserInfo('alipay_openid', $this->data_post['openid']);
+        if(empty($user))
+        {
+            $result = $this->data_post;
+            $result['nick_name'] = isset($result['nickName']) ? $result['nickName'] : '';
+            $result['gender'] = empty($result['gender']) ? 0 : ($result['gender'] == 'f') ? 1 : 2;
+            return UserService::AuthUserProgram($result, 'alipay_openid');
+        } else {
+            $user['is_mandatory_bind_mobile'] = intval(MyC('common_user_is_mandatory_bind_mobile'));
+            return DataReturn('授权成功', 0, $user);
+        }
+        return DataReturn(empty($result) ? '获取用户信息失败' : $result, -100);
     }
 
     /**
@@ -179,6 +240,7 @@ class User extends Common
                 return UserService::AuthUserProgram($result, 'weixin_openid');
             }
         } else {
+            $user['is_mandatory_bind_mobile'] = intval(MyC('common_user_is_mandatory_bind_mobile'));
             return DataReturn('授权成功', 0, $user);
         }
         return DataReturn(empty($result) ? '获取用户信息失败' : $result, -100);
@@ -200,7 +262,7 @@ class User extends Common
         $result = (new \Library\BaiduAuth())->GetAuthUserInfo($_POST);
         if($result['status'] == 0)
         {
-            return UserService::AuthUserProgram($result, 'alipay_openid');
+            return UserService::AuthUserProgram($result, 'baidu_openid');
         }
         return DataReturn($result['msg'], -10);
     }

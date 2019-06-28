@@ -1587,20 +1587,38 @@ class UserService
      */
     public static function AuthUserProgram($params, $field)
     {
+        // 是否强制绑定手机号码
+        $is_mandatory_bind_mobile = intval(MyC('common_user_is_mandatory_bind_mobile'));
+
+        // 用户信息
         $data = [
             $field              => $params['openid'],
             'nickname'          => empty($params['nick_name']) ? '' : $params['nick_name'],
             'avatar'            => empty($params['avatar']) ? '' : $params['avatar'],
-            'gender'            => empty($params['gender']) ? 0 : ($params['gender'] == 'm') ? 2 : 1,
+            'gender'            => empty($params['gender']) ? 0 : intval($params['gender']),
             'province'          => empty($params['province']) ? '' : $params['province'],
             'city'              => empty($params['city']) ? '' : $params['city'],
-            'referrer'          => isset($params['referrer']) ? intval($params['referrer']) : 0,
+            'referrer'          => isset($params['referrer']) ? $params['referrer'] : 0,
         ];
         $user = self::UserInfo($field, $params['openid']);
         if(!empty($user))
         {
             $data = $user;
+        } else {
+            if($is_mandatory_bind_mobile != 1)
+            {
+                $ret = self::UserInsert($data, $params);
+                if($ret['code'] == 0)
+                {
+                    $data = self::UserInfo('id', $ret['data']['user_id']);
+                } else {
+                    return $ret;
+                }
+            }
         }
+
+        // 是否强制绑定手机号码
+        $data['is_mandatory_bind_mobile'] = $is_mandatory_bind_mobile;
 
         // 返回成功
         return DataReturn('授权成功', 0, $data);

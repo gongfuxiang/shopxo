@@ -213,7 +213,7 @@ Page({
   {
     var user = app.get_user_cache_info(this, 'goods_favor_event');
     // 用户未绑定用户则转到登录页面
-    if (user == false || (user.mobile || null) == null) {
+    if (app.user_is_need_login(user)) {
       wx.navigateTo({
         url: "/pages/login/login?event_callback=init"
       });
@@ -254,7 +254,7 @@ Page({
   goods_cart_event(e, spec) {
     var user = app.get_user_cache_info(this, 'goods_cart_event');
     // 用户未绑定用户则转到登录页面
-    if (user == false || (user.mobile || null) == null) {
+    if (app.user_is_need_login(user)) {
       wx.navigateTo({
         url: "/pages/login/login?event_callback=init"
       });
@@ -514,7 +514,7 @@ Page({
   goods_buy_confirm_event(e) {
     var user = app.get_user_cache_info(this, 'goods_buy_confirm_event');
     // 用户未绑定用户则转到登录页面
-    if (user == false || (user.mobile || null) == null) {
+    if (app.user_is_need_login(user)) {
       wx.navigateTo({
         url: "/pages/login/login?event_callback=init"
       });

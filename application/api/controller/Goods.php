@@ -79,12 +79,16 @@ class Goods extends Common
             $search = [
                 '<img ',
                 '<section',
-                '/section>'
+                '/section>',
+                '<p>',
+                '<div>',
             ];
             $replace = [
                 '<img style="max-width:100%;margin:0;display:block;" ',
                 '<div',
                 '/div>',
+                '<p style="margin:0;">',
+                '<div style="margin:0;">',
             ];
             $ret['data'][0]['content_web'] = str_replace($search, $replace, $ret['data'][0]['content_web']);
         }

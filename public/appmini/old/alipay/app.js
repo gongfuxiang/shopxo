@@ -1,5 +1,8 @@
 App({
   data: {
+    // 用户登录缓存key
+    cache_user_login_key: "cache_user_login_key",
+
     // 用户信息缓存key
     cache_user_info_key: "cache_shop_user_info_key",
 
@@ -167,7 +170,7 @@ App({
     if (params != "" && params.substr(0, 1) != "&") {
       params = "&" + params;
     }
-    var user = this.GetUserCacheInfo();
+    var user = this.get_user_cache_info();
     var app_client_user_id = user == false ? "" : user.alipay_openid;
     var user_id = user == false ? 0 : user.id;
     return (
@@ -188,11 +191,11 @@ App({
    * method     回调操作对象的函数
    * return     有用户数据直接返回, 则回调调用者
    */
-  GetUserInfo(object, method) {
-    var user = this.GetUserCacheInfo();
+  get_user_info(object, method) {
+    var user = this.get_user_cache_info();
     if (user == false) {
       // 唤醒用户授权
-      this.UserAuthCode(object, method);
+      this.user_login(object, method);
 
       return false;
     } else {
@@ -203,7 +206,7 @@ App({
   /**
    * 从缓存获取用户信息
    */
-  GetUserCacheInfo() {
+  get_user_cache_info() {
     var user = my.getStorageSync({ key: this.data.cache_user_info_key });
     if ((user.data || null) == null) {
       return false;
@@ -215,8 +218,9 @@ App({
    * 用户授权
    * object     回调操作对象
    * method     回调操作对象的函数
+   * auth_data  授权数据
    */
-  UserAuthCode(object, method) {
+  user_login(object, method, auth_data) {
     // 邀请人参数
     var params = my.getStorageSync({key: this.data.cache_launch_info_key});
     var referrer = (params.data == null) ? 0 : (params.data.referrer || 0);
@@ -241,13 +245,13 @@ App({
               my.hideLoading();
               if (res.data.code == 0) {
                 my.setStorage({
-                  key: this.data.cache_user_info_key,
+                  key: this.data.cache_user_login_key,
                   data: res.data.data
                 });
-
-                if (typeof object === "object" && (method || null) != null) {
-                  object[method]();
-                }
+                
+                my.navigateTo({
+                  url: "/pages/login/login"
+                });
               } else {
                 my.showToast({
                   type: "fail",
@@ -277,6 +281,77 @@ App({
           duration: 3000
         });
       }
+    });
+  },
+
+  /**
+   * 用户登录
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   * auth_data  授权数据
+   */
+  user_auth_login(object, method, auth_data) {
+    my.showLoading({ content: "授权中..." });
+    var openid = my.getStorageSync({key: this.data.cache_user_login_key});
+    if ((openid || null) == null)
+    {
+      this.user_login(object, method, auth_data);
+    } else {
+      this.get_user_login_info(object, method, openid, auth_data);
+    }
+  },
+
+  /**
+   * 获取用户授权信息
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   * openid     用户openid
+   * auth_data  授权数据
+   */
+  get_user_login_info(object, method, openid, userinfo) {
+    // 远程解密数据
+    var $this = this;
+    my.request({
+      url: $this.get_request_url('alipayuserinfo', 'user'),
+      method: 'POST',
+      data: { userinfo: userinfo, openid: openid },
+      dataType: 'json',
+      header: { 'content-type': 'application/x-www-form-urlencoded' },
+      success: (res) => {
+        my.hideLoading();
+        if (res.data.code == 0) {
+          my.setStorage({
+            key: $this.data.cache_user_info_key,
+            data: res.data.data,
+            success: (res) => {
+              if (typeof object === 'object' && (method || null) != null) {
+                object[method]();
+              }
+            },
+            fail: () => {
+              my.showToast({
+                type: "fail",
+                content: "用户信息缓存失败",
+                duration: 3000
+              });
+            }
+          });
+        } else {
+          my.showToast({
+            type: "fail",
+            content: res.data.msg,
+            duration: 3000
+          });
+        }
+      },
+      fail: () => {
+        wx.hideLoading();
+        my.showToast({
+          type: "fail",
+          content: "服务器请求出错",
+          duration: 3000
+        });
+      },
     });
   },
 
@@ -512,4 +587,20 @@ App({
         }
       }
     },
+
+  /**
+   * 是否需要绑定手机号码
+   */
+  user_is_need_login(user) {
+    // 是否需要绑定手机号码
+    if ((user.is_mandatory_bind_mobile || 0) == 1)
+    {
+      if ((user.mobile || null) == null)
+      {
+        return true;
+      }
+    }
+    return false;
+  },
+
 });

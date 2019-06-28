@@ -20,8 +20,43 @@ Page({
     my.setNavigationBar({title: '手机绑定'});
 
     // 设置用户信息
-    this.setData({params: option, user: app.GetUserCacheInfo()});
+    this.setData({params: option, user: app.get_user_cache_info() || null});
   },
+
+  /**
+   * 登录授权事件
+   */
+  get_user_info_event(e) {
+    this.user_auth_code(null, null, e.detail);
+  },
+
+  /**
+   * 用户授权
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   * auth_data  授权数据
+   */
+  user_auth_code(object, method, auth_data) {
+    my.getOpenUserInfo({
+      success: (userinfo) => {
+        console.log(userinfo)
+        app.user_auth_login($this, 'user_auth_back_event', userinfo);
+      }
+    });
+  },
+
+  /**
+   * 授权返回事件
+   */
+  user_auth_back_event() {
+    var user = app.get_user_cache_info();
+    this.setData({user: user || null});
+    if (app.user_is_need_login(user) == false)
+    {
+      my.navigateBack();
+    }
+  },
+
 
   /**
    * 输入手机号码事件

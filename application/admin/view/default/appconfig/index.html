@@ -30,6 +30,14 @@
 				</select>
 			</div>
 			<div class="am-form-group">
+				<label>{{$data.common_user_is_mandatory_bind_mobile.name}}<span class="am-form-group-label-tips">{{$data.common_user_is_mandatory_bind_mobile.describe}}</span></label>
+				<select name="{{$data.common_user_is_mandatory_bind_mobile.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.common_user_is_mandatory_bind_mobile.error_tips}}" required>
+					{{foreach $common_is_text_list as $v}}
+						<option value="{{$v.id}}" {{if isset($data['common_user_is_mandatory_bind_mobile']['value']) and $data['common_user_is_mandatory_bind_mobile']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+			</div>
+			<div class="am-form-group">
 				<label>{{$data.common_app_customer_service_tel.name}}</label>
 				<input type="text" name="{{$data.common_app_customer_service_tel.only_tag}}" placeholder="{{$data.common_app_customer_service_tel.name}}" data-validation-message="{{$data.common_app_customer_service_tel.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_customer_service_tel.value}}"{{/if}} />
 			</div>

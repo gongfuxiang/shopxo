@@ -55,9 +55,9 @@ page{
 /**
   授权登录
 */
-.wx-login {
+.user-login {
   padding-top: 30%;
 }
-.wx-login button {
+.user-login button {
   margin-top: 30rpx;
 }

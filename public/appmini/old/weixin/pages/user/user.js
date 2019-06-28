@@ -56,7 +56,7 @@ Page({
         self = this;
     // 用户未绑定用户则转到登录页面
     var msg = (user == false) ? '授权用户信息' : '绑定手机号码';
-    if (user == false || ((user.mobile || null) == null)) {
+    if (app.user_is_need_login(user)) {
       wx.showModal({
         title: '温馨提示',
         content: msg,
