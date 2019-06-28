@@ -44,7 +44,6 @@ Page({
         {
           userinfo = JSON.parse(userinfo.response);
         }
-        console.log(userinfo.response)
         app.user_auth_login(this, 'user_auth_back_event', userinfo.response);
       }
     });
