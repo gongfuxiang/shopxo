@@ -34,7 +34,7 @@
   position: relative;
 }
 .floor-list .word {
-  padding: 20rpx 20rpx 0 20rpx;
+  padding: 30rpx 20rpx 0 20rpx;
 }
 .floor-list .word .vice-name {
   color: #fff;
@@ -45,7 +45,7 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   text-align: center;
-  padding: 20rpx;
+  padding: 30rpx;
 }
 .floor-list .word .word-icon {
   margin: 10rpx;

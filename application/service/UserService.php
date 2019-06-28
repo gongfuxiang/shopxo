@@ -1832,7 +1832,7 @@ class UserService
             }
         } else {
             $data['upd_time'] = time();
-            if(Db::name('User')->where($where)->update($data))
+            if(Db::name('User')->where(['id'=>$temp_user['id']])->update($data))
             {
                 $user_id = $temp_user['id'];
             }

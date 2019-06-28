@@ -133,7 +133,10 @@ Page({
    * 表单提交
    */
   formSubmit(e)
-  {              
+  {            
+    // 邀请人参数
+    var params = my.getStorageSync({key: this.data.cache_launch_info_key});
+
     // 数据验证
     var validation = [
       {fields: 'mobile', msg: '请填写手机号码'},
@@ -146,8 +149,8 @@ Page({
     e.detail.value['province'] = this.data.user.province;
     e.detail.value['city'] = this.data.user.city;
     e.detail.value['gender'] = this.data.user.gender;
-    e.detail.value['referrer'] = this.data.user.referrer;
     e.detail.value['app_type'] = 'alipay';
+    e.detail.value['referrer'] = (params.data == null) ? (this.data.user.referrer || 0) : (params.data.referrer || 0);
     if(app.fields_check(e.detail.value, validation))
     {
       my.showLoading({content: '处理中...'});

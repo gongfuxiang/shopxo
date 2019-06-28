@@ -222,11 +222,7 @@ App({
    * auth_data  授权数据
    */
   user_login(object, method, auth_data) {
-    // 邀请人参数
-    var params = my.getStorageSync({key: this.data.cache_launch_info_key});
-    var referrer = (params.data == null) ? 0 : (params.data.referrer || 0);
     var $this = this;
-
     // 加载loding
     my.showLoading({ content: "授权中..." });
 
@@ -238,10 +234,7 @@ App({
           my.request({
             url: $this.get_request_url("alipayuserauth", "user"),
             method: "POST",
-            data: {
-              authcode: res.authCode,
-              referrer: referrer
-            },
+            data: {authcode: res.authCode},
             dataType: "json",
             headers: { 'content-type': 'application/x-www-form-urlencoded' },
             success: res => {
@@ -252,8 +245,18 @@ App({
                   data: res.data.data
                 });
                 
-                my.navigateTo({
-                  url: "/pages/login/login"
+                my.confirm({
+                  title: '温馨提示',
+                  content: '授权用户信息',
+                  confirmButtonText: '确认',
+                  cancelButtonText: '暂不',
+                  success: (result) => {
+                    if (result.confirm) {
+                      my.navigateTo({
+                        url: "/pages/login/login"
+                      });
+                    }
+                  }
                 });
               } else {
                 my.showToast({
@@ -309,9 +312,14 @@ App({
    * auth_data  授权数据
    */
   get_user_login_info(object, method, openid, userinfo) {
+    // 邀请人参数
+    var params = my.getStorageSync({key: this.data.cache_launch_info_key});
+
+    // 请求数据
     my.showLoading({ content: "授权中..." });
     var $this = this;
     userinfo['openid'] = openid;
+    userinfo['referrer'] = (params.data == null) ? 0 : (params.data.referrer || 0);
     my.request({
       url: $this.get_request_url('alipayuserinfo', 'user'),
       method: 'POST',

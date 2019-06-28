@@ -265,12 +265,21 @@ App({
    * auth_data  授权数据
    */
   get_user_login_info(object, method, openid, auth_data) {
-    var $this = this;
+    // 邀请人参数
+    var params = my.getStorageSync(this.data.cache_launch_info_key);
+    var referrer = (params.data == null) ? 0 : (params.data.referrer || 0);
+
     // 远程解密数据
+    var $this = this;
     wx.request({
       url: $this.get_request_url('wechatuserinfo', 'user'),
       method: 'POST',
-      data: { encrypted_data: auth_data.encryptedData, iv: auth_data.iv, openid: openid },
+      data: {
+        "encrypted_data": auth_data.encryptedData,
+        "iv": auth_data.iv,
+        "openid": openid,
+        "referrer": referrer
+      },
       dataType: 'json',
       header: { 'content-type': 'application/x-www-form-urlencoded' },
       success: (res) => {
