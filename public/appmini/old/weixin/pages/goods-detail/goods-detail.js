@@ -104,6 +104,9 @@ Page({
               is_use_mobile_detail: data.is_use_mobile_detail || 0,
             });
 
+            // 标题
+            wx.setNavigationBarTitle({ title: data.goods.title });
+
             // 不能选择规格处理
             this.goods_specifications_choose_handle_dont(0);
 

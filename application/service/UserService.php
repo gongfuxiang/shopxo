@@ -1791,8 +1791,12 @@ class UserService
         );
 
         // 获取用户信息
-        $where = ['mobile'=>$data['mobile'], 'is_delete_time'=>0];
-        $temp_user = Db::name('User')->where($where)->find();
+        $where = ['is_delete_time' => 0];
+        $accounts_where = [
+            ['mobile', '=', $data['mobile']],
+            [$accounts_field, '=', $params[$accounts_field]],
+        ];
+        $temp_user = Db::name('User')->where($where)->whereOr($accounts_where)->find();
 
         // 额外信息
         if(empty($temp_user['nickname']) && !empty($params['nickname']))

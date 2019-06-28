@@ -104,6 +104,9 @@ Page({
               is_use_mobile_detail: data.is_use_mobile_detail || 0,
             });
 
+            // 标题
+            my.setNavigationBar({title: data.goods.title});
+
             // web内容转化
             if((data.goods.content_web || null) != null)
             {
