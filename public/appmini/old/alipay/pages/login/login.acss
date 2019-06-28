@@ -56,4 +56,7 @@ page{
 }
 .user-login button {
   margin-top: 30rpx;
+  padding: 0 30rpx;
+  height: 65rpx;
+  line-height: 65rpx;
 }
