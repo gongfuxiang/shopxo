@@ -97,28 +97,6 @@ class User extends Common
             return DataReturn('授权登录成功', 0, $result['data']['user_id']);
         }
         return DataReturn($result['msg'], -100);
-
-
-
-
-        // // 参数
-        // if(empty($this->data_post['authcode']))
-        // {
-        //     return DataReturn('授权码不能为空', -1);
-        // }
-
-        // // 授权
-        // $ret = (new \base\AlipayAuth())->GetAuthCode($this->data_post['authcode'], MyC('common_app_mini_alipay_appid'));
-        // if($ret['status'] != 0)
-        // {
-        //     return DataReturn($ret['msg'], -10);
-        // } else {
-        //     $data = $ret['data'];
-        //     $data['gender'] = empty($data['gender']) ? 0 : ($data['gender'] == 'm') ? 2 : 1;
-        //     $data['openid'] = $data['user_id'];
-        //     $data['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
-        //     return UserService::AuthUserProgram($data, 'alipay_openid');
-        // }
     }
 
     /**
@@ -138,11 +116,6 @@ class User extends Common
                 'key_name'          => 'openid',
                 'error_msg'         => 'openid为空',
             ],
-            // [
-            //     'checked_type'      => 'empty',
-            //     'key_name'          => 'userinfo',
-            //     'error_msg'         => '用户数据为空',
-            // ],
         ];
         $ret = ParamsChecked($this->data_post, $p);
         if($ret !== true)
@@ -154,15 +127,14 @@ class User extends Common
         $user = UserService::UserInfo('alipay_openid', $this->data_post['openid']);
         if(empty($user))
         {
-            $result = $this->data_post;
-            $result['nick_name'] = isset($result['nickName']) ? $result['nickName'] : '';
-            $result['gender'] = empty($result['gender']) ? 0 : ($result['gender'] == 'f') ? 1 : 2;
-            return UserService::AuthUserProgram($result, 'alipay_openid');
+            $result['nick_name'] = isset($this->data_post['nickName']) ? $this->data_post['nickName'] : '';
+            $this->data_post['gender'] = empty($this->data_post['gender']) ? 0 : ($this->data_post['gender'] == 'f') ? 1 : 2;
+            return UserService::AuthUserProgram($this->data_post, 'alipay_openid');
         } else {
             $user['is_mandatory_bind_mobile'] = intval(MyC('common_user_is_mandatory_bind_mobile'));
             return DataReturn('授权成功', 0, $user);
         }
-        return DataReturn(empty($result) ? '获取用户信息失败' : $result, -100);
+        return DataReturn(empty($this->data_post) ? '获取用户信息失败' : $result, -100);
     }
 
     /**

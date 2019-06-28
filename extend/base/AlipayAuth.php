@@ -17,137 +17,6 @@ namespace base;
  */
 class AlipayAuth
 {
-	/**
-	 * [__construct 构造方法]
-	 */
-	public function __construct(){}
-
-	/**
-	 * [GetParamSign 生成参数和签名]
-	 * @param  [array] $data   [待生成的参数]
-	 * @param  [array] $config [配置信息]
-	 * @return [array]         [生成好的参数和签名]
-	 */
-	private function GetParamSign($data, $config = [])
-	{
-        $param = '';
-        $sign  = '';
-        ksort($data);
-
-		foreach($data AS $key => $val)
-        {
-            $param .= "$key=" .urlencode($val). "&";
-            $sign  .= "$key=$val&";
-        }
-
-        $result = array(
-        	'param'	=>	substr($param, 0, -1),
-            'value' =>  substr($sign, 0, -1),
-        );
-        if(!empty($config['key']))
-        {
-            $result['sign'] = $result['value'].$config['key'];
-        }
-        return $result;
-	}
-
-    /**
-     * [GetAlipayUserInfo 支付宝小程序获取用户信息]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2017-09-23T22:30:43+0800
-     * @param  [string]     $authcode  [用户授权码]
-     * @param  [string]     $app_id    [应用appid]
-     * @return [array|boolean]         [成功返回用户数据, 则false]
-     */
-    public function GetAlipayUserInfo($authcode, $app_id)
-    {
-        // 从缓存获取用户信息
-        $key = 'alipay_userinfo_'.$authcode;
-        $result = GS($key);
-        if($result !== false)
-        {
-            return ['status'=>0, 'msg'=>'success', 'data'=>$result];
-        }
-
-        // 获取授权信息并且获取用户信息
-        $auth = $this->GetAuthAccessToken($authcode, $app_id);
-        if($auth['status'] == 0)
-        {
-            // 请求参数
-            $param = [
-                'app_id'            =>  $app_id,
-                'method'            =>  'alipay.user.info.share',
-                'charset'           =>  'utf-8',
-                'format'            =>  'JSON',
-                'sign_type'         =>  'RSA2',
-                'timestamp'         =>  date('Y-m-d H:i:s'),
-                'version'           =>  '1.0',
-                'auth_token'        =>  $auth['data']['access_token'],
-            ];
-
-            // 生成签名参数+签名
-            $p = $this->GetParamSign($param);
-            $param['sign'] = $this->MyRsaSign($p['value']);
-
-            // 执行请求
-            $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $param);
-            if(!empty($result['alipay_user_info_share_response']['code']) && $result['alipay_user_info_share_response']['code'] == 10000)
-            {
-                // 验证签名正确则存储缓存返回数据
-                if(!$this->SyncRsaVerify($result, 'alipay_user_info_share_response'))
-                {
-                    return ['status'=>-1, 'msg'=>'签名验证失败'];
-                }
-                
-                // 存储缓存
-                SS($key, $result['alipay_user_info_share_response']);
-
-                // 返回用户数据
-                return ['status'=>0, 'msg'=>'success', 'data'=>$result['alipay_user_info_share_response']];
-            }
-
-            $msg = empty($result['error_response']['sub_msg']) ? '授权失败' : $result['error_response']['sub_msg'];
-            if(!empty($result['alipay_user_info_share_response']['sub_msg']))
-            {
-                $msg = $result['alipay_user_info_share_response']['sub_msg'];
-            }
-            return ['status'=>-1, 'msg'=>$msg];
-        } else {
-            return $auth;
-        }
-    }
-
-    /**
-     * [GetAuthAccessToken 根据用户授权换取授权访问令牌]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2017-09-23T22:36:26+0800
-     * @param  [string]     $authcode  [用户授权码]
-     * @param  [string]     $app_id    [应用appid]
-     * @return [array|boolean]         [失败false, 用户授权信息]
-     */
-    public function GetAuthAccessToken($authcode, $app_id)
-    {
-        // 获取用户授权信息
-        $key = 'alipay_authcode_'.$authcode;
-        $result = GS($key, 0, true);
-
-        // 过期判断
-        if($result == false || $result['filemtime']+$result['re_expires_in'] < time())
-        {
-            $result = $this->GetAuthCode($app_id, $key, $authcode);
-        } else {
-            if($result['filemtime']+$result['expires_in'] < time())
-            {
-                $result = $this->GetAuthCode($app_id, $key, '', $result['refresh_token']);
-            }
-        }
-        return $result;
-    }
-
     /**
      * [GetAuthCode 获取用户授权信息]
      * @author   Devil
@@ -199,6 +68,40 @@ class AlipayAuth
         }
         $msg = empty($result['error_response']['sub_msg']) ? '授权失败' : $result['error_response']['sub_msg'];
         return ['status'=>-1, 'msg'=>$msg];
+    }
+
+    /**
+     * [__construct 构造方法]
+     */
+    public function __construct(){}
+
+    /**
+     * [GetParamSign 生成参数和签名]
+     * @param  [array] $data   [待生成的参数]
+     * @param  [array] $config [配置信息]
+     * @return [array]         [生成好的参数和签名]
+     */
+    private function GetParamSign($data, $config = [])
+    {
+        $param = '';
+        $sign  = '';
+        ksort($data);
+
+        foreach($data AS $key => $val)
+        {
+            $param .= "$key=" .urlencode($val). "&";
+            $sign  .= "$key=$val&";
+        }
+
+        $result = array(
+            'param' =>  substr($param, 0, -1),
+            'value' =>  substr($sign, 0, -1),
+        );
+        if(!empty($config['key']))
+        {
+            $result['sign'] = $result['value'].$config['key'];
+        }
+        return $result;
     }
 
     /**

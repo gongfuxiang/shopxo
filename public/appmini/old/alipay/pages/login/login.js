@@ -17,7 +17,7 @@ Page({
    */
   onLoad(option) {
     // 标题设置
-    my.setNavigationBar({title: '手机绑定'});
+    my.setNavigationBar({title: (this.data.user == null) ? '授权用户信息' : '手机绑定'});
 
     // 设置用户信息
     this.setData({params: option, user: app.get_user_cache_info() || null});
@@ -39,17 +39,11 @@ Page({
   user_auth_code(object, method, auth_data) {
     my.getOpenUserInfo({
       success: (userinfo) => {
-        // my.alert({
-        //   title: '亲',
-        //   content: userinfo,
-        //   buttonText: '我知道了',
-        // });
-
         // 字符串则转为json对象（兼容支付宝框架bug）
-        // if(typeof(userinfo) == 'string')
-        // {
+        if(typeof(userinfo.response) == 'string')
+        {
           userinfo = JSON.parse(userinfo.response);
-        //}
+        }
         console.log(userinfo.response)
         app.user_auth_login(this, 'user_auth_back_event', userinfo.response);
       }

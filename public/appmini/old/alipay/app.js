@@ -293,11 +293,11 @@ App({
    */
   user_auth_login(object, method, auth_data) {
     var openid = my.getStorageSync({key: this.data.cache_user_login_key});
-    if ((openid || null) == null)
+    if ((openid.data || null) == null)
     {
       this.user_login(object, method, auth_data);
     } else {
-      this.get_user_login_info(object, method, openid, auth_data);
+      this.get_user_login_info(object, method, openid.data, auth_data);
     }
   },
 

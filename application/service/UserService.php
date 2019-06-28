@@ -1093,7 +1093,6 @@ class UserService
         // 用户数据
         $salt = GetNumberCode(6);
         $data = [
-            'add_time'      => time(),
             'upd_time'      => time(),
             'salt'          => $salt,
             'pwd'           => LoginPwdEncryption($params['pwd'], $salt),
@@ -1676,6 +1675,7 @@ class UserService
         $data['referrer'] = self::UserReferrerDecrypt($params);
 
         // 添加用户
+        $data['add_time'] = time();
         $user_id = Db::name('User')->insertGetId($data);
         if($user_id > 0)
         {
@@ -1819,7 +1819,6 @@ class UserService
         // 不存在添加/则更新
         if(empty($temp_user))
         {
-            $data['add_time'] = time();
             $user_ret = self::UserInsert($data, $params);
             if($user_ret['code'] == 0)
             {
