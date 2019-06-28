@@ -135,7 +135,7 @@ Page({
   formSubmit(e)
   {
     // 邀请人参数
-    var params = my.getStorageSync(this.data.cache_launch_info_key);  
+    var params = wx.getStorageSync(this.data.cache_launch_info_key);  
 
     // 数据验证
     var validation = [

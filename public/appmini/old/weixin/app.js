@@ -266,7 +266,7 @@ App({
    */
   get_user_login_info(object, method, openid, auth_data) {
     // 邀请人参数
-    var params = my.getStorageSync(this.data.cache_launch_info_key);
+    var params = wx.getStorageSync(this.data.cache_launch_info_key);
     var referrer = (params.data == null) ? 0 : (params.data.referrer || 0);
 
     // 远程解密数据
