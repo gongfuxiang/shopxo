@@ -26,11 +26,12 @@ Page({
     });
 
     // 加载loding
-    my.httpRequest({
+    my.request({
       url: app.get_request_url("index", "index"),
       method: "POST",
       data: {},
       dataType: "json",
+      header: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         my.stopPullDownRefresh();
         self.setData({load_status: 1});

@@ -69,11 +69,12 @@ Page({
         data_list_loding_status: 1
       });
 
-      my.httpRequest({
+      my.request({
         url: app.get_request_url("detail", "goods"),
         method: "POST",
         data: {goods_id: this.data.params.goods_id},
         dataType: "json",
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
         success: res => {
           my.stopPullDownRefresh();
           my.hideLoading();
@@ -237,11 +238,12 @@ Page({
       } else {
         my.showLoading({content: '处理中...'});
 
-        my.httpRequest({
+        my.request({
           url: app.get_request_url('favor', 'goods'),
           method: 'POST',
           data: {"id": this.data.goods.id},
           dataType: 'json',
+          headers: { 'content-type': 'application/x-www-form-urlencoded' },
           success: (res) => {
             my.hideLoading();
             if(res.data.code == 0)
@@ -288,11 +290,12 @@ Page({
         return false;
       } else {
         my.showLoading({ content: '处理中...' });
-        my.httpRequest({
+        my.request({
           url: app.get_request_url('save', 'cart'),
           method: 'POST',
           data: { "goods_id": this.data.goods.id, "stock": this.data.temp_buy_number, "spec": JSON.stringify(spec) },
           dataType: 'json',
+          headers: { 'content-type': 'application/x-www-form-urlencoded' },
           success: (res) => {
             my.hideLoading();
             if (res.data.code == 0) {
@@ -397,11 +400,12 @@ Page({
     }
 
     // 获取数据
-    my.httpRequest({
+    my.request({
       url: app.get_request_url('spectype', 'goods'),
       method: 'POST',
       data: { "id": this.data.goods.id, "spec": JSON.stringify(spec) },
       dataType: 'json',
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: (res) => {
         if (res.data.code == 0) {
           var spec_count = spec.length;
@@ -484,11 +488,12 @@ Page({
     }
 
     // 获取数据
-    my.httpRequest({
+    my.request({
       url: app.get_request_url('specdetail', 'goods'),
       method: 'POST',
       data: { "id": this.data.goods.id, "spec": JSON.stringify(spec) },
       dataType: 'json',
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: (res) => {
         if (res.data.code == 0) {
           this.setData({

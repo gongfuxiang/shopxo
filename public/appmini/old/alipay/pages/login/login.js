@@ -39,8 +39,13 @@ Page({
   user_auth_code(object, method, auth_data) {
     my.getOpenUserInfo({
       success: (userinfo) => {
+        // my.alert({
+        //   title: '亲',
+        //   content: userinfo,
+        //   buttonText: '我知道了',
+        // });
         console.log(userinfo)
-        app.user_auth_login($this, 'user_auth_back_event', userinfo);
+        app.user_auth_login($this, 'user_auth_back_event', null);
       }
     });
   },
@@ -80,11 +85,12 @@ Page({
       my.showLoading({content: '发送中...'});
       this.setData({verify_submit_text: '发送中', verify_loading: true, verify_disabled: true});
 
-      my.httpRequest({
+      my.request({
         url: app.get_request_url('regverifysend', 'user'),
         method: 'POST',
         data: {mobile: this.data.mobile},
         dataType: 'json',
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
         success: (res) => {
           my.hideLoading();
           if(res.data.code == 0)
@@ -149,11 +155,12 @@ Page({
       this.setData({form_submit_loading: true});
 
       // 网络请求
-      my.httpRequest({
+      my.request({
         url: app.get_request_url('reg', 'user'),
         method: 'POST',
         data: e.detail.value,
         dataType: 'json',
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
         success: (res) => {
           my.hideLoading();
 

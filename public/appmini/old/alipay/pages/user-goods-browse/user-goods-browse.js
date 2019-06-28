@@ -50,13 +50,14 @@ Page({
     });
 
     // 获取数据
-    my.httpRequest({
+    my.request({
       url: app.get_request_url("index", "usergoodsbrowse"),
       method: "POST",
       data: {
         page: this.data.data_page
       },
       dataType: "json",
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         my.hideLoading();
         my.stopPullDownRefresh();
@@ -145,11 +146,12 @@ Page({
           // 加载loding
           my.showLoading({ content: "处理中..." });
 
-          my.httpRequest({
+          my.request({
             url: app.get_request_url("delete", "usergoodsbrowse"),
             method: "POST",
             data: { id: id },
             dataType: "json",
+            headers: { 'content-type': 'application/x-www-form-urlencoded' },
             success: res => {
               my.hideLoading();
               if (res.data.code == 0) {

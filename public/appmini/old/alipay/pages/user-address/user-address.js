@@ -48,11 +48,12 @@ Page({
     });
 
     // 获取数据
-    my.httpRequest({
+    my.request({
       url: app.get_request_url("index", "useraddress"),
       method: "POST",
       data: {},
       dataType: "json",
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         my.hideLoading();
         my.stopPullDownRefresh();
@@ -136,11 +137,12 @@ Page({
           my.showLoading({ content: "处理中..." });
 
           // 获取数据
-          my.httpRequest({
+          my.request({
             url: app.get_request_url("delete", "useraddress"),
             method: "POST",
             data: {id: value},
             dataType: "json",
+            headers: { 'content-type': 'application/x-www-form-urlencoded' },
             success: res => {
               my.hideLoading();
               if (res.data.code == 0)
@@ -216,11 +218,12 @@ Page({
     my.showLoading({ content: "处理中..." });
 
     // 获取数据
-    my.httpRequest({
+    my.request({
       url: app.get_request_url("setdefault", "useraddress"),
       method: "POST",
       data: {id: value},
       dataType: "json",
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         my.hideLoading();
         if (res.data.code == 0)

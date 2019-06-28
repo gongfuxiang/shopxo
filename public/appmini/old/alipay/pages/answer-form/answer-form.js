@@ -60,11 +60,12 @@ Page({
       this.setData({form_submit_loading: true});
 
       // 网络请求
-      my.httpRequest({
+      my.request({
         url: app.get_request_url('add', 'answer'),
         method: 'POST',
         data: e.detail.value,
         dataType: 'json',
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
         success: (res) => {
           my.hideLoading();
 

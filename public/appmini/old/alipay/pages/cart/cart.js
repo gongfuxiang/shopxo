@@ -64,11 +64,12 @@ Page({
       buy_submit_disabled_status: true,
     });
 
-    my.httpRequest({
+    my.request({
       url: app.get_request_url("index", "cart"),
       method: "POST",
       data: {},
       dataType: "json",
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         my.stopPullDownRefresh();
         if (res.data.code == 0) {
@@ -168,11 +169,12 @@ Page({
     }
 
     // 更新数据库
-    my.httpRequest({
+    my.request({
       url: app.get_request_url("stock", "cart"),
       method: "POST",
       data: { "id": temp_data_list[index]['id'], "goods_id": temp_data_list[index]['goods_id'], "stock": buy_number},
       dataType: "json",
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         my.stopPullDownRefresh();
         if (res.data.code == 0) {
@@ -231,11 +233,12 @@ Page({
 
   // 收藏事件
   goods_favor_event(id, goods_id, type) {
-    my.httpRequest({
+    my.request({
       url: app.get_request_url('favor', 'goods'),
       method: 'POST',
       data: { "id": goods_id, "is_mandatory_favor": 1 },
       dataType: 'json',
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: (res) => {
         if (res.data.code == 0) {
           this.cart_delete(id, type);
@@ -257,11 +260,12 @@ Page({
 
   // 购物车删除
   cart_delete(id, type) {
-    my.httpRequest({
+    my.request({
       url: app.get_request_url('delete', 'cart'),
       method: 'POST',
       data: { "id": id },
       dataType: 'json',
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: (res) => {
         if (res.data.code == 0) {
           var temp_data_list = this.data.data_list;

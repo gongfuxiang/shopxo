@@ -61,6 +61,7 @@ App({
     // 请求地址
     request_url: "{{request_url}}",
     request_url: 'http://tp5-dev.com/',
+    request_url: 'http://test.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -224,6 +225,7 @@ App({
     // 邀请人参数
     var params = my.getStorageSync({key: this.data.cache_launch_info_key});
     var referrer = (params.data == null) ? 0 : (params.data.referrer || 0);
+    var $this = this;
 
     // 加载loding
     my.showLoading({ content: "授权中..." });
@@ -233,19 +235,20 @@ App({
       scopes: "auth_user",
       success: res => {
         if (res.authCode) {
-          my.httpRequest({
-            url: this.get_request_url("alipayuserauth", "user"),
+          my.request({
+            url: $this.get_request_url("alipayuserauth", "user"),
             method: "POST",
             data: {
               authcode: res.authCode,
               referrer: referrer
             },
             dataType: "json",
+            headers: { 'content-type': 'application/x-www-form-urlencoded' },
             success: res => {
               my.hideLoading();
               if (res.data.code == 0) {
                 my.setStorage({
-                  key: this.data.cache_user_login_key,
+                  key: $this.data.cache_user_login_key,
                   data: res.data.data
                 });
                 
@@ -262,7 +265,6 @@ App({
             },
             fail: () => {
               my.hideLoading();
-
               my.showToast({
                 type: "fail",
                 content: "服务器请求出错",
@@ -274,7 +276,6 @@ App({
       },
       fail: e => {
         my.hideLoading();
-
         my.showToast({
           type: "fail",
           content: "授权失败",
@@ -291,7 +292,6 @@ App({
    * auth_data  授权数据
    */
   user_auth_login(object, method, auth_data) {
-    my.showLoading({ content: "授权中..." });
     var openid = my.getStorageSync({key: this.data.cache_user_login_key});
     if ((openid || null) == null)
     {
@@ -309,14 +309,14 @@ App({
    * auth_data  授权数据
    */
   get_user_login_info(object, method, openid, userinfo) {
-    // 远程解密数据
+    my.showLoading({ content: "授权中..." });
     var $this = this;
     my.request({
       url: $this.get_request_url('alipayuserinfo', 'user'),
       method: 'POST',
       data: { userinfo: userinfo, openid: openid },
       dataType: 'json',
-      header: { 'content-type': 'application/x-www-form-urlencoded' },
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: (res) => {
         my.hideLoading();
         if (res.data.code == 0) {
@@ -345,7 +345,7 @@ App({
         }
       },
       fail: () => {
-        wx.hideLoading();
+        my.hideLoading();
         my.showToast({
           type: "fail",
           content: "服务器请求出错",

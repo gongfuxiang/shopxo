@@ -84,11 +84,12 @@ Page({
 
   // 获取数据
   get_data() {
-    my.httpRequest({
+    my.request({
       url: app.get_request_url("center", "user"),
       method: "POST",
       data: {},
       dataType: "json",
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         my.stopPullDownRefresh();
         if (res.data.code == 0) {

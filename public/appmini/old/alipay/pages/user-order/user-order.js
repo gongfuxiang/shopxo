@@ -93,7 +93,7 @@ Page({
     var order_status = ((this.data.nav_status_list[this.data.nav_status_index] || null) == null) ? -1 : this.data.nav_status_list[this.data.nav_status_index]['value'];
 
     // 获取数据
-    my.httpRequest({
+    my.request({
       url: app.get_request_url("index", "order"),
       method: "POST",
       data: {
@@ -103,6 +103,7 @@ Page({
         is_more: 1,
       },
       dataType: "json",
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         my.hideLoading();
         my.stopPullDownRefresh();
@@ -226,7 +227,7 @@ Page({
     // 加载loding
     my.showLoading({ content: "请求中..." });
 
-    my.httpRequest({
+    my.request({
       url: app.get_request_url("pay", "order"),
       method: "POST",
       data: {
@@ -234,6 +235,7 @@ Page({
         payment_id: this.data.payment_id,
       },
       dataType: "json",
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         my.hideLoading();
         if (res.data.code == 0) {
@@ -310,11 +312,12 @@ Page({
           // 加载loding
           my.showLoading({ content: "处理中..." });
 
-          my.httpRequest({
+          my.request({
             url: app.get_request_url("cancel", "order"),
             method: "POST",
             data: {id: id},
             dataType: "json",
+            headers: { 'content-type': 'application/x-www-form-urlencoded' },
             success: res => {
               my.hideLoading();
               if (res.data.code == 0) {
@@ -363,11 +366,12 @@ Page({
           // 加载loding
           my.showLoading({ content: "处理中..." });
 
-          my.httpRequest({
+          my.request({
             url: app.get_request_url("collect", "order"),
             method: "POST",
             data: {id: id},
             dataType: "json",
+            headers: { 'content-type': 'application/x-www-form-urlencoded' },
             success: res => {
               my.hideLoading();
               if (res.data.code == 0) {

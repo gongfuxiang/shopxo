@@ -51,13 +51,14 @@ Page({
     });
 
     // 获取数据
-    my.httpRequest({
+    my.request({
       url: app.get_request_url("index", "message"),
       method: "POST",
       data: {
         page: this.data.data_page
       },
       dataType: "json",
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         my.hideLoading();
         my.stopPullDownRefresh();
