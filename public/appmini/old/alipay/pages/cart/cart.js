@@ -18,7 +18,6 @@ Page({
 
   init(e) {
     var user = app.get_user_info(this, "init");
-    console.log(user)
     if (user != false) {
       // 用户未绑定用户则转到登录页面
       if (app.user_is_need_login(user)) {
