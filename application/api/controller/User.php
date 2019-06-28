@@ -127,14 +127,14 @@ class User extends Common
         $user = UserService::UserInfo('alipay_openid', $this->data_post['openid']);
         if(empty($user))
         {
-            $result['nick_name'] = isset($this->data_post['nickName']) ? $this->data_post['nickName'] : '';
+            $this->data_post['nick_name'] = isset($this->data_post['nickName']) ? $this->data_post['nickName'] : '';
             $this->data_post['gender'] = empty($this->data_post['gender']) ? 0 : ($this->data_post['gender'] == 'f') ? 1 : 2;
             return UserService::AuthUserProgram($this->data_post, 'alipay_openid');
         } else {
             $user['is_mandatory_bind_mobile'] = intval(MyC('common_user_is_mandatory_bind_mobile'));
             return DataReturn('授权成功', 0, $user);
         }
-        return DataReturn(empty($this->data_post) ? '获取用户信息失败' : $result, -100);
+        return DataReturn('获取用户信息失败', -100);
     }
 
     /**
@@ -187,7 +187,7 @@ class User extends Common
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'iv',
-                'error_msg'         => 'iv数据为空',
+                'error_msg'         => 'iv为空,请重试',
             ]
         ];
         $ret = ParamsChecked($this->data_post, $p);
