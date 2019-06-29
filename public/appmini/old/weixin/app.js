@@ -132,11 +132,11 @@ App({
    * 获取设备信息
    */
   get_system_info() {
-    let system_info = wx.getStorageSync(this.data.cache_system_info_key);
-    if ((system_info.data || null) == null) {
+    let system_info = wx.getStorageSync(this.data.cache_system_info_key) || null;
+    if (system_info == null) {
       return this.set_system_info();
     }
-    return system_info.data;
+    return system_info;
   },
 
   /**
@@ -182,8 +182,8 @@ App({
    * 从缓存获取用户信息
    */
   get_user_cache_info() {
-    let user = wx.getStorageSync(this.data.cache_user_info_key);
-    if ((user || null) == null) {
+    let user = wx.getStorageSync(this.data.cache_user_info_key) || null;
+    if (user == null) {
       return false;
     }
     return user;
@@ -200,8 +200,8 @@ App({
     var $this = this;
     wx.checkSession({
       success: function () {
-        var openid = wx.getStorageSync($this.data.cache_user_login_key);
-        if ((openid || null) == null)
+        var openid = wx.getStorageSync($this.data.cache_user_login_key) || null;
+        if (openid == null)
         {
           $this.user_login(object, method, auth_data);
         } else {
@@ -266,8 +266,8 @@ App({
    */
   get_user_login_info(object, method, openid, auth_data) {
     // 邀请人参数
-    var params = wx.getStorageSync(this.data.cache_launch_info_key);
-    var referrer = (params.data == null) ? 0 : (params.data.referrer || 0);
+    var params = wx.getStorageSync(this.data.cache_launch_info_key) || null;
+    var referrer = (params == null) ? 0 : (params.data.referrer || 0);
 
     // 远程解密数据
     var $this = this;

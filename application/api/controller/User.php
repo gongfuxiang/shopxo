@@ -124,7 +124,7 @@ class User extends Common
         }
 
         // 先从数据库获取用户信息
-        $user = UserService::AppUserInfoHandle('alipay_openid', $this->data_post['openid']);
+        $user = UserService::AppUserInfoHandle(null, 'alipay_openid', $this->data_post['openid']);
         if(empty($user))
         {
             $this->data_post['nick_name'] = isset($this->data_post['nickName']) ? $this->data_post['nickName'] : '';
@@ -196,7 +196,7 @@ class User extends Common
         }
 
         // 先从数据库获取用户信息
-        $user = UserService::AppUserInfoHandle('weixin_openid', $this->data_post['openid']);
+        $user = UserService::AppUserInfoHandle(null, 'weixin_openid', $this->data_post['openid']);
         if(empty($user))
         {
             $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);

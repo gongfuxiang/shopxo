@@ -135,8 +135,8 @@ Page({
   formSubmit(e)
   {
     // 邀请人参数
-    var params = wx.getStorageSync(this.data.cache_launch_info_key);  
-
+    var params = wx.getStorageSync(app.data.cache_launch_info_key) || null;  
+    console.log(params)
     // 数据验证
     var validation = [
       {fields: 'mobile', msg: '请填写手机号码'},
@@ -150,7 +150,7 @@ Page({
     e.detail.value['city'] = this.data.user.city;
     e.detail.value['gender'] = this.data.user.gender;
     e.detail.value['app_type'] = 'weixin';
-    e.detail.value['referrer'] = (params.data == null) ? (this.data.user.referrer || 0) : (params.data.referrer || 0);
+    e.detail.value['referrer'] = (params == null) ? (this.data.user.referrer || 0) : (params.data.referrer || 0);
     if(app.fields_check(e.detail.value, validation))
     {
       wx.showLoading({title: '处理中...'});

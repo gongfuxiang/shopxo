@@ -1596,11 +1596,10 @@ class UserService
             'city'              => empty($params['city']) ? '' : $params['city'],
             'referrer'          => isset($params['referrer']) ? $params['referrer'] : 0,
         ];
-        $select_field = 'id,username,nickname,mobile,email,avatar';
-        $user = self::UserInfo($field, $params['openid'], $select_field);
+        $user = self::AppUserInfoHandle(null, $field, $params['openid']);
         if(!empty($user))
         {
-            $data = $user;
+            return DataReturn('授权成功', 0, $user);
         } else {
             // 不强制绑定手机则写入用户信息
             if(intval(MyC('common_user_is_mandatory_bind_mobile')) != 1)
@@ -1608,15 +1607,13 @@ class UserService
                 $ret = self::UserInsert($data, $params);
                 if($ret['code'] == 0)
                 {
-                    $data = self::UserInfo('id', $ret['data']['user_id'], $select_field);
+                    return DataReturn('授权成功', 0, self::AppUserInfoHandle($ret['data']['user_id']));
                 } else {
                     return $ret;
                 }
             }
         }
-
-        // 返回成功
-        return DataReturn('授权成功', 0, self::AppUserInfoHandle(null, null, $data));
+        return DataReturn('授权成功', 0, self::AppUserInfoHandle(null, null, null, $data));
     }
 
     /**
@@ -1626,16 +1623,21 @@ class UserService
      * @version 1.0.0
      * @date    2018-11-06
      * @desc    description
+     * @param   [int]             $user_id          [指定用户id]
      * @param   [string]          $where_field      [字段名称]
      * @param   [string]          $where_value      [字段值]
      * @param   [array]           $user             [用户信息]
      */
-    public static function AppUserInfoHandle($where_field = null, $where_value = null, $user = [])
+    public static function AppUserInfoHandle($user_id = null, $where_field = null, $where_value = null, $user = [])
     {
         // 获取用户信息
-        if(!empty($where_field) && !empty($where_value) && empty($user))
+        $field = 'id,username,nickname,mobile,email,avatar';
+        if(!empty($user_id))
         {
-            $user = self::UserInfo($where_field, $where_value, 'id,username,nickname,mobile,email,avatar');
+            $user = self::UserInfo('id', $user_id, $field);
+        } elseif(!empty($where_field) && !empty($where_value) && empty($user))
+        {
+            $user = self::UserInfo($where_field, $where_value, $field);
         }
 
         if(!empty($user))
@@ -1884,7 +1886,10 @@ class UserService
             // 清除验证码
             $obj->Remove();
 
-            return DataReturn('绑定成功', 0, self::UserLoginRecord($user_id, true));
+            // 用户登录纪录处理
+            self::UserLoginRecord($user_id, true)
+
+            return DataReturn('绑定成功', 0, self::AppUserInfoHandle($user_id));
         } else {
             return DataReturn('绑定失败', -100);
         }

@@ -135,7 +135,7 @@ Page({
   formSubmit(e)
   {            
     // 邀请人参数
-    var params = my.getStorageSync({key: this.data.cache_launch_info_key});
+    var params = my.getStorageSync({key: app.data.cache_launch_info_key});
 
     // 数据验证
     var validation = [
