@@ -2003,15 +2003,15 @@ class UserService
         if(!empty($user))
         {
             $user['user_name_view'] = isset($user['username']) ? $user['username'] : '';
-            if(empty($user['user_name_view']) && isset($user['nickname'))
+            if(empty($user['user_name_view']) && isset($user['nickname']))
             {
                 $user['user_name_view'] = $user['nickname'];
             }
-            if(empty($user['user_name_view']) && isset($user['mobile')
+            if(empty($user['user_name_view']) && isset($user['mobile']))
             {
                 $user['user_name_view'] = $user['mobile'];
             }
-            if(empty($user['user_name_view']) && isset($user['email')
+            if(empty($user['user_name_view']) && isset($user['email']))
             {
                 $user['user_name_view'] = $user['email'];
             }
