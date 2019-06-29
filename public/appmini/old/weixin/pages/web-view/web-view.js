@@ -20,8 +20,6 @@ Page({
       }     
     }
 
-    this.setData({
-      web_url: url,
-    });
+    this.setData({web_url: url});
   }
 });

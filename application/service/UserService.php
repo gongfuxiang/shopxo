@@ -42,16 +42,17 @@ class UserService
         $user = null;
         if(APPLICATION == 'web')
         {
+            // web用户session
+            $user = session('user');
+
             // token仅小程序浏览器环境和api接口环境中有效
-            if(!empty($params['token']) && in_array(MiniAppEnv(), ['weixin', 'alipay', 'baidu']))
+            if(empty($user) && !empty($params['token']) && in_array(MiniAppEnv(), ['weixin', 'alipay', 'baidu']))
             {
                 $user = cache(config('shopxo.cache_user_info').$params['token']);
                 if(isset($user['id']))
                 {
                     self::UserLoginRecord($user['id']);
                 }
-            } else {
-                $user = session('user');
             }
         } else {
             if(!empty($params['token']))
