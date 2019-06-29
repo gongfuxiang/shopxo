@@ -40,7 +40,7 @@ class UserService
             return session('user');
         } else {
             $params = input();
-            return empty($params['user_id']) ? null : self::UserLoginRecord($params['user_id'], true);
+            return empty($params['token']) ? null : cache(config('shopxo.cache_user_info').$params['token']);
         }
     }
 
@@ -763,10 +763,9 @@ class UserService
                     'user_id'       => $user_id
                 ]);
 
-                if($is_app == true)
+                // 非app则存储session
+                if($is_app == false)
                 {
-                    return $user;
-                } else {
                     // 存储session
                     session('user', $user);
                     return (session('user') !== null);
@@ -1631,7 +1630,7 @@ class UserService
     public static function AppUserInfoHandle($user_id = null, $where_field = null, $where_value = null, $user = [])
     {
         // 获取用户信息
-        $field = 'id,username,nickname,mobile,email,avatar';
+        $field = 'id,username,nickname,mobile,email,avatar,integral';
         if(!empty($user_id))
         {
             $user = self::UserInfo('id', $user_id, $field);
@@ -1642,11 +1641,29 @@ class UserService
 
         if(!empty($user))
         {
+            // 用户登录纪录处理
+            self::UserLoginRecord($user['id'], true);
+
             // 用户信息处理
             $user = self::GetUserViewInfo(0, $user);
 
             // 是否强制绑定手机号码
-            $user['is_mandatory_bind_mobile'] = intval(MyC('common_user_is_mandatory_bind_mobile'));;
+            $user['is_mandatory_bind_mobile'] = intval(MyC('common_user_is_mandatory_bind_mobile'));
+
+            // token生成并存储缓存
+            if(isset($user['id']) && ($user['is_mandatory_bind_mobile'] == 0 || ($user['is_mandatory_bind_mobile'] == 1 && !empty($user['mobile']))))
+            {
+                $user['token'] = md5(md5($user['id']).$user['id']);
+                cache(config('shopxo.cache_user_info').$user['token'], $user, 3600*24);
+            } else {
+                $user['token'] = '';
+            }
+
+            // 移除用户id
+            if(isset($user['id']))
+            {
+                unset($user['id']);
+            }
         }
 
         return $user;
@@ -1885,10 +1902,6 @@ class UserService
         {
             // 清除验证码
             $obj->Remove();
-
-            // 用户登录纪录处理
-            self::UserLoginRecord($user_id, true);
-
             return DataReturn('绑定成功', 0, self::AppUserInfoHandle($user_id));
         } else {
             return DataReturn('绑定失败', -100);

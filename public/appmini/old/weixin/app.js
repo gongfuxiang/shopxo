@@ -164,15 +164,13 @@ App({
       params = "&" + params;
     }
     var user = this.get_user_cache_info();
-    var app_client_user_id = user == false ? "" : user.weixin_openid;
-    var user_id = user == false ? 0 : user.id;
+    var token = (user == false) ? '' : user.token || '';
     return (
       this.data.request_url +
       "index.php?s=/" + m + "/" + c + "/" + a +
-      "&application=app&application_client_type=weixin&application_user_id=" +
-      app_client_user_id +
-      "&user_id=" +
-      user_id +
+      "&application=app&application_client_type=weixin" +
+      "&token=" +
+      token +
       "&ajax=ajax" +
       params
     );
