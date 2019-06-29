@@ -1635,7 +1635,7 @@ class UserService
         // 获取用户信息
         if(!empty($where_field) && !empty($where_value) && empty($user))
         {
-            $user = self::UserInfo($where_field, $where_value, 'id,username,nickname,mobile,email,avatar')
+            $user = self::UserInfo($where_field, $where_value, 'id,username,nickname,mobile,email,avatar');
         }
 
         if(!empty($user))
