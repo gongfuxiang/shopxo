@@ -35,13 +35,32 @@ class UserService
      */
     public static function LoginUserInfo()
     {
+        // 参数
+        $params = input();
+
+        // 用户数据处理
+        $user = null;
         if(APPLICATION == 'web')
         {
-            return session('user');
+            // token仅小程序浏览器环境和api接口环境中有效
+            if(!empty($params['token']) && in_array(MiniAppEnv(), ['weixin', 'alipay', 'baidu']))
+            {
+                $user = cache(config('shopxo.cache_user_info').$params['token']);
+                if(isset($user['id']))
+                {
+                    self::UserLoginRecord($user['id']);
+                }
+            } else {
+                $user = session('user');
+            }
         } else {
-            $params = input();
-            return empty($params['token']) ? null : cache(config('shopxo.cache_user_info').$params['token']);
+            if(!empty($params['token']))
+            {
+                $user = cache(config('shopxo.cache_user_info').$params['token']);
+            }
         }
+
+        return $user;
     }
 
     /**

@@ -160,6 +160,28 @@ class Common extends Controller
     }
 
     /**
+     * [CommonInit 公共数据初始化]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-03-09T11:43:48+0800
+     */
+    private function CommonInit()
+    {
+        // 用户数据
+        $this->user = UserService::LoginUserInfo();
+
+        // 公共参数
+        $this->params = input();
+
+        // 推荐人
+        if(!empty($this->params['referrer']))
+        {
+            session('share_referrer_id', $this->params['referrer']);
+        }
+    }
+
+    /**
      * [IsLogin 登录校验]
      * @author   Devil
      * @blog     http://gong.gg/
@@ -176,31 +198,6 @@ class Common extends Controller
             } else {
                 return $this->redirect('index/user/logininfo');
             }
-        }
-    }
-
-    /**
-     * [CommonInit 公共数据初始化]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-03-09T11:43:48+0800
-     */
-    private function CommonInit()
-    {
-        // 用户数据
-        if(session('user') !== null)
-        {
-            $this->user = UserService::LoginUserInfo();
-        }
-
-        // 公共参数
-        $this->params = input();
-
-        // 推荐人
-        if(!empty($this->params['referrer']))
-        {
-            session('share_referrer_id', $this->params['referrer']);
         }
     }
 

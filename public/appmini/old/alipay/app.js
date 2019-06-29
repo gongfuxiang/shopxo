@@ -172,7 +172,7 @@ App({
       params = "&" + params;
     }
     var user = this.get_user_cache_info();
-    var token = (user == false) ? 0 : user.token;
+    var token = (user == false) ? '' : user.token || '';
     return (
       this.data.request_url +
       "index.php?s=/" + m + "/" + c + "/" + a +
@@ -553,7 +553,7 @@ App({
         switch(type) {
           // web
           case 0 :
-            my.navigateTo({url: '/pages/web-view/web-view?url='+value});
+            my.navigateTo({url: '/pages/web-view/web-view?url='+encodeURIComponent(value)});
             break;
 
           // 内部页面

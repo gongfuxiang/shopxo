@@ -61,7 +61,7 @@ App({
     // 请求地址
     // request_url: "{{request_url}}",
     request_url: 'http://tp5-dev.com/',
-    request_url: 'https://test.shopxo.net/',
+    //request_url: 'https://test.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -432,7 +432,7 @@ App({
       switch (type) {
         // web
         case 0:
-          wx.navigateTo({ url: '/pages/web-view/web-view?url=' + value });
+          wx.navigateTo({ url: '/pages/web-view/web-view?url=' + encodeURIComponent(value) });
           break;
 
         // 内部页面

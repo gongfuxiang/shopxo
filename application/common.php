@@ -12,6 +12,32 @@
 // 应用公共文件
 
 /**
+ * 判断当前是否小程序环境中
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @datetime 2019-06-29T22:21:44+0800
+ */
+function MiniAppEnv()
+{
+    if(!empty($_SERVER['HTTP_USER_AGENT']))
+    {
+        // 微信小程序 miniProgram
+        if(stripos($_SERVER['HTTP_USER_AGENT'], 'miniProgram') !== false)
+        {
+            return 'weixin';
+        }
+
+        // 支付宝客户端 AlipayClient
+        if(stripos($_SERVER['HTTP_USER_AGENT'], 'AlipayClient') !== false)
+        {
+            return 'alipay';
+        }
+    }
+    return null;
+}
+
+/**
  * RGB 转 十六进制
  * @author   Devil
  * @blog     http://gong.gg/
