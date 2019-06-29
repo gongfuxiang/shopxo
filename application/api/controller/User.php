@@ -131,7 +131,7 @@ class User extends Common
             $this->data_post['gender'] = empty($this->data_post['gender']) ? 0 : ($this->data_post['gender'] == 'f') ? 1 : 2;
             return UserService::AuthUserProgram($this->data_post, 'alipay_openid');
         } else {
-            $user['is_mandatory_bind_mobile'] = intval(MyC('common_user_is_mandatory_bind_mobile'));
+            $user = UserService::AppUserInfoHandle($user);
             return DataReturn('授权成功', 0, $user);
         }
         return DataReturn('获取用户信息失败', -100);
@@ -212,7 +212,7 @@ class User extends Common
                 return UserService::AuthUserProgram($result, 'weixin_openid');
             }
         } else {
-            $user['is_mandatory_bind_mobile'] = intval(MyC('common_user_is_mandatory_bind_mobile'));
+            $user = UserService::AppUserInfoHandle($user);
             return DataReturn('授权成功', 0, $user);
         }
         return DataReturn(empty($result) ? '获取用户信息失败' : $result, -100);

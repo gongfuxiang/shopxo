@@ -1586,9 +1586,6 @@ class UserService
      */
     public static function AuthUserProgram($params, $field)
     {
-        // 是否强制绑定手机号码
-        $is_mandatory_bind_mobile = intval(MyC('common_user_is_mandatory_bind_mobile'));
-
         // 用户信息
         $data = [
             $field              => $params['openid'],
@@ -1604,7 +1601,8 @@ class UserService
         {
             $data = $user;
         } else {
-            if($is_mandatory_bind_mobile != 1)
+            // 不强制绑定手机则写入用户信息
+            if(intval(MyC('common_user_is_mandatory_bind_mobile')) != 1)
             {
                 $ret = self::UserInsert($data, $params);
                 if($ret['code'] == 0)
@@ -1616,11 +1614,31 @@ class UserService
             }
         }
 
-        // 是否强制绑定手机号码
-        $data['is_mandatory_bind_mobile'] = $is_mandatory_bind_mobile;
-
         // 返回成功
-        return DataReturn('授权成功', 0, $data);
+        return DataReturn('授权成功', 0, self::AppUserInfoHandle($data));
+    }
+
+    /**
+     * app用户信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-11-06
+     * @desc    description
+     * @param   [arrat]          $user    [用户信息]
+     */
+    public static function AppUserInfoHandle($user)
+    {
+        if(!empty($user))
+        {
+            // 用户信息处理
+            $user = self::GetUserViewInfo(0, $user);
+
+            // 是否强制绑定手机号码
+            $user['is_mandatory_bind_mobile'] = intval(MyC('common_user_is_mandatory_bind_mobile'));;
+        }
+
+        return $user;
     }
 
     /**
