@@ -2002,22 +2002,22 @@ class UserService
         // 开始处理用户信息
         if(!empty($user))
         {
-            $user['user_name_view'] = $user['username'];
-            if(empty($user['user_name_view']))
+            $user['user_name_view'] = isset($user['username']) ? $user['username'] : '';
+            if(empty($user['user_name_view']) && isset($user['nickname'))
             {
                 $user['user_name_view'] = $user['nickname'];
             }
-            if(empty($user['user_name_view']))
+            if(empty($user['user_name_view']) && isset($user['mobile')
             {
                 $user['user_name_view'] = $user['mobile'];
             }
-            if(empty($user['user_name_view']))
+            if(empty($user['user_name_view']) && isset($user['email')
             {
                 $user['user_name_view'] = $user['email'];
             }
 
             // 处理展示用户
-            if($is_privacy === true)
+            if($is_privacy === true && !empty($user['user_name_view']))
             {
                 $user['user_name_view'] = substr($user['user_name_view'], 0, 3).'***'.substr($user['user_name_view'], -3);
             }
