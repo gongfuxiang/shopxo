@@ -1641,27 +1641,28 @@ class UserService
 
         if(!empty($user))
         {
-            // 用户登录纪录处理
-            self::UserLoginRecord($user['id'], true);
-
             // 用户信息处理
             $user = self::GetUserViewInfo(0, $user);
 
             // 是否强制绑定手机号码
             $user['is_mandatory_bind_mobile'] = intval(MyC('common_user_is_mandatory_bind_mobile'));
 
-            // token生成并存储缓存
-            if(isset($user['id']) && ($user['is_mandatory_bind_mobile'] == 0 || ($user['is_mandatory_bind_mobile'] == 1 && !empty($user['mobile']))))
-            {
-                $user['token'] = md5(md5($user['id'].time()).rand(100, 1000000));
-                cache(config('shopxo.cache_user_info').$user['token'], $user, 3600*24*15);
-            } else {
-                $user['token'] = '';
-            }
-
-            // 移除用户id
+            // 基础处理
             if(isset($user['id']))
             {
+                // token生成并存储缓存
+                if($user['is_mandatory_bind_mobile'] == 0 || ($user['is_mandatory_bind_mobile'] == 1 && !empty($user['mobile'])))
+                {
+                    $user['token'] = md5(md5($user['id'].time()).rand(100, 1000000));
+                    cache(config('shopxo.cache_user_info').$user['token'], $user, 3600*24*15);
+                } else {
+                    $user['token'] = '';
+                }
+
+                // 用户登录纪录处理
+                self::UserLoginRecord($user['id'], true);
+
+                // 移除用户id
                 unset($user['id']);
             }
         }
