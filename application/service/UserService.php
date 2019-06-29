@@ -1596,7 +1596,8 @@ class UserService
             'city'              => empty($params['city']) ? '' : $params['city'],
             'referrer'          => isset($params['referrer']) ? $params['referrer'] : 0,
         ];
-        $user = self::UserInfo($field, $params['openid']);
+        $select_field = 'id,username,nickname,mobile,email,avatar';
+        $user = self::UserInfo($field, $params['openid'], $select_field);
         if(!empty($user))
         {
             $data = $user;
@@ -1607,7 +1608,7 @@ class UserService
                 $ret = self::UserInsert($data, $params);
                 if($ret['code'] == 0)
                 {
-                    $data = self::UserInfo('id', $ret['data']['user_id']);
+                    $data = self::UserInfo('id', $ret['data']['user_id'], $select_field);
                 } else {
                     return $ret;
                 }
@@ -1615,7 +1616,7 @@ class UserService
         }
 
         // 返回成功
-        return DataReturn('授权成功', 0, self::AppUserInfoHandle($data));
+        return DataReturn('授权成功', 0, self::AppUserInfoHandle(null, null, $data));
     }
 
     /**
@@ -1625,10 +1626,18 @@ class UserService
      * @version 1.0.0
      * @date    2018-11-06
      * @desc    description
-     * @param   [arrat]          $user    [用户信息]
+     * @param   [string]          $where_field      [字段名称]
+     * @param   [string]          $where_value      [字段值]
+     * @param   [array]           $user             [用户信息]
      */
-    public static function AppUserInfoHandle($user)
+    public static function AppUserInfoHandle($where_field = null, $where_value = null, $user = [])
     {
+        // 获取用户信息
+        if(!empty($where_field) && !empty($where_value) && empty($user))
+        {
+            $user = self::UserInfo($where_field, $where_value, 'id,username,nickname,mobile,email,avatar')
+        }
+
         if(!empty($user))
         {
             // 用户信息处理
@@ -1648,17 +1657,18 @@ class UserService
      * @version 1.0.0
      * @date    2019-01-25
      * @desc    description
-     * @param   [string]          $field [字段名称]
-     * @param   [string]          $value [字段值]
+     * @param   [string]          $where_field      [字段名称]
+     * @param   [string]          $where_value      [字段值]
+     * @param   [string]          $field            [指定字段]
      */
-    public static function UserInfo($field, $value)
+    public static function UserInfo($where_field, $where_value, $field = '*')
     {
-        if(empty($field) || empty($value))
+        if(empty($where_field) || empty($where_value))
         {
             return '';
         }
         
-        return Db::name('User')->where([$field=>$value, 'is_delete_time'=>0])->find();
+        return Db::name('User')->where([$where_field=>$where_value, 'is_delete_time'=>0])->field($field)->find();
     }
 
     /**

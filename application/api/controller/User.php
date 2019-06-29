@@ -124,14 +124,13 @@ class User extends Common
         }
 
         // 先从数据库获取用户信息
-        $user = UserService::UserInfo('alipay_openid', $this->data_post['openid']);
+        $user = UserService::AppUserInfoHandle('alipay_openid', $this->data_post['openid']);
         if(empty($user))
         {
             $this->data_post['nick_name'] = isset($this->data_post['nickName']) ? $this->data_post['nickName'] : '';
             $this->data_post['gender'] = empty($this->data_post['gender']) ? 0 : ($this->data_post['gender'] == 'f') ? 1 : 2;
             return UserService::AuthUserProgram($this->data_post, 'alipay_openid');
         } else {
-            $user = UserService::AppUserInfoHandle($user);
             return DataReturn('授权成功', 0, $user);
         }
         return DataReturn('获取用户信息失败', -100);
@@ -197,7 +196,7 @@ class User extends Common
         }
 
         // 先从数据库获取用户信息
-        $user = UserService::UserInfo('weixin_openid', $this->data_post['openid']);
+        $user = UserService::AppUserInfoHandle('weixin_openid', $this->data_post['openid']);
         if(empty($user))
         {
             $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
@@ -212,7 +211,6 @@ class User extends Common
                 return UserService::AuthUserProgram($result, 'weixin_openid');
             }
         } else {
-            $user = UserService::AppUserInfoHandle($user);
             return DataReturn('授权成功', 0, $user);
         }
         return DataReturn(empty($result) ? '获取用户信息失败' : $result, -100);

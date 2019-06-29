@@ -70,7 +70,7 @@ Page({
             }
             self.setData({
               avatar: user.avatar || app.data.default_user_head_src,
-              nickname: user.nickname || '',
+              nickname: user.user_name_view || '用户名',
             });
             my.stopPullDownRefresh();
           },
