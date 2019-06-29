@@ -1887,7 +1887,7 @@ class UserService
             $obj->Remove();
 
             // 用户登录纪录处理
-            self::UserLoginRecord($user_id, true)
+            self::UserLoginRecord($user_id, true);
 
             return DataReturn('绑定成功', 0, self::AppUserInfoHandle($user_id));
         } else {
