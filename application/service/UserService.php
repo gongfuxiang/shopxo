@@ -1653,8 +1653,8 @@ class UserService
             // token生成并存储缓存
             if(isset($user['id']) && ($user['is_mandatory_bind_mobile'] == 0 || ($user['is_mandatory_bind_mobile'] == 1 && !empty($user['mobile']))))
             {
-                $user['token'] = md5(md5($user['id']).$user['id']);
-                cache(config('shopxo.cache_user_info').$user['token'], $user, 3600*24);
+                $user['token'] = md5(md5($user['id'].time()).rand(100, 1000000));
+                cache(config('shopxo.cache_user_info').$user['token'], $user, 3600*24*15);
             } else {
                 $user['token'] = '';
             }
