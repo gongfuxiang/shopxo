@@ -1,0 +1,37 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- table nav start -->
+        {{include file="appconfig/nav" /}}
+        <!-- table nav end -->
+
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/appconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appconfig/index')}}">
+			<div class="am-form-group">
+				<label>{{$data.common_app_customer_service_tel.name}}</label>
+				<input type="text" name="{{$data.common_app_customer_service_tel.only_tag}}" placeholder="{{$data.common_app_customer_service_tel.name}}" data-validation-message="{{$data.common_app_customer_service_tel.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_customer_service_tel.value}}"{{/if}} />
+			</div>
+
+			<div class="am-form-group">
+				<label>{{$data.common_shop_notice.name}}<span class="am-form-group-label-tips">{{$data.common_shop_notice.describe}}</span></label>
+				<textarea rows="3" name="{{$data.common_shop_notice.only_tag}}" class="am-radius" placeholder="{{$data.common_shop_notice.name}}" data-validation-message="{{$data.common_shop_notice.error_tips}}">{{if !empty($data)}}{{$data.common_shop_notice.value}}{{/if}}</textarea>
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_user_center_notice.name}}<span class="am-form-group-label-tips">{{$data.common_user_center_notice.describe}}</span></label>
+				<textarea rows="3" name="{{$data.common_user_center_notice.only_tag}}" class="am-radius" placeholder="{{$data.common_user_center_notice.name}}" data-validation-message="{{$data.common_user_center_notice.error_tips}}">{{if !empty($data)}}{{$data.common_user_center_notice.value}}{{/if}}</textarea>
+			</div>
+			
+			<div class="am-form-group am-form-group-refreshing">
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

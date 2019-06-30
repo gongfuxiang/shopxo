@@ -1,17 +1,19 @@
-<!-- 友情链接 -->
-{{if !empty($link_list)}}
-	<div class="friendship-list">
-		<div class="am-container">
-			<h2>友情链接</h2>
-			<ul>
-				{{foreach $link_list as $v}}
-					<li>
-						<a href="{{$v.url}}" {{if $v['is_new_window_open'] eq 1}} target="_blank"{{/if}} title="{{$v.describe}}">{{$v.name}}</a>
-					</li>
-				{{/foreach}}
-			</ul>
+{{if MyC('common_is_app_inside_close_header') neq 1 or !in_array(MiniAppEnv(), config('shopxo.mini_app_type_list'))}}
+	<!-- 友情链接 -->
+	{{if !empty($link_list)}}
+		<div class="friendship-list">
+			<div class="am-container">
+				<h2>友情链接</h2>
+				<ul>
+					{{foreach $link_list as $v}}
+						<li>
+							<a href="{{$v.url}}" {{if $v['is_new_window_open'] eq 1}} target="_blank"{{/if}} title="{{$v.describe}}">{{$v.name}}</a>
+						</li>
+					{{/foreach}}
+				</ul>
+			</div>
 		</div>
-	</div>
+	{{/if}}
 {{/if}}
 
 <!-- 底部导航上面钩子 -->
@@ -29,69 +31,74 @@
 {{/if}}
 
 
-<!-- 底部导航 -->
-<footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{}">
-	<div class="am-container">
-		<!-- 底部导航 -->
-		{{if !empty($nav_footer)}}
-			<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-4 am-avg-lg-4 am-gallery-overlay am-no-layout am-u-md-8 footer-nav-list" data-am-gallery="{}">
-				{{foreach $nav_footer as $k=>$v}}
-					{{if $k lt 4}}
-						<li>
-							<div class="am-gallery-item">
-								<p class="footer-nav-title am-text-truncate">{{$v.name}}</p>
-								{{if !empty($v['items'])}}
-									{{foreach $v.items as $vs}}
-										<p class="am-text-truncate">
-											<a href="{{$vs.url}}" {{if $vs['is_new_window_open'] eq 1}}target="_blank"{{/if}}>{{$vs.name}}</a>
-										</p>
-									{{/foreach}}
-								{{/if}}
-							</div>
-						</li>
-					{{/if}}
-				{{/foreach}}
-			</ul>
-		{{/if}}
-
-		<!-- 商店信息 -->
-		<ul class="footer-about am-u-md-4">
-			{{if !empty($common_customer_store_tel)}}
-				<li class="tel">
-					<i class="am-icon-volume-control-phone"></i>
-					<a href="tel:{{$common_customer_store_tel}}">{{$common_customer_store_tel}}</a>
-				</li>
-			{{/if}}
-			{{if !empty($common_customer_store_address)}}
-				<li class="address">
-					<i class="am-icon-map-marker"></i>
-					<span>{{$common_customer_store_address}}</span>
-				</li>
-			{{/if}}
-			{{if !empty($common_customer_store_email)}}
-				<li class="email">
-					<i class="am-icon-envelope"></i>
-					<span>{{$common_customer_store_email}}</span>
-				</li>
-			{{/if}}
-			{{if !empty($common_customer_store_qrcode)}}
-				<li class="qrcode">
-					<img src="{{$attachment_host}}{{$common_customer_store_qrcode}}" alt="{{:MyC('home_seo_site_title')}}" />
-				</li>
-			{{/if}}
-		</ul>
-	</div>
-	
-	<div class="am-footer-miscs">
+{{if MyC('common_is_app_inside_close_header') neq 1 or !in_array(MiniAppEnv(), config('shopxo.mini_app_type_list'))}}
+	<!-- 底部导航 -->
+	<footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{}">
 		<div class="am-container">
-			<p class="powered">
-				Powered by <a href="http://shopxo.net/" title="ShopXO电商系统" target="_blank">
-					<span class="b">Shop</span><span class="o">XO</span>
-				</a> {{$Think.APPLICATION_VERSION}}
-			</p>
-			<p>
-				<a href="http://www.beian.miit.gov.cn/" target="_blank">{{:MyC('home_site_icp')}}</a>
-			</p>
+			<!-- 底部导航 -->
+			{{if !empty($nav_footer)}}
+				<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-4 am-avg-lg-4 am-gallery-overlay am-no-layout am-u-md-8 footer-nav-list" data-am-gallery="{}">
+					{{foreach $nav_footer as $k=>$v}}
+						{{if $k lt 4}}
+							<li>
+								<div class="am-gallery-item">
+									<p class="footer-nav-title am-text-truncate">{{$v.name}}</p>
+									{{if !empty($v['items'])}}
+										{{foreach $v.items as $vs}}
+											<p class="am-text-truncate">
+												<a href="{{$vs.url}}" {{if $vs['is_new_window_open'] eq 1}}target="_blank"{{/if}}>{{$vs.name}}</a>
+											</p>
+										{{/foreach}}
+									{{/if}}
+								</div>
+							</li>
+						{{/if}}
+					{{/foreach}}
+				</ul>
+			{{/if}}
+
+			<!-- 商店信息 -->
+			<ul class="footer-about am-u-md-4">
+				{{if !empty($common_customer_store_tel)}}
+					<li class="tel">
+						<i class="am-icon-volume-control-phone"></i>
+						<a href="tel:{{$common_customer_store_tel}}">{{$common_customer_store_tel}}</a>
+					</li>
+				{{/if}}
+				{{if !empty($common_customer_store_address)}}
+					<li class="address">
+						<i class="am-icon-map-marker"></i>
+						<span>{{$common_customer_store_address}}</span>
+					</li>
+				{{/if}}
+				{{if !empty($common_customer_store_email)}}
+					<li class="email">
+						<i class="am-icon-envelope"></i>
+						<span>{{$common_customer_store_email}}</span>
+					</li>
+				{{/if}}
+				{{if !empty($common_customer_store_qrcode)}}
+					<li class="qrcode">
+						<img src="{{$attachment_host}}{{$common_customer_store_qrcode}}" alt="{{:MyC('home_seo_site_title')}}" />
+					</li>
+				{{/if}}
+			</ul>
 		</div>
-	</div>
-</footer>
+			
+		<div class="am-footer-miscs">
+			<div class="am-container">
+				<p class="powered">
+					Powered by <a href="http://shopxo.net/" title="ShopXO电商系统" target="_blank">
+						<span class="b">Shop</span><span class="o">XO</span>
+					</a> {{$Think.APPLICATION_VERSION}}
+				</p>
+				<p>
+					<a href="http://www.beian.miit.gov.cn/" target="_blank">{{:MyC('home_site_icp')}}</a>
+				</p>
+			</div>
+		</div>
+	</footer>
+{{else /}}
+	<!-- 保留标签，兼容mobile导航样式 -->
+	<footer class="am-footer"></footer>
+{{/if}}

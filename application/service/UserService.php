@@ -46,7 +46,7 @@ class UserService
             $user = session('user');
 
             // token仅小程序浏览器环境和api接口环境中有效
-            if(empty($user) && !empty($params['token']) && in_array(MiniAppEnv(), ['weixin', 'alipay', 'baidu']))
+            if(empty($user) && !empty($params['token']) && in_array(MiniAppEnv(), config('shopxo.mini_app_type_list')))
             {
                 $user = cache(config('shopxo.cache_user_info').$params['token']);
                 if(isset($user['id']))

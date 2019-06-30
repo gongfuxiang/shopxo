@@ -835,3 +835,13 @@ legend a {
 .items-value-empty {
     color: #999;
 }
+
+/**
+ * mini环境中
+ */
+body.mini-app-env .user-main {
+    padding-top: 5px;
+}
+body.mini-app-env .user-center {
+    padding-top: 0;
+}
