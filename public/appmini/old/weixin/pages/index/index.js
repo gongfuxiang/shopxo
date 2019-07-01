@@ -9,6 +9,7 @@ Page({
     common_shop_notice: null,
     common_app_is_enable_search: 1,
     common_app_is_enable_answer: 1,
+    common_app_is_header_nav_fixed: 0,
     load_status: 0,
   },
   
@@ -44,6 +45,7 @@ Page({
             common_shop_notice: data.common_shop_notice || null,
             common_app_is_enable_search: data.common_app_is_enable_search,
             common_app_is_enable_answer: data.common_app_is_enable_answer,
+            common_app_is_header_nav_fixed: data.common_app_is_header_nav_fixed,
             data_list_loding_status: data.data_list.length == 0 ? 0 : 3,
             data_bottom_line_status: true,
           });

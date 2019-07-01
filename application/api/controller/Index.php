@@ -46,12 +46,13 @@ class Index extends Common
 	public function Index()
 	{
 		$result = [
-			'navigation'					=> AppNavService::AppHomeNav(),
-			'banner_list'					=> BannerService::Banner(),
-			'data_list'						=> GoodsService::HomeFloorList(),
-			'common_shop_notice'			=> MyC('common_shop_notice', null, true),
-			'common_app_is_enable_search'	=> (int) MyC('common_app_is_enable_search', 1),
-			'common_app_is_enable_answer'	=> (int) MyC('common_app_is_enable_answer', 1),
+			'navigation'						=> AppNavService::AppHomeNav(),
+			'banner_list'						=> BannerService::Banner(),
+			'data_list'							=> GoodsService::HomeFloorList(),
+			'common_shop_notice'				=> MyC('common_shop_notice', null, true),
+			'common_app_is_enable_search'		=> (int) MyC('common_app_is_enable_search', 1),
+			'common_app_is_enable_answer'		=> (int) MyC('common_app_is_enable_answer', 1),
+			'common_app_is_header_nav_fixed'	=> (int) MyC('common_app_is_header_nav_fixed', 0),
 		];
 
 		// 返回数据

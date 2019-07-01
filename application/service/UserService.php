@@ -1674,7 +1674,7 @@ class UserService
                 if($user['is_mandatory_bind_mobile'] == 0 || ($user['is_mandatory_bind_mobile'] == 1 && !empty($user['mobile'])))
                 {
                     $user['token'] = md5(md5($user['id'].time()).rand(100, 1000000));
-                    cache(config('shopxo.cache_user_info').$user['token'], $user, 3600*24*15);
+                    cache(config('shopxo.cache_user_info').$user['token'], $user);
                 } else {
                     $user['token'] = '';
                 }

@@ -102,13 +102,12 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
 
 @media only screen and (min-width: 640px) {
     .am-container {padding-left:0px;padding-right:0px ;}
-    .nav-search{background: none;}
+    .nav-search{background: #fff; margin: 20px 0 5px 0;}
     .header { display:block;height: 30px;}
     .top-nav-left{ float:left;}
     .top-nav-left .top-nav-items, .top-nav-right .top-nav-items { padding: 0px 8px; height: 30px; line-height: 30px; }
     .top-nav-right {position: absolute; top: 0; right: 0; }
     .top-nav-right .top-nav-items {float: left;}
-  
 
     .nav-search .logo-big{ float:left;height:40px;width:135px; margin:0px auto; margin-left:5px; margin-right: 5px;} 
     .nav-search .logo-big img{width:100%;}
@@ -116,7 +115,6 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
     .search-bar input {width: 79%;height:30px;} 
     .classified{display:none;}
     .mobile-navigation{display:none;}
-    .nav-search{ position:relative;top:0px;z-index:0;margin-bottom: 5px;margin-top: 20px;}
      #ai-topsearch{ font-size:14px;height: 30px;line-height: 18px; font-weight: 500; width: 20%; }
 
      /*底部*/
@@ -180,9 +178,9 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
 @media only screen and (min-width: 1025px) {
     .am-container { padding-left:0rem;padding-right:0rem;max-width: 1000px;}
     .mui-mbar-tabs{ display:block;}  
-    .nav-search{padding-left:0px; max-width:1000px; margin:0px auto;padding-top: 20px; height: 100px;}
+    .nav-search{padding-top: 20px; height: 100px;}
     .nav-search .logo-big { display: -webkit-inline-box; float:left;height:60px; width:220px; margin:0px;}
-    .search-bar{margin:auto; width: 50%;padding-left: 10%;}
+    .search-bar{margin:auto; width: 50%;padding-left: 15%;}
     .shopMain{margin:0px 0px 0px 5px;} 
     .shopCon li{width:20%;padding:10px;}
     .tip{display:block;}
@@ -194,7 +192,7 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
        
 
 @media only screen and (min-width: 1260px) {
-    .am-container, .nav-search, .footer, .nav-table {padding-left:0rem;padding-right:0rem;max-width: 1200px;}
+    .am-container, .footer, .nav-table {padding-left:0rem;padding-right:0rem;max-width: 1200px;}
     .footer{margin: auto;}
 
     /*导航*/

@@ -27,6 +27,19 @@
 }
 
 /**
+ * 导航固定
+ */
+.search-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+.search-fixed-seat {
+  padding-top: 110rpx;
+}
+
+/**
  * 楼层数据
  */
 .floor-list {
