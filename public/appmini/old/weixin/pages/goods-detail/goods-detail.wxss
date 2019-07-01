@@ -180,20 +180,18 @@
     right: 0;
 }
 .goods-base .goods-title {
-    width: calc(100% - 130rpx);
+    width: calc(100% - 100rpx);
     font-size: 32rpx;
     line-height: 44rpx;
     font-weight: 500;
 }
+.goods-base .goods-share {
+  padding: 0 20rpx;
+  margin-bottom: 10rpx;
+}
 .goods-base .goods-share image {
     width: 50rpx;
     height: 50rpx;
-}
-.goods-base .goods-share button {
-    height: auto;
-    font-size: 26rpx;
-    border: 0;
-    min-width: initial;
 }
 .goods-base .goods-price {
     margin-top: 10rpx;

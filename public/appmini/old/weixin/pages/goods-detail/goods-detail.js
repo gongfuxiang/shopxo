@@ -33,10 +33,12 @@ Page({
 
     goods_video_is_autoplay: false,
     is_use_mobile_detail: 1,
+
+    popup_share_status: false,
   },
 
   onLoad(params) {
-    //params['goods_id']=2;
+    params['goods_id']=2;
     this.setData({params: params});
     this.init();
   },
@@ -188,7 +190,7 @@ Page({
     });
   },
 
-  // 弹层关闭
+  // 购买弹层关闭
   popup_close_event(e) {
     this.setData({popup_status: false});
   },
@@ -607,6 +609,16 @@ Page({
   // 视频关闭
   goods_video_close_event(e) {
     this.setData({ goods_video_is_autoplay: false });
+  },
+
+  // 分享开启弹层
+  popup_share_event(e) {
+    this.setData({ popup_share_status: true });
+  },
+
+  // 分享弹层关闭
+  popup_share_close_event(e) {
+    this.setData({ popup_share_status: false });
   },
 
   // 自定义分享

@@ -30,11 +30,9 @@
   <view class="goods-base bg-white">
     <view class="oh">
       <view class="goods-title fl multi-text" style="color:{{goods.title_color}}">{{goods.title}}</view>
-      <view class="goods-share fr tc">
-        <button type="default" size="mini" open-type="share" hover-class="none">
-          <image src="/images/goods-detail-share-icon.png" mode="scaleToFill" class="dis-block" />
-          <text class="dis-block cr-888">分享</text>
-        </button>
+      <view class="goods-share fr tc" bindtap="popup_share_event">
+        <image src="/images/goods-detail-share-icon.png" mode="scaleToFill" class="dis-block" />
+        <text class="dis-block cr-888">分享</text>        
       </view>
     </view>
     <view class="goods-price single-text">
@@ -95,7 +93,7 @@
     </view>
   </view>
 
-  <!-- 弹层 -->
+  <!-- 购买弹层 -->
   <component-popup prop-show="{{popup_status}}" prop-position="bottom" bindonclose="popup_close_event">
     <view class="goods-popup bg-white">
       <view class="close fr oh">
@@ -146,6 +144,33 @@
         </view>
       </view>
       <button class="goods-popup-submit bg-main" type="default" catchtap="goods_buy_confirm_event" hover-class="none">确定</button>
+    </view>
+  </component-popup>
+
+  <!-- 分享弹层 -->
+  <component-popup prop-show="{{popup_share_status}}" prop-position="bottom" bindonclose="popup_share_close_event">
+    <view class="share-popup bg-white">
+      <view class="close fr oh">
+        <view class="fr" catchtap="popup_share_close_event">
+          <icon type="clear" size="20" />
+        </view>
+      </view>
+      <view class="share-popup-content">
+        <view class="share-items oh">
+          <image class="fl" src="/images/share-recomend-icon.png" mode="scaleToFill" />
+          <view class="cr-888 single-text fl">好物推荐、和大家一起分享你发现的宝贝</view>
+        </view>
+        <view class="share-items oh">
+          <button class="dis-block" type="default" size="mini" open-type="share" hover-class="none">
+            <image src="/images/share-weixin-icon.png" mode="scaleToFill" />
+            <text class="cr-888 single-text">一键分享给好友、群聊</text>
+          </button>
+        </view>
+        <view class="share-items oh">
+          <image src="/images/share-friend-icon.png" mode="scaleToFill" />
+          <text class="cr-888 single-text">生成海报，分享到朋友圈、好友及群聊</text>
+        </view>
+      </view>
     </view>
   </component-popup>
 </view>
