@@ -418,15 +418,20 @@ function DataReturn($msg = '', $code = 0, $data = '')
 function CurrentScriptName()
 {
     $name = '';
-    if(!empty($_SERVER['SCRIPT_NAME']))
+    if(empty($_SERVER['SCRIPT_NAME']))
     {
-        if(!empty($_SERVER['SCRIPT_FILENAME']))
+        if(empty($_SERVER['PHP_SELF']))
         {
-            $loc = strripos($_SERVER['SCRIPT_FILENAME'], '/');
-            if($loc !== false)
+            if(!empty($_SERVER['SCRIPT_FILENAME']))
             {
-                $name = substr($_SERVER['SCRIPT_FILENAME'], $loc);
+                $loc = strripos($_SERVER['SCRIPT_FILENAME'], '/');
+                if($loc !== false)
+                {
+                    $name = substr($_SERVER['SCRIPT_FILENAME'], $loc);
+                }
             }
+        } else {
+            $name = $_SERVER['PHP_SELF'];
         }
     } else {
         $name = $_SERVER['SCRIPT_NAME'];
