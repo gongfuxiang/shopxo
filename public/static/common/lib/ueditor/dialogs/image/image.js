@@ -104,7 +104,7 @@
     /* 初始化搜索点击事件 */
     function initAlign(){
         domUtils.on($G("search-submit"), 'click', function(e){
-            onlineImage = new OnlineImage('imageList');
+            onlineImage = onlineImage || new OnlineImage('imageList');
             onlineImage.reset();
         });
     }

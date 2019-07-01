@@ -138,8 +138,9 @@
      * 在线视频
      */
     function initOnline(){
-        onlineFile = new OnlineFile('videoList');
+        onlineFile = onlineFile || new OnlineFile('videoList');
         onlineFile.reset();
+
     }
     function OnlineFile(target) {
         this.container = utils.isString(target) ? document.getElementById(target) : target;
