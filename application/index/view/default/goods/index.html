@@ -264,10 +264,10 @@
                                                 <dd>
                                                     <div class="am-input-group am-input-group-sm number-tag">
                                                         <button class="am-input-group-label" id="min" type="button">-</button>
-                                                        <input type="number" class="am-form-field" value="1" id="text_box" min="1" max="{{$goods.inventory}}" data-original-max="{{$goods.inventory}}" />
+                                                        <input type="number" class="am-form-field" value="{{$goods.buy_min_number}}" id="text_box" min="{{$goods.buy_min_number}}" max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-max="{{$goods.inventory}}" />
                                                         <button class="am-input-group-label" id="add" type="button">+</button>
                                                     </div>
-                                                    <span class="tb-hidden stock-tips">库存<span class="stock" data-original-stock="{{$goods.inventory}}">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
+                                                    <span class="tb-hidden stock-tips">库存<span class="stock" data-original-stock="{{$goods.inventory}}" data-min-limit="{{$goods.buy_min_number}}" data-max-limit="{{$goods.buy_max_number}}" data-unit="{{$goods.inventory_unit}}">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
                                                 </dd>
                                             </div>
 
