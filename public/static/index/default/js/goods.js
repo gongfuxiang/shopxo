@@ -613,7 +613,7 @@ $(function() {
     //数量减少操作
     $('#min').on('click', function()
     {
-        var value = parseInt($sotckt.val())-1 || 1;
+        var value = parseInt($sotck.val())-1 || 1;
         if(value < min)
         {
             Prompt('最低起购数量'+min+unit);

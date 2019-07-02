@@ -424,11 +424,7 @@ function CurrentScriptName()
         {
             if(!empty($_SERVER['SCRIPT_FILENAME']))
             {
-                $loc = strripos($_SERVER['SCRIPT_FILENAME'], '/');
-                if($loc !== false)
-                {
-                    $name = substr($_SERVER['SCRIPT_FILENAME'], $loc);
-                }
+                $name = $_SERVER['SCRIPT_FILENAME'];
             }
         } else {
             $name = $_SERVER['PHP_SELF'];
@@ -436,7 +432,17 @@ function CurrentScriptName()
     } else {
         $name = $_SERVER['SCRIPT_NAME'];
     }
-    return str_replace('/', '', $name);
+
+    if(!empty($name))
+    {
+        $loc = strripos($name, '/');
+        if($loc !== false)
+        {
+            $name = substr($name, $loc+1);
+        } 
+    }
+
+    return $name;
 }
 
 /**
