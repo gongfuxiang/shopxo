@@ -317,3 +317,21 @@ button[disabled].bg-primary {
   width: calc(100% - 100rpx);
   line-height: 85rpx;
 }
+
+/*
+  在线客服
+*/
+.common-online-service {
+  border: 0;
+  padding: 15rpx;
+  background: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  right: 10rpx;
+  bottom: 35%;
+  line-height: 30rpx;
+  border-radius: 50%;
+}
+.common-online-service image {
+  width: 60rpx;
+  height: 60rpx;
+}

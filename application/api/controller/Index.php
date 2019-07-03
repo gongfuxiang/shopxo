@@ -53,6 +53,7 @@ class Index extends Common
 			'common_app_is_enable_search'		=> (int) MyC('common_app_is_enable_search', 1),
 			'common_app_is_enable_answer'		=> (int) MyC('common_app_is_enable_answer', 1),
 			'common_app_is_header_nav_fixed'	=> (int) MyC('common_app_is_header_nav_fixed', 0),
+			'common_app_is_online_service'		=> (int) MyC('common_app_is_online_service', 0),
 		];
 
 		// 返回数据

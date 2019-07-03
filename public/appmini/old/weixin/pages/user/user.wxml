@@ -77,6 +77,12 @@
     <view class="tips">{{common_user_center_notice}}</view>
 </view>
 
+<!-- 在线客服 -->
+<view wx:if="{{common_app_is_online_service == 1}}">
+  <import src="/pages/common/online_service.wxml" />
+  <template is="online_service"></template>
+</view>
+
 <!-- 版权 -->
 <import src="/pages/common/copyright.wxml" />
 <template is="copyright"></template>

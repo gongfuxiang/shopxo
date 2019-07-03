@@ -59,11 +59,11 @@
       <text class="text-wrapper">详情</text>
     </view>
     <!-- web详情 -->
-    <view wx:if="{{is_use_mobile_detail == 0}}" class="bg-white">
+    <view wx:if="{{common_app_is_use_mobile_detail == 0}}" class="bg-white">
       <rich-text nodes="{{goods.content_web || ''}}"></rich-text>
     </view>
     <!-- 手机独立详情 -->
-    <block wx:if="{{is_use_mobile_detail == 1 && goods_content_app.length > 0}}">
+    <block wx:if="{{common_app_is_use_mobile_detail == 1 && goods_content_app.length > 0}}">
       <view wx:for="{{goods_content_app}}" wx:key="key" class="goods-detail-app bg-white">
           <image wx:if="{{(item.images || null) != null}}" bindtap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto dis-block" src="{{item.images}}" mode="widthFix" />
           <view wx:if="{{(item.content || null) != null}}" class="content-items">
@@ -178,4 +178,10 @@
 <view wx:if="{{goods == null}}">
     <import src="/pages/common/nodata.wxml" />
     <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
+</view>
+
+<!-- 在线客服 -->
+<view wx:if="{{common_app_is_online_service == 1}}">
+  <import src="/pages/common/online_service.wxml" />
+  <template is="online_service"></template>
 </view>

@@ -49,7 +49,7 @@
 }
 
 /* 导航列表 */
-.nav-box .nav-item{
+.nav-box .nav-item {
     height: 100rpx;
     box-sizing: border-box;
     padding: 30rpx 20rpx;
@@ -90,5 +90,5 @@
   left: calc(50% + 35rpx);
 }
 
-
+/* 通知 */
 .user-notice { margin-top: 20rpx; padding: 0 10rpx 20rpx 10rpx; }

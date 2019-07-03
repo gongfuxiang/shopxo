@@ -105,9 +105,10 @@ class Goods extends Common
 
         // 数据返回
         $result = [
-            'goods'                     => $ret['data'][0],
-            'common_order_is_booking'   => (int) MyC('common_order_is_booking', 0),
-            'is_use_mobile_detail'      => $is_use_mobile_detail,
+            'goods'                             => $ret['data'][0],
+            'common_order_is_booking'           => (int) MyC('common_order_is_booking', 0),
+            'common_app_is_use_mobile_detail'   => $is_use_mobile_detail,
+            'common_app_is_online_service'      => (int) MyC('common_app_is_online_service', 0),
         ];
         return DataReturn('success', 0, $result);
     }

@@ -32,9 +32,11 @@ Page({
     show_field_price_text: null,
 
     goods_video_is_autoplay: false,
-    is_use_mobile_detail: 1,
+    common_app_is_use_mobile_detail: 1,
 
     popup_share_status: false,
+
+    common_app_is_online_service: 0,
   },
 
   onLoad(params) {
@@ -103,7 +105,8 @@ Page({
               goods_spec_base_images: data.goods.images,
 
               show_field_price_text: (data.goods.show_field_price_text == '销售价') ? null : (data.goods.show_field_price_text.replace(/<[^>]+>/g, "") || null),
-              is_use_mobile_detail: data.is_use_mobile_detail || 0,
+              common_app_is_use_mobile_detail: data.common_app_is_use_mobile_detail || 0,
+              common_app_is_online_service: data.common_app_is_online_service || 0,
             });
 
             // 标题
