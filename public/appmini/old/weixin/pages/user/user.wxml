@@ -28,14 +28,12 @@
 <!-- 导航 -->
 <view class="nav-box bg-white">
   <block wx:for="{{nav_lists}}" wx:key="key">
-    <view wx:if="{{item.is_show == 1}}">
-      <navigator url="/pages/{{item.url}}/{{item.url}}" class="nav-item br-b" hover-class="none">
-        <view class="arrow-right">
-          <image src="/images/{{item.icon}}.png" class="item-icon" mode="widthFix" />
-          <text class="item-name">{{item.name}}</text>
-        </view>
-      </navigator>
-    </view>
+    <navigator url="/pages/{{item.url}}/{{item.url}}" class="nav-item br-b" hover-class="none">
+      <view class="arrow-right">
+        <image src="/images/{{item.icon}}.png" class="item-icon" mode="widthFix" />
+        <text class="item-name">{{item.name}}</text>
+      </view>
+    </navigator>
     <view wx:if="{{item.url == 'user-order' && user_order_status_list.length > 0}}" class="items-list br-b oh">
       <block wx:for="{{user_order_status_list}}" wx:key="key" wx:for-item="items">
         <navigator url="/pages/{{item.url}}/{{item.url}}?status={{items.status}}" hover-class="none">
@@ -48,6 +46,17 @@
           </view>
         </navigator>
       </block>
+    </view>
+  </block>
+
+  <!-- 远程自定义导航 -->
+  <block wx:for="{{navigation}}" wx:key="ckey">
+    <view data-value="{{item.event_value}}" data-type="{{item.event_type}}" bindtap="navigation_event" class="nav-item br-b" >
+      <view class="arrow-right">
+        <image src="{{item.images_url}}" class="item-icon" mode="widthFix" />
+        <text class="item-name">{{item.name}}</text>
+        <text wx:if="{{(item.desc || null) != null}}" class="item-desc fr tr single-text cr-ccc">{{item.desc}}</text>
+      </view>
     </view>
   </block>
 

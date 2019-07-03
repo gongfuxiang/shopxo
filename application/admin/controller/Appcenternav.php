@@ -10,16 +10,16 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\AppHomeNavService;
+use app\service\AppCenterNavService;
 
 /**
- * 手机管理-首页导航管理
+ * 手机管理-用户中心导航管理
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class AppHomeNav extends Common
+class AppCenterNav extends Common
 {
     /**
      * 构造方法
@@ -56,10 +56,10 @@ class AppHomeNav extends Common
         $number = MyC('admin_page_number', 10, true);
 
         // 条件
-        $where = AppHomeNavService::AppHomeNavListWhere($params);
+        $where = AppCenterNavService::AppCenterNavListWhere($params);
 
         // 获取总数
-        $total = AppHomeNavService::AppHomeNavTotal($where);
+        $total = AppCenterNavService::AppCenterNavTotal($where);
 
         // 分页
         $page_params = array(
@@ -67,7 +67,7 @@ class AppHomeNav extends Common
                 'total'     =>  $total,
                 'where'     =>  $params,
                 'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  MyUrl('admin/apphomenav/index'),
+                'url'       =>  MyUrl('admin/appcenternav/index'),
             );
         $page = new \base\Page($page_params);
         $this->assign('page_html', $page->GetPageHtml());
@@ -79,7 +79,7 @@ class AppHomeNav extends Common
             'where' => $where,
             'field' => '*',
         );
-        $data = AppHomeNavService::AppHomeNavList($data_params);
+        $data = AppCenterNavService::AppCenterNavList($data_params);
         $this->assign('data_list', $data['data']);
 
         // 是否启用
@@ -122,7 +122,7 @@ class AppHomeNav extends Common
                 'where' => ['id'=>intval($params['id'])],
                 'field' => '*',
             );
-            $ret = AppHomeNavService::AppHomeNavList($data_params);
+            $ret = AppCenterNavService::AppCenterNavList($data_params);
             $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
         }
         $this->assign('data', $data);
@@ -137,7 +137,7 @@ class AppHomeNav extends Common
         $this->assign('params', $params);
 
         // 编辑器文件存放地址
-        $this->assign('editor_path_type', 'app_nav');
+        $this->assign('editor_path_type', 'app_center_nav');
 
         return $this->fetch();
     }
@@ -159,7 +159,7 @@ class AppHomeNav extends Common
 
         // 开始处理
         $params = input();
-        return AppHomeNavService::AppHomeNavSave($params);
+        return AppCenterNavService::AppCenterNavSave($params);
     }
 
     /**
@@ -180,7 +180,7 @@ class AppHomeNav extends Common
         // 开始处理
         $params = input();
         $params['user_type'] = 'admin';
-        return AppHomeNavService::AppHomeNavDelete($params);
+        return AppCenterNavService::AppCenterNavDelete($params);
     }
 
     /**
@@ -200,7 +200,7 @@ class AppHomeNav extends Common
 
         // 开始处理
         $params = input();
-        return AppHomeNavService::AppHomeNavStatusUpdate($params);
+        return AppCenterNavService::AppCenterNavStatusUpdate($params);
     }
 }
 ?>

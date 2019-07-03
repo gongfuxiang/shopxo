@@ -14,6 +14,7 @@ use app\service\UserService;
 use app\service\OrderService;
 use app\service\GoodsService;
 use app\service\MessageService;
+use app\service\AppCenterNavService;
 
 /**
  * 用户
@@ -282,7 +283,7 @@ class User extends Common
             'user_goods_favor_count'            => $user_goods_favor_count,
             'user_goods_browse_count'           => $user_goods_browse_count,
             'common_message_total'              => $common_message_total,
-            'common_app_is_enable_answer'       => (int) MyC('common_app_is_enable_answer', 0),
+            'navigation'                        => AppCenterNavService::AppCenterNav(),
         );
 
         // 返回数据

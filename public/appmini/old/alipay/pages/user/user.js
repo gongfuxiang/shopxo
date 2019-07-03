@@ -24,26 +24,11 @@ Page({
         icon: "user-nav-order-icon",
         is_show: 1,
         name: "我的订单",
-      },
-      {
-        url: "user-address",
-        icon: "user-nav-address-icon",
-        is_show: 1,
-        name: "我的地址"
-      },
-      {
-        url: "user-faovr",
-        icon: "user-nav-faovr-icon",
-        is_show: 1,
-        name: "我的收藏"
-      },
-      {
-        url: "user-answer-list",
-        icon: "user-nav-answer-icon",
-        is_show: 1,
-        name: "我的留言"
       }
-    ]
+    ],
+
+    // 远程自定义导航
+    navigation: [],
   },
 
   onShow() {
@@ -122,7 +107,7 @@ Page({
             nickname: (data.nickname != null) ? data.nickname : this.data.nickname,
             message_total: ((data.common_message_total || 0) == 0) ? 0 : data.common_message_total,
             head_nav_list: temp_head_nav_list,
-            'nav_lists[3].is_show': (data.common_app_is_enable_answer == 1) ? 1 : 0,
+            navigation: data.navigation || [],
           });
         } else {
           my.showToast({
@@ -182,5 +167,10 @@ Page({
   // 头像加载错误
   user_avatar_error(e) {
     this.setData({avatar: app.data.default_user_head_src});
+  },
+
+  // 远程自定义导航事件
+  navigation_event(e) {
+    app.operation_event(e);
   },
 });

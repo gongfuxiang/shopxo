@@ -15,7 +15,7 @@ use app\service\BannerService;
 use app\service\GoodsService;
 use app\service\ArticleService;
 use app\service\OrderService;
-use app\service\AppNavService;
+use app\service\AppHomeNavService;
 
 /**
  * 首页
@@ -52,7 +52,7 @@ class Index extends Common
         $this->assign('banner_list', BannerService::Banner());
 
         // H5导航
-        $this->assign('navigation', AppNavService::AppHomeNav());
+        $this->assign('navigation', AppHomeNavService::AppHomeNav());
 
         // 楼层数据
         $this->assign('goods_floor_list', GoodsService::HomeFloorList());

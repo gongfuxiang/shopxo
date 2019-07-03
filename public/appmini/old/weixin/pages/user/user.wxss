@@ -63,6 +63,11 @@
     margin-left: 20rpx;
     vertical-align: middle;
 }
+.nav-box .nav-item .item-desc {
+  margin-right: 50rpx;
+  margin-top: 2rpx;
+  width: calc(100% - 300rpx);
+}
 .nav-box .nav-item .item-arrow {
     width: 25rpx;
 }

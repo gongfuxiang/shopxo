@@ -14,13 +14,13 @@ use think\Db;
 use app\service\ResourcesService;
 
 /**
- * APP导航服务层
+ * APP首页导航服务层
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class AppNavService
+class AppHomeNavService
 {
     /**
      * 首页导航列表
