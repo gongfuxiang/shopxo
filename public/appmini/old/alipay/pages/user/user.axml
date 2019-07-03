@@ -67,7 +67,7 @@
 
   <view a:if="{{customer_service_tel != null}}" class="nav-item" onTap="call_event">
     <image src="/images/user-nav-customer-service-icon.png" class="item-icon" mode="widthFix" />
-    <text class="item-name">联系客服 </text>
+    <text class="item-name">客服电话 </text>
     <text class="item-name cr-blue">{{customer_service_tel}}</text>
   </view>
 </view>
