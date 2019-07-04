@@ -1,9 +1,56 @@
-.data-list {
+.limitedtimediscount {
   background: #fff;
-  padding: 20rpx 10rpx;
+  padding: 5rpx 10rpx 20rpx 10rpx;
+  margin-bottom: 20rpx;
+}
+
+/*
+  定时器
+*/
+.spacing-nav-title {
+  overflow: hidden;
+  padding: 10rpx 0;
+}
+.text-wrapper {
+  color: #d2364c;
+  font-size: 36rpx;
+  font-weight: bold;
+}
+.countdown {
+  line-height: 50rpx;
+  float: right;
+}
+.countdown view {
+  margin-right: 0;
+  float: right;
+}
+.countdown .timer-title {
+  color: #666;
+  margin-right: 10rpx;
+}
+.countdown .timer-hours {
+  padding: 0 12rpx;
+  -moz-border-radius: 8rpx;
+  border-radius: 8rpx;
+  background-color: #3A4145;
+  color: #fff;
+  min-width: 35rpx;
+  text-align: center;
+}
+.countdown .ds {
+  color: #4B5459;
+  padding: 0 8rpx;
+  font-weight: 700;
+}
+
+/*
+  商品
+*/
+.data-list {
   width: 100%;
   white-space: nowrap;
   box-sizing: border-box;
+  margin-top: 5rpx;
 }
 
 /*设置行内块*/

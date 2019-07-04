@@ -1,16 +1,31 @@
-<view class="data-list">
-  <scroll-view scroll-x>
-    <view class="item">
-      <view class='inner'>1</view>
+<view class="limitedtimediscount">
+  <view class="spacing-nav-title">
+    <text class="text-wrapper">限时秒杀</text>
+    <view class="countdown">
+      <block wx:if="{{is_show_time}}">
+        <view class="timer-hours seconds">{{seconds}}</view>
+        <view class="ds">:</view>
+        <view class="timer-hours minutes">{{minutes}}</view>
+        <view class="ds">:</view>
+        <view class="timer-hours hours">{{hours}}</view>
+      </block>
+      <view class="timer-title">{{timer_title}}</view>
     </view>
-    <view class="item">
-      <view class='inner'>2</view>
-    </view>
-    <view class="item">
-      <view class='inner'>3</view>
-    </view>
-    <view class="item">
-      <view class='inner'>4</view>
-    </view>
-  </scroll-view>
+  </view>
+  <view class="data-list">
+    <scroll-view scroll-x>
+      <view class="item">
+        <view class='inner'>1</view>
+      </view>
+      <view class="item">
+        <view class='inner'>2</view>
+      </view>
+      <view class="item">
+        <view class='inner'>3</view>
+      </view>
+      <view class="item">
+        <view class='inner'>4</view>
+      </view>
+    </scroll-view>
+  </view>
 </view>
