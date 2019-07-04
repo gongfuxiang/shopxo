@@ -1,0 +1,18 @@
+.data-list {
+  background: #fff;
+  padding: 20rpx 10rpx;
+  width: 100%;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+/*设置行内块*/
+
+.data-list .item {
+  width: 100px;
+  height: 80px;
+  border: 1px solid red;
+  background: white;
+  display: inline-block;
+  margin-right: 10px;
+}

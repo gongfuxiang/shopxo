@@ -18,6 +18,9 @@
 <!-- 导航 -->
 <component-icon-nav prop-data="{{navigation}}"></component-icon-nav>
 
+<!-- 限时秒杀 -->
+<component-limitedtimediscount prop-data="{{banner_list}}"></component-limitedtimediscount>
+
 <!-- 楼层数据 -->
 <block wx:if="{{data_list.length > 0}}">
   <view wx:for="{{data_list}}" wx:key="key" wx:for-item="floor" class="floor spacing-mb">
