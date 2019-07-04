@@ -58,7 +58,11 @@ class IntegralService
             // 用户登录数据更新防止数据存储session不同步展示
             if(in_array(APPLICATION_CLIENT_TYPE, ['pc', 'h5']))
             {
-                UserService::UserLoginRecord($user_id);
+                $user = UserService::LoginUserInfo();
+                if(isset($user['id']) && $user['id'] == $user_id)
+                {
+                    UserService::UserLoginRecord($user_id);
+                }
             }
             
             return true;
