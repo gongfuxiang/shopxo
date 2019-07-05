@@ -54,7 +54,7 @@
 }
 .data-list .item {
   width: 460rpx;
-  height: 600rpx;
+  height: 605rpx;
   border: 1px solid #f5f5f5;
   background: white;
   display: inline-block;
@@ -101,6 +101,6 @@
   font-size: 30rpx;
   border-radius: 6rpx;
   position: absolute;
-  right: 10rpx;
-  bottom: 10rpx;
+  right: 15rpx;
+  bottom: 15rpx;
 }
