@@ -140,19 +140,19 @@ textarea {
 
 /* 文字超出部分使用省略号 */
 .single-text {
-    -o-text-overflow: ellipsis;
-	text-overflow: ellipsis;	  
-	overflow: hidden;
-	white-space: nowrap;
-    max-width: 100%;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;	  
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
 }
 .multi-text {
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 

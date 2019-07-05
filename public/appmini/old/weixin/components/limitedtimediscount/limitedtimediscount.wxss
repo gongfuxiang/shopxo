@@ -52,14 +52,55 @@
   box-sizing: border-box;
   margin-top: 5rpx;
 }
-
-/*设置行内块*/
-
 .data-list .item {
-  width: 100px;
-  height: 80px;
-  border: 1px solid red;
+  width: 460rpx;
+  height: 600rpx;
+  border: 1px solid #f5f5f5;
   background: white;
   display: inline-block;
+  position: relative;
+}
+.data-list .item:not(:last-child) {
   margin-right: 10px;
+}
+.data-list .item image {
+  width: 460rpx;
+  height: 460rpx;
+}
+.data-list .item .goods-base {
+  padding: 0 10rpx;
+}
+.data-list .goods-base .goods-title,
+.data-list .goods-base .goods-price,
+.data-list .goods-base .ogoods-riginal-price {
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;	  
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+}
+.data-list .goods-base .goods-title {
+  font-size: 32rpx;
+}
+.data-list .goods-base .goods-price {
+  color: #f40;
+  font-weight: bold;
+  font-size: 36rpx;
+}
+.data-list .goods-base .goods-original-price {
+  color: #999;
+  text-decoration: line-through;
+  font-size: 24rpx;
+}
+.data-list .goods-base button {
+  background: #d2364c;
+  border: 0;
+  color: #fff;
+  padding: 0 30rpx;
+  line-height: 50rpx;
+  font-size: 30rpx;
+  border-radius: 6rpx;
+  position: absolute;
+  right: 10rpx;
+  bottom: 10rpx;
 }

@@ -16,6 +16,29 @@ Component({
     seconds: 30,
     timer_title: '距离结束',
     is_show_time: true,
+    data_list: [
+      {
+        goods_id: 1,
+        goods_title: '2019新款夏装漂亮的睡衣，性感女士专享',
+        images_url: 'https://demo.shopxo.net/static/upload/images/goods/2019/01/14/1547454702543219.jpg',
+        min_price: 345.23,
+        min_original_price: 9863.98,
+      },
+      {
+        goods_id: 2,
+        goods_title: 'MARNI Trunk 女士 中号拼色十字纹小牛皮 斜挎风琴包',
+        images_url: 'https://demo.shopxo.net/static/upload/images/goods/2019/01/14/1547454145355962.jpg',
+        min_price: 256.00,
+        min_original_price: 356.00,
+      },
+      {
+        goods_id: 3,
+        goods_title: 'Huawei/华为 H60-L01 荣耀6 移动4G版智能手机 安卓',
+        images_url: 'https://demo.shopxo.net/static/upload/images/goods/2019/01/14/1547452474332334.jpg',
+        min_price: 1999.99,
+        min_original_price: 2300.00,
+      }
+    ],
   },
 
   ready: function () {

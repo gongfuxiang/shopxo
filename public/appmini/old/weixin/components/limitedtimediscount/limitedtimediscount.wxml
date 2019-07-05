@@ -1,4 +1,4 @@
-<view class="limitedtimediscount">
+<view wx:if="{{data_list.length > 0}}" class="limitedtimediscount">
   <view class="spacing-nav-title">
     <text class="text-wrapper">限时秒杀</text>
     <view class="countdown">
@@ -14,17 +14,16 @@
   </view>
   <view class="data-list">
     <scroll-view scroll-x>
-      <view class="item">
-        <view class='inner'>1</view>
-      </view>
-      <view class="item">
-        <view class='inner'>2</view>
-      </view>
-      <view class="item">
-        <view class='inner'>3</view>
-      </view>
-      <view class="item">
-        <view class='inner'>4</view>
+      <view wx:for="{{data_list}}" key="key" class="item">
+        <navigator url="/pages/goods-detail/goods-detail?id={{item.goods_id}}" hover-class="none">
+          <image src="{{item.images_url}}" mode="aspectFit"></image>
+          <view class="goods-base">
+            <view class="goods-title">{{item.goods_title}}</view>
+            <view class="goods-price">￥{{item.min_price}}</view>
+            <view wx:if="{{(item.min_original_price || null) != null}}" class="goods-original-price">￥{{item.min_original_price}}</view>
+            <button size="mini">抢购</button>
+          </view>
+        </navigator>
       </view>
     </scroll-view>
   </view>
