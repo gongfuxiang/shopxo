@@ -225,7 +225,7 @@ class IntegralService
                     }
 
                     // 积分日志
-                    IntegralService::UserIntegralLogAdd($user['id'], $user_integral, $user_integral+$give_integral, '订单商品完成赠送', 1);
+                    self::UserIntegralLogAdd($user['id'], $user_integral, $user_integral+$give_integral, '订单商品完成赠送', 1);
                 }
             }
             return DataReturn('操作成功', 0);
