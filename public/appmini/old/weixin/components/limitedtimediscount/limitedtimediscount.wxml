@@ -1,5 +1,6 @@
 <view wx:if="{{data_list.length > 0}}" class="limitedtimediscount">
   <view class="spacing-nav-title">
+    <image class="nav-icon" src="/components/limitedtimediscount/images/nav-icon.png" mode="aspectFit"></image>
     <text class="text-wrapper">限时秒杀</text>
     <view class="countdown">
       <block wx:if="{{is_show_time}}">
@@ -14,7 +15,7 @@
   </view>
   <view class="data-list">
     <scroll-view scroll-x>
-      <view wx:for="{{data_list}}" key="key" class="item">
+      <view wx:for="{{data_list}}" wx:key="key" class="item">
         <navigator url="/pages/goods-detail/goods-detail?id={{item.goods_id}}" hover-class="none">
           <image src="{{item.images_url}}" mode="aspectFit"></image>
           <view class="goods-base">

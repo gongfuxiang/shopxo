@@ -11,6 +11,12 @@
   overflow: hidden;
   padding: 10rpx 0;
 }
+.spacing-nav-title .nav-icon {
+  width: 45rpx;
+  height: 45rpx;
+  vertical-align: top;
+  margin-right: 10rpx;
+}
 .text-wrapper {
   color: #d2364c;
   font-size: 36rpx;
