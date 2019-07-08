@@ -131,7 +131,13 @@ class Plugins extends Common
                 return $this->fetch('public/tips_error');
             }
         }
-        return $obj->$pluginsaction($params);
+        $ret = $obj->$pluginsaction($params);
+        if(is_string($ret))
+        {
+            $this->assign('msg', $ret);
+            return $this->fetch('public/tips_error');
+        }
+        return $ret;
     }
 
     /**
