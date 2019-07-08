@@ -56,6 +56,14 @@ class Index extends Common
 			'common_app_is_online_service'		=> (int) MyC('common_app_is_online_service', 0),
 		];
 
+		// 秒杀
+		$plugins_class = 'app\plugins\limitedtimediscount\service\Service';
+		if(class_exists($plugins_class))
+		{
+			$ret = (new $plugins_class())->ApiHomeAd();
+			$result['plugins_limitedtimediscount_data'] = $ret['data'];
+		}
+
 		// 返回数据
 		return DataReturn('success', 0, $result);
 	}
