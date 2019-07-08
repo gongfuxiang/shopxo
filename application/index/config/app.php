@@ -17,6 +17,16 @@
  * @datetime 2016-12-01T21:51:08+0800
  */
 return [
-    'url_html_suffix'        => MyC('home_seo_url_html_suffix', 'html', true),
+    // 默认输出类型
+    'default_return_type'       => 'html',
+
+    // 默认AJAX 数据返回格式,可选json xml ...
+    'default_ajax_return'       => 'json',
+
+    // 默认JSONP格式返回的处理方法
+    'default_jsonp_handler'     => 'jsonpReturn',
+
+    // 伪静态后缀
+    'url_html_suffix'           => MyC('home_seo_url_html_suffix', 'html', true),
 ];
 ?>
