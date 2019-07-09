@@ -2,7 +2,6 @@
     "enablePullDownRefresh": true,
     "usingComponents": {
         "component-icon-nav": "/components/icon-nav/icon-nav",
-        "component-banner": "/components/slider/slider",
-        "component-limitedtimediscount": "/components/limitedtimediscount/limitedtimediscount"
+        "component-banner": "/components/slider/slider"
     }
 }
