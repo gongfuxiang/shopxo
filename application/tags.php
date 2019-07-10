@@ -32,5 +32,33 @@ return array (
   'log_write' => 
   array (
   ),
+  'plugins_css' => 
+  array (
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
+  ),
+  'plugins_js' => 
+  array (
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
+  ),
+  'plugins_service_navigation_header_handle' => 
+  array (
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
+  ),
+  'plugins_service_goods_handle_end' => 
+  array (
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
+  ),
+  'plugins_service_goods_spec_base' => 
+  array (
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
+  ),
+  'plugins_view_goods_detail_base_top' => 
+  array (
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
+  ),
+  'plugins_view_home_floor_top' => 
+  array (
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
+  ),
 );
 ?>
