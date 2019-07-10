@@ -11,6 +11,7 @@
 namespace app\api\controller;
 
 use app\service\GoodsService;
+use app\service\GoodsCommentsService;
 
 /**
  * 商品
@@ -96,6 +97,9 @@ class Goods extends Common
         // 当前登录用户是否已收藏
         $ret_favor = GoodsService::IsUserGoodsFavor(['goods_id'=>$goods_id, 'user'=>$this->user]);
         $ret['data'][0]['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
+
+        // 商品评价总数
+        $ret['data'][0]['comments_count'] = GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods_id, 'is_show'=>1]);
 
         // 商品访问统计
         GoodsService::GoodsAccessCountInc(['goods_id'=>$goods_id]);

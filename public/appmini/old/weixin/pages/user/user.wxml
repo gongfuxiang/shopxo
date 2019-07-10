@@ -79,7 +79,7 @@
 
 <!-- 在线客服 -->
 <view wx:if="{{common_app_is_online_service == 1}}">
-  <import src="/pages/common/online_service.wxml" />
+  <import src="/pages/lib/online-service/content.wxml" />
   <template is="online_service"></template>
 </view>
 

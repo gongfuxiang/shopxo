@@ -12,6 +12,24 @@
 // 应用公共文件
 
 /**
+ * 调用插件方法 - 访问为静态
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @datetime 2019-07-10T22:03:48+0800
+ * @param    [string]          $plugins_class   [类命名空间]
+ * @param    [string]          $method          [方法名称]
+ */
+function CallPluginsMethod($plugins_class, $method)
+{
+    if(class_exists($plugins_class))
+    {
+        return $plugins_class::$method();
+    }
+    return DataReturn('类未定义', -1);
+}
+
+/**
  * 判断当前是否小程序环境中
  * @author   Devil
  * @blog     http://gong.gg/

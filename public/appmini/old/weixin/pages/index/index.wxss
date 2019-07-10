@@ -122,7 +122,7 @@
 .limitedtimediscount .nav-title .nav-icon {
   width: 45rpx;
   height: 45rpx;
-  vertical-align: top;
+  vertical-align: sub;
   margin-right: 10rpx;
 }
 .limitedtimediscount .text-wrapper {
@@ -184,6 +184,7 @@
 }
 .limitedtimediscount .goods-list .goods-base .goods-title {
   font-size: 32rpx;
+  margin-bottom: 10rpx;
 }
 .limitedtimediscount .goods-list .goods-base .goods-price {
   color: #f40;
@@ -200,7 +201,7 @@
   border: 0;
   color: #fff;
   padding: 0 30rpx;
-  line-height: 50rpx;
+  line-height: 65rpx;
   font-size: 30rpx;
   border-radius: 6rpx;
   position: absolute;

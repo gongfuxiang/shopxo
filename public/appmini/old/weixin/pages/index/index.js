@@ -14,7 +14,8 @@ Page({
     common_app_is_online_service: 0,
 
     // 限时秒杀插件
-    plugins_limitedtimediscount_data: [],
+    common_app_is_limitedtimediscount : 0,
+    plugins_limitedtimediscount_data: null,
     plugins_limitedtimediscount_timer_title: '距离结束',
     plugins_limitedtimediscount_is_show_time: true,
   },
@@ -55,11 +56,15 @@ Page({
             common_app_is_header_nav_fixed: data.common_app_is_header_nav_fixed,
             data_list_loding_status: data.data_list.length == 0 ? 0 : 3,
             common_app_is_online_service: data.common_app_is_online_service || 0,
-            plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || [],
+            common_app_is_limitedtimediscount: data.common_app_is_limitedtimediscount || 0,
+            plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null,
           });
-          
+
           // 限时秒杀倒计时
-          this.plugins_limitedtimediscount_countdown();
+          if (this.data.common_app_is_limitedtimediscount == 1 && this.data.plugins_limitedtimediscount_data != null)
+          {
+            this.plugins_limitedtimediscount_countdown();
+          }
         } else {
           self.setData({
             data_list_loding_status: 0,

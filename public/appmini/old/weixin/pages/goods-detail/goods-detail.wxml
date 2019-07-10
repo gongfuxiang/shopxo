@@ -28,19 +28,28 @@
 
   <!-- 基础信息 -->
   <view class="goods-base bg-white">
-    <view class="oh">
-      <view class="goods-title fl multi-text" style="color:{{goods.title_color}}">{{goods.title}}</view>
-      <view class="goods-share fr tc" bindtap="popup_share_event">
-        <image src="/images/goods-detail-share-icon.png" mode="scaleToFill" class="dis-block" />
-        <text class="dis-block cr-888">分享</text>        
-      </view>
-    </view>
+    <view class="goods-title multi-text" style="color:{{goods.title_color}}">{{goods.title}}</view>
     <view class="goods-price single-text">
+      <view class="goods-share tc" bindtap="popup_share_event">
+        <image src="/images/goods-detail-share-icon.png" mode="scaleToFill" class="dis-block" />
+        <view class="cr-888">分享</view>        
+      </view>
       <text wx:if="{{(show_field_price_text || null) != null}}" class="price-icon">{{show_field_price_text}}</text>
       <text class="sales-price">￥{{goods.price}}</text>
-      <text wx:if="{{(goods.original_price || null) != null}}" class="original-price">￥{{goods.original_price}}</text>
-      <view class="cr-ccc sales">
-        <text>销量 {{goods.sales_count}}</text>
+      <view wx:if="{{(goods.original_price || null) != null}}" class="original-price">￥{{goods.original_price}}</view>
+    </view>
+    <view class="base-grid oh">
+      <view class="fl tc">
+        <text class="cr-888">累计销量</text>
+        <text class="cr-main">{{goods.sales_count}}</text>
+      </view>
+      <view class="fl tc">
+        <text class="cr-888">浏览次数</text>
+        <text class="cr-main">{{goods.access_count}}</text>
+      </view>
+      <view class="fl tc">
+        <text class="cr-888">累计评论</text>
+        <text class="cr-main">{{goods.comments_count}}</text>
       </view>
     </view>
   </view>
@@ -182,6 +191,6 @@
 
 <!-- 在线客服 -->
 <view wx:if="{{common_app_is_online_service == 1}}">
-  <import src="/pages/common/online_service.wxml" />
+  <import src="/pages/lib/online-service/content.wxml" />
   <template is="online_service"></template>
 </view>

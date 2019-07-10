@@ -174,32 +174,50 @@
 .goods-base button {
   background: #fff;
 }
-.goods-base .goods-price .sales {
-    position: absolute;
-    top: 0;
-    right: 0;
-}
 .goods-base .goods-title {
-    width: calc(100% - 100rpx);
     font-size: 32rpx;
     line-height: 44rpx;
     font-weight: 500;
 }
 .goods-base .goods-share {
+  position: absolute;
+  top: 0;
+  right: 0;
   padding: 0 20rpx;
-  margin-bottom: 10rpx;
 }
 .goods-base .goods-share image {
-    width: 50rpx;
-    height: 50rpx;
+  width: 50rpx;
+  height: 50rpx;
+}
+.goods-base .goods-share view {
+  line-height: 40rpx;
 }
 .goods-base .goods-price {
-    margin-top: 10rpx;
-    padding-right: 160rpx;
-    position: relative;
+  margin-top: 10rpx;
+  padding-right: 100rpx;
+  position: relative;
+  min-height: 80rpx;
+}
+.goods-base .goods-price .original-price {
+  margin-top: 8rpx;
+  margin-left: 0;
+}
+.goods-base .base-grid {
+  margin-top: 15rpx;
+  padding-top: 15rpx;
+  border-top: 1px solid #f5f5f5;
+}
+.goods-base .base-grid view {
+  width: calc(33.33% - 1px);
+}
+.goods-base .base-grid view:not(:last-child) {
+  border-right: 1px solid #f5f5f5;
+}
+.goods-base .base-grid view .cr-main {
+  padding-left: 10rpx;
 }
 .page {
-    padding-bottom: 100rpx;
+  padding-bottom: 100rpx;
 }
 
 /*
