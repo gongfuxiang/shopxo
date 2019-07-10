@@ -408,8 +408,9 @@ class AdminService
                 );
             if(Db::name('Admin')->where(['id'=>$admin['id']])->update($data))
             {
-                // 清空缓存目录下的数据
-                \base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'cache');
+                // 清空权限缓存数据
+                cache(config('cache_admin_left_menu_key').$admin['id'], null);
+                cache(config('cache_admin_power_key').$admin['id'], null);
 
                 return DataReturn('登录成功');
             }

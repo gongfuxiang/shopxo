@@ -879,7 +879,10 @@ class UserService
         ];
         if(Db::name('User')->where(['id'=>$params['user']['id']])->update($data))
         {
-            self::UserLoginRecord($params['user']['id']);
+            if(APPLICATION == 'web')
+            {
+                self::UserLoginRecord($params['user']['id']);
+            }
             return DataReturn('上传成功', 0);
         }
         return DataReturn('上传失败', -100);
