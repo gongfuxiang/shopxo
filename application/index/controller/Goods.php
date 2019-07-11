@@ -322,3 +322,4 @@ class Goods extends Common
         return DataReturn('请求成功', 0, $result);
     }
 }
+?>

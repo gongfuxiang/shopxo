@@ -79,6 +79,7 @@ Page({
         method: "POST",
         data: {goods_id: this.data.params.goods_id},
         dataType: "json",
+        header: { 'content-type': 'application/x-www-form-urlencoded' },
         success: res => {
           wx.stopPullDownRefresh();
           wx.hideLoading();

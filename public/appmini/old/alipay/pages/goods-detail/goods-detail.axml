@@ -15,7 +15,7 @@
     </block>
   </swiper>
 
-  <!-- 基础信息 -->
+  <!-- 基础信息 -->
   <view class="goods-base bg-white">
     <view class="goods-title multi-text" style="color:{{goods.title_color}}">{{goods.title}}</view>
     <view class="goods-price single-text">
@@ -30,7 +30,7 @@
       <view a:if="{{(goods.original_price || null) != null}}" class="original-price">￥{{goods.original_price}}</view>
     </view>
     <view class="base-grid oh">
-      <view class="fl tc">
+      <view class="fl tl">
         <text class="cr-888">累计销量</text>
         <text class="cr-main">{{goods.sales_count}}</text>
       </view>
@@ -38,7 +38,7 @@
         <text class="cr-888">浏览次数</text>
         <text class="cr-main">{{goods.access_count}}</text>
       </view>
-      <view class="fl tc">
+      <view class="fl tr">
         <text class="cr-888">累计评论</text>
         <text class="cr-main">{{goods.comments_count}}</text>
       </view>

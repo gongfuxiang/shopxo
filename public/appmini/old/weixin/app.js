@@ -56,12 +56,13 @@ App({
       "message": "消息",
       "user_integral": "我的积分",
       "user_goods_browse": "我的足迹",
+      "goods_comment": "商品评论",
     },
 
     // 请求地址
     // request_url: "{{request_url}}",
     request_url: 'http://tp5-dev.com/',
-    request_url: 'https://test.shopxo.net/',
+    //request_url: 'https://test.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",

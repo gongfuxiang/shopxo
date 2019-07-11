@@ -181,5 +181,71 @@ class Goods extends Common
         $data = GoodsService::GoodsCategory($params);
         return DataReturn('success', 0, $data);
     }
+
+    /**
+     * 商品评分
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-07-11
+     * @desc    description
+     * @return  [type]          [description]
+     */
+    public function GoodsScore()
+    {
+        if(empty($this->data_post['goods_id']))
+        {
+            return DataReturn('参数有误', -1);
+        }
+
+        // 获取商品评分
+        return GoodsCommentsService::GoodsCommentsScore($this->data_post['goods_id']);
+    }
+
+    /**
+     * 商品评论
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-05-13T21:47:41+0800
+     */
+    public function Comment()
+    {
+        // 参数
+        $params = $this->data_post;
+
+        // 分页
+        $number = 10;
+        $page = max(1, isset($params['page']) ? intval($params['page']) : 1);
+
+        // 条件
+        $where = [
+            'goods_id'      => $params['goods_id'],
+            'is_show'       => 1,
+        ];
+
+        // 获取总数
+        $total = GoodsCommentsService::GoodsCommentsTotal($where);
+        $page_total = ceil($total/$number);
+        $start = intval(($page-1)*$number);
+
+        // 获取列表
+        $data_params = array(
+            'm'         => $start,
+            'n'         => $number,
+            'where'     => $where,
+            'is_public' => 1,
+        );
+        $data = GoodsCommentsService::GoodsCommentsList($data_params);
+        
+        // 返回数据
+        $result = [
+            'number'            => $number,
+            'total'             => $total,
+            'page_total'        => $page_total,
+            'data'              => $data['data'],
+        ];
+        return DataReturn('success', 0, $result);
+    }
 }
 ?>

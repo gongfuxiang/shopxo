@@ -213,9 +213,6 @@
 .goods-base .base-grid view {
   width: calc(33.33% - 1px);
 }
-.goods-base .base-grid view:not(:last-child) {
-  border-right: 1px solid #f5f5f5;
-}
 .goods-base .base-grid view .cr-main {
   padding-left: 10rpx;
 }
