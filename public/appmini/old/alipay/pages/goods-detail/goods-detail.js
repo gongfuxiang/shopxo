@@ -41,7 +41,7 @@ Page({
   },
 
   onShow() {
-    my.setNavigationBar({title: app.data.common_pages_title.goods_detail});
+    my.setNavigationBar({title: (this.data.goods == null) ? app.data.common_pages_title.goods_detail : this.data.goods.title});
   },
 
   // 获取数据列表

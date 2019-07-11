@@ -56,6 +56,7 @@ App({
       "message": "消息",
       "user_integral": "我的积分",
       "user_goods_browse": "我的足迹",
+      "goods_comment": "商品评论",
     },
 
     // 请求地址
@@ -608,6 +609,27 @@ App({
       }
     }
     return false;
+  },
+
+  /**
+   * 默认弱提示方法
+   * msg    [string]  提示信息
+   * status [string]  状态 默认error [正确success, 错误error]
+   */
+  showToast(msg, status)
+  {
+    if ((status || 'error') == 'success')
+    {
+      my.showToast({
+        type: "success",
+        content: msg
+      });
+    } else {
+      my.showToast({
+        type: "fail",
+        content: msg
+      });
+    }
   },
 
 });

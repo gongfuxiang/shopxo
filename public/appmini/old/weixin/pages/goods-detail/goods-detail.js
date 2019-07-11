@@ -46,7 +46,7 @@ Page({
   },
 
   onShow() {
-    wx.setNavigationBarTitle({title: app.data.common_pages_title.goods_detail});
+    wx.setNavigationBarTitle({title: (this.data.goods == null) ? app.data.common_pages_title.goods_detail : this.data.goods.title});
   },
 
   // 获取数据列表

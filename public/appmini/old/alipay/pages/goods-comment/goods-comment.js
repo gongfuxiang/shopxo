@@ -18,7 +18,7 @@ Page({
   },
 
   onShow() {
-    wx.setNavigationBarTitle({ title: app.data.common_pages_title.goods_comment });
+    my.setNavigationBar({ title: app.data.common_pages_title.goods_comment });
   },
 
   // 初始化
@@ -30,7 +30,7 @@ Page({
 
   // 获取商品评分
   goods_score() {
-    wx.request({
+    my.request({
       url: app.get_request_url("goodsscore", "goods"),
       method: "POST",
       data: { goods_id: this.data.params.goods_id },
@@ -55,7 +55,7 @@ Page({
   get_data_list(is_mandatory) {
     // 参数校验
     if ((this.data.params.goods_id || null) == null) {
-      wx.stopPullDownRefresh();
+      my.stopPullDownRefresh();
       this.setData({
         data_bottom_line_status: false,
         data_list_loding_status: 2,
@@ -71,20 +71,20 @@ Page({
       }
 
       // 加载loding
-      wx.showLoading({ title: "加载中..." });
+      my.showLoading({ title: "加载中..." });
       this.setData({
         data_list_loding_status: 1
       });
 
-      wx.request({
+      my.request({
         url: app.get_request_url("comment", "goods"),
         method: "POST",
         data: { goods_id: this.data.params.goods_id, page: this.data.data_page },
         dataType: "json",
         header: { 'content-type': 'application/x-www-form-urlencoded' },
         success: res => {
-          wx.hideLoading();
-          wx.stopPullDownRefresh();
+          my.hideLoading();
+          my.stopPullDownRefresh();
           if (res.data.code == 0) {
             if (res.data.data.data.length > 0) {
               if (this.data.data_page <= 1) {
@@ -130,8 +130,8 @@ Page({
           }
         },
         fail: () => {
-          wx.hideLoading();
-          wx.stopPullDownRefresh();
+          my.hideLoading();
+          my.stopPullDownRefresh();
 
           this.setData({
             data_list_loding_status: 2

@@ -48,8 +48,10 @@
         <text class="cr-main">{{goods.access_count}}</text>
       </view>
       <view class="fl tr">
-        <text class="cr-888">累计评论</text>
-        <text class="cr-main">{{goods.comments_count}}</text>
+        <navigator url="/pages/goods-comment/goods-comment?goods_id={{goods.id}}" hover-class="none">
+          <text class="cr-888">累计评论</text>
+          <text class="cr-main">{{goods.comments_count}}</text>
+        </navigator>
       </view>
     </view>
   </view>
