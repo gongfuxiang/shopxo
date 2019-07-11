@@ -5,8 +5,8 @@
       <view class="value">{{goods_score.avg || '0.0'}}</view>
     </view>
     <view class="progress fr tc">
-      <block a:for="{{goods_score.rating}}" for-key="key">
-        <view class="progress-bar {{progress_class[key]}}" style="width: {{item.portion}}%;">{item.name}}({{item.portion}}%)</view>
+      <block wx:for="{{goods_score.rating}}" wx:key="key">
+        <view class="progress-bar {{progress_class[index]}}" style="width: {{item.portion}}%;">{{item.name}}</view>
       </block>
     </view>
 </view>
@@ -26,7 +26,7 @@
       <view class="content cr-666">{{item.content}}</view>
       <view wx:if="{{(item.msg || null) != null}}" class="spec">{{item.msg}}</view>
       <view wx:if="{{item.is_reply == 1 && (item.reply || null) != null}}" class="reply br-t-dashed">
-        <text class="cr-666">管理员回复：</text>
+        <text class="cr-888">管理员回复：</text>
         <text class="reply-desc">{{item.reply}}</text>
       </view>
     </view>

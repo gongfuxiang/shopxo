@@ -586,7 +586,7 @@ class GoodsCommentsService
                 if($rating > 0 && $rating <= 5)
                 {
                     $rating_list[$rating]['count'] = $count;
-                    $rating_list[$rating]['portion'] = round($count/$sum, 2)*100;
+                    $rating_list[$rating]['portion'] = round(($count/$sum)*100);
                 }
             }
         }
