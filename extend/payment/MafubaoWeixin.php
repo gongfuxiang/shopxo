@@ -205,24 +205,24 @@ class MafubaoWeixin
         {
             switch($params['status'])
             {
-                // 成功
+                // 未支付
                 case 0 :
                     $ret = DataReturn('未支付', -100);
                     break;
 
-                // 失败
+                // 成功
                 case 1 :
                    $ret = DataReturn('支付成功', 0, $this->ReturnData($params));
                    break;
 
-                // 参数有误
+                // 支付超时
                 case 2 :
                 case 3 :
                 case 6 :
                    $ret = DataReturn('支付超时', -1001);
                    break;
 
-                // 参数有误
+                // 支付成功，通知失败
                 case 4 :
                 case 5 :
                    $ret = DataReturn('支付成功，通知失败', -1002);
