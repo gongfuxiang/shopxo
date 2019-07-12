@@ -189,6 +189,10 @@ class MafubaoWeixin
         {
             return DataReturn('支付失败', -1);
         }
+        if(empty($params['sign']))
+        {
+            return DataReturn('签名为空', -1);
+        }
 
         // 签名验证
         $param = $this->GetParamSign($params);
