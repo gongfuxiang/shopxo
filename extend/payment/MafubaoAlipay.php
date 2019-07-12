@@ -11,14 +11,14 @@
 namespace payment;
 
 /**
- * 码付宝-微信
+ * 码付宝-支付宝
  * @author   Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
  * @date    2018-09-19
  * @desc    description
  */
-class MafubaoWeixin
+class MafubaoAlipay
 {
     // 插件配置参数
     private $config;
@@ -49,7 +49,7 @@ class MafubaoWeixin
     {
         // 基础信息
         $base = [
-            'name'          => '码付宝-微信',  // 插件名称
+            'name'          => '码付宝-支付宝',  // 插件名称
             'version'       => '0.0.1',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'apply_terminal'=> ['pc','h5'], // 适用终端 默认全部 ['pc', 'h5', 'ios', 'android', 'alipay', 'weixin', 'baidu']
@@ -114,7 +114,7 @@ class MafubaoWeixin
         // 处理支付
         $parameter = array(
             'appid'         => $this->config['appid'],
-            'channel'       => 'wechat',
+            'channel'       => 'alipay',
             'notify_url'    => $params['notify_url'],
             'redirect_url'  => $params['call_back_url'],
             'trade_type'    => 'sync',
