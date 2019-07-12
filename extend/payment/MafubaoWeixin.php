@@ -116,7 +116,8 @@ class MafubaoWeixin
             'appid'         => $this->config['appid'],
             'channel'       => 'wechat',
             'notify_url'    => $params['notify_url'],
-            'return_url'    => $params['call_back_url'],
+            'redirect_url'  => $params['call_back_url'],
+            'trade_type'    => 'sync',
 
             // 业务参数
             'goodsname'     => $params['name'],
@@ -147,7 +148,7 @@ class MafubaoWeixin
         foreach($params AS $key => $val)
         {
             // 跳过这些不参数签名
-            if($val == '' || $key == 'sign')
+            if($key == 'sign' || $val == '' || $val == null)
             {
                 continue;
             }
@@ -184,14 +185,14 @@ class MafubaoWeixin
         {
             return DataReturn('配置有误', -1);
         }
-        if(empty($params['pay_no']))
+        if(empty($params['trade_no']))
         {
             return DataReturn('支付失败', -1);
         }
 
         // 签名验证
         $param = $this->GetParamSign($params);
-        if(md5($param['sign'].$this->config['key']) != $params['sign'])
+        if(md5($param['sign'].'&key='.$this->config['appsecret']) != $params['sign'])
         {
             return DataReturn('签名错误', -1);
         }
@@ -203,25 +204,33 @@ class MafubaoWeixin
             {
                 // 成功
                 case 0 :
-                    $ret = DataReturn('支付成功', 0, $this->ReturnData($params));
+                    $ret = DataReturn('未支付', -100);
                     break;
 
                 // 失败
                 case 1 :
-                   $ret = DataReturn('支付失败', -100);
+                   $ret = DataReturn('支付成功', 0, $this->ReturnData($params));
                    break;
 
                 // 参数有误
                 case 2 :
-                   $ret = DataReturn('支付参数有误', -1001);
+                case 3 :
+                case 6 :
+                   $ret = DataReturn('支付超时', -1001);
+                   break;
+
+                // 参数有误
+                case 4 :
+                case 5 :
+                   $ret = DataReturn('支付成功，通知失败', -1002);
                    break;
 
                 // 默认
                 default :
-                    $ret = DataReturn('支付异常错误', -1002);
+                    $ret = DataReturn('支付异常错误', -1003);
             }
         } else {
-            $ret = DataReturn('支付异常错误', -1003);
+            $ret = DataReturn('支付异常错误', -1004);
         }
         return $ret;
     }
@@ -237,11 +246,11 @@ class MafubaoWeixin
     private function ReturnData($data)
     {
         // 返回数据固定基础参数
-        $data['trade_no']       = isset($data['pay_no']) ? $data['pay_no'] : '';            // 支付平台 - 订单号
-        $data['buyer_user']     = isset($data['pay_id']) ? $data['pay_id'] : '';                                                  // 支付平台 - 用户
-        $data['out_trade_no']   = substr($data['pay_id'], 0, strlen($data['pay_id'])-6);    // 本系统发起支付的 - 订单号
-        $data['subject']        = isset($data['param']) ? $data['param'] : '';              // 本系统发起支付的 - 商品名称
-        $data['pay_price']      = $data['money'];                                           // 本系统发起支付的 - 总价
+        $data['trade_no']       = isset($data['trade_no']) ? $data['trade_no'] : '';  // 支付平台 - 订单号
+        $data['buyer_user']     = isset($data['mid']) ? $data['mid'] : '';   // 支付平台 - 用户
+        $data['out_trade_no']   = $data['out_trade_no'];   // 本系统发起支付的 - 订单号
+        $data['subject']        = isset($data['goodsname']) ? $data['goodsname'] : '';   // 本系统发起支付的 - 商品名称
+        $data['pay_price']      = $data['money_real'];   // 本系统发起支付的 - 总价
 
         return $data;
     }
