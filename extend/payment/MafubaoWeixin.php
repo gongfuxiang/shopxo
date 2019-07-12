@@ -147,7 +147,7 @@ class MafubaoWeixin
         foreach($params AS $key => $val)
         {
             // 跳过这些不参数签名
-            if($key == 'sign' || $val == '' || $val == null)
+            if($key == 'sign' || $val === '' || $val === null)
             {
                 continue;
             }
