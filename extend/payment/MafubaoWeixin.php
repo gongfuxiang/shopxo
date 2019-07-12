@@ -158,7 +158,7 @@ class MafubaoWeixin
                 $sign .= "&";
                 $urls .= "&";
             }
-            $sign .= "$key=".urldecode($val); //拼接为url参数形式
+            $sign .= "$key=$val"; //拼接为url参数形式
             $urls .= "$key=" . urlencode($val); //拼接为url参数形式并URL编码参数值
         }
 
