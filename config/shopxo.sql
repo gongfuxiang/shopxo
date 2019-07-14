@@ -4,12 +4,12 @@
  Source Server         : 本机
  Source Server Version : 50716
  Source Host           : localhost
- Source Database       : shopxo_ttt
+ Source Database       : shopxo_tp5
 
  Target Server Version : 50716
  File Encoding         : utf-8
 
- Date: 06/16/2019 21:12:10 PM
+ Date: 07/14/2019 15:15:14 PM
 */
 
 SET NAMES utf8;
@@ -597,13 +597,13 @@ CREATE TABLE `s_link` (
   PRIMARY KEY (`id`),
   KEY `sort` (`sort`),
   KEY `is_enable` (`is_enable`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='友情链接';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='友情链接';
 
 -- ----------------------------
 --  Records of `s_link`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_link` VALUES ('1', 'SchoolCMS', 'http://schoolcms.org/', 'SchoolCMS学校教务管理系统', '1', '1', '1', '1486292373', '0'), ('12', 'AmazeUI', 'http://amazeui.org/', 'AmazeUI国内首个HTML5框架', '4', '1', '1', '1486353476', '0'), ('13', '龚哥哥的博客', 'http://gong.gg/', '龚哥哥的博客', '2', '1', '1', '1486353528', '0'), ('14', 'ThinkPHP', 'http://www.thinkphp.cn/', 'ThinkPHP', '3', '1', '1', '1487919160', '0'), ('15', 'ShopXO', 'http://shopxo.net', 'ShopXO企业级B2C免费开源电商系统', '0', '1', '1', '1533711881', '1547450275'), ('16', '码云', 'https://gitee.com/', '代码托管平台', '0', '1', '1', '1547450105', '0'), ('17', 'GitHub', 'https://github.com/', '代码托管平台', '0', '1', '1', '1547450145', '0');
+INSERT INTO `s_link` VALUES ('1', 'SchoolCMS', 'http://schoolcms.org/', 'SchoolCMS学校教务管理系统', '1', '1', '1', '1486292373', '0'), ('12', 'AmazeUI', 'http://amazeui.shopxo.net/', 'AmazeUI国内首个HTML5框架', '4', '1', '1', '1486353476', '1563088397'), ('13', '龚哥哥的博客', 'http://gong.gg/', '龚哥哥的博客', '2', '1', '1', '1486353528', '0'), ('14', 'ThinkPHP', 'http://www.thinkphp.cn/', 'ThinkPHP', '3', '1', '1', '1487919160', '0'), ('15', 'ShopXO', 'http://shopxo.net', 'ShopXO企业级B2C免费开源电商系统', '0', '1', '1', '1533711881', '1547450275'), ('16', '码云', 'https://gitee.com/gongfuxiang/shopxo', '代码托管平台', '0', '1', '1', '1547450105', '1563088376'), ('17', 'GitHub', 'https://github.com/gongfuxiang/shopxo', '代码托管平台', '0', '1', '1', '1547450145', '1563088388'), ('18', 'ShopXO应用商店', 'https://store.shopxo.net/', 'ShopXO应用商店', '0', '1', '1', '1563088435', '0');
 COMMIT;
 
 -- ----------------------------
