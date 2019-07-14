@@ -316,7 +316,7 @@ class OrderService
 
         // 支付数据校验
         $pay_name = 'payment\\'.$payment_name;
-        $ret = (new $pay_name($payment[0]['config']))->Respond($params);
+        $ret = (new $pay_name($payment[0]['config']))->Respond(array_merge(input('get.'), input('post.')));
         if(isset($ret['code']) && $ret['code'] == 0)
         {
             if(empty($ret['data']['out_trade_no']))
@@ -358,7 +358,7 @@ class OrderService
 
         // 支付数据校验
         $pay_name = 'payment\\'.PAYMENT_TYPE;
-        $ret = (new $pay_name($payment[0]['config']))->Respond($params);
+        $ret = (new $pay_name($payment[0]['config']))->Respond(array_merge(input('get.'), input('post.')));
         if(!isset($ret['code']) || $ret['code'] != 0)
         {
             return $ret;
