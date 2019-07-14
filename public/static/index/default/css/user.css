@@ -84,6 +84,9 @@
 .register-container .am-tabs-d2 .am-tabs-nav > .am-active:after {
     border-bottom-color: #d2364c;
 }
+.register-container .am-tabs-d2 .am-tabs-bd {
+    z-index: 0;
+}
 
 /**
  * 表单验证码
