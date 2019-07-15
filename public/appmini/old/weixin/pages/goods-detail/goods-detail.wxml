@@ -26,9 +26,28 @@
     </view>
   </block>
 
+  <!-- 标题 -->
+  <view class="goods-title multi-text" style="color:{{goods.title_color}}">{{goods.title}}</view>
+
+  <!-- 秒杀 -->
+  <view class="limitedtimediscount">
+    <view class="countdown">
+      <text class="text-title"> 限时秒杀</text>
+      <view class="time-right fr">
+        <view class="timer-hours minutes fr">14</view>
+        <view class="ds fr">秒</view>
+        <view class="timer-hours millisecond fr">7</view>
+        <view class="ds fr">分</view>
+        <view class="timer-hours seconds fr">08</view>
+        <view class="ds fr">时</view>
+        <view class="timer-hours hours fr">650</view>
+        <view class="timer-title fr">距离结束还有</view>
+      </view>
+    </view>
+  </view>
+
   <!-- 基础信息 -->
   <view class="goods-base bg-white">
-    <view class="goods-title multi-text" style="color:{{goods.title_color}}">{{goods.title}}</view>
     <view class="goods-price single-text">
       <view class="goods-share tc" bindtap="popup_share_event">
         <image src="/images/goods-detail-share-icon.png" mode="scaleToFill" class="dis-block" />

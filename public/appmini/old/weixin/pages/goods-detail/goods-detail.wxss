@@ -168,16 +168,16 @@
 .goods-buy-nav .dis-block {
   margin-top: -10rpx;
 }
+.goods-title {
+  font-size: 32rpx;
+  line-height: 44rpx;
+  font-weight: 500;
+}
 .goods-base {
     padding: 15rpx 10rpx;
 }
 .goods-base button {
   background: #fff;
-}
-.goods-base .goods-title {
-    font-size: 32rpx;
-    line-height: 44rpx;
-    font-weight: 500;
 }
 .goods-base .goods-share {
   position: absolute;
@@ -252,4 +252,37 @@
 .goods-video-submit image {
   width: 80rpx;
   height: 80rpx;
+}
+
+
+/*
+ * 限时秒杀
+ */
+.limitedtimediscount {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQIAAAAgAQMAAADDkuSaAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAGUExUReQ5POlVO+6K1q8AAACiSURBVDjLhZK7EYMwEETlISCkBJUCnUEplOISXIJDQgcEHg9o/Vt5ZOZu9eKXvL0LIbOECg3OFSMiVYwRWKVwwouLMtq3gUkY/cfYhIEvi2gls9+aEa3kLlqJndwVBga/lSTRSm6i1U2OByNNfivZRCu5Wnf9Z/BbyS5ajfUb0ygfO9pGkTzaBh6i9bB+6xr5sXvf2EUrWUVrsX6UBkTrL/kJzQQAijmza5AAAAAASUVORK5CYII=) right top no-repeat #f23030;
+  background-size: cover;
+  padding: 10rpx;
+  height: 56rpx;
+  overflow: hidden;
+  margin-top: 10rpx;
+}
+.limitedtimediscount .countdown {
+  color: #fff;
+  line-height: 56rpx;
+}
+.limitedtimediscount .countdown .timer-title {
+  margin-right: 10rpx;
+}
+.limitedtimediscount .countdown .timer-hours {
+  padding: 0 6rpx;
+  -moz-border-radius: 8rpx;
+  border-radius: 8rpx;
+  color: #ffe500;
+  min-width: 35rpx;
+  text-align: center;
+  font-weight: bold;
+  font-size: 32rpx;
+}
+.limitedtimediscount .countdown .ds {
+  padding: 0 4rpx;
 }
