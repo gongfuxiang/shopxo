@@ -56,8 +56,8 @@ class PluginsAdminService
 
                             // 数据组装
                             $base = $config['base'];
-                            $data[] = [
-                                'id'            => date('YmdHis').GetNumberCode(8),
+                            $data[$config['base']['plugins']] = [
+                                'id'            => empty($db_config['id']) ? date('YmdHis').GetNumberCode(8) : $db_config['id'],
                                 'plugins'       => isset($base['plugins']) ? $base['plugins'] : '',
                                 'is_enable'     => isset($db_config['is_enable']) ? $db_config['is_enable'] : 0,
                                 'is_install'    => empty($db_config) ? 0 : 1,
@@ -144,7 +144,7 @@ class PluginsAdminService
         Db::startTrans();
 
         // 开始卸载
-        if(db('Plugins')->where(['plugins'=>$params['id']])->delete())
+        if(DB::name('Plugins')->where(['plugins'=>$params['id']])->delete())
         {
             // 钩子部署
             $ret = self::PluginsHookDeployment();
@@ -154,11 +154,13 @@ class PluginsAdminService
                 Db::commit();
                 return DataReturn('卸载成功');
             }
+        } else {
+            $ret = DataReturn('卸载失败', -100);
         }
 
         // 事务回退
         Db::rollback();
-        return DataReturn('卸载失败', -100);
+        return $ret;
     }
 
     /**
@@ -500,17 +502,6 @@ class PluginsAdminService
         if($ret['code'] != 0)
         {
             return $ret;
-        }
-
-        // 应用是否已存在数据库
-        $plugins_id = Db::name('Plugins')->where(['plugins'=>$plugins])->value('id');
-        if(empty($plugins_id))
-        {
-            $plugins_id = Db::name('Plugins')->insertGetId(['plugins'=>$plugins, 'is_enable'=>0, 'add_time'=>time()]);
-            if(empty($plugins_id))
-            {
-                return DataReturn('应用添加失败', -100);
-            }
         }
 
         // 应用目录不存在则创建
@@ -1129,12 +1120,7 @@ php;
         }
         
         // 获取应用标记
-        $where = ['id'=>intval($params['id'])];
-        $plugins = Db::name('Plugins')->where($where)->value('plugins');
-        if(empty($plugins))
-        {
-           return DataReturn('应用不存在', -10); 
-        }
+        $plugins = $params['id'];
 
         // 目录不存在则创建
         $new_dir = ROOT.'runtime'.DS.'data'.DS.'plugins_package'.DS.$plugins;

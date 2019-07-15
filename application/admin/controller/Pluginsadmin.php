@@ -92,14 +92,12 @@ class Pluginsadmin extends Common
         if(!empty($params['id']))
         {
             // 获取数据
-            $data_params = array(
-                'm'         => 0,
-                'n'         => 1,
-                'where'     => ['id' => intval($params['id'])],
-            );
-            $ret = PluginsAdminService::PluginsList($data_params);
-            $data = $ret['data'][0];
-            $params['plugins'] = $ret['data'][0]['plugins'];
+            $ret = PluginsAdminService::PluginsList();
+            if(isset($ret['data'][$params['id']]))
+            {
+                $data = $ret['data'][$params['id']];
+                $params['plugins'] = $params['id'];
+            }
         }
         $this->assign('data', $data);
 

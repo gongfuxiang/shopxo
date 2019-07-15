@@ -30,8 +30,8 @@
                             <div class="am-gallery-desc">{{$v.desc}}</div>
                             <div class="operation">
                                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                    <a href="{{:MyUrl('admin/pluginsadmin/saveinfo', array('id'=>$v['id']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit" title="编辑"></a>
-                                    <a href="{{:MyUrl('admin/pluginsadmin/download', array('id'=>$v['id']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-download" title="打包"></a>
+                                    <a href="{{:MyUrl('admin/pluginsadmin/saveinfo', array('id'=>$v['plugins']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit" title="编辑"></a>
+                                    <a href="{{:MyUrl('admin/pluginsadmin/download', array('id'=>$v['plugins']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-download" title="打包"></a>
                                 {{/if}}
 
                                 {{if isset($v['is_install']) and $v['is_install'] eq 1}}
