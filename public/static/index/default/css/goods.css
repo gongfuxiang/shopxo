@@ -1,7 +1,6 @@
 @charset "utf-8";
 *{margin:0;padding:0;list-style-type:none;}
 a,img{border:0;}
-body{font:12px/180% microsoft yahei;}
 a{text-decoration:none;cursor:pointer}
 .clear{clear: both;}
 /* input */
@@ -77,7 +76,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .score-container .score { width: 80px; border-right: 1px solid #eee; padding-right: 25px; }
 .score-container .score .name { color: #666; }
 .score-container .score .value { color: #f03726; font-weight: 700; font-size: 32px; line-height: 32px; margin-top: 5px; }
-.score-container .am-progress { width: calc(100% - 105px); margin-bottom: 0; margin-top: 18px; line-height: 2rem; }
+.score-container .am-progress { width: calc(100% - 105px); margin-bottom: 0; margin-top: 18px; line-height: 2rem; text-align: center; }
 
 /*详情*/
 .detail-content img { max-width: 100%; }
@@ -160,7 +159,7 @@ fieldset legend{margin-left:15px;padding-left:3px;padding-right:3px;color:#333;}
 .introduce .am-nav-tabs > li.am-active > a:focus,
 .introduce .am-nav-tabs > li > a:hover,
 .introduce .am-nav-tabs > li > a:focus { color: #555555;background:none;border-color:transparent;cursor: default;}
-.introduce .am-nav-tabs > li{border-bottom:2px solid  transparent;}
+.introduce .am-nav-tabs > li{border-bottom:2px solid  transparent;text-align: center;}
 .introduce .am-nav-tabs > li.am-active {border-bottom:2px solid #d2364c;}
 .introduce .am-tabs-nav li {height:36px;font-size:14px;line-height:36px ;}
 .introduce .am-tabs-nav li a,
@@ -252,7 +251,7 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 
 
 /*介绍*/
-.introduce{width:100%;margin: 0px auto;text-align: center;padding-bottom: 20px;}
+.introduce{width:100%;margin: 0px auto;padding-bottom: 20px;}
 .introduce-main{width:100%;background:#fff ;}
 .introduce-main .am-tab-panel { padding: 0px; }
 
@@ -374,7 +373,7 @@ ul.detail-attr li {height: 26px;overflow: hidden;line-height: 26px;vertical-alig
     .introduce-main{width:80%;float:left;background:#fff ;}
     .browse{display:block; float:left;width:20% ;}
     .browse ul{border:1px solid #eee ;width: 90%;}
-    .browse ul .mt{background-color: #f7f7f7; height: 35px;line-height: 35px;}
+    .browse ul .mt{background-color: #f7f7f7; height: 35px;line-height: 35px;text-align: center;}
     .browse ul li {margin:0px 10px;padding:12px 0px;border-top: 1px dotted #DEDEDE;}
     .browse ul li.first {border-top:none;}
     .browse li img{width:100% ;}
