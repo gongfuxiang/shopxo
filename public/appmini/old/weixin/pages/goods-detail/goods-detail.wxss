@@ -172,6 +172,7 @@
   font-size: 32rpx;
   line-height: 44rpx;
   font-weight: 500;
+  padding: 15rpx 10rpx;
 }
 .goods-base {
     padding: 15rpx 10rpx;
@@ -265,6 +266,12 @@
   height: 56rpx;
   overflow: hidden;
   margin-top: 10rpx;
+}
+.limitedtimediscount .icon {
+  width: 50rpx;
+  height: 50rpx;
+  vertical-align: top;
+  margin-right: 5rpx;
 }
 .limitedtimediscount .countdown {
   color: #fff;

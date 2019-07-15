@@ -32,10 +32,16 @@ Page({
 
     show_field_price_text: null,
     common_app_is_use_mobile_detail: 1,
+
+    // 限时秒杀插件
+    common_app_is_limitedtimediscount: 0,
+    plugins_limitedtimediscount_data: null,
+    plugins_limitedtimediscount_is_show_time: true,
+    plugins_limitedtimediscount_time_millisecond: 0,
   },
 
   onLoad(params) {
-    //params['goods_id']=12;
+    params['goods_id']=2;
     this.setData({params: params});
     this.init();
   },
@@ -102,7 +108,15 @@ Page({
 
               show_field_price_text: (data.goods.show_field_price_text == '销售价') ? null : (data.goods.show_field_price_text.replace(/<[^>]+>/g, "") || null),
               common_app_is_use_mobile_detail: data.common_app_is_use_mobile_detail || 0,
+
+              common_app_is_limitedtimediscount: data.common_app_is_limitedtimediscount || 0,
+              plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null,
             });
+
+            // 限时秒杀倒计时
+            if (this.data.common_app_is_limitedtimediscount == 1 && this.data.plugins_limitedtimediscount_data != null) {
+              this.plugins_limitedtimediscount_countdown();
+            }
 
             // 标题
             my.setNavigationBar({title: data.goods.title});
@@ -659,6 +673,67 @@ Page({
       current: index,
       urls: all
     });
+  },
+
+  // 显示秒杀插件-倒计时
+  plugins_limitedtimediscount_countdown() {
+    var hours = this.data.plugins_limitedtimediscount_data.time.hours || 0;
+    var minutes = this.data.plugins_limitedtimediscount_data.time.minutes || 0;
+    var seconds = this.data.plugins_limitedtimediscount_data.time.seconds || 0;
+    var self = this;
+    if (hours > 0 || minutes > 0 || seconds > 0) {
+      // 秒
+      var timer = setInterval(function () {
+        if (seconds <= 0) {
+          if (minutes > 0) {
+            minutes--;
+            seconds = 59;
+          } else if (hours > 0) {
+            hours--;
+            minutes = 59;
+            seconds = 59;
+          }
+        } else {
+          seconds--;
+        }
+
+        self.setData({
+          'plugins_limitedtimediscount_data.time.hours': (hours < 10 && hours.length == 1) ? '0' + hours : hours,
+          'plugins_limitedtimediscount_data.time.minutes': (minutes < 10 && minutes.length == 1) ? '0' + minutes : minutes,
+          'plugins_limitedtimediscount_data.time.seconds': (seconds < 10 && seconds.length == 1) ? '0' + seconds : seconds,
+        });
+
+        if (hours <= 0 && minutes <= 0 && seconds <= 0) {
+          // 停止时间
+          clearInterval(timer);
+
+          // 活动已结束
+          self.setData({
+            'plugins_limitedtimediscount_data.desc': '活动已结束',
+            plugins_limitedtimediscount_is_show_time: false,
+          });
+        }
+      }, 1000);
+
+      // 毫秒
+      var count = 0;
+      var timers = setInterval(function () {
+        count++;
+        self.setData({ plugins_limitedtimediscount_time_millisecond: count});
+        if(count > 9) {
+          count = 0;
+        }
+        if(self.data.plugins_limitedtimediscount_data.time.hours <= 0 && self.data.plugins_limitedtimediscount_data.time.minutes <= 0 && self.data.plugins_limitedtimediscount_data.time.seconds <= 0) {
+          clearInterval(timers);
+        }
+      }, 100);
+    } else {
+      // 活动已结束
+      self.setData({
+        'plugins_limitedtimediscount_data.desc': '活动已结束',
+        plugins_limitedtimediscount_is_show_time: false,
+      });
+    }
   },
 
   // 自定义分享

@@ -162,7 +162,12 @@
 }
 .goods-buy-nav .collect { border-left: 1px solid #e1e1e1; }
 .goods-buy-nav .fl image { width: 25px; height: 25px; margin: 0 auto; }
-
+.goods-title {
+  font-size: 32rpx;
+  line-height: 44rpx;
+  font-weight: 500;
+  padding: 15rpx 10rpx;
+}
 .goods-base {
     padding: 15rpx 10rpx;
 }
@@ -170,11 +175,6 @@
     position: absolute;
     top: 0;
     right: 0;
-}
-.goods-base .goods-title {
-    font-size: 32rpx;
-    line-height: 44rpx;
-    font-weight: 500;
 }
 .goods-base .goods-share {
   position: absolute;
@@ -229,4 +229,43 @@
   padding:2px 5px;
   line-height:20px;
   border-radius:1px;
+}
+
+
+/*
+ * 限时秒杀
+ */
+.limitedtimediscount {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQIAAAAgAQMAAADDkuSaAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAGUExUReQ5POlVO+6K1q8AAACiSURBVDjLhZK7EYMwEETlISCkBJUCnUEplOISXIJDQgcEHg9o/Vt5ZOZu9eKXvL0LIbOECg3OFSMiVYwRWKVwwouLMtq3gUkY/cfYhIEvi2gls9+aEa3kLlqJndwVBga/lSTRSm6i1U2OByNNfivZRCu5Wnf9Z/BbyS5ajfUb0ygfO9pGkTzaBh6i9bB+6xr5sXvf2EUrWUVrsX6UBkTrL/kJzQQAijmza5AAAAAASUVORK5CYII=) right top no-repeat #f23030;
+  background-size: cover;
+  padding: 10rpx;
+  height: 56rpx;
+  overflow: hidden;
+  margin-top: 10rpx;
+}
+.limitedtimediscount .icon {
+  width: 50rpx;
+  height: 50rpx;
+  vertical-align: top;
+  margin-right: 10rpx;
+}
+.limitedtimediscount .countdown {
+  color: #fff;
+  line-height: 56rpx;
+}
+.limitedtimediscount .countdown .timer-title {
+  margin-right: 10rpx;
+}
+.limitedtimediscount .countdown .timer-hours {
+  padding: 0 6rpx;
+  -moz-border-radius: 8rpx;
+  border-radius: 8rpx;
+  color: #ffe500;
+  min-width: 35rpx;
+  text-align: center;
+  font-weight: bold;
+  font-size: 32rpx;
+}
+.limitedtimediscount .countdown .ds {
+  padding: 0 4rpx;
 }

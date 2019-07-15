@@ -15,9 +15,17 @@
     </block>
   </swiper>
 
+  <!-- 标题 -->
+  <view class="goods-title multi-text" style="color:{{goods.title_color}}">{{goods.title}}</view>
+
+  <!-- 限时秒杀 -->
+  <view a:if="{{common_app_is_limitedtimediscount == 1}}">
+    <import src="/pages/lib/limitedtimediscount/goods-detail.axml" />
+    <template is="limitedtimediscount" data="{{plugins_limitedtimediscount_data: plugins_limitedtimediscount_data, plugins_limitedtimediscount_is_show_time: plugins_limitedtimediscount_is_show_time, plugins_limitedtimediscount_time_millisecond: plugins_limitedtimediscount_time_millisecond}}"></template>
+  </view>
+
   <!-- 基础信息 -->
   <view class="goods-base bg-white">
-    <view class="goods-title multi-text" style="color:{{goods.title_color}}">{{goods.title}}</view>
     <view class="goods-price single-text">
       <view class="goods-share tc">
         <button type="default" size="mini" open-type="share" hover-class="none">

@@ -134,9 +134,9 @@ Page({
         }
 
         self.setData({
-          'plugins_limitedtimediscount_data.time.hours': (hours < 10) ? 0 + hours : hours,
-          'plugins_limitedtimediscount_data.time.minutes': (minutes < 10) ? 0 + minutes : minutes,
-          'plugins_limitedtimediscount_data.time.seconds': (seconds < 10) ? 0 + seconds : seconds,
+          'plugins_limitedtimediscount_data.time.hours': (hours < 10 && hours.length == 1) ? 0 + hours : hours,
+          'plugins_limitedtimediscount_data.time.minutes': (minutes < 10 && minutes.length == 1) ? 0 + minutes : minutes,
+          'plugins_limitedtimediscount_data.time.seconds': (seconds < 10 && seconds.length == 1) ? 0 + seconds : seconds,
         });
 
         if (hours <= 0 && minutes <= 0 && seconds <= 0) {

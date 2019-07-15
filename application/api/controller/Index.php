@@ -64,7 +64,7 @@ class Index extends Common
 		// 秒杀
 		if($common_app_is_limitedtimediscount == 1)
 		{
-			$ret = CallPluginsMethod('app\plugins\limitedtimediscount\service\Service', 'ApiHomeAd');
+			$ret = CallPluginsServiceMethod('limitedtimediscount', 'Service', 'ApiHomeAd');
 			if($ret['code'] == 0)
 			{
 				$result['plugins_limitedtimediscount_data'] = $ret['data'];

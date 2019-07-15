@@ -17,11 +17,13 @@
  * @blog     http://gong.gg/
  * @version  1.0.0
  * @datetime 2019-07-10T22:03:48+0800
- * @param    [string]          $plugins_class   [类命名空间]
- * @param    [string]          $method          [方法名称]
+ * @param    [string]          $plugins   [插件名称]
+ * @param    [string]          $service   [服务层名称]
+ * @param    [string]          $method    [方法名称]
  */
-function CallPluginsMethod($plugins_class, $method)
+function CallPluginsServiceMethod($plugins, $service, $method)
 {
+    $plugins_class = 'app\plugins\\'.$plugins.'\service\\'.$service;
     if(class_exists($plugins_class))
     {
         return $plugins_class::$method();

@@ -113,7 +113,18 @@ class Goods extends Common
             'common_order_is_booking'           => (int) MyC('common_order_is_booking', 0),
             'common_app_is_use_mobile_detail'   => $is_use_mobile_detail,
             'common_app_is_online_service'      => (int) MyC('common_app_is_online_service', 0),
+            'common_app_is_limitedtimediscount' => (int) MyC('common_app_is_limitedtimediscount'),
         ];
+
+        // 秒杀
+        if($result['common_app_is_limitedtimediscount'] == 1)
+        {
+            $ret = CallPluginsServiceMethod('limitedtimediscount', 'Service', 'GoodsDetailCountdown');
+            if($ret['code'] == 0)
+            {
+                $result['plugins_limitedtimediscount_data'] = $ret['data'];
+            }
+        }
         return DataReturn('success', 0, $result);
     }
 
