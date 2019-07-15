@@ -20,7 +20,7 @@
 
 <!-- 限时秒杀 -->
 <view a:if="{{common_app_is_limitedtimediscount == 1}}">
-  <import src="/pages/lib/limitedtimediscount/content.axml" />
+  <import src="/pages/lib/limitedtimediscount/home.axml" />
   <template is="limitedtimediscount" data="{{plugins_limitedtimediscount_data: plugins_limitedtimediscount_data, plugins_limitedtimediscount_is_show_time: plugins_limitedtimediscount_is_show_time, plugins_limitedtimediscount_timer_title: plugins_limitedtimediscount_timer_title}}"></template>
 </view>
 
