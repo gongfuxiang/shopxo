@@ -119,7 +119,7 @@ class Goods extends Common
         // 秒杀
         if($result['common_app_is_limitedtimediscount'] == 1)
         {
-            $ret = CallPluginsServiceMethod('limitedtimediscount', 'Service', 'GoodsDetailCountdown');
+            $ret = CallPluginsServiceMethod('limitedtimediscount', 'Service', 'GoodsDetailCountdown', $goods_id);
             if($ret['code'] == 0)
             {
                 $result['plugins_limitedtimediscount_data'] = $ret['data'];

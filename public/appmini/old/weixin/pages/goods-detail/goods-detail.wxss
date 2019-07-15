@@ -194,7 +194,6 @@
   line-height: 40rpx;
 }
 .goods-base .goods-price {
-  margin-top: 10rpx;
   padding-right: 100rpx;
   position: relative;
   min-height: 80rpx;
@@ -265,7 +264,6 @@
   padding: 10rpx;
   height: 56rpx;
   overflow: hidden;
-  margin-top: 10rpx;
 }
 .limitedtimediscount .icon {
   width: 50rpx;

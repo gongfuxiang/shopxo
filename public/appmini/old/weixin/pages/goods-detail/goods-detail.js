@@ -45,7 +45,7 @@ Page({
   },
 
   onLoad(params) {
-    params['goods_id']=2;
+    //params['goods_id']=2;
     this.setData({params: params});
     this.init();
   },

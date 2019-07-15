@@ -30,7 +30,7 @@
   <view class="goods-title multi-text" style="color:{{goods.title_color}}">{{goods.title}}</view>
 
   <!-- 限时秒杀 -->
-  <view wx:if="{{common_app_is_limitedtimediscount == 1}}">
+  <view wx:if="{{common_app_is_limitedtimediscount == 1 && plugins_limitedtimediscount_data != null}}">
     <import src="/pages/lib/limitedtimediscount/goods-detail.wxml" />
     <template is="limitedtimediscount" data="{{plugins_limitedtimediscount_data: plugins_limitedtimediscount_data, plugins_limitedtimediscount_is_show_time: plugins_limitedtimediscount_is_show_time, plugins_limitedtimediscount_time_millisecond: plugins_limitedtimediscount_time_millisecond}}"></template>
   </view>

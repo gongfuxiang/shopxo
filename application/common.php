@@ -20,13 +20,14 @@
  * @param    [string]          $plugins   [插件名称]
  * @param    [string]          $service   [服务层名称]
  * @param    [string]          $method    [方法名称]
+ * @param    [mixed]           $params    [参数]
  */
-function CallPluginsServiceMethod($plugins, $service, $method)
+function CallPluginsServiceMethod($plugins, $service, $method, $params = null)
 {
     $plugins_class = 'app\plugins\\'.$plugins.'\service\\'.$service;
     if(class_exists($plugins_class))
     {
-        return $plugins_class::$method();
+        return $plugins_class::$method($params);
     }
     return DataReturn('类未定义', -1);
 }
