@@ -48,7 +48,6 @@ class OrderAftersaleService
             'where'     => [
                 'id'                => intval($order_id),
                 'user_id'           => intval($user_id),
-                'is_delete_time'    => 0,
             ],
         );
         $ret = OrderService::OrderList($data_params);
