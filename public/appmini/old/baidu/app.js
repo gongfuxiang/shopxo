@@ -220,7 +220,7 @@ App({
     swan.login({
       success: function (res) {
         swan.request({
-          url: self.get_request_url("BaiduUserAuth", "User"),
+          url: self.get_request_url("baiduuserauth", "user"),
           method: "POST",
           data: {
             authcode: res.code,

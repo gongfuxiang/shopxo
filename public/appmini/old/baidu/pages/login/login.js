@@ -30,6 +30,7 @@ Page({
    * 登录授权事件
    */
   get_user_info_event() {
+    console.log(1)
     app.user_auth_login(this, 'user_auth_back_event');
   },
 
