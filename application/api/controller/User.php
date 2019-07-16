@@ -235,7 +235,7 @@ class User extends Common
             'secret'    => 'Uibe5l1p4Wxjq5Gqp1xDucWBVfBH9i30',
         ];
         $result = (new \base\BaiduAuth())->GetAuthUserInfo($_POST);
-        print_r($result);die;
+        //print_r($result);die;
         if($result['status'] == 0)
         {
             return UserService::AuthUserProgram($result, 'baidu_openid');
