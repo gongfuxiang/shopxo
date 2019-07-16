@@ -259,7 +259,7 @@
   -moz-border-radius: 8rpx;
   border-radius: 8rpx;
   color: #ffe500;
-  min-width: 35rpx;
+  min-width: 40rpx;
   text-align: center;
   font-weight: bold;
   font-size: 32rpx;
