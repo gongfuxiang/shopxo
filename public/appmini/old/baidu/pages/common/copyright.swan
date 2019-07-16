@@ -1,0 +1,5 @@
+<template name="copyright">
+  <view class="copyright">
+    <view class="text">Powered by ShopXO v1.6.0</view>
+  </view>
+</template>

@@ -1,0 +1,75 @@
+<view s-if="data_list.length > 0" class="page">
+  <view s-for="item, index in data_list" s-key="key" class="goods-item oh bg-white">
+    <!-- 选择 -->
+    <view bindtap="selectedt_event" data-type="node" data-index="{{index}}" class="fl selected">
+      <image s-if="(item.selected || false)" class="icon" src="/images/default-select-active-icon.png" mode="widthFix" />
+      <image s-else class="icon" src="/images/default-select-icon.png" mode="widthFix" />
+    </view>
+
+    <view class="bg-white items">
+      <!-- 图片/链接 -->
+      <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}">
+        <image class="goods-image fl" src="{{item.images}}" mode="aspectFill" />
+      </navigator>
+
+      <!-- 基础 -->
+      <view class="goods-base">
+        <view class="goods-title multi-text">{{item.title}}
+        </view>
+        <block s-if="item.spec != null">
+          <view class="goods-attribute cr-888" s-for="spec, index in item.spec" s-key="key">{{spec.type}}:{{spec.value}}</view>
+        </block>
+      </view>
+      <!-- 数量 -->
+      <view class="number-content tc oh">
+        <view bindtap="goods_buy_number_event" class="number-submit tc cr-888 fl" data-index="{{index}}" data-type="0">-</view>
+        <input bindblur="goods_buy_number_blur" class="tc cr-888 fl" type="number" value="{=item.stock=}" data-index="{{index}}" />
+        <view bindtap="goods_buy_number_event" class="number-submit tc cr-888 fl" data-index="{{index}}" data-type="1">+</view>
+      </view>
+
+      <!-- 价格 -->
+      <view class="oh goods-price">
+        <text class="sales-price">￥{{item.price}}</text>
+        <text s-if="item.original_price > 0" class="original-price">￥{{item.original_price}}</text>
+        <text class="buy-number cr-888">x{{item.stock}}</text>
+
+        <!-- 删除操作 -->
+        <view class="fr delete" data-id="{{item.id}}" bindtap="cart_delete_event">删除</view>
+      </view>
+
+      
+    </view>
+  </view>
+
+  <!-- 操作导航 -->
+  <view s-if="data_list.length > 0" class="buy-nav oh wh-auto br-t">
+    <view class="nav-base bg-white fl single-text">
+      <view bindtap="selectedt_event" data-type="all" class="fl selected">
+        <image s-if="is_selected_all" class="icon" src="/images/default-select-active-icon.png" mode="widthFix" />
+        <image s-else class="icon" src="/images/default-select-icon.png" mode="widthFix" />
+        <text>全选</text>
+      </view>
+      <view class="fr price">
+        <view class="sales-price single-text fr">￥{{total_price}}</view>
+        <view class="fr">合计：</view>
+      </view>
+    </view>
+    <view class="fr nav-submit">
+      <button class="bg-main wh-auto" type="default" bindtap="buy_submit_event" disabled="{{buy_submit_disabled_status}}" hover-class="none">结算</button>
+    </view>
+  </view>
+</view>
+
+<!-- 空购物车 -->
+<view s-if="data_list.length == 0 && data_list_loding_status == 0" class="no-data-box tc">
+  <image src="/images/default-cart-empty.png" mode="widthFix" />
+  <view class="no-data-tips">{{data_list_loding_msg || '购物车空空如也'}}</view>
+  <navigator url="/pages/index/index" open-type="switchTab" hover-class="none">
+    <button type="default" class="my-btn-default" size="mini" hover-class="none">去逛逛</button>
+  </navigator>
+</view>
+
+<view s-if="data_list.length == 0 && data_list_loding_status != 0">
+  <import src="/pages/common/nodata.swan" />
+  <template is="nodata" data="{{{status: data_list_loding_status, msg: data_list_loding_msg}}}"></template>
+</view>

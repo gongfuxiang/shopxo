@@ -1,0 +1,23 @@
+<view class='left-nav'>
+  <block s-for="item, index in data_list" s-key="key">
+    <view class='items {{item.active || ""}}' data-index="{{index}}" bindtap='nav_event'>
+      <text>{{item.name}}</text>
+    </view>
+  </block>
+</view>
+<view class='right-content bg-white'>
+  <block s-if="data_content.length > 0">
+    <block s-for="v, index in data_content" s-key="keys">
+      <view class="content-items" data-value="{{v.id}}" bindtap="category_event">
+        <image s-if="(v.icon || null) != null" src="{{v.icon}}" mode="aspectFit" class="icon" />
+        <view class="text single-text">{{v.name}}</view>
+      </view>
+    </block>
+  </block>
+</view>
+
+<view s-if="data_list.length == 0 && data_list_loding_status != 0">
+  <import src="/pages/common/nodata.swan" />
+  <template is="nodata" data="{{{status: data_list_loding_status}}}">
+  </template>
+</view>

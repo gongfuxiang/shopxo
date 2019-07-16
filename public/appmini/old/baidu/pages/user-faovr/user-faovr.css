@@ -1,0 +1,27 @@
+.goods-title {
+    line-height: 36rpx;
+}
+.goods-item {
+    padding: 20rpx 10rpx;
+    position: relative;
+}
+.goods-title {
+    margin-bottom: 10rpx;
+}
+.goods-image {
+    width: 160rpx;
+    height: 160rpx;
+    margin-right: 20rpx;
+}
+.item-base {
+    padding: 25rpx 10rpx 20rpx 10rpx;
+}
+
+.submit-cancel {
+    position: absolute;
+    right: 10rpx;
+    bottom: 20rpx;
+    border: 1px solid #f7c3b3;
+    color: #f7c3b3 !important;
+    padding: 0 35rpx;
+}

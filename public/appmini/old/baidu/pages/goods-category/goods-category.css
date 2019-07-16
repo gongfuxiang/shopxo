@@ -1,0 +1,57 @@
+/**
+  左侧导航
+*/
+.left-nav {
+  height: 100vh;
+  background: #ececec;
+  width: 230rpx;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.left-nav .items {
+  height: 120rpx;
+  line-height: 120rpx;
+  font-size: 34rpx;
+  padding: 0 10rpx;
+  text-align: center;
+  color: #666;
+  border-left: 3px solid #ececec;
+  border-right: 3px solid #ececec;
+}
+.left-nav .items:not(:last-child) {
+  border-bottom: 1px solid #e6e6e6;
+}
+.nav-active {
+  border-left: 3px solid #e23f36 !important;
+  border-right: 3px solid #fff !important;
+  color: #e23f36;
+  background: #fff;
+}
+
+
+/**
+  右侧内容
+*/
+.right-content {
+  height: 100vh;
+  width: calc( 100% - 230rpx );
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.content-items {
+    float: left;
+    width: calc(33.33% - 20rpx);
+    padding: 20rpx 10rpx;
+    text-align: center;
+}
+.content-items .text {
+    font-size: 28rpx;
+    line-height: 46rpx;
+}
+.content-items .icon {
+    width: 100%;
+    height: 120rpx;
+}

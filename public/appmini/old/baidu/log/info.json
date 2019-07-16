@@ -1,0 +1,2360 @@
+[
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 108,
+        "column": 10,
+        "before": "wx.navigateTo",
+        "after": "swan.navigateTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 120,
+        "column": 10,
+        "before": "wx.navigateTo",
+        "after": "swan.navigateTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 136,
+        "column": 22,
+        "before": "wx.getStorageSync",
+        "after": "swan.getStorageSync",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 147,
+        "column": 22,
+        "before": "wx.getSystemInfoSync",
+        "after": "swan.getSystemInfoSync",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 148,
+        "column": 4,
+        "before": "wx.setStorage",
+        "after": "swan.setStorage",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 184,
+        "column": 15,
+        "before": "wx.getStorageSync",
+        "after": "swan.getStorageSync",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 198,
+        "column": 4,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 200,
+        "column": 4,
+        "before": "wx.checkSession",
+        "after": "swan.checkSession",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 202,
+        "column": 21,
+        "before": "wx.getStorageSync",
+        "after": "swan.getStorageSync",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 227,
+        "column": 10,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 235,
+        "column": 16,
+        "before": "wx.setStorage",
+        "after": "swan.setStorage",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 241,
+        "column": 16,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 246,
+        "column": 14,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 253,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 268,
+        "column": 17,
+        "before": "wx.getStorageSync",
+        "after": "swan.getStorageSync",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 273,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 285,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 287,
+        "column": 10,
+        "before": "wx.setStorage",
+        "after": "swan.setStorage",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 304,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 436,
+        "column": 10,
+        "before": "wx.navigateTo",
+        "after": "swan.navigateTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 443,
+        "column": 12,
+        "before": "wx.switchTab",
+        "after": "swan.switchTab",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 445,
+        "column": 12,
+        "before": "wx.navigateTo",
+        "after": "swan.navigateTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context && method",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 451,
+        "column": 10,
+        "before": "wx.navigateToMiniProgram",
+        "after": "swan.navigateToSmartProgram",
+        "message": "转换上下文和方法"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 462,
+        "column": 10,
+        "before": "wx.openLocation",
+        "after": "swan.openLocation",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 472,
+        "column": 10,
+        "before": "wx.makePhoneCall",
+        "after": "swan.makePhoneCall",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 487,
+        "column": 6,
+        "before": "wx.showToast",
+        "after": "swan.showToast",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/app.js",
+        "row": 492,
+        "column": 6,
+        "before": "wx.showToast",
+        "after": "swan.showToast",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/answer-form/answer-form.js",
+        "row": 10,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/answer-form/answer-form.js",
+        "row": 19,
+        "column": 6,
+        "before": "wx.redirectTo",
+        "after": "swan.redirectTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/answer-form/answer-form.js",
+        "row": 39,
+        "column": 6,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/answer-form/answer-form.js",
+        "row": 43,
+        "column": 6,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/answer-form/answer-form.js",
+        "row": 50,
+        "column": 10,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/answer-form/answer-form.js",
+        "row": 57,
+        "column": 14,
+        "before": "wx.redirectTo",
+        "after": "swan.redirectTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/answer-form/answer-form.js",
+        "row": 68,
+        "column": 10,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/answer-list/answer-list.js",
+        "row": 16,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/answer-list/answer-list.js",
+        "row": 33,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/answer-list/answer-list.js",
+        "row": 42,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/answer-list/answer-list.js",
+        "row": 84,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/buy/buy.js",
+        "row": 22,
+        "column": 6,
+        "before": "wx.alert",
+        "after": "swan.alert",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/buy/buy.js",
+        "row": 27,
+        "column": 10,
+        "before": "wx.navigateBack",
+        "after": "swan.navigateBack",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/buy/buy.js",
+        "row": 34,
+        "column": 6,
+        "before": "wx.removeStorageSync",
+        "after": "swan.removeStorageSync",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/buy/buy.js",
+        "row": 39,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/buy/buy.js",
+        "row": 49,
+        "column": 26,
+        "before": "wx.getStorageSync",
+        "after": "swan.getStorageSync",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/buy/buy.js",
+        "row": 65,
+        "column": 4,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/buy/buy.js",
+        "row": 73,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/buy/buy.js",
+        "row": 79,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/buy/buy.js",
+        "row": 102,
+        "column": 16,
+        "before": "wx.setStorage",
+        "after": "swan.setStorage",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/buy/buy.js",
+        "row": 121,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/buy/buy.js",
+        "row": 154,
+        "column": 6,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/buy/buy.js",
+        "row": 157,
+        "column": 6,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/buy/buy.js",
+        "row": 163,
+        "column": 10,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/buy/buy.js",
+        "row": 166,
+        "column": 14,
+        "before": "wx.redirectTo",
+        "after": "swan.redirectTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/buy/buy.js",
+        "row": 170,
+        "column": 14,
+        "before": "wx.redirectTo",
+        "after": "swan.redirectTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/buy/buy.js",
+        "row": 178,
+        "column": 10,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/cart/cart.js",
+        "row": 15,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/cart/cart.js",
+        "row": 24,
+        "column": 6,
+        "before": "wx.showModal",
+        "after": "swan.showModal",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/cart/cart.js",
+        "row": 31,
+        "column": 12,
+        "before": "wx.navigateTo",
+        "after": "swan.navigateTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/cart/cart.js",
+        "row": 57,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/cart/cart.js",
+        "row": 63,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/cart/cart.js",
+        "row": 87,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/cart/cart.js",
+        "row": 155,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/cart/cart.js",
+        "row": 161,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/cart/cart.js",
+        "row": 180,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/cart/cart.js",
+        "row": 202,
+        "column": 6,
+        "before": "wx.showModal",
+        "after": "swan.showModal",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/cart/cart.js",
+        "row": 220,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/cart/cart.js",
+        "row": 320,
+        "column": 4,
+        "before": "wx.navigateTo",
+        "after": "swan.navigateTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-attribute/goods-attribute.js",
+        "row": 9,
+        "column": 6,
+        "before": "wx.alert",
+        "after": "swan.alert",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-attribute/goods-attribute.js",
+        "row": 14,
+        "column": 10,
+        "before": "wx.navigateBack",
+        "after": "swan.navigateBack",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-attribute/goods-attribute.js",
+        "row": 23,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-category/goods-category.js",
+        "row": 14,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-category/goods-category.js",
+        "row": 26,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-category/goods-category.js",
+        "row": 33,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-category/goods-category.js",
+        "row": 58,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-category/goods-category.js",
+        "row": 90,
+        "column": 4,
+        "before": "wx.navigateTo",
+        "after": "swan.navigateTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-comment/goods-comment.js",
+        "row": 21,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-comment/goods-comment.js",
+        "row": 33,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-comment/goods-comment.js",
+        "row": 58,
+        "column": 6,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-comment/goods-comment.js",
+        "row": 74,
+        "column": 6,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-comment/goods-comment.js",
+        "row": 79,
+        "column": 6,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-comment/goods-comment.js",
+        "row": 86,
+        "column": 10,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-comment/goods-comment.js",
+        "row": 87,
+        "column": 10,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-comment/goods-comment.js",
+        "row": 133,
+        "column": 10,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-comment/goods-comment.js",
+        "row": 134,
+        "column": 10,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 54,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 67,
+        "column": 6,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 77,
+        "column": 6,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 82,
+        "column": 6,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 89,
+        "column": 10,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 90,
+        "column": 10,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 127,
+        "column": 12,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 154,
+        "column": 10,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 155,
+        "column": 10,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 205,
+        "column": 4,
+        "before": "wx.navigateTo",
+        "after": "swan.navigateTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 218,
+        "column": 4,
+        "before": "wx.switchTab",
+        "after": "swan.switchTab",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 239,
+        "column": 6,
+        "before": "wx.navigateTo",
+        "after": "swan.navigateTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 244,
+        "column": 6,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 246,
+        "column": 6,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 252,
+        "column": 10,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 267,
+        "column": 10,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 280,
+        "column": 6,
+        "before": "wx.navigateTo",
+        "after": "swan.navigateTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 285,
+        "column": 6,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 286,
+        "column": 6,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 292,
+        "column": 10,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 301,
+        "column": 10,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 385,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 466,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 540,
+        "column": 6,
+        "before": "wx.navigateTo",
+        "after": "swan.navigateTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 580,
+        "column": 10,
+        "before": "wx.navigateTo",
+        "after": "swan.navigateTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 601,
+        "column": 6,
+        "before": "wx.previewImage",
+        "after": "swan.previewImage",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-detail/goods-detail.js",
+        "row": 615,
+        "column": 4,
+        "before": "wx.previewImage",
+        "after": "swan.previewImage",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-search/goods-search.js",
+        "row": 26,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-search/goods-search.js",
+        "row": 54,
+        "column": 4,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-search/goods-search.js",
+        "row": 66,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-search/goods-search.js",
+        "row": 73,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-search/goods-search.js",
+        "row": 74,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-search/goods-search.js",
+        "row": 121,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/goods-search/goods-search.js",
+        "row": 122,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/index/index.js",
+        "row": 37,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/index/index.js",
+        "row": 43,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/index/index.js",
+        "row": 78,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/index/index.js",
+        "row": 99,
+        "column": 4,
+        "before": "wx.navigateTo",
+        "after": "swan.navigateTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/login/login.js",
+        "row": 26,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/login/login.js",
+        "row": 45,
+        "column": 4,
+        "before": "wx.getSetting",
+        "after": "swan.getSetting",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/login/login.js",
+        "row": 67,
+        "column": 6,
+        "before": "wx.navigateBack",
+        "after": "swan.navigateBack",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/login/login.js",
+        "row": 90,
+        "column": 6,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/login/login.js",
+        "row": 93,
+        "column": 6,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/login/login.js",
+        "row": 100,
+        "column": 10,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/login/login.js",
+        "row": 123,
+        "column": 10,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/login/login.js",
+        "row": 138,
+        "column": 17,
+        "before": "wx.getStorageSync",
+        "after": "swan.getStorageSync",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/login/login.js",
+        "row": 156,
+        "column": 6,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/login/login.js",
+        "row": 160,
+        "column": 6,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/login/login.js",
+        "row": 167,
+        "column": 10,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/login/login.js",
+        "row": 174,
+        "column": 12,
+        "before": "wx.setStorage",
+        "after": "swan.setStorage",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/login/login.js",
+        "row": 187,
+        "column": 14,
+        "before": "wx.navigateBack",
+        "after": "swan.navigateBack",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/login/login.js",
+        "row": 196,
+        "column": 10,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/message/message.js",
+        "row": 12,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/message/message.js",
+        "row": 20,
+        "column": 6,
+        "before": "wx.redirectTo",
+        "after": "swan.redirectTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/message/message.js",
+        "row": 41,
+        "column": 4,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/message/message.js",
+        "row": 47,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/message/message.js",
+        "row": 56,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/message/message.js",
+        "row": 57,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/message/message.js",
+        "row": 99,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/message/message.js",
+        "row": 100,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/paytips/paytips.js",
+        "row": 64,
+        "column": 4,
+        "before": "wx.navigateBack",
+        "after": "swan.navigateBack",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address-save/user-address-save.js",
+        "row": 35,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address-save/user-address-save.js",
+        "row": 43,
+        "column": 6,
+        "before": "wx.redirectTo",
+        "after": "swan.redirectTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address-save/user-address-save.js",
+        "row": 63,
+        "column": 4,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address-save/user-address-save.js",
+        "row": 65,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address-save/user-address-save.js",
+        "row": 72,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address-save/user-address-save.js",
+        "row": 96,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address-save/user-address-save.js",
+        "row": 105,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address-save/user-address-save.js",
+        "row": 130,
+        "column": 6,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address-save/user-address-save.js",
+        "row": 159,
+        "column": 6,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address-save/user-address-save.js",
+        "row": 267,
+        "column": 6,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address-save/user-address-save.js",
+        "row": 269,
+        "column": 6,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address-save/user-address-save.js",
+        "row": 276,
+        "column": 10,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address-save/user-address-save.js",
+        "row": 280,
+        "column": 14,
+        "before": "wx.navigateBack",
+        "after": "swan.navigateBack",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address-save/user-address-save.js",
+        "row": 287,
+        "column": 10,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 16,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 25,
+        "column": 6,
+        "before": "wx.redirectTo",
+        "after": "swan.redirectTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 38,
+        "column": 4,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 44,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 50,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 51,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 85,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 86,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 112,
+        "column": 4,
+        "before": "wx.showModal",
+        "after": "swan.showModal",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 120,
+        "column": 10,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 123,
+        "column": 10,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 129,
+        "column": 14,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 143,
+        "column": 36,
+        "before": "wx.getStorageSync",
+        "after": "swan.getStorageSync",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 147,
+        "column": 20,
+        "before": "wx.removeStorageSync",
+        "after": "swan.removeStorageSync",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 156,
+        "column": 14,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 183,
+        "column": 4,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 186,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 192,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 203,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 216,
+        "column": 6,
+        "before": "wx.setStorage",
+        "after": "swan.setStorage",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-address/user-address.js",
+        "row": 220,
+        "column": 6,
+        "before": "wx.navigateBack",
+        "after": "swan.navigateBack",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-answer-list/user-answer-list.js",
+        "row": 14,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-answer-list/user-answer-list.js",
+        "row": 22,
+        "column": 6,
+        "before": "wx.redirectTo",
+        "after": "swan.redirectTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-answer-list/user-answer-list.js",
+        "row": 41,
+        "column": 4,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-answer-list/user-answer-list.js",
+        "row": 47,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-answer-list/user-answer-list.js",
+        "row": 56,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-answer-list/user-answer-list.js",
+        "row": 57,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-answer-list/user-answer-list.js",
+        "row": 99,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-answer-list/user-answer-list.js",
+        "row": 100,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-faovr/user-faovr.js",
+        "row": 12,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-faovr/user-faovr.js",
+        "row": 20,
+        "column": 6,
+        "before": "wx.redirectTo",
+        "after": "swan.redirectTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-faovr/user-faovr.js",
+        "row": 40,
+        "column": 4,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-faovr/user-faovr.js",
+        "row": 46,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-faovr/user-faovr.js",
+        "row": 55,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-faovr/user-faovr.js",
+        "row": 56,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-faovr/user-faovr.js",
+        "row": 97,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-faovr/user-faovr.js",
+        "row": 98,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-faovr/user-faovr.js",
+        "row": 123,
+        "column": 4,
+        "before": "wx.showModal",
+        "after": "swan.showModal",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-faovr/user-faovr.js",
+        "row": 135,
+        "column": 10,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-faovr/user-faovr.js",
+        "row": 137,
+        "column": 10,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-faovr/user-faovr.js",
+        "row": 144,
+        "column": 14,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-faovr/user-faovr.js",
+        "row": 163,
+        "column": 14,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-goods-browse/user-goods-browse.js",
+        "row": 12,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-goods-browse/user-goods-browse.js",
+        "row": 20,
+        "column": 6,
+        "before": "wx.redirectTo",
+        "after": "swan.redirectTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-goods-browse/user-goods-browse.js",
+        "row": 40,
+        "column": 4,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-goods-browse/user-goods-browse.js",
+        "row": 46,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-goods-browse/user-goods-browse.js",
+        "row": 55,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-goods-browse/user-goods-browse.js",
+        "row": 56,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-goods-browse/user-goods-browse.js",
+        "row": 96,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-goods-browse/user-goods-browse.js",
+        "row": 97,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-goods-browse/user-goods-browse.js",
+        "row": 122,
+        "column": 4,
+        "before": "wx.showModal",
+        "after": "swan.showModal",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-goods-browse/user-goods-browse.js",
+        "row": 134,
+        "column": 10,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-goods-browse/user-goods-browse.js",
+        "row": 136,
+        "column": 10,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-goods-browse/user-goods-browse.js",
+        "row": 143,
+        "column": 14,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-goods-browse/user-goods-browse.js",
+        "row": 161,
+        "column": 14,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-integral/user-integral.js",
+        "row": 12,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-integral/user-integral.js",
+        "row": 20,
+        "column": 6,
+        "before": "wx.redirectTo",
+        "after": "swan.redirectTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-integral/user-integral.js",
+        "row": 41,
+        "column": 4,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-integral/user-integral.js",
+        "row": 47,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-integral/user-integral.js",
+        "row": 56,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-integral/user-integral.js",
+        "row": 57,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-integral/user-integral.js",
+        "row": 99,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-integral/user-integral.js",
+        "row": 100,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order-detail/user-order-detail.js",
+        "row": 18,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order-detail/user-order-detail.js",
+        "row": 23,
+        "column": 4,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order-detail/user-order-detail.js",
+        "row": 28,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order-detail/user-order-detail.js",
+        "row": 36,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order-detail/user-order-detail.js",
+        "row": 37,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order-detail/user-order-detail.js",
+        "row": 76,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order-detail/user-order-detail.js",
+        "row": 77,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 48,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 55,
+        "column": 6,
+        "before": "wx.redirectTo",
+        "after": "swan.redirectTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 80,
+        "column": 4,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 89,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 100,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 101,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 164,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 165,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 215,
+        "column": 4,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 217,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 226,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context && method",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 238,
+        "column": 12,
+        "before": "wx.requestPayment",
+        "after": "swan.requestPayment",
+        "message": "转换上下文和方法"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 252,
+        "column": 16,
+        "before": "wx.navigateTo",
+        "after": "swan.navigateTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 267,
+        "column": 8,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 275,
+        "column": 4,
+        "before": "wx.showModal",
+        "after": "swan.showModal",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 287,
+        "column": 10,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 289,
+        "column": 10,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 295,
+        "column": 14,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 308,
+        "column": 14,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 319,
+        "column": 4,
+        "before": "wx.showModal",
+        "after": "swan.showModal",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 331,
+        "column": 10,
+        "before": "wx.showLoading",
+        "after": "swan.showLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 333,
+        "column": 10,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 339,
+        "column": 14,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user-order/user-order.js",
+        "row": 352,
+        "column": 14,
+        "before": "wx.hideLoading",
+        "after": "swan.hideLoading",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user/user.js",
+        "row": 36,
+        "column": 4,
+        "before": "wx.setNavigationBarTitle",
+        "after": "swan.setNavigationBarTitle",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user/user.js",
+        "row": 46,
+        "column": 6,
+        "before": "wx.showModal",
+        "after": "swan.showModal",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user/user.js",
+        "row": 53,
+        "column": 12,
+        "before": "wx.navigateTo",
+        "after": "swan.navigateTo",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user/user.js",
+        "row": 61,
+        "column": 10,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user/user.js",
+        "row": 71,
+        "column": 4,
+        "before": "wx.request",
+        "after": "swan.request",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user/user.js",
+        "row": 78,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user/user.js",
+        "row": 118,
+        "column": 8,
+        "before": "wx.stopPullDownRefresh",
+        "after": "swan.stopPullDownRefresh",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user/user.js",
+        "row": 126,
+        "column": 4,
+        "before": "wx.clearStorage",
+        "after": "swan.clearStorage",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user/user.js",
+        "row": 136,
+        "column": 6,
+        "before": "wx.makePhoneCall",
+        "after": "swan.makePhoneCall",
+        "message": "只转换了上下文, wx ==> swan"
+    },
+    {
+        "type": "transform context",
+        "file": "/Volumes/dev/data/www/project/shopxo/public/appmini/old/baidu/pages/user/user.js",
+        "row": 149,
+        "column": 6,
+        "before": "wx.previewImage",
+        "after": "swan.previewImage",
+        "message": "只转换了上下文, wx ==> swan"
+    }
+]
