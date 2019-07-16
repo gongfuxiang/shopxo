@@ -231,14 +231,18 @@ class User extends Common
 
         //$_POST['config'] = MyC('baidu_mini_program_config');
         $_POST['config'] = [
-            'key'       => 'C9Gg744cBqQ3zvbC5uOPMg9yWpmuQ8O7',
-            'secret'    => 'Uibe5l1p4Wxjq5Gqp1xDucWBVfBH9i30',
+            // 'id'        => '16634987',
+            // 'key'       => 'G8x7Q2oSIo2Egcps7QB8fQGCQrUDjwNN',
+            // 'secret'    => 'T5PXvGwDxci6GVAeQErigGvTRK48MVRz',
+
+            'id'        => '14675874',
+            'key'       => 'G8x7Q2oSIo2Egcps7QB8fQGCQrUDjwNN',
+            'secret'    => 'T5PXvGwDxci6GVAeQErigGvTRK48MVRz',
         ];
         $result = (new \base\BaiduAuth())->GetAuthUserInfo($_POST);
-        //print_r($result);die;
         if($result['status'] == 0)
         {
-            return UserService::AuthUserProgram($result, 'baidu_openid');
+            return UserService::AuthUserProgram($result['data'], 'baidu_openid');
         }
         return DataReturn($result['msg'], -10);
     }

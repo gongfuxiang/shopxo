@@ -329,7 +329,7 @@ button[disabled].bg-primary {
   right: 10rpx;
   bottom: 35%;
   line-height: 30rpx;
-  border-radius: 50%;
+  border-radius: 50% !important;
 }
 .common-online-service image {
   width: 60rpx;

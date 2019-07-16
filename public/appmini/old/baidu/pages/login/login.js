@@ -30,7 +30,6 @@ Page({
    * 登录授权事件
    */
   get_user_info_event() {
-    console.log(1)
     app.user_auth_login(this, 'user_auth_back_event');
   },
 
@@ -108,14 +107,14 @@ Page({
     var params = swan.getStorageSync(app.data.cache_launch_info_key) || null;
     console.log(params);
     // 数据验证
-    var validation = [{ fields: 'mobile', msg: '请填写手机号码' }, { fields: 'verify', msg: '请填写验证码' }, { fields: 'weixin_openid', msg: '授权id不能为空' }];
-    e.detail.value['weixin_openid'] = this.data.user.weixin_openid;
+    var validation = [{ fields: 'mobile', msg: '请填写手机号码' }, { fields: 'verify', msg: '请填写验证码' }, { fields: 'baidu_openid', msg: '授权id不能为空' }];
+    e.detail.value['baidu_openid'] = this.data.user.baidu_openid;
     e.detail.value['nickname'] = this.data.user.nickname;
     e.detail.value['avatar'] = this.data.user.avatar;
     e.detail.value['province'] = this.data.user.province;
     e.detail.value['city'] = this.data.user.city;
     e.detail.value['gender'] = this.data.user.gender;
-    e.detail.value['app_type'] = 'weixin';
+    e.detail.value['app_type'] = 'baidu';
     e.detail.value['referrer'] = params == null ? this.data.user.referrer || 0 : params.data.referrer || 0;
     if (app.fields_check(e.detail.value, validation)) {
       swan.showLoading({ title: '处理中...' });
