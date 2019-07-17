@@ -27,9 +27,14 @@ function CallPluginsServiceMethod($plugins, $service, $method, $params = null)
     $plugins_class = 'app\plugins\\'.$plugins.'\service\\'.$service;
     if(class_exists($plugins_class))
     {
-        return $plugins_class::$method($params);
+        if(method_exists($plugins_class, $method))
+        {
+            return $plugins_class::$method($params);
+        } else {
+            return DataReturn('类方法未定义['.$plugins.'-'.$service.'-'.$method.']', -1);
+        }
     }
-    return DataReturn('类未定义', -1);
+    return DataReturn('类未定义['.$plugins.'-'.$service.']', -1);
 }
 
 /**

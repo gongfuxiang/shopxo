@@ -107,13 +107,18 @@ class Goods extends Common
         // 用户商品浏览
         GoodsService::GoodsBrowseSave(['goods_id'=>$goods_id, 'user'=>$this->user]);
 
+        // 商品所属分类名称
+        $category = GoodsService::GoodsCategoryNames($goods_id);
+        $ret['data'][0]['category_names'] = $category['data'];
+
         // 数据返回
         $result = [
             'goods'                             => $ret['data'][0],
-            'common_order_is_booking'           => (int) MyC('common_order_is_booking', 0),
+            'common_order_is_booking'           => (int) MyC('common_order_is_booking'),
             'common_app_is_use_mobile_detail'   => $is_use_mobile_detail,
-            'common_app_is_online_service'      => (int) MyC('common_app_is_online_service', 0),
+            'common_app_is_online_service'      => (int) MyC('common_app_is_online_service'),
             'common_app_is_limitedtimediscount' => (int) MyC('common_app_is_limitedtimediscount'),
+            'common_app_is_good_thing'          => (int) MyC('common_app_is_good_thing'),
         ];
 
         // 秒杀

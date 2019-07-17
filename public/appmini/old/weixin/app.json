@@ -63,6 +63,12 @@
     "request": 10000,
     "downloadFile": 10000
   },
+  "plugins": {
+    "goodsSharePlugin": {
+      "version": "3.1.1",
+      "provider": "wx56c8f077de74b07c"
+    }
+  },
   "debug": true,
   "sitemapLocation": "sitemap.json"
 }

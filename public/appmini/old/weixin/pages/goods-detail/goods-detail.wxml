@@ -175,9 +175,11 @@
         </view>
       </view>
       <view class="share-popup-content">
-        <view class="share-items oh">
-          <image class="fl" src="/images/share-recomend-icon.png" mode="scaleToFill" />
-          <view class="cr-888 single-text fl">好物推荐、和大家一起分享你发现的宝贝</view>
+        <view wx:if="{{common_app_is_good_thing == 1}}" class="share-items oh">
+          <share-button product="{{share_product}}" type="3" class="dis-block oh">
+            <image class="fl" src="/images/share-recomend-icon.png" mode="scaleToFill" />
+            <view class="cr-888 single-text fl">好物推荐、和大家一起分享你发现的宝贝</view>
+          </share-button>
         </view>
         <view class="share-items oh">
           <button class="dis-block" type="default" size="mini" open-type="share" hover-class="none">

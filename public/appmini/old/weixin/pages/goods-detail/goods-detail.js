@@ -42,6 +42,21 @@ Page({
     plugins_limitedtimediscount_data: null,
     plugins_limitedtimediscount_is_show_time: true,
     plugins_limitedtimediscount_time_millisecond: 0,
+
+    // 好物圈分享信息
+    common_app_is_good_thing : 0,
+    share_product: {
+      "item_code": "",
+      "title": "",
+      "desc": "",
+      "category_list": [],
+      "image_list": [],
+      "src_mini_program_path": "",
+      "brand_info": {},
+    },
+  },
+  on_error(e) {
+    console.log(e)
   },
 
   onLoad(params) {
@@ -116,6 +131,15 @@ Page({
 
               common_app_is_limitedtimediscount: data.common_app_is_limitedtimediscount || 0,
               plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null,
+
+              common_app_is_good_thing: data.common_app_is_good_thing || 0,
+              'share_product.item_code': data.goods.id.toString(),
+              'share_product.title': data.goods.title,
+              'share_product.image_list': data.goods.photo.map(function (v) { return v.images;}),
+              'share_product.desc': data.goods.simple_desc,
+              'share_product.category_list': data.goods.category_names || [],
+              'share_product.src_mini_program_path': '/pages/goods-detail/goods-detail?goods_id='+data.goods.id,
+              'share_product.brand_info.name': data.goods.brand_name,
             });
 
             // 限时秒杀倒计时

@@ -2203,5 +2203,20 @@ class GoodsService
         }
         return DataReturn('删除失败', -100);
     }
+
+    /**
+     * 根据商品id获取分类名称
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-08-29
+     * @desc    description
+     * @param   [int]          $goods_id [商品id]
+     */
+    public static function GoodsCategoryNames($goods_id)
+    {
+        $data = Db::name('GoodsCategory')->alias('gc')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'gc.id=gci.category_id')->where(['gci.goods_id'=>$goods_id])->column('gc.name');
+        return DataReturn('获取成功', 0, $data);
+    }
 }
 ?>

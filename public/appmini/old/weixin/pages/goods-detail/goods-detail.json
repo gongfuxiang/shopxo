@@ -1,6 +1,7 @@
 {
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "component-popup": "/components/popup/popup"
+    "component-popup": "/components/popup/popup",
+    "share-button": "plugin://goodsSharePlugin/share-button"
   }
 }
