@@ -13,10 +13,10 @@
 </view>
 
 <!-- 轮播 -->
-<component-banner prop-data="{{banner_list}}"></component-banner>
+<component-banner banner="{{banner_list}}"></component-banner>
 
 <!-- 导航 -->
-<component-icon-nav prop-data="{{navigation}}"></component-icon-nav>
+<component-icon-nav navigation="{{navigation}}"></component-icon-nav>
 
 <!-- 限时秒杀 -->
 <view s-if="common_app_is_limitedtimediscount == 1">
@@ -74,12 +74,6 @@
 <!-- 结尾 -->
 <import src="/pages/common/bottom_line.swan" />
 <template is="bottom_line" data="{{{status: data_bottom_line_status}}}"></template>
-
-<!-- 在线客服 -->
-<view s-if="common_app_is_online_service == 1">
-  <import src="/pages/lib/online-service/content.swan" />
-  <template is="online_service"></template>
-</view>
 
 <!-- 版权 -->
 <view s-if="load_status == 1">

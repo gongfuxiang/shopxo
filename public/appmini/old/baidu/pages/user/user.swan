@@ -39,7 +39,7 @@
         <navigator url="/pages/{{item.url}}/{{item.url}}?status={{items.status}}" hover-class="none">
           <view class="items fl tc">
             <view class="badge-icon">
-              <component-badge prop-number="{{items.count}}"></component-badge>
+              <component-badge number="{{items.count}}"></component-badge>
             </view>
             <image src="/images/user-index-nav-order-icon-{{items.status}}.png" class="items-icon" mode="aspectFill" />
             <view class="items-name">{{items.name}}</view>
@@ -75,12 +75,6 @@
 <!-- 用户中心公告 -->
 <view s-if="common_user_center_notice != null" class="user-notice">
     <view class="tips">{{common_user_center_notice}}</view>
-</view>
-
-<!-- 在线客服 -->
-<view s-if="common_app_is_online_service == 1">
-  <import src="/pages/lib/online-service/content.swan" />
-  <template is="online_service"></template>
 </view>
 
 <!-- 版权 -->

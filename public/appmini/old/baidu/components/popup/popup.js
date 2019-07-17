@@ -5,8 +5,6 @@ Component({
    */
   properties: {
     propClassname: String,
-    propShow: Boolean,
-    propPosition: String,
     propMask: Boolean,
     propAnimation: Boolean,
     propDisablescroll: Boolean
@@ -15,7 +13,10 @@ Component({
   /**
    * 组件的初始数据
    */
-  data: {},
+  data: {
+    status: false,
+    position: 'bottom',
+  },
 
   /**
    * 组件的方法列表

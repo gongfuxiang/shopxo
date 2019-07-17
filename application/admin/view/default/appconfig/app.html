@@ -70,15 +70,6 @@
             </div>
 
             <div class="am-form-group">
-                <label>{{$data.common_app_is_online_service.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_online_service.describe}}</span></label>
-                <select name="{{$data.common_app_is_online_service.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.common_app_is_online_service.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['common_app_is_online_service']['value']) and $data['common_app_is_online_service']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-
-            <div class="am-form-group">
                 <label>{{$data.common_app_is_limitedtimediscount.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_limitedtimediscount.describe}}</span></label>
                 <select name="{{$data.common_app_is_limitedtimediscount.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.common_app_is_limitedtimediscount.error_tips}}" required>
                     {{foreach $common_is_text_list as $v}}

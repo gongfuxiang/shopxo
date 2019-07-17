@@ -34,7 +34,6 @@ Page({
     goods_video_is_autoplay: false,
     common_app_is_use_mobile_detail: 1,
 
-    popup_share_status: false,
     common_app_is_online_service: 0,
 
     // 限时秒杀插件
@@ -581,16 +580,6 @@ Page({
   // 视频关闭
   goods_video_close_event(e) {
     this.setData({ goods_video_is_autoplay: false });
-  },
-
-  // 分享开启弹层
-  popup_share_event(e) {
-    this.setData({ popup_share_status: true });
-  },
-
-  // 分享弹层关闭
-  popup_share_close_event(e) {
-    this.setData({ popup_share_status: false });
   },
 
   // 显示秒杀插件-倒计时

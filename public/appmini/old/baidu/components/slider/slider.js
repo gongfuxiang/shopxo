@@ -5,11 +5,10 @@ Component({
     indicator_color: 'rgba(0, 0, 0, .3)',
     indicator_active_color: '#e31c55',
     autoplay: true,
-    circular: true
+    circular: true,
+    banner: [],
   },
-  properties: {
-    propData: Array
-  },
+  properties: {},
   methods: {
     banner_event(e) {
       app.operation_event(e);

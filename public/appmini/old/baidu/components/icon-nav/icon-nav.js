@@ -1,8 +1,9 @@
 const app = getApp();
 Component({
-  data: {},
+  data: {
+    navigation: [],
+  },
   properties: {
-    propData: Array
   },
   methods: {
     navigation_event(e) {
