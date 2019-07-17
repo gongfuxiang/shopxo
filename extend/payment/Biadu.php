@@ -18,7 +18,7 @@ namespace payment;
  * @date    2018-09-19
  * @desc    description
  */
-class Alipay
+class Baidu
 {
     // 插件配置参数
     private $config;
