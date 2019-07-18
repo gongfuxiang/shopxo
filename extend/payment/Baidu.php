@@ -52,8 +52,8 @@ class Baidu
             'name'          => '百度',  // 插件名称
             'version'       => '0.0.1',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
-            'apply_terminal'=> ['pc','h5'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
-            'desc'          => '2.0版本，适用PC+H5，即时到帐支付方式，买家的交易资金直接打入卖家百度账户，快速回笼交易资金。 <a href="http://www.baidu.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
+            'apply_terminal'=> ['baidu'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
+            'desc'          => '2.0版本，适用PC+H5，即时到帐支付方式，买家的交易资金直接打入卖家百度账户，快速回笼交易资金。 <a href="https://smartprogram.baidu.com/docs/introduction/pay/" target="_blank">立即申请</a>',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者
             'author_url'    => 'http://shopxo.net/',  // 开发者主页
         ];
@@ -64,11 +64,31 @@ class Baidu
                 'element'       => 'input',
                 'type'          => 'text',
                 'default'       => '',
-                'name'          => 'appid',
-                'placeholder'   => '应用ID',
-                'title'         => '应用ID',
+                'name'          => 'dealid',
+                'placeholder'   => 'dealId',
+                'title'         => 'dealId',
                 'is_required'   => 0,
-                'message'       => '请填写应用ID',
+                'message'       => '请填写dealId',
+            ],
+            [
+                'element'       => 'input',
+                'type'          => 'text',
+                'default'       => '',
+                'name'          => 'appid',
+                'placeholder'   => 'APP ID',
+                'title'         => 'APP ID',
+                'is_required'   => 0,
+                'message'       => '请填写APP ID',
+            ],
+            [
+                'element'       => 'input',
+                'type'          => 'text',
+                'default'       => '',
+                'name'          => 'appkey',
+                'placeholder'   => 'APP KEY',
+                'title'         => 'APP KEY',
+                'is_required'   => 0,
+                'message'       => '请填写APP KEY',
             ],
             [
                 'element'       => 'textarea',
@@ -91,11 +111,11 @@ class Baidu
             [
                 'element'       => 'textarea',
                 'name'          => 'out_rsa_public',
-                'placeholder'   => '百度公钥',
-                'title'         => '百度公钥',
+                'placeholder'   => '平台公钥',
+                'title'         => '平台公钥',
                 'is_required'   => 0,
                 'rows'          => 6,
-                'message'       => '请填写百度公钥',
+                'message'       => '请填写平台公钥',
             ],
         ];
 
@@ -128,7 +148,18 @@ class Baidu
             return DataReturn('支付缺少配置', -1);
         }
 
-        return DataReturn('test', -1);
+        $data = [
+            'dealId'            => $this->config['dealid'],
+            'appKey'            => $this->config['appkey'],
+            'totalAmount'       => $params['total_price'],
+            'tpOrderId'         => $params['order_no'],
+            'dealTitle'         => $params['name'],
+            'signFieldsRange'   => 1,
+            'bizInfo'           => '',
+        ];
+        $data['rsaSign'] = $this->SignWithRsa($data);
+
+        return DataReturn('处理成功', 0, $data);
     }
 
     /**
@@ -188,6 +219,88 @@ class Baidu
         $data['pay_price']      = $data['total_amount'];    // 本系统发起支付的 - 总价
 
         return $data;
+    }
+
+    /**
+     * @desc 私钥生成签名字符串
+     * @param array $assocArr
+     * @param $rsaPriKeyStr
+     * @return bool|string
+     * @throws Exception
+     */
+    public function SignWithRsa(array $assocArr)
+    {
+        $sign = '';
+        if (empty($assocArr)) {
+            return $sign;
+        }
+
+        if (!function_exists('openssl_pkey_get_private') || !function_exists('openssl_sign')) {
+            throw new Exception("openssl扩展不存在");
+        }
+
+        $res = "-----BEGIN RSA PRIVATE KEY-----\n";
+        $res .= wordwrap($this->config['rsa_private'], 64, "\n", true);
+        $res .= "\n-----END RSA PRIVATE KEY-----";
+        $priKey = openssl_pkey_get_private($res);
+
+        if (isset($assocArr['sign'])) {
+            unset($assocArr['sign']);
+        }
+
+        ksort($assocArr); //按字母升序排序
+
+        $parts = array();
+        foreach ($assocArr as $k => $v) {
+            $parts[] = $k . '=' . $v;
+        }
+        $str = implode('&', $parts);
+        openssl_sign($str, $sign, $priKey);
+        openssl_free_key($priKey);
+
+        return base64_encode($sign);
+    }
+
+    /**
+     * @desc 公钥校验签名
+     * @param array $assocArr
+     * @param $rsaPubKeyStr
+     * @return bool
+     * @throws Exception
+     */
+    public function checkSignWithRsa(array $assocArr)
+    {
+        if (!isset($assocArr['sign']) || empty($assocArr)) {
+            return false;
+        }
+
+        if (!function_exists('openssl_pkey_get_public') || !function_exists('openssl_verify')) {
+            throw new Exception("openssl扩展不存在");
+        }
+
+        $sign = $assocArr['sign'];
+        unset($assocArr['sign']);
+
+        if (empty($assocArr)) {
+            return false;
+        }
+        ksort($assocArr); //按字母升序排序
+        $parts = array();
+        foreach ($assocArr as $k => $v) {
+            $parts[] = $k . '=' . $v;
+        }
+        $str = implode('&', $parts);
+
+        $sign = base64_decode($sign);
+
+        $res = "-----BEGIN PUBLIC KEY-----\n";
+        $res .= wordwrap($this->config['out_rsa_public'], 64, "\n", true);
+        $res .= "\n-----END PUBLIC KEY-----";
+        $pubKey = openssl_pkey_get_public($res);
+        $result = (bool)openssl_verify($str, $sign, $pubKey);
+        openssl_free_key($pubKey);
+
+        return $result;
     }
 }
 ?>
