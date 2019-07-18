@@ -155,8 +155,18 @@ class Baidu
             'tpOrderId'         => $params['order_no'],
             'dealTitle'         => $params['name'],
             'signFieldsRange'   => 1,
-            'bizInfo'           => '',
         ];
+        $biz_info = [
+            'tpData'    => [
+                'appKey'        => $this->config['appkey'],
+                'dealId'        => $this->config['dealid'],
+                'tpOrderId'     => $params['order_no'],
+                'totalAmount'   => (float) $params['total_price'],
+                'returnData'    => (object) [],
+                'displayData'   => (object) [],
+            ],
+        ];
+        $data['bizInfo'] = json_encode($biz_info, JSON_UNESCAPED_UNICODE);
         $data['rsaSign'] = $this->SignWithRsa($data);
 
         return DataReturn('处理成功', 0, $data);
