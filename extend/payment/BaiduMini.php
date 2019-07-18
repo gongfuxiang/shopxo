@@ -181,9 +181,6 @@ class BaiduMini
      */
     public function Respond($params = [])
     {
-        //file_put_contents(ROOT.'bbbbbb.txt', json_encode($params));
-        //$params = json_decode('{"unitPrice":"1","orderId":"80105697319609","payTime":"1563434935","dealId":"3523665499","tpOrderId":"20190718152624451443","count":"1","totalMoney":"1","hbBalanceMoney":"0","userId":"3133847340","promoMoney":"0","promoDetail":"","hbMoney":"0","giftCardMoney":"0","payMoney":"1","payType":"1087","returnData":"{}","partnerId":"6000001","rsaSign":"Rc6dYO2CTeYziMjZXvsaFErptEfVYYILNHje8RrNJY0gTL7R45Jad+h3M\/W82g62MSKDJ4bicE9KqsbB6+Gfk6QenLwPSHmCi5LPJztwJZwpiGaAdEDeVvBemZmo\/1TQX3a16tBIfYVQ\/PjnH0HbFTr0DDeV4kM9odD2kqte9Sc=","status":"2"}', true);
-
         // 签名
         if(!$this->CheckSignWithRsa($params))
         {
