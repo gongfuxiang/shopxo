@@ -163,7 +163,7 @@ class Baidu
                 'tpOrderId'     => $params['order_no'],
                 'totalAmount'   => (float) $params['total_price'],
                 'returnData'    => (object) [],
-                'displayData'   => (object) [],
+                'displayData'   => '',
             ],
         ];
         $data['bizInfo'] = json_encode($biz_info, JSON_UNESCAPED_UNICODE);
