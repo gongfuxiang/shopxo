@@ -184,30 +184,18 @@ class Baidu
      */
     public function Respond($params = [])
     {
-        $data = empty($_POST) ? $_GET :  array_merge($_GET, $_POST);
-        ksort($data);
-
-        // 参数字符串
-        $prestr = '';
-        foreach($data AS $key=>$val)
-        {
-            if ($key != 'sign' && $key != 'sign_type' && $key != 'code')
-            {
-                $prestr .= "$key=$val&";
-            }
-        }
-        $prestr = substr($prestr, 0, -1);
-
+        file_put_contents(ROOT.'bbbbbb.txt', json_encode($params));
+        
         // 签名
-        if(!$this->OutRsaVerify($prestr, $data['sign']))
+        if(!$this->checkSignWithRsa($params))
         {
             return DataReturn('签名校验失败', -1);
         }
 
         // 支付状态
-        if(!empty($data['trade_no']) || (isset($data['trade_status']) && in_array($data['trade_status'], ['TRADE_SUCCESS', 'TRADE_FINISHED'])))
+        if(isset($params['status']) && $params['status'] == 2)
         {
-            return DataReturn('支付成功', 0, $this->ReturnData($data));
+            return DataReturn('支付成功', 0, $this->ReturnData($params));
         }
         return DataReturn('处理异常错误', -100);
     }
@@ -223,11 +211,11 @@ class Baidu
     private function ReturnData($data)
     {
         // 返回数据固定基础参数
-        $data['trade_no']       = $data['trade_no'];        // 支付平台 - 订单号
-        $data['buyer_user']     = $data['seller_id'];       // 支付平台 - 用户
-        $data['out_trade_no']   = $data['out_trade_no'];    // 本系统发起支付的 - 订单号
+        $data['trade_no']       = $data['orderId'];        // 支付平台 - 订单号
+        $data['buyer_user']     = $data['userId'];       // 支付平台 - 用户
+        $data['out_trade_no']   = $data['tpOrderId'];    // 本系统发起支付的 - 订单号
         $data['subject']        = isset($data['subject']) ? $data['subject'] : ''; // 本系统发起支付的 - 商品名称
-        $data['pay_price']      = $data['total_amount'];    // 本系统发起支付的 - 总价
+        $data['pay_price']      = $data['totalMoney']/100;    // 本系统发起支付的 - 总价
 
         return $data;
     }
@@ -284,7 +272,7 @@ class Baidu
      */
     public function checkSignWithRsa(array $assocArr)
     {
-        if (!isset($assocArr['sign']) || empty($assocArr)) {
+        if (!isset($assocArr['rsaSign']) || empty($assocArr)) {
             return false;
         }
 
@@ -292,8 +280,8 @@ class Baidu
             throw new Exception("openssl扩展不存在");
         }
 
-        $sign = $assocArr['sign'];
-        unset($assocArr['sign']);
+        $rsaSign = $assocArr['rsaSign'];
+        unset($assocArr['rsaSign']);
 
         if (empty($assocArr)) {
             return false;

@@ -224,18 +224,8 @@ Page({
           } else {
             console.log(res.data.data.data)
             swan.requestPolymerPayment({
-              orderInfo: {
-                "dealId": res.data.data.data.dealId,
-                "appKey": res.data.data.data.appKey,
-                "totalAmount": res.data.data.data.totalAmount,
-                "tpOrderId": res.data.data.data.tpOrderId,
-                "dealTitle": res.data.data.data.dealTitle,
-                "signFieldsRange": res.data.data.data.signFieldsRange,
-                "rsaSign": res.data.data.data.rsaSign,
-                "bizInfo": res.data.data.data.bizInfo
-              },
+              orderInfo: res.data.data.data,
               success: function (res) {
-                console.log(res);
                 // 数据设置
                 var temp_data_list = $this.data.data_list;
                 temp_data_list[index]['status'] = 2;
