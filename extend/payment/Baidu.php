@@ -168,7 +168,7 @@ class Baidu
                 'displayData'   => (object) [],
             ],
         ];
-        $data['bizInfo'] = '';
+        $data['bizInfo'] = json_encode($biz_info, JSON_UNESCAPED_UNICODE);
 
         return DataReturn('处理成功', 0, $data);
     }
