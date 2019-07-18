@@ -23,6 +23,9 @@
     <li {{if $nav_type eq 'search'}}class="am-active"{{/if}} data-type="search">
         <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'search'])}}">搜索</a>
     </li>
+    <li {{if $nav_type eq 'extends'}}class="am-active"{{/if}} data-type="extends">
+        <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'extends'])}}">扩展项</a>
+    </li>
 </ul>
 
 {{if in_array($nav_type, ['login', 'forgetpwd'])}}
