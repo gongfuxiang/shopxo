@@ -124,6 +124,9 @@ Page({
             // 不能选择规格处理
             this.goods_specifications_choose_handle_dont(0);
 
+            // 页面信息设置
+            this.set_page_info();
+
             if (data.goods.is_shelves != 1) {
               this.setData({
                 nav_submit_text: '商品已下架',
@@ -647,6 +650,22 @@ Page({
       desc: app.data.application_describe,
       path: '/pages/goods-detail/goods-detail?share=goods-detail&goods_id=' + this.data.goods.id
     };
-  }
+  },
+
+  // web页面信息设置
+  set_page_info() {
+    swan.setPageInfo({
+      title: this.data.goods.seo_title || this.data.goods.title,
+      keywords: this.data.goods.seo_keywords || this.data.goods.simple_desc || this.data.goods.title,
+      articleTitle: this.data.goods.title,
+      description: this.data.goods.seo_desc || app.data.application_describe,
+      image: this.data.goods_photo.map(function (v) { return v.images;}).slice(0,3),
+      video: ((this.data.goods.video || null) == null) ? [] : [{
+                url: this.data.goods.video,
+                duration: '100',
+                image: this.data.goods.images
+            }]
+    });
+  },
 
 });

@@ -468,6 +468,19 @@ App({
     }
 
     return false;
+  },
+
+  /**
+   * 删除数组中空元素
+   */
+  array_notempty(data) {
+    var arr = [];
+    data.map(function(val, index) {
+        if (val !== "" && val != undefined) {
+            arr.push(val);
+        }
+    });
+    return arr;
   }
 
 });

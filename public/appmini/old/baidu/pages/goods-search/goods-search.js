@@ -87,6 +87,11 @@ Page({
               data_page: this.data.data_page + 1
             });
 
+            // 页面信息设置
+            if(post_data['page'] == 1) {
+                this.set_page_info();
+            }
+
             // 是否还有数据
             if (this.data.data_page > 1 && this.data.data_page > this.data.data_page_total) {
               this.setData({ data_bottom_line_status: true });
@@ -183,5 +188,16 @@ Page({
       data_page: 1
     });
     this.get_data_list(1);
-  }
+  },
+
+  // web页面信息设置
+  set_page_info() {
+    swan.setPageInfo({
+      title: app.data.application_title+' - 商品搜索',
+      keywords: app.data.application_describe,
+      description: app.data.application_describe,
+      image: (this.data.data_list.length == 0) ? [] : this.data.data_list.map(function (v) { return v.images;}).slice(0,3)
+    });
+  },
+
 });

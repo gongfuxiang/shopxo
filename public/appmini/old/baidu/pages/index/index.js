@@ -20,17 +20,7 @@ Page({
   },
 
   onShow() {
-    this.set_page_info();
     this.init();
-  },
-
-  // web页面信息设置
-  set_page_info() {
-    swan.setPageInfo({
-      title: app.data.application_title,
-      keywords: app.data.application_describe,
-      description: app.data.application_describe,
-    });
   },
 
   // 获取数据列表
@@ -72,6 +62,9 @@ Page({
           if (this.data.common_app_is_limitedtimediscount == 1 && this.data.plugins_limitedtimediscount_data != null) {
             this.plugins_limitedtimediscount_countdown();
           }
+
+          // 页面信息设置
+          this.set_page_info();
         } else {
           self.setData({
             data_list_loding_status: 0,
@@ -168,6 +161,16 @@ Page({
       desc: app.data.application_describe,
       path: '/pages/index/index?share=index'
     };
-  }
+  },
+
+  // web页面信息设置
+  set_page_info() {
+    swan.setPageInfo({
+      title: app.data.application_title,
+      keywords: app.data.application_describe,
+      description: app.data.application_describe,
+      image: (this.data.banner_list.length == 0) ? [] : this.data.banner_list.map(function (v) { return v.images_url;}).slice(0,3)
+    });
+  },
 
 });

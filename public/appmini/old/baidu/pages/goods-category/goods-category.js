@@ -32,18 +32,21 @@ Page({
       success: res => {
         swan.stopPullDownRefresh();
         if (res.data.code == 0) {
-          var data = res.data.data;
-          var data_content = [];
-          if (data.length > 0) {
-            data[0]['active'] = 'nav-active';
-            data_content = data[0]['items'];
-          }
-          this.setData({
-            data_list: data,
-            data_content: data_content,
-            data_list_loding_status: data.length == 0 ? 0 : 3,
-            data_bottom_line_status: true
-          });
+            var data = res.data.data;
+            var data_content = [];
+            if (data.length > 0) {
+                data[0]['active'] = 'nav-active';
+                data_content = data[0]['items'];
+            }
+            this.setData({
+                data_list: data,
+                data_content: data_content,
+                data_list_loding_status: data.length == 0 ? 0 : 3,
+                data_bottom_line_status: true
+            });
+
+            // 页面信息设置
+            this.set_page_info();
         } else {
           this.setData({
             data_list_loding_status: 0,
@@ -86,5 +89,16 @@ Page({
   // 事件
   category_event(e) {
     swan.navigateTo({ url: '/pages/goods-search/goods-search?category_id=' + e.currentTarget.dataset.value });
-  }
+  },
+
+  // web页面信息设置
+  set_page_info() {
+    swan.setPageInfo({
+      title: app.data.application_title+' - 商品分类',
+      keywords: app.data.application_describe,
+      description: app.data.application_describe,
+      image: (this.data.data_list.length == 0) ? [] : app.array_notempty(this.data.data_list.map(function (v) { return v.big_images;})).slice(0,3)
+    });
+  },
+
 });
