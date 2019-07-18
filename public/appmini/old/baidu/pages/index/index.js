@@ -20,7 +20,17 @@ Page({
   },
 
   onShow() {
+    this.set_page_info();
     this.init();
+  },
+
+  // web页面信息设置
+  set_page_info() {
+    swan.setPageInfo({
+      title: app.data.application_title,
+      keywords: app.data.application_describe,
+      description: app.data.application_describe,
+    });
   },
 
   // 获取数据列表

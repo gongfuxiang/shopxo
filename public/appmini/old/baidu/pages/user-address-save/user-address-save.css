@@ -17,6 +17,9 @@
     box-sizing: border-box;
     width: calc(100% - 250rpx);
 }
+.submit-bottom {
+    border-radius: 0 !important;
+}
 /* 三级联动 */
 .select-address{
     box-sizing: border-box;

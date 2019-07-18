@@ -227,19 +227,12 @@ class User extends Common
      */
     public function BaiduUserAuth()
     {
-        //return DataReturn('暂未开放', -1);
-
-        //$_POST['config'] = MyC('baidu_mini_program_config');
-        $_POST['config'] = [
-            'id'        => '16634987',
-            'key'       => 'C9Gg744cBqQ3zvbC5uOPMg9yWpmuQ8O7',
-            'secret'    => 'KmdPEyuSAXcbiouKVq6LOSUjctZpxmNb',
-
-            // 'id'        => '14675874',
-            // 'key'       => 'G8x7Q2oSIo2Egcps7QB8fQGCQrUDjwNN',
-            // 'secret'    => 'T5PXvGwDxci6GVAeQErigGvTRK48MVRz',
+        $params['config'] = [
+            'id'        => MyC('common_app_mini_baidu_appid'),
+            'key'       => MyC('common_app_mini_baidu_appkey'),
+            'secret'    => MyC('common_app_mini_baidu_appsecret'),
         ];
-        $result = (new \base\BaiduAuth())->GetAuthUserInfo($_POST);
+        $result = (new \base\BaiduAuth())->GetAuthUserInfo($params);
         if($result['status'] == 0)
         {
             return UserService::AuthUserProgram($result['data'], 'baidu_openid');

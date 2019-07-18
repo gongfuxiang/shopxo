@@ -65,15 +65,15 @@
   height: 100vh;
 }
 .popup-form input {
-  font-size: 24rpx;
-  height: 50rpx;
-  line-height: 50rpx;
+  font-size: 26rpx;
+  height: 60rpx;
+  line-height: 60rpx;
   background: #fbfbfb;
   border-radius: 6rpx;
   padding: 0 6rpx;
 }
 .screening-price input {
-  width: calc(50% - 32rpx);
+  width: calc(50% - 16rpx);
 }
 .screening-price .separator {
   margin-top: 10rpx;

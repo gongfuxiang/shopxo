@@ -11,11 +11,12 @@
   <!-- 视频 -->
   <block s-if="goods.video.length > 0">
     <view s-if="goods_video_is_autoplay" class="goods-video">
-      <video src="{{goods.video}}" autoplay="{{goods_video_is_autoplay}}" show-center-play-btn="{{true}}" controls="{{false}}" show-play-btn="{{false}}" enable-progress-gesture="{{false}}" show-fullscreen-btn="{{false}}"></video>
+      <video src="{{goods.video}}" autoplay="{{goods_video_is_autoplay}}" show-center-play-btn="{{true}}" controls="{{false}}" show-play-btn="{{false}}" enable-progress-gesture="{{false}}" show-fullscreen-btn="{{false}}">
+        <cover-image s-if="goods_video_is_autoplay" class="cover-goods-video-close" bindtap="goods_video_close_event" src="/images/goods-detail-video-close.png" mode="aspectFit"></cover-image>
+      </video>
     </view>
     <view class="goods-video-submit">
       <image s-if="!goods_video_is_autoplay" class="goods-video-play" bindtap="goods_video_play_event" src="/images/goods-detail-video-play.png" mode="aspectFit"></image>
-      <image s-if="goods_video_is_autoplay" class="goods-video-close" bindtap="goods_video_close_event" src="/images/goods-detail-video-close.png" mode="aspectFit"></image>
     </view>
   </block>
 

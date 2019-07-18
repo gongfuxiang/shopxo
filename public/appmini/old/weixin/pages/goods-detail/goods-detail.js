@@ -710,7 +710,7 @@ Page({
         if(count > 9) {
           count = 0;
         }
-        if(self.data.plugins_limitedtimediscount_data.time.hours <= 0 && self.data.plugins_limitedtimediscount_data.time.minutes <= 0 && self.data.plugins_limitedtimediscount_data.time.seconds <= 0) {
+        if (self.data.plugins_limitedtimediscount_is_show_time == false) {
           clearInterval(timers);
         }
       }, 100);

@@ -24,6 +24,9 @@
 .operation .delete-submit {
     margin-left: 20rpx;
 }
+.submit-bottom {
+    border-radius: 0 !important;
+}
 .page {
     padding-bottom: 85rpx;
 }

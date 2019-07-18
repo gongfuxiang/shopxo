@@ -249,9 +249,14 @@
   top: calc(65vh - 110rpx);
   z-index: 2;
 }
-.goods-video-submit image {
+.goods-video-submit image, .cover-goods-video-close {
   width: 80rpx;
   height: 80rpx;
+}
+.cover-goods-video-close {
+  position: absolute;
+  left: 30rpx;
+  bottom: 30rpx;
 }
 
 
