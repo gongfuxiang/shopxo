@@ -151,7 +151,7 @@ class Baidu
         $data = [
             'dealId'            => $this->config['dealid'],
             'appKey'            => $this->config['appkey'],
-            'totalAmount'       => $params['total_price'],
+            'totalAmount'       => (float) $params['total_price'],
             'tpOrderId'         => $params['order_no'],
             'dealTitle'         => $params['name'],
             'signFieldsRange'   => '1',
