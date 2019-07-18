@@ -151,7 +151,7 @@ class Baidu
         $data = [
             'dealId'            => $this->config['dealid'],
             'appKey'            => $this->config['appkey'],
-            'totalAmount'       => (float) $params['total_price'],
+            'totalAmount'       => intval($params['total_price']*100),
             'tpOrderId'         => $params['order_no'],
             'dealTitle'         => $params['name'],
             'signFieldsRange'   => 1,
@@ -161,9 +161,9 @@ class Baidu
                 'appKey'        => $this->config['appkey'],
                 'dealId'        => $this->config['dealid'],
                 'tpOrderId'     => $params['order_no'],
-                'totalAmount'   => (float) $params['total_price'],
-                'returnData'    => '',
-                'displayData'   => '',
+                'totalAmount'   => intval($params['total_price']*100),
+                'returnData'    => (object) [],
+                'displayData'   => (object) [],
             ],
         ];
         $data['bizInfo'] = json_encode($biz_info, JSON_UNESCAPED_UNICODE);
