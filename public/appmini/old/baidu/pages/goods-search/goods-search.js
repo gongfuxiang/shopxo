@@ -60,72 +60,72 @@ Page({
 
     // 获取数据
     swan.request({
-      url: app.get_request_url("index", "search"),
-      method: "POST",
-      data: post_data,
-      dataType: "json",
-      header: { 'content-type': 'application/x-www-form-urlencoded' },
-      success: res => {
-        swan.hideLoading();
-        swan.stopPullDownRefresh();
-        if (res.data.code == 0) {
-          if (res.data.data.data.length > 0) {
-            if (this.data.data_page <= 1) {
-              var temp_data_list = res.data.data.data;
+        url: app.get_request_url("index", "search"),
+        method: "POST",
+        data: post_data,
+        dataType: "json",
+        header: { 'content-type': 'application/x-www-form-urlencoded' },
+        success: res => {
+            swan.hideLoading();
+            swan.stopPullDownRefresh();
+            if (res.data.code == 0) {
+                if (res.data.data.data.length > 0) {
+                    if (this.data.data_page <= 1) {
+                        var temp_data_list = res.data.data.data;
+                    } else {
+                        var temp_data_list = this.data.data_list;
+                        var temp_data = res.data.data.data;
+                        for (var i in temp_data) {
+                            temp_data_list.push(temp_data[i]);
+                        }
+                    }
+                    this.setData({
+                        data_list: temp_data_list,
+                        data_total: res.data.data.total,
+                        data_page_total: res.data.data.page_total,
+                        data_list_loding_status: 3,
+                        data_page: this.data.data_page + 1
+                    });
+
+                    // 是否还有数据
+                    if (this.data.data_page > 1 && this.data.data_page > this.data.data_page_total) {
+                        this.setData({ data_bottom_line_status: true });
+                    } else {
+                        this.setData({ data_bottom_line_status: false });
+                    }
+                } else {
+                    this.setData({
+                        data_list_loding_status: 0
+                    });
+                    if (this.data.data_page <= 1) {
+                        this.setData({
+                            data_list: [],
+                            data_bottom_line_status: false
+                        });
+                    }
+                }
+
+                // 页面信息设置
+                if(post_data['page'] == 1) {
+                    this.set_page_info();
+                }
             } else {
-              var temp_data_list = this.data.data_list;
-              var temp_data = res.data.data.data;
-              for (var i in temp_data) {
-                temp_data_list.push(temp_data[i]);
-              }
+                this.setData({
+                data_list_loding_status: 0
+                });
+
+                app.showToast(res.data.msg);
             }
+        },
+        fail: () => {
+            swan.hideLoading();
+            swan.stopPullDownRefresh();
+
             this.setData({
-              data_list: temp_data_list,
-              data_total: res.data.data.total,
-              data_page_total: res.data.data.page_total,
-              data_list_loding_status: 3,
-              data_page: this.data.data_page + 1
+            data_list_loding_status: 2
             });
-
-            // 页面信息设置
-            if(post_data['page'] == 1) {
-                this.set_page_info();
-            }
-
-            // 是否还有数据
-            if (this.data.data_page > 1 && this.data.data_page > this.data.data_page_total) {
-              this.setData({ data_bottom_line_status: true });
-            } else {
-              this.setData({ data_bottom_line_status: false });
-            }
-          } else {
-            this.setData({
-              data_list_loding_status: 0
-            });
-            if (this.data.data_page <= 1) {
-              this.setData({
-                data_list: [],
-                data_bottom_line_status: false
-              });
-            }
-          }
-        } else {
-          this.setData({
-            data_list_loding_status: 0
-          });
-
-          app.showToast(res.data.msg);
+            app.showToast("服务器请求出错");
         }
-      },
-      fail: () => {
-        swan.hideLoading();
-        swan.stopPullDownRefresh();
-
-        this.setData({
-          data_list_loding_status: 2
-        });
-        app.showToast("服务器请求出错");
-      }
     });
   },
 
