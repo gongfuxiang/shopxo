@@ -154,7 +154,7 @@ class Baidu
             'totalAmount'       => $params['total_price'],
             'tpOrderId'         => $params['order_no'],
             'dealTitle'         => $params['name'],
-            'signFieldsRange'   => 1,
+            'signFieldsRange'   => '1',
         ];
         $biz_info = [];
         $data['bizInfo'] = json_encode($biz_info, JSON_UNESCAPED_UNICODE);
