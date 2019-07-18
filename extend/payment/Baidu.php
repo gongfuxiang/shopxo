@@ -162,7 +162,7 @@ class Baidu
                 'dealId'        => $this->config['dealid'],
                 'tpOrderId'     => $params['order_no'],
                 'totalAmount'   => (float) $params['total_price'],
-                'returnData'    => (object) [],
+                'returnData'    => '',
                 'displayData'   => '',
             ],
         ];
