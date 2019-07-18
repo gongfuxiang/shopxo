@@ -11,14 +11,14 @@
 namespace payment;
 
 /**
- * 百度支付 - 新版本接口
+ * 百度小程序支付
  * @author   Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
  * @date    2018-09-19
  * @desc    description
  */
-class Baidu
+class BaiduMini
 {
     // 插件配置参数
     private $config;
@@ -53,7 +53,7 @@ class Baidu
             'version'       => '0.0.1',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'apply_terminal'=> ['baidu'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
-            'desc'          => '2.0版本，适用PC+H5，即时到帐支付方式，买家的交易资金直接打入卖家百度账户，快速回笼交易资金。 <a href="https://smartprogram.baidu.com/docs/introduction/pay/" target="_blank">立即申请</a>',  // 插件描述（支持html）
+            'desc'          => '适用百度小程序，百度收银台已集成度小满、支付宝、微信支付，即时到帐支付方式，买家的交易资金直接打入卖家百度账户，快速回笼交易资金。 <a href="https://smartprogram.baidu.com/docs/introduction/pay/" target="_blank">立即申请</a>',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者
             'author_url'    => 'http://shopxo.net/',  // 开发者主页
         ];
@@ -69,16 +69,6 @@ class Baidu
                 'title'         => 'dealId',
                 'is_required'   => 0,
                 'message'       => '请填写dealId',
-            ],
-            [
-                'element'       => 'input',
-                'type'          => 'text',
-                'default'       => '',
-                'name'          => 'appid',
-                'placeholder'   => 'APP ID',
-                'title'         => 'APP ID',
-                'is_required'   => 0,
-                'message'       => '请填写APP ID',
             ],
             [
                 'element'       => 'input',
@@ -148,6 +138,13 @@ class Baidu
             return DataReturn('支付缺少配置', -1);
         }
 
+        // opensssl校验
+        if(!function_exists('openssl_pkey_get_private') || !function_exists('openssl_sign'))
+        {
+            return DataReturn('openssl扩展不存在', -1);
+        }
+
+        // 支付参数
         $data = [
             'dealId'            => $this->config['dealid'],
             'appKey'            => $this->config['appkey'],
@@ -184,10 +181,11 @@ class Baidu
      */
     public function Respond($params = [])
     {
-        file_put_contents(ROOT.'bbbbbb.txt', json_encode($params));
-        
+        //file_put_contents(ROOT.'bbbbbb.txt', json_encode($params));
+        //$params = json_decode('{"unitPrice":"1","orderId":"80105697319609","payTime":"1563434935","dealId":"3523665499","tpOrderId":"20190718152624451443","count":"1","totalMoney":"1","hbBalanceMoney":"0","userId":"3133847340","promoMoney":"0","promoDetail":"","hbMoney":"0","giftCardMoney":"0","payMoney":"1","payType":"1087","returnData":"{}","partnerId":"6000001","rsaSign":"Rc6dYO2CTeYziMjZXvsaFErptEfVYYILNHje8RrNJY0gTL7R45Jad+h3M\/W82g62MSKDJ4bicE9KqsbB6+Gfk6QenLwPSHmCi5LPJztwJZwpiGaAdEDeVvBemZmo\/1TQX3a16tBIfYVQ\/PjnH0HbFTr0DDeV4kM9odD2kqte9Sc=","status":"2"}', true);
+
         // 签名
-        if(!$this->checkSignWithRsa($params))
+        if(!$this->CheckSignWithRsa($params))
         {
             return DataReturn('签名校验失败', -1);
         }
@@ -221,74 +219,72 @@ class Baidu
     }
 
     /**
-     * @desc 私钥生成签名字符串
-     * @param array $assocArr
-     * @param $rsaPriKeyStr
-     * @return bool|string
-     * @throws Exception
+     * 私钥生成签名字符串
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-07-18
+     * @desc    description
+     * @param   [array]           $data [需要生成签名的数据]
      */
-    public function SignWithRsa(array $assocArr)
+    public function SignWithRsa($data)
     {
         $sign = '';
-        if (empty($assocArr)) {
+        if(empty($data))
+        {
             return $sign;
-        }
-
-        if (!function_exists('openssl_pkey_get_private') || !function_exists('openssl_sign')) {
-            throw new Exception("openssl扩展不存在");
         }
 
         $res = "-----BEGIN RSA PRIVATE KEY-----\n";
         $res .= wordwrap($this->config['rsa_private'], 64, "\n", true);
         $res .= "\n-----END RSA PRIVATE KEY-----";
-        $priKey = openssl_pkey_get_private($res);
+        $prikey = openssl_pkey_get_private($res);
 
-        if (isset($assocArr['sign'])) {
-            unset($assocArr['sign']);
+        if(isset($data['sign']))
+        {
+            unset($data['sign']);
         }
 
-        ksort($assocArr); //按字母升序排序
-
-        $parts = array();
-        foreach ($assocArr as $k => $v) {
+        ksort($data); //按字母升序排序
+        $parts = [];
+        foreach ($data as $k => $v) {
             if(in_array($k, ['appKey', 'dealId', 'tpOrderId', 'totalAmount']))
             {
                 $parts[] = $k . '=' . $v;
             }
         }
         $str = implode('&', $parts);
-        openssl_sign($str, $sign, $priKey);
-        openssl_free_key($priKey);
-
+        openssl_sign($str, $sign, $prikey);
+        openssl_free_key($prikey);
         return base64_encode($sign);
     }
 
     /**
-     * @desc 公钥校验签名
-     * @param array $assocArr
-     * @param $rsaPubKeyStr
-     * @return bool
-     * @throws Exception
+     * 公钥校验签名
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-07-18
+     * @desc    description
+     * @param   [array]           $data [需要验签的数据]
      */
-    public function checkSignWithRsa(array $assocArr)
+    public function CheckSignWithRsa($data)
     {
-        if (!isset($assocArr['rsaSign']) || empty($assocArr)) {
+        if(!isset($data['rsaSign']) || empty($data))
+        {
             return false;
         }
 
-        if (!function_exists('openssl_pkey_get_public') || !function_exists('openssl_verify')) {
-            throw new Exception("openssl扩展不存在");
-        }
+        $sign = $data['rsaSign'];
+        unset($data['rsaSign']);
 
-        $rsaSign = $assocArr['rsaSign'];
-        unset($assocArr['rsaSign']);
-
-        if (empty($assocArr)) {
+        if(empty($data))
+        {
             return false;
         }
-        ksort($assocArr); //按字母升序排序
-        $parts = array();
-        foreach ($assocArr as $k => $v) {
+        ksort($data); //按字母升序排序
+        $parts = [];
+        foreach ($data as $k => $v) {
             $parts[] = $k . '=' . $v;
         }
         $str = implode('&', $parts);
@@ -298,10 +294,9 @@ class Baidu
         $res = "-----BEGIN PUBLIC KEY-----\n";
         $res .= wordwrap($this->config['out_rsa_public'], 64, "\n", true);
         $res .= "\n-----END PUBLIC KEY-----";
-        $pubKey = openssl_pkey_get_public($res);
-        $result = (bool)openssl_verify($str, $sign, $pubKey);
-        openssl_free_key($pubKey);
-
+        $pubkey = openssl_pkey_get_public($res);
+        $result = (bool)openssl_verify($str, $sign, $pubkey);
+        openssl_free_key($pubkey);
         return $result;
     }
 }
