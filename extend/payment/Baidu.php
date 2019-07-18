@@ -263,7 +263,10 @@ class Baidu
 
         $parts = array();
         foreach ($assocArr as $k => $v) {
-            $parts[] = $k . '=' . $v;
+            if(in_array($k, ['appKey', 'dealId', 'tpOrderId', 'totalAmount']))
+            {
+                $parts[] = $k . '=' . $v;
+            }
         }
         $str = implode('&', $parts);
         openssl_sign($str, $sign, $priKey);
