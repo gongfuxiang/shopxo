@@ -155,7 +155,7 @@ class Baidu
             'tpOrderId'         => $params['order_no'],
             'dealTitle'         => $params['name'],
             'signFieldsRange'   => 1,
-            'bizInfo'           => json_encode([], JSON_UNESCAPED_UNICODE),
+            'bizInfo'           => '',
         ];
         $data['rsaSign'] = $this->SignWithRsa($data);
 
