@@ -1,8 +1,8 @@
-// 表单初始化
-FromInit('form.form-validation-reply');
-
 $(function()
 {
+    // 表单初始化
+    FromInit('form.form-validation-reply');
+
     // 处理
     $('.submit-reply').on('click', function()
     {

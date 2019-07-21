@@ -42,7 +42,7 @@
 					<label class="am-text-sm am-text-warning">该区域为插件配置填写项，请按照插件文档填写相应的值。</label>
 					{{foreach $data.element as $element}}
 						<div class="am-form-group">
-							<label class="block">{{$element.title}}</label>
+							<label class="block">{{$element.title}}{{if !empty($element['desc'])}}<span class="am-form-group-label-tips">{{$element.desc}}</span>{{/if}}</label>
 							{{switch element.element}}
 								{{case input}}
 									{{if in_array($element['type'], ['radio', 'checkbox']) and !empty($element['element_data']) and is_array($element['element_data'])}}

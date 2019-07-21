@@ -140,6 +140,10 @@ class Goods extends Common
 		// 品牌分类
 		$this->assign('brand_list', BrandService::CategoryBrand());
 
+		// 规格扩展数据
+		$goods_spec_extends = GoodsService::GoodsSpecificationsExtends();
+		$this->assign('goods_specifications_extends', $goods_spec_extends['data']);
+
 		// 参数
 		$this->assign('params', $params);
 

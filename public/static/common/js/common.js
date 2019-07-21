@@ -74,9 +74,10 @@ function ArrayTurnJson(all, object)
  * @version  0.0.1
  * @datetime 2016-12-10T14:31:19+0800
  * @param    {[string]}     element [元素的class或id]
+ * @param    {[boolean]}    is_json [是否返回json对象（默认否）]
  * @return   {[object]}        		[josn对象]
  */
-function GetFormVal(element)
+function GetFormVal(element, is_json)
 {
 	var object = new FormData();
 
@@ -140,6 +141,14 @@ function GetFormVal(element)
 		}
 	});
 	object = ArrayTurnJson(tmp_all, object);
+
+	// 是否需要返回json对象
+	if(is_json === true)
+	{
+		var json = {};
+			object.forEach((value, key) => json[key] = value);
+		return json;
+	}
 	return object;
 }
 
@@ -341,39 +350,57 @@ function FromInit(form_name)
 				var $button = $form.find('button[type="submit"]');
 				$button.button('loading');
 
-				// 开启进度条
-				$.AMUI.progress.start();
-
 				// 获取表单数据
-				var action = $form.attr('action');
-				var method = $form.attr('method');
-				var request_type = $form.attr('request-type');
-				var request_value = $form.attr('request-value');
-				var ajax_all = ['ajax-reload', 'ajax-url', 'ajax-fun'];
+				var action = $form.attr('action') || null;
+				var method = $form.attr('method') || null;
+				var request_type = $form.attr('request-type') || null;
+				var request_value = $form.attr('request-value') || null;
+				var ajax_all = ['ajax-reload', 'ajax-url', 'ajax-fun', 'sync'];
 
-				// 不是form表单直接通过
+				// 是form表单直接通过
 				if(request_type == 'form')
 				{
 					return true;
 				}
 
 				// 参数校验
-				if(ajax_all.indexOf(request_type) == -1 || action == undefined || action == '' || method == undefined || method == '')
+				if(ajax_all.indexOf(request_type) == -1)
 				{
-					$.AMUI.progress.done();
 	            	$button.button('reset');
-	            	Prompt('表单参数配置有误');
+	            	Prompt('表单[类型]参数配置有误');
 	            	return false;
 				}
 
 				// 类型不等于刷新的时候，类型值必须填写
-				if(request_type != 'ajax-reload' && (request_value == undefined || request_value == ''))
+				if(request_type != 'ajax-reload' && request_value == null)
 				{
-					$.AMUI.progress.done();
 	        		$button.button('reset');
 					Prompt('表单[类型值]参数配置有误');
 					return false;
 				}
+
+				// 同步调用方法
+				if(request_type == 'sync')
+				{
+            		$button.button('reset');
+					if(IsExitsFunction(request_value))
+            		{
+            			window[request_value]();
+            		} else {
+            			Prompt('['+request_value+']表单定义的方法未定义');
+            		}
+            		return false;
+				}
+
+				if(action == null || method == null)
+				{
+	            	$button.button('reset');
+	            	Prompt('表单[action或method]参数配置有误');
+	            	return false;
+				}
+
+				// 开启进度条
+				$.AMUI.progress.start();
 
 				// ajax请求
 				$.ajax({

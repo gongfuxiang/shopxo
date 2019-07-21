@@ -58,6 +58,9 @@
 .specifications-table th.operation-btn {
     width: 80px;
 }
+.specifications-table th.extend-btn {
+    width: 45px;
+}
 .specifications-table > tbody > tr > td {
     vertical-align: middle;
 }

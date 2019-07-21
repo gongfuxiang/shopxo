@@ -1,5 +1,8 @@
 $(function()
 {
+    // 表单初始化
+    FromInit('form.form-validation-specifications-extends');
+
     // 商品导航
     $('.goods-nav li a').on('click', function()
     {
@@ -54,13 +57,15 @@ $(function()
             return false;
         }
 
+        var index = parseInt(Math.random()*1000001);
         var html = $('.specifications-table').find('tbody tr:last').prop('outerHTML');
         if(html.indexOf('<!--operation-->') >= 0)
         {
             html = html.replace(/<!--operation-->/ig, '<span class="fs-12 cr-blue c-p m-r-5 line-copy">复制</span> <span class="fs-12 cr-red c-p line-remove">移除</span>');
         }
         $('.specifications-table').append(html);
-        $('.specifications-table').find('tbody tr:last').addClass('line-not-first');
+        $('.specifications-table').find('tbody tr:last').attr('class', 'line-'+index+' line-not-first');
+        $('.specifications-table').find('tbody tr:last').attr('data-line-tag', '.line-'+index);
 
         // 值赋空
         $('.specifications-table').find('tbody tr:last').find('input').each(function(k, v)
@@ -72,12 +77,15 @@ $(function()
     // 规格行复制
     $(document).on('click', '.specifications-table .line-copy', function()
     {
+        var index = parseInt(Math.random()*1000001);
         var $parent = $(this).parents('tr');
         $parent.find('input').each(function(k, v)
         {
             $(this).attr('value', $(this).val());
         });
         $parent.after($parent.prop('outerHTML'));
+        $('.specifications-table').find('tbody tr:last').attr('class', 'line-'+index+' line-not-first');
+        $('.specifications-table').find('tbody tr:last').attr('data-line-tag', '.line-'+index);
     });
 
     // 规格行移除
@@ -176,4 +184,26 @@ $(function()
     $('ul.content-app-items').dragsort({ dragSelector: 'i.drag-sort-submit', placeHolderTemplate: '<li class="drag-sort-dotted"></li>'});
     $('ul.goods-attribute-items').dragsort({ dragSelector: 'i.drag-sort-submit', placeHolderTemplate: '<li class="drag-sort-dotted"></li>'});
 
+
+    // 规格扩展数据编辑
+    var $extends_popup = $('#specifications-extends-popup');
+    $(document).on('click', '.specifications-table .line-extend-btn', function()
+    {
+        $extends_popup.attr('data-line-extend', $(this).parents('tr').attr('data-line-tag'));
+        $extends_popup.find('input,select,textarea').val('');
+        var json = $(this).prev().val() || null;
+        if(json != null)
+        {
+            FormDataFill(JSON.parse(json), '#specifications-extends-popup');
+        }
+        $extends_popup.modal();
+    });
+
+    // 规格扩展数据
+    $('#specifications-extends-popup button[type="button"]').on('click', function()
+    {
+        // var data = GetFormVal('#specifications-extends-popup', true);
+        // $('.specifications-table').find($extends_popup.attr('data-line-extend')).find('.line-extend-input').val(JSON.stringify(data));
+        // $extends_popup.modal('close');
+    });
 });

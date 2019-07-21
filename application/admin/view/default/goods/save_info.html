@@ -181,12 +181,13 @@
 								<th>规格编码</th>
 								<th>条形码</th>
 								<th>原价(元)</th>
+								<th class="extend-btn">扩展</th>
 								<th class="operation-btn">操作</th>
 							</tr>
 						</thead>
 						<tbody>
 							{{if empty($specifications['value'])}}
-								<tr>
+								<tr class="line-0" data-line-tag=".line-0">
 									<td class="value-start">
 										<input type="text" name="specifications_price[]" placeholder="价格" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的销售金额" required />
 									</td>
@@ -203,7 +204,11 @@
 										<input type="text" name="specifications_barcode[]" placeholder="条形码" class="am-radius" maxlength="80" data-validation-message="条形码最多80个字符" />
 									</td>
 									<td>
-										<input type="text" name="specifications_original_price[]" placeholder="原价" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的销售金额" />
+										<input type="text" name="specifications_original_price[]" placeholder="原价" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的原价" />
+									</td>
+									<td>
+										<input type="hidden" name="specifications_extends[]" value="" class="line-extend-input" />
+										<span class="fs-12 cr-blue c-p line-extend-btn">编辑</span>
 									</td>
 									<td>
 										<!--operation-->
@@ -213,7 +218,7 @@
 
 							{{if !empty($specifications['value'])}}
 								{{foreach $specifications.value as $line_k=>$line_v}}
-									<tr {{if $line_k gt 0}} class="line-not-first"{{/if}}>
+									<tr class="line-{{$line_k}} {{if $line_k gt 0}} line-not-first{{/if}}" data-line-tag=".line-{{$line_k}}">
 									{{foreach $line_v as $v}}
 										{{if isset($v['data_type'])}}
 											{{switch v.data_type}}
@@ -240,7 +245,11 @@
 														<input type="text" name="specifications_barcode[]" placeholder="条形码" class="am-radius" maxlength="80" data-validation-message="条形码最多80个字符" value="{{$v.data.barcode}}" />
 													</td>
 													<td>
-														<input type="text" name="specifications_original_price[]" placeholder="原价" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的销售金额" value="{{if $v['data']['original_price'] gt 0}}{{$v.data.original_price}}{{/if}}" />
+														<input type="text" name="specifications_original_price[]" placeholder="原价" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的原价" value="{{if $v['data']['original_price'] gt 0}}{{$v.data.original_price}}{{/if}}" />
+													</td>
+													<td>
+														<input type="hidden" name="specifications_extends[]" value="" class="line-extend-input" />
+														<span class="fs-12 cr-blue c-p line-extend-btn">编辑</span>
 													</td>
 													<td>
 														{{if $line_k gt 0}}
@@ -384,12 +393,146 @@
 </div>
 <!-- right content end  -->
 
+<!-- 规格扩展数据弹层 -->
+<div class="am-popup" id="specifications-extends-popup">
+	<div class="am-popup-inner">
+		<div class="am-popup-hd">
+			<h4 class="am-popup-title">规格扩展数据</h4>
+			<span data-am-modal-close class="am-close">&times;</span>
+		</div>
+		<div class="am-popup-bd">
+			<form class="am-form form-validation-specifications-extends view-save" request-type="sync" request-value="SpecificationsExtendsBack">
+				{{if !empty($goods_specifications_extends) and is_array($goods_specifications_extends)}}
+					{{foreach $goods_specifications_extends as $v}}
+						<div class="am-alert am-alert-secondary">
+							<label class="am-text-sm">{{$v.name}}</label>
+							{{if !empty($v['desc'])}}
+								<span class="am-text-xs am-text-warning am-margin-left-xs">{{$v.desc}}</span>
+							{{/if}}
+							{{if !empty($v['element'])}}
+								{{foreach $v.element as $element}}
+									<div class="am-form-group">
+										<label class="block">{{$element.title}}{{if !empty($element['desc'])}}<span class="am-form-group-label-tips">{{$element.desc}}</span>{{/if}}</label>
+										{{switch element.element}}
+											{{case input}}
+												{{if in_array($element['type'], ['radio', 'checkbox']) and !empty($element['element_data']) and is_array($element['element_data'])}}
+													{{foreach $element.element_data as $element_data_key=>$element_data}}
+														<label class="{{if isset($element['is_block']) and $element['is_block'] eq 1}}am-{{$element.type}}{{else /}}am-{{$element.type}}-inline{{/if}}">
+															<input
+																type="{{$element.type}}"
+																name="{{$element.name}}"
+																value="{{$element_data.value}}"
+
+																{{if isset($data['config'][$element['name']]) and in_array($element_data['value'], explode(',', $data['config'][$element['name']]))}} checked{{/if}}
+
+																{{if isset($element['minchecked']) and $element['type'] eq 'checkbox'}} minchecked="{{$element.minchecked}}"{{/if}}
+
+																{{if isset($element['maxchecked']) and $element['type'] eq 'checkbox'}} maxchecked="{{$element.maxchecked}}"{{/if}}
+
+																{{if isset($element['message'])}} data-validation-message="{{$element.message}}"{{/if}}
+
+																{{if $element_data_key eq 0 and isset($element['is_required']) and $element['is_required'] eq 1}}required{{/if}}
+																data-am-ucheck />
+																{{$element_data.name}}
+														</label>
+													{{/foreach}}
+												{{else /}}
+													<input
+														class="am-radius"
+														type="{{$element.type}}"
+														name="{{$element.name}}"
+														value="{{if isset($data['config'][$element['name']])}}{{$data['config'][$element['name']]}}{{else /}}{{if isset($element['default'])}}{{$element.default}}{{/if}}{{/if}}"
+
+														{{if isset($element['placeholder'])}} placeholder="{{$element.placeholder}}"{{/if}}
+
+														{{if isset($element['message'])}} data-validation-message="{{$element.message}}"{{/if}}
+
+														{{if isset($element['is_required']) and $element['is_required'] eq 1}} required{{/if}}
+														/>
+												{{/if}}
+											{{/case}}
+											{{case select}}
+												{{if !empty($element['element_data']) and is_array($element['element_data'])}}
+													<select
+														class="chosen-select am-radius"
+														name="{{$element.name}}"
+
+														{{if isset($element['message'])}} data-validation-message="{{$element.message}}"{{/if}}
+
+														{{if !empty($element['placeholder'])}} data-placeholder="{{$element.placeholder}}"{{/if}}
+
+														{{if isset($element['is_multiple']) and $element['is_multiple'] eq 1}}
+															multiple
+															{{if isset($element['minchecked'])}} minchecked="{{$element.minchecked}}"{{/if}}
+															{{if isset($element['maxchecked'])}} maxchecked="{{$element.maxchecked}}"{{/if}}
+														{{/if}}
+
+														{{if isset($element['is_required']) and $element['is_required'] eq 1}}required{{/if}}
+													>
+													{{if !isset($element['is_multiple']) or $element['is_multiple'] neq 1}}
+														{{if !empty($element['placeholder'])}}
+															<option value="">{{$element.placeholder}}</option>
+														{{/if}}
+													{{/if}}
+														{{foreach $element.element_data as $element_data_key=>$element_data}}
+															<option
+																value="{{$element_data.value}}"
+																{{if isset($data['config'][$element['name']]) and in_array($element_data['value'], explode(',', $data['config'][$element['name']]))}}selected{{/if}}
+																>{{$element_data.name}}</option>
+														{{/foreach}}
+													</select>
+												{{/if}}
+											{{/case}}
+											{{case textarea}}
+												<textarea
+													class="am-radius"
+													name="{{$element.name}}"
+
+													{{if isset($element['rows'])}} rows="{{$element.rows}}"{{/if}}
+
+													{{if isset($element['placeholder'])}} placeholder="{{$element.placeholder}}"{{/if}}
+
+													{{if isset($element['is_required']) and $element['is_required'] eq 1}}
+														{{if isset($element['minlength'])}} minlength="{{$element.minlength}}"{{/if}}
+														{{if isset($element['maxlength'])}} maxlength="{{$element.maxlength}}"{{/if}}
+														required
+													{{/if}}
+												>{{if isset($data['config'][$element['name']])}}{{$data['config'][$element['name']]}}{{else /}}{{if isset($element['default'])}}{{$element.default}}{{/if}}{{/if}}</textarea>
+											{{/case}}
+										{{/switch}}
+									</div>
+								{{/foreach}}
+							{{/if}}
+						</div>
+					{{/foreach}}
+
+					<div class="am-form-group am-form-group-refreshing">
+						<input type="hidden" name="specifications-tag" value=""/>
+						<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block">确认</button>
+					</div>
+				{{else /}}
+					<div class="table-no"><i class="am-icon-warning"></i> 没有扩展数据</div>
+				{{/if}}
+			</form>
+		</div>
+	</div>
+</div>
+
 <!-- footer start -->
 {{include file="public/footer" /}}
 <!-- footer end -->
 
 <!-- 拖拽排序初始化 -->
 <script type="text/javascript">
+// 规格扩展返回处理
+function SpecificationsExtendsBack()
+{
+	var $extends_popup = $('#specifications-extends-popup');
+    var data = GetFormVal('#specifications-extends-popup', true);
+    $('.specifications-table').find($extends_popup.attr('data-line-extend')).find('.line-extend-input').val(JSON.stringify(data));
+    $extends_popup.modal('close');
+}
+
 $(function()
 {
 	{{if !empty($data['attribute'])}}

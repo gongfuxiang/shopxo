@@ -2218,5 +2218,65 @@ class GoodsService
         $data = Db::name('GoodsCategory')->alias('gc')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'gc.id=gci.category_id')->where(['gci.goods_id'=>$goods_id])->column('gc.name');
         return DataReturn('获取成功', 0, $data);
     }
+
+    /**
+     * 商品规格扩展数据
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-07-21T16:08:34+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function GoodsSpecificationsExtends($params = [])
+    {
+        // 数据
+        $data = [];
+
+        // 规格扩展数据钩子
+        $hook_name = 'plugins_service_goods_spec_extends_handle';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data'          => &$data,
+        ]);
+
+        // 测试配置信息
+        $plugins = [
+            'name'      => '会员等级插件',
+            'desc'      => '按照会员等级设定不同金额',
+            'element'   =>[
+                [
+                    'element'       => 'input',
+                    'type'          => 'text',
+                    'name'          => 'price',
+                    'placeholder'   => '普通会员售价',
+                    'title'         => '普通会员售价',
+                    'is_required'   => 0,
+                    'message'       => '请填写应用ID',
+                    'desc'          => '请输入会员金额',
+                ],
+                [
+                    'element'       => 'input',
+                    'type'          => 'text',
+                    'name'          => 'price2',
+                    'placeholder'   => '高级会员售价',
+                    'title'         => '高级会员售价',
+                    'is_required'   => 0,
+                    'message'       => '请填写应用公钥',
+                ],
+                [
+                    'element'       => 'input',
+                    'type'          => 'text',
+                    'name'          => 'price3',
+                    'placeholder'   => '至尊会员售价',
+                    'title'         => '至尊会员售价',
+                    'is_required'   => 0,
+                    'message'       => '请填写应用公钥',
+                ],
+            ],
+        ];
+        $data[] = $plugins;
+        return DataReturn('获取成功', 0, $data);
+    }
 }
 ?>
