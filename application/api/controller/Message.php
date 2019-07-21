@@ -67,9 +67,9 @@ class Message extends Common
 
         // 获取列表
         $data_params = array(
-            'limit_start'   => $start,
-            'limit_number'  => $number,
-            'where'         => $where,
+            'm'         => $start,
+            'n'         => $number,
+            'where'     => $where,
         );
         $data = MessageService::MessageList($data_params);
         

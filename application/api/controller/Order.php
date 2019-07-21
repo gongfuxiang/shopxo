@@ -66,9 +66,9 @@ class Order extends Common
 
         // 获取列表
         $data_params = array(
-            'limit_start'   => $start,
-            'limit_number'  => $number,
-            'where'         => $where,
+            'm'         => $start,
+            'n'         => $number,
+            'where'     => $where,
         );
         $data = OrderService::OrderList($data_params);
 
@@ -103,9 +103,9 @@ class Order extends Common
 
         // 获取列表
         $data_params = array(
-            'limit_start'   => 0,
-            'limit_number'  => 1,
-            'where'         => $where,
+            'm'         => 0,
+            'n'         => 1,
+            'where'     => $where,
         );
         $data = OrderService::OrderList($data_params);
         if(!empty($data['data'][0]))
