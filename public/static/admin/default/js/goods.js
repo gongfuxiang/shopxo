@@ -182,7 +182,6 @@ $(function()
     // 拖拽
     $('ul.goods-photo-view').dragsort({ dragSelector: 'img', placeHolderTemplate: '<li class="drag-sort-dotted"></li>'});
     $('ul.content-app-items').dragsort({ dragSelector: 'i.drag-sort-submit', placeHolderTemplate: '<li class="drag-sort-dotted"></li>'});
-    $('ul.goods-attribute-items').dragsort({ dragSelector: 'i.drag-sort-submit', placeHolderTemplate: '<li class="drag-sort-dotted"></li>'});
 
 
     // 规格扩展数据编辑
@@ -197,13 +196,5 @@ $(function()
             FormDataFill(JSON.parse(json), '#specifications-extends-popup');
         }
         $extends_popup.modal();
-    });
-
-    // 规格扩展数据
-    $('#specifications-extends-popup button[type="button"]').on('click', function()
-    {
-        // var data = GetFormVal('#specifications-extends-popup', true);
-        // $('.specifications-table').find($extends_popup.attr('data-line-extend')).find('.line-extend-input').val(JSON.stringify(data));
-        // $extends_popup.modal('close');
     });
 });

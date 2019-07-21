@@ -248,7 +248,7 @@
 														<input type="text" name="specifications_original_price[]" placeholder="原价" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的原价" value="{{if $v['data']['original_price'] gt 0}}{{$v.data.original_price}}{{/if}}" />
 													</td>
 													<td>
-														<input type="hidden" name="specifications_extends[]" value="" class="line-extend-input" />
+														<input type="hidden" name="specifications_extends[]" value="{{$v.data.extends}}" class="line-extend-input" />
 														<span class="fs-12 cr-blue c-p line-extend-btn">编辑</span>
 													</td>
 													<td>
@@ -532,13 +532,4 @@ function SpecificationsExtendsBack()
     $('.specifications-table').find($extends_popup.attr('data-line-extend')).find('.line-extend-input').val(JSON.stringify(data));
     $extends_popup.modal('close');
 }
-
-$(function()
-{
-	{{if !empty($data['attribute'])}}
-		{{foreach $data.attribute as $v}}
-			$('ul.attribute-items-ul-{{$v.id}}').dragsort({ dragSelector: 'i.drag-sort-submit', placeHolderTemplate: '<li class="drag-sort-dotted"></li>'});
-		{{/foreach}}
-	{{/if}}
-});
 </script>

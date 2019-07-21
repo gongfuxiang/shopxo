@@ -1213,7 +1213,7 @@ class GoodsService
         $images = [];
 
         // 基础字段数据字段长度
-        $base_count = 6;
+        $base_count = 7;
 
         // 规格值
         foreach($params as $k=>$v)
@@ -1227,7 +1227,12 @@ class GoodsService
                     {
                         foreach($v as $ks=>$vs)
                         {
-                            $data[$ks][] = $vs;
+                            if($keys[1] == 'extends')
+                            {
+                                $data[$ks][] = empty($vs) ? null : htmlspecialchars_decode($vs);
+                            } else {
+                                $data[$ks][] = $vs;
+                            }
                         }
                     }
                 }
@@ -1539,7 +1544,7 @@ class GoodsService
         {
             // 基础字段
             $count = count($data['data'][0]);
-            $temp_key = ['price', 'inventory', 'weight', 'coding', 'barcode', 'original_price'];
+            $temp_key = ['price', 'inventory', 'weight', 'coding', 'barcode', 'original_price', 'extends'];
             $key_count = count($temp_key);
 
             // 等于key总数则只有一列基础规格
