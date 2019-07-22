@@ -60,8 +60,8 @@ App({
     request_url: 'https://test.shopxo.net/',
 
     // 基础信息
-    application_title: "ShopXO",
-    application_describe: "国内领先企业级B2C开源电商系统！"
+    application_title: "{{application_title}}",
+    application_describe: "{{application_describe}}"
   },
 
   /**

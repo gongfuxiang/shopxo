@@ -25,7 +25,7 @@
     "pages/user-goods-browse/user-goods-browse"
   ],
   "window": {
-    "navigationBarTitleText": "ShopXO",
+    "navigationBarTitleText": "{{application_title}}",
     "navigationBarBackgroundColor": "#d2364c"
   },
   "tabBar": {
