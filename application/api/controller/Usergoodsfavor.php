@@ -47,7 +47,7 @@ class UserGoodsFavor extends Common
     public function Index()
     {
         // 参数
-        $params = input();
+        $params = $this->data_request;
         $params['user'] = $this->user;
 
         // 分页

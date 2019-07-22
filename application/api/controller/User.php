@@ -54,7 +54,7 @@ class User extends Common
         }
 
         // 调用服务层
-        return UserService::AppReg(input('post.'));
+        return UserService::AppReg($this->data_post);
     }
 
     /**
@@ -73,7 +73,7 @@ class User extends Common
         }
 
         // 调用服务层
-        return UserService::AppUserBindVerifySend(input('post.'));
+        return UserService::AppUserBindVerifySend($this->data_post);
     }
 
     /**
