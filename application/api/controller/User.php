@@ -227,12 +227,12 @@ class User extends Common
      */
     public function BaiduUserAuth()
     {
-        $params['config'] = [
+        $this->data_post['config'] = [
             'id'        => MyC('common_app_mini_baidu_appid'),
             'key'       => MyC('common_app_mini_baidu_appkey'),
             'secret'    => MyC('common_app_mini_baidu_appsecret'),
         ];
-        $result = (new \base\BaiduAuth())->GetAuthUserInfo($params);
+        $result = (new \base\BaiduAuth())->GetAuthUserInfo($this->data_post);
         if($result['status'] == 0)
         {
             return UserService::AuthUserProgram($result['data'], 'baidu_openid');
