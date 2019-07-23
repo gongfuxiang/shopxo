@@ -37,7 +37,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .theme-signin-left{padding-bottom:30px;max-height:250px ;overflow-y: scroll;background: #fff;}
 .theme-options{display: block;overflow: hidden;padding-left: 10px;padding-right:10px; margin-bottom: 5px;}
 .theme-signin-left .cart-title{font-size:14px ;font-weight: 600;}
-.theme-signin-left .sku-line{float: left; margin:10px;margin-left:0;border-radius:3px ; background:#efefef ;padding:0px 8px; border: 1px solid #d5d5d5;}
+.theme-signin-left .sku-line{float: left; margin:10px;margin-left:0;border-radius:3px ; background:#efefef ;padding:3px 8px; border: 1px solid #d5d5d5;}
 .theme-signin-left .sku-line.selected{background:#d2364c;color: #fff; border: 1px solid #d2364c;}
 .sku-line-images { padding:3px !important; }
 .sku-line-images img { width: 30px; height: 30px; vertical-align: middle; }
@@ -91,7 +91,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
     .theme-options .cart-title{margin-top:5px ;}
     .theme-options ul{float: left;}
 
-    .theme-signin-left .sku-line {background: none;border-radius:0 ;margin:5px;padding:0px 8px;border:1px solid #d5d5d5 ;color:#333; background-color: #f5f5f5; }
+    .theme-signin-left .sku-line {background: none;border-radius:0 ;margin:5px;border:1px solid #d5d5d5 ;color:#333; background-color: #f5f5f5; }
     .theme-signin-left .sku-line.selected, .theme-signin-left .sku-line:hover  {background:none;color:#333;border: 1px solid #e23f36; box-shadow: 0px 0 0px 1px #e23f36; }
 
     /*选中样式*/
@@ -359,7 +359,7 @@ ul.detail-attr li {height: 26px;overflow: hidden;line-height: 26px;vertical-alig
     .theme-options{overflow: visible;padding:0px 0px; margin-bottom: 5px;}
     .theme-options ul{overflow: hidden;float: none;}
     .theme-signin-left {max-width:100%;margin-bottom: 0;}
-    .theme-signin-left .sku-line{margin: 5px;cursor: pointer; padding: 0px 8px; }
+    .theme-signin-left .sku-line{cursor: pointer; }
     .theme-signin-left .cart-title{margin-left: -46px;font-size:12px ;font-weight: 100;color:#888 ;float: left;}
         
     .scoll{display: none;}

@@ -377,6 +377,7 @@ function GoodsSpecType()
 function GoodsBaseRestore()
 {
     $('.text-info .price-now').text('￥'+$('.text-info .price-now').data('original-price'));
+    $('.sys_item_mktprice').text($('.sys_item_mktprice').data('original-price'));
     $('.sys_item_price').text($('.sys_item_price').data('original-price'));
     $('.number-tag input[type="number"]').attr('max', $('.number-tag input[type="number"]').data('original-max'));
     $('.stock-tips .stock').text($('.stock-tips .stock').data('original-stock'));
@@ -592,6 +593,23 @@ $(function() {
     var min = $('.stock-tips .stock').data('min-limit') || 1;
     var max = $('.stock-tips .stock').data('max-limit') || 0;
     var unit = $('.stock-tips .stock').data('unit') || '';
+
+    // 手动输入
+    $sotck.on('blur', function()
+    {
+        var number = parseInt($(this).val());
+        var inventory = parseInt($('.stock-tips .stock').text());
+        if(number > inventory)
+        {
+            number = inventory;
+        }
+        if(number <= 1)
+        {
+            number = 1;
+        }
+        $sotck.val(number);
+        console.log(number)
+    });
 
     //数量增加操作
     $('#add').on('click', function()
