@@ -75,7 +75,7 @@
             {{/if}}
 			{{if !empty($plugins_view_admin_user_save_data) and is_array($plugins_view_admin_user_save_data)}}
 				<div class="am-alert am-alert-secondary">
-					<label class="am-text-sm am-text-warning">该区域为插件扩展数据，请按照插件文档填写相应的值。</label>
+					<label class="am-text-sm am-text-warning">该区域为插件扩展数据，请按照插件文档填写相应的值</label>
 					<div>
 						{{foreach $plugins_view_admin_user_save_data as $hook}}
 		                    {{if is_string($hook) or is_int($hook)}}

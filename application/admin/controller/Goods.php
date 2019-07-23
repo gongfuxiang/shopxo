@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use think\facade\Hook;
 use app\service\ResourcesService;
 use app\service\GoodsService;
 use app\service\RegionService;
@@ -129,7 +130,6 @@ class Goods extends Common
 			$specifications = GoodsService::GoodsEditSpecifications($ret['data'][0]['id']);
 			$this->assign('specifications', $specifications);
 		}
-		$this->assign('data', $data);
 
 		// 地区信息
 		$this->assign('region_province_list', RegionService::RegionItems(['pid'=>0]));
@@ -144,12 +144,22 @@ class Goods extends Common
 		$goods_spec_extends = GoodsService::GoodsSpecificationsExtends();
 		$this->assign('goods_specifications_extends', $goods_spec_extends['data']);
 
-		// 参数
-		$this->assign('params', $params);
+		// 商品编辑页面钩子
+        $this->assign('plugins_view_admin_goods_save_data', Hook::listen('plugins_view_admin_goods_save',
+        [
+            'hook_name'    	=> 'plugins_view_admin_goods_save',
+            'is_backend'   	=> false,
+            'goods_id'      => $params['id'],
+            'data'			=> &$data,
+            'params'       	=> &$params,
+        ]));
 
-		// 编辑器文件存放地址
+        // 编辑器文件存放地址
 		$this->assign('editor_path_type', 'goods');
 
+		// 数据
+		$this->assign('data', $data);
+		$this->assign('params', $params);
 		return $this->fetch();
 	}
 

@@ -1090,6 +1090,20 @@ class GoodsService
             'seo_desc'                  => empty($params['seo_desc']) ? '' : $params['seo_desc'],
         ];
 
+        // 商品保存处理钩子
+        $hook_name = 'plugins_service_goods_save_handle';
+        $ret = Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'data'          => &$data,
+            'goods_id'      => isset($params['id']) ? intval($params['id']) : 0,
+        ]);
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 启动事务
         Db::startTrans();
 

@@ -37,6 +37,9 @@
 						<a href="#goods-nav-web">电脑端详情</a>
 					</li>
 					<li>
+						<a href="#goods-nav-extends">扩展数据</a>
+					</li>
+					<li>
 						<a href="#goods-nav-seo">SEO</a>
 					</li>
 				</ul>
@@ -375,6 +378,27 @@
 				<div class="am-form-group">
 					<textarea class="am-radius am-validate" name="content_web" maxlength="105000" id="editor-tag" data-validation-message="电脑端详情内容最多 105000 个字符">{{if !empty($data)}}{{$data.content_web}}{{/if}}</textarea>
 				</div>
+			</div>
+
+			<!-- 扩展数据 -->
+			<div id="goods-nav-extends" class="division-block">
+				<label class="block nav-detail-title">扩展数据<span class="am-form-group-label-tips-must">该区域为插件扩展数据，请按照插件文档填写相应的值</span></label>
+				<!-- 插件扩展数据 start -->
+				{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+	                <div class="plugins-tag">
+	                    <span>plugins_view_admin_goods_save</span>
+	                </div>
+	            {{/if}}
+				{{if !empty($plugins_view_admin_goods_save_data) and is_array($plugins_view_admin_goods_save_data)}}
+					{{foreach $plugins_view_admin_goods_save_data as $hook}}
+	                    {{if is_string($hook) or is_int($hook)}}
+	                        {{$hook|raw}}
+	                    {{/if}}
+	                {{/foreach}}
+				{{else /}}
+					<div class="table-no"><i class="am-icon-warning"></i> 没有扩展数据</div>
+				{{/if}}
+				<!-- 插件扩展数据 end -->
 			</div>
 
 			<!-- seo -->

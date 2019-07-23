@@ -299,7 +299,7 @@ class UserService
             'upd_time'              => time(),
         ];
 
-        // 用户编辑处理钩子
+        // 用户保存处理钩子
         $hook_name = 'plugins_service_user_save_handle';
         $ret = Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
