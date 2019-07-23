@@ -2245,42 +2245,6 @@ class GoodsService
             'data'          => &$data,
         ]);
 
-        // 测试配置信息
-        $plugins = [
-            'name'      => '会员等级插件',
-            'desc'      => '按照会员等级设定不同金额',
-            'element'   =>[
-                [
-                    'element'       => 'input',
-                    'type'          => 'text',
-                    'name'          => 'price',
-                    'placeholder'   => '普通会员售价',
-                    'title'         => '普通会员售价',
-                    'is_required'   => 0,
-                    'message'       => '请填写应用ID',
-                    'desc'          => '请输入会员金额',
-                ],
-                [
-                    'element'       => 'input',
-                    'type'          => 'text',
-                    'name'          => 'price2',
-                    'placeholder'   => '高级会员售价',
-                    'title'         => '高级会员售价',
-                    'is_required'   => 0,
-                    'message'       => '请填写应用公钥',
-                ],
-                [
-                    'element'       => 'input',
-                    'type'          => 'text',
-                    'name'          => 'price3',
-                    'placeholder'   => '至尊会员售价',
-                    'title'         => '至尊会员售价',
-                    'is_required'   => 0,
-                    'message'       => '请填写应用公钥',
-                ],
-            ],
-        ];
-        $data[] = $plugins;
         return DataReturn('获取成功', 0, $data);
     }
 }

@@ -299,6 +299,20 @@ class UserService
             'upd_time'              => time(),
         ];
 
+        // 用户编辑处理钩子
+        $hook_name = 'plugins_service_user_save_handle';
+        $ret = Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'data'          => &$data,
+            'user_id'       => isset($params['id']) ? intval($params['id']) : 0,
+        ]);
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 密码
         if(!empty($params['pwd']))
         {

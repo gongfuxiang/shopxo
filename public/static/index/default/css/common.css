@@ -799,42 +799,6 @@ button { outline: none !important; }
 }
 
 /**
- * 插件标记
- */
-.plugins-tag {
-    background: #333;
-    border: 3px solid #e90000;
-    text-align: center;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: -webkit-inline-box;
-}
-.plugins-tag, .plugins-tag span {
-    -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
-    -moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
-}
-.plugins-tag span {
-    font-size: 16px;
-    font-weight: bold;
-    color: #e90000;
-    text-shadow: 1px 1px #bfbfbf;
-    background: #ffdfdf;
-    padding: 2px 6px;
-    border-radius: 3px;
-    border: 1px solid #ffd4d4;
-    position: absolute;
-    margin: -12px 0 0 -5px;
-    z-index: 2;
-    display: none;
-}
-.plugins-tag:hover span {
-    display: block;
-}
-
-/**
  * 公共
  */
 legend {

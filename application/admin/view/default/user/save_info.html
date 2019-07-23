@@ -67,6 +67,26 @@
 				<input type="text" placeholder="登录密码" name="pwd" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="登录密码格式 6~18 个字符之间" class="am-radius" value="" />
 			</div>
 
+			<!-- 插件扩展数据 start -->
+			{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_admin_user_save</span>
+                </div>
+            {{/if}}
+			{{if !empty($plugins_view_admin_user_save_data) and is_array($plugins_view_admin_user_save_data)}}
+				<div class="am-alert am-alert-secondary">
+					<label class="am-text-sm am-text-warning">该区域为插件扩展数据，请按照插件文档填写相应的值。</label>
+					<div>
+						{{foreach $plugins_view_admin_user_save_data as $hook}}
+		                    {{if is_string($hook) or is_int($hook)}}
+		                        {{$hook|raw}}
+		                    {{/if}}
+		                {{/foreach}}
+					</div>
+				</div>
+			{{/if}}
+			<!-- 插件扩展数据 end -->
+
 			<div class="am-form-group am-form-group-refreshing">
 				<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
