@@ -54,6 +54,9 @@ Page({
       "src_mini_program_path": "",
       "brand_info": {},
     },
+
+    // 海报分享
+    common_app_is_poster_share: 0,
   },
   on_error(e) {
     console.log(e)
@@ -140,6 +143,8 @@ Page({
               'share_product.category_list': data.goods.category_names || [],
               'share_product.src_mini_program_path': '/pages/goods-detail/goods-detail?goods_id='+data.goods.id,
               'share_product.brand_info.name': data.goods.brand_name,
+
+              common_app_is_poster_share: data.common_app_is_poster_share || 0,
             });
 
             // 限时秒杀倒计时

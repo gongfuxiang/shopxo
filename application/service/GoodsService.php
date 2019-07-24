@@ -1097,6 +1097,7 @@ class GoodsService
             'is_backend'    => true,
             'params'        => &$params,
             'data'          => &$data,
+            'spec'          => $specifications['data'],
             'goods_id'      => isset($params['id']) ? intval($params['id']) : 0,
         ]);
         if(isset($ret['code']) && $ret['code'] != 0)

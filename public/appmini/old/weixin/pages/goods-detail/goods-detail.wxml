@@ -187,7 +187,7 @@
             <text class="cr-888 single-text">一键分享给好友、群聊</text>
           </button>
         </view>
-        <view class="share-items oh">
+        <view wx:if="{{common_app_is_poster_share == 1}}" class="share-items oh">
           <image src="/images/share-friend-icon.png" mode="scaleToFill" />
           <text class="cr-888 single-text">生成海报，分享到朋友圈、好友及群聊</text>
         </view>

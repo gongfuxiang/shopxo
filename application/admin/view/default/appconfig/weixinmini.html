@@ -27,6 +27,15 @@
                 </select>
             </div>
 
+            <div class="am-form-group">
+                <label>{{$data.common_app_is_poster_share.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_poster_share.describe}}</span></label>
+                <select name="{{$data.common_app_is_poster_share.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.common_app_is_poster_share.error_tips}}" required>
+                    {{foreach $common_is_text_list as $v}}
+                        <option value="{{$v.id}}" {{if isset($data['common_app_is_poster_share']['value']) and $data['common_app_is_poster_share']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
             <div class="am-form-group am-form-group-refreshing">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>

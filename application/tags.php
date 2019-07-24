@@ -64,5 +64,9 @@ return array (
   array (
     0 => 'app\\plugins\\membershiplevel\\Hook',
   ),
+  'plugins_service_goods_save_handle' => 
+  array (
+    0 => 'app\\plugins\\membershiplevel\\Hook',
+  ),
 );
 ?>
