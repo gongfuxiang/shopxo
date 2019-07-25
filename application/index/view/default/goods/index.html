@@ -173,20 +173,39 @@
                 <!-- 基础面板 -->
                 <div class="tb-detail-price">
                     {{if isset($goods['original_price']) and $goods['original_price'] gt 0 and !empty($goods['show_field_original_price_text'])}}
-                        <div class="items price iteminfo_price">
+                        <!-- 原价 -->
+                        <div class="items price">
                             <dt>{{$goods.show_field_original_price_text|raw}}</dt>
                             <dd>
-                                <b class="sys_item_mktprice" data-original-price="{{$goods.original_price}}">¥ {{$goods.original_price}}</b>
+                                <b class="goods-original-price original-price-value" data-original-price="{{$goods.original_price}}">￥{{$goods.original_price}}</b>
                             </dd>
                         </div>
                     {{/if}}
+
+                    <!-- 商品页面基础信息面板售价顶部钩子 -->
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                        <div class="plugins-tag">
+                            <span>plugins_view_goods_detail_panel_price_top</span>
+                        </div>
+                    {{/if}}
+                    {{if !empty($plugins_view_goods_detail_panel_price_top_data) and is_array($plugins_view_goods_detail_panel_price_top_data)}}
+                        {{foreach $plugins_view_goods_detail_panel_price_top_data as $hook}}
+                            {{if is_string($hook) or is_int($hook)}}
+                                {{$hook|raw}}
+                            {{/if}}
+                        {{/foreach}}
+                    {{/if}}
+
+                    <!-- 售价 -->
                     <div class="items price iteminfo_mktprice">
                         <dt>{{if empty($goods['show_field_price_text'])}}销售价{{else /}}{{$goods.show_field_price_text|raw}}{{/if}}</dt>
                         <dd>
-                            <em>¥</em>
-                            <b class="sys_item_price" data-original-price="{{$goods.price}}">{{$goods.price}}</b>
+                            <em>￥</em>
+                            <b class="goods-price" data-original-price="{{$goods.price}}">{{$goods.price}}</b>
                         </dd>                                 
                     </div>
+
+                    <!-- 二维码 -->
                     <div class="goods-qrcode am-hide-sm-only">
                         <i class="am-icon-qrcode am-icon-sm"></i>
                         <img class="qrcode-images am-img-thumbnail" src="{{$qrcode_url}}" />
@@ -281,7 +300,7 @@
                                                 <img src="{{$goods.images}}" />
                                             </div>
                                             <div class="text-info">
-                                                <span class="price-now" data-original-price="{{$goods.price}}">¥{{$goods.price}}</span>
+                                                <span class="price-now" data-original-price="{{$goods.price}}">￥{{$goods.price}}</span>
                                             </div>
                                         </div>
                                     </form>
@@ -516,7 +535,7 @@
                                                     <p class="am-text-truncate" {{if !empty($v.title_color)}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</p>
                                                 </a>
                                                 <p class="price fl">
-                                                    <strong>¥{{$v.price}}</strong>
+                                                    <strong>￥{{$v.price}}</strong>
                                                 </p>
                                             </div>
                                         </li>

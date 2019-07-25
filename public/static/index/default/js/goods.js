@@ -255,16 +255,29 @@ function GoodsSpecDetail()
             $.AMUI.progress.done();
             if(result.code == 0)
             {
-                $('.text-info .price-now').text('￥'+result.data.price);
-                $('.sys_item_price').text(result.data.price);
-                $('.number-tag input[type="number"]').attr('max', result.data.inventory);
-                $('.stock-tips .stock').text(result.data.inventory);
-                if(result.data.original_price > 0)
+                $('.text-info .price-now').text('￥'+result.data.spec_base.price);
+                $('.goods-price').text(result.data.spec_base.price);
+                $('.number-tag input[type="number"]').attr('max', result.data.spec_base.inventory);
+                $('.stock-tips .stock').text(result.data.spec_base.inventory);
+                if(result.data.spec_base.original_price > 0)
                 {
-                    $('.sys_item_mktprice').text('￥'+result.data.original_price);
-                    $('.sys_item_mktprice').show();
+                    $('.goods-original-price').text('￥'+result.data.spec_base.original_price);
+                    $('.goods-original-price').show();
                 } else {
-                    $('.sys_item_mktprice').hide();
+                    $('.goods-original-price').hide();
+                }
+
+                // 扩展数据处理
+                var extends_element = result.data.extends_element || [];
+                if(extends_element.length > 0)
+                {
+                    for(var i in extends_element)
+                    {
+                        if((extends_element[i]['element'] || null) != null && extends_element[i]['content'] !== null)
+                        {
+                            $(extends_element[i]['element']).html(extends_element[i]['content']);
+                        }
+                    }
                 }
             } else {
                 if($(window).width() < 640)
@@ -336,13 +349,26 @@ function GoodsSpecType()
                     {
                         $(this).removeClass('sku-dont-choose');
                         var value = $(this).data('value').toString();
-                        if(result.data.indexOf(value) == -1)
+                        if(result.data.spec_type.indexOf(value) == -1)
                         {
                             $(this).addClass('sku-items-disabled');
                         } else {
                             $(this).removeClass('sku-items-disabled');
                         }
                     });
+                }
+
+                // 扩展数据处理
+                var extends_element = result.data.extends_element || [];
+                if(extends_element.length > 0)
+                {
+                    for(var i in extends_element)
+                    {
+                        if((extends_element[i]['element'] || null) != null && extends_element[i]['content'] !== null)
+                        {
+                            $(extends_element[i]['element']).html(extends_element[i]['content']);
+                        }
+                    }
                 }
             } else {
                 if($(window).width() < 640)
@@ -377,10 +403,22 @@ function GoodsSpecType()
 function GoodsBaseRestore()
 {
     $('.text-info .price-now').text('￥'+$('.text-info .price-now').data('original-price'));
-    $('.sys_item_mktprice').text($('.sys_item_mktprice').data('original-price'));
-    $('.sys_item_price').text($('.sys_item_price').data('original-price'));
+    $('.goods-price').text($('.goods-price').data('original-price'));
     $('.number-tag input[type="number"]').attr('max', $('.number-tag input[type="number"]').data('original-max'));
     $('.stock-tips .stock').text($('.stock-tips .stock').data('original-stock'));
+
+    // 价格处理
+    if($('.tb-detail-price .original-price-value').length > 0)
+    {
+        $('.tb-detail-price .original-price-value').each(function(k, v)
+        {
+            var price = $(this).data('original-price');
+            if(price !== undefined)
+            {
+                $(this).text('￥'+price);
+            }
+        });
+    }
 }
 
 $(function() {

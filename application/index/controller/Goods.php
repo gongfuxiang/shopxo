@@ -225,6 +225,15 @@ class Goods extends Common
                 'goods_id'     => $goods_id,
                 'goods'        => &$goods,
             ]));
+
+        // 商品页面基础信息面板售价顶部钩子
+        $this->assign('plugins_view_goods_detail_panel_price_top_data', Hook::listen('plugins_view_goods_detail_panel_price_top',
+            [
+                'hook_name'    => 'plugins_view_goods_detail_panel_price_top',
+                'is_backend'   => false,
+                'goods_id'     => $goods_id,
+                'goods'        => &$goods,
+            ]));
     }
 
     /**

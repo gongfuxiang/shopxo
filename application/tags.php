@@ -68,5 +68,13 @@ return array (
   array (
     0 => 'app\\plugins\\membershiplevel\\Hook',
   ),
+  'plugins_view_goods_detail_panel_price_top' => 
+  array (
+    0 => 'app\\plugins\\membershiplevel\\Hook',
+  ),
+  'plugins_service_goods_spec_type' => 
+  array (
+    0 => 'app\\plugins\\membershiplevel\\Hook',
+  ),
 );
 ?>

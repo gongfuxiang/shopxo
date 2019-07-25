@@ -181,18 +181,17 @@ fieldset legend{margin-left:15px;padding-left:3px;padding-right:3px;color:#333;}
 /*价格*/
 .tb-detail-price{text-align: left; position: relative;}
 .tb-detail-price .price em {font-family: arial;}
-.iteminfo_price .sys_item_mktprice{text-decoration:line-through;padding-top:7px ;padding-bottom: 0px; font-size:14px; }
+.tb-detail-price .original-price-value {text-decoration:line-through; font-size:14px; }
 .iteminfo_mktprice {padding-top: 10px;}
-.iteminfo_mktprice em, .sys_item_price { color:#c00;}
-.sys_item_price { font-size:20px;}
- .tb-detail-price dd {display: inline-block;}
- .goods-favor-count { color: #999; }
+.iteminfo_mktprice em, .goods-price { color:#c00;}
+.tb-detail-price dd {display: inline-block;}
+.goods-favor-count { color: #999; }
 .iteminfo_parameter a:hover{text-decoration: none;color:initial ;}
 .tm-indcon .tm-label, .tb-detail-price dt, .specpara-title { white-space:nowrap; color:#666; font-weight: 400; }
-.tb-detail-price{ background: #fcf1e3 url(../images/goods-meta-bg.png); background-size: cover; -moz-background-size: cover; background-repeat: no-repeat; height:75px;padding:10px; }
-.tb-detail-price .items {display: block;margin-left:0 !important;}
+.tb-detail-price{ background: #fcf1e3 url(../images/goods-meta-bg.png); background-size: cover; -moz-background-size: cover; background-repeat: no-repeat; height:auto;padding:10px; }
+.tb-detail-price .items {display: block; margin: 5px 0;}
 .tb-detail-price .items dt { float:left; text-align: left;}
-.sys_item_price{font-size: 24px;font-weight: bold; line-height: 16px;}
+.tb-detail-price .goods-price {font-size: 24px;font-weight: bold; line-height: 16px;}
 
 /* 二维码 */
 .goods-qrcode{position: absolute; bottom: 5px; right: 10px; cursor: pointer; color: #666; width: 150px; text-align: right;}

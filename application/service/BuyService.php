@@ -97,8 +97,8 @@ class BuyService
             'goods_id'      => $goods_id,
             'title'         => $goods['title'],
             'images'        => $goods['images'],
-            'original_price'=> $goods_base['data']['original_price'],
-            'price'         => $goods_base['data']['price'],
+            'original_price'=> $goods_base['data']['spec_base']['original_price'],
+            'price'         => $goods_base['data']['spec_base']['price'],
             'stock'         => intval($params['stock']),
             'spec'          => empty($spec) ? '' : json_encode($spec),
         ];
@@ -197,12 +197,12 @@ class BuyService
                 $goods_base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>$v['spec']]);
                 if($goods_base['code'] == 0)
                 {
-                    $v['inventory'] = $goods_base['data']['inventory'];
-                    $v['price'] = (float) $goods_base['data']['price'];
-                    $v['original_price'] = (float) $goods_base['data']['original_price'];
-                    $v['spec_weight'] = $goods_base['data']['weight'];
-                    $v['spec_coding'] = $goods_base['data']['coding'];
-                    $v['spec_barcode'] = $goods_base['data']['barcode'];
+                    $v['inventory'] = $goods_base['data']['spec_base']['inventory'];
+                    $v['price'] = (float) $goods_base['data']['spec_base']['price'];
+                    $v['original_price'] = (float) $goods_base['data']['spec_base']['original_price'];
+                    $v['spec_weight'] = $goods_base['data']['spec_base']['weight'];
+                    $v['spec_coding'] = $goods_base['data']['spec_base']['coding'];
+                    $v['spec_barcode'] = $goods_base['data']['spec_base']['barcode'];
                 } else {
                     return $goods_base;
                 }
@@ -406,12 +406,12 @@ class BuyService
         $goods_base = GoodsService::GoodsSpecDetail(['id'=>$ret['data'][0]['goods_id'], 'spec'=>$ret['data'][0]['spec']]);
         if($goods_base['code'] == 0)
         {
-            $ret['data'][0]['inventory'] = $goods_base['data']['inventory'];
-            $ret['data'][0]['price'] = (float) $goods_base['data']['price'];
-            $ret['data'][0]['original_price'] = (float) $goods_base['data']['original_price'];
-            $ret['data'][0]['spec_weight'] = $goods_base['data']['weight'];
-            $ret['data'][0]['spec_coding'] = $goods_base['data']['coding'];
-            $ret['data'][0]['spec_barcode'] = $goods_base['data']['barcode'];
+            $ret['data'][0]['inventory'] = $goods_base['data']['spec_base']['inventory'];
+            $ret['data'][0]['price'] = (float) $goods_base['data']['spec_base']['price'];
+            $ret['data'][0]['original_price'] = (float) $goods_base['data']['spec_base']['original_price'];
+            $ret['data'][0]['spec_weight'] = $goods_base['data']['spec_base']['weight'];
+            $ret['data'][0]['spec_coding'] = $goods_base['data']['spec_base']['coding'];
+            $ret['data'][0]['spec_barcode'] = $goods_base['data']['spec_base']['barcode'];
         } else {
             return $goods_base;
         }
@@ -630,8 +630,8 @@ class BuyService
             $goods_base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>isset($v['spec']) ? $v['spec'] : []]);
             if($goods_base['code'] == 0)
             {
-                $goods['price'] = $goods_base['data']['price'];
-                $goods['inventory'] = $goods_base['data']['inventory'];
+                $goods['price'] = $goods_base['data']['spec_base']['price'];
+                $goods['inventory'] = $goods_base['data']['spec_base']['inventory'];
             } else {
                 return $goods_base;
             }
@@ -983,7 +983,7 @@ class BuyService
                         if($base['code'] == 0)
                         {
                             // 扣除规格操作
-                            if(!Db::name('GoodsSpecBase')->where(['id'=>$base['data']['id'], 'goods_id'=>$v['goods_id']])->setDec('inventory', $v['buy_number']))
+                            if(!Db::name('GoodsSpecBase')->where(['id'=>$base['data']['spec_base']['id'], 'goods_id'=>$v['goods_id']])->setDec('inventory', $v['buy_number']))
                             {
                                 return DataReturn('规格库存扣减失败['.$params['order_id'].'-'.$v['goods_id'].'('.$goods['inventory'].'-'.$v['buy_number'].')]', -10);
                             }
@@ -1089,7 +1089,7 @@ class BuyService
                     if($base['code'] == 0)
                     {
                         // 回滚规格操作
-                        if(!Db::name('GoodsSpecBase')->where(['id'=>$base['data']['id'], 'goods_id'=>$v['goods_id']])->setInc('inventory', $buy_number))
+                        if(!Db::name('GoodsSpecBase')->where(['id'=>$base['data']['spec_base']['id'], 'goods_id'=>$v['goods_id']])->setInc('inventory', $buy_number))
                         {
                             return DataReturn('规格库存回滚失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
                         }

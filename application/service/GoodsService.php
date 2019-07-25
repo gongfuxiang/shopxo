@@ -294,6 +294,16 @@ class GoodsService
                     return $ret;
                 }
 
+                // 商品价格容器
+                $v['price_container'] = [
+                    'price'                 => isset($v['price']) ? $v['price'] : 0.00,
+                    'min_price'             => isset($v['min_price']) ? $v['min_price'] : 0.00,
+                    'max_price'             => isset($v['max_price']) ? $v['max_price'] : 0.00,
+                    'original_price'        => isset($v['original_price']) ? $v['original_price'] : 0.00,
+                    'min_original_price'    => isset($v['min_original_price']) ? $v['min_original_price'] : 0.00,
+                    'max_original_price'    => isset($v['max_original_price']) ? $v['max_original_price'] : 0.00,
+                ];
+
                 // 商品url地址
                 if(!empty($v['id']))
                 {
@@ -1916,13 +1926,21 @@ class GoodsService
             // 单位 .00 处理
             $base['weight'] = PriceBeautify($base['weight']);
 
-            // 商品处理前钩子
+            // 处理好的数据
+            // 扩展元素标记与html内容数据
+            // extends_element下包含多个元素 ['element'=>'', 'content'=>'']
+            $data = [
+                'spec_base'         => $base,
+                'extends_element'   => [],
+            ];
+
+            // 商品获取规格钩子
             $hook_name = 'plugins_service_goods_spec_base';
             $ret = Hook::listen($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
-                'params'        => &$params,
-                'spec_base'     => &$base,
+                'params'        => $params,
+                'data'          => &$data,
                 'goods_id'      => $goods_id
             ]);
             if(isset($ret['code']) && $ret['code'] != 0)
@@ -1931,7 +1949,7 @@ class GoodsService
             }
 
             // 返回成功
-            return DataReturn('操作成功', 0, $base);
+            return DataReturn('操作成功', 0, $data);
         }
 
         return DataReturn('没有相关规格', -100);
@@ -1972,9 +1990,9 @@ class GoodsService
         $where = [
             'goods_id'  => intval($params['id']),
         ];
-        $value = [];
 
         // 规格不为数组则为json字符串
+        $value = [];
         if(!is_array($params['spec']))
         {
             $params['spec'] = json_decode(htmlspecialchars_decode($params['spec']), true);
@@ -1994,18 +2012,18 @@ class GoodsService
             if(!empty($temp_data))
             {
                 // 根据基础值id分组
-                $data = [];
+                $group = [];
                 foreach($temp_data as $v)
                 {
-                    $data[$v['goods_spec_base_id']][] = $v;
+                    $group[$v['goods_spec_base_id']][] = $v;
                 }
 
                 // 获取当前操作元素索引
                 $last  = end($params['spec']);
                 $index = count($params['spec'])-1;
                 $spec_str = implode('', array_column($params['spec'], 'value'));
-                $value = [];
-                foreach($data as $v)
+                $spec_type = [];
+                foreach($group as $v)
                 {
                     $temp_str = implode('', array_column($v, 'value'));
                     if(isset($v[$index+1]) && stripos($temp_str, $spec_str) !== false)
@@ -2014,11 +2032,34 @@ class GoodsService
                         $inventory = Db::name('GoodsSpecBase')->where(['id'=>$v[$index+1]['goods_spec_base_id']])->value('inventory');
                         if($inventory > 0)
                         {
-                            $value[$v[$index+1]['value']] = $v[$index+1]['value'];
+                            $spec_type[$v[$index+1]['value']] = $v[$index+1]['value'];
                         }
                     }
                 }
-                return DataReturn('操作成功', 0, array_values($value));
+
+                // 处理好的数据
+                // 扩展元素标记与html内容数据
+                // extends_element下包含多个元素 ['element'=>'', 'content'=>'']
+                $data = [
+                    'spec_type'         => array_values($spec_type),
+                    'extends_element'   => [],
+                ];
+
+                // 商品获取规格类型钩子
+                $hook_name = 'plugins_service_goods_spec_type';
+                $ret = Hook::listen($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => $params,
+                    'data'          => &$data,
+                    'goods_id'      => $goods_id
+                ]);
+                if(isset($ret['code']) && $ret['code'] != 0)
+                {
+                    return $ret;
+                }
+
+                return DataReturn('操作成功', 0, $data);
             }
         }
         return DataReturn('没有相关规格类型', -100);
