@@ -164,7 +164,12 @@ class Goods extends Common
     {
         // 开始处理
         $params = $this->data_post;
-        return GoodsService::GoodsSpecType($params);
+        $ret = GoodsService::GoodsSpecType($params);
+        if($ret['code'] == 0)
+        {
+            $ret['data'] = $ret['data']['spec_type'];
+        }
+        return $ret;
     }
 
     /**
@@ -179,7 +184,12 @@ class Goods extends Common
     {
         // 开始处理
         $params = $this->data_post;
-        return GoodsService::GoodsSpecDetail($params);
+        $ret = GoodsService::GoodsSpecDetail($params);
+        if($ret['code'] == 0)
+        {
+            $ret['data'] = $ret['data']['spec_base'];
+        }
+        return $ret;
     }
 
     /**
