@@ -5,7 +5,7 @@
     <!-- form start -->
     <form class="am-form form-validation" method="post" action="{{:MyUrl('index/user/login')}}" request-type="ajax-fun" request-value="ViewModalBack">
         <div class="xo-padding-horizontal-md-sm login-modal-container-top">
-            {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))}}
+            {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state')) or in_array('username', MyC('home_user_reg_state'))}}
                 <span class="">还没有帐号？</span>
                 <a href="{{:MyUrl('index/user/reginfo')}}" target="_blank" class="am-btn am-btn-secondary am-btn-xs am-radius">立即注册</a>
             {{/if}}

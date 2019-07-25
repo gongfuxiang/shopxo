@@ -500,7 +500,7 @@ class GoodsService
                     if($temp['code'] == 0)
                     {
                         $temp_spec['is_only_level_one'] = 1;
-                        $temp_spec['inventory'] = $temp['data']['inventory'];
+                        $temp_spec['inventory'] = $temp['data']['spec_base']['inventory'];
                     }
                 }
             }
