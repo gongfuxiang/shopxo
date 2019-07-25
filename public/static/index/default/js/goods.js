@@ -262,9 +262,9 @@ function GoodsSpecDetail()
                 if(result.data.spec_base.original_price > 0)
                 {
                     $('.goods-original-price').text('￥'+result.data.spec_base.original_price);
-                    $('.goods-original-price').show();
+                    $('.goods-original-price').parents('.items').show();
                 } else {
-                    $('.goods-original-price').hide();
+                    $('.goods-original-price').parents('.items').hide();
                 }
 
                 // 扩展数据处理
