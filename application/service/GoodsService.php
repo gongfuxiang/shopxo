@@ -216,7 +216,7 @@ class GoodsService
             $temp = self::GoodsCategoryItemsIds($data, $is_enable);
             if(!empty($temp))
             {
-                $data = array_merge($data, $temp);
+                $data = array_merge($ids, $data, $temp);
             }
         }
         return $data;
