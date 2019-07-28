@@ -239,7 +239,7 @@ Page({
       success: res => {
         my.hideLoading();
         if (res.data.code == 0) {
-          // 线下支付成功
+          // 是否在线支付,非在线支付则支付成功
           if (res.data.data.is_online_pay == 0) {
             var temp_data_list = this.data.data_list;
             temp_data_list[index]['status'] = 2;
