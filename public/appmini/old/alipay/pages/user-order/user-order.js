@@ -240,7 +240,7 @@ Page({
         my.hideLoading();
         if (res.data.code == 0) {
           // 线下支付成功
-          if (res.data.data.is_under_line == 1) {
+          if (res.data.data.is_online_pay == 0) {
             var temp_data_list = this.data.data_list;
             temp_data_list[index]['status'] = 2;
             temp_data_list[index]['status_name'] = '待发货';

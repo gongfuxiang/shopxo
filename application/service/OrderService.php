@@ -172,8 +172,8 @@ class OrderService
 
             // 支付信息返回
             $ret['data'] = [
-                // 是否为线下支付类型
-                'is_under_line' => in_array($payment[0]['payment'], config('shopxo.under_line_list')) ? 1 : 0,
+                // 是否为在线支付类型
+                'is_online_pay' => ($payment[0]['payment'] == 'WalletPay' || in_array($payment[0]['payment'], config('shopxo.under_line_list'))) ? 0 : 1,
 
                 // 支付模块处理数据
                 'data'          => $ret['data'],
