@@ -628,7 +628,7 @@ Page({
     if(value != null)
     {
       wx.previewImage({
-        current: 0,
+        current: value,
         urls: [value]
       });
     }
@@ -642,7 +642,7 @@ Page({
       all.push(this.data.goods_photo[i]['images']);
     }
     wx.previewImage({
-      current: index,
+      current: all[index],
       urls: all
     });
   },

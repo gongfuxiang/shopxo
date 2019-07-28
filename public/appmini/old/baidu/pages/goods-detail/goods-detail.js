@@ -554,7 +554,7 @@ Page({
     var value = e.currentTarget.dataset.value || null;
     if (value != null) {
       swan.previewImage({
-        current: 0,
+        current: value,
         urls: [value]
       });
     }
@@ -567,7 +567,7 @@ Page({
       all.push(this.data.goods_photo[i]['images']);
     }
     swan.previewImage({
-      current: index,
+      current: all[index],
       urls: all
     });
   },

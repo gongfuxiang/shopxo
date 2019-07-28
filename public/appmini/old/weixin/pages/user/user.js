@@ -147,7 +147,7 @@ Page({
     if(app.data.default_user_head_src != this.data.avatar)
     {
       wx.previewImage({
-        current: 0,
+        current: this.data.avatar,
         urls: [this.data.avatar]
       });
     }

@@ -130,7 +130,7 @@ Page({
   preview_event() {
     if (app.data.default_user_head_src != this.data.avatar) {
       swan.previewImage({
-        current: 0,
+        current: this.data.avatar,
         urls: [this.data.avatar]
       });
     }
