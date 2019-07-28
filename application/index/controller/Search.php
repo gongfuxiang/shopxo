@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use think\facade\Hook;
 use app\service\SearchService;
 use app\service\BrandService;
 use app\service\SeoService;
@@ -149,20 +150,20 @@ class Search extends Common
         // 获取商品列表
         $this->params['keywords'] = $this->params['wd'];
         $ret = SearchService::GoodsList($this->params);
-        if(empty($ret['data']['data']))
-        {
-            $msg = '没有相关数据';
-            $code = -100;
-        } else {
-            $msg = '操作成功';
-            $code = 0;
-        }
 
         // 搜索记录
         SearchService::SearchAdd($this->params);
 
-        // 返回
-        return DataReturn($msg, $code, $ret['data']);
+        // 无数据直接返回
+        if(empty($ret['data']) || $ret['code'] != 0)
+        {
+            return DataReturn('没有相关数据', -100);
+        }
+
+        // 返回数据html
+        $this->assign('data', $ret['data']['data']);
+        $ret['data']['data'] = $this->fetch('content');
+        return $ret;
     }
 }
 ?>
