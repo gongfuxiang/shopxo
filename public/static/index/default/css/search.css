@@ -1,3 +1,4 @@
+.search-list { float: none; }
 .items img{ width:100%;}
 .items .price strong{ font-size: 14px; }
 .theme-popover {z-index: 1011;overflow:visible;background:#fff; width: 100%; }
@@ -53,7 +54,6 @@ dl#select3 .dd-conent{ left:-200%; right:0px;}
 
 /*分页*/  
 .am-pagination li{ float:none;}
-
 .search-side{display: none;}
 .search-pages-submit { margin: 10px 0; }
 

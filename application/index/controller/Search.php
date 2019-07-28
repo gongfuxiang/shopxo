@@ -155,15 +155,78 @@ class Search extends Common
         SearchService::SearchAdd($this->params);
 
         // 无数据直接返回
-        if(empty($ret['data']) || $ret['code'] != 0)
+        if(empty($ret['data']['data']) || $ret['code'] != 0)
         {
-            return DataReturn('没有相关数据', -100);
+            return DataReturn('没有更多数据啦', -100);
         }
+
+        // 钩子
+        $this->PluginsHook();
 
         // 返回数据html
         $this->assign('data', $ret['data']['data']);
         $ret['data']['data'] = $this->fetch('content');
         return $ret;
+    }
+
+    /**
+     * 钩子处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-04-22
+     * @desc    description
+     */
+    private function PluginsHook()
+    {
+        // 搜索页面顶部钩子
+        $this->assign('plugins_view_search_top_data', Hook::listen('plugins_view_search_top',
+            [
+                'hook_name'    => 'plugins_view_search_top',
+                'is_backend'   => false,
+            ]));
+
+        // 搜索页面底部钩子
+        $this->assign('plugins_view_search_bottom_data', Hook::listen('plugins_view_search_top',
+            [
+                'hook_name'    => 'plugins_view_search_bottom',
+                'is_backend'   => false,
+            ]));
+
+        // 搜索页面顶部内部结构里面钩子
+        $this->assign('plugins_view_search_inside_top_data', Hook::listen('plugins_view_search_inside_top',
+            [
+                'hook_name'    => 'plugins_view_search_inside_top',
+                'is_backend'   => false,
+            ]));
+
+        // 搜索页面底部内部结构里面钩子
+        $this->assign('plugins_view_search_inside_bottom_data', Hook::listen('plugins_view_search_inside_bottom',
+            [
+                'hook_name'    => 'plugins_view_search_inside_bottom',
+                'is_backend'   => false,
+            ]));
+
+        // 搜索页面数据容器顶部钩子
+        $this->assign('plugins_view_search_data_top_data', Hook::listen('plugins_view_search_data_top',
+            [
+                'hook_name'    => 'plugins_view_search_data_top',
+                'is_backend'   => false,
+            ]));
+
+        // 搜索页面数据容器底部钩子
+        $this->assign('plugins_view_search_data_bottom_data', Hook::listen('plugins_view_search_data_bottom',
+            [
+                'hook_name'    => 'plugins_view_search_data_bottom',
+                'is_backend'   => false,
+            ]));
+
+        // 搜索页面搜索导航条顶部钩子
+        $this->assign('plugins_view_search_nav_top_data', Hook::listen('plugins_view_search_nav_top',
+            [
+                'hook_name'    => 'plugins_view_search_nav_top',
+                'is_backend'   => false,
+            ]));
     }
 }
 ?>
