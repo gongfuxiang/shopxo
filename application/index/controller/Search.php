@@ -70,6 +70,9 @@ class Search extends Common
             // seo
             $this->SetSeo();
 
+            // 钩子
+            $this->PluginsHook();
+
             return $this->fetch();
         }
     }
@@ -160,9 +163,6 @@ class Search extends Common
             return DataReturn('没有更多数据啦', -100);
         }
 
-        // 钩子
-        $this->PluginsHook();
-
         // 返回数据html
         $this->assign('data', $ret['data']['data']);
         $ret['data']['data'] = $this->fetch('content');
@@ -180,51 +180,82 @@ class Search extends Common
     private function PluginsHook()
     {
         // 搜索页面顶部钩子
-        $this->assign('plugins_view_search_top_data', Hook::listen('plugins_view_search_top',
+        $hook_name = 'plugins_view_search_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
-                'hook_name'    => 'plugins_view_search_top',
+                'hook_name'    => $hook_name,
                 'is_backend'   => false,
             ]));
 
         // 搜索页面底部钩子
-        $this->assign('plugins_view_search_bottom_data', Hook::listen('plugins_view_search_top',
+        $hook_name = 'plugins_view_search_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
-                'hook_name'    => 'plugins_view_search_bottom',
+                'hook_name'    => $hook_name,
                 'is_backend'   => false,
             ]));
 
         // 搜索页面顶部内部结构里面钩子
-        $this->assign('plugins_view_search_inside_top_data', Hook::listen('plugins_view_search_inside_top',
+        $hook_name = 'plugins_view_search_inside_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
-                'hook_name'    => 'plugins_view_search_inside_top',
+                'hook_name'    => $hook_name,
                 'is_backend'   => false,
             ]));
 
         // 搜索页面底部内部结构里面钩子
-        $this->assign('plugins_view_search_inside_bottom_data', Hook::listen('plugins_view_search_inside_bottom',
+        $hook_name = 'plugins_view_search_inside_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
-                'hook_name'    => 'plugins_view_search_inside_bottom',
+                'hook_name'    => $hook_name,
                 'is_backend'   => false,
             ]));
 
         // 搜索页面数据容器顶部钩子
-        $this->assign('plugins_view_search_data_top_data', Hook::listen('plugins_view_search_data_top',
+        $hook_name = 'plugins_view_search_data_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
-                'hook_name'    => 'plugins_view_search_data_top',
+                'hook_name'    => $hook_name,
                 'is_backend'   => false,
             ]));
 
         // 搜索页面数据容器底部钩子
-        $this->assign('plugins_view_search_data_bottom_data', Hook::listen('plugins_view_search_data_bottom',
+        $hook_name = 'plugins_view_search_data_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
-                'hook_name'    => 'plugins_view_search_data_bottom',
+                'hook_name'    => $hook_name,
                 'is_backend'   => false,
             ]));
 
         // 搜索页面搜索导航条顶部钩子
-        $this->assign('plugins_view_search_nav_top_data', Hook::listen('plugins_view_search_nav_top',
+        $hook_name = 'plugins_view_search_nav_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
-                'hook_name'    => 'plugins_view_search_nav_top',
+                'hook_name'    => $hook_name,
+                'is_backend'   => false,
+            ]));
+
+        // 搜索页面搜索导航条内前面钩子
+        $hook_name = 'plugins_view_search_nav_inside_begin';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'    => $hook_name,
+                'is_backend'   => false,
+            ]));
+
+        // 搜索页面搜索导航条内尾部钩子
+        $hook_name = 'plugins_view_search_nav_inside_end';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'    => $hook_name,
+                'is_backend'   => false,
+            ]));
+
+        // 搜索页面筛选条件内尾部钩子
+        $hook_name = 'plugins_view_search_screen_inside_end';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'    => $hook_name,
                 'is_backend'   => false,
             ]));
     }

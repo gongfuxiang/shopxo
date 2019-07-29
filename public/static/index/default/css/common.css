@@ -36,16 +36,13 @@ button { outline: none; }
     line-height: 26px;
 }
 
-
 /*所有超链接不要下划线*/
-*, *:after, *:before{
+*, *:after, *:before {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     -o-box-sizing: border-box;
-    box-sizing: border-box; }
-/*任何标签、包括它前面、后面生成的内容都不要影响盒子的边框*/
-
-.clear{ clear:both} 
+    box-sizing: border-box;
+}
 
 input {
     vertical-align: middle;

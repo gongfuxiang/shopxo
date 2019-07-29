@@ -37,11 +37,11 @@
                 <!-- 搜索页面商品信息售价顶部钩子 -->
                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                     <div class="plugins-tag">
-                        <span>plugins_view_search_goods_price_top</span>
+                        <span>plugins_view_search_goods_inside_price_top</span>
                     </div>
                 {{/if}}
                 {{php}}
-                    $hook_name = 'plugins_view_search_goods_price_top';
+                    $hook_name = 'plugins_view_search_goods_inside_price_top';
                     $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods_id'=>$v['id'], 'goods'=>$v]);
                     if(!empty($hook_data) && is_array($hook_data))
                     {
@@ -55,7 +55,7 @@
                     }
                 {{/php}}
 
-                <p class="price am-padding-horizontal-xs">
+                <p class="price am-padding-horizontal-xs am-text-truncate">
                     <strong>￥{{$v.price}}</strong>
                 </p>
 

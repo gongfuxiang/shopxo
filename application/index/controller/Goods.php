@@ -146,90 +146,100 @@ class Goods extends Common
     private function PluginsHook($goods_id, &$goods)
     {
         // 商品页面相册内部钩子
-        $this->assign('plugins_view_goods_detail_photo_within_data', Hook::listen('plugins_view_goods_detail_photo_within',
+        $hook_name = 'plugins_view_goods_detail_photo_within';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
-                'hook_name'    => 'plugins_view_goods_detail_photo_within',
+                'hook_name'    => $hook_name,
                 'is_backend'   => false,
                 'goods_id'     => $goods_id,
                 'goods'        => &$goods,
             ]));
 
         // 商品页面相册底部钩子
-        $this->assign('plugins_view_goods_detail_photo_bottom_data', Hook::listen('plugins_view_goods_detail_photo_bottom',
+        $hook_name = 'plugins_view_goods_detail_photo_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
-                'hook_name'    => 'plugins_view_goods_detail_photo_bottom',
+                'hook_name'    => $hook_name,
                 'is_backend'   => false,
                 'goods_id'     => $goods_id,
                 'goods'        => &$goods,
             ]));
         
         // 商品页面基础信息顶部钩子
-        $this->assign('plugins_view_goods_detail_base_top_data', Hook::listen('plugins_view_goods_detail_base_top',
+        $hook_name = 'plugins_view_goods_detail_base_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
-                'hook_name'    => 'plugins_view_goods_detail_base_top',
+                'hook_name'    => $hook_name,
                 'is_backend'   => false,
                 'goods_id'     => $goods_id,
                 'goods'        => &$goods,
             ]));
 
         // 商品页面基础信息面板底部钩子
-        $this->assign('plugins_view_goods_detail_panel_bottom_data', Hook::listen('plugins_view_goods_detail_panel_bottom',
+        $hook_name = 'plugins_view_goods_detail_panel_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
-                'hook_name'    => 'plugins_view_goods_detail_panel_bottom',
+                'hook_name'    => $hook_name,
                 'is_backend'   => false,
                 'goods_id'     => $goods_id,
                 'goods'        => &$goods,
             ]));
 
         // 商品页面基础信息面板底部钩子
-        $this->assign('plugins_view_goods_detail_base_bottom_data', Hook::listen('plugins_view_goods_detail_base_bottom',
+        $hook_name = 'plugins_view_goods_detail_base_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
-                'hook_name'    => 'plugins_view_goods_detail_base_bottom',
+                'hook_name'    => $hook_name,
                 'is_backend'   => false,
                 'goods_id'     => $goods_id,
                 'goods'        => &$goods,
             ]));
 
         // 商品页面tabs顶部钩子
-        $this->assign('plugins_view_goods_detail_tabs_top_data', Hook::listen('plugins_view_goods_detail_tabs_top',
+        $hook_name = 'plugins_view_goods_detail_tabs_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
-                'hook_name'    => 'plugins_view_goods_detail_tabs_top',
+                'hook_name'    => $hook_name,
                 'is_backend'   => false,
                 'goods_id'     => $goods_id,
                 'goods'        => &$goods,
             ]));
 
         // 商品页面tabs顶部钩子
-        $this->assign('plugins_view_goods_detail_tabs_bottom_data', Hook::listen('plugins_view_goods_detail_tabs_bottom',
+        $hook_name = 'plugins_view_goods_detail_tabs_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
-                'hook_name'    => 'plugins_view_goods_detail_tabs_bottom',
+                'hook_name'    => $hook_name,
                 'is_backend'   => false,
                 'goods_id'     => $goods_id,
                 'goods'        => &$goods,
             ]));
 
         // 商品页面左侧顶部钩子
-        $this->assign('plugins_view_goods_detail_left_top_data', Hook::listen('plugins_view_goods_detail_left_top',
+        $hook_name = 'plugins_view_goods_detail_left_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
-                'hook_name'    => 'plugins_view_goods_detail_left_top',
+                'hook_name'    => $hook_name,
                 'is_backend'   => false,
                 'goods_id'     => $goods_id,
                 'goods'        => &$goods,
             ]));
 
         // 商品页面基础信息标题里面钩子
-        $this->assign('plugins_view_goods_detail_title_data', Hook::listen('plugins_view_goods_detail_title',
+        $hook_name = 'plugins_view_goods_detail_title';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
-                'hook_name'    => 'plugins_view_goods_detail_title',
+                'hook_name'    => $hook_name,
                 'is_backend'   => false,
                 'goods_id'     => $goods_id,
                 'goods'        => &$goods,
             ]));
 
         // 商品页面基础信息面板售价顶部钩子
-        $this->assign('plugins_view_goods_detail_panel_price_top_data', Hook::listen('plugins_view_goods_detail_panel_price_top',
+        $hook_name = 'plugins_view_goods_detail_panel_price_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
-                'hook_name'    => 'plugins_view_goods_detail_panel_price_top',
+                'hook_name'    => $hook_name,
                 'is_backend'   => false,
                 'goods_id'     => $goods_id,
                 'goods'        => &$goods,

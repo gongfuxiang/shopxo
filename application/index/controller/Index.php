@@ -88,10 +88,29 @@ class Index extends Common
      */
     private function PluginsHook($params = [])
     {
-        // 楼层数据上面
-        $this->assign('plugins_view_home_floor_top_data', Hook::listen('plugins_view_home_floor_top',
+        // 楼层数据顶部钩子
+        $hook_name = 'plugins_view_home_floor_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
-                'hook_name'     => 'plugins_view_home_floor_top',
+                'hook_name'     => $hook_name,
+                'is_backend'    => false,
+                'user'          => $this->user,
+            ]));
+
+        // 楼层数据底部钩子
+        $hook_name = 'plugins_view_home_floor_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'     => $hook_name,
+                'is_backend'    => false,
+                'user'          => $this->user,
+            ]));
+
+        // 轮播混合数据底部钩子
+        $hook_name = 'plugins_view_home_banner_mixed_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'     => $hook_name,
                 'is_backend'    => false,
                 'user'          => $this->user,
             ]));
