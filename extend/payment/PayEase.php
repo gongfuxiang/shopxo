@@ -156,6 +156,10 @@ class PayEase
      */
     public function Pay($params = [])
     {
+        $params['notify_url'] = 'https://test.shopxo.net/
+    [notifyUrl] => http://tp5-dev.com/payment_order_payease_notify.php';
+        $params['call_back_url'] = 'https://test.shopxo.net/payment_order_payease_respond.php';
+
         // 参数
         if(empty($params))
         {
@@ -175,36 +179,43 @@ class PayEase
             'requestId'         => $params['order_no'],
             'notifyUrl'         => $params['notify_url'],
             'callbackUrl'       => $params['call_back_url'],
-            'payer'             => (object) [],
             'cashierVersion'    => $this->config['cashierVersion'],
             'forUse'            => $this->config['forUse'],
         ];
+        $payer = [
+            'name'  => '龚福祥',
+            'phoneNum'  => '17602128368',
+            'idType'    => 'IDCARD',
+            'idNum'     => '522228199102111214',
+        ];
+        $data['payer'] = json_encode($payer, JSON_UNESCAPED_UNICODE);
+        $data['payer'] = $payer;
         $detail = [
             [
                 'name'      => '新款苹果手机iphone6s',
                 'quantity'  => 1,
-                'quantity'  => 1,
+                'amount'    => $params['total_price']/100,
             ]
         ];
         $data['productDetails'] = json_encode($detail, JSON_UNESCAPED_UNICODE);
-
-        // 签名
-        $data['hmac'] = 'sign';
+        $data['productDetails'] = $detail;
 
         $private_key = ROOT.'rsakeys/client.pfx';
         $public_key = ROOT.'rsakeys/server.cer';
-        $str = $this->buildJson($private_key, $this->config['password']);
+        $str = $this->buildJson($private_key, $this->config['password'], $data);
+        $date = $this->creatdate($str, $public_key);
         //print_r($str);die;
-        $date = $this->creatdate($str, $public_key, $data);
 
         $url = 'https://apis.5upay.com/onlinePay/order';
-        return $this->execute(
+        $ret = $this->execute(
             $private_key,
             $this->config['password'],
             $public_key,
             $url,
-            json_encode($date)
+            $date
         );
+        echo '<pre>';
+        print_r($ret);die;
 
         
         return 100;
@@ -251,9 +262,7 @@ class PayEase
 
 
 
-    public function creatdate($strdata,$public_key, $data){
-
-
+    public function creatdate($strdata,$public_key) {
         /*
           * 生成16位随机数（AES秘钥）
           */
@@ -264,7 +273,7 @@ class PayEase
         $encrypted=$this->rsaPublicEncode($public_key,$rands);
 
         $date=$this->aesEncrypt($strdata,$rands);
-        $json = array("data" =>$date,"encryptKey"=>$encrypted,"merchantId"=>$data['merchantId'],"requestId"=>$data['requestId']);
+        $json = array("data" =>$date,"encryptKey"=>$encrypted,"merchantId"=>$strdata['merchantId'],"requestId"=>$strdata['requestId']);
 
 
         return $json;
@@ -274,7 +283,6 @@ class PayEase
      * 填充算法
      * @param string $source
      * @return string
-
      */
     private function addPKCS7Padding($string, $blocksize = 16) {
         $len = strlen($string);
@@ -365,19 +373,17 @@ class PayEase
      */
     public function httpRequestPost($url, $param,$public_key,$password,$private_key)
     {
-        $theArray = json_decode($param,true);
-        $abb =$theArray['data'];
         $curl = curl_init($this->absoluteUrl($url));
         curl_setopt($curl,CURLOPT_HEADER, 1 ); // 过滤HTTP头
         curl_setopt($curl,CURLOPT_HTTPHEADER,array(
             'Content-Type: application/vnd.5upay-v3.0+json',
-            'encryptKey: '.$theArray['encryptKey'],
-            'merchantId: '.$theArray['merchantId'],
-            'requestId: '.$theArray['requestId']
+            'encryptKey: '.$param['encryptKey'],
+            'merchantId: '.$param['merchantId'],
+            'requestId: '.$param['requestId']
         ));
         curl_setopt($curl,CURLOPT_RETURNTRANSFER, 1);// 显示输出结果
         curl_setopt($curl,CURLOPT_POST,true); // post传输数据
-        curl_setopt($curl,CURLOPT_POSTFIELDS,$abb);// post传输数据
+        curl_setopt($curl,CURLOPT_POSTFIELDS,$param['data']);// post传输数据
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);//SSL证书认证
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);//严格认证
 
@@ -409,10 +415,9 @@ class PayEase
      */
     private function buildJson($private_key,$password,$para=null)
     {
-        $vars = $para?'':get_object_vars($this);
-        unset($vars['response_hmac_fields']);
+        unset($para['response_hmac_fields']);
         $data = array();
-        foreach($vars as $k=>$var){
+        foreach($para as $k=>$var){
             if(is_scalar($var) && $var !== '' && $var !== null){
                 $data[$k] = $var;
             }else if(is_object($var) && $var instanceof AbstractModel){
@@ -431,7 +436,7 @@ class PayEase
             if (is_array($value)){
                 ksort($value);
                 foreach ($value as $key2 => $value2) {
-                    if(is_object($value2)) {
+                    if(is_array($value2)) {
                         $value2 = array_filter((array)$value2);
                         ksort($value2);
                         foreach ($value2 as $oKey => $oValue) {
@@ -614,9 +619,8 @@ class PayEase
       */
     function hmacSign($encrypt_str,$path){
 
-print_r($encrypt_str);die;
         if (empty($encrypt_str['hmac'])){
-            die('hmac validation error');
+            return $encrypt_str;
         }
         $hmac = $encrypt_str['hmac'];
         unset($encrypt_str['hmac']);
