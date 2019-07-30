@@ -284,11 +284,11 @@
                                         <!-- 首页楼层商品内部底部钩子 -->
                                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                                             <div class="plugins-tag">
-                                                <span>plugins_view_search_goods_inside_bottom</span>
+                                                <span>plugins_view_home_goods_inside_bottom</span>
                                             </div>
                                         {{/if}}
                                         {{php}}
-                                            $hook_name = 'plugins_view_search_goods_inside_bottom';
+                                            $hook_name = 'plugins_view_home_goods_inside_bottom';
                                             $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'floor_id'=>$key+1, 'goods_id'=>$goods['id'], 'goods'=>$goods]);
                                             if(!empty($hook_data) && is_array($hook_data))
                                             {

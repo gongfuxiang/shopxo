@@ -72,6 +72,14 @@ return array (
   array (
     0 => 'app\\plugins\\membershiplevel\\Hook',
   ),
+  'plugins_view_home_goods_inside_bottom' => 
+  array (
+    0 => 'app\\plugins\\membershiplevel\\Hook',
+  ),
+  'plugins_view_search_goods_inside_bottom' => 
+  array (
+    0 => 'app\\plugins\\membershiplevel\\Hook',
+  ),
   'plugins_service_goods_spec_type' => 
   array (
     0 => 'app\\plugins\\membershiplevel\\Hook',
