@@ -404,12 +404,14 @@ class PayEase
             header("Location: {$data['redirectUrl']}");
             exit;
         } else if(isset($data['status']) && $data['status'] == 'SUCCESS'){
-            
-            $aa=$data["scanCode"];
-            $img = base64_decode($aa);
-            header('Content-type: image/jpg');
-            print_r($img);
-                
+            if(isset($data["scanCode"]))
+            {
+                $aa=$data["scanCode"];
+                $img = base64_decode($aa);
+                header('Content-type: image/jpg');
+                print_r($img);
+            }
+            return DataReturn('处理成功', 0, $data);
         } else if(isset($data['status']) && $data['status'] == 'CANCEL'){
             return DataReturn('处理失败', -1, $data);
         }else if(isset($data['status']) && $data['status'] == 'INIT'){
