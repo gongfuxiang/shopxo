@@ -224,30 +224,30 @@ class PayEase
     public function Respond($params = [])
     {
         file_put_contents(ROOT.'eeeeeeee.txt', json_encode($params));//die;
-        if(!empty($params['requestId']))
+        file_put_contents(ROOT.'hhhhhhhh.txt', json_encode($_SERVER));
+ 
+        // 同步返回，直接进入订单详情页面
+        if(substr(CurrentScriptName(), -20) == '_payease_respond.php' && empty($params['hmac']) && !empty($params['requestId']))
         {
-            // 参数处理
-            $order_no = substr($params['requestId'], 0, strlen($params['requestId'])-6);
+            exit(header('location:'.MyUrl('index/order/detail', ['orderno'=>substr($params['requestId'], 0, strlen($params['requestId'])-6)])));
+        }
 
-            // 同步返回，直接进入订单详情页面
-            if(substr(CurrentScriptName(), -20) == '_payease_respond.php' && empty($params['hmac']))
-            {
-                exit(header('location:'.MyUrl('index/order/detail', ['orderno'=>$order_no])));
-            }
 
-            // 异步处理
-            $private_key = ROOT.'rsakeys/client.pfx';
-            $public_key = ROOT.'rsakeys/test.cer';
-            $params['encryptKey'] = isset($_SERVER['HTTP_ENCRYPTKEY']) ? $_SERVER['HTTP_ENCRYPTKEY'] : '';
-            $params['merchantId'] = isset($_SERVER['HTTP_MERCHANTID']) ? $_SERVER['HTTP_MERCHANTID'] : '';
-            $data = $this->NotifyCheckHmac($private_key, $params, $public_key, $this->config['password']);
 
-            // 支付状态
-            if(isset($data['status']) && $data['status'] == 'SUCCESS')
-            {
-                $data['out_trade_no'] = $order_no;
-                return DataReturn('支付成功', 0, $this->ReturnData($data));
-            }
+        $params = json_decode('{"data":"B4BOlE8TEk7gvKRzzF+sVlxbXN6GHkFn0taferJCsP1b43xszuEzPRTAsWlm3ziiMAEYWYsNme2RtWAXYgiJPAW2Q0u8+LYZKvsHyVlSZB4C6e13CumLk2\/fAUcsLZ\/pUGvIidQOAkxwD5Rz7HqzyAnFSx+nSJxDbxJt8WQk6dAHXMqzm4VpSXpPgQkrfdr2sAw9xPMS5O5NiQlXyqjWwm5NY8UG5SjyBuYO6JGRlObzTw6hyAzjnEG3Yqp0YAuO2D6vFdgj6QgWIKeTeJWljXyidCxe\/u3wmko1lTnQg2vTweEEeUb5iGXLvg47w0A2BWlWqsw6SaCNYEblW8nJoH6RfcGMX05GDhBLTAW1uApMrzn80opmm79YlrQgiEdkFkfjT4Y2Ho3obN\/\/EeRl3bi9S72UaaiSAOdWh+3+bwJSPv1jcUDr2eqMrTlkfj+aHDltlu328lP9wtt9q4fnZ1Rz3gXDEUHHEF2zMNyjQCDIukIC8ZtVafDG6ZSl1pYPejOYj56a4W4TAliCIz6LtvYK4HwQuW+X0L5DBEUE4c94CuDiCzYW6TpGIhLMHpIq\/\/dDxnWlGL3ntX9YgLgDZmpoXQxogJb4ZIrbiqZm5Z90ZihYuNXdviTvYFSMtN6plzbT7WM3GbVqwiDayUnTbFSb7TlL6EOjQ6FGev6\/C12WItN8i9QDp+KwgH02FOgD9NXJmoEC3z3JJfYdFhwH1z19Sdcx2vhTdr\/F0yZS5egXgLUAx7g0ZNKaTgncyf7a5mK\/wR+9i398QWd5Cbr+\/oOzh8Z\/jA2dY2mTSkJYXPh8QV4kVxt7mijNnjnuM0nkxXBCL4bDePr9FiuEjdH2MAK4Se656+MT9Gqpi8td8Waql2750vvZQrJlGn6aKs\/orIxiySLa8e1oxlNvLcLByd4PZ9rZbyhIqA4GpgYFAxxtWbDSeLYmvc6PSKYMHWUo"}', true);
+
+        // 异步处理
+        $private_key = ROOT.'rsakeys/client.pfx';
+        $public_key = ROOT.'rsakeys/test.cer';
+        $params['encryptKey'] = isset($_SERVER['HTTP_ENCRYPTKEY']) ? $_SERVER['HTTP_ENCRYPTKEY'] : '';
+        $params['merchantId'] = isset($_SERVER['HTTP_MERCHANTID']) ? $_SERVER['HTTP_MERCHANTID'] : '';
+        $data = $this->NotifyCheckHmac($private_key, $params, $public_key, $this->config['password']);
+var_dump($data);die;
+        // 支付状态
+        if(isset($data['status']) && $data['status'] == 'SUCCESS')
+        {
+            $data['out_trade_no'] = $order_no;
+            return DataReturn('支付成功', 0, $this->ReturnData($data));
         }
 
         return DataReturn('支付失败', -100);
@@ -263,13 +263,15 @@ class PayEase
      */
     private function ReturnData($data)
     {
+        print_r($data);die;
         // 参数处理
-        $out_trade_no = substr($data['out_trade_no'], 0, strlen($data['out_trade_no'])-6);
+        $out_trade_no = substr($data['requestId'], 0, strlen($data['requestId'])-6);
 
         // 返回数据固定基础参数
         $data['trade_no']       = isset($data['serialNumber']) ? $data['serialNumber'] : '';  // 支付平台 - 订单号
         $data['buyer_user']     = isset($data['bindCardId']) ? $data['bindCardId'] : '';      // 支付平台 - 用户
         $data['subject']        = isset($data['orderCurrency']) ? $data['orderCurrency'] : ''; // 本系统发起支付的 - 商品名称
+        $data['out_trade_no']   = $out_trade_no; // 本系统发起支付的 - 订单号
         $data['pay_price']      = $data['orderAmount']/100;   // 本系统发起支付的 - 总价
         return $data;
     }
@@ -729,7 +731,7 @@ class PayEase
         $encrypt_str=  openssl_decrypt($date,"AES-128-ECB",$screct_key);
         $encrypt_str = preg_replace('/[\x00-\x1F]/','', $encrypt_str);
         $encrypt_str = json_decode($encrypt_str,true);
-
+var_dump($encrypt_str);die;
         /*
        * 去除空值的元素
        */
@@ -740,7 +742,7 @@ class PayEase
             {
                 return($var<>'');//return true or false
             }
-            return (array_filter($arr, "odd"));
+            return empty($arr) ? '' : (array_filter($arr, "odd"));
         }
 
         function array_remove_empty(& $arr, $trim = true){
@@ -757,13 +759,11 @@ class PayEase
                 }
             }
         }
-        $encrypt_str = clearBlank($encrypt_str);
+       // $encrypt_str = clearBlank($encrypt_str);
+        var_dump($encrypt_str);die;
 
         if (empty($encrypt_str['hmac'])){
-            throw new HmacVerifyException(array(
-                'error_description'=>'hmac validation error',
-                'responseData' => $encrypt_str
-            ));
+            return DataReturn('HMAC验证错误', -1);
         }
         $hmac = $encrypt_str['hmac'];
         unset($encrypt_str['hmac']);
@@ -774,7 +774,7 @@ class PayEase
             if (is_array($value)) {
                 ksort($value);
                 foreach ($value as $key2 => $value2) {
-                    if (is_object($value2)) {
+                    if (is_array($value2)) {
                         $value2 = array_filter((array)$value2);
                         ksort($value2);
                         foreach ($value2 as $oKey => $oValue) {
