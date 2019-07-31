@@ -107,36 +107,6 @@ class PayEase
                 'rows'          => 6,
                 'message'       => '请填写首信易公钥',
             ],
-            [
-                'element'       => 'select',
-                'placeholder'   => '收银台类型',
-                'is_multiple'   => 0,
-                'element_data'  => [
-                    ['value'=>'STANDARD', 'name'=>'标准版'],
-                    ['value'=>'DECLARE', 'name'=>'申报版'],
-                    ['value'=>'CUSTOMS', 'name'=>'海淘版按照收银台类型值判断'],
-                    ['value'=>'DECLARE', 'name'=>'需要同时提交身份信息和贸易 背景。STANDARD 不需要提交身份信息和 贸易背景。CUSTOMS 同申报版相似，区 别在于可不传银行卡号'],
-                ],
-                'name'          => 'cashierVersion',
-                'title'         => '收银台类型',
-                'is_required'   => 0,
-                'message'       => '请选择收银台类型',
-            ],
-            [
-                'element'       => 'select',
-                'placeholder'   => '贸易背景',
-                'is_multiple'   => 0,
-                'element_data'  => [
-                    ['value'=>'GOODSTRADE', 'name'=>'货物贸易'],
-                    ['value'=>'PLANETICKET', 'name'=>'机票'],
-                    ['value'=>'HOTELACCOMMODATIO', 'name'=>'酒店'],
-                    ['value'=>'STUDYABROAD', 'name'=>' 留学']
-                ],
-                'name'          => 'forUse',
-                'title'         => '贸易背景',
-                'is_required'   => 0,
-                'message'       => '请选择贸易背景',
-            ],
         ];
 
         return [
@@ -175,8 +145,6 @@ class PayEase
             'requestId'         => $params['order_no'].GetNumberCode(6),
             'notifyUrl'         => $params['notify_url'],
             'callbackUrl'       => $params['call_back_url'],
-            'cashierVersion'    => $this->config['cashierVersion'],
-            'forUse'            => $this->config['forUse'],
         ];
         $payer = [
             'idType'    => 'IDCARD',
@@ -195,21 +163,15 @@ class PayEase
         $public_key = ROOT.'rsakeys/server.cer';
         $str = $this->buildJson($private_key, $this->config['password'], $data);
         $date = $this->creatdate($str, $public_key);
-        //print_r($str);die;
 
         $url = 'https://apis.5upay.com/onlinePay/order';
-        $ret = $this->execute(
+        return $this->execute(
             $private_key,
             $this->config['password'],
             $public_key,
             $url,
             $date
         );
-        echo '<pre>';
-        print_r($ret);die;
-
-        
-        return 100;
     }
 
     /**
@@ -223,8 +185,8 @@ class PayEase
      */
     public function Respond($params = [])
     {
-        file_put_contents(ROOT.'eeeeeeee.txt', json_encode($params));//die;
-        file_put_contents(ROOT.'hhhhhhhh.txt', json_encode($_SERVER));
+        // file_put_contents(ROOT.'eeeeeeee.txt', json_encode($params));//die;
+        // file_put_contents(ROOT.'hhhhhhhh.txt', json_encode($_SERVER));
  
         // 同步返回，直接进入订单详情页面
         if(substr(CurrentScriptName(), -20) == '_payease_respond.php' && empty($params['hmac']) && !empty($params['requestId']))
@@ -234,20 +196,22 @@ class PayEase
 
 
 
-        $params = json_decode('{"data":"B4BOlE8TEk7gvKRzzF+sVlxbXN6GHkFn0taferJCsP1b43xszuEzPRTAsWlm3ziiMAEYWYsNme2RtWAXYgiJPAW2Q0u8+LYZKvsHyVlSZB4C6e13CumLk2\/fAUcsLZ\/pUGvIidQOAkxwD5Rz7HqzyAnFSx+nSJxDbxJt8WQk6dAHXMqzm4VpSXpPgQkrfdr2sAw9xPMS5O5NiQlXyqjWwm5NY8UG5SjyBuYO6JGRlObzTw6hyAzjnEG3Yqp0YAuO2D6vFdgj6QgWIKeTeJWljXyidCxe\/u3wmko1lTnQg2vTweEEeUb5iGXLvg47w0A2BWlWqsw6SaCNYEblW8nJoH6RfcGMX05GDhBLTAW1uApMrzn80opmm79YlrQgiEdkFkfjT4Y2Ho3obN\/\/EeRl3bi9S72UaaiSAOdWh+3+bwJSPv1jcUDr2eqMrTlkfj+aHDltlu328lP9wtt9q4fnZ1Rz3gXDEUHHEF2zMNyjQCDIukIC8ZtVafDG6ZSl1pYPejOYj56a4W4TAliCIz6LtvYK4HwQuW+X0L5DBEUE4c94CuDiCzYW6TpGIhLMHpIq\/\/dDxnWlGL3ntX9YgLgDZmpoXQxogJb4ZIrbiqZm5Z90ZihYuNXdviTvYFSMtN6plzbT7WM3GbVqwiDayUnTbFSb7TlL6EOjQ6FGev6\/C12WItN8i9QDp+KwgH02FOgD9NXJmoEC3z3JJfYdFhwH1z19Sdcx2vhTdr\/F0yZS5egXgLUAx7g0ZNKaTgncyf7a5mK\/wR+9i398QWd5Cbr+\/oOzh8Z\/jA2dY2mTSkJYXPh8QV4kVxt7mijNnjnuM0nkxXBCL4bDePr9FiuEjdH2MAK4Se656+MT9Gqpi8td8Waql2750vvZQrJlGn6aKs\/orIxiySLa8e1oxlNvLcLByd4PZ9rZbyhIqA4GpgYFAxxtWbDSeLYmvc6PSKYMHWUo"}', true);
+        // $params = json_decode('{"data":"GwrbZZFVl2cVM9G5ACPr+b8RhiZgQkLtC5xHdYwkqEOwMDhUD+wzoeWoVj3swTJ0Q36JNCtjPRZ8TPYe5SkPuo261i\/i\/gzbgrGO1QZxxrqYCMEmLHj3dajdXu2+FZsW4AyIxgpsp0CJ3HQBezmRiKzG4rYZvMDXUgIBArT8T9bcl3HySzyfLovtAWw8jwC2MPYi8d1nsHKEP3uB5NPCA2y\/vXMt0iq2xGNlgVFD0OVk2RkADDYmPxZFH+cH1LH0mX2+Fe5Ga2\/KbUQlR7HTeAkxK1w5sHvzdBK5vtbWJD4vF\/XaNsTuJk4QIw12LtZHGeUNUeWa900CMMt+Jy3DbxnIRutQhudBB7KEFUDlcIWGDBhyikZyMzUWG1CZrbWyih3u6Pv3jgFjHXE0v8kvazWueumV2+\/MfOUYIs8Ax8QVnZVWBYggR3ZpwIQTayjoSLGtQOtvcHUJux\/K6TzRq8xXwVZnqy+yxQArIL4lbfdyEB6TDhQGLsykqwI9b5OhBpj83PQhhHljUhcGkPMgjME1KWL\/JayoS1m+MvYV\/f8K1bphFd4RIf5KxiEkjCeLYXlXC24Eu8V89F6RcVKZE8mZAFaoS7hFISWncTVhZQEAeqbrDl6cPk2CvGbmfJY1DLVDka+ueyl6hqaCtWjTB9D9UH5kh7sCr4WOD9XgHYMw1Kariju9BvUr7f6mhvLGWvFJj8qFejCe2a4\/CbHikmGedljz6EqjU3Op3o6eTe1PyHvXrKktdFWE6yV+VrHBlY9wEHk6fT32ovUkMbCvNX8liRgYaEJX4qtPmvsPs8gSQ0dMplccYGsHclzWTW5TC56CzjOp7pGujHZJ4kVsEIxLpDQDFV9AlxC\/4aNQPNisGv9rBmJ7gxITfrquOpaScAeCSjaTsEj4MS2OE89gAkZ+0YepULRV5F3C+pTWUYtHXam9BL6\/56oj6F\/oL0te"}', true);
+
+        // $_SERVER['HTTP_ENCRYPTKEY'] = 'gQ3QJ98euDJGQOI9UshCfcayWZwKO8OkPREZTVlTTQ4uz6cjTRvhQbvh0dgaPAGZcmHoC4wt0EAlzOCXiF7v+ipMKradhshfJhgOvXJrFJ8Hq7/vHzCCHm7Myqe8U00N20Gs/PJERMsZES3dYM1hlcK8jLBD/okWh2UJW8ocbZiR6hjs3jCzGC/tqv9A1VZi50A5/hnv9CXW2PFppTtZ6wSTVazp0+bAscqquqwABh21HTj65Kkv98OArF7fxeLS2LUPF6HkgkFS4711wcSXplvcssa+gecZ4Z9BVz4JmWKsvLCFoOIg3gwRcPRBdfSTw2tENDVxtKWC+1g6XpBxew==';
+        // $_SERVER['HTTP_MERCHANTID'] = '890000593';
 
         // 异步处理
         $private_key = ROOT.'rsakeys/client.pfx';
         $public_key = ROOT.'rsakeys/test.cer';
         $params['encryptKey'] = isset($_SERVER['HTTP_ENCRYPTKEY']) ? $_SERVER['HTTP_ENCRYPTKEY'] : '';
         $params['merchantId'] = isset($_SERVER['HTTP_MERCHANTID']) ? $_SERVER['HTTP_MERCHANTID'] : '';
-        $data = $this->NotifyCheckHmac($private_key, $params, $public_key, $this->config['password']);
-var_dump($data);die;
+        $ret = $this->NotifyCheckHmac($private_key, $params, $public_key, $this->config['password']);
+
         // 支付状态
-        if(isset($data['status']) && $data['status'] == 'SUCCESS')
+        if(isset($ret['code']) && $ret['code'] == 0 && isset($ret['data']['status']) && $ret['data']['status'] == 'SUCCESS')
         {
-            $data['out_trade_no'] = $order_no;
-            return DataReturn('支付成功', 0, $this->ReturnData($data));
+            return DataReturn('支付成功', 0, $this->ReturnData($ret['data']));
         }
 
         return DataReturn('支付失败', -100);
@@ -263,7 +227,6 @@ var_dump($data);die;
      */
     private function ReturnData($data)
     {
-        print_r($data);die;
         // 参数处理
         $out_trade_no = substr($data['requestId'], 0, strlen($data['requestId'])-6);
 
@@ -317,47 +280,21 @@ var_dump($data);die;
      */
     public function checkHmac($private_key,$public_key,$data,$password)
     {
-
         $aeskey=$this->rsaPrivateDecode($data,$private_key,$password);
         $encrypt_str=$this->aesDesc($data,$aeskey);
-        /*
-       * 去除空值的元素
-       */
-
-        function clearBlank($arr)
-        {
-            return $arr;
-            function odd($var)
-            {
-                return($var<>'');//return true or false
-            }
-            return (array_filter($arr, "odd"));
-        }
-
-        function array_remove_empty(& $arr, $trim = true){
-            foreach ($arr as $key => $value) {
-                if (is_array($value)) {
-                    array_remove_empty($arr[$key]);
-                } else {
-                    $value = trim($value);
-                    if ($value == '') {
-                        unset($arr[$key]);
-                    } elseif ($trim) {
-                        $arr[$key] = $value;
-                    }
-                }
-            }
-        }
-        $encrypt_str = clearBlank($encrypt_str);
         return $this->hmacSign($encrypt_str,$public_key);
     }
 
 
     public function execute($private_key,$password,$public_key,$url, $param)
     {
-        $data = $this->httpRequestPost($url, $param,$public_key,$password,$private_key);
-        $this->handle($data);
-        return $data;
+        $ret = $this->httpRequestPost($url, $param,$public_key,$password,$private_key);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+        $this->handle($ret['data']);
+        return $ret;
     }
 
     public function handle($data = array())
@@ -373,14 +310,11 @@ var_dump($data);die;
             print_r($img);
                 
         } else if(isset($data['status']) && $data['status'] == 'CANCEL'){
-            return $data;
+            return DataReturn('处理失败', -1, $data);
         }else if(isset($data['status']) && $data['status'] == 'INIT'){
-            return $data;
+            return DataReturn('处理失败', -1, $data);
         }else{
-            return array(
-                'error_description'=>'Response Error',
-                'responseData'=>$data
-            );
+            return DataReturn('响应错误', -1);
         }
     }
 
@@ -407,22 +341,16 @@ var_dump($data);die;
         $responseText = curl_exec($curl);
         if (curl_errno($curl) || $responseText === false) {
             curl_close($curl);
-            throw new InvalidRequestException(array(
-                'error_description'=> 'Request Error'
-            ));
+            return DataReturn('请求错误', -1);
         }
         curl_close($curl);
         preg_match_all('/(encryptKey|merchantId|data"):(\s+|")([^"\s]+)/s',$responseText,$m);
         list($encryptKey, $merchantId, $data) = $m[3];
         $responsedata = array("data" =>$data,"encryptKey"=>$encryptKey,"merchantId"=>$merchantId);
         if ($responsedata['merchantId'] == null){
-            throw new InvalidRequestException(array(
-                'error_description'=>'Request error',
-                'responseData'=>$responseText
-            ));
+            return DataReturn('请求错误', -1);
         }
-        $date = $this->checkHmac($private_key,$public_key,$responsedata,$password);
-        return $date;
+        return $this->checkHmac($private_key,$public_key,$responsedata,$password);
     }
 
 
@@ -437,7 +365,7 @@ var_dump($data);die;
         foreach($para as $k=>$var){
             if(is_scalar($var) && $var !== '' && $var !== null){
                 $data[$k] = $var;
-            }else if(is_object($var) && $var instanceof AbstractModel){
+            }else if(is_object($var)){
                 $data[$k] =array_filter((array) $var);
             }else if(is_array($var)){
                 $data[$k] =array_filter($var);
@@ -645,14 +573,25 @@ var_dump($data);die;
         ksort($encrypt_str);
         $hmacSource = '';
         foreach($encrypt_str as $key => $value){
+            if($value == '')
+            {
+                continue;
+            }
             if (is_array($value)) {
                 ksort($value);
                 foreach ($value as $key2 => $value2) {
-
+                    if($value2 == '')
+                    {
+                        continue;
+                    }
                     if (is_object($value2)) {
                         $value2 = array_filter((array)$value2);
                         ksort($value2);
                         foreach ($value2 as $oKey => $oValue) {
+                            if($oValue == '')
+                            {
+                                continue;
+                            }
                             $oValue .= '#';
                             $hmacSource .= trim($oValue);
 
@@ -660,10 +599,18 @@ var_dump($data);die;
                     } else if(is_array($value2)){
                         ksort($value2);
                         foreach ($value2 as $key3 => $value3) {
+                            if($value3 == '')
+                            {
+                                continue;
+                            }
                             if (is_object($value3)) {
                                 $value3 = array_filter((array)$value3);
                                 ksort($value3);
                                 foreach ($value3 as $oKey => $oValue) {
+                                    if($oValue == '')
+                                    {
+                                        continue;
+                                    }
                                     $oValue .= '#';
                                     $hmacSource .= trim($oValue);
                                 }
@@ -685,32 +632,12 @@ var_dump($data);die;
          $sourceHmac=sha1($hmacSource, true);
         $hh=$this->rsaPubilcSign($sourceHmac,$path,$hmac);
         if ($hh==0||$hh==-1){
-            throw new HmacVerifyException(array(
-                'error_description'=>'hmac validation error'
-            ));
+            return DataReturn('HMAC验证错误', -1);
         }
-        return $encrypt_str;
+        return DataReturn('校验成功', 0, $encrypt_str);
     }
 
 
-
-    public function NotifyHandle($data = array())
-    {
-        if($data['status']== 'SUCCESS'){
-            //成功时相关处理代码
-            echo "SUCCESS"; //打印出 SUCCESS 表示收到通知
-        }elseif($data['status'] == 'FAILED' || $data['status'] == 'CANCEL'){
-            //失败时相关处理代码
-            //订单取消
-        }elseif($data['status'] == 'INIT'){
-            //待处理状态下相关处理代码
-        }else{
-            throw new InvalidResponseException(array(
-                'error_description'=> 'notify response error',
-                'responseData'=>$data
-            ));
-        }
-    }
 
     /**
      * hmac 验证
@@ -731,36 +658,6 @@ var_dump($data);die;
         $encrypt_str=  openssl_decrypt($date,"AES-128-ECB",$screct_key);
         $encrypt_str = preg_replace('/[\x00-\x1F]/','', $encrypt_str);
         $encrypt_str = json_decode($encrypt_str,true);
-var_dump($encrypt_str);die;
-        /*
-       * 去除空值的元素
-       */
-
-        function clearBlank($arr)
-        {
-            function odd($var)
-            {
-                return($var<>'');//return true or false
-            }
-            return empty($arr) ? '' : (array_filter($arr, "odd"));
-        }
-
-        function array_remove_empty(& $arr, $trim = true){
-            foreach ($arr as $key => $value) {
-                if (is_array($value)) {
-                    array_remove_empty($arr[$key]);
-                } else {
-                    $value = trim($value);
-                    if ($value == '') {
-                        unset($arr[$key]);
-                    } elseif ($trim) {
-                        $arr[$key] = $value;
-                    }
-                }
-            }
-        }
-       // $encrypt_str = clearBlank($encrypt_str);
-        var_dump($encrypt_str);die;
 
         if (empty($encrypt_str['hmac'])){
             return DataReturn('HMAC验证错误', -1);
@@ -771,13 +668,25 @@ var_dump($encrypt_str);die;
         ksort($encrypt_str);
         $hmacSource = '';
         foreach($encrypt_str as $key => $value){
+            if($value == '')
+            {
+                continue;
+            }
             if (is_array($value)) {
                 ksort($value);
                 foreach ($value as $key2 => $value2) {
+                    if($value2 == '')
+                    {
+                        continue;
+                    }
                     if (is_array($value2)) {
                         $value2 = array_filter((array)$value2);
                         ksort($value2);
                         foreach ($value2 as $oKey => $oValue) {
+                            if($oValue == '')
+                            {
+                                continue;
+                            }
                             $oValue .= '#';
                             $hmacSource .= trim($oValue);
                         }
