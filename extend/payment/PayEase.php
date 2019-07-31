@@ -239,6 +239,109 @@ class PayEase
         return $data;
     }
 
+    /**
+     * 退款处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-28
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public function Refund($params = [])
+    {
+        // 参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'order_no',
+                'error_msg'         => '订单号不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'trade_no',
+                'error_msg'         => '交易平台订单号不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'pay_price',
+                'error_msg'         => '支付金额不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'refund_price',
+                'error_msg'         => '退款金额不能为空',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 退款原因
+        $refund_reason = empty($params['refund_reason']) ? $params['order_no'].'订单退款'.$params['refund_price'].'元' : $params['refund_reason'];
+
+        $private_key = ROOT.'rsakeys/client.pfx';
+        $public_key = ROOT.'rsakeys/server.cer';
+        $password="123456";
+        $this->merchantId = $params['merchantId'];
+
+        $data = [
+            'merchantId'        => $this->config['merchantId'],
+            'requestId'         => $params['order_no'].GetNumberCode(6),
+            'amount'            => $params['refund_price']*100,
+            'orderId'           => $params['order_no'],
+            //'notifyUrl'         => $params['notify_url'],
+            'remark'            => $refund_reason,
+        ];
+        $str = $this->buildJson($private_key, $this->config['password'], $data);
+        $date = $this->creatdate($str, $public_key);
+
+        $url = 'https://apis.5upay.com/onlinePay/refund';
+        $ret = $this->execute(
+            $private_key,
+            $this->config['password'],
+            $public_key,
+            $url,
+            $date
+        );
+        if(isset($ret['code']) && $ret['code'] == 0)
+        {
+            if(isset($ret['data']['status']) && $ret['data']['status'] == 'SUCCESS')
+            {
+                // 统一返回格式
+                $data = [
+                    'out_trade_no'  => isset($result['requestId']) ? $result['requestId'] : '',
+                    'trade_no'      => isset($result['serialNumber']) ? $result['serialNumber'] : '',
+                    'buyer_user'    => isset($result['currency']) ? $result['currency'] : '',
+                    'refund_price'  => isset($result['amount']) ? $result['amount']/100 : 0.00,
+                    'return_params' => $ret['data'],
+                ];
+                return DataReturn('退款成功', 0, $data);
+            }
+        }
+        return DataReturn('退款失败', -100);
+
+        // $this->requestId = $params["requestId"];
+        // $this->amount = $params["amount"];
+        // $this->orderId = $params["orderId"];
+        // $this->remark = $params["remark"];
+        // $this->notifyUrl = $params["notifyUrl"];
+        // $handle = new RefundHandle();
+
+        // $str = $this->buildJson($private_key,$password);
+        // $date = $this->creatdate($str,$public_key);
+        // return $this->execute(
+        //     $private_key,
+        //     $password,
+        //     $public_key,
+        //     ConfigurationUtils::getInstance()->getOnlinepayRefundUrl(),
+        //     json_encode($date),
+        //     $handle
+        // );
+    }
+
 
 
     public function creatdate($strdata,$public_key)
