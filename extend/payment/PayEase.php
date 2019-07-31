@@ -664,8 +664,8 @@ class PayEase
       */
     function hmacSign($encrypt_str,$path){
 
-        if (empty($encrypt_str['hmac'])){
-            return $encrypt_str;
+        if (empty($encrypt_str['hmac'])) {
+            return DataReturn($encrypt_str['cause'].'['.$encrypt_str['code'].']', -1);
         }
         $hmac = $encrypt_str['hmac'];
         unset($encrypt_str['hmac']);
