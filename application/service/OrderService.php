@@ -517,6 +517,11 @@ class OrderService
         {
             $where[] = ['id', '=', intval($params['id'])];
         }
+        // 订单号
+        if(!empty($params['orderno']))
+        {
+            $where[] = ['order_no', '=', trim($params['orderno'])];
+        }
         
         // 用户类型
         if(isset($params['user_type']) && $params['user_type'] == 'user')

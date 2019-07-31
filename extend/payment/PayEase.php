@@ -170,7 +170,7 @@ class PayEase
 
         $data = [
             'merchantId'        => $this->config['merchantId'],
-            'orderAmount'       => $params['total_price']/100,
+            'orderAmount'       => $params['total_price']*100,
             'orderCurrency'     => 'CNY',
             'requestId'         => $params['order_no'].GetNumberCode(6),
             'notifyUrl'         => $params['notify_url'],
@@ -186,7 +186,7 @@ class PayEase
             [
                 'name'      => '新款苹果手机iphone6s',
                 'quantity'  => 1,
-                'amount'    => $params['total_price']/100,
+                'amount'    => $params['total_price']*100,
             ]
         ];
         $data['productDetails'] = $detail;
@@ -223,37 +223,60 @@ class PayEase
      */
     public function Respond($params = [])
     {
-        $data = empty($_POST) ? $_GET :  array_merge($_GET, $_POST);
-        ksort($data);
-
-        // 参数字符串
-        $prestr = '';
-        foreach($data AS $key=>$val)
+        if(!empty($params['requestId']))
         {
-            if ($key != 'sign' && $key != 'sign_type' && $key != 'code')
+            // 参数处理
+            $order_no = substr($params['requestId'], 0, strlen($params['requestId'])-6);
+
+            // 同步返回，直接进入订单详情页面
+            if(substr(CurrentScriptName(), -20) == '_payease_respond.php' && empty($params['hmac']))
             {
-                $prestr .= "$key=$val&";
+                exit(header('location:'.MyUrl('index/order/detail', ['orderno'=>$order_no])));
+            }
+
+            // 异步处理
+            $private_key = ROOT.'rsakeys/client.pfx';
+            $public_key = ROOT.'rsakeys/test.cer';
+            $params['encryptKey'] = isset($_SERVER['HTTP_ENCRYPTKEY']) ? $_SERVER['HTTP_ENCRYPTKEY'] : '';
+            $params['merchantId'] = isset($_SERVER['HTTP_MERCHANTID']) ? $_SERVER['HTTP_MERCHANTID'] : '';
+            $data = $this->NotifyCheckHmac($private_key, $params, $public_key, $this->config['password'])
+
+            // 支付状态
+            if(isset($data['status']) && $data['status'] == 'SUCCESS')
+            {
+                $data['out_trade_no'] = $order_no;
+                return DataReturn('支付成功', 0, $this->ReturnData($data));
             }
         }
-        $prestr = substr($prestr, 0, -1);
 
-        // 签名
-        if(!$this->OutRsaVerify($prestr, $data['sign']))
-        {
-            return DataReturn('签名校验失败', -1);
-        }
+        return DataReturn('支付失败', -100);
+    }
 
-        // 支付状态
-        if(!empty($data['trade_no']) || (isset($data['trade_status']) && in_array($data['trade_status'], ['TRADE_SUCCESS', 'TRADE_FINISHED'])))
-        {
-            return DataReturn('支付成功', 0, $this->ReturnData($data));
-        }
-        return DataReturn('处理异常错误', -100);
+    /**
+     * [ReturnData 返回数据统一格式]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-10-06T16:54:24+0800
+     * @param    [array]                   $data [返回数据]
+     */
+    private function ReturnData($data)
+    {
+        // 参数处理
+        $out_trade_no = substr($data['out_trade_no'], 0, strlen($data['out_trade_no'])-6);
+
+        // 返回数据固定基础参数
+        $data['trade_no']       = isset($data['serialNumber']) ? $data['serialNumber'] : '';  // 支付平台 - 订单号
+        $data['buyer_user']     = isset($data['bindCardId']) ? $data['bindCardId'] : '';      // 支付平台 - 用户
+        $data['subject']        = isset($data['orderCurrency']) ? $data['orderCurrency'] : ''; // 本系统发起支付的 - 商品名称
+        $data['pay_price']      = $data['orderAmount']/100;   // 本系统发起支付的 - 总价
+        return $data;
     }
 
 
 
-    public function creatdate($strdata,$public_key) {
+    public function creatdate($strdata,$public_key)
+    {
         /*
           * 生成16位随机数（AES秘钥）
           */
@@ -664,6 +687,122 @@ class PayEase
             ));
         }
         return $encrypt_str;
+    }
+
+
+
+    public function NotifyHandle($data = array())
+    {
+        if($data['status']== 'SUCCESS'){
+            //成功时相关处理代码
+            echo "SUCCESS"; //打印出 SUCCESS 表示收到通知
+        }elseif($data['status'] == 'FAILED' || $data['status'] == 'CANCEL'){
+            //失败时相关处理代码
+            //订单取消
+        }elseif($data['status'] == 'INIT'){
+            //待处理状态下相关处理代码
+        }else{
+            throw new InvalidResponseException(array(
+                'error_description'=> 'notify response error',
+                'responseData'=>$data
+            ));
+        }
+    }
+
+    /**
+     * hmac 验证
+     * @return mixed
+     */
+    public function NotifyCheckHmac($private_key,$data,$public_key,$password)
+    {
+        $prikey=file_get_contents($private_key);
+        $encryptKey =$data['encryptKey'];
+        $results=array();
+        openssl_pkcs12_read($prikey,$results,$password);
+        $private_key=$results['pkey'];
+        $pi_key =  openssl_pkey_get_public($private_key);
+        openssl_private_decrypt(base64_decode($encryptKey),$decrypted,$private_key);
+
+        $date = json_encode($data['data']);
+        $screct_key = $decrypted;
+        $encrypt_str=  openssl_decrypt($date,"AES-128-ECB",$screct_key);
+        $encrypt_str = preg_replace('/[\x00-\x1F]/','', $encrypt_str);
+        $encrypt_str = json_decode($encrypt_str,true);
+
+        /*
+       * 去除空值的元素
+       */
+
+        function clearBlank($arr)
+        {
+            function odd($var)
+            {
+                return($var<>'');//return true or false
+            }
+            return (array_filter($arr, "odd"));
+        }
+
+        function array_remove_empty(& $arr, $trim = true){
+            foreach ($arr as $key => $value) {
+                if (is_array($value)) {
+                    array_remove_empty($arr[$key]);
+                } else {
+                    $value = trim($value);
+                    if ($value == '') {
+                        unset($arr[$key]);
+                    } elseif ($trim) {
+                        $arr[$key] = $value;
+                    }
+                }
+            }
+        }
+        $encrypt_str = clearBlank($encrypt_str);
+
+        if (empty($encrypt_str['hmac'])){
+            throw new HmacVerifyException(array(
+                'error_description'=>'hmac validation error',
+                'responseData' => $encrypt_str
+            ));
+        }
+        $hmac = $encrypt_str['hmac'];
+        unset($encrypt_str['hmac']);
+
+        ksort($encrypt_str);
+        $hmacSource = '';
+        foreach($encrypt_str as $key => $value){
+            if (is_array($value)) {
+                ksort($value);
+                foreach ($value as $key2 => $value2) {
+                    if (is_object($value2)) {
+                        $value2 = array_filter((array)$value2);
+                        ksort($value2);
+                        foreach ($value2 as $oKey => $oValue) {
+                            $oValue .= '#';
+                            $hmacSource .= trim($oValue);
+                        }
+                    } else {
+                        $value2 .= '#';
+                        $hmacSource .= trim($value2);
+                    }
+                }
+            } else {
+                $value .= '#';
+                $hmacSource .= trim($value);
+            }
+        }
+        $sourceHmac=sha1($hmacSource, true);
+
+        $public_key=file_get_contents($public_key);
+        $pem1 = chunk_split(base64_encode($public_key),64,"\n");
+        $pem1 = "-----BEGIN CERTIFICATE-----\n".$pem1."-----END CERTIFICATE-----\n";
+        $pi_key =  openssl_pkey_get_public($pem1);
+        $result=openssl_verify($sourceHmac,base64_decode($hmac),$pem1,OPENSSL_ALGO_MD5);
+
+        if($result==0||$result==-1)
+        {
+            return DataReturn('签名错误', -1);
+        }
+        return DataReturn('校验成功', 0, $encrypt_str);
     }
 }
 ?>
