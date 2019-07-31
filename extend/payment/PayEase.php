@@ -185,21 +185,11 @@ class PayEase
      */
     public function Respond($params = [])
     {
-        // file_put_contents(ROOT.'eeeeeeee.txt', json_encode($params));//die;
-        // file_put_contents(ROOT.'hhhhhhhh.txt', json_encode($_SERVER));
- 
         // 同步返回，直接进入订单详情页面
         if(substr(CurrentScriptName(), -20) == '_payease_respond.php' && empty($params['hmac']) && !empty($params['requestId']))
         {
             exit(header('location:'.MyUrl('index/order/detail', ['orderno'=>substr($params['requestId'], 0, strlen($params['requestId'])-6)])));
         }
-
-
-
-        // $params = json_decode('{"data":"GwrbZZFVl2cVM9G5ACPr+b8RhiZgQkLtC5xHdYwkqEOwMDhUD+wzoeWoVj3swTJ0Q36JNCtjPRZ8TPYe5SkPuo261i\/i\/gzbgrGO1QZxxrqYCMEmLHj3dajdXu2+FZsW4AyIxgpsp0CJ3HQBezmRiKzG4rYZvMDXUgIBArT8T9bcl3HySzyfLovtAWw8jwC2MPYi8d1nsHKEP3uB5NPCA2y\/vXMt0iq2xGNlgVFD0OVk2RkADDYmPxZFH+cH1LH0mX2+Fe5Ga2\/KbUQlR7HTeAkxK1w5sHvzdBK5vtbWJD4vF\/XaNsTuJk4QIw12LtZHGeUNUeWa900CMMt+Jy3DbxnIRutQhudBB7KEFUDlcIWGDBhyikZyMzUWG1CZrbWyih3u6Pv3jgFjHXE0v8kvazWueumV2+\/MfOUYIs8Ax8QVnZVWBYggR3ZpwIQTayjoSLGtQOtvcHUJux\/K6TzRq8xXwVZnqy+yxQArIL4lbfdyEB6TDhQGLsykqwI9b5OhBpj83PQhhHljUhcGkPMgjME1KWL\/JayoS1m+MvYV\/f8K1bphFd4RIf5KxiEkjCeLYXlXC24Eu8V89F6RcVKZE8mZAFaoS7hFISWncTVhZQEAeqbrDl6cPk2CvGbmfJY1DLVDka+ueyl6hqaCtWjTB9D9UH5kh7sCr4WOD9XgHYMw1Kariju9BvUr7f6mhvLGWvFJj8qFejCe2a4\/CbHikmGedljz6EqjU3Op3o6eTe1PyHvXrKktdFWE6yV+VrHBlY9wEHk6fT32ovUkMbCvNX8liRgYaEJX4qtPmvsPs8gSQ0dMplccYGsHclzWTW5TC56CzjOp7pGujHZJ4kVsEIxLpDQDFV9AlxC\/4aNQPNisGv9rBmJ7gxITfrquOpaScAeCSjaTsEj4MS2OE89gAkZ+0YepULRV5F3C+pTWUYtHXam9BL6\/56oj6F\/oL0te"}', true);
-
-        // $_SERVER['HTTP_ENCRYPTKEY'] = 'gQ3QJ98euDJGQOI9UshCfcayWZwKO8OkPREZTVlTTQ4uz6cjTRvhQbvh0dgaPAGZcmHoC4wt0EAlzOCXiF7v+ipMKradhshfJhgOvXJrFJ8Hq7/vHzCCHm7Myqe8U00N20Gs/PJERMsZES3dYM1hlcK8jLBD/okWh2UJW8ocbZiR6hjs3jCzGC/tqv9A1VZi50A5/hnv9CXW2PFppTtZ6wSTVazp0+bAscqquqwABh21HTj65Kkv98OArF7fxeLS2LUPF6HkgkFS4711wcSXplvcssa+gecZ4Z9BVz4JmWKsvLCFoOIg3gwRcPRBdfSTw2tENDVxtKWC+1g6XpBxew==';
-        // $_SERVER['HTTP_MERCHANTID'] = '890000593';
 
         // 异步处理
         $private_key = ROOT.'rsakeys/client.pfx';
@@ -308,45 +298,25 @@ class PayEase
             {
                 // 统一返回格式
                 $data = [
-                    'out_trade_no'  => isset($result['requestId']) ? $result['requestId'] : '',
-                    'trade_no'      => isset($result['serialNumber']) ? $result['serialNumber'] : '',
-                    'buyer_user'    => isset($result['currency']) ? $result['currency'] : '',
-                    'refund_price'  => isset($result['amount']) ? $result['amount']/100 : 0.00,
+                    'out_trade_no'  => isset($ret['data']['requestId']) ? $ret['data']['requestId'] : '',
+                    'trade_no'      => isset($ret['data']['serialNumber']) ? $ret['data']['serialNumber'] : '',
+                    'buyer_user'    => isset($ret['data']['currency']) ? $ret['data']['currency'] : '',
+                    'refund_price'  => isset($ret['data']['amount']) ? $ret['data']['amount']/100 : 0.00,
                     'return_params' => $ret['data'],
                 ];
-                print_r($data);die;
                 return DataReturn('退款成功', 0, $data);
             }
             return $ret;
         }
         return DataReturn('退款失败', -100);
-
-        // $this->requestId = $params["requestId"];
-        // $this->amount = $params["amount"];
-        // $this->orderId = $params["orderId"];
-        // $this->remark = $params["remark"];
-        // $this->notifyUrl = $params["notifyUrl"];
-        // $handle = new RefundHandle();
-
-        // $str = $this->buildJson($private_key,$password);
-        // $date = $this->creatdate($str,$public_key);
-        // return $this->execute(
-        //     $private_key,
-        //     $password,
-        //     $public_key,
-        //     ConfigurationUtils::getInstance()->getOnlinepayRefundUrl(),
-        //     json_encode($date),
-        //     $handle
-        // );
     }
 
 
-
+    /*
+      * 生成16位随机数（AES秘钥）
+      */
     public function creatdate($strdata,$public_key)
     {
-        /*
-          * 生成16位随机数（AES秘钥）
-          */
         $str1='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
         $randStr = str_shuffle($str1);//打乱字符串
         $rands= substr($randStr,0,16);//生成16位aes密钥
@@ -355,7 +325,6 @@ class PayEase
 
         $date=$this->aesEncrypt($strdata,$rands);
         $json = array("data" =>$date,"encryptKey"=>$encrypted,"merchantId"=>$strdata['merchantId'],"requestId"=>$strdata['requestId']);
-
 
         return $json;
     }
