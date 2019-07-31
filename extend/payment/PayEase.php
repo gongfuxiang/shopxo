@@ -284,9 +284,6 @@ class PayEase
 
         $private_key = ROOT.'rsakeys/client.pfx';
         $public_key = ROOT.'rsakeys/server.cer';
-        $password="123456";
-        $this->merchantId = $params['merchantId'];
-
         $data = [
             'merchantId'        => $this->config['merchantId'],
             'requestId'         => $params['order_no'].GetNumberCode(6),
