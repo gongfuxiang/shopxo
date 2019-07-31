@@ -179,10 +179,7 @@ class PayEase
             'forUse'            => $this->config['forUse'],
         ];
         $payer = [
-            'name'  => '龚福祥',
-            'phoneNum'  => '17602128368',
             'idType'    => 'IDCARD',
-            'idNum'     => '522228199102111214',
         ];
         $data['payer'] = $payer;
         $detail = [
