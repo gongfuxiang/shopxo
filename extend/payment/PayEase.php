@@ -156,9 +156,8 @@ class PayEase
      */
     public function Pay($params = [])
     {
-        $params['notify_url'] = 'https://test.shopxo.net/
-    [notifyUrl] => http://tp5-dev.com/payment_order_payease_notify.php';
-        $params['call_back_url'] = 'https://test.shopxo.net/payment_order_payease_respond.php';
+        $params['notify_url'] = 'http://mshop.stefanoricci.com.cn/payment_order_payease_notify.php';
+        $params['call_back_url'] = 'http://mshop.stefanoricci.com.cn/payment_order_payease_respond.php';
 
         // 参数
         if(empty($params))
