@@ -223,6 +223,7 @@ class PayEase
      */
     public function Respond($params = [])
     {
+        file_put_contents(ROOT.'eeeeeeee.txt', json_encode($params));//die;
         if(!empty($params['requestId']))
         {
             // 参数处理
