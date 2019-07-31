@@ -174,8 +174,8 @@ class PayEase
         $data = [
             'merchantId'        => $this->config['merchantId'],
             'orderAmount'       => $params['total_price']/100,
-            'orderCurrency'     => ' CNY',
-            'requestId'         => $params['order_no'],
+            'orderCurrency'     => 'CNY',
+            'requestId'         => $params['order_no'].GetNumberCode(6),
             'notifyUrl'         => $params['notify_url'],
             'callbackUrl'       => $params['call_back_url'],
             'cashierVersion'    => $this->config['cashierVersion'],
@@ -187,7 +187,6 @@ class PayEase
             'idType'    => 'IDCARD',
             'idNum'     => '522228199102111214',
         ];
-        $data['payer'] = json_encode($payer, JSON_UNESCAPED_UNICODE);
         $data['payer'] = $payer;
         $detail = [
             [
@@ -196,7 +195,6 @@ class PayEase
                 'amount'    => $params['total_price']/100,
             ]
         ];
-        $data['productDetails'] = json_encode($detail, JSON_UNESCAPED_UNICODE);
         $data['productDetails'] = $detail;
 
         $private_key = ROOT.'rsakeys/client.pfx';
