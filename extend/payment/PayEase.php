@@ -239,7 +239,7 @@ class PayEase
             $public_key = ROOT.'rsakeys/test.cer';
             $params['encryptKey'] = isset($_SERVER['HTTP_ENCRYPTKEY']) ? $_SERVER['HTTP_ENCRYPTKEY'] : '';
             $params['merchantId'] = isset($_SERVER['HTTP_MERCHANTID']) ? $_SERVER['HTTP_MERCHANTID'] : '';
-            $data = $this->NotifyCheckHmac($private_key, $params, $public_key, $this->config['password'])
+            $data = $this->NotifyCheckHmac($private_key, $params, $public_key, $this->config['password']);
 
             // 支付状态
             if(isset($data['status']) && $data['status'] == 'SUCCESS')
