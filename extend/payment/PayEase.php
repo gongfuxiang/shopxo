@@ -142,7 +142,7 @@ class PayEase
             'merchantId'        => $this->config['merchantId'],
             'orderAmount'       => $params['total_price']*100,
             'orderCurrency'     => 'CNY',
-            'requestId'         => $params['order_no'].GetNumberCode(6),
+            'requestId'         => $params['order_no'],
             'notifyUrl'         => $params['notify_url'],
             'callbackUrl'       => $params['call_back_url'],
         ];
@@ -191,7 +191,7 @@ class PayEase
         // 同步返回，直接进入订单详情页面
         if(substr(CurrentScriptName(), -20) == '_payease_respond.php' && empty($params['hmac']) && !empty($params['requestId']))
         {
-            exit(header('location:'.MyUrl('index/order/detail', ['orderno'=>substr($params['requestId'], 0, strlen($params['requestId'])-6)])));
+            exit(header('location:'.MyUrl('index/order/detail', ['orderno'=>$params['requestId']])));
         }
 
 
@@ -228,7 +228,7 @@ class PayEase
     private function ReturnData($data)
     {
         // 参数处理
-        $out_trade_no = substr($data['requestId'], 0, strlen($data['requestId'])-6);
+        $out_trade_no = $data['requestId'];
 
         // 返回数据固定基础参数
         $data['trade_no']       = isset($data['serialNumber']) ? $data['serialNumber'] : '';  // 支付平台 - 订单号
@@ -286,7 +286,7 @@ class PayEase
         $public_key = ROOT.'rsakeys/server.cer';
         $data = [
             'merchantId'        => $this->config['merchantId'],
-            'requestId'         => $params['order_no'].GetNumberCode(6),
+            'requestId'         => $params['order_no'],
             'amount'            => $params['refund_price']*100,
             'orderId'           => $params['order_no'],
             //'notifyUrl'         => $params['notify_url'],
