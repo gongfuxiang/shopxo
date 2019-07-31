@@ -152,7 +152,7 @@ class PayEase
         $data['payer'] = $payer;
         $detail = [
             [
-                'name'      => '新款苹果手机iphone6s',
+                'name'      => $params['name'],
                 'quantity'  => 1,
                 'amount'    => $params['total_price']*100,
             ]
