@@ -288,7 +288,7 @@ class PayEase
             'merchantId'        => $this->config['merchantId'],
             'requestId'         => $params['order_no'],
             'amount'            => $params['refund_price']*100,
-            'orderId'           => $params['order_no'],
+            'orderId'           => $params['trade_no'],
             //'notifyUrl'         => $params['notify_url'],
             'remark'            => $refund_reason,
         ];
