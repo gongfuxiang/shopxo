@@ -247,7 +247,7 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
 .gray-text { color: #999; }
 
 /* 价格颜色 */
-.price strong {color: #E4393C; font-weight: 600; }
+.price strong {color: #c00; font-weight: 600; }
 
 /* 公共错误提示页面 */
 .tips-error, .tips-success { margin: 10% 0; background: #fff; }

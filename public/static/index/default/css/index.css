@@ -30,7 +30,7 @@ text-align: center;float:none}
 
 /*楼层*/
 .floor {background: #fff; position: relative; }
-.outer-con .price { color: #f33f00; font-weight: bold; }
+.outer-con .price { color: #c00; font-weight: bold; }
 .items-nav-title a:hover { color: #d2364c; }
 
 /*小标签*/
