@@ -303,9 +303,9 @@ class PayEase
             $url,
             $date
         );
-        if(isset($ret['code']) && $ret['code'] == 0)
+        if(isset($ret['code']))
         {
-            if(isset($ret['data']['status']) && $ret['data']['status'] == 'SUCCESS')
+            if($ret['code'] == 0 && isset($ret['data']['status']) && $ret['data']['status'] == 'SUCCESS')
             {
                 // 统一返回格式
                 $data = [
@@ -317,6 +317,7 @@ class PayEase
                 ];
                 return DataReturn('退款成功', 0, $data);
             }
+            return $ret;
         }
         return DataReturn('退款失败', -100);
 
