@@ -295,6 +295,9 @@ class Common extends Controller
         // 顶部右侧导航
         $this->assign('common_nav_top_right_list', NavigationService::HomeHavTopRight(['user'=>$this->user]));
 
+        // 底部导航
+        $this->assign('common_bottom_nav_list', NavigationService::BottomNavigation(['user'=>$this->user]));
+
         // 编辑器文件存放地址
         $this->assign('editor_path_type', empty($this->user['id']) ? 'public' : 'user_'.$this->user['id']);
     }

@@ -1,26 +1,15 @@
-<div class="mobile-navigation">
-    <li {{if $controller_name.$action_name eq 'indexindex'}}class="active"{{/if}}>
-        <a href="{{$Think.__MY_URL__}}" class="am-block">
-            <img src="{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/{{if $controller_name.$action_name eq 'indexindex'}}nav-icon-home-active.png{{else /}}nav-icon-home.png{{/if}}" class="am-block" alt="首页" />
-            <p>首页</p>
-        </a>
-    </li>
-    <li {{if $controller_name.$action_name eq 'categoryindex'}}class="active"{{/if}}>
-        <a href="{{:MyUrl('index/category/index')}}" class="am-block">
-            <img src="{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/{{if $controller_name.$action_name eq 'categoryindex'}}nav-icon-category-active.png{{else /}}nav-icon-category.png{{/if}}" class="am-block" alt="分类" />
-            <p>分类</p>
-        </a>
-    </li>
-    <li {{if $controller_name.$action_name eq 'cartindex'}}class="active"{{/if}}>
-        <a {{if empty($user)}}href="javascript:;" class="login-event am-block"{{else /}} href="{{:MyUrl('index/cart/index')}}" class="am-block"{{/if}}>
-            <img src="{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/{{if $controller_name.$action_name eq 'cartindex'}}nav-icon-cart-active.png{{else /}}nav-icon-cart.png{{/if}}" class="am-block" alt="购物车" />
-            <p>购物车</p>
-        </a>
-    </li>
-    <li {{if $controller_name.$action_name eq 'userindex'}}class="active"{{/if}}>
-        <a {{if empty($user)}}href="javascript:;" class="login-event am-block"{{else /}} href="{{:MyUrl('index/user/index')}}" class="am-block"{{/if}}>
-            <img src="{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/{{if $controller_name.$action_name eq 'userindex'}}nav-icon-user-active.png{{else /}}nav-icon-user.png{{/if}}" class="am-block" alt="我的" />
-            <p>我的</p>
-        </a>
-    </li>
-</div>
+{{if !empty($common_bottom_nav_list)}}
+    <div class="mobile-navigation">
+        {{foreach $common_bottom_nav_list as $nav}}
+            <li {{if $controller_name.$action_name eq $nav['only_tag']}}class="active"{{/if}}>
+                <a {{if isset($nav['is_login']) and $nav['is_login'] eq 1 and empty($user)}}href="javascript:;" class="login-event am-block"{{else /}} href="{{$nav.url}}" class="am-block"{{/if}}>
+                    <img src="{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/{{if $controller_name.$action_name eq $nav['only_tag']}}{{$nav.icon}}-active.png{{else /}}{{$nav.icon}}.png{{/if}}" class="am-block" alt="{{$nav.name}}" />
+                    <p>{{$nav.name}}</p>
+                </a>
+                {{if isset($nav['badge']) and $nav['badge'] nheq null}}
+                    <span class="am-badge am-badge-danger am-round common-cart-total hot-icon">{{$nav.badge}}</span>
+                {{/if}}
+            </li>
+        {{/foreach}}
+    </div>
+{{/if}}
