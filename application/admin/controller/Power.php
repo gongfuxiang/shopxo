@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use think\facade\Hook;
 use app\service\AdminPowerService;
 
 /**
@@ -149,13 +150,26 @@ class Power extends Common
 				$params['role_id'] =  $ret[0]['id'];
 			}
 		}
-		$this->assign('data', $data);
 
 		// 菜单列表
 		$power = AdminPowerService::RolePowerEditData($params);
-
 		$this->assign('common_is_enable_list', lang('common_is_enable_list'));
 		$this->assign('power', $power);
+
+		// 角色编辑页面钩子
+        $hook_name = 'plugins_view_admin_power_role_save';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+        [
+            'hook_name'     => $hook_name,
+            'is_backend'    => false,
+            'goods_id'      => isset($params['id']) ? $params['id'] : 0,
+            'data'          => &$data,
+            'params'        => &$params,
+        ]));
+
+        // 数据
+        $this->assign('data', $data);
+        $this->assign('params', $params);
 		return $this->fetch();
 	}
 

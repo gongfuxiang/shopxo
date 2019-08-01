@@ -34,55 +34,74 @@ return array (
   ),
   'plugins_css' => 
   array (
-    0 => 'app\\plugins\\membershiplevel\\Hook',
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
+    1 => 'app\\plugins\\membershiplevelvip\\Hook',
+  ),
+  'plugins_js' => 
+  array (
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
+  ),
+  'plugins_service_navigation_header_handle' => 
+  array (
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
   ),
   'plugins_service_goods_handle_end' => 
   array (
-    0 => 'app\\plugins\\membershiplevel\\Hook',
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
+    1 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
   'plugins_service_goods_spec_base' => 
   array (
-    0 => 'app\\plugins\\membershiplevel\\Hook',
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
+    1 => 'app\\plugins\\membershiplevelvip\\Hook',
+  ),
+  'plugins_view_goods_detail_base_top' => 
+  array (
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
+  ),
+  'plugins_view_home_floor_top' => 
+  array (
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
   ),
   'plugins_service_buy_handle' => 
   array (
-    0 => 'app\\plugins\\membershiplevel\\Hook',
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
   'plugins_service_user_login_success_record' => 
   array (
-    0 => 'app\\plugins\\membershiplevel\\Hook',
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
   'plugins_service_goods_spec_extends_handle' => 
   array (
-    0 => 'app\\plugins\\membershiplevel\\Hook',
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
   'plugins_view_admin_user_save' => 
   array (
-    0 => 'app\\plugins\\membershiplevel\\Hook',
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
   'plugins_service_user_save_handle' => 
   array (
-    0 => 'app\\plugins\\membershiplevel\\Hook',
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
   'plugins_service_goods_save_handle' => 
   array (
-    0 => 'app\\plugins\\membershiplevel\\Hook',
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
   'plugins_view_goods_detail_panel_price_top' => 
   array (
-    0 => 'app\\plugins\\membershiplevel\\Hook',
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
   'plugins_view_home_goods_inside_bottom' => 
   array (
-    0 => 'app\\plugins\\membershiplevel\\Hook',
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
   'plugins_view_search_goods_inside_bottom' => 
   array (
-    0 => 'app\\plugins\\membershiplevel\\Hook',
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
   'plugins_service_goods_spec_type' => 
   array (
-    0 => 'app\\plugins\\membershiplevel\\Hook',
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
 );
 ?>

@@ -152,11 +152,12 @@ class User extends Common
 		}
 
 		// 用户编辑页面钩子
-        $this->assign('plugins_view_admin_user_save_data', Hook::listen('plugins_view_admin_user_save',
+		$hook_name = 'plugins_view_admin_user_save';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
         [
-            'hook_name'    	=> 'plugins_view_admin_user_save',
+            'hook_name'    	=> $hook_name,
             'is_backend'   	=> false,
-            'user_id'      	=> $params['id'],
+            'user_id'      	=> isset($params['id']) ? $params['id'] : 0,
             'data'			=> &$data,
             'params'       	=> &$params,
         ]));

@@ -145,11 +145,12 @@ class Goods extends Common
 		$this->assign('goods_specifications_extends', $goods_spec_extends['data']);
 
 		// 商品编辑页面钩子
-        $this->assign('plugins_view_admin_goods_save_data', Hook::listen('plugins_view_admin_goods_save',
+		$hook_name = 'plugins_view_admin_goods_save';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
         [
-            'hook_name'    	=> 'plugins_view_admin_goods_save',
+            'hook_name'    	=> $hook_name,
             'is_backend'   	=> false,
-            'goods_id'      => $params['id'],
+            'goods_id'      => isset($params['id']) ? $params['id'] : 0,
             'data'			=> &$data,
             'params'       	=> &$params,
         ]));
