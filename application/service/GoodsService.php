@@ -186,6 +186,7 @@ class GoodsService
             foreach($goods_category as &$v)
             {
                 $category_ids = self::GoodsCategoryItemsIds([$v['id']], 1);
+                print_r($category_ids);
                 $goods = self::CategoryGoodsList(['where'=>['gci.category_id'=>$category_ids, 'g.is_home_recommended'=>1, 'g.is_shelves'=>1], 'm'=>0, 'n'=>8, 'field'=>'g.*']);
                 $v['goods'] = $goods['data'];
             }
@@ -216,9 +217,10 @@ class GoodsService
             $temp = self::GoodsCategoryItemsIds($data, $is_enable);
             if(!empty($temp))
             {
-                $data = array_merge($ids, $data, $temp);
+                $data = array_merge($data, $temp);
             }
         }
+        $data = empty($data) ? $ids : array_merge($ids, $data);
         return $data;
     }
 
