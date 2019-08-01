@@ -30,6 +30,20 @@
 	</div>
 </div>
 <!-- content end -->
+
+<!-- 插件扩展数据 start -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+    <div class="plugins-tag">
+        <span>plugins_view_admin_login_info</span>
+    </div>
+{{/if}}
+{{if !empty($plugins_view_admin_login_info_data) and is_array($plugins_view_admin_login_info_data)}}
+    {{foreach $plugins_view_admin_login_info_data as $hook}}
+        {{if is_string($hook) or is_int($hook)}}
+            {{$hook|raw}}
+        {{/if}}
+    {{/foreach}}
+{{/if}}
 		
 <!-- footer -->
 {{include file="public/footer" /}}

@@ -162,7 +162,7 @@ class Power extends Common
         [
             'hook_name'     => $hook_name,
             'is_backend'    => false,
-            'goods_id'      => isset($params['id']) ? $params['id'] : 0,
+            'role_id'      	=> isset($params['id']) ? $params['id'] : 0,
             'data'          => &$data,
             'params'        => &$params,
         ]));

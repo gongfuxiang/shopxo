@@ -150,7 +150,7 @@ class Admin extends Common
         [
             'hook_name'     => $hook_name,
             'is_backend'    => false,
-            'goods_id'      => isset($params['id']) ? $params['id'] : 0,
+            'admin_id'      => isset($params['id']) ? $params['id'] : 0,
             'data'          => &$data,
             'params'        => &$params,
         ]));
@@ -235,6 +235,14 @@ class Admin extends Common
 		{
 			return redirect(MyUrl('admin/index/index'));
 		}
+
+		// 管理员登录页面钩子
+        $hook_name = 'plugins_view_admin_login_info';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+        [
+            'hook_name'     => $hook_name,
+            'is_backend'    => false,
+        ]));
 
 		return $this->fetch();
 	}

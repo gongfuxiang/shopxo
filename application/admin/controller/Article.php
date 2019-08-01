@@ -138,7 +138,7 @@ class Article extends Common
         [
             'hook_name'     => $hook_name,
             'is_backend'    => false,
-            'goods_id'      => isset($params['id']) ? $params['id'] : 0,
+            'article_id'    => isset($params['id']) ? $params['id'] : 0,
             'data'          => &$data,
             'params'        => &$params,
         ]));
