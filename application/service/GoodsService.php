@@ -1392,9 +1392,7 @@ class GoodsService
                 }
             }
         }
-print_r($data);
-print_r($title);
-die;
+
         return DataReturn('success', 0, ['data'=>$data, 'title'=>$title, 'images'=>$images]);
     }
 
