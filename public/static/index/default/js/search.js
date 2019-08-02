@@ -151,7 +151,7 @@ $(function()
     {
         // 请求参数处理
         var data = {
-            category_id: $('.search-content').data('category-id') || 0,
+            category_id: $('.search-container').data('category-id') || 0,
             wd: $('#search-input').val() || '',
             page: page || parseInt($('.search-pages-submit').attr('data-page')) || 1,
             order_by_field: $('.sort-nav li.active').attr('data-field') || 'default',
@@ -165,7 +165,7 @@ $(function()
         // 清空数据
         if(data.page == 1)
         {
-            $('.data-list').html('');
+            $('.search-list').html('');
         }
 
         // 页面提示处理
@@ -185,13 +185,13 @@ $(function()
                 $('.loding-view').hide();
                 if(result.code == 0)
                 {
-                    $('.data-list').append(result.data.data);
+                    $('.search-list').append(result.data.data);
                     $('.search-pages-submit').attr('data-page', data.page+1);
                     $('.search-pages-submit').attr('disabled', (result.data.page_total <= 1));
                     $('.search-pages-submit').show();
                     $('.table-no').hide();
                 } else if(result.code == -100) {
-                    if($('.data-list li').length == 0)
+                    if($('.search-list li').length == 0)
                     {
                         $('.table-no').show();
                         $('.search-pages-submit').hide();

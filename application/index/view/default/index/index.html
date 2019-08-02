@@ -230,28 +230,28 @@
                             {{if !empty($floor['goods'])}}
                                 {{foreach $floor.goods as $goods_key=>$goods}}
                                     <div class="goods-items">
-                                        <!-- 首页楼层商品内部顶部钩子 -->
-                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
-                                            <div class="plugins-tag">
-                                                <span>plugins_view_home_goods_inside_top</span>
-                                            </div>
-                                        {{/if}}
-                                        {{php}}
-                                            $hook_name = 'plugins_view_home_goods_inside_top';
-                                            $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'floor_id'=>$key+1, 'goods_id'=>$goods['id'], 'goods'=>$goods]);
-                                            if(!empty($hook_data) && is_array($hook_data))
-                                            {
-                                                foreach($hook_data as $hook)
+                                        <a href="{{$goods.goods_url}}" target="_blank" class="am-block">
+                                            <!-- 首页楼层商品内部顶部钩子 -->
+                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                                <div class="plugins-tag">
+                                                    <span>plugins_view_home_goods_inside_top</span>
+                                                </div>
+                                            {{/if}}
+                                            {{php}}
+                                                $hook_name = 'plugins_view_home_goods_inside_top';
+                                                $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'floor_id'=>$key+1, 'goods_id'=>$goods['id'], 'goods'=>$goods]);
+                                                if(!empty($hook_data) && is_array($hook_data))
                                                 {
-                                                    if(is_string($hook) || is_int($hook))
+                                                    foreach($hook_data as $hook)
                                                     {
-                                                        echo htmlspecialchars_decode($hook);
+                                                        if(is_string($hook) || is_int($hook))
+                                                        {
+                                                            echo htmlspecialchars_decode($hook);
+                                                        }
                                                     }
                                                 }
-                                            }
-                                        {{/php}}
-                                        <a href="{{$goods.goods_url}}" target="_blank">
-                                            <img src="{{$goods.home_recommended_images}}" alt="{{$goods.title}}" />
+                                            {{/php}}
+                                            <img src="{{$goods.home_recommended_images}}" alt="{{$goods.title}}" class="goods-images" />
                                         </a>
                                         <div class="outer-con">
                                             <div class="goods-title am-text-truncate">

@@ -36,7 +36,7 @@ class Devtest extends Common
     }
     
     /**
-     * 附件
+     * 附件初始化 1.6升级运行
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -49,10 +49,6 @@ class Devtest extends Common
             die('非法访问');
         }
 
-        $count = 0;
-        $success = 0;
-        $error = 0;
-
         $path_all = [
             'video' => __MY_ROOT_PUBLIC__.'static/upload/video/',
             'file' => __MY_ROOT_PUBLIC__.'static/upload/file/',
@@ -61,77 +57,19 @@ class Devtest extends Common
         foreach($path_all as $type=>$path)
         {
             $path = GetDocumentRoot() . (substr($path, 0, 1) == "/" ? "":"/") . $path;
-
-            // 从磁盘获取文件
-            $files = $this->GetDirFilesList($path, $type, $path);
-            if(!empty($files))
+            $handle = opendir($path);
+            while(false !== ($file = readdir($handle)))
             {
-                $count += count($files);
-                foreach($files as $v)
+                if($file != 'index.html' && $file != '.' && $file != '..' && substr($file, 0, 1) != '.')
                 {
-                    $temp = Db::name('Attachment')->where(['title'=>$v['title'], 'hash'=>$v['hash']])->find();
-                    if(empty($temp))
+                    $ret = ResourcesService::AttachmentDiskFilesToDb($file);
+                    if(isset($ret['msg']))
                     {
-                        $ret = ResourcesService::AttachmentAdd($v);
-                        if($ret['code'] == 0)
-                        {
-                            $success++;
-                        } else {
-                            $error++;
-                        }
-                    } else {
-                        $success++;
+                        echo $ret['msg'];
                     }
                 }
             }
         }
-        echo '总数['.$count.'], 成功['.$success.'], 失败['.$error.']';
-    }
-
-    /**
-     * 遍历获取目录下的指定类型的文件
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-01-17T23:24:59+0800
-     * @param    [string]        $path          [路径地址]
-     * @param    [string]        $type   [允许的文件]
-     * @param    [array]         &$files        [数据]
-     * @return   [array]                        [数据]
-     */
-    private function GetDirFilesList($path, $type, $path_old, &$files = array())
-    {
-        if(!is_dir($path)) return null;
-        if(substr($path, strlen($path) - 1) != '/') $path .= '/';
-        $handle = opendir($path);
-        $document_root = GetDocumentRoot();
-        while(false !== ($file = readdir($handle)))
-        {
-            if($file != 'index.html' && $file != '.' && $file != '..' && substr($file, 0, 1) != '.')
-            {
-                $path2 = $path . $file;
-                if(is_dir($path2))
-                {
-                    $this->GetDirFilesList($path2, $type, $path_old, $files);
-                } else {
-                    $url = ResourcesService::AttachmentPathHandle(substr($path2, strlen($document_root)));
-                    $title = substr($url, strripos($url, '/')+1);
-                    $root_path = ROOT.'public'.$url;
-                    $path_type = str_replace($path_old, '', $root_path);
-                    $files[] = array(
-                        'url'       => $url,
-                        'original'  => $title,
-                        'title'     => $title,
-                        'type'      => $type,
-                        'path_type' => substr($path_type, 0, stripos($path_type, '/')),
-                        'size'      => file_exists($root_path) ? filesize($root_path) : 0,
-                        'hash'      => file_exists($root_path) ? hash_file('sha256', $root_path, false) : '',
-                        'ext'       => substr($title, strripos($title, '.')),
-                    );
-                }
-            }
-        }
-        return $files;
     }
 }
 ?>

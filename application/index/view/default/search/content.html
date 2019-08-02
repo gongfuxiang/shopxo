@@ -2,32 +2,30 @@
     {{foreach $data as $v}}
         <li class="am-animation-scale-up">
             <div class="items">
-                <!-- 搜索页面商品信息顶部钩子 -->
-                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
-                    <div class="plugins-tag">
-                        <span>plugins_view_search_goods_inside_top</span>
-                    </div>
-                {{/if}}
-                {{php}}
-                    $hook_name = 'plugins_view_search_goods_inside_top';
-                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods_id'=>$v['id'], 'goods'=>$v]);
-                    if(!empty($hook_data) && is_array($hook_data))
-                    {
-                        foreach($hook_data as $hook)
+                <a href="{{$v.goods_url}}" target="_blank" class="am-block">
+                    <!-- 搜索页面商品信息顶部钩子 -->
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                        <div class="plugins-tag">
+                            <span>plugins_view_search_goods_inside_top</span>
+                        </div>
+                    {{/if}}
+                    {{php}}
+                        $hook_name = 'plugins_view_search_goods_inside_top';
+                        $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods_id'=>$v['id'], 'goods'=>$v]);
+                        if(!empty($hook_data) && is_array($hook_data))
                         {
-                            if(is_string($hook) || is_int($hook))
+                            foreach($hook_data as $hook)
                             {
-                                echo htmlspecialchars_decode($hook);
+                                if(is_string($hook) || is_int($hook))
+                                {
+                                    echo htmlspecialchars_decode($hook);
+                                }
                             }
                         }
-                    }
-                {{/php}}
+                    {{/php}}
 
-                <a href="{{$v.goods_url}}" target="_blank" class="goods-images">
-                    <img src="{{$v.images}}" alt="{{$v.title}}">
-                </a>
-                <a href="{{$v.goods_url}}" target="_blank" class="goods-title">
-                    <p class="am-text-truncate am-padding-xs" title="{{$v.title}}">{{$v.title}}</p>
+                    <img src="{{$v.images}}" alt="{{$v.title}}" class="goods-images" />
+                    <p class="am-text-truncate am-padding-xs goods-title" title="{{$v.title}}">{{$v.title}}</p>
                 </a>
                 <p class="am-padding-horizontal-xs am-cf">
                     <span class="am-fl original-price">￥{{$v.original_price}}</span>

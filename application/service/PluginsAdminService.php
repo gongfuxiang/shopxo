@@ -114,7 +114,7 @@ class PluginsAdminService
             // 添加数据
             if(Db::name('Plugins')->insertGetId($data) > 0)
             {
-               return DataReturn('安装成功'); 
+               return DataReturn('安装成功');
             } else {
                 return DataReturn('安装失败', -100);
             }
@@ -1072,6 +1072,9 @@ php;
                 }
             }
         }
+
+        // 附件同步到数据库
+        ResourcesService::AttachmentDiskFilesToDb('plugins_'.$plugins_name);
 
         // sql运行
         $install_sql = APP_PATH.'plugins'.DS.$plugins_name.DS.'install.sql';

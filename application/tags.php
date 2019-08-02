@@ -36,6 +36,7 @@ return array (
   array (
     0 => 'app\\plugins\\limitedtimediscount\\Hook',
     1 => 'app\\plugins\\membershiplevelvip\\Hook',
+    2 => 'app\\plugins\\goodsphototag\\Hook',
   ),
   'plugins_js' => 
   array (
@@ -102,6 +103,18 @@ return array (
   'plugins_service_goods_spec_type' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
+  ),
+  'plugins_view_goods_detail_photo_within' => 
+  array (
+    0 => 'app\\plugins\\goodsphototag\\Hook',
+  ),
+  'plugins_view_home_goods_inside_top' => 
+  array (
+    0 => 'app\\plugins\\goodsphototag\\Hook',
+  ),
+  'plugins_view_search_goods_inside_top' => 
+  array (
+    0 => 'app\\plugins\\goodsphototag\\Hook',
   ),
 );
 ?>

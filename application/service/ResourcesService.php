@@ -359,5 +359,101 @@ class ResourcesService
         }
         return DataReturn('删除失败', -100);
     }
+
+    /**
+     * 磁盘附加同步到数据库
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-08-02
+     * @desc    description
+     * @param   [string]          $path_type [附件路径类型]
+     */
+    public static function AttachmentDiskFilesToDb($path_type)
+    {
+        // 处理状态总数
+        $count = 0;
+        $success = 0;
+        $error = 0;
+
+        // 视频/文件/图片
+        $path_all = [
+            'video' => __MY_ROOT_PUBLIC__.'static/upload/video/'.$path_type.'/',
+            'file'  => __MY_ROOT_PUBLIC__.'static/upload/file/'.$path_type.'/',
+            'image' => __MY_ROOT_PUBLIC__.'static/upload/images/'.$path_type.'/',
+        ];
+        foreach($path_all as $type=>$path)
+        {
+            $path = GetDocumentRoot() . (substr($path, 0, 1) == "/" ? "":"/") . $path;
+            $files =self::AttachmentDiskFilesList($path, $type, $path_type);
+            if(!empty($files))
+            {
+                $count += count($files);
+                foreach($files as $v)
+                {
+                    $temp = Db::name('Attachment')->where(['title'=>$v['title'], 'hash'=>$v['hash']])->find();
+                    if(empty($temp))
+                    {
+                        $ret = self::AttachmentAdd($v);
+                        if($ret['code'] == 0)
+                        {
+                            $success++;
+                        } else {
+                            $error++;
+                        }
+                    } else {
+                        $success++;
+                    }
+                }
+            }
+        }
+        return DataReturn('总数['.$count.'], 成功['.$success.'], 失败['.$error.']', 0);
+    }
+
+    /**
+     * 遍历获取目录下的指定类型的文件
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-01-17T23:24:59+0800
+     * @param    [string]        $path          [路径地址]
+     * @param    [string]        $type          [允许的文件]
+     * @param    [string]        $path_type     [路径类型]
+     * @param    [array]         &$files        [数据]
+     * @return   [array]                        [数据]
+     */
+    public static function AttachmentDiskFilesList($path, $type, $path_type, &$files = [])
+    {
+        if(!is_dir($path)) return null;
+        if(substr($path, strlen($path) - 1) != '/') $path .= '/';
+        $handle = opendir($path);
+        $document_root = GetDocumentRoot();
+        while(false !== ($file = readdir($handle)))
+        {
+            if($file != 'index.html' && $file != '.' && $file != '..' && substr($file, 0, 1) != '.')
+            {
+                $temp_path = $path . $file;
+                if(is_dir($temp_path))
+                {
+                    self::AttachmentDiskFilesList($temp_path, $type, $path_type, $files);
+                } else {
+                    $url = self::AttachmentPathHandle(substr($temp_path, strlen($document_root)));
+                    $title = substr($url, strripos($url, '/')+1);
+                    $root_path = ROOT.'public'.$url;
+                    $files[] = array(
+                        'url'       => $url,
+                        'original'  => $title,
+                        'title'     => $title,
+                        'type'      => $type,
+                        'path_type' => $path_type,
+                        'size'      => file_exists($root_path) ? filesize($root_path) : 0,
+                        'hash'      => file_exists($root_path) ? hash_file('sha256', $root_path, false) : '',
+                        'ext'       => substr($title, strripos($title, '.')),
+                    );
+                }
+            }
+        }
+        return $files;
+    }
 }
 ?>
