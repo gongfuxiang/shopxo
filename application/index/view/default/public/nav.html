@@ -6,7 +6,7 @@
                     <img src="{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/{{if $controller_name.$action_name eq $nav['only_tag']}}{{$nav.icon}}-active.png{{else /}}{{$nav.icon}}.png{{/if}}" class="am-block" alt="{{$nav.name}}" />
                     <p>{{$nav.name}}</p>
                 </a>
-                {{if isset($nav['badge']) and $nav['badge'] nheq null}}
+                {{if isset($nav['badge']) and $nav['badge'] nheq null and $nav['badge'] gt 0}}
                     <span class="am-badge am-badge-danger am-round common-cart-total hot-icon">{{$nav.badge}}</span>
                 {{/if}}
             </li>
