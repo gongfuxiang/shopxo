@@ -59,6 +59,12 @@ function MiniAppEnv()
         {
             return 'alipay';
         }
+
+        // 百度小程序
+        if(stripos($_SERVER['HTTP_USER_AGENT'], 'swan-baiduboxapp') !== false)
+        {
+            return 'baidu';
+        }
     }
     return null;
 }
