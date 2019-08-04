@@ -989,9 +989,9 @@ class GoodsService
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'simple_desc',
-                'checked_data'      => '60',
+                'checked_data'      => '160',
                 'is_checked'        => 1,
-                'error_msg'         => '商品简述格式 最多60个字符',
+                'error_msg'         => '商品简述格式 最多160个字符',
             ],
             [
                 'checked_type'      => 'length',
