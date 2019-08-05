@@ -60,7 +60,7 @@
                         <div class="am-form-group am-form-group-refreshing business-form-block">
                             <label>验证码</label>
                             <div class="am-input-group am-input-group-sm">
-                                <input type="text" name="verify" class="am-radius" placeholder="验证码" minlength="6" maxlength="6" data-validation-message="请输入图片验证码" required />
+                                <input type="text" name="verify" class="am-radius" placeholder="验证码" minlength="4" maxlength="4" data-validation-message="请输入图片验证码" required />
                                 <span class="am-input-group-btn">
                                     <span class="am-btn am-btn-default am-radius form-verify">
                                         <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'login'])}}" class="am-radius c-p" id="form-verify-img" onClick="this.src=this.src+'#'+Math.random();" />
