@@ -104,14 +104,6 @@ return array (
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
-  'plugins_service_users_center_left_menu_handle' => 
-  array (
-    0 => 'app\\plugins\\wallet\\Hook',
-  ),
-  'plugins_service_header_navigation_top_right_handle' => 
-  array (
-    0 => 'app\\plugins\\wallet\\Hook',
-  ),
   'plugins_view_goods_detail_photo_within' => 
   array (
     0 => 'app\\plugins\\goodsphototag\\Hook',

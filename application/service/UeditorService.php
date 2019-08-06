@@ -42,7 +42,7 @@ class UeditorService
         self::$params = $params;
         self::$current_config = config('ueditor.');
         self::$current_action = isset($params['action']) ? $params['action'] : '';
-        self::$path_type = isset($params['path_type']) ? $params['path_type'] : (isset($params['s']) ? PathToParams($params['s'], 'path_type', 'other') : '');
+        self::$path_type = isset($params['path_type']) ? $params['path_type'] : PathToParams('path_type', 'other');
 
         // action
         switch(self::$current_action)

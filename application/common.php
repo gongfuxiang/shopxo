@@ -18,12 +18,16 @@
  * @version 1.0.0
  * @date    2019-08-06
  * @desc    description
- * @param   [string]            $path       [参数字符串 格式如： a/aa/b/bb/c/cc ]
  * @param   [string]            $key        [指定key]
  * @param   [mixed]             $default    [默认值]
+ * @param   [string]            $path       [参数字符串 格式如： a/aa/b/bb/c/cc ]
  */
-function PathToParams($path, $key = null, $default = null)
+function PathToParams($key = null, $default = null, $path = '')
 {
+    if(empty($path) && isset($_REQUEST['s']))
+    {
+        $path = $_REQUEST['s'];
+    }
     if(!empty($path))
     {
         if(substr($path, 0, 1) == '/')
