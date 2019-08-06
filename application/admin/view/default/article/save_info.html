@@ -50,7 +50,7 @@
 			</div>
 			<div class="am-form-group">
 				<label>内容</label>
-				<textarea class="am-radius am-validate" name="content" rows="5" minlength="10" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('api/ueditor/index', ['path_type'=>'article'])}}" placeholder="内容格式 10~105000 个字符之间" {{else /}} placeholder="内容格式 10~105000 个字符之间更多编辑功能请使用电脑访问" {{/if}} data-validation-message="内容格式 10~105000 个字符之间" required>{{if !empty($data)}}{{$data.content}}{{/if}}</textarea>
+				<textarea class="am-radius am-validate" name="content" rows="5" minlength="10" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>'article'])}}" placeholder="内容格式 10~105000 个字符之间" {{else /}} placeholder="内容格式 10~105000 个字符之间更多编辑功能请使用电脑访问" {{/if}} data-validation-message="内容格式 10~105000 个字符之间" required>{{if !empty($data)}}{{$data.content}}{{/if}}</textarea>
 			</div>
 
 			<!-- 插件扩展数据 start -->

@@ -8,12 +8,12 @@
 // +----------------------------------------------------------------------
 // | Author: Devil
 // +----------------------------------------------------------------------
-namespace app\api\controller;
+namespace app\index\controller;
 
 use app\service\UeditorService;
 
 /**
- * 附件上传
+ * 百度编辑器控制器入口
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -21,21 +21,21 @@ use app\service\UeditorService;
  */
 class Ueditor extends Common
 {
-	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
+    /**
+     * 构造方法
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-03T12:39:08+0800
+     */
+    public function __construct()
+    {
+        // 调用父类前置方法
+        parent::__construct();
 
-		// 是否登录
+        // 是否登录
         $this->IsLogin();
-	}
+    }
 
     /**
      * 运行入口
@@ -45,9 +45,14 @@ class Ueditor extends Common
      * @date    2019-08-06
      * @desc    description
      */
-	public function Index()
-	{
-		return DataReturn('api附件上传接口开发中', 0);
-	}
+    public function Index()
+    {
+        $ret = UeditorService::Run(input());
+        if($ret['code'] == 0)
+        {
+            return json($ret['data']);
+        }
+        return $ret['msg'];
+    }
 }
 ?>

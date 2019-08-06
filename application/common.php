@@ -12,6 +12,51 @@
 // 应用公共文件
 
 /**
+ * 路径解析指定参数
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-08-06
+ * @desc    description
+ * @param   [string]            $path       [参数字符串 格式如： a/aa/b/bb/c/cc ]
+ * @param   [string]            $key        [指定key]
+ * @param   [mixed]             $default    [默认值]
+ */
+function PathToParams($path, $key = null, $default = null)
+{
+    if(!empty($path))
+    {
+        if(substr($path, 0, 1) == '/')
+        {
+            $path = mb_substr($path, 1, mb_strlen($path, 'utf-8')-1, 'utf-8');
+        }
+        $position = strrpos($path, '.');
+        if($position !== false)
+        {
+            $path = mb_substr($path, 0, $position, 'utf-8');
+        }
+        $arr = explode('/', $path);
+
+        $data = [];
+        $index = 0;
+        foreach($arr as $k=>$v)
+        {
+            if($index != $k)
+            {
+                $data[$arr[$index]] = $v;
+                $index = $k;
+            }
+        }
+        if($key !== null)
+        {
+            return array_key_exists($key, $data) ? $data[$key] : $default;
+        }
+        return $data;
+    }
+    return null;
+}
+
+/**
  * 调用插件方法 - 访问为静态
  * @author   Devil
  * @blog     http://gong.gg/
