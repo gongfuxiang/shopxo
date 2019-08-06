@@ -1332,7 +1332,7 @@ class UserService
         }
 
         // 发送验证码
-        $code = GetNumberCode(6);
+        $code = GetNumberCode(4);
         if($params['type'] == 'sms')
         {
             $obj = new \base\Sms($verify_params);
@@ -1403,7 +1403,7 @@ class UserService
         }
 
         // 验证码
-        $code = GetNumberCode(6);
+        $code = GetNumberCode(4);
 
         // 手机
         if($ret['data'] == 'mobile')
@@ -1986,7 +1986,7 @@ class UserService
 
         // 发送验证码
         $obj = new \base\Sms($verify_params);
-        $code = GetNumberCode(6);
+        $code = GetNumberCode(4);
         $status = $obj->SendCode($params['mobile'], $code, MyC('home_sms_user_mobile_binding'));
         
         // 状态

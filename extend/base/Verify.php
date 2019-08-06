@@ -55,7 +55,7 @@ class Verify
 		// 参数处理
 		$this->width = isset($param['width']) ? intval($param['width']) : 65;
 		$this->height = isset($param['height']) ? intval($param['height']) : 30;
-		$this->length = isset($param['length']) ? intval($param['length']) : 6;
+		$this->length = isset($param['length']) ? intval($param['length']) : 4;
 		$this->use_point_back = isset($param['use_point_back']) ? $param['use_point_back'] : in_array('point', $rules);
 		$this->use_line_back = isset($param['use_line_back']) ? $param['use_line_back'] : in_array('line', $rules);
 		$this->use_bg_color_back = isset($param['use_bg_color_back']) ? $param['use_bg_color_back'] : in_array('bgcolor', $rules);
