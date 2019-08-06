@@ -27,7 +27,7 @@
 {{/if}}
 
 <!-- content -->
-<div class="am-container" data-category-id="{{$params.category_id}}">
+<div class="am-container">
     <!-- 搜索页面顶部内部结构里面钩子 -->
     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
         <div class="plugins-tag">
@@ -42,7 +42,7 @@
         {{/foreach}}
     {{/if}}
 
-    <div class="search-container am-u-sm-12 am-u-md-12 am-padding-left-0 am-padding-right-0">
+    <div class="search-container am-u-sm-12 am-u-md-12 am-padding-left-0 am-padding-right-0" data-category-id="{{$params.category_id}}">
         <div class="theme-popover">
             <ul class="select">
                 <p class="title-tips">
