@@ -93,7 +93,7 @@ class Goods extends Common
                 '<p style="margin:0;">',
                 '<div style="margin:0;">',
                 '<table style="width:100%;margin:0;border:1px solid #ddd;" ',
-                '<td style="margin:0;padding:5px;border-top:1px solid #ddd;" ',
+                '<td style="margin:0;padding:5px;" ',
             ];
             $ret['data'][0]['content_web'] = str_replace($search, $replace, $ret['data'][0]['content_web']);
         }
