@@ -106,6 +106,7 @@ class Goods extends Common
 	{
 		// 参数
 		$params = input();
+		print_r($params);
 
 		// 商品信息
 		$data = [];
