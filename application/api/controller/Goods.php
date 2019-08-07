@@ -87,7 +87,7 @@ class Goods extends Common
                 '<td ',
             ];
             $replace = [
-                '<img style="max-width:100%;margin:0;display:block;" ',
+                '<img style="max-width:100%;margin:0;padding:0;display:block;" ',
                 '<div',
                 '/div>',
                 '<p style="margin:0;">',
