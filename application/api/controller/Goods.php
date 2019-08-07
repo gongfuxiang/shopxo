@@ -84,6 +84,7 @@ class Goods extends Common
                 '<p>',
                 '<div>',
                 '<table ',
+                '<td ',
             ];
             $replace = [
                 '<img style="max-width:100%;margin:0;display:block;" ',
@@ -92,6 +93,7 @@ class Goods extends Common
                 '<p style="margin:0;">',
                 '<div style="margin:0;">',
                 '<table style="width:100%;margin:0;border:1px solid #ddd;" ',
+                '<td style="padding:5px;border:1px solid #ddd;" ',
             ];
             $ret['data'][0]['content_web'] = str_replace($search, $replace, $ret['data'][0]['content_web']);
         }
