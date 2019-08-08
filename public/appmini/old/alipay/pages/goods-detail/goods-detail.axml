@@ -35,7 +35,7 @@
       </view>
       <text a:if="{{(show_field_price_text || null) != null}}" class="price-icon">{{show_field_price_text}}</text>
       <text class="sales-price">￥{{goods.price}}</text>
-      <view a:if="{{(goods.original_price || null) != null}}" class="original-price">￥{{goods.original_price}}</view>
+      <view a:if="{{(goods.original_price || null) != null && goods.original_price > 0}}" class="original-price">￥{{goods.original_price}}</view>
     </view>
     <view class="base-grid oh">
       <view class="fl tl">
@@ -117,7 +117,7 @@
         <view class="goods-popup-base-content">
           <view class="goods-price">
             <view class="sales-price">￥{{goods_spec_base_price}}</view>
-            <view a:if="{{(goods_spec_base_original_price || null) != null}}" class="original-price">￥{{goods_spec_base_original_price}}</view>
+            <view a:if="{{(goods_spec_base_original_price || null) != null && goods_spec_base_original_price > 0}}" class="original-price">￥{{goods_spec_base_original_price}}</view>
           </view>
           <view class="inventory">
             <text class="cr-888">库存</text>

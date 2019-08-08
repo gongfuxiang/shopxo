@@ -29,7 +29,7 @@
     <template is="limitedtimediscount" data="{{{plugins_limitedtimediscount_data: plugins_limitedtimediscount_data, plugins_limitedtimediscount_is_show_time: plugins_limitedtimediscount_is_show_time, plugins_limitedtimediscount_time_millisecond: plugins_limitedtimediscount_time_millisecond}}}"></template>
   </view>
 
-  <!-- 基础信息 -->
+  <!-- 基础信息 -->
   <view class="goods-base bg-white">
     <view class="goods-price single-text">
       <view class="goods-share tc" bindtap="popup_share_event">
@@ -39,7 +39,7 @@
       </view>
       <text s-if="(show_field_price_text || null) != null" class="price-icon">{{show_field_price_text}}</text>
       <text class="sales-price">￥{{goods.price}}</text>
-      <view s-if="(goods.original_price || null) != null" class="original-price">￥{{goods.original_price}}</view>
+      <view s-if="(goods.original_price || null) != null && goods.original_price > 0" class="original-price">￥{{goods.original_price}}</view>
     </view>
     <view class="base-grid oh">
       <view class="fl tl">
@@ -121,7 +121,7 @@
         <view class="goods-popup-base-content">
           <view class="goods-price">
             <view class="sales-price">￥{{goods_spec_base_price}}</view>
-            <view s-if="(goods_spec_base_original_price || null) != null" class="original-price">￥{{goods_spec_base_original_price}}</view>
+            <view s-if="(goods_spec_base_original_price || null) != null && goods_spec_base_original_price > 0" class="original-price">￥{{goods_spec_base_original_price}}</view>
           </view>
           <view class="inventory">
             <text class="cr-888">库存</text>
