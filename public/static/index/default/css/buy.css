@@ -1,5 +1,7 @@
- /*地址管理*/
-.order-detail h3,.business-item h3{border-bottom: 3px solid #e3e3e3; margin-top:15px;}
+/*页面*/
+.buy-items h3{border-bottom: 3px solid #e3e3e3; margin-top:15px;}
+
+/*地址管理*/
 h3 { font-size: 14px;font-weight: 700;}
 .address h3 { border-bottom:none;}
 ul.address-list li{display:none;width:100%;padding:10px;position: relative;min-height:80px;}
@@ -165,6 +167,7 @@ ul.address-list, .business-item ul { overflow: hidden; }
 /**
  * 商品列表
  */
+.goods-items table.am-table tr th { font-weight: 500; }
 .goods-detail img { width: 80px; height: 80px; position: absolute; }
 .goods-detail { position: relative; min-height: 80px; }
 .goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; }

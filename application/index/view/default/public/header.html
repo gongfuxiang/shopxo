@@ -35,11 +35,11 @@
 	<!-- css钩子 -->
     {{if !empty($plugins_css_data) and is_array($plugins_css_data)}}
         {{foreach $plugins_css_data as $hook}}
-            {{if is_string($hook)}}
+            {{if !empty($hook) and is_string($hook)}}
                 <link rel="stylesheet" type="text/css" href="{{$hook}}?v={{:MyC('home_static_cache_version')}}" />
             {{elseif is_array($hook) /}}
                 {{foreach $hook as $hook_css}}
-                    {{if is_string($hook_css)}}
+                    {{if !empty($hook_css) and is_string($hook_css)}}
                         <link rel="stylesheet" type="text/css" href="{{$hook_css}}?v={{:MyC('home_static_cache_version')}}" />
                     {{/if}}
                 {{/foreach}}

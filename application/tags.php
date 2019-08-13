@@ -35,6 +35,27 @@ return array (
   'plugins_service_navigation_header_handle' => 
   array (
     0 => 'app\\plugins\\answers\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_css' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_js' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_users_center_left_menu_handle' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_header_navigation_top_right_handle' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_view_goods_detail_panel_bottom' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
   ),
 );
 ?>
