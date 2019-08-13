@@ -16,8 +16,8 @@ ul.address-list li .user-base {font-size: 14px; font-weight: 700; margin-bottom:
 
 /* 物流/支付 */
 .business-item ul li { border:1px solid transparent ;overflow: hidden; float: left; cursor: pointer; padding: 5px; border: 1px solid #e5e5e5; margin: 0 10px 10px 0; }
-ul.logistics-list li.selected, ul.payment-list li.selected {border-color:#d2364c ;position:relative;box-shadow: 0px 0 0px 1px #d2364c;}
-ul.logistics-list li.selected i.icon-active, ul.payment-list li.selected i.icon-active {
+ul.logistics-list li.selected, ul.payment-list li.selected, .confirm-selected {border-color:#d2364c ;position:relative;box-shadow: 0px 0 0px 1px #d2364c;}
+ul.logistics-list li.selected i.icon-active, ul.payment-list li.selected i.icon-active, .confirm-selected i.icon-active {
     position: absolute;
     width: 10px;
     height: 10px;

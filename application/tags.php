@@ -57,5 +57,9 @@ return array (
   array (
     0 => 'app\\plugins\\coupon\\Hook',
   ),
+  'plugins_view_buy_goods_bottom' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
 );
 ?>

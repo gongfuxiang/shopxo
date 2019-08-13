@@ -69,15 +69,16 @@ class Buy extends Common
 
                 // 支付方式
                 $this->assign('payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
-
-                // 钩子
-                $this->PluginsHook($ret['data']);
                 
                 // 页面数据
                 $this->assign('base', $ret['data']['base']);
                 $this->assign('goods_list', $ret['data']['goods']);
                 $this->assign('extension_data', $ret['data']['extension_data']);
                 $this->assign('params', $params);
+
+                // 钩子
+                $this->PluginsHook($ret['data'], $params);
+
                 return $this->fetch();
             } else {
                 $this->assign('msg', isset($ret['msg']) ? $ret['msg'] : '参数错误');
@@ -93,9 +94,10 @@ class Buy extends Common
      * @version 1.0.0
      * @date    2019-08-13
      * @desc    description
+     * @param   [array]           $data     [确认数据]
      * @param   [array]           $params   [输入参数]
      */
-    private function PluginsHook($params = [])
+    private function PluginsHook($data = [], $params = [])
     {
         // 订单确认页面顶部钩子
         $hook_name = 'plugins_view_buy_top';
@@ -103,6 +105,7 @@ class Buy extends Common
             [
                 'hook_name'     => $hook_name,
                 'is_backend'    => false,
+                'data'          => $data,
                 'params'        => $params,
             ]));
 
@@ -112,6 +115,7 @@ class Buy extends Common
             [
                 'hook_name'     => $hook_name,
                 'is_backend'    => false,
+                'data'          => $data,
                 'params'        => $params,
             ]));
 
@@ -121,6 +125,7 @@ class Buy extends Common
             [
                 'hook_name'     => $hook_name,
                 'is_backend'    => false,
+                'data'          => $data,
                 'params'        => $params,
             ]));
 
@@ -130,6 +135,7 @@ class Buy extends Common
             [
                 'hook_name'     => $hook_name,
                 'is_backend'    => false,
+                'data'          => $data,
                 'params'        => $params,
             ]));
 
@@ -139,6 +145,7 @@ class Buy extends Common
             [
                 'hook_name'     => $hook_name,
                 'is_backend'    => false,
+                'data'          => $data,
                 'params'        => $params,
             ]));
 
@@ -148,6 +155,7 @@ class Buy extends Common
             [
                 'hook_name'     => $hook_name,
                 'is_backend'    => false,
+                'data'          => $data,
                 'params'        => $params,
             ]));
 
@@ -157,6 +165,7 @@ class Buy extends Common
             [
                 'hook_name'     => $hook_name,
                 'is_backend'    => false,
+                'data'          => $data,
                 'params'        => $params,
             ]));
 
@@ -166,6 +175,7 @@ class Buy extends Common
             [
                 'hook_name'     => $hook_name,
                 'is_backend'    => false,
+                'data'          => $data,
                 'params'        => $params,
             ]));
 
@@ -175,6 +185,7 @@ class Buy extends Common
             [
                 'hook_name'     => $hook_name,
                 'is_backend'    => false,
+                'data'          => $data,
                 'params'        => $params,
             ]));
 
@@ -184,6 +195,7 @@ class Buy extends Common
             [
                 'hook_name'     => $hook_name,
                 'is_backend'    => false,
+                'data'          => $data,
                 'params'        => $params,
             ]));
     }
