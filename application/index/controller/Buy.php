@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use think\facade\Hook;
 use app\service\GoodsService;
 use app\service\UserService;
 use app\service\PaymentService;
@@ -68,7 +69,11 @@ class Buy extends Common
 
                 // 支付方式
                 $this->assign('payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
+
+                // 钩子
+                $this->PluginsHook($ret['data']);
                 
+                // 页面数据
                 $this->assign('base', $ret['data']['base']);
                 $this->assign('goods_list', $ret['data']['goods']);
                 $this->assign('extension_data', $ret['data']['extension_data']);
@@ -79,6 +84,108 @@ class Buy extends Common
                 return $this->fetch('public/tips_error');
             }
         }
+    }
+
+    /**
+     * 钩子处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-08-13
+     * @desc    description
+     * @param   [array]           $params   [输入参数]
+     */
+    private function PluginsHook($params = [])
+    {
+        // 订单确认页面顶部钩子
+        $hook_name = 'plugins_view_buy_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'     => $hook_name,
+                'is_backend'    => false,
+                'params'        => $params,
+            ]));
+
+        // 订单确认页面内部顶部钩子
+        $hook_name = 'plugins_view_buy_inside_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'     => $hook_name,
+                'is_backend'    => false,
+                'params'        => $params,
+            ]));
+
+        // 订单确认页面地址底部钩子
+        $hook_name = 'plugins_view_buy_address_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'     => $hook_name,
+                'is_backend'    => false,
+                'params'        => $params,
+            ]));
+
+        // 订单确认页面支付方式底部钩子
+        $hook_name = 'plugins_view_buy_payment_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'     => $hook_name,
+                'is_backend'    => false,
+                'params'        => $params,
+            ]));
+
+        // 订单确认页面商品底部钩子
+        $hook_name = 'plugins_view_buy_goods_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'     => $hook_name,
+                'is_backend'    => false,
+                'params'        => $params,
+            ]));
+
+        // 订单确认页面用户留言底部钩子
+        $hook_name = 'plugins_view_buy_user_note_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'     => $hook_name,
+                'is_backend'    => false,
+                'params'        => $params,
+            ]));
+
+        // 订单确认页面订单确认信息顶部钩子
+        $hook_name = 'plugins_view_buy_base_confirm_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'     => $hook_name,
+                'is_backend'    => false,
+                'params'        => $params,
+            ]));
+
+        // 订单确认页面提交订单表单内部钩子
+        $hook_name = 'plugins_view_buy_form_inside';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'     => $hook_name,
+                'is_backend'    => false,
+                'params'        => $params,
+            ]));
+
+        // 订单确认页面内部底部钩子
+        $hook_name = 'plugins_view_buy_inside_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'     => $hook_name,
+                'is_backend'    => false,
+                'params'        => $params,
+            ]));
+
+        // 订单确认页面底部钩子
+        $hook_name = 'plugins_view_buy_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'     => $hook_name,
+                'is_backend'    => false,
+                'params'        => $params,
+            ]));
     }
 
     /**
