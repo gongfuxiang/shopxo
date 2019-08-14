@@ -595,7 +595,7 @@ class PaymentService
         // 权限
         if(!is_writable($file))
         {
-            return DataReturn('没操作权限', -3);
+            return DataReturn('没操作权限['.$file.']', -3);
         }
 
         // 删除

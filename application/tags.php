@@ -61,5 +61,13 @@ return array (
   array (
     0 => 'app\\plugins\\coupon\\Hook',
   ),
+  'plugins_service_buy_handle' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_view_buy_form_inside' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
 );
 ?>

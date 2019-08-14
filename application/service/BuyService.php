@@ -629,12 +629,16 @@ class BuyService
             // price 金额
             // type 类型（0减少, 1增加）
             // tips 提示信息
+            // business 业务类型（内容格式不限）
+            // ext 扩展数据（内容格式不限）
             $extension_data = [
                 // [
-                //     'name'  => '感恩节9折',
-                //     'price' => 23,
-                //     'type'  => 0,
-                //     'tips'  => '-￥23元'
+                //     'name'       => '感恩节9折',
+                //     'price'      => 23,
+                //     'type'       => 0,
+                //     'tips'       => '-￥23元',
+                //     'business'   => null,
+                //     'ext'        => null,
                 // ],
             ];
 
@@ -829,6 +833,20 @@ class BuyService
             $order['confirm_time'] = time();
         }
 
+        // 订单添加前钩子
+        $hook_name = 'plugins_service_buy_order_insert_begin';
+        $ret = Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'order'         => &$order,
+            'params'        => $params,
+            
+        ]);
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 开始事务
         Db::startTrans();
 
@@ -886,9 +904,22 @@ class BuyService
         // 删除购物车
         self::BuyCartDelete($params);
 
+        // 获取数据库订单信息
+        $order = Db::name('Order')->find($order_id);
+
+        // 订单添加成功钩子, 不校验返回值
+        $hook_name = 'plugins_service_buy_order_insert_success';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'order_id'      => $order_id,
+            'order'         => $order,
+            'params'        => $params,
+        ]);
+
         // 返回信息
         $result = [
-            'order'     => Db::name('Order')->find($order_id),
+            'order'     => $order,
             'jump_url'  => MyUrl('index/order/index'),
         ];
 

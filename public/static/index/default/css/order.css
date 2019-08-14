@@ -47,12 +47,12 @@ table.data-list .base-operate { border-top: 1px dashed #eee; }
 
 
 /* 进行中 */
-table.data-ongoing { border: 1px solid #fff1f5; }
-table.data-ongoing td.row-number, table.data-ongoing td.row-total-price, table.data-ongoing td.row-status, table.data-ongoing td.row-operate { border-right: 1px solid #fff1f5; }
-table.data-ongoing td { border-bottom:1px solid #fff1f5; }
-table.data-ongoing .content-hd td { background: #fff1f5; border-bottom-color:#fff1f5; }
-table.data-ongoing:hover { box-shadow:0 1px 1px #ffd6e2; background:#fffbfc; }
-table.data-ongoing .base-operate { border-top: 1px dashed #fff1f5; }
+table.data-ongoing { border: 1px solid #daf3ff; }
+table.data-ongoing td.row-number, table.data-ongoing td.row-total-price, table.data-ongoing td.row-status, table.data-ongoing td.row-operate { border-right: 1px solid #daf3ff; }
+table.data-ongoing td { border-bottom:1px solid #daf3ff; }
+table.data-ongoing .content-hd td { background: #eaf8ff; border-bottom-color:#daf3ff; }
+table.data-ongoing:hover { box-shadow:0 1px 1px #aed8ff; background:#f7fdff; }
+table.data-ongoing .base-operate { border-top: 1px dashed #daf3ff; }
 
 
 /**
