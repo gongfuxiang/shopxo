@@ -54,7 +54,7 @@
 
 			<div class="am-form-group">
 				<label>{{$data.common_timezone.name}}<span class="am-form-group-label-tips">{{$data.common_timezone.describe}}</span></label>
-				<select name="{{$data.common_timezone.only_tag}}" class="am-radius chosen-select c-p" data-placeholder="{{$data.common_timezone.name}}" data-validation-message="{{$data.common_timezone.error_tips}}" required>
+				<select name="{{$data.common_timezone.only_tag}}" class="am-radius chosen-select" data-placeholder="{{$data.common_timezone.name}}" data-validation-message="{{$data.common_timezone.error_tips}}" required>
 					{{foreach $site_timezone_list as $k=>$v}}
 						<option value="{{$k}}" {{if isset($data['common_timezone']['value']) and $data['common_timezone']['value'] eq $k}}selected{{/if}}>{{$v}}</option>
 					{{/foreach}}
@@ -63,7 +63,7 @@
 
 			<div class="am-form-group">
 				<label>{{$data.home_site_state.name}}<span class="am-form-group-label-tips">{{$data.home_site_state.describe}}</span></label>
-				<select name="{{$data.home_site_state.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_site_state.error_tips}}" required>
+				<select name="{{$data.home_site_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_site_state.error_tips}}" required>
 					{{foreach $site_site_state_list as $v}}
 						<option value="{{$v.value}}" {{if isset($data['home_site_state']['value']) and $data['home_site_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
 					{{/foreach}}

@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use think\facade\Hook;
 use app\service\BrandService;
 
 /**
@@ -120,7 +121,6 @@ class Brand extends Common
             $ret = BrandService::BrandList($data_params);
             $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
         }
-        $this->assign('data', $data);
 
         // 是否启用
         $this->assign('common_is_enable_list', lang('common_is_enable_list'));
@@ -129,12 +129,23 @@ class Brand extends Common
 		$brand_category = BrandService::BrandCategoryList(['field'=>'id,name']);
 		$this->assign('brand_category', $brand_category['data']);
 
-        // 参数
-        $this->assign('params', $params);
+        // 品牌编辑页面钩子
+        $hook_name = 'plugins_view_admin_brand_save';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+        [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'brand_id'      => isset($params['id']) ? $params['id'] : 0,
+            'data'          => &$data,
+            'params'        => &$params,
+        ]));
 
         // 编辑器文件存放地址
         $this->assign('editor_path_type', 'brand');
 
+        // 数据
+        $this->assign('data', $data);
+        $this->assign('params', $params);
         return $this->fetch();
     }
 

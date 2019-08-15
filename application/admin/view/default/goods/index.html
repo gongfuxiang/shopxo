@@ -26,6 +26,46 @@
 			<table class="so-list more-where {{if !isset($params['is_more'])}}none{{/if}}">
                 <tbody>
                 	<tr>
+                        <td>
+                            <span>分类：</span>
+                            <select class="am-radius chosen-select" name="category_id" data-placeholder="商品分类...">
+                                <option value="0">商品分类...</option>
+                                {{if !empty($goods_category_list)}}
+                                    {{foreach $goods_category_list as $v}}
+                                        <option value="{{$v.id}}" {{if !empty($params['category_id']) and $v['id'] eq $params['category_id']}}selected{{/if}}>一级 - {{$v.name}}</option>
+                                        {{if !empty($v['items'])}}
+                                            {{foreach $v.items as $vs}}
+                                                <option style="padding-left: 30px;" value="{{$vs.id}}" {{if !empty($params['category_id']) and $vs['id'] eq $params['category_id']}}selected{{/if}}>二级 - {{$vs.name}}</option>
+                                                {{if !empty($vs['items'])}}
+                                                    {{foreach $vs.items as $vss}}
+                                                        <option style="padding-left: 60px;" value="{{$vss.id}}" {{if !empty($params['category_id']) and $vss['id'] eq $params['category_id']}}selected{{/if}}>三级 - {{$vss.name}}</option>
+                                                    {{/foreach}}
+                                                {{/if}}
+                                            {{/foreach}}
+                                        {{/if}}
+                                    {{/foreach}}
+                                {{/if}}
+                            </select>
+                        </td>
+                        <td>
+                            <span>品牌：</span>
+                            <select name="brand_id" class="am-radius chosen-select" data-placeholder="品牌...">
+                                {{if !empty($brand_list)}}
+                                    <option value="0">品牌...</option>
+                                    {{foreach $brand_list as $v}}
+                                        <optgroup label="{{$v.name}}">
+                                            {{if !empty($v['items'])}}
+                                                {{foreach $v.items as $vs}}
+                                                    <option style="padding-left: 30px;" value="{{$vs.id}}" {{if isset($params['brand_id']) and $params['brand_id'] eq $vs['id']}}selected{{/if}}>{{$vs.name}}</option>
+                                                {{/foreach}}
+                                            {{/if}}
+                                        </optgroup>
+                                    {{/foreach}}
+                                {{/if}}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                 		<td>
                 			<span>状态：</span>
                 			<select name="is_shelves" class="chosen-select" data-placeholder="上下架...">
@@ -44,7 +84,7 @@
 								{{/foreach}}
 							</select>
                 		</td>
-                	</tr>
+                    </tr>
                     <tr>
                         <td class="time">
 							<span>时间：</span>
@@ -199,6 +239,27 @@
 									<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit"> 编辑</button>
 								</a>
 								<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/goods/delete')}}" data-id="{{$v.id}}"> 删除</button>
+
+                                <!-- 商品列表操作钩子 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_admin_goods_list_operation</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_admin_goods_list_operation';
+                                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true, 'id'=>$v['id'], 'data'=>$v]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
 							</td>
 						</tr>
 					{{/foreach}}

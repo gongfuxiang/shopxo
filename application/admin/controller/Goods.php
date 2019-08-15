@@ -83,6 +83,12 @@ class Goods extends Common
 		];
 		$ret = GoodsService::GoodsList($data_params);
 
+		// 商品分类
+		$this->assign('goods_category_list', GoodsService::GoodsCategoryAll());
+
+		// 品牌分类
+		$this->assign('brand_list', BrandService::CategoryBrand());
+
 		// 是否上下架
 		$this->assign('common_is_shelves_list', lang('common_is_shelves_list'));
 
@@ -135,7 +141,7 @@ class Goods extends Common
 		$this->assign('region_province_list', RegionService::RegionItems(['pid'=>0]));
 
 		// 商品分类
-		$this->assign('category_list', GoodsService::GoodsCategoryAll());
+		$this->assign('goods_category_list', GoodsService::GoodsCategoryAll());
 
 		// 品牌分类
 		$this->assign('brand_list', BrandService::CategoryBrand());
@@ -149,7 +155,7 @@ class Goods extends Common
         $this->assign($hook_name.'_data', Hook::listen($hook_name,
         [
             'hook_name'    	=> $hook_name,
-            'is_backend'   	=> false,
+            'is_backend'   	=> true,
             'goods_id'      => isset($params['id']) ? $params['id'] : 0,
             'data'			=> &$data,
             'params'       	=> &$params,

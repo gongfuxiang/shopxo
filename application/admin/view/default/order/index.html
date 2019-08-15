@@ -389,14 +389,26 @@
 									<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/delete')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="delete" data-msg="删除后无法恢复，确定继续吗？"> 删除</button>
 								{{/if}}
 
-								<!-- 钩子订单操作 -->
-                                {{if !empty($v['plugins_service_order_handle_operation_html']) and is_array($v['plugins_service_order_handle_operation_html'])}}
-                                    {{foreach $v.plugins_service_order_handle_operation_html as $hook}}
-                                        {{if is_string($hook) or is_int($hook)}}
-                                            {{$hook|raw}}
-                                        {{/if}}
-                                    {{/foreach}}
+                                <!-- 订单列表操作钩子 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_admin_order_list_operation</span>
+                                    </div>
                                 {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_admin_order_list_operation';
+                                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true, 'id'=>$v['id'], 'data'=>$v]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
 							</td>
 						</tr>
 					{{/foreach}}

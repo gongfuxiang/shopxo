@@ -128,7 +128,7 @@ class SearchService
             
             // 分页计算
             $page = intval(input('page', 1));
-            $n = 10;
+            $n = 20;
             $m = intval(($page-1)*$n);
             $goods = GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>$m, 'n'=>$n, 'order_by'=>$order_by]);
             $result['data'] = $goods['data'];

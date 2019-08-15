@@ -84,7 +84,7 @@
 					<form class="am-form form-validation" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
 							<label>导航级别</label>
-							<select class="am-radius c-p chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
+							<select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
 								<option value="">一级栏目...</option>
 								{{foreach $nav_header_pid_list as $v}}
 									<option value="{{$v.id}}">{{$v.name}}</option>
@@ -130,7 +130,7 @@
 					<form class="am-form form-validation-article" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
 							<label>导航级别</label>
-							<select class="am-radius c-p chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
+							<select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
 								<option value="">一级栏目...</option>
 								{{foreach $nav_header_pid_list as $v}}
 									<option value="{{$v.id}}">{{$v.name}}</option>
@@ -139,7 +139,7 @@
 						</div>
 						<div class="am-form-group">
 							<label>文章</label>
-							<select class="am-radius c-p chosen-select" name="value" data-placeholder="请选择..." data-validation-message="文章选择有误" required>
+							<select class="am-radius chosen-select" name="value" data-placeholder="请选择..." data-validation-message="文章选择有误" required>
 								<option value="">请选择...</option>
 								{{foreach $article_list as $v}}
 									<optgroup label="{{$v.name}}">
@@ -188,7 +188,7 @@
 					<form class="am-form form-validation-customview" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
 							<label>导航级别</label>
-							<select class="am-radius c-p chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
+							<select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
 								<option value="">一级栏目...</option>
 								{{foreach $nav_header_pid_list as $v}}
 									<option value="{{$v.id}}">{{$v.name}}</option>
@@ -197,7 +197,7 @@
 						</div>
 						<div class="am-form-group">
 							<label>自定义页面</label>
-							<select class="am-radius c-p chosen-select" name="value" data-placeholder="请选择..." data-validation-message="自定义页面选择有误" required>
+							<select class="am-radius chosen-select" name="value" data-placeholder="请选择..." data-validation-message="自定义页面选择有误" required>
 								<option value="">请选择...</option>
 								{{foreach $customview_list as $v}}
 									<option value="{{$v.id}}">{{$v.title}}</option>
@@ -239,7 +239,7 @@
 					<form class="am-form form-validation-goods_category" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
 						<div class="am-form-group">
 							<label>导航级别</label>
-							<select class="am-radius c-p chosen-select" name="pid" data-placeholder="一级栏目..." data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
+							<select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
 								<option value="">一级栏目...</option>
 								{{foreach $nav_header_pid_list as $v}}
 									<option value="{{$v.id}}">{{$v.name}}</option>
@@ -248,7 +248,7 @@
 						</div>
 						<div class="am-form-group">
 							<label>商品分类</label>
-							<select class="am-radius c-p chosen-select" name="value" data-placeholder="请选择..." data-validation-message="商品分类选择有误" required>
+							<select class="am-radius chosen-select" name="value" data-placeholder="请选择..." data-validation-message="商品分类选择有误" required>
 								<option value="">请选择...</option>
 								{{foreach $goods_category_list as $v}}
 									<option value="{{$v.id}}" {{if !empty($data['category_ids']) and in_array($v['id'], $data['category_ids'])}}selected{{/if}}>一级 - {{$v.name}}</option>

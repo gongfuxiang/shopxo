@@ -149,7 +149,7 @@ class Admin extends Common
         $this->assign($hook_name.'_data', Hook::listen($hook_name,
         [
             'hook_name'     => $hook_name,
-            'is_backend'    => false,
+            'is_backend'    => true,
             'admin_id'      => isset($params['id']) ? $params['id'] : 0,
             'data'          => &$data,
             'params'        => &$params,
@@ -241,7 +241,7 @@ class Admin extends Common
         $this->assign($hook_name.'_data', Hook::listen($hook_name,
         [
             'hook_name'     => $hook_name,
-            'is_backend'    => false,
+            'is_backend'    => true,
         ]));
 
 		return $this->fetch();

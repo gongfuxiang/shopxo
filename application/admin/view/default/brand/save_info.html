@@ -21,7 +21,7 @@
 			</div>
 			<div class="am-form-group">
 				<label>品牌分类</label>
-			    <select name="brand_category_id" class="am-radius c-p chosen-select" data-placeholder="可选择..." data-validation-message="请选择品牌分类" required>
+			    <select name="brand_category_id" class="am-radius chosen-select" data-placeholder="可选择..." data-validation-message="请选择品牌分类" required>
 					<option value="">可选择...</option>
 					{{foreach $brand_category as $v}}
 						<option value="{{$v.id}}" {{if isset($data['brand_category_id']) and $data['brand_category_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
@@ -55,6 +55,31 @@
 			    <label class="block">是否启用</label>
 			    <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />
 			</div>
+
+			<!-- 插件扩展数据 start -->
+			{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_admin_brand_save</span>
+                </div>
+            {{/if}}
+			{{if !empty($plugins_view_admin_brand_save_data) and is_array($plugins_view_admin_brand_save_data)}}
+				<div class="am-alert am-alert-secondary">
+					<label class="am-text-sm am-text-warning">该区域为插件扩展数据，请按照插件文档填写相应的值</label>
+					<div>
+						{{foreach $plugins_view_admin_brand_save_data as $hook}}
+		                    {{if is_string($hook) or is_int($hook)}}
+		                        {{$hook|raw}}
+		                    {{/if}}
+		                {{/foreach}}
+					</div>
+				</div>
+			{{/if}}
+			<!-- 插件扩展数据 end -->
+
+			<div class="am-alert am-alert-secondary">
+				{{include file="lib/seo" /}}
+			</div>
+
 			<div class="am-form-group am-form-group-refreshing">
 				<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>

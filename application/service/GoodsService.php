@@ -964,6 +964,26 @@ class GoodsService
             {
                 $where[] = ['add_time', '<', strtotime($params['time_end'])];
             }
+
+            // 商品分类
+            if(!empty($params['category_id']) && $params['category_id'] > 0)
+            {
+                $category_ids = self::GoodsCategoryItemsIds([intval($params['category_id'])], 1);
+                $goods_ids = Db::name('GoodsCategoryJoin')->where(['category_id'=>$category_ids])->column('goods_id');
+                if(!empty($goods_ids))
+                {
+                    $where[] = ['id', 'in', $goods_ids];
+                } else {
+                    // 避免空条件造成无效的错觉
+                    $where[] = ['id', '=', 0];
+                }
+            }
+
+            // 品牌
+            if(!empty($params['brand_id']) && $params['brand_id'] > 0)
+            {
+                $where[] = ['brand_id', '=', intval($params['brand_id'])];
+            }
         }
         return $where;
     }

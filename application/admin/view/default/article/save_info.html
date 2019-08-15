@@ -29,7 +29,7 @@
 			</div>
 			<div class="am-form-group">
 				<label>文章分类</label>
-				<select name="article_category_id" class="am-radius c-p chosen-select" data-placeholder="可选择..." data-validation-message="请选择文章分类" required>
+				<select name="article_category_id" class="am-radius chosen-select" data-placeholder="可选择..." data-validation-message="请选择文章分类" required>
 					<option value="">可选择...</option>
 					{{foreach $article_category_list as $v}}
 						<option value="{{$v.id}}" {{if isset($data['article_category_id']) and $data['article_category_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>

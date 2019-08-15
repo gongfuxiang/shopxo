@@ -59,7 +59,7 @@
 
             <div class="am-form-group">
                 <label>适用终端</label>
-                <select name="apply_terminal" class="am-radius c-p chosen-select" multiple="multiple" minchecked="1" data-placeholder="可选择..." data-validation-message="至少选择一个适用终端" required>
+                <select name="apply_terminal" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="可选择..." data-validation-message="至少选择一个适用终端" required>
                     {{foreach :lang('common_platform_type') as $v}}
                         <option value="{{$v.value}}" {{if isset($data['apply_terminal']) and in_array($v['value'], $data['apply_terminal'])}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
@@ -68,7 +68,7 @@
 
             <div class="am-form-group">
                 <label>适用系统版本</label>
-                <select name="apply_version" class="am-radius c-p chosen-select" multiple="multiple" minchecked="1" data-placeholder="可选择..." data-validation-message="至少选择一个适用系统版本" required>
+                <select name="apply_version" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="可选择..." data-validation-message="至少选择一个适用系统版本" required>
                     {{foreach :lang('common_system_version_list') as $v}}
                         <option value="{{$v.value}}" {{if isset($data['apply_version']) and in_array($v['value'], $data['apply_version'])}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
