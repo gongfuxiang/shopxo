@@ -113,11 +113,13 @@ Page({
 
   // 显示秒杀插件-倒计时
   plugins_limitedtimediscount_countdown() {
+    var status = this.data.plugins_limitedtimediscount_data.time.status || 0;
+    var msg = this.data.plugins_limitedtimediscount_data.time.msg || '';
     var hours = this.data.plugins_limitedtimediscount_data.time.hours || 0;
     var minutes = this.data.plugins_limitedtimediscount_data.time.minutes || 0;
     var seconds = this.data.plugins_limitedtimediscount_data.time.seconds || 0;
     var self = this;
-    if (hours > 0 || minutes > 0 || seconds > 0) {
+    if (status == 1) {
       // 秒
       var timer = setInterval(function () {
         if (seconds <= 0) {
@@ -153,7 +155,7 @@ Page({
     } else {
       // 活动已结束
       self.setData({
-        plugins_limitedtimediscount_timer_title: '活动已结束',
+        plugins_limitedtimediscount_timer_title: msg,
         plugins_limitedtimediscount_is_show_time: false,
       });
     }
