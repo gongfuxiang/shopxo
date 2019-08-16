@@ -1872,12 +1872,14 @@ $(function()
 	        	var style = o.context.dataset.colorStyle || 'color';
 	            $(o.context.dataset.inputTag).css(style, color);
 	            $(o.context.dataset.colorTag).val(color);
+	            $(o.context.dataset.colorTag).trigger('change');
 	        },
 	        reset:function(o)
 	        {
 	        	var style = o.context.dataset.colorStyle || 'color';
 	            $(o.context.dataset.inputTag).css(style, '');
 	            $(o.context.dataset.colorTag).val('');
+	            $(o.context.dataset.colorTag).trigger('change');
 	        }
 	    });
 	}
