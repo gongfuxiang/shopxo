@@ -61,7 +61,7 @@ App({
 
     // 请求地址
     request_url: "{{request_url}}",
-    request_url: 'http://tp5-dev.com/',
+    // request_url: 'http://tp5-dev.com/',
     // request_url: 'https://test.shopxo.net/',
 
     // 基础信息
@@ -238,7 +238,7 @@ App({
     // 邀请人参数
     var params = wx.getStorageSync(this.data.cache_launch_info_key) || null;
     var referrer = (params == null) ? 0 : (params.referrer || 0);
-    console.log(params)
+
     // 远程解密数据
     var $this = this;
     wx.request({

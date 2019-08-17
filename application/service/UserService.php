@@ -1698,9 +1698,6 @@ class UserService
 
                 // 用户登录纪录处理
                 self::UserLoginRecord($user['id'], true);
-
-                // 移除用户id
-                unset($user['id']);
             }
         }
 
