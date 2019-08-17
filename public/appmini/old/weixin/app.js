@@ -15,7 +15,7 @@ App({
     // 用户地址选择缓存key
     cache_buy_user_address_select_key: "cache_buy_user_address_select_key",
 
-    // 用户传入信息缓存key
+    // 启动参数缓存key
     cache_launch_info_key: "cache_shop_launch_info_key",
 
     // 默认用户头像
@@ -61,7 +61,7 @@ App({
 
     // 请求地址
     request_url: "{{request_url}}",
-    // request_url: 'http://tp5-dev.com/',
+    request_url: 'http://tp5-dev.com/',
     // request_url: 'https://test.shopxo.net/',
 
     // 基础信息
@@ -73,60 +73,31 @@ App({
    * 小程序初始化
    */
   onLaunch(options) {
+    // 启动参数处理
+    options = this.launch_params_handle(options);
+
     // 设置设备信息
     this.set_system_info();
 
-    // 启动query参数处理
-    this.startup_query(options);
+    // 缓存启动参数
+    wx.setStorage({
+      key: this.data.cache_launch_info_key,
+      data: options
+    });
   },
 
   /**
-   * 启动query参数处理
+   * 启动参数处理
    */
-  startup_query(params) {
-    // 没有启动参数则返回
-    if ((params || null) == null) {
-      return false;
+  launch_params_handle(params) {
+    // 启动参数处理
+    if ((params.query || null) != null) {
+      params = params.query;
     }
-
-    // 启动处理类型
-    var type = params.type || null;
-    switch (type) {
-      // type=page
-      case "page":
-        // 页面
-        var page = params.page || null;
-
-        // 参数名
-        var params_field = params.params_field || null;
-
-        // 参数值
-        var params_value = params.params_value || null;
-
-        // 页面跳转
-        if (page != null) {
-          wx.navigateTo({
-            url: "/pages/" + page + "/" + page + "?" + params_field + "=" + params_value
-          });
-        }
-        break;
-
-      // type=view
-      case "view":
-        var url = params.url || null;
-
-        // 页面跳转
-        if (url != null) {
-          wx.navigateTo({
-            url: '/pages/web-view/web-view?url=' + url
-          });
-        }
-        break;
-
-      // 默认
-      default:
-        break;
+    if ((params.scene || null) != null) {
+      params = this.url_params_to_json(decodeURIComponent(params.scene));
     }
+    return params;
   },
 
   /**
@@ -266,8 +237,8 @@ App({
   get_user_login_info(object, method, openid, auth_data) {
     // 邀请人参数
     var params = wx.getStorageSync(this.data.cache_launch_info_key) || null;
-    var referrer = (params == null) ? 0 : (params.data.referrer || 0);
-
+    var referrer = (params == null) ? 0 : (params.referrer || 0);
+    console.log(params)
     // 远程解密数据
     var $this = this;
     wx.request({
@@ -518,6 +489,22 @@ App({
     }
     
     return false;
+  },
+
+  /**
+   * url参数转json对象
+   */
+  url_params_to_json(url_params) {
+    var json = new Object();
+    if ((url_params || null) != null)
+    {
+      var arr = url_params.split('&');
+      for(var i = 0; i<arr.length; i++) {
+      var temp = arr[i].split('=');
+        json[temp[0]] = temp[1]
+      }
+    }
+    return json;
   }
 
 });

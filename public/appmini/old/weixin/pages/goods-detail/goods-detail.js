@@ -63,6 +63,10 @@ Page({
   },
 
   onLoad(params) {
+    // 启动参数处理
+    params = app.launch_params_handle(params);
+    
+    // 参数赋值,初始化
     //params['goods_id']=2;
     this.setData({params: params});
     this.init();
@@ -726,6 +730,42 @@ Page({
       self.setData({
         'plugins_limitedtimediscount_data.desc': msg,
         plugins_limitedtimediscount_is_show_time: false,
+      });
+    }
+  },
+
+  // 商品海报分享
+  poster_event() {
+    var user = app.get_user_cache_info(this, 'poster_event');
+    // 用户未绑定用户则转到登录页面
+    if (app.user_is_need_login(user)) {
+      wx.navigateTo({
+        url: "/pages/login/login?event_callback=init"
+      });
+      return false;
+    } else {
+      wx.showLoading({ title: '生成中...' });
+      wx.request({
+        url: app.get_request_url('poster', 'goods'),
+        method: 'POST',
+        data: { "goods_id": this.data.goods.id },
+        dataType: 'json',
+        success: (res) => {
+          wx.hideLoading();
+          if (res.data.code == 0) {
+            console.log(res.data);
+            wx.previewImage({
+              current: res.data.data,
+              urls: [res.data.data]
+            });
+          } else {
+            app.showToast(res.data.msg);
+          }
+        },
+        fail: () => {
+          wx.hideLoading();
+          app.showToast("服务器请求出错");
+        }
       });
     }
   },

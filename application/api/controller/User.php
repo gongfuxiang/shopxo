@@ -208,7 +208,7 @@ class User extends Common
                 $result['avatar'] = isset($result['avatarUrl']) ? $result['avatarUrl'] : '';
                 $result['gender'] = empty($result['gender']) ? 0 : ($result['gender'] == 2) ? 1 : 2;
                 $result['openid'] = $result['openId'];
-                $result['referrer']= isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0;
+                $result['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
                 return UserService::AuthUserProgram($result, 'weixin_openid');
             }
         } else {

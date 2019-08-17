@@ -125,27 +125,53 @@ class Wechat
      */
     public function MiniQrCodeCreate($params)
     {
-        // 参数校验
-        if(empty($params['path']))
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'page',
+                'error_msg'         => 'page地址不能为空',
+            ],
+            [
+                'checked_type'      => 'length',
+                'checked_data'      => '1,32',
+                'key_name'          => 'scene',
+                'error_msg'         => 'scene参数 1~32 个字符之间',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
         {
-            return '页面地址不能为空';
+            return DataReturn($ret, -1);
         }
-        $params['width'] = empty($params['width']) ? 1000 : intval($params['width']);
 
         // 获取access_token
         $access_token = $this->GetMiniAccessToken();
         if($access_token === false)
         {
-            return '';
+            return DataReturn('access_token获取失败', -1);
         }
 
-        // 网络请求
-        $url = 'https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token='.$access_token;
+        // 获取二维码
+        $url = 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token='.$access_token;
         $data = [
-            'path'  => $params['path'],
-            'width' => $params['width'],
+            'page'  => $params['page'],
+            'scene' => $params['scene'],
+            'width' => empty($params['width']) ? 1000 : intval($params['width']),
         ];
-        return $this->HttpRequestPost($url, json_encode($data), false);
+        $res = $this->HttpRequestPost($url, json_encode($data), false);
+        if(!empty($res))
+        {
+            if(stripos($res, 'errcode') === false)
+            {
+                return DataReturn('获取成功', 0, $res);
+            }
+            $res = json_decode($res, true);
+            $msg = isset($res['errmsg']) ? $res['errmsg'] : '获取二维码失败';
+        } else {
+            $msg = '获取二维码失败';
+        }
+        return DataReturn($msg, -1);
     }
 
     /**

@@ -1,7 +1,7 @@
 <!-- 头部 -->
 <view class="head-box bg-main">
     <view class="head-item oh tc">
-      <image bindtap="preview_event" onError="user_avatar_error" class="avatar" src="{{avatar}}" mode="widthFix" />
+      <image bindtap="preview_event" binderror="user_avatar_error" class="avatar" src="{{avatar}}" mode="widthFix" />
       <text class="item-name dis-block cr-fff">{{nickname}}</text>
     </view>
 

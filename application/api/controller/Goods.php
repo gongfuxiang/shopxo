@@ -125,6 +125,7 @@ class Goods extends Common
             'common_app_is_online_service'      => (int) MyC('common_app_is_online_service'),
             'common_app_is_limitedtimediscount' => (int) MyC('common_app_is_limitedtimediscount'),
             'common_app_is_good_thing'          => (int) MyC('common_app_is_good_thing'),
+            'common_app_is_poster_share'        => (int) MyC('common_app_is_poster_share'),
         ];
 
         // 秒杀
@@ -278,6 +279,23 @@ class Goods extends Common
             'data'              => $data['data'],
         ];
         return DataReturn('success', 0, $result);
+    }
+
+    /**
+     * 商品海报
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-08-17T21:10:41+0800
+     */
+    public function Poster()
+    {
+        // 是否开启海报功能
+        if(MyC('common_app_is_poster_share') == 1)
+        {
+            return CallPluginsServiceMethod('distribution', 'PosterGoodsService', 'GoodsCreateMiniWechat', $this->data_post);
+        }
+        return DataReturn('海报功能未启用', -100);
     }
 }
 ?>
