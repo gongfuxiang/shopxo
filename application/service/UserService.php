@@ -48,8 +48,8 @@ class UserService
             // token仅小程序浏览器环境和api接口环境中有效
             if(empty($user) && !empty($params['token']) && in_array(MiniAppEnv(), config('shopxo.mini_app_type_list')))
             {
-                $user = cache(config('shopxo.cache_user_info').$params['token']);
-                if(isset($user['id']))
+                $user = self::UserTokenData($params['token']);
+                if($user !== null && isset($user['id']))
                 {
                     self::UserLoginRecord($user['id']);
                 }
@@ -57,11 +57,32 @@ class UserService
         } else {
             if(!empty($params['token']))
             {
-                $user = cache(config('shopxo.cache_user_info').$params['token']);
+                $user = self::UserTokenData($params['token']);
             }
         }
 
         return $user;
+    }
+
+    /**
+     * 获取用户token用户数据
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-08-18T19:01:59+0800
+     * @desc     description
+     * @param    [string]                   $token [用户token]
+     */
+    private static function UserTokenData($token)
+    {
+        $user = cache(config('shopxo.cache_user_info').$token);
+        if($user !== null && isset($user['id']))
+        {
+            return $user;
+        }
+
+        // 数据库校验
+        return self::AppUserInfoHandle(null, 'token', $token);
     }
 
     /**
@@ -1692,6 +1713,12 @@ class UserService
                 {
                     $user['token'] = md5(md5($user['id'].time()).rand(100, 1000000));
                     cache(config('shopxo.cache_user_info').$user['token'], $user);
+
+                    // 非token数据库校验，则重新生成token更新到数据库
+                    if($where_field != 'token')
+                    {
+                        Db::name('User')->where(['id'=>$user['id']])->update(['token'=>$user['token'], 'upd_time'=>time()]);
+                    }
                 } else {
                     $user['token'] = '';
                 }

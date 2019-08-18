@@ -753,7 +753,6 @@ Page({
         success: (res) => {
           wx.hideLoading();
           if (res.data.code == 0) {
-            console.log(res.data);
             wx.previewImage({
               current: res.data.data,
               urls: [res.data.data]
