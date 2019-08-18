@@ -434,8 +434,8 @@ class BuyService
             $images = self::BuyGoodsSpecImages($ret['data'][0]['goods_id'], $ret['data'][0]['spec']);
             if(!empty($images))
             {
-                $ret['data'][0]['images'] = $images;
-                $ret['data'][0]['images_old'] = ResourcesService::AttachmentPathViewHandle($images);
+                $ret['data'][0]['images'] = ResourcesService::AttachmentPathViewHandle($images);
+                $ret['data'][0]['images_old'] = $images;
             }
         }
 
