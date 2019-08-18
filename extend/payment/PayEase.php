@@ -23,6 +23,11 @@ class PayEase
     // 插件配置参数
     private $config;
 
+    // 证书,应用私钥,应用公钥,平台公钥
+    private $private_key = ROOT.'rsakeys/client.pfx';
+    private $public_key = ROOT.'rsakeys/server.cer';
+    private $out_public_key = ROOT.'rsakeys/out_server.cer';
+
     /**
      * 构造方法
      * @author   Devil
@@ -50,7 +55,7 @@ class PayEase
         // 基础信息
         $base = [
             'name'          => '首信易支付',  // 插件名称
-            'version'       => '0.0.1',  // 插件版本
+            'version'       => '1.0.0',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'apply_terminal'=> ['pc','h5'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
             'desc'          => '适用PC+H5，致力于打造汇通全球的、领先的国际支付平台，为商家提供更优质、更安全的支付清算服务。<a href="https://www.beijing.com.cn/" target="_blank">立即申请</a>',  // 插件描述（支持html）
@@ -81,31 +86,8 @@ class PayEase
                 'message'       => '请填写密码',
             ],
             [
-                'element'       => 'textarea',
-                'name'          => 'public_key',
-                'placeholder'   => '应用公钥',
-                'title'         => '应用公钥',
-                'is_required'   => 0,
-                'rows'          => 6,
-                'message'       => '请填写应用公钥',
-            ],
-            [
-                'element'       => 'textarea',
-                'name'          => 'private_key',
-                'placeholder'   => '应用私钥',
-                'title'         => '应用私钥',
-                'is_required'   => 0,
-                'rows'          => 6,
-                'message'       => '请填写应用私钥',
-            ],
-            [
-                'element'       => 'textarea',
-                'name'          => 'out_rsa_public',
-                'placeholder'   => '首信易公钥',
-                'title'         => '首信易公钥',
-                'is_required'   => 0,
-                'rows'          => 6,
-                'message'       => '请填写首信易公钥',
+                'element'       => 'message',
+                'message'       => '请按照相应路径、将密钥证书对应放入文件夹中。<br />&nbsp;&nbsp;&nbsp;应用公钥：'.$this->public_key.' <br /> &nbsp;&nbsp;&nbsp;应用私钥：'.$this->private_key.' <br /> &nbsp;&nbsp;&nbsp;平台公钥：'.$this->out_public_key,
             ],
         ];
 
@@ -159,16 +141,14 @@ class PayEase
         ];
         $data['productDetails'] = $detail;
 
-        $private_key = ROOT.'rsakeys/client.pfx';
-        $public_key = ROOT.'rsakeys/server.cer';
-        $str = $this->buildJson($private_key, $this->config['password'], $data);
-        $date = $this->creatdate($str, $public_key);
+        $str = $this->buildJson($this->private_key, $this->config['password'], $data);
+        $date = $this->creatdate($str, $this->public_key);
 
         $url = 'https://apis.5upay.com/onlinePay/order';
         return $this->execute(
-            $private_key,
+            $this->private_key,
             $this->config['password'],
-            $public_key,
+            $this->public_key,
             $url,
             $date
         );
@@ -192,11 +172,9 @@ class PayEase
         }
 
         // 异步处理
-        $private_key = ROOT.'rsakeys/client.pfx';
-        $public_key = ROOT.'rsakeys/test.cer';
         $params['encryptKey'] = isset($_SERVER['HTTP_ENCRYPTKEY']) ? $_SERVER['HTTP_ENCRYPTKEY'] : '';
         $params['merchantId'] = isset($_SERVER['HTTP_MERCHANTID']) ? $_SERVER['HTTP_MERCHANTID'] : '';
-        $ret = $this->NotifyCheckHmac($private_key, $params, $public_key, $this->config['password']);
+        $ret = $this->NotifyCheckHmac($this->private_key, $params, $this->out_public_key, $this->config['password']);
 
         // 支付状态
         if(isset($ret['code']) && $ret['code'] == 0 && isset($ret['data']['status']) && $ret['data']['status'] == 'SUCCESS')
@@ -272,8 +250,6 @@ class PayEase
         // 退款原因
         $refund_reason = empty($params['refund_reason']) ? $params['order_no'].'订单退款'.$params['refund_price'].'元' : $params['refund_reason'];
 
-        $private_key = ROOT.'rsakeys/client.pfx';
-        $public_key = ROOT.'rsakeys/server.cer';
         $data = [
             'merchantId'        => $this->config['merchantId'],
             'requestId'         => $params['order_no'].GetNumberCode(6),
@@ -281,14 +257,14 @@ class PayEase
             'orderId'           => $params['trade_no'],
             'remark'            => $refund_reason,
         ];
-        $str = $this->buildJson($private_key, $this->config['password'], $data);
-        $date = $this->creatdate($str, $public_key);
+        $str = $this->buildJson($this->private_key, $this->config['password'], $data);
+        $date = $this->creatdate($str, $this->public_key);
 
         $url = 'https://apis.5upay.com/onlinePay/refund';
         $ret = $this->execute(
-            $private_key,
+            $this->private_key,
             $this->config['password'],
-            $public_key,
+            $this->public_key,
             $url,
             $date
         );

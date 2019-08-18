@@ -50,7 +50,7 @@ class BaiduMini
         // 基础信息
         $base = [
             'name'          => '百度',  // 插件名称
-            'version'       => '0.0.1',  // 插件版本
+            'version'       => '1.0.0',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'apply_terminal'=> ['baidu'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
             'desc'          => '适用百度小程序，百度收银台已集成度小满、支付宝、微信支付，即时到帐支付方式，买家的交易资金直接打入卖家百度账户，快速回笼交易资金。 <a href="https://smartprogram.baidu.com/docs/introduction/pay/" target="_blank">立即申请</a>',  // 插件描述（支持html）
@@ -85,6 +85,7 @@ class BaiduMini
                 'name'          => 'rsa_public',
                 'placeholder'   => '应用公钥',
                 'title'         => '应用公钥',
+                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写应用公钥',
@@ -94,6 +95,7 @@ class BaiduMini
                 'name'          => 'rsa_private',
                 'placeholder'   => '应用私钥',
                 'title'         => '应用私钥',
+                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写应用私钥',
@@ -103,9 +105,20 @@ class BaiduMini
                 'name'          => 'out_rsa_public',
                 'placeholder'   => '平台公钥',
                 'title'         => '平台公钥',
+                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写平台公钥',
+            ],
+            [
+                'element'       => 'input',
+                'type'          => 'text',
+                'default'       => __MY_URL__.'payment_order_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php',
+                'name'          => 'notify_url',
+                'placeholder'   => '异步通知地址',
+                'title'         => '异步通知地址',
+                'desc'          => '将该地址配置到百度小程序支付后台异步通知',
+                'is_required'   => 0,
             ],
         ];
 

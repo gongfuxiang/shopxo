@@ -48,5 +48,21 @@ return array (
   array (
     0 => 'app\\plugins\\distribution\\Hook',
   ),
+  'plugins_css' => 
+  array (
+    0 => 'app\\plugins\\share\\Hook',
+  ),
+  'plugins_js' => 
+  array (
+    0 => 'app\\plugins\\share\\Hook',
+  ),
+  'plugins_view_common_bottom' => 
+  array (
+    0 => 'app\\plugins\\share\\Hook',
+  ),
+  'plugins_view_goods_detail_photo_bottom' => 
+  array (
+    0 => 'app\\plugins\\share\\Hook',
+  ),
 );
 ?>

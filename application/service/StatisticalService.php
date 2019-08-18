@@ -27,6 +27,10 @@ class StatisticalService
     private static $nearly_fifteen_days;
     private static $nearly_thirty_days;
 
+    // 近30天日期
+    private static $thirty_time_start;
+    private static $thirty_time_end;
+
     // 近15天日期
     private static $fifteen_time_start;
     private static $fifteen_time_end;
@@ -60,7 +64,11 @@ class StatisticalService
             // 初始化标记对象，避免重复初始化
             $object = (object) [];
 
-            // 近7天日期
+            // 近30天日期
+            self::$thirty_time_start = strtotime(date('Y-m-d 00:00:00', strtotime('-30 day')));
+            self::$thirty_time_end = time();
+
+            // 近15天日期
             self::$fifteen_time_start = strtotime(date('Y-m-d 00:00:00', strtotime('-15 day')));
             self::$fifteen_time_end = time();
 
@@ -281,7 +289,7 @@ class StatisticalService
     }
 
     /**
-     * 订单交易趋势, 7天数据
+     * 订单交易趋势, 30天数据
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -303,7 +311,7 @@ class StatisticalService
         $name_arr = [];
         if(!empty($status_arr))
         {
-            foreach(self::$nearly_fifteen_days as $day)
+            foreach(self::$nearly_thirty_days as $day)
             {
                 // 当前日期名称
                 $name_arr[] = $day['name'];
@@ -343,7 +351,7 @@ class StatisticalService
     }
 
     /**
-     * 订单支付方式, 7天数据
+     * 订单支付方式, 30天数据
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -368,7 +376,7 @@ class StatisticalService
         $name_arr = [];
         if(!empty($pay_name_arr))
         {
-            foreach(self::$nearly_fifteen_days as $day)
+            foreach(self::$nearly_thirty_days as $day)
             {
                 // 当前日期名称
                 $name_arr[] = date('m-d', strtotime($day['name']));
@@ -409,7 +417,7 @@ class StatisticalService
     }
 
     /**
-     * 热销商品, 7天数据
+     * 热销商品, 30天数据
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -424,8 +432,8 @@ class StatisticalService
         // 获取订单id
         $where = [
             ['status', '<=', 4],
-            ['add_time', '>=', self::$fifteen_time_start],
-            ['add_time', '<=', self::$fifteen_time_end],
+            ['add_time', '>=', self::$thirty_time_start],
+            ['add_time', '<=', self::$thirty_time_end],
         ];
         $order_ids = Db::name('Order')->where($where)->column('id');
 

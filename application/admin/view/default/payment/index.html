@@ -69,7 +69,7 @@
                                 {{/if}}
                             </td>
                             <td class="am-hide-sm-only td-desc">
-                                {{if empty($v['desc'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.desc||raw}}{{/if}}
+                                {{if empty($v['desc'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.desc|raw}}{{/if}}
                             </td>
                             <td>
                                 {{if $v['is_install'] eq 1}}

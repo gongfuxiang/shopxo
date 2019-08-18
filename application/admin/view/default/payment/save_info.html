@@ -42,7 +42,9 @@
 					<label class="am-text-sm am-text-warning">该区域为插件配置填写项，请按照插件文档填写相应的值</label>
 					{{foreach $data.element as $element}}
 						<div class="am-form-group">
-							<label class="block">{{$element.title}}{{if !empty($element['desc'])}}<span class="am-form-group-label-tips">{{$element.desc}}</span>{{/if}}</label>
+							{{if !empty($element['title'])}}
+								<label class="block">{{$element.title}}{{if !empty($element['desc'])}}<span class="am-form-group-label-tips">{{$element.desc}}</span>{{/if}}</label>
+							{{/if}}
 							{{switch element.element}}
 								{{case input}}
 									{{if in_array($element['type'], ['radio', 'checkbox']) and !empty($element['element_data']) and is_array($element['element_data'])}}
@@ -128,6 +130,11 @@
 											required
 										{{/if}}
 									>{{if isset($data['config'][$element['name']])}}{{$data['config'][$element['name']]}}{{else /}}{{if isset($element['default'])}}{{$element.default}}{{/if}}{{/if}}</textarea>
+								{{/case}}
+								{{case message}}
+									<div class="am-alert am-alert-danger" data-am-alert>
+										{{$element.message|raw}}
+									</div>
 								{{/case}}
 							{{/switch}}
 						</div>

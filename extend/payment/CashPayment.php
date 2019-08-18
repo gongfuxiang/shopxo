@@ -50,7 +50,7 @@ class CashPayment
         // 基础信息
         $base = [
             'name'          => '现金支付',  // 插件名称
-            'version'       => '0.0.1',  // 插件版本
+            'version'       => '1.0.0',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'desc'          => '现金方式支付货款',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者

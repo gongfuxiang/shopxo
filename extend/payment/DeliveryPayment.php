@@ -50,7 +50,7 @@ class DeliveryPayment
         // 基础信息
         $base = [
             'name'          => '货到付款',  // 插件名称
-            'version'       => '0.0.1',  // 插件版本
+            'version'       => '1.0.0',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'desc'          => '送货上门后收取货款',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者

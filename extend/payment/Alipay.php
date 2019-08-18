@@ -50,7 +50,7 @@ class Alipay
         // 基础信息
         $base = [
             'name'          => '支付宝',  // 插件名称
-            'version'       => '0.0.1',  // 插件版本
+            'version'       => '1.1.0',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'apply_terminal'=> ['pc','h5'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
             'desc'          => '2.0版本，适用PC+H5，即时到帐支付方式，买家的交易资金直接打入卖家支付宝账户，快速回笼交易资金。 <a href="http://www.alipay.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
@@ -75,6 +75,7 @@ class Alipay
                 'name'          => 'rsa_public',
                 'placeholder'   => '应用公钥',
                 'title'         => '应用公钥',
+                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写应用公钥',
@@ -84,6 +85,7 @@ class Alipay
                 'name'          => 'rsa_private',
                 'placeholder'   => '应用私钥',
                 'title'         => '应用私钥',
+                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写应用私钥',
@@ -93,6 +95,7 @@ class Alipay
                 'name'          => 'out_rsa_public',
                 'placeholder'   => '支付宝公钥',
                 'title'         => '支付宝公钥',
+                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写支付宝公钥',
