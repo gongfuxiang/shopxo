@@ -76,6 +76,7 @@
 }
 .floor-list .word image {
   max-width: 100%;
+  margin: 0 auto;
 }
 .floor-list .goods-list .goods {
   width: calc(50% - 2rpx);
