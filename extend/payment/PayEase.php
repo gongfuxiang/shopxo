@@ -120,6 +120,12 @@ class PayEase
             return DataReturn('支付缺少配置', -1);
         }
 
+        // 证书是否配置
+        if(!file_exists($this->private_key) || !file_exists($this->public_key) || !file_exists($this->out_public_key))
+        {
+            return DataReturn('密钥证书未配置', -1);
+        }
+
         $data = [
             'merchantId'        => $this->config['merchantId'],
             'orderAmount'       => $params['total_price']*100,
