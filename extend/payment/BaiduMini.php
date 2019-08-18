@@ -111,14 +111,8 @@ class BaiduMini
                 'message'       => '请填写平台公钥',
             ],
             [
-                'element'       => 'input',
-                'type'          => 'text',
-                'default'       => __MY_URL__.'payment_order_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php',
-                'name'          => 'notify_url',
-                'placeholder'   => '异步通知地址',
-                'title'         => '异步通知地址',
-                'desc'          => '将该地址配置到百度小程序支付后台异步通知',
-                'is_required'   => 0,
+                'element'       => 'message',
+                'message'       => '异步通知地址，将该地址配置到百度小程序支付后台异步通知<br />'.__MY_URL__.'payment_order_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php',
             ],
         ];
 

@@ -17,6 +17,24 @@
                     {{/foreach}}
                 </select>
             </div>
+
+            <div class="am-form-group">
+                <label>{{$data.common_order_close_limit_time.name}}<span class="am-form-group-label-tips">{{$data.common_order_close_limit_time.describe}}</span></label>
+                <input type="number" name="{{$data.common_order_close_limit_time.only_tag}}" placeholder="{{$data.common_order_close_limit_time.name}}" data-validation-message="{{$data.common_order_close_limit_time.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_order_close_limit_time.value}}"{{/if}} required />
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    <p class="am-text-warning">建议将该地址添加到linux定时任务定时请求即可（结果 sucs:0, fail:0 冒号后面则是处理的数据条数，sucs成功，fali失败）</p>
+                    <a href="{{:MyUrl('api/crontab/orderclose')}}" target="_blank">{{:MyUrl('api/crontab/orderclose')}}</a>
+                </div>
+            </div>
+
+            <div class="am-form-group">
+                <label>{{$data.common_order_success_limit_time.name}}<span class="am-form-group-label-tips">{{$data.common_order_success_limit_time.describe}}</span></label>
+                <input type="number" name="{{$data.common_order_success_limit_time.only_tag}}" placeholder="{{$data.common_order_success_limit_time.name}}" data-validation-message="{{$data.common_order_success_limit_time.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_order_success_limit_time.value}}"{{/if}} required />
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    <p class="am-text-warning">建议将该地址添加到linux定时任务定时请求即可（结果 sucs:0, fail:0 冒号后面则是处理的数据条数，sucs成功，fali失败）</p>
+                    <a href="{{:MyUrl('api/crontab/ordersuccess')}}" target="_blank">{{:MyUrl('api/crontab/ordersuccess')}}</a>
+                </div>
+            </div>
             
             <div class="am-form-group am-form-group-refreshing">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />
