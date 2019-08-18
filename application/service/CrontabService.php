@@ -58,9 +58,7 @@ class CrontabService
             {
                 // 开启事务
                 Db::startTrans();
-                unset($where[2]);
-                $where[] = ['id', '=', $v['id']];
-                if(Db::name('Order')->where($where)->update($upd_data))
+                if(Db::name('Order')->where(['id'=>$v['id'], 'status'=>1])->update($upd_data))
                 {
                     // 库存回滚
                     $ret = BuyService::OrderInventoryRollback(['order_id'=>$v['id'], 'order_data'=>$upd_data]);
@@ -120,9 +118,7 @@ class CrontabService
             {
                 // 开启事务
                 Db::startTrans();
-                unset($where[2]);
-                $where[] = ['id', '=', $v['id']];
-                if(Db::name('Order')->where($where)->update($upd_data))
+                if(Db::name('Order')->where(['id'=>$v['id'], 'status'=>3])->update($upd_data))
                 {
                     // 订单商品积分赠送
                     $ret = IntegralService::OrderGoodsIntegralGiving(['order_id'=>$v['id']]);
