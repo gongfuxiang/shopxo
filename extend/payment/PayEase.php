@@ -24,9 +24,9 @@ class PayEase
     private $config;
 
     // 证书,应用私钥,应用公钥,平台公钥
-    private $private_key = ROOT.'rsakeys/client.pfx';
-    private $public_key = ROOT.'rsakeys/server.cer';
-    private $out_public_key = ROOT.'rsakeys/out_server.cer';
+    private $private_key = ROOT.'rsakeys'.DS.'paywase'.DS.'client.pfx';
+    private $public_key = ROOT.'rsakeys'.DS.'paywase'.DS.'server.cer';
+    private $out_public_key = ROOT.'rsakeys'.DS.'paywase'.DS.'out_server.cer';
 
     /**
      * 构造方法
