@@ -13,7 +13,7 @@
 * 百度小程序：https://shopxo.net/baidu.html （已发布）
 
 ### 小程序体验码
-![微信小程序](https://images.gitee.com/uploads/images/2019/0125/111858_88b945a6_488475.jpeg "微信小程序")
+![小程序二维码](https://images.gitee.com/uploads/images/2019/0819/102917_600e6efc_488475.jpeg "shopxo-qrcode.jpg")
 
 ### 安装教程
 * 安装教程：https://ask.shopxo.net/article/5
