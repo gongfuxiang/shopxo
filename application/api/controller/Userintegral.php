@@ -65,9 +65,9 @@ class UserIntegral extends Common
 
         // 获取列表
         $data_params = array(
-            'limit_start'   => $start,
-            'limit_number'  => $number,
-            'where'         => $where,
+            'm'         => $start,
+            'n'         => $number,
+            'where'     => $where,
         );
         $data = IntegralService::UserIntegralLogList($data_params);
 

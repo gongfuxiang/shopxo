@@ -24,26 +24,11 @@ Page({
         icon: "user-nav-order-icon",
         is_show: 1,
         name: "我的订单",
-      },
-      {
-        url: "user-address",
-        icon: "user-nav-address-icon",
-        is_show: 1,
-        name: "我的地址"
-      },
-      {
-        url: "user-faovr",
-        icon: "user-nav-faovr-icon",
-        is_show: 1,
-        name: "我的收藏"
-      },
-      {
-        url: "user-answer-list",
-        icon: "user-nav-answer-icon",
-        is_show: 1,
-        name: "我的留言"
       }
-    ]
+    ],
+
+    // 远程自定义导航
+    navigation: [],
   },
 
   onShow() {
@@ -52,15 +37,14 @@ Page({
   },
 
   init(e) {
-    var user = app.GetUserInfo(this, "init"),
+    var user = app.get_user_info(this, "init"),
       self = this;
     if (user != false) {
       // 用户未绑定用户则转到登录页面
-      var msg = (user == false) ? '授权用户信息' : '绑定手机号码';
-      if ((user.mobile || null) == null) {
+      if (app.user_is_need_login(user)) {
         my.confirm({
           title: '温馨提示',
-          content: msg,
+          content: '绑定手机号码',
           confirmButtonText: '确认',
           cancelButtonText: '暂不',
           success: (result) => {
@@ -71,7 +55,7 @@ Page({
             }
             self.setData({
               avatar: user.avatar || app.data.default_user_head_src,
-              nickname: user.nickname || '',
+              nickname: user.user_name_view || '用户名',
             });
             my.stopPullDownRefresh();
           },
@@ -84,11 +68,12 @@ Page({
 
   // 获取数据
   get_data() {
-    my.httpRequest({
+    my.request({
       url: app.get_request_url("center", "user"),
       method: "POST",
       data: {},
       dataType: "json",
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         my.stopPullDownRefresh();
         if (res.data.code == 0) {
@@ -122,7 +107,7 @@ Page({
             nickname: (data.nickname != null) ? data.nickname : this.data.nickname,
             message_total: ((data.common_message_total || 0) == 0) ? 0 : data.common_message_total,
             head_nav_list: temp_head_nav_list,
-            'nav_lists[3].is_show': (data.common_app_is_enable_answer == 1) ? 1 : 0,
+            navigation: data.navigation || [],
           });
         } else {
           my.showToast({
@@ -182,5 +167,10 @@ Page({
   // 头像加载错误
   user_avatar_error(e) {
     this.setData({avatar: app.data.default_user_head_src});
+  },
+
+  // 远程自定义导航事件
+  navigation_event(e) {
+    app.operation_event(e);
   },
 });

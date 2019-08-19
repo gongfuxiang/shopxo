@@ -1,0 +1,51 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- table nav start -->
+        {{include file="appconfig/nav" /}}
+        <!-- table nav end -->
+
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/appconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appconfig/index', ['nav_type'=>'weixinmini'])}}" enctype="multipart/form-data">
+            <div class="am-form-group">
+                <label>{{$data.common_app_is_online_service.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_online_service.describe}}</span></label>
+                <select name="{{$data.common_app_is_online_service.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_online_service.error_tips}}" required>
+                    {{foreach $common_is_text_list as $v}}
+                        <option value="{{$v.id}}" {{if isset($data['common_app_is_online_service']['value']) and $data['common_app_is_online_service']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+            
+            <div class="am-form-group">
+                <label>{{$data.common_app_is_good_thing.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_good_thing.describe}}</span></label>
+                <select name="{{$data.common_app_is_good_thing.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_good_thing.error_tips}}" required>
+                    {{foreach $common_is_text_list as $v}}
+                        <option value="{{$v.id}}" {{if isset($data['common_app_is_good_thing']['value']) and $data['common_app_is_good_thing']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="am-form-group">
+                <label>{{$data.common_app_is_poster_share.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_poster_share.describe}}</span></label>
+                <select name="{{$data.common_app_is_poster_share.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_poster_share.error_tips}}" required>
+                    {{foreach $common_is_text_list as $v}}
+                        <option value="{{$v.id}}" {{if isset($data['common_app_is_poster_share']['value']) and $data['common_app_is_poster_share']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end

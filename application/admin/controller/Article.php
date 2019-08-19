@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use think\facade\Hook;
 use app\service\ArticleService;
 
 /**
@@ -123,7 +124,6 @@ class Article extends Common
             $ret = ArticleService::ArticleList($data_params);
             $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
         }
-        $this->assign('data', $data);
 
 		// 是否启用
 		$this->assign('common_is_enable_list', lang('common_is_enable_list'));
@@ -132,12 +132,23 @@ class Article extends Common
         $article_category = ArticleService::ArticleCategoryList(['field'=>'id,name']);
         $this->assign('article_category_list', $article_category['data']);
 
-		// 参数
-        $this->assign('params', $params);
+        // 文章编辑页面钩子
+        $hook_name = 'plugins_view_admin_article_save';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+        [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'article_id'    => isset($params['id']) ? $params['id'] : 0,
+            'data'          => &$data,
+            'params'        => &$params,
+        ]));
 
         // 编辑器文件存放地址
         $this->assign('editor_path_type', 'article');
 
+        // 数据
+        $this->assign('data', $data);
+        $this->assign('params', $params);
         return $this->fetch();
 	}
 

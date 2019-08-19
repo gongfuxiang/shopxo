@@ -1,0 +1,51 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- table nav start -->
+        {{include file="site/nav" /}}
+        <!-- table nav end -->
+
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'extends'])}}" enctype="multipart/form-data">
+            <div class="am-form-group">
+                <label>{{$data.common_is_login_answer.name}}<span class="am-form-group-label-tips">{{$data.common_is_login_answer.describe}}</span></label>
+                <select name="{{$data.common_is_login_answer.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_login_answer.error_tips}}" required>
+                    {{foreach $common_is_text_list as $v}}
+                        <option value="{{$v.id}}" {{if isset($data['common_is_login_answer']['value']) and $data['common_is_login_answer']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="am-form-group">
+                <label>{{$data.common_order_close_limit_time.name}}<span class="am-form-group-label-tips">{{$data.common_order_close_limit_time.describe}}</span></label>
+                <input type="number" name="{{$data.common_order_close_limit_time.only_tag}}" placeholder="{{$data.common_order_close_limit_time.name}}" data-validation-message="{{$data.common_order_close_limit_time.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_order_close_limit_time.value}}"{{/if}} required />
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    <p class="am-text-warning">建议将该地址添加到linux定时任务定时请求即可（结果 sucs:0, fail:0 冒号后面则是处理的数据条数，sucs成功，fali失败）</p>
+                    <a href="{{:MyUrl('api/crontab/orderclose')}}" target="_blank">{{:MyUrl('api/crontab/orderclose')}}</a>
+                </div>
+            </div>
+
+            <div class="am-form-group">
+                <label>{{$data.common_order_success_limit_time.name}}<span class="am-form-group-label-tips">{{$data.common_order_success_limit_time.describe}}</span></label>
+                <input type="number" name="{{$data.common_order_success_limit_time.only_tag}}" placeholder="{{$data.common_order_success_limit_time.name}}" data-validation-message="{{$data.common_order_success_limit_time.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_order_success_limit_time.value}}"{{/if}} required />
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    <p class="am-text-warning">建议将该地址添加到linux定时任务定时请求即可（结果 sucs:0, fail:0 冒号后面则是处理的数据条数，sucs成功，fali失败）</p>
+                    <a href="{{:MyUrl('api/crontab/ordersuccess')}}" target="_blank">{{:MyUrl('api/crontab/ordersuccess')}}</a>
+                </div>
+            </div>
+            
+            <div class="am-form-group am-form-group-refreshing">
+                <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end

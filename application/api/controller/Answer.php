@@ -47,7 +47,7 @@ class Answer extends Common
         $this->IsLogin();
 
         // 参数
-        $params = input();
+        $params = $this->data_request;
         $params['user'] = $this->user;
 
         // 分页

@@ -13,6 +13,6 @@
   <!-- 0 默认没有数据 -->
   <view wx:elif="{{status == 0}}" class="no-data-box tc">
     <image src="/images/empty.png" mode="widthFix" />
-    <view class="no-data-tips">{{msg || '这里人迹罕至，什么都没有'}}</view>
+    <view class="no-data-tips">{{msg || '没有相关数据'}}</view>
   </view>
 </template>

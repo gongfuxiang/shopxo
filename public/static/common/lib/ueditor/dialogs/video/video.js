@@ -17,6 +17,7 @@
     window.onload = function(){
         $focus($G("videoUrl"));
         initTabs();
+        initAlign();
         initVideo();
         initUpload();
     };
@@ -53,11 +54,25 @@
                 domUtils.removeClasses($G(bodyId), 'focus');
             }
         }
+        document.getElementById('search-container').setAttribute('class', 'none');
         switch (id) {
             case "online":
+                document.getElementById('search-container').setAttribute('class', '');
                 initOnline();
                 break;
         }
+    }
+
+    /* 初始化搜索点击事件 */
+    function initAlign(){
+        domUtils.on($G("search-submit"), 'click', function(e){
+            initOnline();
+        });
+    }
+
+    /* 获取对齐方式 */
+    function getAlign(){
+        return 'none';
     }
 
     function initVideo(){
@@ -123,8 +138,9 @@
      * 在线视频
      */
     function initOnline(){
-        onlineFile = new OnlineFile('videoList');
+        onlineFile = onlineFile || new OnlineFile('videoList');
         onlineFile.reset();
+
     }
     function OnlineFile(target) {
         this.container = utils.isString(target) ? document.getElementById(target) : target;
@@ -202,7 +218,8 @@
                     'dataType': isJsonp ? 'jsonp':'',
                     'data': utils.extend({
                             start: this.listIndex,
-                            size: this.listSize
+                            size: this.listSize,
+                            keywords: document.getElementById('search-input').value
                         }, editor.queryCommandValue('serverparam')),
                     'method': 'get',
                     'onsuccess': function (r) {
@@ -252,8 +269,15 @@
                     item.appendChild(video);
                     item.appendChild(icon);
 
+                    // 原名功能 start
+                    var original = document.createElement('p');
+                    original.setAttribute('class', 'attachment-title');
+                    original.innerHTML = list[i].original;
+                    item.appendChild(original);
+                    // 原名功能 end
+
                     // 视频添加删除功能 start
-                    item.appendChild($("<span class='delbtn' url='" + list[i].url + "'>x</span>").click(function() {
+                    item.appendChild($("<span class='delbtn' data-id='" + list[i].id + "'>x</span>").click(function() {
                         var del = $(this);
                         try{
                             window.event.cancelBubble = true; //停止冒泡
@@ -262,7 +286,7 @@
                             window.event.stopPropagation();   //阻止事件的传播
                         } finally {
                             if(!confirm("确定要删除吗？")) return;
-                            $.post(editor.getOpt("serverUrl") + "?action=deletefile", { "path": del.attr("url") }, function(responseText) {
+                            $.post(editor.getOpt("serverUrl") + "?action=deletefile", { "id": del.attr("data-id") }, function(responseText) {
                                 json = utils.str2json(responseText);
                                 if (json.state == 'SUCCESS') del.parent().remove();
                                 else alert(json.state);
@@ -602,7 +626,8 @@
                 fileVal: editor.getOpt('videoFieldName'),
                 duplicate: true,
                 fileSingleSizeLimit: fileMaxSize,
-                compress: false
+                compress: false,
+                threads: 1
             });
             uploader.addButton({
                 id: '#filePickerBlock'

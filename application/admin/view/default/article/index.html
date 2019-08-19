@@ -138,6 +138,15 @@
 												<dt>是否启用</dt>
 												<dd>{{$v.is_enable_text}}</dd>
 
+                                                <dt>SEO标题</dt>
+                                                <dd>{{$v.seo_title}}</dd>
+
+                                                <dt>SEO关键字</dt>
+                                                <dd>{{$v.seo_keywords}}</dd>
+
+                                                <dt>SEO描述</dt>
+                                                <dd>{{$v.seo_desc}}</dd>
+
 												<dt>创建时间</dt>
 												<dd>{{$v.add_time_time}}</dd>
 
@@ -153,6 +162,27 @@
 									<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit"> 编辑</button>
 								</a>
 								<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/article/delete')}}" data-id="{{$v.id}}"> 删除</button>
+
+                                <!-- 文章列表操作钩子 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_admin_article_list_operation</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_admin_article_list_operation';
+                                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true, 'id'=>$v['id'], 'data'=>$v]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
 							</td>
 						</tr>
 					{{/foreach}}

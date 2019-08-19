@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\AppNavService;
+use app\service\AppHomeNavService;
 
 /**
  * 手机管理-首页导航管理
@@ -56,10 +56,10 @@ class AppHomeNav extends Common
         $number = MyC('admin_page_number', 10, true);
 
         // 条件
-        $where = AppNavService::AppHomeNavListWhere($params);
+        $where = AppHomeNavService::AppHomeNavListWhere($params);
 
         // 获取总数
-        $total = AppNavService::AppHomeNavTotal($where);
+        $total = AppHomeNavService::AppHomeNavTotal($where);
 
         // 分页
         $page_params = array(
@@ -79,7 +79,7 @@ class AppHomeNav extends Common
             'where' => $where,
             'field' => '*',
         );
-        $data = AppNavService::AppHomeNavList($data_params);
+        $data = AppHomeNavService::AppHomeNavList($data_params);
         $this->assign('data_list', $data['data']);
 
         // 是否启用
@@ -122,7 +122,7 @@ class AppHomeNav extends Common
                 'where' => ['id'=>intval($params['id'])],
                 'field' => '*',
             );
-            $ret = AppNavService::AppHomeNavList($data_params);
+            $ret = AppHomeNavService::AppHomeNavList($data_params);
             $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
         }
         $this->assign('data', $data);
@@ -159,7 +159,7 @@ class AppHomeNav extends Common
 
         // 开始处理
         $params = input();
-        return AppNavService::AppHomeNavSave($params);
+        return AppHomeNavService::AppHomeNavSave($params);
     }
 
     /**
@@ -180,7 +180,7 @@ class AppHomeNav extends Common
         // 开始处理
         $params = input();
         $params['user_type'] = 'admin';
-        return AppNavService::AppHomeNavDelete($params);
+        return AppHomeNavService::AppHomeNavDelete($params);
     }
 
     /**
@@ -200,7 +200,7 @@ class AppHomeNav extends Common
 
         // 开始处理
         $params = input();
-        return AppNavService::AppHomeNavStatusUpdate($params);
+        return AppHomeNavService::AppHomeNavStatusUpdate($params);
     }
 }
 ?>

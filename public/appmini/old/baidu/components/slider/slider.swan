@@ -1,0 +1,7 @@
+<swiper indicator-dots="{{banner.length > 0}}" indicator-color="{{indicator_color}}" indicator-active-color="{{indicator_active_color}}" autoplay="{{banner.length > 0}}" circular="{{circular}}" class="banner" s-if="banner.length > 0">
+  <block s-for="item, index in banner" s-key="key">
+    <swiper-item>
+      <image src="{{item.images_url}}" mode="widthFix" data-value="{{item.event_value}}" data-type="{{item.event_type}}" bindtap="banner_event" />
+    </swiper-item>
+  </block>
+</swiper>

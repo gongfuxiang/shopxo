@@ -36,10 +36,10 @@ Page({
   },
 
   init() {
-    var user = app.GetUserInfo(this, "init");
+    var user = app.get_user_info(this, "init");
     if (user != false) {
       // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
+      if (app.user_is_need_login(user)) {
         my.redirectTo({
           url: "/pages/login/login?event_callback=init"
         });
@@ -77,11 +77,12 @@ Page({
     // 加载loding
     my.showLoading({ content: "加载中..." });
 
-    my.httpRequest({
+    my.request({
       url: app.get_request_url("detail", "useraddress"),
       method: "POST",
       data: self.data.params,
       dataType: "json",
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         my.hideLoading();
         if (res.data.code == 0) {
@@ -122,11 +123,12 @@ Page({
   // 获取选择的省市区
   get_province_list() {
     var self = this;
-    my.httpRequest({
+    my.request({
       url: app.get_request_url("index", "region"),
       method: "POST",
       data: {},
       dataType: "json",
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         if (res.data.code == 0) {
           var data = res.data.data;
@@ -152,13 +154,14 @@ Page({
   get_city_list() {
     var self = this;
     if (self.data.province_id) {
-      my.httpRequest({
+      my.request({
         url: app.get_request_url("index", "region"),
         method: "POST",
         data: {
           pid: self.data.province_id
         },
         dataType: "json",
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
         success: res => {
           if (res.data.code == 0) {
             var data = res.data.data;
@@ -186,13 +189,14 @@ Page({
     var self = this;
     if (self.data.city_id) {
       // 加载loding
-      my.httpRequest({
+      my.request({
         url: app.get_request_url("index", "region"),
         method: "POST",
         data: {
           pid: self.data.city_id
         },
         dataType: "json",
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
         success: res => {
           if (res.data.code == 0) {
             var data = res.data.data;
@@ -301,11 +305,12 @@ Page({
       // 加载loding
       my.showLoading({ content: "处理中..." });
 
-      my.httpRequest({
+      my.request({
         url: app.get_request_url("save", "useraddress"),
         method: "POST",
         data: form_data,
         dataType: "json",
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
         success: res => {
           my.hideLoading();
           if (res.data.code == 0) {

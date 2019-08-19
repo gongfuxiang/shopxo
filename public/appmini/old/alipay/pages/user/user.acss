@@ -49,18 +49,23 @@
 }
 
 /* 导航列表 */
-.nav-box .nav-item{
+.nav-box .nav-item {
     height: 100rpx;
     box-sizing: border-box;
     padding: 30rpx 20rpx;
 }
-.nav-box .nav-item .item-icon{
+.nav-box .nav-item .item-icon {
     width: 40rpx;
     height: 40rpx;
     vertical-align: middle;
 }
 .nav-box .nav-item .item-name{
     margin-left: 20rpx;
+}
+.nav-box .nav-item .item-desc {
+  margin-right: 50rpx;
+  margin-top: 2rpx;
+  width: calc(100% - 300rpx);
 }
 .nav-box .nav-item .item-arrow{
     width: 25rpx;
@@ -84,5 +89,5 @@
   left: calc(50% + 30rpx);
 }
 
-
+/* 通知 */
 .user-notice { margin-top: 20rpx; padding: 0 10rpx 20rpx 10rpx; }

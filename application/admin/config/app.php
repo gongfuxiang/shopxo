@@ -18,6 +18,12 @@
  */
 
 return [
+    // 默认输出类型
+    'default_return_type'           => 'html',
+
+    // 默认AJAX 数据返回格式,可选json xml ...
+    'default_ajax_return'           => 'json',
+
     // 缓存key列表
     // 权限缓存存储key
     'cache_admin_power_key'         =>  'cache_admin_power_',

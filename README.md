@@ -1,7 +1,7 @@
 # ShopXO 国内领先企业级B2C免费开源电商系统！
 * 求实进取、创新专注、自主研发、国内领先企业级B2C电商系统解决方案。
 * 遵循Apache2开源协议发布，无需授权、可商用、可二次开发、满足99%的电商运营需求。
-* PC+H5、支付宝小程序、微信小程序、百度小程序(筹备中)。
+* PC+H5、支付宝小程序、微信小程序、百度小程序。
 
 ### 传送门
 * 官网地址：https://shopxo.net/
@@ -10,9 +10,10 @@
 * 演示地址：https://demo.shopxo.net/ （管理账户/密码可进入官网查看）
 * 支付宝小程序：https://shopxo.net/alipay.html （已发布）
 * 微信小程序：https://shopxo.net/weixin.html （已发布）
+* 百度小程序：https://shopxo.net/baidu.html （已发布）
 
 ### 小程序体验码
-![微信小程序](https://images.gitee.com/uploads/images/2019/0125/111858_88b945a6_488475.jpeg "微信小程序")
+![小程序二维码](https://images.gitee.com/uploads/images/2019/0819/102917_600e6efc_488475.jpeg "shopxo-qrcode.jpg")
 
 ### 安装教程
 * 安装教程：https://ask.shopxo.net/article/5
@@ -118,6 +119,9 @@ ThinkPHP是一个快速、简单的基于MVC和面向对象的轻量级PHP开发
     > 基础配置
     > 小程序源码包
 微信小程序
+    > 基础配置
+    > 小程序源码包
+百度小程序
     > 基础配置
     > 小程序源码包
 支付宝生活号（仅v1.1.0版本有，后续版本已移除）

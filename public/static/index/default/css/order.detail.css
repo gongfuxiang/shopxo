@@ -177,11 +177,12 @@ ul.progress li.current .title {
 .business-item ul { padding: 10px 3px 5px 5px; overflow: hidden; }
 .business-item ul li { border:1px solid transparent ;overflow: hidden; float: left; cursor: pointer; padding: 5px; border: 1px solid #eee; margin: 0 10px 10px 0; }
 .business-item ul  li img { width: 36px; height: 36px; }
-.business-item ul li.selected { border-color: #d2364c ; position: relative; }
+.business-item ul li.selected { border-color: #d2364c ; position: relative; box-shadow: 0px 0 0px 1px #d2364c; }
 .business-item ul li.selected i.icon-active { position: absolute; width: 10px; height: 10px; font-size: 0; line-height: 0; right: 0px; bottom: 0px; background: url(../images/sys-item-selected.gif) no-repeat right bottom; }
 @media only screen and (min-width:640px) {
   .business-item ul li {width:calc(33% - 5px); }
   .business-item ul li:nth-child(3n) { margin-right: 0; }
+  .business-item ul li:hover { border: 1px solid #d2364c; box-shadow: 0px 0 0px 1px #d2364c; }
 }
 @media only screen and (max-width:640px) {
   .business-item ul li { width: calc(50% - 5px); }

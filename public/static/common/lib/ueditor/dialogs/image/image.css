@@ -37,62 +37,6 @@
     display: block;
 }
 
-/* 图片对齐方式 */
-.alignBar{
-    float:right;
-    margin-top: 5px;
-    position: relative;
-}
-
-.alignBar .algnLabel{
-    float:left;
-    height: 20px;
-    line-height: 20px;
-}
-
-.alignBar #alignIcon{
-    zoom:1;
-    _display: inline;
-    display: inline-block;
-    position: relative;
-}
-.alignBar #alignIcon span{
-    float: left;
-    cursor: pointer;
-    display: block;
-    width: 19px;
-    height: 17px;
-    margin-right: 3px;
-    margin-left: 3px;
-    background-image: url(./images/alignicon.jpg);
-}
-.alignBar #alignIcon .none-align{
-    background-position: 0 -18px;
-}
-.alignBar #alignIcon .left-align{
-    background-position: -20px -18px;
-}
-.alignBar #alignIcon .right-align{
-    background-position: -40px -18px;
-}
-.alignBar #alignIcon .center-align{
-    background-position: -60px -18px;
-}
-.alignBar #alignIcon .none-align.focus{
-    background-position: 0 0;
-}
-.alignBar #alignIcon .left-align.focus{
-    background-position: -20px 0;
-}
-.alignBar #alignIcon .right-align.focus{
-    background-position: -40px 0;
-}
-.alignBar #alignIcon .center-align.focus{
-    background-position: -60px 0;
-}
-
-
-
 
 /* 远程图片样式 */
 #remote {
@@ -340,9 +284,12 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    top: 5px;
     text-indent: 5px;
     text-align: left;
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    padding: 6px 0;
 }
 
 #upload .filelist li p.progress {
@@ -705,194 +652,6 @@
     background-position: 72px 72px;
 }
 
-
-/* 图片搜索样式 */
-#search .searchBar {
-    width: 100%;
-    height: 30px;
-    margin: 10px 0 5px 0;
-    padding: 0;
-}
-
-#search input.text{
-    width: 150px;
-    padding: 3px 6px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    color: #555;
-    background-color: #fff;
-    background-image: none;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-}
-#search input.text:focus {
-    border-color: #66afe9;
-    outline: 0;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
-}
-#search input.searchTxt {
-    margin-left:5px;
-    padding-left: 5px;
-    background: #FFF;
-    width: 300px;
-    *width: 260px;
-    height: 21px;
-    line-height: 21px;
-    float: left;
-    dislay: block;
-}
-
-#search .searchType {
-    width: 65px;
-    height: 28px;
-    padding:0;
-    line-height: 28px;
-    border: 1px solid #d7d7d7;
-    border-radius: 0;
-    vertical-align: top;
-    margin-left: 5px;
-    float: left;
-    dislay: block;
-}
-
-#search #searchBtn,
-#search #searchReset {
-    display: inline-block;
-    margin-bottom: 0;
-    margin-right: 5px;
-    padding: 4px 10px;
-    font-weight: 400;
-    text-align: center;
-    vertical-align: middle;
-    cursor: pointer;
-    background-image: none;
-    border: 1px solid transparent;
-    white-space: nowrap;
-    font-size: 14px;
-    border-radius: 4px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    vertical-align: top;
-    float: right;
-}
-
-#search #searchBtn {
-    color: white;
-    border-color: #285e8e;
-    background-color: #3b97d7;
-}
-#search #searchReset {
-    color: #333;
-    border-color: #ccc;
-    background-color: #fff;
-}
-#search #searchBtn:hover {
-    background-color: #3276b1;
-}
-#search #searchReset:hover {
-    background-color: #eee;
-}
-
-#search .msg {
-    margin-left: 5px;
-}
-
-#search .searchList{
-    width: 100%;
-    height: 300px;
-    overflow: hidden;
-    clear: both;
-}
-#search .searchList ul{
-    margin:0;
-    padding:0;
-    list-style:none;
-    clear: both;
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
-    zoom: 1;
-    position: relative;
-}
-
-#search .searchList li {
-    list-style:none;
-    float: left;
-    display: block;
-    width: 115px;
-    margin: 5px 10px 5px 20px;
-    *margin: 5px 10px 5px 15px;
-    padding:0;
-    font-size: 12px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
-    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
-    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
-    position: relative;
-    vertical-align: top;
-    text-align: center;
-    overflow: hidden;
-    cursor: pointer;
-    filter: alpha(Opacity=100);
-    -moz-opacity: 1;
-    opacity: 1;
-    border: 2px solid #eee;
-}
-
-#search .searchList li.selected {
-    filter: alpha(Opacity=40);
-    -moz-opacity: 0.4;
-    opacity: 0.4;
-    border: 2px solid #00a0e9;
-}
-
-#search .searchList li p {
-    background-color: #eee;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    width:100%;
-    height:115px;
-    overflow: hidden;
-}
-
-#search .searchList li p img {
-    cursor: pointer;
-    border: 0;
-}
-
-#search .searchList li a {
-    color: #999;
-    border-top: 1px solid #F2F2F2;
-    background: #FAFAFA;
-    text-align: center;
-    display: block;
-    padding: 0 5px;
-    width: 105px;
-    height:32px;
-    line-height:32px;
-    white-space:nowrap;
-    text-overflow:ellipsis;
-    text-decoration: none;
-    overflow: hidden;
-    word-break: break-all;
-}
-
-#search .searchList a:hover {
-    text-decoration: underline;
-    color: #333;
-}
-#search .searchList .clearFloat{
-    clear: both;
-}
-
 #online li .delbtn {      
     position: absolute;
     top: 0;
@@ -954,4 +713,58 @@
     .tabbody .panel.focus {
         height: 315px;
     }
+}
+
+/**
+ * 原标题
+ */
+#imageList .attachment-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% - 23px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-indent: 5px;
+    text-align: left;
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    padding: 2px 0;
+}
+
+/**
+ * 右侧小导航
+ */
+.alignBar{
+    float:right;
+    position: relative;
+}
+
+/**
+ * 搜索
+ */
+.none {
+    display: none;
+}
+#search-submit {
+    background: #eee;
+    font-size: 12px;
+    color: #666;
+    height: 25px;
+    text-align: center;
+    cursor: pointer;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 3px;
+    vertical-align: top;
+}
+#search-input {
+    padding: 4px 5px;
+}
+#search-input, #search-submit {
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    outline: none;
 }

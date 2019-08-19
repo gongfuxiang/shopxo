@@ -63,21 +63,21 @@
   padding: 20rpx 20rpx 0 20rpx;
 }
 .popup-form input {
-  font-size: 24rpx;
-  height: 50rpx;
-  line-height: 50rpx;
+  font-size: 26rpx;
+  height: 60rpx;
+  line-height: 60rpx;
   background: #fbfbfb;
   border-radius: 6rpx;
 }
 .screening-price input {
-  width: 220rpx;
+  width: calc(50% - 45rpx);
 }
 .screening-price .separator {
   margin-top: 20rpx;
   width: 30rpx;
 }
 .popup-form .keywords input {
-  width: 490rpx;
+  width: calc(100% - 30rpx);
 }
 .popup-form .item:not(:last-child) {
   margin-bottom: 50rpx;

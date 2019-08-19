@@ -25,13 +25,14 @@ Page({
       data_list_loding_status: 1
     });
 
-    my.httpRequest({
+    my.request({
       url: app.get_request_url("detail", "order"),
       method: "POST",
       data: {
         id: this.data.params.id
       },
       dataType: "json",
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         my.hideLoading();
         my.stopPullDownRefresh();

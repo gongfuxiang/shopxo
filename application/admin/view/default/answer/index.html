@@ -220,6 +220,27 @@
 									<button class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-reply am-icon-gavel" data-am-modal="{target: '#my-popup-reply'}" data-json='{{:str_replace("'", '', json_encode($v))}}'> 回复</button>
 								{{/if}}
 								<button class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/answer/delete')}}" data-id="{{$v.id}}"> 删除</button>
+
+                                <!-- 问答列表操作钩子 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_admin_answer_list_operation</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_admin_answer_list_operation';
+                                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true, 'id'=>$v['id'], 'data'=>$v]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
 							</td>
 						</tr>
 					{{/foreach}}

@@ -14,10 +14,10 @@ Page({
   },
 
   init() {
-    var user = app.GetUserInfo(this, "init");
+    var user = app.get_user_info(this, "init");
     if (user != false) {
       // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
+      if (app.user_is_need_login(user)) {
         my.redirectTo({
           url: "/pages/login/login?event_callback=init"
         });
@@ -50,13 +50,14 @@ Page({
     });
 
     // 获取数据
-    my.httpRequest({
+    my.request({
       url: app.get_request_url("index", "usergoodsfavor"),
       method: "POST",
       data: {
         page: this.data.data_page
       },
       dataType: "json",
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         my.hideLoading();
         my.stopPullDownRefresh();
@@ -146,11 +147,12 @@ Page({
           // 加载loding
           my.showLoading({ content: "处理中..." });
 
-          my.httpRequest({
+          my.request({
             url: app.get_request_url("cancel", "usergoodsfavor"),
             method: "POST",
             data: {id: id},
             dataType: "json",
+            headers: { 'content-type': 'application/x-www-form-urlencoded' },
             success: res => {
               my.hideLoading();
               if (res.data.code == 0) {

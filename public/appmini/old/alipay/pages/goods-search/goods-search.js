@@ -63,11 +63,12 @@ Page({
     post_data['category_id'] = params['category_id'] || 0;
 
     // 获取数据
-    my.httpRequest({
+    my.request({
       url: app.get_request_url("index", "search"),
       method: "POST",
       data: post_data,
       dataType: "json",
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         my.hideLoading();
         my.stopPullDownRefresh();

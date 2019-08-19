@@ -50,7 +50,7 @@ class Weixin
         // 基础信息
         $base = [
             'name'          => '微信',  // 插件名称
-            'version'       => '0.0.1',  // 插件版本
+            'version'       => '1.1.0',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'apply_terminal'=> ['pc', 'h5', 'weixin'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
             'desc'          => '适用微信公众号/PC/H5/小程序，即时到帐支付方式，买家的交易资金直接打入卖家账户，快速回笼交易资金。 <a href="https://pay.weixin.qq.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
@@ -97,6 +97,7 @@ class Weixin
                 'name'          => 'key',
                 'placeholder'   => '密钥',
                 'title'         => '密钥',
+                'desc'          => '微信支付商户平台API配置的密钥',
                 'is_required'   => 0,
                 'message'       => '请填写密钥',
             ],
@@ -105,6 +106,7 @@ class Weixin
                 'name'          => 'apiclient_cert',
                 'placeholder'   => '证书(apiclient_cert.pem)',
                 'title'         => '证书(apiclient_cert.pem)',
+                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写证书(apiclient_cert.pem)',
@@ -114,6 +116,7 @@ class Weixin
                 'name'          => 'apiclient_key',
                 'placeholder'   => '证书密钥(apiclient_key.pem)',
                 'title'         => '证书密钥(apiclient_key.pem)',
+                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写证书密钥(apiclient_key.pem)',

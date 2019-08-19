@@ -1,9 +1,9 @@
-// 表单初始化
-FromInit('form.form-validation-audit');
-FromInit('form.form-validation-refuse');
-
 $(function()
 {
+    // 表单初始化
+    FromInit('form.form-validation-audit');
+    FromInit('form.form-validation-refuse');
+
     // 弹窗数据初始化
     function PopupInit($popup, data)
     {

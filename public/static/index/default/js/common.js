@@ -5,7 +5,7 @@ console.log("\u6280\u672f\u652f\u6301\uff1a\u0068\u0074\u0074\u0070\u003a\u002f\
 var store = $.AMUI.store;
 if(!store.enabled)
 {
-  alert('Local storage is not supported by your browser. Please disable "Private Mode", or upgrade to a modern browser.');
+  alert('您的浏览器不支持本地存储。请禁用“专用模式”，或升级到现代浏览器。');
 } else {
     // 选择缓存key
     var store_user_menu_key = 'store-user-menu-active-key';

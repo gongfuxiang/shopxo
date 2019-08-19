@@ -66,7 +66,7 @@ class UserGoodsBrowse extends Common
                 'total'     =>  $total,
                 'where'     =>  $params,
                 'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  MyUrl('index/usergoodsbrowse/Goods'),
+                'url'       =>  MyUrl('index/usergoodsbrowse/index'),
             );
         $page = new \base\Page($page_params);
         $this->assign('page_html', $page->GetPageHtml());

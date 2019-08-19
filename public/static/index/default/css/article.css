@@ -14,6 +14,7 @@
 .am-accordion-gapped dl:last-child{margin-bottom: 0;}
 .am-accordion-gapped .am-accordion-title:after{margin-top: -6px;}
 .am-accordion-gapped .am-accordion-title, .am-accordion-gapped .am-accordion-item, .am-accordion-gapped .am-accordion-item.am-active{border-color: #eee;}
+.article-content img { max-width: 100%; }
 
 @media only screen and (min-width: 641px) {
     .article-sidebar .am-offcanvas{display: block; position: static; background: none;}

@@ -12,6 +12,113 @@
 // 应用公共文件
 
 /**
+ * 路径解析指定参数
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-08-06
+ * @desc    description
+ * @param   [string]            $key        [指定key]
+ * @param   [mixed]             $default    [默认值]
+ * @param   [string]            $path       [参数字符串 格式如： a/aa/b/bb/c/cc ]
+ */
+function PathToParams($key = null, $default = null, $path = '')
+{
+    if(empty($path) && isset($_REQUEST['s']))
+    {
+        $path = $_REQUEST['s'];
+    }
+    if(!empty($path))
+    {
+        if(substr($path, 0, 1) == '/')
+        {
+            $path = mb_substr($path, 1, mb_strlen($path, 'utf-8')-1, 'utf-8');
+        }
+        $position = strrpos($path, '.');
+        if($position !== false)
+        {
+            $path = mb_substr($path, 0, $position, 'utf-8');
+        }
+        $arr = explode('/', $path);
+
+        $data = [];
+        $index = 0;
+        foreach($arr as $k=>$v)
+        {
+            if($index != $k)
+            {
+                $data[$arr[$index]] = $v;
+                $index = $k;
+            }
+        }
+        if($key !== null)
+        {
+            return array_key_exists($key, $data) ? $data[$key] : $default;
+        }
+        return $data;
+    }
+    return null;
+}
+
+/**
+ * 调用插件方法 - 访问为静态
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @datetime 2019-07-10T22:03:48+0800
+ * @param    [string]          $plugins   [插件名称]
+ * @param    [string]          $service   [服务层名称]
+ * @param    [string]          $method    [方法名称]
+ * @param    [mixed]           $params    [参数]
+ */
+function CallPluginsServiceMethod($plugins, $service, $method, $params = null)
+{
+    $plugins_class = 'app\plugins\\'.$plugins.'\service\\'.$service;
+    if(class_exists($plugins_class))
+    {
+        if(method_exists($plugins_class, $method))
+        {
+            return $plugins_class::$method($params);
+        } else {
+            return DataReturn('类方法未定义['.$plugins.'-'.$service.'-'.$method.']', -1);
+        }
+    }
+    return DataReturn('类未定义['.$plugins.'-'.$service.']', -1);
+}
+
+/**
+ * 判断当前是否小程序环境中
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @datetime 2019-06-29T22:21:44+0800
+ */
+function MiniAppEnv()
+{
+    if(!empty($_SERVER['HTTP_USER_AGENT']))
+    {
+        // 微信小程序 miniProgram
+        if(stripos($_SERVER['HTTP_USER_AGENT'], 'miniProgram') !== false)
+        {
+            return 'weixin';
+        }
+
+        // 支付宝客户端 AlipayClient
+        if(stripos($_SERVER['HTTP_USER_AGENT'], 'AlipayClient') !== false)
+        {
+            return 'alipay';
+        }
+
+        // 百度小程序
+        if(stripos($_SERVER['HTTP_USER_AGENT'], 'swan-baiduboxapp') !== false)
+        {
+            return 'baidu';
+        }
+    }
+    return null;
+}
+
+/**
  * RGB 转 十六进制
  * @author   Devil
  * @blog     http://gong.gg/
@@ -230,7 +337,11 @@ function FunEach(&$data)
  */
 function PriceNumberFormat($value, $decimals = 2, $dec_point = '.')
 {
-    return number_format($value, $decimals, $dec_point, '');
+    if(!empty($value))
+    {
+        return number_format($value, $decimals, $dec_point, '');
+    }
+    return 0.00;
 }
 
 /**

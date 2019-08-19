@@ -27,7 +27,7 @@ $(function()
             // 验证码参数处理
             verify = $verify.val().replace(/\s+/g, '');
 
-            if(verify.length < 6)
+            if(verify.length != 4)
             {
                 Prompt($verify.data('validation-message'));
                 $verify.focus();
@@ -121,7 +121,7 @@ $(function()
                 // 验证码参数处理
                 verify = $verify.val().replace(/\s+/g, '');
 
-                if(verify.length < 6)
+                if(verify.length != 4)
                 {
                     Prompt($verify.data('validation-message'));
                     $verify.focus();

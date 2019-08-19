@@ -51,7 +51,7 @@ Page({
   init() {
     var user = app.get_user_cache_info(this, "init");
     // 用户未绑定用户则转到登录页面
-    if (user == false || ((user.mobile || null) == null)) {
+    if (app.user_is_need_login(user)) {
       wx.redirectTo({
         url: "/pages/login/login?event_callback=init"
       });
@@ -225,8 +225,8 @@ Page({
       success: res => {
         wx.hideLoading();
         if (res.data.code == 0) {
-          // 线下支付成功
-          if (res.data.data.is_under_line == 1) {
+          // 是否在线支付,非在线支付则支付成功
+          if (res.data.data.is_online_pay == 0) {
             var temp_data_list = this.data.data_list;
             temp_data_list[index]['status'] = 2;
             temp_data_list[index]['status_name'] = '待发货';
@@ -234,7 +234,6 @@ Page({
 
             app.showToast("支付成功", "success");
           } else {
-            console.log(res.data.data.data)
             wx.requestPayment({
               timeStamp: res.data.data.data.timeStamp,
               nonceStr: res.data.data.data.nonceStr,

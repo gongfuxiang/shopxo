@@ -1,0 +1,6 @@
+<view class="am-popup {{propClassname || ''}} {{(status || false) ? 'am-popup-show' : ''}} {{ (propAnimation || true) ? 'animation': '' }}" disable-scroll="{{propDisablescroll || true}}">
+  <view class="am-popup-mask" s-if="propMask || true" bindtap="onMaskTap"></view>
+  <view class="am-popup-content am-popup-{{position || 'bottom'}}">
+    <slot></slot>
+  </view>
+</view>

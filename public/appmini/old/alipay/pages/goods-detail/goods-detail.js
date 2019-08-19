@@ -1,4 +1,5 @@
 const app = getApp();
+import parse from 'mini-html-parser2';
 Page({
   data: {
     indicator_dots: false,
@@ -30,16 +31,23 @@ Page({
     goods_spec_base_images: '',
 
     show_field_price_text: null,
+    common_app_is_use_mobile_detail: 1,
+
+    // 限时秒杀插件
+    common_app_is_limitedtimediscount: 0,
+    plugins_limitedtimediscount_data: null,
+    plugins_limitedtimediscount_is_show_time: true,
+    plugins_limitedtimediscount_time_millisecond: 0,
   },
 
   onLoad(params) {
-    //params['goods_id']=12;
+    //params['goods_id']=2;
     this.setData({params: params});
     this.init();
   },
 
   onShow() {
-    my.setNavigationBar({title: app.data.common_pages_title.goods_detail});
+    my.setNavigationBar({title: (this.data.goods == null) ? app.data.common_pages_title.goods_detail : this.data.goods.title});
   },
 
   // 获取数据列表
@@ -67,11 +75,12 @@ Page({
         data_list_loding_status: 1
       });
 
-      my.httpRequest({
+      my.request({
         url: app.get_request_url("detail", "goods"),
         method: "POST",
         data: {goods_id: this.data.params.goods_id},
         dataType: "json",
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
         success: res => {
           my.stopPullDownRefresh();
           my.hideLoading();
@@ -83,7 +92,7 @@ Page({
               autoplay: (data.goods.photo.length > 1),
               goods_photo: data.goods.photo,
               goods_specifications_choose: data.goods.specifications.choose || [],
-              goods_content_app: data.goods.content_app,
+              goods_content_app: data.goods.content_app || [],
               temp_buy_number: data.goods.buy_min_number || 1,
               goods_favor_text: (data.goods.is_favor == 1) ? '已收藏' : '收藏',
               goods_favor_icon: '/images/goods-detail-favor-icon-' + data.goods.is_favor+'.png',
@@ -98,7 +107,31 @@ Page({
               goods_spec_base_images: data.goods.images,
 
               show_field_price_text: (data.goods.show_field_price_text == '销售价') ? null : (data.goods.show_field_price_text.replace(/<[^>]+>/g, "") || null),
+              common_app_is_use_mobile_detail: data.common_app_is_use_mobile_detail || 0,
+
+              common_app_is_limitedtimediscount: data.common_app_is_limitedtimediscount || 0,
+              plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null,
             });
+
+            // 限时秒杀倒计时
+            if (this.data.common_app_is_limitedtimediscount == 1 && this.data.plugins_limitedtimediscount_data != null) {
+              this.plugins_limitedtimediscount_countdown();
+            }
+
+            // 标题
+            my.setNavigationBar({title: data.goods.title});
+
+            // web内容转化
+            if((data.goods.content_web || null) != null)
+            {
+              parse(data.goods.content_web, (err, nodes) => {
+                if (!err) {
+                  this.setData({
+                    'goods.content_web': nodes,
+                  });
+                }
+              });
+            }
 
             // 不能选择规格处理
             this.goods_specifications_choose_handle_dont(0);
@@ -211,10 +244,10 @@ Page({
   // 收藏事件
   goods_favor_event(e)
   {
-    var user = app.GetUserInfo(this, 'goods_favor_event');
+    var user = app.get_user_info(this, 'goods_favor_event');
     if (user != false) {
       // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
+      if (app.user_is_need_login(user)) {
         my.navigateTo({
           url: "/pages/login/login?event_callback=init"
         });
@@ -222,11 +255,12 @@ Page({
       } else {
         my.showLoading({content: '处理中...'});
 
-        my.httpRequest({
+        my.request({
           url: app.get_request_url('favor', 'goods'),
           method: 'POST',
           data: {"id": this.data.goods.id},
           dataType: 'json',
+          headers: { 'content-type': 'application/x-www-form-urlencoded' },
           success: (res) => {
             my.hideLoading();
             if(res.data.code == 0)
@@ -263,21 +297,22 @@ Page({
 
   // 加入购物车事件
   goods_cart_event(e, spec) {
-    var user = app.GetUserInfo(this, 'goods_cart_event');
+    var user = app.get_user_info(this, 'goods_cart_event');
     if (user != false) {
       // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
+      if (app.user_is_need_login(user)) {
         my.navigateTo({
           url: "/pages/login/login?event_callback=init"
         });
         return false;
       } else {
         my.showLoading({ content: '处理中...' });
-        my.httpRequest({
+        my.request({
           url: app.get_request_url('save', 'cart'),
           method: 'POST',
           data: { "goods_id": this.data.goods.id, "stock": this.data.temp_buy_number, "spec": JSON.stringify(spec) },
           dataType: 'json',
+          headers: { 'content-type': 'application/x-www-form-urlencoded' },
           success: (res) => {
             my.hideLoading();
             if (res.data.code == 0) {
@@ -382,11 +417,12 @@ Page({
     }
 
     // 获取数据
-    my.httpRequest({
+    my.request({
       url: app.get_request_url('spectype', 'goods'),
       method: 'POST',
       data: { "id": this.data.goods.id, "spec": JSON.stringify(spec) },
       dataType: 'json',
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: (res) => {
         if (res.data.code == 0) {
           var spec_count = spec.length;
@@ -469,11 +505,12 @@ Page({
     }
 
     // 获取数据
-    my.httpRequest({
+    my.request({
       url: app.get_request_url('specdetail', 'goods'),
       method: 'POST',
       data: { "id": this.data.goods.id, "spec": JSON.stringify(spec) },
       dataType: 'json',
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: (res) => {
         if (res.data.code == 0) {
           this.setData({
@@ -546,10 +583,10 @@ Page({
 
   // 确认
   goods_buy_confirm_event(e) {
-    var user = app.GetUserInfo(this, 'goods_buy_confirm_event');
+    var user = app.get_user_info(this, 'goods_buy_confirm_event');
     if (user != false) {
       // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
+      if (app.user_is_need_login(user)) {
         my.navigateTo({
           url: "/pages/login/login?event_callback=init"
         });
@@ -636,6 +673,69 @@ Page({
       current: index,
       urls: all
     });
+  },
+
+  // 显示秒杀插件-倒计时
+  plugins_limitedtimediscount_countdown() {
+    var status = this.data.plugins_limitedtimediscount_data.time.status || 0;
+    var msg = this.data.plugins_limitedtimediscount_data.time.msg || '';
+    var hours = this.data.plugins_limitedtimediscount_data.time.hours || 0;
+    var minutes = this.data.plugins_limitedtimediscount_data.time.minutes || 0;
+    var seconds = this.data.plugins_limitedtimediscount_data.time.seconds || 0;
+    var self = this;
+    if (status == 1) {
+      // 秒
+      var timer = setInterval(function () {
+        if (seconds <= 0) {
+          if (minutes > 0) {
+            minutes--;
+            seconds = 59;
+          } else if (hours > 0) {
+            hours--;
+            minutes = 59;
+            seconds = 59;
+          }
+        } else {
+          seconds--;
+        }
+
+        self.setData({
+          'plugins_limitedtimediscount_data.time.hours': (hours < 10 && hours.length == 1) ? '0' + hours : hours,
+          'plugins_limitedtimediscount_data.time.minutes': (minutes < 10 && minutes.length == 1) ? '0' + minutes : minutes,
+          'plugins_limitedtimediscount_data.time.seconds': (seconds < 10 && seconds.length == 1) ? '0' + seconds : seconds,
+        });
+
+        if (hours <= 0 && minutes <= 0 && seconds <= 0) {
+          // 停止时间
+          clearInterval(timer);
+
+          // 活动已结束
+          self.setData({
+            'plugins_limitedtimediscount_data.desc': '活动已结束',
+            plugins_limitedtimediscount_is_show_time: false,
+          });
+        }
+      }, 1000);
+
+      // 毫秒
+      var count = 0;
+      var timers = setInterval(function () {
+        count++;
+        self.setData({ plugins_limitedtimediscount_time_millisecond: count});
+        if(count > 9) {
+          count = 0;
+        }
+        if(self.data.plugins_limitedtimediscount_is_show_time == false) {
+          clearInterval(timers);
+        }
+      }, 100);
+    } else {
+      // 活动已结束
+      self.setData({
+        'plugins_limitedtimediscount_data.desc': msg,
+        plugins_limitedtimediscount_is_show_time: false,
+      });
+    }
   },
 
   // 自定义分享

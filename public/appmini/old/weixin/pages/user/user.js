@@ -22,28 +22,14 @@ Page({
       {
         url: "user-order",
         icon: "user-nav-order-icon",
-        is_show: 1,
         name: "我的订单",
-      },
-      {
-        url: "user-address",
-        icon: "user-nav-address-icon",
-        is_show: 1,
-        name: "我的地址"
-      },
-      {
-        url: "user-faovr",
-        icon: "user-nav-faovr-icon",
-        is_show: 1,
-        name: "我的收藏"
-      },
-      {
-        url: "user-answer-list",
-        icon: "user-nav-answer-icon",
-        is_show: 1,
-        name: "我的留言"
       }
-    ]
+    ],
+
+    // 远程自定义导航
+    navigation: [],
+
+    common_app_is_online_service: 0,
   },
 
   onShow() {
@@ -56,7 +42,7 @@ Page({
         self = this;
     // 用户未绑定用户则转到登录页面
     var msg = (user == false) ? '授权用户信息' : '绑定手机号码';
-    if (user == false || ((user.mobile || null) == null)) {
+    if (app.user_is_need_login(user)) {
       wx.showModal({
         title: '温馨提示',
         content: msg,
@@ -70,7 +56,7 @@ Page({
           }
           self.setData({
             avatar: user.avatar || app.data.default_user_head_src,
-            nickname: user.nickname || '',
+            nickname: user.user_name_view || '用户名',
           });
           wx.stopPullDownRefresh();
         },
@@ -121,7 +107,8 @@ Page({
             nickname: (data.nickname != null) ? data.nickname : this.data.nickname,
             message_total: ((data.common_message_total || 0) == 0) ? 0 : data.common_message_total,
             head_nav_list: temp_head_nav_list,
-            'nav_lists[3].is_show': (data.common_app_is_enable_answer == 1) ? 1 : 0,
+            navigation: data.navigation || [],
+            common_app_is_online_service: data.common_app_is_online_service || 0,
           });
         } else {
           app.showToast(res.data.msg);
@@ -160,7 +147,7 @@ Page({
     if(app.data.default_user_head_src != this.data.avatar)
     {
       wx.previewImage({
-        current: 0,
+        current: this.data.avatar,
         urls: [this.data.avatar]
       });
     }
@@ -169,5 +156,10 @@ Page({
   // 头像加载错误
   user_avatar_error(e) {
     this.setData({avatar: app.data.default_user_head_src});
+  },
+
+  // 远程自定义导航事件
+  navigation_event(e) {
+    app.operation_event(e);
   },
 });

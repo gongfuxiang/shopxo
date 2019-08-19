@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use think\facade\Hook;
 use app\service\ResourcesService;
 use app\service\GoodsService;
 use app\service\RegionService;
@@ -82,6 +83,12 @@ class Goods extends Common
 		];
 		$ret = GoodsService::GoodsList($data_params);
 
+		// 商品分类
+		$this->assign('goods_category_list', GoodsService::GoodsCategoryAll());
+
+		// 品牌分类
+		$this->assign('brand_list', BrandService::CategoryBrand());
+
 		// 是否上下架
 		$this->assign('common_is_shelves_list', lang('common_is_shelves_list'));
 
@@ -129,23 +136,37 @@ class Goods extends Common
 			$specifications = GoodsService::GoodsEditSpecifications($ret['data'][0]['id']);
 			$this->assign('specifications', $specifications);
 		}
-		$this->assign('data', $data);
 
 		// 地区信息
 		$this->assign('region_province_list', RegionService::RegionItems(['pid'=>0]));
 
 		// 商品分类
-		$this->assign('category_list', GoodsService::GoodsCategoryAll());
+		$this->assign('goods_category_list', GoodsService::GoodsCategoryAll());
 
 		// 品牌分类
 		$this->assign('brand_list', BrandService::CategoryBrand());
 
-		// 参数
-		$this->assign('params', $params);
+		// 规格扩展数据
+		$goods_spec_extends = GoodsService::GoodsSpecificationsExtends();
+		$this->assign('goods_specifications_extends', $goods_spec_extends['data']);
 
-		// 编辑器文件存放地址
+		// 商品编辑页面钩子
+		$hook_name = 'plugins_view_admin_goods_save';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+        [
+            'hook_name'    	=> $hook_name,
+            'is_backend'   	=> true,
+            'goods_id'      => isset($params['id']) ? $params['id'] : 0,
+            'data'			=> &$data,
+            'params'       	=> &$params,
+        ]));
+
+        // 编辑器文件存放地址
 		$this->assign('editor_path_type', 'goods');
 
+		// 数据
+		$this->assign('data', $data);
+		$this->assign('params', $params);
 		return $this->fetch();
 	}
 

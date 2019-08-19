@@ -25,7 +25,7 @@
 
             <div class="am-form-group">
                 <label>{{$data.home_user_reg_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_reg_state.describe}}</span></label>
-                <select name="{{$data.home_user_reg_state.only_tag}}" multiple="multiple" class="am-radius chosen-select c-p" data-placeholder="{{$data.home_user_reg_state.name}}" >
+                <select name="{{$data.home_user_reg_state.only_tag}}" multiple="multiple" class="am-radius chosen-select" data-placeholder="{{$data.home_user_reg_state.name}}" >
                     {{foreach $common_user_reg_state_list as $v}}
                         <option value="{{$v.value}}" {{if isset($data['home_user_reg_state']['value']) and in_array($v['value'], explode(',', $data['home_user_reg_state']['value']))}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
@@ -34,7 +34,7 @@
 
             <div class="am-form-group">
                 <label>{{$data.home_user_register_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_register_img_verify_state.describe}}</span></label>
-                <select name="{{$data.home_user_register_img_verify_state.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_user_register_img_verify_state.error_tips}}" required>
+                <select name="{{$data.home_user_register_img_verify_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_user_register_img_verify_state.error_tips}}" required>
                     {{foreach $site_img_verify_state_list as $v}}
                         <option value="{{$v.value}}" {{if isset($data['home_user_register_img_verify_state']['value']) and $data['home_user_register_img_verify_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
@@ -43,7 +43,7 @@
 
             <div class="am-form-group">
                 <label>{{$data.common_register_is_enable_audit.name}}<span class="am-form-group-label-tips">{{$data.common_register_is_enable_audit.describe}}</span></label>
-                <select name="{{$data.common_register_is_enable_audit.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.common_register_is_enable_audit.error_tips}}" required>
+                <select name="{{$data.common_register_is_enable_audit.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_register_is_enable_audit.error_tips}}" required>
                     {{foreach $common_is_text_list as $v}}
                         <option value="{{$v.id}}" {{if isset($data['common_register_is_enable_audit']['value']) and $data['common_register_is_enable_audit']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
@@ -52,7 +52,7 @@
 
             <div class="am-form-group">
                 <label>{{$data.home_is_enable_userregister_agreement.name}}</label>
-                <select name="{{$data.home_is_enable_userregister_agreement.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_is_enable_userregister_agreement.error_tips}}" required>
+                <select name="{{$data.home_is_enable_userregister_agreement.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_is_enable_userregister_agreement.error_tips}}" required>
                     {{foreach $site_img_verify_state_list as $v}}
                         <option value="{{$v.value}}" {{if isset($data['home_is_enable_userregister_agreement']['value']) and $data['home_is_enable_userregister_agreement']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}

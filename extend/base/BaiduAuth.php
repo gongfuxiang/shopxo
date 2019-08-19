@@ -47,7 +47,7 @@ class BaiduAuth
             'client_id' => $params['config']['key'],
             'sk'        => $params['config']['secret'],
         ];
-        $result = $this->HttpRequest('https://openapi.baidu.com/nalogin/getSessionKeyByCode', $data);
+        $result = $this->HttpRequest('https://spapi.baidu.com/oauth/jscode2sessionkey', $data);
         if(empty($result['openid']))
         {
             return ['status'=>-1, 'msg'=>$result['error_description']];

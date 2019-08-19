@@ -247,7 +247,7 @@ class SafetyService
                 'expire_time' => MyC('common_verify_expire_time'),
                 'time_interval' =>  MyC('common_verify_time_interval'),
             );
-        $code = GetNumberCode(6);
+        $code = GetNumberCode(4);
         if($params['type'] == 'sms')
         {
             $obj = new \base\Sms($verify_params);

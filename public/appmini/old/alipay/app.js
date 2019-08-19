@@ -1,5 +1,8 @@
 App({
   data: {
+    // 用户登录缓存key
+    cache_user_login_key: "cache_user_login_key",
+
     // 用户信息缓存key
     cache_user_info_key: "cache_shop_user_info_key",
 
@@ -53,12 +56,13 @@ App({
       "message": "消息",
       "user_integral": "我的积分",
       "user_goods_browse": "我的足迹",
+      "goods_comment": "商品评论",
     },
 
     // 请求地址
     request_url: "{{request_url}}",
-    //request_url: "https://test.shopxo.net/",
-    //request_url: 'http://tp5-dev.com/',
+    // request_url: 'http://tp5-dev.com/',
+    // request_url: 'http://test.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -168,16 +172,14 @@ App({
     if (params != "" && params.substr(0, 1) != "&") {
       params = "&" + params;
     }
-    var user = this.GetUserCacheInfo();
-    var app_client_user_id = user == false ? "" : user.alipay_openid;
-    var user_id = user == false ? 0 : user.id;
+    var user = this.get_user_cache_info();
+    var token = (user == false) ? '' : user.token || '';
     return (
       this.data.request_url +
       "index.php?s=/" + m + "/" + c + "/" + a +
-      "&application=app&application_client_type=alipay&application_user_id=" +
-      app_client_user_id +
-      "&user_id=" +
-      user_id +
+      "&application=app&application_client_type=alipay" +
+      "&token=" +
+      token +
       "&ajax=ajax" +
       params
     );
@@ -189,11 +191,11 @@ App({
    * method     回调操作对象的函数
    * return     有用户数据直接返回, 则回调调用者
    */
-  GetUserInfo(object, method) {
-    var user = this.GetUserCacheInfo();
+  get_user_info(object, method) {
+    var user = this.get_user_cache_info();
     if (user == false) {
       // 唤醒用户授权
-      this.UserAuthCode(object, method);
+      this.user_login(object, method);
 
       return false;
     } else {
@@ -204,7 +206,7 @@ App({
   /**
    * 从缓存获取用户信息
    */
-  GetUserCacheInfo() {
+  get_user_cache_info() {
     var user = my.getStorageSync({ key: this.data.cache_user_info_key });
     if ((user.data || null) == null) {
       return false;
@@ -216,12 +218,10 @@ App({
    * 用户授权
    * object     回调操作对象
    * method     回调操作对象的函数
+   * auth_data  授权数据
    */
-  UserAuthCode(object, method) {
-    // 邀请人参数
-    var params = my.getStorageSync({key: this.data.cache_launch_info_key});
-    var referrer = (params.data == null) ? 0 : (params.data.referrer || 0);
-
+  user_login(object, method, auth_data) {
+    var $this = this;
     // 加载loding
     my.showLoading({ content: "授权中..." });
 
@@ -230,25 +230,33 @@ App({
       scopes: "auth_user",
       success: res => {
         if (res.authCode) {
-          my.httpRequest({
-            url: this.get_request_url("alipayuserauth", "user"),
+          my.request({
+            url: $this.get_request_url("alipayuserauth", "user"),
             method: "POST",
-            data: {
-              authcode: res.authCode,
-              referrer: referrer
-            },
+            data: {authcode: res.authCode},
             dataType: "json",
+            headers: { 'content-type': 'application/x-www-form-urlencoded' },
             success: res => {
               my.hideLoading();
               if (res.data.code == 0) {
                 my.setStorage({
-                  key: this.data.cache_user_info_key,
+                  key: $this.data.cache_user_login_key,
                   data: res.data.data
                 });
-
-                if (typeof object === "object" && (method || null) != null) {
-                  object[method]();
-                }
+                
+                my.confirm({
+                  title: '温馨提示',
+                  content: '授权用户信息',
+                  confirmButtonText: '确认',
+                  cancelButtonText: '暂不',
+                  success: (result) => {
+                    if (result.confirm) {
+                      my.navigateTo({
+                        url: "/pages/login/login"
+                      });
+                    }
+                  }
+                });
               } else {
                 my.showToast({
                   type: "fail",
@@ -259,7 +267,6 @@ App({
             },
             fail: () => {
               my.hideLoading();
-
               my.showToast({
                 type: "fail",
                 content: "服务器请求出错",
@@ -271,13 +278,88 @@ App({
       },
       fail: e => {
         my.hideLoading();
-
         my.showToast({
           type: "fail",
           content: "授权失败",
           duration: 3000
         });
       }
+    });
+  },
+
+  /**
+   * 用户登录
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   * auth_data  授权数据
+   */
+  user_auth_login(object, method, auth_data) {
+    var openid = my.getStorageSync({key: this.data.cache_user_login_key});
+    if ((openid.data || null) == null)
+    {
+      this.user_login(object, method, auth_data);
+    } else {
+      this.get_user_login_info(object, method, openid.data, auth_data);
+    }
+  },
+
+  /**
+   * 获取用户授权信息
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   * openid     用户openid
+   * auth_data  授权数据
+   */
+  get_user_login_info(object, method, openid, userinfo) {
+    // 邀请人参数
+    var params = my.getStorageSync({key: this.data.cache_launch_info_key});
+
+    // 请求数据
+    my.showLoading({ content: "授权中..." });
+    var $this = this;
+    userinfo['openid'] = openid;
+    userinfo['referrer'] = (params.data == null) ? 0 : (params.data.referrer || 0);
+    my.request({
+      url: $this.get_request_url('alipayuserinfo', 'user'),
+      method: 'POST',
+      data: userinfo,
+      dataType: 'json',
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      success: (res) => {
+        my.hideLoading();
+        if (res.data.code == 0) {
+          my.setStorage({
+            key: $this.data.cache_user_info_key,
+            data: res.data.data,
+            success: (res) => {
+              if (typeof object === 'object' && (method || null) != null) {
+                object[method]();
+              }
+            },
+            fail: () => {
+              my.showToast({
+                type: "fail",
+                content: "用户信息缓存失败",
+                duration: 3000
+              });
+            }
+          });
+        } else {
+          my.showToast({
+            type: "fail",
+            content: res.data.msg,
+            duration: 3000
+          });
+        }
+      },
+      fail: () => {
+        my.hideLoading();
+        my.showToast({
+          type: "fail",
+          content: "服务器请求出错",
+          duration: 3000
+        });
+      },
     });
   },
 
@@ -472,7 +554,7 @@ App({
         switch(type) {
           // web
           case 0 :
-            my.navigateTo({url: '/pages/web-view/web-view?url='+value});
+            my.navigateTo({url: '/pages/web-view/web-view?url='+encodeURIComponent(value)});
             break;
 
           // 内部页面
@@ -513,4 +595,41 @@ App({
         }
       }
     },
+
+  /**
+   * 是否需要绑定手机号码
+   */
+  user_is_need_login(user) {
+    // 是否需要绑定手机号码
+    if ((user.is_mandatory_bind_mobile || 0) == 1)
+    {
+      if ((user.mobile || null) == null)
+      {
+        return true;
+      }
+    }
+    return false;
+  },
+
+  /**
+   * 默认弱提示方法
+   * msg    [string]  提示信息
+   * status [string]  状态 默认error [正确success, 错误error]
+   */
+  showToast(msg, status)
+  {
+    if ((status || 'error') == 'success')
+    {
+      my.showToast({
+        type: "success",
+        content: msg
+      });
+    } else {
+      my.showToast({
+        type: "fail",
+        content: msg
+      });
+    }
+  },
+
 });

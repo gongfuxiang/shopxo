@@ -140,19 +140,19 @@ textarea {
 
 /* 文字超出部分使用省略号 */
 .single-text {
-    -o-text-overflow: ellipsis;
-	text-overflow: ellipsis;	  
-	overflow: hidden;
-	white-space: nowrap;
-    max-width: 100%;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;	  
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
 }
 .multi-text {
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 
@@ -269,8 +269,69 @@ button[disabled].bg-primary {
 }
 
 /*
-    滚动标签高度
+    滚动标签高度
 */
 .scroll-box {
     height: 100vh;
+}
+
+/*
+  分享组建样式
+*/
+.share-popup {
+  padding: 20rpx 10rpx 0 10rpx;
+  position: relative;
+}
+.share-popup .close {
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+  z-index: 2;
+}
+.share-popup-content {
+  padding: 0 20rpx;
+  margin-top: 40rpx;
+  text-align: left;
+}
+.share-popup-content .share-items {
+  padding: 30rpx 0;
+  height: 85rpx;
+}
+.share-popup-content .share-items:not(:first-child) {
+  border-top: 1px solid #f0f0f0;
+}
+.share-popup-content .share-items button {
+  background: transparent;
+  padding: 0;
+  width: 100%;
+  text-align: left;
+  margin: 0;
+}
+.share-popup-content .share-items image {
+  width: 80rpx;
+  height: 80rpx;
+  vertical-align: middle;
+  margin-right: 20rpx;
+}
+.share-popup-content .share-items .single-text {
+  width: calc(100% - 100rpx);
+  line-height: 85rpx;
+}
+
+/*
+  在线客服
+*/
+.common-online-service {
+  border: 0;
+  padding: 15rpx;
+  background: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  right: 10rpx;
+  bottom: 35%;
+  line-height: 30rpx;
+  border-radius: 50%;
+}
+.common-online-service image {
+  width: 60rpx;
+  height: 60rpx;
 }

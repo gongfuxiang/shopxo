@@ -15,23 +15,42 @@
     </block>
   </swiper>
 
-  <!-- 基础信息 -->
+  <!-- 标题 -->
+  <view class="goods-title multi-text" style="color:{{goods.title_color}}">{{goods.title}}</view>
+
+  <!-- 限时秒杀 -->
+  <view a:if="{{common_app_is_limitedtimediscount == 1 && plugins_limitedtimediscount_data != null}}">
+    <import src="/pages/lib/limitedtimediscount/goods-detail.axml" />
+    <template is="limitedtimediscount" data="{{plugins_limitedtimediscount_data: plugins_limitedtimediscount_data, plugins_limitedtimediscount_is_show_time: plugins_limitedtimediscount_is_show_time, plugins_limitedtimediscount_time_millisecond: plugins_limitedtimediscount_time_millisecond}}"></template>
+  </view>
+
+  <!-- 基础信息 -->
   <view class="goods-base bg-white">
-    <view class="oh">
-      <view class="goods-title fl multi-text" style="color:{{goods.title_color}}">{{goods.title}}</view>
-      <view class="goods-share fr tc">
+    <view class="goods-price single-text">
+      <view class="goods-share tc">
         <button type="default" size="mini" open-type="share" hover-class="none">
           <image src="/images/goods-detail-share-icon.png" mode="scaleToFill" class="dis-block" />
-          <text class="dis-block cr-888">分享</text>
+          <view class="cr-888">分享</view>
         </button>
       </view>
-    </view>
-    <view class="goods-price single-text">
       <text a:if="{{(show_field_price_text || null) != null}}" class="price-icon">{{show_field_price_text}}</text>
       <text class="sales-price">￥{{goods.price}}</text>
-      <text a:if="{{(goods.original_price || null) != null}}" class="original-price">￥{{goods.original_price}}</text>
-      <view class="cr-ccc sales">
-        <text>销量 {{goods.sales_count}}</text>
+      <view a:if="{{(goods.original_price || null) != null && goods.original_price > 0}}" class="original-price">￥{{goods.original_price}}</view>
+    </view>
+    <view class="base-grid oh">
+      <view class="fl tl">
+        <text class="cr-888">累计销量</text>
+        <text class="cr-main">{{goods.sales_count}}</text>
+      </view>
+      <view class="fl tc">
+        <text class="cr-888">浏览次数</text>
+        <text class="cr-main">{{goods.access_count}}</text>
+      </view>
+      <view class="fl tr">
+        <navigator url="/pages/goods-comment/goods-comment?goods_id={{goods.id}}" hover-class="none">
+          <text class="cr-888">累计评论</text>
+          <text class="cr-main">{{goods.comments_count}}</text>
+        </navigator>
       </view>
     </view>
   </view>
@@ -44,17 +63,24 @@
   </view> -->
 
   <!-- 商品详情 -->
-  <view a:if="{{goods_content_app.length > 0}}" class="goods-detail spacing">
+  <view class="goods-detail spacing">
     <view class="spacing-nav-title">
       <text class="line"></text>
       <text class="text-wrapper">详情</text>
     </view>
-    <view a:for="{{goods_content_app}}" class="goods-detail-app bg-white">
-        <image a:if="{{(item.images || null) != null}}" onTap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto dis-block" src="{{item.images}}" mode="widthFix" />
-        <view a:if="{{(item.content || null) != null}}" class="content-items">
-          <view a:for="{{item.content}}" a:for-item="items">{{items}}</view>
-        </view>
+    <!-- web详情 -->
+    <view a:if="{{common_app_is_use_mobile_detail == 0}}" class="bg-white">
+      <rich-text nodes="{{goods.content_web || ''}}"></rich-text>
     </view>
+    <!-- 手机独立详情 -->
+    <block a:if="{{common_app_is_use_mobile_detail == 1 && goods_content_app.length > 0}}">
+      <view a:for="{{goods_content_app}}" class="goods-detail-app bg-white">
+          <image a:if="{{(item.images || null) != null}}" onTap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto dis-block" src="{{item.images}}" mode="widthFix" />
+          <view a:if="{{(item.content || null) != null}}" class="content-items">
+            <view a:for="{{item.content}}" a:for-item="items">{{items}}</view>
+          </view>
+      </view>
+    </block>
   </view>
 
   <!-- 底线 -->
@@ -91,7 +117,7 @@
         <view class="goods-popup-base-content">
           <view class="goods-price">
             <view class="sales-price">￥{{goods_spec_base_price}}</view>
-            <view a:if="{{(goods_spec_base_original_price || null) != null}}" class="original-price">￥{{goods_spec_base_original_price}}</view>
+            <view a:if="{{(goods_spec_base_original_price || null) != null && goods_spec_base_original_price > 0}}" class="original-price">￥{{goods_spec_base_original_price}}</view>
           </view>
           <view class="inventory">
             <text class="cr-888">库存</text>

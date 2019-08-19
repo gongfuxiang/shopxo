@@ -74,11 +74,11 @@
 		</div>
 
 
-		<!-- 近7日订单交易走势 -->
+		<!-- 近30日订单交易走势 -->
 		<div class="echarts-container">
 			<div class="echarts-title">
 				<span class="icon"></span>
-				<span class="title">近7日订单交易走势</span>
+				<span class="title">近30日订单交易走势</span>
 			</div>
 			<div id="echarts-order-trading"></div>
 		</div>
@@ -86,19 +86,19 @@
 		<!-- 组合 -->
 		<ul class="am-avg-sm-1 am-avg-sm-2 am-avg-lg-2 echarts-combination-container-2">
 			<li>
-				<!-- 近7日热销商品 -->
+				<!-- 近30日热销商品 -->
 				<div class="echarts-title">
 					<span class="icon"></span>
-					<span class="title">近7日热销商品</span>
+					<span class="title">近30日热销商品</span>
 				</div>
 				<div id="echarts-goods-hot"></div>
 			</li>
 
 			<li>
-				<!-- 近7日订单支付方式 -->
+				<!-- 近30日订单支付方式 -->
 				<div class="echarts-title">
 					<span class="icon"></span>
-					<span class="title">近7日订单支付方式</span>
+					<span class="title">近30日订单支付方式</span>
 				</div>
 				<div id="echarts-order-pay-type"></div>
 			</li>
@@ -159,7 +159,7 @@
 <script type="text/javascript">
 $(function()
 {
-	// 近7日订单交易走势
+	// 近30日订单交易走势
     var order_trading_chart = echarts.init(document.getElementById('echarts-order-trading'), 'macarons');
     var option = {
 	    tooltip : {
@@ -175,13 +175,13 @@ $(function()
 	        data: {{:json_encode($order_trading_trend.title_arr)}}
 	    },
 	    toolbox: {
-	        show : true,
+	        show : {{if IsMobile()}}false{{else}}true{{/if}},
 	        feature : {
 	            mark : {show: true},
 	            dataView : {show: true, readOnly: false},
 	            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
 	            restore : {show: true},
-	            saveAsImage : {name:'近7日订单交易走势', show: true}
+	            saveAsImage : {name:'近30日订单交易走势', show: true}
 	        }
 	    },
 	    grid: {
@@ -207,7 +207,7 @@ $(function()
 	order_trading_chart.setOption(option);
 
 
-    // 近7日热销商品
+    // 近30日热销商品
     var goods_hot_chart = echarts.init(document.getElementById('echarts-goods-hot'), 'macarons');
     var option = {
     	title : {
@@ -219,7 +219,7 @@ $(function()
 	        formatter: "{b} : {c} ({d}%)"
 	    },
 	    toolbox: {
-	        show : true,
+	        show : {{if IsMobile()}}false{{else}}true{{/if}},
 	        feature : {
 	            mark : {show: true},
 	            dataView : {show: true, readOnly: false},
@@ -236,7 +236,7 @@ $(function()
 	                }
 	            },
 	            restore : {show: false},
-	            saveAsImage : {name:'近7日热销商品', show: true}
+	            saveAsImage : {name:'近30日热销商品', show: true}
 	        }
 	    },
 	    calculable : true,
@@ -251,7 +251,7 @@ $(function()
 	};
     goods_hot_chart.setOption(option);
 
-    // 近7日订单支付方式
+    // 近30日订单支付方式
     var order_pay_type_chart = echarts.init(document.getElementById('echarts-order-pay-type'), 'macarons');
     var option = {
 	    tooltip : {
@@ -261,13 +261,13 @@ $(function()
 	        data: {{:json_encode($order_type_number.title_arr)}}
 	    },
 	    toolbox: {
-	        show : true,
+	        show : {{if IsMobile()}}false{{else}}true{{/if}},
 	        feature : {
 	            mark : {show: true},
 	            dataView : {show: true, readOnly: false},
 	            magicType : {show: true, type: ['line', 'bar']},
 	            restore : {show: false},
-	            saveAsImage : {name:'近7日订单支付方式', show: true}
+	            saveAsImage : {name:'近30日订单支付方式', show: true}
 	        }
 	    },
 	    calculable : true,

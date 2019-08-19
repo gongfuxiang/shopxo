@@ -99,12 +99,12 @@
             <thead>
                 <tr>
                     <th>名称</th>
-                    <th>所属平台</th>
+                    <th class="am-hide-sm-only">所属平台</th>
                     <th>导航图标</th>
-                    <th>事件值</th>
-                    <th>登录</th>
-                    <th>启用</th>
-                    <th>创建时间</th>
+                    <th class="am-hide-sm-only">事件值</th>
+                    <th class="am-hide-sm-only">登录</th>
+                    <th class="am-hide-sm-only">启用</th>
+                    <th>更多</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -113,7 +113,7 @@
                     {{foreach $data_list as $v}}
                         <tr id="data-list-{{$v.id}}" {{if $v['is_enable'] eq 0}}class="am-active"{{/if}}>
                             <td>{{$v.name}}</td>
-                            <td>{{$v.platform_text}}</td>
+                            <td class="am-hide-sm-only">{{$v.platform_text}}</td>
                             <td>
                                 <div class="am-circle nav-icon-circle am-vertical-align" {{if !empty($v['bg_color'])}}style="background-color:{{$v.bg_color}};"{{/if}}>
                                     {{if !empty($v['images_url'])}}
@@ -125,7 +125,7 @@
                                     {{/if}}
                                 </div>
                             </td>
-                            <td>
+                            <td class="am-hide-sm-only">
                                 {{$v.event_value}}
                                 {{if !empty($v['event_value'])}}
                                     <br /><span class="am-badge am-badge-warning am-radius">{{$v.event_type_text}}</span>
@@ -137,7 +137,60 @@
                             <td class="am-hide-sm-only">
                                 <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/apphomenav/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-field="is_enable" data-is-update-status="1"></a>
                             </td>
-                            <td>{{$v.add_time_time}}</td>
+                            <td>
+                                <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+                                <div class="am-popup am-radius" id="my-popup{{$v.id}}">
+                                    <div class="am-popup-inner">
+                                        <div class="am-popup-hd">
+                                            <h4 class="am-popup-title">详情内容</h4>
+                                            <span data-am-modal-close
+                                            class="am-close">&times;</span>
+                                        </div>
+                                        <div class="am-popup-bd">
+                                            <dl class="dl-content">
+                                                <dt>名称</dt>
+                                                <dd>{{$v.name}}</dd>
+
+                                                <dt>所属平台</dt>
+                                                <dd>{{$v.platform_text}}</dd>
+
+                                                <dt>导航图标</dt>
+                                                <dd>
+                                                    <div class="am-circle nav-icon-circle am-vertical-align" {{if !empty($v['bg_color'])}}style="background-color:{{$v.bg_color}};"{{/if}}>
+                                                        {{if !empty($v['images_url'])}}
+                                                            <a href="{{$v['images_url']}}" target="_blank">
+                                                                <img src="{{$v['images_url']}}" class="am-radius am-vertical-align-middle" width="30" height="30" />
+                                                            </a>
+                                                        {{else /}}
+                                                            <span class="cr-ddd">暂无图片</span>
+                                                        {{/if}}
+                                                    </div>
+                                                </dd>
+
+                                                <dt>事件值</dt>
+                                                <dd>
+                                                    {{$v.event_value}}
+                                                    {{if !empty($v['event_value'])}}
+                                                        <br /><span class="am-badge am-badge-warning am-radius">{{$v.event_type_text}}</span>
+                                                    {{/if}}
+                                                </dd>
+
+                                                <dt>登录</dt>
+                                                <dd>{{$v.is_need_login_text}}</dd>
+
+                                                <dt>启用</dt>
+                                                <dd>{{$v.is_enable_text}}</dd>
+
+                                                <dt>创建时间</dt>
+                                                <dd>{{$v.add_time_time}}</dd>
+
+                                                <dt>更新时间</dt>
+                                                <dd>{{$v.upd_time_time}}</dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                             <td class="view-operation">
                                 <a href="{{:MyUrl('admin/apphomenav/saveinfo', array_merge($params, ['id'=>$v['id']]))}}">
                                     <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit"> 编辑</button>

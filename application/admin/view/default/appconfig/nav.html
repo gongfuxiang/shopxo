@@ -1,0 +1,11 @@
+<ul class="am-nav am-nav-pills table-nav m-b-10">
+    <li {{if $nav_type eq 'base'}}class="am-active"{{/if}} data-type="base">
+        <a href="{{:MyUrl('admin/appconfig/index', ['nav_type'=>'base'])}}">基础配置</a>
+    </li>
+    <li {{if $nav_type eq 'app'}}class="am-active"{{/if}} data-type="app">
+        <a href="{{:MyUrl('admin/appconfig/index', ['nav_type'=>'app'])}}">APP/小程序</a>
+    </li>
+    <li {{if $nav_type eq 'weixinmini'}}class="am-active"{{/if}} data-type="weixinmini">
+        <a href="{{:MyUrl('admin/appconfig/index', ['nav_type'=>'weixinmini'])}}">微信小程序</a>
+    </li>
+</ul>

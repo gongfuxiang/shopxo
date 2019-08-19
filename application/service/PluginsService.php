@@ -134,6 +134,7 @@ class PluginsService
      * @desc    description
      * @param   [string]          $plugins        [应用标记]
      * @param   [string]          $field          [字段名称]
+     * @return  [mixed]                           [不存在返回null, 则原始数据]
      */
     public static function PluginsField($plugins, $field)
     {

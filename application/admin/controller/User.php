@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use think\facade\Hook;
 use app\service\IntegralService;
 use app\service\UserService;
 
@@ -91,7 +92,6 @@ class User extends Common
 		$this->assign('page_html', $page->GetPageHtml());
 		$this->assign('data_list', $data['data']);
 		return $this->fetch();
-
 	}
 
 	/**
@@ -150,14 +150,24 @@ class User extends Common
 			
 			$data = $ret['data'][0];
 		}
-		$this->assign('data', $data);
+
+		// 用户编辑页面钩子
+		$hook_name = 'plugins_view_admin_user_save';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+        [
+            'hook_name'    	=> $hook_name,
+            'is_backend'   	=> true,
+            'user_id'      	=> isset($params['id']) ? $params['id'] : 0,
+            'data'			=> &$data,
+            'params'       	=> &$params,
+        ]));
 
 		// 性别
 		$this->assign('common_gender_list', lang('common_gender_list'));
 
-		// 参数
+		// 数据
+		$this->assign('data', $data);
 		$this->assign('params', $params);
-
 		return $this->fetch();
 	}
 

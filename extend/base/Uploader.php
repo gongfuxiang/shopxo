@@ -62,7 +62,7 @@ class Uploader
      * @param array $config 配置项
      * @param bool $base64 是否解析base64编码，可省略。若开启，则$fileField代表的是base64编码的字符串表单名
      */
-    public function __construct($fileField, $config, $type = "upload")
+    public function __construct($fileField, $config, $type = "file")
     {
         $this->fileField = $fileField;
         $this->config = $config;
@@ -76,6 +76,7 @@ class Uploader
 
             // base64文件
             case 'base64' :
+            case 'scrawl' :
                 $this->uploadBase64();
                 break;
 
@@ -106,6 +107,12 @@ class Uploader
      */
     private function uploadFile()
     {
+        if(empty($_FILES[$this->fileField]))
+        {
+            $this->stateInfo = $this->getStateInfo("ERROR_SIZE_EXCEED");
+            return;
+        }
+        
         $file = $this->file = $_FILES[$this->fileField];
         if (!$file) {
             $this->stateInfo = $this->getStateInfo("ERROR_FILE_NOT_FOUND");
@@ -487,13 +494,15 @@ class Uploader
     public function getFileInfo()
     {
         return array(
-            "state" => $this->stateInfo,
-            "url" => $this->fullName,
-            "title" => $this->fileName,
-            "original" => $this->oriName,
-            "type" => $this->fileType,
-            "size" => $this->fileSize
+            "state"     => $this->stateInfo,
+            "url"       => $this->fullName,
+            "path"      => $this->filePath,
+            "title"     => $this->fileName,
+            "original"  => $this->oriName,
+            "ext"       => $this->fileType,
+            "size"      => $this->fileSize,
+            "hash"      => file_exists($this->filePath) ? hash_file('sha256', $this->filePath, false) : '',
         );
     }
-
 }
+?>

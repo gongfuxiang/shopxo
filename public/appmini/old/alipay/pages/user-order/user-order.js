@@ -49,10 +49,10 @@ Page({
   },
 
   init() {
-    var user = app.GetUserInfo(this, "init");
+    var user = app.get_user_info(this, "init");
     if (user != false) {
       // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
+      if (app.user_is_need_login(user)) {
         my.redirectTo({
           url: "/pages/login/login?event_callback=init"
         });
@@ -93,7 +93,7 @@ Page({
     var order_status = ((this.data.nav_status_list[this.data.nav_status_index] || null) == null) ? -1 : this.data.nav_status_list[this.data.nav_status_index]['value'];
 
     // 获取数据
-    my.httpRequest({
+    my.request({
       url: app.get_request_url("index", "order"),
       method: "POST",
       data: {
@@ -103,6 +103,7 @@ Page({
         is_more: 1,
       },
       dataType: "json",
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         my.hideLoading();
         my.stopPullDownRefresh();
@@ -226,7 +227,7 @@ Page({
     // 加载loding
     my.showLoading({ content: "请求中..." });
 
-    my.httpRequest({
+    my.request({
       url: app.get_request_url("pay", "order"),
       method: "POST",
       data: {
@@ -234,11 +235,12 @@ Page({
         payment_id: this.data.payment_id,
       },
       dataType: "json",
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         my.hideLoading();
         if (res.data.code == 0) {
-          // 线下支付成功
-          if (res.data.data.is_under_line == 1) {
+          // 是否在线支付,非在线支付则支付成功
+          if (res.data.data.is_online_pay == 0) {
             var temp_data_list = this.data.data_list;
             temp_data_list[index]['status'] = 2;
             temp_data_list[index]['status_name'] = '待发货';
@@ -310,11 +312,12 @@ Page({
           // 加载loding
           my.showLoading({ content: "处理中..." });
 
-          my.httpRequest({
+          my.request({
             url: app.get_request_url("cancel", "order"),
             method: "POST",
             data: {id: id},
             dataType: "json",
+            headers: { 'content-type': 'application/x-www-form-urlencoded' },
             success: res => {
               my.hideLoading();
               if (res.data.code == 0) {
@@ -363,11 +366,12 @@ Page({
           // 加载loding
           my.showLoading({ content: "处理中..." });
 
-          my.httpRequest({
+          my.request({
             url: app.get_request_url("collect", "order"),
             method: "POST",
             data: {id: id},
             dataType: "json",
+            headers: { 'content-type': 'application/x-www-form-urlencoded' },
             success: res => {
               my.hideLoading();
               if (res.data.code == 0) {

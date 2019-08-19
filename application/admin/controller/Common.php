@@ -76,22 +76,22 @@ class Common extends Controller
     private function CommonPluginsInit()
     {
         // css钩子
-        $this->assign('plugins_admin_css_data', Hook::listen('plugins_admin_css', ['hook_name'=>'plugins_admin_css', 'is_backend'=>false]));
+        $this->assign('plugins_admin_css_data', Hook::listen('plugins_admin_css', ['hook_name'=>'plugins_admin_css', 'is_backend'=>true]));
 
         // js钩子
-        $this->assign('plugins_admin_js_data', Hook::listen('plugins_admin_js', ['hook_name'=>'plugins_admin_js', 'is_backend'=>false]));
+        $this->assign('plugins_admin_js_data', Hook::listen('plugins_admin_js', ['hook_name'=>'plugins_admin_js', 'is_backend'=>true]));
         
         // 公共header内钩子
-        $this->assign('plugins_admin_common_header_data', Hook::listen('plugins_admin_common_header', ['hook_name'=>'plugins_admin_common_header', 'is_backend'=>false, 'admin'=>$this->admin]));
+        $this->assign('plugins_admin_common_header_data', Hook::listen('plugins_admin_common_header', ['hook_name'=>'plugins_admin_common_header', 'is_backend'=>true, 'admin'=>$this->admin]));
 
         // 公共页面底部钩子
-        $this->assign('plugins_admin_common_page_bottom_data', Hook::listen('plugins_admin_common_page_bottom', ['hook_name'=>'plugins_admin_common_page_bottom', 'is_backend'=>false, 'admin'=>$this->admin]));
+        $this->assign('plugins_admin_common_page_bottom_data', Hook::listen('plugins_admin_common_page_bottom', ['hook_name'=>'plugins_admin_common_page_bottom', 'is_backend'=>true, 'admin'=>$this->admin]));
 
         // 公共顶部钩子
-        $this->assign('plugins_admin_view_common_top_data', Hook::listen('plugins_admin_view_common_top', ['hook_name'=>'plugins_admin_view_common_top', 'is_backend'=>false, 'admin'=>$this->admin]));
+        $this->assign('plugins_admin_view_common_top_data', Hook::listen('plugins_admin_view_common_top', ['hook_name'=>'plugins_admin_view_common_top', 'is_backend'=>true, 'admin'=>$this->admin]));
 
         // 公共底部钩子
-        $this->assign('plugins_admin_view_common_bottom_data', Hook::listen('plugins_admin_view_common_bottom', ['hook_name'=>'plugins_admin_view_common_bottom', 'is_backend'=>false, 'admin'=>$this->admin]));
+        $this->assign('plugins_admin_view_common_bottom_data', Hook::listen('plugins_admin_view_common_bottom', ['hook_name'=>'plugins_admin_view_common_bottom', 'is_backend'=>true, 'admin'=>$this->admin]));
     }
 
 	/**

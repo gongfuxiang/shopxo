@@ -50,7 +50,7 @@ class MafubaoAlipay
         // 基础信息
         $base = [
             'name'          => '码付宝-支付宝',  // 插件名称
-            'version'       => '0.0.1',  // 插件版本
+            'version'       => '1.0.0',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'apply_terminal'=> ['pc','h5'], // 适用终端 默认全部 ['pc', 'h5', 'ios', 'android', 'alipay', 'weixin', 'baidu']
             'desc'          => '适用PC+H5，即时到帐支付方式，个人免签实现支付后立即通知。 <a href="http://pay.shopxo.net/" target="_blank">立即申请</a>',  // 插件描述（支持html）

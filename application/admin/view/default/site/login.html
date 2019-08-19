@@ -116,7 +116,7 @@
 
             <div class="am-form-group">
                 <label>{{$data.home_user_login_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_login_state.describe}}</span></label>
-                <select name="{{$data.home_user_login_state.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_user_login_state.error_tips}}" required>
+                <select name="{{$data.home_user_login_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_user_login_state.error_tips}}" required>
                     {{foreach $site_user_login_state_list as $v}}
                         <option value="{{$v.value}}" {{if isset($data['home_user_login_state']['value']) and $data['home_user_login_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
@@ -125,7 +125,7 @@
 
             <div class="am-form-group">
                 <label>{{$data.home_user_login_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_login_img_verify_state.describe}}</span></label>
-                <select name="{{$data.home_user_login_img_verify_state.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_user_login_img_verify_state.error_tips}}" required>
+                <select name="{{$data.home_user_login_img_verify_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_user_login_img_verify_state.error_tips}}" required>
                     {{foreach $site_img_verify_state_list as $v}}
                         <option value="{{$v.value}}" {{if isset($data['home_user_login_img_verify_state']['value']) and $data['home_user_login_img_verify_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}

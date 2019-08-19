@@ -1,25 +1,20 @@
-<vtabs
-  a:if="{{data_list.length > 0}}"
-  tabs="{{data_list}}"
-  onTabClick="handle_event"
-  onChange="change_event"
-  activeTab="{{tab_active}}"
-  tabBarActiveTextColor="{{tab_active_text_color}}"
-  tabBarlineColor="{{tab_active_line_color}}"
->
+<view class='left-nav'>
   <block a:for="{{data_list}}">
-    <vtab-content anchor="{{item.anchor}}">
-      <view class="content">
-        <block a:if="{{item.items.length > 0}}">
-          <view a:for="{{item.items}}" a:for-item="v" class="content-items" data-value="{{v.id}}" onTap="category_event">
-            <image a:if="{{(v.icon || null) != null}}" src="{{v.icon}}" mode="aspectFit" class="icon" />
-            <view class="text single-text">{{v.name}}</view>
-          </view>
-        </block>
-      </view>
-    </vtab-content>
+    <view class='items {{item.active || ""}}' data-index="{{index}}" onTap='nav_event'>
+      <text>{{item.name}}</text>
+    </view>
   </block>
-</vtabs>
+</view>
+<view class='right-content bg-white'>
+  <block a:if="{{data_content.length > 0}}">
+    <block a:for="{{data_content}}" a:for-item="v">
+      <view class="content-items" data-value="{{v.id}}" onTap="category_event">
+        <image a:if="{{(v.icon || null) != null}}" src="{{v.icon}}" mode="aspectFit" class="icon" />
+        <view class="text single-text">{{v.name}}</view>
+      </view>
+    </block>
+  </block>
+</view>
 
 <view a:if="{{data_list.length == 0 && data_list_loding_status != 0}}">
   <import src="/pages/common/nodata.axml" />

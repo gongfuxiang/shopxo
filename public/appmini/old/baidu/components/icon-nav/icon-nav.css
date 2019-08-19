@@ -1,0 +1,32 @@
+.data-list {
+  overflow: hidden;
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+.data-list .items {
+  width: calc(25% - 60rpx);
+  float: left;
+  padding: 30rpx;
+}
+.items-content {
+  border-radius: 50%;
+  padding: 20rpx;
+  text-align: center;
+  width: 90rpx;
+  height: 90rpx;
+}
+.data-list .items image {
+  width: 80rpx !important;
+  height: 80rpx !important;
+  margin-top: 5rpx;
+}
+.data-list .items .title {
+  margin-top: 10rpx;
+  font-size: 32rpx;
+  text-align:center;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;	  
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+}

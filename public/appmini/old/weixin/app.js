@@ -15,7 +15,7 @@ App({
     // 用户地址选择缓存key
     cache_buy_user_address_select_key: "cache_buy_user_address_select_key",
 
-    // 用户传入信息缓存key
+    // 启动参数缓存key
     cache_launch_info_key: "cache_shop_launch_info_key",
 
     // 默认用户头像
@@ -56,11 +56,13 @@ App({
       "message": "消息",
       "user_integral": "我的积分",
       "user_goods_browse": "我的足迹",
+      "goods_comment": "商品评论",
     },
 
     // 请求地址
     request_url: "{{request_url}}",
-    //request_url: 'https://test.shopxo.net/',
+    // request_url: 'http://tp5-dev.com/',
+    // request_url: 'https://test.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -71,71 +73,42 @@ App({
    * 小程序初始化
    */
   onLaunch(options) {
+    // 启动参数处理
+    options = this.launch_params_handle(options);
+
     // 设置设备信息
     this.set_system_info();
 
-    // 启动query参数处理
-    this.startup_query(options);
+    // 缓存启动参数
+    wx.setStorage({
+      key: this.data.cache_launch_info_key,
+      data: options
+    });
   },
 
   /**
-   * 启动query参数处理
+   * 启动参数处理
    */
-  startup_query(params) {
-    // 没有启动参数则返回
-    if ((params || null) == null) {
-      return false;
+  launch_params_handle(params) {
+    // 启动参数处理
+    if ((params.query || null) != null) {
+      params = params.query;
     }
-
-    // 启动处理类型
-    var type = params.type || null;
-    switch (type) {
-      // type=page
-      case "page":
-        // 页面
-        var page = params.page || null;
-
-        // 参数名
-        var params_field = params.params_field || null;
-
-        // 参数值
-        var params_value = params.params_value || null;
-
-        // 页面跳转
-        if (page != null) {
-          wx.navigateTo({
-            url: "/pages/" + page + "/" + page + "?" + params_field + "=" + params_value
-          });
-        }
-        break;
-
-      // type=view
-      case "view":
-        var url = params.url || null;
-
-        // 页面跳转
-        if (url != null) {
-          wx.navigateTo({
-            url: '/pages/web-view/web-view?url=' + url
-          });
-        }
-        break;
-
-      // 默认
-      default:
-        break;
+    if ((params.scene || null) != null) {
+      params = this.url_params_to_json(decodeURIComponent(params.scene));
     }
+    return params;
   },
 
   /**
    * 获取设备信息
    */
   get_system_info() {
-    let system_info = wx.getStorageSync(this.data.cache_system_info_key);
-    if ((system_info.data || null) == null) {
+    let system_info = wx.getStorageSync(this.data.cache_system_info_key) || null;
+    if (system_info == null) {
       return this.set_system_info();
     }
-    return system_info.data;
+    return system_info;
   },
 
   /**
@@ -163,15 +136,13 @@ App({
       params = "&" + params;
     }
     var user = this.get_user_cache_info();
-    var app_client_user_id = user == false ? "" : user.weixin_openid;
-    var user_id = user == false ? 0 : user.id;
+    var token = (user == false) ? '' : user.token || '';
     return (
       this.data.request_url +
       "index.php?s=/" + m + "/" + c + "/" + a +
-      "&application=app&application_client_type=weixin&application_user_id=" +
-      app_client_user_id +
-      "&user_id=" +
-      user_id +
+      "&application=app&application_client_type=weixin" +
+      "&token=" +
+      token +
       "&ajax=ajax" +
       params
     );
@@ -181,8 +152,8 @@ App({
    * 从缓存获取用户信息
    */
   get_user_cache_info() {
-    let user = wx.getStorageSync(this.data.cache_user_info_key);
-    if ((user || null) == null) {
+    let user = wx.getStorageSync(this.data.cache_user_info_key) || null;
+    if (user == null) {
       return false;
     }
     return user;
@@ -199,8 +170,8 @@ App({
     var $this = this;
     wx.checkSession({
       success: function () {
-        var openid = wx.getStorageSync($this.data.cache_user_login_key);
-        if ((openid || null) == null)
+        var openid = wx.getStorageSync($this.data.cache_user_login_key) || null;
+        if (openid == null)
         {
           $this.user_login(object, method, auth_data);
         } else {
@@ -264,12 +235,21 @@ App({
    * auth_data  授权数据
    */
   get_user_login_info(object, method, openid, auth_data) {
-    var $this = this;
+    // 邀请人参数
+    var params = wx.getStorageSync(this.data.cache_launch_info_key) || null;
+    var referrer = (params == null) ? 0 : (params.referrer || 0);
+
     // 远程解密数据
+    var $this = this;
     wx.request({
       url: $this.get_request_url('wechatuserinfo', 'user'),
       method: 'POST',
-      data: { encrypted_data: auth_data.encryptedData, iv: auth_data.iv, openid: openid },
+      data: {
+        "encrypted_data": auth_data.encryptedData,
+        "iv": auth_data.iv,
+        "openid": openid,
+        "referrer": referrer
+      },
       dataType: 'json',
       header: { 'content-type': 'application/x-www-form-urlencoded' },
       success: (res) => {
@@ -424,7 +404,7 @@ App({
       switch (type) {
         // web
         case 0:
-          wx.navigateTo({ url: '/pages/web-view/web-view?url=' + value });
+          wx.navigateTo({ url: '/pages/web-view/web-view?url=' + encodeURIComponent(value) });
           break;
 
         // 内部页面
@@ -486,6 +466,45 @@ App({
         duration: 3000
       });
     }
+  },
+
+  /**
+   * 是否需要登录
+   * 是否需要绑定手机号码
+   */
+  user_is_need_login(user) {
+    // 用户信息是否正确
+    if (user == false)
+    {
+      return true;
+    }
+
+    // 是否需要绑定手机号码
+    if ((user.is_mandatory_bind_mobile || 0) == 1)
+    {
+      if ((user.mobile || null) == null)
+      {
+        return true;
+      }
+    }
+    
+    return false;
+  },
+
+  /**
+   * url参数转json对象
+   */
+  url_params_to_json(url_params) {
+    var json = new Object();
+    if ((url_params || null) != null)
+    {
+      var arr = url_params.split('&');
+      for(var i = 0; i<arr.length; i++) {
+      var temp = arr[i].split('=');
+        json[temp[0]] = temp[1]
+      }
+    }
+    return json;
   }
 
 });

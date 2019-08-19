@@ -29,7 +29,7 @@
 			</div>
 			<div class="am-form-group">
 				<label>文章分类</label>
-				<select name="article_category_id" class="am-radius c-p chosen-select" data-placeholder="可选择..." data-validation-message="请选择文章分类" required>
+				<select name="article_category_id" class="am-radius chosen-select" data-placeholder="可选择..." data-validation-message="请选择文章分类" required>
 					<option value="">可选择...</option>
 					{{foreach $article_category_list as $v}}
 						<option value="{{$v.id}}" {{if isset($data['article_category_id']) and $data['article_category_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
@@ -50,8 +50,28 @@
 			</div>
 			<div class="am-form-group">
 				<label>内容</label>
-				<textarea class="am-radius am-validate" name="content" rows="5" minlength="10" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('api/ueditor/index', ['path_type'=>'article'])}}" placeholder="内容长度最少 10~105000 个字符" {{else /}} placeholder="内容长度最少 10~105000 个字符更多编辑功能请使用电脑访问" {{/if}} data-validation-message="内容长度最少 10~105000 个字符" required>{{if !empty($data)}}{{$data.content}}{{/if}}</textarea>
+				<textarea class="am-radius am-validate" name="content" rows="5" minlength="10" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>'article'])}}" placeholder="内容格式 10~105000 个字符之间" {{else /}} placeholder="内容格式 10~105000 个字符之间更多编辑功能请使用电脑访问" {{/if}} data-validation-message="内容格式 10~105000 个字符之间" required>{{if !empty($data)}}{{$data.content}}{{/if}}</textarea>
 			</div>
+
+			<!-- 插件扩展数据 start -->
+			{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_admin_article_save</span>
+                </div>
+            {{/if}}
+			{{if !empty($plugins_view_admin_article_save_data) and is_array($plugins_view_admin_article_save_data)}}
+				<div class="am-alert am-alert-secondary">
+					<label class="am-text-sm am-text-warning">该区域为插件扩展数据，请按照插件文档填写相应的值</label>
+					<div>
+						{{foreach $plugins_view_admin_article_save_data as $hook}}
+		                    {{if is_string($hook) or is_int($hook)}}
+		                        {{$hook|raw}}
+		                    {{/if}}
+		                {{/foreach}}
+					</div>
+				</div>
+			{{/if}}
+			<!-- 插件扩展数据 end -->
 
 			<div class="am-alert am-alert-secondary">
 				{{include file="lib/seo" /}}

@@ -49,6 +49,17 @@
     </view>
   </block>
 
+  <!-- 远程自定义导航 -->
+  <block a:for="{{navigation}}" a:key="ckey">
+    <view data-value="{{item.event_value}}" data-type="{{item.event_type}}" onTap="navigation_event" class="nav-item br-b" >
+      <view class="arrow-right">
+        <image src="{{item.images_url}}" class="item-icon" mode="widthFix" />
+        <text class="item-name">{{item.name}}</text>
+        <text a:if="{{(item.desc || null) != null}}" class="item-desc fr tr single-text cr-ccc">{{item.desc}}</text>
+      </view>
+    </view>
+  </block>
+
   <view class="nav-item br-b" onTap="clear_storage">
     <image src="/images/user-nav-cache-icon.png" class="item-icon" mode="widthFix" />
     <text class="item-name">清除缓存</text>
@@ -56,7 +67,7 @@
 
   <view a:if="{{customer_service_tel != null}}" class="nav-item" onTap="call_event">
     <image src="/images/user-nav-customer-service-icon.png" class="item-icon" mode="widthFix" />
-    <text class="item-name">联系客服 </text>
+    <text class="item-name">客服电话 </text>
     <text class="item-name cr-blue">{{customer_service_tel}}</text>
   </view>
 </view>

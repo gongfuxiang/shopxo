@@ -9,6 +9,7 @@
     "pages/paytips/paytips",
     "pages/goods-search/goods-search",
     "pages/goods-detail/goods-detail",
+    "pages/goods-comment/goods-comment",
     "pages/goods-attribute/goods-attribute",
     "pages/buy/buy",
     "pages/user-address/user-address",
@@ -59,8 +60,10 @@
     ]
   },
   "networkTimeout": {
-      "request": 10000,
-      "downloadFile": 10000
+    "request": 10000,
+    "downloadFile": 10000
   },
-  "debug": true
+  "plugins": {},
+  "debug": true,
+  "sitemapLocation": "sitemap.json"
 }

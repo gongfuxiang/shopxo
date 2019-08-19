@@ -16,10 +16,10 @@ Page({
 
   // 初始化
   init() {
-    var user = app.GetUserInfo(this, "init");
+    var user = app.get_user_info(this, "init");
     if (user != false) {
       // 用户未绑定用户则转到登录页面
-      if ((user.mobile || null) == null) {
+      if (app.user_is_need_login(user)) {
         my.redirectTo({
           url: "/pages/login/login?event_callback=init"
         });
@@ -60,11 +60,12 @@ Page({
       this.setData({form_submit_loading: true});
 
       // 网络请求
-      my.httpRequest({
+      my.request({
         url: app.get_request_url('add', 'answer'),
         method: 'POST',
         data: e.detail.value,
         dataType: 'json',
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
         success: (res) => {
           my.hideLoading();
 

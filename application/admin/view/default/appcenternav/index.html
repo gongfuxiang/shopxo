@@ -1,0 +1,206 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation form-search" method="post" action="{{:MyUrl('admin/appcenternav/index')}}" request-type="form">
+            <div class="thin">
+                <div class="am-input-group am-input-group-sm am-fl so">
+                    <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="名称" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-default am-radius" type="submit" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
+                    </span>
+                </div>
+                <label class="am-fl thin_sub more-submit">
+                    更多筛选条件
+                    {{if isset($params['is_more']) and $params['is_more'] eq 1}}
+                        <input type="checkbox" name="is_more" value="1" id="is_more" checked />
+                        <i class="am-icon-angle-up"></i>
+                    {{else /}}
+                        <input type="checkbox" name="is_more" value="1" id="is_more" />
+                        <i class="am-icon-angle-down"></i>
+                    {{/if}}
+                </label>
+            </div>
+            <table class="so-list more-where {{if !isset($params['is_more'])}}none{{/if}}">
+                <tbody>
+                    <tr>
+                        <td>
+                            <span>平台：</span>
+                            <select name="platform" class="chosen-select" data-placeholder="所属平台...">
+                                <option value="">所属平台...</option>
+                                {{foreach $common_platform_type as $v}}
+                                    {{if !in_array($v['value'], ['pc'])}}
+                                        <option value="{{$v.value}}" {{if isset($params['platform']) and $params['platform'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                    {{/if}}
+                                {{/foreach}}
+                            </select>
+                        </td>
+                        <td>
+                            <span>类型：</span>
+                            <select name="event_type" class="chosen-select" data-placeholder="事件类型...">
+                                <option value="-1">事件类型...</option>
+                                {{foreach $common_app_event_type as $v}}
+                                    <option value="{{$v.value}}" {{if isset($params['event_type']) and $params['event_type'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                {{/foreach}}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>启用：</span>
+                            <select name="is_enable" class="chosen-select" data-placeholder="是否启用...">
+                                <option value="-1">是否启用...</option>
+                                {{foreach $common_is_enable_list as $v}}
+                                    <option value="{{$v.id}}" {{if isset($params['is_enable']) and $params['is_enable'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                                {{/foreach}}
+                            </select>
+                        </td>
+                        <td class="time">
+                            <span>时间：</span>
+                            <span>
+                                <input type="text" autocomplete="off" name="time_start" class="am-form-field am-input-sm am-radius Wdate" placeholder="起始时间" value="{{if !empty($params.time_start)}}{{$params.time_start}}{{/if}}" data-validation-message="日期格式有误" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" /><i class="am-icon-calendar"></i>
+                            </span>
+                            <em class="text-grey">~</em>
+                            <span>
+                                <input type="text" autocomplete="off" name="time_end" class="am-form-field am-input-sm am-radius Wdate" placeholder="结束时间" value="{{if !empty($params.time_end)}}{{$params.time_end}}{{/if}}" pattern="^[0-9]{4}-[0-9]{2}-[0-9]{2}$" data-validation-message="日期格式有误" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" /><i class="am-icon-calendar"></i>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
+                            <a href="{{:MyUrl('admin/appcenternav/index')}}" class="am-btn am-btn-warning am-radius am-btn-sm reset-submit">清除条件</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <!-- form end -->
+
+        <!-- operation start -->
+        <div class="am-g m-t-15">
+            <a href="{{:MyUrl('admin/appcenternav/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
+        </div>
+        <!-- operation end -->
+
+        <!-- list start -->
+        <table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
+            <thead>
+                <tr>
+                    <th>名称</th>
+                    <th class="am-hide-sm-only">所属平台</th>
+                    <th>导航图标</th>
+                    <th class="am-hide-sm-only">事件值</th>
+                    <th class="am-hide-sm-only">启用</th>
+                    <th>更多</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{if !empty($data_list)}}
+                    {{foreach $data_list as $v}}
+                        <tr id="data-list-{{$v.id}}" {{if $v['is_enable'] eq 0}}class="am-active"{{/if}}>
+                            <td>{{$v.name}}</td>
+                            <td class="am-hide-sm-only">{{$v.platform_text}}</td>
+                            <td>
+                                {{if !empty($v['images_url'])}}
+                                    <a href="{{$v['images_url']}}" target="_blank">
+                                        <img src="{{$v['images_url']}}" class="am-radius am-vertical-align-middle" width="30" height="30" />
+                                    </a>
+                                {{else /}}
+                                    <span class="cr-ddd">暂无图片</span>
+                                {{/if}}
+                            </td>
+                            <td class="am-hide-sm-only">
+                                <div class="event-value">
+                                    {{$v.event_value}}
+                                    {{if !empty($v['event_value'])}}
+                                        <br /><span class="am-badge am-badge-warning am-radius">{{$v.event_type_text}}</span>
+                                    {{/if}}
+                                </div>
+                            </td>
+                            <td class="am-hide-sm-only">
+                                <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/appcenternav/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-field="is_enable" data-is-update-status="1"></a>
+                            </td>
+                            <td>
+                                <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+                                <div class="am-popup am-radius" id="my-popup{{$v.id}}">
+                                    <div class="am-popup-inner">
+                                        <div class="am-popup-hd">
+                                            <h4 class="am-popup-title">详情内容</h4>
+                                            <span data-am-modal-close
+                                            class="am-close">&times;</span>
+                                        </div>
+                                        <div class="am-popup-bd">
+                                            <dl class="dl-content">
+                                                <dt>名称</dt>
+                                                <dd>{{$v.name}}</dd>
+
+                                                <dt>所属平台</dt>
+                                                <dd>{{$v.platform_text}}</dd>
+
+                                                <dt>导航图标</dt>
+                                                <dd>
+                                                    {{if !empty($v['images_url'])}}
+                                                        <a href="{{$v['images_url']}}" target="_blank">
+                                                            <img src="{{$v['images_url']}}" class="am-radius am-vertical-align-middle" width="30" height="30" />
+                                                        </a>
+                                                    {{else /}}
+                                                        <span class="cr-ddd">暂无图片</span>
+                                                    {{/if}}
+                                                </dd>
+
+                                                <dt>事件值</dt>
+                                                <dd>
+                                                    <div class="event-value">
+                                                        {{$v.event_value}}
+                                                        {{if !empty($v['event_value'])}}
+                                                            <br /><span class="am-badge am-badge-warning am-radius">{{$v.event_type_text}}</span>
+                                                        {{/if}}
+                                                    </div>
+                                                </dd>
+
+                                                <dt>启用</dt>
+                                                <dd>{{$v.is_enable_text}}</dd>
+
+                                                <dt>创建时间</dt>
+                                                <dd>{{$v.add_time_time}}</dd>
+
+                                                <dt>更新时间</dt>
+                                                <dd>{{$v.upd_time_time}}</dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="view-operation">
+                                <a href="{{:MyUrl('admin/appcenternav/saveinfo', array_merge($params, ['id'=>$v['id']]))}}">
+                                    <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit"> 编辑</button>
+                                </a>
+                                <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/appcenternav/delete')}}" data-id="{{$v.id}}"> 删除</button>
+                            </td>
+                        </tr>
+                    {{/foreach}}
+                {{/if}}
+            </tbody>
+        </table>
+        {{if empty($data_list)}}
+            <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+        {{/if}}
+        <!-- list end -->
+
+        <!-- page start -->
+        {{if !empty($data_list)}}
+            {{$page_html|raw}}
+        {{/if}}
+        <!-- page end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

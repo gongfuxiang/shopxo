@@ -12,10 +12,38 @@
 <!-- goods category -->
 {{include file="public/goods_category" /}}
 
+<!-- 订单确认页面顶部钩子 -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+    <div class="plugins-tag">
+        <span>plugins_view_buy_top</span>
+    </div>
+{{/if}}
+{{if !empty($plugins_view_buy_top_data) and is_array($plugins_view_buy_top_data)}}
+    {{foreach $plugins_view_buy_top_data as $hook}}
+        {{if is_string($hook) or is_int($hook)}}
+            {{$hook|raw}}
+        {{/if}}
+    {{/foreach}}
+{{/if}}
+
 <!-- content -->
 <div class="am-container">
-    <!-- 地址 -->
     <div class="link-list">
+        <!-- 订单确认页面内部顶部钩子 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_buy_inside_top</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_buy_inside_top_data) and is_array($plugins_view_buy_inside_top_data)}}
+            {{foreach $plugins_view_buy_inside_top_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+
+        <!-- 地址 -->
         <div class="address">
             <div class="control">
                 <h3>确认收货地址</h3>
@@ -69,8 +97,22 @@
             {{/if}}
         </div>
 
+        <!-- 订单确认页面地址底部钩子 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_buy_address_bottom</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_buy_address_bottom_data) and is_array($plugins_view_buy_address_bottom_data)}}
+            {{foreach $plugins_view_buy_address_bottom_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+
         <!-- 支付方式 -->
-        <div class="business-item payment" data-field="payment_id">
+        <div class="buy-items business-item payment" data-field="payment_id">
             <h3>选择支付</h3>
             {{if !empty($payment_list)}}
                 <ul class="payment-list">
@@ -90,161 +132,254 @@
             {{/if}}
         </div>
 
-        <!-- 商品列表 -->
-        <div class="order-detail">
-            <div class="goods-table">
-                <h3>确认订单信息</h3>
-                <!-- 商品列表 -->
-                {{if !empty($goods_list)}}
-                    <table class="am-table">
-                        <thead>
-                            <tr>
-                                <th>商品信息</th>
-                                <th class="am-hide-sm-only">单价</th>
-                                <th class="am-hide-sm-only">数量</th>
-                                <th class="am-hide-sm-only">金额</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{foreach $goods_list as $goods}}
-                                <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}">
-                                    <td class="base">
-                                        <div class="goods-detail">
-                                            <a href="{{$goods.goods_url}}" target="_blank">
-                                                <img src="{{$goods.images}}">
-                                            </a>
-                                            <div class="goods-base">
-                                                <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
-                                                {{if !empty($goods.spec)}}
-                                                    <ul class="goods-attr">
-                                                        {{foreach $goods.spec as $spec}}
-                                                            <li>{{$spec.type}}：{{$spec.value}}</li>
-                                                        {{/foreach}}
-                                                    </ul>
-                                                {{/if}}
-                                            </div>
-                                        </div>
-                                        <div class="wap-base am-show-sm-only">
-                                            {{if $goods['original_price'] gt 0}}
-                                                <span class="original-price">￥{{$goods.original_price}}</span>
+        <!-- 订单确认页面支付方式底部钩子 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_buy_payment_bottom</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_buy_payment_bottom_data) and is_array($plugins_view_buy_payment_bottom_data)}}
+            {{foreach $plugins_view_buy_payment_bottom_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+
+        <!-- 商品明细 -->
+        <div class="buy-items goods-items">
+            <h3>商品明细</h3>
+            {{if !empty($goods_list)}}
+                <table class="am-table">
+                    <thead>
+                        <tr>
+                            <th>商品信息</th>
+                            <th class="am-hide-sm-only">单价</th>
+                            <th class="am-hide-sm-only">数量</th>
+                            <th class="am-hide-sm-only">金额</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{foreach $goods_list as $goods}}
+                            <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}">
+                                <td class="base">
+                                    <div class="goods-detail">
+                                        <a href="{{$goods.goods_url}}" target="_blank">
+                                            <img src="{{$goods.images}}">
+                                        </a>
+                                        <div class="goods-base">
+                                            <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
+                                            {{if !empty($goods.spec)}}
+                                                <ul class="goods-attr">
+                                                    {{foreach $goods.spec as $spec}}
+                                                        <li>{{$spec.type}}：{{$spec.value}}</li>
+                                                    {{/foreach}}
+                                                </ul>
                                             {{/if}}
-                                            <strong class="total-price-content">￥{{$goods.price}}</strong>
-                                            <span class="wap-number">x{{$goods.stock}}</span>
                                         </div>
-                                    </td>
-                                    <td class="price am-hide-sm-only">
+                                    </div>
+                                    <div class="wap-base am-show-sm-only">
                                         {{if $goods['original_price'] gt 0}}
-                                            <p class="original-price">￥{{$goods.original_price}}</p>
+                                            <span class="original-price">￥{{$goods.original_price}}</span>
                                         {{/if}}
-                                        <p class="line-price">￥{{$goods.price}}</p>
-                                    </td>
-                                    <td class="number am-hide-sm-only">
-                                        {{$goods.stock}} {{$goods.inventory_unit}}
-                                    </td>
-                                    <td class="total-price am-hide-sm-only">
-                                        <strong class="total-price-content">￥{{$goods.total_price}}</strong>
-                                    </td>
-                                </tr>
-                            {{/foreach}}
-                        </tbody>
-                    </table>
-                {{/if}}
-                {{if empty($goods_list)}}
-                    <div class="table-no"><i class="am-icon-warning"></i> 没有商品</div>
-                {{/if}}
+                                        <strong class="total-price-content">￥{{$goods.price}}</strong>
+                                        <span class="wap-number">x{{$goods.stock}}</span>
+                                    </div>
+                                </td>
+                                <td class="price am-hide-sm-only">
+                                    {{if $goods['original_price'] gt 0}}
+                                        <p class="original-price">￥{{$goods.original_price}}</p>
+                                    {{/if}}
+                                    <p class="line-price">￥{{$goods.price}}</p>
+                                </td>
+                                <td class="number am-hide-sm-only">
+                                    {{$goods.stock}} {{$goods.inventory_unit}}
+                                </td>
+                                <td class="total-price am-hide-sm-only">
+                                    <strong class="total-price-content">￥{{$goods.total_price}}</strong>
+                                </td>
+                            </tr>
+                        {{/foreach}}
+                    </tbody>
+                </table>
 
                 <!-- 含运费小计 -->
                 <div class="buy-point-discharge">
                     <p>
-                        合计 <span>¥</span><em class="pay-sum">{{$base.total_price}}</em>
+                        合计 <span>￥</span><em class="pay-sum">{{$base.total_price}}</em>
                     </p>
                 </div>
+            {{else /}}
+                <div class="table-no"><i class="am-icon-warning"></i> 没有商品</div>
+            {{/if}}
+        </div>
 
-                <!-- 留言 -->
-                <div class="buy-message">
-                    <div class="order-extra">
-                        <div class="order-user-info">
-                            <div class="memo">
-                                <label>买家留言：</label>
-                                <input type="text" title="选填,对本次交易的说明（建议填写已经和卖家达成一致的说明）" placeholder="选填,建议填写和卖家达成一致的说明" class="memo-input">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 扩展展示数据 -->
-                {{if !empty($extension_data)}}
-                    <ul class="buy-extension-data">
-                        {{foreach $extension_data as $ext}}
-                            <li>
-                                <span class="extension-items-name">{{$ext.name}}</span>
-                                <span class="am-fr extension-items-tips">{{$ext.tips}}</span>
-                            </li>
-                        {{/foreach}}
-                    </ul>
+        <!-- 订单确认页面商品底部钩子 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_buy_goods_bottom</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_buy_goods_bottom_data) and is_array($plugins_view_buy_goods_bottom_data)}}
+            {{foreach $plugins_view_buy_goods_bottom_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
                 {{/if}}
-
-                <!-- 信息 -->
-                <div class="order-nav">
-                    <div class="pay-confirm">
-                        <div class="box">
-                            <div class="base-real-pay">
-                                <em>实付款：</em>
-                                <span class="price">
-                                    <span>¥</span>
-                                    <em class="nav-total-price">{{$base.actual_price}}</em>
-                                </span>
-                            </div>
-
-                            <div class="pay-address">
-                                <div class="buy-footer-address">
-                                    <span class="buy-line-title buy-line-title-type">寄送至：</span>
-                                    <span class="buy-address-detail">
-                                        {{if !empty($base['address'])}}
-                                            {{$base.address.province_name}} {{$base.address.city_name}} {{$base.address.county_name}} {{$base.address.address}}
-                                        {{else /}}
-                                            ...
-                                        {{/if}}
-                                    </span>
-                                </div>
-                                <div class="buy-footer-address">
-                                    <span class="buy-line-title">收货人：</span> 
-                                    <span class="buy-user">
-                                        {{if !empty($base['address'])}}
-                                            {{$base.address.name}}
-                                        {{else /}}
-                                            ...
-                                        {{/if}}
-                                    </span>
-                                    <span class="buy-phone">
-                                        {{if !empty($base['address'])}}
-                                            {{$base.address.tel}}
-                                        {{else /}}
-                                            ...
-                                        {{/if}}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <form class="am-form form-validation nav-buy" action="{{:MyUrl('index/buy/add')}}" method="post" class="nav-buy" request-type="ajax-fun" request-value="BuySubmitBack">
-                            <input type="hidden" name="goods_id" value="{{if isset($params['goods_id'])}}{{$params.goods_id}}{{else /}}0{{/if}}" />
-                            <input type="hidden" name="buy_type" value="{{if isset($params['buy_type'])}}{{$params.buy_type}}{{else /}}goods{{/if}}" />
-                            <input type="hidden" name="stock" value="{{if isset($params['stock'])}}{{$params.stock}}{{else /}}1{{/if}}" />
-                            <input type="hidden" name="spec" value='{{if isset($params['spec'])}}{{$params.spec}}{{/if}}' />
-                            <input type="hidden" name="ids" value="{{if isset($params['ids'])}}{{$params.ids}}{{/if}}" />
-                            <input type="hidden" name="address_id" value="0" />
-                            <input type="hidden" name="payment_id" value="0" />
-                            <input type="hidden" name="user_note" value="" />
-                            <div class="go-btn-wrap">
-                                <button type="submit" class="btn-go btn-loading-example" title="点击此按钮，提交订单" data-am-loading="{loadingText:'处理中...'}">提交订单</button>
-                            </div>
-                        </form>
+            {{/foreach}}
+        {{/if}}
+        
+        <!-- 留言 -->
+        <div class="buy-message">
+            <div class="order-extra">
+                <div class="order-user-info">
+                    <div class="memo">
+                        <label>买家留言：</label>
+                        <input type="text" title="选填,对本次交易的说明（建议填写已经和卖家达成一致的说明）" placeholder="选填,建议填写和卖家达成一致的说明" class="memo-input">
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- 订单确认页面用户留言底部钩子 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_buy_user_note_bottom</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_buy_user_note_bottom_data) and is_array($plugins_view_buy_user_note_bottom_data)}}
+            {{foreach $plugins_view_buy_user_note_bottom_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+
+        <!-- 扩展展示数据 -->
+        {{if !empty($extension_data)}}
+            <ul class="buy-extension-data">
+                {{foreach $extension_data as $ext}}
+                    <li>
+                        <span class="extension-items-name">{{$ext.name}}</span>
+                        <span class="am-fr extension-items-tips">{{$ext.tips}}</span>
+                    </li>
+                {{/foreach}}
+            </ul>
+        {{/if}}
+
+        <!-- 订单确认页面订单确认信息顶部钩子 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_buy_base_confirm_top</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_buy_base_confirm_top_data) and is_array($plugins_view_buy_base_confirm_top_data)}}
+            {{foreach $plugins_view_buy_base_confirm_top_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+
+        <!-- 基础信息 -->
+        <div class="order-nav">
+            <div class="pay-confirm">
+                <div class="box">
+                    <div class="base-real-pay">
+                        <em>实付款：</em>
+                        <span class="price">
+                            <span>￥</span>
+                            <em class="nav-total-price">{{$base.actual_price}}</em>
+                        </span>
+                    </div>
+
+                    <div class="pay-address">
+                        <div class="buy-footer-address">
+                            <span class="buy-line-title buy-line-title-type">寄送至：</span>
+                            <span class="buy-address-detail">
+                                {{if !empty($base['address'])}}
+                                    {{$base.address.province_name}} {{$base.address.city_name}} {{$base.address.county_name}} {{$base.address.address}}
+                                {{else /}}
+                                    ...
+                                {{/if}}
+                            </span>
+                        </div>
+                        <div class="buy-footer-address">
+                            <span class="buy-line-title">收货人：</span> 
+                            <span class="buy-user">
+                                {{if !empty($base['address'])}}
+                                    {{$base.address.name}}
+                                {{else /}}
+                                    ...
+                                {{/if}}
+                            </span>
+                            <span class="buy-phone">
+                                {{if !empty($base['address'])}}
+                                    {{$base.address.tel}}
+                                {{else /}}
+                                    ...
+                                {{/if}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <form class="am-form form-validation nav-buy" action="{{:MyUrl('index/buy/add')}}" method="post" class="nav-buy" request-type="ajax-fun" request-value="BuySubmitBack">
+                    <input type="hidden" name="goods_id" value="{{if isset($params['goods_id'])}}{{$params.goods_id}}{{else /}}0{{/if}}" />
+                    <input type="hidden" name="buy_type" value="{{if isset($params['buy_type'])}}{{$params.buy_type}}{{else /}}goods{{/if}}" />
+                    <input type="hidden" name="stock" value="{{if isset($params['stock'])}}{{$params.stock}}{{else /}}1{{/if}}" />
+                    <input type="hidden" name="spec" value='{{if isset($params['spec'])}}{{$params.spec}}{{/if}}' />
+                    <input type="hidden" name="ids" value="{{if isset($params['ids'])}}{{$params.ids}}{{/if}}" />
+                    <input type="hidden" name="address_id" value="0" />
+                    <input type="hidden" name="payment_id" value="0" />
+                    <input type="hidden" name="user_note" value="" />
+                    <!-- 订单确认页面提交订单表单内部钩子 -->
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                        <div class="plugins-tag">
+                            <span>plugins_view_buy_form_inside</span>
+                        </div>
+                    {{/if}}
+                    {{if !empty($plugins_view_buy_form_inside_data) and is_array($plugins_view_buy_form_inside_data)}}
+                        {{foreach $plugins_view_buy_form_inside_data as $hook}}
+                            {{if is_string($hook) or is_int($hook)}}
+                                {{$hook|raw}}
+                            {{/if}}
+                        {{/foreach}}
+                    {{/if}}
+                    <div class="go-btn-wrap">
+                        <button type="submit" class="btn-go btn-loading-example" title="点击此按钮，提交订单" data-am-loading="{loadingText:'处理中...'}">提交订单</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 订单确认页面内部底部钩子 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_buy_inside_bottom</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_buy_inside_bottom_data) and is_array($plugins_view_buy_inside_bottom_data)}}
+            {{foreach $plugins_view_buy_inside_bottom_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
     </div>
 </div>
+
+<!-- 订单确认页面底部钩子 -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+    <div class="plugins-tag">
+        <span>plugins_view_buy_bottom</span>
+    </div>
+{{/if}}
+{{if !empty($plugins_view_buy_bottom_data) and is_array($plugins_view_buy_bottom_data)}}
+    {{foreach $plugins_view_buy_bottom_data as $hook}}
+        {{if is_string($hook) or is_int($hook)}}
+            {{$hook|raw}}
+        {{/if}}
+    {{/foreach}}
+{{/if}}
 
 <!-- footer start -->
 {{include file="public/footer" /}}

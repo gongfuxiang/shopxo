@@ -55,7 +55,10 @@ class AppConfig extends Common
 		// 是否
 		$this->assign('common_is_text_list', lang('common_is_text_list'));
 		
-		return $this->fetch();
+		// 导航/视图
+        $nav_type = input('nav_type', 'base');
+        $this->assign('nav_type', $nav_type);
+        return $this->fetch($nav_type);
 	}
 
 	/**

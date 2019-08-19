@@ -18970,7 +18970,7 @@ UE.plugins['video'] = function (){
                 for (var r = 0; r < rowsNum; r++) {
                     html.push('<tr' + (r == 0 ? ' class="firstRow"':'') + '>');
                     for (var c = 0; c < colsNum; c++) {
-                        html.push('<td width="' + tdWidth + '"  vAlign="' + opt.tdvalign + '" >' + (browser.ie && browser.version < 11 ? domUtils.fillChar : '<br/>') + '</td>')
+                        html.push('<td>' + (browser.ie && browser.version < 11 ? domUtils.fillChar : '<br/>') + '</td>')
                     }
                     html.push('</tr>')
                 }
@@ -20269,21 +20269,21 @@ UE.plugins['table'] = function () {
         me.addListener('blur', function () {
             tableCopyList = null;
         });
-        var timer;
-        me.addListener('keydown', function () {
-            clearTimeout(timer);
-            timer = setTimeout(function () {
-                var rng = me.selection.getRange(),
-                    cell = domUtils.findParentByTagName(rng.startContainer, ['th', 'td'], true);
-                if (cell) {
-                    var table = cell.parentNode.parentNode.parentNode;
-                    if (table.offsetWidth > table.getAttribute("width")) {
-                        cell.style.wordBreak = "break-all";
-                    }
-                }
+        // var timer;
+        // me.addListener('keydown', function () {
+        //     clearTimeout(timer);
+        //     timer = setTimeout(function () {
+        //         var rng = me.selection.getRange(),
+        //             cell = domUtils.findParentByTagName(rng.startContainer, ['th', 'td'], true);
+        //         if (cell) {
+        //             var table = cell.parentNode.parentNode.parentNode;
+        //             if (table.offsetWidth > table.getAttribute("width")) {
+        //                 cell.style.wordBreak = "break-all";
+        //             }
+        //         }
 
-            }, 100);
-        });
+        //     }, 100);
+        // });
         me.addListener("selectionchange", function () {
             toggleDraggableState(me, false, "", null);
         });

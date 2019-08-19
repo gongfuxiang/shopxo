@@ -1,0 +1,91 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/appcenternav/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appcenternav/index', $params)}}" enctype="multipart/form-data">
+			<legend>
+				<span class="fs-16">
+					{{if empty($data['id'])}}
+						导航添加
+					{{else /}}
+						导航编辑
+					{{/if}}
+				</span>
+				<a href="{{:MyUrl('admin/appcenternav/index', $params)}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+			</legend>
+			<div class="am-form-group">
+				<label>名称</label>
+				<input type="text" name="name" placeholder="名称" minlength="2" maxlength="60" data-validation-message="名称格式 2~60 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.name}}"{{/if}} required />
+			</div>
+
+			<div class="am-form-group">
+				<label>所属平台</label>
+				<select name="platform" class="am-radius chosen-select" data-placeholder="可选择..." placeholder="所属平台有误" data-validation-message="请选择所属平台" required>
+					<option value="">可选择...</option>
+					{{foreach $common_platform_type as $v}}
+						{{if !in_array($v['value'], ['pc'])}}
+							<option value="{{$v.value}}" {{if isset($data['platform']) and $data['platform'] eq $v['value']}}selected{{else /}}{{if !isset($data['platform']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
+						{{/if}}
+					{{/foreach}}
+				</select>
+			</div>
+
+			<div class="am-form-group">
+				<label>事件类型</label>
+				<select name="event_type" class="am-radius chosen-select" data-placeholder="可选择..." placeholder="事件值类型有误" data-validation-message="请选择事件类型" required>
+					<option value="">可选择...</option>
+					{{foreach $common_app_event_type as $v}}
+						<option value="{{$v.value}}" {{if isset($data['event_type']) and $data['event_type'] eq $v['value']}}selected{{else /}}{{if !isset($data['event_type']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+			</div>
+			<div class="am-form-group">
+				<div class="am-alert am-alert-warning am-radius" data-am-alert>
+				    <button type="button" class="am-close">&times;</button>
+				    <p class="fs-12">
+				    	WEB页面<br />&nbsp&nbsp&nbsp;1.以http开头<br />&nbsp&nbsp&nbsp;2.并在小程序后台加入白名单<br /><br /> 内部页面(小程序/APP内部地址)<br />&nbsp&nbsp&nbsp;1.小程序或APP内部地址<br />&nbsp&nbsp&nbsp;2.小程序以/pages开始<br />&nbsp&nbsp&nbsp;3.例如：/pages/user/user<br />&nbsp&nbsp&nbsp;4.支持带参数 ?x=xx<br /><br /> 跳转原生地图查看指定位置<br />&nbsp&nbsp&nbsp;1.以 | 竖线分割，分别顺序 名称|地址|经度|纬度<br />&nbsp&nbsp&nbsp;2.例如：ShopXO|上海浦东新区张江高科技园区XXX号|121.626444|31.20843
+				    </p>
+				</div>
+				<label>事件值</label>
+				<input type="text" name="event_value" placeholder="事件值" data-validation-message="事件值最多 255 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.event_value}}"{{/if}} />
+			</div>
+
+			<div class="am-form-group">
+				<label>描述</label>
+				<input type="text" name="desc" placeholder="描述" data-validation-message="描述最多 18 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.desc}}"{{/if}} />
+			</div>
+
+			<div class="am-form-group am-form-file">
+				<label class="block">导航图标</label>
+				<ul class="plug-file-upload-view slide-images_url-images-view" data-form-name="images_url" data-max-number="1" data-delete="0" data-dialog-type="images">
+					<li>
+						<input type="text" name="images_url" value="{{if !empty($data['images_url'])}}{{$data.images_url}}{{/if}}" data-validation-message="请上传图片" required />
+						<img src="{{if !empty($data['images_url'])}}{{$data.images_url}}{{else /}}{{$attachment_host}}/static/admin/default/images/default-images.jpg{{/if}}" />
+					</li>
+				</ul>
+				<div class="plug-file-upload-submit" data-view-tag="ul.slide-images_url-images-view">+上传图片</div>
+			</div>
+			<div class="am-form-group">
+				<label>顺序</label>
+				<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="{{if isset($data['sort'])}}{{$data.sort}}{{else /}}0{{/if}}" required />
+			</div>
+
+			<div class="am-form-group">
+			    <label class="block">是否启用</label>
+			    <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if !empty($data) and $data['is_enable'] eq 1}} checked="true"{{/if}} />
+			</div>
+			<div class="am-form-group am-form-group-refreshing">
+				<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

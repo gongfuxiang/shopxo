@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use think\facade\Hook;
 use app\service\AdminService;
 
 /**
@@ -132,7 +133,6 @@ class Admin extends Common
 			}
 			$data = $ret[0];
 		}
-		$this->assign('data', $data);
 
 		// 角色
 		$role_params = [
@@ -143,6 +143,21 @@ class Admin extends Common
 
 		$this->assign('id', isset($params['id']) ? $params['id'] : 0);
 		$this->assign('common_gender_list', lang('common_gender_list'));
+
+		// 管理员编辑页面钩子
+        $hook_name = 'plugins_view_admin_admin_save';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+        [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'admin_id'      => isset($params['id']) ? $params['id'] : 0,
+            'data'          => &$data,
+            'params'        => &$params,
+        ]));
+
+        // 数据
+        $this->assign('data', $data);
+        $this->assign('params', $params);
 		return $this->fetch();
 	}
 
@@ -220,6 +235,14 @@ class Admin extends Common
 		{
 			return redirect(MyUrl('admin/index/index'));
 		}
+
+		// 管理员登录页面钩子
+        $hook_name = 'plugins_view_admin_login_info';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+        [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+        ]));
 
 		return $this->fetch();
 	}

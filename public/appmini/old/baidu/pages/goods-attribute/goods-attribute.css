@@ -1,0 +1,16 @@
+.goods-attribute {
+    padding: 0 10rpx;
+}
+.goods-attribute .item {
+    padding: 20rpx 0;
+}
+.goods-attribute .item .title {
+    width: 25%;
+}
+.goods-attribute .item .content {
+    width: calc(75% - 30rpx);
+    margin-left: 20rpx;
+}
+.goods-attribute .item view {
+    line-height: 46rpx;
+}

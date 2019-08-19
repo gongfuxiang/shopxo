@@ -58,7 +58,11 @@ class IntegralService
             // 用户登录数据更新防止数据存储session不同步展示
             if(in_array(APPLICATION_CLIENT_TYPE, ['pc', 'h5']))
             {
-                UserService::UserLoginRecord($user_id);
+                $user = UserService::LoginUserInfo();
+                if(isset($user['id']) && $user['id'] == $user_id)
+                {
+                    UserService::UserLoginRecord($user_id);
+                }
             }
             
             return true;
@@ -221,7 +225,7 @@ class IntegralService
                     }
 
                     // 积分日志
-                    IntegralService::UserIntegralLogAdd($user['id'], $user_integral, $user_integral+$give_integral, '订单商品完成赠送', 1);
+                    self::UserIntegralLogAdd($user['id'], $user_integral, $user_integral+$give_integral, '订单商品完成赠送', 1);
                 }
             }
             return DataReturn('操作成功', 0);

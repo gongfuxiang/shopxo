@@ -1,0 +1,5 @@
+<view s-if="number > 0" class="am-badge">
+  <view class="am-badge-text {{(number > 99) ? 'am-badge-text-max' : ''}}">
+    <text>{{(number > 99) ? '99+' : number}}</text>
+  </view>
+</view>

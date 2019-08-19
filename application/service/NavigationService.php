@@ -829,5 +829,72 @@ class NavigationService
 
         return $data;
     }
+
+    /**
+     * 获取网站底部导航
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-15
+     * @desc    description
+     * @param   array           $params [description]
+     */
+    public static function BottomNavigation($params = [])
+    {
+        $common_cart_total = 0;
+        if(!empty($params['user']))
+        {
+            // 购物车商品总数
+            $common_cart_total = BuyService::UserCartTotal(['user'=>$params['user']]);
+            $common_cart_total = ($common_cart_total > 99) ? '99+' : $common_cart_total;
+        }
+        
+        // 列表
+        $data = [
+            [
+                'name'      => '首页',
+                'is_login'  => 0,
+                'badge'     => null,
+                'icon'      => 'nav-icon-home',
+                'only_tag'  => 'indexindex',
+                'url'       => __MY_URL__,
+            ],
+            [
+                'name'      => '分类',
+                'is_login'  => 0,
+                'badge'     => null,
+                'icon'      => 'nav-icon-category',
+                'only_tag'  => 'categoryindex',
+                'url'       => MyUrl('index/category/index'),
+            ],
+            [
+                'name'      => '购物车',
+                'is_login'  => 1,
+                'badge'     => $common_cart_total,
+                'icon'      => 'nav-icon-cart',
+                'only_tag'  => 'cartindex',
+                'url'       => MyUrl('index/cart/index'),
+            ],
+            [
+                'name'      => '我的',
+                'is_login'  => 1,
+                'badge'     => null,
+                'icon'      => 'nav-icon-user',
+                'only_tag'  => 'userindex',
+                'url'       => MyUrl('index/user/index'),
+            ],
+        ];
+
+        // 网站底部导航
+        $hook_name = 'plugins_service_bottom_navigation_handle';
+        $ret = Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'data'          => &$data,
+        ]);
+
+        return $data;
+    }
 }
 ?>

@@ -1,0 +1,82 @@
+<view s-if="goods_list.length > 0" class="page">
+  <!-- 地址 -->
+  <view class="address bg-white arrow-right">
+    <navigator url="/pages/user-address/user-address?is_back=1" hover-class="none">
+      <view s-if="address != null">
+        <view class="address-base oh">
+          <text>{{address.name}}</text>
+          <text class="fr">{{address.tel}}</text>
+        </view>
+        <view class="address-detail oh">
+          <image class="icon fl" src="/images/user-address.png" mode="widthFix" />
+          <view class="text fr">{{address.province_name}}{{address.city_name}}{{address.county_name}}{{address.address}}</view>
+        </view>
+      </view>
+      <view s-if="address == null" class="no-address cr-888">
+        请选择地址
+      </view>
+    </navigator>
+  </view>
+  <view class="address-divider spacing-mb"></view>
+
+  <!-- 商品 -->
+  <view class="goods bg-white spacing-mb">
+    <view s-for="item, index in goods_list" s-key="key" class="goods-item oh">
+      <image class="goods-image fl" src="{{item.images}}" mode="aspectFill" />
+      <view class="goods-base">
+        <view class="goods-title multi-text">{{item.title}}</view>
+        <block s-if="item.spec != null">
+          <view class="goods-spec cr-888" s-for="spec, index in item.spec" s-key="key">{{spec.type}}:{{spec.value}}
+          </view>
+        </block>
+      </view>
+      <view class="oh goods-price">
+        <text class="sales-price">￥{{item.price}}
+        </text>
+        <text s-if="item.original_price > 0" class="original-price">￥{{item.original_price}}
+        </text>
+        <text class="buy-number cr-888">x{{item.stock}}
+        </text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 留言 -->
+  <textarea bindinput="bind_user_note_event" maxlength="60" auto-height placeholder="留言" class="content-textarea bg-white spacing-mb" />
+
+  <!-- 扩展数据展示 -->
+  <view s-if="extension_data.length > 0" class="extension-list spacing-mb">
+    <view s-for="item, index in extension_data" s-key="key" class="item oh">
+      <text class="cr-666 fl">{{item.name}}
+      </text>
+      <text class="text-tips fr">{{item.tips}}
+      </text>
+    </view>
+  </view>
+
+  <!-- 支付方式 -->
+  <view s-if="payment_list.length > 0 && common_order_is_booking != 1" class="payment-list bg-white oh">
+    <view class="item tc fl" s-for="item, index in payment_list" s-key="key">
+      <view class="item-content br {{(item.selected || '')}}" data-value="{{item.id}}" bindtap="payment_event">
+        <image s-if="(item.logo || null) != null" class="icon" src="{{item.logo}}" mode="widthFix" />
+        <text>{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 导航 -->
+  <view class="buy-nav oh wh-auto">
+    <view class="nav-base bg-white fl single-text">
+      <text>合计：</text>
+      <text class="sales-price">￥{{total_price}}</text>
+    </view>
+    <view class="fr nav-submit">
+      <button class="bg-main wh-auto" type="default" bindtap="buy_submit_event" disabled="{{buy_submit_disabled_status}}" hover-class="none">提交订单</button>
+    </view>
+  </view>
+</view>
+
+<view s-if="goods.length == 0">
+    <import src="/pages/common/nodata.swan" />
+    <template is="nodata" data="{{{status: data_list_loding_status, msg: data_list_loding_msg}}}"></template>
+</view>

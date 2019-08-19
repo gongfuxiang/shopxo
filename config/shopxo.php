@@ -45,6 +45,9 @@ return [
     // 配置信息一条缓存 拼接唯一标记 [ only_tag ]
     'cache_config_row_key'                  =>  'cache_config_row_data_',
 
+    // 用户缓存信息
+    'cache_user_info'                       =>  'cache_user_info_',
+
     // 附件host, 数据库图片地址以/static/...开头
     'attachment_host'                       =>  defined('__MY_PUBLIC_URL__') ? substr(__MY_PUBLIC_URL__, 0, -1) : '',
 
@@ -67,5 +70,8 @@ return [
 
     // 线下支付方式
     'under_line_list'                       => ['CashPayment', 'DeliveryPayment'],
+
+    // 小程序平台
+    'mini_app_type_list'                    =>  ['weixin', 'alipay', 'baidu'],
 ];
 ?>

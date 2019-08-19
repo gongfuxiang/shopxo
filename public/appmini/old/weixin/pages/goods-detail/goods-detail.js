@@ -30,16 +30,50 @@ Page({
     goods_spec_base_images: '',
 
     show_field_price_text: null,
+
+    goods_video_is_autoplay: false,
+    common_app_is_use_mobile_detail: 1,
+
+    popup_share_status: false,
+    common_app_is_online_service: 0,
+
+    // 限时秒杀插件
+    common_app_is_limitedtimediscount: 0,
+    plugins_limitedtimediscount_data: null,
+    plugins_limitedtimediscount_is_show_time: true,
+    plugins_limitedtimediscount_time_millisecond: 0,
+
+    // 好物圈分享信息
+    common_app_is_good_thing : 0,
+    share_product: {
+      "item_code": "",
+      "title": "",
+      "desc": "",
+      "category_list": [],
+      "image_list": [],
+      "src_mini_program_path": "",
+      "brand_info": {},
+    },
+
+    // 海报分享
+    common_app_is_poster_share: 0,
+  },
+  on_error(e) {
+    console.log(e)
   },
 
   onLoad(params) {
-    //params['goods_id']=12;
+    // 启动参数处理
+    params = app.launch_params_handle(params);
+    
+    // 参数赋值,初始化
+    //params['goods_id']=2;
     this.setData({params: params});
     this.init();
   },
 
   onShow() {
-    wx.setNavigationBarTitle({title: app.data.common_pages_title.goods_detail});
+    wx.setNavigationBarTitle({title: (this.data.goods == null) ? app.data.common_pages_title.goods_detail : this.data.goods.title});
   },
 
   // 获取数据列表
@@ -72,6 +106,7 @@ Page({
         method: "POST",
         data: {goods_id: this.data.params.goods_id},
         dataType: "json",
+        header: { 'content-type': 'application/x-www-form-urlencoded' },
         success: res => {
           wx.stopPullDownRefresh();
           wx.hideLoading();
@@ -83,7 +118,7 @@ Page({
               autoplay: (data.goods.photo.length > 1),
               goods_photo: data.goods.photo,
               goods_specifications_choose: data.goods.specifications.choose || [],
-              goods_content_app: data.goods.content_app,
+              goods_content_app: data.goods.content_app || [],
               temp_buy_number: data.goods.buy_min_number || 1,
               goods_favor_text: (data.goods.is_favor == 1) ? '已收藏' : '收藏',
               goods_favor_icon: '/images/goods-detail-favor-icon-' + data.goods.is_favor+'.png',
@@ -98,7 +133,31 @@ Page({
               goods_spec_base_images: data.goods.images,
 
               show_field_price_text: (data.goods.show_field_price_text == '销售价') ? null : (data.goods.show_field_price_text.replace(/<[^>]+>/g, "") || null),
+              common_app_is_use_mobile_detail: data.common_app_is_use_mobile_detail || 0,
+              common_app_is_online_service: data.common_app_is_online_service || 0,
+
+              common_app_is_limitedtimediscount: data.common_app_is_limitedtimediscount || 0,
+              plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null,
+
+              common_app_is_good_thing: data.common_app_is_good_thing || 0,
+              'share_product.item_code': data.goods.id.toString(),
+              'share_product.title': data.goods.title,
+              'share_product.image_list': data.goods.photo.map(function (v) { return v.images;}),
+              'share_product.desc': data.goods.simple_desc,
+              'share_product.category_list': data.goods.category_names || [],
+              'share_product.src_mini_program_path': '/pages/goods-detail/goods-detail?goods_id='+data.goods.id,
+              'share_product.brand_info.name': data.goods.brand_name,
+
+              common_app_is_poster_share: data.common_app_is_poster_share || 0,
             });
+
+            // 限时秒杀倒计时
+            if (this.data.common_app_is_limitedtimediscount == 1 && this.data.plugins_limitedtimediscount_data != null) {
+              this.plugins_limitedtimediscount_countdown();
+            }
+
+            // 标题
+            wx.setNavigationBarTitle({ title: data.goods.title });
 
             // 不能选择规格处理
             this.goods_specifications_choose_handle_dont(0);
@@ -181,7 +240,7 @@ Page({
     });
   },
 
-  // 弹层关闭
+  // 购买弹层关闭
   popup_close_event(e) {
     this.setData({popup_status: false});
   },
@@ -209,7 +268,7 @@ Page({
   {
     var user = app.get_user_cache_info(this, 'goods_favor_event');
     // 用户未绑定用户则转到登录页面
-    if (user == false || (user.mobile || null) == null) {
+    if (app.user_is_need_login(user)) {
       wx.navigateTo({
         url: "/pages/login/login?event_callback=init"
       });
@@ -250,7 +309,7 @@ Page({
   goods_cart_event(e, spec) {
     var user = app.get_user_cache_info(this, 'goods_cart_event');
     // 用户未绑定用户则转到登录页面
-    if (user == false || (user.mobile || null) == null) {
+    if (app.user_is_need_login(user)) {
       wx.navigateTo({
         url: "/pages/login/login?event_callback=init"
       });
@@ -510,7 +569,7 @@ Page({
   goods_buy_confirm_event(e) {
     var user = app.get_user_cache_info(this, 'goods_buy_confirm_event');
     // 用户未绑定用户则转到登录页面
-    if (user == false || (user.mobile || null) == null) {
+    if (app.user_is_need_login(user)) {
       wx.navigateTo({
         url: "/pages/login/login?event_callback=init"
       });
@@ -573,7 +632,7 @@ Page({
     if(value != null)
     {
       wx.previewImage({
-        current: 0,
+        current: value,
         urls: [value]
       });
     }
@@ -587,17 +646,137 @@ Page({
       all.push(this.data.goods_photo[i]['images']);
     }
     wx.previewImage({
-      current: index,
+      current: all[index],
       urls: all
     });
   },
 
+  // 视频播放
+  goods_video_play_event(e) {
+    this.setData({ goods_video_is_autoplay: true});
+  },
+
+  // 视频关闭
+  goods_video_close_event(e) {
+    this.setData({ goods_video_is_autoplay: false });
+  },
+
+  // 分享开启弹层
+  popup_share_event(e) {
+    this.setData({ popup_share_status: true });
+  },
+
+  // 分享弹层关闭
+  popup_share_close_event(e) {
+    this.setData({ popup_share_status: false });
+  },
+
+  // 显示秒杀插件-倒计时
+  plugins_limitedtimediscount_countdown() {
+    var status = this.data.plugins_limitedtimediscount_data.time.status || 0;
+    var msg = this.data.plugins_limitedtimediscount_data.time.msg || '';
+    var hours = this.data.plugins_limitedtimediscount_data.time.hours || 0;
+    var minutes = this.data.plugins_limitedtimediscount_data.time.minutes || 0;
+    var seconds = this.data.plugins_limitedtimediscount_data.time.seconds || 0;
+    var self = this;
+    if (status == 1) {
+      // 秒
+      var timer = setInterval(function () {
+        if (seconds <= 0) {
+          if (minutes > 0) {
+            minutes--;
+            seconds = 59;
+          } else if (hours > 0) {
+            hours--;
+            minutes = 59;
+            seconds = 59;
+          }
+        } else {
+          seconds--;
+        }
+
+        self.setData({
+          'plugins_limitedtimediscount_data.time.hours': (hours < 10 && hours.length == 1) ? '0' + hours : hours,
+          'plugins_limitedtimediscount_data.time.minutes': (minutes < 10 && minutes.length == 1) ? '0' + minutes : minutes,
+          'plugins_limitedtimediscount_data.time.seconds': (seconds < 10 && seconds.length == 1) ? '0' + seconds : seconds,
+        });
+
+        if (hours <= 0 && minutes <= 0 && seconds <= 0) {
+          // 停止时间
+          clearInterval(timer);
+
+          // 活动已结束
+          self.setData({
+            'plugins_limitedtimediscount_data.desc': '活动已结束',
+            plugins_limitedtimediscount_is_show_time: false,
+          });
+        }
+      }, 1000);
+
+      // 毫秒
+      var count = 0;
+      var timers = setInterval(function () {
+        count++;
+        self.setData({ plugins_limitedtimediscount_time_millisecond: count});
+        if(count > 9) {
+          count = 0;
+        }
+        if (self.data.plugins_limitedtimediscount_is_show_time == false) {
+          clearInterval(timers);
+        }
+      }, 100);
+    } else {
+      // 活动已结束
+      self.setData({
+        'plugins_limitedtimediscount_data.desc': msg,
+        plugins_limitedtimediscount_is_show_time: false,
+      });
+    }
+  },
+
+  // 商品海报分享
+  poster_event() {
+    var user = app.get_user_cache_info(this, 'poster_event');
+    // 用户未绑定用户则转到登录页面
+    if (app.user_is_need_login(user)) {
+      wx.navigateTo({
+        url: "/pages/login/login?event_callback=init"
+      });
+      return false;
+    } else {
+      wx.showLoading({ title: '生成中...' });
+      wx.request({
+        url: app.get_request_url('poster', 'goods'),
+        method: 'POST',
+        data: { "goods_id": this.data.goods.id },
+        dataType: 'json',
+        success: (res) => {
+          wx.hideLoading();
+          if (res.data.code == 0) {
+            wx.previewImage({
+              current: res.data.data,
+              urls: [res.data.data]
+            });
+          } else {
+            app.showToast(res.data.msg);
+          }
+        },
+        fail: () => {
+          wx.hideLoading();
+          app.showToast("服务器请求出错");
+        }
+      });
+    }
+  },
+
   // 自定义分享
   onShareAppMessage() {
+    var user = app.get_user_cache_info(this, 'goods_favor_event') || null;
+    var user_id = (user != null && (user.id || null) != null) ? user.id : 0;
     return {
       title: app.data.application_title +'-'+ this.data.goods.title,
       desc: app.data.application_describe,
-      path: '/pages/goods-detail/goods-detail?share=goods-detail&goods_id='+this.data.goods.id
+      path: '/pages/goods-detail/goods-detail?goods_id=' + this.data.goods.id +'&referrer='+user_id
     };
   },
   

@@ -11,7 +11,7 @@
         <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'search'])}}" enctype="multipart/form-data">
             <div class="am-form-group">
                 <label>{{$data.home_search_keywords_type.name}}</label>
-                <select name="{{$data.home_search_keywords_type.only_tag}}" class="am-radius chosen-select c-p" data-validation-message="{{$data.home_search_keywords_type.error_tips}}">
+                <select name="{{$data.home_search_keywords_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_keywords_type.error_tips}}">
                     {{foreach $common_search_keywords_type_list as $v}}
                         <option value="{{$v.value}}" {{if isset($data['home_search_keywords_type']['value']) and $data['home_search_keywords_type']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}

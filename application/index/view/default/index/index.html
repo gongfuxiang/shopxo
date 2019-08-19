@@ -38,7 +38,7 @@
     {{/if}}
 
     <!-- 轮播-聚合内容 -->
-    <div class="marqueen">
+    <div class="banner-mixed">
         <div class="mod-vip">
             <div class="m-baseinfo">
                 <a href="{{if !empty($user)}}{{:MyUrl('index/user/index')}}{{else /}}javascript:;{{/if}}" target="_blank">
@@ -88,7 +88,7 @@
         </div>
         {{if !empty($article_list)}}
             <div class="banner-news">
-                <p class="marqueen-title">新闻头条</p>
+                <p class="banner-news-title">新闻头条</p>
                 <ul>
                     {{foreach $article_list as $article}}
                         <li>
@@ -101,10 +101,24 @@
                 </ul>
             </div>
         {{/if}}
+
+        <!-- 轮播混合数据底部钩子 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_home_banner_mixed_bottom</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_home_banner_mixed_bottom_data) and is_array($plugins_view_home_banner_mixed_bottom_data)}}
+            {{foreach $plugins_view_home_banner_mixed_bottom_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
     </div>
 </div>
 
-<!-- 楼层数据上面钩子 -->
+<!-- 楼层数据顶部钩子 -->
 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
     <div class="plugins-tag">
         <span>plugins_view_home_floor_top</span>
@@ -127,8 +141,8 @@
                 <div id="floor{{$key+1}}">
                     <div class="am-container">
                         <div class="items-nav-title">
-                            <h4>{{$floor.name}}</h4>
-                            <h3>{{$floor.vice_name}}</h3>
+                            <p class="floor-title">{{$floor.name}}</p>
+                            <p class="floor-desc">{{$floor.vice_name}}</p>
                             <div class="today-brands ">
                                 {{if !empty($floor['items'])}}
                                     {{foreach $floor.items as $key=>$category}}
@@ -148,8 +162,29 @@
                         </div>
                     </div>
                     
-                    <div class="am-g am-g-fixed flood">
-                        <div class="am-u-sm-3 text-one list" {{if !empty($floor['bg_color'])}}style="background-color:{{$floor.bg_color}};"{{else /}}style="background-color:#eaeaea;"{{/if}}>
+                    <div class="am-g am-g-fixed floor">
+                        <!-- 首页楼层内部顶部钩子 -->
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            <div class="plugins-tag">
+                                <span>plugins_view_home_floor_inside_top</span>
+                            </div>
+                        {{/if}}
+                        {{php}}
+                            $hook_name = 'plugins_view_home_floor_inside_top';
+                            $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'floor_id'=>$key+1, 'floor'=>$floor]);
+                            if(!empty($hook_data) && is_array($hook_data))
+                            {
+                                foreach($hook_data as $hook)
+                                {
+                                    if(is_string($hook) || is_int($hook))
+                                    {
+                                        echo htmlspecialchars_decode($hook);
+                                    }
+                                }
+                            }
+                        {{/php}}
+
+                        <div class="am-u-sm-3 aggregation" {{if !empty($floor['bg_color'])}}style="background-color:{{$floor.bg_color}};"{{else /}}style="background-color:#eaeaea;"{{/if}}>
                             <div class="word">
                                 {{if !empty($floor['items'])}}
                                     {{foreach $floor.items as $category_key=>$category}}
@@ -168,30 +203,148 @@
                                 </a>
                             {{/if}}
                             <div class="triangle-topright"></div>
+
+                            <!-- 首页楼层内部底部钩子 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_home_aggregation_inside_bottom</span>
+                                </div>
+                            {{/if}}
+                            {{php}}
+                                $hook_name = 'plugins_view_home_aggregation_inside_bottom';
+                                $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'floor_id'=>$key+1, 'floor'=>$floor]);
+                                if(!empty($hook_data) && is_array($hook_data))
+                                {
+                                    foreach($hook_data as $hook)
+                                    {
+                                        if(is_string($hook) || is_int($hook))
+                                        {
+                                            echo htmlspecialchars_decode($hook);
+                                        }
+                                    }
+                                }
+                            {{/php}}
                         </div>
 
                         <div class="goods-list">
                             {{if !empty($floor['goods'])}}
                                 {{foreach $floor.goods as $goods_key=>$goods}}
                                     <div class="goods-items">
-                                        <a href="{{$goods.goods_url}}" target="_blank">
-                                            <img src="{{$goods.home_recommended_images}}" alt="{{$goods.title}}" />
+                                        <a href="{{$goods.goods_url}}" target="_blank" class="am-block">
+                                            <!-- 首页楼层商品内部顶部钩子 -->
+                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                                <div class="plugins-tag">
+                                                    <span>plugins_view_home_goods_inside_top</span>
+                                                </div>
+                                            {{/if}}
+                                            {{php}}
+                                                $hook_name = 'plugins_view_home_goods_inside_top';
+                                                $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'floor_id'=>$key+1, 'goods_id'=>$goods['id'], 'goods'=>$goods]);
+                                                if(!empty($hook_data) && is_array($hook_data))
+                                                {
+                                                    foreach($hook_data as $hook)
+                                                    {
+                                                        if(is_string($hook) || is_int($hook))
+                                                        {
+                                                            echo htmlspecialchars_decode($hook);
+                                                        }
+                                                    }
+                                                }
+                                            {{/php}}
+                                            <img src="{{$goods.home_recommended_images}}" alt="{{$goods.title}}" class="goods-images" />
                                         </a>
                                         <div class="outer-con">
                                             <div class="goods-title am-text-truncate">
                                                 <a href="{{$goods['goods_url']}}" target="_blank" {{if !empty($goods.title_color)}}style="color:{{$goods.title_color}};"{{/if}}>{{$goods.title}}</a>
                                             </div>
-                                            <div class="price">￥{{$goods.min_price}}</div>
+
+                                            <!-- 首页楼层商品售价顶部钩子 -->
+                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                                <div class="plugins-tag">
+                                                    <span>plugins_view_home_goods_inside_price_top</span>
+                                                </div>
+                                            {{/if}}
+                                            {{php}}
+                                                $hook_name = 'plugins_view_home_goods_inside_price_top';
+                                                $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'floor_id'=>$key+1, 'goods_id'=>$goods['id'], 'goods'=>$goods]);
+                                                if(!empty($hook_data) && is_array($hook_data))
+                                                {
+                                                    foreach($hook_data as $hook)
+                                                    {
+                                                        if(is_string($hook) || is_int($hook))
+                                                        {
+                                                            echo htmlspecialchars_decode($hook);
+                                                        }
+                                                    }
+                                                }
+                                            {{/php}}
+                                            <p class="price am-text-truncate">￥{{$goods.price}}</p>
                                         </div>
+
+                                        <!-- 首页楼层商品内部底部钩子 -->
+                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                            <div class="plugins-tag">
+                                                <span>plugins_view_home_goods_inside_bottom</span>
+                                            </div>
+                                        {{/if}}
+                                        {{php}}
+                                            $hook_name = 'plugins_view_home_goods_inside_bottom';
+                                            $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'floor_id'=>$key+1, 'goods_id'=>$goods['id'], 'goods'=>$goods]);
+                                            if(!empty($hook_data) && is_array($hook_data))
+                                            {
+                                                foreach($hook_data as $hook)
+                                                {
+                                                    if(is_string($hook) || is_int($hook))
+                                                    {
+                                                        echo htmlspecialchars_decode($hook);
+                                                    }
+                                                }
+                                            }
+                                        {{/php}}
                                     </div>
                                 {{/foreach}}
                             {{/if}}
                         </div>
+
+                        <!-- 首页楼层内部底部钩子 -->
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            <div class="plugins-tag">
+                                <span>plugins_view_home_floor_inside_bottom</span>
+                            </div>
+                        {{/if}}
+                        {{php}}
+                            $hook_name = 'plugins_view_home_floor_inside_bottom';
+                            $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'floor_id'=>$key+1, 'floor'=>$floor]);
+                            if(!empty($hook_data) && is_array($hook_data))
+                            {
+                                foreach($hook_data as $hook)
+                                {
+                                    if(is_string($hook) || is_int($hook))
+                                    {
+                                        echo htmlspecialchars_decode($hook);
+                                    }
+                                }
+                            }
+                        {{/php}}
                     </div>
                 </div>
             {{/if}}
         {{/foreach}}
     {{/if}}
 </div>
+
+<!-- 楼层数据底部钩子 -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+    <div class="plugins-tag">
+        <span>plugins_view_home_floor_bottom</span>
+    </div>
+{{/if}}
+{{if !empty($plugins_view_home_floor_bottom_data) and is_array($plugins_view_home_floor_bottom_data)}}
+    {{foreach $plugins_view_home_floor_bottom_data as $hook}}
+        {{if is_string($hook) or is_int($hook)}}
+            {{$hook|raw}}
+        {{/if}}
+    {{/foreach}}
+{{/if}}
 
 {{include file="public/footer" /}}

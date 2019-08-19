@@ -15,7 +15,7 @@ use app\service\BannerService;
 use app\service\GoodsService;
 use app\service\ArticleService;
 use app\service\OrderService;
-use app\service\AppNavService;
+use app\service\AppHomeNavService;
 
 /**
  * 首页
@@ -52,7 +52,7 @@ class Index extends Common
         $this->assign('banner_list', BannerService::Banner());
 
         // H5导航
-        $this->assign('navigation', AppNavService::AppHomeNav());
+        $this->assign('navigation', AppHomeNavService::AppHomeNav());
 
         // 楼层数据
         $this->assign('goods_floor_list', GoodsService::HomeFloorList());
@@ -88,10 +88,29 @@ class Index extends Common
      */
     private function PluginsHook($params = [])
     {
-        // 楼层数据上面
-        $this->assign('plugins_view_home_floor_top_data', Hook::listen('plugins_view_home_floor_top',
+        // 楼层数据顶部钩子
+        $hook_name = 'plugins_view_home_floor_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
-                'hook_name'     => 'plugins_view_home_floor_top',
+                'hook_name'     => $hook_name,
+                'is_backend'    => false,
+                'user'          => $this->user,
+            ]));
+
+        // 楼层数据底部钩子
+        $hook_name = 'plugins_view_home_floor_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'     => $hook_name,
+                'is_backend'    => false,
+                'user'          => $this->user,
+            ]));
+
+        // 轮播混合数据底部钩子
+        $hook_name = 'plugins_view_home_banner_mixed_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'     => $hook_name,
                 'is_backend'    => false,
                 'user'          => $this->user,
             ]));

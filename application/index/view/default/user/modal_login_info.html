@@ -5,7 +5,7 @@
     <!-- form start -->
     <form class="am-form form-validation" method="post" action="{{:MyUrl('index/user/login')}}" request-type="ajax-fun" request-value="ViewModalBack">
         <div class="xo-padding-horizontal-md-sm login-modal-container-top">
-            {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state'))}}
+            {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state')) or in_array('username', MyC('home_user_reg_state'))}}
                 <span class="">还没有帐号？</span>
                 <a href="{{:MyUrl('index/user/reginfo')}}" target="_blank" class="am-btn am-btn-secondary am-btn-xs am-radius">立即注册</a>
             {{/if}}
@@ -39,7 +39,7 @@
             <div class="am-form-group am-form-group-refreshing business-form-block">
                 <label>验证码</label>
                 <div class="am-input-group am-input-group-sm">
-                    <input type="text" name="verify" class="am-radius" placeholder="验证码" minlength="6" maxlength="6" data-validation-message="请输入图片验证码" required />
+                    <input type="text" name="verify" class="am-radius" placeholder="验证码" minlength="4" maxlength="4" data-validation-message="请输入图片验证码" required />
                     <span class="am-input-group-btn">
                         <span class="am-btn am-btn-default am-radius form-verify">
                             <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'login'])}}" class="am-radius c-p" id="form-verify-img" onClick="this.src=this.src+'#'+Math.random();" />

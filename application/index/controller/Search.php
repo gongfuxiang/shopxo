@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use think\facade\Hook;
 use app\service\SearchService;
 use app\service\BrandService;
 use app\service\SeoService;
@@ -68,6 +69,9 @@ class Search extends Common
 
             // seo
             $this->SetSeo();
+
+            // 钩子
+            $this->PluginsHook();
 
             return $this->fetch();
         }
@@ -149,20 +153,111 @@ class Search extends Common
         // 获取商品列表
         $this->params['keywords'] = $this->params['wd'];
         $ret = SearchService::GoodsList($this->params);
-        if(empty($ret['data']['data']))
-        {
-            $msg = '没有相关数据';
-            $code = -100;
-        } else {
-            $msg = '操作成功';
-            $code = 0;
-        }
 
         // 搜索记录
         SearchService::SearchAdd($this->params);
 
-        // 返回
-        return DataReturn($msg, $code, $ret['data']);
+        // 无数据直接返回
+        if(empty($ret['data']['data']) || $ret['code'] != 0)
+        {
+            return DataReturn('没有更多数据啦', -100);
+        }
+
+        // 返回数据html
+        $this->assign('data', $ret['data']['data']);
+        $ret['data']['data'] = $this->fetch('content');
+        return $ret;
+    }
+
+    /**
+     * 钩子处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-04-22
+     * @desc    description
+     */
+    private function PluginsHook()
+    {
+        // 搜索页面顶部钩子
+        $hook_name = 'plugins_view_search_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'    => $hook_name,
+                'is_backend'   => false,
+            ]));
+
+        // 搜索页面底部钩子
+        $hook_name = 'plugins_view_search_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'    => $hook_name,
+                'is_backend'   => false,
+            ]));
+
+        // 搜索页面顶部内部结构里面钩子
+        $hook_name = 'plugins_view_search_inside_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'    => $hook_name,
+                'is_backend'   => false,
+            ]));
+
+        // 搜索页面底部内部结构里面钩子
+        $hook_name = 'plugins_view_search_inside_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'    => $hook_name,
+                'is_backend'   => false,
+            ]));
+
+        // 搜索页面数据容器顶部钩子
+        $hook_name = 'plugins_view_search_data_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'    => $hook_name,
+                'is_backend'   => false,
+            ]));
+
+        // 搜索页面数据容器底部钩子
+        $hook_name = 'plugins_view_search_data_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'    => $hook_name,
+                'is_backend'   => false,
+            ]));
+
+        // 搜索页面搜索导航条顶部钩子
+        $hook_name = 'plugins_view_search_nav_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'    => $hook_name,
+                'is_backend'   => false,
+            ]));
+
+        // 搜索页面搜索导航条内前面钩子
+        $hook_name = 'plugins_view_search_nav_inside_begin';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'    => $hook_name,
+                'is_backend'   => false,
+            ]));
+
+        // 搜索页面搜索导航条内尾部钩子
+        $hook_name = 'plugins_view_search_nav_inside_end';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'    => $hook_name,
+                'is_backend'   => false,
+            ]));
+
+        // 搜索页面筛选条件内尾部钩子
+        $hook_name = 'plugins_view_search_screen_inside_end';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'    => $hook_name,
+                'is_backend'   => false,
+            ]));
     }
 }
 ?>

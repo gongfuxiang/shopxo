@@ -15,23 +15,51 @@
     </block>
   </swiper>
 
-  <!-- 基础信息 -->
-  <view class="goods-base bg-white">
-    <view class="oh">
-      <view class="goods-title fl multi-text" style="color:{{goods.title_color}}">{{goods.title}}</view>
-      <view class="goods-share fr tc">
-        <button type="default" size="mini" open-type="share" hover-class="none">
-          <image src="/images/goods-detail-share-icon.png" mode="scaleToFill" class="dis-block" />
-          <text class="dis-block cr-888">分享</text>
-        </button>
-      </view>
+  <!-- 视频 -->
+  <block wx:if="{{goods.video.length > 0}}">
+    <view wx:if="{{goods_video_is_autoplay}}" class="goods-video">
+      <video src="{{goods.video}}" autoplay="{{goods_video_is_autoplay}}" show-center-play-btn="{{true}}" controls="{{false}}" show-play-btn="{{false}}" enable-progress-gesture="{{false}}" show-fullscreen-btn="{{false}}"></video>
     </view>
+    <view class="goods-video-submit">
+      <image wx:if="{{!goods_video_is_autoplay}}" class="goods-video-play" bindtap="goods_video_play_event" src="/images/goods-detail-video-play.png" mode="aspectFit"></image>
+      <image wx:if="{{goods_video_is_autoplay}}" class="goods-video-close"  bindtap="goods_video_close_event" src="/images/goods-detail-video-close.png" mode="aspectFit"></image>
+    </view>
+  </block>
+
+  <!-- 标题 -->
+  <view class="goods-title multi-text" style="color:{{goods.title_color}}">{{goods.title}}</view>
+
+  <!-- 限时秒杀 -->
+  <view wx:if="{{common_app_is_limitedtimediscount == 1 && plugins_limitedtimediscount_data != null}}">
+    <import src="/pages/lib/limitedtimediscount/goods-detail.wxml" />
+    <template is="limitedtimediscount" data="{{plugins_limitedtimediscount_data: plugins_limitedtimediscount_data, plugins_limitedtimediscount_is_show_time: plugins_limitedtimediscount_is_show_time, plugins_limitedtimediscount_time_millisecond: plugins_limitedtimediscount_time_millisecond}}"></template>
+  </view>
+
+  <!-- 基础息 -->
+  <view class="goods-base bg-white">
     <view class="goods-price single-text">
+      <view class="goods-share tc" bindtap="popup_share_event">
+        <image src="/images/goods-detail-share-icon.png" mode="scaleToFill" class="dis-block" />
+        <view class="cr-888">分享</view>        
+      </view>
       <text wx:if="{{(show_field_price_text || null) != null}}" class="price-icon">{{show_field_price_text}}</text>
       <text class="sales-price">￥{{goods.price}}</text>
-      <text wx:if="{{(goods.original_price || null) != null}}" class="original-price">￥{{goods.original_price}}</text>
-      <view class="cr-ccc sales">
-        <text>销量 {{goods.sales_count}}</text>
+      <view wx:if="{{(goods.original_price || null) != null && goods.original_price > 0}}" class="original-price">￥{{goods.original_price}}</view>
+    </view>
+    <view class="base-grid oh">
+      <view class="fl tl">
+        <text class="cr-888">累计销量</text>
+        <text class="cr-main">{{goods.sales_count}}</text>
+      </view>
+      <view class="fl tc">
+        <text class="cr-888">浏览次数</text>
+        <text class="cr-main">{{goods.access_count}}</text>
+      </view>
+      <view class="fl tr">
+        <navigator url="/pages/goods-comment/goods-comment?goods_id={{goods.id}}" hover-class="none">
+          <text class="cr-888">累计评论</text>
+          <text class="cr-main">{{goods.comments_count}}</text>
+        </navigator>
       </view>
     </view>
   </view>
@@ -44,17 +72,24 @@
   </view> -->
 
   <!-- 商品详情 -->
-  <view wx:if="{{goods_content_app.length > 0}}" class="goods-detail spacing">
+  <view class="goods-detail spacing">
     <view class="spacing-nav-title">
       <text class="line"></text>
       <text class="text-wrapper">详情</text>
     </view>
-    <view wx:for="{{goods_content_app}}" wx:key="key" class="goods-detail-app bg-white">
-        <image wx:if="{{(item.images || null) != null}}" bindtap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto dis-block" src="{{item.images}}" mode="widthFix" />
-        <view wx:if="{{(item.content || null) != null}}" class="content-items">
-          <view wx:for="{{item.content}}" wx:for-item="items">{{items}}</view>
-        </view>
+    <!-- web详情 -->
+    <view wx:if="{{common_app_is_use_mobile_detail == 0}}" class="bg-white">
+      <rich-text nodes="{{goods.content_web || ''}}"></rich-text>
     </view>
+    <!-- 手机独立详情 -->
+    <block wx:if="{{common_app_is_use_mobile_detail == 1 && goods_content_app.length > 0}}">
+      <view wx:for="{{goods_content_app}}" wx:key="key" class="goods-detail-app bg-white">
+          <image wx:if="{{(item.images || null) != null}}" bindtap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto dis-block" src="{{item.images}}" mode="widthFix" />
+          <view wx:if="{{(item.content || null) != null}}" class="content-items">
+            <view wx:for="{{item.content}}" wx:for-item="items">{{items}}</view>
+          </view>
+      </view>
+    </block>
   </view>
 
   <!-- 底线 -->
@@ -77,7 +112,7 @@
     </view>
   </view>
 
-  <!-- 弹层 -->
+  <!-- 购买弹层 -->
   <component-popup prop-show="{{popup_status}}" prop-position="bottom" bindonclose="popup_close_event">
     <view class="goods-popup bg-white">
       <view class="close fr oh">
@@ -91,7 +126,7 @@
         <view class="goods-popup-base-content">
           <view class="goods-price">
             <view class="sales-price">￥{{goods_spec_base_price}}</view>
-            <view wx:if="{{(goods_spec_base_original_price || null) != null}}" class="original-price">￥{{goods_spec_base_original_price}}</view>
+            <view wx:if="{{(goods_spec_base_original_price || null) != null && goods_spec_base_original_price > 0}}" class="original-price">￥{{goods_spec_base_original_price}}</view>
           </view>
           <view class="inventory">
             <text class="cr-888">库存</text>
@@ -130,9 +165,44 @@
       <button class="goods-popup-submit bg-main" type="default" catchtap="goods_buy_confirm_event" hover-class="none">确定</button>
     </view>
   </component-popup>
+
+  <!-- 分享弹层 -->
+  <component-popup prop-show="{{popup_share_status}}" prop-position="bottom" bindonclose="popup_share_close_event">
+    <view class="share-popup bg-white">
+      <view class="close fr oh">
+        <view class="fr" catchtap="popup_share_close_event">
+          <icon type="clear" size="20" />
+        </view>
+      </view>
+      <view class="share-popup-content">
+        <view wx:if="{{common_app_is_good_thing == 1}}" class="share-items oh">
+          <share-button product="{{share_product}}" type="3" class="dis-block oh">
+            <image class="fl" src="/images/share-recomend-icon.png" mode="scaleToFill" />
+            <view class="cr-888 single-text fl">好物推荐、和大家一起分享你发现的宝贝</view>
+          </share-button>
+        </view>
+        <view class="share-items oh">
+          <button class="dis-block" type="default" size="mini" open-type="share" hover-class="none">
+            <image src="/images/share-weixin-icon.png" mode="scaleToFill" />
+            <text class="cr-888 single-text">一键分享给好友、群聊</text>
+          </button>
+        </view>
+        <view wx:if="{{common_app_is_poster_share == 1}}" class="share-items oh" bindtap="poster_event">
+          <image src="/images/share-friend-icon.png" mode="scaleToFill" />
+          <text class="cr-888 single-text">生成海报，分享到朋友圈、好友及群聊</text>
+        </view>
+      </view>
+    </view>
+  </component-popup>
 </view>
 
 <view wx:if="{{goods == null}}">
     <import src="/pages/common/nodata.wxml" />
     <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
+</view>
+
+<!-- 在线客服 -->
+<view wx:if="{{common_app_is_online_service == 1}}">
+  <import src="/pages/lib/online-service/content.wxml" />
+  <template is="online_service"></template>
 </view>

@@ -72,11 +72,12 @@ Page({
     var data = this.data.params;
     data['address_id'] = this.data.address_id;
     data['payment_id'] = this.data.payment_id;
-    my.httpRequest({
+    my.request({
       url: app.get_request_url("index", "buy"),
       method: "POST",
       data: data,
       dataType: "json",
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         my.hideLoading();
         if (res.data.code == 0) {
@@ -161,11 +162,12 @@ Page({
       my.showLoading({content: '提交中...'});
       this.setData({ buy_submit_disabled_status: true });
 
-      my.httpRequest({
+      my.request({
         url: app.get_request_url("add", "buy"),
         method: "POST",
         data: data,
         dataType: "json",
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
         success: res => {
           my.hideLoading();
           if (res.data.code == 0) {

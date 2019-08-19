@@ -1,6 +1,12 @@
 @charset "utf-8";
 .wrapper{ width: 570px;_width:575px;margin: 10px auto; zoom:1;position: relative}
-.tabbody{height: 335px;}
+.tabbody{
+    height: 335px;
+    clear: both;
+}
+.tabhead {
+    float: left;
+}
 .tabbody .panel {
     position: absolute;
     width: 0;
@@ -236,9 +242,12 @@ span.view{display: inline-block;width: 30px;float: right;cursor: pointer;color: 
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    top: 5px;
     text-indent: 5px;
     text-align: left;
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 6px 0;
 }
 
 #upload .filelist li p.progress {
@@ -775,4 +784,58 @@ i.file-preview.file-type-psd{
     .tabbody .panel.focus {
         height: 300px;
     }
+}
+
+/**
+ * 原标题
+ */
+#videoList .attachment-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% - 23px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-indent: 5px;
+    text-align: left;
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    padding: 2px 0;
+}
+
+
+/**
+ * 右侧小导航
+ */
+.alignBar{
+    float:right;
+    position: relative;
+}
+
+/**
+ * 搜索
+ */
+.none {
+    display: none;
+}
+#search-submit {
+    background: #eee;
+    font-size: 12px;
+    color: #666;
+    height: 25px;
+    text-align: center;
+    cursor: pointer;
+    padding-left: 15px;
+    padding-right: 15px;
+    vertical-align: top;
+}
+#search-input {
+    padding: 4px 5px;
+}
+#search-input, #search-submit {
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    outline: none;
 }
