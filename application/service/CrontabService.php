@@ -36,7 +36,7 @@ class CrontabService
     public static function OrderClose($params = [])
     {
         // 获取可关闭订单
-        $time = time()-intval(MyC('common_order_close_limit_time', 30, true));
+        $time = time()-(intval(MyC('common_order_close_limit_time', 30, true))*60);
         $where = [
             ['add_time', '<', $time],
             ['status', '=', 1],
@@ -96,7 +96,7 @@ class CrontabService
     public static function OrderSuccess($params = [])
     {
         // 获取可收货订单
-        $time = time()-intval(MyC('common_order_success_limit_time', 21600, true));
+        $time = time()-(intval(MyC('common_order_success_limit_time', 21600, true))*60);
         $where = [
             ['delivery_time', '<', $time],
             ['status', '=', 3],
