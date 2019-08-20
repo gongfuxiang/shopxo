@@ -1,18 +1,20 @@
 /*
- Navicat MySQL Data Transfer
+ Navicat Premium Data Transfer
 
  Source Server         : 本机
- Source Server Version : 50716
+ Source Server Type    : MySQL
+ Source Server Version : 50722
  Source Host           : localhost
- Source Database       : shopxo_ttt
+ Source Database       : shopxo_test
 
- Target Server Version : 50716
+ Target Server Type    : MySQL
+ Target Server Version : 50722
  File Encoding         : utf-8
 
- Date: 08/19/2019 23:21:31 PM
+ Date: 08/20/2019 13:18:41 PM
 */
 
-SET NAMES utf8;
+SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
@@ -223,6 +225,9 @@ CREATE TABLE `s_brand` (
   `website_url` char(255) NOT NULL DEFAULT '' COMMENT '官网地址',
   `is_enable` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否启用（0否，1是）',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '顺序',
+  `seo_title` char(100) NOT NULL DEFAULT '' COMMENT 'SEO标题',
+  `seo_keywords` char(130) NOT NULL DEFAULT '' COMMENT 'SEO关键字',
+  `seo_desc` char(230) NOT NULL DEFAULT '' COMMENT 'SEO描述',
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`),
@@ -233,7 +238,7 @@ CREATE TABLE `s_brand` (
 --  Records of `s_brand`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_brand` VALUES ('1', '7', '/static/upload/images/brand/2019/02/25/1551064260180298.jpeg', '强生', 'https://www.johnsonsbaby.com.cn/', '1', '0', '1551064263', '0'), ('2', '18', '/static/upload/images/brand/2019/02/25/1551064277207182.jpeg', '佳洁士', '', '1', '0', '1551064299', '0');
+INSERT INTO `s_brand` VALUES ('1', '7', '/static/upload/images/brand/2019/02/25/1551064260180298.jpeg', '强生', 'https://www.johnsonsbaby.com.cn/', '1', '0', '', '', '', '1551064263', '0'), ('2', '18', '/static/upload/images/brand/2019/02/25/1551064277207182.jpeg', '佳洁士', '', '1', '0', '', '', '', '1551064299', '0');
 COMMIT;
 
 -- ----------------------------
