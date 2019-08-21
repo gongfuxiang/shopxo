@@ -827,7 +827,7 @@ php;
             'base'  => [
                 'plugins'           => $plugins,
                 'name'              => $params['name'],
-                'logo'              => $params['logo'],
+                'logo'              => ResourcesService::AttachmentPathHandle($params['logo']),
                 'author'            => $params['author'],
                 'author_url'        => $params['author_url'],
                 'version'           => $params['version'],
