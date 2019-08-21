@@ -133,7 +133,7 @@
                 'border': $G('border'),
                 'vhSpace': $G('vhSpace'),
                 'title': $G('title'),
-                'align': $G('align')
+                'align': 'none'
             };
             var img = editor.selection.getRange().getClosedNode();
             if (img) {

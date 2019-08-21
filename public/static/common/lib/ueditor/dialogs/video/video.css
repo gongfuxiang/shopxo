@@ -776,7 +776,7 @@ i.file-preview.file-type-psd{
         height: 315px;
     }
     #videoUrl {
-        width: auto;
+        width: calc(100vw - 92px);
     }
     #preview {
         width: calc(100% - 150px);

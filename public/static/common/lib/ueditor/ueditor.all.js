@@ -11020,18 +11020,20 @@ UE.commands['imagefloat'] = {
 
                             me.execCommand('insertHtml', '<p id="_img_parent_tmp" style="text-align:center">' + pN.innerHTML + '</p>');
 
-                            tmpNode = me.document.getElementById('_img_parent_tmp');
-                            tmpNode.removeAttribute('id');
-                            tmpNode = tmpNode.firstChild;
-                            range.selectNode(tmpNode).select();
-                            //去掉后边多余的元素
-                            next = tmpNode.parentNode.nextSibling;
-                            if (next && domUtils.isEmptyNode(next)) {
-                                domUtils.remove(next);
+                            tmpNode = me.document.getElementById('_img_parent_tmp') || null;
+                            if(tmpNode != null)
+                            {
+                                tmpNode.removeAttribute('id');
+                                tmpNode = tmpNode.firstChild;removeAttribute
+                            
+                                range.selectNode(tmpNode).select();
+                                //去掉后边多余的元素
+                                next = tmpNode.parentNode.nextSibling;
+                                if (next && domUtils.isEmptyNode(next)) {
+                                    domUtils.remove(next);
+                                }
                             }
-
                         }
-
                         break;
                 }
 
