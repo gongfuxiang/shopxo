@@ -126,6 +126,12 @@ class PayEase
             return DataReturn('密钥证书未配置', -1);
         }
 
+        // 加密函数
+        if(!function_exists('openssl_decrypt'))
+        {
+            return DataReturn('openssl不支持', -1);
+        }
+
         $data = [
             'merchantId'        => $this->config['merchantId'],
             'orderAmount'       => $params['total_price']*100,

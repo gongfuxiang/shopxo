@@ -61,16 +61,21 @@ class Wechat
         {
             return 'session key不存在';
         }
-        $aes_key = base64_decode($session_data['session_key']);
-        
+
+        // iv长度
         if(strlen($iv) != 24)
         {
             return 'iv长度错误';
         }
-        $aes_iv = base64_decode($iv);
+
+        // 加密函数
+        if(!function_exists('openssl_decrypt'))
+        {
+            return 'openssl不支持';
+        }
 
         $aes_cipher = base64_decode($encrypted_data);
-        $result = openssl_decrypt($aes_cipher, "AES-128-CBC", $aes_key, 1, $aes_iv);
+        $result = openssl_decrypt($aes_cipher, "AES-128-CBC", base64_decode($session_data['session_key']), 1, base64_decode($iv));
         $data = json_decode($result, true);
         if($data == NULL)
         {
