@@ -135,7 +135,7 @@ Page({
   formSubmit(e)
   {            
     // 邀请人参数
-    var params = my.getStorageSync({key: app.data.cache_launch_info_key});
+    var params = my.getStorageSync({key: app.data.cache_launch_info_key}) || null;
 
     // 数据验证
     var validation = [
@@ -150,7 +150,7 @@ Page({
     e.detail.value['city'] = this.data.user.city;
     e.detail.value['gender'] = this.data.user.gender;
     e.detail.value['app_type'] = 'alipay';
-    e.detail.value['referrer'] = (params.data == null) ? (this.data.user.referrer || 0) : (params.data.referrer || 0);
+    e.detail.value['referrer'] = (params == null || (params.data || null) == null) ? (this.data.user.referrer || 0) : (params.data.referrer || 0);
     if(app.fields_check(e.detail.value, validation))
     {
       my.showLoading({content: '处理中...'});

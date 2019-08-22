@@ -105,7 +105,7 @@ Page({
   formSubmit(e) {
     // 邀请人参数
     var params = swan.getStorageSync(app.data.cache_launch_info_key) || null;
-    console.log(params);
+
     // 数据验证
     var validation = [{ fields: 'mobile', msg: '请填写手机号码' }, { fields: 'verify', msg: '请填写验证码' }, { fields: 'baidu_openid', msg: '授权id不能为空' }];
     e.detail.value['baidu_openid'] = this.data.user.baidu_openid;
@@ -115,7 +115,7 @@ Page({
     e.detail.value['city'] = this.data.user.city;
     e.detail.value['gender'] = this.data.user.gender;
     e.detail.value['app_type'] = 'baidu';
-    e.detail.value['referrer'] = params == null ? this.data.user.referrer || 0 : params.data.referrer || 0;
+    e.detail.value['referrer'] = (params == null) ? this.data.user.referrer || 0 : params.referrer || 0;
     if (app.fields_check(e.detail.value, validation)) {
       swan.showLoading({ title: '处理中...' });
       this.setData({ form_submit_loading: true });
