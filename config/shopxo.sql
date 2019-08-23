@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : utf-8
 
- Date: 08/22/2019 18:52:33 PM
+ Date: 08/23/2019 11:33:32 AM
 */
 
 SET NAMES utf8mb4;
@@ -662,13 +662,13 @@ CREATE TABLE `s_link` (
   PRIMARY KEY (`id`),
   KEY `sort` (`sort`),
   KEY `is_enable` (`is_enable`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='友情链接';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='友情链接';
 
 -- ----------------------------
 --  Records of `s_link`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_link` VALUES ('1', 'SchoolCMS', 'http://schoolcms.org/', 'SchoolCMS学校教务管理系统', '1', '1', '1', '1486292373', '0'), ('12', 'AmazeUI', 'http://amazeui.shopxo.net/', 'AmazeUI国内首个HTML5框架', '4', '1', '1', '1486353476', '1563088005'), ('13', '龚哥哥的博客', 'http://gong.gg/', '龚哥哥的博客', '2', '1', '1', '1486353528', '0'), ('14', 'ThinkPHP', 'http://www.thinkphp.cn/', 'ThinkPHP', '3', '1', '1', '1487919160', '0'), ('15', 'ShopXO', 'http://shopxo.net', 'ShopXO企业级B2C免费开源电商系统', '0', '1', '1', '1533711881', '1547450275'), ('16', '码云', 'https://gitee.com/gongfuxiang/shopxo', '代码托管平台', '0', '1', '1', '1547450105', '1563088051'), ('17', 'GitHub', 'https://github.com/gongfuxiang/shopxo', '代码托管平台', '0', '1', '1', '1547450145', '1563088069'), ('18', 'ShopXO应用商店', 'http://store.shopxo.net/', 'ShopXO应用商店', '0', '1', '1', '1563088117', '1563088129'), ('19', '码付宝个人免签支付', 'http://pay.shopxo.net/', '码付宝个人免签支付', '0', '1', '1', '1563089718', '1563089753');
+INSERT INTO `s_link` VALUES ('1', 'SchoolCMS', 'http://schoolcms.org/', 'SchoolCMS学校教务管理系统', '1', '1', '1', '1486292373', '0'), ('12', 'AmazeUI', 'http://amazeui.shopxo.net/', 'AmazeUI国内首个HTML5框架', '4', '1', '1', '1486353476', '1563088005'), ('13', '龚哥哥的博客', 'http://gong.gg/', '龚哥哥的博客', '2', '1', '1', '1486353528', '0'), ('14', 'ThinkPHP', 'http://www.thinkphp.cn/', 'ThinkPHP', '3', '1', '1', '1487919160', '0'), ('15', 'ShopXO', 'http://shopxo.net', 'ShopXO企业级B2C免费开源电商系统', '0', '1', '1', '1533711881', '1547450275'), ('16', '码云', 'https://gitee.com/gongfuxiang/shopxo', '代码托管平台', '0', '1', '1', '1547450105', '1563088051'), ('17', 'GitHub', 'https://github.com/gongfuxiang/shopxo', '代码托管平台', '0', '1', '1', '1547450145', '1563088069'), ('18', 'ShopXO应用商店', 'http://store.shopxo.net/', 'ShopXO应用商店', '0', '1', '1', '1563088117', '1563088129'), ('19', '码付宝个人免签支付', 'http://pay.shopxo.net/', '码付宝个人免签支付', '0', '1', '1', '1563089718', '1563089753'), ('20', '宝塔面板', 'https://www.bt.cn/?invite_code=MV9kZHh6b2Y=', '宝塔服务器控制面板', '5', '1', '1', '1566531114', '0'), ('21', '西部数码', 'https://www.west.cn/active/freetc/?ReferenceID=934057', '西部数码国内知名服务器提供商', '6', '1', '1', '1566531132', '0');
 COMMIT;
 
 -- ----------------------------
