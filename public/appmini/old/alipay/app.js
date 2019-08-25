@@ -195,7 +195,7 @@ App({
     var user = this.get_user_cache_info();
     if (user == false) {
       // 唤醒用户授权
-      this.user_login(object, method);
+      this.user_login();
 
       return false;
     } else {
@@ -216,75 +216,85 @@ App({
 
   /**
    * 用户授权
-   * object     回调操作对象
-   * method     回调操作对象的函数
-   * auth_data  授权数据
    */
-  user_login(object, method, auth_data) {
-    var $this = this;
-    // 加载loding
-    my.showLoading({ content: "授权中..." });
+  user_login() {
+    var openid = my.getStorageSync({key: this.data.cache_user_login_key});
+    if ((openid.data || null) == null)
+    {
+      var $this = this;
+      // 加载loding
+      my.showLoading({ content: "授权中..." });
 
-    // 请求授权接口
-    my.getAuthCode({
-      scopes: "auth_user",
-      success: res => {
-        if (res.authCode) {
-          my.request({
-            url: $this.get_request_url("alipayuserauth", "user"),
-            method: "POST",
-            data: {authcode: res.authCode},
-            dataType: "json",
-            headers: { 'content-type': 'application/x-www-form-urlencoded' },
-            success: res => {
-              my.hideLoading();
-              if (res.data.code == 0) {
-                my.setStorage({
-                  key: $this.data.cache_user_login_key,
-                  data: res.data.data
-                });
-                
-                my.confirm({
-                  title: '温馨提示',
-                  content: '授权用户信息',
-                  confirmButtonText: '确认',
-                  cancelButtonText: '暂不',
-                  success: (result) => {
-                    if (result.confirm) {
-                      my.navigateTo({
-                        url: "/pages/login/login"
-                      });
-                    }
-                  }
-                });
-              } else {
+      // 请求授权接口
+      my.getAuthCode({
+        scopes: "auth_base",
+        success: res => {
+          if (res.authCode) {
+            my.request({
+              url: $this.get_request_url("alipayuserauth", "user"),
+              method: "POST",
+              data: {authcode: res.authCode},
+              dataType: "json",
+              headers: { 'content-type': 'application/x-www-form-urlencoded' },
+              success: res => {
+                my.hideLoading();
+                if (res.data.code == 0) {
+                  my.setStorageSync({
+                    key: $this.data.cache_user_login_key,
+                    data: res.data.data
+                  });
+                  
+                  $this.login_to_auth();
+                } else {
+                  my.showToast({
+                    type: "fail",
+                    content: res.data.msg,
+                    duration: 3000
+                  });
+                }
+              },
+              fail: () => {
+                my.hideLoading();
                 my.showToast({
                   type: "fail",
-                  content: res.data.msg,
+                  content: "服务器请求出错",
                   duration: 3000
                 });
               }
-            },
-            fail: () => {
-              my.hideLoading();
-              my.showToast({
-                type: "fail",
-                content: "服务器请求出错",
-                duration: 3000
-              });
-            }
+            });
+          }
+        },
+        fail: e => {
+          my.hideLoading();
+          my.showToast({
+            type: "fail",
+            content: "授权失败",
+            duration: 3000
           });
         }
-      },
-      fail: e => {
-        my.hideLoading();
-        my.showToast({
-          type: "fail",
-          content: "授权失败",
-          duration: 3000
-        });
-      }
-    });
+      });
+    } else {
+      this.login_to_auth();
+    }
+  },
+
+  /**
+   * 跳转到登录页面授权
+   */
+  login_to_auth() {
+    my.confirm({
+        title: '温馨提示',
+        content: '授权用户信息',
+        confirmButtonText: '确认',
+        cancelButtonText: '暂不',
+        success: (result) => {
+          if (result.confirm) {
+            my.navigateTo({
+              url: "/pages/login/login"
+            });
+          }
+        }
+      });
   },
 
   /**
@@ -297,7 +307,7 @@ App({
     var openid = my.getStorageSync({key: this.data.cache_user_login_key});
     if ((openid.data || null) == null)
     {
-      this.user_login(object, method, auth_data);
+      this.user_login();
     } else {
       this.get_user_login_info(object, method, openid.data, auth_data);
     }
