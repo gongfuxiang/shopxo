@@ -72,7 +72,7 @@ textarea {
 
 .nav-submit-fixed { background: #eee; height: 46px; position: fixed; bottom: 0; z-index: 10; }
 
-.tips { background: #ffffeb url('/images/tips.png') no-repeat 5rpx 12rpx; background-size: 35rpx 35rpx; color: #f7b240; border: 1px solid #faebd2; line-height: 36rpx; padding: 5px 5px 5px 20px; font-size: 26rpx; border-radius: 2px; display: block; }
+.tips { background: #ffffeb url('/images/tips.png') no-repeat 5rpx 12rpx; background-size: 35rpx 35rpx; color: #f7b240; border: 1px solid #faebd2; line-height: 36rpx; padding: 10rpx 10rpx 10rpx 45rpx; font-size: 26rpx; border-radius: 2px; display: block; }
 
 .data-loding image { width: 60px; height: 60px; background-size: 80% 80% !important; }
 
