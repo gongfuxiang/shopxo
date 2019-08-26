@@ -147,6 +147,12 @@ class Search extends Common
      */
     public function GoodsList()
     {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            $this->error('非法访问');
+        }
+        
         // 参数初始化
         $this->ParamsInit();
 
