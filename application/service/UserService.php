@@ -159,7 +159,7 @@ class UserService
                 $v['upd_time'] = date('Y-m-d H:i:s', $v['upd_time']);
 
                 // 性别
-                $v['gender_text'] = $common_gender_list[$v['gender']]['name'];
+                $v['gender_text'] = isset($common_gender_list[$v['gender']]) ? $common_gender_list[$v['gender']]['name'] : '未知';
 
                 // 状态
                 $v['status_text'] = $common_user_status_list[$v['status']]['name'];

@@ -28,7 +28,9 @@
                     <p class="am-text-truncate am-padding-xs goods-title" title="{{$v.title}}">{{$v.title}}</p>
                 </a>
                 <p class="am-padding-horizontal-xs am-cf">
-                    <span class="am-fl original-price">￥{{$v.original_price}}</span>
+                    {{if isset($v['original_price']) and $v['original_price'] gt 0}}
+                        <span class="am-fl original-price">￥{{$v.original_price}}</span>
+                    {{/if}}
                     <span class="am-fr sales-count">销量 {{$v.sales_count}}</span>
                 </p>
 
