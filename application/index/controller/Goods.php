@@ -256,6 +256,12 @@ class Goods extends Common
      */
     public function Favor()
     {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+        
         // 是否登录
         $this->IsLogin();
 
@@ -275,6 +281,12 @@ class Goods extends Common
      */
     public function SpecType()
     {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
         // 开始处理
         $params = input('post.');
         return GoodsService::GoodsSpecType($params);
@@ -290,6 +302,12 @@ class Goods extends Common
      */
     public function SpecDetail()
     {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
         // 开始处理
         $params = input('post.');
         return GoodsService::GoodsSpecDetail($params);
@@ -304,8 +322,18 @@ class Goods extends Common
      */
     public function Comment()
     {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
         // 参数
         $params = input();
+        if(empty($params['goods_id']))
+        {
+            return DataReturn('参数有误', -1);
+        }
 
         // 分页
         $number = 10;
