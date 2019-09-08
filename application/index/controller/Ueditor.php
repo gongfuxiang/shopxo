@@ -44,6 +44,13 @@ class Ueditor extends Common
      */
     public function Index()
     {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            $this->error('非法访问');
+        }
+
+        // 调用附件服务层
         $ret = UeditorService::Run(input());
         if($ret['code'] == 0)
         {
