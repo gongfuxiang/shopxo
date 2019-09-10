@@ -93,7 +93,7 @@ class UeditorService
         {
             if(preg_match("/^[\w_]+$/", $params['callback']))
             {
-                return DataReturn(htmlspecialchars($params['callback']) . '(' . self::$current_result . ')', -1);
+                return DataReturn(htmlspecialchars($params['callback']), -1);
             } else {
                 return DataReturn('callback参数不合法', -1);
             }

@@ -100,7 +100,9 @@ $(function()
             $(".theme-popover").css({"position":"static", "top":0});
         }
     });
-    $(document).on("click", ".theme-popover-mask", function()
+
+    // 关闭弹层
+    $('.theme-popover-mask').on('click', function()
     {
         $(".dd-conent").slideUp(300);
         $(".theme-popover-mask").hide();

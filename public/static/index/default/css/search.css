@@ -1,7 +1,7 @@
 .search-container { float: none; }
 .items img{ width:100%;}
 .items .price strong{ font-size: 14px; }
-.theme-popover {z-index: 1011;overflow:hidden;background:#fff; width: 100%; }
+.theme-popover {z-index: 1011;background:#fff; width: 100%; }
 .sort-nav a:hover, .sort-nav a:focus { color: #d2364c; }
 .select .title-tips { font-size: 12px; color: #888; }
 .select .title-tips strong { font-weight: 500; color: #fe90a0; }
