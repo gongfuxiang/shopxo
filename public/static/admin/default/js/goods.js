@@ -8,7 +8,29 @@ $(function()
     {
         $('.goods-nav li a').removeClass('goods-nav-active');
         $(this).addClass('goods-nav-active');
-    })
+    });
+
+    // 商品导航收缩
+    $('.goods-nav li.nav-shrink-submit').on('click', function()
+    {
+        if($(this).find('i').hasClass('am-icon-angle-double-right'))
+        {
+            $(this).find('i').removeClass('am-icon-angle-double-right');
+            $(this).find('i').addClass('am-icon-angle-double-left');
+            $(this).parents('.goods-nav').addClass('goods-nav-retract');
+            $('.goods-nav-retract').animate({right:'-110px'}, 500, function()
+            {
+                $('.goods-nav-retract li.nav-shrink-submit').animate({width: '50px', left:'-51px'});
+            });
+            
+        } else {
+            $(this).find('i').removeClass('am-icon-angle-double-left');
+            $(this).find('i').addClass('am-icon-angle-double-right');
+            $(this).parents('.goods-nav').removeClass('goods-nav-retract');
+            $('.goods-nav').animate({right:'-0px'});
+            $('.goods-nav li.nav-shrink-submit').animate({width: '100%', left:'0px'});
+        }
+    });
 
     // 规格列添加
     $('.specifications-nav-title-add').on('click', function()
@@ -196,5 +218,27 @@ $(function()
             FormDataFill(JSON.parse(json), '#specifications-extends-popup');
         }
         $extends_popup.modal();
+    });
+
+
+
+    // 快捷操作
+    // 规格列添加
+    $('.quick-spec-title-add').on('click', function()
+    {
+        var spec_max = $('#goods-nav-operations').data('spec-add-max-number') || 3;
+        if($('.spec-quick table tbody tr').length >= spec_max)
+        {
+            Prompt('最多添加'+spec_max+'列规格');
+            return false;
+        }
+
+        Prompt('hello');
+    });
+
+    // 生成规格
+    $('.quick-spec-created').on('click', function()
+    {
+        Prompt('world');
     });
 });

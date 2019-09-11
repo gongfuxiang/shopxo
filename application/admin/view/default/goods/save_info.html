@@ -42,6 +42,9 @@
 					<li>
 						<a href="#goods-nav-seo">SEO</a>
 					</li>
+					<li class="am-text-center am-padding-xs nav-shrink-submit">
+						<i class="am-icon-angle-double-right am-icon-sm"></i>
+					</li>
 				</ul>
 			</nav>
 
@@ -165,9 +168,68 @@
 			<!-- 规格 -->
 			<div id="goods-nav-operations" class="division-block" data-spec-add-max-number="{{:MyC('common_spec_add_max_number', 3, true)}}">
 				<label class="block nav-detail-title">商品规格</label>
+				<div class="spec-quick am-margin-bottom-lg">
+					<span class="business-operations-submit quick-spec-title-add">+快捷操作</span>
+					<span class="business-operations-submit am-margin-left-sm am-icon-gg quick-spec-created">生成规格</span>
+					<div class="goods-specifications">
+						<table class="am-table am-table-bordered am-table-centered">
+							<thead>
+								<tr>
+									<th class="spec-quick-th-title">规格名</th>
+									<th class="spec-quick-th-value">规格值</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="am-text-middle">
+										<i class="am-close am-close-spin quick-title-remove" data-index="168">×</i>
+										<input type="text" name="spec_quick_title_0" placeholder="规格名" />
+									</td>
+									<td class="spec-quick-td-value am-cf">
+										<div class="am-fl am-margin-xs value-item">
+											<input type="text" class="am-fl" name="spec_quick_value_0" placeholder="规格值" />
+											<i class="am-close am-close-spin quick-value-remove" data-index="168">×</i>
+										</div>
+										<div class="am-fl am-margin-xs value-item">
+											<input type="text" class="am-fl" name="spec_quick_value_0" placeholder="规格值" />
+											<i class="am-close am-close-spin quick-value-remove" data-index="168">×</i>
+										</div>
+										
+										<div class="am-fl am-margin-xs value-item am-text-left">
+											<span class="business-operations-submit quick-spec-value-add">+添加规格值</span>
+										</div>
+										
+									</td>
+								</tr>
+								<tr>
+									<td class="am-text-middle">
+										<i class="am-close am-close-spin quick-title-remove" data-index="168">×</i>
+										<input type="text" name="spec_quick_title_0" placeholder="规格名" />
+									</td>
+									<td class="spec-quick-td-value am-cf">
+										<div class="am-fl am-margin-xs value-item">
+											<input type="text" class="am-fl" name="spec_quick_value_0" placeholder="规格值" />
+											<i class="am-close am-close-spin quick-value-remove" data-index="168">×</i>
+										</div>
+										<div class="am-fl am-margin-xs value-item">
+											<input type="text" class="am-fl" name="spec_quick_value_0" placeholder="规格值" />
+											<i class="am-close am-close-spin quick-value-remove" data-index="168">×</i>
+										</div>
+										
+										<div class="am-fl am-margin-xs value-item am-text-left">
+											<span class="business-operations-submit quick-spec-value-add">+添加规格值</span>
+										</div>
+										
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
 				<span class="business-operations-submit specifications-nav-title-add">+添加规格</span>
 				<div class="goods-specifications">
-					<table class="am-table am-table-bordered am-table-centered specifications-table m-t-10 m-b-10">
+					<table class="am-table am-table-bordered am-table-centered specifications-table am-margin-bottom-sm">
 						<thead class="title-nav">
 							<tr>
 								{{if !empty($specifications['type'])}}
