@@ -36,7 +36,7 @@ class AdminPowerService
         $order_by = empty($params['order_by']) ? 'id desc' : trim($params['order_by']);
 
         // 获取权限菜单列表
-        $data = Db::name('Power')->where($where)->order($order_by)->select();
+        $data = Db::name('Power')->field($field)->where($where)->order($order_by)->select();
         if(!empty($data))
         {
             foreach($data as &$v)
