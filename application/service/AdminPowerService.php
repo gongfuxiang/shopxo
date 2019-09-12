@@ -35,7 +35,7 @@ class AdminPowerService
         $field = empty($params['field']) ? '*' : $params['field'];
         $order_by = empty($params['order_by']) ? 'id desc' : trim($params['order_by']);
 
-        // 获取管理员列表
+        // 获取权限菜单列表
         $data = Db::name('Power')->where($where)->order($order_by)->select();
         if(!empty($data))
         {
@@ -185,7 +185,7 @@ class AdminPowerService
         $field = empty($params['field']) ? '*' : $params['field'];
         $order_by = empty($params['order_by']) ? 'id desc' : trim($params['order_by']);
 
-        // 获取管理员列表
+        // 获取角色列表
         $data = Db::name('Role')->where($where)->order($order_by)->select();
         if(!empty($data))
         {
