@@ -233,7 +233,45 @@ $(function()
             return false;
         }
 
-        Prompt('hello');
+        var html = '<tr>';
+            html += '<td class="am-text-middle">';
+            html += '<i class="am-close am-close-spin quick-title-remove" data-index="168">×</i>';
+            html += '<input type="text" name="spec_quick_title_0" placeholder="规格名" />';
+            html += '</td>';
+            html += '<td class="spec-quick-td-value am-cf">';
+            html += '<div class="am-fl am-margin-xs value-item am-text-left">';
+            html += '<span class="business-operations-submit quick-spec-value-add">+添加规格值</span>';
+            html += '</div>';
+            html += '</td>';
+            html += '</tr>';
+        $('.spec-quick table tbody').append(html);
+        $('.spec-quick .goods-specifications').show();
+    });
+
+    // 添加规格值
+    $(document).on('click', '.spec-quick table .quick-spec-value-add', function()
+    {
+        var html = '<div class="am-fl am-margin-xs value-item">';
+            html += '<input type="text" class="am-fl" name="spec_quick_value_0" placeholder="规格值" />';
+            html += '<i class="am-close am-close-spin quick-value-remove" data-index="168">×</i>';
+            html += '</div>';
+        $(this).parent().before(html);
+    });
+
+    // 规格名称移除
+    $(document).on('click', '.spec-quick table .quick-title-remove', function()
+    {
+        $(this).parents('tr').remove();
+        if($('.spec-quick table tbody tr').length <= 0)
+        {
+            $('.spec-quick .goods-specifications').hide();
+        }
+    });
+
+    // 规格值移除
+    $(document).on('click', '.spec-quick table .value-item .quick-value-remove', function()
+    {
+        $(this).parent().remove();
     });
 
     // 生成规格
