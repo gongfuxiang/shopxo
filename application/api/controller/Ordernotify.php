@@ -46,9 +46,57 @@ class OrderNotify extends Common
         $ret = OrderService::Notify($this->data_request);
         if($ret['code'] == 0)
         {
-            exit('success');
+            $this->SuccessReturn();
         }
-        exit('error');
+        $this->ErrorReturn();
+    }
+
+    /**
+     * 成功返回
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-09-12
+     * @desc    description
+     */
+    private function SuccessReturn()
+    {
+        // 根据支付方式处理成功返回结果
+        $content = 'success';
+        switch(PAYMENT_TYPE)
+        {
+            // 百度
+            case 'BaiduMini' :
+                $content = '{"errno":0,"msg":"success","data":{"isConsumed":2}}';
+                break;
+        }
+
+        // 默认success
+        exit($content);
+    }
+
+    /**
+     * 失败返回
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-09-12
+     * @desc    description
+     */
+    private function ErrorReturn()
+    {
+        // 根据支付方式处理异步返回结果
+        $content = 'error';
+        switch(PAYMENT_TYPE)
+        {
+            // 百度，当处理失败也处理成功消费，需管理员手工处理订单状态或者走其它方式进行处理退款操作
+            case 'BaiduMini' :
+                $content = '{"errno":0,"msg":"success","data":{"isConsumed":2}}';
+                break;
+        }
+
+        // 默认error
+        exit($content);
     }
 }
 ?>
