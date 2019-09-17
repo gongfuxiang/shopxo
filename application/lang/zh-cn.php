@@ -367,7 +367,7 @@ return array(
     'common_regex_pwd'                  =>  '^.{6,18}$',
 
     // 手机号码
-    'common_regex_mobile'               =>  '^1((3|5|8|7){1}\d{1})\d{8}$',
+    'common_regex_mobile'               =>  '^1((3|5|6|7|8|9){1}\d{1})\d{8}$',
 
     // 座机号码
     'common_regex_tel'                  =>  '^\d{3,4}-?\d{8}$',

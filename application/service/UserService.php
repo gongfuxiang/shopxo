@@ -133,7 +133,7 @@ class UserService
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
-        // 获取管理员列表
+        // 获取用户列表
         $data = Db::name('User')->where($where)->order($order_by)->limit($m, $n)->select();
         if(!empty($data))
         {
