@@ -59,7 +59,7 @@ table.data-ongoing .base-operate { border-top: 1px dashed #daf3ff; }
  * 商品列表
  */
 .goods-detail { position: relative; min-height: 80px; }
-.goods-detail img { width: 80px; height: 80px; position: absolute; left: 0; }
+.goods-detail img { width: 80px; height: 80px; position: absolute; left: 0; top: 0; }
 .goods-title { display: -webkit-box; max-height: 36px; overflow: hidden; text-overflow: ellipsis; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .goods-title:hover { text-decoration: underline; }
 .goods-base { float: left; top: 0; margin-left: 85px; }
