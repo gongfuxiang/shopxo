@@ -277,6 +277,133 @@ $(function()
     // 生成规格
     $('.quick-spec-created').on('click', function()
     {
-        Prompt('world');
+        
+        var spec = [];
+        $('.spec-quick table tbody tr').each(function(k, v)
+        {
+            spec[k] = {
+                "title": $(this).find('td.am-text-middle input').val(),
+                "value": []
+            }
+            $(this).find('td.spec-quick-td-value .value-item').each(function(ks,vs)
+            {
+                var value = $(this).find('input').val() || null;
+                if(value != null)
+                {
+                    spec[k]['value'][ks] = $(this).find('input').val();
+                }
+            });
+        });
+
+        // 是否存在规格
+        if(spec.length <= 0)
+        {
+            Prompt('快捷操作规格为空');
+        }
+
+
+        spec = [
+            {
+                "title": "套餐",
+                "value": ["套餐1", "套餐2", "套餐3"]
+            },
+            {
+                "title": "颜色",
+                "value": ["黑色", "红色"]
+            },
+            {
+                "title": "容量",
+                "value": ["64G", "128G"]
+            },
+            {
+                "title": "配置",
+                "value": ["高级", "钻石", "555"]
+            }
+        ];
+
+        // 自动生成规格
+        var data = [];
+        var length = spec.length;
+
+        // 规格最大总数
+        var all = spec.map(function(v){return v.value.length});
+        var count = 0;
+        for(var t in all)
+        {
+            count = (count == 0) ? all[t] : count*all[t]
+        }
+        
+        console.log(all, count)
+
+         
+        for(var i in spec)
+        {
+            data = ssssss(length, spec, data, spec[i]['value'], count, i);
+            //break;
+            //console.log(spec[0]['value'][i])
+            //data[a][i] = spec[0]['value'][i];
+            // for(var k=1; k<length; k++)
+            // {
+            //     data[a][i] += spec[k]['value'][i];
+            //     //console.log(spec[i]['title'], spec[i]['value'])
+            // }
+        }
+        
+        console.log(data, 'data');
+
+        function ssssss(specs_length, specs, data, spec, count, level)
+        {
+            level = parseInt(level);
+            var temp_index = 0;
+            var length = spec.length;
+            var avg = parseInt((count/length)/(level+(level <= 0 ? 1 : 2)));
+                avg = count/specs[level]['value'].length;
+
+                if(level > 0 && level < specs_length-1)
+                {
+                    avg = ((specs[level+1] || null) == null) ? 1 : specs[level+1]['value'].length;
+                    console.log(level, specs_length, avg, 'join')
+                }
+                if(level >= specs_length-1)
+                {
+                    avg = 0;
+                    console.log(level, specs_length, avg, 'end')
+                }
+                if(level == 1)
+                {
+                    avg = count/specs[0]['value'].length/2;
+                }
+
+            //console.log((count/length), (parseInt(level)+(level <= 0 ? 1 : 2)), avg)
+            var temp_avg = 0;
+            for(var i=0; i<count; i++)
+            {
+                //console.log(avg, temp_avg, temp_index)
+                if((data[i] || null) == null)
+                {
+                    data[i] = '';
+                }
+                data[i] += spec[temp_index];
+                if(temp_avg < avg-1)
+                {
+                    temp_avg++;
+                } else {
+                    temp_avg = 0;
+                    temp_index++;
+                }
+                
+                if(temp_index > length-1)
+                {
+                    temp_index = 0;
+                }
+                
+            }
+            //console.log(length, data, spec, count, level)
+            return data;
+        }
+        
+        
+        
+        
     });
 });
