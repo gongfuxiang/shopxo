@@ -734,10 +734,9 @@
                             window.event.stopPropagation();   //阻止事件的传播
                         } finally {
                             if(!confirm("确定要删除吗？")) return;
-                            $.post(editor.getOpt("serverUrl") + "?action=deletefile", { "id": del.attr("data-id") }, function(responseText) {
-                                json = utils.str2json(responseText);
-                                if (json.state == 'SUCCESS') del.parent().remove();
-                                else alert(json.state);
+                            $.post(editor.getOpt("serverUrl") + "?action=deletefile", { "id": del.attr("data-id") }, function(response) {
+                                if (response.state == 'SUCCESS') del.parent().remove();
+                                else alert(response.state);
                             });
                         }
                     })[0]);
