@@ -1,3 +1,52 @@
+/**
+ * 笛卡尔积生成规格
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @datetime 2019-09-22T00:33:48+0800
+ * @desc     description
+ * @param    {[array]}                 arr1 [要进行笛卡尔积的二维数组]
+ * @param    {[array]}                 arr2 [最终实现的笛卡尔积组合,可不写]
+ */
+function spec_cartesian(arr1, arr2)
+{
+    // 去除第一个元素
+    var result = [];
+    var temp_arr = arr1;
+    var first = temp_arr.splice(0, 1);
+
+    if((arr2 || null) == null)
+    {
+        arr2 = [];
+    }
+
+    // 判断是否是第一次进行拼接
+    if(arr2.length > 0)
+    {
+        for(var i in arr2)
+        {
+            for(var k in first[0].value)
+            {
+                result.push(arr2[i]+','+first[0].value[k]);
+            }
+        }
+    } else {
+        for(var i in first[0].value)
+        {
+            result.push(first[0].value[i]);
+        }
+    }
+
+    // 递归进行拼接
+    if(arr1.length > 0)
+    {
+        result = spec_cartesian(arr1, result);
+    }
+
+    // 返回最终笛卡尔积
+    return result;
+}
+        
 $(function()
 {
     // 表单初始化
@@ -318,91 +367,53 @@ $(function()
             {
                 "title": "配置",
                 "value": ["高级", "钻石", "555"]
+            },
+            {
+                "title": "测试5",
+                "value": ["测试1", "测试2"]
+            }
+        ];
+        spec = [
+            {
+                "title": "颜色",
+                "value": ["黑色", "白色", "蓝色"]
+            },
+            {
+                "title": "尺码",
+                "value": ["S", "M", "L", "XL", "XXL"]
+            },
+            {
+                "title": "长度",
+                "value": ["5分裤", "7分裤", "9分裤", "长裤", "测试"]
             }
         ];
 
-        // 自动生成规格
-        var data = [];
-        var length = spec.length;
-
-        // 规格最大总数
-        var all = spec.map(function(v){return v.value.length});
-        var count = 0;
-        for(var t in all)
-        {
-            count = (count == 0) ? all[t] : count*all[t]
-        }
+        // 移除规格列
+        $('.specifications-table .title-nav-remove').trigger('click');
         
-        console.log(all, count)
-
-         
+        // 添加规格列
         for(var i in spec)
         {
-            data = ssssss(length, spec, data, spec[i]['value'], count, i);
-            //break;
-            //console.log(spec[0]['value'][i])
-            //data[a][i] = spec[0]['value'][i];
-            // for(var k=1; k<length; k++)
-            // {
-            //     data[a][i] += spec[k]['value'][i];
-            //     //console.log(spec[i]['title'], spec[i]['value'])
-            // }
+            var index = parseInt(Math.random()*1000001);
+            // title
+            html = '<th class="table-title table-title-'+index+'">';
+            html += '<i class="am-close am-close-spin title-nav-remove" data-index="'+index+'">&times;</i>';
+            html += '<input type="text" name="specifications_name_'+index+'" value="'+spec[i]['title']+'" placeholder="规格名" class="am-radius" data-validation-message="请填写规格名" required />';
+            html += '</th>';
+            console.log(spec[i])
+            $('.title-start').before(html);
+
+            // value
+            html = '<td class="table-value table-value-'+index+'">';
+            html += '<input type="text" name="specifications_value_'+index+'[]" placeholder="规格值" class="am-radius" data-validation-message="请填写规格值" required />';
+            html += '</td>';
+            $('.value-start').before(html);
         }
-        
-        console.log(data, 'data');
 
-        function ssssss(specs_length, specs, data, spec, count, level)
-        {
-            level = parseInt(level);
-            var temp_index = 0;
-            var length = spec.length;
-            var avg = parseInt((count/length)/(level+(level <= 0 ? 1 : 2)));
-                avg = count/specs[level]['value'].length;
+        // 自动生成规格
+        var data = spec_cartesian(spec);
+        console.log(data);
 
-                if(level > 0 && level < specs_length-1)
-                {
-                    avg = ((specs[level+1] || null) == null) ? 1 : specs[level+1]['value'].length;
-                    console.log(level, specs_length, avg, 'join')
-                }
-                if(level >= specs_length-1)
-                {
-                    avg = 0;
-                    console.log(level, specs_length, avg, 'end')
-                }
-                if(level == 1)
-                {
-                    avg = count/specs[0]['value'].length/2;
-                }
-
-            //console.log((count/length), (parseInt(level)+(level <= 0 ? 1 : 2)), avg)
-            var temp_avg = 0;
-            for(var i=0; i<count; i++)
-            {
-                //console.log(avg, temp_avg, temp_index)
-                if((data[i] || null) == null)
-                {
-                    data[i] = '';
-                }
-                data[i] += spec[temp_index];
-                if(temp_avg < avg-1)
-                {
-                    temp_avg++;
-                } else {
-                    temp_avg = 0;
-                    temp_index++;
-                }
-                
-                if(temp_index > length-1)
-                {
-                    temp_index = 0;
-                }
-                
-            }
-            //console.log(length, data, spec, count, level)
-            return data;
-        }
-        
-        
         
         
     });
