@@ -8,7 +8,7 @@
  * @param    {[array]}                 arr1 [要进行笛卡尔积的二维数组]
  * @param    {[array]}                 arr2 [最终实现的笛卡尔积组合,可不写]
  */
-function spec_cartesian(arr1, arr2)
+function SpecCartesian(arr1, arr2)
 {
     // 去除第一个元素
     var result = [];
@@ -40,7 +40,7 @@ function spec_cartesian(arr1, arr2)
     // 递归进行拼接
     if(arr1.length > 0)
     {
-        result = spec_cartesian(arr1, result);
+        result = SpecCartesian(arr1, result);
     }
 
     // 返回最终笛卡尔积
@@ -326,7 +326,6 @@ $(function()
     // 生成规格
     $('.quick-spec-created').on('click', function()
     {
-        
         var spec = [];
         $('.spec-quick table tbody tr').each(function(k, v)
         {
@@ -348,45 +347,8 @@ $(function()
         if(spec.length <= 0)
         {
             Prompt('快捷操作规格为空');
+            return false;
         }
-
-
-        spec = [
-            {
-                "title": "套餐",
-                "value": ["套餐1", "套餐2", "套餐3"]
-            },
-            {
-                "title": "颜色",
-                "value": ["黑色", "红色"]
-            },
-            {
-                "title": "容量",
-                "value": ["64G", "128G"]
-            },
-            {
-                "title": "配置",
-                "value": ["高级", "钻石", "555"]
-            },
-            {
-                "title": "测试5",
-                "value": ["测试1", "测试2"]
-            }
-        ];
-        spec = [
-            {
-                "title": "颜色",
-                "value": ["黑色", "白色", "蓝色"]
-            },
-            {
-                "title": "尺码",
-                "value": ["S", "M", "L", "XL", "XXL"]
-            },
-            {
-                "title": "长度",
-                "value": ["5分裤", "7分裤", "9分裤", "长裤", "测试"]
-            }
-        ];
 
         // 移除规格列
         $('.specifications-table .title-nav-remove').trigger('click');
@@ -400,21 +362,36 @@ $(function()
             html += '<i class="am-close am-close-spin title-nav-remove" data-index="'+index+'">&times;</i>';
             html += '<input type="text" name="specifications_name_'+index+'" value="'+spec[i]['title']+'" placeholder="规格名" class="am-radius" data-validation-message="请填写规格名" required />';
             html += '</th>';
-            console.log(spec[i])
             $('.title-start').before(html);
 
             // value
             html = '<td class="table-value table-value-'+index+'">';
-            html += '<input type="text" name="specifications_value_'+index+'[]" placeholder="规格值" class="am-radius" data-validation-message="请填写规格值" required />';
+            html += '<input type="text" name="specifications_value_'+index+'[]" value="'+(spec[i]['value'][0] || "")+'" placeholder="规格值" class="am-radius" data-validation-message="请填写规格值" required />';
             html += '</td>';
             $('.value-start').before(html);
         }
 
         // 自动生成规格
-        var data = spec_cartesian(spec);
-        console.log(data);
+        var data = SpecCartesian(spec);
+        for(var i=1; i<data.length; i++)
+        {
+            // 添加规格值
+            var html = $('.specifications-table').find('tbody tr:last').prop('outerHTML');
+            if(html.indexOf('<!--operation-->') >= 0)
+            {
+                html = html.replace(/<!--operation-->/ig, '<span class="fs-12 cr-blue c-p m-r-5 line-copy">复制</span> <span class="fs-12 cr-red c-p line-remove">移除</span>');
+            }
+            $('.specifications-table').append(html);
+            $('.specifications-table').find('tbody tr:last').attr('class', 'line-'+index+' line-not-first');
+            $('.specifications-table').find('tbody tr:last').attr('data-line-tag', '.line-'+index);
 
-        
-        
+            // 规格值
+            var temp_spec = data[i].split(',');
+            for(var k in temp_spec)
+            {
+                // 规格值赋值
+                $('.specifications-table').find('tbody tr:last').find('td:eq('+k+') input').val(temp_spec[k]);
+            }
+        }
     });
 });

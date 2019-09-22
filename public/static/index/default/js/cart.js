@@ -1,7 +1,7 @@
 $(function()
 {
     // 计算选择的商品总数和总价
-    function cart_base_total()
+    function CartBaseTotal()
     {
         var total_stock = 0;
         var total_price = 0.00;
@@ -72,7 +72,7 @@ $(function()
                     self.parents('tr').find('.wap-number').text('x'+stock);
 
                     // 计算选择的商品总数和总价
-                    cart_base_total();
+                    CartBaseTotal();
                 } else {
                     PromptCenter(result.msg);
                 }
@@ -130,19 +130,19 @@ $(function()
         }
 
         // 计算选择的商品总数和总价
-        cart_base_total();
+        CartBaseTotal();
     });
 
     // 选择
     $('.am-table input[type="checkbox"]').on('click', function()
     {
         // 计算选择的商品总数和总价
-        cart_base_total();
+        CartBaseTotal();
     });
 
     // 导航固定
     var nav_top = $('.cart-nav').length > 0 ? $('.cart-nav').offset().top : 0;
-    function cart_nav_pop()
+    function CartNavPop()
     {
         var scroll = $(document).scrollTop();
         var location = scroll+$(window).height()-100;
@@ -156,24 +156,24 @@ $(function()
             $('body').css({"padding-bottom":"0"});
         }
     }
-    cart_nav_pop();
+    CartNavPop();
     $(window).scroll(function()
     {
-        cart_nav_pop();
+        CartNavPop();
     });
 
     // 浏览器窗口实时事件
     $(window).resize(function()
     {
         // 导航固定初始化
-        cart_nav_pop();
+        CartNavPop();
     });
 
     // 结算事件
     $('.separate-submit').on('click', function()
     {
         // 计算选择的商品总数和总价
-        cart_base_total();
+        CartBaseTotal();
 
         // 获取购物车id
         var ids = $(this).parents('form').find('input[name="ids"]').val() || 0;

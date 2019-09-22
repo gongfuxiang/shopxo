@@ -1,5 +1,5 @@
 // 规格弹窗PC显示
-function poptit_pc_show()
+function PoptitPcShow()
 {
     $(document.body).css('position', 'static');
     $('.theme-signin-left').scrollTop(0);
@@ -7,7 +7,7 @@ function poptit_pc_show()
     $('.theme-popover').slideDown(0);
 }
 // 规格弹窗关闭
-function poptit_close()
+function PoptitClose()
 {
     if($(window).width() < 1025)
     {
@@ -186,7 +186,7 @@ function CartAdd(e)
                 data: {"goods_id": $('.goods-detail').data('id'), "stock": stock, "spec": spec},
                 success: function(result)
                 {
-                    poptit_close();
+                    PoptitClose();
                     $.AMUI.progress.done();
                     $button.attr('disabled', false);
 
@@ -200,7 +200,7 @@ function CartAdd(e)
                 },
                 error: function(xhr, type)
                 {
-                    poptit_close();
+                    PoptitClose();
                     $.AMUI.progress.done();
                     $button.attr('disabled', false);
                     PromptCenter('服务器错误');
@@ -518,11 +518,11 @@ $(function() {
                 $('.theme-popover .confirm').attr('data-type', $(this).data('type'));
             }
         } else {
-            poptit_pc_show();
+            PoptitPcShow();
         }
     });
     $('.theme-poptit .close, .btn-op .close').on('click', function() {
-        poptit_close();
+        PoptitClose();
     });
 
     // 购买
@@ -568,7 +568,7 @@ $(function() {
                 data: {"id": $('.goods-detail').data('id')},
                 success: function(result)
                 {
-                    poptit_close();
+                    PoptitClose();
                     $.AMUI.progress.done();
 
                     if(result.code == 0)
@@ -599,7 +599,7 @@ $(function() {
                 },
                 error: function(xhr, type)
                 {
-                    poptit_close();
+                    PoptitClose();
                     $.AMUI.progress.done();
                     if($(window).width() < 640)
                     {
@@ -717,8 +717,8 @@ $(window).resize(function()
     // 规格显示/隐藏处理
     if($(window).width() < 1025)
     {
-        poptit_close();
+        PoptitClose();
     } else {
-        poptit_pc_show();
+        PoptitPcShow();
     }
 });

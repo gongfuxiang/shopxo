@@ -1,5 +1,5 @@
 // 楼层聚合数据高度处理
-function floor_resize_handle()
+function FloorResizeHandle()
 {
     $('.floor').each(function(k, v)
     {
@@ -13,7 +13,7 @@ $(function()
     // 新闻轮播
     if((window.innerWidth || $(window).width()) <= 640)
     {
-        function auto_scroll()
+        function AutoScroll()
         {
             $('.banner-news').find("ul").animate({
                 marginTop: "-39px"
@@ -25,19 +25,19 @@ $(function()
         }
         setInterval(function()
         {
-            auto_scroll();
+            AutoScroll();
         }, 3000);
     }
 
     // 浏览器窗口实时事件
     $(window).resize(function()
     {
-        floor_resize_handle();
+        FloorResizeHandle();
     });
 
 });
 
 $(window).load(function()
 {
-    floor_resize_handle();
+    FloorResizeHandle();
 });

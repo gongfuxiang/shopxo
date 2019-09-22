@@ -16,13 +16,13 @@ $(function()
                 $(".select-result dl").append(copy_html.attr("id", selected_tag_name));
             }
         }
-        get_goods_list(1);
+        GetGoodsList(1);
     });
 
     $(document).on('click', '.select-result dl dd', function() {
         $(this).remove();
         $('#'+$(this).attr('id')+'-dl').find('.select-all').addClass('selected').siblings().removeClass('selected');
-        get_goods_list(1);
+        GetGoodsList(1);
     });
 
     $(document).on('click', 'ul.select dd', function() {
@@ -42,7 +42,7 @@ $(function()
         $(this).hide();
         $('.select-result .select-no').show();
         $('.select-result').hide();
-        get_goods_list(1);
+        GetGoodsList(1);
     });
 
     // 排序导航
@@ -67,7 +67,7 @@ $(function()
             $(this).addClass('active');
             $(this).attr('data-type', 'asc');
         }
-        get_goods_list(1);
+        GetGoodsList(1);
     });
 
     // 条件分类组筛选
@@ -111,7 +111,7 @@ $(function()
     
 
     // 导航显示/隐藏处理
-    function search_nav()
+    function SearchNav()
     {
         // 滚动处理导航
         $(window).scroll(function()
@@ -138,7 +138,7 @@ $(function()
     $(window).resize(function()
     {
         // 导航
-        search_nav();
+        SearchNav();
 
         // 条件筛选
         if($(document).width() >= 640)
@@ -146,10 +146,10 @@ $(function()
             $('.dd-conent').show();
         }
     });
-    search_nav();
+    SearchNav();
 
     // 获取商品列表
-    function get_goods_list(page)
+    function GetGoodsList(page)
     {
         // 请求参数处理
         var data = {
@@ -217,12 +217,12 @@ $(function()
             }
         });
     }
-    get_goods_list(1);
+    GetGoodsList(1);
 
     // 加载更多数据
     $('.search-pages-submit').on('click', function()
     {
-        get_goods_list();
+        GetGoodsList();
     });
 
 });
