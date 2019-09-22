@@ -186,6 +186,24 @@
 
 				<span class="business-operations-submit specifications-nav-title-add">+添加规格</span>
 				<div class="goods-specifications">
+					<!-- 规格批量操作弹层 -->
+					<div class="am-modal am-modal-no-btn" tabindex="-1" id="spec-modal-all-operation">
+						<div class="am-modal-dialog">
+							<div class="am-modal-hd">批量操作
+								<a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+							</div>
+							<div class="am-modal-bd">
+								<div class="am-input-group am-input-group-sm">
+									<input type="text" class="am-form-field" placeholder="批量设置的值" />
+									<span class="am-input-group-btn">
+										<button class="am-btn am-btn-default" type="button">确认</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- 规格列表 -->
 					<table class="am-table am-table-bordered am-table-centered specifications-table am-margin-bottom-sm">
 						<thead class="title-nav">
 							<tr>
@@ -197,12 +215,30 @@
 										</th>
 									{{/foreach}}
 								{{/if}}
-								<th class="title-start">价格(元)</th>
-								<th>库存</th>
-								<th>重量(kg)</th>
-								<th>规格编码</th>
-								<th>条形码</th>
-								<th>原价(元)</th>
+								<th class="title-start">
+									<span>价格(元)</span>
+									<i class="am-icon-edit"></i>
+								</th>
+								<th>
+									<span>库存</span>
+									<i class="am-icon-edit"></i>
+								</th>
+								<th>
+									<span>重量(kg)</span>
+									<i class="am-icon-edit"></i>
+								</th>
+								<th>
+									<span>规格编码</span>
+									<i class="am-icon-edit"></i>
+								</th>
+								<th>
+									<span>条形码</span>
+									<i class="am-icon-edit"></i>
+								</th>
+								<th>
+									<span>原价(元)</span>
+									<i class="am-icon-edit"></i>
+								</th>
 								<th class="extend-btn">扩展</th>
 								<th class="operation-btn">操作</th>
 							</tr>

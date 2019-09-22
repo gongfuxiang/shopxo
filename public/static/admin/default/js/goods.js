@@ -204,6 +204,31 @@ $(function()
         $(this).parents('li.spec-images-items').remove();
     });
 
+    // 规格批量操作-开启
+    var $spec_modal = $('#spec-modal-all-operation');
+    $('.specifications-table thead th i').on('click', function()
+    {
+        $spec_modal.modal({
+            width: 200,
+            height: 100
+        });
+        $spec_modal.attr('data-index', $(this).parent().index());
+        $spec_modal.find('.am-input-group input').val('');
+    });
+
+    // 规格批量操作-确认
+    $spec_modal.find('.am-input-group button').on('click', function()
+    {
+        var index = $spec_modal.attr('data-index') || 0;
+        var value = $spec_modal.find('.am-input-group input').val() || '';
+        $('.specifications-table tbody tr').each(function(k, v)
+        {
+            $(this).find('td').eq(index).find('input').val(value);
+        });
+        $spec_modal.modal('close');
+    });
+
+
     // 手机详情添加
     $(document).on('click', '.content-app-items-add-sub', function()
     {
@@ -350,7 +375,7 @@ $(function()
             return false;
         }
 
-        // 移除规格列
+        // 移除所有规格列
         $('.specifications-table .title-nav-remove').trigger('click');
         
         // 添加规格列
