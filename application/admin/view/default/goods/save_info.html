@@ -168,10 +168,14 @@
 			<!-- 规格 -->
 			<div id="goods-nav-operations" class="division-block" data-spec-add-max-number="{{:MyC('common_spec_add_max_number', 3, true)}}">
 				<label class="block nav-detail-title">商品规格</label>
+				<!-- 规格快捷操作 -->
 				<div class="spec-quick am-margin-bottom-lg">
+					<div class="am-alert am-alert-warning am-radius" data-am-alert>
+					    快捷操作可以快速创建商品SKU，大量节省SKU编辑时间，快捷操作数据不影响SKU数据，仅生成的时候重新覆盖SKU。
+					</div>
 					<span class="business-operations-submit quick-spec-title-add">+快捷操作</span>
 					<span class="business-operations-submit am-margin-left-sm am-icon-gg quick-spec-created">生成规格</span>
-					<div class="goods-specifications" style="display: none;">
+					<div class="goods-specifications" {{if empty($data['spec_base'])}}style="display: none;"{{/if}}>
 						<table class="am-table am-table-bordered am-table-centered">
 							<thead>
 								<tr>
@@ -179,11 +183,35 @@
 									<th class="spec-quick-th-value">规格值</th>
 								</tr>
 							</thead>
-							<tbody></tbody>
+							<tbody>
+								{{if !empty($data['spec_base'])}}
+									{{foreach $data.spec_base as $spec_base_key=>$spec_base}}
+										<tr>
+											<td class="am-text-middle">
+												<i class="am-close am-close-spin quick-title-remove">×</i>
+												<input type="text" value="{{$spec_base.title}}" name="spec_base_title_{{$spec_base_key}}" placeholder="规格名" />
+											</td>
+											<td class="spec-quick-td-value am-cf">
+												{{if !empty($spec_base['value'])}}
+													{{foreach $spec_base.value as $value}}
+														<div class="am-fl am-margin-xs value-item">
+															<input type="text" class="am-fl" name="spec_base_value_{{$spec_base_key}}[]" value="{{$value}}" placeholder="规格值" />
+															<i class="am-close am-close-spin quick-value-remove">×</i>
+														</div>
+													{{/foreach}}
+												{{/if}}
+												<div class="am-fl am-margin-xs value-item am-text-left"><span class="business-operations-submit quick-spec-value-add" data-index="{{$spec_base_key}}">+添加规格值</span>
+												</div>
+											</td>
+										</tr>
+									{{/foreach}}
+								{{/if}}
+							</tbody>
 						</table>
 					</div>
 				</div>
 
+				<!-- 规格常规操作 -->
 				<span class="business-operations-submit specifications-nav-title-add">+添加规格</span>
 				<div class="goods-specifications">
 					<!-- 规格批量操作弹层 -->

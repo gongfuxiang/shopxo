@@ -396,6 +396,12 @@ class GoodsService
                     }
                 }
 
+                // 规格基础
+                if(isset($v['spec_base']))
+                {
+                    $v['spec_base'] = empty($v['spec_base']) ? '' : json_decode($v['spec_base'], true);
+                }
+
                 // 获取规格
                 if($is_spec && !empty($v['id']))
                 {
@@ -1064,7 +1070,14 @@ class GoodsService
             return DataReturn($ret, -1);
         }
 
-        // 规格
+        // 规格基础
+        $specifications_base = self::GetFormGoodsSpecificationsBaseParams($params);
+        if($specifications_base['code'] != 0)
+        {
+            return $specifications_base;
+        }
+
+        // 规格值
         $specifications = self::GetFormGoodsSpecificationsParams($params);
         if($specifications['code'] != 0)
         {
@@ -1120,6 +1133,7 @@ class GoodsService
             'seo_keywords'              => empty($params['seo_keywords']) ? '' : $params['seo_keywords'],
             'seo_desc'                  => empty($params['seo_desc']) ? '' : $params['seo_desc'],
             'is_exist_many_spec'        => empty($specifications['data']['title']) ? 0 : 1,
+            'spec_base'                 => empty($specifications_base['data']) ? '' : json_encode($specifications_base['data']),
         ];
 
         // 商品保存处理钩子
@@ -1245,7 +1259,7 @@ class GoodsService
     }
 
     /**
-     * 获取规格参数
+     * 获取规格值参数
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -1414,6 +1428,32 @@ class GoodsService
         }
 
         return DataReturn('success', 0, ['data'=>$data, 'title'=>$title, 'images'=>$images]);
+    }
+
+    /**
+     * 获取规格基础参数
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-09-23
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    private static function GetFormGoodsSpecificationsBaseParams($params = [])
+    {
+        $result = [];
+        foreach($params as $k=>$v)
+        {
+            if(substr($k, 0, 16) == 'spec_base_title_')
+            {
+                $key = substr($k, 16);
+                $result[] = [
+                    'title'     => $v,
+                    'value'     => isset($params['spec_base_value_'.$key]) ? $params['spec_base_value_'.$key] : [],
+                ];
+            }
+        }
+        return DataReturn('success', 0, $result);
     }
 
     /**

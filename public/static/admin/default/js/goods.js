@@ -307,14 +307,15 @@ $(function()
             return false;
         }
 
+        var index = parseInt(Math.random()*1000001);
         var html = '<tr>';
             html += '<td class="am-text-middle">';
-            html += '<i class="am-close am-close-spin quick-title-remove" data-index="168">×</i>';
-            html += '<input type="text" name="spec_quick_title_0" placeholder="规格名" />';
+            html += '<i class="am-close am-close-spin quick-title-remove">×</i>';
+            html += '<input type="text" name="spec_base_title_'+index+'" placeholder="规格名" />';
             html += '</td>';
             html += '<td class="spec-quick-td-value am-cf">';
             html += '<div class="am-fl am-margin-xs value-item am-text-left">';
-            html += '<span class="business-operations-submit quick-spec-value-add">+添加规格值</span>';
+            html += '<span class="business-operations-submit quick-spec-value-add" data-index="'+index+'">+添加规格值</span>';
             html += '</div>';
             html += '</td>';
             html += '</tr>';
@@ -325,9 +326,10 @@ $(function()
     // 添加规格值
     $(document).on('click', '.spec-quick table .quick-spec-value-add', function()
     {
+        var index = $(this).data('index');
         var html = '<div class="am-fl am-margin-xs value-item">';
-            html += '<input type="text" class="am-fl" name="spec_quick_value_0" placeholder="规格值" />';
-            html += '<i class="am-close am-close-spin quick-value-remove" data-index="168">×</i>';
+            html += '<input type="text" class="am-fl" name="spec_base_value_'+index+'[]" placeholder="规格值" />';
+            html += '<i class="am-close am-close-spin quick-value-remove">×</i>';
             html += '</div>';
         $(this).parent().before(html);
     });
