@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : utf-8
 
- Date: 09/23/2019 13:54:48 PM
+ Date: 09/23/2019 14:19:05 PM
 */
 
 SET NAMES utf8mb4;
@@ -394,14 +394,14 @@ CREATE TABLE `s_goods` (
   `is_deduction_inventory` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '是否扣减库存（0否, 1是）',
   `is_shelves` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '是否上架（下架后用户不可见, 0否, 1是）',
   `is_home_recommended` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '是否首页推荐（0否, 1是）',
-  `content_web` mediumtext NOT NULL COMMENT '电脑端详情内容',
+  `content_web` mediumtext COMMENT '电脑端详情内容',
   `photo_count` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '相册图片数量',
   `sales_count` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '销量',
   `access_count` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '访问次数',
   `video` char(255) NOT NULL DEFAULT '' COMMENT '短视频',
   `home_recommended_images` char(255) NOT NULL DEFAULT '' COMMENT '首页推荐图片',
   `is_exist_many_spec` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否存在多个规格（0否, 1是）',
-  `spec_base` text COMMENT '规格基础内容',
+  `spec_base` text COMMENT '规格基础数据',
   `seo_title` char(100) NOT NULL DEFAULT '' COMMENT 'SEO标题',
   `seo_keywords` char(130) NOT NULL DEFAULT '' COMMENT 'SEO关键字',
   `seo_desc` char(230) NOT NULL DEFAULT '' COMMENT 'SEO描述',
