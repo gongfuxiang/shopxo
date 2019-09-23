@@ -319,11 +319,12 @@ $(function()
 
     // 规格批量操作-开启
     var $spec_modal = $('#spec-modal-all-operation');
-    $('.specifications-table thead th i').on('click', function()
+    $('.specifications-table thead th i.am-icon-edit').on('click', function()
     {
         $spec_modal.modal({
             width: 200,
-            height: 100
+            height: 100,
+            closeViaDimmer: false
         });
         $spec_modal.attr('data-index', $(this).parent().index());
         $spec_modal.find('.am-input-group input').val('');

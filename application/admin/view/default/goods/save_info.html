@@ -213,8 +213,41 @@
 
 				<!-- 规格常规操作 -->
 				<span class="business-operations-submit specifications-nav-title-add">+添加规格</span>
-				<div class="goods-specifications">
-					<!-- 规格批量操作弹层 -->
+				<span class="business-operations-submit am-margin-left-sm specifications-nav-set-all" data-am-modal="{target: '#spec-popup-all-operation'}">+批量设置</span>
+				<div class="goods-specifications am-padding-top-sm">
+					<!-- 所有规格批量操作弹层 -->
+					<div class="am-popup" id="spec-popup-all-operation">
+						<div class="am-popup-inner">
+							<div class="am-popup-hd">
+								<h4 class="am-popup-title">批量设置</h4>
+								<span data-am-modal-close class="am-close">&times;</span>
+							</div>
+							<div class="am-popup-bd">
+								<div class="am-form-group">
+									<label class="block">颜色</label>
+									<select class="chosen-select am-radius" data-placeholder="全部">
+										<option value="0">全部</option>
+										<option value="1">hello</option>
+										<option value="2">world</option>
+									</select>
+								</div>
+								<div class="am-form-group">
+									<label class="block">尺码</label>
+									<select class="chosen-select am-radius" data-placeholder="全部">
+										<option value="0">全部</option>
+										<option value="1">hello</option>
+										<option value="2">world</option>
+									</select>
+								</div>
+								<div class="am-form-group">
+									<label class="block">销售价格</label>
+									<input type="text" name="specifications_price[]" placeholder="价格" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" required />
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- 单个规格批量操作弹层 -->
 					<div class="am-modal am-modal-no-btn" tabindex="-1" id="spec-modal-all-operation">
 						<div class="am-modal-dialog">
 							<div class="am-modal-hd">批量操作
