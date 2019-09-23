@@ -400,7 +400,7 @@ ul {margin-top:0;}
 .admin-sidebar-list {margin-bottom:0;}
 .admin-sidebar-list li a {color:#b6b6b6;padding-left:24px;}
 .admin-sidebar-list li:first-child {border-top:none;}
-.admin-sidebar-sub {margin-top:0;margin-bottom:0;box-shadow:0 16px 8px -15px #e2e2e2 inset;background:#404040;padding-left:10px;}
+.admin-sidebar-sub {margin-top:0;margin-bottom:0;box-shadow:0 16px 8px -15px #e2e2e2 inset;background:#646464;padding-left:10px;}
 .admin-sidebar-sub li:first-child {border-top:1px solid #dedede;}
 .admin-sidebar {height:100%;overflow-x:hidden;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
 .admin-sidebar .am-icon-angle-down {margin-top: 5px;}
@@ -425,12 +425,12 @@ ul {margin-top:0;}
 /*---right Content---*/
 .content-right .content {padding:10px 10px 0 10px;}
 .admin-sidebar-list li a {padding:0.6rem;}
-.common-left-menu a:hover { background:rgba(118, 119, 120, 0.1); }
-.common-left-menu-active {background:rgba(118, 119, 120, 0.3) !important;color:#fff !important;}
+.common-left-menu a:hover { background:rgba(118, 119, 120, 0.45); }
+.common-left-menu-active {background:#1cc09f !important;color:#fff !important;}
 #ifcontent {border:0px;}
 .am-table > tbody > tr > td {vertical-align:top;}
 .admin-offcanvas-bar, .admin-offcanvas-bar .am-list > li { background: #36373c; }
-.admin-offcanvas-bar .am-list > li { border: 1px solid #2e2e31; }
+.admin-offcanvas-bar .am-list > li { border-style: solid; border-width: 1px 0; border-color: #2e2e31; }
 
 /**
  * excel导入窗口
