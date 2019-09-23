@@ -355,10 +355,11 @@
 						</tbody>
 					</table>
 					<span class="business-operations-submit specifications-line-add">+添加一行</span>
-					<span class="business-operations-submit specifications-line-images-add m-l-10">+添加规格图片</span>
 					<ul class="spec-images-list">
 						<div class="am-alert am-alert-warning am-radius" data-am-alert>
 						    规格名称与规格值保持一致，相同规格名称添加一次即可，重复添加则后面覆盖前面，顺序不影响前端展示效果。
+						    <span class="business-operations-submit specifications-line-images-add">+添加规格图片</span>
+						    <span class="business-operations-submit specifications-line-images-auto-add am-margin-left-sm">+第<input type="text" class="am-inline-block am-text-center am-margin-horizontal-xs am-radius" value="1" />列规格自动生成</span>
 						</div>
 						{{if !empty($specifications['type'])}}
 							{{foreach $specifications.type as $type}}

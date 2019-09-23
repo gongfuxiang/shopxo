@@ -98,13 +98,8 @@
     background: #eaeaea;
     cursor: pointer;
 }
-.goods-nav-retract {
-    /*right: -110px;*/
-}
 .goods-nav-retract .nav-shrink-submit {
     position: absolute;
-    /*left: -50px;*/
-    /*width: 50px;*/
 }
 
 /**
@@ -166,6 +161,10 @@
 }
 .specifications-table thead th i {
     cursor: pointer;
+}
+.specifications-line-images-auto-add input {
+    width: 30px !important;
+    padding: 1px !important;
 }
 
 

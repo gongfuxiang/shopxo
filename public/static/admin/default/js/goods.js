@@ -175,6 +175,7 @@ $(function()
     // 添加规格图片
     $('.specifications-line-images-add').on('click', function()
     {
+        // 是否存在规格
         if($('.specifications-table th.table-title').length <= 0)
         {
             Prompt('请先添加规格');
@@ -202,6 +203,115 @@ $(function()
     $('ul.spec-images-list').on('click', 'ul.plug-file-upload-view li i', function()
     {
         $(this).parents('li.spec-images-items').remove();
+    });
+
+    // 规格图片自动添加
+    $('.specifications-line-images-auto-add').on('click', function()
+    {
+        // 是否存在规格
+        var spec_count = $('.specifications-table th.table-title').length || 0;
+        if(spec_count <= 0)
+        {
+            Prompt('请先添加规格');
+            return false;
+        }
+
+        // 获取第一列规格名称
+        var data = [];
+        var index = parseInt($(this).find('input').val()) || 1;
+        if(index <= 0)
+        {
+            index = 1;
+        }
+        if(index > spec_count)
+        {
+            index = spec_count;
+        }
+        index -= 1;
+        $('.specifications-table tbody tr').each(function(k, v)
+        {
+            var value = $(this).find('td').eq(index).find('input').val() || null;
+            if(value != null && data.indexOf(value) == -1)
+            {
+                data.push(value);
+            }
+        });
+
+        // 创建图片规格
+        if(data.length > 0)
+        {
+            // 获取已存在规格图片
+            var data_old = [];
+            $('ul.spec-images-list li.spec-images-items').each(function(k, v)
+            {
+                var value = $(this).find('input').val() || null;
+                if(value != null && data_old.indexOf(value) == -1)
+                {
+                    data_old.push(value);
+                }
+            });
+
+            // 循环添加
+            for(var i in data)
+            {
+                // 开始添加，不存在则不添加
+                if(data_old.indexOf(data[i]) == -1)
+                {
+                    var index = parseInt(Math.random()*1000001);
+                    var temp_class = 'spec-images-items-'+index;
+                    var html = '<li class="spec-images-items '+temp_class+'">';
+                        html += '<input type="text" name="spec_images_name['+index+']" value="'+data[i]+'" placeholder="规格名称" class="am-radius t-c" data-validation-message="请填写规格名称" required />'
+                        html += '<ul class="plug-file-upload-view spec-images-view-'+index+'" data-form-name="spec_images['+index+']" data-max-number="1" data-dialog-type="images">';
+                        html += '<li>';
+                        html += '<input type="text" name="spec_images['+index+']" data-validation-message="请上传规格图片" required />';
+                        html += '<img src="'+__attachment_host__+'/static/admin/default/images/default-images.jpg" />';
+                        html += '<i>×</i>';
+                        html += '</li>';
+                        html += '</ul>';
+                        html += '<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-'+index+'">+上传图片</div>';
+                        html += '</li>';
+                    $('ul.spec-images-list').append(html);
+                }
+            }
+
+            // 原始图片规格不存在指定规格列中则移除
+            for(var i in data_old)
+            {
+                if(data.indexOf(data_old[i]) == -1)
+                {
+                    $('ul.spec-images-list li.spec-images-items').each(function(k, v)
+                    {
+                        var value = $(this).find('input').val() || null;
+                        if(value == data_old[i])
+                        {
+                            $(this).remove();
+                        }
+                    });
+                }
+            }
+        }
+    });
+
+    // 自动添加图片规格input输入值处理
+    $('.specifications-line-images-auto-add input').on('blur', function()
+    {
+        var value = parseInt($(this).val()) || 1;
+        if(value <= 0)
+        {
+            value = 1;
+        }
+        var spec_count = $('.specifications-table th.table-title').length || 0;
+        if(value > spec_count)
+        {
+            value = spec_count;
+        }
+        $(this).val(value);
+    });
+
+    // 自动添加图片规格input禁止冒泡
+    $('.specifications-line-images-auto-add input').on('click', function()
+    {
+        return false;
     });
 
     // 规格批量操作-开启
@@ -377,48 +487,57 @@ $(function()
             return false;
         }
 
-        // 移除所有规格列
-        $('.specifications-table .title-nav-remove').trigger('click');
-        
-        // 添加规格列
-        for(var i in spec)
-        {
-            var index = parseInt(Math.random()*1000001);
-            // title
-            html = '<th class="table-title table-title-'+index+'">';
-            html += '<i class="am-close am-close-spin title-nav-remove" data-index="'+index+'">&times;</i>';
-            html += '<input type="text" name="specifications_name_'+index+'" value="'+spec[i]['title']+'" placeholder="规格名" class="am-radius" data-validation-message="请填写规格名" required />';
-            html += '</th>';
-            $('.title-start').before(html);
-
-            // value
-            html = '<td class="table-value table-value-'+index+'">';
-            html += '<input type="text" name="specifications_value_'+index+'[]" value="'+(spec[i]['value'][0] || "")+'" placeholder="规格值" class="am-radius" data-validation-message="请填写规格值" required />';
-            html += '</td>';
-            $('.value-start').before(html);
-        }
-
-        // 自动生成规格
-        var data = SpecCartesian(spec);
-        for(var i=1; i<data.length; i++)
-        {
-            // 添加规格值
-            var html = $('.specifications-table').find('tbody tr:last').prop('outerHTML');
-            if(html.indexOf('<!--operation-->') >= 0)
+        // 操作确认
+        AMUI.dialog.confirm({
+            title: '温馨提示',
+            content: '生成规格将清空现有规格数据、是否继续？',
+            onConfirm: function(options)
             {
-                html = html.replace(/<!--operation-->/ig, '<span class="fs-12 cr-blue c-p m-r-5 line-copy">复制</span> <span class="fs-12 cr-red c-p line-remove">移除</span>');
-            }
-            $('.specifications-table').append(html);
-            $('.specifications-table').find('tbody tr:last').attr('class', 'line-'+index+' line-not-first');
-            $('.specifications-table').find('tbody tr:last').attr('data-line-tag', '.line-'+index);
+                // 移除所有规格列
+                $('.specifications-table .title-nav-remove').trigger('click');
+                
+                // 添加规格列
+                for(var i in spec)
+                {
+                    var index = parseInt(Math.random()*1000001);
+                    // title
+                    html = '<th class="table-title table-title-'+index+'">';
+                    html += '<i class="am-close am-close-spin title-nav-remove" data-index="'+index+'">&times;</i>';
+                    html += '<input type="text" name="specifications_name_'+index+'" value="'+spec[i]['title']+'" placeholder="规格名" class="am-radius" data-validation-message="请填写规格名" required />';
+                    html += '</th>';
+                    $('.title-start').before(html);
 
-            // 规格值
-            var temp_spec = data[i].split(',');
-            for(var k in temp_spec)
-            {
-                // 规格值赋值
-                $('.specifications-table').find('tbody tr:last').find('td:eq('+k+') input').val(temp_spec[k]);
-            }
-        }
+                    // value
+                    html = '<td class="table-value table-value-'+index+'">';
+                    html += '<input type="text" name="specifications_value_'+index+'[]" value="'+(spec[i]['value'][0] || "")+'" placeholder="规格值" class="am-radius" data-validation-message="请填写规格值" required />';
+                    html += '</td>';
+                    $('.value-start').before(html);
+                }
+
+                // 自动生成规格
+                var data = SpecCartesian(spec);
+                for(var i=1; i<data.length; i++)
+                {
+                    // 添加规格值
+                    var html = $('.specifications-table').find('tbody tr:last').prop('outerHTML');
+                    if(html.indexOf('<!--operation-->') >= 0)
+                    {
+                        html = html.replace(/<!--operation-->/ig, '<span class="fs-12 cr-blue c-p m-r-5 line-copy">复制</span> <span class="fs-12 cr-red c-p line-remove">移除</span>');
+                    }
+                    $('.specifications-table').append(html);
+                    $('.specifications-table').find('tbody tr:last').attr('class', 'line-'+index+' line-not-first');
+                    $('.specifications-table').find('tbody tr:last').attr('data-line-tag', '.line-'+index);
+
+                    // 规格值
+                    var temp_spec = data[i].split(',');
+                    for(var k in temp_spec)
+                    {
+                        // 规格值赋值
+                        $('.specifications-table').find('tbody tr:last').find('td:eq('+k+') input').val(temp_spec[k]);
+                    }
+                }
+            },
+            onCancel: function(){}
+        });
     });
 });
