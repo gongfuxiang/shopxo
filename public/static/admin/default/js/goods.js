@@ -300,7 +300,7 @@ $(function()
         {
             value = 1;
         }
-        var spec_count = $('.specifications-table th.table-title').length || 0;
+        var spec_count = $('.specifications-table th.table-title').length || 1;
         if(value > spec_count)
         {
             value = spec_count;
