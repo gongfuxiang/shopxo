@@ -398,6 +398,8 @@ ul {margin-top:0;}
 .admin-sidebar {width:260px;min-height:100%;float:left;border-right:1px solid #cecece;}
 .admin-sidebar.am-active {z-index:1600;}
 .admin-sidebar-list {margin-bottom:0;}
+.admin-sidebar-list>li:first-child { border-top: 0 !important; }
+.admin-sidebar-list>li:last-child { border-bottom: 0 !important; }
 .admin-sidebar-list li a {color:#b6b6b6;padding-left:24px;}
 .admin-sidebar-list li:first-child {border-top:none;}
 .admin-sidebar-sub {margin-top:0;margin-bottom:0;box-shadow:0 16px 8px -15px #e2e2e2 inset;background:#646464;padding-left:10px;}
