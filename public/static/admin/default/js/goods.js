@@ -245,7 +245,10 @@ $(function()
             $('ul.spec-images-list li.spec-images-items').each(function(k, v)
             {
                 var value = $(this).find('input').val() || null;
-                if(value != null && data_old.indexOf(value) == -1)
+                if(value == null)
+                {
+                    $(this).remove();
+                } else if(data_old.indexOf(value) == -1)
                 {
                     data_old.push(value);
                 }
