@@ -1255,7 +1255,7 @@ class OrderService
         }
 
         // 获取订单信息
-        $where = ['id'=>intval($params['id']), 'user_id'=>$params['user_id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
+        $where = ['id'=>intval($params['id']), 'user_id'=>$params['user_id'], $delete_field=>0];
         $order = Db::name('Order')->where($where)->field('id,status,user_id')->find();
         if(empty($order))
         {
