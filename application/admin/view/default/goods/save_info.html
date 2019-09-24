@@ -175,7 +175,7 @@
 					</div>
 					<span class="business-operations-submit quick-spec-title-add">+快捷操作</span>
 					<span class="business-operations-submit am-margin-left-sm am-icon-gg quick-spec-created">生成规格</span>
-					<div class="goods-specifications" {{if empty($data['spec_base'])}}style="display: none;"{{/if}}>
+					<div class="goods-specifications business-form-group" {{if empty($data['spec_base'])}}style="display: none;"{{/if}}>
 						<table class="am-table am-table-bordered am-table-centered">
 							<thead>
 								<tr>
@@ -213,35 +213,44 @@
 
 				<!-- 规格常规操作 -->
 				<span class="business-operations-submit specifications-nav-title-add">+添加规格</span>
-				<span class="business-operations-submit am-margin-left-sm specifications-nav-set-all" data-am-modal="{target: '#spec-popup-all-operation'}">+批量设置</span>
-				<div class="goods-specifications am-padding-top-sm">
+				<span class="business-operations-submit am-margin-left-sm specifications-nav-set-all am-icon-cogs" data-am-modal="{target: '#spec-popup-all-operation'}"> 高级批量设置</span>
+				<div class="goods-specifications business-form-group am-padding-top-sm">
 					<!-- 所有规格批量操作弹层 -->
 					<div class="am-popup" id="spec-popup-all-operation">
 						<div class="am-popup-inner">
 							<div class="am-popup-hd">
-								<h4 class="am-popup-title">批量设置</h4>
+								<h4 class="am-popup-title">高级批量设置</h4>
 								<span data-am-modal-close class="am-close">&times;</span>
 							</div>
 							<div class="am-popup-bd">
-								<div class="am-form-group">
-									<label class="block">颜色</label>
-									<select class="chosen-select am-radius" data-placeholder="全部">
-										<option value="0">全部</option>
-										<option value="1">hello</option>
-										<option value="2">world</option>
-									</select>
-								</div>
-								<div class="am-form-group">
-									<label class="block">尺码</label>
-									<select class="chosen-select am-radius" data-placeholder="全部">
-										<option value="0">全部</option>
-										<option value="1">hello</option>
-										<option value="2">world</option>
-									</select>
-								</div>
+								<div class="am-alert am-alert-secondary spec-title-container"></div>
 								<div class="am-form-group">
 									<label class="block">销售价格</label>
-									<input type="text" name="specifications_price[]" placeholder="价格" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" required />
+									<input type="text" placeholder="价格" class="am-radius popup_all_price" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的销售金额" />
+								</div>
+								<div class="am-form-group">
+									<label class="block">库存</label>
+									<input type="number" placeholder="库存" class="am-radius popup_all_number" min="0" max="100000000" pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$" data-validation-message="库存数量 0~100000000" />
+								</div>
+								<div class="am-form-group">
+									<label class="block">重量</label>
+									<input type="number" placeholder="重量" class="am-radius popup_all_weight" maxlength="80" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格重量 0.00~100000000.00" />
+								</div>
+								<div class="am-form-group">
+									<label class="block">编码</label>
+									<input type="text" placeholder="编码" class="am-radius popup_all_coding" maxlength="80" data-validation-message="规格编码最多80个字符" />
+								</div>
+								<div class="am-form-group">
+									<label class="block">条形码</label>
+									<input type="text" placeholder="条形码" class="am-radius popup_all_barcode" maxlength="80" data-validation-message="条形码最多80个字符" />
+								</div>
+								<div class="am-form-group">
+									<label class="block">原价</label>
+									<input type="text" placeholder="原价" class="am-radius popup_all_original_price" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的原价" />
+								</div>
+								<div class="am-form-group am-form-group-refreshing am-text-center">
+									<button class="am-btn am-btn-warning am-radius am-btn-sm am-margin-right-lg" type="button" data-am-modal-close>取消</button>
+									<button class="am-btn am-btn-secondary am-radius am-btn-sm am-margin-left-lg" type="button">确认</button>
 								</div>
 							</div>
 						</div>
@@ -392,7 +401,7 @@
 						<div class="am-alert am-alert-warning am-radius" data-am-alert>
 						    规格名称与规格值保持一致，相同规格名称添加一次即可，重复添加则后面覆盖前面，顺序不影响前端展示效果。
 						    <span class="business-operations-submit specifications-line-images-add">+添加规格图片</span>
-						    <span class="business-operations-submit specifications-line-images-auto-add am-margin-left-sm">+第<input type="text" class="am-inline-block am-text-center am-margin-horizontal-xs am-radius" value="1" />列规格自动生成</span>
+						    <span class="business-operations-submit specifications-line-images-auto-add am-margin-left-sm am-icon-dot-circle-o"> 第<input type="text" class="am-inline-block am-text-center am-margin-horizontal-xs am-radius" value="1" />列规格自动生成</span>
 						</div>
 						{{if !empty($specifications['type'])}}
 							{{foreach $specifications.type as $type}}
@@ -457,7 +466,7 @@
 			<!-- app内容 -->
 			<div id="goods-nav-app" class="division-block">
 				<label class="block nav-detail-title">手机端详情</label>
-				<ul class="content-app-items" data-max-count="10" data-required="1" data-images-name="content_app_images" data-content-name="content_app_text" data-images-text="图片" data-content-text="文本内容" data-delete-text="删除" data-drag-sort-text="拖拽排序">
+				<ul class="content-app-items business-form-group" data-max-count="10" data-required="1" data-images-name="content_app_images" data-content-name="content_app_text" data-images-text="图片" data-content-text="文本内容" data-delete-text="删除" data-drag-sort-text="拖拽排序">
 					{{if !empty($data['content_app'])}}
 						{{foreach $data.content_app as $v}}
 							<li>

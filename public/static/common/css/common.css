@@ -79,11 +79,11 @@ iframe { width: 100%; height: 100%; border: 0; }
     form.am-form .am-form-group:hover, .plug-file-upload-view:hover {
         background: #f6f9fc;
     }
-    form.am-form .am-form-group, .plug-images-list, .goods-specifications, .content-app-items, .plug-file-upload-view, .business-form-block {
+    form.am-form .am-form-group, .plug-file-upload-view, .business-form-group, .business-form-block {
         border-bottom: 1px dashed #ccc;
         padding: 10px 20% 10px 5px;
     }
-    .am-popup form.am-form .am-form-group, .business-form-block {
+    .am-popup .am-form-group, .business-form-block {
         padding: 10px 5px !important;
     }
     form.am-form .am-form-group-refreshing, .plug-file-upload-view, .content-app-items {
@@ -139,23 +139,6 @@ iframe { width: 100%; height: 100%; border: 0; }
 .am-form-file i.original-images-url-delete { position: absolute; right: 3px; margin-top: 5px; cursor: pointer; background: #f5f5f5; padding: 0px 10px; }
 .am-form-file input.original-images-url-delete {  padding-right: 35px !important; }
 
-
-/**
- * 公共多图上传插件
- */
-.plug-images-list { padding: 0px; margin: 0px; overflow: hidden; }
-.plug-images-list li { list-style-type: none; width: 150px; height: 200px; overflow: hidden; float: left; margin: 0 10px 10px 0; }
-.plug-images-list li.plug-images-add-tag { border: 1px solid #eee;  }
-.plug-images-list li img { width: 100%; height: 150px; }
-.plug-images-list .plug-images-add { text-align: center; width: 100%; }
-.plug-images-list .plug-images-add .add-icon { color: #ccc; font-size: 80px; font-style: normal; height: 200px; line-height: 200px; cursor: pointer; display: block; }
-.plug-images-list .plug-images-add .add-icon:hover { color: #b4b4b4; }
-.plug-images-list li.plug-images-add-tag:hover { border: 1px solid #cfcfcf; }
-.plug-images-list .plug-images-add input[type="file"] { margin-left: -10000px; position: absolute; }
-@media only screen and (max-width: 641px) {
-    .plug-images-list li { width: calc( 50% - 10px) !important; }
-    .plug-images-list { width: 100%; }
-}
 
 /**
  * 公共文件上传插件

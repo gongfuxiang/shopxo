@@ -342,6 +342,121 @@ $(function()
         $spec_modal.modal('close');
     });
 
+    // 规格高级批量操作-弹层
+    var $spec_popup_all_operation = $('#spec-popup-all-operation');
+    $('.specifications-nav-set-all').on('click', function()
+    {
+        // 获取规格标题
+        var title = [];
+        $('.specifications-table th.table-title').each(function(k, v)
+        {
+            var value = $(this).find('input').val() || null;
+            if(value != null && title.indexOf(value) == -1)
+            {
+                title.push(value);
+            }
+        });
+        if(title.length < $('.specifications-table th.table-title').length)
+        {
+            Prompt('请填写规格名称');
+            return false;
+        }
+
+        // 获取规格值
+        var data = [];
+        for(var i in title)
+        {
+            data[i] = [];
+            $('.specifications-table tbody tr').each(function(k, v)
+            {
+                var value = $(this).find('td').eq(i).find('input').val() || null;
+                if(value != null && data[i].indexOf(value) == -1)
+                {
+                    data[i].push(value);
+                }
+            });
+        }
+
+        // 拼接html
+        var html = '';
+        for(var i in data)
+        {
+            html += '<div class="am-form-group">';
+            html += '<label class="block">'+title[i]+'</label>';
+            html += '<select class="chosen-select am-radius" data-placeholder="全部">';
+            html += '<option value="">全部</option>';
+            for(var k in data[i])
+            {
+                html += '<option value="'+data[i][k]+'">'+data[i][k]+'</option>';
+            }
+            html += '</select>';
+            html += '</div>';
+        }
+        var $spec_container = $spec_popup_all_operation.find('.am-popup-bd .spec-title-container');
+        $spec_container.html(html);
+        if(data.length > 0)
+        {
+            $spec_container.show();
+        } else {
+            $spec_container.hide();
+        }
+
+        // select组件初始化
+        $spec_popup_all_operation.find('.chosen-select').chosen({
+            inherit_select_classes: true,
+            enable_split_word_search: true,
+            search_contains: true,
+            no_results_text: '没有匹配到结果'
+        });
+
+        // 所有input赋空
+        $spec_popup_all_operation.find('input').val('');
+    });
+
+    // 规格高级批量操作-赋值
+    $spec_popup_all_operation.find('button.am-btn-secondary').on('click', function()
+    {
+        // 获取规格值条件
+        var data = [];
+        $spec_popup_all_operation.find('.am-popup-bd .spec-title-container select.chosen-select').each(function(k, v)
+        {
+            data.push($(this).val() || null);
+        });
+
+        // 获取基础值
+        var price = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_price').val() || '';
+        var number = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_number').val() || '';
+        var weight = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_weight').val() || '';
+        var coding = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_coding').val() || '';
+        var barcode = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_barcode').val() || '';
+        var original_price = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_original_price').val() || '';
+
+        // 批量设置
+        var data_length = data.length;
+        $('.specifications-table tbody tr').each(function(k, v)
+        {
+            var count = 0;
+            for(var i in data)
+            {
+                if(data[i] == null || data[i] == ($(this).find('td').eq(i).find('input').val() || null))
+                {
+                    count++;
+                }
+            }
+            var index = $(this).find('.value-start').index();
+            if(count >= data_length)
+            {
+                $(this).find('td').eq(index).find('input').val(price);
+                $(this).find('td').eq(index+1).find('input').val(number);
+                $(this).find('td').eq(index+2).find('input').val(weight);
+                $(this).find('td').eq(index+3).find('input').val(coding);
+                $(this).find('td').eq(index+4).find('input').val(barcode);
+                $(this).find('td').eq(index+5).find('input').val(original_price);
+            }
+        });
+        $spec_popup_all_operation.modal('close');
+    });
+
 
     // 手机详情添加
     $(document).on('click', '.content-app-items-add-sub', function()
