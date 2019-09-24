@@ -585,18 +585,26 @@ $(function()
         var spec = [];
         $('.spec-quick table tbody tr').each(function(k, v)
         {
-            spec[k] = {
-                "title": $(this).find('td.am-text-middle input').val(),
-                "value": []
-            }
-            $(this).find('td.spec-quick-td-value .value-item').each(function(ks,vs)
+            var title = $(this).find('td.am-text-middle input').val() || null;
+            if(title != null)
             {
-                var value = $(this).find('input').val() || null;
-                if(value != null)
+                var temp_data = [];
+                $(this).find('td.spec-quick-td-value .value-item').each(function(ks,vs)
                 {
-                    spec[k]['value'][ks] = $(this).find('input').val();
+                    var value = $(this).find('input').val() || null;
+                    if(value != null)
+                    {
+                        temp_data.push(value);
+                    }
+                });
+                if(temp_data.length > 0)
+                {
+                    spec.push({
+                        "title": title,
+                        "value": temp_data
+                    });
                 }
-            });
+            }
         });
 
         // 是否存在规格
