@@ -6,14 +6,14 @@
 		<!-- form start -->
 		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/goods/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/goods/index', $params)}}" enctype="multipart/form-data">
 			<legend>
-				<span class="fs-16">
+				<span class="am-text-default">
 					{{if empty($data['id'])}}
 						商品添加
 					{{else /}}
 						商品编辑
 					{{/if}}
 				</span>
-				<a href="{{:MyUrl('admin/goods/index', $params)}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+				<a href="{{:MyUrl('admin/goods/index', $params)}}" class="am-fr am-text-sm am-margin-top-xs am-icon-mail-reply"> 返回</a>
 			</legend>
 
 			<nav class="goods-nav">
@@ -336,7 +336,7 @@
 									</td>
 									<td>
 										<input type="hidden" name="specifications_extends[]" value="" class="line-extend-input" />
-										<span class="fs-12 cr-blue c-p line-extend-btn">编辑</span>
+										<span class="am-text-xs cr-blue c-p line-extend-btn">编辑</span>
 									</td>
 									<td>
 										<!--operation-->
@@ -377,12 +377,12 @@
 													</td>
 													<td>
 														<input type="hidden" name="specifications_extends[]" value="{{$v.data.extends}}" class="line-extend-input" />
-														<span class="fs-12 cr-blue c-p line-extend-btn">编辑</span>
+														<span class="am-text-xs cr-blue c-p line-extend-btn">编辑</span>
 													</td>
 													<td>
 														{{if $line_k gt 0}}
-															<span class="fs-12 cr-blue c-p m-r-5 line-copy">复制</span>
-															<span class="fs-12 cr-red c-p line-remove">移除</span>
+															<span class="am-text-xs cr-blue c-p am-margin-right-xs line-copy">复制</span>
+															<span class="am-text-xs cr-red c-p line-remove">移除</span>
 														{{else /}}
 															<!--operation-->
 														{{/if}}
@@ -489,8 +489,8 @@
 										<textarea rows="5" name="content_app_text_{{$v.id}}" maxlength="105000" class="am-radius" placeholder="文本内容" data-validation-message="文本内容最多 105000 个字符">{{if !empty($v)}}{{$v.content_old|raw}}{{/if}}</textarea>
 									</div>
 								</div>
-								<i class="c-p fs-12 cr-red content-app-items-rem-sub">删除</i>
-								<i class="c-m fs-12 drag-sort-submit">拖拽排序</i>
+								<i class="c-p am-text-xs cr-red content-app-items-rem-sub">删除</i>
+								<i class="c-m am-text-xs drag-sort-submit">拖拽排序</i>
 							</li>
 						{{/foreach}}
 					{{/if}}

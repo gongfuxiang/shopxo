@@ -86,7 +86,7 @@
 						    <label>首页推荐</label>
 						    <div>
 						        {{foreach $common_is_text_list as $v}}
-						            <label class="am-radio-inline m-r-10">
+						            <label class="am-radio-inline am-margin-right-sm">
 						                <input type="radio" name="is_home_recommended" value="{{$v.id}}" data-am-ucheck /> {{$v.name}}
 						            </label>
 						        {{/foreach}}

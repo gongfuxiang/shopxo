@@ -5,12 +5,12 @@
     <div class="content">
         <!-- operation start -->
         <div class="am-g">
-            <a href="javascript:;" class="am-btn am-btn-secondary am-btn-xs m-l-10 am-icon-cloud-upload am-radius" data-am-modal="{target: '#payment-upload-win'}"> 上传</a>
+            <a href="javascript:;" class="am-btn am-btn-secondary am-btn-xs am-margin-left-sm am-icon-cloud-upload am-radius" data-am-modal="{target: '#payment-upload-win'}"> 上传</a>
         </div>
         <!-- operation end -->
 
         <!-- list start -->
-        <table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
+        <table class="am-table am-table-striped am-table-hover am-text-middle am-margin-top-sm">
             <thead>
                 <tr>
                     <th>名称</th>
@@ -121,7 +121,7 @@
                     <!-- win form start -->
                     <form class="am-form form-validation" action="{{:MyUrl('admin/payment/upload')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
                         <div class="am-alert am-radius am-alert-tips m-t-0" data-am-alert>
-                            <p class="m-t-10">
+                            <p class="am-margin-top-sm">
                                 1 类名必须于文件名一致（去除 .php ），如 Alipay.php 则取 Alipay<br />
                                 2 类必须定义三个方法<br />
                                 &nbsp;&nbsp;&nbsp; 2.1 Config 配置方法<br />

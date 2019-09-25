@@ -65,30 +65,30 @@
 			{{foreach $data as $v}}
 				<li id="data-list-{{$v.id}}" {{if $v['is_show'] eq 0}}class="bk-cr-ffd"{{/if}}>
 					{{if !empty($v['item'])}}
-						<i class="am-icon-plus c-p m-r-5"></i>
+						<i class="am-icon-plus c-p am-margin-right-xs"></i>
 						<label class="c-p">
 					{{else /}}
 						<label class="c-p m-l-20">
 					{{/if}}
 						<span>{{if !empty($v['icon'])}}<span class="iconfont {{$v.icon}}"></span>{{/if}} {{$v.name}}</span>
 					</label>
-					<div class="fr m-r-20 list-submit">
-						<span class="am-icon-edit am-icon-md c-p submit-edit {{if !empty($v['item'])}}m-r-5{{/if}}" data-am-modal="{target: '#power-save-win'}" data-json='{{:json_encode($v)}}' data-tag="power-save-win" data-item="{{if !empty($v['item'])}}ok{{else /}}no{{/if}}"></span>
+					<div class="am-fr m-r-20 list-submit">
+						<span class="am-icon-edit am-icon-md c-p submit-edit {{if !empty($v['item'])}}am-margin-right-xs{{/if}}" data-am-modal="{target: '#power-save-win'}" data-json='{{:json_encode($v)}}' data-tag="power-save-win" data-item="{{if !empty($v['item'])}}ok{{else /}}no{{/if}}"></span>
 						{{if empty($v['item'])}}
 							<span class="am-icon-trash-o am-icon-md c-p m-l-20 m-r-15 submit-delete" data-url="{{:MyUrl('admin/power/powerdelete')}}" data-id="{{$v.id}}"></span>
 						{{/if}}
 					</div>
 				</li>
 				{{if !empty($v['item'])}}
-					<ul class="list-find p-0 m-t-5" style="display:none;">
+					<ul class="list-find p-0 am-margin-top-xs" style="display:none;">
 						{{foreach $v.item as $vs}}
 							<li id="data-list-{{$vs.id}}" {{if $vs['is_show'] eq 0}}class="bk-cr-ffd"{{/if}}>
 								<label class="c-p">
 									<span>{{if !empty($vs['icon'])}}<span class="iconfont {{$vs.icon}}"></span>{{/if}} {{$vs.name}}</span>
 								</label>
-								<div class="fr m-l-10 find-submit">
+								<div class="am-fr am-margin-left-sm find-submit">
 									<span class="am-icon-edit am-icon-sm c-p submit-edit" data-am-modal="{target: '#power-save-win'}" data-json='{{:json_encode($vs)}}' data-tag="power-save-win" data-item="no"></span>
-									<span class="am-icon-trash-o am-icon-sm c-p m-l-10 m-r-10 submit-delete" data-url="{{:MyUrl('admin/power/powerdelete')}}" data-id="{{$vs.id}}"></span>
+									<span class="am-icon-trash-o am-icon-sm c-p am-margin-left-sm am-margin-right-sm submit-delete" data-url="{{:MyUrl('admin/power/powerdelete')}}" data-id="{{$vs.id}}"></span>
 								</div>
 							</li>
 						{{/foreach}}

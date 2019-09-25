@@ -9,10 +9,10 @@
 			<form class="am-form form-validation excel-form" action="{{$excel_import_form_url}}" method="POST" request-type="ajax-fun" request-value="ExcelImportCallback" enctype="multipart/form-data">
 				<div class="am-alert am-radius am-alert-tips m-t-0" data-am-alert>
 					{{if !empty($excel_import_format_url)}}
-						<p class="m-b-10"><a href="{{$excel_import_format_url}}" class="cr-blue">Excel格式下载</a><span class="m-r-5"></p>
+						<p class="am-margin-bottom-sm"><a href="{{$excel_import_format_url}}" class="cr-blue">Excel格式下载</a><span class="am-margin-right-xs"></p>
 					{{/if}}
 					{{if !empty($excel_import_tips)}}
-						<p class="m-t-10">{{$excel_import_tips}}</p>
+						<p class="am-margin-top-sm">{{$excel_import_tips}}</p>
 					{{/if}}
 					<p class="cr-red">PS：导入数据建议一次不要超过10万条。</p>
 				</div>

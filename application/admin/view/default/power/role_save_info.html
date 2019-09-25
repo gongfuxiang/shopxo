@@ -6,14 +6,14 @@
         <!-- form start -->
         <form class="am-form form-validation view-save" action="{{:MyUrl('admin/power/rolesave')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/power/role')}}">
         	<legend>
-				<span class="fs-16">
+				<span class="am-text-default">
 					{{if empty($data['id'])}}
 						角色添加
 					{{else /}}
 						角色编辑
 					{{/if}}
 				</span>
-				<a href="{{:MyUrl('admin/power/role')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+				<a href="{{:MyUrl('admin/power/role')}}" class="am-fr am-text-sm am-margin-top-xs am-icon-mail-reply"> 返回</a>
 			</legend>
         	<div class="am-form-group">
 				<label>角色名称</label>
@@ -26,7 +26,7 @@
 					{{foreach $power as $v}}
 						<li {{if $v['is_show'] eq 0}}class="bk-cr-ffd"{{/if}}>
 							{{if !empty($v['item'])}}
-								<i class="am-icon-minus-square c-p m-r-5"></i>
+								<i class="am-icon-minus-square c-p am-margin-right-xs"></i>
 								<label class="c-p">
 							{{else /}}
 								<label class="c-p m-l-2">
@@ -36,7 +36,7 @@
 							</label>
 						</li>
 						{{if !empty($v['item'])}}
-							<ul class="list-find p-0 m-t-5">
+							<ul class="list-find p-0 am-margin-top-xs">
 								{{foreach $v.item as $vs}}
 									<li {{if $vs['is_show'] eq 0}}class="bk-cr-ffd"{{/if}}>
 										<label class="c-p">

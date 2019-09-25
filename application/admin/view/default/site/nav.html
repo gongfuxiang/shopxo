@@ -1,4 +1,4 @@
-<ul class="am-nav am-nav-pills table-nav m-b-10">
+<ul class="am-nav am-nav-pills table-nav am-margin-bottom-sm">
     <li {{if $nav_type eq 'base'}}class="am-active"{{/if}} data-type="base">
         <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'base'])}}">基础配置</a>
     </li>
@@ -32,12 +32,12 @@
     <!-- 登录/密码找回提示 -->
     <div class="am-alert am-alert-warning am-radius" data-am-alert>
         <button type="button" class="am-close">&times;</button>
-        <p class="fs-12">左侧图片最多可上传3张图片、每次随机展示其中一张</p>
+        <p class="am-text-xs">左侧图片最多可上传3张图片、每次随机展示其中一张</p>
     </div>
 {{elseif in_array($nav_type, ['register']) /}}
     <!-- 注册提示 -->
     <div class="am-alert am-alert-warning am-radius" data-am-alert>
         <button type="button" class="am-close">&times;</button>
-        <p class="fs-12">可自定义背景图片、默认底灰色</p>
+        <p class="am-text-xs">可自定义背景图片、默认底灰色</p>
     </div>
 {{/if}}

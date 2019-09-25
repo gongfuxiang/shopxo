@@ -6,14 +6,14 @@
 		<!-- form start -->
 		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/appcenternav/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appcenternav/index', $params)}}" enctype="multipart/form-data">
 			<legend>
-				<span class="fs-16">
+				<span class="am-text-default">
 					{{if empty($data['id'])}}
 						导航添加
 					{{else /}}
 						导航编辑
 					{{/if}}
 				</span>
-				<a href="{{:MyUrl('admin/appcenternav/index', $params)}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+				<a href="{{:MyUrl('admin/appcenternav/index', $params)}}" class="am-fr am-text-sm am-margin-top-xs am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
 				<label>名称</label>
@@ -44,7 +44,7 @@
 			<div class="am-form-group">
 				<div class="am-alert am-alert-warning am-radius" data-am-alert>
 				    <button type="button" class="am-close">&times;</button>
-				    <p class="fs-12">
+				    <p class="am-text-xs">
 				    	WEB页面<br />&nbsp&nbsp&nbsp;1.以http开头<br />&nbsp&nbsp&nbsp;2.并在小程序后台加入白名单<br /><br /> 内部页面(小程序/APP内部地址)<br />&nbsp&nbsp&nbsp;1.小程序或APP内部地址<br />&nbsp&nbsp&nbsp;2.小程序以/pages开始<br />&nbsp&nbsp&nbsp;3.例如：/pages/user/user<br />&nbsp&nbsp&nbsp;4.支持带参数 ?x=xx<br /><br /> 跳转原生地图查看指定位置<br />&nbsp&nbsp&nbsp;1.以 | 竖线分割，分别顺序 名称|地址|经度|纬度<br />&nbsp&nbsp&nbsp;2.例如：ShopXO|上海浦东新区张江高科技园区XXX号|121.626444|31.20843
 				    </p>
 				</div>

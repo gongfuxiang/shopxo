@@ -107,7 +107,7 @@
         <!-- operation end -->
 
 		<!-- list start -->
-		<table class="am-table am-table-striped am-table-hover am-text-middle m-t-10">
+		<table class="am-table am-table-striped am-table-hover am-text-middle am-margin-top-sm">
 			<thead>
 				<tr>
 					<th class="am-hide-sm-only th-goods">基础信息</th>
@@ -136,7 +136,7 @@
 											<a href="{{:MyUrl('index/goods/index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}" {{if !empty($vs['title_color'])}} style="color:{{$vs.title_color}};" {{/if}} >{{$vs.title}}</a>
 										</div>
 										<div class="other">
-											<span class="fl fs-12">
+											<span class="am-fl am-text-xs">
 												{{if !empty($vs.spec_text)}}
 													{{$vs.spec_text}}
 												{{/if}}
@@ -182,14 +182,14 @@
 								<span class="block">{{$v.status_name}}</span>
 								
 								{{if $v['pay_status'] eq 1}}
-									<span class="block am-text-success fs-12">{{$v.pay_status_name}}</span>
+									<span class="block am-text-success am-text-xs">{{$v.pay_status_name}}</span>
 								{{elseif $v['pay_status'] gt 1 /}}
-									<span class="block am-text-danger fs-12">{{$v.pay_status_name}}</span>
+									<span class="block am-text-danger am-text-xs">{{$v.pay_status_name}}</span>
 								{{else /}}
-									<span class="block fs-12">{{$v.pay_status_name}}</span>
+									<span class="block am-text-xs">{{$v.pay_status_name}}</span>
 								{{/if}}
 								{{if $v['user_is_delete_time'] neq 0}}
-									<span class="block am-text-warning fs-12">用户已删除</span>
+									<span class="block am-text-warning am-text-xs">用户已删除</span>
 								{{/if}}
 							</td>
 							<td>
@@ -234,28 +234,28 @@
 																<a href="{{:MyUrl('index/goods/index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}" {{if !empty($vs['title_color'])}} style="color:{{$vs.title_color}};" {{/if}} >{{$vs.title}}</a>
 															</div>
 															<div class="other">
-                                                                <span class="fl fs-12">
+                                                                <span class="am-fl am-text-xs">
                                                                     型号：
                                                                     {{if !empty($vs.model)}}
                                                                         {{$vs.model}}
                                                                     {{/if}}
                                                                 </span>
-																<span class="fl fs-12">
+																<span class="am-fl am-text-xs">
 																	规格：
 																	{{if !empty($vs.spec_text)}}
 																		{{$vs.spec_text}}
 																	{{/if}}
 																</span>
-																<span class="fl fs-12">
+																<span class="am-fl am-text-xs">
 																	重量：{{$vs.spec_weight}}
 																</span>
-																<span class="fl fs-12">
+																<span class="am-fl am-text-xs">
 																	编码：{{$vs.spec_coding}}
 																</span>
                                                                 {{if $vs['returned_quantity'] gt 0 or $vs['refund_price'] gt 0}}
                                                                     <span class="am-text-danger am-fr am-margin-left-sm">已退 {{$vs.returned_quantity}} / {{$vs.refund_price}}</span>
                                                                 {{/if}}
-																<span class="fr">{{$vs.price}}x{{$vs.buy_number}}</span>
+																<span class="am-fr">{{$vs.price}}x{{$vs.buy_number}}</span>
 															</div>
 														</div>
 													{{/foreach}}

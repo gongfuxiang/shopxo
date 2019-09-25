@@ -6,14 +6,14 @@
         <!-- form start -->
         <form class="am-form form-validation view-save" action="{{:MyUrl('admin/pluginsadmin/saveinfo')}}" method="POST" request-type="form" enctype="multipart/form-data">
             <legend>
-                <span class="fs-16">
+                <span class="am-text-default">
                     {{if empty($data['id'])}}
                         应用添加
                     {{else /}}
                         应用编辑
                     {{/if}}
                 </span>
-                <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="fr fs-14 m-t-5 am-icon-mail-reply"> 返回</a>
+                <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="am-fr am-text-sm am-margin-top-xs am-icon-mail-reply"> 返回</a>
             </legend>
 
             <div class="am-form-group">

@@ -1,7 +1,6 @@
 /**
  * 商品列表
  */
-.data-list { margin-top: 10px; }
 .goods-detail img { width: 80px; height: 80px; }
 .goods-detail { position: relative; }
 .goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; }
