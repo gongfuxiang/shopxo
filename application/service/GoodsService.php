@@ -288,7 +288,7 @@ class GoodsService
                     'is_backend'    => true,
                     'params'        => &$params,
                     'goods'         => &$v,
-                    'goods_id'      => $v['id']
+                    'goods_id'      => isset($v['id']) ? $v['id'] : 0,
                 ]);
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
@@ -425,7 +425,7 @@ class GoodsService
                     'is_backend'    => true,
                     'params'        => &$params,
                     'goods'         => &$v,
-                    'goods_id'      => $v['id']
+                    'goods_id'      => isset($v['id']) ? $v['id'] : 0,
                 ]);
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {

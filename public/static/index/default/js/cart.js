@@ -108,25 +108,13 @@ $(function()
     // 全选/反选
     $('.select-all-event').on('click', function()
     {
-        if($(this).prop('checked'))
+        if($(this).find('input').is(':checked'))
         {
-            $(this).next().text('取消');
-            $('.am-table input[type="checkbox"]').each(function(k, v)
-            {
-                if(!$(this).prop('disabled'))
-                {
-                    this.checked = true;
-                }
-            });
+            $(this).find('span.el-text').text('反选');
+            $('.am-table').find('input[type="checkbox"]').uCheck('check');
         } else {
-            $(this).next().text('全选');
-            $('.am-table input[type="checkbox"]').each(function(k, v)
-            {
-                if(!$(this).prop('disabled'))
-                {
-                    this.checked = false;
-                }
-            });
+            $(this).find('span.el-text').text('全选');
+            $('.am-table').find('input[type="checkbox"]').uCheck('uncheck');
         }
 
         // 计算选择的商品总数和总价

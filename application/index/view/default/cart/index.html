@@ -34,7 +34,9 @@
                 {{foreach $cart_list as $goods}}
                     <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}" class="{{if $goods['is_shelves'] neq 1}}am-warning{{/if}} {{if $goods['is_delete_time'] neq 0}}am-danger{{/if}}">
                         <td class="base">
-                            <input type="checkbox" value="{{$goods.id}}" {{if $goods['is_shelves'] neq 1 or $goods['is_delete_time'] neq 0}}disabled{{/if}} />
+                            <label class="am-checkbox-inline am-success am-fl">
+                                <input type="checkbox" value="{{$goods.id}}" {{if $goods['is_shelves'] neq 1 or $goods['is_delete_time'] neq 0}}disabled{{/if}} data-am-ucheck />
+                            </label>
                             <div class="goods-detail">
                                 <a href="{{$goods.goods_url}}" target="_blank">
                                     <img src="{{$goods.images}}">
@@ -90,12 +92,12 @@
 
         <!-- 导航 -->
         <div class="cart-nav">
-            <div class="am-fl nav-left">
-                <label>
-                    <input type="checkbox" value="3" class="select-all-event" />
-                    <span>全选</span>
+            <div class="am-fl nav-left am-margin-left-xs">
+                <label class="am-checkbox-inline am-success select-all-event">
+                    <input type="checkbox" value="1" data-am-ucheck />
+                    <span class="el-text">全选</span>
                 </label>
-                <a href="javascript:;" class="submit-ajax" data-url="{{:MyUrl('index/cart/delete')}}" data-id="{{$base.ids}}" data-view="reload" data-msg="清空后不可恢复、确认操作吗？">清空</a>
+                <a href="javascript:;" class="am-margin-left-sm submit-ajax" data-url="{{:MyUrl('index/cart/delete')}}" data-id="{{$base.ids}}" data-view="reload" data-msg="清空后不可恢复、确认操作吗？">清空</a>
             </div>
             <div class="am-fr nav-right">
                 <form action="{{:MyUrl('index/buy/index')}}" method="post">

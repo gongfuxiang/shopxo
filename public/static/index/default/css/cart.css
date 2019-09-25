@@ -17,15 +17,12 @@
 strong.total-price-content, .selected-tips strong, .nav-total-price { color: #d2364c; font-family: Verdana,Tahoma,arial; }
 .am-table { margin-bottom: 10px; }
 .am-table > tbody > tr > td { border-top: 1px solid #F5F5F5; }
-.cart-content table td.base input[type="checkbox"] { float: left; }
 
 .cart-nav { background: #eee; height: 50px; line-height: 46px; }
 .cart-nav .separate-submit { height: 50px; width: 100px; font-size: 20px; font-weight: 500; }
 .selected-tips { margin-right: 15px; }
 .cart-nav label { font-weight: 500; margin: 0;  }
 .cart-nav input[type="checkbox"] { vertical-align: inherit; }
-.cart-nav .nav-left { margin-left: 5px; }
-.cart-nav .nav-left a { margin-left: 10px; }
 
 @media only screen and (min-width:640px)  {
     .cart-content table tr .base { width: 30%; }
