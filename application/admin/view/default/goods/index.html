@@ -68,8 +68,8 @@
                     <tr>
                 		<td>
                 			<span>状态：</span>
-                			<select name="is_shelves" class="chosen-select" data-placeholder="上下架...">
-								<option value="-1">上下架...</option>
+                			<select name="is_shelves" class="chosen-select" data-placeholder="上下架状态...">
+								<option value="-1">上下架状态...</option>
 								{{foreach $common_is_shelves_list as $v}}
 									<option value="{{$v.id}}" {{if isset($params['is_shelves']) and $params['is_shelves'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
 								{{/foreach}}
