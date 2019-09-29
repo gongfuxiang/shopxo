@@ -202,18 +202,19 @@ class GoodsService
      * @desc    description
      * @param   [array]          $ids       [分类id数组]
      * @param   [int]            $is_enable [是否启用 null, 0否, 1是]
+     * @param   [string]         $order_by  [排序, 默认sort asc]
      */
-    public static function GoodsCategoryItemsIds($ids = [], $is_enable = null)
+    public static function GoodsCategoryItemsIds($ids = [], $is_enable = null, $order_by = 'sort asc')
     {
         $where = ['pid'=>$ids];
         if($is_enable !== null)
         {
             $where['is_enable'] = $is_enable;
         }
-        $data = Db::name('GoodsCategory')->where($where)->column('id');
+        $data = Db::name('GoodsCategory')->where($where)->order($order_by)->column('id');
         if(!empty($data))
         {
-            $temp = self::GoodsCategoryItemsIds($data, $is_enable);
+            $temp = self::GoodsCategoryItemsIds($data, $is_enable, $order_by);
             if(!empty($temp))
             {
                 $data = array_merge($data, $temp);
