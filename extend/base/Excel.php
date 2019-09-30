@@ -24,9 +24,11 @@ class Excel
 	private $suffix;
 	private $data;
 	private $title;
-	private $string;
 	private $jump_url;
 	private $msg;
+	private $horizontal_center;
+	private $vertical_center;
+	private $warap_text;
 
 	/**
 	 * [__construct 构造方法]
@@ -34,38 +36,48 @@ class Excel
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
 	 * @datetime 2017-01-10T15:09:17+0800
-	 * @param    [string]       $param['filename']	[文件名称（追加当前时间）]
-	 * @param    [string]       $param['suffix']	[文件后缀名（默认xls）]
-	 * @param    [string]       $param['jump_url']	[出错跳转url地址（默认上一个页面）]
-	 * @param    [string]       $param['msg']		[错误提示信息]
-	 * @param    [string]       $param['file_type']	[导出文件类型（默认excel）]
-	 * @param    [array]        $param['title']		[标题（二维数组）]
-	 * @param    [array]        $param['data']		[数据（二维数组）]
+	 * @param    [string]       $params['filename']				[文件名称（追加当前时间）]
+	 * @param    [string]       $params['suffix']				[文件后缀名（默认xls）]
+	 * @param    [string]       $params['jump_url']				[出错跳转url地址（默认上一个页面）]
+	 * @param    [string]       $params['msg']					[错误提示信息]
+	 * @param    [string]       $params['file_type']			[导出文件类型（默认excel）]
+	 * @param    [array]        $params['title']				[标题（二维数组）]
+	 * @param    [array]        $params['data']					[数据（二维数组）]
+	 * @param    [int]          $params['horizontal_center']	[是否水平居中 1是]
+	 * @param    [int]          $params['vertical_center']		[是否垂直居中 1是]
+	 * @param    [int]          $params['warap_text']			[是否内容自动换行 1是]
 	 */
-	public function __construct($param = array())
+	public function __construct($params = [])
 	{
 		// 文件名称
 		$date = date('YmdHis');
-		$this->filename = isset($param['filename']) ? $param['filename'].'-'.$date : $date;
+		$this->filename = isset($params['filename']) ? $params['filename'].'-'.$date : $date;
 
 		// 文件类型, 默认excel
 		$type_all = array('excel' => 'vnd.ms-excel', 'pdf' => 'pdf');
-		$this->file_type = (isset($param['file_type']) && isset($type_all[$param['file_type']])) ? $type_all[$param['file_type']] : $type_all['excel'];
+		$this->file_type = (isset($params['file_type']) && isset($type_all[$params['file_type']])) ? $type_all[$params['file_type']] : $type_all['excel'];
 
 		// 文件后缀名称
-		$this->suffix = empty($param['suffix']) ? 'xls' : $param['suffix'];
+		$this->suffix = empty($params['suffix']) ? 'xls' : $params['suffix'];
 
 		// 标题
-		$this->title = isset($param['title']) ? $param['title'] : array();
+		$this->title = isset($params['title']) ? $params['title'] : [];
 
 		// 数据
-		$this->data = isset($param['data']) ? $param['data'] : array();
+		$this->data = isset($params['data']) ? $params['data'] : [];
 
 		// 出错跳转地址
-		$this->jump_url = empty($param['jump_url']) ? $_SERVER['HTTP_REFERER'] : $param['jump_url'];
+		$this->jump_url = empty($params['jump_url']) ? $_SERVER['HTTP_REFERER'] : $params['jump_url'];
 
 		// 错误提示信息
-		$this->msg = empty($param['msg']) ? 'title or data cannot be empty!' : $param['msg'];
+		$this->msg = empty($params['msg']) ? 'title or data cannot be empty!' : $params['msg'];
+
+		// 水平,垂直居中
+		$this->horizontal_center = isset($params['horizontal_center']) ? intval($params['horizontal_center']) : 1;
+		$this->vertical_center = isset($params['vertical_center']) ? intval($params['vertical_center']) : 1;
+
+		// 内容自动换行
+		$this->warap_text = isset($params['warap_text']) ? intval($params['warap_text']) : 1;
 
 		// 引入PHPExcel类库
 		require ROOT.'extend'.DS.'phpexcel'.DS.'PHPExcel.php';
@@ -112,12 +124,28 @@ class Excel
 		$excel_charset = MyC('admin_excel_charset', 0);
 		$charset = lang('common_excel_charset_list')[$excel_charset]['value'];
 
+		// 水平,垂直居中
+		if($this->horizontal_center == 1)
+		{
+			$excel->getActiveSheet()->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		}
+		if($this->vertical_center == 1)
+		{
+			$excel->getActiveSheet()->getDefaultStyle()->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
+		}
+
+		//设置自动换行
+		if($this->warap_text == 1)
+		{
+			$excel->getActiveSheet()->getDefaultStyle()->getAlignment()->setWrapText(true);
+		}
+
 		// 标题
 		$temp_key = 0;
 		foreach($this->title as $k=>$v)
 		{
-			$col = \PHPExcel_Cell::stringFromColumnIndex($temp_key);
-			$excel->getActiveSheet()->setCellValue($col.'1', ($excel_charset == 0) ? $v['name'] : iconv('utf-8', $charset, $v['name']));
+			$col = \PHPExcel_Cell::stringFromColumnIndex($temp_key).'1';
+			$excel->getActiveSheet()->setCellValue($col, ($excel_charset == 0) ? $v['name'] : iconv('utf-8', $charset, $v['name']));
 			$temp_key++;
 		}
 		
@@ -130,8 +158,38 @@ class Excel
 				$temp_key = 0;
 				foreach($this->title as $tk=>$tv)
 				{
+					$height = isset($tv['height']) ? intval($tv['height']) : 0;
+					$width = isset($tv['width']) ? intval($tv['width']) : $height;
 					$col = \PHPExcel_Cell::stringFromColumnIndex($temp_key);
-					$excel->getActiveSheet()->setCellValueExplicit($col.$i, ($excel_charset == 0) ? $v[$tk] : iconv('utf-8', $charset, $v[$tk]), \PHPExcel_Cell_DataType::TYPE_STRING);
+					if($tv['type'] == 'images')
+					{
+						$drawing = new \PHPExcel_Worksheet_Drawing();
+			            $drawing->setPath($v[$tk]);
+
+			            // 设置宽度高度
+			            $number = empty($height) ? 50 : $height-10;
+			            $drawing->setHeight($number);
+			            $drawing->setWidth($number);
+			            $drawing->setCoordinates($col.$i);
+
+			            // 图片偏移距离
+			            $x = ($width > 0) ? (($width-$number)/2)+15 : 15;
+			            $drawing->setOffsetX($x);
+			            $drawing->setOffsetY(15);
+			            $drawing->setWorksheet($excel->getActiveSheet());
+					} else {
+						$excel->getActiveSheet()->setCellValueExplicit($col.$i, ($excel_charset == 0) ? $v[$tk] : iconv('utf-8', $charset, $v[$tk]), \PHPExcel_Cell_DataType::TYPE_STRING);
+					}
+
+					// 单元格宽高
+					if($width > 0)
+					{
+						$excel->getActiveSheet()->getColumnDimension($col)->setWidth($width/5);
+					}
+					if($height > 0)
+					{
+						$excel->getActiveSheet()->getRowDimension($i)->setRowHeight($height);
+					}
 					$temp_key++;
 				}
 			}
@@ -192,14 +250,14 @@ class Excel
 		$highest_column_index = \PHPExcel_Cell::columnIndexFromString($highest_column);
 
 		// 定义变量
-		$result = array();
-		$field = array();
+		$result = [];
+		$field = [];
 
 		// 读取数据
 		for($row=1; $row<=$highest_row; $row++)
 		{
 			// 临时数据
-			$info = array();
+			$info = [];
 
 			// 注意 highest_column_index 的列数索引从0开始
 			for($col = 0; $col < $highest_column_index; $col++)

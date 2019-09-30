@@ -139,7 +139,7 @@ class Order extends Common
         $data_params = array(
             'where'             => $where,
             'm'                 => 0,
-            'n'                 => 100000,
+            'n'                 => 0,
             'is_excel_export'   => 1,
         );
         $data = OrderService::OrderList($data_params);

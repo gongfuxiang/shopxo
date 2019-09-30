@@ -109,7 +109,7 @@ class User extends Common
 		$data_params = [
 			'where'		=> $where,
 			'm'			=> 0,
-			'n'			=> 100000,
+			'n'			=> 0,
 		];
 		$data = UserService::UserList($data_params);
 
