@@ -24,6 +24,7 @@
                 {{spec.type}}:{{spec.value}}
               </view>
             </block>
+            <view class="orderaftersale-btn-text" catchtap="orderaftersale_event" data-oid="{{item.id}}" data-did="{{detail.id}}">{{detail.orderaftersale_btn_text}}</view>
           </view>
           <view class="oh goods-price">
             <text class="sales-price">￥{{detail.price}}</text>

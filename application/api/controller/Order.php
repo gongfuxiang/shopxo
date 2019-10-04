@@ -66,9 +66,10 @@ class Order extends Common
 
         // 获取列表
         $data_params = array(
-            'm'         => $start,
-            'n'         => $number,
-            'where'     => $where,
+            'm'                 => $start,
+            'n'                 => $number,
+            'where'             => $where,
+            'is_orderaftersale' => 1,
         );
         $data = OrderService::OrderList($data_params);
 

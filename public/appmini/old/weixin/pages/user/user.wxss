@@ -76,7 +76,7 @@
   padding: 15rpx 0;
 }
 .items-list .items {
-  width: 25%;
+  width: 20%;
   position: relative;
 }
 .items-list .items .items-icon {

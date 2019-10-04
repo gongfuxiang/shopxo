@@ -1,9 +1,10 @@
 {
   "pages": [
+    "pages/user-order/user-order",
+    "pages/user/user",
     "pages/index/index",
     "pages/goods-category/goods-category",
     "pages/cart/cart",
-    "pages/user/user",
     "pages/web-view/web-view",
     "pages/login/login",
     "pages/paytips/paytips",
@@ -14,7 +15,6 @@
     "pages/buy/buy",
     "pages/user-address/user-address",
     "pages/user-address-save/user-address-save",
-    "pages/user-order/user-order",
     "pages/user-order-detail/user-order-detail",
     "pages/user-faovr/user-faovr",
     "pages/user-answer-list/user-answer-list",
@@ -22,7 +22,9 @@
     "pages/answer-form/answer-form",
     "pages/message/message",
     "pages/user-integral/user-integral",
-    "pages/user-goods-browse/user-goods-browse"
+    "pages/user-goods-browse/user-goods-browse",
+    "pages/user-orderaftersale/user-orderaftersale",
+    "pages/user-orderaftersale-detail/user-orderaftersale-detail"
   ],
   "window": {
     "navigationBarTitleText": "{{application_title}}",
