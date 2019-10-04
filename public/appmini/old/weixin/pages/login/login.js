@@ -150,6 +150,7 @@ Page({
     e.detail.value['city'] = this.data.user.city;
     e.detail.value['gender'] = this.data.user.gender;
     e.detail.value['app_type'] = 'weixin';
+    e.detail.value['weixin_unionid'] = this.data.user.weixin_unionid || '';
     e.detail.value['referrer'] = (params == null) ? (this.data.user.referrer || 0) : (params.referrer || 0);
     if(app.fields_check(e.detail.value, validation))
     {

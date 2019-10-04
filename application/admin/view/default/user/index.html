@@ -143,11 +143,17 @@
 												<dt>支付宝openid</dt>
 												<dd>{{if empty($v['alipay_openid'])}}<span class="cr-ddd">未知</span>{{else /}}{{$v.alipay_openid}}{{/if}}</dd>
 
+                                                <dt>百度openid</dt>
+                                                <dd>{{if empty($v['baidu_openid'])}}<span class="cr-ddd">未知</span>{{else /}}{{$v.baidu_openid}}{{/if}}</dd>
+
 												<dt>微信openid</dt>
 												<dd>{{if empty($v['weixin_openid'])}}<span class="cr-ddd">未知</span>{{else /}}{{$v.weixin_openid}}{{/if}}</dd>
 
-												<dt>百度openid</dt>
-												<dd>{{if empty($v['baidu_openid'])}}<span class="cr-ddd">未知</span>{{else /}}{{$v.baidu_openid}}{{/if}}</dd>
+                                                <dt>微信unionid</dt>
+                                                <dd>{{if empty($v['weixin_unionid'])}}<span class="cr-ddd">未知</span>{{else /}}{{$v.weixin_unionid}}{{/if}}</dd>
+
+                                                <dt>微信webopenid</dt>
+                                                <dd>{{if empty($v['weixin_web_openid'])}}<span class="cr-ddd">未知</span>{{else /}}{{$v.weixin_web_openid}}{{/if}}</dd>
 
 												<dt>性别</dt>
 												<dd>{{if empty($v['gender_text'])}}<span class="cr-ddd">未设置</span>{{else /}}{{$v.gender_text}}{{/if}}</dd>

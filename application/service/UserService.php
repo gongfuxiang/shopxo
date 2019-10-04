@@ -314,8 +314,10 @@ class UserService
             'integral'              => intval($params['integral']),
             'status'                => intval($params['status']),
             'alipay_openid'         => isset($params['alipay_openid']) ? $params['alipay_openid'] :  '',
-            'weixin_openid'         => isset($params['weixin_openid']) ? $params['weixin_openid'] :  '',
             'baidu_openid'          => isset($params['baidu_openid']) ? $params['baidu_openid'] :  '',
+            'weixin_openid'         => isset($params['weixin_openid']) ? $params['weixin_openid'] :  '',
+            'weixin_unionid'        => isset($params['weixin_unionid']) ? $params['weixin_unionid'] :  '',
+            'weixin_web_openid'     => isset($params['weixin_web_openid']) ? $params['weixin_web_openid'] :  '',
             'birthday'              => empty($params['birthday']) ? 0 : strtotime($params['birthday']),
             'upd_time'              => time(),
         ];
@@ -1653,6 +1655,12 @@ class UserService
             'city'              => empty($params['city']) ? '' : $params['city'],
             'referrer'          => isset($params['referrer']) ? $params['referrer'] : 0,
         ];
+
+        // 微信用户unionid
+        if(!empty($params['weixin_unionid']))
+        {
+            $data['weixin_unionid'] = $params['weixin_unionid'];
+        }
         $user = self::AppUserInfoHandle(null, $field, $params['openid']);
         if(!empty($user))
         {
@@ -1688,7 +1696,7 @@ class UserService
     public static function AppUserInfoHandle($user_id = null, $where_field = null, $where_value = null, $user = [])
     {
         // 获取用户信息
-        $field = 'id,username,nickname,mobile,email,avatar,alipay_openid,weixin_openid,baidu_openid,integral,locking_integral';
+        $field = 'id,username,nickname,mobile,email,avatar,alipay_openid,weixin_openid,weixin_unionid,weixin_web_openid,baidu_openid,integral,locking_integral';
         if(!empty($user_id))
         {
             $user = self::UserInfo('id', $user_id, $field);
