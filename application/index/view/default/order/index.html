@@ -193,32 +193,13 @@
                                 </td>
                                 <td class="row-number">
                                     <a href="{{:MyUrl('index/orderaftersale/aftersale', ['oid'=>$order['id'], 'did'=>$goods['id']])}}" target="_blank">
-                                        {{switch $order.status}}
-                                            {{case 2|3}}
-                                                {{if empty($goods['orderaftersale'])}}
-                                                    退款/退货
-                                                {{else /}}
-                                                    {{if $goods['orderaftersale']['status'] eq 3}}
-                                                        <span class="am-text-success">查看退款</span>
-                                                    {{else /}}
-                                                        <span class="am-text-secondary">查看进度</span>
-                                                    {{/if}}
-                                                {{/if}}
-                                            {{/case}}
-                                            {{case 4|6}}
-                                                {{if empty($goods['orderaftersale'])}}
-                                                    {{if $order['status'] eq 4}}
-                                                        申请售后
-                                                    {{/if}}
-                                                {{else /}}
-                                                    {{if $goods['orderaftersale']['status'] eq 3}}
-                                                        <span class="am-text-success">查看退款</span>
-                                                    {{else /}}
-                                                        <span class="am-text-secondary">查看进度</span>
-                                                    {{/if}}
-                                                {{/if}}
-                                            {{/case}}
-                                        {{/switch}}
+                                        {{if !empty($goods['orderaftersale_btn_text'])}}
+                                            {{if empty($goods['orderaftersale'])}}
+                                                {{$goods.orderaftersale_btn_text}}
+                                            {{else /}}
+                                                <span class="{{if $goods['orderaftersale']['status'] eq 3}}am-text-success{{else /}}am-text-secondary{{/if}}">{{$goods.orderaftersale_btn_text}}</span>
+                                            {{/if}}
+                                        {{/if}}
                                     </a>
                                 </td>
                                 {{if $keys eq 0}}

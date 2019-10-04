@@ -129,7 +129,17 @@ class Orderaftersale extends Common
                 ],
             ];
             $new_aftersale = OrderAftersaleService::OrderAftersaleList($data_params);
-            $this->assign('new_aftersale_data', empty($new_aftersale['data'][0]) ? [] : $new_aftersale['data'][0]);
+            if(!empty($new_aftersale['data'][0]))
+            {
+                $new_aftersale_data = $new_aftersale['data'][0];
+                $new_aftersale_data['tips_msg'] = OrderAftersaleService::OrderAftersaleTipsMsg($new_aftersale_data);
+            } else {
+                $new_aftersale_data = [];
+            }
+            $this->assign('new_aftersale_data', $new_aftersale_data);
+
+            // 进度
+            $this->assign('step_data', OrderAftersaleService::OrderAftersaleStep($new_aftersale_data));
 
             // 可退款退货
             $returned = OrderAftersaleService::OrderAftersaleCalculation($order_id, $order_detail_id);

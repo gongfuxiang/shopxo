@@ -375,6 +375,12 @@ class PluginsAdminService
         {
             // 是否需要删除应用数据,sql运行
             $is_delete_static = (isset($params['value']) && $params['value'] == 1);
+
+            // 删除数据库附件
+            ResourcesService::AttachmentPathTypeDelete('plugins_'.$params['id']);
+
+            // 删除应用文件
+            self::PluginsResourcesDelete($params['id'], $is_delete_static);
             if($is_delete_static === true)
             {
                 $uninstall_sql = APP_PATH.'plugins'.DS.$params['id'].DS.'uninstall.sql';
@@ -383,13 +389,6 @@ class PluginsAdminService
                     SqlconsoleService::Implement(['sql'=>file_get_contents($uninstall_sql)]);
                 }
             }
-
-            // 删除数据库附件
-            ResourcesService::AttachmentPathTypeDelete('plugins_'.$params['id']);
-
-            // 删除应用文件
-            self::PluginsResourcesDelete($params['id'], $is_delete_static);
-
             return DataReturn('删除成功');
         }
         return $ret;
@@ -1080,12 +1079,7 @@ php;
         $install_sql = APP_PATH.'plugins'.DS.$plugins_name.DS.'install.sql';
         if(!empty($plugins_name) && file_exists($install_sql))
         {
-            // 开始处理
-            $ret = SqlconsoleService::Implement(['sql'=>file_get_contents($install_sql)]);
-            if($ret['code'] != 0)
-            {
-                return $ret;
-            }
+            SqlconsoleService::Implement(['sql'=>file_get_contents($install_sql)]);
         }
 
         return DataReturn('安装成功');

@@ -1,57 +1,33 @@
 <ul class="aftersale-step am-cf am-text-center return-only-money-step {{if empty($new_aftersale_data) or $new_aftersale_data['status'] gt 3 or $new_aftersale_data['type'] eq 1}}none{{/if}}">
-    <li class="am-text-truncate selected {{if empty($new_aftersale_data) or $new_aftersale_data['status'] gt 3}} selected-end{{/if}}">
-        <span class="number">1</span>
-        <span class="text">申请仅退款</span>
-        <i class="am-icon-caret-right"></i>
-        <i class="am-icon-angle-right"></i>
-    </li>
-    <li class="am-text-truncate {{if isset($new_aftersale_data['status']) and $new_aftersale_data['status'] elt 3 and $new_aftersale_data['status'] egt 0}} selected{{/if}} {{if isset($new_aftersale_data['status']) and  $new_aftersale_data['status'] elt 2}} selected-end{{/if}}">
-        <span class="number">2</span>
-        <span class="text">管理员审核</span>
-        {{if isset($new_aftersale_data['status']) and $new_aftersale_data['status'] elt 3 and $new_aftersale_data['status'] egt 0}}
-            <i class="am-icon-caret-right"></i>
-        {{/if}}
-        <i class="am-icon-angle-right"></i>
-    </li>
-    <li class="am-text-truncate {{if isset($new_aftersale_data['status']) and $new_aftersale_data['status'] elt 3 and $new_aftersale_data['status'] eq 3}} selected{{/if}}">
-        <span class="number">3</span>
-        <span class="text">退款完毕</span>
-    </li>
+    {{if !empty($step_data['step0'])}}
+        {{foreach $step_data.step0 as $step}}
+            <li class="am-text-truncate {{if $step.is_active eq 1}} selected{{/if}} {{if $step.is_end eq 1}} selected-end{{/if}}">
+                <span class="number">{{$step.number}}</span>
+                <span class="text">{{$step.name}}</span>
+                {{if $step.is_caret eq 1}}
+                    <i class="am-icon-caret-right"></i>
+                {{/if}}
+                {{if $step.is_angle eq 1}}
+                    <i class="am-icon-angle-right"></i>
+                {{/if}}
+            </li>
+        {{/foreach}}
+    {{/if}}
 </ul>
 
 <ul class="aftersale-step am-cf am-text-center return-money-goods-step {{if empty($new_aftersale_data) or $new_aftersale_data['status'] gt 3 or $new_aftersale_data['type'] eq 0}}none{{/if}}">
-    <li class="am-text-truncate selected {{if empty($new_aftersale_data) or $new_aftersale_data['status'] gt 3}} selected-end{{/if}}">
-        <span class="number">1</span>
-        <span class="text">申请退货退款</span>
-        <i class="am-icon-caret-right"></i>
-        <i class="am-icon-angle-right"></i>
-    </li>
-    <li class="am-text-truncate {{if isset($new_aftersale_data['status']) and $new_aftersale_data['status'] elt 3 and $new_aftersale_data['status'] egt 0}} selected{{/if}} {{if isset($new_aftersale_data['status']) and $new_aftersale_data['status'] eq 0}} selected-end{{/if}}">
-        <span class="number">2</span>
-        <span class="text">管理员确认</span>
-        {{if isset($new_aftersale_data['status']) and $new_aftersale_data['status'] elt 2 and $new_aftersale_data['status'] egt 0}}
-            <i class="am-icon-caret-right"></i>
-        {{/if}}
-        <i class="am-icon-angle-right"></i>
-    </li>
-    <li class="am-text-truncate {{if isset($new_aftersale_data['status']) and $new_aftersale_data['status'] elt 3 and $new_aftersale_data['status'] egt 1}} selected{{/if}} {{if isset($new_aftersale_data['status']) and $new_aftersale_data['status'] eq 1}} selected-end{{/if}}">
-        <span class="number">3</span>
-        <span class="text">用户退货</span>
-        {{if isset($new_aftersale_data['status']) and $new_aftersale_data['status'] elt 3 and $new_aftersale_data['status'] egt 1}}
-            <i class="am-icon-caret-right"></i>
-        {{/if}}
-        <i class="am-icon-angle-right"></i>
-    </li>
-    <li class="am-text-truncate {{if isset($new_aftersale_data['status']) and $new_aftersale_data['status'] elt 3 and $new_aftersale_data['status'] egt 2}} selected{{/if}} {{if isset($new_aftersale_data['status']) and $new_aftersale_data['status'] eq 2}} selected-end{{/if}}">
-        <span class="number">4</span>
-        <span class="text">管理员审核</span>
-        {{if isset($new_aftersale_data['status']) and $new_aftersale_data['status'] elt 3 and $new_aftersale_data['status'] egt 2}}
-            <i class="am-icon-caret-right"></i>
-        {{/if}}
-        <i class="am-icon-angle-right"></i>
-    </li>
-    <li class="am-text-truncate {{if isset($new_aftersale_data['status']) and $new_aftersale_data['status'] eq 3}} selected{{/if}}">
-        <span class="number">5</span>
-        <span class="text">退款完毕</span>
-    </li>
+    {{if !empty($step_data['step1'])}}
+        {{foreach $step_data.step1 as $step}}
+            <li class="am-text-truncate {{if $step.is_active eq 1}} selected{{/if}} {{if $step.is_end eq 1}} selected-end{{/if}}">
+                <span class="number">{{$step.number}}</span>
+                <span class="text">{{$step.name}}</span>
+                {{if $step.is_caret eq 1}}
+                    <i class="am-icon-caret-right"></i>
+                {{/if}}
+                {{if $step.is_angle eq 1}}
+                    <i class="am-icon-angle-right"></i>
+                {{/if}}
+            </li>
+        {{/foreach}}
+    {{/if}}
 </ul>

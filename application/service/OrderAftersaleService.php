@@ -1206,5 +1206,122 @@ class OrderAftersaleService
 
         return DataReturn('操作成功', 0, ['returned_quantity'=>$returned_quantity, 'refund_price'=>PriceNumberFormat($refund_price)]);
     }
+
+    /**
+     * 订单售后提示信息
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-10-04T13:56:35+0800
+     * @desc     description
+     * @param    [array]             $orderaftersale [订单售后数据]
+     */
+    public static function OrderAftersaleTipsMsg($orderaftersale = [])
+    {
+        $msg_all = [
+            0 => '当前订单商品售后已提交申请，等待管理员确认中！',
+            1 => '当前订单商品售后，管理员已确认，请尽快完成退货！',
+            2 => '当前订单商品售后已退货，等待管理员审核中！',
+            3 => '当前订单商品售后已处理结束！',
+            4 => '当前订单商品售后申请已被拒绝！',
+            5 => '当前订单商品售后申请已关闭！',
+        ];
+        if(isset($orderaftersale['status']) && array_key_exists($orderaftersale['status'], $msg_all))
+        {
+            // [status 待退货], [type 0仅退款 1退货退款
+            if($orderaftersale['status'] == 1 && $orderaftersale['type'] == 0)
+            {
+                $msg_all[1] = $msg_all[0];
+            }
+            return $msg_all[$orderaftersale['status']];
+        }
+        return '';
+    }
+
+    /**
+     * 订单售后进度
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-10-04T15:22:06+0800
+     * @desc     description
+     * @param    [array]             $orderaftersale [订单售后数据]
+     */
+    public static function OrderAftersaleStep($orderaftersale)
+    {
+        // 仅退款
+        $step0 = [
+            [
+                'number'    => 1,
+                'name'      => '申请仅退款',
+                'is_caret'  => 1,
+                'is_angle'  => 1,
+                'is_active' => 1,
+                'is_end'    => empty($orderaftersale) ? 1 : 0,
+            ],
+            [
+                'number'    => 2,
+                'name'      => '管理员审核',
+                'is_caret'  => (isset($orderaftersale['status']) && in_array($orderaftersale['status'], [0,1,2,3])) ? 1 : 0,
+                'is_angle'  => 1,
+                'is_active' => (isset($orderaftersale['status']) && in_array($orderaftersale['status'], [0,1,2,3])) ? 1 : 0,
+                'is_end'    => (isset($orderaftersale['status']) && $orderaftersale['status'] <= 2) ? 1 : 0,
+            ],
+            [
+                'number'    => 3,
+                'name'      => '退款完毕',
+                'is_caret'  => 0,
+                'is_angle'  => 0,
+                'is_active' => (isset($orderaftersale['status']) && $orderaftersale['status'] == 3) ? 1 : 0,
+                'is_end'    => 0,
+            ]
+        ];
+
+        // 退货退款
+        $step1 = [
+            [
+                'number'    => 1,
+                'name'      => '申请退货退款',
+                'is_caret'  => 1,
+                'is_angle'  => 1,
+                'is_active' => 1,
+                'is_end'    => empty($orderaftersale) ? 1 : 0,
+            ],
+            [
+                'number'    => 2,
+                'name'      => '管理员确认',
+                'is_caret'  => (isset($orderaftersale['status']) && in_array($orderaftersale['status'], [0,1,2])) ? 1 : 0,
+                'is_angle'  => 1,
+                'is_active' => (isset($orderaftersale['status']) && in_array($orderaftersale['status'], [0,1,2,3])) ? 1 : 0,
+                'is_end'    => (isset($orderaftersale['status']) && $orderaftersale['status'] == 0) ? 1 : 0,
+            ],
+            [
+                'number'    => 3,
+                'name'      => '用户退货',
+                'is_caret'  => (isset($orderaftersale['status']) && in_array($orderaftersale['status'], [1,2,3])) ? 1 : 0,
+                'is_angle'  => 1,
+                'is_active' => (isset($orderaftersale['status']) && in_array($orderaftersale['status'], [1,2,3])) ? 1 : 0,
+                'is_end'    => (isset($orderaftersale['status']) && $orderaftersale['status'] == 1) ? 1 : 0,
+            ],
+            [
+                'number'    => 4,
+                'name'      => '管理员审核',
+                'is_caret'  => (isset($orderaftersale['status']) && in_array($orderaftersale['status'], [2,3])) ? 1 : 0,
+                'is_angle'  => 1,
+                'is_active' => (isset($orderaftersale['status']) && in_array($orderaftersale['status'], [2,3])) ? 1 : 0,
+                'is_end'    => (isset($orderaftersale['status']) && $orderaftersale['status'] == 2) ? 1 : 0,
+            ],
+            [
+                'number'    => 5,
+                'name'      => '退款完毕',
+                'is_caret'  => 0,
+                'is_angle'  => 0,
+                'is_active' => (isset($orderaftersale['status']) && $orderaftersale['status'] == 3) ? 1 : 0,
+                'is_end'    => 0,
+            ]
+        ];
+        
+        return ['step0'=>$step0, 'step1'=>$step1];
+    }
 }
 ?>

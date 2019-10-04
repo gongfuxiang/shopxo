@@ -637,6 +637,7 @@ class OrderService
         $is_items = isset($params['is_items']) ? intval($params['is_items']) : 1;
         $is_excel_export = isset($params['is_excel_export']) ? intval($params['is_excel_export']) : 0;
         $is_orderaftersale = isset($params['is_orderaftersale']) ? intval($params['is_orderaftersale']) : 0;
+        $user_type = isset($params['user_type']) ? $params['user_type'] : 'user';
 
         // 获取订单
         $data = Db::name('Order')->where($where)->limit($m, $n)->order($order_by)->select();
@@ -780,7 +781,9 @@ class OrderService
                             // 是否获取最新一条售后信息
                             if($is_orderaftersale == 1)
                             {
-                                $vs['orderaftersale'] = Db::name('OrderAftersale')->where(['order_detail_id'=>$vs['id']])->order('id desc')->find();
+                                $orderaftersale = Db::name('OrderAftersale')->where(['order_detail_id'=>$vs['id']])->order('id desc')->find();
+                                $vs['orderaftersale'] = $orderaftersale;
+                                $vs['orderaftersale_btn_text'] = self::OrderAftersaleStatusBtnText($v['status'], $orderaftersale);
                             }
                         }
                     }
@@ -809,6 +812,39 @@ class OrderService
         }
 
         return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
+     * 订单售后操作名称
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-10-04T13:11:55+0800
+     * @desc     description
+     * @param    [int]                   $order_status   [订单状态]
+     * @param    [array]                 $orderaftersale [售后数据]
+     */
+    private static function OrderAftersaleStatusBtnText($order_status, $orderaftersale)
+    {
+        $text = '';
+        if(in_array($order_status, [2,3,4,6]))
+        {
+            if(empty($orderaftersale))
+            {
+                if(in_array($order_status, [2,3]))
+                {
+                    $text = '退款/退货';
+                } else {
+                    if($order_status == 4)
+                    {
+                        $text = '申请售后';
+                    }
+                }
+            } else {
+                $text = ($orderaftersale['status'] == 3) ? '查看退款' : '查看进度';
+            }
+        }
+        return $text;
     }
 
     /**
