@@ -20,6 +20,7 @@ Page({
     form_price: '',
     form_msg: '',
     form_number: 0,
+    form_images_list: [],
   },
 
   onLoad(params) {
@@ -127,6 +128,58 @@ Page({
     this.setData({
       form_msg: e.detail.value
     });
+  },
+
+  // 文件上传
+  file_upload_event(e) {
+    var self = this;
+    wx.chooseImage({
+      count: 3,
+      success(res) {
+        var success = 0;
+        var fail = 0;
+        var length = res.tempFilePaths.length;
+        var count = 0;
+        self.upload_one_by_one(res.tempFilePaths, success, fail, count, length);
+      }
+    });
+  },
+
+  // 采用递归的方式上传多张
+  upload_one_by_one(img_paths, success, fail, count, length) {
+    var self = this;
+    if (self.data.form_images_list.length < 3) {
+      wx.uploadFile({
+        url: app.get_request_url("index", "ueditor"),
+        filePath: img_paths[count],
+        name: 'upfile',
+        formData: {
+          action: 'uploadimage',
+        },
+        success: function (res) {
+          success++;
+          if (res.statusCode == 200) {
+            var data = (typeof (res.data) == 'object') ? res.data : JSON.parse(res.data);
+            var list = self.data.form_images_list;
+            list.push(data.data.url);
+            self.setData({ form_images_list: list });
+          }
+        },
+        fail: function (e) {
+          fail++;
+        },
+        complete: function (e) {
+          count++; // 下一张
+          if (count >= length) {
+            // 上传完毕，作一下提示
+            //app.showToast('上传成功' + success +'张', 'success');
+          } else {
+            // 递归调用，上传下一张
+            self.upload_one_by_one(img_paths, success, fail, count, length);
+          }
+        }
+      });
+    }
   },
 
   // 下拉刷新

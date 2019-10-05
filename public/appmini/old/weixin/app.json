@@ -1,7 +1,7 @@
 {
-  "pages": ["pages/user/user",
-    "pages/user-order/user-order","pages/user-orderaftersale-detail/user-orderaftersale-detail",
-    
+  "pages": ["pages/user-orderaftersale-detail/user-orderaftersale-detail",
+    "pages/user-order/user-order",
+    "pages/user/user",
     "pages/index/index",
     "pages/goods-category/goods-category",
     "pages/cart/cart",

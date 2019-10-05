@@ -11,6 +11,7 @@
 namespace app\api\controller;
 
 use app\service\UeditorService;
+use app\service\ResourcesService;
 
 /**
  * 附件上传
@@ -21,21 +22,18 @@ use app\service\UeditorService;
  */
 class Ueditor extends Common
 {
-	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 是否登录
-        $this->IsLogin();
-	}
+    /**
+     * 构造方法
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-03T12:39:08+0800
+     */
+    public function __construct()
+    {
+        // 调用父类前置方法
+        parent::__construct();
+    }
 
     /**
      * 运行入口
@@ -45,9 +43,14 @@ class Ueditor extends Common
      * @date    2019-08-06
      * @desc    description
      */
-	public function Index()
-	{
-		return DataReturn('api附件上传接口开发中', 0);
-	}
+    public function Index()
+    {
+        $ret = UeditorService::Run($this->data_post);
+        if($ret['code'] == 0 && !empty($ret['data']['url']))
+        {
+            $ret['data']['url'] = ResourcesService::AttachmentPathViewHandle($ret['data']['url']);
+        }
+        return $ret;
+    }
 }
 ?>

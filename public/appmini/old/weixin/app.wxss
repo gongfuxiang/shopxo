@@ -361,11 +361,34 @@ button[disabled].bg-primary {
 .form-gorup picker view.picker {
   border-bottom: 1px solid #eee;
   border-radius: 0;
-  height: 70rpx;
-  line-height: 70rpx;
+  width: 100%;
   padding: 0 10rpx;
 }
+.form-gorup input,
+.form-gorup picker view.picker {
+  height: 70rpx;
+  line-height: 70rpx;
+}
 .form-gorup textarea {
-  padding: 17rpx 10rpx;
+  padding: 0;
   min-height: 70rpx;
+}
+
+/**
+ * 表单图片上传
+ */
+ .form-container-upload .form-upload-data .item {
+   padding: 10rpx;
+ }
+.form-container-upload .form-upload-data image {
+  width: 200rpx;
+  height: 200rpx;
+  padding: 5rpx;
+  border: 1px solid #eee;
+}
+.form-container-upload .upload-icon {
+  margin: 10rpx 0 0 10rpx;
+  width: 210rpx;
+  height: 210rpx;
+  border: 1px dashed #eee;
 }
