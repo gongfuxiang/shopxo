@@ -662,6 +662,12 @@ class BuyService
                 return $ret;
             }
 
+            // 返回数据再次处理，防止插件处理不够完善
+            $result['base']['total_price'] = PriceNumberFormat($result['base']['total_price']);
+            $result['base']['actual_price'] = PriceNumberFormat($result['base']['actual_price']);
+            $result['base']['preferential_price'] = PriceNumberFormat($result['base']['preferential_price']);
+            $result['base']['increase_price'] = PriceNumberFormat($result['base']['increase_price']);
+
             return DataReturn('操作成功', 0, $result);
         }
 
