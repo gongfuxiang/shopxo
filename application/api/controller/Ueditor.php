@@ -33,6 +33,9 @@ class Ueditor extends Common
     {
         // 调用父类前置方法
         parent::__construct();
+
+        // 是否登录
+        $this->IsLogin();
     }
 
     /**
