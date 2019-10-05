@@ -1,1 +1,54 @@
-/* pages/user-orderaftersale-detail/user-orderaftersale-detail.wxss */
+/**
+ * 商品
+ */
+.goods-base {
+  min-height: 160rpx;
+  margin-left: 180rpx;
+}
+.goods .goods-item:not(:last-child) {
+    border-bottom: 1px dashed #efefef;
+}
+.goods-item {
+    padding: 20rpx 10rpx;
+}
+.goods-title, .goods-attribute {
+    margin-bottom: 10rpx;
+}
+.goods-image {
+    width: 160rpx;
+    height: 160rpx;
+    margin-right: 20rpx;
+}
+.goods-price {
+    position: relative;
+}
+.buy-number {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+/**
+ * 类型选择
+ */
+ .choose-type {
+   padding: 30rpx 10rpx;
+ }
+.choose-type .choose-item {
+    width: 44%;
+    border: 1px solid #eee;
+    padding: 15rpx;
+    -webkit-transition: border-color .2s ease-in;
+    -moz-transition: border-color .2s ease-in;
+    -ms-transition: border-color .2s ease-in;
+    -o-transition: border-color .2s ease-in;
+    transition: border-color .2s ease-in;
+}
+.choose-type .choose-name {
+  font-weight: bold;
+  margin-bottom: 5rpx;
+}
+.choose-type .choose-item-active {
+    border: 1px solid #d2364c;
+    box-shadow: 0px 0 0px 1px #d2364c;
+}

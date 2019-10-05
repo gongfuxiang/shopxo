@@ -335,3 +335,37 @@ button[disabled].bg-primary {
   width: 60rpx;
   height: 60rpx;
 }
+
+/**
+ * 表单
+ */
+.form-gorup {
+  padding: 30rpx 10rpx;
+}
+.form-gorup-title {
+  margin-bottom: 5rpx;
+  font-weight: 500;
+}
+.form-group-tips,
+.form-group-tips-must {
+  margin-left: 20rpx;
+  font-weight: 100;
+  font-size: 24rpx;
+  color: #ccc;
+}
+.form-group-tips-must {
+  color: #f00;
+}
+.form-gorup input,
+.form-gorup textarea,
+.form-gorup picker view.picker {
+  border-bottom: 1px solid #eee;
+  border-radius: 0;
+  height: 70rpx;
+  line-height: 70rpx;
+  padding: 0 10rpx;
+}
+.form-gorup textarea {
+  padding: 17rpx 10rpx;
+  min-height: 70rpx;
+}
