@@ -377,6 +377,9 @@ button[disabled].bg-primary {
 /**
  * 表单图片上传
  */
+ form-container-upload {
+   overflow: hidden;
+ }
  .form-container-upload .form-upload-data .item {
    padding: 10rpx;
    position: relative;

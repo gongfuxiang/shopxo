@@ -122,14 +122,6 @@ class OrderAftersaleService
                 'error_msg'         => '退款说明最多 200 个字符',
             ],
             [
-                'checked_type'      => 'length',
-                'key_name'          => 'images',
-                'data_type'         => 'array',
-                'is_checked'        => 1,
-                'checked_data'      => '3',
-                'error_msg'         => '凭证图片不能超过3张',
-            ],
-            [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
                 'error_msg'         => '用户信息有误',
@@ -203,6 +195,10 @@ class OrderAftersaleService
             foreach($params['images'] as $v)
             {
                 $images[] = ResourcesService::AttachmentPathHandle($v);
+            }
+            if(count($images) > 3)
+            {
+                return DataReturn('凭证图片不能超过3张', -1);
             }
         }
 
