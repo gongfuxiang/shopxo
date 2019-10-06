@@ -377,25 +377,22 @@ button[disabled].bg-primary {
 /**
  * 表单图片上传
  */
- form-container-upload {
-   overflow: hidden;
- }
- .form-container-upload .form-upload-data .item {
-   padding: 10rpx;
-   position: relative;
- }
- .form-container-upload .form-upload-data .delete-icon {
-    position: absolute;
-    top: 18rpx;
-    right: 18rpx;
-    color: #e5e5e5;
-    background-color: #d9534f;
-    padding: 5rpx 18rpx;
-    font-size: 30rpx;
-    border-style: solid;
-    border-width: 0 0 1px 1px;
-    border-color: #eee;
- }
+.form-container-upload .form-upload-data .item {
+  padding: 10rpx;
+  position: relative;
+}
+.form-container-upload .form-upload-data .delete-icon {
+  position: absolute;
+  top: 18rpx;
+  right: 18rpx;
+  color: #e5e5e5;
+  background-color: #d9534f;
+  padding: 5rpx 18rpx;
+  font-size: 30rpx;
+  border-style: solid;
+  border-width: 0 0 1px 1px;
+  border-color: #eee;
+}
 .form-container-upload .form-upload-data image {
   width: 200rpx;
   height: 200rpx;

@@ -120,7 +120,7 @@
         <textarea bindinput="form_msg_event" placeholder-class="cr-ccc" class="cr-666" placeholder="退款说明 5~200 个字符之间" maxlength="200" auto-height="{{true}}" value="{{form_msg}}" />
       </view>
 
-      <view class="form-gorup form-container-upload">
+      <view class="form-gorup form-container-upload oh">
         <view class="form-gorup-title">上传凭证<text class="form-group-tips">最多上传3张图片</text></view>
         <view class="form-upload-data fl">
           <block wx:if="{{form_images_list.length > 0}}">
