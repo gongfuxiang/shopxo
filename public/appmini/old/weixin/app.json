@@ -1,7 +1,8 @@
 {
-  "pages": ["pages/user-orderaftersale-detail/user-orderaftersale-detail",
-    "pages/user-order/user-order",
+  "pages": [
     "pages/user/user",
+    "pages/user-order/user-order",
+    
     "pages/index/index",
     "pages/goods-category/goods-category",
     "pages/cart/cart",
@@ -23,7 +24,8 @@
     "pages/message/message",
     "pages/user-integral/user-integral",
     "pages/user-goods-browse/user-goods-browse",
-    "pages/user-orderaftersale/user-orderaftersale"
+    "pages/user-orderaftersale/user-orderaftersale",
+    "pages/user-orderaftersale-detail/user-orderaftersale-detail"
   ],
   "window": {
     "navigationBarTitleText": "{{application_title}}",

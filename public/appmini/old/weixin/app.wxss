@@ -362,6 +362,7 @@ button[disabled].bg-primary {
   border-bottom: 1px solid #eee;
   border-radius: 0;
   width: 100%;
+  box-sizing: border-box;
   padding: 0 10rpx;
 }
 .form-gorup input,
@@ -379,12 +380,26 @@ button[disabled].bg-primary {
  */
  .form-container-upload .form-upload-data .item {
    padding: 10rpx;
+   position: relative;
+ }
+ .form-container-upload .form-upload-data .delete-icon {
+    position: absolute;
+    top: 18rpx;
+    right: 18rpx;
+    color: #e5e5e5;
+    background-color: #d9534f;
+    padding: 5rpx 18rpx;
+    font-size: 30rpx;
+    border-style: solid;
+    border-width: 0 0 1px 1px;
+    border-color: #eee;
  }
 .form-container-upload .form-upload-data image {
   width: 200rpx;
   height: 200rpx;
   padding: 5rpx;
   border: 1px solid #eee;
+  display: block;
 }
 .form-container-upload .upload-icon {
   margin: 10rpx 0 0 10rpx;

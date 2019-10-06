@@ -287,7 +287,11 @@ App({
   */
   fields_check(data, validation) {
     for (var i in validation) {
-      if ((data[validation[i]['fields']] || null) == null) {
+      var temp_value = data[validation[i]["fields"]];
+      var temp_is_can_zero = validation[i]["is_can_zero"] || null;
+
+      if ((temp_value == undefined || temp_value.length == 0 || temp_value == -1) || (temp_is_can_zero == null && temp_value == 0)
+      ) {
         this.showToast(validation[i]['msg']);
         return false;
       }

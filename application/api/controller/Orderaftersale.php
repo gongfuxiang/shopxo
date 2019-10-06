@@ -137,6 +137,7 @@ class Orderaftersale extends Common
                 'return_only_money_reason'  => empty($return_only_money_reason) ? [] : explode("\n", $return_only_money_reason),
                 'return_money_goods_reason' => empty($return_money_goods_reason) ? [] : explode("\n", $return_money_goods_reason),
                 'aftersale_type_list'       => lang('common_order_aftersale_type_list'),
+                'return_goods_address'      => MyC('home_order_aftersale_return_goods_address', '管理员未填写', true),
             ];
             return DataReturn('success', 0, $result);
         }

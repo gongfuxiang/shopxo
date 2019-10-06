@@ -118,8 +118,8 @@ class OrderAftersaleService
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'msg',
-                'checked_data'      => '5,200',
-                'error_msg'         => '退款说明 5~200 个字符之间',
+                'checked_data'      => '200',
+                'error_msg'         => '退款说明最多 200 个字符',
             ],
             [
                 'checked_type'      => 'length',
@@ -194,8 +194,12 @@ class OrderAftersaleService
 
         // 附件处理
         $images = [];
-        if(!empty($params['images']) && is_array($params['images']))
+        if(!empty($params['images']))
         {
+            if(!is_array($params['images']))
+            {
+                $params['images'] = json_decode(htmlspecialchars_decode($params['images']), true);
+            }
             foreach($params['images'] as $v)
             {
                 $images[] = ResourcesService::AttachmentPathHandle($v);
@@ -227,7 +231,7 @@ class OrderAftersaleService
     }
 
     /**
-     * 
+     * 用户退货
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
