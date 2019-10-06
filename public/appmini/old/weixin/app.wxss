@@ -383,8 +383,8 @@ button[disabled].bg-primary {
 }
 .form-container-upload .form-upload-data .delete-icon {
   position: absolute;
-  top: 18rpx;
-  right: 18rpx;
+  top: 15rpx;
+  right: 15rpx;
   color: #e5e5e5;
   background-color: #d9534f;
   padding: 5rpx 18rpx;

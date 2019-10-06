@@ -365,6 +365,7 @@ Page({
           if (res.data.code == 0) {
             app.showToast(res.data.msg, "success");
             setTimeout(function () {
+              self.setData({ form_button_disabled: false });
               self.init();
             }, 1000);
           } else {
@@ -423,6 +424,7 @@ Page({
           if (res.data.code == 0) {
             app.showToast(res.data.msg, "success");
             setTimeout(function () {
+              self.setData({ form_button_disabled: false });
               self.init();
             }, 1000);
           } else {
