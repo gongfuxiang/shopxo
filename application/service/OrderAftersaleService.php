@@ -158,7 +158,7 @@ class OrderAftersaleService
         $count = (int) Db::name('OrderAftersale')->where($where)->count();
         if($count > 0)
         {
-            return DataReturn('当前订单商品售后正在进行中，请勿重复申请', -1);
+            return DataReturn('订单售后正在进行中，请勿重复申请', -1);
         }
 
         // 获取历史申请售后条件
@@ -1223,12 +1223,12 @@ class OrderAftersaleService
     public static function OrderAftersaleTipsMsg($orderaftersale = [])
     {
         $msg_all = [
-            0 => '当前订单商品售后已提交申请，等待管理员确认中！',
-            1 => '当前订单商品售后，管理员已确认，请尽快完成退货！',
-            2 => '当前订单商品售后已退货，等待管理员审核中！',
-            3 => '当前订单商品售后已处理结束！',
-            4 => '当前订单商品售后申请已被拒绝！',
-            5 => '当前订单商品售后申请已关闭！',
+            0 => '订单售后已提交申请，等待管理员确认中！',
+            1 => '订单售后，管理员已确认，请尽快完成退货！',
+            2 => '订单售后已退货，等待管理员审核中！',
+            3 => '订单售后已处理结束！',
+            4 => '订单售后申请已被拒绝！',
+            5 => '订单售后申请已关闭！',
         ];
         if(isset($orderaftersale['status']) && array_key_exists($orderaftersale['status'], $msg_all))
         {

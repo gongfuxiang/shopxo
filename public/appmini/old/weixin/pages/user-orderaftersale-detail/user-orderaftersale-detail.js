@@ -320,7 +320,7 @@ Page({
       number: (this.data.form_type == 0) ? 0 : this.data.form_number,
       price: this.data.form_price,
       msg: this.data.form_msg,
-      images: JSON.stringify(this.data.form_images_list),
+      images: (this.data.form_images_list.length > 0) ? JSON.stringify(this.data.form_images_list) : '',
     }
 
     // 防止金额大于计算的金额
