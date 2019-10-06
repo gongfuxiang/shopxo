@@ -287,9 +287,13 @@ Page({
           success++;
           if (res.statusCode == 200) {
             var data = (typeof (res.data) == 'object') ? res.data : JSON.parse(res.data);
-            var list = self.data.form_images_list;
-            list.push(data.data.url);
-            self.setData({ form_images_list: list });
+            if (data.code == 0 && (data.data.url || null) != null) {
+              var list = self.data.form_images_list;
+              list.push(data.data.url);
+              self.setData({ form_images_list: list });
+            } else {
+              app.showToast(data.msg);
+            }
           }
         },
         fail: function (e) {

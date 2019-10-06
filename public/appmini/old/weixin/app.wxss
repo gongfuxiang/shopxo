@@ -349,7 +349,6 @@ button[disabled].bg-primary {
 .form-group-tips,
 .form-group-tips-must {
   margin-left: 20rpx;
-  font-weight: 100;
   font-size: 24rpx;
   color: #ccc;
 }
@@ -405,5 +404,5 @@ button[disabled].bg-primary {
   margin: 10rpx 0 0 10rpx;
   width: 210rpx;
   height: 210rpx;
-  border: 1px dashed #eee;
+  border: 1px dashed #e9e9e9;
 }
