@@ -1,11 +1,9 @@
 {
-  "pages": [
-    "pages/user/user",
-    "pages/user-order/user-order",
-    
+  "pages": [    
     "pages/index/index",
     "pages/goods-category/goods-category",
     "pages/cart/cart",
+    "pages/user/user",
     "pages/web-view/web-view",
     "pages/login/login",
     "pages/paytips/paytips",
@@ -16,6 +14,7 @@
     "pages/buy/buy",
     "pages/user-address/user-address",
     "pages/user-address-save/user-address-save",
+    "pages/user-order/user-order",
     "pages/user-order-detail/user-order-detail",
     "pages/user-faovr/user-faovr",
     "pages/user-answer-list/user-answer-list",

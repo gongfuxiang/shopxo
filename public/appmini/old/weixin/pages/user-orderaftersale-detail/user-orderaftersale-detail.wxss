@@ -125,7 +125,7 @@
 }
 .panel-item .panel-title,
 .panel-item .panel-content {
-  padding: 10rpx;
+  padding: 15rpx;
 }
 .panel-item .panel-value {
   padding: 10rpx 0;

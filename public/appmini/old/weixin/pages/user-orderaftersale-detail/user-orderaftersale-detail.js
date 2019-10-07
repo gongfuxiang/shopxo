@@ -111,7 +111,10 @@ Page({
   },
 
   onLoad(params) {
-    this.setData({ params: params });
+    this.setData({
+      params: params,
+      popup_delivery_status: ((params.is_delivery_popup || 0) == 1),
+    });
     this.init();
   },
 

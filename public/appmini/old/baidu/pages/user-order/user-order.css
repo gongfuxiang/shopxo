@@ -47,7 +47,7 @@
     bottom: 0;
 }
 .item-base, .item-describe, .item-operation {
-    padding: 25rpx 10rpx 10rpx 10rpx;
+    padding: 20rpx 10rpx 20rpx 10rpx;
 }
 .submit-cancel {
     border: 1px solid #f7c3b3;

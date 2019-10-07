@@ -57,7 +57,7 @@ class Orderaftersale extends Common
         $page = max(1, isset($this->data_post['page']) ? intval($this->data_post['page']) : 1);
 
         // 条件
-        $where = OrderService::OrderListWhere($params);
+        $where = OrderAftersaleService::OrderAftersaleListWhere($params);
 
         // 获取总数
         $total = OrderAftersaleService::OrderAftersaleTotal($where);
@@ -78,7 +78,6 @@ class Orderaftersale extends Common
             'total'                     => $total,
             'page_total'                => $page_total,
             'data'                      => $data['data'],
-            'aftersale_type_list'       => lang('common_order_aftersale_type_list'),
         ];
         return DataReturn('success', 0, $result);
     }
