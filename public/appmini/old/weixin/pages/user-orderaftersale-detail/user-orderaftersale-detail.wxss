@@ -122,11 +122,23 @@
 .panel-item .panel-title {
   background: #eee;
   font-weight: bold;
-}
-.panel-item .panel-title,
-.panel-item .panel-content {
   padding: 15rpx;
 }
-.panel-item .panel-value {
-  padding: 10rpx 0;
+.panel-item .panel-content .item {
+    padding: 20rpx 0;
+}
+.panel-item .panel-content .item:last-child {
+  border: 0;
+}
+.panel-item .panel-content .item .title {
+    width: 25%;
+    padding-left: 20rpx;
+}
+.panel-item .panel-content .item .content {
+    width: calc(75% - 50rpx);
+    padding-left: 20rpx;
+    min-height: 46rpx;
+}
+.panel-item .panel-content .item view {
+    line-height: 46rpx;
 }

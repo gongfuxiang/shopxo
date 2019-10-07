@@ -33,8 +33,8 @@
 
   <view wx:if="{{detail_list.length > 0}}" class="detail-list bg-white">
     <view wx:for="{{detail_list}}" wx:key="item" class="item br-b oh">
-      <view class="title fl br-r">{{item.name}}</view>
-      <view class="content cr-888 fl">{{item.value}}</view>
+      <view class="title fl">{{item.name}}</view>
+      <view class="content cr-888 fl br-l">{{item.value}}</view>
     </view>
   </view>
 

@@ -51,6 +51,9 @@
     bottom: 0;
 }
 
+/*
+ * 基础信息
+ */
 .detail-list {
     padding: 0 10rpx;
 }
@@ -59,10 +62,12 @@
 }
 .detail-list .item .title {
     width: 25%;
+    padding-left: 20rpx;
 }
 .detail-list .item .content {
-    width: calc(75% - 30rpx);
-    margin-left: 20rpx;
+    width: calc(75% - 50rpx);
+    padding-left: 20rpx;
+    min-height: 46rpx;
 }
 .detail-list .item view {
     line-height: 46rpx;
