@@ -98,7 +98,11 @@ class UeditorService
                 return DataReturn('callback参数不合法', -1);
             }
         }
-        return DataReturn('操作成功', 0, self::$current_result);
+        if(self::$current_result['state'] == 'SUCCESS')
+        {
+            return DataReturn('操作成功', 0, self::$current_result);
+        }
+        return DataReturn(self::$current_result['state'], -1);
     }
 
     /**

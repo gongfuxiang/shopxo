@@ -192,6 +192,13 @@ class Uploader
             return;
         }
 
+        // 防止原名称没有带后缀
+        if(stripos($file['name'], '.') === false)
+        {
+            $info = getimagesize($file['tmp_name']);
+            $file['name'] .= str_replace('/', '.', $info['mime']);
+        }
+
         $this->oriName = $file['name'];
         $this->fileSize = $file['size'];
         $this->fileType = $this->getFileExt();

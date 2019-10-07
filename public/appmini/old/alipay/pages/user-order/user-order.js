@@ -420,4 +420,23 @@ Page({
     });
     this.get_data_list(1);
   },
+
+  // 售后订单事件
+  orderaftersale_event(e) {
+    var oid = e.target.dataset.oid || 0;
+    var did = e.target.dataset.did || 0;
+    if(oid == 0 || did == 0)
+    {
+      my.showToast({
+        type: "fail",
+        content: "参数有误"
+      });
+      return false;
+    }
+    
+    // 进入售后页面
+    my.navigateTo({
+      url: "/pages/user-orderaftersale-detail/user-orderaftersale-detail?oid=" + oid+"&did="+did
+    });
+  },
 });

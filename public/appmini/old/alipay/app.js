@@ -57,6 +57,8 @@ App({
       "user_integral": "我的积分",
       "user_goods_browse": "我的足迹",
       "goods_comment": "商品评论",
+      "user_orderaftersale": "退款/售后",
+      "user_orderaftersale_detail": "订单售后",
     },
 
     // 请求地址

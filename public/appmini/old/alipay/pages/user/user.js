@@ -13,10 +13,11 @@ Page({
       { name: "我的积分", url: "user-integral", count: 0 },
     ],
     user_order_status_list: [
-      { name: "待付款", status: 1, count: 0 },
-      { name: "待发货", status: 2, count: 0 },
-      { name: "待收货", status: 3, count: 0 },
-      { name: "已完成", status: 4, count: 0 },
+      { name: "待付款", status: 1, count: 0, url: "/pages/user-order/user-order?status=1" },
+      { name: "待发货", status: 2, count: 0, url: "/pages/user-order/user-order?status=2" },
+      { name: "待收货", status: 3, count: 0, url: "/pages/user-order/user-order?status=3" },
+      { name: "已完成", status: 4, count: 0, url: "/pages/user-order/user-order?status=4" },
+      { name: "退款/售后", status: 101, count: 0, url: "/pages/user-orderaftersale/user-orderaftersale" },
     ],
     nav_lists: [
       {

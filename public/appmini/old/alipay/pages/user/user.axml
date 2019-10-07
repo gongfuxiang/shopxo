@@ -38,7 +38,7 @@
     </view>
     <view a:if="{{item.url == 'user-order' && user_order_status_list.length > 0}}" class="items-list br-b oh">
       <block a:for="{{user_order_status_list}}" a:for-item="items">
-        <navigator url="/pages/{{item.url}}/{{item.url}}?status={{items.status}}" hover-class="none">
+        <navigator url="{{items.url}}" hover-class="none">
           <view class="items fl tc">
             <badge a:if="{{items.count > 0}}" text="{{items.count}}" dot="{{false}}"></badge>
             <image src="/images/user-index-nav-order-icon-{{items.status}}.png" class="items-icon" mode="aspectFill" />

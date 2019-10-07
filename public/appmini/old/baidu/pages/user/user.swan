@@ -36,7 +36,7 @@
     </navigator>
     <view s-if="item.url == 'user-order' && user_order_status_list.length > 0" class="items-list br-b oh">
       <block s-for="items, index in user_order_status_list" s-key="key">
-        <navigator url="/pages/{{item.url}}/{{item.url}}?status={{items.status}}" hover-class="none">
+        <navigator url="{{items.url}}" hover-class="none">
           <view class="items fl tc">
             <view class="badge-icon">
               <component-badge number="{{items.count}}"></component-badge>

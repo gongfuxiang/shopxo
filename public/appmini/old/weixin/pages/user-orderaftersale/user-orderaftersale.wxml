@@ -35,9 +35,9 @@
       </view>
       <view class="item-describe">
         <text class="cr-666">{{item.type_text}}</text>
-        <text class="cr-ccc"> / </text>
+        <text class="cr-ccc ds">/</text>
         <text class="cr-666">{{item.reason}}</text>
-        <text wx:if="{{item.price > 0}}" class="cr-ccc"> / </text>
+        <text wx:if="{{item.price > 0}}" class="cr-ccc ds">/</text>
         <text wx:if="{{item.price > 0}}" class="sales-price">￥{{item.price}}</text>
         <text wx:if="{{item.number > 0}}" class="cr-main"> x{{item.number}}</text>
       </view>

@@ -19,6 +19,7 @@
 .goods-base {
   min-height: 160rpx;
   margin-left: 180rpx;
+  position: relative;
 }
 .goods-title {
     line-height: 36rpx;
@@ -58,6 +59,12 @@
 }
 .item-operation button {
     padding: 0 35rpx;
+}
+.orderaftersale-btn-text {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: #4d7fa7;
 }
 
 /**
