@@ -10,7 +10,7 @@ Page({
     data_list: [],
     data_page_total: 0,
     data_page: 1,
-    input_keyword_value: '',
+    form_keyword_value: '',
 
     // 导航
     // 状态（0待确认, 1待退货, 2待审核, 3已完成, 4已拒绝, 5已取消）
@@ -40,6 +40,7 @@ Page({
 
     this.setData({
       params: params,
+      form_keyword_value: params.keywords || '',
       nav_status_index: nav_status_index,
     });
     this.init();
@@ -86,7 +87,7 @@ Page({
       method: "POST",
       data: {
         page: this.data.data_page,
-        keywords: this.data.input_keyword_value || "",
+        keywords: this.data.form_keyword_value || "",
         status: status,
         is_more: 1,
       },
@@ -174,7 +175,7 @@ Page({
 
   // 输入框事件
   input_event(e) {
-    this.setData({ input_keyword_value: e.detail.value });
+    this.setData({ form_keyword_value: e.detail.value });
   },
 
   // 取消
@@ -238,7 +239,10 @@ Page({
 
   // 下拉刷新
   onPullDownRefresh() {
-    this.init();
+    this.setData({
+      data_page: 1
+    });
+    this.get_data_list(1);
   },
 
 });

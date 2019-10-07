@@ -18,12 +18,13 @@ ul.user-base-icon{background: rgba(0,0,0,0.1); position: absolute;}
 .order-nav .icon-tips, .order-base a{color: #888;}
 .order-nav .icon-tips i{padding-left: 5px;}
 ul.order-base{margin-bottom: 10px; border-bottom: 1px solid #f1f1f1; padding: 13px 0 5px 0;}
-ul.order-base li{float: left; width: 25%; text-align: center; position: relative;}
+ul.order-base li{float: left; width: 20%; text-align: center; position: relative;}
 ul.order-base li i{width: 20px; height: 20px; background-repeat: no-repeat; display: inline-block; vertical-align: bottom; opacity: 0.5; background-size: cover; margin-bottom: 2px;}
 ul.order-base i.icon-1{background-image: url(../images/user-index-nav-order-icon-1.png);}
 ul.order-base i.icon-2{background-image: url(../images/user-index-nav-order-icon-2.png);}
 ul.order-base i.icon-3{background-image: url(../images/user-index-nav-order-icon-3.png);}
 ul.order-base i.icon-100{background-image: url(../images/user-index-nav-order-icon-100.png);}
+ul.order-base i.icon-101{background-image: url(../images/user-index-nav-order-icon-101.png);}
 ul.order-base li span.am-badge{position: absolute; top: -7px; left: 55%;}
 
 /**

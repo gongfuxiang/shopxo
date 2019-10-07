@@ -125,6 +125,16 @@
                                     {{/if}}
                                 </a>
                             </li>
+                        {{elseif in_array($v['status'], [101]) /}}
+                            <li>
+                                <a href="{{:MyUrl('index/orderaftersale/index')}}">
+                                    <i class="icon-{{$v.status}}"></i>
+                                    <p>{{$v.name}}</p>
+                                    {{if !empty($v.count)}}
+                                        <span class="am-badge am-badge-danger am-round">{{$v.count}}</span>
+                                    {{/if}}
+                                </a>
+                            </li>
                         {{/if}}
                     {{/foreach}}
                 </ul>

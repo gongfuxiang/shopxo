@@ -91,7 +91,7 @@ class User extends Common
         $this->assign('user_goods_browse_count', GoodsService::GoodsBrowseTotal($where));
 
         // 用户订单状态
-        $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
+        $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1, 'is_aftersale'=>1]);
         $this->assign('user_order_status', $user_order_status['data']);
 
         // 未读消息总数

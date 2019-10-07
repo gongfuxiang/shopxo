@@ -1385,7 +1385,7 @@ class OrderService
             }
         }
 
-        // 待评价状态站位100
+        // 待评价 状态站位100
         if(isset($params['is_comments']) && $params['is_comments'] == 1)
         {
             switch($user_type)
@@ -1405,6 +1405,23 @@ class OrderService
                 'name'      => '待评价',
                 'status'    => 100,
                 'count'     => (int) Db::name('Order')->where($where)->count(),
+            ];
+        }
+
+        // 退款/售后 状态站位101
+        if(isset($params['is_aftersale']) && $params['is_aftersale'] == 1)
+        {
+            $where = [
+                ['status', '<=', 2],
+            ];
+            if($user_type == 'user' && !empty($params['user']))
+            {
+                $where[] = ['user_id', '=', $params['user']['id']];
+            }
+            $result[] = [
+                'name'      => '退款/售后',
+                'status'    => 101,
+                'count'     => (int) Db::name('OrderAftersale')->where($where)->count(),
             ];
         }
             

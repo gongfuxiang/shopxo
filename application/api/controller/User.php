@@ -271,7 +271,7 @@ class User extends Common
         $common_message_total = ($common_message_total > 99) ? '99+' : $common_message_total;
 
         // 用户订单状态
-        $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
+        $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1, 'is_aftersale'=>1]);
 
         // 初始化数据
         $result = array(

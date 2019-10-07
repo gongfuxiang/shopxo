@@ -454,7 +454,9 @@ Page({
 
   // 查看售后数据
   show_aftersale_event(e) {
-    console.log(1);
+    wx.navigateTo({
+      url: "/pages/user-orderaftersale/user-orderaftersale?keywords=" + this.data.new_aftersale_data.order_no
+    });
   },
 
   // 下拉刷新
