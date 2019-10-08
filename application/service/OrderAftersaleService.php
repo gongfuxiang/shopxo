@@ -1257,7 +1257,7 @@ class OrderAftersaleService
                 'is_caret'  => 1,
                 'is_angle'  => 1,
                 'is_active' => 1,
-                'is_end'    => empty($orderaftersale) ? 1 : 0,
+                'is_end'    => (empty($orderaftersale) || $orderaftersale['status'] > 3) ? 1 : 0,
             ],
             [
                 'number'    => 2,
@@ -1285,7 +1285,7 @@ class OrderAftersaleService
                 'is_caret'  => 1,
                 'is_angle'  => 1,
                 'is_active' => 1,
-                'is_end'    => empty($orderaftersale) ? 1 : 0,
+                'is_end'    => (empty($orderaftersale) || $orderaftersale['status'] > 3) ? 1 : 0,
             ],
             [
                 'number'    => 2,
