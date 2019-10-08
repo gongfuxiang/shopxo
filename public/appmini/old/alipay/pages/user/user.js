@@ -49,6 +49,7 @@ Page({
           confirmButtonText: '确认',
           cancelButtonText: '暂不',
           success: (result) => {
+            my.stopPullDownRefresh();
             if(result.confirm) {
               my.navigateTo({
                 url: "/pages/login/login?event_callback=init"
@@ -58,7 +59,6 @@ Page({
               avatar: user.avatar || app.data.default_user_head_src,
               nickname: user.user_name_view || '用户名',
             });
-            my.stopPullDownRefresh();
           },
         });
       } else {

@@ -44,8 +44,7 @@
       <view wx:if="{{item.status <= 2 || item.status == 4}}" class="item-operation tr br-t">
         <button wx:if="{{item.status != 3 && item.status != 5}}" class="submit-cancel" type="default" size="mini" bindtap="cancel_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">取消
         </button>
-        <button wx:if="{{item.status == 1 && item.type == 1}}" class="submit-pay cr-666 br" type="default" size="mini" bindtap="delivery_event" data-oid="{{item.order_id}}" data-did="{{item.order_detail_id}}" data-index="{{index}}" hover-class="none">退货
-        </button>
+        <button wx:if="{{item.status == 1 && item.type == 1}}" class="submit-pay cr-666 br" type="default" size="mini" bindtap="delivery_event" data-oid="{{item.order_id}}" data-did="{{item.order_detail_id}}" data-index="{{index}}" hover-class="none">退货</button>
       </view>
     </view>
 

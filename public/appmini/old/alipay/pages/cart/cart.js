@@ -27,16 +27,16 @@ Page({
           confirmButtonText: '确认',
           cancelButtonText: '暂不',
           success: (result) => {
+            my.stopPullDownRefresh();
             if (result.confirm) {
               my.navigateTo({
                 url: "/pages/login/login?event_callback=init"
               });
             } else {
-              my.stopPullDownRefresh();
               this.setData({
                 data_list_loding_status: 0,
                 data_bottom_line_status: false,
-                data_list_loding_msg: '请先' + msg,
+                data_list_loding_msg: '请先绑定手机号码',
               });
             }
           },

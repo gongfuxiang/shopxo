@@ -50,6 +50,7 @@ Page({
         confirmText: '确认',
         cancelText: '暂不',
         success: (result) => {
+          wx.stopPullDownRefresh();
           if(result.confirm) {
             wx.navigateTo({
               url: "/pages/login/login?event_callback=init"
@@ -59,7 +60,6 @@ Page({
             avatar: user.avatar || app.data.default_user_head_src,
             nickname: user.user_name_view || '用户名',
           });
-          wx.stopPullDownRefresh();
         },
       });
     } else {

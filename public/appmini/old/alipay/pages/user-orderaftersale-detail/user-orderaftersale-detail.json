@@ -1,0 +1,6 @@
+{
+  "pullRefresh": true,
+  "usingComponents": {
+    "popup": "mini-antui/es/popup/index"
+  }
+}

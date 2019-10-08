@@ -95,7 +95,14 @@ class User extends Common
         $result = (new \base\AlipayAuth())->GetAuthCode(MyC('common_app_mini_alipay_appid'), $this->data_post['authcode']);
         if($result['status'] == 0)
         {
-            return DataReturn('授权登录成功', 0, $result['data']['user_id']);
+            // 先从数据库获取用户信息
+            $user = UserService::AppUserInfoHandle(null, 'alipay_openid', $result['data']['user_id']);
+            if(empty($user))
+            {
+                return DataReturn('授权登录成功', 0, ['is_alipay_user_exist'=>0, 'openid'=>$result['data']['user_id']]);
+            }
+            $user['is_alipay_user_exist'] = 1;
+            return DataReturn('授权成功', 0, $user);
         }
         return DataReturn($result['msg'], -100);
     }

@@ -22,10 +22,12 @@
     "pages/answer-form/answer-form",
     "pages/message/message",
     "pages/user-integral/user-integral",
-    "pages/user-goods-browse/user-goods-browse"
+    "pages/user-goods-browse/user-goods-browse",
+    "pages/user-orderaftersale/user-orderaftersale",
+    "pages/user-orderaftersale-detail/user-orderaftersale-detail"
   ],
   "window": {
-    "defaultTitle": "{{application_title}}",
+    "defaultTitle": "test",
     "titleBarColor": "#d2364c"
   },
   "tabBar": {

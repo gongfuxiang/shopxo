@@ -63,8 +63,8 @@ App({
 
     // 请求地址
     request_url: "{{request_url}}",
-    // request_url: 'http://tp5-dev.com/',
-    // request_url: 'http://test.shopxo.net/',
+     request_url: 'http://tp5-dev.com/',
+     request_url: 'http://test.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -197,7 +197,7 @@ App({
     var user = this.get_user_cache_info();
     if (user == false) {
       // 唤醒用户授权
-      this.user_login();
+      this.user_login(object, method);
 
       return false;
     } else {
@@ -218,8 +218,10 @@ App({
 
   /**
    * 用户授权
+   * object     回调操作对象
+   * method     回调操作对象的函数
    */
-  user_login() {
+  user_login(object, method) {
     var openid = my.getStorageSync({key: this.data.cache_user_login_key});
     if ((openid.data || null) == null)
     {
@@ -241,12 +243,32 @@ App({
               success: res => {
                 my.hideLoading();
                 if (res.data.code == 0) {
-                  my.setStorageSync({
-                    key: $this.data.cache_user_login_key,
-                    data: res.data.data
-                  });
-                  
-                  $this.login_to_auth();
+                  var data = res.data.data;
+                  if((data.is_alipay_user_exist || 0) == 1)
+                  {
+                    my.setStorage({
+                      key: $this.data.cache_user_info_key,
+                      data: data,
+                      success: (res) => {
+                        if (typeof object === 'object' && (method || null) != null) {
+                          object[method]();
+                        }
+                      },
+                      fail: () => {
+                        my.showToast({
+                          type: "fail",
+                          content: "用户信息缓存失败",
+                          duration: 3000
+                        });
+                      }
+                    });
+                  } else {
+                    my.setStorageSync({
+                      key: $this.data.cache_user_login_key,
+                      data: res.data.data.openid
+                    });
+                    $this.login_to_auth();
+                  }
                 } else {
                   my.showToast({
                     type: "fail",
@@ -309,7 +331,7 @@ App({
     var openid = my.getStorageSync({key: this.data.cache_user_login_key});
     if ((openid.data || null) == null)
     {
-      this.user_login();
+      this.user_login(object, method);
     } else {
       this.get_user_login_info(object, method, openid.data, auth_data);
     }
