@@ -8,6 +8,7 @@ Page({
     popup_delivery_status: false,
 
     // 接口数据
+    editor_path_type: '',
     order_data: null,
     new_aftersale_data: null,
     step_data: null,
@@ -127,6 +128,7 @@ Page({
             data_bottom_line_status: true,
             data_list_loding_msg: '',
 
+            editor_path_type: data.editor_path_type || '',
             order_data: data.order_data || null,
             new_aftersale_data: (data.new_aftersale_data || null) == null || data.new_aftersale_data.length <= 0 ? null : data.new_aftersale_data,
             step_data: data.step_data || null,
@@ -264,7 +266,8 @@ Page({
         filePath: img_paths[count],
         name: 'upfile',
         formData: {
-          action: 'uploadimage'
+          action: 'uploadimage',
+          path_type: self.data.editor_path_type
         },
         success: function (res) {
           success++;

@@ -48,7 +48,7 @@ class Ueditor extends Common
      */
     public function Index()
     {
-        $ret = UeditorService::Run($this->data_post);
+        $ret = UeditorService::Run($this->data_request);
         if($ret['code'] == 0 && !empty($ret['data']['url']))
         {
             $ret['data']['url'] = ResourcesService::AttachmentPathViewHandle($ret['data']['url']);

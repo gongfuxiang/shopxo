@@ -24,11 +24,12 @@
  */
 function PathToParams($key = null, $default = null, $path = '')
 {
+    $data = $_REQUEST;
     if(empty($path) && isset($_REQUEST['s']))
     {
         $path = $_REQUEST['s'];
     }
-    if(!empty($path))
+    if(!empty($path) && !array_key_exists($key, $data))
     {
         if(substr($path, 0, 1) == '/')
         {
@@ -41,7 +42,7 @@ function PathToParams($key = null, $default = null, $path = '')
         }
         $arr = explode('/', $path);
 
-        $data = [];
+        
         $index = 0;
         foreach($arr as $k=>$v)
         {
@@ -51,13 +52,13 @@ function PathToParams($key = null, $default = null, $path = '')
                 $index = $k;
             }
         }
-        if($key !== null)
-        {
-            return array_key_exists($key, $data) ? $data[$key] : $default;
-        }
-        return $data;
     }
-    return null;
+    
+    if($key !== null)
+    {
+        return array_key_exists($key, $data) ? $data[$key] : $default;
+    }
+    return $data;
 }
 
 /**

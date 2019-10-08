@@ -12,7 +12,12 @@
 // +----------------------------------------------------------------------
 // | 百度编辑器配置信息
 // +----------------------------------------------------------------------
+// path_type指定的路径值
 $config_path_type = PathToParams('path_type', 'other');
+
+// 上传指定路径值 - 符号换成目录分隔符
+$upload_path = str_replace('-', '/', $config_path_type);
+
 return [
       // 上传图片配置项
       // 执行上传图片的action名称
@@ -40,7 +45,7 @@ return [
       'imageUrlPrefix'            =>  '',
 
       // 上传保存路径,可以自定义保存路径和文件名格式 
-      'imagePathFormat'           =>  __MY_ROOT_PUBLIC__.'static/upload/images/'.$config_path_type.'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
+      'imagePathFormat'           =>  __MY_ROOT_PUBLIC__.'static/upload/images/'.$upload_path.'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
 
 
       // 涂鸦图片上传配置项
@@ -51,7 +56,7 @@ return [
       'scrawlFieldName'       =>  'upfile',
 
       // 上传保存路径,可以自定义保存路径和文件名格式
-      'scrawlPathFormat'      =>  __MY_ROOT_PUBLIC__.'static/upload/images/'.$config_path_type.'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
+      'scrawlPathFormat'      =>  __MY_ROOT_PUBLIC__.'static/upload/images/'.$upload_path.'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
 
       // 上传大小限制，单位B
       'scrawlMaxSize'         =>  MyC('home_max_limit_image', 2048000, true),
@@ -71,7 +76,7 @@ return [
       'snapscreenActionName'  =>  'uploadimage',
 
       // 上传保存路径,可以自定义保存路径和文件名格式
-      'snapscreenPathFormat'  =>  __MY_ROOT_PUBLIC__.'static/upload/images/'.$config_path_type.'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
+      'snapscreenPathFormat'  =>  __MY_ROOT_PUBLIC__.'static/upload/images/'.$upload_path.'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
 
       // 图片访问路径前缀
       'snapscreenUrlPrefix'   =>  '',
@@ -91,7 +96,7 @@ return [
       'catcherFieldName'      =>  'source',
 
       // 上传保存路径,可以自定义保存路径和文件名格式
-      'catcherPathFormat'     =>  __MY_ROOT_PUBLIC__.'static/upload/images/'.$config_path_type.'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
+      'catcherPathFormat'     =>  __MY_ROOT_PUBLIC__.'static/upload/images/'.$upload_path.'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
 
       // 图片访问路径前缀
       'catcherUrlPrefix'      =>  '',
@@ -111,7 +116,7 @@ return [
       'videoFieldName'        =>  'upfile',
 
       // 上传保存路径,可以自定义保存路径和文件名格式
-      'videoPathFormat'       =>  __MY_ROOT_PUBLIC__.'static/upload/video/'.$config_path_type.'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
+      'videoPathFormat'       =>  __MY_ROOT_PUBLIC__.'static/upload/video/'.$upload_path.'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
 
       // 视频访问路径前缀
       'videoUrlPrefix'        =>  '',
@@ -131,7 +136,7 @@ return [
       'fileFieldName'         =>  'upfile',
 
       // 上传保存路径,可以自定义保存路径和文件名格式
-      'filePathFormat'        =>  __MY_ROOT_PUBLIC__.'static/upload/file/'.$config_path_type.'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
+      'filePathFormat'        =>  __MY_ROOT_PUBLIC__.'static/upload/file/'.$upload_path.'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
 
       // 文件访问路径前缀
       'fileUrlPrefix'         =>  '',
