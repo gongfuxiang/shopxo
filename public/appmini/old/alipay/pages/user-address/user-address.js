@@ -86,10 +86,7 @@ Page({
             data_list_loding_status: 0
           });
 
-          my.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg, 'success');
         }
       },
       fail: () => {
@@ -99,10 +96,7 @@ Page({
         this.setData({
           data_list_loding_status: 2
         });
-        my.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast('服务器请求出错');
       }
     });
   },
@@ -118,10 +112,7 @@ Page({
     var value = e.currentTarget.dataset.value || null;
     if(value == null)
     {
-      my.showToast({
-        type: "fail",
-        content: '地址ID有误'
-      });
+      app.showToast('地址ID有误');
       return false;
     }
 
@@ -154,11 +145,7 @@ Page({
                   data_list_loding_status: temp_data.length == 0 ? 0 : 3,
                   data_bottom_line_status: temp_data.length == 0 ? false : true,
                 });
-
-                my.showToast({
-                  type: "success",
-                  content: res.data.msg
-                });
+                app.showToast(res.data.msg, 'success');
 
                 // 当前删除是否存在缓存中，存在则删除
                 var cache_address = my.getStorageSync({
@@ -172,19 +159,12 @@ Page({
                 }
                 
               } else {
-                my.showToast({
-                  type: "fail",
-                  content: res.data.msg
-                });
+                app.showToast(res.data.msg);
               }
             },
             fail: () => {
               my.hideLoading();
-
-              my.showToast({
-                type: "fail",
-                content: "服务器请求出错"
-              });
+              app.showToast('服务器请求出错');
             }
           });
         }
@@ -197,20 +177,14 @@ Page({
     var value = e.currentTarget.dataset.value || null;
     if(value == null)
     {
-      my.showToast({
-        type: "fail",
-        content: '地址ID有误'
-      });
+      app.showToast('地址ID有误');
       return false;
     }
 
     var self = this;
     if(value == self.data.is_default)
     {
-      my.showToast({
-          type: "success",
-          content: '设置成功'
-        });
+      app.showToast('设置成功', 'success');
       return false;
     }
     
@@ -229,25 +203,14 @@ Page({
         if (res.data.code == 0)
         {
           self.setData({is_default: value});
-
-          my.showToast({
-            type: "success",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg, 'success');
         } else {
-          my.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
         my.hideLoading();
-
-        my.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast('服务器请求出错');
       }
     });
   },

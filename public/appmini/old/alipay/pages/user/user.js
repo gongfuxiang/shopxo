@@ -111,18 +111,12 @@ Page({
             navigation: data.navigation || [],
           });
         } else {
-          my.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
         my.stopPullDownRefresh();
-        my.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast('服务器请求出错');
       }
     });
   },
@@ -130,20 +124,14 @@ Page({
   // 清除缓存
   clear_storage(e) {
     my.clearStorage()
-    my.showToast({
-      type: "success",
-      content: "清除缓存成功"
-    });
+    app.showToast('清除缓存成功', 'success');
   },
 
   // 客服电话
   call_event() {
     if(this.data.customer_service_tel == null)
     {
-      my.showToast({
-        type: "fail",
-        content: "客服电话有误"
-      });
+      app.showToast('客服电话有误');
     } else {
       my.makePhoneCall({ number: this.data.customer_service_tel });
     }

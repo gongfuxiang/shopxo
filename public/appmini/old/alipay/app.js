@@ -63,8 +63,8 @@ App({
 
     // 请求地址
     request_url: "{{request_url}}",
-     request_url: 'http://tp5-dev.com/',
-     request_url: 'http://test.shopxo.net/',
+    // request_url: 'http://tp5-dev.com/',
+    // request_url: 'http://test.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -225,7 +225,7 @@ App({
     var openid = my.getStorageSync({key: this.data.cache_user_login_key});
     if ((openid.data || null) == null)
     {
-      var $this = this;
+      var self = this;
       // 加载loding
       my.showLoading({ content: "授权中..." });
 
@@ -235,7 +235,7 @@ App({
         success: res => {
           if (res.authCode) {
             my.request({
-              url: $this.get_request_url("alipayuserauth", "user"),
+              url: self.get_request_url("alipayuserauth", "user"),
               method: "POST",
               data: {authcode: res.authCode},
               dataType: "json",
@@ -247,7 +247,7 @@ App({
                   if((data.is_alipay_user_exist || 0) == 1)
                   {
                     my.setStorage({
-                      key: $this.data.cache_user_info_key,
+                      key: self.data.cache_user_info_key,
                       data: data,
                       success: (res) => {
                         if (typeof object === 'object' && (method || null) != null) {
@@ -255,46 +255,30 @@ App({
                         }
                       },
                       fail: () => {
-                        my.showToast({
-                          type: "fail",
-                          content: "用户信息缓存失败",
-                          duration: 3000
-                        });
+                        self.showToast('用户信息缓存失败');
                       }
                     });
                   } else {
                     my.setStorageSync({
-                      key: $this.data.cache_user_login_key,
+                      key: self.data.cache_user_login_key,
                       data: res.data.data.openid
                     });
-                    $this.login_to_auth();
+                    self.login_to_auth();
                   }
                 } else {
-                  my.showToast({
-                    type: "fail",
-                    content: res.data.msg,
-                    duration: 3000
-                  });
+                  self.showToast(res.data.msg);
                 }
               },
               fail: () => {
                 my.hideLoading();
-                my.showToast({
-                  type: "fail",
-                  content: "服务器请求出错",
-                  duration: 3000
-                });
+                self.showToast('服务器请求出错');
               }
             });
           }
         },
         fail: e => {
           my.hideLoading();
-          my.showToast({
-            type: "fail",
-            content: "授权失败",
-            duration: 3000
-          });
+          self.showToast('授权失败');
         }
       });
     } else {
@@ -350,11 +334,11 @@ App({
 
     // 请求数据
     my.showLoading({ content: "授权中..." });
-    var $this = this;
+    var self = this;
     userinfo['openid'] = openid;
     userinfo['referrer'] = (params.data == null) ? 0 : (params.data.referrer || 0);
     my.request({
-      url: $this.get_request_url('alipayuserinfo', 'user'),
+      url: self.get_request_url('alipayuserinfo', 'user'),
       method: 'POST',
       data: userinfo,
       dataType: 'json',
@@ -363,7 +347,7 @@ App({
         my.hideLoading();
         if (res.data.code == 0) {
           my.setStorage({
-            key: $this.data.cache_user_info_key,
+            key: self.data.cache_user_info_key,
             data: res.data.data,
             success: (res) => {
               if (typeof object === 'object' && (method || null) != null) {
@@ -371,28 +355,16 @@ App({
               }
             },
             fail: () => {
-              my.showToast({
-                type: "fail",
-                content: "用户信息缓存失败",
-                duration: 3000
-              });
+              self.showToast('用户信息缓存失败');
             }
           });
         } else {
-          my.showToast({
-            type: "fail",
-            content: res.data.msg,
-            duration: 3000
-          });
+          self.showToast(res.data.msg);
         }
       },
       fail: () => {
         my.hideLoading();
-        my.showToast({
-          type: "fail",
-          content: "服务器请求出错",
-          duration: 3000
-        });
+        self.showToast('服务器请求出错');
       },
     });
   },
@@ -404,7 +376,7 @@ App({
    */
   use_location(object, method) {
     my.showLoading({ content: "定位中..." });
-
+    var self = this;
     my.getLocation({
       success(res) {
         my.hideLoading();
@@ -432,15 +404,15 @@ App({
             break;
 
           case 12:
-            my.showToast({ content: "网络异常，请重试[" + e.error + "]" });
+            self.showToast("网络异常，请重试[" + e.error + "]");
             break;
 
           case 13:
-            my.showToast({ content: "定位失败，请重试[" + e.error + "]" });
+            self.showToast("定位失败，请重试[" + e.error + "]");
             break;
 
           default:
-            my.showToast({ content: "定位超时，请重试[" + e.error + "]" });
+            self.showToast("定位超时，请重试[" + e.error + "]");
         }
       }
     });
@@ -458,10 +430,7 @@ App({
       
       if ((temp_value == undefined || temp_value.length == 0 || temp_value == -1) || (temp_is_can_zero == null && temp_value == 0)
       ) {
-        my.showToast({
-          type: "fail",
-          content: validation[i]["msg"]
-        });
+        this.showToast(validation[i]["msg"]);
         return false;
       }
     }
@@ -610,7 +579,7 @@ App({
           case 3 :
             var values = value.split('|');
             if (values.length != 4) {
-              my.showToast({content: '事件值格式有误'});
+              this.showToast('事件值格式有误');
               return false;
             }
 

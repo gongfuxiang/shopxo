@@ -80,7 +80,7 @@ Page({
     if(app.fields_check(this.data, validation))
     {
       // 网络请求
-      var $this = this;
+      var self = this;
       my.showLoading({content: '发送中...'});
       this.setData({verify_submit_text: '发送中', verify_loading: true, verify_disabled: true});
 
@@ -100,30 +100,22 @@ Page({
             {
               if(temp_time <= 1)
               {
-                clearInterval($this.data.temp_clear_time);
-                $this.setData({verify_submit_text: '获取验证码', verify_disabled: false});
+                clearInterval(self.data.temp_clear_time);
+                self.setData({verify_submit_text: '获取验证码', verify_disabled: false});
               } else {
                 temp_time--;
-                $this.setData({verify_submit_text: '剩余 '+temp_time+' 秒'});
+                self.setData({verify_submit_text: '剩余 '+temp_time+' 秒'});
               }
             }, 1000);
           } else {
             this.setData({verify_submit_text: '获取验证码', verify_loading: false, verify_disabled: false});
-            
-            my.showToast({
-              type: 'fail',
-              content: res.data.msg
-            });
+            app.showToast(res.data.msg);
           }
         },
         fail: () => {
           my.hideLoading();
           this.setData({verify_submit_text: '获取验证码', verify_loading: false, verify_disabled: false});
-
-          my.showToast({
-            type: 'fail',
-            content: '服务器请求出错'
-          });
+          app.showToast('服务器请求出错');
         }
       });
     }
@@ -169,10 +161,7 @@ Page({
           if(res.data.code == 0 && (res.data.data || null) != null)
           {
             clearInterval(this.data.temp_clear_time);
-            my.showToast({
-              type: 'success',
-              content: res.data.msg
-            });
+            app.showToast(res.data.msg, 'success');
             
             my.setStorage({
               key: app.data.cache_user_info_key,
@@ -191,21 +180,13 @@ Page({
             }, 1000);
           } else {
             this.setData({form_submit_loading: false});
-            
-            my.showToast({
-              type: 'fail',
-              content: res.data.msg
-            });
+            app.showToast(res.data.msg);
           }
         },
         fail: () => {
           my.hideLoading();
           this.setData({form_submit_loading: false});
-
-          my.showToast({
-            type: 'fail',
-            content: '服务器请求出错'
-          });
+          app.showToast('服务器请求出错');
         }
       });
     }

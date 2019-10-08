@@ -148,3 +148,13 @@
   height: 200rpx;
   display: block;
 }
+
+/*
+ * 退货弹层
+ */
+.delivery-popup {
+  padding-top: 20rpx;
+}
+.delivery-popup .close {
+  margin-right: 20rpx;
+}

@@ -164,11 +164,7 @@ Page({
             data_list_loding_status: 0,
             load_status: 1,
           });
-
-          my.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
@@ -179,10 +175,7 @@ Page({
           data_list_loding_status: 2,
           load_status: 1,
         });
-        my.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast('服务器请求出错');
       }
     });
   },
@@ -245,11 +238,7 @@ Page({
             temp_data_list[index]['status'] = 2;
             temp_data_list[index]['status_name'] = '待发货';
             this.setData({ data_list: temp_data_list });
-
-            my.showToast({
-              type: "success",
-              content: '支付成功'
-            });
+            app.showToast('支付成功', 'success');
           } else {
             my.tradePay({
               tradeNO: res.data.data.data,
@@ -272,26 +261,17 @@ Page({
                 });
               },
               fail: res => {
-                my.showToast({
-                  type: "fail",
-                  content: "唤起支付模块失败"
-                });
+                app.showToast('唤起支付模块失败');
               }
             });
           }
         } else {
-          my.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
         my.hideLoading();
-        my.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast('服务器请求出错');
       }
     });
   },
@@ -325,24 +305,14 @@ Page({
                 temp_data_list[index]['status'] = 5;
                 temp_data_list[index]['status_name'] = '已取消';
                 this.setData({data_list: temp_data_list});
-
-                my.showToast({
-                  type: "success",
-                  content: res.data.msg
-                });
+                app.showToast(res.data.msg, 'success');
               } else {
-                my.showToast({
-                  type: "fail",
-                  content: res.data.msg
-                });
+                app.showToast(res.data.msg);
               }
             },
             fail: () => {
               my.hideLoading();
-              my.showToast({
-                type: "fail",
-                content: "服务器请求出错"
-              });
+              app.showToast('服务器请求出错');
             }
           });
         }
@@ -379,24 +349,14 @@ Page({
                 temp_data_list[index]['status'] = 4;
                 temp_data_list[index]['status_name'] = '已完成';
                 this.setData({data_list: temp_data_list});
-
-                my.showToast({
-                  type: "success",
-                  content: res.data.msg
-                });
+                app.showToast(res.data.msg, 'success');
               } else {
-                my.showToast({
-                  type: "fail",
-                  content: res.data.msg
-                });
+                app.showToast(res.data.msg);
               }
             },
             fail: () => {
               my.hideLoading();
-              my.showToast({
-                type: "fail",
-                content: "服务器请求出错"
-              });
+              app.showToast('服务器请求出错');
             }
           });
         }
@@ -406,10 +366,7 @@ Page({
 
   // 催催
   rush_event(e) {
-    my.showToast({
-      type: "success",
-      content: "催促成功"
-    });
+    app.showToast('催促成功', 'success');
   },
 
   // 导航事件
@@ -427,10 +384,7 @@ Page({
     var did = e.target.dataset.did || 0;
     if(oid == 0 || did == 0)
     {
-      my.showToast({
-        type: "fail",
-        content: "参数有误"
-      });
+      app.showToast('参数有误');
       return false;
     }
     

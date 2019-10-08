@@ -41,13 +41,13 @@ Page({
    */
   user_auth_code(object, method, auth_data) {
     // 请求授权接口
-    var $this = this;
+    var self = this;
     wx.getSetting({
       success(res) {
         if (!res.authSetting['scope.userInfo']) {
-          $this.setData({ user: null});
+          self.setData({ user: null});
         } else {
-          app.user_auth_login($this, 'user_auth_back_event', auth_data);
+          app.user_auth_login(self, 'user_auth_back_event', auth_data);
         }
       },
       fail: (e) => {
@@ -86,7 +86,7 @@ Page({
     if(app.fields_check(this.data, validation))
     {
       // 网络请求
-      var $this = this;
+      var self = this;
       wx.showLoading({title: '发送中...'});
       this.setData({verify_submit_text: '发送中', verify_loading: true, verify_disabled: true});
 
@@ -106,11 +106,11 @@ Page({
             {
               if(temp_time <= 1)
               {
-                clearInterval($this.data.temp_clear_time);
-                $this.setData({verify_submit_text: '获取验证码', verify_disabled: false});
+                clearInterval(self.data.temp_clear_time);
+                self.setData({verify_submit_text: '获取验证码', verify_disabled: false});
               } else {
                 temp_time--;
-                $this.setData({verify_submit_text: '剩余 '+temp_time+' 秒'});
+                self.setData({verify_submit_text: '剩余 '+temp_time+' 秒'});
               }
             }, 1000);
           } else {

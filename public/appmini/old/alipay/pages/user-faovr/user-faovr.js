@@ -96,11 +96,7 @@ Page({
           this.setData({
             data_list_loding_status: 0
           });
-
-          my.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
@@ -110,10 +106,7 @@ Page({
         this.setData({
           data_list_loding_status: 2
         });
-        my.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast('服务器请求出错');
       }
     });
   },
@@ -166,24 +159,14 @@ Page({
                     data_bottom_line_status: false,
                   });
                 }
-
-                my.showToast({
-                  type: "success",
-                  content: res.data.msg
-                });
+                app.showToast(res.data.msg, 'success');
               } else {
-                my.showToast({
-                  type: "fail",
-                  content: res.data.msg
-                });
+                app.showToast(res.data.msg);
               }
             },
             fail: () => {
               my.hideLoading();
-              my.showToast({
-                type: "fail",
-                content: "服务器请求出错"
-              });
+              app.showToast('服务器请求出错');
             }
           });
         }

@@ -104,18 +104,12 @@ Page({
               self.init_value();
             }, 500);
         } else {
-          my.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
         my.hideLoading();
-        my.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast('服务器请求出错');
       }
     });
   },
@@ -136,17 +130,11 @@ Page({
             province_list: data
           });
         } else {
-          my.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
-        my.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast('服务器请求出错');
       }
     });
   },
@@ -169,17 +157,11 @@ Page({
               city_list: data
             });
           } else {
-            my.showToast({
-              type: "fail",
-              content: res.data.msg
-            });
+            app.showToast(res.data.msg);
           }
         },
         fail: () => {
-          my.showToast({
-            type: "fail",
-            content: "服务器请求出错"
-          });
+          app.showToast('服务器请求出错');
         }
       });
     }
@@ -204,17 +186,11 @@ Page({
               county_list: data
             });
           } else {
-            my.showToast({
-              type: "fail",
-              content: res.data.msg
-            });
+            app.showToast(res.data.msg);
           }
         },
         fail: () => {
-          my.showToast({
-            type: "fail",
-            content: "服务器请求出错"
-          });
+          app.showToast('服务器请求出错');
         }
       });
     }
@@ -314,26 +290,17 @@ Page({
         success: res => {
           my.hideLoading();
           if (res.data.code == 0) {
-            my.showToast({
-              type: "success",
-              content: res.data.msg
-            });
+            app.showToast(res.data.msg, 'success');
             setTimeout(function() {
               my.navigateBack();
             }, 1000);
           } else {
-            my.showToast({
-              type: "fail",
-              content: res.data.msg
-            });
+            app.showToast(res.data.msg);
           }
         },
         fail: () => {
           my.hideLoading();
-          my.showToast({
-            type: "fail",
-            content: "服务器请求出错"
-          });
+          app.showToast('服务器请求出错');
         }
       });
     }

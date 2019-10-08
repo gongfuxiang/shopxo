@@ -165,11 +165,7 @@ Page({
             data_list_loding_status: 2,
             data_list_loding_msg: '服务器请求出错',
           });
-
-          my.showToast({
-            type: "fail",
-            content: "服务器请求出错"
-          });
+          app.showToast('服务器请求出错');
         }
       });
     }
@@ -271,24 +267,14 @@ Page({
                 goods_favor_text: (status == 1) ? '已收藏' : '收藏',
                 goods_favor_icon: '/images/goods-detail-favor-icon-'+status+'.png'
               });
-              my.showToast({
-                type: 'success',
-                content: res.data.msg
-              });
+              app.showToast(res.data.msg, 'success');
             } else {
-              my.showToast({
-                type: 'fail',
-                content: res.data.msg
-              });
+              app.showToast(res.data.msg);
             }
           },
           fail: () => {
             my.hideLoading();
-
-            my.showToast({
-              type: 'fail',
-              content: '服务器请求出错'
-            });
+            app.showToast('服务器请求出错');
           }
         });
       }
@@ -317,24 +303,14 @@ Page({
             my.hideLoading();
             if (res.data.code == 0) {
               this.popup_close_event();
-              my.showToast({
-                type: 'success',
-                content: res.data.msg
-              });
+              app.showToast(res.data.msg, 'success');
             } else {
-              my.showToast({
-                type: 'fail',
-                content: res.data.msg
-              });
+              app.showToast(res.data.msg);
             }
           },
           fail: () => {
             my.hideLoading();
-
-            my.showToast({
-              type: 'fail',
-              content: '服务器请求出错'
-            });
+            app.showToast('服务器请求出错');
           }
         });
       }
@@ -458,17 +434,11 @@ Page({
             this.setData({goods_specifications_choose: temp_data});
           }
         } else {
-          my.showToast({
-            type: 'fail',
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
-        my.showToast({
-          type: 'fail',
-          content: '服务器请求出错'
-        });
+        app.showToast('服务器请求出错');
       }
     });
   },
@@ -519,17 +489,11 @@ Page({
             goods_spec_base_inventory: res.data.data.inventory,
           });
         } else {
-          my.showToast({
-            type: 'fail',
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
-        my.showToast({
-          type: 'fail',
-          content: '服务器请求出错'
-        });
+        app.showToast('服务器请求出错');
       }
     });
   },
@@ -565,18 +529,18 @@ Page({
       buy_number = buy_min_number;
       if(buy_min_number > 1)
       {
-        my.showToast({content: '起购'+buy_min_number+inventory_unit});
+        app.showToast('起购'+buy_min_number+inventory_unit);
       }
     }
     if(buy_max_number > 0 && buy_number > buy_max_number)
     {
       buy_number = buy_max_number;
-      my.showToast({content: '限购'+buy_max_number+inventory_unit});
+      app.showToast('限购'+buy_max_number+inventory_unit);
     }
     if(buy_number > inventory)
     {
       buy_number = inventory;
-      my.showToast({content: '库存数量'+inventory+inventory_unit});
+      app.showToast('库存数量'+inventory+inventory_unit);
     }
     this.setData({temp_buy_number: buy_number});
   },
@@ -612,10 +576,7 @@ Page({
           }
           if(active_count < sku_count)
           {
-            my.showToast({
-              type: 'fail',
-              content: '请选择属性'
-            });
+            app.showToast('请选择属性');
             return false;
           }
         }
@@ -641,10 +602,7 @@ Page({
             break;
 
           default :
-            my.showToast({
-              type: "fail",
-              content: "操作事件类型有误"
-            });
+            app.showToast('操作事件类型有误');
         }
       }
     }

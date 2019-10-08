@@ -27,7 +27,7 @@
     "pages/user-orderaftersale-detail/user-orderaftersale-detail"
   ],
   "window": {
-    "defaultTitle": "test",
+    "defaultTitle": "{{application_title}}",
     "titleBarColor": "#d2364c"
   },
   "tabBar": {

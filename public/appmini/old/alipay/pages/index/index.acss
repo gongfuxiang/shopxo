@@ -197,6 +197,7 @@
   border: 0;
   color: #fff;
   padding: 0 30rpx;
+  height: 65rpx;
   line-height: 65rpx;
   font-size: 30rpx;
   border-radius: 6rpx;

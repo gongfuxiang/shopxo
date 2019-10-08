@@ -140,7 +140,7 @@
 
   <!-- 退货弹层 -->
   <popup show="{{popup_delivery_status}}" position="bottom" onClose="popup_delivery_close_event">
-    <view class="share-popup bg-white">
+    <view class="delivery-popup bg-white">
       <view class="close fr oh">
         <view class="fr" catchTap="popup_delivery_close_event">
           <icon type="clear" size="20" />

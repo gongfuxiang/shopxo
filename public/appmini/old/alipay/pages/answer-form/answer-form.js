@@ -71,10 +71,7 @@ Page({
 
           if(res.data.code == 0)
           {
-            my.showToast({
-              type: 'success',
-              content: res.data.msg
-            });
+            app.showToast(res.data.msg, 'success');
             setTimeout(function()
             {
               my.redirectTo({
@@ -83,21 +80,13 @@ Page({
             }, 2000);
           } else {
             this.setData({form_submit_loading: false});
-            
-            my.showToast({
-              type: 'fail',
-              content: res.data.msg
-            });
+            app.showToast(res.data.msg);
           }
         },
         fail: () => {
           my.hideLoading();
           this.setData({form_submit_loading: false});
-
-          my.showToast({
-            type: 'fail',
-            content: '服务器请求出错'
-          });
+          app.showToast('服务器请求出错');
         }
       });
     }

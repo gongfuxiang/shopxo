@@ -69,11 +69,7 @@ Page({
             data_list_loding_status: 0,
             data_bottom_line_status: true,
           });
-
-          my.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
@@ -83,11 +79,7 @@ Page({
           data_bottom_line_status: true,
           load_status: 1,
         });
-
-        my.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast('服务器请求出错');
       }
     });
   },
@@ -96,7 +88,7 @@ Page({
   search_input_event(e) {
     var keywords = e.detail.value || null;
     if (keywords == null) {
-      my.showToast({content: '请输入搜索关键字'});
+      app.showToast('请输入搜索关键字');
       return false;
     }
 

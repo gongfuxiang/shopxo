@@ -59,7 +59,7 @@ Page({
     var validation = [{ fields: 'mobile', msg: '请填写手机号码' }];
     if (app.fields_check(this.data, validation)) {
       // 网络请求
-      var $this = this;
+      var self = this;
       swan.showLoading({ title: '发送中...' });
       this.setData({ verify_submit_text: '发送中', verify_loading: true, verify_disabled: true });
 
@@ -76,11 +76,11 @@ Page({
             var temp_time = this.data.verify_time_total;
             this.data.temp_clear_time = setInterval(function () {
               if (temp_time <= 1) {
-                clearInterval($this.data.temp_clear_time);
-                $this.setData({ verify_submit_text: '获取验证码', verify_disabled: false });
+                clearInterval(self.data.temp_clear_time);
+                self.setData({ verify_submit_text: '获取验证码', verify_disabled: false });
               } else {
                 temp_time--;
-                $this.setData({ verify_submit_text: '剩余 ' + temp_time + ' 秒' });
+                self.setData({ verify_submit_text: '剩余 ' + temp_time + ' 秒' });
               }
             }, 1000);
           } else {

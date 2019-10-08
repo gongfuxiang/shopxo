@@ -169,19 +169,19 @@ App({
    */
   user_auth_login(object, method, auth_data) {
     wx.showLoading({ title: "授权中..." });
-    var $this = this;
+    var self = this;
     wx.checkSession({
       success: function () {
-        var openid = wx.getStorageSync($this.data.cache_user_login_key) || null;
+        var openid = wx.getStorageSync(self.data.cache_user_login_key) || null;
         if (openid == null)
         {
-          $this.user_login(object, method, auth_data);
+          self.user_login(object, method, auth_data);
         } else {
-          $this.get_user_login_info(object, method, openid, auth_data);
+          self.get_user_login_info(object, method, openid, auth_data);
         }
       },
       fail: function () {
-        $this.user_login(object, method, auth_data);
+        self.user_login(object, method, auth_data);
       }
     });
   },
@@ -193,12 +193,12 @@ App({
    * auth_data  授权数据
    */
   user_login(object, method, auth_data) {
-    var $this = this;
+    var self = this;
     wx.login({
       success: (res) => {
         if (res.code) {
           wx.request({
-            url: $this.get_request_url('wechatuserauth', 'user'),
+            url: self.get_request_url('wechatuserauth', 'user'),
             method: 'POST',
             data: { authcode: res.code },
             dataType: 'json',
@@ -206,25 +206,25 @@ App({
             success: (res) => {
               if (res.data.code == 0) {
                 wx.setStorage({
-                  key: $this.data.cache_user_login_key,
+                  key: self.data.cache_user_login_key,
                   data: res.data.data
                 });
-                $this.get_user_login_info(object, method, res.data.data, auth_data);
+                self.get_user_login_info(object, method, res.data.data, auth_data);
               } else {
                 wx.hideLoading();
-                $this.showToast(res.data.msg);
+                self.showToast(res.data.msg);
               }
             },
             fail: () => {
               wx.hideLoading();
-              $this.showToast('服务器请求出错');
+              self.showToast('服务器请求出错');
             },
           });
         }
       },
       fail: (e) => {
         wx.hideLoading();
-        $this.showToast('授权失败');
+        self.showToast('授权失败');
       }
     });
   },
@@ -242,9 +242,9 @@ App({
     var referrer = (params == null) ? 0 : (params.referrer || 0);
 
     // 远程解密数据
-    var $this = this;
+    var self = this;
     wx.request({
-      url: $this.get_request_url('wechatuserinfo', 'user'),
+      url: self.get_request_url('wechatuserinfo', 'user'),
       method: 'POST',
       data: {
         "encrypted_data": auth_data.encryptedData,
@@ -258,7 +258,7 @@ App({
         wx.hideLoading();
         if (res.data.code == 0) {
           wx.setStorage({
-            key: $this.data.cache_user_info_key,
+            key: self.data.cache_user_info_key,
             data: res.data.data,
             success: (res) => {
               if (typeof object === 'object' && (method || null) != null) {
@@ -266,16 +266,16 @@ App({
               }
             },
             fail: () => {
-              $this.showToast('用户信息缓存失败');
+              self.showToast('用户信息缓存失败');
             }
           });
         } else {
-          $this.showToast(res.data.msg);
+          self.showToast(res.data.msg);
         }
       },
       fail: () => {
         wx.hideLoading();
-        $this.showToast('服务器请求出错');
+        self.showToast('服务器请求出错');
       },
     });
   },

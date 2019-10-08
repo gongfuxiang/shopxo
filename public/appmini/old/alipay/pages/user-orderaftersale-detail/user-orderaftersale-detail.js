@@ -237,7 +237,7 @@ Page({
   // 上传图片预览
   upload_show_event(e) {
     my.previewImage({
-      current: this.data.form_images_list[e.target.dataset.index],
+      current: e.target.dataset.index,
       urls: this.data.form_images_list,
     });
   },
@@ -448,7 +448,7 @@ Page({
   // 凭证图片预览
   images_view_event(e) {
     my.previewImage({
-      current: this.data.new_aftersale_data.images[e.target.dataset.index],
+      current: e.target.dataset.index,
       urls: this.data.new_aftersale_data.images,
     });
   },

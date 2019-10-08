@@ -113,11 +113,7 @@ Page({
           this.setData({
             data_list_loding_status: 0
           });
-
-          my.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
@@ -127,10 +123,7 @@ Page({
         this.setData({
           data_list_loding_status: 2
         });
-        my.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast('服务器请求出错');
       }
     });
   },

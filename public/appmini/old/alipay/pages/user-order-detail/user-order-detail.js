@@ -70,10 +70,7 @@ Page({
             data_bottom_line_status: false,
             data_list_loding_msg: res.data.msg,
           });
-          my.showToast({
-            type: "fail",
-            content: res.data.msg
-          });
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
@@ -84,11 +81,7 @@ Page({
           data_bottom_line_status: false,
           data_list_loding_msg: '服务器请求出错',
         });
-
-        my.showToast({
-          type: "fail",
-          content: "服务器请求出错"
-        });
+        app.showToast('服务器请求出错');
       }
     });
   },
