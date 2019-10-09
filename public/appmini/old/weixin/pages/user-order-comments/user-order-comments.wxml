@@ -1,0 +1,47 @@
+<view wx:if="{{detail != null}}">
+  <form bindsubmit="formSubmit" class="form-container">
+      <view wx:for="{{detail.items}}" wx:key="item" class="form-gorup bg-white oh">
+        <view class="oh">
+          <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}" hover-class="none">
+            <image class="goods-image fl br" src="{{item.images}}" mode="aspectFill" />
+          </navigator>
+          <view class="item-base">
+            <block wx:for="{{[1,2,3,4,5]}}" wx:key="tx" wx:for-index="tx">
+              <image class="xingxing-icon" src="/images/default-xingxing-icon{{rating_list[index] != undefined && rating_list[index] >= item ? '-active' : ''}}.png" mode="aspectFill" bindtap="rating_event" data-index="{{index}}" data-tx="{{tx}}" data-value="{{item}}" />
+            </block>
+            <text wx:if="{{rating_list[index] != undefined}}" class="msg-text cr-888">{{rating_msg[rating_list[index]-1]}}</text>
+          </view>
+        </view>
+        <view class="form-content">
+          <textarea name="content_{{index}}" placeholder-class="cr-ccc" class="cr-666" placeholder="退宝贝满足你的期待吗？说说它的有点和美中不足的地方吧" maxlength="230" value="{{form_msg}}" />
+          <view class="form-container-upload oh">
+            <view class="form-upload-data fl">
+              <block wx:if="{{form_images_list.length > 0}}">
+                <view wx:for="{{form_images_list}}" wx:key="item" class="item fl">
+                  <text class="delete-icon" bindtap="upload_delete_event" data-index="{{index}}">x</text>
+                  <image src="{{item}}" bindtap="upload_show_event" data-index="{{index}}" mode="aspectFill" />
+                </view>
+              </block>
+            </view>
+            <image class="upload-icon" src="/images/default-upload-icon.png" mode="aspectFill" bindtap="file_upload_event" />
+          </view>
+        </view>
+        
+      </view>
+
+      <view class="form-gorup bg-white anonymous">
+        <switch name="is_anonymous" checked="{{switch1Checked}}" bindchange="switch1Change"/>
+        <text class="cr-666">匿名</text>
+        <text class="fr cr-888 tips-text">公开的评论会展示在商品详情页面</text>
+      </view>
+
+      <view class="form-gorup">
+        <button formType="submit" class="bg-main submit-bottom" type="default" bindtap="form_submit_event" hover-class="none" disabled="{{form_button_disabled}}">提交</button>
+      </view>
+  </form>
+</view>
+
+<view wx:if="{{detail == null}}">
+    <import src="/pages/common/nodata.wxml" />
+    <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
+</view>

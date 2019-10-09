@@ -271,37 +271,37 @@ textarea {
 /**
  * 表单
  */
-.form-gorup {
-  padding: 30rpx 10rpx;
+.form-container .form-gorup {
+  padding: 20rpx 10rpx;
+  margin-bottom: 20rpx;
 }
-.form-gorup-title {
+.form-container .form-gorup-title {
   margin-bottom: 5rpx;
   font-weight: 500;
 }
-.form-group-tips,
-.form-group-tips-must {
+.form-container .form-group-tips,
+.form-container .form-group-tips-must {
   margin-left: 20rpx;
   font-size: 24rpx;
   color: #ccc;
 }
-.form-group-tips-must {
+.form-container .form-group-tips-must {
   color: #f00;
 }
-.form-gorup input,
-.form-gorup textarea,
-.form-gorup picker view.picker {
-  border-bottom: 1px solid #eee;
+.form-container .form-gorup input,
+.form-container .form-gorup textarea,
+.form-container .form-gorup picker view.picker {
   border-radius: 0;
   width: 100%;
   box-sizing: border-box;
   padding: 0 10rpx;
 }
-.form-gorup input,
-.form-gorup picker view.picker {
+.form-container .form-gorup input,
+.form-container .form-gorup picker view.picker {
   height: 70rpx;
   line-height: 70rpx;
 }
-.form-gorup textarea {
+.form-container .form-gorup textarea {
   padding: 0;
   min-height: 70rpx;
 }

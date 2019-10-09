@@ -175,8 +175,8 @@ Page({
     });
   },
 
-  // 收藏事件
-  goods_favor_event(id, goods_id, type) {
+  // 收藏+删除
+  goods_favor_delete(id, goods_id, type) {
     wx.request({
       url: app.get_request_url('favor', 'goods'),
       method: 'POST',
@@ -195,20 +195,24 @@ Page({
     });
   },
 
-  // 删除操作事件
-  cart_delete_event(e) {
+  // 移除操作事件
+  cart_remove_event(e) {
     var id = e.currentTarget.dataset.id || null;
+    var index = e.currentTarget.dataset.index || 0;
+    var goods_id = e.currentTarget.dataset.goodsid || 0;
+    var self = this;
     if (id !== null) {
-      wx.showModal({
-        title: '温馨提示',
-        content: '删除后不可恢复，确定继续吗?',
-        confirmText: '确认',
-        cancelText: '暂不',
-        success: (result) => {
-          if (result.confirm) {
-            this.cart_delete(id, 'delete');
+      self.setData({ swipe_index: index})
+      wx.showActionSheet({
+        itemList: ['加入收藏', '删除'],
+        success(res) {
+          if (res.tapIndex == 0)
+          {
+            self.goods_favor_delete(id, goods_id, 'favor')
+          } else {
+            self.cart_delete(id, 'delete');
           }
-        },
+        }
       });
     } else {
       app.showToast("参数有误");
@@ -232,9 +236,9 @@ Page({
             data_list_loding_status: temp_data_list.length == 0 ? 0 : this.data.data_list_loding_status,
           });
 
-          app.showToast(((type == 'delete') ? '删除成功' : '收藏成功'), 'success');
+          app.showToast(((type == 'delete') ? '删除成功' : '收藏成功'), 'success');
         } else {
-          app.showToast((type == 'delete') ? '删除失败' : '收藏失败');
+          app.showToast((type == 'delete') ? '删除失败' : '收藏失败');
         }
       },
       fail: () => {

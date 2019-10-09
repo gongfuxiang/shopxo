@@ -33,11 +33,9 @@
         <text wx:if="{{item.original_price > 0}}" class="original-price">￥{{item.original_price}}</text>
         <text class="buy-number cr-888">x{{item.stock}}</text>
 
-        <!-- 删除操作 -->
-        <view class="fr delete" data-id="{{item.id}}" bindtap="cart_delete_event">删除</view>
+        <!-- 移除 -->
+        <view class="fr remove" data-id="{{item.id}}" data-goodsid="{{item.goods_id}}" data-index="{{index}}" bindtap="cart_remove_event">移除</view>
       </view>
-
-      
     </view>
   </view>
 

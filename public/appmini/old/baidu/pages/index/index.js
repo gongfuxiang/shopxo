@@ -87,7 +87,7 @@ Page({
     });
   },
 
-  // 搜索事件
+  // 搜索事件
   search_input_event(e) {
     var keywords = e.detail.value || null;
     if (keywords == null) {

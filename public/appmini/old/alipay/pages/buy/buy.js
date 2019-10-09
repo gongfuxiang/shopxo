@@ -192,7 +192,7 @@ Page({
     this.init();
   },
 
-  // 支付方式数据处理
+  // 支付方式数据处理
   payment_list_data(data) {
     if (this.data.payment_id != 0) {
       for (var i in data) {

@@ -28,7 +28,7 @@
         <input name="address" class="addressee-address" type="text" value="{{address}}" placeholder="详细地址" />
     </view>
 
-    <button class="submit-fixed submit-bottom" type="default" formType="submit" hover-class="none">保存</button>
+    <button class="submit-fixed submit-bottom" type="default" formType="submit" hover-class="none">保存</button>
 </form>
 
 <view a:if="{{data_list_loding_status != 0}}">

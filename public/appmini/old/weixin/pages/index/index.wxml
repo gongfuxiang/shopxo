@@ -12,7 +12,7 @@
   <view class="tips">{{common_shop_notice}}</view>
 </view>
 
-<!-- 轮播 -->
+<!-- 轮播 -->
 <component-banner prop-data="{{banner_list}}"></component-banner>
 
 <!-- 导航 -->

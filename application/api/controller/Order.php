@@ -98,6 +98,11 @@ class Order extends Common
         // 参数
         $params = $this->data_post;
         $params['user'] = $this->user;
+        $params['user_type'] = 'user';
+        if(empty($params['id']))
+        {
+            return DataReturn('参数有误', -1);
+        }
 
         // 条件
         $where = OrderService::OrderListWhere($params);
@@ -114,6 +119,58 @@ class Order extends Common
             return DataReturn('success', 0, $data['data'][0]);
         }
         return DataReturn('数据不存在或已删除', -100);
+    }
+
+    /**
+     * 评价页面
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-08
+     * @desc    description
+     */
+    public function Comments()
+    {
+        // 参数
+        $params = $this->data_post;
+        $params['user'] = $this->user;
+        $params['user_type'] = 'user';
+        if(empty($params['id']))
+        {
+            return DataReturn('参数有误', -1);
+        }
+
+        // 条件
+        $where = OrderService::OrderListWhere($params);
+
+        // 获取列表
+        $data_params = array(
+            'm'         => 0,
+            'n'         => 1,
+            'where'     => $where,
+        );
+        $data = OrderService::OrderList($data_params);
+        if(!empty($data['data'][0]))
+        {
+            return DataReturn('success', 0, $data['data'][0]);
+        }
+        return DataReturn('没有相关数据', -100);
+    }
+
+    /**
+     * 评价保存
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-09
+     * @desc    description
+     */
+    public function CommentsSave()
+    {
+        $params = $this->data_post;
+        $params['user'] = $this->user;
+        $params['business_type'] = 'order';
+        return GoodsCommentsService::Comments($params);
     }
 
     /**

@@ -95,8 +95,8 @@
     </view>
 
     <!-- 表单 -->
-    <view wx:if="{{form_type != -1}}" class="form-container bg-white spacing-mb oh">
-      <view class="form-gorup">
+    <view wx:if="{{form_type != -1}}" class="form-container spacing-mb oh">
+      <view class="form-gorup bg-white">
         <view class="form-gorup-title">退款原因<text class="form-group-tips-must">必选</text></view>
         <picker bindchange="form_reason_event" value="{{form_reason_index}}" range="{{reason_data_list}}">
           <view class="picker {{form_reason_index == -1 ? 'cr-ccc' : 'cr-666'}} arrow-right">
@@ -105,22 +105,22 @@
         </picker>
       </view>
 
-      <view wx:if="{{form_type == 1}}" class="form-gorup">
+      <view wx:if="{{form_type == 1}}" class="form-gorup bg-white">
         <view class="form-gorup-title">商品件数<text class="form-group-tips">不能大于{{returned_data.returned_quantity}}数量</text></view>
         <slider bindchange="form_number_event" min="0" max="{{returned_data.returned_quantity}}" step="1" value="{{returned_data.returned_quantity}}" show-value />
       </view>
 
-      <view class="form-gorup">
+      <view class="form-gorup bg-white">
         <view class="form-gorup-title">退款金额<text class="form-group-tips">不能大于{{returned_data.refund_price}}元</text></view>
         <input type="digit" bindinput="form_price_event" placeholder-class="cr-ccc" class="cr-666" placeholder="请输入退款金额" value="{{form_price}}" />
       </view>
 
-      <view class="form-gorup">
+      <view class="form-gorup bg-white">
         <view class="form-gorup-title">退款说明<text class="form-group-tips-must">必填</text></view>
         <textarea bindinput="form_msg_event" placeholder-class="cr-ccc" class="cr-666" placeholder="退款说明 5~200 个字符之间" maxlength="200" auto-height="{{true}}" value="{{form_msg}}" />
       </view>
 
-      <view class="form-gorup form-container-upload oh">
+      <view class="form-gorup bg-white form-container-upload oh">
         <view class="form-gorup-title">上传凭证<text class="form-group-tips">最多上传3张图片</text></view>
         <view class="form-upload-data fl">
           <block wx:if="{{form_images_list.length > 0}}">

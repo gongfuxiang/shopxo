@@ -202,7 +202,7 @@ Page({
     });
   },
 
-  // 支付弹窗关闭
+  // 支付弹窗关闭
   payment_popup_event_close(e) {
     this.setData({ is_show_payment_popup: false });
   },

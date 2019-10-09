@@ -8,7 +8,7 @@
       </view>
       <view class="data-value">
         <text class="cr-666">原始 {{item.original_integral}}</text>
-        <text class="cr-main">最新 {{item.new_integral}}</text>
+        <text class="cr-main">最新 {{item.new_integral}}</text>
       </view>
       <view class="data-detail">{{item.msg}}</view>
     </view>

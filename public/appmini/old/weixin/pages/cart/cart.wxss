@@ -38,7 +38,7 @@
 .goods-item .selected {
   margin-top: 60rpx;
 }
-.goods-item .delete {
+.goods-item .remove {
   color: #e00303;
   margin-right: 10rpx;
 }

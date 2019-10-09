@@ -193,7 +193,7 @@ class BuyService
         $where['c.user_id'] = $params['user']['id'];
 
         $field = 'c.*, g.inventory_unit, g.is_shelves, g.is_delete_time, g.buy_min_number, g.buy_max_number, g.model';
-        $data = Db::name('Cart')->alias('c')->join(['__GOODS__'=>'g'], 'g.id=c.goods_id')->where($where)->field($field)->select();
+        $data = Db::name('Cart')->alias('c')->join(['__GOODS__'=>'g'], 'g.id=c.goods_id')->where($where)->field($field)->order('c.id desc')->select();
 
 
         // 数据处理

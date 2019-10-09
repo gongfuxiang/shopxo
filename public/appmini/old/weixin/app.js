@@ -59,6 +59,7 @@ App({
       "goods_comment": "商品评论",
       "user_orderaftersale": "退款/售后",
       "user_orderaftersale_detail": "订单售后",
+      "user_order_comments": "订单评论",
     },
 
     // 请求地址

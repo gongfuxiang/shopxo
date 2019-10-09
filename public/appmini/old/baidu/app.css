@@ -91,7 +91,7 @@ textarea {
 .br-l { border-left: solid 1px #efefef; }
 .br-r { border-right: solid 1px #efefef; }
 
-/* 虚线边框 */
+/* 虚线边框 */
 .br-b-dashed { border-bottom: dashed 1px #efefef; }
 .br-t-dashed { border-top: dashed 1px #efefef; }
 .br-l-dashed { border-left: dashed 1px #efefef; }
@@ -156,7 +156,7 @@ textarea {
 }
 
 
-/* 没有数据状态/处理错误/加载中 */
+/* 没有数据状态/处理错误/加载中 */
 .no-data-box {
     padding: 80rpx 0;
 }
@@ -339,37 +339,37 @@ button[disabled].bg-primary {
 /**
  * 表单
  */
-.form-gorup {
-  padding: 30rpx 10rpx;
+.form-container .form-gorup {
+  padding: 20rpx 10rpx;
+  margin-bottom: 20rpx;
 }
-.form-gorup-title {
+.form-container .form-gorup-title {
   margin-bottom: 5rpx;
   font-weight: 500;
 }
-.form-group-tips,
-.form-group-tips-must {
+.form-container .form-group-tips,
+.form-container .form-group-tips-must {
   margin-left: 20rpx;
   font-size: 24rpx;
   color: #ccc;
 }
-.form-group-tips-must {
+.form-container .form-group-tips-must {
   color: #f00;
 }
-.form-gorup input,
-.form-gorup textarea,
-.form-gorup picker view.picker {
-  border-bottom: 1px solid #eee;
+.form-container .form-gorup input,
+.form-container .form-gorup textarea,
+.form-container .form-gorup picker view.picker {
   border-radius: 0;
   width: 100%;
   box-sizing: border-box;
   padding: 0 10rpx;
 }
-.form-gorup input,
-.form-gorup picker view.picker {
+.form-container .form-gorup input,
+.form-container .form-gorup picker view.picker {
   height: 70rpx;
   line-height: 70rpx;
 }
-.form-gorup textarea {
+.form-container .form-gorup textarea {
   padding: 0;
   min-height: 70rpx;
 }

@@ -249,7 +249,7 @@ App({
                     }
                 },
                 fail: function(res) {
-                  self.showToast("调用用户信息授权失败");
+                  self.showToast("调用用户信息授权失败");
                 }
               });
             } else {

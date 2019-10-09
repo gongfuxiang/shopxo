@@ -1,5 +1,5 @@
 {
-  "pages": [    
+  "pages": ["pages/user-order-comments/user-order-comments",
     "pages/index/index",
     "pages/goods-category/goods-category",
     "pages/cart/cart",

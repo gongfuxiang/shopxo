@@ -47,13 +47,13 @@ Page({
         msg = '用户取消支付';
         break;
 
-      // 默认错误
+      // 默认错误
       default:
         msg = '其它异常错误';
     }
     options['msg'] = msg;
 
-    // 设置信息
+    // 设置信息
     this.setData({ params: options });
   },
 
