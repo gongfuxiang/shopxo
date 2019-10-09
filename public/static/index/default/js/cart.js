@@ -111,10 +111,10 @@ $(function()
         if($(this).find('input').is(':checked'))
         {
             $(this).find('span.el-text').text('反选');
-            $('.am-table').find('input[type="checkbox"]').uCheck('check');
+            $('.am-table').find('input[type="checkbox"]').not(':disabled').uCheck('check');
         } else {
             $(this).find('span.el-text').text('全选');
-            $('.am-table').find('input[type="checkbox"]').uCheck('uncheck');
+            $('.am-table').find('input[type="checkbox"]').not(':disabled').uCheck('uncheck');
         }
 
         // 计算选择的商品总数和总价

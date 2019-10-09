@@ -32,10 +32,10 @@
             </thead>
             <tbody>
                 {{foreach $cart_list as $goods}}
-                    <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}" class="{{if $goods['is_shelves'] neq 1}}am-warning{{/if}} {{if $goods['is_delete_time'] neq 0}}am-danger{{/if}}">
+                    <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}" class="{{if $goods['is_shelves'] neq 1}}am-warning{{/if}} {{if $goods['is_delete_time'] neq 0 or (isset($goods['is_invalid']) and $goods['is_invalid'] eq 1)}}am-danger{{/if}}">
                         <td class="base">
                             <label class="am-checkbox-inline am-success am-fl">
-                                <input type="checkbox" value="{{$goods.id}}" {{if $goods['is_shelves'] neq 1 or $goods['is_delete_time'] neq 0}}disabled{{/if}} data-am-ucheck />
+                                <input type="checkbox" value="{{$goods.id}}" {{if $goods['is_shelves'] neq 1 or $goods['is_delete_time'] neq 0 or (isset($goods['is_invalid']) and $goods['is_invalid'] eq 1)}}disabled{{/if}} data-am-ucheck />
                             </label>
                             <div class="goods-detail">
                                 <a href="{{$goods.goods_url}}" target="_blank">
@@ -73,10 +73,13 @@
                                 <span class="am-input-group-label {{if $goods['is_shelves'] eq 1 and $goods['is_delete_time'] eq 0}}stock-submit{{/if}}" data-type="add">+</span>
                             </div>
                             {{if $goods['is_shelves'] neq 1}}
-                                <p>商品已下架</p>
+                                <p class="am-text-danger">商品已下架</p>
                             {{/if}}
                             {{if $goods['is_delete_time'] neq 0}}
-                                <p>商品已作废</p>
+                                <p class="am-text-danger">商品已作废</p>
+                            {{/if}}
+                            {{if isset($goods['is_invalid']) and $goods['is_invalid'] eq 1}}
+                                <p class="am-text-danger">商品已失效</p>
                             {{/if}}
                         </td>
                         <td class="total-price am-hide-sm-only">
