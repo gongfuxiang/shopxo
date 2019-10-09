@@ -1065,13 +1065,13 @@ class BuyService
         }
 
         // 获取订单商品
-        $order_detail = Db::name('OrderDetail')->field('goods_id,buy_number,spec')->where(['order_id'=>$params['order_id']])->select();
+        $order_detail = Db::name('OrderDetail')->field('id,goods_id,buy_number,spec')->where(['order_id'=>$params['order_id']])->select();
         if(!empty($order_detail))
         {
             foreach($order_detail as $v)
             {
                 // 查看是否已扣除过库存,避免更改模式导致重复扣除
-                $temp = Db::name('OrderGoodsInventoryLog')->where(['order_id'=>$params['order_id'], 'goods_id'=>$v['goods_id']])->find();
+                $temp = Db::name('OrderGoodsInventoryLog')->where(['order_id'=>$params['order_id'], 'order_detail_id'=>$v['id'], 'goods_id'=>$v['goods_id']])->find();
                 if(empty($temp))
                 {
                     $goods = Db::name('Goods')->field('is_deduction_inventory,inventory')->find($v['goods_id']);
@@ -1080,7 +1080,7 @@ class BuyService
                         // 扣除操作
                         if(!Db::name('Goods')->where(['id'=>$v['goods_id']])->setDec('inventory', $v['buy_number']))
                         {
-                            return DataReturn('商品库存扣减失败['.$params['order_id'].'-'.$v['goods_id'].'('.$goods['inventory'].'-'.$v['buy_number'].')]', -10);
+                            return DataReturn('商品库存扣减失败['.$params['order_id'].'-'.$v['id'].'-'.$v['goods_id'].'('.$goods['inventory'].'-'.$v['buy_number'].')]', -10);
                         }
 
                         // 扣除规格库存
@@ -1100,6 +1100,7 @@ class BuyService
                         // 扣除日志添加
                         $log_data = [
                             'order_id'              => $params['order_id'],
+                            'order_detail_id'       => $v['id'],
                             'goods_id'              => $v['goods_id'],
                             'order_status'          => $params['order_data']['status'],
                             'original_inventory'    => $goods['inventory'],
