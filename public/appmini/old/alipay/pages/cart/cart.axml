@@ -3,8 +3,7 @@
     <swipe-action index="{{index}}" restore="{{swipe_index === null || swipe_index !== index}}" right="{{item.right}}" onRightItemClick="right_item_event" onSwipeStart="swipe_start_event" extra="{{index}}">
       <!-- 选择 -->
       <view onTap="selectedt_event" data-type="node" data-index="{{index}}" class="fl selected">
-        <image a:if="{{(item.selected || false)}}" class="icon" src="/images/default-select-active-icon.png" mode="widthFix" />
-        <image a:else class="icon" src="/images/default-select-icon.png" mode="widthFix" />
+        <image class="icon" src="/images/default-select{{(item.is_error || 0) == 1 ? '-disabled' : ((item.selected || false) ? '-active' : '')}}-icon.png" mode="widthFix" />
       </view>
 
       <view class="bg-white items">
@@ -33,6 +32,9 @@
           <text class="sales-price">￥{{item.price}}</text>
           <text a:if="{{item.original_price > 0}}" class="original-price">￥{{item.original_price}}</text>
           <text class="buy-number cr-888">x{{item.stock}}</text>
+
+          <!-- 错误 -->
+          <text a:if="{{(item.is_error || 0) == 1}}" class="error-msg">{{item.error_msg}}</text>
         </view>
       </view>
     </swipe-action>

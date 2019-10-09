@@ -278,14 +278,20 @@ Page({
         case 'all' :
           temp_is_selected_all = (temp_is_selected_all == true) ? false : true;
           for (var i in temp_data_list) {
-            temp_data_list[i]['selected'] = temp_is_selected_all;
+            if (temp_data_list[i]['is_error'] != 1)
+            {
+              temp_data_list[i]['selected'] = temp_is_selected_all;
+            }
           }
           break;
 
         // 节点操作
         case 'node' :
-          var index = e.target.dataset.index || 0;
-          temp_data_list[index]['selected'] = (temp_data_list[index]['selected'] == true) ? false : true;
+          var index = e.currentTarget.dataset.index || 0;
+          if (temp_data_list[index]['is_error'] != 1)
+          {
+            temp_data_list[index]['selected'] = (temp_data_list[index]['selected'] == true) ? false : true;
+          }
           break;
       }
 

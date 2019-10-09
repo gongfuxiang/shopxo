@@ -40,9 +40,11 @@
 }
 .goods-item .remove {
   color: #e00303;
-  margin-right: 10rpx;
 }
-
+.goods-item .error-msg {
+  color: #f00;
+  margin-left: 15rpx;
+}
 /**
  * 数量操作
  */

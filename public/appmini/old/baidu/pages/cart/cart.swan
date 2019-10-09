@@ -2,8 +2,7 @@
   <view s-for="item, index in data_list" s-key="key" class="goods-item oh bg-white">
     <!-- 选择 -->
     <view bindtap="selectedt_event" data-type="node" data-index="{{index}}" class="fl selected">
-      <image s-if="(item.selected || false)" class="icon" src="/images/default-select-active-icon.png" mode="widthFix" />
-      <image s-else class="icon" src="/images/default-select-icon.png" mode="widthFix" />
+      <image class="icon" src="/images/default-select{{(item.is_error || 0) == 1 ? '-disabled' : ((item.selected || false) ? '-active' : '')}}-icon.png" mode="widthFix" />
     </view>
 
     <view class="bg-white items">
@@ -32,6 +31,9 @@
         <text class="sales-price">￥{{item.price}}</text>
         <text s-if="item.original_price > 0" class="original-price">￥{{item.original_price}}</text>
         <text class="buy-number cr-888">x{{item.stock}}</text>
+
+        <!-- 错误 -->
+        <text s-if="(item.is_error || 0) == 1" class="error-msg">{{item.error_msg}}</text>
 
         <!-- 删除操作 -->
         <view class="fr remove" data-id="{{item.id}}" data-goodsid="{{item.goods_id}}" data-index="{{index}}" bindtap="cart_remove_event">移除</view>

@@ -72,14 +72,8 @@
                                 <input type="number" class="am-form-field" value="{{$goods.stock}}" {{if $goods['is_shelves'] neq 1 or $goods['is_delete_time'] neq 0}}disabled{{/if}} />
                                 <span class="am-input-group-label {{if $goods['is_shelves'] eq 1 and $goods['is_delete_time'] eq 0}}stock-submit{{/if}}" data-type="add">+</span>
                             </div>
-                            {{if $goods['is_shelves'] neq 1}}
-                                <p class="am-text-danger">商品已下架</p>
-                            {{/if}}
-                            {{if $goods['is_delete_time'] neq 0}}
-                                <p class="am-text-danger">商品已作废</p>
-                            {{/if}}
-                            {{if isset($goods['is_invalid']) and $goods['is_invalid'] eq 1}}
-                                <p class="am-text-danger">商品已失效</p>
+                            {{if !empty($goods['error_msg'])}}
+                                <p class="am-text-danger">{{$goods.error_msg}}</p>
                             {{/if}}
                         </td>
                         <td class="total-price am-hide-sm-only">

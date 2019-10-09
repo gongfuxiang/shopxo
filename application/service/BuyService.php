@@ -205,6 +205,7 @@ class BuyService
 
                 // 获取商品基础信息
                 $goods_base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>$v['spec']]);
+                $v['is_invalid'] = 0;
                 if($goods_base['code'] == 0)
                 {
                     $v['inventory'] = $goods_base['data']['spec_base']['inventory'];
@@ -227,6 +228,25 @@ class BuyService
                 $v['images'] = ResourcesService::AttachmentPathViewHandle($v['images']);
                 $v['total_price'] = $v['stock']* ((float) $v['price']);
                 $v['buy_max_number'] = ($v['buy_max_number'] <= 0) ? $v['inventory']: $v['buy_max_number'];
+
+                // 错误处理
+                $v['is_error'] = 0;
+                $v['error_msg'] = '';
+                if($v['is_delete_time'] != 0)
+                {
+                    $v['is_error'] = 1;
+                    $v['error_msg'] = '商品已作废';
+                }
+                if(empty($v['error_msg']) && $v['is_invalid'] == 1)
+                {
+                    $v['is_error'] = 1;
+                    $v['error_msg'] = '商品已失效';
+                }
+                if(empty($v['error_msg']) && $v['is_shelves'] != 1)
+                {
+                    $v['is_error'] = 1;
+                    $v['error_msg'] = '商品已下架';
+                }
             }
         }
 
