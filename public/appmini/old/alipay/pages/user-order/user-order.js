@@ -41,11 +41,11 @@ Page({
       params: params,
       nav_status_index: nav_status_index,
     });
-    this.init();
   },
 
   onShow() {
     my.setNavigationBar({title: app.data.common_pages_title.user_order});
+    this.init();
   },
 
   init() {
@@ -391,6 +391,13 @@ Page({
     // 进入售后页面
     my.navigateTo({
       url: "/pages/user-orderaftersale-detail/user-orderaftersale-detail?oid=" + oid+"&did="+did
+    });
+  },
+
+  // 订单评论
+  comments_event(e) {
+    my.navigateTo({
+      url: "/pages/user-order-comments/user-order-comments?id=" + e.target.dataset.value
     });
   },
 });

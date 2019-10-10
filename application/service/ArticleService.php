@@ -65,6 +65,21 @@ class ArticleService
                 {
                     $v['content'] = ResourcesService::ContentStaticReplace($v['content'], 'get');
                 }
+
+                // 图片
+                if(isset($v['images']))
+                {
+                    if(!empty($v['images']))
+                    {
+                        $images = json_decode($v['images'], true);
+                        foreach($images as &$img)
+                        {
+                            $img = ResourcesService::AttachmentPathViewHandle($img);
+                        }
+                        $v['images'] = $images;
+                    }
+                }
+
                 if(isset($v['add_time']))
                 {
                     $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
@@ -214,15 +229,15 @@ class ArticleService
         $content = isset($params['content']) ? htmlspecialchars_decode($params['content']) : '';
 
         // 数据
-        $image = self::MatchContentImage($content);
+        $images = self::MatchContentImage($content);
         $data = [
             'title'                 => $params['title'],
             'title_color'           => empty($params['title_color']) ? '' : $params['title_color'],
             'article_category_id'   => intval($params['article_category_id']),
             'jump_url'              => empty($params['jump_url']) ? '' : $params['jump_url'],
             'content'               => ResourcesService::ContentStaticReplace($content, 'add'),
-            'image'                 => empty($image) ? '' : json_encode($image),
-            'image_count'           => count($image),
+            'images'                => empty($images) ? '' : json_encode($images),
+            'images_count'          => count($images),
             'is_enable'             => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
             'is_home_recommended'   => isset($params['is_home_recommended']) ? intval($params['is_home_recommended']) : 0,
             'seo_title'             => empty($params['seo_title']) ? '' : $params['seo_title'],

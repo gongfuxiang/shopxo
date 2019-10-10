@@ -34,11 +34,11 @@ Page({
       params: params,
       nav_status_index: nav_status_index
     });
-    this.init();
   },
 
   onShow() {
     swan.setNavigationBarTitle({ title: app.data.common_pages_title.user_order });
+    this.init();
   },
 
   init() {
@@ -366,6 +366,13 @@ Page({
     // 进入售后页面
     swan.navigateTo({
       url: "/pages/user-orderaftersale-detail/user-orderaftersale-detail?oid=" + oid + "&did=" + did
+    });
+  },
+
+  // 订单评论
+  comments_event(e) {
+    swan.navigateTo({
+      url: "/pages/user-order-comments/user-order-comments?id=" + e.currentTarget.dataset.value
     });
   },
 });

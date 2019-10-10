@@ -16,6 +16,7 @@
     "pages/user-address-save/user-address-save",
     "pages/user-order/user-order",
     "pages/user-order-detail/user-order-detail",
+    "pages/user-order-comments/user-order-comments",
     "pages/user-faovr/user-faovr",
     "pages/user-answer-list/user-answer-list",
     "pages/answer-list/answer-list",

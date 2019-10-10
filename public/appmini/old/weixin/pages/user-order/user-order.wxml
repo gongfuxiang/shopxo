@@ -34,15 +34,12 @@
         </navigator>
       </view>
       <view class="item-describe tr cr-666">{{item.describe}}</view>
-      <view wx:if="{{item.status <= 3}}" class="item-operation tr br-t">
-        <button wx:if="{{item.status <= 1}}" class="submit-cancel" type="default" size="mini" bindtap="cancel_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">取消
-        </button>
-        <button wx:if="{{item.status == 1}}" class="submit-pay cr-666 br" type="default" size="mini" bindtap="pay_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">支付
-        </button>
-        <button wx:if="{{item.status == 2}}" class="submit-rush cr-666 br" type="default" size="mini" bindtap="rush_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">催催
-        </button>
-        <button wx:if="{{item.status == 3}}" class="submit-success cr-666 br" type="default" size="mini" bindtap="collect_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">收货
-        </button>
+      <view wx:if="{{item.status <= 3 || (item.status == 4 && item.user_is_comments == 0)}}" class="item-operation tr br-t">
+        <button wx:if="{{item.status <= 1}}" class="submit-cancel" type="default" size="mini" bindtap="cancel_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">取消</button>
+        <button wx:if="{{item.status == 1}}" class="submit-pay cr-666 br" type="default" size="mini" bindtap="pay_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">支付</button>
+        <button wx:if="{{item.status == 2}}" class="submit-rush cr-666 br" type="default" size="mini" bindtap="rush_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">催催</button>
+        <button wx:if="{{item.status == 3}}" class="submit-success cr-666 br" type="default" size="mini" bindtap="collect_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">收货</button>
+        <button wx:if="{{item.status == 4 && item.user_is_comments == 0}}" class="submit-success cr-666 br" type="default" size="mini" bindtap="comments_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">评论</button>
       </view>
     </view>
 

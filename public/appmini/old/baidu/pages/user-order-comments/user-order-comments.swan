@@ -1,29 +1,29 @@
-<view wx:if="{{detail != null}}">
+<view s-if="detail != null">
   <form bindsubmit="formSubmit" class="form-container">
-      <view wx:for="{{detail.items}}" wx:key="item" class="form-gorup bg-white oh">
+      <view s-for="item, index in detail.items" s-key="item" class="form-gorup bg-white oh">
         <view class="oh">
           <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}" hover-class="none">
             <image class="goods-image fl br" src="{{item.images}}" mode="aspectFill" />
           </navigator>
           <view class="item-base">
-            <block wx:for="{{[1,2,3,4,5]}}" wx:key="tx" wx:for-index="tx">
+            <block s-for="item, tx in [1,2,3,4,5]" s-key="tx">
               <image class="xingxing-icon" src="/images/default-xingxing-icon{{form_rating_list[index] != undefined && form_rating_list[index] >= item ? '-active' : ''}}.png" mode="aspectFill" bindtap="rating_event" data-index="{{index}}" data-value="{{item}}" />
             </block>
-            <text wx:if="{{form_rating_list[index] != undefined}}" class="msg-text cr-888">{{rating_msg[form_rating_list[index]-1]}}</text>
+            <text s-if="form_rating_list[index] != undefined" class="msg-text cr-888">{{rating_msg[form_rating_list[index]-1]}}</text>
           </view>
         </view>
         <view class="form-content">
-          <textarea bindinput="form_content_event" data-index="{{index}}" placeholder-class="cr-ccc" class="cr-666" placeholder="退宝贝满足你的期待吗？说说它的有点和美中不足的地方吧" maxlength="230" value="{{form_msg}}" />
+          <textarea bindinput="form_content_event" data-index="{{index}}" placeholder-class="cr-ccc" class="cr-666" placeholder="退宝贝满足你的期待吗？说说它的有点和美中不足的地方吧" maxlength="230" value="{=form_msg=}" />
           <view class="form-container-upload oh">
             <view class="form-upload-data fl">
-              <block wx:if="{{(form_images_list[index] || null) != null && form_images_list[index].length > 0}}">
-                <view wx:for="{{form_images_list[index]}}" wx:key="item" wx:for-index="ix"  class="item fl">
+              <block s-if="(form_images_list[index] || null) != null && form_images_list[index].length > 0">
+                <view s-for="item, ix in form_images_list[index]" s-key="item" class="item fl">
                   <text class="delete-icon" bindtap="upload_delete_event" data-index="{{index}}" data-ix="{{ix}}">x</text>
                   <image src="{{item}}" bindtap="upload_show_event" data-index="{{index}}" data-ix="{{ix}}" mode="aspectFill" />
                 </view>
               </block>
             </view>
-            <image wx:if="{{(form_images_list[index] || null) == null || form_images_list[index].length < 3}}" class="upload-icon" src="/images/default-upload-icon.png" mode="aspectFill" bindtap="file_upload_event" data-index="{{index}}" />
+            <image s-if="(form_images_list[index] || null) == null || form_images_list[index].length < 3" class="upload-icon" src="/images/default-upload-icon.png" mode="aspectFill" bindtap="file_upload_event" data-index="{{index}}" />
           </view>
         </view>
       </view>
@@ -40,7 +40,7 @@
   </form>
 </view>
 
-<view wx:if="{{detail == null}}">
-    <import src="/pages/common/nodata.wxml" />
-    <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
+<view s-if="detail == null">
+    <import src="/pages/common/nodata.swan" />
+    <template is="nodata" data="{{{status: data_list_loding_status, msg: data_list_loding_msg}}}"></template>
 </view>

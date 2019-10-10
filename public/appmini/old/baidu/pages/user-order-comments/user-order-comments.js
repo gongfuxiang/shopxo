@@ -14,7 +14,7 @@ Page({
     form_rating_list: [],
     form_images_list: [],
     form_content_list: [],
-    form_button_disabled: false,
+    form_button_disabled: false
   },
 
   onLoad(params) {
@@ -23,17 +23,17 @@ Page({
   },
 
   onShow() {
-    wx.setNavigationBarTitle({ title: app.data.common_pages_title.user_order_comments });
+    swan.setNavigationBarTitle({ title: app.data.common_pages_title.user_order_comments });
   },
 
   init() {
     var self = this;
-    wx.showLoading({ title: "加载中..." });
+    swan.showLoading({ title: "加载中..." });
     this.setData({
       data_list_loding_status: 1
     });
 
-    wx.request({
+    swan.request({
       url: app.get_request_url("comments", "order"),
       method: "POST",
       data: {
@@ -41,30 +41,30 @@ Page({
       },
       dataType: "json",
       success: res => {
-        wx.hideLoading();
-        wx.stopPullDownRefresh();
+        swan.hideLoading();
+        swan.stopPullDownRefresh();
         if (res.data.code == 0) {
           var data = res.data.data;
           self.setData({
             editor_path_type: data.editor_path_type || '',
             detail: data.data,
             data_list_loding_status: 3,
-            data_list_loding_msg: '',
+            data_list_loding_msg: ''
           });
         } else {
           self.setData({
             data_list_loding_status: 2,
-            data_list_loding_msg: res.data.msg,
+            data_list_loding_msg: res.data.msg
           });
           app.showToast(res.data.msg);
         }
       },
       fail: () => {
-        wx.hideLoading();
-        wx.stopPullDownRefresh();
+        swan.hideLoading();
+        swan.stopPullDownRefresh();
         self.setData({
           data_list_loding_status: 2,
-          data_list_loding_msg: '服务器请求出错',
+          data_list_loding_msg: '服务器请求出错'
         });
         app.showToast("服务器请求出错");
       }
@@ -75,9 +75,9 @@ Page({
   upload_show_event(e) {
     var index = e.currentTarget.dataset.index;
     var ix = e.currentTarget.dataset.ix;
-    wx.previewImage({
+    swan.previewImage({
       current: this.data.form_images_list[index][ix],
-      urls: this.data.form_images_list[index],
+      urls: this.data.form_images_list[index]
     });
   },
 
@@ -86,7 +86,7 @@ Page({
     var index = e.currentTarget.dataset.index;
     var ix = e.currentTarget.dataset.ix;
     var self = this;
-    wx.showModal({
+    swan.showModal({
       title: '温馨提示',
       content: '删除后不可恢复、继续吗？',
       success(res) {
@@ -94,7 +94,7 @@ Page({
           var list = self.data.form_images_list;
           list[index].splice(ix, 1);
           self.setData({
-            form_images_list: list,
+            form_images_list: list
           });
         }
       }
@@ -112,11 +112,11 @@ Page({
         temp_list[i] = [];
       }
     }
-    this.setData({ form_images_list: temp_list});
+    this.setData({ form_images_list: temp_list });
 
     // 处理上传文件
     var self = this;
-    wx.chooseImage({
+    swan.chooseImage({
       count: 3,
       success(res) {
         var success = 0;
@@ -132,7 +132,7 @@ Page({
   upload_one_by_one(index, img_paths, success, fail, count, length) {
     var self = this;
     if ((self.data.form_images_list[index] || null) == null || self.data.form_images_list[index].length < 3) {
-      wx.uploadFile({
+      swan.uploadFile({
         url: app.get_request_url("index", "ueditor"),
         filePath: img_paths[count],
         name: 'upfile',
@@ -143,11 +143,10 @@ Page({
         success: function (res) {
           success++;
           if (res.statusCode == 200) {
-            var data = (typeof (res.data) == 'object') ? res.data : JSON.parse(res.data);
+            var data = typeof res.data == 'object' ? res.data : JSON.parse(res.data);
             if (data.code == 0 && (data.data.url || null) != null) {
               var list = self.data.form_images_list;
-              if ((list[index] || null) == null)
-              {
+              if ((list[index] || null) == null) {
                 list[index] = [];
               }
               list[index].push(data.data.url);
@@ -176,7 +175,7 @@ Page({
 
   // 是否匿名事件
   anonymous_event(e) {
-    this.setData({ anonymous_value: e.detail.value == true ? 1 : 0});
+    this.setData({ anonymous_value: e.detail.value == true ? 1 : 0 });
   },
 
   // 评分事件
@@ -188,18 +187,15 @@ Page({
     // 数据初始化/赋值
     var temp_list = this.data.form_rating_list;
     var length = this.data.detail.items.length;
-    for(var i=0; i<length; i++)
-    {
-      if (temp_list[i] == undefined)
-      {
+    for (var i = 0; i < length; i++) {
+      if (temp_list[i] == undefined) {
         temp_list[i] = 0;
       }
-      if(index == i)
-      {
+      if (index == i) {
         temp_list[i] = value;
       }
     }
-    this.setData({ form_rating_list: temp_list});
+    this.setData({ form_rating_list: temp_list });
   },
 
   // 评论内容
@@ -231,15 +227,13 @@ Page({
 
     // 评分校验
     var count = this.data.form_rating_list.length;
-    if (count < length)
-    {
+    if (count < length) {
       app.showToast('请评分');
       return false;
     }
     var max = Math.max.apply(null, this.data.form_rating_list);
     var min = Math.min.apply(null, this.data.form_rating_list);
-    if (min < 1 || max > 5)
-    {
+    if (min < 1 || max > 5) {
       app.showToast('评分有误');
       return false;
     }
@@ -250,23 +244,18 @@ Page({
       app.showToast('请填写评论内容');
       return false;
     }
-    for (var i in this.data.form_content_list)
-    {
+    for (var i in this.data.form_content_list) {
       var count = this.data.form_content_list[i].length;
-      if (count < 6 || count > 230)
-      {
+      if (count < 6 || count > 230) {
         app.showToast('评论内容 6~230 个字符之间');
         return false;
       }
     }
 
     // 图片校验
-    if (this.data.form_images_list.length > 0)
-    {
-      for (var i in this.data.form_images_list)
-      {
-        if (this.data.form_images_list[i].length > 3)
-        {
+    if (this.data.form_images_list.length > 0) {
+      for (var i in this.data.form_images_list) {
+        if (this.data.form_images_list[i].length > 3) {
           app.showToast('每项评论图片不能超过3张');
           return false;
         }
@@ -277,27 +266,29 @@ Page({
     var form_data = e.detail.value;
     form_data['is_anonymous'] = form_data['is_anonymous'] == true ? 1 : 0;
     form_data['id'] = this.data.detail.id;
-    form_data['goods_id'] = JSON.stringify(this.data.detail.items.map(function (v) { return v.goods_id }));
+    form_data['goods_id'] = JSON.stringify(this.data.detail.items.map(function (v) {
+      return v.goods_id;
+    }));
     form_data['rating'] = JSON.stringify(this.data.form_rating_list);
     form_data['content'] = JSON.stringify(this.data.form_content_list);
-    form_data['images'] = (this.data.form_images_list.length > 0) ? JSON.stringify(this.data.form_images_list) : '';
+    form_data['images'] = this.data.form_images_list.length > 0 ? JSON.stringify(this.data.form_images_list) : '';
 
     // 提交表单
     var self = this;
-    wx.showLoading({ title: "处理中..." });
+    swan.showLoading({ title: "处理中..." });
     self.setData({ form_button_disabled: true });
-    wx.request({
+    swan.request({
       url: app.get_request_url("commentssave", "order"),
       method: "POST",
       data: form_data,
       dataType: "json",
       header: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
-        wx.hideLoading();
+        swan.hideLoading();
         if (res.data.code == 0) {
           app.showToast(res.data.msg, "success");
           setTimeout(function () {
-            wx.navigateBack();
+            swan.navigateBack();
           }, 2000);
         } else {
           self.setData({ form_button_disabled: false });
@@ -305,17 +296,16 @@ Page({
         }
       },
       fail: () => {
-        wx.hideLoading();
+        swan.hideLoading();
         self.setData({ form_button_disabled: false });
         app.showToast("服务器请求出错");
       }
     });
-
   },
 
   // 下拉刷新
   onPullDownRefresh() {
     this.init();
-  },
+  }
 
 });

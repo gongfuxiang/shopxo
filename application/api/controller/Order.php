@@ -12,6 +12,7 @@ namespace app\api\controller;
 
 use app\service\PaymentService;
 use app\service\OrderService;
+use app\service\GoodsCommentsService;
 
 /**
  * 我的订单
@@ -152,7 +153,18 @@ class Order extends Common
         $data = OrderService::OrderList($data_params);
         if(!empty($data['data'][0]))
         {
-            return DataReturn('success', 0, $data['data'][0]);
+            // 是否已评论
+            if($data['data'][0]['user_is_comments'] > 0)
+            {
+                return DataReturn('你已进行过评论', -100);
+            }
+
+            // 返回数据
+            $result = [
+                'data'                  => $data['data'][0],
+                'editor_path_type'      => 'order_comments-'.$this->user['id'].'-'.$data['data'][0]['id'],
+            ];
+            return DataReturn('success', 0, $result);
         }
         return DataReturn('没有相关数据', -100);
     }

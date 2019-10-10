@@ -47,34 +47,19 @@ class GoodsCommentsService
                 'error_msg'         => '业务类型标记不能为空',
             ],
             [
-                'checked_type'      => 'isset',
+                'checked_type'      => 'empty',
                 'key_name'          => 'goods_id',
                 'error_msg'         => '商品id有误',
             ],
             [
-                'checked_type'      => 'is_array',
-                'key_name'          => 'goods_id',
-                'error_msg'         => '商品数据格式有误',
-            ],
-            [
-                'checked_type'      => 'isset',
+                'checked_type'      => 'empty',
                 'key_name'          => 'rating',
                 'error_msg'         => '评级有误',
             ],
             [
-                'checked_type'      => 'is_array',
-                'key_name'          => 'rating',
-                'error_msg'         => '评级数据格式有误',
-            ],
-            [
-                'checked_type'      => 'isset',
+                'checked_type'      => 'empty',
                 'key_name'          => 'content',
                 'error_msg'         => '评论内容有误',
-            ],
-            [
-                'checked_type'      => 'is_array',
-                'key_name'          => 'content',
-                'error_msg'         => '评论内容数据格式有误',
             ],
             [
                 'checked_type'      => 'empty',
@@ -86,6 +71,63 @@ class GoodsCommentsService
         if($ret !== true)
         {
             return DataReturn($ret, -1);
+        }
+
+        // 参数处理
+        if(!is_array($params['goods_id']))
+        {
+            $params['goods_id'] = json_decode(htmlspecialchars_decode($params['goods_id']), true);
+        }
+        if(!is_array($params['rating']))
+        {
+            $params['rating'] = json_decode(htmlspecialchars_decode($params['rating']), true);
+        }
+        if(!is_array($params['content']))
+        {
+            $params['content'] = json_decode(htmlspecialchars_decode($params['content']), true);
+        }
+
+        // 评分
+        if(min($params['rating']) <= 0)
+        {
+            return DataReturn('评级有误', -1);
+        }
+        if(min($params['rating']) <= 0 || max($params['rating']) > 5)
+        {
+            return DataReturn('评级有误', -1);
+        }
+
+        // 评论内容
+        foreach($params['content'] as $v)
+        {
+            $len = mb_strlen($v, 'utf-8');
+            if($len < 6 || $len > 230)
+            {
+                return DataReturn('评论内容 6~230 个字符之间', -1);
+            }
+        }
+
+        // 附件处理
+        if(!empty($params['images']))
+        {
+            if(!is_array($params['images']))
+            {
+                $params['images'] = json_decode(htmlspecialchars_decode($params['images']), true);
+            }
+            foreach($params['images'] as &$v)
+            {
+                if(!empty($v))
+                {
+                    foreach($v as &$vs)
+                    {
+                        $vs = ResourcesService::AttachmentPathHandle($vs);
+                    }
+                    if(count($v) > 3)
+                    {
+                        return DataReturn('每项评论图片不能超过3张', -1);
+                    }
+                }
+            }
         }
 
         // 获取订单信息
@@ -108,6 +150,7 @@ class GoodsCommentsService
 
         // 处理数据
         Db::startTrans();
+        $is_anonymous = isset($params['is_anonymous']) ? min(1, intval($params['is_anonymous'])) : 0;
         foreach($params['goods_id'] as $k=>$goods_id)
         {
             $data = [
@@ -117,8 +160,9 @@ class GoodsCommentsService
                 'goods_id'      => $goods_id,
                 'business_type' => $params['business_type'],
                 'content'       => isset($params['content'][$k]) ? htmlspecialchars(trim($params['content'][$k])) : '',
+                'images'        => empty($params['images'][$k]) ? '' : json_encode($params['images'][$k]),
                 'rating'        => isset($params['rating'][$k]) ? intval($params['rating'][$k]) : 0,
-                'is_anonymous'  => isset($params['is_anonymous']) ? min(1, intval($params['is_anonymous'])) : 0,
+                'is_anonymous'  => $is_anonymous,
                 'add_time'      => time(),
             ];
             if(Db::name('GoodsComments')->insertGetId($data) <= 0)

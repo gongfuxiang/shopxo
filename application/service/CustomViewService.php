@@ -56,6 +56,20 @@ class CustomViewService
                     $v['content'] = ResourcesService::ContentStaticReplace($v['content'], 'get');
                 }
 
+                // 图片
+                if(isset($v['images']))
+                {
+                    if(!empty($v['images']))
+                    {
+                        $images = json_decode($v['images'], true);
+                        foreach($images as &$img)
+                        {
+                            $img = ResourcesService::AttachmentPathViewHandle($img);
+                        }
+                        $v['images'] = $images;
+                    }
+                }
+
                 // 时间
                 if(isset($v['add_time']))
                 {
@@ -198,12 +212,12 @@ class CustomViewService
         $content = isset($params['content']) ? htmlspecialchars_decode($params['content']) : '';
 
         // 数据
-        $image = self::MatchContentImage($content);
+        $images = self::MatchContentImage($content);
         $data = [
             'title'         => $params['title'],
             'content'       => ResourcesService::ContentStaticReplace($content, 'add'),
-            'image'         => empty($image) ? '' : json_encode($image),
-            'image_count'   => count($image),
+            'images'        => empty($images) ? '' : json_encode($images),
+            'images_count'  => count($images),
             'is_enable'     => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
             'is_header'     => isset($params['is_header']) ? intval($params['is_header']) : 0,
             'is_footer'     => isset($params['is_footer']) ? intval($params['is_footer']) : 0,
