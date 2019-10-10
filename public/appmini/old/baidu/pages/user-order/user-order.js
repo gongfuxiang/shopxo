@@ -34,11 +34,11 @@ Page({
       params: params,
       nav_status_index: nav_status_index
     });
+    this.init();
   },
 
   onShow() {
     swan.setNavigationBarTitle({ title: app.data.common_pages_title.user_order });
-    this.init();
   },
 
   init() {

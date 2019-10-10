@@ -23,17 +23,17 @@ Page({
   },
 
   onShow() {
-    wx.setNavigationBarTitle({ title: app.data.common_pages_title.user_order_comments });
+    my.setNavigationBar({title: app.data.common_pages_title.user_order_comments });
   },
 
   init() {
     var self = this;
-    wx.showLoading({ title: "加载中..." });
+    my.showLoading({ title: "加载中..." });
     this.setData({
       data_list_loding_status: 1
     });
 
-    wx.request({
+    my.request({
       url: app.get_request_url("comments", "order"),
       method: "POST",
       data: {
@@ -41,8 +41,8 @@ Page({
       },
       dataType: "json",
       success: res => {
-        wx.hideLoading();
-        wx.stopPullDownRefresh();
+        my.hideLoading();
+        my.stopPullDownRefresh();
         if (res.data.code == 0) {
           var data = res.data.data;
           self.setData({
@@ -60,8 +60,8 @@ Page({
         }
       },
       fail: () => {
-        wx.hideLoading();
-        wx.stopPullDownRefresh();
+        my.hideLoading();
+        my.stopPullDownRefresh();
         self.setData({
           data_list_loding_status: 2,
           data_list_loding_msg: '服务器请求出错',
@@ -73,20 +73,20 @@ Page({
 
   // 上传图片预览
   upload_show_event(e) {
-    var index = e.currentTarget.dataset.index;
-    var ix = e.currentTarget.dataset.ix;
-    wx.previewImage({
-      current: this.data.form_images_list[index][ix],
+    var index = e.target.dataset.index;
+    var ix = e.target.dataset.ix;
+    my.previewImage({
+      current: ix,
       urls: this.data.form_images_list[index],
     });
   },
 
   // 图片删除
   upload_delete_event(e) {
-    var index = e.currentTarget.dataset.index;
-    var ix = e.currentTarget.dataset.ix;
+    var index = e.target.dataset.index;
+    var ix = e.target.dataset.ix;
     var self = this;
-    wx.showModal({
+    my.confirm({
       title: '温馨提示',
       content: '删除后不可恢复、继续吗？',
       success(res) {
@@ -104,7 +104,7 @@ Page({
   // 文件上传
   file_upload_event(e) {
     // 数据初始化
-    var index = e.currentTarget.dataset.index;
+    var index = e.target.dataset.index;
     var temp_list = this.data.form_images_list;
     var length = this.data.detail.items.length;
     for (var i = 0; i < length; i++) {
@@ -116,7 +116,7 @@ Page({
 
     // 处理上传文件
     var self = this;
-    wx.chooseImage({
+    my.chooseImage({
       count: 3,
       success(res) {
         var success = 0;
@@ -132,7 +132,7 @@ Page({
   upload_one_by_one(index, img_paths, success, fail, count, length) {
     var self = this;
     if ((self.data.form_images_list[index] || null) == null || self.data.form_images_list[index].length < 3) {
-      wx.uploadFile({
+      my.uploadFile({
         url: app.get_request_url("index", "ueditor"),
         filePath: img_paths[count],
         name: 'upfile',
@@ -182,8 +182,8 @@ Page({
   // 评分事件
   rating_event(e) {
     // 参数
-    var index = e.currentTarget.dataset.index;
-    var value = e.currentTarget.dataset.value;
+    var index = e.target.dataset.index;
+    var value = e.target.dataset.value;
 
     // 数据初始化/赋值
     var temp_list = this.data.form_rating_list;
@@ -205,7 +205,7 @@ Page({
   // 评论内容
   form_content_event(e) {
     // 参数
-    var index = e.currentTarget.dataset.index;
+    var index = e.target.dataset.index;
     var value = e.detail.value;
 
     // 数据初始化/赋值
@@ -284,20 +284,20 @@ Page({
 
     // 提交表单
     var self = this;
-    wx.showLoading({ title: "处理中..." });
+    my.showLoading({ title: "处理中..." });
     self.setData({ form_button_disabled: true });
-    wx.request({
+    my.request({
       url: app.get_request_url("commentssave", "order"),
       method: "POST",
       data: form_data,
       dataType: "json",
       header: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
-        wx.hideLoading();
+        my.hideLoading();
         if (res.data.code == 0) {
           app.showToast(res.data.msg, "success");
           setTimeout(function () {
-            wx.navigateBack();
+            my.navigateBack();
           }, 2000);
         } else {
           self.setData({ form_button_disabled: false });
@@ -305,7 +305,7 @@ Page({
         }
       },
       fail: () => {
-        wx.hideLoading();
+        my.hideLoading();
         self.setData({ form_button_disabled: false });
         app.showToast("服务器请求出错");
       }

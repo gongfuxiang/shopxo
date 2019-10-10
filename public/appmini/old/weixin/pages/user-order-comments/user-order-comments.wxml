@@ -12,8 +12,8 @@
             <text wx:if="{{form_rating_list[index] != undefined}}" class="msg-text cr-888">{{rating_msg[form_rating_list[index]-1]}}</text>
           </view>
         </view>
-        <view class="form-content">
-          <textarea bindinput="form_content_event" data-index="{{index}}" placeholder-class="cr-ccc" class="cr-666" placeholder="退宝贝满足你的期待吗？说说它的有点和美中不足的地方吧" maxlength="230" value="{{form_msg}}" />
+        <view class="form-content br-t">
+          <textarea bindinput="form_content_event" data-index="{{index}}" placeholder-class="cr-ccc" class="cr-666" placeholder="宝贝满足你的期待吗？说说它的优点和美中不足的地方吧" maxlength="230" />
           <view class="form-container-upload oh">
             <view class="form-upload-data fl">
               <block wx:if="{{(form_images_list[index] || null) != null && form_images_list[index].length > 0}}">

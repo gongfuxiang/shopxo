@@ -175,7 +175,8 @@ Page({
 
   // 是否匿名事件
   anonymous_event(e) {
-    this.setData({ anonymous_value: e.detail.value == true ? 1 : 0 });
+      console.log(e)
+    this.setData({ anonymous_value: e.detail.checked == true ? 1 : 0 });
   },
 
   // 评分事件

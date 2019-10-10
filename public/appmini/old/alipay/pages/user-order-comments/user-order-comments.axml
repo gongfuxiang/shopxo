@@ -1,35 +1,35 @@
-<view wx:if="{{detail != null}}">
-  <form bindsubmit="formSubmit" class="form-container">
-      <view wx:for="{{detail.items}}" wx:key="item" class="form-gorup bg-white oh">
+<view a:if="{{detail != null}}">
+  <form onSubmit="formSubmit" class="form-container">
+      <view a:for="{{detail.items}}" class="form-gorup bg-white oh">
         <view class="oh">
           <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}" hover-class="none">
             <image class="goods-image fl br" src="{{item.images}}" mode="aspectFill" />
           </navigator>
           <view class="item-base">
-            <block wx:for="{{[1,2,3,4,5]}}" wx:key="tx" wx:for-index="tx">
-              <image class="xingxing-icon" src="/images/default-xingxing-icon{{form_rating_list[index] != undefined && form_rating_list[index] >= item ? '-active' : ''}}.png" mode="aspectFill" bindtap="rating_event" data-index="{{index}}" data-value="{{item}}" />
+            <block a:for="{{[1,2,3,4,5]}}" a:key="tx" a:for-index="tx">
+              <image class="xingxing-icon" src="/images/default-xingxing-icon{{form_rating_list[index] != undefined && form_rating_list[index] >= item ? '-active' : ''}}.png" mode="aspectFill" onTap="rating_event" data-index="{{index}}" data-value="{{item}}" />
             </block>
-            <text wx:if="{{form_rating_list[index] != undefined}}" class="msg-text cr-888">{{rating_msg[form_rating_list[index]-1]}}</text>
+            <text a:if="{{form_rating_list[index] != undefined}}" class="msg-text cr-888">{{rating_msg[form_rating_list[index]-1]}}</text>
           </view>
         </view>
-        <view class="form-content">
-          <textarea bindinput="form_content_event" data-index="{{index}}" placeholder-class="cr-ccc" class="cr-666" placeholder="退宝贝满足你的期待吗？说说它的有点和美中不足的地方吧" maxlength="230" value="{{form_msg}}" />
+        <view class="form-content br-t">
+          <textarea onInput="form_content_event" data-index="{{index}}" placeholder-class="cr-ccc" class="cr-666" placeholder="宝贝满足你的期待吗？说说它的优点和美中不足的地方吧" maxlength="230" />
           <view class="form-container-upload oh">
             <view class="form-upload-data fl">
-              <block wx:if="{{(form_images_list[index] || null) != null && form_images_list[index].length > 0}}">
-                <view wx:for="{{form_images_list[index]}}" wx:key="item" wx:for-index="ix"  class="item fl">
-                  <text class="delete-icon" bindtap="upload_delete_event" data-index="{{index}}" data-ix="{{ix}}">x</text>
-                  <image src="{{item}}" bindtap="upload_show_event" data-index="{{index}}" data-ix="{{ix}}" mode="aspectFill" />
+              <block a:if="{{(form_images_list[index] || null) != null && form_images_list[index].length > 0}}">
+                <view a:for="{{form_images_list[index]}}" a:for-index="ix"  class="item fl">
+                  <text class="delete-icon" onTap="upload_delete_event" data-index="{{index}}" data-ix="{{ix}}">x</text>
+                  <image src="{{item}}" onTap="upload_show_event" data-index="{{index}}" data-ix="{{ix}}" mode="aspectFill" />
                 </view>
               </block>
             </view>
-            <image wx:if="{{(form_images_list[index] || null) == null || form_images_list[index].length < 3}}" class="upload-icon" src="/images/default-upload-icon.png" mode="aspectFill" bindtap="file_upload_event" data-index="{{index}}" />
+            <image a:if="{{(form_images_list[index] || null) == null || form_images_list[index].length < 3}}" class="upload-icon" src="/images/default-upload-icon.png" mode="aspectFill" onTap="file_upload_event" data-index="{{index}}" />
           </view>
         </view>
       </view>
 
       <view class="form-gorup bg-white anonymous">
-        <switch name="is_anonymous" bindchange="anonymous_event" />
+        <switch name="is_anonymous" onChange="anonymous_event" />
         <text class="cr-666">匿名</text>
         <text class="fr cr-888 tips-text">{{anonymous_msg_list[anonymous_value]}}</text>
       </view>
@@ -40,7 +40,7 @@
   </form>
 </view>
 
-<view wx:if="{{detail == null}}">
-    <import src="/pages/common/nodata.wxml" />
+<view a:if="{{detail == null}}">
+    <import src="/pages/common/nodata.axml" />
     <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
 </view>

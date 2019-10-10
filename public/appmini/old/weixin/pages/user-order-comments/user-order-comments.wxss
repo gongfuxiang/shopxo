@@ -36,5 +36,8 @@
   height: 110rpx;
 }
 .anonymous .tips-text {
-  margin-top: 10rpx;
+  margin-top: 5rpx;
+}
+.anonymous switch {
+  vertical-align: middle;
 }

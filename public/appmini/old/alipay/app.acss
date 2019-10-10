@@ -302,7 +302,7 @@ textarea {
   line-height: 70rpx;
 }
 .form-container .form-gorup textarea {
-  padding: 0;
+  padding: 10rpx;
   min-height: 70rpx;
 }
 
@@ -315,8 +315,8 @@ textarea {
 }
 .form-container-upload .form-upload-data .delete-icon {
   position: absolute;
-  top: 15rpx;
-  right: 15rpx;
+  top: 12rpx;
+  right: 12rpx;
   color: #e5e5e5;
   background-color: #d9534f;
   padding: 5rpx 18rpx;
