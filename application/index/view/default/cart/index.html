@@ -32,10 +32,10 @@
             </thead>
             <tbody>
                 {{foreach $cart_list as $goods}}
-                    <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}" class="{{if $goods['is_shelves'] neq 1}}am-warning{{/if}} {{if $goods['is_delete_time'] neq 0 or (isset($goods['is_invalid']) and $goods['is_invalid'] eq 1)}}am-danger{{/if}}">
+                    <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}" class="{{if $goods['is_error'] eq 1}}am-danger{{/if}}">
                         <td class="base">
                             <label class="am-checkbox-inline am-success am-fl">
-                                <input type="checkbox" value="{{$goods.id}}" {{if $goods['is_shelves'] neq 1 or $goods['is_delete_time'] neq 0 or (isset($goods['is_invalid']) and $goods['is_invalid'] eq 1)}}disabled{{/if}} data-am-ucheck />
+                                <input type="checkbox" value="{{$goods.id}}" {{if $goods['is_error'] eq 1}}disabled{{/if}} data-am-ucheck />
                             </label>
                             <div class="goods-detail">
                                 <a href="{{$goods.goods_url}}" target="_blank">
@@ -72,7 +72,7 @@
                                 <input type="number" class="am-form-field" value="{{$goods.stock}}" {{if $goods['is_shelves'] neq 1 or $goods['is_delete_time'] neq 0}}disabled{{/if}} />
                                 <span class="am-input-group-label {{if $goods['is_shelves'] eq 1 and $goods['is_delete_time'] eq 0}}stock-submit{{/if}}" data-type="add">+</span>
                             </div>
-                            {{if !empty($goods['error_msg'])}}
+                            {{if $goods['is_error'] eq 1 and !empty($goods['error_msg'])}}
                                 <p class="am-text-danger">{{$goods.error_msg}}</p>
                             {{/if}}
                         </td>
