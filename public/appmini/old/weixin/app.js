@@ -60,12 +60,13 @@ App({
       "user_orderaftersale": "退款/售后",
       "user_orderaftersale_detail": "订单售后",
       "user_order_comments": "订单评论",
+      "user_coupon": "优惠劵",
     },
 
     // 请求地址
     request_url: "{{request_url}}",
      request_url: 'http://tp5-dev.com/',
-     request_url: 'https://test.shopxo.net/',
+    // request_url: 'https://test.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
