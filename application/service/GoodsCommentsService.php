@@ -133,7 +133,7 @@ class GoodsCommentsService
         // 获取订单信息
         $order_id = intval($params['id']);
         $where = ['id'=>$order_id, 'user_id'=>$params['user']['id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-        $order = Db::name('Order')->where($where)->field('id,status,shop_id,user_is_comments')->find();
+        $order = Db::name('Order')->where($where)->field('id,status,user_is_comments')->find();
         if(empty($order))
         {
             return DataReturn('资源不存在或已被删除', -1);
@@ -155,7 +155,6 @@ class GoodsCommentsService
         {
             $data = [
                 'user_id'       => $params['user']['id'],
-                'shop_id'       => $order['shop_id'],
                 'order_id'      => $order_id,
                 'goods_id'      => $goods_id,
                 'business_type' => $params['business_type'],

@@ -830,14 +830,10 @@ class BuyService
             $address = $buy['data']['base']['address'];
         }
 
-        // 店铺
-        $shop_id = 0;
-
         // 订单写入
         $order = [
             'order_no'              => date('YmdHis').GetNumberCode(6),
             'user_id'               => $params['user']['id'],
-            'shop_id'               => $shop_id,
             'receive_address_id'    => $address['id'],
             'receive_name'          => $address['name'],
             'receive_tel'           => $address['tel'],
@@ -888,7 +884,6 @@ class BuyService
                 $detail = [
                     'order_id'          => $order_id,
                     'user_id'           => $params['user']['id'],
-                    'shop_id'           => $shop_id,
                     'goods_id'          => $v['goods_id'],
                     'title'             => $v['title'],
                     'images'            => $v['images_old'],

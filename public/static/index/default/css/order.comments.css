@@ -5,6 +5,7 @@
     overflow: hidden;
     margin-bottom: 2px;
     padding: 3px 5px;
+    line-height: 22px;
 }
 .user-content-body ul.rating li {
     float: left;
@@ -18,6 +19,9 @@
 }
 .user-content-body ul.rating li i.am-icon-star {
     color: #d13b49;
+}
+.user-content-body ul.rating li.tips-text {
+    width: 38px;
 }
 .user-content-body .rating-items {
     margin-bottom: 0;

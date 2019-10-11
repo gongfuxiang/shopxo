@@ -137,7 +137,9 @@
                                         <ul class="am-slides">
                                             {{foreach $v.images as $img}}
                                                 <li>
-                                                    <img src="{{$img}}" />
+                                                    <a href="{{$img}}" target="_blank">
+                                                        <img src="{{$img}}" />
+                                                    </a>
                                                 </li>
                                             {{/foreach}}
                                         </ul>

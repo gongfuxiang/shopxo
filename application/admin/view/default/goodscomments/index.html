@@ -98,6 +98,7 @@
                     <th class="am-hide-md-down">用户信息</th>
                     <th class="am-hide-sm-only">业务类型</th>
                     <th>评论内容</th>
+                    <th class="am-hide-sm-only">评论图片</th>
                     <th class="am-hide-sm-only">评分</th>
                     <th class="am-hide-sm-only">回复</th>
                     <th class="am-hide-sm-only">匿名</th>
@@ -141,6 +142,21 @@
                                 <div class="reply-content">
                                     {{$v.content}}
                                 </div>
+                            </td>
+                            <td class="am-hide-sm-only">
+                                {{if !empty($v['images'])}}
+                                    <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false, slideshow:false}' >
+                                        <ul class="am-slides">
+                                            {{foreach $v.images as $img}}
+                                                <li>
+                                                    <a href="{{$img}}" target="_blank">
+                                                        <img src="{{$img}}" />
+                                                    </a>
+                                                </li>
+                                            {{/foreach}}
+                                        </ul>
+                                    </div>
+                                {{/if}}
                             </td>
                             <td class="am-hide-sm-only">
                                 <span class="am-badge am-radius {{$common_goods_comments_rating_list[$v['rating']]['badge']}}">{{$v.rating_text}}</span>
@@ -200,6 +216,17 @@
 
                                                 <dt>评论内容</dt>
                                                 <dd>{{$v.content}}</dd>
+
+                                                <dt>评论图片</dt>
+                                                <dd>
+                                                    {{if !empty($v['images'])}}
+                                                        {{foreach $v.images as $img}}
+                                                            <a href="{{$img}}" target="_blank">
+                                                                <img src="{{$img}}" class="am-img-thumbnail" width="80" height="80" />
+                                                            </a>
+                                                        {{/foreach}}
+                                                    {{/if}}
+                                                </dd>
 
                                                 <dt>评分</dt>
                                                 <dd>

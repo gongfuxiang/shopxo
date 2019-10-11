@@ -56,6 +56,13 @@
 .content-right table.am-table .view-operation {
     width: 85px;
 }
+.content-right table.am-table .am-slider {
+    width: 100px;
+    max-height: 108px;
+    overflow: hidden;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
 
 
 /**

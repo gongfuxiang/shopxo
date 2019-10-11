@@ -171,6 +171,9 @@ class Order extends Common
         {
             $this->assign('referer_url', empty($_SERVER['HTTP_REFERER']) ? MyUrl('index/order/index') : $_SERVER['HTTP_REFERER']);
             $this->assign('data', $data['data'][0]);
+
+            // 编辑器文件存放地址
+            $this->assign('editor_path_type', 'order_comments-'.$this->user['id'].'-'.$data['data'][0]['id']);
             return $this->fetch();
         } else {
             $this->assign('msg', '没有相关数据');

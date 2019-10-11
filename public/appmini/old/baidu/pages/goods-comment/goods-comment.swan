@@ -7,7 +7,7 @@
     <view class="progress fr tc">
       <block s-if="goods_score.avg > 0">
         <block s-for="item, index in goods_score.rating" s-key="key">
-          <view class="progress-bar {{progress_class[index]}}" style="width: {{item.portion}}%;">{{item.name}}</view>
+          <view s-if="item.portion > 0" class="progress-bar {{progress_class[index]}}" style="width: {{item.portion}}%;">{{item.name}}</view>
         </block>
       </block>
       <text s-else class="cr-888">暂无评分</text>

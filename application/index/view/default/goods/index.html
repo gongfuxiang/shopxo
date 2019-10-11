@@ -490,22 +490,24 @@
                             <div class="am-progress am-fr">
                                 {{if isset($goods_score['avg']) and $goods_score['avg'] gt 0 and !empty($goods_score['rating'])}}
                                     {{foreach $goods_score.rating as $score}}
-                                        <div class="am-progress-bar 
-                                            {{switch score.rating}}
-                                                {{case 1}}
-                                                    am-progress-bar-danger
-                                                {{/case}}
-                                                {{case 2}}
-                                                    am-progress-bar-warning
-                                                {{/case}}
-                                                {{case 3}}
-                                                    am-progress-bar-secondary
-                                                {{/case}}
-                                                {{case 5}}
-                                                    am-progress-bar-success
-                                                {{/case}}
-                                            {{/switch}}"
-                                            style="width: {{$score.portion}}%">{{$score.name}}({{$score.portion}}%)</div>
+                                        {{if $score.portion gt 0}}
+                                            <div class="am-progress-bar 
+                                                {{switch score.rating}}
+                                                    {{case 1}}
+                                                        am-progress-bar-danger
+                                                    {{/case}}
+                                                    {{case 2}}
+                                                        am-progress-bar-warning
+                                                    {{/case}}
+                                                    {{case 3}}
+                                                        am-progress-bar-secondary
+                                                    {{/case}}
+                                                    {{case 5}}
+                                                        am-progress-bar-success
+                                                    {{/case}}
+                                                {{/switch}}"
+                                                style="width: {{$score.portion}}%">{{$score.name}}({{$score.portion}}%)</div>
+                                            {{/if}}
                                     {{/foreach}}
                                 {{else /}}
                                     没有评分数据

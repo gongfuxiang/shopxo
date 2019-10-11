@@ -299,7 +299,7 @@ class Common extends Controller
         $this->assign('common_bottom_nav_list', NavigationService::BottomNavigation(['user'=>$this->user]));
 
         // 编辑器文件存放地址
-        $this->assign('editor_path_type', empty($this->user['id']) ? 'public' : 'user_'.$this->user['id']);
+        $this->assign('editor_path_type', empty($this->user['id']) ? 'public' : 'user-'.$this->user['id']);
     }
 
     /**

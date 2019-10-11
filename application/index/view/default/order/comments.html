@@ -36,7 +36,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{foreach $data.items as $goods}}
+                                    {{foreach $data.items as $key=>$goods}}
                                         <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}" class="am-form-group business-form-block">
                                             <td class="base">
                                                 <div class="goods-detail">
@@ -76,11 +76,17 @@
                                                         <li><i class="am-icon-star-o am-icon-md"></i></li>
                                                         <li><i class="am-icon-star-o am-icon-md"></i></li>
                                                         <li><i class="am-icon-star-o am-icon-md"></i></li>
+                                                        <li class="tips-text"></li>
                                                     </ul>
                                                     <input type="text" name="rating[]" value="" class="input-rating" data-validation-message="请选择评分" required />
                                                 </div>
-                                                <textarea name="content[]" class="am-radius" rows="4" minlength="6" maxlength="230" data-validation-message="评论内容 6~230 个字符之间" required></textarea>
+                                                <textarea name="content[]" class="am-radius" placeholder="宝贝满足你的期待吗？说说它的优点和美中不足的地方吧" rows="4" minlength="6" maxlength="230" data-validation-message="评论内容 6~230 个字符之间" required></textarea>
                                                 <input type="hidden" name="goods_id[]" value="{{$goods.goods_id}}" />
+
+                                                <ul class="plug-file-upload-view goods-images-view-{{$key}}" data-form-name="images[{{$key}}][]" data-max-number="3" data-dialog-type="images">
+                                                </ul>
+                                                <div class="plug-file-upload-submit" data-view-tag="ul.goods-images-view-{{$key}}">+上传图片</div>
+                                                <span class="am-form-group-label-tips">最多上传3张图片</span>
                                             </td>
                                         </tr>
                                     {{/foreach}}
@@ -90,7 +96,7 @@
                     {{/if}}
 
                     <div class="am-form-group business-form-block">
-                        <label class="block">是否匿名</label>
+                        <label class="block">是否匿名<span class="am-form-group-label-tips">开启后你写的评论会以匿名的形式展现</span></label>
                         <input name="is_anonymous" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch />
                     </div>
 

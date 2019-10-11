@@ -57,10 +57,12 @@ $(function()
     {
         $(this).parent().find('li i').removeClass('am-icon-star').addClass('am-icon-star-o');
         var index = $(this).index();
+        var rating_msg = ['非常差', '差', '一般', '好', '非常好'];
         for(var i=0; i<=index; i++)
         {
             $(this).parent().find('li').eq(i).find('i').removeClass('am-icon-star-o').addClass('am-icon-star');
         }
+        $(this).parent().find('li.tips-text').text(rating_msg[index]);
         $(this).parents('td').find('input.input-rating').val(index+1).trigger('blur');
         $(this).parent().removeClass('not-selected');
     });
