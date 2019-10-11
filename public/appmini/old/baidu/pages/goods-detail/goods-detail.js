@@ -38,7 +38,9 @@ Page({
     common_app_is_limitedtimediscount: 0,
     plugins_limitedtimediscount_data: null,
     plugins_limitedtimediscount_is_show_time: true,
-    plugins_limitedtimediscount_time_millisecond: 0
+    plugins_limitedtimediscount_time_millisecond: 0,
+    plugins_limitedtimediscount_timer: null,
+    plugins_limitedtimediscount_timers: null,
   },
 
   onLoad(params) {
@@ -584,11 +586,16 @@ Page({
 
   // 显示秒杀插件-倒计时
   plugins_limitedtimediscount_countdown() {
+    // 销毁之前的任务
+    clearInterval(this.data.plugins_limitedtimediscount_timer);
+    clearInterval(this.data.plugins_limitedtimediscount_timers);
+
+    // 定时参数
     var status = this.data.plugins_limitedtimediscount_data.time.status || 0;
     var msg = this.data.plugins_limitedtimediscount_data.time.msg || '';
-    var hours = this.data.plugins_limitedtimediscount_data.time.hours || 0;
-    var minutes = this.data.plugins_limitedtimediscount_data.time.minutes || 0;
-    var seconds = this.data.plugins_limitedtimediscount_data.time.seconds || 0;
+    var hours = parseInt(this.data.plugins_limitedtimediscount_data.time.hours) || 0;
+    var minutes = parseInt(this.data.plugins_limitedtimediscount_data.time.minutes) || 0;
+    var seconds = parseInt(this.data.plugins_limitedtimediscount_data.time.seconds) || 0;
     var self = this;
     if (status == 1) {
       // 秒
@@ -607,9 +614,10 @@ Page({
         }
 
         self.setData({
-          'plugins_limitedtimediscount_data.time.hours': hours < 10 && hours.length == 1 ? '0' + hours : hours,
-          'plugins_limitedtimediscount_data.time.minutes': minutes < 10 && minutes.length == 1 ? '0' + minutes : minutes,
-          'plugins_limitedtimediscount_data.time.seconds': seconds < 10 && seconds.length == 1 ? '0' + seconds : seconds
+          'plugins_limitedtimediscount_data.time.hours': (hours < 10) ? '0' + hours : hours,
+          'plugins_limitedtimediscount_data.time.minutes': (minutes < 10) ? '0' + minutes : minutes,
+          'plugins_limitedtimediscount_data.time.seconds': (seconds < 10) ? '0' + seconds : seconds,
+          plugins_limitedtimediscount_timer: timer,
         });
 
         if (hours <= 0 && minutes <= 0 && seconds <= 0) {
@@ -636,6 +644,9 @@ Page({
           clearInterval(timers);
         }
       }, 100);
+      self.setData({
+        plugins_limitedtimediscount_timers: timers,
+      });
     } else {
       // 活动已结束
       self.setData({
@@ -643,6 +654,12 @@ Page({
         plugins_limitedtimediscount_is_show_time: false
       });
     }
+  },
+
+  // 页面销毁时执行
+  onUnload: function () {
+    clearInterval(this.data.plugins_limitedtimediscount_timer);
+    clearInterval(this.data.plugins_limitedtimediscount_timers);
   },
 
   // 自定义分享
