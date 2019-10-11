@@ -320,7 +320,7 @@ class Goods extends Common
      * @version  1.0.0
      * @datetime 2019-05-13T21:47:41+0800
      */
-    public function Comment()
+    public function Comments()
     {
         // 是否ajax请求
         if(!IS_AJAX)
@@ -358,13 +358,13 @@ class Goods extends Common
             'is_public' => 1,
         );
         $data = GoodsCommentsService::GoodsCommentsList($data_params);
-        
+
         // 返回数据
         $result = [
             'number'            => $number,
             'total'             => $total,
             'page_total'        => $page_total,
-            'data'              => $data['data'],
+            'data'              => $this->fetch(null, ['data'=>$data['data']]),
         ];
         return DataReturn('请求成功', 0, $result);
     }

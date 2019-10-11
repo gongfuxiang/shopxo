@@ -81,18 +81,30 @@
 .base-content {
   padding: 10rpx;
 }
-.base-content .content, .base-content .reply {
+.base-content .content,
+.base-content .reply {
   line-height: 46rpx;
   font-size: 30rpx;
 }
-.base-content .spec {
+.base-content .spec,
+.base-content .reply,
+.base-content .images {
   margin-top: 20rpx;
+}
+.base-content .spec {
   color: #B0B0B0;
 }
 .base-content .reply {
-  margin-top: 20rpx;
   padding-top: 20rpx;
 }
 .base-content .reply-desc {
     color: #905602;
+}
+.base-content .images image {
+  width: 100rpx;
+  height: 100rpx;
+  padding: 5rpx;
+}
+.base-content .images image:not(:last-child) {
+  margin-right: 10rpx;
 }

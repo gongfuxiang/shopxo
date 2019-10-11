@@ -242,7 +242,7 @@ class Goods extends Common
      * @version  1.0.0
      * @datetime 2019-05-13T21:47:41+0800
      */
-    public function Comment()
+    public function Comments()
     {
         // 参数
         $params = $this->data_post;

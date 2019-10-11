@@ -77,7 +77,7 @@ Page({
       });
 
       my.request({
-        url: app.get_request_url("comment", "goods"),
+        url: app.get_request_url("comments", "goods"),
         method: "POST",
         data: { goods_id: this.data.params.goods_id, page: this.data.data_page },
         dataType: "json",
@@ -153,5 +153,15 @@ Page({
   // 滚动加载
   scroll_lower(e) {
     this.get_data_list();
+  },
+
+  // 图片预览
+  images_show_event(e) {
+    var index = e.target.dataset.index;
+    var ix = e.target.dataset.ix;
+    my.previewImage({
+      current: ix,
+      urls: this.data.data_list[index]['images'],
+    });
   },
 });

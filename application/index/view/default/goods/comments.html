@@ -1,0 +1,40 @@
+{{if !empty($data)}}
+  {{foreach $data as $v}}
+    <article class="am-comment">
+      <img src="{{$v.user.avatar}}" class="am-comment-avatar" alt="{{$v.user.user_name_view}}" />
+      <div class="am-comment-main">
+        <header class="am-comment-hd">
+          <div class="am-comment-meta">
+            <span class="am-comment-author">{{$v.user.user_name_view}}</span> 评论于 
+            <time>{{$v.add_time_time}}</time>
+          </div>
+        </header>
+        <div class="am-comment-bd">
+          <p>{{$v.content}}</p>
+          {{if !empty($v['images'])}}
+              <ul class="am-cf comment-images">
+                {{foreach $v.images as $img}}
+                  <li class="am-fl">
+                    <div class="am-gallery-item">
+                      <a href="{{$img}}" target="_blank">
+                        <img src="{{$img}}" class="am-img-thumbnail am-radius" />
+                      </a>
+                    </div>
+                  </li>
+                {{/foreach}}
+              </ul>
+          {{/if}}
+          {{if !empty($v['msg'])}}
+            <p class="comment-spec">{{$v.msg}}</p>
+          {{/if}}
+          {{if $v['is_reply'] eq 1 and !empty($v['reply'])}}
+            <div class="comment-reply">
+              <span class="comment-reply-title">管理员回复：</span>
+              <span class="comment-reply-desc">{{$v.reply}}</span>
+            </div>
+          {{/if}}
+        </div>
+      </div>
+    </article>
+  {{/foreach}}
+{{/if}}

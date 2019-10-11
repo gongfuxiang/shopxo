@@ -27,6 +27,11 @@
     </view>
     <view class="base-content oh">
       <view class="content cr-666">{{item.content}}</view>
+      <view s-if="(item.images || null) != null && item.images.length > 0" class="images oh">
+        <block s-for="iv,ix in item.images" s-key="key">
+          <image class="br" bindtap="images_show_event" data-index="{{index}}" data-ix="{{ix}}" src="{{iv}}" mode="aspectFit"></image>
+        </block>
+      </view>
       <view s-if="(item.msg || null) != null" class="spec">{{item.msg}}</view>
       <view s-if="item.is_reply == 1 && (item.reply || null) != null" class="reply br-t-dashed">
         <text class="cr-888">管理员回复：</text>

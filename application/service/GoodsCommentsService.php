@@ -220,6 +220,20 @@ class GoodsCommentsService
                     $v['user'] = $user;
                 }
 
+                // 图片
+                if(isset($v['images']))
+                {
+                    if(!empty($v['images']))
+                    {
+                        $images = json_decode($v['images'], true);
+                        foreach($images as &$img)
+                        {
+                            $img = ResourcesService::AttachmentPathViewHandle($img);
+                        }
+                        $v['images'] = $images;
+                    }
+                }
+
                 // 获取商品信息
                 $goods_params = [
                     'where' => [

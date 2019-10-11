@@ -46,40 +46,7 @@ function GoodsCommentsHtml(page)
             $('.goods-page-no-data').addClass('none');
             if(result.code == 0)
             {
-                var html = '';
-                for(var i in result.data.data)
-                {
-                    html += '<article class="am-comment">';
-                    html += '<img src="'+result.data.data[i]['user']['avatar']+'" class="am-comment-avatar" alt="'+result.data.data[i]['user']['user_name_view']+'" />';
-                    html += '<div class="am-comment-main">';
-                    html += '<header class="am-comment-hd">';
-                    html += '<div class="am-comment-meta">';
-                    html += '<span class="am-comment-author">'+result.data.data[i]['user']['user_name_view']+'</span>';
-                    html += ' 评论于 <time datetime="">'+result.data.data[i]['add_time_time']+'</time>';
-                    html += '</div>';
-                    html += '</header>';
-                    html += '<div class="am-comment-bd">';
-                    html += '<p>'+result.data.data[i]['content']+'</p>';
-
-                    // 规格
-                    if((result.data.data[i]['msg'] || null) != null)
-                    {
-                        html += '<p class="comment-spec">'+result.data.data[i]['msg']+'</p>';
-                    }
-
-                    // 回复
-                    if(result.data.data[i]['is_reply'] == 1 && (result.data.data[i]['reply'] || null) != null)
-                    {
-                        html += '<div class="comment-reply">';
-                        html += '<span class="comment-reply-title">管理员回复：</span>';
-                        html += '<span class="comment-reply-desc">'+result.data.data[i]['reply']+'</span>';
-                        html += '</div>';
-                    }
-                    html += '</div>';
-                    html += '</article>';
-                }
-
-                $('.goods-comment-content').html(html);
+                $('.goods-comment-content').html(result.data.data);
                 $('.goods-page-container').html(PageLibrary(result.data.total, result.data.number, page, 2));
             }
 
