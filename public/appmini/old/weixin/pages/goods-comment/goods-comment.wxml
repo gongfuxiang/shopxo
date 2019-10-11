@@ -16,7 +16,7 @@
 
 <!-- 列表 -->
 <scroll-view scroll-y="{{true}}" class="scroll-box" bindscrolltolower="scroll_lower" lower-threshold="30">
-  <view wx:for="{{data_list}}" wx:key="key" class="comment-item spacing-mt">
+  <view wx:for="{{data_list}}" wx:key="key" class="comment-item bg-white spacing-mt">
     <view class="oh nav">
       <image class="avatar dis-block fl" src="{{item.user.avatar || '/images/default-user.png'}}" mode="aspectFit"></image>
       <view class="base-nav fr">

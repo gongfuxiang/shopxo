@@ -57,12 +57,11 @@
   height: calc(100vh - 125rpx);
 }
 .comment-item {
-  padding: 0 10rpx 10rpx 10rpx;
-  border-bottom:solid 1px #eee;
+  padding-bottom: 10rpx;
 }
 .comment-item .nav {
   background: #ebebeb;
-  padding: 10rpx 0;
+  padding: 10rpx;
 }
 .comment-item .avatar {
   width: 70rpx;
