@@ -777,6 +777,14 @@ class OrderAftersaleService
             }
         }
 
+        // 是否仅退款操作需要退数量操作
+        $is_refund_only_number = false;
+        if($aftersale['type'] == 0 && $order['data']['status'] <= 2)
+        {
+            $is_refund_only_number = true;
+            $aftersale['number'] = $order['data']['items']['buy_number'];
+        }
+
         // 更新主订单
         $refund_price = PriceNumberFormat($order['data']['refund_price']+$aftersale['price']);
         $returned_quantity = intval($order['data']['returned_quantity']+$aftersale['number']);
@@ -787,11 +795,14 @@ class OrderAftersaleService
             'close_time'        => time(),
             'upd_time'          => time(),
         ];
+
         // 如果退款金额和退款数量到达订单实际是否金额和购买数量则关闭订单
         if($refund_price >= $order['data']['pay_price'] && $returned_quantity >= $order['data']['buy_number_count'])
         {
             $order_upd_data['status'] = 6;
         }
+        
+        // 更新主订单
         if(!Db::name('Order')->where(['id'=>$order['data']['id']])->update($order_upd_data))
         {
             Db::rollback();
@@ -811,7 +822,7 @@ class OrderAftersaleService
         }
 
         // 库存回滚
-        if($aftersale['type'] == 1)
+        if($aftersale['type'] == 1 || $is_refund_only_number == true)
         {
             $ret = BuyService::OrderInventoryRollback(['order_id'=>$order['data']['id'], 'order_data'=>$order_upd_data, 'appoint_order_detail_id'=>$aftersale['order_detail_id'], 'appoint_buy_number'=>$aftersale['number']]);
             if($ret['code'] != 0)
@@ -840,6 +851,12 @@ class OrderAftersaleService
             'audit_time'    => time(),
             'upd_time'      => time(),
         ];
+
+        // 仅退款是否退了数量
+        if($is_refund_only_number == true)
+        {
+            $aftersale_upd_data['number'] = $aftersale['number'];
+        }
         if(!Db::name('OrderAftersale')->where(['id'=>$aftersale['id']])->update($aftersale_upd_data))
         {
             Db::rollback();
