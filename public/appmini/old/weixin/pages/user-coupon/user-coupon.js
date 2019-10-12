@@ -4,7 +4,14 @@ Page({
     data_bottom_line_status: false,
     data_list_loding_status: 1,
     data_list_loding_msg: '',
-    data_list: [],
+    data_list: null,
+
+    nav_tabs_list: [
+      { name: "未使用", value: "not_use" },
+      { name: "已使用", value: "already_use" },
+      { name: "已过期", value: "already_expire" },
+    ],
+    nav_tabs_value: 'not_use',
   },
 
   onLoad(params) {
@@ -46,7 +53,8 @@ Page({
         wx.stopPullDownRefresh();
         if (res.data.code == 0) {
           self.setData({
-            data_list: res.data.data,
+            data_list: res.data.data || null,
+            data_bottom_line_status: true,
             data_list_loding_status: 3,
             data_list_loding_msg: '',
           });
@@ -69,6 +77,13 @@ Page({
         app.showToast("服务器请求出错");
       }
     });
+  },
+
+  // 导航事件
+  nav_tabs_event(e) {
+    var index = e.currentTarget.dataset.index;
+    var value = e.currentTarget.dataset.value;
+    this.setData({ nav_tabs_value: value});
   },
 
   // 下拉刷新
