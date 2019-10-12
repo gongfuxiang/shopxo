@@ -45,7 +45,6 @@ class Coupon extends Common
      */
     public function User()
     {
-        //sleep(5);
         $coupon_params = [
             'user'  => $this->user,
             'where' => [
