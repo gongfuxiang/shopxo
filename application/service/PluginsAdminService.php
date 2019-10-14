@@ -1115,9 +1115,21 @@ php;
         {
             return DataReturn('请先开启开发者模式', -1); 
         }
-        
+
         // 获取应用标记
-        $plugins = $params['id'];
+        // 防止路径回溯
+        $plugins = htmlentities(str_replace(array('.', '/', '\\', ':'), '', strip_tags($params['id'])));
+        if(empty($plugins))
+        {
+            return DataReturn('插件标识有误', -1);
+        }
+
+        // 配置信息
+        $config = self::GetPluginsConfig($plugins);
+        if($config === false)
+        {
+            return DataReturn('插件配置有误', -10);
+        }
 
         // 目录不存在则创建
         $new_dir = ROOT.'runtime'.DS.'data'.DS.'plugins_package'.DS.$plugins;
@@ -1214,7 +1226,7 @@ php;
         \base\FileUtil::UnlinkDir($new_dir);
 
         // 开始下载
-        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $plugins.'.zip'))
+        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $config['base']['name'].'.zip'))
         {
             @unlink($new_dir.'.zip');
         } else {

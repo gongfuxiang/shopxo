@@ -261,6 +261,18 @@ class ThemeService
             return DataReturn('主题名称有误', -1);
         }
 
+        // 获取配置信息
+        $config_file = ROOT.self::$html_path.$theme.DS.'config.json';
+        if(!file_exists($config_file))
+        {
+            return DataReturn('主题配置文件不存在', -1);
+        }
+        $config = json_decode(file_get_contents($config_file), true);
+        if(empty($config))
+        {
+            return DataReturn('主题配置信息有误', -1);
+        }
+
         // 目录不存在则创建
         $new_dir = ROOT.'runtime'.DS.'data'.DS.'theme_package'.DS.$theme;
         \base\FileUtil::CreateDir($new_dir);
@@ -296,7 +308,7 @@ class ThemeService
         \base\FileUtil::UnlinkDir($new_dir);
 
         // 开始下载
-        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $theme.'.zip'))
+        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $config['name'].'.zip'))
         {
             @unlink($new_dir.'.zip');
         } else {
