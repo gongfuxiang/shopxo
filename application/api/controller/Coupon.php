@@ -36,6 +36,30 @@ class Coupon extends Common
     }
 
     /**
+     * 优惠劵首页
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-10-15
+     * @desc    description
+     */
+    public function Index()
+    {
+        // 优惠劵列表
+        $coupon_params = [
+            'where'             => [
+                'is_enable'         => 1,
+                'is_user_receive'   => 1,
+            ],
+            'm'                 => 0,
+            'n'                 => 1000000,
+            'is_sure_receive'   => 1,
+            'user'              => $this->user,
+        ];
+        $ret = CallPluginsServiceMethod('coupon', 'CouponService', 'CouponList', $coupon_params);
+    }
+
+    /**
      * 用户优惠劵列表
      * @author   Devil
      * @blog    http://gong.gg/
