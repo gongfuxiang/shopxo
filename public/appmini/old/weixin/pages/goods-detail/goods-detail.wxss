@@ -256,7 +256,7 @@
 
 
 /*
- * 限时秒杀
+ * 限时秒杀 - 插件
  */
 .limitedtimediscount {
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQIAAAAgAQMAAADDkuSaAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAGUExUReQ5POlVO+6K1q8AAACiSURBVDjLhZK7EYMwEETlISCkBJUCnUEplOISXIJDQgcEHg9o/Vt5ZOZu9eKXvL0LIbOECg3OFSMiVYwRWKVwwouLMtq3gUkY/cfYhIEvi2gls9+aEa3kLlqJndwVBga/lSTRSm6i1U2OByNNfivZRCu5Wnf9Z/BbyS5ajfUb0ygfO9pGkTzaBh6i9bB+6xr5sXvf2EUrWUVrsX6UBkTrL/kJzQQAijmza5AAAAAASUVORK5CYII=) right top no-repeat #f23030;

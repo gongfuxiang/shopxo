@@ -102,14 +102,9 @@
   font-size: 30rpx;
 }
 
-.limitedtimediscount {
-  background: #fff;
-  padding: 5rpx 10rpx 20rpx 10rpx;
-  margin-bottom: 20rpx;
-}
 
 /*
- * 限时秒杀
+ * 限时秒杀 - 插件
  */
  .limitedtimediscount {
   background: #fff;

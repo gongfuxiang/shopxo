@@ -98,7 +98,9 @@ class UeditorService
                 return DataReturn('callback参数不合法', -1);
             }
         }
-        if(isset(self::$current_result['state']) && self::$current_result['state'] != 'SUCCESS')
+
+        // 未成功，非web环境下直接返回错误信息
+        if(!in_array(APPLICATION_CLIENT_TYPE, ['pc', 'h5']) && isset(self::$current_result['state']) && self::$current_result['state'] != 'SUCCESS')
         {
             return DataReturn(self::$current_result['state'], -1);
         }

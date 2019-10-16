@@ -1,7 +1,7 @@
 <image wx:if="{{(data_base || null) != null && (data_base.banner_images || null) != null}}" class="banner wh-auto dis-block" src="{{data_base.banner_images}}" mode="widthFix" />
 
 <!-- 优惠劵列表 -->
-<view wx:if="{{data_list.length > 0}}" class="data-list">
+<view wx:if="{{data_list.length > 0}}" class="coupon-container">
   <block wx:for="{{data_list}}" wx:key="item">
     <view class="item spacing-mt bg-white {{item.is_operable == 0 ? 'item-disabled' : ''}}" style="border:1px solid {{item.bg_color_value}};">
       <view class="v-left fl">

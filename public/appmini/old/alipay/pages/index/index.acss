@@ -104,7 +104,7 @@
 
 
 /*
- * 限时秒杀
+ * 限时秒杀 - 插件
  */
  .limitedtimediscount {
   background: #fff;

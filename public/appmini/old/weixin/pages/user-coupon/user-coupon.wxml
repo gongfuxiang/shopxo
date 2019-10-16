@@ -7,7 +7,7 @@
   </view>
 
   <!-- 优惠劵列表 -->
-  <view class="data-list">
+  <view class="coupon-container">
     <!-- 未使用 -->
     <view wx:if="{{(data_list.not_use || null) != null && data_list.not_use.length > 0 && nav_tabs_value == 'not_use'}}">
       <block wx:for="{{data_list.not_use}}" wx:key="item">
