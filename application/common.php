@@ -12,6 +12,20 @@
 // 应用公共文件
 
 /**
+ * 附件地址处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-10-16
+ * @desc    用于页面展示处理，非绝对路径的情况下自动加上http
+ * @param   [string]          $value [附件地址]
+ */
+function AttachmentPathViewHandle($value)
+{
+    return app\service\ResourcesService::AttachmentPathViewHandle($value);
+}
+
+/**
  * 路径解析指定参数
  * @author  Devil
  * @blog    http://gong.gg/

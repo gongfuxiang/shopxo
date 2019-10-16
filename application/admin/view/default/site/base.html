@@ -19,7 +19,7 @@
 					{{if !empty($data['home_site_logo']['value'])}}
 						<li>
 							<input type="text" name="home_site_logo" value="{{$data.home_site_logo.value}}" />
-							<img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_logo.value}}" />
+							<img src="{{:AttachmentPathViewHandle($data.home_site_logo.value)}}" />
 						</li>
 					{{/if}}
 				</ul>
@@ -32,7 +32,7 @@
 					{{if !empty($data['home_site_logo_wap']['value'])}}
 						<li>
 							<input type="text" name="home_site_logo_wap" value="{{$data.home_site_logo_wap.value}}" />
-							<img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_logo_wap.value}}" />
+							<img src="{{:AttachmentPathViewHandle($data.home_site_logo_wap.value)}}" />
 						</li>
 					{{/if}}
 				</ul>
@@ -45,7 +45,7 @@
 					{{if !empty($data['home_site_desktop_icon']['value'])}}
 						<li>
 							<input type="text" name="home_site_desktop_icon" value="{{$data.home_site_desktop_icon.value}}" />
-							<img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_desktop_icon.value}}" />
+							<img src="{{:AttachmentPathViewHandle($data.home_site_desktop_icon.value)}}" />
 						</li>
 					{{/if}}
 				</ul>

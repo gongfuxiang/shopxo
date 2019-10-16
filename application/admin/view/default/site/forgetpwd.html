@@ -21,7 +21,7 @@
                             {{if !empty($data['home_site_user_forgetpwd_ad1_images']['value'])}}
                                 <li>
                                     <input type="text" name="home_site_user_forgetpwd_ad1_images" value="{{$data.home_site_user_forgetpwd_ad1_images.value}}" />
-                                    <img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_user_forgetpwd_ad1_images.value}}" />
+                                    <img src="{{:AttachmentPathViewHandle($data.home_site_user_forgetpwd_ad1_images.value)}}" />
                                     <i>×</i>
                                 </li>
                             {{/if}}
@@ -56,7 +56,7 @@
                             {{if !empty($data['home_site_user_forgetpwd_ad2_images']['value'])}}
                                 <li>
                                     <input type="text" name="home_site_user_forgetpwd_ad2_images" value="{{$data.home_site_user_forgetpwd_ad2_images.value}}" />
-                                    <img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_user_forgetpwd_ad2_images.value}}" />
+                                    <img src="{{:AttachmentPathViewHandle($data.home_site_user_forgetpwd_ad2_images.value)}}" />
                                     <i>×</i>
                                 </li>
                             {{/if}}
@@ -91,7 +91,7 @@
                             {{if !empty($data['home_site_user_forgetpwd_ad3_images']['value'])}}
                                 <li>
                                     <input type="text" name="home_site_user_forgetpwd_ad3_images" value="{{$data.home_site_user_forgetpwd_ad3_images.value}}" />
-                                    <img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_user_forgetpwd_ad3_images.value}}" />
+                                    <img src="{{:AttachmentPathViewHandle($data.home_site_user_forgetpwd_ad3_images.value)}}" />
                                     <i>×</i>
                                 </li>
                             {{/if}}

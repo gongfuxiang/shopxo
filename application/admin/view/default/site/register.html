@@ -15,7 +15,7 @@
                     {{if !empty($data['home_site_user_register_bg_images']['value'])}}
                         <li>
                             <input type="text" name="home_site_user_register_bg_images" value="{{$data.home_site_user_register_bg_images.value}}" />
-                            <img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.home_site_user_register_bg_images.value}}" />
+                            <img src="{{:AttachmentPathViewHandle($data.home_site_user_register_bg_images.value)}}" />
                             <i>×</i>
                         </li>
                     {{/if}}

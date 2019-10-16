@@ -24,7 +24,7 @@
                     {{if !empty($data['common_customer_store_qrcode']['value'])}}
                         <li>
                             <input type="text" name="common_customer_store_qrcode" value="{{$data.common_customer_store_qrcode.value}}" />
-                            <img src="{{$Think.__MY_PUBLIC_URL__}}{{$data.common_customer_store_qrcode.value}}" />
+                            <img src="{{:AttachmentPathViewHandle($data.common_customer_store_qrcode.value)}}" />
                             <i>×</i>
                         </li>
                     {{/if}}

@@ -5,17 +5,17 @@
 	<title>{{$home_seo_site_title}}</title>
 	<meta name="keywords" content="{{$home_seo_site_keywords}}" />
 	<meta name="description" content="{{$home_seo_site_description}}" />
-	<meta name="generator" content="{{:__MY_URL__}}" />
+	<meta name="generator" content="{{$Think.__MY_URL__}}" />
 	<meta name="application-name" content="{{$home_seo_site_title}}" />
 	<meta name="msapplication-tooltip" content="{{$home_seo_site_title}}" />
-	<meta name="msapplication-starturl" content="{{:__MY_URL__}}" />
-	<link rel="shortcut icon" type="image/x-icon" href="{{:__MY_PUBLIC_URL__}}favicon.ico" />
+	<meta name="msapplication-starturl" content="{{$Think.__MY_URL__}}" />
+	<link rel="shortcut icon" type="image/x-icon" href="{{$Think.__MY_PUBLIC_URL__}}favicon.ico" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
 
 	<meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="{{:MyC('home_site_name')}}">
-    <link rel="apple-touch-icon" href="{{$attachment_host}}{{:MyC('home_site_desktop_icon')}}">
-    <link rel="apple-touch-icon-precomposed" href="{{$attachment_host}}{{:MyC('home_site_desktop_icon')}}">
+    <link rel="apple-touch-icon" href="{{:AttachmentPathViewHandle(MyC('home_site_desktop_icon'))}}">
+    <link rel="apple-touch-icon-precomposed" href="{{:AttachmentPathViewHandle(MyC('home_site_desktop_icon'))}}">
     
 	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/assets/css/amazeui.css?v={{:MyC('home_static_cache_version')}}" />
 	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/amazeui-switch/amazeui.switch.css?v={{:MyC('home_static_cache_version')}}" />
@@ -49,7 +49,7 @@
 
 	<script type="text/javascript">
 		var __root__ = '{{$Think.__MY_ROOT_PUBLIC__}}';
-		var __my_url__ = '{{:__MY_URL__}}';
+		var __my_url__ = '{{$Think.__MY_URL__}}';
 		var __public__ = '{{$Think.__MY_ROOT_PUBLIC__}}';
 		var __default_theme__ = '{{$default_theme}}';
 		var __modal_login_url__ = '{{:Url("index/user/modallogininfo")}}';

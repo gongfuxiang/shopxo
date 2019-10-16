@@ -13,7 +13,7 @@
 {{include file="public/goods_category" /}}
 
 <!-- conntent start  -->
-<div class="am-g my-content user-register-container" {{if !empty($user_register_bg_images)}}style="background: #FAFAFA url({{$attachment_host}}{{$user_register_bg_images}});"{{/if}}>
+<div class="am-g my-content user-register-container" {{if !empty($user_register_bg_images)}}style="background: #FAFAFA url({{:AttachmentPathViewHandle($user_register_bg_images)}});"{{/if}}>
     <div class="am-container">
         <!-- 用户注册页面顶部钩子 -->
         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
