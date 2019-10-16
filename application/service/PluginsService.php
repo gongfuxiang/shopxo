@@ -41,6 +41,8 @@ class PluginsService
         {
             $data = cache($key);
         }
+
+        // 数据不存在则从数据库读取
         if(empty($data))
         {
             // 获取数据
@@ -49,7 +51,7 @@ class PluginsService
             {
                 $data = json_decode($data, true);
 
-                // 是否有图片需要处理
+                // 是否有自定义附件需要处理
                 if(!empty($attachment_field) && is_array($attachment_field))
                 {
                     foreach($attachment_field as $field)
@@ -58,6 +60,26 @@ class PluginsService
                         {
                             $data[$field.'_old'] = $data[$field];
                             $data[$field] = ResourcesService::AttachmentPathViewHandle($data[$field]);
+                        }
+                    }
+                } else {
+                    // 所有附件后缀名称
+                    $attachment_ext = config('ueditor.fileManagerAllowFiles');
+
+                    // 未自定义附件则自动根据内容判断处理附件，建议自定义附件字段名称处理更高效
+                    if(!empty($attachment_ext) && is_array($attachment_ext))
+                    {
+                        foreach($data as $k=>$v)
+                        {
+                            $ext = strrchr(substr($v, -6), '.');
+                            if($ext !== false)
+                            {
+                                if(in_array($ext, $attachment_ext))
+                                {
+                                    $data[$k.'_old'] = $v;
+                                    $data[$k] = ResourcesService::AttachmentPathViewHandle($v);
+                                }
+                            }
                         }
                     }
                 }
@@ -113,6 +135,9 @@ class PluginsService
                 $params['data'][$field] = $value;
             }
         }
+
+        // 移除多余的字段
+        unset($params['data']['pluginsname'], $params['data']['pluginscontrol'], $params['data']['pluginsaction']);
 
         // 数据更新
         if(Db::name('Plugins')->where(['plugins'=>$params['plugins']])->update(['data'=>json_encode($params['data']), 'upd_time'=>time()]))

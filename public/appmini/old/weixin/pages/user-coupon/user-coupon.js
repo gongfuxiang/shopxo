@@ -36,6 +36,7 @@ Page({
     }
   },
 
+  // 获取数据
   get_data_list() {
     var self = this;
     wx.showLoading({ title: "加载中..." });

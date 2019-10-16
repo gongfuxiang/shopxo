@@ -1,5 +1,6 @@
 {
-  "pages": ["pages/user-coupon/user-coupon",
+  "pages": [
+    "pages/coupon/coupon",
     "pages/index/index",
     "pages/goods-category/goods-category",
     "pages/cart/cart",
@@ -25,7 +26,8 @@
     "pages/user-integral/user-integral",
     "pages/user-goods-browse/user-goods-browse",
     "pages/user-orderaftersale/user-orderaftersale",
-    "pages/user-orderaftersale-detail/user-orderaftersale-detail"
+    "pages/user-orderaftersale-detail/user-orderaftersale-detail",
+    "pages/user-coupon/user-coupon"
     
   ],
   "window": {

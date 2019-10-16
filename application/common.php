@@ -76,6 +76,41 @@ function PathToParams($key = null, $default = null, $path = '')
 }
 
 /**
+ * 调用插件方法 - 获取插件配置信息
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @datetime 2019-10-16T22:03:48+0800
+ * @param    [string]          $plugins             [插件名称]
+ * @param    [array]           $attachment_field    [自定义附件字段]
+ * @param    [string]          $service_name        [附件定义的服务层类名]
+ * @param    [string]          $attachment_property [附件属性名称]
+ */
+function CallPluginsData($plugins, $attachment_field = [], $service_name = '', $attachment_property = 'base_config_attachment_field')
+{
+    // 未指定附件字段则自动去获取
+    $attachment = [];
+    if(empty($attachment_field) && !empty($attachment_property))
+    {
+        // 类自定义或者默认两个类
+        $service_all = empty($service_name) ? ['BaseService', 'Service'] : [$service_name];
+        foreach($service_all as $service)
+        {
+            // 服务层获取附件属性
+            $plugins_class = 'app\plugins\\'.$plugins.'\service\\'.$service;
+            if(class_exists($plugins_class) && property_exists($plugins_class, $attachment_property))
+            {
+                $attachment = $plugins_class::${$attachment_property};
+                break;
+            }
+        }
+    }
+
+    // 获取配置信息
+    return app\service\PluginsService::PluginsData($plugins, $attachment);
+}
+
+/**
  * 调用插件方法 - 访问为静态
  * @author   Devil
  * @blog     http://gong.gg/

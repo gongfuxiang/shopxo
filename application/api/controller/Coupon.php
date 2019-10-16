@@ -30,9 +30,6 @@ class Coupon extends Common
     {
         // 调用父类前置方法
         parent::__construct();
-
-        // 是否登录
-        $this->IsLogin();
     }
 
     /**
@@ -45,6 +42,9 @@ class Coupon extends Common
      */
     public function Index()
     {
+        // 获取基础配置信息
+        $base = CallPluginsData('coupon');
+
         // 优惠劵列表
         $coupon_params = [
             'where'             => [
@@ -57,6 +57,13 @@ class Coupon extends Common
             'user'              => $this->user,
         ];
         $ret = CallPluginsServiceMethod('coupon', 'CouponService', 'CouponList', $coupon_params);
+
+        // 返回数据
+        $result = [
+            'base'  => $base['data'],
+            'data'  => $ret['data'],
+        ];
+        return DataReturn('处理成功', 0, $result);
     }
 
     /**
@@ -64,11 +71,15 @@ class Coupon extends Common
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2018-07-12
+     * @date    2019-10-15
      * @desc    description
      */
     public function User()
     {
+        // 是否登录
+        $this->IsLogin();
+
+        // 获取用户优惠劵
         $coupon_params = [
             'user'  => $this->user,
             'where' => [
@@ -77,6 +88,29 @@ class Coupon extends Common
             ],
         ];
         return CallPluginsServiceMethod('coupon', 'UserCouponService', 'CouponUserList', $coupon_params);
+    }
+
+    /**
+     * 领取优惠劵
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-10-15
+     * @desc    description
+     */
+    public function Receive()
+    {
+        // 是否登录
+        $this->IsLogin();
+
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 领取优惠劵
+        return CallPluginsServiceMethod('coupon', 'CouponService', 'UserReceiveCoupon', $this->data_post);
     }
 }
 ?>
