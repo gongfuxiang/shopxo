@@ -69,7 +69,7 @@ Page({
     params = app.launch_params_handle(params);
     
     // 参数赋值,初始化
-    params['goods_id']=2;
+    //params['goods_id']=2;
     this.setData({params: params});
     this.init();
   },
