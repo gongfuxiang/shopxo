@@ -126,6 +126,7 @@ class Goods extends Common
             'common_app_is_limitedtimediscount' => (int) MyC('common_app_is_limitedtimediscount'),
             'common_app_is_good_thing'          => (int) MyC('common_app_is_good_thing'),
             'common_app_is_poster_share'        => (int) MyC('common_app_is_poster_share'),
+            'plugins_coupon_data'               => $this->PluginsCouponGoods($goods_id),
         ];
 
         // 秒杀
@@ -138,6 +139,43 @@ class Goods extends Common
             }
         }
         return DataReturn('success', 0, $result);
+    }
+
+    /**
+     * 商品详情优惠劵
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-10-17
+     * @desc    description
+     * @param   [int]          $goods_id [商品id]
+     */
+    private function PluginsCouponGoods($goods_id)
+    {
+        // 获取基础配置信息
+        $base = CallPluginsData('coupon');
+
+        // 优惠劵列表
+        $coupon_params = [
+            'where'             => [
+                'is_enable'         => 1,
+                'is_user_receive'   => 1,
+            ],
+            'm'                 => 0,
+            'n'                 => 0,
+            'is_sure_receive'   => 1,
+            'user'              => $this->user,
+        ];
+        $ret = CallPluginsServiceMethod('coupon', 'CouponService', 'CouponList', $coupon_params);
+
+        // 排除商品不支持的活动
+        $ret['data'] = CallPluginsServiceMethod('coupon', 'BaseService', 'CouponListGoodsExclude', ['data'=>$ret['data'], 'goods_id'=>$goods_id]);
+
+        // 返回数据
+        return [
+            'base'  => $base['data'],
+            'data'  => $ret['data'],
+        ];
     }
 
     /**

@@ -291,3 +291,17 @@
 .limitedtimediscount .countdown .ds {
   padding: 0 4rpx;
 }
+
+
+
+.coupon-container {
+  white-space: nowrap;
+  box-sizing: border-box;
+  padding: 20rpx 10rpx;
+}
+.coupon-container .item {
+  display: inline-block;
+}
+.coupon-container .item:not(:last-child) {
+  margin-right: 20rpx;
+}

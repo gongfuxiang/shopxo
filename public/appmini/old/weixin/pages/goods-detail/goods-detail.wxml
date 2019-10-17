@@ -64,6 +64,29 @@
     </view>
   </view>
 
+  <!-- 优惠劵 -->
+  <view wx:if="{{(plugins_coupon_data || null) != null && plugins_coupon_data.data.length > 0}}" class="coupon-container wh-auto spacing-mt bg-white">
+    <scroll-view scroll-x="true">
+      <block wx:for="{{plugins_coupon_data.data}}" wx:key="item">
+        <view class="item bg-white {{item.is_operable == 0 ? 'item-disabled' : ''}}" style="border:1px solid {{item.bg_color_value}};">
+          <view class="v-left fl">
+            <view class="base single-text" style="color:{{item.bg_color_value}};">
+              <text class="symbol">￥</text>
+              <text class="price">{{item.discount_value}}</text>
+              <text class="unit">{{item.type == 0 ? '元' : '折'}}</text>
+              <text wx:if="{{(item.desc || null) != null}}" class="desc cr-888">{{item.desc}}</text>
+            </view>
+            <view wx:if="{{(item.use_limit_type_name || null) != null}}" class="base-tips cr-666 single-text">{{item.use_limit_type_name}}</view>
+          </view>
+          <view class="v-right fr" bindtap="receive_event" data-index="{{index}}" data-value="{{item.id}}" style="background:{{item.bg_color_value}};">
+            <text class="circle"></text>
+            <text>{{item.is_operable_name}}</text>
+          </view>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+
   <!-- 属性导航 -->
   <!-- <view wx:if="{{false}}" class="spacing">
     <view class="goods-attr-show-title bg-white arrow-right cr-666" bindtap="good_attribute_nav_event">

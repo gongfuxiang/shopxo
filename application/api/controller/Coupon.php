@@ -52,7 +52,7 @@ class Coupon extends Common
                 'is_user_receive'   => 1,
             ],
             'm'                 => 0,
-            'n'                 => 1000000,
+            'n'                 => 0,
             'is_sure_receive'   => 1,
             'user'              => $this->user,
         ];

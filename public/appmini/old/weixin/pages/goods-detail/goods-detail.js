@@ -59,9 +59,9 @@ Page({
 
     // 海报分享
     common_app_is_poster_share: 0,
-  },
-  on_error(e) {
-    console.log(e)
+
+    // 优惠劵
+    plugins_coupon_data: null,
   },
 
   onLoad(params) {
@@ -69,7 +69,7 @@ Page({
     params = app.launch_params_handle(params);
     
     // 参数赋值,初始化
-    //params['goods_id']=2;
+    params['goods_id']=2;
     this.setData({params: params});
     this.init();
   },
@@ -151,6 +151,7 @@ Page({
               'share_product.brand_info.name': data.goods.brand_name,
 
               common_app_is_poster_share: data.common_app_is_poster_share || 0,
+              plugins_coupon_data: data.plugins_coupon_data || null,
             });
 
             // 限时秒杀倒计时
