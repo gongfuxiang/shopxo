@@ -44,6 +44,12 @@
   <!-- 留言 -->
   <textarea bindinput="bind_user_note_event" maxlength="60" auto-height placeholder="留言" class="content-textarea bg-white spacing-mb" />
 
+  <!-- 优惠劵 -->
+  <view class="plugins-coupon bg-white spacing-mb arrow-right" bindtap="plugins_coupon_open_event">
+    <text class="cr-666">优惠劵</text>
+    <text class="cr-ccc fr">{{plugins_choice_coupon_value}}</text>
+  </view>
+
   <!-- 扩展数据展示 -->
   <view wx:if="{{extension_data.length > 0}}" class="extension-list spacing-mb">
     <view wx:for="{{extension_data}}" wx:key="key" class="item oh">
@@ -80,3 +86,37 @@
     <import src="/pages/common/nodata.wxml" />
     <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
 </view>
+
+<!-- 优惠劵选择 -->
+<component-popup prop-show="{{popup_plugins_coupon_status}}" prop-position="bottom" bindonclose="plugins_coupon_close_event">
+    <view class="plugins-coupon-popup bg-white">
+      <view class="close oh">
+        <view class="fr" catchtap="plugins_coupon_close_event">
+          <icon type="clear" size="20" />
+        </view>
+      </view>
+      <view wx:if="{{(plugins_coupon_data || null) != null && plugins_coupon_data.coupon_list.length > 0}}" class="coupon-container oh br-b">
+        <view class="not-use-tips tc">
+          <text bindtap="plugins_coupon_not_use_event">不使用优惠劵</text>
+        </view>
+        <block wx:for="{{plugins_coupon_data.coupon_list}}" wx:key="item">
+          <view class="item spacing-mt bg-white" style="border:1px solid {{item.coupon.bg_color_value}};">
+            <view class="v-left fl">
+              <view class="base single-text" style="color:{{item.coupon.bg_color_value}};">
+                <text class="symbol">￥</text>
+                <text class="price">{{item.coupon.discount_value}}</text>
+                <text class="unit">{{item.coupon.type_unit}}</text>
+                <text wx:if="{{(item.coupon.desc || null) != null}}" class="desc cr-888">{{item.coupon.desc}}</text>
+              </view>
+              <view wx:if="{{(item.coupon.use_limit_type_name || null) != null}}" class="base-tips cr-666 single-text">{{item.coupon.use_limit_type_name}}</view>
+              <view class="base-time cr-888 single-text">{{item.time_start_text}} 至 {{item.time_end_text}}</view>
+            </view>
+            <view class="v-right fr" style="background:{{item.coupon.bg_color_value}};" data-index="{{index}}" data-value="{{item.id}}" bindtap="plugins_coupon_use_event">
+              <text class="circle"></text>
+              <text>{{plugins_use_coupon_id == item.id ? '已选' : '选择'}}</text>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </component-popup>

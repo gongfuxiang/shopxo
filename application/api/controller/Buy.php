@@ -60,6 +60,9 @@ class Buy extends Common
             // 支付方式
             $payment_list = PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]);
 
+            // 当前选中的优惠劵
+            $coupon_id = isset($params['coupon_id']) ? intval($params['coupon_id']) : 0;
+
             // 数据返回组装
             $result = [
                 'goods_list'                => $ret['data']['goods'],
@@ -67,6 +70,9 @@ class Buy extends Common
                 'base'                      => $ret['data']['base'],
                 'extension_data'            => $ret['data']['extension_data'],
                 'common_order_is_booking'   => (int) MyC('common_order_is_booking', 0),
+
+                // 优惠劵
+                'plugins_coupon_data'       => CallPluginsServiceMethod('coupon', 'BaseService', 'BuyUserCouponData', ['order_goods'=>$ret['data']['goods'], 'coupon_id'=>$coupon_id]),
             ];
             return DataReturn('操作成功', 0, $result);
         }

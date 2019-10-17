@@ -126,6 +126,8 @@ class Goods extends Common
             'common_app_is_limitedtimediscount' => (int) MyC('common_app_is_limitedtimediscount'),
             'common_app_is_good_thing'          => (int) MyC('common_app_is_good_thing'),
             'common_app_is_poster_share'        => (int) MyC('common_app_is_poster_share'),
+
+            // 优惠劵
             'plugins_coupon_data'               => $this->PluginsCouponGoods($goods_id),
         ];
 
