@@ -83,6 +83,7 @@ Page({
       data: data,
       dataType: "json",
       success: res => {
+        wx.stopPullDownRefresh();
         wx.hideLoading();
         if (res.data.code == 0) {
           var data = res.data.data;
@@ -138,6 +139,7 @@ Page({
         }
       },
       fail: () => {
+        wx.stopPullDownRefresh();
         wx.hideLoading();
         this.setData({
           data_list_loding_status: 2,
@@ -147,6 +149,11 @@ Page({
         app.showToast("服务器请求出错");
       }
     });
+  },
+
+  // 下拉刷新
+  onPullDownRefresh() {
+    this.init();
   },
 
   // 用户留言事件
