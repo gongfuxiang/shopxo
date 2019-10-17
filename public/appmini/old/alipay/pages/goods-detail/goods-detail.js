@@ -40,6 +40,9 @@ Page({
     plugins_limitedtimediscount_time_millisecond: 0,
     plugins_limitedtimediscount_timer: null,
     plugins_limitedtimediscount_timers: null,
+
+    // 优惠劵
+    plugins_coupon_data: null,
   },
 
   onLoad(params) {
@@ -113,6 +116,7 @@ Page({
 
               common_app_is_limitedtimediscount: data.common_app_is_limitedtimediscount || 0,
               plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null,
+              plugins_coupon_data: data.plugins_coupon_data || null,
             });
 
             // 限时秒杀倒计时
@@ -712,6 +716,51 @@ Page({
     clearInterval(this.data.plugins_limitedtimediscount_timer);
     clearInterval(this.data.plugins_limitedtimediscount_timers);
   },
+
+  // 优惠劵领取事件
+  coupon_receive_event(e) {
+    var user = app.get_user_info(this, "coupon_receive_event");
+    // 用户未绑定用户则转到登录页面
+    if (app.user_is_need_login(user)) {
+      my.redirectTo({
+        url: "/pages/login/login?event_callback=coupon_receive_event"
+      });
+      return false;
+    } else {
+      var self = this;
+      var index = e.currentTarget.dataset.index;
+      var value = e.currentTarget.dataset.value;
+      var temp_list = this.data.plugins_coupon_data.data;
+      if (temp_list[index]['is_operable'] != 0) {
+        my.showLoading({ title: "处理中..." });
+        my.request({
+          url: app.get_request_url("receive", "coupon"),
+          method: "POST",
+          data: { "coupon_id": value },
+          dataType: "json",
+          header: { 'content-type': 'application/x-www-form-urlencoded' },
+          success: res => {
+            my.hideLoading();
+            if (res.data.code == 0) {
+              app.showToast(res.data.msg, "success");
+              if (self.data.plugins_coupon_data.base != null && self.data.plugins_coupon_data.base.is_repeat_receive != 1) {
+                temp_list[index]['is_operable'] = 0;
+                temp_list[index]['is_operable_name'] = '已领取';
+                self.setData({ 'plugins_coupon_data.data': temp_list });
+              }
+            } else {
+              app.showToast(res.data.msg);
+            }
+          },
+          fail: () => {
+            my.hideLoading();
+            app.showToast("服务器请求出错");
+          }
+        });
+      }
+    }
+  },
+
 
   // 自定义分享
   onShareAppMessage() {

@@ -445,7 +445,6 @@ button[disabled].bg-primary {
 .coupon-container .v-left base-tips, .coupon-container .v-left .base-time {
   margin-top: 10rpx;
 }
-
 .coupon-container .v-right {
   background: #d2364c;
   width: 140rpx;

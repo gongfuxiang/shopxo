@@ -25,7 +25,9 @@
     "pages/user-integral/user-integral",
     "pages/user-goods-browse/user-goods-browse",
     "pages/user-orderaftersale/user-orderaftersale",
-    "pages/user-orderaftersale-detail/user-orderaftersale-detail"
+    "pages/user-orderaftersale-detail/user-orderaftersale-detail",
+    "pages/coupon/coupon",
+    "pages/user-coupon/user-coupon"
   ],
   "window": {
     "defaultTitle": "shopxo",

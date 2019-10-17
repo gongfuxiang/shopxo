@@ -296,3 +296,33 @@
 .limitedtimediscount .countdown .ds {
   padding: 0 4rpx;
 }
+
+/*
+ * 优惠劵 - 插件
+ */
+.coupon-container {
+  white-space: nowrap;
+  box-sizing: border-box;
+  padding: 20rpx 10rpx;
+}
+.coupon-container scroll-view {
+  height: 174rpx;
+}
+.coupon-container .item {
+  display: inline-block;
+  width: 60vw;
+}
+.coupon-container .v-left {
+  padding: 20rpx 0 20rpx 20rpx;
+}
+.coupon-container .item:not(:last-child) {
+  margin-right: 20rpx;
+}
+.coupon-container .item,
+.coupon-container .v-right,
+.coupon-container .v-right .circle {
+  height: 170rpx;
+}
+.coupon-container .v-left .base .price {
+  font-size: 46rpx;
+}

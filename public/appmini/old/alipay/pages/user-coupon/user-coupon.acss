@@ -1,0 +1,35 @@
+/*
+ * 导航
+ */
+.nav-tabs {
+  overflow: hidden;
+  background: #eee;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+.nav-tabs .nav-item {
+  text-align: center;
+  width: 33.33%;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-bottom: 6rpx solid transparent;
+}
+.nav-tabs .nav-item-active {
+  color: #d2364c;
+  border-bottom: 6rpx solid #d2364c;
+}
+
+/*
+ * 数据列表
+ */
+.coupon-container {
+  margin-top: 100rpx;
+}
+.coupon-container .item,
+.coupon-container .v-right,
+.coupon-container .v-right .circle {
+  height: 230rpx;
+}

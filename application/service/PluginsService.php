@@ -36,6 +36,7 @@ class PluginsService
     public static function PluginsData($plugins, $attachment_field = [], $is_cache = true)
     {
         // 从缓存获取数据
+        $data = [];
         $key = config('shopxo.cache_plugins_data_key').$plugins;
         if($is_cache === true)
         {

@@ -5,7 +5,7 @@ Page({
     data_list_loding_status: 1,
     data_list_loding_msg: '',
     data_list: [],
-    data_base: null,
+    data_base: null
   },
 
   onLoad(params) {
@@ -13,7 +13,7 @@ Page({
   },
 
   onShow() {
-    wx.setNavigationBarTitle({ title: app.data.common_pages_title.coupon });
+    swan.setNavigationBarTitle({ title: app.data.common_pages_title.coupon });
   },
 
   init() {
@@ -24,7 +24,7 @@ Page({
   // 获取数据
   get_data_list() {
     var self = this;
-    wx.showLoading({ title: "加载中..." });
+    swan.showLoading({ title: "加载中..." });
     if (self.data.data_list.length <= 0)
     {
       self.setData({
@@ -32,46 +32,45 @@ Page({
       });
     }
 
-    wx.request({
+    swan.request({
       url: app.get_request_url("index", "coupon"),
       method: "POST",
       data: {},
       dataType: "json",
       success: res => {
-        wx.hideLoading();
-        wx.stopPullDownRefresh();
+        swan.hideLoading();
+        swan.stopPullDownRefresh();
         if (res.data.code == 0) {
           var data = res.data.data;
-          var status = ((data.data || []).length > 0);
+          var status = (data.data || []).length > 0;
           this.setData({
             data_base: data.base || null,
             data_list: data.data || [],
             data_list_loding_msg: '',
             data_list_loding_status: status ? 3 : 0,
-            data_bottom_line_status: status,
+            data_bottom_line_status: status
           });
 
           // 导航名称
-          if ((data.base || null) != null && (data.base.application_name || null) != null)
-          {
-            wx.setNavigationBarTitle({ title: data.base.application_name });
+          if ((data.base || null) != null && (data.base.application_name || null) != null) {
+            swan.setNavigationBarTitle({ title: data.base.application_name });
           }
         } else {
           self.setData({
             data_bottom_line_status: false,
             data_list_loding_status: 2,
-            data_list_loding_msg: res.data.msg,
+            data_list_loding_msg: res.data.msg
           });
           app.showToast(res.data.msg);
         }
       },
       fail: () => {
-        wx.hideLoading();
-        wx.stopPullDownRefresh();
+        swan.hideLoading();
+        swan.stopPullDownRefresh();
         self.setData({
           data_bottom_line_status: false,
           data_list_loding_status: 2,
-          data_list_loding_msg: '服务器请求出错',
+          data_list_loding_msg: '服务器请求出错'
         });
         app.showToast("服务器请求出错");
       }
@@ -83,7 +82,7 @@ Page({
     var user = app.get_user_cache_info(this, "coupon_receive_event");
     // 用户未绑定用户则转到登录页面
     if (app.user_is_need_login(user)) {
-      wx.redirectTo({
+      swan.redirectTo({
         url: "/pages/login/login?event_callback=coupon_receive_event"
       });
       return false;
@@ -93,19 +92,18 @@ Page({
       var value = e.currentTarget.dataset.value;
       var temp_list = this.data.data_list;
       if (temp_list[index]['is_operable'] != 0) {
-        wx.showLoading({ title: "处理中..." });
-        wx.request({
+        swan.showLoading({ title: "处理中..." });
+        swan.request({
           url: app.get_request_url("receive", "coupon"),
           method: "POST",
           data: { "coupon_id": value },
           dataType: "json",
           header: { 'content-type': 'application/x-www-form-urlencoded' },
           success: res => {
-            wx.hideLoading();
+            swan.hideLoading();
             if (res.data.code == 0) {
               app.showToast(res.data.msg, "success");
-              if (self.data.data_base != null && self.data.data_base.is_repeat_receive != 1)
-              {
+              if (self.data.data_base != null && self.data.data_base.is_repeat_receive != 1) {
                 temp_list[index]['is_operable'] = 0;
                 temp_list[index]['is_operable_name'] = '已领取';
                 self.setData({ data_list: temp_list });
@@ -115,7 +113,7 @@ Page({
             }
           },
           fail: () => {
-            wx.hideLoading();
+            swan.hideLoading();
             app.showToast("服务器请求出错");
           }
         });
@@ -126,6 +124,6 @@ Page({
   // 下拉刷新
   onPullDownRefresh() {
     this.get_data_list();
-  },
+  }
 
 });

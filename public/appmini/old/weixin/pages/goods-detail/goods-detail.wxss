@@ -292,11 +292,9 @@
   padding: 0 4rpx;
 }
 
-
 /*
  * 优惠劵 - 插件
  */
-
 .coupon-container {
   white-space: nowrap;
   box-sizing: border-box;
