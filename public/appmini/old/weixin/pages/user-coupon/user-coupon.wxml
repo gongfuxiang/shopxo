@@ -16,7 +16,7 @@
             <view class="base single-text" style="color:{{item.coupon.bg_color_value}};">
               <text class="symbol">￥</text>
               <text class="price">{{item.coupon.discount_value}}</text>
-              <text class="unit">{{item.coupon.type == 0 ? '元' : '折'}}</text>
+              <text class="unit">{{item.coupon.type_unit}}</text>
               <text wx:if="{{(item.coupon.desc || null) != null}}" class="desc cr-888">{{item.coupon.desc}}</text>
             </view>
             <view wx:if="{{(item.coupon.use_limit_type_name || null) != null}}" class="base-tips cr-666 single-text">{{item.coupon.use_limit_type_name}}</view>

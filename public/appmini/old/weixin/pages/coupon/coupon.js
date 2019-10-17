@@ -75,7 +75,7 @@ Page({
     });
   },
 
-  // 领取事件
+  // 优惠劵领取事件
   receive_event(e) {
     var user = app.get_user_cache_info(this, "receive_event");
     // 用户未绑定用户则转到登录页面

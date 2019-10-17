@@ -169,7 +169,10 @@ class Goods extends Common
         $ret = CallPluginsServiceMethod('coupon', 'CouponService', 'CouponList', $coupon_params);
 
         // 排除商品不支持的活动
-        $ret['data'] = CallPluginsServiceMethod('coupon', 'BaseService', 'CouponListGoodsExclude', ['data'=>$ret['data'], 'goods_id'=>$goods_id]);
+        if(!empty($ret['data']))
+        {
+            $ret['data'] = CallPluginsServiceMethod('coupon', 'BaseService', 'CouponListGoodsExclude', ['data'=>$ret['data'], 'goods_id'=>$goods_id]);
+        }
 
         // 返回数据
         return [

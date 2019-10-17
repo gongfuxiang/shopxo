@@ -46,10 +46,10 @@ class PluginsService
         if(empty($data))
         {
             // 获取数据
-            $data = Db::name('Plugins')->where(['plugins'=>$plugins])->value('data');
-            if(!empty($data))
+            $ret = self::PluginsField($plugins, 'data');
+            if(!empty($ret['data']))
             {
-                $data = json_decode($data, true);
+                $data = json_decode($ret['data'], true);
 
                 // 是否有自定义附件需要处理
                 if(!empty($attachment_field) && is_array($attachment_field))
@@ -165,6 +165,21 @@ class PluginsService
     {
         $data = Db::name('Plugins')->where(['plugins'=>$plugins])->value($field);
         return DataReturn('操作成功', 0, $data);
+    }
+
+    /**
+     * 应用状态
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-10-17
+     * @desc    description
+     * @param   [string]          $plugins        [应用标记]
+     */
+    public static function PluginsStatus($plugins)
+    {
+        $ret = self::PluginsField($plugins, 'is_enable');
+        return $ret['data'];
     }
 }
 ?>

@@ -73,12 +73,12 @@
             <view class="base single-text" style="color:{{item.bg_color_value}};">
               <text class="symbol">￥</text>
               <text class="price">{{item.discount_value}}</text>
-              <text class="unit">{{item.type == 0 ? '元' : '折'}}</text>
-              <text wx:if="{{(item.desc || null) != null}}" class="desc cr-888">{{item.desc}}</text>
+              <text class="unit">{{item.type_unit}}</text>
             </view>
             <view wx:if="{{(item.use_limit_type_name || null) != null}}" class="base-tips cr-666 single-text">{{item.use_limit_type_name}}</view>
+            <view wx:if="{{(item.desc || null) != null}}" class="desc cr-888 single-text">{{item.desc}}</view>
           </view>
-          <view class="v-right fr" bindtap="receive_event" data-index="{{index}}" data-value="{{item.id}}" style="background:{{item.bg_color_value}};">
+          <view class="v-right fr" bindtap="coupon_receive_event" data-index="{{index}}" data-value="{{item.id}}" style="background:{{item.bg_color_value}};">
             <text class="circle"></text>
             <text>{{item.is_operable_name}}</text>
           </view>

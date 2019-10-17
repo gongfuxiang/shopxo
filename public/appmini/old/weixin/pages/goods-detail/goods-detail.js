@@ -787,6 +787,50 @@ Page({
     }
   },
 
+  // 优惠劵领取事件
+  coupon_receive_event(e) {
+    var user = app.get_user_cache_info(this, "receive_event");
+    // 用户未绑定用户则转到登录页面
+    if (app.user_is_need_login(user)) {
+      wx.redirectTo({
+        url: "/pages/login/login?event_callback=receive_event"
+      });
+      return false;
+    } else {
+      var self = this;
+      var index = e.currentTarget.dataset.index;
+      var value = e.currentTarget.dataset.value;
+      var temp_list = this.data.plugins_coupon_data.data;
+      if (temp_list[index]['is_operable'] != 0) {
+        wx.showLoading({ title: "处理中..." });
+        wx.request({
+          url: app.get_request_url("receive", "coupon"),
+          method: "POST",
+          data: { "coupon_id": value },
+          dataType: "json",
+          header: { 'content-type': 'application/x-www-form-urlencoded' },
+          success: res => {
+            wx.hideLoading();
+            if (res.data.code == 0) {
+              app.showToast(res.data.msg, "success");
+              if (self.data.plugins_coupon_data.base != null && self.data.plugins_coupon_data.base.is_repeat_receive != 1) {
+                temp_list[index]['is_operable'] = 0;
+                temp_list[index]['is_operable_name'] = '已领取';
+                self.setData({ 'plugins_coupon_data.data': temp_list });
+              }
+            } else {
+              app.showToast(res.data.msg);
+            }
+          },
+          fail: () => {
+            wx.hideLoading();
+            app.showToast("服务器请求出错");
+          }
+        });
+      }
+    }
+  },
+
   // 自定义分享
   onShareAppMessage() {
     var user = app.get_user_cache_info(this, 'goods_favor_event') || null;

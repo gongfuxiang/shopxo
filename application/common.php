@@ -88,6 +88,12 @@ function PathToParams($key = null, $default = null, $path = '')
  */
 function CallPluginsData($plugins, $attachment_field = [], $service_name = '', $attachment_property = 'base_config_attachment_field')
 {
+    // 插件是否启用
+    if(app\service\PluginsService::PluginsStatus($plugins) != 1)
+    {
+        return DataReturn('插件状态异常['.$plugins.']', -1);
+    }
+
     // 未指定附件字段则自动去获取
     $attachment = [];
     if(empty($attachment_field) && !empty($attachment_property))
@@ -128,6 +134,13 @@ function CallPluginsServiceMethod($plugins, $service, $method, $params = null)
     {
         if(method_exists($plugins_class, $method))
         {
+            // 插件是否启用
+            if(app\service\PluginsService::PluginsStatus($plugins) != 1)
+            {
+                return DataReturn('插件状态异常['.$plugins.']', -1);
+            }
+
+            // 调用方法返回数据
             return $plugins_class::$method($params);
         } else {
             return DataReturn('类方法未定义['.$plugins.'-'.$service.'-'.$method.']', -1);
