@@ -42,7 +42,10 @@
   </view>
 
   <!-- 留言 -->
-  <textarea bindinput="bind_user_note_event" maxlength="60" auto-height placeholder="留言" class="content-textarea bg-white spacing-mb" />
+  <view class="content-textarea-view bg-white spacing-mb">
+    <textarea wx:if="{{!popup_plugins_coupon_status}}" bindinput="bind_user_note_event" value="{{user_note_value}}" maxlength="60" placeholder="留言" class="wh-auto" />
+    <view wx:if="{{popup_plugins_coupon_status}}" class="cr-888">{{user_note_value || '留言'}}</view>
+  </view>
 
   <!-- 优惠劵 -->
   <view wx:if="{{(plugins_coupon_data || null) != null && plugins_coupon_data.coupon_list.length > 0}}" class="plugins-coupon bg-white spacing-mb arrow-right" bindtap="plugins_coupon_open_event">

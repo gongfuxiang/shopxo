@@ -126,10 +126,12 @@
 /**
  * 留言
  */
-.content-textarea {
-  padding: 10rpx;
-  min-height: 10vh;
-  width: 100%;
+.content-textarea-view,
+.content-textarea-view textarea {
+  height: 180rpx;
+}
+.content-textarea-view view {
+  padding: 12rpx;
 }
 
 /**

@@ -106,6 +106,10 @@ Page({
 
   // 显示秒杀插件-倒计时
   plugins_limitedtimediscount_countdown() {
+    // 销毁之前的任务
+    clearInterval(this.data.plugins_limitedtimediscount_timer);
+
+    // 定时参数
     var status = this.data.plugins_limitedtimediscount_data.time.status || 0;
     var msg = this.data.plugins_limitedtimediscount_data.time.msg || '';
     var hours = parseInt(this.data.plugins_limitedtimediscount_data.time.hours) || 0;

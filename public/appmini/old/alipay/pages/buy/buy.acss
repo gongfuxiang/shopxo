@@ -123,6 +123,18 @@
   color: #ff8f44;
 }
 
+/**
+ * 留言
+ */
+.content-textarea-view {
+  height: 220rpx;
+}
+.content-textarea-view textarea {
+  height: 180rpx;
+}
+.content-textarea-view view {
+  padding: 8rpx 10rpx;
+}
 
 /**
  * 插件样式区域
