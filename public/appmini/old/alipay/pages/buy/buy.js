@@ -15,6 +15,12 @@ Page({
     extension_data: [],
     payment_id: 0,
     common_order_is_booking: 0,
+
+    // 优惠劵
+    plugins_coupon_data: null,
+    plugins_use_coupon_id: 0,
+    plugins_choice_coupon_value: '选择优惠劵',
+    popup_plugins_coupon_status: false,
   },
   onLoad(params) {
     if((params.data || null) == null || app.get_length(JSON.parse(params.data)) == 0)
@@ -72,6 +78,7 @@ Page({
     var data = this.data.params;
     data['address_id'] = this.data.address_id;
     data['payment_id'] = this.data.payment_id;
+    data['coupon_id'] = this.data.plugins_use_coupon_id;
     my.request({
       url: app.get_request_url("index", "buy"),
       method: "POST",
@@ -79,6 +86,7 @@ Page({
       dataType: "json",
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
+        my.stopPullDownRefresh();
         my.hideLoading();
         if (res.data.code == 0) {
           var data = res.data.data;
@@ -92,7 +100,20 @@ Page({
               extension_data: data.extension_data || [],
               data_list_loding_status: 3,
               common_order_is_booking: data.common_order_is_booking || 0,
+              plugins_coupon_data: data.plugins_coupon_data || null,
             });
+
+            // 优惠劵选择处理
+            if ((data.plugins_coupon_data || null) != null)
+            {
+              if ((data.plugins_coupon_data.coupon_choice || null) != null)
+              {
+                this.setData({ plugins_choice_coupon_value: data.plugins_coupon_data.coupon_choice.coupon.desc });
+              } else {
+                var coupon_count = ((data.plugins_coupon_data.coupon_list || null) != null) ? data.plugins_coupon_data.coupon_list.length : 0;
+                this.setData({ plugins_choice_coupon_value: (coupon_count > 0) ? '可选优惠劵' + coupon_count + '张' : '暂无可用优惠劵' });
+              }
+            }
 
             // 地址
             if (this.data.address == null || this.data.address_id == 0) {
@@ -120,6 +141,7 @@ Page({
         }
       },
       fail: () => {
+        my.stopPullDownRefresh();
         my.hideLoading();
         this.setData({
           data_list_loding_status: 2,
@@ -128,6 +150,11 @@ Page({
         app.showToast('服务器请求出错');
       }
     });
+  },
+
+  // 下拉刷新
+  onPullDownRefresh() {
+    this.init();
   },
 
   // 用户留言事件
@@ -142,6 +169,7 @@ Page({
     data['address_id'] = this.data.address_id;
     data['payment_id'] = this.data.payment_id;
     data['user_note'] = this.data.user_note_value;
+    data['coupon_id'] = this.data.plugins_use_coupon_id;
 
     // 数据验证
     var validation = [
@@ -204,6 +232,36 @@ Page({
       }
     }
     this.setData({payment_list: data || []});
-  }
+  },
+
+  // 优惠劵弹层开启
+  plugins_coupon_open_event(e) {
+    this.setData({ popup_plugins_coupon_status: true});
+  },
+
+  // 优惠劵弹层关闭
+  plugins_coupon_close_event(e) {
+    this.setData({ popup_plugins_coupon_status: false });
+  },
+
+  // 优惠劵选择
+  plugins_coupon_use_event(e) {
+    var index = e.currentTarget.dataset.index;
+    var value = e.currentTarget.dataset.value;
+    this.setData({
+      plugins_use_coupon_id: value,
+      popup_plugins_coupon_status: false,
+    });
+    this.init();
+  },
+
+  // 不使用优惠劵
+  plugins_coupon_not_use_event(e) {
+    this.setData({
+      plugins_use_coupon_id: 0,
+      popup_plugins_coupon_status: false,
+    });
+    this.init();
+  },
 
 });

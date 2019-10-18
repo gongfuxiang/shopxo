@@ -131,3 +131,35 @@
   min-height: 10vh;
   width: 100%;
 }
+
+
+/**
+ * 插件样式区域
+ */
+ /**
+ * 优惠劵
+ */
+.plugins-coupon {
+  padding: 25rpx 40rpx 25rpx 10rpx;
+}
+.plugins-coupon-popup {
+  padding-top: 20rpx;
+}
+.plugins-coupon-popup .close {
+  margin-right: 20rpx;
+}
+.coupon-container {
+  max-height: 80vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding-bottom: 50rpx;
+}
+.coupon-container .item,
+.coupon-container .v-right,
+.coupon-container .v-right .circle {
+  height: 230rpx;
+}
+.coupon-container .not-use-tips {
+  color: #f7b240;
+  font-size: 32rpx;
+}

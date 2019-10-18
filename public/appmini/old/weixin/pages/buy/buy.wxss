@@ -133,7 +133,10 @@
 }
 
 /**
- * 插件
+ * 插件样式区域
+ */
+ /**
+ * 优惠劵
  */
 .plugins-coupon {
   padding: 25rpx 40rpx 25rpx 10rpx;
