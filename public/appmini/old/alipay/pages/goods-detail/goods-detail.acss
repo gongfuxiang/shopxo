@@ -312,5 +312,5 @@
 .quick-nav-cart .badge-icon {
   position: absolute;
   top: -5px;
-  left: calc(50% + 23rpx);
+  left: calc(50% + 10rpx);
 }

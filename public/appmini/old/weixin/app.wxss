@@ -316,6 +316,7 @@ button[disabled].bg-primary {
   border-radius: 50%;
   width: 90rpx;
   height: 90rpx;
+  z-index: 1;
 }
 .common-quick-nav image {
   width: 60rpx;

@@ -4,11 +4,7 @@
 .nav-tabs {
   overflow: hidden;
   background: #eee;
-  position: fixed;
-  left: 0;
-  top: 0;
   width: 100%;
-  z-index: 1;
 }
 .nav-tabs .nav-item {
   text-align: center;
@@ -25,8 +21,8 @@
 /*
  * 数据列表
  */
-.coupon-container {
-  margin-top: 100rpx;
+.scroll-box{
+  height: calc(100vh - 80rpx);
 }
 .coupon-container .item,
 .coupon-container .v-right,

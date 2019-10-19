@@ -189,7 +189,7 @@
 <!-- 购物车 -->
 <navigator url="/pages/cart/cart" open-type="switchTab" hover-class="none">
   <view class="common-quick-nav quick-nav-cart">
-    <view class="badge-icon">
+    <view a:if="{{quick_nav_cart_count > 0}}" class="badge-icon">
       <badge text="{{quick_nav_cart_count}}" dot="{{false}}"></badge>
     </view>
     <image src="/images/default-cart-icon.png" class="dis-block"></image>

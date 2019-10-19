@@ -312,7 +312,7 @@ Page({
           success: (res) => {
             my.hideLoading();
             if (res.data.code == 0) {
-              this.setData({ quick_nav_cart_count: this.data.quick_nav_cart_count + this.data.temp_buy_number});
+              this.setData({ quick_nav_cart_count: res.data.data});
               this.popup_close_event();
               app.showToast(res.data.msg, 'success');
             } else {
