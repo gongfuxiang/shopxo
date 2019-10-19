@@ -185,3 +185,13 @@
     <import src="/pages/common/nodata.axml" />
     <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
 </view>
+
+<!-- 购物车 -->
+<navigator url="/pages/cart/cart" open-type="switchTab" hover-class="none">
+  <view class="common-quick-nav quick-nav-cart">
+    <view class="badge-icon">
+      <badge text="{{quick_nav_cart_count}}" dot="{{false}}"></badge>
+    </view>
+    <image src="/images/default-cart-icon.png" class="dis-block"></image>
+  </view>
+</navigator>

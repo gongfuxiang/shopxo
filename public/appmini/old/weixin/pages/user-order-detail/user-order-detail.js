@@ -1,12 +1,14 @@
 const app = getApp();
 Page({
   data: {
-    detail: null,
-    detail_list: [],
+    params: null,
     data_list_loding_status: 1,
     data_list_loding_msg: '',
     data_bottom_line_status: false,
-    params: null,
+
+    detail: null,
+    detail_list: [],
+    extension_data: [],
   },
 
   onLoad(params) {
@@ -45,7 +47,8 @@ Page({
               {name: "支付状态", value: data.pay_status_name || ''},
               {name: "单价", value: data.price || ''},
               {name: "总价", value: data.total_price || ''},
-              {name: "优惠", value: data.preferential_price || ''},
+              {name: "优惠金额", value: data.preferential_price || ''},
+              {name: "增加金额", value: data.increase_price || '' },
               {name: "支付金额", value: data.pay_price || ''},
               {name: "支付方式", value: data.payment_name || ''},
               {name: "快递公司", value: data.express_name || ''},
@@ -59,6 +62,7 @@ Page({
               {name: "取消时间", value: data.close_time || ''},
               {name: "关闭时间", value: data.close_time || ''},
             ],
+            extension_data: data.extension_data || [],
             data_list_loding_status: 3,
             data_bottom_line_status: true,
             data_list_loding_msg: '',

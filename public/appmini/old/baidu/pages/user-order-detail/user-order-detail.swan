@@ -31,10 +31,19 @@
       </view>
   </view>
 
+  <!-- 订单基础数据 -->
   <view s-if="detail_list.length > 0" class="detail-list bg-white">
     <view s-for="item, index in detail_list" class="item br-b oh">
       <view class="title fl">{{item.name}}</view>
       <view class="content cr-888 fl br-l">{{item.value}}</view>
+    </view>
+  </view>
+
+  <!-- 扩展数据 -->
+  <view s-if="extension_data.length > 0" class="extension-list bg-white spacing-mt">
+    <view s-for="item, index in extension_data" class="item br-b oh">
+      <text class="title">{{item.name}}</text>
+      <text class="content cr-888 br-l">{{item.tips}}</text>
     </view>
   </view>
 

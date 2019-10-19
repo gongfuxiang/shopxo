@@ -72,3 +72,16 @@
 .detail-list .item view {
     line-height: 46rpx;
 }
+
+/*
+ * 扩展数据
+ */
+.extension-list .item {
+  padding: 20rpx 30rpx;
+}
+.extension-list .item .title {
+  padding-right: 20rpx;
+}
+.extension-list .item .content {
+  padding-left: 20rpx;
+}

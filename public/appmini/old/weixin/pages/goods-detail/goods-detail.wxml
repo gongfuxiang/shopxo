@@ -229,3 +229,13 @@
   <import src="/pages/lib/online-service/content.wxml" />
   <template is="online_service"></template>
 </view>
+
+<!-- 购物车 -->
+<navigator url="/pages/cart/cart" open-type="switchTab" hover-class="none">
+  <view class="common-quick-nav quick-nav-cart">
+    <view class="badge-icon">
+      <component-badge prop-number="{{quick_nav_cart_count}}"></component-badge>
+    </view>
+    <image src="/images/default-cart-icon.png" class="dis-block"></image>
+  </view>
+</navigator>

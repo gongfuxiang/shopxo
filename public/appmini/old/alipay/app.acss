@@ -55,21 +55,7 @@ textarea {
 .spacing-mb { margin-bottom: 20rpx; }
 .spacing-mt { margin-top: 20rpx; }
 
-/* 在线客服 */
-.customer-service {
-    position: fixed;
-    bottom: 100rpx;
-    right: 0;
-}
-.customer-service image {
-    width: 80rpx;
-    height: 80rpx;
-    margin-right: 20rpx;
-}
-
-
 .drift { position: fixed; left: -1000px; }
-
 .nav-submit-fixed { background: #eee; height: 46px; position: fixed; bottom: 0; z-index: 10; }
 
 .tips { background: #ffffeb url('/images/tips.png') no-repeat 5rpx 12rpx; background-size: 35rpx 35rpx; color: #f7b240; border: 1px solid #faebd2; line-height: 36rpx; padding: 10rpx 10rpx 10rpx 45rpx; font-size: 26rpx; border-radius: 2px; display: block; }
@@ -407,4 +393,22 @@ textarea {
 }
 .coupon-container .item-disabled  {
   border: 1px solid #dfdfdf !important;
+}
+
+/**
+ * 快捷导航
+ */
+.common-quick-nav {
+  border: 0;
+  padding: 15rpx;
+  background: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  right: 10rpx;
+  border-radius: 50%;
+  width: 90rpx;
+  height: 90rpx;
+}
+.common-quick-nav image {
+  width: 60rpx;
+  height: 60rpx;
 }

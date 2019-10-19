@@ -31,10 +31,19 @@
       </view>
   </view>
 
+  <!-- 订单基础数据 -->
   <view wx:if="{{detail_list.length > 0}}" class="detail-list bg-white">
     <view wx:for="{{detail_list}}" wx:key="item" class="item br-b oh">
       <view class="title fl">{{item.name}}</view>
       <view class="content cr-888 fl br-l">{{item.value}}</view>
+    </view>
+  </view>
+
+  <!-- 扩展数据 -->
+  <view wx:if="{{extension_data.length > 0}}" class="extension-list bg-white  spacing-mt">
+    <view wx:for="{{extension_data}}" wx:key="item" class="item br-b oh">
+      <text class="title">{{item.name}}</text>
+      <text class="content cr-888 br-l">{{item.tips}}</text>
     </view>
   </view>
 

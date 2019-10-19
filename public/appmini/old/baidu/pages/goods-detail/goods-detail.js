@@ -44,6 +44,9 @@ Page({
 
     // 优惠劵
     plugins_coupon_data: null,
+
+    // 购物车快捷导航
+    quick_nav_cart_count: 0,
   },
 
   onLoad(params) {
@@ -117,6 +120,7 @@ Page({
               common_app_is_limitedtimediscount: data.common_app_is_limitedtimediscount || 0,
               plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null,
               plugins_coupon_data: data.plugins_coupon_data || null,
+              quick_nav_cart_count: data.common_cart_total || 0,
             });
 
             // 限时秒杀倒计时
@@ -286,6 +290,7 @@ Page({
         success: res => {
           swan.hideLoading();
           if (res.data.code == 0) {
+            this.setData({ quick_nav_cart_count: this.data.quick_nav_cart_count + this.data.temp_buy_number});
             this.popup_close_event();
             app.showToast(res.data.msg, "success");
           } else {

@@ -300,3 +300,17 @@
 .coupon-container .v-left .desc {
   margin-top: 5rpx;
 }
+
+/*
+ * 购物车入口
+ */
+.quick-nav-cart {
+  bottom: calc(35% + 110rpx);
+  width: 60rpx;
+  height: 60rpx;
+}
+.quick-nav-cart .badge-icon {
+  position: absolute;
+  top: -5px;
+  left: calc(50% + 23rpx);
+}
