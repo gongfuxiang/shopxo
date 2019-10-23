@@ -67,7 +67,7 @@ class Excel
 		$this->data = isset($params['data']) ? $params['data'] : [];
 
 		// 出错跳转地址
-		$this->jump_url = empty($params['jump_url']) ? $_SERVER['HTTP_REFERER'] : $params['jump_url'];
+		$this->jump_url = empty($params['jump_url']) ? (empty($_SERVER['HTTP_REFERER']) ? __MY_URL__ : $_SERVER['HTTP_REFERER']) : $params['jump_url'];
 
 		// 错误提示信息
 		$this->msg = empty($params['msg']) ? 'title or data cannot be empty!' : $params['msg'];
