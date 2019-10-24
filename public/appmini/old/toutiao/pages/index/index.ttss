@@ -1,0 +1,207 @@
+/**
+ * 搜索
+ */
+.search {
+  left: 0;
+  top: 20rpx;
+  box-sizing: border-box; 
+  padding: 20rpx;
+  background: #d2364c;
+}
+.search-content {
+  border-radius: 6rpx;
+  position: relative;
+  opacity: 0.8;
+}
+.search icon {
+  position: absolute;
+  left: 15rpx;
+  top: 15rpx;
+}
+.search input {
+  font-size: 28rpx;
+  padding-left: 60rpx;
+  box-sizing: border-box;
+  height: 70rpx;
+  line-height: 70rpx;
+}
+
+/**
+ * 导航固定
+ */
+.search-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+.search-fixed-seat {
+  padding-top: 110rpx;
+}
+
+/**
+ * 楼层数据
+ */
+.floor-list {
+  overflow: hidden;
+  position: relative;
+}
+.floor-list .word {
+  padding: 30rpx 20rpx 0 20rpx;
+}
+.floor-list .word .vice-name {
+  color: #fff;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  text-align: center;
+  padding: 30rpx;
+}
+.floor-list .word .word-icon {
+  margin: 10rpx;
+  width: calc(33% - 24rpx);
+  height: 64rpx;
+  line-height: 64rpx;
+  text-align: center;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-radius: 6rpx;
+  display: inline-block;
+  border: 1px solid #fff;
+  text-decoration: none;
+  overflow: hidden;
+}
+.floor-list .word image {
+  max-width: 100%;
+  margin: 0 auto;
+}
+.floor-list .goods-list .goods {
+  width: calc(50% - 2rpx);
+  float: left;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10rpx;
+}
+.floor-list .goods-list .goods:nth-of-type(2n + 1) {
+  border-right: 1px solid #eee;
+}
+.floor-list .goods-list .goods image {
+  width: 100%;
+  height: 380rpx;
+}
+.floor-list .goods-list .goods-base {
+  padding: 0 10rpx;
+}
+.floor-list .goods-list .goods-base .goods-title {
+  line-height: 52rpx;
+  font-size: 32rpx;
+}
+.floor-list .goods-list .goods-base .sales-price {
+  font-size: 30rpx;
+}
+
+
+/*
+ * 限时秒杀 - 插件
+ */
+ .limitedtimediscount {
+  background: #fff;
+  padding: 5rpx 10rpx 20rpx 10rpx;
+  margin-bottom: 20rpx;
+}
+.limitedtimediscount .nav-title {
+  overflow: hidden;
+  padding: 10rpx 0;
+}
+.limitedtimediscount .nav-title .nav-icon {
+  width: 45rpx;
+  height: 45rpx;
+  vertical-align: sub;
+  margin-right: 10rpx;
+}
+.limitedtimediscount .text-wrapper {
+  color: #d2364c;
+  font-size: 36rpx;
+  font-weight: bold;
+}
+.limitedtimediscount .countdown {
+  line-height: 50rpx;
+  float: right;
+}
+.limitedtimediscount .countdown view {
+  margin-right: 0;
+  float: right;
+}
+.limitedtimediscount .countdown .timer-title {
+  color: #666;
+  margin-right: 10rpx;
+}
+.limitedtimediscount .countdown .timer-hours {
+  padding: 0 12rpx;
+  -moz-border-radius: 8rpx;
+  border-radius: 8rpx;
+  background-color: #3A4145;
+  color: #fff;
+  min-width: 35rpx;
+  text-align: center;
+}
+.limitedtimediscount .countdown .ds {
+  color: #4B5459;
+  padding: 0 8rpx;
+  font-weight: 700;
+}
+
+.limitedtimediscount .goods-list {
+  width: 100%;
+  white-space: nowrap;
+  box-sizing: border-box;
+  margin-top: 5rpx;
+}
+.limitedtimediscount .goods-list .item {
+  width: 460rpx;
+  height: 605rpx;
+  border: 1px solid #f5f5f5;
+  background: white;
+  display: inline-block;
+  position: relative;
+}
+.limitedtimediscount .goods-list .item:not(:last-child) {
+  margin-right: 10px;
+}
+.limitedtimediscount .goods-list .item image {
+  width: 460rpx;
+  height: 460rpx;
+}
+.limitedtimediscount .goods-list .item .goods-base {
+  padding: 0 10rpx;
+  margin-top: 10rpx;
+}
+.limitedtimediscount .goods-list .goods-base .goods-title {
+  font-size: 32rpx;
+  margin-bottom: 10rpx;
+}
+.limitedtimediscount .goods-list .goods-base .goods-price {
+  color: #f40;
+  font-weight: bold;
+  font-size: 32rpx;
+}
+.limitedtimediscount .goods-list .goods-base .goods-original-price {
+  color: #999;
+  text-decoration: line-through;
+  font-size: 24rpx;
+}
+.limitedtimediscount .goods-list .goods-base button {
+  background: #d2364c;
+  border: 0;
+  color: #fff;
+  padding: 0 30rpx;
+  height: 65rpx;
+  line-height: 65rpx;
+  font-size: 30rpx;
+  border-radius: 6rpx;
+  position: absolute;
+  right: 15rpx;
+  bottom: 15rpx;
+}

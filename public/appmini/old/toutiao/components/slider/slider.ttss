@@ -1,0 +1,10 @@
+.banner {
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+.banner image {
+  min-width: 100%;
+}
+.banner, .banner image {
+  height: 320rpx !important;
+}

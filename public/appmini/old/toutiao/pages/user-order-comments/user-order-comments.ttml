@@ -1,0 +1,46 @@
+<view tt:if="{{detail != null}}">
+  <form bindsubmit="formSubmit" class="form-container">
+      <view tt:for="{{detail.items}}" tt:key="item" class="form-gorup bg-white oh">
+        <view class="oh">
+          <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}" hover-class="none">
+            <image class="goods-image fl br" src="{{item.images}}" mode="aspectFill" />
+          </navigator>
+          <view class="item-base">
+            <block tt:for="{{[1,2,3,4,5]}}" tt:key="tx" tt:for-index="tx">
+              <image class="xingxing-icon" src="/images/default-xingxing-icon{{form_rating_list[index] != undefined && form_rating_list[index] >= item ? '-active' : ''}}.png" mode="aspectFill" bindtap="rating_event" data-index="{{index}}" data-value="{{item}}" />
+            </block>
+            <text tt:if="{{form_rating_list[index] != undefined}}" class="msg-text cr-888">{{rating_msg[form_rating_list[index]-1]}}</text>
+          </view>
+        </view>
+        <view class="form-content br-t">
+          <textarea bindinput="form_content_event" data-index="{{index}}" placeholder-class="cr-ccc" class="cr-666" placeholder="宝贝满足你的期待吗？说说它的优点和美中不足的地方吧" maxlength="230" />
+          <view class="form-container-upload oh">
+            <view class="form-upload-data fl">
+              <block tt:if="{{(form_images_list[index] || null) != null && form_images_list[index].length > 0}}">
+                <view tt:for="{{form_images_list[index]}}" tt:key="item" tt:for-index="ix"  class="item fl">
+                  <text class="delete-icon" bindtap="upload_delete_event" data-index="{{index}}" data-ix="{{ix}}">x</text>
+                  <image src="{{item}}" bindtap="upload_show_event" data-index="{{index}}" data-ix="{{ix}}" mode="aspectFill" />
+                </view>
+              </block>
+            </view>
+            <image tt:if="{{(form_images_list[index] || null) == null || form_images_list[index].length < 3}}" class="upload-icon" src="/images/default-upload-icon.png" mode="aspectFill" bindtap="file_upload_event" data-index="{{index}}" />
+          </view>
+        </view>
+      </view>
+
+      <view class="form-gorup bg-white anonymous">
+        <switch name="is_anonymous" bindchange="anonymous_event" />
+        <text class="cr-666">匿名</text>
+        <text class="fr cr-888 tips-text">{{anonymous_msg_list[anonymous_value]}}</text>
+      </view>
+
+      <view class="form-gorup">
+        <button formType="submit" class="bg-main submit-bottom" type="default" hover-class="none" disabled="{{form_button_disabled}}">提交</button>
+      </view>
+  </form>
+</view>
+
+<view tt:if="{{detail == null}}">
+    <import src="/pages/common/nodata.ttml" />
+    <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
+</view>

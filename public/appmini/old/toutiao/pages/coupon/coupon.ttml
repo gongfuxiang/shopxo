@@ -1,0 +1,30 @@
+<image tt:if="{{(data_base || null) != null && (data_base.banner_images || null) != null}}" class="banner wh-auto dis-block" src="{{data_base.banner_images}}" mode="widthFix" />
+
+<!-- 优惠劵列表 -->
+<view tt:if="{{data_list.length > 0}}" class="coupon-container">
+  <block tt:for="{{data_list}}" tt:key="item">
+    <view class="item spacing-mt bg-white {{item.is_operable == 0 ? 'item-disabled' : ''}}" style="border:1px solid {{item.bg_color_value}};">
+      <view class="v-left fl">
+        <view class="base single-text" style="color:{{item.bg_color_value}};">
+          <text class="symbol">￥</text>
+          <text class="price">{{item.discount_value}}</text>
+          <text class="unit">{{item.type_unit}}</text>
+          <text tt:if="{{(item.desc || null) != null}}" class="desc cr-888">{{item.desc}}</text>
+        </view>
+        <view tt:if="{{(item.use_limit_type_name || null) != null}}" class="base-tips cr-666 single-text">{{item.use_limit_type_name}}</view>
+      </view>
+      <view class="v-right fr" bindtap="coupon_receive_event" data-index="{{index}}" data-value="{{item.id}}" style="background:{{item.bg_color_value}};">
+        <text class="circle"></text>
+        <text>{{item.is_operable_name}}</text>
+      </view>
+    </view>
+  </block>
+</view>
+
+<view tt:if="{{data_list_loding_status != 3}}">
+  <import src="/pages/common/nodata.ttml" />
+  <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
+</view>
+
+<import src="/pages/common/bottom_line.ttml" />
+<template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>

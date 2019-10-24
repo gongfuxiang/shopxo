@@ -1,0 +1,88 @@
+<!-- 头部 -->
+<view class="head-box bg-main">
+    <view class="head-item oh tc">
+      <image bindtap="preview_event" binderror="user_avatar_error" class="avatar" src="{{avatar}}" mode="widthFix" />
+      <text class="item-name dis-block cr-fff">{{nickname}}</text>
+    </view>
+
+    <view tt:if="{{head_nav_list.length > 0}}" class="head-nav oh wh-auto">
+      <block tt:for="{{head_nav_list}}" tt:key="key">
+        <navigator url="/pages/{{item.url}}/{{item.url}}" hover-class="none">
+          <view class="head-nav-item tc fl">
+            <view>{{item.count}}</view>
+            <view>{{item.name}}</view>
+          </view>
+        </navigator>
+      </block>
+    </view>
+
+    <view class="message-nav">
+      <navigator url="/pages/message/message" hover-class="none">
+        <image src="/images/user-head-message-icon.png" mode="aspectFill" />
+        <text>消息</text>
+        <text>{{message_total}}</text>
+      </navigator>
+    </view>
+</view>
+
+<!-- 导航 -->
+<view class="nav-box bg-white">
+  <block tt:for="{{nav_lists}}" tt:key="key">
+    <navigator url="/pages/{{item.url}}/{{item.url}}" class="nav-item br-b" hover-class="none">
+      <view class="arrow-right">
+        <image src="/images/{{item.icon}}.png" class="item-icon" mode="widthFix" />
+        <text class="item-name">{{item.name}}</text>
+      </view>
+    </navigator>
+    <view tt:if="{{item.url == 'user-order' && user_order_status_list.length > 0}}" class="items-list br-b oh">
+      <block tt:for="{{user_order_status_list}}" tt:key="key" tt:for-item="items">
+        <navigator url="{{items.url}}" hover-class="none">
+          <view class="items fl tc">
+            <view class="badge-icon">
+              <component-badge prop-number="{{items.count}}"></component-badge>
+            </view>
+            <image src="/images/user-index-nav-order-icon-{{items.status}}.png" class="items-icon" mode="aspectFill" />
+            <view class="items-name">{{items.name}}</view>
+          </view>
+        </navigator>
+      </block>
+    </view>
+  </block>
+
+  <!-- 远程自定义导航 -->
+  <block tt:for="{{navigation}}" tt:key="ckey">
+    <view data-value="{{item.event_value}}" data-type="{{item.event_type}}" bindtap="navigation_event" class="nav-item br-b" >
+      <view class="arrow-right">
+        <image src="{{item.images_url}}" class="item-icon" mode="widthFix" />
+        <text class="item-name">{{item.name}}</text>
+        <text tt:if="{{(item.desc || null) != null}}" class="item-desc fr tr single-text cr-ccc">{{item.desc}}</text>
+      </view>
+    </view>
+  </block>
+
+  <view class="nav-item br-b" bindtap="clear_storage">
+    <image src="/images/user-nav-cache-icon.png" class="item-icon" mode="widthFix" />
+    <text class="item-name">清除缓存</text>
+  </view>
+
+  <view tt:if="{{customer_service_tel != null}}" class="nav-item" bindtap="call_event">
+    <image src="/images/user-nav-customer-service-icon.png" class="item-icon" mode="widthFix" />
+    <text class="item-name">客服电话 </text>
+    <text class="item-name cr-blue">{{customer_service_tel}}</text>
+  </view>
+</view>
+
+<!-- 用户中心公告 -->
+<view tt:if="{{common_user_center_notice != null}}" class="user-notice">
+    <view class="tips">{{common_user_center_notice}}</view>
+</view>
+
+<!-- 在线客服 -->
+<view tt:if="{{common_app_is_online_service == 1}}">
+  <import src="/pages/lib/online-service/content.ttml" />
+  <template is="online_service"></template>
+</view>
+
+<!-- 版权 -->
+<import src="/pages/common/copyright.ttml" />
+<template is="copyright"></template>

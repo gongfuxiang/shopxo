@@ -1,0 +1,101 @@
+/**
+ * 排序导航
+ */
+ .nav-sort {
+   background: #eee;
+ }
+.nav-sort-content .item {
+  height: 80rpx;
+  line-height: 80rpx;
+  width: 160rpx;
+}
+.nav-sort-content .item .icon {
+  width: 30rpx;
+  height: 30rpx;
+}
+.nav-sort-content .item text, .nav-sort-content .item image {
+  vertical-align:middle;
+}
+.screening-submit {
+  width: 50rpx;
+  height: 50rpx;
+  position: absolute;
+  top: 15rpx;
+  right: 20rpx;
+}
+
+/**
+ * 商品列表
+ */
+ .scroll-box {
+   height: calc(100vh - 80rpx);
+ }
+.data-list {
+    overflow: hidden;
+}
+.data-list .items {
+    width: calc(50% - 5rpx);
+    margin-bottom: 10rpx;
+    padding-bottom: 20rpx;
+}
+.data-list .items:nth-child(2n) {
+    float: right;
+}
+.data-list .items:nth-child(2n+1) {
+    float: left;
+}
+.data-list .items image {
+    width: 100%;
+    height: 200px !important;
+}
+.data-list .items .base {
+    text-align: left;
+    font-size: 32rpx;
+    padding: 0 15rpx;
+}
+.data-list .items .base,
+.data-list .items .base .price {
+    margin-top: 15rpx;
+}
+
+/**
+ * 条件
+ */
+.popup-form {
+  height: 100vh;
+}
+.popup-form input {
+  font-size: 26rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  background: #fbfbfb;
+  border-radius: 6rpx;
+  padding: 0 6rpx;
+}
+.screening-price input {
+  width: calc(50% - 16rpx);
+}
+.screening-price .separator {
+  margin-top: 10rpx;
+  width: 30rpx;
+}
+.popup-form .item {
+  width: 480rpx;
+  padding: 0 20rpx;
+  margin-top: 20rpx;
+}
+.popup-form .item:not(:last-child) {
+  margin-bottom: 30rpx;
+}
+.popup-form .item .title {
+  margin-bottom: 10rpx;
+  font-size: 28rpx;
+}
+.popup-form .form-submit {
+  height: 80rpx;
+  line-height: 80rpx;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  border-radius: 0;
+}
