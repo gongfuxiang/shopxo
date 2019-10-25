@@ -44,10 +44,27 @@ Page({
     var self = this;
     tt.getSetting({
       success(res) {
+        console.log(res)
         if (!res.authSetting['scope.userInfo']) {
+          tt.getUserInfo({
+            success (res) {
+                console.log(`getUserInfo调用成功${res.userInfo}`);
+            },
+            fail (res) {
+              tt.openSetting();
+            }
+          });
           self.setData({ user: null});
         } else {
-          app.user_auth_login(self, 'user_auth_back_event', auth_data);
+          tt.getUserInfo({
+            success (res) {
+                console.log(`getUserInfo调用成功${res.userInfo}`);
+            },
+            fail (res) {
+              app.showToast("授权失败2");
+            }
+          });
+          //app.user_auth_login(self, 'user_auth_back_event', auth_data);
         }
       },
       fail: (e) => {
