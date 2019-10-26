@@ -168,9 +168,8 @@ App({
    * 用户登录
    * object     回调操作对象
    * method     回调操作对象的函数
-   * auth_data  授权数据
    */
-  user_auth_login(object, method, auth_data) {
+  user_auth_login(object, method) {
     tt.showLoading({ title: "授权中..." });
     var self = this;
     tt.checkSession({
@@ -178,13 +177,13 @@ App({
         var openid = tt.getStorageSync(self.data.cache_user_login_key) || null;
         if (openid == null)
         {
-          self.user_login(object, method, auth_data);
+          self.user_login(object, method);
         } else {
-          self.get_user_login_info(object, method, openid, auth_data);
+          self.get_user_login_info(object, method, openid);
         }
       },
       fail: function () {
-        self.user_login(object, method, auth_data);
+        self.user_login(object, method);
       }
     });
   },
@@ -193,17 +192,16 @@ App({
    * 用户登录
    * object     回调操作对象
    * method     回调操作对象的函数
-   * auth_data  授权数据
    */
-  user_login(object, method, auth_data) {
+  user_login(object, method) {
     var self = this;
     tt.login({
       success: (res) => {
         if (res.code) {
           tt.request({
-            url: self.get_request_url('wechatuserauth', 'user'),
+            url: self.get_request_url('toutiaouserauth', 'user'),
             method: 'POST',
-            data: { authcode: res.code },
+            data: { authcode: res.code, anonymous_code: res.anonymousCode },
             dataType: 'json',
             header: { 'content-type': 'application/x-www-form-urlencoded' },
             success: (res) => {
@@ -212,7 +210,7 @@ App({
                   key: self.data.cache_user_login_key,
                   data: res.data.data
                 });
-                self.get_user_login_info(object, method, res.data.data, auth_data);
+                self.get_user_login_info(object, method, res.data.data);
               } else {
                 tt.hideLoading();
                 self.showToast(res.data.msg);
@@ -240,6 +238,18 @@ App({
    * auth_data  授权数据
    */
   get_user_login_info(object, method, openid, auth_data) {
+    console.log('user-info');
+    tt.getUserInfo({
+      success (res) {
+          console.log(`getUserInfo调用成功${res.userInfo}`);
+      },
+      fail (res) {
+        app.showToast("获取用户授权信息失败");
+      }
+    });
+
+    
+    return false;
     // 邀请人参数
     var params = tt.getStorageSync(this.data.cache_launch_info_key) || null;
     var referrer = (params == null) ? 0 : (params.referrer || 0);

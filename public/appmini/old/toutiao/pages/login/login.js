@@ -30,41 +30,22 @@ Page({
    * 登录授权事件
    */
   get_user_info_event(e) {
-    this.user_auth_code(null, null, e.detail);
-  },
-
-  /**
-   * 用户授权
-   * object     回调操作对象
-   * method     回调操作对象的函数
-   * auth_data  授权数据
-   */
-  user_auth_code(object, method, auth_data) {
-    // 请求授权接口
     var self = this;
     tt.getSetting({
       success(res) {
-        console.log(res)
         if (!res.authSetting['scope.userInfo']) {
-          tt.getUserInfo({
+          tt.authorize({
+            scope: 'scope.userInfo',
             success (res) {
-                console.log(`getUserInfo调用成功${res.userInfo}`);
+                app.user_auth_login(self, 'user_auth_back_event');
             },
             fail (res) {
-              tt.openSetting();
+              self.setData({ user: null});
+              app.showToast('获取授权失败');
             }
           });
-          self.setData({ user: null});
         } else {
-          tt.getUserInfo({
-            success (res) {
-                console.log(`getUserInfo调用成功${res.userInfo}`);
-            },
-            fail (res) {
-              app.showToast("授权失败2");
-            }
-          });
-          //app.user_auth_login(self, 'user_auth_back_event', auth_data);
+          app.user_auth_login(self, 'user_auth_back_event');
         }
       },
       fail: (e) => {
