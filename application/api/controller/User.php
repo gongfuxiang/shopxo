@@ -249,6 +249,77 @@ class User extends Common
     }
 
     /**
+     * 头条小程序用户授权
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-10-27
+     * @desc    description
+     */
+    public function ToutiaoUserAuth()
+    {
+        $this->data_post['config'] = [
+            'appid'     => MyC('common_app_mini_toutiao_appid', 'tt65341389fa1e87f3'),
+            'secret'    => MyC('common_app_mini_toutiao_appsecret', '9ea496422c189390d2d3ec8eec597fbcf3e1e5a7'),
+        ];
+        $result = (new \base\ToutiaoAuth())->GetAuthCode($this->data_post);
+        if($result['status'] == 0)
+        {
+            return DataReturn('授权登录成功', 0, $result['data']['openid']);
+        }
+        return DataReturn($result['msg'], -10);
+    }
+
+    /**
+     * 头条小程序获取用户信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-10-27
+     * @desc    description
+     */
+    public function ToutiaoUserInfo()
+    {
+        // 参数校验
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'openid',
+                'error_msg'         => 'openid为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'userinfo',
+                'error_msg'         => '用户信息为空',
+            ],
+        ];
+        $ret = ParamsChecked($this->data_post, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 先从数据库获取用户信息
+        $user = UserService::AppUserInfoHandle(null, 'toutiao_openid', $this->data_post['openid']);
+        if(empty($user))
+        {
+            $result = json_decode(htmlspecialchars_decode($this->data_post['userinfo']), true);
+            if(is_array($result))
+            {
+                $result['nick_name'] = isset($result['nickName']) ? $result['nickName'] : '';
+                $result['avatar'] = isset($result['avatarUrl']) ? $result['avatarUrl'] : '';
+                $result['gender'] = empty($result['gender']) ? 0 : ($result['gender'] == 2) ? 1 : 2;
+                $result['openid'] = $this->data_post['openid'];
+                $result['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
+                return UserService::AuthUserProgram($result, 'toutiao_openid');
+            }
+        } else {
+            return DataReturn('授权成功', 0, $user);
+        }
+        return DataReturn(empty($result) ? '获取用户信息失败' : $result, -100);
+    }
+
+    /**
      * [ClientCenter 用户中心]
      * @author   Devil
      * @blog     http://gong.gg/

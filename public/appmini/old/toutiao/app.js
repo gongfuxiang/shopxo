@@ -67,7 +67,7 @@ App({
     // 请求地址
     request_url: "{{request_url}}",
      request_url: 'http://tp5-dev.com/',
-     request_url: 'https://test.shopxo.net/',
+    // request_url: 'https://test.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -145,7 +145,7 @@ App({
     return (
       this.data.request_url +
       "index.php?s=/" + m + "/" + c + "/" + a +
-      "&application=app&application_client_type=weixin" +
+      "&application=app&application_client_type=toutiao" +
       "&token=" +
       token +
       "&ajax=ajax" +
@@ -235,61 +235,54 @@ App({
    * object     回调操作对象
    * method     回调操作对象的函数
    * openid     用户openid
-   * auth_data  授权数据
    */
-  get_user_login_info(object, method, openid, auth_data) {
-    console.log('user-info');
+  get_user_login_info(object, method, openid) {
+    var self = this;
     tt.getUserInfo({
       success (res) {
-          console.log(`getUserInfo调用成功${res.userInfo}`);
+        // 邀请人参数
+        var params = tt.getStorageSync(self.data.cache_launch_info_key) || null;
+        var referrer = (params == null) ? 0 : (params.referrer || 0);
+
+        // 远程处理用户数据
+        tt.request({
+          url: self.get_request_url('toutiaouserinfo', 'user'),
+          method: 'POST',
+          data: {
+            "userinfo": res.rawData,
+            "openid": openid,
+            "referrer": referrer
+          },
+          dataType: 'json',
+          header: { 'content-type': 'application/x-www-form-urlencoded' },
+          success: (res) => {
+            tt.hideLoading();
+            if (res.data.code == 0) {
+              tt.setStorage({
+                key: self.data.cache_user_info_key,
+                data: res.data.data,
+                success: (res) => {
+                  if (typeof object === 'object' && (method || null) != null) {
+                    object[method]();
+                  }
+                },
+                fail: () => {
+                  self.showToast('用户信息缓存失败');
+                }
+              });
+            } else {
+              self.showToast(res.data.msg);
+            }
+          },
+          fail: () => {
+            tt.hideLoading();
+            self.showToast('服务器请求出错');
+          },
+        });
       },
       fail (res) {
         app.showToast("获取用户授权信息失败");
       }
-    });
-
-    
-    return false;
-    // 邀请人参数
-    var params = tt.getStorageSync(this.data.cache_launch_info_key) || null;
-    var referrer = (params == null) ? 0 : (params.referrer || 0);
-
-    // 远程解密数据
-    var self = this;
-    tt.request({
-      url: self.get_request_url('wechatuserinfo', 'user'),
-      method: 'POST',
-      data: {
-        "encrypted_data": auth_data.encryptedData,
-        "iv": auth_data.iv,
-        "openid": openid,
-        "referrer": referrer
-      },
-      dataType: 'json',
-      header: { 'content-type': 'application/x-www-form-urlencoded' },
-      success: (res) => {
-        tt.hideLoading();
-        if (res.data.code == 0) {
-          tt.setStorage({
-            key: self.data.cache_user_info_key,
-            data: res.data.data,
-            success: (res) => {
-              if (typeof object === 'object' && (method || null) != null) {
-                object[method]();
-              }
-            },
-            fail: () => {
-              self.showToast('用户信息缓存失败');
-            }
-          });
-        } else {
-          self.showToast(res.data.msg);
-        }
-      },
-      fail: () => {
-        tt.hideLoading();
-        self.showToast('服务器请求出错');
-      },
     });
   },
 

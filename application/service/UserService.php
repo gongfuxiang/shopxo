@@ -315,6 +315,7 @@ class UserService
             'status'                => intval($params['status']),
             'alipay_openid'         => isset($params['alipay_openid']) ? $params['alipay_openid'] :  '',
             'baidu_openid'          => isset($params['baidu_openid']) ? $params['baidu_openid'] :  '',
+            'toutiao_openid'        => isset($params['toutiao_openid']) ? $params['toutiao_openid'] :  '',
             'weixin_openid'         => isset($params['weixin_openid']) ? $params['weixin_openid'] :  '',
             'weixin_unionid'        => isset($params['weixin_unionid']) ? $params['weixin_unionid'] :  '',
             'weixin_web_openid'     => isset($params['weixin_web_openid']) ? $params['weixin_web_openid'] :  '',
@@ -1696,7 +1697,7 @@ class UserService
     public static function AppUserInfoHandle($user_id = null, $where_field = null, $where_value = null, $user = [])
     {
         // 获取用户信息
-        $field = 'id,username,nickname,mobile,email,avatar,alipay_openid,weixin_openid,weixin_unionid,weixin_web_openid,baidu_openid,integral,locking_integral';
+        $field = 'id,username,nickname,mobile,email,avatar,alipay_openid,weixin_openid,weixin_unionid,weixin_web_openid,baidu_openid,toutiao_openid,integral,locking_integral';
         if(!empty($user_id))
         {
             $user = self::UserInfo('id', $user_id, $field);
