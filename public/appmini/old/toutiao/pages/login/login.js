@@ -10,6 +10,9 @@ Page({
     form_submit_loading: false,
     verify_time_total: 60,
     temp_clear_time: null,
+
+    // 是否第一次使用授权失败
+    is_first_authorize_error: true,
   },
 
   /**
@@ -41,7 +44,24 @@ Page({
             },
             fail (res) {
               self.setData({ user: null});
-              app.showToast('获取授权失败');
+
+              // 头条bug-没有授权不弹出授窗口
+              if(self.data.is_first_authorize_error == true)
+              {
+                tt.login();
+                setTimeout(function(){
+                  self.get_user_info_event();
+                }, 1000);
+              } else {
+                app.showToast('请同意用户信息授权');
+                tt.openSetting();
+              }
+
+              // 头条bug-第一次失败使用授权后更新状态
+              if(self.data.is_first_authorize_error == true)
+              {
+                self.setData({is_first_authorize_error: false});
+              }
             }
           });
         } else {
