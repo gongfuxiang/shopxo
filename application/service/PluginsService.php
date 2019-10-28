@@ -72,7 +72,7 @@ class PluginsService
                     {
                         foreach($data as $k=>$v)
                         {
-                            if(is_string($v) && !empty($v))
+                            if(!empty($v) && !is_array($v) && !is_object($v))
                             {
                                 $ext = strrchr(substr($v, -6), '.');
                                 if($ext !== false)
