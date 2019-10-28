@@ -52,15 +52,12 @@ Page({
                 setTimeout(function(){
                   self.get_user_info_event();
                 }, 1000);
+
+                // 第一次失败使用授权后更新状态
+                self.setData({is_first_authorize_error: false});
               } else {
                 app.showToast('请同意用户信息授权');
                 tt.openSetting();
-              }
-
-              // 头条bug-第一次失败使用授权后更新状态
-              if(self.data.is_first_authorize_error == true)
-              {
-                self.setData({is_first_authorize_error: false});
               }
             }
           });
