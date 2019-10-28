@@ -72,13 +72,16 @@ class PluginsService
                     {
                         foreach($data as $k=>$v)
                         {
-                            $ext = strrchr(substr($v, -6), '.');
-                            if($ext !== false)
+                            if(is_string($v) && !empty($v))
                             {
-                                if(in_array($ext, $attachment_ext))
+                                $ext = strrchr(substr($v, -6), '.');
+                                if($ext !== false)
                                 {
-                                    $data[$k.'_old'] = $v;
-                                    $data[$k] = ResourcesService::AttachmentPathViewHandle($v);
+                                    if(in_array($ext, $attachment_ext))
+                                    {
+                                        $data[$k.'_old'] = $v;
+                                        $data[$k] = ResourcesService::AttachmentPathViewHandle($v);
+                                    }
                                 }
                             }
                         }
