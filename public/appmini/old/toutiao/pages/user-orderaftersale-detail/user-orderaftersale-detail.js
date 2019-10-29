@@ -265,6 +265,61 @@ Page({
   // 文件上传
   file_upload_event(e) {
     var self = this;
+    tt.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.camera']) {
+          tt.authorize({
+            scope: 'scope.camera',
+            success (res) {
+              tt.authorize({
+                scope: 'scope.camera',
+                success (res) {
+                  self.file_upload_handle();
+                },
+                fail (res) {
+                  tt.openSetting();
+                  app.showToast('请同意相册授权');
+                }
+              });
+            },
+            fail (res) {
+              tt.openSetting();
+              app.showToast('请同意相机授权');
+            }
+          });
+        } else {
+          if(!res.authSetting['scope.album'])
+          {
+            if(res.authSetting['scope.album'] == undefined)
+            {
+              tt.authorize({
+                scope: 'scope.camera',
+                success (res) {
+                  self.file_upload_handle();
+                },
+                fail (res) {
+                  tt.openSetting();
+                  app.showToast('请同意相册授权');
+                }
+              });
+            } else {
+              tt.openSetting();
+              app.showToast('请同意相册授权');
+            }
+          } else {
+            self.file_upload_handle();
+          }
+        }
+      },
+      fail: (e) => {
+        app.showToast("授权校验失败");
+      }
+    });
+  },
+
+  // 文件上传处理
+  file_upload_handle() {
+    var self = this;
     tt.chooseImage({
       count: 3,
       success(res) {

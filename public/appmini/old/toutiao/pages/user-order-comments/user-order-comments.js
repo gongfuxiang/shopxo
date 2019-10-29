@@ -114,7 +114,61 @@ Page({
     }
     this.setData({ form_images_list: temp_list});
 
-    // 处理上传文件
+    var self = this;
+    tt.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.camera']) {
+          tt.authorize({
+            scope: 'scope.camera',
+            success (res) {
+              tt.authorize({
+                scope: 'scope.camera',
+                success (res) {
+                  self.file_upload_handle(index);
+                },
+                fail (res) {
+                  tt.openSetting();
+                  app.showToast('请同意相册授权');
+                }
+              });
+            },
+            fail (res) {
+              tt.openSetting();
+              app.showToast('请同意相机授权');
+            }
+          });
+        } else {
+          if(!res.authSetting['scope.album'])
+          {
+            if(res.authSetting['scope.album'] == undefined)
+            {
+              tt.authorize({
+                scope: 'scope.camera',
+                success (res) {
+                  self.file_upload_handle(index);
+                },
+                fail (res) {
+                  tt.openSetting();
+                  app.showToast('请同意相册授权');
+                }
+              });
+            } else {
+              tt.openSetting();
+              app.showToast('请同意相册授权');
+            }
+          } else {
+            self.file_upload_handle(index);
+          }
+        }
+      },
+      fail: (e) => {
+        app.showToast("授权校验失败");
+      }
+    });
+  },
+
+  // 文件上传处理
+  file_upload_handle(index) {
     var self = this;
     tt.chooseImage({
       count: 3,
