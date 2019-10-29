@@ -51,7 +51,7 @@ class ToutiaoService
 
         // 头条需要的订单信息
         $merchant_id = '1900017261';
-        $app_id = '800172615976';
+        $app_id = 'tt65341389fa1e87f3';
         $order_info = [
             'merchant_id'       => $merchant_id,
             'app_id'            => $app_id,
