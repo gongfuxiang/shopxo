@@ -69,7 +69,7 @@ class ToutiaoService
             'subject'           => '订单支付',
             'body'              => $order['order_no'],
             'trade_time'        => $order['add_time'],
-            'valid_time'        => $order['add_time']+(intval(MyC('common_order_close_limit_time', 30, true))*60),
+            'valid_time'        => intval(MyC('common_order_close_limit_time', 30, true))*60,
             'notify_url'        => __MY_URL__,
         ];
         $order_info['sign'] = (new \base\Toutiao())->PaySignCreated($order_info, $secret);

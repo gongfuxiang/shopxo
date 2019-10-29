@@ -234,9 +234,11 @@ Page({
 
             app.showToast("支付成功", "success");
           } else {
+            console.log(res.data.data.order_info)
             tt.pay({
               orderInfo: res.data.data.order_info,
               service: res.data.data.service,
+              _debug: 1,
               getOrderStatus(res) {
                 let { out_order_no } = res;
                 return new Promise(function(resolve, reject) {
