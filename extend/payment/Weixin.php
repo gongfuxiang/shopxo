@@ -389,7 +389,10 @@ class Weixin
             'pc'        => 'NATIVE',
             'weixin'    => 'JSAPI',
             'h5'        => 'MWEB',
-            'app'       => 'APP'
+            'toutiao'   => 'MWEB',
+            'app'       => 'APP',
+            'ios'       => 'APP',
+            'android'   => 'APP',
         ];
 
         // 手机中打开pc版本
