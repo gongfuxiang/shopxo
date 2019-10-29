@@ -237,26 +237,28 @@ Page({
             console.log(res.data.data.order_info)
             tt.pay({
               orderInfo: res.data.data.order_info,
-              //service: res.data.data.service,
-              service: 1,
+              service: res.data.data.service,
               _debug: 1,
-              getOrderStatus(res) {
-                let { out_order_no } = res;
-                return new Promise(function(resolve, reject) {
-                  // 商户前端根据 out_order_no 请求商户后端查询微信支付订单状态
-                  console.log('getOrderStatus')
-                });
-              },
               success(res) {
-                console.log(res, 'pay-success')
                 if (res.code == 0) {
-                  // 支付成功处理逻辑，只有res.code=0时，才表示支付成功
-                  // 但是最终状态要以商户后端结果为准
+                  // 数据设置
+                  var temp_data_list = self.data.data_list;
+                  temp_data_list[index]['status'] = 2;
+                  temp_data_list[index]['status_name'] = '待发货';
+                  self.setData({ data_list: temp_data_list });
+
+                  // 跳转支付页面
+                  wx.navigateTo({
+                    url: "/pages/paytips/paytips?code=9000&total_price=" +
+                      self.data.data_list[index]['total_price']
+                  });
+                } else {
+                  app.showToast('支付失败');
                 }
               },
               fail(res) {
                 console.log(res, 'pay-fail')
-                // 调起收银台失败处理逻辑
+                app.showToast('调起收银台失败-'+res.data.code);
               }
             });
           }

@@ -61,7 +61,7 @@ class ToutiaoService
             'trade_type'        => 'H5',
             'product_code'      => 'pay',
             'payment_type'      => 'direct',
-            'out_order_no'      => $order['order_no'],
+            'out_order_no'      => $order['order_no'].GetNumberCode(6),
             'uid'               => md5($params['user']['id']),
             'total_amount'      => $order['total_price']*100,
             'currency'          => 'CNY',
@@ -101,7 +101,6 @@ class ToutiaoService
             'is_online_pay' => $ret['data']['is_online_pay'],
         ];
         return DataReturn('success', 0, $result);
-        print_r($result);die;
     }
 }
 ?>
