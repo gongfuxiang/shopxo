@@ -1,0 +1,49 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/appminitoutiaoconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appminitoutiaoconfig/index')}}">
+			<div class="am-form-group">
+				<label>{{$data.common_app_mini_toutiao_appid.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_toutiao_appid.describe}}</span></label>
+				<input type="text" name="{{$data.common_app_mini_toutiao_appid.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_appid.name}}" data-validation-message="{{$data.common_app_mini_toutiao_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_appid.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_app_mini_toutiao_appsecret.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_toutiao_appsecret.describe}}</span></label>
+				<input type="text" name="{{$data.common_app_mini_toutiao_appsecret.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_appsecret.name}}" data-validation-message="{{$data.common_app_mini_toutiao_appsecret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_appsecret.value}}"{{/if}} />
+			</div>
+
+			<div class="am-form-group">
+				<label>{{$data.common_app_mini_toutiao_pay_merchant_id.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_toutiao_pay_merchant_id.describe}}</span></label>
+				<input type="text" name="{{$data.common_app_mini_toutiao_pay_merchant_id.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_pay_merchant_id.name}}" data-validation-message="{{$data.common_app_mini_toutiao_pay_merchant_id.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_pay_merchant_id.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_app_mini_toutiao_pay_appid.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_toutiao_pay_appid.describe}}</span></label>
+				<input type="text" name="{{$data.common_app_mini_toutiao_pay_appid.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_pay_appid.name}}" data-validation-message="{{$data.common_app_mini_toutiao_pay_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_pay_appid.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_app_mini_toutiao_pay_secret.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_toutiao_pay_secret.describe}}</span></label>
+				<input type="text" name="{{$data.common_app_mini_toutiao_pay_secret.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_pay_secret.name}}" data-validation-message="{{$data.common_app_mini_toutiao_pay_secret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_pay_secret.value}}"{{/if}} />
+			</div>
+
+			<div class="am-form-group">
+				<label>{{$data.common_app_mini_toutiao_title.name}}</label>
+				<input type="text" name="{{$data.common_app_mini_toutiao_title.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_title.name}}" data-validation-message="{{$data.common_app_mini_toutiao_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_title.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_app_mini_toutiao_describe.name}}</label>
+				<input type="text" name="{{$data.common_app_mini_toutiao_describe.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_describe.name}}" data-validation-message="{{$data.common_app_mini_toutiao_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_describe.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group am-form-group-refreshing">
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

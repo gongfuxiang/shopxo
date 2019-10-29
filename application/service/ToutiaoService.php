@@ -34,6 +34,15 @@ class ToutiaoService
      */
     public static function Pay($params = [])
     {
+        // 配置信息
+        $merchant_id = MyC('common_app_mini_toutiao_pay_merchant_id');
+        $app_id = MyC('common_app_mini_toutiao_pay_appid');
+        $pay_secret = MyC('common_app_mini_toutiao_pay_secret');
+        if(empty($merchant_id) || empty($app_id) || empty($pay_secret))
+        {
+            return DataReturn('小程序未配置', -1);
+        }
+        
         // 获取支付信息
         $ret =  OrderService::Pay($params);
         if($ret['code'] != 0)
@@ -50,8 +59,6 @@ class ToutiaoService
         $payment = PaymentService::PaymentList(['where'=>['id'=>$payment_id]]);
 
         // 头条需要的订单信息
-        $merchant_id = '1900017261';
-        $app_id = '800172615976';
         $order_info = [
             'merchant_id'       => $merchant_id,
             'app_id'            => $app_id,
@@ -91,8 +98,7 @@ class ToutiaoService
         }
 
         // 签名
-        $app_secret = '4xi2kcrzgancnanghtafqtqrwgy5534itichypud';
-        $order_info['sign'] = (new \base\Toutiao())->PaySignCreated($order_info, $app_secret);
+        $order_info['sign'] = (new \base\Toutiao())->PaySignCreated($order_info, $pay_secret);
 
         // 返回数据
         $result = [
