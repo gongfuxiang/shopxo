@@ -9,7 +9,10 @@
 
 <!-- 商城公告 -->
 <view tt:if="{{common_shop_notice != null}}">
-  <view class="tips">{{common_shop_notice}}</view>
+  <view class="tips">
+    <image src="/images/tips.png" mode="aspectFit" />
+    <text>{{common_shop_notice}}</text>
+  </view>
 </view>
 
 <!-- 轮播 -->
@@ -74,12 +77,6 @@
 <!-- 结尾 -->
 <import src="/pages/common/bottom_line.ttml" />
 <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
-
-<!-- 在线客服 -->
-<view tt:if="{{common_app_is_online_service == 1}}">
-  <import src="/pages/lib/online-service/content.ttml" />
-  <template is="online_service"></template>
-</view>
 
 <!-- 版权 -->
 <view tt:if="{{load_status == 1}}">
