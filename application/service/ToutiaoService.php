@@ -52,7 +52,6 @@ class ToutiaoService
         // 头条需要的订单信息
         $merchant_id = '1900017261';
         $app_id = '800172615976';
-        $secret = '4xi2kcrzgancnanghtafqtqrwgy5534itichypud';
         $order_info = [
             'merchant_id'       => $merchant_id,
             'app_id'            => $app_id,
@@ -92,7 +91,8 @@ class ToutiaoService
         }
 
         // 签名
-        $order_info['sign'] = (new \base\Toutiao())->PaySignCreated($order_info, $secret);
+        $app_secret = '9ea496422c189390d2d3ec8eec597fbcf3e1e5a7';
+        $order_info['sign'] = (new \base\Toutiao())->PaySignCreated($order_info, $app_secret);
 
         // 返回数据
         $result = [
