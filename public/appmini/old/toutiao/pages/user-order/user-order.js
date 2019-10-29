@@ -238,7 +238,6 @@ Page({
             tt.pay({
               orderInfo: res.data.data.order_info,
               service: res.data.data.service,
-              _debug: 1,
               success(res) {
                 if (res.code == 0) {
                   // 数据设置
