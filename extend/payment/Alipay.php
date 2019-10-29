@@ -52,7 +52,7 @@ class Alipay
             'name'          => '支付宝',  // 插件名称
             'version'       => '1.1.0',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
-            'apply_terminal'=> ['pc','h5'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
+            'apply_terminal'=> ['pc','h5', 'ios', 'android', 'toutiao'], // 适用终端 默认全部 ['pc', 'h5', 'ios', 'android', 'alipay', 'weixin', 'baidu', 'toutiao']
             'desc'          => '2.0版本，适用PC+H5，即时到帐支付方式，买家的交易资金直接打入卖家支付宝账户，快速回笼交易资金。 <a href="http://www.alipay.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者
             'author_url'    => 'http://shopxo.net/',  // 开发者主页
@@ -131,14 +131,86 @@ class Alipay
             return DataReturn('支付缺少配置', -1);
         }
 
-        // 手机/PC
-        if(IsMobile())
+        // 支付方式
+        switch(APPLICATION_CLIENT_TYPE)
         {
-            $ret = $this->PayMobile($params);
-        } else {
-            $ret = $this->PayWeb($params);
+            // web
+            case 'pc' :
+            case 'h5' :
+                if(IsMobile())
+                {
+                    $ret = $this->PayMobile($params);
+                } else {
+                    $ret = $this->PayWeb($params);
+                }
+                break;
+
+            // app,头条小程序
+            case 'ios' :
+            case 'android' :
+            case 'toutiao' :
+                $ret = $this->PayApp($params);
+                break;
+
+            default :
+                $ret = DataReturn('没有相关支付模块['.APPLICATION_CLIENT_TYPE.']', -1);
         }
+        
         return $ret;
+    }
+
+    /**
+     * app支付
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-10-29
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    private function PayApp($params = [])
+    {
+        // 支付参数
+        $parameter = array(
+            'app_id'                =>  $this->config['appid'],
+            'method'                =>  'alipay.trade.app.pay',
+            'format'                =>  'JSON',
+            'charset'               =>  'utf-8',
+            'sign_type'             =>  'RSA2',
+            'timestamp'             =>  date('Y-m-d H:i:s'),
+            'version'               =>  '1.0',
+            'return_url'            =>  $params['call_back_url'],
+            'notify_url'            =>  $params['notify_url'],
+        );
+        $biz_content = array(
+            'product_code'          =>  'QUICK_MSECURITY_PAY',
+            'subject'               =>  $params['name'],
+            'out_trade_no'          =>  $params['order_no'],
+            'total_amount'          =>  $params['total_price'],
+        );
+        $parameter['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
+
+        // 生成签名参数+签名
+        $parameter['sign'] = $this->MyRsaSign($this->GetSignContent($parameter));
+
+        // 生成支付参数
+        $value = '';
+        $i = 0;
+        foreach($parameter as $k=>$v)
+        {
+            if($v != '' && $v != null && "@" != substr($v, 0, 1))
+            {
+                if($i == 0)
+                {
+                    $value .= $k.'='.urlencode($v);
+                } else {
+                    $value .= '&'.$k.'='.urlencode($v);
+                }
+                $i++;
+            }
+        }
+        unset($k, $v);
+        return DataReturn('处理成功', 0, $value);
     }
 
     /**

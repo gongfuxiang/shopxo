@@ -262,7 +262,7 @@ class User extends Common
             'appid'     => MyC('common_app_mini_toutiao_appid', 'tt65341389fa1e87f3'),
             'secret'    => MyC('common_app_mini_toutiao_appsecret', '9ea496422c189390d2d3ec8eec597fbcf3e1e5a7'),
         ];
-        $result = (new \base\ToutiaoAuth())->GetAuthCode($this->data_post);
+        $result = (new \base\Toutiao())->GetAuthCode($this->data_post);
         if($result['status'] == 0)
         {
             return DataReturn('授权登录成功', 0, $result['data']['openid']);

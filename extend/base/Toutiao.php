@@ -11,11 +11,11 @@
 namespace base;
 
 /**
- * 头条用户授权驱动
+ * 头条驱动
  * @author  Devil
  * @version V_1.0.0
  */
-class ToutiaoAuth
+class Toutiao
 {
     /**
      * [__construct 构造方法]
@@ -50,6 +50,31 @@ class ToutiaoAuth
             return ['status'=>-1, 'msg'=>$result['errmsg']];
         }
         return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result];
+    }
+
+    /**
+     * 支付签名生成
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-10-29
+     * @desc    description
+     * @param   [array]          $data   [需要生成签名的数据]
+     * @param   [string]         $secret [密钥]
+     */
+    public function PaySignCreated($data, $secret)
+    {
+        ksort($data);
+        $sign = '';
+        foreach($data AS $key=>$val)
+        {
+            if($key != 'sign' && $key != 'risk_info' && $val != '' && $val != null)
+            {
+                $sign .= "$key=$val&";
+            }
+        }
+        $sign = substr($sign, 0, -1);
+        return md5($sign.$secret);
     }
 }
 ?>

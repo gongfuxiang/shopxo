@@ -128,6 +128,7 @@ return array(
             'alipay' => array('value' => 'alipay', 'name' => '支付宝小程序'),
             'weixin' => array('value' => 'weixin', 'name' => '微信小程序'),
             'baidu' => array('value' => 'baidu', 'name' => '百度小程序'),
+            'toutiao' => array('value' => 'toutiao', 'name' => '头条小程序'),
         ),
 
     // 小程序url跳转类型
