@@ -67,7 +67,7 @@ class ToutiaoService
             'currency'          => 'CNY',
             'subject'           => '订单支付',
             'body'              => $order['order_no'],
-            'trade_time'        => $order['add_time'],
+            'trade_time'        => time(),
             'valid_time'        => intval(MyC('common_order_close_limit_time', 30, true))*60,
             'notify_url'        => __MY_URL__,
         ];
