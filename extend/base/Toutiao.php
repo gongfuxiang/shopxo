@@ -68,7 +68,7 @@ class Toutiao
         $sign = '';
         foreach($data AS $key=>$val)
         {
-            if($key != 'sign' && $key != 'risk_info' && $val != '' && $val != null)
+            if($key != 'sign' && $key != 'risk_info' && $val != '')
             {
                 $sign .= "$key=$val&";
             }

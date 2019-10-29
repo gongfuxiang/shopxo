@@ -237,7 +237,8 @@ Page({
             console.log(res.data.data.order_info)
             tt.pay({
               orderInfo: res.data.data.order_info,
-              service: res.data.data.service,
+              //service: res.data.data.service,
+              service: 1,
               _debug: 1,
               getOrderStatus(res) {
                 let { out_order_no } = res;

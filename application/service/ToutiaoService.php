@@ -57,22 +57,21 @@ class ToutiaoService
             'merchant_id'       => $merchant_id,
             'app_id'            => $app_id,
             'sign_type'         => 'MD5',
-            'timestamp'         => (string) time(),
+            'timestamp'         => time(),
             'version'           => '2.0',
             'trade_type'        => 'H5',
             'product_code'      => 'pay',
             'payment_type'      => 'direct',
             'outorderno'        => $order['order_no'],
             'uid'               => md5($params['user']['id']),
-            'total_amount'      => (string) $order['total_price']*100,
+            'total_amount'      => $order['total_price']*100,
             'currency'          => 'CNY',
             'subject'           => '订单支付',
             'body'              => $order['order_no'],
-            'trade_time'        => (string) $order['add_time'],
-            'valid_time'        => (string) MyC('common_order_close_limit_time', 30, true)*60,
+            'trade_time'        => $order['add_time'],
+            'valid_time'        => intval(MyC('common_order_close_limit_time', 30, true))*60,
             'notify_url'        => __MY_URL__,
         ];
-        $order_info['sign'] = (new \base\Toutiao())->PaySignCreated($order_info, $secret);
 
         // 支付方式
         $service = 1;
@@ -91,6 +90,9 @@ class ToutiaoService
                 $order_info['alipay_url'] = $ret['data']['data'];
                 break;
         }
+
+        // 签名
+        $order_info['sign'] = (new \base\Toutiao())->PaySignCreated($order_info, $secret);
 
         // 返回数据
         $result = [
