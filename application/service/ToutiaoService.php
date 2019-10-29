@@ -61,7 +61,7 @@ class ToutiaoService
             'trade_type'        => 'H5',
             'product_code'      => 'pay',
             'payment_type'      => 'direct',
-            'outorderno'        => $order['order_no'],
+            'out_order_no'      => $order['order_no'],
             'uid'               => md5($params['user']['id']),
             'total_amount'      => $order['total_price']*100,
             'currency'          => 'CNY',
