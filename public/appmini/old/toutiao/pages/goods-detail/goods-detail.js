@@ -34,9 +34,6 @@ Page({
     goods_video_is_autoplay: false,
     common_app_is_use_mobile_detail: 1,
 
-    popup_share_status: false,
-    common_app_is_online_service: 0,
-
     // 限时秒杀插件
     common_app_is_limitedtimediscount: 0,
     plugins_limitedtimediscount_data: null,
@@ -56,9 +53,6 @@ Page({
       "src_mini_program_path": "",
       "brand_info": {},
     },
-
-    // 海报分享
-    common_app_is_poster_share: 0,
 
     // 优惠劵
     plugins_coupon_data: null,
@@ -139,7 +133,6 @@ Page({
 
               show_field_price_text: (data.goods.show_field_price_text == '销售价') ? null : (data.goods.show_field_price_text.replace(/<[^>]+>/g, "") || null),
               common_app_is_use_mobile_detail: data.common_app_is_use_mobile_detail || 0,
-              common_app_is_online_service: data.common_app_is_online_service || 0,
 
               common_app_is_limitedtimediscount: data.common_app_is_limitedtimediscount || 0,
               plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null,
@@ -153,7 +146,6 @@ Page({
               'share_product.src_mini_program_path': '/pages/goods-detail/goods-detail?goods_id='+data.goods.id,
               'share_product.brand_info.name': data.goods.brand_name,
 
-              common_app_is_poster_share: data.common_app_is_poster_share || 0,
               plugins_coupon_data: data.plugins_coupon_data || null,
               quick_nav_cart_count: data.common_cart_total || 0,
             });
@@ -667,16 +659,6 @@ Page({
   // 视频关闭
   goods_video_close_event(e) {
     this.setData({ goods_video_is_autoplay: false });
-  },
-
-  // 分享开启弹层
-  popup_share_event(e) {
-    this.setData({ popup_share_status: true });
-  },
-
-  // 分享弹层关闭
-  popup_share_close_event(e) {
-    this.setData({ popup_share_status: false });
   },
 
   // 显示秒杀插件-倒计时

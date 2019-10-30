@@ -38,9 +38,11 @@
   <!-- 基础息 -->
   <view class="goods-base bg-white">
     <view class="goods-price single-text">
-      <view class="goods-share tc" bindtap="popup_share_event">
-        <image src="/images/goods-detail-share-icon.png" mode="scaleToFill" class="dis-block" />
-        <view class="cr-888">分享</view>        
+      <view class="goods-share tc">
+        <button type="default" size="mini" open-type="share" hover-class="none">
+          <image src="/images/goods-detail-share-icon.png" mode="scaleToFill" class="dis-block" />
+          <view class="cr-888">分享</view>
+        </button>
       </view>
       <text tt:if="{{(show_field_price_text || null) != null}}" class="price-icon">{{show_field_price_text}}</text>
       <text class="sales-price">￥{{goods.price}}</text>
@@ -186,35 +188,6 @@
         </view>
       </view>
       <button class="goods-popup-submit bg-main" type="default" catchtap="goods_buy_confirm_event" hover-class="none">确定</button>
-    </view>
-  </component-popup>
-
-  <!-- 分享弹层 -->
-  <component-popup prop-show="{{popup_share_status}}" prop-position="bottom" bindonclose="popup_share_close_event">
-    <view class="share-popup bg-white">
-      <view class="close fr oh">
-        <view class="fr" catchtap="popup_share_close_event">
-          <icon type="clear" size="20" />
-        </view>
-      </view>
-      <view class="share-popup-content">
-        <view tt:if="{{common_app_is_good_thing == 1}}" class="share-items oh">
-          <share-button product="{{share_product}}" type="3" class="dis-block oh">
-            <image class="fl" src="/images/share-recomend-icon.png" mode="scaleToFill" />
-            <view class="cr-888 single-text fl">好物推荐、和大家一起分享你发现的宝贝</view>
-          </share-button>
-        </view>
-        <view class="share-items oh">
-          <button class="dis-block" type="default" size="mini" open-type="share" hover-class="none">
-            <image src="/images/share-weixin-icon.png" mode="scaleToFill" />
-            <text class="cr-888 single-text">一键分享给好友、群聊</text>
-          </button>
-        </view>
-        <view tt:if="{{common_app_is_poster_share == 1}}" class="share-items oh" bindtap="poster_event">
-          <image src="/images/share-friend-icon.png" mode="scaleToFill" />
-          <text class="cr-888 single-text">生成海报，分享到朋友圈、好友及群聊</text>
-        </view>
-      </view>
     </view>
   </component-popup>
 </view>
