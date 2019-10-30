@@ -518,6 +518,67 @@ App({
       }
     }
     return json;
-  }
+  },
+
+  // 文件上传权限获取
+  file_upload_authorize(object, method, params) {
+    var self = this;
+    tt.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.camera']) {
+          tt.authorize({
+            scope: 'scope.camera',
+            success (res) {
+              tt.authorize({
+                scope: 'scope.camera',
+                success (res) {
+                  if (typeof object === 'object' && (method || null) != null) {
+                    object[method](params);
+                  }
+                },
+                fail (res) {
+                  tt.openSetting();
+                  self.showToast('请同意相册授权');
+                }
+              });
+            },
+            fail (res) {
+              tt.openSetting();
+              self.showToast('请同意相机授权');
+            }
+          });
+        } else {
+          if(!res.authSetting['scope.album'])
+          {
+            if(res.authSetting['scope.album'] == undefined)
+            {
+              tt.authorize({
+                scope: 'scope.camera',
+                success (res) {
+                  if (typeof object === 'object' && (method || null) != null) {
+                    object[method](params);
+                  }
+                },
+                fail (res) {
+                  tt.openSetting();
+                  self.showToast('请同意相册授权');
+                }
+              });
+            } else {
+              tt.openSetting();
+              self.showToast('请同意相册授权');
+            }
+          } else {
+            if (typeof object === 'object' && (method || null) != null) {
+              object[method](params);
+            }
+          }
+        }
+      },
+      fail: (e) => {
+        self.showToast("授权校验失败");
+      }
+    });
+  },
 
 });
