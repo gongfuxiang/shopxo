@@ -172,10 +172,16 @@ function MiniAppEnv()
             return 'alipay';
         }
 
-        // 百度小程序
+        // 百度小程序 swan-baiduboxapp
         if(stripos($_SERVER['HTTP_USER_AGENT'], 'swan-baiduboxapp') !== false)
         {
             return 'baidu';
+        }
+
+        // 头条小程序 ToutiaoMicroApp
+        if(stripos($_SERVER['HTTP_USER_AGENT'], 'ToutiaoMicroApp') !== false)
+        {
+            return 'toutiao';
         }
     }
     return null;
