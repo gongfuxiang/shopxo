@@ -84,7 +84,8 @@
 				{{/if}}
 			</ul>
 		</div>
-			
+
+		<!-- 页脚信息 -->
 		<div class="am-footer-miscs">
 			<div class="am-container">
 				<p class="powered">
@@ -92,9 +93,22 @@
 						<span class="b">Shop</span><span class="o">XO</span>
 					</a> {{$Think.APPLICATION_VERSION}}
 				</p>
-				<p>
-					<a href="http://www.beian.miit.gov.cn/" target="_blank">{{:MyC('home_site_icp')}}</a>
-				</p>
+				{{if !empty($home_site_icp)}}
+					<p>
+						<a href="http://www.beian.miit.gov.cn/" target="_blank">
+							<img src="{{$attachment_host}}/static/common/images/beian-icp-icon.png" width="20" height="20" alt="ICP备案" />
+							{{$home_site_icp}}
+						</a>
+					</p>
+				{{/if}}
+				{{if !empty($home_site_security_record_name)}}
+					<p>
+						<a {{if empty($home_site_security_record_url)}}href="javascript:;"{{else /}}href="{{$home_site_security_record_url}}" target="_blank"{{/if}}>
+							<img src="{{$attachment_host}}/static/common/images/beian-gongan-icon.png" width="20" height="20" alt="公安备案" />
+							{{$home_site_security_record_name}}
+						</a>
+					</p>
+				{{/if}}
 			</div>
 		</div>
 	</footer>

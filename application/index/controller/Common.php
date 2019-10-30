@@ -300,6 +300,11 @@ class Common extends Controller
 
         // 编辑器文件存放地址
         $this->assign('editor_path_type', empty($this->user['id']) ? 'public' : 'user-'.$this->user['id']);
+
+        // 备案信息
+        $this->assign('home_site_icp', MyC('home_site_icp'));
+        $this->assign('home_site_security_record_name', MyC('home_site_security_record_name'));
+        $this->assign('home_site_security_record_url', MyC('home_site_security_record_url'));
     }
 
     /**
