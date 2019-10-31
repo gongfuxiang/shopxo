@@ -126,7 +126,6 @@ Page({
 
               show_field_price_text: (data.goods.show_field_price_text == '销售价') ? null : (data.goods.show_field_price_text.replace(/<[^>]+>/g, "") || null),
               common_app_is_use_mobile_detail: data.common_app_is_use_mobile_detail || 0,
-              common_app_is_online_service: data.common_app_is_online_service || 0,
 
               common_app_is_limitedtimediscount: data.common_app_is_limitedtimediscount || 0,
               plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null,
