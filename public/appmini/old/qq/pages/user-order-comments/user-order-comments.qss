@@ -1,0 +1,43 @@
+.goods-image {
+    width: 80rpx;
+    height: 80rpx;
+    margin-right: 20rpx;
+}
+.item-base {
+  margin: 10rpx 0 0 100rpx;
+}
+.item-base .xingxing-icon {
+  width: 60rpx;
+  height: 60rpx;
+  margin: 0 15rpx;
+  vertical-align: middle;
+}
+.item-base .msg-text {
+  margin-left: 20rpx;
+}
+.form-content {
+  margin-top: 20rpx;
+}
+.form-content textarea {
+  height: 160rpx !important;
+  min-height: 160rpx !important;
+}
+.form-container-upload {
+  margin-top: 10rpx;
+}
+.form-container-upload .form-upload-data image {
+  width: 100rpx;
+  height: 100rpx;
+  padding: 5rpx;
+}
+.form-container-upload .upload-icon {
+  margin: 10rpx 0 0 10rpx;
+  width: 110rpx;
+  height: 110rpx;
+}
+.anonymous .tips-text {
+  margin-top: 5rpx;
+}
+.anonymous switch {
+  vertical-align: middle;
+}

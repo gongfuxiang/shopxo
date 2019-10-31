@@ -320,6 +320,88 @@ class User extends Common
     }
 
     /**
+     * QQ小程序获取用户授权
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-10-31
+     * @desc    description
+     */
+    public function QQUserAuth()
+    {
+        // 参数
+        if(empty($this->data_post['authcode']))
+        {
+            return DataReturn('授权码为空', -1);
+        }
+
+        // 授权
+        $result = (new \base\QQ(MyC('common_app_mini_qq_appid', '1109990622'), MyC('common_app_mini_qq_appsecret', 'PdVsj1n2sByQQBCi
+')))->GetAuthSessionKey($this->data_post['authcode']);
+        if($result !== false)
+        {
+            return DataReturn('授权登录成功', 0, $result);
+        }
+        return DataReturn('授权登录失败', -100);
+    }
+
+    /**
+     * QQ小程序获取用户信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-10-31
+     * @desc    description
+     */
+    public function QQUserInfo()
+    {
+        // 参数校验
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'openid',
+                'error_msg'         => 'openid为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'encrypted_data',
+                'error_msg'         => '解密数据为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'iv',
+                'error_msg'         => 'iv为空,请重试',
+            ]
+        ];
+        $ret = ParamsChecked($this->data_post, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 先从数据库获取用户信息
+        $user = UserService::AppUserInfoHandle(null, 'qq_openid', $this->data_post['openid']);
+        if(empty($user))
+        {
+            $result = (new \base\QQ(MyC('common_app_mini_qq_appid', '1109990622'), MyC('common_app_mini_qq_appsecret', 'PdVsj1n2sByQQBCi
+')))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
+            if(is_array($result))
+            {
+                $result['nick_name'] = isset($result['nickName']) ? $result['nickName'] : '';
+                $result['avatar'] = isset($result['avatarUrl']) ? $result['avatarUrl'] : '';
+                $result['gender'] = empty($result['gender']) ? 0 : ($result['gender'] == 2) ? 1 : 2;
+                $result['qq_unionid'] = isset($result['unionId']) ? $result['unionId'] : '';
+                $result['openid'] = $result['openId'];
+                $result['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
+                return UserService::AuthUserProgram($result, 'qq_openid');
+            }
+        } else {
+            return DataReturn('授权成功', 0, $user);
+        }
+        return DataReturn(empty($result) ? '获取用户信息失败' : $result, -100);
+    }
+
+    /**
      * [ClientCenter 用户中心]
      * @author   Devil
      * @blog     http://gong.gg/

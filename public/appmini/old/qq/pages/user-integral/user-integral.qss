@@ -1,0 +1,21 @@
+.data-card {
+  padding: 30rpx 20rpx;
+  font-size: 24rpx;
+  color: #a6a6a6;
+}
+.data-card .data-box {
+  margin-bottom: 20rpx;
+}
+.data-card .data-title {
+  font-size: 28rpx;
+  color: #4a4a4a;
+}
+.data-card .data-detail {
+  line-height: 36rpx;
+}
+.data-value {
+  margin-bottom: 10rpx;
+}
+.data-value text:first-child {
+  margin-right: 20rpx;
+}
