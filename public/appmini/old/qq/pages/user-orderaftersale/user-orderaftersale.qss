@@ -61,5 +61,5 @@
     margin-left: 20rpx;
 }
 .item-operation button {
-    padding: 0 35rpx;
+    padding: 15rpx 35rpx;
 }

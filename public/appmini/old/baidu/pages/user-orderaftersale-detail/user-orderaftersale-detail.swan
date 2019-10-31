@@ -95,12 +95,12 @@
     </view>
 
     <!-- 表单 -->
-    <view s-if="form_type != -1" class="form-container spacing-mb oh">
+    <view s-if="form_type != null" class="form-container spacing-mb oh">
       <view class="form-gorup">
         <view class="form-gorup-title">退款原因<text class="form-group-tips-must">必选</text></view>
         <picker bindchange="form_reason_event" value="{{form_reason_index}}" range="{{reason_data_list}}">
-          <view class="picker {{form_reason_index == -1 ? 'cr-ccc' : 'cr-666'}} arrow-right">
-            {{form_reason_index == -1 ? '请选择原因' : reason_data_list[form_reason_index]}}
+          <view class="picker {{form_reason_index == null ? 'cr-ccc' : 'cr-666'}} arrow-right">
+            {{form_reason_index == null ? '请选择原因' : reason_data_list[form_reason_index]}}
           </view>
         </picker>
       </view>

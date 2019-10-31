@@ -81,8 +81,8 @@ Page({
 
     // 表单数据
     form_button_disabled: false,
-    form_type: -1,
-    form_reason_index: -1,
+    form_type: null,
+    form_reason_index: null,
     form_price: '',
     form_msg: '',
     form_number: 0,
@@ -168,7 +168,7 @@ Page({
     var value = e.currentTarget.dataset.value;
     this.setData({
       form_type: value,
-      form_reason_index: this.data.form_type == value ? this.data.form_reason_index : -1,
+      form_reason_index: this.data.form_type == value ? this.data.form_reason_index : null,
       reason_data_list: value == 0 ? this.data.return_only_money_reason : this.data.return_money_goods_reason,
       form_number: value == 0 ? 0 : this.data.returned_data.returned_quantity
     });

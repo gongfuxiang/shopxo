@@ -14,9 +14,9 @@ Page({
     default_city: "请选择市",
     default_county: "请选择区/县",
 
-    province_value: -1,
-    city_value: -1,
-    county_value: -1,
+    province_value: null,
+    city_value: null,
+    county_value: null,
 
     params: null,
   },
@@ -182,38 +182,47 @@ Page({
   },
 
   select_province(e) {
-    var value = e.detail.value,
-      data = this.data.province_list[value];
-    this.setData({
-      province_value: value,
-      province_id: data.id,
-      city_value: null,
-      county_value: null,
-      city_id: null,
-      county_id: null
-    });
-    this.get_city_list();
+    if(e.detail.value >= 0)
+    {
+      var value = e.detail.value,
+        data = this.data.province_list[value];
+      this.setData({
+        province_value: value,
+        province_id: data.id,
+        city_value: null,
+        county_value: null,
+        city_id: null,
+        county_id: null
+      });
+      this.get_city_list();
+    }
   },
 
   select_city(e) {
-    var value = e.detail.value,
-      data = this.data.city_list[value];
-    this.setData({
-      city_value: value,
-      city_id: data.id,
-      county_value: null,
-      county_id: null
-    });
-    this.get_county_list();
+    if(e.detail.value >= 0)
+    {
+      var value = e.detail.value,
+        data = this.data.city_list[value];
+      this.setData({
+        city_value: value,
+        city_id: data.id,
+        county_value: null,
+        county_id: null
+      });
+      this.get_county_list();
+    }
   },
 
   select_county(e) {
-    var value = e.detail.value,
-      data = this.data.county_list[value];
-    this.setData({
-      county_value: value,
-      county_id: data.id
-    });
+    if(e.detail.value >= 0)
+    {
+      var value = e.detail.value,
+        data = this.data.county_list[value];
+      this.setData({
+        county_value: value,
+        county_id: data.id
+      });
+    }
   },
 
   init_value() {
