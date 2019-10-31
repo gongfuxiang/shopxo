@@ -67,7 +67,7 @@ App({
     // 请求地址
     request_url: "{{request_url}}",
      request_url: 'http://tp5-dev.com/',
-     //request_url: 'https://test.shopxo.net/',
+     request_url: 'https://test.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -145,7 +145,7 @@ App({
     return (
       this.data.request_url +
       "index.php?s=/" + m + "/" + c + "/" + a +
-      "&application=app&application_client_type=weixin" +
+      "&application=app&application_client_type=qq" +
       "&token=" +
       token +
       "&ajax=ajax" +

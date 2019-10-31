@@ -17,8 +17,8 @@ page{
 .content input{
     font-size: 28rpx;
     color: #4e4e4e;
-    height: 40px; 
-    line-height: 40px;
+    height: 80rpx; 
+    line-height: 80rpx;
 }
 .content .code{
     margin: 20rpx 0;
@@ -26,14 +26,14 @@ page{
     position: relative;
 }
 .content .code .verify{
-    width: 63%; 
+    width: 58%;
 }
 .content .code .verify-sub{
     border: solid 1px #ff6482; 
     color: #ff6482;
-    width: 35%;
-    height: 35px; 
-    line-height: 35px;
+    width: 40%;
+    height: 72rpx; 
+    line-height: 40rpx;
     border-radius: 10rpx;
     position: absolute;
     top: 0;
