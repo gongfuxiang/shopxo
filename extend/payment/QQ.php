@@ -11,14 +11,14 @@
 namespace payment;
 
 /**
- * 微信支付
+ * QQ支付
  * @author   Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
  * @date    2018-09-19
  * @desc    description
  */
-class Weixin
+class QQ
 {
     // 插件配置参数
     private $config;
@@ -49,11 +49,11 @@ class Weixin
     {
         // 基础信息
         $base = [
-            'name'          => '微信',  // 插件名称
-            'version'       => '1.1.1',  // 插件版本
+            'name'          => 'QQ支付',  // 插件名称
+            'version'       => '1.0.0',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
-            'apply_terminal'=> ['pc', 'h5', 'ios', 'android', 'weixin', 'toutiao'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
-            'desc'          => '适用公众号+PC+H5+APP+(微信|头条)小程序，即时到帐支付方式，买家的交易资金直接打入卖家账户，快速回笼交易资金。 <a href="https://pay.weixin.qq.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
+            'apply_terminal'=> ['pc', 'qq'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
+            'desc'          => 'QQ支付适用PC+QQ小程序，即时到帐支付方式，买家的交易资金直接打入卖家账户，快速回笼交易资金。 <a href="https://qpay.qq.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者
             'author_url'    => 'http://shopxo.net/',  // 开发者主页
         ];
@@ -65,30 +65,20 @@ class Weixin
                 'type'          => 'text',
                 'default'       => '',
                 'name'          => 'appid',
-                'placeholder'   => '公众号/服务号AppID',
-                'title'         => '公众号/服务号AppID',
+                'placeholder'   => 'QQ小程序ID',
+                'title'         => 'QQ小程序ID',
                 'is_required'   => 0,
-                'message'       => '请填写微信分配的AppID',
-            ],
-            [
-                'element'       => 'input',
-                'type'          => 'text',
-                'default'       => '',
-                'name'          => 'mini_appid',
-                'placeholder'   => '小程序ID',
-                'title'         => '小程序ID',
-                'is_required'   => 0,
-                'message'       => '请填写微信分配的小程序ID',
+                'message'       => '请填写QQ分配的小程序ID',
             ],
             [
                 'element'       => 'input',
                 'type'          => 'text',
                 'default'       => '',
                 'name'          => 'mch_id',
-                'placeholder'   => '微信支付商户号',
-                'title'         => '微信支付商户号',
+                'placeholder'   => 'QQ支付商户号',
+                'title'         => 'QQ支付商户号',
                 'is_required'   => 0,
-                'message'       => '请填写微信支付分配的商户号',
+                'message'       => '请填写QQ支付分配的商户号',
             ],
             [
                 'element'       => 'input',
@@ -97,7 +87,7 @@ class Weixin
                 'name'          => 'key',
                 'placeholder'   => '密钥',
                 'title'         => '密钥',
-                'desc'          => '微信支付商户平台API配置的密钥',
+                'desc'          => 'QQ支付商户平台API配置的密钥',
                 'is_required'   => 0,
                 'message'       => '请填写密钥',
             ],
@@ -163,15 +153,6 @@ class Weixin
             return DataReturn('支付缺少配置', -1);
         }
 
-        // 微信中打开
-        if(in_array(APPLICATION_CLIENT_TYPE, ['pc', 'h5']))
-        {
-            if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false && empty($params['user']['weixin_web_openid']))
-            {
-                exit(header('location:'.PluginsHomeUrl('weixinwebauthorization', 'pay', 'index', input())));
-            }
-        }
-
         // 获取支付参数
         $ret = $this->GetPayParams($params);
         if($ret['code'] != 0)
@@ -180,7 +161,7 @@ class Weixin
         }
 
         // 请求接口处理
-        $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/pay/unifiedorder', $this->ArrayToXml($ret['data'])));
+        $result = $this->XmlToArray($this->HttpRequest('https://qpay.qq.com/cgi-bin/pay/qpay_unified_order.cgi', $this->ArrayToXml($ret['data'])));
         if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['prepay_id']))
         {
             return $this->PayHandleReturn($ret['data'], $result, $params);
@@ -219,41 +200,22 @@ class Weixin
                 $pay_params = [
                     'url'       => urlencode(base64_encode($data['code_url'])),
                     'order_no'  => $params['order_no'],
-                    'name'      => urlencode('微信支付'),
-                    'msg'       => urlencode('打开微信APP扫一扫进行支付'),
+                    'name'      => urlencode('QQ支付'),
+                    'msg'       => urlencode('打开QQAPP扫一扫进行支付'),
                     'ajax_url'  => urlencode(base64_encode($params['ajax_url'])),
                 ];
                 $url = MyUrl('index/pay/qrcode', $pay_params);
                 $result = DataReturn('success', 0, $url);
                 break;
 
-            // h5支付
-            case 'MWEB' :
-                if(!empty($params['order_id']))
-                {
-                    $data['mweb_url'] .= '&redirect_url='.$redirect_url;
-                }
-                $result = DataReturn('success', 0, $data['mweb_url']);
+            // QQ中公众号支付
+            case 'JSAPI' :
+                $result = DataReturn('暂不支持QQ中支付', -1);
                 break;
 
-            // 微信中/小程序支付
-            case 'JSAPI' :
-                $pay_data = array(
-                    'appId'         => $pay_params['appid'],
-                    'package'       => 'prepay_id='.$data['prepay_id'],
-                    'nonceStr'      => md5(time().rand()),
-                    'signType'      => $pay_params['sign_type'],
-                    'timeStamp'     => (string) time(),
-                );
-                $pay_data['paySign'] = $this->GetSign($pay_data);
-
-                // 微信中
-                if(in_array(APPLICATION_CLIENT_TYPE, ['pc', 'h5']) && !empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false)
-                {
-                    $this->PayHtml($pay_data, $redirect_url);
-                } else {
-                    $result = DataReturn('success', 0, $pay_data);
-                }
+            // QQ小程序支付
+            case 'MINIAPP' :
+                $result = DataReturn('success', 0, 'prepay_id='.$data['prepay_id']);
                 break;
 
             // APP支付
@@ -274,67 +236,6 @@ class Weixin
     }
 
     /**
-     * 支付代码
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-05-25T00:07:52+0800
-     * @param    [array]                   $pay_data     [支付信息]
-     * @param    [string]                  $redirect_url [成功后的url]
-     */
-    private function PayHtml($pay_data, $redirect_url)
-    {
-        // 支付跳转地址
-        $success_url = MyUrl('index/order/respond', ['appoint_status'=>0]);
-        $error_url = MyUrl('index/order/respond', ['appoint_status'=>-1]);
-
-        // 支付代码
-        exit('<html>
-            <head>
-                <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-                <title>微信安全支付</title>
-                <script type="text/javascript">
-                    function onBridgeReady()
-                    {
-                       WeixinJSBridge.invoke(
-                            \'getBrandWCPayRequest\', {
-                                "appId":"'.$pay_data['appId'].'",
-                                "timeStamp":"'.$pay_data['timeStamp'].'",
-                                "nonceStr":"'.$pay_data['nonceStr'].'",
-                                "package":"'.$pay_data['package'].'",     
-                                "signType":"'.$pay_data['signType'].'",
-                                "paySign":"'.$pay_data['paySign'].'"
-                            },
-                            function(res) {
-                                if(res.err_msg == "get_brand_wcpay_request:ok" )
-                                {
-                                    window.location.href = "'.$success_url.'";
-                                } else {
-                                    window.location.href = "'.$error_url.'";
-                                }
-                            }
-                        ); 
-                    }
-                    if(typeof WeixinJSBridge == "undefined")
-                    {
-                       if( document.addEventListener )
-                       {
-                           document.addEventListener("WeixinJSBridgeReady", onBridgeReady, false);
-                       } else if (document.attachEvent)
-                       {
-                           document.attachEvent("WeixinJSBridgeReady", onBridgeReady); 
-                           document.attachEvent("onWeixinJSBridgeReady", onBridgeReady);
-                       }
-                    } else {
-                       onBridgeReady();
-                    }
-                </script>
-                </head>
-            <body>
-        </html>');
-    }
-
-    /**
      * 获取支付参数
      * @author   Devil
      * @blog    http://gong.gg/
@@ -351,34 +252,22 @@ class Weixin
             return DataReturn('支付类型不匹配', -1);
         }
 
-        // openid
-        if(APPLICATION == 'app')
-        {
-            $openid = isset($params['user']['weixin_openid']) ? $params['user']['weixin_openid'] : '';
-        } else {
-            $openid = isset($params['user']['weixin_web_openid']) ? $params['user']['weixin_web_openid'] : '';
-        }
-
-        // appid
-        $appid = (APPLICATION == 'app') ? $this->config['mini_appid'] :  $this->config['appid'];
-
         // 异步地址处理
         $notify_url = (__MY_HTTP__ == 'https' && isset($this->config['agreement']) && $this->config['agreement'] == 1) ? 'http'.mb_substr($params['notify_url'], 5, null, 'utf-8') : $params['notify_url'];
 
         // 请求参数
         $data = [
-            'appid'             => $appid,
+            'appid'             => $this->config['appid'],
             'mch_id'            => $this->config['mch_id'],
-            'body'              => $params['site_name'].'-'.$params['name'],
             'nonce_str'         => md5(time().rand().$params['order_no']),
+            'body'              => $params['site_name'].'-'.$params['name'],
             'notify_url'        => $notify_url,
-            'openid'            => ($trade_type == 'JSAPI') ? $openid : '',
             'out_trade_no'      => $params['order_no'].GetNumberCode(6),
-            'spbill_create_ip'  => GetClientIP(),
+            'fee_type'          => 'CNY',
             'total_fee'         => intval($params['total_price']*100),
+            'spbill_create_ip'  => GetClientIP(),
             'trade_type'        => $trade_type,
-            'attach'            => empty($params['attach']) ? $params['site_name'].'-'.$params['name'] : $params['attach'],
-            'sign_type'         => 'MD5',
+            'attach'            => empty($params['attach']) ? 'd订单号：'.$params['order_no'] : $params['attach'],
         ];
         $data['sign'] = $this->GetSign($data);
         return DataReturn('success', 0, $data);
@@ -396,9 +285,8 @@ class Weixin
     {
         $type_all = [
             'pc'        => 'NATIVE',
-            'weixin'    => 'JSAPI',
-            'h5'        => 'MWEB',
-            'toutiao'   => 'MWEB',
+            'h5'        => 'JSAPI',
+            'qq'        => 'MINIAPP',
             'app'       => 'APP',
             'ios'       => 'APP',
             'android'   => 'APP',
@@ -435,11 +323,12 @@ class Weixin
     {
         $result = empty($GLOBALS['HTTP_RAW_POST_DATA']) ? $this->XmlToArray(file_get_contents('php://input')) : $this->XmlToArray($GLOBALS['HTTP_RAW_POST_DATA']);
 
-        if(isset($result['result_code']) && $result['result_code'] == 'SUCCESS' && $result['sign'] == $this->GetSign($result))
+        if(isset($result['return_code']) && $result['return_code'] == 'SUCCESS' && $result['sign'] == $this->GetSign($result))
         {
             return DataReturn('支付成功', 0, $this->ReturnData($result));
         }
-        return DataReturn('处理异常错误', -100);
+        $error_msg = empty($result['return_msg']) ? '' : '['.$result['return_msg'].']';
+        return DataReturn('处理异常错误'.$error_msg, -100);
     }
 
     /**
@@ -457,7 +346,7 @@ class Weixin
 
         // 返回数据固定基础参数
         $data['trade_no']       = $data['transaction_id'];  // 支付平台 - 订单号
-        $data['buyer_user']     = $data['openid'];          // 支付平台 - 用户
+        $data['buyer_user']     = isset($data['openid']) ? $data['openid'] : '';  // 支付平台 - 用户
         $data['out_trade_no']   = $out_trade_no;            // 本系统发起支付的 - 订单号
         $data['subject']        = $data['attach'];          // 本系统发起支付的 - 商品名称
         $data['pay_price']      = $data['total_fee']/100;   // 本系统发起支付的 - 总价
