@@ -52,8 +52,8 @@ class QQ
             'name'          => 'QQ支付',  // 插件名称
             'version'       => '1.0.0',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
-            'apply_terminal'=> ['pc', 'qq'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
-            'desc'          => 'QQ支付适用PC+QQ小程序，即时到帐支付方式，买家的交易资金直接打入卖家账户，快速回笼交易资金。 <a href="https://qpay.qq.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
+            'apply_terminal'=> ['pc', 'h5', 'qq'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
+            'desc'          => '适用PC+H5+QQ小程序，即时到帐支付方式，买家的交易资金直接打入卖家账户，快速回笼交易资金。 <a href="https://qpay.qq.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者
             'author_url'    => 'http://shopxo.net/',  // 开发者主页
         ];
@@ -91,11 +91,34 @@ class QQ
                 'is_required'   => 0,
                 'message'       => '请填写密钥',
             ],
+
+            [
+                'element'       => 'input',
+                'type'          => 'text',
+                'default'       => '',
+                'name'          => 'op_user_id',
+                'placeholder'   => '操作员帐号',
+                'title'         => '操作员帐号（退款操作必填项）',
+                'desc'          => '也可以是商户号，操作员工创建参考：https://kf.qq.com/faq/170112AZ7Fzm170112VNz6zE.html',
+                'is_required'   => 0,
+                'message'       => '请填写操作员帐号',
+            ],
+            [
+                'element'       => 'input',
+                'type'          => 'text',
+                'default'       => '',
+                'name'          => 'op_user_passwd',
+                'placeholder'   => '操作员密码',
+                'title'         => '操作员密码（退款操作必填项）',
+                'desc'          => '如填写的是商户号，那这里就是商户号登录密码',
+                'is_required'   => 0,
+                'message'       => '请填写操作员密码',
+            ],
             [
                 'element'       => 'textarea',
                 'name'          => 'apiclient_cert',
                 'placeholder'   => '证书(apiclient_cert.pem)',
-                'title'         => '证书(apiclient_cert.pem)',
+                'title'         => '证书(apiclient_cert.pem)（退款操作必填项）',
                 'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
@@ -105,7 +128,7 @@ class QQ
                 'element'       => 'textarea',
                 'name'          => 'apiclient_key',
                 'placeholder'   => '证书密钥(apiclient_key.pem)',
-                'title'         => '证书密钥(apiclient_key.pem)',
+                'title'         => '证书密钥(apiclient_key.pem)（退款操作必填项）',
                 'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
@@ -394,8 +417,8 @@ class QQ
             'transaction_id'    => $params['trade_no'],
             'out_refund_no'     => $params['order_no'].GetNumberCode(6),
             'refund_fee'        => intval($params['refund_price']*100),
-            'op_user_id'        => $this->config['mch_id'],
-            'op_user_passwd'    => md5('336363'),
+            'op_user_id'        => $this->config['op_user_id'],
+            'op_user_passwd'    => md5($this->config['op_user_passwd']),
         ];
         $data['sign'] = $this->GetSign($data);
 
