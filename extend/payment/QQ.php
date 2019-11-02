@@ -215,7 +215,7 @@ class QQ
 
             // QQ小程序支付
             case 'MINIAPP' :
-                $result = DataReturn('success', 0, 'package='.$data['prepay_id']);
+                $result = DataReturn('success', 0, 'prepay_id='.$data['prepay_id']);
                 break;
 
             // APP支付
