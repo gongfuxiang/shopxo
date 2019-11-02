@@ -193,7 +193,9 @@ class QQ
         {
             // web支付
             case 'NATIVE' :
-                // 手机模式下直接返回微信的支付url地址
+                // 手机模式下直接返回微信的支付url地址，打开支付（缺点是支付后会直接关闭站点）
+                // QQ支付本身没有提供H5支付方案，这种方式也可以直接支付（缺点是支付后不能回调到原来浏览器）
+                // 公众号后续再采用公众号的方式支付，体验会更好一些，只是可以不关闭站点
                 if(APPLICATION_CLIENT_TYPE == 'h5' || IsMobile())
                 {
                     $result = DataReturn('success', 0, $data['code_url']);
@@ -387,32 +389,29 @@ class QQ
         // 退款原因
         $refund_reason = empty($params['refund_reason']) ? $params['order_no'].'订单退款'.$params['refund_price'].'元' : $params['refund_reason'];
 
-        // appid，默认使用公众号appid
-        $appid = (!isset($params['client_type']) || in_array($params['client_type'], ['pc', 'h5'])) ? $this->config['appid'] : $this->config['mini_appid'];
-
         // 请求参数
         $data = [
-            'appid'             => $appid,
+            'appid'             => $this->config['appid'],
             'mch_id'            => $this->config['mch_id'],
             'nonce_str'         => md5(time().rand().$params['order_no']),
-            'sign_type'         => 'MD5',
             'transaction_id'    => $params['trade_no'],
             'out_refund_no'     => $params['order_no'].GetNumberCode(6),
             'total_fee'         => intval($params['pay_price']*100),
             'refund_fee'        => intval($params['refund_price']*100),
-            'refund_desc'       => $refund_reason,            
+            'refund_channel'    => 'ORIGINAL',            
         ];
         $data['sign'] = $this->GetSign($data);
 
         // 请求接口处理
         $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/secapi/pay/refund', $this->ArrayToXml($data), true));
+        print_r($result);die;
         if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['return_msg']) && $result['return_msg'] == 'OK')
         {
             // 统一返回格式
             $data = [
                 'out_trade_no'  => isset($result['out_trade_no']) ? $result['out_trade_no'] : '',
-                'trade_no'      => isset($result['transaction_id']) ? $result['transaction_id'] : (isset($result['err_code_des']) ? $result['err_code_des'] : ''),
-                'buyer_user'    => isset($result['refund_id']) ? $result['refund_id'] : '',
+                'trade_no'      => isset($result['refund_id']) ? $result['refund_id'] : '',
+                'buyer_user'    => isset($result['transaction_id']) ? $result['transaction_id'] : '',
                 'refund_price'  => isset($result['refund_fee']) ? $result['refund_fee']/100 : 0.00,
                 'return_params' => $result,
             ];
