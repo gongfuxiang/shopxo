@@ -1,0 +1,40 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/appminiqqconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appminiqqconfig/index')}}">
+			<div class="am-form-group">
+				<label>{{$data.common_app_mini_qq_appid.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_qq_appid.describe}}</span></label>
+				<input type="text" name="{{$data.common_app_mini_qq_appid.only_tag}}" placeholder="{{$data.common_app_mini_qq_appid.name}}" data-validation-message="{{$data.common_app_mini_qq_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_qq_appid.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_app_mini_qq_appsecret.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_qq_appsecret.describe}}</span></label>
+				<input type="text" name="{{$data.common_app_mini_qq_appsecret.only_tag}}" placeholder="{{$data.common_app_mini_qq_appsecret.name}}" data-validation-message="{{$data.common_app_mini_qq_appsecret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_qq_appsecret.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_app_mini_qq_apptoken.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_qq_apptoken.describe}}</span></label>
+				<input type="text" name="{{$data.common_app_mini_qq_apptoken.only_tag}}" placeholder="{{$data.common_app_mini_qq_apptoken.name}}" data-validation-message="{{$data.common_app_mini_qq_apptoken.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_qq_apptoken.value}}"{{/if}} />
+			</div>
+
+			<div class="am-form-group">
+				<label>{{$data.common_app_mini_qq_title.name}}</label>
+				<input type="text" name="{{$data.common_app_mini_qq_title.only_tag}}" placeholder="{{$data.common_app_mini_qq_title.name}}" data-validation-message="{{$data.common_app_mini_qq_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_qq_title.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>{{$data.common_app_mini_qq_describe.name}}</label>
+				<input type="text" name="{{$data.common_app_mini_qq_describe.only_tag}}" placeholder="{{$data.common_app_mini_qq_describe.name}}" data-validation-message="{{$data.common_app_mini_qq_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_qq_describe.value}}"{{/if}} />
+			</div>
+			<div class="am-form-group am-form-group-refreshing">
+				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

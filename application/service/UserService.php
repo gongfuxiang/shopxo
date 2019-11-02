@@ -1659,24 +1659,39 @@ class UserService
             'referrer'          => isset($params['referrer']) ? $params['referrer'] : 0,
         ];
 
-        // 微信用户unionid
-        if(!empty($params['weixin_unionid']))
-        {
-            $data['weixin_unionid'] = $params['weixin_unionid'];
-        }
-        
-        // QQ用户unionid
-        if(!empty($params['qq_unionid']))
-        {
-            $data['qq_unionid'] = $params['qq_unionid'];
-        }
-
         // 用户信息处理
         $user = self::AppUserInfoHandle(null, $field, $params['openid']);
         if(!empty($user))
         {
             return DataReturn('授权成功', 0, $user);
         } else {
+            // 用户unionid列表
+            // 微信用户unionid
+            // QQ用户unionid
+            $unionid_all = ['weixin_unionid', 'qq_unionid'];
+            foreach($unionid_all as $unionid)
+            {
+                if(!empty($params[$unionid]))
+                {
+                    // unionid字段是否存在用户
+                    $user_unionid = UserService::AppUserInfoHandle(null, $unionid, $params[$unionid]);
+                    if(!empty($user_unionid))
+                    {
+                        // openid绑定
+                        if(Db::name('User')->where(['id'=>$user_unionid['id']])->update([$field=>$params['openid'], 'upd_time'=>time()]))
+                        {
+                            // 直接返回用户信息
+                            $user_unionid[$field] = $params['openid'];
+                            return DataReturn('授权成功', 0, $user_unionid);
+                        }
+                    }
+
+                    // 如果用户不存在数据库中，则unionid放入用户data中
+                    $data[$unionid] = $params[$unionid];
+                    break;
+                }
+            }
+
             // 不强制绑定手机则写入用户信息
             if(intval(MyC('common_user_is_mandatory_bind_mobile')) != 1)
             {

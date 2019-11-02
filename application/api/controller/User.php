@@ -336,8 +336,7 @@ class User extends Common
         }
 
         // 授权
-        $result = (new \base\QQ(MyC('common_app_mini_qq_appid', '1109990622'), MyC('common_app_mini_qq_appsecret', 'PdVsj1n2sByQQBCi
-')))->GetAuthSessionKey($this->data_post['authcode']);
+        $result = (new \base\QQ(MyC('common_app_mini_qq_appid'), MyC('common_app_mini_qq_appsecret')))->GetAuthSessionKey($this->data_post['authcode']);
         if($result !== false)
         {
             return DataReturn('授权登录成功', 0, $result);
@@ -383,8 +382,7 @@ class User extends Common
         $user = UserService::AppUserInfoHandle(null, 'qq_openid', $this->data_post['openid']);
         if(empty($user))
         {
-            $result = (new \base\QQ(MyC('common_app_mini_qq_appid', '1109990622'), MyC('common_app_mini_qq_appsecret', 'PdVsj1n2sByQQBCi
-')))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
+            $result = (new \base\QQ(MyC('common_app_mini_qq_appid'), MyC('common_app_mini_qq_appsecret')))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
             if(is_array($result))
             {
                 $result['nick_name'] = isset($result['nickName']) ? $result['nickName'] : '';

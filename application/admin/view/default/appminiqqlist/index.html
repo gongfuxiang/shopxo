@@ -1,0 +1,67 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- operation start -->
+        <div class="am-g">
+            <button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-ajax" data-url="{{:MyUrl('admin/appminiqqlist/created')}}" data-view="reload" data-msg="生成时间比较长，请不要关闭浏览器窗口！"> 生成</button>
+        </div>
+        <!-- operation end -->
+
+		<!-- miniapp develop tips -->
+        {{if config('shopxo.is_develop') eq true}}
+	        <div class="am-alert am-alert-warning am-radius" data-am-alert="">
+			    当前为开发模式<br />
+			    &nbsp;&nbsp;&nbsp;1. 发布小程序必须采用 https 协议，上线需确认 app.js 中 request_url 参数值是否正确。<br />
+			    &nbsp;&nbsp;&nbsp;2. 发布小程序，建议关闭开发者模式、从正式环境重新生成小程序下载使用开发者工具上传审核。<br />
+			    &nbsp;&nbsp;&nbsp;3. 非 https 环境下，在开发者工具 -> 顶部导航 -> 详情 -> 不校验合法域名、web-view（业务域名）TLS版本以及HTTPS证书（勾选改选项即可进行小程序开发调试）。
+			</div>
+		{{else /}}
+			<div class="am-alert am-alert-warning am-radius" data-am-alert="">
+			    1. 生成小程序必须在 https 协议下进行操作、请配置好服务器 ssl 并使用 https 协议登录后台管理生成小程序。<br />
+			    2. 如需非 https 协议下生成小程序，请在 config/shopxo.php 文件中 is_develop值改为true开启开发者模式。
+			</div>
+		{{/if}}
+
+		<!-- list start -->
+		<table class="am-table am-table-striped am-table-hover am-text-middle am-margin-top-sm am-margin-left-xs">
+			<thead>
+				<tr>
+					<th>包名</th>
+					<th>大小</th>
+					<th>创建时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{if !empty($data_list)}}
+					{{foreach $data_list as $v}}
+						<tr>
+							<td>{{$v.name}}</td>
+							<td>{{$v.size}}</td>
+							<td>{{$v.time}}</td>
+							<td class="view-operation">
+								{{if !empty($v.url)}}
+									<a href="{{$v.url}}">
+										<button class="am-btn am-btn-success am-btn-xs am-radius am-icon-download"> 下载</button>
+									</a>
+								{{/if}}
+								<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/appminiqqlist/delete')}}" data-id="{{$v.name}}" data-view="reload"> 删除</button>
+							</td>
+						</tr>
+					{{/foreach}}
+				{{/if}}
+			</tbody>
+		</table>
+		{{if empty($data_list)}}
+            <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+        {{/if}}
+		<!-- lis end -->
+	</div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
