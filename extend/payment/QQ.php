@@ -267,7 +267,7 @@ class QQ
             'total_fee'         => intval($params['total_price']*100),
             'spbill_create_ip'  => GetClientIP(),
             'trade_type'        => $trade_type,
-            'attach'            => empty($params['attach']) ? 'd订单号：'.$params['order_no'] : $params['attach'],
+            'attach'            => empty($params['attach']) ? '订单号：'.$params['order_no'] : $params['attach'],
         ];
         $data['sign'] = $this->GetSign($data);
         return DataReturn('success', 0, $data);
@@ -298,15 +298,6 @@ class QQ
             $type_all['pc'] = $type_all['h5'];
         }
 
-        // 微信中打开
-        if(in_array(APPLICATION_CLIENT_TYPE, ['pc', 'h5']))
-        {
-            if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false)
-            {
-                $type_all['pc'] = $type_all['weixin'];
-            }
-        }
-
         return isset($type_all[APPLICATION_CLIENT_TYPE]) ? $type_all[APPLICATION_CLIENT_TYPE] : '';
     }
 
@@ -322,6 +313,7 @@ class QQ
     public function Respond($params = [])
     {
         $result = empty($GLOBALS['HTTP_RAW_POST_DATA']) ? $this->XmlToArray(file_get_contents('php://input')) : $this->XmlToArray($GLOBALS['HTTP_RAW_POST_DATA']);
+        file_put_contents(ROOT.'qqqqqq.txt', json_encode($result));
 
         if(isset($result['return_code']) && $result['return_code'] == 'SUCCESS' && $result['sign'] == $this->GetSign($result))
         {
@@ -348,7 +340,7 @@ class QQ
         $data['trade_no']       = $data['transaction_id'];  // 支付平台 - 订单号
         $data['buyer_user']     = isset($data['openid']) ? $data['openid'] : '';  // 支付平台 - 用户
         $data['out_trade_no']   = $out_trade_no;            // 本系统发起支付的 - 订单号
-        $data['subject']        = $data['attach'];          // 本系统发起支付的 - 商品名称
+        $data['subject']        = isset($data['attach']) ? $data['attach'] : '';  // 本系统发起支付的 - 商品名称
         $data['pay_price']      = $data['total_fee']/100;   // 本系统发起支付的 - 总价
         return $data;
     }

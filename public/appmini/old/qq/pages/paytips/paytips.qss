@@ -22,7 +22,7 @@ page{
 }
 .btn-box button{
     height: 90rpx;
-    line-height: 90rpx;
+    line-height: 56rpx;
     width: 300rpx;
 }
 .dis-block {
