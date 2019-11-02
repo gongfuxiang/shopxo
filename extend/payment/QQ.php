@@ -395,14 +395,14 @@ class QQ
             'out_refund_no'     => $params['order_no'].GetNumberCode(6),
             'refund_fee'        => intval($params['refund_price']*100),
             'op_user_id'        => $this->config['mch_id'],
-            'op_user_passwd'    => '336363',
+            'op_user_passwd'    => md5('336363'),
         ];
         $data['sign'] = $this->GetSign($data);
 
         // 请求接口处理
         $result = $this->XmlToArray($this->HttpRequest('https://api.qpay.qq.com/cgi-bin/pay/qpay_refund.cgi', $this->ArrayToXml($data), true));
         print_r($result);die;
-        if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['return_msg']) && $result['return_msg'] == 'SUCCESS')
+        if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS')
         {
             // 统一返回格式
             $data = [
