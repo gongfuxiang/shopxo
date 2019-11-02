@@ -315,7 +315,7 @@ class QQ
         $result = empty($GLOBALS['HTTP_RAW_POST_DATA']) ? $this->XmlToArray(file_get_contents('php://input')) : $this->XmlToArray($GLOBALS['HTTP_RAW_POST_DATA']);
         file_put_contents(ROOT.'qqqqqq.txt', json_encode($result));
 
-        if(isset($result['return_code']) && $result['return_code'] == 'SUCCESS' && $result['sign'] == $this->GetSign($result))
+        if(isset($result['trade_state']) && $result['trade_state'] == 'SUCCESS' && $result['sign'] == $this->GetSign($result))
         {
             return DataReturn('支付成功', 0, $this->ReturnData($result));
         }
