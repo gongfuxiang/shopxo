@@ -193,24 +193,30 @@ class QQ
         {
             // web支付
             case 'NATIVE' :
-                if(empty($params['ajax_url']))
+                // 手机模式下直接返回微信的支付url地址
+                if(APPLICATION_CLIENT_TYPE == 'h5' || IsMobile())
                 {
-                    return DataReturn('支付状态校验地址不能为空', -50);
+                    $result = DataReturn('success', 0, $data['code_url']);
+                } else {
+                    if(empty($params['ajax_url']))
+                    {
+                        return DataReturn('支付状态校验地址不能为空', -50);
+                    }
+                    $pay_params = [
+                        'url'       => urlencode(base64_encode($data['code_url'])),
+                        'order_no'  => $params['order_no'],
+                        'name'      => urlencode('QQ支付'),
+                        'msg'       => urlencode('打开QQAPP扫一扫进行支付'),
+                        'ajax_url'  => urlencode(base64_encode($params['ajax_url'])),
+                    ];
+                    $url = MyUrl('index/pay/qrcode', $pay_params);
+                    $result = DataReturn('success', 0, $url);
                 }
-                $pay_params = [
-                    'url'       => urlencode(base64_encode($data['code_url'])),
-                    'order_no'  => $params['order_no'],
-                    'name'      => urlencode('QQ支付'),
-                    'msg'       => urlencode('打开QQAPP扫一扫进行支付'),
-                    'ajax_url'  => urlencode(base64_encode($params['ajax_url'])),
-                ];
-                $url = MyUrl('index/pay/qrcode', $pay_params);
-                $result = DataReturn('success', 0, $url);
                 break;
 
             // QQ中公众号支付
             case 'JSAPI' :
-                $result = DataReturn('暂不支持QQ中支付', -1);
+                $result = DataReturn('公众号暂不支持', -1);
                 break;
 
             // QQ小程序支付
@@ -285,18 +291,12 @@ class QQ
     {
         $type_all = [
             'pc'        => 'NATIVE',
-            'h5'        => 'JSAPI',
+            'h5'        => 'NATIVE',
             'qq'        => 'MINIAPP',
             'app'       => 'APP',
             'ios'       => 'APP',
             'android'   => 'APP',
         ];
-
-        // 手机中打开pc版本
-        if(APPLICATION_CLIENT_TYPE == 'pc' && IsMobile())
-        {
-            $type_all['pc'] = $type_all['h5'];
-        }
 
         return isset($type_all[APPLICATION_CLIENT_TYPE]) ? $type_all[APPLICATION_CLIENT_TYPE] : '';
     }
