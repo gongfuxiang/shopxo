@@ -694,21 +694,16 @@ class Weixin
         $apiclient_cert_file = ROOT.'runtime'.DS.'temp'.DS.'payment_weixin_pay_apiclient_cert.pem';
         $apiclient_key_file = ROOT.'runtime'.DS.'temp'.DS.'payment_weixin_pay_apiclient_key.pem';
 
-        // 文件是否存在
-        if(!file_exists($apiclient_cert_file))
-        {
-            $apiclient_cert = "-----BEGIN CERTIFICATE-----\n";
-            $apiclient_cert .= wordwrap($this->config['apiclient_cert'], 64, "\n", true);
-            $apiclient_cert .= "\n-----END CERTIFICATE-----";
-            file_put_contents($apiclient_cert_file, $apiclient_cert);
-        }
-        if(!file_exists($apiclient_key_file))
-        {
-            $apiclient_key = "-----BEGIN PRIVATE KEY-----\n";
-            $apiclient_key .= wordwrap($this->config['apiclient_key'], 64, "\n", true);
-            $apiclient_key .= "\n-----END PRIVATE KEY-----";
-            file_put_contents($apiclient_key_file, $apiclient_key);
-        }
+        $apiclient_cert = "-----BEGIN CERTIFICATE-----\n";
+        $apiclient_cert .= wordwrap($this->config['apiclient_cert'], 64, "\n", true);
+        $apiclient_cert .= "\n-----END CERTIFICATE-----";
+        file_put_contents($apiclient_cert_file, $apiclient_cert);
+
+        $apiclient_key = "-----BEGIN PRIVATE KEY-----\n";
+        $apiclient_key .= wordwrap($this->config['apiclient_key'], 64, "\n", true);
+        $apiclient_key .= "\n-----END PRIVATE KEY-----";
+        file_put_contents($apiclient_key_file, $apiclient_key);
+
         return ['cert' => $apiclient_cert_file, 'key' => $apiclient_key_file];
     }
 }
