@@ -110,7 +110,7 @@ class QQ
                 'name'          => 'op_user_passwd',
                 'placeholder'   => '操作员密码',
                 'title'         => '操作员密码（退款操作必填项）',
-                'desc'          => '如填写的是商户号，那这里就是商户号登录密码',
+                'desc'          => '如果操作员帐号填写的是商户号，那这里就是商户号登录密码',
                 'is_required'   => 0,
                 'message'       => '请填写操作员密码',
             ],
