@@ -386,9 +386,6 @@ class QQ
             return DataReturn($ret, -1);
         }
 
-        // 退款原因
-        $refund_reason = empty($params['refund_reason']) ? $params['order_no'].'订单退款'.$params['refund_price'].'元' : $params['refund_reason'];
-
         // 请求参数
         $data = [
             'appid'             => $this->config['appid'],
@@ -396,16 +393,16 @@ class QQ
             'nonce_str'         => md5(time().rand().$params['order_no']),
             'transaction_id'    => $params['trade_no'],
             'out_refund_no'     => $params['order_no'].GetNumberCode(6),
-            'total_fee'         => intval($params['pay_price']*100),
             'refund_fee'        => intval($params['refund_price']*100),
-            'refund_channel'    => 'ORIGINAL',            
+            'op_user_id'        => $this->config['mch_id'],
+            'op_user_passwd'    => '336363',
         ];
         $data['sign'] = $this->GetSign($data);
 
         // 请求接口处理
         $result = $this->XmlToArray($this->HttpRequest('https://api.qpay.qq.com/cgi-bin/pay/qpay_refund.cgi', $this->ArrayToXml($data), true));
         print_r($result);die;
-        if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['return_msg']) && $result['return_msg'] == 'OK')
+        if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['return_msg']) && $result['return_msg'] == 'SUCCESS')
         {
             // 统一返回格式
             $data = [
