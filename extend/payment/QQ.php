@@ -401,20 +401,19 @@ class QQ
 
         // 请求接口处理
         $result = $this->XmlToArray($this->HttpRequest('https://api.qpay.qq.com/cgi-bin/pay/qpay_refund.cgi', $this->ArrayToXml($data), true));
-        print_r($result);die;
         if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS')
         {
             // 统一返回格式
             $data = [
                 'out_trade_no'  => isset($result['out_trade_no']) ? $result['out_trade_no'] : '',
                 'trade_no'      => isset($result['refund_id']) ? $result['refund_id'] : '',
-                'buyer_user'    => isset($result['transaction_id']) ? $result['transaction_id'] : '',
+                'buyer_user'    => isset($result['openid']) ? $result['openid'] : '',
                 'refund_price'  => isset($result['refund_fee']) ? $result['refund_fee']/100 : 0.00,
                 'return_params' => $result,
             ];
             return DataReturn('退款成功', 0, $data);
         }
-        $msg = is_string($result) ? $result : (empty($result['return_msg']) ? '退款接口异常' : $result['return_msg']);
+        $msg = is_string($result) ? $result : (empty($result['err_code']) ? '退款接口异常' : $result['err_code']);
         if(!empty($result['err_code_des']))
         {
             $msg .= '-'.$result['err_code_des'];
