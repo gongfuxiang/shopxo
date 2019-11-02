@@ -235,7 +235,7 @@ Page({
             app.showToast("支付成功", "success");
           } else {
             qq.requestPayment({
-              package: res.data.data,
+              package: res.data.data.package,
               success: function(res) {
                 // 数据设置
                 var temp_data_list = self.data.data_list;
