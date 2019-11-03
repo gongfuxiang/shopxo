@@ -19,7 +19,7 @@
             <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1 am-avg-md-2 am-avg-lg-3 am-gallery-bordered" data-am-gallery="{}">
                 {{foreach $data_list as $v}}
                     <li>
-                        <div id="data-list-{{$v.id}}" class="am-gallery-item {{if $v['is_enable'] neq 1}}am-active{{/if}}">
+                        <div id="data-list-{{$v.plugins}}" class="am-gallery-item {{if $v['is_enable'] neq 1}}am-active{{/if}}">
                             <img src="{{$v.logo}}" class="icon" />
                             <div class="base">
                                 <h3 class="name">{{$v.name}}</h3>
