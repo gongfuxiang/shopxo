@@ -10,15 +10,6 @@
         <!-- form start -->
         <form class="am-form form-validation view-save" action="{{:MyUrl('admin/appconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appconfig/index', ['nav_type'=>'weixinmini'])}}" enctype="multipart/form-data">
             <div class="am-form-group">
-                <label>{{$data.common_app_is_online_service.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_online_service.describe}}</span></label>
-                <select name="{{$data.common_app_is_online_service.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_online_service.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['common_app_is_online_service']['value']) and $data['common_app_is_online_service']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-            
-            <div class="am-form-group">
                 <label>{{$data.common_app_is_good_thing.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_good_thing.describe}}</span></label>
                 <select name="{{$data.common_app_is_good_thing.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_good_thing.error_tips}}" required>
                     {{foreach $common_is_text_list as $v}}
