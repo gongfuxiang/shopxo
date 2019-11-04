@@ -11,6 +11,7 @@ Page({
     common_app_is_enable_search: 1,
     common_app_is_enable_answer: 1,
     common_app_is_header_nav_fixed: 0,
+    common_app_is_online_service: 0,
 
     // 限时秒杀插件
     common_app_is_limitedtimediscount: 0,
@@ -55,6 +56,7 @@ Page({
             common_app_is_enable_answer: data.common_app_is_enable_answer,
             common_app_is_header_nav_fixed: data.common_app_is_header_nav_fixed,
             data_list_loding_status: data.data_list.length == 0 ? 0 : 3,
+            common_app_is_online_service: data.common_app_is_online_service || 0,
             common_app_is_limitedtimediscount: data.common_app_is_limitedtimediscount || 0,
             plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null
           });

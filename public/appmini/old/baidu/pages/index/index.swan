@@ -75,6 +75,12 @@
 <import src="/pages/common/bottom_line.swan" />
 <template is="bottom_line" data="{{{status: data_bottom_line_status}}}"></template>
 
+<!-- 在线客服 -->
+<view s-if="common_app_is_online_service == 1">
+  <import src="/pages/lib/online-service/content.swan" />
+  <template is="online_service"></template>
+</view>
+
 <!-- 版权 -->
 <view s-if="load_status == 1">
   <import src="/pages/common/copyright.swan" />

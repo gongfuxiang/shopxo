@@ -72,6 +72,6 @@ return [
     'under_line_list'                       => ['CashPayment', 'DeliveryPayment'],
 
     // 小程序平台
-    'mini_app_type_list'                    =>  ['weixin', 'alipay', 'baidu', 'toutiao'],
+    'mini_app_type_list'                    =>  ['weixin', 'alipay', 'baidu', 'toutiao', 'qq'],
 ];
 ?>

@@ -161,8 +161,14 @@ function MiniAppEnv()
     if(!empty($_SERVER['HTTP_USER_AGENT']))
     {
         // 微信小程序 miniProgram
+        // QQ小程序 miniProgram
         if(stripos($_SERVER['HTTP_USER_AGENT'], 'miniProgram') !== false)
         {
+            // 是否QQ小程序
+            if(stripos($_SERVER['HTTP_USER_AGENT'], 'QQ') !== false)
+            {
+                return 'qq';
+            }
             return 'weixin';
         }
 
