@@ -46,7 +46,14 @@ class Cart extends Common
      */
     public function Index()
     {
-        return BuyService::CartList(['user'=>$this->user]);
+        $ret = BuyService::CartList(['user'=>$this->user]);
+        $ret['data'] = [
+            'data'                              => $ret['data'],
+            'customer_service_tel'              => MyC('common_app_customer_service_tel', null, true),
+            'common_is_exhibition_mode_btn_text'=> MyC('common_is_exhibition_mode_btn_text', null, true),
+            'common_is_exhibition_mode'         => (int) MyC('common_is_exhibition_mode', 1),
+        ];
+        return $ret;
     }
 
     /**
