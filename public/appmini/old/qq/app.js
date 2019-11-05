@@ -66,8 +66,8 @@ App({
 
     // 请求地址
     request_url: "{{request_url}}",
-    // request_url: 'http://tp5-dev.com/',
-    // request_url: 'https://test.shopxo.net/',
+     request_url: 'http://tp5-dev.com/',
+     //request_url: 'https://test.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -514,6 +514,13 @@ App({
       }
     }
     return json;
-  }
+  },
+
+  // 拨打电话
+  call_tel(value) {
+    if ((value || null) != null) {
+      qq.makePhoneCall({ phoneNumber: value });
+    }
+  },
 
 });

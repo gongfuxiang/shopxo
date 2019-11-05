@@ -29,6 +29,7 @@ Page({
     navigation: [],
 
     common_app_is_online_service: 0,
+    common_app_is_head_vice_nav: 0,
   },
 
   onShow() {
@@ -108,6 +109,7 @@ Page({
             head_nav_list: temp_head_nav_list,
             navigation: data.navigation || [],
             common_app_is_online_service: data.common_app_is_online_service || 0,
+            common_app_is_head_vice_nav: data.common_app_is_head_vice_nav || 0,
           });
         } else {
           app.showToast(res.data.msg);
@@ -131,7 +133,7 @@ Page({
     if (this.data.customer_service_tel == null) {
       app.showToast("客服电话有误");
     } else {
-      swan.makePhoneCall({ phoneNumber: this.data.customer_service_tel });
+      app.call_tel(this.data.customer_service_tel);
     }
   },
 

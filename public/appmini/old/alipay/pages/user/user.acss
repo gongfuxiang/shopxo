@@ -3,6 +3,9 @@
     padding-top: 30rpx;
     font-size: 24rpx;
 }
+.head-item {
+  padding-bottom: 30rpx;
+}
 .head-item .avatar {
     width: 160rpx;
     height: 160rpx;
@@ -21,7 +24,6 @@
 .head-nav {
   padding: 5px 0;
   background: rgba(0,0,0,0.1);
-  margin-top: 30rpx;
 }
 .head-nav-item {
   width: 25%;

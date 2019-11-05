@@ -19,16 +19,11 @@ Page({
       { name: "已完成", status: 4, count: 0, url: "/pages/user-order/user-order?status=4" },
       { name: "退款/售后", status: 101, count: 0, url: "/pages/user-orderaftersale/user-orderaftersale" },
     ],
-    nav_lists: [
-      {
-        url: "user-order",
-        icon: "user-nav-order-icon",
-        name: "我的订单",
-      }
-    ],
 
     // 远程自定义导航
     navigation: [],
+
+    common_app_is_head_vice_nav: 0,
   },
 
   onShow() {
@@ -107,6 +102,7 @@ Page({
             message_total: ((data.common_message_total || 0) == 0) ? 0 : data.common_message_total,
             head_nav_list: temp_head_nav_list,
             navigation: data.navigation || [],
+            common_app_is_head_vice_nav: data.common_app_is_head_vice_nav || 0,
           });
         } else {
           app.showToast(res.data.msg);
@@ -131,7 +127,7 @@ Page({
     {
       app.showToast("客服电话有误");
     } else {
-      tt.makePhoneCall({ phoneNumber: this.data.customer_service_tel });
+      app.call_tel(this.data.customer_service_tel);
     }
   },
 

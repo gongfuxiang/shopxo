@@ -1,40 +1,46 @@
 <!-- 头部 -->
 <view class="head-box bg-main">
-    <view class="head-item oh tc">
-      <image bindtap="preview_event" binderror="user_avatar_error" class="avatar" src="{{avatar}}" mode="widthFix" />
-      <text class="item-name dis-block cr-fff">{{nickname}}</text>
-    </view>
+  <view class="head-item oh tc">
+    <image bindtap="preview_event" binderror="user_avatar_error" class="avatar" src="{{avatar}}" mode="widthFix" />
+    <text class="item-name dis-block cr-fff">{{nickname}}</text>
+  </view>
 
-    <view qq:if="{{head_nav_list.length > 0}}" class="head-nav oh wh-auto">
-      <block qq:for="{{head_nav_list}}" qq:key="key">
-        <navigator url="/pages/{{item.url}}/{{item.url}}" hover-class="none">
-          <view class="head-nav-item tc fl">
-            <view>{{item.count}}</view>
-            <view>{{item.name}}</view>
-          </view>
-        </navigator>
-      </block>
-    </view>
-
-    <view class="message-nav">
-      <navigator url="/pages/message/message" hover-class="none">
-        <image src="/images/user-head-message-icon.png" mode="aspectFill" />
-        <text>消息</text>
-        <text>{{message_total}}</text>
+  <!-- 副导航 -->
+  <view qq:if="{{common_app_is_head_vice_nav == 1 && head_nav_list.length > 0}}" class="head-nav oh wh-auto">
+    <block qq:for="{{head_nav_list}}" qq:key="key">
+      <navigator url="/pages/{{item.url}}/{{item.url}}" hover-class="none">
+        <view class="head-nav-item tc fl">
+          <view>{{item.count}}</view>
+          <view>{{item.name}}</view>
+        </view>
       </navigator>
-    </view>
+    </block>
+  </view>
+
+  <!-- 右上角 -->
+  <view class="message-nav">
+    <navigator url="/pages/message/message" hover-class="none">
+      <image src="/images/user-head-message-icon.png" mode="aspectFill" />
+      <text>消息</text>
+      <text>{{message_total}}</text>
+    </navigator>
+  </view>
 </view>
 
 <!-- 导航 -->
 <view class="nav-box bg-white">
-  <block qq:for="{{nav_lists}}" qq:key="key">
-    <navigator url="/pages/{{item.url}}/{{item.url}}" class="nav-item br-b" hover-class="none">
+  <block qq:for="{{navigation}}" qq:key="ckey">
+    <!-- 主导航 -->
+    <view data-value="{{item.event_value}}" data-type="{{item.event_type}}" bindtap="navigation_event" class="nav-item br-b" >
       <view class="arrow-right">
-        <image src="/images/{{item.icon}}.png" class="item-icon" mode="widthFix" />
+        <image src="{{item.images_url}}" class="item-icon" mode="widthFix" />
         <text class="item-name">{{item.name}}</text>
+        <text qq:if="{{(item.desc || null) != null}}" class="item-desc fr tr single-text cr-ccc">{{item.desc}}</text>
       </view>
-    </navigator>
-    <view qq:if="{{item.url == 'user-order' && user_order_status_list.length > 0}}" class="items-list br-b oh">
+    </view>
+
+    <!-- 订单自定义副导航 -->
+    <view qq:if="{{item.event_value == '/pages/user-order/user-order' && user_order_status_list.length > 0}}" class="items-list br-b oh">
       <block qq:for="{{user_order_status_list}}" qq:key="key" qq:for-item="items">
         <navigator url="{{items.url}}" hover-class="none">
           <view class="items fl tc">
@@ -46,17 +52,6 @@
           </view>
         </navigator>
       </block>
-    </view>
-  </block>
-
-  <!-- 远程自定义导航 -->
-  <block qq:for="{{navigation}}" qq:key="ckey">
-    <view data-value="{{item.event_value}}" data-type="{{item.event_type}}" bindtap="navigation_event" class="nav-item br-b" >
-      <view class="arrow-right">
-        <image src="{{item.images_url}}" class="item-icon" mode="widthFix" />
-        <text class="item-name">{{item.name}}</text>
-        <text qq:if="{{(item.desc || null) != null}}" class="item-desc fr tr single-text cr-ccc">{{item.desc}}</text>
-      </view>
     </view>
   </block>
 

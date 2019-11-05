@@ -131,9 +131,17 @@
       <image src="{{goods_favor_icon}}" mode="scaleToFill" />
       <text class="dis-block cr-888">{{goods_favor_text}}</text>
     </view>
-    <view class="fr">
-      <button class="bg-warning fl" type="default" bindtap="cart_submit_event" hover-class="none" disabled="{{nav_submit_is_disabled}}">加入购物车</button>
-      <button class="bg-main fl" type="default" bindtap="buy_submit_event" hover-class="none" disabled="{{nav_submit_is_disabled}}">{{nav_submit_text}}</button>
+    <view class="fr {{common_is_exhibition_mode == 1 ? 'exhibition-mode' : ''}}">
+      <!-- 展示型 -->
+      <block tt:if="{{common_is_exhibition_mode == 1}}">
+        <button class="bg-main fl" type="default" bindtap="exhibition_submit_event" hover-class="none">{{nav_submit_text}}</button>
+      </block>
+
+      <!-- 销售型 -->
+      <block tt:else>
+        <button class="bg-warning fl" type="default" bindtap="cart_submit_event" hover-class="none" disabled="{{nav_submit_is_disabled}}">加入购物车</button>
+        <button class="bg-main fl" type="default" bindtap="buy_submit_event" hover-class="none" disabled="{{nav_submit_is_disabled}}">{{nav_submit_text}}</button>
+      </block>
     </view>
   </view>
 

@@ -1,7 +1,7 @@
 <view tt:if="{{data_list.length > 0}}" class="page">
-  <view tt:for="{{data_list}}" tt:key="key" class="goods-item oh bg-white">
+  <view tt:for="{{data_list}}" tt:key="key" class="goods-item oh bg-white {{common_is_exhibition_mode == 1 ? 'exhibition-mode-data' : ''}}">
     <!-- 选择 -->
-    <view bindtap="selectedt_event" data-type="node" data-index="{{index}}" class="fl selected">
+    <view tt:if="{{common_is_exhibition_mode != 1}}" bindtap="selectedt_event" data-type="node" data-index="{{index}}" class="fl selected">
       <image class="icon" src="/images/default-select{{(item.is_error || 0) == 1 ? '-disabled' : ((item.selected || false) ? '-active' : '')}}-icon.png" mode="widthFix" />
     </view>
 
@@ -45,8 +45,7 @@
   <view tt:if="{{data_list.length > 0}}" class="buy-nav oh wh-auto br-t">
     <view class="nav-base bg-white fl single-text">
       <view bindtap="selectedt_event" data-type="all" class="fl selected">
-        <image tt:if="{{is_selected_all}}" class="icon" src="/images/default-select-active-icon.png" mode="widthFix" />
-        <image wx:else class="icon" src="/images/default-select-icon.png" mode="widthFix" />
+        <image class="icon" src="/images/default-select{{is_selected_all ? '-active' : ''}}-icon.png" mode="widthFix" />
         <text>全选</text>
       </view>
       <view class="fr price">

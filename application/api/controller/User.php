@@ -446,6 +446,7 @@ class User extends Common
             'common_message_total'              => $common_message_total,
             'navigation'                        => AppCenterNavService::AppCenterNav(),
             'common_app_is_online_service'      => (int) MyC('common_app_is_online_service', 0),
+            'common_app_is_head_vice_nav'       => (int) MyC('common_app_is_head_vice_nav', 0),
         );
 
         // 返回数据

@@ -66,7 +66,7 @@ App({
 
     // 请求地址
     request_url: "{{request_url}}",
-    // request_url: 'http://tp5-dev.com/',
+     request_url: 'http://tp5-dev.com/',
     // request_url: 'https://test.shopxo.net/',
 
     // 基础信息
@@ -514,6 +514,13 @@ App({
       }
     }
     return json;
-  }
+  },
+
+  // 拨打电话
+  call_tel(value) {
+    if ((value || null) != null) {
+      wx.makePhoneCall({ phoneNumber: value });
+    }
+  },
 
 });

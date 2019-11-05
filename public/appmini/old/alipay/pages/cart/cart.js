@@ -9,6 +9,11 @@ Page({
     total_price: '0.00',
     is_selected_all: false,
     buy_submit_disabled_status: true,
+
+    // 是否展示型
+    common_is_exhibition_mode: 0,
+    common_is_exhibition_mode_btn_text: null,
+    customer_service_tel: null,
   },
 
   onShow() {
@@ -73,16 +78,25 @@ Page({
         my.stopPullDownRefresh();
         if (res.data.code == 0) {
           var data = res.data.data;
-          if (data.length > 0) {
-            for (var i in data) {
-              data[i]['right'] = [{ type: 'edit', text: '加入收藏' }, { type: 'delete', text: '删除' }];
+
+          // 购物车操作数据处理
+          if (data.data.length > 0) {
+            for (var i in data.data) {
+              data.data[i]['right'] = [{ type: 'edit', text: '加入收藏' }, { type: 'delete', text: '删除' }];
             }
           }
+
+          // 数据赋值
           this.setData({
-            data_list: data,
-            data_list_loding_status: data.length == 0 ? 0 : 3,
+            data_list: data.data,
+            data_list_loding_status: data.data.length == 0 ? 0 : 3,
             data_bottom_line_status: true,
             data_list_loding_msg: '购物车空空如也',
+
+            // 是否展示型
+            common_is_exhibition_mode: data.common_is_exhibition_mode || 0,
+            common_is_exhibition_mode_btn_text: data.common_is_exhibition_mode_btn_text || '立即咨询',
+            customer_service_tel: data.customer_service_tel || null,
           });
         } else {
           this.setData({
@@ -308,9 +322,13 @@ Page({
   // 选中计算
   selected_calculate() {
     var total_price = 0;
+    var data_count = 0;
     var selected_count = 0;
     var temp_data_list = this.data.data_list;
     for (var i in temp_data_list) {
+      if ((temp_data_list[i]['is_error'] || 0) == 0) {
+        data_count++;
+      }
       if ((temp_data_list[i]['selected'] || false) == true) {
         total_price += temp_data_list[i]['stock'] * temp_data_list[i]['price'];
         selected_count++;
@@ -320,7 +338,7 @@ Page({
     this.setData({
       total_price: total_price.toFixed(2),
       buy_submit_disabled_status: (selected_count <= 0),
-      is_selected_all: (selected_count >= temp_data_list.length),
+      is_selected_all: (selected_count >= data_count),
     });
   },
 
@@ -349,6 +367,11 @@ Page({
     my.navigateTo({
       url: '/pages/buy/buy?data=' + JSON.stringify(data)
     });
-  }
+  },
+
+  // 展示型事件
+  exhibition_submit_event(e) {
+    app.call_tel(this.data.customer_service_tel);
+  },
 
 });

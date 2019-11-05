@@ -1,7 +1,7 @@
 <view qq:if="{{data_list.length > 0}}" class="page">
-  <view qq:for="{{data_list}}" qq:key="key" class="goods-item oh bg-white">
+  <view qq:for="{{data_list}}" qq:key="key" class="goods-item oh bg-white {{common_is_exhibition_mode == 1 ? 'exhibition-mode-data' : ''}}">
     <!-- 选择 -->
-    <view bindtap="selectedt_event" data-type="node" data-index="{{index}}" class="fl selected">
+    <view qq:if="{{common_is_exhibition_mode != 1}}" bindtap="selectedt_event" data-type="node" data-index="{{index}}" class="fl selected">
       <image class="icon" src="/images/default-select{{(item.is_error || 0) == 1 ? '-disabled' : ((item.selected || false) ? '-active' : '')}}-icon.png" mode="widthFix" />
     </view>
 
@@ -43,20 +43,29 @@
 
   <!-- 操作导航 -->
   <view qq:if="{{data_list.length > 0}}" class="buy-nav oh wh-auto br-t">
-    <view class="nav-base bg-white fl single-text">
-      <view bindtap="selectedt_event" data-type="all" class="fl selected">
-        <image qq:if="{{is_selected_all}}" class="icon" src="/images/default-select-active-icon.png" mode="widthFix" />
-        <image wx:else class="icon" src="/images/default-select-icon.png" mode="widthFix" />
-        <text>全选</text>
+    <!-- 展示型 -->
+    <block qq:if="{{common_is_exhibition_mode == 1}}">
+      <view class="exhibition-mode">
+        <button class="bg-main wh-auto" type="default" bindtap="exhibition_submit_event" hover-class="none">{{common_is_exhibition_mode_btn_text}}</button>
       </view>
-      <view class="fr price">
-        <view class="sales-price single-text fr">￥{{total_price}}</view>
-        <view class="fr">合计：</view>
+    </block>
+
+    <!-- 销售型 -->
+    <block qq:else>
+      <view class="nav-base bg-white fl single-text">
+        <view bindtap="selectedt_event" data-type="all" class="fl selected">
+          <image class="icon" src="/images/default-select{{is_selected_all ? '-active' : ''}}-icon.png" mode="widthFix" />
+          <text>全选</text>
+        </view>
+        <view class="fr price">
+          <view class="sales-price single-text fr">￥{{total_price}}</view>
+          <view class="fr">合计：</view>
+        </view>
       </view>
-    </view>
-    <view class="fr nav-submit">
-      <button class="bg-main wh-auto" type="default" bindtap="buy_submit_event" disabled="{{buy_submit_disabled_status}}" hover-class="none">结算</button>
-    </view>
+      <view class="fr nav-submit">
+        <button class="bg-main wh-auto" type="default" bindtap="buy_submit_event" disabled="{{buy_submit_disabled_status}}" hover-class="none">结算</button>
+      </view>
+    </block>
   </view>
 </view>
 

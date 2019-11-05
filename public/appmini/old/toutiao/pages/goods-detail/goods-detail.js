@@ -47,6 +47,10 @@ Page({
 
     // 购物车快捷导航
     quick_nav_cart_count: 0,
+
+    // 是否展示型
+    common_is_exhibition_mode: 0,
+    customer_service_tel: null,
   },
 
   onLoad(params) {
@@ -109,10 +113,8 @@ Page({
               temp_buy_number: data.goods.buy_min_number || 1,
               goods_favor_text: (data.goods.is_favor == 1) ? '已收藏' : '收藏',
               goods_favor_icon: '/images/goods-detail-favor-icon-' + data.goods.is_favor+'.png',
-              nav_submit_text: ((data.common_order_is_booking || 0) == 0) ? '立即购买' : '立即预约',
               data_bottom_line_status: true,
               data_list_loding_status: 3,
-              nav_submit_is_disabled: (data.goods.is_shelves == 1 && data.goods.inventory > 0) ? false : true,
 
               goods_spec_base_price: data.goods.price,
               goods_spec_base_original_price: data.goods.original_price,
@@ -140,19 +142,32 @@ Page({
             // 不能选择规格处理
             this.goods_specifications_choose_handle_dont(0);
 
+            // 购买按钮处理
+            var nav_submit_text = ((data.common_order_is_booking || 0) == 0) ? '立即购买' : '立即预约';
+            var nav_submit_is_disabled = (data.goods.is_shelves == 1 && data.goods.inventory > 0) ? false : true;
             if (data.goods.is_shelves != 1) {
-              this.setData({
-                nav_submit_text: '商品已下架',
-                nav_submit_is_disabled: true,
-              });
+              nav_submit_text = '已下架';
+              nav_submit_is_disabled = true;
             } else {
               if(data.goods.inventory <= 0) {
-                this.setData({
-                  nav_submit_text: '商品卖光了',
-                  nav_submit_is_disabled: true,
-                });
+                nav_submit_text = '卖光了';
+                nav_submit_is_disabled = true;
               }
             }
+
+            // 是否展示型
+            var common_is_exhibition_mode = data.common_is_exhibition_mode || 0;
+            if (common_is_exhibition_mode == 1) {
+              nav_submit_text = data.common_is_exhibition_mode_btn_text || '立即咨询';
+            }
+
+            // 数据赋值
+            this.setData({
+              nav_submit_text: nav_submit_text,
+              nav_submit_is_disabled: nav_submit_is_disabled,
+              common_is_exhibition_mode: common_is_exhibition_mode,
+              customer_service_tel: data.customer_service_tel || null,
+            });
           } else {
             self.setData({
               data_bottom_line_status: false,
@@ -795,6 +810,11 @@ Page({
         });
       }
     }
+  },
+
+  // 展示型事件
+  exhibition_submit_event(e) {
+    app.call_tel(this.data.customer_service_tel);
   },
 
   // 自定义分享

@@ -1,7 +1,7 @@
 /**
  * 商品列表
  */
- .page {
+.page {
   padding-bottom: 120rpx;
 }
 .goods-item {
@@ -125,9 +125,6 @@
 .nav-submit button {
     border-radius: 0;
 }
-.page {
-    padding-bottom: 120rpx;
-}
 .selected .icon {
     width: 50rpx;
     height: 50rpx !important;
@@ -139,4 +136,14 @@
 }
 .buy-nav .sales-price {
   max-width: calc(100% - 40px);
+}
+
+/*
+ * 展示型
+ */
+.exhibition-mode {
+    padding: 0 10rpx;
+}
+.exhibition-mode-data .items {
+    padding-left: 0;
 }

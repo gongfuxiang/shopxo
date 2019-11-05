@@ -343,3 +343,10 @@
   top: -5px;
   left: calc(50% + 23rpx);
 }
+
+/*
+ * 展示型
+ */
+.goods-buy-nav .exhibition-mode button {
+  width: 100%;
+}
