@@ -130,7 +130,7 @@ class Goods extends Common
             'common_cart_total'                 => BuyService::UserCartTotal(['user'=>$this->user]),
             'customer_service_tel'              => MyC('common_app_customer_service_tel', null, true),
             'common_is_exhibition_mode_btn_text'=> MyC('common_is_exhibition_mode_btn_text', null, true),
-            'common_is_exhibition_mode'         => (int) MyC('common_is_exhibition_mode', 0),
+            'common_is_exhibition_mode'         => (int) MyC('common_is_exhibition_mode', 1),
 
             // 优惠劵
             'plugins_coupon_data'               => $this->PluginsCouponGoods($goods_id),
