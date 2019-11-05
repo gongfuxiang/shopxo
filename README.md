@@ -11,6 +11,8 @@
 * 支付宝小程序：https://shopxo.net/alipay.html （已发布）
 * 微信小程序：https://shopxo.net/weixin.html （已发布）
 * 百度小程序：https://shopxo.net/baidu.html （已发布）
+* 头条&抖音小程序：https://shopxo.net/zijietiaodong.html （已发布）
+* QQ小程序：https://shopxo.net/qq.html （已发布）
 
 ### 小程序体验码
 ![小程序二维码](https://images.gitee.com/uploads/images/2019/0819/102917_600e6efc_488475.jpeg "shopxo-qrcode.jpg")
@@ -122,6 +124,12 @@ ThinkPHP是一个快速、简单的基于MVC和面向对象的轻量级PHP开发
     > 基础配置
     > 小程序源码包
 百度小程序
+    > 基础配置
+    > 小程序源码包
+头条小程序
+    > 基础配置
+    > 小程序源码包
+QQ小程序
     > 基础配置
     > 小程序源码包
 支付宝生活号（仅v1.1.0版本有，后续版本已移除）

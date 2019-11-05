@@ -67,7 +67,7 @@ App({
     // 请求地址
     request_url: "{{request_url}}",
     // request_url: 'http://tp5-dev.com/',
-    // request_url: 'https://test.shopxo.net/',
+     request_url: 'https://test.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -171,7 +171,6 @@ App({
    * auth_data  授权数据
    */
   user_auth_login(object, method, auth_data) {
-    qq.showLoading({ title: "授权中..." });
     var self = this;
     qq.checkSession({
       success: function () {
@@ -197,6 +196,7 @@ App({
    */
   user_login(object, method, auth_data) {
     var self = this;
+    qq.showLoading({ title: "授权中..." });
     qq.login({
       success: (res) => {
         if (res.code) {
@@ -207,14 +207,17 @@ App({
             dataType: 'json',
             header: { 'content-type': 'application/x-www-form-urlencoded' },
             success: (res) => {
+              qq.hideLoading();
               if (res.data.code == 0) {
                 qq.setStorage({
                   key: self.data.cache_user_login_key,
                   data: res.data.data
                 });
-                self.get_user_login_info(object, method, res.data.data, auth_data);
+                if((auth_data || null) != null && (auth_data.encryptedData || null) != null && (auth_data.iv || null) != null)
+                {
+                  self.get_user_login_info(object, method, res.data.data, auth_data);
+                }
               } else {
-                qq.hideLoading();
                 self.showToast(res.data.msg);
               }
             },
@@ -246,6 +249,7 @@ App({
 
     // 远程解密数据
     var self = this;
+    qq.showLoading({ title: "授权中..." });
     qq.request({
       url: self.get_request_url('qquserinfo', 'user'),
       method: 'POST',
