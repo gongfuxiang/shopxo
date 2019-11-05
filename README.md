@@ -1,7 +1,7 @@
 # ShopXO 国内领先企业级B2C免费开源电商系统！
 * 求实进取、创新专注、自主研发、国内领先企业级B2C电商系统解决方案。
 * 遵循Apache2开源协议发布，无需授权、可商用、可二次开发、满足99%的电商运营需求。
-* PC+H5、支付宝小程序、微信小程序、百度小程序。
+* PC+H5、支付宝小程序、微信小程序、百度小程序、头条&抖音小程序、QQ小程序。
 
 ### 传送门
 * 官网地址：https://shopxo.net/
@@ -15,7 +15,7 @@
 * QQ小程序：https://shopxo.net/qq.html （已发布）
 
 ### 小程序体验码
-![小程序二维码](https://images.gitee.com/uploads/images/2019/0819/102917_600e6efc_488475.jpeg "shopxo-qrcode.jpg")
+![小程序二维码](https://images.gitee.com/uploads/images/2019/1105/211816_be07363a_488475.jpeg) "shopxo-qrcode.jpg")
 
 ### 安装教程
 * 安装教程：https://ask.shopxo.net/article/5
