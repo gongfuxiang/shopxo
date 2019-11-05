@@ -30,7 +30,7 @@
     "pages/user-coupon/user-coupon"
   ],
   "window": {
-    "defaultTitle": "shopxo",
+    "defaultTitle": "{{application_title}}",
     "titleBarColor": "#d2364c"
   },
   "tabBar": {

@@ -30,7 +30,7 @@
     "pages/user-coupon/user-coupon"
   ],
   "window": {
-    "navigationBarTitleText": "ShopXO",
+    "navigationBarTitleText": "{{application_title}}",
     "navigationBarBackgroundColor": "#d2364c"
   },
   "tabBar": {
