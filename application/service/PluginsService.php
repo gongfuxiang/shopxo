@@ -51,36 +51,38 @@ class PluginsService
             if(!empty($ret['data']))
             {
                 $data = json_decode($ret['data'], true);
-
-                // 是否有自定义附件需要处理
-                if(!empty($attachment_field) && is_array($attachment_field))
+                if(!empty($data) && is_array($data))
                 {
-                    foreach($attachment_field as $field)
+                    // 是否有自定义附件需要处理
+                    if(!empty($attachment_field) && is_array($attachment_field))
                     {
-                        if(isset($data[$field]))
+                        foreach($attachment_field as $field)
                         {
-                            $data[$field.'_old'] = $data[$field];
-                            $data[$field] = ResourcesService::AttachmentPathViewHandle($data[$field]);
-                        }
-                    }
-                } else {
-                    // 所有附件后缀名称
-                    $attachment_ext = config('ueditor.fileManagerAllowFiles');
-
-                    // 未自定义附件则自动根据内容判断处理附件，建议自定义附件字段名称处理更高效
-                    if(!empty($attachment_ext) && is_array($attachment_ext))
-                    {
-                        foreach($data as $k=>$v)
-                        {
-                            if(!empty($v) && !is_array($v) && !is_object($v))
+                            if(isset($data[$field]))
                             {
-                                $ext = strrchr(substr($v, -6), '.');
-                                if($ext !== false)
+                                $data[$field.'_old'] = $data[$field];
+                                $data[$field] = ResourcesService::AttachmentPathViewHandle($data[$field]);
+                            }
+                        }
+                    } else {
+                        // 所有附件后缀名称
+                        $attachment_ext = config('ueditor.fileManagerAllowFiles');
+
+                        // 未自定义附件则自动根据内容判断处理附件，建议自定义附件字段名称处理更高效
+                        if(!empty($attachment_ext) && is_array($attachment_ext))
+                        {
+                            foreach($data as $k=>$v)
+                            {
+                                if(!empty($v) && !is_array($v) && !is_object($v))
                                 {
-                                    if(in_array($ext, $attachment_ext))
+                                    $ext = strrchr(substr($v, -6), '.');
+                                    if($ext !== false)
                                     {
-                                        $data[$k.'_old'] = $v;
-                                        $data[$k] = ResourcesService::AttachmentPathViewHandle($v);
+                                        if(in_array($ext, $attachment_ext))
+                                        {
+                                            $data[$k.'_old'] = $v;
+                                            $data[$k] = ResourcesService::AttachmentPathViewHandle($v);
+                                        }
                                     }
                                 }
                             }
