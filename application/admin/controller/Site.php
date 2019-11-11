@@ -73,6 +73,9 @@ class Site extends Common
 		// 是否
 		$this->assign('common_is_text_list', lang('common_is_text_list'));
 
+		// 站点类型
+		$this->assign('common_site_type_list', lang('common_site_type_list'));
+
 		// 配置信息
 		$this->assign('data', ConfigService::ConfigList());
 

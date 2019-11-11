@@ -12,7 +12,7 @@
             <div class="am-form-group">
                 <label>{{$data.common_is_exhibition_mode.name}}<span class="am-form-group-label-tips">{{$data.common_is_exhibition_mode.describe}}</span></label>
                 <select name="{{$data.common_is_exhibition_mode.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_exhibition_mode.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
+                    {{foreach $common_site_type_list as $v}}
                         <option value="{{$v.id}}" {{if isset($data['common_is_exhibition_mode']['value']) and $data['common_is_exhibition_mode']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
                 </select>
