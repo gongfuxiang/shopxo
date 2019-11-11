@@ -88,12 +88,13 @@
             font: 16px Verdana, "Helvetica Neue", helvetica, Arial, 'Microsoft YaHei', sans-serif;
             margin: 0;
             padding: 0 20px 20px;
+            text-align: center;
         }
         h1{
             margin: 10px 0 0;
             font-size: 28px;
             font-weight: 500;
-            line-height: 32px;
+            line-height: 40px;
         }
         h2{
             color: #4288ce;
@@ -114,11 +115,15 @@
             text-decoration-style: dotted;
         }
         a{
-            color: #868686;
+            color: #F44336;
             cursor: pointer;
+            text-decoration: none;
+            padding: 10px 15px;
+            border: 1px solid #F44336;
         }
         a:hover{
-            text-decoration: underline;
+            background: #F44336;
+            color: #fff;
         }
         .line-error{
             background: #f8cbcb;
@@ -146,7 +151,7 @@
     
         /* Exception Info */
         .exception {
-            margin-top: 20px;
+            margin-top: 10%;
         }
         .exception .message{
             padding: 12px;
@@ -261,9 +266,8 @@
 
         /* Copyright Info */
         .copyright{
-            margin-top: 24px;
+            margin-top: 30px;
             padding: 12px 0;
-            border-top: 1px solid #eee;
         }
 
         /* SPAN elements with the classes below are added by prettyprint. */
@@ -410,9 +414,7 @@
     <?php } ?>
 
     <div class="copyright">
-        <a title="官方网站" href="http://www.thinkphp.cn">ThinkPHP</a> 
-        <span>V<?php echo \think\facade\App::version(); ?></span> 
-        <span>{ 十年磨一剑-为API开发设计的高性能框架 }</span>
+        <a title="<?php echo implode('', ['S','h','o','p','X','O','企','业','级','免','费','开','源','商','城','系','统']); ?>" href="<?php echo implode('', ['h','t','t','p','s',':','/','/','a','s','k','.','s','h','o','p','x','o','.','n','e','t','/','q','u','e','s','t','i','o','n','/','7']); ?>" target="_blank"><?php echo implode('', ['查','看','解','决','方','案']); ?></a> 
     </div>
     <?php if(\think\facade\App::isDebug()) { ?>
     <script>
