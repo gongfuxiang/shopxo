@@ -341,9 +341,9 @@ return array(
 
     // 站点类型
     'common_site_type_list' =>  array(
-            0 => array('value' => 0, 'name' => '常规电商'),
-            1 => array('value' => 1, 'name' => '自提点'),
-            2 => array('value' => 2, 'name' => '展示型'),
+            0 => array('value' => 0, 'name' => '销售型'),
+            1 => array('value' => 1, 'name' => '展示型'),
+            2 => array('value' => 2, 'name' => '自提点'),
             3 => array('value' => 3, 'name' => '虚拟销售'),
         ),
 

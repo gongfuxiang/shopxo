@@ -1,0 +1,65 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- table nav start -->
+        {{include file="site/nav" /}}
+        <!-- table nav end -->
+
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'sitetype'])}}" enctype="multipart/form-data">
+            <!-- 基础配置 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">基础配置</span>
+                </div>
+                <div class="am-panel-bd">
+                    <!-- 站点类型 -->
+                    <div class="am-form-group">
+                        <label>{{$data.common_site_type.name}}<span class="am-form-group-label-tips">{{$data.common_site_type.describe}}</span></label>
+                        <select name="{{$data.common_site_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_site_type.error_tips}}" required>
+                            {{foreach $common_site_type_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['common_site_type']['value']) and $data['common_site_type']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 展示型 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">展示型</span>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="am-form-group">
+                        <label>{{$data.common_is_exhibition_mode_btn_text.name}}<span class="am-form-group-label-tips">{{$data.common_is_exhibition_mode_btn_text.describe}}</span></label>
+                        <input type="text" name="{{$data.common_is_exhibition_mode_btn_text.only_tag}}" placeholder="{{$data.common_is_exhibition_mode_btn_text.describe}}" data-validation-message="{{$data.common_is_exhibition_mode_btn_text.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_is_exhibition_mode_btn_text.value}}"{{/if}} />
+                    </div>
+                </div>
+            </div>
+
+            <!-- 自提点 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">自提点</span>
+                </div>
+                <div class="am-panel-bd">
+                    hello 自提点地址配置
+                </div>
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end
