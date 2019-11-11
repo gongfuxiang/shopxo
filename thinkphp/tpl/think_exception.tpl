@@ -280,9 +280,6 @@
         pre.prettyprint .atv { color: #080 }  /* a markup attribute value */
         pre.prettyprint .dec, pre.prettyprint .var { color: #606 }  /* a declaration; a variable name */
         pre.prettyprint .fun { color: red }  /* a function name */
-
-        /* bbs */
-        .bbs-ask { margin-left: 15px; }
     </style>
 </head>
 <body>
@@ -413,10 +410,9 @@
     <?php } ?>
 
     <div class="copyright">
-        <a title="<?php echo implode('', ['S','h','o','p','X','O']); ?>官网" href="<?php echo implode('', ['h','t','t','p',':','/','/','w','w','w','.','s','h','o','p','x','o','.','n','e','t']); ?>"target="_blank"><?php echo implode('', ['S','h','o','p','X','O']); ?>官网</a>
-        <span><?php echo APPLICATION_VERSION; ?></span>
-        <a title="<?php echo implode('', ['S','h','o','p','X','O']); ?>社区" href="<?php echo implode('', ['h','t','t','p',':','/','/','a','s','k','.','s','h','o','p','x','o','.','n','e','t']); ?>" target="_blank" class="bbs-ask"><?php echo implode('', ['S','h','o','p','X','O']); ?>社区</a>
-        <span>{ 国内领先企业级B2C免费开源电商系统！ }</span>
+        <a title="官方网站" href="http://www.thinkphp.cn">ThinkPHP</a> 
+        <span>V<?php echo \think\facade\App::version(); ?></span> 
+        <span>{ 十年磨一剑-为API开发设计的高性能框架 }</span>
     </div>
     <?php if(\think\facade\App::isDebug()) { ?>
     <script>

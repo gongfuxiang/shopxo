@@ -18,6 +18,33 @@ use think\db\Query;
  * Class Model
  * @package think
  * @mixin Query
+ * @method Query where(mixed $field, string $op = null, mixed $condition = null) static 查询条件
+ * @method Query whereRaw(string $where, array $bind = []) static 表达式查询
+ * @method Query whereExp(string $field, string $condition, array $bind = []) static 字段表达式查询
+ * @method Query when(mixed $condition, mixed $query, mixed $otherwise = null) static 条件查询
+ * @method Query join(mixed $join, mixed $condition = null, string $type = 'INNER') static JOIN查询
+ * @method Query view(mixed $join, mixed $field = null, mixed $on = null, string $type = 'INNER') static 视图查询
+ * @method Query with(mixed $with) static 关联预载入
+ * @method Query count(string $field) static Count统计查询
+ * @method Query min(string $field) static Min统计查询
+ * @method Query max(string $field) static Max统计查询
+ * @method Query sum(string $field) static SUM统计查询
+ * @method Query avg(string $field) static Avg统计查询
+ * @method Query field(mixed $field, boolean $except = false) static 指定查询字段
+ * @method Query fieldRaw(string $field, array $bind = []) static 指定查询字段
+ * @method Query union(mixed $union, boolean $all = false) static UNION查询
+ * @method Query limit(mixed $offset, integer $length = null) static 查询LIMIT
+ * @method Query order(mixed $field, string $order = null) static 查询ORDER
+ * @method Query orderRaw(string $field, array $bind = []) static 查询ORDER
+ * @method Query cache(mixed $key = null , integer $expire = null) static 设置查询缓存
+ * @method mixed value(string $field) static 获取某个字段的值
+ * @method array column(string $field, string $key = '') static 获取某个列的值
+ * @method mixed find(mixed $data = null) static 查询单个记录
+ * @method mixed select(mixed $data = null) static 查询多个记录
+ * @method mixed get(mixed $data = null,mixed $with =[],bool $cache= false) static 查询单个记录 支持关联预载入
+ * @method mixed getOrFail(mixed $data = null,mixed $with =[],bool $cache= false) static 查询单个记录 不存在则抛出异常
+ * @method mixed findOrEmpty(mixed $data = null,mixed $with =[],bool $cache= false) static 查询单个记录  不存在则返回空模型
+ * @method mixed all(mixed $data = null,mixed $with =[],bool $cache= false) static 查询多个记录 支持关联预载入
  * @method \think\Model withAttr(array $name,\Closure $closure) 动态定义获取器
  */
 abstract class Model implements \JsonSerializable, \ArrayAccess
@@ -411,6 +438,16 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
     }
 
     /**
+     * 判断模型是否为空
+     * @access public
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return empty($this->data);
+    }
+
+    /**
      * 保存当前数据对象
      * @access public
      * @param  array  $data     数据
@@ -534,7 +571,7 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
                 $this->autoRelationUpdate();
             }
 
-            return false;
+            return true;
         } elseif ($this->autoWriteTimestamp && $this->updateTime && !isset($data[$this->updateTime])) {
             // 自动写入更新时间
             $data[$this->updateTime] = $this->autoWriteTimestamp($this->updateTime);
@@ -743,12 +780,19 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
         // 删除条件
         $pk = $this->getPk();
 
+        $where = [];
         if (is_string($pk) && isset($this->data[$pk])) {
             $where[] = [$pk, '=', $this->data[$pk]];
-        } elseif (!empty($this->updateWhere)) {
-            $where = $this->updateWhere;
-        } else {
-            $where = null;
+        } elseif (is_array($pk)) {
+            foreach ($pk as $field) {
+                if (isset($this->data[$field])) {
+                    $where[] = [$field, '=', $this->data[$field]];
+                }
+            }
+        }
+
+        if (empty($where)) {
+            $where = empty($this->updateWhere) ? null : $this->updateWhere;
         }
 
         return $where;

@@ -118,8 +118,8 @@ class RuleGroup extends Rule
      */
     public function check($request, $url, $completeMatch = false)
     {
+        // 跨域OPTIONS请求
         if ($dispatch = $this->checkCrossDomain($request)) {
-            // 跨域OPTIONS请求
             return $dispatch;
         }
 
@@ -150,10 +150,6 @@ class RuleGroup extends Rule
         // 获取当前路由规则
         $method = strtolower($request->method());
         $rules  = $this->getMethodRules($method);
-
-        if (count($rules) == 0) {
-            return false;
-        }
 
         if ($this->parent) {
             // 合并分组参数

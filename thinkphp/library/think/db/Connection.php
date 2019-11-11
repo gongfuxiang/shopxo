@@ -1246,21 +1246,13 @@ abstract class Connection
      * @access public
      * @param  Query     $query 查询对象
      * @param  string    $field   字段名
-     * @param  bool      $default   默认值
+     * @param  mixed     $default   默认值
+     * @param  bool      $one   是否返回一个值
      * @return mixed
      */
-    public function value(Query $query, $field, $default = null)
+    public function value(Query $query, $field, $default = null, $one = true)
     {
         $options = $query->getOptions();
-
-        if (empty($options['fetch_sql']) && !empty($options['cache'])) {
-            $cache  = $options['cache'];
-            $result = $this->getCacheData($query, $cache, null, $key);
-
-            if (false !== $result) {
-                return $result;
-            }
-        }
 
         if (isset($options['field'])) {
             $query->removeOption('field');
@@ -1271,7 +1263,19 @@ abstract class Connection
         }
 
         $query->setOption('field', $field);
-        $query->setOption('limit', 1);
+
+        if (empty($options['fetch_sql']) && !empty($options['cache'])) {
+            $cache  = $options['cache'];
+            $result = $this->getCacheData($query, $cache, null, $key);
+
+            if (false !== $result) {
+                return $result;
+            }
+        }
+
+        if ($one) {
+            $query->setOption('limit', 1);
+        }
 
         // 生成查询SQL
         $sql = $this->builder->select($query);
@@ -1320,7 +1324,7 @@ abstract class Connection
 
         $field = $aggregate . '(' . (!empty($distinct) ? 'DISTINCT ' : '') . $this->builder->parseKey($query, $field, true) . ') AS tp_' . strtolower($aggregate);
 
-        return $this->value($query, $field, 0);
+        return $this->value($query, $field, 0, false);
     }
 
     /**
@@ -1334,16 +1338,6 @@ abstract class Connection
     public function column(Query $query, $field, $key = '')
     {
         $options = $query->getOptions();
-
-        if (empty($options['fetch_sql']) && !empty($options['cache'])) {
-            // 判断查询缓存
-            $cache  = $options['cache'];
-            $result = $this->getCacheData($query, $cache, null, $guid);
-
-            if (false !== $result) {
-                return $result;
-            }
-        }
 
         if (isset($options['field'])) {
             $query->removeOption('field');
@@ -1361,6 +1355,16 @@ abstract class Connection
         }
 
         $query->setOption('field', $field);
+
+        if (empty($options['fetch_sql']) && !empty($options['cache'])) {
+            // 判断查询缓存
+            $cache  = $options['cache'];
+            $result = $this->getCacheData($query, $cache, null, $guid);
+
+            if (false !== $result) {
+                return $result;
+            }
+        }
 
         // 生成查询SQL
         $sql = $this->builder->select($query);
@@ -1463,9 +1467,7 @@ abstract class Connection
             $value = is_array($val) ? $val[0] : $val;
             $type  = is_array($val) ? $val[1] : PDO::PARAM_STR;
 
-            if (self::PARAM_FLOAT == $type) {
-                $value = (float) $value;
-            } elseif (PDO::PARAM_STR == $type) {
+            if ((self::PARAM_FLOAT == $type || PDO::PARAM_STR == $type) && is_string($value)) {
                 $value = '\'' . addslashes($value) . '\'';
             } elseif (PDO::PARAM_INT == $type && '' === $value) {
                 $value = 0;
@@ -1499,7 +1501,7 @@ abstract class Connection
                 if (PDO::PARAM_INT == $val[1] && '' === $val[0]) {
                     $val[0] = 0;
                 } elseif (self::PARAM_FLOAT == $val[1]) {
-                    $val[0] = (float) $val[0];
+                    $val[0] = is_string($val[0]) ? (float) $val[0] : $val[0];
                     $val[1] = PDO::PARAM_STR;
                 }
 

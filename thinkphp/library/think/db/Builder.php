@@ -313,9 +313,10 @@ abstract class Builder
                     // 使用闭包查询
                     $newQuery = $query->newQuery()->setConnection($this->connection);
                     $value($newQuery);
-                    $whereClause = $this->buildWhere($query, $newQuery->getOptions('where'));
+                    $whereClause = $this->buildWhere($newQuery, $newQuery->getOptions('where'));
 
                     if (!empty($whereClause)) {
+                        $query->bind($newQuery->getBind(false));
                         $str[] = ' ' . $logic . ' ( ' . $whereClause . ' )';
                     }
                 } elseif (is_array($field)) {
@@ -407,7 +408,7 @@ abstract class Builder
             $jsonType = $query->getJsonFieldType($field);
             $bindType = $this->connection->getFieldBindType($jsonType);
         } else {
-            $bindType = isset($binds[$field]) ? $binds[$field] : PDO::PARAM_STR;
+            $bindType = isset($binds[$field]) && 'LIKE' != $exp ? $binds[$field] : PDO::PARAM_STR;
         }
 
         if (is_scalar($value) && !in_array($exp, ['EXP', 'NOT NULL', 'NULL', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN']) && strpos($exp, 'TIME') === false) {
@@ -450,11 +451,11 @@ abstract class Builder
         // 模糊匹配
         if (is_array($value)) {
             foreach ($value as $item) {
-                $name    = $query->bind($item, $bindType);
+                $name    = $query->bind($item, PDO::PARAM_STR);
                 $array[] = $key . ' ' . $exp . ' :' . $name;
             }
 
-            $whereStr = '(' . implode($array, ' ' . strtoupper($logic) . ' ') . ')';
+            $whereStr = '(' . implode(' ' . strtoupper($logic) . ' ', $array) . ')';
         } else {
             $whereStr = $key . ' ' . $exp . ' ' . $value;
         }
@@ -604,6 +605,10 @@ abstract class Builder
             $value = $this->parseClosure($query, $value);
         }
 
+        if ('=' == $exp && is_null($value)) {
+            return $key . ' IS NULL';
+        }
+
         return $key . ' ' . $exp . ' ' . $value;
     }
 
@@ -647,9 +652,10 @@ abstract class Builder
         // IN 查询
         if ($value instanceof \Closure) {
             $value = $this->parseClosure($query, $value, false);
+        } elseif ($value instanceof Expression) {
+            $value = $value->getValue();
         } else {
             $value = array_unique(is_array($value) ? $value : explode(',', $value));
-
             $array = [];
 
             foreach ($value as $k => $v) {
@@ -657,9 +663,12 @@ abstract class Builder
                 $array[] = ':' . $name;
             }
 
-            $zone = implode(',', $array);
-
-            $value = empty($zone) ? "''" : $zone;
+            if (count($array) == 1) {
+                return $key . ('IN' == $exp ? ' = ' : ' <> ') . $array[0];
+            } else {
+                $zone  = implode(',', $array);
+                $value = empty($zone) ? "''" : $zone;
+            }
         }
 
         return $key . ' ' . $exp . ' (' . $value . ')';
