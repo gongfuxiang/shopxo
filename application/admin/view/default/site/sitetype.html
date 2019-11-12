@@ -46,7 +46,19 @@
                     <span class="am-panel-title">自提点</span>
                 </div>
                 <div class="am-panel-bd">
-                    hello 自提点地址配置
+                    <ul class="am-list am-list-static am-list-border am-list-striped am-form-group am-btn-sm am-margin-bottom-0 am-padding-bottom-0 address-list">
+                        {{if !empty($sitetype_address_list) and is_array($sitetype_address_list)}}
+                            {{foreach $sitetype_address_list as $address}}
+                                <li>
+                                    <span>{{$address.province_name}} {{$address.city_name}} {{$address.county_name}} {{$address.address}}{{if !empty($address['alias'])}}<span class="am-badge am-radius am-badge-success am-margin-left-xs">{{$address.alias}}</span>{{/if}}</span>
+                                    <span class="am-badge am-radius am-icon-remove delete-submit"> 移除</span>
+                                    <span class="am-badge am-radius am-icon-edit edit-submit"> 编辑</span>
+                                </li>
+                            {{/foreach}}
+                        {{/if}}
+                    </ul>
+                    <input type="hidden" name="{{$data.common_self_extraction_address.only_tag}}" value="{{$data.common_self_extraction_address.value}}" class="self-extraction-address-value" />
+                    <button type="button" class="am-btn am-btn-secondary am-radius am-icon-plus am-btn-sm am-margin-top-sm address-submit-add"> 添加地址</button>
                 </div>
             </div>
 
@@ -59,7 +71,63 @@
     </div>
 </div>
 <!-- right content end  -->
-        
+
+<!-- 自提点地址添加弹层 -->
+<div class="am-popup" id="popup-address-win">
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">地址添加</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd">
+            <form class="am-form form-validation-address" method="post" request-type="sync" request-value="ViewAddressModalBack">
+                <div class="am-form-group">
+                    <label>别名</label>
+                    <input type="text" name="alias" placeholder="别名" minlength="0" maxlength="16" data-validation-message="别名格式最多 16 个字符" class="am-radius" />
+                </div>
+
+                <div class="am-form-group">
+                    <label>联系人</label>
+                    <input type="text" name="name" placeholder="联系人" minlength="2" maxlength="16" data-validation-message="联系人格式 2~16 个字符之间" class="am-radius" required />
+                </div>
+                <div class="am-form-group">
+                    <label>联系电话</label>
+                    <input type="text" name="tel" placeholder="联系电话" minlength="6" maxlength="30" data-validation-message="联系电话格式有误" class="am-radius" required />
+                </div>
+
+                {{include file="lib/region_linkage" /}}
+                <div class="am-form-group address-detail">
+                    <label>详细地址</label>
+                    <div class="am-input-group am-input-group-sm">
+                        <input type="hidden" name="lng" id="form-lng" />
+                        <input type="hidden" name="lat" id="form-lat" />
+                        <input type="text" name="address" id="form-address" placeholder="详细地址" minlength="2" maxlength="80" data-validation-message="详细地址格式 1~80 个字符之间" class="am-radius" required />
+                        <span class="am-input-group-btn">
+                            <button class="am-btn am-btn-default am-radius" type="button" id="map-location-submit"><span class="am-icon-map-marker"></span> 定位</button>
+                        </span>
+                    </div>
+                </div>
+                <div id="map" data-level="17" class="am-form-group"></div>
+
+                <div class="am-form-group am-form-group-refreshing">
+                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- map -->
+<script type="text/javascript" src="{{$Think.__MY_HTTP__}}://api.map.baidu.com/api?v=2.0&ak={{:MyC('common_baidu_map_ak')}}"></script>
+
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end
+<!-- footer end -->
+
+<script type="text/javascript">
+// 返回处理
+function ViewAddressModalBack(data)
+{
+    AddressModalHandle(data);
+}
+</script>

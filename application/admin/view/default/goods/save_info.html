@@ -674,10 +674,9 @@
 <!-- 拖拽排序初始化 -->
 <script type="text/javascript">
 // 规格扩展返回处理
-function SpecificationsExtendsBack()
+function SpecificationsExtendsBack(data)
 {
 	var $extends_popup = $('#specifications-extends-popup');
-    var data = GetFormVal('#specifications-extends-popup', true);
     $('.specifications-table').find($extends_popup.attr('data-line-extend')).find('.line-extend-input').val(JSON.stringify(data));
     $extends_popup.modal('close');
 }

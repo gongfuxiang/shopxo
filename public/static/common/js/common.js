@@ -226,6 +226,10 @@ function FromInit(form_name)
 	}
 	var editor_tag_name = 'editor-tag';
 	var $form = $(form_name);
+	if($form.length <= 0)
+	{
+		return false;
+	}
 	var $editor_tag = $form.find('[id='+editor_tag_name+']');
 	var editor_count = $editor_tag.length;
 	if(editor_count > 0)
@@ -385,7 +389,7 @@ function FromInit(form_name)
             		$button.button('reset');
 					if(IsExitsFunction(request_value))
             		{
-            			window[request_value]();
+            			window[request_value](GetFormVal(form_name, true));
             		} else {
             			Prompt('['+request_value+']表单定义的方法未定义');
             		}
@@ -1280,6 +1284,57 @@ function PageLibrary(total, number, page, sub_number)
 	return html;
 }
 
+/**
+ * 地图初始化
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-11-12
+ * @desc    description
+ * @param   {[float]}        	lng   [经度]
+ * @param   {[float]}        	lat   [维度]
+ * @param   {[int]}        		level [层级]
+ * @param   {[object]}        	point [中心对象]
+ */
+function MapInit(lng, lat, level, point)
+{
+	// 百度地图API功能
+    var map = new BMap.Map("map", {enableMapClick:false});
+    level = level || $('#map').data('level') || 16;
+    point = point || (new BMap.Point(lng || 116.400244, lat || 39.92556));
+    map.centerAndZoom(point, level);
+
+    // 添加控件
+    var navigationControl = new BMap.NavigationControl({
+        // 靠左上角位置
+        anchor: BMAP_ANCHOR_TOP_LEFT,
+        // LARGE类型
+        type: BMAP_NAVIGATION_CONTROL_LARGE,
+    });
+    map.addControl(navigationControl);
+
+    // 创建标注
+    var marker = new BMap.Marker(point);  // 创建标注
+    map.addOverlay(marker);              // 将标注添加到地图中
+    marker.enableDragging();           // 可拖拽
+    marker.addEventListener("dragend", function(e) {
+        map.panTo(e.point);
+        $('#form-lng').val(e.point.lng);
+        $('#form-lat').val(e.point.lat);
+    });
+
+    // 设置版权控件位置
+    var cr = new BMap.CopyrightControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT});
+    map.addControl(cr); //添加版权控件
+    var bs = map.getBounds();   //返回地图可视区域
+    cr.addCopyright({id: 1, content: "<div class='map-copy'><span>拖动红色图标直接定位</span></div>", bounds:bs});
+
+    //获取地址坐标
+    var p = marker.getPosition();
+    $('#form-lng').val(p.lng);
+	$('#form-lat').val(p.lat);
+}
+
 // 公共数据操作
 $(function()
 {
@@ -1755,56 +1810,30 @@ $(function()
 		for(var i in region)
 		{
 			var $temp_obj = $('.region-linkage select[name='+region[i]+']');
-			var v = $temp_obj.find('option:selected').val();
-			if(v.length > 0)
+			var v = $temp_obj.find('option:selected').val() || null;
+			if(v != null)
 			{
-				if(i == 0) province = $temp_obj.find('option:selected').text();
-				address += $temp_obj.find('option:selected').text();
+				if(i == 0)
+				{
+					province = $temp_obj.find('option:selected').text() || '';
+				}
+				address += $temp_obj.find('option:selected').text() || '';
 			}
 		}
 		address += $('#form-address').val();
-
-		var map = new BMap.Map("map", {enableMapClick:false});
-		var point = new BMap.Point(116.331398,39.897445);
-		var level = $('#map').attr('data-level') || 16;
-		map.centerAndZoom(point, level);
+		if(province.length <= 0 || address.length <= 0)
+		{
+			Prompt('地址为空');
+			return false;
+		}
 
 		// 创建地址解析器实例
 		var myGeo = new BMap.Geocoder();
 		// 将地址解析结果显示在地图上,并调整地图视野
 		myGeo.getPoint(address, function(point) {
 			if (point) {
-				map.centerAndZoom(point, level);
-				var navigationControl = new BMap.NavigationControl({
-					// 靠左上角位置
-					anchor: BMAP_ANCHOR_TOP_LEFT,
-					// LARGE类型
-					type: BMAP_NAVIGATION_CONTROL_LARGE,
-				});
-				map.addControl(navigationControl);
-
-	          	var marker = new BMap.Marker(point);  // 创建标注
-				map.addOverlay(marker);              // 将标注添加到地图中
-	            marker.enableDragging();           // 可拖拽
-
-	            /* 设置版权控件位置 */
-				var cr = new BMap.CopyrightControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT});
-				map.addControl(cr); //添加版权控件
-				var bs = map.getBounds();   //返回地图可视区域
-				cr.addCopyright({id: 1, content: "<div class='map-copy'><span>拖动红色图标直接定位</span></div>", bounds:bs});
-
-	            //增加拖动后事件
-	            marker.addEventListener("dragend", function(e) {
-	            	map.panTo(e.point);
-					$('#form-lng').val(e.point.lng);
-					$('#form-lat').val(e.point.lat);
-				});
-
-	            //获取地址坐标
-	            var p = marker.getPosition();       //获取marker的位置
-	            $('#form-lng').val(p.lng);
-				$('#form-lat').val(p.lat);
-			}else{
+				MapInit(null, null, null, point);
+			} else {
 				Prompt("您选择地址没有解析到结果!");
 			}
 		}, province);

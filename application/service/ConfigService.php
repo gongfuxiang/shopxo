@@ -31,6 +31,7 @@ class ConfigService
             'home_email_user_email_binding',
             'home_site_close_reason',
             'common_agreement_userregister',
+            'common_self_extraction_address',
         ];
 
     // 附件字段列表

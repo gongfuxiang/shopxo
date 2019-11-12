@@ -49,6 +49,10 @@ class Site extends Common
      */
 	public function Index()
 	{
+		// 导航
+        $nav_type = input('nav_type', 'base');
+        $this->assign('nav_type', $nav_type);
+
 		// 时区
 		$this->assign('site_timezone_list', lang('site_timezone_list'));
 
@@ -77,14 +81,23 @@ class Site extends Common
 		$this->assign('common_site_type_list', lang('common_site_type_list'));
 
 		// 配置信息
-		$this->assign('data', ConfigService::ConfigList());
+		$data = ConfigService::ConfigList();
+		$this->assign('data', $data);
+
+		// 自提点地址处理
+		if($nav_type == 'sitetype' && !empty($data['common_self_extraction_address']) && !empty($data['common_self_extraction_address']['value']))
+		{
+			$address_list = json_decode($data['common_self_extraction_address']['value'], true);
+			if(!empty($address_list) && is_array($address_list))
+			{
+				$this->assign('sitetype_address_list', $address_list);
+			}
+		}
 
 		// 编辑器文件存放地址
         $this->assign('editor_path_type', 'common');
 
-        // 导航/视图
-        $nav_type = input('nav_type', 'base');
-        $this->assign('nav_type', $nav_type);
+        // 视图
         return $this->fetch($nav_type);
 	}
 
@@ -103,33 +116,33 @@ class Site extends Common
 		// 字段不存在赋空值
 		$field_list = [];
 
-		// 用户注册
-		if($nav_type == 'register')
+		// 导航类型
+		switch($nav_type)
 		{
-			$field_list[] = 'home_user_reg_state';
-			$field_list[] = 'home_site_user_register_bg_images';
-		}
+			// 用户注册
+			case 'register' :
+				$field_list[] = 'home_user_reg_state';
+				$field_list[] = 'home_site_user_register_bg_images';
+				break;
 
-		// 用户登录
-		if($nav_type == 'login')
-		{
-			$field_list[] = 'home_site_user_login_ad1_images';
-			$field_list[] = 'home_site_user_login_ad2_images';
-			$field_list[] = 'home_site_user_login_ad3_images';
-		}
+			// 用户登录
+			case 'login' :
+				$field_list[] = 'home_site_user_login_ad1_images';
+				$field_list[] = 'home_site_user_login_ad2_images';
+				$field_list[] = 'home_site_user_login_ad3_images';
+				break;
 
-		// 密码找回
-		if($nav_type == 'forgetpwd')
-		{
-			$field_list[] = 'home_site_user_forgetpwd_ad1_images';
-			$field_list[] = 'home_site_user_forgetpwd_ad2_images';
-			$field_list[] = 'home_site_user_forgetpwd_ad3_images';
-		}
+			// 密码找回
+			case 'forgetpwd' :
+				$field_list[] = 'home_site_user_forgetpwd_ad1_images';
+				$field_list[] = 'home_site_user_forgetpwd_ad2_images';
+				$field_list[] = 'home_site_user_forgetpwd_ad3_images';
+				break;
 
-		// 图片验证码
-		if($nav_type == 'imagesverify')
-		{
-			$field_list[] = 'common_images_verify_rules';
+			// 图片验证码
+			case 'imagesverify' :
+				$field_list[] = 'common_images_verify_rules';
+				break;
 		}
 
 		// 开始处理空值

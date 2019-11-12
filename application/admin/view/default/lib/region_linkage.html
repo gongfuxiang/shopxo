@@ -1,0 +1,12 @@
+<div class="am-form-group region-linkage" data-url="{{:MyUrl('admin/region/node')}}">
+    <label class="block">省市区</label>
+    <select name="province" data-next="city" class="am-radius chosen-select" data-placeholder="省份" data-validation-message="请选择省份" data-value="{{if isset($data['province'])}}{{$data.province}}{{else /}}0{{/if}}" required>
+        <option value="">省份</option>
+    </select>
+    <select name="city" data-next="county" class="am-radius chosen-select" data-placeholder="城市" data-validation-message="请选择城市" data-value="{{if isset($data['city'])}}{{$data.city}}{{else /}}0{{/if}}" required>
+        <option value="">城市</option>
+    </select>
+    <select name="county" class="am-radius chosen-select" data-placeholder="区/县" data-validation-message="请选择区/县" data-value="{{if isset($data['county'])}}{{$data.county}}{{else /}}0{{/if}}" required>
+        <option value="">区/县</option>
+    </select>
+</div>
