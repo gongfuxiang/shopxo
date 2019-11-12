@@ -139,8 +139,18 @@ $(function()
             return false;
         }
 
+        // 城市, 区/县数据处理
+        $('.region-linkage select[name="city"]').html('<option value="">城市</option><option value="'+item['city']+'">'+item['city_name']+'</option>');
+        $('.region-linkage select[name="county"]').html('<option value="">区/县</option><option value="'+item['county']+'">'+item['county_name']+'</option>');
+
         // 数据填充
         FormDataFill(item, 'form.form-validation-address');
+
+        // 地区初始化
+        RegionNodeData(item['province'], 'city', 'city', item['city']);
+        RegionNodeData(item['city'], 'county', 'county', item['county']);
+
+        // 基础数据
         $popup.modal();
         $popup.attr('data-type', 'edit');
         $popup.attr('data-index', index);

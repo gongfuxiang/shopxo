@@ -1285,6 +1285,179 @@ function PageLibrary(total, number, page, sub_number)
 }
 
 /**
+ * [RegionNodeData 地区联动]
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @datetime 2018-09-23T22:00:30+0800
+ * @param    {[int]}          pid     	[pid数据值]
+ * @param    {[string]}       name      [当前节点name名称]
+ * @param    {[string]}       next_name [下一个节点名称（数据渲染节点）]
+ * @param    {[int]}          value 	[需要选中的值]
+ */
+function RegionNodeData(pid, name, next_name, value)
+{
+	if(pid != null)
+	{
+		$.ajax({
+			url:$('.region-linkage').attr('data-url'),
+			type:'POST',
+			data:{"pid": pid},
+			dataType:'json',
+			success:function(result)
+			{
+				if(result.code == 0)
+				{
+					/* html拼接 */
+					var html = '<option value="">'+$('.region-linkage select[name='+next_name+']').find('option:eq(0)').text()+'</option>';
+
+					/* 没有指定选中值则从元素属性读取 */
+					value = value || $('.region-linkage select[name='+next_name+']').attr('data-value') || null;
+					for(var i in result.data)
+					{
+						html += '<option value="'+result.data[i]['id']+'"';
+						if(value != null && value == result.data[i]['id'])
+						{
+							html += ' selected ';
+						}
+						html += '>'+result.data[i]['name']+'</option>';
+					}
+
+					/* 下一级数据添加 */
+					$('.region-linkage select[name='+next_name+']').html(html).trigger('chosen:updated');
+				} else {
+					Prompt(result.msg);
+				}
+			}
+		});
+	}
+
+	/* 子级元素数据清空 */
+	var child = null;
+	switch(name)
+	{
+		case 'province' :
+			child = ['city', 'county'];
+			break;
+
+		case 'city' :
+			child = ['county'];
+			break;
+	}
+	if(child != null)
+	{
+		for(var i in child)
+		{
+			var $temp_obj = $('.region-linkage select[name='+child[i]+']');
+			var temp_find = $temp_obj.find('option').first().text();
+			var temp_html = '<option value="">'+temp_find+'</option>';
+			$temp_obj.html(temp_html).trigger('chosen:updated');
+		}
+	}
+}
+
+/**
+ * 编辑窗口额为参数处理
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2018-08-07
+ * @desc    description
+ * @param   {[object]}        data [数据]
+ * @param   {[string]}        type [edit, add]
+ * @return  {[object]}             [处理后的数据]
+ */
+function FunSaveWinAdditional(data, type)
+{
+	// 额外处理数据
+	if($('#tree').length > 0)
+	{
+		var additional = $('#tree').data('additional') || null;
+		if(additional != null)
+		{
+			for(var i in additional)
+			{
+				var value = (type == 'add') ? (additional[i]['value'] || '') : (data[additional[i]['field']] || additional[i]['value'] || '');
+				switch(additional[i]['type'])
+				{
+					// 表单
+					case 'input' :
+					case 'select' :
+					case 'textarea' :
+						data[additional[i]['field']] = value;
+						break;
+
+					// 样式处理
+					case 'css' :
+						$(additional[i]['tag']).css(additional[i]['style'], value);
+						break;
+
+					// 文件
+					case 'file' :
+						var $file_tag = $(additional[i]['tag']);
+						if($file_tag.val().length > 0)
+						{
+							$file_tag.after($file_tag.clone().val(''));
+							$file_tag.val('');
+						}
+						break;
+
+					// 属性
+					case 'attr' :
+						$(additional[i]['tag']).attr(additional[i]['style'], value);
+						break;
+
+					// 内容替换
+					case 'html' :
+						$(additional[i]['tag']).html(value);
+						break;
+				}
+			}
+		}
+	}
+	return data;
+}
+
+/**
+ * 添加窗口初始化
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2018-08-06
+ * @desc    description
+ */
+function TreeFormInit()
+{
+	// 更改窗口名称
+	$title = $('#data-save-win').find('.am-popup-title');
+	$title.text($title.attr('data-add-title'));
+
+	// 填充数据
+	var data = {"id":"", "pid":0, "name":"", "sort":0, "is_enable":1, "icon":""};
+
+	// 额外处理数据
+	data = FunSaveWinAdditional(data, 'init');
+
+	// 清空表单
+	FormDataFill(data);
+
+	// 移除菜单禁止状态
+	$('form select[name="pid"]').removeAttr('disabled');
+
+	// 校验成功状态增加失去焦点
+	$('form').find('.am-field-valid').each(function()
+	{
+		$(this).blur();
+	});
+
+	// 多选插件事件更新
+	if($('.chosen-select').length > 0)
+	{
+		$('.chosen-select').trigger('chosen:updated');
+	}
+}
+
+/**
  * 地图初始化
  * @author  Devil
  * @blog    http://gong.gg/
@@ -1334,6 +1507,7 @@ function MapInit(lng, lat, level, point)
     $('#form-lng').val(p.lng);
 	$('#form-lat').val(p.lat);
 }
+
 
 // 公共数据操作
 $(function()
@@ -1480,70 +1654,6 @@ $(function()
 	});
 
 	/**
-	 * 编辑窗口额为参数处理
-	 * @author   Devil
-	 * @blog    http://gong.gg/
-	 * @version 1.0.0
-	 * @date    2018-08-07
-	 * @desc    description
-	 * @param   {[object]}        data [数据]
-	 * @param   {[string]}        type [edit, add]
-	 * @return  {[object]}             [处理后的数据]
-	 */
-	function FunSaveWinAdditional(data, type)
-	{
-		// 额外处理数据
-		if($('#tree').length > 0)
-		{
-			var additional = $('#tree').data('additional') || null;
-			if(additional != null)
-			{
-				for(var i in additional)
-				{
-					var value = (type == 'add') ? (additional[i]['value'] || '') : (data[additional[i]['field']] || additional[i]['value'] || '');
-					switch(additional[i]['type'])
-					{
-						// 表单
-						case 'input' :
-						case 'select' :
-						case 'textarea' :
-							data[additional[i]['field']] = value;
-							break;
-
-						// 样式处理
-						case 'css' :
-							$(additional[i]['tag']).css(additional[i]['style'], value);
-							break;
-
-						// 文件
-						case 'file' :
-							var $file_tag = $(additional[i]['tag']);
-							if($file_tag.val().length > 0)
-							{
-								$file_tag.after($file_tag.clone().val(''));
-								$file_tag.val('');
-							}
-							break;
-
-						// 属性
-						case 'attr' :
-							$(additional[i]['tag']).attr(additional[i]['style'], value);
-							break;
-
-						// 内容替换
-						case 'html' :
-							$(additional[i]['tag']).html(value);
-							break;
-					}
-				}
-
-			}
-		}
-
-		return data;
-	}
-
-	/**
 	 * [submit-edit 公共编辑]
 	 * @author   Devil
 	 * @blog     http://gong.gg/
@@ -1642,45 +1752,6 @@ $(function()
 	});
 
 	/**
-	 * 添加窗口初始化
-	 * @author   Devil
-	 * @blog    http://gong.gg/
-	 * @version 1.0.0
-	 * @date    2018-08-06
-	 * @desc    description
-	 */
-	function TreeFormInit()
-	{
-		// 更改窗口名称
-		$title = $('#data-save-win').find('.am-popup-title');
-		$title.text($title.attr('data-add-title'));
-
-		// 填充数据
-		var data = {"id":"", "pid":0, "name":"", "sort":0, "is_enable":1, "icon":""};
-
-		// 额外处理数据
-		data = FunSaveWinAdditional(data, 'init');
-
-		// 清空表单
-		FormDataFill(data);
-
-		// 移除菜单禁止状态
-		$('form select[name="pid"]').removeAttr('disabled');
-
-		// 校验成功状态增加失去焦点
-		$('form').find('.am-field-valid').each(function()
-		{
-			$(this).blur();
-		});
-
-		// 多选插件事件更新
-		if($('.chosen-select').length > 0)
-		{
-			$('.chosen-select').trigger('chosen:updated');
-		}
-	}
-
-	/**
 	 * [submit-ajax 公共数据ajax操作]
 	 * @author   Devil
 	 * @blog     http://gong.gg/
@@ -1700,75 +1771,6 @@ $(function()
 			AjaxRequest($(this));
 		}
 	});
-
-	/**
-	 * [RegionNodeData 地区联动]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  1.0.0
-	 * @datetime 2018-09-23T22:00:30+0800
-	 * @param    {[int]}                 value     [数据值]
-	 * @param    {[string]}              name      [当前节点name名称]
-	 * @param    {[string]}              next_name [下一个节点名称（数据渲染节点）]
-	 */
-	function RegionNodeData(value, name, next_name)
-	{
-		if(value != null)
-		{
-			$.ajax({
-				url:$('.region-linkage').attr('data-url'),
-				type:'POST',
-				data:{"pid": value},
-				dataType:'json',
-				success:function(result)
-				{
-					if(result.code == 0)
-					{
-						/* html拼接 */
-						var html = '';
-						var value = $('.region-linkage select[name='+next_name+']').attr('data-value') || 0;
-						for(var i in result.data)
-						{
-							html += '<option value="'+result.data[i]['id']+'"';
-							if(value != 0 && value == result.data[i]['id'])
-							{
-								html += ' selected ';
-							}
-							html += '>'+result.data[i]['name']+'</option>';
-						}
-
-						/* 下一级数据添加 */
-						$('.region-linkage select[name='+next_name+']').append(html).trigger('chosen:updated');
-					} else {
-						Prompt(result.msg);
-					}
-				}
-			});
-		}
-
-		/* 子级元素数据清空 */
-		var child = null;
-		switch(name)
-		{
-			case 'province' :
-				child = ['city', 'county'];
-				break;
-
-			case 'city' :
-				child = ['county'];
-				break;
-		}
-		if(child != null)
-		{
-			for(var i in child)
-			{
-				var $temp_obj = $('.region-linkage select[name='+child[i]+']');
-				var temp_find = $temp_obj.find('option').first().text();
-				var temp_html = '<option value="">'+temp_find+'</option>';
-				$temp_obj.html(temp_html).trigger('chosen:updated');
-			}
-		}
-	}
 
 	// 地区联动
 	$('.region-linkage select').on('change', function()
