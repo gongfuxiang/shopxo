@@ -235,8 +235,7 @@ trait SoftDelete
         $field = $this->getDeleteTimeField(true);
 
         if ($field) {
-            $condition = is_null($this->defaultSoftDelete) ? ['null', ''] : ['=', $this->defaultSoftDelete];
-            $query->useSoftDelete($field, $condition);
+            $query->useSoftDelete($field, $this->defaultSoftDelete);
         }
     }
 }

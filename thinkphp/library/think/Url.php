@@ -130,9 +130,7 @@ class Url
             // 匹配路由命名标识
             $url = $match[0];
 
-            if ($domain) {
-                $domain = $match[1];
-            }
+            $domain = $match[1];
 
             if (!is_null($match[2])) {
                 $suffix = $match[2];
@@ -349,7 +347,6 @@ class Url
     // 匹配路由地址
     public function getRuleUrl($rule, &$vars = [], $allowDomain = '')
     {
-        $port = $this->app['request']->port();
         foreach ($rule as $item) {
             list($url, $pattern, $domain, $suffix, $method) = $item;
 
@@ -357,8 +354,8 @@ class Url
                 continue;
             }
 
-            if ($port && !in_array($port, [80, 443])) {
-                $domain .= ':' . $port;
+            if (!in_array($this->app['request']->port(), [80, 443])) {
+                $domain .= ':' . $this->app['request']->port();
             }
 
             if (empty($pattern)) {

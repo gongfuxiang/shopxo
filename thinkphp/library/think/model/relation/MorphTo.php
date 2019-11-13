@@ -11,7 +11,6 @@
 
 namespace think\model\relation;
 
-use Closure;
 use think\Exception;
 use think\Loader;
 use think\Model;

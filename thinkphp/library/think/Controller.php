@@ -158,7 +158,7 @@ class Controller
      */
     protected function fetch($template = '', $vars = [], $config = [])
     {
-        return Response::create($template, 'view')->assign($vars)->config($config);
+        return $this->view->fetch($template, $vars, $config);
     }
 
     /**
@@ -171,7 +171,7 @@ class Controller
      */
     protected function display($content = '', $vars = [], $config = [])
     {
-        return Response::create($content, 'view')->assign($vars)->config($config)->isContent(true);
+        return $this->view->display($content, $vars, $config);
     }
 
     /**

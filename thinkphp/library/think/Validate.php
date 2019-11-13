@@ -131,7 +131,7 @@ class Validate
      * 内置正则验证规则
      * @var array
      */
-    protected $defaultRegex = [
+    protected $regex = [
         'alphaDash'   => '/^[A-Za-z0-9\-\_]+$/',
         'chs'         => '/^[\x{4e00}-\x{9fa5}]+$/u',
         'chsAlpha'    => '/^[\x{4e00}-\x{9fa5}a-zA-Z]+$/u',
@@ -177,12 +177,6 @@ class Validate
      * @var array
      */
     protected $append = [];
-
-    /**
-     * 验证正则定义
-     * @var array
-     */
-    protected $regex = [];
 
     /**
      * 架构函数
@@ -519,7 +513,7 @@ class Validate
 
         if (isset($this->append[$field])) {
             // 追加额外的验证规则
-            $rules = array_unique(array_merge($rules, $this->append[$field]), SORT_REGULAR);
+            $rules = array_merge($rules, $this->append[$field]);
         }
 
         $i      = 0;
@@ -567,11 +561,10 @@ class Validate
             } elseif (true !== $result) {
                 // 返回自定义错误信息
                 if (is_string($result) && false !== strpos($result, ':')) {
-                    $result = str_replace(':attribute', $title, $result);
-
-                    if (strpos($result, ':rule') && is_scalar($rule)) {
-                        $result = str_replace(':rule', (string) $rule, $result);
-                    }
+                    $result = str_replace(
+                        [':attribute', ':rule'],
+                        [$title, (string) $rule],
+                        $result);
                 }
 
                 return $result;
@@ -934,8 +927,8 @@ class Validate
             if (isset($rule[2])) {
                 $imageType = strtolower($rule[2]);
 
-                if ('jpg' == $imageType) {
-                    $imageType = 'jpeg';
+                if ('jpeg' == $imageType) {
+                    $imageType = 'jpg';
                 }
 
                 if (image_type_to_extension($type, false) != $imageType) {
@@ -1013,8 +1006,6 @@ class Validate
                     $map[] = [$key, '=', $data[$key]];
                 }
             }
-        } elseif (strpos($key, '=')) {
-            parse_str($key, $map);
         } elseif (isset($data[$field])) {
             $map[] = [$key, '=', $data[$field]];
         } else {
@@ -1369,8 +1360,6 @@ class Validate
     {
         if (isset($this->regex[$rule])) {
             $rule = $this->regex[$rule];
-        } elseif (isset($this->defaultRegex[$rule])) {
-            $rule = $this->defaultRegex[$rule];
         }
 
         if (0 !== strpos($rule, '/') && !preg_match('/\/[imsU]{0,4}$/', $rule)) {
@@ -1472,17 +1461,13 @@ class Validate
             $msg = $title . $lang->get('not conform to the rules');
         }
 
-        if (!is_string($msg)) {
-            return $msg;
-        }
-
-        if (0 === strpos($msg, '{%')) {
+        if (is_string($msg) && 0 === strpos($msg, '{%')) {
             $msg = $lang->get(substr($msg, 2, -1));
         } elseif ($lang->has($msg)) {
             $msg = $lang->get($msg);
         }
 
-        if (is_scalar($rule) && false !== strpos($msg, ':')) {
+        if (is_string($msg) && is_scalar($rule) && false !== strpos($msg, ':')) {
             // 变量替换
             if (is_string($rule) && strpos($rule, ',')) {
                 $array = array_pad(explode(',', $rule), 3, '');
@@ -1490,12 +1475,9 @@ class Validate
                 $array = array_pad([], 3, '');
             }
             $msg = str_replace(
-                [':attribute', ':1', ':2', ':3'],
-                [$title, $array[0], $array[1], $array[2]],
+                [':attribute', ':rule', ':1', ':2', ':3'],
+                [$title, (string) $rule, $array[0], $array[1], $array[2]],
                 $msg);
-            if (strpos($msg, ':rule')) {
-                $msg = str_replace(':rule', (string) $rule, $msg);
-            }
         }
 
         return $msg;
@@ -1514,11 +1496,11 @@ class Validate
             $scene = $this->currentScene;
         }
 
-        $this->only = $this->append = $this->remove = [];
-
         if (empty($scene)) {
             return;
         }
+
+        $this->only = $this->append = $this->remove = [];
 
         if (method_exists($this, 'scene' . $scene)) {
             call_user_func([$this, 'scene' . $scene]);

@@ -12,6 +12,7 @@
 namespace think\route\dispatch;
 
 use ReflectionMethod;
+use think\Controller;
 use think\exception\ClassNotFoundException;
 use think\exception\HttpException;
 use think\Loader;

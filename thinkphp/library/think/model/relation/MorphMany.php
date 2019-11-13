@@ -11,7 +11,6 @@
 
 namespace think\model\relation;
 
-use Closure;
 use think\db\Query;
 use think\Exception;
 use think\Loader;
@@ -54,7 +53,7 @@ class MorphMany extends Relation
      */
     public function getRelation($subRelation = '', $closure = null)
     {
-        if ($closure instanceof Closure) {
+        if ($closure) {
             $closure($this->query);
         }
 
@@ -198,7 +197,7 @@ class MorphMany extends Relation
             return 0;
         }
 
-        if ($closure instanceof Closure) {
+        if ($closure) {
             $return = $closure($this->query);
 
             if ($return && is_string($return)) {
@@ -225,7 +224,7 @@ class MorphMany extends Relation
      */
     public function getRelationCountQuery($closure, $aggregate = 'count', $field = '*', &$aggregateAlias = '')
     {
-        if ($closure instanceof Closure) {
+        if ($closure) {
             $return = $closure($this->query);
 
             if ($return && is_string($return)) {
@@ -254,7 +253,7 @@ class MorphMany extends Relation
         // 预载入关联查询 支持嵌套预载入
         $this->query->removeOption('where');
 
-        if ($closure instanceof Closure) {
+        if ($closure) {
             $closure($this->query);
         }
 
