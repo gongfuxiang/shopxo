@@ -37,7 +37,7 @@ function AddressModalHandle(data)
 
         // 数据拼接
         var html = '<li>';
-            html += '<span>'+data['province_name']+' '+data['city_name']+' '+data['county_name']+' '+address;
+            html += '<span>'+data['province_name']+' '+data['city_name']+' '+data['county_name']+' '+address+'（'+name+'-'+tel+'）';
             if(alias != null)
             {
                 html += '<span class="am-badge am-radius am-badge-success am-margin-left-xs">'+alias+'</span>';
@@ -94,6 +94,9 @@ $(function()
         $popup.modal();
         $popup.attr('data-type', 'add');
 
+        // 清空数据
+        FormDataFill({"alias":"", "name":"", "tel":"", "address":"", "province":0, "city":0, "county":0, "lng":"", "lat":""}, 'form.form-validation-address');
+
         // 地图初始化
         MapInit();
     });
@@ -138,10 +141,6 @@ $(function()
             Prompt('地址不存在');
             return false;
         }
-
-        // 城市, 区/县数据处理
-        $('.region-linkage select[name="city"]').html('<option value="">城市</option><option value="'+item['city']+'">'+item['city_name']+'</option>');
-        $('.region-linkage select[name="county"]').html('<option value="">区/县</option><option value="'+item['county']+'">'+item['county_name']+'</option>');
 
         // 数据填充
         FormDataFill(item, 'form.form-validation-address');
