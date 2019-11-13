@@ -62,7 +62,7 @@ class Mysql extends Builder
         $bind = $this->connection->getFieldsBind($options['table']);
 
         foreach ($dataSet as $k => $data) {
-            $data = $this->parseData($query, $data, $allowFields, $bind);
+            $data = $this->parseData($query, $data, $allowFields, $bind, '_' . $k);
 
             $values[] = '( ' . implode(',', array_values($data)) . ' )';
 
@@ -94,17 +94,13 @@ class Mysql extends Builder
      * @param  Query        $query        查询对象
      * @param  string       $key
      * @param  string       $exp
-     * @param  mixed        $value
+     * @param  Expression   $value
      * @param  string       $field
      * @return string
      */
-    protected function parseRegexp(Query $query, $key, $exp, $value, $field)
+    protected function parseRegexp(Query $query, $key, $exp, Expression $value, $field)
     {
-        if ($value instanceof Expression) {
-            $value = $value->getValue();
-        }
-
-        return $key . ' ' . $exp . ' ' . $value;
+        return $key . ' ' . $exp . ' ' . $value->getValue();
     }
 
     /**
@@ -129,7 +125,7 @@ class Mysql extends Builder
             // JSON字段支持
             list($field, $name) = explode('->', $key, 2);
 
-            return 'json_extract(' . $this->parseKey($query, $field, true) . ', \'$' . (strpos($name, '[') === 0 ? '' : '.') . str_replace('->', '.', $name) . '\')';
+            return 'json_extract(' . $this->parseKey($query, $field, true) . ', \'$.' . str_replace('->', '.', $name) . '\')';
         } elseif (strpos($key, '.') && !preg_match('/[,\'\"\(\)`\s]/', $key)) {
             list($table, $key) = explode('.', $key, 2);
 
@@ -149,7 +145,7 @@ class Mysql extends Builder
             throw new Exception('not support data:' . $key);
         }
 
-        if ('*' != $key && !preg_match('/[,\'\"\*\(\)`.\s]/', $key)) {
+        if ('*' != $key && ($strict || !preg_match('/[,\'\"\*\(\)`.\s]/', $key))) {
             $key = '`' . $key . '`';
         }
 

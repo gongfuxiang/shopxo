@@ -249,6 +249,7 @@ abstract class Driver
     {
         if ($this->tag) {
             $key       = $this->getTagkey($this->tag);
+            $prev      = $this->tag;
             $this->tag = null;
 
             if ($this->has($key)) {
@@ -265,6 +266,7 @@ abstract class Driver
             }
 
             $this->set($key, $value, 0);
+            $this->tag = $prev;
         }
     }
 
@@ -357,10 +359,5 @@ abstract class Driver
     public function getWriteTimes()
     {
         return $this->writeTimes;
-    }
-
-    public function __call($method, $args)
-    {
-        return call_user_func_array([$this->handler, $method], $args);
     }
 }

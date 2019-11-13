@@ -19,7 +19,7 @@ use think\App;
 class File
 {
     protected $config = [
-        'time_format' => 'c',
+        'time_format' => ' c ',
         'single'      => false,
         'file_size'   => 2097152,
         'path'        => '',
@@ -107,13 +107,7 @@ class File
         $info['timestamp'] = date($this->config['time_format']);
 
         foreach ($message as $type => $msg) {
-            $msg = is_array($msg) ? implode(PHP_EOL, $msg) : $msg;
-            if (PHP_SAPI == 'cli') {
-                $info['msg']  = $msg;
-                $info['type'] = $type;
-            } else {
-                $info[$type] = $msg;
-            }
+            $info[$type] = is_array($msg) ? implode("\r\n", $msg) : $msg;
         }
 
         if (PHP_SAPI == 'cli') {
@@ -146,13 +140,13 @@ class File
             }
         }
 
-        $cli = PHP_SAPI == 'cli' ? '_cli' : '';
-
         if ($this->config['single']) {
             $name = is_string($this->config['single']) ? $this->config['single'] : 'single';
 
-            $destination = $this->config['path'] . $name . $cli . '.log';
+            $destination = $this->config['path'] . $name . '.log';
         } else {
+            $cli = PHP_SAPI == 'cli' ? '_cli' : '';
+
             if ($this->config['max_files']) {
                 $filename = date('Ymd') . $cli . '.log';
             } else {
@@ -178,13 +172,15 @@ class File
 
         if ($this->config['single']) {
             $name = is_string($this->config['single']) ? $this->config['single'] : 'single';
+
+            $name .= '_' . $type;
         } elseif ($this->config['max_files']) {
-            $name = date('Ymd');
+            $name = date('Ymd') . '_' . $type . $cli;
         } else {
-            $name = date('d');
+            $name = date('d') . '_' . $type . $cli;
         }
 
-        return $path . DIRECTORY_SEPARATOR . $name . '_' . $type . $cli . '.log';
+        return $path . DIRECTORY_SEPARATOR . $name . '.log';
     }
 
     /**
@@ -212,14 +208,14 @@ class File
     protected function parseCliLog($info)
     {
         if ($this->config['json']) {
-            $message = json_encode($info, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . PHP_EOL;
+            $message = json_encode($info, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\r\n";
         } else {
             $now = $info['timestamp'];
             unset($info['timestamp']);
 
-            $message = implode(PHP_EOL, $info);
+            $message = implode("\r\n", $info);
 
-            $message = "[{$now}]" . $message . PHP_EOL;
+            $message = "[{$now}]" . $message . "\r\n";
         }
 
         return $message;
@@ -242,13 +238,13 @@ class File
 
         if ($this->config['json']) {
             $info = $requestInfo + $info;
-            return json_encode($info, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . PHP_EOL;
+            return json_encode($info, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\r\n";
         }
 
-        array_unshift($info, "---------------------------------------------------------------" . PHP_EOL . "\r\n[{$info['timestamp']}] {$requestInfo['ip']} {$requestInfo['method']} {$requestInfo['host']}{$requestInfo['uri']}");
+        array_unshift($info, "---------------------------------------------------------------\r\n[{$info['timestamp']}] {$requestInfo['ip']} {$requestInfo['method']} {$requestInfo['host']}{$requestInfo['uri']}");
         unset($info['timestamp']);
 
-        return implode(PHP_EOL, $info) . PHP_EOL;
+        return implode("\r\n", $info) . "\r\n";
     }
 
     protected function getDebugLog(&$info, $append, $apart)

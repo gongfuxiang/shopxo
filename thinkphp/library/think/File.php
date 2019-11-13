@@ -300,7 +300,7 @@ class File extends SplFileObject
      */
     public function checkSize($size)
     {
-        if ($this->getSize() > (int) $size) {
+        if ($this->getSize() > $size) {
             $this->error = 'filesize not match';
             return false;
         }

@@ -408,7 +408,7 @@ class Route
             $result = $this->bind[$domain];
         } elseif (isset($name) && isset($this->bind[$name])) {
             $result = $this->bind[$name];
-        } elseif (!empty($subDomain) && isset($this->bind['*'])) {
+        } elseif (isset($this->bind['*'])) {
             $result = $this->bind['*'];
         } else {
             $result = null;

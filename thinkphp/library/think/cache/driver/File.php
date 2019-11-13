@@ -278,13 +278,11 @@ class File extends Driver
             if (is_dir($path)) {
                 $matches = glob($path . DIRECTORY_SEPARATOR . '*.php');
                 if (is_array($matches)) {
-                    array_map(function ($v) {
-                        $this->unlink($v);
-                    }, $matches);
+                    array_map('unlink', $matches);
                 }
                 rmdir($path);
             } else {
-                $this->unlink($path);
+                unlink($path);
             }
         }
 

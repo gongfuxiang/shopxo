@@ -18,15 +18,8 @@ class View extends Response
     // 输出参数
     protected $options = [];
     protected $vars    = [];
-    protected $config  = [];
     protected $filter;
     protected $contentType = 'text/html';
-
-    /**
-     * 是否内容渲染
-     * @var bool
-     */
-    protected $isContent = false;
 
     /**
      * 处理数据
@@ -39,19 +32,7 @@ class View extends Response
         // 渲染模板输出
         return $this->app['view']
             ->filter($this->filter)
-            ->fetch($data, $this->vars, $this->config, $this->isContent);
-    }
-
-    /**
-     * 设置是否为内容渲染
-     * @access public
-     * @param  bool $content
-     * @return $this
-     */
-    public function isContent($content = true)
-    {
-        $this->isContent = $content;
-        return $this;
+            ->fetch($data, $this->vars);
     }
 
     /**
@@ -84,12 +65,6 @@ class View extends Response
             $this->vars[$name] = $value;
         }
 
-        return $this;
-    }
-
-    public function config($config)
-    {
-        $this->config = $config;
         return $this;
     }
 
