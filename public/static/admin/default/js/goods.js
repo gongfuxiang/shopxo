@@ -55,8 +55,12 @@ $(function()
     // 商品导航
     $('.goods-nav li a').on('click', function()
     {
+        // 样式
         $('.goods-nav li a').removeClass('goods-nav-active');
         $(this).addClass('goods-nav-active');
+
+        // 滚动
+        $(window).smoothScroll({position: $($(this).data('value')).offset().top});
     });
 
     // 商品导航收缩
@@ -667,4 +671,14 @@ $(function()
             onCancel: function(){}
         });
     });
+
+
+    // 虚拟商品编辑器初始化
+    if($('#goods-virtual-container').length > 0)
+    {
+        UE.getEditor('goods-virtual-container', {
+            toolbars: [['source', 'undo', 'redo', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough',   '|', 'forecolor', 'backcolor', 'link', 'fontsize', 'insertorderedlist', 'insertunorderedlist']],
+            initialFrameHeight : 100
+        });
+    }
 });

@@ -12,6 +12,13 @@
     float:left;
     margin-right:5px;
 }
+.goods-list.am-table dl .web-content img,
+.goods-list.am-table dl .virtual-goods-value img {
+    max-width: 100%;
+}
+.goods-list.am-table dl .virtual-goods-value {
+    height: 100px;
+}
 
 /**
  * 滚动导航

@@ -87,11 +87,8 @@ class Site extends Common
 		// 自提点地址处理
 		if($nav_type == 'sitetype' && !empty($data['common_self_extraction_address']) && !empty($data['common_self_extraction_address']['value']))
 		{
-			$address_list = json_decode($data['common_self_extraction_address']['value'], true);
-			if(!empty($address_list) && is_array($address_list))
-			{
-				$this->assign('sitetype_address_list', $address_list);
-			}
+			$address = ConfigService::SiteTypeExtractionAddressList($data['common_self_extraction_address']['value']);
+			$this->assign('sitetype_address_list', $address['data']);
 		}
 
 		// 编辑器文件存放地址

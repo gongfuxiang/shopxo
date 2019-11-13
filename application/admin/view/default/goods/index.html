@@ -215,6 +215,16 @@
 												<dt>访问次数</dt>
 												<dd>{{$v.access_count}}</dd>
 
+                                                <dt>电脑端详情</dt>
+                                                <dd>
+                                                    <div class="am-scrollable-vertical web-content">{{$v.content_web|raw}}</div>
+                                                </dd>
+
+                                                <dt>虚拟商品展示数据</dt>
+                                                <dd>
+                                                    <div class="am-scrollable-vertical virtual-goods-value">{{$v.virtual_goods_value|raw}}</div>
+                                                </dd>
+
                                                 <dt>SEO标题</dt>
                                                 <dd>{{$v.seo_title}}</dd>
 

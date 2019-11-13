@@ -15,6 +15,7 @@ use app\service\GoodsService;
 use app\service\UserService;
 use app\service\PaymentService;
 use app\service\BuyService;
+use app\service\ConfigService;
 
 /**
  * 购买
@@ -55,8 +56,23 @@ class Buy extends Common
             session('buy_post_data', $_POST);
             return redirect(MyUrl('index/buy/index'));
         } else {
-            // 获取商品列表
-            $params = array_merge(input(), session('buy_post_data'));
+            // 站点类型，是否开启了展示型
+            if(MyC('common_site_type', 0, true) == 1)
+            {
+                $this->assign('msg', '展示型不允许提交订单');
+                return $this->fetch('public/tips_error');
+            }
+
+            // 获取下单信息
+            $data = session('buy_post_data');
+            if(empty($data))
+            {
+                $this->assign('msg', '商品信息为空');
+                return $this->fetch('public/tips_error');
+            }
+
+            // 参数
+            $params = array_merge(input(), $data);
             $params['user'] = $this->user;
             $ret = BuyService::BuyTypeGoodsList($params);
 
@@ -69,6 +85,9 @@ class Buy extends Common
 
                 // 支付方式
                 $this->assign('payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
+
+                // 站点类型 - 自提模式下提货地址
+                $this->assign('common_self_extraction_address', ConfigService::SiteTypeExtractionAddressList());
                 
                 // 页面数据
                 $this->assign('base', $ret['data']['base']);

@@ -129,6 +129,9 @@ class Goods extends Common
             $like_goods = GoodsService::GoodsList($params);
             $this->assign('detail_like_goods', $like_goods['data']);
 
+            // 站点类型 - 展示型模式操作名称
+            $this->assign('common_is_exhibition_mode_btn_text', MyC('common_is_exhibition_mode_btn_text', '立即咨询', true));
+
             return $this->fetch();
         }
     }

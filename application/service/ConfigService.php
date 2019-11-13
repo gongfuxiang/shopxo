@@ -267,5 +267,35 @@ class ConfigService
         
         return DataReturn('操作成功', 0, $data);
     }
+
+    /**
+     * 站点自提模式 - 自提地址列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-11-13
+     * @desc    description
+     * @param   [string]          $value [自提的配置数据]
+     */
+    public static function SiteTypeExtractionAddressList($value = null)
+    {
+        // 未指定内容则从缓存读取
+        if(empty($value))
+        {
+            $value = MyC('common_self_extraction_address');
+        }
+
+        // 数据处理
+        $data = [];
+        if(!empty($value) && is_string($value))
+        {
+            $temp_data = json_decode($value, true);
+            if(!empty($temp_data) && is_array($temp_data))
+            {
+                $data = $temp_data;
+            }
+        }
+        return DataReturn('操作成功', 0, $data);
+    }
 }
 ?>

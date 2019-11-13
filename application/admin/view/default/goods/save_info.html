@@ -19,28 +19,31 @@
 			<nav class="goods-nav">
 				<ul>
 					<li>
-						<a href="#goods-nav-base">基础信息</a>
+						<a href="javascript:;" data-value="#goods-nav-base">基础信息</a>
 					</li>
 					<li>
-						<a href="#goods-nav-operations">商品规格</a>
+						<a href="javascript:;" data-value="#goods-nav-operations">商品规格</a>
 					</li>
 					<li>
-						<a href="#goods-nav-photo">商品相册</a>
+						<a href="javascript:;" data-value="#goods-nav-photo">商品相册</a>
 					</li>
 					<li>
-						<a href="#goods-nav-video">商品视频</a>
+						<a href="javascript:;" data-value="#goods-nav-video">商品视频</a>
 					</li>
 					<li>
-						<a href="#goods-nav-app">手机端详情</a>
+						<a href="javascript:;" data-value="#goods-nav-app">手机端详情</a>
 					</li>
 					<li>
-						<a href="#goods-nav-web">电脑端详情</a>
+						<a href="javascript:;" data-value="#goods-nav-web">电脑端详情</a>
 					</li>
 					<li>
-						<a href="#goods-nav-extends">扩展数据</a>
+						<a href="javascript:;" data-value="#goods-nav-virtual">虚拟商品</a>
 					</li>
 					<li>
-						<a href="#goods-nav-seo">SEO</a>
+						<a href="javascript:;" data-value="#goods-nav-extends">扩展数据</a>
+					</li>
+					<li>
+						<a href="javascript:;" data-value="#goods-nav-seo">SEO</a>
 					</li>
 					<li class="am-text-center am-padding-xs nav-shrink-submit">
 						<i class="am-icon-angle-double-right am-icon-sm"></i>
@@ -503,6 +506,14 @@
 				<label class="block nav-detail-title">电脑端详情</label>
 				<div class="am-form-group">
 					<textarea class="am-radius am-validate" name="content_web" maxlength="105000" id="editor-tag" data-validation-message="电脑端详情内容最多 105000 个字符">{{if !empty($data)}}{{$data.content_web}}{{/if}}</textarea>
+				</div>
+			</div>
+
+			<!-- 虚拟商品 -->
+			<div id="goods-nav-virtual" class="division-block">
+				<label class="block nav-detail-title">虚拟商品<span class="am-form-group-label-tips">用户下单后自动发货，用于将该数据展示在用户订单中</span></label>
+				<div class="am-form-group">
+					<script type="text/plain" id="goods-virtual-container" name="virtual_goods_value">{{if !empty($data)}}{{$data.virtual_goods_value|raw}}{{/if}}</script>
 				</div>
 			</div>
 

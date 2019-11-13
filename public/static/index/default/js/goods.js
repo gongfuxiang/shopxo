@@ -656,24 +656,21 @@ $(function() {
             GoodsCommentsHtml(page);
 
             // 回到评论顶部位置
-            var top = $('.introduce-main').offset().top;
-            $(window).smoothScroll({position: top});
+            $(window).smoothScroll({position: $('.introduce-main').offset().top});
         }
     });
 
     // 累计评价点击事件
     $('.tm-ind-panel .ind-panel-comment').on('click', function()
     {
-        var top = $('.introduce-main').offset().top;
-        $(window).smoothScroll({position: top});
+        $(window).smoothScroll({position: $('.introduce-main').offset().top});
         $('.introduce-main .am-tabs').tabs('open', 1);
     });
 
     // tab事件
     $('.introduce-main .am-tabs li').on('click', function()
     {
-        var top = $('.introduce-main').offset().top;
-        $(window).smoothScroll({position: top});
+        $(window).smoothScroll({position: $('.introduce-main').offset().top});
     });
 
 });

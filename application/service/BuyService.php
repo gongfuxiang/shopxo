@@ -775,6 +775,12 @@ class BuyService
      */
     public static function OrderAdd($params = [])
     {
+        // 站点类型，是否开启了展示型
+        if(MyC('common_site_type', 0, true) == 1)
+        {
+            return DataReturn('展示型不允许提交订单', -1);
+        }
+
         // 请求参数
         $p = [
             [
