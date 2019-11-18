@@ -119,5 +119,19 @@ $(function()
         $('form.nav-buy input[name=payment_id]').val(payment_id);
         $('form.nav-buy input[name=user_note]').val($('.order-user-info input.memo-input').val());
     });
+
+    // 自提点地址
+    $extraction_popup = $('#extraction-address-popup');
+    $extraction_popup.find('.extraction-address-item button').on('click', function()
+    {
+        window.location.href = UrlFieldReplace('address_id', $(this).data('value'));
+    });
+    $('.extraction-default .extraction-address-item').on('click', function(e)
+    {
+        if($(window).width() < 640)
+        {
+            $extraction_popup.modal();
+        }
+    });
     
 }); 

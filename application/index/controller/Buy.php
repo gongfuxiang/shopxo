@@ -15,7 +15,6 @@ use app\service\GoodsService;
 use app\service\UserService;
 use app\service\PaymentService;
 use app\service\BuyService;
-use app\service\ConfigService;
 
 /**
  * 购买
@@ -87,7 +86,8 @@ class Buy extends Common
                 $this->assign('payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
 
                 // 站点类型 - 自提模式下提货地址
-                $this->assign('common_self_extraction_address', ConfigService::SiteTypeExtractionAddressList());
+                $extraction_address = BuyService::SiteExtractionAddress($params);
+                $this->assign('self_extraction_address', $extraction_address['data']);
                 
                 // 页面数据
                 $this->assign('base', $ret['data']['base']);

@@ -43,59 +43,144 @@
             {{/foreach}}
         {{/if}}
 
-        <!-- 地址 -->
-        <div class="address">
-            <div class="control">
-                <h3>确认收货地址</h3>
-                {{if !empty($user_address_list)}}
-                    <button class="am-btn am-btn-primary am-btn-xs address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}" data-popup-title="新增地址">使用新地址</button>
+        <!-- 自提地址, 用户地址 -->
+        {{if $common_site_type eq 2}}
+            <!-- 自提地址 -->
+            <div class="address extraction-address">
+                <div class="control">
+                    <h3>确认自提点地址</h3>
+                    {{if !empty($self_extraction_address['default'])}}
+                        <button type="button" class="am-btn am-btn-default am-btn-secondary am-radius" data-am-modal="{target: '#extraction-address-popup'}">选择地址</button>
+                    {{/if}}
+                </div>
+                {{if empty($self_extraction_address['data_list'])}}
+                    <p class="am-text-danger am-text-center am-margin-top-lg">请联系管理员配置自提点地址</p>
+                {{else /}}
+                    <!-- 选中地址 -->
+                    {{if !empty($self_extraction_address['default'])}}
+                        <div class="am-panel am-panel-default extraction-default">
+                            <div class="am-panel-bd extraction-address-item am-cf am-vertical-align">
+                                <div class="first-icon am-fl am-vertical-align-middle">
+                                    <i class="am-icon-map-marker"></i>
+                                </div>
+                                <div class="am-fl am-vertical-align-middle">
+                                    <p>
+                                        {{if !empty($self_extraction_address['default']['alias'])}}
+                                            <span class="am-badge am-badge-secondary am-radius am-margin-right-xs">{{$self_extraction_address.default.alias}}</span>
+                                        {{/if}}
+                                        <span>{{$self_extraction_address.default.name}}</span>
+                                        <span>{{$self_extraction_address.default.tel}}</span>
+                                    </p>
+                                    <p class="address-detail">
+                                        <span>{{$self_extraction_address.default.province_name}}</span>
+                                        <span>{{$self_extraction_address.default.city_name}}</span>
+                                        <span>{{$self_extraction_address.default.county_name}}</span>
+                                        <span>{{$self_extraction_address.default.address}}</span>
+                                    </p>
+                                </div>
+                                <div class="address-right">
+                                    <span class="am-icon-angle-right am-icon-md"></span>
+                                </div>
+                            </div>
+                        </div>
+                    {{else /}}
+                        <div class="table-no">
+                            <i class="am-icon-warning"></i>
+                            <span>没有地址</span>
+                            <button type="button" class="am-btn am-btn-default am-btn-secondary am-radius am-margin-left-sm" data-am-modal="{target: '#extraction-address-popup'}">选择地址</button>
+                        </div>
+                    {{/if}}
+
+                    <!-- 自提地址选择弹层 -->
+                    <div class="am-popup" id="extraction-address-popup">
+                      <div class="am-popup-inner">
+                        <div class="am-popup-hd">
+                          <h4 class="am-popup-title">自提点选择</h4>
+                          <span class="am-close" data-am-modal-close>&times;</span>
+                        </div>
+                        <div class="am-popup-bd">
+                            <ul class="am-list">
+                                {{foreach $self_extraction_address.data_list as $key=>$address}}
+                                    <li class="extraction-address-item" data-value="{{$key}}">
+                                        <p>
+                                            {{if !empty($address['alias'])}}
+                                                <span class="am-badge am-badge-secondary am-radius am-margin-right-xs">{{$address.alias}}</span>
+                                            {{/if}}
+                                            <span>{{$address.name}}</span>
+                                            <span>{{$address.tel}}</span>
+                                        </p>
+                                        <p class="address-detail">
+                                            <span>{{$address.province_name}}</span>
+                                            <span>{{$address.city_name}}</span>
+                                            <span>{{$address.county_name}}</span>
+                                            <span>{{$address.address}}</span>
+                                        </p>
+                                        {{if !isset($params['address_id']) or $params['address_id'] neq $key}}
+                                            <button type="button" class="am-btn am-btn-default am-radius" data-value="{{$key}}">选择</button>
+                                        {{/if}}
+                                    </li>
+                                {{/foreach}}
+                            </ul>
+                        </div>
+                      </div>
+                    </div>
                 {{/if}}
             </div>
-            {{if !empty($user_address_list)}}
-                <ul class="address-list">
-                    {{foreach $user_address_list as $address}}
-                        <li class="{{if (isset($params['address_id']) and $params['address_id'] eq $address['id']) or (!isset($params['address_id']) and isset($address['is_default']) and $address['is_default'] eq 1) or (count($user_address_list) eq 1)}}address-default{{/if}}" id="data-list-{{$address.id}}" data-value="{{$address.id}}">
-                            <div class="address-left">
-                                <div class="user-base">
-                                    {{if !empty($address.alias)}}
-                                        <span class="am-badge am-badge-danger am-radius">{{$address.alias}}</span>
-                                    {{/if}}
-                                    {{if isset($address['is_default']) and $address['is_default'] eq 1}}
-                                        <span class="am-badge am-badge-success am-radius">默认</span>
-                                    {{/if}}
-                                    <span class="address-detail">   
-                                        <span class="user">{{$address.name}}</span>
-                                        <span class="phone">{{$address.tel}}</span>
-                                    </span>
+        {{else /}}
+            <!-- 用户地址 -->
+            <div class="address">
+                <div class="control">
+                    <h3>确认收货地址</h3>
+                    {{if !empty($user_address_list)}}
+                        <button class="am-btn am-btn-primary am-btn-xs address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}" data-popup-title="新增地址">使用新地址</button>
+                    {{/if}}
+                </div>
+                {{if !empty($user_address_list)}}
+                    <ul class="address-list">
+                        {{foreach $user_address_list as $address}}
+                            <li class="{{if (isset($params['address_id']) and $params['address_id'] eq $address['id']) or (!isset($params['address_id']) and isset($address['is_default']) and $address['is_default'] eq 1) or (count($user_address_list) eq 1)}}address-default{{/if}}" id="data-list-{{$address.id}}" data-value="{{$address.id}}">
+                                <div class="address-left">
+                                    <div class="user-base">
+                                        {{if !empty($address.alias)}}
+                                            <span class="am-badge am-badge-danger am-radius">{{$address.alias}}</span>
+                                        {{/if}}
+                                        {{if isset($address['is_default']) and $address['is_default'] eq 1}}
+                                            <span class="am-badge am-badge-success am-radius">默认</span>
+                                        {{/if}}
+                                        <span class="address-detail">   
+                                            <span class="user">{{$address.name}}</span>
+                                            <span class="phone">{{$address.tel}}</span>
+                                        </span>
+                                    </div>
+                                    <div class="region">
+                                        <span class="province">{{$address.province_name}}</span>
+                                        <span class="city">{{$address.city_name}}</span>
+                                        <span class="dist">{{$address.county_name}}</span>
+                                        <span class="street">{{$address.address}}</span>
+                                    </div>
                                 </div>
-                                <div class="region">
-                                    <span class="province">{{$address.province_name}}</span>
-                                    <span class="city">{{$address.city_name}}</span>
-                                    <span class="dist">{{$address.county_name}}</span>
-                                    <span class="street">{{$address.address}}</span>
+                                <div class="address-right">
+                                    <span class="am-icon-angle-right am-icon-md"></span>
                                 </div>
-                            </div>
-                            <div class="address-right">
-                                <span class="am-icon-angle-right am-icon-md"></span>
-                            </div>
-                            <div class="address-operation-btn">
-                                <a href="javascript:;" class="am-icon-check-circle-o address-default-submit" data-url="{{:MyUrl('index/useraddress/setdefault')}}" data-id="{{$address.id}}" data-view="reload"> 设为默认</a>
-                                <span class="cut">|</span>
-                                <a href="javascript:;" class="am-icon-edit address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}" data-popup-title="编辑地址"> 编辑</a>
-                                <span class="cut">|</span>
-                                <a href="javascript:;" class="am-icon-trash-o address-submit-delete" data-url="{{:MyUrl('index/useraddress/delete')}}" data-id="{{$address.id}}"> 删除</a>
-                            </div>
-                        </li>
-                    {{/foreach}}
-                </ul>
-            {{/if}}
-            {{if empty($user_address_list)}}
-                <div class="table-no">
-                    <i class="am-icon-warning"></i>
-                    没有地址
-                    <button class="am-btn am-btn-secondary am-btn-xs address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}" data-popup-title="新增地址">使用新地址</button></div>
-            {{/if}}
-        </div>
+                                <div class="address-operation-btn">
+                                    <a href="javascript:;" class="am-icon-check-circle-o address-default-submit" data-url="{{:MyUrl('index/useraddress/setdefault')}}" data-id="{{$address.id}}" data-view="reload"> 设为默认</a>
+                                    <span class="cut">|</span>
+                                    <a href="javascript:;" class="am-icon-edit address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}" data-popup-title="编辑地址"> 编辑</a>
+                                    <span class="cut">|</span>
+                                    <a href="javascript:;" class="am-icon-trash-o address-submit-delete" data-url="{{:MyUrl('index/useraddress/delete')}}" data-id="{{$address.id}}"> 删除</a>
+                                </div>
+                            </li>
+                        {{/foreach}}
+                    </ul>
+                {{else /}}
+                    <div class="table-no">
+                        <i class="am-icon-warning"></i>
+                        <span>没有地址</span>
+                        <button class="am-btn am-btn-secondary am-btn-xs am-margin-left-sm address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}" data-popup-title="新增地址">使用新地址</button>
+                    </div>
+                {{/if}}
+            </div>
+        {{/if}}
 
         <!-- 订单确认页面地址底部钩子 -->
         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}

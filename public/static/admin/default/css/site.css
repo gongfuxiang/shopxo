@@ -49,10 +49,24 @@ ul.home_site_user_register_bg_images-images-view li {
 .address-detail, #map {
     border-bottom: 0 !important;
 }
-.address-list {
-    padding: 0 20% 0 0 !important;
-}
 .address-list .edit-submit,
 .address-list .delete-submit {
     cursor: pointer;
+}
+@media only screen and (min-width:640px) {
+    .address-list {
+        padding: 0 20% 0 0 !important;
+    }
+}
+@media only screen and (max-width:640px) {
+    .address-list .edit-submit,
+    .address-list .delete-submit {
+        position: absolute;
+        top: 12px;
+        right: 5px;
+        float: none !important;
+    }
+    .address-list .delete-submit {
+        right: 70px;
+    }
 }

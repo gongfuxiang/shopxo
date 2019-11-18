@@ -15,6 +15,7 @@ use think\facade\Hook;
 use app\service\GoodsService;
 use app\service\UserService;
 use app\service\ResourcesService;
+use app\service\ConfigService;
 
 /**
  * 购买服务层
@@ -1242,6 +1243,39 @@ class BuyService
             return DataReturn('操作成功', 0);
         }
         return DataReturn('没有需要回滚的数据', 0);
+    }
+
+    /**
+     * 自提点地址选中地址获取
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-11-18
+     * @desc    description
+     * @param   [int]       $params['address_id'] [自提点地址索引值]
+     * @param   [array]     $params['address_id'] [自提点地址列表]
+     */
+    public static function SiteExtractionAddress($params = [])
+    {
+        // 自提地址列表
+        $address = ConfigService::SiteTypeExtractionAddressList();
+
+        // 选中地址处理
+        $default = null;
+        if(isset($params['address_id']) && !empty($address['data']) && is_array($address['data']))
+        {
+            if(isset($address['data'][$params['address_id']]))
+            {
+                $default = $address['data'][$params['address_id']];
+            }
+        }
+
+        // 返回数据
+        $result = [
+            'data_list'     => $address['data'],
+            'default'       => $default,
+        ];
+        return DataReturn('操作成功', 0, $result);
     }
 }
 ?>
