@@ -226,7 +226,7 @@ class Common extends Controller
         $default_theme = strtolower(MyC('common_default_theme', 'default', true));
         $this->assign('default_theme', $default_theme);
 
-        // 当前操作名称, 兼容插件模块名称        
+        // 当前操作名称, 兼容插件模块名称
         $module_name = strtolower(request()->module());
         $controller_name = strtolower(request()->controller());
         $action_name = strtolower(request()->action());

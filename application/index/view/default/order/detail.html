@@ -218,19 +218,26 @@
                             <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('index/order/delete')}}" data-id="{{$data.id}}" data-view="jump" data-value="{{:MyUrl('index/order/index')}}"> 删除</button>
                         {{/if}}
 
-                        <!-- 钩子订单操作 -->
-                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                        <!-- 订单详情操作钩子 -->
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                             <div class="plugins-tag">
-                                <span>plugins_service_order_handle_operation_html</span>
+                                <span>plugins_view_index_order_detail_operation</span>
                             </div>
                         {{/if}}
-                        {{if !empty($data['plugins_service_order_handle_operation_html']) and is_array($data['plugins_service_order_handle_operation_html'])}}
-                            {{foreach $data.plugins_service_order_handle_operation_html as $hook}}
-                                {{if is_string($hook) or is_int($hook)}}
-                                    {{$hook|raw}}
-                                {{/if}}
-                            {{/foreach}}
-                        {{/if}}
+                        {{php}}
+                            $hook_name = 'plugins_view_index_order_detail_operation';
+                            $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'id'=>$data['id'], 'data'=>$data]);
+                            if(!empty($hook_data) && is_array($hook_data))
+                            {
+                                foreach($hook_data as $hook)
+                                {
+                                    if(is_string($hook) || is_int($hook))
+                                    {
+                                        echo htmlspecialchars_decode($hook);
+                                    }
+                                }
+                            }
+                        {{/php}}
                     </div>
                     {{if in_array($data['status'], [3,4])}}
                         <div class="logistics">
