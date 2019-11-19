@@ -216,6 +216,9 @@ class Common extends Controller
         // 站点类型
         $this->assign('common_site_type', MyC('common_site_type', 0, true));
 
+        // 预约模式
+        $this->assign('common_order_is_booking', MyC('common_order_is_booking', 0, true));
+
         // 商店信息
         $this->assign('common_customer_store_tel', MyC('common_customer_store_tel'));
         $this->assign('common_customer_store_email', MyC('common_customer_store_email'));

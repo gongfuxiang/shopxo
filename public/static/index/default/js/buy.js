@@ -45,6 +45,13 @@ $(function()
         window.location.href = UrlFieldReplace('address_id', $(this).data('value'));
     });
 
+    // 手机模式下关闭地址选中
+    $('.mobile-address-close-submit').on('click', function()
+    {
+        $('.address').removeClass('mobile-address');
+        $(document.body).css({"overflow": "auto", "position":"unset"});
+    });
+
     // 设为默认地址
     $('.address-default-submit').on('click', function(e)
     {
@@ -85,38 +92,31 @@ $(function()
     // 提交订单
     $('.nav-buy .btn-go').on('click', function()
     {
-        var msg = '';
-        var status = true;
-        var address_id = $('ul.address-list li.address-default').data('value') || null;
-        if(address_id === null)
+        // 0销售型, 2自提点 校验地址
+        var site_type = $('.nav-buy').data('site-type') || 0;
+        if(site_type == 0 || site_type == 2)
         {
-            status = false;
-            msg = '请选择地址';
-        }
-
-        if(status === true)
-        {
-            var payment_id = $('ul.payment-list li.selected').data('value') || null;
-            if(payment_id === null)
+            var address_id = parseInt($('form.nav-buy input[name="address_id"]').val());
+            if(address_id == -1)
             {
-                status = false;
-                msg = '请选择支付';
+                Prompt('请选择地址');
+                return false;
             }
         }
 
-        if(status === false)
+        // 非预约模式校验支付方式
+        var is_booking = $('.nav-buy').data('is-booking') || 0;
+        if(is_booking != 1)
         {
-            if($(window).width() < 640)
+            var payment_id = parseInt($('form.nav-buy input[name="payment_id"]').val()) || 0;
+            if(payment_id === 0)
             {
-                PromptBottom(msg, null, null, 50);
-            } else {
-                PromptCenter(msg);
+                Prompt('请选择支付');
+                return false;
             }
-            return false;
         }
-        
-        $('form.nav-buy input[name=address_id]').val(address_id);
-        $('form.nav-buy input[name=payment_id]').val(payment_id);
+
+        // 备注
         $('form.nav-buy input[name=user_note]').val($('.order-user-info input.memo-input').val());
     });
 

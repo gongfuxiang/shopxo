@@ -482,6 +482,17 @@ class OrderService
                     'order_id'      => $params['order']['id']
                 ]);
 
+                // 虚拟商品自动触发发货操作
+                if($params['order']['order_model'] == 3)
+                {
+                    self::OrderDelivery([
+                        'id'                => $params['order']['id'],
+                        'creator'           => 0,
+                        'creator_name'      => '系统',
+                        'user_id'           => $params['order']['user_id'],
+                    ]);
+                }
+
                 return DataReturn('支付成功', 0);
             }
         }
@@ -537,7 +548,7 @@ class OrderService
 
         if(!empty($params['keywords']))
         {
-            $where[] = ['order_no|receive_tel|receive_name', 'like', '%'.$params['keywords'] . '%'];
+            $where[] = ['order_no|express_number', 'like', '%'.$params['keywords'] . '%'];
         }
 
         // 是否更多条件
@@ -646,6 +657,7 @@ class OrderService
             $order_status_list = lang('common_order_user_status');
             $order_pay_status = lang('common_order_pay_status');
             $common_platform_type = lang('common_platform_type');
+            $common_site_type_list = lang('common_site_type_list');
             foreach($data as &$v)
             {
                 // 订单处理前钩子
@@ -662,6 +674,14 @@ class OrderService
                     return $ret;
                 }
 
+                // 收件人地址
+                $receive_address = Db::name('OrderReceiveAddress')->where(['order_id'=>$v['id']])->find();
+                if(!empty($receive_address) && is_array($receive_address))
+                {
+                    unset($receive_address['add_time'], $receive_address['upd_time'], $receive_address['id']);
+                    $v = array_merge($v, $receive_address);
+                }
+
                 // 用户信息
                 if(isset($v['user_id']))
                 {
@@ -670,6 +690,9 @@ class OrderService
                         $v['user'] = UserService::GetUserViewInfo($v['user_id']);
                     }
                 }
+
+                // 订单模式
+                $v['order_model_name'] = isset($common_site_type_list[$v['order_model']]) ? $common_site_type_list[$v['order_model']]['name'] : '未知';
 
                 // 客户端
                 $v['client_type_name'] = isset($common_platform_type[$v['client_type']]) ? $common_platform_type[$v['client_type']]['name'] : '';
@@ -685,11 +708,6 @@ class OrderService
 
                 // 支付方式
                 $v['payment_name'] = ($v['status'] <= 1) ? null : PaymentService::OrderPaymentName($v['id']);
-
-                // 收件人地址
-                $v['receive_province_name'] = RegionService::RegionName($v['receive_province']);
-                $v['receive_city_name'] = RegionService::RegionName($v['receive_city']);
-                $v['receive_county_name'] = RegionService::RegionName($v['receive_county']);
 
                 // 创建时间
                 $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
@@ -761,6 +779,12 @@ class OrderService
                             } else {
                                 $vs['spec'] = null;
                                 $vs['spec_text'] = null;
+                            }
+
+                            // 虚拟销售商品 - 虚拟信息处理
+                            if($v['status'] == 3 && $v['pay_status'] == 1 && $v['order_model'] == 3)
+                            {
+                                $vs['fictitious_goods_value'] = Db('Goods')->where(['id'=>$vs['goods_id']])->value('fictitious_goods_value');
                             }
 
                             // 是否excel导出
@@ -1003,16 +1027,6 @@ class OrderService
                 'key_name'          => 'user_id',
                 'error_msg'         => '用户id有误',
             ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'express_id',
-                'error_msg'         => '快递id有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'express_number',
-                'error_msg'         => '快递单号有误',
-            ],
         ];
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
@@ -1022,7 +1036,7 @@ class OrderService
 
         // 获取订单信息
         $where = ['id'=>intval($params['id']), 'user_id'=>$params['user_id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-        $order = Db::name('Order')->where($where)->field('id,status,user_id')->find();
+        $order = Db::name('Order')->where($where)->field('id,status,user_id,order_model')->find();
         if(empty($order))
         {
             return DataReturn('资源不存在或已被删除', -1);
@@ -1033,11 +1047,33 @@ class OrderService
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
+        // 销售型订单快递信息校验
+        if($order['order_model'] == 0)
+        {
+            $p = [
+                [
+                    'checked_type'      => 'empty',
+                    'key_name'          => 'express_id',
+                    'error_msg'         => '快递id有误',
+                ],
+                [
+                    'checked_type'      => 'empty',
+                    'key_name'          => 'express_number',
+                    'error_msg'         => '快递单号有误',
+                ],
+            ];
+            $ret = ParamsChecked($params, $p);
+            if($ret !== true)
+            {
+                return DataReturn($ret, -1);
+            }
+        }
+
         // 开启事务
         Db::startTrans();
         $upd_data = [
             'status'            => 3,
-            'express_id'        => intval($params['express_id']),
+            'express_id'        => isset($params['express_id']) ? intval($params['express_id']) : 0,
             'express_number'    => isset($params['express_number']) ? $params['express_number'] : '',
             'delivery_time'     => time(),
             'upd_time'          => time(),

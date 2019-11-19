@@ -674,9 +674,9 @@ $(function()
 
 
     // 虚拟商品编辑器初始化
-    if($('#goods-virtual-container').length > 0)
+    if($('#goods-fictitious-container').length > 0)
     {
-        UE.getEditor('goods-virtual-container', {
+        UE.getEditor('goods-fictitious-container', {
             toolbars: [['source', 'undo', 'redo', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough',   '|', 'forecolor', 'backcolor', 'link', 'fontsize', 'insertorderedlist', 'insertunorderedlist']],
             initialFrameHeight : 100
         });

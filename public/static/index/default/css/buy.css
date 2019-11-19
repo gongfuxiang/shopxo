@@ -151,7 +151,6 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .address .control { display: none; }
   .address-default {background: url(../images/buy-peraddress.png) repeat-x; background-position: bottom; }
   ul.address-list li { padding: 5px; min-height: 60px; overflow: hidden; }
-  .address-detail .phone { float: right; }
   ul.address-list .am-icon-angle-right { color: #888; }
 
   .business-item ul li { width: calc(50% - 6px); }
@@ -200,7 +199,7 @@ strong.total-price-content { color: #d2364c; font-size: 16px; }
   box-shadow: none;
 }
 .extraction-address-item .first-icon {
-  width: 15px;
+  width: 13px;
 }
 .extraction-address-item .first-icon i {
   color: #666;

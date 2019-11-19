@@ -84,4 +84,11 @@ $(function()
         }
     }
 
+    // 订单详情自提点地图查看
+    $('.extraction-receive-map-submit').on('click', function()
+    {
+        $('#popup-extraction-receive-map').modal();
+        MapInit($(this).data('lng'), $(this).data('lat'), null, null, false);
+    });
+
 });

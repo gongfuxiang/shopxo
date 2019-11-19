@@ -13,10 +13,10 @@
     margin-right:5px;
 }
 .goods-list.am-table dl .web-content img,
-.goods-list.am-table dl .virtual-goods-value img {
+.goods-list.am-table dl .fictitious-goods-value img {
     max-width: 100%;
 }
-.goods-list.am-table dl .virtual-goods-value {
+.goods-list.am-table dl .fictitious-goods-value {
     height: 100px;
 }
 

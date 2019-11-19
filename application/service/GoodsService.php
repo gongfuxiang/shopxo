@@ -354,9 +354,9 @@ class GoodsService
                 }
 
                 // 虚拟商品展示数据
-                if(isset($v['virtual_goods_value']))
+                if(isset($v['fictitious_goods_value']))
                 {
-                    $v['virtual_goods_value'] = ResourcesService::ContentStaticReplace($v['virtual_goods_value'], 'get');
+                    $v['fictitious_goods_value'] = ResourcesService::ContentStaticReplace($v['fictitious_goods_value'], 'get');
                 }
 
                 // 产地
@@ -1115,7 +1115,7 @@ class GoodsService
 
         // 编辑器内容
         $content_web = empty($params['content_web']) ? '' : ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['content_web']), 'add');
-        $virtual_goods_value = empty($params['virtual_goods_value']) ? '' : ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['virtual_goods_value']), 'add');
+        $fictitious_goods_value = empty($params['fictitious_goods_value']) ? '' : ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['fictitious_goods_value']), 'add');
 
         // 基础数据
         $data = [
@@ -1142,7 +1142,7 @@ class GoodsService
             'seo_desc'                  => empty($params['seo_desc']) ? '' : $params['seo_desc'],
             'is_exist_many_spec'        => empty($specifications['data']['title']) ? 0 : 1,
             'spec_base'                 => empty($specifications_base['data']) ? '' : json_encode($specifications_base['data']),
-            'virtual_goods_value'       => $virtual_goods_value,
+            'fictitious_goods_value'       => $fictitious_goods_value,
         ];
 
         // 商品保存处理钩子

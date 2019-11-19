@@ -13,6 +13,7 @@ namespace app\index\controller;
 use app\service\OrderService;
 use app\service\PaymentService;
 use app\service\GoodsCommentsService;
+use app\service\ConfigService;
 
 /**
  * 订单管理
@@ -130,6 +131,10 @@ class Order extends Common
         {
             // 发起支付 - 支付方式
             $this->assign('buy_payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
+
+            // 虚拟销售配置
+            $site_fictitious = ConfigService::SiteFictitiousConfig();
+            $this->assign('site_fictitious', $site_fictitious['data']);
 
             $this->assign('data', $data['data'][0]);
 

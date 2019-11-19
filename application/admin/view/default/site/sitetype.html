@@ -71,6 +71,23 @@
                 </div>
             </div>
 
+            <!-- 虚拟销售 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <span class="am-panel-title">虚拟销售</span>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="am-form-group">
+                        <label>{{$data.common_site_fictitious_return_title.name}}<span class="am-form-group-label-tips">{{$data.common_site_fictitious_return_title.describe}}</span></label>
+                        <input type="text" name="{{$data.common_site_fictitious_return_title.only_tag}}" placeholder="{{$data.common_site_fictitious_return_title.describe}}" data-validation-message="{{$data.common_site_fictitious_return_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_site_fictitious_return_title.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_site_fictitious_return_tips.name}}<span class="am-form-group-label-tips">{{$data.common_site_fictitious_return_tips.describe}}</span></label>
+                        <textarea rows="4" name="{{$data.common_site_fictitious_return_tips.only_tag}}" class="am-radius" placeholder="{{$data.common_site_fictitious_return_tips.name}}" data-validation-message="{{$data.common_site_fictitious_return_tips.error_tips}}">{{if !empty($data)}}{{$data.common_site_fictitious_return_tips.value}}{{/if}}</textarea>
+                    </div>
+                </div>
+            </div>
+
             <div class="am-form-group am-form-group-refreshing">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>

@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 use app\service\ResourcesService;
 
 /**
@@ -295,7 +296,39 @@ class ConfigService
                 $data = $temp_data;
             }
         }
+
+        // 自提点地址列表数据钩子
+        $hook_name = 'plugins_service_site_extraction_address_list';
+        $ret = Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data'          => &$data,
+        ]);
+
         return DataReturn('操作成功', 0, $data);
+    }
+
+    /**
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-11-19
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function SiteFictitiousConfig($params = [])
+    {
+        // 标题
+        $title = MyC('common_site_fictitious_return_title', '密钥信息', true);
+
+        // 提示信息
+        $tips =  MyC('common_site_fictitious_return_tips', '支付后查看密钥信息！', true);
+
+        $result = [
+            'title'     => $title,
+            'tips'      => str_replace("\n", '<br />', $tips),
+        ];
+        return DataReturn('操作成功', 0, $result);
     }
 }
 ?>

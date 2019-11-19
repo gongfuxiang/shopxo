@@ -1464,12 +1464,13 @@ function TreeFormInit()
  * @version 1.0.0
  * @date    2019-11-12
  * @desc    description
- * @param   {[float]}        	lng   [经度]
- * @param   {[float]}        	lat   [维度]
- * @param   {[int]}        		level [层级]
- * @param   {[object]}        	point [中心对象]
+ * @param   {[float]}        	lng   		[经度]
+ * @param   {[float]}        	lat   		[维度]
+ * @param   {[int]}        		level 		[层级]
+ * @param   {[object]}        	point 		[中心对象]
+ * @param   {[boolean]}        	is_dragend 	[标注是否可拖拽]
  */
-function MapInit(lng, lat, level, point)
+function MapInit(lng, lat, level, point, is_dragend)
 {
 	// 百度地图API功能
     var map = new BMap.Map("map", {enableMapClick:false});
@@ -1487,25 +1488,37 @@ function MapInit(lng, lat, level, point)
     map.addControl(navigationControl);
 
     // 创建标注
-    var marker = new BMap.Marker(point);  // 创建标注
-    map.addOverlay(marker);              // 将标注添加到地图中
-    marker.enableDragging();           // 可拖拽
-    marker.addEventListener("dragend", function(e) {
-        map.panTo(e.point);
-        $('#form-lng').val(e.point.lng);
-        $('#form-lat').val(e.point.lat);
-    });
+    // 将标注添加到地图中
+    var marker = new BMap.Marker(point);
+    map.addOverlay(marker);
 
-    // 设置版权控件位置
-    var cr = new BMap.CopyrightControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT});
-    map.addControl(cr); //添加版权控件
-    var bs = map.getBounds();   //返回地图可视区域
-    cr.addCopyright({id: 1, content: "<div class='map-copy'><span>拖动红色图标直接定位</span></div>", bounds:bs});
+    // 标注是否可拖拽
+    if(is_dragend == undefined || is_dragend == true)
+    {
+    	marker.enableDragging();
+	    marker.addEventListener("dragend", function(e) {
+	        map.panTo(e.point);
+	        if($('#form-lng').length > 0 && $('#form-lat').length > 0)
+		    {
+		    	$('#form-lng').val(e.point.lng);
+				$('#form-lat').val(e.point.lat);
+		    }
+	    });
+
+	    // 设置标注提示信息
+	    var cr = new BMap.CopyrightControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT});
+	    map.addControl(cr); //添加版权控件
+	    var bs = map.getBounds();   //返回地图可视区域
+	    cr.addCopyright({id: 1, content: "<div class='map-copy'><span>拖动红色图标直接定位</span></div>", bounds:bs});
+    }
 
     //获取地址坐标
     var p = marker.getPosition();
-    $('#form-lng').val(p.lng);
-	$('#form-lat').val(p.lat);
+    if($('#form-lng').length > 0 && $('#form-lat').length > 0)
+    {
+    	$('#form-lng').val(p.lng);
+		$('#form-lat').val(p.lat);
+    }
 }
 
 

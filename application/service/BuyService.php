@@ -610,15 +610,40 @@ class BuyService
             // 商品数据
             $goods = $ret['data'];
 
-            // 用户默认地址
-            $address_params = [
-                'user'  => $params['user'],
-            ];
-            if(!empty($params['address_id']))
+            // 站点模式 2自提模式, 则其它正常模式
+            $address = null;
+            $extraction_address = [];
+            switch(MyC('common_site_type', 0, true))
             {
-                $address_params['where'] = ['id' => $params['address_id']];
+                // 站点模式 - 用户收货地址（未选择则取默认地址）
+                case 0 :
+                    $address_params = [
+                        'user'  => $params['user'],
+                    ];
+                    if(!empty($params['address_id']))
+                    {
+                        $address_params['where'] = ['id' => $params['address_id']];
+                    }
+                    $ads = UserService::UserDefaultAddress($address_params);
+                    if(!empty($ads['data']))
+                    {
+                        $address = $ads['data'];
+                    }
+                    break;
+
+                // 自提模式 - 自提点地址
+                case 2 :
+                    $extraction = self::SiteExtractionAddress($params);
+                    if(!empty($extraction['data']['data_list']))
+                    {
+                        $extraction_address = $extraction['data']['data_list'];
+                    }
+                    if(!empty($extraction['data']['default']))
+                    {
+                        $address = $extraction['data']['default'];
+                    }
+                    break;
             }
-            $address = UserService::UserDefaultAddress($address_params);
 
             // 商品/基础信息
             $total_price = empty($goods) ? 0 : array_sum(array_column($goods, 'total_price'));
@@ -645,7 +670,10 @@ class BuyService
                 'buy_count'             => empty($goods) ? 0 : array_sum(array_column($goods, 'stock')),
 
                 // 默认地址
-                'address'               => empty($address['data']) ? null : $address['data'],
+                'address'               => $address,
+
+                // 自提地址列表
+                'extraction_address'    => $extraction_address,
             ];
 
             // 扩展展示数据
@@ -777,7 +805,8 @@ class BuyService
     public static function OrderAdd($params = [])
     {
         // 站点类型，是否开启了展示型
-        if(MyC('common_site_type', 0, true) == 1)
+        $common_site_type = MyC('common_site_type', 0, true);
+        if($common_site_type == 1)
         {
             return DataReturn('展示型不允许提交订单', -1);
         }
@@ -790,11 +819,23 @@ class BuyService
                 'error_msg'         => '用户信息有误',
             ],
             [
-                'checked_type'      => 'empty',
+                'checked_type'      => 'isset',
                 'key_name'          => 'address_id',
-                'error_msg'         => '地址有误',
+                'error_msg'         => '请选择地址',
             ],
         ];
+
+        // 销售型, 自提点则校验地址
+        if(in_array($common_site_type, [0,2]))
+        {
+            $p[] = [
+                'checked_type'      => 'isset',
+                'key_name'          => 'address_id',
+                'error_msg'         => '请选择地址',
+            ];
+        }
+
+        // 非预约模式则校验支付方式
         if(MyC('common_order_is_booking', 0) != 1)
         {
             $p[] = [
@@ -829,25 +870,21 @@ class BuyService
             return $check;
         }
 
-        // 收货地址
-        if(empty($buy['data']['base']['address']))
+        // 销售型,自提点 地址处理
+        if(in_array($common_site_type, [0, 2]))
         {
-            return DataReturn('收货地址有误', -1);
-        } else {
-            $address = $buy['data']['base']['address'];
+            if(empty($buy['data']['base']['address']))
+            {
+                return DataReturn('地址有误', -1);
+            } else {
+                $address = $buy['data']['base']['address'];
+            }
         }
 
-        // 订单写入
+        // 订单主信息
         $order = [
             'order_no'              => date('YmdHis').GetNumberCode(6),
             'user_id'               => $params['user']['id'],
-            'receive_address_id'    => $address['id'],
-            'receive_name'          => $address['name'],
-            'receive_tel'           => $address['tel'],
-            'receive_province'      => $address['province'],
-            'receive_city'          => $address['city'],
-            'receive_county'        => $address['county'],
-            'receive_address'       => $address['address'],
             'user_note'             => isset($params['user_note']) ? str_replace(['"', "'"], '', strip_tags($params['user_note'])) : '',
             'status'                => (intval(MyC('common_order_is_booking', 0)) == 1) ? 0 : 1,
             'preferential_price'    => ($buy['data']['base']['preferential_price'] <= 0.00) ? 0.00 : $buy['data']['base']['preferential_price'],
@@ -858,6 +895,7 @@ class BuyService
             'payment_id'            => isset($params['payment_id']) ? intval($params['payment_id']) : 0,
             'buy_number_count'      => array_sum(array_column($buy['data']['goods'], 'stock')),
             'client_type'           => (APPLICATION_CLIENT_TYPE == 'pc' && IsMobile()) ? 'h5' : APPLICATION_CLIENT_TYPE,
+            'order_model'           => $common_site_type,
             'add_time'              => time(),
         ];
         if($order['status'] == 1)
@@ -865,12 +903,30 @@ class BuyService
             $order['confirm_time'] = time();
         }
 
+        // 订单收货地址
+        $order_address = [
+            'user_id'               => $params['user']['id'],
+            'receive_address_id'    => isset($address['id']) ? intval($address['id']) : 0,
+            'receive_name'          => isset($address['name']) ? $address['name'] : '',
+            'receive_tel'           => isset($address['tel']) ? $address['tel'] : '',
+            'receive_province'      => isset($address['province']) ? intval($address['province']) : 0,
+            'receive_city'          => isset($address['city']) ? intval($address['city']) : 0,
+            'receive_county'        => isset($address['county']) ? intval($address['county']) : 0,
+            'receive_address'       => isset($address['address']) ? $address['address'] : '',
+            'receive_province_name' => isset($address['province_name']) ? $address['province_name'] : '',
+            'receive_city_name'     => isset($address['city_name']) ? $address['city_name'] : '',
+            'receive_county_name'   => isset($address['county_name']) ? $address['county_name'] : '',
+            'receive_lng'           => isset($address['lng']) ? (float) $address['lng'] : '0.0000000000',
+            'receive_lat'           => isset($address['lat']) ? (float) $address['lat'] : '0.0000000000',
+        ];
+
         // 订单添加前钩子
         $hook_name = 'plugins_service_buy_order_insert_begin';
         $ret = Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'order'         => &$order,
+            'order_address' => &$order_address,
             'params'        => $params,
             
         ]);
@@ -911,6 +967,17 @@ class BuyService
                     return DataReturn('订单详情添加失败', -1);
                 }
             }
+
+            // 添加订单收货地址
+            if(in_array($common_site_type, [0, 2]))
+            {
+                $order_address['order_id'] = $order_id;
+                if(Db::name('OrderReceiveAddress')->insertGetId($order_address) <= 0)
+                {
+                    Db::rollback();
+                    return DataReturn('订单收货地址添加失败', -1);
+                }
+            }
         } else {
             Db::rollback();
             return DataReturn('订单添加失败', -1);
@@ -927,7 +994,6 @@ class BuyService
                 return DataReturn($ret['msg'], -10);
             }
         }
-        
 
         // 订单提交成功
         Db::commit();
@@ -1275,6 +1341,16 @@ class BuyService
             'data_list'     => $address['data'],
             'default'       => $default,
         ];
+
+        // 自提点地址数据钩子
+        $hook_name = 'plugins_service_site_extraction_address_handle';
+        $ret = Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => $params,
+            'data'          => &$result,
+        ]);
+
         return DataReturn('操作成功', 0, $result);
     }
 }

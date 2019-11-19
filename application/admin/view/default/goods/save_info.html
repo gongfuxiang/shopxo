@@ -37,7 +37,7 @@
 						<a href="javascript:;" data-value="#goods-nav-web">电脑端详情</a>
 					</li>
 					<li>
-						<a href="javascript:;" data-value="#goods-nav-virtual">虚拟商品</a>
+						<a href="javascript:;" data-value="#goods-nav-fictitious">虚拟商品</a>
 					</li>
 					<li>
 						<a href="javascript:;" data-value="#goods-nav-extends">扩展数据</a>
@@ -510,10 +510,10 @@
 			</div>
 
 			<!-- 虚拟商品 -->
-			<div id="goods-nav-virtual" class="division-block">
+			<div id="goods-nav-fictitious" class="division-block">
 				<label class="block nav-detail-title">虚拟商品<span class="am-form-group-label-tips">用户下单后自动发货，用于将该数据展示在用户订单中</span></label>
 				<div class="am-form-group">
-					<script type="text/plain" id="goods-virtual-container" name="virtual_goods_value">{{if !empty($data)}}{{$data.virtual_goods_value|raw}}{{/if}}</script>
+					<script type="text/plain" id="goods-fictitious-container" name="fictitious_goods_value">{{if !empty($data)}}{{$data.fictitious_goods_value|raw}}{{/if}}</script>
 				</div>
 			</div>
 
