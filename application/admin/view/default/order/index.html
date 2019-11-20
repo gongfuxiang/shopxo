@@ -369,20 +369,23 @@
                                                 <dt>退款金额</dt>
                                                 <dd>{{if empty($v['refund_price']) or $v['refund_price'] elt 0.00}}<span class="cr-ddd">未退款</span>{{else /}}<span class="am-text-danger">{{$v.refund_price}}{{/if}}</span></dd>
 
-												<dt>确认时间</dt>
-												<dd>{{if empty($v['confirm_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.confirm_time}}{{/if}}</dd>
+                                                <dt>自提取货码</dt>
+                                                <dd>{{if empty($v['extraction_code'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.extraction_code}}{{/if}}</dd>
 
-												<dt>支付时间</dt>
-												<dd>{{if empty($v['pay_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.pay_time}}{{/if}}</dd>
+                                                <dt>确认时间</dt>
+                                                <dd>{{if empty($v['confirm_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.confirm_time}}{{/if}}</dd>
 
-												<dt>发货时间</dt>
-												<dd>{{if empty($v['delivery_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.delivery_time}}{{/if}}</dd>
+                                                <dt>支付时间</dt>
+                                                <dd>{{if empty($v['pay_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.pay_time}}{{/if}}</dd>
 
-												<dt>完成时间</dt>
-												<dd>{{if empty($v['collect_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.collect_time}}{{/if}}</dd>
+                                                <dt>发货时间</dt>
+                                                <dd>{{if empty($v['delivery_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.delivery_time}}{{/if}}</dd>
 
-												<dt>取消时间</dt>
-												<dd>{{if empty($v['cancel_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.cancel_time}}{{/if}}</dd>
+                                                <dt>完成时间</dt>
+                                                <dd>{{if empty($v['collect_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.collect_time}}{{/if}}</dd>
+
+                                                <dt>取消时间</dt>
+                                                <dd>{{if empty($v['cancel_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.cancel_time}}{{/if}}</dd>
 
                                                 <dt>关闭时间</dt>
                                                 <dd>{{if empty($v['close_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.close_time}}{{/if}}</dd>
@@ -390,8 +393,8 @@
 												<dt>创建时间</dt>
 												<dd>{{$v.add_time}}</dd>
 
-												<dt>更新时间</dt>
-												<dd>{{$v.upd_time}}</dd>
+                                                <dt>更新时间</dt>
+                                                <dd>{{$v.upd_time}}</dd>
 											</dl>
 										</div>
 									</div>
@@ -408,7 +411,11 @@
                                     {{/if}}
 								{{/if}}
 								{{if $v['status'] eq 2}}
-									<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-send-o am-btn-block submit-delivery" data-url="{{:MyUrl('admin/order/delivery')}}" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-express-id="{{$v.express_id}}" data-am-modal="{target: '#order-delivery-popup'}"> 发货</button>
+                                    {{if $v['order_model'] eq 2}}
+                                        <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-check am-btn-block submit-take" data-url="{{:MyUrl('admin/order/delivery')}}" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-extraction-code="" data-am-modal="{target: '#order-take-modal', closeViaDimmer: 0, width: 300, height: 160}"> 取货</button>
+                                    {{else /}}
+									   <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-send-o am-btn-block submit-delivery" data-url="{{:MyUrl('admin/order/delivery')}}" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-express-id="{{$v.express_id}}" data-am-modal="{target: '#order-delivery-popup'}"> 发货</button>
+                                    {{/if}}
 								{{/if}}
 								{{if $v['status'] eq 3}}
 									<button class="am-btn am-btn-success am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/collect')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！"> 收货</button>
@@ -447,6 +454,28 @@
             <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
         {{/if}}
 		<!-- list end -->
+
+        <!-- 取货弹窗 -->
+        <div class="am-modal am-modal-no-btn" tabindex="-1" id="order-take-modal">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd">
+                    <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+                </div>
+                <div class="am-modal-bd">
+                    <form class="am-form form-validation-take take-form" method="post" action="{{:MyUrl('admin/order/delivery')}}" request-type="ajax-reload">
+                        <div class="am-form-group am-form-group-refreshing am-margin-bottom-0">
+                            <label>取货码</label>
+                            <input type="text" autocomplete="off" name="extraction_code" placeholder="取货码" minlength="4" maxlength="4" data-validation-message="请填写4位数取货码" class="am-radius" required />
+                        </div>
+                        <div class="am-form-group am-form-group-refreshing">
+                            <input type="hidden" name="id" value="0" />
+                            <input type="hidden" name="user_id" value="0" />
+                            <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
 		<!-- 发货弹窗 -->
 		<div class="am-popup" id="order-delivery-popup">

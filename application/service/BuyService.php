@@ -802,7 +802,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function OrderAdd($params = [])
+    public static function OrderInsert($params = [])
     {
         // 站点类型，是否开启了展示型
         $common_site_type = MyC('common_site_type', 0, true);
@@ -902,23 +902,10 @@ class BuyService
         {
             $order['confirm_time'] = time();
         }
-
-        // 订单收货地址
-        $order_address = [
-            'user_id'               => $params['user']['id'],
-            'receive_address_id'    => isset($address['id']) ? intval($address['id']) : 0,
-            'receive_name'          => isset($address['name']) ? $address['name'] : '',
-            'receive_tel'           => isset($address['tel']) ? $address['tel'] : '',
-            'receive_province'      => isset($address['province']) ? intval($address['province']) : 0,
-            'receive_city'          => isset($address['city']) ? intval($address['city']) : 0,
-            'receive_county'        => isset($address['county']) ? intval($address['county']) : 0,
-            'receive_address'       => isset($address['address']) ? $address['address'] : '',
-            'receive_province_name' => isset($address['province_name']) ? $address['province_name'] : '',
-            'receive_city_name'     => isset($address['city_name']) ? $address['city_name'] : '',
-            'receive_county_name'   => isset($address['county_name']) ? $address['county_name'] : '',
-            'receive_lng'           => isset($address['lng']) ? (float) $address['lng'] : '0.0000000000',
-            'receive_lat'           => isset($address['lat']) ? (float) $address['lat'] : '0.0000000000',
-        ];
+        if($common_site_type == 2)
+        {
+            $order['extraction_code'] = GetNumberCode(4);
+        }
 
         // 订单添加前钩子
         $hook_name = 'plugins_service_buy_order_insert_begin';
@@ -926,7 +913,6 @@ class BuyService
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'order'         => &$order,
-            'order_address' => &$order_address,
             'params'        => $params,
             
         ]);
@@ -944,38 +930,36 @@ class BuyService
         {
             foreach($buy['data']['goods'] as $v)
             {
-                $detail = [
-                    'order_id'          => $order_id,
-                    'user_id'           => $params['user']['id'],
-                    'goods_id'          => $v['goods_id'],
-                    'title'             => $v['title'],
-                    'images'            => $v['images_old'],
-                    'original_price'    => $v['original_price'],
-                    'price'             => $v['price'],
-                    'total_price'       => PriceNumberFormat($v['stock']*$v['price']),
-                    'spec'              => empty($v['spec']) ? '' : json_encode($v['spec']),
-                    'spec_weight'       => empty($v['spec_weight']) ? 0.00 : (float) $v['spec_weight'],
-                    'spec_coding'       => empty($v['spec_coding']) ? '' : $v['spec_coding'],
-                    'spec_barcode'      => empty($v['spec_barcode']) ? '' : $v['spec_barcode'],
-                    'buy_number'        => intval($v['stock']),
-                    'model'             => $v['model'],
-                    'add_time'          => time(),
-                ];
-                if(Db::name('OrderDetail')->insertGetId($detail) <= 0)
+                // 添加订单详情数据
+                $detail_ret = self::OrderDetailInsert($order_id, $params['user']['id'], $v);
+                if($detail_ret['code'] != 0)
                 {
                     Db::rollback();
-                    return DataReturn('订单详情添加失败', -1);
+                    return $ret;
+                }
+
+                // 自提模式 - 虚拟信息
+                if($common_site_type == 3)
+                {
+                    // 订单虚拟销售关联数据添加
+                    $ret = self::OrderFictitiousValueInsert($order_id, $detail_ret['data'], $params['user']['id'], $v['goods_id']);
+                    if($ret['code'] != 0)
+                    {
+                        Db::rollback();
+                        return $ret;
+                    }
                 }
             }
 
-            // 添加订单收货地址
-            if(in_array($common_site_type, [0, 2]))
+            // 销售型模式+自提模式 添加订单收货地址
+            if(in_array($common_site_type, [0, 2]) && !empty($address))
             {
-                $order_address['order_id'] = $order_id;
-                if(Db::name('OrderReceiveAddress')->insertGetId($order_address) <= 0)
+                // 订单地址添加前钩子
+                $ret = self::OrderReceiveAddressInsert($order_id, $params['user']['id'], $address);
+                if($ret['code'] != 0)
                 {
                     Db::rollback();
-                    return DataReturn('订单收货地址添加失败', -1);
+                    return $ret;
                 }
             }
         } else {
@@ -1041,6 +1025,159 @@ class BuyService
         }
 
         return DataReturn($msg, 0, $result);
+    }
+
+    /**
+     * 订单详情添加
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-11-20
+     * @desc    description
+     * @param   [int]          $order_id    [订单id]
+     * @param   [int]          $user_id     [用户id]
+     * @param   [array]        $detail      [商品详情数据]
+     */
+    private static function OrderDetailInsert($order_id, $user_id, $detail)
+    {
+        $data = [
+            'order_id'          => $order_id,
+            'user_id'           => $user_id,
+            'goods_id'          => $detail['goods_id'],
+            'title'             => $detail['title'],
+            'images'            => $detail['images_old'],
+            'original_price'    => $detail['original_price'],
+            'price'             => $detail['price'],
+            'total_price'       => PriceNumberFormat($detail['stock']*$detail['price']),
+            'spec'              => empty($detail['spec']) ? '' : json_encode($detail['spec']),
+            'spec_weight'       => empty($detail['spec_weight']) ? 0.00 : (float) $detail['spec_weight'],
+            'spec_coding'       => empty($detail['spec_coding']) ? '' : $detail['spec_coding'],
+            'spec_barcode'      => empty($detail['spec_barcode']) ? '' : $detail['spec_barcode'],
+            'buy_number'        => intval($detail['stock']),
+            'model'             => $detail['model'],
+            'add_time'          => time(),
+        ];
+
+        // 订单详情添加前钩子
+        $hook_name = 'plugins_service_buy_order_detail_insert_begin';
+        $ret = Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'user_id'       => $user_id,
+            'order_id'      => $order_id,
+            'data'          => &$data,
+        ]);
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 添加订单详情数据
+        $order_detail_id = Db::name('OrderDetail')->insertGetId($data);
+        if($order_detail_id > 0)
+        {
+            return DataReturn('添加成功', 0, $order_detail_id);
+        }
+        return DataReturn('订单详情添加失败', -1);
+    }
+
+    /**
+     * 订单关联虚拟销售数据添加
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-11-20
+     * @desc    description
+     * @param   [int]          $order_id            [订单id]
+     * @param   [int]          $order_detail_id     [订单详情id]
+     * @param   [int]          $user_id             [用户id]
+     * @param   [int]          $goods_id            [商品id]
+     */
+    private static function OrderFictitiousValueInsert($order_id, $order_detail_id, $user_id, $goods_id)
+    {
+        $data = [
+            'order_id'              => $order_id,
+            'order_detail_id'       => $order_detail_id,
+            'user_id'               => $user_id,
+            'value'                 => Db::name('Goods')->where(['id'=>$goods_id])->value('fictitious_goods_value'),
+            'add_time'              => time(),
+        ];
+
+        // 订单虚拟数据添加前钩子
+        $hook_name = 'plugins_service_buy_order_fictitious_insert_begin';
+        $ret = Hook::listen($hook_name, [
+            'hook_name'             => $hook_name,
+            'is_backend'            => true,
+            'user_id'               => $user_id,
+            'order_id'              => $order_id,
+            'order_detail_id'       => $order_detail_id,
+            'goods_id'              => $goods_id,
+            'data'                  => &$data,
+        ]);
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 添加订单虚拟数据
+        if(Db::name('OrderFictitiousValue')->insertGetId($data) > 0)
+        {
+            return DataReturn('添加成功', 0);
+        }
+        return DataReturn('订单虚拟信息添加失败', -1);
+    }
+
+    /**
+     * 订单关联地址添加
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-11-20
+     * @desc    description
+     * @param   [int]          $order_id [订单id]
+     * @param   [int]          $user_id  [用户id]
+     * @param   [array]        $address  [地址]
+     */
+    private static function OrderReceiveAddressInsert($order_id, $user_id, $address)
+    {
+        // 订单收货地址
+        $data = [
+            'order_id'              => $order_id,
+            'user_id'               => $user_id,
+            'receive_address_id'    => isset($address['id']) ? intval($address['id']) : 0,
+            'receive_name'          => isset($address['name']) ? $address['name'] : '',
+            'receive_tel'           => isset($address['tel']) ? $address['tel'] : '',
+            'receive_province'      => isset($address['province']) ? intval($address['province']) : 0,
+            'receive_city'          => isset($address['city']) ? intval($address['city']) : 0,
+            'receive_county'        => isset($address['county']) ? intval($address['county']) : 0,
+            'receive_address'       => isset($address['address']) ? $address['address'] : '',
+            'receive_province_name' => isset($address['province_name']) ? $address['province_name'] : '',
+            'receive_city_name'     => isset($address['city_name']) ? $address['city_name'] : '',
+            'receive_county_name'   => isset($address['county_name']) ? $address['county_name'] : '',
+            'receive_lng'           => isset($address['lng']) ? (float) $address['lng'] : '0.0000000000',
+            'receive_lat'           => isset($address['lat']) ? (float) $address['lat'] : '0.0000000000',
+        ];
+        
+        // 订单地址添加前钩子
+        $hook_name = 'plugins_service_buy_order_receive_address_insert_begin';
+        $ret = Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'user_id'       => $user_id,
+            'order_id'      => $order_id,
+            'data'          => &$data,
+        ]);
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 添加订单地址
+        if(Db::name('OrderReceiveAddress')->insertGetId($data) > 0)
+        {
+            return DataReturn('添加成功', 0);
+        }
+        return DataReturn('订单收货地址添加失败', -1);
     }
 
     /**

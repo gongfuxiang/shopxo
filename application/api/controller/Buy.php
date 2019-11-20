@@ -91,7 +91,7 @@ class Buy extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return BuyService::OrderAdd($params);
+        return BuyService::OrderInsert($params);
     }
 }
 ?>

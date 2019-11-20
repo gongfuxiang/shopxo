@@ -382,35 +382,38 @@
                         </span>
                     </div>
 
-                    <div class="pay-address">
-                        <div class="buy-footer-address">
-                            <span class="buy-line-title buy-line-title-type">寄送至：</span>
-                            <span class="buy-address-detail">
-                                {{if !empty($base['address'])}}
-                                    {{$base.address.province_name}} {{$base.address.city_name}} {{$base.address.county_name}} {{$base.address.address}}
-                                {{else /}}
-                                    ...
-                                {{/if}}
-                            </span>
+                    <!-- 销售模式+自提模式 显示地址 -->
+                    {{if in_array($common_site_type, [0,2])}}
+                        <div class="pay-address">
+                            <div class="buy-footer-address">
+                                <span class="buy-line-title buy-line-title-type">地址：</span>
+                                <span class="buy-address-detail">
+                                    {{if !empty($base['address'])}}
+                                        {{$base.address.province_name}} {{$base.address.city_name}} {{$base.address.county_name}} {{$base.address.address}}
+                                    {{else /}}
+                                        ...
+                                    {{/if}}
+                                </span>
+                            </div>
+                            <div class="buy-footer-address">
+                                <span class="buy-line-title">联系人：</span> 
+                                <span class="buy-user">
+                                    {{if !empty($base['address'])}}
+                                        {{$base.address.name}}
+                                    {{else /}}
+                                        ...
+                                    {{/if}}
+                                </span>
+                                <span class="buy-phone">
+                                    {{if !empty($base['address'])}}
+                                        {{$base.address.tel}}
+                                    {{else /}}
+                                        ...
+                                    {{/if}}
+                                </span>
+                            </div>
                         </div>
-                        <div class="buy-footer-address">
-                            <span class="buy-line-title">收货人：</span> 
-                            <span class="buy-user">
-                                {{if !empty($base['address'])}}
-                                    {{$base.address.name}}
-                                {{else /}}
-                                    ...
-                                {{/if}}
-                            </span>
-                            <span class="buy-phone">
-                                {{if !empty($base['address'])}}
-                                    {{$base.address.tel}}
-                                {{else /}}
-                                    ...
-                                {{/if}}
-                            </span>
-                        </div>
-                    </div>
+                    {{/if}}
                 </div>
                 <form class="am-form form-validation nav-buy" action="{{:MyUrl('index/buy/add')}}" method="post" class="nav-buy" request-type="ajax-fun" request-value="BuySubmitBack" data-site-type="{{$common_site_type}}" data-is-booking="{{$common_order_is_booking}}">
                     <input type="hidden" name="goods_id" value="{{if isset($params['goods_id'])}}{{$params.goods_id}}{{else /}}0{{/if}}" />

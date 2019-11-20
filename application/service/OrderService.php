@@ -698,7 +698,7 @@ class OrderService
                 $v['client_type_name'] = isset($common_platform_type[$v['client_type']]) ? $common_platform_type[$v['client_type']]['name'] : '';
 
                 // 状态
-                $v['status_name'] = $order_status_list[$v['status']]['name'];
+                $v['status_name'] = ($v['order_model'] == 2 && $v['status'] == 2) ? '待取货' : $order_status_list[$v['status']]['name'];
 
                 // 支付状态
                 $v['pay_status_name'] = $order_pay_status[$v['pay_status']]['name'];
@@ -782,9 +782,9 @@ class OrderService
                             }
 
                             // 虚拟销售商品 - 虚拟信息处理
-                            if($v['status'] == 3 && $v['pay_status'] == 1 && $v['order_model'] == 3)
+                            if($v['order_model'] == 3 && $v['pay_status'] == 1 && in_array($v['status'], [3,4]))
                             {
-                                $vs['fictitious_goods_value'] = Db('Goods')->where(['id'=>$vs['goods_id']])->value('fictitious_goods_value');
+                                $vs['fictitious_goods_value'] = Db::name('OrderFictitiousValue')->where(['order_detail_id'=>$vs['id']])->value('value');
                             }
 
                             // 是否excel导出

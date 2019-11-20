@@ -100,7 +100,7 @@ return array(
     'common_order_admin_status'         =>  array(
             0 => array('id' => 0, 'name' => '待确认', 'checked' => true),
             1 => array('id' => 1, 'name' => '已确认/待支付'),
-            2 => array('id' => 2, 'name' => '已支付/待发货'),
+            2 => array('id' => 2, 'name' => '已支付/待发货/待取货'),
             3 => array('id' => 3, 'name' => '已发货/待收货'),
             4 => array('id' => 4, 'name' => '已完成'),
             5 => array('id' => 5, 'name' => '已取消'),

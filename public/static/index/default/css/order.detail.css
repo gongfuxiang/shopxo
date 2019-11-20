@@ -234,6 +234,7 @@ strong.total-price-content { color: #d2364c; }
 #popup-extraction-receive-map .am-popup-bd,
 #map {
     height: 100%;
+    padding: 0;
 }
 
 

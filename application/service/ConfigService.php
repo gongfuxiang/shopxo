@@ -322,7 +322,7 @@ class ConfigService
         $title = MyC('common_site_fictitious_return_title', '密钥信息', true);
 
         // 提示信息
-        $tips =  MyC('common_site_fictitious_return_tips', '支付后查看密钥信息！', true);
+        $tips =  MyC('common_site_fictitious_return_tips', null, true);
 
         $result = [
             'title'     => $title,
