@@ -236,6 +236,9 @@ strong.total-price-content { color: #d2364c; }
     height: 100%;
     padding: 0;
 }
+#popup-extraction-receive-map .am-popup-hd {
+    border: 0;
+}
 
 
 /**

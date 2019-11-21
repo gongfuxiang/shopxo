@@ -233,6 +233,24 @@
                                                     {{if empty($v['order_no'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.order_no}}{{/if}}
                                                 </dd>
 
+                                                <dt>订单模式</dt>
+                                                <dd>
+                                                    {{if empty($v['order_model_name'])}}
+                                                        <span class="cr-ddd">未知</span>
+                                                    {{else /}}
+                                                        <span class="am-badge am-badge-secondary am-radius" title="订单模式">{{$v.order_model_name}}</span>
+                                                    {{/if}}
+                                                </dd>
+
+                                                <dt>客户端类型</dt>
+                                                <dd>
+                                                    {{if empty($v['client_type_name'])}}
+                                                        <span class="cr-ddd">未知</span>
+                                                    {{else /}}
+                                                        <span class="am-badge am-badge-secondary am-radius" title="客户端类型">{{$v.client_type_name}}</span>
+                                                    {{/if}}
+                                                </dd>
+
 												<dt>基础信息</dt>
 												<dd>
 													{{foreach $v.items as $vs}}
@@ -284,24 +302,6 @@
                                                         </ul>
                                                     {{else /}}
                                                         用户信息异常
-                                                    {{/if}}
-                                                </dd>
-
-                                                <dt>订单模式</dt>
-                                                <dd>
-                                                    {{if empty($v['order_model_name'])}}
-                                                        <span class="cr-ddd">未知</span>
-                                                    {{else /}}
-                                                        <span class="am-badge am-badge-secondary am-radius" title="订单模式">{{$v.order_model_name}}</span>
-                                                    {{/if}}
-                                                </dd>
-
-                                                <dt>客户端类型</dt>
-                                                <dd>
-                                                    {{if empty($v['client_type_name'])}}
-                                                        <span class="cr-ddd">未知</span>
-                                                    {{else /}}
-                                                        <span class="am-badge am-badge-secondary am-radius" title="客户端类型">{{$v.client_type_name}}</span>
                                                     {{/if}}
                                                 </dd>
 
@@ -360,17 +360,19 @@
 													{{/if}}
 												</dd>
 
-                                                <dt>购买数量</dt>
+                                                <dt>购买总数</dt>
                                                 <dd>{{if empty($v['buy_number_count'])}}<span class="cr-ddd">未知</span>{{else /}}{{$v.buy_number_count}}{{/if}}</dd>
 
-                                                <dt>退货数量</dt>
+                                                <dt>退货总数</dt>
                                                 <dd>{{if empty($v['returned_quantity'])}}<span class="cr-ddd">未退货</span>{{else /}}{{$v.returned_quantity}}{{/if}}</dd>
 
                                                 <dt>退款金额</dt>
                                                 <dd>{{if empty($v['refund_price']) or $v['refund_price'] elt 0.00}}<span class="cr-ddd">未退款</span>{{else /}}<span class="am-text-danger">{{$v.refund_price}}{{/if}}</span></dd>
 
-                                                <dt>自提取货码</dt>
-                                                <dd>{{if empty($v['extraction_code'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.extraction_code}}{{/if}}</dd>
+                                                {{if $v['order_model'] eq 2}}
+                                                    <dt>自提取货码</dt>
+                                                    <dd>{{if empty($v['extraction_code'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.extraction_code}}{{/if}}</dd>
+                                                {{/if}}
 
                                                 <dt>确认时间</dt>
                                                 <dd>{{if empty($v['confirm_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.confirm_time}}{{/if}}</dd>
@@ -412,7 +414,7 @@
 								{{/if}}
 								{{if $v['status'] eq 2}}
                                     {{if $v['order_model'] eq 2}}
-                                        <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-check am-btn-block submit-take" data-url="{{:MyUrl('admin/order/delivery')}}" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-extraction-code="" data-am-modal="{target: '#order-take-modal', closeViaDimmer: 0, width: 300, height: 160}"> 取货</button>
+                                        <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-check am-btn-block submit-take" data-url="{{:MyUrl('admin/order/delivery')}}" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-extraction-code="" data-am-modal="{target: '#order-take-modal', closeViaDimmer: 0, width: 200, height: 160}"> 取货</button>
                                     {{else /}}
 									   <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-send-o am-btn-block submit-delivery" data-url="{{:MyUrl('admin/order/delivery')}}" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-express-id="{{$v.express_id}}" data-am-modal="{target: '#order-delivery-popup'}"> 发货</button>
                                     {{/if}}

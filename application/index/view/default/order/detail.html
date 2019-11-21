@@ -257,6 +257,26 @@
                             {{/if}}
                         </div>
                     {{/if}}
+
+                    <!-- 自提模式下 - 取货码 -->
+                    {{if $data['order_model'] eq 2 and in_array($data['status'], [2,3])}}
+                        <hr data-am-widget="divider" class="am-divider am-divider-dashed" />
+                        <div class="extraction-take-container">
+                            <p>
+                                <span>取货码：</span>
+                                {{if empty($data['extraction_code'])}}
+                                    <span class="am-text-danger">取货码不存在、请联系管理员</span>
+                                {{else /}}
+                                    <span class="am-badge am-badge-success am-radius">{{$data.extraction_code}}</span>
+                                {{/if}}
+                            </p>
+                            {{if !empty($data['extraction_code_images'])}}
+                                <p class="am-margin-top-xs">
+                                    <img class="qrcode-images am-img-thumbnail" src="{{$data.extraction_code_images}}" />
+                                </p>
+                            {{/if}}
+                        </div>
+                    {{/if}}
                 </div>
             </div>
 

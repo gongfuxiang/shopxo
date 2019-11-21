@@ -197,7 +197,7 @@ class Order extends Common
     }
 
     /**
-     * [Delivery 订单发货]
+     * [Delivery 订单发货/取货]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1

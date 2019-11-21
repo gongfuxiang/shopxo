@@ -674,12 +674,31 @@ class OrderService
                     return $ret;
                 }
 
-                // 收件人地址
-                $receive_address = Db::name('OrderReceiveAddress')->where(['order_id'=>$v['id']])->find();
-                if(!empty($receive_address) && is_array($receive_address))
+                // 订单模式处理
+                // 销售型模式+自提模式
+                if(in_array($v['order_model'], [0,2]))
                 {
-                    unset($receive_address['add_time'], $receive_address['upd_time'], $receive_address['id']);
-                    $v = array_merge($v, $receive_address);
+                    // 销售模式+自提模式 地址信息
+                    $receive_address = Db::name('OrderReceiveAddress')->where(['order_id'=>$v['id']])->find();
+                    if(!empty($receive_address) && is_array($receive_address))
+                    {
+                        unset($receive_address['add_time'], $receive_address['upd_time'], $receive_address['id']);
+                        $v = array_merge($v, $receive_address);
+                    }
+                    
+                    // 自提模式 添加订单取货码
+                    if($v['order_model'] == 2)
+                    {
+                        $extraction_code = Db::name('OrderExtractionCode')->where(['order_id'=>$v['id']])->value('code');
+                        if(empty($extraction_code))
+                        {
+                            $v['extraction_code'] = null;
+                            $v['extraction_code_images'] = null;
+                        } else {
+                            $v['extraction_code'] = $extraction_code;
+                            $v['extraction_code_images'] = MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode($extraction_code))]);
+                        }
+                    }
                 }
 
                 // 用户信息
@@ -1047,26 +1066,56 @@ class OrderService
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
-        // 销售型订单快递信息校验
-        if($order['order_model'] == 0)
+        // 订单模式
+        switch($order['order_model'])
         {
-            $p = [
-                [
-                    'checked_type'      => 'empty',
-                    'key_name'          => 'express_id',
-                    'error_msg'         => '快递id有误',
-                ],
-                [
-                    'checked_type'      => 'empty',
-                    'key_name'          => 'express_number',
-                    'error_msg'         => '快递单号有误',
-                ],
-            ];
-            $ret = ParamsChecked($params, $p);
-            if($ret !== true)
-            {
-                return DataReturn($ret, -1);
-            }
+            // 销售模式- 订单快递信息校验
+            case 0 :
+                $p = [
+                    [
+                        'checked_type'      => 'empty',
+                        'key_name'          => 'express_id',
+                        'error_msg'         => '快递id有误',
+                    ],
+                    [
+                        'checked_type'      => 'empty',
+                        'key_name'          => 'express_number',
+                        'error_msg'         => '快递单号有误',
+                    ],
+                ];
+                $ret = ParamsChecked($params, $p);
+                if($ret !== true)
+                {
+                    return DataReturn($ret, -1);
+                }
+                break;
+
+            // 自提模式 - 验证取货码
+            case 2 :
+                $p = [
+                    [
+                        'checked_type'      => 'empty',
+                        'key_name'          => 'extraction_code',
+                        'error_msg'         => '取货码有误',
+                    ],
+                ];
+                $ret = ParamsChecked($params, $p);
+                if($ret !== true)
+                {
+                    return DataReturn($ret, -1);
+                }
+
+                // 校验
+                $extraction_code = Db::name('OrderExtractionCode')->where(['order_id'=>$order['id']])->value('code');
+                if(empty($extraction_code))
+                {
+                    return DataReturn('订单取货码不存在、请联系管理员', -10);
+                }
+                if($extraction_code != $params['extraction_code'])
+                {
+                    return DataReturn('取货码不正确', -11);
+                }
+                break;
         }
 
         // 开启事务

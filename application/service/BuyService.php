@@ -902,10 +902,6 @@ class BuyService
         {
             $order['confirm_time'] = time();
         }
-        if($common_site_type == 2)
-        {
-            $order['extraction_code'] = GetNumberCode(4);
-        }
 
         // 订单添加前钩子
         $hook_name = 'plugins_service_buy_order_insert_begin';
@@ -938,10 +934,9 @@ class BuyService
                     return $ret;
                 }
 
-                // 自提模式 - 虚拟信息
+                // 自提模式 - 虚拟信息添加
                 if($common_site_type == 3)
                 {
-                    // 订单虚拟销售关联数据添加
                     $ret = self::OrderFictitiousValueInsert($order_id, $detail_ret['data'], $params['user']['id'], $v['goods_id']);
                     if($ret['code'] != 0)
                     {
@@ -951,15 +946,30 @@ class BuyService
                 }
             }
 
-            // 销售型模式+自提模式 添加订单收货地址
-            if(in_array($common_site_type, [0, 2]) && !empty($address))
+            // 订单模式处理
+            // 销售型模式+自提模式
+            if(in_array($common_site_type, [0,2]))
             {
-                // 订单地址添加前钩子
-                $ret = self::OrderReceiveAddressInsert($order_id, $params['user']['id'], $address);
-                if($ret['code'] != 0)
+                // 添加订单(收货|取货)地址
+                if(!empty($address))
                 {
-                    Db::rollback();
-                    return $ret;
+                    $ret = self::OrderReceiveAddressInsert($order_id, $params['user']['id'], $address);
+                    if($ret['code'] != 0)
+                    {
+                        Db::rollback();
+                        return $ret;
+                    }
+                }
+
+                // 自提模式 添加订单取货码
+                if($common_site_type == 2)
+                {
+                    $ret = self::OrderExtractionCcodeInsert($order_id, $params['user']['id']);
+                    if($ret['code'] != 0)
+                    {
+                        Db::rollback();
+                        return $ret;
+                    }
                 }
             }
         } else {
@@ -1079,6 +1089,47 @@ class BuyService
             return DataReturn('添加成功', 0, $order_detail_id);
         }
         return DataReturn('订单详情添加失败', -1);
+    }
+
+    /**
+     * 订单关联自提取货码添加
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-11-20
+     * @desc    description
+     * @param   [int]          $order_id            [订单id]
+     * @param   [int]          $user_id             [用户id]
+     */
+    private static function OrderExtractionCcodeInsert($order_id, $user_id)
+    {
+        $data = [
+            'order_id'      => $order_id,
+            'user_id'       => $user_id,
+            'code'          => GetNumberCode(4),
+            'add_time'      => time(),
+        ];
+
+        // 订单取货码添加前钩子
+        $hook_name = 'plugins_service_buy_order_extraction_code_insert_begin';
+        $ret = Hook::listen($hook_name, [
+            'hook_name'             => $hook_name,
+            'is_backend'            => true,
+            'user_id'               => $user_id,
+            'order_id'              => $order_id,
+            'data'                  => &$data,
+        ]);
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 添加订单虚拟数据
+        if(Db::name('OrderExtractionCode')->insertGetId($data) > 0)
+        {
+            return DataReturn('添加成功', 0);
+        }
+        return DataReturn('订单取货码添加失败', -1);
     }
 
     /**
