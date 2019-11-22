@@ -171,6 +171,7 @@
                                             <span>{{$address.city_name}}</span>
                                             <span>{{$address.county_name}}</span>
                                             <span>{{$address.address}}</span>
+                                            <a class="am-badge am-radius extraction-address-map-submit am-icon-map-marker am-margin-left-sm" data-lng="{{$address.lng}}" data-lat="{{$address.lat}}"> 查看地图</a>
                                         </p>
                                         {{if !isset($params['address_id']) or $params['address_id'] neq $key}}
                                             <button type="button" class="am-btn am-btn-default am-radius" data-value="{{$key}}">选择</button>
@@ -178,6 +179,14 @@
                                     </li>
                                 {{/foreach}}
                             </ul>
+                            <!-- 地图 -->
+                            <div class="extraction-address-map-container">
+                                <div class="am-text-center map-inner">
+                                    <span class="map-title">地图位置</span>
+                                    <button type="button" class="am-close am-fr am-close-spin">&times;</button>
+                                </div>
+                                <div id="map"></div>
+                            </div>
                         </div>
                       </div>
                     </div>
@@ -473,6 +482,9 @@
         {{/if}}
     {{/foreach}}
 {{/if}}
+
+<!-- map -->
+<script type="text/javascript" src="{{$Think.__MY_HTTP__}}://api.map.baidu.com/api?v=2.0&ak={{:MyC('common_baidu_map_ak')}}"></script>
 
 <!-- footer start -->
 {{include file="public/footer" /}}

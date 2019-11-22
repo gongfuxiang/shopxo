@@ -133,5 +133,24 @@ $(function()
             $extraction_popup.modal();
         }
     });
-    
+
+    // 自提点地址 - 查看地图/关闭地图
+    var $extraction_map_container = $('.extraction-address-map-container');
+    $extraction_popup.find('.extraction-address-map-submit').on('click', function()
+    {
+        var lng = $(this).data('lng') || null;
+        var lat = $(this).data('lat') || null;
+        if(lng == null || lat == null)
+        {
+            Prompt('坐标有误');
+            return false;
+        }
+
+        $extraction_map_container.show();
+        MapInit(lng, lat, null, null, false);
+    });
+    $extraction_map_container.find('.map-inner .am-close').on('click', function()
+    {
+        $('.extraction-address-map-container').hide();
+    });
 }); 
