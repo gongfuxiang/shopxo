@@ -1012,8 +1012,14 @@ php;
                 // 获取包名
                 if(empty($plugins_name))
                 {
-                    // 应用不存在则添加
+                    // 应用名称
                     $plugins_name = substr($file, 0, strpos($file, '/'));
+                    if(empty($plugins_name))
+                    {
+                        return DataReturn('插件包有误', -30);
+                    }
+
+                    // 应用不存在则添加
                     $ret = self::PluginsVerification($plugins_name);
                     if($ret['code'] != 0)
                     {
