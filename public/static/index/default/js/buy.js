@@ -151,6 +151,6 @@ $(function()
     });
     $extraction_map_container.find('.map-inner .am-close').on('click', function()
     {
-        $('.extraction-address-map-container').hide();
+        $extraction_map_container.hide();
     });
 }); 
