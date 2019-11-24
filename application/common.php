@@ -273,8 +273,16 @@ function StrToAscii($str)
     $change_after = '';
     if(!empty($str))
     {
-        $str = mb_convert_encoding($str, 'GB2312');
-        for($i=0;$i<strlen($str);$i++){
+        // 编码处理
+        $encode = mb_detect_encoding($str);
+        if($encode != 'UTF-8')
+        {
+            $str = mb_convert_encoding($str, 'UTF-8', $encode);
+        }
+
+        // 开始转换
+        for($i=0; $i<strlen($str); $i++)
+        {
             $temp_str = dechex(ord($str[$i]));
             if(isset($temp_str[1]))
             {
@@ -304,13 +312,21 @@ function AsciiToStr($ascii)
     $str = '';
     if(!empty($ascii))
     {
+        // 开始转换
         $asc_arr = str_split(strtolower($ascii), 2);
         for($i=0; $i<count($asc_arr); $i++)
         {
             $str .= chr(hexdec($asc_arr[$i][1].$asc_arr[$i][0]));
         }
+
+        // 编码处理
+        $encode = mb_detect_encoding($str);
+        if($encode != 'UTF-8')
+        {
+            $str = mb_convert_encoding($str, 'UTF-8', $encode);
+        }
     }
-    return mb_convert_encoding($str, 'UTF-8', 'GB2312');
+    return $str;
 }
 
 /**
