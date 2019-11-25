@@ -66,8 +66,8 @@ Page({
     // 购物车快捷导航
     quick_nav_cart_count: 0,
 
-    // 是否展示型
-    common_is_exhibition_mode: 0,
+    // 站点模式
+    common_site_type: 0,
     customer_service_tel: null,
   },
 
@@ -185,8 +185,8 @@ Page({
             }
 
             // 是否展示型
-            var common_is_exhibition_mode = data.common_is_exhibition_mode || 0;
-            if (common_is_exhibition_mode == 1) {
+            var common_site_type = data.common_site_type || 0;
+            if (common_site_type == 1) {
               nav_submit_text = data.common_is_exhibition_mode_btn_text || '立即咨询';
             }
 
@@ -194,7 +194,7 @@ Page({
             this.setData({
               nav_submit_text: nav_submit_text,
               nav_submit_is_disabled: nav_submit_is_disabled,
-              common_is_exhibition_mode: common_is_exhibition_mode,
+              common_site_type: common_site_type,
               customer_service_tel: data.customer_service_tel || null,
             });
           } else {

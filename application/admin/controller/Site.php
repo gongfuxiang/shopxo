@@ -80,6 +80,9 @@ class Site extends Common
 		// 站点类型
 		$this->assign('common_site_type_list', lang('common_site_type_list'));
 
+		// 扣除库存规则
+		$this->assign('common_deduction_inventory_rules_list', lang('common_deduction_inventory_rules_list'));
+
 		// 配置信息
 		$data = ConfigService::ConfigList();
 		$this->assign('data', $data);

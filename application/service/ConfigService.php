@@ -305,10 +305,29 @@ class ConfigService
             'data'          => &$data,
         ]);
 
+        // 坐标处理
+        if(!empty($data) && is_array($data) && in_array(APPLICATION_CLIENT_TYPE, ['weixin', 'alipay']))
+        {
+            foreach($data as &$v)
+            {
+                // 坐标转换 百度转火星(高德，谷歌，腾讯坐标)
+                if(isset($v['lng']) && isset($v['lat']) && $v['lng'] > 0 && $v['lat'] > 0)
+                {
+                    $map = \base\GeoTransUtil::BdToGcj($v['lng'], $v['lat']);
+                    if(isset($map['lng']) && isset($map['lat']))
+                    {
+                        $v['lng_gcj'] = $map['lng'];
+                        $v['lat_gcj'] = $map['lat'];
+                    }
+                }
+            }
+        }
+
         return DataReturn('操作成功', 0, $data);
     }
 
     /**
+     * 站点虚拟模式 - 虚拟销售信息
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0

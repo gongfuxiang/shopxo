@@ -128,7 +128,7 @@
 							<td class="am-hide-sm-only">
 								<div class="order-no am-padding-bottom-xs">
                                     <span>{{$v.order_no}}</span>
-                                    <span class="am-badge am-badge-secondary am-radius" title="订单模式">{{$v.order_model_name}}</span>
+                                    <span class="am-badge am-badge-primary am-radius" title="订单模式">{{$v.order_model_name}}</span>
                                     <span class="am-badge am-badge-secondary am-radius" title="客户端类型">{{$v.client_type_name}}</span>
                                 </div>
 								{{foreach $v.items as $vs}}
@@ -238,7 +238,7 @@
                                                     {{if empty($v['order_model_name'])}}
                                                         <span class="cr-ddd">未知</span>
                                                     {{else /}}
-                                                        <span class="am-badge am-badge-secondary am-radius" title="订单模式">{{$v.order_model_name}}</span>
+                                                        <span class="am-badge am-badge-primary am-radius" title="订单模式">{{$v.order_model_name}}</span>
                                                     {{/if}}
                                                 </dd>
 

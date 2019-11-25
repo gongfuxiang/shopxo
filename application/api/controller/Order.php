@@ -13,6 +13,7 @@ namespace app\api\controller;
 use app\service\PaymentService;
 use app\service\OrderService;
 use app\service\GoodsCommentsService;
+use app\service\ConfigService;
 
 /**
  * 我的订单
@@ -117,7 +118,15 @@ class Order extends Common
         $data = OrderService::OrderList($data_params);
         if(!empty($data['data'][0]))
         {
-            return DataReturn('success', 0, $data['data'][0]);
+            // 虚拟销售配置
+            $site_fictitious = ConfigService::SiteFictitiousConfig();
+
+            // 返回信息
+            $result = [
+                'data'              => $data['data'][0],
+                'site_fictitious'   => $site_fictitious['data'],
+            ];
+            return DataReturn('success', 0, $result);
         }
         return DataReturn('数据不存在或已删除', -100);
     }

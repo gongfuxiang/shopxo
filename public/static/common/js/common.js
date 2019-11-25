@@ -146,7 +146,13 @@ function GetFormVal(element, is_json)
 	if(is_json === true)
 	{
 		var json = {};
-			object.forEach((value, key) => json[key] = value);
+		object.forEach(function(value, key)
+		{
+			if((key || null) != null)
+			{
+				json[key] = value
+			}
+		});
 		return json;
 	}
 	return object;

@@ -32,7 +32,7 @@ class GeoTransUtil
     */ 
 
     /**
-     * [get_distance 获取两个坐标之间的距离]
+     * [GetDistance 获取两个坐标之间的距离]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -45,7 +45,7 @@ class GeoTransUtil
      * @param    [int]                  $decimal  [保留小数位数（默认2）]
      * @return   [int|float]                      [返回千米或公里值]
      */
-    public static function get_distance($lng1, $lat1, $lng2, $lat2, $len_type = 1, $decimal = 2) 
+    public static function GetDistance($lng1, $lat1, $lng2, $lat2, $len_type = 1, $decimal = 2) 
     { 
         $radLat1 = $lat1 * self::$pi / 180.0;
         $radLat2 = $lat2 * self::$pi / 180.0;
@@ -61,7 +61,7 @@ class GeoTransUtil
     }
 
     /**
-     * [gcj_to_bd 火星坐标(GCJ02坐标，高德，谷歌，腾讯坐标)到百度坐标BD-09]
+     * [GcjToBd 火星坐标(GCJ02坐标，高德，谷歌，腾讯坐标)到百度坐标BD-09]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -70,7 +70,7 @@ class GeoTransUtil
      * @param    [float]                   $lat [纬度]
      * @return   [array]                        [转换后的进维度]
      */
-    public static function gcj_to_bd($lng, $lat)
+    public static function GcjToBd($lng, $lat)
     {
         $result = ['lng'=>0, 'lat'=>0];
         if(empty($lng) || empty($lat))
@@ -88,7 +88,7 @@ class GeoTransUtil
     }
     
     /**
-     * [bd_to_gcj 百度坐标BD-09到火星坐标GCJ02(高德，谷歌，腾讯坐标)]
+     * [BdToGcj 百度坐标BD-09到火星坐标GCJ02(高德，谷歌，腾讯坐标)]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -97,7 +97,7 @@ class GeoTransUtil
      * @param    [float]                   $lat [纬度]
      * @return   [array]                        [转换后的进维度]
      */
-    public static function bd_to_gcj($lng, $lat)
+    public static function BdToGcj($lng, $lat)
     {
         $result = ['lng'=>0, 'lat'=>0];
         if(empty($lng) || empty($lat))
@@ -115,7 +115,7 @@ class GeoTransUtil
     }
     
     /**
-     * [wgs_to_gcj WGS-84(GPS坐标，谷歌地球坐标) 到 GCJ-02(火星坐标) 的转换]
+     * [WgsToGcj WGS-84(GPS坐标，谷歌地球坐标) 到 GCJ-02(火星坐标) 的转换]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -124,7 +124,7 @@ class GeoTransUtil
      * @param    [float]                   $lat [纬度]
      * @return   [array]                        [转换后的进维度]
      */
-    public static function wgs_to_gcj($lng, $lat)
+    public static function WgsToGcj($lng, $lat)
     {
         $result = ['lng'=>0, 'lat'=>0];
         if(empty($lng) || empty($lat))
@@ -155,7 +155,7 @@ class GeoTransUtil
     }
 
     /**
-     * [gcj_to_wgs GCJ-02 到 WGS-84 的转换]
+     * [GcjToWgs GCJ-02 到 WGS-84 的转换]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -164,7 +164,7 @@ class GeoTransUtil
      * @param    [float]                   $lat [纬度]
      * @return   [array]                        [转换后的进维度]
      */
-    public static function gcj_to_wgs($lng, $lat)
+    public static function GcjToWgs($lng, $lat)
     {
         $result = ['lng'=>0, 'lat'=>0];
         if(empty($lng) || empty($lat))
@@ -172,7 +172,7 @@ class GeoTransUtil
             return $result;
         }
 
-        $to = self::wgs_to_gcj($lng, $lat);
+        $to = self::WgsToGcj($lng, $lat);
         $lat = $from->x;
         $lon = $from->y;
         $g_lat = $to->x;
@@ -218,10 +218,10 @@ class GeoTransUtil
 require './GeoTransUtil.class.php';
 
 // 高德转百度
-//$ret = GeoTransUtil::gcj_to_bd(106.504943,29.53319);
+//$ret = GeoTransUtil::GcjToBd(106.504943,29.53319);
 
 // 百度转高德
-$ret = GeoTransUtil::bd_to_gcj(106.518492,29.540528);
+$ret = GeoTransUtil::BdToGcj(106.518492,29.540528);
 echo '</br>';
 echo $ret['lng'].','.$ret['lat'];*/
 

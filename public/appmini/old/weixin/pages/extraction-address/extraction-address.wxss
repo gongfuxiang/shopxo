@@ -19,18 +19,6 @@
     line-height: 44rpx;
     width: calc(100% - 40rpx);
 }
-.operation .default {
-    margin-top: 5rpx;
-}
-.operation .default .item-icon {
-    width: 50rpx;
-    height: 50rpx !important;
-    margin-right: 10rpx;
-    vertical-align: middle;
-}
-.operation .delete-submit {
+.operation .map-submit {
     margin-left: 20rpx;
-}
-.page {
-    padding-bottom: 85rpx;
 }

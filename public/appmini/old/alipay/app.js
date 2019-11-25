@@ -424,7 +424,7 @@ App({
   /**
    * 字段数据校验
    * data           待校验的数据, 一维json对象
-   * validation     待校验的字段, 格式 [{fields: 'mobile', msg: '请填写手机号码'}, ...]
+   * validation     待校验的字段, 格式 [{fields: 'mobile', msg: '请填写手机号码', is_can_zero: 1(是否可以为0)}, ...]
    */
   fields_check(data, validation) {
     for (var i in validation) {

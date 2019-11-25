@@ -345,7 +345,7 @@
                         {{else /}}
                             <div class="submit">
                                 <div class="clearfix tb-btn tb-btn-buy buy-event login-event buy-submit" data-type="buy">
-                                    <button title="点此按钮到下一步确认购买信息" href="javascript:;" type="button">立即购买</button>
+                                    <button title="点此按钮到下一步确认购买信息" href="javascript:;" type="button">{{if $common_order_is_booking eq 1}}立即预约{{else /}}立即购买{{/if}}</button>
                                 </div>
                             </div>
                             <div class="submit">

@@ -58,9 +58,11 @@ function AddressModalHandle(data)
         if(form_type == 'add')
         {
             $('ul.address-list').append(html);
+            data['id'] = value.length;
             value.push(data);
         } else {
             var form_index = $popup.attr('data-index') || 0;
+            data['id'] = form_index;
             value.splice(form_index, 1, data);
             $('ul.address-list').find('li').eq(form_index).replaceWith(html);
         }

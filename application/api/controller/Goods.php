@@ -129,8 +129,10 @@ class Goods extends Common
             'common_app_is_poster_share'        => (int) MyC('common_app_is_poster_share'),
             'common_cart_total'                 => BuyService::UserCartTotal(['user'=>$this->user]),
             'customer_service_tel'              => MyC('common_app_customer_service_tel', null, true),
-            'common_is_exhibition_mode_btn_text'=> MyC('common_is_exhibition_mode_btn_text', null, true),
-            'common_is_exhibition_mode'         => (int) MyC('common_is_exhibition_mode', 0),
+
+            // 站点模式
+            'common_site_type'                  => (int) MyC('common_site_type', 0, true),
+            'common_is_exhibition_mode_btn_text'=> MyC('common_is_exhibition_mode_btn_text', '立即咨询', true),
 
             // 优惠劵
             'plugins_coupon_data'               => $this->PluginsCouponGoods($goods_id),

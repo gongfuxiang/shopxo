@@ -54,7 +54,7 @@
         <view class="panel-content">
           <view wx:for="{{panel_base_data_list}}" wx:key="item" class="item br-b oh">
             <view class="title fl">{{item.name}}</view>
-            <view class="content cr-888 fl br-l">{{new_aftersale_data[item.field] || ''}}</view>
+            <view class="content cr-ccc fl br-l">{{new_aftersale_data[item.field] || ''}}</view>
           </view>
         </view>
       </view>

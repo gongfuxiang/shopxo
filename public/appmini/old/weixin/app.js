@@ -62,11 +62,12 @@ App({
       "user_order_comments": "订单评论",
       "coupon": "领劵中心",
       "user_coupon": "优惠劵",
+      "extraction_address": "自提地址",
     },
 
     // 请求地址
     request_url: "{{request_url}}",
-    // request_url: 'http://tp5-dev.com/',
+     request_url: 'http://tp5-dev.com/',
     // request_url: 'https://test.shopxo.net/',
 
     // 基础信息
@@ -286,7 +287,7 @@ App({
   /**
    * 字段数据校验
    * data           待校验的数据, 一维json对象
-   * validation     待校验的字段, 格式 [{fields: 'mobile', msg: '请填写手机号码'}, ...]
+   * validation     待校验的字段, 格式 [{fields: 'mobile', msg: '请填写手机号码', is_can_zero: 1(是否可以为0)}, ...]
   */
   fields_check(data, validation) {
     for (var i in validation) {

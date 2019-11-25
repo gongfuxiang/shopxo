@@ -1,5 +1,5 @@
 <view wx:if="{{detail != null}}">
-  <view class="address bg-white spacing-mb">
+  <view wx:if="{{detail.order_model == 0 || detail.order_model == 2}}" class="address bg-white spacing-mb">
       <view class="address-base oh">
           <text>{{detail.receive_name}}</text>
           <text class="fr">{{detail.receive_tel}}</text>
@@ -32,18 +32,41 @@
   </view>
 
   <!-- 订单基础数据 -->
-  <view wx:if="{{detail_list.length > 0}}" class="detail-list bg-white">
-    <view wx:for="{{detail_list}}" wx:key="item" class="item br-b oh">
-      <view class="title fl">{{item.name}}</view>
-      <view class="content cr-888 fl br-l">{{item.value}}</view>
+  <view wx:if="{{detail_list.length > 0}}" class="panel-item spacing-mt">
+    <view class="panel-title">基础数据</view>
+    <view class="panel-content bg-white">
+      <view wx:for="{{detail_list}}" wx:key="item" class="item br-b oh">
+        <view class="title fl">{{item.name}}</view>
+        <view class="content cr-888 fl br-l">{{item.value}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 虚拟销售数据 -->
+  <view wx:if="{{detail.order_model == 3 && detail.pay_status == 1 && (detail.status == 3 || detail.status == 4)}}" class="panel-item spacing-mt site-fictitious">
+    <view class="panel-title">{{site_fictitious.title || '密钥信息'}}</view>
+    <view class="panel-content bg-white oh">
+      <view wx:if="{{(site_fictitious.tips || null) != null}}" class="tips-value">
+        <rich-text nodes="{{site_fictitious.tips}}"></rich-text>
+      </view>
+      <view wx:for="{{detail.items}}" wx:key="item" class="item br-b oh">
+        <image class="left-image br fl" src="{{item.images}}" mode="aspectFill" />
+        <view class="right-value fr">
+          <rich-text wx:if="{{(item.fictitious_goods_value || null) != null}}" nodes="{{item.fictitious_goods_value}}"></rich-text>
+          <text wx:else class="cr-888">未配置数据</text>
+        </view>
+      </view>
     </view>
   </view>
 
   <!-- 扩展数据 -->
-  <view wx:if="{{extension_data.length > 0}}" class="extension-list bg-white  spacing-mt">
-    <view wx:for="{{extension_data}}" wx:key="item" class="item br-b oh">
+  <view wx:if="{{extension_data.length > 0}}" class="panel-item spacing-mt extension-list">
+    <view class="panel-title">扩展数据</view>
+    <view class="panel-content bg-white">
+      <view wx:for="{{extension_data}}" wx:key="item" class="item br-b oh">
       <text class="title">{{item.name}}</text>
       <text class="content cr-888 br-l">{{item.tips}}</text>
+    </view>
     </view>
   </view>
 

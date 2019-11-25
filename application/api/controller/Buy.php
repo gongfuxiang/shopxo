@@ -70,6 +70,7 @@ class Buy extends Common
                 'base'                      => $ret['data']['base'],
                 'extension_data'            => $ret['data']['extension_data'],
                 'common_order_is_booking'   => (int) MyC('common_order_is_booking', 0),
+                'common_site_type'          => (int) MyC('common_site_type', 0, true),
 
                 // 优惠劵
                 'plugins_coupon_data'       => CallPluginsServiceMethod('coupon', 'BaseService', 'BuyUserCouponData', ['order_goods'=>$ret['data']['goods'], 'coupon_id'=>$coupon_id]),
