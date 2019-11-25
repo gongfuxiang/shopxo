@@ -118,14 +118,18 @@ class Order extends Common
         $data = OrderService::OrderList($data_params);
         if(!empty($data['data'][0]))
         {
-            // 虚拟销售配置
-            $site_fictitious = ConfigService::SiteFictitiousConfig();
-
             // 返回信息
             $result = [
                 'data'              => $data['data'][0],
-                'site_fictitious'   => $site_fictitious['data'],
+                'site_fictitious'   => null,
             ];
+
+            // 虚拟销售配置
+            if($result['data']['order_model'] == 3 && $result['data']['pay_status'] == 1 && in_array($result['data']['status'], [3,4]))
+            {
+                $site_fictitious = ConfigService::SiteFictitiousConfig();
+                $result['site_fictitious'] = $site_fictitious['data'];
+            }
             return DataReturn('success', 0, $result);
         }
         return DataReturn('数据不存在或已删除', -100);
