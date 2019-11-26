@@ -13,7 +13,7 @@ Page({
   },
 
   onLoad(params) {
-    params['id'] = 3;
+    //params['id'] = 5;
     this.setData({params: params});
     this.init();
   },
@@ -91,6 +91,31 @@ Page({
 
         app.showToast("服务器请求出错");
       }
+    });
+  },
+
+  // 地图查看
+  address_map_event(e) {
+    if ((this.data.detail.address_data || null) == null)
+    {
+      app.showToast("地址有误");
+      return false;
+    }
+
+    var ads = this.data.detail.address_data;
+    var lng = parseFloat(ads.lng_gcj || 0);
+    var lat = parseFloat(ads.lat_gcj || 0);
+    if (lng <= 0 || lat <= 0) {
+      app.showToast("坐标有误");
+      return false;
+    }
+
+    wx.openLocation({
+      latitude: lat,
+      longitude: lng,
+      scale: 18,
+      name: ads.alias || '',
+      address: (ads.province_name || '') + (ads.city_name || '') + (ads.county_name || '') + (ads.address || ''),
     });
   },
 

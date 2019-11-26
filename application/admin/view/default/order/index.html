@@ -169,12 +169,12 @@
                             </td>
 							<td class="am-hide-sm-only">
                                 {{if in_array($v['order_model'], [0,2])}}
-    								{{$v.receive_name}}<br />
-    								{{$v.receive_tel}}<br />
-    								{{$v.receive_province_name}}<br />
-    								{{$v.receive_city_name}}<br />
-    								{{$v.receive_county_name}}<br />
-    								{{$v.receive_address}}
+    								{{$v.address_data.name}}<br />
+    								{{$v.address_data.tel}}<br />
+    								{{$v.address_data.province_name}}<br />
+    								{{$v.address_data.city_name}}<br />
+    								{{$v.address_data.county_name}}<br />
+    								{{$v.address_data.address}}
                                 {{else /}}
                                     <span class="cr-ddd">无信息</span>
                                 {{/if}}
@@ -305,19 +305,66 @@
                                                     {{/if}}
                                                 </dd>
 
-												<dt>地址信息</dt>
-												<dd>
-													{{if in_array($v['order_model'], [0,2])}}
-														{{$v.receive_name}}<br />
-                                                        {{$v.receive_tel}}<br />
-                                                        {{$v.receive_province_name}}
-                                                        {{$v.receive_city_name}}
-                                                        {{$v.receive_county_name}}
-                                                        {{$v.receive_address}}
-													{{else /}}
-                                                        <span class="cr-ddd">无信息</span>
-													{{/if}}
-												</dd>
+                                                {{if in_array($v['order_model'], [0,2])}}
+    												<dt>地址信息</dt>
+    												<dd>
+    													{{if !empty($v['address_data'])}}
+    														{{$v.address_data.name}}<br />
+                                                            {{$v.address_data.tel}}<br />
+                                                            {{$v.address_data.province_name}}
+                                                            {{$v.address_data.city_name}}
+                                                            {{$v.address_data.county_name}}
+                                                            {{$v.address_data.address}}
+    													{{else /}}
+                                                            <span class="cr-ddd">无信息</span>
+    													{{/if}}
+    												</dd>
+                                                {{/if}}
+
+                                                {{if $v['order_model'] eq 2}}
+                                                    <dt>取货信息</dt>
+                                                    <dd>
+                                                        {{if !empty($v['extraction_data'])}}
+                                                            <p>
+                                                                <span>取货码：</span>
+                                                                {{if empty($v['extraction_data']['code'])}}
+                                                                    <span class="am-text-danger">取货码不存在、请联系管理员</span>
+                                                                {{else /}}
+                                                                    <span class="am-badge am-badge-success am-radius">{{$v.extraction_data.code}}</span>
+                                                                {{/if}}
+                                                            </p>
+                                                            {{if !empty($v['extraction_data']['images'])}}
+                                                                <p class="am-margin-top-xs">
+                                                                    <img class="am-img-thumbnail" src="{{$v.extraction_data.images}}" alt="取货码" />
+                                                                </p>
+                                                            {{/if}}
+                                                        {{else /}}
+                                                            <span class="cr-ddd">无信息</span>
+                                                        {{/if}}
+                                                    </dd>
+                                                {{/if}}
+
+                                                {{if $v['order_model'] eq 3}}
+                                                    <dt>密钥信息</dt>
+                                                    <dd>
+                                                        <ul class="am-list am-margin-bottom-0 fictitious-container">
+                                                            {{foreach $v.items as $goods}}
+                                                                <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left">
+                                                                    <div class="am-u-sm-2 am-list-thumb">
+                                                                        <img src="{{$goods.images}}" alt="{{$goods.title}}" class="am-img-thumbnail am-radius" />
+                                                                    </div>
+                                                                    <div class="am-u-sm-10 am-list-item-text">
+                                                                        {{if empty($goods['fictitious_goods_value'])}}
+                                                                            <span>未配置数据</span>
+                                                                        {{else /}}
+                                                                            {{$goods.fictitious_goods_value|raw}}
+                                                                        {{/if}}
+                                                                    </div>
+                                                                </li>
+                                                            {{/foreach}}
+                                                        </ul>
+                                                    </dd>
+                                                {{/if}}
 
 												<dt>快递信息</dt>
 												<dd>{{if empty($v['express_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.express_name}}<br />{{$v.express_number}}{{/if}}</dd>

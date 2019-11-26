@@ -52,3 +52,32 @@ form.am-form .am-form-group { padding-right: 5px; }
     padding: 1px;
     margin: 10px 0 0 0;
 }
+
+/**
+ * 虚拟销售-密钥信息
+ */
+.fictitious-container {
+  margin-top: 0 !important;
+}
+.fictitious-container li .am-u-sm-2 {
+  width: 60px;
+  padding: 0;
+}
+.fictitious-container li .am-u-sm-10 {
+  width: calc(100% - 60px);
+  padding: 0;
+}
+.fictitious-container li img {
+  max-width: 40px;
+}
+.fictitious-container li {
+  border-color: #eee;
+}
+.fictitious-container li:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.fictitious-container li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}

@@ -679,25 +679,12 @@ class OrderService
                 if(in_array($v['order_model'], [0,2]))
                 {
                     // 销售模式+自提模式 地址信息
-                    $receive_address = Db::name('OrderReceiveAddress')->where(['order_id'=>$v['id']])->find();
-                    if(!empty($receive_address) && is_array($receive_address))
-                    {
-                        unset($receive_address['add_time'], $receive_address['upd_time'], $receive_address['id']);
-                        $v = array_merge($v, $receive_address);
-                    }
+                    $v['address_data'] = self::OrderAddressData($v['id']);
                     
                     // 自提模式 添加订单取货码
                     if($v['order_model'] == 2)
                     {
-                        $extraction_code = Db::name('OrderExtractionCode')->where(['order_id'=>$v['id']])->value('code');
-                        if(empty($extraction_code))
-                        {
-                            $v['extraction_code'] = null;
-                            $v['extraction_code_images'] = null;
-                        } else {
-                            $v['extraction_code'] = $extraction_code;
-                            $v['extraction_code_images'] = MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode($extraction_code))]);
-                        }
+                        $v['extraction_data'] = self::OrdersExtractionData($v['id']);
                     }
                 }
 
@@ -858,6 +845,59 @@ class OrderService
         }
 
         return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
+     * 订单自提信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-11-26
+     * @desc    description
+     * @param   [int]          $order_id [订单id]
+     */
+    private static function OrdersExtractionData($order_id)
+    {
+        $result = [
+            'code'      => null,
+            'images'    => null,
+        ];
+        $code = Db::name('OrderExtractionCode')->where(['order_id'=>$order_id])->value('code');
+        if(!empty($code))
+        {
+            $result['code'] = $code;
+            $result['images'] = MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode($code))]);
+        }
+        return $result;
+    }
+
+    /**
+     * 订单地址
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-11-26
+     * @desc    description
+     * @param   [int]          $order_id [订单id]
+     */
+    private static function OrderAddressData($order_id)
+    {
+        // 销售模式+自提模式 地址信息
+        $data = Db::name('OrderAddress')->where(['order_id'=>$order_id])->find();
+        if(!empty($data) && is_array($data))
+        {
+            // 坐标转换 百度转火星(高德，谷歌，腾讯坐标)
+            if(isset($data['lng']) && isset($data['lat']) && $data['lng'] > 0 && $data['lat'] > 0)
+            {
+                $map = \base\GeoTransUtil::BdToGcj($data['lng'], $data['lat']);
+                if(isset($map['lng']) && isset($map['lat']))
+                {
+                    $data['lng_gcj'] = $map['lng'];
+                    $data['lat_gcj'] = $map['lat'];
+                }
+            }
+        }
+        return empty($data) ? [] : $data;
     }
 
     /**

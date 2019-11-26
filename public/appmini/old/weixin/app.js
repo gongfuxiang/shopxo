@@ -68,7 +68,7 @@ App({
     // 请求地址
     request_url: "{{request_url}}",
      request_url: 'http://tp5-dev.com/',
-    // request_url: 'https://test.shopxo.net/',
+     request_url: 'https://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",

@@ -311,6 +311,9 @@ class Common extends Controller
         $this->assign('home_site_icp', MyC('home_site_icp'));
         $this->assign('home_site_security_record_name', MyC('home_site_security_record_name'));
         $this->assign('home_site_security_record_url', MyC('home_site_security_record_url'));
+
+        // 默认不加载百度地图api
+        $this->assign('is_load_baidu_map_api', 0);
     }
 
     /**

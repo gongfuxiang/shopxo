@@ -264,15 +264,15 @@
                         <div class="extraction-take-container">
                             <p>
                                 <span>取货码：</span>
-                                {{if empty($data['extraction_code'])}}
+                                {{if empty($data['extraction_data']['code'])}}
                                     <span class="am-text-danger">取货码不存在、请联系管理员</span>
                                 {{else /}}
-                                    <span class="am-badge am-badge-success am-radius">{{$data.extraction_code}}</span>
+                                    <span class="am-badge am-badge-success am-radius">{{$data.extraction_data.code}}</span>
                                 {{/if}}
                             </p>
-                            {{if !empty($data['extraction_code_images'])}}
+                            {{if !empty($data['extraction_data']['images'])}}
                                 <p class="am-margin-top-xs">
-                                    <img class="qrcode-images am-img-thumbnail" src="{{$data.extraction_code_images}}" />
+                                    <img class="qrcode-images am-img-thumbnail" src="{{$data.extraction_data.images}}" alt="取货码" />
                                 </p>
                             {{/if}}
                         </div>
@@ -285,9 +285,9 @@
                 <div class="am-panel am-panel-default business-panel">
                     <div class="am-panel-hd">{{if $data.order_model eq 2}}取货地址{{else /}}收货地址{{/if}}</div>
                     <div class="am-panel-bd">
-                        <span>{{$data.receive_name}}, {{$data.receive_tel}}, {{$data.receive_province_name}} {{$data.receive_city_name}} {{$data.receive_county_name}} {{$data.receive_address}}</span>
-                        {{if $data.order_model eq 2 and $data.receive_lng gt 0 and $data.receive_lat gt 0}}
-                            <button type="button" class="am-btn am-btn-success am-radius am-icon-map-marker extraction-receive-map-submit" data-lng="{{$data.receive_lng}}" data-lat="{{$data.receive_lat}}"> 查看位置</button>
+                        <span>{{$data.address_data.name}}, {{$data.address_data.tel}}, {{$data.address_data.province_name}} {{$data.address_data.city_name}} {{$data.address_data.county_name}} {{$data.address_data.address}}</span>
+                        {{if $data.order_model eq 2 and $data.address_data.lng gt 0 and $data.address_data.lat gt 0}}
+                            <button type="button" class="am-btn am-btn-success am-radius am-icon-map-marker extraction-receive-map-submit" data-lng="{{$data.address_data.lng}}" data-lat="{{$data.address_data.lat}}"> 查看位置</button>
                             <div class="am-popup" id="popup-extraction-receive-map">
                                 <div class="am-popup-inner">
                                     <div class="am-popup-hd">
@@ -506,9 +506,6 @@
     </div>
     <!-- content end -->
 </div>
-
-<!-- map -->
-<script type="text/javascript" src="{{$Think.__MY_HTTP__}}://api.map.baidu.com/api?v=2.0&ak={{:MyC('common_baidu_map_ak')}}"></script>
 
 <!-- footer start -->
 {{include file="public/footer" /}}

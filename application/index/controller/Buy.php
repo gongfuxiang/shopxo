@@ -99,6 +99,9 @@ class Buy extends Common
                 $this->assign('extension_data', $ret['data']['extension_data']);
                 $this->assign('params', $params);
 
+                // 加载百度地图api
+                $this->assign('is_load_baidu_map_api', 1);
+
                 // 钩子
                 $this->PluginsHook($ret['data'], $params);
 

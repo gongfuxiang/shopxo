@@ -94,6 +94,9 @@ class Site extends Common
 			$this->assign('sitetype_address_list', $address['data']);
 		}
 
+		// 加载百度地图api
+        $this->assign('is_load_baidu_map_api', 1);
+
 		// 编辑器文件存放地址
         $this->assign('editor_path_type', 'common');
 

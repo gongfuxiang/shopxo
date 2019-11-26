@@ -57,6 +57,11 @@
 <!-- 日期组件 -->
 <script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/My97DatePicker/WdatePicker.js"></script>
 
+<!-- baidu map -->
+{{if isset($is_load_baidu_map_api) and $is_load_baidu_map_api eq 1}}
+    <script type="text/javascript" src="{{$Think.__MY_HTTP__}}://api.map.baidu.com/api?v=2.0&ak={{:MyC('common_baidu_map_ak')}}"></script>
+{{/if}}
+
 <!-- 隐藏编辑器初始化 -->
 <script type="text/javascript">
     var upload_editor = UE.getEditor("upload-editor-view", {

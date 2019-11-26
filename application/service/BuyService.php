@@ -953,7 +953,7 @@ class BuyService
                 // 添加订单(收货|取货)地址
                 if(!empty($address))
                 {
-                    $ret = self::OrderReceiveAddressInsert($order_id, $params['user']['id'], $address);
+                    $ret = self::OrderAddressInsert($order_id, $params['user']['id'], $address);
                     if($ret['code'] != 0)
                     {
                         Db::rollback();
@@ -1189,24 +1189,25 @@ class BuyService
      * @param   [int]          $user_id  [用户id]
      * @param   [array]        $address  [地址]
      */
-    private static function OrderReceiveAddressInsert($order_id, $user_id, $address)
+    private static function OrderAddressInsert($order_id, $user_id, $address)
     {
         // 订单收货地址
         $data = [
             'order_id'              => $order_id,
             'user_id'               => $user_id,
-            'receive_address_id'    => isset($address['id']) ? intval($address['id']) : 0,
-            'receive_name'          => isset($address['name']) ? $address['name'] : '',
-            'receive_tel'           => isset($address['tel']) ? $address['tel'] : '',
-            'receive_province'      => isset($address['province']) ? intval($address['province']) : 0,
-            'receive_city'          => isset($address['city']) ? intval($address['city']) : 0,
-            'receive_county'        => isset($address['county']) ? intval($address['county']) : 0,
-            'receive_address'       => isset($address['address']) ? $address['address'] : '',
-            'receive_province_name' => isset($address['province_name']) ? $address['province_name'] : '',
-            'receive_city_name'     => isset($address['city_name']) ? $address['city_name'] : '',
-            'receive_county_name'   => isset($address['county_name']) ? $address['county_name'] : '',
-            'receive_lng'           => isset($address['lng']) ? (float) $address['lng'] : '0.0000000000',
-            'receive_lat'           => isset($address['lat']) ? (float) $address['lat'] : '0.0000000000',
+            'address_id'    => isset($address['id']) ? intval($address['id']) : 0,
+            'name'          => isset($address['name']) ? $address['name'] : '',
+            'tel'           => isset($address['tel']) ? $address['tel'] : '',
+            'province'      => isset($address['province']) ? intval($address['province']) : 0,
+            'city'          => isset($address['city']) ? intval($address['city']) : 0,
+            'county'        => isset($address['county']) ? intval($address['county']) : 0,
+            'address'       => isset($address['address']) ? $address['address'] : '',
+            'province_name' => isset($address['province_name']) ? $address['province_name'] : '',
+            'city_name'     => isset($address['city_name']) ? $address['city_name'] : '',
+            'county_name'   => isset($address['county_name']) ? $address['county_name'] : '',
+            'lng'           => isset($address['lng']) ? (float) $address['lng'] : '0.0000000000',
+            'lat'           => isset($address['lat']) ? (float) $address['lat'] : '0.0000000000',
+            'add_time'      => time(),
         ];
         
         // 订单地址添加前钩子
@@ -1224,11 +1225,11 @@ class BuyService
         }
 
         // 添加订单地址
-        if(Db::name('OrderReceiveAddress')->insertGetId($data) > 0)
+        if(Db::name('OrderAddress')->insertGetId($data) > 0)
         {
             return DataReturn('添加成功', 0);
         }
-        return DataReturn('订单收货地址添加失败', -1);
+        return DataReturn('订单地址添加失败', -1);
     }
 
     /**

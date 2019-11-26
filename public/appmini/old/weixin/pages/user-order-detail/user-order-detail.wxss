@@ -50,6 +50,9 @@
     right: 0;
     bottom: 0;
 }
+.order-describe {
+  padding: 20rpx 10rpx;
+}
 
 /*
  * 面板信息
@@ -112,4 +115,29 @@
 }
 .site-fictitious .panel-content .right-value {
   width: calc(100% - 100rpx);
+}
+
+/*
+ * 自提信息
+ */
+.site-extraction .panel-content {
+  padding: 20rpx;
+}
+.site-extraction .panel-content .code {
+  background: #5eb95e;
+  color: #fff;
+}
+.site-extraction .panel-content .code,
+.address-map-submit {
+  padding: 1rpx 16rpx;
+  border-radius: 6rpx;
+}
+.site-extraction .panel-content .qrcode {
+  margin-top: 15rpx;
+  width: 300rpx;
+  height: 300rpx;
+}
+.address-map-submit {
+  margin-left: 20rpx;
+  background: #f5f5f5;
 }

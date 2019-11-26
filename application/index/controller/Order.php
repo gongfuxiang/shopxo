@@ -138,6 +138,9 @@ class Order extends Common
 
             $this->assign('data', $data['data'][0]);
 
+            // 加载百度地图api
+            $this->assign('is_load_baidu_map_api', 1);
+
             // 参数
             $this->assign('params', $params);
             return $this->fetch();

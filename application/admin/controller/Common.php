@@ -174,6 +174,9 @@ class Common extends Controller
 
         // 开发模式
         $this->assign('shopxo_is_develop', config('shopxo.is_develop'));
+
+        // 默认不加载百度地图api
+        $this->assign('is_load_baidu_map_api', 0);
 	}
 
 	/**
