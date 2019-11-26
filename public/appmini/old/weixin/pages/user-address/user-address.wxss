@@ -11,7 +11,7 @@
 .address-alias {
   border: 1px solid #d2364c;
   color: #d2364c;
-  padding: 4rpx 10rpx;
+  padding: 2rpx 10rpx;
   border-radius: 6rpx;
   margin-right: 10rpx;
 }
