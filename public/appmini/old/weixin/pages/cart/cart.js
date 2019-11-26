@@ -10,7 +10,7 @@ Page({
     is_selected_all: false,
     buy_submit_disabled_status: true,
 
-    // 是否展示型
+    // 站点模式
     common_site_type: 0,
     common_is_exhibition_mode_btn_text: null,
     customer_service_tel: null,

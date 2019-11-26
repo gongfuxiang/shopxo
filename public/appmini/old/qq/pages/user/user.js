@@ -118,7 +118,7 @@ Page({
 
   // 清除缓存
   clear_storage(e) {
-    qq.clearStorage()
+    qq.clearStorage();
     app.showToast("清除缓存成功", "success");
   },
 

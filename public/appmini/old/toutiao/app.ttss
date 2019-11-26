@@ -79,6 +79,7 @@ textarea {
 .br-r { border-right: solid 1px #efefef; }
 
 /* 虚线边框 */
+.br-dashed { border: dashed 1px #efefef; }
 .br-b-dashed { border-bottom: dashed 1px #efefef; }
 .br-t-dashed { border-top: dashed 1px #efefef; }
 .br-l-dashed { border-left: dashed 1px #efefef; }

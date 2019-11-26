@@ -184,7 +184,7 @@ Page({
               }
             }
 
-            // 是否展示型
+            // 站点模式 - 是否展示型
             var common_site_type = data.common_site_type || 0;
             if (common_site_type == 1) {
               nav_submit_text = data.common_is_exhibition_mode_btn_text || '立即咨询';

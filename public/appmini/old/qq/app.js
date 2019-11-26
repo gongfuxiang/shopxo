@@ -62,6 +62,7 @@ App({
       "user_order_comments": "订单评论",
       "coupon": "领劵中心",
       "user_coupon": "优惠劵",
+      "extraction_address": "自提地址",
     },
 
     // 请求地址
@@ -525,6 +526,29 @@ App({
     if ((value || null) != null) {
       qq.makePhoneCall({ phoneNumber: value });
     }
+  },
+
+  // 登录校验
+  is_login_check(res) {
+    if(res.code == -400)
+    {
+      qq.clearStorage();
+      qq.showModal({
+        title: '温馨提示',
+        content: '授权用户信息',
+        confirmText: '确认',
+        cancelText: '暂不',
+        success: (result) => {
+          if (result.confirm) {
+            qq.navigateTo({
+              url: "/pages/login/login?event_callback=init"
+            });
+          }
+        },
+      });
+      return false;
+    }
+    return true;
   },
 
 });
