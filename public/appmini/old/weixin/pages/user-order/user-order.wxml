@@ -14,7 +14,7 @@
         <text class="cr-666">{{item.add_time}}</text>
         <text class="fr cr-main">{{item.status_name}}</text>
       </view>
-      <view wx:for="{{item.items}}" wx:key="key" wx:for-item="detail" class="goods-item oh">
+      <view wx:for="{{item.items}}" wx:key="key" wx:for-item="detail" class="goods-item br-b-dashed oh">
         <navigator url="/pages/user-order-detail/user-order-detail?id={{item.id}}" hover-class="none">
           <image class="goods-image fl" src="{{detail.images}}" mode="aspectFill" />
           <view class="goods-base">

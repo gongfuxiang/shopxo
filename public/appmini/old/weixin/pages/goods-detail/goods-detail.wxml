@@ -235,7 +235,7 @@
 <!-- 在线客服 -->
 <view wx:if="{{common_app_is_online_service == 1}}">
   <import src="/pages/lib/online-service/content.wxml" />
-  <template is="online_service"></template>
+  <template is="online_service" data="{{title: goods.title, path: '/pages/goods-detail/goods-detail?goods_id='+goods.id, img: goods.images, card: true}}"></template>
 </view>
 
 <!-- 购物车 -->

@@ -315,7 +315,9 @@ Page({
             });
             app.showToast(res.data.msg, "success");
           } else {
-            app.showToast(res.data.msg);
+            if (app.is_login_check(res.data)) {
+              app.showToast(res.data.msg);
+            }
           }
         },
         fail: () => {
@@ -350,7 +352,9 @@ Page({
             this.popup_close_event();
             app.showToast(res.data.msg, "success");
           } else {
-            app.showToast(res.data.msg);
+            if (app.is_login_check(res.data)) {
+              app.showToast(res.data.msg);
+            }
           }
         },
         fail: () => {
@@ -866,5 +870,4 @@ Page({
       path: '/pages/goods-detail/goods-detail?goods_id=' + this.data.goods.id +'&referrer='+user_id
     };
   },
-  
 });

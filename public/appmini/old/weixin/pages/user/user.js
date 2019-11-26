@@ -107,7 +107,10 @@ Page({
             common_app_is_head_vice_nav: data.common_app_is_head_vice_nav || 0,
           });
         } else {
-          app.showToast(res.data.msg);
+          if(app.is_login_check(res.data))
+          {
+            app.showToast(res.data.msg);
+          }
         }
       },
       fail: () => {
@@ -119,7 +122,7 @@ Page({
 
   // 清除缓存
   clear_storage(e) {
-    wx.clearStorage()
+    wx.clearStorage();
     app.showToast("清除缓存成功", "success");
   },
 

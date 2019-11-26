@@ -76,7 +76,7 @@ Page({
             data_bottom_line_status: true,
             data_list_loding_msg: '购物车空空如也',
 
-            // 是否展示型
+            // 站点模式
             common_site_type: data.common_site_type || 0,
             common_is_exhibition_mode_btn_text: data.common_is_exhibition_mode_btn_text || '立即咨询',
             customer_service_tel: data.customer_service_tel || null,
@@ -87,7 +87,9 @@ Page({
             data_bottom_line_status: false,
             data_list_loding_msg: res.data.msg,
           });
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data)) {
+            app.showToast(res.data.msg);
+          }
         }
       },
       fail: () => {

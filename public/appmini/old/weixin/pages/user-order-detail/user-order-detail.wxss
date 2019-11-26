@@ -28,8 +28,8 @@
   min-height: 160rpx;
   margin-left: 180rpx;
 }
-.goods .goods-item:not(:last-child) {
-    border-bottom: 1px dashed #efefef;
+.goods .goods-item:last-child {
+    border-bottom: 0;
 }
 .goods-item {
     padding: 20rpx 10rpx;

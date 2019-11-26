@@ -16,7 +16,7 @@
 
   <!-- 商品列表 -->
   <view class="goods bg-white spacing-mb">
-      <view wx:for="{{detail.items}}" wx:key="item" class="goods-item oh">
+      <view wx:for="{{detail.items}}" wx:key="item" class="goods-item br-b-dashed oh">
         <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}" hover-class="none">
           <image class="goods-image fl" src="{{item.images}}" mode="aspectFill" />
           <view class="goods-base">
@@ -44,7 +44,7 @@
       <view wx:if="{{(site_fictitious.tips || null) != null}}" class="tips-value">
         <rich-text nodes="{{site_fictitious.tips}}"></rich-text>
       </view>
-      <view wx:for="{{detail.items}}" wx:key="item" class="item br-b oh">
+      <view wx:for="{{detail.items}}" wx:key="item" class="item br-b-dashed oh">
         <image class="left-image br fl" src="{{item.images}}" mode="aspectFill" />
         <view class="right-value fr">
           <rich-text wx:if="{{(item.fictitious_goods_value || null) != null}}" nodes="{{item.fictitious_goods_value}}"></rich-text>

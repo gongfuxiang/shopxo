@@ -57,7 +57,7 @@
 
   <view class="nav-item br-b" bindtap="clear_storage">
     <image src="/images/user-nav-cache-icon.png" class="item-icon" mode="widthFix" />
-    <text class="item-name">清除缓存</text>
+    <text class="item-name">安全退出</text>
   </view>
 
   <view wx:if="{{customer_service_tel != null}}" class="nav-item" bindtap="call_event">

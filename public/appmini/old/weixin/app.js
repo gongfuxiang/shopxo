@@ -524,4 +524,27 @@ App({
     }
   },
 
+  // 登录校验
+  is_login_check(res) {
+    if(res.code == -400)
+    {
+      wx.clearStorage();
+      wx.showModal({
+        title: '温馨提示',
+        content: '授权用户信息',
+        confirmText: '确认',
+        cancelText: '暂不',
+        success: (result) => {
+          if (result.confirm) {
+            wx.navigateTo({
+              url: "/pages/login/login?event_callback=init"
+            });
+          }
+        },
+      });
+      return false;
+    }
+    return true;
+  },
+
 });
