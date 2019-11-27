@@ -8,7 +8,7 @@
     padding: 10rpx 35rpx 10rpx 10rpx;
 }
 .address-detail .icon {
-    width: 35rpx;
+    width: 30rpx;
     height: 35rpx !important;
 }
 .address-detail .text {
@@ -137,6 +137,9 @@
   position: absolute;
   top: 0;
   right: 0;
+}
+.site-fictitious .panel-content .right-value .not-value {
+    margin-left: 10rpx;
 }
 
 /*

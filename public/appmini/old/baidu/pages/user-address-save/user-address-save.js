@@ -87,7 +87,9 @@ Page({
             self.init_value();
           }, 500);
         } else {
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data)) {
+            app.showToast(res.data.msg);
+          }
         }
       },
       fail: () => {

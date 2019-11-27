@@ -51,7 +51,7 @@
           <view s-if="{{(item.fictitious_goods_value || null) != null}}" class="rich-text-value">
             <rich-text nodes="{{item.fictitious_goods_value}}"></rich-text>
           </view>
-          <text s-else class="cr-888">未配置数据</text>
+          <text s-else class="cr-888 not-value">未配置数据</text>
         </view>
       </view>
     </view>

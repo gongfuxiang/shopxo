@@ -137,8 +137,9 @@
 .content-textarea-view textarea {
   height: 180rpx;
 }
+.content-textarea-view textarea,
 .content-textarea-view view {
-  padding: 12rpx;
+    padding: 10rpx;
 }
 
 /**

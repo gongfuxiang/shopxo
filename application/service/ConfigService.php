@@ -306,7 +306,7 @@ class ConfigService
         ]);
 
         // 坐标处理
-        if(!empty($data) && is_array($data) && in_array(APPLICATION_CLIENT_TYPE, ['weixin', 'alipay']))
+        if(!empty($data) && is_array($data) && in_array(APPLICATION_CLIENT_TYPE, ['weixin', 'alipay', 'baidu']))
         {
             foreach($data as &$v)
             {
