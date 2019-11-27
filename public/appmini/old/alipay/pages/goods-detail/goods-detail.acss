@@ -332,8 +332,6 @@
  */
 .quick-nav-cart {
   bottom: calc(35% + 110rpx);
-  width: 60rpx;
-  height: 60rpx;
 }
 .quick-nav-cart .badge-icon {
   position: absolute;

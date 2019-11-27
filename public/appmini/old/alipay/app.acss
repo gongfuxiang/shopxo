@@ -406,8 +406,8 @@ textarea {
   position: fixed;
   right: 10rpx;
   border-radius: 50%;
-  width: 90rpx;
-  height: 90rpx;
+  width: 60rpx;
+  height: 60rpx;
   z-index: 1;
 }
 .common-quick-nav image {
