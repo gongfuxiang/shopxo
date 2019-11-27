@@ -316,8 +316,8 @@ class ConfigService
                     $map = \base\GeoTransUtil::BdToGcj($v['lng'], $v['lat']);
                     if(isset($map['lng']) && isset($map['lat']))
                     {
-                        $v['lng_gcj'] = $map['lng'];
-                        $v['lat_gcj'] = $map['lat'];
+                        $v['lng'] = $map['lng'];
+                        $v['lat'] = $map['lat'];
                     }
                 }
             }

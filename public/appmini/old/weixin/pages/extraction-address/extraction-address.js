@@ -107,8 +107,8 @@ Page({
       return false;
     }
 
-    var lng = parseFloat(ads.lng_gcj || 0);
-    var lat = parseFloat(ads.lat_gcj || 0);
+    var lng = parseFloat(ads.lng || 0);
+    var lat = parseFloat(ads.lat || 0);
     if (lng <= 0 || lat <= 0) {
       app.showToast("坐标有误");
       return false;

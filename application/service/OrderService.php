@@ -892,8 +892,8 @@ class OrderService
                 $map = \base\GeoTransUtil::BdToGcj($data['lng'], $data['lat']);
                 if(isset($map['lng']) && isset($map['lat']))
                 {
-                    $data['lng_gcj'] = $map['lng'];
-                    $data['lat_gcj'] = $map['lat'];
+                    $data['lng'] = $map['lng'];
+                    $data['lat'] = $map['lat'];
                 }
             }
         }

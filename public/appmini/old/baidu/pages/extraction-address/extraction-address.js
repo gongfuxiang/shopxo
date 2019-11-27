@@ -5,7 +5,7 @@ Page({
     data_bottom_line_status: false,
     data_list: [],
     params: null,
-    is_default: 0,
+    is_default: 0
   },
 
   onLoad(params) {
@@ -13,7 +13,7 @@ Page({
   },
 
   onShow() {
-    my.setNavigationBar({ title: app.data.common_pages_title.extraction_address });
+    swan.setNavigationBarTitle({ title: app.data.common_pages_title.extraction_address });
     this.init();
   },
 
@@ -22,7 +22,7 @@ Page({
     var user = app.get_user_cache_info(this, "init");
     // 用户未绑定用户则转到登录页面
     if (app.user_is_need_login(user)) {
-      my.redirectTo({
+      swan.redirectTo({
         url: "/pages/login/login?event_callback=init"
       });
       return false;
@@ -35,20 +35,20 @@ Page({
   // 获取数据列表
   get_data_list() {
     // 加载loding
-    my.showLoading({ title: "加载中..." });
+    swan.showLoading({ title: "加载中..." });
     this.setData({
       data_list_loding_status: 1
     });
 
     // 获取数据
-    my.request({
+    swan.request({
       url: app.get_request_url("extraction", "useraddress"),
       method: "POST",
       data: {},
       dataType: "json",
       success: res => {
-        my.hideLoading();
-        my.stopPullDownRefresh();
+        swan.hideLoading();
+        swan.stopPullDownRefresh();
         if (res.data.code == 0) {
           if (res.data.data.length > 0) {
             // 获取当前默认地址
@@ -64,7 +64,7 @@ Page({
               data_list: res.data.data,
               is_default: is_default,
               data_list_loding_status: 3,
-              data_bottom_line_status: true,
+              data_bottom_line_status: true
             });
           } else {
             this.setData({
@@ -81,8 +81,8 @@ Page({
         }
       },
       fail: () => {
-        my.hideLoading();
-        my.stopPullDownRefresh();
+        swan.hideLoading();
+        swan.stopPullDownRefresh();
 
         this.setData({
           data_list_loding_status: 2
@@ -101,8 +101,7 @@ Page({
   address_map_event(e) {
     var index = e.currentTarget.dataset.index || 0;
     var ads = this.data.data_list[index] || null;
-    if (ads == null)
-    {
+    if (ads == null) {
       app.showToast("地址有误");
       return false;
     }
@@ -114,12 +113,12 @@ Page({
       return false;
     }
 
-    my.openLocation({
+    swan.openLocation({
       latitude: lat,
       longitude: lng,
       scale: 18,
       name: ads.alias || '',
-      address: (ads.province_name || '') + (ads.city_name || '') + (ads.county_name || '') + (ads.address || ''),
+      address: (ads.province_name || '') + (ads.city_name || '') + (ads.county_name || '') + (ads.address || '')
     });
   },
 
@@ -128,12 +127,12 @@ Page({
     var index = e.currentTarget.dataset.index || 0;
     var is_back = this.data.params.is_back || 0;
     if (is_back == 1) {
-      my.setStorage({
+      swan.setStorage({
         key: app.data.cache_buy_user_address_select_key,
         data: this.data.data_list[index]
       });
-      my.navigateBack();
+      swan.navigateBack();
     }
-  },
+  }
 
 });

@@ -2,6 +2,7 @@
   <!-- 地址 -->
   <view a:if="{{detail.order_model == 0 || detail.order_model == 2}}" class="address bg-white spacing-mb">
       <view class="address-base oh">
+          <text a:if="{{(detail.address_data.alias || null) != null}}" class="address-alias">{{detail.address_data.alias}}</text>
           <text>{{detail.address_data.name}}</text>
           <text class="fr">{{detail.address_data.tel}}</text>
       </view>
@@ -9,7 +10,7 @@
           <image class="icon fl" src="/images/user-address.png" mode="widthFix" />
           <view class="text fr">
             {{detail.address_data.province_name}}{{detail.address_data.city_name}}{{detail.address_data.county_name}}{{detail.address_data.address}}
-            <text a:if="{{detail.order_model == 2 && (detail.address_data.lng_gcj || 0) > 0 && (detail.address_data.lat_gcj || 0) > 0}}" class="cr-666 br address-map-submit" onTap="address_map_event">查看位置</text>
+            <text a:if="{{detail.order_model == 2 && (detail.address_data.lng || 0) > 0 && (detail.address_data.lat || 0) > 0}}" class="cr-666 br address-map-submit" onTap="address_map_event">查看位置</text>
           </view>
       </view>
   </view>
@@ -46,7 +47,7 @@
       </view>
       <view a:for="{{detail.items}}" class="item br-b-dashed oh">
         <image class="left-image br fl" src="{{item.images}}" mode="aspectFill" />
-        <view class="right-value fr">
+        <view class="right-value oh">
           <view a:if="{{(item.fictitious_goods_value || null) != null}}" class="rich-text-value">
             <rich-text nodes="{{item.fictitious_goods_value}}"></rich-text>
           </view>
