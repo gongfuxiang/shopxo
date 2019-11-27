@@ -57,9 +57,16 @@ class Index extends Common
 			'common_app_is_enable_search'		=> (int) MyC('common_app_is_enable_search', 1),
 			'common_app_is_enable_answer'		=> (int) MyC('common_app_is_enable_answer', 1),
 			'common_app_is_header_nav_fixed'	=> (int) MyC('common_app_is_header_nav_fixed', 0),
-			'common_app_is_online_service'		=> (int) MyC('common_app_is_online_service', 0),
+			'common_app_is_online_service'			=> (int) MyC('common_app_is_online_service', 0),
 			'common_app_is_limitedtimediscount'	=> $common_app_is_limitedtimediscount,
 		];
+
+		// 支付宝小程序在线客服
+		if(APPLICATION_CLIENT_TYPE == 'alipay')
+		{
+			$result['common_app_mini_alipay_tnt_inst_id'] = MyC('common_app_mini_alipay_tnt_inst_id', null, true);
+			$result['common_app_mini_alipay_scene'] = MyC('common_app_mini_alipay_scene', null, true);
+		}
 
 		// 秒杀
 		if($common_app_is_limitedtimediscount == 1)

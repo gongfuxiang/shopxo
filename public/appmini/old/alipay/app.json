@@ -27,10 +27,11 @@
     "pages/user-orderaftersale/user-orderaftersale",
     "pages/user-orderaftersale-detail/user-orderaftersale-detail",
     "pages/coupon/coupon",
-    "pages/user-coupon/user-coupon"
+    "pages/user-coupon/user-coupon",
+    "pages/extraction-address/extraction-address"
   ],
   "window": {
-    "defaultTitle": "{{application_title}}",
+    "defaultTitle": "test",
     "titleBarColor": "#d2364c"
   },
   "tabBar": {

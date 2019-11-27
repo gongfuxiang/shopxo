@@ -44,7 +44,7 @@
       </view>
       <text wx:if="{{(show_field_price_text || null) != null}}" class="price-icon">{{show_field_price_text}}</text>
       <text class="sales-price">￥{{goods.price}}</text>
-      <view wx:if="{{(goods.original_price || null) != null && goods.original_price > 0}}" class="original-price">￥{{goods.original_price}}</view>
+      <view wx:if="{{(goods.original_price || null) != null && goods.original_price != '0.00'}}" class="original-price">￥{{goods.original_price}}</view>
     </view>
     <view class="base-grid oh">
       <view class="fl tl">

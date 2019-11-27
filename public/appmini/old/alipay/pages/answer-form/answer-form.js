@@ -80,7 +80,9 @@ Page({
             }, 2000);
           } else {
             this.setData({form_submit_loading: false});
-            app.showToast(res.data.msg);
+            if (app.is_login_check(res.data)) {
+              app.showToast(res.data.msg);
+            }
           }
         },
         fail: () => {

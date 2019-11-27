@@ -9,6 +9,7 @@
       <view class="address bg-white arrow-right" bindtap="address_event">
         <view wx:if="{{address != null}}">
           <view class="address-base oh">
+            <text wx:if="{{(address.alias || null) != null}}" class="address-alias">{{address.alias}}</text>
             <text>{{address.name}}</text>
             <text class="fr">{{address.tel}}</text>
           </view>

@@ -117,7 +117,6 @@ Page({
               address: data.base.address || null,
               address_id: ((data.base.address || null) != null && (data.base.address.id || null) != null) ? data.base.address.id : null,
             });
-
             wx.setStorage({
               key: app.data.cache_buy_user_address_select_key,
               data: data.base.address || null,

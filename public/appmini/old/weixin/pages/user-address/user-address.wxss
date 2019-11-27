@@ -5,7 +5,7 @@
     padding: 20rpx 0;
 }
 .address .item-icon {
-    width: 35rpx;
+    width: 30rpx;
     height: 35rpx !important;
 }
 .address-alias {

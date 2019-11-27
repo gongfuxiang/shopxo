@@ -67,8 +67,8 @@ App({
 
     // 请求地址
     request_url: "{{request_url}}",
-    // request_url: 'http://tp5-dev.com/',
-    // request_url: 'http://test.shopxo.net/',
+     request_url: 'http://tp5-dev.com/',
+     request_url: 'http://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -667,6 +667,12 @@ App({
       return false;
     }
     return true;
+  },
+
+  // 获取用户openid
+  get_user_openid() {
+    var user = this.get_user_cache_info();
+    return (user == false) ? null : user.alipay_openid || null;
   },
 
 });

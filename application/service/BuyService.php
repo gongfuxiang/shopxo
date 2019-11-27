@@ -1193,9 +1193,10 @@ class BuyService
     {
         // 订单收货地址
         $data = [
-            'order_id'              => $order_id,
-            'user_id'               => $user_id,
+            'order_id'      => $order_id,
+            'user_id'       => $user_id,
             'address_id'    => isset($address['id']) ? intval($address['id']) : 0,
+            'alias'         => isset($address['alias']) ? $address['alias'] : '',
             'name'          => isset($address['name']) ? $address['name'] : '',
             'tel'           => isset($address['tel']) ? $address['tel'] : '',
             'province'      => isset($address['province']) ? intval($address['province']) : 0,

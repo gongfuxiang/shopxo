@@ -414,3 +414,10 @@ textarea {
   width: 60rpx;
   height: 60rpx;
 }
+
+/**
+ * 在线客服
+ */
+.common-online-service {
+  bottom: 35%;
+}

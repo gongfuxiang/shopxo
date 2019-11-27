@@ -50,7 +50,6 @@ Page({
               data_list_loding_status: 0,
               data_bottom_line_status: true,
             });
-
             app.showToast(res.data.msg);
           }
       },

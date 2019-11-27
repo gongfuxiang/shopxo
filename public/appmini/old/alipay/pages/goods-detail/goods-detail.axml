@@ -15,6 +15,17 @@
     </block>
   </swiper>
 
+  <!-- 视频 -->
+  <block a:if="{{goods.video.length > 0}}">
+    <view a:if="{{goods_video_is_autoplay}}" class="goods-video">
+      <video src="{{goods.video}}" autoplay="{{goods_video_is_autoplay}}" show-center-play-btn="{{true}}" controls="{{false}}" show-play-btn="{{false}}" enable-progress-gesture="{{false}}" show-fullscreen-btn="{{false}}"></video>
+    </view>
+    <view class="goods-video-submit">
+      <image a:if="{{!goods_video_is_autoplay}}" class="goods-video-play" onTap="goods_video_play_event" src="/images/goods-detail-video-play.png" mode="aspectFit"></image>
+      <image a:if="{{goods_video_is_autoplay}}" class="goods-video-close"  onTap="goods_video_close_event" src="/images/goods-detail-video-close.png" mode="aspectFit"></image>
+    </view>
+  </block>
+
   <!-- 标题 -->
   <view class="goods-title multi-text" style="color:{{goods.title_color}}">{{goods.title}}</view>
 
@@ -35,7 +46,7 @@
       </view>
       <text a:if="{{(show_field_price_text || null) != null}}" class="price-icon">{{show_field_price_text}}</text>
       <text class="sales-price">￥{{goods.price}}</text>
-      <view a:if="{{(goods.original_price || null) != null && goods.original_price > 0}}" class="original-price">￥{{goods.original_price}}</view>
+      <view a:if="{{(goods.original_price || null) != null && goods.original_price != '0.00'}}" class="original-price">￥{{goods.original_price}}</view>
     </view>
     <view class="base-grid oh">
       <view class="fl tl">
@@ -192,6 +203,12 @@
 <view a:if="{{goods == null}}">
     <import src="/pages/common/nodata.axml" />
     <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
+</view>
+
+<!-- 在线客服 -->
+<view a:if="{{common_app_is_online_service == 1}}">
+  <import src="/pages/lib/online-service/content.axml" />
+  <template is="online_service" data="{{tnt_inst_id: common_app_mini_alipay_tnt_inst_id || null, scene: common_app_mini_alipay_scene || null, openid: common_app_mini_alipay_openid || null}}"></template>
 </view>
 
 <!-- 购物车 -->

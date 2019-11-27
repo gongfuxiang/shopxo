@@ -24,7 +24,7 @@
 .goods-title {
     line-height: 36rpx;
 }
-.list-item .goods-item:not(:last-child) {
+.list-item .goods-item:last-child {
     border-bottom: 1px dashed #efefef;
 }
 .goods-item {

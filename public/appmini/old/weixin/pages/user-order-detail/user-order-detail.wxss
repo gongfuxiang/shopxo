@@ -1,3 +1,6 @@
+/*
+ * 地址信息
+ */
 .address {
     padding: 10rpx;
 }
@@ -24,6 +27,9 @@
     line-height: 85rpx;
 }
 
+/*
+ * 商品信息
+ */
 .goods-base {
   min-height: 160rpx;
   margin-left: 180rpx;

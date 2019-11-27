@@ -1,4 +1,4 @@
-<view a:if="{{data_list.length > 0}}" class="{{common_site_type == 1 ? '' : 'page'}}">
+<view a:if="{{data_list.length > 0}}" class="page">
   <view a:for="{{data_list}}" class="goods-item oh bg-white {{common_site_type == 1 ? 'exhibition-mode-data' : ''}}">
     <swipe-action index="{{index}}" restore="{{swipe_index === null || swipe_index !== index}}" right="{{item.right}}" onRightItemClick="right_item_event" onSwipeStart="swipe_start_event" extra="{{index}}">
       <!-- 选择 -->

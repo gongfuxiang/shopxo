@@ -23,6 +23,13 @@ Page({
     // 远程自定义导航
     navigation: [],
 
+    // 在线客服
+    common_app_is_online_service: 0,
+    common_app_mini_alipay_tnt_inst_id: null,
+    common_app_mini_alipay_scene: null,
+    common_app_mini_alipay_openid: null,
+
+    // 是否启用头部小导航
     common_app_is_head_vice_nav: 0,
   },
 
@@ -104,9 +111,22 @@ Page({
             head_nav_list: temp_head_nav_list,
             navigation: data.navigation || [],
             common_app_is_head_vice_nav: data.common_app_is_head_vice_nav || 0,
+
+            // 在线客服
+            common_app_is_online_service: data.common_app_is_online_service || 0,
+            common_app_mini_alipay_tnt_inst_id: data.common_app_mini_alipay_tnt_inst_id || null,
+            common_app_mini_alipay_scene: data.common_app_mini_alipay_scene || null,
           });
+
+          // 在线客服开启，用户openid
+          if(this.data.common_app_is_online_service == 1)
+          {
+            this.setData({common_app_mini_alipay_openid: app.get_user_openid()});
+          }
         } else {
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data)) {
+            app.showToast(res.data.msg);
+          }
         }
       },
       fail: () => {

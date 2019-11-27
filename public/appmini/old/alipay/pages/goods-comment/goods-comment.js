@@ -125,8 +125,9 @@ Page({
             this.setData({
               data_list_loding_status: 0
             });
-
-            app.showToast(res.data.msg);
+            if (app.is_login_check(res.data)) {
+              app.showToast(res.data.msg);
+            }
           }
         },
         fail: () => {

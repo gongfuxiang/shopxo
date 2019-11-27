@@ -482,7 +482,9 @@ Page({
             this.setData({goods_specifications_choose: temp_data});
           }
         } else {
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data)) {
+            app.showToast(res.data.msg);
+          }
         }
       },
       fail: () => {
@@ -536,7 +538,9 @@ Page({
             goods_spec_base_inventory: res.data.data.inventory,
           });
         } else {
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data)) {
+            app.showToast(res.data.msg);
+          }
         }
       },
       fail: () => {

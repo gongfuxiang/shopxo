@@ -31,7 +31,15 @@ Page({
     goods_spec_base_images: '',
 
     show_field_price_text: null,
+
+    goods_video_is_autoplay: false,
     common_app_is_use_mobile_detail: 1,
+
+    // 在线客服
+    common_app_is_online_service: 0,
+    common_app_mini_alipay_tnt_inst_id: null,
+    common_app_mini_alipay_scene: null,
+    common_app_mini_alipay_openid: null,
 
     // 限时秒杀插件
     common_app_is_limitedtimediscount: 0,
@@ -123,7 +131,18 @@ Page({
               plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null,
               plugins_coupon_data: data.plugins_coupon_data || null,
               quick_nav_cart_count: data.common_cart_total || 0,
+
+              // 在线客服
+              common_app_is_online_service: data.common_app_is_online_service || 0,
+              common_app_mini_alipay_tnt_inst_id: data.common_app_mini_alipay_tnt_inst_id || null,
+              common_app_mini_alipay_scene: data.common_app_mini_alipay_scene || null,
             });
+
+            // 在线客服开启，用户openid
+            if(this.data.common_app_is_online_service == 1)
+            {
+              this.setData({common_app_mini_alipay_openid: app.get_user_openid()});
+            }
 
             // 限时秒杀倒计时
             if (this.data.common_app_is_limitedtimediscount == 1 && this.data.plugins_limitedtimediscount_data != null) {
@@ -294,7 +313,9 @@ Page({
               });
               app.showToast(res.data.msg, 'success');
             } else {
-              app.showToast(res.data.msg);
+              if (app.is_login_check(res.data)) {
+                app.showToast(res.data.msg);
+              }
             }
           },
           fail: () => {
@@ -331,7 +352,9 @@ Page({
               this.popup_close_event();
               app.showToast(res.data.msg, 'success');
             } else {
-              app.showToast(res.data.msg);
+              if (app.is_login_check(res.data)) {
+                app.showToast(res.data.msg);
+              }
             }
           },
           fail: () => {
@@ -460,7 +483,9 @@ Page({
             this.setData({goods_specifications_choose: temp_data});
           }
         } else {
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data)) {
+            app.showToast(res.data.msg);
+          }
         }
       },
       fail: () => {
@@ -515,7 +540,9 @@ Page({
             goods_spec_base_inventory: res.data.data.inventory,
           });
         } else {
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data)) {
+            app.showToast(res.data.msg);
+          }
         }
       },
       fail: () => {
@@ -657,6 +684,16 @@ Page({
       current: index,
       urls: all
     });
+  },
+
+  // 视频播放
+  goods_video_play_event(e) {
+    this.setData({ goods_video_is_autoplay: true});
+  },
+
+  // 视频关闭
+  goods_video_close_event(e) {
+    this.setData({ goods_video_is_autoplay: false });
   },
 
   // 显示秒杀插件-倒计时

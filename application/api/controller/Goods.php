@@ -138,6 +138,13 @@ class Goods extends Common
             'plugins_coupon_data'               => $this->PluginsCouponGoods($goods_id),
         ];
 
+        // 支付宝小程序在线客服
+        if(APPLICATION_CLIENT_TYPE == 'alipay')
+        {
+            $result['common_app_mini_alipay_tnt_inst_id'] = MyC('common_app_mini_alipay_tnt_inst_id', null, true);
+            $result['common_app_mini_alipay_scene'] = MyC('common_app_mini_alipay_scene', null, true);
+        }
+
         // 秒杀
         if($result['common_app_is_limitedtimediscount'] == 1)
         {
