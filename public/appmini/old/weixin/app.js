@@ -68,7 +68,7 @@ App({
     // 请求地址
     request_url: "{{request_url}}",
      request_url: 'http://tp5-dev.com/',
-     request_url: 'https://dev.shopxo.net/',
+     //request_url: 'https://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -155,6 +155,24 @@ App({
   },
 
   /**
+   * 获取用户信息,信息不存在则唤醒授权
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   * return     有用户数据直接返回, 则回调调用者
+   */
+  get_user_info(object, method) {
+    var user = this.get_user_cache_info();
+    if (user == false) {
+      // 唤醒用户授权
+      this.user_auth_login(object, method);
+
+      return false;
+    } else {
+      return user;
+    }
+  },
+
+  /**
    * 从缓存获取用户信息
    */
   get_user_cache_info() {
@@ -209,11 +227,28 @@ App({
             header: { 'content-type': 'application/x-www-form-urlencoded' },
             success: (res) => {
               if (res.data.code == 0) {
-                wx.setStorage({
-                  key: self.data.cache_user_login_key,
-                  data: res.data.data
-                });
-                self.get_user_login_info(object, method, res.data.data, auth_data);
+                var data = res.data.data;
+                if ((data.is_alipay_user_exist || 0) == 1) {
+                  wx.hideLoading();
+                  wx.setStorage({
+                    key: self.data.cache_user_info_key,
+                    data: data,
+                    success: (res) => {
+                      if (typeof object === 'object' && (method || null) != null) {
+                        object[method]();
+                      }
+                    },
+                    fail: () => {
+                      self.showToast('用户信息缓存失败');
+                    }
+                  });
+                } else {
+                  wx.setStorage({
+                    key: self.data.cache_user_login_key,
+                    data: data
+                  });
+                  self.get_user_login_info(object, method, data, auth_data);
+                }
               } else {
                 wx.hideLoading();
                 self.showToast(res.data.msg);

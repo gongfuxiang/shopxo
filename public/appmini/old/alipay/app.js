@@ -265,7 +265,7 @@ App({
                   } else {
                     my.setStorageSync({
                       key: self.data.cache_user_login_key,
-                      data: res.data.data.openid
+                      data: data.openid
                     });
                     self.login_to_auth();
                   }

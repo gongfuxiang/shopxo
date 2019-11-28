@@ -164,7 +164,14 @@ class User extends Common
         $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->GetAuthSessionKey($this->data_post['authcode']);
         if($result !== false)
         {
-            return DataReturn('授权登录成功', 0, $result);
+            // 先从数据库获取用户信息
+            $user = UserService::AppUserInfoHandle(null, 'weixin_openid', $result);
+            if(empty($user))
+            {
+                return DataReturn('授权登录成功', 0, ['is_alipay_user_exist'=>0, 'openid'=>$result]);
+            }
+            $user['is_alipay_user_exist'] = 1;
+            return DataReturn('授权登录成功', 0, $user);
         }
         return DataReturn('授权登录失败', -100);
     }

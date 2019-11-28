@@ -289,7 +289,7 @@ Page({
       // 用户未绑定用户则转到登录页面
       if (app.user_is_need_login(user)) {
         my.navigateTo({
-          url: "/pages/login/login?event_callback=init"
+          url: "/pages/login/login?event_callback=goods_favor_event"
         });
         return false;
       } else {
@@ -601,7 +601,7 @@ Page({
       // 用户未绑定用户则转到登录页面
       if (app.user_is_need_login(user)) {
         my.navigateTo({
-          url: "/pages/login/login?event_callback=init"
+          url: "/pages/login/login?event_callback=goods_buy_confirm_event"
         });
         return false;
       } else {
