@@ -130,7 +130,7 @@ Page({
             data_list_loding_status: 2,
             data_list_loding_msg: res.data.msg,
           });
-          if (app.is_login_check(res.data)) {
+          if (app.is_login_check(res.data, this, 'init')) {
             app.showToast(res.data.msg);
           }
         }

@@ -141,7 +141,7 @@ Page({
             data_list_loding_status: 0,
             data_list_loding_msg: res.data.msg,
           });
-          if (app.is_login_check(res.data)) {
+          if (app.is_login_check(res.data, this, 'get_data_list')) {
             app.showToast(res.data.msg);
           }
         }
@@ -149,7 +149,7 @@ Page({
       fail: () => {
         wx.hideLoading();
         wx.stopPullDownRefresh();
-        self.setData({
+        this.setData({
           data_list_loding_status: 2,
           data_list_loding_msg: '服务器请求出错',
         });

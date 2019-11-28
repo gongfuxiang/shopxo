@@ -316,7 +316,7 @@ Page({
               });
               app.showToast(res.data.msg, "success");
             } else {
-              if (app.is_login_check(res.data)) {
+              if (app.is_login_check(res.data, this, 'goods_favor_event')) {
                 app.showToast(res.data.msg);
               }
             }
@@ -355,7 +355,7 @@ Page({
               this.popup_close_event();
               app.showToast(res.data.msg, "success");
             } else {
-              if (app.is_login_check(res.data)) {
+              if (app.is_login_check(res.data, this, 'goods_buy_confirm_event')) {
                 app.showToast(res.data.msg);
               }
             }
@@ -486,9 +486,7 @@ Page({
             this.setData({goods_specifications_choose: temp_data});
           }
         } else {
-          if (app.is_login_check(res.data)) {
-            app.showToast(res.data.msg);
-          }
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
@@ -542,9 +540,7 @@ Page({
             goods_spec_base_inventory: res.data.data.inventory,
           });
         } else {
-          if (app.is_login_check(res.data)) {
-            app.showToast(res.data.msg);
-          }
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {

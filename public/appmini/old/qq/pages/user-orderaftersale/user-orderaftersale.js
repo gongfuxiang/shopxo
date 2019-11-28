@@ -141,7 +141,7 @@ Page({
       fail: () => {
         qq.hideLoading();
         qq.stopPullDownRefresh();
-        self.setData({
+        this.setData({
           data_list_loding_status: 2,
           data_list_loding_msg: '服务器请求出错',
         });
