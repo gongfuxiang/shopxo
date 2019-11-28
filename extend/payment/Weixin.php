@@ -106,7 +106,6 @@ class Weixin
                 'name'          => 'apiclient_cert',
                 'placeholder'   => '证书(apiclient_cert.pem)',
                 'title'         => '证书(apiclient_cert.pem)（退款操作必填项）',
-                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写证书(apiclient_cert.pem)',
@@ -116,7 +115,6 @@ class Weixin
                 'name'          => 'apiclient_key',
                 'placeholder'   => '证书密钥(apiclient_key.pem)',
                 'title'         => '证书密钥(apiclient_key.pem)（退款操作必填项）',
-                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写证书密钥(apiclient_key.pem)',
@@ -694,6 +692,7 @@ class Weixin
         $apiclient_cert_file = ROOT.'runtime'.DS.'temp'.DS.'payment_weixin_pay_apiclient_cert.pem';
         $apiclient_key_file = ROOT.'runtime'.DS.'temp'.DS.'payment_weixin_pay_apiclient_key.pem';
 
+        // 证书处理
         if(stripos($this->config['apiclient_cert'], '-----') === false)
         {
             $apiclient_cert = "-----BEGIN CERTIFICATE-----\n";

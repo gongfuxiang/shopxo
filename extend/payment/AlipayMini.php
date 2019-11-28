@@ -75,7 +75,6 @@ class AlipayMini
                 'name'          => 'rsa_public',
                 'placeholder'   => '应用公钥',
                 'title'         => '应用公钥',
-                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写应用公钥',
@@ -85,7 +84,6 @@ class AlipayMini
                 'name'          => 'rsa_private',
                 'placeholder'   => '应用私钥',
                 'title'         => '应用私钥',
-                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写应用私钥',
@@ -95,7 +93,6 @@ class AlipayMini
                 'name'          => 'out_rsa_public',
                 'placeholder'   => '支付宝公钥',
                 'title'         => '支付宝公钥',
-                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写支付宝公钥',
@@ -411,9 +408,14 @@ class AlipayMini
      */
     private function MyRsaSign($prestr)
     {
-        $res = "-----BEGIN RSA PRIVATE KEY-----\n";
-        $res .= wordwrap($this->config['rsa_private'], 64, "\n", true);
-        $res .= "\n-----END RSA PRIVATE KEY-----";
+        if(stripos($this->config['rsa_private'], '-----') === false)
+        {
+            $res = "-----BEGIN RSA PRIVATE KEY-----\n";
+            $res .= wordwrap($this->config['rsa_private'], 64, "\n", true);
+            $res .= "\n-----END RSA PRIVATE KEY-----";
+        } else {
+            $res = $this->config['rsa_private'];
+        }
         return openssl_sign($prestr, $sign, $res, OPENSSL_ALGO_SHA256) ? base64_encode($sign) : null;
     }
 
@@ -428,9 +430,14 @@ class AlipayMini
      */
     private function MyRsaDecrypt($content)
     {
-        $res = "-----BEGIN PUBLIC KEY-----\n";
-        $res .= wordwrap($this->config['rsa_public'], 64, "\n", true);
-        $res .= "\n-----END PUBLIC KEY-----";
+        if(stripos($this->config['rsa_public'], '-----') === false)
+        {
+            $res = "-----BEGIN PUBLIC KEY-----\n";
+            $res .= wordwrap($this->config['rsa_public'], 64, "\n", true);
+            $res .= "\n-----END PUBLIC KEY-----";
+        } else {
+            $res = $this->config['rsa_public'];
+        }
         $res = openssl_get_privatekey($res);
         $content = base64_decode($content);
         $result  = '';
@@ -456,9 +463,14 @@ class AlipayMini
      */
     private function OutRsaVerify($prestr, $sign)
     {
-        $res = "-----BEGIN PUBLIC KEY-----\n";
-        $res .= wordwrap($this->config['out_rsa_public'], 64, "\n", true);
-        $res .= "\n-----END PUBLIC KEY-----";
+        if(stripos($this->config['out_rsa_public'], '-----') === false)
+        {
+            $res = "-----BEGIN PUBLIC KEY-----\n";
+            $res .= wordwrap($this->config['out_rsa_public'], 64, "\n", true);
+            $res .= "\n-----END PUBLIC KEY-----";
+        } else {
+            $res = $this->config['out_rsa_public'];
+        }
         $pkeyid = openssl_pkey_get_public($res);
         $sign = base64_decode($sign);
         if($pkeyid)
