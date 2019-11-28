@@ -502,6 +502,12 @@ class Weixin
             return DataReturn($ret, -1);
         }
 
+        // 证书是否配置
+        if(empty($this->config['apiclient_cert']) || empty($this->config['apiclient_key']))
+        {
+            return DataReturn('证书未配置', -1);
+        }
+
         // 退款原因
         $refund_reason = empty($params['refund_reason']) ? $params['order_no'].'订单退款'.$params['refund_price'].'元' : $params['refund_reason'];
 
