@@ -313,7 +313,7 @@ Page({
               });
               app.showToast(res.data.msg, 'success');
             } else {
-              if (app.is_login_check(res.data)) {
+              if (app.is_login_check(res.data, this, 'goods_favor_event')) {
                 app.showToast(res.data.msg);
               }
             }
@@ -329,7 +329,7 @@ Page({
 
   // 加入购物车事件
   goods_cart_event(e, spec) {
-    var user = app.get_user_info(this, 'goods_cart_event');
+    var user = app.get_user_info(this, 'goods_buy_confirm_event');
     if (user != false) {
       // 用户未绑定用户则转到登录页面
       if (app.user_is_need_login(user)) {
@@ -352,7 +352,7 @@ Page({
               this.popup_close_event();
               app.showToast(res.data.msg, 'success');
             } else {
-              if (app.is_login_check(res.data)) {
+              if (app.is_login_check(res.data, this, 'goods_buy_confirm_event')) {
                 app.showToast(res.data.msg);
               }
             }
@@ -483,9 +483,7 @@ Page({
             this.setData({goods_specifications_choose: temp_data});
           }
         } else {
-          if (app.is_login_check(res.data)) {
-            app.showToast(res.data.msg);
-          }
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {
@@ -540,9 +538,7 @@ Page({
             goods_spec_base_inventory: res.data.data.inventory,
           });
         } else {
-          if (app.is_login_check(res.data)) {
-            app.showToast(res.data.msg);
-          }
+          app.showToast(res.data.msg);
         }
       },
       fail: () => {

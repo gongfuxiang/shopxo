@@ -124,7 +124,7 @@ Page({
             this.setData({common_app_mini_alipay_openid: app.get_user_openid()});
           }
         } else {
-          if (app.is_login_check(res.data)) {
+          if (app.is_login_check(res.data, this, 'get_data')) {
             app.showToast(res.data.msg);
           }
         }

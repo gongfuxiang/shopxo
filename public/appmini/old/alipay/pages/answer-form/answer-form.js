@@ -82,6 +82,8 @@ Page({
             this.setData({form_submit_loading: false});
             if (app.is_login_check(res.data)) {
               app.showToast(res.data.msg);
+            } else {
+              app.showToast('提交失败，请重试！');
             }
           }
         },

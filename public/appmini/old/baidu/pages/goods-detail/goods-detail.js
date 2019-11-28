@@ -293,7 +293,7 @@ Page({
 
   // 加入购物车事件
   goods_cart_event(e, spec) {
-    var user = app.get_user_cache_info(this, 'goods_cart_event');
+    var user = app.get_user_cache_info(this, 'goods_buy_confirm_event');
     // 用户未绑定用户则转到登录页面
     if (app.user_is_need_login(user)) {
       swan.navigateTo({

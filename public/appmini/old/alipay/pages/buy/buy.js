@@ -143,7 +143,7 @@ Page({
             data_list_loding_status: 2,
             data_list_loding_msg: res.data.msg,
           });
-          if (app.is_login_check(res.data)) {
+          if (app.is_login_check(res.data, this, 'init')) {
             app.showToast(res.data.msg);
           }
         }
@@ -210,8 +210,10 @@ Page({
               my.redirectTo({url: '/pages/user-order/user-order'});
             }
           } else {
-            app.showToast(res.data.msg);
             this.setData({ buy_submit_disabled_status: false });
+            if (app.is_login_check(res.data, this, 'buy_submit_event')) {
+              app.showToast(res.data.msg);
+            }
           }
         },
         fail: () => {

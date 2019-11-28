@@ -646,24 +646,16 @@ App({
     }
   },
 
-  // 登录校验
-  is_login_check(res) {
+  /**
+   * 登录校验
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   */
+  is_login_check(res, object, method) {
     if(res.code == -400)
     {
       my.clearStorage();
-      my.confirm({
-        title: '温馨提示',
-        content: '授权用户信息',
-        confirmButtonText: '确认',
-        cancelButtonText: '暂不',
-        success: (result) => {
-          if (result.confirm) {
-            my.navigateTo({
-              url: "/pages/login/login?event_callback=init"
-            });
-          }
-        },
-      });
+      this.get_user_info(object, method);
       return false;
     }
     return true;
