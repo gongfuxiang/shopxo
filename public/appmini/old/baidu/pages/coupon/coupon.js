@@ -99,7 +99,7 @@ Page({
     if (user != false) {
       // 用户未绑定用户则转到登录页面
       if (app.user_is_need_login(user)) {
-        wx.navigateTo({
+        swan.navigateTo({
           url: "/pages/login/login?event_callback=coupon_receive_event"
         });
         return false;
