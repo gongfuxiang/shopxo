@@ -164,7 +164,7 @@ App({
     var user = this.get_user_cache_info();
     if (user == false) {
       // 唤醒用户授权
-      this.user_auth_login(object, method);
+      this.user_login(object, method);
 
       return false;
     } else {
@@ -187,23 +187,21 @@ App({
    * 用户登录
    * object     回调操作对象
    * method     回调操作对象的函数
-   * auth_data  授权数据
    */
   user_auth_login(object, method, auth_data) {
-    wx.showLoading({ title: "授权中..." });
     var self = this;
     wx.checkSession({
       success: function () {
         var openid = wx.getStorageSync(self.data.cache_user_login_key) || null;
         if (openid == null)
         {
-          self.user_login(object, method, auth_data);
+          self.user_login(object, method);
         } else {
           self.get_user_login_info(object, method, openid, auth_data);
         }
       },
       fail: function () {
-        self.user_login(object, method, auth_data);
+        self.user_login(object, method);
       }
     });
   },
@@ -214,58 +212,86 @@ App({
    * method     回调操作对象的函数
    * auth_data  授权数据
    */
-  user_login(object, method, auth_data) {
-    var self = this;
-    wx.login({
-      success: (res) => {
-        if (res.code) {
-          wx.request({
-            url: self.get_request_url('wechatuserauth', 'user'),
-            method: 'POST',
-            data: { authcode: res.code },
-            dataType: 'json',
-            header: { 'content-type': 'application/x-www-form-urlencoded' },
-            success: (res) => {
-              if (res.data.code == 0) {
-                var data = res.data.data;
-                if ((data.is_alipay_user_exist || 0) == 1) {
-                  wx.hideLoading();
-                  wx.setStorage({
-                    key: self.data.cache_user_info_key,
-                    data: data,
-                    success: (res) => {
-                      if (typeof object === 'object' && (method || null) != null) {
-                        object[method]();
-                      }
-                    },
-                    fail: () => {
-                      self.showToast('用户信息缓存失败');
-                    }
-                  });
-                } else {
-                  wx.setStorage({
-                    key: self.data.cache_user_login_key,
-                    data: data
-                  });
-                  self.get_user_login_info(object, method, data, auth_data);
-                }
-              } else {
+  user_login(object, method) {
+    var openid = wx.getStorageSync(this.data.cache_user_login_key) || null;
+    if (openid == null)
+    {
+      var self = this;
+      // 加载loding
+      wx.showLoading({ title: "授权中..." });
+
+      wx.login({
+        success: (res) => {
+          if (res.code) {
+            wx.request({
+              url: self.get_request_url('wechatuserauth', 'user'),
+              method: 'POST',
+              data: { authcode: res.code },
+              dataType: 'json',
+              header: { 'content-type': 'application/x-www-form-urlencoded' },
+              success: (res) => {
                 wx.hideLoading();
-                self.showToast(res.data.msg);
-              }
-            },
-            fail: () => {
-              wx.hideLoading();
-              self.showToast('服务器请求出错');
-            },
-          });
+                if (res.data.code == 0) {
+                  var data = res.data.data;
+                  if ((data.is_alipay_user_exist || 0) == 1) {
+                    wx.setStorage({
+                      key: self.data.cache_user_info_key,
+                      data: data,
+                      success: (res) => {
+                        if (typeof object === 'object' && (method || null) != null) {
+                          object[method]();
+                        }
+                      },
+                      fail: () => {
+                        self.showToast('用户信息缓存失败');
+                      }
+                    });
+                  } else {
+                    wx.setStorage({
+                      key: self.data.cache_user_login_key,
+                      data: data.openid
+                    });
+                    self.login_to_auth();
+                  }
+                } else {
+                  wx.hideLoading();
+                  self.showToast(res.data.msg);
+                }
+              },
+              fail: () => {
+                wx.hideLoading();
+                self.showToast('服务器请求出错');
+              },
+            });
+          }
+        },
+        fail: (e) => {
+          wx.hideLoading();
+          self.showToast('授权失败');
         }
-      },
-      fail: (e) => {
-        wx.hideLoading();
-        self.showToast('授权失败');
-      }
-    });
+      });
+    } else {
+      this.login_to_auth();
+    }
+  },
+
+  /**
+   * 跳转到登录页面授权
+   */
+  login_to_auth() {
+    wx.showModal({
+        title: '温馨提示',
+        content: '授权用户信息',
+        confirmText: '确认',
+        cancelText: '暂不',
+        success: (result) => {
+          if (result.confirm) {
+            wx.navigateTo({
+              url: "/pages/login/login"
+            });
+          }
+        }
+      });
   },
 
   /**
@@ -281,6 +307,7 @@ App({
     var referrer = (params == null) ? 0 : (params.referrer || 0);
 
     // 远程解密数据
+    wx.showLoading({ title: "授权中..." });
     var self = this;
     wx.request({
       url: self.get_request_url('wechatuserinfo', 'user'),

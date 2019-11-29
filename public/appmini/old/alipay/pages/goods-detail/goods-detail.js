@@ -58,6 +58,10 @@ Page({
     // 站点类型
     common_site_type: 0,
     customer_service_tel: null,
+
+    // 优惠劵领取
+    temp_coupon_receive_index: null,
+    temp_coupon_receive_value: null,
   },
 
   onLoad(params) {
@@ -772,44 +776,60 @@ Page({
 
   // 优惠劵领取事件
   coupon_receive_event(e) {
-    var user = app.get_user_info(this, "coupon_receive_event");
-    // 用户未绑定用户则转到登录页面
-    if (app.user_is_need_login(user)) {
-      my.redirectTo({
-        url: "/pages/login/login?event_callback=coupon_receive_event"
-      });
-      return false;
+    // 参数处理
+    if((e || null) == null)
+    {
+      var index = this.data.temp_coupon_receive_index;
+      var value = this.data.temp_coupon_receive_value;
     } else {
-      var self = this;
       var index = e.currentTarget.dataset.index;
       var value = e.currentTarget.dataset.value;
-      var temp_list = this.data.plugins_coupon_data.data;
-      if (temp_list[index]['is_operable'] != 0) {
-        my.showLoading({ title: "处理中..." });
-        my.request({
-          url: app.get_request_url("receive", "coupon"),
-          method: "POST",
-          data: { "coupon_id": value },
-          dataType: "json",
-          header: { 'content-type': 'application/x-www-form-urlencoded' },
-          success: res => {
-            my.hideLoading();
-            if (res.data.code == 0) {
-              app.showToast(res.data.msg, "success");
-              if (self.data.plugins_coupon_data.base != null && self.data.plugins_coupon_data.base.is_repeat_receive != 1) {
-                temp_list[index]['is_operable'] = 0;
-                temp_list[index]['is_operable_name'] = '已领取';
-                self.setData({ 'plugins_coupon_data.data': temp_list });
-              }
-            } else {
-              app.showToast(res.data.msg);
-            }
-          },
-          fail: () => {
-            my.hideLoading();
-            app.showToast("服务器请求出错");
-          }
+      this.setData({temp_coupon_receive_index: index, temp_coupon_receive_value: value});
+    }
+
+    // 登录校验
+    var user = app.get_user_info(this, 'coupon_receive_event');
+    if (user != false) {
+      // 用户未绑定用户则转到登录页面
+      if (app.user_is_need_login(user)) {
+        my.navigateTo({
+          url: "/pages/login/login?event_callback=coupon_receive_event"
         });
+        return false;
+      } else {
+        var self = this;
+        var index = e.currentTarget.dataset.index;
+        var value = e.currentTarget.dataset.value;
+        var temp_list = this.data.plugins_coupon_data.data;
+        if (temp_list[index]['is_operable'] != 0) {
+          my.showLoading({ title: "处理中..." });
+          my.request({
+            url: app.get_request_url("receive", "coupon"),
+            method: "POST",
+            data: { "coupon_id": value },
+            dataType: "json",
+            header: { 'content-type': 'application/x-www-form-urlencoded' },
+            success: res => {
+              my.hideLoading();
+              if (res.data.code == 0) {
+                app.showToast(res.data.msg, "success");
+                if (self.data.plugins_coupon_data.base != null && self.data.plugins_coupon_data.base.is_repeat_receive != 1) {
+                  temp_list[index]['is_operable'] = 0;
+                  temp_list[index]['is_operable_name'] = '已领取';
+                  self.setData({ 'plugins_coupon_data.data': temp_list });
+                }
+              } else {
+                if (app.is_login_check(res.data, self, 'coupon_receive_event')) {
+                  app.showToast(res.data.msg);
+                }
+              }
+            },
+            fail: () => {
+              my.hideLoading();
+              app.showToast("服务器请求出错");
+            }
+          });
+        }
       }
     }
   },
