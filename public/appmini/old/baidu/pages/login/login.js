@@ -38,7 +38,6 @@ Page({
    * auth_data  授权数据
    */
   user_auth_code(auth_data) {
-    console.log(auth_data)
     if ((auth_data.encryptedData || null) != null && (auth_data.iv || null) != null) {
       app.user_auth_login(this, 'user_auth_back_event', auth_data);
     } else {
