@@ -36,21 +36,33 @@ Page({
   },
 
   init() {
-    var user = app.get_user_cache_info(this, "init");
-    // 用户未绑定用户则转到登录页面
-    if (app.user_is_need_login(user)) {
-      swan.redirectTo({
-        url: "/pages/login/login?event_callback=init"
-      });
-      return false;
-    } else {
-      // 获取地址数据
-      if ((this.data.params.id || null) != null) {
-        this.get_user_address();
-      }
+    var user = app.get_user_info(this, "init");
+    if (user != false) {
+      // 用户未绑定用户则转到登录页面
+      if (app.user_is_need_login(user)) {
+        swan.redirectTo({
+          url: "/pages/login/login?event_callback=init"
+        });
+        this.setData({
+          data_list_loding_status: 2,
+          data_list_loding_msg: '请先绑定手机号码',
+        });
+        return false;
+      } else {
+        // 获取地址数据
+        if((this.data.params.id || null) != null)
+        {
+          this.get_user_address();
+        }
 
-      // 获取省
-      this.get_province_list();
+        // 获取省
+        this.get_province_list();
+      }
+    } else {
+      this.setData({
+        data_list_loding_status: 2,
+        data_list_loding_msg: '请先授权用户信息',
+      });
     }
   },
 
@@ -282,7 +294,11 @@ Page({
               swan.navigateBack();
             }, 1000);
           } else {
-            app.showToast(res.data.msg);
+            if (app.is_login_check(res.data)) {
+              app.showToast(res.data.msg);
+            } else {
+              app.showToast('提交失败，请重试！');
+            }
           }
         },
         fail: () => {

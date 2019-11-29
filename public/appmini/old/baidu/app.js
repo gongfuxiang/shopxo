@@ -63,7 +63,7 @@ App({
     // 请求地址
     request_url: "{{request_url}}",
      request_url: 'http://tp5-dev.com/',
-     request_url: 'https://dev.shopxo.net/',
+     //request_url: 'https://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -171,6 +171,24 @@ App({
   },
 
   /**
+   * 获取用户信息,信息不存在则唤醒授权
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   * return     有用户数据直接返回, 则回调调用者
+   */
+  get_user_info(object, method) {
+    var user = this.get_user_cache_info();
+    if (user == false) {
+      // 唤醒用户授权
+      this.user_login(object, method);
+
+      return false;
+    } else {
+      return user;
+    }
+  },
+
+  /**
    * 从缓存获取用户信息
    */
   get_user_cache_info() {
@@ -185,27 +203,24 @@ App({
    * 用户登录
    * object     回调操作对象
    * method     回调操作对象的函数
+   * auth_data  授权数据
    */
-  user_auth_login(object, method) {
+  user_auth_login(object, method, auth_data) {
     var self = this;
-    // 请求授权接口
-    swan.authorize({
-      scope: "scope.userInfo",
-      success: res => {
-        swan.checkSession({
-          success: function (res) {
-            self.user_login(object, method);
-          },
-          fail: function (err) {
-            self.user_login(object, method);
-          }
-        });
+    swan.checkSession({
+      success: function () {
+        var openid = swan.getStorageSync(self.data.cache_user_login_key) || null;
+        if (openid == null)
+        {
+          self.user_login(object, method);
+        } else {
+          self.get_user_login_info(object, method, openid, auth_data);
+        }
       },
-      fail: e => {
-        self.showToast("调用授权失败");
+      fail: function () {
+        self.user_login(object, method);
       }
     });
-
   },
 
   /**
@@ -214,62 +229,136 @@ App({
    * method     回调操作对象的函数
    */
   user_login(object, method) {
-    var self = this;
-    // 加载loding
-    swan.showLoading({ title: "授权中..." });
+    var openid = swan.getStorageSync(this.data.cache_user_login_key) || null;
+    if (openid == null)
+    {
+      var self = this;
+      // 加载loding
+      swan.showLoading({ title: "授权中..." });
 
+      swan.login({
+        success: function (res) {
+          swan.request({
+            url: self.get_request_url("baiduuserauth", "user"),
+            method: "POST",
+            data: {
+              authcode: res.code
+            },
+            header: {'content-type': 'application/x-www-form-urlencoded'},
+            dataType: "json",
+            success: res => {
+              swan.hideLoading();
+              if (res.data.code == 0) {
+                var data = res.data.data;
+                if ((data.is_alipay_user_exist || 0) == 1) {
+                  swan.setStorage({
+                    key: self.data.cache_user_info_key,
+                    data: data,
+                    success: (res) => {
+                      if (typeof object === 'object' && (method || null) != null) {
+                        object[method]();
+                      }
+                    },
+                    fail: () => {
+                      self.showToast('用户信息缓存失败');
+                    }
+                  });
+                } else {
+                  swan.setStorage({
+                    key: self.data.cache_user_login_key,
+                    data: data.openid
+                  });
+                  self.login_to_auth();
+                }
+              } else {
+                swan.hideLoading();
+                self.showToast(res.data.msg);
+              }
+            },
+            fail: () => {
+              swan.hideLoading();
+              self.showToast("服务器请求出错");
+            }
+          });
+        },
+        fail: function (err) {
+          swan.hideLoading();
+          self.showToast(err);
+        }
+      });
+    } else {
+      this.login_to_auth();
+    }
+  },
+
+  /**
+   * 跳转到登录页面授权
+   */
+  login_to_auth() {
+    swan.showModal({
+        title: '温馨提示',
+        content: '授权用户信息',
+        confirmText: '确认',
+        cancelText: '暂不',
+        success: (result) => {
+          if (result.confirm) {
+            swan.navigateTo({
+              url: "/pages/login/login"
+            });
+          }
+        }
+      });
+  },
+
+  /**
+   * 获取用户授权信息
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   * openid     用户openid
+   * auth_data  授权数据
+   */
+  get_user_login_info(object, method, openid, auth_data) {
     // 邀请人参数
     var params = swan.getStorageSync(this.data.cache_launch_info_key) || null;
     var referrer = (params == null) ? 0 : (params.referrer || 0);
 
-    // 请求登录
-    swan.login({
-      success: function (res) {
-        swan.request({
-          url: self.get_request_url("baiduuserauth", "user"),
-          method: "POST",
-          data: {
-            authcode: res.code,
-            referrer: referrer
-          },
-          header: {'content-type': 'application/x-www-form-urlencoded'},
-          dataType: "json",
-          success: res => {
-            swan.hideLoading();
-            if (res.data.code == 0) {
-              swan.getUserInfo({
-                success: function (user) {
-                    res.data.data['nickname'] = user.userInfo.nickName;
-                    res.data.data['avatar'] = user.userInfo.avatarUrl;
-                    res.data.data['gender'] = parseInt(user.userInfo.gender)+1;
-                    res.data.data['referrer'] = referrer;
-                    swan.setStorage({
-                      key: self.data.cache_user_info_key,
-                      data: res.data.data
-                    });
-
-                    if (typeof object === "object" && (method || null) != null) {
-                      object[method]();
-                    }
-                },
-                fail: function(res) {
-                  self.showToast("调用用户信息授权失败");
-                }
-              });
-            } else {
-              self.showToast(res.data.msg);
-            }
-          },
-          fail: () => {
-            swan.hideLoading();
-            self.showToast("服务器请求出错");
-          }
-        });
+    // 远程解密数据
+    swan.showLoading({ title: "授权中..." });
+    var self = this;
+    swan.request({
+      url: self.get_request_url('baiduuserinfo', 'user'),
+      method: 'POST',
+      data: {
+        "encrypted_data": auth_data.encryptedData,
+        "iv": auth_data.iv,
+        "openid": openid,
+        "referrer": referrer
       },
-      fail: function (err) {
+      dataType: 'json',
+      header: { 'content-type': 'application/x-www-form-urlencoded' },
+      success: (res) => {
         swan.hideLoading();
-        self.showToast(err);
-      }
+        if (res.data.code == 0) {
+          swan.setStorage({
+            key: self.data.cache_user_info_key,
+            data: res.data.data,
+            success: (res) => {
+              if (typeof object === 'object' && (method || null) != null) {
+                object[method]();
+              }
+            },
+            fail: () => {
+              self.showToast('用户信息缓存失败');
+            }
+          });
+        } else {
+          self.showToast(res.data.msg);
+        }
+      },
+      fail: () => {
+        swan.hideLoading();
+        self.showToast('服务器请求出错');
+      },
     });
   },
 
@@ -505,19 +594,7 @@ App({
     if(res.code == -400)
     {
       swan.clearStorage();
-      swan.showModal({
-        title: '温馨提示',
-        content: '授权用户信息',
-        confirmText: '确认',
-        cancelText: '暂不',
-        success: (result) => {
-          if (result.confirm) {
-            swan.navigateTo({
-              url: "/pages/login/login?event_callback=init"
-            });
-          }
-        },
-      });
+      this.get_user_info(object, method);
       return false;
     }
     return true;

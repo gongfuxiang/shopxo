@@ -187,6 +187,7 @@ App({
    * 用户登录
    * object     回调操作对象
    * method     回调操作对象的函数
+   * auth_data  授权数据
    */
   user_auth_login(object, method, auth_data) {
     var self = this;

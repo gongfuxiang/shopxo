@@ -302,7 +302,11 @@ Page({
               wx.navigateBack();
             }, 1000);
           } else {
-            app.showToast(res.data.msg);
+            if (app.is_login_check(res.data)) {
+              app.showToast(res.data.msg);
+            } else {
+              app.showToast('提交失败，请重试！');
+            }
           }
         },
         fail: () => {

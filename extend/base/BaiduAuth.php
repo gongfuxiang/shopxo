@@ -17,10 +17,103 @@ namespace base;
  */
 class BaiduAuth
 {
+    // appid
+    private $_appid;
+
+    // appkey
+    private $_appkey;
+
+    // appsecret
+    private $_appsecret;
+
     /**
      * [__construct 构造方法]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2017-12-30T18:04:05+0800
+     * @param   [string]     $app_id         [应用appid]
+     * @param   [string]     $_appkey        [应用key]
+     * @param   [string]     $app_secret     [应用密钥]
      */
-    public function __construct(){}
+    public function __construct($app_id, $app_key, $app_secret)
+    {
+        $this->_appid       = $app_id;
+        $this->_appkey      = $app_key;
+        $this->_appsecret   = $app_secret;
+    }
+
+    /**
+     * [DecryptData 检验数据的真实性，并且获取解密后的明文]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2017-12-30T18:20:53+0800
+     * @param    [string]  $encrypted_data     [加密的用户数据]
+     * @param    [string]  $iv                 [与用户数据一同返回的初始向量]
+     * @param    [string]  $openid             [解密后的原文]
+     * @return   [array|string]                [成功返回用户信息数组, 失败返回错误信息]
+     */
+    public function DecryptData($encrypted_data, $iv, $openid)
+    {
+        // 登录授权session
+        $login_key = 'baidu_user_login_'.$openid;
+        $session_data = GS($login_key);
+        if($session_data === false)
+        {
+            return ['status'=>-1, 'msg'=>'session key不存在'];
+        }
+
+        // iv长度
+        if(strlen($iv) != 24)
+        {
+            return ['status'=>-1, 'msg'=>'iv长度错误'];
+        }
+
+        // 数据解密
+        $session_key = base64_decode($session_data['session_key']);
+        $iv = base64_decode($iv);
+        $encrypted_data = base64_decode($encrypted_data);
+
+        $plaintext = false;
+        if (function_exists("openssl_decrypt")) {
+            $plaintext = openssl_decrypt($encrypted_data, "AES-192-CBC", $session_key, OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING, $iv);
+        } else {
+            $td = mcrypt_module_open(MCRYPT_RIJNDAEL_128, null, MCRYPT_MODE_CBC, null);
+            mcrypt_generic_init($td, $session_key, $iv);
+            $plaintext = mdecrypt_generic($td, $encrypted_data);
+            mcrypt_generic_deinit($td);
+            mcrypt_module_close($td);
+        }
+        if ($plaintext == false) {
+            return ['status'=>-1, 'msg'=>'解密失败'];
+        }
+
+        // trim pkcs#7 padding
+        $pad = ord(substr($plaintext, -1));
+        $pad = ($pad < 1 || $pad > 32) ? 0 : $pad;
+        $plaintext = substr($plaintext, 0, strlen($plaintext) - $pad);
+
+        // trim header
+        $plaintext = substr($plaintext, 16);
+        // get content length
+        $unpack = unpack("Nlen/", substr($plaintext, 0, 4));
+        // get content
+        $data = json_decode(substr($plaintext, 4, $unpack['len']), true);
+        // get app_key
+        $app_key_decode = substr($plaintext, $unpack['len'] + 4);
+
+        if($app_key_decode != $this->_appkey)
+        {
+            return ['status'=>-1, 'msg'=>'appkey不匹配'];
+        }
+
+        // 缓存存储
+        $data_key = 'baidu_user_info_'.$openid;
+        SS($data_key, $data);
+
+        return ['status'=>0, 'data'=>$data];
+    }
 
     /**
      * 用户授权
@@ -31,28 +124,29 @@ class BaiduAuth
      * @desc    description
      * @param   [array]           $params [输入参数]
      */
-    public function GetAuthUserInfo($params = [])
+    public function GetAuthSessionKey($params = [])
     {
         if(empty($params['authcode']))
         {
             return ['status'=>-1, 'msg'=>'授权码有误'];
         }
-        if(empty($params['config']))
-        {
-            return ['status'=>-1, 'msg'=>'配置有误'];
-        }
 
         $data = [
             'code'      => $params['authcode'],
-            'client_id' => $params['config']['key'],
-            'sk'        => $params['config']['secret'],
+            'client_id' => $this->_appkey,
+            'sk'        => $this->_appsecret,
         ];
         $result = $this->HttpRequest('https://spapi.baidu.com/oauth/jscode2sessionkey', $data);
-        if(empty($result['openid']))
+        if(!empty($result['openid']))
         {
-            return ['status'=>-1, 'msg'=>$result['error_description']];
+            // 缓存SessionKey
+            $key = 'baidu_user_login_'.$result['openid'];
+
+            // 缓存存储
+            SS($key, $result);
+            return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result['openid']];
         }
-        return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result];
+        return ['status'=>-1, 'msg'=>$result['error_description']];
     }
 
     /**

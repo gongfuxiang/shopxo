@@ -13,13 +13,15 @@ Page({
 
   // 初始化
   init() {
-    var user = app.get_user_cache_info(this, "init");
-    // 用户未绑定用户则转到登录页面
-    if (app.user_is_need_login(user)) {
-      swan.redirectTo({
-        url: "/pages/login/login?event_callback=init"
-      });
-      return false;
+    var user = app.get_user_info(this, "init");
+    if (user != false) {
+      // 用户未绑定用户则转到登录页面
+      if (app.user_is_need_login(user)) {
+        swan.redirectTo({
+          url: "/pages/login/login?event_callback=init"
+        });
+        return false;
+      }
     }
   },
 

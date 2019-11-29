@@ -74,14 +74,13 @@ class Wechat
             return 'openssl不支持';
         }
 
-        $aes_cipher = base64_decode($encrypted_data);
-        $result = openssl_decrypt($aes_cipher, "AES-128-CBC", base64_decode($session_data['session_key']), 1, base64_decode($iv));
+        $result = openssl_decrypt(base64_decode($encrypted_data), "AES-128-CBC", base64_decode($session_data['session_key']), 1, base64_decode($iv));
         $data = json_decode($result, true);
         if($data == NULL)
         {
             return '请重试！';
         }
-        if($data['watermark']['appid'] != $this->_appid )
+        if($data['watermark']['appid'] != $this->_appid)
         {
             return 'appid不匹配';
         }
@@ -109,7 +108,7 @@ class Wechat
         $result = $this->HttpRequestGet($url);
         if(!empty($result['openid']))
         {
-            // 从缓存获取用户信息
+            // 缓存SessionKey
             $key = 'wechat_user_login_'.$result['openid'];
 
             // 缓存存储

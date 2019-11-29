@@ -22,31 +22,39 @@ Page({
   },
 
   init(e) {
-    var user = app.get_user_cache_info(this, "init");
-    // 用户未绑定用户则转到登录页面
-    var msg = user == false ? '授权用户信息' : '绑定手机号码';
-    if (app.user_is_need_login(user)) {
-      swan.showModal({
-        title: '温馨提示',
-        content: msg,
-        confirmText: '确认',
-        cancelText: '暂不',
-        success: result => {
-          if (result.confirm) {
-            swan.navigateTo({
-              url: "/pages/login/login?event_callback=init"
-            });
-          } else {
-            this.setData({
-              data_list_loding_status: 0,
-              data_bottom_line_status: false,
-              data_list_loding_msg: '请先' + msg
-            });
-          }
-        }
-      });
+    var user = app.get_user_info(this, "init");
+    if (user != false) {
+      // 用户未绑定用户则转到登录页面
+      if (app.user_is_need_login(user)) {
+        swan.showModal({
+          title: '温馨提示',
+          content: msg,
+          confirmText: '确认',
+          cancelText: '暂不',
+          success: (result) => {
+            if (result.confirm) {
+              swan.navigateTo({
+                url: "/pages/login/login?event_callback=init"
+              });
+            } else {
+              this.setData({
+                data_list_loding_status: 0,
+                data_bottom_line_status: false,
+                data_list_loding_msg: '请先' + msg,
+              });
+            }
+          },
+        });
+      } else {
+        this.get_data();
+      }
     } else {
-      this.get_data();
+      swan.stopPullDownRefresh();
+      this.setData({
+        data_list_loding_status: 0,
+        data_bottom_line_status: false,
+        data_list_loding_msg: '请先授权用户信息',
+      });
     }
   },
 
@@ -87,7 +95,7 @@ Page({
             data_bottom_line_status: false,
             data_list_loding_msg: res.data.msg
           });
-          if (app.is_login_check(res.data)) {
+          if (app.is_login_check(res.data, this, 'get_data')) {
             app.showToast(res.data.msg);
           }
         }

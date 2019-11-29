@@ -38,31 +38,32 @@ Page({
   },
 
   init(e) {
-    var user = app.get_user_cache_info(this, "init"),
-        self = this;
-    // 用户未绑定用户则转到登录页面
-    var msg = user == false ? '授权用户信息' : '绑定手机号码';
-    if (app.user_is_need_login(user)) {
-      swan.showModal({
-        title: '温馨提示',
-        content: msg,
-        confirmText: '确认',
-        cancelText: '暂不',
-        success: result => {
-          swan.stopPullDownRefresh();
-          if (result.confirm) {
-            swan.navigateTo({
-              url: "/pages/login/login?event_callback=init"
+    var user = app.get_user_info(this, "init"),
+      self = this;
+    if (user != false) {
+      // 用户未绑定用户则转到登录页面
+      if (app.user_is_need_login(user)) {
+        swan.showModal({
+          title: '温馨提示',
+          content: '绑定手机号码',
+          confirmText: '确认',
+          cancelText: '暂不',
+          success: (result) => {
+            swan.stopPullDownRefresh();
+            if(result.confirm) {
+              swan.navigateTo({
+                url: "/pages/login/login?event_callback=init"
+              });
+            }
+            self.setData({
+              avatar: user.avatar || app.data.default_user_head_src,
+              nickname: user.user_name_view || '用户名',
             });
-          }
-          self.setData({
-            avatar: user.avatar || app.data.default_user_head_src,
-            nickname: user.user_name_view || '用户名'
-          });
-        }
-      });
-    } else {
-      self.get_data();
+          },
+        });
+      } else {
+        self.get_data();
+      }
     }
   },
 
@@ -112,7 +113,8 @@ Page({
             common_app_is_head_vice_nav: data.common_app_is_head_vice_nav || 0,
           });
         } else {
-          if (app.is_login_check(res.data)) {
+          if(app.is_login_check(res.data, this, 'get_data'))
+          {
             app.showToast(res.data.msg);
           }
         }
