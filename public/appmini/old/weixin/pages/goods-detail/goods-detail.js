@@ -312,11 +312,10 @@ Page({
             wx.hideLoading();
             if(res.data.code == 0)
             {
-              var status = (this.data.goods.is_favor == 1) ? 0 : 1;
               this.setData({
-                'goods.is_favor': status,
-                goods_favor_text: (status == 1) ? '已收藏' : '收藏',
-                goods_favor_icon: '/images/goods-detail-favor-icon-'+status+'.png'
+                'goods.is_favor': res.data.data.status,
+                goods_favor_text: res.data.data.text,
+                goods_favor_icon: '/images/goods-detail-favor-icon-'+res.data.data.status+'.png'
               });
               app.showToast(res.data.msg, "success");
             } else {
