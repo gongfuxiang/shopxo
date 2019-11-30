@@ -281,18 +281,18 @@ App({
    */
   login_to_auth() {
     wx.showModal({
-        title: '温馨提示',
-        content: '授权用户信息',
-        confirmText: '确认',
-        cancelText: '暂不',
-        success: (result) => {
-          if (result.confirm) {
-            wx.navigateTo({
-              url: "/pages/login/login"
-            });
-          }
+      title: '温馨提示',
+      content: '授权用户信息',
+      confirmText: '确认',
+      cancelText: '暂不',
+      success: (result) => {
+        if (result.confirm) {
+          wx.navigateTo({
+            url: "/pages/login/login"
+          });
         }
-      });
+      }
+    });
   },
 
   /**

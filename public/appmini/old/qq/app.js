@@ -155,6 +155,24 @@ App({
   },
 
   /**
+   * 获取用户信息,信息不存在则唤醒授权
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   * return     有用户数据直接返回, 则回调调用者
+   */
+  get_user_info(object, method) {
+    var user = this.get_user_cache_info();
+    if (user == false) {
+      // 唤醒用户授权
+      this.user_login(object, method);
+
+      return false;
+    } else {
+      return user;
+    }
+  },
+
+  /**
    * 从缓存获取用户信息
    */
   get_user_cache_info() {
@@ -178,13 +196,13 @@ App({
         var openid = qq.getStorageSync(self.data.cache_user_login_key) || null;
         if (openid == null)
         {
-          self.user_login(object, method, auth_data);
+          self.user_login(object, method);
         } else {
           self.get_user_login_info(object, method, openid, auth_data);
         }
       },
       fail: function () {
-        self.user_login(object, method, auth_data);
+        self.user_login(object, method);
       }
     });
   },
@@ -193,45 +211,82 @@ App({
    * 用户登录
    * object     回调操作对象
    * method     回调操作对象的函数
-   * auth_data  授权数据
    */
-  user_login(object, method, auth_data) {
-    var self = this;
-    qq.showLoading({ title: "授权中..." });
-    qq.login({
-      success: (res) => {
-        if (res.code) {
-          qq.request({
-            url: self.get_request_url('qquserauth', 'user'),
-            method: 'POST',
-            data: { authcode: res.code },
-            dataType: 'json',
-            header: { 'content-type': 'application/x-www-form-urlencoded' },
-            success: (res) => {
-              qq.hideLoading();
-              if (res.data.code == 0) {
-                qq.setStorage({
-                  key: self.data.cache_user_login_key,
-                  data: res.data.data
-                });
-                if((auth_data || null) != null && (auth_data.encryptedData || null) != null && (auth_data.iv || null) != null)
-                {
-                  self.get_user_login_info(object, method, res.data.data, auth_data);
+  user_login(object, method) {
+    var openid = wx.getStorageSync(this.data.cache_user_login_key) || null;
+    if (openid == null)
+    {
+      var self = this;
+      qq.showLoading({ title: "授权中..." });
+      qq.login({
+        success: (res) => {
+          if (res.code) {
+            qq.request({
+              url: self.get_request_url('qquserauth', 'user'),
+              method: 'POST',
+              data: { authcode: res.code },
+              dataType: 'json',
+              header: { 'content-type': 'application/x-www-form-urlencoded' },
+              success: (res) => {
+                qq.hideLoading();
+                if (res.data.code == 0) {
+                  var data = res.data.data;
+                  if ((data.is_alipay_user_exist || 0) == 1) {
+                    qq.setStorage({
+                      key: self.data.cache_user_info_key,
+                      data: data,
+                      success: (res) => {
+                        if (typeof object === 'object' && (method || null) != null) {
+                          object[method]();
+                        }
+                      },
+                      fail: () => {
+                        self.showToast('用户信息缓存失败');
+                      }
+                    });
+                  } else {
+                    qq.setStorage({
+                      key: self.data.cache_user_login_key,
+                      data: data.openid
+                    });
+                    self.login_to_auth();
+                  }
+                } else {
+                  self.showToast(res.data.msg);
                 }
-              } else {
-                self.showToast(res.data.msg);
-              }
-            },
-            fail: () => {
-              qq.hideLoading();
-              self.showToast('服务器请求出错');
-            },
+              },
+              fail: () => {
+                qq.hideLoading();
+                self.showToast('服务器请求出错');
+              },
+            });
+          }
+        },
+        fail: (e) => {
+          qq.hideLoading();
+          self.showToast('授权失败');
+        }
+      });
+    } else {
+      this.login_to_auth();
+    }
+  },
+
+  /**
+   * 跳转到登录页面授权
+   */
+  login_to_auth() {
+    qq.showModal({
+      title: '温馨提示',
+      content: '授权用户信息',
+      confirmText: '确认',
+      cancelText: '暂不',
+      success: (result) => {
+        if (result.confirm) {
+          qq.navigateTo({
+            url: "/pages/login/login"
           });
         }
-      },
-      fail: (e) => {
-        qq.hideLoading();
-        self.showToast('授权失败');
       }
     });
   },
@@ -528,24 +583,16 @@ App({
     }
   },
 
-  // 登录校验
-  is_login_check(res) {
+  /**
+   * 登录校验
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   */
+  is_login_check(res, object, method) {
     if(res.code == -400)
     {
       qq.clearStorage();
-      qq.showModal({
-        title: '温馨提示',
-        content: '授权用户信息',
-        confirmText: '确认',
-        cancelText: '暂不',
-        success: (result) => {
-          if (result.confirm) {
-            qq.navigateTo({
-              url: "/pages/login/login?event_callback=init"
-            });
-          }
-        },
-      });
+      this.get_user_info(object, method);
       return false;
     }
     return true;
