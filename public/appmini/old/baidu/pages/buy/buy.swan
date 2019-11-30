@@ -97,7 +97,7 @@
   </view>
 
   <!-- 优惠劵选择 -->
-  <component-popup prop-show="{{popup_plugins_coupon_status}}" prop-position="bottom" bindonclose="plugins_coupon_close_event">
+  <component-popup status="{{popup_plugins_coupon_status}}" position="bottom" bindonclose="plugins_coupon_close_event">
     <view class="plugins-coupon-popup bg-white">
       <view class="close oh">
         <view class="fr" catchtap="plugins_coupon_close_event">
