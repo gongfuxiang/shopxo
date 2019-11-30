@@ -87,7 +87,7 @@ class QQ
         }
 
         // 缓存存储
-        $data_key = 'wechat_user_info_'.$openid;
+        $data_key = 'qq_user_info_'.$openid;
         SS($data_key, $data);
 
         return $data;
