@@ -41,7 +41,7 @@ Page({
               this.setData({
                 data_list_loding_status: 0,
                 data_bottom_line_status: false,
-                data_list_loding_msg: '请先绑定手机号码',
+                data_list_loding_msg: '请绑定手机号码',
               });
             }
           },

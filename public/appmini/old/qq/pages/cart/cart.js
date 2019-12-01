@@ -28,7 +28,7 @@ Page({
       if (app.user_is_need_login(user)) {
         qq.showModal({
           title: '温馨提示',
-          content: msg,
+          content: '绑定手机号码',
           confirmText: '确认',
           cancelText: '暂不',
           success: (result) => {
@@ -40,7 +40,7 @@ Page({
               this.setData({
                 data_list_loding_status: 0,
                 data_bottom_line_status: false,
-                data_list_loding_msg: '请先' + msg,
+                data_list_loding_msg: '请绑定手机号码',
               });
             }
           },

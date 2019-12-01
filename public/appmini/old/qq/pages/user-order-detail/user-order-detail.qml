@@ -10,7 +10,7 @@
           <image class="icon fl" src="/images/user-address.png" mode="widthFix" />
           <view class="text fr">
             {{detail.address_data.province_name}}{{detail.address_data.city_name}}{{detail.address_data.county_name}}{{detail.address_data.address}}
-            <text qq:if="{{detail.order_model == 2 && (detail.address_data.lng || 0) > 0 && (detail.address_data.lat || 0) > 0}}" class="cr-666 br address-map-submit" bindtap="address_map_event">查看位置</text>
+            <!-- <text qq:if="{{detail.order_model == 2 && (detail.address_data.lng || 0) > 0 && (detail.address_data.lat || 0) > 0}}" class="cr-666 br address-map-submit" bindtap="address_map_event">查看位置</text> -->
           </view>
       </view>
   </view>

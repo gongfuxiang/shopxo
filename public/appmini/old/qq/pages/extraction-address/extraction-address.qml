@@ -12,9 +12,9 @@
           <view class="text fr">{{item.province_name}}{{item.city_name}}{{item.county_name}}{{item.address}}</view>
         </view>
       </view>
-      <view class="operation br-t oh">
+      <!-- <view class="operation br-t oh">
         <button qq:if="{{item.lng > 0 && item.lat > 0}}" class="fr cr-666 map-submit br" type="default" size="mini" bindtap="address_map_event" data-index="{{index}}" hover-class="none">查看地图</button>
-      </view>
+      </view> -->
     </view>
   </view>
 
