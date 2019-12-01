@@ -74,10 +74,10 @@
 
 <!-- 在线客服 -->
 <view qq:if="{{common_app_is_online_service == 1}}">
-  <import src="/pages/lib/online-service/content.wxml" />
+  <import src="/pages/lib/online-service/content.qml" />
   <template is="online_service"></template>
 </view>
 
 <!-- 版权 -->
-<import src="/pages/common/copyright.wxml" />
+<import src="/pages/common/copyright.qml" />
 <template is="copyright"></template>

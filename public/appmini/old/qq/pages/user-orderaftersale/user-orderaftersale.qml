@@ -2,7 +2,7 @@
 <view class="nav">
   <block qq:for="{{nav_status_list}}" qq:key="key">
     <view qq:if="{{nav_status_index == index}}" class="item fl tc cr-main" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
-    <view wx:else class="item fl tc" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
+    <view qq:else class="item fl tc" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
   </block>
 </view>
 
@@ -49,12 +49,12 @@
     </view>
 
     <view qq:if="{{data_list.length == 0}}">
-      <import src="/pages/common/nodata.wxml" />
+      <import src="/pages/common/nodata.qml" />
       <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}">
       </template>
     </view>
 
-    <import src="/pages/common/bottom_line.wxml" />
+    <import src="/pages/common/bottom_line.qml" />
     <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
   </view>
 </scroll-view>

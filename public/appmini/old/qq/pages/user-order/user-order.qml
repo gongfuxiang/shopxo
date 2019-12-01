@@ -2,7 +2,7 @@
 <view class="nav">
   <block qq:for="{{nav_status_list}}" qq:key="key">
     <view qq:if="{{nav_status_index == index}}" class="item fl tc cr-main" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
-    <view wx:else class="item fl tc" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
+    <view qq:else class="item fl tc" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
   </block>
 </view>
 
@@ -14,7 +14,7 @@
         <text class="cr-666">{{item.add_time}}</text>
         <text class="fr cr-main">{{item.status_name}}</text>
       </view>
-      <view qq:for="{{item.items}}" qq:key="key" qq:for-item="detail" class="goods-item oh">
+      <view qq:for="{{item.items}}" qq:key="key" qq:for-item="detail" class="goods-item br-b-dashed oh">
         <navigator url="/pages/user-order-detail/user-order-detail?id={{item.id}}" hover-class="none">
           <image class="goods-image fl" src="{{detail.images}}" mode="aspectFill" />
           <view class="goods-base">
@@ -34,22 +34,22 @@
         </navigator>
       </view>
       <view class="item-describe tr cr-666">{{item.describe}}</view>
-      <view qq:if="{{item.status <= 3 || (item.status == 4 && item.user_is_comments == 0)}}" class="item-operation tr br-t">
+      <view qq:if="{{item.status == 1 || item.status == 3 || (item.status == 4 && item.user_is_comments == 0) || (item.status == 2 && item.order_model != 2)}}" class="item-operation tr br-t">
         <button qq:if="{{item.status <= 1}}" class="submit-cancel" type="default" size="mini" bindtap="cancel_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">取消</button>
         <button qq:if="{{item.status == 1}}" class="submit-pay cr-666 br" type="default" size="mini" bindtap="pay_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">支付</button>
-        <button qq:if="{{item.status == 2}}" class="submit-rush cr-666 br" type="default" size="mini" bindtap="rush_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">催催</button>
+        <button qq:if="{{item.status == 2 && item.order_model != 2}}" class="submit-rush cr-666 br" type="default" size="mini" bindtap="rush_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">催催</button>
         <button qq:if="{{item.status == 3}}" class="submit-success cr-666 br" type="default" size="mini" bindtap="collect_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">收货</button>
         <button qq:if="{{item.status == 4 && item.user_is_comments == 0}}" class="submit-success cr-666 br" type="default" size="mini" bindtap="comments_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">评论</button>
       </view>
     </view>
 
     <view qq:if="{{data_list.length == 0}}">
-      <import src="/pages/common/nodata.wxml" />
+      <import src="/pages/common/nodata.qml" />
       <template is="nodata" data="{{status: data_list_loding_status}}">
       </template>
     </view>
 
-    <import src="/pages/common/bottom_line.wxml" />
+    <import src="/pages/common/bottom_line.qml" />
     <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
   </view>
 </scroll-view>
@@ -65,5 +65,5 @@
       </view>
     </view>
   </view>
-  <view wx:else class="payment-list oh bg-white tc cr-888">没有支付方式</view>
+  <view qq:else class="payment-list oh bg-white tc cr-888">没有支付方式</view>
 </component-popup>

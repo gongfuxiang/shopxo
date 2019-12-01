@@ -107,7 +107,10 @@ Page({
             common_app_is_head_vice_nav: data.common_app_is_head_vice_nav || 0,
           });
         } else {
-          app.showToast(res.data.msg);
+          if(app.is_login_check(res.data, this, 'get_data'))
+          {
+            app.showToast(res.data.msg);
+          }
         }
       },
       fail: () => {

@@ -1,6 +1,6 @@
 <view class="content">
   <image class="pay-icon" qq:if="{{params.code == '9000'}}" mode="widthFix" src="{{default_round_success_icon}}" />
-  <image class="pay-icon" wx:else mode="widthFix" src="{{default_round_error_icon}}" />
+  <image class="pay-icon" qq:else mode="widthFix" src="{{default_round_error_icon}}" />
   <text class="dis-block">{{params.msg}}</text>
   <view qq:if="{{params.code == '9000'}}" class="price-box">
     <text  class="sales-price">￥{{params.total_price}}</text>

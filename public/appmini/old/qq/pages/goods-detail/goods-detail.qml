@@ -31,7 +31,7 @@
 
   <!-- 限时秒杀 -->
   <view qq:if="{{common_app_is_limitedtimediscount == 1 && plugins_limitedtimediscount_data != null}}">
-    <import src="/pages/lib/limitedtimediscount/goods-detail.wxml" />
+    <import src="/pages/lib/limitedtimediscount/goods-detail.qml" />
     <template is="limitedtimediscount" data="{{plugins_limitedtimediscount_data: plugins_limitedtimediscount_data, plugins_limitedtimediscount_is_show_time: plugins_limitedtimediscount_is_show_time, plugins_limitedtimediscount_time_millisecond: plugins_limitedtimediscount_time_millisecond}}"></template>
   </view>
 
@@ -42,7 +42,7 @@
         <button type="default" size="mini" open-type="share" hover-class="none">
           <image src="/images/goods-detail-share-icon.png" mode="scaleToFill" class="dis-block" />
           <view class="cr-888">分享</view>
-        </button>      
+        </button>
       </view>
       <text qq:if="{{(show_field_price_text || null) != null}}" class="price-icon">{{show_field_price_text}}</text>
       <text class="sales-price">￥{{goods.price}}</text>
@@ -118,7 +118,7 @@
   </view>
 
   <!-- 底线 -->
-  <import src="/pages/common/bottom_line.wxml" />
+  <import src="/pages/common/bottom_line.qml" />
   <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
 
   <!-- 底部操作 -->
@@ -132,7 +132,7 @@
       <text class="dis-block cr-888">{{goods_favor_text}}</text>
     </view>
     <view class="fr {{common_site_type == 1 ? 'exhibition-mode' : ''}}">
-      <!-- 展示型 -->
+      <!-- 站点模式 1 展示型 -->
       <block qq:if="{{common_site_type == 1}}">
         <button class="bg-main fl" type="default" bindtap="exhibition_submit_event" hover-class="none">{{nav_submit_text}}</button>
       </block>
@@ -201,13 +201,13 @@
 </view>
 
 <view qq:if="{{goods == null}}">
-    <import src="/pages/common/nodata.wxml" />
+    <import src="/pages/common/nodata.qml" />
     <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
 </view>
 
 <!-- 在线客服 -->
 <view qq:if="{{common_app_is_online_service == 1}}">
-  <import src="/pages/lib/online-service/content.wxml" />
+  <import src="/pages/lib/online-service/content.qml" />
   <template is="online_service"></template>
 </view>
 

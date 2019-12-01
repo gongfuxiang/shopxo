@@ -79,6 +79,6 @@
 </view>
 
 <view qq:if="{{data_list.length == 0 && data_list_loding_status != 0}}">
-  <import src="/pages/common/nodata.wxml" />
+  <import src="/pages/common/nodata.qml" />
   <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
 </view>

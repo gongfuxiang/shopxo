@@ -12,7 +12,7 @@
     padding: 10rpx 35rpx 10rpx 10rpx;
 }
 .address-detail .icon {
-    width: 35rpx;
+    width: 30rpx;
     height: 35rpx !important;
 }
 .address-detail .text {
@@ -29,6 +29,13 @@
 .no-address {
     height: 85rpx;
     line-height: 85rpx;
+}
+.address-alias {
+  border: 1px solid #d2364c;
+  color: #d2364c;
+  padding: 2rpx 10rpx;
+  border-radius: 6rpx;
+  margin-right: 10rpx;
 }
 
 /**

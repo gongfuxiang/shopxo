@@ -20,7 +20,7 @@
 
 <!-- 限时秒杀 -->
 <view qq:if="{{common_app_is_limitedtimediscount == 1}}">
-  <import src="/pages/lib/limitedtimediscount/home.wxml" />
+  <import src="/pages/lib/limitedtimediscount/home.qml" />
   <template is="limitedtimediscount" data="{{plugins_limitedtimediscount_data: plugins_limitedtimediscount_data, plugins_limitedtimediscount_is_show_time: plugins_limitedtimediscount_is_show_time, plugins_limitedtimediscount_timer_title: plugins_limitedtimediscount_timer_title}}"></template>
 </view>
 
@@ -60,7 +60,7 @@
   </view>
 </block>
 <view qq:if="{{data_list.length == 0}}">
-  <import src="/pages/common/nodata.wxml" />
+  <import src="/pages/common/nodata.qml" />
   <template is="nodata" data="{{status: data_list_loding_status}}"></template>
 </view>
 
@@ -72,17 +72,17 @@
 </view>
 
 <!-- 结尾 -->
-<import src="/pages/common/bottom_line.wxml" />
+<import src="/pages/common/bottom_line.qml" />
 <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
 
 <!-- 在线客服 -->
 <view qq:if="{{common_app_is_online_service == 1}}">
-  <import src="/pages/lib/online-service/content.wxml" />
+  <import src="/pages/lib/online-service/content.qml" />
   <template is="online_service"></template>
 </view>
 
 <!-- 版权 -->
 <view qq:if="{{load_status == 1}}">
-  <import src="/pages/common/copyright.wxml" />
+  <import src="/pages/common/copyright.qml" />
   <template is="copyright"></template>
 </view>

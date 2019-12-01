@@ -14,7 +14,7 @@
       <view class="operation br-t oh">
         <view class="default fl" bindtap="address_default_event" data-value="{{item.id}}">
           <image qq:if="{{is_default == item.id}}" class="item-icon" src="/images/default-select-active-icon.png" mode="widthFix" />
-          <image wx:else class="item-icon" src="/images/default-select-icon.png" mode="widthFix" />
+          <image qq:else class="item-icon" src="/images/default-select-icon.png" mode="widthFix" />
           <text>设为默认地址</text>
         </view>
         <button class="fr cr-666 delete-submit br" type="default" size="mini" bindtap="address_delete_event" data-index="{{index}}" data-value="{{item.id}}" hover-class="none">删除</button>
@@ -26,11 +26,11 @@
   </view>
 
   <view qq:if="{{data_list.length == 0}}">
-    <import src="/pages/common/nodata.wxml" />
+    <import src="/pages/common/nodata.qml" />
     <template is="nodata" data="{{status: data_list_loding_status}}"></template>
   </view>
     
-  <import src="/pages/common/bottom_line.wxml" />
+  <import src="/pages/common/bottom_line.qml" />
   <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
   
   <navigator url="/pages/user-address-save/user-address-save" open-type="navigate" hover-class="none">

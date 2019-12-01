@@ -24,9 +24,6 @@ Page({
 
     // 标题设置
     qq.setNavigationBarTitle({ title: (this.data.user == null) ? '授权用户信息' : '手机绑定' });
-
-    // 用户授权
-    app.user_login();
   },
 
   /**

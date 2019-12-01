@@ -8,13 +8,15 @@ Page({
     payment_list: [],
     goods_list: [],
     address: null,
-    address_id: 0,
+    address_id: null,
     total_price: 0,
     user_note_value: '',
     is_first: 1,
     extension_data: [],
     payment_id: 0,
     common_order_is_booking: 0,
+    common_site_type: 0,
+    extraction_address: [],
 
     // 优惠劵
     plugins_coupon_data: null,
@@ -23,17 +25,9 @@ Page({
     popup_plugins_coupon_status: false,
   },
   onLoad(params) {
-    if((params.data || null) == null || app.get_length(JSON.parse(params.data)) == 0)
+    //params['data'] = '{"buy_type":"goods","goods_id":"1","stock":"1","spec":"[]"}';
+    if((params.data || null) != null && app.get_length(JSON.parse(params.data)) > 0)
     {
-      qq.alert({
-        title: '温馨提示',
-        content: '订单信息有误',
-        buttonText: '确认',
-        success: () => {
-          qq.navigateBack();
-        },
-      });
-    } else {
       this.setData({ params: JSON.parse(params.data)});
 
       // 删除地址缓存
@@ -42,13 +36,22 @@ Page({
   },
 
   onShow() {
-    qq.setNavigationBarTitle({title: app.data.common_pages_title.buy});
     this.init();
-    this.setData({is_first: 0});
+    this.setData({ is_first: 0 });
   },
 
   // 获取数据列表
   init() {
+    // 订单参数信息是否正确
+    if (this.data.params == null) {
+      this.setData({
+        data_list_loding_status: 2,
+        data_list_loding_msg: '订单信息有误',
+      });
+      qq.stopPullDownRefresh();
+      return false;
+    }
+
     // 本地缓存地址
     if(this.data.is_first == 0)
     {
@@ -57,12 +60,7 @@ Page({
       {
         this.setData({
           address: cache_address,
-          address_id: cache_address.id
-        });
-      } else {
-        this.setData({
-          address: null,
-          address_id: 0
+          address_id: cache_address.id || null,
         });
       }
     }
@@ -97,6 +95,8 @@ Page({
               extension_data: data.extension_data || [],
               data_list_loding_status: 3,
               common_order_is_booking: data.common_order_is_booking || 0,
+              common_site_type: data.common_site_type || 0,
+              extraction_address: data.base.extraction_address || [],
               plugins_coupon_data: data.plugins_coupon_data || null,
             });
 
@@ -113,19 +113,14 @@ Page({
             }
 
             // 地址
-            if (this.data.address == null || this.data.address_id == 0) {
-              if((data.base.address || null) != null) {
-                this.setData({
-                  address: data.base.address,
-                  address_id: data.base.address.id,
-                });
-
-                qq.setStorage({
-                  key: app.data.cache_buy_user_address_select_key,
-                  data: data.base.address,
-                });
-              }
-            }
+            this.setData({
+              address: data.base.address || null,
+              address_id: ((data.base.address || null) != null && (data.base.address.id || null) != null) ? data.base.address.id : null,
+            });
+            qq.setStorage({
+              key: app.data.cache_buy_user_address_select_key,
+              data: data.base.address || null,
+            });
 
             // 支付方式
             this.payment_list_data(data.payment_list);
@@ -135,7 +130,9 @@ Page({
             data_list_loding_status: 2,
             data_list_loding_msg: res.data.msg,
           });
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data, this, 'init')) {
+            app.showToast(res.data.msg);
+          }
         }
       },
       fail: () => {
@@ -171,9 +168,11 @@ Page({
     data['coupon_id'] = this.data.plugins_use_coupon_id;
 
     // 数据验证
-    var validation = [
-      { fields: 'address_id', msg: '请选择地址' }
-    ];
+    var validation = [];
+    if (this.data.common_site_type == 0 || this.data.common_site_type  == 2)
+    {
+      validation.push({ fields: 'address_id', msg: '请选择地址', is_can_zero: 1 });
+    }
     if (this.data.common_order_is_booking != 1) {
       validation.push({ fields: 'payment_id', msg: '请选择支付方式' });
     }
@@ -261,6 +260,23 @@ Page({
       popup_plugins_coupon_status: false,
     });
     this.init();
+  },
+
+  // 地址选择事件
+  address_event(e) {
+    if(this.data.common_site_type == 0)
+    {
+      qq.navigateTo({
+        url: '/pages/user-address/user-address?is_back=1'
+      });
+    } else if (this.data.common_site_type == 2)
+    {
+      qq.navigateTo({
+        url: '/pages/extraction-address/extraction-address?is_back=1'
+      });
+    } else {
+      app.showToast('当前模式不允许使用地址');
+    }
   },
 
 });
