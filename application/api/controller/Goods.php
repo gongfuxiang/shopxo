@@ -129,6 +129,7 @@ class Goods extends Common
             'common_app_is_poster_share'        => (int) MyC('common_app_is_poster_share'),
             'common_cart_total'                 => BuyService::UserCartTotal(['user'=>$this->user]),
             'customer_service_tel'              => MyC('common_app_customer_service_tel', null, true),
+            'common_is_goods_detail_show_photo' => MyC('common_is_goods_detail_show_photo', 0, true),
 
             // 站点模式
             'common_site_type'                  => (int) MyC('common_site_type', 0, true),

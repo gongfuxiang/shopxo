@@ -102,6 +102,12 @@
       <text class="line"></text>
       <text class="text-wrapper">详情</text>
     </view>
+    <!-- 是否详情展示相册 -->
+    <block qq:if="{{common_is_goods_detail_show_photo == 1 && goods_photo.length > 0}}">
+      <view qq:for="{{goods_photo}}" qq:key="key" class="goods-detail-photo bg-white">
+        <image qq:if="{{(item.images || null) != null}}" bindtap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto dis-block" src="{{item.images}}" mode="widthFix" />
+      </view>
+    </block>
     <!-- web详情 -->
     <view qq:if="{{common_app_is_use_mobile_detail == 0}}" class="bg-white">
       <rich-text nodes="{{goods.content_web || ''}}"></rich-text>

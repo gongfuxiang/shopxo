@@ -2,7 +2,7 @@
 <view class="nav">
   <block tt:for="{{nav_status_list}}" tt:key="key">
     <view tt:if="{{nav_status_index == index}}" class="item fl tc cr-main" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
-    <view wx:else class="item fl tc" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
+    <view tt:else class="item fl tc" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
   </block>
 </view>
 
@@ -65,5 +65,5 @@
       </view>
     </view>
   </view>
-  <view wx:else class="payment-list oh bg-white tc cr-888">没有支付方式</view>
+  <view tt:else class="payment-list oh bg-white tc cr-888">没有支付方式</view>
 </component-popup>

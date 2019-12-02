@@ -15,7 +15,7 @@
       <view class="operation br-t oh">
         <view class="default fl" bindtap="address_default_event" data-value="{{item.id}}">
           <image tt:if="{{is_default == item.id}}" class="item-icon" src="/images/default-select-active-icon.png" mode="widthFix" />
-          <image wx:else class="item-icon" src="/images/default-select-icon.png" mode="widthFix" />
+          <image tt:else class="item-icon" src="/images/default-select-icon.png" mode="widthFix" />
           <text>设为默认地址</text>
         </view>
         <button class="fr cr-666 delete-submit br" type="default" size="mini" bindtap="address_delete_event" data-index="{{index}}" data-value="{{item.id}}" hover-class="none">删除</button>

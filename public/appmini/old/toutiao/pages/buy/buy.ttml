@@ -2,7 +2,7 @@
   <import src="/pages/common/nodata.ttml" />
   <template is="nodata" data="{{status: 2, msg: '展示型不允许提交订单'}}"></template>
 </block>
-<block wx:else>
+<block tt:else>
   <view tt:if="{{goods_list.length > 0}}" class="page">
     <!-- 地址 -->
     <block tt:if="{{common_site_type == 0 || common_site_type == 2}}">

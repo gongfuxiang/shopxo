@@ -5,13 +5,13 @@
   </view>
 
   <!-- 2 处理错误 -->
-  <view wx:elif="{{status == 2}}" class="no-data-box tc">
+  <view tt:elif="{{status == 2}}" class="no-data-box tc">
     <image src="/images/error.png" mode="widthFix" />
     <view class="no-data-tips">{{msg || '处理错误'}}</view>
   </view>
 
   <!-- 0 默认没有数据 -->
-  <view wx:elif="{{status == 0}}" class="no-data-box tc">
+  <view tt:elif="{{status == 0}}" class="no-data-box tc">
     <image src="/images/empty.png" mode="widthFix" />
     <view class="no-data-tips">{{msg || '没有相关数据'}}</view>
   </view>

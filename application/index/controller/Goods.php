@@ -132,6 +132,9 @@ class Goods extends Common
             // 站点类型 - 展示型模式操作名称
             $this->assign('common_is_exhibition_mode_btn_text', MyC('common_is_exhibition_mode_btn_text', '立即咨询', true));
 
+            // 是否商品详情页展示相册
+            $this->assign('common_is_goods_detail_show_photo', MyC('common_is_goods_detail_show_photo', 0, true));
+
             return $this->fetch();
         }
     }

@@ -10,7 +10,7 @@
           <view tt:if="{{item.portion > 0}}" class="progress-bar {{progress_class[index]}}" style="width: {{item.portion}}%;">{{item.name}}</view>
         </block>
       </block>
-      <text wx:else class="cr-888">暂无评分</text>
+      <text tt:else class="cr-888">暂无评分</text>
     </view>
 </view>
 

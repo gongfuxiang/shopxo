@@ -485,12 +485,24 @@
                             </div>
                         {{/if}}
 
+                        <!-- 详情内容 -->
                         <div class="details">
                             <div class="spacing-nav-title">
                                 <span class="line"></span>
                                 <span class="text-wrapper">商品细节</span>
                             </div>
-                            <div class="detail-content">{{$goods.content_web|raw}}</div>
+                            <div class="detail-content">
+                                {{if isset($common_is_goods_detail_show_photo) and $common_is_goods_detail_show_photo eq 1 and !empty($goods.photo)}}
+                                    <div class="content-photo">
+                                        {{foreach $goods.photo as $photo}}
+                                            <li>
+                                                <img src="{{$photo.images}}" title="{{$goods.title}}" />
+                                            </li>
+                                        {{/foreach}}
+                                    </div>
+                                {{/if}}
+                                <div class="content-web">{{$goods.content_web|raw}}</div>
+                            </div>
                         </div>
                     </div>
 

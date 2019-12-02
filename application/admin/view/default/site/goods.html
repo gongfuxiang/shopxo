@@ -1,0 +1,33 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- table nav start -->
+        {{include file="site/nav" /}}
+        <!-- table nav end -->
+
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'goods'])}}" enctype="multipart/form-data">
+            <div class="am-form-group">
+                <label>{{$data.common_is_goods_detail_show_photo.name}}<span class="am-form-group-label-tips">{{$data.common_is_goods_detail_show_photo.describe}}</span></label>
+                <select name="{{$data.common_is_goods_detail_show_photo.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_goods_detail_show_photo.error_tips}}" required>
+                    {{foreach $common_is_text_list as $v}}
+                        <option value="{{$v.id}}" {{if isset($data['common_is_goods_detail_show_photo']['value']) and $data['common_is_goods_detail_show_photo']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+            
+            <div class="am-form-group am-form-group-refreshing">
+                <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

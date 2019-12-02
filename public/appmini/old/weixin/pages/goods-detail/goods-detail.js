@@ -33,6 +33,7 @@ Page({
 
     goods_video_is_autoplay: false,
     common_app_is_use_mobile_detail: 1,
+    common_is_goods_detail_show_photo: 0,
 
     popup_share_status: false,
     common_app_is_online_service: 0,
@@ -145,6 +146,7 @@ Page({
 
               show_field_price_text: (data.goods.show_field_price_text == '销售价') ? null : (data.goods.show_field_price_text.replace(/<[^>]+>/g, "") || null),
               common_app_is_use_mobile_detail: data.common_app_is_use_mobile_detail || 0,
+              common_is_goods_detail_show_photo: data.common_is_goods_detail_show_photo || 0,
               common_app_is_online_service: data.common_app_is_online_service || 0,
 
               common_app_is_limitedtimediscount: data.common_app_is_limitedtimediscount || 0,
