@@ -189,7 +189,7 @@ class ResourcesService
         {
             // 附件上传后处理钩子
             $hook_name = 'plugins_service_attachment_handle_end';
-            $ret = Hook::listen($hook_name, [
+            Hook::listen($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
                 'params'        => &$params,
@@ -240,11 +240,11 @@ class ResourcesService
             {
                 // 附件列表处理前钩子
                 $hook_name = 'plugins_service_attachment_list_handle_begin';
-                $ret = Hook::listen($hook_name, [
+                $ret = HookReturnHandle(Hook::listen($hook_name, [
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
                     'data'          => &$v,
-                ]);
+                ]));
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
                     return $ret;
@@ -256,11 +256,11 @@ class ResourcesService
 
                 // 附件列表处理后钩子
                 $hook_name = 'plugins_service_attachment_list_handle_end';
-                $ret = Hook::listen($hook_name, [
+                $ret = HookReturnHandle(Hook::listen($hook_name, [
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
                     'data'          => &$v,
-                ]);
+                ]));
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
                     return $ret;

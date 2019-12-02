@@ -53,7 +53,7 @@ class NavigationService
             }
             // 大导航钩子
             $hook_name = 'plugins_service_navigation_header_handle';
-            $ret = Hook::listen($hook_name, [
+            Hook::listen($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
                 'params'        => &$params,
@@ -77,7 +77,7 @@ class NavigationService
 
             // 底部导航钩子
             $hook_name = 'plugins_service_navigation_footer_handle';
-            $ret = Hook::listen($hook_name, [
+            Hook::listen($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
                 'params'        => &$params,
@@ -560,7 +560,7 @@ class NavigationService
 
         // 顶部小导航右侧钩子
         $hook_name = 'plugins_service_header_navigation_top_right_handle';
-        $ret = Hook::listen($hook_name, [
+        Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => &$params,
@@ -617,7 +617,7 @@ class NavigationService
 
         // 用户中心资料修改展示字段钩子
         $hook_name = 'plugins_service_users_personal_show_field_list_handle';
-        $ret = Hook::listen($hook_name, [
+        Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => &$params,
@@ -665,7 +665,7 @@ class NavigationService
 
         // 用户安全项列表钩子
         $hook_name = 'plugins_service_users_safety_panel_list_handle';
-        $ret = Hook::listen($hook_name, [
+        Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => &$params,
@@ -820,7 +820,7 @@ class NavigationService
 
         // 用户中心左侧菜单钩子
         $hook_name = 'plugins_service_users_center_left_menu_handle';
-        $ret = Hook::listen($hook_name, [
+        Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => &$params,
@@ -887,7 +887,7 @@ class NavigationService
 
         // 网站底部导航
         $hook_name = 'plugins_service_bottom_navigation_handle';
-        $ret = Hook::listen($hook_name, [
+        Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => &$params,

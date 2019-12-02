@@ -703,12 +703,12 @@ class BuyService
 
             // 生成订单数据处理钩子
             $hook_name = 'plugins_service_buy_handle';
-            $ret = Hook::listen($hook_name, [
+            $ret = HookReturnHandle(Hook::listen($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
                 'params'        => &$params,
                 'data'          => &$result,
-            ]);
+            ]));
             if(isset($ret['code']) && $ret['code'] != 0)
             {
                 return $ret;
@@ -905,13 +905,13 @@ class BuyService
 
         // 订单添加前钩子
         $hook_name = 'plugins_service_buy_order_insert_begin';
-        $ret = Hook::listen($hook_name, [
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'order'         => &$order,
             'params'        => $params,
             
-        ]);
+        ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
             return $ret;
@@ -1070,13 +1070,13 @@ class BuyService
 
         // 订单详情添加前钩子
         $hook_name = 'plugins_service_buy_order_detail_insert_begin';
-        $ret = Hook::listen($hook_name, [
+        $ret = HHookReturnHandle(ook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'user_id'       => $user_id,
             'order_id'      => $order_id,
             'data'          => &$data,
-        ]);
+        ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
             return $ret;
@@ -1112,13 +1112,13 @@ class BuyService
 
         // 订单取货码添加前钩子
         $hook_name = 'plugins_service_buy_order_extraction_code_insert_begin';
-        $ret = Hook::listen($hook_name, [
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
             'hook_name'             => $hook_name,
             'is_backend'            => true,
             'user_id'               => $user_id,
             'order_id'              => $order_id,
             'data'                  => &$data,
-        ]);
+        ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
             return $ret;
@@ -1156,7 +1156,7 @@ class BuyService
 
         // 订单虚拟数据添加前钩子
         $hook_name = 'plugins_service_buy_order_fictitious_insert_begin';
-        $ret = Hook::listen($hook_name, [
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
             'hook_name'             => $hook_name,
             'is_backend'            => true,
             'user_id'               => $user_id,
@@ -1164,7 +1164,7 @@ class BuyService
             'order_detail_id'       => $order_detail_id,
             'goods_id'              => $goods_id,
             'data'                  => &$data,
-        ]);
+        ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
             return $ret;
@@ -1213,13 +1213,13 @@ class BuyService
         
         // 订单地址添加前钩子
         $hook_name = 'plugins_service_buy_order_receive_address_insert_begin';
-        $ret = Hook::listen($hook_name, [
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'user_id'       => $user_id,
             'order_id'      => $order_id,
             'data'          => &$data,
-        ]);
+        ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
             return $ret;

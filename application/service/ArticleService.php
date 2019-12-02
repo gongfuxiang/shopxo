@@ -247,13 +247,13 @@ class ArticleService
 
         // 文章保存处理钩子
         $hook_name = 'plugins_service_article_save_handle';
-        $ret = Hook::listen($hook_name, [
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => &$params,
             'data'          => &$data,
             'article_id'    => isset($params['id']) ? intval($params['id']) : 0,
-        ]);
+        ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
             return $ret;

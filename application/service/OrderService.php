@@ -411,12 +411,12 @@ class OrderService
 
         // 订单支付成功处理前钩子
         $hook_name = 'plugins_service_order_pay_handle_begin';
-        $ret = Hook::listen($hook_name, [
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => &$params,
             'order_id'      => $params['order']['id']
-        ]);
+        ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
             return $ret;
@@ -475,12 +475,12 @@ class OrderService
 
                 // 订单支付成功处理完毕钩子
                 $hook_name = 'plugins_service_order_pay_success_handle_end';
-                $ret = Hook::listen($hook_name, [
+                $ret = HookReturnHandle(Hook::listen($hook_name, [
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
                     'params'        => $params,
                     'order_id'      => $params['order']['id']
-                ]);
+                ]));
 
                 // 虚拟商品自动触发发货操作
                 if($params['order']['order_model'] == 3)
@@ -662,13 +662,13 @@ class OrderService
             {
                 // 订单处理前钩子
                 $hook_name = 'plugins_service_order_handle_begin';
-                $ret = Hook::listen($hook_name, [
+                $ret = HookReturnHandle(Hook::listen($hook_name, [
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
                     'params'        => &$params,
                     'order'         => &$v,
                     'order_id'      => $v['id']
-                ]);
+                ]));
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
                     return $ret;
@@ -830,13 +830,13 @@ class OrderService
 
                 // 订单处理后钩子
                 $hook_name = 'plugins_service_order_handle_end';
-                $ret = Hook::listen($hook_name, [
+                $ret = HookReturnHandle(Hook::listen($hook_name, [
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
                     'params'        => &$params,
                     'order'         => &$v,
                     'order_id'      => $v['id']
-                ]);
+                ]));
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
                     return $ret;
@@ -974,7 +974,7 @@ class OrderService
         {
             // 订单状态改变添加日志钩子
             $hook_name = 'plugins_service_order_status_change_history_success_handle';
-            $ret = Hook::listen($hook_name, [
+            Hook::listen($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
                 'data'          => $data,

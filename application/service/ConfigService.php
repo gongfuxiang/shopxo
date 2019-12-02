@@ -299,7 +299,7 @@ class ConfigService
 
         // 自提点地址列表数据钩子
         $hook_name = 'plugins_service_site_extraction_address_list';
-        $ret = Hook::listen($hook_name, [
+        Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'data'          => &$data,

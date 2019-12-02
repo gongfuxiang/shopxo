@@ -865,12 +865,12 @@ class OrderAftersaleService
 
         // 订单售后审核处理完毕钩子
         $hook_name = 'plugins_service_order_aftersale_audit_handle_end';
-        $ret = Hook::listen($hook_name, [
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => $params,
             'order_id'      => $order['data']['id'],
-        ]);
+        ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
             Db::rollback();

@@ -327,13 +327,13 @@ class UserService
 
         // 用户保存处理钩子
         $hook_name = 'plugins_service_user_save_handle';
-        $ret = Hook::listen($hook_name, [
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => &$params,
             'data'          => &$data,
             'user_id'       => isset($params['id']) ? intval($params['id']) : 0,
-        ]);
+        ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
             return $ret;
@@ -816,7 +816,7 @@ class UserService
 
                 // 用户登录成功信息纪录钩子
                 $hook_name = 'plugins_service_user_login_success_record';
-                $ret = Hook::listen($hook_name, [
+                Hook::listen($hook_name, [
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
                     'user'          => &$user,
@@ -991,12 +991,12 @@ class UserService
 
         // 用户登录前钩子
         $hook_name = 'plugins_service_user_login_begin';
-        $ret = Hook::listen($hook_name, [
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => &$params,
             'user_id'       => $user['id']
-        ]);
+        ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
             return $ret;
@@ -1036,14 +1036,14 @@ class UserService
 
             // 用户登录后钩子
             $hook_name = 'plugins_service_user_login_end';
-            $ret = Hook::listen($hook_name, [
+            $ret = HookReturnHandle(Hook::listen($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
                 'params'        => &$params,
                 'user_id'       => $user_id,
                 'user'          => Db::name('User')->field('id,username,nickname,mobile,email,gender,avatar,province,city,birthday')->where(['id'=>$user_id])->find(),
                 'body_html'     => &$body_html,
-            ]);
+            ]));
             if(isset($ret['code']) && $ret['code'] != 0)
             {
                 return $ret;
@@ -1833,14 +1833,14 @@ class UserService
 
             // 注册成功后钩子
             $hook_name = 'plugins_service_user_register_end';
-            $ret = Hook::listen($hook_name, [
+            $ret = HookReturnHandle(Hook::listen($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
                 'params'        => &$params,
                 'user_id'       => $user_id,
                 'user'          => Db::name('User')->field('id,username,nickname,mobile,email,gender,avatar,province,city,birthday')->where(['id'=>$user_id])->find(),
                 'body_html'     => &$body_html,
-            ]);
+            ]));
             if(isset($ret['code']) && $ret['code'] != 0)
             {
                 return $ret;
@@ -2077,7 +2077,7 @@ class UserService
 
         // 用户退出钩子
         $hook_name = 'plugins_service_user_logout_handle';
-        $ret = Hook::listen($hook_name, [
+        Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => [],

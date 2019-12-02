@@ -33,7 +33,7 @@ class SystemService
     public static function SystemBegin($params = [])
     {
         $hook_name = 'plugins_service_system_begin';
-        $ret = Hook::listen($hook_name, [
+        Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => &$params,
@@ -52,7 +52,7 @@ class SystemService
     public static function SystemEnd($params = [])
     {
         $hook_name = 'plugins_service_system_end';
-        $ret = Hook::listen($hook_name, [
+        Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => &$params,

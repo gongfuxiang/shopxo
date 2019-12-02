@@ -804,10 +804,11 @@ legend {
     border-bottom: 1px solid #e5e5e5;
 }
 legend .legend-title {
-    font-size: 14px;
+    font-size: 12px;
 }
-legend a {
+legend a.am-fr {
     color: #e7747f;
+    margin-top: 10px;
 }
 .items-value-empty {
     color: #999;

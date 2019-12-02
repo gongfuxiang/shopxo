@@ -284,13 +284,13 @@ class GoodsService
             {
                 // 商品处理前钩子
                 $hook_name = 'plugins_service_goods_handle_begin';
-                $ret = Hook::listen($hook_name, [
+                $ret = HookReturnHandle(Hook::listen($hook_name, [
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
                     'params'        => &$params,
                     'goods'         => &$v,
                     'goods_id'      => isset($v['id']) ? $v['id'] : 0,
-                ]);
+                ]));
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
                     return $ret;
@@ -427,13 +427,13 @@ class GoodsService
 
                 // 商品处理后钩子
                 $hook_name = 'plugins_service_goods_handle_end';
-                $ret = Hook::listen($hook_name, [
+                $ret = HookReturnHandle(Hook::listen($hook_name, [
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
                     'params'        => &$params,
                     'goods'         => &$v,
                     'goods_id'      => isset($v['id']) ? $v['id'] : 0,
-                ]);
+                ]));
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
                     return $ret;
@@ -1147,14 +1147,14 @@ class GoodsService
 
         // 商品保存处理钩子
         $hook_name = 'plugins_service_goods_save_handle';
-        $ret = Hook::listen($hook_name, [
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => &$params,
             'data'          => &$data,
             'spec'          => $specifications['data'],
             'goods_id'      => isset($params['id']) ? intval($params['id']) : 0,
-        ]);
+        ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
             return $ret;
@@ -2038,13 +2038,13 @@ class GoodsService
 
             // 商品获取规格钩子
             $hook_name = 'plugins_service_goods_spec_base';
-            $ret = Hook::listen($hook_name, [
+            $ret = HookReturnHandle(Hook::listen($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
                 'params'        => $params,
                 'data'          => &$data,
                 'goods_id'      => $goods_id
-            ]);
+            ]));
             if(isset($ret['code']) && $ret['code'] != 0)
             {
                 return $ret;
@@ -2149,13 +2149,13 @@ class GoodsService
 
                 // 商品获取规格类型钩子
                 $hook_name = 'plugins_service_goods_spec_type';
-                $ret = Hook::listen($hook_name, [
+                $ret = HookReturnHandle(Hook::listen($hook_name, [
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
                     'params'        => $params,
                     'data'          => &$data,
                     'goods_id'      => $goods_id
-                ]);
+                ]));
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
                     return $ret;

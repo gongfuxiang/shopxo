@@ -12,6 +12,30 @@
 // 应用公共文件
 
 /**
+ * 钩子返回数据处理，是否存在错误
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-12-02
+ * @desc    description
+ * @param   [array]          $data [钩子返回的数据]
+ */
+function HookReturnHandle($data)
+{
+    if(!empty($data) && is_array($data))
+    {
+        foreach($data as $v)
+        {
+            if(is_array($v) && isset($v['code']) && $v['code'] != 0)
+            {
+                return $v;
+            }
+        }
+    }
+    return DataReturn('无钩子信息', 0);
+}
+
+/**
  * 附件地址处理
  * @author  Devil
  * @blog    http://gong.gg/
