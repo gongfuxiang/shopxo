@@ -22,31 +22,39 @@ Page({
   },
 
   init(e) {
-    var user = app.get_user_cache_info(this, "init");
-    // 用户未绑定用户则转到登录页面
-    var msg = (user == false) ? '授权用户信息' : '绑定手机号码';
-    if (app.user_is_need_login(user)) {
-      tt.showModal({
-        title: '温馨提示',
-        content: msg,
-        confirmText: '确认',
-        cancelText: '暂不',
-        success: (result) => {
-          if (result.confirm) {
-            tt.navigateTo({
-              url: "/pages/login/login?event_callback=init"
-            });
-          } else {
-            this.setData({
-              data_list_loding_status: 0,
-              data_bottom_line_status: false,
-              data_list_loding_msg: '请先' + msg,
-            });
-          }
-        },
-      });
+    var user = app.get_user_info(this, "init");
+    if (user != false) {
+      // 用户未绑定用户则转到登录页面
+      if (app.user_is_need_login(user)) {
+        tt.showModal({
+          title: '温馨提示',
+          content: '绑定手机号码',
+          confirmText: '确认',
+          cancelText: '暂不',
+          success: (result) => {
+            if (result.confirm) {
+              tt.navigateTo({
+                url: "/pages/login/login?event_callback=init"
+              });
+            } else {
+              this.setData({
+                data_list_loding_status: 0,
+                data_bottom_line_status: false,
+                data_list_loding_msg: '请绑定手机号码',
+              });
+            }
+          },
+        });
+      } else {
+        this.get_data();
+      }
     } else {
-      this.get_data();
+      tt.stopPullDownRefresh();
+      this.setData({
+        data_list_loding_status: 0,
+        data_bottom_line_status: false,
+        data_list_loding_msg: '请先授权用户信息',
+      });
     }
   },
 
@@ -87,7 +95,9 @@ Page({
             data_bottom_line_status: false,
             data_list_loding_msg: res.data.msg,
           });
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data, this, 'get_data')) {
+            app.showToast(res.data.msg);
+          }
         }
       },
       fail: () => {
@@ -173,7 +183,11 @@ Page({
           // 选择处理
           this.selected_calculate();
         } else {
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data)) {
+            app.showToast(res.data.msg);
+          } else {
+            app.showToast('提交失败，请重试！');
+          }
         }
       },
       fail: () => {
@@ -193,7 +207,11 @@ Page({
         if (res.data.code == 0) {
           this.cart_delete(id, type);
         } else {
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data)) {
+            app.showToast(res.data.msg);
+          } else {
+            app.showToast('提交失败，请重试！');
+          }
         }
       },
       fail: () => {
@@ -245,7 +263,11 @@ Page({
 
           app.showToast(((type == 'delete') ? '删除成功' : '收藏成功'), 'success');
         } else {
-          app.showToast((type == 'delete') ? '删除失败' : '收藏失败');
+          if (app.is_login_check(res.data)) {
+            app.showToast((type == 'delete') ? '删除失败' : '收藏失败');
+          } else {
+            app.showToast('提交失败，请重试！');
+          }
         }
       },
       fail: () => {

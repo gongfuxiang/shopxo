@@ -31,7 +31,7 @@ class Toutiao
      * @desc    description
      * @param   [array]           $params [输入参数]
      */
-    public function GetAuthCode($params = [])
+    public function GetAuthSessionKey($params = [])
     {
         if(empty($params['authcode']))
         {
@@ -49,7 +49,7 @@ class Toutiao
         {
             return ['status'=>-1, 'msg'=>$result['errmsg']];
         }
-        return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result];
+        return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result['openid']];
     }
 
     /**

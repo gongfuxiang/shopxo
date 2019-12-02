@@ -49,16 +49,23 @@ Page({
   },
 
   init() {
-    var user = app.get_user_cache_info(this, "init");
-    // 用户未绑定用户则转到登录页面
-    if (app.user_is_need_login(user)) {
-      tt.redirectTo({
-        url: "/pages/login/login?event_callback=init"
-      });
-      return false;
+    var user = app.get_user_info(this, 'init');
+    if (user != false) {
+      // 用户未绑定用户则转到登录页面
+      if (app.user_is_need_login(user)) {
+        tt.redirectTo({
+          url: "/pages/login/login?event_callback=init"
+        });
+        return false;
+      } else {
+        // 获取数据
+        this.get_data_list();
+      }
     } else {
-      // 获取数据
-      this.get_data_list();
+      this.setData({
+        data_list_loding_status: 0,
+        data_bottom_line_status: false,
+      });
     }
   },
 
@@ -156,8 +163,9 @@ Page({
             data_list_loding_status: 0,
             load_status: 1,
           });
-
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data, this, 'get_data_list')) {
+            app.showToast(res.data.msg);
+          }
         }
       },
       fail: () => {
@@ -215,7 +223,7 @@ Page({
     tt.showLoading({title: "请求中..." });
 
     tt.request({
-      url: app.get_request_url("pay", "toutiao"),
+      url: app.get_request_url("pay", "order"),
       method: "POST",
       data: {
         id: order_id,
@@ -227,36 +235,29 @@ Page({
         if (res.data.code == 0) {
           // 是否在线支付,非在线支付则支付成功
           if (res.data.data.is_online_pay == 0) {
-            var temp_data_list = this.data.data_list;
-            temp_data_list[index]['status'] = 2;
-            temp_data_list[index]['status_name'] = '待发货';
-            this.setData({ data_list: temp_data_list });
+            // 数据设置
+            self.order_item_pay_success_handle(index);
 
             app.showToast("支付成功", "success");
           } else {
-            tt.pay({
-              orderInfo: res.data.data.order_info,
-              service: res.data.data.service,
-              success(res) {
-                if (res.code == 0) {
-                  // 数据设置
-                  var temp_data_list = self.data.data_list;
-                  temp_data_list[index]['status'] = 2;
-                  temp_data_list[index]['status_name'] = '待发货';
-                  self.setData({ data_list: temp_data_list });
+            tt.requestPayment({
+              timeStamp: res.data.data.data.timeStamp,
+              nonceStr: res.data.data.data.nonceStr,
+              package: res.data.data.data.package,
+              signType: res.data.data.data.signType,
+              paySign: res.data.data.data.paySign,
+              success: function(res) {
+                // 数据设置
+                self.order_item_pay_success_handle(index);
 
-                  // 跳转支付页面
-                  wx.navigateTo({
-                    url: "/pages/paytips/paytips?code=9000&total_price=" +
-                      self.data.data_list[index]['total_price']
-                  });
-                } else {
-                  app.showToast('支付失败');
-                }
+                // 跳转支付页面
+                tt.navigateTo({
+                  url: "/pages/paytips/paytips?code=9000&total_price=" +
+                    self.data.data_list[index]['total_price']
+                });
               },
-              fail(res) {
-                console.log(res, 'pay-fail')
-                app.showToast('调起收银台失败-'+res.data.code);
+              fail: function (res) {
+                app.showToast('支付失败');
               }
             });
           }
@@ -269,6 +270,32 @@ Page({
         app.showToast("服务器请求出错");
       }
     });
+  },
+
+  // 支付成功数据设置
+  order_item_pay_success_handle(index) {
+    // 数据设置
+    var temp_data_list = this.data.data_list;
+    switch (parseInt(temp_data_list[index]['order_model'])) {
+      // 销售模式
+      case 0:
+        temp_data_list[index]['status'] = 2;
+        temp_data_list[index]['status_name'] = '待发货';
+        break;
+
+      // 自提模式
+      case 2:
+        temp_data_list[index]['status'] = 2;
+        temp_data_list[index]['status_name'] = '待取货';
+        break;
+
+      // 虚拟模式
+      case 3:
+        temp_data_list[index]['status'] = 3;
+        temp_data_list[index]['status_name'] = '待收货';
+        break;
+    }
+    this.setData({ data_list: temp_data_list });
   },
 
   // 取消

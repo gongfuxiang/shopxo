@@ -18,7 +18,12 @@ namespace base;
 class AlipayAuth
 {
     /**
-     * [GetAuthCode 获取用户授权信息]
+     * [__construct 构造方法]
+     */
+    public function __construct(){}
+    
+    /**
+     * [GetAuthSessionKey 获取用户授权信息]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -27,7 +32,7 @@ class AlipayAuth
      * @param    [string]            $authcode      [用户授权码]
      * @return   [array|boolean]                    [失败false, 用户授权信息]
      */
-    public function GetAuthCode($app_id, $authcode = '')
+    public function GetAuthSessionKey($app_id, $authcode = '')
     {
         if(empty($app_id) || empty($authcode))
         {
@@ -69,11 +74,6 @@ class AlipayAuth
         $msg = empty($result['error_response']['sub_msg']) ? '授权失败' : $result['error_response']['sub_msg'];
         return ['status'=>-1, 'msg'=>$msg];
     }
-
-    /**
-     * [__construct 构造方法]
-     */
-    public function __construct(){}
 
     /**
      * [GetParamSign 生成参数和签名]

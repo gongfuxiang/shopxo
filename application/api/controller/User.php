@@ -92,7 +92,7 @@ class User extends Common
         }
 
         // 授权
-        $result = (new \base\AlipayAuth())->GetAuthCode(MyC('common_app_mini_alipay_appid'), $this->data_post['authcode']);
+        $result = (new \base\AlipayAuth())->GetAuthSessionKey(MyC('common_app_mini_alipay_appid'), $this->data_post['authcode']);
         if($result['status'] == 0)
         {
             // 先从数据库获取用户信息
@@ -326,10 +326,17 @@ class User extends Common
             'appid'     => MyC('common_app_mini_toutiao_appid'),
             'secret'    => MyC('common_app_mini_toutiao_appsecret'),
         ];
-        $result = (new \base\Toutiao())->GetAuthCode($this->data_post);
+        $result = (new \base\Toutiao())->GetAuthSessionKey($this->data_post);
         if($result['status'] == 0)
         {
-            return DataReturn('授权登录成功', 0, $result['data']['openid']);
+            // 先从数据库获取用户信息
+            $user = UserService::AppUserInfoHandle(null, 'toutiao_openid', $result);
+            if(empty($user))
+            {
+                return DataReturn('授权登录成功', 0, ['is_alipay_user_exist'=>0, 'openid'=>$result['data']]);
+            }
+            $user['is_alipay_user_exist'] = 1;
+            return DataReturn('授权登录成功', 0, $user);
         }
         return DataReturn($result['msg'], -10);
     }

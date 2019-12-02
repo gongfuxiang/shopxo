@@ -179,7 +179,6 @@
 }
 .goods-base button {
   background: #fff;
-  padding: 0;
 }
 .goods-base .goods-share {
   position: absolute;
