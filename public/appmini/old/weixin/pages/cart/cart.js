@@ -183,7 +183,11 @@ Page({
           // 选择处理
           this.selected_calculate();
         } else {
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data)) {
+            app.showToast(res.data.msg);
+          } else {
+            app.showToast('提交失败，请重试！');
+          }
         }
       },
       fail: () => {
@@ -203,7 +207,11 @@ Page({
         if (res.data.code == 0) {
           this.cart_delete(id, type);
         } else {
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data)) {
+            app.showToast(res.data.msg);
+          } else {
+            app.showToast('提交失败，请重试！');
+          }
         }
       },
       fail: () => {
@@ -255,7 +263,11 @@ Page({
 
           app.showToast(((type == 'delete') ? '删除成功' : '收藏成功'), 'success');
         } else {
-          app.showToast((type == 'delete') ? '删除失败' : '收藏失败');
+          if (app.is_login_check(res.data)) {
+            app.showToast((type == 'delete') ? '删除失败' : '收藏失败');
+          } else {
+            app.showToast('提交失败，请重试！');
+          }
         }
       },
       fail: () => {

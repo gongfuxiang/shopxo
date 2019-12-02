@@ -31,7 +31,7 @@
     "pages/extraction-address/extraction-address"
   ],
   "window": {
-    "defaultTitle": "test",
+    "defaultTitle": "{{application_title}}",
     "titleBarColor": "#d2364c"
   },
   "tabBar": {
