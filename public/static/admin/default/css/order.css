@@ -14,11 +14,6 @@
 .am-table .goods-item:not(:last-child), .am-table .order-no { border-bottom: 1px solid #eee; }
 .am-table .order-no { font-weight: 700; color: #333;}
 
-/**
- * 弹窗
- */
-form.am-form .am-form-group { padding-right: 5px; }
-
 
 /**
  * 业务弹窗

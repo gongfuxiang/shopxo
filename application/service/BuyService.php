@@ -871,6 +871,7 @@ class BuyService
         }
 
         // 销售型,自提点 地址处理
+        $address = [];
         if(in_array($common_site_type, [0, 2]))
         {
             if(empty($buy['data']['base']['address']))
@@ -909,6 +910,7 @@ class BuyService
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'order'         => &$order,
+            'goods'         => &$buy['data']['goods'],
             'params'        => $params,
             
         ]));
@@ -934,7 +936,7 @@ class BuyService
                     return $ret;
                 }
 
-                // 自提模式 - 虚拟信息添加
+                // 订单模式 - 虚拟信息添加
                 if($common_site_type == 3)
                 {
                     $ret = self::OrderFictitiousValueInsert($order_id, $detail_ret['data'], $params['user']['id'], $v['goods_id']);
@@ -989,14 +991,29 @@ class BuyService
             }
         }
 
+        // 订单添加成功钩子
+        $hook_name = 'plugins_service_buy_order_insert_end';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'order_id'      => $order_id,
+            'order'         => $order,
+            'goods'         => $buy['data']['goods'],
+            'address'       => $address,
+            'params'        => $params,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            // 事务回滚
+            Db::rollback();
+            return $ret;
+        }
+
         // 订单提交成功
         Db::commit();
 
         // 删除购物车
         self::BuyCartDelete($params);
-
-        // 获取数据库订单信息
-        $order = Db::name('Order')->find($order_id);
 
         // 订单添加成功钩子, 不校验返回值
         $hook_name = 'plugins_service_buy_order_insert_success';
@@ -1005,8 +1022,13 @@ class BuyService
             'is_backend'    => true,
             'order_id'      => $order_id,
             'order'         => $order,
+            'goods'         => $buy['data']['goods'],
+            'address'       => $address,
             'params'        => $params,
         ]);
+
+        // 获取数据库订单信息
+        $order = Db::name('Order')->find($order_id);
 
         // 返回信息
         $result = [
@@ -1070,7 +1092,7 @@ class BuyService
 
         // 订单详情添加前钩子
         $hook_name = 'plugins_service_buy_order_detail_insert_begin';
-        $ret = HHookReturnHandle(ook::listen($hook_name, [
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'user_id'       => $user_id,
@@ -1212,7 +1234,7 @@ class BuyService
         ];
         
         // 订单地址添加前钩子
-        $hook_name = 'plugins_service_buy_order_receive_address_insert_begin';
+        $hook_name = 'plugins_service_buy_order_address_insert_begin';
         $ret = HookReturnHandle(Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,

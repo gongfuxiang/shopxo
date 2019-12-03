@@ -530,7 +530,7 @@ class Weixin
 
         // 请求接口处理
         $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/secapi/pay/refund', $this->ArrayToXml($data), true));
-        if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['return_msg']) && $result['return_msg'] == 'OK')
+        if(isset($result['result_code']) && $result['result_code'] == 'SUCCESS' && isset($result['return_code']) && $result['return_code'] == 'SUCCESS')
         {
             // 统一返回格式
             $data = [
@@ -542,10 +542,10 @@ class Weixin
             ];
             return DataReturn('退款成功', 0, $data);
         }
-        $msg = is_string($result) ? $result : (empty($result['return_msg']) ? '退款接口异常' : $result['return_msg']);
-        if(!empty($result['err_code_des']))
+        $msg = is_string($result) ? $result : (empty($result['err_code_des']) ? '退款接口异常' : $result['err_code_des']);
+        if(!empty($result['return_msg']))
         {
-            $msg .= '-'.$result['err_code_des'];
+            $msg .= '-'.$result['return_msg'];
         }
         return DataReturn($msg, -1);
     }

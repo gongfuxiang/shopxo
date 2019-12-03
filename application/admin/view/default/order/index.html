@@ -461,7 +461,7 @@
 								{{/if}}
 								{{if $v['status'] eq 2}}
                                     {{if $v['order_model'] eq 2}}
-                                        <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-check am-btn-block submit-take" data-url="{{:MyUrl('admin/order/delivery')}}" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-extraction-code="" data-am-modal="{target: '#order-take-modal', closeViaDimmer: 0, width: 200, height: 160}"> 取货</button>
+                                        <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-check am-btn-block submit-take" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-am-modal="{target: '#order-take-modal', closeViaDimmer: 0, width: 200, height: 160}"> 取货</button>
                                     {{else /}}
 									   <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-send-o am-btn-block submit-delivery" data-url="{{:MyUrl('admin/order/delivery')}}" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-express-id="{{$v.express_id}}" data-am-modal="{target: '#order-delivery-popup'}"> 发货</button>
                                     {{/if}}
