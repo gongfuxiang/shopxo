@@ -262,6 +262,7 @@ Page({
     return value;
   },
 
+  // 数据提交
   form_submit(e) {
     var self = this,
       data = self.data;
@@ -314,6 +315,15 @@ Page({
           app.showToast("服务器请求出错");
         }
       });
+    }
+  },
+
+  // 省市区未按照顺序选择提示
+  region_select_error_event(e) {
+    var value = e.currentTarget.dataset.value || null;
+    if(value != null)
+    {
+      app.showToast(value);
     }
   }
 });
