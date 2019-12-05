@@ -570,6 +570,12 @@
 							{{if !empty($v['desc'])}}
 								<span class="am-text-xs am-text-warning am-margin-left-xs">{{$v.desc}}</span>
 							{{/if}}
+							{{if !empty($v['tips'])}}
+								<div class="am-alert am-alert-warning am-margin-0" data-am-alert>
+									<button type="button" class="am-close">&times;</button>
+									<p>{{$v.tips|raw}}</p>
+								</div>
+							{{/if}}
 							{{if !empty($v['element'])}}
 								{{foreach $v.element as $element}}
 									<div class="am-form-group">

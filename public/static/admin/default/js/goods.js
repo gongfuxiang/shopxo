@@ -91,7 +91,7 @@ $(function()
         var spec_max = $('#goods-nav-operations').data('spec-add-max-number') || 3;
         if($('.specifications-table th.table-title').length >= spec_max)
         {
-            Prompt('最多添加'+spec_max+'列规格');
+            Prompt('最多添加'+spec_max+'列规格，可在后台管理[系统设置-后台配置]中配置');
             return false;
         }
 

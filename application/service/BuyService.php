@@ -215,12 +215,14 @@ class BuyService
                     $v['spec_weight'] = $goods_base['data']['spec_base']['weight'];
                     $v['spec_coding'] = $goods_base['data']['spec_base']['coding'];
                     $v['spec_barcode'] = $goods_base['data']['spec_base']['barcode'];
+                    $v['extends'] = $goods_base['data']['spec_base']['extends'];
                 } else {
                     $v['is_invalid'] = 1;
                     $v['inventory'] = 0;
                     $v['spec_weight'] = 0;
                     $v['spec_coding'] = '';
                     $v['spec_barcode'] = '';
+                    $v['extends'] = '';
                 }
 
                 // 基础信息
@@ -926,12 +928,14 @@ class BuyService
         $order_id = Db::name('Order')->insertGetId($order);
         if($order_id > 0)
         {
-            foreach($buy['data']['goods'] as $v)
+            foreach($buy['data']['goods'] as $k=>$v)
             {
-                // 添加订单详情数据
+                // 添加订单详情数据,data返回自增id
                 $detail_ret = self::OrderDetailInsert($order_id, $params['user']['id'], $v);
-                if($detail_ret['code'] != 0)
+                if($detail_ret['code'] == 0)
                 {
+                    $buy['data']['goods'][$k]['id'] = $detail_ret['data'];
+                } else {
                     Db::rollback();
                     return $ret;
                 }
