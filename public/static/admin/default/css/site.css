@@ -18,12 +18,11 @@ ul.home_site_user_register_bg_images-images-view li {
 /**
  * 带面板
  */
-.content-right .am-panel .am-panel-bd .am-form-group {
-    margin-bottom: 10px;
+.content-right .am-panel .am-panel-bd .am-form-group:last-child {
+    margin-bottom: 0;
 }
 .content-right .am-panel .am-panel-bd .am-form-group {
     border-bottom: 0;
-    margin-bottom: 0;
 }
 
 
