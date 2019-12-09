@@ -250,6 +250,16 @@ class Goods extends Common
                 'goods_id'     => $goods_id,
                 'goods'        => &$goods,
             ]));
+
+        // 商品页面基础信息购买小导航里面钩子
+        $hook_name = 'plugins_view_goods_detail_base_buy_nav_min_inside';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'    => $hook_name,
+                'is_backend'   => false,
+                'goods_id'     => $goods_id,
+                'goods'        => &$goods,
+            ]));
     }
 
     /**

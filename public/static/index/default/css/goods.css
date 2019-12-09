@@ -115,10 +115,6 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
     .btn.close {display:block;float: left;position: static;}
     i.buy-event{display: inline-block;}
     .btn.confirm { float: right; }
-
-    .buy-nav .buy-nav-opt { position: absolute; margin-left: 283px; display: block; }
-    .buy-nav .buy-nav-opt a { display: none; }
-    .buy-nav .buy-nav-opt .favor-submit { width: 100%; border: 0; margin-top: 5px; }
 }
 
 @media only screen and (min-width:1025px) {
@@ -244,12 +240,22 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 
 
 /*购物车*/
-.tb-btn button, .buy-nav div.submit,.buy-nav .buy-nav-opt, .buy-nav span { height: 35px; line-height: 35px; }
+.tb-btn button, .buy-nav div.submit,.buy-nav .buy-nav-opt, .buy-nav .nav-icon { height: 35px; line-height: 35px; }
 .tb-btn button {margin-right: 0px;float: left;overflow: hidden; position: relative;width:100%; background-color: #FFEDED; color:#d2364c;font-size: 14px;text-align: center;border: 0;}
 .tb-btn-basket button {background-color:#d2364c;color: #FFF;}
 .buy-nav .buy-nav-opt, .buy-nav div.submit { float:left; }
 .buy-nav div.submit { width: 30%; }
-.buy-nav span{display:inline-block;width: 50%;float: left; ;cursor: pointer; border-top: 1px solid #f5f5f5; border-left: 1px solid #f5f5f5;}
+@media only screen and (min-width:640px) {
+    .buy-nav .buy-nav-opt { position: absolute; margin-left: 220px; display: block; }
+    .buy-nav .buy-nav-opt .nav-icon-home { display: none; }
+    .buy-nav .buy-nav-opt .nav-icon { cursor: pointer; }
+    .buy-nav .buy-nav-opt .nav-icon:not(:last-child) { margin-right: 10px; }
+    .buy-nav .buy-nav-opt { padding-top: 8px; }
+}
+@media only screen and (max-width:640px) {
+    .buy-nav .nav-icon {display:inline-block;width: 50%;float: left; ;cursor: pointer; border-top: 1px solid #f5f5f5; border-left: 1px solid #f5f5f5; text-align: center; }
+    header { display: none; }
+}
 
 
 /*介绍*/
@@ -288,7 +294,7 @@ ul.detail-attr li {height: 26px;overflow: hidden;line-height: 26px;vertical-alig
     .clearfix-right{float:left;width:55%;min-height: 270px;}
     .iteminfo_parameter.freight{display: block;margin-top: 10px;margin-bottom:10px ;}
     .iteminfo_parameter.freight dt{margin-left:-70px ;float: left;margin-right:10px ;padding-top:5px ;padding-bottom:20px ;}
-    .buy-nav{position: static; margin-top: 20px; }
+    .buy-nav{position: static; margin-top: 20px; overflow: hidden; }
     ul.am-avg-sm-4.am-tabs-nav.am-nav.am-nav-tabs {width: auto;}
     ul.detail-attr li {display: inline;float: left;width: 33.33%;}
 
@@ -311,8 +317,8 @@ ul.detail-attr li {height: 26px;overflow: hidden;line-height: 26px;vertical-alig
     .tb-detail-hd,.tb-detail-price{text-align: left;}
     .tb-detail-hd h1 {font-size: 16px;}
 
-    /*购物车*/
-    .tb-btn-buy{margin-left:50px; margin-right:20px;}
+    /*购物*/
+    .tb-btn-buy{margin-right:10px;}
     .tb-btn button{width:98px ;border: 1px solid #d2364c;}
     .buy-nav div.submit{width: auto;}
 
@@ -393,6 +399,11 @@ ul.detail-attr li {height: 26px;overflow: hidden;line-height: 26px;vertical-alig
     .like li:nth-of-type(4n) { border-right: 0px !important; }
     .like li:nth-of-type(3n) { border-right: 1px solid #eee; }
     .like li:nth-child(4) { border-top: 0px; }
+
+    /*购物*/
+    .tb-btn-buy{margin-left:50px;margin-right:20px;}
+    .buy-nav .buy-nav-opt {margin-left: 283px;}
+    .buy-nav .buy-nav-opt .nav-icon:not(:last-child) {margin-right: 15px;}
 }
 
 @media only screen and (min-width:1260px) {

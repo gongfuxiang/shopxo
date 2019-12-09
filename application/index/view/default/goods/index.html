@@ -317,17 +317,38 @@
                     {{if $goods['inventory'] gt 0}}
                         <div class="buy-nav-opt">
                             <a href="{{$Think.__MY_URL__}}">
-                                <span class="am-icon-home am-icon-fw"> 首页</span>
+                                <span class="nav-icon nav-icon-home">
+                                    <i class="am-icon-home am-icon-fw"></i>
+                                    <em>首页</em>
+                                </span>
                             </a>
+
                             {{if isset($goods['is_favor']) and $goods['is_favor'] eq 1}}
-                                <span class="am-icon-heart am-icon-fw login-event favor-submit text-active" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
+                                <span class="nav-icon login-event favor-submit text-active" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
+                                    <i class="am-icon-heart am-icon-fw"></i>
                                     <em class="goods-favor-text">已收藏</em>
                                     <em class="goods-favor-count">({{$goods.favor_count}})</em>
                                 </span>
                             {{else /}}
-                                <span class="am-icon-heart am-icon-fw favor-submit login-event" data-ajax-url="{{:MyUrl('index/goods/favor')}}">    <em class="goods-favor-text">收藏</em>
+                                <span class="nav-icon favor-submit login-event" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
+                                    <i class="am-icon-heart am-icon-fw"></i>
+                                    <em class="goods-favor-text">收藏</em>
                                     <em class="goods-favor-count">({{$goods.favor_count}})</em>
                                 </span>
+                            {{/if}}
+
+                            <!-- 商品页面基础信息购买小导航里面钩子 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_goods_detail_base_buy_nav_min_inside</span>
+                                </div>
+                            {{/if}}
+                            {{if !empty($plugins_view_goods_detail_base_buy_nav_min_inside_data) and is_array($plugins_view_goods_detail_base_buy_nav_min_inside_data)}}
+                                {{foreach $plugins_view_goods_detail_base_buy_nav_min_inside_data as $hook}}
+                                    {{if is_string($hook) or is_int($hook)}}
+                                        {{$hook|raw}}
+                                    {{/if}}
+                                {{/foreach}}
                             {{/if}}
                         </div>
 
