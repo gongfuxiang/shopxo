@@ -29,7 +29,7 @@ class Images
 	 * [__construct 构造方法]
 	 * @param [array] $parameters [参数列表]
 	 */
-	private function __construct($parameters)
+	private function __construct($parameters = [])
 	{
 		/* 检测是否支持gd */
 		$this->IsGD();
