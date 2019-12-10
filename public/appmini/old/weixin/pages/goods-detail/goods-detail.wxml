@@ -219,7 +219,7 @@
           </share-button>
         </view>
         <view class="share-items oh">
-          <button class="dis-block" type="default" size="mini" open-type="share" hover-class="none">
+          <button class="dis-block" type="default" size="mini" open-type="share" hover-class="none" bindtap="popup_share_close_event">
             <image src="/images/share-weixin-icon.png" mode="scaleToFill" />
             <text class="cr-888 single-text">一键分享给好友、群聊</text>
           </button>
