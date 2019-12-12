@@ -87,15 +87,19 @@ class Site extends Common
 		$data = ConfigService::ConfigList();
 		$this->assign('data', $data);
 
-		// 自提点地址处理
-		if($nav_type == 'sitetype' && !empty($data['common_self_extraction_address']) && !empty($data['common_self_extraction_address']['value']))
+		// 自提点
+		if($nav_type == 'sitetype')
 		{
-			$address = ConfigService::SiteTypeExtractionAddressList($data['common_self_extraction_address']['value']);
-			$this->assign('sitetype_address_list', $address['data']);
-		}
+			// 地址处理
+        	if(!empty($data['common_self_extraction_address']) && !empty($data['common_self_extraction_address']['value']))
+			{
+				$address = ConfigService::SiteTypeExtractionAddressList($data['common_self_extraction_address']['value']);
+				$this->assign('sitetype_address_list', $address['data']);
+			}
 
-		// 加载百度地图api
-        $this->assign('is_load_baidu_map_api', 1);
+			// 加载百度地图api
+        	$this->assign('is_load_baidu_map_api', 1);
+		}
 
 		// 编辑器文件存放地址
         $this->assign('editor_path_type', 'common');
