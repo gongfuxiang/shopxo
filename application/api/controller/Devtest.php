@@ -83,6 +83,11 @@ class Devtest extends Common
      */
     public function OrderAddress()
     {
+        if(input('pwd') != 'shopxo520')
+        {
+            die('非法访问');
+        }
+        
         // 状态
         $success = 0;
         $fail = 0;
