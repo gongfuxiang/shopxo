@@ -12,6 +12,7 @@ namespace app\api\controller;
 
 use think\Db;
 use app\service\ResourcesService;
+use app\service\RegionService;
 
 /**
  * 开发测试
@@ -70,6 +71,59 @@ class Devtest extends Common
                 }
             }
         }
+    }
+
+    /**
+     * 订单地址拆分到新的表，1.7升级1.8升级运行
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-12-13
+     * @desc    description
+     */
+    public function OrderAddress()
+    {
+        // 状态
+        $success = 0;
+        $fail = 0;
+
+        // 获取数据
+        // 一次处理100条
+        $prefix = config('database.prefix');
+        $field = 'id, user_id, receive_address_id, receive_name, receive_tel, receive_province, receive_city, receive_county, receive_address';
+        $sql = 'SELECT '.$field.' FROM '.$prefix.'order WHERE `id` NOT IN (SELECT `order_id` FROM '.$prefix.'order_address) LIMIT 500';
+        $result = Db::query($sql);
+        if(!empty($result))
+        {
+            foreach($result as $v)
+            {
+                $province_name = RegionService::RegionName($v['receive_province']);
+                $city_name = RegionService::RegionName($v['receive_city']);
+                $county_name = RegionService::RegionName($v['receive_county']);
+                $data = [
+                    'order_id'          => $v['id'],
+                    'user_id'           => $v['user_id'],
+                    'address_id'        => $v['receive_address_id'],
+                    'name'              => $v['receive_name'],
+                    'tel'               => $v['receive_tel'],
+                    'province'          => $v['receive_province'],
+                    'city'              => $v['receive_city'],
+                    'county'            => $v['receive_county'],
+                    'address'           => $v['receive_address'],
+                    'province_name'     => empty($province_name) ? '' : $province_name,
+                    'city_name'         => empty($city_name) ? '' : $city_name,
+                    'county_name'       => empty($county_name) ? '' : $county_name,
+                    'add_time'          => time(),
+                ];
+                if(Db::name('OrderAddress')->insert($data))
+                {
+                    $success++;
+                } else {
+                    $fail++;
+                }
+            }
+        }
+        echo 'count:'.count($result).', success:'.$success.', fail:'.$fail;
     }
 }
 ?>
