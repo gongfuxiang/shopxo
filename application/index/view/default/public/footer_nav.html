@@ -1,7 +1,7 @@
 {{if MyC('common_is_app_inside_close_header') neq 1 or !in_array(MiniAppEnv(), config('shopxo.mini_app_type_list'))}}
 	<!-- 友情链接 -->
 	{{if !empty($link_list)}}
-		<div class="friendship-list">
+		<div class="friendship-list am-hide-sm-only">
 			<div class="am-container">
 				<h2>友情链接</h2>
 				<ul>
@@ -33,7 +33,7 @@
 
 {{if MyC('common_is_app_inside_close_header') neq 1 or !in_array(MiniAppEnv(), config('shopxo.mini_app_type_list'))}}
 	<!-- 底部导航 -->
-	<footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{}">
+	<footer data-am-widget="footer" class="am-footer am-footer-default am-hide-sm-only" data-am-footer="{}">
 		<div class="am-container">
 			<!-- 底部导航 -->
 			{{if !empty($nav_footer)}}
