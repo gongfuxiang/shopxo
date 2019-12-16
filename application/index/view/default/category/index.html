@@ -25,7 +25,7 @@
             {{/foreach}}
         </ul>
         {{foreach $goods_category_list as $k=>$v}}
-            <div class="category-content category-content-{{$k}} am-fr am-padding-top-xs {{if $k neq 0}} none{{/if}}">
+            <div class="category-content category-content-{{$k}} am-fr am-padding-vertical-xs {{if $k neq 0}} none{{/if}}">
                 {{foreach $v.items as $vs}}
                     <div class="category-item am-padding-sm">
                         <div class="title">
