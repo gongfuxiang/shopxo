@@ -1,4 +1,4 @@
-{{if MyC('common_is_mobile_concise_model') neq 1}}
+{{if !IsMobile() or (IsMobile() and MyC('common_is_mobile_concise_model') neq 1)}}
 	<!-- 友情链接 -->
 	{{if !empty($link_list)}}
 		<div class="friendship-list am-hide-sm-only">
@@ -31,7 +31,7 @@
 {{/if}}
 
 
-{{if MyC('common_is_mobile_concise_model') neq 1}}
+{{if !IsMobile() or (IsMobile() and MyC('common_is_mobile_concise_model') neq 1)}}
 	<!-- 底部导航 -->
 	<footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{}">
 		<div class="am-container">
