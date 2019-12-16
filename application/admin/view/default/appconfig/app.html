@@ -53,23 +53,6 @@
             </div>
 
             <div class="am-form-group">
-                <label>{{$data.common_is_app_inside_close_header.name}}<span class="am-form-group-label-tips">{{$data.common_is_app_inside_close_header.describe}}</span></label>
-                <select name="{{$data.common_is_app_inside_close_header.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_app_inside_close_header.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['common_is_app_inside_close_header']['value']) and $data['common_is_app_inside_close_header']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-            <div class="am-form-group">
-                <label>{{$data.common_is_app_inside_close_footer.name}}<span class="am-form-group-label-tips">{{$data.common_is_app_inside_close_footer.describe}}</span></label>
-                <select name="{{$data.common_is_app_inside_close_footer.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_app_inside_close_footer.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['common_is_app_inside_close_footer']['value']) and $data['common_is_app_inside_close_footer']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-
-            <div class="am-form-group">
                 <label>{{$data.common_app_is_header_nav_fixed.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_header_nav_fixed.describe}}</span></label>
                 <select name="{{$data.common_app_is_header_nav_fixed.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_header_nav_fixed.error_tips}}" required>
                     {{foreach $common_is_text_list as $v}}

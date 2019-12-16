@@ -159,7 +159,7 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .pay-confirm em { font-size: 12px; }
   .pay-confirm .nav-total-price { color: #d2364c; font-weight: 700; }
   .order-nav { background: #f5f5f5; z-index: 100; }
-  .am-footer { padding-bottom: 45px; }
+  .am-footer { padding-bottom: 40px; }
 }
 
 

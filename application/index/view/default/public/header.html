@@ -67,7 +67,7 @@
 		{{/foreach}}
 	{{/if}}
 </head>
-<body {{if MyC('common_is_app_inside_close_header') eq 1 and in_array(MiniAppEnv(), config('shopxo.mini_app_type_list'))}}class="mini-app-env"{{/if}}>
+<body {{if in_array(MiniAppEnv(), config('shopxo.mini_app_type_list'))}}class="mini-app-env"{{/if}}>
 <!-- css钩子 -->
 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_header) or $is_header eq 1)}}
     <div class="plugins-tag">

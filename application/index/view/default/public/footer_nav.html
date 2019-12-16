@@ -1,4 +1,4 @@
-{{if MyC('common_is_app_inside_close_header') neq 1 or !in_array(MiniAppEnv(), config('shopxo.mini_app_type_list'))}}
+{{if MyC('common_is_mobile_concise_model') neq 1}}
 	<!-- 友情链接 -->
 	{{if !empty($link_list)}}
 		<div class="friendship-list am-hide-sm-only">
@@ -31,9 +31,9 @@
 {{/if}}
 
 
-{{if MyC('common_is_app_inside_close_header') neq 1 or !in_array(MiniAppEnv(), config('shopxo.mini_app_type_list'))}}
+{{if MyC('common_is_mobile_concise_model') neq 1}}
 	<!-- 底部导航 -->
-	<footer data-am-widget="footer" class="am-footer am-footer-default am-hide-sm-only" data-am-footer="{}">
+	<footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{}">
 		<div class="am-container">
 			<!-- 底部导航 -->
 			{{if !empty($nav_footer)}}
@@ -113,6 +113,14 @@
 		</div>
 	</footer>
 {{else /}}
-	<!-- 保留标签，兼容mobile导航样式 -->
-	<footer class="am-footer"></footer>
+	<footer class="am-footer am-footer am-footer-default mobile-concise-model">
+		<!-- 页脚信息 -->
+		<div class="am-footer-miscs">
+			<p class="powered">
+				Powered by <a href="http://shopxo.net/" title="ShopXO电商系统" target="_blank">
+					<span class="b">Shop</span><span class="o">XO</span>
+				</a> {{$Think.APPLICATION_VERSION}}
+			</p>
+		</div>
+	</footer>
 {{/if}}

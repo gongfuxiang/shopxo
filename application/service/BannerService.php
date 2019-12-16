@@ -33,7 +33,17 @@ class BannerService
      */
     public static function Banner($params = [])
     {
-        $banner = Db::name('Slide')->field('name,images_url,event_value,event_type,bg_color')->where(['platform'=>APPLICATION_CLIENT_TYPE, 'is_enable'=>1])->order('sort asc')->select();
+        // 平台
+        $platform = APPLICATION_CLIENT_TYPE;
+
+        // web端手机访问
+        if($platform == 'pc' && IsMobile())
+        {
+            $platform = 'h5';
+        }
+
+        // 获取banner数据
+        $banner = Db::name('Slide')->field('name,images_url,event_value,event_type,bg_color')->where(['platform'=>$platform, 'is_enable'=>1])->order('sort asc,id asc')->select();
         if(!empty($banner))
         {
             foreach($banner as &$v)

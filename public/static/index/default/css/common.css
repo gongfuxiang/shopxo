@@ -353,6 +353,21 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
 }
 
 /**
+ * 底部-手机简洁模式
+ */
+.mobile-concise-model {
+    border-top: 0;
+    background: #fff;
+    color: #999;
+    margin-top: 0;
+    padding: 0;
+}
+.mobile-concise-model .am-footer-miscs {
+    padding: 5px 0;
+    margin-top: 0;
+}
+
+/**
  * 友情链接
  */
 .friendship-list {
@@ -843,14 +858,4 @@ legend a.am-fr {
 }
 .items-value-empty {
     color: #999;
-}
-
-/**
- * mini环境中
- */
-body.mini-app-env .user-main {
-    padding-top: 5px;
-}
-body.mini-app-env .user-center {
-    padding-top: 0;
 }
