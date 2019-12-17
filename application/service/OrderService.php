@@ -150,6 +150,23 @@ class OrderService
             'site_name'     => MyC('home_site_name', 'ShopXO', true),
             'ajax_url'      => MyUrl('index/order/paycheck'),
         );
+
+        // 发起支付处理钩子
+        $hook_name = 'plugins_service_order_pay_launch_handle';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'order_id'      => $order['id'],
+            'order'         => &$order,
+            'params'        => &$params,
+            'pay_data'      => &$pay_data,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 发起支付
         $pay_name = 'payment\\'.$payment[0]['payment'];
         $ret = (new $pay_name($payment[0]['config']))->Pay($pay_data);
         if(isset($ret['code']) && $ret['code'] == 0)
@@ -379,6 +396,22 @@ class OrderService
                 'pay_price'     => $ret['data']['pay_price'],
             ],
         ];
+
+        // 支付成功异步通知处理钩子
+        $hook_name = 'plugins_service_order_pay_notify_handle';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'payment'       => $payment[0],
+            'order'         => $order,
+            'pay_params'    => &$pay_params,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 支付结果处理
         return self::OrderPayHandle($pay_params);
     }
 
