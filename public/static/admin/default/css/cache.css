@@ -1,1 +1,12 @@
-.cache-submit { margin: -33px 5px 0px 0px; }
+.content-right .am-panel {
+    position: relative;
+}
+.content-right .am-panel .cache-submit {
+    width: 70px;
+    height: 33px;
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
