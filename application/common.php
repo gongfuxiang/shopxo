@@ -774,12 +774,16 @@ function PriceBeautify($price = 0, $default = null)
     }
 
     $price = str_replace('.00', '', $price);
-    if(strpos ($price, '.') !== false)
+    if(strpos($price, '.') !== false)
     {
         if(substr($price, -1) == 0)
         {
             $price = substr($price, 0, -1);
-        } 
+        }
+        if(substr($price, -1) == '.')
+        {
+            $price = substr($price, 0, -1);
+        }
     }
     return $price;
 }
