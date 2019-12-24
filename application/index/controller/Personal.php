@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\SeoService;
 use app\service\UserService;
 use app\service\NavigationService;
 
@@ -47,7 +48,12 @@ class Personal extends Common
 	 */
 	public function Index()
 	{
+        // 用户展示数据
 		$this->assign('personal_show_list', NavigationService::UsersPersonalShowFieldList());
+
+        // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('个人资料', 1));
+
 		return $this->fetch();
 	}
 
@@ -65,6 +71,9 @@ class Personal extends Common
 
 		// 数据
 		$this->assign('data', $this->user);
+
+        // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('个人资料编辑', 1));
 
 		return $this->fetch();
 	}

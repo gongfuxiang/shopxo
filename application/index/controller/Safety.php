@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\SeoService;
 use app\service\SafetyService;
 use app\service\NavigationService;
 
@@ -56,6 +57,10 @@ class Safety extends Common
 				'email'		=>	$this->user['email_security'],
 			);
 		$this->assign('data', $data);
+
+        // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('安全设置', 1));
+
 		return $this->fetch();
 	}
 
@@ -68,6 +73,9 @@ class Safety extends Common
 	 */
 	public function LoginPwdInfo()
 	{
+        // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('登录密码修改 - 安全设置', 1));
+
 		return $this->fetch();
 	}
 
@@ -84,6 +92,10 @@ class Safety extends Common
 		{
 			return redirect(MyUrl('index/safety/newmobileinfo'));
 		}
+
+        // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('手机号码修改 - 安全设置', 1));
+
 		return $this->fetch();
 	}
 
@@ -100,6 +112,10 @@ class Safety extends Common
 		{
 			return $this->error('原帐号校验失败', MyUrl('index/safety/mobileinfo'));
 		}
+
+        // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('手机号码修改 - 安全设置', 1));
+
 		return $this->fetch();
 	}
 
@@ -116,6 +132,10 @@ class Safety extends Common
 		{
 			return redirect(MyUrl('index/safety/newemailinfo'));
 		}
+
+        // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('电子邮箱修改 - 安全设置', 1));
+
 		return $this->fetch();
 	}
 
@@ -132,6 +152,10 @@ class Safety extends Common
 		{
 			return $this->error('原帐号校验失败', MyUrl('index/safety/emailinfo'));
 		}
+
+        // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('电子邮箱修改 - 安全设置', 1));
+        
 		return $this->fetch();
 	}
 

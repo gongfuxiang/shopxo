@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\SeoService;
 use app\service\UserService;
 
 /**
@@ -46,8 +47,13 @@ class UserAddress extends Common
      */
     public function Index()
     {
+        // 用户地址列表
         $data = UserService::UserAddressList(['user'=>$this->user]);
         $this->assign('user_address_list', $data['data']);
+
+        // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('我的地址', 1));
+
         return $this->fetch();
     }
 

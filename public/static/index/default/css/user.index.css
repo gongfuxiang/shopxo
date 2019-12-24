@@ -44,6 +44,7 @@ ul.order-base li span.am-badge{position: absolute; top: -7px; left: 55%;}
  * 手机
  */
 @media only screen and (max-width:640px) {
+    header{display: none;}
     .am-footer{padding-bottom: 50px;}
     .nav-search{display: none;} .user-main{padding-top: 0;}
     .user-content-body{padding: 0;}

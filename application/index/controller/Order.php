@@ -14,6 +14,7 @@ use app\service\OrderService;
 use app\service\PaymentService;
 use app\service\GoodsCommentsService;
 use app\service\ConfigService;
+use app\service\SeoService;
 
 /**
  * 订单管理
@@ -96,6 +97,9 @@ class Order extends Common
 
         // 评价状态
         $this->assign('common_comments_status_list', lang('common_comments_status_list'));
+
+        // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('我的订单', 1));
 
         // 参数
         $this->assign('params', $params);

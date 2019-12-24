@@ -11,6 +11,7 @@
 namespace app\index\controller;
 
 use app\service\GoodsService;
+use app\service\SeoService;
 
 /**
  * 用户收藏
@@ -79,6 +80,9 @@ class UserFavor extends Common
         );
         $data = GoodsService::GoodsFavorList($data_params);
         $this->assign('data_list', $data['data']);
+
+        // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('我的收藏', 1));
 
         // 参数
         $this->assign('params', $params);

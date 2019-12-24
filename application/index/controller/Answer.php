@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\SeoService;
 use app\service\AnswerService;
 
 /**
@@ -83,6 +84,9 @@ class Answer extends Common
         // 静态数据
         $this->assign('common_is_show_list', lang('common_is_show_list'));
         $this->assign('common_is_text_list', lang('common_is_text_list'));
+
+        // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('问答/留言', 1));
 
         // 参数
         $this->assign('params', $params);

@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\SeoService;
 use app\service\MessageService;
 
 /**
@@ -91,6 +92,9 @@ class Message extends Common
 
         // 是否已读
         $this->assign('common_is_read_list', lang('common_is_read_list'));
+
+        // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('我的消息', 1));
 
         // 参数
         $this->assign('params', $params);
