@@ -2133,7 +2133,7 @@ class UserService
             // 处理展示用户
             if($is_privacy === true && !empty($user['user_name_view']))
             {
-                $user['user_name_view'] = substr($user['user_name_view'], 0, 3).'***'.substr($user['user_name_view'], -3);
+                $user['user_name_view'] = mb_substr($user['user_name_view'], 0, 3, 'utf-8').'***'.mb_substr($user['user_name_view'], -3, null, 'utf-8');
             }
 
             // 头像
