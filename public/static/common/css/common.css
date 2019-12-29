@@ -398,3 +398,17 @@ button.colorpicker-submit img {
 .plugins-tag:hover span {
     display: block;
 }
+
+/**
+ * 两行、超出字符省略
+ */
+.am-text-truncate-2 {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 18px;
+    height: 35px;
+}

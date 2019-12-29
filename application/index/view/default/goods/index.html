@@ -440,7 +440,7 @@
                                         <img alt="{{$v.title}}" src="{{$v.images}}">
                                     </a>               
                                 </div>
-                                <div class="p-name">
+                                <div class="p-name am-text-truncate-2 am-margin-vertical-xs ">
                                     <a href="{{:$v['goods_url']}}" {{if !empty($v.title_color)}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</a>
                                 </div>
                                 <div class="p-price"><strong>￥{{$v.price}}</strong></div>
@@ -581,7 +581,7 @@
                                                     <img alt="{{$v.title}}" src="{{$v.home_recommended_images}}" />
                                                 </a>
                                                 <a href="{{:$v['goods_url']}}">
-                                                    <p class="am-text-truncate" {{if !empty($v.title_color)}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</p>
+                                                    <p class="am-text-truncate-2 am-margin-bottom-xs" {{if !empty($v.title_color)}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</p>
                                                 </a>
                                                 <p class="price fl">
                                                     <strong>￥{{$v.price}}</strong>

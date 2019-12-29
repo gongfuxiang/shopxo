@@ -270,7 +270,7 @@ ul.detail-attr li {height: 26px;overflow: hidden;line-height: 26px;vertical-alig
 
 /*推荐商品*/
 .like{margin-top:25px;border-radius:4px;}
-.like li{ float:left; padding:8px 10px 0;font: 14px/1.5 tahoma,arial,"Hiragino Sans GB",宋体,sans-serif;}
+.like li{ float:left; padding:8px 10px 5px;font: 14px/1.5 tahoma,arial,"Hiragino Sans GB",宋体,sans-serif;}
 .like li{ text-align:left; border-top: 1px solid #eee; } 
 .like li .p-price strong {
     font-size: 14px; color: #E4393C;font-weight: 400;font-family: Verdana;}
