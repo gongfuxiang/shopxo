@@ -689,7 +689,7 @@ class NavigationService
         // name        名称
         // url         页面地址
         // is_show     是否显示（0否, 1是）
-        // contains    包含的子页面（包括自身）
+        // contains    包含的子页面（包括自身） 如用户中心（index 组, user 控制器, index 方法 [ indexuserindex ]）
         // icon        icon类
         // item        二级数据
         // is_system   是否系统内置菜单（0否, 1是）扩展数据可空或0
@@ -700,7 +700,7 @@ class NavigationService
                 'name'      =>  '个人中心',
                 'url'       =>  MyUrl('index/user/index'),
                 'is_show'   =>  1,
-                'contains'  =>  ['userindex'],
+                'contains'  =>  ['indexuserindex'],
                 'icon'      =>  'am-icon-home',
                 'is_system' =>  1,
             ],
@@ -714,7 +714,7 @@ class NavigationService
                         'name'      =>  '订单管理',
                         'url'       =>  MyUrl('index/order/index'),
                         'is_show'   =>  1,
-                        'contains'  =>  ['orderindex', 'orderdetail', 'ordercomments'],
+                        'contains'  =>  ['indexorderindex', 'indexorderdetail', 'indexordercomments'],
                         'icon'      =>  'am-icon-th-list',
                         'is_system' =>  1,
                     ],
@@ -722,14 +722,14 @@ class NavigationService
                         'name'      =>  '订单售后',
                         'url'       =>  MyUrl('index/orderaftersale/index'),
                         'is_show'   =>  1,
-                        'contains'  =>  ['orderaftersaleindex', 'orderaftersaleaftersale'],
+                        'contains'  =>  ['indexorderaftersaleindex', 'indexorderaftersaleaftersale'],
                         'icon'      =>  'am-icon-puzzle-piece',
                         'is_system' =>  1,
                     ],
                     [
                         'name'      =>  '我的收藏',
                         'url'       =>  MyUrl('index/userfavor/goods'),
-                        'contains'  =>  ['userfavorgoods'],
+                        'contains'  =>  ['indexuserfavorgoods'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-heart-o',
                         'is_system' =>  1,
@@ -745,7 +745,7 @@ class NavigationService
                     [
                         'name'      =>  '我的积分',
                         'url'       =>  MyUrl('index/userintegral/index'),
-                        'contains'  =>  ['userintegralindex'],
+                        'contains'  =>  ['indexuserintegralindex'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-fire',
                         'is_system' =>  1,
@@ -761,7 +761,7 @@ class NavigationService
                     [
                         'name'      =>  '个人资料',
                         'url'       =>  MyUrl('index/personal/index'),
-                        'contains'  =>  ['personalindex', 'personalsaveinfo'],
+                        'contains'  =>  ['indexpersonalindex', 'indexpersonalsaveinfo'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-gear',
                         'is_system' =>  1,
@@ -769,7 +769,7 @@ class NavigationService
                     [
                         'name'      =>  '我的地址',
                         'url'       =>  MyUrl('index/useraddress/index'),
-                        'contains'  =>  ['useraddressindex', 'useraddresssaveinfo'],
+                        'contains'  =>  ['indexuseraddressindex', 'indexuseraddresssaveinfo'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-street-view',
                         'is_system' =>  1,
@@ -777,7 +777,7 @@ class NavigationService
                     [
                         'name'      =>  '安全设置',
                         'url'       =>  MyUrl('index/safety/index'),
-                        'contains'  =>  ['safetyindex', 'safetyloginpwdinfo', 'safetymobileinfo', 'safetynewmobileinfo', 'safetyemailinfo', 'safetynewemailinfo'],
+                        'contains'  =>  ['indexsafetyindex', 'indexsafetyloginpwdinfo', 'indexsafetymobileinfo', 'indexsafetynewmobileinfo', 'indexsafetyemailinfo', 'indexsafetynewemailinfo'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-user-secret',
                         'is_system' =>  1,
@@ -785,7 +785,7 @@ class NavigationService
                     [
                         'name'      =>  '我的消息',
                         'url'       =>  MyUrl('index/message/index'),
-                        'contains'  =>  ['messageindex'],
+                        'contains'  =>  ['indexmessageindex'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-bell-o',
                         'is_system' =>  1,
@@ -793,7 +793,7 @@ class NavigationService
                     [
                         'name'      =>  '我的足迹',
                         'url'       =>  MyUrl('index/usergoodsbrowse/index'),
-                        'contains'  =>  ['usergoodsbrowseindex'],
+                        'contains'  =>  ['indexusergoodsbrowseindex'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-lastfm',
                         'is_system' =>  1,
@@ -801,7 +801,7 @@ class NavigationService
                     [
                         'name'      =>  '问答/留言',
                         'url'       =>  MyUrl('index/answer/index'),
-                        'contains'  =>  ['answerindex'],
+                        'contains'  =>  ['indexanswerindex'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-question',
                         'is_system' =>  1,
@@ -811,7 +811,7 @@ class NavigationService
             'logout' => [
                 'name'      =>  '安全退出',
                 'url'       =>  MyUrl('index/user/logout'),
-                'contains'  =>  ['userlogout'],
+                'contains'  =>  ['indexuserlogout'],
                 'is_show'   =>  1,
                 'icon'      =>  'am-icon-power-off',
                 'is_system' =>  1,

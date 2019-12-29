@@ -452,11 +452,7 @@ function FunEach(&$data)
  */
 function PriceNumberFormat($value, $decimals = 2, $dec_point = '.')
 {
-    if(isset($value))
-    {
-        return number_format($value, $decimals, $dec_point, '');
-    }
-    return 0.00;
+    return number_format((float) $value, $decimals, $dec_point, '');
 }
 
 /**
