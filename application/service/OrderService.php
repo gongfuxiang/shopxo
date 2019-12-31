@@ -72,6 +72,13 @@ class OrderService
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
+        // 库存校验
+        $ret = BuyService::OrderInventoryCheck(['order_id'=>$order['id'], 'order_data'=>$order]);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 支付方式
         $payment_id = empty($params['payment_id']) ? $order['payment_id'] : intval($params['payment_id']);
         $payment = PaymentService::PaymentList(['where'=>['id'=>$payment_id]]);
@@ -242,6 +249,13 @@ class OrderService
         {
             $status_text = lang('common_order_admin_status')[$order['status']]['name'];
             return DataReturn('状态不可操作['.$status_text.']', -1);
+        }
+
+        // 库存校验
+        $ret = BuyService::OrderInventoryCheck(['order_id'=>$order['id'], 'order_data'=>$order]);
+        if($ret['code'] != 0)
+        {
+            return $ret;
         }
 
         // 支付方式

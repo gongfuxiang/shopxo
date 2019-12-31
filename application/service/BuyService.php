@@ -1301,6 +1301,84 @@ class BuyService
     }
 
     /**
+     * 库存校验
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-11-09
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function OrderInventoryCheck($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'order_id',
+                'error_msg'         => '订单id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'order_data',
+                'error_msg'         => '订单更新数据不能为空',
+            ],
+            [
+                'checked_type'      => 'is_array',
+                'key_name'          => 'order_data',
+                'error_msg'         => '订单更新数据有误',
+            ]
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 是否扣除库存
+        $common_is_deduction_inventory = MyC('common_is_deduction_inventory', 0);
+        if($common_is_deduction_inventory != 1)
+        {
+            return DataReturn('未开启扣除库存', 0);
+        }
+
+        // 获取订单商品
+        $order_detail = Db::name('OrderDetail')->field('id,goods_id,buy_number,spec')->where(['order_id'=>$params['order_id']])->select();
+        if(!empty($order_detail))
+        {
+            foreach($order_detail as $v)
+            {
+                $goods = Db::name('Goods')->field('is_deduction_inventory,inventory')->find($v['goods_id']);
+                if(isset($goods['is_deduction_inventory']) && $goods['is_deduction_inventory'] == 1)
+                {
+                    // 先判断商品库存是否不足
+                    if($goods['inventory'] < $v['buy_number'])
+                    {
+                        return DataReturn('商品库存不足['.$goods['inventory'].'<'.$v['buy_number'].']', -10);
+                    }
+
+                    // 规格库存
+                    $spec = empty($v['spec']) ? '' : json_decode($v['spec'], true);
+                    $base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>$spec]);
+                    if($base['code'] == 0)
+                    {
+                        // 先判断商品规格库存是否不足
+                        $inventory = Db::name('GoodsSpecBase')->where(['id'=>$base['data']['spec_base']['id'], 'goods_id'=>$v['goods_id']])->value('inventory');
+                        if($inventory < $v['buy_number'])
+                        {
+                            return DataReturn('商品规格库存不足['.$inventory.'<'.$v['buy_number'].']', -10);
+                        }
+                    } else {
+                        return $base;
+                    }
+                }
+            }
+            return DataReturn('校验成功', 0);
+        }
+        return DataReturn('没有需要扣除库存的数据', 0);
+    }
+
+    /**
      * 库存扣除
      * @author   Devil
      * @blog    http://gong.gg/
@@ -1385,10 +1463,9 @@ class BuyService
                     if(isset($goods['is_deduction_inventory']) && $goods['is_deduction_inventory'] == 1)
                     {
                         // 先判断商品库存是否不足
-                        $inventory = Db::name('Goods')->where(['id'=>$v['goods_id']])->value('inventory');
-                        if($inventory < $v['buy_number'])
+                        if($goods['inventory'] < $v['buy_number'])
                         {
-                            return DataReturn('商品库存不足['.$inventory.'<'.$v['buy_number'].']', -10);
+                            return DataReturn('商品库存不足['.$goods['inventory'].'<'.$v['buy_number'].']', -10);
                         }
 
                         // 扣除操作
