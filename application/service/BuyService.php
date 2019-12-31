@@ -1348,13 +1348,13 @@ class BuyService
         {
             foreach($order_detail as $v)
             {
-                $goods = Db::name('Goods')->field('is_deduction_inventory,inventory')->find($v['goods_id']);
+                $goods = Db::name('Goods')->field('is_deduction_inventory,inventory,title')->find($v['goods_id']);
                 if(isset($goods['is_deduction_inventory']) && $goods['is_deduction_inventory'] == 1)
                 {
                     // 先判断商品库存是否不足
                     if($goods['inventory'] < $v['buy_number'])
                     {
-                        return DataReturn('商品库存不足['.$goods['inventory'].'<'.$v['buy_number'].']', -10);
+                        return DataReturn('库存不足['.$goods['title'].'('.$goods['inventory'].'<'.$v['buy_number'].')]', -10);
                     }
 
                     // 规格库存
@@ -1366,7 +1366,7 @@ class BuyService
                         $inventory = Db::name('GoodsSpecBase')->where(['id'=>$base['data']['spec_base']['id'], 'goods_id'=>$v['goods_id']])->value('inventory');
                         if($inventory < $v['buy_number'])
                         {
-                            return DataReturn('商品规格库存不足['.$inventory.'<'.$v['buy_number'].']', -10);
+                            return DataReturn('库存不足['.$goods['title'].'('.$inventory.'<'.$v['buy_number'].')]', -10);
                         }
                     } else {
                         return $base;
@@ -1459,13 +1459,13 @@ class BuyService
                 $temp = Db::name('OrderGoodsInventoryLog')->where(['order_id'=>$params['order_id'], 'order_detail_id'=>$v['id'], 'goods_id'=>$v['goods_id']])->find();
                 if(empty($temp))
                 {
-                    $goods = Db::name('Goods')->field('is_deduction_inventory,inventory')->find($v['goods_id']);
+                    $goods = Db::name('Goods')->field('is_deduction_inventory,inventory,title')->find($v['goods_id']);
                     if(isset($goods['is_deduction_inventory']) && $goods['is_deduction_inventory'] == 1)
                     {
                         // 先判断商品库存是否不足
                         if($goods['inventory'] < $v['buy_number'])
                         {
-                            return DataReturn('商品库存不足['.$goods['inventory'].'<'.$v['buy_number'].']', -10);
+                            return DataReturn('商品库存不足['.$goods['title'].'('.$goods['inventory'].'<'.$v['buy_number'].')]', -10);
                         }
 
                         // 扣除操作
@@ -1483,7 +1483,7 @@ class BuyService
                             $inventory = Db::name('GoodsSpecBase')->where(['id'=>$base['data']['spec_base']['id'], 'goods_id'=>$v['goods_id']])->value('inventory');
                             if($inventory < $v['buy_number'])
                             {
-                                return DataReturn('商品规格库存不足['.$inventory.'<'.$v['buy_number'].']', -10);
+                                return DataReturn('商品规格库存不足['.$goods['title'].'('.$inventory.'<'.$v['buy_number'].']', -10);
                             }
 
                             // 扣除规格操作
