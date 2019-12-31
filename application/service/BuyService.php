@@ -1384,6 +1384,13 @@ class BuyService
                     $goods = Db::name('Goods')->field('is_deduction_inventory,inventory')->find($v['goods_id']);
                     if(isset($goods['is_deduction_inventory']) && $goods['is_deduction_inventory'] == 1)
                     {
+                        // 先判断商品库存是否不足
+                        $inventory = Db::name('Goods')->where(['id'=>$v['goods_id']])->value('inventory');
+                        if($inventory < $v['buy_number'])
+                        {
+                            return DataReturn('商品库存不足['.$inventory.'<'.$v['buy_number'].']', -10);
+                        }
+
                         // 扣除操作
                         if(!Db::name('Goods')->where(['id'=>$v['goods_id']])->setDec('inventory', $v['buy_number']))
                         {
@@ -1395,6 +1402,13 @@ class BuyService
                         $base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>$spec]);
                         if($base['code'] == 0)
                         {
+                            // 先判断商品规格库存是否不足
+                            $inventory = Db::name('GoodsSpecBase')->where(['id'=>$base['data']['spec_base']['id'], 'goods_id'=>$v['goods_id']])->value('inventory');
+                            if($inventory < $v['buy_number'])
+                            {
+                                return DataReturn('商品规格库存不足['.$inventory.'<'.$v['buy_number'].']', -10);
+                            }
+
                             // 扣除规格操作
                             if(!Db::name('GoodsSpecBase')->where(['id'=>$base['data']['spec_base']['id'], 'goods_id'=>$v['goods_id']])->setDec('inventory', $v['buy_number']))
                             {
