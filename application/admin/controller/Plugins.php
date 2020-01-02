@@ -87,71 +87,27 @@ class Plugins extends Common
         $pluginscontrol = strtolower($params['pluginscontrol']);
         $pluginsaction = strtolower($params['pluginsaction']);
 
-        // 应用校验
-        $ret = $this->PluginsCheck($pluginsname, $pluginscontrol, $pluginsaction);
-        if($ret['code'] != 0)
-        {
-            if(IS_AJAX)
-            {
-                return $ret;
-            } else {
-                $this->assign('msg', $ret['msg']);
-                return $this->fetch('public/tips_error');
-            }
-        }
-
         // 视图初始化
         $this->PluginsViewInit($pluginsname, $pluginscontrol, $pluginsaction);
 
         // 编辑器文件存放地址定义
         $this->assign('editor_path_type', 'plugins_'.$pluginsname);
 
-        // 应用控制器
-        $plugins = '\app\plugins\\'.$pluginsname.'\admin\\'.ucfirst($pluginscontrol);
-        if(!class_exists($plugins))
+        // 调用
+        $ret = PluginsService::PluginsControlCall($pluginsname, $pluginscontrol, $pluginsaction, 'admin', $params);
+        if($ret['code'] == 0)
         {
-            if(IS_AJAX)
-            {
-                return DataReturn(ucfirst($pluginscontrol).' 应用控制器未定义', -1);
-            } else {
-                $this->assign('msg', ucfirst($pluginscontrol).' 应用控制器未定义');
-                return $this->fetch('public/tips_error');
-            }
+            return $ret['data'];
         }
 
-        // 调用方法
-        $obj = new $plugins();
-        if(!method_exists($obj, $pluginsaction))
+        // 调用失败
+        if(IS_AJAX)
         {
-            if(IS_AJAX)
-            {
-                return DataReturn(ucfirst($pluginsaction).' 应用方法未定义', -1);
-            } else {
-                $this->assign('msg', ucfirst($pluginsaction).' 应用方法未定义');
-                return $this->fetch('public/tips_error');
-            }
+            return $ret;
+        } else {
+            $this->assign('msg', $ret['msg']);
+            return $this->fetch('public/tips_error');
         }
-        return $obj->$pluginsaction($params);
-    }
-
-    /**
-     * 应用校验
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-05-27T00:13:50+0800
-     * @param    [string]                   $plugins_name       [应用名称]
-     * @param    [string]                   $plugins_control    [控制器名称]
-     * @param    [string]                   $plugins_action     [方法]
-     */
-    private function PluginsCheck($pluginsname, $pluginscontrol, $pluginsaction)
-    {
-        $ret = PluginsService::PluginsField($pluginsname, 'id');
-        if(empty($ret['data']))
-        {
-            return DataReturn('应用不存在', -10);
-        }
-        return DataReturn('验证成功', 0);
     }
 
     /**

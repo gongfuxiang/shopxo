@@ -100,7 +100,7 @@ function PathToParams($key = null, $default = null, $path = '')
 }
 
 /**
- * 调用插件方法 - 获取插件配置信息
+ * 调用插件服务层方法 - 获取插件配置信息
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  1.0.0
@@ -118,8 +118,15 @@ function CallPluginsData($plugins, $attachment_field = [], $service_name = '', $
         return DataReturn('插件状态异常['.$plugins.']', -1);
     }
 
+    // 查看是否存在基础服务层并且定义获取基础配置方法
+    $plugins_class = 'app\plugins\\'.$plugins.'\service\BaseService';
+    if(class_exists($plugins_class) && method_exists($plugins_class, 'BaseConfig'))
+    {
+        return $plugins_class::BaseConfig();
+    }
+
     // 未指定附件字段则自动去获取
-    $attachment = [];
+    $attachment = $attachment_field;
     if(empty($attachment_field) && !empty($attachment_property))
     {
         // 类自定义或者默认两个类
@@ -141,7 +148,7 @@ function CallPluginsData($plugins, $attachment_field = [], $service_name = '', $
 }
 
 /**
- * 调用插件方法 - 访问为静态
+ * 调用插件服务层方法 - 访问为静态
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  1.0.0

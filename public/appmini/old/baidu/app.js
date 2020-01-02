@@ -154,20 +154,43 @@ App({
   },
 
   /**
-  /**
    * 请求地址生成
+   * a              方法
+   * c              控制器
+   * plugins        插件标记（传参则表示为插件请求）
+   * params         url请求参数
    */
-  get_request_url(a, c, m, params) {
+  get_request_url(a, c, plugins, params) {
     a = a || "index";
     c = c || "index";
-    m = m || "api";
+
+    // 是否插件请求
+    var plugins_params = "";
+    if ((plugins || null) != null)
+    {
+      plugins_params = "&pluginsname=" + plugins + "&pluginscontrol=" + c + "&pluginsaction=" + a;
+
+      // 走api统一插件调用控制器
+      c = "plugins"
+      a = "index"
+    }
+
+    // 参数处理
     params = params || "";
     if (params != "" && params.substr(0, 1) != "&") {
       params = "&" + params;
     }
+
+    // 用户信息
     var user = this.get_user_cache_info();
-    var token = user == false ? '' : user.token || '';
-    return this.data.request_url + "index.php?s=/" + m + "/" + c + "/" + a + "&application=app&application_client_type=baidu" + "&token=" + token + "&ajax=ajax" + params;
+    var token = (user == false) ? '' : user.token || '';
+    return this.data.request_url +
+      "index.php?s=/api/" + c + "/" + a + plugins_params+
+      "&application=app&application_client_type=weixin" +
+      "&token=" +
+      token +
+      "&ajax=ajax" +
+      params;
   },
 
   /**

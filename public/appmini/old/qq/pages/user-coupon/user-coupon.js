@@ -54,7 +54,7 @@ Page({
     }
 
     qq.request({
-      url: app.get_request_url("user", "coupon"),
+      url: app.get_request_url("index", "coupon", "coupon"),
       method: "POST",
       data: {},
       dataType: "json",

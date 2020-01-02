@@ -37,7 +37,7 @@ Page({
     }
 
     swan.request({
-      url: app.get_request_url("index", "coupon"),
+      url: app.get_request_url("index", "index", "coupon"),
       method: "POST",
       data: {},
       dataType: "json",
@@ -109,7 +109,7 @@ Page({
         if (temp_list[index]['is_operable'] != 0) {
           swan.showLoading({ title: "处理中..." });
           swan.request({
-            url: app.get_request_url("receive", "coupon"),
+            url: app.get_request_url("receive", "coupon", "coupon"),
             method: "POST",
             data: { "coupon_id": value },
             dataType: "json",
