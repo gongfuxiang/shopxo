@@ -154,6 +154,7 @@ class OrderService
             'client_type'   => $order['client_type'],
             'notify_url'    => $url.'_notify.php',
             'call_back_url' => $call_back_url,
+            'redirect_url'  => MyUrl('index/order/detail', ['id'=>$order['id']]),
             'site_name'     => MyC('home_site_name', 'ShopXO', true),
             'ajax_url'      => MyUrl('index/order/paycheck'),
         );

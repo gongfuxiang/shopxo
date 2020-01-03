@@ -204,7 +204,7 @@ class Weixin
      */
     private function PayHandleReturn($pay_params = [], $data = [], $params = [])
     {
-        $redirect_url = empty($params['order_id']) ? '' : urlencode(MyUrl('index/order/detail', ['id'=>$params['order_id']]));
+        $redirect_url = empty($params['redirect_url']) ? __MY_URL__ : $params['redirect_url'];
         $result = DataReturn('支付接口异常', -1);
         switch($pay_params['trade_type'])
         {
@@ -278,14 +278,10 @@ class Weixin
      * @version  1.0.0
      * @datetime 2019-05-25T00:07:52+0800
      * @param    [array]                   $pay_data     [支付信息]
-     * @param    [string]                  $redirect_url [成功后的url]
+     * @param    [string]                  $redirect_url [支付结束后跳转url]
      */
     private function PayHtml($pay_data, $redirect_url)
     {
-        // 支付跳转地址
-        $success_url = MyUrl('index/order/respond', ['appoint_status'=>0]);
-        $error_url = MyUrl('index/order/respond', ['appoint_status'=>-1]);
-
         // 支付代码
         exit('<html>
             <head>
@@ -304,12 +300,7 @@ class Weixin
                                 "paySign":"'.$pay_data['paySign'].'"
                             },
                             function(res) {
-                                if(res.err_msg == "get_brand_wcpay_request:ok" )
-                                {
-                                    window.location.href = "'.$success_url.'";
-                                } else {
-                                    window.location.href = "'.$error_url.'";
-                                }
+                                window.location.href = "'.$redirect_url.'";
                             }
                         ); 
                     }
