@@ -63,11 +63,13 @@ App({
       "coupon": "领劵中心",
       "user_coupon": "优惠劵",
       "extraction_address": "自提地址",
+      "membervip": "会员VIP",
+      "membervip_buy": "开通时长",
     },
 
     // 请求地址
     request_url: "{{request_url}}",
-    // request_url: 'http://shopxo.com/',
+     request_url: 'http://shopxo.com/',
     // request_url: 'https://dev.shopxo.net/',
 
     // 基础信息

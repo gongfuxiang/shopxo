@@ -1,0 +1,67 @@
+/**
+ * common
+ */
+.page {
+  padding-bottom: 100rpx;
+}
+/**
+ * tabs
+ */
+.tabs {
+  width: 100%;
+  height: 80rpx;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.tabs .item {
+  padding: 20rpx 30rpx;
+  border-bottom: 3px solid #f0f0f0;
+  display: inline-block;
+  position: relative;
+}
+.tabs .active {
+  border-bottom: 3px solid #1d1611;
+  color: #1d1611;
+}
+
+/**
+ * content
+ */
+.content .item {
+    cursor: pointer;
+    border: 1px solid #D6D6D6;
+    margin: 0 20rpx 30rpx 20rpx;
+}
+.content .item .number {
+    background: #f2f2f2;
+    width: calc(40% - 40rpx);
+}
+.content .item .price {
+    width: calc(60% - 40rpx)
+}
+.content .item .number,
+.content .item .price {
+    padding: 20rpx;
+}
+.content .item .number .value {
+    color: #666;
+}
+.content .item .price .value,
+.content .item .price .symbol {
+    color: #1d1611;
+}
+.content .item .value {
+    font-size: 38rpx;
+}
+.content .item .unit {
+    color: #888;
+    margin-left: 10rpx;
+}
+.content .active {
+  border-color: #1d1611;
+  box-shadow: 0px 0 0px 1px #1d1611
+}
+.content .submit-bottom {
+  background: #f9d681 !important;
+  color: #351d06 !important;
+}

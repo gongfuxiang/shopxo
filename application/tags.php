@@ -32,5 +32,102 @@ return array (
   'log_write' => 
   array (
   ),
+  'plugins_css' => 
+  array (
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_navigation_header_handle' => 
+  array (
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_goods_handle_end' => 
+  array (
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+  ),
+  'plugins_service_goods_spec_base' => 
+  array (
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+  ),
+  'plugins_service_buy_handle' => 
+  array (
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_user_login_success_record' => 
+  array (
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+  ),
+  'plugins_service_goods_spec_extends_handle' => 
+  array (
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+  ),
+  'plugins_view_admin_user_save' => 
+  array (
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+  ),
+  'plugins_service_user_save_handle' => 
+  array (
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+  ),
+  'plugins_service_goods_save_handle' => 
+  array (
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+  ),
+  'plugins_view_goods_detail_panel_price_top' => 
+  array (
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+  ),
+  'plugins_view_home_goods_inside_bottom' => 
+  array (
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+  ),
+  'plugins_view_search_goods_inside_bottom' => 
+  array (
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+  ),
+  'plugins_service_goods_spec_type' => 
+  array (
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+  ),
+  'plugins_service_users_center_left_menu_handle' => 
+  array (
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_header_navigation_top_right_handle' => 
+  array (
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_js' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_view_goods_detail_panel_bottom' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_view_buy_goods_bottom' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_view_buy_form_inside' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_buy_order_insert_success' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_order_status_change_history_success_handle' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_user_register_end' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
 );
 ?>

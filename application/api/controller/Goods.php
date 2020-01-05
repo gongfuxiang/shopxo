@@ -14,6 +14,7 @@ use app\service\GoodsService;
 use app\service\BuyService;
 use app\service\PluginsService;
 use app\service\GoodsCommentsService;
+use app\service\ResourcesService;
 
 /**
  * 商品
@@ -79,29 +80,7 @@ class Goods extends Common
             unset($ret['data'][0]['content_web']);
         } else {
             // 标签处理，兼容小程序rich-text
-            $search = [
-                '<img ',
-                '<section',
-                '/section>',
-                '<p style="',
-                '<p>',
-                '<div>',
-                '<table',
-                '<tr',
-                '<td',
-            ];
-            $replace = [
-                '<img style="max-width:100%;margin:0;padding:0;display:block;" ',
-                '<div',
-                '/div>',
-                '<p style="margin:0;',
-                '<p style="margin:0;">',
-                '<div style="margin:0;">',
-                '<table style="width:100%;margin:0px;border-collapse:collapse;border-color:#ddd;border-style:solid;border-width:0 1px 1px 0;"',
-                '<tr style="border-top:1px solid #ddd;"',
-                '<td style="margin:0;padding:5px;border-left:1px solid #ddd;"',
-            ];
-            $ret['data'][0]['content_web'] = str_replace($search, $replace, $ret['data'][0]['content_web']);
+            $ret['data'][0]['content_web'] = ResourcesService::ApMiniRichTextContentHandle($ret['data'][0]['content_web']);
         }
 
         // 当前登录用户是否已收藏

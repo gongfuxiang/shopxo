@@ -75,6 +75,5 @@
     </view>
 </view>
 
-<!-- 版权 -->
 <import src="/pages/common/copyright.ttml" />
 <template is="copyright"></template>

@@ -79,6 +79,5 @@
   <template is="online_service"></template>
 </view>
 
-<!-- 版权 -->
 <import src="/pages/common/copyright.swan" />
 <template is="copyright"></template>

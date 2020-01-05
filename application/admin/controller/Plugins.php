@@ -106,7 +106,7 @@ class Plugins extends Common
             return $ret;
         } else {
             $this->assign('msg', $ret['msg']);
-            return $this->fetch('public/tips_error');
+            return $this->fetch();
         }
     }
 

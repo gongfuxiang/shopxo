@@ -1,0 +1,51 @@
+<!-- 头部 -->
+<view class="head-box oh">
+  <view class="head-item tc fl">
+    <image bindtap="preview_event" binderror="user_avatar_error" class="avatar" src="{{avatar}}" mode="widthFix" />
+    <text class="item-name dis-block cr-888">{{nickname}}</text>
+  </view>
+  <view class="head-base fl">
+    <view class="single-text level-name">VIP1</view>
+    <view class="single-text">
+      <block wx:if="{{user_vip.is_permanent == 1}}">
+        <text class="title">有效期</text>
+        <text class="value cr-fff">{{user_vip.permanent_value}}</text>
+        <text class="unit">{{user_vip.permanent_unit}}</text>
+      </block>
+      <block wx:else>
+        <block wx:if="{{user_vip.surplus_time_number == 0}}">
+          <view class="cr-888">会员已过期或未开通</view>
+          <navigator url="/pages/membervip-buy/membervip-buy" hover-class="none">
+            <button wx:if="{{(data_base.is_user_buy || null) == 1}}" size="mini" type="default" hover-class="none" class="submit-buy">开通会员</button>
+          </navigator>
+        </block>
+        <block wx:else>
+          <text class="title">有效期</text>
+          <text class="value cr-fff">{{user_vip.surplus_time_number}}</text>
+          <text class="unit">{{user_vip.surplus_time_unit}}</text>
+
+          <block wx:if="{{(user_vip.is_supported_renew || null) == null || user_vip.is_supported_renew != 1}}">
+            <block wx:if="{{(plugins_base.is_supported_renew_old_order || null) == 1}}">
+              <button size="mini" type="default" hover-class="none" class="renew-buy">续费会员</button>
+            </block>
+            <block wx:else>
+              <navigator url="/pages/membervip-buy/membervip-buy" hover-class="none">
+                <button size="mini" type="default" hover-class="none" class="submit-buy">连续开通</button>
+              </navigator>
+            </block>
+          </block>
+        </block>
+      </block>
+    </view>
+  </view>
+</view>
+
+<!-- 导航 -->
+<view class="nav">
+  <block wx:for="{{nav_list}}" wx:key="key">
+    <view class="item fl tc {{item.cs}}">
+      <image src="{{item.icon}}" mode="scaleToFill" class="dis-block" />
+      <view class="title">{{item.title}}</view>
+    </view>
+  </block>
+</view>

@@ -78,7 +78,6 @@
 <import src="/pages/common/bottom_line.ttml" />
 <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
 
-<!-- 版权 -->
 <view tt:if="{{load_status == 1}}">
   <import src="/pages/common/copyright.ttml" />
   <template is="copyright"></template>

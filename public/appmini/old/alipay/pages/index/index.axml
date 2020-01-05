@@ -81,7 +81,6 @@
   <template is="online_service" data="{{tnt_inst_id: common_app_mini_alipay_tnt_inst_id || null, scene: common_app_mini_alipay_scene || null, openid: common_app_mini_alipay_openid || null}}"></template>
 </view>
 
-<!-- 版权 -->
 <view a:if="{{load_status == 1}}">
   <import src="/pages/common/copyright.axml" />
   <template is="copyright"></template>

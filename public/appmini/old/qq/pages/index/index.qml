@@ -81,7 +81,6 @@
   <template is="online_service"></template>
 </view>
 
-<!-- 版权 -->
 <view qq:if="{{load_status == 1}}">
   <import src="/pages/common/copyright.qml" />
   <template is="copyright"></template>
