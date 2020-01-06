@@ -67,8 +67,8 @@ App({
 
     // 请求地址
     request_url: "{{request_url}}",
-    // request_url: 'http://tp5-dev.com/',
-    // request_url: 'http://dev.shopxo.net/',
+     request_url: 'http://shopxo.com/',
+     request_url: 'http://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -681,6 +681,20 @@ App({
   get_user_openid() {
     var user = this.get_user_cache_info();
     return (user == false) ? null : user.alipay_openid || null;
+  },
+
+  // 窗口背景色设置
+  set_nav_bg_color_main() {
+    // 窗口和下拉顶部背景色
+    my.setBackgroundColor({
+      backgroundColor: '#d2364c',
+      backgroundColorTop: '#d2364c',
+    });
+
+    // 下拉文字颜色
+    my.setBackgroundTextStyle({
+      textStyle: 'light',
+    });
   },
 
 });

@@ -35,6 +35,7 @@ Page({
 
   onShow() {
     my.setNavigationBar({title: app.data.common_pages_title.user});
+    app.set_nav_bg_color_main();
     this.init();
   },
 

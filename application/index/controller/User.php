@@ -97,7 +97,7 @@ class User extends Common
         // 未读消息总数
         $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0, 'user_type'=>'user'];
         $common_message_total = MessageService::UserMessageTotal($params);
-        $this->assign('common_message_total', ($common_message_total > 99) ? '99+' : $common_message_total);
+        $this->assign('common_message_total', $common_message_total);
 
         // 获取进行中的订单列表
         $params = array_merge($_POST, $_GET);

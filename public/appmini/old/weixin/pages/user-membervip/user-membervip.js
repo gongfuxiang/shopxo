@@ -12,13 +12,19 @@ Page({
     nav_list: [
       {
         icon: "/images/share-weixin-icon.png",
-        cs: "br-t br-b br-r",
+        title: "开通订单",
+      },
+      {
+        icon: "/images/share-weixin-icon.png",
         title: "推广返利",
       },
       {
         icon: "/images/share-weixin-icon.png",
-        cs: "br-t br-b",
         title: "收益明细",
+      },
+      {
+        icon: "/images/share-weixin-icon.png",
+        title: "数据统计",
       }
     ],
   },

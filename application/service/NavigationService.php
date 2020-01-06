@@ -496,12 +496,11 @@ class NavigationService
         {
             // 购物车商品总数
             $common_cart_total = BuyService::UserCartTotal(['user'=>$params['user']]);
-            $common_cart_total = ($common_cart_total > 99) ? '99+' : $common_cart_total;
 
             // 未读消息总数
             $message_params = ['user'=>$params['user'], 'is_more'=>1, 'is_read'=>0, 'user_type'=>'user'];
             $common_message_total = MessageService::UserMessageTotal($message_params);
-            $common_message_total = ($common_message_total > 99) ? '99+' : (($common_message_total <= 0) ? -1 : $common_message_total);
+            $common_message_total = ($common_message_total <= 0) ? -1 : $common_message_total;
         }
         
         // 列表
@@ -846,7 +845,6 @@ class NavigationService
         {
             // 购物车商品总数
             $common_cart_total = BuyService::UserCartTotal(['user'=>$params['user']]);
-            $common_cart_total = ($common_cart_total > 99) ? '99+' : $common_cart_total;
         }
         
         // 列表

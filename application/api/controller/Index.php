@@ -14,6 +14,7 @@ use app\service\GoodsService;
 use app\service\BannerService;
 use app\service\AppHomeNavService;
 use app\service\PluginsService;
+use app\service\BuyService;
 
 /**
  * 首页
@@ -57,6 +58,7 @@ class Index extends Common
 			'common_app_is_header_nav_fixed'	=> (int) MyC('common_app_is_header_nav_fixed', 0),
 			'common_app_is_online_service'		=> (int) MyC('common_app_is_online_service', 0),
 			'common_app_is_limitedtimediscount'	=> (int) MyC('common_app_is_limitedtimediscount'),
+			'common_cart_total'                 => BuyService::UserCartTotal(['user'=>$this->user]),
 		];
 
 		// 支付宝小程序在线客服

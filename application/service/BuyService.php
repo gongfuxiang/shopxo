@@ -1281,6 +1281,7 @@ class BuyService
      * @date    2018-09-29
      * @desc    description
      * @param   [array]          $params [输入参数]
+     * @return  [int|string]             [超过99则返回 99+]
      */
     public static function UserCartTotal($params = [])
     {
@@ -1297,7 +1298,10 @@ class BuyService
         {
             return 0;
         }
-        return self::CartTotal(['user_id'=>$params['user']['id']]);
+
+        // 获取购物车总数
+        $total = self::CartTotal(['user_id'=>$params['user']['id']]);
+        return ($total > 99) ? '99+' : $total;
     }
 
     /**

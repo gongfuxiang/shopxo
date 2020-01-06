@@ -15,6 +15,7 @@ use app\service\OrderService;
 use app\service\GoodsService;
 use app\service\MessageService;
 use app\service\AppCenterNavService;
+use app\service\BuyService;
 
 /**
  * 用户
@@ -504,7 +505,6 @@ class User extends Common
         // 未读消息总数
         $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0];
         $common_message_total = MessageService::UserMessageTotal($params);
-        $common_message_total = ($common_message_total > 99) ? '99+' : $common_message_total;
 
         // 用户订单状态
         $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1, 'is_aftersale'=>1]);
@@ -525,6 +525,7 @@ class User extends Common
             'navigation'                        => AppCenterNavService::AppCenterNav(),
             'common_app_is_online_service'      => (int) MyC('common_app_is_online_service', 0),
             'common_app_is_head_vice_nav'       => (int) MyC('common_app_is_head_vice_nav', 0),
+            'common_cart_total'                 => BuyService::UserCartTotal(['user'=>$this->user]),
         );
 
         // 支付宝小程序在线客服

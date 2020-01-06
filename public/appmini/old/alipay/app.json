@@ -31,7 +31,7 @@
     "pages/extraction-address/extraction-address"
   ],
   "window": {
-    "defaultTitle": "{{application_title}}",
+    "defaultTitle": "shopxo",
     "titleBarColor": "#d2364c"
   },
   "tabBar": {

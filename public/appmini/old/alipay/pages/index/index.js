@@ -27,6 +27,7 @@ Page({
   },
   
   onShow() {
+    app.set_nav_bg_color_main();
     this.init();
   },
 
