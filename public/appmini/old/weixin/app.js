@@ -648,7 +648,7 @@ App({
       if ((type || 0) == 0) {
         wx.removeTabBarBadge({ index: Number(index) });
       } else {
-        wx.setTabBarBadge({ "index": Number(index), "text": value.toString() });
+        wx.setTabBarBadge({ index: Number(index), "text": value.toString() });
       }
     }
   },

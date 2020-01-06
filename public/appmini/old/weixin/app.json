@@ -1,7 +1,7 @@
 {
-  "pages": ["pages/index/index",
+  "pages": [
     "pages/user-membervip/user-membervip",
-    
+    "pages/index/index",
     "pages/goods-category/goods-category",
     "pages/cart/cart",
     "pages/user/user",

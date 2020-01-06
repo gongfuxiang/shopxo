@@ -683,6 +683,40 @@ App({
     return (user == false) ? null : user.alipay_openid || null;
   },
 
+  /**
+   * 设置导航reddot
+   * index     tabBar 的哪一项，从左边算起（0开始）
+   * type      0 移出, 1 添加 （默认 0 移出）
+   */
+  set_tab_bar_reddot(index, type) {
+    if (index !== undefined && index !== null)
+    {
+      if ((type || 0) == 0)
+      {
+        my.hideTabBarRedDot({ index: Number(index) });
+      } else {
+        my.showTabBarRedDot({ index: Number(index) });
+      }
+    }
+  },
+
+  /**
+   * 设置导航车badge
+   * index     tabBar 的哪一项，从左边算起（0开始）
+   * type      0 移出, 1 添加 （默认 0 移出）
+   * value     显示的文本，超过 4 个字符则显示成 ...（type参数为1的情况下有效）
+   */
+  set_tab_bar_badge(index, type, value) {
+    if (index !== undefined && index !== null)
+    {
+      if ((type || 0) == 0) {
+        my.removeTabBarBadge({ index: Number(index) });
+      } else {
+        my.setTabBarBadge({ index: Number(index), "text": value.toString() });
+      }
+    }
+  },
+
   // 窗口背景色设置
   set_nav_bg_color_main() {
     // 窗口和下拉顶部背景色

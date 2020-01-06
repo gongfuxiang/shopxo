@@ -98,6 +98,14 @@ Page({
             common_is_exhibition_mode_btn_text: data.common_is_exhibition_mode_btn_text || '立即咨询',
             customer_service_tel: data.customer_service_tel || null,
           });
+
+          // 导航购物车处理
+          var cart_total = data.common_cart_total || 0;
+          if (cart_total <= 0) {
+            app.set_tab_bar_badge(2, 0);
+          } else {
+            app.set_tab_bar_badge(2, 1, cart_total);
+          }
         } else {
           this.setData({
             data_list_loding_status: 2,
@@ -279,6 +287,15 @@ Page({
             swipe_index: null,
             data_list_loding_status: temp_data_list.length == 0 ? 0 : this.data.data_list_loding_status,
           });
+
+          // 导航购物车处理
+          var cart_total = res.data.data || 0;
+          if (cart_total <= 0) {
+            app.set_tab_bar_badge(2, 0);
+          } else {
+            app.set_tab_bar_badge(2, 1, cart_total);
+          }
+          
           app.showToast(((type == 'delete') ? '删除成功' : '收藏成功'), 'success');
         } else {
           if (app.is_login_check(res.data)) {

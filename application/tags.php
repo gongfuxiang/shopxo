@@ -36,6 +36,7 @@ return array (
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
+    2 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_navigation_header_handle' => 
   array (
@@ -62,14 +63,17 @@ return array (
   'plugins_service_goods_spec_extends_handle' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
+    1 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_view_admin_user_save' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
+    1 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_user_save_handle' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
+    1 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_goods_save_handle' => 
   array (
@@ -95,11 +99,13 @@ return array (
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
+    2 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_header_navigation_top_right_handle' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
+    2 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_js' => 
   array (
@@ -124,10 +130,35 @@ return array (
   'plugins_service_order_status_change_history_success_handle' => 
   array (
     0 => 'app\\plugins\\coupon\\Hook',
+    1 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_user_register_end' => 
   array (
     0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_order_aftersale_audit_handle_end' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_site_extraction_address_list' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_buy_order_insert_end' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_view_goods_detail_base_buy_nav_min_inside' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_view_goods_detail_photo_within' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_view_goods_detail_base_bottom' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
   ),
 );
 ?>

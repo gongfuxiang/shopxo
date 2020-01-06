@@ -72,6 +72,15 @@ Page({
             common_app_mini_alipay_scene: data.common_app_mini_alipay_scene || null,
           });
 
+          // 导航购物车处理
+          var cart_total = data.common_cart_total || 0;
+          if (cart_total <= 0)
+          {
+            app.set_tab_bar_badge(2, 0);
+          } else {
+            app.set_tab_bar_badge(2, 1, cart_total);
+          }
+
           // 在线客服开启，用户openid
           if(this.data.common_app_is_online_service == 1)
           {
