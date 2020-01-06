@@ -15,7 +15,7 @@
       <block wx:else>
         <block wx:if="{{user_vip.surplus_time_number == 0}}">
           <view class="cr-888">会员已过期或未开通</view>
-          <navigator url="/pages/membervip-buy/membervip-buy" hover-class="none">
+          <navigator url="/pages/plugins/membershiplevelvip/buy/buy" hover-class="none">
             <button wx:if="{{(data_base.is_user_buy || null) == 1}}" size="mini" type="default" hover-class="none" class="submit-buy">开通会员</button>
           </navigator>
         </block>
@@ -29,7 +29,7 @@
               <button size="mini" type="default" hover-class="none" class="renew-buy">续费会员</button>
             </block>
             <block wx:else>
-              <navigator url="/pages/membervip-buy/membervip-buy" hover-class="none">
+              <navigator url="/pages/plugins/membershiplevelvip/buy/buy" hover-class="none">
                 <button size="mini" type="default" hover-class="none" class="submit-buy">连续开通</button>
               </navigator>
             </block>
@@ -43,10 +43,12 @@
 <!-- 导航 -->
 <view class="nav spacing-mt oh bg-white">
   <block wx:for="{{nav_list}}" wx:key="key">
-    <view class="item fl tc">
-      <image src="{{item.icon}}" mode="scaleToFill" class="dis-block" />
-      <view class="title">{{item.title}}</view>
-    </view>
+    <navigator url="{{item.url}}" hover-class="none">
+      <view class="item fl tc">
+        <image src="{{item.icon}}" mode="scaleToFill" class="dis-block" />
+        <view class="title">{{item.title}}</view>
+      </view>
+    </navigator>
   </block>
 </view>
 

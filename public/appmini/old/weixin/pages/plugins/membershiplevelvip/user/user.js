@@ -9,22 +9,27 @@ Page({
     avatar: app.data.default_user_head_src,
     nickname: "用户名",
 
+    // 导航
     nav_list: [
       {
-        icon: "/images/share-weixin-icon.png",
+        icon: "/images/plugins/membershiplevelvip/user-center-order-icon.png",
         title: "开通订单",
+        url: "/pages/plugins/membershiplevelvip/order/order",
       },
       {
-        icon: "/images/share-weixin-icon.png",
+        icon: "/images/plugins/membershiplevelvip/user-center-tuiguang-icon.png",
         title: "推广返利",
+        url: "/pages/plugins/membershiplevelvip/tuiguang/tuiguang",
       },
       {
-        icon: "/images/share-weixin-icon.png",
+        icon: "/images/plugins/membershiplevelvip/user-center-shouyi-icon.png",
         title: "收益明细",
+        url: "/pages/plugins/membershiplevelvip/shouyi/shouyi",
       },
       {
-        icon: "/images/share-weixin-icon.png",
+        icon: "/images/plugins/membershiplevelvip/user-center-tongji-icon.png",
         title: "数据统计",
+        url: "/pages/plugins/membershiplevelvip/tongji/tongji",
       }
     ],
   },

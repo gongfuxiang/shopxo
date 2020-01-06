@@ -210,7 +210,7 @@ class AppMiniService
             if(is_array($data) && isset($data['plugins']))
             {
                 $data['plugins']['goodsSharePlugin'] = [
-                    'version'   => '3.2.0',
+                    'version'   => '4.0.1',
                     'provider'  => 'wx56c8f077de74b07c',
                 ];
                 if(file_put_contents($file, JsonFormat($data)) === false)

@@ -29,10 +29,10 @@ App({
 
     // tabbar页面
     tabbar_pages: [
-      "index",
-      "goods-category",
-      "cart",
-      "user",
+      "/pages/index/index",
+      "/pages/goods-category/goods-category",
+      "/pages/cart/cart",
+      "/pages/user/user",
     ],
 
     // 页面标题
@@ -65,6 +65,7 @@ App({
       "extraction_address": "自提地址",
       "membervip": "会员VIP",
       "membervip_buy": "开通时长",
+      "membervip_order": "开通订单",
     },
 
     // 请求地址
@@ -463,12 +464,12 @@ App({
   is_tabbar_pages(url) {
     if (url.indexOf("?") == -1)
     {
-      var all = url.split("/");
+      var value = url;
     } else {
       var temp_str = url.split("?");
-      var all = temp_str[0].split("/");
+      var value = temp_str[0];
     }
-    if (all.length <= 0)
+    if ((value || null) == null)
     {
       return false;
     }
@@ -476,7 +477,7 @@ App({
     var temp_tabbar_pages = this.data.tabbar_pages;
     for (var i in temp_tabbar_pages)
     {
-      if (temp_tabbar_pages[i] == all[all.length-1])
+      if (temp_tabbar_pages[i] == value)
       {
         return true;
       }
