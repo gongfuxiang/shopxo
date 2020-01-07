@@ -1,6 +1,6 @@
 {
   "pages": [
-    "pages/plugins/membershiplevelvip/order/order",
+    
     "pages/index/index",
     "pages/goods-category/goods-category",
     "pages/cart/cart",
@@ -36,7 +36,9 @@
   ],
   "window": {
     "navigationBarTitleText": "{{application_title}}",
-    "navigationBarBackgroundColor": "#d2364c"
+    "navigationBarBackgroundColor": "#d2364c",
+    "backgroundColor": "#f5f5f5",
+    "backgroundColorBottom": "#f5f5f5"
   },
   "tabBar": {
     "color": "#8a8a8a",

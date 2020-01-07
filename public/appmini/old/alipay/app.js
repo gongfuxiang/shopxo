@@ -721,8 +721,8 @@ App({
   set_nav_bg_color_main() {
     // 窗口和下拉顶部背景色
     my.setBackgroundColor({
-      backgroundColor: '#d2364c',
       backgroundColorTop: '#d2364c',
+      backgroundColorBottom: '#f5f5f5',
     });
 
     // 下拉文字颜色

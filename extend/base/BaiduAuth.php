@@ -79,6 +79,10 @@ class BaiduAuth
         if (function_exists("openssl_decrypt")) {
             $plaintext = openssl_decrypt($encrypted_data, "AES-192-CBC", $session_key, OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING, $iv);
         } else {
+            if(!function_exists('mcrypt_module_open'))
+            {
+                return ['status'=>-1, 'msg'=>'mcrypt_module_open方法不支持'];
+            }
             $td = mcrypt_module_open(MCRYPT_RIJNDAEL_128, null, MCRYPT_MODE_CBC, null);
             mcrypt_generic_init($td, $session_key, $iv);
             $plaintext = mdecrypt_generic($td, $encrypted_data);

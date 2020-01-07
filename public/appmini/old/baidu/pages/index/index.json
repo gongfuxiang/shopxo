@@ -1,5 +1,7 @@
 {
     "enablePullDownRefresh": true,
+    "navigationBarBackgroundColor": "#d2364c",
+    "backgroundColorTop": "#d2364c",
     "usingComponents": {
         "component-icon-nav": "/components/icon-nav/icon-nav",
         "component-banner": "/components/slider/slider"

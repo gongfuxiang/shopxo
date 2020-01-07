@@ -1305,7 +1305,7 @@ class BuyService
     }
 
     /**
-     * 库存校验
+     * 订单支付前校验
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -1313,7 +1313,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function OrderInventoryCheck($params = [])
+    public static function OrderPayBeginCheck($params = [])
     {
         // 请求参数
         $p = [
@@ -1352,7 +1352,20 @@ class BuyService
         {
             foreach($order_detail as $v)
             {
-                $goods = Db::name('Goods')->field('is_deduction_inventory,inventory,title')->find($v['goods_id']);
+                // 获取商品
+                $goods = Db::name('Goods')->field('is_shelves,is_deduction_inventory,inventory,title')->find($v['goods_id']);
+                if(empty($goods))
+                {
+                    return DataReturn('商品不存在', -10);
+                }
+
+                // 商品状态
+                if($goods['is_shelves'] != 1)
+                {
+                    return DataReturn('商品已下架['.$goods['title'].']', -10);
+                }
+
+                // 库存
                 if(isset($goods['is_deduction_inventory']) && $goods['is_deduction_inventory'] == 1)
                 {
                     // 先判断商品库存是否不足

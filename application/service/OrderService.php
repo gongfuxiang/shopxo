@@ -72,8 +72,8 @@ class OrderService
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
-        // 库存校验
-        $ret = BuyService::OrderInventoryCheck(['order_id'=>$order['id'], 'order_data'=>$order]);
+        // 订单支付前校验
+        $ret = BuyService::OrderPayBeginCheck(['order_id'=>$order['id'], 'order_data'=>$order]);
         if($ret['code'] != 0)
         {
             return $ret;
@@ -263,8 +263,8 @@ class OrderService
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
-        // 库存校验
-        $ret = BuyService::OrderInventoryCheck(['order_id'=>$order['id'], 'order_data'=>$order]);
+        // 订单支付前校验
+        $ret = BuyService::OrderPayBeginCheck(['order_id'=>$order['id'], 'order_data'=>$order]);
         if($ret['code'] != 0)
         {
             return $ret;

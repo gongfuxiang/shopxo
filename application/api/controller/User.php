@@ -306,6 +306,8 @@ class User extends Common
                 $result['openid'] = $result['data']['openid'];
                 $result['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
                 return UserService::AuthUserProgram($result, 'baidu_openid');
+            } else {
+                return DataReturn($result['msg'], -1);
             }
         } else {
             return DataReturn('授权成功', 0, $user);

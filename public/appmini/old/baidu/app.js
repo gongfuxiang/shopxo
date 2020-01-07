@@ -62,8 +62,8 @@ App({
 
     // 请求地址
     request_url: "{{request_url}}",
-    // request_url: 'http://tp5-dev.com/',
-    // request_url: 'https://dev.shopxo.net/',
+     request_url: 'http://shopxo.com/',
+     request_url: 'https://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -621,6 +621,40 @@ App({
       return false;
     }
     return true;
+  },
+
+  /**
+   * 设置导航reddot
+   * index     tabBar 的哪一项，从左边算起（0开始）
+   * type      0 移出, 1 添加 （默认 0 移出）
+   */
+  set_tab_bar_reddot(index, type) {
+    if (index !== undefined && index !== null)
+    {
+      if ((type || 0) == 0)
+      {
+        swan.hideTabBarRedDot({ index: Number(index) });
+      } else {
+        swan.showTabBarRedDot({ index: Number(index) });
+      }
+    }
+  },
+
+  /**
+   * 设置导航车badge
+   * index     tabBar 的哪一项，从左边算起（0开始）
+   * type      0 移出, 1 添加 （默认 0 移出）
+   * value     显示的文本，超过 4 个字符则显示成 ...（type参数为1的情况下有效）
+   */
+  set_tab_bar_badge(index, type, value) {
+    if (index !== undefined && index !== null)
+    {
+      if ((type || 0) == 0) {
+        swan.removeTabBarBadge({ index: Number(index) });
+      } else {
+        swan.setTabBarBadge({ index: Number(index), "text": value.toString() });
+      }
+    }
   },
 
 });
