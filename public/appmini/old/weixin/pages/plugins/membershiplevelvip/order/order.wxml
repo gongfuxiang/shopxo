@@ -1,8 +1,7 @@
 <!-- 导航 -->
 <view class="nav">
   <block wx:for="{{nav_status_list}}" wx:key="key">
-    <view wx:if="{{nav_status_index == index}}" class="item fl tc cr-main" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
-    <view wx:else class="item fl tc" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
+    <view class="item fl tc cr-888 {{nav_status_index == index ? 'active' : ''}}" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
   </block>
 </view>
 
@@ -36,15 +35,15 @@
             <text class="unit cr-888">元</text>
           </view>
           <view class="multi-text">
-            <text class="title cr-666">结算状态：</text>
+            <text class="title cr-666">结算状态</text>
             <text class="value">{{item.settlement_status_name}}</text>
           </view>
         </view>
       </navigator>
       <view wx:if="{{item.status == 0 || item.status == 2 || item.status == 3}}" class="operation tr br-t-dashed">
-        <button wx:if="{{item.status == 0}}" class="submit-cancel" type="default" size="mini" bindtap="cancel_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">取消</button>
-        <button wx:if="{{item.status == 1}}" class="submit-pay cr-666 br" type="default" size="mini" bindtap="pay_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">支付</button>
-        <button wx:if="{{item.status == 2 || item.status == 3}}" class="submit-success cr-666 br" type="default" size="mini" bindtap="collect_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">删除</button>
+        <button wx:if="{{item.status == 0}}" class="submit-cancel cr-666 br" type="default" size="mini" bindtap="cancel_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">取消</button>
+        <button wx:if="{{item.status == 0}}" class="submit-pay cr-666 br" type="default" size="mini" bindtap="pay_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">支付</button>
+        <button wx:if="{{item.status == 2 || item.status == 3}}" class="submit-delete cr-666 br" type="default" size="mini" bindtap="delete_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">删除</button>
       </view>
     </view>
 

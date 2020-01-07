@@ -64,7 +64,7 @@ Page({
               {name: "支付时间", value: data.data.pay_time || ''},
               {name: "发货时间", value: data.data.delivery_time || ''},
               {name: "收货时间", value: data.data.collect_time || ''},
-              {name: "取消时间", value: data.data.close_time || ''},
+              {name: "取消时间", value: data.data.cancel_time || ''},
               {name: "关闭时间", value: data.data.close_time || ''},
             ],
             extension_data: data.data.extension_data || [],

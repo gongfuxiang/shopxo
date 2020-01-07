@@ -92,6 +92,7 @@ Page({
       data: {
         page: this.data.data_page,
         status: order_status,
+        is_more: 1,
       },
       dataType: "json",
       success: res => {
@@ -209,7 +210,7 @@ Page({
     wx.showLoading({ title: "请求中..." });
 
     wx.request({
-      url: app.get_request_url("pay", "order"),
+      url: app.get_request_url("pay", "buy", "membershiplevelvip"),
       method: "POST",
       data: {
         id: order_id,
@@ -262,25 +263,8 @@ Page({
   order_item_pay_success_handle(index) {
     // 数据设置
     var temp_data_list = this.data.data_list;
-    switch (parseInt(temp_data_list[index]['order_model'])) {
-      // 销售模式
-      case 0:
-        temp_data_list[index]['status'] = 2;
-        temp_data_list[index]['status_name'] = '待发货';
-        break;
-
-      // 自提模式
-      case 2:
-        temp_data_list[index]['status'] = 2;
-        temp_data_list[index]['status_name'] = '待取货';
-        break;
-
-      // 虚拟模式
-      case 3:
-        temp_data_list[index]['status'] = 3;
-        temp_data_list[index]['status_name'] = '待收货';
-        break;
-    }
+    temp_data_list[index]['status'] = 1;
+    temp_data_list[index]['status_name'] = '已支付';
     this.setData({ data_list: temp_data_list });
   },
 
@@ -301,7 +285,7 @@ Page({
           wx.showLoading({ title: "处理中..." });
 
           wx.request({
-            url: app.get_request_url("cancel", "order"),
+            url: app.get_request_url("cancel", "order", "membershiplevelvip"),
             method: "POST",
             data: { id: id },
             dataType: "json",
@@ -309,7 +293,7 @@ Page({
               wx.hideLoading();
               if (res.data.code == 0) {
                 var temp_data_list = this.data.data_list;
-                temp_data_list[index]['status'] = 5;
+                temp_data_list[index]['status'] = 2;
                 temp_data_list[index]['status_name'] = '已取消';
                 this.setData({ data_list: temp_data_list });
 
@@ -328,11 +312,11 @@ Page({
     });
   },
 
-  // 收货
-  collect_event(e) {
+  // 删除
+  delete_event(e) {
     wx.showModal({
       title: "温馨提示",
-      content: "请确认已收到货物或已完成，操作后不可恢复，确定继续吗?",
+      content: "删除后不可恢复，确定继续吗?",
       confirmText: "确认",
       cancelText: "不了",
       success: result => {
@@ -345,7 +329,7 @@ Page({
           wx.showLoading({ title: "处理中..." });
 
           wx.request({
-            url: app.get_request_url("collect", "order"),
+            url: app.get_request_url("delete", "order", "membershiplevelvip"),
             method: "POST",
             data: { id: id },
             dataType: "json",
@@ -353,9 +337,14 @@ Page({
               wx.hideLoading();
               if (res.data.code == 0) {
                 var temp_data_list = this.data.data_list;
-                temp_data_list[index]['status'] = 4;
-                temp_data_list[index]['status_name'] = '已完成';
+                temp_data_list.splice(index, 1);
                 this.setData({ data_list: temp_data_list });
+                if (temp_data_list.length == 0) {
+                  this.setData({
+                    data_list_loding_status: 0,
+                    data_bottom_line_status: false,
+                  });
+                }
 
                 app.showToast(res.data.msg, "success");
               } else {
@@ -372,11 +361,6 @@ Page({
     });
   },
 
-  // 催催
-  rush_event(e) {
-    app.showToast("催促成功", "success");
-  },
-
   // 导航事件
   nav_event(e) {
     this.setData({
@@ -384,27 +368,5 @@ Page({
       data_page: 1,
     });
     this.get_data_list(1);
-  },
-
-  // 售后订单事件
-  orderaftersale_event(e) {
-    var oid = e.currentTarget.dataset.oid || 0;
-    var did = e.currentTarget.dataset.did || 0;
-    if (oid == 0 || did == 0) {
-      app.showToast("参数有误");
-      return false;
-    }
-
-    // 进入售后页面
-    wx.navigateTo({
-      url: "/pages/user-orderaftersale-detail/user-orderaftersale-detail?oid=" + oid + "&did=" + did
-    });
-  },
-
-  // 订单评论
-  comments_event(e) {
-    wx.navigateTo({
-      url: "/pages/user-order-comments/user-order-comments?id=" + e.currentTarget.dataset.value
-    });
   },
 });

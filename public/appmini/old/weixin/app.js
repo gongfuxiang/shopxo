@@ -66,12 +66,13 @@ App({
       "membervip": "会员VIP",
       "membervip_buy": "开通时长",
       "membervip_order": "开通订单",
+      "membervip_order_detail": "订单详情",
     },
 
     // 请求地址
     request_url: "{{request_url}}",
      request_url: 'http://shopxo.com/',
-     request_url: 'https://dev.shopxo.net/',
+    // request_url: 'https://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
