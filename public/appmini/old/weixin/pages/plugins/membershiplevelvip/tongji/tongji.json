@@ -1,0 +1,8 @@
+{
+  "enablePullDownRefresh": true,
+  "navigationBarBackgroundColor": "#1d1611",
+  "navigationBarTitleText": "数据统计",
+  "usingComponents": {
+    "component-ec-canvas": "/components/ec-canvas/ec-canvas"
+  }
+}
