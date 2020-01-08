@@ -1,6 +1,5 @@
 {
   "enablePullDownRefresh": true,
   "navigationBarBackgroundColor": "#1d1611",
-  "backgroundColor": "#1d1611",
-  "navigationBarTitleText": "会员VIP"
+  "navigationBarTitleText": "收益详情"
 }

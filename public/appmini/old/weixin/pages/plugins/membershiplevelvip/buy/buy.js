@@ -16,9 +16,7 @@ Page({
     this.init();
   },
 
-  onShow() {
-    wx.setNavigationBarTitle({ title: app.data.common_pages_title.membervip_buy });
-  },
+  onShow() {},
 
   init() {
     // 获取数据

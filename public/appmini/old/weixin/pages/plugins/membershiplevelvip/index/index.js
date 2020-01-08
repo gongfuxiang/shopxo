@@ -12,9 +12,7 @@ Page({
     this.init();
   },
 
-  onShow() {
-    wx.setNavigationBarTitle({ title: app.data.common_pages_title.membervip });
-  },
+  onShow() {},
 
   init() {
     // 获取数据

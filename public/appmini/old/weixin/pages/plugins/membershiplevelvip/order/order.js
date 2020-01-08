@@ -42,9 +42,7 @@ Page({
     this.init();
   },
 
-  onShow() {
-    wx.setNavigationBarTitle({ title: app.data.common_pages_title.membervip_order });
-  },
+  onShow() {},
 
   init() {
     var user = app.get_user_info(this, 'init');

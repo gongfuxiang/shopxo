@@ -38,9 +38,7 @@ Page({
     this.init();
   },
 
-  onShow() {
-    wx.setNavigationBarTitle({ title: app.data.common_pages_title.membervip });
-  },
+  onShow() {},
 
   init(e) {
     var user = app.get_user_info(this, "init"),

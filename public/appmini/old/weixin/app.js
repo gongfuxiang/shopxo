@@ -63,10 +63,6 @@ App({
       "coupon": "领劵中心",
       "user_coupon": "优惠劵",
       "extraction_address": "自提地址",
-      "membervip": "会员VIP",
-      "membervip_buy": "开通时长",
-      "membervip_order": "开通订单",
-      "membervip_order_detail": "订单详情",
     },
 
     // 请求地址

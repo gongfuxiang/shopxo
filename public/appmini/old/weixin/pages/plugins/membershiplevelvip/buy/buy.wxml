@@ -2,7 +2,7 @@
   <!-- 导航 -->
   <scroll-view class="tabs bg-white tc oh" scroll-x="true">
     <block wx:for="{{data_list}}" wx:key="key">
-      <view class="item  {{selected_tabs_index === index ? 'active' : ''}}" bindtap="tabs_event" data-index="{{index}}">{{item.name}}</view>
+      <view class="item cr-888 {{selected_tabs_index === index ? 'active' : ''}}" bindtap="tabs_event" data-index="{{index}}">{{item.name}}</view>
     </block>
   </scroll-view>
 

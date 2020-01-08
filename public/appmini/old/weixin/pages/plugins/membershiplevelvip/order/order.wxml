@@ -5,7 +5,7 @@
   </block>
 </view>
 
-<!-- 订单列表 -->
+<!-- 列表 -->
 <scroll-view scroll-y="{{true}}" class="scroll-box" bindscrolltolower="scroll_lower" lower-threshold="30">
   <view class="data-list">
     <view class="item bg-white spacing-mb" wx:if="{{data_list.length > 0}}" wx:for="{{data_list}}" wx:key="key">

@@ -11,7 +11,7 @@ Page({
   },
 
   onLoad(params) {
-    //params['id'] = 1;
+    params['id'] = 1;
     this.setData({ params: params });
     this.init();
   },
@@ -26,7 +26,7 @@ Page({
     });
 
     wx.request({
-      url: app.get_request_url("detail", "order", "membershiplevelvip"),
+      url: app.get_request_url("detail", "profit", "membershiplevelvip"),
       method: "POST",
       data: {
         id: this.data.params.id
@@ -40,14 +40,11 @@ Page({
           self.setData({
             detail: data.data,
             detail_list: [
-              { name: "订单号", value: data.data.payment_user_order_no || '' },
-              { name: "开通时长", value: data.data.period_value+' '+data.data.period_unit || '' },
-              { name: "订单状态", value: data.data.status_name || '' },
-              { name: "结算状态", value: data.data.settlement_status_name || '' },
-              { name: "类型", value: data.data.type_name || '' },
-              { name: "订单金额", value: data.data.price || '' },
-              { name: "支付金额", value: (data.data.pay_price <= 0) ? '' : (data.data.pay_price || '') },
-              { name: "支付方式", value: data.data.payment_name || '' },
+              { name: "订单金额", value: data.data.total_price || '' },
+              { name: "返佣金额", value: data.data.profit_price || '' },
+              { name: "当前级别", value: data.data.level_name || '' },
+              { name: "结算状态", value: data.data.status_name || '' },
+              { name: "返佣规则", value: data.data.commission_rules || '' },
               { name: "创建时间", value: data.data.add_time_time || '' },
               { name: "更新时间", value: data.data.upd_time || '' },
             ],
