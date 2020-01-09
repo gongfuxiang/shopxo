@@ -106,7 +106,11 @@ Page({
                 if ((this.data.params.is_pay || 0) == 1 && (this.data.params.order_id || 0) != 0) {
                   for (var i in temp_data_list) {
                     if (this.data.params.order_id == temp_data_list[i]['id']) {
-                      this.pay_handle(this.data.params.order_id, i);
+                      this.setData({
+                        is_show_payment_popup: true,
+                        temp_pay_value: temp_data_list[i]['id'],
+                        temp_pay_index: i,
+                      });
                       break;
                     }
                   }

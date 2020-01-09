@@ -131,7 +131,7 @@ Page({
         if (res.data.code == 0) {
           // 进入以后会员中心并发起支付
           wx.redirectTo({
-            url: '/pages/plugins/membershiplevelvip/user/user',
+            url: '/pages/plugins/membershiplevelvip/order/order?is_pay=1&order_id=' + res.data.data.id,
           });
         } else {
           if (app.is_login_check(res.data, self, 'submit_event')) {
