@@ -11,8 +11,9 @@
   padding-bottom: 30rpx;
 }
 .head-item .avatar {
-    width: 160rpx;
-    height: 160rpx;
+    width: 140rpx;
+    height: 140rpx;
+    padding: 20rpx;
     border-radius: 50%;
     border: 1px solid #3d3c3c;
 }

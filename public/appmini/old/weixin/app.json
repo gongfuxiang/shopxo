@@ -37,7 +37,8 @@
     "pages/plugins/membershiplevelvip/shouyi-detail/shouyi-detail",
     "pages/plugins/membershiplevelvip/shouyi/shouyi",
     "pages/plugins/membershiplevelvip/tongji/tongji",
-    "pages/plugins/membershiplevelvip/tuiguang/tuiguang"
+    "pages/plugins/membershiplevelvip/tuiguang/tuiguang",
+    "pages/plugins/membershiplevelvip/tuandui/tuandui"
   ],
   "window": {
     "navigationBarTitleText": "{{application_title}}",

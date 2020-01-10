@@ -118,6 +118,7 @@ Page({
 
     // 请求生成支付订单
     var self = this;
+    self.setData({ submit_disabled_status: true });
     wx.showLoading({ title: "处理中..." });
     wx.request({
       url: app.get_request_url("create", "buy", "membershiplevelvip"),

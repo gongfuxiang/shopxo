@@ -331,6 +331,10 @@ class FileUtil
             //这里设置客户端的弹出对话框显示的文件名
             Header("Content-Disposition: attachment; filename=".$show_name);
 
+            // 清除前面输出的内容
+            ob_clean();
+            flush();
+
             //一次性将数据传输给客户端
             //echo fread($file, filesize($file_path));
             //一次只传输1024个字节的数据给客户端
