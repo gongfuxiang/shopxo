@@ -23,11 +23,11 @@
   </view>
 </view>
 
-<view wx:if="{{(data_base.banner_bottom_content || null) != null}}" class="bg-white">
+<view wx:if="{{(data_base.banner_bottom_content || null) != null}}" class="bg-white rich-text">
   <rich-text nodes="{{data_base.banner_bottom_content}}"></rich-text>
 </view>
 
-<view wx:if="{{data_list_loding_status != 3}}">
+<view wx:if="{{(data_base || null) == null && (data_list || null) == null && data_list.length <= 0}}">
   <import src="/pages/common/nodata.wxml" />
   <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
 </view>

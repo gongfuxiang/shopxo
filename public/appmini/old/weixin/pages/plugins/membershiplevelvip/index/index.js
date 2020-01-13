@@ -39,13 +39,12 @@ Page({
         wx.stopPullDownRefresh();
         if (res.data.code == 0) {
           var data = res.data.data;
-          var status = ((data.data || []).length > 0);
           self.setData({
             data_base: data.base || null,
             data_list: data.data || [],
             data_list_loding_msg: '',
-            data_list_loding_status: status ? 3 : 0,
-            data_bottom_line_status: status,
+            data_list_loding_status: 0,
+            data_bottom_line_status: true,
           });
 
           // 导航名称

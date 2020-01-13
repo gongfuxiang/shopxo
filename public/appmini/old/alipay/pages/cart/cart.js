@@ -245,8 +245,8 @@ Page({
     this.setData({ swipe_index: e.index });
   },
 
-  // 收藏事件
-  goods_favor_event(id, goods_id, type) {
+  // 收藏+删除
+  goods_favor_delete(id, goods_id, type) {
     my.request({
       url: app.get_request_url('favor', 'goods'),
       method: 'POST',
@@ -268,6 +268,33 @@ Page({
         app.showToast('服务器请求出错');
       }
     });
+  },
+
+  // 移除操作事件
+  cart_remove_event(e) {
+    var id = e.currentTarget.dataset.id || null;
+    var index = e.currentTarget.dataset.index || 0;
+    var goods_id = e.currentTarget.dataset.goodsid || 0;
+    var self = this;
+    if (id !== null) {
+      self.setData({ swipe_index: index})
+      my.showActionSheet({
+        items: ['加入收藏', '删除'],
+        success(res) {
+          if(res.index != -1)
+          {
+            if (res.index == 0)
+            {
+              self.goods_favor_delete(id, goods_id, 'favor')
+            } else {
+              self.cart_delete(id, 'delete');
+            }
+          }
+        }
+      });
+    } else {
+      app.showToast("参数有误");
+    }
   },
 
   // 购物车删除

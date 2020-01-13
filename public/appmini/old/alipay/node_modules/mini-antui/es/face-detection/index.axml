@@ -1,8 +1,0 @@
-<web-view 
-  a:if="{{appName && serviceName}}"
-  src="https://render.alipay.com/p/s/tiny-webar-online/www/faceDetect.html?facing={{facing}}&appName={{appName}}&serviceName={{serviceName}}&useLiveFaceCheck={{useLiveFaceCheck}}&resignSuccessBtnText={{btnText}}"
-  id="am-face-detection"
-  onMessage="onMessage"
-  enableWK="{{false}}"
-/>
-<view a:else style="color: red; text-align: center; font-size: 14px; padding: 10px">appName and serviceName is required</view>

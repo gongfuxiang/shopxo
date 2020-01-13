@@ -1,0 +1,8 @@
+{
+  "pullRefresh": true,
+  "defaultTitle": "订单列表",
+  "titleBarColor": "#1d1611",
+  "usingComponents": {
+    "component-popup": "/components/popup/popup"
+  }
+}

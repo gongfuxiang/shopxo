@@ -222,34 +222,26 @@ Page({
       success: res => {
         wx.hideLoading();
         if (res.data.code == 0) {
-          // 是否在线支付,非在线支付则支付成功
-          if (res.data.data.is_online_pay == 0) {
-            // 数据设置
-            self.order_item_pay_success_handle(index);
+          wx.requestPayment({
+            timeStamp: res.data.data.timeStamp,
+            nonceStr: res.data.data.nonceStr,
+            package: res.data.data.package,
+            signType: res.data.data.signType,
+            paySign: res.data.data.paySign,
+            success: function (res) {
+              // 数据设置
+              self.order_item_pay_success_handle(index);
 
-            app.showToast("支付成功", "success");
-          } else {
-            wx.requestPayment({
-              timeStamp: res.data.data.data.timeStamp,
-              nonceStr: res.data.data.data.nonceStr,
-              package: res.data.data.data.package,
-              signType: res.data.data.data.signType,
-              paySign: res.data.data.data.paySign,
-              success: function (res) {
-                // 数据设置
-                self.order_item_pay_success_handle(index);
-
-                // 跳转支付页面
-                wx.navigateTo({
-                  url: "/pages/paytips/paytips?code=9000&total_price=" +
-                    self.data.data_list[index]['total_price']
-                });
-              },
-              fail: function (res) {
-                app.showToast('支付失败');
-              }
-            });
-          }
+              // 跳转支付页面
+              wx.navigateTo({
+                url: "/pages/paytips/paytips?code=9000&total_price=" +
+                  self.data.data_list[index]['price']
+              });
+            },
+            fail: function (res) {
+              app.showToast('支付失败');
+            }
+          });
         } else {
           app.showToast(res.data.msg);
         }

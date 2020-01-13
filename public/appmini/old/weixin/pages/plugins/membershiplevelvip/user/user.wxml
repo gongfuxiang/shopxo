@@ -1,7 +1,9 @@
 <!-- 头部 -->
 <view class="head-box oh">
   <view class="head-item tc fl">
-    <image bindtap="preview_event" binderror="user_avatar_error" class="avatar" src="{{avatar}}" mode="widthFix" />
+    <view class="avatar">
+      <image bindtap="preview_event" binderror="user_avatar_error" src="{{avatar}}" mode="widthFix" class="dis-block" />
+    </view>
     <text class="item-name dis-block cr-888">{{nickname}}</text>
   </view>
   <view class="head-base fl">
@@ -47,12 +49,10 @@
       </block>
     </block>
     <block wx:else>
-      <block wx:if="{{(user_vip.user_vip_model || null) == 'pay'}}">
-        <block wx:if="{{(data_base || null) != null && (data_base.is_user_buy || 0) == 1}}">
-          <navigator url="/pages/plugins/membershiplevelvip/buy/buy" hover-class="none">
-            <button size="mini" type="default" hover-class="none" class="submit-buy">开通会员</button>
-          </navigator>
-        </block>
+      <block wx:if="{{(data_base || null) != null && (data_base.is_user_buy || 0) == 1}}">
+        <navigator url="/pages/plugins/membershiplevelvip/buy/buy" hover-class="none">
+          <button size="mini" type="default" hover-class="none" class="submit-buy">开通会员</button>
+        </navigator>
       </block>
     </block>
   </view>

@@ -1,0 +1,29 @@
+.scroll-box {
+  height: 100vh;
+}
+.data-list .item .base {
+  padding: 15rpx 10rpx;
+}
+.data-list .item .base .avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+}
+.data-list .item .base .nickname {
+  margin-top: 10rpx;
+}
+.data-list .item .content {
+  padding: 20rpx 10rpx;
+}
+.data-list .item .content .multi-text {
+  line-height: 50rpx;
+}
+.data-list .item .content .multi-text .title {
+  margin-right: 30rpx;
+}
+.data-list .item .content .multi-text .value {
+  font-weight: 500;
+}
+.data-list .item .content .multi-text .unit {
+  margin-left: 10rpx;
+}

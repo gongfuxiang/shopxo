@@ -1,7 +1,7 @@
 {
   "pullRefresh": true,
   "usingComponents": {
-    "popup": "mini-antui/es/popup/index",
-    "badge": "mini-antui/es/badge/index"
+    "component-popup": "/components/popup/popup",
+    "component-badge": "/components/badge/badge"
   }
 }

@@ -152,7 +152,7 @@
   </view>
 
   <!-- 弹层 -->
-  <popup show="{{popup_status}}" position="bottom" onClose="popup_close_event">
+  <component-popup prop-show="{{popup_status}}" prop-position="bottom" onClose="popup_close_event">
     <view class="goods-popup bg-white">
       <view class="close fr oh">
         <view class="fr" catchTap="popup_close_event">
@@ -203,7 +203,7 @@
       </view>
       <button class="goods-popup-submit bg-main" type="default" catchTap="goods_buy_confirm_event" hover-class="none">确定</button>
     </view>
-  </popup>
+  </component-popup>
 </view>
 
 <view a:if="{{goods == null}}">
@@ -221,7 +221,7 @@
 <navigator url="/pages/cart/cart" open-type="switchTab" hover-class="none">
   <view class="common-quick-nav quick-nav-cart">
     <view a:if="{{quick_nav_cart_count > 0}}" class="badge-icon">
-      <badge text="{{quick_nav_cart_count}}" dot="{{false}}"></badge>
+      <component-badge prop-number="{{quick_nav_cart_count}}"></component-badge>
     </view>
     <image src="/images/default-cart-icon.png" class="dis-block"></image>
   </view>

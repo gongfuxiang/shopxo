@@ -40,14 +40,14 @@ Page({
             }
             self.setData({
               avatar: user.avatar || app.data.default_user_head_src,
-              nickname: user.user_name_view || '用户名',
+              nickname: user.nickname || '用户名',
             });
           },
         });
       } else {
         self.setData({
           avatar: user.avatar || app.data.default_user_head_src,
-          nickname: user.user_name_view || '用户名',
+          nickname: user.nickname || '用户名',
         });
         
         self.get_data();
@@ -73,7 +73,7 @@ Page({
           self.setData({
             data_base: data_base,
             user_vip: user_vip,
-            avatar: (user_vip != null && (user_vip.icon || null) == null) ? self.data.avatar : user_vip.icon,
+            avatar: (user_vip == null || (user_vip.icon || null) == null) ? self.data.avatar : user_vip.icon,
             data_list_loding_msg: '',
             data_list_loding_status: 0,
             data_bottom_line_status: false,

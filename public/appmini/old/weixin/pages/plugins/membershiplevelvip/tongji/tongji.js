@@ -87,7 +87,7 @@ Page({
 
             // 近15日推广用户数
             self.set_profit_user(data.user_chart);
-          }, 100);
+          }, 200);
         } else {
           self.setData({
             data_list_loding_status: 2,

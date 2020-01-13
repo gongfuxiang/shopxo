@@ -98,7 +98,7 @@
   </view>
 
   <!-- 优惠劵选择 -->
-  <popup show="{{popup_plugins_coupon_status}}" position="bottom" onClose="plugins_coupon_close_event">
+  <component-popup prop-show="{{popup_plugins_coupon_status}}" prop-position="bottom" onClose="plugins_coupon_close_event">
     <view class="plugins-coupon-popup bg-white">
       <view class="close oh">
         <view class="fr" catchTap="plugins_coupon_close_event">
@@ -129,5 +129,5 @@
         </block>
       </view>
     </view>
-  </popup>
+  </component-popup>
 </block>

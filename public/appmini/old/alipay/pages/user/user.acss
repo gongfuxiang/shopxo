@@ -85,10 +85,10 @@
   height: 60rpx;
   margin-bottom: 6rpx;
 }
-.items-list .items .am-badge {
+.items-list .items .badge-icon {
   position: absolute;
-  top: 0;
-  left: calc(50% + 30rpx);
+  top: -2px;
+  left: calc(50% + 35rpx);
 }
 
 /* 通知 */

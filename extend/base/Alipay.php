@@ -302,7 +302,7 @@ class Alipay
             {
                 return DataReturn('签名错误', -1);
             }
-            return DataReturn('获取成功', 0, $result[$key]);
+            return DataReturn('获取成功', 0, $result[$key]['qr_code_url']);
         }
 
         $msg = isset($res['sub_msg']) ? $res['sub_msg'] : '获取二维码失败';

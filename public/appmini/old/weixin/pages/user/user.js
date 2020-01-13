@@ -52,14 +52,14 @@ Page({
             }
             self.setData({
               avatar: user.avatar || app.data.default_user_head_src,
-              nickname: user.user_name_view || '用户名',
+              nickname: user.nickname || '用户名',
             });
           },
         });
       } else {
         self.setData({
           avatar: user.avatar || app.data.default_user_head_src,
-          nickname: user.user_name_view || '用户名',
+          nickname: user.nickname || '用户名',
         });
         
         self.get_data();

@@ -29,10 +29,10 @@ App({
 
     // tabbar页面
     tabbar_pages: [
-      "index",
-      "goods-category",
-      "cart",
-      "user",
+      "/pages/index/index",
+      "/pages/goods-category/goods-category",
+      "/pages/cart/cart",
+      "/pages/user/user",
     ],
 
     // 页面标题
@@ -200,7 +200,7 @@ App({
     var token = (user == false) ? '' : user.token || '';
     return this.data.request_url +
       "index.php?s=/api/" + c + "/" + a + plugins_params+
-      "&application=app&application_client_type=weixin" +
+      "&application=app&application_client_type=alipay" +
       "&token=" +
       token +
       "&ajax=ajax" +
@@ -545,12 +545,12 @@ App({
   is_tabbar_pages(url) {
     if (url.indexOf("?") == -1)
     {
-      var all = url.split("/");
+      var value = url;
     } else {
       var temp_str = url.split("?");
-      var all = temp_str[0].split("/");
+      var value = temp_str[0];
     }
-    if (all.length <= 0)
+    if ((value || null) == null)
     {
       return false;
     }
@@ -558,7 +558,7 @@ App({
     var temp_tabbar_pages = this.data.tabbar_pages;
     for (var i in temp_tabbar_pages)
     {
-      if (temp_tabbar_pages[i] == all[all.length-1])
+      if (temp_tabbar_pages[i] == value)
       {
         return true;
       }
@@ -718,10 +718,16 @@ App({
   },
 
   // 窗口背景色设置
-  set_nav_bg_color_main() {
+  set_nav_bg_color_main(color) {
+    // 默认主色
+    if((color || null) == null)
+    {
+      color = '#d2364c';
+    }
+
     // 窗口和下拉顶部背景色
     my.setBackgroundColor({
-      backgroundColorTop: '#d2364c',
+      backgroundColorTop: color,
       backgroundColorBottom: '#f5f5f5',
     });
 

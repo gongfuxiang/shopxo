@@ -26,9 +26,19 @@
     "pages/user-goods-browse/user-goods-browse",
     "pages/user-orderaftersale/user-orderaftersale",
     "pages/user-orderaftersale-detail/user-orderaftersale-detail",
-    "pages/coupon/coupon",
-    "pages/user-coupon/user-coupon",
-    "pages/extraction-address/extraction-address"
+    "pages/extraction-address/extraction-address",
+    "pages/plugins/coupon/index/index",
+    "pages/plugins/coupon/user/user",
+    "pages/plugins/membershiplevelvip/index/index",
+    "pages/plugins/membershiplevelvip/buy/buy",
+    "pages/plugins/membershiplevelvip/user/user",
+    "pages/plugins/membershiplevelvip/order/order",
+    "pages/plugins/membershiplevelvip/order-detail/order-detail",
+    "pages/plugins/membershiplevelvip/shouyi-detail/shouyi-detail",
+    "pages/plugins/membershiplevelvip/shouyi/shouyi",
+    "pages/plugins/membershiplevelvip/tongji/tongji",
+    "pages/plugins/membershiplevelvip/tuiguang/tuiguang",
+    "pages/plugins/membershiplevelvip/tuandui/tuandui"
   ],
   "window": {
     "defaultTitle": "shopxo",

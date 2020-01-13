@@ -1,3 +1,0 @@
-<view class="am-popover-item {{className}}" onTap="onItemClick">
-  <slot/>
-</view>
