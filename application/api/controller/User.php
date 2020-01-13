@@ -93,7 +93,7 @@ class User extends Common
         }
 
         // 授权
-        $result = (new \base\AlipayAuth())->GetAuthSessionKey(MyC('common_app_mini_alipay_appid'), $this->data_post['authcode']);
+        $result = (new \base\Alipay())->GetAuthSessionKey(MyC('common_app_mini_alipay_appid'), $this->data_post['authcode']);
         if($result['status'] == 0)
         {
             // 先从数据库获取用户信息
@@ -243,7 +243,7 @@ class User extends Common
      */
     public function BaiduUserAuth()
     {
-        $result = (new \base\BaiduAuth(MyC('common_app_mini_baidu_appid'), MyC('common_app_mini_baidu_appkey'), MyC('common_app_mini_baidu_appsecret')))->GetAuthSessionKey($this->data_post);
+        $result = (new \base\Baidu(MyC('common_app_mini_baidu_appid'), MyC('common_app_mini_baidu_appkey'), MyC('common_app_mini_baidu_appsecret')))->GetAuthSessionKey($this->data_post);
         if($result['status'] == 0)
         {
             // 先从数据库获取用户信息
@@ -296,7 +296,7 @@ class User extends Common
         $user = UserService::AppUserInfoHandle(null, 'baidu_openid', $this->data_post['openid']);
         if(empty($user))
         {
-            $result = (new \base\BaiduAuth(MyC('common_app_mini_baidu_appid'), MyC('common_app_mini_baidu_appkey'), MyC('common_app_mini_baidu_appsecret')))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
+            $result = (new \base\Baidu(MyC('common_app_mini_baidu_appid'), MyC('common_app_mini_baidu_appkey'), MyC('common_app_mini_baidu_appsecret')))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
 
             if($result['status'] == 0 && !empty($result['data']))
             {

@@ -11,11 +11,11 @@
 namespace base;
 
 /**
- * 百度用户授权驱动
+ * 百度驱动
  * @author  Devil
  * @version V_1.0.0
  */
-class BaiduAuth
+class Baidu
 {
     // appid
     private $_appid;

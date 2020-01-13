@@ -124,8 +124,9 @@ class Wechat
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2018-01-02T19:53:10+0800
-     * @param    [array]            $params [输入参数]
-     * @return   [string]                   [成功返回文件流, 失败则空]
+     * @param    [string]  $params['page']      [页面地址]
+     * @param    [string]  $params['scene']     [参数]
+     * @return   [string]                       [成功返回文件流, 失败则空]
      */
     public function MiniQrCodeCreate($params)
     {

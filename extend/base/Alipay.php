@@ -11,11 +11,11 @@
 namespace base;
 
 /**
- * 支付宝授权驱动
+ * 支付宝驱动
  * @author  Devil
  * @version V_1.0.0
  */
-class AlipayAuth
+class Alipay
 {
     /**
      * [__construct 构造方法]
@@ -234,19 +234,44 @@ class AlipayAuth
     }
 
     /**
-     * [AlipayQrcodeCreate 小程序二维码创建]
+     * [MiniQrCodeCreate 小程序二维码创建]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2017-10-28T21:31:41+0800
-     * @param    [string]  $query    [生成小程序启动参数（如：type=page&page=shop&value=5）]
-     * @param    [string]  $describe [二维码描述（默认：ShopXO）]
+     * @param    [string]  $params['page']    [页面地址]
+     * @param    [string]  $params['scene'] [参数]
      */
-    public function AlipayQrcodeCreate($query, $describe = 'ShopXO')
+    public function MiniQrCodeCreate($params)
     {
         // 请求参数
-        $params = [
-            'app_id'            =>  MyC('common_app_mini_alipay_appid'),
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'appid',
+                'error_msg'         => '小程序appid不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'page',
+                'error_msg'         => 'page地址不能为空',
+            ],
+            [
+                'checked_type'      => 'length',
+                'checked_data'      => '1,32',
+                'key_name'          => 'scene',
+                'error_msg'         => 'scene参数 1~32 个字符之间',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 请求参数
+        $data = [
+            'app_id'            =>  $params['appid'],
             'method'            =>  'alipay.open.app.qrcode.create',
             'charset'           =>  'utf-8',
             'format'            =>  'JSON',
@@ -255,30 +280,33 @@ class AlipayAuth
             'version'           =>  '1.0',
         ];
         $biz_content = [
-            'url_param'     =>  C('alipay_mini_default_page'),
-            'query_param'   =>  $query,
-            'describe'      =>  $describe,
+            'url_param'     =>  $params['page'],
+            'query_param'   =>  $params['scene'],
+            'describe'      =>  empty($params['describe']) ? 'ShopXO' : $params['describe'],
         ];
-        $params['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
+        $data['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
 
         // 生成签名参数+签名
-        $p = $this->GetParamSign($params);
-        $params['sign'] = $this->MyRsaSign($p['value']);
+        $p = $this->GetParamSign($data);
+        $data['sign'] = $this->MyRsaSign($p['value']);
 
         // 执行请求
-        $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $params);
+        $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $data);
 
         // 结果正确则验证签名 并且 存储缓存返回access_token
-        if(!empty($result['alipay_open_app_qrcode_create_response']['code']) && $result['alipay_open_app_qrcode_create_response']['code'] == 10000)
+        $key = 'alipay_open_app_qrcode_create_response';
+        if(!empty($result[$key]['code']) && $result[$key]['code'] == 10000)
         {
             // 验证签名正确则存储缓存返回数据
-            if(!$this->SyncRsaVerify($result, 'alipay_open_app_qrcode_create_response'))
+            if(!$this->SyncRsaVerify($result, $key))
             {
-                return false;
+                return DataReturn('签名错误', -1);
             }
-            return $result['alipay_open_app_qrcode_create_response'];
+            return DataReturn('获取成功', 0, $result[$key]);
         }
-        return false;        
+
+        $msg = isset($res['sub_msg']) ? $res['sub_msg'] : '获取二维码失败';
+        return DataReturn($msg, -1);
     }
 
 }
