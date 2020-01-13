@@ -251,16 +251,18 @@ Page({
                   temp_data_list[index]['status'] = 2;
                   temp_data_list[index]['status_name'] = '待发货';
                   this.setData({ data_list: temp_data_list });
+                
+                  // 跳转支付页面
+                  my.navigateTo({
+                    url:
+                      "/pages/paytips/paytips?code=" +
+                      res.resultCode +
+                      "&total_price=" +
+                      this.data.data_list[index]['total_price']
+                  });
+                } else {
+                  app.showToast('支付失败');
                 }
-
-                // 跳转支付页面
-                my.navigateTo({
-                  url:
-                    "/pages/paytips/paytips?code=" +
-                    res.resultCode +
-                    "&total_price=" +
-                    this.data.data_list[index]['total_price']
-                });
               },
               fail: res => {
                 app.showToast('唤起支付模块失败');

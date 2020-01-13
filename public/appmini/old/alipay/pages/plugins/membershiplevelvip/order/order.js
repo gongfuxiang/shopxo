@@ -224,24 +224,25 @@ Page({
       success: res => {
         my.hideLoading();
         if (res.data.code == 0) {
-          my.requestPayment({
-            timeStamp: res.data.data.timeStamp,
-            nonceStr: res.data.data.nonceStr,
-            package: res.data.data.package,
-            signType: res.data.data.signType,
-            paySign: res.data.data.paySign,
-            success: function (res) {
+          my.tradePay({
+            tradeNO: res.data.data,
+            success: res => {
               // 数据设置
-              self.order_item_pay_success_handle(index);
+              if (res.resultCode == 9000) {
+                // 数据设置
+                self.order_item_pay_success_handle(index);
 
-              // 跳转支付页面
-              my.navigateTo({
-                url: "/pages/paytips/paytips?code=9000&total_price=" +
-                  self.data.data_list[index]['price']
-              });
+                // 跳转支付页面
+                my.navigateTo({
+                  url: "/pages/paytips/paytips?code=9000&total_price=" +
+                    self.data.data_list[index]['price']
+                });
+              } else {
+                app.showToast('支付失败');
+              }
             },
-            fail: function (res) {
-              app.showToast('支付失败');
+            fail: res => {
+              app.showToast('唤起支付模块失败');
             }
           });
         } else {
