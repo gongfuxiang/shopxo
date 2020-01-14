@@ -1110,7 +1110,7 @@ function CurlPost($url, $post)
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_HEADER         => false,
         CURLOPT_POST           => true,
-        CURLOPT_POSTFIELDS     => $post,
+        CURLOPT_POSTFIELDS     => http_build_query($post),
     );
 
     $ch = curl_init($url);
