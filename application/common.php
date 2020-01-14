@@ -1076,7 +1076,7 @@ function IsMobile()
 
 
 /**
- * [Is_Json 校验json数据是否合法]
+ * 校验json数据是否合法
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -1084,7 +1084,7 @@ function IsMobile()
  * @param    [string] $jsonstr [需要校验的json字符串]
  * @return   [boolean] [合法true, 则false]
  */
-function Is_Json($jsonstr)
+function IsJson($jsonstr)
 {
     if(PHP_VERSION > 5.3)
     {
@@ -1096,7 +1096,7 @@ function Is_Json($jsonstr)
 }
 
 /**
- * [Curl_Post curl模拟post]
+ * curl模拟post
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -1104,7 +1104,7 @@ function Is_Json($jsonstr)
  * @param    [string] $url  [请求地址]
  * @param    [array]  $post [发送的post数据]
  */
-function Curl_Post($url, $post)
+function CurlPost($url, $post)
 {
     $options = array(
         CURLOPT_RETURNTRANSFER => true,
@@ -1121,7 +1121,7 @@ function Curl_Post($url, $post)
 }
 
 /**
- * [Fsockopen_Post fsockopen方式]
+ * fsockopen方式
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -1129,7 +1129,7 @@ function Curl_Post($url, $post)
  * @param    [string] $url  [url地址]
  * @param    [string] $data [发送参数]
  */
-function Fsockopen_Post($url, $data = '')
+function FsockopenPost($url, $data = '')
 {
     $row = parse_MyUrl($url);
     $host = $row['host'];
@@ -1165,7 +1165,7 @@ function Fsockopen_Post($url, $data = '')
 }
 
 /**
- * [Xml_Array xml转数组]
+ * xml转数组
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -1173,7 +1173,7 @@ function Fsockopen_Post($url, $data = '')
  * @param    [xml] $xmlstring [xml数据]
  * @return   [array]          [array数组]
  */
-function Xml_Array($xmlstring) {
+function XmlArray($xmlstring) {
     return json_decode(json_encode((array) simplexml_load_string($xmlstring)), true);
 }
 

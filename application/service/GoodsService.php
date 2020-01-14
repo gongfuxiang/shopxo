@@ -2400,6 +2400,7 @@ class GoodsService
         Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
+            'params'        => $params,
             'data'          => &$data,
         ]);
 
