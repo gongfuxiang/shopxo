@@ -2,7 +2,7 @@
 <view class="head-box oh">
   <view class="head-item tc fl">
     <view class="avatar">
-      <image onTap="preview_event" binderror="user_avatar_error" src="{{avatar}}" mode="widthFix" class="dis-block" />
+      <image onTap="preview_event" onError="user_avatar_error" src="{{avatar}}" mode="widthFix" class="dis-block" />
     </view>
     <text class="item-name dis-block cr-888">{{nickname}}</text>
   </view>

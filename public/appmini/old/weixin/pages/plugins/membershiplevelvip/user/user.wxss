@@ -12,8 +12,8 @@
 }
 .head-item .avatar {
   padding: 10rpx;
-  background: #1d1611;
-  border: 1px solid #3d3c3c;
+  background: #3c3835;
+  border: 1px solid #3c3835;
 }
 .head-item .avatar image {
   width: 140rpx;

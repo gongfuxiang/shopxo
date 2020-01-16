@@ -11,6 +11,7 @@
 namespace app\admin\controller;
 
 use app\service\PaymentService;
+use app\service\StoreService;
 
 /**
  * 支付方式管理
@@ -57,6 +58,9 @@ class Payment extends Common
 
         // 适用平台
         $this->assign('common_platform_type', lang('common_platform_type'));
+
+        // 应用商店
+        $this->assign('store_payment_url', StoreService::StorePaymentUrl());
 
         return $this->fetch();
 	}

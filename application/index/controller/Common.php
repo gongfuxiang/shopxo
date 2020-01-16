@@ -363,9 +363,9 @@ class Common extends Controller
             // 是否ajax请求
             if(IS_AJAX)
             {
-                die(json_encode(DataReturn(MyC('home_site_close_reason', '网站维护中...'), -10000)));
+                exit(json_encode(DataReturn(MyC('home_site_close_reason', '网站维护中...'), -10000)));
             } else {
-                die('<div style="text-align: center;margin-top: 15%;font-size: 18px;color: #f00;">'.MyC('home_site_close_reason', '网站维护中...', true).'</div>');
+                exit('<div style="text-align: center;margin-top: 15%;font-size: 18px;color: #f00;">'.MyC('home_site_close_reason', '网站维护中...', true).'</div>');
             }
         }
     }

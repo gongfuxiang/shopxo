@@ -800,7 +800,7 @@ Page({
       } else {
         wx.showLoading({ title: '生成中...' });
         wx.request({
-          url: app.get_request_url('poster', 'user', 'distribution'),
+          url: app.get_request_url('goodsposter', 'distribution', 'distribution'),
           method: 'POST',
           data: { "goods_id": this.data.goods.id },
           dataType: 'json',

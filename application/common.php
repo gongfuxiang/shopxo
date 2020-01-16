@@ -1101,20 +1101,38 @@ function IsJson($jsonstr)
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-03T21:58:54+0800
- * @param    [string] $url  [请求地址]
- * @param    [array]  $post [发送的post数据]
+ * @param    [string]   $url        [请求地址]
+ * @param    [array]    $post       [发送的post数据]
+ * @param    [boolean]  $is_json    [是否使用 json 数据发送]
+ * @return   [mixed]                [请求返回的数据]
  */
-function CurlPost($url, $post)
+function CurlPost($url, $post, $is_json = false)
 {
-    $options = array(
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HEADER         => false,
-        CURLOPT_POST           => true,
-        CURLOPT_POSTFIELDS     => http_build_query($post),
-    );
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_URL, $url);
 
-    $ch = curl_init($url);
-    curl_setopt_array($ch, $options);
+    // 是否 json
+    if($is_json)
+    {
+        $data_string = json_encode($post);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                "Content-Type: application/json; charset=utf-8",
+                "Content-Length: " . strlen($data_string)
+            )
+        );
+    } else {
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                "Content-Type: application/x-www-form-urlencoded",
+                "cache-control: no-cache"
+            )
+        );
+    }
+
     $result = curl_exec($ch);
     curl_close($ch);
     return $result;

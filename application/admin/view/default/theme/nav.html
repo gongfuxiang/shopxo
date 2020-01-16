@@ -5,4 +5,7 @@
 	<li {{if $view_type eq 'upload'}}class="am-active"{{/if}}>
 		<a href="{{:MyUrl('admin/theme/index', ['view_type'=>'upload'])}}">主题安装</a>
 	</li>
+    <li class="fr">
+        <a class="am-margin-left-sm" href="{{$store_theme_url}}" target="_blank">更多支付插件下载 <i class="am-icon-external-link"></i></a>
+    </li>
 </ul>

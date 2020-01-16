@@ -37,19 +37,23 @@ return array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
     2 => 'app\\plugins\\distribution\\Hook',
+    3 => 'app\\plugins\\limitedtimediscount\\Hook',
   ),
   'plugins_service_navigation_header_handle' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
+    2 => 'app\\plugins\\limitedtimediscount\\Hook',
   ),
   'plugins_service_goods_handle_end' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
+    1 => 'app\\plugins\\limitedtimediscount\\Hook',
   ),
   'plugins_service_goods_spec_base' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
+    1 => 'app\\plugins\\limitedtimediscount\\Hook',
   ),
   'plugins_service_buy_handle' => 
   array (
@@ -110,6 +114,7 @@ return array (
   'plugins_js' => 
   array (
     0 => 'app\\plugins\\coupon\\Hook',
+    1 => 'app\\plugins\\limitedtimediscount\\Hook',
   ),
   'plugins_view_goods_detail_panel_bottom' => 
   array (
@@ -131,6 +136,7 @@ return array (
   array (
     0 => 'app\\plugins\\coupon\\Hook',
     1 => 'app\\plugins\\distribution\\Hook',
+    2 => 'app\\plugins\\fictitioussecretkey\\Hook',
   ),
   'plugins_service_user_register_end' => 
   array (
@@ -159,6 +165,14 @@ return array (
   'plugins_view_goods_detail_base_bottom' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_view_goods_detail_base_top' => 
+  array (
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
+  ),
+  'plugins_view_home_floor_top' => 
+  array (
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
   ),
 );
 ?>

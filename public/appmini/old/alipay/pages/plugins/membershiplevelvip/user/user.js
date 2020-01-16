@@ -14,12 +14,11 @@ Page({
     nav_list: [],
   },
 
-  onLoad(params) {
-    this.init();
-  },
+  onLoad(params) {},
 
   onShow() {
     app.set_nav_bg_color_main('#1d1611');
+    this.init();
   },
 
   init(e) {
@@ -98,33 +97,33 @@ Page({
               if ((data_base.is_commission || 0) == 1)
               {
                 nav_list.push({
-                  icon: "/images/plugins/membershiplevelvip/user-center-shouyi-icon.png",
+                  icon: "/images/plugins/membershiplevelvip/user-center-profit-icon.png",
                   title: "收益明细",
-                  url: "/pages/plugins/membershiplevelvip/shouyi/shouyi",
+                  url: "/pages/plugins/membershiplevelvip/profit/profit",
                 });
               }
 
               // 开启推广
               if ((data_base.is_propaganda || 0) == 1) {
                 nav_list.push({
-                  icon: "/images/plugins/membershiplevelvip/user-center-tuandui-icon.png",
+                  icon: "/images/plugins/membershiplevelvip/user-center-team-icon.png",
                   title: "我的团队",
-                  url: "/pages/plugins/membershiplevelvip/tuandui/tuandui",
+                  url: "/pages/plugins/membershiplevelvip/team/team",
                 });
                 nav_list.push({
-                  icon: "/images/plugins/membershiplevelvip/user-center-tuiguang-icon.png",
+                  icon: "/images/plugins/membershiplevelvip/user-center-poster-icon.png",
                   title: "推广返利",
-                  url: "/pages/plugins/membershiplevelvip/tuiguang/tuiguang",
+                  url: "/pages/plugins/membershiplevelvip/poster/poster",
                 });
                 nav_list.push({
-                  icon: "/images/plugins/membershiplevelvip/user-center-tongji-icon.png",
+                  icon: "/images/plugins/membershiplevelvip/user-center-statistics-icon.png",
                   title: "数据统计",
-                  url: "/pages/plugins/membershiplevelvip/tongji/tongji",
+                  url: "/pages/plugins/membershiplevelvip/statistics/statistics",
                 });
               }
 
               nav_list.push({
-                icon: "/images/plugins/membershiplevelvip/user-center-shouye-icon.png",
+                icon: "/images/plugins/membershiplevelvip/user-center-index-icon.png",
                 title: "会员首页",
                 url: "/pages/plugins/membershiplevelvip/index/index",
               });

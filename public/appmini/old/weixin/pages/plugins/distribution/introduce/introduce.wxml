@@ -1,0 +1,47 @@
+<view wx:if="{{data_base != null}}">
+  <!-- 等级信息 -->
+  <view wx:if="{{level_list.length > 0}}" class="panel-item">
+    <view wx:for="{{level_list}}" wx:key="item" class="bg-white spacing-mb">
+      <view class="panel-title">{{item.name}}</view>
+      <view class="panel-content">
+        <view class="item br-b oh">
+          <view class="title fl">等级证书</view>
+          <view class="content cr-888 fl br-l images">
+            <image src="{{item.images_url}}" class="avatar dis-block fl" mode="widthFix" />
+          </view>
+        </view>
+        <view class="item br-b oh">
+          <view class="title fl">返佣比例</view>
+          <view class="content cr-888 fl br-l">
+            <view>一级 {{item.level_rate_one}}%</view>
+            <view>二级 {{item.level_rate_two}}%</view>
+            <view>三级 {{item.level_rate_three}}%</view>
+          </view>
+        </view>
+        <view class="item br-b oh">
+          <view class="title fl">消费金额</view>
+          <view class="content cr-888 fl br-l">{{item.rules_msg}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 等级介绍 -->
+  <view wx:if="{{(data_base.user_center_level_desc || null) != null && data_base.user_center_level_desc.length > 0}}" class="spacing-mt user-center-level-desc">
+    <view class="tips-desc">
+      <view wx:for="{{data_base.user_center_level_desc}}" wx:key="key" class="item">
+        {{item}}
+      </view>
+    </view>
+  </view>
+  
+  <view wx:if="{{((data_base.user_center_level_desc || null) != null && data_base.user_center_level_desc.length > 0) || level_list.length > 0}}">
+    <import src="/pages/common/bottom_line.wxml" />
+    <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
+  </view>
+</view>
+
+<view wx:if="{{level_list.length <= 0 && ((data_base.user_center_level_desc || null) == null || data_base.user_center_level_desc.length <= 0)}}">
+  <import src="/pages/common/nodata.wxml" />
+  <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
+</view>
