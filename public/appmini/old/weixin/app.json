@@ -1,5 +1,9 @@
 {
-  "pages": [   "pages/plugins/distribution/user/user",
+  "pages": [
+    "pages/plugins/distribution/extraction-order/extraction-order",
+    "pages/plugins/distribution/extraction/extraction",
+    "pages/plugins/distribution/extraction-apply/extraction-apply",
+    "pages/plugins/distribution/user/user",
     "pages/index/index",
     "pages/goods-category/goods-category",
     "pages/cart/cart",
@@ -39,8 +43,6 @@
     "pages/plugins/membershiplevelvip/statistics/statistics",
     "pages/plugins/membershiplevelvip/poster/poster",
     "pages/plugins/membershiplevelvip/team/team",
-
-    
     "pages/plugins/distribution/order/order",
     "pages/plugins/distribution/order-detail/order-detail",
     "pages/plugins/distribution/profit/profit",
@@ -48,8 +50,14 @@
     "pages/plugins/distribution/statistics/statistics",
     "pages/plugins/distribution/poster/poster",
     "pages/plugins/distribution/team/team",
-    "pages/plugins/distribution/introduce/introduce"
+    "pages/plugins/distribution/introduce/introduce",
+    "pages/common/open-setting-location/open-setting-location"
   ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置将用于小程序中相应业务位置服务使用"
+    }
+  },
   "window": {
     "navigationBarTitleText": "{{application_title}}",
     "navigationBarBackgroundColor": "#d2364c",

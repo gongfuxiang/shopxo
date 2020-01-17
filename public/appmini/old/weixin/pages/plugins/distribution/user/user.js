@@ -60,32 +60,32 @@ Page({
   // 导航数据
   nav_list_data() {
     return [
-        {
-          icon: "/images/plugins/distribution/user-center-order-icon.png",
-          title: "分销订单",
-          url: "/pages/plugins/distribution/order/order",
-        },
-        {
-          icon: "/images/plugins/distribution/user-center-profit-icon.png",
-          title: "收益明细",
-          url: "/pages/plugins/distribution/profit/profit",
-        },
-        {
-          icon: "/images/plugins/distribution/user-center-team-icon.png",
-          title: "我的团队",
-          url: "/pages/plugins/distribution/team/team",
-        },
-        {
-          icon: "/images/plugins/distribution/user-center-poster-icon.png",
-          title: "推广返利",
-          url: "/pages/plugins/distribution/poster/poster",
-        },
-        {
-          icon: "/images/plugins/distribution/user-center-statistics-icon.png",
-          title: "数据统计",
-          url: "/pages/plugins/distribution/statistics/statistics",
-        }
-      ];
+      {
+        icon: "/images/plugins/distribution/user-center-order-icon.png",
+        title: "分销订单",
+        url: "/pages/plugins/distribution/order/order",
+      },
+      {
+        icon: "/images/plugins/distribution/user-center-profit-icon.png",
+        title: "收益明细",
+        url: "/pages/plugins/distribution/profit/profit",
+      },
+      {
+        icon: "/images/plugins/distribution/user-center-team-icon.png",
+        title: "我的团队",
+        url: "/pages/plugins/distribution/team/team",
+      },
+      {
+        icon: "/images/plugins/distribution/user-center-poster-icon.png",
+        title: "推广返利",
+        url: "/pages/plugins/distribution/poster/poster",
+      },
+      {
+        icon: "/images/plugins/distribution/user-center-statistics-icon.png",
+        title: "数据统计",
+        url: "/pages/plugins/distribution/statistics/statistics",
+      }
+    ];
   },
 
   // 获取数据
@@ -115,9 +115,10 @@ Page({
 
           // 导航
           var temp_data_list = self.nav_list_data();
+
+          // 等级介绍
           if (data_base != null && (data_base.is_show_introduce || 0) == 1)
           {
-            // 等级介绍
             temp_data_list.push({
               icon: "/images/plugins/distribution/user-center-introduce-icon.png",
               title: "等级介绍",

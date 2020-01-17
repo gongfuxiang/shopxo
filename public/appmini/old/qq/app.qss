@@ -368,6 +368,9 @@ button[disabled].bg-primary {
   padding: 0;
   min-height: 70rpx;
 }
+.form-container .form-gorup-text {
+  padding: 20rpx 10rpx;
+}
 
 /**
  * 表单图片上传
