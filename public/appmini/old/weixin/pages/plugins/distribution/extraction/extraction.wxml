@@ -32,31 +32,43 @@
     </view>
 
     <!-- 审核通过 -->
-    <view wx:elif="{{extraction.status == 1}}" class="valid">
+    <view wx:elif="{{extraction.status == 1 || extraction.status == 3}}" class="valid">
       <view class="base br-b oh bg-white">
         <view class="base-title fl">取货点信息</view>
-        <view wx:if="{{(extraction.lng || 0) > 0 && (extraction.lat || 0) > 0}}" class="base-map-submit fr" bindtap="address_map_event">查看位置</view>
+        <view class="fr edit-submit">
+          <navigator url="/pages/plugins/distribution/extraction-apply/extraction-apply" hover-class="none">编辑信息</navigator>
+        </view>
       </view>
-      <view class="content bg-white">
+      <view class="content bg-white" bindtap="address_map_event">
         <text wx:if="{{(extraction.alias || null) != null}}" class="alias">{{extraction.alias}}</text>
         <text class="cr-666">{{extraction.province_name}}{{extraction.city_name}}{{extraction.county_name}}{{extraction.address}}</text>
       </view>
 
-      <view class="base br-b oh bg-white spacing-mt">
-        <view class="base-title">取货订单统计</view>
-      </view>
-      <view class="content bg-white statistics oh">
-        <view class="item fl tc" data-value="0" bindtap="order_event">
-          <view class="title cr-666">待处理</view>
-          <view class="value single-text">4544543564634534635635</view>
+      <view wx:if="{{extraction.status == 1}}" >
+        <view class="base br-b oh bg-white spacing-mt">
+          <view class="base-title fl">取货订单统计</view>
+          <view class="fr edit-submit">
+            <navigator url="/pages/plugins/distribution/extraction-order/extraction-order" hover-class="none">查看取货订单</navigator>
+          </view>
         </view>
-        <view class="item fl tc br-l" data-value="1" bindtap="order_event">
-          <view class="title cr-666">已处理</view>
-          <view class="value single-text">67769865787657635325454546</view>
+        <view class="content bg-white statistics oh">
+          <view class="item fl tc" data-value="0" bindtap="order_event">
+            <view class="title cr-666">待处理</view>
+            <view class="value single-text order-wait-value">{{statistical.order_wait || 0}}</view>
+          </view>
+          <view class="item fl tc br-l" data-value="1" bindtap="order_event">
+            <view class="title cr-666">已处理</view>
+            <view class="value single-text order-already-value">{{statistical.order_already || 0}}</view>
+          </view>
+        </view>
+      </view>
+      <view wx:else class="spacing-mt relieve">
+        <view class="tips">
+          当前状态也解约，可重新编辑数据提交审核。
         </view>
       </view>
       
-      <view wx:if="{{(data_base || null) != null && (data_base.self_extraction_common_notice || null) != null && data_base.self_extraction_common_notice.length > 0}}" class="extraction-notice spacing-mt">
+      <view wx:if="{{extraction.status == 1 && (data_base || null) != null && (data_base.self_extraction_common_notice || null) != null && data_base.self_extraction_common_notice.length > 0}}" class="extraction-notice spacing-mt">
         <view class="tips">
           <view wx:for="{{data_base.self_extraction_common_notice}}" wx:key="key" class="item">
             {{item}}

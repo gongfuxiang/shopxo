@@ -55,3 +55,11 @@
 .data-list .item .operation button:not(:first-child) {
   margin-left: 30rpx;
 }
+
+/*
+ * 表单
+ */
+.submit-bottom {
+  background-color: #ff6a80 !important;
+  color: #fff !important;
+}

@@ -1,8 +1,8 @@
 {
   "pages": [
-    "pages/plugins/distribution/extraction-order/extraction-order",
     "pages/plugins/distribution/extraction/extraction",
     "pages/plugins/distribution/extraction-apply/extraction-apply",
+    "pages/plugins/distribution/extraction-order/extraction-order",
     "pages/plugins/distribution/user/user",
     "pages/index/index",
     "pages/goods-category/goods-category",

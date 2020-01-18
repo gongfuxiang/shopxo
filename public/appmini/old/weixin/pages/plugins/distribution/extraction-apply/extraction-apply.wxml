@@ -1,4 +1,4 @@
-<form bindsubmit="form_submit"class="form-container spacing-mb oh">
+<form bindsubmit="form_submit" class="form-container spacing-mb oh">
   <view class="form-gorup bg-white">
     <view class="form-gorup-title">别名<text class="form-group-tips">选填</text></view>
     <input type="text" name="alias" value="{{extraction_data.alias || ''}}" placeholder-class="cr-ccc" class="cr-666" placeholder="别名格式最多 16 个字符" />
@@ -51,6 +51,9 @@
   </view>
 
   <view class="form-gorup">
+    <view wx:if="{{(extraction_data || null) != null && (extraction_data.status || 0) == 1}}" class="tips spacing-mb">
+      注意：编辑信息将重新审核后方可生效
+    </view>
     <button class="submit-bottom" type="default" formType="submit" hover-class="none" disabled="{{form_submit_disabled_status}}">提交</button>
   </view>
 </form>

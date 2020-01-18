@@ -10,15 +10,20 @@ Page({
 
     nav_status_list: [
       { name: "全部", value: "-1" },
-      { name: "待取货", value: "0" },
-      { name: "已取货", value: "1" }
+      { name: "待处理", value: "0" },
+      { name: "已处理", value: "1" }
     ],
-    nav_status_index: -1,
+    nav_status_index: 0,
+
+    is_show_take_popup: false,
+    extraction_value: null,
+    extraction_code: '',
+    form_submit_disabled_status: false,
   },
 
   onLoad(params) {
     // 是否指定状态
-    var nav_status_index = -1;
+    var nav_status_index = 0;
     if (params.status != undefined) {
       for (var i in this.data.nav_status_list) {
         if (this.data.nav_status_list[i]['value'] == params.status) {
@@ -162,5 +167,79 @@ Page({
       data_page: 1,
     });
     this.get_data_list(1);
+  },
+
+  // 取件码弹层-开启
+  list_submit_take_event(e) {
+    this.setData({
+      is_show_take_popup: true,
+      extraction_code: '',
+      extraction_value: {
+        index: e.currentTarget.dataset.index,
+        oid: e.currentTarget.dataset.oid,
+        uid: e.currentTarget.dataset.uid
+      },
+    });
+  },
+
+  // 取件码弹层-关闭
+  take_popup_event_close() {
+    this.setData({ is_show_take_popup: false });
+  },
+
+  // 取件码输入事件
+  extraction_code_input_event(e) {
+    this.setData({ extraction_code: e.detail.value || ''});
+  },
+
+  // 取件提交
+  form_submit_take_event(e) {
+    var self = this;
+    // 参数
+    if ((self.data.extraction_code || null) == null)
+    {
+      app.showToast('请输入取件码');
+      return false;
+    }
+    if ((self.data.extraction_value || null) == null) {
+      app.showToast('操作数据有误');
+      return false;
+    }
+
+    // 提交表单
+    var data = {
+      id: self.data.extraction_value.oid,
+      user_id: self.data.extraction_value.uid,
+      extraction_code: self.data.extraction_code,
+    };
+    self.setData({ form_submit_disabled_status: true });
+    wx.request({
+      url: app.get_request_url("take", "extraction", "distribution"),
+      method: "POST",
+      data: data,
+      dataType: "json",
+      success: res => {
+        self.setData({ form_submit_disabled_status: false });
+        wx.hideLoading();
+        if (res.data.code == 0) {
+          var temp_data_list = this.data.data_list;
+          var index = self.data.extraction_value.index;
+          temp_data_list[index]['status'] = 1;
+          temp_data_list[index]['status_name'] = '已处理';
+          self.setData({
+            is_show_take_popup: false,
+            data_list: temp_data_list,
+          });
+          app.showToast(res.data.msg, "success");
+        } else {
+          app.showToast(res.data.msg);
+        }
+      },
+      fail: () => {
+        self.setData({ form_submit_disabled_status: false });
+        wx.hideLoading();
+        app.showToast("服务器请求出错");
+      }
+    });
   },
 });

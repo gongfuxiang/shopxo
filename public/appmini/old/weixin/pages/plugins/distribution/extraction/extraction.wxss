@@ -54,8 +54,8 @@
   border-radius: 6rpx;
   margin-right: 10rpx;
 }
-.valid .base-map-submit {
-  color: #ff6a80;
+.valid .edit-submit {
+  color: #0e90d2;
 }
 .valid .content {
   line-height: 46rpx;
@@ -76,7 +76,15 @@
   font-weight: bold;
   font-size: 36rpx;
   margin-top: 10rpx;
-  color: #ff6a80;
+}
+.valid .statistics .item .order-wait-value {
+  color: #f00;
+}
+.valid .statistics .item .order-already-value {
+  color: #2ba245;
+}
+.valid .relieve {
+  padding: 0 10rpx;
 }
 
 /*

@@ -10,9 +10,6 @@ Page({
     city_id: null,
     county_id: null,
 
-    lng: 0,
-    lat: 0,
-
     default_province: "请选择省",
     default_city: "请选择市",
     default_county: "请选择区/县",
@@ -338,36 +335,57 @@ Page({
 
     // 验证提交表单
     if (app.fields_check(form_data, validation)) {
-      self.setData({ form_submit_disabled_status: true});
-      wx.showLoading({ title: "处理中..." });
-      wx.request({
-        url: app.get_request_url("applysave", "extraction", "distribution"),
-        method: "POST",
-        data: form_data,
-        dataType: "json",
-        header: { 'content-type': 'application/x-www-form-urlencoded' },
-        success: res => {
-          self.setData({ form_submit_disabled_status: false });
-          wx.hideLoading();
-          if (res.data.code == 0) {
-            app.showToast(res.data.msg, "success");
-            setTimeout(function () {
-              wx.navigateBack();
-            }, 1000);
-          } else {
-            if (app.is_login_check(res.data)) {
-              app.showToast(res.data.msg);
-            } else {
-              app.showToast('提交失败，请重试！');
+      if ((self.data.extraction_data || null) != null && (self.data.extraction_data.status || 0) == 1)
+      {
+        wx.showModal({
+          title: '温馨提示',
+          content: '数据需重新审核后方可生效',
+          confirmText: '确认',
+          cancelText: '暂不',
+          success: (result) => {
+            if (result.confirm) {
+              self.request_data_save(form_data);
             }
-          }
-        },
-        fail: () => {
-          self.setData({ form_submit_disabled_status: false });
-          wx.hideLoading();
-          app.showToast("服务器请求出错");
-        }
-      });
+          },
+        });
+      } else {
+        self.request_data_save(form_data);
+      }
     }
+  },
+
+  // 数据保存
+  request_data_save(data) {
+    var self = this;
+    self.setData({ form_submit_disabled_status: true });
+    wx.showLoading({ title: "处理中..." });
+    wx.request({
+      url: app.get_request_url("applysave", "extraction", "distribution"),
+      method: "POST",
+      data: data,
+      dataType: "json",
+      header: { 'content-type': 'application/x-www-form-urlencoded' },
+      success: res => {
+        self.setData({ form_submit_disabled_status: false });
+        wx.hideLoading();
+        if (res.data.code == 0) {
+          app.showToast(res.data.msg, "success");
+          setTimeout(function () {
+            wx.navigateBack();
+          }, 1000);
+        } else {
+          if (app.is_login_check(res.data)) {
+            app.showToast(res.data.msg);
+          } else {
+            app.showToast('提交失败，请重试！');
+          }
+        }
+      },
+      fail: () => {
+        self.setData({ form_submit_disabled_status: false });
+        wx.hideLoading();
+        app.showToast("服务器请求出错");
+      }
+    });
   },
 });

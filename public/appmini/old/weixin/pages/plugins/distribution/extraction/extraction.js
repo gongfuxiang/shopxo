@@ -6,6 +6,7 @@ Page({
     data_list_loding_msg: '',
     data_base: null,
     extraction: null,
+    statistical: null,
   },
 
   onLoad(params) {},
@@ -51,6 +52,7 @@ Page({
           self.setData({
             data_base: data.base || null,
             extraction: data.extraction || null,
+            statistical: data.statistical || null,
             data_list_loding_msg: '',
             data_list_loding_status: 0,
             data_bottom_line_status: true,
@@ -87,7 +89,6 @@ Page({
   // 地图查看
   address_map_event(e) {
     if ((this.data.extraction || null) == null) {
-      app.showToast("地址有误");
       return false;
     }
 
@@ -95,7 +96,6 @@ Page({
     var lng = parseFloat(ads.lng || 0);
     var lat = parseFloat(ads.lat || 0);
     if (lng <= 0 || lat <= 0) {
-      app.showToast("坐标有误");
       return false;
     }
 
