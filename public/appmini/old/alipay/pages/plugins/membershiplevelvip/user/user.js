@@ -40,14 +40,14 @@ Page({
               });
             }
             self.setData({
-              avatar: user.avatar || app.data.default_user_head_src,
+              avatar: ((self.data.avatar || null) == null) ? (user.avatar || app.data.default_user_head_src) : self.data.avatar,
               nickname: user.nickname || '用户名',
             });
           },
         });
       } else {
         self.setData({
-          avatar: user.avatar || app.data.default_user_head_src,
+          avatar: ((self.data.avatar || null) == null) ? (user.avatar || app.data.default_user_head_src) : self.data.avatar,
           nickname: user.nickname || '用户名',
         });
         

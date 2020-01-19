@@ -93,6 +93,7 @@ textarea {
 .fr { float: right; }
 .bg-white { background-color: #fff; }
 .wh-auto { width: 100%; }
+.ht-auto { height: 100%; }
 .tc { text-align: center; }
 .tl { text-align: left; }
 .tr { text-align: right; }

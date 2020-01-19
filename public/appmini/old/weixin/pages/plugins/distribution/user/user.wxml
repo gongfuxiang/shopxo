@@ -10,7 +10,7 @@
     <view wx:if="{{(user_level || null) != null && (user_level.name || null) != null}}" class="single-text level-name spacing-mt">{{user_level.name}}</view>
     <block wx:if="{{(data_base || null) != null && (data_base.is_enable_self_extraction || 0) == 1}}">
       <navigator url="/pages/plugins/distribution/extraction/extraction" hover-class="none">
-        <button size="mini" type="default" hover-class="none" class="head-base-submit">{{(extraction_data || null) == null ? '申请' : ''}}取货点</button>
+        <button size="mini" type="default" hover-class="none" class="head-base-submit">{{(extraction || null) == null ? '申请' : ''}}取货点</button>
       </navigator>
     </block>
   </view>

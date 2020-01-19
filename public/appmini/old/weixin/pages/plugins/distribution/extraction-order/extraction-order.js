@@ -19,6 +19,9 @@ Page({
     extraction_value: null,
     extraction_code: '',
     form_submit_disabled_status: false,
+
+    is_show_search_popup: false,
+    search_keywords_value: '',
   },
 
   onLoad(params) {
@@ -89,6 +92,7 @@ Page({
       data: {
         page: this.data.data_page,
         status: status || 0,
+        keywords: this.data.search_keywords_value || '',
       },
       dataType: "json",
       success: res => {
@@ -213,6 +217,7 @@ Page({
       extraction_code: self.data.extraction_code,
     };
     self.setData({ form_submit_disabled_status: true });
+    wx.showLoading({ title: "处理中..." });
     wx.request({
       url: app.get_request_url("take", "extraction", "distribution"),
       method: "POST",
@@ -241,5 +246,29 @@ Page({
         app.showToast("服务器请求出错");
       }
     });
+  },
+
+  // 搜索弹层-开启
+  drag_event(e) {
+    this.setData({ is_show_search_popup: true});
+  },
+
+  // 搜索弹层-关闭
+  search_popup_event_close() {
+    this.setData({ is_show_search_popup: false });
+  },
+
+  // 搜索关键字输入事件
+  search_input_keywords_event(e) {
+    this.setData({ search_keywords_value: e.detail.value || '' });
+  },
+
+  // 搜索确认事件
+  search_submit_event(e) {
+    this.setData({
+      is_show_search_popup: false,
+      data_page: 1,
+    });
+    this.get_data_list(1);
   },
 });
