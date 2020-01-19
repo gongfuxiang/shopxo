@@ -9,7 +9,7 @@ Page({
     user_share_url: null,
   },
 
-  onShow() {
+  onLoad() {
     this.init();
   },
 

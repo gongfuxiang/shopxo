@@ -59,13 +59,14 @@ class Pluginsadmin extends Common
         // 参数
         $params = input();
 
+        // 应用商店地址
+        $this->assign('store_url', StoreService::StoreUrl());
+
         // 页面类型
         if($this->view_type == 'home')
         {
             $data = PluginsAdminService::PluginsList();
             $this->assign('data_list', $data['data']);
-
-            $this->assign('store_url', StoreService::StoreUrl());
             return $this->fetch();
         } else {
             return $this->fetch('upload');

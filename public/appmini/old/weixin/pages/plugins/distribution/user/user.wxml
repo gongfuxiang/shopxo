@@ -31,7 +31,7 @@
 <!-- 通知  -->
 <view class="tips-container spacing-mb">
   <!-- 不符合分销条件描述 -->
-  <block wx:if="{{((user_level || null) == null)}}">
+  <block wx:if="{{(user_level || null) == null}}">
     <view wx:if="{{(data_base.non_conformity_desc || null) != null && data_base.non_conformity_desc.length > 0}}" class="tips-item spacing-mt">
       <view class="not-opening-vip-desc">
         <view wx:for="{{data_base.non_conformity_desc}}" wx:key="key" class="item">
@@ -42,7 +42,7 @@
   </block>
 
   <!-- 会员中心通知  -->
-  <view wx:if="{{(data_base.user_center_notice || null) != null && data_base.user_center_notice.length > 0}}" class="tips-item spacing-mt">
+  <view wx:if="{{(user_level || null) != null && (data_base.user_center_notice || null) != null && data_base.user_center_notice.length > 0}}" class="tips-item spacing-mt">
     <view class="tips">
       <view wx:for="{{data_base.user_center_notice}}" wx:key="key" class="item">
         {{item}}
