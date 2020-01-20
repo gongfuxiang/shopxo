@@ -1,5 +1,5 @@
 {
-  "pages": [
+  "pages": ["pages/plugins/wallet/user/user",
     "pages/index/index",
     "pages/goods-category/goods-category",
     "pages/cart/cart",
