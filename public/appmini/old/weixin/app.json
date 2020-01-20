@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/plugins/distribution/user/user",
     "pages/index/index",
     "pages/goods-category/goods-category",
     "pages/cart/cart",
@@ -41,6 +40,7 @@
     "pages/plugins/membershiplevelvip/statistics/statistics",
     "pages/plugins/membershiplevelvip/poster/poster",
     "pages/plugins/membershiplevelvip/team/team",
+    "pages/plugins/distribution/user/user",
     "pages/plugins/distribution/order/order",
     "pages/plugins/distribution/order-detail/order-detail",
     "pages/plugins/distribution/profit/profit",

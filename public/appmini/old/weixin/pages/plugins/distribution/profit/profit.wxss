@@ -7,7 +7,7 @@
   line-height: 80rpx;
 }
 .nav .item {
-  width: 25%;
+  width: 20%;
 }
 .nav .active {
   color: #ff6a80;

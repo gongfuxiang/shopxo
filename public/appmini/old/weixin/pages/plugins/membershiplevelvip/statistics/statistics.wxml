@@ -10,7 +10,7 @@
       </view>
     </view>
     <view class="item fl">
-      <view class="name cr-666">已推广用户总数</view>
+      <view class="name cr-666">已消费用户总数</view>
       <view class="value single-text">
         <text class="green">{{user_total.valid_user_count || 0}}</text>
         <text class="cr-888">人</text>

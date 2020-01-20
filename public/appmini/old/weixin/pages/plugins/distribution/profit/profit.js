@@ -9,9 +9,10 @@ Page({
     params: null,
     nav_status_list: [
       { name: "全部", value: "-1" },
-      { name: "待结算", value: "0" },
-      { name: "已结算", value: "1" },
-      { name: "已失效", value: "2" },
+      { name: "待生效", value: "0" },
+      { name: "待结算", value: "1" },
+      { name: "已结算", value: "2" },
+      { name: "已失效", value: "3" },
     ],
     nav_status_index: 0,
   },

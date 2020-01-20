@@ -10,7 +10,7 @@
       </view>
     </view>
     <view class="item fl">
-      <view class="name cr-666">已推广用户总数</view>
+      <view class="name cr-666">已消费用户总数</view>
       <view class="value single-text">
         <text class="green">{{user_total.valid_user_count || 0}}</text>
         <text class="cr-888">人</text>
@@ -24,19 +24,25 @@
   <view class="title">返利概况</view>
   <view class="base-content oh tc">
     <view class="item fl">
-      <view class="name cr-666">返佣总金额</view>
+      <view class="name cr-666">返佣总额</view>
       <view class="value single-text">
         <text class="golden">￥{{user_profit_total_price || '0.00'}}</text>
       </view>
     </view>
     <view class="item fl">
-      <view class="name cr-666">待结算金额</view>
+      <view class="name cr-666">待生效</view>
       <view class="value single-text">
         <text class="yellow">￥{{user_profit_stay_price || '0.00'}}</text>
       </view>
     </view>
     <view class="item fl">
-      <view class="name cr-666">已结算金额</view>
+      <view class="name cr-666">待结算</view>
+      <view class="value single-text">
+        <text class="blue">￥{{user_profit_vaild_price || '0.00'}}</text>
+      </view>
+    </view>
+    <view class="item fl">
+      <view class="name cr-666">已结算</view>
       <view class="value single-text">
         <text class="green">￥{{user_profit_already_price || '0.00'}}</text>
       </view>

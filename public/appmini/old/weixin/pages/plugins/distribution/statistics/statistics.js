@@ -30,8 +30,9 @@ Page({
     data_bottom_line_status: false,
 
     user_total: null,
-    user_profit_already_price: 0.00,
     user_profit_stay_price: 0.00,
+    user_profit_vaild_price: 0.00,
+    user_profit_already_price: 0.00,
     user_profit_total_price: 0.00,
     user_data: null,
     profit_data: null,
@@ -68,8 +69,9 @@ Page({
           var data = res.data.data;
           self.setData({
             user_total: data.user_total || null,
-            user_profit_already_price: data.user_profit_already_price || 0.00,
             user_profit_stay_price: data.user_profit_stay_price || 0.00,
+            user_profit_vaild_price: data.user_profit_vaild_price || 0.00,
+            user_profit_already_price: data.user_profit_already_price || 0.00,
             user_profit_total_price: data.user_profit_total_price || 0.00,
             user_data: data.user_chart || null,
             profit_data: data.profit_chart || null,

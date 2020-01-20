@@ -329,7 +329,7 @@ Page({
     // 地理位置
     if ((self.data.user_location || null) != null)
     {
-      form_data["lng"] = self.data.user_location.lat || 0;
+      form_data["lng"] = self.data.user_location.lng || 0;
       form_data["lat"] = self.data.user_location.lat || 0;
     }
 

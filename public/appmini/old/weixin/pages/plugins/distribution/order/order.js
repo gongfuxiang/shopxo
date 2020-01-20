@@ -14,6 +14,7 @@ Page({
       { name: "已支付", value: "2" },
       { name: "待收货", value: "3" },
       { name: "已完成", value: "4" },
+      { name: "已失效", value: "5,6" },
     ],
     nav_status_index: 0,
   },
