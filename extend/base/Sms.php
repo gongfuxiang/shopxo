@@ -180,39 +180,39 @@ class Sms
     }
 
     /**
-	 * [KindofSession 种验证码session]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2017-03-07T14:59:13+0800
-	 * @param    [string]      $code [验证码]
-	 */
-	private function KindofSession($code)
-	{
-		$data = array(
-				'code' => $code,
-				'time' => time(),
-			);
-		SS($this->key_code, $data);
-	}
+     * [KindofSession 种验证码session]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-03-07T14:59:13+0800
+     * @param    [string]      $code [验证码]
+     */
+    private function KindofSession($code)
+    {
+        $data = array(
+                'code' => $code,
+                'time' => time(),
+            );
+        cache($this->key_code, $data, $this->expire_time);
+    }
 
-	/**
-	 * [CheckExpire 验证码是否过期]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2017-03-05T19:02:26+0800
-	 * @return   [boolean] [有效true, 无效false]
-	 */
-	public function CheckExpire()
-	{
-		$data = GS($this->key_code);
-		if($data !== false)
-		{
-			return (time() <= $data['time']+$this->expire_time);
-		}
-		return false;
-	}
+    /**
+     * [CheckExpire 验证码是否过期]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-03-05T19:02:26+0800
+     * @return   [boolean] [有效true, 无效false]
+     */
+    public function CheckExpire()
+    {
+        $data = cache($this->key_code);
+        if(!empty($data))
+        {
+            return (time() <= $data['time']+$this->expire_time);
+        }
+        return false;
+    }
 
 	/**
 	 * [CheckCorrect 验证码是否正确]
@@ -225,8 +225,8 @@ class Sms
 	 */
 	public function CheckCorrect($code = '')
 	{
-		$data = GS($this->key_code);
-		if($data !== false)
+		$data = cache($this->key_code);
+		if(!empty($data))
 		{
 			if(empty($code) && isset($_POST['code']))
 			{
@@ -247,7 +247,7 @@ class Sms
 	 */
 	public function Remove()
 	{
-		DS($this->key_code);
+		cache($this->key_code, null);
 	}
 
 	/**
@@ -260,7 +260,7 @@ class Sms
 	 */
 	private function IntervalTimeCheck()
 	{
-		$data = GS($this->key_code);
+		$data = cache($this->key_code);
 		if(!empty($data))
 		{
 			return (time() > $data['time']+$this->interval_time);

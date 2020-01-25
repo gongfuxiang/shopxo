@@ -2,6 +2,8 @@ const app = getApp();
 Page({
   data: {
     params: null,
+    data_list_loding_status: 1,
+    data_list_loding_msg: '',
     extraction_data: null,
     province_list: [],
     city_list: [],
@@ -121,7 +123,7 @@ Page({
     });
   },
 
-  // 肚脐数据初始化
+  // 地区数据初始化
   init_region_value() {
      this.setData({
       province_value: this.get_region_value("province_list", "province_id"),
@@ -130,7 +132,7 @@ Page({
     });
   },
 
-  // 地区初始化皮配偶索引
+  // 地区初始化匹配索引
   get_region_value(list, id) {
     var data = this.data[list];
     var data_id = this.data[id];
@@ -366,7 +368,6 @@ Page({
       dataType: "json",
       header: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
-        self.setData({ form_submit_disabled_status: false });
         wx.hideLoading();
         if (res.data.code == 0) {
           app.showToast(res.data.msg, "success");
@@ -374,6 +375,7 @@ Page({
             wx.navigateBack();
           }, 1000);
         } else {
+          self.setData({ form_submit_disabled_status: false });
           if (app.is_login_check(res.data)) {
             app.showToast(res.data.msg);
           } else {

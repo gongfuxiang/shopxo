@@ -32,25 +32,6 @@ return array (
   'log_write' => 
   array (
   ),
-  'plugins_service_users_center_left_menu_handle' => 
-  array (
-    0 => 'app\\plugins\\wallet\\Hook',
-    1 => 'app\\plugins\\membershiplevelvip\\Hook',
-    2 => 'app\\plugins\\coupon\\Hook',
-    3 => 'app\\plugins\\distribution\\Hook',
-  ),
-  'plugins_service_header_navigation_top_right_handle' => 
-  array (
-    0 => 'app\\plugins\\wallet\\Hook',
-    1 => 'app\\plugins\\membershiplevelvip\\Hook',
-    2 => 'app\\plugins\\coupon\\Hook',
-    3 => 'app\\plugins\\distribution\\Hook',
-  ),
-  'plugins_service_user_register_end' => 
-  array (
-    0 => 'app\\plugins\\wallet\\Hook',
-    1 => 'app\\plugins\\coupon\\Hook',
-  ),
   'plugins_css' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
@@ -119,6 +100,20 @@ return array (
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
+  'plugins_service_users_center_left_menu_handle' => 
+  array (
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
+    2 => 'app\\plugins\\distribution\\Hook',
+    3 => 'app\\plugins\\wallet\\Hook',
+  ),
+  'plugins_service_header_navigation_top_right_handle' => 
+  array (
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
+    2 => 'app\\plugins\\distribution\\Hook',
+    3 => 'app\\plugins\\wallet\\Hook',
+  ),
   'plugins_js' => 
   array (
     0 => 'app\\plugins\\coupon\\Hook',
@@ -146,6 +141,11 @@ return array (
     0 => 'app\\plugins\\coupon\\Hook',
     1 => 'app\\plugins\\distribution\\Hook',
     2 => 'app\\plugins\\fictitioussecretkey\\Hook',
+  ),
+  'plugins_service_user_register_end' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+    1 => 'app\\plugins\\wallet\\Hook',
   ),
   'plugins_service_order_aftersale_audit_handle_end' => 
   array (

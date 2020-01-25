@@ -1,5 +1,5 @@
 {
-  "pages": ["pages/plugins/wallet/user/user",
+  "pages": [
     "pages/index/index",
     "pages/goods-category/goods-category",
     "pages/cart/cart",
@@ -51,7 +51,17 @@
     "pages/plugins/distribution/extraction/extraction",
     "pages/plugins/distribution/extraction-apply/extraction-apply",
     "pages/plugins/distribution/extraction-order/extraction-order",
-    "pages/plugins/distribution/introduce/introduce"
+    "pages/plugins/distribution/introduce/introduce",
+    "pages/plugins/wallet/user/user",
+    "pages/plugins/wallet/recharge/recharge",
+    "pages/plugins/wallet/cash-auth/cash-auth",
+    "pages/plugins/wallet/cash-create/cash-create",
+    "pages/plugins/wallet/wallet-log/wallet-log",
+    "pages/plugins/wallet/wallet-log-detail/wallet-log-detail",
+    "pages/plugins/wallet/user-recharge/user-recharge",
+    "pages/plugins/wallet/user-recharge-detail/user-recharge-detail",
+    "pages/plugins/wallet/user-cash/user-cash",
+    "pages/plugins/wallet/user-cash-detail/user-cash-detail"
   ],
   "permission": {
     "scope.userLocation": {

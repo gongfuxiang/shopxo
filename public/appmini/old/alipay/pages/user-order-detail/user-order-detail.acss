@@ -91,6 +91,8 @@
     width: calc(75% - 50rpx);
     padding-left: 20rpx;
     min-height: 46rpx;
+    word-wrap: break-word;
+    word-break: normal;
 }
 .panel-item .panel-content .item .title,
 .panel-item .panel-content .item .content {

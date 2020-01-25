@@ -176,10 +176,11 @@ class Email
 	 */
 	private function KindofSession($code)
 	{
-		$_SESSION[$this->key_code] = array(
+		$data = array(
 				'code' => $code,
 				'time' => time(),
 			);
+		cache($this->key_code, $data, $this->expire_time);
 	}
 
 	/**
@@ -192,9 +193,9 @@ class Email
 	 */
 	public function CheckExpire()
 	{
-		if(isset($_SESSION[$this->key_code]))
+		$data = cache($this->key_code);
+		if(!empty($data))
 		{
-			$data = $_SESSION[$this->key_code];
 			return (time() <= $data['time']+$this->expire_time);
 		}
 		return false;
@@ -211,13 +212,14 @@ class Email
 	 */
 	public function CheckCorrect($code = '')
 	{
-		if(isset($_SESSION[$this->key_code]['code']))
+		$data = cache($this->key_code);
+		if(!empty($data))
 		{
 			if(empty($code) && isset($_POST['code']))
 			{
 				$code = trim($_POST['code']);
 			}
-			return ($_SESSION[$this->key_code]['code'] == $code);
+			return ($data['code'] == $code);
 		}
 		return false;
 	}
@@ -232,10 +234,7 @@ class Email
 	 */
 	public function Remove()
 	{
-		if(isset($_SESSION[$this->key_code]))
-		{
-			unset($_SESSION[$this->key_code]);
-		}
+		cache($this->key_code, null);
 	}
 
 	/**
@@ -248,9 +247,9 @@ class Email
 	 */
 	private function IntervalTimeCheck()
 	{
-		if(isset($_SESSION[$this->key_code]))
+		$data = cache($this->key_code);
+		if(!empty($data))
 		{
-			$data = $_SESSION[$this->key_code];
 			return (time() > $data['time']+$this->interval_time);
 		}
 		return true;

@@ -65,7 +65,6 @@ Page({
       data: {},
       dataType: "json",
       success: res => {
-        my.hideLoading();
         my.stopPullDownRefresh();
         if (res.data.code == 0) {
           var data = res.data.data;
@@ -142,7 +141,6 @@ Page({
         }
       },
       fail: () => {
-        my.hideLoading();
         my.stopPullDownRefresh();
         self.setData({
           data_bottom_line_status: false,

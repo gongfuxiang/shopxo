@@ -64,7 +64,6 @@ Page({
       data: {},
       dataType: "json",
       success: res => {
-        wx.hideLoading();
         wx.stopPullDownRefresh();
         if (res.data.code == 0) {
           var data = res.data.data;
@@ -141,7 +140,6 @@ Page({
         }
       },
       fail: () => {
-        wx.hideLoading();
         wx.stopPullDownRefresh();
         self.setData({
           data_bottom_line_status: false,
@@ -216,5 +214,4 @@ Page({
       },
     });
   },
-
 });

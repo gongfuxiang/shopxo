@@ -98,7 +98,6 @@ Page({
       data: {},
       dataType: "json",
       success: res => {
-        wx.hideLoading();
         wx.stopPullDownRefresh();
         if (res.data.code == 0) {
           var data = res.data.data;
@@ -139,7 +138,6 @@ Page({
         }
       },
       fail: () => {
-        wx.hideLoading();
         wx.stopPullDownRefresh();
         self.setData({
           data_bottom_line_status: false,
@@ -170,5 +168,4 @@ Page({
   user_avatar_error(e) {
     this.setData({ avatar: app.data.default_user_head_src });
   },
-
 });

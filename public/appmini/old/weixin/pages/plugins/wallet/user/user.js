@@ -49,19 +49,19 @@ Page({
   set_nav_list() {
     var nav = [
       {
-        icon: "/images/plugins/distribution/user-center-order-icon.png",
+        icon: "/images/plugins/wallet/user-center-wallet-log-icon.png",
         title: "账户明细",
-        url: "/pages/plugins/distribution/order/order",
+        url: "/pages/plugins/wallet/wallet-log/wallet-log",
       },
       {
-        icon: "/images/plugins/distribution/user-center-profit-icon.png",
+        icon: "/images/plugins/wallet/user-center-recharge-icon.png",
         title: "充值记录",
-        url: "/pages/plugins/distribution/profit/profit",
+        url: "/pages/plugins/wallet/user-recharge/user-recharge",
       },
       {
-        icon: "/images/plugins/distribution/user-center-team-icon.png",
+        icon: "/images/plugins/wallet/user-center-cash-icon.png",
         title: "提现记录",
-        url: "/pages/plugins/distribution/team/team",
+        url: "/pages/plugins/wallet/user-cash/user-cash",
       }
     ];
     this.setData({ nav_list: nav});
@@ -76,7 +76,6 @@ Page({
       data: {},
       dataType: "json",
       success: res => {
-        wx.hideLoading();
         wx.stopPullDownRefresh();
         if (res.data.code == 0) {
           var data = res.data.data;
@@ -99,7 +98,6 @@ Page({
         }
       },
       fail: () => {
-        wx.hideLoading();
         wx.stopPullDownRefresh();
         self.setData({
           data_bottom_line_status: false,

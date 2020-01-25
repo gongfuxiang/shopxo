@@ -16,14 +16,13 @@
     <view class="fl cr-888 unit">元</view>
   </view>
   <view class="submit">
-    <navigator url="/pages/plugins/wallet/recharge/recharge" hover-class="none" class="fl">
+    <navigator wx:if="{{(data_base || null) == null || data_base.is_enable_recharge == 1}}" url="/pages/plugins/wallet/recharge/recharge" hover-class="none" class="fl">
       <button size="mini" type="default" hover-class="none" class="submit-recharge">充值</button>
     </navigator>
-    <navigator url="/pages/plugins/wallet/cash/cash" hover-class="none" class="fl">
+    <navigator wx:if="{{(data_base || null) == null || data_base.is_enable_cash == 1}}"  url="/pages/plugins/wallet/cash-auth/cash-auth" hover-class="none" class="fl">
       <button size="mini" type="default" hover-class="none" class="submit-cash">提现</button>
     </navigator>
   </view>
-  
 </view>
 
 <!-- 导航 -->

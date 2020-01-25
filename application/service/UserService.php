@@ -783,36 +783,8 @@ class UserService
             $user = Db::name('User')->field('*')->find($user_id);
             if(!empty($user))
             {
-                // 基础数据处理
-                $user['add_time_text']  =   date('Y-m-d H:i:s', $user['add_time']);
-                $user['upd_time_text']  =   date('Y-m-d H:i:s', $user['upd_time']);
-                $user['gender_text']    =   lang('common_gender_list')[$user['gender']]['name'];
-                $user['birthday_text']  =   empty($user['birthday']) ? '' : date('Y-m-d', $user['birthday']);
-                $user['mobile_security']=   empty($user['mobile']) ? '' : substr($user['mobile'], 0, 3).'***'.substr($user['mobile'], -3);
-                $user['email_security'] =   empty($user['email']) ? '' : substr($user['email'], 0, 3).'***'.substr($user['email'], -3);
-
-                // 显示名称,根据规则优先展示
-                $user['user_name_view'] = $user['username'];
-                if(empty($user['user_name_view']))
-                {
-                    $user['user_name_view'] = $user['nickname'];
-                }
-                if(empty($user['user_name_view']))
-                {
-                    $user['user_name_view'] = $user['mobile_security'];
-                }
-                if(empty($user['user_name_view']))
-                {
-                    $user['user_name_view'] = $user['email_security'];
-                }
-
-                // 头像
-                if(!empty($user['avatar']))
-                {
-                    $user['avatar'] = ResourcesService::AttachmentPathViewHandle($user['avatar']);
-                } else {
-                    $user['avatar'] = config('shopxo.attachment_host').'/static/index/'.strtolower(config('DEFAULT_THEME', 'default')).'/images/default-user-avatar.jpg';
-                }
+                // 用户数据处理
+                $user = self::UserHandle($user);
 
                 // 用户登录成功信息纪录钩子
                 $hook_name = 'plugins_service_user_login_success_record';
@@ -833,6 +805,71 @@ class UserService
             }
         }
         return false;
+    }
+
+    /**
+     * 用户数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-01-23
+     * @desc    description
+     * @param   [ array]          $user [用户数据]
+     */
+    private static function UserHandle($user)
+    {
+        // 基础数据处理
+        if(isset($user['add_time']))
+        {
+            $user['add_time_text']  =   date('Y-m-d H:i:s', $user['add_time']);
+        }
+        if(isset($user['upd_time']))
+        {
+            $user['upd_time_text']  =   date('Y-m-d H:i:s', $user['upd_time']);
+        }
+        if(isset($user['gender']))
+        {
+            $user['gender_text']    =   lang('common_gender_list')[$user['gender']]['name'];
+        }
+        if(isset($user['birthday']))
+        {
+            $user['birthday_text']  =   empty($user['birthday']) ? '' : date('Y-m-d', $user['birthday']);
+        }
+
+        // 邮箱/手机
+        if(isset($user['email']))
+        {
+            $user['mobile_security']=   empty($user['mobile']) ? '' : substr($user['mobile'], 0, 3).'***'.substr($user['email'], -3);
+        }
+        if(isset($user['email']))
+        {
+            $user['email_security'] =   empty($user['email']) ? '' : substr($user['email'], 0, 3).'***'.substr($user['email'], -3);
+        }
+
+        // 显示名称,根据规则优先展示
+        $user['user_name_view'] = $user['username'];
+        if(empty($user['user_name_view']))
+        {
+            $user['user_name_view'] = $user['nickname'];
+        }
+        if(empty($user['user_name_view']))
+        {
+            $user['user_name_view'] = $user['mobile_security'];
+        }
+        if(empty($user['user_name_view']))
+        {
+            $user['user_name_view'] = $user['email_security'];
+        }
+
+        // 头像
+        if(!empty($user['avatar']))
+        {
+            $user['avatar'] = ResourcesService::AttachmentPathViewHandle($user['avatar']);
+        } else {
+            $user['avatar'] = config('shopxo.attachment_host').'/static/index/'.strtolower(config('DEFAULT_THEME', 'default')).'/images/default-user-avatar.jpg';
+        }
+
+        return $user;
     }
 
     /**
@@ -1758,7 +1795,10 @@ class UserService
                 }
 
                 // 用户登录纪录处理
-                self::UserLoginRecord($user['id'], true);
+                if(in_array(APPLICATION_CLIENT_TYPE, ['pc', 'h5']))
+                {
+                    self::UserLoginRecord($user['id'], true);
+                }
             }
         }
 
@@ -2113,37 +2153,8 @@ class UserService
             $user = Db::name('User')->field('username,nickname,mobile,email,avatar')->find($user_id);
         }
         
-        // 开始处理用户信息
-        if(!empty($user))
-        {
-            $user['user_name_view'] = isset($user['username']) ? $user['username'] : '';
-            if(empty($user['user_name_view']) && isset($user['nickname']))
-            {
-                $user['user_name_view'] = $user['nickname'];
-            }
-            if(empty($user['user_name_view']) && isset($user['mobile']))
-            {
-                $user['user_name_view'] = $user['mobile'];
-            }
-            if(empty($user['user_name_view']) && isset($user['email']))
-            {
-                $user['user_name_view'] = $user['email'];
-            }
-
-            // 处理展示用户
-            if($is_privacy === true && !empty($user['user_name_view']))
-            {
-                $user['user_name_view'] = mb_substr($user['user_name_view'], 0, 3, 'utf-8').'***'.mb_substr($user['user_name_view'], -3, null, 'utf-8');
-            }
-
-            // 头像
-            if(!empty($user['avatar']))
-            {
-                $user['avatar'] = ResourcesService::AttachmentPathViewHandle($user['avatar']);
-            } else {
-                $user['avatar'] = config('shopxo.attachment_host').'/static/index/'.strtolower(config('DEFAULT_THEME', 'default')).'/images/default-user-avatar.jpg';
-            }
-        }
+        // 用户数据处理
+        $user = self::UserHandle($user);
 
         return $user;
     }
