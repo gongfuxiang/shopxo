@@ -255,9 +255,7 @@ Page({
                   // 跳转支付页面
                   my.navigateTo({
                     url:
-                      "/pages/paytips/paytips?code=" +
-                      res.resultCode +
-                      "&total_price=" +
+                      "/pages/paytips/paytips?code=9000&total_price=" +
                       this.data.data_list[index]['total_price']
                   });
                 } else {

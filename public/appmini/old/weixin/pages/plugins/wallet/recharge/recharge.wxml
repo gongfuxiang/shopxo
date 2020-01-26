@@ -5,6 +5,6 @@
   </view>
 
   <view class="form-gorup">
-    <button class="submit-bottom" type="default" hover-class="none" class="bg-main" disabled="{{form_submit_disabled_status}}" bindtap="form_submit_event">提交</button>
+    <button class="bg-main" type="default" hover-class="none" disabled="{{form_submit_disabled_status}}" bindtap="form_submit_event">提交</button>
   </view>
 </view>

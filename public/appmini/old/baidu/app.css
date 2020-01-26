@@ -346,14 +346,15 @@ button[disabled].bg-primary {
 }
 .form-container .form-gorup input,
 .form-container .form-gorup textarea,
-.form-container .form-gorup picker view.picker {
+.form-container .form-gorup .picker {
   border-radius: 0;
   width: 100%;
   box-sizing: border-box;
   padding: 0 10rpx;
+  font-size: 28rpx;
 }
 .form-container .form-gorup input,
-.form-container .form-gorup picker view.picker {
+.form-container .form-gorup .picker {
   height: 70rpx;
   line-height: 70rpx;
 }

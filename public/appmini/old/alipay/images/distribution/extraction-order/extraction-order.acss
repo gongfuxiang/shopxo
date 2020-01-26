@@ -1,0 +1,79 @@
+/*
+ * 导航
+ */
+.nav {
+  background: #eee;
+  height: 80rpx;
+  line-height: 80rpx;
+}
+.nav .item {
+  width: 33.33%;
+}
+.nav .active {
+  color: #ff6a80;
+}
+
+/*
+ * 列表
+ */
+.scroll-box {
+  height: calc(100vh - 80rpx);
+}
+.data-list .item .base {
+  padding: 15rpx 10rpx;
+}
+.data-list .item .base .avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+}
+.data-list .item .base .nickname {
+  margin-top: 10rpx;
+}
+.data-list .item .content {
+  padding: 20rpx 10rpx;
+}
+.data-list .item .content .multi-text {
+  line-height: 50rpx;
+}
+.data-list .item .content .multi-text .title {
+  margin-right: 30rpx;
+}
+.data-list .item .content .multi-text .value {
+  font-weight: 500;
+}
+.data-list .item .content .multi-text .unit {
+  margin-left: 10rpx;
+}
+.data-list .item .operation {
+  padding: 20rpx 10rpx;
+}
+.data-list .item .submit-order {
+  border: 1px solid #e5e5e5;
+  color: #888 !important;
+}
+.data-list .item .operation button:not(:first-child) {
+  margin-left: 30rpx;
+}
+
+/*
+ * 表单
+ */
+.submit-bottom {
+  background-color: #ff6a80 !important;
+  color: #fff !important;
+}
+
+/*
+ * 搜索
+ */
+.search-drag {
+  width: 30px;
+  height: 30px;
+  padding: 10px;
+  background: hsla(0, 0%, 0%, 0.1);
+  border-radius: 50%;
+  margin-top: calc(100vh - 160px);
+  margin-left: calc(50% - 25px);
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
+}

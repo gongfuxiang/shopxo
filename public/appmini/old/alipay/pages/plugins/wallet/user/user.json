@@ -1,0 +1,8 @@
+{
+  "pullRefresh": true,
+  "navigationBarBackgroundColor": "#d2364c",
+  "titleBarColor": "#d2364c",
+  "backgroundColorBottom": "#f5f5f5",
+  "backgroundTextStyle": "light",
+  "defaultTitle": "我的钱包"
+}

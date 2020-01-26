@@ -1,0 +1,8 @@
+.form-container .money-container {
+  padding-top: 30rpx;
+}
+.form-container .money-container input {
+  font-size: 60rpx;
+  height: 130rpx;
+  line-height: 130rpx;
+}
