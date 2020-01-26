@@ -65,7 +65,7 @@ textarea {
 .drift { position: fixed; left: -1000px; }
 .nav-submit-fixed { background: #eee; height: 46px; position: fixed; bottom: 0; z-index: 10; }
 
-.tips { background: #ffffeb; color: #f7b240; border: 1px solid #faebd2; line-height: 36rpx; padding: 10rpx; font-size: 26rpx; border-radius: 2px; display: block; }
+.tips { background: #ffffeb; color: #f7b240; border: 1px solid #faebd2; line-height: 38rpx; padding: 10rpx; font-size: 26rpx; border-radius: 2px; display: block; }
 .tips image { width: 35rpx; height: 35rpx; vertical-align: middle; margin-right: 10rpx; }
 
 .data-loding image { width: 60px; height: 60px; background-size: 80% 80% !important; }

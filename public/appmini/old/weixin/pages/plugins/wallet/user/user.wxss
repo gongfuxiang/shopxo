@@ -65,3 +65,10 @@
 .nav .item .title {
   margin-top: 20rpx;
 }
+
+/*
+ * 提示信息
+ */
+.tips-container .tips-item {
+  padding: 0 10rpx;
+}

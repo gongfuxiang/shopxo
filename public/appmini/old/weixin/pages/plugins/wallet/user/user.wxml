@@ -36,3 +36,12 @@
     </navigator>
   </block>
 </view>
+
+<!-- 通知  -->
+<view wx:if="{{(data_base.user_center_notice || null) != null && data_base.user_center_notice.length > 0}}" class="tips-container spacing-mt spacing-mb">
+  <view class="tips">
+    <view wx:for="{{data_base.user_center_notice}}" wx:key="key" class="item">
+      {{item}}
+    </view>
+  </view>
+</view>

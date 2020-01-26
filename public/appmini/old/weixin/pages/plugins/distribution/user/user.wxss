@@ -86,9 +86,6 @@
 .tips-container .tips-item {
   padding: 0 10rpx;
 }
-.tips-container .tips-item .tips .item {
-  line-height: 38rpx;
-}
 .tips-container .not-opening-vip-desc {
   background: #def2fd;
   border: 1px solid #cfeeff;

@@ -233,7 +233,7 @@ Page({
               // 跳转支付页面
               wx.navigateTo({
                 url: "/pages/paytips/paytips?code=9000&total_price=" +
-                  self.data.data_list[index]['price']
+                  self.data.data_list[index]['money']
               });
             },
             fail: function (res) {
