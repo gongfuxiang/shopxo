@@ -186,7 +186,7 @@ App({
     var token = (user == false) ? '' : user.token || '';
     return this.data.request_url +
       "index.php?s=/api/" + c + "/" + a + plugins_params+
-      "&application=app&application_client_type=weixin" +
+      "&application=app&application_client_type=baidu" +
       "&token=" +
       token +
       "&ajax=ajax" +
