@@ -1,4 +1,4 @@
-<form bindsubmit="form_submit" class="form-container spacing-mb oh">
+<form bindsubmit="form_submit" class="form-container oh">
   <view class="form-gorup bg-white">
     <view class="form-gorup-title">别名<text class="form-group-tips">选填</text></view>
     <input type="text" name="alias" value="{{extraction_data.alias || ''}}" placeholder-class="cr-ccc" class="cr-666" placeholder="别名格式最多 16 个字符" />

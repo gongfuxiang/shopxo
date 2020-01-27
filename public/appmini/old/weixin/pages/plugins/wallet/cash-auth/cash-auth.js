@@ -164,7 +164,7 @@ Page({
           self.setData({ form_submit_disabled_status: false });
           wx.hideLoading();
           if (res.data.code == 0) {
-            wx.navigateTo({
+            wx.redirectTo({
               url: '/pages/plugins/wallet/cash-create/cash-create',
             });
           } else {

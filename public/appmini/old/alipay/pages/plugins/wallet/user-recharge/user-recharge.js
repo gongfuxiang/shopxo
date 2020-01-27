@@ -221,7 +221,7 @@ Page({
         my.hideLoading();
         if (res.data.code == 0) {
           my.tradePay({
-              tradeNO: res.data.data.data,
+              tradeNO: res.data.data,
               success: res => {
                 // 数据设置
                 if (res.resultCode == 9000) {

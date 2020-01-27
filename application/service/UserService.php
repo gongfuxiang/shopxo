@@ -837,9 +837,9 @@ class UserService
         }
 
         // 邮箱/手机
-        if(isset($user['email']))
+        if(isset($user['mobile']))
         {
-            $user['mobile_security']=   empty($user['mobile']) ? '' : substr($user['mobile'], 0, 3).'***'.substr($user['email'], -3);
+            $user['mobile_security']=   empty($user['mobile']) ? '' : substr($user['mobile'], 0, 3).'***'.substr($user['mobile'], -3);
         }
         if(isset($user['email']))
         {

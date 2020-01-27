@@ -128,7 +128,9 @@ Page({
           if (res.data.code == 0) {
             app.showToast(res.data.msg, "success");
             setTimeout(function () {
-              my.navigateBack();
+              my.redirectTo({
+                url: '/pages/plugins/wallet/user-cash/user-cash',
+              });
             }, 1000);
           } else {
             self.setData({ form_submit_disabled_status: false });
