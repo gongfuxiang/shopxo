@@ -24,7 +24,7 @@
   <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
 
   <view class="nav-back tc wh-auto">
-    <navigator url="/pages/plugins/distribution/order/order" open-type="navigateBack" hover-class="none">
+    <navigator open-type="navigateBack" hover-class="none">
       <button type="default" size="mini" class="cr-888 br" hover-class="none">返回</button>
     </navigator>
   </view>
