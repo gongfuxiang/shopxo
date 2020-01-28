@@ -1019,6 +1019,9 @@ class BuyService
         // 删除购物车
         self::BuyCartDelete($params);
 
+        // 获取数据库订单信息
+        $order = Db::name('Order')->find($order_id);
+
         // 订单添加成功钩子, 不校验返回值
         $hook_name = 'plugins_service_buy_order_insert_success';
         Hook::listen($hook_name, [
@@ -1030,9 +1033,6 @@ class BuyService
             'address'       => $address,
             'params'        => $params,
         ]);
-
-        // 获取数据库订单信息
-        $order = Db::name('Order')->find($order_id);
 
         // 返回信息
         $result = [
