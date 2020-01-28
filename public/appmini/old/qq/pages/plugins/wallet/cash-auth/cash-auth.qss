@@ -1,0 +1,22 @@
+.verify-input {
+  position: relative;
+}
+.verify-input .verify-sub {
+  border: solid 1px #d2364c; 
+  color: #d2364c;
+  width: 35%;
+  height: 70rpx; 
+  line-height: 35rpx;
+  border-radius: 10rpx;
+  position: absolute;
+  top: 62rpx;
+  right: 10rpx;
+  z-index: 2;
+}
+.verify-input .verify-sub.sub-disabled {
+  border: solid 1px #eee; 
+  color: #a6a6a6
+}
+.view-tips {
+  padding: 10rpx;
+}

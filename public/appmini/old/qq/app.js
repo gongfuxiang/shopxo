@@ -29,10 +29,10 @@ App({
 
     // tabbar页面
     tabbar_pages: [
-      "index",
-      "goods-category",
-      "cart",
-      "user",
+      "/pages/index/index",
+      "/pages/goods-category/goods-category",
+      "/pages/cart/cart",
+      "/pages/user/user",
     ],
 
     // 页面标题
@@ -67,8 +67,8 @@ App({
 
     // 请求地址
     request_url: "{{request_url}}",
-    // request_url: 'http://tp5-dev.com/',
-    // request_url: 'https://dev.shopxo.net/',
+     request_url: 'http://shopxo.com/',
+     request_url: 'https://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -228,7 +228,7 @@ App({
    * method     回调操作对象的函数
    */
   user_login(object, method) {
-    var openid = wx.getStorageSync(this.data.cache_user_login_key) || null;
+    var openid = qq.getStorageSync(this.data.cache_user_login_key) || null;
     if (openid == null)
     {
       var self = this;
@@ -457,12 +457,12 @@ App({
   is_tabbar_pages(url) {
     if (url.indexOf("?") == -1)
     {
-      var all = url.split("/");
+      var value = url;
     } else {
       var temp_str = url.split("?");
-      var all = temp_str[0].split("/");
+      var value = temp_str[0];
     }
-    if (all.length <= 0)
+    if ((value || null) == null)
     {
       return false;
     }
@@ -470,7 +470,7 @@ App({
     var temp_tabbar_pages = this.data.tabbar_pages;
     for (var i in temp_tabbar_pages)
     {
-      if (temp_tabbar_pages[i] == all[all.length-1])
+      if (temp_tabbar_pages[i] == value)
       {
         return true;
       }
@@ -611,6 +611,40 @@ App({
       return false;
     }
     return true;
+  },
+
+  /**
+   * 设置导航reddot
+   * index     tabBar 的哪一项，从左边算起（0开始）
+   * type      0 移出, 1 添加 （默认 0 移出）
+   */
+  set_tab_bar_reddot(index, type) {
+    if (index !== undefined && index !== null)
+    {
+      if ((type || 0) == 0)
+      {
+        qq.hideTabBarRedDot({ index: Number(index) });
+      } else {
+        qq.showTabBarRedDot({ index: Number(index) });
+      }
+    }
+  },
+
+  /**
+   * 设置导航车badge
+   * index     tabBar 的哪一项，从左边算起（0开始）
+   * type      0 移出, 1 添加 （默认 0 移出）
+   * value     显示的文本，超过 4 个字符则显示成 ...（type参数为1的情况下有效）
+   */
+  set_tab_bar_badge(index, type, value) {
+    if (index !== undefined && index !== null)
+    {
+      if ((type || 0) == 0) {
+        qq.removeTabBarBadge({ index: Number(index) });
+      } else {
+        qq.setTabBarBadge({ index: Number(index), "text": value.toString() });
+      }
+    }
   },
 
 });

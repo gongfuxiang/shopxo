@@ -26,9 +26,19 @@
     "pages/user-goods-browse/user-goods-browse",
     "pages/user-orderaftersale/user-orderaftersale",
     "pages/user-orderaftersale-detail/user-orderaftersale-detail",
-    "pages/coupon/coupon",
-    "pages/user-coupon/user-coupon",
-    "pages/extraction-address/extraction-address"
+    "pages/extraction-address/extraction-address",
+    "pages/plugins/coupon/index/index",
+    "pages/plugins/coupon/user/user",
+    "pages/plugins/wallet/user/user",
+    "pages/plugins/wallet/recharge/recharge",
+    "pages/plugins/wallet/cash-auth/cash-auth",
+    "pages/plugins/wallet/cash-create/cash-create",
+    "pages/plugins/wallet/wallet-log/wallet-log",
+    "pages/plugins/wallet/wallet-log-detail/wallet-log-detail",
+    "pages/plugins/wallet/user-recharge/user-recharge",
+    "pages/plugins/wallet/user-recharge-detail/user-recharge-detail",
+    "pages/plugins/wallet/user-cash/user-cash",
+    "pages/plugins/wallet/user-cash-detail/user-cash-detail"
   ],
   "window": {
     "navigationBarTitleText": "{{application_title}}",

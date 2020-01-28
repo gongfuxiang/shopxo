@@ -1,0 +1,18 @@
+/*
+ * 表单提示
+ */
+.form-tips {
+  background: #ffffeb;
+  padding-left: 10rpx;
+}
+
+/*
+ * 验证过期
+ */
+.overdue {
+  padding-top: 30%;
+}
+.overdue .msg {
+  font-size: 36rpx;
+  margin-bottom: 30rpx;
+}
