@@ -29,7 +29,6 @@
     "pages/extraction-address/extraction-address",
     "pages/plugins/coupon/index/index",
     "pages/plugins/coupon/user/user",
-
     "pages/plugins/membershiplevelvip/index/index",
     "pages/plugins/membershiplevelvip/buy/buy",
     "pages/plugins/membershiplevelvip/user/user",
@@ -40,7 +39,6 @@
     "pages/plugins/membershiplevelvip/statistics/statistics",
     "pages/plugins/membershiplevelvip/poster/poster",
     "pages/plugins/membershiplevelvip/team/team",
-
     "pages/plugins/distribution/user/user",
     "pages/plugins/distribution/order/order",
     "pages/plugins/distribution/order-detail/order-detail",
@@ -53,7 +51,6 @@
     "pages/plugins/distribution/extraction-apply/extraction-apply",
     "pages/plugins/distribution/extraction-order/extraction-order",
     "pages/plugins/distribution/introduce/introduce",
-    
     "pages/plugins/wallet/user/user",
     "pages/plugins/wallet/recharge/recharge",
     "pages/plugins/wallet/cash-auth/cash-auth",

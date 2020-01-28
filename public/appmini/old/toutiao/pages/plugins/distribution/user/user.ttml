@@ -44,6 +44,7 @@
   <!-- 会员中心通知  -->
   <view tt:if="{{(user_level || null) != null && (data_base.user_center_notice || null) != null && data_base.user_center_notice.length > 0}}" class="tips-item spacing-mt">
     <view class="tips">
+      <image src="/images/tips.png" mode="aspectFit" class="fl" />
       <view tt:for="{{data_base.user_center_notice}}" tt:key="key" class="item">
         {{item}}
       </view>

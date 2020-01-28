@@ -110,6 +110,14 @@ Page({
             navigation: data.navigation || [],
             common_app_is_head_vice_nav: data.common_app_is_head_vice_nav || 0,
           });
+
+          // 导航购物车处理
+          var cart_total = data.common_cart_total || 0;
+          if (cart_total <= 0) {
+            app.set_tab_bar_badge(2, 0);
+          } else {
+            app.set_tab_bar_badge(2, 1, cart_total);
+          }
         } else {
           app.showToast(res.data.msg);
         }
