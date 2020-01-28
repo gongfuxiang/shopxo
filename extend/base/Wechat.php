@@ -56,7 +56,7 @@ class Wechat
     {
         // 登录授权session
         $login_key = 'wechat_user_login_'.$openid;
-        $session_data = GS($login_key);
+        $session_data = cache($login_key);
         if($session_data === false)
         {
             return 'session key不存在';
@@ -87,7 +87,7 @@ class Wechat
 
         // 缓存存储
         $data_key = 'wechat_user_info_'.$openid;
-        SS($data_key, $data);
+        cache($data_key, $data);
 
         return $data;
     }
@@ -112,7 +112,7 @@ class Wechat
             $key = 'wechat_user_login_'.$result['openid'];
 
             // 缓存存储
-            SS($key, $result);
+            cache($key, $result);
             return $result['openid'];
         }
         return false;
@@ -190,7 +190,7 @@ class Wechat
     {
         // 缓存key
         $key = $this->_appid.'_access_token';
-        $result = GS($key);
+        $result = cache($key);
         if($result !== false)
         {
             if($result['expires_in'] > time())
@@ -206,7 +206,7 @@ class Wechat
         {
             // 缓存存储
             $result['expires_in'] += time();
-            SS($key, $result);
+            cache($key, $result);
             return $result['access_token'];
         }
         return false;

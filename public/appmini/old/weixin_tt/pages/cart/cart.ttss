@@ -1,0 +1,150 @@
+/**
+ * 商品列表
+ */
+.page {
+  padding-bottom: 120rpx;
+}
+.goods-item {
+    padding: 20rpx 10rpx;
+    position: relative;
+}
+.goods-title {
+    line-height: 36rpx;
+}
+.goods-item:not(:last-child) {
+  border-bottom: 1px solid #eee;
+}
+.goods-title, .goods-attribute {
+    margin-bottom: 10rpx;
+}
+.goods-image {
+    width: 160rpx;
+    height: 160rpx;
+    margin-right: 20rpx;
+}
+.goods-base {
+  min-height: 160rpx;
+  margin-left: 180rpx;
+}
+.goods-price {
+    position: relative;
+}
+.buy-number {
+    margin-left: 20rpx;
+}
+.goods-item .items {
+  padding-left: 80rpx;
+}
+.goods-item .selected {
+  margin-top: 60rpx;
+}
+.goods-item .remove {
+  color: #e00303;
+}
+.goods-item .error-msg {
+  color: #f00;
+  margin-left: 15rpx;
+}
+
+/**
+ * 数量操作
+ */
+.number-content {
+    position: absolute;
+    right: 20rpx;
+    top: 100rpx;
+    background: #eee;
+    border-radius: 2px;
+    border: 1px solid #eee;
+}
+.number-content .number-submit
+{
+    width: 80rpx;
+    font-weight: bold;
+}
+.number-content input {
+    width: 30px;
+    background: #fff;
+    border-radius: 0px;
+}
+.number-content .number-submit,
+.number-content input
+{
+    padding: 0;
+    vertical-align: middle;
+    height: 60rpx;
+    line-height: 60rpx;
+}
+
+/**
+ * 空购物车
+ */
+.no-data-box {
+  padding: 30% 0 0 0;
+}
+.no-data-box image {
+    width: 160rpx;
+    margin-bottom: 20rpx;
+}
+.no-data-box .no-data-tips {
+    font-size: 28rpx;
+    color: #a6a6a6;
+}
+.no-data-box navigator {
+  width: 220rpx;
+  margin: 0 auto;
+}
+.no-data-box button {
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 28rpx;
+  margin-top: 30rpx;
+}
+
+/**
+ * 操作导航
+ */
+.buy-nav {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+}
+.buy-nav, .nav-base, .nav-submit button {
+    height: 100rpx;
+}
+.nav-base, .nav-submit button {
+    line-height: 100rpx;
+}
+.nav-base {
+    width: calc(75% - 20rpx);
+    padding: 0 10rpx;
+}
+.nav-submit {
+    width: 25%;
+}
+.nav-submit button {
+    border-radius: 0;
+}
+.selected .icon {
+    width: 50rpx;
+    height: 50rpx !important;
+    margin: 0 10rpx;
+    vertical-align: middle;
+}
+.buy-nav .price {
+  width: calc(100% - 140rpx);
+}
+.buy-nav .sales-price {
+  max-width: calc(100% - 40px);
+}
+
+/*
+ * 展示型
+ */
+.exhibition-mode {
+    padding: 0 10rpx;
+}
+.exhibition-mode-data .items {
+    padding-left: 0;
+}

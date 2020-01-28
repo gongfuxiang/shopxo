@@ -1,0 +1,67 @@
+/*
+ * 导航
+ */
+.nav {
+  background: #eee;
+  height: 80rpx;
+  line-height: 80rpx;
+}
+.nav .item {
+  width: 33.33%;
+}
+.nav .active {
+  color: #d2364c;
+}
+
+/*
+ * 列表
+ */
+.scroll-box {
+  height: calc(100vh - 80rpx);
+}
+.data-list .item .base,
+.data-list .item .content {
+  padding: 20rpx 10rpx;
+}
+.data-list .item .content .multi-text {
+  line-height: 50rpx;
+}
+.data-list .item .content .multi-text .title {
+  margin-right: 30rpx;
+}
+.data-list .item .content .multi-text .value {
+  font-weight: 500;
+}
+.data-list .item .content .multi-text .unit {
+  margin-left: 10rpx;
+}
+.data-list .item .operation {
+  padding: 20rpx 10rpx;
+}
+.data-list .item .submit-delete {
+  border: 1px solid #dc7f7f;
+  color: #dc7f7f !important;
+}
+.data-list .item .operation button:not(:first-child) {
+  margin-left: 30rpx;
+}
+
+/**
+ * 支付方式
+ */
+.payment-list {
+  padding: 40rpx 0;
+}
+.payment-list .item {
+  width: 50%;
+}
+.payment-list .item-content {
+  margin: 20rpx;
+  padding: 20rpx 10rpx;
+}
+.payment-list .item-content image {
+  width: 50rpx;
+  height: 50rpx !important;
+  vertical-align: middle;
+  margin-right: 10rpx;
+}

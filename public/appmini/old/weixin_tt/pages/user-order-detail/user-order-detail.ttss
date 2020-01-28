@@ -1,0 +1,158 @@
+/*
+ * 地址信息
+ */
+.address {
+    padding: 10rpx;
+}
+.address-base, .address-detail {
+    padding: 10rpx 35rpx 10rpx 10rpx;
+}
+.address-detail .icon {
+    width: 30rpx;
+    height: 35rpx !important;
+}
+.address-detail .text {
+    width: calc(100% - 40rpx);
+}
+.address-divider {
+    height: 4px;
+    background-image: url("/images/buy-address-divider.png");
+    background-repeat-y: no-repeat;
+}
+.address-detail .text, .goods-title {
+    line-height: 36rpx;
+}
+.no-address {
+    height: 85rpx;
+    line-height: 85rpx;
+}
+.address-alias {
+  border: 1px solid #d2364c;
+  color: #d2364c;
+  padding: 2rpx 10rpx;
+  border-radius: 6rpx;
+  margin-right: 10rpx;
+}
+
+/*
+ * 商品信息
+ */
+.goods-base {
+  min-height: 160rpx;
+  margin-left: 180rpx;
+}
+.goods .goods-item:last-child {
+    border-bottom: 0;
+}
+.goods-item {
+    padding: 20rpx 10rpx;
+}
+.goods-title, .goods-attribute {
+    margin-bottom: 10rpx;
+}
+.goods-image {
+    width: 160rpx;
+    height: 160rpx;
+    margin-right: 20rpx;
+}
+.goods-price {
+    position: relative;
+}
+.buy-number {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+.order-describe {
+  padding: 20rpx 10rpx;
+}
+
+/*
+ * 面板信息
+ */
+.panel-item .panel-title {
+  background: #fff;
+  font-weight: bold;
+  padding: 15rpx;
+  border-bottom: 2px solid #eee;
+  font-size: 34rpx;
+}
+.panel-item .panel-content .item {
+    padding: 20rpx 0;
+}
+.panel-item .panel-content .item:last-child {
+  border: 0;
+}
+.panel-item .panel-content .item .title {
+    width: 25%;
+    padding-left: 20rpx;
+}
+.panel-item .panel-content .item .content {
+    width: calc(75% - 50rpx);
+    padding-left: 20rpx;
+    min-height: 46rpx;
+    word-wrap: break-word;
+    word-break: normal;
+}
+.panel-item .panel-content .item view {
+    line-height: 46rpx;
+}
+
+/*
+ * 扩展数据
+ */
+.extension-list .item {
+  padding: 20rpx 30rpx;
+}
+.extension-list .item .title {
+  padding-right: 20rpx;
+}
+.extension-list .item .content {
+  padding-left: 20rpx;
+}
+
+/*
+ * 虚拟销售信息
+ */
+.site-fictitious .panel-content {
+  padding: 0 20rpx;
+}
+.site-fictitious .panel-content .tips-value {
+  color: #f37b1d;
+  background-color: #fff2e9;
+  border-color: #ffebdb;
+  padding: 10rpx;
+  margin-top: 20rpx;
+}
+.site-fictitious .panel-content .left-image {
+  width: 80rpx;
+  height: 80rpx;
+}
+.site-fictitious .panel-content .right-value {
+  width: calc(100% - 100rpx);
+}
+
+/*
+ * 自提信息
+ */
+.site-extraction .panel-content {
+  padding: 20rpx;
+}
+.site-extraction .panel-content .code {
+  background: #5eb95e;
+  color: #fff;
+}
+.site-extraction .panel-content .code,
+.address-map-submit {
+  padding: 1rpx 16rpx;
+  border-radius: 6rpx;
+}
+.site-extraction .panel-content .qrcode {
+  margin-top: 15rpx;
+  width: 300rpx;
+  height: 300rpx;
+}
+.address-map-submit {
+  margin-left: 20rpx;
+  background: #f5f5f5;
+}

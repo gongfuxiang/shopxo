@@ -1,0 +1,88 @@
+/*
+ * 导航
+ */
+.nav {
+  background: #eee;
+  height: 80rpx;
+  line-height: 80rpx;
+}
+.nav .item {
+  width: 16.66%;
+}
+
+/*
+ * 列表
+ */
+.scroll-box{
+    height: calc(100vh - 80rpx);
+}
+.goods-base {
+  min-height: 160rpx;
+  margin-left: 180rpx;
+  position: relative;
+}
+.goods-title {
+    line-height: 36rpx;
+}
+.list-item .goods-item:last-child {
+    border-bottom: 0;
+}
+.goods-item {
+    padding: 20rpx 10rpx;
+}
+.goods-title, .goods-spec {
+    margin-bottom: 10rpx;
+}
+.goods-image {
+    width: 160rpx;
+    height: 160rpx;
+    margin-right: 20rpx;
+}
+.goods-price {
+    position: relative;
+    margin-top: 10rpx;
+}
+.buy-number {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+.item-base, .item-describe, .item-operation {
+    padding: 20rpx 10rpx 20rpx 10rpx;
+}
+.submit-cancel {
+    border: 1px solid #f7c3b3;
+    color: #f7c3b3 !important;
+}
+.item-operation button:not(:first-child) {
+    margin-left: 20rpx;
+}
+.item-operation button {
+    padding: 0 35rpx;
+}
+.orderaftersale-btn-text {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: #4d7fa7;
+}
+
+/**
+ * 支付方式
+ */
+.payment-list {
+  padding: 40rpx 0;
+}
+.payment-list .item {
+  width: 50%;
+}
+.payment-list .item-content {
+  margin: 20rpx;
+  padding: 20rpx 10rpx;
+}
+.payment-list .item-content image {
+  width: 50rpx;
+  height: 50rpx !important;
+  vertical-align: middle;
+  margin-right: 10rpx;
+}

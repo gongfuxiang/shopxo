@@ -1,0 +1,33 @@
+.panel-item .panel-title {
+  background: #fff;
+  font-weight: bold;
+  padding: 15rpx;
+  border-bottom: 2px solid #eee;
+  font-size: 34rpx;
+}
+.panel-item .panel-content .item {
+    padding: 20rpx 0;
+}
+.panel-item .panel-content .item:last-child {
+  border: 0;
+}
+.panel-item .panel-content .item .title {
+    width: 25%;
+    padding-left: 20rpx;
+}
+.panel-item .panel-content .item .content {
+    width: calc(75% - 50rpx);
+    padding-left: 20rpx;
+    min-height: 46rpx;
+    word-wrap: break-word;
+    word-break: normal;
+}
+.panel-item .panel-content .item view {
+    line-height: 46rpx;
+}
+
+.panel-item .panel-content .item .content .avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+}

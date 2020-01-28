@@ -325,11 +325,11 @@ class User extends Common
      */
     public function ToutiaoUserAuth()
     {
-        $this->data_post['config'] = [
+        $config = [
             'appid'     => MyC('common_app_mini_toutiao_appid'),
             'secret'    => MyC('common_app_mini_toutiao_appsecret'),
         ];
-        $result = (new \base\Toutiao())->GetAuthSessionKey($this->data_post);
+        $result = (new \base\Toutiao($config))->GetAuthSessionKey($this->data_post);
         if($result['status'] == 0)
         {
             // 先从数据库获取用户信息

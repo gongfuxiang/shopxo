@@ -1,0 +1,96 @@
+/* 头部 */
+.head-box{
+    padding-top: 30rpx;
+    font-size: 24rpx;
+}
+.head-item {
+  padding-bottom: 30rpx;
+}
+.head-item .avatar {
+    width: 160rpx;
+    height: 160rpx;
+    border-radius: 50%;
+}
+.head-item .item-name{
+    font-size: 30rpx;
+    margin-top: 10rpx;
+}
+.head-item .item-icon {
+    width: 30rpx;
+    margin-right: 20rpx;
+}
+
+/* 头部导航 */
+.head-nav {
+  padding: 5px 0;
+  background: rgba(0,0,0,0.1);
+}
+.head-nav-item {
+  width: 25%;
+  padding: 5rpx 0;
+}
+.head-nav-item view {
+  line-height: 38rpx;
+}
+.head-nav-item view, .message-nav text {
+  color: #ffd7d7;
+}
+.message-nav {
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+}
+.message-nav image {
+  width: 28rpx;
+  height: 28rpx;
+  vertical-align: middle;
+}
+.message-nav text {
+  margin-left: 5rpx;
+  font-size: 24rpx;
+}
+
+/* 导航列表 */
+.nav-box .nav-item {
+    height: 100rpx;
+    box-sizing: border-box;
+    padding: 30rpx 20rpx;
+}
+.nav-box .nav-item .item-icon {
+    width: 40rpx;
+    height: 40rpx;
+    vertical-align: middle;
+}
+.nav-box .nav-item .item-name {
+    margin-left: 20rpx;
+    vertical-align: middle;
+}
+.nav-box .nav-item .item-desc {
+  margin-right: 50rpx;
+  margin-top: 2rpx;
+  width: calc(100% - 300rpx);
+}
+.nav-box .nav-item .item-arrow {
+    width: 25rpx;
+}
+
+.items-list {
+  padding: 15rpx 0;
+}
+.items-list .items {
+  width: 20%;
+  position: relative;
+}
+.items-list .items .items-icon {
+  width: 60rpx;
+  height: 60rpx;
+  margin-bottom: 6rpx;
+}
+.items-list .items .badge-icon {
+  position: absolute;
+  top: -2px;
+  left: calc(50% + 35rpx);
+}
+
+/* 通知 */
+.user-notice { margin-top: 20rpx; padding: 0 10rpx 20rpx 10rpx; }

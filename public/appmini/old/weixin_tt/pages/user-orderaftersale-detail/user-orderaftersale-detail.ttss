@@ -1,0 +1,162 @@
+/**
+ * 商品
+ */
+.goods-base {
+  min-height: 160rpx;
+  margin-left: 180rpx;
+}
+.goods .goods-item:not(:last-child) {
+    border-bottom: 1px dashed #efefef;
+}
+.goods-item {
+    padding: 20rpx 10rpx;
+}
+.goods-title, .goods-attribute {
+    margin-bottom: 10rpx;
+}
+.goods-image {
+    width: 160rpx;
+    height: 160rpx;
+    margin-right: 20rpx;
+}
+.goods-price {
+    position: relative;
+}
+.buy-number {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+/**
+ * 类型选择
+ */
+ .choose-type {
+   padding: 30rpx 10rpx;
+ }
+.choose-type .choose-item {
+    width: 44%;
+    border: 1px solid #eee;
+    padding: 15rpx;
+    -webkit-transition: border-color .2s ease-in;
+    -moz-transition: border-color .2s ease-in;
+    -ms-transition: border-color .2s ease-in;
+    -o-transition: border-color .2s ease-in;
+    transition: border-color .2s ease-in;
+}
+.choose-type .choose-name {
+  font-weight: bold;
+  margin-bottom: 5rpx;
+}
+.choose-type .choose-item-active {
+    border: 1px solid #d2364c;
+    box-shadow: 0px 0 0px 1px #d2364c;
+}
+
+/*
+ * 售后信息
+ */
+.detail {
+  padding: 20rpx 10rpx;
+}
+.detail .msg-tips {
+  padding: 10rpx;
+  border-radius: 0;
+  background: #f1faff;
+  border: 1px solid #e2f5ff;
+  color: #1490d2;
+}
+.detail .msg-tips-warning {
+  background-color: #fff7f1;
+  border-color: #fff0e4;
+  color: #f37b1d;
+}
+.detail .msg-tips-success {
+  background-color: #eef7ea;
+  border-color: #e3f3d6;
+  color: #468847;
+}
+.detail .msg-tips-danger {
+  background-color: #fff1f0;
+  border-color: #ffe4e3;
+  color: #dd514c;
+}
+.detail .msg-tips .msg-a {
+  color: #d2354c;
+  margin-left: 10rpx;
+}
+.detail .msg-tips-danger .msg-a {
+  color: #136ed9;
+}
+
+/*
+ * 退货地址
+ */
+.return-address .address-value {
+  color: #0e90d2;
+}
+.detail .msg-tips button {
+  border-radius: 3px;
+  height: 60rpx;
+  line-height: 60rpx;
+  padding: 0 30rpx;
+  font-size: 24rpx;
+  margin-top: 10rpx;
+}
+
+/*
+ * 面板信息
+ */
+.panel-item {
+  border: 1px solid #eee;
+}
+.panel-item .panel-title {
+  background: #eee;
+  font-weight: bold;
+  padding: 15rpx;
+}
+.panel-item .panel-content .item {
+    padding: 20rpx 0;
+}
+.panel-item .panel-content .item:last-child {
+  border: 0;
+}
+.panel-item .panel-content .item .title {
+    width: 25%;
+    padding-left: 20rpx;
+}
+.panel-item .panel-content .item .content {
+    width: calc(75% - 50rpx);
+    padding-left: 20rpx;
+    min-height: 46rpx;
+    word-wrap: break-word;
+    word-break: normal;
+}
+.panel-item .panel-content .item view {
+    line-height: 46rpx;
+}
+
+/*
+ * 面板图片
+ */
+.panel-item .voucher-data {
+  padding: 10px 0;
+}
+.panel-item .voucher-data .item {
+  padding: 10rpx;
+}
+.panel-item .voucher-data .item image {
+  width: 200rpx;
+  height: 200rpx;
+  display: block;
+}
+
+/*
+ * 退货弹层
+ */
+.delivery-popup {
+  padding-top: 20rpx;
+}
+.delivery-popup .close {
+  margin-right: 20rpx;
+}

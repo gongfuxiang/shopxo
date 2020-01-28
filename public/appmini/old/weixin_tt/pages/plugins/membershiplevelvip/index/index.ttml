@@ -1,0 +1,36 @@
+<view tt:if="{{(data_base || null) != null}}" class="banner tc" style="background-image: url({{data_base.banner_bg_images}});">
+  <!-- banner -->
+  <view tt:if="{{(data_base.banner_top_title || null) != null}}" class="single-text banner-title">
+    {{data_base.banner_top_title}}
+  </view>
+  <view class="submit">
+    <navigator url="/pages/plugins/membershiplevelvip/buy/buy" hover-class="none">
+      <button size="mini" type="default" hover-class="none" bindtap="buy_event">
+        {{data_base.banner_middle_name || '开通会员'}}
+      </button>
+    </navigator>
+  </view>
+
+  <!-- 数据列表 -->
+  <view tt:if="{{(data_list || null) != null && data_list.length > 0}}" class="data-list">
+    <view tt:for="{{data_list}}" tt:key="key" class="item fl">
+      <view class="content">
+        <view class="title single-text">{{item.name}}</view>
+        <view class="desc multi-text">{{item.desc}}</view>
+        <image src="{{item.images_url}}" mode="scaleToFill" class="dis-block" />
+      </view>
+    </view>
+  </view>
+</view>
+
+<view tt:if="{{(data_base.banner_bottom_content || null) != null}}" class="bg-white rich-text">
+  <rich-text nodes="{{data_base.banner_bottom_content}}"></rich-text>
+</view>
+
+<view tt:if="{{(data_base || null) == null && (data_list || null) == null && data_list.length <= 0}}">
+  <import src="/pages/common/nodata.ttml" />
+  <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
+</view>
+
+<import src="/pages/common/bottom_line.ttml" />
+<template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>

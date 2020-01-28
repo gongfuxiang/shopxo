@@ -58,7 +58,7 @@ class Baidu
     {
         // 登录授权session
         $login_key = 'baidu_user_login_'.$openid;
-        $session_data = GS($login_key);
+        $session_data = cache($login_key);
         if($session_data === false)
         {
             return ['status'=>-1, 'msg'=>'session key不存在'];
@@ -114,7 +114,7 @@ class Baidu
 
         // 缓存存储
         $data_key = 'baidu_user_info_'.$openid;
-        SS($data_key, $data);
+        cache($data_key, $data);
 
         return ['status'=>0, 'data'=>$data];
     }
@@ -147,7 +147,7 @@ class Baidu
             $key = 'baidu_user_login_'.$result['openid'];
 
             // 缓存存储
-            SS($key, $result);
+            cache($key, $result);
             return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result['openid']];
         }
         return ['status'=>-1, 'msg'=>$result['error_description']];

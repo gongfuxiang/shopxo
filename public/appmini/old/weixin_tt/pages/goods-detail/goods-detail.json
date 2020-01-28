@@ -1,0 +1,7 @@
+{
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "component-popup": "/components/popup/popup",
+    "component-badge": "/components/badge/badge"
+  }
+}

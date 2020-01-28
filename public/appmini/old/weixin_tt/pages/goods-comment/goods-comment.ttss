@@ -1,0 +1,109 @@
+/*
+ * 评分
+ */
+.score-container {
+  padding: 10rpx;
+}
+.score-container .score {
+  width: 180rpx;
+  border-right: 1px solid #eee;
+}
+.score-container .score .value {
+  color: #f03726;
+  font-weight: bold;
+  font-size: 60rpx;
+  line-height: 60rpx;
+  margin-top: 10rpx;
+}
+.progress {
+  overflow: hidden;
+  height: 40rpx;
+  margin-top: 35rpx;
+  background-color: #eee;
+  border-radius: 0;
+  width: calc(100% - 200rpx);
+}
+.progress .cr-888 {
+  font-size: 24rpx;
+  line-height: 40rpx;
+}
+.progress-bar {
+  float: left;
+  width: 0;
+  height: 100%;
+  font-size: 24rpx;
+  line-height: 40rpx;
+  color: #fff;
+  text-align: center;
+  background-color: #0e90d2;
+}
+.progress-bar-danger {
+  background-color: #dd514c;
+}
+.progress-bar-warning {
+  background-color: #F37B1D;
+}
+.progress-bar-secondary {
+  background-color: #3bb4f2;
+}
+.progress-bar-success {
+  background-color: #5eb95e;
+}
+
+/*
+ * 列表
+ */
+.scroll-box {
+  height: calc(100vh - 125rpx);
+}
+.comment-item {
+  padding-bottom: 10rpx;
+}
+.comment-item .nav {
+  background: #ebebeb;
+  padding: 10rpx;
+}
+.comment-item .avatar {
+  width: 70rpx;
+  height: 70rpx;
+  border-radius: 50%;
+  border: 1px solid #e2e2e2;
+}
+.comment-item .base-nav {
+  width: calc(100% - 90rpx);
+  line-height: 70rpx;
+}
+.comment-item .base-nav text:not(:last-child) {
+  margin-right: 5rpx;
+}
+
+.base-content {
+  padding: 10rpx;
+}
+.base-content .content,
+.base-content .reply {
+  line-height: 46rpx;
+  font-size: 30rpx;
+}
+.base-content .spec,
+.base-content .reply,
+.base-content .images {
+  margin-top: 20rpx;
+}
+.base-content .spec {
+  color: #B0B0B0;
+}
+.base-content .reply {
+  padding-top: 20rpx;
+}
+.base-content .reply-desc {
+    color: #905602;
+}
+.base-content .images image {
+  width: 100rpx;
+  height: 100rpx;
+  padding: 5rpx;
+}
+.base-content .images image:not(:last-child) {
+  margin-right: 10rpx;
+}

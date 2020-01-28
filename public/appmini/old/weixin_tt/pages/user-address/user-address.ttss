@@ -1,0 +1,36 @@
+.item {
+    padding: 10rpx 10rpx 0 10rpx;
+}
+.base, .address, .operation {
+    padding: 20rpx 0;
+}
+.address .item-icon {
+    width: 30rpx;
+    height: 35rpx !important;
+}
+.address-alias {
+  border: 1px solid #d2364c;
+  color: #d2364c;
+  padding: 2rpx 10rpx;
+  border-radius: 6rpx;
+  margin-right: 10rpx;
+}
+.address .text {
+    line-height: 44rpx;
+    width: calc(100% - 40rpx);
+}
+.operation .default {
+    margin-top: 5rpx;
+}
+.operation .default .item-icon {
+    width: 50rpx;
+    height: 50rpx !important;
+    margin-right: 10rpx;
+    vertical-align: middle;
+}
+.operation .delete-submit {
+    margin-left: 20rpx;
+}
+.page {
+    padding-bottom: 85rpx;
+}

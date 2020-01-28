@@ -1,0 +1,63 @@
+.a-input{
+    padding: 0;
+}
+page{
+    background: #fff;
+    position: relative;
+    height: 100vh;
+}
+.content {
+    padding: 30% 40rpx 0 40rpx;
+}
+.content .mobile{
+    width: 100%;
+    margin: 20rpx 0;
+    border-bottom: solid 1px #eee;
+}
+.content input{
+    font-size: 28rpx;
+    color: #4e4e4e;
+    height: 40px; 
+    line-height: 40px;
+}
+.content .code{
+    margin: 20rpx 0;
+    border-bottom: solid 1px #eee;
+    position: relative;
+}
+.content .code .verify{
+    width: 63%; 
+}
+.content .code .verify-sub{
+    border: solid 1px #ff6482; 
+    color: #ff6482;
+    width: 35%;
+    height: 35px; 
+    line-height: 35px;
+    border-radius: 10rpx;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.content .code .verify-sub.sub-disabled{
+    border: solid 1px #eee; 
+    color: #a6a6a6
+}
+.content .submit{
+    position: absolute;
+    left: 20rpx;
+    right: 20rpx;
+    bottom: 34rpx;
+    height: 90rpx;
+    line-height: 90rpx;
+}
+
+/**
+  授权登录
+*/
+.user-login {
+  padding-top: 30%;
+}
+.user-login button {
+  margin-top: 30rpx;
+}

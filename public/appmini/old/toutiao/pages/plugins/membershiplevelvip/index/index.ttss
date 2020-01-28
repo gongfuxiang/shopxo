@@ -1,0 +1,79 @@
+/**
+ * banner
+ */
+.banner {
+    background-color: #1d1611;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    position: relative;
+    height: 1110rpx;
+    width: 100%;
+    overflow: hidden;
+}
+.banner .banner-title {
+    font-size: 60rpx;
+    margin-top: 50rpx;
+    color: #f9d681;
+    height: 68rpx;
+    overflow: hidden;
+}
+.banner .submit {
+    margin-top: 60rpx;
+}
+.banner .submit button {
+    border: 1rpx solid #f9d681;
+    background-color: #f9d681;
+    color: #351d06;
+    width: 320rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 36rpx;
+    border-radius: 50rpx;
+    font-weight: 500;
+}
+
+/**
+ * 等级介绍
+ */
+.data-list {
+    margin-top: 40rpx;
+}
+.data-list .item {
+    padding: 15rpx;
+    width: calc(50% - 30rpx);
+}
+.data-list .item .content {
+    overflow: hidden;
+    border-radius: 8rpx;
+    background-color: #fff;
+    padding: 30rpx 10rpx;
+}
+.data-list .item .content .title {
+    height: 36rpx;
+    line-height: 36rpx;
+    font-size: 36rpx;
+    color: #333;
+}
+.data-list .item .content .desc {
+    height: 76rpx;
+    line-height: 38rpx;
+    font-size: 30rpx;
+    color: #999;
+}
+.data-list .item .content .title,
+.data-list .item .content .desc {
+  margin-bottom: 15rpx;
+}
+.data-list .item .content image {
+    max-width: 160rpx;
+    max-height: 160rpx;
+    margin:0 auto;
+}
+
+/**
+ * 富文本
+ */
+.rich-text {
+  padding: 20rpx 10rpx;
+}

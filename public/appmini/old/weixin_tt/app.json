@@ -1,0 +1,115 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/goods-category/goods-category",
+    "pages/cart/cart",
+    "pages/user/user",
+    "pages/buy/buy",
+    "pages/web-view/web-view",
+    "pages/login/login",
+    "pages/paytips/paytips",
+    "pages/goods-search/goods-search",
+    "pages/goods-detail/goods-detail",
+    "pages/goods-comment/goods-comment",
+    "pages/goods-attribute/goods-attribute",
+    "pages/user-address/user-address",
+    "pages/user-address-save/user-address-save",
+    "pages/user-order/user-order",
+    "pages/user-order-detail/user-order-detail",
+    "pages/user-order-comments/user-order-comments",
+    "pages/user-faovr/user-faovr",
+    "pages/user-answer-list/user-answer-list",
+    "pages/answer-list/answer-list",
+    "pages/answer-form/answer-form",
+    "pages/message/message",
+    "pages/user-integral/user-integral",
+    "pages/user-goods-browse/user-goods-browse",
+    "pages/user-orderaftersale/user-orderaftersale",
+    "pages/user-orderaftersale-detail/user-orderaftersale-detail",
+    "pages/extraction-address/extraction-address",
+    "pages/common/open-setting-location/open-setting-location",
+    "pages/plugins/coupon/index/index",
+    "pages/plugins/coupon/user/user",
+    "pages/plugins/membershiplevelvip/index/index",
+    "pages/plugins/membershiplevelvip/buy/buy",
+    "pages/plugins/membershiplevelvip/user/user",
+    "pages/plugins/membershiplevelvip/order/order",
+    "pages/plugins/membershiplevelvip/order-detail/order-detail",
+    "pages/plugins/membershiplevelvip/profit/profit",
+    "pages/plugins/membershiplevelvip/profit-detail/profit-detail",
+    "pages/plugins/membershiplevelvip/statistics/statistics",
+    "pages/plugins/membershiplevelvip/poster/poster",
+    "pages/plugins/membershiplevelvip/team/team",
+    "pages/plugins/distribution/user/user",
+    "pages/plugins/distribution/order/order",
+    "pages/plugins/distribution/order-detail/order-detail",
+    "pages/plugins/distribution/profit/profit",
+    "pages/plugins/distribution/profit-detail/profit-detail",
+    "pages/plugins/distribution/statistics/statistics",
+    "pages/plugins/distribution/poster/poster",
+    "pages/plugins/distribution/team/team",
+    "pages/plugins/distribution/extraction/extraction",
+    "pages/plugins/distribution/extraction-apply/extraction-apply",
+    "pages/plugins/distribution/extraction-order/extraction-order",
+    "pages/plugins/distribution/introduce/introduce",
+    "pages/plugins/wallet/user/user",
+    "pages/plugins/wallet/recharge/recharge",
+    "pages/plugins/wallet/cash-auth/cash-auth",
+    "pages/plugins/wallet/cash-create/cash-create",
+    "pages/plugins/wallet/wallet-log/wallet-log",
+    "pages/plugins/wallet/wallet-log-detail/wallet-log-detail",
+    "pages/plugins/wallet/user-recharge/user-recharge",
+    "pages/plugins/wallet/user-recharge-detail/user-recharge-detail",
+    "pages/plugins/wallet/user-cash/user-cash",
+    "pages/plugins/wallet/user-cash-detail/user-cash-detail"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置将用于小程序中相应业务位置服务使用"
+    }
+  },
+  "window": {
+    "navigationBarTitleText": "{{application_title}}",
+    "navigationBarBackgroundColor": "#d2364c",
+    "backgroundColor": "#f5f5f5",
+    "backgroundColorBottom": "#f5f5f5"
+  },
+  "tabBar": {
+    "color": "#8a8a8a",
+    "selectedColor": "#d2364c",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "/images/nav-icon-home.png",
+        "selectedIconPath": "/images/nav-icon-home-active.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/goods-category/goods-category",
+        "iconPath": "/images/nav-icon-category.png",
+        "selectedIconPath": "/images/nav-icon-category-active.png",
+        "text": "分类"
+      },
+      {
+        "pagePath": "pages/cart/cart",
+        "iconPath": "/images/nav-icon-cart.png",
+        "selectedIconPath": "/images/nav-icon-cart-active.png",
+        "text": "购物车"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "iconPath": "/images/nav-icon-user.png",
+        "selectedIconPath": "/images/nav-icon-user-active.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  },
+  "plugins": {},
+  "debug": true,
+  "sitemapLocation": "sitemap.json"
+}
