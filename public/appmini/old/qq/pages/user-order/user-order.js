@@ -241,11 +241,7 @@ Page({
             app.showToast("支付成功", "success");
           } else {
             qq.requestPayment({
-              timeStamp: res.data.data.data.timeStamp,
-              nonceStr: res.data.data.data.nonceStr,
-              package: res.data.data.data.package,
-              signType: res.data.data.data.signType,
-              paySign: res.data.data.data.paySign,
+              package: res.data.data.data,
               success: function(res) {
                 // 数据设置
                 self.order_item_pay_success_handle(index);

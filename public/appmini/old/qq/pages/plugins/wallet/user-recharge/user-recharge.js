@@ -221,11 +221,7 @@ Page({
         qq.hideLoading();
         if (res.data.code == 0) {
           qq.requestPayment({
-            timeStamp: res.data.data.timeStamp,
-            nonceStr: res.data.data.nonceStr,
-            package: res.data.data.package,
-            signType: res.data.data.signType,
-            paySign: res.data.data.paySign,
+            package: res.data.data,
             success: function (res) {
               // 数据设置
               self.order_item_pay_success_handle(index);
