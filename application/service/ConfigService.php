@@ -306,7 +306,7 @@ class ConfigService
         ]);
 
         // 坐标处理
-        if(!empty($data) && is_array($data) && in_array(APPLICATION_CLIENT_TYPE, ['weixin', 'alipay', 'baidu']))
+        if(!empty($data) && is_array($data) && in_array(APPLICATION_CLIENT_TYPE, config('shopxo.coordinate_transformation')))
         {
             foreach($data as &$v)
             {

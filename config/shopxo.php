@@ -75,5 +75,8 @@ return [
 
     // 小程序平台
     'mini_app_type_list'                    => ['weixin', 'alipay', 'baidu', 'toutiao', 'qq'],
+
+    // 坐标需要转换的平台
+    'coordinate_transformation'             => ['alipay', 'weixin', 'toutiao', 'baidu'],
 ];
 ?>
