@@ -297,14 +297,6 @@ class ConfigService
             }
         }
 
-        // 自提点地址列表数据钩子
-        $hook_name = 'plugins_service_site_extraction_address_list';
-        Hook::listen($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'data'          => &$data,
-        ]);
-
         // 坐标处理
         if(!empty($data) && is_array($data) && in_array(APPLICATION_CLIENT_TYPE, config('shopxo.coordinate_transformation')))
         {
@@ -322,6 +314,14 @@ class ConfigService
                 }
             }
         }
+
+        // 自提点地址列表数据钩子
+        $hook_name = 'plugins_service_site_extraction_address_list';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data'          => &$data,
+        ]);
 
         return DataReturn('操作成功', 0, $data);
     }
