@@ -1,0 +1,69 @@
+/*
+ * 公共
+ */
+.container,
+.user-container .item,
+.profit-container .item {
+  padding: 20rpx 10rpx;
+}
+.container .item {
+  width: 50%;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+.container .title {
+  border-left: 3px solid #ff6a80;
+  padding-left: 20rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+}
+.container .base-content {
+  padding: 30rpx 10rpx;
+}
+.container .base-content .name {
+  margin-bottom: 10rpx;
+}
+.container .base-content .value .golden,
+.container .base-content .value .yellow,
+.container .base-content .value .green {
+  font-weight: 500;
+}
+.container .base-content .value .golden {
+  color: #ff6a80;
+}
+.container .base-content .value .yellow {
+  color: #f37b1d;
+}
+.container .base-content .value .blue {
+  color: #3bb4f2;
+}
+.container .base-content .value .green {
+  color: #5eb95e;
+}
+
+/*
+ * 用户、返利
+ */
+.user-container .base-content .value .golden,
+.user-container .base-content .value .green {
+  margin-right: 10rpx;
+}
+.user-container .base-content, 
+.profit-container .base-content {
+  padding: 10rpx;
+}
+
+/*
+ * 图表
+ */
+.chart-container {
+  width: 100%;
+  height: 520rpx;
+  box-sizing: border-box;  
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+.chart-container .chart-not-data {
+  margin-top: 230rpx;
+}

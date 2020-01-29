@@ -26,9 +26,24 @@
     "pages/user-goods-browse/user-goods-browse",
     "pages/user-orderaftersale/user-orderaftersale",
     "pages/user-orderaftersale-detail/user-orderaftersale-detail",
-    "pages/coupon/coupon",
-    "pages/user-coupon/user-coupon",
-    "pages/extraction-address/extraction-address"
+    "pages/extraction-address/extraction-address",
+    "pages/common/open-setting-location/open-setting-location",
+
+    "pages/plugins/coupon/index/index",
+    "pages/plugins/coupon/user/user",
+
+    "pages/plugins/distribution/user/user",
+    "pages/plugins/distribution/order/order",
+    "pages/plugins/distribution/order-detail/order-detail",
+    "pages/plugins/distribution/profit/profit",
+    "pages/plugins/distribution/profit-detail/profit-detail",
+    "pages/plugins/distribution/statistics/statistics",
+    "pages/plugins/distribution/poster/poster",
+    "pages/plugins/distribution/team/team",
+    "pages/plugins/distribution/extraction/extraction",
+    "pages/plugins/distribution/extraction-apply/extraction-apply",
+    "pages/plugins/distribution/extraction-order/extraction-order",
+    "pages/plugins/distribution/introduce/introduce"
   ],
   "window": {
     "navigationBarTitleText": "{{application_title}}",
@@ -66,6 +81,11 @@
         "text": "我的"
       }
     ]
+  },
+  "dynamicLib": {
+    "echartsLib": {
+      "provider": "echarts_4_4_0"
+    }
   },
   "networkTimeout": {
     "request": 10000,

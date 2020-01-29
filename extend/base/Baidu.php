@@ -32,15 +32,13 @@ class Baidu
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2017-12-30T18:04:05+0800
-     * @param   [string]     $app_id         [应用appid]
-     * @param   [string]     $_appkey        [应用key]
-     * @param   [string]     $app_secret     [应用密钥]
+     * @param   [array]     $config         [配置信息]
      */
-    public function __construct($app_id, $app_key, $app_secret)
+    public function __construct($config = [])
     {
-        $this->_appid       = $app_id;
-        $this->_appkey      = $app_key;
-        $this->_appsecret   = $app_secret;
+        $this->_appid       = isset($config['appid']) ? $config['appid'] : '';
+        $this->_appkey      = isset($config['key']) ? $config['key'] : '';
+        $this->_appsecret   = isset($config['secret']) ? $config['secret'] : '';
     }
 
     /**
@@ -140,7 +138,7 @@ class Baidu
             'client_id' => $this->_appkey,
             'sk'        => $this->_appsecret,
         ];
-        $result = $this->HttpRequest('https://spapi.baidu.com/oauth/jscode2sessionkey', $data);
+        $result = json_decode($this->HttpRequestPost('https://spapi.baidu.com/oauth/jscode2sessionkey', $data), true);
         if(!empty($result['openid']))
         {
             // 缓存SessionKey
@@ -154,7 +152,124 @@ class Baidu
     }
 
     /**
-     * [HttpRequest 网络请求]
+     * [MiniQrCodeCreate 二维码创建]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-01-02T19:53:10+0800
+     * @param    [string]  $params['page']      [页面地址]
+     * @param    [string]  $params['scene']     [参数]
+     * @return   [string]                       [成功返回文件流, 失败则空]
+     */
+    public function MiniQrCodeCreate($params)
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'page',
+                'error_msg'         => 'page地址不能为空',
+            ],
+            [
+                'checked_type'      => 'length',
+                'checked_data'      => '1,32',
+                'key_name'          => 'scene',
+                'error_msg'         => 'scene参数 1~32 个字符之间',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取access_token
+        $access_token = $this->GetMiniAccessToken();
+        if($access_token === false)
+        {
+            return DataReturn('access_token获取失败', -1);
+        }
+
+        // 获取二维码
+        $url = 'https://openapi.baidu.com/rest/2.0/smartapp/qrcode/getunlimited?access_token='.$access_token;
+        $path = $params['page'].'?'.$params['scene'];
+        $data = [
+            'path'  => $path,
+            'width' => empty($params['width']) ? 1000 : intval($params['width']),
+        ];
+        $res = $this->HttpRequestPost($url, $data);
+        if(!empty($res))
+        {
+            if(stripos($res, 'errno') === false)
+            {
+                return DataReturn('获取成功', 0, $res);
+            }
+            $res = json_decode($res, true);
+            $msg = isset($res['errmsg']) ? $res['errmsg'] : '获取二维码失败';
+        } else {
+            $msg = '获取二维码失败';
+        }
+        return DataReturn($msg, -1);
+    }
+
+    /**
+     * [GetMiniAccessToken 获取access_token]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-01-02T19:53:42+0800
+     */
+    private function GetMiniAccessToken()
+    {
+        // 缓存key
+        $key = $this->_appid.'_access_token';
+        $result = cache($key);
+        if($result !== false)
+        {
+            if($result['expires_in'] > time())
+            {
+                return $result['access_token'];
+            }
+        }
+
+        // 网络请求
+        $url = 'https://openapi.baidu.com/oauth/2.0/token?grant_type=client_credentials&scope=smartapp_snsapi_base&client_id='.$this->_appkey.'&client_secret='.$this->_appsecret;
+        $result = $this->HttpRequestGet($url);
+        if(!empty($result['access_token']))
+        {
+            // 缓存存储
+            $result['expires_in'] += time();
+            cache($key, $result);
+            return $result['access_token'];
+        }
+        return false;
+    }
+
+    /**
+     * [HttpRequestGet get请求]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-01-03T19:21:38+0800
+     * @param    [string]           $url [url地址]
+     * @return   [array]                 [返回数据]
+     */
+    private function HttpRequestGet($url)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 500);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_URL, $url);
+
+        $res = curl_exec($curl);
+        curl_close($curl);
+        return json_decode($res, true);
+    }
+
+    /**
+     * [HttpRequestPost 网络请求]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -163,7 +278,7 @@ class Baidu
      * @param    [array]           $data [发送数据]
      * @return   [mixed]                 [请求返回数据]
      */
-    private function HttpRequest($url, $data)
+    private function HttpRequestPost($url, $data)
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -195,7 +310,7 @@ class Baidu
             }
         }
         curl_close($ch);
-        return json_decode($reponse, true);
+        return $reponse;
     }
 }
 ?>

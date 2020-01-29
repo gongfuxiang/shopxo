@@ -243,7 +243,12 @@ class User extends Common
      */
     public function BaiduUserAuth()
     {
-        $result = (new \base\Baidu(MyC('common_app_mini_baidu_appid'), MyC('common_app_mini_baidu_appkey'), MyC('common_app_mini_baidu_appsecret')))->GetAuthSessionKey($this->data_post);
+        $config = [
+            'appid'     => MyC('common_app_mini_baidu_appid'),
+            'key'       => MyC('common_app_mini_baidu_appkey'),
+            'secret'    => MyC('common_app_mini_baidu_appsecret'),
+        ];
+        $result = (new \base\Baidu($config))->GetAuthSessionKey($this->data_post);
         if($result['status'] == 0)
         {
             // 先从数据库获取用户信息
@@ -296,7 +301,12 @@ class User extends Common
         $user = UserService::AppUserInfoHandle(null, 'baidu_openid', $this->data_post['openid']);
         if(empty($user))
         {
-            $result = (new \base\Baidu(MyC('common_app_mini_baidu_appid'), MyC('common_app_mini_baidu_appkey'), MyC('common_app_mini_baidu_appsecret')))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
+            $config = [
+                'appid'     => MyC('common_app_mini_baidu_appid'),
+                'key'       => MyC('common_app_mini_baidu_appkey'),
+                'secret'    => MyC('common_app_mini_baidu_appsecret'),
+            ];
+            $result = (new \base\Baidu($config))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
 
             if($result['status'] == 0 && !empty($result['data']))
             {

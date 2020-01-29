@@ -9,7 +9,7 @@ Page({
 
     // 优惠劵领取
     temp_coupon_receive_index: null,
-    temp_coupon_receive_value: null,
+    temp_coupon_receive_value: null
   },
 
   onLoad(params) {
@@ -29,8 +29,7 @@ Page({
   get_data_list() {
     var self = this;
     swan.showLoading({ title: "加载中..." });
-    if (self.data.data_list.length <= 0)
-    {
+    if (self.data.data_list.length <= 0) {
       self.setData({
         data_list_loding_status: 1
       });
@@ -84,14 +83,13 @@ Page({
   // 优惠劵领取事件
   coupon_receive_event(e) {
     // 参数处理
-    if((e || null) == null)
-    {
+    if ((e || null) == null) {
       var index = this.data.temp_coupon_receive_index;
       var value = this.data.temp_coupon_receive_value;
     } else {
       var index = e.currentTarget.dataset.index;
       var value = e.currentTarget.dataset.value;
-      this.setData({temp_coupon_receive_index: index, temp_coupon_receive_value: value});
+      this.setData({ temp_coupon_receive_index: index, temp_coupon_receive_value: value });
     }
 
     // 登录校验

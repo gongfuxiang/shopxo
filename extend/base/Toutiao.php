@@ -128,7 +128,7 @@ class Toutiao
         }
 
         // 获取二维码
-        $url = 'https://developer.toutiao.com/api/apps/qrcode?access_token='.$access_token;
+        $url = 'https://developer.toutiao.com/api/apps/qrcode';
         $path = $params['page'].'?'.$params['scene'];
         $data = [
             'access_token'  => $access_token,

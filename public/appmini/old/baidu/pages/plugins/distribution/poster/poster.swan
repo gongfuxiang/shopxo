@@ -1,0 +1,47 @@
+<view s-if="user_share_poster != null || user_share_qrode != null || user_share_url != null">
+  <view s-if="user_share_poster != null" class="share qrcode bg-white spacing-mb">
+    <view class="title">海报分享</view>
+    <view class="desc cr-888 br-b">
+      保存海报后，发送给微信好友/群、QQ好友/群，分享到分朋友圈，微博等进行推广，轻轻松松赚返利！
+    </view>
+    <view class="content">
+      <image src="{{user_share_poster}}" class="wh-auto dis-block" mode="widthFix" />
+    </view>
+    <view class="submit submit-double oh">
+      <button type="primary" plain="{{true}}" hover-class="none" size="mini" data-value="{{user_share_poster}}" bindtap="images_show_event" class="fl">查看长按保存</button>
+      <button type="primary" plain="{{true}}" hover-class="none" size="mini" bindtap="poster_refresh_event" class="fr">重新生成</button>
+    </view>
+  </view>
+
+  <view s-if="user_share_qrode != null" class="share qrcode bg-white spacing-mb">
+    <view class="title">二维码分享</view>
+    <view class="desc cr-888 br-b">
+      保存二维码后，发送给微信好友/群、QQ好友/群，分享到分朋友圈，微博等进行推广，轻轻松松赚返利！
+    </view>
+    <view class="content">
+      <image src="{{user_share_qrode}}" class="wh-auto dis-block" mode="widthFix" />
+    </view>
+    <view class="submit">
+      <button type="primary" plain="{{true}}" hover-class="none" size="mini" class="dis-block wh-auto" data-value="{{user_share_qrode}}" bindtap="images_show_event">查看二维码长按保存</button>
+    </view>
+  </view>
+
+  <view s-if="user_share_url != null" class="share url bg-white">
+    <view class="title">链接分享</view>
+    <view class="desc cr-888 br-b">
+      复制以下链接，发送给微信好友/群、QQ好友/群，分享到分朋友圈，微博等进行推广，轻轻松松赚返利！
+    </view>
+    <view class="content">{{user_share_url}}</view>
+    <view class="submit">
+      <button type="primary" plain="{{true}}" hover-class="none" size="mini" class="dis-block wh-auto" bindtap="url_event">点击复制链接地址</button>
+    </view>
+  </view>
+
+  <import src="/pages/common/bottom_line.swan" />
+  <template is="bottom_line" data="{{{status: data_bottom_line_status}}}"></template>
+</view>
+
+<view s-if="user_share_qrode == null && user_share_url == null">
+  <import src="/pages/common/nodata.swan" />
+  <template is="nodata" data="{{{status: data_list_loding_status, msg: data_list_loding_msg}}}"></template>
+</view>
