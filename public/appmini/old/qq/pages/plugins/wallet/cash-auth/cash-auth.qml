@@ -41,6 +41,6 @@
 </view>
 
 <view wx:else>
-  <import src="/pages/common/nodata.wxml" />
+  <import src="/pages/common/nodata.qml" />
   <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
 </view>

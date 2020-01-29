@@ -78,10 +78,10 @@
   </view>
 
   <view qq:if="{{data_list_loding_status != 3}}">
-  <import src="/pages/common/nodata.wxml" />
+  <import src="/pages/common/nodata.qml" />
   <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
 </view>
 
-<import src="/pages/common/bottom_line.wxml" />
+<import src="/pages/common/bottom_line.qml" />
 <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
 </scroll-view>
