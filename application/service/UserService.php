@@ -454,6 +454,22 @@ class UserService
             $is_default = false;
             foreach($data as &$v)
             {
+                // 坐标处理
+                if(in_array(APPLICATION_CLIENT_TYPE, config('shopxo.coordinate_transformation')))
+                {
+                    // 坐标转换 百度转火星(高德，谷歌，腾讯坐标)
+                    if(isset($v['lng']) && isset($v['lat']) && $v['lng'] > 0 && $v['lat'] > 0)
+                    {
+                        $map = \base\GeoTransUtil::BdToGcj($v['lng'], $v['lat']);
+                        if(isset($map['lng']) && isset($map['lat']))
+                        {
+                            $v['lng'] = $map['lng'];
+                            $v['lat'] = $map['lat'];
+                        }
+                    }
+                }
+
+                // 地区
                 $v['province_name'] = RegionService::RegionName($v['province']);
                 $v['city_name'] = RegionService::RegionName($v['city']);
                 $v['county_name'] = RegionService::RegionName($v['county']);

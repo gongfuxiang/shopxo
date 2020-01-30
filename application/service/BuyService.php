@@ -1217,6 +1217,21 @@ class BuyService
      */
     private static function OrderAddressInsert($order_id, $user_id, $address)
     {
+        // 坐标处理
+        if(in_array(APPLICATION_CLIENT_TYPE, config('shopxo.coordinate_transformation')))
+        {
+            // 坐标转换 火星(高德，谷歌，腾讯坐标) 转 百度
+            if(isset($address['lng']) && isset($address['lat']) && $address['lng'] > 0 && $address['lat'] > 0)
+            {
+                $map = \base\GeoTransUtil::GcjToBd($address['lng'], $address['lat']);
+                if(isset($map['lng']) && isset($map['lat']))
+                {
+                    $address['lng'] = $map['lng'];
+                    $address['lat'] = $map['lat'];
+                }
+            }
+        }
+
         // 订单收货地址
         $data = [
             'order_id'      => $order_id,
