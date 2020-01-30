@@ -945,7 +945,7 @@ class OrderService
         $data = Db::name('OrderAddress')->where(['order_id'=>$order_id])->find();
         
         // 坐标处理
-        if(!empty($data) && is_array($data) && in_array(APPLICATION_CLIENT_TYPE, ['weixin', 'alipay', 'baidu']))
+        if(!empty($data) && is_array($data) && in_array(APPLICATION_CLIENT_TYPE, config('shopxo.coordinate_transformation')))
         {
             // 坐标转换 百度转火星(高德，谷歌，腾讯坐标)
             if(isset($data['lng']) && isset($data['lat']) && $data['lng'] > 0 && $data['lat'] > 0)
