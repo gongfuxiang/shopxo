@@ -377,8 +377,12 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
     margin-right: 10px;
 }
 .friendship-list ul li:not(:last-child) a {
-    border-right: 1px solid #4a4a4a;
     padding-right: 10px;
+}
+.friendship-list ul li.title {
+    font-weight: 500;
+    font-size: 14px;
+    color: #fff;
 }
 
 /**
