@@ -863,16 +863,16 @@ class UserService
         }
 
         // 显示名称,根据规则优先展示
-        $user['user_name_view'] = $user['username'];
-        if(empty($user['user_name_view']))
+        $user['user_name_view'] = isset($user['username']) ? $user['username'] : '';
+        if(empty($user['user_name_view']) && isset($user['nickname']))
         {
             $user['user_name_view'] = $user['nickname'];
         }
-        if(empty($user['user_name_view']))
+        if(empty($user['user_name_view']) && isset($user['mobile_security']))
         {
             $user['user_name_view'] = $user['mobile_security'];
         }
-        if(empty($user['user_name_view']))
+        if(empty($user['user_name_view']) && isset($user['email_security']))
         {
             $user['user_name_view'] = $user['email_security'];
         }

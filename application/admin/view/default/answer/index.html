@@ -68,11 +68,32 @@
         </form>
         <!-- form end -->
 
-        <!-- operation start -->
+        <!-- top operation start -->
         <div class="am-g am-margin-top-sm">
             <a href="{{:MyUrl('admin/answer/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
+
+            <!-- 顶部操作钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                <div class="plugins-tag">
+                    <span>plugins_view_admin_answer_top_operation</span>
+                </div>
+            {{/if}}
+            {{php}}
+                $hook_name = 'plugins_view_admin_answer_top_operation';
+                $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true]);
+                if(!empty($hook_data) && is_array($hook_data))
+                {
+                    foreach($hook_data as $hook)
+                    {
+                        if(is_string($hook) || is_int($hook))
+                        {
+                            echo htmlspecialchars_decode($hook);
+                        }
+                    }
+                }
+            {{/php}}
         </div>
-        <!-- operation end -->
+        <!-- top operation end -->
 
 		<!-- list start -->
 		<table class="am-table am-table-striped am-table-hover am-text-middle am-margin-top-sm">
@@ -251,6 +272,31 @@
             <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
         {{/if}}
 		<!-- list end -->
+
+        <!-- bottom operation start -->
+        <div class="am-g am-margin-top-sm">
+            <!-- 底部操作钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                <div class="plugins-tag">
+                    <span>plugins_view_admin_answer_bottom_operation</span>
+                </div>
+            {{/if}}
+            {{php}}
+                $hook_name = 'plugins_view_admin_answer_bottom_operation';
+                $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true]);
+                if(!empty($hook_data) && is_array($hook_data))
+                {
+                    foreach($hook_data as $hook)
+                    {
+                        if(is_string($hook) || is_int($hook))
+                        {
+                            echo htmlspecialchars_decode($hook);
+                        }
+                    }
+                }
+            {{/php}}
+        </div>
+        <!-- bottom operation end -->
 
 		<!-- 处理窗口 -->
 		<div class="am-popup am-radius" id="my-popup-reply">

@@ -70,7 +70,7 @@
 		<div class="am-footer-miscs">
 			<div class="am-container">
 				<!-- 友情链接 -->
-				{{if !empty($link_list)}}
+				{{if !empty($link_list) and $module_name.$controller_name.$action_name eq 'indexindexindex'}}
 					<div class="friendship-list am-hide-sm-only">
 						<ul class="am-cf am-margin-bottom-sm">
 							{{foreach $link_list as $v}}
