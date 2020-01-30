@@ -12,6 +12,10 @@ namespace app\service;
 
 use think\Db;
 use think\facade\Hook;
+use app\service\BuyService;
+use app\service\MessageService;
+use app\service\OrderService;
+use app\service\GoodsService;
 
 /**
  * 导航服务层
@@ -486,7 +490,7 @@ class NavigationService
      * @version 1.0.0
      * @date    2019-03-15
      * @desc    description
-     * @param   array           $params [description]
+     * @param   [array]           $params [输入信息]
      */
     public static function HomeHavTopRight($params = [])
     {
@@ -576,7 +580,7 @@ class NavigationService
      * @version 1.0.0
      * @date    2019-03-15
      * @desc    description
-     * @param   array           $params [description]
+     * @param   [array]           $params [输入信息]
      */
     public static function UsersPersonalShowFieldList($params = [])
     {
@@ -633,7 +637,7 @@ class NavigationService
      * @version 1.0.0
      * @date    2019-03-15
      * @desc    description
-     * @param   array           $params [description]
+     * @param   [array]           $params [输入信息]
      */
     public static function UsersSafetyPanelList($params = [])
     {
@@ -681,7 +685,7 @@ class NavigationService
      * @version 1.0.0
      * @date    2019-03-15
      * @desc    description
-     * @param   array           $params [description]
+     * @param   [array]           $params [输入信息]
      */
     public static function UsersCenterLeftList($params = [])
     {
@@ -836,7 +840,7 @@ class NavigationService
      * @version 1.0.0
      * @date    2019-03-15
      * @desc    description
-     * @param   array           $params [description]
+     * @param   [array]           $params [输入信息]
      */
     public static function BottomNavigation($params = [])
     {
@@ -885,6 +889,76 @@ class NavigationService
 
         // 网站底部导航
         $hook_name = 'plugins_service_bottom_navigation_handle';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'data'          => &$data,
+        ]);
+
+        return $data;
+    }
+
+    /**
+     * 用户中心基础信息中 mini 导航
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-15
+     * @desc    description
+     * @param   [array]           $params [输入信息]
+     */
+    public static function UserCenterMiniNavigation($params = [])
+    {
+        if(empty($params['user']))
+        {
+            $user_order_count = 0;
+            $user_goods_favor_count = 0;
+            $user_goods_browse_count = 0;
+            $user_integral = 0;
+        } else {
+            // 订单总数
+            $where = ['user_id'=>$params['user']['id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
+            $user_order_count = OrderService::OrderTotal($where);
+
+            // 商品收藏总数
+            $where = ['user_id'=>$params['user']['id']];
+            $user_goods_favor_count = GoodsService::GoodsFavorTotal($where);
+
+            // 我的足迹总数
+            $where = ['user_id'=>$params['user']['id']];
+            $user_goods_browse_count = GoodsService::GoodsBrowseTotal($where);
+
+            // 用户积分
+            $user_integral = isset($params['user']['integral']) ? $params['user']['integral'] : 0;
+        }
+        
+        // 列表
+        $data = [
+            [
+                'name'      => '订单总数',
+                'value'     => $user_order_count,
+                'url'       => MyUrl('index/order/index'),
+            ],
+            [
+                'name'      => '商品收藏',
+                'value'     => $user_goods_favor_count,
+                'url'       => MyUrl('index/userfavor/goods'),
+            ],
+            [
+                'name'      => '我的足迹',
+                'value'     => $user_goods_browse_count,
+                'url'       => MyUrl('index/usergoodsbrowse/index'),
+            ],
+            [
+                'name'      => '我的积分',
+                'value'     => $user_integral,
+                'url'       => MyUrl('index/userintegral/index'),
+            ],
+        ];
+
+        // 用户中心基础信息中mini导航
+        $hook_name = 'plugins_service_user_center_mini_navigation_handle';
         Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,

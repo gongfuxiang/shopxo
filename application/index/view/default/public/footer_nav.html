@@ -1,21 +1,3 @@
-{{if !IsMobile() or (IsMobile() and MyC('common_is_mobile_concise_model') neq 1)}}
-	<!-- 友情链接 -->
-	{{if !empty($link_list)}}
-		<div class="friendship-list am-hide-sm-only">
-			<div class="am-container">
-				<h2>友情链接</h2>
-				<ul>
-					{{foreach $link_list as $v}}
-						<li>
-							<a href="{{$v.url}}" {{if $v['is_new_window_open'] eq 1}} target="_blank"{{/if}} title="{{$v.describe}}">{{$v.name}}</a>
-						</li>
-					{{/foreach}}
-				</ul>
-			</div>
-		</div>
-	{{/if}}
-{{/if}}
-
 <!-- 底部导航上面钩子 -->
 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
     <div class="plugins-tag">
@@ -29,7 +11,6 @@
         {{/if}}
     {{/foreach}}
 {{/if}}
-
 
 {{if !IsMobile() or (IsMobile() and MyC('common_is_mobile_concise_model') neq 1)}}
 	<!-- 底部导航 -->
@@ -88,6 +69,19 @@
 		<!-- 页脚信息 -->
 		<div class="am-footer-miscs">
 			<div class="am-container">
+				<!-- 友情链接 -->
+				{{if !empty($link_list)}}
+					<div class="friendship-list am-hide-sm-only">
+						<ul class="am-cf am-margin-bottom-sm">
+							{{foreach $link_list as $v}}
+								<li class="am-fl am-text-center">
+									<a href="{{$v.url}}" {{if $v['is_new_window_open'] eq 1}} target="_blank"{{/if}} title="{{$v.describe}}">{{$v.name}}</a>
+								</li>
+							{{/foreach}}
+						</ul>
+					</div>
+				{{/if}}
+
 				<p class="powered">
 					Powered by <a href="http://shopxo.net/" title="ShopXO电商系统" target="_blank">
 						<span class="b">Shop</span><span class="o">XO</span>

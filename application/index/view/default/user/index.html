@@ -61,33 +61,33 @@
                 <div class="user-base-right">
                     <a href="{{:MyUrl('index/message/index')}}" class="am-icon-bell-o message"> 消息 {{if $common_message_total gt 0}}{{$common_message_total}}{{/if}}</a>
                 </div>
-                <ul class="user-base-icon">
-                    <li>
-                        <a href="{{:MyUrl('index/order/index')}}">
-                            <p>{{$user_order_count}}</p>
-                            <p>订单总数</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{:MyUrl('index/userfavor/goods')}}">
-                            <p>{{$user_goods_favor_count}}</p>
-                            <p>商品收藏</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{:MyUrl('index/usergoodsbrowse/index')}}">
-                            <p>{{$user_goods_browse_count}}</p>
-                            <p>我的足迹</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{:MyUrl('index/userintegral/index')}}">
-                            <p>{{$user.integral}}</p>
-                            <p>我的积分</p>
-                        </a>
-                    </li>
-                </ul>
+                {{if !empty($mini_navigation)}}
+                    <ul class="user-base-icon">
+                        {{foreach $mini_navigation as $nav}}
+                            <li>
+                                <a href="{{$nav.url}}">
+                                    <p>{{$nav.value}}</p>
+                                    <p>{{$nav.name}}</p>
+                                </a>
+                            </li>
+                        {{/foreach}}
+                    </ul>
+                {{/if}}
             </div>
+
+            <!-- 基础信息底部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_user_base_bottom</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_user_base_bottom_data) and is_array($plugins_view_user_base_bottom_data)}}
+                {{foreach $plugins_view_user_base_bottom_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
 
             <!-- 订单信息 -->
             <div class="order-nav">
@@ -140,8 +140,36 @@
                 </ul>
             {{/if}}
 
+            <!-- 聚合内容顶部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_user_various_top</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_user_various_top_data) and is_array($plugins_view_user_various_top_data)}}
+                {{foreach $plugins_view_user_various_top_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+
             <!-- 聚合内容 -->
             <div class="am-g various">
+                <!-- 聚合内容里面顶部钩子 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_user_various_inside_top</span>
+                    </div>
+                {{/if}}
+                {{if !empty($plugins_view_user_various_inside_top_data) and is_array($plugins_view_user_various_inside_top_data)}}
+                    {{foreach $plugins_view_user_various_inside_top_data as $hook}}
+                        {{if is_string($hook) or is_int($hook)}}
+                            {{$hook|raw}}
+                        {{/if}}
+                    {{/foreach}}
+                {{/if}}
+
                 <!-- 进行中的订单 -->
                 <div class="am-u-md-8">
                     <div class="am-panel am-panel-default">
@@ -320,7 +348,35 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- 聚合内容里面底部钩子 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_user_various_inside_bottom</span>
+                    </div>
+                {{/if}}
+                {{if !empty($plugins_view_user_various_inside_bottom_data) and is_array($plugins_view_user_various_inside_bottom_data)}}
+                    {{foreach $plugins_view_user_various_inside_bottom_data as $hook}}
+                        {{if is_string($hook) or is_int($hook)}}
+                            {{$hook|raw}}
+                        {{/if}}
+                    {{/foreach}}
+                {{/if}}
             </div>
+
+            <!-- 聚合内容底部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_user_various_bottom</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_user_various_bottom_data) and is_array($plugins_view_user_various_bottom_data)}}
+                {{foreach $plugins_view_user_various_bottom_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
         </div>
     </div>
     <!-- content end -->

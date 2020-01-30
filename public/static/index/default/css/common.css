@@ -370,39 +370,16 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
 /**
  * 友情链接
  */
-.friendship-list {
-    margin-top: 20px;
-    margin-bottom: 10px;
-}
-.friendship-list h2 {
-    border-bottom: 1px solid #e3e0e0;
-    line-height: 30px;
-    color: #333;
-    font-weight: 600;
-    font-size: 16px;
-}
-.friendship-list ul {
-    overflow: hidden;
-    padding: 5px 0;
-}
 .friendship-list ul li {
-    float: left;
     line-height: 26px;
-    text-align: center;
 }
 .friendship-list ul li:not(:last-child) {
     margin-right: 10px;
 }
 .friendship-list ul li:not(:last-child) a {
-    border-right: 1px solid #d4d4d4;
+    border-right: 1px solid #4a4a4a;
     padding-right: 10px;
 }
-@media only screen and (max-width:1025px) {
-    .friendship-list {
-        padding: 0 5px;
-    }
-}
-
 
 /**
  * 框架覆盖

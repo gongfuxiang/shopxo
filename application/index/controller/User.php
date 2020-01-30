@@ -17,6 +17,7 @@ use app\service\UserService;
 use app\service\BuyService;
 use app\service\SeoService;
 use app\service\MessageService;
+use app\service\NavigationService;
 
 /**
  * 用户
@@ -77,18 +78,10 @@ class User extends Common
     {
         // 登录校验
         $this->IsLogin();
-        
-        // 订单总数
-        $where = ['user_id'=>$this->user['id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-        $this->assign('user_order_count', OrderService::OrderTotal($where));
 
-        // 商品收藏总数
-        $where = ['user_id'=>$this->user['id']];
-        $this->assign('user_goods_favor_count', GoodsService::GoodsFavorTotal($where));
-
-        // 商品浏览总数
-        $where = ['user_id'=>$this->user['id']];
-        $this->assign('user_goods_browse_count', GoodsService::GoodsBrowseTotal($where));
+        // 用户中心基础信息 mini 导航
+        $mini_navigation = NavigationService::UserCenterMiniNavigation(['user'=>$this->user]);
+        $this->assign('mini_navigation', $mini_navigation);
 
         // 用户订单状态
         $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1, 'is_aftersale'=>1]);
@@ -143,13 +136,42 @@ class User extends Common
         $data = GoodsService::GoodsBrowseList($browse_params);
         $this->assign('goods_browse_list', $data['data']);
 
-        // 用户中心顶部钩子
-        $this->assign('plugins_view_user_center_top_data', Hook::listen('plugins_view_user_center_top', ['hook_name'=>'plugins_view_user_center_top', 'is_backend'=>false, 'user'=>$this->user]));
+        // 钩子
+        $this->PluginsHook();
 
         // 浏览器名称
         $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('用户中心', 1));
 
         return $this->fetch();
+    }
+
+    /**
+     * 钩子处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-04-22
+     * @desc    description
+     */
+    private function PluginsHook()
+    {
+        // 顶部钩子
+        $this->assign('plugins_view_user_center_top_data', Hook::listen('plugins_view_user_center_top', ['hook_name'=>'plugins_view_user_center_top', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 基础信息底部钩子
+        $this->assign('plugins_view_user_base_bottom_data', Hook::listen('plugins_view_user_base_bottom', ['hook_name'=>'plugins_view_user_base_bottom', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 聚合内容顶部钩子
+        $this->assign('plugins_view_user_various_top_data', Hook::listen('plugins_view_user_various_top', ['hook_name'=>'plugins_view_user_various_top', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 聚合内容底部钩子
+        $this->assign('plugins_view_user_various_bottom_data', Hook::listen('plugins_view_user_various_bottom', ['hook_name'=>'plugins_view_user_various_bottom', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 聚合内容里面顶部钩子
+        $this->assign('plugins_view_user_various_inside_top_data', Hook::listen('plugins_view_user_various_inside_top', ['hook_name'=>'plugins_view_user_various_inside_top', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 聚合内容里面底部钩子
+        $this->assign('plugins_view_user_various_bottom_data', Hook::listen('plugins_view_user_various_bottom', ['hook_name'=>'plugins_view_user_various_bottom', 'is_backend'=>false, 'user'=>$this->user]));
     }
 
     /**
