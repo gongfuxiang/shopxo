@@ -705,7 +705,6 @@ class OrderService
         $n = isset($params['n']) ? intval($params['n']) : 10;
         $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
         $is_items = isset($params['is_items']) ? intval($params['is_items']) : 1;
-        $is_excel_export = isset($params['is_excel_export']) ? intval($params['is_excel_export']) : 0;
         $is_orderaftersale = isset($params['is_orderaftersale']) ? intval($params['is_orderaftersale']) : 0;
         $user_type = isset($params['user_type']) ? $params['user_type'] : 'user';
 
@@ -850,24 +849,6 @@ class OrderService
                             if($v['order_model'] == 3 && $v['pay_status'] == 1 && in_array($v['status'], [3,4]))
                             {
                                 $vs['fictitious_goods_value'] = Db::name('OrderFictitiousValue')->where(['order_detail_id'=>$vs['id']])->value('value');
-                            }
-
-                            // 是否excel导出
-                            if($is_excel_export == 1)
-                            {
-                                $excel_export_items .= '名称：'.$vs['title']."\n";
-                                $excel_export_items .= '图片：'.$vs['images']."\n";
-                                $excel_export_items .= '地址：'.$vs['goods_url']."\n";
-                                $excel_export_items .= '原价：'.$vs['original_price']."\n";
-                                $excel_export_items .= '销售价：'.$vs['price']."\n";
-                                $excel_export_items .= '总价：'.$vs['total_price']."\n";
-                                $excel_export_items .= '型号：'.$vs['model']."\n";
-                                $excel_export_items .= '规格：'.$vs['spec_text']."\n";
-                                $excel_export_items .= '重量：'.$vs['spec_weight']."\n";
-                                $excel_export_items .= '编码：'.$vs['spec_coding']."\n";
-                                $excel_export_items .= '条形码：'.$vs['spec_barcode']."\n";
-                                $excel_export_items .= '购买数量：'.$vs['buy_number']."\n";
-                                $excel_export_items .= "\n";
                             }
 
                             // 是否获取最新一条售后信息

@@ -259,13 +259,13 @@ class StatisticalService
         
         // 总数
         $where = [
-            ['status', '<=', 4],
+            ['status', 'in', [2,3,4]],
         ];
         $total_count = Db::name('Order')->where($where)->sum('total_price');
 
         // 昨天
         $where = [
-            ['status', '<=', 4],
+            ['status', 'in', [2,3,4]],
             ['add_time', '>=', self::$yesterday_time_start],
             ['add_time', '<=', self::$yesterday_time_end],
         ];
@@ -273,7 +273,7 @@ class StatisticalService
 
         // 今天
         $where = [
-            ['status', '<=', 4],
+            ['status', 'in', [2,3,4]],
             ['add_time', '>=', self::$today_time_start],
             ['add_time', '<=', self::$today_time_end],
         ];

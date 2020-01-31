@@ -119,37 +119,6 @@ class Order extends Common
     }
 
     /**
-     * [ExcelExport excel文件导出]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-01-10T15:46:00+0800
-     */
-    public function ExcelExport()
-    {
-        // 参数
-        $params = input();
-        $params['admin'] = $this->admin;
-        $params['user_type'] = 'admin';
-
-        // 条件
-        $where = OrderService::OrderListWhere($params);
-
-        // 获取列表
-        $data_params = array(
-            'where'             => $where,
-            'm'                 => 0,
-            'n'                 => 0,
-            'is_excel_export'   => 1,
-        );
-        $data = OrderService::OrderList($data_params);
-
-        // Excel驱动导出数据
-        $excel = new \base\Excel(array('filename'=>'order', 'title'=>lang('excel_order_title_list'), 'data'=>$data['data'], 'msg'=>'没有相关数据'));
-        return $excel->Export();
-    }
-
-    /**
      * [Delete 订单删除]
      * @author   Devil
      * @blog     http://gong.gg/

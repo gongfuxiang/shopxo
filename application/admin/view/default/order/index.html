@@ -100,10 +100,6 @@
 
         <!-- top operation start -->
         <div class="am-g am-margin-top-sm">
-            {{if !IsMobile()}}
-            	<a href="{{$excel_url}}" class="am-btn am-btn-success am-btn-xs am-icon-file-excel-o am-radius"> 导出Excel</a>
-            {{/if}}
-
             <!-- 顶部操作钩子 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                 <div class="plugins-tag">

@@ -34,11 +34,27 @@ return array (
   ),
   'plugins_css' => 
   array (
-    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+    0 => 'app\\plugins\\share\\Hook',
+    1 => 'app\\plugins\\membershiplevelvip\\Hook',
+    2 => 'app\\plugins\\coupon\\Hook',
+    3 => 'app\\plugins\\distribution\\Hook',
+    4 => 'app\\plugins\\limitedtimediscount\\Hook',
+    5 => 'app\\plugins\\multilingual\\Hook',
+  ),
+  'plugins_js' => 
+  array (
+    0 => 'app\\plugins\\share\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
-    2 => 'app\\plugins\\distribution\\Hook',
-    3 => 'app\\plugins\\limitedtimediscount\\Hook',
-    4 => 'app\\plugins\\multilingual\\Hook',
+    2 => 'app\\plugins\\limitedtimediscount\\Hook',
+    3 => 'app\\plugins\\multilingual\\Hook',
+  ),
+  'plugins_view_common_bottom' => 
+  array (
+    0 => 'app\\plugins\\share\\Hook',
+  ),
+  'plugins_view_goods_detail_photo_bottom' => 
+  array (
+    0 => 'app\\plugins\\share\\Hook',
   ),
   'plugins_service_navigation_header_handle' => 
   array (
@@ -113,12 +129,6 @@ return array (
     1 => 'app\\plugins\\coupon\\Hook',
     2 => 'app\\plugins\\distribution\\Hook',
     3 => 'app\\plugins\\wallet\\Hook',
-  ),
-  'plugins_js' => 
-  array (
-    0 => 'app\\plugins\\coupon\\Hook',
-    1 => 'app\\plugins\\limitedtimediscount\\Hook',
-    2 => 'app\\plugins\\multilingual\\Hook',
   ),
   'plugins_view_goods_detail_panel_bottom' => 
   array (
