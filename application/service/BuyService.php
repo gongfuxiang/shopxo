@@ -612,39 +612,45 @@ class BuyService
             // 商品数据
             $goods = $ret['data'];
 
-            // 站点模式 2自提模式, 则其它正常模式
+            // 站点模式 0销售, 2自提, 4销售+自提, 则其它正常模式
+            $common_site_type = MyC('common_site_type', 0, true);
+            $site_model = isset($params['site_model']) ? intval($params['site_model']) : -1;
+
+            // 数据处理
             $address = null;
             $extraction_address = [];
-            switch(MyC('common_site_type', 0, true))
-            {
-                // 站点模式 - 用户收货地址（未选择则取默认地址）
-                case 0 :
-                    $address_params = [
-                        'user'  => $params['user'],
-                    ];
-                    if(!empty($params['address_id']))
-                    {
-                        $address_params['where'] = ['id' => $params['address_id']];
-                    }
-                    $ads = UserService::UserDefaultAddress($address_params);
-                    if(!empty($ads['data']))
-                    {
-                        $address = $ads['data'];
-                    }
-                    break;
 
-                // 自提模式 - 自提点地址
-                case 2 :
-                    $extraction = self::SiteExtractionAddress($params);
-                    if(!empty($extraction['data']['data_list']))
-                    {
-                        $extraction_address = $extraction['data']['data_list'];
-                    }
-                    if(!empty($extraction['data']['default']))
-                    {
-                        $address = $extraction['data']['default'];
-                    }
-                    break;
+            // 站点模式 - 用户收货地址（未选择则取默认地址）
+            // 销售, 销售+自提(指定为销售)
+            if($common_site_type == 0 || ($common_site_type == 4 && $site_model == 0))
+            {
+                $address_params = [
+                    'user'  => $params['user'],
+                ];
+                if(!empty($params['address_id']))
+                {
+                    $address_params['where'] = ['id' => $params['address_id']];
+                }
+                $ads = UserService::UserDefaultAddress($address_params);
+                if(!empty($ads['data']))
+                {
+                    $address = $ads['data'];
+                }
+            }
+
+            // 自提模式 - 自提点地址
+            // 自提, 销售+自提(指定为自提)
+            if($common_site_type == 2 || ($common_site_type == 4 && $site_model == 2))
+            {
+                $extraction = self::SiteExtractionAddress($params);
+                if(!empty($extraction['data']['data_list']))
+                {
+                    $extraction_address = $extraction['data']['data_list'];
+                }
+                if(!empty($extraction['data']['default']))
+                {
+                    $address = $extraction['data']['default'];
+                }
             }
 
             // 商品/基础信息
@@ -813,6 +819,9 @@ class BuyService
             return DataReturn('展示型不允许提交订单', -1);
         }
 
+        // 销售+自提, 用户自选站点类型
+        $site_model = ($common_site_type == 4) ? (isset($params['site_model']) ? intval($params['site_model']) : 0) : $common_site_type;
+
         // 请求参数
         $p = [
             [
@@ -820,15 +829,10 @@ class BuyService
                 'key_name'          => 'user',
                 'error_msg'         => '用户信息有误',
             ],
-            [
-                'checked_type'      => 'isset',
-                'key_name'          => 'address_id',
-                'error_msg'         => '请选择地址',
-            ],
         ];
 
-        // 销售型, 自提点则校验地址
-        if(in_array($common_site_type, [0,2]))
+        // // 销售型,自提点,销售+自提 则校验地址
+        if(in_array($site_model, [0,2]))
         {
             $p[] = [
                 'checked_type'      => 'isset',
@@ -872,9 +876,9 @@ class BuyService
             return $check;
         }
 
-        // 销售型,自提点 地址处理
+        // 销售型,自提点,销售+自提 地址处理
         $address = [];
-        if(in_array($common_site_type, [0, 2]))
+        if(in_array($site_model, [0,2]))
         {
             if(empty($buy['data']['base']['address']))
             {
@@ -898,7 +902,7 @@ class BuyService
             'payment_id'            => isset($params['payment_id']) ? intval($params['payment_id']) : 0,
             'buy_number_count'      => array_sum(array_column($buy['data']['goods'], 'stock')),
             'client_type'           => (APPLICATION_CLIENT_TYPE == 'pc' && IsMobile()) ? 'h5' : APPLICATION_CLIENT_TYPE,
-            'order_model'           => $common_site_type,
+            'order_model'           => $site_model,
             'add_time'              => time(),
         ];
         if($order['status'] == 1)
@@ -941,7 +945,7 @@ class BuyService
                 }
 
                 // 订单模式 - 虚拟信息添加
-                if($common_site_type == 3)
+                if($site_model == 3)
                 {
                     $ret = self::OrderFictitiousValueInsert($order_id, $detail_ret['data'], $params['user']['id'], $v['goods_id']);
                     if($ret['code'] != 0)
@@ -953,8 +957,8 @@ class BuyService
             }
 
             // 订单模式处理
-            // 销售型模式+自提模式
-            if(in_array($common_site_type, [0,2]))
+            // 销售型模式,自提模式,销售+自提
+            if(in_array($site_model, [0,2]))
             {
                 // 添加订单(收货|取货)地址
                 if(!empty($address))
@@ -968,7 +972,7 @@ class BuyService
                 }
 
                 // 自提模式 添加订单取货码
-                if($common_site_type == 2)
+                if($site_model == 2)
                 {
                     $ret = self::OrderExtractionCcodeInsert($order_id, $params['user']['id']);
                     if($ret['code'] != 0)
@@ -1672,6 +1676,19 @@ class BuyService
             if(isset($address['data'][$params['address_id']]))
             {
                 $default = $address['data'][$params['address_id']];
+            }
+        }
+
+        // 默认地址
+        if(empty($default) && !empty($address['data']))
+        {
+            foreach($address['data'] as $v)
+            {
+                if(isset($v['is_default']) && $v['is_default'] == 1)
+                {
+                    $default = $v;
+                    break;
+                }
             }
         }
 

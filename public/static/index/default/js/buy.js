@@ -153,4 +153,12 @@ $(function()
     {
         $extraction_map_container.hide();
     });
+
+    // 销售+自提 切换
+    $('.buy-header-nav li a').on('click', function()
+    {
+        var value = $(this).data('value') || 0;
+        var url = UrlFieldReplace('address_id', null);
+        window.location.href = UrlFieldReplace('site_model', value, url);
+    });
 }); 

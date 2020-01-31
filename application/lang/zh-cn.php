@@ -345,6 +345,7 @@ return array(
             1 => array('value' => 1, 'name' => '展示型'),
             2 => array('value' => 2, 'name' => '自提点'),
             3 => array('value' => 3, 'name' => '虚拟销售'),
+            4 => array('value' => 4, 'name' => '销售+自提型'),
         ),
 
 

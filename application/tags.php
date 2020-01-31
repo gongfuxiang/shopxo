@@ -140,7 +140,6 @@ return array (
   array (
     0 => 'app\\plugins\\coupon\\Hook',
     1 => 'app\\plugins\\distribution\\Hook',
-    2 => 'app\\plugins\\fictitioussecretkey\\Hook',
   ),
   'plugins_service_user_register_end' => 
   array (

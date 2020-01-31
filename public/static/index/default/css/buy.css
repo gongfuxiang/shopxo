@@ -121,7 +121,8 @@ ul.address-list, .business-item ul { overflow: hidden; }
       
   /*地址操作*/
   .address-operation-btn {display:block;position: absolute;bottom:25px ;right:10px ;}
-  .address-right .am-icon-angle-right { display: none; }
+  .address-right .am-icon-angle-right,
+  .mobile-address-close-submit { display: none; }
 }
 
 @media only screen and (min-width:1025px) {
@@ -208,12 +209,12 @@ strong.total-price-content { color: #d2364c; font-size: 16px; }
   margin-top: 2px;
 }
 @media only screen and (min-width: 640px) {
-  .extraction-address {
+  .extraction-address-container {
     padding: 0 5px;
   }
 }
 @media only screen and (min-width: 1025px) {
-  .extraction-address {
+  .extraction-address-container {
     padding: 0;
   }
 }
@@ -279,4 +280,21 @@ strong.total-price-content { color: #d2364c; font-size: 16px; }
 #map {
   width: 100%;
   height: calc(100% - 43px);
+}
+
+/**
+ * 销售+自提导航
+ */
+@media only screen and (min-width: 640px) {
+  .buy-header-nav {
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+}
+@media only screen and (min-width: 1025px) {
+  .buy-header-nav {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }

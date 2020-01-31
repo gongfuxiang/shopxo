@@ -1124,7 +1124,7 @@ function FullscreenEscEvent()
  * @date    2019-03-20
  * @desc    description
  * @param   {[string]}        field [字段名称]
- * @param   {[string]}        value [字段值]
+ * @param   {[string]}        value [字段值, null 则去除字段]
  * @param   {[string]}        url   [自定义url]
  */
 function UrlFieldReplace(field, value, url)
@@ -1150,7 +1150,12 @@ function UrlFieldReplace(field, value, url)
             var last = str.substr(str.lastIndexOf(field));
                 last = last.replace(new RegExp(field+'/', 'g'), '');
                 last = (last.indexOf('/') >= 0) ? last.substr(last.indexOf('/')) : '';
-                url = first+field+'/'+value+last+ext;
+                if(value === null)
+                {
+                	url = first+last+ext;
+                } else {
+                	url = first+field+'/'+value+last+ext;
+                }
         } else {
             if(ext.indexOf('?') >= 0)
             {
@@ -1171,22 +1176,38 @@ function UrlFieldReplace(field, value, url)
                             }
                             if(temp[0] == field)
                             {
-                                p += field+'='+value;
+                            	if(value !== null)
+                            	{
+                            		p += field+'='+value;
+                            	}
                             } else {
                                 p += params_all[i];
                             }
                         }
                     }
                 } else {
-                    p = exts+'&'+field+'='+value;
+                	if(value === null)
+                	{
+                		p = exts;
+                	} else {
+                		p = exts+'&'+field+'='+value;
+                	}
                 }
                 url = str+(ext.substr(0, ext.indexOf('?')))+'?'+p;
             } else {
-                url = str+'/'+field+'/'+value+ext;
+            	if(value === null)
+            	{
+            		url = str+ext;
+            	} else {
+            		url = str+'/'+field+'/'+value+ext;
+            	}
             }
         }
     } else {
-        url += '?'+field+'='+value;
+    	if(value !== null)
+    	{
+    		url += '?'+field+'='+value;
+    	}
     }
     return url+anchor;
 }

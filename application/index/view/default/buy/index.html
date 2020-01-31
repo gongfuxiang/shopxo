@@ -43,9 +43,19 @@
             {{/foreach}}
         {{/if}}
 
+        <!-- 销售+自提 -->
+        {{if $common_site_type eq 4}}
+            <div data-am-widget="tabs" class="am-tabs am-tabs-d2 buy-header-nav">
+                <ul class="am-tabs-nav am-cf">
+                    <li {{if !isset($params['site_model']) or (isset($params['site_model']) and $params.site_model eq 0)}}class="am-active"{{/if}}><a href="javascript:;" data-value="0">快递邮寄</a></li>
+                    <li {{if isset($params['site_model']) and $params.site_model eq 2}}class="am-active"{{/if}}><a href="javascript:;" data-value="2">自提点取货</a></li>
+                </ul>
+            </div>
+        {{/if}}
+
         <!-- 销售型 - 用户地址 -->
-        {{if $common_site_type eq 0}}
-            <div class="address">
+        {{if $common_site_type eq 0 or ($common_site_type eq 4 and (!isset($params['site_model']) or isset($params['site_model']) and $params.site_model eq 0))}}
+            <div class="address user-address-container">
                 <div class="control">
                     <h3>
                         <span>确认收货地址</span>
@@ -100,14 +110,15 @@
                     </div>
                 {{/if}}
             </div>
+        {{/if}}
 
         <!-- 自提点 - 自提地址 -->
-        {{elseif $common_site_type eq 2 /}}
-            <div class="address extraction-address">
+        {{if $common_site_type eq 2 or ($common_site_type eq 4 and isset($params['site_model']) and $params.site_model eq 2)}}
+            <div class="address extraction-address-container">
                 <div class="control">
                     <h3>确认自提点地址</h3>
                     {{if !empty($base['address'])}}
-                        <button type="button" class="am-btn am-btn-default am-btn-secondary am-radius" data-am-modal="{target: '#extraction-address-popup'}">选择地址</button>
+                        <button type="button" class="am-btn am-btn-default am-btn-secondary am-radius" data-am-modal="{target: '#extraction-address-popup'}">选择取货地址</button>
                     {{/if}}
                 </div>
                 {{if empty($base['extraction_address'])}}
@@ -144,7 +155,7 @@
                         <div class="table-no">
                             <i class="am-icon-warning"></i>
                             <span>没有地址</span>
-                            <button type="button" class="am-btn am-btn-default am-btn-secondary am-radius am-margin-left-sm" data-am-modal="{target: '#extraction-address-popup'}">选择地址</button>
+                            <button type="button" class="am-btn am-btn-default am-btn-secondary am-radius am-margin-left-sm" data-am-modal="{target: '#extraction-address-popup'}">选择取货地址</button>
                         </div>
                     {{/if}}
 
@@ -175,7 +186,9 @@
                                                 <a href="javascript:;" class="am-badge am-radius extraction-address-map-submit am-icon-map-marker am-margin-left-sm" data-lng="{{$address.lng}}" data-lat="{{$address.lat}}"> 查看地图</a>
                                             {{/if}}
                                         </p>
-                                        {{if !isset($params['address_id']) or $params['address_id'] neq $key}}
+                                        {{if (isset($params['address_id']) and $params['address_id'] eq $key) or (!empty($base['address']) and $base.address.id eq $key)}}
+                                            <button type="button" class="am-btn am-btn-default am-radius" disabled>已选</button>
+                                        {{else /}}
                                             <button type="button" class="am-btn am-btn-default am-radius" data-value="{{$key}}">选择</button>
                                         {{/if}}
                                     </li>
@@ -435,6 +448,7 @@
                     <input type="hidden" name="address_id" value="{{if isset($base['address']) and isset($base['address']['id'])}}{{$base.address.id}}{{else /}}{{if isset($params['address_id'])}}{{$params.address_id}}{{else /}}-1{{/if}}{{/if}}" />
                     <input type="hidden" name="payment_id" value="{{if isset($params['payment_id'])}}{{$params.payment_id}}{{else /}}0{{/if}}" />
                     <input type="hidden" name="user_note" value="" />
+                    <input type="hidden" name="site_model" value="{{if isset($params['site_model'])}}{{$params.site_model}}{{else /}}0{{/if}}" />
                     <!-- 订单确认页面提交订单表单内部钩子 -->
                     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                         <div class="plugins-tag">
