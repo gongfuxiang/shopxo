@@ -1671,7 +1671,7 @@ class BuyService
 
         // 选中地址处理
         $default = null;
-        if(isset($params['address_id']) && $params['address_id'] != null && !empty($address['data']) && is_array($address['data']))
+        if(isset($params['address_id']) && $params['address_id'] !== null && !empty($address['data']) && is_array($address['data']))
         {
             if(isset($address['data'][$params['address_id']]))
             {

@@ -1775,7 +1775,7 @@ class UserService
     public static function AppUserInfoHandle($user_id = null, $where_field = null, $where_value = null, $user = [])
     {
         // 获取用户信息
-        $field = 'id,username,nickname,mobile,email,avatar,alipay_openid,weixin_openid,weixin_unionid,weixin_web_openid,baidu_openid,toutiao_openid,qq_openid,qq_unionid,integral,locking_integral,add_time';
+        $field = 'id,username,nickname,mobile,email,avatar,alipay_openid,weixin_openid,weixin_unionid,weixin_web_openid,baidu_openid,toutiao_openid,qq_openid,qq_unionid,integral,locking_integral,referrer,add_time';
         if(!empty($user_id))
         {
             $user = self::UserInfo('id', $user_id, $field);
