@@ -19,7 +19,7 @@
             </div>
             
 			<div class="am-form-group">
-				<label>{{$data.common_app_customer_service_tel.name}}</label>
+				<label>{{$data.common_app_customer_service_tel.name}}<span class="am-form-group-label-tips">{{$data.common_app_customer_service_tel.describe}}</span></label>
 				<input type="text" name="{{$data.common_app_customer_service_tel.only_tag}}" placeholder="{{$data.common_app_customer_service_tel.name}}" data-validation-message="{{$data.common_app_customer_service_tel.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_customer_service_tel.value}}"{{/if}} />
 			</div>
 
