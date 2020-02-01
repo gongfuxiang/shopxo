@@ -614,7 +614,7 @@ class BuyService
 
             // 站点模式 0销售, 2自提, 4销售+自提, 则其它正常模式
             $common_site_type = MyC('common_site_type', 0, true);
-            $site_model = isset($params['site_model']) ? intval($params['site_model']) : -1;
+            $site_model = isset($params['site_model']) ? intval($params['site_model']) : 0;
 
             // 数据处理
             $address = null;

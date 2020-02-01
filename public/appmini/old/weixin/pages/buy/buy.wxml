@@ -4,8 +4,15 @@
 </block>
 <block wx:else>
   <view wx:if="{{goods_list.length > 0}}" class="page">
+    <!-- 销售+自提 模式选择 -->
+    <view wx:if="{{common_site_type == 4}}" class="buy-header-nav oh tc">
+      <block wx:for="{{buy_header_nav}}" wx:key="key">
+        <view class="item fl {{site_model == item.value ? 'cr-main' : 'cr-666'}}" data-value="{{item.value}}" bindtap="buy_header_nav_event">{{item.name}}</view>
+      </block>
+    </view>
+
     <!-- 地址 -->
-    <block wx:if="{{common_site_type == 0 || common_site_type == 2}}">
+    <block wx:if="{{common_site_type == 0 || common_site_type == 2 || common_site_type == 4}}">
       <view class="address bg-white arrow-right" bindtap="address_event">
         <view wx:if="{{address != null}}">
           <view class="address-base oh">
@@ -19,7 +26,7 @@
           </view>
         </view>
         <view wx:if="{{address == null}}" class="no-address cr-888">
-          请选择地址
+          {{(common_site_type == 0 || (common_site_type == 4 && site_model == 0)) ? '请选择收货地址' : '请选择取货地址'}}
         </view>
       </view>
       <view class="address-divider spacing-mb"></view>
