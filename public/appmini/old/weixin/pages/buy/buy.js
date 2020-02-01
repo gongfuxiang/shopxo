@@ -176,7 +176,7 @@ Page({
 
     // 数据验证
     var validation = [];
-    if (this.data.common_site_type == 0 || this.data.common_site_type  == 2)
+    if (this.data.common_site_type == 0 || this.data.common_site_type == 2 || this.data.common_site_type == 4)
     {
       validation.push({ fields: 'address_id', msg: '请选择地址', is_can_zero: 1 });
     }

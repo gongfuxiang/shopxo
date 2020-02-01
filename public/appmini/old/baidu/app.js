@@ -621,8 +621,12 @@ App({
     }
   },
 
-  // 登录校验
-  is_login_check(res) {
+  /**
+   * 登录校验
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   */
+  is_login_check(res, object, method) {
     if(res.code == -400)
     {
       swan.clearStorage();

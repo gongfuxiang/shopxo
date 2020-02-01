@@ -4,14 +4,19 @@ Page({
   data: {
     data_list_loding_status: 1,
     data_list_loding_msg: '处理错误',
+    params: null,
+    
+    name : '',
+    tel : '',
+    address: '',
+    is_default: 0,
+    province_id: null,
+    city_id: null,
+    county_id: null,
 
     province_list: [],
     city_list: [],
     county_list: [],
-    province_id: null,
-    city_id: null,
-    county_id: null,
-    is_default: 0,
 
     default_province: "请选择省",
     default_city: "请选择市",
@@ -20,8 +25,6 @@ Page({
     province_value: null,
     city_value: null,
     county_value: null,
-
-    params: null,
   },
 
   onLoad(params) {

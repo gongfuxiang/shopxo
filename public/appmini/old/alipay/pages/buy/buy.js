@@ -17,6 +17,11 @@ Page({
     common_order_is_booking: 0,
     common_site_type: 0,
     extraction_address: [],
+    site_model: 0,
+    buy_header_nav: [
+      { name: "快递邮寄", value: 0 },
+      { name: "自提点取货", value: 2 }
+    ],
 
     // 优惠劵
     plugins_coupon_data: null,
@@ -87,6 +92,7 @@ Page({
     data['address_id'] = this.data.address_id;
     data['payment_id'] = this.data.payment_id;
     data['coupon_id'] = this.data.plugins_use_coupon_id;
+    data['site_model'] = this.data.site_model;
     my.request({
       url: app.get_request_url("index", "buy"),
       method: "POST",
@@ -178,10 +184,11 @@ Page({
     data['payment_id'] = this.data.payment_id;
     data['user_note'] = this.data.user_note_value;
     data['coupon_id'] = this.data.plugins_use_coupon_id;
+    data['site_model'] = this.data.site_model;
 
     // 数据验证
     var validation = [];
-    if (this.data.common_site_type == 0 || this.data.common_site_type  == 2)
+    if (this.data.common_site_type == 0 || this.data.common_site_type == 2 || this.data.common_site_type == 4)
     {
       validation.push({ fields: 'address_id', msg: '请选择地址', is_can_zero: 1 });
     }
@@ -278,12 +285,12 @@ Page({
 
   // 地址选择事件
   address_event(e) {
-    if(this.data.common_site_type == 0)
+    if (this.data.common_site_type == 0 || (this.data.common_site_type == 4 && this.data.site_model == 0))
     {
       my.navigateTo({
         url: '/pages/user-address/user-address?is_back=1'
       });
-    } else if (this.data.common_site_type == 2)
+    } else if (this.data.common_site_type == 2 || (this.data.common_site_type == 4 && this.data.site_model == 2))
     {
       my.navigateTo({
         url: '/pages/extraction-address/extraction-address?is_back=1'
@@ -293,4 +300,19 @@ Page({
     }
   },
 
+  // 销售+自提 模式选择事件
+  buy_header_nav_event(e) {
+    // 数据设置
+    this.setData({
+      address: null,
+      address_id: null,
+      site_model: e.currentTarget.dataset.value || 0,
+    });
+    
+    // 删除地址缓存
+    my.removeStorageSync({key: app.data.cache_buy_user_address_select_key});
+
+    // 数据初始化
+    this.init();
+  },
 });
