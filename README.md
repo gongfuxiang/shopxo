@@ -4,7 +4,7 @@
 * PC+H5、支付宝小程序、微信小程序、百度小程序、头条&抖音小程序、QQ小程序。
 
 ### 传送门
-* 官网地址：[ShopXO官网](https://shopxo.net/)
+* 官网地址：https://shopxo.net/
 * 社区交流：https://ask.shopxo.net/
 * 应用商店：https://store.shopxo.net/
 * 演示地址：https://demo.shopxo.net/ （管理账户/密码可进入官网查看）
