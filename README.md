@@ -29,6 +29,10 @@
 * 码云/开源中国：https://gitee.com/gongfuxiang/shopxo
 * 腾讯云开发者：https://dev.tencent.com/u/gongfuxiang/p/shopxo/git
 
+### 部分功能特点
+* 分销、会员等级、限时秒杀、优惠券/折扣劵、报价单、商品相册标签、钱包、等等...
+* 更多查看应用商店 https://store.shopxo.net/
+
 ### 扩展性
 * 独立模块式开发，完善的注释，易扩展，应用管理。
 
