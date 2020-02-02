@@ -4,7 +4,7 @@
 * PC+H5、支付宝小程序、微信小程序、百度小程序、头条&抖音小程序、QQ小程序。
 
 ### 传送门
-* 官网地址：https://shopxo.net/
+* 官网地址：[ShopXO官网](https://shopxo.net/)
 * 社区交流：https://ask.shopxo.net/
 * 应用商店：https://store.shopxo.net/
 * 演示地址：https://demo.shopxo.net/ （管理账户/密码可进入官网查看）
@@ -57,10 +57,10 @@ ThinkPHP是一个快速、简单的基于MVC和面向对象的轻量级PHP开发
 ![小程序](https://images.gitee.com/uploads/images/2019/0111/104727_fb5ce133_488475.jpeg "xcx-1500.jpg")
 
 # PC端图片展示
-![电脑端](https://images.gitee.com/uploads/images/2019/0111/104442_0a307119_488475.gif "1547174456822.gif")
+![电脑端](https://images.gitee.com/uploads/images/2020/0203/000718_c4209c1f_488475.gif "home.gif")
 
 # 后台管理图片展示
-![后台管理](https://images.gitee.com/uploads/images/2019/0227/092528_9eb4dbef_488475.gif "admin-2.gif")
+![后台管理](https://images.gitee.com/uploads/images/2020/0203/000749_4a8b1c43_488475.gif "admin.gif")
 
 # 商城基础功能简介
 ### 后端功能列表
