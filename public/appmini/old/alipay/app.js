@@ -67,8 +67,8 @@ App({
 
     // 请求地址
     request_url: "{{request_url}}",
-     request_url: 'http://shopxo.com/',
-     request_url: 'http://dev.shopxo.net/',
+    // request_url: 'http://shopxo.com/',
+    // request_url: 'http://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
