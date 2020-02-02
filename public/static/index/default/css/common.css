@@ -87,8 +87,8 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
 .mui-mbar-tabs{ display:none;}
 
 /* 顶部小导航 */
-.header-top { background-color: #fafafa; border-bottom: solid 1px #f0f0f0; }
-.header{ display:none; max-width:1000px; margin:0px auto; font-size:12px;position: relative; }  
+.header-top { background-color: #fafafa; border-bottom: solid 1px #f0f0f0; height: 30px; display:none; }
+.header{ max-width:1000px; margin:0px auto; font-size:12px;position: relative; }  
 
 .mobile-navigation{position: fixed;bottom:0px ;width: 100%;z-index: 999;background:#fff ;}
 .mobile-navigation li{width: 25%;padding:2px ;background:#fff ;border-top:1px solid #f5f5f5 ;float: left;text-align: center;font-size: 12px; position: relative; }
@@ -100,7 +100,7 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
 @media only screen and (min-width: 640px) {
     .am-container {padding-left:0px;padding-right:0px ;}
     .nav-search{background: #fff; margin: 20px 0 5px 0;}
-    .header { display:block;height: 30px;}
+    .header-top { display:block;}
     .top-nav-left{ float:left;}
     .top-nav-left .top-nav-items, .top-nav-right .top-nav-items { padding: 0px 8px; height: 30px; line-height: 30px; }
     .top-nav-right {position: absolute; top: 0; right: 0; }

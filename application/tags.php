@@ -39,14 +39,12 @@ return array (
     2 => 'app\\plugins\\coupon\\Hook',
     3 => 'app\\plugins\\distribution\\Hook',
     4 => 'app\\plugins\\limitedtimediscount\\Hook',
-    5 => 'app\\plugins\\multilingual\\Hook',
   ),
   'plugins_js' => 
   array (
     0 => 'app\\plugins\\share\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
     2 => 'app\\plugins\\limitedtimediscount\\Hook',
-    3 => 'app\\plugins\\multilingual\\Hook',
   ),
   'plugins_view_common_bottom' => 
   array (
@@ -187,10 +185,6 @@ return array (
   'plugins_view_home_floor_top' => 
   array (
     0 => 'app\\plugins\\limitedtimediscount\\Hook',
-  ),
-  'plugins_view_header_navigation_top_left' => 
-  array (
-    0 => 'app\\plugins\\multilingual\\Hook',
   ),
 );
 ?>
