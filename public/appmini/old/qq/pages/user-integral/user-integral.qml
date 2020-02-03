@@ -2,7 +2,7 @@
   <view class="content">
     <view class="data-card bg-white br-b" qq:for="{{data_list}}">
       <view class="data-box oh">
-      <import src="/pages/common/nodata.wxml" />
+      <import src="/pages/common/nodata.qml" />
         <text class="data-title">{{item.type_name}}</text>
         <text class="data-time fr">{{item.add_time_time}}</text>
       </view>
@@ -13,16 +13,16 @@
       <view class="data-detail">{{item.msg}}</view>
     </view>
     <view qq:if="{{data_list.length == 0}}">
-      <import src="/pages/common/nodata.wxml" />
+      <import src="/pages/common/nodata.qml" />
       <template is="nodata" data="{{status: data_list_loding_status}}"></template>
     </view>
   </view>
-  <import src="/pages/common/bottom_line.wxml" />
+  <import src="/pages/common/bottom_line.qml" />
   <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
 </scroll-view>
 
 <view qq:if="{{data_list.length == 0}}">
-  <import src="/pages/common/nodata.wxml" />
+  <import src="/pages/common/nodata.qml" />
   <template is="nodata" data="{{status: data_list_loding_status}}">
   </template>
 </view>

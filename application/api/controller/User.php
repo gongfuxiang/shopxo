@@ -15,6 +15,7 @@ use app\service\OrderService;
 use app\service\GoodsService;
 use app\service\MessageService;
 use app\service\AppCenterNavService;
+use app\service\BuyService;
 
 /**
  * 用户
@@ -92,7 +93,7 @@ class User extends Common
         }
 
         // 授权
-        $result = (new \base\AlipayAuth())->GetAuthCode(MyC('common_app_mini_alipay_appid'), $this->data_post['authcode']);
+        $result = (new \base\Alipay())->GetAuthSessionKey(MyC('common_app_mini_alipay_appid'), $this->data_post['authcode']);
         if($result['status'] == 0)
         {
             // 先从数据库获取用户信息
@@ -164,7 +165,14 @@ class User extends Common
         $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->GetAuthSessionKey($this->data_post['authcode']);
         if($result !== false)
         {
-            return DataReturn('授权登录成功', 0, $result);
+            // 先从数据库获取用户信息
+            $user = UserService::AppUserInfoHandle(null, 'weixin_openid', $result);
+            if(empty($user))
+            {
+                return DataReturn('授权登录成功', 0, ['is_alipay_user_exist'=>0, 'openid'=>$result]);
+            }
+            $user['is_alipay_user_exist'] = 1;
+            return DataReturn('授权登录成功', 0, $user);
         }
         return DataReturn('授权登录失败', -100);
     }
@@ -235,17 +243,86 @@ class User extends Common
      */
     public function BaiduUserAuth()
     {
-        $this->data_post['config'] = [
-            'id'        => MyC('common_app_mini_baidu_appid'),
+        $config = [
+            'appid'     => MyC('common_app_mini_baidu_appid'),
             'key'       => MyC('common_app_mini_baidu_appkey'),
             'secret'    => MyC('common_app_mini_baidu_appsecret'),
         ];
-        $result = (new \base\BaiduAuth())->GetAuthUserInfo($this->data_post);
+        $result = (new \base\Baidu($config))->GetAuthSessionKey($this->data_post);
         if($result['status'] == 0)
         {
-            return UserService::AuthUserProgram($result['data'], 'baidu_openid');
+            // 先从数据库获取用户信息
+            $user = UserService::AppUserInfoHandle(null, 'baidu_openid', $result);
+            if(empty($user))
+            {
+                return DataReturn('授权登录成功', 0, ['is_alipay_user_exist'=>0, 'openid'=>$result['data']]);
+            }
+            $user['is_alipay_user_exist'] = 1;
+            return DataReturn('授权登录成功', 0, $user);
         }
         return DataReturn($result['msg'], -10);
+    }
+
+    /**
+     * 百度小程序获取用户信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-11-06
+     * @desc    description
+     */
+    public function BaiduUserInfo()
+    {
+        // 参数校验
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'openid',
+                'error_msg'         => 'openid为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'encrypted_data',
+                'error_msg'         => '解密数据为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'iv',
+                'error_msg'         => 'iv为空,请重试',
+            ]
+        ];
+        $ret = ParamsChecked($this->data_post, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 先从数据库获取用户信息
+        $user = UserService::AppUserInfoHandle(null, 'baidu_openid', $this->data_post['openid']);
+        if(empty($user))
+        {
+            $config = [
+                'appid'     => MyC('common_app_mini_baidu_appid'),
+                'key'       => MyC('common_app_mini_baidu_appkey'),
+                'secret'    => MyC('common_app_mini_baidu_appsecret'),
+            ];
+            $result = (new \base\Baidu($config))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
+
+            if($result['status'] == 0 && !empty($result['data']))
+            {
+                $result['nick_name'] = isset($result['data']['nickname']) ? $result['data']['nickname'] : '';
+                $result['avatar'] = isset($result['data']['headimgurl']) ? $result['data']['headimgurl'] : '';
+                $result['gender'] = empty($result['data']['sex']) ? 0 : ($result['data']['sex'] == 2) ? 1 : 2;
+                $result['openid'] = $result['data']['openid'];
+                $result['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
+                return UserService::AuthUserProgram($result, 'baidu_openid');
+            } else {
+                return DataReturn($result['msg'], -1);
+            }
+        } else {
+            return DataReturn('授权成功', 0, $user);
+        }
+        return DataReturn(empty($result) ? '获取用户信息失败' : $result, -100);
     }
 
     /**
@@ -258,14 +335,21 @@ class User extends Common
      */
     public function ToutiaoUserAuth()
     {
-        $this->data_post['config'] = [
+        $config = [
             'appid'     => MyC('common_app_mini_toutiao_appid'),
             'secret'    => MyC('common_app_mini_toutiao_appsecret'),
         ];
-        $result = (new \base\Toutiao())->GetAuthCode($this->data_post);
+        $result = (new \base\Toutiao($config))->GetAuthSessionKey($this->data_post);
         if($result['status'] == 0)
         {
-            return DataReturn('授权登录成功', 0, $result['data']['openid']);
+            // 先从数据库获取用户信息
+            $user = UserService::AppUserInfoHandle(null, 'toutiao_openid', $result);
+            if(empty($user))
+            {
+                return DataReturn('授权登录成功', 0, ['is_alipay_user_exist'=>0, 'openid'=>$result['data']]);
+            }
+            $user['is_alipay_user_exist'] = 1;
+            return DataReturn('授权登录成功', 0, $user);
         }
         return DataReturn($result['msg'], -10);
     }
@@ -339,7 +423,14 @@ class User extends Common
         $result = (new \base\QQ(MyC('common_app_mini_qq_appid'), MyC('common_app_mini_qq_appsecret')))->GetAuthSessionKey($this->data_post['authcode']);
         if($result !== false)
         {
-            return DataReturn('授权登录成功', 0, $result);
+            // 先从数据库获取用户信息
+            $user = UserService::AppUserInfoHandle(null, 'qq_openid', $result);
+            if(empty($user))
+            {
+                return DataReturn('授权登录成功', 0, ['is_alipay_user_exist'=>0, 'openid'=>$result]);
+            }
+            $user['is_alipay_user_exist'] = 1;
+            return DataReturn('授权登录成功', 0, $user);
         }
         return DataReturn('授权登录失败', -100);
     }
@@ -426,7 +517,6 @@ class User extends Common
         // 未读消息总数
         $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0];
         $common_message_total = MessageService::UserMessageTotal($params);
-        $common_message_total = ($common_message_total > 99) ? '99+' : $common_message_total;
 
         // 用户订单状态
         $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1, 'is_aftersale'=>1]);
@@ -447,7 +537,15 @@ class User extends Common
             'navigation'                        => AppCenterNavService::AppCenterNav(),
             'common_app_is_online_service'      => (int) MyC('common_app_is_online_service', 0),
             'common_app_is_head_vice_nav'       => (int) MyC('common_app_is_head_vice_nav', 0),
+            'common_cart_total'                 => BuyService::UserCartTotal(['user'=>$this->user]),
         );
+
+        // 支付宝小程序在线客服
+        if(APPLICATION_CLIENT_TYPE == 'alipay')
+        {
+            $result['common_app_mini_alipay_tnt_inst_id'] = MyC('common_app_mini_alipay_tnt_inst_id', null, true);
+            $result['common_app_mini_alipay_scene'] = MyC('common_app_mini_alipay_scene', null, true);
+        }
 
         // 返回数据
         return DataReturn('success', 0, $result);

@@ -11,6 +11,7 @@
 namespace app\index\controller;
 
 use app\service\IntegralService;
+use app\service\SeoService;
 
 /**
  * 用户积分管理
@@ -82,6 +83,9 @@ class UserIntegral extends Common
 
         // 操作类型
         $this->assign('common_integral_log_type_list', lang('common_integral_log_type_list'));
+
+        // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('我的积分', 1));
 
         // 参数
         $this->assign('params', $params);

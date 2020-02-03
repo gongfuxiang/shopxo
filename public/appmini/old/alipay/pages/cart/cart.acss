@@ -38,6 +38,9 @@
 .goods-item .selected {
   margin-top: 60rpx;
 }
+.goods-item .remove {
+  color: #e00303;
+}
 .goods-item .error-msg {
   color: #f00;
   margin-left: 15rpx;

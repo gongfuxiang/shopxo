@@ -4,14 +4,19 @@ Page({
   data: {
     data_list_loding_status: 1,
     data_list_loding_msg: '处理错误',
+    params: null,
+    
+    name : '',
+    tel : '',
+    address: '',
+    is_default: 0,
+    province_id: null,
+    city_id: null,
+    county_id: null,
 
     province_list: [],
     city_list: [],
     county_list: [],
-    province_id: null,
-    city_id: null,
-    county_id: null,
-    is_default: 0,
 
     default_province: "请选择省",
     default_city: "请选择市",
@@ -20,8 +25,6 @@ Page({
     province_value: null,
     city_value: null,
     county_value: null,
-
-    params: null,
   },
 
   onLoad(params) {
@@ -108,7 +111,9 @@ Page({
               self.init_value();
             }, 500);
         } else {
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data, self, 'get_user_address')) {
+            app.showToast(res.data.msg);
+          }
         }
       },
       fail: () => {
@@ -268,6 +273,7 @@ Page({
     return value;
   },
 
+  // 数据提交
   form_submit(e) {
     var self = this,
       data = self.data;
@@ -308,7 +314,11 @@ Page({
               my.navigateBack();
             }, 1000);
           } else {
-            app.showToast(res.data.msg);
+            if (app.is_login_check(res.data)) {
+              app.showToast(res.data.msg);
+            } else {
+              app.showToast('提交失败，请重试！');
+            }
           }
         },
         fail: () => {
@@ -316,6 +326,15 @@ Page({
           app.showToast('服务器请求出错');
         }
       });
+    }
+  },
+
+  // 省市区未按照顺序选择提示
+  region_select_error_event(e) {
+    var value = e.currentTarget.dataset.value || null;
+    if(value != null)
+    {
+      app.showToast(value);
     }
   }
 });

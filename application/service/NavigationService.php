@@ -12,6 +12,10 @@ namespace app\service;
 
 use think\Db;
 use think\facade\Hook;
+use app\service\BuyService;
+use app\service\MessageService;
+use app\service\OrderService;
+use app\service\GoodsService;
 
 /**
  * 导航服务层
@@ -53,7 +57,7 @@ class NavigationService
             }
             // 大导航钩子
             $hook_name = 'plugins_service_navigation_header_handle';
-            $ret = Hook::listen($hook_name, [
+            Hook::listen($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
                 'params'        => &$params,
@@ -77,7 +81,7 @@ class NavigationService
 
             // 底部导航钩子
             $hook_name = 'plugins_service_navigation_footer_handle';
-            $ret = Hook::listen($hook_name, [
+            Hook::listen($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
                 'params'        => &$params,
@@ -486,7 +490,7 @@ class NavigationService
      * @version 1.0.0
      * @date    2019-03-15
      * @desc    description
-     * @param   array           $params [description]
+     * @param   [array]           $params [输入信息]
      */
     public static function HomeHavTopRight($params = [])
     {
@@ -496,12 +500,11 @@ class NavigationService
         {
             // 购物车商品总数
             $common_cart_total = BuyService::UserCartTotal(['user'=>$params['user']]);
-            $common_cart_total = ($common_cart_total > 99) ? '99+' : $common_cart_total;
 
             // 未读消息总数
             $message_params = ['user'=>$params['user'], 'is_more'=>1, 'is_read'=>0, 'user_type'=>'user'];
             $common_message_total = MessageService::UserMessageTotal($message_params);
-            $common_message_total = ($common_message_total > 99) ? '99+' : (($common_message_total <= 0) ? -1 : $common_message_total);
+            $common_message_total = ($common_message_total <= 0) ? -1 : $common_message_total;
         }
         
         // 列表
@@ -560,7 +563,7 @@ class NavigationService
 
         // 顶部小导航右侧钩子
         $hook_name = 'plugins_service_header_navigation_top_right_handle';
-        $ret = Hook::listen($hook_name, [
+        Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => &$params,
@@ -577,7 +580,7 @@ class NavigationService
      * @version 1.0.0
      * @date    2019-03-15
      * @desc    description
-     * @param   array           $params [description]
+     * @param   [array]           $params [输入信息]
      */
     public static function UsersPersonalShowFieldList($params = [])
     {
@@ -617,7 +620,7 @@ class NavigationService
 
         // 用户中心资料修改展示字段钩子
         $hook_name = 'plugins_service_users_personal_show_field_list_handle';
-        $ret = Hook::listen($hook_name, [
+        Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => &$params,
@@ -634,7 +637,7 @@ class NavigationService
      * @version 1.0.0
      * @date    2019-03-15
      * @desc    description
-     * @param   array           $params [description]
+     * @param   [array]           $params [输入信息]
      */
     public static function UsersSafetyPanelList($params = [])
     {
@@ -665,7 +668,7 @@ class NavigationService
 
         // 用户安全项列表钩子
         $hook_name = 'plugins_service_users_safety_panel_list_handle';
-        $ret = Hook::listen($hook_name, [
+        Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => &$params,
@@ -682,14 +685,14 @@ class NavigationService
      * @version 1.0.0
      * @date    2019-03-15
      * @desc    description
-     * @param   array           $params [description]
+     * @param   [array]           $params [输入信息]
      */
     public static function UsersCenterLeftList($params = [])
     {
         // name        名称
         // url         页面地址
         // is_show     是否显示（0否, 1是）
-        // contains    包含的子页面（包括自身）
+        // contains    包含的子页面（包括自身） 如用户中心（index 组, user 控制器, index 方法 [ indexuserindex ]）
         // icon        icon类
         // item        二级数据
         // is_system   是否系统内置菜单（0否, 1是）扩展数据可空或0
@@ -700,7 +703,7 @@ class NavigationService
                 'name'      =>  '个人中心',
                 'url'       =>  MyUrl('index/user/index'),
                 'is_show'   =>  1,
-                'contains'  =>  ['userindex'],
+                'contains'  =>  ['indexuserindex'],
                 'icon'      =>  'am-icon-home',
                 'is_system' =>  1,
             ],
@@ -714,7 +717,7 @@ class NavigationService
                         'name'      =>  '订单管理',
                         'url'       =>  MyUrl('index/order/index'),
                         'is_show'   =>  1,
-                        'contains'  =>  ['orderindex', 'orderdetail', 'ordercomments'],
+                        'contains'  =>  ['indexorderindex', 'indexorderdetail', 'indexordercomments'],
                         'icon'      =>  'am-icon-th-list',
                         'is_system' =>  1,
                     ],
@@ -722,14 +725,14 @@ class NavigationService
                         'name'      =>  '订单售后',
                         'url'       =>  MyUrl('index/orderaftersale/index'),
                         'is_show'   =>  1,
-                        'contains'  =>  ['orderaftersaleindex', 'orderaftersaleaftersale'],
+                        'contains'  =>  ['indexorderaftersaleindex', 'indexorderaftersaleaftersale'],
                         'icon'      =>  'am-icon-puzzle-piece',
                         'is_system' =>  1,
                     ],
                     [
                         'name'      =>  '我的收藏',
                         'url'       =>  MyUrl('index/userfavor/goods'),
-                        'contains'  =>  ['userfavorgoods'],
+                        'contains'  =>  ['indexuserfavorgoods'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-heart-o',
                         'is_system' =>  1,
@@ -745,7 +748,7 @@ class NavigationService
                     [
                         'name'      =>  '我的积分',
                         'url'       =>  MyUrl('index/userintegral/index'),
-                        'contains'  =>  ['userintegralindex'],
+                        'contains'  =>  ['indexuserintegralindex'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-fire',
                         'is_system' =>  1,
@@ -761,7 +764,7 @@ class NavigationService
                     [
                         'name'      =>  '个人资料',
                         'url'       =>  MyUrl('index/personal/index'),
-                        'contains'  =>  ['personalindex', 'personalsaveinfo'],
+                        'contains'  =>  ['indexpersonalindex', 'indexpersonalsaveinfo'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-gear',
                         'is_system' =>  1,
@@ -769,7 +772,7 @@ class NavigationService
                     [
                         'name'      =>  '我的地址',
                         'url'       =>  MyUrl('index/useraddress/index'),
-                        'contains'  =>  ['useraddressindex', 'useraddresssaveinfo'],
+                        'contains'  =>  ['indexuseraddressindex', 'indexuseraddresssaveinfo'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-street-view',
                         'is_system' =>  1,
@@ -777,7 +780,7 @@ class NavigationService
                     [
                         'name'      =>  '安全设置',
                         'url'       =>  MyUrl('index/safety/index'),
-                        'contains'  =>  ['safetyindex', 'safetyloginpwdinfo', 'safetymobileinfo', 'safetynewmobileinfo', 'safetyemailinfo', 'safetynewemailinfo'],
+                        'contains'  =>  ['indexsafetyindex', 'indexsafetyloginpwdinfo', 'indexsafetymobileinfo', 'indexsafetynewmobileinfo', 'indexsafetyemailinfo', 'indexsafetynewemailinfo'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-user-secret',
                         'is_system' =>  1,
@@ -785,7 +788,7 @@ class NavigationService
                     [
                         'name'      =>  '我的消息',
                         'url'       =>  MyUrl('index/message/index'),
-                        'contains'  =>  ['messageindex'],
+                        'contains'  =>  ['indexmessageindex'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-bell-o',
                         'is_system' =>  1,
@@ -793,7 +796,7 @@ class NavigationService
                     [
                         'name'      =>  '我的足迹',
                         'url'       =>  MyUrl('index/usergoodsbrowse/index'),
-                        'contains'  =>  ['usergoodsbrowseindex'],
+                        'contains'  =>  ['indexusergoodsbrowseindex'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-lastfm',
                         'is_system' =>  1,
@@ -801,7 +804,7 @@ class NavigationService
                     [
                         'name'      =>  '问答/留言',
                         'url'       =>  MyUrl('index/answer/index'),
-                        'contains'  =>  ['answerindex'],
+                        'contains'  =>  ['indexanswerindex'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-question',
                         'is_system' =>  1,
@@ -811,7 +814,7 @@ class NavigationService
             'logout' => [
                 'name'      =>  '安全退出',
                 'url'       =>  MyUrl('index/user/logout'),
-                'contains'  =>  ['userlogout'],
+                'contains'  =>  ['indexuserlogout'],
                 'is_show'   =>  1,
                 'icon'      =>  'am-icon-power-off',
                 'is_system' =>  1,
@@ -820,7 +823,7 @@ class NavigationService
 
         // 用户中心左侧菜单钩子
         $hook_name = 'plugins_service_users_center_left_menu_handle';
-        $ret = Hook::listen($hook_name, [
+        Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => &$params,
@@ -837,7 +840,7 @@ class NavigationService
      * @version 1.0.0
      * @date    2019-03-15
      * @desc    description
-     * @param   array           $params [description]
+     * @param   [array]           $params [输入信息]
      */
     public static function BottomNavigation($params = [])
     {
@@ -846,7 +849,6 @@ class NavigationService
         {
             // 购物车商品总数
             $common_cart_total = BuyService::UserCartTotal(['user'=>$params['user']]);
-            $common_cart_total = ($common_cart_total > 99) ? '99+' : $common_cart_total;
         }
         
         // 列表
@@ -887,7 +889,77 @@ class NavigationService
 
         // 网站底部导航
         $hook_name = 'plugins_service_bottom_navigation_handle';
-        $ret = Hook::listen($hook_name, [
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'data'          => &$data,
+        ]);
+
+        return $data;
+    }
+
+    /**
+     * 用户中心基础信息中 mini 导航
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-15
+     * @desc    description
+     * @param   [array]           $params [输入信息]
+     */
+    public static function UserCenterMiniNavigation($params = [])
+    {
+        if(empty($params['user']))
+        {
+            $user_order_count = 0;
+            $user_goods_favor_count = 0;
+            $user_goods_browse_count = 0;
+            $user_integral = 0;
+        } else {
+            // 订单总数
+            $where = ['user_id'=>$params['user']['id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
+            $user_order_count = OrderService::OrderTotal($where);
+
+            // 商品收藏总数
+            $where = ['user_id'=>$params['user']['id']];
+            $user_goods_favor_count = GoodsService::GoodsFavorTotal($where);
+
+            // 我的足迹总数
+            $where = ['user_id'=>$params['user']['id']];
+            $user_goods_browse_count = GoodsService::GoodsBrowseTotal($where);
+
+            // 用户积分
+            $user_integral = isset($params['user']['integral']) ? $params['user']['integral'] : 0;
+        }
+        
+        // 列表
+        $data = [
+            [
+                'name'      => '订单总数',
+                'value'     => $user_order_count,
+                'url'       => MyUrl('index/order/index'),
+            ],
+            [
+                'name'      => '商品收藏',
+                'value'     => $user_goods_favor_count,
+                'url'       => MyUrl('index/userfavor/goods'),
+            ],
+            [
+                'name'      => '我的足迹',
+                'value'     => $user_goods_browse_count,
+                'url'       => MyUrl('index/usergoodsbrowse/index'),
+            ],
+            [
+                'name'      => '我的积分',
+                'value'     => $user_integral,
+                'url'       => MyUrl('index/userintegral/index'),
+            ],
+        ];
+
+        // 用户中心基础信息中mini导航
+        $hook_name = 'plugins_service_user_center_mini_navigation_handle';
+        Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => &$params,

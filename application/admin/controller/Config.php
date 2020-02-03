@@ -52,12 +52,6 @@ class Config extends Common
 		// csv
 		$this->assign('common_excel_charset_list', lang('common_excel_charset_list'));
 
-		// 扣除库存规则
-		$this->assign('common_deduction_inventory_rules_list', lang('common_deduction_inventory_rules_list'));
-
-		// 是否
-		$this->assign('common_is_text_list', lang('common_is_text_list'));
-
 		// 配置信息
 		$this->assign('data', ConfigService::ConfigList());
 		

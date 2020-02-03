@@ -19,28 +19,31 @@
 			<nav class="goods-nav">
 				<ul>
 					<li>
-						<a href="#goods-nav-base">基础信息</a>
+						<a href="javascript:;" data-value="#goods-nav-base">基础信息</a>
 					</li>
 					<li>
-						<a href="#goods-nav-operations">商品规格</a>
+						<a href="javascript:;" data-value="#goods-nav-operations">商品规格</a>
 					</li>
 					<li>
-						<a href="#goods-nav-photo">商品相册</a>
+						<a href="javascript:;" data-value="#goods-nav-photo">商品相册</a>
 					</li>
 					<li>
-						<a href="#goods-nav-video">商品视频</a>
+						<a href="javascript:;" data-value="#goods-nav-video">商品视频</a>
 					</li>
 					<li>
-						<a href="#goods-nav-app">手机端详情</a>
+						<a href="javascript:;" data-value="#goods-nav-app">手机端详情</a>
 					</li>
 					<li>
-						<a href="#goods-nav-web">电脑端详情</a>
+						<a href="javascript:;" data-value="#goods-nav-web">电脑端详情</a>
 					</li>
 					<li>
-						<a href="#goods-nav-extends">扩展数据</a>
+						<a href="javascript:;" data-value="#goods-nav-fictitious">虚拟商品</a>
 					</li>
 					<li>
-						<a href="#goods-nav-seo">SEO</a>
+						<a href="javascript:;" data-value="#goods-nav-extends">扩展数据</a>
+					</li>
+					<li>
+						<a href="javascript:;" data-value="#goods-nav-seo">SEO</a>
 					</li>
 					<li class="am-text-center am-padding-xs nav-shrink-submit">
 						<i class="am-icon-angle-double-right am-icon-sm"></i>
@@ -506,6 +509,14 @@
 				</div>
 			</div>
 
+			<!-- 虚拟商品 -->
+			<div id="goods-nav-fictitious" class="division-block">
+				<label class="block nav-detail-title">虚拟商品<span class="am-form-group-label-tips">用户下单后自动发货，用于将该数据展示在用户订单中</span></label>
+				<div class="am-form-group">
+					<script type="text/plain" id="goods-fictitious-container" name="fictitious_goods_value">{{if !empty($data)}}{{$data.fictitious_goods_value|raw}}{{/if}}</script>
+				</div>
+			</div>
+
 			<!-- 扩展数据 -->
 			<div id="goods-nav-extends" class="division-block">
 				<label class="block nav-detail-title">扩展数据<span class="am-form-group-label-tips-must">该区域为插件扩展数据，请按照插件文档填写相应的值</span></label>
@@ -558,6 +569,12 @@
 							<label class="am-text-sm">{{$v.name}}</label>
 							{{if !empty($v['desc'])}}
 								<span class="am-text-xs am-text-warning am-margin-left-xs">{{$v.desc}}</span>
+							{{/if}}
+							{{if !empty($v['tips'])}}
+								<div class="am-alert am-alert-warning am-margin-0" data-am-alert>
+									<button type="button" class="am-close">&times;</button>
+									<p>{{$v.tips|raw}}</p>
+								</div>
 							{{/if}}
 							{{if !empty($v['element'])}}
 								{{foreach $v.element as $element}}
@@ -674,10 +691,9 @@
 <!-- 拖拽排序初始化 -->
 <script type="text/javascript">
 // 规格扩展返回处理
-function SpecificationsExtendsBack()
+function SpecificationsExtendsBack(data)
 {
 	var $extends_popup = $('#specifications-extends-popup');
-    var data = GetFormVal('#specifications-extends-popup', true);
     $('.specifications-table').find($extends_popup.attr('data-line-extend')).find('.line-extend-input').val(JSON.stringify(data));
     $extends_popup.modal('close');
 }

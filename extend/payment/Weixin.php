@@ -106,7 +106,6 @@ class Weixin
                 'name'          => 'apiclient_cert',
                 'placeholder'   => '证书(apiclient_cert.pem)',
                 'title'         => '证书(apiclient_cert.pem)（退款操作必填项）',
-                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写证书(apiclient_cert.pem)',
@@ -116,7 +115,6 @@ class Weixin
                 'name'          => 'apiclient_key',
                 'placeholder'   => '证书密钥(apiclient_key.pem)',
                 'title'         => '证书密钥(apiclient_key.pem)（退款操作必填项）',
-                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写证书密钥(apiclient_key.pem)',
@@ -206,7 +204,7 @@ class Weixin
      */
     private function PayHandleReturn($pay_params = [], $data = [], $params = [])
     {
-        $redirect_url = empty($params['order_id']) ? '' : urlencode(MyUrl('index/order/detail', ['id'=>$params['order_id']]));
+        $redirect_url = empty($params['redirect_url']) ? __MY_URL__ : $params['redirect_url'];
         $result = DataReturn('支付接口异常', -1);
         switch($pay_params['trade_type'])
         {
@@ -280,14 +278,10 @@ class Weixin
      * @version  1.0.0
      * @datetime 2019-05-25T00:07:52+0800
      * @param    [array]                   $pay_data     [支付信息]
-     * @param    [string]                  $redirect_url [成功后的url]
+     * @param    [string]                  $redirect_url [支付结束后跳转url]
      */
     private function PayHtml($pay_data, $redirect_url)
     {
-        // 支付跳转地址
-        $success_url = MyUrl('index/order/respond', ['appoint_status'=>0]);
-        $error_url = MyUrl('index/order/respond', ['appoint_status'=>-1]);
-
         // 支付代码
         exit('<html>
             <head>
@@ -306,12 +300,7 @@ class Weixin
                                 "paySign":"'.$pay_data['paySign'].'"
                             },
                             function(res) {
-                                if(res.err_msg == "get_brand_wcpay_request:ok" )
-                                {
-                                    window.location.href = "'.$success_url.'";
-                                } else {
-                                    window.location.href = "'.$error_url.'";
-                                }
+                                window.location.href = "'.$redirect_url.'";
                             }
                         ); 
                     }
@@ -504,6 +493,12 @@ class Weixin
             return DataReturn($ret, -1);
         }
 
+        // 证书是否配置
+        if(empty($this->config['apiclient_cert']) || empty($this->config['apiclient_key']))
+        {
+            return DataReturn('证书未配置', -1);
+        }
+
         // 退款原因
         $refund_reason = empty($params['refund_reason']) ? $params['order_no'].'订单退款'.$params['refund_price'].'元' : $params['refund_reason'];
 
@@ -526,7 +521,7 @@ class Weixin
 
         // 请求接口处理
         $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/secapi/pay/refund', $this->ArrayToXml($data), true));
-        if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['return_msg']) && $result['return_msg'] == 'OK')
+        if(isset($result['result_code']) && $result['result_code'] == 'SUCCESS' && isset($result['return_code']) && $result['return_code'] == 'SUCCESS')
         {
             // 统一返回格式
             $data = [
@@ -538,10 +533,10 @@ class Weixin
             ];
             return DataReturn('退款成功', 0, $data);
         }
-        $msg = is_string($result) ? $result : (empty($result['return_msg']) ? '退款接口异常' : $result['return_msg']);
-        if(!empty($result['err_code_des']))
+        $msg = is_string($result) ? $result : (empty($result['err_code_des']) ? '退款接口异常' : $result['err_code_des']);
+        if(!empty($result['return_msg']))
         {
-            $msg .= '-'.$result['err_code_des'];
+            $msg .= '-'.$result['return_msg'];
         }
         return DataReturn($msg, -1);
     }
@@ -694,14 +689,25 @@ class Weixin
         $apiclient_cert_file = ROOT.'runtime'.DS.'temp'.DS.'payment_weixin_pay_apiclient_cert.pem';
         $apiclient_key_file = ROOT.'runtime'.DS.'temp'.DS.'payment_weixin_pay_apiclient_key.pem';
 
-        $apiclient_cert = "-----BEGIN CERTIFICATE-----\n";
-        $apiclient_cert .= wordwrap($this->config['apiclient_cert'], 64, "\n", true);
-        $apiclient_cert .= "\n-----END CERTIFICATE-----";
+        // 证书处理
+        if(stripos($this->config['apiclient_cert'], '-----') === false)
+        {
+            $apiclient_cert = "-----BEGIN CERTIFICATE-----\n";
+            $apiclient_cert .= wordwrap($this->config['apiclient_cert'], 64, "\n", true);
+            $apiclient_cert .= "\n-----END CERTIFICATE-----";
+        } else {
+            $apiclient_cert = $this->config['apiclient_cert'];
+        }
         file_put_contents($apiclient_cert_file, $apiclient_cert);
 
-        $apiclient_key = "-----BEGIN PRIVATE KEY-----\n";
-        $apiclient_key .= wordwrap($this->config['apiclient_key'], 64, "\n", true);
-        $apiclient_key .= "\n-----END PRIVATE KEY-----";
+        if(stripos($this->config['apiclient_key'], '-----') === false)
+        {
+            $apiclient_key = "-----BEGIN PRIVATE KEY-----\n";
+            $apiclient_key .= wordwrap($this->config['apiclient_key'], 64, "\n", true);
+            $apiclient_key .= "\n-----END PRIVATE KEY-----";
+        } else {
+            $apiclient_key = $this->config['apiclient_key'];
+        }
         file_put_contents($apiclient_key_file, $apiclient_key);
 
         return ['cert' => $apiclient_cert_file, 'key' => $apiclient_key_file];

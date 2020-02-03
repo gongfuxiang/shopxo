@@ -72,6 +72,13 @@ class OrderService
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
+        // 订单支付前校验
+        $ret = BuyService::OrderPayBeginCheck(['order_id'=>$order['id'], 'order_data'=>$order]);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 支付方式
         $payment_id = empty($params['payment_id']) ? $order['payment_id'] : intval($params['payment_id']);
         $payment = PaymentService::PaymentList(['where'=>['id'=>$payment_id]]);
@@ -136,7 +143,7 @@ class OrderService
             }
         }
 
-        // 发起支付
+        // 发起支付数据
         $pay_data = array(
             'user'          => $params['user'],
             'out_user'      => md5($params['user']['id']),
@@ -147,9 +154,38 @@ class OrderService
             'client_type'   => $order['client_type'],
             'notify_url'    => $url.'_notify.php',
             'call_back_url' => $call_back_url,
+            'redirect_url'  => MyUrl('index/order/detail', ['id'=>$order['id']]),
             'site_name'     => MyC('home_site_name', 'ShopXO', true),
             'ajax_url'      => MyUrl('index/order/paycheck'),
         );
+
+        // 发起支付处理钩子
+        $hook_name = 'plugins_service_order_pay_launch_handle';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'order_id'      => $order['id'],
+            'order'         => &$order,
+            'params'        => &$params,
+            'pay_data'      => &$pay_data,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 微信中打开并且webopenid为空
+        if(in_array(APPLICATION_CLIENT_TYPE, ['pc', 'h5']))
+        {
+            if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false && empty($pay_data['user']['weixin_web_openid']))
+            {
+                // 授权成功后回调订单详情页面重新自动发起支付
+                $url = MyUrl('index/order/detail', ['id'=>$pay_data['order_id'], 'is_pay_auto'=>1, 'is_pay_submit'=>1]);
+                session('plugins_weixinwebauth_pay_callback_view_url', $url);
+            }
+        }
+
+        // 发起支付
         $pay_name = 'payment\\'.$payment[0]['payment'];
         $ret = (new $pay_name($payment[0]['config']))->Pay($pay_data);
         if(isset($ret['code']) && $ret['code'] == 0)
@@ -225,6 +261,13 @@ class OrderService
         {
             $status_text = lang('common_order_admin_status')[$order['status']]['name'];
             return DataReturn('状态不可操作['.$status_text.']', -1);
+        }
+
+        // 订单支付前校验
+        $ret = BuyService::OrderPayBeginCheck(['order_id'=>$order['id'], 'order_data'=>$order]);
+        if($ret['code'] != 0)
+        {
+            return $ret;
         }
 
         // 支付方式
@@ -379,6 +422,22 @@ class OrderService
                 'pay_price'     => $ret['data']['pay_price'],
             ],
         ];
+
+        // 支付成功异步通知处理钩子
+        $hook_name = 'plugins_service_order_pay_notify_handle';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'payment'       => $payment[0],
+            'order'         => $order,
+            'pay_params'    => &$pay_params,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 支付结果处理
         return self::OrderPayHandle($pay_params);
     }
 
@@ -411,12 +470,12 @@ class OrderService
 
         // 订单支付成功处理前钩子
         $hook_name = 'plugins_service_order_pay_handle_begin';
-        $ret = Hook::listen($hook_name, [
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => &$params,
             'order_id'      => $params['order']['id']
-        ]);
+        ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
             return $ret;
@@ -475,12 +534,23 @@ class OrderService
 
                 // 订单支付成功处理完毕钩子
                 $hook_name = 'plugins_service_order_pay_success_handle_end';
-                $ret = Hook::listen($hook_name, [
+                $ret = HookReturnHandle(Hook::listen($hook_name, [
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
                     'params'        => $params,
                     'order_id'      => $params['order']['id']
-                ]);
+                ]));
+
+                // 虚拟商品自动触发发货操作
+                if($params['order']['order_model'] == 3)
+                {
+                    self::OrderDelivery([
+                        'id'                => $params['order']['id'],
+                        'creator'           => 0,
+                        'creator_name'      => '系统',
+                        'user_id'           => $params['order']['user_id'],
+                    ]);
+                }
 
                 return DataReturn('支付成功', 0);
             }
@@ -537,7 +607,7 @@ class OrderService
 
         if(!empty($params['keywords']))
         {
-            $where[] = ['order_no|receive_tel|receive_name', 'like', '%'.$params['keywords'] . '%'];
+            $where[] = ['order_no|express_number', 'like', '%'.$params['keywords'] . '%'];
         }
 
         // 是否更多条件
@@ -635,7 +705,6 @@ class OrderService
         $n = isset($params['n']) ? intval($params['n']) : 10;
         $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
         $is_items = isset($params['is_items']) ? intval($params['is_items']) : 1;
-        $is_excel_export = isset($params['is_excel_export']) ? intval($params['is_excel_export']) : 0;
         $is_orderaftersale = isset($params['is_orderaftersale']) ? intval($params['is_orderaftersale']) : 0;
         $user_type = isset($params['user_type']) ? $params['user_type'] : 'user';
 
@@ -646,20 +715,35 @@ class OrderService
             $order_status_list = lang('common_order_user_status');
             $order_pay_status = lang('common_order_pay_status');
             $common_platform_type = lang('common_platform_type');
+            $common_site_type_list = lang('common_site_type_list');
             foreach($data as &$v)
             {
                 // 订单处理前钩子
                 $hook_name = 'plugins_service_order_handle_begin';
-                $ret = Hook::listen($hook_name, [
+                $ret = HookReturnHandle(Hook::listen($hook_name, [
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
                     'params'        => &$params,
                     'order'         => &$v,
                     'order_id'      => $v['id']
-                ]);
+                ]));
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
                     return $ret;
+                }
+
+                // 订单模式处理
+                // 销售型模式+自提模式
+                if(in_array($v['order_model'], [0,2]))
+                {
+                    // 销售模式+自提模式 地址信息
+                    $v['address_data'] = self::OrderAddressData($v['id']);
+                    
+                    // 自提模式 添加订单取货码
+                    if($v['order_model'] == 2)
+                    {
+                        $v['extraction_data'] = self::OrdersExtractionData($v['id']);
+                    }
                 }
 
                 // 用户信息
@@ -671,11 +755,14 @@ class OrderService
                     }
                 }
 
+                // 订单模式
+                $v['order_model_name'] = isset($common_site_type_list[$v['order_model']]) ? $common_site_type_list[$v['order_model']]['name'] : '未知';
+
                 // 客户端
                 $v['client_type_name'] = isset($common_platform_type[$v['client_type']]) ? $common_platform_type[$v['client_type']]['name'] : '';
 
                 // 状态
-                $v['status_name'] = $order_status_list[$v['status']]['name'];
+                $v['status_name'] = ($v['order_model'] == 2 && $v['status'] == 2) ? '待取货' : $order_status_list[$v['status']]['name'];
 
                 // 支付状态
                 $v['pay_status_name'] = $order_pay_status[$v['pay_status']]['name'];
@@ -685,11 +772,6 @@ class OrderService
 
                 // 支付方式
                 $v['payment_name'] = ($v['status'] <= 1) ? null : PaymentService::OrderPaymentName($v['id']);
-
-                // 收件人地址
-                $v['receive_province_name'] = RegionService::RegionName($v['receive_province']);
-                $v['receive_city_name'] = RegionService::RegionName($v['receive_city']);
-                $v['receive_county_name'] = RegionService::RegionName($v['receive_county']);
 
                 // 创建时间
                 $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
@@ -763,22 +845,10 @@ class OrderService
                                 $vs['spec_text'] = null;
                             }
 
-                            // 是否excel导出
-                            if($is_excel_export == 1)
+                            // 虚拟销售商品 - 虚拟信息处理
+                            if($v['order_model'] == 3 && $v['pay_status'] == 1 && in_array($v['status'], [3,4]))
                             {
-                                $excel_export_items .= '名称：'.$vs['title']."\n";
-                                $excel_export_items .= '图片：'.$vs['images']."\n";
-                                $excel_export_items .= '地址：'.$vs['goods_url']."\n";
-                                $excel_export_items .= '原价：'.$vs['original_price']."\n";
-                                $excel_export_items .= '销售价：'.$vs['price']."\n";
-                                $excel_export_items .= '总价：'.$vs['total_price']."\n";
-                                $excel_export_items .= '型号：'.$vs['model']."\n";
-                                $excel_export_items .= '规格：'.$vs['spec_text']."\n";
-                                $excel_export_items .= '重量：'.$vs['spec_weight']."\n";
-                                $excel_export_items .= '编码：'.$vs['spec_coding']."\n";
-                                $excel_export_items .= '条形码：'.$vs['spec_barcode']."\n";
-                                $excel_export_items .= '购买数量：'.$vs['buy_number']."\n";
-                                $excel_export_items .= "\n";
+                                $vs['fictitious_goods_value'] = Db::name('OrderFictitiousValue')->where(['order_detail_id'=>$vs['id']])->value('value');
                             }
 
                             // 是否获取最新一条售后信息
@@ -800,13 +870,13 @@ class OrderService
 
                 // 订单处理后钩子
                 $hook_name = 'plugins_service_order_handle_end';
-                $ret = Hook::listen($hook_name, [
+                $ret = HookReturnHandle(Hook::listen($hook_name, [
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
                     'params'        => &$params,
                     'order'         => &$v,
                     'order_id'      => $v['id']
-                ]);
+                ]));
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
                     return $ret;
@@ -815,6 +885,61 @@ class OrderService
         }
 
         return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
+     * 订单自提信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-11-26
+     * @desc    description
+     * @param   [int]          $order_id [订单id]
+     */
+    private static function OrdersExtractionData($order_id)
+    {
+        $result = [
+            'code'      => null,
+            'images'    => null,
+        ];
+        $code = Db::name('OrderExtractionCode')->where(['order_id'=>$order_id])->value('code');
+        if(!empty($code))
+        {
+            $result['code'] = $code;
+            $result['images'] = MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode($code))]);
+        }
+        return $result;
+    }
+
+    /**
+     * 订单地址
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-11-26
+     * @desc    description
+     * @param   [int]          $order_id [订单id]
+     */
+    private static function OrderAddressData($order_id)
+    {
+        // 销售模式+自提模式 地址信息
+        $data = Db::name('OrderAddress')->where(['order_id'=>$order_id])->find();
+        
+        // 坐标处理
+        if(!empty($data) && is_array($data) && in_array(APPLICATION_CLIENT_TYPE, config('shopxo.coordinate_transformation')))
+        {
+            // 坐标转换 百度转火星(高德，谷歌，腾讯坐标)
+            if(isset($data['lng']) && isset($data['lat']) && $data['lng'] > 0 && $data['lat'] > 0)
+            {
+                $map = \base\GeoTransUtil::BdToGcj($data['lng'], $data['lat']);
+                if(isset($map['lng']) && isset($map['lat']))
+                {
+                    $data['lng'] = $map['lng'];
+                    $data['lat'] = $map['lat'];
+                }
+            }
+        }
+        return empty($data) ? [] : $data;
     }
 
     /**
@@ -889,7 +1014,7 @@ class OrderService
         {
             // 订单状态改变添加日志钩子
             $hook_name = 'plugins_service_order_status_change_history_success_handle';
-            $ret = Hook::listen($hook_name, [
+            Hook::listen($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
                 'data'          => $data,
@@ -1003,16 +1128,6 @@ class OrderService
                 'key_name'          => 'user_id',
                 'error_msg'         => '用户id有误',
             ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'express_id',
-                'error_msg'         => '快递id有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'express_number',
-                'error_msg'         => '快递单号有误',
-            ],
         ];
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
@@ -1022,7 +1137,7 @@ class OrderService
 
         // 获取订单信息
         $where = ['id'=>intval($params['id']), 'user_id'=>$params['user_id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-        $order = Db::name('Order')->where($where)->field('id,status,user_id')->find();
+        $order = Db::name('Order')->where($where)->field('id,status,user_id,order_model')->find();
         if(empty($order))
         {
             return DataReturn('资源不存在或已被删除', -1);
@@ -1033,11 +1148,63 @@ class OrderService
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
+        // 订单模式
+        switch($order['order_model'])
+        {
+            // 销售模式- 订单快递信息校验
+            case 0 :
+                $p = [
+                    [
+                        'checked_type'      => 'empty',
+                        'key_name'          => 'express_id',
+                        'error_msg'         => '快递id有误',
+                    ],
+                    [
+                        'checked_type'      => 'empty',
+                        'key_name'          => 'express_number',
+                        'error_msg'         => '快递单号有误',
+                    ],
+                ];
+                $ret = ParamsChecked($params, $p);
+                if($ret !== true)
+                {
+                    return DataReturn($ret, -1);
+                }
+                break;
+
+            // 自提模式 - 验证取货码
+            case 2 :
+                $p = [
+                    [
+                        'checked_type'      => 'empty',
+                        'key_name'          => 'extraction_code',
+                        'error_msg'         => '取货码有误',
+                    ],
+                ];
+                $ret = ParamsChecked($params, $p);
+                if($ret !== true)
+                {
+                    return DataReturn($ret, -1);
+                }
+
+                // 校验
+                $extraction_code = Db::name('OrderExtractionCode')->where(['order_id'=>$order['id']])->value('code');
+                if(empty($extraction_code))
+                {
+                    return DataReturn('订单取货码不存在、请联系管理员', -10);
+                }
+                if($extraction_code != $params['extraction_code'])
+                {
+                    return DataReturn('取货码不正确', -11);
+                }
+                break;
+        }
+
         // 开启事务
         Db::startTrans();
         $upd_data = [
             'status'            => 3,
-            'express_id'        => intval($params['express_id']),
+            'express_id'        => isset($params['express_id']) ? intval($params['express_id']) : 0,
             'express_number'    => isset($params['express_number']) ? $params['express_number'] : '',
             'delivery_time'     => time(),
             'upd_time'          => time(),

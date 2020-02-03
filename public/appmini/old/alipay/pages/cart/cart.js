@@ -10,8 +10,8 @@ Page({
     is_selected_all: false,
     buy_submit_disabled_status: true,
 
-    // 是否展示型
-    common_is_exhibition_mode: 0,
+    // 站点模式
+    common_site_type: 0,
     common_is_exhibition_mode_btn_text: null,
     customer_service_tel: null,
   },
@@ -41,7 +41,7 @@ Page({
               this.setData({
                 data_list_loding_status: 0,
                 data_bottom_line_status: false,
-                data_list_loding_msg: '请先绑定手机号码',
+                data_list_loding_msg: '请绑定手机号码',
               });
             }
           },
@@ -93,18 +93,28 @@ Page({
             data_bottom_line_status: true,
             data_list_loding_msg: '购物车空空如也',
 
-            // 是否展示型
-            common_is_exhibition_mode: data.common_is_exhibition_mode || 0,
+            // 站点模式
+            common_site_type: data.common_site_type || 0,
             common_is_exhibition_mode_btn_text: data.common_is_exhibition_mode_btn_text || '立即咨询',
             customer_service_tel: data.customer_service_tel || null,
           });
+
+          // 导航购物车处理
+          var cart_total = data.common_cart_total || 0;
+          if (cart_total <= 0) {
+            app.set_tab_bar_badge(2, 0);
+          } else {
+            app.set_tab_bar_badge(2, 1, cart_total);
+          }
         } else {
           this.setData({
             data_list_loding_status: 2,
             data_bottom_line_status: false,
             data_list_loding_msg: res.data.msg,
           });
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data, this, 'get_data')) {
+            app.showToast(res.data.msg);
+          }
         }
       },
       fail: () => {
@@ -190,7 +200,11 @@ Page({
           // 选择处理
           this.selected_calculate();
         } else {
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data)) {
+            app.showToast(res.data.msg);
+          } else {
+            app.showToast('提交失败，请重试！');
+          }
         }
       },
       fail: () => {
@@ -231,8 +245,8 @@ Page({
     this.setData({ swipe_index: e.index });
   },
 
-  // 收藏事件
-  goods_favor_event(id, goods_id, type) {
+  // 收藏+删除
+  goods_favor_delete(id, goods_id, type) {
     my.request({
       url: app.get_request_url('favor', 'goods'),
       method: 'POST',
@@ -243,13 +257,44 @@ Page({
         if (res.data.code == 0) {
           this.cart_delete(id, type);
         } else {
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data)) {
+            app.showToast(res.data.msg);
+          } else {
+            app.showToast('提交失败，请重试！');
+          }
         }
       },
       fail: () => {
         app.showToast('服务器请求出错');
       }
     });
+  },
+
+  // 移除操作事件
+  cart_remove_event(e) {
+    var id = e.currentTarget.dataset.id || null;
+    var index = e.currentTarget.dataset.index || 0;
+    var goods_id = e.currentTarget.dataset.goodsid || 0;
+    var self = this;
+    if (id !== null) {
+      self.setData({ swipe_index: index})
+      my.showActionSheet({
+        items: ['加入收藏', '删除'],
+        success(res) {
+          if(res.index != -1)
+          {
+            if (res.index == 0)
+            {
+              self.goods_favor_delete(id, goods_id, 'favor')
+            } else {
+              self.cart_delete(id, 'delete');
+            }
+          }
+        }
+      });
+    } else {
+      app.showToast("参数有误");
+    }
   },
 
   // 购物车删除
@@ -269,9 +314,22 @@ Page({
             swipe_index: null,
             data_list_loding_status: temp_data_list.length == 0 ? 0 : this.data.data_list_loding_status,
           });
+
+          // 导航购物车处理
+          var cart_total = res.data.data || 0;
+          if (cart_total <= 0) {
+            app.set_tab_bar_badge(2, 0);
+          } else {
+            app.set_tab_bar_badge(2, 1, cart_total);
+          }
+          
           app.showToast(((type == 'delete') ? '删除成功' : '收藏成功'), 'success');
         } else {
-          app.showToast((type == 'delete') ? '删除失败' : '收藏失败');
+          if (app.is_login_check(res.data)) {
+            app.showToast((type == 'delete') ? '删除失败' : '收藏失败');
+          } else {
+            app.showToast('提交失败，请重试！');
+          }
         }
       },
       fail: () => {

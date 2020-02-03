@@ -170,7 +170,7 @@ text-align: center;float:none}
 @media only screen and (max-width: 640px) {
     .items-nav-title{ padding: 0 10%;}
     .banner-news-title{line-height: 30px; height: 30px; color: #333; }
-    .am-footer { padding-bottom: 55px; }
+    .am-footer { padding-bottom: 50px; }
 
     /*楼层*/
     .floor .aggregation { width: 100%; height: auto; }

@@ -165,8 +165,8 @@
   </component-popup>
 </view>
 <view qq:if="{{order_data == null}}">
-  <import src="/pages/common/nodata.wxml" />
+  <import src="/pages/common/nodata.qml" />
   <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
 </view>
-<import src="/pages/common/bottom_line.wxml" />
+<import src="/pages/common/bottom_line.qml" />
 <template qq:if="{{new_aftersale_data != null && new_aftersale_data.status != 5}}" is="bottom_line" data="{{status: data_bottom_line_status}}"></template>

@@ -55,8 +55,12 @@ $(function()
     // 商品导航
     $('.goods-nav li a').on('click', function()
     {
+        // 样式
         $('.goods-nav li a').removeClass('goods-nav-active');
         $(this).addClass('goods-nav-active');
+
+        // 滚动
+        $(window).smoothScroll({position: $($(this).data('value')).offset().top});
     });
 
     // 商品导航收缩
@@ -87,7 +91,7 @@ $(function()
         var spec_max = $('#goods-nav-operations').data('spec-add-max-number') || 3;
         if($('.specifications-table th.table-title').length >= spec_max)
         {
-            Prompt('最多添加'+spec_max+'列规格');
+            Prompt('最多添加'+spec_max+'列规格，可在后台管理[系统设置-后台配置]中配置');
             return false;
         }
 
@@ -667,4 +671,14 @@ $(function()
             onCancel: function(){}
         });
     });
+
+
+    // 虚拟商品编辑器初始化
+    if($('#goods-fictitious-container').length > 0)
+    {
+        UE.getEditor('goods-fictitious-container', {
+            toolbars: [['source', 'undo', 'redo', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough',   '|', 'forecolor', 'backcolor', 'link', 'fontsize', 'insertorderedlist', 'insertunorderedlist']],
+            initialFrameHeight : 100
+        });
+    }
 });

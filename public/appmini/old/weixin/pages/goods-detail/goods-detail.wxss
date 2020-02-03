@@ -196,7 +196,7 @@
 .goods-base .goods-price {
   padding-right: 100rpx;
   position: relative;
-  min-height: 80rpx;
+  min-height: 90rpx;
 }
 .goods-base .goods-price .original-price {
   margin-top: 8rpx;

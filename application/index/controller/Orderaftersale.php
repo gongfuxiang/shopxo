@@ -11,6 +11,7 @@
 namespace app\index\controller;
 
 use app\service\OrderAftersaleService;
+use app\service\SeoService;
 
 /**
  * 订单售后
@@ -85,6 +86,9 @@ class Orderaftersale extends Common
         $this->assign('common_order_aftersale_type_list', lang('common_order_aftersale_type_list'));
         $this->assign('common_order_aftersale_status_list', lang('common_order_aftersale_status_list'));
         $this->assign('common_order_aftersale_refundment_list', lang('common_order_aftersale_refundment_list'));
+
+        // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('订单售后', 1));
 
         // 参数
         $this->assign('params', $params);

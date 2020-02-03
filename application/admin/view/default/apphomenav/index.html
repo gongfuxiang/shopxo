@@ -100,10 +100,10 @@
                 <tr>
                     <th>名称</th>
                     <th class="am-hide-sm-only">所属平台</th>
-                    <th>导航图标</th>
+                    <th class="am-hide-sm-only">导航图标</th>
                     <th class="am-hide-sm-only">事件值</th>
                     <th class="am-hide-sm-only">登录</th>
-                    <th class="am-hide-sm-only">启用</th>
+                    <th>启用</th>
                     <th>更多</th>
                     <th>操作</th>
                 </tr>
@@ -114,7 +114,7 @@
                         <tr id="data-list-{{$v.id}}" {{if $v['is_enable'] eq 0}}class="am-active"{{/if}}>
                             <td>{{$v.name}}</td>
                             <td class="am-hide-sm-only">{{$v.platform_text}}</td>
-                            <td>
+                            <td class="am-hide-sm-only">
                                 <div class="am-circle nav-icon-circle am-vertical-align" {{if !empty($v['bg_color'])}}style="background-color:{{$v.bg_color}};"{{/if}}>
                                     {{if !empty($v['images_url'])}}
                                         <a href="{{$v['images_url']}}" target="_blank">
@@ -134,7 +134,7 @@
                             <td class="am-hide-sm-only">
                                 <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_need_login'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/apphomenav/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_need_login']}}" data-field="is_need_login"></a>
                             </td>
-                            <td class="am-hide-sm-only">
+                            <td>
                                 <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/apphomenav/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-field="is_enable" data-is-update-status="1"></a>
                             </td>
                             <td>

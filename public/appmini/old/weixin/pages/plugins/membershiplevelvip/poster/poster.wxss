@@ -1,0 +1,37 @@
+/*
+ * 公共
+ */
+.share {
+  padding: 20rpx 10rpx;
+}
+.share .title {
+  border-left: 3px solid #1d1611;
+  margin-left: 10rpx;
+  padding-left: 20rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+}
+.share .desc {
+  font-size: 32rpx;
+  padding: 0 10rpx 20rpx 10rpx;
+  margin-top: 20rpx;
+}
+.share .content {
+  padding: 20rpx;
+}
+.share .submit {
+  margin: 20rpx 0;
+  padding: 0 20rpx;
+}
+.share button {
+  height: 70rpx;
+  line-height: 70rpx;
+}
+
+/*
+ * 链接
+ */
+.url .content {
+  font-size: 32rpx;
+  color: #1d1611;
+}

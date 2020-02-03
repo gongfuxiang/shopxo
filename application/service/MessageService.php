@@ -137,6 +137,7 @@ class MessageService
      * @date    2018-09-29
      * @desc    description
      * @param   [array]          $params [输入参数]
+     * @return  [int|string]             [超过99则返回 99+]
      */
     public static function UserMessageTotal($params = [])
     {
@@ -153,7 +154,8 @@ class MessageService
         {
             return 0;
         }
-        return self::MessageTotal(self::MessageListWhere($params));
+        $total = self::MessageTotal(self::MessageListWhere($params));
+        return ($total > 99) ? '99+' : $total;
     }
 
     /**

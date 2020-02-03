@@ -33,31 +33,37 @@ Page({
   },
 
   init(e) {
-    var user = app.get_user_cache_info(this, "init"),
-        self = this;
-    // 用户未绑定用户则转到登录页面
-    var msg = (user == false) ? '授权用户信息' : '绑定手机号码';
-    if (app.user_is_need_login(user)) {
-      qq.showModal({
-        title: '温馨提示',
-        content: msg,
-        confirmText: '确认',
-        cancelText: '暂不',
-        success: (result) => {
-          qq.stopPullDownRefresh();
-          if(result.confirm) {
-            qq.navigateTo({
-              url: "/pages/login/login?event_callback=init"
+    var user = app.get_user_info(this, "init"),
+      self = this;
+    if (user != false) {
+      // 用户未绑定用户则转到登录页面
+      if (app.user_is_need_login(user)) {
+        qq.showModal({
+          title: '温馨提示',
+          content: '绑定手机号码',
+          confirmText: '确认',
+          cancelText: '暂不',
+          success: (result) => {
+            qq.stopPullDownRefresh();
+            if(result.confirm) {
+              qq.navigateTo({
+                url: "/pages/login/login?event_callback=init"
+              });
+            }
+            self.setData({
+              avatar: user.avatar || app.data.default_user_head_src,
+              nickname: user.nickname || '用户名',
             });
-          }
-          self.setData({
-            avatar: user.avatar || app.data.default_user_head_src,
-            nickname: user.user_name_view || '用户名',
-          });
-        },
-      });
-    } else {
-      self.get_data();
+          },
+        });
+      } else {
+        self.setData({
+          avatar: user.avatar || app.data.default_user_head_src,
+          nickname: user.nickname || '用户名',
+        });
+        
+        self.get_data();
+      }
     }
   },
 
@@ -98,15 +104,26 @@ Page({
             user_order_status_list: temp_user_order_status_list,
             customer_service_tel: data.customer_service_tel || null,
             common_user_center_notice: data.common_user_center_notice || null,
-            avatar: (data.avatar != null) ? data.avatar : ((this.data.avatar || null) == null ? app.data.default_user_head_src : this.data.avatar),
+            avatar: ((data.avatar || null) != null) ? data.avatar : ((this.data.avatar || null) == null ? app.data.default_user_head_src : this.data.avatar),
             nickname: (data.nickname != null) ? data.nickname : this.data.nickname,
             message_total: ((data.common_message_total || 0) == 0) ? 0 : data.common_message_total,
             head_nav_list: temp_head_nav_list,
             navigation: data.navigation || [],
             common_app_is_head_vice_nav: data.common_app_is_head_vice_nav || 0,
           });
+
+          // 导航购物车处理
+          var cart_total = data.common_cart_total || 0;
+          if (cart_total <= 0) {
+            app.set_tab_bar_badge(2, 0);
+          } else {
+            app.set_tab_bar_badge(2, 1, cart_total);
+          }
         } else {
-          app.showToast(res.data.msg);
+          if(app.is_login_check(res.data, this, 'get_data'))
+          {
+            app.showToast(res.data.msg);
+          }
         }
       },
       fail: () => {
@@ -118,7 +135,7 @@ Page({
 
   // 清除缓存
   clear_storage(e) {
-    qq.clearStorage()
+    qq.clearStorage();
     app.showToast("清除缓存成功", "success");
   },
 

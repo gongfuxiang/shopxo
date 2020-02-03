@@ -1,0 +1,52 @@
+<!-- 头部 -->
+<view class="head-box oh">
+  <view class="head-item tc fl">
+    <view class="avatar">
+      <image onTap="preview_event" onError="user_avatar_error" src="{{avatar}}" mode="widthFix" class="dis-block" />
+    </view>
+    <text class="item-name dis-block cr-fff">{{nickname}}</text>
+  </view>
+  <view class="head-base fl">
+    <view a:if="{{(user_level || null) != null && (user_level.name || null) != null}}" class="single-text level-name spacing-mt">{{user_level.name}}</view>
+    <block a:if="{{(data_base || null) != null && (data_base.is_enable_self_extraction || 0) == 1}}">
+      <navigator url="/pages/plugins/distribution/extraction/extraction" hover-class="none">
+        <button size="mini" type="default" hover-class="none" class="head-base-submit">{{(extraction || null) == null ? '申请' : ''}}取货点</button>
+      </navigator>
+    </block>
+  </view>
+</view>
+
+<!-- 导航 -->
+<view a:if="{{nav_list.length > 0}}" class="nav spacing-mt oh bg-white">
+  <block a:for="{{nav_list}}" a:key="key">
+    <navigator url="{{item.url}}" hover-class="none">
+      <view class="item fl tc">
+        <image src="{{item.icon}}" mode="scaleToFill" class="dis-block" />
+        <view class="title">{{item.title}}</view>
+      </view>
+    </navigator>
+  </block>
+</view>
+
+<!-- 通知  -->
+<view class="tips-container spacing-mb">
+  <!-- 不符合分销条件描述 -->
+  <block a:if="{{(user_level || null) == null}}">
+    <view a:if="{{(data_base.non_conformity_desc || null) != null && data_base.non_conformity_desc.length > 0}}" class="tips-item spacing-mt">
+      <view class="not-opening-vip-desc">
+        <view a:for="{{data_base.non_conformity_desc}}" a:key="key" class="item">
+          {{item}}
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 会员中心通知  -->
+  <view a:if="{{(user_level || null) != null && (data_base.user_center_notice || null) != null && data_base.user_center_notice.length > 0}}" class="tips-item spacing-mt">
+    <view class="tips">
+      <view a:for="{{data_base.user_center_notice}}" a:key="key" class="item">
+        {{item}}
+      </view>
+    </view>
+  </view>
+</view>

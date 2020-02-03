@@ -1,0 +1,97 @@
+<!-- 头部 -->
+<view class="head-box oh">
+  <view class="head-item tc fl">
+    <view class="avatar">
+      <image bindtap="preview_event" binderror="user_avatar_error" src="{{avatar}}" mode="widthFix" class="dis-block" />
+    </view>
+    <text class="item-name dis-block cr-888">{{nickname}}</text>
+  </view>
+  <view class="head-base fl">
+    <block tt:if="{{(user_vip || null) != null}}">
+      <block tt:if="{{(user_vip.user_vip_model || null) == 'pay'}}">
+        <view class="single-text level-name">{{user_vip.level_name}}</view>
+        <view class="single-text">
+          <block tt:if="{{(user_vip.is_permanent || 0) == 1}}">
+            <text class="title">有效期</text>
+            <text class="value cr-fff">{{user_vip.permanent_value}}</text>
+            <text class="unit">{{user_vip.permanent_unit}}</text>
+          </block>
+          <block tt:else>
+            <block tt:if="{{(user_vip.surplus_time_number || 0) == 0}}">
+              <view class="cr-888">会员已过期或未开通</view>
+              <navigator url="/pages/plugins/membershiplevelvip/buy/buy" hover-class="none">
+                <button tt:if="{{(data_base.is_user_buy || null) == 1}}" size="mini" type="default" hover-class="none" class="submit-buy">开通会员</button>
+              </navigator>
+            </block>
+            <block tt:else>
+              <text class="title">有效期</text>
+              <text class="value cr-fff">{{user_vip.surplus_time_number}}</text>
+              <text class="unit">{{user_vip.surplus_time_unit}}</text>
+
+              <block tt:if="{{(user_vip.is_supported_renew || null) == null || user_vip.is_supported_renew != 1}}">
+                <block tt:if="{{(plugins_base.is_supported_renew_old_order || null) == 1}}">
+                  <button size="mini" type="default" hover-class="none" class="renew-buy" bindtap="uservip_renew_event" disabled="{{submit_disabled_status}}">续费会员</button>
+                </block>
+                <block tt:else>
+                  <block tt:if="{{(data_base || null) != null && (data_base.is_user_buy || 0) == 1}}">
+                    <navigator url="/pages/plugins/membershiplevelvip/buy/buy" hover-class="none">
+                      <button size="mini" type="default" hover-class="none" class="submit-buy">连续开通</button>
+                    </navigator>
+                  </block>
+                </block>
+              </block>
+            </block>
+          </block>
+        </view>
+      </block>
+      <block tt:else>
+        <view class="single-text level-name spacing-mt">{{user_vip.level_name}}</view>
+      </block>
+    </block>
+    <block tt:else>
+      <block tt:if="{{(data_base || null) != null && (data_base.is_user_buy || 0) == 1}}">
+        <navigator url="/pages/plugins/membershiplevelvip/buy/buy" hover-class="none">
+          <button size="mini" type="default" hover-class="none" class="submit-buy">开通会员</button>
+        </navigator>
+      </block>
+    </block>
+  </view>
+</view>
+
+<!-- 导航 -->
+<view tt:if="{{nav_list.length > 0 && data_base != null && (data_base.is_user_buy || 0) == 1}}" class="nav spacing-mt oh bg-white">
+  <block tt:for="{{nav_list}}" tt:key="key">
+    <navigator url="{{item.url}}" hover-class="none">
+      <view class="item fl tc">
+        <image src="{{item.icon}}" mode="scaleToFill" class="dis-block" />
+        <view class="title">{{item.title}}</view>
+      </view>
+    </navigator>
+  </block>
+</view>
+
+<!-- 通知  -->
+<view class="tips-container spacing-mb">
+  <!-- 未开通会员介绍 -->
+  <block tt:if="{{(data_base.is_user_buy || 0) == 1}}">
+    <block tt:if="{{((user_vip || null) == null) || ((user_vip || null) == null && (user_vip.surplus_time_number || 0) == 0)}}">
+      <view tt:if="{{(data_base.not_opening_vip_desc || null) != null && data_base.not_opening_vip_desc.length > 0}}" class="tips-item spacing-mt">
+        <view class="not-opening-vip-desc">
+          <view tt:for="{{data_base.not_opening_vip_desc}}" tt:key="key" class="item">
+            {{item}}
+          </view>
+        </view>
+      </view>
+    </block>
+  </block>
+
+  <!-- 会员中心通知  -->
+  <view tt:if="{{(user_vip || null) != null && (data_base.user_vip_center_notice || null) != null && data_base.user_vip_center_notice.length > 0}}" class="tips-item spacing-mt">
+    <view class="tips">
+      <image src="/images/tips.png" mode="aspectFit" class="fl" />
+      <view tt:for="{{data_base.user_vip_center_notice}}" tt:key="key" class="item">
+        {{item}}
+      </view>
+    </view>
+  </view>
+</view>

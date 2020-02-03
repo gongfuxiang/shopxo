@@ -1,0 +1,21 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <div class="table-no">
+            <div>
+                <i class="am-icon-warning"></i>
+                <span>{{if empty($msg)}}没有相关数据{{else /}}{{$msg}}{{/if}}</span>
+            </div>
+            <div class="am-margin-top-lg">
+                <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="am-btn am-btn-link am-radius am-btn-sm">返回到应用管理 >></a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

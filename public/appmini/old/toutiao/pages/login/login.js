@@ -33,6 +33,13 @@ Page({
    * 登录授权事件
    */
   get_user_info_event(e) {
+    this.user_auth_code();
+  },
+
+  /**
+   * 用户授权
+   */
+  user_auth_code() {
     var self = this;
     tt.getSetting({
       success(res) {

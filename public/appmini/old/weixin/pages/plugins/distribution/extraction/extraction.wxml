@@ -1,0 +1,101 @@
+<view wx:if="{{data_list_loding_status == 0}}">
+  <!-- 未申请 -->
+  <view wx:if="{{extraction == null}}" class="apply-not bg-white">
+    <view wx:if="{{(data_base || null) != null && (data_base.self_extraction_apply_desc || null) != null && data_base.self_extraction_apply_desc.length > 0}}" class="apply-desc">
+      <view wx:for="{{data_base.self_extraction_apply_desc}}" wx:key="key" class="item">
+        {{item}}
+      </view>
+    </view>
+
+    <view class="to-submit tc">
+      <navigator url="/pages/plugins/distribution/extraction-apply/extraction-apply" hover-class="none">
+        <button type="primary" size="mini" hover-class="none">立即申请</button>
+      </navigator>
+    </view>
+  </view>
+
+  <!-- 已存在申请信息 -->
+  <view wx:else class="apply-already">
+    <!-- status 状态（0待审核, 1已通过, 2已拒绝 -->
+    <!-- 审核中 -->
+    <view wx:if="{{extraction.status == 0}}" class="waiting-audit bg-white">
+      <view class="title-msg tc">申请信息正在审核中...</view>
+      <view class="operation oh tc">
+        <view class="cr-666 mini-msg">你可以</view>
+        <view class="to-submit tc">
+          <navigator url="/pages/plugins/distribution/extraction-apply/extraction-apply" hover-class="none">
+            <button type="primary" size="mini" hover-class="none">编辑信息</button>
+          </navigator>
+        </view>
+      </view>
+      
+    </view>
+
+    <!-- 审核通过 -->
+    <view wx:elif="{{extraction.status == 1 || extraction.status == 3}}" class="valid">
+      <view class="base br-b oh bg-white">
+        <view class="base-title fl">取货点信息</view>
+        <view class="fr edit-submit">
+          <navigator url="/pages/plugins/distribution/extraction-apply/extraction-apply" hover-class="none">编辑信息</navigator>
+        </view>
+      </view>
+      <view class="content bg-white" bindtap="address_map_event">
+        <text wx:if="{{(extraction.alias || null) != null}}" class="alias">{{extraction.alias}}</text>
+        <text class="cr-666">{{extraction.province_name}}{{extraction.city_name}}{{extraction.county_name}}{{extraction.address}}</text>
+      </view>
+
+      <view wx:if="{{extraction.status == 1}}" >
+        <view class="base br-b oh bg-white spacing-mt">
+          <view class="base-title fl">取货订单统计</view>
+          <view class="fr edit-submit">
+            <navigator url="/pages/plugins/distribution/extraction-order/extraction-order" hover-class="none">查看取货订单</navigator>
+          </view>
+        </view>
+        <view class="content bg-white statistics oh">
+          <view class="item fl tc" data-value="0" bindtap="order_event">
+            <view class="title cr-666">待处理</view>
+            <view class="value single-text order-wait-value">{{statistical.order_wait || 0}}</view>
+          </view>
+          <view class="item fl tc br-l" data-value="1" bindtap="order_event">
+            <view class="title cr-666">已处理</view>
+            <view class="value single-text order-already-value">{{statistical.order_already || 0}}</view>
+          </view>
+        </view>
+      </view>
+      <view wx:else class="spacing-mt relieve">
+        <view class="tips">
+          当前状态也解约，可重新编辑数据提交审核。
+        </view>
+      </view>
+      
+      <view wx:if="{{extraction.status == 1 && (data_base || null) != null && (data_base.self_extraction_common_notice || null) != null && data_base.self_extraction_common_notice.length > 0}}" class="extraction-notice spacing-mt">
+        <view class="tips">
+          <view wx:for="{{data_base.self_extraction_common_notice}}" wx:key="key" class="item">
+            {{item}}
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 审核失败 -->
+    <view wx:else="{{extraction.status == 2}}" class="refuse bg-white">
+      <view class="title-msg tc">申请信息审核失败</view>
+      <view wx:if="{{(extraction.fail_reason || null) != null}}" class="fail-tips tips">原因：{{extraction.fail_reason}}</view>
+      <view class="operation oh tc">
+        <view class="cr-666 mini-msg">你可以重新编辑信息提交</view>
+        <view class="to-submit tc">
+          <navigator url="/pages/plugins/distribution/extraction-apply/extraction-apply" hover-class="none">
+            <button type="primary" size="mini" hover-class="none">编辑信息</button>
+          </navigator>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <import src="/pages/common/bottom_line.wxml" />
+  <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
+</view>
+<view wx:else>
+  <import src="/pages/common/nodata.wxml" />
+  <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
+</view>

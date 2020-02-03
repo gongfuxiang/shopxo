@@ -119,7 +119,6 @@ class QQ
                 'name'          => 'apiclient_cert',
                 'placeholder'   => '证书(apiclient_cert.pem)',
                 'title'         => '证书(apiclient_cert.pem)（退款操作必填项）',
-                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写证书(apiclient_cert.pem)',
@@ -129,7 +128,6 @@ class QQ
                 'name'          => 'apiclient_key',
                 'placeholder'   => '证书密钥(apiclient_key.pem)',
                 'title'         => '证书密钥(apiclient_key.pem)（退款操作必填项）',
-                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写证书密钥(apiclient_key.pem)',
@@ -592,15 +590,25 @@ class QQ
         $apiclient_cert_file = ROOT.'runtime'.DS.'temp'.DS.'payment_qq_pay_apiclient_cert.pem';
         $apiclient_key_file = ROOT.'runtime'.DS.'temp'.DS.'payment_qq_pay_apiclient_key.pem';
 
-        // 文件是否存在
-        $apiclient_cert = "-----BEGIN CERTIFICATE-----\n";
-        $apiclient_cert .= wordwrap($this->config['apiclient_cert'], 64, "\n", true);
-        $apiclient_cert .= "\n-----END CERTIFICATE-----";
+        // 证书处理
+        if(stripos($this->config['apiclient_cert'], '-----') === false)
+        {
+            $apiclient_cert = "-----BEGIN CERTIFICATE-----\n";
+            $apiclient_cert .= wordwrap($this->config['apiclient_cert'], 64, "\n", true);
+            $apiclient_cert .= "\n-----END CERTIFICATE-----";
+        } else {
+            $apiclient_cert = $this->config['apiclient_cert'];
+        }
         file_put_contents($apiclient_cert_file, $apiclient_cert);
-        
-        $apiclient_key = "-----BEGIN PRIVATE KEY-----\n";
-        $apiclient_key .= wordwrap($this->config['apiclient_key'], 64, "\n", true);
-        $apiclient_key .= "\n-----END PRIVATE KEY-----";
+
+        if(stripos($this->config['apiclient_key'], '-----') === false)
+        {
+            $apiclient_key = "-----BEGIN PRIVATE KEY-----\n";
+            $apiclient_key .= wordwrap($this->config['apiclient_key'], 64, "\n", true);
+            $apiclient_key .= "\n-----END PRIVATE KEY-----";
+        } else {
+            $apiclient_key = $this->config['apiclient_key'];
+        }
         file_put_contents($apiclient_key_file, $apiclient_key);
 
         return ['cert' => $apiclient_cert_file, 'key' => $apiclient_key_file];

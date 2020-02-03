@@ -12,7 +12,9 @@ namespace app\api\controller;
 
 use app\service\GoodsService;
 use app\service\BuyService;
+use app\service\PluginsService;
 use app\service\GoodsCommentsService;
+use app\service\ResourcesService;
 
 /**
  * 商品
@@ -78,27 +80,7 @@ class Goods extends Common
             unset($ret['data'][0]['content_web']);
         } else {
             // 标签处理，兼容小程序rich-text
-            $search = [
-                '<img ',
-                '<section',
-                '/section>',
-                '<p>',
-                '<div>',
-                '<table',
-                '<tr',
-                '<td',
-            ];
-            $replace = [
-                '<img style="max-width:100%;margin:0;padding:0;display:block;" ',
-                '<div',
-                '/div>',
-                '<p style="margin:0;">',
-                '<div style="margin:0;">',
-                '<table style="width:100%;margin:0px;border-collapse:collapse;border-color:#ddd;border-style:solid;border-width:0 1px 1px 0;"',
-                '<tr style="border-top:1px solid #ddd;"',
-                '<td style="margin:0;padding:5px;border-left:1px solid #ddd;"',
-            ];
-            $ret['data'][0]['content_web'] = str_replace($search, $replace, $ret['data'][0]['content_web']);
+            $ret['data'][0]['content_web'] = ResourcesService::ApMiniRichTextContentHandle($ret['data'][0]['content_web']);
         }
 
         // 当前登录用户是否已收藏
@@ -129,63 +111,40 @@ class Goods extends Common
             'common_app_is_poster_share'        => (int) MyC('common_app_is_poster_share'),
             'common_cart_total'                 => BuyService::UserCartTotal(['user'=>$this->user]),
             'customer_service_tel'              => MyC('common_app_customer_service_tel', null, true),
-            'common_is_exhibition_mode_btn_text'=> MyC('common_is_exhibition_mode_btn_text', null, true),
-            'common_is_exhibition_mode'         => (int) MyC('common_is_exhibition_mode', 0),
+            'common_is_goods_detail_show_photo' => MyC('common_is_goods_detail_show_photo', 0, true),
 
-            // 优惠劵
-            'plugins_coupon_data'               => $this->PluginsCouponGoods($goods_id),
+            // 站点模式
+            'common_site_type'                  => (int) MyC('common_site_type', 0, true),
+            'common_is_exhibition_mode_btn_text'=> MyC('common_is_exhibition_mode_btn_text', '立即咨询', true),
         ];
 
-        // 秒杀
+        // 支付宝小程序在线客服
+        if(APPLICATION_CLIENT_TYPE == 'alipay')
+        {
+            $result['common_app_mini_alipay_tnt_inst_id'] = MyC('common_app_mini_alipay_tnt_inst_id', null, true);
+            $result['common_app_mini_alipay_scene'] = MyC('common_app_mini_alipay_scene', null, true);
+        }
+
+        // 限时秒杀
         if($result['common_app_is_limitedtimediscount'] == 1)
         {
-            $ret = CallPluginsServiceMethod('limitedtimediscount', 'Service', 'GoodsDetailCountdown', $goods_id);
-            if($ret['code'] == 0)
+            $ret = PluginsService::PluginsControlCall(
+                'limitedtimediscount', 'index', 'goods', 'api', ['goods_id'=>$goods_id]);
+            if($ret['code'] == 0 && isset($ret['data']['code']) && $ret['data']['code'] == 0)
             {
-                $result['plugins_limitedtimediscount_data'] = $ret['data'];
+                $result['plugins_limitedtimediscount_data'] = $ret['data']['data'];
             }
         }
-        return DataReturn('success', 0, $result);
-    }
 
-    /**
-     * 商品详情优惠劵
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2019-10-17
-     * @desc    description
-     * @param   [int]          $goods_id [商品id]
-     */
-    private function PluginsCouponGoods($goods_id)
-    {
-        // 获取基础配置信息
-        $base = CallPluginsData('coupon');
-
-        // 优惠劵列表
-        $coupon_params = [
-            'where'             => [
-                'is_enable'         => 1,
-                'is_user_receive'   => 1,
-            ],
-            'm'                 => 0,
-            'n'                 => 0,
-            'is_sure_receive'   => 1,
-            'user'              => $this->user,
-        ];
-        $ret = CallPluginsServiceMethod('coupon', 'CouponService', 'CouponList', $coupon_params);
-
-        // 排除商品不支持的活动
-        if(!empty($ret['data']))
+        // 优惠券
+        $ret = PluginsService::PluginsControlCall(
+                'coupon', 'index', 'goods', 'api', ['goods_id'=>$goods_id]);
+        if($ret['code'] == 0 && isset($ret['data']['code']) && $ret['data']['code'] == 0)
         {
-            $ret['data'] = CallPluginsServiceMethod('coupon', 'BaseService', 'CouponListGoodsExclude', ['data'=>$ret['data'], 'goods_id'=>$goods_id]);
+            $result['plugins_coupon_data'] = $ret['data']['data'];
         }
 
-        // 返回数据
-        return [
-            'base'  => $base['data'],
-            'data'  => $ret['data'],
-        ];
+        return DataReturn('success', 0, $result);
     }
 
     /**
@@ -327,23 +286,6 @@ class Goods extends Common
             'data'              => $data['data'],
         ];
         return DataReturn('success', 0, $result);
-    }
-
-    /**
-     * 商品海报
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-08-17T21:10:41+0800
-     */
-    public function Poster()
-    {
-        // 是否开启海报功能
-        if(MyC('common_app_is_poster_share') == 1)
-        {
-            return CallPluginsServiceMethod('distribution', 'PosterGoodsService', 'GoodsCreateMiniWechat', $this->data_post);
-        }
-        return DataReturn('海报功能未启用', -100);
     }
 }
 ?>

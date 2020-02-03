@@ -1,55 +1,56 @@
-<view a:if="{{data_list.length > 0}}" class="{{common_is_exhibition_mode == 1 ? '' : 'page'}}">
-  <view a:for="{{data_list}}" class="goods-item oh bg-white {{common_is_exhibition_mode == 1 ? 'exhibition-mode-data' : ''}}">
-    <swipe-action index="{{index}}" restore="{{swipe_index === null || swipe_index !== index}}" right="{{item.right}}" onRightItemClick="right_item_event" onSwipeStart="swipe_start_event" extra="{{index}}">
-      <!-- 选择 -->
-      <view a:if="{{common_is_exhibition_mode != 1}}" onTap="selectedt_event" data-type="node" data-index="{{index}}" class="fl selected">
-        <image class="icon" src="/images/default-select{{(item.is_error || 0) == 1 ? '-disabled' : ((item.selected || false) ? '-active' : '')}}-icon.png" mode="widthFix" />
+<view a:if="{{data_list.length > 0}}" class="page">
+  <view a:for="{{data_list}}" class="goods-item oh bg-white {{common_site_type == 1 ? 'exhibition-mode-data' : ''}}">
+    <!-- 选择 -->
+    <view a:if="{{common_site_type != 1}}" onTap="selectedt_event" data-type="node" data-index="{{index}}" class="fl selected">
+      <image class="icon" src="/images/default-select{{(item.is_error || 0) == 1 ? '-disabled' : ((item.selected || false) ? '-active' : '')}}-icon.png" mode="widthFix" />
+    </view>
+
+    <view class="bg-white items">
+      <!-- 图片/链接 -->
+      <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}">
+        <image class="goods-image fl" src="{{item.images}}" mode="aspectFill" />
+      </navigator>
+
+      <!-- 基础 -->
+      <view class="goods-base">
+        <view class="goods-title multi-text">{{item.title}}
+        </view>
+        <block a:if="{{item.spec != null}}">
+          <view class="goods-attribute cr-888" a:for="{{item.spec}}" a:for-item="spec">{{spec.type}}:{{spec.value}}</view>
+        </block>
+      </view>
+      <!-- 数量 -->
+      <view class="number-content tc oh">
+        <view  onTap="goods_buy_number_event" class="number-submit tc cr-888 fl" data-index="{{index}}" data-type="0">-</view>
+        <input onBlur="goods_buy_number_blur" class="tc cr-888 fl" type="number" value="{{item.stock}}" data-index="{{index}}" />
+        <view  onTap="goods_buy_number_event" class="number-submit tc cr-888 fl" data-index="{{index}}" data-type="1">+</view>
       </view>
 
-      <view class="bg-white items">
-        <!-- 图片/链接 -->
-        <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}">
-          <image class="goods-image fl" src="{{item.images}}" mode="aspectFill" />
-        </navigator>
+      <!-- 价格 -->
+      <view class="oh goods-price">
+        <text class="sales-price">￥{{item.price}}</text>
+        <text a:if="{{item.original_price > 0}}" class="original-price">￥{{item.original_price}}</text>
+        <text class="buy-number cr-888">x{{item.stock}}</text>
 
-        <!-- 基础 -->
-        <view class="goods-base">
-          <view class="goods-title multi-text">{{item.title}}
-          </view>
-          <block a:if="{{item.spec != null}}">
-            <view class="goods-attribute cr-888" a:for="{{item.spec}}" a:for-item="spec">{{spec.type}}:{{spec.value}}</view>
-          </block>
-        </view>
-        <!-- 数量 -->
-        <view class="number-content tc oh">
-          <view  onTap="goods_buy_number_event" class="number-submit tc cr-888 fl" data-index="{{index}}" data-type="0">-</view>
-          <input onBlur="goods_buy_number_blur" class="tc cr-888 fl" type="number" value="{{item.stock}}" data-index="{{index}}" />
-          <view  onTap="goods_buy_number_event" class="number-submit tc cr-888 fl" data-index="{{index}}" data-type="1">+</view>
-        </view>
+        <!-- 错误 -->
+        <text a:if="{{(item.is_error || 0) == 1}}" class="error-msg">{{item.error_msg}}</text>
 
-        <!-- 价格 -->
-        <view class="oh goods-price">
-          <text class="sales-price">￥{{item.price}}</text>
-          <text a:if="{{item.original_price > 0}}" class="original-price">￥{{item.original_price}}</text>
-          <text class="buy-number cr-888">x{{item.stock}}</text>
-
-          <!-- 错误 -->
-          <text a:if="{{(item.is_error || 0) == 1}}" class="error-msg">{{item.error_msg}}</text>
-        </view>
+        <!-- 移除 -->
+        <view class="fr remove" data-id="{{item.id}}" data-goodsid="{{item.goods_id}}" data-index="{{index}}" onTap="cart_remove_event">移除</view>
       </view>
-    </swipe-action>
+    </view>
   </view>
 
   <!-- 操作导航 -->
   <view a:if="{{data_list.length > 0}}" class="buy-nav oh wh-auto br-t">
     <!-- 展示型 -->
-    <block a:if="{{common_is_exhibition_mode == 1}}">
+    <block a:if="{{common_site_type == 1}}">
       <view class="exhibition-mode">
         <button class="bg-main wh-auto" type="default" onTap="exhibition_submit_event" hover-class="none">{{common_is_exhibition_mode_btn_text}}</button>
       </view>
     </block>
 
-    <!-- 销售型 -->
+    <!-- 销售,自提,虚拟销售 -->
     <block a:else>
       <view class="nav-base bg-white fl single-text">
         <view onTap="selectedt_event" data-type="all" class="fl selected">

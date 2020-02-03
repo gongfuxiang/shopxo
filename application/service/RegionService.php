@@ -65,7 +65,7 @@ class RegionService
         $where = empty($params['where']) ? [] : $params['where'];
         $where['is_enable'] = 1;
 
-        return Db::name('Region')->where($where)->field($field)->order('id asc, sort asc')->select();
+        return Db::name('Region')->where($where)->field($field)->order('sort asc,id asc')->select();
     }
 
     /**
@@ -83,7 +83,7 @@ class RegionService
 
         // 获取数据
         $field = 'id,pid,name,sort,is_enable';
-        $data = Db::name('Region')->field($field)->where(['pid'=>$id])->order('sort asc')->select();
+        $data = Db::name('Region')->field($field)->where(['pid'=>$id])->order('sort asc,id asc')->select();
         if(!empty($data))
         {
             foreach($data as &$v)

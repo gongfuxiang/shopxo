@@ -1,0 +1,184 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- table nav start -->
+        {{include file="site/nav" /}}
+        <!-- table nav end -->
+
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'sitetype'])}}" enctype="multipart/form-data">
+            <!-- 基础配置 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">基础配置</h3>
+                </div>
+                <div class="am-panel-bd">
+                    <!-- 提示 -->
+                    <div class="am-alert am-alert-warning am-radius" data-am-alert>
+                        <button type="button" class="am-close">&times;</button>
+                        <p class="am-text-xs">1. 销售型、常规电商流程，用户选择收货地址下单支付 -> 商家发货 -> 确认收货 -> 订单完成</p>
+                        <p class="am-text-xs">2. 展示型、仅展示产品，可发起咨询（不能下单）</p>
+                        <p class="am-text-xs">3. 自提点、下单时选择自提货物地址，用户下单支付 -> 确认提货 -> 订单完成</p>
+                        <p class="am-text-xs">4. 虚拟销售、常规电商流程，用户下单支付 -> 自动发货 -> 确认提货 -> 订单完成</p>
+                    </div>
+
+                    <!-- 站点类型 -->
+                    <div class="am-form-group">
+                        <label>{{$data.common_site_type.name}}<span class="am-form-group-label-tips">{{$data.common_site_type.describe}}</span></label>
+                        <select name="{{$data.common_site_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_site_type.error_tips}}" required>
+                            {{foreach $common_site_type_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['common_site_type']['value']) and $data['common_site_type']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+
+                    <!-- 是否预约模式 -->
+                    <div class="am-form-group">
+                        <label>{{$data.common_order_is_booking.name}}<span class="am-form-group-label-tips">{{$data.common_order_is_booking.describe}}</span></label>
+                        <select name="{{$data.common_order_is_booking.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_order_is_booking.error_tips}}" required>
+                            {{foreach $common_is_text_list as $v}}
+                                <option value="{{$v.id}}" {{if isset($data['common_order_is_booking']['value']) and $data['common_order_is_booking']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+
+                    <!-- 库存 -->
+                    <div class="am-form-group">
+                        <label>{{$data.common_is_deduction_inventory.name}}<span class="am-form-group-label-tips">{{$data.common_is_deduction_inventory.describe}}</span></label>
+                        <select name="{{$data.common_is_deduction_inventory.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_deduction_inventory.error_tips}}" required>
+                            {{foreach $common_is_text_list as $v}}
+                                <option value="{{$v.id}}" {{if isset($data['common_is_deduction_inventory']['value']) and $data['common_is_deduction_inventory']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_deduction_inventory_rules.name}}<span class="am-form-group-label-tips">{{$data.common_deduction_inventory_rules.describe}}</span></label>
+                        <select name="{{$data.common_deduction_inventory_rules.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_deduction_inventory_rules.error_tips}}" required>
+                            {{foreach $common_deduction_inventory_rules_list as $v}}
+                                <option value="{{$v.id}}" {{if isset($data['common_deduction_inventory_rules']['value']) and $data['common_deduction_inventory_rules']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 展示型 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">展示型</span>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="am-form-group">
+                        <label>{{$data.common_is_exhibition_mode_btn_text.name}}<span class="am-form-group-label-tips">{{$data.common_is_exhibition_mode_btn_text.describe}}</span></label>
+                        <input type="text" name="{{$data.common_is_exhibition_mode_btn_text.only_tag}}" placeholder="{{$data.common_is_exhibition_mode_btn_text.describe}}" data-validation-message="{{$data.common_is_exhibition_mode_btn_text.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_is_exhibition_mode_btn_text.value}}"{{/if}} />
+                    </div>
+                </div>
+            </div>
+
+            <!-- 自提点 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">自提点</h3>
+                </div>
+                <div class="am-panel-bd">
+                    <ul class="am-list am-list-static am-list-border am-list-striped am-form-group am-btn-sm am-margin-bottom-0 am-padding-bottom-0 address-list">
+                        {{if !empty($sitetype_address_list) and is_array($sitetype_address_list)}}
+                            {{foreach $sitetype_address_list as $address}}
+                                <li>
+                                    <span>{{$address.province_name}} {{$address.city_name}} {{$address.county_name}} {{$address.address}}（{{$address.name}}-{{$address.tel}}）{{if !empty($address['alias'])}}<span class="am-badge am-radius am-badge-success am-margin-left-xs">{{$address.alias}}</span>{{/if}}</span>
+                                    <span class="am-badge am-radius am-icon-remove delete-submit"> 移除</span>
+                                    <span class="am-badge am-radius am-icon-edit edit-submit"> 编辑</span>
+                                </li>
+                            {{/foreach}}
+                        {{/if}}
+                    </ul>
+                    <input type="hidden" name="{{$data.common_self_extraction_address.only_tag}}" value="{{$data.common_self_extraction_address.value}}" class="self-extraction-address-value" />
+                    <button type="button" class="am-btn am-btn-secondary am-radius am-icon-plus am-btn-sm am-margin-top-sm address-submit-add"> 添加地址</button>
+                </div>
+            </div>
+
+            <!-- 虚拟销售 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">虚拟销售</h3>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="am-form-group">
+                        <label>{{$data.common_site_fictitious_return_title.name}}<span class="am-form-group-label-tips">{{$data.common_site_fictitious_return_title.describe}}</span></label>
+                        <input type="text" name="{{$data.common_site_fictitious_return_title.only_tag}}" placeholder="{{$data.common_site_fictitious_return_title.describe}}" data-validation-message="{{$data.common_site_fictitious_return_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_site_fictitious_return_title.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_site_fictitious_return_tips.name}}<span class="am-form-group-label-tips">{{$data.common_site_fictitious_return_tips.describe}}</span></label>
+                        <textarea rows="4" name="{{$data.common_site_fictitious_return_tips.only_tag}}" class="am-radius" placeholder="{{$data.common_site_fictitious_return_tips.name}}" data-validation-message="{{$data.common_site_fictitious_return_tips.error_tips}}">{{if !empty($data)}}{{$data.common_site_fictitious_return_tips.value}}{{/if}}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- 自提点地址添加弹层 -->
+<div class="am-popup" id="popup-address-win">
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">地址添加</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd">
+            <form class="am-form form-validation-address" method="post" request-type="sync" request-value="ViewAddressModalBack">
+                <div class="am-form-group">
+                    <label>别名</label>
+                    <input type="text" name="alias" placeholder="别名" minlength="0" maxlength="16" data-validation-message="别名格式最多 16 个字符" class="am-radius" />
+                </div>
+
+                <div class="am-form-group">
+                    <label>联系人</label>
+                    <input type="text" name="name" placeholder="联系人" minlength="2" maxlength="16" data-validation-message="联系人格式 2~16 个字符之间" class="am-radius" required />
+                </div>
+                <div class="am-form-group">
+                    <label>联系电话</label>
+                    <input type="text" name="tel" placeholder="联系电话" minlength="6" maxlength="30" data-validation-message="联系电话格式有误" class="am-radius" required />
+                </div>
+
+                {{include file="lib/region_linkage" /}}
+                <div class="am-form-group address-detail">
+                    <label>详细地址</label>
+                    <div class="am-input-group am-input-group-sm">
+                        <input type="hidden" name="lng" id="form-lng" />
+                        <input type="hidden" name="lat" id="form-lat" />
+                        <input type="text" name="address" id="form-address" placeholder="详细地址" minlength="2" maxlength="80" data-validation-message="详细地址格式 1~80 个字符之间" class="am-radius" required />
+                        <span class="am-input-group-btn">
+                            <button class="am-btn am-btn-default am-radius" type="button" id="map-location-submit"><span class="am-icon-map-marker"></span> 定位</button>
+                        </span>
+                    </div>
+                </div>
+                <div id="map" data-level="17" class="am-form-group"></div>
+
+                <div class="am-form-group am-form-group-refreshing">
+                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
+
+<script type="text/javascript">
+// 返回处理
+function ViewAddressModalBack(data)
+{
+    AddressModalHandle(data);
+}
+</script>

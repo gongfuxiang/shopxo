@@ -1,0 +1,74 @@
+/*
+ * 基础
+ */
+.wallet {
+  padding: 20rpx 10rpx;
+  position: relative;
+}
+.wallet .item {
+  line-height: 56rpx;
+}
+.wallet .money {
+  font-weight: 500;
+  font-size: 36rpx;
+  margin: 0 10rpx;
+  max-width: calc(100% - 110rpx);
+}
+.wallet .frozen .money {
+  color: #FF9800;
+}
+.wallet .give .money {
+  color: #333;
+  max-width: calc(100% - 360rpx);
+}
+.wallet .submit {
+  position: absolute;
+  right: 10rpx;
+  bottom: 10rpx;
+}
+.wallet .submit button {
+  font-size: 26rpx;
+  height: 55rpx;
+  line-height: 55rpx;
+  color: #fff;
+  padding: 0 20rpx;
+}
+.wallet .submit-recharge {
+  border: 1px solid #d2364c;
+  background-color: #d2364c;
+}
+.wallet .submit-cash {
+  border: 1px solid #5eb95e;
+  background-color: #5eb95e;
+  margin-left: 30rpx;
+}
+
+/*
+ * 导航
+ */
+.nav {
+  border-top: 1px solid #eee;
+}
+.nav .item {
+  padding: 30rpx 0;
+  width: calc(50% - 1px);
+  border-bottom: 1px solid #eee;
+}
+.nav .item:nth-child(odd) {
+  border-right: 1px solid #eee;
+}
+.nav .item image {
+  width: 100rpx;
+  height: 100rpx;
+  margin: 0 auto;
+}
+.nav .item .title {
+  margin-top: 20rpx;
+}
+
+/*
+ * 提示信息
+ */
+.tips-container .tips-item {
+  padding: 0 10rpx;
+}

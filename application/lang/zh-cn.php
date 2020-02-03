@@ -26,6 +26,7 @@ return array(
             '1.5.0' => array('value' => '1.5.0', 'name' => 'v1.5.0'),
             '1.6.0' => array('value' => '1.6.0', 'name' => 'v1.6.0'),
             '1.7.0' => array('value' => '1.7.0', 'name' => 'v1.7.0'),
+            '1.8.0' => array('value' => '1.8.0', 'name' => 'v1.8.0'),
         ),
 
     // 用户注册类型列表
@@ -99,7 +100,7 @@ return array(
     'common_order_admin_status'         =>  array(
             0 => array('id' => 0, 'name' => '待确认', 'checked' => true),
             1 => array('id' => 1, 'name' => '已确认/待支付'),
-            2 => array('id' => 2, 'name' => '已支付/待发货'),
+            2 => array('id' => 2, 'name' => '已支付/待发货/待取货'),
             3 => array('id' => 3, 'name' => '已发货/待收货'),
             4 => array('id' => 4, 'name' => '已完成'),
             5 => array('id' => 5, 'name' => '已取消'),
@@ -336,6 +337,15 @@ return array(
     // 商品评分业务类型
     'common_goods_rating_business_type_list' =>  array(
             'order' => '订单',
+        ),
+
+    // 站点类型
+    'common_site_type_list' =>  array(
+            0 => array('value' => 0, 'name' => '销售'),
+            1 => array('value' => 1, 'name' => '展示'),
+            2 => array('value' => 2, 'name' => '自提'),
+            3 => array('value' => 3, 'name' => '虚拟销售'),
+            4 => array('value' => 4, 'name' => '销售+自提'),
         ),
 
 

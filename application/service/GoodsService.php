@@ -284,13 +284,13 @@ class GoodsService
             {
                 // 商品处理前钩子
                 $hook_name = 'plugins_service_goods_handle_begin';
-                $ret = Hook::listen($hook_name, [
+                $ret = HookReturnHandle(Hook::listen($hook_name, [
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
                     'params'        => &$params,
                     'goods'         => &$v,
                     'goods_id'      => isset($v['id']) ? $v['id'] : 0,
-                ]);
+                ]));
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
                     return $ret;
@@ -351,6 +351,12 @@ class GoodsService
                 if(isset($v['content_web']))
                 {
                     $v['content_web'] = ResourcesService::ContentStaticReplace($v['content_web'], 'get');
+                }
+
+                // 虚拟商品展示数据
+                if(isset($v['fictitious_goods_value']))
+                {
+                    $v['fictitious_goods_value'] = ResourcesService::ContentStaticReplace($v['fictitious_goods_value'], 'get');
                 }
 
                 // 产地
@@ -421,13 +427,13 @@ class GoodsService
 
                 // 商品处理后钩子
                 $hook_name = 'plugins_service_goods_handle_end';
-                $ret = Hook::listen($hook_name, [
+                $ret = HookReturnHandle(Hook::listen($hook_name, [
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
                     'params'        => &$params,
                     'goods'         => &$v,
                     'goods_id'      => isset($v['id']) ? $v['id'] : 0,
-                ]);
+                ]));
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
                     return $ret;
@@ -1109,6 +1115,7 @@ class GoodsService
 
         // 编辑器内容
         $content_web = empty($params['content_web']) ? '' : ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['content_web']), 'add');
+        $fictitious_goods_value = empty($params['fictitious_goods_value']) ? '' : ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['fictitious_goods_value']), 'add');
 
         // 基础数据
         $data = [
@@ -1135,18 +1142,19 @@ class GoodsService
             'seo_desc'                  => empty($params['seo_desc']) ? '' : $params['seo_desc'],
             'is_exist_many_spec'        => empty($specifications['data']['title']) ? 0 : 1,
             'spec_base'                 => empty($specifications_base['data']) ? '' : json_encode($specifications_base['data']),
+            'fictitious_goods_value'       => $fictitious_goods_value,
         ];
 
         // 商品保存处理钩子
         $hook_name = 'plugins_service_goods_save_handle';
-        $ret = Hook::listen($hook_name, [
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => &$params,
             'data'          => &$data,
             'spec'          => $specifications['data'],
             'goods_id'      => isset($params['id']) ? intval($params['id']) : 0,
-        ]);
+        ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
             return $ret;
@@ -2030,13 +2038,13 @@ class GoodsService
 
             // 商品获取规格钩子
             $hook_name = 'plugins_service_goods_spec_base';
-            $ret = Hook::listen($hook_name, [
+            $ret = HookReturnHandle(Hook::listen($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
                 'params'        => $params,
                 'data'          => &$data,
                 'goods_id'      => $goods_id
-            ]);
+            ]));
             if(isset($ret['code']) && $ret['code'] != 0)
             {
                 return $ret;
@@ -2141,13 +2149,13 @@ class GoodsService
 
                 // 商品获取规格类型钩子
                 $hook_name = 'plugins_service_goods_spec_type';
-                $ret = Hook::listen($hook_name, [
+                $ret = HookReturnHandle(Hook::listen($hook_name, [
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
                     'params'        => $params,
                     'data'          => &$data,
                     'goods_id'      => $goods_id
-                ]);
+                ]));
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
                     return $ret;
@@ -2392,6 +2400,7 @@ class GoodsService
         Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
+            'params'        => $params,
             'data'          => &$data,
         ]);
 

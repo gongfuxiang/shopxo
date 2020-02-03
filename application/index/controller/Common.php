@@ -213,6 +213,12 @@ class Common extends Controller
         // 公共参数
         $this->assign('params', $this->params);
 
+        // 站点类型
+        $this->assign('common_site_type', MyC('common_site_type', 0, true));
+
+        // 预约模式
+        $this->assign('common_order_is_booking', MyC('common_order_is_booking', 0, true));
+
         // 商店信息
         $this->assign('common_customer_store_tel', MyC('common_customer_store_tel'));
         $this->assign('common_customer_store_email', MyC('common_customer_store_email'));
@@ -223,7 +229,7 @@ class Common extends Controller
         $default_theme = strtolower(MyC('common_default_theme', 'default', true));
         $this->assign('default_theme', $default_theme);
 
-        // 当前操作名称, 兼容插件模块名称        
+        // 当前操作名称, 兼容插件模块名称
         $module_name = strtolower(request()->module());
         $controller_name = strtolower(request()->controller());
         $action_name = strtolower(request()->action());
@@ -305,6 +311,9 @@ class Common extends Controller
         $this->assign('home_site_icp', MyC('home_site_icp'));
         $this->assign('home_site_security_record_name', MyC('home_site_security_record_name'));
         $this->assign('home_site_security_record_url', MyC('home_site_security_record_url'));
+
+        // 默认不加载百度地图api
+        $this->assign('is_load_baidu_map_api', 0);
     }
 
     /**
@@ -354,9 +363,9 @@ class Common extends Controller
             // 是否ajax请求
             if(IS_AJAX)
             {
-                die(json_encode(DataReturn(MyC('home_site_close_reason', '网站维护中...'), -10000)));
+                exit(json_encode(DataReturn(MyC('home_site_close_reason', '网站维护中...'), -10000)));
             } else {
-                die('<div style="text-align: center;margin-top: 15%;font-size: 18px;color: #f00;">'.MyC('home_site_close_reason', '网站维护中...', true).'</div>');
+                exit('<div style="text-align: center;margin-top: 15%;font-size: 18px;color: #f00;">'.MyC('home_site_close_reason', '网站维护中...', true).'</div>');
             }
         }
     }

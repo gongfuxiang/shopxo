@@ -1,0 +1,48 @@
+/*
+ * 等级信息
+ */
+.panel-item .panel-title {
+  background: #fff;
+  font-weight: bold;
+  padding: 15rpx;
+  border-bottom: 2px solid #eee;
+  font-size: 34rpx;
+}
+.panel-item .panel-content .item {
+    padding: 20rpx 0;
+}
+.panel-item .panel-content .item:last-child {
+  border: 0;
+}
+.panel-item .panel-content .item .title {
+    width: 25%;
+    padding-left: 20rpx;
+}
+.panel-item .panel-content .item .content {
+    width: calc(75% - 50rpx);
+    padding-left: 20rpx;
+    min-height: 46rpx;
+}
+.panel-item .panel-content .item view {
+    line-height: 46rpx;
+}
+.panel-item .panel-content .item .images image {
+  width: 60rpx;
+  height: 60rpx;
+}
+
+
+/*
+ * 等级介绍
+ */
+.user-center-level-desc {
+  padding: 0 10rpx;
+}
+.user-center-level-desc .tips-desc {
+  background: #def2fd;
+  border: 1px solid #cfeeff;
+  color: #1490d2;
+  padding: 10rpx;
+  font-size: 26rpx;
+  border-radius: 2px;
+}

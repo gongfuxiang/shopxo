@@ -27,7 +27,7 @@
             </div>
 
             <div class="am-form-group">
-                <label>{{$data.common_app_is_enable_search.name}}</label>
+                <label>{{$data.common_app_is_enable_search.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_enable_search.describe}}</span></label>
                 <select name="{{$data.common_app_is_enable_search.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_enable_search.error_tips}}" required>
                     {{foreach $common_is_text_list as $v}}
                         <option value="{{$v.id}}" {{if isset($data['common_app_is_enable_search']['value']) and $data['common_app_is_enable_search']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
@@ -35,7 +35,7 @@
                 </select>
             </div>
             <div class="am-form-group">
-                <label>{{$data.common_app_is_enable_answer.name}}</label>
+                <label>{{$data.common_app_is_enable_answer.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_enable_answer.describe}}</span></label>
                 <select name="{{$data.common_app_is_enable_answer.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_enable_answer.error_tips}}" required>
                     {{foreach $common_is_text_list as $v}}
                         <option value="{{$v.id}}" {{if isset($data['common_app_is_enable_answer']['value']) and $data['common_app_is_enable_answer']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
@@ -48,23 +48,6 @@
                 <select name="{{$data.common_app_is_online_service.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_online_service.error_tips}}" required>
                     {{foreach $common_is_text_list as $v}}
                         <option value="{{$v.id}}" {{if isset($data['common_app_is_online_service']['value']) and $data['common_app_is_online_service']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-
-            <div class="am-form-group">
-                <label>{{$data.common_is_app_inside_close_header.name}}<span class="am-form-group-label-tips">{{$data.common_is_app_inside_close_header.describe}}</span></label>
-                <select name="{{$data.common_is_app_inside_close_header.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_app_inside_close_header.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['common_is_app_inside_close_header']['value']) and $data['common_is_app_inside_close_header']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-            <div class="am-form-group">
-                <label>{{$data.common_is_app_inside_close_footer.name}}<span class="am-form-group-label-tips">{{$data.common_is_app_inside_close_footer.describe}}</span></label>
-                <select name="{{$data.common_is_app_inside_close_footer.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_app_inside_close_footer.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['common_is_app_inside_close_footer']['value']) and $data['common_is_app_inside_close_footer']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
                 </select>
             </div>
@@ -108,4 +91,4 @@
         
 <!-- footer start -->
 {{include file="public/footer" /}}
-<!-- footer end
+<!-- footer end  -->

@@ -33,6 +33,7 @@ Page({
 
     goods_video_is_autoplay: false,
     common_app_is_use_mobile_detail: 1,
+    common_is_goods_detail_show_photo: 0,
 
     popup_share_status: false,
     common_app_is_online_service: 0,
@@ -66,9 +67,13 @@ Page({
     // 购物车快捷导航
     quick_nav_cart_count: 0,
 
-    // 是否展示型
-    common_is_exhibition_mode: 0,
+    // 站点模式
+    common_site_type: 0,
     customer_service_tel: null,
+
+    // 优惠劵领取
+    temp_coupon_receive_index: null,
+    temp_coupon_receive_value: null,
   },
 
   onLoad(params) {
@@ -141,6 +146,7 @@ Page({
 
               show_field_price_text: (data.goods.show_field_price_text == '销售价') ? null : (data.goods.show_field_price_text.replace(/<[^>]+>/g, "") || null),
               common_app_is_use_mobile_detail: data.common_app_is_use_mobile_detail || 0,
+              common_is_goods_detail_show_photo: data.common_is_goods_detail_show_photo || 0,
               common_app_is_online_service: data.common_app_is_online_service || 0,
 
               common_app_is_limitedtimediscount: data.common_app_is_limitedtimediscount || 0,
@@ -184,9 +190,9 @@ Page({
               }
             }
 
-            // 是否展示型
-            var common_is_exhibition_mode = data.common_is_exhibition_mode || 0;
-            if (common_is_exhibition_mode == 1) {
+            // 站点模式 - 是否展示型
+            var common_site_type = data.common_site_type || 0;
+            if (common_site_type == 1) {
               nav_submit_text = data.common_is_exhibition_mode_btn_text || '立即咨询';
             }
 
@@ -194,7 +200,7 @@ Page({
             this.setData({
               nav_submit_text: nav_submit_text,
               nav_submit_is_disabled: nav_submit_is_disabled,
-              common_is_exhibition_mode: common_is_exhibition_mode,
+              common_site_type: common_site_type,
               customer_service_tel: data.customer_service_tel || null,
             });
           } else {
@@ -288,77 +294,84 @@ Page({
   // 收藏事件
   goods_favor_event(e)
   {
-    var user = app.get_user_cache_info(this, 'goods_favor_event');
-    // 用户未绑定用户则转到登录页面
-    if (app.user_is_need_login(user)) {
-      wx.navigateTo({
-        url: "/pages/login/login?event_callback=init"
-      });
-      return false;
-    } else {
-      wx.showLoading({title: '处理中...'});
+    var user = app.get_user_info(this, 'goods_favor_event');
+    if (user != false) {
+      // 用户未绑定用户则转到登录页面
+      if (app.user_is_need_login(user)) {
+        wx.navigateTo({
+          url: "/pages/login/login?event_callback=goods_favor_event"
+        });
+        return false;
+      } else {
+        wx.showLoading({title: '处理中...'});
 
-      wx.request({
-        url: app.get_request_url('favor', 'goods'),
-        method: 'POST',
-        data: {"id": this.data.goods.id},
-        dataType: 'json',
-        success: (res) => {
-          wx.hideLoading();
-          if(res.data.code == 0)
-          {
-            var status = (this.data.goods.is_favor == 1) ? 0 : 1;
-            this.setData({
-              'goods.is_favor': status,
-              goods_favor_text: (status == 1) ? '已收藏' : '收藏',
-              goods_favor_icon: '/images/goods-detail-favor-icon-'+status+'.png'
-            });
-            app.showToast(res.data.msg, "success");
-          } else {
-            app.showToast(res.data.msg);
+        wx.request({
+          url: app.get_request_url('favor', 'goods'),
+          method: 'POST',
+          data: {"id": this.data.goods.id},
+          dataType: 'json',
+          success: (res) => {
+            wx.hideLoading();
+            if(res.data.code == 0)
+            {
+              this.setData({
+                'goods.is_favor': res.data.data.status,
+                goods_favor_text: res.data.data.text,
+                goods_favor_icon: '/images/goods-detail-favor-icon-'+res.data.data.status+'.png'
+              });
+              app.showToast(res.data.msg, "success");
+            } else {
+              if (app.is_login_check(res.data, this, 'goods_favor_event')) {
+                app.showToast(res.data.msg);
+              }
+            }
+          },
+          fail: () => {
+            wx.hideLoading();
+
+            app.showToast('服务器请求出错');
           }
-        },
-        fail: () => {
-          wx.hideLoading();
-
-          app.showToast('服务器请求出错');
-        }
-      });
+        });
+      }
     }
   },
 
   // 加入购物车事件
-  goods_cart_event(e, spec) {
-    var user = app.get_user_cache_info(this, 'goods_cart_event');
-    // 用户未绑定用户则转到登录页面
-    if (app.user_is_need_login(user)) {
-      wx.navigateTo({
-        url: "/pages/login/login?event_callback=init"
-      });
-      return false;
-    } else {
-      wx.showLoading({title: '处理中...' });
-      wx.request({
-        url: app.get_request_url('save', 'cart'),
-        method: 'POST',
-        data: { "goods_id": this.data.goods.id, "stock": this.data.temp_buy_number, "spec": JSON.stringify(spec) },
-        dataType: 'json',
-        success: (res) => {
-          wx.hideLoading();
-          if (res.data.code == 0) {
-            this.setData({ quick_nav_cart_count: res.data.data});
-            this.popup_close_event();
-            app.showToast(res.data.msg, "success");
-          } else {
-            app.showToast(res.data.msg);
-          }
-        },
-        fail: () => {
-          wx.hideLoading();
+  goods_cart_event(spec) {
+    var user = app.get_user_info(this, 'goods_buy_confirm_event');
+    if (user != false) {
+      // 用户未绑定用户则转到登录页面
+      if (app.user_is_need_login(user)) {
+        wx.navigateTo({
+          url: "/pages/login/login?event_callback=goods_buy_confirm_event"
+        });
+        return false;
+      } else {
+        wx.showLoading({title: '处理中...' });
+        wx.request({
+          url: app.get_request_url('save', 'cart'),
+          method: 'POST',
+          data: { "goods_id": this.data.goods.id, "stock": this.data.temp_buy_number, "spec": JSON.stringify(spec) },
+          dataType: 'json',
+          success: (res) => {
+            wx.hideLoading();
+            if (res.data.code == 0) {
+              this.setData({ quick_nav_cart_count: res.data.data});
+              this.popup_close_event();
+              app.showToast(res.data.msg, "success");
+            } else {
+              if (app.is_login_check(res.data, this, 'goods_buy_confirm_event')) {
+                app.showToast(res.data.msg);
+              }
+            }
+          },
+          fail: () => {
+            wx.hideLoading();
 
-          app.showToast('服务器请求出错');
-        }
-      });
+            app.showToast('服务器请求出错');
+          }
+        });
+      }
     }
   },
 
@@ -590,61 +603,63 @@ Page({
 
   // 确认
   goods_buy_confirm_event(e) {
-    var user = app.get_user_cache_info(this, 'goods_buy_confirm_event');
-    // 用户未绑定用户则转到登录页面
-    if (app.user_is_need_login(user)) {
-      wx.navigateTo({
-        url: "/pages/login/login?event_callback=init"
-      });
-      return false;
-    } else {
-      // 属性
-      var temp_data = this.data.goods_specifications_choose;
-      var sku_count = temp_data.length;
-      var active_count = 0;
-      var spec = [];
-      if(sku_count > 0)
-      {
-        for(var i in temp_data)
+    var user = app.get_user_info(this, 'goods_buy_confirm_event');
+    if (user != false) {
+      // 用户未绑定用户则转到登录页面
+      if (app.user_is_need_login(user)) {
+        wx.navigateTo({
+          url: "/pages/login/login?event_callback=goods_buy_confirm_event"
+        });
+        return false;
+      } else {
+        // 属性
+        var temp_data = this.data.goods_specifications_choose;
+        var sku_count = temp_data.length;
+        var active_count = 0;
+        var spec = [];
+        if(sku_count > 0)
         {
-          for(var k in temp_data[i]['value'])
+          for(var i in temp_data)
           {
-            if((temp_data[i]['value'][k]['is_active'] || null) != null)
+            for(var k in temp_data[i]['value'])
             {
-              active_count++;
-              spec.push({"type": temp_data[i]['name'], "value": temp_data[i]['value'][k]['name']});
+              if((temp_data[i]['value'][k]['is_active'] || null) != null)
+              {
+                active_count++;
+                spec.push({"type": temp_data[i]['name'], "value": temp_data[i]['value'][k]['name']});
+              }
             }
           }
+          if(active_count < sku_count)
+          {
+            app.showToast('请选择属性');
+            return false;
+          }
         }
-        if(active_count < sku_count)
-        {
-          app.showToast('请选择属性');
-          return false;
+        
+        // 操作类型
+        switch (this.data.buy_event_type) {
+          case 'buy' :
+            // 进入订单确认页面
+            var data = {
+              "buy_type": "goods",
+              "goods_id": this.data.goods.id,
+              "stock": this.data.temp_buy_number,
+              "spec": JSON.stringify(spec)
+            };
+            wx.navigateTo({
+              url: '/pages/buy/buy?data=' + JSON.stringify(data)
+            });
+            this.popup_close_event();
+            break;
+
+          case 'cart' :
+            this.goods_cart_event(spec);
+            break;
+
+          default :
+            app.showToast("操作事件类型有误");
         }
-      }
-      
-      // 操作类型
-      switch (this.data.buy_event_type) {
-        case 'buy' :
-          // 进入订单确认页面
-          var data = {
-            "buy_type": "goods",
-            "goods_id": this.data.goods.id,
-            "stock": this.data.temp_buy_number,
-            "spec": JSON.stringify(spec)
-          };
-          wx.navigateTo({
-            url: '/pages/buy/buy?data=' + JSON.stringify(data)
-          });
-          this.popup_close_event();
-          break;
-
-        case 'cart' :
-          this.goods_cart_event(e, spec);
-          break;
-
-        default :
-          app.showToast("操作事件类型有误");
       }
     }
   },
@@ -774,72 +789,32 @@ Page({
 
   // 商品海报分享
   poster_event() {
-    var user = app.get_user_cache_info(this, 'poster_event');
-    // 用户未绑定用户则转到登录页面
-    if (app.user_is_need_login(user)) {
-      wx.navigateTo({
-        url: "/pages/login/login?event_callback=init"
-      });
-      return false;
-    } else {
-      wx.showLoading({ title: '生成中...' });
-      wx.request({
-        url: app.get_request_url('poster', 'goods'),
-        method: 'POST',
-        data: { "goods_id": this.data.goods.id },
-        dataType: 'json',
-        success: (res) => {
-          wx.hideLoading();
-          if (res.data.code == 0) {
-            wx.previewImage({
-              current: res.data.data,
-              urls: [res.data.data]
-            });
-          } else {
-            app.showToast(res.data.msg);
-          }
-        },
-        fail: () => {
-          wx.hideLoading();
-          app.showToast("服务器请求出错");
-        }
-      });
-    }
-  },
-
-  // 优惠劵领取事件
-  coupon_receive_event(e) {
-    var user = app.get_user_cache_info(this, "coupon_receive_event");
-    // 用户未绑定用户则转到登录页面
-    if (app.user_is_need_login(user)) {
-      wx.redirectTo({
-        url: "/pages/login/login?event_callback=coupon_receive_event"
-      });
-      return false;
-    } else {
-      var self = this;
-      var index = e.currentTarget.dataset.index;
-      var value = e.currentTarget.dataset.value;
-      var temp_list = this.data.plugins_coupon_data.data;
-      if (temp_list[index]['is_operable'] != 0) {
-        wx.showLoading({ title: "处理中..." });
+    var user = app.get_user_info(this, 'poster_event');
+    if (user != false) {
+      // 用户未绑定用户则转到登录页面
+      if (app.user_is_need_login(user)) {
+        wx.navigateTo({
+          url: "/pages/login/login?event_callback=poster_event"
+        });
+        return false;
+      } else {
+        wx.showLoading({ title: '生成中...' });
         wx.request({
-          url: app.get_request_url("receive", "coupon"),
-          method: "POST",
-          data: { "coupon_id": value },
-          dataType: "json",
-          header: { 'content-type': 'application/x-www-form-urlencoded' },
-          success: res => {
+          url: app.get_request_url('goodsposter', 'distribution', 'distribution'),
+          method: 'POST',
+          data: { "goods_id": this.data.goods.id },
+          dataType: 'json',
+          success: (res) => {
             wx.hideLoading();
             if (res.data.code == 0) {
-              app.showToast(res.data.msg, "success");
-              if (self.data.plugins_coupon_data.base != null && self.data.plugins_coupon_data.base.is_repeat_receive != 1) {
-                temp_list[index]['is_operable'] = 0;
-                temp_list[index]['is_operable_name'] = '已领取';
-                self.setData({ 'plugins_coupon_data.data': temp_list });
-              }
+              wx.previewImage({
+                current: res.data.data,
+                urls: [res.data.data]
+              });
             } else {
-              app.showToast(res.data.msg);
+              if (app.is_login_check(res.data, this, 'poster_event')) {
+                app.showToast(res.data.msg);
+              }
             }
           },
           fail: () => {
@@ -851,6 +826,64 @@ Page({
     }
   },
 
+  // 优惠劵领取事件
+  coupon_receive_event(e) {
+    // 参数处理
+    if((e || null) == null)
+    {
+      var index = this.data.temp_coupon_receive_index;
+      var value = this.data.temp_coupon_receive_value;
+    } else {
+      var index = e.currentTarget.dataset.index;
+      var value = e.currentTarget.dataset.value;
+      this.setData({temp_coupon_receive_index: index, temp_coupon_receive_value: value});
+    }
+
+    // 登录校验
+    var user = app.get_user_info(this, 'coupon_receive_event');
+    if (user != false) {
+      // 用户未绑定用户则转到登录页面
+      if (app.user_is_need_login(user)) {
+        wx.navigateTo({
+          url: "/pages/login/login?event_callback=coupon_receive_event"
+        });
+        return false;
+      } else {
+        var self = this;
+        var temp_list = this.data.plugins_coupon_data.data;
+        if (temp_list[index]['is_operable'] != 0) {
+          wx.showLoading({ title: "处理中..." });
+          wx.request({
+            url: app.get_request_url("receive", "coupon", "coupon"),
+            method: "POST",
+            data: { "coupon_id": value },
+            dataType: "json",
+            header: { 'content-type': 'application/x-www-form-urlencoded' },
+            success: res => {
+              wx.hideLoading();
+              if (res.data.code == 0) {
+                app.showToast(res.data.msg, "success");
+                if (self.data.plugins_coupon_data.base != null && self.data.plugins_coupon_data.base.is_repeat_receive != 1) {
+                  temp_list[index]['is_operable'] = 0;
+                  temp_list[index]['is_operable_name'] = '已领取';
+                  self.setData({ 'plugins_coupon_data.data': temp_list });
+                }
+              } else {
+                if (app.is_login_check(res.data, self, 'coupon_receive_event')) {
+                  app.showToast(res.data.msg);
+                }
+              }
+            },
+            fail: () => {
+              wx.hideLoading();
+              app.showToast("服务器请求出错");
+            }
+          });
+        }
+      }
+    }
+  },
+
   // 展示型事件
   exhibition_submit_event(e) {
     app.call_tel(this.data.customer_service_tel);
@@ -858,7 +891,7 @@ Page({
 
   // 自定义分享
   onShareAppMessage() {
-    var user = app.get_user_cache_info(this, 'goods_favor_event') || null;
+    var user = app.get_user_cache_info() || null;
     var user_id = (user != null && (user.id || null) != null) ? user.id : 0;
     return {
       title: app.data.application_title +'-'+ this.data.goods.title,
@@ -866,5 +899,4 @@ Page({
       path: '/pages/goods-detail/goods-detail?goods_id=' + this.data.goods.id +'&referrer='+user_id
     };
   },
-  
 });

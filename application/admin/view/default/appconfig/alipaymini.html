@@ -1,0 +1,41 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- table nav start -->
+        {{include file="appconfig/nav" /}}
+        <!-- table nav end -->
+
+        <!-- tips -->
+        <div class="am-alert am-alert-warning" data-am-alert>
+            <p>
+                <span>PS：如【APP/小程序】中开启（开启在线客服），则以下配置必填 [企业编码] 和 [聊天窗编码]</span>
+                <a href="https://opendocs.alipay.com/mini/component/contact-button" target="_blank" class="am-margin-left-sm">配置教程 <i class="am-icon-external-link"></i></a>
+            </p>
+        </div>
+
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/appconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appconfig/index', ['nav_type'=>'alipaymini'])}}" enctype="multipart/form-data">
+            <div class="am-form-group">
+                <label>{{$data.common_app_mini_alipay_tnt_inst_id.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_alipay_tnt_inst_id.describe}}</span></label>
+                <input type="text" name="{{$data.common_app_mini_alipay_tnt_inst_id.only_tag}}" placeholder="{{$data.common_app_mini_alipay_tnt_inst_id.name}}" data-validation-message="{{$data.common_app_mini_alipay_tnt_inst_id.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_tnt_inst_id.value}}"{{/if}} />
+            </div>
+            <div class="am-form-group">
+                <label>{{$data.common_app_mini_alipay_scene.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_alipay_scene.describe}}</span></label>
+                <input type="text" name="{{$data.common_app_mini_alipay_scene.only_tag}}" placeholder="{{$data.common_app_mini_alipay_scene.name}}" data-validation-message="{{$data.common_app_mini_alipay_scene.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_scene.value}}"{{/if}} />
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing">
+                <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

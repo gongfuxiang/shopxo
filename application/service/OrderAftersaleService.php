@@ -865,12 +865,12 @@ class OrderAftersaleService
 
         // 订单售后审核处理完毕钩子
         $hook_name = 'plugins_service_order_aftersale_audit_handle_end';
-        $ret = Hook::listen($hook_name, [
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => $params,
             'order_id'      => $order['data']['id'],
-        ]);
+        ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
             Db::rollback();
@@ -912,10 +912,12 @@ class OrderAftersaleService
         // 操作退款
         $pay_name = 'payment\\'.$pay_log['payment'];
         $pay_params = [
+            'order_id'          => $order['id'],
             'order_no'          => $order['order_no'],
             'trade_no'          => $pay_log['trade_no'],
             'pay_price'         => $order['pay_price'],
             'refund_price'      => $aftersale['price'],
+            'client_type'       => $order['client_type'],
             'refund_reason'     => $order['order_no'].'订单退款'.$aftersale['price'].'元',
         ];
         $ret = (new $pay_name($payment[0]['config']))->Refund($pay_params);

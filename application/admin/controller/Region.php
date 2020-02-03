@@ -35,9 +35,6 @@ class Region extends Common
 
 		// 登录校验
 		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
 	}
 
 	/**
@@ -49,6 +46,9 @@ class Region extends Common
      */
 	public function Index()
 	{
+		// 权限校验
+		$this->IsPower();
+
 		// 是否启用
 		$this->assign('common_is_enable_list', lang('common_is_enable_list'));
 
@@ -64,6 +64,9 @@ class Region extends Common
 	 */
 	public function GetNodeSon()
 	{
+		// 权限校验
+		$this->IsPower();
+
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
@@ -83,6 +86,9 @@ class Region extends Common
 	 */
 	public function Save()
 	{
+		// 权限校验
+		$this->IsPower();
+
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
@@ -102,6 +108,9 @@ class Region extends Common
 	 */
 	public function Delete()
 	{
+		// 权限校验
+		$this->IsPower();
+		
 		// 是否ajax
 		if(!IS_AJAX)
 		{
@@ -113,5 +122,31 @@ class Region extends Common
 		$params['admin'] = $this->admin;
 		return RegionService::RegionDelete($params);
 	}
+
+	/**
+     * 获取地区节点数据
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-21
+     * @desc    description
+     */
+    public function Node()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            $this->error('非法访问');
+        }
+
+        // 获取地区
+        $params = [
+            'where' => [
+                'pid'   => intval(input('pid', 0)),
+            ],
+        ];
+        $data = RegionService::RegionNode($params);
+        return DataReturn('操作成功', 0, $data);
+    }
 }
 ?>

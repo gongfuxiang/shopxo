@@ -189,7 +189,7 @@ class ResourcesService
         {
             // 附件上传后处理钩子
             $hook_name = 'plugins_service_attachment_handle_end';
-            $ret = Hook::listen($hook_name, [
+            Hook::listen($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
                 'params'        => &$params,
@@ -240,11 +240,11 @@ class ResourcesService
             {
                 // 附件列表处理前钩子
                 $hook_name = 'plugins_service_attachment_list_handle_begin';
-                $ret = Hook::listen($hook_name, [
+                $ret = HookReturnHandle(Hook::listen($hook_name, [
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
                     'data'          => &$v,
-                ]);
+                ]));
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
                     return $ret;
@@ -256,11 +256,11 @@ class ResourcesService
 
                 // 附件列表处理后钩子
                 $hook_name = 'plugins_service_attachment_list_handle_end';
-                $ret = Hook::listen($hook_name, [
+                $ret = HookReturnHandle(Hook::listen($hook_name, [
                     'hook_name'     => $hook_name,
                     'is_backend'    => true,
                     'data'          => &$v,
-                ]);
+                ]));
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
                     return $ret;
@@ -454,6 +454,43 @@ class ResourcesService
             }
         }
         return $files;
+    }
+
+    /**
+     * 小程序富文本标签处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-01-04
+     * @desc    description
+     * @param   [string]          $content [需要处理的富文本内容]
+     */
+    public static function ApMiniRichTextContentHandle($content)
+    {
+        // 标签处理，兼容小程序rich-text
+        $search = [
+            '<img ',
+            '<section',
+            '/section>',
+            '<p style="',
+            '<p>',
+            '<div>',
+            '<table',
+            '<tr',
+            '<td',
+        ];
+        $replace = [
+            '<img style="max-width:100%;margin:0;padding:0;display:block;" ',
+            '<div',
+            '/div>',
+            '<p style="margin:0;',
+            '<p style="margin:0;">',
+            '<div style="margin:0;">',
+            '<table style="width:100%;margin:0px;border-collapse:collapse;border-color:#ddd;border-style:solid;border-width:0 1px 1px 0;"',
+            '<tr style="border-top:1px solid #ddd;"',
+            '<td style="margin:0;padding:5px;border-left:1px solid #ddd;"',
+        ];
+        return str_replace($search, $replace, $content);
     }
 }
 ?>

@@ -56,7 +56,7 @@ class Wechat
     {
         // 登录授权session
         $login_key = 'wechat_user_login_'.$openid;
-        $session_data = GS($login_key);
+        $session_data = cache($login_key);
         if($session_data === false)
         {
             return 'session key不存在';
@@ -74,21 +74,20 @@ class Wechat
             return 'openssl不支持';
         }
 
-        $aes_cipher = base64_decode($encrypted_data);
-        $result = openssl_decrypt($aes_cipher, "AES-128-CBC", base64_decode($session_data['session_key']), 1, base64_decode($iv));
+        $result = openssl_decrypt(base64_decode($encrypted_data), "AES-128-CBC", base64_decode($session_data['session_key']), 1, base64_decode($iv));
         $data = json_decode($result, true);
         if($data == NULL)
         {
             return '请重试！';
         }
-        if($data['watermark']['appid'] != $this->_appid )
+        if($data['watermark']['appid'] != $this->_appid)
         {
             return 'appid不匹配';
         }
 
         // 缓存存储
         $data_key = 'wechat_user_info_'.$openid;
-        SS($data_key, $data);
+        cache($data_key, $data);
 
         return $data;
     }
@@ -109,11 +108,11 @@ class Wechat
         $result = $this->HttpRequestGet($url);
         if(!empty($result['openid']))
         {
-            // 从缓存获取用户信息
+            // 缓存SessionKey
             $key = 'wechat_user_login_'.$result['openid'];
 
             // 缓存存储
-            SS($key, $result);
+            cache($key, $result);
             return $result['openid'];
         }
         return false;
@@ -125,8 +124,9 @@ class Wechat
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2018-01-02T19:53:10+0800
-     * @param    [array]            $params [输入参数]
-     * @return   [string]                   [成功返回文件流, 失败则空]
+     * @param    [string]  $params['page']      [页面地址]
+     * @param    [string]  $params['scene']     [参数]
+     * @return   [string]                       [成功返回文件流, 失败则空]
      */
     public function MiniQrCodeCreate($params)
     {
@@ -190,7 +190,7 @@ class Wechat
     {
         // 缓存key
         $key = $this->_appid.'_access_token';
-        $result = GS($key);
+        $result = cache($key);
         if($result !== false)
         {
             if($result['expires_in'] > time())
@@ -206,7 +206,7 @@ class Wechat
         {
             // 缓存存储
             $result['expires_in'] += time();
-            SS($key, $result);
+            cache($key, $result);
             return $result['access_token'];
         }
         return false;

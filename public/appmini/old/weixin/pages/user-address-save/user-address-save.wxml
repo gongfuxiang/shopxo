@@ -13,14 +13,16 @@
                 </picker>
             </view>
             <view class="section fl br-r">
-                <picker name="city" bindchange="select_city" value="{{city_value}}" range="{{city_list}}" range-key="name">
+                <picker wx:if="{{(province_id || null) != null}}" name="city" bindchange="select_city" value="{{city_value}}" range="{{city_list}}" range-key="name">
                     <view class="name {{(city_value == null) ? 'cr-888' : '' }}">{{city_list[city_value].name || default_city}}</view>
                 </picker>
+                <text wx:else class="cr-888" bindtap="region_select_error_event" data-value="请先选择省份">请先选择省份</text>
             </view>
             <view class="section fl">
-                <picker name="county" bindchange="select_county" value="{{county_value}}" range="{{county_list}}" range-key="name">
+                <picker wx:if="{{(city_id || null) != null}}" name="county" bindchange="select_county" value="{{county_value}}" range="{{county_list}}" range-key="name">
                     <view class="name {{(county_value == null) ? 'cr-888' : '' }}">{{county_list[county_value].name || default_county}}</view>
                 </picker>
+                <text wx:else class="cr-888" bindtap="region_select_error_event" data-value="请先选择城市">请先选择城市</text>
             </view>
         </view>
         <!-- end地区选择 -->

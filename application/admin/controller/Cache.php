@@ -68,6 +68,7 @@ class Cache extends Common
 		// 数据 temp
 		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'cache');
 		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'temp');
+		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'data');
 		return $this->success('更新成功');
 	}
 

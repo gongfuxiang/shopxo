@@ -1,5 +1,0 @@
-Component({
-  props: {
-    className: ''
-  }
-});

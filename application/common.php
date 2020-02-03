@@ -12,6 +12,30 @@
 // 应用公共文件
 
 /**
+ * 钩子返回数据处理，是否存在错误
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-12-02
+ * @desc    description
+ * @param   [array]          $data [钩子返回的数据]
+ */
+function HookReturnHandle($data)
+{
+    if(!empty($data) && is_array($data))
+    {
+        foreach($data as $v)
+        {
+            if(is_array($v) && isset($v['code']) && $v['code'] != 0)
+            {
+                return $v;
+            }
+        }
+    }
+    return DataReturn('无钩子信息', 0);
+}
+
+/**
  * 附件地址处理
  * @author  Devil
  * @blog    http://gong.gg/
@@ -76,7 +100,7 @@ function PathToParams($key = null, $default = null, $path = '')
 }
 
 /**
- * 调用插件方法 - 获取插件配置信息
+ * 调用插件服务层方法 - 获取插件配置信息
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  1.0.0
@@ -94,8 +118,15 @@ function CallPluginsData($plugins, $attachment_field = [], $service_name = '', $
         return DataReturn('插件状态异常['.$plugins.']', -1);
     }
 
+    // 查看是否存在基础服务层并且定义获取基础配置方法
+    $plugins_class = 'app\plugins\\'.$plugins.'\service\BaseService';
+    if(class_exists($plugins_class) && method_exists($plugins_class, 'BaseConfig'))
+    {
+        return $plugins_class::BaseConfig();
+    }
+
     // 未指定附件字段则自动去获取
-    $attachment = [];
+    $attachment = $attachment_field;
     if(empty($attachment_field) && !empty($attachment_property))
     {
         // 类自定义或者默认两个类
@@ -117,7 +148,7 @@ function CallPluginsData($plugins, $attachment_field = [], $service_name = '', $
 }
 
 /**
- * 调用插件方法 - 访问为静态
+ * 调用插件服务层方法 - 访问为静态
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  1.0.0
@@ -273,8 +304,16 @@ function StrToAscii($str)
     $change_after = '';
     if(!empty($str))
     {
-        $str = mb_convert_encoding($str, 'GB2312');
-        for($i=0;$i<strlen($str);$i++){
+        // 编码处理
+        $encode = mb_detect_encoding($str);
+        if($encode != 'UTF-8')
+        {
+            $str = mb_convert_encoding($str, 'UTF-8', $encode);
+        }
+
+        // 开始转换
+        for($i=0; $i<strlen($str); $i++)
+        {
             $temp_str = dechex(ord($str[$i]));
             if(isset($temp_str[1]))
             {
@@ -304,13 +343,21 @@ function AsciiToStr($ascii)
     $str = '';
     if(!empty($ascii))
     {
+        // 开始转换
         $asc_arr = str_split(strtolower($ascii), 2);
         for($i=0; $i<count($asc_arr); $i++)
         {
             $str .= chr(hexdec($asc_arr[$i][1].$asc_arr[$i][0]));
         }
+
+        // 编码处理
+        $encode = mb_detect_encoding($str);
+        if($encode != 'UTF-8')
+        {
+            $str = mb_convert_encoding($str, 'UTF-8', $encode);
+        }
     }
-    return mb_convert_encoding($str, 'UTF-8', 'GB2312');
+    return $str;
 }
 
 /**
@@ -412,11 +459,7 @@ function FunEach(&$data)
  */
 function PriceNumberFormat($value, $decimals = 2, $dec_point = '.')
 {
-    if(!empty($value))
-    {
-        return number_format($value, $decimals, $dec_point, '');
-    }
-    return 0.00;
+    return number_format((float) $value, $decimals, $dec_point, '');
 }
 
 /**
@@ -734,12 +777,16 @@ function PriceBeautify($price = 0, $default = null)
     }
 
     $price = str_replace('.00', '', $price);
-    if(strpos ($price, '.') !== false)
+    if(strpos($price, '.') !== false)
     {
         if(substr($price, -1) == 0)
         {
             $price = substr($price, 0, -1);
-        } 
+        }
+        if(substr($price, -1) == '.')
+        {
+            $price = substr($price, 0, -1);
+        }
     }
     return $price;
 }
@@ -1029,7 +1076,7 @@ function IsMobile()
 
 
 /**
- * [Is_Json 校验json数据是否合法]
+ * 校验json数据是否合法
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -1037,7 +1084,7 @@ function IsMobile()
  * @param    [string] $jsonstr [需要校验的json字符串]
  * @return   [boolean] [合法true, 则false]
  */
-function Is_Json($jsonstr)
+function IsJson($jsonstr)
 {
     if(PHP_VERSION > 5.3)
     {
@@ -1049,32 +1096,51 @@ function Is_Json($jsonstr)
 }
 
 /**
- * [Curl_Post curl模拟post]
+ * curl模拟post
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-03T21:58:54+0800
- * @param    [string] $url  [请求地址]
- * @param    [array]  $post [发送的post数据]
+ * @param    [string]   $url        [请求地址]
+ * @param    [array]    $post       [发送的post数据]
+ * @param    [boolean]  $is_json    [是否使用 json 数据发送]
+ * @return   [mixed]                [请求返回的数据]
  */
-function Curl_Post($url, $post)
+function CurlPost($url, $post, $is_json = false)
 {
-    $options = array(
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HEADER         => false,
-        CURLOPT_POST           => true,
-        CURLOPT_POSTFIELDS     => $post,
-    );
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+    curl_setopt($ch, CURLOPT_URL, $url);
 
-    $ch = curl_init($url);
-    curl_setopt_array($ch, $options);
+    // 是否 json
+    if($is_json)
+    {
+        $data_string = json_encode($post);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                "Content-Type: application/json; charset=utf-8",
+                "Content-Length: " . strlen($data_string)
+            )
+        );
+    } else {
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                "Content-Type: application/x-www-form-urlencoded",
+                "cache-control: no-cache"
+            )
+        );
+    }
+
     $result = curl_exec($ch);
     curl_close($ch);
     return $result;
 }
 
 /**
- * [Fsockopen_Post fsockopen方式]
+ * fsockopen方式
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -1082,7 +1148,7 @@ function Curl_Post($url, $post)
  * @param    [string] $url  [url地址]
  * @param    [string] $data [发送参数]
  */
-function Fsockopen_Post($url, $data = '')
+function FsockopenPost($url, $data = '')
 {
     $row = parse_MyUrl($url);
     $host = $row['host'];
@@ -1118,7 +1184,7 @@ function Fsockopen_Post($url, $data = '')
 }
 
 /**
- * [Xml_Array xml转数组]
+ * xml转数组
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -1126,7 +1192,7 @@ function Fsockopen_Post($url, $data = '')
  * @param    [xml] $xmlstring [xml数据]
  * @return   [array]          [array数组]
  */
-function Xml_Array($xmlstring) {
+function XmlArray($xmlstring) {
     return json_decode(json_encode((array) simplexml_load_string($xmlstring)), true);
 }
 

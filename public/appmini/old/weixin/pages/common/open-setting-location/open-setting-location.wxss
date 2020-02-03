@@ -1,0 +1,39 @@
+page {
+  background: #fbfbfb;
+}
+.open-setting-view {
+  background: hsla(0, 0%, 0%, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  z-index: 1000000;
+}
+.open-setting-view .content {
+  margin:0 auto;
+  width: 360rpx;
+  height: 160rpx;
+  padding: 50rpx;
+  border-radius: 12rpx;
+  margin-top: 70%;
+  position: relative;
+}
+.open-setting-view .content button {
+  margin-top: 15rpx;
+}
+.open-setting-view .content .value {
+  margin-top: 5rpx;
+}
+.open-setting-view .content .value text {
+  font-weight: 500;
+  color: #333;
+}
+
+.open-setting-loding {
+  padding-top: 35%;
+}
+.open-setting-loding image {
+  margin: 0 auto;
+}

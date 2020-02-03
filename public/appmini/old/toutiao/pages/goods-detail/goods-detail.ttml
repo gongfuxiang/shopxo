@@ -46,7 +46,7 @@
       </view>
       <text tt:if="{{(show_field_price_text || null) != null}}" class="price-icon">{{show_field_price_text}}</text>
       <text class="sales-price">￥{{goods.price}}</text>
-      <view tt:if="{{(goods.original_price || null) != null && goods.original_price > 0}}" class="original-price">￥{{goods.original_price}}</view>
+      <view tt:if="{{(goods.original_price || null) != null && goods.original_price != '0.00'}}" class="original-price">￥{{goods.original_price}}</view>
     </view>
     <view class="base-grid oh">
       <view class="fl tl">
@@ -102,6 +102,12 @@
       <text class="line"></text>
       <text class="text-wrapper">详情</text>
     </view>
+    <!-- 是否详情展示相册 -->
+    <block tt:if="{{common_is_goods_detail_show_photo == 1 && goods_photo.length > 0}}">
+      <view tt:for="{{goods_photo}}" tt:key="key" class="goods-detail-photo bg-white">
+        <image tt:if="{{(item.images || null) != null}}" bindtap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto dis-block" src="{{item.images}}" mode="widthFix" />
+      </view>
+    </block>
     <!-- web详情 -->
     <view tt:if="{{common_app_is_use_mobile_detail == 0}}" class="bg-white">
       <rich-text nodes="{{goods.content_web || ''}}"></rich-text>
@@ -131,13 +137,13 @@
       <image src="{{goods_favor_icon}}" mode="scaleToFill" />
       <text class="dis-block cr-888">{{goods_favor_text}}</text>
     </view>
-    <view class="fr {{common_is_exhibition_mode == 1 ? 'exhibition-mode' : ''}}">
-      <!-- 展示型 -->
-      <block tt:if="{{common_is_exhibition_mode == 1}}">
+    <view class="fr {{common_site_type == 1 ? 'exhibition-mode' : ''}}">
+      <!-- 站点模式 1 展示型 -->
+      <block tt:if="{{common_site_type == 1}}">
         <button class="bg-main fl" type="default" bindtap="exhibition_submit_event" hover-class="none">{{nav_submit_text}}</button>
       </block>
 
-      <!-- 销售型 -->
+      <!-- 销售型,自提点,虚拟销售 -->
       <block tt:else>
         <button class="bg-warning fl" type="default" bindtap="cart_submit_event" hover-class="none" disabled="{{nav_submit_is_disabled}}">加入购物车</button>
         <button class="bg-main fl" type="default" bindtap="buy_submit_event" hover-class="none" disabled="{{nav_submit_is_disabled}}">{{nav_submit_text}}</button>

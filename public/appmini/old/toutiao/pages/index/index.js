@@ -61,6 +61,15 @@ Page({
             plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null,
           });
 
+          // 导航购物车处理
+          var cart_total = data.common_cart_total || 0;
+          if (cart_total <= 0)
+          {
+            app.set_tab_bar_badge(2, 0);
+          } else {
+            app.set_tab_bar_badge(2, 1, cart_total);
+          }
+
           // 限时秒杀倒计时
           if (this.data.common_app_is_limitedtimediscount == 1 && this.data.plugins_limitedtimediscount_data != null)
           {

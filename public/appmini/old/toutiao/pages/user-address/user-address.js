@@ -19,16 +19,23 @@ Page({
 
   // 初始化
   init() {
-    var user = app.get_user_cache_info(this, "init");
-    // 用户未绑定用户则转到登录页面
-    if (app.user_is_need_login(user)) {
-      tt.redirectTo({
-        url: "/pages/login/login?event_callback=init"
-      });
-      return false;
+    var user = app.get_user_info(this, "init");
+    if (user != false) {
+      // 用户未绑定用户则转到登录页面
+      if (app.user_is_need_login(user)) {
+        tt.redirectTo({
+          url: "/pages/login/login?event_callback=init"
+        });
+        return false;
+      } else {
+        // 获取数据
+        this.get_data_list();
+      }
     } else {
-      // 获取数据
-      this.get_data_list();
+      this.setData({
+        data_list_loding_status: 0,
+        data_bottom_line_status: false,
+      });
     }
   },
 
@@ -77,8 +84,9 @@ Page({
           this.setData({
             data_list_loding_status: 0
           });
-
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data, this, 'get_data_list')) {
+            app.showToast(res.data.msg);
+          }
         }
       },
       fail: () => {
@@ -149,7 +157,11 @@ Page({
                 }
                 
               } else {
-                app.showToast(res.data.msg);
+                if (app.is_login_check(res.data)) {
+                  app.showToast(res.data.msg);
+                } else {
+                  app.showToast('提交失败，请重试！');
+                }
               }
             },
             fail: () => {
@@ -196,7 +208,11 @@ Page({
 
           app.showToast(res.data.msg, "success");
         } else {
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data)) {
+            app.showToast(res.data.msg);
+          } else {
+            app.showToast('提交失败，请重试！');
+          }
         }
       },
       fail: () => {

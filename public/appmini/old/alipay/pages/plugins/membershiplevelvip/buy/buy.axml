@@ -1,0 +1,45 @@
+<view a:if="{{(data_list || null) != null && data_list.length > 0}}" class="page">
+  <!-- 导航 -->
+  <scroll-view class="tabs bg-white tc oh" scroll-x="true">
+    <block a:for="{{data_list}}" a:key="key">
+      <view class="item cr-888 {{selected_tabs_index === index ? 'active' : ''}}" onTap="tabs_event" data-index="{{index}}">{{item.name}}</view>
+    </block>
+  </scroll-view>
+
+  <!-- 内容 -->
+  <view class="content spacing-mt">
+    <block a:for="{{data_list}}" a:key="key">
+      <block a:if="{{selected_tabs_index == index}}">
+        <block a:if="{{(item.pay_period_rules || null) != null}}">
+          <block a:for="{{item.pay_period_rules}}" a:key="keys" a:for-item="rules">
+            <view class="item oh tc bg-white {{selected_content_index === index ? 'active' : ''}}" onTap="content_event" data-index="{{index}}">
+              <view class="fl number single-text">
+                <text a:if="{{(rules.number || null) == null}}" class="value">终身</text>
+                <text a:else class="value">{{rules.value}}</text>
+                <text a:if="{{(rules.unit || null) != null}}" class="unit">{{rules.unit}}</text>
+              </view>
+              <view class="fr price bg-white single-text">
+                <text class="symbol">¥</text>
+                <text class="value">{{rules.price}}</text>
+                <text class="unit">元</text>
+              </view>
+            </view>
+          </block>
+
+          <import src="/pages/common/bottom_line.axml" />
+          <template is="bottom_line" data="{{status: true}}"></template>
+
+          <button class="submit-fixed submit-bottom" type="default" hover-class="none" onTap="submit_event" disabled="{{submit_disabled_status}}">确认支付</button>
+        </block>
+        <block a:else>
+          <import src="/pages/common/nodata.axml" />
+          <template is="nodata" data="{{status: 0, msg: '购买时长未配置'}}"></template>          
+        </block>
+      </block>
+    </block>
+  </view>
+</view>
+<view a:else>
+  <import src="/pages/common/nodata.axml" />
+  <template is="nodata" data="{{status: 0, msg: '未配置会员等级'}}"></template> 
+</view>

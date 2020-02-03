@@ -1,7 +1,7 @@
 {{if !empty($data)}}
     {{foreach $data as $v}}
         <li class="am-animation-scale-up">
-            <div class="items">
+            <div class="items am-padding-bottom-xs">
                 <a href="{{$v.goods_url}}" target="_blank" class="am-block">
                     <!-- 搜索页面商品信息顶部钩子 -->
                     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
@@ -25,7 +25,9 @@
                     {{/php}}
 
                     <img src="{{$v.images}}" alt="{{$v.title}}" class="goods-images" />
-                    <p class="am-text-truncate am-padding-xs goods-title" title="{{$v.title}}">{{$v.title}}</p>
+                    <div class="am-padding-xs">
+                        <p class="am-text-truncate-2 goods-title" title="{{$v.title}}">{{$v.title}}</p>
+                    </div>
                 </a>
                 <p class="am-padding-horizontal-xs am-cf">
                     {{if isset($v['original_price']) and $v['original_price'] gt 0}}

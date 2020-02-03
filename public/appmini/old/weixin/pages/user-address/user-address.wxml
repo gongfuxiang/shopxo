@@ -3,6 +3,7 @@
     <view class="item bg-white spacing-mb" wx:for="{{data_list}}" wx:key="key">
       <view bindtap="address_conent_event" data-index="{{index}}">
         <view class="base oh">
+          <text wx:if="{{(item.alias || null) != null}}" class="address-alias">{{item.alias}}</text>
           <text>{{item.name}}</text>
           <text class="fr">{{item.tel}}</text>
         </view>

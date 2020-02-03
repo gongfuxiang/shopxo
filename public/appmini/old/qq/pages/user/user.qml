@@ -57,7 +57,7 @@
 
   <view class="nav-item br-b" bindtap="clear_storage">
     <image src="/images/user-nav-cache-icon.png" class="item-icon" mode="widthFix" />
-    <text class="item-name">清除缓存</text>
+    <text class="item-name">安全退出</text>
   </view>
 
   <view qq:if="{{customer_service_tel != null}}" class="nav-item" bindtap="call_event">
@@ -74,10 +74,10 @@
 
 <!-- 在线客服 -->
 <view qq:if="{{common_app_is_online_service == 1}}">
-  <import src="/pages/lib/online-service/content.wxml" />
+  <import src="/pages/lib/online-service/content.qml" />
   <template is="online_service"></template>
 </view>
 
 <!-- 版权 -->
-<import src="/pages/common/copyright.wxml" />
+<import src="/pages/common/copyright.qml" />
 <template is="copyright"></template>

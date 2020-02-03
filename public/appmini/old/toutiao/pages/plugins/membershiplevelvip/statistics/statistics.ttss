@@ -1,0 +1,61 @@
+/*
+ * 公共
+ */
+.container {
+  padding: 20rpx 10rpx;
+}
+.container .title {
+  border-left: 3px solid #1d1611;
+  padding-left: 20rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+}
+.container .base-content {
+  padding: 30rpx 10rpx;
+}
+.container .base-content .name {
+  margin-bottom: 10rpx;
+}
+.container .base-content .value .golden,
+.container .base-content .value .yellow,
+.container .base-content .value .green {
+  font-weight: 500;
+  margin-right: 10rpx;
+}
+.container .base-content .value .golden {
+  color: #1d1611;
+}
+.container .base-content .value .yellow {
+  color: #f37b1d;
+}
+.container .base-content .value .green {
+  color: #5eb95e;
+}
+
+/*
+ * 用户
+ */
+.user-container .item {
+  width: 50%;
+}
+
+/*
+ * 返利
+ */
+.profit-container .item {
+  width: 33.33%;
+}
+
+/*
+ * 图表
+ */
+.chart-container {
+  width: 100%;
+  height: 520rpx;
+  box-sizing: border-box;  
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+.chart-container .chart-not-data {
+  margin-top: 230rpx;
+}

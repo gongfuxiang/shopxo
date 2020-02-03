@@ -23,23 +23,8 @@ Page({
         my.redirectTo({
           url: "/pages/login/login?event_callback=init"
         });
-
-        this.setData({
-          data_list_loding_status: 2,
-          data_list_loding_msg: '请先绑定手机号码',
-        });
         return false;
-      } else {
-        this.setData({
-          data_list_loding_status: 0,
-          data_list_loding_msg: '',
-        });
       }
-    } else {
-      this.setData({
-        data_list_loding_status: 2,
-        data_list_loding_msg: '请先授权用户信息',
-      });
     }
   },
 
@@ -80,7 +65,11 @@ Page({
             }, 2000);
           } else {
             this.setData({form_submit_loading: false});
-            app.showToast(res.data.msg);
+            if (app.is_login_check(res.data)) {
+              app.showToast(res.data.msg);
+            } else {
+              app.showToast('提交失败，请重试！');
+            }
           }
         },
         fail: () => {

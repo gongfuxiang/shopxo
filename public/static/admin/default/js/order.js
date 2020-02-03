@@ -80,4 +80,22 @@ $(function()
         }
     });
 
+    // 取货操作
+    $('.submit-take').on('click', function()
+    {
+        $('form.take-form input[name=id]').val($(this).data('id') || 0);
+        $('form.take-form input[name=user_id]').val($(this).data('user-id') || 0);
+    });
+
+    // 取货操作表单
+    FromInit('form.form-validation-take');
+    $('form.take-form button[type=submit]').on('click', function()
+    {
+        if(($('form.take-form input[name=id]').val() || 0) == 0)
+        {
+            Prompt('订单id有误');
+            return false;
+        }
+    });
+
 });

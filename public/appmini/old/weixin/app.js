@@ -29,10 +29,10 @@ App({
 
     // tabbar页面
     tabbar_pages: [
-      "index",
-      "goods-category",
-      "cart",
-      "user",
+      "/pages/index/index",
+      "/pages/goods-category/goods-category",
+      "/pages/cart/cart",
+      "/pages/user/user",
     ],
 
     // 页面标题
@@ -62,12 +62,13 @@ App({
       "user_order_comments": "订单评论",
       "coupon": "领劵中心",
       "user_coupon": "优惠劵",
+      "extraction_address": "自提地址",
     },
 
     // 请求地址
     request_url: "{{request_url}}",
-    // request_url: 'http://tp5-dev.com/',
-    // request_url: 'https://test.shopxo.net/',
+    // request_url: 'http://shopxo.com/',
+    // request_url: 'https://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -129,28 +130,61 @@ App({
   },
 
   /**
-  /**
    * 请求地址生成
+   * a              方法
+   * c              控制器
+   * plugins        插件标记（传参则表示为插件请求）
+   * params         url请求参数
    */
-  get_request_url(a, c, m, params) {
+  get_request_url(a, c, plugins, params) {
     a = a || "index";
     c = c || "index";
-    m = m || "api";
+
+    // 是否插件请求
+    var plugins_params = "";
+    if ((plugins || null) != null)
+    {
+      plugins_params = "&pluginsname=" + plugins + "&pluginscontrol=" + c + "&pluginsaction=" + a;
+
+      // 走api统一插件调用控制器
+      c = "plugins"
+      a = "index"
+    }
+
+    // 参数处理
     params = params || "";
     if (params != "" && params.substr(0, 1) != "&") {
       params = "&" + params;
     }
+
+    // 用户信息
     var user = this.get_user_cache_info();
     var token = (user == false) ? '' : user.token || '';
-    return (
-      this.data.request_url +
-      "index.php?s=/" + m + "/" + c + "/" + a +
+    return this.data.request_url +
+      "index.php?s=/api/" + c + "/" + a + plugins_params+
       "&application=app&application_client_type=weixin" +
       "&token=" +
       token +
       "&ajax=ajax" +
-      params
-    );
+      params;
+  },
+
+  /**
+   * 获取用户信息,信息不存在则唤醒授权
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   * return     有用户数据直接返回, 则回调调用者
+   */
+  get_user_info(object, method) {
+    var user = this.get_user_cache_info();
+    if (user == false) {
+      // 唤醒用户授权
+      this.user_login(object, method);
+
+      return false;
+    } else {
+      return user;
+    }
   },
 
   /**
@@ -171,20 +205,19 @@ App({
    * auth_data  授权数据
    */
   user_auth_login(object, method, auth_data) {
-    wx.showLoading({ title: "授权中..." });
     var self = this;
     wx.checkSession({
       success: function () {
         var openid = wx.getStorageSync(self.data.cache_user_login_key) || null;
         if (openid == null)
         {
-          self.user_login(object, method, auth_data);
+          self.user_login(object, method);
         } else {
           self.get_user_login_info(object, method, openid, auth_data);
         }
       },
       fail: function () {
-        self.user_login(object, method, auth_data);
+        self.user_login(object, method);
       }
     });
   },
@@ -195,39 +228,84 @@ App({
    * method     回调操作对象的函数
    * auth_data  授权数据
    */
-  user_login(object, method, auth_data) {
-    var self = this;
-    wx.login({
-      success: (res) => {
-        if (res.code) {
-          wx.request({
-            url: self.get_request_url('wechatuserauth', 'user'),
-            method: 'POST',
-            data: { authcode: res.code },
-            dataType: 'json',
-            header: { 'content-type': 'application/x-www-form-urlencoded' },
-            success: (res) => {
-              if (res.data.code == 0) {
-                wx.setStorage({
-                  key: self.data.cache_user_login_key,
-                  data: res.data.data
-                });
-                self.get_user_login_info(object, method, res.data.data, auth_data);
-              } else {
+  user_login(object, method) {
+    var openid = wx.getStorageSync(this.data.cache_user_login_key) || null;
+    if (openid == null)
+    {
+      var self = this;
+      // 加载loding
+      wx.showLoading({ title: "授权中..." });
+
+      wx.login({
+        success: (res) => {
+          if (res.code) {
+            wx.request({
+              url: self.get_request_url('wechatuserauth', 'user'),
+              method: 'POST',
+              data: { authcode: res.code },
+              dataType: 'json',
+              header: { 'content-type': 'application/x-www-form-urlencoded' },
+              success: (res) => {
                 wx.hideLoading();
-                self.showToast(res.data.msg);
-              }
-            },
-            fail: () => {
-              wx.hideLoading();
-              self.showToast('服务器请求出错');
-            },
+                if (res.data.code == 0) {
+                  var data = res.data.data;
+                  if ((data.is_alipay_user_exist || 0) == 1) {
+                    wx.setStorage({
+                      key: self.data.cache_user_info_key,
+                      data: data,
+                      success: (res) => {
+                        if (typeof object === 'object' && (method || null) != null) {
+                          object[method]();
+                        }
+                      },
+                      fail: () => {
+                        self.showToast('用户信息缓存失败');
+                      }
+                    });
+                  } else {
+                    wx.setStorage({
+                      key: self.data.cache_user_login_key,
+                      data: data.openid
+                    });
+                    self.login_to_auth();
+                  }
+                } else {
+                  wx.hideLoading();
+                  self.showToast(res.data.msg);
+                }
+              },
+              fail: () => {
+                wx.hideLoading();
+                self.showToast('服务器请求出错');
+              },
+            });
+          }
+        },
+        fail: (e) => {
+          wx.hideLoading();
+          self.showToast('授权失败');
+        }
+      });
+    } else {
+      this.login_to_auth();
+    }
+  },
+
+  /**
+   * 跳转到登录页面授权
+   */
+  login_to_auth() {
+    wx.showModal({
+      title: '温馨提示',
+      content: '授权用户信息',
+      confirmText: '确认',
+      cancelText: '暂不',
+      success: (result) => {
+        if (result.confirm) {
+          wx.navigateTo({
+            url: "/pages/login/login"
           });
         }
-      },
-      fail: (e) => {
-        wx.hideLoading();
-        self.showToast('授权失败');
       }
     });
   },
@@ -245,6 +323,7 @@ App({
     var referrer = (params == null) ? 0 : (params.referrer || 0);
 
     // 远程解密数据
+    wx.showLoading({ title: "授权中..." });
     var self = this;
     wx.request({
       url: self.get_request_url('wechatuserinfo', 'user'),
@@ -286,7 +365,7 @@ App({
   /**
    * 字段数据校验
    * data           待校验的数据, 一维json对象
-   * validation     待校验的字段, 格式 [{fields: 'mobile', msg: '请填写手机号码'}, ...]
+   * validation     待校验的字段, 格式 [{fields: 'mobile', msg: '请填写手机号码', is_can_zero: 1(是否可以为0)}, ...]
   */
   fields_check(data, validation) {
     for (var i in validation) {
@@ -382,12 +461,12 @@ App({
   is_tabbar_pages(url) {
     if (url.indexOf("?") == -1)
     {
-      var all = url.split("/");
+      var value = url;
     } else {
       var temp_str = url.split("?");
-      var all = temp_str[0].split("/");
+      var value = temp_str[0];
     }
-    if (all.length <= 0)
+    if ((value || null) == null)
     {
       return false;
     }
@@ -395,7 +474,7 @@ App({
     var temp_tabbar_pages = this.data.tabbar_pages;
     for (var i in temp_tabbar_pages)
     {
-      if (temp_tabbar_pages[i] == all[all.length-1])
+      if (temp_tabbar_pages[i] == value)
       {
         return true;
       }
@@ -520,6 +599,55 @@ App({
   call_tel(value) {
     if ((value || null) != null) {
       wx.makePhoneCall({ phoneNumber: value });
+    }
+  },
+
+  /**
+   * 登录校验
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   */
+  is_login_check(res, object, method) {
+    if(res.code == -400)
+    {
+      wx.clearStorage();
+      this.get_user_info(object, method);
+      return false;
+    }
+    return true;
+  },
+
+  /**
+   * 设置导航reddot
+   * index     tabBar 的哪一项，从左边算起（0开始）
+   * type      0 移出, 1 添加 （默认 0 移出）
+   */
+  set_tab_bar_reddot(index, type) {
+    if (index !== undefined && index !== null)
+    {
+      if ((type || 0) == 0)
+      {
+        wx.hideTabBarRedDot({ index: Number(index) });
+      } else {
+        wx.showTabBarRedDot({ index: Number(index) });
+      }
+    }
+  },
+
+  /**
+   * 设置导航车badge
+   * index     tabBar 的哪一项，从左边算起（0开始）
+   * type      0 移出, 1 添加 （默认 0 移出）
+   * value     显示的文本，超过 4 个字符则显示成 ...（type参数为1的情况下有效）
+   */
+  set_tab_bar_badge(index, type, value) {
+    if (index !== undefined && index !== null)
+    {
+      if ((type || 0) == 0) {
+        wx.removeTabBarBadge({ index: Number(index) });
+      } else {
+        wx.setTabBarBadge({ index: Number(index), "text": value.toString() });
+      }
     }
   },
 

@@ -146,7 +146,13 @@ function GetFormVal(element, is_json)
 	if(is_json === true)
 	{
 		var json = {};
-			object.forEach((value, key) => json[key] = value);
+		object.forEach(function(value, key)
+		{
+			if((key || null) != null)
+			{
+				json[key] = value
+			}
+		});
 		return json;
 	}
 	return object;
@@ -226,6 +232,10 @@ function FromInit(form_name)
 	}
 	var editor_tag_name = 'editor-tag';
 	var $form = $(form_name);
+	if($form.length <= 0)
+	{
+		return false;
+	}
 	var $editor_tag = $form.find('[id='+editor_tag_name+']');
 	var editor_count = $editor_tag.length;
 	if(editor_count > 0)
@@ -385,7 +395,7 @@ function FromInit(form_name)
             		$button.button('reset');
 					if(IsExitsFunction(request_value))
             		{
-            			window[request_value]();
+            			window[request_value](GetFormVal(form_name, true));
             		} else {
             			Prompt('['+request_value+']表单定义的方法未定义');
             		}
@@ -1114,7 +1124,7 @@ function FullscreenEscEvent()
  * @date    2019-03-20
  * @desc    description
  * @param   {[string]}        field [字段名称]
- * @param   {[string]}        value [字段值]
+ * @param   {[string]}        value [字段值, null 则去除字段]
  * @param   {[string]}        url   [自定义url]
  */
 function UrlFieldReplace(field, value, url)
@@ -1140,7 +1150,12 @@ function UrlFieldReplace(field, value, url)
             var last = str.substr(str.lastIndexOf(field));
                 last = last.replace(new RegExp(field+'/', 'g'), '');
                 last = (last.indexOf('/') >= 0) ? last.substr(last.indexOf('/')) : '';
-                url = first+field+'/'+value+last+ext;
+                if(value === null)
+                {
+                	url = first+last+ext;
+                } else {
+                	url = first+field+'/'+value+last+ext;
+                }
         } else {
             if(ext.indexOf('?') >= 0)
             {
@@ -1161,22 +1176,38 @@ function UrlFieldReplace(field, value, url)
                             }
                             if(temp[0] == field)
                             {
-                                p += field+'='+value;
+                            	if(value !== null)
+                            	{
+                            		p += field+'='+value;
+                            	}
                             } else {
                                 p += params_all[i];
                             }
                         }
                     }
                 } else {
-                    p = exts+'&'+field+'='+value;
+                	if(value === null)
+                	{
+                		p = exts;
+                	} else {
+                		p = exts+'&'+field+'='+value;
+                	}
                 }
                 url = str+(ext.substr(0, ext.indexOf('?')))+'?'+p;
             } else {
-                url = str+'/'+field+'/'+value+ext;
+            	if(value === null)
+            	{
+            		url = str+ext;
+            	} else {
+            		url = str+'/'+field+'/'+value+ext;
+            	}
             }
         }
     } else {
-        url += '?'+field+'='+value;
+    	if(value !== null)
+    	{
+    		url += '?'+field+'='+value;
+    	}
     }
     return url+anchor;
 }
@@ -1279,6 +1310,244 @@ function PageLibrary(total, number, page, sub_number)
 		html += '><a data-page="'+page_y+'" class="am-radius">&raquo;</a></li></ul>';
 	return html;
 }
+
+/**
+ * [RegionNodeData 地区联动]
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @datetime 2018-09-23T22:00:30+0800
+ * @param    {[int]}          pid     	[pid数据值]
+ * @param    {[string]}       name      [当前节点name名称]
+ * @param    {[string]}       next_name [下一个节点名称（数据渲染节点）]
+ * @param    {[int]}          value 	[需要选中的值]
+ */
+function RegionNodeData(pid, name, next_name, value)
+{
+	if(pid != null)
+	{
+		$.ajax({
+			url:$('.region-linkage').attr('data-url'),
+			type:'POST',
+			data:{"pid": pid},
+			dataType:'json',
+			success:function(result)
+			{
+				if(result.code == 0)
+				{
+					/* html拼接 */
+					var html = '<option value="">'+$('.region-linkage select[name='+next_name+']').find('option:eq(0)').text()+'</option>';
+
+					/* 没有指定选中值则从元素属性读取 */
+					value = value || $('.region-linkage select[name='+next_name+']').attr('data-value') || null;
+					for(var i in result.data)
+					{
+						html += '<option value="'+result.data[i]['id']+'"';
+						if(value != null && value == result.data[i]['id'])
+						{
+							html += ' selected ';
+						}
+						html += '>'+result.data[i]['name']+'</option>';
+					}
+
+					/* 下一级数据添加 */
+					$('.region-linkage select[name='+next_name+']').html(html).trigger('chosen:updated');
+				} else {
+					Prompt(result.msg);
+				}
+			}
+		});
+	}
+
+	/* 子级元素数据清空 */
+	var child = null;
+	switch(name)
+	{
+		case 'province' :
+			child = ['city', 'county'];
+			break;
+
+		case 'city' :
+			child = ['county'];
+			break;
+	}
+	if(child != null)
+	{
+		for(var i in child)
+		{
+			var $temp_obj = $('.region-linkage select[name='+child[i]+']');
+			var temp_find = $temp_obj.find('option').first().text();
+			var temp_html = '<option value="">'+temp_find+'</option>';
+			$temp_obj.html(temp_html).trigger('chosen:updated');
+		}
+	}
+}
+
+/**
+ * 编辑窗口额为参数处理
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2018-08-07
+ * @desc    description
+ * @param   {[object]}        data [数据]
+ * @param   {[string]}        type [edit, add]
+ * @return  {[object]}             [处理后的数据]
+ */
+function FunSaveWinAdditional(data, type)
+{
+	// 额外处理数据
+	if($('#tree').length > 0)
+	{
+		var additional = $('#tree').data('additional') || null;
+		if(additional != null)
+		{
+			for(var i in additional)
+			{
+				var value = (type == 'add') ? (additional[i]['value'] || '') : (data[additional[i]['field']] || additional[i]['value'] || '');
+				switch(additional[i]['type'])
+				{
+					// 表单
+					case 'input' :
+					case 'select' :
+					case 'textarea' :
+						data[additional[i]['field']] = value;
+						break;
+
+					// 样式处理
+					case 'css' :
+						$(additional[i]['tag']).css(additional[i]['style'], value);
+						break;
+
+					// 文件
+					case 'file' :
+						var $file_tag = $(additional[i]['tag']);
+						if($file_tag.val().length > 0)
+						{
+							$file_tag.after($file_tag.clone().val(''));
+							$file_tag.val('');
+						}
+						break;
+
+					// 属性
+					case 'attr' :
+						$(additional[i]['tag']).attr(additional[i]['style'], value);
+						break;
+
+					// 内容替换
+					case 'html' :
+						$(additional[i]['tag']).html(value);
+						break;
+				}
+			}
+		}
+	}
+	return data;
+}
+
+/**
+ * 添加窗口初始化
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2018-08-06
+ * @desc    description
+ */
+function TreeFormInit()
+{
+	// 更改窗口名称
+	$title = $('#data-save-win').find('.am-popup-title');
+	$title.text($title.attr('data-add-title'));
+
+	// 填充数据
+	var data = {"id":"", "pid":0, "name":"", "sort":0, "is_enable":1, "icon":""};
+
+	// 额外处理数据
+	data = FunSaveWinAdditional(data, 'init');
+
+	// 清空表单
+	FormDataFill(data);
+
+	// 移除菜单禁止状态
+	$('form select[name="pid"]').removeAttr('disabled');
+
+	// 校验成功状态增加失去焦点
+	$('form').find('.am-field-valid').each(function()
+	{
+		$(this).blur();
+	});
+
+	// 多选插件事件更新
+	if($('.chosen-select').length > 0)
+	{
+		$('.chosen-select').trigger('chosen:updated');
+	}
+}
+
+/**
+ * 地图初始化
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-11-12
+ * @desc    description
+ * @param   {[float]}        	lng   		[经度]
+ * @param   {[float]}        	lat   		[维度]
+ * @param   {[int]}        		level 		[层级]
+ * @param   {[object]}        	point 		[中心对象]
+ * @param   {[boolean]}        	is_dragend 	[标注是否可拖拽]
+ */
+function MapInit(lng, lat, level, point, is_dragend)
+{
+	// 百度地图API功能
+    var map = new BMap.Map("map", {enableMapClick:false});
+    level = level || $('#map').data('level') || 16;
+    point = point || (new BMap.Point(lng || 116.400244, lat || 39.92556));
+    map.centerAndZoom(point, level);
+
+    // 添加控件
+    var navigationControl = new BMap.NavigationControl({
+        // 靠左上角位置
+        anchor: BMAP_ANCHOR_TOP_LEFT,
+        // LARGE类型
+        type: BMAP_NAVIGATION_CONTROL_LARGE,
+    });
+    map.addControl(navigationControl);
+
+    // 创建标注
+    // 将标注添加到地图中
+    var marker = new BMap.Marker(point);
+    map.addOverlay(marker);
+
+    // 标注是否可拖拽
+    if(is_dragend == undefined || is_dragend == true)
+    {
+    	marker.enableDragging();
+	    marker.addEventListener("dragend", function(e) {
+	        map.panTo(e.point);
+	        if($('#form-lng').length > 0 && $('#form-lat').length > 0)
+		    {
+		    	$('#form-lng').val(e.point.lng);
+				$('#form-lat').val(e.point.lat);
+		    }
+	    });
+
+	    // 设置标注提示信息
+	    var cr = new BMap.CopyrightControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT});
+	    map.addControl(cr); //添加版权控件
+	    var bs = map.getBounds();   //返回地图可视区域
+	    cr.addCopyright({id: 1, content: "<div class='map-copy'><span>拖动红色图标直接定位</span></div>", bounds:bs});
+    }
+
+    //获取地址坐标
+    var p = marker.getPosition();
+    if($('#form-lng').length > 0 && $('#form-lat').length > 0)
+    {
+    	$('#form-lng').val(p.lng);
+		$('#form-lat').val(p.lat);
+    }
+}
+
 
 // 公共数据操作
 $(function()
@@ -1425,70 +1694,6 @@ $(function()
 	});
 
 	/**
-	 * 编辑窗口额为参数处理
-	 * @author   Devil
-	 * @blog    http://gong.gg/
-	 * @version 1.0.0
-	 * @date    2018-08-07
-	 * @desc    description
-	 * @param   {[object]}        data [数据]
-	 * @param   {[string]}        type [edit, add]
-	 * @return  {[object]}             [处理后的数据]
-	 */
-	function FunSaveWinAdditional(data, type)
-	{
-		// 额外处理数据
-		if($('#tree').length > 0)
-		{
-			var additional = $('#tree').data('additional') || null;
-			if(additional != null)
-			{
-				for(var i in additional)
-				{
-					var value = (type == 'add') ? (additional[i]['value'] || '') : (data[additional[i]['field']] || additional[i]['value'] || '');
-					switch(additional[i]['type'])
-					{
-						// 表单
-						case 'input' :
-						case 'select' :
-						case 'textarea' :
-							data[additional[i]['field']] = value;
-							break;
-
-						// 样式处理
-						case 'css' :
-							$(additional[i]['tag']).css(additional[i]['style'], value);
-							break;
-
-						// 文件
-						case 'file' :
-							var $file_tag = $(additional[i]['tag']);
-							if($file_tag.val().length > 0)
-							{
-								$file_tag.after($file_tag.clone().val(''));
-								$file_tag.val('');
-							}
-							break;
-
-						// 属性
-						case 'attr' :
-							$(additional[i]['tag']).attr(additional[i]['style'], value);
-							break;
-
-						// 内容替换
-						case 'html' :
-							$(additional[i]['tag']).html(value);
-							break;
-					}
-				}
-
-			}
-		}
-
-		return data;
-	}
-
-	/**
 	 * [submit-edit 公共编辑]
 	 * @author   Devil
 	 * @blog     http://gong.gg/
@@ -1587,45 +1792,6 @@ $(function()
 	});
 
 	/**
-	 * 添加窗口初始化
-	 * @author   Devil
-	 * @blog    http://gong.gg/
-	 * @version 1.0.0
-	 * @date    2018-08-06
-	 * @desc    description
-	 */
-	function TreeFormInit()
-	{
-		// 更改窗口名称
-		$title = $('#data-save-win').find('.am-popup-title');
-		$title.text($title.attr('data-add-title'));
-
-		// 填充数据
-		var data = {"id":"", "pid":0, "name":"", "sort":0, "is_enable":1, "icon":""};
-
-		// 额外处理数据
-		data = FunSaveWinAdditional(data, 'init');
-
-		// 清空表单
-		FormDataFill(data);
-
-		// 移除菜单禁止状态
-		$('form select[name="pid"]').removeAttr('disabled');
-
-		// 校验成功状态增加失去焦点
-		$('form').find('.am-field-valid').each(function()
-		{
-			$(this).blur();
-		});
-
-		// 多选插件事件更新
-		if($('.chosen-select').length > 0)
-		{
-			$('.chosen-select').trigger('chosen:updated');
-		}
-	}
-
-	/**
 	 * [submit-ajax 公共数据ajax操作]
 	 * @author   Devil
 	 * @blog     http://gong.gg/
@@ -1645,75 +1811,6 @@ $(function()
 			AjaxRequest($(this));
 		}
 	});
-
-	/**
-	 * [RegionNodeData 地区联动]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  1.0.0
-	 * @datetime 2018-09-23T22:00:30+0800
-	 * @param    {[int]}                 value     [数据值]
-	 * @param    {[string]}              name      [当前节点name名称]
-	 * @param    {[string]}              next_name [下一个节点名称（数据渲染节点）]
-	 */
-	function RegionNodeData(value, name, next_name)
-	{
-		if(value != null)
-		{
-			$.ajax({
-				url:$('.region-linkage').attr('data-url'),
-				type:'POST',
-				data:{"pid": value},
-				dataType:'json',
-				success:function(result)
-				{
-					if(result.code == 0)
-					{
-						/* html拼接 */
-						var html = '';
-						var value = $('.region-linkage select[name='+next_name+']').attr('data-value') || 0;
-						for(var i in result.data)
-						{
-							html += '<option value="'+result.data[i]['id']+'"';
-							if(value != 0 && value == result.data[i]['id'])
-							{
-								html += ' selected ';
-							}
-							html += '>'+result.data[i]['name']+'</option>';
-						}
-
-						/* 下一级数据添加 */
-						$('.region-linkage select[name='+next_name+']').append(html).trigger('chosen:updated');
-					} else {
-						Prompt(result.msg);
-					}
-				}
-			});
-		}
-
-		/* 子级元素数据清空 */
-		var child = null;
-		switch(name)
-		{
-			case 'province' :
-				child = ['city', 'county'];
-				break;
-
-			case 'city' :
-				child = ['county'];
-				break;
-		}
-		if(child != null)
-		{
-			for(var i in child)
-			{
-				var $temp_obj = $('.region-linkage select[name='+child[i]+']');
-				var temp_find = $temp_obj.find('option').first().text();
-				var temp_html = '<option value="">'+temp_find+'</option>';
-				$temp_obj.html(temp_html).trigger('chosen:updated');
-			}
-		}
-	}
 
 	// 地区联动
 	$('.region-linkage select').on('change', function()
@@ -1755,56 +1852,30 @@ $(function()
 		for(var i in region)
 		{
 			var $temp_obj = $('.region-linkage select[name='+region[i]+']');
-			var v = $temp_obj.find('option:selected').val();
-			if(v.length > 0)
+			var v = $temp_obj.find('option:selected').val() || null;
+			if(v != null)
 			{
-				if(i == 0) province = $temp_obj.find('option:selected').text();
-				address += $temp_obj.find('option:selected').text();
+				if(i == 0)
+				{
+					province = $temp_obj.find('option:selected').text() || '';
+				}
+				address += $temp_obj.find('option:selected').text() || '';
 			}
 		}
 		address += $('#form-address').val();
-
-		var map = new BMap.Map("map", {enableMapClick:false});
-		var point = new BMap.Point(116.331398,39.897445);
-		var level = $('#map').attr('data-level') || 16;
-		map.centerAndZoom(point, level);
+		if(province.length <= 0 || address.length <= 0)
+		{
+			Prompt('地址为空');
+			return false;
+		}
 
 		// 创建地址解析器实例
 		var myGeo = new BMap.Geocoder();
 		// 将地址解析结果显示在地图上,并调整地图视野
 		myGeo.getPoint(address, function(point) {
 			if (point) {
-				map.centerAndZoom(point, level);
-				var navigationControl = new BMap.NavigationControl({
-					// 靠左上角位置
-					anchor: BMAP_ANCHOR_TOP_LEFT,
-					// LARGE类型
-					type: BMAP_NAVIGATION_CONTROL_LARGE,
-				});
-				map.addControl(navigationControl);
-
-	          	var marker = new BMap.Marker(point);  // 创建标注
-				map.addOverlay(marker);              // 将标注添加到地图中
-	            marker.enableDragging();           // 可拖拽
-
-	            /* 设置版权控件位置 */
-				var cr = new BMap.CopyrightControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT});
-				map.addControl(cr); //添加版权控件
-				var bs = map.getBounds();   //返回地图可视区域
-				cr.addCopyright({id: 1, content: "<div class='map-copy'><span>拖动红色图标直接定位</span></div>", bounds:bs});
-
-	            //增加拖动后事件
-	            marker.addEventListener("dragend", function(e) {
-	            	map.panTo(e.point);
-					$('#form-lng').val(e.point.lng);
-					$('#form-lat').val(e.point.lat);
-				});
-
-	            //获取地址坐标
-	            var p = marker.getPosition();       //获取marker的位置
-	            $('#form-lng').val(p.lng);
-				$('#form-lat').val(p.lat);
-			}else{
+				MapInit(null, null, null, point);
+			} else {
 				Prompt("您选择地址没有解析到结果!");
 			}
 		}, province);

@@ -13,6 +13,8 @@ namespace app\api\controller;
 use app\service\GoodsService;
 use app\service\BannerService;
 use app\service\AppHomeNavService;
+use app\service\PluginsService;
+use app\service\BuyService;
 
 /**
  * 首页
@@ -45,9 +47,6 @@ class Index extends Common
 	 */
 	public function Index()
 	{
-		// 秒杀
-		$common_app_is_limitedtimediscount = (int) MyC('common_app_is_limitedtimediscount');
-
 		// 返回数据
 		$result = [
 			'navigation'						=> AppHomeNavService::AppHomeNav(),
@@ -58,17 +57,26 @@ class Index extends Common
 			'common_app_is_enable_answer'		=> (int) MyC('common_app_is_enable_answer', 1),
 			'common_app_is_header_nav_fixed'	=> (int) MyC('common_app_is_header_nav_fixed', 0),
 			'common_app_is_online_service'		=> (int) MyC('common_app_is_online_service', 0),
-			'common_app_is_limitedtimediscount'	=> $common_app_is_limitedtimediscount,
+			'common_app_is_limitedtimediscount'	=> (int) MyC('common_app_is_limitedtimediscount'),
+			'common_cart_total'                 => BuyService::UserCartTotal(['user'=>$this->user]),
 		];
 
-		// 秒杀
-		if($common_app_is_limitedtimediscount == 1)
+		// 支付宝小程序在线客服
+		if(APPLICATION_CLIENT_TYPE == 'alipay')
 		{
-			$ret = CallPluginsServiceMethod('limitedtimediscount', 'Service', 'ApiHomeAd');
-			if($ret['code'] == 0)
-			{
-				$result['plugins_limitedtimediscount_data'] = $ret['data'];
-			}
+			$result['common_app_mini_alipay_tnt_inst_id'] = MyC('common_app_mini_alipay_tnt_inst_id', null, true);
+			$result['common_app_mini_alipay_scene'] = MyC('common_app_mini_alipay_scene', null, true);
+		}
+
+		// 限时秒杀
+		if($result['common_app_is_limitedtimediscount'] == 1)
+		{
+			$ret = PluginsService::PluginsControlCall(
+                'limitedtimediscount', 'index', 'index', 'api');
+            if($ret['code'] == 0 && isset($ret['data']['code']) && $ret['data']['code'] == 0)
+            {
+                $result['plugins_limitedtimediscount_data'] = $ret['data']['data'];
+            }
 		}
 
 		// 返回数据

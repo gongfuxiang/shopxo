@@ -1,0 +1,59 @@
+<form bindsubmit="form_submit" class="form-container oh">
+  <view class="form-gorup bg-white">
+    <view class="form-gorup-title">别名<text class="form-group-tips">选填</text></view>
+    <input type="text" name="alias" value="{{extraction_data.alias || ''}}" placeholder-class="cr-ccc" class="cr-666" placeholder="别名格式最多 16 个字符" />
+  </view>
+
+  <view class="form-gorup bg-white">
+    <view class="form-gorup-title">联系人<text class="form-group-tips-must">必填</text></view>
+    <input type="text" name="name" value="{{extraction_data.name || ''}}" placeholder-class="cr-ccc" class="cr-666" placeholder="联系人格式 2~16 个字符之间" />
+  </view>
+
+  <view class="form-gorup bg-white">
+    <view class="form-gorup-title">联系电话<text class="form-group-tips-must">必填</text></view>
+    <input type="text" name="tel" value="{{extraction_data.tel || ''}}" placeholder-class="cr-ccc" class="cr-666" placeholder="座机 或 手机" />
+  </view>
+
+  <view class="form-gorup bg-white">
+    <view class="form-gorup-title">省市区<text class="form-group-tips-must">必选</text></view>
+    <view class="select-address oh">
+      <view class="section fl">
+          <picker name="province" bindchange="select_province_event" value="{{province_value}}" range="{{province_list}}" range-key="name">
+              <view class="name {{(province_value == null) ? 'cr-ccc' : 'cr-666' }}">{{province_list[province_value].name || default_province}}</view>
+          </picker>
+      </view>
+      <view class="section fl">
+          <picker wx:if="{{(province_id || null) != null}}" name="city" bindchange="select_city_event" value="{{city_value}}" range="{{city_list}}" range-key="name">
+              <view class="name {{(city_value == null) ? 'cr-ccc' : 'cr-666' }}">{{city_list[city_value].name || default_city}}</view>
+          </picker>
+          <text wx:else class="cr-ccc" bindtap="region_select_error_event" data-value="请先选择省份">请先选择省份</text>
+      </view>
+      <view class="section fl">
+          <picker wx:if="{{(city_id || null) != null}}" name="county" bindchange="select_county_event" value="{{county_value}}" range="{{county_list}}" range-key="name">
+              <view class="name {{(county_value == null) ? 'cr-ccc' : 'cr-666' }}">{{county_list[county_value].name || default_county}}</view>
+          </picker>
+          <text wx:else class="cr-ccc" bindtap="region_select_error_event" data-value="请先选择城市">请先选择城市</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="form-gorup bg-white">
+    <view class="form-gorup-title">详细地址<text class="form-group-tips-must">必填</text></view>
+    <input type="text" name="address" value="{{extraction_data.address || ''}}" placeholder-class="cr-ccc" class="cr-666" placeholder="详细地址格式 1~80 个字符之间" />
+  </view>
+
+  <view class="form-gorup bg-white">
+    <view class="form-gorup-title">地理位置<text class="form-group-tips-must">必选</text></view>
+    <view bindtap="choose_location_event" class="form-gorup-text">
+      <view wx:if="{{(user_location || null) == null}}" class="cr-888">请选择地理位置</view>
+      <view wx:else class="cr-666">{{((user_location || null) != null && (user_location.name || null) != null) ? user_location.name+' ' : ''}}{{user_location.address || ''}}</view>
+    </view>
+  </view>
+
+  <view class="form-gorup">
+    <view wx:if="{{(extraction_data || null) != null && (extraction_data.status || 0) == 1}}" class="tips spacing-mb">
+      注意：编辑信息将重新审核后方可生效
+    </view>
+    <button class="submit-bottom" type="default" formType="submit" hover-class="none" disabled="{{form_submit_disabled_status}}">提交</button>
+  </view>
+</form>

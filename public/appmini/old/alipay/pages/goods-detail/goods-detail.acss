@@ -198,7 +198,7 @@
 .goods-base .goods-price {
   padding-right: 100rpx;
   position: relative;
-  min-height: 80rpx;
+  min-height: 90rpx;
 }
 .goods-base .goods-price .original-price {
   margin-top: 10rpx;
@@ -228,6 +228,32 @@
   padding:2px 5px;
   line-height:20px;
   border-radius:1px;
+}
+
+/**
+ * 视频
+ */
+.goods-video {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+  z-index:1;
+}
+.goods-video video {
+  width: 100%;
+  height: 65vh;
+}
+.goods-video-submit {
+  position: absolute;
+  left: 30rpx;
+  top: calc(65vh - 110rpx);
+  z-index: 2;
+}
+.goods-video-submit image {
+  width: 80rpx;
+  height: 80rpx;
 }
 
 
@@ -306,13 +332,11 @@
  */
 .quick-nav-cart {
   bottom: calc(35% + 110rpx);
-  width: 60rpx;
-  height: 60rpx;
 }
 .quick-nav-cart .badge-icon {
   position: absolute;
   top: -5px;
-  left: calc(50% + 10rpx);
+  left: calc(50% + 23rpx);
 }
 
 /*

@@ -11,7 +11,7 @@
 </view>
 
 <view class="nav-back tc wh-auto">
-  <navigator url="/pages/goods-detail/goods-detail" open-type="navigateBack" hover-class="none">
+  <navigator open-type="navigateBack" hover-class="none">
     <button type="default" size="mini" class="cr-888" hover-class="none">返回</button>
   </navigator>
 </view>

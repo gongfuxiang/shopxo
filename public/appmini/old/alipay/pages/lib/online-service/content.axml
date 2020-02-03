@@ -1,0 +1,5 @@
+<template name="online_service">
+  <view a:if="{{(tnt_inst_id || null) != null && (scene || null) != null}}" class="common-quick-nav common-online-service">
+    <contact-button tnt-inst-id="{{tnt_inst_id}}" scene="{{scene}}" size="60rpx*60rpx" icon="/pages/lib/online-service/icon.png" alipay-card-no="{{openid || ''}}" />
+  </view>
+</template>

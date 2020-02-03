@@ -11,6 +11,7 @@
 namespace app\api\controller;
 
 use app\service\UserService;
+use app\service\ConfigService;
 
 /**
  * 用户地址
@@ -109,6 +110,19 @@ class UserAddress extends Common
         $params = $this->data_post;
         $params['user'] = $this->user;
         return UserService::UserAddressDefault($params);
+    }
+
+    /**
+     * 自提点地址列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-11-25
+     * @desc    description
+     */
+    public function Extraction()
+    {
+        return ConfigService::SiteTypeExtractionAddressList();
     }
 
 }

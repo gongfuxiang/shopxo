@@ -1,21 +1,3 @@
-{{if MyC('common_is_app_inside_close_header') neq 1 or !in_array(MiniAppEnv(), config('shopxo.mini_app_type_list'))}}
-	<!-- 友情链接 -->
-	{{if !empty($link_list)}}
-		<div class="friendship-list">
-			<div class="am-container">
-				<h2>友情链接</h2>
-				<ul>
-					{{foreach $link_list as $v}}
-						<li>
-							<a href="{{$v.url}}" {{if $v['is_new_window_open'] eq 1}} target="_blank"{{/if}} title="{{$v.describe}}">{{$v.name}}</a>
-						</li>
-					{{/foreach}}
-				</ul>
-			</div>
-		</div>
-	{{/if}}
-{{/if}}
-
 <!-- 底部导航上面钩子 -->
 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
     <div class="plugins-tag">
@@ -30,8 +12,7 @@
     {{/foreach}}
 {{/if}}
 
-
-{{if MyC('common_is_app_inside_close_header') neq 1 or !in_array(MiniAppEnv(), config('shopxo.mini_app_type_list'))}}
+{{if !IsMobile() or (IsMobile() and MyC('common_is_mobile_concise_model') neq 1)}}
 	<!-- 底部导航 -->
 	<footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{}">
 		<div class="am-container">
@@ -88,6 +69,20 @@
 		<!-- 页脚信息 -->
 		<div class="am-footer-miscs">
 			<div class="am-container">
+				<!-- 友情链接 -->
+				{{if !empty($link_list) and $module_name.$controller_name.$action_name eq 'indexindexindex'}}
+					<div class="friendship-list am-hide-sm-only">
+						<ul class="am-cf am-margin-bottom-sm">
+							<li class="am-fl am-text-center title">友情链接</li>
+							{{foreach $link_list as $v}}
+								<li class="am-fl am-text-center">
+									<a href="{{$v.url}}" {{if $v['is_new_window_open'] eq 1}} target="_blank"{{/if}} title="{{$v.describe}}">{{$v.name}}</a>
+								</li>
+							{{/foreach}}
+						</ul>
+					</div>
+				{{/if}}
+
 				<p class="powered">
 					Powered by <a href="http://shopxo.net/" title="ShopXO电商系统" target="_blank">
 						<span class="b">Shop</span><span class="o">XO</span>
@@ -113,6 +108,14 @@
 		</div>
 	</footer>
 {{else /}}
-	<!-- 保留标签，兼容mobile导航样式 -->
-	<footer class="am-footer"></footer>
+	<footer class="am-footer am-footer am-footer-default mobile-concise-model">
+		<!-- 页脚信息 -->
+		<div class="am-footer-miscs">
+			<p class="powered">
+				Powered by <a href="http://shopxo.net/" title="ShopXO电商系统" target="_blank">
+					<span class="b">Shop</span><span class="o">XO</span>
+				</a> {{$Think.APPLICATION_VERSION}}
+			</p>
+		</div>
+	</footer>
 {{/if}}

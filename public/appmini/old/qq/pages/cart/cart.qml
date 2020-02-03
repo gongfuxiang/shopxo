@@ -1,7 +1,7 @@
 <view qq:if="{{data_list.length > 0}}" class="page">
-  <view qq:for="{{data_list}}" qq:key="key" class="goods-item oh bg-white {{common_is_exhibition_mode == 1 ? 'exhibition-mode-data' : ''}}">
+  <view qq:for="{{data_list}}" qq:key="key" class="goods-item oh bg-white {{common_site_type == 1 ? 'exhibition-mode-data' : ''}}">
     <!-- 选择 -->
-    <view qq:if="{{common_is_exhibition_mode != 1}}" bindtap="selectedt_event" data-type="node" data-index="{{index}}" class="fl selected">
+    <view qq:if="{{common_site_type != 1}}" bindtap="selectedt_event" data-type="node" data-index="{{index}}" class="fl selected">
       <image class="icon" src="/images/default-select{{(item.is_error || 0) == 1 ? '-disabled' : ((item.selected || false) ? '-active' : '')}}-icon.png" mode="widthFix" />
     </view>
 
@@ -44,13 +44,13 @@
   <!-- 操作导航 -->
   <view qq:if="{{data_list.length > 0}}" class="buy-nav oh wh-auto br-t">
     <!-- 展示型 -->
-    <block qq:if="{{common_is_exhibition_mode == 1}}">
+    <block qq:if="{{common_site_type == 1}}">
       <view class="exhibition-mode">
         <button class="bg-main wh-auto" type="default" bindtap="exhibition_submit_event" hover-class="none">{{common_is_exhibition_mode_btn_text}}</button>
       </view>
     </block>
 
-    <!-- 销售型 -->
+    <!-- 销售,自提,虚拟销售 -->
     <block qq:else>
       <view class="nav-base bg-white fl single-text">
         <view bindtap="selectedt_event" data-type="all" class="fl selected">
@@ -79,6 +79,6 @@
 </view>
 
 <view qq:if="{{data_list.length == 0 && data_list_loding_status != 0}}">
-  <import src="/pages/common/nodata.wxml" />
+  <import src="/pages/common/nodata.qml" />
   <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
 </view>

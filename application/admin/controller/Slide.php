@@ -133,6 +133,9 @@ class Slide extends Common
         // 事件类型
         $this->assign('common_app_event_type', lang('common_app_event_type'));
 
+        // 参数
+        $this->assign('params', $params);
+
         // 编辑器文件存放地址
         $this->assign('editor_path_type', 'slide');
 

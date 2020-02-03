@@ -18,10 +18,54 @@ ul.home_site_user_register_bg_images-images-view li {
 /**
  * 带面板
  */
-.content-right .am-panel .am-panel-bd .am-form-group {
-    margin-bottom: 10px;
+.content-right .am-panel .am-panel-bd .am-form-group:last-child {
+    margin-bottom: 0;
 }
 .content-right .am-panel .am-panel-bd .am-form-group {
     border-bottom: 0;
+}
+
+
+/**
+ * 地址添加/编辑
+ */
+.region-linkage .chosen-select {
+    display: -webkit-inline-box;
+    width: calc(33.3% - 3px) !important;
+}
+.region-linkage .chosen-select .chosen-single {
+    width: 100%;
+}
+.address-detail {
     margin-bottom: 0;
+}
+#map {
+    width: calc(100% - 10px);
+    height: 250px;
+    padding: 0 !important;
+    margin: 0 5px 20px 5px;
+}
+.address-detail, #map {
+    border-bottom: 0 !important;
+}
+.address-list .edit-submit,
+.address-list .delete-submit {
+    cursor: pointer;
+}
+@media only screen and (min-width:640px) {
+    .address-list {
+        padding: 0 20% 0 0 !important;
+    }
+}
+@media only screen and (max-width:640px) {
+    .address-list .edit-submit,
+    .address-list .delete-submit {
+        position: absolute;
+        top: 12px;
+        right: 5px;
+        float: none !important;
+    }
+    .address-list .delete-submit {
+        right: 70px;
+    }
 }

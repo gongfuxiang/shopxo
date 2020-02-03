@@ -5,8 +5,8 @@
     <li {{if $nav_type eq 'beian'}}class="am-active"{{/if}} data-type="beian">
         <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'beian'])}}">备案信息</a>
     </li>
-    <li {{if $nav_type eq 'exhibition'}}class="am-active"{{/if}} data-type="exhibition">
-        <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'exhibition'])}}">站点类型</a>
+    <li {{if $nav_type eq 'sitetype'}}class="am-active"{{/if}} data-type="sitetype">
+        <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'sitetype'])}}">站点类型</a>
     </li>
     <li {{if $nav_type eq 'register'}}class="am-active"{{/if}} data-type="register">
         <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'register'])}}">用户注册</a>
@@ -28,6 +28,9 @@
     </li>
     <li {{if $nav_type eq 'search'}}class="am-active"{{/if}} data-type="search">
         <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'search'])}}">搜索</a>
+    </li>
+    <li {{if $nav_type eq 'goods'}}class="am-active"{{/if}} data-type="goods">
+        <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'goods'])}}">商品</a>
     </li>
     <li {{if $nav_type eq 'extends'}}class="am-active"{{/if}} data-type="extends">
         <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'extends'])}}">扩展项</a>

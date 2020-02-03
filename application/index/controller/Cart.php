@@ -11,6 +11,7 @@
 namespace app\index\controller;
 
 use app\service\BuyService;
+use app\service\SeoService;
 
 /**
  * 购物车
@@ -55,6 +56,9 @@ class Cart extends Common
             'ids'           => empty($cart_list['data']) ? '' : implode(',', array_column($cart_list['data'], 'id')),
         ];
         $this->assign('base', $base);
+
+        // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('购物车', 1));
         return $this->fetch();
     }
 

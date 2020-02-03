@@ -30,30 +30,19 @@ Page({
    * 登录授权事件
    */
   get_user_info_event(e) {
-    this.user_auth_code(null, null, e.detail);
+    this.user_auth_code(e.detail);
   },
 
   /**
    * 用户授权
-   * object     回调操作对象
-   * method     回调操作对象的函数
    * auth_data  授权数据
    */
-  user_auth_code(object, method, auth_data) {
-    // 请求授权接口
-    var self = this;
-    wx.getSetting({
-      success(res) {
-        if (!res.authSetting['scope.userInfo']) {
-          self.setData({ user: null});
-        } else {
-          app.user_auth_login(self, 'user_auth_back_event', auth_data);
-        }
-      },
-      fail: (e) => {
-        app.showToast("授权校验失败");
-      }
-    });
+  user_auth_code(auth_data) {
+    if ((auth_data.encryptedData || null) != null && (auth_data.iv || null) != null) {
+      app.user_auth_login(this, 'user_auth_back_event', auth_data);
+    } else {
+      app.showToast("授权失败");
+    }
   },
 
   /**

@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 use app\service\ResourcesService;
 
 /**
@@ -31,6 +32,7 @@ class ConfigService
             'home_email_user_email_binding',
             'home_site_close_reason',
             'common_agreement_userregister',
+            'common_self_extraction_address',
         ];
 
     // 附件字段列表
@@ -265,6 +267,87 @@ class ConfigService
         }
         
         return DataReturn('操作成功', 0, $data);
+    }
+
+    /**
+     * 站点自提模式 - 自提地址列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-11-13
+     * @desc    description
+     * @param   [string]          $value [自提的配置数据]
+     */
+    public static function SiteTypeExtractionAddressList($value = null)
+    {
+        // 未指定内容则从缓存读取
+        if(empty($value))
+        {
+            $value = MyC('common_self_extraction_address');
+        }
+
+        // 数据处理
+        $data = [];
+        if(!empty($value) && is_string($value))
+        {
+            $temp_data = json_decode($value, true);
+            if(!empty($temp_data) && is_array($temp_data))
+            {
+                $data = $temp_data;
+            }
+        }
+
+        // 坐标处理
+        if(!empty($data) && is_array($data) && in_array(APPLICATION_CLIENT_TYPE, config('shopxo.coordinate_transformation')))
+        {
+            foreach($data as &$v)
+            {
+                // 坐标转换 百度转火星(高德，谷歌，腾讯坐标)
+                if(isset($v['lng']) && isset($v['lat']) && $v['lng'] > 0 && $v['lat'] > 0)
+                {
+                    $map = \base\GeoTransUtil::BdToGcj($v['lng'], $v['lat']);
+                    if(isset($map['lng']) && isset($map['lat']))
+                    {
+                        $v['lng'] = $map['lng'];
+                        $v['lat'] = $map['lat'];
+                    }
+                }
+            }
+        }
+
+        // 自提点地址列表数据钩子
+        $hook_name = 'plugins_service_site_extraction_address_list';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data'          => &$data,
+        ]);
+
+        return DataReturn('操作成功', 0, $data);
+    }
+
+    /**
+     * 站点虚拟模式 - 虚拟销售信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-11-19
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function SiteFictitiousConfig($params = [])
+    {
+        // 标题
+        $title = MyC('common_site_fictitious_return_title', '密钥信息', true);
+
+        // 提示信息
+        $tips =  MyC('common_site_fictitious_return_tips', null, true);
+
+        $result = [
+            'title'     => $title,
+            'tips'      => str_replace("\n", '<br />', $tips),
+        ];
+        return DataReturn('操作成功', 0, $result);
     }
 }
 ?>

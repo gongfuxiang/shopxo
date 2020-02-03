@@ -139,7 +139,7 @@
   </view>
 
   <!-- 退货弹层 -->
-  <popup show="{{popup_delivery_status}}" position="bottom" onClose="popup_delivery_close_event">
+  <component-popup prop-show="{{popup_delivery_status}}" prop-position="bottom" onClose="popup_delivery_close_event">
     <view class="delivery-popup bg-white">
       <view class="close fr oh">
         <view class="fr" catchTap="popup_delivery_close_event">
@@ -162,7 +162,7 @@
         </view>
       </view>
     </view>
-  </popup>
+  </component-popup>
 </view>
 <view a:if="{{order_data == null}}">
   <import src="/pages/common/nodata.axml" />

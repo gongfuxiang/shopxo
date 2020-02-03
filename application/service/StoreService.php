@@ -31,5 +31,31 @@ class StoreService
     {
         return config('shopxo.store_url').'?ver='.APPLICATION_VERSION.'&url='.urlencode(__MY_URL__);
     }
+
+    /**
+     * 应用商店支付插件地址
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-06-16T00:33:28+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function StorePaymentUrl($params = [])
+    {
+        return config('shopxo.store_payment_url').'?ver='.APPLICATION_VERSION.'&url='.urlencode(__MY_URL__);
+    }
+
+    /**
+     * 应用商店主题地址
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-06-16T00:33:28+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function StoreThemeUrl($params = [])
+    {
+        return config('shopxo.store_theme_url').'?ver='.APPLICATION_VERSION.'&url='.urlencode(__MY_URL__);
+    }
 }
 ?>

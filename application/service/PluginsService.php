@@ -187,5 +187,66 @@ class PluginsService
         $ret = self::PluginsField($plugins, 'is_enable');
         return $ret['data'];
     }
+
+    /**
+     * 应用校验
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @date     2020-01-02
+     * @param   [string]          $plugins        [应用标记]
+     */
+    public static function PluginsCheck($plugins)
+    {
+        $ret = self::PluginsStatus($plugins);
+        if($ret === null)
+        {
+            return DataReturn('应用未安装['.$plugins.']', -10);
+        }
+        if($ret != 1)
+        {
+            return DataReturn('应用未启用['.$plugins.']', -10);
+        }
+        return DataReturn('验证成功', 0);
+    }
+
+    /**
+     * 应用控制器调用
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @date     2020-01-02
+     * @param   [string]          $plugins        [应用标记]
+     * @param   [string]          $control        [应用控制器]
+     * @param   [string]          $action         [应用方法]
+     * @param   [string]          $group          [应用组(admin, index, api)]
+     * @param   [array]           $params         [输入参数]
+     */
+    public static function PluginsControlCall($plugins, $control, $action, $group = 'index', $params = [])
+    {
+        // 应用校验
+        $ret = self::PluginsCheck($plugins);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 应用控制器
+        $control = ucfirst($control);
+        $plugins = '\app\plugins\\'.$plugins.'\\'.$group.'\\'.$control;
+        if(!class_exists($plugins))
+        {
+            return DataReturn('应用控制器未定义['.$control.']', -1);
+        }
+
+        // 调用方法
+        $action = ucfirst($action);
+        $obj = new $plugins();
+        if(!method_exists($obj, $action))
+        {
+            return DataReturn('应用方法未定义['.$action.']', -1);
+        }
+        return DataReturn('验证成功', 0, $obj->$action($params));
+    }
 }
 ?>

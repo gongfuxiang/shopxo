@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/slide/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/slide/index')}}" enctype="multipart/form-data">
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/slide/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/slide/index', $params)}}" enctype="multipart/form-data">
 			<legend>
 				<span class="am-text-default">
 					{{if empty($data['id'])}}
@@ -13,7 +13,7 @@
 						轮播编辑
 					{{/if}}
 				</span>
-				<a href="{{:MyUrl('admin/slide/index')}}" class="am-fr am-text-sm am-margin-top-xs am-icon-mail-reply"> 返回</a>
+				<a href="{{:MyUrl('admin/slide/index', $params)}}" class="am-fr am-text-sm am-margin-top-xs am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
 				<label>名称</label>

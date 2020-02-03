@@ -313,7 +313,7 @@ class UeditorService
         $source = isset(self::$params[$field_name]) ? self::$params[$field_name] : self::$params[$field_name];
         foreach($source as $imgUrl)
         {
-            $item = new \base\Uploader($imgUrl, $temp_config, "remote");
+            $up = new \base\Uploader($imgUrl, $temp_config, "remote");
             /**
              * 得到上传文件所对应的各个参数,数组结构
              * array(

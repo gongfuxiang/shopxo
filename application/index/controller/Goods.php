@@ -129,6 +129,12 @@ class Goods extends Common
             $like_goods = GoodsService::GoodsList($params);
             $this->assign('detail_like_goods', $like_goods['data']);
 
+            // 站点类型 - 展示型模式操作名称
+            $this->assign('common_is_exhibition_mode_btn_text', MyC('common_is_exhibition_mode_btn_text', '立即咨询', true));
+
+            // 是否商品详情页展示相册
+            $this->assign('common_is_goods_detail_show_photo', MyC('common_is_goods_detail_show_photo', 0, true));
+
             return $this->fetch();
         }
     }
@@ -237,6 +243,16 @@ class Goods extends Common
 
         // 商品页面基础信息面板售价顶部钩子
         $hook_name = 'plugins_view_goods_detail_panel_price_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'    => $hook_name,
+                'is_backend'   => false,
+                'goods_id'     => $goods_id,
+                'goods'        => &$goods,
+            ]));
+
+        // 商品页面基础信息购买小导航里面钩子
+        $hook_name = 'plugins_view_goods_detail_base_buy_nav_min_inside';
         $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
                 'hook_name'    => $hook_name,

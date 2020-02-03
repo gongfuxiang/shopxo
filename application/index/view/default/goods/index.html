@@ -312,43 +312,78 @@
             </div>
 
             <!-- 购买导航 -->
-            <div class="buy-nav">
+            <div class="buy-nav {{if $common_site_type eq 1}}exhibition-nav{{/if}}">
                 {{if !empty($goods.is_shelves)}}
                     {{if $goods['inventory'] gt 0}}
                         <div class="buy-nav-opt">
                             <a href="{{$Think.__MY_URL__}}">
-                                <span class="am-icon-home am-icon-fw"> 首页</span>
+                                <span class="nav-icon nav-icon-home">
+                                    <i class="am-icon-home am-icon-fw"></i>
+                                    <em>首页</em>
+                                </span>
                             </a>
+
                             {{if isset($goods['is_favor']) and $goods['is_favor'] eq 1}}
-                                <span class="am-icon-heart am-icon-fw login-event favor-submit text-active" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
+                                <span class="nav-icon login-event favor-submit text-active" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
+                                    <i class="am-icon-heart am-icon-fw"></i>
                                     <em class="goods-favor-text">已收藏</em>
                                     <em class="goods-favor-count">({{$goods.favor_count}})</em>
                                 </span>
                             {{else /}}
-                                <span class="am-icon-heart am-icon-fw favor-submit login-event" data-ajax-url="{{:MyUrl('index/goods/favor')}}">    <em class="goods-favor-text">收藏</em>
+                                <span class="nav-icon favor-submit login-event" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
+                                    <i class="am-icon-heart am-icon-fw"></i>
+                                    <em class="goods-favor-text">收藏</em>
                                     <em class="goods-favor-count">({{$goods.favor_count}})</em>
                                 </span>
                             {{/if}}
-                        </div>
-                        <div class="submit">
-                            <div class="clearfix tb-btn tb-btn-buy buy-event login-event buy-submit" data-type="buy">
-                                <button title="点此按钮到下一步确认购买信息" href="javascript:;" type="button">立即购买</button>
-                            </div>
-                        </div>
-                        <div class="submit">
-                            <div class="clearfix tb-btn tb-btn-basket buy-event login-event cart-submit" data-type="cart"  data-ajax-url="{{:MyUrl('index/Cart/Save')}}">
-                                <button title="加入购物车" href="javascript:;" type="button"><i></i>加入购物车</button>
-                            </div>
+
+                            <!-- 商品页面基础信息购买小导航里面钩子 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_goods_detail_base_buy_nav_min_inside</span>
+                                </div>
+                            {{/if}}
+                            {{if !empty($plugins_view_goods_detail_base_buy_nav_min_inside_data) and is_array($plugins_view_goods_detail_base_buy_nav_min_inside_data)}}
+                                {{foreach $plugins_view_goods_detail_base_buy_nav_min_inside_data as $hook}}
+                                    {{if is_string($hook) or is_int($hook)}}
+                                        {{$hook|raw}}
+                                    {{/if}}
+                                {{/foreach}}
+                            {{/if}}
                         </div>
 
-                        <!-- 购买表单 -->
-                        <form action="{{:MyUrl('index/buy/index')}}" method="post" class="buy-form">
-                            <input type="hidden" name="goods_id" value="{{$goods.id}}" />
-                            <input type="hidden" name="buy_type" value="goods" />
-                            <input type="hidden" name="stock" value="1" />
-                            <input type="hidden" name="spec" value="" />
-                            <button type="submit"></button>
-                        </form>
+                        <!-- 站点模式 1 展示型 -->
+                        {{if $common_site_type eq 1}}
+                            <div class="submit">
+                                <div class="clearfix tb-btn tb-btn-basket" data-type="cart"  data-ajax-url="{{:MyUrl('index/Cart/Save')}}">
+                                    <a href="{{if empty($common_customer_store_tel)}}javascript:;{{else /}}tel:{{$common_customer_store_tel}}{{/if}}">
+                                        <button title="{{$common_is_exhibition_mode_btn_text}}" href="javascript:;" type="button"><i class="am-icon-phone"></i> {{$common_is_exhibition_mode_btn_text}}</button>
+                                    </a>
+                                </div>
+                            </div>
+
+                        <!-- 销售型,自提点,虚拟销售 -->
+                        {{else /}}
+                            <div class="submit">
+                                <div class="clearfix tb-btn tb-btn-buy buy-event login-event buy-submit" data-type="buy">
+                                    <button title="点此按钮到下一步确认购买信息" href="javascript:;" type="button">{{if $common_order_is_booking eq 1}}立即预约{{else /}}立即购买{{/if}}</button>
+                                </div>
+                            </div>
+                            <div class="submit">
+                                <div class="clearfix tb-btn tb-btn-basket buy-event login-event cart-submit" data-type="cart"  data-ajax-url="{{:MyUrl('index/Cart/Save')}}">
+                                    <button title="加入购物车" href="javascript:;" type="button"><i></i>加入购物车</button>
+                                </div>
+                            </div>
+
+                            <!-- 购买表单 -->
+                            <form action="{{:MyUrl('index/buy/index')}}" method="post" class="buy-form">
+                                <input type="hidden" name="goods_id" value="{{$goods.id}}" />
+                                <input type="hidden" name="buy_type" value="goods" />
+                                <input type="hidden" name="stock" value="1" />
+                                <input type="hidden" name="spec" value="" />
+                                <button type="submit"></button>
+                            </form>
+                        {{/if}}
                     {{else /}}
                         <p class="goods-not-buy-tips">商品卖光了</p>
                     {{/if}}
@@ -405,7 +440,7 @@
                                         <img alt="{{$v.title}}" src="{{$v.images}}">
                                     </a>               
                                 </div>
-                                <div class="p-name">
+                                <div class="p-name am-text-truncate-2 am-margin-vertical-xs ">
                                     <a href="{{:$v['goods_url']}}" {{if !empty($v.title_color)}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</a>
                                 </div>
                                 <div class="p-price"><strong>￥{{$v.price}}</strong></div>
@@ -471,12 +506,24 @@
                             </div>
                         {{/if}}
 
+                        <!-- 详情内容 -->
                         <div class="details">
                             <div class="spacing-nav-title">
                                 <span class="line"></span>
                                 <span class="text-wrapper">商品细节</span>
                             </div>
-                            <div class="detail-content">{{$goods.content_web|raw}}</div>
+                            <div class="detail-content">
+                                {{if isset($common_is_goods_detail_show_photo) and $common_is_goods_detail_show_photo eq 1 and !empty($goods.photo)}}
+                                    <div class="content-photo">
+                                        {{foreach $goods.photo as $photo}}
+                                            <li>
+                                                <img src="{{$photo.images}}" title="{{$goods.title}}" />
+                                            </li>
+                                        {{/foreach}}
+                                    </div>
+                                {{/if}}
+                                <div class="content-web">{{$goods.content_web|raw}}</div>
+                            </div>
                         </div>
                     </div>
 
@@ -534,7 +581,7 @@
                                                     <img alt="{{$v.title}}" src="{{$v.home_recommended_images}}" />
                                                 </a>
                                                 <a href="{{:$v['goods_url']}}">
-                                                    <p class="am-text-truncate" {{if !empty($v.title_color)}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</p>
+                                                    <p class="am-text-truncate-2 am-margin-bottom-xs" {{if !empty($v.title_color)}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</p>
                                                 </a>
                                                 <p class="price fl">
                                                     <strong>￥{{$v.price}}</strong>

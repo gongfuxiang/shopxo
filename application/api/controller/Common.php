@@ -108,7 +108,7 @@ class Common extends Controller
     {
         if(MyC('home_site_state') != 1)
         {
-            die(json_encode(DataReturn(MyC('home_site_close_reason', '网站维护中...'), -10000)));
+            exit(json_encode(DataReturn(MyC('home_site_close_reason', '网站维护中...'), -10000)));
         }
     }
 

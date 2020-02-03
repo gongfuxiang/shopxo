@@ -85,7 +85,6 @@ class BaiduMini
                 'name'          => 'rsa_public',
                 'placeholder'   => '应用公钥',
                 'title'         => '应用公钥',
-                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写应用公钥',
@@ -95,7 +94,6 @@ class BaiduMini
                 'name'          => 'rsa_private',
                 'placeholder'   => '应用私钥',
                 'title'         => '应用私钥',
-                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写应用私钥',
@@ -105,7 +103,6 @@ class BaiduMini
                 'name'          => 'out_rsa_public',
                 'placeholder'   => '平台公钥',
                 'title'         => '平台公钥',
-                'desc'          => '去除以 -- 开头结尾的字符和换行',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写平台公钥',
@@ -239,9 +236,14 @@ class BaiduMini
             return $sign;
         }
 
-        $res = "-----BEGIN RSA PRIVATE KEY-----\n";
-        $res .= wordwrap($this->config['rsa_private'], 64, "\n", true);
-        $res .= "\n-----END RSA PRIVATE KEY-----";
+        if(stripos($this->config['rsa_private'], '-----') === false)
+        {
+            $res = "-----BEGIN RSA PRIVATE KEY-----\n";
+            $res .= wordwrap($this->config['rsa_private'], 64, "\n", true);
+            $res .= "\n-----END RSA PRIVATE KEY-----";
+        } else {
+            $res = $this->config['rsa_private'];
+        }
         $prikey = openssl_pkey_get_private($res);
 
         if(isset($data['sign']))
@@ -295,9 +297,14 @@ class BaiduMini
 
         $sign = base64_decode($sign);
 
-        $res = "-----BEGIN PUBLIC KEY-----\n";
-        $res .= wordwrap($this->config['out_rsa_public'], 64, "\n", true);
-        $res .= "\n-----END PUBLIC KEY-----";
+        if(stripos($this->config['out_rsa_public'], '-----') === false)
+        {
+            $res = "-----BEGIN PUBLIC KEY-----\n";
+            $res .= wordwrap($this->config['out_rsa_public'], 64, "\n", true);
+            $res .= "\n-----END PUBLIC KEY-----";
+        } else {
+            $res = $this->config['out_rsa_public'];
+        }
         $pubkey = openssl_pkey_get_public($res);
         $result = (bool)openssl_verify($str, $sign, $pubkey);
         openssl_free_key($pubkey);

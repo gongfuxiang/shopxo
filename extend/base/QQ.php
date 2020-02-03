@@ -56,7 +56,7 @@ class QQ
     {
         // 登录授权session
         $login_key = 'qq_user_login_'.$openid;
-        $session_data = GS($login_key);
+        $session_data = cache($login_key);
         if($session_data === false)
         {
             return 'session key不存在';
@@ -87,8 +87,8 @@ class QQ
         }
 
         // 缓存存储
-        $data_key = 'wechat_user_info_'.$openid;
-        SS($data_key, $data);
+        $data_key = 'qq_user_info_'.$openid;
+        cache($data_key, $data);
 
         return $data;
     }
@@ -113,7 +113,7 @@ class QQ
             $key = 'qq_user_login_'.$result['openid'];
 
             // 缓存存储
-            SS($key, $result);
+            cache($key, $result);
             return $result['openid'];
         }
         return false;

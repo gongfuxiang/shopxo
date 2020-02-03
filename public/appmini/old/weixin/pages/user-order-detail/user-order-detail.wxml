@@ -1,17 +1,23 @@
 <view wx:if="{{detail != null}}">
-  <view class="address bg-white spacing-mb">
+  <!-- 地址 -->
+  <view wx:if="{{detail.order_model == 0 || detail.order_model == 2}}" class="address bg-white spacing-mb">
       <view class="address-base oh">
-          <text>{{detail.receive_name}}</text>
-          <text class="fr">{{detail.receive_tel}}</text>
+          <text wx:if="{{(detail.address_data.alias || null) != null}}" class="address-alias">{{detail.address_data.alias}}</text>
+          <text>{{detail.address_data.name}}</text>
+          <text class="fr">{{detail.address_data.tel}}</text>
       </view>
       <view class="address-detail oh">
           <image class="icon fl" src="/images/user-address.png" mode="widthFix" />
-          <view class="text fr">{{detail.receive_province_name}}{{detail.receive_city_name}}{{detail.receive_county_name}}{{detail.receive_address}}</view>
+          <view class="text fr">
+            {{detail.address_data.province_name}}{{detail.address_data.city_name}}{{detail.address_data.county_name}}{{detail.address_data.address}}
+            <text wx:if="{{detail.order_model == 2 && (detail.address_data.lng || 0) > 0 && (detail.address_data.lat || 0) > 0}}" class="cr-666 br address-map-submit" bindtap="address_map_event">查看位置</text>
+          </view>
       </view>
   </view>
 
+  <!-- 商品列表 -->
   <view class="goods bg-white spacing-mb">
-      <view wx:for="{{detail.items}}" wx:key="item" class="goods-item oh">
+      <view wx:for="{{detail.items}}" wx:key="item" class="goods-item br-b-dashed oh">
         <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}" hover-class="none">
           <image class="goods-image fl" src="{{item.images}}" mode="aspectFill" />
           <view class="goods-base">
@@ -29,21 +35,57 @@
           </view>
         </navigator>
       </view>
+      <view class="order-describe">{{detail.describe}}</view>
+  </view>
+
+  <!-- 虚拟销售数据 -->
+  <view wx:if="{{detail.order_model == 3 && detail.pay_status == 1 && (detail.status == 3 || detail.status == 4)}}" class="panel-item spacing-mt site-fictitious">
+    <view class="panel-title">{{site_fictitious.title || '密钥信息'}}</view>
+    <view class="panel-content bg-white oh">
+      <view wx:if="{{(site_fictitious.tips || null) != null}}" class="tips-value">
+        <rich-text nodes="{{site_fictitious.tips}}"></rich-text>
+      </view>
+      <view wx:for="{{detail.items}}" wx:key="item" class="item br-b-dashed oh">
+        <image class="left-image br fl" src="{{item.images}}" mode="aspectFill" />
+        <view class="right-value fr">
+          <rich-text wx:if="{{(item.fictitious_goods_value || null) != null}}" nodes="{{item.fictitious_goods_value}}"></rich-text>
+          <text wx:else class="cr-888">未配置数据</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 自提信息 -->
+  <view wx:if="{{detail.order_model == 2 && (detail.status == 2 || detail.status == 3) && (detail.extraction_data || null) != null}}" class="panel-item spacing-mt site-extraction">
+    <view class="panel-title">取货信息</view>
+    <view class="panel-content bg-white oh">
+      <view>
+        <text>取货码：</text>
+        <text class="code">{{detail.extraction_data.code || '取货码不存在、请联系管理员'}}</text>
+      </view>
+      <image wx:if="{{(detail.extraction_data.images || null) != null}}" class="br qrcode" src="{{detail.extraction_data.images}}" mode="aspectFill" />
+    </view>
   </view>
 
   <!-- 订单基础数据 -->
-  <view wx:if="{{detail_list.length > 0}}" class="detail-list bg-white">
-    <view wx:for="{{detail_list}}" wx:key="item" class="item br-b oh">
-      <view class="title fl">{{item.name}}</view>
-      <view class="content cr-888 fl br-l">{{item.value}}</view>
+  <view wx:if="{{detail_list.length > 0}}" class="panel-item spacing-mt">
+    <view class="panel-title">基础数据</view>
+    <view class="panel-content bg-white">
+      <view wx:for="{{detail_list}}" wx:key="item" class="item br-b oh">
+        <view class="title fl">{{item.name}}</view>
+        <view class="content cr-888 fl br-l">{{item.value}}</view>
+      </view>
     </view>
   </view>
 
   <!-- 扩展数据 -->
-  <view wx:if="{{extension_data.length > 0}}" class="extension-list bg-white  spacing-mt">
-    <view wx:for="{{extension_data}}" wx:key="item" class="item br-b oh">
+  <view wx:if="{{extension_data.length > 0}}" class="panel-item spacing-mt extension-list">
+    <view class="panel-title">扩展数据</view>
+    <view class="panel-content bg-white">
+      <view wx:for="{{extension_data}}" wx:key="item" class="item br-b oh">
       <text class="title">{{item.name}}</text>
       <text class="content cr-888 br-l">{{item.tips}}</text>
+    </view>
     </view>
   </view>
 
@@ -57,7 +99,7 @@
 </view>
 
 <view class="nav-back tc wh-auto">
-  <navigator url="/pages/user-order/user-order" open-type="navigateBack" hover-class="none">
+  <navigator open-type="navigateBack" hover-class="none">
     <button type="default" size="mini" class="cr-888 br" hover-class="none">返回</button>
   </navigator>
 </view>

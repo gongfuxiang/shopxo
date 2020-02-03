@@ -29,10 +29,10 @@ App({
 
     // tabbar页面
     tabbar_pages: [
-      "index",
-      "goods-category",
-      "cart",
-      "user",
+      "/pages/index/index",
+      "/pages/goods-category/goods-category",
+      "/pages/cart/cart",
+      "/pages/user/user",
     ],
 
     // 页面标题
@@ -62,12 +62,13 @@ App({
       "user_order_comments": "订单评论",
       "coupon": "领劵中心",
       "user_coupon": "优惠劵",
+      "extraction_address": "自提地址",
     },
 
     // 请求地址
     request_url: "{{request_url}}",
-    // request_url: 'http://tp5-dev.com/',
-    // request_url: 'http://test.shopxo.net/',
+    // request_url: 'http://shopxo.com/',
+    // request_url: 'http://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -168,26 +169,42 @@ App({
 
   /**
    * 请求地址生成
+   * a              方法
+   * c              控制器
+   * plugins        插件标记（传参则表示为插件请求）
+   * params         url请求参数
    */
-  get_request_url(a, c, m, params) {
+  get_request_url(a, c, plugins, params) {
     a = a || "index";
     c = c || "index";
-    m = m || "api";
+
+    // 是否插件请求
+    var plugins_params = "";
+    if ((plugins || null) != null)
+    {
+      plugins_params = "&pluginsname=" + plugins + "&pluginscontrol=" + c + "&pluginsaction=" + a;
+
+      // 走api统一插件调用控制器
+      c = "plugins"
+      a = "index"
+    }
+
+    // 参数处理
     params = params || "";
     if (params != "" && params.substr(0, 1) != "&") {
       params = "&" + params;
     }
+
+    // 用户信息
     var user = this.get_user_cache_info();
     var token = (user == false) ? '' : user.token || '';
-    return (
-      this.data.request_url +
-      "index.php?s=/" + m + "/" + c + "/" + a +
+    return this.data.request_url +
+      "index.php?s=/api/" + c + "/" + a + plugins_params+
       "&application=app&application_client_type=alipay" +
       "&token=" +
       token +
       "&ajax=ajax" +
-      params
-    );
+      params;
   },
 
   /**
@@ -217,6 +234,22 @@ App({
       return false;
     }
     return user.data;
+  },
+
+  /**
+   * 用户登录
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   * auth_data  授权数据
+   */
+  user_auth_login(object, method, auth_data) {
+    var openid = my.getStorageSync({key: this.data.cache_user_login_key});
+    if ((openid.data || null) == null)
+    {
+      this.user_login(object, method);
+    } else {
+      this.get_user_login_info(object, method, openid.data, auth_data);
+    }
   },
 
   /**
@@ -264,7 +297,7 @@ App({
                   } else {
                     my.setStorageSync({
                       key: self.data.cache_user_login_key,
-                      data: res.data.data.openid
+                      data: data.openid
                     });
                     self.login_to_auth();
                   }
@@ -306,22 +339,6 @@ App({
           }
         }
       });
-  },
-
-  /**
-   * 用户登录
-   * object     回调操作对象
-   * method     回调操作对象的函数
-   * auth_data  授权数据
-   */
-  user_auth_login(object, method, auth_data) {
-    var openid = my.getStorageSync({key: this.data.cache_user_login_key});
-    if ((openid.data || null) == null)
-    {
-      this.user_login(object, method);
-    } else {
-      this.get_user_login_info(object, method, openid.data, auth_data);
-    }
   },
 
   /**
@@ -424,7 +441,7 @@ App({
   /**
    * 字段数据校验
    * data           待校验的数据, 一维json对象
-   * validation     待校验的字段, 格式 [{fields: 'mobile', msg: '请填写手机号码'}, ...]
+   * validation     待校验的字段, 格式 [{fields: 'mobile', msg: '请填写手机号码', is_can_zero: 1(是否可以为0)}, ...]
    */
   fields_check(data, validation) {
     for (var i in validation) {
@@ -528,12 +545,12 @@ App({
   is_tabbar_pages(url) {
     if (url.indexOf("?") == -1)
     {
-      var all = url.split("/");
+      var value = url;
     } else {
       var temp_str = url.split("?");
-      var all = temp_str[0].split("/");
+      var value = temp_str[0];
     }
-    if (all.length <= 0)
+    if ((value || null) == null)
     {
       return false;
     }
@@ -541,7 +558,7 @@ App({
     var temp_tabbar_pages = this.data.tabbar_pages;
     for (var i in temp_tabbar_pages)
     {
-      if (temp_tabbar_pages[i] == all[all.length-1])
+      if (temp_tabbar_pages[i] == value)
       {
         return true;
       }
@@ -643,6 +660,81 @@ App({
     if ((value || null) != null) {
       my.makePhoneCall({ number: value });
     }
+  },
+
+  /**
+   * 登录校验
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   */
+  is_login_check(res, object, method) {
+    if(res.code == -400)
+    {
+      my.clearStorage();
+      this.get_user_info(object, method);
+      return false;
+    }
+    return true;
+  },
+
+  // 获取用户openid
+  get_user_openid() {
+    var user = this.get_user_cache_info();
+    return (user == false) ? null : user.alipay_openid || null;
+  },
+
+  /**
+   * 设置导航reddot
+   * index     tabBar 的哪一项，从左边算起（0开始）
+   * type      0 移出, 1 添加 （默认 0 移出）
+   */
+  set_tab_bar_reddot(index, type) {
+    if (index !== undefined && index !== null)
+    {
+      if ((type || 0) == 0)
+      {
+        my.hideTabBarRedDot({ index: Number(index) });
+      } else {
+        my.showTabBarRedDot({ index: Number(index) });
+      }
+    }
+  },
+
+  /**
+   * 设置导航车badge
+   * index     tabBar 的哪一项，从左边算起（0开始）
+   * type      0 移出, 1 添加 （默认 0 移出）
+   * value     显示的文本，超过 4 个字符则显示成 ...（type参数为1的情况下有效）
+   */
+  set_tab_bar_badge(index, type, value) {
+    if (index !== undefined && index !== null)
+    {
+      if ((type || 0) == 0) {
+        my.removeTabBarBadge({ index: Number(index) });
+      } else {
+        my.setTabBarBadge({ index: Number(index), "text": value.toString() });
+      }
+    }
+  },
+
+  // 窗口背景色设置
+  set_nav_bg_color_main(color) {
+    // 默认主色
+    if((color || null) == null)
+    {
+      color = '#d2364c';
+    }
+
+    // 窗口和下拉顶部背景色
+    my.setBackgroundColor({
+      backgroundColorTop: color,
+      backgroundColorBottom: '#f5f5f5',
+    });
+
+    // 下拉文字颜色
+    my.setBackgroundTextStyle({
+      textStyle: 'light',
+    });
   },
 
 });

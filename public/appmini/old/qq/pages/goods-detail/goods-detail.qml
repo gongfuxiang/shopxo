@@ -31,7 +31,7 @@
 
   <!-- 限时秒杀 -->
   <view qq:if="{{common_app_is_limitedtimediscount == 1 && plugins_limitedtimediscount_data != null}}">
-    <import src="/pages/lib/limitedtimediscount/goods-detail.wxml" />
+    <import src="/pages/lib/limitedtimediscount/goods-detail.qml" />
     <template is="limitedtimediscount" data="{{plugins_limitedtimediscount_data: plugins_limitedtimediscount_data, plugins_limitedtimediscount_is_show_time: plugins_limitedtimediscount_is_show_time, plugins_limitedtimediscount_time_millisecond: plugins_limitedtimediscount_time_millisecond}}"></template>
   </view>
 
@@ -42,11 +42,11 @@
         <button type="default" size="mini" open-type="share" hover-class="none">
           <image src="/images/goods-detail-share-icon.png" mode="scaleToFill" class="dis-block" />
           <view class="cr-888">分享</view>
-        </button>      
+        </button>
       </view>
       <text qq:if="{{(show_field_price_text || null) != null}}" class="price-icon">{{show_field_price_text}}</text>
       <text class="sales-price">￥{{goods.price}}</text>
-      <view qq:if="{{(goods.original_price || null) != null && goods.original_price > 0}}" class="original-price">￥{{goods.original_price}}</view>
+      <view qq:if="{{(goods.original_price || null) != null && goods.original_price != '0.00'}}" class="original-price">￥{{goods.original_price}}</view>
     </view>
     <view class="base-grid oh">
       <view class="fl tl">
@@ -102,6 +102,12 @@
       <text class="line"></text>
       <text class="text-wrapper">详情</text>
     </view>
+    <!-- 是否详情展示相册 -->
+    <block qq:if="{{common_is_goods_detail_show_photo == 1 && goods_photo.length > 0}}">
+      <view qq:for="{{goods_photo}}" qq:key="key" class="goods-detail-photo bg-white">
+        <image qq:if="{{(item.images || null) != null}}" bindtap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto dis-block" src="{{item.images}}" mode="widthFix" />
+      </view>
+    </block>
     <!-- web详情 -->
     <view qq:if="{{common_app_is_use_mobile_detail == 0}}" class="bg-white">
       <rich-text nodes="{{goods.content_web || ''}}"></rich-text>
@@ -118,7 +124,7 @@
   </view>
 
   <!-- 底线 -->
-  <import src="/pages/common/bottom_line.wxml" />
+  <import src="/pages/common/bottom_line.qml" />
   <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
 
   <!-- 底部操作 -->
@@ -131,13 +137,13 @@
       <image src="{{goods_favor_icon}}" mode="scaleToFill" />
       <text class="dis-block cr-888">{{goods_favor_text}}</text>
     </view>
-    <view class="fr {{common_is_exhibition_mode == 1 ? 'exhibition-mode' : ''}}">
-      <!-- 展示型 -->
-      <block qq:if="{{common_is_exhibition_mode == 1}}">
+    <view class="fr {{common_site_type == 1 ? 'exhibition-mode' : ''}}">
+      <!-- 站点模式 1 展示型 -->
+      <block qq:if="{{common_site_type == 1}}">
         <button class="bg-main fl" type="default" bindtap="exhibition_submit_event" hover-class="none">{{nav_submit_text}}</button>
       </block>
 
-      <!-- 销售型 -->
+      <!-- 销售型,自提点,虚拟销售 -->
       <block qq:else>
         <button class="bg-warning fl" type="default" bindtap="cart_submit_event" hover-class="none" disabled="{{nav_submit_is_disabled}}">加入购物车</button>
         <button class="bg-main fl" type="default" bindtap="buy_submit_event" hover-class="none" disabled="{{nav_submit_is_disabled}}">{{nav_submit_text}}</button>
@@ -201,13 +207,13 @@
 </view>
 
 <view qq:if="{{goods == null}}">
-    <import src="/pages/common/nodata.wxml" />
+    <import src="/pages/common/nodata.qml" />
     <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
 </view>
 
 <!-- 在线客服 -->
 <view qq:if="{{common_app_is_online_service == 1}}">
-  <import src="/pages/lib/online-service/content.wxml" />
+  <import src="/pages/lib/online-service/content.qml" />
   <template is="online_service"></template>
 </view>
 

@@ -3,6 +3,7 @@
     <view class="item bg-white spacing-mb" s-for="item, index in data_list" s-key="key">
       <view bindtap="address_conent_event" data-index="{{index}}">
         <view class="base oh">
+          <text s-if="(item.alias || null) != null" class="address-alias">{{item.alias}}</text>
           <text>{{item.name}}</text>
           <text class="fr">{{item.tel}}</text>
         </view>

@@ -1,0 +1,24 @@
+.item {
+    padding: 10rpx 10rpx 0 10rpx;
+}
+.base, .address, .operation {
+    padding: 20rpx 0;
+}
+.address .item-icon {
+    width: 30rpx;
+    height: 35rpx !important;
+}
+.address-alias {
+  border: 1px solid #d2364c;
+  color: #d2364c;
+  padding: 2rpx 10rpx;
+  border-radius: 6rpx;
+  margin-right: 10rpx;
+}
+.address .text {
+    line-height: 44rpx;
+    width: calc(100% - 40rpx);
+}
+.operation .map-submit {
+    margin-left: 20rpx;
+}

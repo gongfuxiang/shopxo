@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\SeoService;
 use app\service\GoodsService;
 
 /**
@@ -80,6 +81,9 @@ class UserGoodsBrowse extends Common
         $data = GoodsService::GoodsBrowseList($data_params);
         $this->assign('data_list', $data['data']);
         $this->assign('ids', empty($data['data']) ? '' : implode(',', array_column($data['data'], 'id')));
+
+        // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('我的足迹', 1));
 
         // 参数
         $this->assign('params', $params);

@@ -15,6 +15,13 @@ Page({
     extension_data: [],
     payment_id: 0,
     common_order_is_booking: 0,
+    common_site_type: 0,
+    extraction_address: [],
+    site_model: 0,
+    buy_header_nav: [
+      { name: "快递邮寄", value: 0 },
+      { name: "自提点取货", value: 2 }
+    ],
 
     // 优惠劵
     plugins_coupon_data: null,
@@ -23,6 +30,7 @@ Page({
     popup_plugins_coupon_status: false,
   },
   onLoad(params) {
+    //params['data'] = '{"buy_type":"goods","goods_id":"1","stock":"1","spec":"[]"}';
     if((params.data || null) == null || app.get_length(JSON.parse(params.data)) == 0)
     {
       my.alert({
@@ -49,6 +57,16 @@ Page({
 
   // 获取数据列表
   init() {
+    // 订单参数信息是否正确
+    if (this.data.params == null) {
+      this.setData({
+        data_list_loding_status: 2,
+        data_list_loding_msg: '订单信息有误',
+      });
+      my.stopPullDownRefresh();
+      return false;
+    }
+    
     // 本地缓存地址
     if(this.data.is_first == 0)
     {
@@ -59,12 +77,7 @@ Page({
       {
         this.setData({
           address: cache_address.data,
-          address_id: cache_address.data.id
-        });
-      } else {
-        this.setData({
-          address: null,
-          address_id: 0
+          address_id: cache_address.data.id || 0,
         });
       }
     }
@@ -79,6 +92,7 @@ Page({
     data['address_id'] = this.data.address_id;
     data['payment_id'] = this.data.payment_id;
     data['coupon_id'] = this.data.plugins_use_coupon_id;
+    data['site_model'] = this.data.site_model;
     my.request({
       url: app.get_request_url("index", "buy"),
       method: "POST",
@@ -100,6 +114,8 @@ Page({
               extension_data: data.extension_data || [],
               data_list_loding_status: 3,
               common_order_is_booking: data.common_order_is_booking || 0,
+              common_site_type: data.common_site_type || 0,
+              extraction_address: data.base.extraction_address || [],
               plugins_coupon_data: data.plugins_coupon_data || null,
             });
 
@@ -116,18 +132,14 @@ Page({
             }
 
             // 地址
-            if (this.data.address == null || this.data.address_id == 0) {
-              if((data.base.address || null) != null) {
-                this.setData({
-                  address: data.base.address,
-                  address_id: data.base.address.id,
-                });
-                my.setStorage({
-                  key: app.data.cache_buy_user_address_select_key,
-                  data: data.base.address,
-                });
-              }
-            }
+            this.setData({
+              address: data.base.address || null,
+              address_id: ((data.base.address || null) != null && (data.base.address.id || null) != null) ? data.base.address.id : null,
+            });
+            my.setStorage({
+              key: app.data.cache_buy_user_address_select_key,
+              data: data.base.address || null,
+            });
 
             // 支付方式
             this.payment_list_data(data.payment_list);
@@ -137,7 +149,9 @@ Page({
             data_list_loding_status: 2,
             data_list_loding_msg: res.data.msg,
           });
-          app.showToast(res.data.msg);
+          if (app.is_login_check(res.data, this, 'init')) {
+            app.showToast(res.data.msg);
+          }
         }
       },
       fail: () => {
@@ -170,11 +184,14 @@ Page({
     data['payment_id'] = this.data.payment_id;
     data['user_note'] = this.data.user_note_value;
     data['coupon_id'] = this.data.plugins_use_coupon_id;
+    data['site_model'] = this.data.site_model;
 
     // 数据验证
-    var validation = [
-      { fields: 'address_id', msg: '请选择地址' }
-    ];
+    var validation = [];
+    if (this.data.common_site_type == 0 || this.data.common_site_type == 2 || this.data.common_site_type == 4)
+    {
+      validation.push({ fields: 'address_id', msg: '请选择地址', is_can_zero: 1 });
+    }
     if (this.data.common_order_is_booking != 1) {
       validation.push({ fields: 'payment_id', msg: '请选择支付方式' });
     }
@@ -200,8 +217,10 @@ Page({
               my.redirectTo({url: '/pages/user-order/user-order'});
             }
           } else {
-            app.showToast(res.data.msg);
             this.setData({ buy_submit_disabled_status: false });
+            if (app.is_login_check(res.data, this, 'buy_submit_event')) {
+              app.showToast(res.data.msg);
+            }
           }
         },
         fail: () => {
@@ -264,4 +283,36 @@ Page({
     this.init();
   },
 
+  // 地址选择事件
+  address_event(e) {
+    if (this.data.common_site_type == 0 || (this.data.common_site_type == 4 && this.data.site_model == 0))
+    {
+      my.navigateTo({
+        url: '/pages/user-address/user-address?is_back=1'
+      });
+    } else if (this.data.common_site_type == 2 || (this.data.common_site_type == 4 && this.data.site_model == 2))
+    {
+      my.navigateTo({
+        url: '/pages/extraction-address/extraction-address?is_back=1'
+      });
+    } else {
+      app.showToast('当前模式不允许使用地址');
+    }
+  },
+
+  // 销售+自提 模式选择事件
+  buy_header_nav_event(e) {
+    // 数据设置
+    this.setData({
+      address: null,
+      address_id: null,
+      site_model: e.currentTarget.dataset.value || 0,
+    });
+    
+    // 删除地址缓存
+    my.removeStorageSync({key: app.data.cache_buy_user_address_select_key});
+
+    // 数据初始化
+    this.init();
+  },
 });

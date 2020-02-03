@@ -1,0 +1,115 @@
+/*
+ * 公共
+ */
+.operation {
+  margin-top: 30rpx;
+}
+.title-msg {
+  font-size: 46rpx;
+  margin-top: 5%;
+}
+.mini-msg {
+  color: #0e90d2;
+}
+.to-submit {
+  margin-top: 15rpx;
+}
+.waiting-audit, .refuse {
+  padding: 10% 10rpx 60rpx 10rpx;
+}
+
+/*
+ * 未申请
+ */
+.apply-not {
+  padding: 10rpx 10rpx 60rpx 10rpx; 
+}
+.apply-not .apply-desc {
+  margin: 30rpx 30rpx 0 30rpx;
+}
+.apply-not .to-submit {
+  margin-top: 10%;
+}
+
+/*
+ * 待审核
+ */
+.waiting-audit .title-msg {
+  color: #f37b1d;
+}
+
+/*
+ * 已审核
+ */
+.valid .base {
+  padding: 20rpx 10rpx;
+}
+.valid .base-title {
+  font-weight: 500;
+}
+.valid .alias {
+  border: 1px solid #ff6a80;
+  color: #ff6a80;
+  padding: 2rpx 10rpx;
+  border-radius: 6rpx;
+  margin-right: 10rpx;
+}
+.valid .edit-submit {
+  color: #0e90d2;
+}
+.valid .content {
+  line-height: 46rpx;
+}
+.valid .content, .valid .statistics .item  {
+  padding: 30rpx 10rpx;
+}
+.valid .extraction-notice {
+  padding: 0 20rpx;
+}
+.valid .statistics .item {
+  width: calc(50% - 1px);
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+.valid .statistics .item .value {
+  font-weight: bold;
+  font-size: 36rpx;
+  margin-top: 10rpx;
+}
+.valid .statistics .item .order-wait-value {
+  color: #f00;
+}
+.valid .statistics .item .order-already-value {
+  color: #2ba245;
+}
+.valid .relieve {
+  padding: 0 10rpx;
+}
+
+/*
+ * 拒绝
+ */
+.refuse .title-msg {
+  color: #dd514c;
+}
+.refuse .fail-tips {
+  padding-left: 10rpx;
+  background: #ffffeb;
+  margin-top: 10rpx;
+}
+.refuse .mini-msg {
+  margin-top: 50rpx;
+}
+
+/*
+ * 介绍
+ */
+.apply-desc {
+  background: #def2fd;
+  border: 1px solid #cfeeff;
+  color: #1490d2;
+  padding: 10rpx;
+  font-size: 26rpx;
+  border-radius: 2px;
+}

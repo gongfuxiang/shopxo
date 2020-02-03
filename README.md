@@ -29,6 +29,10 @@
 * 码云/开源中国：https://gitee.com/gongfuxiang/shopxo
 * 腾讯云开发者：https://dev.tencent.com/u/gongfuxiang/p/shopxo/git
 
+### 部分功能特点
+* 分销、会员等级、限时秒杀、优惠券/折扣劵、报价单、商品相册标签、钱包、等等...
+* 更多查看应用商店 https://store.shopxo.net/
+
 ### 扩展性
 * 独立模块式开发，完善的注释，易扩展，应用管理。
 
@@ -53,10 +57,10 @@ ThinkPHP是一个快速、简单的基于MVC和面向对象的轻量级PHP开发
 ![小程序](https://images.gitee.com/uploads/images/2019/0111/104727_fb5ce133_488475.jpeg "xcx-1500.jpg")
 
 # PC端图片展示
-![电脑端](https://images.gitee.com/uploads/images/2019/0111/104442_0a307119_488475.gif "1547174456822.gif")
+![电脑端](https://images.gitee.com/uploads/images/2020/0203/000718_c4209c1f_488475.gif "home.gif")
 
 # 后台管理图片展示
-![后台管理](https://images.gitee.com/uploads/images/2019/0227/092528_9eb4dbef_488475.gif "admin-2.gif")
+![后台管理](https://images.gitee.com/uploads/images/2020/0203/000749_4a8b1c43_488475.gif "admin.gif")
 
 # 商城基础功能简介
 ### 后端功能列表
@@ -67,12 +71,16 @@ ThinkPHP是一个快速、简单的基于MVC和面向对象的轻量级PHP开发
 站点配置
     > 站点设置
         > 基础配置
+        > 备案信息
+        > 站点类型
         > 用户注册
         > 用户登录
         > 密码找回
         > 附件
         > 图片验证码
         > 订单售后
+        > 搜索
+        > 扩展项
     > 短信设置
         > 短信设置
         > 消息模板
