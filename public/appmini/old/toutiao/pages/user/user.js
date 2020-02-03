@@ -23,6 +23,7 @@ Page({
     // 远程自定义导航
     navigation: [],
 
+    common_app_is_online_service: 0,
     common_app_is_head_vice_nav: 0,
   },
 
@@ -108,6 +109,7 @@ Page({
             message_total: ((data.common_message_total || 0) == 0) ? 0 : data.common_message_total,
             head_nav_list: temp_head_nav_list,
             navigation: data.navigation || [],
+            common_app_is_online_service: data.common_app_is_online_service || 0,
             common_app_is_head_vice_nav: data.common_app_is_head_vice_nav || 0,
           });
 

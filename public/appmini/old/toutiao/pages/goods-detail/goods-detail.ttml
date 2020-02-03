@@ -211,6 +211,12 @@
     <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
 </view>
 
+<!-- 在线客服 -->
+<view tt:if="{{common_app_is_online_service == 1}}">
+  <import src="/pages/lib/online-service/content.ttml" />
+  <template is="online_service"></template>
+</view>
+
 <!-- 购物车 -->
 <navigator url="/pages/cart/cart" open-type="switchTab" hover-class="none">
   <view class="common-quick-nav quick-nav-cart">

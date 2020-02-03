@@ -75,5 +75,11 @@
     </view>
 </view>
 
+<!-- 在线客服 -->
+<view tt:if="{{common_app_is_online_service == 1}}">
+  <import src="/pages/lib/online-service/content.ttml" />
+  <template is="online_service"></template>
+</view>
+
 <import src="/pages/common/copyright.ttml" />
 <template is="copyright"></template>
