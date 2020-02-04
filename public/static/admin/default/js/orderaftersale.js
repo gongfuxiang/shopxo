@@ -19,7 +19,7 @@ $(function()
         $popup.find('.apply-info .type span').html(data.type_text || '<span class="cr-ddd">未填写</span>');
         $popup.find('.apply-info .reason span').html(data.reason || '<span class="cr-ddd">未填写</span>');
         $popup.find('.apply-info .number span').html(data.number || '<span class="cr-ddd">未填写</span>');
-        $popup.find('.apply-info .price span').html('￥'+data.price || '<span class="cr-ddd">未填写</span>');
+        $popup.find('.apply-info .price span').html(__price_symbol__+data.price || '<span class="cr-ddd">未填写</span>');
         $popup.find('.apply-info .msg span').html(data.msg || '<span class="cr-ddd">未填写</span>');
 
         $popup.modal(); 

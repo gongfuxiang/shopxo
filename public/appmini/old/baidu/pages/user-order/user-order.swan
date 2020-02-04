@@ -27,8 +27,8 @@
             <view class="orderaftersale-btn-text" catchtap="orderaftersale_event" data-oid="{{item.id}}" data-did="{{detail.id}}">{{detail.orderaftersale_btn_text}}</view>
           </view>
           <view class="oh goods-price">
-            <text class="sales-price">￥{{detail.price}}</text>
-            <text s-if="detail.original_price > 0" class="original-price">￥{{detail.original_price}}</text>
+            <text class="sales-price">{{price_symbol}}{{detail.price}}</text>
+            <text s-if="detail.original_price > 0" class="original-price">{{price_symbol}}{{detail.original_price}}</text>
             <text class="buy-number">x{{detail.buy_number}}</text>
           </view>
         </navigator>

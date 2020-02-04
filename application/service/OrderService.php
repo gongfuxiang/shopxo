@@ -865,7 +865,7 @@ class OrderService
                     $v['excel_export_items'] = $excel_export_items;
 
                     // 描述
-                    $v['describe'] = '共'.$v['buy_number_count'].'件 合计:￥'.$v['total_price'].'元';
+                    $v['describe'] = '共'.$v['buy_number_count'].'件 合计:'.config('shopxo.price_symbol').$v['total_price'].'元';
                 }
 
                 // 订单处理后钩子

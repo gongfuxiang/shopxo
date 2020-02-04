@@ -140,7 +140,7 @@
             {{if isset($floor['is_home_recommended']) and $floor['is_home_recommended'] eq 1}}
                 <div id="floor{{$key+1}}">
                     <div class="am-container">
-                        <div class="items-nav-title">
+                        <div class="items-nav-title" {{if !empty($floor['bg_color'])}}style="border-bottom: 2px solid {{$floor.bg_color}};"{{/if}}>
                             <p class="floor-title">{{$floor.name}}</p>
                             <p class="floor-desc">{{$floor.vice_name}}</p>
                             <div class="today-brands ">
@@ -278,7 +278,7 @@
                                                     }
                                                 }
                                             {{/php}}
-                                            <p class="price am-text-truncate">￥{{$goods.price}}</p>
+                                            <p class="price am-text-truncate">{{$price_symbol}}{{$goods.price}}</p>
                                         </div>
 
                                         <!-- 首页楼层商品内部底部钩子 -->

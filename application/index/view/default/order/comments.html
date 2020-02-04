@@ -56,17 +56,17 @@
                                                 </div>
                                                 <div class="wap-base am-show-sm-only">
                                                     {{if $goods['original_price'] gt 0}}
-                                                        <span class="original-price">￥{{$goods.original_price}}</span>
+                                                        <span class="original-price">{{$price_symbol}}{{$goods.original_price}}</span>
                                                     {{/if}}
-                                                    <strong class="total-price-content">￥{{$goods.price}}</strong>
+                                                    <strong class="total-price-content">{{$price_symbol}}{{$goods.price}}</strong>
                                                     <span class="wap-number">x{{$goods.buy_number}}</span>
                                                 </div>
                                             </td>
                                             <td class="price am-hide-sm-only">
                                                 {{if $goods['original_price'] gt 0}}
-                                                    <p class="original-price">￥{{$goods.original_price}}</p>
+                                                    <p class="original-price">{{$price_symbol}}{{$goods.original_price}}</p>
                                                 {{/if}}
-                                                <p class="line-price">￥{{$goods.price}} x {{$goods.buy_number}}</p>
+                                                <p class="line-price">{{$price_symbol}}{{$goods.price}} x {{$goods.buy_number}}</p>
                                             </td>
                                             <td>
                                                 <div class="rating-items">

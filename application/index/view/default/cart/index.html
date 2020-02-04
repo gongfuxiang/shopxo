@@ -54,17 +54,17 @@
                             </div>
                             <div class="wap-base am-show-sm-only">
                                 {{if $goods['original_price'] gt 0}}
-                                    <span class="original-price">￥{{$goods.original_price}}</span>
+                                    <span class="original-price">{{$price_symbol}}{{$goods.original_price}}</span>
                                 {{/if}}
-                                <strong class="total-price-content">￥{{$goods.price}}</strong>
+                                <strong class="total-price-content">{{$price_symbol}}{{$goods.price}}</strong>
                                 <span class="wap-number">x{{$goods.stock}}</span>
                             </div>
                         </td>
                         <td class="price am-hide-sm-only">
                             {{if $goods['original_price'] gt 0}}
-                                <p class="original-price">￥{{$goods.original_price}}</p>
+                                <p class="original-price">{{$price_symbol}}{{$goods.original_price}}</p>
                             {{/if}}
-                            <p class="line-price">￥{{$goods.price}}</p>
+                            <p class="line-price">{{$price_symbol}}{{$goods.price}}</p>
                         </td>
                         <td class="number">
                             <div class="am-input-group am-input-group-sm stock-tag" data-inventory="{{$goods.inventory}}" data-price="{{$goods.price}}" data-ajax-url="{{:MyUrl('index/cart/Stock')}}">
@@ -77,7 +77,7 @@
                             {{/if}}
                         </td>
                         <td class="total-price am-hide-sm-only">
-                            <strong class="total-price-content">￥{{$goods.total_price}}</strong>
+                            <strong class="total-price-content">{{$price_symbol}}{{$goods.total_price}}</strong>
                         </td>
                         <td class="operation">
                             <a href="javascript:;" class="submit-delete" data-url="{{:MyUrl('index/cart/delete')}}" data-id="{{$goods.id}}" data-view="fun" data-value="ViewDeleteBack">删除</a>
@@ -100,7 +100,7 @@
                 <form action="{{:MyUrl('index/buy/index')}}" method="post">
                     <span class="selected-tips am-fl">已选商品 <strong>0</strong> 件</span>
                     <span class="total-price-tips am-fl">合计：</span>
-                    <strong class="nav-total-price am-fl">￥0.00</strong>
+                    <strong class="nav-total-price am-fl">{{$price_symbol}}0.00</strong>
                     <input type="hidden" name="ids" value="0" />
                     <input type="hidden" name="buy_type" value="cart" />
                     <button type="submit" class="am-btn am-btn-primary separate-submit">结算</button>

@@ -18,7 +18,7 @@ $(function()
             }
         });
         $('.cart-nav .selected-tips strong').text(total_stock);
-        $('.cart-nav .nav-total-price').text('￥'+FomatFloat(total_price));
+        $('.cart-nav .nav-total-price').text(__price_symbol__+FomatFloat(total_price));
         $('.cart-nav input[name="ids"]').val(ids.toString() || 0);
     }
 
@@ -49,7 +49,7 @@ $(function()
             stock = 1;
         }
         self.parents('.stock-tag').find('input').val(stock);
-        self.parents('tr').find('.total-price-content').text('￥'+FomatFloat(stock*price, 2));
+        self.parents('tr').find('.total-price-content').text(__price_symbol__+FomatFloat(stock*price, 2));
 
         // 开启进度条
         $.AMUI.progress.start();

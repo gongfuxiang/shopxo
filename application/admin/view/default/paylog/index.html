@@ -138,10 +138,10 @@
 								{{if empty($v['buyer_user'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.buyer_user}}{{/if}}
 							</td>
 							<td>
-								{{if empty($v['pay_price'])}}<span class="cr-ddd">未填写</span>{{else /}}<span class="am-text-danger">￥{{$v.pay_price}}</span>{{/if}}
+								{{if empty($v['pay_price'])}}<span class="cr-ddd">未填写</span>{{else /}}<span class="am-text-danger">{{$price_symbol}}{{$v.pay_price}}</span>{{/if}}
 							</td>
 							<td>
-								{{if empty($v['total_price'])}}<span class="cr-ddd">未填写</span>{{else /}}￥{{$v.total_price}}{{/if}}
+								{{if empty($v['total_price'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$price_symbol}}{{$v.total_price}}{{/if}}
 							</td>
 							<td class="am-hide-sm-only">
 								{{if empty($v['subject'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.subject}}{{/if}}

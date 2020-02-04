@@ -115,7 +115,7 @@ text-align: center;float:none}
 
      /*改写的公告*/
     .banner-mixed{ position:absolute;top:10px;right:0px;width:170px; background:#FFF; z-index: 11;border:none; opacity: 0.8; -webkit-transition: opacity .2s ease-in; -moz-transition: opacity .2s ease-in; -ms-transition: opacity .2s ease-in; -o-transition: opacity .2s ease-in; transition: opacity .2s ease-in; margin-bottom: 0; }
-    .banner-mixed .banner-news li {float: none;width: 100%;padding:0px 5px;border:none ;height: 29px;line-height:32px ;}
+    .banner-mixed .banner-news li {float: none;width: 100%;padding:0px 5px;border:none ;height: 28px;line-height:32px ;}
     .banner-mixed:hover { opacity: 1; }
 
     /*楼层*/	

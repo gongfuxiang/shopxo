@@ -59,9 +59,9 @@
                                     </td>
                                     <td>
                                         {{if $v['original_price'] gt 0}}
-                                            <p class="original-price">￥{{$v.original_price}}</p>
+                                            <p class="original-price">{{$price_symbol}}{{$v.original_price}}</p>
                                         {{/if}}
-                                        <p class="line-price">￥{{$v.price}}</p>
+                                        <p class="line-price">{{$price_symbol}}{{$v.price}}</p>
                                     </td>
                                     <td>
                                         <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block am-icon-paint-brush submit-ajax" data-url="{{:MyUrl('index/userfavor/cancel')}}" data-id="{{$v.goods_id}}" data-view="delete"> 取消</button>

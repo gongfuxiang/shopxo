@@ -18,7 +18,7 @@ time, mark, audio, video {
     padding: 0;
     border: 0;
     vertical-align: baseline;
-    font-family: arial,"Lantinghei SC","Microsoft Yahei";
+    font-family: "Microsoft YaHei",SimSun;
     font-style: normal;
 }
 * { font-size: 12px; }

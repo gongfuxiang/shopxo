@@ -222,13 +222,13 @@ function GoodsSpecDetail()
             $.AMUI.progress.done();
             if(result.code == 0)
             {
-                $('.text-info .price-now').text('￥'+result.data.spec_base.price);
+                $('.text-info .price-now').text(__price_symbol__+result.data.spec_base.price);
                 $('.goods-price').text(result.data.spec_base.price);
                 $('.number-tag input[type="number"]').attr('max', result.data.spec_base.inventory);
                 $('.stock-tips .stock').text(result.data.spec_base.inventory);
                 if(result.data.spec_base.original_price > 0)
                 {
-                    $('.goods-original-price').text('￥'+result.data.spec_base.original_price);
+                    $('.goods-original-price').text(__price_symbol__+result.data.spec_base.original_price);
                     $('.goods-original-price').parents('.items').show();
                 } else {
                     $('.goods-original-price').parents('.items').hide();
@@ -369,7 +369,7 @@ function GoodsSpecType()
  */
 function GoodsBaseRestore()
 {
-    $('.text-info .price-now').text('￥'+$('.text-info .price-now').data('original-price'));
+    $('.text-info .price-now').text(__price_symbol__+$('.text-info .price-now').data('original-price'));
     $('.goods-price').text($('.goods-price').data('original-price'));
     $('.number-tag input[type="number"]').attr('max', $('.number-tag input[type="number"]').data('original-max'));
     $('.stock-tips .stock').text($('.stock-tips .stock').data('original-stock'));
@@ -382,7 +382,7 @@ function GoodsBaseRestore()
             var price = $(this).data('original-price');
             if(price !== undefined)
             {
-                $(this).text('￥'+price);
+                $(this).text(__price_symbol__+price);
             }
         });
     }

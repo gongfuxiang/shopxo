@@ -154,6 +154,9 @@ class Common extends Controller
         $this->assign('controller_name', $controller_name);
         $this->assign('action_name', $action_name);
 
+        // 价格符号
+        $this->assign('price_symbol', config('shopxo.price_symbol'));
+
 		// 控制器静态文件状态css,js
         $module_css = $module_name.DS.$default_theme.DS.'css'.DS.$controller_name;
         $module_css .= file_exists(ROOT_PATH.'static'.DS.$module_css.'.'.$action_name.'.css') ? '.'.$action_name.'.css' : '.css';

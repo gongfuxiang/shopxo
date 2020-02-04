@@ -146,7 +146,19 @@ class AppMiniService
 
         // 替换内容
         // app.js
-        $status = file_put_contents($new_dir.DS.'app.js', str_replace(['{{request_url}}', '{{application_title}}', '{{application_describe}}'], [__MY_URL__, $params['app_mini_title'], $params['app_mini_describe']], file_get_contents($new_dir.DS.'app.js')));
+        $search = [
+            '{{request_url}}',
+            '{{application_title}}',
+            '{{application_describe}}',
+            '{{price_symbol}}',
+        ];
+        $replace = [
+            __MY_URL__,
+            $params['app_mini_title'],
+            $params['app_mini_describe'],
+            config('shopxo.price_symbol'),
+        ];
+        $status = file_put_contents($new_dir.DS.'app.js', str_replace($search, $replace, file_get_contents($new_dir.DS.'app.js')));
         if($status === false)
         {
             return DataReturn('基础配置替换失败', -4);

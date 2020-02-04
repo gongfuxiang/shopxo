@@ -18,7 +18,7 @@
                         </a>
                         <a class="am-text-top" href="{{$data.goods.goods_url}}" target="_blank">{{$data.goods.title}}</a>
                     </div>
-                    <p>￥{{$data.goods.price}}</p>
+                    <p>{{$price_symbol}}{{$data.goods.price}}</p>
                 {{else /}}
                     商品信息异常
                 {{/if}}

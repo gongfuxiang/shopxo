@@ -1,11 +1,11 @@
 <ul class="am-nav am-nav-pills table-nav">
-	<li {{if $view_type eq 'home'}}class="am-active"{{/if}}>
-		<a href="{{:MyUrl('admin/theme/index', ['view_type'=>'home'])}}">当前主题</a>
+	<li {{if $view_type eq 'index'}}class="am-active"{{/if}}>
+		<a href="{{:MyUrl('admin/theme/index', ['view_type'=>'index'])}}">当前主题</a>
 	</li>
 	<li {{if $view_type eq 'upload'}}class="am-active"{{/if}}>
 		<a href="{{:MyUrl('admin/theme/index', ['view_type'=>'upload'])}}">主题安装</a>
 	</li>
     <li class="fr">
-        <a class="am-margin-left-sm" href="{{$store_theme_url}}" target="_blank">更多支付插件下载 <i class="am-icon-external-link"></i></a>
+        <a class="am-margin-left-sm" href="{{$store_theme_url}}" target="_blank">更多主题下载 <i class="am-icon-external-link"></i></a>
     </li>
 </ul>

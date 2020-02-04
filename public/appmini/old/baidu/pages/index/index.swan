@@ -21,7 +21,7 @@
 <!-- 限时秒杀 -->
 <view s-if="common_app_is_limitedtimediscount == 1">
   <import src="/pages/lib/limitedtimediscount/home.swan" />
-  <template is="limitedtimediscount" data="{{{plugins_limitedtimediscount_data: plugins_limitedtimediscount_data, plugins_limitedtimediscount_is_show_time: plugins_limitedtimediscount_is_show_time, plugins_limitedtimediscount_timer_title: plugins_limitedtimediscount_timer_title}}}"></template>
+  <template is="limitedtimediscount" data="{{{plugins_limitedtimediscount_data: plugins_limitedtimediscount_data, plugins_limitedtimediscount_is_show_time: plugins_limitedtimediscount_is_show_time, plugins_limitedtimediscount_timer_title: plugins_limitedtimediscount_timer_title, price_symbol: price_symbol}}}"></template>
 </view>
 
 <!-- 楼层数据 -->
@@ -51,7 +51,7 @@
             <image src="{{goods.home_recommended_images}}" mode="aspectFit" />
             <view class="goods-base">
               <view class="goods-title single-text">{{goods.title}}</view>
-              <view class="sales-price">￥{{goods.min_price}}</view>
+              <view class="sales-price">{{price_symbol}}{{goods.min_price}}</view>
             </view>
           </navigator>
         </view>

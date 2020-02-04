@@ -144,7 +144,7 @@
                                         </a>
                                         <a class="am-text-top" href="{{$v.goods.goods_url}}" target="_blank">{{$v.goods.title}}</a>
                                     </div>
-                                    <p>￥{{$v.goods.price}}</p>
+                                    <p>{{$price_symbol}}{{$v.goods.price}}</p>
                                 {{else /}}
                                     商品信息异常
                                 {{/if}}
@@ -215,7 +215,7 @@
                                                             </a>
                                                             <a class="am-text-top" href="{{$v.goods.goods_url}}" target="_blank">{{$v.goods.title}}</a>
                                                         </div>
-                                                        <p>￥{{$v.goods.price}}</p>
+                                                        <p>{{$price_symbol}}{{$v.goods.price}}</p>
                                                     {{else /}}
                                                         商品信息异常
                                                     {{/if}}

@@ -54,9 +54,9 @@
                                     </td>
                                     <td>
                                         {{if $goods['original_price'] gt 0}}
-                                            <p class="original-price">￥{{$goods.original_price}}</p>
+                                            <p class="original-price">{{$price_symbol}}{{$goods.original_price}}</p>
                                         {{/if}}
-                                        <p class="line-price">￥{{$goods.price}} x {{$goods.buy_number}}</p>
+                                        <p class="line-price">{{$price_symbol}}{{$goods.price}} x {{$goods.buy_number}}</p>
                                     </td>
                                 </tr>
                             </tbody>
@@ -66,40 +66,40 @@
                           {{if !empty($order.price)}}
                                 <div class="items am-cf">
                                     <div class="items-title am-fl">商品总价：</div>
-                                    <div class="items-detail am-fl">￥{{$order.price}}</div>
+                                    <div class="items-detail am-fl">{{$price_symbol}}{{$order.price}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($order.increase_price)}}
                                 <div class="items am-cf">
                                     <div class="items-title am-fl">增加金额：</div>
-                                    <div class="items-detail am-fl">+￥{{$order.increase_price}}</div>
+                                    <div class="items-detail am-fl">+{{$price_symbol}}{{$order.increase_price}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($order.preferential_price)}}
                                 <div class="items am-cf">
                                     <div class="items-title am-fl">优惠金额：</div>
-                                    <div class="items-detail am-fl">-￥{{$order.preferential_price}}</div>
+                                    <div class="items-detail am-fl">-{{$price_symbol}}{{$order.preferential_price}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($order.refund_price)}}
                                 <div class="items am-cf">
                                     <div class="items-title am-fl">退款金额：</div>
                                     <div class="items-detail am-fl">
-                                        <span class="am-text-danger">-￥{{$order.refund_price}}</span>
+                                        <span class="am-text-danger">-{{$price_symbol}}{{$order.refund_price}}</span>
                                     </div>
                                 </div>
                             {{/if}}
                             {{if !empty($order.total_price)}}
                                 <div class="items am-cf">
                                     <div class="items-title am-fl">订单总价：</div>
-                                    <div class="items-detail am-fl line-price">￥{{$order.total_price}}</div>
+                                    <div class="items-detail am-fl line-price">{{$price_symbol}}{{$order.total_price}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($order.pay_price)}}
                                 <div class="items am-cf">
                                     <div class="items-title am-fl">支付金额：</div>
                                     <div class="items-detail am-fl">
-                                        <strong class="total-price-content">￥{{$order.pay_price}}</strong>
+                                        <strong class="total-price-content">{{$price_symbol}}{{$order.pay_price}}</strong>
                                     </div>
                                 </div>
                             {{/if}}
@@ -197,7 +197,7 @@
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
                                         <span>退款金额：</span>
-                                        <span class="am-text-danger">￥{{$new_aftersale_data.price}}</span>
+                                        <span class="am-text-danger">{{$price_symbol}}{{$new_aftersale_data.price}}</span>
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
                                         <span>退款说明：</span>

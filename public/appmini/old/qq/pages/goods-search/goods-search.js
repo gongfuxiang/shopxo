@@ -1,6 +1,7 @@
 const app = getApp();
 Page({
   data: {
+    price_symbol: app.data.price_symbol,
     data_list_loding_status: 1,
     data_bottom_line_status: false,
     data_list: [],

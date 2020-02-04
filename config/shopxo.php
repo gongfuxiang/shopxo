@@ -78,5 +78,8 @@ return [
 
     // 坐标需要转换的平台
     'coordinate_transformation'             => ['alipay', 'weixin', 'toutiao', 'baidu'],
+
+    // 价格符号
+    'price_symbol'                          => '￥',
 ];
 ?>

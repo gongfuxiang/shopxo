@@ -73,6 +73,9 @@ App({
     // 基础信息
     application_title: "{{application_title}}",
     application_describe: "{{application_describe}}",
+
+    // 价格符号
+    price_symbol: "{{price_symbol}}"
   },
 
   /**

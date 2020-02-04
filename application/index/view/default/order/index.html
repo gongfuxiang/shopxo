@@ -170,9 +170,9 @@
                                     </div>
                                     <div class="wap-base am-show-sm-only">
                                         {{if $goods['original_price'] gt 0}}
-                                            <span class="original-price">￥{{$goods.original_price}}</span>
+                                            <span class="original-price">{{$price_symbol}}{{$goods.original_price}}</span>
                                         {{/if}}
-                                        <strong class="line-price">￥{{$goods.price}}</strong>
+                                        <strong class="line-price">{{$price_symbol}}{{$goods.price}}</strong>
                                         <span class="wap-number">x{{$goods.buy_number}}</span>
                                         {{if isset($goods['returned_quantity']) and $goods['returned_quantity'] gt 0}}
                                             <span class="am-badge am-round am-badge-warning">已退 {{$goods.returned_quantity}}</span>
@@ -181,9 +181,9 @@
                                 </td>
                                 <td class="row-price am-hide-sm-only">
                                     {{if $goods['original_price'] gt 0}}
-                                        <p class="original-price">￥{{$goods.original_price}}</p>
+                                        <p class="original-price">{{$price_symbol}}{{$goods.original_price}}</p>
                                     {{/if}}
-                                    <p class="line-price">￥{{$goods.price}}</p>
+                                    <p class="line-price">{{$price_symbol}}{{$goods.price}}</p>
                                 </td>
                                 <td class="row-number am-hide-sm-only">
                                     <span>x{{$goods.buy_number}}</span>
@@ -204,7 +204,7 @@
                                 </td>
                                 {{if $keys eq 0}}
                                     <td class="row-total-price am-hide-sm-only" rowspan="{{$order.items_count}}">
-                                        <strong class="total-price-content">￥{{$order.total_price}}</strong>
+                                        <strong class="total-price-content">{{$price_symbol}}{{$order.total_price}}</strong>
                                         {{if isset($order['refund_price']) and $order['refund_price'] gt 0}}
                                             <br /><span class="am-badge am-round am-badge-warning">已退 {{$order.refund_price}}</span>
                                         {{/if}}

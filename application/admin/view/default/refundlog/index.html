@@ -139,13 +139,13 @@
                                 {{if empty($v['buyer_user'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.buyer_user}}{{/if}}
                             </td>
                             <td>
-                                {{if empty($v['refundment_text'])}}<span class="cr-ddd">未填写</span>{{else /}}<span class="am-text-success">￥{{$v.refundment_text}}</span>{{/if}}
+                                {{if empty($v['refundment_text'])}}<span class="cr-ddd">未填写</span>{{else /}}<span class="am-text-success">{{$price_symbol}}{{$v.refundment_text}}</span>{{/if}}
                             </td>
                             <td>
-                                {{if empty($v['refund_price'])}}<span class="cr-ddd">未填写</span>{{else /}}<span class="am-text-danger">￥{{$v.refund_price}}</span>{{/if}}
+                                {{if empty($v['refund_price'])}}<span class="cr-ddd">未填写</span>{{else /}}<span class="am-text-danger">{{$price_symbol}}{{$v.refund_price}}</span>{{/if}}
                             </td>
                             <td>
-                                {{if empty($v['pay_price'])}}<span class="cr-ddd">未填写</span>{{else /}}￥{{$v.pay_price}}{{/if}}
+                                {{if empty($v['pay_price'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$price_symbol}}{{$v.pay_price}}{{/if}}
                             </td>
                             <td class="am-hide-sm-only">
                                 {{if empty($v['msg'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.msg}}{{/if}}

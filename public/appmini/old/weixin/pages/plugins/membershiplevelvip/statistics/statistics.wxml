@@ -26,19 +26,19 @@
     <view class="item fl">
       <view class="name cr-666">返佣总金额</view>
       <view class="value single-text">
-        <text class="golden">￥{{user_profit_total_price || '0.00'}}</text>
+        <text class="golden">{{price_symbol}}{{user_profit_total_price || '0.00'}}</text>
       </view>
     </view>
     <view class="item fl">
       <view class="name cr-666">待结算金额</view>
       <view class="value single-text">
-        <text class="yellow">￥{{user_profit_stay_price || '0.00'}}</text>
+        <text class="yellow">{{price_symbol}}{{user_profit_stay_price || '0.00'}}</text>
       </view>
     </view>
     <view class="item fl">
       <view class="name cr-666">已结算金额</view>
       <view class="value single-text">
-        <text class="green">￥{{user_profit_already_price || '0.00'}}</text>
+        <text class="green">{{price_symbol}}{{user_profit_already_price || '0.00'}}</text>
       </view>
     </view>
   </view>

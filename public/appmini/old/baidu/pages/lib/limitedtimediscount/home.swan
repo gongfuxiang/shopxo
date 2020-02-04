@@ -21,8 +21,8 @@
             <image class="dis-block" src="{{item.images}}" mode="aspectFit"></image>
             <view class="goods-base">
               <view class="goods-title single-text">{{item.title}}</view>
-              <view class="goods-price single-text">￥{{item.price}}</view>
-              <view s-if="(item.original_price || null) != null" class="goods-original-price single-text">￥{{item.original_price}}</view>
+              <view class="goods-price single-text">{{price_symbol}}{{item.price}}</view>
+              <view s-if="(item.original_price || null) != null" class="goods-original-price single-text">{{price_symbol}}{{item.original_price}}</view>
               <button size="mini">抢购</button>
             </view>
           </navigator>

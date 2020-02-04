@@ -58,9 +58,9 @@
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    margin-top: 10px;
-    min-height: 36px;
-    line-height: 16px;
+    margin: 10px 0;
+    height: 36px;
+    line-height: 18px;
     font-weight: 300;
     color: #b3b3b3;
 }

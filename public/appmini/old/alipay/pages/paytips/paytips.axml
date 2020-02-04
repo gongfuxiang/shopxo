@@ -3,7 +3,7 @@
   <image class="pay-icon" a:else mode="widthFix" src="{{default_round_error_icon}}" />
   <text class="dis-block">{{params.msg}}</text>
   <view a:if="{{params.code == '9000'}}" class="price-box">
-    <text  class="sales-price">￥{{params.total_price}}</text>
+    <text  class="sales-price">{{price_symbol}}{{params.total_price}}</text>
     <text class="price-unit cr-888">元</text>
   </view>
 </view>

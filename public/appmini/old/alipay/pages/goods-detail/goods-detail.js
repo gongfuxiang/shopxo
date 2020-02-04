@@ -2,6 +2,8 @@ const app = getApp();
 import parse from 'mini-html-parser2';
 Page({
   data: {
+    price_symbol: app.data.price_symbol,
+    
     indicator_dots: false,
     indicator_color: 'rgba(0, 0, 0, .3)',
     indicator_active_color: '#e31c55',

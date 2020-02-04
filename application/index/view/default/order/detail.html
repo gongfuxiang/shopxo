@@ -376,9 +376,9 @@
                                         </div>
                                         <div class="wap-base am-show-sm-only">
                                             {{if $goods['original_price'] gt 0}}
-                                                <span class="original-price">￥{{$goods.original_price}}</span>
+                                                <span class="original-price">{{$price_symbol}}{{$goods.original_price}}</span>
                                             {{/if}}
-                                            <strong class="total-price-content">￥{{$goods.price}}</strong>
+                                            <strong class="total-price-content">{{$price_symbol}}{{$goods.price}}</strong>
                                             <span class="wap-number">x{{$goods.buy_number}}</span>
                                             {{if isset($goods['returned_quantity']) and $goods['returned_quantity'] gt 0}}
                                                 <span class="am-badge am-round am-badge-warning">已退 {{$goods.returned_quantity}}</span>
@@ -387,9 +387,9 @@
                                     </td>
                                     <td class="price am-hide-sm-only">
                                         {{if $goods['original_price'] gt 0}}
-                                            <p class="original-price">￥{{$goods.original_price}}</p>
+                                            <p class="original-price">{{$price_symbol}}{{$goods.original_price}}</p>
                                         {{/if}}
-                                        <p class="line-price">￥{{$goods.price}}</p>
+                                        <p class="line-price">{{$price_symbol}}{{$goods.price}}</p>
                                     </td>
                                     <td class="number am-hide-sm-only">
                                         <span>x{{$goods.buy_number}}</span>
@@ -398,7 +398,7 @@
                                         {{/if}}
                                     </td>
                                     <td class="total-price am-hide-sm-only">
-                                        <strong class="total-price-content">￥{{$goods.total_price}}</strong>
+                                        <strong class="total-price-content">{{$price_symbol}}{{$goods.total_price}}</strong>
                                         {{if isset($goods['refund_price']) and $goods['refund_price'] gt 0}}
                                             <br /><span class="am-badge am-round am-badge-warning">已退 {{$goods.refund_price}}</span>
                                         {{/if}}
@@ -424,40 +424,40 @@
                   {{if !empty($data.price)}}
                         <div class="items am-cf">
                             <div class="items-title am-fl">商品总价：</div>
-                            <div class="items-detail am-fl">￥{{$data.price}}</div>
+                            <div class="items-detail am-fl">{{$price_symbol}}{{$data.price}}</div>
                         </div>
                     {{/if}}
                     {{if !empty($data.increase_price)}}
                         <div class="items am-cf">
                             <div class="items-title am-fl">增加金额：</div>
-                            <div class="items-detail am-fl">+￥{{$data.increase_price}}</div>
+                            <div class="items-detail am-fl">+{{$price_symbol}}{{$data.increase_price}}</div>
                         </div>
                     {{/if}}
                     {{if !empty($data.preferential_price)}}
                         <div class="items am-cf">
                             <div class="items-title am-fl">优惠金额：</div>
-                            <div class="items-detail am-fl">-￥{{$data.preferential_price}}</div>
+                            <div class="items-detail am-fl">-{{$price_symbol}}{{$data.preferential_price}}</div>
                         </div>
                     {{/if}}
                     {{if !empty($data.refund_price)}}
                         <div class="items am-cf">
                             <div class="items-title am-fl">退款金额：</div>
                             <div class="items-detail am-fl">
-                                <span class="am-text-danger">-￥{{$data.refund_price}}</span>
+                                <span class="am-text-danger">-{{$price_symbol}}{{$data.refund_price}}</span>
                             </div>
                         </div>
                     {{/if}}
                     {{if !empty($data.total_price)}}
                         <div class="items am-cf">
                             <div class="items-title am-fl">订单总价：</div>
-                            <div class="items-detail am-fl line-price">￥{{$data.total_price}}</div>
+                            <div class="items-detail am-fl line-price">{{$price_symbol}}{{$data.total_price}}</div>
                         </div>
                     {{/if}}
                     {{if !empty($data.pay_price)}}
                         <div class="items am-cf">
                             <div class="items-title am-fl">支付金额：</div>
                             <div class="items-detail am-fl">
-                                <strong class="total-price-content">￥{{$data.pay_price}}</strong>
+                                <strong class="total-price-content">{{$price_symbol}}{{$data.pay_price}}</strong>
                             </div>
                         </div>
                     {{/if}}
