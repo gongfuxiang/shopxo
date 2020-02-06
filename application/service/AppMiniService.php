@@ -42,8 +42,8 @@ class AppMiniService
         self::$application_name = isset($params['application_name']) ? $params['application_name'] : 'alipay';
 
         // 原包地址/操作地址
-        self::$old_root = ROOT.'public'.DS.'appmini'.DS.'old';
-        self::$new_root = ROOT.'public'.DS.'appmini'.DS.'new';
+        self::$old_root = ROOT.'sourcecode';
+        self::$new_root = ROOT.'public'.DS.'sourcecode';
         self::$old_path = self::$old_root.DS.self::$application_name;
         self::$new_path = self::$new_root.DS.self::$application_name;
     }
@@ -72,7 +72,7 @@ class AppMiniService
                     if($temp_file != '.' && $temp_file != '..')
                     {
                         $file_path = self::$new_path.DS.$temp_file;
-                        $url = __MY_PUBLIC_URL__.'appmini'.DS.'new'.DS.self::$application_name.DS.$temp_file;
+                        $url = __MY_PUBLIC_URL__.'sourcecode'.DS.self::$application_name.DS.$temp_file;
                         $result[] = [
                             'name'  => $temp_file,
                             'url'   => substr($url, -4) == '.zip' ? $url : '',
