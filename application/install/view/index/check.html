@@ -208,18 +208,18 @@
                 <?php endif ?>
             </td>
         </tr>
-        <tr class="<?php if(is_writable(ROOT.'public/appmini/new')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
-            <td>./public/appmini/new</td>
+        <tr class="<?php if(is_writable(ROOT.'public/download/sourcecode')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
+            <td>./public/download/sourcecode</td>
             <td>可写</td>
             <td>
-                <?php if (is_writable(ROOT.'public/appmini/new')): ?>
+                <?php if (is_writable(ROOT.'public/download/sourcecode')): ?>
                     可写
                 <?php else: ?>
                     不可写
                 <?php endif ?>
             </td>
             <td>
-                <?php if (is_writable(ROOT.'public/appmini/new')): ?>
+                <?php if (is_writable(ROOT.'public/download/sourcecode')): ?>
                     √
                 <?php else: ?>
                     ×
