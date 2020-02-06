@@ -43,7 +43,7 @@ class AppMiniService
 
         // 原包地址/操作地址
         self::$old_root = ROOT.'sourcecode';
-        self::$new_root = ROOT.'public'.DS.'sourcecode';
+        self::$new_root = ROOT.'public'.DS.'download'.DS.'sourcecode';
         self::$old_path = self::$old_root.DS.self::$application_name;
         self::$new_path = self::$new_root.DS.self::$application_name;
     }
@@ -72,7 +72,7 @@ class AppMiniService
                     if($temp_file != '.' && $temp_file != '..')
                     {
                         $file_path = self::$new_path.DS.$temp_file;
-                        $url = __MY_PUBLIC_URL__.'sourcecode'.DS.self::$application_name.DS.$temp_file;
+                        $url = __MY_PUBLIC_URL__.'download'.DS.'sourcecode'.DS.self::$application_name.DS.$temp_file;
                         $result[] = [
                             'name'  => $temp_file,
                             'url'   => substr($url, -4) == '.zip' ? $url : '',
