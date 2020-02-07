@@ -8,7 +8,7 @@
         </a>
         <div class="category-content" {{if isset($controller_name) and $controller_name neq 'index'}}style="display:none;"{{/if}}>
             <div class="category">
-                <ul class="category-list" id="js_climit_li">
+                <ul class="category-list">
                     {{if !empty($goods_category_list) and is_array($goods_category_list)}}
                         {{foreach $goods_category_list as $v}}
                             <li class="appliance js_toggle relative first">
@@ -22,11 +22,11 @@
                                     <em>&gt;</em>
                                 </div>
                                 <div class="menu-item menu-in top">
-                                    <div class="area-in">
-                                        <div class="area-bg">
-                                            <div class="menu-srot">
-                                                <div class="sort-side">
-                                                    {{if !empty($v['items'])}}
+                                    {{if !empty($v['items'])}}
+                                        <div class="area-in">
+                                            <div class="area-bg">
+                                                <div class="menu-srot">
+                                                    <div class="sort-side">
                                                         {{foreach $v.items as $vs}}
                                                             <dl class="dl-sort">
                                                                 <dt>
@@ -45,12 +45,14 @@
                                                                 {{/if}}
                                                             </dl>
                                                         {{/foreach}}
-                                                    {{/if}}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div> 
+                                    {{else /}}
+                                        <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+                                    {{/if}}
+                                </div>
                             </li>
                         {{/foreach}}
                     {{/if}}
