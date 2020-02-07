@@ -12,12 +12,12 @@
   border-radius: 50%;
   padding: 20rpx;
   text-align: center;
-  width: 90rpx;
-  height: 90rpx;
+  width: 70rpx;
+  height: 70rpx;
 }
 .data-list .items image {
-  width: 80rpx !important;
-  height: 80rpx !important;
+  width: 60rpx !important;
+  height: 60rpx !important;
   margin-top: 5rpx;
 }
 .data-list .items .title {
