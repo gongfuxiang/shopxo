@@ -57,7 +57,7 @@ class Baidu
         // 登录授权session
         $login_key = 'baidu_user_login_'.$openid;
         $session_data = cache($login_key);
-        if($session_data === false)
+        if(empty($session_data))
         {
             return ['status'=>-1, 'msg'=>'session key不存在'];
         }
@@ -224,7 +224,7 @@ class Baidu
         // 缓存key
         $key = $this->_appid.'_access_token';
         $result = cache($key);
-        if($result !== false)
+        if(!empty($result))
         {
             if($result['expires_in'] > time())
             {

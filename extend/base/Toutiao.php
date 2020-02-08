@@ -163,7 +163,7 @@ class Toutiao
         // 缓存key
         $key = $this->config['appid'].'_access_token';
         $result = cache($key);
-        if($result !== false)
+        if(!empty($result))
         {
             if($result['expires_in'] > time())
             {

@@ -57,7 +57,7 @@ class QQ
         // 登录授权session
         $login_key = 'qq_user_login_'.$openid;
         $session_data = cache($login_key);
-        if($session_data === false)
+        if(empty($session_data))
         {
             return 'session key不存在';
         }
