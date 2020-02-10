@@ -614,7 +614,7 @@ class BuyService
 
             // 站点模式 0销售, 2自提, 4销售+自提, 则其它正常模式
             $common_site_type = MyC('common_site_type', 0, true);
-            $site_model = isset($params['site_model']) ? intval($params['site_model']) : 0;
+            $site_model = ($common_site_type == 4) ? (isset($params['site_model']) ? intval($params['site_model']) : 0) : $common_site_type;
 
             // 数据处理
             $address = null;
@@ -622,7 +622,7 @@ class BuyService
 
             // 站点模式 - 用户收货地址（未选择则取默认地址）
             // 销售, 销售+自提(指定为销售)
-            if($common_site_type == 0 || ($common_site_type == 4 && $site_model == 0))
+            if($site_model == 0)
             {
                 $address_params = [
                     'user'  => $params['user'],
@@ -640,7 +640,7 @@ class BuyService
 
             // 自提模式 - 自提点地址
             // 自提, 销售+自提(指定为自提)
-            if($common_site_type == 2 || ($common_site_type == 4 && $site_model == 2))
+            if($site_model == 2)
             {
                 $extraction = self::SiteExtractionAddress($params);
                 if(!empty($extraction['data']['data_list']))
@@ -682,6 +682,9 @@ class BuyService
 
                 // 自提地址列表
                 'extraction_address'    => $extraction_address,
+
+                // 站点模式
+                'site_model'            => $site_model,
             ];
 
             // 扩展展示数据
