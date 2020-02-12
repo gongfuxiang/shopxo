@@ -115,7 +115,13 @@
                     {{foreach $data_list as $v}}
                         <tr id="data-list-{{$v.id}}">
                             <td class="am-hide-sm-only">
-                                <div class="goods-detail">
+                                <div class="am-padding-bottom-xs">
+                                    <strong>{{$v.order_data.order_no}}</strong>
+                                    <span class="am-badge am-badge-primary am-radius" title="订单模式">{{$v.order_data.order_model_name}}</span>
+                                    <span class="am-badge am-badge-secondary am-radius" title="客户端类型">{{$v.order_data.client_type_name}}</span>
+                                </div>
+                                <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-0" />
+                                <div class="goods-detail am-padding-vertical-xs">
                                     <a href="{{$v.order_data.items.goods_url}}" target="_blank">
                                         <img src="{{$v.order_data.items.images}}" class="am-img-thumbnail am-radius" />
                                     </a>

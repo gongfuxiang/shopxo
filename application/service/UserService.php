@@ -1718,31 +1718,25 @@ class UserService
         {
             return DataReturn('授权成功', 0, $user);
         } else {
-            // 用户unionid列表
-            // 微信用户unionid
-            // QQ用户unionid
-            $unionid_all = ['weixin_unionid', 'qq_unionid'];
-            foreach($unionid_all as $unionid)
+            // 用户unionid
+            $unionid = self::UserUnionidHandle($params);
+            if(!empty($unionid['field']) && !empty($unionid['value']))
             {
-                if(!empty($params[$unionid]))
+                // unionid字段是否存在用户
+                $user_unionid = UserService::AppUserInfoHandle(null, $unionid['field'], $unionid['value']);
+                if(!empty($user_unionid))
                 {
-                    // unionid字段是否存在用户
-                    $user_unionid = UserService::AppUserInfoHandle(null, $unionid, $params[$unionid]);
-                    if(!empty($user_unionid))
+                    // openid绑定
+                    if(Db::name('User')->where(['id'=>$user_unionid['id']])->update([$field=>$params['openid'], 'upd_time'=>time()]))
                     {
-                        // openid绑定
-                        if(Db::name('User')->where(['id'=>$user_unionid['id']])->update([$field=>$params['openid'], 'upd_time'=>time()]))
-                        {
-                            // 直接返回用户信息
-                            $user_unionid[$field] = $params['openid'];
-                            return DataReturn('授权成功', 0, $user_unionid);
-                        }
+                        // 直接返回用户信息
+                        $user_unionid[$field] = $params['openid'];
+                        return DataReturn('授权成功', 0, $user_unionid);
                     }
-
-                    // 如果用户不存在数据库中，则unionid放入用户data中
-                    $data[$unionid] = $params[$unionid];
-                    break;
                 }
+
+                // 如果用户不存在数据库中，则unionid放入用户data中
+                $data[$unionid['field']] = $unionid['value'];
             }
 
             // 不强制绑定手机则写入用户信息
@@ -1758,6 +1752,35 @@ class UserService
             }
         }
         return DataReturn('授权成功', 0, self::AppUserInfoHandle(null, null, null, $data));
+    }
+
+    /**
+     * 用户unionid处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-02-11
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    private static function UserUnionidHandle($params = [])
+    {
+        // 用户unionid列表
+        // 微信用户unionid
+        // QQ用户unionid
+        $field = null;
+        $value = null;
+        $unionid_all = ['weixin_unionid', 'qq_unionid'];
+        foreach($unionid_all as $unionid)
+        {
+            if(!empty($params[$unionid]))
+            {
+                $field = $unionid;
+                $value = $params[$unionid];
+                break;
+            }
+        }
+        return ['field'=>$field, 'value'=>$value];
     }
 
     /**
@@ -1868,6 +1891,14 @@ class UserService
         if(!empty($temp))
         {
             return DataReturn('账号已存在', -10);
+        }
+
+        // 用户unionid
+        $unionid = self::UserUnionidHandle($params);
+        if(!empty($unionid['field']) && !empty($unionid['value']))
+        {
+            // unionid放入用户data中
+            $data[$unionid['field']] = $unionid['value'];
         }
 
         // 推荐人id
@@ -2043,6 +2074,17 @@ class UserService
                 return $user_ret;
             }
         } else {
+            // 用户unionid
+            $unionid = self::UserUnionidHandle($params);
+            if(!empty($unionid['field']) && !empty($unionid['value']))
+            {
+                if(empty($temp_user[$unionid['field']]))
+                {
+                    // unionid放入用户data中
+                    $data[$unionid['field']] = $unionid['value'];
+                }
+            }
+
             $data['upd_time'] = time();
             if(Db::name('User')->where(['id'=>$temp_user['id']])->update($data))
             {

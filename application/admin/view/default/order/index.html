@@ -143,11 +143,12 @@
 					{{foreach $data_list as $v}}
 						<tr id="data-list-{{$v.id}}" {{if $v['pay_status'] eq 1 and $v['total_price'] gt $v['pay_price']}}class="am-danger"{{/if}}>
 							<td class="am-hide-sm-only">
-								<div class="order-no am-padding-bottom-xs">
-                                    <span>{{$v.order_no}}</span>
+								<div class="am-padding-bottom-xs">
+                                    <strong>{{$v.order_no}}</strong>
                                     <span class="am-badge am-badge-primary am-radius" title="订单模式">{{$v.order_model_name}}</span>
                                     <span class="am-badge am-badge-secondary am-radius" title="客户端类型">{{$v.client_type_name}}</span>
                                 </div>
+                                <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-0" />
 								{{foreach $v.items as $vs}}
 									<div class="goods-item">
 										<div class="base">
@@ -168,6 +169,7 @@
                                             <span class="am-fr">{{$vs.price}}x{{$vs.buy_number}}</span>
 										</div>
 									</div>
+                                    <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-0" />
 								{{/foreach}}
 								<div class="goods-item">{{$v.describe}}</div>
 							</td>

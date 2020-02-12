@@ -281,7 +281,7 @@ App({
               swan.hideLoading();
               if (res.data.code == 0) {
                 var data = res.data.data;
-                if ((data.is_alipay_user_exist || 0) == 1) {
+                if ((data.is_user_exist || 0) == 1) {
                   swan.setStorage({
                     key: self.data.cache_user_info_key,
                     data: data,

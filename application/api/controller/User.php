@@ -100,9 +100,11 @@ class User extends Common
             $user = UserService::AppUserInfoHandle(null, 'alipay_openid', $result['data']['user_id']);
             if(empty($user))
             {
-                return DataReturn('授权登录成功', 0, ['is_alipay_user_exist'=>0, 'openid'=>$result['data']['user_id']]);
+                return DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']['user_id']]);
             }
-            $user['is_alipay_user_exist'] = 1;
+
+            // 标记用户存在
+            $user['is_user_exist'] = 1;
             return DataReturn('授权成功', 0, $user);
         }
         return DataReturn($result['msg'], -100);
@@ -169,9 +171,11 @@ class User extends Common
             $user = UserService::AppUserInfoHandle(null, 'weixin_openid', $result);
             if(empty($user))
             {
-                return DataReturn('授权登录成功', 0, ['is_alipay_user_exist'=>0, 'openid'=>$result]);
+                return DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result]);
             }
-            $user['is_alipay_user_exist'] = 1;
+
+            // 标记用户存在
+            $user['is_user_exist'] = 1;
             return DataReturn('授权登录成功', 0, $user);
         }
         return DataReturn('授权登录失败', -100);
@@ -255,9 +259,11 @@ class User extends Common
             $user = UserService::AppUserInfoHandle(null, 'baidu_openid', $result);
             if(empty($user))
             {
-                return DataReturn('授权登录成功', 0, ['is_alipay_user_exist'=>0, 'openid'=>$result['data']]);
+                return DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']]);
             }
-            $user['is_alipay_user_exist'] = 1;
+
+            // 标记用户存在
+            $user['is_user_exist'] = 1;
             return DataReturn('授权登录成功', 0, $user);
         }
         return DataReturn($result['msg'], -10);
@@ -346,9 +352,11 @@ class User extends Common
             $user = UserService::AppUserInfoHandle(null, 'toutiao_openid', $result);
             if(empty($user))
             {
-                return DataReturn('授权登录成功', 0, ['is_alipay_user_exist'=>0, 'openid'=>$result['data']]);
+                return DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']]);
             }
-            $user['is_alipay_user_exist'] = 1;
+
+            // 标记用户存在
+            $user['is_user_exist'] = 1;
             return DataReturn('授权登录成功', 0, $user);
         }
         return DataReturn($result['msg'], -10);
@@ -427,9 +435,11 @@ class User extends Common
             $user = UserService::AppUserInfoHandle(null, 'qq_openid', $result);
             if(empty($user))
             {
-                return DataReturn('授权登录成功', 0, ['is_alipay_user_exist'=>0, 'openid'=>$result]);
+                return DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result]);
             }
-            $user['is_alipay_user_exist'] = 1;
+
+            // 标记用户存在
+            $user['is_user_exist'] = 1;
             return DataReturn('授权登录成功', 0, $user);
         }
         return DataReturn('授权登录失败', -100);

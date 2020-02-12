@@ -19,7 +19,7 @@
 .am-form-group:hover>input, .am-form-group:hover>select, .am-form-group:hover>textarea, .am-form-group:hover .chosen-choices, .am-form-group:hover .chosen-single { border: 1px solid #999 ; }
 .am-form-error .chosen-choices, .am-form-error .chosen-default { border: 1px solid #dd514c !important; }
 .am-form-success .chosen-choices, .am-form-success .chosen-single { border: 1px solid #5eb95e !important; }
-form.am-form .am-form-group-label-tips, form.am-form .am-form-group-label-tips-must {  font-size: 12px; font-weight: 100; margin-left: 10px; }
+form.am-form .am-form-group-label-tips, form.am-form .am-form-group-label-tips-must {  font-size: 12px; font-weight: 400; margin-left: 10px; }
 form.am-form .am-form-group-label-tips { color: #ccc;  }
 form.am-form .am-form-group-label-tips-must { color: #f00; }
 .am-form-group:hover>label { color: #333 !important; }
