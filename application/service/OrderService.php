@@ -819,7 +819,6 @@ class OrderService
                 if($is_items == 1)
                 {
                     $items = Db::name('OrderDetail')->where(['order_id'=>$v['id']])->select();
-                    $excel_export_items = '';
                     if(!empty($items))
                     {
                         foreach($items as &$vs)
@@ -862,7 +861,6 @@ class OrderService
                     }
                     $v['items'] = $items;
                     $v['items_count'] = count($items);
-                    $v['excel_export_items'] = $excel_export_items;
 
                     // 描述
                     $v['describe'] = '共'.$v['buy_number_count'].'件 合计:'.config('shopxo.price_symbol').$v['total_price'].'元';

@@ -127,7 +127,7 @@
                             </td>
                             <td class="am-hide-sm-only">
                                 {{$v.event_value}}
-                                {{if !empty($v['event_value'])}}
+                                {{if !empty($v['event_type_text'])}}
                                     <br /><span class="am-badge am-badge-warning am-radius">{{$v.event_type_text}}</span>
                                 {{/if}}
                             </td>
@@ -170,7 +170,7 @@
                                                 <dt>事件值</dt>
                                                 <dd>
                                                     {{$v.event_value}}
-                                                    {{if !empty($v['event_value'])}}
+                                                    {{if !empty($v['event_type_text'])}}
                                                         <br /><span class="am-badge am-badge-warning am-radius">{{$v.event_type_text}}</span>
                                                     {{/if}}
                                                 </dd>
