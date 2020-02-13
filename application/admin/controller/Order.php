@@ -110,9 +110,6 @@ class Order extends Common
         // 平台
         $this->assign('common_platform_type', lang('common_platform_type'));
 
-        // Excel地址
-        $this->assign('excel_url', MyUrl('admin/order/excelexport', input()));
-
         // 参数
         $this->assign('params', $params);
         return $this->fetch();
