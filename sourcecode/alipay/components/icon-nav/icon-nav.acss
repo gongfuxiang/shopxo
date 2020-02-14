@@ -12,6 +12,7 @@
   text-align: center;
   width: 70rpx;
   height: 70rpx;
+  margin: 0 auto;
 }
 .data-list .items image {
   width: 60rpx !important;
