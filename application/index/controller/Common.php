@@ -56,11 +56,11 @@ class Common extends Controller
     {
         parent::__construct();
 
-        // 系统运行开始
-        SystemService::SystemBegin();
-
         // 系统初始化
         $this->SystemInit();
+
+        // 系统运行开始
+        SystemService::SystemBegin();
 
         // 站点状态校验
         $this->SiteStstusCheck();
