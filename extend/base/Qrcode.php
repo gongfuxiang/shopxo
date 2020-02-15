@@ -61,7 +61,10 @@ class Qrcode
         $content = isset($params['content']) ? base64_decode(urldecode(trim($params['content']))) : __MY_URL__;
 
         // 生成二维码并输出页面显示
-        ob_clean();
+        if(ob_get_length() > 0)
+        {
+            ob_clean();
+        }
         \QRcode::png($content, false, $level, $point_size, $mr);
     }
 

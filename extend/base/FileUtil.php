@@ -332,8 +332,11 @@ class FileUtil
             Header("Content-Disposition: attachment; filename=".$show_name);
 
             // 清除前面输出的内容
-            ob_clean();
-            flush();
+            if(ob_get_length() > 0)
+            {
+                ob_clean();
+                flush();
+            }
 
             //一次性将数据传输给客户端
             //echo fread($file, filesize($file_path));

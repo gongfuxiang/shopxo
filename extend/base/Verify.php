@@ -125,7 +125,10 @@ class Verify
 		$this->KindofSession();
 
 		// 输出图像
-		ob_clean();
+		if(ob_get_length() > 0)
+        {
+            ob_clean();
+        }
 		header('Content-Type: image/gif');
 		imagegif($this->img);
 
