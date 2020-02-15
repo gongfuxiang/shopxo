@@ -781,7 +781,7 @@ function ModalLoad(url, title, tag, class_tag)
 	    html += '<h4 class="am-popup-title">'+(title || '温馨提示')+'</h4>';
 	    html += '<span data-am-modal-close class="am-close">&times;</span>';
 		html += '</div>';
-	    html += '<iframe src="'+url+'"></iframe>';
+	    html += '<iframe src="'+url+'" width="100%" height="100%"></iframe>';
 		html += '</div>';
 		html += '</div>';
 	$('body').append(html);
