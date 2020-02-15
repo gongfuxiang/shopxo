@@ -24,6 +24,8 @@ form.am-form .am-form-group-label-tips { color: #ccc;  }
 form.am-form .am-form-group-label-tips-must { color: #f00; }
 .am-form-group:hover>label { color: #333 !important; }
 .am-form-group:hover>label>.am-form-group-label-tips { color: #FF9800 !important; }
+form.am-form .am-form-group, .plug-file-upload-view, .business-form-group, .business-form-block { border-bottom: 1px dashed #ccc; padding: 10px 20% 10px 5px; }
+form.am-form .am-form-group-refreshing, .plug-file-upload-view, .content-app-items { border-bottom: 0px; }
 
 /**
  * 插件
@@ -69,6 +71,9 @@ iframe { width: 100%; height: 100%; border: 0; }
 @media only screen and (max-width: 641px) {
     /* 地址联动 */
     .region-linkage select:not(:first-child) { margin-bottom: 5px; }
+
+    /* 表单 */
+    form.am-form .am-form-group, .plug-file-upload-view, .business-form-group, .business-form-block { padding: 5px 0 10px 0px; }
 }
 
 /**
@@ -76,24 +81,11 @@ iframe { width: 100%; height: 100%; border: 0; }
  */
 @media only screen and (min-width: 641px) {
     /* 表单 */
-    form.am-form .am-form-group:hover, .plug-file-upload-view:hover {
-        background: #f6f9fc;
-    }
-    form.am-form .am-form-group, .plug-file-upload-view, .business-form-group, .business-form-block {
-        border-bottom: 1px dashed #ccc;
-        padding: 10px 20% 10px 5px;
-    }
-    form.am-form .am-form-group-refreshing, .plug-file-upload-view, .content-app-items {
-        border-bottom: 0px;
-    }
-    form.am-form .am-form-group-refreshing:hover {
-        background: none;
-    }
+    form.am-form .am-form-group:hover, .plug-file-upload-view:hover { background: #f6f9fc; }
+    form.am-form .am-form-group-refreshing:hover { background: none; }
 
     /* 弹窗 */
-    .am-popup .am-form-group, .am-modal form.am-form .am-form-group, .business-form-block {
-        padding: 10px 5px !important;
-    }
+    .am-popup .am-form-group, .am-modal form.am-form .am-form-group, .business-form-block { padding: 10px 5px !important; }
 
     /* 地址联动 */
     .region-linkage select { width: 33%; display: -webkit-inline-box; }
