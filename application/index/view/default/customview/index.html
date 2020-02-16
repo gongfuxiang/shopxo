@@ -17,7 +17,7 @@
 <!-- header nav end -->
 
 <!-- content start -->
-<div class="customview-content {{if !isset($data['is_full_screen']) or $data['is_full_screen'] eq 0}}am-container{{/if}}">
+<div class="customview-content am-scrollable-horizontal {{if !isset($data['is_full_screen']) or $data['is_full_screen'] eq 0}}am-container{{/if}}">
     {{$data.content|raw}}
 </div>
 <!-- content end -->
