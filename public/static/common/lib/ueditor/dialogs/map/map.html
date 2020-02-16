@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <script type="text/javascript" src="../internal.js"></script>
-    <script type="text/javascript" src="https://api.map.baidu.com/api?v=1.1&services=true"></script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak={{common_baidu_map_ak}}"></script>
     <style type="text/css">
         .content{width:530px; height: 350px;margin: 10px auto;}
         .content table{width: 100%}
@@ -87,7 +87,7 @@
                         map.centerAndZoom(points[0], 13);
                     }
                     point = map.getCenter();
-                    marker.setPoint(point);
+                    marker.setPosition(point);
                 } else {
                     alert(lang.errorMsg);
                 }
@@ -139,11 +139,12 @@
     };
     dialog.onok = function (){
         var center = map.getCenter();
-        var zoom = map.zoomLevel;
+        var zoom = map.getZoom();
+        console.log(zoom)
         var size = map.getSize();
         var mapWidth = size.width;
         var mapHeight = size.height;
-        var point = marker.getPoint();
+        var point = marker.getPosition();
 
         if($G('is_dynamic').checked) {
             var URL = editor.options.UEDITOR_HOME_URL,

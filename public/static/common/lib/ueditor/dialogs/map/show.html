@@ -14,7 +14,7 @@
             overflow: hidden;
         }
     </style>
-    <script type="text/javascript" src="https://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak={{common_baidu_map_ak}}"></script>
 </head>
 
 <body onload="initMap();">
@@ -106,7 +106,7 @@
         function mapListenerHandler() {
             var zoom = map.getZoom(),
                 center = map.getCenter(),
-                marker = window.marker.getPoint();
+                marker = window.marker.getPosition();
             containerIframe.src = containerIframe.src.
                 replace(new RegExp('([?#&])center=([^?#&]+)', 'i'), '$1center=' + center.lng + ',' + center.lat).
                 replace(new RegExp('([?#&])markers=([^?#&]+)', 'i'), '$1markers=' + marker.lng + ',' + marker.lat).

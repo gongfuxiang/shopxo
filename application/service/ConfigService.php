@@ -104,6 +104,12 @@ class ConfigService
             $params[$k] = $v;
         }
 
+        // 处理百度地图 ak, 空则默认变量
+        if(array_key_exists('common_baidu_map_ak', $params))
+        {
+            $map_ak_old = MyC('common_baidu_map_ak', '{{common_baidu_map_ak}}', true);
+        }
+
         // 循环保存数据
         $success = 0;
 
@@ -134,6 +140,32 @@ class ConfigService
             if($ret['code'] != 0)
             {
                 return $ret;
+            }
+
+            // 处理百度地图 ak
+            if(array_key_exists('common_baidu_map_ak', $params) && isset($map_ak_old))
+            {
+                $file_all = [
+                    ROOT.'public/static/common/lib/ueditor/dialogs/map/map.html',
+                    ROOT.'public/static/common/lib/ueditor/dialogs/map/show.html',
+                ];
+                foreach($file_all as $f)
+                {
+                    // 是否有权限
+                    if(!is_writable($f))
+                    {
+                        return DataReturn('编辑器文件没有权限['.$f.']', -1);
+                    }
+
+                    // 替换
+                    $search = ['ak={{common_baidu_map_ak}}', 'ak='.$map_ak_old];
+                    $replace = 'ak='.MyC('common_baidu_map_ak', '{{common_baidu_map_ak}}', true);
+                    $status = file_put_contents($f, str_replace($search, $replace, file_get_contents($f)));
+                    if($status === false)
+                    {
+                        return DataReturn('百度地图密钥配置失败', -5);
+                    }
+                }
             }
 
             return DataReturn('编辑成功'.'['.$success.']');
