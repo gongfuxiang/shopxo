@@ -51,7 +51,6 @@
         var markersArr = markersParam.split(',');
         var point = new BMap.Point(markersArr[0], markersArr[1]);
         marker = new BMap.Marker(point);
-        marker.enableDragging();
         map.addOverlay(marker); // 将标注添加到地图中
 
         if(parent.editor && parent.document.body.contentEditable=="true") { //在编辑状态下
