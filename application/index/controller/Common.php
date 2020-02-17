@@ -149,6 +149,9 @@ class Common extends Controller
      */
     private function SystemInit()
     {
+        // 公共参数
+        $this->params = input();
+        
         // 配置信息初始化
         ConfigService::ConfigInit();
         
@@ -156,6 +159,12 @@ class Common extends Controller
         if(MyC('home_seo_url_model', 0) == 0)
         {
             \think\facade\Url::root(__MY_ROOT_PUBLIC__.'index.php?s=');
+        }
+
+        // 推荐人
+        if(!empty($this->params['referrer']))
+        {
+            session('share_referrer_id', $this->params['referrer']);
         }
     }
 
@@ -170,15 +179,6 @@ class Common extends Controller
     {
         // 用户数据
         $this->user = UserService::LoginUserInfo();
-
-        // 公共参数
-        $this->params = input();
-
-        // 推荐人
-        if(!empty($this->params['referrer']))
-        {
-            session('share_referrer_id', $this->params['referrer']);
-        }
     }
 
     /**
