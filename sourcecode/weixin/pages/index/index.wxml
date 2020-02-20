@@ -2,7 +2,7 @@
 <view wx:if="{{common_app_is_header_nav_fixed == 1}}" class="search-fixed-seat"></view>
 <view wx:if="{{load_status == 1 && common_app_is_enable_search == 1}}" class="search wh-auto {{common_app_is_header_nav_fixed == 1 ? 'search-fixed' : ''}}">
   <view class="search-content bg-white oh">
-    <icon type="search" size="16" />
+    <icon type="search" size="32rpx" />
     <input type="text" confirm-type="search" placeholder="其实搜索很简单^_^！" class="wh-auto cr-888" bindconfirm="search_input_event" confirm-type="search" />
   </view>
 </view>

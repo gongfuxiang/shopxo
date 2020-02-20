@@ -66,7 +66,7 @@ Page({
       {
         this.setData({
           address: cache_address,
-          address_id: cache_address.id || null,
+          address_id: cache_address.id,
         });
       }
     }
@@ -289,17 +289,21 @@ Page({
 
   // 销售+自提 模式选择事件
   buy_header_nav_event(e) {
-    // 数据设置
-    this.setData({
-      address: null,
-      address_id: null,
-      site_model: e.currentTarget.dataset.value || 0,
-    });
-    
-    // 删除地址缓存
-    tt.removeStorageSync(app.data.cache_buy_user_address_select_key);
+    var value = e.currentTarget.dataset.value || 0;
+    if (value != this.data.site_model)
+    {
+      // 数据设置
+      this.setData({
+        address: null,
+        address_id: null,
+        site_model: value,
+      });
 
-    // 数据初始化
-    this.init();
+      // 删除地址缓存
+      tt.removeStorageSync(app.data.cache_buy_user_address_select_key);
+
+      // 数据初始化
+      this.init();
+    }
   },
 });
