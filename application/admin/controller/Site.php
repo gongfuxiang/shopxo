@@ -117,6 +117,9 @@ class Site extends Common
 	 */
 	public function Save()
 	{
+		// 参数
+		$params = $_POST;
+
 		// 导航
 		$nav_type = input('nav_type', 'base');
 
@@ -150,6 +153,25 @@ class Site extends Common
 			case 'imagesverify' :
 				$field_list[] = 'common_images_verify_rules';
 				break;
+
+			// 站点类型
+			case 'sitetype' :
+				// 自提地址处理
+				if(!empty($params['common_self_extraction_address']))
+				{
+					if(!is_array($params['common_self_extraction_address']))
+					{
+						$address = json_decode($params['common_self_extraction_address'], true);
+					} else {
+						$address = $params['common_self_extraction_address'];
+					}
+					foreach($address as $k=>$v)
+					{
+						$address[$k]['id'] = $k;
+					}
+					$params['common_self_extraction_address'] = json_encode($address, JSON_UNESCAPED_UNICODE);
+				}
+				break;
 		}
 
 		// 开始处理空值
@@ -157,15 +179,15 @@ class Site extends Common
 		{
 			foreach($field_list as $field)
 			{
-				if(!isset($_POST[$field]))
+				if(!isset($params[$field]))
 				{
-					$_POST[$field] = '';
+					$params[$field] = '';
 				}
 			}
 		}
 
 		// 基础配置
-		$ret = ConfigService::ConfigSave($_POST);
+		$ret = ConfigService::ConfigSave($params);
 
 		// 清除缓存
 		if($ret['code'] == 0)
