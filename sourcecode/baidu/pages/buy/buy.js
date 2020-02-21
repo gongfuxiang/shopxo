@@ -116,7 +116,7 @@ Page({
             // 地址
             this.setData({
               address: data.base.address || null,
-              address_id: (data.base.address || null) != null && (data.base.address.id || null) != null ? data.base.address.id : null
+              address_id: ((data.base.address || null) != null) ? data.base.address.id : null
             });
             swan.setStorage({
               key: app.data.cache_buy_user_address_select_key,

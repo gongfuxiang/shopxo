@@ -32,5 +32,21 @@ return array (
   'log_write' => 
   array (
   ),
+  'plugins_service_users_center_left_menu_handle' => 
+  array (
+    0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
+  ),
+  'plugins_service_header_navigation_top_right_handle' => 
+  array (
+    0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
+  ),
+  'plugins_service_buy_order_insert_end' => 
+  array (
+    0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
+  ),
+  'plugins_service_order_status_change_history_success_handle' => 
+  array (
+    0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
+  ),
 );
 ?>
