@@ -393,6 +393,8 @@ class PaymentService
         {
             return DataReturn('目录没有操作权限'.'['.self::$payment_dir.']', -4);
         }
+
+        return DataReturn('验证成功', 0);
     }
 
     /**
