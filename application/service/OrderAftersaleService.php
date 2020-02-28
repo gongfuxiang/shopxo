@@ -219,8 +219,40 @@ class OrderAftersaleService
             'add_time'          => time(),
             'apply_time'        => time(),
         ];
-        if(Db::name('OrderAftersale')->insertGetId($data) > 0)
+
+        // 订单售后添加前钩子
+        $hook_name = 'plugins_service_order_aftersale_insert_begin';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data'          => &$data,
+            'params'        => $params,
+            
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
         {
+            return $ret;
+        }
+
+        // 数据添加
+        $data_id = Db::name('OrderAftersale')->insertGetId($data);
+        if($data_id > 0)
+        {
+            // 订单售后添加成功钩子
+            $hook_name = 'plugins_service_order_aftersale_insert_end';
+            $ret = HookReturnHandle(Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'data_id'       => $data_id,
+                'data'          => $data,
+                'params'        => $params,
+            ]));
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            // 返回成功
             return DataReturn('申请成功', 0);
         }
         return DataReturn('申请失败', -100);
@@ -298,8 +330,40 @@ class OrderAftersaleService
             'delivery_time'     => time(),
             'upd_time'          => time(),
         ];
+
+        // 订单售后单退货前钩子
+        $hook_name = 'plugins_service_order_aftersale_delivery_begin';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data_id'       => $params['id'],
+            'data'          => &$data,
+            'params'        => $params,
+            
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 数据更新
         if(Db::name('OrderAftersale')->where($where)->update($data))
         {
+            // 订单售后退货成功钩子
+            $hook_name = 'plugins_service_order_aftersale_delivery_end';
+            $ret = HookReturnHandle(Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'data_id'       => $params['id'],
+                'data'          => $data,
+                'params'        => $params,
+            ]));
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            // 返回成功
             return DataReturn('操作成功', 0);
         }
         return DataReturn('操作失败', -100);
@@ -552,9 +616,46 @@ class OrderAftersaleService
             return DataReturn('状态不可操作['.$status_list[$aftersale['status']]['name'].']', -1);
         }
 
-        // 数据更新
-        if(Db::name('OrderAftersale')->where($where)->update(['status'=>5, 'cancel_time'=>time(), 'upd_time'=>time()]))
+        // 数据
+        $data = [
+            'status'        => 5,
+            'cancel_time'   => time(),
+            'upd_time'      => time()
+        ];
+
+        // 订单售后单取消前钩子
+        $hook_name = 'plugins_service_order_aftersale_cacnel_begin';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data_id'       => $params['id'],
+            'data'          => &$data,
+            'params'        => $params,
+            
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
         {
+            return $ret;
+        }
+
+        // 更新数据
+        if(Db::name('OrderAftersale')->where($where)->update($data))
+        {
+            // 订单售后取消成功钩子
+            $hook_name = 'plugins_service_order_aftersale_cacnel_end';
+            $ret = HookReturnHandle(Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'data_id'       => $params['id'],
+                'data'          => $data,
+                'params'        => $params,
+            ]));
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            // 返回成功
             return DataReturn('取消成功');
         }
         return DataReturn('取消失败', -100);
@@ -611,9 +712,46 @@ class OrderAftersaleService
             return DataReturn('类型不可操作['.$aftersale_type_list[$aftersale['type']]['name'].']', -1);
         }
 
-        // 数据更新
-        if(Db::name('OrderAftersale')->where($where)->update(['status'=>1, 'confirm_time'=>time(), 'upd_time'=>time()]))
+        // 数据
+        $data = [
+            'status'        => 1,
+            'confirm_time'  => time(),
+            'upd_time'      => time()
+        ];
+
+        // 订单售后单确认前钩子
+        $hook_name = 'plugins_service_order_aftersale_confirm_begin';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data_id'       => $params['id'],
+            'data'          => &$data,
+            'params'        => $params,
+            
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
         {
+            return $ret;
+        }
+
+        // 更新数据
+        if(Db::name('OrderAftersale')->where($where)->update())
+        {
+            // 订单售后单确认成功钩子
+            $hook_name = 'plugins_service_order_aftersale_confirm_end';
+            $ret = HookReturnHandle(Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'data_id'       => $params['id'],
+                'data'          => $data,
+                'params'        => $params,
+            ]));
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            // 返回成功
             return DataReturn('确认成功');
         }
         return DataReturn('确认失败', -100);
@@ -845,7 +983,7 @@ class OrderAftersaleService
         }
 
         // 更新退款状态
-        $aftersale_upd_data = [
+        $data = [
             'status'        => 3,
             'refundment'    => $params['refundment'],
             'audit_time'    => time(),
@@ -855,9 +993,27 @@ class OrderAftersaleService
         // 仅退款是否退了数量
         if($is_refund_only_number == true)
         {
-            $aftersale_upd_data['number'] = $aftersale['number'];
+            $data['number'] = $aftersale['number'];
         }
-        if(!Db::name('OrderAftersale')->where(['id'=>$aftersale['id']])->update($aftersale_upd_data))
+
+        // 订单售后单审核前钩子
+        $hook_name = 'plugins_service_order_aftersale_audit_handle_begin';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data_id'       => $aftersale['id'],
+            'data'          => &$data,
+            'order_id'      => $order['data']['id'],
+            'params'        => $params,
+            
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 数据更新
+        if(!Db::name('OrderAftersale')->where(['id'=>$aftersale['id']])->update($data))
         {
             Db::rollback();
             return DataReturn('售后订单更新失败', -60);
@@ -1066,15 +1222,47 @@ class OrderAftersaleService
             return DataReturn('状态不可操作['.$status_list[$aftersale['status']]['name'].']', -1);
         }
 
-        // 更新操作
+        // 数据
         $data = [
             'status'            => 4,
             'refuse_reason'     => $params['refuse_reason'],
             'audit_time'        => time(),
             'upd_time'          => time(),
         ];
+
+        // 订单售后单拒绝前钩子
+        $hook_name = 'plugins_service_order_aftersale_refuse_begin';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data_id'       => $params['id'],
+            'data'          => &$data,
+            'params'        => $params,
+            
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 更新数据
         if(Db::name('OrderAftersale')->where(['id' => intval($params['id'])])->update($data))
         {
+            // 订单售后单拒绝成功钩子
+            $hook_name = 'plugins_service_order_aftersale_refuse_end';
+            $ret = HookReturnHandle(Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'data_id'       => $params['id'],
+                'data'          => $data,
+                'params'        => $params,
+            ]));
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            // 返回成功
             return DataReturn('拒绝成功', 0);
         }
         return DataReturn('拒绝失败', -100);
@@ -1122,6 +1310,20 @@ class OrderAftersaleService
         // 删除操作
         if(Db::name('OrderAftersale')->where(['id' => intval($params['id'])])->delete())
         {
+            // 订单售后单删除成功钩子
+            $hook_name = 'plugins_service_order_aftersale_delete_success';
+            $ret = HookReturnHandle(Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'data_id'       => $params['id'],
+                'params'        => $params,
+            ]));
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            // 返回成功
             return DataReturn('删除成功', 0);
         }
         return DataReturn('删除失败', -100);

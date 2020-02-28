@@ -103,6 +103,15 @@ class BuyService
             }
         }
 
+        // 数量
+        $stock = ($goods['buy_max_number'] > 0 && $params['stock'] > $goods['buy_max_number']) ? $goods['buy_max_number'] : $params['stock'];
+
+        // 库存
+        if($stock > $goods['inventory'])
+        {
+            return DataReturn('库存不足', -1);
+        }
+
         // 添加购物车
         $data = [
             'user_id'       => $params['user']['id'],
@@ -111,7 +120,7 @@ class BuyService
             'images'        => $goods['images'],
             'original_price'=> $goods_base['data']['spec_base']['original_price'],
             'price'         => $goods_base['data']['spec_base']['price'],
-            'stock'         => intval($params['stock']),
+            'stock'         => $stock,
             'spec'          => empty($spec) ? '' : json_encode($spec),
         ];
 
@@ -131,6 +140,10 @@ class BuyService
             if($data['stock'] > $goods['inventory'])
             {
                 $data['stock'] = $goods['inventory'];
+            }
+            if($goods['buy_max_number'] > 0 && $data['stock'] > $goods['buy_max_number'])
+            {
+                $data['stock'] = $goods['buy_max_number'];
             }
             if(Db::name('Cart')->where($where)->update($data))
             {
@@ -358,14 +371,34 @@ class BuyService
             return $ret;
         }
 
-        // 更新
+        // 条件
         $where = [
             'id'        => intval($params['id']),
             'goods_id'  => intval($params['goods_id']),
             'user_id'   => intval($params['user']['id']),
         ];
+
+        // 数量
+        $stock = intval($params['stock']);
+
+        // 获取购物车数据
+        $cart = Db::name('Cart')->where($where)->select();
+        if(empty($cart))
+        {
+            return DataReturn('请先加入购物车', -1);
+        }
+        $cart[0]['stock'] = $stock;
+
+        // 商品校验
+        $check = self::BuyGoodsCheck(['goods'=>$cart]);
+        if($check['code'] != 0)
+        {
+            return $check;
+        }
+
+        // 更新数据
         $data = [
-            'stock'     => intval($params['stock']),
+            'stock'     => $stock,
             'upd_time'  => time(),
         ];
         if(Db::name('Cart')->where($where)->update($data))
@@ -766,7 +799,11 @@ class BuyService
         foreach($params['goods'] as $v)
         {
             // 获取商品信息
-            $goods = Db::name('Goods')->find($v['goods_id']);
+            $goods = Db::name('Goods')->field('id,title,price,is_shelves,inventory,buy_min_number,buy_max_number')->find($v['goods_id']);
+            if(empty($goods))
+            {
+                return DataReturn('['.$v['goods_id'].']商品不存在', -1);
+            }
 
             // 规格
             $goods_base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>isset($v['spec']) ? $v['spec'] : []]);
@@ -779,25 +816,21 @@ class BuyService
             }
 
             // 基础判断
-            if(empty($goods))
-            {
-                return DataReturn('['.$v['goods_id'].']商品不存在', -1);
-            }
             if($goods['is_shelves'] != 1)
             {
-                return DataReturn('['.$v['goods_id'].']商品已下架', -1);
+                return DataReturn('商品已下架['.$goods['title'].']', -1);
             }
             if($v['stock'] > $goods['inventory'])
             {
-                return DataReturn('['.$v['goods_id'].']购买数量超过商品库存数量['.$v['stock'].'>'.$goods['inventory'].']', -1);
+                return DataReturn('购买数量超过商品库存数量['.$goods['title'].']['.$v['stock'].'>'.$goods['inventory'].']', -1);
             }
             if($goods['buy_min_number'] > 1 && $v['stock'] < $goods['buy_min_number'])
             {
-                return DataReturn('['.$v['goods_id'].']低于商品起购数量['.$v['stock'].'<'.$goods['buy_min_number'].']', -1);
+                return DataReturn('低于商品起购数量['.$goods['title'].']['.$v['stock'].'<'.$goods['buy_min_number'].']', -1);
             }
-            if($goods['buy_max_number'] > 1 && $v['stock'] > $goods['buy_max_number'])
+            if($goods['buy_max_number'] > 0 && $v['stock'] > $goods['buy_max_number'])
             {
-                return DataReturn('['.$v['goods_id'].']超过商品限购数量['.$v['stock'].'>'.$goods['buy_max_number'].']', -1);
+                return DataReturn('超过商品限购数量['.$goods['title'].']['.$v['stock'].'>'.$goods['buy_max_number'].']', -1);
             }
         }
 
@@ -874,7 +907,7 @@ class BuyService
             return $buy;
         }
         $check = self::BuyGoodsCheck(['goods'=>$buy['data']['goods']]);
-        if(!isset($check['code']) || $check['code'] != 0)
+        if($check['code'] != 0)
         {
             return $check;
         }

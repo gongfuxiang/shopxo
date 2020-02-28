@@ -220,7 +220,7 @@ class GoodsService
                 $data = array_merge($data, $temp);
             }
         }
-        $data = empty($data) ? $ids : array_merge($ids, $data);
+        $data = empty($data) ? $ids : array_unique(array_merge($ids, $data));
         return $data;
     }
 
