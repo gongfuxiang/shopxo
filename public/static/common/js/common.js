@@ -1548,10 +1548,76 @@ function MapInit(lng, lat, level, point, is_dragend)
     }
 }
 
+/**
+ * 表格容器处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-02-29
+ * @desc    description
+ */
+function TableContainerInit()
+{
+	$('.am-table-scrollable-horizontal .am-table.am-table-td-fixed-first thead tr, .am-table-scrollable-horizontal .am-table.am-table-td-fixed-last thead tr').each(function(k, v)
+    {        
+        // 第一列
+        if($(this).parents('.am-table').hasClass('am-table-td-fixed-first'))
+        {
+        	$(this).find('th:first').css('left', $(this).parents('.am-table').offset().left);
+        }
+
+        // 最后一列
+        if($(this).parents('.am-table').hasClass('am-table-td-fixed-last'))
+        {
+        	var $obj = $(this).parents('.am-table');
+			var width = $(document.body).width();
+			var left = $obj.offset().left;
+			var right = (width > $obj.width()) ? width-$obj.width()-left : width-$obj.parent().width()-left;
+        	$(this).find('th:last').css('right', right);
+        }
+        
+    });
+	$('.am-table-scrollable-horizontal .am-table.am-table-td-fixed-first tbody tr, .am-table-scrollable-horizontal .am-table.am-table-td-fixed-last tbody tr').each(function(k, v)
+    {
+    	// 容器
+        var height = $(this).height();
+        if(height > 0)
+        {
+            $(this).find('td').css('height', height+'px');
+        }
+        
+        // 第一列
+        if($(this).parents('.am-table').hasClass('am-table-td-fixed-first'))
+        {
+        	$(this).find('td:first').css('left', $(this).parents('.am-table').offset().left);
+        }
+
+        // 最后一列
+        if($(this).parents('.am-table').hasClass('am-table-td-fixed-last'))
+        {
+			var $obj = $(this).parents('.am-table');
+			var width = $(document.body).width();
+			var left = $obj.offset().left;
+			var right = (width > $obj.width()) ? width-$obj.width()-left : width-$obj.parent().width()-left;
+        	$(this).find('td:last').css('right', right);
+        }
+    });
+}
+
 
 // 公共数据操作
 $(function()
 {
+	// 浏览器窗口实时事件
+    $(window).resize(function()
+    {
+    	// 表格初始化
+    	TableContainerInit();
+    });
+
+    // 表格初始化
+    TableContainerInit();
+
 	// 全屏操作
 	$('.fullscreen-event').on('click', function()
 	{
@@ -2218,5 +2284,15 @@ $(function()
 			$more_where.removeClass('none');
 		}
 	});
+
+	/**
+	 * 页面加载 loading
+	 */
+	 if($('.am-page-loading').length > 0)
+	 {
+	 	setTimeout(function() {
+	        $('.am-page-loading').fadeOut(500);
+	    }, 300);
+	 }
 
 });

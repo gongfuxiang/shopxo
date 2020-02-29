@@ -46,7 +46,16 @@ return array (
     2 => 'app\\plugins\\distribution\\Hook',
     3 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
+  'plugins_service_buy_order_insert_begin' => 
+  array (
+    0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
+  ),
   'plugins_service_buy_order_insert_end' => 
+  array (
+    0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
+    1 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_order_aftersale_audit_handle_end' => 
   array (
     0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
     1 => 'app\\plugins\\distribution\\Hook',
@@ -56,15 +65,6 @@ return array (
     0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
     2 => 'app\\plugins\\distribution\\Hook',
-  ),
-  'plugins_service_buy_order_insert_begin' => 
-  array (
-    0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
-  ),
-  'plugins_service_order_aftersale_audit_handle_end' => 
-  array (
-    0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
-    1 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_css' => 
   array (
