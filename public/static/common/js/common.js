@@ -1558,50 +1558,57 @@ function MapInit(lng, lat, level, point, is_dragend)
  */
 function TableContainerInit()
 {
-	$('.am-table-scrollable-horizontal .am-table.am-table-td-fixed-first thead tr, .am-table-scrollable-horizontal .am-table.am-table-td-fixed-last thead tr').each(function(k, v)
-    {        
-        // 第一列
-        if($(this).parents('.am-table').hasClass('am-table-td-fixed-first'))
-        {
-        	$(this).find('th:first').css('left', $(this).parents('.am-table').offset().left);
-        }
+	if($('.am-table-scrollable-horizontal').length > 0)
+	{
+		// th
+		$('.am-table-scrollable-horizontal .am-table.am-table-td-fixed-first thead tr, .am-table-scrollable-horizontal .am-table.am-table-td-fixed-last thead tr').each(function(k, v)
+	    {        
+	        // 第一列
+	        if($(this).parents('.am-table').hasClass('am-table-td-fixed-first'))
+	        {
+	        	$(this).find('th:first').css('left', $(this).parents('.am-table').offset().left);
+	        }
 
-        // 最后一列
-        if($(this).parents('.am-table').hasClass('am-table-td-fixed-last'))
-        {
-        	var $obj = $(this).parents('.am-table');
-			var width = $(document.body).width();
-			var left = $obj.offset().left;
-			var right = (width > $obj.width()) ? width-$obj.width()-left : width-$obj.parent().width()-left;
-        	$(this).find('th:last').css('right', right);
-        }
-        
-    });
-	$('.am-table-scrollable-horizontal .am-table.am-table-td-fixed-first tbody tr, .am-table-scrollable-horizontal .am-table.am-table-td-fixed-last tbody tr').each(function(k, v)
-    {
-    	// 容器
-        var height = $(this).height();
-        if(height > 0)
-        {
-            $(this).find('td').css('height', height+'px');
-        }
-        
-        // 第一列
-        if($(this).parents('.am-table').hasClass('am-table-td-fixed-first'))
-        {
-        	$(this).find('td:first').css('left', $(this).parents('.am-table').offset().left);
-        }
+	        // 最后一列
+	        if($(this).parents('.am-table').hasClass('am-table-td-fixed-last'))
+	        {
+	        	var $obj = $(this).parents('.am-table');
+				var width = $(document.body).width();
+				var left = $obj.offset().left;
+				var right = width-$obj.parent().width()-left;
+	        	$(this).find('th:last').css('right', right);
+	        }
+	        
+	    });
 
-        // 最后一列
-        if($(this).parents('.am-table').hasClass('am-table-td-fixed-last'))
-        {
-			var $obj = $(this).parents('.am-table');
-			var width = $(document.body).width();
-			var left = $obj.offset().left;
-			var right = (width > $obj.width()) ? width-$obj.width()-left : width-$obj.parent().width()-left;
-        	$(this).find('td:last').css('right', right);
-        }
-    });
+	    // td
+		$('.am-table-scrollable-horizontal .am-table.am-table-td-fixed-first tbody tr, .am-table-scrollable-horizontal .am-table.am-table-td-fixed-last tbody tr').each(function(k, v)
+	    {
+	    	console.log(1)
+	    	// 容器
+	        var height = $(this).height();
+	        if(height > 0)
+	        {
+	            $(this).find('td').css('height', height+'px');
+	        }
+	        
+	        // 第一列
+	        if($(this).parents('.am-table').hasClass('am-table-td-fixed-first'))
+	        {
+	        	$(this).find('td:first').css('left', $(this).parents('.am-table').offset().left);
+	        }
+
+	        // 最后一列
+	        if($(this).parents('.am-table').hasClass('am-table-td-fixed-last'))
+	        {
+				var $obj = $(this).parents('.am-table');
+				var width = $(document.body).width();
+				var left = $obj.offset().left;
+				var right = width-$obj.parent().width()-left;
+	        	$(this).find('td:last').css('right', right);
+	        }
+	    });
+    }
 }
 
 

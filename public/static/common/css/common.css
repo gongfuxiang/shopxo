@@ -422,12 +422,19 @@ button.colorpicker-submit:active {
     border: 0;
     margin: 0;
 }
+.am-table-scrollable-horizontal .am-table .am-nowrap-initial {
+    white-space: initial;
+}
 .am-table-scrollable-horizontal .am-table tr th:first-child,
 .am-table-scrollable-horizontal .am-table tr td:first-child {
     border-left: 0;
 }
 .am-table-scrollable-horizontal .am-table tr th {
-    background: #e0e0e0;
+    background: #e8e6e6;
+    min-width: 100px;
+}
+.am-table-scrollable-horizontal .am-table tr th.am-max-grid {
+    min-width: 300px;
 }
 .am-table-scrollable-horizontal .am-table-td-fixed-first th:nth-child(2),
 .am-table-scrollable-horizontal .am-table-td-fixed-first td:nth-child(2) {
