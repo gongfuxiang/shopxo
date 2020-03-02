@@ -1,8 +1,9 @@
 /**
  * 公共
  */
-.none {display:none !important;}
-.block {display:block !important;}
+ul { list-style: none; }
+.none { display:none !important; }
+.block { display:block !important; }
 
 /* 没数据 */
 .table-no {text-align:center;padding:30px 0;background:#FFF !important; color: #888; }
@@ -312,6 +313,9 @@ button.colorpicker-submit:active {
 /**
  * 自定义辅助类
  */
+.xo-cursor-pr {
+    cursor: pointer;
+}
 @media only screen and (max-width: 641px) {
     /* 水平方向内边距 */
     .xo-padding-horizontal-md-xs {
@@ -422,6 +426,15 @@ button.colorpicker-submit:active {
     border: 0;
     margin: 0;
 }
+.am-table-scrollable-horizontal .am-table > thead > tr > th,
+.am-table-scrollable-horizontal .am-table > tbody > tr > th,
+.am-table-scrollable-horizontal .am-table > tfoot > tr > th,
+.am-table-scrollable-horizontal .am-table > thead > tr > td,
+.am-table-scrollable-horizontal .am-table > tbody > tr > td,
+.am-table-scrollable-horizontal .am-table > tfoot > tr > td {
+    padding: 12px;
+    line-height: 20px;
+}
 .am-table-scrollable-horizontal .am-table .am-nowrap-initial {
     white-space: initial;
 }
@@ -433,8 +446,23 @@ button.colorpicker-submit:active {
     background: #e8e6e6;
     min-width: 100px;
 }
-.am-table-scrollable-horizontal .am-table tr th.am-max-grid {
-    min-width: 300px;
+.am-table-scrollable-horizontal .am-table tr th.am-grid-lg {
+    min-width: 350px;
+}
+.am-table-scrollable-horizontal .am-table tr th.am-grid-sm {
+    min-width: 200px;
+}
+.am-table-scrollable-horizontal .am-table tr th.am-grid-xs {
+    min-width: 150px;
+}
+.am-table-scrollable-horizontal .am-table tr .am-operate-grid {
+    width: 100px;
+    padding: 0;
+}
+.am-table-scrollable-horizontal .am-table tr .am-operate-grid .am-scrollable-vertical {
+    height: 45px;
+    resize: none;
+    padding: 10px 15px;
 }
 .am-table-scrollable-horizontal .am-table-td-fixed-first th:nth-child(2),
 .am-table-scrollable-horizontal .am-table-td-fixed-first td:nth-child(2) {

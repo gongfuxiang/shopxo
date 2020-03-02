@@ -25,35 +25,41 @@
 		{{/if}}
 
 		<!-- list start -->
-		<table class="am-table am-table-striped am-table-hover am-text-middle am-margin-top-sm am-margin-left-xs">
-			<thead>
-				<tr>
-					<th>包名</th>
-					<th>大小</th>
-					<th>创建时间</th>
-					<th>操作</th>
-				</tr>
-			</thead>
-			<tbody>
-				{{if !empty($data_list)}}
-					{{foreach $data_list as $v}}
-						<tr>
-							<td>{{$v.name}}</td>
-							<td>{{$v.size}}</td>
-							<td>{{$v.time}}</td>
-							<td class="view-operation">
-								{{if !empty($v.url)}}
-									<a href="{{$v.url}}">
-										<button class="am-btn am-btn-success am-btn-xs am-radius am-icon-download"> 下载</button>
-									</a>
-								{{/if}}
-								<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/appminibaidulist/delete')}}" data-id="{{$v.name}}" data-view="reload"> 删除</button>
-							</td>
-						</tr>
-					{{/foreach}}
-				{{/if}}
-			</tbody>
-		</table>
+		<div class="am-scrollable-horizontal am-table-scrollable-horizontal am-margin-top-sm am-margin-bottom-sm">
+            <table class="am-table am-table-striped am-table-hover am-table-bordered am-text-nowrap am-table-td-fixed-last">
+				<thead>
+					<tr>
+						<th class="am-grid-sm">包名</th>
+						<th>大小</th>
+						<th>创建时间</th>
+						<th class="am-text-center" data-width="170">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{if !empty($data_list)}}
+						{{foreach $data_list as $v}}
+							<tr>
+								<td class="am-text-middle">{{$v.name}}</td>
+								<td class="am-text-middle">{{$v.size}}</td>
+								<td class="am-text-middle">{{$v.time}}</td>
+								<td class="am-operate-grid" data-width="170">
+                                    <div class="am-scrollable-vertical">
+                                        <a class="am-btn am-btn-success am-btn-xs am-radius" href="{{$v.url}}">
+                                            <i class="am-icon-download"></i>
+                                            <span>下载</span>
+                                        </a>
+                                        <button class="am-btn am-btn-danger am-btn-xs am-radius submit-delete" data-url="{{:MyUrl('admin/appminibaidulist/delete')}}" data-id="{{$v.name}}" data-view="reload">
+                                            <i class="am-icon-trash-o"></i>
+                                            <span>删除</span>
+                                        </button>
+                                    </div>
+                                </td>
+							</tr>
+						{{/foreach}}
+					{{/if}}
+				</tbody>
+			</table>
+		</div>
 		{{if empty($data_list)}}
             <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
         {{/if}}

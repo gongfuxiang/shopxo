@@ -605,9 +605,41 @@ class OrderService
             }
         }
 
+        // 关键字
         if(!empty($params['keywords']))
         {
-            $where[] = ['order_no|express_number', 'like', '%'.$params['keywords'] . '%'];
+            // 查询状态
+            $keywords_status = false;
+
+            // 订单表查询
+            $oids = Db::name('Order')->where([['order_no|express_number', '=', $params['keywords']]])->column('id');
+            if(!empty($oids))
+            {
+                $where[] = ['id', 'in', $oids];
+                $keywords_status = true;
+            }
+
+            // 取货码查询
+            if($keywords_status === false && strlen(intval($params['keywords'])) == 4)
+            {
+                $oid = Db::name('OrderExtractionCode')->where(['code'=>$params['keywords']])->value('order_id');
+                if(!empty($oid))
+                {
+                    $where[] = ['id', '=', $oid];
+                    $keywords_status = true;
+                }
+            }
+
+            // 收件姓名电话查询
+            if($keywords_status === false)
+            {
+                $oids = Db::name('OrderAddress')->where([['name|tel', '=', $params['keywords']]])->column('order_id');
+                if(!empty($oids))
+                {
+                    $where[] = ['id', 'in', $oids];
+                    $keywords_status = true;
+                }
+            }
         }
 
         // 是否更多条件
@@ -625,6 +657,10 @@ class OrderService
             if(isset($params['pay_status']) && $params['pay_status'] > -1)
             {
                 $where[] = ['pay_status', '=', intval($params['pay_status'])];
+            }
+            if(isset($params['order_model']) && $params['order_model'] > -1)
+            {
+                $where[] = ['order_model', '=', intval($params['order_model'])];
             }
             if(!empty($params['client_type']))
             {

@@ -86,7 +86,7 @@ class PayLogService
         $where = empty($params['where']) ? [] : $params['where'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
-        $field = 'p.*,u.username,u.nickname,u.mobile,u.gender';
+        $field = 'p.*,u.username,u.nickname,u.mobile,u.email,u.gender';
         $order_by = empty($params['order_by']) ? 'p.id desc' : $params['order_by'];
 
         // 获取数据列表

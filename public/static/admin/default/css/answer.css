@@ -2,18 +2,7 @@
  * 列表
  */
 .content-right table.am-table .reply-content {
-    max-width: 200px;
-    max-height: 200px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-}
-.content-right table.am-table .view-operation {
-    width: 85px;
-}
-@media only screen and (max-width: 641px) {
-    .content-right table.am-table td.content-info {
-        width: 45%;
-    }
+    max-height: 80px;
 }
 
 /**
@@ -23,11 +12,6 @@
     max-width: 35px;
     max-height: 35px;
     margin: 0 5px 2px 0;
-}
-.content-right ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
 }
 
 /**

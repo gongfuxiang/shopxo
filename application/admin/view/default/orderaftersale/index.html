@@ -76,11 +76,11 @@
             <!-- 顶部操作钩子 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                 <div class="plugins-tag">
-                    <span>plugins_view_admin_order_aftersale_top_operation</span>
+                    <span>plugins_view_admin_order_aftersale_top_operate</span>
                 </div>
             {{/if}}
             {{php}}
-                $hook_name = 'plugins_view_admin_order_aftersale_top_operation';
+                $hook_name = 'plugins_view_admin_order_aftersale_top_operate';
                 $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true]);
                 if(!empty($hook_data) && is_array($hook_data))
                 {
@@ -97,259 +97,282 @@
         <!-- top operation end -->
 
         <!-- list start -->
-        <table class="am-table am-table-striped am-table-hover am-text-middle am-margin-top-sm">
-            <thead>
-                <tr>
-                    <th class="row-goods am-hide-sm-only">商品信息</th>
-                    <th class="row-user-info am-hide-md-down">用户信息</th>
-                    <th class="row-apply">申请信息</th>
-                    <th class="am-hide-sm-only">凭证</th>
-                    <th class="am-hide-sm-only">状态</th>
-                    <th class="am-hide-sm-only">快递信息</th>
-                    <th class="row-more">更多</th>
-                    <th class="row-operation">操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{if !empty($data_list)}}
-                    {{foreach $data_list as $v}}
-                        <tr id="data-list-{{$v.id}}">
-                            <td class="am-hide-sm-only">
-                                <div class="am-padding-bottom-xs">
-                                    <strong>{{$v.order_data.order_no}}</strong>
-                                    <span class="am-badge am-badge-primary am-radius" title="订单模式">{{$v.order_data.order_model_name}}</span>
-                                    <span class="am-badge am-badge-secondary am-radius" title="客户端类型">{{$v.order_data.client_type_name}}</span>
-                                </div>
-                                <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-0" />
-                                <div class="goods-detail am-padding-vertical-xs">
-                                    <a href="{{$v.order_data.items.goods_url}}" target="_blank">
-                                        <img src="{{$v.order_data.items.images}}" class="am-img-thumbnail am-radius" />
-                                    </a>
-                                    <div class="goods-base">
-                                        <a href="{{$v.order_data.items.goods_url}}" target="_blank" class="goods-title">{{$v.order_data.items.title}}</a>
-                                        {{if !empty($v.order_data.items.spec)}}
-                                            <ul class="goods-attr">
-                                                {{foreach $v.order_data.items.spec as $spec}}
-                                                    <li>{{$spec.type}}：{{$spec.value}}</li>
+        <div class="am-scrollable-horizontal am-table-scrollable-horizontal am-margin-top-sm">
+            <table class="am-table am-table-striped am-table-hover am-table-bordered am-text-nowrap am-table-td-fixed-last goods-list">
+                <thead>
+                    <tr>
+                        <th class="am-grid-lg">商品信息</th>
+                        <th class="am-grid-sm">用户信息</th>
+                        <th class="am-grid-sm">申请信息</th>
+                        <th class="am-grid-sm">凭证</th>
+                        <th>状态</th>
+                        <th class="am-grid-sm">快递信息</th>
+                        <th class="am-text-center">更多</th>
+                        <th class="am-text-center">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{if !empty($data_list)}}
+                        {{foreach $data_list as $v}}
+                            <tr id="data-list-{{$v.id}}">
+                                <td class="am-text-middle">
+                                    <div class="am-padding-bottom-xs">
+                                        <strong>{{$v.order_data.order_no}}</strong>
+                                        <span class="am-badge am-badge-primary am-radius" title="订单模式">{{$v.order_data.order_model_name}}</span>
+                                        <span class="am-badge am-badge-secondary am-radius" title="客户端类型">{{$v.order_data.client_type_name}}</span>
+                                    </div>
+                                    <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-0" />
+                                    <div class="goods-detail am-padding-vertical-xs">
+                                        <a href="{{$v.order_data.items.goods_url}}" target="_blank">
+                                            <img src="{{$v.order_data.items.images}}" class="am-img-thumbnail am-radius" />
+                                        </a>
+                                        <div class="goods-base">
+                                            <a href="{{$v.order_data.items.goods_url}}" target="_blank" class="am-nowrap-initial am-text-truncate-2 goods-title">{{$v.order_data.items.title}}</a>
+                                            {{if !empty($v.order_data.items.spec)}}
+                                                <ul class="goods-spec am-margin-top-xs">
+                                                    {{foreach $v.order_data.items.spec as $spec}}
+                                                        <li>{{$spec.type}}：{{$spec.value}}</li>
+                                                    {{/foreach}}
+                                                </ul>
+                                            {{/if}}
+                                        </div>
+                                    </div>
+                                    <div class="goods-price">
+                                        {{if $v.order_data.items.original_price gt 0}}
+                                            <span class="original-price am-margin-right-xs">{{$price_symbol}}{{$v.order_data.items.original_price}}</span>
+                                        {{/if}}
+                                        <strong>{{$price_symbol}}{{$v.order_data.items.price}} x {{$v.order_data.items.buy_number}}</strong>
+                                    </div>
+                                </td>
+                                <td class="am-text-middle user-info">
+                                    {{if !empty($v['user'])}}
+                                        <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                                        <ul class="user-base">
+                                            <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
+                                            <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
+                                            <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
+                                            <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
+                                        </ul>
+                                    {{else /}}
+                                        用户信息异常
+                                    {{/if}}
+                                </td>
+                                <td class="am-text-middle">
+                                    类型：{{$v.type_text}}<br />
+                                    原因：{{$v.reason}}<br />
+                                    数量：{{$v.number}}<br />
+                                    金额：<strong class="am-text-danger">{{$price_symbol}}{{$v.price}}</strong><br />
+                                    说明：{{$v.msg}}<br />
+                                    时间：{{$v.apply_time_time}}
+                                </td>
+                                <td class="am-text-middle">
+                                    {{if !empty($v['images'])}}
+                                        <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false, slideshow:false}' >
+                                            <ul class="am-slides">
+                                                {{foreach $v.images as $img}}
+                                                    <li>
+                                                        <a href="{{$img}}" target="_blank">
+                                                            <img src="{{$img}}" />
+                                                        </a>
+                                                    </li>
                                                 {{/foreach}}
                                             </ul>
-                                        {{/if}}
-                                    </div>
-                                </div>
-                                {{if $v.order_data.items.original_price gt 0}}
-                                    <p class="original-price">{{$price_symbol}}{{$v.order_data.items.original_price}}</p>
-                                {{/if}}
-                                <p class="line-price">{{$price_symbol}}{{$v.order_data.items.price}} x {{$v.order_data.items.buy_number}}</p>
-                            </td>
-                            <td class="user-info am-hide-md-down">
-                                {{if !empty($v['user'])}}
-                                    <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
-                                    <ul class="user-base">
-                                        <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
-                                        <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
-                                        <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
-                                        <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
-                                    </ul>
-                                {{else /}}
-                                    用户信息异常
-                                {{/if}}
-                            </td>
-                            <td>
-                                类型：{{$v.type_text}}<br />
-                                原因：{{$v.reason}}<br />
-                                数量：{{$v.number}}<br />
-                                金额：<span class="am-text-danger">{{$price_symbol}}{{$v.price}}</span><br />
-                                说明：{{$v.msg}}<br />
-                                时间：{{$v.apply_time_time}}
-                            </td>
-                            <td class="am-hide-sm-only">
-                                {{if !empty($v['images'])}}
-                                    <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false, slideshow:false}' >
-                                        <ul class="am-slides">
-                                            {{foreach $v.images as $img}}
-                                                <li>
-                                                    <a href="{{$img}}" target="_blank">
-                                                        <img src="{{$img}}" />
-                                                    </a>
-                                                </li>
-                                            {{/foreach}}
-                                        </ul>
-                                    </div>
-                                {{/if}}
-                            </td>
-                            <td class="am-hide-sm-only">
-                                <p>{{$v.status_text}}</p>
-                                {{if $v['status'] eq 3 and !empty($v['refundment_text'])}}
-                                    <span class="am-badge am-badge-success am-radius am-margin-top-xs">{{$v.refundment_text}}</span>
-                                {{/if}}
-                                {{if $v['status'] eq 4 and !empty($v['refuse_reason'])}}
-                                    <span class="am-text-danger">{{$v.refuse_reason}}</span>
-                                {{/if}}
-                            </td>
-                            <td class="am-hide-sm-only">
-                                {{if $v['type'] eq 1 and in_array($v['status'], [2,3])}}
-                                    快递：{{$v.express_name}}<br />
-                                    单号：{{$v.express_number}}<br />
-                                    时间：{{$v.delivery_time_time}}
-                                {{/if}}
-                            </td>
-                            <td>
-                                <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
-                                <div class="am-popup am-radius" id="my-popup{{$v.id}}">
-                                    <div class="am-popup-inner">
-                                        <div class="am-popup-hd">
-                                            <h4 class="am-popup-title">详情内容</h4>
-                                            <span data-am-modal-close
-                                            class="am-close">&times;</span>
                                         </div>
-                                        <div class="am-popup-bd">
-                                            <dl class="dl-content">
-                                                <dt>商品信息</dt>
-                                                <dd>
-                                                    <div class="goods-detail">
-                                                        <a href="{{$v.order_data.items.goods_url}}" target="_blank">
-                                                            <img src="{{$v.order_data.items.images}}" class="am-img-thumbnail am-radius" />
-                                                        </a>
-                                                        <div class="goods-base">
-                                                            <a href="{{$v.order_data.items.goods_url}}" target="_blank" class="goods-title">{{$v.order_data.items.title}}</a>
-                                                            {{if !empty($v.order_data.items.spec)}}
-                                                                <ul class="goods-attr">
-                                                                    {{foreach $v.order_data.items.spec as $spec}}
-                                                                        <li>{{$spec.type}}：{{$spec.value}}</li>
-                                                                    {{/foreach}}
-                                                                </ul>
-                                                            {{/if}}
-                                                        </div>
-                                                    </div>
-                                                    {{if $v.order_data.items.original_price gt 0}}
-                                                        <p class="original-price">{{$price_symbol}}{{$v.order_data.items.original_price}}</p>
-                                                    {{/if}}
-                                                    <p class="line-price">{{$price_symbol}}{{$v.order_data.items.price}} x {{$v.order_data.items.buy_number}}</p>
-                                                </dd>
-
-                                                <dt>用户信息</dt>
-                                                <dd class="user-info">
-                                                    {{if !empty($v['user'])}}
-                                                        <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
-                                                        <ul class="user-base">
-                                                            <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
-                                                            <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
-                                                            <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
-                                                            <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
-                                                        </ul>
-                                                    {{else /}}
-                                                        用户信息异常
-                                                    {{/if}}
-                                                </dd>
-
-                                                <dt>申请信息</dt>
-                                                <dd>
-                                                    类型：{{$v.type_text}}<br />
-                                                    原因：{{$v.reason}}<br />
-                                                    数量：{{$v.number}}<br />
-                                                    金额：<span class="am-text-danger">{{$price_symbol}}{{$v.price}}</span><br />
-                                                    说明：{{$v.msg}}<br />
-                                                    时间：{{$v.apply_time_time}}
-                                                </dd>
-
-                                                <dt>凭证</dt>
-                                                <dd>
-                                                    {{if !empty($v['images'])}}
-                                                        {{foreach $v.images as $img}}
-                                                            <a href="{{$img}}" target="_blank">
-                                                                <img src="{{$img}}" class="am-img-thumbnail" width="80" height="80" />
+                                    {{/if}}
+                                </td>
+                                <td class="am-text-middle">
+                                    <p>{{$v.status_text}}</p>
+                                    {{if $v['status'] eq 3 and !empty($v['refundment_text'])}}
+                                        <span class="am-badge am-badge-success am-radius am-margin-top-xs">{{$v.refundment_text}}</span>
+                                    {{/if}}
+                                    {{if $v['status'] eq 4 and !empty($v['refuse_reason'])}}
+                                        <span class="am-text-danger">{{$v.refuse_reason}}</span>
+                                    {{/if}}
+                                </td>
+                                <td class="am-text-middle">
+                                    {{if $v['type'] eq 1 and in_array($v['status'], [2,3])}}
+                                        快递：{{$v.express_name}}<br />
+                                        单号：{{$v.express_number}}<br />
+                                        时间：{{$v.delivery_time_time}}
+                                    {{/if}}
+                                </td>
+                                <td class="am-text-middle">
+                                    <p class="am-text-center xo-cursor-pr">
+                                        <i class="am-icon-caret-down"></i>
+                                        <span data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+                                    </p>
+                                    <div class="am-popup am-radius" id="my-popup{{$v.id}}">
+                                        <div class="am-popup-inner">
+                                            <div class="am-popup-hd">
+                                                <h4 class="am-popup-title">详情内容</h4>
+                                                <span data-am-modal-close
+                                                class="am-close">&times;</span>
+                                            </div>
+                                            <div class="am-popup-bd">
+                                                <dl class="dl-content">
+                                                    <dt>商品信息</dt>
+                                                    <dd>
+                                                        <div class="goods-detail">
+                                                            <a href="{{$v.order_data.items.goods_url}}" target="_blank">
+                                                                <img src="{{$v.order_data.items.images}}" class="am-img-thumbnail am-radius" />
                                                             </a>
-                                                        {{/foreach}}
-                                                    {{/if}}
-                                                </dd>
+                                                            <div class="goods-base">
+                                                                <a href="{{$v.order_data.items.goods_url}}" target="_blank" class="am-nowrap-initial am-text-truncate-2 goods-title">{{$v.order_data.items.title}}</a>
+                                                                {{if !empty($v.order_data.items.spec)}}
+                                                                    <ul class="goods-spec am-margin-top-xs">
+                                                                        {{foreach $v.order_data.items.spec as $spec}}
+                                                                            <li>{{$spec.type}}：{{$spec.value}}</li>
+                                                                        {{/foreach}}
+                                                                    </ul>
+                                                                {{/if}}
+                                                            </div>
+                                                        </div>
+                                                        {{if $v.order_data.items.original_price gt 0}}
+                                                            <p class="original-price">{{$price_symbol}}{{$v.order_data.items.original_price}}</p>
+                                                        {{/if}}
+                                                        <p class="line-price">{{$price_symbol}}{{$v.order_data.items.price}} x {{$v.order_data.items.buy_number}}</p>
+                                                    </dd>
 
-                                                <dt>状态</dt>
-                                                <dd>
-                                                    <p>{{$v.status_text}}</p>
-                                                    {{if $v['status'] eq 3 and !empty($v['refundment_text'])}}
-                                                        <span class="am-badge am-badge-success am-margin-top-xs">{{$v.refundment_text}}</span>
-                                                    {{/if}}
-                                                </dd>
-                                                <dt>拒绝原因</dt>
-                                                <dd class="am-text-danger">{{$v.refuse_reason}}</dd>
+                                                    <dt>用户信息</dt>
+                                                    <dd class="user-info">
+                                                        {{if !empty($v['user'])}}
+                                                            <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                                                            <ul class="user-base">
+                                                                <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
+                                                                <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
+                                                                <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
+                                                                <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
+                                                            </ul>
+                                                        {{else /}}
+                                                            用户信息异常
+                                                        {{/if}}
+                                                    </dd>
 
-                                                <dt>快递信息</dt>
-                                                <dd>
-                                                    {{if $v['type'] eq 1 and in_array($v['status'], [2,3])}}
-                                                        快递：{{$v.express_name}}<br />
-                                                        单号：{{$v.express_number}}<br />
-                                                        时间：{{$v.delivery_time_time}}
-                                                    {{/if}}
-                                                </dd>
+                                                    <dt>申请信息</dt>
+                                                    <dd>
+                                                        类型：{{$v.type_text}}<br />
+                                                        原因：{{$v.reason}}<br />
+                                                        数量：{{$v.number}}<br />
+                                                        金额：<span class="am-text-danger">{{$price_symbol}}{{$v.price}}</span><br />
+                                                        说明：{{$v.msg}}<br />
+                                                        时间：{{$v.apply_time_time}}
+                                                    </dd>
 
-                                                <dt>申请时间</dt>
-                                                <dd>{{$v.apply_time_time}}</dd>
+                                                    <dt>凭证</dt>
+                                                    <dd>
+                                                        {{if !empty($v['images'])}}
+                                                            {{foreach $v.images as $img}}
+                                                                <a href="{{$img}}" target="_blank">
+                                                                    <img src="{{$img}}" class="am-img-thumbnail" width="80" height="80" />
+                                                                </a>
+                                                            {{/foreach}}
+                                                        {{/if}}
+                                                    </dd>
 
-                                                <dt>确认时间</dt>
-                                                <dd>{{$v.confirm_time_time}}</dd>
+                                                    <dt>状态</dt>
+                                                    <dd>
+                                                        <p>{{$v.status_text}}</p>
+                                                        {{if $v['status'] eq 3 and !empty($v['refundment_text'])}}
+                                                            <span class="am-badge am-badge-success am-margin-top-xs">{{$v.refundment_text}}</span>
+                                                        {{/if}}
+                                                    </dd>
+                                                    <dt>拒绝原因</dt>
+                                                    <dd class="am-text-danger">{{$v.refuse_reason}}</dd>
 
-                                                <dt>退货时间</dt>
-                                                <dd>{{$v.delivery_time_time}}</dd>
+                                                    <dt>快递信息</dt>
+                                                    <dd>
+                                                        {{if $v['type'] eq 1 and in_array($v['status'], [2,3])}}
+                                                            快递：{{$v.express_name}}<br />
+                                                            单号：{{$v.express_number}}<br />
+                                                            时间：{{$v.delivery_time_time}}
+                                                        {{/if}}
+                                                    </dd>
 
-                                                <dt>审核时间</dt>
-                                                <dd>{{$v.audit_time_time}}</dd>
+                                                    <dt>申请时间</dt>
+                                                    <dd>{{$v.apply_time_time}}</dd>
 
-                                                <dt>取消时间</dt>
-                                                <dd>{{$v.cancel_time_time}}</dd>
+                                                    <dt>确认时间</dt>
+                                                    <dd>{{$v.confirm_time_time}}</dd>
 
-                                                <dt>添加时间</dt>
-                                                <dd>{{$v.add_time_time}}</dd>
+                                                    <dt>退货时间</dt>
+                                                    <dd>{{$v.delivery_time_time}}</dd>
 
-                                                <dt>更新时间</dt>
-                                                <dd>{{$v.upd_time_time}}</dd>
-                                            </dl>
+                                                    <dt>审核时间</dt>
+                                                    <dd>{{$v.audit_time_time}}</dd>
+
+                                                    <dt>取消时间</dt>
+                                                    <dd>{{$v.cancel_time_time}}</dd>
+
+                                                    <dt>添加时间</dt>
+                                                    <dd>{{$v.add_time_time}}</dd>
+
+                                                    <dt>更新时间</dt>
+                                                    <dd>{{$v.upd_time_time}}</dd>
+                                                </dl>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td>
-                                {{if $v['status'] eq 0 and $v['type'] eq 1}}
-                                    <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-check am-btn-block submit-ajax" data-url="{{:MyUrl('admin/orderaftersale/confirm')}}" data-id="{{$v.id}}" data-view="reload"> 确认</button>
-                                {{/if}}
-                                {{if $v['status'] eq 2}}
-                                    <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-gavel am-btn-block submit-audit" data-json='{{:str_replace("'", '', json_encode($v))}}'> 审核</button>
-                                {{/if}}
-                                {{if in_array($v['status'], [0,2])}}
-                                    <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-icon-warning am-btn-block submit-refuse" data-json='{{:str_replace("'", '', json_encode($v))}}'> 拒绝</button>
-                                {{/if}}
-                                {{if in_array($v['status'], [1,2])}}
-                                    <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax submit-cancel" data-url="{{:MyUrl('admin/orderaftersale/cancel')}}" data-id="{{$v.id}}" data-view="reload"> 取消</button>
-                                {{/if}}
-                                {{if in_array($v['status'], [4,5])}}
-                                    <button class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/orderaftersale/delete')}}" data-id="{{$v.id}}"> 删除</button>
-                                {{/if}}
+                                </td>
+                                <td class="am-operate-grid">
+                                    <div class="am-scrollable-vertical">
+                                    {{if $v['status'] eq 0 and $v['type'] eq 1}}
+                                        <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/orderaftersale/confirm')}}" data-id="{{$v.id}}" data-view="reload">
+                                            <i class="am-icon-check"></i>
+                                            <span>确认</span>
+                                        </button>
+                                    {{/if}}
+                                    {{if $v['status'] eq 2}}
+                                        <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-audit" data-json='{{:str_replace("'", '', json_encode($v))}}'>
+                                            <i class="am-icon-gavel"></i>
+                                            <span>审核</span>
+                                        </button>
+                                    {{/if}}
+                                    {{if in_array($v['status'], [0,2])}}
+                                        <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-refuse" data-json='{{:str_replace("'", '', json_encode($v))}}'>
+                                            <i class="am-icon-warning"></i>
+                                            <span>拒绝</span>
+                                        </button>
+                                    {{/if}}
+                                    {{if in_array($v['status'], [1,2])}}
+                                        <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax submit-cancel" data-url="{{:MyUrl('admin/orderaftersale/cancel')}}" data-id="{{$v.id}}" data-view="reload">
+                                            <i class="am-icon-paint-brush"></i>
+                                            <span>取消</span>
+                                        </button>
+                                    {{/if}}
+                                    {{if in_array($v['status'], [4,5])}}
+                                        <button class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('admin/orderaftersale/delete')}}" data-id="{{$v.id}}">
+                                            <i class="am-icon-trash-o"></i>
+                                            <span>删除</span>
+                                        </button>
+                                    {{/if}}
 
-                                <!-- 订单售后列表操作钩子 -->
-                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
-                                    <div class="plugins-tag">
-                                        <span>plugins_view_admin_orderaftersale_list_operation</span>
-                                    </div>
-                                {{/if}}
-                                {{php}}
-                                    $hook_name = 'plugins_view_admin_orderaftersale_list_operation';
-                                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true, 'id'=>$v['id'], 'data'=>$v]);
-                                    if(!empty($hook_data) && is_array($hook_data))
-                                    {
-                                        foreach($hook_data as $hook)
+                                    <!-- 订单售后列表操作钩子 -->
+                                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                        <div class="plugins-tag">
+                                            <span>plugins_view_admin_orderaftersale_list_operate</span>
+                                        </div>
+                                    {{/if}}
+                                    {{php}}
+                                        $hook_name = 'plugins_view_admin_orderaftersale_list_operate';
+                                        $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true, 'id'=>$v['id'], 'data'=>$v]);
+                                        if(!empty($hook_data) && is_array($hook_data))
                                         {
-                                            if(is_string($hook) || is_int($hook))
+                                            foreach($hook_data as $hook)
                                             {
-                                                echo htmlspecialchars_decode($hook);
+                                                if(is_string($hook) || is_int($hook))
+                                                {
+                                                    echo htmlspecialchars_decode($hook);
+                                                }
                                             }
                                         }
-                                    }
-                                {{/php}}
-                            </td>
-                        </tr>
-                    {{/foreach}}
-                {{/if}}
-            </tbody>
-        </table>
+                                    {{/php}}
+                                </td>
+                            </tr>
+                        {{/foreach}}
+                    {{/if}}
+                </tbody>
+            </table>
+        </div>
         {{if empty($data_list)}}
             <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
         {{/if}}
@@ -360,11 +383,11 @@
             <!-- 底部操作钩子 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                 <div class="plugins-tag">
-                    <span>plugins_view_admin_order_aftersale_bottom_operation</span>
+                    <span>plugins_view_admin_order_aftersale_bottom_operate</span>
                 </div>
             {{/if}}
             {{php}}
-                $hook_name = 'plugins_view_admin_order_aftersale_bottom_operation';
+                $hook_name = 'plugins_view_admin_order_aftersale_bottom_operate';
                 $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true]);
                 if(!empty($hook_data) && is_array($hook_data))
                 {
@@ -412,7 +435,7 @@
                     </dl>
 
                     <form class="am-form form-validation-audit" action="{{:MyUrl('admin/orderaftersale/audit')}}" method="POST" request-type="ajax-reload">
-                        <div class="am-form-group">
+                        <div class="am-form-group reply-submit am-form-group-refreshing">
                             <label class="am-block">退款方式</label>
                             {{if !empty($common_order_aftersale_refundment_list)}}
                                 {{foreach $common_order_aftersale_refundment_list as $v}}
@@ -464,7 +487,7 @@
                     </dl>
 
                     <form class="am-form form-validation-refuse" action="{{:MyUrl('admin/orderaftersale/refuse')}}" method="POST" request-type="ajax-reload">
-                        <div class="am-form-group">
+                        <div class="am-form-group reply-submit am-form-group-refreshing">
                             <label>拒绝原因</label>
                             <textarea name="refuse_reason" rows="5" class="am-radius" placeholder="拒绝原因格式 2~230 个字符" data-validation-message="拒绝原因格式 2~230 个字符" minlength="2" maxlength="230" required></textarea>
                         </div>

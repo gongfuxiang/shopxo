@@ -2,15 +2,11 @@
  * 商品列表
  */
 .content-right .goods-detail img { width: 60px; height: 60px; position: absolute; left: 0; }
-.content-right .goods-detail { position: relative; min-height: 65px; }
-.content-right .goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; }
-.content-right .goods-title:hover { text-decoration: underline; }
+.content-right .goods-detail { position: relative; min-height: 65px; overflow: hidden; }
+.content-right .goods-title { max-height: 36px; height: auto; }
 .content-right .goods-base {float: left; top: 0; margin-left: 65px; }
-.content-right .goods-attr { margin-top: 5px;  }
-.content-right .goods-attr li { color: #888; line-height: 16px; }
-.content-right .original-price, .content-right .line-price { font-family: Verdana,Tahoma,arial; }
+.content-right .goods-spec li { color: #888; line-height: 16px; }
 .content-right .original-price { color: #9c9c9c; text-decoration: line-through; }
-.content-right .line-price { color: #3c3c3c; font-weight: 700; }
 
 /**
  * 用户信息
@@ -19,11 +15,6 @@
     max-width: 35px;
     max-height: 35px;
     margin: 0 5px 2px 0;
-}
-.content-right ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
 }
 
 /**

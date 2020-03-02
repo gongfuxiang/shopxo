@@ -113,11 +113,11 @@
             <!-- 顶部操作钩子 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                 <div class="plugins-tag">
-                    <span>plugins_view_admin_goods_top_operation</span>
+                    <span>plugins_view_admin_goods_top_operate</span>
                 </div>
             {{/if}}
             {{php}}
-                $hook_name = 'plugins_view_admin_goods_top_operation';
+                $hook_name = 'plugins_view_admin_goods_top_operate';
                 $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true]);
                 if(!empty($hook_data) && is_array($hook_data))
                 {
@@ -135,27 +135,27 @@
 
 		<!-- list start -->
         <div class="am-scrollable-horizontal am-table-scrollable-horizontal am-margin-top-sm">
-    		<table class="am-table am-table-striped am-table-hover am-text-middle am-table-bordered am-table-centered am-text-nowrap am-table-td-fixed-last goods-list">
+    		<table class="am-table am-table-striped am-table-hover am-table-bordered am-text-nowrap am-table-td-fixed-last goods-list">
     			<thead>
     				<tr>
     					<th>商品ID</th>
-    					<th class="am-max-grid">标题名称</th>
+    					<th class="am-grid-lg">标题名称</th>
     					<th>销售价格(元)</th>
-    					<th>上下架</th>
-    					<th>首页推荐</th>
+    					<th class="am-text-center">上下架</th>
+    					<th class="am-text-center">首页推荐</th>
     					<th>库存数量</th>
     					<th>商品型号</th>
     					<th>品牌</th>
-    					<th>更多</th>
-    					<th>操作</th>
+    					<th class="am-text-center">更多</th>
+    					<th class="am-text-center">操作</th>
     				</tr>
     			</thead>
     			<tbody>
     				{{if !empty($data_list)}}
     					{{foreach $data_list as $v}}
     						<tr id="data-list-{{$v.id}}" {{if $v['is_shelves'] eq 0}}class="am-active"{{/if}}>
-    							<td>{{$v.id}}</td>
-    							<td class="am-text-left">
+    							<td class="am-text-middle">{{$v.id}}</td>
+    							<td class="am-text-middle">
     								<a href="{{$v.goods_url}}" target="_blank" title="{{$v.title}}">
     									<img src="{{$v['images']}}" class="am-img-thumbnail am-radius goods-images" />
     								</a>
@@ -164,23 +164,26 @@
                                         <p class="am-text-danger am-nowrap-initial">{{$v.simple_desc}}</p>
                                     {{/if}}
     							</td>
-    							<td>
+    							<td class="am-text-middle">
     								{{$v.price}}
     								{{if !empty($v['original_price']) and $v['original_price'] gt 0}}
     									<br /><span class="am-badge am-radius">原价 {{$v.original_price}}</span>
     								{{/if}}
     							</td>
-    							<td>
+    							<td class="am-text-middle am-text-center">
     								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_shelves'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/goods/statusshelves')}}" data-id="{{$v.id}}" data-state="{{$v['is_shelves']}}"  data-is-update-status="1"></a>
     							</td>
-    							<td>
+    							<td class="am-text-middle am-text-center">
     								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_home_recommended'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/goods/statushomerecommended')}}" data-id="{{$v.id}}" data-state="{{$v['is_home_recommended']}}" data-is-update-status="0"></a>
     							</td>
-    							<td>{{$v.inventory}} {{$v.inventory_unit}}</td>
-    							<td>{{$v.model}}</td>
-    							<td>{{$v.brand_name}}</td>
-    							<td>
-    								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+    							<td class="am-text-middle">{{$v.inventory}} {{$v.inventory_unit}}</td>
+    							<td class="am-text-middle">{{$v.model}}</td>
+    							<td class="am-text-middle">{{$v.brand_name}}</td>
+    							<td class="am-text-middle">
+                                    <p class="am-text-center xo-cursor-pr">
+                                        <i class="am-icon-caret-down"></i>
+                                        <span data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+                                    </p>
     								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
     									<div class="am-popup-inner">
     										<div class="am-popup-hd">
@@ -191,10 +194,10 @@
     										<div class="am-popup-bd">
     											<dl class="dl-content">
     												<dt>标题名称</dt>
-    												<dd>{{$v.title}}</dd>
+    												<dd class="am-nowrap-initial">{{$v.title}}</dd>
 
                                                     <dt>商品简述</dt>
-                                                    <dd>{{$v.simple_desc}}</dd>
+                                                    <dd class="am-nowrap-initial">{{$v.simple_desc}}</dd>
 
     												<dt>销售价格(元)</dt>
     												<dd>
@@ -239,12 +242,12 @@
 
                                                     <dt>电脑端详情</dt>
                                                     <dd>
-                                                        <div class="am-scrollable-vertical web-content">{{$v.content_web|raw}}</div>
+                                                        <div class="am-scrollable-vertical am-nowrap-initial">{{$v.content_web|raw}}</div>
                                                     </dd>
 
                                                     <dt>虚拟商品展示数据</dt>
                                                     <dd>
-                                                        <div class="am-scrollable-vertical fictitious-goods-value">{{$v.fictitious_goods_value|raw}}</div>
+                                                        <div class="am-scrollable-vertical am-nowrap-initial">{{$v.fictitious_goods_value|raw}}</div>
                                                     </dd>
 
                                                     <dt>SEO标题</dt>
@@ -266,38 +269,38 @@
     									</div>
     								</div>
     							</td>
-    							<td class="view-operation">
-    								<a href="{{:MyUrl('admin/goods/saveinfo', array_merge($params, ['id'=>$v['id']]))}}">
-    									<button class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block">
+    							<td class="am-operate-grid">
+                                    <div class="am-scrollable-vertical">
+    									<a class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block" href="{{:MyUrl('admin/goods/saveinfo', array_merge($params, ['id'=>$v['id']]))}}">
                                             <i class="am-icon-edit"></i>
                                             <span>编辑</span>
+                                        </a>
+        								<button class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('admin/goods/delete')}}" data-id="{{$v.id}}">
+                                            <i class="am-icon-trash-o"></i>
+                                            <span>删除</span>
                                         </button>
-    								</a>
-    								<button class="am-btn am-btn-danger am-btn-xs am-radius am-margin-top-xs am-btn-block submit-delete" data-url="{{:MyUrl('admin/goods/delete')}}" data-id="{{$v.id}}">
-                                        <i class="am-icon-trash-o"></i>
-                                        <span>删除</span>
-                                    </button>
 
-                                    <!-- 商品列表操作钩子 -->
-                                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
-                                        <div class="plugins-tag">
-                                            <span>plugins_view_admin_goods_list_operation</span>
-                                        </div>
-                                    {{/if}}
-                                    {{php}}
-                                        $hook_name = 'plugins_view_admin_goods_list_operation';
-                                        $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true, 'id'=>$v['id'], 'data'=>$v]);
-                                        if(!empty($hook_data) && is_array($hook_data))
-                                        {
-                                            foreach($hook_data as $hook)
+                                        <!-- 商品列表操作钩子 -->
+                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                            <div class="plugins-tag">
+                                                <span>plugins_view_admin_goods_list_operate</span>
+                                            </div>
+                                        {{/if}}
+                                        {{php}}
+                                            $hook_name = 'plugins_view_admin_goods_list_operate';
+                                            $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true, 'id'=>$v['id'], 'data'=>$v]);
+                                            if(!empty($hook_data) && is_array($hook_data))
                                             {
-                                                if(is_string($hook) || is_int($hook))
+                                                foreach($hook_data as $hook)
                                                 {
-                                                    echo htmlspecialchars_decode($hook);
+                                                    if(is_string($hook) || is_int($hook))
+                                                    {
+                                                        echo htmlspecialchars_decode($hook);
+                                                    }
                                                 }
                                             }
-                                        }
-                                    {{/php}}
+                                        {{/php}}
+                                    </div>
     							</td>
     						</tr>
     					{{/foreach}}
@@ -315,11 +318,11 @@
             <!-- 底部操作钩子 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                 <div class="plugins-tag">
-                    <span>plugins_view_admin_goods_bottom_operation</span>
+                    <span>plugins_view_admin_goods_bottom_operate</span>
                 </div>
             {{/if}}
             {{php}}
-                $hook_name = 'plugins_view_admin_goods_bottom_operation';
+                $hook_name = 'plugins_view_admin_goods_bottom_operate';
                 $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true]);
                 if(!empty($hook_data) && is_array($hook_data))
                 {

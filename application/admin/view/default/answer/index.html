@@ -75,11 +75,11 @@
             <!-- 顶部操作钩子 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                 <div class="plugins-tag">
-                    <span>plugins_view_admin_answer_top_operation</span>
+                    <span>plugins_view_admin_answer_top_operate</span>
                 </div>
             {{/if}}
             {{php}}
-                $hook_name = 'plugins_view_admin_answer_top_operation';
+                $hook_name = 'plugins_view_admin_answer_top_operate';
                 $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true]);
                 if(!empty($hook_data) && is_array($hook_data))
                 {
@@ -96,178 +96,196 @@
         <!-- top operation end -->
 
 		<!-- list start -->
-		<table class="am-table am-table-striped am-table-hover am-text-middle am-margin-top-sm">
-			<thead>
-				<tr>
-					<th class="am-hide-md-down">用户信息</th>
-					<th class="am-hide-sm-only">联系信息</th>
-					<th class="am-hide-sm-only">标题</th>
-					<th>内容</th>
-					<th class="am-hide-sm-only">回复内容</th>
-					<th class="am-hide-sm-only">访问次数</th>
-					<th class="am-hide-sm-only">回复时间</th>
-					<th class="am-hide-sm-only">创建时间</th>
-					<th class="am-hide-sm-only">显示</th>
-					<th>更多</th>
-					<th>操作</th>
-				</tr>
-			</thead>
-			<tbody>
-				{{if !empty($data_list)}}
-					{{foreach $data_list as $v}}
-						<tr id="data-list-{{$v.id}}" {{if $v['is_show'] eq 0}}class="am-active"{{/if}}>
-							<td class="user-info am-hide-md-down">
-                                {{if !empty($v['user'])}}
-                                    <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
-                                    <ul class="user-base">
-                                        <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
-                                        <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
-                                        <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
-                                        <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
-                                    </ul>
-                                {{else /}}
-                                    用户信息异常
-                                {{/if}}
-                            </td>
-							<td class="am-hide-sm-only">
-								{{if !empty($v['name']) and !empty($v['tel'])}}
-									{{$v.name}}
-									<br />
-									{{$v.tel}}
-								{{elseif !empty($v['name']) }}
-									{{$v.name}}
-								{{elseif !empty($v['tel']) /}}
-									{{$v.tel}}
-								{{else /}}
-									<span class="cr-ddd">未填写</span>
-								{{/if}}
-							</td>
-							<td class="am-hide-sm-only">{{$v.title}}</td>
-							<td class="content-info">
-								<div class="reply-content">
-									{{$v.content|raw}}
-								</div>
-							</td>
-							<td class="am-hide-sm-only">
-								{{if !empty($v['reply'])}}
-									<div class="reply-content">
-	                                    {{$v.reply|raw}}
-	                                </div>
-                                {{else /}}
-                                    <span class="cr-ddd">未回复</span>
-                                {{/if}}
-							</td>
-							<td class="am-hide-sm-only">{{$v.access_count}}</td>
-							<td class="am-hide-sm-only">{{$v.reply_time}}</td>
-							<td class="am-hide-sm-only">{{$v.add_time}}</td>
-							<td class="am-hide-sm-only">
-								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/answer/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1"></a>
-							</td>
-							<td>
-								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
-								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
-									<div class="am-popup-inner">
-										<div class="am-popup-hd">
-											<h4 class="am-popup-title">详情内容</h4>
-											<span data-am-modal-close
-											class="am-close">&times;</span>
-										</div>
-										<div class="am-popup-bd">
-											<dl class="dl-content">
-												<dt>用户信息</dt>
-												<dd class="user-info">
-													{{if !empty($v['user'])}}
-                                                        <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
-                                                        <ul class="user-base">
-                                                            <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
-                                                            <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
-                                                            <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
-                                                            <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
-                                                        </ul>
-                                                    {{else /}}
-                                                        用户信息异常
-                                                    {{/if}}
-												</dd>
+		<div class="am-scrollable-horizontal am-table-scrollable-horizontal am-margin-top-sm">
+            <table class="am-table am-table-striped am-table-hover am-table-bordered am-text-nowrap am-table-td-fixed-last">
+    			<thead>
+    				<tr>
+    					<th class="am-grid-sm">用户信息</th>
+    					<th class="am-grid-sm">联系信息</th>
+    					<th class="am-grid-sm">标题</th>
+    					<th class="am-grid-lg">内容</th>
+    					<th class="am-grid-lg">回复内容</th>
+    					<th>访问次数</th>
+    					<th>回复时间</th>
+    					<th>创建时间</th>
+    					<th class="am-text-center">是否显示</th>
+    					<th class="am-text-center">更多</th>
+                        <th class="am-text-center">操作</th>
+    				</tr>
+    			</thead>
+    			<tbody>
+    				{{if !empty($data_list)}}
+    					{{foreach $data_list as $v}}
+    						<tr id="data-list-{{$v.id}}" {{if $v['is_show'] eq 0}}class="am-active"{{/if}}>
+    							<td class="am-text-middle user-info">
+                                    {{if !empty($v['user'])}}
+                                        <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                                        <ul class="user-base">
+                                            <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
+                                            <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
+                                            <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
+                                            <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
+                                        </ul>
+                                    {{else /}}
+                                        用户信息异常
+                                    {{/if}}
+                                </td>
+    							<td class="am-text-middle">
+    								{{if !empty($v['name']) and !empty($v['tel'])}}
+    									{{$v.name}}
+    									<br />
+    									{{$v.tel}}
+    								{{elseif !empty($v['name']) }}
+    									{{$v.name}}
+    								{{elseif !empty($v['tel']) /}}
+    									{{$v.tel}}
+    								{{else /}}
+    									<span class="cr-ddd">未填写</span>
+    								{{/if}}
+    							</td>
+    							<td class="am-text-middle am-nowrap-initial">{{$v.title}}</td>
+    							<td class="content-info">
+    								<div class="am-scrollable-vertical am-nowrap-initial reply-content">
+    									{{$v.content|raw}}
+    								</div>
+    							</td>
+    							<td class="am-text-middle">
+    								{{if !empty($v['reply'])}}
+    									<div class="am-scrollable-vertical am-nowrap-initial reply-content">
+    	                                    {{$v.reply|raw}}
+    	                                </div>
+                                    {{else /}}
+                                        <span class="cr-ddd">未回复</span>
+                                    {{/if}}
+    							</td>
+    							<td class="am-text-middle">{{$v.access_count}}</td>
+    							<td class="am-text-middle">{{$v.reply_time}}</td>
+    							<td class="am-text-middle">{{$v.add_time}}</td>
+    							<td class="am-text-middle am-text-center">
+    								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/answer/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1"></a>
+    							</td>
+    							<td class="am-text-middle">
+    								<p class="am-text-center xo-cursor-pr">
+                                        <i class="am-icon-caret-down"></i>
+                                        <span data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+                                    </p>
+    								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
+    									<div class="am-popup-inner">
+    										<div class="am-popup-hd">
+    											<h4 class="am-popup-title">详情内容</h4>
+    											<span data-am-modal-close
+    											class="am-close">&times;</span>
+    										</div>
+    										<div class="am-popup-bd">
+    											<dl class="dl-content">
+    												<dt>用户信息</dt>
+    												<dd class="user-info">
+    													{{if !empty($v['user'])}}
+                                                            <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                                                            <ul class="user-base">
+                                                                <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
+                                                                <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
+                                                                <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
+                                                                <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
+                                                            </ul>
+                                                        {{else /}}
+                                                            用户信息异常
+                                                        {{/if}}
+    												</dd>
 
-												<dt>联系人</dt>
-												<dd>
-													{{if !empty($v['name']) and !empty($v['tel'])}}
-														{{$v.name}}
-														<br />
-														{{$v.tel}}
-													{{elseif !empty($v['name']) }}
-														{{$v.name}}
-													{{elseif !empty($v['tel']) /}}
-														{{$v.tel}}
-													{{else /}}
-														<span class="cr-ddd">未填写</span>
-													{{/if}}
-												</dd>
+    												<dt>联系人</dt>
+    												<dd>
+    													{{if !empty($v['name']) and !empty($v['tel'])}}
+    														{{$v.name}}
+    														<br />
+    														{{$v.tel}}
+    													{{elseif !empty($v['name']) }}
+    														{{$v.name}}
+    													{{elseif !empty($v['tel']) /}}
+    														{{$v.tel}}
+    													{{else /}}
+    														<span class="cr-ddd">未填写</span>
+    													{{/if}}
+    												</dd>
 
-												<dt>标题</dt>
-												<dd>{{if empty($v['title'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.title}}{{/if}}</dd>
+    												<dt>标题</dt>
+    												<dd class="am-nowrap-initial">{{if empty($v['title'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.title}}{{/if}}</dd>
 
-												<dt>内容</dt>
-												<dd>{{$v.content|raw}}</dd>
+    												<dt>内容</dt>
+    												<dd>
+                                                        <div class="am-scrollable-vertical am-nowrap-initial">{{$v.content|raw}}</div>
+                                                    </dd>
 
-												<dt>是否显示</dt>
-												<dd>{{if empty($v['is_show_text'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.is_show_text}}{{/if}}</dd>
+    												<dt>是否显示</dt>
+    												<dd>{{if empty($v['is_show_text'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.is_show_text}}{{/if}}</dd>
 
-												<dt>回复内容</dt>
-												<dd>
-													{{if !empty($v['reply'])}}
-			                                            {{$v.reply|raw}}
-			                                        {{else /}}
-			                                            <span class="cr-ddd">未回复</span>
-			                                        {{/if}}
-			                                    </dd>
+    												<dt>回复内容</dt>
+    												<dd>
+    													{{if !empty($v['reply'])}}
+                                                            <div class="am-scrollable-vertical am-nowrap-initial">{{$v.reply|raw}}</div>
+    			                                        {{else /}}
+    			                                            <span class="cr-ddd">未回复</span>
+    			                                        {{/if}}
+    			                                    </dd>
 
-												<dt>回复时间</dt>
-												<dd>{{$v.reply_time}}</dd>
+    												<dt>回复时间</dt>
+    												<dd>{{$v.reply_time}}</dd>
 
-												<dt>创建时间</dt>
-												<dd>{{$v.add_time}}</dd>
+    												<dt>创建时间</dt>
+    												<dd>{{$v.add_time}}</dd>
 
-												<dt>更新时间</dt>
-												<dd>{{$v.upd_time}}</dd>
-											</dl>
-										</div>
-									</div>
-								</div>
-							</td>
-							<td class="view-operation">
-								<a href="{{:MyUrl('admin/answer/saveinfo', array_merge($params, ['id'=>$v['id']]))}}" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block am-icon-edit"> 编辑</a>
-								{{if $v['is_reply'] eq 0}}
-									<button class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-reply am-icon-gavel" data-am-modal="{target: '#my-popup-reply'}" data-json='{{:str_replace("'", '', json_encode($v))}}'> 回复</button>
-								{{/if}}
-								<button class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/answer/delete')}}" data-id="{{$v.id}}"> 删除</button>
+    												<dt>更新时间</dt>
+    												<dd>{{$v.upd_time}}</dd>
+    											</dl>
+    										</div>
+    									</div>
+    								</div>
+    							</td>
+    							<td class="am-operate-grid">
+                                    <div class="am-scrollable-vertical">
+        								<a href="{{:MyUrl('admin/answer/saveinfo', array_merge($params, ['id'=>$v['id']]))}}" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block">
+                                            <i class="am-icon-edit"></i>
+                                            <span>编辑</span>
+                                        </a>
+        								{{if $v['is_reply'] eq 0}}
+        									<button class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-reply" data-am-modal="{target: '#my-popup-reply'}" data-json='{{:str_replace("'", '', json_encode($v))}}'>
+                                                <i class="am-icon-gavel"></i>
+                                                <span>回复</span>
+                                            </button>
+        								{{/if}}
+        								<button class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('admin/answer/delete')}}" data-id="{{$v.id}}">
+                                            <i class="am-icon-trash-o"></i>
+                                            <span>删除</span>
+                                        </button>
 
-                                <!-- 问答列表操作钩子 -->
-                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
-                                    <div class="plugins-tag">
-                                        <span>plugins_view_admin_answer_list_operation</span>
-                                    </div>
-                                {{/if}}
-                                {{php}}
-                                    $hook_name = 'plugins_view_admin_answer_list_operation';
-                                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true, 'id'=>$v['id'], 'data'=>$v]);
-                                    if(!empty($hook_data) && is_array($hook_data))
-                                    {
-                                        foreach($hook_data as $hook)
-                                        {
-                                            if(is_string($hook) || is_int($hook))
+                                        <!-- 问答列表操作钩子 -->
+                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                            <div class="plugins-tag">
+                                                <span>plugins_view_admin_answer_list_operate</span>
+                                            </div>
+                                        {{/if}}
+                                        {{php}}
+                                            $hook_name = 'plugins_view_admin_answer_list_operate';
+                                            $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true, 'id'=>$v['id'], 'data'=>$v]);
+                                            if(!empty($hook_data) && is_array($hook_data))
                                             {
-                                                echo htmlspecialchars_decode($hook);
+                                                foreach($hook_data as $hook)
+                                                {
+                                                    if(is_string($hook) || is_int($hook))
+                                                    {
+                                                        echo htmlspecialchars_decode($hook);
+                                                    }
+                                                }
                                             }
-                                        }
-                                    }
-                                {{/php}}
-							</td>
-						</tr>
-					{{/foreach}}
-				{{/if}}
-			</tbody>
-		</table>
+                                        {{/php}}
+                                    </div>
+    							</td>
+    						</tr>
+    					{{/foreach}}
+    				{{/if}}
+    			</tbody>
+    		</table>
+        </div>
         {{if empty($data_list)}}
             <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
         {{/if}}
@@ -278,11 +296,11 @@
             <!-- 底部操作钩子 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                 <div class="plugins-tag">
-                    <span>plugins_view_admin_answer_bottom_operation</span>
+                    <span>plugins_view_admin_answer_bottom_operate</span>
                 </div>
             {{/if}}
             {{php}}
-                $hook_name = 'plugins_view_admin_answer_bottom_operation';
+                $hook_name = 'plugins_view_admin_answer_bottom_operate';
                 $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true]);
                 if(!empty($hook_data) && is_array($hook_data))
                 {
@@ -326,7 +344,7 @@
 						</div>
 
 						<div class="am-form-group reply-submit am-form-group-refreshing t-c">
-							<input type="hidden" name="id" value="" />
+							<input type="hidden" name="id" value=" />
 							<button type="submit" class="am-btn am-btn-success am-radius am-btn-sm" data-am-loading="{loadingText:'处理中...'}">回复</button>
 						</div>
 					</form>

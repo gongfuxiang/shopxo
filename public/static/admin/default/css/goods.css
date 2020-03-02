@@ -1,23 +1,14 @@
 /**
  * 列表
  */
-@media only screen and (max-width: 321px) {
-	.view-operation button {
-        margin:2px 0px;
-    }
-}
 .goods-list.am-table .goods-images {
     width:60px;
     height:60px;
     float:left;
     margin-right:5px;
 }
-.goods-list.am-table dl .web-content img,
-.goods-list.am-table dl .fictitious-goods-value img {
+.goods-list.am-table dl img {
     max-width: 100%;
-}
-.goods-list.am-table dl .fictitious-goods-value {
-    height: 100px;
 }
 
 /**

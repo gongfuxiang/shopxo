@@ -297,7 +297,6 @@ function FromInit(form_name)
 
 					// 错误信息
 					var msg = $editor_tag.data('validationMessage') || $editor_tag.getValidationMessage(validity);
-					console.log(msg);
 					Prompt(msg);
 				}
 			}
@@ -1561,51 +1560,113 @@ function TableContainerInit()
 	if($('.am-table-scrollable-horizontal').length > 0)
 	{
 		// th
-		$('.am-table-scrollable-horizontal .am-table.am-table-td-fixed-first thead tr, .am-table-scrollable-horizontal .am-table.am-table-td-fixed-last thead tr').each(function(k, v)
+		$('.am-table-scrollable-horizontal thead tr').each(function(k, v)
 	    {        
 	        // 第一列
 	        if($(this).parents('.am-table').hasClass('am-table-td-fixed-first'))
 	        {
 	        	$(this).find('th:first').css('left', $(this).parents('.am-table').offset().left);
+
+	        	// 第一列是否自定义宽度,则第二列 left 设置
+	        	var find_width = $(this).find('th').first().data('width') || 0;
+	        	if(find_width > 0)
+	        	{
+	        		$(this).find('th').eq(1).css('padding-left', (find_width+10)+'px');
+	        	}
 	        }
 
 	        // 最后一列
 	        if($(this).parents('.am-table').hasClass('am-table-td-fixed-last'))
 	        {
-	        	var $obj = $(this).parents('.am-table');
+	        	var $obj = $(this).parents('.am-table-scrollable-horizontal');
 				var width = $(document.body).width();
 				var left = $obj.offset().left;
-				var right = width-$obj.parent().width()-left;
+				var right = width-$obj.width()-left-1;
 	        	$(this).find('th:last').css('right', right);
+
+	        	// 最后一列是否自定义宽度,则倒数第二列 right 设置
+	        	var find_width = $(this).find('th').last().data('width') || 0;
+	        	if(find_width > 0)
+	        	{
+	        		$(this).find('th').eq(-2).css('padding-right', (find_width+10)+'px');
+	        	}
 	        }
 	        
+	        // 是否自定义宽高
+	        $(this).find('th').each(function(ks, vs)
+	        {
+	        	var width = $(this).data('width') || 0;
+		        if(width > 0)
+		        {
+		        	$(this).css('width', width+'px');
+		        }
+		        var height = $(this).data('height') || 0;
+		        if(height > 0)
+		        {
+		        	$(this).css('height', height+'px');
+		        }
+	        });
 	    });
 
 	    // td
-		$('.am-table-scrollable-horizontal .am-table.am-table-td-fixed-first tbody tr, .am-table-scrollable-horizontal .am-table.am-table-td-fixed-last tbody tr').each(function(k, v)
+		$('.am-table-scrollable-horizontal tbody tr').each(function(k, v)
 	    {
-	    	console.log(1)
 	    	// 容器
-	        var height = $(this).height();
+	        var height = $(this).data('height') || $(this).height() || 0;
 	        if(height > 0)
 	        {
 	            $(this).find('td').css('height', height+'px');
-	        }
-	        
-	        // 第一列
-	        if($(this).parents('.am-table').hasClass('am-table-td-fixed-first'))
-	        {
-	        	$(this).find('td:first').css('left', $(this).parents('.am-table').offset().left);
-	        }
 
-	        // 最后一列
-	        if($(this).parents('.am-table').hasClass('am-table-td-fixed-last'))
-	        {
-				var $obj = $(this).parents('.am-table');
-				var width = $(document.body).width();
-				var left = $obj.offset().left;
-				var right = width-$obj.parent().width()-left;
-	        	$(this).find('td:last').css('right', right);
+		        // 第一列
+		        if($(this).parents('.am-table').hasClass('am-table-td-fixed-first'))
+		        {
+		        	$(this).find('td:first').css('left', $(this).parents('.am-table').offset().left);
+
+		        	// 第一列是否自定义宽度,则第二列 left 设置
+		        	var find_width = $(this).find('td').first().data('width') || 0;
+		        	if(find_width > 0)
+		        	{
+		        		$(this).find('td').eq(1).css('padding-left', (find_width+10)+'px');
+		        	}
+		        }
+
+		        // 最后一列
+		        if($(this).parents('.am-table').hasClass('am-table-td-fixed-last'))
+		        {
+					var $obj = $(this).parents('.am-table-scrollable-horizontal');
+					var width = $(document.body).width();
+					var left = $obj.offset().left;
+					var right = width-$obj.width()-left-1;
+		        	$(this).find('td:last').css('right', right);
+
+		        	// 最后一列是否自定义宽度,则倒数第二列 right 设置
+		        	var find_width = $(this).find('td').last().data('width') || 0;
+		        	if(find_width > 0)
+		        	{
+		        		$(this).find('td').eq(-2).css('padding-right', (find_width+10)+'px');
+		        	}
+		        }
+
+		        // 操作栏下容器高度
+	        	if($(this).find('td.am-operate-grid .am-scrollable-vertical').length > 0)
+	        	{
+	        		$(this).find('td.am-operate-grid .am-scrollable-vertical').css('height', (height-1)+'px');
+	        	}
+
+	        	// 是否自定义宽高
+		        $(this).find('td').each(function(ks, vs)
+		        {
+		        	var width = $(this).data('width') || 0;
+			        if(width > 0)
+			        {
+			        	$(this).css('width', width+'px');
+			        }
+			        var height = $(this).data('height') || 0;
+			        if(height > 0)
+			        {
+			        	$(this).css('height', height+'px');
+			        }
+		        });
 	        }
 	    });
     }

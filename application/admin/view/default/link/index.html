@@ -9,6 +9,53 @@
 		</div>
 		<!-- operation end -->
 
+		<!-- list start -->
+		<div class="am-scrollable-horizontal am-table-scrollable-horizontal am-margin-top-sm am-margin-bottom-sm">
+            <table class="am-table am-table-striped am-table-hover am-table-bordered am-text-nowrap am-table-td-fixed-last">
+				<thead>
+					<tr>
+						<th class="am-grid-sm">名称</th>
+						<th class="am-grid-sm">描述</th>
+						<th class="am-text-center">状态</th>
+						<th class="am-text-center" data-width="170">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{if !empty($data_list)}}
+						{{foreach $data_list as $v}}
+							<tr id="data-list-{{$v.id}}" {{if $v['is_enable'] eq 0}} class="am-active"{{/if}}>
+								<td class="am-text-middle am-nowrap-initial">{{$v.name}}
+									<a href="{{$v.url}}" target="_blank">
+										<i class="am-icon-external-link"></i>
+									</a>
+								</td>
+								<td class="am-text-middle am-nowrap-initial">{{$v.describe}}</td>
+								<td class="am-text-middle am-text-center">
+									<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/link/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
+								</td>
+								<td class="am-operate-grid" data-width="170">
+                                    <div class="am-scrollable-vertical">
+										<button class="am-btn am-btn-secondary am-btn-xs am-radius submit-edit" data-am-modal="{target: '#data-save-win'}" data-json='{{:json_encode($v)}}'>
+											<i class="am-icon-edit"></i>
+											<span>编辑</span>
+										</button>
+										<button class="am-btn am-btn-danger am-btn-xs am-radius submit-delete" data-url="{{:MyUrl('admin/link/delete')}}" data-id="{{$v.id}}">
+											<i class="am-icon-trash-o"></i>
+											<span>删除</span>
+										</button>
+									</div>
+								</td>
+							</tr>
+						{{/foreach}}
+					{{/if}}
+				</tbody>
+			</table>
+		</div>
+		{{if empty($data_list)}}
+            <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+        {{/if}}
+		<!-- list end -->
+
 		<!-- save win start -->
 		<div class="am-popup am-radius" id="data-save-win">
 			<div class="am-popup-inner">
@@ -47,43 +94,6 @@
 			</div>
 		</div>
 		<!-- save win end -->
-
-		<!-- list start -->
-		<table class="am-table am-table-striped am-table-hover am-text-middle am-margin-top-sm">
-			<thead>
-				<tr>
-					<th>名称</th>
-					<th class="am-hide-sm-only">描述</th>
-					<th>状态</th>
-					<th>操作</th>
-				</tr>
-			</thead>
-			<tbody>
-				{{if !empty($data_list)}}
-					{{foreach $data_list as $v}}
-						<tr id="data-list-{{$v.id}}" {{if $v['is_enable'] eq 0}} class="am-active"{{/if}}>
-							<td>{{$v.name}}
-								<a href="{{$v.url}}" target="_blank">
-									<i class="am-icon-external-link"></i>
-								</a>
-							</td>
-							<td class="am-hide-sm-only">{{$v.describe}}</td>
-							<td>
-								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/link/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
-							</td>
-							<td>
-								<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: '#data-save-win'}" data-json='{{:json_encode($v)}}'> 编辑</button>
-								<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/link/delete')}}" data-id="{{$v.id}}"> 删除</button>
-							</td>
-						</tr>
-					{{/foreach}}
-				{{/if}}
-			</tbody>
-		</table>
-		{{if empty($data_list)}}
-            <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
-        {{/if}}
-		<!-- list end -->
 	</div>
 </div>
 <!-- right content end  -->

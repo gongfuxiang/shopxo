@@ -76,11 +76,11 @@
             <!-- 顶部操作钩子 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                 <div class="plugins-tag">
-                    <span>plugins_view_admin_user_top_operation</span>
+                    <span>plugins_view_admin_user_top_operate</span>
                 </div>
             {{/if}}
             {{php}}
-                $hook_name = 'plugins_view_admin_user_top_operation';
+                $hook_name = 'plugins_view_admin_user_top_operate';
                 $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true]);
                 if(!empty($hook_data) && is_array($hook_data))
                 {
@@ -98,25 +98,25 @@
 
 		<!-- list start -->
         <div class="am-scrollable-horizontal am-table-scrollable-horizontal am-margin-top-sm">
-            <table class="am-table am-table-striped am-table-hover am-text-middle am-table-bordered am-table-centered am-text-nowrap am-table-td-fixed-last">
+            <table class="am-table am-table-striped am-table-hover am-table-bordered am-text-nowrap am-table-td-fixed-last">
     			<thead>
     				<tr>
     					<th>用户ID</th>
-    					<th class="am-max-grid">基础信息</th>
+    					<th class="am-grid-lg">基础信息</th>
     					<th>积分</th>
     					<th>性别</th>
     					<th>状态</th>
     					<th>生日</th>
-    					<th>更多</th>
-    					<th>操作</th>
+    					<th class="am-text-center">更多</th>
+    					<th class="am-text-center">操作</th>
     				</tr>
     			</thead>
     			<tbody>
     				{{if !empty($data_list)}}
     					{{foreach $data_list as $v}}
     						<tr id="data-list-{{$v.id}}">
-    							<td>{{$v.id}}</td>
-    							<td class="user-info am-text-left">
+    							<td class="am-text-middle">{{$v.id}}</td>
+    							<td class="am-text-middle user-info">
     								<img src="{{$v.avatar}}" class="am-fl am-img-thumbnail am-radius" />
                                     <ul class="user-base am-fl">
                                         <li>名称：{{if empty($v['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.username}}{{/if}}</li>
@@ -125,20 +125,24 @@
                                         <li>邮箱：{{if empty($v['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.email}}{{/if}}</li>
                                     </ul>
     							</td>
-    							<td>
+    							<td class="am-text-middle">
     								{{if empty($v['integral'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.integral}}{{/if}}
     							</td>
-    							<td>
+    							<td class="am-text-middle">
     								{{if empty($v['gender_text'])}}<span class="cr-ddd">未设置</span>{{else /}}{{$v.gender_text}}{{/if}}
     							</td>
-    							<td>
+    							<td class="am-text-middle">
     								{{if empty($v['status_text'])}}<span class="cr-ddd">未知</span>{{else /}}{{$v.status_text}}{{/if}}
     							</td>
-    							<td>
+    							<td class="am-text-middle">
     								{{if empty($v['birthday_text'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.birthday_text}}{{/if}}
     							</td>
-    							<td>
-    								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+    							<td class="am-text-middle">
+                                    <p class="am-text-center xo-cursor-pr">
+                                        <i class="am-icon-caret-down"></i>
+                                        <span data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+                                    </p>
+
     								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
     									<div class="am-popup-inner">
     										<div class="am-popup-hd">
@@ -223,38 +227,38 @@
     									</div>
     								</div>
     							</td>
-    							<td class="view-operation">
-    								<a href="{{:MyUrl('admin/user/saveinfo', array_merge($params,array('id'=>$v['id'])))}}">
-    									<button class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block">
+    							<td class="am-operate-grid">
+                                    <div class="am-scrollable-vertical">
+    									<a class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block" href="{{:MyUrl('admin/user/saveinfo', array_merge($params,array('id'=>$v['id'])))}}">
                                             <i class="am-icon-edit"></i>
                                             <span>编辑</span>
+        								</a>
+        								<button class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('admin/user/delete')}}" data-id="{{$v.id}}">
+                                            <i class="am-icon-trash-o"></i>
+                                            <span>删除</span>
                                         </button>
-    								</a>
-    								<button class="am-btn am-btn-danger am-btn-xs am-radius am-margin-top-xs am-btn-block submit-delete" data-url="{{:MyUrl('admin/user/delete')}}" data-id="{{$v.id}}">
-                                        <i class="am-icon-trash-o"></i>
-                                        <span>删除</span>
-                                    </button>
 
-                                    <!-- 用户列表操作钩子 -->
-                                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
-                                        <div class="plugins-tag">
-                                            <span>plugins_view_admin_user_list_operation</span>
-                                        </div>
-                                    {{/if}}
-                                    {{php}}
-                                        $hook_name = 'plugins_view_admin_user_list_operation';
-                                        $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true, 'id'=>$v['id'], 'data'=>$v]);
-                                        if(!empty($hook_data) && is_array($hook_data))
-                                        {
-                                            foreach($hook_data as $hook)
+                                        <!-- 用户列表操作钩子 -->
+                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                            <div class="plugins-tag">
+                                                <span>plugins_view_admin_user_list_operate</span>
+                                            </div>
+                                        {{/if}}
+                                        {{php}}
+                                            $hook_name = 'plugins_view_admin_user_list_operate';
+                                            $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true, 'id'=>$v['id'], 'data'=>$v]);
+                                            if(!empty($hook_data) && is_array($hook_data))
                                             {
-                                                if(is_string($hook) || is_int($hook))
+                                                foreach($hook_data as $hook)
                                                 {
-                                                    echo htmlspecialchars_decode($hook);
+                                                    if(is_string($hook) || is_int($hook))
+                                                    {
+                                                        echo htmlspecialchars_decode($hook);
+                                                    }
                                                 }
                                             }
-                                        }
-                                    {{/php}}
+                                        {{/php}}
+                                    </div>
     							</td>
     						</tr>
     					{{/foreach}}
@@ -272,11 +276,11 @@
             <!-- 底部操作钩子 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                 <div class="plugins-tag">
-                    <span>plugins_view_admin_user_bottom_operation</span>
+                    <span>plugins_view_admin_user_bottom_operate</span>
                 </div>
             {{/if}}
             {{php}}
-                $hook_name = 'plugins_view_admin_user_bottom_operation';
+                $hook_name = 'plugins_view_admin_user_bottom_operate';
                 $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true]);
                 if(!empty($hook_data) && is_array($hook_data))
                 {
