@@ -169,7 +169,7 @@
     											<a href="{{:MyUrl('index/goods/index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}" {{if !empty($vs['title_color'])}} style="color:{{$vs.title_color}};" {{/if}} class="am-nowrap-initial">{{$vs.title}}</a>
     										</div>
     										<div class="other">
-    											<span class="am-fl am-text-xs">
+    											<span class="am-fl am-text-xs am-nowrap-initial">
     												{{if !empty($vs.spec_text)}}
     													{{$vs.spec_text}}
     												{{/if}}
