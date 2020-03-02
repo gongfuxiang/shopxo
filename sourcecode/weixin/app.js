@@ -524,8 +524,8 @@ App({
           wx.openLocation({
             name: values[0],
             address: values[1],
-            longitude: values[2],
-            latitude: values[3],
+            longitude: parseFloat(values[2]),
+            latitude: parseFloat(values[3])
           });
           break;
 
