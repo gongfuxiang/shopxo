@@ -197,6 +197,8 @@ class ResourcesService
                 'attachment_id' => $attachment_id,
             ]);
 
+            $params['id'] = $attachment_id;
+            $params['add_time'] = date('Y-m-d H:i:s', $data['add_time']);
             return DataReturn('添加成功', 0, $params);
         }
 
@@ -267,7 +269,7 @@ class ResourcesService
                 }
             }
         }
-        return DataReturn('操作成功', 0, $data);
+        return DataReturn('success', 0, $data);
     }
 
     /**

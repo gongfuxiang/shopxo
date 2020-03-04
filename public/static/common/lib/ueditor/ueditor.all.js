@@ -23241,25 +23241,31 @@ UE.plugins['catchremoteimage'] = function () {
                 //成功抓取
                 success: function (r) {
                     try {
-                        var info = r.state !== undefined ? r:eval("(" + r.responseText + ")");
+                        var info = r.code == 0 ? r:eval("(" + r.responseText + ")");
                     } catch (e) {
                         return;
                     }
 
                     /* 获取源路径和新路径 */
-                    var i, j, ci, cj, oldSrc, newSrc, list = info.list;
+                    var i, j, ci, cj, oldSrc, newSrc, list = info.data || null;
+                    if(list == null || list.length <= 0)
+                    {
+                        return;
+                    }
 
+                    // 循环处理图片替换
                     for (i = 0; ci = imgs[i++];) {
                         oldSrc = ci.getAttribute("_src") || ci.src || "";
                         for (j = 0; cj = list[j++];) {
-                            if (oldSrc == cj.source && cj.state == "SUCCESS") {  //抓取失败时不做替换处理
+                            if((cj.url || null) != null)
+                            {
                                 newSrc = catcherUrlPrefix + cj.url;
                                 domUtils.setAttributes(ci, {
                                     "src": newSrc,
                                     "_src": newSrc
                                 });
-                                break;
                             }
+                            break;
                         }
                     }
                     me.fireEvent('catchremotesuccess')
@@ -23356,16 +23362,16 @@ UE.plugin.register('snapscreen', function (){
                     function onSuccess(rs){
                         try{
                             rs = eval("("+ rs +")");
-                            if(rs.state == 'SUCCESS'){
+                            if(rs.code == 0){
                                 var opt = me.options;
                                 me.execCommand('insertimage', {
-                                    src: opt.snapscreenUrlPrefix + rs.url,
-                                    _src: opt.snapscreenUrlPrefix + rs.url,
-                                    alt: rs.title || '',
+                                    src: opt.snapscreenUrlPrefix + rs.data.url,
+                                    _src: opt.snapscreenUrlPrefix + rs.data.url,
+                                    alt: rs.data.title || '',
                                     floatStyle: opt.snapscreenImgAlign
                                 });
                             } else {
-                                alert(rs.state);
+                                alert(rs.msg);
                             }
                         }catch(e){
                             alert(lang.callBackErrorMsg);
@@ -23833,10 +23839,10 @@ UE.plugin.register('autoupload', function (){
         xhr.addEventListener('load', function (e) {
             try{
                 var json = (new Function("return " + utils.trim(e.target.response)))();
-                if (json.state == 'SUCCESS' && json.url) {
-                    successHandler(json);
+                if (json.code == 0 && json.data.url) {
+                    successHandler(json.data);
                 } else {
-                    errorHandler(json.state);
+                    errorHandler(json.msg);
                 }
             }catch(er){
                 errorHandler(me.getLang('autoupload.loadError'));
@@ -24528,17 +24534,17 @@ UE.plugin.register('simpleupload', function (){
                             body = (iframe.contentDocument || iframe.contentWindow.document).body,
                             result = body.innerText || body.textContent || '';
                         json = (new Function("return " + result))();
-                        link = me.options.imageUrlPrefix + json.url;
-                        if(json.state == 'SUCCESS' && json.url) {
+                        link = me.options.imageUrlPrefix + json.data.url;
+                        if(json.code == 0 && json.data.url) {
                             loader = me.document.getElementById(loadingId);
                             loader.setAttribute('src', link);
                             loader.setAttribute('_src', link);
-                            loader.setAttribute('title', json.title || '');
-                            loader.setAttribute('alt', json.original || '');
+                            loader.setAttribute('title', json.data.title || '');
+                            loader.setAttribute('alt', json.data.original || '');
                             loader.removeAttribute('id');
                             domUtils.removeClasses(loader, 'loadingclass');
                         } else {
-                            showErrorLoader && showErrorLoader(json.state);
+                            showErrorLoader && showErrorLoader(json.msg);
                         }
                     }catch(er){
                         showErrorLoader && showErrorLoader(me.getLang('simpleupload.loadError'));

@@ -270,10 +270,10 @@
                     'onsuccess': function (r) {
                         try {
                             var json = isJsonp ? r:eval('(' + r.responseText + ')');
-                            if (json.state == 'SUCCESS') {
-                                _this.pushData(json.list);
-                                _this.listIndex = parseInt(json.start) + parseInt(json.list.length);
-                                if(_this.listIndex >= json.total) {
+                            if (json.code == 0) {
+                                _this.pushData(json.data.list);
+                                _this.listIndex = parseInt(json.data.start) + parseInt(json.data.list.length);
+                                if(_this.listIndex >= json.data.total) {
                                     _this.listEnd = true;
                                 }
                                 _this.isLoadingData = false;

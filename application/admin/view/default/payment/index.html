@@ -29,7 +29,7 @@
                 <tbody>
                     {{if !empty($data_list)}}
                         {{foreach $data_list as $v}}
-                            <tr id="data-list-{{$v.payment}}" {{if $v['is_install'] eq 0}}class="am-warning"{{elseif $v['is_enable'] eq 0 /}}class="am-active"{{/if}} >
+                            <tr id="data-list-{{$v.payment}}" {{if $v['is_install'] eq 0}}class="am-disabled"{{elseif $v['is_enable'] eq 0 /}}class="am-active"{{/if}} >
                                 <td class="am-text-middle">
                                     {{$v.name}}
                                     {{if !empty($v['version'])}}

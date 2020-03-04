@@ -11,6 +11,7 @@
 namespace app\admin\controller;
 
 use app\service\UeditorService;
+use app\service\ResourcesService;
 
 /**
  * 百度编辑器控制器入口
@@ -47,12 +48,7 @@ class Ueditor extends Common
      */
     public function Index()
     {
-        $ret = UeditorService::Run(input());
-        if($ret['code'] == 0)
-        {
-            return json($ret['data']);
-        }
-        return $ret['msg'];
+        return json(UeditorService::Run(input()));
     }
 }
 ?>

@@ -23,7 +23,6 @@ class UeditorService
 {
     private static $current_action;
     private static $current_config;
-    private static $current_result;
     private static $params;
     private static $path_type;
 
@@ -45,11 +44,12 @@ class UeditorService
         self::$path_type = isset($params['path_type']) ? $params['path_type'] : PathToParams('path_type', 'other');
 
         // action
+        $ret = DataReturn('请求action有误', -1);
         switch(self::$current_action)
         {
             // 配置信息
             case 'config':
-                self::$current_result = self::$current_config;
+                $ret = self::$current_config;
                 break;
 
             /* 上传图片 */
@@ -60,7 +60,7 @@ class UeditorService
             case 'uploadvideo':
             /* 上传文件 */
             case 'uploadfile':
-                self::ActionUpload();
+                $ret = self::ActionUpload();
                 break;
 
             /* 列出图片 */
@@ -69,23 +69,18 @@ class UeditorService
             case 'listfile':
             /* 列出视频 */
             case 'listvideo':
-                self::ActionList();
+                $ret = self::ActionList();
                 break;
 
             /* 抓取远程文件 */
             case 'catchimage':
-                self::ActionCrawler();
+                $ret = self::ActionCrawler();
                 break;
 
             /* 删除文件 */
             case 'deletefile':
-                self::DeleteFile();
-                break;
-
-            default:
-                self::$current_result = [
-                    'state'=> '请求地址出错'
-                ];
+                $ret = self::DeleteFile();
+                break;                
         }
 
         // 输出结果
@@ -98,13 +93,7 @@ class UeditorService
                 return DataReturn('callback参数不合法', -1);
             }
         }
-
-        // 未成功，非web环境下直接返回错误信息
-        if(!in_array(APPLICATION_CLIENT_TYPE, ['pc', 'h5']) && isset(self::$current_result['state']) && self::$current_result['state'] != 'SUCCESS')
-        {
-            return DataReturn(self::$current_result['state'], -1);
-        }
-        return DataReturn('操作成功', 0, self::$current_result);
+        return $ret;
     }
 
     /**
@@ -117,17 +106,7 @@ class UeditorService
      */
     private static function DeleteFile()
     {
-        $ret = ResourcesService::AttachmentDelete(input());
-        if($ret['code'] == 0)
-        {
-            self::$current_result = [
-                'state'=> 'SUCCESS'
-            ];
-        } else {
-            self::$current_result = [
-                'state'=> $ret['msg']
-            ];
-        }
+        return ResourcesService::AttachmentDelete(input());
     }
 
     /**
@@ -205,16 +184,9 @@ class UeditorService
         {
             $data['type'] = $attachment_type;
             $data['path_type'] = self::$path_type;
-            $ret = ResourcesService::AttachmentAdd($data);
-            if($ret['code'] == 0)
-            {
-                self::$current_result = $ret['data'];
-            } else {
-                self::$current_result = ['state'=>$ret['msg']];
-            }
-        } else {
-            self::$current_result = $data;
+            return ResourcesService::AttachmentAdd($data);
         }
+        return DataReturn(isset($data['state']) ? $data['state'] : '上传失败', -1);
     }
 
     /**
@@ -272,23 +244,24 @@ class UeditorService
             $params['where'][] = ['original', 'like', '%'.self::$params['keywords'].'%'];
         }
 
-        // 数据初始化
-        $data = array(
-            'state'     => "没有相关数据",
-            'list'      => [],
-            'start'     => $start,
-            'total'     => ResourcesService::AttachmentTotal($params['where']),
-        );
+        // 总数
+        $total = ResourcesService::AttachmentTotal($params['where']);
 
         // 获取数据
-        $ret = ResourcesService::AttachmentList($params);
-        if(!empty($ret['data']))
+        if($total > 0)
         {
-            $data['state'] = 'SUCCESS';
-            $data['list'] = $ret['data'];
+            $ret = ResourcesService::AttachmentList($params);
+            if(!empty($ret['data']))
+            {
+                return DataReturn('success', 0, [
+                    'start' => $start,
+                    'total' => $total,
+                    'list'  => $ret['data'],
+                ]);
+            }
         }
-        
-        self::$current_result = $data;
+
+        return DataReturn('没有相关数据', -1);
     }
 
     /**
@@ -333,26 +306,17 @@ class UeditorService
                 $data['type'] = 'remote';
                 $data['path_type'] = self::$path_type;
                 $ret = ResourcesService::AttachmentAdd($data);
-                if($ret['code'] != 0)
+                if($ret['code'] == 0)
                 {
-                    $data['state'] = $ret['msg'];
+                    array_push($list, $ret['data']);
                 }
             }
-            array_push($list, array(
-                "state" => $data["state"],
-                "url" => $data["url"],
-                "size" => $data["size"],
-                "title" => htmlspecialchars($data["title"]),
-                "original" => htmlspecialchars($data["original"]),
-                "source" => htmlspecialchars($imgUrl)
-            ));
         }
-
-        /* 返回抓取数据 */
-        self::$current_result = [
-            'state'     => count($list) ? 'SUCCESS':'ERROR',
-            'list'      => $list,
-        ];
+        if(!empty($list))
+        {
+            return DataReturn('success', 0, $list);
+        }
+        return DataReturn('没有相关数据', -1);
     }
 }
 ?>

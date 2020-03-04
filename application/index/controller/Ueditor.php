@@ -44,12 +44,7 @@ class Ueditor extends Common
      */
     public function Index()
     {
-        $ret = UeditorService::Run(input());
-        if($ret['code'] == 0)
-        {
-            return json($ret['data']);
-        }
-        return $ret['msg'];
+        return json(UeditorService::Run(input()));
     }
 }
 ?>

@@ -637,17 +637,17 @@ function exec(scrawlObj) {
                     if (!scrawlObj.isCancelScrawl) {
                         var responseObj;
                         responseObj = eval("(" + xhr.responseText + ")");
-                        if (responseObj.state == "SUCCESS") {
+                        if (responseObj.code == 0) {
                             var imgObj = {},
-                                url = editor.options.scrawlUrlPrefix + responseObj.url;
+                                url = editor.options.scrawlUrlPrefix + responseObj.data.url;
                             imgObj.src = url;
                             imgObj._src = url;
-                            imgObj.alt = responseObj.original || '';
-                            imgObj.title = responseObj.title || '';
+                            imgObj.alt = responseObj.data.original || '';
+                            imgObj.title = responseObj.data.title || '';
                             editor.execCommand("insertImage", imgObj);
                             dialog.close();
                         } else {
-                            alert(responseObj.state);
+                            alert(responseObj.msg);
                         }
 
                     }

@@ -32,12 +32,21 @@ return array (
   'log_write' => 
   array (
   ),
+  'plugins_view_admin_order_top_operate' => 
+  array (
+    0 => 'app\\plugins\\orderexportprint\\Hook',
+  ),
+  'plugins_view_admin_order_list_operate' => 
+  array (
+    0 => 'app\\plugins\\orderexportprint\\Hook',
+  ),
   'plugins_service_users_center_left_menu_handle' => 
   array (
     0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
     2 => 'app\\plugins\\distribution\\Hook',
     3 => 'app\\plugins\\membershiplevelvip\\Hook',
+    4 => 'app\\plugins\\wallet\\Hook',
   ),
   'plugins_service_header_navigation_top_right_handle' => 
   array (
@@ -45,6 +54,7 @@ return array (
     1 => 'app\\plugins\\coupon\\Hook',
     2 => 'app\\plugins\\distribution\\Hook',
     3 => 'app\\plugins\\membershiplevelvip\\Hook',
+    4 => 'app\\plugins\\wallet\\Hook',
   ),
   'plugins_service_buy_order_insert_begin' => 
   array (
@@ -107,6 +117,7 @@ return array (
   'plugins_service_user_register_end' => 
   array (
     0 => 'app\\plugins\\coupon\\Hook',
+    1 => 'app\\plugins\\wallet\\Hook',
   ),
   'plugins_service_site_extraction_address_list' => 
   array (

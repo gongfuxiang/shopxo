@@ -693,11 +693,11 @@
                 try {
                     var responseText = (ret._raw || ret),
                         json = utils.str2json(responseText);
-                    if (json.state == 'SUCCESS') {
-                        _this.imageList.push(json);
+                    if (json.code == 0) {
+                        _this.imageList.push(json.data);
                         $file.append('<span class="success"></span>');
                     } else {
-                        $file.find('.error').text(json.state).show();
+                        $file.find('.error').text(json.msg).show();
                     }
                 } catch (e) {
                     $file.find('.error').text(lang.errorServerUpload).show();
@@ -845,10 +845,10 @@
                     'onsuccess': function (r) {
                         try {
                             var json = isJsonp ? r:eval('(' + r.responseText + ')');
-                            if (json.state == 'SUCCESS') {
-                                _this.pushData(json.list);
-                                _this.listIndex = parseInt(json.start) + parseInt(json.list.length);
-                                if(_this.listIndex >= json.total) {
+                            if (json.code == 0) {
+                                _this.pushData(json.data.list);
+                                _this.listIndex = parseInt(json.data.start) + parseInt(json.data.list.length);
+                                if(_this.listIndex >= json.data.total) {
                                     _this.listEnd = true;
                                 }
                                 _this.isLoadingData = false;
@@ -910,8 +910,8 @@
                         } finally {
                             if(!confirm("确定要删除吗？")) return;
                             $.post(editor.getOpt("serverUrl") + "?action=deletefile", { "id": del.attr("data-id") }, function(response) {
-                                if (response.state == 'SUCCESS') del.parent().remove();
-                                else alert(response.state);
+                                if (response.code == 0) del.parent().remove();
+                                else alert(response.msg);
                             });
                         }
                     })[0]);
