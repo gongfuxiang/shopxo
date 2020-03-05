@@ -73,7 +73,7 @@ em{font-style: normal;}
 /**
  * 手机端自适应
  */
-@media only screen and (max-width: 641px) {
+@media only screen and (max-width: 500px) {
     .main {
         width: calc(100% - 16px);
     }
@@ -82,25 +82,35 @@ em{font-style: normal;}
     }
     .hot, .picBoard {
         width: 100%;
-        height: 150px;
+        height: 340px;
     }
     .picBoard {
         width: 100%;
     }
     .drawBoard {
-        height: 100%;
+        height: 300px;
     }
     .brushBorad {
         width: 100%;
         height: 100%
     }
     .operateBar {
-        width: 50%;
+        width: 100%;
     }
     .drawToolbar {
-        height: 185px;
+        width: 100%;
+        height: 110px;
+        overflow: hidden;
+    }
+    .drawToolbar #J_colorBar {
+        float: left;
+    }
+    .drawToolbar #J_colorBar table {
+        width: 110px;
     }
     .sectionBar {
-        margin-top: 6px;
+        margin-top: 5px;
+        text-align: right;
+        padding-right: 10px;
     }
 }

@@ -198,6 +198,7 @@ class ResourcesService
             ]);
 
             $params['id'] = $attachment_id;
+            $params['url'] = self::AttachmentPathViewHandle($data['url']);
             $params['add_time'] = date('Y-m-d H:i:s', $data['add_time']);
             return DataReturn('添加成功', 0, $params);
         }

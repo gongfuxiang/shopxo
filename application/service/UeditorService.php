@@ -49,7 +49,7 @@ class UeditorService
         {
             // 配置信息
             case 'config':
-                $ret = self::$current_config;
+                $ret = DataReturn('success', 0, self::$current_config);
                 break;
 
             /* 上传图片 */
@@ -80,18 +80,7 @@ class UeditorService
             /* 删除文件 */
             case 'deletefile':
                 $ret = self::DeleteFile();
-                break;                
-        }
-
-        // 输出结果
-        if(!empty($params['callback']))
-        {
-            if(preg_match("/^[\w_]+$/", $params['callback']))
-            {
-                return DataReturn(htmlspecialchars($params['callback']), -1);
-            } else {
-                return DataReturn('callback参数不合法', -1);
-            }
+                break;
         }
         return $ret;
     }
@@ -224,8 +213,8 @@ class UeditorService
         $allow_files = substr(str_replace(".", "|", join("", $allow_files)), 1);
 
         /* 获取参数 */
-        $size = isset(self::$params['size']) ? htmlspecialchars(self::$params['size']) : $list_size;
-        $start = isset(self::$params['start']) ? htmlspecialchars(self::$params['start']) : 0;
+        $size = isset(self::$params['size']) ? intval(self::$params['size']) : $list_size;
+        $start = isset(self::$params['start']) ? intval(self::$params['start']) : 0;
         $end = $start + $size;
 
         // 参数

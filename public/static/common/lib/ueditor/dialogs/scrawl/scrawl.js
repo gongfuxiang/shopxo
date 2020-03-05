@@ -14,6 +14,8 @@ var scrawl = function (options) {
         drawStep = [], //undo redo存储
         drawStepIndex = 0; //undo redo指针
 
+        //canvas.width = 400;
+
     scrawl.prototype = {
         isScrawl:false, //是否涂鸦
         brushWidth:-1, //画笔粗细

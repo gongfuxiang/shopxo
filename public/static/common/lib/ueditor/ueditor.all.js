@@ -8090,10 +8090,15 @@ UE.Editor.defaultOptions = function(editor){
                     'dataType': isJsonp ? 'jsonp':'',
                     'onsuccess':function(r){
                         try {
-                            var config = isJsonp ? r:eval("("+r.responseText+")");
-                            utils.extend(me.options, config);
-                            me.fireEvent('serverConfigLoaded');
-                            me._serverConfigLoaded = true;
+                            var res = isJsonp ? r:eval("("+r.responseText+")");
+                            if(res.code == 0)
+                            {
+                                utils.extend(me.options, res.data);
+                                me.fireEvent('serverConfigLoaded');
+                                me._serverConfigLoaded = true;
+                            } else {
+                                showErrorMsg(res.msg);
+                            }
                         } catch (e) {
                             showErrorMsg(me.getLang('loadconfigFormatError'));
                         }

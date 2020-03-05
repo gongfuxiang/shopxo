@@ -1612,7 +1612,14 @@ function TableContainerInit()
 		$('.am-table-scrollable-horizontal tbody tr').each(function(k, v)
 	    {
 	    	// 容器
-	        var height = $(this).data('height') || $(this).height() || 0;
+	        var height = $(this).height() || 0;
+
+	        // 自定义高度,仅大于默认高度的时候有效
+	        var z_height = $(this).data('height') || 0;
+	        if(z_height > height)
+	        {
+	        	height = z_height;
+	        }
 	        if(height > 0)
 	        {
 	            $(this).find('td').css('height', height+'px');
