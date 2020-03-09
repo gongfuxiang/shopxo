@@ -69,6 +69,7 @@ class Admin extends Common
 				'url'		=>	MyUrl('admin/admin/index'),
 			);
 		$page = new \base\Page($page_params);
+		$this->assign('page_html', $page->GetPageHtml());
 
 		// 获取管理员列表
 		$data_params = [
@@ -77,6 +78,7 @@ class Admin extends Common
 			'n'			=> $number,
 		];
 		$data = AdminService::AdminList($data_params);
+		$this->assign('data_list', $data['data']);
 		
 		// 角色
 		$role_params = [
@@ -84,14 +86,12 @@ class Admin extends Common
 			'field'		=> 'id,name',
 		];
 		$role = AdminService::RoleList($role_params);
+		$this->assign('role_list', $role['data']);
 
 		// 性别
 		$this->assign('common_gender_list', lang('common_gender_list'));
 
-		$this->assign('role', $role);
 		$this->assign('params', $params);
-		$this->assign('page_html', $page->GetPageHtml());
-		$this->assign('data', $data);
 		return $this->fetch();
 	}
 
@@ -127,11 +127,11 @@ class Admin extends Common
 				'n'			=> 1,
 			];
 			$ret = AdminService::AdminList($data_params);
-			if(empty($ret[0]))
+			if(empty($ret['data'][0]))
 			{
 				return $this->error('管理员信息不存在', MyUrl('admin/index/index'));
 			}
-			$data = $ret[0];
+			$data = $ret['data'][0];
 		}
 
 		// 角色
@@ -139,7 +139,8 @@ class Admin extends Common
 			'where'		=> ['is_enable'=>1],
 			'field'		=> 'id,name',
 		];
-		$this->assign('role', AdminService::RoleList($role_params));
+		$role = AdminService::RoleList($role_params);
+		$this->assign('role_list', $role['data']);
 
 		$this->assign('id', isset($params['id']) ? $params['id'] : 0);
 		$this->assign('common_gender_list', lang('common_gender_list'));

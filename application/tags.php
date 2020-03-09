@@ -40,6 +40,15 @@ return array (
   array (
     0 => 'app\\plugins\\orderexportprint\\Hook',
   ),
+  'plugins_css' => 
+  array (
+    0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
+    2 => 'app\\plugins\\distribution\\Hook',
+    3 => 'app\\plugins\\commononlineservice\\Hook',
+    4 => 'app\\plugins\\membershiplevelvip\\Hook',
+    5 => 'app\\plugins\\share\\Hook',
+  ),
   'plugins_service_users_center_left_menu_handle' => 
   array (
     0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
@@ -76,26 +85,25 @@ return array (
     1 => 'app\\plugins\\coupon\\Hook',
     2 => 'app\\plugins\\distribution\\Hook',
   ),
-  'plugins_css' => 
+  'plugins_view_goods_detail_panel_bottom' => 
   array (
-    0 => 'app\\plugins\\coupon\\Hook',
-    1 => 'app\\plugins\\distribution\\Hook',
-    2 => 'app\\plugins\\commononlineservice\\Hook',
-    3 => 'app\\plugins\\membershiplevelvip\\Hook',
+    0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_view_goods_detail_title' => 
+  array (
+    0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
   ),
   'plugins_js' => 
   array (
     0 => 'app\\plugins\\coupon\\Hook',
     1 => 'app\\plugins\\commononlineservice\\Hook',
+    2 => 'app\\plugins\\share\\Hook',
   ),
   'plugins_service_navigation_header_handle' => 
   array (
     0 => 'app\\plugins\\coupon\\Hook',
     1 => 'app\\plugins\\membershiplevelvip\\Hook',
-  ),
-  'plugins_view_goods_detail_panel_bottom' => 
-  array (
-    0 => 'app\\plugins\\coupon\\Hook',
   ),
   'plugins_view_buy_goods_bottom' => 
   array (
@@ -153,6 +161,7 @@ return array (
   'plugins_view_common_bottom' => 
   array (
     0 => 'app\\plugins\\commononlineservice\\Hook',
+    1 => 'app\\plugins\\share\\Hook',
   ),
   'plugins_service_goods_handle_end' => 
   array (
@@ -187,6 +196,10 @@ return array (
   'plugins_service_goods_spec_type' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
+  ),
+  'plugins_view_goods_detail_photo_bottom' => 
+  array (
+    0 => 'app\\plugins\\share\\Hook',
   ),
 );
 ?>

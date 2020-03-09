@@ -32,7 +32,7 @@
 					<label>权限组</label>
 					<select  class="am-radius chosen-select" name="role_id" data-validation-message="请选择所属角色组" required>
 						<option value="">可选择...</option>
-						{{foreach $role as $v}}
+						{{foreach $role_list as $v}}
 							<option value="{{$v.id}}" {{if isset($data['role_id']) and $data['role_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
 					</select>

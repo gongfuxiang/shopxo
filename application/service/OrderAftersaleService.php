@@ -1410,7 +1410,7 @@ class OrderAftersaleService
                 }
             }
 
-            // 如果最后一件退款则加上增加的金额，减去优惠家呢
+            // 如果最后一件退款则加上增加的金额，减去优惠金额
             if(PriceNumberFormat($history_refund_price+$refund_price) >= $order['price'])
             {
                 $refund_price += $order['increase_price'];

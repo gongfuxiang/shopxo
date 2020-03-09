@@ -372,10 +372,10 @@
                     {{/if}}
                 </tbody>
             </table>
+            {{if empty($data_list)}}
+                <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+            {{/if}}
         </div>
-        {{if empty($data_list)}}
-            <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
-        {{/if}}
         <!-- list end -->
 
         <!-- bottom operation start -->
