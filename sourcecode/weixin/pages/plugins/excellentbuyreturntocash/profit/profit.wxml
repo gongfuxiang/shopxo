@@ -10,7 +10,7 @@
   <view class="data-list">
     <view class="item bg-white spacing-mb" wx:if="{{data_list.length > 0}}" wx:for="{{data_list}}" wx:key="key">
       <view class="base oh br-b">
-        <text class="cr-666">{{item.add_time_time}}</text>
+        <text class="cr-666">{{item.add_time}}</text>
         <text class="fr cr-main">{{item.status_name}}</text>
       </view>
       <navigator url="/pages/plugins/excellentbuyreturntocash/profit-detail/profit-detail?id={{item.id}}" hover-class="none">
@@ -37,8 +37,9 @@
           </view>
         </view>
       </navigator>
-      <view wx:if="{{item.status == 2}}" class="operation tr br-t-dashed">
-        <button class="cr-888 br" type="default" size="mini" hover-class="none" class="br" data-index="{{index}}" data-id="{{item.id}}" bindtap="list_submit_settlement_event">立即结算</button>
+      <view class="operation tr br-t-dashed">
+        <button class="br" type="default" size="mini" hover-class="none" data-oid="{{item.order_id}}" bindtap="list_submit_order_event">查看订单</button>
+        <button wx:if="{{item.status == 2}}" class="settlement-submit" type="default" size="mini" hover-class="none" data-index="{{index}}" bindtap="list_submit_settlement_event">立即结算</button>
       </view>
     </view>
 

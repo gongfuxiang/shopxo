@@ -38,9 +38,9 @@
 .data-list .item .operation {
   padding: 20rpx 10rpx;
 }
-.data-list .item .submit-order {
-  border: 1px solid #e5e5e5;
-  color: #888 !important;
+.data-list .item .settlement-submit {
+  border: 1px solid #d2364c;
+  color: #d2364c !important;
 }
 .data-list .item .operation button:not(:first-child) {
   margin-left: 30rpx;

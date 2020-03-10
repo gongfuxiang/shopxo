@@ -144,6 +144,19 @@ Page({
     });
   },
 
+  // 订单详情
+  list_submit_order_event(e) {
+    var oid = e.currentTarget.dataset.oid || null;
+    if (oid != null)
+    {
+      wx.navigateTo({
+        url: "/pages/user-order-detail/user-order-detail?id="+oid
+      });
+    } else {
+      app.showToast('订单id有误');
+    }
+  },
+
   // 立即结算事件
   list_submit_settlement_event(e) {
     var index = e.currentTarget.dataset.index || 0;
