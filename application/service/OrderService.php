@@ -1658,14 +1658,14 @@ class OrderService
         }
 
         // 获取订单商品
-        $order_detail = Db::name('OrderDetail')->field('goods_id,buy_number')->where(['order_id'=>$params['order_id']])->select();
+        $order_detail = Db::name('OrderDetail')->field('id,goods_id,title,buy_number')->where(['order_id'=>$params['order_id']])->select();
         if(!empty($order_detail))
         {
             foreach($order_detail as $v)
             {
-                if(!Db::name('Goods')->where(['id'=>$v['goods_id']])->setInc('sales_count', $v['buy_number']))
+                if(Db::name('Goods')->where(['id'=>$v['goods_id']])->setInc('sales_count', $v['buy_number']) === false)
                 {
-                    return DataReturn('订单商品销量增加失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
+                    return DataReturn('订单商品销量增加失败['.$v['title'].']', -10);
                 }
             }
             return DataReturn('操作成功', 0);

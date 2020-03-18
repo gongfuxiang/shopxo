@@ -214,7 +214,6 @@ class PaymentService
     public static function BuyPaymentList($params = [])
     {
         $data = self::PaymentList($params);
-
         $result = [];
         if(!empty($data))
         {
@@ -223,6 +222,7 @@ class PaymentService
                 // 根据终端类型筛选
                 if(in_array(APPLICATION_CLIENT_TYPE, $v['apply_terminal']))
                 {
+                    unset($v['config'], $v['element'], $v['apply_terminal'], $v['author'], $v['author_url'], $v['is_open_user'], $v['is_enable']);
                     $result[] = $v;
                 }
             }

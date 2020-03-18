@@ -464,15 +464,6 @@ button.colorpicker-submit:active {
     resize: none;
     padding: 10px 15px;
 }
-.am-table-scrollable-horizontal .am-table-td-fixed-first th:nth-child(2),
-.am-table-scrollable-horizontal .am-table-td-fixed-first td:nth-child(2) {
-    padding-left: 110px;
-}
-.am-table-scrollable-horizontal .am-table-td-fixed-last th:nth-last-child(2),
-.am-table-scrollable-horizontal .am-table-td-fixed-last td:nth-last-child(2) {
-    padding-right: 110px;
-}
-
 .am-table-scrollable-horizontal .am-table-td-fixed-first th:first-child,
 .am-table-scrollable-horizontal .am-table-td-fixed-first td:first-child,
 .am-table-scrollable-horizontal .am-table-td-fixed-last th:last-child,

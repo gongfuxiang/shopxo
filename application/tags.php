@@ -32,6 +32,27 @@ return array (
   'log_write' => 
   array (
   ),
+  'plugins_css' => 
+  array (
+    0 => 'app\\plugins\\freightfee\\Hook',
+    1 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
+    2 => 'app\\plugins\\coupon\\Hook',
+    3 => 'app\\plugins\\distribution\\Hook',
+    4 => 'app\\plugins\\commononlineservice\\Hook',
+    5 => 'app\\plugins\\membershiplevelvip\\Hook',
+    6 => 'app\\plugins\\share\\Hook',
+  ),
+  'plugins_service_buy_handle' => 
+  array (
+    0 => 'app\\plugins\\freightfee\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
+    2 => 'app\\plugins\\membershiplevelvip\\Hook',
+  ),
+  'plugins_view_goods_detail_title' => 
+  array (
+    0 => 'app\\plugins\\freightfee\\Hook',
+    1 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
+  ),
   'plugins_view_admin_order_top_operate' => 
   array (
     0 => 'app\\plugins\\orderexportprint\\Hook',
@@ -39,15 +60,7 @@ return array (
   'plugins_view_admin_order_list_operate' => 
   array (
     0 => 'app\\plugins\\orderexportprint\\Hook',
-  ),
-  'plugins_css' => 
-  array (
-    0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
-    1 => 'app\\plugins\\coupon\\Hook',
-    2 => 'app\\plugins\\distribution\\Hook',
-    3 => 'app\\plugins\\commononlineservice\\Hook',
-    4 => 'app\\plugins\\membershiplevelvip\\Hook',
-    5 => 'app\\plugins\\share\\Hook',
+    1 => 'app\\plugins\\orderpricerevision\\Hook',
   ),
   'plugins_service_users_center_left_menu_handle' => 
   array (
@@ -90,9 +103,19 @@ return array (
     0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
   ),
-  'plugins_view_goods_detail_title' => 
+  'plugins_admin_css' => 
   array (
-    0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
+    0 => 'app\\plugins\\orderpricerevision\\Hook',
+  ),
+  'plugins_admin_js' => 
+  array (
+    0 => 'app\\plugins\\orderpricerevision\\Hook',
+    1 => 'app\\plugins\\orderremind\\Hook',
+  ),
+  'plugins_admin_view_common_bottom' => 
+  array (
+    0 => 'app\\plugins\\orderpricerevision\\Hook',
+    1 => 'app\\plugins\\orderremind\\Hook',
   ),
   'plugins_js' => 
   array (
@@ -108,11 +131,6 @@ return array (
   'plugins_view_buy_goods_bottom' => 
   array (
     0 => 'app\\plugins\\coupon\\Hook',
-  ),
-  'plugins_service_buy_handle' => 
-  array (
-    0 => 'app\\plugins\\coupon\\Hook',
-    1 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
   'plugins_view_buy_form_inside' => 
   array (

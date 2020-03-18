@@ -1567,11 +1567,12 @@ function TableContainerInit()
 	        {
 	        	$(this).find('th:first').css('left', $(this).parents('.am-table').offset().left);
 
-	        	// 第一列是否自定义宽度,则第二列 left 设置
-	        	var find_width = $(this).find('th').first().data('width') || 0;
-	        	if(find_width > 0)
+	        	// 第一列自定义宽度->默认宽度,设置第二列 padding-left
+	        	var first_width = $(this).find('th').first().data('width') || $(this).find('th').first().innerWidth();
+	        	if(first_width > 0)
 	        	{
-	        		$(this).find('th').eq(1).css('padding-left', (find_width+10)+'px');
+		        	$(this).find('th').eq(1).css('min-width', ($(this).find('th').eq(1).innerWidth()+first_width)+'px');
+	        		$(this).find('th').eq(1).css('padding-left', (first_width+10)+'px');
 	        	}
 	        }
 
@@ -1584,11 +1585,13 @@ function TableContainerInit()
 				var right = width-$obj.width()-left-1;
 	        	$(this).find('th:last').css('right', right);
 
-	        	// 最后一列是否自定义宽度,则倒数第二列 right 设置
-	        	var find_width = $(this).find('th').last().data('width') || 0;
-	        	if(find_width > 0)
+	        	// 最后一列自定义宽度->默认宽度,设置倒数第二列 padding-right
+	        	var last_width = $(this).find('th').last().data('width') || $(this).find('th').last().innerWidth();
+	        	if(last_width > 0)
 	        	{
-	        		$(this).find('th').eq(-2).css('padding-right', (find_width+10)+'px');
+	        		console.log($(this).find('th').eq(-2).innerWidth())
+	        		$(this).find('th').eq(-2).css('min-width', ($(this).find('th').eq(-2).innerWidth()+last_width)+'px');
+	        		$(this).find('th').eq(-2).css('padding-right', (last_width+10)+'px');
 	        	}
 	        }
 	        
@@ -1629,11 +1632,11 @@ function TableContainerInit()
 		        {
 		        	$(this).find('td:first').css('left', $(this).parents('.am-table').offset().left);
 
-		        	// 第一列是否自定义宽度,则第二列 left 设置
-		        	var find_width = $(this).find('td').first().data('width') || 0;
-		        	if(find_width > 0)
+		        	// 第一列自定义宽度->默认宽度,设置第二列 padding-left
+		        	var first_width = $(this).find('td').first().data('width') || $(this).find('td').first().innerWidth();
+		        	if(first_width > 0)
 		        	{
-		        		$(this).find('td').eq(1).css('padding-left', (find_width+10)+'px');
+		        		$(this).find('td').eq(1).css('padding-left', (first_width+10)+'px');
 		        	}
 		        }
 
@@ -1646,11 +1649,11 @@ function TableContainerInit()
 					var right = width-$obj.width()-left-1;
 		        	$(this).find('td:last').css('right', right);
 
-		        	// 最后一列是否自定义宽度,则倒数第二列 right 设置
-		        	var find_width = $(this).find('td').last().data('width') || 0;
-		        	if(find_width > 0)
+		        	// 最后一列自定义宽度->默认宽度,设置倒数第二列 padding-right
+		        	var last_width = $(this).find('td').last().data('width') || $(this).find('td').last().innerWidth();
+		        	if(last_width > 0)
 		        	{
-		        		$(this).find('td').eq(-2).css('padding-right', (find_width+10)+'px');
+		        		$(this).find('td').eq(-2).css('padding-right', (last_width+10)+'px');
 		        	}
 		        }
 
