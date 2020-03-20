@@ -27,7 +27,7 @@ use app\service\ConfigService;
 class BuyService
 {
     /**
-     * 购物车添加
+     * 购物车添加/更新
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -35,7 +35,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function CartAdd($params = [])
+    public static function CartSave($params = [])
     {
         // 请求参数
         $p = [
@@ -163,7 +163,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    private static function GoodsSpecificationsHandle($params = [])
+    public static function GoodsSpecificationsHandle($params = [])
     {
         $spec = '';
         if(!empty($params['spec']))

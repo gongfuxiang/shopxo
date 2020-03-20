@@ -49,7 +49,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .introduce-main .am-sticky-placeholder { margin: 0px !important; }
 .am-sticky-placeholder .am-nav-tabs > li span { color: #888; }
 .am-sticky-placeholder .am-nav-tabs > li.am-active span { color: #333; }
-.attr-not-active { border: 1px solid #f03726 !important; box-shadow: 0 0px 3px #ed7f76, 0 0 6px rgba(0, 0, 0, 0); }
+.sku-not-active { border: 1px solid #f03726 !important; box-shadow: 0 0px 3px #ed7f76, 0 0 6px rgba(0, 0, 0, 0); }
 .sku-items-disabled { color: #d2cfcf !important; background-color: #ffffff !important; border: 1px dashed #d5d5d5 !important; box-shadow: none !important; }
 .sku-dont-choose { color: #b4b3b3 !important; background-color: #ffffff !important; border: 1px solid #ebeaea !important; box-shadow: none !important; }
 .sku-dont-choose img { opacity: 0.5; }

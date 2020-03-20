@@ -80,7 +80,7 @@ class Cart extends Common
 
         $params = $_POST;
         $params['user'] = $this->user;
-        return BuyService::CartAdd($params);
+        return BuyService::CartSave($params);
     }
 
     /**

@@ -70,7 +70,7 @@ class Cart extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return BuyService::CartAdd($params);
+        return BuyService::CartSave($params);
     }
 
     /**

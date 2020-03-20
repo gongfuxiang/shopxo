@@ -1589,7 +1589,6 @@ function TableContainerInit()
 	        	var last_width = $(this).find('th').last().data('width') || $(this).find('th').last().innerWidth();
 	        	if(last_width > 0)
 	        	{
-	        		console.log($(this).find('th').eq(-2).innerWidth())
 	        		$(this).find('th').eq(-2).css('min-width', ($(this).find('th').eq(-2).innerWidth()+last_width)+'px');
 	        		$(this).find('th').eq(-2).css('padding-right', (last_width+10)+'px');
 	        	}

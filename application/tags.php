@@ -127,6 +127,7 @@ return array (
   array (
     0 => 'app\\plugins\\coupon\\Hook',
     1 => 'app\\plugins\\membershiplevelvip\\Hook',
+    2 => 'app\\plugins\\touristbuy\\Hook',
   ),
   'plugins_view_buy_goods_bottom' => 
   array (
@@ -218,6 +219,26 @@ return array (
   'plugins_view_goods_detail_photo_bottom' => 
   array (
     0 => 'app\\plugins\\share\\Hook',
+  ),
+  'plugins_service_system_begin' => 
+  array (
+    0 => 'app\\plugins\\touristbuy\\Hook',
+  ),
+  'plugins_common_header' => 
+  array (
+    0 => 'app\\plugins\\touristbuy\\Hook',
+  ),
+  'plugins_view_header_navigation_top_left' => 
+  array (
+    0 => 'app\\plugins\\touristbuy\\Hook',
+  ),
+  'plugins_view_user_login_info_top' => 
+  array (
+    0 => 'app\\plugins\\touristbuy\\Hook',
+  ),
+  'plugins_view_user_reg_info' => 
+  array (
+    0 => 'app\\plugins\\touristbuy\\Hook',
   ),
 );
 ?>
