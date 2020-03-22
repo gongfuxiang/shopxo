@@ -252,6 +252,8 @@ ul.plug-file-upload-view-video li {
 .am-checkbox, .am-radio, .am-checkbox-inline, .am-radio-inline {
     font-size: 12px;
     padding-left: 18px;
+    min-width: 18px;
+    min-height: 18px;
 }
 .am-ucheck-icons {
     line-height: 18px;
@@ -472,6 +474,7 @@ button.colorpicker-submit:active {
     width: 100px;
     height: auto;
     text-align: center;
+    z-index: 2;
 }
 .am-table-scrollable-horizontal .am-table-td-fixed-first td:first-child,
 .am-table-scrollable-horizontal .am-table-td-fixed-last td:last-child {
