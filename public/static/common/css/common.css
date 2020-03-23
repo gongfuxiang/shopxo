@@ -463,8 +463,9 @@ button.colorpicker-submit:active {
 }
 .am-table-scrollable-horizontal .am-table tr .am-operate-grid .am-scrollable-vertical {
     height: 45px;
-    resize: none;
     padding: 10px 15px;
+    resize: none;
+    overflow-x: hidden;
 }
 .am-table-scrollable-horizontal .am-table-td-fixed-first th:first-child,
 .am-table-scrollable-horizontal .am-table-td-fixed-first td:first-child,
