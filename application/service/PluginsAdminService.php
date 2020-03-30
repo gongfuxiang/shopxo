@@ -45,7 +45,7 @@ class PluginsAdminService
             {
                 while(($temp_file = readdir($dh)) !== false)
                 {
-                    if(!in_array($temp_file, ['.', '..', '/', 'view', 'index.html']) && substr($temp_file, 0, 1) != '.')
+                    if(!in_array($temp_file, ['.', '..', '/', 'view', 'index.html']) && $temp_file[0] != '.')
                     {
                         // 获取插件配置信息
                         $config = self::GetPluginsConfig($temp_file);
