@@ -62,6 +62,26 @@ return array (
     0 => 'app\\plugins\\orderexportprint\\Hook',
     1 => 'app\\plugins\\orderpricerevision\\Hook',
   ),
+  'plugins_view_user_login_info_top' => 
+  array (
+    0 => 'app\\plugins\\weixinwebauthorization\\Hook',
+  ),
+  'plugins_view_user_reg_info' => 
+  array (
+    0 => 'app\\plugins\\weixinwebauthorization\\Hook',
+  ),
+  'plugins_view_header_navigation_top_left' => 
+  array (
+    0 => 'app\\plugins\\weixinwebauthorization\\Hook',
+  ),
+  'plugins_service_users_personal_show_field_list_handle' => 
+  array (
+    0 => 'app\\plugins\\weixinwebauthorization\\Hook',
+  ),
+  'plugins_service_system_begin' => 
+  array (
+    0 => 'app\\plugins\\weixinwebauthorization\\Hook',
+  ),
   'plugins_service_users_center_left_menu_handle' => 
   array (
     0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
@@ -97,6 +117,7 @@ return array (
     0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
     2 => 'app\\plugins\\distribution\\Hook',
+    3 => 'app\\plugins\\neworderemail\\Hook',
   ),
   'plugins_view_goods_detail_panel_bottom' => 
   array (
@@ -127,7 +148,7 @@ return array (
   array (
     0 => 'app\\plugins\\coupon\\Hook',
     1 => 'app\\plugins\\membershiplevelvip\\Hook',
-    2 => 'app\\plugins\\touristbuy\\Hook',
+    2 => 'app\\plugins\\speedplaceorder\\Hook',
   ),
   'plugins_view_buy_goods_bottom' => 
   array (
@@ -184,13 +205,11 @@ return array (
   ),
   'plugins_service_goods_handle_end' => 
   array (
-    0 => 'app\\plugins\\usernotloginhidegoodsprice\\Hook',
-    1 => 'app\\plugins\\membershiplevelvip\\Hook',
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
   'plugins_service_goods_spec_base' => 
   array (
-    0 => 'app\\plugins\\usernotloginhidegoodsprice\\Hook',
-    1 => 'app\\plugins\\membershiplevelvip\\Hook',
+    0 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
   'plugins_service_user_login_success_record' => 
   array (
@@ -219,26 +238,6 @@ return array (
   'plugins_view_goods_detail_photo_bottom' => 
   array (
     0 => 'app\\plugins\\share\\Hook',
-  ),
-  'plugins_service_system_begin' => 
-  array (
-    0 => 'app\\plugins\\touristbuy\\Hook',
-  ),
-  'plugins_common_header' => 
-  array (
-    0 => 'app\\plugins\\touristbuy\\Hook',
-  ),
-  'plugins_view_header_navigation_top_left' => 
-  array (
-    0 => 'app\\plugins\\touristbuy\\Hook',
-  ),
-  'plugins_view_user_login_info_top' => 
-  array (
-    0 => 'app\\plugins\\touristbuy\\Hook',
-  ),
-  'plugins_view_user_reg_info' => 
-  array (
-    0 => 'app\\plugins\\touristbuy\\Hook',
   ),
 );
 ?>
