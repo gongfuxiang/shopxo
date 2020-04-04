@@ -27,43 +27,44 @@
 
         <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
             {{if empty($user)}}
-                <!-- 未登录 -->
+                <!-- 未登录操作栏 -->
                 <div class="navigation-button am-show-sm-only">
                     {{if MyC('home_user_login_state') eq 1}}
                         <a href="{{:MyUrl('index/user/logininfo')}}" class="am-btn am-btn-primary am-topbar-btn am-btn-sm">登录</a>
                     {{/if}}
                     {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state')) or in_array('username', MyC('home_user_reg_state'))}}
-                        <a href="{{:MyUrl('index/user/regInfo')}}" class="am-btn am-btn-success am-topbar-btn am-btn-sm">注册</a>
+                        <a href="{{:MyUrl('index/user/reginfo')}}" class="am-btn am-btn-success am-topbar-btn am-btn-sm">注册</a>
                     {{/if}}
                 </div>
             {{/if}}
 
             <!-- 主导航 -->
-            <ul class="am-nav am-nav-pills am-topbar-nav">
-                <li><a href="{{$Think.__MY_URL__}}">首页</a></li>
-                {{if !empty($nav_header)}}
+            {{if !empty($nav_header)}}
+                <ul class="am-nav am-nav-pills am-topbar-nav">
                     {{foreach $nav_header as $nav}}
                         {{if empty($nav['items'])}}
                             <li>
-                                <a href="{{$nav.url}}" {{if $nav['is_new_window_open'] eq 1}}target="_blank"{{/if}} title="{{$nav.name}}">{{$nav.name}}</a>
+                                <a href="{{$nav.url}}" {{if $nav['is_new_window_open'] eq 1}}target="_blank"{{/if}} title="{{$nav.name}}" {{if isset($nav['active']) and $nav['active'] eq 1}}class="active"{{/if}}>{{$nav.name}}</a>
                             </li>
                         {{else /}}
                             <li class="am-dropdown" data-am-dropdown>
-                            <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                                {{$nav.name}} <span class="am-icon-angle-down"></span>
-                            </a>
-                            <ul class="am-dropdown-content">
-                                {{foreach $nav.items as $navs}}
-                                    <li>
-                                        <a href="{{$navs.url}}" title="{{$navs.name}}">{{$navs.name}}</a>
-                                    </li>
-                                {{/foreach}}
-                            </ul>
+                                <a class="am-dropdown-toggle {{if isset($nav['active']) and $nav['active'] eq 1}}active{{/if}}" data-am-dropdown-toggle href="javascript:;">
+                                    {{$nav.name}} <span class="am-icon-caret-down"></span>
+                                </a>
+                                <ul class="am-dropdown-content">
+                                    {{foreach $nav.items as $navs}}
+                                        <li>
+                                            <a href="{{$navs.url}}" title="{{$navs.name}}" {{if isset($navs['active']) and $navs['active'] eq 1}}class="active"{{/if}}>{{$navs.name}}</a>
+                                        </li>
+                                    {{/foreach}}
+                                </ul>
+                            </li>
                         {{/if}}
                     {{/foreach}}
-                {{/if}}
-            </ul>
+                </ul>
+            {{/if}}
 
+            <!-- 右侧快捷导航 -->
             <div class="am-topbar-right am-hide-sm-only">
                 <div class="navigation-user {{if empty($user)}}login-event{{/if}}">
                     <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/user/index')}}{{/if}}">
