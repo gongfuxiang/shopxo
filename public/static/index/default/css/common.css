@@ -691,7 +691,7 @@ ul.am-dropdown-content > .am-active > a:focus,
         padding: 0 5px;
     }
     .shop-navigation .am-topbar-nav > li > a {
-        line-height: 40px;
+        line-height: 37px;
     }
     .shop-navigation .am-topbar-nav > li > a:hover:after,
     .shop-navigation .am-topbar-nav > li > a.active:after {
