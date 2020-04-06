@@ -213,7 +213,7 @@ class GoodsCommentsService
                 {
                     $v['user'] = [
                         'avatar'            => $user['avatar'],
-                        'user_name_view'    => ($v['is_anonymous'] == 1) ? '匿名' : substr($user['user_name_view'], 0, 3).'***'.substr($user['user_name_view'], -3),
+                        'user_name_view'    => ($v['is_anonymous'] == 1) ? '匿名' : mb_substr($user['user_name_view'], 0, 3, 'utf-8').'***'.mb_substr($user['user_name_view'], -3, null, 'utf-8'),
                     ];
                 } else {
                     $v['user'] = $user;

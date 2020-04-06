@@ -78,7 +78,7 @@ Page({
       {
         this.setData({
           address: cache_address.data,
-          address_id: cache_address.id,
+          address_id: cache_address.data.id,
         });
       }
     }
