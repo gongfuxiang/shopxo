@@ -1423,6 +1423,12 @@ class OrderAftersaleService
             {
                 $refund_price = $order['pay_price']-$history_refund_price;
             }
+
+            // 防止负数
+            if($refund_price <= 0)
+            {
+                $refund_price = 0.00;
+            }
         }
 
         return DataReturn('操作成功', 0, ['returned_quantity'=>$returned_quantity, 'refund_price'=>PriceNumberFormat($refund_price)]);
