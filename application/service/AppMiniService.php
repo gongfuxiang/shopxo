@@ -116,16 +116,19 @@ class AppMiniService
             return DataReturn('配置信息不能为空', -1);
         }
 
-        // 源码包目录是否存在
+        // 源码目录不存在则创建
+        \base\FileUtil::CreateDir(self::$new_root);
+
+        // 源码目标目录是否存在
         if(!is_dir(self::$new_root))
         {
-            return DataReturn('源码包目录不存在['.self::$new_root.']', -1);
+            return DataReturn('源码目标目录不存在['.self::$new_root.']', -1);
         }
 
-        // 源码包目录是否有权限
+        // 源码目标目录没有权限
         if(!is_writable(self::$new_root))
         {
-            return DataReturn('源码包目录没有权限['.self::$new_root.']', -1);
+            return DataReturn('源码目标目录没有权限['.self::$new_root.']', -1);
         }
 
         // 目录不存在则创建

@@ -66,6 +66,7 @@ class Qrcode
             ob_clean();
         }
         \QRcode::png($content, false, $level, $point_size, $mr);
+        die;
     }
 
     /**
