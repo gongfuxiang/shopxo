@@ -54,7 +54,7 @@ Page({
               {name: "优惠金额", value: data.data.preferential_price || ''},
               {name: "增加金额", value: data.data.increase_price || '' },
               {name: "支付金额", value: data.data.pay_price || ''},
-              {name: "支付方式", value: data.data.payment_name || ''},
+              {name: "支付方式", value: (data.data.payment_name || '') + ((data.data.is_under_line_text || null) == null ? '' : '（' + data.data.is_under_line_text +'）')},
               {name: "快递公司", value: data.data.express_name || ''},
               {name: "快递单号", value: data.data.express_number || ''},
               {name: "用户留言", value: data.data.user_note || ''},

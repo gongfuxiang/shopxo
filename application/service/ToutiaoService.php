@@ -44,7 +44,7 @@ class ToutiaoService
         // 线上支付信息处理
         $order_info = [];
         $service = 0;
-        if($ret['data']['is_online_pay'] == 1)
+        if($ret['data']['is_payment_type'] == 0)
         {
             // 配置信息
             $merchant_id = MyC('common_app_mini_toutiao_pay_merchant_id');
@@ -108,9 +108,9 @@ class ToutiaoService
 
         // 返回数据
         $result = [
-            'order_info'    => $order_info,
-            'service'       => $service,
-            'is_online_pay' => $ret['data']['is_online_pay'],
+            'order_info'        => $order_info,
+            'service'           => $service,
+            'is_payment_type'   => $ret['data']['is_payment_type'],
         ];
         return DataReturn('success', 0, $result);
     }

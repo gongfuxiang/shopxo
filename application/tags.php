@@ -115,7 +115,6 @@ return array (
     0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
     2 => 'app\\plugins\\distribution\\Hook',
-    3 => 'app\\plugins\\neworderemail\\Hook',
   ),
   'plugins_view_goods_detail_panel_bottom' => 
   array (

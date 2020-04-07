@@ -67,7 +67,7 @@ App({
 
     // 请求地址
     request_url: "{{request_url}}",
-    // request_url: 'http://shopxo.com/',
+     request_url: 'http://shopxo.com/',
     // request_url: 'http://dev.shopxo.net/',
 
     // 基础信息
@@ -655,6 +655,60 @@ App({
         type: "fail",
         content: msg
       });
+    }
+  },
+
+  /**
+   * alert确认框
+   * title              [string]    标题（默认空）
+   * msg                [string]    提示信息，必传
+   * is_show_cancel     [int]       是否显示取消按钮（默认显示 0否, 1|undefined是）
+   * cancel_text        [string]    取消按钮文字（默认 取消）
+   * cancel_color       [string]    取消按钮的文字颜色，必须是 16 进制格式的颜色字符串（默认 #000000）
+   * confirm_text       [string]    确认按钮文字（默认 确认）
+   * confirm_color      [string]    确认按钮的文字颜色，必须是 16 进制格式的颜色字符串（默认 #000000）
+   * object             [boject]    回调操作对象，点击确认回调参数1，取消回调0
+   * method             [string]    回调操作对象的函数
+   */
+  alert(e)
+  {
+    var msg = e.msg || null;
+    if (msg != null)
+    {
+      var title = e.title || '';
+      var is_show_cancel = (e.is_show_cancel == 0) ? false : true;
+      var cancel_text = e.cancel_text || '取消';
+      var confirm_text = e.confirm_text || '确认';
+      var cancel_color = e.cancel_color || '';
+      var confirm_color = e.confirm_color || '';
+
+      if(is_show_cancel)
+      {
+        my.confirm({
+          title: title,
+          content: msg,
+          confirmButtonText: confirm_text,
+          cancelButtonText: cancel_text,
+          success: (res) => {
+            if ((e.object || null) != null && typeof e.object === 'object' && (e.method || null) != null) {
+              e.object[e.method](res.confirm ? 1 : 0);
+            }
+          },
+        });
+      } else {
+        my.alert({
+          title: title,
+          content: msg,
+          buttonText: confirm_text,
+          success: (res) => {
+            if ((e.object || null) != null && typeof e.object === 'object' && (e.method || null) != null) {
+              e.object[e.method](1);
+            }
+          }
+        });
+      }
+    } else {
+      self.showToast('提示信息为空 alert');
     }
   },
 

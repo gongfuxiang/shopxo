@@ -210,7 +210,10 @@
                                         {{/if}}
                                     </td>
                                     <td class="row-status" rowspan="{{$order.items_count}}">
-                                        {{$order.status_name}}
+                                        <span>{{$order.status_name}}</span>
+                                        {{if !empty($order['is_under_line_text'])}}
+                                            <p class="am-text-danger am-margin-bottom-xs">{{$order.is_under_line_text}}</p>
+                                        {{/if}}
                                         <div class="base-operate">
                                             <a class="block" href="{{:MyUrl('index/order/detail', ['id'=>$order['id']])}}" target="_blank">订单详情</a>
                                         </div>

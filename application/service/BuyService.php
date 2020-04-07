@@ -15,6 +15,7 @@ use think\facade\Hook;
 use app\service\GoodsService;
 use app\service\UserService;
 use app\service\ResourcesService;
+use app\service\PaymentService;
 use app\service\ConfigService;
 
 /**
@@ -924,6 +925,20 @@ class BuyService
             }
         }
 
+        // 支付方式
+        $payment_id = 0;
+        $is_under_line = 0;
+        if(!empty($params['payment_id']))
+        {
+            $payment = PaymentService::PaymentList(['where'=>['id'=>intval($params['payment_id'])]]);
+            if(empty($payment[0]))
+            {
+                return DataReturn('支付方式有误', -1);
+            }
+            $payment_id = $payment[0]['id'];
+            $is_under_line = in_array($payment[0]['payment'], config('shopxo.under_line_list')) ? 1 : 0;
+        }
+
         // 订单主信息
         $order = [
             'order_no'              => date('YmdHis').GetNumberCode(6),
@@ -935,10 +950,11 @@ class BuyService
             'price'                 => ($buy['data']['base']['total_price'] <= 0.00) ? 0.00 : $buy['data']['base']['total_price'],
             'total_price'           => ($buy['data']['base']['actual_price'] <= 0.00) ? 0.00 : $buy['data']['base']['actual_price'],
             'extension_data'        => empty($buy['data']['extension_data']) ? '' : json_encode($buy['data']['extension_data']),
-            'payment_id'            => isset($params['payment_id']) ? intval($params['payment_id']) : 0,
+            'payment_id'            => $payment_id,
             'buy_number_count'      => array_sum(array_column($buy['data']['goods'], 'stock')),
             'client_type'           => (APPLICATION_CLIENT_TYPE == 'pc' && IsMobile()) ? 'h5' : APPLICATION_CLIENT_TYPE,
             'order_model'           => $site_model,
+            'is_under_line'         => $is_under_line,
             'add_time'              => time(),
         ];
         if($order['status'] == 1)

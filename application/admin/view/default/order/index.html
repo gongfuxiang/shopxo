@@ -219,6 +219,9 @@
     								{{else /}}
     									<span class="block am-text-xs">{{$v.pay_status_name}}</span>
     								{{/if}}
+                                    {{if !empty($v['is_under_line_text'])}}
+                                        <span class="block am-text-danger am-text-xs">{{$v.is_under_line_text}}</p>
+                                    {{/if}}
     								{{if $v['user_is_delete_time'] neq 0}}
     									<span class="block am-text-warning am-text-xs">用户已删除</span>
     								{{/if}}

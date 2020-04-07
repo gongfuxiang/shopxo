@@ -25,7 +25,7 @@
             <!-- 进度环节 -->
             {{if !in_array($data['status'], [5,6])}}
                 <ul class="progress">
-                    <li class="steps-success {{if $data['status'] LT 2}} current{{/if}}">
+                    <li class="steps-success {{if $data['status'] lt 2}} current{{/if}}">
                         <p class="digital">
                             <i class="am-icon-check"></i>
                         </p>
@@ -36,10 +36,10 @@
                             {{/if}}
                         </div>
                     </li>
-                    <li class="{{if $data['status'] GT 1}}steps-success{{/if}} {{if $data['status'] EQ 2}} current{{/if}}">
+                    <li class="{{if $data['status'] gt 1}}steps-success{{/if}} {{if $data['status'] eq 2}} current{{/if}}">
                         <i class="step"></i>
                         <p class="digital">
-                            {{if $data['status'] GT 1}}<i class="am-icon-check"></i>{{else /}}2{{/if}}
+                            {{if $data['status'] gt 1}}<i class="am-icon-check"></i>{{else /}}2{{/if}}
                         </p>
                         <div class="base">
                             <p class="title">付款</p>
@@ -48,10 +48,10 @@
                             {{/if}}
                         </div>
                     </li>
-                    <li class="{{if $data['status'] GT 2}}steps-success{{/if}} {{if $data['status'] EQ 3}} current{{/if}}">
+                    <li class="{{if $data['status'] gt 2}}steps-success{{/if}} {{if $data['status'] eq 3}} current{{/if}}">
                         <i class="step"></i>
                         <p class="digital">
-                            {{if $data['status'] GT 2}}<i class="am-icon-check"></i>{{else /}}3{{/if}}
+                            {{if $data['status'] gt 2}}<i class="am-icon-check"></i>{{else /}}3{{/if}}
                         </p>
                         <div class="base">
                             <p class="title">卖家发货</p>
@@ -60,10 +60,10 @@
                             {{/if}}
                         </div>
                     </li>
-                    <li class="{{if $data['status'] GT 3}}steps-success{{/if}} {{if $data['status'] EQ 4 and $data['user_is_comments'] EQ 0}} current{{/if}}">
+                    <li class="{{if $data['status'] gt 3}}steps-success{{/if}} {{if $data['status'] eq 4 and $data['user_is_comments'] eq 0}} current{{/if}}">
                         <i class="step"></i>
                         <p class="digital">
-                            {{if $data['status'] GT 3}}<i class="am-icon-check"></i>{{else /}}4{{/if}}
+                            {{if $data['status'] gt 3}}<i class="am-icon-check"></i>{{else /}}4{{/if}}
                         </p>
                         <div class="base">
                             <p class="title">确认收货</p>
@@ -72,10 +72,10 @@
                             {{/if}}
                         </div>
                     </li>
-                    <li class="{{if $data['user_is_comments'] GT 0}}steps-success{{/if}} {{if $data['user_is_comments'] GT 0}} current{{/if}}">
+                    <li class="{{if $data['user_is_comments'] gt 0}}steps-success{{/if}} {{if $data['user_is_comments'] gt 0}} current{{/if}}">
                         <i class="step"></i>
                         <p class="digital">
-                            {{if $data['user_is_comments'] GT 0}}<i class="am-icon-check"></i>{{else /}}5{{/if}}
+                            {{if $data['user_is_comments'] gt 0}}<i class="am-icon-check"></i>{{else /}}5{{/if}}
                         </p>
                         <div class="base">
                             <p class="title">评价</p>
@@ -118,7 +118,18 @@
                             {{if !empty($data.payment_name)}}
                                 <div class="items am-cf">
                                     <div class="items-title am-fl">支付方式：</div>
-                                    <div class="items-detail am-fl">{{$data.payment_name}}</div>
+                                    <div class="items-detail am-fl">
+                                        <span>{{$data.payment_name}}</span>
+                                        {{if !empty($data['is_under_line_text'])}}
+                                            <span class="am-badge am-badge-danger am-radius">{{$data.is_under_line_text}}</span>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            {{/if}}
+                            {{if !empty($data.total_price)}}
+                                <div class="items am-cf">
+                                    <div class="items-title am-fl">订单总价：</div>
+                                    <div class="items-detail am-fl">{{$data.total_price}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.buy_number_count)}}
@@ -192,7 +203,7 @@
                 </div>
                 <div class="base-right">
                     <div class="status">
-                        {{if $data['status'] EQ 4}}
+                        {{if $data['status'] eq 4}}
                             <i class="am-icon-check-circle icon-success am-fl"></i>
                         {{else /}}
                             <i class="am-icon-info-circle icon-tips am-fl"></i>
@@ -208,7 +219,7 @@
                             <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-icon-paint-brush submit-ajax submit-cancel" data-url="{{:MyUrl('index/order/cancel')}}" data-id="{{$data.id}}" data-view="reload"> 取消</button>
                         {{/if}}
                         {{if in_array($data['status'], [1])}}
-                            <button class="am-btn am-btn-primary am-btn-xs am-radius am-icon-paypal submit-pay" data-id="{{$data.id}}" data-payment-id="{{$data.payment_id}}" data-am-modal="{target: '#order-pay-popup'}" data-is-auto="{{if isset($params['is_pay_auto']) and $params['is_pay_auto'] eq 1}}1{{else /}}0{{/if}}" data-is-pay="{{if isset($params['is_pay_submit']) and $params['is_pay_submit'] eq 1}}1{{else /}}0{{/if}}"> 支付</button>
+                            <button class="am-btn am-btn-primary am-btn-xs am-radius am-icon-paypal submit-pay" data-id="{{$data.id}}" data-payment-id="{{$data.payment_id}}" data-am-modal="{target: '#order-pay-popup'}" data-is-auto="{{if isset($params['is_pay_auto']) and $params['is_pay_auto'] eq 1}}1{{else /}}0{{/if}}" data-is-pay="{{if isset($params['is_pay_submit']) and $params['is_pay_submit'] eq 1}}1{{else /}}0{{/if}}"> {{if $data['is_under_line'] eq 1}}切换{{/if}}支付</button>
                         {{/if}}
                         {{if in_array($data['status'], [3])}}
                             <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-check-circle-o submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/collect')}}" data-id="{{$data.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？"> 收货</button>
@@ -241,6 +252,22 @@
                             }
                         {{/php}}
                     </div>
+
+                    <!-- 线下支付方式提示信息 -->
+                    {{if in_array($data['status'], [1]) and $data['is_under_line'] eq 1}}
+                        <div class="am-alert am-alert-warning" data-am-alert>
+                            当前为线下支付方式[ <strong class="am-text-success">{{$data.payment_name}}</strong> ]、需管理员确认后方可生效，如需其它支付可以切换支付重新发起支付。
+                        </div>
+                    {{/if}}
+
+                    <!-- 待发货提示信息 -->
+                    {{if in_array($data['status'], [2])}}
+                        <div class="am-alert" data-am-alert>
+                            货物正在仓库打包、出库中...
+                        </div>
+                    {{/if}}
+
+                    <!-- 快递信息 -->
                     {{if $data['order_model'] eq 0 and in_array($data['status'], [3,4])}}
                         <div class="logistics">
                             <div class="items am-cf">

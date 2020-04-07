@@ -65,7 +65,7 @@
     "pages/plugins/wallet/user-cash-detail/user-cash-detail"
   ],
   "window": {
-    "defaultTitle": "{{application_title}}",
+    "defaultTitle": "shopxo",
     "titleBarColor": "#d2364c",
     "backgroundColor": "#f5f5f5"
   },

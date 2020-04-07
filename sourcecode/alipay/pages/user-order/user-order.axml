@@ -12,7 +12,9 @@
     <view class="list-item bg-white spacing-mb" a:if="{{data_list.length > 0}}" a:for="{{data_list}}">
       <view class="item-base oh br-b">
         <text class="cr-666">{{item.add_time}}</text>
-        <text class="fr cr-main">{{item.status_name}}</text>
+        <text class="fr cr-main">
+          {{item.status_name}}<text a:if="{{(item.is_under_line_text || null) != null}}">（{{item.is_under_line_text}}）</text>
+        </text>
       </view>
       <view a:for="{{item.items}}" a:for-item="detail" class="goods-item br-b-dashed oh">
         <navigator url="/pages/user-order-detail/user-order-detail?id={{item.id}}" hover-class="none">
@@ -36,7 +38,7 @@
       <view class="item-describe tr cr-666">{{item.describe}}</view>
       <view a:if="{{item.status == 1 || item.status == 3 || (item.status == 4 && item.user_is_comments == 0) || (item.status == 2 && item.order_model != 2)}}" class="item-operation tr br-t">
         <button a:if="{{item.status <= 1}}" class="submit-cancel" type="default" size="mini" onTap="cancel_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">取消</button>
-        <button a:if="{{item.status == 1}}" class="submit-pay cr-666" type="default" size="mini" onTap="pay_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">支付</button>
+        <button a:if="{{item.status == 1}}" class="submit-pay cr-666" type="default" size="mini" onTap="pay_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">{{item.is_under_line == 1 ? '切换' : ''}}支付</button>
         <button a:if="{{item.status == 2 && item.order_model != 2}}" class="submit-rush cr-666" type="default" size="mini" onTap="rush_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">催催</button>
         <button a:if="{{item.status == 3}}" class="submit-success cr-666" type="default" size="mini" onTap="collect_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">收货</button>
         <button a:if="{{item.status == 4 && item.user_is_comments == 0}}" class="submit-success cr-666 br" type="default" size="mini" onTap="comments_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">评论</button>
