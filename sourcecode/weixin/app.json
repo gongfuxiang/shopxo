@@ -63,7 +63,10 @@
     "pages/plugins/wallet/user-cash/user-cash",
     "pages/plugins/wallet/user-cash-detail/user-cash-detail",
     "pages/plugins/excellentbuyreturntocash/profit/profit",
-    "pages/plugins/excellentbuyreturntocash/profit-detail/profit-detail"
+    "pages/plugins/excellentbuyreturntocash/profit-detail/profit-detail",
+    "pages/plugins/weixinliveplayer/index/index",
+    "pages/plugins/weixinliveplayer/search/search",
+    "pages/plugins/weixinliveplayer/detail/detail"
   ],
   "permission": {
     "scope.userLocation": {
@@ -111,7 +114,12 @@
     "request": 10000,
     "downloadFile": 10000
   },
-  "plugins": {},
+  "plugins": {
+    "live-player-plugin": {
+      "version": "1.0.5",
+      "provider": "wx2b03c6e691cd7370"
+    }
+  },
   "debug": true,
   "sitemapLocation": "sitemap.json"
 }

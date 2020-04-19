@@ -75,7 +75,8 @@ App({
     application_describe: "{{application_describe}}",
 
     // 价格符号
-    price_symbol: "{{price_symbol}}"
+    price_symbol: "{{price_symbol}}",
+    price_symbol: "￥",
   },
 
   /**

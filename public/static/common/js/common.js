@@ -777,7 +777,7 @@ function ModalLoad(url, title, tag, class_tag)
 	var html = '<div class="am-popup popup-iframe '+class_tag+'" id="'+tag+'">';
 		html += '<div class="am-popup-inner">';
 	    html += '<div class="am-popup-hd">';
-	    html += '<h4 class="am-popup-title">'+(title || '温馨提示')+'</h4>';
+	    html += '<h4 class="am-popup-title">'+(title || '详情')+'</h4>';
 	    html += '<span data-am-modal-close class="am-close">&times;</span>';
 		html += '</div>';
 	    html += '<iframe src="'+url+'" width="100%" height="100%"></iframe>';
@@ -1571,7 +1571,7 @@ function TableContainerInit()
 	        	var first_width = $(this).find('th').first().data('width') || $(this).find('th').first().innerWidth();
 	        	if(first_width > 0)
 	        	{
-		        	$(this).find('th').eq(1).css('min-width', ($(this).find('th').eq(1).innerWidth()+first_width)+'px');
+		        	$(this).find('th').eq(1).css('min-width', (($(this).find('th').eq(1).data('width') || 0)+first_width)+'px');
 	        		$(this).find('th').eq(1).css('padding-left', (first_width+10)+'px');
 	        	}
 	        }
@@ -1589,7 +1589,7 @@ function TableContainerInit()
 	        	var last_width = $(this).find('th').last().data('width') || $(this).find('th').last().innerWidth();
 	        	if(last_width > 0)
 	        	{
-	        		$(this).find('th').eq(-2).css('min-width', ($(this).find('th').eq(-2).innerWidth()+last_width)+'px');
+	        		$(this).find('th').eq(-2).css('min-width', (($(this).find('th').eq(-2).data('width') || 0)+last_width)+'px');
 	        		$(this).find('th').eq(-2).css('padding-right', (last_width+10)+'px');
 	        	}
 	        }

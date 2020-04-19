@@ -57,10 +57,18 @@ return array (
   array (
     0 => 'app\\plugins\\orderexportprint\\Hook',
   ),
+  'plugins_view_admin_order_top_operation' => 
+  array (
+    0 => 'app\\plugins\\orderexportprint\\Hook',
+  ),
   'plugins_view_admin_order_list_operate' => 
   array (
     0 => 'app\\plugins\\orderexportprint\\Hook',
     1 => 'app\\plugins\\orderpricerevision\\Hook',
+  ),
+  'plugins_view_admin_order_list_operation' => 
+  array (
+    0 => 'app\\plugins\\orderexportprint\\Hook',
   ),
   'plugins_view_user_login_info_top' => 
   array (
@@ -146,6 +154,7 @@ return array (
     0 => 'app\\plugins\\coupon\\Hook',
     1 => 'app\\plugins\\membershiplevelvip\\Hook',
     2 => 'app\\plugins\\speedplaceorder\\Hook',
+    3 => 'app\\plugins\\weixinliveplayer\\Hook',
   ),
   'plugins_view_buy_goods_bottom' => 
   array (
