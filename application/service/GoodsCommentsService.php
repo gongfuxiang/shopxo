@@ -276,7 +276,6 @@ class GoodsCommentsService
                 $v['upd_time_date'] = empty($v['upd_time']) ? null : date('Y-m-d', $v['upd_time']);
             }
         }
-        //print_r($data);
         return DataReturn('处理成功', 0, $data);
     }
 

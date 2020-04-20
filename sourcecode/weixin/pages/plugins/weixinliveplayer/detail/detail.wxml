@@ -8,12 +8,12 @@
   <!-- 基础信息 -->
   <view class="bg-white base">
     <view class="item">
-      <image class="item-icon" src="/images/plugins/weixinliveplayer/status-icon.png" mode="widthFix" />
+      <image class="item-icon dis-block fl" src="/images/plugins/weixinliveplayer/detail-status-icon.png" mode="widthFix" />
       <text class="cr-888">直播状态</text>
       <view class="fr more status-{{detail.status}}">{{detail.status_name}}</view>
     </view>
     <view class="item br-t item-time">
-      <image class="item-icon" src="/images/plugins/weixinliveplayer/time-icon.png" mode="widthFix" />
+      <image class="item-icon dis-block fl" src="/images/plugins/weixinliveplayer/detail-time-icon.png" mode="widthFix" />
       <text class="cr-888">开播时间</text>
       <view class="fr time">
         <view class="start-time">{{detail.start_time}}</view>
@@ -24,13 +24,17 @@
 
   <!-- 导航 -->
   <view class="nav wh-auto">
-    <button type="primary" class="share-submit fl" hover-class="none" bindtap="share_event">
-      <image class="item-icon" src="/images/plugins/weixinliveplayer/share-icon.png" mode="widthFix" />
+    <button type="primary" class="share-friend-submit fl" hover-class="none" open-type="share" hover-class="none">
+      <image class="item-icon" src="/images/plugins/weixinliveplayer/nav-share-friend-icon.png" mode="widthFix" />
       <text>分享</text>
     </button>
-    <button type="default" class="player-submit fr {{detail.status == 1 || detail.status == 2 ? '' : 'disabled'}}" hover-class="none" bindtap="player_event">
-      <image class="item-icon" src="/images/plugins/weixinliveplayer/player-icon.png" mode="widthFix" />
-      <text>{{detail.status_name}}</text>
+    <button type="primary" class="share-poster-submit fl" hover-class="none" bindtap="share_poster_event">
+      <image class="item-icon" src="/images/plugins/weixinliveplayer/nav-share-poster-icon.png" mode="widthFix" />
+      <text>海报</text>
+    </button>
+    <button type="default" class="player-submit fr" hover-class="none" bindtap="player_event">
+      <image class="item-icon" src="/images/plugins/weixinliveplayer/nav-player-icon.png" mode="widthFix" />
+      <text>进入直播</text>
     </button>
   </view>
 

@@ -10,14 +10,9 @@ Page({
     banner_list: [],
   },
 
-  onLoad(params) {
-    // 启动参数处理
-    params = app.launch_params_handle(params);
-
+  onShow() {
     this.init();
   },
-
-  onShow() {},
 
   init() {
     // 获取数据
@@ -89,8 +84,9 @@ Page({
   onShareAppMessage() {
     var user = app.get_user_cache_info() || null;
     var user_id = (user != null && (user.id || null) != null) ? user.id : 0;
+    var name = ((this.data.data_base || null) != null && (this.data.data_base.application_name || null) != null) ? this.data.data_base.application_name : app.data.application_title;
     return {
-      title: app.data.application_title,
+      title: name,
       desc: app.data.application_describe,
       path: '/pages/plugins/weixinliveplayer/index/index?referrer=' + user_id
     };

@@ -88,71 +88,55 @@ Page({
 
   // 进入直播
   player_event(e) {
-    if ((this.data.detail || null) != null)
-    {
-      if (this.data.detail.status == 1 || this.data.detail.status == 2) {
-        var room_id = this.data.detail.id
-        var params = encodeURIComponent(JSON.stringify({type: 'detail'}));
-        wx.navigateTo({
-          url: `plugin-private://wx2b03c6e691cd7370/pages/live-player-plugin?room_id=${this.data.detail.id}&custom_params=${params}`
-        });
-      }
-    } else {
-      app.showToast('数据有误');
+    if (this.data.detail.status == 1 || this.data.detail.status == 2) {
+      var room_id = this.data.detail.id
+      var params = encodeURIComponent(JSON.stringify({type: 'detail'}));
+      wx.navigateTo({
+        url: `plugin-private://wx2b03c6e691cd7370/pages/live-player-plugin?room_id=${this.data.detail.id}&custom_params=${params}`
+      });
     }
   },
 
   // 海报分享
-  share_event() {
-    var user = app.get_user_info(this, 'poster_event');
-    if (user != false) {
-      // 用户未绑定用户则转到登录页面
-      if (app.user_is_need_login(user)) {
-        wx.navigateTo({
-          url: "/pages/login/login?event_callback=poster_event"
-        });
-        return false;
-      } else {
-        wx.showLoading({ title: '生成中...' });
-        wx.request({
-          url: app.get_request_url('poster', 'index', 'weixinliveplayer'),
-          method: 'POST',
-          data: { "id": this.data.detail.id },
-          dataType: 'json',
-          success: (res) => {
-            wx.hideLoading();
-            if (res.data.code == 0) {
-              wx.previewImage({
-                current: res.data.data,
-                urls: [res.data.data]
-              });
-            } else {
-              app.showToast(res.data.msg);
-            }
-          },
-          fail: () => {
-            wx.hideLoading();
-            app.showToast("服务器请求出错");
-          }
-        });
+  share_poster_event() {
+    wx.showLoading({ title: '生成中...' });
+    wx.request({
+      url: app.get_request_url('poster', 'index', 'weixinliveplayer'),
+      method: 'POST',
+      data: { "id": this.data.detail.id },
+      dataType: 'json',
+      success: (res) => {
+        wx.hideLoading();
+        if (res.data.code == 0) {
+          wx.previewImage({
+            current: res.data.data,
+            urls: [res.data.data]
+          });
+        } else {
+          app.showToast(res.data.msg);
+        }
+      },
+      fail: () => {
+        wx.hideLoading();
+        app.showToast("服务器请求出错");
       }
-    }
+    });
   },
 
   // 自定义分享
   onShareAppMessage() {
     var user = app.get_user_cache_info() || null;
     var user_id = (user != null && (user.id || null) != null) ? user.id : 0;
-    if ((this.data.detail || null) == null)
+    if ((this.data.detail || null) != null)
     {
       var did = this.data.detail.id;
       var name = this.data.detail.name;
     } else {
       var did = 0;
-      var name = '';
+      var name = app.data.application_title;
     }
     return {
-      title: app.data.application_title + name,
+      title: name,
       desc: app.data.application_describe,
       path: '/pages/plugins/weixinliveplayer/detail/detail?id=' + did + '&referrer=' + user_id
     };
