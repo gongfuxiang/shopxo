@@ -88,13 +88,10 @@ Page({
 
   // 进入直播
   player_event(e) {
-    if (this.data.detail.status == 1 || this.data.detail.status == 2) {
-      var room_id = this.data.detail.id
-      var params = encodeURIComponent(JSON.stringify({type: 'detail'}));
-      wx.navigateTo({
-        url: `plugin-private://wx2b03c6e691cd7370/pages/live-player-plugin?room_id=${this.data.detail.id}&custom_params=${params}`
-      });
-    }
+    var params = encodeURIComponent(JSON.stringify({type: 'detail'}));
+    wx.navigateTo({
+      url: `plugin-private://wx2b03c6e691cd7370/pages/live-player-plugin?room_id=${this.data.detail.id}&custom_params=${params}`
+    });
   },
 
   // 海报分享
