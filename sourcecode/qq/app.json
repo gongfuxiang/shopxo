@@ -38,7 +38,9 @@
     "pages/plugins/wallet/user-recharge/user-recharge",
     "pages/plugins/wallet/user-recharge-detail/user-recharge-detail",
     "pages/plugins/wallet/user-cash/user-cash",
-    "pages/plugins/wallet/user-cash-detail/user-cash-detail"
+    "pages/plugins/wallet/user-cash-detail/user-cash-detail",
+    "pages/plugins/excellentbuyreturntocash/profit/profit",
+    "pages/plugins/excellentbuyreturntocash/profit-detail/profit-detail"
   ],
   "window": {
     "navigationBarTitleText": "{{application_title}}",

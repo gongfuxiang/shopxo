@@ -1,6 +1,6 @@
 <!-- 导航 -->
 <view class="nav">
-  <block wx:for="{{nav_status_list}}" wx:key="key">
+  <block tt:for="{{nav_status_list}}" tt:key="key">
     <view class="item fl tc cr-888 {{nav_status_index == index ? 'active' : ''}}" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
   </block>
 </view>
@@ -8,8 +8,8 @@
 <!-- 列表 -->
 <scroll-view scroll-y="{{true}}" class="scroll-box" bindscrolltolower="scroll_lower" lower-threshold="30">
   <view class="data-list">
-    <block wx:if="{{data_list.length > 0}}">
-      <view class="item bg-white spacing-mb" wx:for="{{data_list}}" wx:key="key">
+    <block tt:if="{{data_list.length > 0}}">
+      <view class="item bg-white spacing-mb" tt:for="{{data_list}}" tt:key="key">
         <view class="base oh br-b">
           <text class="cr-666">{{item.add_time}}</text>
           <text class="fr cr-main">{{item.status_name}}</text>
@@ -40,12 +40,12 @@
         </navigator>
         <view class="operation tr br-t-dashed">
           <button class="br" type="default" size="mini" hover-class="none" data-oid="{{item.order_id}}" bindtap="list_submit_order_event">查看订单</button>
-          <button wx:if="{{item.status == 2}}" class="settlement-submit" type="default" size="mini" hover-class="none" data-index="{{index}}" bindtap="list_submit_settlement_event">立即结算</button>
+          <button tt:if="{{item.status == 2}}" class="settlement-submit" type="default" size="mini" hover-class="none" data-index="{{index}}" bindtap="list_submit_settlement_event">立即结算</button>
         </view>
       </view>
     </block>
 
-    <view wx:if="{{data_list.length == 0}}">
+    <view tt:if="{{data_list.length == 0}}">
       <import src="/pages/common/nodata.wxml" />
       <template is="nodata" data="{{status: data_list_loding_status}}">
       </template>
